@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="target/classes" path="src">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.eclipse.jetty:jetty-server:9.3.0.M0"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: javax.servlet:javax.servlet-api:3.1.0"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.eclipse.jetty:jetty-http:9.3.0.M0"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.eclipse.jetty:jetty-util:9.3.0.M0"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.eclipse.jetty:jetty-io:9.3.0.M0"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.eclipse.jetty.aggregate:jetty-all-server:7.0.2.RC0"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: javax.servlet:servlet-api:2.5"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.apache.geronimo.specs:geronimo-jta_1.1_spec:1.1.1"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: javax.mail:mail:1.4"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: javax.activation:activation:1.1"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.apache.geronimo.specs:geronimo-jaspic_1.0_spec:1.0"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.apache.geronimo.specs:geronimo-annotation_1.0_spec:1.1.1"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: asm:asm-commons:3.1"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: asm:asm-tree:3.1"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: asm:asm:3.1"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.java-websocket:Java-WebSocket:1.3.0"/>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/mats/Desktop/buroblad leeg/Gigabite Plugins/javaee-api-7.0 (1).jar"/>
+	<classpathentry kind="lib" path="C:/Users/mats/Desktop/buroblad leeg/Gigabite Plugins/java-websocket-1.3.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/mats/Desktop/buroblad leeg/Gigabite Plugins/bestanden/javaee-api-7.0 (1).jar"/>
+	<classpathentry kind="lib" path="C:/Users/mats/Desktop/buroblad leeg/Gigabite Plugins/bestanden/java-websocket-1.3.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/mats/Desktop/buroblad leeg/Gigabite Plugins/bestanden/jetty-all-9.0.0.RC2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/mats/Desktop/buroblad leeg/Gigabite Plugins/bestanden/altijd nodig/spigot-api-1.8.8-R0.1-SNAPSHOT-latest-shaded.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/ExternalJars/worldguard-6.1.jar"/>
+	<classpathentry kind="lib" path="C:/ExternalJars/WGRegionEvents.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>
