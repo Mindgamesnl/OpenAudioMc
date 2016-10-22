@@ -1,6 +1,7 @@
 package me.mindgamesnl.mcwebsocket.main.config;
 
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 
@@ -70,6 +71,8 @@ public class Config {
 		conmessage = ChatColor.translateAlternateColorCodes('&', conmessage);
 		conmessage = ChatColor.translateAlternateColorCodes('$', conmessage);
 		Connected_message = conmessage;
+		
+		Bukkit.broadcastMessage("[OpenAudio] Config loaded!");
 			
 		
 	}

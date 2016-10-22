@@ -7,6 +7,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.sk89q.worldguard.bukkit.WGBukkit;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.mindgamesnl.mcwebsocket.main.Mc_Websocket.WsSender;
 
 
@@ -32,10 +34,33 @@ public class Commands implements CommandExecutor {
 							} else if (args[0].equalsIgnoreCase("stop")) {
 								sender.sendMessage(me.mindgamesnl.mcwebsocket.main.config.Config.Project_Chat_Name_Prefix_Color + " Command to: " + args[1]);
 								WsSender.Send_Ws_Packet_To_Client(Bukkit.getPlayerExact(args[1]), "{\"command\":\"stop\"}");
-							} else if (args[0].equalsIgnoreCase("region")) {
 								
-									
+							} else if (args[0].equalsIgnoreCase("buffer")) {
 								
+								sender.sendMessage(me.mindgamesnl.mcwebsocket.main.config.Config.Project_Chat_Name_Prefix_Color + " Command to: " + args[1]);
+								WsSender.Send_Ws_Packet_To_Client(Bukkit.getPlayerExact(args[1]), "{\"command\":\"loadfile\",\"line\":\"loop\",\"src\":\"" + args[2] + "\"}");
+								
+							} else if (args[0].equalsIgnoreCase("playbuffer")) {
+								
+								sender.sendMessage(me.mindgamesnl.mcwebsocket.main.config.Config.Project_Chat_Name_Prefix_Color + " Command to: " + args[1]);
+								WsSender.Send_Ws_Packet_To_Client(Bukkit.getPlayerExact(args[1]), "{\"command\":\"playloaded\"}");
+								
+							} else if (args[0].equalsIgnoreCase("playregion")) {
+								
+								for (Player p : Bukkit.getOnlinePlayers()) {
+									for(ProtectedRegion r : WGBukkit.getRegionManager(p.getWorld()).getApplicableRegions(p.getLocation())) {
+											if (args[1].equalsIgnoreCase(r.getId())) {
+												Bukkit.broadcastMessage(" " + p.getName() + " is in de region");
+												WsSender.Send_Ws_Packet_To_Client(Bukkit.getPlayerExact(p.getName()), "{\"command\":\"play\",\"line\":\"play\",\"src\":\"" + args[2] + "\"}");
+											}
+						                }
+						        }
+								sender.sendMessage(me.mindgamesnl.mcwebsocket.main.config.Config.Project_Chat_Name_Prefix_Color + " Started sound for all the players in the region!");
+								
+						
+								
+								
+							} else if (args[0].equalsIgnoreCase("region")) {	
 								if (args[1].equalsIgnoreCase("delete")) {
 									if (args[2] == "") {
 										sender.sendMessage(me.mindgamesnl.mcwebsocket.main.config.Config.Project_Chat_Name_Prefix_Color + " Please enter a region name!");
@@ -54,8 +79,6 @@ public class Commands implements CommandExecutor {
 										}
 									}
 								}
-								
-
 								if (args[1].equalsIgnoreCase("create")) {
 									if (args[2] == "") {
 										sender.sendMessage(me.mindgamesnl.mcwebsocket.main.config.Config.Project_Chat_Name_Prefix_Color + " Please enter a region name!");
@@ -82,18 +105,22 @@ public class Commands implements CommandExecutor {
 
 								
 							} else if (args[0].equalsIgnoreCase("help")) {
+		
 							//	sender.sendMessage("========" + me.mindgamesnl.mcwebsocket.main.config.Config.Project_Chat_Name_Prefix_Color + "========");
-								sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio region create <name> <url> " + ChatColor.GRAY + "Create a regoin with music.");
+								sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio buffer <name> <url> " + ChatColor.GRAY + "Buffer a sound.");
+								sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio playbuffer <name> <url> " + ChatColor.GRAY + "Start sound in buffer.");
+								sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio playregion <region> <url> " + ChatColor.GRAY + "Start sound for all the players in a region.");
+								sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio region create <name> <url> " + ChatColor.GRAY + "Create a region with music.");
 								sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio region delete <name> " + ChatColor.GRAY + "Delete a music region.");
 								sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio send <name> <message> " + ChatColor.GRAY + "Send a message to a player.");
 								sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio play <name> <url> " + ChatColor.GRAY + "Plays a file for a player.");
 								sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio loop <name> <url> " + ChatColor.GRAY + "Plays a loop for a player.");
-								sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio stop <name> " + ChatColor.GRAY + "Stops all sounds fot the player.");
+								sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio stop <name> " + ChatColor.GRAY + "Stops all sounds for the player.");
 								sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /volume <0-100> " + ChatColor.GRAY + "Sets the volume.");
 								sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /audio " + ChatColor.GRAY + "Gives the player a link to open the client.");
 							//	sender.sendMessage("========" + me.mindgamesnl.mcwebsocket.main.config.Config.Project_Chat_Name_Prefix_Color + "========");
+
 							}
-						
 					} else {
 						//geen arguments
 						sender.sendMessage(me.mindgamesnl.mcwebsocket.main.config.Config.Project_Chat_Name_Prefix_Color + " OpenAudio made with <3 by Mindgamesnl (you can use '/openaudio help' for help :P) need more help? Contact me!");
@@ -125,6 +152,7 @@ public class Commands implements CommandExecutor {
 			} 
 			return false; 
 		}
+		
 		public static boolean isInt(String s) {
 		    try {
 		        Integer.parseInt(s);
