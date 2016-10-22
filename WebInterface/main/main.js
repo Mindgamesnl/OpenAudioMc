@@ -97,6 +97,14 @@ client.Main = function(awesomecode) {
 		}
 	}
 	
+	if (json.command == "loadfile") {
+		play.loadfile(json.src);
+	}
+	
+	if (json.command == "playloaded") {
+		play.loadedfile();
+	}
+	
 	if (json.command == "stopregion") {
 		play.stopregion();
 	}
@@ -206,6 +214,24 @@ play.send = function(bericht) {
               body: bericht,
           });
     }
+}
+
+
+
+play.loadfile = function(file_to_load) {
+	loadedsound = soundManager.createSound({
+		 id: 'loader',
+		 url: file_to_load
+	});
+	soundManager.load('loader');
+	loadedsound.load();
+}
+
+
+play.loadedfile = function() {
+	loadedsound.play({
+		volume: volume
+	});
 }
 
 

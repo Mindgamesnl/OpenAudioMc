@@ -40,5 +40,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/ExternalJars/worldguard-6.1.jar"/>
 	<classpathentry kind="lib" path="C:/ExternalJars/WGRegionEvents.jar"/>
+	<classpathentry kind="lib" path="C:/ExternalJars/worldedit-bukkit-6.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
