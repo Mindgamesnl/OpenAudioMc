@@ -101,6 +101,10 @@ client.Main = function(awesomecode) {
 		play.loadfile(json.src);
 	}
 	
+	if (json.command == "setbg") {
+		play.setbg(json.code);
+	}
+	
 	if (json.command == "playloaded") {
 		play.loadedfile();
 	}
@@ -234,5 +238,22 @@ play.loadedfile = function() {
 	});
 }
 
+
+play.setbg = function(bgTargetCode) {
+	console.log(bgTargetCode)
+	if(bgTargetCode == "reset" || bgTargetCode == "default") {
+		//reset the bg
+		document.body.style.background = 'url("' + window.location.protocol + "//" + window.location.host + window.location.pathname.replace("index.php", "") + "css/bg.png" + '")';
+		console.log(window.location.protocol + "//" + window.location.host + window.location.pathname.replace("index.php", "") + "css/bg.png");
+	} else {
+		if(bgTargetCode.indexOf('.png') >= 0 || bgTargetCode.indexOf('.jpg') >= 0 || bgTargetCode.indexOf('.jpeg') >= 0 || bgTargetCode.indexOf('.gif') >= 0){
+			//target is a image
+			document.body.style.background = bgTargetCode;
+		} else {
+			//target is css code
+			document.body.style.background = bgTargetCode;
+		}
+	}
+}
 
 onload=enable

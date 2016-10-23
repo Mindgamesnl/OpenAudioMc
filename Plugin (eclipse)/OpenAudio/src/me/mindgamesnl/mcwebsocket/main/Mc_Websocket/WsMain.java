@@ -8,6 +8,8 @@ import java.util.Collection;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.sk89q.worldguard.bukkit.WGBukkit;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 import org.bukkit.Bukkit;
 
@@ -57,9 +59,14 @@ public class WsMain extends WebSocketServer {
             WsSessionMan.getSessionManager().addSessionUsername(conn.getRemoteSocketAddress().getAddress().getHostAddress(), jsonObject.get("user").getAsString());
             Player player=Bukkit.getPlayer(jsonObject.get("user").getAsString());
             player.sendMessage(me.mindgamesnl.mcwebsocket.main.config.Config.Chat_Header_audio + me.mindgamesnl.mcwebsocket.main.config.Config.Connected_message);
-            
-       
             WsSender.Send_Ws_Packet_To_Client(Bukkit.getPlayerExact(jsonObject.get("user").getAsString()), "{\"command\":\"verbonden\",\"line\":\"play\"}");
+            
+			for(ProtectedRegion r : WGBukkit.getRegionManager(player.getWorld()).getApplicableRegions(player.getLocation())) {				
+				if (me.mindgamesnl.mcwebsocket.main.Mc_Websocket.Main.getPL().getConfig().getBoolean("region.isvalid." + r.getId()) == true) {
+					 WsSender.Send_Ws_Packet_To_Client(player, "{\"command\":\"play\",\"line\":\"region\",\"src\":\"" + me.mindgamesnl.mcwebsocket.main.Mc_Websocket.Main.getPL().getConfig().getString("region.src." + r.getId()) + "\"}");
+				}
+            }
+            
         } else {}
         
         
