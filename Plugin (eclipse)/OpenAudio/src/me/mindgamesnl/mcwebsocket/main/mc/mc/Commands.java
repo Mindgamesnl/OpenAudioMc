@@ -31,6 +31,9 @@ public class Commands implements CommandExecutor {
 							} else if (args[0].equalsIgnoreCase("loop")) {
 								sender.sendMessage(me.mindgamesnl.mcwebsocket.main.config.Config.Project_Chat_Name_Prefix_Color + " Command to: " + args[1]);
 								WsSender.Send_Ws_Packet_To_Client(Bukkit.getPlayerExact(args[1]), "{\"command\":\"play\",\"line\":\"loop\",\"src\":\"" + args[2] + "\"}");
+							} else if (args[0].equalsIgnoreCase("setbg")) {
+								sender.sendMessage(me.mindgamesnl.mcwebsocket.main.config.Config.Project_Chat_Name_Prefix_Color + " Command to: " + args[1]);
+								WsSender.Send_Ws_Packet_To_Client(Bukkit.getPlayerExact(args[1]), "{\"command\":\"setbg\",\"line\":\"loop\",\"code\":\"" + args[2] + "\"}");
 							} else if (args[0].equalsIgnoreCase("stop")) {
 								sender.sendMessage(me.mindgamesnl.mcwebsocket.main.config.Config.Project_Chat_Name_Prefix_Color + " Command to: " + args[1]);
 								WsSender.Send_Ws_Packet_To_Client(Bukkit.getPlayerExact(args[1]), "{\"command\":\"stop\"}");
@@ -106,19 +109,40 @@ public class Commands implements CommandExecutor {
 								
 							} else if (args[0].equalsIgnoreCase("help")) {
 		
-							//	sender.sendMessage("========" + me.mindgamesnl.mcwebsocket.main.config.Config.Project_Chat_Name_Prefix_Color + "========");
-								sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio buffer <name> <url> " + ChatColor.GRAY + "Buffer a sound.");
-								sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio playbuffer <name> <url> " + ChatColor.GRAY + "Start sound in buffer.");
-								sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio playregion <region> <url> " + ChatColor.GRAY + "Start sound for all the players in a region.");
-								sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio region create <name> <url> " + ChatColor.GRAY + "Create a region with music.");
-								sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio region delete <name> " + ChatColor.GRAY + "Delete a music region.");
-								sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio send <name> <message> " + ChatColor.GRAY + "Send a message to a player.");
-								sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio play <name> <url> " + ChatColor.GRAY + "Plays a file for a player.");
-								sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio loop <name> <url> " + ChatColor.GRAY + "Plays a loop for a player.");
-								sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio stop <name> " + ChatColor.GRAY + "Stops all sounds for the player.");
-								sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /volume <0-100> " + ChatColor.GRAY + "Sets the volume.");
-								sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /audio " + ChatColor.GRAY + "Gives the player a link to open the client.");
-							//	sender.sendMessage("========" + me.mindgamesnl.mcwebsocket.main.config.Config.Project_Chat_Name_Prefix_Color + "========");
+								
+								
+								
+								
+					
+									sender.sendMessage("");
+									sender.sendMessage(" ");
+									sender.sendMessage("  ");
+									sender.sendMessage("   ");
+									sender.sendMessage("    ");
+									sender.sendMessage("     ");
+									sender.sendMessage("========" + me.mindgamesnl.mcwebsocket.main.config.Config.Project_Chat_Name_Prefix_Color + "========");
+									sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio setbg <name> <code/url/reset> " + ChatColor.GRAY + "Set a background image/color.");
+									sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio buffer <name> <url> " + ChatColor.GRAY + "Buffer a sound.");
+									sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio playbuffer <name> <url> " + ChatColor.GRAY + "Start sound in buffer.");
+									sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio playregion <region> <url> " + ChatColor.GRAY + "Start sound for all the players in a region.");
+									sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio send <name> <message> " + ChatColor.GRAY + "Send a message to a player.");
+									sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio loop <name> <url> " + ChatColor.GRAY + "Plays a loop for a player.");
+									sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio region create <name> <url> " + ChatColor.GRAY + "Create a region with music.");
+									sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio region delete <name> " + ChatColor.GRAY + "Delete a music region.");
+									sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio play <name> <url> " + ChatColor.GRAY + "Plays a file for a player.");
+									sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio stop <name> " + ChatColor.GRAY + "Stops all sounds for the player.");
+									sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /volume <0-100> " + ChatColor.GRAY + "Sets the volume.");
+									sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /audio " + ChatColor.GRAY + "Gives the player a link to open the client.");
+									sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio help 2 " + ChatColor.GRAY + "Gives you more info.");
+								    sender.sendMessage("========" + me.mindgamesnl.mcwebsocket.main.config.Config.Project_Chat_Name_Prefix_Color + "========");
+
+								
+								
+								
+								
+								
+								
+								
 
 							}
 					} else {
