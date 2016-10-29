@@ -51,18 +51,12 @@
 								
 								<br>
 								<input type="range" min="0" id="slider" max="100" value="20" oninput="client.set_volume(this.value); document.getElementById('volume').innerHTML = 'Volume: ' + this.value + '%';"/>
-<<<<<<< HEAD
 								<b><font size="+1" id="volume"><b>Volume: 20%</b></font><br></b><br />
 								<input type="checkbox" name="EnableBrowserNotifications" id="EnableBrowserNotifications" /> Enable browser nofifications.
-=======
-								<b><font size="+1" id="volume"><b>Volume: 20%</b></font><br></b>
-								
->>>>>>> origin/master
 							</div>
 						</div>
 					</div>
 				</div>
-<<<<<<< HEAD
 			</div>
 			</div>
 
@@ -87,9 +81,5 @@
 			</div>
 			
 			
-=======
-			</div>
-			</div>
->>>>>>> origin/master
 	</body>
 </html>
