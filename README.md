@@ -1,5 +1,5 @@
 <p align="center">
-    <img src ="https://avatars2.githubusercontent.com/u/10709682?v=3&s=400" />
+    <img src ="http://puu.sh/s0zuH/2910e1ebaf.png" />
 </p>
 
 # OpenAudioMc
