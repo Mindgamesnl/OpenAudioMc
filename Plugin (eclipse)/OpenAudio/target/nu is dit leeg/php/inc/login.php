@@ -1,1 +1,0 @@
-<center><h1>Connect using /audio in the server!</h></center>
