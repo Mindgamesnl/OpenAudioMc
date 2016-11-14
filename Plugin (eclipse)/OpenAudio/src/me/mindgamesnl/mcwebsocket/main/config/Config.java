@@ -19,10 +19,13 @@ public class Config {
 	public static String Audio_Web_domain;
 	public static String Connected_message;
 	public static String Connect_sound;
+	public static Boolean sream_live;
+	public static String stream_source;
 	
 	public static void Load() {
 		
-
+		sream_live = false;
+		stream_source = "";
 		
 		
 		

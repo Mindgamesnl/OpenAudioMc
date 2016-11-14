@@ -4,7 +4,7 @@ author: Mindgamesnl
 authors: [Me_is_mattyh]
 website: http://www.craftmend.com/
 prefix: OpenAudio
-version: 1.3.8
+version: 1.4
 main: me.mindgamesnl.mcwebsocket.main.Mc_Websocket.Main
 commands:
    openaudio:

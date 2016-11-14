@@ -66,6 +66,10 @@ public class WsMain extends WebSocketServer {
             	WsSender.Send_Ws_Packet_To_Client(player, "{\"command\":\"play\",\"line\":\"play\",\"src\":\"" + me.mindgamesnl.mcwebsocket.main.Mc_Websocket.Main.getPL().getConfig().getString("config.startsound") + "\"}");
             }
             
+            if (me.mindgamesnl.mcwebsocket.main.config.Config.sream_live == true) {
+            	WsSender.Send_Ws_Packet_To_Client(player, "{\"command\":\"startlive\",\"line\":\"loop\",\"src\":\"" + me.mindgamesnl.mcwebsocket.main.config.Config.stream_source + "\"}");
+            }
+            
 			for(ProtectedRegion r : WGBukkit.getRegionManager(player.getWorld()).getApplicableRegions(player.getLocation())) {				
 				if (me.mindgamesnl.mcwebsocket.main.Mc_Websocket.Main.getPL().getConfig().getBoolean("region.isvalid." + r.getId()) == true) {
 					 WsSender.Send_Ws_Packet_To_Client(player, "{\"command\":\"play\",\"line\":\"region\",\"src\":\"" + me.mindgamesnl.mcwebsocket.main.Mc_Websocket.Main.getPL().getConfig().getString("region.src." + r.getId()) + "\"}");
