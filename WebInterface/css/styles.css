@@ -1,8 +1,9 @@
 body { padding-top: 70px; 
 background-image: url(bg.png);
 background-attachment: fixed;
+	background-size:cover;
 background-repeat: no-repeat
-background-size:cover;
+
 }
 input[type=range] {
   -webkit-appearance: none;

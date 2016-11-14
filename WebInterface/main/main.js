@@ -25,7 +25,7 @@ function enable() {
 	}, 3000);
 	
 	document.getElementById("MessageManager").style.display = "none";
-	
+	document.getElementById("LiveBox").style.display = "none";
 	document.addEventListener('DOMContentLoaded', function () {
 		if (!Notification) {
 			alert(message.browserfail);
@@ -95,6 +95,25 @@ client.Main = function(awesomecode) {
 	if (json.command == "puush_meld") {
 		play.send(json.message);
 	}
+	
+	if (json.command == "startlive") {
+		document.getElementById("LiveBox").style.display = "";
+			soundManager.stop('live');
+			soundManager.destroySound('live');
+			var mySoundObject = soundManager.createSound({
+				id: "live",
+				url: json.src,
+				volume: volume,
+				autoPlay: true,
+			});
+	}
+		
+		if (json.command == "stoplive") {
+			document.getElementById("LiveBox").className = "animated bounceOutUp";
+	document.getElementById("LiveBox").style.display = "";
+			soundManager.stop('live');
+			soundManager.destroySound('live');
+		}
 	
 	if (json.command == "setvolume") {
         client.set_volume(json.target)
