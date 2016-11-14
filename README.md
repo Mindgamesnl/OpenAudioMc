@@ -1,5 +1,5 @@
 <p align="center">
-    <img src ="http://puu.sh/rZH62/9e50a813d8.png" />
+    <img src ="https://proxy.spigotmc.org/377a87ae4382c08e06c0f9936702b4513c9cdf01?url=http%3A%2F%2Fpuu.sh%2Fsi5q2%2Fe5f8dbf33a.jpg" />
 </p>
 
 # OpenAudioMc
