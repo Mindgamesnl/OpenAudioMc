@@ -18,6 +18,7 @@
     * Custom themes
     * Including fully working web interface
     * Including websocket plugin
+    * Including streaming modus
   
 # Commands
     * /openaudio (Main command for controlling the audio)
