@@ -99,6 +99,9 @@
 			</div>
 			
 			
+<<<<<<< HEAD
 			
+=======
+>>>>>>> origin/master
 	</body>
 </html>
