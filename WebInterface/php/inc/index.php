@@ -3,13 +3,11 @@
      *  OpenAudioMC
      *  Author: Mindgamesnl 
      */
-	// Import Config File
-	include('config.php');
 ?>
 <html lang="en">
 	<head>
 		<!-- Title -->
-		<title><?= $wtitle ?> | OpenAudioMC</title>
+		<title>OpenAudioMC</title>
 		
 		<!-- CSS -->
 		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
@@ -17,6 +15,7 @@
 		<link rel="stylesheet" type="text/css" href="css/animate.css" />
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-material-design.css" />
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-material-design.min.css" />
+    <link rel="stylesheet" type="text/css" href="dist/sweetalert.css">
 		
 		<!-- META -->
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -25,6 +24,7 @@
 		
 		<!-- JS -->
 		<script src="main/Soundmanager2.js"></script>
+		<script src="dist/sweetalert.min.js"></script>
 		<script src="main/main.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
