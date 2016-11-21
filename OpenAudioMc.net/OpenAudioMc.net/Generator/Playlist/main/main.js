@@ -1,6 +1,3 @@
-
-
-
 sounds = 1;
 
 function add(url) {
@@ -49,48 +46,48 @@ function echoJson() {
 }
 
 function download(filename, text) {
-  var element = document.createElement('a');
-  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-  element.setAttribute('download', filename);
+	var element = document.createElement('a');
+	element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+	element.setAttribute('download', filename);
 
-  element.style.display = 'none';
-  document.body.appendChild(element);
+	element.style.display = 'none';
+	document.body.appendChild(element);
 
-  element.click();
+	element.click();
 
-  document.body.removeChild(element);
+	document.body.removeChild(element);
 }
 
 function downloadPlaylist(name) {
 	var list = JSON.stringify(tableToJson(document.getElementById("playlist")))
-	download('playlist_' + name + '.js', 'var playlist_' + name + " = " + list + ";");
+	download('playlist_' + name + '.js', 'var playlist_' + name + " = " + list + "; console.log('Added a playlist! (http://openaudiomc.net/)');");
 }
 
 function downloadButton() {
 	swal({
-  title: "Playlist name!",
-  text: "Please enter a name for your playlist:",
-  type: "input",
-  showCancelButton: true,
-  closeOnConfirm: false,
-  animation: "slide-from-top",
-  inputPlaceholder: "MyAwesomePlaylist"
-},
-function(inputValue){
-  if (inputValue === false) return false;
-  
-  if (inputValue === "" || /\s/.test(inputValue)) {
-    swal.showInputError("Nope, that's not a valid name.");
-    return false
-  } else {
-		 downloadPlaylist(inputValue);
-	}
-  
-  swal("Nice!", "Please upload this file in the 'playlist' folder (in the webclient)");
-});
+			title: "Playlist name!",
+			text: "Please enter a name for your playlist:",
+			type: "input",
+			showCancelButton: true,
+			closeOnConfirm: false,
+			animation: "slide-from-top",
+			inputPlaceholder: "MyAwesomePlaylist"
+		},
+		function(inputValue) {
+			if (inputValue === false) return false;
+
+			if (inputValue === "" || /\s/.test(inputValue)) {
+				swal.showInputError("Nope, that's not a valid name.");
+				return false
+			} else {
+				downloadPlaylist(inputValue);
+			}
+
+			swal("Nice!", "Please upload this file in the 'playlist' folder (in the webclient)");
+		});
 }
 
 function help() {
 	swal("Hi there, welcome to the Playlistmaker, add a sound to get started, then click 'Download' to generate your playlist!")
 }
-onload=help
+onload = help

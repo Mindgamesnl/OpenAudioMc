@@ -68,10 +68,10 @@
 							<div class="form-group" style="position: relative;box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);padding: 10px;background: white;">
 								<label for="usr">Url to sound:</label>
 								<input type="text" class="form-control" placeholder="MyAwesomeSound" id="src">
-								<input class="btn btn-lg btn-success btn-block" onclick='addButton();' value="Add">
+								<button type="button" class="btn btn-lg btn-success btn-block" onclick='addButton();'>Add</button>
 							</div>
 							<div class="form-group" style="position: relative;box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);padding: 10px;background: white;">
-								<input class="btn btn-lg btn-info btn-block" onclick='downloadButton();' value="Download" id="downloadButton" disabled>
+								<button type="button" class="btn btn-lg btn-warning btn-block" onclick='downloadButton();' value="Download" id="downloadButton"  disabled>Download</button>
 							</div>
 						</div>
 					</div>
