@@ -23,6 +23,7 @@ function addButton() {
 	} else {
 		add(document.getElementById("src").value);
 		document.getElementById("src").value = "";
+		document.getElementById("downloadButton").disabled = false;
 	}
 }
 

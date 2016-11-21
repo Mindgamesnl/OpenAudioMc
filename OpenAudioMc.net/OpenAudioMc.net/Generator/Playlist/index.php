@@ -9,6 +9,8 @@
 	<head>
 		<!-- Title -->
 		<title>OpenAudioMC | Playlist Maker</title>
+		<link rel="icon" href="http://openaudiomc.net/img/favicon.png" />
+    <link rel="image" href="http://openaudiomc.net/img/favicon.png" />
 
 		<!-- CSS -->
 		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
@@ -70,7 +72,7 @@
 								<input class="btn btn-lg btn-success btn-block" onclick='addButton();' value="Add">
 							</div>
 							<div class="form-group" style="position: relative;box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);padding: 10px;background: white;">
-								<input class="btn btn-lg btn-info btn-block" onclick='downloadButton();' value="Download">
+								<input class="btn btn-lg btn-info btn-block" onclick='downloadButton();' value="Download" id="downloadButton" disabled>
 							</div>
 						</div>
 					</div>
