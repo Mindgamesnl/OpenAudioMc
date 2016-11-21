@@ -63,7 +63,6 @@
 									</tr>
 								</thead>
 								<tr>
-
 								</tr>
 							</table>
 							<div class="form-group" style="position: relative;box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);padding: 10px;background: white;">
@@ -80,5 +79,4 @@
 			</div>
 		</div>
 	</body>
-
 	</html>

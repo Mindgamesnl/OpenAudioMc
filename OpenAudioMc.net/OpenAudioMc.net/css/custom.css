@@ -9,6 +9,7 @@ body {
 	background-attachment: fixed;
 	margin: 0px 0px 15px 0px; /* bottom = footer height */
 	min-height: 635px;
+
 }
 
 a, a:hover, a:visited {
@@ -90,6 +91,7 @@ a, a:hover, a:visited {
 	width: 25%;
 	min-width: 190px;
 	float: left;
+	color:black;
 }
 
 .content .icon {
