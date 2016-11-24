@@ -18,7 +18,7 @@
 			} else {
 				$mcname = $_GET['user'];
 				$sport = file_get_contents("php/data/wsdata.txt");
-				include("php/inc/index.php");
+				include("php/inc/openaudio.php");
 			}
 		} else {
 			echo "<center><h1>Connect using /audio in the server!</h></center>";
