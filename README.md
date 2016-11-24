@@ -1,5 +1,5 @@
 <p align="center">
-    <img src ="https://proxy.spigotmc.org/a4d69e758810fec6ecba1b335436253a76be5169?url=http%3A%2F%2Fpuu.sh%2Fsj6gA%2Fa44d2a4ad0.jpg" />
+    <img src ="https://puu.sh/st7xB/696ad06285.gif" />
     <img src ="http://puu.sh/sj7Ow/5eff81a3cc.jpg" />
 </p>
 
