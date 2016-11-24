@@ -1,5 +1,5 @@
 <p align="center">
-    <img src ="https://puu.sh/st7xB/696ad06285.gif" />
+    <img src ="https://puu.sh/st7yJ/2729d5d8f6.png" />
     <img src ="http://puu.sh/sj7Ow/5eff81a3cc.jpg" />
 </p>
 
