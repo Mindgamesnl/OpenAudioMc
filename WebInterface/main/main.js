@@ -171,13 +171,13 @@ client.Main = function(awesomecode) {
 		client.resume(json.src);
 	} else if (json.command == "play") {
 		if (json.line == "play") {
-			UrlDataBase["play"] = json.src;
+			UrlDataBase.play = json.src;
 			play.normal(json.src);
 		} else if (json.line == "loop") {
-			UrlDataBase["loop"] = json.src;
+			UrlDataBase.loop = json.src;
 			play.loop(json.src);
 		} else if (json.line == "region") {
-			UrlDataBase["region"] = json.src;
+			UrlDataBase.region = json.src;
 			play.region(json.src);
 		}
 	} else if (json.command == "loadfile") {
@@ -192,6 +192,7 @@ client.Main = function(awesomecode) {
 		play.stop();
 	} else if (json.command == "disconnect") {
 		document.getElementById("status").innerHTML = "Status: <font style='color:Red;'>Disconnected</font>";
+		play.stopregion();
 		play.stop();
 	} else if (json.command == "connect") {
 		document.getElementById("status").innerHTML = "Status: <font style='color:green;'>Connected</font>";
@@ -218,15 +219,15 @@ client.pause = function(line) {
 			soundManager.pause(line);
 		}
 	} else {
-		if (UrlDataBase["play"] == line) {
+		if (UrlDataBase.play == line) {
 			soundManager.pause("play");
 		}
 
-		if (UrlDataBase["loop"] == line) {
+		if (UrlDataBase.loop == line) {
 			soundManager.pause("loop");
 		}
 
-		if (UrlDataBase["region"] == line) {
+		if (UrlDataBase.region == line) {
 			soundManager.pause("region");
 		}
 	}
@@ -251,15 +252,15 @@ client.resume = function(line) {
 			soundManager.resume(line);
 		}
 	} else {
-		if (UrlDataBase["play"] == line) {
+		if (UrlDataBase.play == line) {
 			soundManager.resume("play");
 		}
 
-		if (UrlDataBase["loop"] == line) {
+		if (UrlDataBase.loop == line) {
 			soundManager.resume("loop");
 		}
 
-		if (UrlDataBase["region"] == line) {
+		if (UrlDataBase.region == line) {
 			soundManager.resume("region");
 		}
 	}
@@ -288,7 +289,7 @@ client.set_volume = function(volume_var) {
 
 
 play.stopregion = function() {
-	UrlDataBase["region"] = "none";
+	UrlDataBase.region = "none";
 	soundManager.stop('region');
 	soundManager.destroySound('region');
 }
@@ -322,7 +323,7 @@ play.normal = function(src_fo_file) {
 	var mySoundObject = soundManager.createSound({
 		id: "play",
 		onfinish: function() {
-			UrlDataBase["play"] = "none";
+			UrlDataBase.play = "none";
 		},
 		url: src_fo_file,
 		volume: volume,
@@ -352,9 +353,9 @@ play.loop = function(src_fo_file) {
 
 
 play.stop = function() {
-	UrlDataBase["loop"] = "none";
-	UrlDataBase["region"] = "none";
-	UrlDataBase["play"] = "none";
+	UrlDataBase.loop = "none";
+	UrlDataBase.region = "none";
+	UrlDataBase.play = "none";
 
 	loop_active = false;
 	soundManager.destroySound('loop');
@@ -428,10 +429,10 @@ play.loadedfile = function() {
 play.setbg = function(bgTargetCode) {
 	console.info(bgTargetCode)
 	if (bgTargetCode == "reset" || bgTargetCode == "default") {
-		current_bg = window.location.protocol + "//" + window.location.host + window.location.pathname.replace("index.php", "") + "css/bg.png";
+		current_bg = window.location.protocol + "//" + window.location.host + window.location.pathname.replace("index.php", "") + "Images/bg.png";
 		//reset the bg
-		document.body.style.background = 'url("' + window.location.protocol + "//" + window.location.host + window.location.pathname.replace("index.php", "") + "css/bg.png" + '")';
-		console.info(window.location.protocol + "//" + window.location.host + window.location.pathname.replace("index.php", "") + "css/bg.png");
+		document.body.style.background = 'url("' + window.location.protocol + "//" + window.location.host + window.location.pathname.replace("index.php", "") + "Images/bg.png" + '")';
+		console.info(window.location.protocol + "//" + window.location.host + window.location.pathname.replace("index.php", "") + "Images/bg.png");
 	} else {
 		if (bgTargetCode.indexOf('.png') >= 0 || bgTargetCode.indexOf('.jpg') >= 0 || bgTargetCode.indexOf('.jpeg') >= 0 || bgTargetCode.indexOf('.gif') >= 0) {
 			//target is a image

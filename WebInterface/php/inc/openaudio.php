@@ -42,28 +42,16 @@
 <body>
 
 	<div class="middlePage">
-		
-		
-		<!--<div class="alert alert-warning alert-dismissible fade in" role="alert">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-			<strong><div id="display_name"><small >Hi there</small> (loading)<small>!</small></div>
-</div>-->
-			
 			
 		<div class="page-header">
 			<h1 class="logo"><div id="display_name"><small >Hi there</small> (loading)<small>!</small></div></h1>
 		</div>
 
 		<div class="panel panel-info">
-			<!--<div class="panel-heading">
-						<h3 class="panel-title">Server naam</h3>
-					</div>-->
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-md-4">
-						<center><img id="face" style="border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;  color:#03a9f4; " src="https://crafatar.com/avatars/<?php echo htmlspecialchars(strip_tags($mcname), ENT_QUOTES, 'UTF-8'); ?>"></center>
+						<center><img id="face" src="https://crafatar.com/avatars/<?php echo htmlspecialchars(strip_tags($mcname), ENT_QUOTES, 'UTF-8'); ?>"></center>
 					</div>
 					<div class="col-md-8" style="border-left:1px solid #ccc;height:160px">
 						<form class="form-horizontal">
@@ -128,7 +116,7 @@
 					<hr />
 					<input type="checkbox" name="EnableBrowserNotifications" id="EnableBrowserNotifications" checked/> Enable browser nofifications.
 					<hr />
-					<b>*TIP* Did you know that you can use <i>/volume [number]</i> to change the volume in th server?</b>
+					<b>*TIP* Did you know that you can use <i>/volume [number]</i> to change the volume in the server?</b>
 					<hr />
 					<p>
 						OpenAudioMC, the free and easy to use audio server and client.
