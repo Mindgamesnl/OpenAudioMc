@@ -1,4 +1,4 @@
-package me.mindgamesnl.mcwebsocket.main.Mc_Websocket;
+package me.mindgamesnl.openaudiomc.websocket;
 
 import java.util.ArrayList;
 import java.util.List;

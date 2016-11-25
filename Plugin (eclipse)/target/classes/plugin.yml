@@ -4,8 +4,9 @@ author: Mindgamesnl
 authors: [Me_is_mattyh]
 website: http://www.craftmend.com/
 prefix: OpenAudio
-version: 1.4.2
-main: me.mindgamesnl.mcwebsocket.main.Mc_Websocket.Main
+version: 1.4.3
+main: me.mindgamesnl.openaudiomc.main.Main
+softdepend: [WorldGuard,WorldEdit,WGRegionEvents]
 commands:
    openaudio:
       description: mindgamesnl websocket admin command

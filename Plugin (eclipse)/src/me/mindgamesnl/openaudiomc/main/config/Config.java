@@ -1,4 +1,4 @@
-package me.mindgamesnl.mcwebsocket.main.config;
+package me.mindgamesnl.openaudiomc.main.config;
 
 
 import org.bukkit.Bukkit;
@@ -33,7 +33,7 @@ public class Config {
 		
 		
 		//load chat for /openaudio command
-		String message_admin = me.mindgamesnl.mcwebsocket.main.Mc_Websocket.Main.getPL().getConfig().getString("chat.name.admin");
+		String message_admin = me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().getString("chat.name.admin");
 		message_admin = ChatColor.translateAlternateColorCodes('&', message_admin);
 		message_admin = ChatColor.translateAlternateColorCodes('$', message_admin);
 		Project_Chat_Name_Prefix_Color = message_admin;
@@ -41,20 +41,20 @@ public class Config {
 		
 		
 		
-		String message_normal = me.mindgamesnl.mcwebsocket.main.Mc_Websocket.Main.getPL().getConfig().getString("chat.name.normal");
+		String message_normal = me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().getString("chat.name.normal");
 		message_normal = ChatColor.translateAlternateColorCodes('&', message_normal);
 		message_normal = ChatColor.translateAlternateColorCodes('$', message_normal);
 		Chat_Header_audio = message_normal;
 		
 		
-		String message_vol = me.mindgamesnl.mcwebsocket.main.Mc_Websocket.Main.getPL().getConfig().getString("chat.message.volume_set");
+		String message_vol = me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().getString("chat.message.volume_set");
 		message_vol = ChatColor.translateAlternateColorCodes('&', message_vol);
 		message_vol = ChatColor.translateAlternateColorCodes('$', message_vol);
 		Chat_Message_Volume_Set = message_vol;
 		
 		
 		
-		String message_vol_error = me.mindgamesnl.mcwebsocket.main.Mc_Websocket.Main.getPL().getConfig().getString("chat.message.volume_error");
+		String message_vol_error = me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().getString("chat.message.volume_error");
 		message_vol_error = ChatColor.translateAlternateColorCodes('&', message_vol_error);
 		message_vol_error = ChatColor.translateAlternateColorCodes('$', message_vol_error);
 		Chat_Message_Volume_Set_Error = message_vol_error;
@@ -62,16 +62,16 @@ public class Config {
 		
 		
 		
-		String AudioConnect = me.mindgamesnl.mcwebsocket.main.Mc_Websocket.Main.getPL().getConfig().getString("chat.message.connect");
+		String AudioConnect = me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().getString("chat.message.connect");
 		AudioConnect = ChatColor.translateAlternateColorCodes('&', AudioConnect);
 		AudioConnect = ChatColor.translateAlternateColorCodes('$', AudioConnect);
-		String AudioConnecthost = ChatColor.translateAlternateColorCodes('&', ChatColor.translateAlternateColorCodes('$', me.mindgamesnl.mcwebsocket.main.Mc_Websocket.Main.getPL().getConfig().getString("config.webhost")));
+		String AudioConnecthost = ChatColor.translateAlternateColorCodes('&', ChatColor.translateAlternateColorCodes('$', me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().getString("config.webhost")));
 		AudioConnect = AudioConnect.replace("%client%", AudioConnecthost);
 		Audio_Web_domain = AudioConnect;
 		
 		
 		
-		String conmessage = me.mindgamesnl.mcwebsocket.main.Mc_Websocket.Main.getPL().getConfig().getString("chat.message.connected");
+		String conmessage = me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().getString("chat.message.connected");
 		conmessage = ChatColor.translateAlternateColorCodes('&', conmessage);
 		conmessage = ChatColor.translateAlternateColorCodes('$', conmessage);
 		Connected_message = conmessage;
