@@ -2,6 +2,9 @@ package me.mindgamesnl.openaudiomc.groupManager;
 
 import java.util.HashMap;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
 public class groupManager {
 	
 	public static HashMap<String, String> playerGroupList = new HashMap<String, String>();
@@ -20,6 +23,11 @@ public class groupManager {
 	
 	public static void removeGroup(String groupName) {
 		playerGroupList.put(groupName, "false");
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			if (me.mindgamesnl.openaudiomc.groupManager.groupManager.getPlayerGroup(p.getName()).equalsIgnoreCase(groupName)) {
+				playerGroup.put(p.getName(), "SUPERLANGESTRINGDIENIEMANDOOITZALTYPENDUSIKKANDEZEWELGEBRUIKENALSDEFAULTVALUEHEDIKKEDOEIDOEI");
+			}
+        }
 	}
 	
 	
