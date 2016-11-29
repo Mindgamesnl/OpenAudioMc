@@ -14,6 +14,7 @@
     * Messages in browser with color codes!
     * Audio buffer (optional)
     * Easy GUI setup wizard
+    * Detects if a player is online
     * Play by region (start sound for players in a region)
     * Can play music in worldguard regions
     * Livestreaming mode
