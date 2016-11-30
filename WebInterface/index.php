@@ -5,6 +5,7 @@
      */
 
 	 //Ignore the mojang error
+
 	 error_reporting(0);
 
 	include('php/data/save.php');

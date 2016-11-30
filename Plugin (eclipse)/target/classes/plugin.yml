@@ -4,7 +4,7 @@ author: Mindgamesnl
 authors: [Me_is_mattyh]
 website: http://www.craftmend.com/
 prefix: OpenAudio
-version: 1.4.3
+version: 1.4.4
 main: me.mindgamesnl.openaudiomc.main.Main
 softdepend: [WorldGuard,WorldEdit,WGRegionEvents]
 commands:

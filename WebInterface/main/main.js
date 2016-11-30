@@ -15,14 +15,16 @@ function enable() {
 		console.info("Protocol not supported!");
 	}
 
-	document.getElementById("display_name").innerHTML = "Hi there <strong>" + mcname + "</strong>!";
-
-	current_bg = window.location.protocol + "//" + window.location.host + window.location.pathname.replace("index.php", "") + "css/bg.png";
+	//hi there
+	document.getElementById("display_name").innerHTML = messages.status_not_connected.replace(/%username%/g, mcname);
+	
+	current_bg = window.location.protocol + "//" + window.location.host + window.location.pathname.replace("index.php", "") + "Images/bg.png";
 
 	setTimeout(function() {
 		if (connection_made === false) {
 
-			document.getElementById("status").innerHTML = "Status: <font style='color:Red;'>Player not found</font>";
+			//Player not found
+			document.getElementById("status").innerHTML = messages.not_found.replace(/%username%/g, mcname);
 
 		}
 	}, 3000);
@@ -53,14 +55,15 @@ function reenable() {
 	}
 	console.info("Connecting to server with name: " + mcname);
 
-	document.getElementById("display_name").innerHTML = "Hi there <strong>" + mcname + "</strong>!";
+	//hi there
+	document.getElementById("display_name").innerHTML = messages.status_not_connected.replace(/%username%/g, mcname);
 
 	setTimeout(function() {
 		if (connection_made === false) {
-
-			document.getElementById("status").innerHTML = "Status: <font style='color:Red;'>Player not found/font>";
 			
-
+			//Player not found
+			document.getElementById("status").innerHTML = messages.not_found.replace(/%username%/g, mcname);
+			
 		}
 	}, 3000);
 
@@ -114,11 +117,11 @@ mc_link.connect = function(host) {
 
 
 client.setblank = function() {
-	document.getElementById("status").innerHTML = "Status: <font style='color:orange;'>Connecting</font>";
+	document.getElementById("status").innerHTML = messages.connecting.replace(/%username%/g, mcname);
 }
 
 client.close = function() {
-	document.getElementById("status").innerHTML = "Status: <font style='color:Red;'>Could not connect</font>";
+	document.getElementById("status").innerHTML = messages.could_not_connect.replace(/%username%/g, mcname);
 	reconnectpromt();
 	play.stop();
 }
@@ -131,7 +134,7 @@ client.Main = function(awesomecode) {
 
 	json = JSON.parse(awesomecode);
 	if (connection_made === false) {
-		document.getElementById("status").innerHTML = "Status: <font style='color:green;'>Connected</font>";
+		document.getElementById("status").innerHTML = messages.connected.replace(/%username%/g, mcname);
 		connection_made = true;
 	} else if (json.command == "puush_meld") {
 		play.send(json.message);
@@ -191,11 +194,11 @@ client.Main = function(awesomecode) {
 	} else if (json.command == "stop") {
 		play.stop();
 	} else if (json.command == "disconnect") {
-		document.getElementById("status").innerHTML = "Status: <font style='color:Red;'>Disconnected</font>";
+		document.getElementById("status").innerHTML = messages.disconnected.replace(/%username%/g, mcname);
 		play.stopregion();
 		play.stop();
 	} else if (json.command == "connect") {
-		document.getElementById("status").innerHTML = "Status: <font style='color:green;'>Connected</font>";
+		document.getElementById("status").innerHTML = messages.connected.replace(/%username%/g, mcname);
 	} else {
 		console.info("[core] Invalid json command");
 	}
@@ -270,18 +273,18 @@ client.resume = function(line) {
 client.set_volume = function(volume_var) {
 	if (volume_var > 100) {
 		document.getElementById("slider").value = 100;
-		document.getElementById("volume").innerHTML = '<small>Volume:</small> 100%';
+		document.getElementById("volume").innerHTML = messages.volume_max.replace(/{{VOLUME}}/g, volume_var);
 		soundManager.setVolume(100);
 		volume = 100;
 	} else if (volume_var < 0) {
 		document.getElementById("slider").value = 0;
-		document.getElementById("volume").innerHTML = '<small>Volume:</small> 0%';
+		document.getElementById("volume").innerHTML = messages.volume_min.replace(/{{VOLUME}}/g, volume_var);
 		soundManager.setVolume(0);
 		volume = 0;
 	} else {
 		document.getElementById("slider").value = volume_var;
 		volume = volume_var;
-		document.getElementById("volume").innerHTML = '<small>Volume:</small> ' + volume_var + '%'
+		document.getElementById("volume").innerHTML = messages.volume_var.replace(/{{VOLUME}}/g, volume_var);
 		soundManager.setVolume(volume_var);
 
 	}
@@ -366,9 +369,7 @@ play.stop = function() {
 
 
 play.send = function(bericht) {
-
-
-
+	
 	var checkbox = document.getElementById("EnableBrowserNotifications");
 	if (checkbox.checked) {
 		if (Notification.permission !== "granted") {
@@ -396,7 +397,7 @@ play.send = function(bericht) {
 			bericht2 = bericht2.replace(/&d/g, "");
 			bericht2 = bericht2.replace(/&e/g, "");
 			bericht2 = bericht2.replace(/&f/g, "");
-			var notification = new Notification(mcname + " | OpenAudioMc", {
+			var notification = new Notification(messages.message_header.replace(/%username%/g, mcname), {
 				icon: 'Images/small_logo.png',
 				body: bericht2,
 			});
@@ -489,8 +490,8 @@ play.displayMessage = function(Text) {
 
 function reconnectpromt() {
 	swal({
-		title: "Connection lost",
-		text: "Sorry " + mcname + ".<br>We lost connection to our server! do you want to re connect?",
+		title: messages.connection_error_header.replace(/%username%/g, mcname),
+		text: messages.connection_error_content.replace(/%username%/g, mcname),
 		type: "error",
 		showCancelButton: true,
 		confirmButtonColor: "#FF851B",
@@ -500,6 +501,10 @@ function reconnectpromt() {
 	}, function() {
 		reenable();
 	});
+}
+
+function setpan(newpan) {
+	soundManager.setPan('play',-80);
 }
 
 

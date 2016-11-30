@@ -6,7 +6,7 @@ import java.util.List;
 public class WsSessionMan {
     private static WsSessionMan sessionManager;
  
-    private List<WsSession> sessions = new ArrayList<WsSession>();
+    private static List<WsSession> sessions = new ArrayList<WsSession>();
  
     public static WsSessionMan getSessionManager() {
         if (sessionManager == null) {
@@ -25,6 +25,7 @@ public class WsSessionMan {
     }
  
     public void endSession(String host) {
+
         sessions.remove(getSessionByHost(host));
     }
  
@@ -49,6 +50,17 @@ public class WsSessionMan {
         return null;
     }
  
+    
+    public static String getSessionFromName(String host) {
+        for (int i = 0; i < sessions.size(); i++) {
+            if (sessions.get(i).getHost().equalsIgnoreCase(host)) {
+            	return sessions.get(i).getName();
+            }
+        }
+		return host;
+    }
+    
+    
     public void addSessionUsername(String host, String name) {
        // Bukkit.getLogger().info("Attemption to update session with data: " + name + " and a host of: " + host);
         for (int i = 0; i < sessions.size(); i++) {
