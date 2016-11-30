@@ -1,7 +1,9 @@
 package me.mindgamesnl.openaudiomc.apiConnector;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.ServerSocket;
 import java.net.URL;
 
 
@@ -34,4 +36,18 @@ public class ApiFunctions {
 	  }	
 	
 	
+	public static boolean isPortAvailable(int port) {
+		  
+		try {
+			
+			ServerSocket srv = new ServerSocket(port);
+		
+		srv.close();
+		srv = null;
+		return true;
+		
+		} catch (IOException e) {
+			return false;
+		}
+	}
 }
