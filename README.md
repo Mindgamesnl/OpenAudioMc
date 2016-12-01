@@ -4,7 +4,7 @@
 </p>
 
 # OpenAudioMc
-
+## The opensource and FREE audio client / server
 
 # Features
     * Browser messages
