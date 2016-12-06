@@ -49,6 +49,7 @@ public class Main extends JavaPlugin implements Listener{
 		
 		//create and register listeners
 		this.getCommand("openaudio").setExecutor(new me.mindgamesnl.openaudiomc.main.mc.mc.Commands());
+		this.getCommand("connect").setExecutor(new me.mindgamesnl.openaudiomc.main.mc.mc.Commands());
 		this.getCommand("audio").setExecutor(new me.mindgamesnl.openaudiomc.main.mc.mc.Commands());
 		this.getCommand("volume").setExecutor(new me.mindgamesnl.openaudiomc.main.mc.mc.Commands());
 		getServer().getPluginManager().registerEvents(this, this);
@@ -75,11 +76,6 @@ public class Main extends JavaPlugin implements Listener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 	}
 }
