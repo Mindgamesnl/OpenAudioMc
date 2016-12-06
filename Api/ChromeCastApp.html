@@ -78,7 +78,7 @@
 
 <body>
 	<DIV> <img src="http://static.craftmend.com/spigot/openaudio/Logo.png" height="400px" width="400px" /> <br>
-		<p> Loading ChromeCast client... </p><br>
+		<p id="text"> Loading ChromeCast client... </p><br>
 	</DIV> <iframe id="iframe" style="display:none;"> Your browser doesn't support iframes
  </iframe>
 	<script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
@@ -121,7 +121,10 @@
 			window.castReceiverManager.setApplicationState(text);
 			document.getElementById("iframe").src = text + "&googlecaststream=true";
 			document.getElementById('iframe').onload= function() {
-				enableFrame();
+				document.getElementById("text").innerHTML = "Loading websocket..."
+				setTimeout(function(){ enableFrame();
+					document.getElementById("iframe").style = 'position:fixed; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999; ';
+				}, 5000);
 			}
 		}
 
