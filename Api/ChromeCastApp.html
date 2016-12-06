@@ -48,14 +48,14 @@ div {
 	color: #FFFFFF;
 	background: linear-gradient(132deg, #e3f2fd, #bbdefb, #90caf9, #64b5f6, #42a5f5, #2196f3, #1e88e5, #1976d2, #1976d2, #1976d2, #1565c0, #0d47a1, #82b1ff, #448aff, #2979ff, #2962ff);
 	background-size: 3200% 3200%;
-	-webkit-animation: AnimationName 4s ease infinite;
-	-moz-animation: AnimationName 4s ease infinite;
-	animation: AnimationName 4s ease infinite;
+	-webkit-animation: AnimationName 8s ease infinite;
+	-moz-animation: AnimationName 8s ease infinite;
+	animation: AnimationName 8s ease infinite;
 	font-family: Verdana, Geneva, sans-serif;
 	font-size: 40px;
 }
 
-</style> <title>Openaudio tv</title> </head> <body> <DIV> <img src="http://static.craftmend.com/spigot/openaudio/Logo.png" height="400px" width="400px" /> <br> <p id="text"> Loading ChromeCast client... </p><br> </DIV> <iframe id="iframe" style="display:none;"> Your browser doesn't support iframes
+</style> <title>Openaudio tv</title> </head> <body> <DIV> <img src="http://static.craftmend.com/spigot/openaudio/Logo.png" height="400px" width="400px" /> <br> <p id="text"> Loading ChromeCast client... </p><br> (Beta) </DIV> <iframe id="iframe" style="display:none;"> Your browser doesn't support iframes
  </iframe> <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script> <script type="text/javascript"> document.getElementById("iframe").style.display="none";
 window.onload=function() {
 	cast.receiver.logger.setLevelValue(0);
@@ -97,7 +97,13 @@ window.onload=function() {
 
 function loadclient(text) {
 	window.castReceiverManager.setApplicationState(text);
-	document.getElementById("iframe").src=text+ "&googlecaststream=true";
+	
+	
+	json = JSON.parse(text);
+	
+	bron = json.src + "?user=" + json.mcname + "&googlecaststream=true";
+	
+	document.getElementById("iframe").src=bron;
 	document.getElementById('iframe').onload=function() {
 		document.getElementById("text").innerHTML="Loading websocket...";
 		setTimeout(function() {
