@@ -1,6 +1,21 @@
 function enable() {
 	client.setblank();
 
+	if (googlecastmode == 1) {
+		//disable some ui stuff for tv'screen
+		document.getElementById("voltextparant").innerHTML = '<div id="voltextparant"><h1><div id="volume"><small>Volume:</small> 20%</div></h1></div>';
+		document.getElementById("sliderparant").style.display = "none";
+		document.getElementById("cogparent").style.display = "none";
+		//document.getElementById("headerparent").style.display = "none";
+	}
+	document.getElementById("cast_logo").style.display = "none";
+	document.getElementById("streaming_status").style.display = "none";
+	document.getElementById("MessageManager").style.display = "none";
+	document.getElementById("LiveBox").style.display = "none";
+
+	/*
+	leaving the openaudio credits would be nice but no one is holding you back from removing it
+	*/
 	console.info("\n--==[OpenAudioMc]==--\nOpenAudioMc by: Mindgamesnl\nSpigot: https://www.spigotmc.org/resources/openaudiomc.30691/\nGithub: https://github.com/Mindgamesnl/OpenAudioMc\n--==[OpenAudioMc]==--\n\n");
 
 	console.info("Connecting to server with name: " + mcname);
@@ -17,20 +32,16 @@ function enable() {
 
 	//hi there
 	document.getElementById("display_name").innerHTML = messages.status_not_connected.replace(/%username%/g, mcname);
-	
+
 	current_bg = window.location.protocol + "//" + window.location.host + window.location.pathname.replace("index.php", "") + "Images/bg.png";
 
 	setTimeout(function() {
 		if (connection_made === false) {
-
 			//Player not found
 			document.getElementById("status").innerHTML = messages.not_found.replace(/%username%/g, mcname);
-
 		}
 	}, 3000);
 
-	document.getElementById("MessageManager").style.display = "none";
-	document.getElementById("LiveBox").style.display = "none";
 	document.addEventListener('DOMContentLoaded', function() {
 		if (!Notification) {
 			alert(message.browserfail);
@@ -39,7 +50,6 @@ function enable() {
 		if (Notification.permission !== "granted")
 			Notification.requestPermission();
 	});
-
 }
 
 
@@ -60,10 +70,10 @@ function reenable() {
 
 	setTimeout(function() {
 		if (connection_made === false) {
-			
+
 			//Player not found
 			document.getElementById("status").innerHTML = messages.not_found.replace(/%username%/g, mcname);
-			
+
 		}
 	}, 3000);
 
@@ -77,7 +87,6 @@ function reenable() {
 		if (Notification.permission !== "granted")
 			Notification.requestPermission();
 	});
-
 }
 
 
@@ -124,6 +133,7 @@ client.close = function() {
 	document.getElementById("status").innerHTML = messages.could_not_connect.replace(/%username%/g, mcname);
 	reconnectpromt();
 	play.stop();
+
 }
 
 
@@ -164,8 +174,7 @@ client.Main = function(awesomecode) {
 	} else if (json.command == "stoplive") {
 		document.getElementById("LiveBox").className = "animated bounceOutUp";
 		document.getElementById("LiveBox").style.display = "";
-		soundManager.stop('live');
-		soundManager.destroySound('live');
+		fadeIdOut("live");
 	} else if (json.command == "setvolume") {
 		client.set_volume(json.target)
 	} else if (json.command == "pause") {
@@ -201,6 +210,7 @@ client.Main = function(awesomecode) {
 		document.getElementById("status").innerHTML = messages.connected.replace(/%username%/g, mcname);
 	} else {
 		console.info("[core] Invalid json command");
+		//console.log(json);
 	}
 }
 
@@ -293,8 +303,7 @@ client.set_volume = function(volume_var) {
 
 play.stopregion = function() {
 	UrlDataBase.region = "none";
-	soundManager.stop('region');
-	soundManager.destroySound('region');
+	fadeIdOut("region");
 }
 
 
@@ -361,15 +370,14 @@ play.stop = function() {
 	UrlDataBase.play = "none";
 
 	loop_active = false;
-	soundManager.destroySound('loop');
-	soundManager.destroySound('play');
-	soundManager.stop('loop');
-	soundManager.stop('play');
+	fadeIdOut("play");
+	fadeIdOut("loop");
+	fadeIdOut("region");
 }
 
 
 play.send = function(bericht) {
-	
+
 	var checkbox = document.getElementById("EnableBrowserNotifications");
 	if (checkbox.checked) {
 		if (Notification.permission !== "granted") {
@@ -433,7 +441,6 @@ play.setbg = function(bgTargetCode) {
 		current_bg = window.location.protocol + "//" + window.location.host + window.location.pathname.replace("index.php", "") + "Images/bg.png";
 		//reset the bg
 		document.body.style.background = 'url("' + window.location.protocol + "//" + window.location.host + window.location.pathname.replace("index.php", "") + "Images/bg.png" + '")';
-		console.info(window.location.protocol + "//" + window.location.host + window.location.pathname.replace("index.php", "") + "Images/bg.png");
 	} else {
 		if (bgTargetCode.indexOf('.png') >= 0 || bgTargetCode.indexOf('.jpg') >= 0 || bgTargetCode.indexOf('.jpeg') >= 0 || bgTargetCode.indexOf('.gif') >= 0) {
 			//target is a image
@@ -483,32 +490,122 @@ play.displayMessage = function(Text) {
 }
 
 
-
-
-
-
-
 function reconnectpromt() {
-	swal({
-		title: messages.connection_error_header.replace(/%username%/g, mcname),
-		text: messages.connection_error_content.replace(/%username%/g, mcname),
-		type: "error",
-		showCancelButton: true,
-		confirmButtonColor: "#FF851B",
-		confirmButtonText: "Retry",
-		closeOnConfirm: true,
-		html: true
-	}, function() {
-		reenable();
+	if (googlecastmode != 1) {
+		swal({
+			title: messages.connection_error_header.replace(/%username%/g, mcname),
+			text: messages.connection_error_content.replace(/%username%/g, mcname),
+			type: "error",
+			showCancelButton: true,
+			confirmButtonColor: "#FF851B",
+			confirmButtonText: "Retry",
+			closeOnConfirm: true,
+			html: true
+		}, function() {
+			reenable();
+		});
+	}
+}
+
+
+//thanks to chrome bugs we need to detect if the browser is actife
+var vis = (function() {
+	var stateKey,
+		eventKey,
+		keys = {
+			hidden: "visibilitychange",
+			webkitHidden: "webkitvisibilitychange",
+			mozHidden: "mozvisibilitychange",
+			msHidden: "msvisibilitychange"
+		};
+	for (stateKey in keys) {
+		if (stateKey in document) {
+			eventKey = keys[stateKey];
+			break;
+		}
+	}
+	return function(c) {
+		if (c) document.addEventListener(eventKey, c);
+		return !document[stateKey];
+	}
+})();
+
+
+vis(function() {
+	if (vis()) {
+		setTimeout(function() {
+			FadeEnabled = true;
+		}, 300);
+	} else {
+		FadeEnabled = false;
+	}
+});
+
+
+var notIE = (document.documentMode === undefined),
+	isChromium = window.chrome;
+if (notIE && !isChromium) {
+	$(window).on("focusin", function() {
+		setTimeout(function() {
+			FadeEnabled = true;
+		}, 300);
+	}).on("focusout", function() {
+		FadeEnabled = false;
 	});
+} else {
+	if (window.addEventListener) {} else {
+		window.attachEvent("focus", function(event) {
+			setTimeout(function() {
+				FadeEnabled = true;
+			}, 300);
+		});
+		window.attachEvent("blur", function(event) {
+			FadeEnabled = false;
+		});
+	}
 }
 
-function setpan(newpan) {
-	soundManager.setPan('play',-80);
-}
+
+FadeEnabled = true;
 
 
+$(document).ready(function() {
+	window.fadeIdOut = function(soundId) {
 
+		var x = document.createElement("INPUT");
+		x.setAttribute("type", "range");
+		document.body.appendChild(x);
+		x.id = soundId + "_Slider";
+		x.min = 0;
+		x.max = 100;
+		x.value = volume;
+		x.style = "display:none;";
+		var backAudio = $('#' + soundId + "_Slider");
+		document.getElementById('faders').appendChild(x);
 
+		if (FadeEnabled === true && document.getElementById("EnableSoundFading").checked) {
+			backAudio.animate({
+				value: 0
+			}, {
+				duration: 1000,
+				step: function(currentLeft, animProperties) {
+					soundManager.setVolume(soundId, currentLeft);
+				},
+				done: function() {
+					soundManager.stop(soundId);
+					soundManager.destroySound(soundId);
+					x.remove();
+				}
+			});
+		} else {
+			soundManager.stop(soundId);
+			soundManager.destroySound(soundId);
+			x.remove();
+		}
+
+	}
+});
+
+//google cast code is in openaudio-tv.js
 
 onload = enable

@@ -322,6 +322,12 @@ public class Commands implements CommandExecutor {
 					
 					
 					return true;
+				} else if (cmd.getName().equalsIgnoreCase("connect")) {
+					
+					sender.sendMessage(me.mindgamesnl.openaudiomc.main.config.Config.Chat_Header_audio + me.mindgamesnl.openaudiomc.main.config.Config.Audio_Web_domain.replace("%username%", sender.getName()));
+					
+					
+					return true;
 				} else if (cmd.getName().equalsIgnoreCase("volume")) {
 					if (args.length > 0) {
 						if (isInt(args[0])) {

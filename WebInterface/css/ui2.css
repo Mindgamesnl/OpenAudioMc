@@ -134,6 +134,23 @@ input[type=range]:focus::-ms-fill-upper {
     top: 0;
     right: 15;
 }
+.btn-clipboard2 {
+    position: absolute;
+    top: 2;
+    right: 45;
+}
 .white-bg{
     background:#ffffff !important;
+}
+.close-streaming {
+	display: inline;
+	align-content: right;
+	align-self: right;
+	align-items: right;
+	right: 10px;
+	position: absolute;
+}
+.streamingLogo {
+	height: 25px;
+	width: 25px;
 }

@@ -45,7 +45,12 @@ public class configManager {
 		 } else {
 			 Bukkit.getLogger().info("[OpenAudio] Wecome new user! this is OpenAudioMc (Duhh). If you have any problems, just let me know ;)");
 			 Bukkit.broadcastMessage("[OpenAudio] No config found! lets make one shall we?");
-			 me.mindgamesnl.openaudiomc.config.Creator.SetupDefault();
+			 try {
+				me.mindgamesnl.openaudiomc.config.Creator.SetupDefault();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			 Bukkit.broadcastMessage("[OpenAudio] Created config file! setting up server...");
 		 }
 	}

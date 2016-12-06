@@ -1,4 +1,5 @@
-//translated by https://www.spigotmc.org/members/progrm_jarvis.259831/
+//AWESOMENESS MADE BY:  https://www.spigotmc.org/members/progrm_jarvis.259831/
+
 
 //создаёт объект сообщений
 var messages = {};
