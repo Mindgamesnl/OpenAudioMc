@@ -29,7 +29,6 @@
 		<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<script src="dist/sweetalert.min.js"></script>
-		<script src="main/setup.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
@@ -47,30 +46,32 @@
 							<h3 class="panel-title">OpenAudioMc Hosting Generator</h3>
 						</div>
 						<div class="panel-body">
-							<h4>
-								<b>Step 1:</b> use <i><b>/openaudio install</b></i> to get your server info.<br />
-								<b>Step 2:</b> fill out your server info from the minecraft chat in the form below.<br />
-								<b>Step 3:</b> click "next".<br />
-							</h4>
+							<h1>
+								Your server info
+							</h1>
 							<hr />
-							<form accept-charset="UTF-8" role="form" action="echoserverdata.php" method="POST">
-								<fieldset>
+							<h4>
+								Set the following info in your config.yml, restart the server and you are good to go :-)
+							</h4>
+							<div class="codebox">
+								<code>   
+      
+								
+							
+								
+			<?php
+								if($_POST['wshost'] !== "" && $_POST['wsport'] !== "") {
 									
-									<h2>
-										OpenAudio server info
-									</h2>
-									<div class="form-group">
-										<input class="form-control" placeholder="OpenAudio Host" name="wshost" type="text">
-									</div>
-									<div class="form-group">
-										<input class="form-control" placeholder="OpenAudio Port" name="wsport" type="text">
-									</div>
-		
+									echo "webhost: '&6http://client.openaudiomc.net/?wsdata=" . htmlspecialchars(strip_tags($_POST["wshost"]), ENT_QUOTES, 'UTF-8') . ":" . htmlspecialchars(strip_tags($_POST["wsport"]), ENT_QUOTES, 'UTF-8') . "user=%username%'";
 									
 									
-									<input class="btn btn-lg btn-success btn-block" type="submit" value="Next">
-								</fieldset>
-							</form>
+								} else {
+									echo('<h2>INVALID DATA<h1>Please check your server data from the previous form</h1>');
+								} 
+							?>
+
+			    </code>
+							</div>
 						</div>
 					</div>
 				</div>

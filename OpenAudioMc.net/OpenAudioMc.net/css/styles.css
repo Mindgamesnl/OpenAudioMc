@@ -1,9 +1,25 @@
+@font-face {
+    font-family: Molot;
+    src: url("../dist/Molot.otf");
+}
 body {
+	font-family: Molot;
 	padding-top: 70px;
-	background-image: url("../../img/background.png");
+	background-image: url("../Images/bg.png");
 	background-attachment: fixed;
 	background-size: cover;
-	background-repeat: no-repeat
+	background-repeat: no-repeat	
+}
+.panel-transparent {
+	background: none;
+}
+
+.panel-transparent .panel-heading {
+	background: rgba(122, 130, 136, 0.2)!important;
+}
+
+.panel-transparent .panel-body {
+	background: rgba(46, 51, 56, 0.2)!important;
 }
 
 input[type=range] {
