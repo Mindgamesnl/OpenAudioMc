@@ -62,7 +62,7 @@
 			<?php
 								if($_POST['wshost'] !== "" && $_POST['wsport'] !== "") {
 									
-									echo "webhost: '&6http://client.openaudiomc.net/?wsdata=" . htmlspecialchars(strip_tags($_POST["wshost"]), ENT_QUOTES, 'UTF-8') . ":" . htmlspecialchars(strip_tags($_POST["wsport"]), ENT_QUOTES, 'UTF-8') . "user=%username%'";
+									echo "webhost: '&6http://client.openaudiomc.net/?wsdata=" . htmlspecialchars(strip_tags($_POST["wshost"]), ENT_QUOTES, 'UTF-8') . ":" . htmlspecialchars(strip_tags($_POST["wsport"]), ENT_QUOTES, 'UTF-8') . "&user=%username%'";
 									
 									
 								} else {
