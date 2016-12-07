@@ -67,7 +67,7 @@ if (file_get_contents("php/data/save.txt") === "true") {
 } else if (file_get_contents("php/data/save.txt") === "hosting") {
   
     //client is setup to act as a webhosting server
-  if (is_numeric(htmlspecialchars(strip_tags($_GET["wsdata"]), ENT_QUOTES, 'UTF-8'))) {  
+  if (htmlspecialchars(strip_tags($_GET["wsdata"]), ENT_QUOTES, 'UTF-8') != null) {  
     if (htmlspecialchars(strip_tags($_GET["googlecaststream"]), ENT_QUOTES, 'UTF-8') == "true") {
 
 
