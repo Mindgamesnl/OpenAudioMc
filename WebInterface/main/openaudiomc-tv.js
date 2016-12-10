@@ -1,9 +1,13 @@
 //Chromecast
-var applicationID = '795493C6';
-var namespace = 'urn:x-cast:mindgamesnl.cast.openaudio';
-var session = null;
-if (!chrome.cast || !chrome.cast.isAvailable) {
+try {
+	applicationID = '795493C6';
+	namespace = 'urn:x-cast:mindgamesnl.cast.openaudio';
+	session = null;
+	if (!chrome.cast || !chrome.cast.isAvailable) {
 	setTimeout(initializeCastApi, 1000);
+	}
+} catch(err) {
+	console.log("This browser does not support chromecast!");
 }
 
 function initializeCastApi() {

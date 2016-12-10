@@ -36,7 +36,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="messages/messages.js"></script>
-	
+
 	<!-- PHP -->
 	<?php
 	//Only include when client IS NOT a streaming device
@@ -44,11 +44,11 @@
 		echo '<script src="main/openaudiomc-tv.js"></script>';
 	}
 	?>
-	<script>
-		mcname = "<?php echo htmlspecialchars(strip_tags($mcname), ENT_QUOTES, 'UTF-8'); ?>";
-		wshost = "<?= htmlspecialchars(strip_tags($sport), ENT_QUOTES, 'UTF-8'); ?>";
-		googlecastmode = "<?= htmlspecialchars(strip_tags($googlecast), ENT_QUOTES, 'UTF-8'); ?>";
-	</script>
+		<script>
+			mcname = "<?php echo htmlspecialchars(strip_tags($mcname), ENT_QUOTES, 'UTF-8'); ?>";
+			wshost = "<?= htmlspecialchars(strip_tags($sport), ENT_QUOTES, 'UTF-8'); ?>";
+			googlecastmode = "<?= htmlspecialchars(strip_tags($googlecast), ENT_QUOTES, 'UTF-8'); ?>";
+		</script>
 
 </head>
 
@@ -59,7 +59,7 @@
 		<div class="page-header" id="headerparent">
 			<h1 class="logo"><div id="display_name"><small >Hi there</small> (loading)<small>!</small></div></h1>
 		</div>
-		
+
 		<div class="panel panel-info make-it-slow">
 			<div class="panel-heading" id="streaming_status">
 				<i class="fa fa-wifi fa-1x" aria-hidden="true"></i>
@@ -74,7 +74,7 @@
 					<div class="col-md-8" style="border-left:1px solid #ccc;height:160px">
 						<form class="form-horizontal">
 							<fieldset>
-								<div id="cogparent"><img class="btn-clipboard2 streamingLogo" id="cast_logo" src="Images/google-cast-logo.png" onclick="startCasting();" ></img><i class="btn-clipboard fa fa-cog fa-2x" onmouseover="this.className='draai btn-clipboard fa fa-cog fa-2x';" onmouseout="this.className='btn-clipboard fa fa-cog fa-2x';"
+								<div id="cogparent"><img class="btn-clipboard2 streamingLogo" id="cast_logo" src="Images/google-cast-logo.png" onclick="startCasting();"></img><i class="btn-clipboard fa fa-cog fa-2x" onmouseover="this.className='draai btn-clipboard fa fa-cog fa-2x';" onmouseout="this.className='btn-clipboard fa fa-cog fa-2x';"
 										data-toggle="modal" data-target="#settings" aria-hidden="true"></i></div>
 								<h3 id="status">Status: <font style="color:green;">Loading</font></h3>
 								<hr />
@@ -126,6 +126,7 @@
 
 	</div>
 
+
 	<div id="settings" class="modal fade" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -146,7 +147,6 @@
 					</p>
 					<i class="fa fa-github fa-3x" aria-hidden="true" onclick="window.open('https://github.com/Mindgamesnl/OpenAudioMc')"></i>
 					<i class="fa fa-comment fa-3x" aria-hiddenk="true" onclick="window.open('https://www.spigotmc.org/resources/openaudiomc.30691/')"> </i>
-					<i class="fa fa-twitter fa-3x" aria-hiddenk="true" onclick="window.open('https://twitter.com/Me_Is_Matt')"> </i>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
