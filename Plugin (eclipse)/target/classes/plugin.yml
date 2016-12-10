@@ -3,7 +3,7 @@ description: THE opensource audio server!
 author: Mindgamesnl
 website: http://www.craftmend.com/
 prefix: OpenAudio
-version: 1.5
+version: 1.5.2
 main: me.mindgamesnl.openaudiomc.main.Main
 softdepend: [WorldGuard,WorldEdit,WGRegionEvents]
 commands:
