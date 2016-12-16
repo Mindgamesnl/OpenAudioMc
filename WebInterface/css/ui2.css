@@ -1,3 +1,40 @@
+
+@-webkit-keyframes AnimationName {
+	0% {
+		background-position: 20% 0%
+	}
+	50% {
+		background-position: 81% 100%
+	}
+	100% {
+		background-position: 20% 0%
+	}
+}
+
+@-moz-keyframes AnimationName {
+	0% {
+		background-position: 20% 0%
+	}
+	50% {
+		background-position: 81% 100%
+	}
+	100% {
+		background-position: 20% 0%
+	}
+}
+
+@keyframes AnimationName {
+	0% {
+		background-position: 20% 0%
+	}
+	50% {
+		background-position: 81% 100%
+	}
+	100% {
+		background-position: 20% 0%
+	}
+}
+
 @charset "UTF-8";
 /* CSS Document */
 
@@ -153,4 +190,23 @@ input[type=range]:focus::-ms-fill-upper {
 .streamingLogo {
 	height: 25px;
 	width: 25px;
+}
+.loader {
+	position:fixed;
+	top:0px;
+	left:0px;
+	bottom:0px;
+	right:0px;
+	width:100%;
+	height:100%;
+	border:none;
+	margin:0;
+	padding:0;
+	overflow:hidden;
+	z-index:999999;
+	background: linear-gradient(132deg, #e3f2fd, #bbdefb, #90caf9, #64b5f6, #42a5f5, #2196f3, #1e88e5, #1976d2, #1976d2, #1976d2, #1565c0, #0d47a1, #82b1ff, #448aff, #2979ff, #2962ff);
+	background-size: 3200% 3200%;
+	-webkit-animation: AnimationName 4s ease infinite;
+	-moz-animation: AnimationName 4s ease infinite;
+	animation: AnimationName 4s ease infinite;
 }

@@ -48,9 +48,7 @@
 							<label class="control-label" for="addon3a">Mc name:</label>
 							<input type="text" id="addon3a" class="form-control">
 							<span class="input-group-btn">
-								<button type="button" class="btn btn-fab btn-fab-mini">
-									<i class="material-icons" onclick="login();"><i onclick="login();" class="fa fa-check-circle fa-x3" aria-hidden="true" ></i></i>
-								</button>
+								<a href="#" onclick="login();" class="btn btn-primary">Login</a>
 							</span>
 						</div>
 					</div>

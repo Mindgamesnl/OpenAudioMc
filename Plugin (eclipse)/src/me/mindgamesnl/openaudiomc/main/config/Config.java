@@ -21,6 +21,8 @@ public class Config {
 	public static String Connect_sound;
 	public static Boolean sream_live;
 	public static String stream_source;
+	public static String web_url;
+	
 	
 	public static void Load() {
 		
@@ -60,13 +62,17 @@ public class Config {
 		Chat_Message_Volume_Set_Error = message_vol_error;
 		
 		
+		String AudioConnectSource = me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().getString("config.webhost");
+		AudioConnectSource = ChatColor.translateAlternateColorCodes('&', AudioConnectSource);
+		AudioConnectSource = ChatColor.translateAlternateColorCodes('$', AudioConnectSource);
+		AudioConnectSource = ChatColor.stripColor(AudioConnectSource);
+		web_url = AudioConnectSource.replace("%client%", "");
 		
 		
 		String AudioConnect = me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().getString("chat.message.connect");
 		AudioConnect = ChatColor.translateAlternateColorCodes('&', AudioConnect);
 		AudioConnect = ChatColor.translateAlternateColorCodes('$', AudioConnect);
-		String AudioConnecthost = ChatColor.translateAlternateColorCodes('&', ChatColor.translateAlternateColorCodes('$', me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().getString("config.webhost")));
-		AudioConnect = AudioConnect.replace("%client%", AudioConnecthost);
+		AudioConnect = AudioConnect.replace("%client%", "");
 		Audio_Web_domain = AudioConnect;
 		
 		

@@ -32,7 +32,7 @@
 	<script src="main/Soundmanager2.js"></script>
 	<script src="dist/sweetalert.min.js"></script>
 	<script type="text/javascript" src="//www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
-	<script src="main/main.js"></script>
+	<script src="main/openaudiomc.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="messages/messages.js"></script>
@@ -53,6 +53,14 @@
 </head>
 
 <body>
+	<div class="loader" id="loading_screen">
+		<center>
+			<img src="Images/small_logo.png" height="400px" width="400px" />
+			<h1>
+				Loading the audio client...
+			</h1>
+		</center>
+	</div>
 	<div id="faders"></div>
 	<div class="middlePage">
 		<input type="range" min="0" id="fade_slider" value="20" max="100" style="display:none;" />

@@ -1,17 +1,14 @@
-var mc_link = {};
-function enable()
-{
+function enable() {
 	client.setblank();
 
-	if (googlecastmode == 1)
-	{
+	if (googlecastmode == 1) {
 		//disable some ui stuff for tv'screen
 		document.getElementById("voltextparant").innerHTML = '<div id="voltextparant"><h1><div id="volume"><small>Volume:</small> 20%</div></h1></div>';
 		document.getElementById("sliderparant").style.display = "none";
 		document.getElementById("cogparent").style.display = "none";
 		//document.getElementById("headerparent").style.display = "none";
 	}
-	
+
 	document.getElementById("cast_logo").style.display = "none";
 	document.getElementById("streaming_status").style.display = "none";
 	document.getElementById("MessageManager").style.display = "none";
@@ -24,18 +21,13 @@ function enable()
 
 	console.info("Connecting to server with name: " + mcname);
 
-	if (window.location.protocol == "http:")
-	{
+	if (window.location.protocol == "http:") {
 		//server is using a non ssl protocol
 		mc_link.connect("ws://" + wshost);
-	}
-	else if (window.location.protocol == "https:")
-	{
+	} else if (window.location.protocol == "https:") {
 		//connect using ssl and websocket
 		mc_link.connect("wss://" + wshost);
-	}
-	else
-	{
+	} else {
 		console.info("Protocol not supported!");
 	}
 
@@ -44,42 +36,36 @@ function enable()
 
 	current_bg = window.location.protocol + "//" + window.location.host + window.location.pathname.replace("index.php", "") + "Images/bg.png";
 
-	setTimeout(function(){
-		if (connection_made === false)
-		{
+	setTimeout(function() {
+		if (connection_made === false) {
 			//Player not found
 			document.getElementById("status").innerHTML = messages.not_found.replace(/%username%/g, mcname);
 		}
 	}, 3000);
 
 	document.addEventListener('DOMContentLoaded', function() {
-		if (!Notification)
-		{
+		if (!Notification) {
 			alert(message.browserfail);
 			return;
 		}
 		if (Notification.permission !== "granted")
 			Notification.requestPermission();
 	});
+	
+	document.getElementById("loading_screen").style.display = "none";
 }
 
 
 
 
-function reenable()
-{
-	if (window.location.protocol == "http:")
-	{
+function reenable() {
+	if (window.location.protocol == "http:") {
 		//server is using a non ssl protocol
 		mc_link.connect("ws://" + wshost);
-	}
-	else if (window.location.protocol == "https:")
-	{
+	} else if (window.location.protocol == "https:") {
 		//connect using ssl and websocket
 		mc_link.connect("wss://" + wshost);
-	}
-	else
-	{
+	} else {
 		console.info("Protocol not supported!");
 	}
 	console.info("Connecting to server with name: " + mcname);
@@ -88,8 +74,7 @@ function reenable()
 	document.getElementById("display_name").innerHTML = messages.status_not_connected.replace(/%username%/g, mcname);
 
 	setTimeout(function() {
-		if (connection_made === false)
-		{
+		if (connection_made === false) {
 			//Player not found
 			document.getElementById("status").innerHTML = messages.not_found.replace(/%username%/g, mcname);
 		}
@@ -98,8 +83,7 @@ function reenable()
 	document.getElementById("MessageManager").style.display = "none";
 	document.getElementById("LiveBox").style.display = "none";
 	document.addEventListener('DOMContentLoaded', function() {
-		if (!Notification)
-		{
+		if (!Notification) {
 			alert(message.browserfail);
 			return;
 		}
@@ -113,12 +97,17 @@ function reenable()
 
 //setup vars
 isFading = {};
+plays = {};
+mc_link = {};
+BungeeCord = {};
 uiExtra = {};
+fadingData = {};
 stopFading = {};
-client = {}
+currentFadingLineRegion = 1;
+client = {};
 play = {};
-UrlDataBase = {}
-openAudioChromeCast = {}
+UrlDataBase = {};
+openAudioChromeCast = {};
 FadeEnabled = true;
 connection_made = false;
 volume = 20;
@@ -126,35 +115,27 @@ volume = 20;
 
 
 
-mc_link.connect = function(host)
-{
-	try
-	{
+mc_link.connect = function(host) {
+	try {
 		ws = new WebSocket(host);
+	} catch (err) {
+		console.log("This browser does not support websocket, welp darnit");
 	}
-	catch(err)
-	{
-		console.log("Websocket error, WHOOPS :/");
-	}
-	
-	ws.onopen = function()
-	{
+
+	ws.onopen = function() {
 		ws.send('{"command":"connect","user":"' + mcname + '"}');
 	};
 
-	ws.onmessage = function(evt)
-	{
+	ws.onmessage = function(evt) {
 		client.Main(evt.data);
 	}
 
 
-	ws.onclose = function()
-	{
+	ws.onclose = function() {
 		client.close();
 	};
 
-	ws.onerror = function(err)
-	{
+	ws.onerror = function(err) {
 		client.close();
 	};
 
@@ -163,16 +144,14 @@ mc_link.connect = function(host)
 
 
 
-client.setblank = function()
-{
+client.setblank = function() {
 	document.getElementById("status").innerHTML = messages.connecting.replace(/%username%/g, mcname);
 }
 
 
 
 
-client.close = function()
-{
+client.close = function() {
 	document.getElementById("status").innerHTML = messages.could_not_connect.replace(/%username%/g, mcname);
 	reconnectpromt();
 	play.stop();
@@ -181,39 +160,26 @@ client.close = function()
 
 
 
-client.Main = function(awesomecode)
-{
+client.Main = function(awesomecode) {
 	json = JSON.parse(awesomecode);
-	
-	if (connection_made === false)
-	{
+
+	if (connection_made === false) {
 		document.getElementById("status").innerHTML = messages.connected.replace(/%username%/g, mcname);
 		connection_made = true;
-	}
-	else if (json.command == "puush_meld")
-	{
+	} else if (json.command == "puush_meld") {
 		play.send(json.message);
-	}
-	else if (json.command == "reconnect")
-	{
-		if (window.location.protocol == "http:")
-		{
+	} else if (json.command == "reconnect") {
+		if (window.location.protocol == "http:") {
 			//server is using a non ssl protocol
 			mc_link.connect("ws://" + json.code);
-		}
-		else if (window.location.protocol == "https:")
-		{
+		} else if (window.location.protocol == "https:") {
 			//connect using ssl and websocket
 			mc_link.connect("wss://" + json.code);
-		}
-		else
-		{
+		} else {
 			console.info("Protocol not supported!");
 		}
 		wshost = json.code;
-	}
-	else if (json.command == "startlive")
-	{
+	} else if (json.command == "startlive") {
 		document.getElementById("LiveBox").style.display = "";
 		soundManager.stop('live');
 		soundManager.destroySound('live');
@@ -223,79 +189,50 @@ client.Main = function(awesomecode)
 			volume: volume,
 			autoPlay: true,
 		});
-	}
-	else if (json.command == "kick")
-	{
+	} else if (json.command == "kick") {
 		window.location.replace("https://www.google.nl/");
-	}
-	else if (json.command == "stoplive")
-	{
+	} else if (json.command == "stoplive") {
 		document.getElementById("LiveBox").className = "animated bounceOutUp";
 		document.getElementById("LiveBox").style.display = "";
 		fadeIdOut("live");
-	}
-	else if (json.command == "setvolume")
-	{
+	} else if (json.command == "setvolume") {
 		client.set_volume(json.target)
-	}
-	else if (json.command == "pause")
-	{
+	} else if (json.command == "pause") {
 		client.pause(json.src);
-	}
-	else if (json.command == "resume")
-	{
+	} else if (json.command == "resume") {
 		client.resume(json.src);
-	}
-	else if (json.command == "play")
-	{
-		if (json.line == "play")
-		{
+	} else if (json.command == "play") {
+		if (json.line == "play") {
 			UrlDataBase.play = json.src;
 			play.normal(json.src);
-		}
-		else if (json.line == "loop")
-		{
+		} else if (json.line == "loop") {
 			UrlDataBase.loop = json.src;
 			play.loop(json.src);
-		}
-		else if (json.line == "region")
-		{
+		} else if (json.line == "region") {
 			UrlDataBase.region = json.src;
 			play.region(json.src);
 		}
-	}
-	else if (json.command == "loadfile")
-	{
+	} else if (json.command == "loadfile") {
 		play.loadfile(json.src);
-	}
-	else if (json.command == "setbg")
-	{
+	} else if (json.command == "setbg") {
 		play.setbg(json.code);
-	}
-	else if (json.command == "playloaded")
-	{
+	} else if (json.command == "playloaded") {
 		play.loadedfile();
-	}
-	else if (json.command == "stopregion")
-	{
+	} else if (json.command == "stopregion") {
 		play.stopregion();
-	}
-	else if (json.command == "stop")
-	{
+	} else if (json.command == "stop") {
 		play.stop();
-	}
-	else if (json.command == "disconnect")
-	{
+	} else if (json.command == "disconnect") {
 		document.getElementById("status").innerHTML = messages.disconnected.replace(/%username%/g, mcname);
+		play.playAction("stop");
+		document.getElementById("LiveBox").className = "animated bounceOutUp";
+		document.getElementById("LiveBox").style.display = "";
+		fadeIdOut("live");
 		play.stopregion();
 		play.stop();
-	}
-	else if (json.command == "connect")
-	{
+	} else if (json.command == "connect") {
 		document.getElementById("status").innerHTML = messages.connected.replace(/%username%/g, mcname);
-	}
-	else
-	{
+	} else {
 		console.info("[core] Invalid json command");
 		//console.log(json);
 	}
@@ -304,46 +241,32 @@ client.Main = function(awesomecode)
 
 
 
-client.pause = function(line)
-{
-	if (line == "play")
-	{
-		if (UrlDataBase[line] != "none")
-		{
+client.pause = function(line) {
+	if (line == "play") {
+		if (UrlDataBase[line] != "none") {
 			//Is playing
 			soundManager.pause(line);
 		}
-	}
-	else if (line == "loop")
-	{
-		if (UrlDataBase[line] != "none")
-		{
+	} else if (line == "loop") {
+		if (UrlDataBase[line] != "none") {
 			//Is playing
 			soundManager.pause(line);
 		}
-	}
-	else if (line == "region")
-	{
-		if (UrlDataBase[line] != "none")
-		{
+	} else if (line == "region") {
+		if (UrlDataBase[line] != "none") {
 			//Is playing
 			soundManager.pause(line);
 		}
-	}
-	else
-	{
-		if (UrlDataBase.play == line)
-		{
+	} else {
+		if (UrlDataBase.play == line) {
 			soundManager.pause("play");
 		}
-		
-		if (UrlDataBase.loop == line)
-		{
+
+		if (UrlDataBase.loop == line) {
 			soundManager.pause("loop");
 		}
 
-		if (UrlDataBase.region == line)
-		{
+		if (UrlDataBase.region == line) {
 			soundManager.pause("region");
 		}
 	}
@@ -352,46 +275,32 @@ client.pause = function(line)
 
 
 
-client.resume = function(line)
-{
-	if (line == "play")
-	{
-		if (UrlDataBase[line] != "none")
-		{
+client.resume = function(line) {
+	if (line == "play") {
+		if (UrlDataBase[line] != "none") {
 			//Is playing
 			soundManager.resume(line);
 		}
-	}
-	else if (line == "loop")
-	{
-		if (UrlDataBase[line] != "none")
-		{
+	} else if (line == "loop") {
+		if (UrlDataBase[line] != "none") {
 			//Is playing
 			soundManager.resume(line);
 		}
-	}
-	else if (line == "region")
-	{
-		if (UrlDataBase[line] != "none")
-		{
+	} else if (line == "region") {
+		if (UrlDataBase[line] != "none") {
 			//Is playing
 			soundManager.resume(line);
 		}
-	}
-	else
-	{
-		if (UrlDataBase.play == line)
-		{
+	} else {
+		if (UrlDataBase.play == line) {
 			soundManager.resume("play");
 		}
 
-		if (UrlDataBase.loop == line)
-		{
+		if (UrlDataBase.loop == line) {
 			soundManager.resume("loop");
 		}
 
-		if (UrlDataBase.region == line)
-		{
+		if (UrlDataBase.region == line) {
 			soundManager.resume("region");
 		}
 	}
@@ -400,24 +309,18 @@ client.resume = function(line)
 
 
 
-client.set_volume = function(volume_var)
-{
-	if (volume_var > 100)
-	{
+client.set_volume = function(volume_var) {
+	if (volume_var > 100) {
 		document.getElementById("slider").value = 100;
 		document.getElementById("volume").innerHTML = messages.volume_max.replace(/{{VOLUME}}/g, volume_var);
 		soundManager.setVolume(100);
 		volume = 100;
-	}
-	else if (volume_var < 0)
-	{
+	} else if (volume_var < 0) {
 		document.getElementById("slider").value = 0;
 		document.getElementById("volume").innerHTML = messages.volume_min.replace(/{{VOLUME}}/g, volume_var);
 		soundManager.setVolume(0);
 		volume = 0;
-	}
-	else
-	{
+	} else {
 		document.getElementById("slider").value = volume_var;
 		volume = volume_var;
 		document.getElementById("volume").innerHTML = messages.volume_var.replace(/{{VOLUME}}/g, volume_var);
@@ -429,22 +332,23 @@ client.set_volume = function(volume_var)
 
 
 
-play.stopregion = function()
-{
+play.stopregion = function() {
 	UrlDataBase.region = "none";
-	fadeIdOut("region");
+	soundManager.stop('region');
+	soundManager.destroySound('region');
 }
 
 
 
 
-play.region = function(src_fo_file)
-{
+play.region = function(src_fo_file) {
 	var soundId = "region";
-	if (isFading[soundId] === true)
-	{
+	if (isFading[soundId] === true) {
 		stopFading[soundId] = true;
 	}
+
+
+
 	soundManager.stop('region');
 	soundManager.destroySound('region');
 	loop_active = true;
@@ -454,8 +358,7 @@ play.region = function(src_fo_file)
 		url: src_fo_file
 	});
 
-	function loopSound(sound)
-	{
+	function loopSound(sound) {
 		sound.play({
 			onfinish: function() {
 				loopSound(sound);
@@ -468,19 +371,43 @@ play.region = function(src_fo_file)
 
 
 
-play.normal = function(src_fo_file)
-{
+function listSounds() {
+	var obj = soundManager.sounds;
+	var str = '';
+	for (var p in obj) {
+		if (obj.hasOwnProperty(p)) {
+			str += p + ",";
+		}
+	}
+	return str;
+}
+
+
+
+
+play.playAction = function(action_is_fnc) {
+	for (var i = 0; i < listSounds().split(',').length; i++) {
+		listSounds().split(',')[i] = listSounds().split(',')[i].replace(/^\s*/, "").replace(/\s*$/, "");
+		if (listSounds().split(',')[i].indexOf("play_") !== -1) {
+			
+			if (action_is_fnc === "stop") {
+				fadeIdOut(listSounds().split(',')[i]);
+			}
+			
+		}
+	}
+}
+
+
+
+
+play.normal = function(src_fo_file) {
 	var soundId = "play";
-	
-	if (isFading[soundId] === true)
-	{
+	if (isFading[soundId] === true) {
 		stopFading[soundId] = true;
 	}
-	
-	soundManager.stop('play');
-	soundManager.destroySound('play');
 	soundManager.createSound({
-		id: "play",
+		id: "play_" + Math.floor(Math.random() * 60) + 1  ,
 		onfinish: function() {
 			UrlDataBase.play = "none";
 		},
@@ -493,14 +420,12 @@ play.normal = function(src_fo_file)
 
 
 
-play.loop = function(src_fo_file)
-{
+play.loop = function(src_fo_file) {
 	var soundId = "loop";
-	if (isFading[soundId] === true)
-	{
+	if (isFading[soundId] === true) {
 		stopFading[soundId] = true;
 	}
-	
+
 	soundManager.stop('loop');
 	soundManager.destroySound('loop');
 	loop_active = true;
@@ -510,8 +435,7 @@ play.loop = function(src_fo_file)
 		url: src_fo_file
 	});
 
-	function loopSound(sound)
-	{
+	function loopSound(sound) {
 		sound.play({
 			onfinish: function() {
 				loopSound(sound);
@@ -524,14 +448,12 @@ play.loop = function(src_fo_file)
 
 
 
-play.stop = function()
-{
+play.stop = function() {
 	UrlDataBase.loop = "none";
 	UrlDataBase.region = "none";
 	UrlDataBase.play = "none";
-
 	loop_active = false;
-	fadeIdOut("play");
+	play.playAction("stop");
 	fadeIdOut("loop");
 	fadeIdOut("region");
 }
@@ -539,18 +461,13 @@ play.stop = function()
 
 
 
-play.send = function(bericht)
-{
-	play.notifictationSound();
+play.send = function(bericht) {
 	var checkbox = document.getElementById("EnableBrowserNotifications");
-	if (checkbox.checked)
-	{
-		if (Notification.permission !== "granted")
-		{
+	if (checkbox.checked) {
+		if (Notification.permission !== "granted") {
 			Notification.requestPermission();
-		}
-		else
-		{
+		} else {
+			play.notifictationSound();
 			bericht = bericht.replace(/_/g, " ");
 			bericht = bericht.replace(/%username%/g, mcname);
 			play.displayMessage(bericht);
@@ -577,9 +494,7 @@ play.send = function(bericht)
 				body: bericht2,
 			});
 		}
-	}
-	else
-	{
+	} else {
 		bericht = bericht.replace(/_/g, " ");
 		bericht = bericht.replace(/%username%/g, mcname);
 		play.displayMessage(bericht);
@@ -589,8 +504,7 @@ play.send = function(bericht)
 
 
 
-play.loadfile = function(file_to_load)
-{
+play.loadfile = function(file_to_load) {
 	loadedsound = soundManager.createSound({
 		id: 'loader',
 		url: file_to_load
@@ -602,8 +516,7 @@ play.loadfile = function(file_to_load)
 
 
 
-play.loadedfile = function()
-{
+play.loadedfile = function() {
 	loadedsound.play({
 		volume: volume
 	});
@@ -612,24 +525,17 @@ play.loadedfile = function()
 
 
 
-play.setbg = function(bgTargetCode)
-{
-	if (bgTargetCode == "reset" || bgTargetCode == "default")
-	{
+play.setbg = function(bgTargetCode) {
+	if (bgTargetCode == "reset" || bgTargetCode == "default") {
 		current_bg = window.location.protocol + "//" + window.location.host + window.location.pathname.replace("index.php", "") + "Images/bg.png";
 		//reset the bg
 		document.body.style.background = 'url("' + window.location.protocol + "//" + window.location.host + window.location.pathname.replace("index.php", "") + "Images/bg.png" + '")';
-	}
-	else
-	{
-		if (bgTargetCode.indexOf('.png') >= 0 || bgTargetCode.indexOf('.jpg') >= 0 || bgTargetCode.indexOf('.jpeg') >= 0 || bgTargetCode.indexOf('.gif') >= 0)
-		{
+	} else {
+		if (bgTargetCode.indexOf('.png') >= 0 || bgTargetCode.indexOf('.jpg') >= 0 || bgTargetCode.indexOf('.jpeg') >= 0 || bgTargetCode.indexOf('.gif') >= 0) {
 			//target is a image
 			current_bg = bgTargetCode;
 			document.body.style.background = "url(\"" + bgTargetCode + "\")";
-		}
-		else
-		{
+		} else {
 			//target is css code
 			document.body.style.background = bgTargetCode;
 		}
@@ -651,8 +557,7 @@ play.notifictationSound = function() {
 
 
 
-play.displayMessage = function(Text)
-{
+play.displayMessage = function(Text) {
 	//create the box
 	document.getElementById("MessageManager").className = "animated bounceInDown";
 	document.getElementById("MessageManager").style.display = "";
@@ -683,10 +588,8 @@ play.displayMessage = function(Text)
 
 
 
-function reconnectpromt()
-{
-	if (googlecastmode != 1)
-	{
+function reconnectpromt() {
+	if (googlecastmode != 1) {
 		swal({
 			title: messages.connection_error_header.replace(/%username%/g, mcname),
 			text: messages.connection_error_content.replace(/%username%/g, mcname),
@@ -715,16 +618,13 @@ var vis = (function() {
 			mozHidden: "mozvisibilitychange",
 			msHidden: "msvisibilitychange"
 		};
-	for (stateKey in keys)
-	{
-		if (stateKey in document)
-		{
+	for (stateKey in keys) {
+		if (stateKey in document) {
 			eventKey = keys[stateKey];
 			break;
 		}
 	}
-	return function(c)
-	{
+	return function(c) {
 		if (c) document.addEventListener(eventKey, c);
 		return !document[stateKey];
 	}
@@ -738,9 +638,7 @@ vis(function() {
 		setTimeout(function() {
 			FadeEnabled = true;
 		}, 300);
-	}
-	else
-	{
+	} else {
 		FadeEnabled = false;
 	}
 });
@@ -750,8 +648,7 @@ vis(function() {
 
 var notIE = (document.documentMode === undefined),
 	isChromium = window.chrome;
-if (notIE && !isChromium)
-{
+if (notIE && !isChromium) {
 	$(window).on("focusin", function() {
 		setTimeout(function() {
 			FadeEnabled = true;
@@ -759,9 +656,7 @@ if (notIE && !isChromium)
 	}).on("focusout", function() {
 		FadeEnabled = false;
 	});
-}
-else
-{
+} else {
 	if (window.addEventListener) {} else {
 		window.attachEvent("focus", function(event) {
 			setTimeout(function() {
@@ -776,11 +671,9 @@ else
 
 
 
-
+//all the fading c
 $(document).ready(function() {
-	window.fadeIdOut = function(soundId)
-	{
-
+	window.fadeIdOut = function(soundId) {
 		var x = document.createElement("INPUT");
 		x.setAttribute("type", "range");
 		document.body.appendChild(x);
@@ -792,8 +685,7 @@ $(document).ready(function() {
 		var backAudio = $('#' + soundId + "_Slider");
 		document.getElementById('faders').appendChild(x);
 
-		if (FadeEnabled === true && document.getElementById("EnableSoundFading").checked)
-		{
+		if (FadeEnabled === true && document.getElementById("EnableSoundFading").checked) {
 			isFading[soundId] = true;
 			backAudio.animate({
 				value: 0
@@ -815,14 +707,50 @@ $(document).ready(function() {
 					x.remove();
 				}
 			});
-		}
-		else
-		{
+		} else {
 			soundManager.stop(soundId);
 			soundManager.destroySound(soundId);
 			x.remove();
 		}
+	}
 
+
+
+
+	window.fadeIdTarget = function(soundId, volumeTarget) {
+		var x = document.createElement("INPUT");
+		x.setAttribute("type", "range");
+		document.body.appendChild(x);
+		x.id = soundId + "_Slider_type_2";
+		x.min = 0;
+		x.max = 100;
+		x.value = volume;
+		x.style = "display:none;";
+		var backAudio = $('#' + soundId + "_Slider_type_2");
+		document.getElementById('faders').appendChild(x);
+
+		if (FadeEnabled === true && document.getElementById("EnableSoundFading").checked) {
+			isFading[soundId] = true;
+			backAudio.animate({
+				value: volumeTarget
+			}, {
+				duration: 1000,
+				step: function(currentLeft, animProperties) {
+					if (stopFading[soundId + "_Slider_type_2"] !== true) {
+						soundManager.setVolume(soundId, currentLeft);
+					}
+				},
+				done: function() {
+					isFading[soundId] = false;
+					stopFading[soundId] = false;
+					soundManager.setVolume(soundId, volumeTarget);
+					x.remove();
+				}
+			});
+		} else {
+			soundManager.setVolume(soundId, volumeTarget);
+			x.remove();
+		}
 	}
 });
 

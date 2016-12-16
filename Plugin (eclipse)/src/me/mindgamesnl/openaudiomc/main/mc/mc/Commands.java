@@ -5,6 +5,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import com.sk89q.worldguard.bukkit.WGBukkit;
@@ -151,6 +153,19 @@ public class Commands implements CommandExecutor {
 									
 								} else if (args[0].equalsIgnoreCase("region")) {
 									if (me.mindgamesnl.openaudiomc.detectors.checkDependencies.dependenciesComplete == true) {
+										
+										
+										if (args[1].equalsIgnoreCase("get")) {
+											 for(ProtectedRegion r : WGBukkit.getRegionManager(((Entity) sender).getWorld()).getApplicableRegions(((Entity) sender).getLocation())) {				
+								    			  if (me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().getBoolean("region.isvalid." + r.getId()) == true) {
+								    				  sender.sendMessage(me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " Sound of current region: " + me.mindgamesnl.openaudiomc.regions.regionManager.getRegionFile(r.getId()));
+								    			  } else {
+								    				  sender.sendMessage(me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " This region does not have sound.");
+								    			  }
+								    		  }
+										}
+										
+										
 										if (args[1].equalsIgnoreCase("delete")) {
 											if (args[2] == "") {
 												sender.sendMessage(me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " Please enter a region name!");
@@ -164,6 +179,19 @@ public class Commands implements CommandExecutor {
 													((Player) sender).chat("/region delete openaudio_" + args[2]);
 													me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().set("region.isvalid.openaudio_" + args[2], false);
 													me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().set("region.src.openaudio_" + args[2], "Deleted!");
+													me.mindgamesnl.openaudiomc.main.Main.getPL().saveConfig();
+													sender.sendMessage(me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " This region is now deleted!");
+												}
+												
+												if (me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().getBoolean("region.isvalid." + args[2]) == false) {
+													sender.sendMessage(me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " This region does not exist!");
+												} else if (me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().getString("region.isvalid." + args[2]).isEmpty()) {
+													sender.sendMessage(me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " This region does not exist!");
+												} else {
+													//conplete command
+													((Player) sender).chat("/region delete " + args[2]);
+													me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().set("region.isvalid." + args[2], false);
+													me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().set("region.src." + args[2], "Deleted!");
 													me.mindgamesnl.openaudiomc.main.Main.getPL().saveConfig();
 													sender.sendMessage(me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " This region is now deleted!");
 												}
@@ -192,6 +220,30 @@ public class Commands implements CommandExecutor {
 												}
 											}
 										}
+										
+										
+										if (args[1].equalsIgnoreCase("import")) {
+											if (args[2] == "") {
+												sender.sendMessage(me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " Please enter a region name!");
+											} else {
+												//region name is given
+												if (args[3] == "") {
+													sender.sendMessage(me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " Please enter a region file!");
+												} else {
+													
+													if (me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().getBoolean("region.isvalid." + args[2]) == true) {
+														sender.sendMessage(me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " This region already has a sound allocated!");
+													} else {
+														//conplete command
+														me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().set("region.isvalid." + args[2], true);
+														me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().set("region.src." + args[2], args[3]);
+														me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().options().copyDefaults(true);
+														me.mindgamesnl.openaudiomc.main.Main.getPL().saveConfig();
+														sender.sendMessage(me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " The value of " + args[2] + " now is " + args[3] + "!");
+													}
+												}
+											}
+										}
 	
 									} else {
 										sender.sendMessage(me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " Not all dependencies are installed, all the region functions will NOT work! please install WorldEdit, WorldGuard and WgRegionEvents!");
@@ -206,7 +258,7 @@ public class Commands implements CommandExecutor {
 										sender.sendMessage("   ");
 										sender.sendMessage("    ");
 										sender.sendMessage("     ");
-										sender.sendMessage("========" + me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " (1/6)");
+										sender.sendMessage("========" + me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " (1/7)");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio play <name> <url> " + ChatColor.GRAY + "Plays a file for a player.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio stop <name> " + ChatColor.GRAY + "Stops all sounds for the player.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /volume <0-100> " + ChatColor.GRAY + "Sets the volume.");
@@ -221,7 +273,7 @@ public class Commands implements CommandExecutor {
 										sender.sendMessage("   ");
 										sender.sendMessage("    ");
 										sender.sendMessage("     ");
-										sender.sendMessage("========" + me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " (1/6)");
+										sender.sendMessage("========" + me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " (1/7)");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio play <name> <url> " + ChatColor.GRAY + "Plays a file for a player.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio stop <name> " + ChatColor.GRAY + "Stops all sounds for the player.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /volume <0-100> " + ChatColor.GRAY + "Sets the volume.");
@@ -236,7 +288,7 @@ public class Commands implements CommandExecutor {
 										sender.sendMessage("   ");
 										sender.sendMessage("    ");
 										sender.sendMessage("     ");
-										sender.sendMessage("========" + me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " (2/6)");
+										sender.sendMessage("========" + me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " (2/7)");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio send <name> <message> " + ChatColor.GRAY + "Send a message to a player.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio loop <name> <url> " + ChatColor.GRAY + "Plays a loop for a player.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio region create <name> <url> " + ChatColor.GRAY + "Create a region with music.");
@@ -251,7 +303,7 @@ public class Commands implements CommandExecutor {
 										sender.sendMessage("   ");
 										sender.sendMessage("    ");
 										sender.sendMessage("     ");
-										sender.sendMessage("========" + me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " (3/6)");
+										sender.sendMessage("========" + me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " (3/7)");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio setbg <name> <code/url/reset> " + ChatColor.GRAY + "Set a background image/color.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio buffer <name> <url> " + ChatColor.GRAY + "Buffer a sound.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio playbuffer <name> <url> " + ChatColor.GRAY + "Start sound in buffer.");
@@ -267,7 +319,7 @@ public class Commands implements CommandExecutor {
 										sender.sendMessage("   ");
 										sender.sendMessage("    ");
 										sender.sendMessage("     ");
-										sender.sendMessage("========" + me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " (4/6)");
+										sender.sendMessage("========" + me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " (4/7)");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio live start <stream> " + ChatColor.GRAY + "Start a live stream.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio live stop " + ChatColor.GRAY + "Stop a live stream.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio playregion <region> <url> " + ChatColor.GRAY + "Start sound for all the players in a region.");
@@ -281,7 +333,7 @@ public class Commands implements CommandExecutor {
 										sender.sendMessage("   ");
 										sender.sendMessage("    ");
 										sender.sendMessage("     ");
-										sender.sendMessage("========" + me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " (5/6)");
+										sender.sendMessage("========" + me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " (5/7)");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio debug <JSON> " + ChatColor.GRAY + "Send json string to all clients.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio kick <name> " + ChatColor.GRAY + "Kick a user from openaudio.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio reconnect <name> <new ws host> " + ChatColor.GRAY + "Connect a user to an other bungeecord server.");
@@ -297,7 +349,7 @@ public class Commands implements CommandExecutor {
 										sender.sendMessage("   ");
 										sender.sendMessage("    ");
 										sender.sendMessage("     ");
-										sender.sendMessage("========" + me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " (6/6)");
+										sender.sendMessage("========" + me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " (6/7)");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio group add <group name> " + ChatColor.GRAY + "Create a player group.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio group delete <group name> " + ChatColor.GRAY + "Delete a player group.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio group join <player> <group> " + ChatColor.GRAY + "Add a player to a group.");
@@ -306,6 +358,16 @@ public class Commands implements CommandExecutor {
 										
 										
 										
+									} else if (args[1].equalsIgnoreCase("7")) {
+										
+										sender.sendMessage("");
+										sender.sendMessage(" ");
+										sender.sendMessage("  ");
+										sender.sendMessage("   ");
+										sender.sendMessage("    ");
+										sender.sendMessage("     ");
+										sender.sendMessage("========" + me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " (7/7)");
+										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio region import <region name> <sound> " + ChatColor.GRAY + "assign music to an existing region.");										
 									}
 								}
 						} else {
@@ -316,16 +378,12 @@ public class Commands implements CommandExecutor {
 						sender.sendMessage(me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " You don't have the required permissions! (openaudio.admin)!");
 					}
 					return true;
-				} else if (cmd.getName().equalsIgnoreCase("audio")) {
+				} else if (cmd.getName().equalsIgnoreCase("audio") || cmd.getName().equalsIgnoreCase("connect")) {
 					
-					sender.sendMessage(me.mindgamesnl.openaudiomc.main.config.Config.Chat_Header_audio + me.mindgamesnl.openaudiomc.main.config.Config.Audio_Web_domain.replace("%username%", sender.getName()));
-					
-					
-					return true;
-				} else if (cmd.getName().equalsIgnoreCase("connect")) {
-					
-					sender.sendMessage(me.mindgamesnl.openaudiomc.main.config.Config.Chat_Header_audio + me.mindgamesnl.openaudiomc.main.config.Config.Audio_Web_domain.replace("%username%", sender.getName()));
-					
+
+					ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
+					String command = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + me.mindgamesnl.openaudiomc.main.config.Config.Chat_Header_audio + me.mindgamesnl.openaudiomc.main.config.Config.Audio_Web_domain.replace("%username%", sender.getName()) + "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + me.mindgamesnl.openaudiomc.main.config.Config.web_url.replace("%username%", sender.getName()) + "\"}}]" + "";
+					Bukkit.dispatchCommand(console, command);
 					
 					return true;
 				} else if (cmd.getName().equalsIgnoreCase("volume")) {
@@ -356,6 +414,7 @@ public class Commands implements CommandExecutor {
 		}
 	}
 	
+
 	public static boolean isInt(String s) {
 	    try {
 	        Integer.parseInt(s);
