@@ -48,10 +48,10 @@ public class Main extends JavaPlugin implements Listener{
 		
 		
 		//create and register listeners
-		this.getCommand("openaudio").setExecutor(new me.mindgamesnl.openaudiomc.main.mc.mc.Commands());
-		this.getCommand("connect").setExecutor(new me.mindgamesnl.openaudiomc.main.mc.mc.Commands());
-		this.getCommand("audio").setExecutor(new me.mindgamesnl.openaudiomc.main.mc.mc.Commands());
-		this.getCommand("volume").setExecutor(new me.mindgamesnl.openaudiomc.main.mc.mc.Commands());
+		this.getCommand("openaudio").setExecutor(new me.mindgamesnl.openaudiomc.commands.Commands());
+		this.getCommand("connect").setExecutor(new me.mindgamesnl.openaudiomc.commands.Commands());
+		this.getCommand("audio").setExecutor(new me.mindgamesnl.openaudiomc.commands.Commands());
+		this.getCommand("volume").setExecutor(new me.mindgamesnl.openaudiomc.commands.Commands());
 		getServer().getPluginManager().registerEvents(this, this);
 		PluginManager pm = Bukkit.getServer().getPluginManager();
         pm.registerEvents(this, this);

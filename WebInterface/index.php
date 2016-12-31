@@ -38,6 +38,7 @@ if (file_get_contents("php/data/save.txt") === "true") {
             echo "<center><h1>Error while loading cast client</p></center>";
         } else {
             $mcname = $_GET['user'];
+            $session = $_GET['session'];
             $sport  = file_get_contents("php/data/wsdata.txt");
             $identity = getUserIP();
             $googlecast = true;
@@ -54,6 +55,7 @@ if (file_get_contents("php/data/save.txt") === "true") {
            include("php/inc/login.php");
         } else {
             $mcname = $_GET['user'];
+            $session = $_GET['session'];
             $sport  = file_get_contents("php/data/wsdata.txt");
             //nog niet in gebruik maar zit er vast in
             $identity = getUserIP();
@@ -77,6 +79,7 @@ if (file_get_contents("php/data/save.txt") === "true") {
                 echo "<center><h1>Error while loading cast client</p></center>";
             } else {
                 $mcname = $_GET['user'];
+                $session = $_GET['session'];               
                 $sport  = htmlspecialchars(strip_tags($_GET["wsdata"]), ENT_QUOTES, 'UTF-8');
                 $identity = getUserIP();
                 $googlecast = true;
@@ -92,6 +95,7 @@ if (file_get_contents("php/data/save.txt") === "true") {
                include("php/inc/login.php");
             } else {
                 $mcname = $_GET['user'];
+                $session = $_GET['session'];
                 $sport = htmlspecialchars(strip_tags($_GET["wsdata"]), ENT_QUOTES, 'UTF-8');
                 //nog niet in gebruik maar zit er vast in
                 $identity = getUserIP();

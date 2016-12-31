@@ -53,6 +53,63 @@ function enable() {
 	});
 	
 	document.getElementById("loading_screen").style.display = "none";
+	
+	settings.setDefault();
+	settings.apply();
+}
+
+
+
+
+function bungeecord_send(bungeeip) {
+	client.setblank();
+
+	if (googlecastmode == 1) {
+		//disable some ui stuff for tv'screen
+		document.getElementById("voltextparant").innerHTML = '<div id="voltextparant"><h1><div id="volume"><small>Volume:</small> 20%</div></h1></div>';
+		document.getElementById("sliderparant").style.display = "none";
+		document.getElementById("cogparent").style.display = "none";
+		//document.getElementById("headerparent").style.display = "none";
+	}
+
+	document.getElementById("cast_logo").style.display = "none";
+	document.getElementById("streaming_status").style.display = "none";
+	document.getElementById("MessageManager").style.display = "none";
+	document.getElementById("LiveBox").style.display = "none";
+	
+	/*
+	leaving the openaudio credits would be nice but no one is holding you back from removing it
+	*/
+	console.info("\n--==[OpenAudioMc]==--\nOpenAudioMc by: Mindgamesnl\nSpigot: https://www.spigotmc.org/resources/openaudiomc.30691/\nGithub: https://github.com/Mindgamesnl/OpenAudioMc\n--==[OpenAudioMc]==--\n\n");
+
+	console.info("Connecting to other server with name: " + mcname);
+
+	wshost = bungeeip;
+	if (window.location.protocol == "http:") {
+		//server is using a non ssl protocol
+		mc_link.connect("ws://" + bungeeip);
+	} else if (window.location.protocol == "https:") {
+		//connect using ssl and websocket
+		mc_link.connect("wss://" + bungeeip);
+	} else {
+		console.info("Protocol not supported!");
+	}
+
+	//hi there
+	document.getElementById("status").innerHTML = "Status: <font style='color:Red;'>Switching hosts</font>";
+
+	current_bg = window.location.protocol + "//" + window.location.host + window.location.pathname.replace("index.php", "") + "Images/bg.png";
+
+	document.addEventListener('DOMContentLoaded', function() {
+		if (!Notification) {
+			alert(message.browserfail);
+			return;
+		}
+		if (Notification.permission !== "granted")
+			Notification.requestPermission();
+	});
+	
+	document.getElementById("loading_screen").style.display = "none";
 }
 
 
@@ -98,6 +155,7 @@ function reenable() {
 //setup vars
 isFading = {};
 plays = {};
+settings = {};
 mc_link = {};
 BungeeCord = {};
 uiExtra = {};
@@ -123,7 +181,7 @@ mc_link.connect = function(host) {
 	}
 
 	ws.onopen = function() {
-		ws.send('{"command":"connect","user":"' + mcname + '"}');
+		ws.send('{"command":"connect","user":"' + mcname + '","sessionkey":"' + sessionToken + '"}');
 	};
 
 	ws.onmessage = function(evt) {
@@ -161,80 +219,88 @@ client.close = function() {
 
 
 client.Main = function(awesomecode) {
-	json = JSON.parse(awesomecode);
-
-	if (connection_made === false) {
-		document.getElementById("status").innerHTML = messages.connected.replace(/%username%/g, mcname);
-		connection_made = true;
-	} else if (json.command == "puush_meld") {
-		play.send(json.message);
-	} else if (json.command == "reconnect") {
-		if (window.location.protocol == "http:") {
-			//server is using a non ssl protocol
-			mc_link.connect("ws://" + json.code);
-		} else if (window.location.protocol == "https:") {
-			//connect using ssl and websocket
-			mc_link.connect("wss://" + json.code);
-		} else {
-			console.info("Protocol not supported!");
-		}
-		wshost = json.code;
-	} else if (json.command == "startlive") {
-		document.getElementById("LiveBox").style.display = "";
-		soundManager.stop('live');
-		soundManager.destroySound('live');
-		var mySoundObject = soundManager.createSound({
-			id: "live",
-			url: json.src,
-			volume: volume,
-			autoPlay: true,
+	
+	if (awesomecode === "invalidsession") {
+		swal({
+			title: "Invalid session!",
+			text: "We think that you are not the real <i>" + mcname +" </i>.<br />Please request a new url via <b>/audio</b> or <b>/connect</b>.",
+			showCancelButton: false,
+			allowOutsideClick: false,
+			allowEscapeKey: false,
+			showConfirmButton: false,
+			html: true
+		}, function() {
 		});
-	} else if (json.command == "kick") {
-		window.location.replace("https://www.google.nl/");
-	} else if (json.command == "stoplive") {
-		document.getElementById("LiveBox").className = "animated bounceOutUp";
-		document.getElementById("LiveBox").style.display = "";
-		fadeIdOut("live");
-	} else if (json.command == "setvolume") {
-		client.set_volume(json.target)
-	} else if (json.command == "pause") {
-		client.pause(json.src);
-	} else if (json.command == "resume") {
-		client.resume(json.src);
-	} else if (json.command == "play") {
-		if (json.line == "play") {
-			UrlDataBase.play = json.src;
-			play.normal(json.src);
-		} else if (json.line == "loop") {
-			UrlDataBase.loop = json.src;
-			play.loop(json.src);
-		} else if (json.line == "region") {
-			UrlDataBase.region = json.src;
-			play.region(json.src);
-		}
-	} else if (json.command == "loadfile") {
-		play.loadfile(json.src);
-	} else if (json.command == "setbg") {
-		play.setbg(json.code);
-	} else if (json.command == "playloaded") {
-		play.loadedfile();
-	} else if (json.command == "stopregion") {
-		play.stopregion();
-	} else if (json.command == "stop") {
-		play.stop();
-	} else if (json.command == "disconnect") {
-		document.getElementById("status").innerHTML = messages.disconnected.replace(/%username%/g, mcname);
-		play.playAction("stop");
-		document.getElementById("LiveBox").className = "animated bounceOutUp";
-		document.getElementById("LiveBox").style.display = "";
-		fadeIdOut("live");
-		play.stopregion();
-		play.stop();
-	} else if (json.command == "connect") {
-		document.getElementById("status").innerHTML = messages.connected.replace(/%username%/g, mcname);
 	} else {
-		console.info("[core] Invalid json command");
-		//console.log(json);
+	
+		json = JSON.parse(awesomecode);
+
+		if (connection_made === false) {
+			document.getElementById("status").innerHTML = messages.connected.replace(/%username%/g, mcname);
+			connection_made = true;
+		} else if (json.command == "puush_meld") {
+			play.send(json.message);
+		} else if (json.command == "reconnect") {
+			bungeecord_send(json.code);
+			wshost = json.code;
+		} else if (json.command == "startlive") {
+			document.getElementById("LiveBox").style.display = "";
+			soundManager.stop('live');
+			soundManager.destroySound('live');
+			var mySoundObject = soundManager.createSound({
+				id: "live",
+				url: json.src,
+				volume: volume,
+				autoPlay: true,
+			});
+		} else if (json.command == "kick") {
+			window.location.replace("https://www.google.nl/");
+		} else if (json.command == "stoplive") {
+			document.getElementById("LiveBox").className = "animated bounceOutUp";
+			document.getElementById("LiveBox").style.display = "";
+			fadeIdOut("live");
+		} else if (json.command == "setvolume") {
+			document.cookie = "volume=" + json.target;
+			client.set_volume(json.target)
+		} else if (json.command == "pause") {
+			client.pause(json.src);
+		} else if (json.command == "resume") {
+			client.resume(json.src);
+		} else if (json.command == "play") {
+			if (json.line == "play") {
+				UrlDataBase.play = json.src;
+				play.normal(json.src);
+			} else if (json.line == "loop") {
+				UrlDataBase.loop = json.src;
+				play.loop(json.src);
+			} else if (json.line == "region") {
+				UrlDataBase.region = json.src;
+				play.region(json.src);
+			}
+		} else if (json.command == "loadfile") {
+			play.loadfile(json.src);
+		} else if (json.command == "setbg") {
+			play.setbg(json.code);
+		} else if (json.command == "playloaded") {
+			play.loadedfile();
+		} else if (json.command == "stopregion") {
+			play.stopregion();
+		} else if (json.command == "stop") {
+			play.stop();
+		} else if (json.command == "disconnect") {
+			document.getElementById("status").innerHTML = messages.disconnected.replace(/%username%/g, mcname);
+			play.playAction("stop");
+			document.getElementById("LiveBox").className = "animated bounceOutUp";
+			document.getElementById("LiveBox").style.display = "";
+			fadeIdOut("live");
+			play.stopregion();
+			play.stop();
+		} else if (json.command == "connect") {
+			document.getElementById("status").innerHTML = messages.connected.replace(/%username%/g, mcname);
+		} else {
+			console.info("[core] Invalid json command");
+			//console.log(json);
+		}
 	}
 }
 
@@ -755,6 +821,65 @@ $(document).ready(function() {
 });
 
 
+
+settings.get = function(name) {
+	var value = "; " + document.cookie;
+  var parts = value.split("; " + name + "=");
+  if (parts.length == 2) {
+		return parts.pop().split(";").shift();
+	}
+}
+
+
+
+settings.displaySkull = function(status) {
+	if (status === true) {
+		document.getElementById("skullframething").style.display = "";
+		document.getElementById("contentBoxMain").className = "col-md-8";
+	} else if (status === false) {
+		document.getElementById("skullframething").style.display = "none";
+		document.getElementById("contentBoxMain").className = "col-md-12";
+	}
+}
+
+
+
+settings.setDefault = function() {
+	if (settings.get("saved") !== "true") {
+		console.info("Set settings to default (first time use)");
+		document.cookie = "volume=20";
+		document.cookie = "show_skull=true";
+		document.cookie = "smart_volume=true";
+		document.cookie = "browser_notifications=true";
+		document.cookie = "sound_fading=true";
+		document.cookie = "saved=true";
+	}
+}
+
+
+
+settings.apply = function() {
+	if ((settings.get("smart_volume") === "true")) {
+		client.set_volume(parseInt(settings.get("volume")));
+		document.getElementById("slider").value = parseInt(settings.get("volume"));
+		document.getElementById("volume").innerHTML = messages.volume_var.replace(/{{VOLUME}}/g, settings.get("volume"));	
+	}
+	document.getElementById("show_skull").checked = (settings.get("show_skull") === "true");
+	settings.displaySkull((settings.get("show_skull") === "true"));
+	document.getElementById("smart_volume").checked = (settings.get("smart_volume") === "true");
+	document.getElementById("EnableBrowserNotifications").checked = (settings.get("browser_notifications") === "true");
+	document.getElementById("EnableSoundFading").checked = (settings.get("sound_fading") === "true");
+}
+
+
+
+settings.update = function() {
+	document.cookie = "volume=" + volume;
+	document.cookie = "show_skull=" + document.getElementById("show_skull").checked;
+	document.cookie = "smart_volume=" + document.getElementById("smart_volume").checked;
+	document.cookie = "browser_notifications=" + document.getElementById("EnableBrowserNotifications").checked;
+	document.cookie = "sound_fading=" + document.getElementById("EnableSoundFading").checked;
+}
 
 
 //google cast code is in openaudio-tv.js

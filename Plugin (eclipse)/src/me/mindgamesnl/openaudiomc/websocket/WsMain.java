@@ -36,7 +36,25 @@ public class WsMain extends WebSocketServer {
  
     @Override
     public void onMessage(WebSocket conn, String message) {
-    	me.mindgamesnl.openaudiomc.websocketReceiver.Receiver.Decode(conn, message);
+    	try {
+    		if (me.mindgamesnl.openaudiomc.websocketReceiver.Receiver.Decode(conn, message) == true) {
+    			//correct and succesfull session
+    		} else {
+    			//failed to generate session (invalid id/key?)
+    			Collection<WebSocket> con = connections();
+    	        synchronized (con) {
+    	            for (WebSocket c : con) {
+    	                if (c.getRemoteSocketAddress().equals(conn.getRemoteSocketAddress())) {
+    	                    c.send("invalidsession");
+    	                }
+    	            }
+    	        }
+    		}
+  		} catch (IndexOutOfBoundsException e) {
+  		    System.err.println("IndexOutOfBoundsException: " + e.getMessage());
+  		    System.out.println("OpenAudio detected a fake user login, blocked possible attack");
+  		}
+    	
     }
  
     public static void runServer() throws InterruptedException, IOException {

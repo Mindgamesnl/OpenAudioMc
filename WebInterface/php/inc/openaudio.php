@@ -45,8 +45,13 @@
 	}
 	?>
 		<script>
+			//username
 			mcname = "<?php echo htmlspecialchars(strip_tags($mcname), ENT_QUOTES, 'UTF-8'); ?>";
+			//user sessionToken
+			sessionToken = "<?= htmlspecialchars(strip_tags($session), ENT_QUOTES, 'UTF-8'); ?>";
+			//hostname
 			wshost = "<?= htmlspecialchars(strip_tags($sport), ENT_QUOTES, 'UTF-8'); ?>";
+			//get client status
 			googlecastmode = "<?= htmlspecialchars(strip_tags($googlecast), ENT_QUOTES, 'UTF-8'); ?>";
 		</script>
 
@@ -76,10 +81,10 @@
 			</div>
 			<div class="panel-body">
 				<div class="row">
-					<div class="col-md-4">
+					<div class="col-md-4" id="skullframething">
 						<center><img id="face" src="https://crafatar.com/avatars/<?php echo htmlspecialchars(strip_tags($mcname), ENT_QUOTES, 'UTF-8'); ?>"></center>
 					</div>
-					<div class="col-md-8" style="border-left:1px solid #ccc;height:160px">
+					<div class="col-md-8" id="contentBoxMain" style="border-left:1px solid #ccc;height:160px">
 						<form class="form-horizontal">
 							<fieldset>
 								<div id="cogparent"><img class="btn-clipboard2 streamingLogo" id="cast_logo" src="Images/google-cast-logo.png" onclick="startCasting();"></img><i class="btn-clipboard fa fa-cog fa-2x" onmouseover="this.className='draai btn-clipboard fa fa-cog fa-2x';" onmouseout="this.className='btn-clipboard fa fa-cog fa-2x';"
@@ -91,7 +96,7 @@
 								</div>
 
 								<div id="sliderparant">
-									<div class="slider"><input type="range" min="0" id="slider" max="100" value="20" oninput="client.set_volume(this.value); document.getElementById('volume').innerHTML = 'Volume: ' + this.value + '%';" /></div>
+									<div class="slider"><input type="range" min="0" id="slider" max="100" value="20" oninput="client.set_volume(this.value); document.getElementById('volume').innerHTML = 'Volume: ' + this.value + '%';" onchange='document.cookie = "volume=" + this.value;' /></div>
 								</div>
 							</fieldset>
 						</form>
@@ -144,8 +149,10 @@
 				</div>
 				<div class="modal-body">
 					<hr />
-					<input type="checkbox" name="EnableBrowserNotifications" id="EnableBrowserNotifications" checked/> Enable browser nofifications.<br />
-					<input type="checkbox" name="EnableSoundFading" id="EnableSoundFading" checked/> Enable sound fading when available.
+					<input type="checkbox" name="show_skull" id="show_skull" onchange='document.cookie="show_skull="+this.checked; settings.displaySkull(this.checked);'/> Show minecraft skull on main page.<br />
+					<input type="checkbox" name="smart_volume" id="smart_volume" onchange='document.cookie="smart_volume="+this.checked; settings.displaySkull(this.checked);'/> Remember my volume for when i return later.<br />
+					<input type="checkbox" name="EnableBrowserNotifications" id="EnableBrowserNotifications" onchange='document.cookie="browser_notifications="+this.checked;'/> Enable browser nofifications.<br />
+					<input type="checkbox" name="EnableSoundFading" id="EnableSoundFading" onchange='document.cookie="sound_fading="+this.checked;'/> Enable sound fading when available.
 					<p style="display:inline;">May cause performance issues</p>
 					<hr />
 					<b>*TIP* Did you know that you can use <i>/volume [number]</i> to change the volume in the server?</b>
@@ -154,7 +161,7 @@
 						OpenAudioMC, the free and easy to use audio server and client.
 					</p>
 					<i class="fa fa-github fa-3x" aria-hidden="true" onclick="window.open('https://github.com/Mindgamesnl/OpenAudioMc')"></i>
-					<i class="fa fa-comment fa-3x" aria-hiddenk="true" onclick="window.open('https://www.spigotmc.org/resources/openaudiomc.30691/')"> </i>
+					<i class="fa fa-globe fa-3x" aria-hidden="true" onclick="window.open('https://www.spigotmc.org/resources/openaudiomc.30691/')"></i>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
