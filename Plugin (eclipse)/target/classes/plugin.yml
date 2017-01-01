@@ -3,7 +3,7 @@ description: THE opensource audio server!
 author: Mindgamesnl
 website: http://www.craftmend.com/
 prefix: OpenAudio
-version: 1.6
+version: 1.6.2
 main: me.mindgamesnl.openaudiomc.main.Main
 softdepend: [WorldGuard,WorldEdit,WGRegionEvents]
 commands:
@@ -16,6 +16,26 @@ commands:
       premission: mindgamesnl.websocket.connect
       premission-message: u mag dit command niet doen
    audio:
+      description: mcwebsocket connect
+      premission: mindgamesnl.websocket.connect
+      premission-message: u mag dit command niet doen
+   music:
+      description: mcwebsocket connect
+      premission: mindgamesnl.websocket.connect
+      premission-message: u mag dit command niet doen
+   sound:
+      description: mcwebsocket connect
+      premission: mindgamesnl.websocket.connect
+      premission-message: u mag dit command niet doen
+   muziek:
+      description: mcwebsocket connect
+      premission: mindgamesnl.websocket.connect
+      premission-message: u mag dit command niet doen
+   audioclient:
+      description: mcwebsocket connect
+      premission: mindgamesnl.websocket.connect
+      premission-message: u mag dit command niet doen
+   audioserver:
       description: mcwebsocket connect
       premission: mindgamesnl.websocket.connect
       premission-message: u mag dit command niet doen

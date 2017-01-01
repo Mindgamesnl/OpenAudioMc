@@ -149,11 +149,20 @@
 				</div>
 				<div class="modal-body">
 					<hr />
-					<input type="checkbox" name="show_skull" id="show_skull" onchange='document.cookie="show_skull="+this.checked; settings.displaySkull(this.checked);'/> Show minecraft skull on main page.<br />
-					<input type="checkbox" name="smart_volume" id="smart_volume" onchange='document.cookie="smart_volume="+this.checked; settings.displaySkull(this.checked);'/> Remember my volume for when i return later.<br />
-					<input type="checkbox" name="EnableBrowserNotifications" id="EnableBrowserNotifications" onchange='document.cookie="browser_notifications="+this.checked;'/> Enable browser nofifications.<br />
-					<input type="checkbox" name="EnableSoundFading" id="EnableSoundFading" onchange='document.cookie="sound_fading="+this.checked;'/> Enable sound fading when available.
+					<input type="checkbox" name="show_skull" id="show_skull" onchange='document.cookie="show_skull="+this.checked; settings.displaySkull(this.checked);' /> Show minecraft skull on main page.<br />
+					<input type="checkbox" name="smart_volume" id="smart_volume" onchange='document.cookie="smart_volume="+this.checked; settings.displaySkull(this.checked);' /> Remember my volume for when i return later.<br />
+					<input type="checkbox" name="EnableBrowserNotifications" id="EnableBrowserNotifications" onchange='document.cookie="browser_notifications="+this.checked;' /> Enable browser nofifications.<br />
+					<input type="checkbox" name="EnableSoundFading" id="EnableSoundFading" onchange='document.cookie="sound_fading="+this.checked;' /> Enable sound fading when available.
 					<p style="display:inline;">May cause performance issues</p>
+					<hr /> 
+					<div class="form-group">
+						<label for="sel1">Fading speed</label>
+						<select class="form-control" id="fadingpseed" onchange='document.cookie = "sound_fading_speed="+getFadingType();'>
+							<option id="fading_speed_slow">Slow</option>
+							<option id="fading_speed_normal">Normal</option>
+							<option id="fading_speed_fast">Fast</option>
+  					</select>
+					</div>
 					<hr />
 					<b>*TIP* Did you know that you can use <i>/volume [number]</i> to change the volume in the server?</b>
 					<hr />

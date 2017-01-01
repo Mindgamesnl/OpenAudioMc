@@ -51,9 +51,9 @@ function enable() {
 		if (Notification.permission !== "granted")
 			Notification.requestPermission();
 	});
-	
+
 	document.getElementById("loading_screen").style.display = "none";
-	
+
 	settings.setDefault();
 	settings.apply();
 }
@@ -76,7 +76,7 @@ function bungeecord_send(bungeeip) {
 	document.getElementById("streaming_status").style.display = "none";
 	document.getElementById("MessageManager").style.display = "none";
 	document.getElementById("LiveBox").style.display = "none";
-	
+
 	/*
 	leaving the openaudio credits would be nice but no one is holding you back from removing it
 	*/
@@ -108,7 +108,7 @@ function bungeecord_send(bungeeip) {
 		if (Notification.permission !== "granted")
 			Notification.requestPermission();
 	});
-	
+
 	document.getElementById("loading_screen").style.display = "none";
 }
 
@@ -219,20 +219,19 @@ client.close = function() {
 
 
 client.Main = function(awesomecode) {
-	
+
 	if (awesomecode === "invalidsession") {
 		swal({
 			title: "Invalid session!",
-			text: "We think that you are not the real <i>" + mcname +" </i>.<br />Please request a new url via <b>/audio</b> or <b>/connect</b>.",
+			text: "We think that you are not the real <i>" + mcname + " </i>.<br />Please request a new url via <b>/audio</b> or <b>/connect</b>.",
 			showCancelButton: false,
 			allowOutsideClick: false,
 			allowEscapeKey: false,
 			showConfirmButton: false,
 			html: true
-		}, function() {
-		});
+		}, function() {});
 	} else {
-	
+
 		json = JSON.parse(awesomecode);
 
 		if (connection_made === false) {
@@ -261,7 +260,7 @@ client.Main = function(awesomecode) {
 			fadeIdOut("live");
 		} else if (json.command == "setvolume") {
 			document.cookie = "volume=" + json.target;
-			client.set_volume(json.target)
+			fadeAllTarget(json.target)
 		} else if (json.command == "pause") {
 			client.pause(json.src);
 		} else if (json.command == "resume") {
@@ -398,6 +397,26 @@ client.set_volume = function(volume_var) {
 
 
 
+client.set_volume_blind = function(volume_var) {
+	if (volume_var > 100) {
+		document.getElementById("slider").value = 100;
+		soundManager.setVolume(100);
+		volume = 100;
+	} else if (volume_var < 0) {
+		document.getElementById("slider").value = 0;
+		soundManager.setVolume(0);
+		volume = 0;
+	} else {
+		document.getElementById("slider").value = volume_var;
+		volume = volume_var;
+		soundManager.setVolume(volume_var);
+
+	}
+}
+
+
+
+
 play.stopregion = function() {
 	UrlDataBase.region = "none";
 	soundManager.stop('region');
@@ -455,11 +474,11 @@ play.playAction = function(action_is_fnc) {
 	for (var i = 0; i < listSounds().split(',').length; i++) {
 		listSounds().split(',')[i] = listSounds().split(',')[i].replace(/^\s*/, "").replace(/\s*$/, "");
 		if (listSounds().split(',')[i].indexOf("play_") !== -1) {
-			
+
 			if (action_is_fnc === "stop") {
 				fadeIdOut(listSounds().split(',')[i]);
 			}
-			
+
 		}
 	}
 }
@@ -473,7 +492,7 @@ play.normal = function(src_fo_file) {
 		stopFading[soundId] = true;
 	}
 	soundManager.createSound({
-		id: "play_" + Math.floor(Math.random() * 60) + 1  ,
+		id: "play_" + Math.floor(Math.random() * 60) + 1,
 		onfinish: function() {
 			UrlDataBase.play = "none";
 		},
@@ -737,6 +756,13 @@ if (notIE && !isChromium) {
 
 
 
+function isInt(n) {
+	return Number(n) === n && n % 1 === 0;
+}
+
+
+
+
 //all the fading c
 $(document).ready(function() {
 	window.fadeIdOut = function(soundId) {
@@ -756,7 +782,7 @@ $(document).ready(function() {
 			backAudio.animate({
 				value: 0
 			}, {
-				duration: 1000,
+				duration: getFadingSpeed(),
 				step: function(currentLeft, animProperties) {
 					//call event when a sound started
 					if (stopFading[soundId] !== true) {
@@ -800,7 +826,7 @@ $(document).ready(function() {
 			backAudio.animate({
 				value: volumeTarget
 			}, {
-				duration: 1000,
+				duration: getFadingSpeed(),
 				step: function(currentLeft, animProperties) {
 					if (stopFading[soundId + "_Slider_type_2"] !== true) {
 						soundManager.setVolume(soundId, currentLeft);
@@ -818,14 +844,52 @@ $(document).ready(function() {
 			x.remove();
 		}
 	}
+
+
+
+	window.fadeAllTarget = function(volumeTarget) {
+		var x = document.createElement("INPUT");
+		x.setAttribute("type", "range");
+		document.body.appendChild(x);
+		x.id = "global_Slider_type_2";
+		x.min = 0;
+		x.max = 100;
+		x.value = volume;
+		x.style = "display:none;";
+		var backAudio = $('#' + "global_Slider_type_2");
+		document.getElementById('faders').appendChild(x);
+
+		if (FadeEnabled === true && document.getElementById("EnableSoundFading").checked) {
+			isFading["global_Slider_type_2"] = true;
+			backAudio.animate({
+				value: volumeTarget
+			}, {
+				duration: getFadingSpeed(),
+				step: function(currentLeft, animProperties) {
+					if (stopFading["global_Slider_type_2"] !== true) {
+						client.set_volume_blind(currentLeft);
+					}
+				},
+				done: function() {
+					isFading["global_Slider_type_2"] = false;
+					stopFading["global_Slider_type_2"] = false;
+					client.set_volume(volumeTarget);
+					x.remove();
+				}
+			});
+		} else {
+			client.set_volume(volumeTarget);
+			x.remove();
+		}
+	}
 });
 
 
 
 settings.get = function(name) {
 	var value = "; " + document.cookie;
-  var parts = value.split("; " + name + "=");
-  if (parts.length == 2) {
+	var parts = value.split("; " + name + "=");
+	if (parts.length == 2) {
 		return parts.pop().split(";").shift();
 	}
 }
@@ -848,10 +912,12 @@ settings.setDefault = function() {
 	if (settings.get("saved") !== "true") {
 		console.info("Set settings to default (first time use)");
 		document.cookie = "volume=20";
+		document.cookie = "volume=normal";
 		document.cookie = "show_skull=true";
 		document.cookie = "smart_volume=true";
 		document.cookie = "browser_notifications=true";
 		document.cookie = "sound_fading=true";
+		document.cookie = "sound_fading_speed=slow";
 		document.cookie = "saved=true";
 	}
 }
@@ -862,8 +928,9 @@ settings.apply = function() {
 	if ((settings.get("smart_volume") === "true")) {
 		client.set_volume(parseInt(settings.get("volume")));
 		document.getElementById("slider").value = parseInt(settings.get("volume"));
-		document.getElementById("volume").innerHTML = messages.volume_var.replace(/{{VOLUME}}/g, settings.get("volume"));	
+		document.getElementById("volume").innerHTML = messages.volume_var.replace(/{{VOLUME}}/g, settings.get("volume"));
 	}
+	applyFadingSpeed(settings.get("sound_fading_speed"));
 	document.getElementById("show_skull").checked = (settings.get("show_skull") === "true");
 	settings.displaySkull((settings.get("show_skull") === "true"));
 	document.getElementById("smart_volume").checked = (settings.get("smart_volume") === "true");
@@ -879,8 +946,50 @@ settings.update = function() {
 	document.cookie = "smart_volume=" + document.getElementById("smart_volume").checked;
 	document.cookie = "browser_notifications=" + document.getElementById("EnableBrowserNotifications").checked;
 	document.cookie = "sound_fading=" + document.getElementById("EnableSoundFading").checked;
+	document.cookie = "volume_fading_speed=" + getFadingType();
 }
 
+
+
+function applyFadingSpeed(arg) {
+	if (arg === "slow") {
+		document.getElementById("fading_speed_slow").selected = true;
+		document.getElementById("fading_speed_normal").selected = false;
+		document.getElementById("fading_speed_fast").selected = false;
+	} else if (arg === "normal") {
+		document.getElementById("fading_speed_slow").selected = false;
+		document.getElementById("fading_speed_normal").selected = true;
+		document.getElementById("fading_speed_fast").selected = false;
+	} else if (arg === "fast") {
+		document.getElementById("fading_speed_slow").selected = false;
+		document.getElementById("fading_speed_normal").selected = false;
+		document.getElementById("fading_speed_fast").selected = true;
+	}
+}
+
+
+
+function getFadingSpeed() {
+	if (document.getElementById("fading_speed_slow").selected) {
+		return 1000;
+	} else if (document.getElementById("fading_speed_normal").selected) {
+		return 500;
+	} else if (document.getElementById("fading_speed_fast").selected) {
+		return 100;
+	}
+}
+
+
+
+function getFadingType() {
+	if (document.getElementById("fading_speed_slow").selected) {
+		return "slow";
+	} else if (document.getElementById("fading_speed_normal").selected) {
+		return "normal";
+	} else if (document.getElementById("fading_speed_fast").selected) {
+		return "fast";
+	}
+}
 
 //google cast code is in openaudio-tv.js
 

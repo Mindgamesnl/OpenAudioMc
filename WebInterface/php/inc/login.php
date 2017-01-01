@@ -37,24 +37,25 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="messages/messages.js"></script>
 </head>
+
 <body>
 	<div class="middlePage">
 		<div class="panel panel-danger make-it-slow">
 			<div class="panel-heading">OpenAudioMC Login</div>
 			<div class="panel-body">
 				<div class="row">
-					<div class="form-group label-floating">
-						<div class="input-group">
-							<label class="control-label" for="addon3a">Mc name:</label>
-							<input type="text" id="addon3a" class="form-control">
-							<span class="input-group-btn">
-								<a href="#" onclick="login();" class="btn btn-primary">Login</a>
-							</span>
-						</div>
-					</div>
+					<center>
+						<h1>
+								Please request a url via one of the following commands:
+							</h1>
+						<h3>
+								/audio, /connect, /music, /sound, /audioclient or /audioserver
+							</h3>
+					</center>
 				</div>
 			</div>
 		</div>
 	</div>
 </body>
+
 </html>
