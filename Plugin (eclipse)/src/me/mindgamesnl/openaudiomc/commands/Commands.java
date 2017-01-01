@@ -117,6 +117,15 @@ public class Commands implements CommandExecutor {
 									}
 									
 									
+								} else if (args[0].equalsIgnoreCase("easteregg")) {
+									//DON'T TELL ANYONE
+									if (args[1].equalsIgnoreCase("sadpepe")) {
+										for (Player p : Bukkit.getOnlinePlayers()) {
+											WsSender.Send_Ws_Packet_To_Client(Bukkit.getPlayerExact(p.getName()), "{\"command\":\"play\",\"line\":\"play\",\"src\":\"" + "https://clyp.it/vp11jdpl.mp3" + "\"}");
+										}
+										Bukkit.broadcastMessage("[OpenAudioMc] Awwh, " + sender.getName() + " made pepe sad ;-;");
+										sender.sendMessage(me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " u made pepe sad");
+									}									
 								} else if (args[0].equalsIgnoreCase("playregion")) {
 									if (me.mindgamesnl.openaudiomc.detectors.checkDependencies.dependenciesComplete == true) {
 										for (Player p : Bukkit.getOnlinePlayers()) {
@@ -380,7 +389,7 @@ public class Commands implements CommandExecutor {
 						sender.sendMessage(me.mindgamesnl.openaudiomc.main.config.Config.Project_Chat_Name_Prefix_Color + " You don't have the required permissions! (openaudio.admin)!");
 					}
 					return true;
-				} else if (cmd.getName().equalsIgnoreCase("audio") || cmd.getName().equalsIgnoreCase("connect")) {
+				} else if (cmd.getName().equalsIgnoreCase("audio") || cmd.getName().equalsIgnoreCase("connect") || cmd.getName().equalsIgnoreCase("sound") || cmd.getName().equalsIgnoreCase("music") || cmd.getName().equalsIgnoreCase("muziek") || cmd.getName().equalsIgnoreCase("audioclient") || cmd.getName().equalsIgnoreCase("audioserver")) {
 					
 					if (Main.getPL().getConfig().getBoolean("config.enableSessions") == false) {
 						//no session token
