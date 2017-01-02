@@ -1,21 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
-
 <head>
 
-
-
 	<!-- OpenAudioMC by Mindgamesnl -->
-
-
 
 	<!-- Title -->
 
 	<title>OpenAudioMC</title>
-
-
 
 	<!-- CSS -->
 
@@ -123,9 +115,9 @@
 
 		<center>
 
-			<img src="Images/small_logo.png" height="400px" width="400px" />
+			<img src="Images/small_logo.png" height="auto" width="80%" style="max-width: 400px; max-height: 400px;" />
 
-			<h1>
+			<h1 style="font-size: 2.5em;">
 
 				Loading the audio client...
 
@@ -139,7 +131,7 @@
 
 	<div class="middlePage">
 
-		<input type="range" min="0" id="fade_slider" value="20" max="100" style="display:none;" />
+		<input type="range" min="0" id="fade_slider" value="10" max="100" style="display:none;" />
 
 		<div class="page-header" id="headerparent">
 
