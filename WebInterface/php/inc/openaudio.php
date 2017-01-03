@@ -293,11 +293,13 @@
 
 					<hr />
 
-					<input type="checkbox" name="show_skull" id="show_skull" onchange='document.cookie="show_skull="+this.checked; settings.displaySkull(this.checked);' /> Show minecraft skull on main page.<br />
+					<input type="checkbox" name="show_skull" id="show_skull" onchange='document.cookie="show_skull="+this.checked; settings.displaySkull(this.checked);' /> Show Minecraft Skull on main page.<br />
 
-					<input type="checkbox" name="smart_volume" id="smart_volume" onchange='document.cookie="smart_volume="+this.checked; settings.displaySkull(this.checked);' /> Remember my volume for when i return later.<br />
+					<input type="checkbox" name="smart_volume" id="smart_volume" onchange='document.cookie="smart_volume="+this.checked; settings.displaySkull(this.checked);' /> Remember my volume for when I return later.<br />
 
-					<input type="checkbox" name="EnableBrowserNotifications" id="EnableBrowserNotifications" onchange='document.cookie="browser_notifications="+this.checked;' /> Enable browser nofifications.<br />
+					<input type="checkbox" name="EnableBrowserNotifications" id="EnableBrowserNotifications" onchange='document.cookie="browser_notifications="+this.checked;' /> Enable browser notifications.<br />
+					
+					<p style="display:inline;">Not all browsers will support notifications.</p>
 
 					<input type="checkbox" name="EnableSoundFading" id="EnableSoundFading" onchange='document.cookie="sound_fading="+this.checked;' /> Enable sound fading when available.
 
