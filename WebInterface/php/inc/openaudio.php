@@ -59,7 +59,7 @@
 	<div class="loader" id="loading_screen">
 		<center>
 			<img src="Images/small_logo.png" height="auto" width="80%" style="max-width: 400px; max-height: 400px;" />
-			<h1 style="font-size: 2.5em;">
+			<h1 class="logo">
 				Loading the audio client...
 			</h1>
 		</center>
@@ -83,7 +83,7 @@
 					<div class="col-md-4" id="skullframething">
 						<center><img id="face" src="https://crafatar.com/avatars/<?php echo htmlspecialchars(strip_tags($mcname), ENT_QUOTES, 'UTF-8'); ?>"></center>
 					</div>
-					<div class="col-md-8" id="contentBoxMain" style="border-left:1px solid #ccc;height:160px">
+					<div class="col-md-8" id="contentBoxMain" style="border-left:1px solid #ccc;height:160px;">
 						<form class="form-horizontal">
 							<fieldset>
 								<div id="cogparent"><img class="btn-clipboard2 streamingLogo" id="cast_logo" src="Images/google-cast-logo.png" onclick="startCasting();"><i style="position: absolute; top: 20px; right: 20px;" class="btn-clipboard fa fa-cog fa-2x" onmouseover="this.className='draai btn-clipboard fa fa-cog fa-2x';" onmouseout="this.className='btn-clipboard fa fa-cog fa-2x';" data-toggle="modal" data-target="#settings" aria-hidden="true"></i></div>
@@ -148,8 +148,7 @@
 					<hr />
 					<input type="checkbox" name="show_skull" id="show_skull" onchange='document.cookie="show_skull="+this.checked; settings.displaySkull(this.checked);' /> Show Minecraft Skull on main page.<br />
 					<input type="checkbox" name="smart_volume" id="smart_volume" onchange='document.cookie="smart_volume="+this.checked; settings.displaySkull(this.checked);' /> Remember my volume for when I return later.<br />
-					<input type="checkbox" name="EnableBrowserNotifications" id="EnableBrowserNotifications" onchange='document.cookie="browser_notifications="+this.checked;' /> Enable browser notifications.
-					<p style="display:inline;">Not all browsers will support notifications.</p><br />
+					<input type="checkbox" name="EnableBrowserNotifications" id="EnableBrowserNotifications" onchange='document.cookie="browser_notifications="+this.checked;' /> Enable browser notifications.<br />
 					<input type="checkbox" name="EnableSoundFading" id="EnableSoundFading" onchange='document.cookie="sound_fading="+this.checked;' /> Enable sound fading when available.
 					<p style="display:inline;">May cause performance issues</p>
 					<hr /> 
