@@ -59,6 +59,7 @@
 </head>
 
 <body>
+<<<<<<< HEAD
 	<!-- warning banners -->
 	<div id="noBrowserMessages" style="display:none;">
 		<div class="container">
@@ -84,6 +85,33 @@
 	<!-- Loading Page -->
 	<div class="container">
 		<div class="row"> </div>
+=======
+	<!-- Loading Page -->
+	<div class="container">
+		<div class="row"> </div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12">
+
+				<div class="alert alert-info alert-labeled">
+					<button type="button" class="close" data-dismiss="alert">
+					<span aria-hidden="true">×</span><span class="sr-only">Close</span>
+				</button>
+					<div class="alert-labeled-row">
+						<span class="alert-label alert-label-left alert-labelled-cell">
+                        <i class="fa fa-warning" style="color: #fff;
+    text-shadow: 1px 1px 1px #ccc;
+    font-size: 1.5em;"></i>
+                    </span>
+						<p class="alert-body alert-body-right alert-labelled-cell">
+							Placeholder (woking on a new messaging system)
+						</p>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+>>>>>>> origin/master
 	</div>
 	<div class="loader" id="loading_screen">
 		<center>
@@ -95,8 +123,13 @@
 	</div>
 	<!-- ../Loading Page -->
 
+<<<<<<< HEAD
 	
 	<!-- Main Page -->
+=======
+	<!-- Main Page -->
+
+>>>>>>> origin/master
 	<div id="faders"></div>
 	<div class="middlePage">
 		<input type="range" min="0" id="fade_slider" value="10" max="100" style="display:none;" />
@@ -135,6 +168,7 @@
 			</div>
 		</div>
 
+<<<<<<< HEAD
 
 		<div class="panel panel-info make-it-slow">
 			<div class="panel-body">
@@ -174,6 +208,41 @@
 				</div>
 			</div>
 		</div>
+=======
+		<!-- Messenger Alert -->
+		<div id="MessageManager" onclick='document.getElementById("MessageManager").className = "animated bounceOutUp";'>
+			<div class="animated bounceInDown">
+				<div class="alert white-bg" style="color:black;">
+					<div style="display: inline;">
+						<font size="+1">
+							Last message:
+							<div id="messageContent" style="display: inline;"></div>
+							<center>
+								<p>(Click to close)</p>
+							</center>
+						</font>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- ../Messenger Alert -->
+
+		<!-- Live Stream Mode -->
+		<div id="LiveBox">
+			<div class="animated bounceInDown">
+				<div class="alert white-bg" style="color:black;">
+					<center>
+						<b><h3 style="color:#F44336;">LIVE <img src="Images/red-dot-md.png" class="animated infinite flash" style="height:20px;"></h3></b>
+						<hr />
+						<h4>You are listening to our awesome radio stream!</h4>
+						<button type="button" onclick='document.getElementById("LiveBox").className = "animated bounceOutUp";' style="background: #009688; color:white;" class="btn btn-primary">Close</button>
+						<button type="button" onclick='document.getElementById("LiveBox").className = "animated bounceOutUp";soundManager.stop("live");soundManager.destroySound("live");' style="background: #C62828; color:white;" class="btn btn-primary">Stop</button>
+					</center>
+				</div>
+			</div>
+		</div>
+		<!-- ../Live Stream Mode -->
+>>>>>>> origin/master
 	</div>
 	<!-- ../Main Page -->
 

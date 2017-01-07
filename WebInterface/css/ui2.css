@@ -196,6 +196,7 @@ input[type=range]:focus::-ms-fill-upper {
 	-moz-animation: spin 4s linear infinite;
 	animation: spin 4s linear infinite;
 }
+<<<<<<< HEAD
 
 @-moz-keyframes spin {
 	100% {
@@ -216,6 +217,28 @@ input[type=range]:focus::-ms-fill-upper {
 	}
 }
 
+=======
+
+@-moz-keyframes spin {
+	100% {
+		-moz-transform: rotate(360deg);
+	}
+}
+
+@-webkit-keyframes spin {
+	100% {
+		-webkit-transform: rotate(360deg);
+	}
+}
+
+@keyframes spin {
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+>>>>>>> origin/master
 .zero-clipboard {
 	position: relative;
 }
@@ -365,6 +388,7 @@ input[type=range]:focus::-ms-fill-upper {
 	transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 	transition-delay: 0.2s;
 	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+<<<<<<< HEAD
 }
 
 .button.raised:active {
@@ -447,3 +471,74 @@ input[type=range]:focus::-ms-fill-upper {
 .biggerText {
 	font-size: 20px;
 }
+=======
+}
+
+.button.raised:active {
+	box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+	transition-delay: 0s;
+}
+
+
+/* Icon Button */
+
+.icon-button {
+	position: relative;
+	display: inline-block;
+	width: 56px;
+	height: 56px;
+}
+
+.icon-button> core-icon {
+	margin: 16px;
+	transition: -webkit-transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+	transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.icon-button:hover> core-icon {
+	-webkit-transform: scale(1.2);
+	transform: scale(1.2);
+}
+
+.icon-button> paper-ripple {
+	overflow: hidden;
+	color: #646464;
+}
+
+.icon-button.red> core-icon::shadow path {
+	fill: #db4437;
+}
+
+.center {
+	text-align: center;
+}
+.alert-labeled{
+  padding: 0px;
+}
+
+.alert-labeled-row{
+    display: table-row;
+    padding: 0px;
+}
+
+.alert-labelled-cell{
+    padding: 10px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.alert-labeled .close > *{
+    padding:10px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.alert-label{
+    vertical-align: middle;
+    background: #BCE8F1;
+    width: auto;
+    padding: 10px 15px;
+    height: 100%;
+    font-size:1.1em;
+}
+>>>>>>> origin/master
