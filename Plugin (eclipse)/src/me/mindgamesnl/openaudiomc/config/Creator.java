@@ -30,6 +30,7 @@ private static Plugin PL;
    		
    		
    		//dump da shizzle to da config file bruh
+   		PL.getConfig().set("config.config.enableMotd", true);
    		PL.getConfig().set("config.enableSessions", true);
    		PL.getConfig().set("config.webhost", "&6http://client.openaudiomc.net/?wsdata=" + me.mindgamesnl.openaudiomc.apiConnector.ApiFunctions.getWsAdress() + ":" + wsport + "&user=%username%");
    		PL.getConfig().set("config.startsound", "http://static.craftmend.com/spigot/openaudio/load_sound.mp3");

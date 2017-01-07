@@ -40,6 +40,14 @@ public class configManager {
 			 }
 			 
 			 
+			 if (PL.getConfig().getString("config.enableMotd") == null) {
+				 Bukkit.broadcastMessage("[OpenAudio] Old config file found! installing update...");
+				 PL.getConfig().set("config.enableMotd", true);
+				 PL.getConfig().options().copyDefaults(true);
+				 PL.saveConfig();
+			 }
+			 
+			 
 			 if (PL.getConfig().getString("config.ws_host_adress") == null) {
 				 Bukkit.broadcastMessage("[OpenAudio] Old config file found! installing update...");
 			   		try {

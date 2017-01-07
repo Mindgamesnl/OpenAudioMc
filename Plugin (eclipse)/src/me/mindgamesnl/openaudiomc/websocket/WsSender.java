@@ -15,6 +15,16 @@ public class WsSender {
             WsMain.s.sendData(WsSessionMan.getSessionManager().getSessionByName(name), data);
         }
     }
+    
+    public static void sendSmartJson(String requestplayer, String data) {
+    	if (requestplayer.equalsIgnoreCase("@a")) {
+			for (Player p : Bukkit.getOnlinePlayers()) {
+				Send_Ws_Packet_To_Client(p, data);
+			}
+		} else {
+			Send_Ws_Packet_To_Client(Bukkit.getPlayerExact(requestplayer), data);
+		}
+    }
  
     public static void playToAll(String data) {
         for (Player p : Bukkit.getOnlinePlayers()) {
