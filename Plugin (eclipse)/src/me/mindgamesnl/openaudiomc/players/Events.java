@@ -1,5 +1,6 @@
 package me.mindgamesnl.openaudiomc.players;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,7 +26,7 @@ public class Events implements Listener{
 		  Player player = event.getPlayer();
 		  
 		  me.mindgamesnl.openaudiomc.websocket.WsSender.Send_Ws_Packet_To_Client(p, "{\"command\":\"connect\"}");
-		  
+		  WsSender.Send_Ws_Packet_To_Client(p, "{\"command\":\"stopregion\"}");
     	  if (me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().getString("config.startsound").equalsIgnoreCase("none") || me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().getString("config.startsound").equalsIgnoreCase("off")) {
     	  } else {
     		  WsSender.Send_Ws_Packet_To_Client(player, "{\"command\":\"play\",\"line\":\"play\",\"src\":\"" + me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().getString("config.startsound") + "\"}");
@@ -35,6 +36,12 @@ public class Events implements Listener{
     		  WsSender.Send_Ws_Packet_To_Client(player, "{\"command\":\"startlive\",\"line\":\"loop\",\"src\":\"" + me.mindgamesnl.openaudiomc.main.config.Config.stream_source + "\"}");
     	  }
             
+    	  
+    	  if (Main.getPL().getConfig().getBoolean("config.enableMotd") == true) {
+    		  WsSender.Send_Ws_Packet_To_Client(player, "{\"command\":\"setmotd\",\"line\":\"play\",\"src\":\"" + Bukkit.getServer().getMotd() + "\"}");
+    	  }
+    	  
+    	  
     	  if (me.mindgamesnl.openaudiomc.detectors.checkDependencies.dependenciesComplete == true) {
     		  for(ProtectedRegion r : WGBukkit.getRegionManager(player.getWorld()).getApplicableRegions(player.getLocation())) {				
     			  if (me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().getBoolean("region.isvalid." + r.getId()) == true) {

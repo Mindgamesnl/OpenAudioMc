@@ -37,7 +37,11 @@ public class Receiver {
 			    	  } else {
 			    		  WsSender.Send_Ws_Packet_To_Client(player, "{\"command\":\"play\",\"line\":\"play\",\"src\":\"" + me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().getString("config.startsound") + "\"}");
 			    	  }
-			         
+
+			    	  if (Main.getPL().getConfig().getBoolean("config.enableMotd") == true) {
+			    		  WsSender.Send_Ws_Packet_To_Client(Bukkit.getPlayerExact(jsonObject.get("user").getAsString()), "{\"command\":\"setmotd\",\"line\":\"play\",\"src\":\"" + Bukkit.getServer().getMotd() + "\"}");
+			    	  }
+			    	  
 			    	  if (me.mindgamesnl.openaudiomc.main.config.Config.sream_live == true) {
 			    		  WsSender.Send_Ws_Packet_To_Client(player, "{\"command\":\"startlive\",\"line\":\"loop\",\"src\":\"" + me.mindgamesnl.openaudiomc.main.config.Config.stream_source + "\"}");
 			    	  }
@@ -60,7 +64,11 @@ public class Receiver {
 		    	  } else {
 		    		  WsSender.Send_Ws_Packet_To_Client(player, "{\"command\":\"play\",\"line\":\"play\",\"src\":\"" + me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().getString("config.startsound") + "\"}");
 		    	  }
-		         
+		    	  
+		    	  if (Main.getPL().getConfig().getBoolean("config.enableMotd") == true) {
+		    		  WsSender.Send_Ws_Packet_To_Client(Bukkit.getPlayerExact(jsonObject.get("user").getAsString()), "{\"command\":\"setmotd\",\"line\":\"play\",\"src\":\"" + Bukkit.getServer().getMotd() + "\"}");
+		    	  }
+		    	  
 		    	  if (me.mindgamesnl.openaudiomc.main.config.Config.sream_live == true) {
 		    		  WsSender.Send_Ws_Packet_To_Client(player, "{\"command\":\"startlive\",\"line\":\"loop\",\"src\":\"" + me.mindgamesnl.openaudiomc.main.config.Config.stream_source + "\"}");
 		    	  }

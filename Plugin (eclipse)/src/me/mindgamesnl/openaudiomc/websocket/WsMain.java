@@ -46,6 +46,7 @@ public class WsMain extends WebSocketServer {
     	            for (WebSocket c : con) {
     	                if (c.getRemoteSocketAddress().equals(conn.getRemoteSocketAddress())) {
     	                    c.send("invalidsession");
+    	                    System.out.println("OpenAudio detected a fake user login, blocked possible attack!");
     	                }
     	            }
     	        }

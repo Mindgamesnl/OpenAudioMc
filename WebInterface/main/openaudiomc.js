@@ -11,9 +11,13 @@ function enable() {
 
 	document.getElementById("cast_logo").style.display = "none";
 	document.getElementById("streaming_status").style.display = "none";
-	document.getElementById("MessageManager").style.display = "none";
-	document.getElementById("LiveBox").style.display = "none";
 
+	if (Notification.permission !== "granted") {
+		document.getElementById("noBrowserMessages").style.display = "";
+	}
+	
+	Dashboard.setStreamOffline();
+	
 	/*
 	leaving the openaudio credits would be nice but no one is holding you back from removing it
 	*/
@@ -26,7 +30,16 @@ function enable() {
 		mc_link.connect("ws://" + wshost);
 	} else if (window.location.protocol == "https:") {
 		//connect using ssl and websocket
-		mc_link.connect("wss://" + wshost);
+		swal({
+			title: "SSL ERROR",
+			text: ssl_error,
+			CancelButton: false,
+			allowOutsideClick: false,
+			allowEscapeKey: false,
+			showConfirmButton: false,
+			html: true
+		}, function() {});
+		reloadNonSsl();
 	} else {
 		console.info("Protocol not supported!");
 	}
@@ -48,8 +61,9 @@ function enable() {
 			alert(message.browserfail);
 			return;
 		}
-		if (Notification.permission !== "granted")
+		if (Notification.permission !== "granted") {
 			Notification.requestPermission();
+		}
 	});
 
 	document.getElementById("loading_screen").style.display = "none";
@@ -74,8 +88,6 @@ function bungeecord_send(bungeeip) {
 
 	document.getElementById("cast_logo").style.display = "none";
 	document.getElementById("streaming_status").style.display = "none";
-	document.getElementById("MessageManager").style.display = "none";
-	document.getElementById("LiveBox").style.display = "none";
 
 	/*
 	leaving the openaudio credits would be nice but no one is holding you back from removing it
@@ -121,7 +133,16 @@ function reenable() {
 		mc_link.connect("ws://" + wshost);
 	} else if (window.location.protocol == "https:") {
 		//connect using ssl and websocket
-		mc_link.connect("wss://" + wshost);
+		swal({
+			title: "SSL ERROR",
+			text: ssl_error,
+			CancelButton: false,
+			allowOutsideClick: false,
+			allowEscapeKey: false,
+			showConfirmButton: false,
+			html: true
+		}, function() {});
+		reloadNonSsl();
 	} else {
 		console.info("Protocol not supported!");
 	}
@@ -137,8 +158,6 @@ function reenable() {
 		}
 	}, 3000);
 
-	document.getElementById("MessageManager").style.display = "none";
-	document.getElementById("LiveBox").style.display = "none";
 	document.addEventListener('DOMContentLoaded', function() {
 		if (!Notification) {
 			alert(message.browserfail);
@@ -156,14 +175,18 @@ function reenable() {
 isFading = {};
 plays = {};
 settings = {};
+Dashboard = {};
 mc_link = {};
 BungeeCord = {};
 uiExtra = {};
 fadingData = {};
 stopFading = {};
+newest_region = 0;
+last_region_id = 1;
 currentFadingLineRegion = 1;
 client = {};
 play = {};
+ssl_error = "Sorry but ssl is not supported, redirecting to non ssl version (please wait)";
 UrlDataBase = {};
 openAudioChromeCast = {};
 FadeEnabled = true;
@@ -243,7 +266,7 @@ client.Main = function(awesomecode) {
 			bungeecord_send(json.code);
 			wshost = json.code;
 		} else if (json.command == "startlive") {
-			document.getElementById("LiveBox").style.display = "";
+			Dashboard.setStreamOnline();
 			soundManager.stop('live');
 			soundManager.destroySound('live');
 			var mySoundObject = soundManager.createSound({
@@ -255,8 +278,7 @@ client.Main = function(awesomecode) {
 		} else if (json.command == "kick") {
 			window.location.replace("https://www.google.nl/");
 		} else if (json.command == "stoplive") {
-			document.getElementById("LiveBox").className = "animated bounceOutUp";
-			document.getElementById("LiveBox").style.display = "";
+			Dashboard.setStreamOffline();
 			fadeIdOut("live");
 		} else if (json.command == "setvolume") {
 			document.cookie = "volume=" + json.target;
@@ -289,13 +311,16 @@ client.Main = function(awesomecode) {
 		} else if (json.command == "disconnect") {
 			document.getElementById("status").innerHTML = messages.disconnected.replace(/%username%/g, mcname);
 			play.playAction("stop");
-			document.getElementById("LiveBox").className = "animated bounceOutUp";
-			document.getElementById("LiveBox").style.display = "";
+			Dashboard.setStreamOffline();
 			fadeIdOut("live");
 			play.stopregion();
 			play.stop();
 		} else if (json.command == "connect") {
 			document.getElementById("status").innerHTML = messages.connected.replace(/%username%/g, mcname);
+		} else if (json.command == "stopoldregion") {
+			stopOldRegion();
+		} else if (json.command == "setmotd") {
+			Dashboard.setMOTD(json.src);
 		} else {
 			console.info("[core] Invalid json command");
 			//console.log(json);
@@ -419,8 +444,7 @@ client.set_volume_blind = function(volume_var) {
 
 play.stopregion = function() {
 	UrlDataBase.region = "none";
-	soundManager.stop('region');
-	soundManager.destroySound('region');
+	play.regionAction("stop");
 }
 
 
@@ -433,13 +457,13 @@ play.region = function(src_fo_file) {
 	}
 
 
-
-	soundManager.stop('region');
-	soundManager.destroySound('region');
 	loop_active = true;
+	oldRegion = newest_region;
+	last_region_id++;
+	newest_region = last_region_id;
 	var regionsound = soundManager.createSound({
-		id: "region",
-		volume: volume,
+		id: "region"+newest_region,
+		volume: 0,
 		url: src_fo_file
 	});
 
@@ -451,6 +475,13 @@ play.region = function(src_fo_file) {
 		});
 	}
 	loopSound(regionsound);
+	fadeIdTarget("region"+newest_region, volume);
+}
+
+
+
+function stopOldRegion() {
+	fadeIdOut("region"+oldRegion);
 }
 
 
@@ -467,6 +498,20 @@ function listSounds() {
 	return str;
 }
 
+
+
+play.regionAction = function(action_is_fnc) {
+	for (var i = 0; i < listSounds().split(',').length; i++) {
+		listSounds().split(',')[i] = listSounds().split(',')[i].replace(/^\s*/, "").replace(/\s*$/, "");
+		if (listSounds().split(',')[i].indexOf("region") !== -1) {
+
+			if (action_is_fnc === "stop") {
+				fadeIdOut(listSounds().split(',')[i]);
+			}
+
+		}
+	}
+}
 
 
 
@@ -551,6 +596,32 @@ play.send = function(bericht) {
 	if (checkbox.checked) {
 		if (Notification.permission !== "granted") {
 			Notification.requestPermission();
+			play.notifictationSound();
+			bericht = bericht.replace(/_/g, " ");
+			bericht = bericht.replace(/%username%/g, mcname);
+			play.displayMessage(bericht);
+			//ColorCodes in the text box
+			bericht = bericht.replace(/&0/g, "");
+			bericht = bericht.replace(/&1/g, "");
+			bericht = bericht.replace(/&2/g, "");
+			bericht = bericht.replace(/&3/g, "");
+			bericht = bericht.replace(/&4/g, "");
+			bericht = bericht.replace(/&5/g, "");
+			bericht = bericht.replace(/&6/g, "");
+			bericht = bericht.replace(/&7/g, "");
+			bericht = bericht.replace(/&8/g, "");
+			bericht = bericht.replace(/&9/g, "");
+			var bericht2 = bericht;
+			bericht2 = bericht2.replace(/&b/g, "");
+			bericht2 = bericht2.replace(/&a/g, "");
+			bericht2 = bericht2.replace(/&c/g, "");
+			bericht2 = bericht2.replace(/&d/g, "");
+			bericht2 = bericht2.replace(/&e/g, "");
+			bericht2 = bericht2.replace(/&f/g, "");
+			var notification = new Notification(messages.message_header.replace(/%username%/g, mcname), {
+				icon: 'Images/small_logo.png',
+				body: bericht2,
+			});
 		} else {
 			play.notifictationSound();
 			bericht = bericht.replace(/_/g, " ");
@@ -644,8 +715,6 @@ play.notifictationSound = function() {
 
 play.displayMessage = function(Text) {
 	//create the box
-	document.getElementById("MessageManager").className = "animated bounceInDown";
-	document.getElementById("MessageManager").style.display = "";
 	Text = Text.replace(/\n/g, "<br>");
 
 	//ColorCodes in the text box
@@ -668,7 +737,7 @@ play.displayMessage = function(Text) {
 	Text2 = Text2.replace(/&f/g, "<a style='color:FFFFFF ;'>");
 
 	//enter message in the box
-	document.getElementById("messageContent").innerHTML = Text2;
+	Dashboard.setMessage(Text2);
 }
 
 
@@ -926,9 +995,16 @@ settings.setDefault = function() {
 
 settings.apply = function() {
 	if ((settings.get("smart_volume") === "true")) {
-		client.set_volume(parseInt(settings.get("volume")));
-		document.getElementById("slider").value = parseInt(settings.get("volume"));
-		document.getElementById("volume").innerHTML = messages.volume_var.replace(/{{VOLUME}}/g, settings.get("volume"));
+		if (isInt(parseInt(settings.get("volume")))) {
+			client.set_volume(Math.ceil(parseInt(settings.get("volume"))));
+			document.getElementById("slider").value = parseInt(settings.get("volume"));
+			document.getElementById("volume").innerHTML = messages.volume_var.replace(/{{VOLUME}}/g, settings.get("volume"));
+		} else {
+			client.set_volume(20);
+			document.getElementById("slider").value = 20;
+			document.getElementById("volume").innerHTML = messages.volume_var.replace(/{{VOLUME}}/g, 20);
+		}
+
 	}
 	applyFadingSpeed(settings.get("sound_fading_speed"));
 	document.getElementById("show_skull").checked = (settings.get("show_skull") === "true");
@@ -991,6 +1067,107 @@ function getFadingType() {
 	}
 }
 
+
+
+function reloadNonSsl() {
+	console.log("Reloading...")
+	setTimeout(1500, function() {
+		console.log("Reloaded")
+		window.location = document.URL.replace("https://", "http://");
+	});
+	window.location = document.URL.replace("https://", "http://");
+}
+
+
+
+function showqr() {
+	$(function() {
+		$('#modal').modal('toggle');
+	});
+	setTimeout(function() {
+		swal({
+			title: "Qr code for mobile client",
+			text: '<center><div id="qrcode"></div></center>',
+			CancelButton: false,
+			allowOutsideClick: true,
+			allowEscapeKey: true,
+			showConfirmButton: true,
+			html: true
+		}, function() {});
+		var qrcode = new QRCode(document.getElementById("qrcode"), {
+			text: document.URL,
+			width: 150,
+			height: 150,
+			colorDark: "#000000",
+			colorLight: "#ffffff",
+			correctLevel: QRCode.CorrectLevel.H
+		});
+	}, 500);
+
+}
+
+
+
+Dashboard.setMessage = function (html) {
+	document.getElementById("messageContent").className = "label";
+	document.getElementById("messageContent").innerHTML = html;
+	document.getElementById("messageContent").className = "label animated tada";
+}
+
+
+
+Dashboard.setStreamOffline = function() {
+	document.getElementById("liveButton").innerHTML = '<span class="label label-warning"><i class="fa fa-ban" aria-hidden="true"></i> Not online</span>';
+}
+
+
+
+Dashboard.setStreamOnline = function() {
+	document.getElementById("liveButton").innerHTML = '<span class="label label-success"><i class="fa fa-wifi" aria-hidden="true"></i> Live</span> <span class="label label-danger" onclick="Dashboard.stopStreaming();"><i class="fa fa-ban" aria-hidden="true"></i> Stop</span>';
+}
+
+
+
+Dashboard.stopStreaming = function () {
+	Dashboard.setStreamOffline();
+	soundManager.stop("live");
+	soundManager.destroySound("live");
+}
+
+
+
+Dashboard.requestPremmisions = function() {
+	Notification.requestPermission();
+}
+
+
+
+Dashboard.setMOTD = function(Text) {
+	document.getElementById("motd").style.display = "";
+		Text = Text.replace(/\n/g, "<br>");
+
+	//ColorCodes in the text box
+	Text = Text.replace(/&0/g, "<a style='color:#000000 ;'>");
+	Text = Text.replace(/&1/g, "<a style='color:#0000AA ;'>");
+	Text = Text.replace(/&2/g, "<a style='color:#00AA00 ;'>");
+	Text = Text.replace(/&3/g, "<a style='color:#00AAAA ;'>");
+	Text = Text.replace(/&4/g, "<a style='color:#AA0000 ;'>");
+	Text = Text.replace(/&5/g, "<a style='color:#AA00AA ;'>");
+	Text = Text.replace(/&6/g, "<a style='color:#FFAA00 ;'>");
+	Text = Text.replace(/&7/g, "<a style='color:#AAAAAA ;'>");
+	Text = Text.replace(/&8/g, "<a style='color:#00AA00 ;'>");
+	Text = Text.replace(/&9/g, "<a style='color:#5555FF ;'>");
+	var Text2 = Text;
+	Text2 = Text2.replace(/&b/g, "<a style='color:2cf9e5 ;'>");
+	Text2 = Text2.replace(/&a/g, "<a style='color:55FF55 ;'>");
+	Text2 = Text2.replace(/&c/g, "<a style='color:FF5555 ;'>");
+	Text2 = Text2.replace(/&d/g, "<a style='color:FF55FF ;'>");
+	Text2 = Text2.replace(/&e/g, "<a style='color:FFFF55 ;'>");
+	Text2 = Text2.replace(/&f/g, "<a style='color:FFFFFF ;'>");
+	
+	document.getElementById("serverMotd").innerHTML = Text2;
+	console.log("Server motd: " + Text2);
+}
 //google cast code is in openaudio-tv.js
 
 onload = enable

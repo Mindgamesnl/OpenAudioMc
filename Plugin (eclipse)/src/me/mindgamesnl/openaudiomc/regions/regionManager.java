@@ -51,16 +51,19 @@ public class regionManager implements Listener, Plugin {
 	//region leave event
 	@EventHandler
 	public void onRegionLeave(final RegionLeaveEvent e) {
-		Bukkit.getServer().getScheduler().runTaskLater(PL, new Runnable(){
-			public void run(){
-				if (isValidRegion(e.getRegion().getId()) && e.isCancellable()) {
-					if (regionHistory.get(e.getPlayer()) != getRegionFile(e.getRegion().getId())) {					
-					} else {
-						WsSender.Send_Ws_Packet_To_Client(e.getPlayer(), "{\"command\":\"stopregion\"}");
+		if (e.isCancellable()) {
+			Bukkit.getServer().getScheduler().runTaskLater(PL, new Runnable(){
+				public void run(){
+					if (isValidRegion(e.getRegion().getId()) && e.isCancellable()) {
+						if (regionHistory.get(e.getPlayer()) != getRegionFile(e.getRegion().getId())) {		
+							WsSender.Send_Ws_Packet_To_Client(e.getPlayer(), "{\"command\":\"stopoldregion\"}");
+						} else {
+							WsSender.Send_Ws_Packet_To_Client(e.getPlayer(), "{\"command\":\"stopregion\"}");
+						}
 					}
 				}
-			}
-		},10);
+			},10);
+		}
 	}
 	
 	
@@ -76,7 +79,7 @@ public class regionManager implements Listener, Plugin {
 	
 	//check if a region ia know to openaudio (true = valid)
 	public static Boolean isValidRegion(String regionName) {
-		if (PL.getConfig().getString("region.isvalid." + regionName).equals("true")) {
+		if (PL.getConfig().getString("region.isvalid." + regionName) !=null && PL.getConfig().getString("region.isvalid." + regionName).equals("true")) {
 			return true;
 		} else {
 			return false;
