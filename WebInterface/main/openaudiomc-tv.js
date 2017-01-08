@@ -105,6 +105,7 @@ function startCasting() {
 	session = null;
 	var generatejson = {}
 	generatejson.mcname = mcname;
+	generatejson.session = sessionToken;
 	generatejson.src = window.location.protocol + "//" + window.location.host + window.location.pathname;
 	packet = JSON.stringify(generatejson);
 

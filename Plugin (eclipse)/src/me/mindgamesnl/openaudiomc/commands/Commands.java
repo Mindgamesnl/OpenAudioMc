@@ -502,22 +502,23 @@ public class Commands implements CommandExecutor {
 				} else if (cmd.getName().equalsIgnoreCase("audio") || cmd.getName().equalsIgnoreCase("connect") || cmd.getName().equalsIgnoreCase("sound") || cmd.getName().equalsIgnoreCase("music") || cmd.getName().equalsIgnoreCase("muziek") || cmd.getName().equalsIgnoreCase("audioclient") || cmd.getName().equalsIgnoreCase("audioserver")) {
 					
 					
-					if (Main.getPL().getConfig().getBoolean("config.enableSessions") == false) {
-						
-						//no session token
-						ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-						String command = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + Config.Chat_Header_audio + Config.Audio_Web_domain.replace("%username%", sender.getName()) + "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + Config.web_url.replace("%username%", sender.getName()) + "\"}}]" + "";
-						Bukkit.dispatchCommand(console, command);
-						
-					} else {
-						
-						//include session token
-						ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-						me.mindgamesnl.openaudiomc.sessionKeyManager.skm.generateSessionForPlayer(sender.getName());
-						String command = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + Config.Chat_Header_audio + Config.Audio_Web_domain.replace("%username%", sender.getName()) + "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + Config.web_url.replace("%username%", sender.getName()) + "&session=" + skm.getSession(sender.getName()) +"\"}}]" + "";
-						Bukkit.dispatchCommand(console, command);
-						
-					}
+					
+						if (Main.getPL().getConfig().getBoolean("config.enableSessions") == false) {
+							
+							//no session token
+							ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
+							String command = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + Config.Chat_Header_audio + Config.Audio_Web_domain.replace("%username%", sender.getName()) + "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + Config.web_url.replace("%username%", sender.getName()) + "\"}}]" + "";
+							Bukkit.dispatchCommand(console, command);
+							
+						} else {
+							
+							//include session token
+							ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
+							me.mindgamesnl.openaudiomc.sessionKeyManager.skm.generateSessionForPlayer(sender.getName());
+							String command = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + Config.Chat_Header_audio + Config.Audio_Web_domain.replace("%username%", sender.getName()) + "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + Config.web_url.replace("%username%", sender.getName()) + "&session=" + skm.getSession(sender.getName()) +"\"}}]" + "";
+							Bukkit.dispatchCommand(console, command);
+							
+						}
 					
 					
 					return true;
