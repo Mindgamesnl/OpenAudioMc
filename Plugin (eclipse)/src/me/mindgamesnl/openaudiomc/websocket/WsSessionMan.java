@@ -49,6 +49,16 @@ public class WsSessionMan {
         }
         return null;
     }
+    
+    
+    public static WsSession getSessionByName2(String name) {
+        for (int i = 0; i < sessions.size(); i++) {
+            //Bukkit.getLogger().info("Session gotten:" + sessions.get(i));
+            if (sessions.get(i).getName().equalsIgnoreCase(name))
+                return sessions.get(i);
+        }
+        return null;
+    }
  
     
     public static String getSessionFromName(String host) {

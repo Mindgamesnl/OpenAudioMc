@@ -8,6 +8,9 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 import me.mindgamesnl.openaudiomc.sessionKeyManager.skm;
 import me.mindgamesnl.openaudiomc.websocket.WsSender;
+import me.mindgamesnl.openaudiomc.websocket.WsMain;
+
+import me.mindgamesnl.openaudiomc.regions.regionManager;
 
 public class OpenAudioApi {
 	
@@ -40,6 +43,14 @@ public class OpenAudioApi {
 		} else {
 			WsSender.Send_Ws_Packet_To_Client(p, "{\"command\":\"setvolume\",\"target\":\"" + volume + "\"}");
 		}
+	}
+	
+	public static Boolean isConnected(Player p) {
+		return WsMain.isOnline(p.getName());
+	}
+	
+	public static String getRegionSound(String region) {
+		return regionManager.getRegionFile(region);
 	}
 	
 	public static String getSessionKey(Player p) {

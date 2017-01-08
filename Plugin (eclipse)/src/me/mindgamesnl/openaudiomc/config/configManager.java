@@ -47,6 +47,7 @@ public class configManager {
 				 PL.saveConfig();
 			 }
 			 
+
 			 
 			 if (PL.getConfig().getString("config.ws_host_adress") == null) {
 				 Bukkit.broadcastMessage("[OpenAudio] Old config file found! installing update...");

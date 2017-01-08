@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.util.Collection;
+import java.util.HashMap;
 
 import com.google.gson.JsonElement;
 
@@ -16,6 +17,8 @@ public class WsMain extends WebSocketServer {
 	public static JsonElement conn_us_name;
     public static WsMain s;
    
+    static HashMap<String, Boolean> onlineLogger = new HashMap<String, Boolean>();
+    
     public WsMain(int port) throws UnknownHostException {
         super(new InetSocketAddress(port));
     }
@@ -23,15 +26,32 @@ public class WsMain extends WebSocketServer {
     public WsMain(InetSocketAddress address) {
         super(address);
     }
+    
+    public static Boolean isOnline(String name) {
+    	if (onlineLogger.get(me.mindgamesnl.openaudiomc.websocket.WsSessionMan.getSessionByName2(name)) != null) {
+    		if (onlineLogger.get(me.mindgamesnl.openaudiomc.websocket.WsSessionMan.getSessionByName2(name)) == true) {
+    			//session has not been closed
+    			return true;
+    		} else {
+    			//session has been closed
+    			return false;
+    		}
+    	} else {
+    		//never connected
+    		return false;
+    	}
+    }
  
     @Override
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
     	WsSessionMan.getSessionManager().openSession(conn.getRemoteSocketAddress().getAddress().getHostAddress());
+    	onlineLogger.put(conn.getRemoteSocketAddress().getAddress().getHostAddress(), true);
     }
  
     @Override
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
         WsSessionMan.getSessionManager().endSession(conn.getRemoteSocketAddress().getAddress().getHostAddress());
+        onlineLogger.put(conn.getRemoteSocketAddress().getAddress().getHostAddress(), false);
     }
  
     @Override

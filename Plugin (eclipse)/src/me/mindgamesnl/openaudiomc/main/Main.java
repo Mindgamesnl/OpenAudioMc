@@ -6,7 +6,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import me.mindgamesnl.openaudiomc.websocket.WsMain;
 
 public class Main extends JavaPlugin implements Listener{
@@ -16,14 +15,16 @@ public class Main extends JavaPlugin implements Listener{
 	public static Main getPL(){
 		return pl;
 	}
+
+
+
 	
 	//Start zooi 
 	@Override
 	public void onEnable(){
 		pl = this;
 
-		
-		
+	
 		//config file stuff and setup crap
 		me.mindgamesnl.openaudiomc.config.Creator.Setup();
 		me.mindgamesnl.openaudiomc.config.configManager.Setup();
@@ -69,7 +70,12 @@ public class Main extends JavaPlugin implements Listener{
         	Bukkit.getServer().getPluginManager().registerEvents(new me.mindgamesnl.openaudiomc.regions.regionManager(),this);
         }
         
+       
+        
+        
 	}	
+	
+
 	
 	
 	//Sluit zooi
