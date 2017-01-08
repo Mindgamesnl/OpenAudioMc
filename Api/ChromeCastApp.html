@@ -54,8 +54,10 @@ div {
 	font-family: Verdana, Geneva, sans-serif;
 	font-size: 40px;
 }
-
-</style> <title>Openaudio tv</title> </head> <body> <DIV> <img src="http://static.craftmend.com/spigot/openaudio/Logo.png" height="400px" width="400px" /> <br> <p id="text"> Loading ChromeCast client... </p><br> (Beta) </DIV> <iframe id="iframe" style="display:none;"> Your browser doesn't support iframes
+small { 
+    font-size: smaller;
+}
+</style> <title>Openaudio tv</title> </head> <body> <DIV> <img src="http://static.craftmend.com/spigot/openaudio/Logo.png" height="400px" width="400px" /><br><p id="text"> Loading ChromeCast client...</p><br><small style="font-size: 18px">OpenAudioMc tv receiver VER:1.0 REV:2. This page is running from the CRAFTMEND api server. </small> </DIV> <iframe id="iframe" style="display:none;"> Your browser doesn't support iframes
  </iframe> <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script> <script type="text/javascript"> document.getElementById("iframe").style.display="none";
 window.onload=function() {
 	cast.receiver.logger.setLevelValue(0);
@@ -96,12 +98,12 @@ window.onload=function() {
 }
 
 function loadclient(text) {
-	window.castReceiverManager.setApplicationState(text);
+	window.castReceiverManager.setApplicationState("OpenAudioMc - TV EDITION");
 	
-	
+
 	json = JSON.parse(text);
 	
-	bron = json.src + "?user=" + json.mcname + "&googlecaststream=true";
+	bron = json.src + "?user=" + json.mcname + "&googlecaststream=true&session="+json.session;
 	
 	document.getElementById("iframe").src=bron;
 	document.getElementById('iframe').onload=function() {
@@ -110,7 +112,7 @@ function loadclient(text) {
 			enableFrame();
 			document.getElementById("iframe").style='position:fixed; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999; ';
 		}
-		, 5000);
+		, 200);
 	}
 }
 
