@@ -59,28 +59,6 @@
 </head>
 
 <body>
-	<!-- warning banners -->
-	<div id="noBrowserMessages" style="display:none;">
-		<div class="container">
-			<div class="row"> </div>
-			<div class="row">
-				<div class="col-lg-12 col-md-12 col-sm-12">
-
-					<div class="alert alert-info alert-labeled">
-						<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-						<div class="alert-labeled-row" style=" color: white;text-shadow: 1px 1px 1px #ccc;font-size: 1.3em;"><span class="alert-label alert-label-left alert-labelled-cell"><i class="fa fa-warning"></i></span>
-							<p class="alert-body alert-body-right alert-labelled-cell" style="color:white;">
-								Please enable Notifications for the optimal experience! <span class="label label-important" onclick="Dashboard.requestPremmisions();"><b>click here.</b></span>
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- ../warning banners -->
-
-
 	<!-- Loading Page -->
 	<div class="container">
 		<div class="row"> </div>
@@ -222,6 +200,28 @@
 		</div>
 	</div>
 	<!-- ../Popup Modal for Settings -->
+
+
+	<!-- warning banners -->
+	<div id="noBrowserMessages" style="display:none;">
+		<div class="container">
+			<div class="row"> </div>
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12">
+
+					<div class="alert alert-info alert-labeled">
+						<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+						<div class="alert-labeled-row" style=" color: white;text-shadow: 1px 1px 1px #ccc;font-size: 1.3em;"><span class="alert-label alert-label-left alert-labelled-cell"><i class="fa fa-warning"></i></span>
+							<p class="alert-body alert-body-right alert-labelled-cell" style="color:white;">
+								Please enable Notifications for the optimal experience! <span class="label label-important" onclick="Dashboard.requestPremmisions();"><b>click here.</b></span>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ../warning banners -->
 </body>
 
 </html>
