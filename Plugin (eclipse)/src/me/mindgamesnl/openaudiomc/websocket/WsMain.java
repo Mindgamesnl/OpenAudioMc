@@ -65,7 +65,9 @@ public class WsMain extends WebSocketServer {
     	        synchronized (con) {
     	            for (WebSocket c : con) {
     	                if (c.getRemoteSocketAddress().equals(conn.getRemoteSocketAddress())) {
-    	                    c.send("invalidsession");
+    	                    //NURF THAT F*CKER TO OBLIVION
+    	                	c.send("invalidsession");
+       	                	//"all the base are belong to us"
     	                    System.out.println("OpenAudio detected a fake user login, blocked possible attack!");
     	                }
     	            }
