@@ -69,6 +69,9 @@ p {
 	.fa-2x {
 		font-size: 1em;
 	}
+	.alert-label {
+		font-size: 0.2em;
+	}
 }
 
 .spacing {
@@ -86,8 +89,7 @@ p {
 	width: 90%;
 	max-width: 680px;
 	position: absolute;
-	top: 25%;
-	bottom: 25%;
+	top: 10%;
 	left: 0;
 	right: 0;
 	margin: auto;
@@ -405,34 +407,41 @@ input[type=range]:focus::-ms-fill-upper {
 .center {
 	text-align: center;
 }
-.alert-labeled{
+
+/* Alert Box */
+
+.alert-labeled {
   padding: 0px;
+  position: fixed;
+  top: 15px;
+  left: 5%;
+  right: 5%;
 }
 
-.alert-labeled-row{
+.alert-labeled-row {
     display: table-row;
     padding: 0px;
 }
 
-.alert-labelled-cell{
+.alert-labelled-cell {
     padding: 10px;
     display: table-cell;
     vertical-align: middle;
 }
 
-.alert-labeled .close > *{
+.alert-labeled .close > * {
     padding:10px;
     display: table-cell;
     vertical-align: middle;
 }
 
-.alert-label{
+.alert-label {
     vertical-align: middle;
     background: #BCE8F1;
     width: auto;
     padding: 10px 15px;
     height: 100%;
-    font-size:1.1em;
+    font-size: 1.1em;
 }
 
 .info_table {
