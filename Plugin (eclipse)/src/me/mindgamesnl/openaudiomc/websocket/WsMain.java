@@ -16,6 +16,7 @@ import org.java_websocket.server.WebSocketServer;
 public class WsMain extends WebSocketServer {
 	public static JsonElement conn_us_name;
     public static WsMain s;
+    public static Object socketserverthing;
    
     static HashMap<String, Boolean> onlineLogger = new HashMap<String, Boolean>();
     
@@ -54,6 +55,8 @@ public class WsMain extends WebSocketServer {
         onlineLogger.put(conn.getRemoteSocketAddress().getAddress().getHostAddress(), false);
     }
  
+
+    
     @Override
     public void onMessage(WebSocket conn, String message) {
     	try {
@@ -74,17 +77,21 @@ public class WsMain extends WebSocketServer {
     	        }
     		}
   		} catch (IndexOutOfBoundsException e) {
-  		    System.err.println("IndexOutOfBoundsException: " + e.getMessage());
   		    System.out.println("OpenAudio detected a fake user login, blocked possible attack");
   		}
     	
     }
  
+
+    
+
+    
     public static void runServer() throws InterruptedException, IOException {
         WebSocketImpl.DEBUG = false;
         int port = Integer.parseInt(me.mindgamesnl.openaudiomc.main.Main.getPL().getConfig().getString("config.ws_host_port"));
         s = new WsMain(port);
         s.start();
+        socketserverthing = s;
     }
  
     

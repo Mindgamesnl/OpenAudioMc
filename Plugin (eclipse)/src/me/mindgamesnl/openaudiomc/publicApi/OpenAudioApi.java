@@ -30,6 +30,10 @@ public class OpenAudioApi {
 		WsSender.Send_Ws_Packet_To_Client(p, "{\"command\":\"reconnect\",\"line\":\"loop\",\"code\":\"" + newhost + "\"}");
 	}
 	
+	public static void setHue(Player p, String rgba) {
+		WsSender.sendSmartJson(p.getName(), "{\"command\":\"hue\",\"atribute\":\"set\",\"target\":\"" + rgba + "\"}");
+	}
+	
 	public static void kickPlayer(Player p) {
 		WsSender.Send_Ws_Packet_To_Client(p, "{\"command\":\"kick\"}");
 	}
