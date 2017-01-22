@@ -2,6 +2,8 @@ package me.mindgamesnl.openaudiomc.websocket;
 
 import java.util.ArrayList;
 import java.util.List;
+
+
  
 public class WsSessionMan {
     private static WsSessionMan sessionManager;
@@ -25,7 +27,6 @@ public class WsSessionMan {
     }
  
     public void endSession(String host) {
-
         sessions.remove(getSessionByHost(host));
     }
  
@@ -51,13 +52,18 @@ public class WsSessionMan {
     }
     
     
-    public static WsSession getSessionByName2(String name) {
+    @SuppressWarnings("unused")
+	public static boolean getSessionByName2(String name) {
         for (int i = 0; i < sessions.size(); i++) {
             //Bukkit.getLogger().info("Session gotten:" + sessions.get(i));
-            if (sessions.get(i).getName().equalsIgnoreCase(name))
-                return sessions.get(i);
+            if (sessions.get(i).getName().equalsIgnoreCase(name)) {
+            	return true;
+            } else {
+            	return false;
+            }
+                
         }
-        return null;
+		return false;
     }
  
     

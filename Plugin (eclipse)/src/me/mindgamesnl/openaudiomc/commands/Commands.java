@@ -50,9 +50,59 @@ public class Commands implements CommandExecutor {
 								} else if (args[0].equalsIgnoreCase("play")) {
 									
 									
-									sender.sendMessage(Config.Project_Chat_Name_Prefix_Color + " Command to: " + args[1]);
-									WsSender.sendSmartJson(args[1], "{\"command\":\"play\",\"line\":\"play\",\"src\":\"" + args[2] + "\"}");
-				
+									if (args.length > 3) {
+										if (args[3].equalsIgnoreCase("stop")) {
+											sender.sendMessage(Config.Project_Chat_Name_Prefix_Color + " Command to: " + args[1]);
+											WsSender.sendSmartJson(args[1], "{\"command\":\"stop\"}");
+											WsSender.sendSmartJson(args[1], "{\"command\":\"play\",\"line\":\"play\",\"src\":\"" + args[2] + "\"}");
+											
+										}
+									} else {
+										sender.sendMessage(Config.Project_Chat_Name_Prefix_Color + " Command to: " + args[1]);
+										WsSender.sendSmartJson(args[1], "{\"command\":\"play\",\"line\":\"play\",\"src\":\"" + args[2] + "\"}");
+					
+									}
+									
+									
+									
+								} else if (args[0].equalsIgnoreCase("hue")) {
+									
+									
+									//playlist
+									if (args.length > 1) {
+										
+										if (args[1].equalsIgnoreCase("set")) {
+											WsSender.sendSmartJson(args[2], "{\"command\":\"hue\",\"atribute\":\"set\",\"target\":\"" + args[3] + "\"}");
+											sender.sendMessage(Config.Project_Chat_Name_Prefix_Color + " Command send!");
+										} else if (args[1].equalsIgnoreCase("reset")) {
+											String niks = "Nothing";
+											WsSender.sendSmartJson(args[2], "{\"command\":\"hue\",\"atribute\":\"reset\",\"target\":\"" + niks + "\"}");
+											sender.sendMessage(Config.Project_Chat_Name_Prefix_Color + " Command send!");
+										}
+											
+										if (args[1].equalsIgnoreCase("effect")) {
+											if (args[2].equalsIgnoreCase("blink")) {
+												String niks = "Nothing";
+												WsSender.sendSmartJson(args[3], "{\"command\":\"hue\",\"atribute\":\"blink\",\"target\":\"" + niks + "\"}");
+												sender.sendMessage(Config.Project_Chat_Name_Prefix_Color + " Command send!");
+											} else if (args[2].equalsIgnoreCase("cycle")) {
+												String niks = "Nothing";
+												WsSender.sendSmartJson(args[3], "{\"command\":\"hue\",\"atribute\":\"cyclecolors\",\"target\":\"" + niks + "\"}");
+												sender.sendMessage(Config.Project_Chat_Name_Prefix_Color + " Command send!");
+											} else if (args[2].equalsIgnoreCase("stop")) {
+												String niks = "Nothing";
+												WsSender.sendSmartJson(args[3], "{\"command\":\"hue\",\"atribute\":\"stophueeffect\",\"target\":\"" + niks + "\"}");
+												sender.sendMessage(Config.Project_Chat_Name_Prefix_Color + " Command send!");
+											} else {
+												sender.sendMessage(Config.Project_Chat_Name_Prefix_Color + " Invalid command");
+											}
+										}
+										
+									} else {
+										sender.sendMessage(Config.Project_Chat_Name_Prefix_Color + " Invalid command");
+									}
+									
+									
 									
 								} else if (args[0].equalsIgnoreCase("skript")) {
 									
@@ -378,7 +428,7 @@ public class Commands implements CommandExecutor {
 										sender.sendMessage("   ");
 										sender.sendMessage("    ");
 										sender.sendMessage("     ");
-										sender.sendMessage("========" + Config.Project_Chat_Name_Prefix_Color + " (1/7)");
+										sender.sendMessage("========" + Config.Project_Chat_Name_Prefix_Color + " (1/8)");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio play <name> <url> " + ChatColor.GRAY + "Plays a file for a player.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio stop <name> " + ChatColor.GRAY + "Stops all sounds for the player.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /volume <0-100> " + ChatColor.GRAY + "Sets the volume.");
@@ -393,8 +443,8 @@ public class Commands implements CommandExecutor {
 										sender.sendMessage("   ");
 										sender.sendMessage("    ");
 										sender.sendMessage("     ");
-										sender.sendMessage("========" + Config.Project_Chat_Name_Prefix_Color + " (1/7)");
-										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio play <name> <url> " + ChatColor.GRAY + "Plays a file for a player.");
+										sender.sendMessage("========" + Config.Project_Chat_Name_Prefix_Color + " (1/8)");
+										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio play <name> <url> [mode]" + ChatColor.GRAY + "Plays a file for a player.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio stop <name> " + ChatColor.GRAY + "Stops all sounds for the player.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /volume <0-100> " + ChatColor.GRAY + "Sets the volume.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /audio " + ChatColor.GRAY + "Gives the player a link to open the client.");
@@ -408,7 +458,7 @@ public class Commands implements CommandExecutor {
 										sender.sendMessage("   ");
 										sender.sendMessage("    ");
 										sender.sendMessage("     ");
-										sender.sendMessage("========" + Config.Project_Chat_Name_Prefix_Color + " (2/7)");
+										sender.sendMessage("========" + Config.Project_Chat_Name_Prefix_Color + " (2/8)");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio send <name> <message> " + ChatColor.GRAY + "Send a message to a player.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio loop <name> <url> " + ChatColor.GRAY + "Plays a loop for a player.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio region create <name> <url> " + ChatColor.GRAY + "Create a region with music.");
@@ -423,7 +473,7 @@ public class Commands implements CommandExecutor {
 										sender.sendMessage("   ");
 										sender.sendMessage("    ");
 										sender.sendMessage("     ");
-										sender.sendMessage("========" + Config.Project_Chat_Name_Prefix_Color + " (3/7)");
+										sender.sendMessage("========" + Config.Project_Chat_Name_Prefix_Color + " (3/8)");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio setbg <name> <code/url/reset> " + ChatColor.GRAY + "Set a background image/color.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio buffer <name> <url> " + ChatColor.GRAY + "Buffer a sound.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio playbuffer <name> <url> " + ChatColor.GRAY + "Start sound in buffer.");
@@ -439,7 +489,7 @@ public class Commands implements CommandExecutor {
 										sender.sendMessage("   ");
 										sender.sendMessage("    ");
 										sender.sendMessage("     ");
-										sender.sendMessage("========" + Config.Project_Chat_Name_Prefix_Color + " (4/7)");
+										sender.sendMessage("========" + Config.Project_Chat_Name_Prefix_Color + " (4/8)");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio live start <stream> " + ChatColor.GRAY + "Start a live stream.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio live stop " + ChatColor.GRAY + "Stop a live stream.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio playregion <region> <url> " + ChatColor.GRAY + "Start sound for all the players in a region.");
@@ -453,7 +503,7 @@ public class Commands implements CommandExecutor {
 										sender.sendMessage("   ");
 										sender.sendMessage("    ");
 										sender.sendMessage("     ");
-										sender.sendMessage("========" + Config.Project_Chat_Name_Prefix_Color + " (5/7)");
+										sender.sendMessage("========" + Config.Project_Chat_Name_Prefix_Color + " (5/8)");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio debug <JSON> " + ChatColor.GRAY + "Send json string to all clients.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio kick <name> " + ChatColor.GRAY + "Kick a user from openaudio.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio reconnect <name> <new ws host> " + ChatColor.GRAY + "Connect a user to an other bungeecord server.");
@@ -469,7 +519,7 @@ public class Commands implements CommandExecutor {
 										sender.sendMessage("   ");
 										sender.sendMessage("    ");
 										sender.sendMessage("     ");
-										sender.sendMessage("========" + Config.Project_Chat_Name_Prefix_Color + " (6/7)");
+										sender.sendMessage("========" + Config.Project_Chat_Name_Prefix_Color + " (6/8)");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio group add <group name> " + ChatColor.GRAY + "Create a player group.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio group delete <group name> " + ChatColor.GRAY + "Delete a player group.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio group join <player> <group> " + ChatColor.GRAY + "Add a player to a group.");
@@ -486,9 +536,25 @@ public class Commands implements CommandExecutor {
 										sender.sendMessage("   ");
 										sender.sendMessage("    ");
 										sender.sendMessage("     ");
-										sender.sendMessage("========" + Config.Project_Chat_Name_Prefix_Color + " (7/7)");
+										sender.sendMessage("========" + Config.Project_Chat_Name_Prefix_Color + " (7/8)");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio region bind <region name> <sound> " + ChatColor.GRAY + "bind music to an existing region.");
 										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio region unbind <region name> <sound> " + ChatColor.GRAY + "unbind music from an existing region.");
+										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio hue set <player> <rgba color code> " + ChatColor.GRAY + "Set the Players hue lights to a color.");
+										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio hue reset <player> " + ChatColor.GRAY + "Set hue lights to default.");
+										
+										
+										
+									} else if (args[1].equalsIgnoreCase("8")) {
+										
+										sender.sendMessage("");
+										sender.sendMessage(" ");
+										sender.sendMessage("  ");
+										sender.sendMessage("   ");
+										sender.sendMessage("    ");
+										sender.sendMessage("     ");
+										sender.sendMessage("========" + Config.Project_Chat_Name_Prefix_Color + " (7/8)");
+										sender.sendMessage(" " + ChatColor.RED + "-" + ChatColor.YELLOW + " /openaudio hue effect <blink/stop/cycle> <player> " + ChatColor.GRAY + "Start effect on player's philips hue lights.");
+										
 									}
 								}
 						} else {

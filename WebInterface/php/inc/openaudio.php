@@ -31,6 +31,7 @@
 	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<script src="main/Soundmanager2.js"></script>
 	<script src="dist/sweetalert.min.js"></script>
+	<script src="dist/hue/hueapi.js"></script>
 	<script src="dist/qrcode.js"></script>
 	<script src="dist/qrcode.min.js"></script>
 	<script type="text/javascript" src="//www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
@@ -81,11 +82,15 @@
 		<div class="page-header" id="headerparent">
 			<h1 class="logo"><div id="display_name"><small >Hi there</small> (loading)<small>!</small></div></h1>
 		</div>
-		<div class="panel panel-info make-it-slow">
+		<div class="panel panel-success make-it-slow">
 			<div class="panel-heading" id="streaming_status">
 				<i class="fa fa-wifi fa-1x" aria-hidden="true"></i>
 				<div id="streaming_text" style="display:inline;">Currently streaming to: <i>%device%</i></div>
 				<div class="close-streaming"><i onclick='stopallstraming();' class="fa fa-times" aria-hidden="true"></i></div>
+			</div>
+			<div class="panel-heading" id="hue_status">
+				<i class="fa fa-lightbulb-o" data-toggle="modal" data-target="#hue" aria-hidden="true"></i>
+				<div id="hue_text" style="display:inline;">Connected with: <i>%device%</i></div>
 			</div>
 			<div class="panel-body">
 				<div class="row">
@@ -95,8 +100,8 @@
 					<div class="col-md-8" id="contentBoxMain" style="border-left:1px solid #ccc;height:160px;">
 						<form class="form-horizontal">
 							<fieldset>
-								<div id="cogparent"><img class="btn-clipboard2 streamingLogo" id="cast_logo" style="position: absolute; top: 20px; right: 50px;" src="Images/google-cast-logo.png" onclick="startCasting();"><i style="position: absolute; top: 20px; right: 20px;" class="btn-clipboard fa fa-cog fa-2x"
-										onmouseover="this.className='draai btn-clipboard fa fa-cog fa-2x';" onmouseout="this.className='btn-clipboard fa fa-cog fa-2x';" data-toggle="modal" data-target="#settings" aria-hidden="true"></i></div>
+								<div id="cogparent"><img class="btn-clipboard2 streamingLogo" id="cast_logo" style="position: absolute; top: 20px; right: 70px;" src="Images/google-cast-logo.png" onclick="startCasting();"><i style="position: absolute; top: 20px; right: 40px;" class="btn-clipboard fa fa-cog fa-2x"
+										onmouseover="this.className='draai btn-clipboard fa fa-cog fa-2x';" onmouseout="this.className='btn-clipboard fa fa-cog fa-2x';" data-toggle="modal" data-target="#settings" aria-hidden="true"></i><i style="position: absolute; top: 20px; right: 20px;" class="btn-clipboard fa fa-lightbulb-o fa-2x" data-toggle="modal" data-target="#hue" aria-hidden="true"></i></div>
 								<h3 id="status">Status: <font style="color:green;">Loading</font></h3>
 								<hr />
 								<div id="voltextparant">
@@ -147,7 +152,7 @@
 
 					</div>
 					<div class="col-md-4" id="contentBoxMain" style="border-left:1px solid #ccc;height:160px;">
-						<center><img id="face" src="Images/small_logo.png" class="animated infinite bounceOut" onclick="this.className = '';" height="160px"></center>
+						<center><img id="face" src="Images/logo2.jpg" height="170px"></center>
 					</div>
 				</div>
 			</div>
@@ -192,6 +197,41 @@
 					</p>
 					<i class="fa fa-github fa-3x" aria-hidden="true" onclick="window.open('https://github.com/Mindgamesnl/OpenAudioMc')"></i>
 					<i class="fa fa-globe fa-3x" aria-hidden="true" onclick="window.open('https://www.spigotmc.org/resources/openaudiomc.30691/')"></i>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+		<div id="hue" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Hue</h4>
+				</div>
+				<div class="modal-body">
+					<hr />
+					<div id="hue_modal_text">
+						<h1>
+							No philips hue lights found :(
+						</h1>
+						<h1>
+					</div>
+						
+						<div id="HueControlls">
+							<hr />
+						<p>
+							Manual controls:
+						</p>
+					</div>
+						<div class="button raised blue" onclick="ConnectToHueBridge();">
+						<div class="center" fit>Reconnect</div>
+						<paper-ripple fit></paper-ripple>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

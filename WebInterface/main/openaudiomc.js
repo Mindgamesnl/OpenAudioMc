@@ -5,19 +5,21 @@ function enable() {
 		//disable some ui stuff for tv'screen
 		document.getElementById("voltextparant").innerHTML = '<div id="voltextparant"><h1><div id="volume"><small>Volume:</small> 20%</div></h1></div>';
 		document.getElementById("sliderparant").style.display = "none";
-		document.getElementById("cogparent").style.display = "none";
+		document.getElementById("cogparent").style.display = "none";	
 		//document.getElementById("headerparent").style.display = "none";
 	}
 
 	document.getElementById("cast_logo").style.display = "none";
 	document.getElementById("streaming_status").style.display = "none";
-
+	document.getElementById("hue_status").style.display = "none";
+	document.getElementById("HueControlls").style.display = "none";
+	
 	if (Notification.permission !== "granted") {
 		document.getElementById("noBrowserMessages").style.display = "";
 	}
-	
+
 	Dashboard.setStreamOffline();
-	
+
 	/*
 	leaving the openaudio credits would be nice but no one is holding you back from removing it
 	*/
@@ -70,6 +72,7 @@ function enable() {
 
 	settings.setDefault();
 	settings.apply();
+	ConnectToHueBridge();
 }
 
 
@@ -182,6 +185,9 @@ uiExtra = {};
 fadingData = {};
 stopFading = {};
 newest_region = 0;
+hue_connected = {};
+var MyHue = new huepi();
+isHueOn = true;
 last_region_id = 1;
 currentFadingLineRegion = 1;
 client = {};
@@ -234,6 +240,7 @@ client.setblank = function() {
 
 client.close = function() {
 	document.getElementById("status").innerHTML = messages.could_not_connect.replace(/%username%/g, mcname);
+	MyHue.GroupSetRGB(0,240,92,0);
 	reconnectpromt();
 	play.stop();
 }
@@ -315,12 +322,29 @@ client.Main = function(awesomecode) {
 			fadeIdOut("live");
 			play.stopregion();
 			play.stop();
+			MyHue.GroupSetRGB(0,240,92,0);
 		} else if (json.command == "connect") {
+			hue_set_color("rgba(255,255,255,150)");
 			document.getElementById("status").innerHTML = messages.connected.replace(/%username%/g, mcname);
 		} else if (json.command == "stopoldregion") {
 			stopOldRegion();
 		} else if (json.command == "setmotd") {
 			Dashboard.setMOTD(json.src);
+		} else if (json.command == "hue") {
+			if (json.atribute === "set") {
+				hue_set_color(json.target);
+			} else if (json.atribute === "reset") {
+				hue_on();
+				hue_connected = true;
+				hue_set_color("rgba(255,255,255,150)");
+			} else if (json.atribute === "blink") {
+				MyHue.GroupAlertLSelect(0);
+			} else if (json.atribute === "cyclecolors") {
+				MyHue.GroupEffectColorloop(0);
+			} else if (json.atribute === "stophueeffect") {
+				MyHue.GroupEffectNone(0);
+				MyHue.GroupAlertNone(0);
+			}
 		} else {
 			console.info("[core] Invalid json command");
 			//console.log(json);
@@ -462,7 +486,7 @@ play.region = function(src_fo_file) {
 	last_region_id++;
 	newest_region = last_region_id;
 	var regionsound = soundManager.createSound({
-		id: "region"+newest_region,
+		id: "region" + newest_region,
 		volume: 0,
 		url: src_fo_file
 	});
@@ -475,13 +499,13 @@ play.region = function(src_fo_file) {
 		});
 	}
 	loopSound(regionsound);
-	fadeIdTarget("region"+newest_region, volume);
+	fadeIdTarget("region" + newest_region, volume);
 }
 
 
 
 function stopOldRegion() {
-	fadeIdOut("region"+oldRegion);
+	fadeIdOut("region" + oldRegion);
 }
 
 
@@ -1108,7 +1132,7 @@ function showqr() {
 
 
 
-Dashboard.setMessage = function (html) {
+Dashboard.setMessage = function(html) {
 	document.getElementById("messageContent").className = "label";
 	document.getElementById("messageContent").innerHTML = html;
 	document.getElementById("messageContent").className = "label animated tada";
@@ -1128,7 +1152,7 @@ Dashboard.setStreamOnline = function() {
 
 
 
-Dashboard.stopStreaming = function () {
+Dashboard.stopStreaming = function() {
 	Dashboard.setStreamOffline();
 	soundManager.stop("live");
 	soundManager.destroySound("live");
@@ -1143,31 +1167,151 @@ Dashboard.requestPremmisions = function() {
 
 
 Dashboard.setMOTD = function(Text) {
-	document.getElementById("motd").style.display = "";
+		document.getElementById("motd").style.display = "";
 		Text = Text.replace(/\n/g, "<br>");
 
-	//ColorCodes in the text box
-	Text = Text.replace(/&0/g, "<a style='color:#000000 ;'>");
-	Text = Text.replace(/&1/g, "<a style='color:#0000AA ;'>");
-	Text = Text.replace(/&2/g, "<a style='color:#00AA00 ;'>");
-	Text = Text.replace(/&3/g, "<a style='color:#00AAAA ;'>");
-	Text = Text.replace(/&4/g, "<a style='color:#AA0000 ;'>");
-	Text = Text.replace(/&5/g, "<a style='color:#AA00AA ;'>");
-	Text = Text.replace(/&6/g, "<a style='color:#FFAA00 ;'>");
-	Text = Text.replace(/&7/g, "<a style='color:#AAAAAA ;'>");
-	Text = Text.replace(/&8/g, "<a style='color:#00AA00 ;'>");
-	Text = Text.replace(/&9/g, "<a style='color:#5555FF ;'>");
-	var Text2 = Text;
-	Text2 = Text2.replace(/&b/g, "<a style='color:2cf9e5 ;'>");
-	Text2 = Text2.replace(/&a/g, "<a style='color:55FF55 ;'>");
-	Text2 = Text2.replace(/&c/g, "<a style='color:FF5555 ;'>");
-	Text2 = Text2.replace(/&d/g, "<a style='color:FF55FF ;'>");
-	Text2 = Text2.replace(/&e/g, "<a style='color:FFFF55 ;'>");
-	Text2 = Text2.replace(/&f/g, "<a style='color:FFFFFF ;'>");
-	
-	document.getElementById("serverMotd").innerHTML = Text2;
-	console.log("Server motd: " + Text2);
-}
-//google cast code is in openaudio-tv.js
+		//ColorCodes in the text box
+		Text = Text.replace(/&0/g, "<a style='color:#000000 ;'>");
+		Text = Text.replace(/&1/g, "<a style='color:#0000AA ;'>");
+		Text = Text.replace(/&2/g, "<a style='color:#00AA00 ;'>");
+		Text = Text.replace(/&3/g, "<a style='color:#00AAAA ;'>");
+		Text = Text.replace(/&4/g, "<a style='color:#AA0000 ;'>");
+		Text = Text.replace(/&5/g, "<a style='color:#AA00AA ;'>");
+		Text = Text.replace(/&6/g, "<a style='color:#FFAA00 ;'>");
+		Text = Text.replace(/&7/g, "<a style='color:#AAAAAA ;'>");
+		Text = Text.replace(/&8/g, "<a style='color:#00AA00 ;'>");
+		Text = Text.replace(/&9/g, "<a style='color:#5555FF ;'>");
+		var Text2 = Text;
+		Text2 = Text2.replace(/&b/g, "<a style='color:2cf9e5 ;'>");
+		Text2 = Text2.replace(/&a/g, "<a style='color:55FF55 ;'>");
+		Text2 = Text2.replace(/&c/g, "<a style='color:FF5555 ;'>");
+		Text2 = Text2.replace(/&d/g, "<a style='color:FF55FF ;'>");
+		Text2 = Text2.replace(/&e/g, "<a style='color:FFFF55 ;'>");
+		Text2 = Text2.replace(/&f/g, "<a style='color:FFFFFF ;'>");
+
+		document.getElementById("serverMotd").innerHTML = Text2;
+		console.log("Server motd: " + Text2);
+	}
+	//google cast code is in openaudio-tv.js
 
 onload = enable
+
+function ConnectToHueBridge() {
+	if (!localStorage.MyHueBridgeIP) { // No Cached BridgeIP?
+
+		MyHue.PortalDiscoverLocalBridges().then(function BridgesDiscovered() {
+			console.log('Bridge IP: ' + MyHue.BridgeIP);
+			MyHue.BridgeGetConfig().then(function BridgeConfigReceived() {
+				console.log('Bridge Name: ' + MyHue.BridgeName);
+				MyHue.BridgeGetData().then(function BridgeDataReceived() {
+					localStorage.MyHueBridgeIP = MyHue.BridgeIP; // Cache BridgeIP
+					console.log('Connected');
+					on_hue_link();
+				}, function UnableToRetreiveBridgeData() {
+					console.log('Please press connect button on the hue Bridge');
+					MyHue.BridgeCreateUser().then(function BridegeUserCreated() {
+						localStorage.MyHueBridgeIP = MyHue.BridgeIP; // Cache BridgeIP
+						console.log('Connected');
+						on_hue_link(MyHue.BridgeName);
+						return;
+					}, function UnableToCreateUseronBridge() {
+						document.getElementById("hue_modal_text").innerHTML = "<h2>philips hue lights detected!</h2><h3>Please press the link button!</h3>";
+						return;
+					});
+				});
+			}, function UnableToRetreiveBridgeConfig() {
+				document.getElementById("hue_modal_text").innerHTML = "<h2>Could not connect :(</h2>";
+				document.getElementById("hue_text").innerHTML = "Failed to connect with the hue bridge :(";
+				return;
+			});
+		}, function UnableToDiscoverLocalBridgesViaPortal() {
+			document.getElementById("hue_modal_text").innerHTML = "<h2>Could not connect :(</h2>";
+			document.getElementById("hue_text").innerHTML = "Failed to connect with the hue bridge :(";
+			return;
+		});
+	} else {
+		console.log('Using Cached Bridge IP');
+		MyHue.BridgeIP = localStorage.MyHueBridgeIP;
+		console.log('Cached Bridge IP: ' + MyHue.BridgeIP);
+		document.getElementById("hue_modal_text").innerHTML = "<h2>Connecting to hue bridge...</h2>";
+		document.getElementById("hue_status").style.display = "";
+		document.getElementById("hue_text").innerHTML = "Connecting to with hue bridge...";
+		MyHue.BridgeGetConfig().then(function CachedBridgeConfigReceived() {
+			console.log('Bridge Name: ' + MyHue.BridgeName);
+			MyHue.BridgeGetData().then(function CachedBridgeDataReceived() {
+				console.log('Connected');
+				on_hue_link(MyHue.BridgeName);
+			}, function UnableToRetreiveCachedBridgeData() {
+				delete localStorage.MyHueBridgeIP; // not Whitelisted anymore
+				document.getElementById("hue_modal_text").innerHTML = "<h2>Could not connect :(</h2>";
+				document.getElementById("hue_text").innerHTML = "Failed to connect with the hue bridge :(";
+				return;
+			});
+		}, function UnableToRetreiveCachedBridgeConfig() {
+			delete localStorage.MyHueBridgeIP; // not found anymore
+			document.getElementById("hue_modal_text").innerHTML = "<h2>Could not connect :(</h2>";
+			document.getElementById("hue_text").innerHTML = "Failed to connect with the hue bridge :(";
+		});
+	}
+}
+
+
+function on_hue_link(name) {
+	document.getElementById("hue_modal_text").innerHTML = "<h3>You are now connacted with your " + name + " bridge.<br />have fun! :)</h3>";
+	document.getElementById("hue_status").style.display = "";
+	document.getElementById("hue_text").innerHTML = "Connected with: <i>"+name+"</i>";
+	setTimeout(function() {
+		hue_off();
+		setTimeout(function() {
+			hue_on();
+			hue_connected = true;
+			hue_set_color("rgba(255,255,255,150)");
+			//document.getElementById("HueControlls").style.display = "";
+		}, 1000);
+	}, 1000);
+}
+
+
+function reset_hue() {
+	hue_off();
+	setTimeout(function() {
+		hue_on();
+		hue_connected = true;
+		hue_set_color("rgba(255,255,255,150)");
+	}, 500);
+}
+
+
+function hue_on() {
+	MyHue.GroupOn(0);
+}
+
+
+function hue_off() {
+	MyHue.GroupOff(0);
+}
+
+
+function hue_set_brightes(number) {
+	MyHue.LightSetBrightness(1, number);
+	MyHue.LightSetBrightness(2, number);
+	MyHue.LightSetBrightness(3, number);
+}
+
+
+function hue_set_color(args) {
+	if (hue_connected) {
+		try {
+			var colorString = args,
+			colorsOnly = colorString.substring(colorString.indexOf('(') + 1, colorString.lastIndexOf(')')).split(/,\s*/);
+			red = parseInt(colorsOnly[0]);
+			green = parseInt(colorsOnly[1]);
+			blue = parseInt(colorsOnly[2]);
+			opacity = parseInt(colorsOnly[3]);
+			MyHue.GroupSetRGB(0, red, green, blue);
+			hue_set_brightes(opacity);	
+		} catch(e) {
+			
+		}
+	}
+}
