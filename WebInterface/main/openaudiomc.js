@@ -5,7 +5,7 @@ function enable() {
 		//disable some ui stuff for tv'screen
 		document.getElementById("voltextparant").innerHTML = '<div id="voltextparant"><h1><div id="volume"><small>Volume:</small> 20%</div></h1></div>';
 		document.getElementById("sliderparant").style.display = "none";
-		document.getElementById("cogparent").style.display = "none";	
+		document.getElementById("cogparent").style.display = "none";
 		//document.getElementById("headerparent").style.display = "none";
 	}
 
@@ -13,7 +13,8 @@ function enable() {
 	document.getElementById("streaming_status").style.display = "none";
 	document.getElementById("hue_status").style.display = "none";
 	document.getElementById("HueControlls").style.display = "none";
-	
+	document.getElementById("DetectHueButton").style.display = "none";
+
 	if (Notification.permission !== "granted") {
 		document.getElementById("noBrowserMessages").style.display = "";
 	}
@@ -72,7 +73,7 @@ function enable() {
 
 	settings.setDefault();
 	settings.apply();
-	ConnectToHueBridge();
+	loop_hue_connection();
 }
 
 
@@ -188,6 +189,13 @@ newest_region = 0;
 hue_connected = {};
 var MyHue = new huepi();
 isHueOn = true;
+HueTestTry = 0;
+hue_lights = {};
+hue_licht_1 = 1;
+hue_licht_2 = 2;
+hue_licht_3 = 3;
+StopHueLoop = false;
+hue_start_animation = true;
 last_region_id = 1;
 currentFadingLineRegion = 1;
 client = {};
@@ -240,7 +248,7 @@ client.setblank = function() {
 
 client.close = function() {
 	document.getElementById("status").innerHTML = messages.could_not_connect.replace(/%username%/g, mcname);
-	MyHue.GroupSetRGB(0,240,92,0);
+	MyHue.GroupSetRGB(0, 240, 92, 0);
 	reconnectpromt();
 	play.stop();
 }
@@ -322,7 +330,7 @@ client.Main = function(awesomecode) {
 			fadeIdOut("live");
 			play.stopregion();
 			play.stop();
-			MyHue.GroupSetRGB(0,240,92,0);
+			MyHue.GroupSetRGB(0, 240, 92, 0);
 		} else if (json.command == "connect") {
 			hue_set_color("rgba(255,255,255,150)");
 			document.getElementById("status").innerHTML = messages.connected.replace(/%username%/g, mcname);
@@ -338,12 +346,30 @@ client.Main = function(awesomecode) {
 				hue_connected = true;
 				hue_set_color("rgba(255,255,255,150)");
 			} else if (json.atribute === "blink") {
-				MyHue.GroupAlertLSelect(0);
+				for (var key in MyHue.Lights) {
+					if (MyHue.Lights.hasOwnProperty(key)) {
+						if (hue_lights[key].enabled) {
+							MyHue.LightAlertLSelect(key);
+						}
+					}
+				}
 			} else if (json.atribute === "cyclecolors") {
-				MyHue.GroupEffectColorloop(0);
+				for (var key in MyHue.Lights) {
+					if (MyHue.Lights.hasOwnProperty(key)) {
+						if (hue_lights[key].enabled) {
+							MyHue.LightEffectColorloop(key);
+						}
+					}
+				}
 			} else if (json.atribute === "stophueeffect") {
-				MyHue.GroupEffectNone(0);
-				MyHue.GroupAlertNone(0);
+				for (var key in MyHue.Lights) {
+					if (MyHue.Lights.hasOwnProperty(key)) {
+						if (hue_lights[key].enabled) {
+							MyHue.LightAlertNone(key);
+							MyHue.LightEffectNone(key);
+						}
+					}
+				}
 			}
 		} else {
 			console.info("[core] Invalid json command");
@@ -1131,7 +1157,6 @@ function showqr() {
 }
 
 
-
 Dashboard.setMessage = function(html) {
 	document.getElementById("messageContent").className = "label";
 	document.getElementById("messageContent").innerHTML = html;
@@ -1198,20 +1223,16 @@ onload = enable
 
 function ConnectToHueBridge() {
 	if (!localStorage.MyHueBridgeIP) { // No Cached BridgeIP?
-
 		MyHue.PortalDiscoverLocalBridges().then(function BridgesDiscovered() {
 			console.log('Bridge IP: ' + MyHue.BridgeIP);
 			MyHue.BridgeGetConfig().then(function BridgeConfigReceived() {
-				console.log('Bridge Name: ' + MyHue.BridgeName);
 				MyHue.BridgeGetData().then(function BridgeDataReceived() {
 					localStorage.MyHueBridgeIP = MyHue.BridgeIP; // Cache BridgeIP
-					console.log('Connected');
 					on_hue_link();
 				}, function UnableToRetreiveBridgeData() {
 					console.log('Please press connect button on the hue Bridge');
 					MyHue.BridgeCreateUser().then(function BridegeUserCreated() {
 						localStorage.MyHueBridgeIP = MyHue.BridgeIP; // Cache BridgeIP
-						console.log('Connected');
 						on_hue_link(MyHue.BridgeName);
 						return;
 					}, function UnableToCreateUseronBridge() {
@@ -1220,12 +1241,12 @@ function ConnectToHueBridge() {
 					});
 				});
 			}, function UnableToRetreiveBridgeConfig() {
-				document.getElementById("hue_modal_text").innerHTML = "<h2>Could not connect :(</h2>";
+				no_hue_link();
 				document.getElementById("hue_text").innerHTML = "Failed to connect with the hue bridge :(";
 				return;
 			});
 		}, function UnableToDiscoverLocalBridgesViaPortal() {
-			document.getElementById("hue_modal_text").innerHTML = "<h2>Could not connect :(</h2>";
+			no_hue_link();
 			document.getElementById("hue_text").innerHTML = "Failed to connect with the hue bridge :(";
 			return;
 		});
@@ -1237,38 +1258,82 @@ function ConnectToHueBridge() {
 		document.getElementById("hue_status").style.display = "";
 		document.getElementById("hue_text").innerHTML = "Connecting to with hue bridge...";
 		MyHue.BridgeGetConfig().then(function CachedBridgeConfigReceived() {
-			console.log('Bridge Name: ' + MyHue.BridgeName);
 			MyHue.BridgeGetData().then(function CachedBridgeDataReceived() {
-				console.log('Connected');
 				on_hue_link(MyHue.BridgeName);
 			}, function UnableToRetreiveCachedBridgeData() {
 				delete localStorage.MyHueBridgeIP; // not Whitelisted anymore
-				document.getElementById("hue_modal_text").innerHTML = "<h2>Could not connect :(</h2>";
+				no_hue_link();
 				document.getElementById("hue_text").innerHTML = "Failed to connect with the hue bridge :(";
 				return;
 			});
 		}, function UnableToRetreiveCachedBridgeConfig() {
 			delete localStorage.MyHueBridgeIP; // not found anymore
-			document.getElementById("hue_modal_text").innerHTML = "<h2>Could not connect :(</h2>";
+			no_hue_link();
 			document.getElementById("hue_text").innerHTML = "Failed to connect with the hue bridge :(";
 		});
 	}
 }
 
 
+function no_hue_link() {
+	document.getElementById("hue_modal_text").innerHTML = "<h2>No philips hue bridge found :(</h2><h4>Searching for a hue bridge in your network...</h4>";
+	hue_start_animation = true;
+}
+
+
+function invalid_hue_link() {
+	document.getElementById("DetectHueButton").style.display = "";
+	document.getElementById("hue_modal_text").innerHTML = "<h2>Could not connect to hue bridge :(</h2>";
+	StopHueLoop = true;
+	window.clearInterval(hue_connect_loop);
+}
+
+
+function loop_hue_connection() {
+	HueTestTry = 0;
+	document.getElementById("DetectHueButton").style.display = "none";
+	hue_connect_loop = window.setInterval(function() {
+		HueTestTry++;
+		console.log("Hue connect attempt: " + HueTestTry);
+		if (!hue_connected || !StopHueLoop) {
+			if (+HueTestTry < +5) {
+				document.getElementById("DetectHueButton").style.display = "none";
+				ConnectToHueBridge();
+			} else {
+				window.clearInterval(hue_connect_loop);
+				console.log("Failed to detect hue bridge :(");
+				document.getElementById("hue_modal_text").innerHTML = "<h2>No philips hue bridge found :(</h2>";
+				document.getElementById("DetectHueButton").style.display = "";
+			}
+		} else {
+			window.clearInterval(hue_connect_loop);
+			console.log("Failed to detect hue bridge :(");
+			document.getElementById("hue_modal_text").innerHTML = "<h2>No philips hue bridge found :(</h2>";
+			document.getElementById("DetectHueButton").style.display = "";
+		}
+	}, 5000);
+}
+
+
 function on_hue_link(name) {
-	document.getElementById("hue_modal_text").innerHTML = "<h3>You are now connacted with your " + name + " bridge.<br />have fun! :)</h3>";
-	document.getElementById("hue_status").style.display = "";
-	document.getElementById("hue_text").innerHTML = "Connected with: <i>"+name+"</i>";
-	setTimeout(function() {
-		hue_off();
+	if (hue_start_animation) {
+		hue_get_lights();
+		window.clearInterval(hue_connect_loop);
+		console.log("Hue connected!");
+		document.getElementById("HueControlls").style.display = "";
+		document.getElementById("hue_modal_text").innerHTML = "<h3>You are now connected with your " + name + " bridge.<br />have fun! :)</h3>";
+		document.getElementById("hue_status").style.display = "";
+		document.getElementById("hue_text").innerHTML = "Connected with: <i>" + name + "</i>";
+		hue_start_animation = false;
 		setTimeout(function() {
-			hue_on();
-			hue_connected = true;
-			hue_set_color("rgba(255,255,255,150)");
-			//document.getElementById("HueControlls").style.display = "";
+			hue_off();
+			setTimeout(function() {
+				hue_on();
+				hue_connected = true;
+				hue_set_color("rgba(255,255,255,150)");
+			}, 1000);
 		}, 1000);
-	}, 1000);
+	}
 }
 
 
@@ -1283,35 +1348,137 @@ function reset_hue() {
 
 
 function hue_on() {
-	MyHue.GroupOn(0);
+	for (var key in MyHue.Lights) {
+		if (MyHue.Lights.hasOwnProperty(key)) {
+			if (hue_lights[key].enabled) {
+				MyHue.LightOn(key);
+			}
+		}
+	}
 }
 
 
 function hue_off() {
-	MyHue.GroupOff(0);
+		for (var key in MyHue.Lights) {
+		if (MyHue.Lights.hasOwnProperty(key)) {
+			if (hue_lights[key].enabled) {
+				MyHue.LightOff(key);
+			}
+		}
+	}
 }
 
 
 function hue_set_brightes(number) {
-	MyHue.LightSetBrightness(1, number);
-	MyHue.LightSetBrightness(2, number);
-	MyHue.LightSetBrightness(3, number);
+	for (var key in MyHue.Lights) {
+		if (MyHue.Lights.hasOwnProperty(key)) {
+			if (hue_lights[key].enabled) {
+				MyHue.LightSetBrightness(key, number);
+			}
+		}
+	}
 }
 
 
-function hue_set_color(args) {
+function hue_get_lights() {
+	for (var key in MyHue.Lights) {
+		if (MyHue.Lights.hasOwnProperty(key)) {
+			hue_lights[key] = {};
+			hue_lights[key].name = MyHue.Lights[key].name;
+			hue_lights[key].state = MyHue.Lights[key].state;
+			hue_lights[key].enabled = true;
+			document.getElementById("HueLightList").innerHTML += '<div class="notice notice-success" onclick="hue_list_click_handeler(this);" id="ListLightHue_'+key+'"><strong id="ListLightHue_'+key+'_state">Enabled</strong> '+MyHue.Lights[key].name+'</div>'
+		}
+	}
+}
+
+
+function hue_list_click_handeler(object) {
+	if (object.className === "notice notice-success") {
+		//disable light
+		
+		var lightID = object.id.match(/\d+/)[0];
+		hue_lights[lightID].enabled = false;
+		object.className = "notice notice-danger";
+		document.getElementById(object.id + "_state").innerHTML = "Disabled";
+		hue_reset_state(lightID);
+		
+		
+	} else {
+		//enable light
+		
+		var lightID = object.id.match(/\d+/)[0];
+		hue_lights[lightID].enabled = true;
+		object.className = "notice notice-success";
+		document.getElementById(object.id + "_state").innerHTML = "Enabled";
+		
+		
+	}
+}
+
+
+function hue_reset_state(id) {
+	var state = hue_lights[id].state;
+	MyHue.LightSetBrightness(id, state.bri);
+	MyHue.LightSetXY(id, state.xy[0], state.xy[1]);
+	MyHue.LightAlertNone(id);
+	MyHue.LightEffectNone(id);
+}
+
+
+function hue_set_color(args, id) {
 	if (hue_connected) {
 		try {
-			var colorString = args,
-			colorsOnly = colorString.substring(colorString.indexOf('(') + 1, colorString.lastIndexOf(')')).split(/,\s*/);
-			red = parseInt(colorsOnly[0]);
-			green = parseInt(colorsOnly[1]);
-			blue = parseInt(colorsOnly[2]);
-			opacity = parseInt(colorsOnly[3]);
-			MyHue.GroupSetRGB(0, red, green, blue);
-			hue_set_brightes(opacity);	
-		} catch(e) {
-			
+			if (id > 3 || id == null || hue_lights[id].enabled === false) {
+				//for all lights
+				var colorString = args,
+				colorsOnly = colorString.substring(colorString.indexOf('(') + 1, colorString.lastIndexOf(')')).split(/,\s*/);
+				red = parseInt(colorsOnly[0]);
+				green = parseInt(colorsOnly[1]);
+				blue = parseInt(colorsOnly[2]);
+				opacity = parseInt(colorsOnly[3]);
+				for (var key in MyHue.Lights) {
+					if (MyHue.Lights.hasOwnProperty(key)) {
+						if (hue_lights[key].enabled) {
+							MyHue.LightSetRGB(key, red, green, blue);
+						}
+					}
+				}
+				if (opacity === 0) {
+					for (var key in MyHue.Lights) {
+						if (MyHue.Lights.hasOwnProperty(key)) {
+							if (hue_lights[key].enabled) {
+								MyHue.LightOff(key);
+							}
+						}
+					}
+				} else {
+					for (var key in MyHue.Lights) {
+						if (MyHue.Lights.hasOwnProperty(key)) {
+							if (hue_lights[key].enabled) {
+								MyHue.LightOn(key);
+								MyHue.LightSetBrightness(key, opacity);
+							}
+						}
+					}
+				}
+			} else {
+				var colorString = args,
+				colorsOnly = colorString.substring(colorString.indexOf('(') + 1, colorString.lastIndexOf(')')).split(/,\s*/);
+				red = parseInt(colorsOnly[0]);
+				green = parseInt(colorsOnly[1]);
+				blue = parseInt(colorsOnly[2]);
+				opacity = parseInt(colorsOnly[3])
+				MyHue.LightSetRGB(id, red, green, blue);
+				if (opacity === 0) {
+					MyHue.LightOff(id);
+				} else {
+					MyHue.LightOn(id);
+					MyHue.LightSetBrightness(id, opacity);
+				}
+			}
+		} catch (e) {
+			console.log("Unable to decode hue color code... well shit.");
 		}
 	}
 }
