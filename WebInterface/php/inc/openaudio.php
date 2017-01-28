@@ -231,6 +231,7 @@
 				</div>
 				<div id="HueControlls">
 					<hr />
+<<<<<<< HEAD
 					<p>
 						Manual controls:
 					</p>
@@ -241,17 +242,63 @@
 					<div class="center" fit>Retry</div>
 					<paper-ripple fit></paper-ripple>
 				</div>
+=======
+					<div class="bs-calltoaction bs-calltoaction-success">
+                    <div class="row">
+                        <div class="col-md-9 cta-contents">
+					<div id="hue_modal_text">
+						<h1>
+							No philips hue bridge found :(
+						</h1>
+						<h1>
+					</div>
+						                     </div>
+
+                     </div>
+
+
+
+			</div>
+						
+						<div id="HueControlls">
+							<hr />
+						<p>
+							Manual controls:
+						</p>
+
+    
+         
+                <!-- List group -->
+
+
+                <div id="HueLightList">
+									
+							</div>
+
+
+
+			</div>
+			<div class="button raised blue" id="DetectHueButton" onclick="loop_hue_connection();">
+				<div class="center" fit>Retry</div>
+				<paper-ripple fit></paper-ripple>
+>>>>>>> origin/master
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 			</div>
 		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		</div>
+	</div>
+	</div>
 	</div>
 </div>
 	<!-- ../Popup Modal for Settings -->
 
 
 	<!-- warning banners -->
+<<<<<<< HEAD
 <div id="noBrowserMessages" style="display:none;">
 	<div class="container">
 		<div class="row"> </div>
@@ -264,6 +311,21 @@
 						<p class="alert-body alert-body-right alert-labelled-cell" style="color:white;">
 							Please enable Notifications for the optimal experience! <span class="label label-important" onclick="Dashboard.requestPremmisions();"><b>click here.</b></span>
 						</p>
+=======
+	<div id="noBrowserMessages" style="display:none;">
+		<div class="container">
+			<div class="row"> </div>
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12">
+
+					<div class="alert alert-info alert-labeled">
+						<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+												<div class="alert-labeled-row" style=" color: white;text-shadow: 1px 1px 1px #ccc;font-size: 1.3em;"><span class="alert-label alert-label-left alert-labelled-cell"><i class="fa fa-warning"></i></span>
+													<p class="alert-body alert-body-right alert-labelled-cell" style="color:white;">
+														Please enable Notifications for the optimal experience! <span class="label label-important" onclick="Dashboard.requestPremmisions();"><b>click here.</b></span>
+													</p>
+												</div>
+>>>>>>> origin/master
 					</div>
 				</div>
 			</div>
