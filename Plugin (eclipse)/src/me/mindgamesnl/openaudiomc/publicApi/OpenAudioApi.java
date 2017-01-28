@@ -8,9 +8,10 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 import me.mindgamesnl.openaudiomc.sessionKeyManager.skm;
 import me.mindgamesnl.openaudiomc.websocket.WsSender;
-import me.mindgamesnl.openaudiomc.websocket.WsMain;
 
 import me.mindgamesnl.openaudiomc.regions.regionManager;
+
+import me.mindgamesnl.openaudiomc.websocket.OamSessions;
 
 public class OpenAudioApi {
 	
@@ -50,7 +51,7 @@ public class OpenAudioApi {
 	}
 	
 	public static Boolean isConnected(Player p) {
-		return WsMain.isOnline(p.getName());
+		return OamSessions.isConnected(p.getName());
 	}
 	
 	public static String getRegionSound(String region) {
@@ -59,6 +60,10 @@ public class OpenAudioApi {
 	
 	public static String getSessionKey(Player p) {
 		return skm.getSession(p.getName());
+	}
+	
+	public static String getHost(Player p) {
+		return OamSessions.getSessionByName(p.getName());
 	}
 	
 	public static void playRegion(String region_name, String sourcefile) {
@@ -72,6 +77,5 @@ public class OpenAudioApi {
 			}			
 		}
 	}
-	
 	
 }

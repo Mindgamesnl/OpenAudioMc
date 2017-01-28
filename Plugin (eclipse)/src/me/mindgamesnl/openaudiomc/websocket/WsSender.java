@@ -2,17 +2,18 @@ package me.mindgamesnl.openaudiomc.websocket;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import me.mindgamesnl.openaudiomc.websocket.OamSessions;
  
 public class WsSender {
     public static void Send_Ws_Packet_To_Client(Player p, String data) {
-        if (WsSessionMan.getSessionManager().getSessionByName(p.getName()) != null) {
-            WsMain.s.sendData(WsSessionMan.getSessionManager().getSessionByName(p.getName()), data);
+        if (OamSessions.getSessionByName(p.getName()) != null) {
+            WsMain.s.sendData(OamSessions.getSessionByName(p.getName()), data);
         }
     }
     
     public static void Send_Ws_Packet_To_Client_offline(String name, String data) {
-        if (WsSessionMan.getSessionManager().getSessionByName(name) != null) {
-            WsMain.s.sendData(WsSessionMan.getSessionManager().getSessionByName(name), data);
+        if (OamSessions.getSessionByName(name) != null) {
+            WsMain.s.sendData(OamSessions.getSessionByName(name), data);
         }
     }
     
@@ -24,13 +25,5 @@ public class WsSender {
 		} else {
 			Send_Ws_Packet_To_Client(Bukkit.getPlayerExact(requestplayer), data);
 		}
-    }
- 
-    public static void playToAll(String data) {
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            if (WsSessionMan.getSessionManager().getSessionByName(p.getName()) != null) {
-                WsMain.s.sendData(WsSessionMan.getSessionManager().getSessionByName(p.getName()), data);
-            }
-        }
     }
 }

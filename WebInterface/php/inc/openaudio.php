@@ -74,7 +74,7 @@
 	</div>
 	<!-- ../Loading Page -->
 
-	
+
 	<!-- Main Page -->
 	<div id="faders"></div>
 	<div class="middlePage">
@@ -100,8 +100,9 @@
 					<div class="col-md-8" id="contentBoxMain" style="border-left:1px solid #ccc;height:160px;">
 						<form class="form-horizontal">
 							<fieldset>
-								<div id="cogparent"><img class="btn-clipboard2 streamingLogo" id="cast_logo" style="position: absolute; top: 20px; right: 70px;" src="Images/google-cast-logo.png" onclick="startCasting();"><i style="position: absolute; top: 20px; right: 40px;" class="btn-clipboard fa fa-cog fa-2x"
-										onmouseover="this.className='draai btn-clipboard fa fa-cog fa-2x';" onmouseout="this.className='btn-clipboard fa fa-cog fa-2x';" data-toggle="modal" data-target="#settings" aria-hidden="true"></i><i style="position: absolute; top: 20px; right: 20px;" class="btn-clipboard fa fa-lightbulb-o fa-2x" data-toggle="modal" data-target="#hue" aria-hidden="true"></i></div>
+								<div id="cogparent"><img class="btn-clipboard2 streamingLogo" id="cast_logo" style="position: absolute; top: 20px; right: 90px;" src="Images/google-cast-logo.png" onclick="startCasting();"><i style="position: absolute; top: 20px; right: 50px;" class="btn-clipboard fa fa-cog fa-2x"
+										onmouseover="this.className='draai btn-clipboard fa fa-cog fa-2x';" onmouseout="this.className='btn-clipboard fa fa-cog fa-2x';" data-toggle="modal" data-target="#settings" aria-hidden="true"></i><i style="position: absolute; top: 20px; right: 20px;"
+										class="btn-clipboard fa fa-lightbulb-o fa-2x" data-toggle="modal" data-target="#hue" aria-hidden="true"></i></div>
 								<h3 id="status">Status: <font style="color:green;">Loading</font></h3>
 								<hr />
 								<div id="voltextparant">
@@ -173,8 +174,10 @@
 					<input type="checkbox" name="show_skull" id="show_skull" onchange='document.cookie="show_skull="+this.checked; settings.displaySkull(this.checked);' /> Show Minecraft Skull on main page.<br />
 					<input type="checkbox" name="smart_volume" id="smart_volume" onchange='document.cookie="smart_volume="+this.checked; settings.displaySkull(this.checked);' /> Remember my volume for when I return later.<br />
 					<input type="checkbox" name="EnableBrowserNotifications" id="EnableBrowserNotifications" onchange='document.cookie="browser_notifications="+this.checked;' /> Enable browser notifications.<br />
+					<input type="checkbox" name="EnableHue" id="EnableHue" onchange='document.cookie="hue_enabled="+this.checked;' /> Auto connect to hue bridge.<br />
 					<input type="checkbox" name="EnableSoundFading" id="EnableSoundFading" onchange='document.cookie="sound_fading="+this.checked;' /> Enable sound fading when available.
 					<p style="display:inline;">May cause performance issues</p>
+					
 					<hr />
 					<div class="form-group">
 						<label for="sel1">Fading speed</label>
@@ -205,62 +208,68 @@
 		</div>
 	</div>
 	
-	
-		<div id="hue" class="modal fade" role="dialog">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">Hue</h4>
+<div id="hue" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Hue</h4>
+			</div>
+			<div class="modal-body">
+				<hr />
+				<div class="bs-calltoaction bs-calltoaction-success">
+					<div class="row">
+						<div class="col-md-9 cta-contents">
+							<div id="hue_modal_text">
+								<h1>
+									No philips hue bridge found :(
+								</h1>
+								<h1>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="modal-body">
+				<div id="HueControlls">
 					<hr />
-					<div id="hue_modal_text">
-						<h1>
-							No philips hue lights found :(
-						</h1>
-						<h1>
-					</div>
-						
-						<div id="HueControlls">
-							<hr />
-						<p>
-							Manual controls:
-						</p>
-					</div>
-						<div class="button raised blue" onclick="ConnectToHueBridge();">
-						<div class="center" fit>Reconnect</div>
-						<paper-ripple fit></paper-ripple>
-					</div>
+					<p>
+						Manual controls:
+					</p>
+					<!-- List group -->
+					<div id="HueLightList"></div>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<div class="button raised blue" id="DetectHueButton" onclick="loop_hue_connection();">
+					<div class="center" fit>Retry</div>
+					<paper-ripple fit></paper-ripple>
 				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 			</div>
 		</div>
 	</div>
+</div>
 	<!-- ../Popup Modal for Settings -->
 
 
 	<!-- warning banners -->
-	<div id="noBrowserMessages" style="display:none;">
-		<div class="container">
-			<div class="row"> </div>
-			<div class="row">
-				<div class="col-lg-12 col-md-12 col-sm-12">
-
-					<div class="alert alert-info alert-labeled">
-						<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-						<div class="alert-labeled-row" style=" color: white;text-shadow: 1px 1px 1px #ccc;font-size: 1.3em;"><span class="alert-label alert-label-left alert-labelled-cell"><i class="fa fa-warning"></i></span>
-							<p class="alert-body alert-body-right alert-labelled-cell" style="color:white;">
-								Please enable Notifications for the optimal experience! <span class="label label-important" onclick="Dashboard.requestPremmisions();"><b>click here.</b></span>
-							</p>
-						</div>
+<div id="noBrowserMessages" style="display:none;">
+	<div class="container">
+		<div class="row"> </div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12">
+				<div class="alert alert-info alert-labeled">
+					<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+					<div class="alert-labeled-row" style=" color: white;text-shadow: 1px 1px 1px #ccc;font-size: 1.3em;">
+						<span class="alert-label alert-label-left alert-labelled-cell"><i class="fa fa-warning"></i></span>
+						<p class="alert-body alert-body-right alert-labelled-cell" style="color:white;">
+							Please enable Notifications for the optimal experience! <span class="label label-important" onclick="Dashboard.requestPremmisions();"><b>click here.</b></span>
+						</p>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
 	<!-- ../warning banners -->
 </body>
 
