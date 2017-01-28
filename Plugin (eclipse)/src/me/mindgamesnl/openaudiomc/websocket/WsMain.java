@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.util.Collection;
-import java.util.HashMap;
 
 import com.google.gson.JsonElement;
 
@@ -13,13 +12,14 @@ import org.java_websocket.WebSocketImpl;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
+import me.mindgamesnl.openaudiomc.websocket.OamSessions;
+
 public class WsMain extends WebSocketServer {
 	public static JsonElement conn_us_name;
     public static WsMain s;
     public static Object socketserverthing;
    
-    static HashMap<String, Boolean> onlineLogger = new HashMap<String, Boolean>();
-    
+
     public WsMain(int port) throws UnknownHostException {
         super(new InetSocketAddress(port));
     }
@@ -28,33 +28,14 @@ public class WsMain extends WebSocketServer {
         super(address);
     }
     
-    public static Boolean isOnline(String name) {
-    	if (onlineLogger.get(me.mindgamesnl.openaudiomc.websocket.WsSessionMan.getSessionByName2(name)) != null) {
-    		if (onlineLogger.get(me.mindgamesnl.openaudiomc.websocket.WsSessionMan.getSessionByName2(name)) == true) {
-    			//session has not been closed
-    			return true;
-    		} else {
-    			//session has been closed
-    			return false;
-    		}
-    	} else {
-    		//never connected
-    		return false;
-    	}
-    }
- 
     @Override
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
-    	WsSessionMan.getSessionManager().openSession(conn.getRemoteSocketAddress().getAddress().getHostAddress());
-    	onlineLogger.put(conn.getRemoteSocketAddress().getAddress().getHostAddress(), true);
     }
  
     @Override
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
-        WsSessionMan.getSessionManager().endSession(conn.getRemoteSocketAddress().getAddress().getHostAddress());
-        onlineLogger.put(conn.getRemoteSocketAddress().getAddress().getHostAddress(), false);
+        OamSessions.removeSession(conn.getRemoteSocketAddress().getAddress().getHostAddress());
     }
- 
 
     
     @Override
@@ -115,11 +96,11 @@ public class WsMain extends WebSocketServer {
         }
     }
  
-    public void sendData(WsSession session, String data) {
+    public void sendData(String Host, String data) {
         Collection<WebSocket> con = connections();
         synchronized (con) {
             for (WebSocket c : con) {
-                if (c.getRemoteSocketAddress().getAddress().getHostAddress().equalsIgnoreCase(session.getHost())) {
+                if (c.getRemoteSocketAddress().getAddress().getHostAddress().equalsIgnoreCase(Host)) {
                     c.send(data);
                 }
             }
