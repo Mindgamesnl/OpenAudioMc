@@ -1,6 +1,8 @@
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\players\spy.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\publicApi\OpenAudioApi.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\publicApi\WebsocketSendEvent.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\apiConnector\ApiFunctions.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\publicApi\AudioRegionLeaveEvent.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\config\Creator.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\main\Main.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\publicApi\WebDisconnectEvent.java
@@ -17,4 +19,5 @@ C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgames
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\config\configManager.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\websocket\WsMain.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\websocket\WsSender.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\publicApi\AudioRegionEnterEvent.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\publicApi\WebConnectEvent.java
