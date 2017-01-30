@@ -43,10 +43,10 @@ public class regionManager implements Listener, Plugin {
 		if (isValidRegion(e.getRegion().getId()) && e.isCancellable()) {
 			regionHistory.put(e.getPlayer(), getRegionFile(e.getRegion().getId()));
 			WsSender.Send_Ws_Packet_To_Client(e.getPlayer(), "{\"command\":\"play\",\"line\":\"region\",\"src\":\"" + me.mindgamesnl.openaudiomc.regions.regionManager.getRegionFile(e.getRegion().getId()) + "\"}");
-			 
+			Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.AudioRegionEnterEvent(e.getRegion().getId(), e.getPlayer(), me.mindgamesnl.openaudiomc.regions.regionManager.getRegionFile(e.getRegion().getId())));
 		}
 	}
-	
+
 
 	//region leave event
 	@EventHandler
@@ -59,6 +59,7 @@ public class regionManager implements Listener, Plugin {
 							WsSender.Send_Ws_Packet_To_Client(e.getPlayer(), "{\"command\":\"stopoldregion\"}");
 						} else {
 							WsSender.Send_Ws_Packet_To_Client(e.getPlayer(), "{\"command\":\"stopregion\"}");
+							Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.AudioRegionLeaveEvent(e.getRegion().getId(), e.getPlayer()));
 						}
 					}
 				}

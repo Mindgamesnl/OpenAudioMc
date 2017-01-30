@@ -8,6 +8,7 @@ public class WsSender {
     public static void Send_Ws_Packet_To_Client(Player p, String data) {
         if (OamSessions.getSessionByName(p.getName()) != null) {
             WsMain.s.sendData(OamSessions.getSessionByName(p.getName()), data);
+            Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.WebsocketSendEvent(p, data));
         }
     }
     
