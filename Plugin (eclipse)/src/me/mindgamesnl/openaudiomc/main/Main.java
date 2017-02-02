@@ -61,7 +61,6 @@ public class Main extends JavaPlugin implements Listener{
         if (me.mindgamesnl.openaudiomc.detectors.checkDependencies.dependenciesComplete == true) {
         	me.mindgamesnl.openaudiomc.regions.regionManager.enable();
         	Bukkit.getServer().getPluginManager().registerEvents(new me.mindgamesnl.openaudiomc.regions.regionManager(),this);
-        	Bukkit.getServer().getPluginManager().registerEvents(new me.mindgamesnl.openaudiomc.hueRegions.MyHue(),this);
         }   
 	}	
 	

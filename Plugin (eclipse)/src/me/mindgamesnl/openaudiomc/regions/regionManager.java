@@ -40,7 +40,7 @@ public class regionManager implements Listener, Plugin {
 	//region enter event
 	@EventHandler
 	public void onRegionEnter(RegionEnterEvent e) {
-		if (isValidRegion(e.getRegion().getId()) && e.isCancellable()) {
+		if (isValidRegion(e.getRegion().getId()) && e.isCancellable() && !e.isCancelled()) {
 			regionHistory.put(e.getPlayer(), getRegionFile(e.getRegion().getId()));
 			WsSender.Send_Ws_Packet_To_Client(e.getPlayer(), "{\"command\":\"play\",\"line\":\"region\",\"src\":\"" + me.mindgamesnl.openaudiomc.regions.regionManager.getRegionFile(e.getRegion().getId()) + "\"}");
 			Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.AudioRegionEnterEvent(e.getRegion().getId(), e.getPlayer(), me.mindgamesnl.openaudiomc.regions.regionManager.getRegionFile(e.getRegion().getId())));
@@ -51,7 +51,8 @@ public class regionManager implements Listener, Plugin {
 	//region leave event
 	@EventHandler
 	public void onRegionLeave(final RegionLeaveEvent e) {
-		if (e.isCancellable()) {
+	
+		if (e.isCancellable() && !e.isCancelled()) {
 			Bukkit.getServer().getScheduler().runTaskLater(PL, new Runnable(){
 				public void run(){
 					if (isValidRegion(e.getRegion().getId()) && e.isCancellable()) {
