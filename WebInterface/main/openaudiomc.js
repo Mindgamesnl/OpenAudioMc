@@ -105,7 +105,6 @@ function enable() {
 	});
 
 	document.getElementById("loading_screen").style.display = "none";
-<<<<<<< HEAD
 	
 	if ((settings.get("hue_enabled") === "true")) {
 		//Yup, hue is enabled
@@ -115,12 +114,6 @@ function enable() {
 		document.getElementById("hue_modal_text").innerHTML = "<h2>Philips hue connection is disabled in the settings</h2>";
 	}
 	
-=======
-
-	settings.setDefault();
-	settings.apply();
-	loop_hue_connection();
->>>>>>> origin/master
 }
 
 
@@ -221,45 +214,6 @@ function reenable() {
 
 
 
-<<<<<<< HEAD
-=======
-
-//setup vars
-isFading = {};
-plays = {};
-settings = {};
-Dashboard = {};
-mc_link = {};
-BungeeCord = {};
-uiExtra = {};
-fadingData = {};
-stopFading = {};
-newest_region = 0;
-hue_connected = {};
-var MyHue = new huepi();
-isHueOn = true;
-HueTestTry = 0;
-hue_lights = {};
-hue_licht_1 = 1;
-hue_licht_2 = 2;
-hue_licht_3 = 3;
-StopHueLoop = false;
-hue_start_animation = true;
-last_region_id = 1;
-currentFadingLineRegion = 1;
-client = {};
-play = {};
-ssl_error = "Sorry but ssl is not supported, redirecting to non ssl version (please wait)";
-UrlDataBase = {};
-openAudioChromeCast = {};
-FadeEnabled = true;
-connection_made = false;
-volume = 20;
-
-
-
-
->>>>>>> origin/master
 mc_link.connect = function(host) {
 	try {
 		ws = new WebSocket(host);
@@ -294,12 +248,8 @@ client.setblank = function() {
 
 client.close = function() {
 	document.getElementById("status").innerHTML = messages.could_not_connect.replace(/%username%/g, mcname);
-<<<<<<< HEAD
 	hue_set_color("rgba(240, 92, 0)");
 	hue_set_color("rgba(240, 92, 0)");
-=======
-	MyHue.GroupSetRGB(0, 240, 92, 0);
->>>>>>> origin/master
 	reconnectpromt();
 	play.stop();
 }
@@ -320,6 +270,13 @@ client.Main = function(awesomecode) {
 
 		json = JSON.parse(awesomecode);
 
+		if (json.src != null) {
+			if (json.src.includes("soundcloud.com")) {
+				var scurl = json.src;
+				json.src = "http://api.craftmend.com/soundcloud/?file=" + scurl;
+			}	
+		}
+		
 		if (connection_made === false) {
 			document.getElementById("status").innerHTML = messages.connected.replace(/%username%/g, mcname);
 			connection_made = true;
@@ -1392,11 +1349,7 @@ function on_hue_link(name) {
 			setTimeout(function() {
 				hue_on();
 				hue_connected = true;
-<<<<<<< HEAD
 				hue_set_color(HueDefaultColor);
-=======
-				hue_set_color("rgba(255,255,255,150)");
->>>>>>> origin/master
 			}, 1000);
 		}, 1000);
 	}
@@ -1443,7 +1396,6 @@ function hue_set_brightes(number) {
 			}
 		}
 	}
-<<<<<<< HEAD
 }
 
 
@@ -1495,57 +1447,6 @@ function hue_reset_state(id) {
 }
 
 
-=======
-}
-
-
-function hue_get_lights() {
-	for (var key in MyHue.Lights) {
-		if (MyHue.Lights.hasOwnProperty(key)) {
-			hue_lights[key] = {};
-			hue_lights[key].name = MyHue.Lights[key].name;
-			hue_lights[key].state = MyHue.Lights[key].state;
-			hue_lights[key].enabled = true;
-			document.getElementById("HueLightList").innerHTML += '<div class="notice notice-success" onclick="hue_list_click_handeler(this);" id="ListLightHue_'+key+'"><strong id="ListLightHue_'+key+'_state">Enabled</strong> '+MyHue.Lights[key].name+'</div>'
-		}
-	}
-}
-
-
-function hue_list_click_handeler(object) {
-	if (object.className === "notice notice-success") {
-		//disable light
-		
-		var lightID = object.id.match(/\d+/)[0];
-		hue_lights[lightID].enabled = false;
-		object.className = "notice notice-danger";
-		document.getElementById(object.id + "_state").innerHTML = "Disabled";
-		hue_reset_state(lightID);
-		
-		
-	} else {
-		//enable light
-		
-		var lightID = object.id.match(/\d+/)[0];
-		hue_lights[lightID].enabled = true;
-		object.className = "notice notice-success";
-		document.getElementById(object.id + "_state").innerHTML = "Enabled";
-		
-		
-	}
-}
-
-
-function hue_reset_state(id) {
-	var state = hue_lights[id].state;
-	MyHue.LightSetBrightness(id, state.bri);
-	MyHue.LightSetXY(id, state.xy[0], state.xy[1]);
-	MyHue.LightAlertNone(id);
-	MyHue.LightEffectNone(id);
-}
-
-
->>>>>>> origin/master
 function hue_set_color(args, id) {
 	if (hue_connected) {
 		try {
@@ -1561,10 +1462,7 @@ function hue_set_color(args, id) {
 					if (MyHue.Lights.hasOwnProperty(key)) {
 						if (hue_lights[key].enabled) {
 							MyHue.LightSetRGB(key, red, green, blue);
-<<<<<<< HEAD
 							hue_lights[key].color2 = args;
-=======
->>>>>>> origin/master
 						}
 					}
 				}
@@ -1594,10 +1492,7 @@ function hue_set_color(args, id) {
 				blue = parseInt(colorsOnly[2]);
 				opacity = parseInt(colorsOnly[3])
 				MyHue.LightSetRGB(id, red, green, blue);
-<<<<<<< HEAD
 				hue_lights[id].color2 = args;
-=======
->>>>>>> origin/master
 				if (opacity === 0) {
 					MyHue.LightOff(id);
 				} else {
