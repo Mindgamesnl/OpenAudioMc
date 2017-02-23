@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/gg-api.iml" filepath="$PROJECT_DIR$/gg-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OpenAudioSocketClient.iml" filepath="$PROJECT_DIR$/OpenAudioSocketClient.iml" />
     </modules>
   </component>
 </project>
