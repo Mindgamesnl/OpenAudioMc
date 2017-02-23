@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\commands\volumeCommand.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\org\json\XMLTokener.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\tls\TrustRootIndex.java
@@ -199,3 +200,27 @@ C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\CacheControl.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\global\Global.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\actions\spy.java
+=======
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\players\spy.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\publicApi\OpenAudioApi.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\publicApi\WebsocketSendEvent.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\apiConnector\ApiFunctions.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\publicApi\AudioRegionLeaveEvent.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\config\Creator.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\main\Main.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\publicApi\WebDisconnectEvent.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\main\config\Config.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\regions\regionManager.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\players\Events.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\commands\Commands.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\websocket\OamSessions.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\groupManager\groupManager.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\detectors\checkDependencies.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\sessionKeyManager\skm.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\websocketReceiver\Receiver.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\config\configManager.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\websocket\WsMain.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\websocket\WsSender.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\publicApi\AudioRegionEnterEvent.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudio\src\me\mindgamesnl\openaudiomc\publicApi\WebConnectEvent.java
+>>>>>>> origin/master
