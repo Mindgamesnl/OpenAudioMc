@@ -1,0 +1,59 @@
+config:
+  ws_host_port: '1188'
+  ws_host_adress: 185.114.156.203
+  enableSessions: true
+  webhost: '&6http://fantasycraft.craftmend.com/?user=%username%'
+  startsound: https://clyp.it/gtpndhqs.mp3
+  enableMotd: true
+chat:
+  name:
+    admin: '&3[&6Fantasy&2Craft&6-Audio-Admin&3]&7'
+    normal: '&3[&6Fantasy&2Craft&6-Audio&3]&7 '
+  message:
+    volume_set: '&9Volume gezet naar&6 %vol &6%'
+    connected: '&9Je Bent &2Verbonden&9 Met de AudioClient'
+    connect: '&9Klik &6&nhier&r &9voor muziek in alle &6Attracties&9! %client%'
+    volume_error: '&4Wat je net hebt getypt klopt niet!'
+region:
+  isvalid:
+    openaudio_placeholder: 'true'
+    Geheim1: true
+    openaudio_geheim1: true
+    openaudio_fantasierijk1: true
+    openaudio_pythonstation: true
+    openaudio_stationpython: true
+    openaudio_pythonwr: true
+    openaudio_ingang: true
+    openaudio_theatherpad: true
+    openaudio_carousel: true
+    openaudio_tntvortex: true
+    openaudio_gdwacht1: false
+    openaudio_gdwacht: true
+    gdwacht: true
+    openaudio_gdwacht2: true
+    openaudio_gdstation: true
+    openaudio_rm: true
+    openaudio_dream_station: true
+    openaudio_fcingang2: true
+    openaudio_mxstation: true
+  src:
+    openaudio_placeholder: Don't remove me!
+    Geheim1: https://clyp.it/enunkars.mp3
+    openaudio_geheim1: https://clyp.it/enunkars.mp3
+    openaudio_fantasierijk1: https://clyp.it/5chpsdjp.mp3
+    openaudio_pythonstation: https://clyp.it/5bgabpuw.mp3
+    openaudio_stationpython: https://clyp.it/5bgabpuw.mp3
+    openaudio_pythonwr: https://clyp.it/5gvf4hyo.mp3
+    openaudio_ingang: https://clyp.it/33qjbgdq.mp3
+    openaudio_theatherpad: https://clyp.it/oqbyusje.mp3
+    openaudio_carousel: https://clyp.it/zckclooz.mp3
+    openaudio_tntvortex: https://clyp.it/2nqedcdp.mp3
+    openaudio_gdwacht1: Deleted!
+    openaudio_gdwacht: https://clyp.it/dopuadzr.mp3
+    gdwacht: https://clyp.it/dopuadzr.mp3
+    openaudio_gdwacht2: https://clyp.it/qalqne2x.mp3
+    openaudio_gdstation: https://clyp.it/3ss3e4i0.mp3
+    openaudio_rm: https://clyp.it/pixu0rtq.mp3
+    openaudio_dream_station: https://clyp.it/1spzn3y2.mp3
+    openaudio_fcingang2: http://static.craftmend.com/fantasycraft/fcingang.mp3
+    openaudio_mxstation: http://static.craftmend.com/fantasycraft/mxstation.mp3

@@ -1,0 +1,7 @@
+Description: This is the place to change the messges, host url and more :)
+start-sound: https://clyp.it/gtpndhqs.mp3
+website-url: http://c.openaudiomc.net/?name=%name%&session=%session%
+connect-message: '&3[&6Fantasy&2Craft&6-Audio&3]&7 &9Klik &6&nhier&r &9voor muziek in alle &6Attracties&9!'
+connected-message: '&3[&6Fantasy&2Craft&6-Audio&3]&7 &9Je Bent &2Verbonden&9 Met de AudioClient'
+volume-set: '&9[&bVolume&9] &9Volume gezet naar&6 &a%volume%&3%'
+volume-error: '&9[&bVolume&9] &4Wat je net hebt getypt klopt niet!'
