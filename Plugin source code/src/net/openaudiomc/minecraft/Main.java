@@ -1,3 +1,13 @@
+/*
+ * 
+ * // ""--.._
+ * ||  (_)  _ "-._
+ * ||    _ (_)    '-.
+ * ||   (_)   __..-'
+ * \\__..--""
+ * 
+ */
+
 package net.openaudiomc.minecraft;
 
 import java.io.File;
@@ -40,6 +50,7 @@ public class Main extends JavaPlugin implements Listener{
 		createDataFile();
 		createRegionsFile();
 		createMessagesFile();
+		createServerNode();
 		Bukkit.getServer().getPluginManager().registerEvents(new net.openaudiomc.socket.SocketListener(),this);
 		Bukkit.getLogger().info("[OpenAudio] Loading OpenAudioMc by Mindgamesnl/Me_is_mattyh");
 		try {
@@ -138,6 +149,25 @@ public class Main extends JavaPlugin implements Listener{
             datafileInst.set("Description", "This is identifies the server and should be kept secret, do you have a bungeecord network? just set this id on all your server and bungeecord mode is activated :)");
             datafileInst.set("serverID", Authenticator.getNewId().getString("server"));
             datafileInst.set("clientID", Authenticator.getClientID());
+            try {
+                datafileInst.save(dataFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+	}
+	
+	public void createServerNode() {
+		File dataFile = new File("plugins/OpenAudio/advanced", "advancedConfig.yml");
+        if (!dataFile.exists()) {
+            try {
+                dataFile.createNewFile();
+            } catch (IOException e) {
+                
+            }
+            FileConfiguration datafileInst = YamlConfiguration.loadConfiguration(dataFile);
+            datafileInst.set("Description", "Advanced settings (only for networking )");
+            datafileInst.set("host", "https://craftmend.com/openaudio.json");
             try {
                 datafileInst.save(dataFile);
             } catch (IOException e) {
