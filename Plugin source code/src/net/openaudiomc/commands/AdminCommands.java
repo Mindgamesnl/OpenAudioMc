@@ -13,6 +13,7 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 import net.openaudiomc.actions.command;
 import net.openaudiomc.actions.spy;
+import net.openaudiomc.files.playlistManager;
 import net.openaudiomc.minecraft.Main;
 import net.openaudiomc.minecraft.getdDep;
 import net.openaudiomc.regions.regionCrap;
@@ -158,6 +159,9 @@ public class AdminCommands implements CommandExecutor {
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio setbg <mcname> <url/reset>&r&a Set the background image for a player."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio spy&r&a Toggle connection spy."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio send <mcname> <message>&r&a Send a push notification."));
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio json <mcname> <json>&r&a Send a custom json string."));
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio openaudio playlist set <list> <id> <url>&r&a Set a song in a playlist."));
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio openaudio playlist play <list> <mcname>&r&a Start the playlist for a player."));
                                 } else if (args[1].equalsIgnoreCase("user")) {
                                     //help 2
                                 	sender.sendMessage(" ");
@@ -257,6 +261,33 @@ public class AdminCommands implements CommandExecutor {
                             	}
                             	
                             }
+                            else if (args[0].equalsIgnoreCase("playlist"))
+                            {
+      
+                            	if (args.length == 5 || args.length > 5) {
+                            		if (args[1].equalsIgnoreCase("set")) {
+                            			playlistManager.set(args[2], args[3], args[4]);
+                            			sender.sendMessage(Main.prefix + "Changed the sound of " + args[2] + " in " + args[3] + " to " + args[4]);
+                            		} else {
+                            			sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio playlist set <list> <id> <url>");
+                            		}
+                            	} else if (args.length == 4 || args.length > 4) {
+                            		if (args[1].equalsIgnoreCase("play")) {
+                            			if (playlistManager.getAllFilesInOneBigBulcCuzThatIsPrettyAwesome(args[2]) != null) {
+                            				command.playList(args[3], playlistManager.getAllFilesInOneBigBulcCuzThatIsPrettyAwesome(args[2]));
+                                			sender.sendMessage(Main.prefix + "Started playlist for " + args[3]);
+                            			} else {
+                            				sender.sendMessage(Main.prefix + "Invalid playlist :(");
+                            			}
+                            		} else {
+                            			sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio playlist <sub command> [values]");
+                            		}
+                            	} else {
+                            		sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio playlist <sub command> [values]");
+                            	}
+                     
+                            	
+                            }
                             else if (args[0].equalsIgnoreCase("playregion"))
                             {
                             	if (getdDep.getStatus()) {
@@ -317,6 +348,20 @@ public class AdminCommands implements CommandExecutor {
                                 	sender.sendMessage(Main.prefix + "Message send to " + args[1]);
                             	} else {
                             		sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio send <mc name> <awesome text message>");
+                            	}
+                            }
+                            else if (args[0].equalsIgnoreCase("json"))
+                            {  	
+                        		if (args.length == 3 || args.length > 3) {
+                        			String myString = "";
+									for(int i = 2; i < args.length; i++){
+									    String arg = args[i] + " ";
+									    myString = myString + arg;
+									}
+                        			command.sendJSON(args[1], myString);
+                                	sender.sendMessage(Main.prefix + "Json send to " + args[1]);
+                            	} else {
+                            		sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio json <mc name> <json>");
                             	}
                             }
                             else if (args[0].equalsIgnoreCase("setbg"))

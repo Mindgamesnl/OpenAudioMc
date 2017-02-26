@@ -1,10 +1,13 @@
 package net.openaudiomc.socket;
 
+import java.io.File;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -61,6 +64,15 @@ public class SocketListener implements Listener{
     					}
     				}
     			}
+    			
+    			FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio/advanced", "advancedConfig.yml"));
+    			try {
+					String status = cfg.getString("ssl-enabled");
+					if (status == "true") {
+						command.enableHue(client.getName());
+					}
+				} catch (Exception e) {
+				}
     			
     			if (getdDep.getStatus()) {
     	    		String regionNu = "-";

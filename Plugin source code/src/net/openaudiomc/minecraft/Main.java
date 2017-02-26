@@ -51,6 +51,7 @@ public class Main extends JavaPlugin implements Listener{
 		createRegionsFile();
 		createMessagesFile();
 		createServerNode();
+		createPlaylist();
 		Bukkit.getServer().getPluginManager().registerEvents(new net.openaudiomc.socket.SocketListener(),this);
 		Bukkit.getLogger().info("[OpenAudio] Loading OpenAudioMc by Mindgamesnl/Me_is_mattyh");
 		try {
@@ -101,8 +102,8 @@ public class Main extends JavaPlugin implements Listener{
             }
             MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
             MessagesConfig.set("Description", "This is the place to change the messges, host url and more :)");
-            MessagesConfig.set("start-sound", "http://static.craftmend.com/spigot/openaudio/load_sound.mp3");
-            MessagesConfig.set("website-url", "http://c.openaudiomc.net/?name=%name%&session=%session%");
+            MessagesConfig.set("start-sound", "https://craftmend.com/api_SSL/openaudio/load_sound.mp3");
+            MessagesConfig.set("website-url", "http://public.openaudiomc.net/?name=%name%&session=%session%");
             MessagesConfig.set("connect-message", "&9[&bOpenAudioMc&9] &3Click &ehere&3 to connect to our audio server!");
             MessagesConfig.set("connected-message", "&9[&bOpenAudioMc&9] &3You are now &aConnected&3 our audio server!");
             MessagesConfig.set("volume-set", "&9[&bVolume&9] &3Your volume has been set to &a%volume%&3%");
@@ -168,6 +169,29 @@ public class Main extends JavaPlugin implements Listener{
             FileConfiguration datafileInst = YamlConfiguration.loadConfiguration(dataFile);
             datafileInst.set("Description", "Advanced settings (only for networking )");
             datafileInst.set("host", "https://craftmend.com/openaudio.json");
+            datafileInst.set("Description-ssl", "WARNING!!! PHILIPS HUE WON'T WORK WHEN SSL IS ENABLED");
+            datafileInst.set("ssl-enabled", "false");
+            try {
+                datafileInst.save(dataFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+	}
+	
+	public void createPlaylist() {
+		File dataFile = new File("plugins/OpenAudio", "playlist.yml");
+        if (!dataFile.exists()) {
+            try {
+                dataFile.createNewFile();
+            } catch (IOException e) {
+                
+            }
+            FileConfiguration datafileInst = YamlConfiguration.loadConfiguration(dataFile);
+            datafileInst.set("Description", "Playlists are stored here");
+            datafileInst.set("demo.1", "https://craftmend.com/api_SSL/openaudio/demo_playlist/1.mp3");
+            datafileInst.set("demo.2", "https://craftmend.com/api_SSL/openaudio/demo_playlist/2.mp3");
+            datafileInst.set("demo.3", "https://craftmend.com/api_SSL/openaudio/demo_playlist/3.mp3");
             try {
                 datafileInst.save(dataFile);
             } catch (IOException e) {

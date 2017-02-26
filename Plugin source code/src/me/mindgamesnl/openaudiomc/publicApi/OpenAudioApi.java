@@ -44,6 +44,10 @@ public class OpenAudioApi {
 		}
 	}
 	
+	public static void sendJson(Player p, String json) {	
+		command.sendJSON(p.getName(), json);
+	}
+	
 	public static Boolean isConnected(Player p) {
 		return SocketListener.isConnected(p.getName());
 	}

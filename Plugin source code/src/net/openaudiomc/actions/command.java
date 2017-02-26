@@ -3,6 +3,7 @@
  */
 package net.openaudiomc.actions;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import net.openaudiomc.socket.Emitter;
@@ -147,6 +148,15 @@ public class command {
 		Emitter.EmitToPlayer(name, getCleanURL(command));
 	}
 	
+	@SuppressWarnings("unchecked")
+	public static void enableHue(String name) {
+		JSONObject obj = new JSONObject();
+		obj.put("command", "hue");
+		obj.put("type", "init");
+		String command = obj.toString();
+		Emitter.EmitToPlayer(name, getCleanURL(command));
+	}
+	
 	/**
 	 * Hue set.
 	 *
@@ -258,7 +268,28 @@ public class command {
 		Emitter.EmitToPlayer(name, getCleanURL(command));
 	}
 	
+	@SuppressWarnings("unchecked")
+	public static void sendJSON(String name, String src) {
+		JSONObject obj = new JSONObject();
+		obj.put("command", "custom");
+		obj.put("string", src);
+		String command = obj.toString();
+		Emitter.EmitToPlayer(name, getCleanURL(command));
+	}
 	
+	@SuppressWarnings("unchecked")
+	public static void playList(String name, JSONArray jsonArray) {
+		
+		//HAHA GET IT? CUZ ITS A PLAY LIST :D
+		//AND THE FUNCTION NAME IS PLAY LIST :D
+		//NO? ok :(
+		
+		JSONObject obj = new JSONObject();
+		obj.put("command", "playlist");
+		obj.put("array", jsonArray);
+		String command = obj.toString();
+		Emitter.EmitToPlayer(name, getCleanURL(command));
+	}
 	
 	/**
 	 * Gets the clean URL.
