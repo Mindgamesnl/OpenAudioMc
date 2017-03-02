@@ -1,6 +1,6 @@
 <?php
 
-$Api = file_get_contents("http://foute.kabouter.craftmend.com:3000/");
+$Api = curl_get_contents("http://foute.kabouter.craftmend.com:3000/");
 
 if ($Api == "" || $Api == null) {
 	include("files/pages/api_server_offline.php");
@@ -18,7 +18,7 @@ if ($Api == "" || $Api == null) {
 	
 	if (strpos($sessionToken, ':') !== false) {
 		//token is a valid token
-		$mojang = file_get_contents('https://api.mojang.com/users/profiles/minecraft/' . $mcuser);
+		$mojang = curl_get_contents('https://api.mojang.com/users/profiles/minecraft/' . $mcuser);
 		$mojangjson = json_decode($mojang);
 		$uuid = $mojangjson->id;
 		
@@ -34,5 +34,17 @@ if ($Api == "" || $Api == null) {
 	} else {
 		include("files/pages/no_user.php");
 	}	
+}
+
+function curl_get_contents($url)
+{
+  $ch = curl_init($url);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+  $data = curl_exec($ch);
+  curl_close($ch);
+  return $data;
 }
 ?>
