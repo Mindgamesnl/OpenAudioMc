@@ -925,7 +925,7 @@ function showqr() {
 			html: true
 		}, function() {});
 		var qrcode = new QRCode(document.getElementById("qrcode"), {
-			text: document.URL,
+			text: '{"mcname":"' + mcname + '","session":"' + session + '"}',
 			width: 150,
 			height: 150,
 			colorDark: "#000000",
