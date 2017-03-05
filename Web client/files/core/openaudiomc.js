@@ -916,7 +916,7 @@ function reloadNonSsl() {
 
 function showqr() {
 		swal({
-			title: "Qr code for mobile client",
+			title: "QR code for the app",
 			text: '<center><div id="qrcode"></div></center>',
 			CancelButton: false,
 			allowOutsideClick: true,
