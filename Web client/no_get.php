@@ -18,9 +18,7 @@ if ($Api == "" || $Api == null) {
 	
 	if (strpos($sessionToken, ':') !== false) {
 		//token is a valid token
-		$mojang = file_get_contents('https://api.mojang.com/users/profiles/minecraft/' . $mcuser);
-		$mojangjson = json_decode($mojang);
-		$uuid = $mojangjson->id;
+		$uuid = "melk";
 		
 		if ($uuid == "") {
 			include("files/pages/no_user.php");
