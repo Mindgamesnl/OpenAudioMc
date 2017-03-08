@@ -8,8 +8,6 @@
   <title>OpenAudioMC</title>
 
   <!-- CSS -->
-  <link rel="stylesheet" type="text/css" href="files/css/bootstrap.css" />
-  <link rel="stylesheet" type="text/css" href="files/css/bootstrap.css" />
   <link href="files/css/error.css" rel="stylesheet" />
 
   <!-- META -->
@@ -40,6 +38,9 @@
           </p>
           <p>
             Please try again later and if the monkeys did not manage to fix it, let us know!
+          </p>
+          <p>
+            If you keep getting this error, please check for updates!
           </p>
           <h3>
             <i>~The openaudio team</i>
