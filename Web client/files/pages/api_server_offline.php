@@ -20,34 +20,7 @@
   <link rel="image" href="files/Images/small_logo.png" />
 
   <!-- JS -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-
-<body marginwidth="0" marginheight="0">
-
-  <div class="jumbotron vertical-center">
-    <!--
-                      ^--- Added class  -->
-    <div class="container">
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <h2>Oh no :(</h2>
-          <p>
-            It seems like our api server is offline, but don't worry! We have a team of highly trained assassin monkeys who will be investigating this problem!
-          </p>
-          <p>
-            Please try again later and if the monkeys did not manage to fix it, let us know!
-          </p>
-
-          <h3>
-            <i>~The openaudio team</i>
-          </h3>
-        </div>
-      </div>
-
-    </div>
-  </div>
 
 <body odload="changeTitle()">
   <img class="logo" src="files/images/logo.png">
