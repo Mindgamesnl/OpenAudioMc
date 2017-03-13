@@ -68,10 +68,11 @@ public class SocketListener implements Listener{
     			FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio/advanced", "advancedConfig.yml"));
     			try {
 					String status = cfg.getString("ssl-enabled");
-					if (status == "true") {
+					if ("false".equals(status)) {
 						command.enableHue(client.getName());
 					}
 				} catch (Exception e) {
+					System.out.println("[OpenAudio] Hue error");
 				}
     			
     			if (getdDep.getStatus()) {
