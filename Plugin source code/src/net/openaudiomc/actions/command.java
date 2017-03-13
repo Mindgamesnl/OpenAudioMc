@@ -278,6 +278,46 @@ public class command {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public static void setVolumeID(String name, String id, String args) {
+		JSONObject obj = new JSONObject();
+		obj.put("command", "setvolumeid");
+		obj.put("id", id);
+		obj.put("volume", args);
+		String command = obj.toString();
+		Emitter.EmitToPlayer(name, getCleanURL(command));
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public static void playNormalSoundID(String name, String src, String id) {
+		JSONObject obj = new JSONObject();
+		obj.put("command", "play_normal_id");
+		obj.put("src", src);
+		obj.put("id", id);
+		String command = obj.toString();
+		Emitter.EmitToPlayer(name, getCleanURL(command));
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static void StopID(String name, String id) {
+		JSONObject obj = new JSONObject();
+		obj.put("command", "stop_id");
+		obj.put("id", id);
+		String command = obj.toString();
+		Emitter.EmitToPlayer(name, getCleanURL(command));
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static void ToggleID(String name, String id) {
+		JSONObject obj = new JSONObject();
+		obj.put("command", "toggle");
+		obj.put("id", id);
+		String command = obj.toString();
+		Emitter.EmitToPlayer(name, getCleanURL(command));
+	}
+
+	
+	@SuppressWarnings("unchecked")
 	public static void playList(String name, JSONArray jsonArray) {
 		
 		//HAHA GET IT? CUZ ITS A PLAY LIST :D

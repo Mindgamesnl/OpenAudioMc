@@ -88,9 +88,12 @@ public class AdminCommands implements CommandExecutor {
                                 	sender.sendMessage(" ");
                                 	sender.sendMessage(" ");
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.prefix + "Help menu / &lAudio"));
-                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio play <mcname> <url>&r&a Play a sound for a player."));
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio setvolume <mcname> <volume> [id]&r&a Set the volume for a player."));
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio play <mcname> <url> [id]&r&a Play a sound for a player."));
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio toggle <mcname> <id>&r&a Toggle play/pause for a sound."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio loop <mcname> <url>&r&a Play a loop for a player."));
-                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio stop <mcname>&r&a Stop the sound for a player."));
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio stop <mcname> [id]&r&a Stop the sound for a player."));
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio setvolume <mcname> [id]&r&a Set the volume for a player."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio buffer create <mcname> <url>&r&a Buffer a sound for a player."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio buffer play <mcname>&r&a Play sound in buffer for a player."));
                                 } else if (args[1].equalsIgnoreCase("region")) {
@@ -160,8 +163,8 @@ public class AdminCommands implements CommandExecutor {
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio spy&r&a Toggle connection spy."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio send <mcname> <message>&r&a Send a push notification."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio json <mcname> <json>&r&a Send a custom json string."));
-                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio openaudio playlist set <list> <id> <url>&r&a Set a song in a playlist."));
-                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio openaudio playlist play <list> <mcname>&r&a Start the playlist for a player."));
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio playlist set <list> <id> <url>&r&a Set a song in a playlist."));
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio playlist play <list> <mcname>&r&a Start the playlist for a player."));
                                 } else if (args[1].equalsIgnoreCase("user")) {
                                     //help 2
                                 	sender.sendMessage(" ");
@@ -195,19 +198,14 @@ public class AdminCommands implements CommandExecutor {
                             	//Play commands
                             	if (args.length == 3 || args.length > 3) {
                             		if (args.length > 3) {
-                            			if (args[3].equalsIgnoreCase("stop")) {
-                            				command.stop(args[1]);
-                            				command.playNormalSound(args[1], args[2]);
+                            				command.playNormalSoundID(args[1], args[2], args[3]);
                                     		sender.sendMessage(Main.prefix + "Started a sound for " + args[1]);
-                            			} else {
-                            				sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio play <mc name> <url>");
-                            			}
                             		} else {
                             			command.playNormalSound(args[1], args[2]);
                                 		sender.sendMessage(Main.prefix + "Started a sound for " + args[1]);
                             		}
                             	} else {
-                            		sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio play <mc name> <url>");
+                            		sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio play <mc name> <url> [ID]");
                             	}
                             }
                             else if (args[0].equalsIgnoreCase("spy"))
@@ -309,11 +307,41 @@ public class AdminCommands implements CommandExecutor {
                             }
                             else if (args[0].equalsIgnoreCase("stop"))
                             {  	
-                        		if (args.length == 2) {
-                        			command.stop(args[1]);
-                                	sender.sendMessage(Main.prefix + "Stopped sound of " + args[1]);
+                        		if (args.length >= 2) {
+                        			if (args.length == 3) {
+                        				command.StopID(args[1], args[2]);
+                        				sender.sendMessage(Main.prefix + "Stopped sound id "+args[2] + " of " + args[1]);
+                        			} else {
+                        				command.stop(args[1]);
+                                    	sender.sendMessage(Main.prefix + "Stopped sound of " + args[1]);
+                        			}
+                        			
                             	} else {
                             		sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio stop <mc name>");
+                            	}
+                            }
+                            else if (args[0].equalsIgnoreCase("toggle"))
+                            {  	
+                        		if (args.length == 3) {
+                        			command.ToggleID(args[1], args[2]);
+                        			sender.sendMessage(Main.prefix + "Toggled sound for " + args[1]);
+                            	} else {
+                            		sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio toggle <mc name> <id>");
+                            	}
+                            }
+                            else if (args[0].equalsIgnoreCase("setvolume"))
+                            {  	
+                        		if (args.length >= 3) {
+                        			if (args.length == 4) {
+                        				command.setVolumeID(args[1], args[2], args[3]);
+                        				sender.sendMessage(Main.prefix + "Volume for sound with id:"+args[3] + " for:" + args[1]+ " is now set.");
+                        			} else {
+                        				command.setVolume(args[1], args[2]);
+                                    	sender.sendMessage(Main.prefix + "volume of " + args[1] + " is now set to " + args[2]);
+                        			}
+                        			
+                            	} else {
+                            		sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio setvolume <mc name> <volume>");
                             	}
                             }
                             else if (args[0].equalsIgnoreCase("buffer"))
