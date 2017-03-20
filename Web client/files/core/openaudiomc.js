@@ -916,7 +916,7 @@ function reloadNonSsl() {
 
 function showqr() {
 		swal({
-			title: "Qr code for mobile client",
+			title: "QR code for the app",
 			text: '<center><div id="qrcode"></div></center>',
 			CancelButton: false,
 			allowOutsideClick: true,
@@ -925,7 +925,7 @@ function showqr() {
 			html: true
 		}, function() {});
 		var qrcode = new QRCode(document.getElementById("qrcode"), {
-			text: document.URL,
+			text: '{"mcname":"' + mcname + '","session":"' + session + '"}',
 			width: 150,
 			height: 150,
 			colorDark: "#000000",
