@@ -3,11 +3,19 @@ description: Openaudiomc plugin.
 author: Mindgamesnl
 website: http://www.craftmend.com/
 prefix: OpenAudio
-version: 2.1
-softdepend: [WorldGuard, WGRegionEvents]
+version: 2.2
+softdepend: [WorldGuard, WGRegionEvents, Skript]
 main: net.openaudiomc.minecraft.Main
 commands:
    openaudio:
+      description: OpenAudioAdmin command
+      permission: openaudio.admin
+      permission-message: You don't have the permissions to do this
+   oa:
+      description: OpenAudioAdmin command
+      permission: openaudio.admin
+      permission-message: You don't have the permissions to do this
+   oam:
       description: OpenAudioAdmin command
       permission: openaudio.admin
       permission-message: You don't have the permissions to do this

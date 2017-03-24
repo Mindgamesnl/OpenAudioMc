@@ -2,9 +2,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>OpenAudioSocketClient</groupId>
     <artifactId>OpenAudioSocketClient</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>2.2-RELEASE</version>
     <build>
+    
         <sourceDirectory>src</sourceDirectory>
+        
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -15,31 +17,115 @@
                 </configuration>
             </plugin>
         </plugins>
+        
         <resources>
+        
+        
             <resource>
                 <directory>src/</directory>
                 <includes>
                     <include>plugin.yml</include>
                 </includes>
             </resource>
+            
+            
             <resource>
-        <directory>C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient</directory>
-        <includes>
-          <include>socket-io-driver.jar</include>
-        </includes>
-      </resource>
+                <directory>${project.basedir}</directory>
+                <includes>
+                    <include>/lib/socket-io-driver.jar</include>
+                </includes>
+            </resource>
+            
+            
         </resources>
     </build>
     <dependencies>
+    
+    
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-shade-plugin</artifactId>
             <version>2.4.3</version>
         </dependency>
+        
+        
+        <dependency>
+            <groupId>com.mewin</groupId>
+			<artifactId>WGRegionEvents</artifactId>
+            <version>1.2</version>
+            <scope>system</scope>
+	    	<systemPath>${basedir}/lib/WGRegionEvents.jar</systemPath>
+        </dependency>
+        
+        
         <dependency>
             <groupId>io.socket</groupId>
             <artifactId>socket.io-client</artifactId>
             <version>0.8.3</version>
         </dependency>
+        
+        
+        <dependency>
+    		<groupId>com.sk89q</groupId>
+	    	<artifactId>worldedit</artifactId>
+	    	<version>5.5.8</version>
+	    	<scope>system</scope>
+	    	<systemPath>${basedir}/lib/WorldEdit.jar</systemPath>
+		</dependency>
+		
+		
+		<dependency>
+        	<groupId>com.sk89q</groupId>
+        	<artifactId>worldguard</artifactId>
+        	<version>6.1</version>
+    	</dependency>
+    	
+    	
+    	<dependency>
+    		<groupId>ch.njol</groupId>
+	    	<artifactId>Skript</artifactId>
+	    	<version>2.1</version>
+	    	<scope>system</scope>
+	    	<systemPath>${basedir}/lib/Skript.jar</systemPath>
+		</dependency>
+        
+        
+        <!--Spigot API-->
+    	<dependency>
+           	<groupId>org.spigotmc</groupId>
+           	<artifactId>spigot-api</artifactId>
+           	<version>1.8.8-R0.1-SNAPSHOT</version>
+           	<scope>provided</scope>
+    	</dependency>
+    	
+    	
+    	<dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>bukkit</artifactId>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+    	</dependency>
+        
     </dependencies>
+    <repositories>
+    
+    	<repository>
+        	<id>spigot-repo</id>
+	        <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+    	</repository>
+    	
+   
+    	<repository>
+        	<id>sk89q-repo</id>
+	        <url>http://maven.sk89q.com/repo/</url>
+    	</repository>
+    	
+    	
+    	<repository>
+		<id>njol-repo</id>
+		<url>http://maven.njol.ch/repo/</url>
+	</repository>
+
+        
+    </repositories>
 </project>

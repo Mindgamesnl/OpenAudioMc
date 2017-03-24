@@ -13,6 +13,7 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 import net.openaudiomc.actions.command;
 import net.openaudiomc.actions.spy;
+import net.openaudiomc.files.modManager;
 import net.openaudiomc.files.playlistManager;
 import net.openaudiomc.minecraft.Main;
 import net.openaudiomc.minecraft.getdDep;
@@ -21,7 +22,7 @@ import net.openaudiomc.regions.regionCrap;
 public class AdminCommands implements CommandExecutor {
     //Main
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (cmd.getName().equalsIgnoreCase("openaudio")) {
+        if (cmd.getName().equalsIgnoreCase("openaudio") || cmd.getName().equalsIgnoreCase("oa") || cmd.getName().equalsIgnoreCase("oam")) {
             if (sender.hasPermission("openaudio.admin")) {
                 if (sender.hasPermission("openaudio.admin")) {
 
@@ -47,6 +48,9 @@ public class AdminCommands implements CommandExecutor {
                                 	String uers_help = "/openaudio help user";
                                 	String userHelpMessage = ChatColor.translateAlternateColorCodes('&', "&c&l(Click here)&r&3 for a list of user commands.");
                                 	
+                                	String admin_help = "/openaudio help modding";
+                                	String adminHelpMessage = ChatColor.translateAlternateColorCodes('&', "&c&l(Click here)&r&3 for help with modding your client.");
+                                	
                                 	
                                 	
                                 	//Execute
@@ -54,19 +58,18 @@ public class AdminCommands implements CommandExecutor {
                         			String command = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + audioHelpMessage + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + audio_help +"\"}}]" + "";
                         			Bukkit.dispatchCommand(console, command);
                         			
-                        			sender.sendMessage(" ");
                         			String command2 = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + regionHelpMessage + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + region_help +"\"}}]" + "";
                         			Bukkit.dispatchCommand(console, command2);
                         			
-                        			sender.sendMessage(" ");
                         			String command3 = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + hueHelpMessage + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + hue_help +"\"}}]" + "";
                         			Bukkit.dispatchCommand(console, command3);
                         			
-                        			sender.sendMessage(" ");
                         			String command4 = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + uiHelpMessage + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + ui_help +"\"}}]" + "";
                         			Bukkit.dispatchCommand(console, command4);
                         			
-                        			sender.sendMessage(" ");
+                        			String command6 = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + adminHelpMessage + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + admin_help +"\"}}]" + "";
+                        			Bukkit.dispatchCommand(console, command6);
+                        			
                         			String command5 = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + userHelpMessage + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + uers_help +"\"}}]" + "";
                         			Bukkit.dispatchCommand(console, command5);
                                 } else if (args[1].equalsIgnoreCase("audio")) {
@@ -89,10 +92,12 @@ public class AdminCommands implements CommandExecutor {
                                 	sender.sendMessage(" ");
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.prefix + "Help menu / &lAudio"));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio setvolume <mcname> <volume> [id]&r&a Set the volume for a player."));
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio skipto <mcname> <id> <seconds>&r&a Skip to a part in a song."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio play <mcname> <url> [id]&r&a Play a sound for a player."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio toggle <mcname> <id>&r&a Toggle play/pause for a sound."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio loop <mcname> <url>&r&a Play a loop for a player."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio stop <mcname> [id]&r&a Stop the sound for a player."));
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio stopall <mcname>&r&a Stop all sounds for a player."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio setvolume <mcname> [id]&r&a Set the volume for a player."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio buffer create <mcname> <url>&r&a Buffer a sound for a player."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio buffer play <mcname>&r&a Play sound in buffer for a player."));
@@ -117,6 +122,7 @@ public class AdminCommands implements CommandExecutor {
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.prefix + "Help menu / &lRegion"));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio region create <wg region name> <url>&r&a Add sound to a wg region."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio region delete <wg region name>&r&a Remove the sound from a wg region."));
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio region setvolume <wg region name> <volume>&r&a Set the starting volume for a region sound."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio playregion <wg region name> <url>&r&a Start sound for players in a region."));
                                 } else if (args[1].equalsIgnoreCase("hue")) {
                                     //help 2
@@ -189,6 +195,28 @@ public class AdminCommands implements CommandExecutor {
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/connect&r&a Give the url for the web client."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/music&r&a Give the url for the web client."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/sound&r&a Give the url for the web client."));
+                                } else if (args[1].equalsIgnoreCase("modding")) {
+                                    //help 2
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.prefix + "Help menu / &lAdmin"));
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio modding addmod <url to js file>&r&a Add a custom js file."));
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio modding addcss <url to css file>&r&a Add a custom css file."));
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio modding bg <url to image file>&r&a Force a background image."));
                                 } else {
                                 	sender.sendMessage(Main.prefix + "Invalid help page.");
                                 }
@@ -211,6 +239,16 @@ public class AdminCommands implements CommandExecutor {
                             else if (args[0].equalsIgnoreCase("spy"))
                             {
                             	spy.Toggle((Player) sender);
+                            }
+                            else if (args[0].equalsIgnoreCase("stopall"))
+                            {
+                            	if (args.length == 2) {
+                            		command.stop(args[1]);
+                            		command.stopOldRegion(args[1]);
+                            		command.stopRegion(args[1]);
+                            	} else {
+                            		sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio stopall <mc name>");
+                            	}
                             }
                             else if (args[0].equalsIgnoreCase("loop"))
                             {
@@ -241,6 +279,20 @@ public class AdminCommands implements CommandExecutor {
                                 		if (args[1].equalsIgnoreCase("create")) {
                                 			regionCrap.registerRegion(args[2], args[3]);
                                 			sender.sendMessage(Main.prefix + "Changed the sound of " + args[2] + " to " + args[3]);
+                                		} else if (args[1].equalsIgnoreCase("setvolume")) {
+                                			if (isNumeric(args[3])) {
+                                				if (isBetween(0, 101, Integer.parseInt(args[3]))) {
+                                					regionCrap.setRegionVolume(args[2], Integer.parseInt(args[3]));
+                                					sender.sendMessage(Main.prefix + "Changed default volume for the region.");
+                                				} else {
+                                					sender.sendMessage(Main.prefix + "Invalid volume.");
+                                				}
+                                			} else if (args[3].equalsIgnoreCase("reset")){
+                            					regionCrap.removeRegionVolume(args[2]);
+                            					sender.sendMessage(Main.prefix + "Removed default volume for the region.");
+                            				} else {
+                                				sender.sendMessage(Main.prefix + "Invalid volume.");
+                                			}
                                 		} else {
                                 			sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio region <sub command> [values]");
                                 		}
@@ -258,6 +310,25 @@ public class AdminCommands implements CommandExecutor {
                             		sender.sendMessage(Main.prefix + "Could not find wg region events, please install the WgRegionEvents plugin.");
                             	}
                             	
+                            }
+                            else if (args[0].equalsIgnoreCase("modding"))
+                            {
+                            	if (args.length == 3) {
+                            		if (args[1].equalsIgnoreCase("addmod")) {
+                            			modManager.addJs(args[2]);
+                            			sender.sendMessage(Main.prefix + "Added a js file (please remove it from the mods.yml file if it is not correct)");
+                            		} else if (args[1].equalsIgnoreCase("addcss")) {
+                            			modManager.addCss(args[2]);
+                            			sender.sendMessage(Main.prefix + "Added a css file (please remove it from the mods.yml file if it is not correct)");
+                            		} else if (args[1].equalsIgnoreCase("bg")) {
+                            			modManager.setBg(args[2]);
+                            			sender.sendMessage(Main.prefix + "Changed the bg image.)");
+                            		} else {
+                            			sender.sendMessage(Main.prefix + "Invalid command, please read the help menu.");
+                            		}
+                            	} else {
+                            		sender.sendMessage(Main.prefix + "Invalid command, please read the help menu.");
+                            	}
                             }
                             else if (args[0].equalsIgnoreCase("playlist"))
                             {
@@ -319,6 +390,15 @@ public class AdminCommands implements CommandExecutor {
                             	} else {
                             		sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio stop <mc name>");
                             	}
+                            }
+                            else if (args[0].equalsIgnoreCase("skipto"))
+                            {  	
+                    			if (args.length == 4) {
+                    				sender.sendMessage(Main.prefix + "Skipped " + args[2] + " to " + args[3] + "seconds for " + args[1]);
+                    				command.skipTo(args[1], args[2], args[3]);
+                    			} else {
+                    				sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio skipto <mc name> <id> <time in seconds>");
+                    			}
                             }
                             else if (args[0].equalsIgnoreCase("toggle"))
                             {  	
@@ -457,4 +537,21 @@ public class AdminCommands implements CommandExecutor {
             }
             return false;
         }
+    
+	    public static boolean isBetween(int a, int b, int c) {
+	        return b > a ? c > a && c < b : c > b && c < a;
+	    }
+	    
+	    public static boolean isNumeric(String str)  
+	    {  
+	      try  
+	      {  
+	        double d = Double.parseDouble(str);  
+	      }  
+	      catch(NumberFormatException nfe)  
+	      {  
+	        return false;  
+	      }  
+	      return true;  
+	    }
     }

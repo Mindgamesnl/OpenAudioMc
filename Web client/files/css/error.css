@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz');
 
-@media (max-height: 850px) {
+@media (max-width: 850px) {
+  .logo {
+    display: none;
+  }
+}
+
+@media (max-height: 600px) {
   .logo {
     display: none;
   }
@@ -55,10 +61,24 @@ body {
   display: table;
 }
 
+@media (max-width: 850px) {
+  .container {
+    margin-top: 0px;
+    height: 80%;
+  }
+}
+
+@media (max-height: 600px) {
+  .container {
+    margin-top: 0px;
+    height: 80%;
+  }
+}
+
 .text {
   display: table-cell;
   vertical-align: middle;
-  padding: 0px 20% 50px 20%;
+  padding: 0px 15% 50px 15%;
 }
 
 .text span {

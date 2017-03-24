@@ -331,6 +331,43 @@ public class command {
 		Emitter.EmitToPlayer(name, getCleanURL(command));
 	}
 	
+	
+	@SuppressWarnings("unchecked")
+	public static void skipTo(String name, String id, String timestamp) {
+		JSONObject obj = new JSONObject();
+		obj.put("command", "skipto");
+		obj.put("id", id);
+		obj.put("timeStamp", timestamp);
+		String command = obj.toString();
+		Emitter.EmitToPlayer(name, getCleanURL(command));
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static void addJs(String name, String src) {
+		JSONObject obj = new JSONObject();
+		obj.put("command", "loadmod");
+		obj.put("type", "js");
+		obj.put("src", src);
+		String command = obj.toString();
+		Emitter.EmitToPlayer(name, getCleanURL(command));
+	}
+	
+	public static void stopAll(String name) {
+		command.stop(name);
+		command.stopOldRegion(name);
+		command.stopRegion(name);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static void addCss(String name, String src) {
+		JSONObject obj = new JSONObject();
+		obj.put("command", "loadmod");
+		obj.put("type", "css");
+		obj.put("src", src);
+		String command = obj.toString();
+		Emitter.EmitToPlayer(name, getCleanURL(command));
+	}
+	
 	/**
 	 * Gets the clean URL.
 	 *
