@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import org.json.JSONObject;
 
 import io.socket.client.Socket;
-import net.openaudiomc.socket.Main;
+import net.openaudiomc.socket.SocketioConnector;
 
 public class Emitter {
 	
@@ -16,7 +16,7 @@ public class Emitter {
 				JSONObject obj = new JSONObject();
 				obj.put("target", p.getName());
 				obj.put("commandobj", message);
-				((Socket) Main.socket).emit("send", obj.toString());
+				((Socket) SocketioConnector.socket).emit("send", obj.toString());
 			}
 		} else {
 			@SuppressWarnings("deprecation")
@@ -25,28 +25,28 @@ public class Emitter {
     			JSONObject obj = new JSONObject();
     			obj.put("target", player);
     			obj.put("commandobj", message);
-    			((Socket) Main.socket).emit("send", obj.toString());
+    			((Socket) SocketioConnector.socket).emit("send", obj.toString());
     		}	
 		}
 		Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.WebsocketSendEvent(Bukkit.getPlayer(player), message));
 	}
 	
 	public static void KickPlayerConnection(String name) {
-		((Socket) Main.socket).emit("kick", name);		
+		((Socket) SocketioConnector.socket).emit("kick", name);		
 	}
 	
 	public static void offlineInServer(String name) {
 		JSONObject obj = new JSONObject();
 		obj.put("target", name);
 		obj.put("commandobj", "not_in_server");
-		((Socket) Main.socket).emit("send", obj.toString());	
+		((Socket) SocketioConnector.socket).emit("send", obj.toString());	
 	}
 	
 	public static void connectedInServer(String name) {
 		JSONObject obj = new JSONObject();
 		obj.put("target", name);
 		obj.put("commandobj", "connectionSuccess");
-		((Socket) Main.socket).emit("send", obj.toString());	
+		((Socket) SocketioConnector.socket).emit("send", obj.toString());	
 	}
 
 }

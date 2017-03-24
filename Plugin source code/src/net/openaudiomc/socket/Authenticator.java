@@ -12,18 +12,27 @@ import org.json.JSONObject;
 
 public class Authenticator {
 	
+	public static String publicKey;
+	
 	public static String getID() {
 		FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "serverData.yml"));
 		return cfg.getString("serverID");
 	}
 	
 	public static String getClientID() {
-		try {
-			JSONObject obj = new JSONObject(getClientToken());
-			return obj.getString("cid");
-		} catch (JSONException e) {
-		} catch (Exception e) {
+		if (publicKey == null) {
+			try {
+				System.out.println("[OpenAudio] Requesting id for the first time (requesting static token)");
+				JSONObject obj = new JSONObject(getClientToken());
+				publicKey = obj.getString("cid");
+				return obj.getString("cid");
+			} catch (JSONException e) {
+			} catch (Exception e) {
+			}
+		} else {
+			return publicKey;
 		}
+		
 		return null;
 	}
 	

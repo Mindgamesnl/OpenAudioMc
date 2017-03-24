@@ -34,11 +34,18 @@ public class regionCrap implements Listener {
 	
 	//region enter event
 	@EventHandler
-	public void onRegionEnter(RegionEnterEvent e) {
+	public void onRegionEnter(final RegionEnterEvent e) {
 		if (isValidRegion(e.getRegion().getId()) && e.isCancellable() && !e.isCancelled()) {
 			regionHistory.put(e.getPlayer(), getRegionFile(e.getRegion().getId()));
 			command.playRegion(e.getPlayer().getName(), getRegionFile(e.getRegion().getId()));
 			Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.AudioRegionEnterEvent(e.getRegion().getId(), e.getPlayer(), getRegionFile(e.getRegion().getId())));
+			Bukkit.getServer().getScheduler().runTaskLater(PL, new Runnable(){
+				public void run(){
+					if (getRegionVolume(e.getRegion().getId()) != "none") {
+						command.setVolumeID(e.getPlayer().getName(), getRegionVolume(e.getRegion().getId()), "oa_region");
+					}
+				}
+			},25);
 		}
 	}
 
@@ -81,6 +88,38 @@ public class regionCrap implements Listener {
 			return file.getString("region.src." + regionName);
 		} else {
 			return "InvalidSource";
+		}
+	}
+	
+	public static void removeRegionVolume(String id) {
+		FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "regions.yml"));
+		File regionsFile = new File("plugins/OpenAudio", "regions.yml");
+		cfg.set("region.volume."+id, "none");
+		try {
+			cfg.save(regionsFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static String getRegionVolume(String id) {
+		if (file.getString("region.volume." + id) != null && file.getString("region.volume." + id) != "none") {
+			return file.getString("region.volume." + id);
+		}
+		return "none";
+		
+	}
+	
+	public static void setRegionVolume(String name, Integer volume) {
+		FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "regions.yml"));
+		File regionsFile = new File("plugins/OpenAudio", "regions.yml");
+		cfg.set("region.volume."+name, volume);
+		try {
+			cfg.save(regionsFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	

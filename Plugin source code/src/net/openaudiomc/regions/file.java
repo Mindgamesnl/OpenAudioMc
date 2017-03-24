@@ -11,5 +11,15 @@ public class file {
 		return cfg.getString(path);
 	}
 	
+	public static String getStringMes(String path) {
+		FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "messages.yml"));
+		return cfg.getString(path);
+	}
+	
+	public static String getStringMod(String path) {
+		FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio/advanced", "mods.yml"));
+		return cfg.getString(path);
+	}
+
 	
 }

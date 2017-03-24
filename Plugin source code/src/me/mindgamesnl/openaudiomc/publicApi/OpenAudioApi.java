@@ -3,8 +3,8 @@ package me.mindgamesnl.openaudiomc.publicApi;
 import org.bukkit.entity.Player;
 
 import net.openaudiomc.actions.command;
+import net.openaudiomc.minecraft.eventListener;
 import net.openaudiomc.regions.regionCrap;
-import net.openaudiomc.socket.SocketListener;
 
 public class OpenAudioApi {
 	
@@ -49,7 +49,7 @@ public class OpenAudioApi {
 	}
 	
 	public static Boolean isConnected(Player p) {
-		return SocketListener.isConnected(p.getName());
+		return eventListener.isConnected(p.getName());
 	}
 	
 	public static String getRegionSound(String region) {

@@ -20,8 +20,14 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import ch.njol.skript.Skript;
 import net.openaudiomc.regions.regionCrap;
 import net.openaudiomc.socket.Authenticator;
+import net.openaudiomc.commands.AdminCommands;
+import net.openaudiomc.commands.AudioCommands;
+import net.openaudiomc.commands.volumeCommand;
+import net.openaudiomc.files.Messages;
+import net.openaudiomc.internal.events.SkriptRegistration;
 
 public class Main extends JavaPlugin implements Listener{
 	
@@ -35,8 +41,6 @@ public class Main extends JavaPlugin implements Listener{
 	}
 
 	public static File fileLoc;
-	
-
 	
 	//Start zooi 
 	@Override
@@ -52,33 +56,46 @@ public class Main extends JavaPlugin implements Listener{
 		createMessagesFile();
 		createServerNode();
 		createPlaylist();
-		Bukkit.getServer().getPluginManager().registerEvents(new net.openaudiomc.socket.SocketListener(),this);
+		createModsFile();
+		Bukkit.getServer().getPluginManager().registerEvents(new eventListener(),this);
 		Bukkit.getLogger().info("[OpenAudio] Loading OpenAudioMc by Mindgamesnl/Me_is_mattyh");
 		try {
-			net.openaudiomc.socket.Main.connect();
+			net.openaudiomc.socket.SocketioConnector.connect();
 		} catch (Exception e) {
-			// TODO Auto-generated catch bdatafileInstk
-			e.printStackTrace();
+			Bukkit.getLogger().info("[OpenAudio] Failed to connect to the socket.io server, openaudio will not work correctly.");
 		}
 		
 		prefix = ChatColor.translateAlternateColorCodes('&', "&9[&bOpenAudioMc&9] &3");
 		
 		//Audio commands
-		this.getCommand("connect").setExecutor(new net.openaudiomc.commands.AudioCommands());
-		this.getCommand("audio").setExecutor(new net.openaudiomc.commands.AudioCommands());
-		this.getCommand("music").setExecutor(new net.openaudiomc.commands.AudioCommands());
-		this.getCommand("sound").setExecutor(new net.openaudiomc.commands.AudioCommands());
-		this.getCommand("muziek").setExecutor(new net.openaudiomc.commands.AudioCommands());
-		this.getCommand("audioserver").setExecutor(new net.openaudiomc.commands.AudioCommands());
-		this.getCommand("audioclient").setExecutor(new net.openaudiomc.commands.AudioCommands());
+		this.getCommand("connect").setExecutor(new AudioCommands());
+		this.getCommand("audio").setExecutor(new AudioCommands());
+		this.getCommand("music").setExecutor(new AudioCommands());
+		this.getCommand("sound").setExecutor(new AudioCommands());
+		this.getCommand("muziek").setExecutor(new AudioCommands());
+		this.getCommand("audioserver").setExecutor(new AudioCommands());
+		this.getCommand("audioclient").setExecutor(new AudioCommands());
 		//Volume command
-		this.getCommand("volume").setExecutor(new net.openaudiomc.commands.volumeCommand());
+		this.getCommand("volume").setExecutor(new volumeCommand());
 		//Main command
-		this.getCommand("openaudio").setExecutor(new net.openaudiomc.commands.AdminCommands());
+		this.getCommand("openaudio").setExecutor(new AdminCommands());
+		this.getCommand("oa").setExecutor(new AdminCommands());
+		this.getCommand("oam").setExecutor(new AdminCommands());
+		
+		//bungee
+		
 		
 		if (getdDep.getStatus()) {
 			regionCrap.enable();
 			Bukkit.getServer().getPluginManager().registerEvents(new net.openaudiomc.regions.regionCrap(),this);
+		}
+		
+		if (getdDep.skriptInstalled) {
+			Skript.registerAddon(this);
+			SkriptRegistration.load();
+			Bukkit.getLogger().info("[OpenAudio] Whoah! just like that! loaded the skript events :D");
+		} else {
+			Bukkit.getLogger().info("[OpenAudio] Skript was not found in your server, gues we're not loading the sk-events then.");
 		}
 
 	}	
@@ -88,7 +105,6 @@ public class Main extends JavaPlugin implements Listener{
 	//Sluit zooi
 	@Override
 	public void onDisable(){	
-		
 	}
 		
 	public void createMessagesFile() {
@@ -105,7 +121,9 @@ public class Main extends JavaPlugin implements Listener{
             MessagesConfig.set("start-sound", "https://craftmend.com/api_SSL/openaudio/load_sound.mp3");
             MessagesConfig.set("website-url", "http://public.openaudiomc.net/?name=%name%&session=%session%");
             MessagesConfig.set("connect-message", "&9[&bOpenAudioMc&9] &3Click &ehere&3 to connect to our audio server!");
-            MessagesConfig.set("connected-message", "&9[&bOpenAudioMc&9] &3You are now &aConnected&3 our audio server!");
+            MessagesConfig.set("disconnect-message", "&9[&bOpenAudioMc&9] &3You are now &4Disconnected&3 from our audio server!");
+            MessagesConfig.set("connected-message", "&9[&bOpenAudioMc&9] &3You are now &aConnected&3 to our audio server!");
+            MessagesConfig.set("hue-connected-message", "&9[&bOpenAudioMc&9] &3You are now &aConnected&3 with your philips &dh&bu&ae&3!");
             MessagesConfig.set("volume-set", "&9[&bVolume&9] &3Your volume has been set to &a%volume%&3%");
             MessagesConfig.set("volume-error", "&9[&bVolume&9] &4Invalid arguments.");
             
@@ -114,6 +132,54 @@ public class Main extends JavaPlugin implements Listener{
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        
+        if (Messages.get("disconnect-message") == null) {
+        	MessagesFile = new File("plugins/OpenAudio", "messages.yml");
+        	MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
+        	MessagesConfig.set("disconnect-message", "&9[&bOpenAudioMc&9] &3You are now &4Disconnected&3 from our audio server!");
+        	try {
+				MessagesConfig.save(MessagesFile);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+        
+        if (Messages.get("background-image") == null) {
+        	MessagesFile = new File("plugins/OpenAudio", "messages.yml");
+        	MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
+        	MessagesConfig.set("background-image", "<none>");
+        	try {
+				MessagesConfig.save(MessagesFile);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+        
+        if (Messages.get("stop-on-teleport") == null) {
+        	MessagesFile = new File("plugins/OpenAudio", "messages.yml");
+        	MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
+        	MessagesConfig.set("stop-on-teleport", false);
+        	try {
+				MessagesConfig.save(MessagesFile);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+        
+        if (Messages.get("hue-connected-message") == null) {
+        	MessagesFile = new File("plugins/OpenAudio", "messages.yml");
+        	MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
+        	MessagesConfig.set("hue-connected-message", "&9[&bOpenAudioMc&9] &3You are now &aConnected&3 with your philips &dh&bu&ae&3!");
+        	try {
+				MessagesConfig.save(MessagesFile);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
 		
 	}
@@ -129,6 +195,26 @@ public class Main extends JavaPlugin implements Listener{
 			}
 			FileConfiguration regionsFileInst = YamlConfiguration.loadConfiguration(regionsFile);
 			regionsFileInst.set("Description", "Info like region data will be stored here.");
+			try {
+				regionsFileInst.save(regionsFile);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void createModsFile() {
+		File regionsFile = new File("plugins/OpenAudio/advanced", "mods.yml");
+		if (!regionsFile.exists()) {
+			try {
+				regionsFile.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			FileConfiguration regionsFileInst = YamlConfiguration.loadConfiguration(regionsFile);
+			regionsFileInst.set("Description", "(ONLY FOR USERS WHO DON'T HAVE OWN HOSTING) urls to css/js files will be stored here :3");
 			try {
 				regionsFileInst.save(regionsFile);
 			} catch (IOException e) {
