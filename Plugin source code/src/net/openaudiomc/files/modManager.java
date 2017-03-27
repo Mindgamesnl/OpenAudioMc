@@ -44,7 +44,7 @@ public class modManager {
 				command.addCss(p, cfg.getString("css."+key));
 			}
 			for(String key : cfg.getConfigurationSection("js").getKeys(false)){
-				command.addCss(p, cfg.getString("js."+key));
+				command.addJs(p, cfg.getString("js."+key));
 			}
 		} catch(Exception e) {}
 	}
