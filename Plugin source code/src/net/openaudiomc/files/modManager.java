@@ -8,47 +8,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 public class modManager {
 	
-<<<<<<< HEAD
-=======
-	public static void addCss(String url) {
-		FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio/advanced", "mods.yml"));
-		File regionsFile = new File("plugins/OpenAudio/advanced", "mods.yml");
-		Random rand = new Random();
-		int  n = rand.nextInt(50) + 1;
-		cfg.set("css."+n, url);
-		try {
-			cfg.save(regionsFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static void addJs(String url) {
-		FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio/advanced", "mods.yml"));
-		File regionsFile = new File("plugins/OpenAudio/advanced", "mods.yml");
-		Random rand = new Random();
-		int  n = rand.nextInt(50) + 1;
-		cfg.set("js."+n, url);
-		try {
-			cfg.save(regionsFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static void loadMods(String p) {
-		FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio/advanced", "mods.yml"));
-		try {
-			for(String key : cfg.getConfigurationSection("css").getKeys(false)){
-				command.addCss(p, cfg.getString("css."+key));
-			}
-			for(String key : cfg.getConfigurationSection("js").getKeys(false)){
-				command.addJs(p, cfg.getString("js."+key));
-			}
-		} catch(Exception e) {}
-	}
-	
->>>>>>> origin/master
 	public static void setBg(String url) {
 		File MessagesFile = new File("plugins/OpenAudio", "messages.yml");
 		YamlConfiguration MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
