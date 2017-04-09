@@ -2,8 +2,8 @@ name: OpenAudio
 description: Openaudiomc plugin.
 author: Mindgamesnl
 website: http://www.craftmend.com/
-prefix: OpenAudio
-version: 2.2
+prefix: OpenAudioMc
+version: 2.3
 softdepend: [WorldGuard, WGRegionEvents, Skript]
 main: net.openaudiomc.minecraft.Main
 commands:

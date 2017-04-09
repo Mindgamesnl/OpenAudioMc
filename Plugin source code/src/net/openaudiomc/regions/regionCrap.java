@@ -24,7 +24,7 @@ public class regionCrap implements Listener {
 	
 	//setup zooi
 	private static Plugin PL;
-	HashMap<Player, String> regionHistory = new HashMap<Player, String>();
+	static HashMap<Player, String> regionHistory = new HashMap<Player, String>();
 	
 	//enable and create local plugin
 	public static void enable() {
@@ -35,17 +35,38 @@ public class regionCrap implements Listener {
 	//region enter event
 	@EventHandler
 	public void onRegionEnter(final RegionEnterEvent e) {
-		if (isValidRegion(e.getRegion().getId()) && e.isCancellable() && !e.isCancelled()) {
-			regionHistory.put(e.getPlayer(), getRegionFile(e.getRegion().getId()));
-			command.playRegion(e.getPlayer().getName(), getRegionFile(e.getRegion().getId()));
-			Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.AudioRegionEnterEvent(e.getRegion().getId(), e.getPlayer(), getRegionFile(e.getRegion().getId())));
-			Bukkit.getServer().getScheduler().runTaskLater(PL, new Runnable(){
-				public void run(){
-					if (getRegionVolume(e.getRegion().getId()) != "none") {
-						command.setVolumeID(e.getPlayer().getName(), getRegionVolume(e.getRegion().getId()), "oa_region");
-					}
+		if (e.isCancellable() && !e.isCancelled()) {
+			if (e.getRegion().getParent() != null) {
+				if (e.getRegion().getParent().getPriority() > e.getRegion().getPriority() || e.getRegion().getParent().getPriority() == e.getRegion().getPriority()) {
+					//parent is more important
+					prosessEnter(e.getRegion().getParent(), e.getPlayer(), e);
+				} else {
+					//child is more important
+					prosessEnter(e.getRegion(), e.getPlayer(), e);
 				}
-			},25);
+			} else {
+				//no parent region
+				prosessEnter(e.getRegion(), e.getPlayer(), e);
+			}
+		}
+	}
+	
+	
+	static void prosessEnter(final ProtectedRegion protectedRegion, final Player player, final RegionEnterEvent e) {
+		if (getRegionWorld(protectedRegion.getId()) != "<none>") {
+			if (player.getLocation().getWorld().getName() == getRegionWorld(protectedRegion.getId())) {
+				if (isValidRegion(protectedRegion.getId())) {
+					regionHistory.put(player, getRegionFile(protectedRegion.getId()));
+					command.playRegion(e.getPlayer().getName(), getRegionFile(protectedRegion.getId()));
+					Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.AudioRegionEnterEvent(protectedRegion.getId(), e.getPlayer(), getRegionFile(protectedRegion.getId())));
+				}
+			}
+		} else {
+			if (isValidRegion(protectedRegion.getId())) {
+				regionHistory.put(player, getRegionFile(protectedRegion.getId()));
+				command.playRegion(e.getPlayer().getName(), getRegionFile(protectedRegion.getId()));
+				Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.AudioRegionEnterEvent(protectedRegion.getId(), e.getPlayer(), getRegionFile(protectedRegion.getId())));
+			}
 		}
 	}
 
@@ -53,32 +74,67 @@ public class regionCrap implements Listener {
 	//region leave event
 	@EventHandler
 	public void onRegionLeave(final RegionLeaveEvent e) {
-	
 		if (e.isCancellable() && !e.isCancelled()) {
-			Bukkit.getServer().getScheduler().runTaskLater(PL, new Runnable(){
-				public void run(){
-					
-					String regionNu = "-";
-					for(ProtectedRegion r : WGBukkit.getRegionManager(e.getPlayer().getWorld()).getApplicableRegions(e.getPlayer().getLocation())) {
-						regionNu = r.getId();
-		            }
-					if (isValidRegion(e.getRegion().getId()) && e.isCancellable()) {
-						if (regionHistory.get(e.getPlayer()) != getRegionFile(regionNu)) {	
-							if (regionNu == "-") {
-								command.stopRegion(e.getPlayer().getName());
-								Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.AudioRegionLeaveEvent(e.getRegion().getId(), e.getPlayer()));
+			if (e.getRegion().getParent() != null) {
+				if (e.getRegion().getParent().getPriority() > e.getRegion().getPriority() || e.getRegion().getParent().getPriority() == e.getRegion().getPriority()) {
+					//parant region has higher priorety
+					prosessExit(e.getRegion().getParent(), e.getPlayer(), e);
+				} else {
+					//parant region has lower priorety
+					prosessExit(e.getRegion(), e.getPlayer(), e);
+				}
+			} else {
+				//no parant region
+				prosessExit(e.getRegion(), e.getPlayer(), e);
+			}
+		}	
+	}
+	
+	static void prosessExit(final ProtectedRegion protectedRegion, final Player player, final RegionLeaveEvent e) {
+		Bukkit.getServer().getScheduler().runTaskLater(PL, new Runnable(){
+			public void run(){
+				
+				String regionNu = "-";
+				for(ProtectedRegion r : WGBukkit.getRegionManager(player.getWorld()).getApplicableRegions(player.getLocation())) {
+					regionNu = r.getId();
+	            }
+				if (isValidRegion(protectedRegion.getId()) && e.isCancellable()) {
+					if (regionHistory.get(player) != getRegionFile(regionNu)) {	
+						if (regionNu == "-") {
+							if (getRegionWorld(protectedRegion.getId()) != "<none>") {
+								if (player.getLocation().getWorld().getName() == getRegionWorld(protectedRegion.getId())) {
+									command.stopRegion(player.getName());
+									Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.AudioRegionLeaveEvent(protectedRegion.getId(), player));
+								}
 							} else {
-								command.stopOldRegion(e.getPlayer().getName());
-								Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.AudioRegionLeaveEvent(e.getRegion().getId(), e.getPlayer()));
+								command.stopRegion(player.getName());
+								Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.AudioRegionLeaveEvent(protectedRegion.getId(), player));
 							}
 						} else {
-							command.stopRegion(e.getPlayer().getName());
-							Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.AudioRegionLeaveEvent(e.getRegion().getId(), e.getPlayer()));
+							if (getRegionWorld(protectedRegion.getId()) != "<none>") {
+								if (player.getLocation().getWorld().getName() == getRegionWorld(protectedRegion.getId())) {
+									command.stopOldRegion(player.getName());
+									Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.AudioRegionLeaveEvent(protectedRegion.getId(), player));
+								}
+							} else {
+								command.stopOldRegion(player.getName());
+								Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.AudioRegionLeaveEvent(protectedRegion.getId(), player));
+							}
+						}
+					} else {
+						if (getRegionWorld(protectedRegion.getId()) != "<none>") {
+							if (player.getLocation().getWorld().getName() == getRegionWorld(protectedRegion.getId())) {
+								command.stopRegion(player.getName());
+								Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.AudioRegionLeaveEvent(protectedRegion.getId(), player));
+							}
+						} else {
+							command.stopRegion(player.getName());
+							Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.AudioRegionLeaveEvent(protectedRegion.getId(), player));
 						}
 					}
 				}
-			},10);
-		}
+			}
+		},10);
 	}
 	
 	
@@ -91,38 +147,14 @@ public class regionCrap implements Listener {
 		}
 	}
 	
-	public static void removeRegionVolume(String id) {
-		FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "regions.yml"));
-		File regionsFile = new File("plugins/OpenAudio", "regions.yml");
-		cfg.set("region.volume."+id, "none");
-		try {
-			cfg.save(regionsFile);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+	public static String getRegionWorld(String regionName) {
+		if (file.getString("world." + regionName) !=null && file.getString("region.isvalid." + regionName).equals("true")) {
+			return file.getString("world." + regionName);
+		} else {
+			return "<none>";
 		}
 	}
-	
-	public static String getRegionVolume(String id) {
-		if (file.getString("region.volume." + id) != null && file.getString("region.volume." + id) != "none") {
-			return file.getString("region.volume." + id);
-		}
-		return "none";
-		
-	}
-	
-	public static void setRegionVolume(String name, Integer volume) {
-		FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "regions.yml"));
-		File regionsFile = new File("plugins/OpenAudio", "regions.yml");
-		cfg.set("region.volume."+name, volume);
-		try {
-			cfg.save(regionsFile);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
 	
 	//check if a region ia know to openaudio (true = valid)
 	public static Boolean isValidRegion(String regionName) {
@@ -133,11 +165,12 @@ public class regionCrap implements Listener {
 		}
 	}
 	
-	public static void registerRegion(String regionName, String src) {
+	public static void registerRegion(String regionName, String src, Player p) {
 		FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "regions.yml"));
 		File regionsFile = new File("plugins/OpenAudio", "regions.yml");
 		cfg.set("region.isvalid."+regionName, "true");
 		cfg.set("region.src."+regionName, src);
+		cfg.set("world."+regionName, p.getLocation().getWorld().getName());
 		try {
 			cfg.save(regionsFile);
 		} catch (IOException e) {

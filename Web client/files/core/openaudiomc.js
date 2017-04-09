@@ -21,6 +21,45 @@ var soundcloud_title = "-";
 var soundcloud_icon = "files/images/soundcloud-2.png";
 var soundcloud_url = "https://soundcloud.com/stream";
 
+function loadAllFromJson(pack) {
+	var json = JSON.parse(pack);
+	var jsfiles = json.js;
+	var cssfiles = json.css;
+	for (var i = 0; i < jsfiles.length; i++) {
+			addJs(jsfiles[i]);
+	}
+	for (var i2 = 0; i2 < cssfiles.length; i2++) {
+			addCss(cssfiles[i2]);
+	}
+}
+
+var langpack = {};
+langpack.hue = {};
+langpack.message = {};
+langpack.notification = {};
+
+langpack.message.welcome = "Connected as %name%! Welcome! :)";
+langpack.message.notconnected = "You're not connected to the server...";
+langpack.message.server_is_offline = "Server is offline.";
+langpack.message.inavlid_url = "Invalid url.";
+langpack.message.invalid_connection = "Invalid connection!";
+langpack.message.reconnect_prompt = "Sorry but your url is not valid :( Please request a new url via <b>/audio</b> or <b>/connect</b>.";
+langpack.message.socket_closed = "Disconnected from the server, please wait";
+langpack.message.mobile_qr = "Qr code for mobile client";
+langpack.message.listen_on_soundcloud = "Listen on soundcloud!";
+
+langpack.notification.header = "OpenAudioMc | %username%";
+langpack.notification.img = 'files/images/footer_logo.png';
+
+langpack.hue.disabled = "philips hue lights are disabled by the server admin!";
+langpack.hue.please_link = "<h2>philips hue lights detected!</h2><h3>Please press the link button!</h3>";
+langpack.hue.connecting = "<h2>Connecting to hue bridge...</h2>";
+langpack.hue.re_search_bridge = "<h2>No philips hue bridge found :(</h2><h4>Searching for a hue bridge in your network...</h4>";
+langpack.hue.cant_connect = "<h2>Could not connect to hue bridge :(</h2>";
+langpack.hue.not_found = "<h2>No philips hue bridge found :(</h2>";
+langpack.hue.connected_with_bridge = "<h3>You are now connected with your %bridgename% bridge.<br />have fun! :)</h3>";
+
+
 
 soundManager.setup({
 	defaultOptions: {
@@ -64,7 +103,7 @@ function enable() {
 		Notification.requestPermission();
 	}
 
-	document.getElementById("hue_modal_text").innerHTML = "<h2>philips hue lights are disabled by the server admin!</h2>";
+	document.getElementById("hue_modal_text").innerHTML = "<h2>"+langpack.hue.disabled+"</h2>";
 }
 
 
@@ -76,10 +115,10 @@ socketIo.connect = function() {
 	socket.on('command', function(msg) {
 		socketIo.log("Reiceived command.");
 		if (msg == "connectionSuccess") {
-			status_span.innerHTML = "Connected as " + mcname + "! Welcome! :)";
+			status_span.innerHTML = langpack.message.welcome.replace("%name%", mcname);
 			status_span.className = "status-span status-success";
 		} else if (msg == "not_in_server") {
-			status_span.innerHTML = "You're not connected to the server...";
+			status_span.innerHTML = langpack.message.notconnected;
 			status_span.className = "status-span status-error"
 		} else if (msg == "connected") {
 
@@ -88,28 +127,73 @@ socketIo.connect = function() {
 		}
 	});
 
-
+	socket.on('oaCss', function(msg) {
+		if (msg != null) {
+			var msg = JSON.parse(msg);
+			var arrayLength = msg.length;
+			for (var i = 0; i < arrayLength; i++) {
+				addCss(msg[i]);
+			}
+		}
+	});
+	
+	socket.on('oaJs', function(msg) {
+		if (msg != null) {
+			var msg = JSON.parse(msg);
+			var arrayLength = msg.length;
+			for (var i = 0; i < arrayLength; i++) {
+				addJs(msg[i]);
+			}
+		}
+	});
+	 
+	socket.on('oaSettings', function(msg) {
+		if (msg != null) {
+			var settings = JSON.parse(msg);
+			addJs("https://rawgit.com/OpenAudioMc/Lang-packs/master/"+settings.language+".js");
+			setTimeout(function() {
+				if (settings.hue != "off") {
+					loop_hue_connection();
+				} else {
+					document.getElementById("hue_modal_text").innerHTML = "<h2>"+langpack.hue.disabled+"</h2>";
+				}
+				status_span.innerHTML = langpack.message.welcome.replace("%name%", mcname);
+				document.getElementById("client-title").innerHTML = settings.Title;
+				document.title = settings.Title;
+				if (settings.bg == "") {
+				} else {
+					document.body.background = settings.bg;
+				}
+				if (settings.logo == "") {
+					document.getElementById("logo").src = "files/images/footer_logo.png";
+				} else {
+					document.getElementById("logo").src = settings.logo;
+				}
+				 
+			}, 1000);	
+		}
+	});
 
 	socket.on('oaError', function(msg) {
 		socketIo.log("Received error.");
 		if (msg == "server-offline") {
 			closedwreason = true;
-			status_span.innerHTML = "Server is offline.";
+			status_span.innerHTML = langpack.message.server_is_offline;
 			status_span.className = "label label-danger";
 			socketIo.log("Received offline server data");
 		} else if (msg == "kicked") {
 			closedwreason = true;
-			status_span.innerHTML = "Invalid url.";
+			status_span.innerHTML = langpack.message.inavlid_url;
 			status_span.className = "label label-danger";
 			document.getElementById("box").className = document.getElementById("box").className + " animated bounceOutUp";
 			swal({
-				title: "Invalid connection!",
-				text: "Sorry but your url is not valid :( Please request a new url via <b>/audio</b> or <b>/connect</b>.",
+				title: langpack.message.invalid_connection,
+				text: langpack.message.reconnect_prompt,
 				showCancelButton: false,
 				allowOutsideClick: false,
 				allowEscapeKey: false,
 				showConfirmButton: false,
-				html: "Sorry but your url is not valid :( Please request a new url via <b>/audio</b> or <b>/connect</b>."
+				html: langpack.message.reconnect_prompt
 			}, function() {});
 		} else {
 			var message = JSON.parse(msg);
@@ -118,7 +202,7 @@ socketIo.connect = function() {
 			//So we can ban servers/users who use openaudio for bad things
 			//You can remove it if you wanna :3
 
-			if (msg.command == "banned") {
+			if (message.command == "banned") {
 				swal({
 					title: "Oh no, it looks like this server is banned :(",
 					text: "Ban info: " + message.message,
@@ -136,7 +220,7 @@ socketIo.connect = function() {
 
 	socket.on('disconnect', function() {
 		socketIo.log("Disconnected!");
-		status_span.innerHTML = "Disconnected from the server, please wait";
+		status_span.innerHTML = langpack.message.socket_closed;
 		status_span.className = "status-span status-danger";
 	});
 
@@ -353,8 +437,6 @@ openaudio.decode = function(msg) {
 					}
 				}
 			}
-		} else if (request.type == "init") {
-			loop_hue_connection();
 		}
 	} else if (request.command == "setbg") {
 		if (request.type == "set") {
@@ -587,8 +669,8 @@ openaudio.message = function(text) {
 	if (Notification.permission !== "granted") {
 		Notification.requestPermission();
 	} else {
-		var notification = new Notification("OpenAudioMc | %username%".replace(/%username%/g, mcname), {
-			icon: 'files/images/footer_logo.png',
+		var notification = new Notification(langpack.notification.header.replace(/%username%/g, mcname), {
+			icon: langpack.notification.img,
 			body: text,
 		});
 	}
@@ -793,7 +875,7 @@ function ConnectToHueBridge() {
 						on_hue_link(MyHue.BridgeName);
 						return;
 					}, function UnableToCreateUseronBridge() {
-						document.getElementById("hue_modal_text").innerHTML = "<h2>philips hue lights detected!</h2><h3>Please press the link button!</h3>";
+						document.getElementById("hue_modal_text").innerHTML = langpack.hue.please_link;
 						return;
 					});
 				});
@@ -809,7 +891,7 @@ function ConnectToHueBridge() {
 		});
 	} else {
 		MyHue.BridgeIP = localStorage.MyHueBridgeIP;
-		document.getElementById("hue_modal_text").innerHTML = "<h2>Connecting to hue bridge...</h2>";
+		document.getElementById("hue_modal_text").innerHTML = langpack.hue.connecting;
 		MyHue.BridgeGetConfig().then(function CachedBridgeConfigReceived() {
 			MyHue.BridgeGetData().then(function CachedBridgeDataReceived() {
 				on_hue_link(MyHue.BridgeName);
@@ -830,7 +912,7 @@ function ConnectToHueBridge() {
 
 
 function no_hue_link() {
-	document.getElementById("hue_modal_text").innerHTML = "<h2>No philips hue bridge found :(</h2><h4>Searching for a hue bridge in your network...</h4>";
+	document.getElementById("hue_modal_text").innerHTML = langpack.hue.re_search_bridge;
 	hue_start_animation = true;
 }
 
@@ -838,7 +920,7 @@ function no_hue_link() {
 
 function invalid_hue_link() {
 	document.getElementById("DetectHueButton").style.display = "";
-	document.getElementById("hue_modal_text").innerHTML = "<h2>Could not connect to hue bridge :(</h2>";
+	document.getElementById("hue_modal_text").innerHTML = langpack.hue.cant_connect;
 	StopHueLoop = true;
 	window.clearInterval(hue_connect_loop);
 }
@@ -858,13 +940,13 @@ function loop_hue_connection() {
 			} else {
 				window.clearInterval(hue_connect_loop);
 				console.info("[Philips-Hue] Failed to detect hue bridge :(");
-				document.getElementById("hue_modal_text").innerHTML = "<h2>No philips hue bridge found :(</h2>";
+				document.getElementById("hue_modal_text").innerHTML = langpack.hue.not_found;
 				document.getElementById("DetectHueButton").style.display = "";
 			}
 		} else {
 			window.clearInterval(hue_connect_loop);
 			console.info("[Philips-Hue] Failed to detect hue bridge :(");
-			document.getElementById("hue_modal_text").innerHTML = "<h2>No philips hue bridge found :(</h2>";
+			document.getElementById("hue_modal_text").innerHTML = langpack.hue.not_found;
 			document.getElementById("DetectHueButton").style.display = "";
 		}
 	}, 5000);
@@ -879,7 +961,7 @@ function on_hue_link(name) {
 		console.info("[Philips-Hue] Hue connected!");
 		openaudio.whisper("hueConnected");
 		document.getElementById("HueControlls").style.display = "";
-		document.getElementById("hue_modal_text").innerHTML = "<h3>You are now connected with your " + name + " bridge.<br />have fun! :)</h3>";
+		document.getElementById("hue_modal_text").innerHTML = langpack.hue.connected_with_bridge.replace("%bridgename%", name);
 		hue_start_animation = false;
 		setTimeout(function() {
 			hue_off();
@@ -1055,7 +1137,7 @@ function hue_set_color(args, id) {
 
 function showqr() {
 	swal({
-		title: "Qr code for mobile client",
+		title: langpack.message.mobile_qr,
 		text: '<center><div id="qrcode"></div></center>',
 		CancelButton: false,
 		allowOutsideClick: true,
@@ -1227,7 +1309,7 @@ function open_soundcloud() {
 		imageUrl: soundcloud_icon,
 		showCancelButton: true,
 		confirmButtonColor: "#3fa5ff",
-		confirmButtonText: "Listen on soundcloud!",
+		confirmButtonText: langpack.message.listen_on_soundcloud,
 	}).then(function() {
 		window.open(soundcloud_url);
 	});
@@ -1243,4 +1325,28 @@ function addJs(url) {
 function addCss(url) {
 	console.info("[ModManager] Attempting to add css file.");
 	$('head').append('<link rel="stylesheet" href="'+url+'" type="text/css" />');
+}
+
+Element.prototype.remove = function() {
+    this.parentElement.removeChild(this);
+}
+NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
+    for(var i = this.length - 1; i >= 0; i--) {
+        if(this[i] && this[i].parentElement) {
+            this[i].parentElement.removeChild(this[i]);
+        }
+    }
+}
+
+
+function trayItem(icon, callback) {
+	this.ul = document.getElementById("icons");
+  this.li = document.createElement("li");
+  this.ul.appendChild(document.createTextNode(''));
+  this.ul.appendChild(this.li);
+	this.li.innerHTML = '<i class="fa '+icon+' fa-2x footer-icon fa-qr-check" aria-hidden="true" onclick="'+callback+'();"></i>';
+	
+	this.destroy = function() {
+		this.li.remove();
+	}
 }
