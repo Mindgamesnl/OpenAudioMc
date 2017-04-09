@@ -25,6 +25,7 @@ C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\ResponseBody.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\connection\ConnectInterceptor.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\engineio\client\Transport.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\oauth\oauthConnector.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\connection\RealConnection.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\platform\AndroidPlatform.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\BufferedSink.java
@@ -118,6 +119,7 @@ C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\cache\CacheInterceptor.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\regions\regionCrap.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\emitter\Emitter.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\socket\timeoutManager.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http\RealResponseBody.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\DeflaterSink.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\HashingSink.java
@@ -127,6 +129,7 @@ C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\Timeout.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http2\Http2Connection.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\Util.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\utils\webUtils.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\engineio\parser\Parser.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http\HttpDate.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\client\IO.java
@@ -159,6 +162,7 @@ C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\files\playlistManager.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\engineio\client\Socket.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\commands\AdminCommands.java
+C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\socket\Main.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\tls\DistinguishedNameParser.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\tls\OkHostnameVerifier.java
 C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\engineio\client\transports\PollingXHR.java

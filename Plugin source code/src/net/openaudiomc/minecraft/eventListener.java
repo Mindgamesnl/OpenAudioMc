@@ -84,23 +84,6 @@ public class eventListener implements Listener{
 	    				}
 	    			}
 	    			
-	    			if (file.getStringMes("background-image").equals("<none>")) {
-	    				
-	    			} else {
-	    				OpenAudioApi.setBg(client, file.getStringMes("background-image"));
-	    			}
-	    			
-	    			modManager.loadMods(event.getName());
-	    			
-	    			FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio/advanced", "advancedConfig.yml"));
-	    			try {
-						String status = cfg.getString("ssl-enabled");
-						if ("false".equals(status)) {
-							command.enableHue(client.getName());
-						}
-					} catch (Exception e) {
-						System.out.println("[OpenAudio] Hue error");
-					}
 	    			if (getdDep.getStatus()) {
 	    	    		String regionNu = "-";
 	    				for(ProtectedRegion r : WGBukkit.getRegionManager(client.getWorld()).getApplicableRegions(client.getLocation())) {
@@ -110,9 +93,6 @@ public class eventListener implements Listener{
 	    					command.playRegion(client.getName(), regionCrap.getRegionFile(regionNu));
 	    				}
 	    	    	}
-	    	
-	    			//Emitter.offlineInServer(event.getName());
-	    		
 	    		Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.WebConnectEvent(Bukkit.getPlayer(event.getName())));
 	    	} else {
 	    		Emitter.KickPlayerConnection(event.getName());

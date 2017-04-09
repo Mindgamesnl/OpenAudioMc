@@ -23,10 +23,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import ch.njol.skript.Skript;
 import net.openaudiomc.regions.regionCrap;
 import net.openaudiomc.socket.Authenticator;
+import net.openaudiomc.socket.timeoutManager;
 import net.openaudiomc.commands.AdminCommands;
 import net.openaudiomc.commands.AudioCommands;
 import net.openaudiomc.commands.volumeCommand;
 import net.openaudiomc.files.Messages;
+import net.openaudiomc.files.modManager;
 import net.openaudiomc.internal.events.SkriptRegistration;
 
 public class Main extends JavaPlugin implements Listener{
@@ -57,7 +59,8 @@ public class Main extends JavaPlugin implements Listener{
 		createServerNode();
 		createPlaylist();
 		createModsFile();
-		Bukkit.getServer().getPluginManager().registerEvents(new eventListener(),this);
+		Bukkit.getServer().getPluginManager().registerEvents(new timeoutManager(), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new eventListener(), this);
 		Bukkit.getLogger().info("[OpenAudio] Loading OpenAudioMc by Mindgamesnl/Me_is_mattyh");
 		try {
 			net.openaudiomc.socket.SocketioConnector.connect();
@@ -82,8 +85,7 @@ public class Main extends JavaPlugin implements Listener{
 		this.getCommand("oa").setExecutor(new AdminCommands());
 		this.getCommand("oam").setExecutor(new AdminCommands());
 		
-		//bungee
-		
+		modManager.setBg("Moved to https://plus.openaudiomc.net");
 		
 		if (getdDep.getStatus()) {
 			regionCrap.enable();
@@ -257,6 +259,27 @@ public class Main extends JavaPlugin implements Listener{
             datafileInst.set("host", "https://craftmend.com/openaudio.json");
             datafileInst.set("Description-ssl", "WARNING!!! PHILIPS HUE WON'T WORK WHEN SSL IS ENABLED");
             datafileInst.set("ssl-enabled", "false");
+            try {
+                datafileInst.save(dataFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+	}
+	
+	public void disableSslConfig() {
+		File dataFile = new File("plugins/OpenAudio/advanced", "advancedConfig.yml");
+        if (!dataFile.exists()) {
+            try {
+                dataFile.createNewFile();
+            } catch (IOException e) {
+                
+            }
+            FileConfiguration datafileInst = YamlConfiguration.loadConfiguration(dataFile);
+            datafileInst.set("Description", "Advanced settings (only for networking )");
+            datafileInst.set("host", "https://craftmend.com/openaudio.json");
+            datafileInst.set("Description-ssl", "Dear user, ssl settings + hue settings have been moved to https://plus.openaudimc.net/");
+            datafileInst.set("ssl-enabled", "deprecated");
             try {
                 datafileInst.save(dataFile);
             } catch (IOException e) {

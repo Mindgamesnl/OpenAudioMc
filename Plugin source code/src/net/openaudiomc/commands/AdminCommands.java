@@ -17,6 +17,7 @@ import net.openaudiomc.files.modManager;
 import net.openaudiomc.files.playlistManager;
 import net.openaudiomc.minecraft.Main;
 import net.openaudiomc.minecraft.getdDep;
+import net.openaudiomc.oauth.oauthConnector;
 import net.openaudiomc.regions.regionCrap;
 
 public class AdminCommands implements CommandExecutor {
@@ -122,7 +123,6 @@ public class AdminCommands implements CommandExecutor {
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.prefix + "Help menu / &lRegion"));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio region create <wg region name> <url>&r&a Add sound to a wg region."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio region delete <wg region name>&r&a Remove the sound from a wg region."));
-                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio region setvolume <wg region name> <volume>&r&a Set the starting volume for a region sound."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio playregion <wg region name> <url>&r&a Start sound for players in a region."));
                                 } else if (args[1].equalsIgnoreCase("hue")) {
                                     //help 2
@@ -145,7 +145,7 @@ public class AdminCommands implements CommandExecutor {
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.prefix + "Help menu / &lPhilips Hue"));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio hue set <mcname> <rgba code> [id]&r&a Set the hue lights for a player."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio hue reset <mcname>&r&a Reset the hue lights for a player."));
-                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio hue effect <mcname> <blink/stop/cycle>&r&a Start a hue effect for a player."));
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio hue effect <blink/stop/cycle> <mcname>&r&a Start a hue effect for a player."));
                                 } else if (args[1].equalsIgnoreCase("admin")) {
                                     //help 2
                                 	sender.sendMessage(" ");
@@ -165,6 +165,7 @@ public class AdminCommands implements CommandExecutor {
                                 	sender.sendMessage(" ");
                                 	sender.sendMessage(" ");
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.prefix + "Help menu / &lAdmin commands"));
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio oauth&a Get a key to use in third party apps."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio setbg <mcname> <url/reset>&r&a Set the background image for a player."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio spy&r&a Toggle connection spy."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio send <mcname> <message>&r&a Send a push notification."));
@@ -213,10 +214,8 @@ public class AdminCommands implements CommandExecutor {
                                 	sender.sendMessage(" ");
                                 	sender.sendMessage(" ");
                                 	sender.sendMessage(" ");
-                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.prefix + "Help menu / &lAdmin"));
-                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio modding addmod <url to js file>&r&a Add a custom js file."));
-                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio modding addcss <url to css file>&r&a Add a custom css file."));
-                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio modding bg <url to image file>&r&a Force a background image."));
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.prefix + "Help menu / &lModding"));
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&lhttps://plus.openaudiomc.net&r&a Please visit openaudioplus to mod your client."));
                                 } else {
                                 	sender.sendMessage(Main.prefix + "Invalid help page.");
                                 }
@@ -239,6 +238,13 @@ public class AdminCommands implements CommandExecutor {
                             else if (args[0].equalsIgnoreCase("spy"))
                             {
                             	spy.Toggle((Player) sender);
+                            }
+                            else if (args[0].equalsIgnoreCase("oauth") || args[0].equalsIgnoreCase("auth"))
+                            {
+                            	sender.sendMessage(Main.prefix + "Generating url.");
+                            	sender.sendMessage(Main.prefix + "" + ChatColor.RED + "Please note! this key can only be used ONCE and should only be used on oauth.openaudiomc.net!");
+                            	sender.sendMessage(Main.prefix + "" + ChatColor.RED + "This code will only be valid for 5 minutes:");
+                            	sender.sendMessage(ChatColor.AQUA + "Your key: " + ChatColor.YELLOW + oauthConnector.getToken());
                             }
                             else if (args[0].equalsIgnoreCase("stopall"))
                             {
@@ -277,22 +283,8 @@ public class AdminCommands implements CommandExecutor {
                                 	//Play commands
                                 	if (args.length == 4 || args.length > 4) {
                                 		if (args[1].equalsIgnoreCase("create")) {
-                                			regionCrap.registerRegion(args[2], args[3]);
+                                			regionCrap.registerRegion(args[2], args[3], (Player) sender);
                                 			sender.sendMessage(Main.prefix + "Changed the sound of " + args[2] + " to " + args[3]);
-                                		} else if (args[1].equalsIgnoreCase("setvolume")) {
-                                			if (isNumeric(args[3])) {
-                                				if (isBetween(0, 101, Integer.parseInt(args[3]))) {
-                                					regionCrap.setRegionVolume(args[2], Integer.parseInt(args[3]));
-                                					sender.sendMessage(Main.prefix + "Changed default volume for the region.");
-                                				} else {
-                                					sender.sendMessage(Main.prefix + "Invalid volume.");
-                                				}
-                                			} else if (args[3].equalsIgnoreCase("reset")){
-                            					regionCrap.removeRegionVolume(args[2]);
-                            					sender.sendMessage(Main.prefix + "Removed default volume for the region.");
-                            				} else {
-                                				sender.sendMessage(Main.prefix + "Invalid volume.");
-                                			}
                                 		} else {
                                 			sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio region <sub command> [values]");
                                 		}
@@ -313,22 +305,7 @@ public class AdminCommands implements CommandExecutor {
                             }
                             else if (args[0].equalsIgnoreCase("modding"))
                             {
-                            	if (args.length == 3) {
-                            		if (args[1].equalsIgnoreCase("addmod")) {
-                            			modManager.addJs(args[2]);
-                            			sender.sendMessage(Main.prefix + "Added a js file (please remove it from the mods.yml file if it is not correct)");
-                            		} else if (args[1].equalsIgnoreCase("addcss")) {
-                            			modManager.addCss(args[2]);
-                            			sender.sendMessage(Main.prefix + "Added a css file (please remove it from the mods.yml file if it is not correct)");
-                            		} else if (args[1].equalsIgnoreCase("bg")) {
-                            			modManager.setBg(args[2]);
-                            			sender.sendMessage(Main.prefix + "Changed the bg image.)");
-                            		} else {
-                            			sender.sendMessage(Main.prefix + "Invalid command, please read the help menu.");
-                            		}
-                            	} else {
-                            		sender.sendMessage(Main.prefix + "Invalid command, please read the help menu.");
-                            	}
+                            	sender.sendMessage(Main.prefix + "Modding has been moved to plus.openaudiomc.net");
                             }
                             else if (args[0].equalsIgnoreCase("playlist"))
                             {
@@ -511,7 +488,7 @@ public class AdminCommands implements CommandExecutor {
                             				command.hueStopEffect(args[3]);
                             				sender.sendMessage(Main.prefix + "Stopped all hue effects for " + args[3]);
                             			} else {
-                            				sender.sendMessage(Main.prefix + "Sorry, that's an invalid command :(");
+                            				sender.sendMessage(Main.prefix + "Sorry, that's an invalid command :( (unknown effect)");
                             			}
                             		}
                             	} else {
@@ -519,10 +496,10 @@ public class AdminCommands implements CommandExecutor {
                             			if (args[1].equalsIgnoreCase("reset")) {
                             				command.hueReset(args[2]);
                             			} else {
-                            				sender.sendMessage(Main.prefix + "Sorry, that's an invalid command :(");
+                            				sender.sendMessage(Main.prefix + "Sorry, that's an invalid command :( (unknown command)");
                             			}
                             		} else {
-                            			sender.sendMessage(Main.prefix + "Sorry, that's an invalid command :(");
+                            			sender.sendMessage(Main.prefix + "Sorry, that's an invalid command :( (command is to short)");
                             		}
                             	}
                             }

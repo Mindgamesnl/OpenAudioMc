@@ -46,7 +46,7 @@
 		  			<output for="volume" id="volumevalue">20</output>
 					</div>
 				</div>
-				<div class="icons">
+				<div class="icons" id="icons">
 					<li><i class="fa fa-lightbulb-o fa-2x footer-icon first" aria-hidden="true" data-toggle="modal" data-target="#Hue"></i></li>
 					<li><i class="fa fa-qrcode fa-2x footer-icon fa-qr-check" aria-hidden="true" onclick="showqr();"></i></li>
 				</div>
@@ -92,8 +92,8 @@
 	<div id="faders" style="display:none;"></div>
 </body>
 <footer>
-	<span>OpenAudio 2.2 - <a href="http://openaudiomc.net/">OpenAudioMC</a></span>
-	<img class="footer-logo" onclick="loadBg();" src="files/images/footer_logo.png">
+	<span>OpenAudio 2.3 - <a href="http://openaudiomc.net/" id="client-title">OpenAudioMC</a></span>
+	<img class="footer-logo" onclick="loadBg();" id="logo" src="files/images/footer_logo.png">
 	<img id="sc-cover" class="sc-cover" src="files/images/soundcloud.png" style="display: none;" onclick="open_soundcloud();"  onerror="this.onerror=null;this.src='files/images/sc-default.png';"/>
 	<p id="sc-title" class="sc-title" style="display: none;" onclick="open_soundcloud();">Song Title</p>
 </footer>
