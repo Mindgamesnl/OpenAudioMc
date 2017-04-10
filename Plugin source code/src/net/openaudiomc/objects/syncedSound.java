@@ -7,6 +7,7 @@ import java.util.Date;
 
 import org.bukkit.Bukkit;
 
+import net.openaudiomc.managers.syncedSoundManager;
 import net.openaudiomc.minecraft.Main;
 
 public class syncedSound {
@@ -18,6 +19,7 @@ public class syncedSound {
 	Integer schedule = 0;
 	Integer timeStamp = 0;
 	Integer sycles = 0;
+	Boolean playing = false;
 	
 	
 	//constructor
@@ -31,6 +33,7 @@ public class syncedSound {
 		    Date date = dateFormat.parse(length);
 		    long seconds = (date.getTime() - reference.getTime()) / 1000L;
 		    this.loop = seconds ;
+		    this.playing = true;
 		} catch (ParseException e) {}
 		
 		
@@ -46,32 +49,40 @@ public class syncedSound {
 	//functions
 	public void endTask() {
 		 Bukkit.getScheduler().cancelTask(this.schedule);
+		 this.playing = false;
+		 syncedSoundManager.remove(this.id);
 	}
 	
 	
 	//sycle task
 	public void sycleTask() {
 		if (this.sycles > this.loop) {
-      	  
+			endTask();
         } else {
-     	   sycles++;
-     	   timeStamp++;
+     	   this.sycles++;
+     	   this.timeStamp++;
         }
 	}
 	
 	
 	//getters
 	public String getSrc() {
-		return source;
+		return this.source;
 	}
-	
 	
 	public Integer getTime() {
-		return timeStamp;
+		return this.timeStamp;
 	}
 	
+	public Integer getTimeInMs() {
+		return this.timeStamp * 1000;
+	}
 	
 	public String getId() {
-		return id;
+		return this.id;
+	}
+	
+	public Boolean isPlaying() {
+		return this.playing;
 	}
 }
