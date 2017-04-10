@@ -14,7 +14,7 @@ public class syncedSoundManager {
 	
 	public static void create(String id, String src) {
 		try {
-			String time = webUtils.textFromUrl("http://api.openaudiomc.net/plugin/mp3_info.php?s=");
+			String time = webUtils.textFromUrl("http://api.openaudiomc.net/plugin/mp3_info.php?s="+src);
 			if (time != "00:00:00") {
 				syncedSoundMap.put(id, new syncedSound(id, src, time));
 			}
@@ -24,9 +24,16 @@ public class syncedSoundManager {
 		}
 	}
 	
+	public static void remove(String id) {
+		syncedSoundMap.remove(id);
+	}
+	
+	public static syncedSound getById(String id) {
+		return syncedSoundMap.get(id);
+	}
+	
 	public static List<syncedSound> listSyncedSounds() {
 		List<syncedSound> list = new ArrayList<syncedSound>(syncedSoundMap.values());
 		return list;
 	}
-
 }
