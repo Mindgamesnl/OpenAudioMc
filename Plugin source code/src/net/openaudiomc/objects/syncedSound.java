@@ -20,14 +20,13 @@ public class syncedSound {
 	Integer timeStamp = 0;
 	Integer sycles = 0;
 	Boolean playing = false;
-	String soundid = "";
+    String soundid;
 
 
 	//constructor
 	public syncedSound(String id, String url, String length, String soundid) {
 
 		this.id = id;
-		this.soundid = soundid;
 
 		try {
 			DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
@@ -49,11 +48,36 @@ public class syncedSound {
 
 
 	//functions
+    public void restart() {
+        this.lenth = "";
+        this.loop = 0;
+        this.schedule = 0;
+        this.timeStamp = 0;
+        this.sycles = 0;
+        String lstring = this.lenth;
+        try {
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+            Date reference = dateFormat.parse("00:00:00");
+            Date date = dateFormat.parse(lstring);
+            long seconds = (date.getTime() - reference.getTime()) / 1000L;
+            this.loop = seconds ;
+            this.playing = true;
+        } catch (ParseException e) {}
+
+
+        this.schedule = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPL(), new Runnable() {
+            @Override
+            public void run() {
+                sycleTask();
+            }
+        }, 0, 20);
+    }
 	public void endTask() {
 		 Bukkit.getScheduler().cancelTask(this.schedule);
 		 this.playing = false;
 		 syncedSoundManager.remove(this.id);
 	}
+
 
 
 	//sycle task
@@ -65,6 +89,10 @@ public class syncedSound {
      	   this.timeStamp++;
         }
 	}
+
+	public String getSoundid() {
+        return this.soundid;
+    }
 
 
 	//getters
@@ -86,9 +114,5 @@ public class syncedSound {
 
 	public Boolean isPlaying() {
 		return this.playing;
-	}
-
-	public String getSoundId() {
-		return this.soundid;
 	}
 }
