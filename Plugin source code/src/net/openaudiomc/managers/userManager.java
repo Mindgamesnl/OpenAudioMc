@@ -27,6 +27,8 @@ public class userManager {
 			                  `--..____..--'                      
 		 */
 		if (userMap.get(Player) != null) {
+			
+		} else {
 			userMap.put(Player, new userData(Player));
 		}
 	}

@@ -27,6 +27,8 @@ public class syncedSound {
 	public syncedSound(String id, String url, String length, String soundid) {
 
 		this.id = id;
+		this.soundid = soundid;
+		this.source = url;
 
 		try {
 			DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
@@ -90,7 +92,7 @@ public class syncedSound {
         }
 	}
 
-	public String getSoundid() {
+	public String getSoundId() {
         return this.soundid;
     }
 

@@ -30,12 +30,12 @@ public class userData {
 
 	public void syncSounds() {
 		for (String id : getSyncedSounds()) {
-			syncedSound target = syncedSoundManager.getById(id);
+            syncedSound target = syncedSoundManager.getById(id);
 			Integer miliSeconds = target.getTimeInMs();
 			String src = target.getSrc();
 			//play
 			if (target.isPlaying()) {
-				command.playFromTime(this.player.getName(), target.getSoundId(), src, miliSeconds);
+				command.playFromTime(this.player.getName(), syncedSoundManager.getById(id).getSoundId(), src, miliSeconds);
 			} else {
 				syncedSoundManager.remove(target.getId());
 			}
@@ -54,6 +54,10 @@ public class userData {
 	public ArrayList<String> getSyncedSounds() {
 		return this.syncedSouncs;
 	}
+
+	public String getSoundId() {
+        return this.getSoundId();
+    }
 
 	public void addSyncedSound(String id) {
 		this.syncedSouncs.add(id);
