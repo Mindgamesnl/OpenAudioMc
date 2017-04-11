@@ -1,7 +1,5 @@
 package net.openaudiomc.commands;
 
-import net.openaudiomc.managers.syncedSoundManager;
-import net.openaudiomc.managers.userManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -22,6 +20,8 @@ import net.openaudiomc.minecraft.getdDep;
 import net.openaudiomc.oauth.oauthConnector;
 import net.openaudiomc.regions.regionCrap;
 import net.openaudiomc.objects.syncedSound;
+import net.openaudiomc.managers.syncedSoundManager;
+import net.openaudiomc.managers.userManager;
 
 public class AdminCommands implements CommandExecutor {
     //Main
@@ -97,7 +97,7 @@ public class AdminCommands implements CommandExecutor {
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.prefix + "Help menu / &lAudio"));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio setvolume <mcname> <volume> [id]&r&a Set the volume for a player."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio skipto <mcname> <id> <seconds>&r&a Skip to a part in a song."));
-                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio play <mcname> <url> [id]&r&a Play a sound for a player."));
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio play <mcname> <url> [id] [mode]&r&a Play a sound for a player."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio toggle <mcname> <id>&r&a Toggle play/pause for a sound."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio loop <mcname> <url>&r&a Play a loop for a player."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio stop <mcname> [id]&r&a Stop the sound for a player."));
@@ -266,6 +266,7 @@ public class AdminCommands implements CommandExecutor {
                             		command.stop(args[1]);
                             		command.stopOldRegion(args[1]);
                             		command.stopRegion(args[1]);
+                            		userManager.getPlayer(Bukkit.getPlayer(args[1])).removeAllSyncedSounds();
                             	} else {
                             		sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio stopall <mc name>");
                             	}
@@ -373,9 +374,11 @@ public class AdminCommands implements CommandExecutor {
                         			if (args.length == 3) {
                         				command.StopID(args[1], args[2]);
                         				sender.sendMessage(Main.prefix + "Stopped sound id "+args[2] + " of " + args[1]);
+                        				userManager.getPlayer(Bukkit.getPlayer(args[1])).removeSyncedSound(syncedSoundManager.getBySoundId(args[2]).getId());
                         			} else {
                         				command.stop(args[1]);
                                     	sender.sendMessage(Main.prefix + "Stopped sound of " + args[1]);
+                                    	userManager.getPlayer(Bukkit.getPlayer(args[1])).removeAllSyncedSounds();
                         			}
 
                             	} else {

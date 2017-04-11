@@ -33,7 +33,6 @@ public class userData {
             syncedSound target = syncedSoundManager.getById(id);
 			Integer miliSeconds = target.getTimeInMs();
 			String src = target.getSrc();
-			//play
 			if (target.isPlaying()) {
 				command.playFromTime(this.player.getName(), syncedSoundManager.getById(id).getSoundId(), src, miliSeconds);
 			} else {
@@ -50,6 +49,14 @@ public class userData {
 	public String getName() {
 		return this.name;
 	}
+	
+	public void removeAllSyncedSounds() {
+		for (String sound : getSyncedSounds()) {
+			if (!syncedSouncs.isEmpty()) {
+				syncedSouncs.remove(sound);
+			}
+		}
+	}
 
 	public ArrayList<String> getSyncedSounds() {
 		return this.syncedSouncs;
@@ -64,7 +71,9 @@ public class userData {
 	}
 
 	public void removeSyncedSound(String id) {
-		this.syncedSouncs.remove(id);
+		if (!syncedSouncs.isEmpty()) {
+			this.syncedSouncs.remove(id);
+		}
 	}
 
 
