@@ -19,19 +19,17 @@ import org.json.JSONObject;
 import com.sk89q.worldguard.bukkit.WGBukkit;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
-import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
 import net.openaudiomc.actions.command;
 import net.openaudiomc.actions.spy;
 import net.openaudiomc.files.Messages;
-import net.openaudiomc.files.modManager;
 import net.openaudiomc.internal.events.SocketCommandEvent;
 import net.openaudiomc.internal.events.SocketConnectEvent;
 import net.openaudiomc.internal.events.SocketDisconnectEvent;
 import net.openaudiomc.internal.events.SocketUserConnectEvent;
 import net.openaudiomc.internal.events.SocketUserDisconnectEvent;
 import net.openaudiomc.internal.events.SocketWhisperEvent;
+import net.openaudiomc.managers.userManager;
 import net.openaudiomc.players.Sessions;
-import net.openaudiomc.regions.file;
 import net.openaudiomc.regions.regionCrap;
 import net.openaudiomc.socket.Emitter;
 
@@ -83,6 +81,8 @@ public class eventListener implements Listener{
 	    					}
 	    				}
 	    			}
+	    			
+	    			userManager.addPlayer(client);
 	    			
 	    			if (getdDep.getStatus()) {
 	    	    		String regionNu = "-";

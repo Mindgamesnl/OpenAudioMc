@@ -26,7 +26,13 @@ public class userManager {
 			             `-.__  `----"""    __.-'
 			                  `--..____..--'                      
 		 */
-		userMap.put(Player, new userData(Player));
+		if (userMap.get(Player) != null) {
+			userMap.put(Player, new userData(Player));
+		}
+	}
+	
+	public static userData getPlayer(Player player) {
+		return userMap.get(player);
 	}
 	
 	public static void removePlayer(Player Player) {
