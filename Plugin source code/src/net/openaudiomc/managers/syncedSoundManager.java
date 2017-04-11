@@ -59,6 +59,15 @@ public class syncedSoundManager {
 		return null;
 	}
 	
+	public static syncedSound getBySoundId(String id) {
+		for (String key: syncedSoundMap.keySet()) {
+			if (syncedSoundMap.get(key).getSoundId() == id) {
+				return syncedSoundMap.get(key);
+			}
+		}
+		return null;
+	}
+	
 	public static List<syncedSound> listSyncedSounds() {
 		List<syncedSound> list = new ArrayList<syncedSound>(syncedSoundMap.values());
 		return list;
