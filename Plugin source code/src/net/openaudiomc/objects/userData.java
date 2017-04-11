@@ -10,7 +10,7 @@ public class userData {
 
 	Player player;
 	String name;
-	ArrayList<String> syncedSouncs = new ArrayList<>();;
+	ArrayList<String> syncedSouncs = new ArrayList<>();
 	
 	
 	public userData(Player p) {
