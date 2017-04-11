@@ -11,7 +11,7 @@ import net.openaudiomc.managers.syncedSoundManager;
 import net.openaudiomc.minecraft.Main;
 
 public class syncedSound {
-	
+
 	String source = "";
 	String lenth = "";
 	String id = "";
@@ -20,13 +20,15 @@ public class syncedSound {
 	Integer timeStamp = 0;
 	Integer sycles = 0;
 	Boolean playing = false;
-	
-	
+	String soundid = "";
+
+
 	//constructor
-	public syncedSound(String id, String url, String length) {
-		
+	public syncedSound(String id, String url, String length, String soundid) {
+
 		this.id = id;
-		
+		this.soundid = soundid;
+
 		try {
 			DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 		    Date reference = dateFormat.parse("00:00:00");
@@ -35,8 +37,8 @@ public class syncedSound {
 		    this.loop = seconds ;
 		    this.playing = true;
 		} catch (ParseException e) {}
-		
-		
+
+
 		this.schedule = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPL(), new Runnable() {
             @Override
             public void run() {
@@ -44,16 +46,16 @@ public class syncedSound {
             }
         }, 0, 20);
 	}
-	
-	
+
+
 	//functions
 	public void endTask() {
 		 Bukkit.getScheduler().cancelTask(this.schedule);
 		 this.playing = false;
 		 syncedSoundManager.remove(this.id);
 	}
-	
-	
+
+
 	//sycle task
 	public void sycleTask() {
 		if (this.sycles > this.loop) {
@@ -63,26 +65,30 @@ public class syncedSound {
      	   this.timeStamp++;
         }
 	}
-	
-	
+
+
 	//getters
 	public String getSrc() {
 		return this.source;
 	}
-	
+
 	public Integer getTime() {
 		return this.timeStamp;
 	}
-	
+
 	public Integer getTimeInMs() {
 		return this.timeStamp * 1000;
 	}
-	
+
 	public String getId() {
 		return this.id;
 	}
-	
+
 	public Boolean isPlaying() {
 		return this.playing;
+	}
+
+	public String getSoundId() {
+		return this.soundid;
 	}
 }

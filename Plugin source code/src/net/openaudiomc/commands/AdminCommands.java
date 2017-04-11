@@ -225,8 +225,16 @@ public class AdminCommands implements CommandExecutor {
                             	//Play commands
                             	if (args.length == 3 || args.length > 3) {
                             		if (args.length > 3) {
-                            				command.playNormalSoundID(args[1], args[2], args[3]);
-                                    		sender.sendMessage(Main.prefix + "Started a sound for " + args[1]);
+										if (args.length > 4) {
+											if (args[4].equalsIgnoreCase("sync")) {
+
+											} else {
+												sender.sendMessage(Main.prefix + "unknown mode");
+											}
+										} else {
+											command.playNormalSoundID(args[1], args[2], args[3]);
+											sender.sendMessage(Main.prefix + "Started a sound for " + args[1]);
+										}
                             		} else {
                             			command.playNormalSound(args[1], args[2]);
                                 		sender.sendMessage(Main.prefix + "Started a sound for " + args[1]);

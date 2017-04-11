@@ -367,6 +367,16 @@ public class command {
 		String command = obj.toString();
 		Emitter.EmitToPlayer(name, getCleanURL(command));
 	}
+
+    public static void playFromTime(String name, String id, String src, Integer time) {
+        JSONObject obj = new JSONObject();
+        obj.put("command", "play_normal_id");
+        obj.put("src", src);
+        obj.put("id", id);
+        obj.put("time", time);
+        String command = obj.toString();
+        Emitter.EmitToPlayer(name, getCleanURL(command));
+    }
 	
 	/**
 	 * Gets the clean URL.
