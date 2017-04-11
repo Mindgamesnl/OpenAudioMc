@@ -61,7 +61,6 @@ public class eventListener implements Listener{
 	
     @EventHandler
     public void onSocketUserConnectEvent(SocketUserConnectEvent event) {
-    	@SuppressWarnings("deprecation")
 		OfflinePlayer player = Bukkit.getOfflinePlayer(event.getName());
 		if (player.isOnline()) {			
 	    	if (event.getKey().equals(Sessions.getOld(event.getName()))) {
@@ -94,6 +93,7 @@ public class eventListener implements Listener{
 	    				}
 	    	    	}
 	    		Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.WebConnectEvent(Bukkit.getPlayer(event.getName())));
+				userManager.getPlayer(client).syncSounds();
 	    	} else {
 	    		Emitter.KickPlayerConnection(event.getName());
 	    	}
