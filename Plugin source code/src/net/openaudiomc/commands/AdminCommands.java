@@ -1,5 +1,7 @@
 package net.openaudiomc.commands;
 
+import net.openaudiomc.managers.syncedSoundManager;
+import net.openaudiomc.managers.userManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -19,6 +21,7 @@ import net.openaudiomc.minecraft.Main;
 import net.openaudiomc.minecraft.getdDep;
 import net.openaudiomc.oauth.oauthConnector;
 import net.openaudiomc.regions.regionCrap;
+import net.openaudiomc.objects.syncedSound;
 
 public class AdminCommands implements CommandExecutor {
     //Main
@@ -227,8 +230,11 @@ public class AdminCommands implements CommandExecutor {
                             		if (args.length > 3) {
 										if (args.length > 4) {
 											if (args[4].equalsIgnoreCase("sync")) {
-
-											} else {
+												syncedSound targetsound = syncedSoundManager.create(args[2], args[3]);
+                                                userManager.getPlayer(Bukkit.getPlayer(args[1])).addSyncedSound(targetsound.getId());
+                                                userManager.getPlayer(Bukkit.getPlayer(args[1])).syncSounds();
+                                                sender.sendMessage(Main.prefix + "Started synced sound for: "+args[1]);
+                                            } else {
 												sender.sendMessage(Main.prefix + "unknown mode");
 											}
 										} else {
@@ -309,7 +315,7 @@ public class AdminCommands implements CommandExecutor {
                             	} else {
                             		sender.sendMessage(Main.prefix + "Could not find wg region events, please install the WgRegionEvents plugin.");
                             	}
-                            	
+
                             }
                             else if (args[0].equalsIgnoreCase("modding"))
                             {
@@ -317,7 +323,7 @@ public class AdminCommands implements CommandExecutor {
                             }
                             else if (args[0].equalsIgnoreCase("playlist"))
                             {
-      
+
                             	if (args.length == 5 || args.length > 5) {
                             		if (args[1].equalsIgnoreCase("set")) {
                             			playlistManager.set(args[2], args[3], args[4]);
@@ -339,8 +345,8 @@ public class AdminCommands implements CommandExecutor {
                             	} else {
                             		sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio playlist <sub command> [values]");
                             	}
-                     
-                            	
+
+
                             }
                             else if (args[0].equalsIgnoreCase("playregion"))
                             {
@@ -362,7 +368,7 @@ public class AdminCommands implements CommandExecutor {
                             	}
                             }
                             else if (args[0].equalsIgnoreCase("stop"))
-                            {  	
+                            {
                         		if (args.length >= 2) {
                         			if (args.length == 3) {
                         				command.StopID(args[1], args[2]);
@@ -371,13 +377,13 @@ public class AdminCommands implements CommandExecutor {
                         				command.stop(args[1]);
                                     	sender.sendMessage(Main.prefix + "Stopped sound of " + args[1]);
                         			}
-                        			
+
                             	} else {
                             		sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio stop <mc name>");
                             	}
                             }
                             else if (args[0].equalsIgnoreCase("skipto"))
-                            {  	
+                            {
                     			if (args.length == 4) {
                     				sender.sendMessage(Main.prefix + "Skipped " + args[2] + " to " + args[3] + "seconds for " + args[1]);
                     				command.skipTo(args[1], args[2], args[3]);
@@ -386,7 +392,7 @@ public class AdminCommands implements CommandExecutor {
                     			}
                             }
                             else if (args[0].equalsIgnoreCase("toggle"))
-                            {  	
+                            {
                         		if (args.length == 3) {
                         			command.ToggleID(args[1], args[2]);
                         			sender.sendMessage(Main.prefix + "Toggled sound for " + args[1]);
@@ -395,7 +401,7 @@ public class AdminCommands implements CommandExecutor {
                             	}
                             }
                             else if (args[0].equalsIgnoreCase("setvolume"))
-                            {  	
+                            {
                         		if (args.length >= 3) {
                         			if (args.length == 4) {
                         				command.setVolumeID(args[1], args[2], args[3]);
@@ -404,7 +410,7 @@ public class AdminCommands implements CommandExecutor {
                         				command.setVolume(args[1], args[2]);
                                     	sender.sendMessage(Main.prefix + "volume of " + args[1] + " is now set to " + args[2]);
                         			}
-                        			
+
                             	} else {
                             		sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio setvolume <mc name> <volume>");
                             	}
@@ -430,7 +436,7 @@ public class AdminCommands implements CommandExecutor {
                             	}
                             }
                             else if (args[0].equalsIgnoreCase("send"))
-                            {  	
+                            {
                         		if (args.length == 3 || args.length > 3) {
                         			String myString = "";
 									for(int i = 2; i < args.length; i++){
@@ -444,7 +450,7 @@ public class AdminCommands implements CommandExecutor {
                             	}
                             }
                             else if (args[0].equalsIgnoreCase("json"))
-                            {  	
+                            {
                         		if (args.length == 3 || args.length > 3) {
                         			String myString = "";
 									for(int i = 2; i < args.length; i++){
@@ -458,7 +464,7 @@ public class AdminCommands implements CommandExecutor {
                             	}
                             }
                             else if (args[0].equalsIgnoreCase("setbg"))
-                            {  	
+                            {
                         		if (args.length == 3 || args.length > 3) {
                         			if (args[2].equalsIgnoreCase("reset")) {
                         				command.resetBg(args[1]);
@@ -475,7 +481,7 @@ public class AdminCommands implements CommandExecutor {
                             	if (args.length == 4 || args.length > 4) {
                             		//set and effect
                             		if (args[1].equalsIgnoreCase("set")) {
-                            			
+
                             			if (args.length > 4) {
                             				String color = args[3] + ":" + args[4];
                             				command.hueSet(args[2], color);

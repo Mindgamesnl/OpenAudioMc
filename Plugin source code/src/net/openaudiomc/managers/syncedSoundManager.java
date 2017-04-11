@@ -13,9 +13,10 @@ public class syncedSoundManager {
 	
 	static HashMap<String, syncedSound> syncedSoundMap = new HashMap<String, syncedSound>();
 	
-	public static void create(String src, String soundid) {
+	public static syncedSound create(String src, String soundid) {
 		if (getBySrc(src) != null) {
 			getBySrc(src).restart();
+            return getBySrc(src);
 		} else {
 			System.out.println("[OpenAudio] Registerd new synced sound.");
 			try {
@@ -31,13 +32,15 @@ public class syncedSoundManager {
 				String time = webUtils.textFromUrl("http://api.openaudiomc.net/plugin/mp3_info.php?s=" + src);
 				if (time != "00:00:00") {
 					syncedSoundMap.put(id, new syncedSound(id, src, time, soundid));
+                    return syncedSoundMap.get(id);
 				}
 			} catch (IOException e) {
 				//error while contacting api server
 				e.printStackTrace();
 			}
 		}
-	}
+        return null;
+    }
 	
 	public static void remove(String id) {
 		syncedSoundMap.remove(id);

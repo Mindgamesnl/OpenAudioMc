@@ -1,212 +1,216 @@
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\commands\volumeCommand.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\org\json\XMLTokener.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\tls\TrustRootIndex.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\engineio\client\EngineIOException.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\engineio\parser\Packet.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\cache\CacheStrategy.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\CookieJar.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\RealCall.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\client\Ack.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\Dns.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\parser\Parser.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\Internal.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\client\Url.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\parser\Packet.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\BufferedSource.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\CipherSuite.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\connection\StreamAllocation.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\internal\events\SocketCommandEvent.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\CertificatePinner.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\MultipartBody.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\TlsVersion.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\platform\Jdk9Platform.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\ws\WebSocketReader.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\cache\CacheRequest.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\ResponseBody.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\connection\ConnectInterceptor.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\engineio\client\Transport.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\oauth\oauthConnector.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\connection\RealConnection.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\platform\AndroidPlatform.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\BufferedSink.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\org\json\JSONArray.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\me\mindgamesnl\openaudiomc\publicApi\WebConnectEvent.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\socket\Emitter.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\platform\JdkWithJettyBootPlatform.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\org\json\CookieList.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http\RealInterceptorChain.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http2\Ping.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\ws\WebSocketProtocol.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\parser\Binary.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\me\mindgamesnl\openaudiomc\publicApi\SocketIoConnectEvent.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\Callback.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\ForwardingSource.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\connection\RouteSelector.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\org\json\HTTPTokener.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\EventListener.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\internal\events\SkriptRegistration.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\utf8\UTF8.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\Dispatcher.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\Headers.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\internal\events\SocketConnectEvent.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\org\json\JSONWriter.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\io\FileSystem.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\players\Sessions.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\me\mindgamesnl\openaudiomc\publicApi\WebsocketSendEvent.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http\StatusLine.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\HashingSource.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\connection\RouteException.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\client\SocketIOException.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\org\json\Cookie.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http\HttpHeaders.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\org\json\HTTP.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\org\json\Property.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\emitter\package-info.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http\RequestLine.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http1\Http1Codec.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\org\json\JSONException.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\engineio\client\HandshakeData.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\HttpUrl.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http2\StreamResetException.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http2\Header.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\cache\InternalCache.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\Call.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http2\ErrorCode.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\Buffer.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\hasbinary\HasBinary.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\parseqs\ParseQS.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\Sink.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\org\json\JSONStringer.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\cache2\FileOperator.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\SegmentPool.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\files\Messages.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\MediaType.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\thread\EventThread.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\FormBody.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http\BridgeInterceptor.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\Authenticator.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\WebSocket.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\cache\DiskLruCache.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\Request.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\me\mindgamesnl\openaudiomc\publicApi\WebDisconnectEvent.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\ForwardingSink.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\ConnectionPool.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\org\json\XML.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\minecraft\Main.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\client\On.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\ws\WebSocketWriter.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\platform\OptionalMethod.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\utf8\UTF8Exception.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\RequestBody.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\minecraft\eventListener.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http2\Hpack.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http2\PushObserver.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http2\Http2Writer.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\platform\Platform.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\Version.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\Cache.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http2\Http2Stream.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\Credentials.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\Route.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\ByteString.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\Address.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http2\ConnectionShutdownException.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\org\json\CDL.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\AsyncTimeout.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\actions\command.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http\HttpCodec.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\InflaterSource.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\cache\CacheInterceptor.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\regions\regionCrap.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\emitter\Emitter.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\socket\timeoutManager.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http\RealResponseBody.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\DeflaterSink.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\HashingSink.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\RealBufferedSource.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http2\Http2Codec.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\connection\RouteDatabase.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\Timeout.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http2\Http2Connection.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\Util.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\utils\webUtils.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\engineio\parser\Parser.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http\HttpDate.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\client\IO.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\Challenge.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\Pipe.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http2\Huffman.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\ForwardingTimeout.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\engineio\client\transports\WebSocket.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\me\mindgamesnl\openaudiomc\publicApi\HueConnectEvent.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\Connection.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\connection\ConnectionSpecSelector.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http\CallServerInterceptor.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\internal\events\SocketUserDisconnectEvent.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http\UnrepeatableRequestBody.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\Util.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\socket\SocketioConnector.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\client\Manager.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http\RetryAndFollowUpInterceptor.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\files\modManager.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\org\json\JSONPointer.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\Protocol.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\commands\AudioCommands.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\internal\events\SocketWhisperEvent.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\yeast\Yeast.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\tls\BasicCertificateChainCleaner.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\me\mindgamesnl\openaudiomc\publicApi\OpenAudioApi.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\GzipSource.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\Handshake.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\cache\FaultHidingSink.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\files\playlistManager.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\engineio\client\Socket.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\commands\AdminCommands.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\socket\Main.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\tls\DistinguishedNameParser.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\tls\OkHostnameVerifier.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\engineio\client\transports\PollingXHR.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\org\json\JSONPointerException.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\backo\Backoff.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\org\json\JSONTokener.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\Cookie.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\minecraft\getdDep.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\regions\file.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\Interceptor.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\org\json\JSONString.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\Base64.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\org\json\JSONML.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\org\json\JSONObject.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\OkHttpClient.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\Okio.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\engineio\client\transports\Polling.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\Options.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\me\mindgamesnl\openaudiomc\publicApi\SoundEndEvent.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http2\Http2.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\SegmentedByteString.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\NamedRunnable.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\WebSocketListener.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\internal\events\SocketDisconnectEvent.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\me\mindgamesnl\openaudiomc\publicApi\AudioRegionLeaveEvent.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\GzipSink.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\internal\events\SocketUserConnectEvent.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\socket\Authenticator.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\Source.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\client\Socket.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\package-info.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\me\mindgamesnl\openaudiomc\publicApi\SocketIoDisconnectEvent.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http2\Settings.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\ConnectionSpec.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http\HttpMethod.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\RealBufferedSink.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\tls\CertificateChainCleaner.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\http2\Http2Reader.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okio\Segment.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\cache2\Relay.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\me\mindgamesnl\openaudiomc\publicApi\AudioRegionEnterEvent.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\internal\ws\RealWebSocket.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\Response.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\okhttp3\CacheControl.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\io\socket\global\Global.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\me\mindgamesnl\openaudiomc\publicApi\SocketWhisperEvent.java
-C:\Users\mats\Documents\ridecontrol_pepperoni_edition\OpenAudioSocketClient\src\net\openaudiomc\actions\spy.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\platform\OptionalMethod.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\objects\syncedSound.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\internal\events\SocketCommandEvent.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\platform\JdkWithJettyBootPlatform.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\tls\CertificateChainCleaner.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\me\mindgamesnl\openaudiomc\publicApi\AudioRegionLeaveEvent.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\commands\AudioCommands.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\EventListener.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http2\ErrorCode.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\engineio\client\transports\Polling.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\utf8\UTF8Exception.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\tls\BasicCertificateChainCleaner.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\Address.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\RealCall.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\connection\RouteDatabase.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\Timeout.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\client\IO.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\me\mindgamesnl\openaudiomc\publicApi\SocketIoConnectEvent.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\Interceptor.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http2\Hpack.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\socket\SocketioConnector.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\socket\Main.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\parser\Packet.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\me\mindgamesnl\openaudiomc\publicApi\WebConnectEvent.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\tls\TrustRootIndex.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\managers\syncedSoundManager.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\socket\Authenticator.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\Version.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\HashingSink.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\JSONML.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\client\Socket.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\InflaterSource.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\internal\events\SkriptRegistration.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\HTTP.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\files\Messages.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\socket\Emitter.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\Sink.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\oauth\oauthConnector.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\Dns.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http2\StreamResetException.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http2\Http2Connection.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\ws\RealWebSocket.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\Request.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\internal\events\SocketWhisperEvent.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\client\Manager.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\Property.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\hasbinary\HasBinary.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\JSONPointerException.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\JSONWriter.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\io\FileSystem.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\RealBufferedSink.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\GzipSource.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\minecraft\Main.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\HashingSource.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\cache2\FileOperator.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\package-info.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\CookieList.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\JSONException.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\Challenge.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\Segment.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\engineio\client\transports\WebSocket.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\CacheControl.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http\CallServerInterceptor.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http2\Http2Writer.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\me\mindgamesnl\openaudiomc\publicApi\SocketWhisperEvent.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\engineio\client\Socket.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\RequestBody.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http2\Http2Reader.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\JSONTokener.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http\RealResponseBody.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\ConnectionPool.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\yeast\Yeast.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\internal\events\SocketUserConnectEvent.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\backo\Backoff.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\OkHttpClient.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\Source.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\JSONPointer.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\GzipSink.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\FormBody.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\emitter\Emitter.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\WebSocketListener.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\cache\InternalCache.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\minecraft\eventListener.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http2\Http2Stream.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\Cookie.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http\RequestLine.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\ws\WebSocketProtocol.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\Internal.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\Handshake.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\engineio\client\HandshakeData.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\ForwardingTimeout.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\commands\AdminCommands.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\cache\CacheStrategy.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http\HttpMethod.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\ws\WebSocketReader.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\ResponseBody.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\Connection.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\regions\file.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\JSONObject.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\engineio\client\Transport.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\RealBufferedSource.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\connection\StreamAllocation.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\MultipartBody.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\internal\events\SocketDisconnectEvent.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\parser\Binary.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http2\Huffman.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\AsyncTimeout.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\client\On.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http\BridgeInterceptor.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\TlsVersion.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\me\mindgamesnl\openaudiomc\publicApi\HueConnectEvent.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\Util.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\me\mindgamesnl\openaudiomc\publicApi\OpenAudioApi.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http\HttpHeaders.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\platform\AndroidPlatform.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\parser\Parser.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\connection\ConnectInterceptor.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\Call.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\minecraft\getdDep.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\BufferedSink.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http2\PushObserver.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\ByteString.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http\RetryAndFollowUpInterceptor.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\client\Ack.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http1\Http1Codec.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\client\SocketIOException.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\JSONString.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\connection\RouteSelector.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\Base64.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\Callback.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\Dispatcher.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\tls\OkHostnameVerifier.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\files\playlistManager.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http2\ConnectionShutdownException.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\cache\FaultHidingSink.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\CipherSuite.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\cache2\Relay.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\connection\ConnectionSpecSelector.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http2\Ping.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\NamedRunnable.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\Util.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\JSONArray.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\client\Url.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http\HttpCodec.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http\HttpDate.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\Okio.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\me\mindgamesnl\openaudiomc\publicApi\SoundEndEvent.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\SegmentPool.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\utf8\UTF8.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\Route.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\me\mindgamesnl\openaudiomc\publicApi\SocketIoDisconnectEvent.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\Buffer.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http2\Http2.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\emitter\package-info.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\global\Global.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\engineio\parser\Parser.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\ws\WebSocketWriter.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\HTTPTokener.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\platform\Jdk9Platform.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\files\modManager.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\cache\DiskLruCache.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\Protocol.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\me\mindgamesnl\openaudiomc\publicApi\AudioRegionEnterEvent.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\managers\userManager.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\me\mindgamesnl\openaudiomc\publicApi\WebDisconnectEvent.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\Headers.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\ForwardingSource.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\Authenticator.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\SegmentedByteString.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\XMLTokener.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\socket\timeoutManager.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http2\Header.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\internal\events\SocketConnectEvent.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\DeflaterSink.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\XML.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\engineio\client\transports\PollingXHR.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\Credentials.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\Cookie.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\internal\events\SocketUserDisconnectEvent.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\commands\volumeCommand.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http2\Settings.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\thread\EventThread.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\utils\webUtils.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\MediaType.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\cache\CacheInterceptor.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\CertificatePinner.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\platform\Platform.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\Response.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\WebSocket.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\HttpUrl.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\connection\RealConnection.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\CDL.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\parseqs\ParseQS.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\engineio\parser\Packet.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\actions\command.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\objects\userData.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\players\Sessions.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\ConnectionSpec.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\Pipe.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\actions\spy.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http\StatusLine.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\tls\DistinguishedNameParser.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http\UnrepeatableRequestBody.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\cache\CacheRequest.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\regions\regionCrap.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\Cache.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\BufferedSource.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\connection\RouteException.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\ForwardingSink.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\me\mindgamesnl\openaudiomc\publicApi\WebsocketSendEvent.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\CookieJar.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\Options.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http2\Http2Codec.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\engineio\client\EngineIOException.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http\RealInterceptorChain.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\JSONStringer.java
