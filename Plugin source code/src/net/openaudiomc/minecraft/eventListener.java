@@ -39,7 +39,7 @@ public class eventListener implements Listener{
 	
 	@EventHandler
     public void onSocketCommandEvent(SocketCommandEvent event) {
-    	System.out.println("Socket command event: " + event.getCommand());
+    	//System.out.println("Socket command event: " + event.getCommand());
     }
     
 	@EventHandler
