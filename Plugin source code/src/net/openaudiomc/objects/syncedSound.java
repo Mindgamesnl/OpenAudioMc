@@ -8,6 +8,7 @@ import java.util.Date;
 import org.bukkit.Bukkit;
 
 import net.openaudiomc.managers.syncedSoundManager;
+import net.openaudiomc.managers.userManager;
 import net.openaudiomc.minecraft.Main;
 
 public class syncedSound {
@@ -78,7 +79,6 @@ public class syncedSound {
 	public void endTask() {
 		 Bukkit.getScheduler().cancelTask(this.schedule);
 		 this.playing = false;
-		 syncedSoundManager.remove(this.id);
 	}
 	
 	public void sycleTask() {
