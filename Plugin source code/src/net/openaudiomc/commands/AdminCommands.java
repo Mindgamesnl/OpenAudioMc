@@ -543,7 +543,8 @@ public class AdminCommands implements CommandExecutor {
 	    {  
 	      try  
 	      {  
-	        double d = Double.parseDouble(str);  
+	        @SuppressWarnings("unused")
+			double d = Double.parseDouble(str);  
 	      }  
 	      catch(NumberFormatException nfe)  
 	      {  
