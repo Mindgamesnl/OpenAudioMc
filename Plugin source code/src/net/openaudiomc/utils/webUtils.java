@@ -9,9 +9,7 @@ public class webUtils {
 	
 	public static String textFromUrl(String request) throws IOException {
 		URL url;
-
 		url = new URL(request);
-		
 	    BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 	    String str;
 	    while ((str = in.readLine()) != null) {
@@ -20,5 +18,6 @@ public class webUtils {
 	    in.close();
 		return str;
 	}
+	
 
 }
