@@ -20,7 +20,7 @@ public class syncedSound {
 	Integer timeStamp = 0;
 	Integer sycles = 0;
 	Boolean playing = false;
-    String soundid;
+    String soundid = "";
 
 
 	//constructor
@@ -74,15 +74,13 @@ public class syncedSound {
             }
         }, 0, 20);
     }
+    
 	public void endTask() {
 		 Bukkit.getScheduler().cancelTask(this.schedule);
 		 this.playing = false;
 		 syncedSoundManager.remove(this.id);
 	}
-
-
-
-	//sycle task
+	
 	public void sycleTask() {
 		if (this.sycles > this.loop) {
 			endTask();
@@ -95,7 +93,6 @@ public class syncedSound {
 	public String getSoundId() {
         return this.soundid;
     }
-
 
 	//getters
 	public String getSrc() {
