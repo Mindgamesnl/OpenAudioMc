@@ -1,7 +1,6 @@
 package net.openaudiomc.objects;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import net.openaudiomc.actions.command;
 import org.bukkit.entity.Player;
@@ -14,14 +13,12 @@ public class userData {
 	String name;
 	ArrayList<String> syncedSouncs = new ArrayList<>();
 	
-
 	public userData(Player p) {
 		this.player = p;
 		this.name = p.getName();
 	}
 
 	//functions
-
 	public void stopSounds() {
 		for (String id : getSyncedSounds()) {
             syncedSoundManager.remove(syncedSoundManager.getById(id).getId());
@@ -74,6 +71,6 @@ public class userData {
 		if (!syncedSouncs.isEmpty()) {
 			this.syncedSouncs.remove(id);
 		}
-	}
+	} 
 
 }
