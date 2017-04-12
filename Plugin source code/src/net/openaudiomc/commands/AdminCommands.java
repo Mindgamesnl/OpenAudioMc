@@ -13,7 +13,6 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 import net.openaudiomc.actions.command;
 import net.openaudiomc.actions.spy;
-import net.openaudiomc.files.modManager;
 import net.openaudiomc.files.playlistManager;
 import net.openaudiomc.minecraft.Main;
 import net.openaudiomc.minecraft.getdDep;
@@ -230,10 +229,14 @@ public class AdminCommands implements CommandExecutor {
                             		if (args.length > 3) {
 										if (args.length > 4) {
 											if (args[4].equalsIgnoreCase("sync")) {
-												syncedSound targetsound = syncedSoundManager.create(args[2], args[3]);
-                                                userManager.getPlayer(Bukkit.getPlayer(args[1])).addSyncedSound(targetsound.getId());
-                                                userManager.getPlayer(Bukkit.getPlayer(args[1])).syncSounds();
-                                                sender.sendMessage(Main.prefix + "Started synced sound for: "+args[1]);
+												try {
+													syncedSound targetsound = syncedSoundManager.create(args[2], args[3]);
+	                                                userManager.getPlayer(Bukkit.getPlayer(args[1])).addSyncedSound(targetsound.getId());
+	                                                userManager.getPlayer(Bukkit.getPlayer(args[1])).syncSounds();
+	                                                sender.sendMessage(Main.prefix + "Started synced sound for: "+args[1]);
+												} catch (NullPointerException e) {
+													sender.sendMessage(Main.prefix + "User is not connected!");
+												}
                                             } else {
 												sender.sendMessage(Main.prefix + "unknown mode");
 											}
@@ -373,15 +376,14 @@ public class AdminCommands implements CommandExecutor {
                         				sender.sendMessage(Main.prefix + "Stopped sound id "+args[2] + " of " + args[1]);
                         				try {
                         					userManager.getPlayer(Bukkit.getPlayer(args[1])).removeSyncedSound(syncedSoundManager.getBySoundId(args[2]).getId());
-                        				} catch (NullPointerException e) {
-                        					
-                        				}
+                        				} catch (NullPointerException e) {}
                         			} else {
                         				command.stop(args[1]);
                                     	sender.sendMessage(Main.prefix + "Stopped sound of " + args[1]);
-                                    	userManager.getPlayer(Bukkit.getPlayer(args[1])).removeAllSyncedSounds();
+                                    	try {
+                                    		userManager.getPlayer(Bukkit.getPlayer(args[1])).removeAllSyncedSounds();
+                                    	} catch (NullPointerException e) {}
                         			}
-
                             	} else {
                             		sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio stop <mc name>");
                             	}
