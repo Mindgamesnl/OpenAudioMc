@@ -324,7 +324,6 @@ public class AdminCommands implements CommandExecutor {
                             }
                             else if (args[0].equalsIgnoreCase("playlist"))
                             {
-
                             	if (args.length == 5 || args.length > 5) {
                             		if (args[1].equalsIgnoreCase("set")) {
                             			playlistManager.set(args[2], args[3], args[4]);
@@ -346,8 +345,6 @@ public class AdminCommands implements CommandExecutor {
                             	} else {
                             		sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio playlist <sub command> [values]");
                             	}
-
-
                             }
                             else if (args[0].equalsIgnoreCase("playregion"))
                             {
@@ -374,7 +371,11 @@ public class AdminCommands implements CommandExecutor {
                         			if (args.length == 3) {
                         				command.StopID(args[1], args[2]);
                         				sender.sendMessage(Main.prefix + "Stopped sound id "+args[2] + " of " + args[1]);
-                        				userManager.getPlayer(Bukkit.getPlayer(args[1])).removeSyncedSound(syncedSoundManager.getBySoundId(args[2]).getId());
+                        				try {
+                        					userManager.getPlayer(Bukkit.getPlayer(args[1])).removeSyncedSound(syncedSoundManager.getBySoundId(args[2]).getId());
+                        				} catch (NullPointerException e) {
+                        					
+                        				}
                         			} else {
                         				command.stop(args[1]);
                                     	sender.sendMessage(Main.prefix + "Stopped sound of " + args[1]);
