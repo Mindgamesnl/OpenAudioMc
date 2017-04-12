@@ -67,6 +67,7 @@ public class eventListener implements Listener{
 	    		//good client
 	    		
 	    			Player client = Bukkit.getPlayer(event.getName());
+	    			userManager.addPlayer(client);
 	    			client.sendMessage(Messages.getColor("connected-message"));
 	    			command.playNormalSound(event.getName(), Messages.get("start-sound"));
 	    			Emitter.connectedInServer(event.getName());
@@ -81,7 +82,7 @@ public class eventListener implements Listener{
 	    				}
 	    			}
 	    			
-	    			userManager.addPlayer(client);
+	    			
 	    			
 	    			if (getdDep.getStatus()) {
 	    	    		String regionNu = "-";
@@ -141,6 +142,7 @@ public class eventListener implements Listener{
     	//delay for if the player joined via bungee
     	Main.getPL().getServer().getScheduler().scheduleSyncDelayedTask(Main.getPL(), new Runnable() { public void run() {
     		Emitter.connectedInServer(event.getPlayer().getName());
+    		userManager.addPlayer(event.getPlayer());
     		if (getdDep.getStatus()) {
         		String regionNu = "-";
     			for(ProtectedRegion r : WGBukkit.getRegionManager(event.getPlayer().getWorld()).getApplicableRegions(event.getPlayer().getLocation())) {

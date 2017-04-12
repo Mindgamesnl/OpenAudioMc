@@ -1,6 +1,7 @@
 package net.openaudiomc.objects;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 import net.openaudiomc.actions.command;
 import org.bukkit.entity.Player;
@@ -28,13 +29,15 @@ public class userData {
 	public void syncSounds() {
 		for (String id : getSyncedSounds()) {
             syncedSound target = syncedSoundManager.getById(id);
-			Integer miliSeconds = target.getTimeInMs();
-			String src = target.getSrc();
-			if (target.isPlaying()) {
-				command.playFromTime(this.player.getName(), syncedSoundManager.getById(id).getSoundId(), src, miliSeconds);
-			} else {
-				syncedSoundManager.remove(target.getId());
-			}
+            if (target.isPlaying()) {
+            	Integer miliSeconds = target.getTimeInMs();
+    			String src = target.getSrc();
+    			if (target.isPlaying()) {
+    				command.playFromTime(this.player.getName(), syncedSoundManager.getById(id).getSoundId(), src, miliSeconds);
+    			} else {
+    				syncedSoundManager.remove(target.getId());
+    			}
+            }
 		}
 	}
 
@@ -48,11 +51,13 @@ public class userData {
 	}
 	
 	public void removeAllSyncedSounds() {
-		for (String sound : getSyncedSounds()) {
-			if (!syncedSouncs.isEmpty()) {
-				syncedSouncs.remove(sound);
+		try {
+			for (String sound : getSyncedSounds()) {
+				if (!syncedSouncs.isEmpty()) {
+					syncedSouncs.remove(sound);
+				}
 			}
-		}
+		} catch (ConcurrentModificationException e) {}
 	}
 
 	public ArrayList<String> getSyncedSounds() {
