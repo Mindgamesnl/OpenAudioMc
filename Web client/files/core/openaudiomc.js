@@ -154,6 +154,7 @@ socketIo.connect = function() {
 			setTimeout(function() {
 				if (settings.hue != "off") {
 					loop_hue_connection();
+					hueicon = new trayItem("fa-lightbulb-o", "openhue");
 				} else {
 					document.getElementById("hue_modal_text").innerHTML = "<h2>"+langpack.hue.disabled+"</h2>";
 				}
@@ -269,8 +270,13 @@ openaudio.skipTo = function(id, timeInS) {
 }
 
 
+function openhue() {
+	$('#Hue').modal('show');
+}
+
 
 openaudio.decode = function(msg) {
+	console.log(msg);
 	request = JSON.parse(msg);
 	if (request.command == "play_normal") {
 		if (request.src.includes("soundcloud.com")) {
@@ -346,10 +352,10 @@ openaudio.decode = function(msg) {
 		if (request.src.includes("soundcloud.com")) {
 			var scurl = request.src;
 			getSoundcloud(scurl, function(newurl) {
-				openaudio.play(newurl, request.id);
+				openaudio.play(newurl, request.id, request.time);
 			});
 		} else {
-			openaudio.play(request.src, request.id);
+			openaudio.play(request.src, request.id, request.time);
 		}
 	} else if (request.command == "stop_id") {
 		openaudio.stop_id(request.id);
@@ -517,9 +523,13 @@ openaudio.stopregion = function() {
 
 
 
-openaudio.play = function(src_fo_file, soundID) {
+openaudio.play = function(src_fo_file, soundID, defaultTime) {
 	if (soundID === null) {
-		soundID = 'default';
+		var soundID = 'default';
+	}
+	
+	if (defaultTime === null) {
+		var defaultTime = 0;
 	}
 
 	var soundId = "play";
@@ -530,6 +540,7 @@ openaudio.play = function(src_fo_file, soundID) {
 		id: "play_" + Math.floor(Math.random() * 60) + 1 + "_" + soundID,
 		url: src_fo_file,
 		volume: volume,
+		from: defaultTime,
 		autoPlay: true,
 	});
 }
@@ -762,13 +773,14 @@ $(document).ready(function() {
 				step: function(currentLeft, animProperties) {
 					//call event when a sound started
 					if (stopFading[soundId] !== true) {
-						soundManager.setVolume(soundId, currentLeft);
+						try {
+						soundManager.setVolume(soundId, currentLeft);} catch (e) {}
 					}
 				},
 				done: function() {
 					if (stopFading[soundId] !== true) {
-						soundManager.stop(soundId);
-						soundManager.destroySound(soundId);
+							try {soundManager.stop(soundId);
+						soundManager.destroySound(soundId);} catch (e) {}
 					}
 					isFading[soundId] = false;
 					stopFading[soundId] = false;
@@ -776,8 +788,8 @@ $(document).ready(function() {
 				}
 			});
 		} else {
-			soundManager.stop(soundId);
-			soundManager.destroySound(soundId);
+			try {	soundManager.stop(soundId);
+			soundManager.destroySound(soundId);} catch (e) {}
 			x.remove();
 		}
 	}
