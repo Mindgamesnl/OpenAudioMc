@@ -27,7 +27,6 @@ public class webUtils {
 		return str;
 	}
 	
-<<<<<<< HEAD
 	public static void asyncHttpRequest(final String request, final Callback<String> callback)
 	{
 	    new BukkitRunnable()
@@ -60,7 +59,5 @@ public class webUtils {
 	        }
 	    }.runTaskAsynchronously(Main.getPL());
 	} 
-=======
->>>>>>> origin/master
 
 }
