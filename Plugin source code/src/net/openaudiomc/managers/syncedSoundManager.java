@@ -19,8 +19,6 @@ public class syncedSoundManager {
             return getBySrc(src);
 		} else {
 			System.out.println("[OpenAudio] Registerd new synced sound.");
-			
-			
 			Callback<String> callback = new Callback<String>()
 			{
 			    public syncedSound execute(String b)

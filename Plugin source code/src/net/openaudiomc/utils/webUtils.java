@@ -24,13 +24,10 @@ public class webUtils {
 		return str;
 	}
 	
-	public static void asyncHttpRequest(final String request, final Callback<String> callback)
-	{
-	    new BukkitRunnable()
-	    {
+	public static void asyncHttpRequest(final String request, final Callback<String> callback) {
+	    new BukkitRunnable() {
 	        @Override
-	        public void run()
-	        {
+	        public void run() {
 	            try {
 					URL url;
 					url = new URL(request);
