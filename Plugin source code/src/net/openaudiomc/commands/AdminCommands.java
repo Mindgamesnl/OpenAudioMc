@@ -230,9 +230,8 @@ public class AdminCommands implements CommandExecutor {
 										if (args.length > 4) {
 											if (args[4].equalsIgnoreCase("sync")) {
 												try {
-													syncedSound targetsound = syncedSoundManager.create(args[2], args[3]);
-	                                                userManager.getPlayer(Bukkit.getPlayer(args[1])).addSyncedSound(targetsound.getId());
-	                                                userManager.getPlayer(Bukkit.getPlayer(args[1])).syncSounds();
+													syncedSound targetsound = syncedSoundManager.create(args[2], args[3], args[1]);
+	                                                
 	                                                sender.sendMessage(Main.prefix + "Started synced sound for: "+args[1]);
 												} catch (NullPointerException e) {
 													sender.sendMessage(Main.prefix + "User is not connected!");
