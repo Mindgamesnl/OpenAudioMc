@@ -24,6 +24,7 @@ import ch.njol.skript.Skript;
 import net.openaudiomc.regions.regionCrap;
 import net.openaudiomc.socket.Authenticator;
 import net.openaudiomc.socket.timeoutManager;
+import net.openaudiomc.utils.webUtils;
 import net.openaudiomc.commands.AdminCommands;
 import net.openaudiomc.commands.AudioCommands;
 import net.openaudiomc.commands.volumeCommand;
@@ -99,10 +100,9 @@ public class Main extends JavaPlugin implements Listener{
 		} else {
 			Bukkit.getLogger().info("[OpenAudio] Skript was not found in your server, gues we're not loading the sk-events then.");
 		}
+		
 
 	}	
-	
-
 	
 	//Sluit zooi
 	@Override

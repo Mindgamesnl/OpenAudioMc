@@ -17,9 +17,7 @@ public class webUtils {
 	
 	public static String textFromUrl(String request) throws IOException {
 		URL url;
-
 		url = new URL(request);
-		
 	    BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 	    String str;
 	    while ((str = in.readLine()) != null) {
@@ -29,6 +27,7 @@ public class webUtils {
 		return str;
 	}
 	
+<<<<<<< HEAD
 	public static void asyncHttpRequest(final String request, final Callback<String> callback)
 	{
 	    new BukkitRunnable()
@@ -61,5 +60,7 @@ public class webUtils {
 	        }
 	    }.runTaskAsynchronously(Main.getPL());
 	} 
+=======
+>>>>>>> origin/master
 
 }
