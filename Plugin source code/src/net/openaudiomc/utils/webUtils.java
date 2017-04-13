@@ -48,10 +48,9 @@ public class webUtils {
 		                }
 		            }.runTask(Main.getPL());
 				    
-				} catch (IOException e) {
-				}
+				} catch (IOException e) {}
 	        }
 	    }.runTaskAsynchronously(Main.getPL());
-	} 
-
+	}
+	
 }
