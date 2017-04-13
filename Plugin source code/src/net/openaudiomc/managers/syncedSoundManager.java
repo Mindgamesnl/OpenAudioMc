@@ -1,6 +1,5 @@
 package net.openaudiomc.managers;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,36 +7,41 @@ import java.util.Random;
 
 import net.openaudiomc.objects.syncedSound;
 import net.openaudiomc.utils.webUtils;
+import net.openaudiomc.utils.callback.Callback;
 
 public class syncedSoundManager {
 	
 	static HashMap<String, syncedSound> syncedSoundMap = new HashMap<String, syncedSound>();
 	
-	public static syncedSound create(String src, String soundid) {
+	public static syncedSound create(final String src, final String soundid) {
 		if (getBySrc(src) != null) {
 			getBySrc(src).restart();
             return getBySrc(src);
 		} else {
 			System.out.println("[OpenAudio] Registerd new synced sound.");
-			try {
-				char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
-				StringBuilder sb = new StringBuilder();
-				Random random = new Random();
-				for (int i = 0; i < 20; i++) {
-					char c = chars[random.nextInt(chars.length)];
-					sb.append(c);
-				}
-				String id = sb.toString();
-
-				String time = webUtils.textFromUrl("http://api.openaudiomc.net/plugin/mp3_info.php?s=" + src);
-				if (time != "00:00:00") {
-					syncedSoundMap.put(id, new syncedSound(id, src, time, soundid));
-                    return syncedSoundMap.get(id);
-				}
-			} catch (IOException e) {
-				//error while contacting api server
-				e.printStackTrace();
-			}
+			
+			
+			Callback<String> callback = new Callback<String>()
+			{
+			    public syncedSound execute(String b)
+			    {
+			    	char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+					StringBuilder sb = new StringBuilder();
+					Random random = new Random();
+					for (int i = 0; i < 20; i++) {
+						char c = chars[random.nextInt(chars.length)];
+						sb.append(c);
+					}
+					String id = sb.toString();
+			    	String time = b;
+			    	if (time != "00:00:00") {
+						syncedSoundMap.put(id, new syncedSound(id, src, time, soundid));
+	                    return syncedSoundMap.get(id);
+					}
+					return null;
+			    }
+			};
+			webUtils.asyncHttpRequest("http://api.openaudiomc.net/plugin/mp3_info.php?s=" + src, callback);
 		}
         return null;
     }
