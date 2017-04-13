@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import org.bukkit.Bukkit;
+
+import net.openaudiomc.minecraft.Main;
 import net.openaudiomc.objects.syncedSound;
 import net.openaudiomc.utils.webUtils;
 import net.openaudiomc.utils.callback.Callback;
@@ -13,7 +16,7 @@ public class syncedSoundManager {
 	
 	static HashMap<String, syncedSound> syncedSoundMap = new HashMap<String, syncedSound>();
 	
-	public static syncedSound create(final String src, final String soundid) {
+	public static syncedSound create(final String src, final String soundid, final String playername) {
 		if (getBySrc(src) != null) {
 			getBySrc(src).restart();
             return getBySrc(src);
@@ -28,10 +31,16 @@ public class syncedSoundManager {
 						char c = chars[random.nextInt(chars.length)];
 						sb.append(c);
 					}
-					String id = sb.toString();
+					final String id = sb.toString();
 			    	String time = b;
 			    	if (time != "00:00:00") {
 						syncedSoundMap.put(id, new syncedSound(id, src, time, soundid));
+						Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getPL(), new Runnable() {
+				            public void run() {
+				            	userManager.getPlayer(Bukkit.getPlayer(playername)).addSyncedSound(id);
+			                    userManager.getPlayer(Bukkit.getPlayer(playername)).syncSounds();
+				            }
+				        }, 2);
 	                    return syncedSoundMap.get(id);
 					}
 					return null;

@@ -31,14 +31,11 @@ public class webUtils {
 	            try {
 					URL url;
 					url = new URL(request);
+					
 				    BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-				    String str;
-					while ((str = in.readLine()) != null) {
-						 final String string = str; 
-				    }
+				  
+				    final String string = in.readLine();
 				    in.close();
-				    final String string = str;
-				    
 				    new BukkitRunnable()
 		            {
 		                @Override
