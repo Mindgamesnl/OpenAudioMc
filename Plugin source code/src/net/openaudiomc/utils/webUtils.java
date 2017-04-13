@@ -3,12 +3,9 @@ package net.openaudiomc.utils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import net.openaudiomc.minecraft.Main;
 import net.openaudiomc.utils.callback.Callback;
