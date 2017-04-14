@@ -237,7 +237,7 @@ public class AdminCommands implements CommandExecutor {
 													sender.sendMessage(Main.prefix + "User is not connected!");
 												}
                                             } else {
-												sender.sendMessage(Main.prefix + "unknown mode");
+												sender.sendMessage(Main.prefix + "Possible modes: " + ChatColor.RESET + "sync");
 											}
 										} else {
 											command.playNormalSoundID(args[1], args[2], args[3]);
