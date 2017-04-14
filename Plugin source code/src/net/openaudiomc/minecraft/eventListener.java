@@ -69,7 +69,10 @@ public class eventListener implements Listener{
 	    			Player client = Bukkit.getPlayer(event.getName());
 	    			userManager.addPlayer(client);
 	    			client.sendMessage(Messages.getColor("connected-message"));
-	    			command.playNormalSound(event.getName(), Messages.get("start-sound"));
+	    			if (Messages.get("start-sound") != null && Messages.get("start-sound") != "") {
+	    				command.playNormalSound(event.getName(), Messages.get("start-sound"));
+	    			}
+	    			
 	    			Emitter.connectedInServer(event.getName());
 	    			isConnected.put(client.getName(), true);
 	    			
