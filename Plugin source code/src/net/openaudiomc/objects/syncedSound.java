@@ -7,8 +7,6 @@ import java.util.Date;
 
 import org.bukkit.Bukkit;
 
-import net.openaudiomc.managers.syncedSoundManager;
-import net.openaudiomc.managers.userManager;
 import net.openaudiomc.minecraft.Main;
 
 public class syncedSound {
