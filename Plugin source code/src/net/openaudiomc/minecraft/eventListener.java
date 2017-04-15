@@ -75,7 +75,7 @@ public class eventListener implements Listener{
 	    			
 	    			Emitter.connectedInServer(event.getName());
 	    			isConnected.put(client.getName(), true);
-	    			
+	    			userManager.getPlayer(client).syncSounds();
 	    			String connector = event.getName();
 	    			for (Player p : Bukkit.getOnlinePlayers()) {
 	    				if (spy.spyMap.get(p) != null) {
@@ -97,7 +97,6 @@ public class eventListener implements Listener{
 	    				}
 	    	    	}
 	    		Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.WebConnectEvent(Bukkit.getPlayer(event.getName())));
-				userManager.getPlayer(client).syncSounds();
 	    	} else {
 	    		Emitter.KickPlayerConnection(event.getName());
 	    	}
@@ -146,6 +145,7 @@ public class eventListener implements Listener{
     	Main.getPL().getServer().getScheduler().scheduleSyncDelayedTask(Main.getPL(), new Runnable() { public void run() {
     		Emitter.connectedInServer(event.getPlayer().getName());
     		userManager.addPlayer(event.getPlayer());
+    		userManager.getPlayer(event.getPlayer()).syncSounds();
     		if (getdDep.getStatus()) {
         		String regionNu = "-";
     			for(ProtectedRegion r : WGBukkit.getRegionManager(event.getPlayer().getWorld()).getApplicableRegions(event.getPlayer().getLocation())) {

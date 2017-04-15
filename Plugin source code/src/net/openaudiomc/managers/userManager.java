@@ -8,7 +8,7 @@ import net.openaudiomc.objects.userData;
 
 public class userManager {
 	
-	static HashMap<Player, userData> userMap = new HashMap<Player, userData>();
+	static HashMap<String, userData> userMap = new HashMap<String, userData>();
 	
 	public static void addPlayer(Player Player) {
 		/*
@@ -26,19 +26,19 @@ public class userManager {
 			             `-.__  `----"""    __.-'
 			                  `--..____..--'                      
 		 */
-		if (userMap.get(Player) != null) {
-			
+		if (userMap.get(Player.getName()) == null) {
+			userMap.put(Player.getName(), new userData(Player));
 		} else {
-			userMap.put(Player, new userData(Player));
+			
 		}
 	}
 	
 	public static userData getPlayer(Player player) {
-		return userMap.get(player);
+		return userMap.get(player.getName());
 	}
 	
 	public static void removePlayer(Player Player) {
-		userMap.remove(Player);
+		userMap.remove(Player.getName());
 	}
     
 }
