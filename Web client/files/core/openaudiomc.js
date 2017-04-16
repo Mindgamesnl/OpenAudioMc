@@ -168,6 +168,14 @@ socketIo.connect = function() {
 				if (settings.logo == "") {
 					document.getElementById("logo").src = "files/images/footer_logo.png";
 				} else {
+
+					(function() {
+							var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+							link.type = 'image/x-icon';
+							link.rel = 'shortcut icon';
+							link.href = settings.logo	;
+							document.getElementsByTagName('head')[0].appendChild(link);
+					}());
 					document.getElementById("logo").src = settings.logo;
 				}
 				 
@@ -276,7 +284,6 @@ function openhue() {
 
 
 openaudio.decode = function(msg) {
-	console.log(msg);
 	request = JSON.parse(msg);
 	if (request.command == "play_normal") {
 		if (request.src.includes("soundcloud.com")) {
@@ -980,7 +987,6 @@ function on_hue_link(name) {
 			setTimeout(function() {
 				hue_on();
 				hue_connected = true;
-				hue_set_color(HueDefaultColor);
 			}, 1000);
 		}, 1000);
 	}
