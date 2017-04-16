@@ -3,7 +3,7 @@ description: Openaudiomc plugin.
 author: Mindgamesnl
 website: http://www.craftmend.com/
 prefix: OpenAudioMc
-version: 2.4y
+version: 2.4
 softdepend: [WorldGuard, WGRegionEvents, Skript]
 main: net.openaudiomc.minecraft.Main
 commands:
