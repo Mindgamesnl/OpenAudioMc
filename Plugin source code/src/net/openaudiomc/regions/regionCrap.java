@@ -39,7 +39,7 @@ public class regionCrap implements Listener {
 			if (e.getRegion().getParent() != null) {
 				if (e.getRegion().getParent().getPriority() > e.getRegion().getPriority() || e.getRegion().getParent().getPriority() == e.getRegion().getPriority()) {
 					//parent is more important
-					prosessEnter(e.getRegion().getParent(), e.getPlayer(), e);
+					prosessEnter(e.getRegion(), e.getPlayer(), e);
 				} else {
 					//child is more important
 					prosessEnter(e.getRegion(), e.getPlayer(), e);
@@ -54,8 +54,9 @@ public class regionCrap implements Listener {
 	
 	static void prosessEnter(final ProtectedRegion protectedRegion, final Player player, final RegionEnterEvent e) {
 		if (getRegionWorld(protectedRegion.getId()) != "<none>") {
-			if (player.getLocation().getWorld().getName() == getRegionWorld(protectedRegion.getId())) {
+			if (player.getLocation().getWorld().getName().equalsIgnoreCase(getRegionWorld(protectedRegion.getId()))) {
 				if (isValidRegion(protectedRegion.getId())) {
+					
 					regionHistory.put(player, getRegionFile(protectedRegion.getId()));
 					command.playRegion(e.getPlayer().getName(), getRegionFile(protectedRegion.getId()));
 					Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.AudioRegionEnterEvent(protectedRegion.getId(), e.getPlayer(), getRegionFile(protectedRegion.getId())));
@@ -78,7 +79,7 @@ public class regionCrap implements Listener {
 			if (e.getRegion().getParent() != null) {
 				if (e.getRegion().getParent().getPriority() > e.getRegion().getPriority() || e.getRegion().getParent().getPriority() == e.getRegion().getPriority()) {
 					//parant region has higher priorety
-					prosessExit(e.getRegion().getParent(), e.getPlayer(), e);
+					prosessExit(e.getRegion(), e.getPlayer(), e);
 				} else {
 					//parant region has lower priorety
 					prosessExit(e.getRegion(), e.getPlayer(), e);
@@ -102,7 +103,7 @@ public class regionCrap implements Listener {
 					if (regionHistory.get(player) != getRegionFile(regionNu)) {	
 						if (regionNu == "-") {
 							if (getRegionWorld(protectedRegion.getId()) != "<none>") {
-								if (player.getLocation().getWorld().getName() == getRegionWorld(protectedRegion.getId())) {
+								if (player.getLocation().getWorld().getName().equalsIgnoreCase(getRegionWorld(protectedRegion.getId()))) {
 									command.stopRegion(player.getName());
 									Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.AudioRegionLeaveEvent(protectedRegion.getId(), player));
 								}
@@ -112,7 +113,7 @@ public class regionCrap implements Listener {
 							}
 						} else {
 							if (getRegionWorld(protectedRegion.getId()) != "<none>") {
-								if (player.getLocation().getWorld().getName() == getRegionWorld(protectedRegion.getId())) {
+								if (player.getLocation().getWorld().getName().equalsIgnoreCase(getRegionWorld(protectedRegion.getId()))) {
 									command.stopOldRegion(player.getName());
 									Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.AudioRegionLeaveEvent(protectedRegion.getId(), player));
 								}
