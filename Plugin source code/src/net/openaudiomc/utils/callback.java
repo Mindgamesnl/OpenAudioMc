@@ -7,4 +7,8 @@ public interface callback {
 	{
 	    public syncedSound execute(String string);
 	}
+	public interface Callbackmultiple<T>
+	{
+	    public void execute(String string);
+	}
 }
