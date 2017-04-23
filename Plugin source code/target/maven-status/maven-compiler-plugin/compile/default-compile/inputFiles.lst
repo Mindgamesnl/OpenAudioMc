@@ -28,6 +28,7 @@ C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiom
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\Version.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\HashingSink.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\JSONML.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\objects\audioSpeaker.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\client\Socket.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\InflaterSource.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\internal\events\SkriptRegistration.java
@@ -41,6 +42,7 @@ C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\intern
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http2\Http2Connection.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\ws\RealWebSocket.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\Request.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\speakers\speakerMain.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\internal\events\SocketWhisperEvent.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\client\Manager.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\Property.java
@@ -81,6 +83,7 @@ C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\FormBo
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\emitter\Emitter.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\WebSocketListener.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\cache\InternalCache.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\objects\audioSpeakerSound.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\minecraft\eventListener.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http2\Http2Stream.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\Cookie.java
@@ -128,6 +131,7 @@ C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\clie
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\JSONString.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\connection\RouteSelector.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\Base64.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\utils\Callbacknoreturn.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\Callback.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\Dispatcher.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\tls\OkHostnameVerifier.java
@@ -168,6 +172,7 @@ C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\Header
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\ForwardingSource.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\Authenticator.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\SegmentedByteString.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\managers\audioSpeakerManager.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\XMLTokener.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\socket\timeoutManager.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\internal\http2\Header.java
@@ -196,6 +201,7 @@ C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\io\socket\engi
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\actions\command.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\objects\userData.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\players\Sessions.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\speakers\Callbacktje.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okhttp3\ConnectionSpec.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\okio\Pipe.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\actions\spy.java

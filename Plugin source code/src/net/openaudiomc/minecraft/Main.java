@@ -15,6 +15,7 @@ import java.io.IOException;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
@@ -31,6 +32,8 @@ import net.openaudiomc.commands.volumeCommand;
 import net.openaudiomc.files.Messages;
 import net.openaudiomc.files.modManager;
 import net.openaudiomc.internal.events.SkriptRegistration;
+import net.openaudiomc.managers.audioSpeakerManager;
+import net.openaudiomc.objects.audioSpeaker;
 
 public class Main extends JavaPlugin implements Listener{
 	
@@ -100,7 +103,9 @@ public class Main extends JavaPlugin implements Listener{
 		} else {
 			Bukkit.getLogger().info("[OpenAudio] Skript was not found in your server, gues we're not loading the sk-events then.");
 		}
-		
+		audioSpeakerManager.createSound("testskullsound", "http://test.craftmendserver.com/2.mp3");
+		audioSpeakerManager.createSpeaker("testskullspeaker", "testskullsound", new Location(Bukkit.getWorld("test"), 92, 53, 190));
+		audioSpeakerManager.Init();
 
 	}	
 	
