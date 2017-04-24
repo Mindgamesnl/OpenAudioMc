@@ -54,7 +54,7 @@ public class audioSpeakerManager {
             		}
             	}
             }
-        }, 0, 10);
+        }, 0, 40);
 	}
 	
 	public static List<Block> getNearbyBlocks(Location location, int radius) {
