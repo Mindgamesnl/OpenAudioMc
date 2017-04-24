@@ -19,6 +19,7 @@ public class audioSpeakerManager {
 	
 	public static HashMap<String, audioSpeakerSound> sounds = new HashMap<String, audioSpeakerSound>();
 	public static HashMap<Location, audioSpeaker> speakers = new HashMap<Location, audioSpeaker>();
+	public static HashMap<String, Integer> volumes = new HashMap<String, Integer>();
 	public static Integer timer;
 	
 	public static void createSound(String id, String src) {
@@ -48,7 +49,10 @@ public class audioSpeakerManager {
 							int volume = 100 - a;
 							String fullvolume = volume+"";
 							fullvolume = fullvolume.replaceAll("-", "");
-							Bukkit.broadcastMessage(""+ p.getName()+": " + fullvolume);
+							if (volumes.get(p.getName()) == null || volumes.get(p.getName()) != Integer.parseInt(fullvolume)) {
+								Bukkit.broadcastMessage(""+ p.getName()+": " + fullvolume);
+								volumes.put(p.getName(), Integer.parseInt(fullvolume));
+							}
 						}
 					}
 				}
