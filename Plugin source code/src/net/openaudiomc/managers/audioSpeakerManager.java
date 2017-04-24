@@ -34,27 +34,27 @@ public class audioSpeakerManager {
 	@SuppressWarnings("deprecation")
 	public static void Init() {
 		timer = Bukkit.getScheduler().scheduleAsyncRepeatingTask(Main.getPL(), new Runnable() {
-            @Override
-            public void run() {
-            	for (Player p : Bukkit.getOnlinePlayers()) {
-            		for (Block b : getNearbyBlocks(p.getLocation(), 20)) {
-            			if (b.getType() == Material.SKULL) {
-            				Skull skull = (Skull)b.getState();
-            				if (skull.getOwner().equalsIgnoreCase("OpenAudioMc")) {
-            					double dist = speakers.get(b.getLocation()).getLoc().distance(p.getLocation());
-            					dist = dist * 100;
-            					int a = (int) Math.round(dist);
-            					a = a / 20;
-            					int volume = 100 - a;
-            					String fullvolume = volume+"";
-            					fullvolume = fullvolume.replaceAll("-", "");
-            					Bukkit.broadcastMessage(""+ p.getName()+": " + fullvolume);
-            				}
-            			}
-            		}
-            	}
-            }
-        }, 0, 40);
+		    @Override
+		    public void run() {
+			for (Player p : Bukkit.getOnlinePlayers()) {
+				for (Block b : getNearbyBlocks(p.getLocation(), 20)) {
+					if (b.getType() == Material.SKULL) {
+						Skull skull = (Skull)b.getState();
+						if (skull.getOwner().equalsIgnoreCase("OpenAudioMc")) {
+							double dist = speakers.get(b.getLocation()).getLoc().distance(p.getLocation());
+							dist = dist * 100;
+							int a = (int) Math.round(dist);
+							a = a / 20;
+							int volume = 100 - a;
+							String fullvolume = volume+"";
+							fullvolume = fullvolume.replaceAll("-", "");
+							Bukkit.broadcastMessage(""+ p.getName()+": " + fullvolume);
+						}
+					}
+				}
+			}
+		    }
+		}, 0, 40);
 	}
 	
 	public static List<Block> getNearbyBlocks(Location location, int radius) {
