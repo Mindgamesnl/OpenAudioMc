@@ -49,6 +49,7 @@ public class SocketioConnector {
             options.port = 3000;
 
             socket = IO.socket(jsonObject.getString("secureSocket"), options);
+            
             ((Emitter) socket).on(Socket.EVENT_CONNECT, new Emitter.Listener() {
                 @Override
                 public void call(Object...args) {
@@ -94,7 +95,7 @@ public class SocketioConnector {
     }
     
     public static void close() {
-    	((Socket) socket).close();
+    	((Socket) socket).disconnect();
     }
 
     public static void SocketConnect() {

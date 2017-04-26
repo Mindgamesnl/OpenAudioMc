@@ -1,6 +1,4 @@
-package net.openaudiomc.speakers;
-
-import net.openaudiomc.objects.syncedSound;
+package net.openaudiomc.speakerSystem;
 
 public interface Callbacktje {
 	public interface Callbacknoreturn<T>

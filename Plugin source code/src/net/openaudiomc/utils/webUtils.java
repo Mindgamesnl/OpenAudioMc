@@ -8,7 +8,6 @@ import java.net.URL;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.openaudiomc.minecraft.Main;
-import net.openaudiomc.speakers.Callbacktje;
 import net.openaudiomc.utils.callback.Callback;
 
 public class webUtils {

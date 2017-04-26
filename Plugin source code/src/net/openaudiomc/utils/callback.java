@@ -1,6 +1,6 @@
 package net.openaudiomc.utils;
 
-import net.openaudiomc.objects.syncedSound;
+import net.openaudiomc.syncedSound.objects.syncedSound;
 
 public interface callback {
 	public interface Callback<T>

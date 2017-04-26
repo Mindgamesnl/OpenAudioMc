@@ -25,15 +25,13 @@ import ch.njol.skript.Skript;
 import net.openaudiomc.regions.regionCrap;
 import net.openaudiomc.socket.Authenticator;
 import net.openaudiomc.socket.timeoutManager;
-import net.openaudiomc.utils.webUtils;
 import net.openaudiomc.commands.AdminCommands;
 import net.openaudiomc.commands.AudioCommands;
 import net.openaudiomc.commands.volumeCommand;
 import net.openaudiomc.files.Messages;
 import net.openaudiomc.files.modManager;
 import net.openaudiomc.internal.events.SkriptRegistration;
-import net.openaudiomc.managers.audioSpeakerManager;
-import net.openaudiomc.objects.audioSpeaker;
+import net.openaudiomc.speakerSystem.managers.audioSpeakerManager;
 
 public class Main extends JavaPlugin implements Listener{
 	
@@ -66,11 +64,8 @@ public class Main extends JavaPlugin implements Listener{
 		Bukkit.getServer().getPluginManager().registerEvents(new timeoutManager(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new eventListener(), this);
 		Bukkit.getLogger().info("[OpenAudio] Loading OpenAudioMc by Mindgamesnl/Me_is_mattyh");
-		try {
-			net.openaudiomc.socket.SocketioConnector.connect();
-		} catch (Exception e) {
-			Bukkit.getLogger().info("[OpenAudio] Failed to connect to the socket.io server, openaudio will not work correctly.");
-		}
+		
+		
 		
 		prefix = ChatColor.translateAlternateColorCodes('&', "&9[&bOpenAudioMc&9] &3");
 		
@@ -103,8 +98,20 @@ public class Main extends JavaPlugin implements Listener{
 		} else {
 			Bukkit.getLogger().info("[OpenAudio] Skript was not found in your server, gues we're not loading the sk-events then.");
 		}
-		audioSpeakerManager.createSound("testskullsound", "http://test.craftmendserver.com/2.mp3");
-		audioSpeakerManager.createSpeaker("testskullspeaker", "testskullsound", new Location(Bukkit.getWorld("test"), 92, 53, 190));
+		
+		timeoutManager.updateCounter();
+		
+		audioSpeakerManager.createSound("testskullsound2", "https://craftmend.com/api_SSL/openaudio/demo_playlist/2.mp3");
+		audioSpeakerManager.createSpeaker("testskullspeaker2", "testskullsound2", new Location(Bukkit.getWorld("test"), 92, 53, 210));
+		
+		audioSpeakerManager.createSound("aquaskull", "http://test.craftmendserver.com/2.mp3");
+		audioSpeakerManager.createSpeaker("aquaspeaker", "aquaskull", new Location(Bukkit.getWorld("test"), 92, 53, 190));
+		audioSpeakerManager.createSpeaker("aquaspeaker", "aquaskull", new Location(Bukkit.getWorld("test"), 92, 53, 185));
+		audioSpeakerManager.createSpeaker("aquaspeaker", "aquaskull", new Location(Bukkit.getWorld("test"), 87, 53, 185));
+		audioSpeakerManager.createSpeaker("aquaspeaker", "aquaskull", new Location(Bukkit.getWorld("test"), 87, 53, 189));
+		audioSpeakerManager.createSpeaker("aquaspeaker", "aquaskull", new Location(Bukkit.getWorld("test"), 82, 53, 189));
+		audioSpeakerManager.createSpeaker("aquaspeaker", "aquaskull", new Location(Bukkit.getWorld("test"), 82, 53, 185));
+		audioSpeakerManager.createSpeaker("aquaspeaker", "aquaskull", new Location(Bukkit.getWorld("test"), 78, 53, 185));
 		audioSpeakerManager.Init();
 
 	}	
