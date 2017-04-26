@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -119,7 +120,6 @@ public class audioSpeakerManager {
 										if (Math.abs(speakers.get(b.getLocation()).getLoc().distance(p.getLocation())) < highest || iterations == 0) {
 											found = true;
 											iterations++;
-											Bukkit.broadcastMessage("Found in " + iterations);
 											highest = Math.abs(speakers.get(b.getLocation()).getLoc().distance(p.getLocation()));
 											selectedskull = skull;
 											selectedblockl = b;
@@ -135,14 +135,12 @@ public class audioSpeakerManager {
 								command.stopAllSpeakers(p.getName());
 							}
 						} else {
-							@SuppressWarnings("unused")
-							Firework fw = (Firework) (selectedblockl.getLocation().getWorld().spawnEntity(selectedblockl.getLocation(), EntityType.FIREWORK));
 							prosessSpeaker(p, selectedskull, selectedblockl);
 						}
 					}
 				}
 		    }
-		}, 0, 10);
+		}, 0, 5);
 	}
 	
 	public static List<Block> getNearbyBlocks(Location location, int radius) {
