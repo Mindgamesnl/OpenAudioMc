@@ -29,6 +29,7 @@ public class audioSpeakerManager {
 	public static HashMap<Location, audioSpeaker> speakers = new HashMap<Location, audioSpeaker>();
 	public static HashMap<String, Integer> volumes = new HashMap<String, Integer>();
 	public static HashMap<String, ArrayList<String>> soundsOfP = new HashMap<String, ArrayList<String>>();
+	public static Boolean running = false;
 	public static Integer timer;
 	
 	public static void createSound(final String id, final String src) {
@@ -65,8 +66,14 @@ public class audioSpeakerManager {
 		command.stopAllSpeakers(name);
 	}
 	
+	public static void stop() {
+		running = false;
+		Bukkit.getScheduler().cancelTask(timer);
+	}
+	
 	@SuppressWarnings("deprecation")
 	public static void Init() {
+		running = true;
 		timer = Bukkit.getScheduler().scheduleAsyncRepeatingTask(Main.getPL(), new Runnable() {
 		    @Override
 		    public void run() {
