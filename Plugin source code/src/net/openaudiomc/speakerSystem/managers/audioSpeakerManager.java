@@ -80,27 +80,33 @@ public class audioSpeakerManager {
 						Boolean found = false;
 						for (Block b : getNearbyBlocks(p.getLocation(), 10)) {
 							if (b.getType() == Material.SKULL) {
-								Skull skull = (Skull)b.getState();						
-								if (skull.getOwner().equalsIgnoreCase("OpenAudioMc") || speakers.get(b.getLocation()).getSoundId() != null) {
-									double dist = speakers.get(b.getLocation()).getLoc().distance(p.getLocation());
-									dist = dist * 100;
-									int a = (int) Math.round(dist);
-									a = a / 10;
-									int volume = 100 - a;
-									String fullvolume = volume+"";
-									fullvolume = fullvolume.replaceAll("-", "");
-									found = true;
-									if (volumes.get(p.getName()) == null || volumes.get(p.getName()) != Integer.parseInt(fullvolume)) {
-										if (soundsOfP.get(p.getName()).contains(sounds.get(speakers.get(b.getLocation()).getSoundId()).getFile())) {
-											command.updateSpeakerVolume(p.getName(), sounds.get(speakers.get(b.getLocation()).getSoundId()).getFile(), fullvolume);
-										} else {
-											soundsOfP.get(p.getName()).add(sounds.get(speakers.get(b.getLocation()).getSoundId()).getFile());
-											command.playNewSpeaker(p.getName(), sounds.get(speakers.get(b.getLocation()).getSoundId()).getFile(), sounds.get(speakers.get(b.getLocation()).getSoundId()).getTime(), fullvolume);
+								Skull skull = (Skull)b.getState();					
+								try {
+									
+								
+									if (skull.getOwner().equalsIgnoreCase("OpenAudioMc") || speakers.get(b.getLocation()).getSoundId() != null) {
+										double dist = speakers.get(b.getLocation()).getLoc().distance(p.getLocation());
+										dist = dist * 100;
+										int a = (int) Math.round(dist);
+										a = a / 10;
+										int volume = 100 - a;
+										String fullvolume = volume+"";
+										fullvolume = fullvolume.replaceAll("-", "");
+										found = true;
+										if (volumes.get(p.getName()) == null || volumes.get(p.getName()) != Integer.parseInt(fullvolume)) {
+											if (soundsOfP.get(p.getName()).contains(sounds.get(speakers.get(b.getLocation()).getSoundId()).getFile())) {
+												command.updateSpeakerVolume(p.getName(), sounds.get(speakers.get(b.getLocation()).getSoundId()).getFile(), fullvolume);
+											} else {
+												soundsOfP.get(p.getName()).add(sounds.get(speakers.get(b.getLocation()).getSoundId()).getFile());
+												command.playNewSpeaker(p.getName(), sounds.get(speakers.get(b.getLocation()).getSoundId()).getFile(), sounds.get(speakers.get(b.getLocation()).getSoundId()).getTime(), fullvolume);
+											}
+											volumes.put(p.getName(), Integer.parseInt(fullvolume));
 										}
-										volumes.put(p.getName(), Integer.parseInt(fullvolume));
+										break;
 									}
-									break;
-								}			
+								} catch(NullPointerException e) {
+									
+								}
 							}
 						}
 						if (!found) {

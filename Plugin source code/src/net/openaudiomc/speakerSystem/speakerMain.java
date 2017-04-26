@@ -119,24 +119,30 @@ public class speakerMain {
 	public static void onBreak(BlockBreakEvent event) {
 		if (event.getBlock().getType() == Material.SKULL) {
 			Skull skull = (Skull)event.getBlock().getState();
-			if (skull.getOwner().equalsIgnoreCase("OpenAudioMc")) {
-				if (audioSpeakerManager.speakers.get(event.getBlock().getLocation()) != null) {
-					
-					String sound = audioSpeakerManager.sounds.get(audioSpeakerManager.speakers.get(event.getBlock().getLocation()).getSoundId()).getFile();
-					File speakerfile = new File("plugins/OpenAudio/speakers/speakers/"+event.getBlock().getLocation().getBlockX()+".0-"+event.getBlock().getLocation().getBlockY()+".0-"+event.getBlock().getLocation().getBlockZ()+".0.yml");
-					
-					audioSpeakerManager.speakers.remove(event.getBlock().getLocation());
-					
-					if (speakerfile.delete()) {
-						event.getPlayer().sendMessage(Main.prefix + ChatColor.GREEN + "Successfully removed speaker!");
+			try {
+
+			
+				if (skull.getOwner().equalsIgnoreCase("OpenAudioMc")) {
+					if (audioSpeakerManager.speakers.get(event.getBlock().getLocation()) != null) {
+						
+						String sound = audioSpeakerManager.sounds.get(audioSpeakerManager.speakers.get(event.getBlock().getLocation()).getSoundId()).getFile();
+						File speakerfile = new File("plugins/OpenAudio/speakers/speakers/"+event.getBlock().getLocation().getBlockX()+".0-"+event.getBlock().getLocation().getBlockY()+".0-"+event.getBlock().getLocation().getBlockZ()+".0.yml");
+						
+						audioSpeakerManager.speakers.remove(event.getBlock().getLocation());
+						
+						if (speakerfile.delete()) {
+							event.getPlayer().sendMessage(Main.prefix + ChatColor.GREEN + "Successfully removed speaker!");
+						} else {
+							event.getPlayer().sendMessage(Main.prefix + ChatColor.RED + "Failed to remove speaker!");
+							event.setCancelled(true);
+						}
+						
 					} else {
-						event.getPlayer().sendMessage(Main.prefix + ChatColor.RED + "Failed to remove speaker!");
-						event.setCancelled(true);
+						event.getPlayer().sendMessage(Main.prefix + ChatColor.RED + "Did not remove speaker, no sound assigned to this speaker.");
 					}
-					
-				} else {
-					event.getPlayer().sendMessage(Main.prefix + ChatColor.RED + "Did not remove speaker, no sound assigned to this speaker.");
 				}
+			} catch(NullPointerException e) {
+				
 			}
 		}
 	}
