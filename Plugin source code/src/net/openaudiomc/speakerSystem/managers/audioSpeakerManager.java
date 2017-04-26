@@ -56,6 +56,15 @@ public class audioSpeakerManager {
 		speakers.put(loc, newitem);
 	}
 	
+	public static void stopForPlayer(String name) {
+		try {
+			audioSpeakerManager.soundsOfP.get(name).clear();
+		} catch(NullPointerException e) {
+			//user has no speakers
+		}
+		command.stopAllSpeakers(name);
+	}
+	
 	@SuppressWarnings("deprecation")
 	public static void Init() {
 		timer = Bukkit.getScheduler().scheduleAsyncRepeatingTask(Main.getPL(), new Runnable() {

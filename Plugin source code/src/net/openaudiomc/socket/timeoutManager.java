@@ -37,8 +37,10 @@ public class timeoutManager implements Listener {
 			}
 		} else {
 			try {
-				Bukkit.getLogger().info("[OpenAudio] Reconnecting to the openaudiomc socket server.");
-				SocketioConnector.connect();
+				if (!ioconnected) {
+					Bukkit.getLogger().info("[OpenAudio] Reconnecting to the openaudiomc socket server.");
+					SocketioConnector.connect();
+				}
 			} catch (Exception e) {
 				Bukkit.getLogger().info("[OpenAudio] Failed to connect to the socket.io server, openaudio will not work correctly.");
 			}

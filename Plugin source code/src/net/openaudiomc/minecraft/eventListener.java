@@ -120,12 +120,8 @@ public class eventListener implements Listener{
 		if (player.isOnline()) {
 			Bukkit.getPlayer(connector).sendMessage(Messages.getColor("disconnect-message"));
 		}
-		try {
-			audioSpeakerManager.soundsOfP.get(event.getName()).clear();
-		} catch(NullPointerException e) {
-			//user has no speakers
-		}
-		command.stopAllSpeakers(event.getName());
+		
+		audioSpeakerManager.stopForPlayer(event.getName());
 		
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			if (spy.spyMap.get(p) != null) {
@@ -188,6 +184,8 @@ public class eventListener implements Listener{
     	command.stop(p.getName());
     	command.stopRegion(p.getName());
     	Emitter.offlineInServer(p.getName());
+    	audioSpeakerManager.stopForPlayer(event.getPlayer().getName());
+		
     	Main.getPL().getServer().getScheduler().scheduleAsyncDelayedTask(Main.getPL(), new Runnable() { public void run() {
     		timeoutManager.updateCounter();
     	} }, 5);
