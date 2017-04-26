@@ -262,7 +262,22 @@ function listSounds() {
 	var str = '';
 	for (var p in obj) {
 		if (obj.hasOwnProperty(p)) {
-			str += p + ",";
+			if (soundManager.getSoundById(p).metadata.speaker !== true) {
+				str += p + ",";
+			}
+		}
+	}
+	return str;
+}
+
+function listSpeakerSounds() {
+	var obj = soundManager.sounds;
+	var str = '';
+	for (var p in obj) {
+		if (obj.hasOwnProperty(p)) {
+			if (soundManager.getSoundById(p).metadata.speaker !== false) {
+				str += p + ",";
+			}
 		}
 	}
 	return str;
@@ -350,6 +365,43 @@ openaudio.decode = function(msg) {
 	} else if (request.command == "message") {
 		//Browser messages
 		openaudio.message(request.string);
+	} else if (request.command == "speaker") {
+		if (request.type == "add") {
+			
+			
+			
+			
+			
+			
+			
+			
+			if (request.src.includes("soundcloud.com")) {
+			var scurl = request.src;
+			getSoundcloud(scurl, function(newurl) {
+				openaudio.newspeaker(newurl, request.src, request.time, request.volume);
+			});
+		} else {
+			openaudio.newspeaker(request.src, request.src, request.time, request.volume);
+		}
+			
+			
+		} else if (request.type == "volume") {
+			for (var i = 0; i < listSpeakerSounds().split(',').length; i++) {
+			listSpeakerSounds().split(',')[i] = listSpeakerSounds().split(',')[i].replace(/^\s*/, "").replace(/\s*$/, "");
+				if (listSpeakerSounds().split(',')[i].indexOf(request.src) !== -1 && (listSpeakerSounds().split(',')[i].indexOf("speaker_") !== -1)) { 
+					fadeIdTargetSpeaker(listSpeakerSounds().split(',')[i],request.volume);
+				}
+			}
+		} else if (request.type == "stop") {
+			openaudio.removeSpeaker(request.src);
+		} else if (request.type == "stopall") {
+			for (var i = 0; i < listSpeakerSounds().split(',').length; i++) {
+			listSpeakerSounds().split(',')[i] = listSpeakerSounds().split(',')[i].replace(/^\s*/, "").replace(/\s*$/, "");
+				if ((listSpeakerSounds().split(',')[i].indexOf("speaker_") !== -1)) { 
+					soundManager.destroySound(listSpeakerSounds().split(',')[i]);
+				}
+			}
+		}
 	} else if (request.command == "skipto") {
 		//skip to
 		openaudio.skipTo(request.id, request.timeStamp);
@@ -474,6 +526,18 @@ openaudio.playAction = function(action_is_fnc) {
 }
 
 
+openaudio.setGlobalVolume = function(volume) {
+	for (var i = 0; i < listSounds().split(',').length; i++) {
+		listSounds().split(',')[i] = listSounds().split(',')[i].replace(/^\s*/, "").replace(/\s*$/, "");
+		try {
+			soundManager.getSoundById(listSounds().split(',')[i]).setVolume(volume);
+		} catch (e) {
+			//no sounds avalible
+		}	
+	}
+}
+
+
 
 openaudio.regionAction = function(action_is_fnc) {
 	for (var i = 0; i < listSounds().split(',').length; i++) {
@@ -528,6 +592,38 @@ openaudio.stopregion = function() {
 	openaudio.regionAction("stop");
 }
 
+openaudio.newspeaker = function(src_to_file, soundID, defaultTime, startingvoluem) {
+	var id = "speaker_" + Math.floor(Math.random() * 60) + 1 + "_" + soundID;
+	var soundId = "speaker";
+	if (isFading[soundId] === true) {
+		stopFading[soundId] = true;
+	}
+	var speakersound = soundManager.createSound({
+		id: id,
+		url: src_to_file,
+		volume: startingvoluem,
+		from: defaultTime*1000,
+		autoPlay: true,
+	});
+	function loopSound(sound) {
+		sound.play({
+			onfinish: function() {
+				loopSound(sound);
+			}
+		});
+	}
+	loopSound(speakersound);
+	soundManager.getSoundById(id).metadata.speaker = true;
+}
+
+openaudio.removeSpeaker = function(id) {
+	for (var i = 0; i < listSpeakerSounds().split(',').length; i++) {
+			listSpeakerSounds().split(',')[i] = listSpeakerSounds().split(',')[i].replace(/^\s*/, "").replace(/\s*$/, "");
+				if (listSpeakerSounds().split(',')[i].indexOf(ID) !== -1 && (listSpeakerSounds().split(',')[i].indexOf("speaker_") !== -1)) {
+					soundManager.destroySound(listSpeakerSounds().split(',')[i]);
+				}
+			}
+		}
 
 
 openaudio.play = function(src_fo_file, soundID, defaultTime) {
@@ -621,13 +717,13 @@ openaudio.set_volume = function(volume_var) {
 	volume_text = document.getElementById("volume");
 	if (volume_var > 100) {
 		document.getElementById("slider").value = 100;
-		soundManager.setVolume(100);
+		openaudio.setGlobalVolume(100);
 		document.getElementById("volumevalue").innerHTML = 100;
 		document.getElementById("volumevalue").style.left = 100 * 2.425 + 'px';
 		volume = 100;
 	} else if (volume_var < 0) {
 		document.getElementById("slider").value = 0;
-		soundManager.setVolume(0);
+		openaudio.setGlobalVolume(0);
 		volume = 0;
 		document.getElementById("volumevalue").innerHTML = 0;
 		document.getElementById("volumevalue").style.left = 0 * 2.425 + 'px';
@@ -636,7 +732,7 @@ openaudio.set_volume = function(volume_var) {
 		document.getElementById("volumevalue").innerHTML = volume_var;
 		document.getElementById("volumevalue").style.left = volume_var * 2.425 + 'px';
 		volume = volume_var;
-		soundManager.setVolume(volume_var);
+		openaudio.setGlobalVolume(volume_var);
 	}
 }
 
@@ -645,16 +741,16 @@ openaudio.set_volume = function(volume_var) {
 openaudio.set_volume2 = function(volume_var) {
 	if (volume_var > 100) {
 		document.getElementById("slider").value = 100;
-		soundManager.setVolume(100);
+		openaudio.setGlobalVolume(100);
 		volume = 100;
 	} else if (volume_var < 0) {
 		document.getElementById("slider").value = 0;
-		soundManager.setVolume(0);
+		openaudio.setGlobalVolume(0);
 		volume = 0;
 	} else {
 		document.getElementById("slider").value = volume_var;
 		volume = volume_var;
-		soundManager.setVolume(volume_var);
+		openaudio.setGlobalVolume(volume_var);
 	}
 }
 
@@ -808,12 +904,12 @@ $(document).ready(function() {
 		var x = document.createElement("INPUT");
 		x.setAttribute("type", "range");
 		document.body.appendChild(x);
-		x.id = soundId + "_Slider_type_2";
+		x.id = soundId.replace(/\./g,'oapoint').replace(/\:/g,'oadubblepoint').replace(/\//g,'oaslash') + "_Slider_type_2";
 		x.min = 0;
 		x.max = 100;
 		x.value = volume;
 		x.style = "display:none;";
-		var backAudio = $('#' + soundId + "_Slider_type_2");
+		var backAudio = $('#' + soundId.replace(/\./g,'oapoint').replace(/\:/g,'oadubblepoint').replace(/\//g,'oaslash') + "_Slider_type_2");
 		document.getElementById('faders').appendChild(x);
 
 		if (FadeEnabled) {
@@ -824,18 +920,97 @@ $(document).ready(function() {
 				duration: 1000,
 				step: function(currentLeft, animProperties) {
 					if (stopFading[soundId + "_Slider_type_2"] !== true) {
-						soundManager.setVolume(soundId, currentLeft);
+						soundManager.setVolume(soundId.replace(/\oapoint/g,'.').replace(/\oadubblepoint/g,':').replace(/\oaslas/g,'/'), currentLeft);
 					}
 				},
 				done: function() {
 					isFading[soundId] = false;
 					stopFading[soundId] = false;
-					soundManager.setVolume(soundId, volumeTarget);
+					soundManager.setVolume(soundId.replace(/\oapoint/g,'.').replace(/\oadubblepoint/g,':').replace(/\oaslas/g,'/'), volumeTarget);
 					x.remove();
 				}
 			});
 		} else {
-			soundManager.setVolume(soundId, volumeTarget);
+			soundManager.setVolume(soundId.replace(/\oapoint/g,'.').replace(/\oadubblepoint/g,':').replace(/\oaslas/g,'/'), volumeTarget);
+			x.remove();
+		}
+	}
+	
+	window.fadeIdOutWithSpeaker = function(soundId) {
+		var x = document.createElement("INPUT");
+		x.setAttribute("type", "range");
+		document.body.appendChild(x);
+		x.id = soundId.replace(/\./g,'oapoint').replace(/\:/g,'oadubblepoint').replace(/\//g,'oaslash') + "_Slider_type_2";
+		x.min = 0;
+		x.max = 100;
+		x.value = volume;
+		x.style = "display:none;";
+		var backAudio = $('#' + soundId.replace(/\./g,'oapoint').replace(/\:/g,'oadubblepoint').replace(/\//g,'oaslash') + "_Slider_type_2");
+		document.getElementById('faders').appendChild(x);
+
+		if (FadeEnabled) {
+			isFading[soundId] = true;
+			backAudio.animate({
+				value: 0
+			}, {
+				duration: 100,
+				step: function(currentLeft, animProperties) {
+					//call event when a sound started
+					if (stopFading[soundId] !== true) {
+						try {
+						soundManager.setVolume(soundId.replace(/\oapoint/g,'.').replace(/\oadubblepoint/g,':').replace(/\oaslas/g,'/'), currentLeft);} catch (e) {}
+					}
+				},
+				done: function() {
+					if (stopFading[soundId] !== true) {
+							try {soundManager.stop(soundId);
+						soundManager.destroySound(soundId.replace(/\oapoint/g,'.').replace(/\oadubblepoint/g,':').replace(/\oaslas/g,'/'));} catch (e) {}
+					}
+					isFading[soundId] = false;
+					stopFading[soundId] = false;
+					x.remove();
+				}
+			});
+		} else {
+			try {	soundManager.stop(soundId.replace(/\oapoint/g,'.').replace(/\oadubblepoint/g,':').replace(/\oaslas/g,'/'));
+			soundManager.destroySound(soundId.replace(/\oapoint/g,'.').replace(/\oadubblepoint/g,':').replace(/\oaslas/g,'/'));} catch (e) {}
+			x.remove();
+		}
+	}
+	
+	
+	window.fadeIdTargetSpeaker = function(soundId, volumeTarget) {
+		var x = document.createElement("INPUT");
+		x.setAttribute("type", "range");
+		document.body.appendChild(x);
+		x.id = soundId.replace(/\./g,'oapoint').replace(/\:/g,'oadubblepoint').replace(/\//g,'oaslash') + "_Slider_type_2";
+		x.min = 0;
+		x.max = 100;
+		x.value = soundManager.getSoundById(soundId).volume;
+		x.style = "display:none;";
+		var backAudio = $('#' + soundId.replace(/\./g,'oapoint').replace(/\:/g,'oadubblepoint').replace(/\//g,'oaslash') + "_Slider_type_2");
+		document.getElementById('faders').appendChild(x);
+
+		if (FadeEnabled) {
+			isFading[soundId] = true;
+			backAudio.animate({
+				value: volumeTarget
+			}, {
+				duration: 500,
+				step: function(currentLeft, animProperties) {
+					if (stopFading[soundId + "_Slider_type_2"] !== true) {
+						soundManager.setVolume(soundId.replace(/\oapoint/g,'.').replace(/\oadubblepoint/g,':').replace(/\oaslas/g,'/'), currentLeft);
+					}
+				},
+				done: function() {
+					isFading[soundId] = false;
+					stopFading[soundId] = false;
+					soundManager.setVolume(soundId.replace(/\oapoint/g,'.').replace(/\oadubblepoint/g,':').replace(/\oaslas/g,'/'), volumeTarget);
+					x.remove();
+				}
+			});
+		} else {
+			soundManager.setVolume(soundId.replace(/\oapoint/g,'.').replace(/\oadubblepoint/g,':').replace(/\oaslas/g,'/'), volumeTarget);
 			x.remove();
 		}
 	}
@@ -1368,3 +1543,4 @@ function trayItem(icon, callback) {
 		this.li.remove();
 	}
 }
+
