@@ -146,19 +146,17 @@ public class speakerMain {
 			Skull skull = (Skull)event.getBlock().getState();
 			if (skull.getOwner().equalsIgnoreCase("OpenAudioMc")) {
 				if (placer.get(event.getPlayer()) != null && placer.get(event.getPlayer()) != "olditem") {
-					event.getPlayer().sendMessage(Main.prefix + "Creating speaker...");
 					
 					
 					
 					if (audioSpeakerManager.sounds.get(placer.get(event.getPlayer())) == null) {
-						event.getPlayer().sendMessage(Main.prefix + "Creating sound...");
 						saveSound(placer.get(event.getPlayer()));
 						audioSpeakerManager.createSound(placer.get(event.getPlayer()) + "_sound", placer.get(event.getPlayer()));
 					}
 					
 					saveSpeaker(placer.get(event.getPlayer()), event.getBlock().getLocation().getWorld().getName(), event.getBlock().getLocation().getX(), event.getBlock().getLocation().getY(), event.getBlock().getLocation().getZ());
 					
-					event.getPlayer().sendMessage(Main.prefix + "Created speaker on X:"+event.getBlock().getLocation().getBlockX()+" Y:"+event.getBlock().getLocation().getBlockY()+" Z:"+event.getBlock().getLocation().getBlockZ()+".");
+					event.getPlayer().sendMessage(Main.prefix + ChatColor.GREEN +"Created speaker on X:"+event.getBlock().getLocation().getBlockX()+" Y:"+event.getBlock().getLocation().getBlockY()+" Z:"+event.getBlock().getLocation().getBlockZ()+".");
 					
 					audioSpeakerManager.createSpeaker(placer.get(event.getPlayer()) + "_speaker", placer.get(event.getPlayer())+"_sound", new Location(event.getBlock().getLocation().getWorld(), event.getBlock().getLocation().getX(), event.getBlock().getLocation().getY(), event.getBlock().getLocation().getZ()));
 					
