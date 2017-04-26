@@ -54,6 +54,9 @@ public class AdminCommands implements CommandExecutor {
                                 	
                                 	String admin_help = "/openaudio help modding";
                                 	String adminHelpMessage = ChatColor.translateAlternateColorCodes('&', "&c&l(Click here)&r&3 for help with modding your client.");
+
+                                	String speaker_help = "/openaudio help speaker";
+                                	String speakerHelpMessage = ChatColor.translateAlternateColorCodes('&', "&c&l(Click here)&r&3 for help with the speaker system.");
                                 	
                                 	
                                 	
@@ -76,6 +79,9 @@ public class AdminCommands implements CommandExecutor {
                         			
                         			String command5 = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + userHelpMessage + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + uers_help +"\"}}]" + "";
                         			Bukkit.dispatchCommand(console, command5);
+                        			
+                        			String command7 = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + speakerHelpMessage + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + speaker_help +"\"}}]" + "";
+                        			Bukkit.dispatchCommand(console, command7);
                                 } else if (args[1].equalsIgnoreCase("audio")) {
                                     //help 2
                                 	sender.sendMessage(" ");
@@ -219,6 +225,27 @@ public class AdminCommands implements CommandExecutor {
                                 	sender.sendMessage(" ");
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.prefix + "Help menu / &lModding"));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&lhttps://plus.openaudiomc.net&r&a Please visit openaudioplus to mod your client."));
+                                } else if (args[1].equalsIgnoreCase("speaker")) {
+                                    //help 2
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(" ");
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.prefix + "Help menu / &lSpeakers"));
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio speaker add <url>&r&a Get a speaker, just place it and you are good to go."));
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&lHow to remove a speaker?&r&a Just break the speaker skull."));
                                 } else {
                                 	sender.sendMessage(Main.prefix + "Invalid help page.");
                                 }
@@ -301,6 +328,8 @@ public class AdminCommands implements CommandExecutor {
                             			sender.sendMessage(Main.prefix + "You received a speaker! place it anywhere you'd like (you can remove it at any time)");
                             			speakerMain.giveSpeaker((Player) sender, args[2]);
                             		}
+                            	} else {
+                            		sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio speaker add <url>");
                             	}
                             }
                             else if (args[0].equalsIgnoreCase("region"))

@@ -82,8 +82,6 @@ public class audioSpeakerManager {
 							if (b.getType() == Material.SKULL) {
 								Skull skull = (Skull)b.getState();					
 								try {
-									
-								
 									if (skull.getOwner().equalsIgnoreCase("OpenAudioMc") || speakers.get(b.getLocation()).getSoundId() != null) {
 										double dist = speakers.get(b.getLocation()).getLoc().distance(p.getLocation());
 										dist = dist * 100;
