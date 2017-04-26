@@ -13,6 +13,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Skull;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 
 import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
@@ -71,6 +73,26 @@ public class audioSpeakerManager {
 		Bukkit.getScheduler().cancelTask(timer);
 	}
 	
+	public static void prosessSpeaker(Player p, Skull skull, Block b) {
+		double dist = speakers.get(b.getLocation()).getLoc().distance(p.getLocation());
+		dist = dist * 100;
+		int a = (int) Math.round(dist);
+		a = a / 10;
+		int volume = 100 - a;
+		String fullvolume = volume+"";
+		fullvolume = fullvolume.replaceAll("-", "");
+		
+		if (volumes.get(p.getName()) == null || volumes.get(p.getName()) != Integer.parseInt(fullvolume)) {
+			if (soundsOfP.get(p.getName()).contains(sounds.get(speakers.get(b.getLocation()).getSoundId()).getFile())) {
+				command.updateSpeakerVolume(p.getName(), sounds.get(speakers.get(b.getLocation()).getSoundId()).getFile(), fullvolume);
+			} else {
+				soundsOfP.get(p.getName()).add(sounds.get(speakers.get(b.getLocation()).getSoundId()).getFile());
+				command.playNewSpeaker(p.getName(), sounds.get(speakers.get(b.getLocation()).getSoundId()).getFile(), sounds.get(speakers.get(b.getLocation()).getSoundId()).getTime(), fullvolume);
+			}
+			volumes.put(p.getName(), Integer.parseInt(fullvolume));
+		}
+	}
+	
 	@SuppressWarnings("deprecation")
 	public static void Init() {
 		running = true;
@@ -85,33 +107,25 @@ public class audioSpeakerManager {
 							soundsOfP.put(p.getName(), list);
 						}
 						Boolean found = false;
+						double highest = 0;
+						Block selectedblockl = null;
+						Skull selectedskull = null;
+						Integer iterations = 0;
 						for (Block b : getNearbyBlocks(p.getLocation(), 10)) {
 							if (b.getType() == Material.SKULL) {
 								Skull skull = (Skull)b.getState();					
 								try {
 									if (skull.getOwner().equalsIgnoreCase("OpenAudioMc") || speakers.get(b.getLocation()).getSoundId() != null) {
-										double dist = speakers.get(b.getLocation()).getLoc().distance(p.getLocation());
-										dist = dist * 100;
-										int a = (int) Math.round(dist);
-										a = a / 10;
-										int volume = 100 - a;
-										String fullvolume = volume+"";
-										fullvolume = fullvolume.replaceAll("-", "");
-										found = true;
-										if (volumes.get(p.getName()) == null || volumes.get(p.getName()) != Integer.parseInt(fullvolume)) {
-											if (soundsOfP.get(p.getName()).contains(sounds.get(speakers.get(b.getLocation()).getSoundId()).getFile())) {
-												command.updateSpeakerVolume(p.getName(), sounds.get(speakers.get(b.getLocation()).getSoundId()).getFile(), fullvolume);
-											} else {
-												soundsOfP.get(p.getName()).add(sounds.get(speakers.get(b.getLocation()).getSoundId()).getFile());
-												command.playNewSpeaker(p.getName(), sounds.get(speakers.get(b.getLocation()).getSoundId()).getFile(), sounds.get(speakers.get(b.getLocation()).getSoundId()).getTime(), fullvolume);
-											}
-											volumes.put(p.getName(), Integer.parseInt(fullvolume));
+										if (Math.abs(speakers.get(b.getLocation()).getLoc().distance(p.getLocation())) < highest || iterations == 0) {
+											found = true;
+											iterations++;
+											Bukkit.broadcastMessage("Found in " + iterations);
+											highest = Math.abs(speakers.get(b.getLocation()).getLoc().distance(p.getLocation()));
+											selectedskull = skull;
+											selectedblockl = b;
 										}
-										break;
 									}
-								} catch(NullPointerException e) {
-									
-								}
+								} catch(NullPointerException e) {}
 							}
 						}
 						if (!found) {
@@ -120,11 +134,15 @@ public class audioSpeakerManager {
 								soundsOfP.get(p.getName()).clear();
 								command.stopAllSpeakers(p.getName());
 							}
+						} else {
+							@SuppressWarnings("unused")
+							Firework fw = (Firework) (selectedblockl.getLocation().getWorld().spawnEntity(selectedblockl.getLocation(), EntityType.FIREWORK));
+							prosessSpeaker(p, selectedskull, selectedblockl);
 						}
 					}
 				}
 		    }
-		}, 0, 20);
+		}, 0, 10);
 	}
 	
 	public static List<Block> getNearbyBlocks(Location location, int radius) {
