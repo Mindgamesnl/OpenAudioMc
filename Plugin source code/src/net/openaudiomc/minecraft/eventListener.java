@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -119,8 +120,11 @@ public class eventListener implements Listener{
 		if (player.isOnline()) {
 			Bukkit.getPlayer(connector).sendMessage(Messages.getColor("disconnect-message"));
 		}
-		
-		audioSpeakerManager.soundsOfP.get(event.getName()).clear();
+		try {
+			audioSpeakerManager.soundsOfP.get(event.getName()).clear();
+		} catch(NullPointerException e) {
+			//user has no speakers
+		}
 		command.stopAllSpeakers(event.getName());
 		
 		for (Player p : Bukkit.getOnlinePlayers()) {
@@ -170,6 +174,11 @@ public class eventListener implements Listener{
     @EventHandler
 	 public void onBlockPlaceEvent(BlockPlaceEvent event){
     	speakerMain.onPlace(event);
+	 }
+    
+    @EventHandler
+	 public void BlockBreakEvent(BlockBreakEvent event){
+    	speakerMain.onBreak(event);
 	 }
     
     

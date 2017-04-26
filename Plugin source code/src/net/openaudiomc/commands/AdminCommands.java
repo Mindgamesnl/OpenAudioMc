@@ -298,6 +298,7 @@ public class AdminCommands implements CommandExecutor {
                             {
                             	if (args.length == 3) {
                             		if (args[1].equalsIgnoreCase("add")) {
+                            			sender.sendMessage(Main.prefix + "You received a speaker! place it anywhere you'd like (you can remove it at any time)");
                             			speakerMain.giveSpeaker((Player) sender, args[2]);
                             		}
                             	}

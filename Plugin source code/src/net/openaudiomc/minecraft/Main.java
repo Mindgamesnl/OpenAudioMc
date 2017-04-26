@@ -31,6 +31,7 @@ import net.openaudiomc.commands.volumeCommand;
 import net.openaudiomc.files.Messages;
 import net.openaudiomc.files.modManager;
 import net.openaudiomc.internal.events.SkriptRegistration;
+import net.openaudiomc.speakerSystem.speakerMain;
 import net.openaudiomc.speakerSystem.managers.audioSpeakerManager;
 
 public class Main extends JavaPlugin implements Listener{
@@ -101,17 +102,9 @@ public class Main extends JavaPlugin implements Listener{
 		
 		timeoutManager.updateCounter();
 		
-		audioSpeakerManager.createSound("testskullsound2", "https://craftmend.com/api_SSL/openaudio/demo_playlist/2.mp3");
-		audioSpeakerManager.createSpeaker("testskullspeaker2", "testskullsound2", new Location(Bukkit.getWorld("test"), 92, 53, 210));
+		speakerMain.loadSounds();
+		speakerMain.loadSpeaker();
 		
-		audioSpeakerManager.createSound("aquaskull", "http://test.craftmendserver.com/2.mp3");
-		audioSpeakerManager.createSpeaker("aquaspeaker", "aquaskull", new Location(Bukkit.getWorld("test"), 92, 53, 190));
-		audioSpeakerManager.createSpeaker("aquaspeaker", "aquaskull", new Location(Bukkit.getWorld("test"), 92, 53, 185));
-		audioSpeakerManager.createSpeaker("aquaspeaker", "aquaskull", new Location(Bukkit.getWorld("test"), 87, 53, 185));
-		audioSpeakerManager.createSpeaker("aquaspeaker", "aquaskull", new Location(Bukkit.getWorld("test"), 87, 53, 189));
-		audioSpeakerManager.createSpeaker("aquaspeaker", "aquaskull", new Location(Bukkit.getWorld("test"), 82, 53, 189));
-		audioSpeakerManager.createSpeaker("aquaspeaker", "aquaskull", new Location(Bukkit.getWorld("test"), 82, 53, 185));
-		audioSpeakerManager.createSpeaker("aquaspeaker", "aquaskull", new Location(Bukkit.getWorld("test"), 78, 53, 185));
 		audioSpeakerManager.Init();
 
 	}	
