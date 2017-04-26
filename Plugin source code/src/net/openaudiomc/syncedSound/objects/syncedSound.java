@@ -1,4 +1,4 @@
-package net.openaudiomc.objects;
+package net.openaudiomc.syncedSound.objects;
 
 import java.text.DateFormat;
 import java.text.ParseException;

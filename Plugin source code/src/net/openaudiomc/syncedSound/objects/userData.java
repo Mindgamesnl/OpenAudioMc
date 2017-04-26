@@ -1,4 +1,4 @@
-package net.openaudiomc.objects;
+package net.openaudiomc.syncedSound.objects;
 
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
@@ -6,7 +6,7 @@ import java.util.ConcurrentModificationException;
 import net.openaudiomc.actions.command;
 import org.bukkit.entity.Player;
 
-import net.openaudiomc.managers.syncedSoundManager;
+import net.openaudiomc.syncedSound.managers.syncedSoundManager;
 
 public class userData {
 

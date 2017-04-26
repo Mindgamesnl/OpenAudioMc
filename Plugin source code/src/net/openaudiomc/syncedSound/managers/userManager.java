@@ -1,10 +1,10 @@
-package net.openaudiomc.managers;
+package net.openaudiomc.syncedSound.managers;
 
 import java.util.HashMap;
 
 import org.bukkit.entity.Player;
 
-import net.openaudiomc.objects.userData;
+import net.openaudiomc.syncedSound.objects.userData;
 
 public class userManager {
 	

@@ -18,9 +18,10 @@ import net.openaudiomc.minecraft.Main;
 import net.openaudiomc.minecraft.getdDep;
 import net.openaudiomc.oauth.oauthConnector;
 import net.openaudiomc.regions.regionCrap;
-import net.openaudiomc.objects.syncedSound;
-import net.openaudiomc.managers.syncedSoundManager;
-import net.openaudiomc.managers.userManager;
+import net.openaudiomc.speakerSystem.speakerMain;
+import net.openaudiomc.syncedSound.objects.syncedSound;
+import net.openaudiomc.syncedSound.managers.syncedSoundManager;
+import net.openaudiomc.syncedSound.managers.userManager;
 
 public class AdminCommands implements CommandExecutor {
     //Main
@@ -291,6 +292,14 @@ public class AdminCommands implements CommandExecutor {
                             		}
                             	} else {
                             		sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio loop <mc name> <url>");
+                            	}
+                            }
+                            else if (args[0].equalsIgnoreCase("speaker"))
+                            {
+                            	if (args.length == 3) {
+                            		if (args[1].equalsIgnoreCase("add")) {
+                            			speakerMain.giveSpeaker((Player) sender, args[2]);
+                            		}
                             	}
                             }
                             else if (args[0].equalsIgnoreCase("region"))

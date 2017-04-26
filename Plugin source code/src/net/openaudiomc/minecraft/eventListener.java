@@ -11,6 +11,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -28,10 +29,13 @@ import net.openaudiomc.internal.events.SocketDisconnectEvent;
 import net.openaudiomc.internal.events.SocketUserConnectEvent;
 import net.openaudiomc.internal.events.SocketUserDisconnectEvent;
 import net.openaudiomc.internal.events.SocketWhisperEvent;
-import net.openaudiomc.managers.userManager;
+import net.openaudiomc.syncedSound.managers.userManager;
 import net.openaudiomc.players.Sessions;
 import net.openaudiomc.regions.regionCrap;
 import net.openaudiomc.socket.Emitter;
+import net.openaudiomc.socket.timeoutManager;
+import net.openaudiomc.speakerSystem.speakerMain;
+import net.openaudiomc.speakerSystem.managers.audioSpeakerManager;
 
 public class eventListener implements Listener{    
     
@@ -116,6 +120,9 @@ public class eventListener implements Listener{
 			Bukkit.getPlayer(connector).sendMessage(Messages.getColor("disconnect-message"));
 		}
 		
+		audioSpeakerManager.soundsOfP.get(event.getName()).clear();
+		command.stopAllSpeakers(event.getName());
+		
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			if (spy.spyMap.get(p) != null) {
 				if (spy.spyMap.get(p)) {
@@ -142,6 +149,7 @@ public class eventListener implements Listener{
     @EventHandler
 	  public void onPlayerJoin(final PlayerJoinEvent event) {
     	//delay for if the player joined via bungee
+    	timeoutManager.updateCounter();
     	Main.getPL().getServer().getScheduler().scheduleSyncDelayedTask(Main.getPL(), new Runnable() { public void run() {
     		Emitter.connectedInServer(event.getPlayer().getName());
     		userManager.addPlayer(event.getPlayer());
@@ -159,6 +167,11 @@ public class eventListener implements Listener{
     	} }, 20);
     }
     
+    @EventHandler
+	 public void onBlockPlaceEvent(BlockPlaceEvent event){
+    	speakerMain.onPlace(event);
+	 }
+    
     
     @EventHandler
 	  public void onPlayerQuit(PlayerQuitEvent event) {
@@ -166,6 +179,9 @@ public class eventListener implements Listener{
     	command.stop(p.getName());
     	command.stopRegion(p.getName());
     	Emitter.offlineInServer(p.getName());
+    	Main.getPL().getServer().getScheduler().scheduleAsyncDelayedTask(Main.getPL(), new Runnable() { public void run() {
+    		timeoutManager.updateCounter();
+    	} }, 5);
     }
     
     

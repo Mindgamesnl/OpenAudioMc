@@ -1,4 +1,4 @@
-package net.openaudiomc.objects;
+package net.openaudiomc.speakerSystem.objects;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -20,32 +20,14 @@ public class audioSpeakerSound {
 	HashMap<String, ArmorStand> standList;
 	String source;
 	long duration;
-	long thisint;
 	Integer schedule;
 	Integer timestamp;
 	
-	public audioSpeakerSound(String file) {
+	public audioSpeakerSound(String file, long seconds) {
 		this.source = file;
 		this.timestamp = 0;
-		updateDuration();
+		this.duration = seconds;
 		startRun();
-	}
-	
-	//life cycle
-	void updateDuration() {
-		Callbacknoreturn<String> callback = new Callbacknoreturn<String>() {
-		    public void execute(String b) {
-		    	try {
-			    	DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-				    Date reference = dateFormat.parse("00:00:00");
-				    Date date = dateFormat.parse(b);
-				    long seconds = (date.getTime() - reference.getTime()) / 1000L;
-				    thisint = seconds;
-		    	} catch (ParseException e) {}
-		    }
-		};
-		this.duration = thisint;
-		webUtils.asyncHttpRequestNoReturn("http://api.openaudiomc.net/plugin/mp3_info.php?s=" + this.source, callback);
 	}
 	
 	void repeat() {

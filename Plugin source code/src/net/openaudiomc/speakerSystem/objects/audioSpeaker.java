@@ -1,5 +1,6 @@
-package net.openaudiomc.objects;
+package net.openaudiomc.speakerSystem.objects;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 /**
@@ -12,6 +13,7 @@ public class audioSpeaker {
 	String soundid;
 	
     public audioSpeaker(String id, Location loc, String sid) {
+    	System.out.println("New speaker. ID:"+sid + " BLOCK:"+loc.getBlock().getType());
     	this.id = id;
     	this.location = loc;
     	this.soundid = sid;

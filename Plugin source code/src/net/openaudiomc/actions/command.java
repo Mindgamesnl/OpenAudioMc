@@ -377,6 +377,36 @@ public class command {
         String command = obj.toString();
         Emitter.EmitToPlayer(name, getCleanURL(command));
     }
+    
+    public static void playNewSpeaker(String name, String src, long l, String fullvolume) {
+        JSONObject obj = new JSONObject();
+        obj.put("command", "speaker");
+        obj.put("type", "add");
+        obj.put("src", src);
+        obj.put("time", l);
+        obj.put("volume", fullvolume);
+        String command = obj.toString();
+        Emitter.EmitToPlayer(name, getCleanURL(command));
+    }
+    
+    public static void updateSpeakerVolume(String name, String src, String fullvolume) {
+        JSONObject obj = new JSONObject();
+        obj.put("command", "speaker");
+        obj.put("type", "volume");
+        obj.put("src", src);
+
+        obj.put("volume", fullvolume);
+        String command = obj.toString();
+        Emitter.EmitToPlayer(name, getCleanURL(command));
+    }
+    
+    public static void stopAllSpeakers(String name) {
+        JSONObject obj = new JSONObject();
+        obj.put("command", "speaker");
+        obj.put("type", "stopall");
+        String command = obj.toString();
+        Emitter.EmitToPlayer(name, getCleanURL(command));
+    }
 	
 	/**
 	 * Gets the clean URL.

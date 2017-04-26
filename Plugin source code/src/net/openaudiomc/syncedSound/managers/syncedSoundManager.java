@@ -1,4 +1,4 @@
-package net.openaudiomc.managers;
+package net.openaudiomc.syncedSound.managers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,7 +8,7 @@ import java.util.Random;
 import org.bukkit.Bukkit;
 
 import net.openaudiomc.minecraft.Main;
-import net.openaudiomc.objects.syncedSound;
+import net.openaudiomc.syncedSound.objects.syncedSound;
 import net.openaudiomc.utils.webUtils;
 import net.openaudiomc.utils.callback.Callback;
 
