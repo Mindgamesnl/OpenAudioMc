@@ -8,7 +8,6 @@ import org.bukkit.event.Listener;
 import net.openaudiomc.internal.events.SocketConnectEvent;
 import net.openaudiomc.internal.events.SocketDisconnectEvent;
 
-import net.openaudiomc.socket.SocketioConnector;
 
 public class timeoutManager implements Listener {
 	

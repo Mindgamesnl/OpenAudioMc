@@ -24,9 +24,14 @@
       <file leaf-file-name="audioSpeakerManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/net/openaudiomc/speakerSystem/managers/audioSpeakerManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="82" column="80" lean-forward="false" selection-start-line="82" selection-start-column="80" selection-end-line="82" selection-end-column="80" />
-              <folding />
+            <state relative-caret-position="1173">
+              <caret line="90" column="80" lean-forward="false" selection-start-line="90" selection-start-column="80" selection-end-line="90" selection-end-column="80" />
+              <folding>
+                <marker date="1493209279096" expanded="true" signature="4192:4449" ph="{...}" />
+                <marker date="1493209279096" expanded="true" signature="4192:4453" ph="{...}" />
+                <marker date="1493209279096" expanded="true" signature="4192:4465" ph="{...}" />
+                <marker date="1493209279096" expanded="true" signature="4542:5033" ph="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -36,16 +41,27 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="119">
               <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-              <folding />
+              <folding>
+                <marker date="1493198125821" expanded="false" signature="3419:3425" ph=" }" />
+                <marker date="1493198125821" expanded="true" signature="3466:3588" ph="{...}" />
+                <marker date="1493198125821" expanded="true" signature="3632:3757" ph="{...}" />
+                <marker date="1493198125821" expanded="true" signature="3807:4086" ph="{...}" />
+                <marker date="1493198125821" expanded="true" signature="4137:4417" ph="{...}" />
+                <marker date="1493198125821" expanded="true" signature="4471:4604" ph="{...}" />
+                <marker date="1493198125821" expanded="true" signature="4661:4787" ph="{...}" />
+                <marker date="1493198125821" expanded="true" signature="4891:5329" ph="{...}" />
+                <marker date="1493198125821" expanded="true" signature="4970:5053" ph="{...}" />
+                <marker date="1493198125821" expanded="true" signature="5414:5525" ph="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="timeoutManager.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="timeoutManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/net/openaudiomc/socket/timeoutManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="48" lean-forward="false" selection-start-line="8" selection-start-column="48" selection-end-line="8" selection-end-column="48" />
+            <state relative-caret-position="204">
+              <caret line="14" column="39" lean-forward="true" selection-start-line="14" selection-start-column="39" selection-end-line="14" selection-end-column="39" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -56,9 +72,18 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/net/openaudiomc/minecraft/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="67" column="12" lean-forward="false" selection-start-line="67" selection-start-column="12" selection-end-line="67" selection-end-column="63" />
-              <folding />
+            <state relative-caret-position="646">
+              <caret line="67" column="8" lean-forward="false" selection-start-line="67" selection-start-column="8" selection-end-line="67" selection-end-column="8" />
+              <folding>
+                <marker date="1493205409634" expanded="true" signature="3302:3336" ph="{...}" />
+                <marker date="1493205409634" expanded="true" signature="3432:6857" ph="{...}" />
+                <marker date="1493205409634" expanded="true" signature="6893:7459" ph="{...}" />
+                <marker date="1493205409634" expanded="true" signature="7492:8109" ph="{...}" />
+                <marker date="1493205409634" expanded="true" signature="8142:9000" ph="{...}" />
+                <marker date="1493205409634" expanded="true" signature="9035:9863" ph="{...}" />
+                <marker date="1493205409634" expanded="true" signature="9898:10764" ph="{...}" />
+                <marker date="1493205409634" expanded="true" signature="10797:11666" ph="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -83,11 +108,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="speakerMain.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="speakerMain.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/net/openaudiomc/speakerSystem/speakerMain.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="26" lean-forward="false" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
+            <state relative-caret-position="405">
+              <caret line="122" column="0" lean-forward="false" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -149,10 +174,10 @@
         <option value="$PROJECT_DIR$/src/net/openaudiomc/objects/audioSpeakerSound.java" />
         <option value="$PROJECT_DIR$/src/net/openaudiomc/speakerSystem/managers/audioSpeakerManager.java" />
         <option value="$PROJECT_DIR$/src/net/openaudiomc/speakerSystem/objects/audioSpeakerSound.java" />
-        <option value="$PROJECT_DIR$/src/net/openaudiomc/speakerSystem/speakerMain.java" />
         <option value="$PROJECT_DIR$/src/net/openaudiomc/syncedSound/managers/syncedSoundManager.java" />
         <option value="$PROJECT_DIR$/src/net/openaudiomc/socket/SocketioConnector.java" />
         <option value="$PROJECT_DIR$/src/net/openaudiomc/socket/timeoutManager.java" />
+        <option value="$PROJECT_DIR$/src/net/openaudiomc/speakerSystem/speakerMain.java" />
       </list>
     </option>
   </component>
@@ -202,7 +227,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -420,7 +445,7 @@
         </subPane>
       </pane>
       <pane id="Scratches" />
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -738,7 +763,6 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1734375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -750,6 +774,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -783,9 +808,113 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/net/openaudiomc/speakerSystem/managers/audioSpeakerManager.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1037">
+          <caret line="82" column="80" lean-forward="false" selection-start-line="82" selection-start-column="80" selection-end-line="82" selection-end-column="80" />
+          <folding>
+            <marker date="1493209279096" expanded="true" signature="4192:4449" ph="{...}" />
+            <marker date="1493209279096" expanded="true" signature="4192:4453" ph="{...}" />
+            <marker date="1493209279096" expanded="true" signature="4192:4465" ph="{...}" />
+            <marker date="1493209279096" expanded="true" signature="4542:5033" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/openaudiomc/socket/SocketioConnector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+          <folding>
+            <marker date="1493198125821" expanded="false" signature="3419:3425" ph=" }" />
+            <marker date="1493198125821" expanded="true" signature="3466:3588" ph="{...}" />
+            <marker date="1493198125821" expanded="true" signature="3632:3757" ph="{...}" />
+            <marker date="1493198125821" expanded="true" signature="3807:4086" ph="{...}" />
+            <marker date="1493198125821" expanded="true" signature="4137:4417" ph="{...}" />
+            <marker date="1493198125821" expanded="true" signature="4471:4604" ph="{...}" />
+            <marker date="1493198125821" expanded="true" signature="4661:4787" ph="{...}" />
+            <marker date="1493198125821" expanded="true" signature="4891:5329" ph="{...}" />
+            <marker date="1493198125821" expanded="true" signature="4970:5053" ph="{...}" />
+            <marker date="1493198125821" expanded="true" signature="5414:5525" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/openaudiomc/minecraft/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="67" column="12" lean-forward="false" selection-start-line="67" selection-start-column="12" selection-end-line="67" selection-end-column="63" />
+          <folding>
+            <marker date="1493205409634" expanded="true" signature="3302:3336" ph="{...}" />
+            <marker date="1493205409634" expanded="true" signature="3432:6857" ph="{...}" />
+            <marker date="1493205409634" expanded="true" signature="6893:7459" ph="{...}" />
+            <marker date="1493205409634" expanded="true" signature="7492:8109" ph="{...}" />
+            <marker date="1493205409634" expanded="true" signature="8142:9000" ph="{...}" />
+            <marker date="1493205409634" expanded="true" signature="9035:9863" ph="{...}" />
+            <marker date="1493205409634" expanded="true" signature="9898:10764" ph="{...}" />
+            <marker date="1493205409634" expanded="true" signature="10797:11666" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/openaudiomc/speakerSystem/objects/audioSpeaker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/openaudiomc/speakerSystem/objects/audioSpeakerSound.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/openaudiomc/speakerSystem/speakerMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="26" lean-forward="false" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/openaudiomc/syncedSound/managers/syncedSoundManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="31" column="37" lean-forward="false" selection-start-line="31" selection-start-column="37" selection-end-line="31" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/openaudiomc/speakerSystem/Callbacktje.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="17" lean-forward="false" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/openaudiomc/socket/timeoutManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="8" column="48" lean-forward="false" selection-start-line="8" selection-start-column="48" selection-end-line="8" selection-end-column="48" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/openaudiomc/speakerSystem/managers/audioSpeakerManager.java">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1493209279096" expanded="true" signature="4192:4449" ph="{...}" />
+            <marker date="1493209279096" expanded="true" signature="4192:4453" ph="{...}" />
+            <marker date="1493209279096" expanded="true" signature="4192:4465" ph="{...}" />
+            <marker date="1493209279096" expanded="true" signature="4542:5033" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -833,7 +962,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="25" column="13" lean-forward="false" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
-          <folding />
+          <folding>
+            <marker date="1493209279096" expanded="true" signature="4192:4449" ph="{...}" />
+            <marker date="1493209279096" expanded="true" signature="4192:4453" ph="{...}" />
+            <marker date="1493209279096" expanded="true" signature="4192:4465" ph="{...}" />
+            <marker date="1493209279096" expanded="true" signature="4542:5033" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -873,7 +1007,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="25" column="13" lean-forward="false" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
-          <folding />
+          <folding>
+            <marker date="1493209279096" expanded="true" signature="4192:4449" ph="{...}" />
+            <marker date="1493209279096" expanded="true" signature="4192:4453" ph="{...}" />
+            <marker date="1493209279096" expanded="true" signature="4192:4465" ph="{...}" />
+            <marker date="1493209279096" expanded="true" signature="4542:5033" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -938,8 +1077,8 @@
         <state relative-caret-position="887">
           <caret line="70" column="19" lean-forward="false" selection-start-line="70" selection-start-column="19" selection-end-line="70" selection-end-column="19" />
           <folding>
-            <element signature="e#1674#1675#0" expanded="true" />
-            <element signature="e#1706#1707#0" expanded="true" />
+            <element signature="e#1674#1675#0" expanded="false" />
+            <element signature="e#1706#1707#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -970,14 +1109,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/net/openaudiomc/syncedSound/ba.java" />
-    <entry file="file://$PROJECT_DIR$/src/net/openaudiomc/speakerSystem/speakerMain.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="26" lean-forward="false" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/net/openaudiomc/syncedSound/managers/syncedSoundManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
@@ -988,9 +1119,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/net/openaudiomc/speakerSystem/managers/audioSpeakerManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="82" column="80" lean-forward="false" selection-start-line="82" selection-start-column="80" selection-end-line="82" selection-end-column="80" />
-          <folding />
+        <state relative-caret-position="1173">
+          <caret line="90" column="80" lean-forward="false" selection-start-line="90" selection-start-column="80" selection-end-line="90" selection-end-column="80" />
+          <folding>
+            <marker date="1493209279096" expanded="true" signature="4192:4449" ph="{...}" />
+            <marker date="1493209279096" expanded="true" signature="4192:4453" ph="{...}" />
+            <marker date="1493209279096" expanded="true" signature="4192:4465" ph="{...}" />
+            <marker date="1493209279096" expanded="true" signature="4542:5033" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1004,9 +1140,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/net/openaudiomc/minecraft/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="67" column="12" lean-forward="false" selection-start-line="67" selection-start-column="12" selection-end-line="67" selection-end-column="63" />
-          <folding />
+        <state relative-caret-position="646">
+          <caret line="67" column="8" lean-forward="false" selection-start-line="67" selection-start-column="8" selection-end-line="67" selection-end-column="8" />
+          <folding>
+            <marker date="1493205409634" expanded="true" signature="3302:3336" ph="{...}" />
+            <marker date="1493205409634" expanded="true" signature="3432:6857" ph="{...}" />
+            <marker date="1493205409634" expanded="true" signature="6893:7459" ph="{...}" />
+            <marker date="1493205409634" expanded="true" signature="7492:8109" ph="{...}" />
+            <marker date="1493205409634" expanded="true" signature="8142:9000" ph="{...}" />
+            <marker date="1493205409634" expanded="true" signature="9035:9863" ph="{...}" />
+            <marker date="1493205409634" expanded="true" signature="9898:10764" ph="{...}" />
+            <marker date="1493205409634" expanded="true" signature="10797:11666" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1014,17 +1159,36 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1493198125821" expanded="false" signature="3419:3425" ph=" }" />
+            <marker date="1493198125821" expanded="true" signature="3466:3588" ph="{...}" />
+            <marker date="1493198125821" expanded="true" signature="3632:3757" ph="{...}" />
+            <marker date="1493198125821" expanded="true" signature="3807:4086" ph="{...}" />
+            <marker date="1493198125821" expanded="true" signature="4137:4417" ph="{...}" />
+            <marker date="1493198125821" expanded="true" signature="4471:4604" ph="{...}" />
+            <marker date="1493198125821" expanded="true" signature="4661:4787" ph="{...}" />
+            <marker date="1493198125821" expanded="true" signature="4891:5329" ph="{...}" />
+            <marker date="1493198125821" expanded="true" signature="4970:5053" ph="{...}" />
+            <marker date="1493198125821" expanded="true" signature="5414:5525" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/net/openaudiomc/socket/timeoutManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="48" lean-forward="false" selection-start-line="8" selection-start-column="48" selection-end-line="8" selection-end-column="48" />
+        <state relative-caret-position="204">
+          <caret line="14" column="39" lean-forward="true" selection-start-line="14" selection-start-column="39" selection-end-line="14" selection-end-column="39" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/openaudiomc/speakerSystem/speakerMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="122" column="0" lean-forward="false" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
