@@ -19,6 +19,7 @@ import net.openaudiomc.minecraft.getdDep;
 import net.openaudiomc.oauth.oauthConnector;
 import net.openaudiomc.regions.regionCrap;
 import net.openaudiomc.speakerSystem.speakerMain;
+import net.openaudiomc.speakerSystem.managers.audioSpeakerManager;
 import net.openaudiomc.syncedSound.objects.syncedSound;
 import net.openaudiomc.syncedSound.managers.syncedSoundManager;
 import net.openaudiomc.syncedSound.managers.userManager;
@@ -246,6 +247,8 @@ public class AdminCommands implements CommandExecutor {
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.prefix + "Help menu / &lSpeakers"));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio speaker add <url>&r&a Get a speaker, just place it and you are good to go."));
                                 	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&lHow to remove a speaker?&r&a Just break the speaker skull."));
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio speaker stop&r&a Turn off all speakers."));
+                                	sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio speaker start&r&a Turn on all speakers."));
                                 } else {
                                 	sender.sendMessage(Main.prefix + "Invalid help page.");
                                 }
@@ -328,8 +331,29 @@ public class AdminCommands implements CommandExecutor {
                             			sender.sendMessage(Main.prefix + "You received a speaker! place it anywhere you'd like (you can remove it at any time)");
                             			speakerMain.giveSpeaker((Player) sender, args[2]);
                             		}
+                            	} else if (args.length == 2) {
+                            		if (args[1].equalsIgnoreCase("stop")) {
+                            			if (audioSpeakerManager.running) {
+                            				audioSpeakerManager.stop();
+                            				for (Player lp : Bukkit.getOnlinePlayers()) {
+                            					audioSpeakerManager.stopForPlayer(lp.getName());
+                            				}
+                            				sender.sendMessage(Main.prefix + "Stopped all speakers");
+                            			} else {
+                            				sender.sendMessage(Main.prefix + "Speakers are allready disabled.");
+                            			}
+                            		} else if (args[1].equalsIgnoreCase("start")) {
+                            			if (!audioSpeakerManager.running) {
+                            				audioSpeakerManager.Init();
+                            				sender.sendMessage(Main.prefix + "Restarting all speakers...");
+                            			} else {
+                            				sender.sendMessage(Main.prefix + "Speakers are allready started.");
+                            			}
+                            		} else {
+                            			sender.sendMessage(Main.prefix + "Invalid command, please read /openaudio help");
+                            		}
                             	} else {
-                            		sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio speaker add <url>");
+                            		sender.sendMessage(Main.prefix + "Invalid command, please read /openaudio help");
                             	}
                             }
                             else if (args[0].equalsIgnoreCase("region"))
