@@ -330,6 +330,9 @@ public class AdminCommands implements CommandExecutor {
                             		if (args[1].equalsIgnoreCase("add")) {
                             			sender.sendMessage(Main.prefix + "You received a speaker! place it anywhere you'd like (you can remove it at any time)");
                             			speakerMain.giveSpeaker((Player) sender, args[2]);
+                            			if (args[2].contains("soundcloud.com")) {
+                            				sender.sendMessage(ChatColor.DARK_RED + "WARNING!" + ChatColor.YELLOW + " Speakers do not officially have support for soundcloud sounds! please use mp3 files instead.");
+                            			}
                             		}
                             	} else if (args.length == 2) {
                             		if (args[1].equalsIgnoreCase("stop")) {
