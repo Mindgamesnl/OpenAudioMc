@@ -18,13 +18,16 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import ch.njol.skript.Skript;
+import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
 import net.openaudiomc.regions.regionCrap;
 import net.openaudiomc.socket.Authenticator;
 import net.openaudiomc.socket.timeoutManager;
+import net.openaudiomc.actions.command;
 import net.openaudiomc.commands.AdminCommands;
 import net.openaudiomc.commands.AudioCommands;
 import net.openaudiomc.commands.volumeCommand;
@@ -102,16 +105,23 @@ public class Main extends JavaPlugin implements Listener{
 		
 		timeoutManager.updateCounter();
 		
+		Bukkit.getLogger().info("[OpenAudio] Loading speakers.");
 		speakerMain.loadSounds();
 		speakerMain.loadSpeaker();
 		
 		audioSpeakerManager.Init();
-
+		Bukkit.getLogger().info("[OpenAudio] Started up.");
 	}	
 	
 	//Sluit zooi
 	@Override
-	public void onDisable(){	
+	public void onDisable(){
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			if (OpenAudioApi.isConnected(p)) {
+				command.stopAll(p.getName());
+				audioSpeakerManager.stopForPlayer(p.getName());
+			}
+		}
 	}
 		
 	public void createMessagesFile() {
