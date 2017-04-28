@@ -14,7 +14,6 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
@@ -22,7 +21,6 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import net.openaudiomc.minecraft.Main;
 import net.openaudiomc.speakerSystem.managers.audioSpeakerManager;
-import net.openaudiomc.speakerSystem.objects.audioSpeaker;
 
 /**
  * Created by mats on 23-4-2017.
@@ -47,32 +45,37 @@ public class speakerMain {
 		File savedFile = new File("plugins/OpenAudio/speakers/sounds", src.replaceAll("/", "_slash_")+".yml");
 		if (!savedFile.exists()) {
 			try {
-				savedFile.createNewFile();
-			} catch (IOException e) {
-			}
-			FileConfiguration regionsFileInst = YamlConfiguration.loadConfiguration(savedFile);
-			regionsFileInst.set("src", src);
-			try {
-				regionsFileInst.save(savedFile);
-			} catch (IOException e) {
+				try {
+					savedFile.createNewFile();
+				} catch (IOException e) {
+				}
+				FileConfiguration regionsFileInst = YamlConfiguration.loadConfiguration(savedFile);
+				regionsFileInst.set("src", src);
+				try {
+					regionsFileInst.save(savedFile);
+				} catch (IOException e) {
+				}
+			} catch(NullPointerException e) {
+
 			}
 		}
 	}
 	
 	public static void loadSounds() {
+		try {
 		YamlConfiguration config = new YamlConfiguration();
 		File[] files = new File("plugins/OpenAudio/speakers/sounds").listFiles();
 		for(File file : files){
-		    try {
-	    		config.load(file);
-	    		audioSpeakerManager.createSound(config.getString("src")+"_sound", config.getString("src"));
-		    } catch (FileNotFoundException e) {
-		        e.printStackTrace();
-		    } catch (IOException e) {
-		        e.printStackTrace();
-		    } catch (InvalidConfigurationException e) {
-		        e.printStackTrace();
-		    }
+				try {
+					config.load(file);
+					audioSpeakerManager.createSound(config.getString("src")+"_sound", config.getString("src"));
+				} catch (FileNotFoundException e) {
+				} catch (IOException e) {
+				} catch (InvalidConfigurationException e) {
+				}
+			}
+		} catch(NullPointerException e) {
+
 		}
 	}
 	
@@ -87,11 +90,8 @@ public class speakerMain {
 	    		
 	    		audioSpeakerManager.createSound(config.getString("src")+"_sound", config.getString("src"));
 		    } catch (FileNotFoundException e) {
-		        e.printStackTrace();
 		    } catch (IOException e) {
-		        e.printStackTrace();
 		    } catch (InvalidConfigurationException e) {
-		        e.printStackTrace();
 		    }
 		}
 	}
