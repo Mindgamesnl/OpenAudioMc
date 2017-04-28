@@ -367,40 +367,25 @@ openaudio.decode = function(msg) {
 		openaudio.message(request.string);
 	} else if (request.command == "speaker") {
 		if (request.type == "add") {
-			
-			
-			
-			
-			
-			
-			
-			
 			if (request.src.includes("soundcloud.com")) {
 			var scurl = request.src;
 			getSoundcloud(scurl, function(newurl) {
-				openaudio.newspeaker(newurl, request.src, request.time, request.volume);
+					openaudio.newspeaker(newurl, "speaker", request.time, request.volume);
 			});
 		} else {
-			openaudio.newspeaker(request.src, request.src, request.time, request.volume);
-		}
-			
-			
+			openaudio.newspeaker(request.src, "speaker", request.time, request.volume);
+		}	
 		} else if (request.type == "volume") {
 			for (var i = 0; i < listSpeakerSounds().split(',').length; i++) {
 			listSpeakerSounds().split(',')[i] = listSpeakerSounds().split(',')[i].replace(/^\s*/, "").replace(/\s*$/, "");
-				if (listSpeakerSounds().split(',')[i].indexOf(request.src) !== -1 && (listSpeakerSounds().split(',')[i].indexOf("speaker_") !== -1)) { 
-					fadeIdTargetSpeaker(listSpeakerSounds().split(',')[i],request.volume);
+				if ((listSpeakerSounds().split(',')[i].indexOf("speaker_") !== -1)) { 
+					soundManager.setVolume(listSpeakerSounds().split(',')[i],request.volume);
 				}
 			}
 		} else if (request.type == "stop") {
-			openaudio.removeSpeaker(request.src);
+			openaudio.removeSpeaker("speaker");
 		} else if (request.type == "stopall") {
-			for (var i = 0; i < listSpeakerSounds().split(',').length; i++) {
-			listSpeakerSounds().split(',')[i] = listSpeakerSounds().split(',')[i].replace(/^\s*/, "").replace(/\s*$/, "");
-				if ((listSpeakerSounds().split(',')[i].indexOf("speaker_") !== -1)) { 
-					soundManager.destroySound(listSpeakerSounds().split(',')[i]);
-				}
-			}
+			openaudio.removeSpeaker("speaker");
 		}
 	} else if (request.command == "skipto") {
 		//skip to
@@ -593,6 +578,7 @@ openaudio.stopregion = function() {
 }
 
 openaudio.newspeaker = function(src_to_file, soundID, defaultTime, startingvoluem) {
+	
 	var id = "speaker_" + Math.floor(Math.random() * 60) + 1 + "_" + soundID;
 	var soundId = "speaker";
 	if (isFading[soundId] === true) {
@@ -616,10 +602,11 @@ openaudio.newspeaker = function(src_to_file, soundID, defaultTime, startingvolue
 	soundManager.getSoundById(id).metadata.speaker = true;
 }
 
+
 openaudio.removeSpeaker = function(id) {
 	for (var i = 0; i < listSpeakerSounds().split(',').length; i++) {
 			listSpeakerSounds().split(',')[i] = listSpeakerSounds().split(',')[i].replace(/^\s*/, "").replace(/\s*$/, "");
-				if (listSpeakerSounds().split(',')[i].indexOf(ID) !== -1 && (listSpeakerSounds().split(',')[i].indexOf("speaker_") !== -1)) {
+				if (listSpeakerSounds().split(',')[i].indexOf(id) !== -1 && (listSpeakerSounds().split(',')[i].indexOf("speaker_") !== -1)) {
 					soundManager.destroySound(listSpeakerSounds().split(',')[i]);
 				}
 			}
