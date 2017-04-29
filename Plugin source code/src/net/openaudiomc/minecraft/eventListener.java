@@ -3,6 +3,7 @@ package net.openaudiomc.minecraft;
 import java.io.File;
 import java.util.HashMap;
 
+import net.openaudiomc.socket.cm_callback;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -92,7 +93,7 @@ public class eventListener implements Listener{
 	    			
 	    			
 	    			
-	    			if (getdDep.getStatus()) {
+	    			if (getDep.getStatus()) {
 	    	    		String regionNu = "-";
 	    				for(ProtectedRegion r : WGBukkit.getRegionManager(client.getWorld()).getApplicableRegions(client.getLocation())) {
 	    					regionNu = r.getId();
@@ -154,7 +155,7 @@ public class eventListener implements Listener{
     		Emitter.connectedInServer(event.getPlayer().getName());
     		userManager.addPlayer(event.getPlayer());
     		userManager.getPlayer(event.getPlayer()).syncSounds();
-    		if (getdDep.getStatus()) {
+    		if (getDep.getStatus()) {
         		String regionNu = "-";
     			for(ProtectedRegion r : WGBukkit.getRegionManager(event.getPlayer().getWorld()).getApplicableRegions(event.getPlayer().getLocation())) {
     				regionNu = r.getId();
@@ -164,6 +165,21 @@ public class eventListener implements Listener{
     				command.playRegion(event.getPlayer().getName(), regionCrap.getRegionFile(regionNu));
     			}
         	}
+
+        	if(event.getPlayer().isOp()) {
+    			if (Bukkit.getVersion() != cm_callback.lastVersion) {
+    				String thisversion = Bukkit.getVersion();
+    				String newversion = cm_callback.lastVersion;
+    				String updateTitle = cm_callback.updateTitle;
+    				String broadcast = cm_callback.broadcast;
+    				String message = Main.prefix + ChatColor.DARK_AQUA + "[UPDATE]" + ChatColor.RESET + " Update is avalible! "+ChatColor.AQUA+" your version:"+thisversion+" new version:"+newversion+ChatColor.RESET+ " Updating is recomended";
+    				event.getPlayer().sendMessage(message);
+
+    				if (broadcast != "") {
+    					event.getPlayer().sendMessage(Main.prefix+"Important message: " + ChatColor.RESET + broadcast);
+					}
+				}
+			}
     	} }, 20);
     }
     

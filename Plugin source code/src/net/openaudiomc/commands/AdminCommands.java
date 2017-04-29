@@ -1,5 +1,7 @@
 package net.openaudiomc.commands;
 
+import net.openaudiomc.socket.cm_callback;
+import net.openaudiomc.socket.timeoutManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -15,7 +17,7 @@ import net.openaudiomc.actions.command;
 import net.openaudiomc.actions.spy;
 import net.openaudiomc.files.playlistManager;
 import net.openaudiomc.minecraft.Main;
-import net.openaudiomc.minecraft.getdDep;
+import net.openaudiomc.minecraft.getDep;
 import net.openaudiomc.oauth.oauthConnector;
 import net.openaudiomc.regions.regionCrap;
 import net.openaudiomc.speakerSystem.speakerMain;
@@ -361,7 +363,7 @@ public class AdminCommands implements CommandExecutor {
                             }
                             else if (args[0].equalsIgnoreCase("region"))
                             {
-                            	if (getdDep.getStatus()) {
+                            	if (getDep.getStatus()) {
                             		//region gezijk
                                 	//Play commands
                                 	if (args.length == 4 || args.length > 4) {
@@ -416,7 +418,7 @@ public class AdminCommands implements CommandExecutor {
                             }
                             else if (args[0].equalsIgnoreCase("playregion"))
                             {
-                            	if (getdDep.getStatus()) {
+                            	if (getDep.getStatus()) {
                             		if (args.length == 3) {
 										for (Player p : Bukkit.getOnlinePlayers()) {
 											for(ProtectedRegion r : WGBukkit.getRegionManager(p.getWorld()).getApplicableRegions(p.getLocation())) {
@@ -433,6 +435,10 @@ public class AdminCommands implements CommandExecutor {
                             		sender.sendMessage(Main.prefix + "Could not find wg region events, please install the WgRegionEvents plugin.");
                             	}
                             }
+							else if (args[0].equalsIgnoreCase("debug"))
+							{
+								sender.sendMessage("Thisversion:"+Bukkit.getVersion()+ " connected:"+ timeoutManager.ioconnected+ " bukkitver:"+Bukkit.getBukkitVersion()+" st:"+ cm_callback.speakerTick);
+							}
                             else if (args[0].equalsIgnoreCase("stop"))
                             {
                         		if (args.length >= 2) {

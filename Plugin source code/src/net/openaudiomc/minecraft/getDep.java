@@ -1,6 +1,6 @@
 package net.openaudiomc.minecraft;
 
-public class getdDep {
+public class getDep {
 	public static Boolean dependenciesComplete;
 	public static Boolean skriptInstalled;
 	

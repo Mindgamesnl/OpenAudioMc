@@ -29,6 +29,7 @@ public class timeoutManager implements Listener {
 
 		if (onlineplayers == 0) {
 			if (ioconnected) {
+				cm_callback.update();
 				Bukkit.getLogger().info("[OpenAudio] Closing connection with the socket server.");
 				SocketioConnector.close();
 			} else {
