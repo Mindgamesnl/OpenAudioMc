@@ -40,6 +40,7 @@ public class cm_callback {
                 return null;
             }
         };
+
         String id = Authenticator.getClientID();
         webUtils.asyncHttpRequest("http://api.openaudiomc.net/status.php?id="+id, callback);
     }

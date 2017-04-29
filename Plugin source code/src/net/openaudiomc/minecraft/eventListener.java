@@ -168,7 +168,7 @@ public class eventListener implements Listener{
 
         	if(event.getPlayer().isOp()) {
     			if (Bukkit.getVersion() != cm_callback.lastVersion) {
-    				String thisversion = Bukkit.getVersion();
+    				String thisversion = Main.getPL().getDescription().getVersion();
     				String newversion = cm_callback.lastVersion;
     				String updateTitle = cm_callback.updateTitle;
     				String broadcast = cm_callback.broadcast;
