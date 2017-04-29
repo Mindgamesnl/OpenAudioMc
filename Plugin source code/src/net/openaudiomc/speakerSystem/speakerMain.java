@@ -5,10 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Skull;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -17,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.SkullType;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import net.openaudiomc.minecraft.Main;
@@ -148,38 +146,47 @@ public class speakerMain {
 	}
 	
 	public static void onPlace(BlockPlaceEvent event) {
-		if (event.getBlock().getType() == Material.SKULL) {
-			Skull skull = (Skull)event.getBlock().getState();
-			if (skull.getOwner().equalsIgnoreCase("OpenAudioMc")) {
-				if (placer.get(event.getPlayer()) != null && placer.get(event.getPlayer()) != "olditem") {
-					
-					
-					
-					if (audioSpeakerManager.sounds.get(placer.get(event.getPlayer())) == null) {
-						saveSound(placer.get(event.getPlayer()));
-						audioSpeakerManager.createSound(placer.get(event.getPlayer()) + "_sound", placer.get(event.getPlayer()));
+		try {
+			if (event.getBlock().getType() == Material.SKULL) {
+				Skull skull = (Skull) event.getBlock().getState();
+				if (skull.getSkullType() == SkullType.PLAYER) {
+					if (skull.hasOwner()) {
+						if (skull.getOwner().equalsIgnoreCase("OpenAudioMc")) {
+							if (placer.get(event.getPlayer()) != null && placer.get(event.getPlayer()) != "olditem") {
+
+
+								if (audioSpeakerManager.sounds.get(placer.get(event.getPlayer())) == null) {
+									saveSound(placer.get(event.getPlayer()));
+									audioSpeakerManager.createSound(placer.get(event.getPlayer()) + "_sound", placer.get(event.getPlayer()));
+								}
+
+								saveSpeaker(placer.get(event.getPlayer()), event.getBlock().getLocation().getWorld().getName(), event.getBlock().getLocation().getX(), event.getBlock().getLocation().getY(), event.getBlock().getLocation().getZ());
+
+								event.getPlayer().sendMessage(Main.prefix + ChatColor.GREEN + "Created speaker on X:" + event.getBlock().getLocation().getBlockX() + " Y:" + event.getBlock().getLocation().getBlockY() + " Z:" + event.getBlock().getLocation().getBlockZ() + ".");
+
+								audioSpeakerManager.createSpeaker(placer.get(event.getPlayer()) + "_speaker", placer.get(event.getPlayer()) + "_sound", new Location(event.getBlock().getLocation().getWorld(), event.getBlock().getLocation().getX(), event.getBlock().getLocation().getY(), event.getBlock().getLocation().getZ()));
+
+								placer.put(event.getPlayer(), "olditem");
+
+							} else {
+								event.getPlayer().sendMessage(Main.prefix + ChatColor.RED + "This speaker does not have a sound, please add a new speaker.");
+								event.setCancelled(true);
+							}
+							ItemStack removeskull = new ItemStack(Material.SKULL_ITEM);
+							removeskull.setDurability((short) 3);
+							SkullMeta sm = (SkullMeta) removeskull.getItemMeta();
+							sm.setOwner("OpenAudioMc");
+							sm.setDisplayName(ChatColor.AQUA + "OpenAudioMc Speaker");
+							removeskull.setItemMeta(sm);
+							event.getPlayer().getInventory().remove(removeskull);
+						}
 					}
-					
-					saveSpeaker(placer.get(event.getPlayer()), event.getBlock().getLocation().getWorld().getName(), event.getBlock().getLocation().getX(), event.getBlock().getLocation().getY(), event.getBlock().getLocation().getZ());
-					
-					event.getPlayer().sendMessage(Main.prefix + ChatColor.GREEN +"Created speaker on X:"+event.getBlock().getLocation().getBlockX()+" Y:"+event.getBlock().getLocation().getBlockY()+" Z:"+event.getBlock().getLocation().getBlockZ()+".");
-					
-					audioSpeakerManager.createSpeaker(placer.get(event.getPlayer()) + "_speaker", placer.get(event.getPlayer())+"_sound", new Location(event.getBlock().getLocation().getWorld(), event.getBlock().getLocation().getX(), event.getBlock().getLocation().getY(), event.getBlock().getLocation().getZ()));
-					
-					placer.put(event.getPlayer(), "olditem");
-					
-				} else {
-					event.getPlayer().sendMessage(Main.prefix + ChatColor.RED + "This speaker does not have a sound, please add a new speaker.");
-					event.setCancelled(true);
 				}
-				ItemStack removeskull = new ItemStack(Material.SKULL_ITEM);
-		        removeskull.setDurability((short)3);
-		        SkullMeta sm = (SkullMeta) removeskull.getItemMeta();
-		        sm.setOwner("OpenAudioMc");
-		        sm.setDisplayName(ChatColor.AQUA + "OpenAudioMc Speaker");
-		        removeskull.setItemMeta(sm);  
-		        event.getPlayer().getInventory().remove(removeskull);
 			}
+
+
+		} catch (NullPointerException e) {
+			event.getPlayer().sendMessage(Main.prefix + ChatColor.RED + "Placing the skull failed some how, please send a screenshot of " + ChatColor.GREEN + "/oa debug" + ChatColor.RED + " to the developers.");
 		}
 	}
 	
