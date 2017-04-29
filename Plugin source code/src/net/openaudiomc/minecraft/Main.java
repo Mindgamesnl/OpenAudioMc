@@ -13,9 +13,9 @@ package net.openaudiomc.minecraft;
 import java.io.File;
 import java.io.IOException;
 
+import net.openaudiomc.socket.cm_callback;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -57,7 +57,8 @@ public class Main extends JavaPlugin implements Listener{
 		
 		fileLoc = getDataFolder();
 		
-		getdDep.runCheck();
+		getDep.runCheck();
+		cm_callback.update();
 		
 		createDataFile();
 		createRegionsFile();
@@ -68,9 +69,7 @@ public class Main extends JavaPlugin implements Listener{
 		Bukkit.getServer().getPluginManager().registerEvents(new timeoutManager(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new eventListener(), this);
 		Bukkit.getLogger().info("[OpenAudio] Loading OpenAudioMc by Mindgamesnl/Me_is_mattyh");
-		
-		
-		
+
 		prefix = ChatColor.translateAlternateColorCodes('&', "&9[&bOpenAudioMc&9] &3");
 		
 		//Audio commands
@@ -90,12 +89,12 @@ public class Main extends JavaPlugin implements Listener{
 		
 		modManager.setBg("Moved to https://plus.openaudiomc.net");
 		
-		if (getdDep.getStatus()) {
+		if (getDep.getStatus()) {
 			regionCrap.enable();
 			Bukkit.getServer().getPluginManager().registerEvents(new net.openaudiomc.regions.regionCrap(),this);
 		}
 		
-		if (getdDep.skriptInstalled) {
+		if (getDep.skriptInstalled) {
 			Skript.registerAddon(this);
 			SkriptRegistration.load();
 			Bukkit.getLogger().info("[OpenAudio] Whoah! just like that! loaded the skript events :D");
@@ -123,7 +122,7 @@ public class Main extends JavaPlugin implements Listener{
 			}
 		}
 	}
-		
+
 	public void createMessagesFile() {
 
 		MessagesFile = new File("plugins/OpenAudio", "messages.yml");
@@ -131,26 +130,38 @@ public class Main extends JavaPlugin implements Listener{
             try {
             	MessagesFile.createNewFile();
             } catch (IOException e) {
-                
+
             }
             MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
             MessagesConfig.set("Description", "This is the place to change the messges, host url and more :)");
             MessagesConfig.set("start-sound", "https://craftmend.com/api_SSL/openaudio/load_sound.mp3");
-            MessagesConfig.set("website-url", "http://public.openaudiomc.net/?name=%name%&session=%session%");
+            MessagesConfig.set("website-url", "http://client.openaudiomc.net/?name=%name%&session=%session%");
             MessagesConfig.set("connect-message", "&9[&bOpenAudioMc&9] &3Click &ehere&3 to connect to our audio server!");
             MessagesConfig.set("disconnect-message", "&9[&bOpenAudioMc&9] &3You are now &4Disconnected&3 from our audio server!");
             MessagesConfig.set("connected-message", "&9[&bOpenAudioMc&9] &3You are now &aConnected&3 to our audio server!");
             MessagesConfig.set("hue-connected-message", "&9[&bOpenAudioMc&9] &3You are now &aConnected&3 with your philips &dh&bu&ae&3!");
             MessagesConfig.set("volume-set", "&9[&bVolume&9] &3Your volume has been set to &a%volume%&3%");
             MessagesConfig.set("volume-error", "&9[&bVolume&9] &4Invalid arguments.");
-            
+
             try {
             	MessagesConfig.save(MessagesFile);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        
+
+		if (Messages.get("website-url").contains("http://client.openaudiomc.net")) {
+			MessagesFile = new File("plugins/OpenAudio", "messages.yml");
+			MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
+			MessagesConfig.set("website-url", "http://client.openaudiomc.net/?name=%name%&session=%session%");
+			try {
+				MessagesConfig.save(MessagesFile);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
         if (Messages.get("disconnect-message") == null) {
         	MessagesFile = new File("plugins/OpenAudio", "messages.yml");
         	MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
@@ -162,7 +173,7 @@ public class Main extends JavaPlugin implements Listener{
 				e.printStackTrace();
 			}
         }
-        
+
         if (Messages.get("background-image") == null) {
         	MessagesFile = new File("plugins/OpenAudio", "messages.yml");
         	MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
@@ -174,7 +185,7 @@ public class Main extends JavaPlugin implements Listener{
 				e.printStackTrace();
 			}
         }
-        
+
         if (Messages.get("stop-on-teleport") == null) {
         	MessagesFile = new File("plugins/OpenAudio", "messages.yml");
         	MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
@@ -186,7 +197,7 @@ public class Main extends JavaPlugin implements Listener{
 				e.printStackTrace();
 			}
         }
-        
+
         if (Messages.get("hue-connected-message") == null) {
         	MessagesFile = new File("plugins/OpenAudio", "messages.yml");
         	MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
@@ -198,9 +209,9 @@ public class Main extends JavaPlugin implements Listener{
 				e.printStackTrace();
 			}
         }
-		
+
 	}
-	
+
 	public void createRegionsFile() {
 		File regionsFile = new File("plugins/OpenAudio", "regions.yml");
 		if (!regionsFile.exists()) {
@@ -220,7 +231,7 @@ public class Main extends JavaPlugin implements Listener{
 			}
 		}
 	}
-	
+
 	public void createModsFile() {
 		File regionsFile = new File("plugins/OpenAudio/advanced", "mods.yml");
 		if (!regionsFile.exists()) {
@@ -240,14 +251,14 @@ public class Main extends JavaPlugin implements Listener{
 			}
 		}
 	}
-	
+
 	public void createDataFile() {
 		File dataFile = new File("plugins/OpenAudio", "serverData.yml");
         if (!dataFile.exists()) {
             try {
                 dataFile.createNewFile();
             } catch (IOException e) {
-                
+
             }
             FileConfiguration datafileInst = YamlConfiguration.loadConfiguration(dataFile);
             datafileInst.set("Description", "This is identifies the server and should be kept secret, do you have a bungeecord network? just set this id on all your server and bungeecord mode is activated :)");
@@ -260,14 +271,14 @@ public class Main extends JavaPlugin implements Listener{
             }
         }
 	}
-	
+
 	public void createServerNode() {
 		File dataFile = new File("plugins/OpenAudio/advanced", "advancedConfig.yml");
         if (!dataFile.exists()) {
             try {
                 dataFile.createNewFile();
             } catch (IOException e) {
-                
+
             }
             FileConfiguration datafileInst = YamlConfiguration.loadConfiguration(dataFile);
             datafileInst.set("Description", "Advanced settings (only for networking )");
@@ -281,14 +292,14 @@ public class Main extends JavaPlugin implements Listener{
             }
         }
 	}
-	
+
 	public void disableSslConfig() {
 		File dataFile = new File("plugins/OpenAudio/advanced", "advancedConfig.yml");
         if (!dataFile.exists()) {
             try {
                 dataFile.createNewFile();
             } catch (IOException e) {
-                
+
             }
             FileConfiguration datafileInst = YamlConfiguration.loadConfiguration(dataFile);
             datafileInst.set("Description", "Advanced settings (only for networking )");
@@ -302,14 +313,14 @@ public class Main extends JavaPlugin implements Listener{
             }
         }
 	}
-	
+
 	public void createPlaylist() {
 		File dataFile = new File("plugins/OpenAudio", "playlist.yml");
         if (!dataFile.exists()) {
             try {
                 dataFile.createNewFile();
             } catch (IOException e) {
-                
+
             }
             FileConfiguration datafileInst = YamlConfiguration.loadConfiguration(dataFile);
             datafileInst.set("Description", "Playlists are stored here");
@@ -323,11 +334,11 @@ public class Main extends JavaPlugin implements Listener{
             }
         }
 	}
-	
-	
-	
 
-	
-	
-	
+
+
+
+
+
+
 }

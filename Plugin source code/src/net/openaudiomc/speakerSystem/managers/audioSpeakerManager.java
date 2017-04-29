@@ -25,6 +25,7 @@ import net.openaudiomc.speakerSystem.objects.audioSpeaker;
 import net.openaudiomc.speakerSystem.objects.audioSpeakerSound;
 import net.openaudiomc.utils.Callbacknoreturn;
 import net.openaudiomc.utils.webUtils;
+import net.openaudiomc.socket.cm_callback;
 
 public class audioSpeakerManager {
 	
@@ -36,9 +37,6 @@ public class audioSpeakerManager {
 	public static Integer timer;
 	
 	public static void createSound(final String id, final String src) {
-		
-		
-		
 		Callbacknoreturn<String> callback = new Callbacknoreturn<String>() {
 		    public void execute(String b) {
 		    	try {
@@ -140,7 +138,7 @@ public class audioSpeakerManager {
 					}
 				}
 		    }
-		}, 0, 5);
+		}, 0, cm_callback.speakerTick);
 	}
 	
 	public static List<Block> getNearbyBlocks(Location location, int radius) {
