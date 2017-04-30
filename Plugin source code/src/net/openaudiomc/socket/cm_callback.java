@@ -20,7 +20,7 @@ public class cm_callback {
      *   - BROADCAST (for example planned server maintenance)
      *   - CHANGE LOG
      *
-     *   It only gets requested every so ofter so should not imparct your preformance.
+     *   It only gets requested every so often so should not imparct your preformance.
      */
 
     public static String lastVersion = "UNKNOWN";
