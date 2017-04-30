@@ -78,6 +78,7 @@ public class speakerMain {
 	}
 	
 	public static void loadSpeaker() {
+		try {
 		YamlConfiguration config = new YamlConfiguration();
 		File[] files = new File("plugins/OpenAudio/speakers/speakers").listFiles();
 		for(File file : files){
@@ -91,6 +92,9 @@ public class speakerMain {
 		    } catch (IOException e) {
 		    } catch (InvalidConfigurationException e) {
 		    }
+		}
+		} catch(NullPointerException e) {
+
 		}
 	}
 	
