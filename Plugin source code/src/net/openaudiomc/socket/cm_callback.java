@@ -1,7 +1,6 @@
 package net.openaudiomc.socket;
 
-import net.openaudiomc.syncedSound.objects.syncedSound;
-import net.openaudiomc.utils.callback;
+import net.openaudiomc.utils.Callbacknoreturn;
 import net.openaudiomc.utils.webUtils;
 import net.openaudiomc.socket.Authenticator;
 
@@ -30,18 +29,18 @@ public class cm_callback {
     public static String broadcast = "UNKNOWN";
 
     public static void update() {
-        callback.Callback<String> callback = new net.openaudiomc.utils.callback.Callback<String>() {
-            public syncedSound execute(String b) {
+
+        Callbacknoreturn<String> callback = new Callbacknoreturn<String>() {
+            public void execute (String b) {
                 JSONObject jsonObject = new JSONObject(b);
                 lastVersion = jsonObject.getString("lastupdate");
                 updateTitle = jsonObject.getString("updatetitle");
                 speakerTick = jsonObject.getInt("speakertick");
                 broadcast = jsonObject.getString("broadcast");
-                return null;
             }
         };
 
         String id = Authenticator.getClientID();
-        webUtils.asyncHttpRequest("http://api.openaudiomc.net/status.php?id="+id, callback);
+        webUtils.asyncHttpRequestNoReturn("http://api.openaudiomc.net/status.php?id="+id, callback);
     }
 }
