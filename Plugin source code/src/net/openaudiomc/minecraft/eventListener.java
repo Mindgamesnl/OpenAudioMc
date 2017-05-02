@@ -167,17 +167,16 @@ public class eventListener implements Listener{
         	}
 
         	if(event.getPlayer().isOp()) {
-    			if (Bukkit.getVersion() != cm_callback.lastVersion) {
+    			if (Main.getPL().getDescription().getVersion() != cm_callback.lastVersion) {
     				String thisversion = Main.getPL().getDescription().getVersion();
     				String newversion = cm_callback.lastVersion;
     				String updateTitle = cm_callback.updateTitle;
-    				String broadcast = cm_callback.broadcast;
     				String message = Main.prefix + ChatColor.DARK_AQUA + "[UPDATE]" + ChatColor.RESET + " Update is avalible! "+ChatColor.AQUA+" your version:"+thisversion+" new version:"+newversion+ChatColor.RESET+ " Updating is recomended";
     				event.getPlayer().sendMessage(message);
-
-    				if (broadcast != "") {
-    					event.getPlayer().sendMessage(Main.prefix+"Important message: " + ChatColor.RESET + broadcast);
-					}
+				}
+				String broadcast = cm_callback.broadcast;
+				if (broadcast != "") {
+					event.getPlayer().sendMessage(Main.prefix+"Important message: " + ChatColor.RESET + broadcast);
 				}
 			}
     	} }, 20);
