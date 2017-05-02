@@ -1,5 +1,7 @@
 package net.openaudiomc.socket;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import net.openaudiomc.minecraft.eventListener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -7,6 +9,11 @@ import org.bukkit.event.Listener;
 
 import net.openaudiomc.internal.events.SocketConnectEvent;
 import net.openaudiomc.internal.events.SocketDisconnectEvent;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 
 public class timeoutManager implements Listener {
@@ -27,6 +34,23 @@ public class timeoutManager implements Listener {
 			onlineplayers++;
 		}
 
+		Integer connectedPlayersCount = 0;
+		List<Boolean> list = new ArrayList<Boolean>(eventListener.isConnected.values());
+		for (Boolean value : list) {
+			if (value) {
+				connectedPlayersCount++;
+			}
+		}
+
+		if (connectedPlayersCount == 0) {
+			if (ioconnected) {
+				cm_callback.update();
+				Bukkit.getLogger().info("[OpenAudio] Closing connection with the socket server.");
+				SocketioConnector.close();
+			}
+			return;
+		}
+
 		if (onlineplayers == 0) {
 			if (ioconnected) {
 				cm_callback.update();
@@ -38,6 +62,7 @@ public class timeoutManager implements Listener {
 		} else {
 			try {
 				if (!ioconnected) {
+					cm_callback.update();
 					Bukkit.getLogger().info("[OpenAudio] Reconnecting to the openaudiomc socket server.");
 					SocketioConnector.connect();
 				}

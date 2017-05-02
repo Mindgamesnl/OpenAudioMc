@@ -41,7 +41,7 @@ import net.openaudiomc.speakerSystem.managers.audioSpeakerManager;
 
 public class eventListener implements Listener{    
     
-	static HashMap<String, Boolean> isConnected = new HashMap<String, Boolean>();
+	public static HashMap<String, Boolean> isConnected = new HashMap<String, Boolean>();
 	
 	@EventHandler
     public void onSocketCommandEvent(SocketCommandEvent event) {

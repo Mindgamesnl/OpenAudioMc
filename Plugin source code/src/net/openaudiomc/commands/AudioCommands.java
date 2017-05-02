@@ -19,7 +19,7 @@ public class AudioCommands implements CommandExecutor {
 			if (args.length == 2) {
 				if (args[0].equalsIgnoreCase("volume") || args[0].equalsIgnoreCase("v")) {
 					Player p = (Player) sender;
-					p.chat("/volume" + args[1]);
+					p.chat("/volume " + args[1]);
 					return true;
 				}
 			}
