@@ -11,6 +11,7 @@ import net.openaudiomc.socket.SocketioConnector;
 public class Emitter {
 	
 	public static void EmitToPlayer(String player, String message) {
+		try {
 		if (player.equalsIgnoreCase("@a")) {
 			for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 				JSONObject obj = new JSONObject();
@@ -19,7 +20,6 @@ public class Emitter {
 				((Socket) SocketioConnector.socket).emit("send", obj.toString());
 			}
 		} else {
-			@SuppressWarnings("deprecation")
 			OfflinePlayer p = Bukkit.getOfflinePlayer(player);
     		if (p.isOnline()) {
     			JSONObject obj = new JSONObject();
@@ -28,6 +28,9 @@ public class Emitter {
     			((Socket) SocketioConnector.socket).emit("send", obj.toString());
     		}	
 		}
+	} catch(NullPointerException e) {
+
+	}
 		Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.WebsocketSendEvent(Bukkit.getPlayer(player), message));
 	}
 	
