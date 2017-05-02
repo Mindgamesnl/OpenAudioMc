@@ -74,8 +74,8 @@
       <file leaf-file-name="speakerMain.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Plugin source code/src/net/openaudiomc/speakerSystem/speakerMain.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="153" column="12" lean-forward="false" selection-start-line="153" selection-start-column="12" selection-end-line="157" selection-end-column="79" />
+            <state relative-caret-position="850">
+              <caret line="136" column="24" lean-forward="false" selection-start-line="136" selection-start-column="24" selection-end-line="136" selection-end-column="24" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -156,10 +156,10 @@
         <option value="$PROJECT_DIR$/Plugin source code/src/net/openaudiomc/groups/objects/openAudioGroup.java" />
         <option value="$PROJECT_DIR$/Plugin source code/src/net/openaudiomc/groups/groupsMain.java" />
         <option value="$PROJECT_DIR$/Plugin source code/src/net/openaudiomc/commands/AdminCommands.java" />
-        <option value="$PROJECT_DIR$/Plugin source code/src/net/openaudiomc/speakerSystem/speakerMain.java" />
         <option value="$PROJECT_DIR$/Plugin source code/pom.xml" />
         <option value="$PROJECT_DIR$/Plugin source code/src/net/openaudiomc/minecraft/eventListener.java" />
         <option value="$PROJECT_DIR$/Plugin source code/src/net/openaudiomc/socket/cm_callback.java" />
+        <option value="$PROJECT_DIR$/Plugin source code/src/net/openaudiomc/speakerSystem/speakerMain.java" />
       </list>
     </option>
   </component>
@@ -1367,8 +1367,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Plugin source code/src/net/openaudiomc/speakerSystem/speakerMain.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="153" column="12" lean-forward="false" selection-start-line="153" selection-start-column="12" selection-end-line="157" selection-end-column="79" />
+        <state relative-caret-position="850">
+          <caret line="136" column="24" lean-forward="false" selection-start-line="136" selection-start-column="24" selection-end-line="136" selection-end-column="24" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
