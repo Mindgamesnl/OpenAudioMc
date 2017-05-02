@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 
 public class AudioCommands implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		timeoutManager.requestConnect();
 		if (timeoutManager.ioready) {
 
 			if (args.length == 2) {
