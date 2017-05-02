@@ -193,7 +193,7 @@ public class eventListener implements Listener{
 	 }
     
     
-    @EventHandler
+		@EventHandler
 	  public void onPlayerQuit(PlayerQuitEvent event) {
     	Player p = event.getPlayer();	
     	command.stop(p.getName());
