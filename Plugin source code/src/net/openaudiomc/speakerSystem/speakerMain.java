@@ -153,7 +153,7 @@ public class speakerMain {
 		try {
 			if (event.getBlock().getType() == Material.SKULL) {
 				Skull skull = (Skull) event.getBlock().getState();
-				if (skull.getSkullType() == SkullType.PLAYER) {
+				if (skull.getSkullType() == SkullType.PLAYER	) {
 					if (skull.hasOwner()) {
 						if (skull.getOwner().equalsIgnoreCase("OpenAudioMc")) {
 							if (placer.get(event.getPlayer()) != null && placer.get(event.getPlayer()) != "olditem") {
@@ -190,7 +190,7 @@ public class speakerMain {
 
 
 		} catch (NullPointerException e) {
-			event.getPlayer().sendMessage(Main.prefix + ChatColor.RED + "Placing the skull failed some how, please send a screenshot of " + ChatColor.GREEN + "/oa debug" + ChatColor.RED + " to the developers.");
+			//event.getPlayer().sendMessage(Main.prefix + ChatColor.RED + "Placing the skull failed some how, please send a screenshot of " + ChatColor.GREEN + "/oa debug" + ChatColor.RED + " to the developers.");
 		}
 	}
 	
