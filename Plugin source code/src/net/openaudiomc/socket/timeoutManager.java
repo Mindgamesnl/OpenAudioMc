@@ -28,6 +28,18 @@ public class timeoutManager implements Listener {
 		ioready = true;
     }
 
+    public static void requestConnect() {
+		try {
+			if (!ioconnected) {
+				cm_callback.update();
+				Bukkit.getLogger().info("[OpenAudio] Reconnecting to the openaudiomc socket server.");
+				SocketioConnector.connect();
+			}
+		} catch (Exception e) {
+			Bukkit.getLogger().info("[OpenAudio] Failed to connect to the socket.io server, openaudio will not work correctly.");
+		}
+	}
+
     public static void updateCounter() {
 		onlineplayers = 0;
 		for(Player p : Bukkit.getOnlinePlayers()){

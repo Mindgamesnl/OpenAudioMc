@@ -43,11 +43,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AudioCommands.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AudioCommands.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Plugin source code/src/net/openaudiomc/commands/AudioCommands.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="27" column="12" lean-forward="false" selection-start-line="27" selection-start-column="12" selection-end-line="27" selection-end-column="12" />
+            <state relative-caret-position="102">
+              <caret line="16" column="40" lean-forward="false" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -103,14 +103,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="timeoutManager.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="timeoutManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Plugin source code/src/net/openaudiomc/socket/timeoutManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="556">
-              <caret line="55" column="37" lean-forward="false" selection-start-line="55" selection-start-column="37" selection-end-line="55" selection-end-column="37" />
+            <state relative-caret-position="335">
+              <caret line="42" column="40" lean-forward="true" selection-start-line="42" selection-start-column="40" selection-end-line="42" selection-end-column="40" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1008#1017#0" expanded="true" />
+                <element signature="e#1391#1400#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -178,10 +178,10 @@
         <option value="$PROJECT_DIR$/Plugin source code/src/net/openaudiomc/socket/cm_callback.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/Plugin source code/src/net/openaudiomc/speakerSystem/speakerMain.java" />
-        <option value="$PROJECT_DIR$/Plugin source code/src/net/openaudiomc/commands/AudioCommands.java" />
         <option value="$PROJECT_DIR$/Plugin source code/src/net/openaudiomc/socket/Emitter.java" />
-        <option value="$PROJECT_DIR$/Plugin source code/src/net/openaudiomc/socket/timeoutManager.java" />
         <option value="$PROJECT_DIR$/Plugin source code/pom.xml" />
+        <option value="$PROJECT_DIR$/Plugin source code/src/net/openaudiomc/socket/timeoutManager.java" />
+        <option value="$PROJECT_DIR$/Plugin source code/src/net/openaudiomc/commands/AudioCommands.java" />
       </list>
     </option>
   </component>
@@ -1319,14 +1319,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Plugin source code/src/net/openaudiomc/commands/AudioCommands.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="27" column="12" lean-forward="false" selection-start-line="27" selection-start-column="12" selection-end-line="27" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Plugin source code/src/me/mindgamesnl/openaudiomc/publicApi/OpenAudioApi.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="573">
@@ -1376,12 +1368,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Plugin source code/src/net/openaudiomc/socket/timeoutManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="556">
-          <caret line="55" column="37" lean-forward="false" selection-start-line="55" selection-start-column="37" selection-end-line="55" selection-end-column="37" />
+        <state relative-caret-position="335">
+          <caret line="42" column="40" lean-forward="true" selection-start-line="42" selection-start-column="40" selection-end-line="42" selection-end-column="40" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1008#1017#0" expanded="true" />
+            <element signature="e#1391#1400#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Plugin source code/src/net/openaudiomc/commands/AudioCommands.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="16" column="40" lean-forward="false" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
+          <folding />
         </state>
       </provider>
     </entry>
