@@ -6,10 +6,7 @@ function loadBg() {
 
 var ui = {};
 var issmall = getUrlVar("small") == null;
-
-ui.minimal = function() {
-	
-}
+var debug = getUrlVar("debug") == null;
 
 ui.color = function(code) {
 	$("#footer").animate({"background-color":code},{duration:1000});
@@ -74,7 +71,7 @@ if (getUrlVar("session").includes(":")) {
 function enableMain(clientJs) {
   $.getScript(clientJs, function() {
     $.getScript("files/core/openaudiomc.js", function() {
-  
+
         logInit("Login-sucess");
         enable();
         loadBg();
