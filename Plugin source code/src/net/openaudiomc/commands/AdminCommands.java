@@ -1,7 +1,5 @@
 package net.openaudiomc.commands;
 
-import net.openaudiomc.socket.cm_callback;
-import net.openaudiomc.socket.timeoutManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -14,6 +12,8 @@ import com.sk89q.worldguard.bukkit.WGBukkit;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 import net.openaudiomc.actions.command;
+import net.openaudiomc.socket.cm_callback;
+import net.openaudiomc.socket.timeoutManager;
 import net.openaudiomc.actions.spy;
 import net.openaudiomc.files.playlistManager;
 import net.openaudiomc.minecraft.Main;
@@ -298,6 +298,8 @@ public class AdminCommands implements CommandExecutor {
 							command.stop(args[1]);
 							command.stopOldRegion(args[1]);
 							command.stopRegion(args[1]);
+							command.hueStopEffect(args[1]);
+							audioSpeakerManager.stopForPlayer(args[1]);
 							userManager.getPlayer(Bukkit.getPlayer(args[1])).removeAllSyncedSounds();
 						} else {
 							sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio stopall <mc name>");

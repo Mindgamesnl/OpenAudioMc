@@ -1,4 +1,4 @@
-var openaudio = {};
+ openaudio = {};
 var socketIo = {};
 var ui = {};
 var fadingData = {};
@@ -14,6 +14,7 @@ var HueDefaultColor = "rgba(255,255,255,150)";
 var isHueOn = true;
 var HueTestTry = 0;
 var hue_lights = {};
+var hue_enabled = false;
 var StopHueLoop = false;
 var hue_start_animation = true;
 var audio = [];
@@ -23,6 +24,32 @@ var soundcloud_url = "https://soundcloud.com/stream";
 
 function SetDesignColor(code) {
 	document.getElementById("box").style = "background-color: "+code+";";
+}
+
+document.body.onkeydown = function(data){
+
+	if (data.key == "ArrowDown" || data.key == "ArrowLeft") {
+		var slider = document.getElementById("slider");
+		slider.value = slider.value - 1;
+		openaudio.set_volume(slider.value);
+		sliderValue(slider.value);
+	}
+
+	if (data.key == "h") {
+		if (hue_enabled) {
+			openhue();
+		} else {
+			swal("Hue is disabled.");
+		}
+	}
+
+	if (data.key == "ArrowUp" || data.key == "ArrowRight") {
+		var slider = document.getElementById("slider");
+		var val = ++slider.value;
+		slider.value = val;
+		openaudio.set_volume(slider.value);
+		sliderValue(slider.value);
+	}
 }
 
 function loadAllFromJson(pack) {
@@ -140,7 +167,7 @@ socketIo.connect = function() {
 			}
 		}
 	});
-	
+
 	socket.on('oaJs', function(msg) {
 		if (msg != null) {
 			var msg = JSON.parse(msg);
@@ -150,7 +177,7 @@ socketIo.connect = function() {
 			}
 		}
 	});
-	 
+
 	socket.on('oaSettings', function(msg) {
 		if (msg != null) {
 			var settings = JSON.parse(msg);
@@ -159,6 +186,7 @@ socketIo.connect = function() {
 				if (settings.hue != "off") {
 					loop_hue_connection();
 					hueicon = new trayItem("fa-lightbulb-o", "openhue");
+					hue_enabled = true;
 				} else {
 					document.getElementById("hue_modal_text").innerHTML = "<h2>"+langpack.hue.disabled+"</h2>";
 				}
@@ -182,8 +210,8 @@ socketIo.connect = function() {
 					}());
 					document.getElementById("logo").src = settings.logo;
 				}
-				 
-			}, 1000);	
+
+			}, 1000);
 		}
 	});
 
@@ -378,11 +406,11 @@ openaudio.decode = function(msg) {
 			});
 		} else {
 			openaudio.newspeaker(request.src, "speaker", request.time, request.volume);
-		}	
+		}
 		} else if (request.type == "volume") {
 			for (var i = 0; i < listSpeakerSounds().split(',').length; i++) {
 			listSpeakerSounds().split(',')[i] = listSpeakerSounds().split(',')[i].replace(/^\s*/, "").replace(/\s*$/, "");
-				if ((listSpeakerSounds().split(',')[i].indexOf("speaker_") !== -1)) { 
+				if ((listSpeakerSounds().split(',')[i].indexOf("speaker_") !== -1)) {
 					soundManager.setVolume(listSpeakerSounds().split(',')[i],request.volume);
 				}
 			}
@@ -522,7 +550,7 @@ openaudio.setGlobalVolume = function(volume) {
 			soundManager.getSoundById(listSounds().split(',')[i]).setVolume(volume);
 		} catch (e) {
 			//no sounds avalible
-		}	
+		}
 	}
 }
 
@@ -582,7 +610,7 @@ openaudio.stopregion = function() {
 }
 
 openaudio.newspeaker = function(src_to_file, soundID, defaultTime, startingvoluem) {
-	
+
 	var id = "speaker_" + Math.floor(Math.random() * 60) + 1 + "_" + soundID;
 	var soundId = "speaker";
 	if (isFading[soundId] === true) {
@@ -621,7 +649,7 @@ openaudio.play = function(src_fo_file, soundID, defaultTime) {
 	if (soundID === null) {
 		var soundID = 'default';
 	}
-	
+
 	if (defaultTime === null) {
 		var defaultTime = 0;
 	}
@@ -662,7 +690,7 @@ openaudio.setIdAtribute = function(ID, callback) {
 				if (listSounds().split(',')[i].indexOf(entry) !== -1 && (listSounds().split(',')[i].indexOf("play_") !== -1 || listSounds().split(',')[i].indexOf("oa_region_") !== -1)) {
 					callback(listSounds().split(',')[i])
 				}
-				
+
 			}
 		});
 	}
@@ -926,7 +954,7 @@ $(document).ready(function() {
 			x.remove();
 		}
 	}
-	
+
 	window.fadeIdOutWithSpeaker = function(soundId) {
 		var x = document.createElement("INPUT");
 		x.setAttribute("type", "range");
@@ -968,8 +996,8 @@ $(document).ready(function() {
 			x.remove();
 		}
 	}
-	
-	
+
+
 	window.fadeIdTargetSpeaker = function(soundId, volumeTarget) {
 		var x = document.createElement("INPUT");
 		x.setAttribute("type", "range");
@@ -1529,9 +1557,8 @@ function trayItem(icon, callback) {
   this.ul.appendChild(document.createTextNode(''));
   this.ul.appendChild(this.li);
 	this.li.innerHTML = '<i class="fa '+icon+' fa-2x footer-icon fa-qr-check" aria-hidden="true" onclick="'+callback+'();"></i>';
-	
+
 	this.destroy = function() {
 		this.li.remove();
 	}
 }
-

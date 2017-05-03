@@ -13,7 +13,6 @@ package net.openaudiomc.minecraft;
 import java.io.File;
 import java.io.IOException;
 
-import net.openaudiomc.socket.cm_callback;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -23,8 +22,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import ch.njol.skript.Skript;
+
 import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
+
 import net.openaudiomc.regions.regionCrap;
+import net.openaudiomc.socket.cm_callback;
 import net.openaudiomc.socket.Authenticator;
 import net.openaudiomc.socket.timeoutManager;
 import net.openaudiomc.actions.command;
@@ -37,98 +39,99 @@ import net.openaudiomc.internal.events.SkriptRegistration;
 import net.openaudiomc.speakerSystem.speakerMain;
 import net.openaudiomc.speakerSystem.managers.audioSpeakerManager;
 
-public class Main extends JavaPlugin implements Listener{
-	
+public class Main extends JavaPlugin implements Listener {
 
-	public static Main pl;
-	public static File MessagesFile;
-	public static FileConfiguration MessagesConfig;
-	public static String prefix;
-	public static Main getPL(){
-		return pl;
-	}
 
-	public static File fileLoc;
-	
-	//Start zooi 
-	@Override
-	public void onEnable(){
-		pl = this;
-		
-		fileLoc = getDataFolder();
-		
-		getDep.runCheck();
-		cm_callback.update();
-		
-		createDataFile();
-		createRegionsFile();
-		createMessagesFile();
-		createServerNode();
-		createPlaylist();
-		createModsFile();
-		Bukkit.getServer().getPluginManager().registerEvents(new timeoutManager(), this);
-		Bukkit.getServer().getPluginManager().registerEvents(new eventListener(), this);
-		Bukkit.getLogger().info("[OpenAudio] Loading OpenAudioMc by Mindgamesnl/Me_is_mattyh");
+    public static Main pl;
+    public static File MessagesFile;
+    public static FileConfiguration MessagesConfig;
+    public static String prefix;
 
-		prefix = ChatColor.translateAlternateColorCodes('&', "&9[&bOpenAudioMc&9] &3");
-		
-		//Audio commands
-		this.getCommand("connect").setExecutor(new AudioCommands());
-		this.getCommand("audio").setExecutor(new AudioCommands());
-		this.getCommand("music").setExecutor(new AudioCommands());
-		this.getCommand("sound").setExecutor(new AudioCommands());
-		this.getCommand("muziek").setExecutor(new AudioCommands());
-		this.getCommand("audioserver").setExecutor(new AudioCommands());
-		this.getCommand("audioclient").setExecutor(new AudioCommands());
-		//Volume command
-		this.getCommand("volume").setExecutor(new volumeCommand());
-		//Main command
-		this.getCommand("openaudio").setExecutor(new AdminCommands());
-		this.getCommand("oa").setExecutor(new AdminCommands());
-		this.getCommand("oam").setExecutor(new AdminCommands());
-		
-		modManager.setBg("Moved to https://plus.openaudiomc.net");
-		
-		if (getDep.getStatus()) {
-			regionCrap.enable();
-			Bukkit.getServer().getPluginManager().registerEvents(new net.openaudiomc.regions.regionCrap(),this);
-		}
-		
-		if (getDep.skriptInstalled) {
-			Skript.registerAddon(this);
-			SkriptRegistration.load();
-			Bukkit.getLogger().info("[OpenAudio] Whoah! just like that! loaded the skript events :D");
-		} else {
-			Bukkit.getLogger().info("[OpenAudio] Skript was not found in your server, gues we're not loading the sk-events then.");
-		}
-		
-		timeoutManager.updateCounter();
-		
-		Bukkit.getLogger().info("[OpenAudio] Loading speakers.");
-		speakerMain.loadSounds();
-		speakerMain.loadSpeaker();
-		
-		audioSpeakerManager.Init();
-		Bukkit.getLogger().info("[OpenAudio] Started up.");
-	}	
-	
-	//Sluit zooi
-	@Override
-	public void onDisable(){
-		for (Player p : Bukkit.getOnlinePlayers()) {
-			if (OpenAudioApi.isConnected(p)) {
-				command.stopAll(p.getName());
-				audioSpeakerManager.stopForPlayer(p.getName());
-			}
-		}
-	}
+    public static Main getPL() {
+        return pl;
+    }
 
-	public void createMessagesFile() {
+    public static File fileLoc;
 
-		MessagesFile = new File("plugins/OpenAudio", "messages.yml");
+    //Start zooi
+    @Override
+    public void onEnable() {
+        pl = this;
+
+        fileLoc = getDataFolder();
+
+        getDep.runCheck();
+        cm_callback.update();
+
+        createDataFile();
+        createRegionsFile();
+        createMessagesFile();
+        createServerNode();
+        createPlaylist();
+        createModsFile();
+        Bukkit.getServer().getPluginManager().registerEvents(new timeoutManager(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new eventListener(), this);
+        Bukkit.getLogger().info("[OpenAudio] Loading OpenAudioMc by Mindgamesnl/Me_is_mattyh");
+
+        prefix = ChatColor.translateAlternateColorCodes('&', "&9[&bOpenAudioMc&9] &3");
+
+        //Audio commands
+        this.getCommand("connect").setExecutor(new AudioCommands());
+        this.getCommand("audio").setExecutor(new AudioCommands());
+        this.getCommand("music").setExecutor(new AudioCommands());
+        this.getCommand("sound").setExecutor(new AudioCommands());
+        this.getCommand("muziek").setExecutor(new AudioCommands());
+        this.getCommand("audioserver").setExecutor(new AudioCommands());
+        this.getCommand("audioclient").setExecutor(new AudioCommands());
+        //Volume command
+        this.getCommand("volume").setExecutor(new volumeCommand());
+        //Main command
+        this.getCommand("openaudio").setExecutor(new AdminCommands());
+        this.getCommand("oa").setExecutor(new AdminCommands());
+        this.getCommand("oam").setExecutor(new AdminCommands());
+
+        modManager.setBg("Moved to https://plus.openaudiomc.net");
+
+        if (getDep.getStatus()) {
+            regionCrap.enable();
+            Bukkit.getServer().getPluginManager().registerEvents(new net.openaudiomc.regions.regionCrap(), this);
+        }
+
+        if (getDep.skriptInstalled) {
+            Skript.registerAddon(this);
+            SkriptRegistration.load();
+            Bukkit.getLogger().info("[OpenAudio] Whoah! just like that! loaded the skript events :D");
+        } else {
+            Bukkit.getLogger().info("[OpenAudio] Skript was not found in your server, gues we're not loading the sk-events then.");
+        }
+
+        timeoutManager.updateCounter();
+
+        Bukkit.getLogger().info("[OpenAudio] Loading speakers.");
+        speakerMain.loadSounds();
+        speakerMain.loadSpeaker();
+
+        audioSpeakerManager.Init();
+        Bukkit.getLogger().info("[OpenAudio] Started up.");
+    }
+
+    //Sluit zooi
+    @Override
+    public void onDisable() {
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            if (OpenAudioApi.isConnected(p)) {
+                command.stopAll(p.getName());
+                audioSpeakerManager.stopForPlayer(p.getName());
+            }
+        }
+    }
+
+    public void createMessagesFile() {
+
+        MessagesFile = new File("plugins/OpenAudio", "messages.yml");
         if (!MessagesFile.exists()) {
             try {
-            	MessagesFile.createNewFile();
+                MessagesFile.createNewFile();
             } catch (IOException e) {
 
             }
@@ -144,116 +147,116 @@ public class Main extends JavaPlugin implements Listener{
             MessagesConfig.set("volume-error", "&9[&bVolume&9] &4Invalid arguments.");
 
             try {
-            	MessagesConfig.save(MessagesFile);
+                MessagesConfig.save(MessagesFile);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-		if (Messages.get("website-url").contains("http://client.openaudiomc.net")) {
-			MessagesFile = new File("plugins/OpenAudio", "messages.yml");
-			MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
-			MessagesConfig.set("website-url", "http://client.openaudiomc.net/?name=%name%&session=%session%");
-			try {
-				MessagesConfig.save(MessagesFile);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+        if (Messages.get("website-url").contains("http://client.openaudiomc.net")) {
+            MessagesFile = new File("plugins/OpenAudio", "messages.yml");
+            MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
+            MessagesConfig.set("website-url", "http://client.openaudiomc.net/?name=%name%&session=%session%");
+            try {
+                MessagesConfig.save(MessagesFile);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
 
         if (Messages.get("disconnect-message") == null) {
-        	MessagesFile = new File("plugins/OpenAudio", "messages.yml");
-        	MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
-        	MessagesConfig.set("disconnect-message", "&9[&bOpenAudioMc&9] &3You are now &4Disconnected&3 from our audio server!");
-        	try {
-				MessagesConfig.save(MessagesFile);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+            MessagesFile = new File("plugins/OpenAudio", "messages.yml");
+            MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
+            MessagesConfig.set("disconnect-message", "&9[&bOpenAudioMc&9] &3You are now &4Disconnected&3 from our audio server!");
+            try {
+                MessagesConfig.save(MessagesFile);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
 
         if (Messages.get("background-image") == null) {
-        	MessagesFile = new File("plugins/OpenAudio", "messages.yml");
-        	MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
-        	MessagesConfig.set("background-image", "<none>");
-        	try {
-				MessagesConfig.save(MessagesFile);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+            MessagesFile = new File("plugins/OpenAudio", "messages.yml");
+            MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
+            MessagesConfig.set("background-image", "<none>");
+            try {
+                MessagesConfig.save(MessagesFile);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
 
         if (Messages.get("stop-on-teleport") == null) {
-        	MessagesFile = new File("plugins/OpenAudio", "messages.yml");
-        	MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
-        	MessagesConfig.set("stop-on-teleport", false);
-        	try {
-				MessagesConfig.save(MessagesFile);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+            MessagesFile = new File("plugins/OpenAudio", "messages.yml");
+            MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
+            MessagesConfig.set("stop-on-teleport", false);
+            try {
+                MessagesConfig.save(MessagesFile);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
 
         if (Messages.get("hue-connected-message") == null) {
-        	MessagesFile = new File("plugins/OpenAudio", "messages.yml");
-        	MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
-        	MessagesConfig.set("hue-connected-message", "&9[&bOpenAudioMc&9] &3You are now &aConnected&3 with your philips &dh&bu&ae&3!");
-        	try {
-				MessagesConfig.save(MessagesFile);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+            MessagesFile = new File("plugins/OpenAudio", "messages.yml");
+            MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
+            MessagesConfig.set("hue-connected-message", "&9[&bOpenAudioMc&9] &3You are now &aConnected&3 with your philips &dh&bu&ae&3!");
+            try {
+                MessagesConfig.save(MessagesFile);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
 
-	}
+    }
 
-	public void createRegionsFile() {
-		File regionsFile = new File("plugins/OpenAudio", "regions.yml");
-		if (!regionsFile.exists()) {
-			try {
-				regionsFile.createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			FileConfiguration regionsFileInst = YamlConfiguration.loadConfiguration(regionsFile);
-			regionsFileInst.set("Description", "Info like region data will be stored here.");
-			try {
-				regionsFileInst.save(regionsFile);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
+    public void createRegionsFile() {
+        File regionsFile = new File("plugins/OpenAudio", "regions.yml");
+        if (!regionsFile.exists()) {
+            try {
+                regionsFile.createNewFile();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            FileConfiguration regionsFileInst = YamlConfiguration.loadConfiguration(regionsFile);
+            regionsFileInst.set("Description", "Info like region data will be stored here.");
+            try {
+                regionsFileInst.save(regionsFile);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
 
-	public void createModsFile() {
-		File regionsFile = new File("plugins/OpenAudio/advanced", "mods.yml");
-		if (!regionsFile.exists()) {
-			try {
-				regionsFile.createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			FileConfiguration regionsFileInst = YamlConfiguration.loadConfiguration(regionsFile);
-			regionsFileInst.set("Description", "(ONLY FOR USERS WHO DON'T HAVE OWN HOSTING) urls to css/js files will be stored here :3");
-			try {
-				regionsFileInst.save(regionsFile);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
+    public void createModsFile() {
+        File regionsFile = new File("plugins/OpenAudio/advanced", "mods.yml");
+        if (!regionsFile.exists()) {
+            try {
+                regionsFile.createNewFile();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            FileConfiguration regionsFileInst = YamlConfiguration.loadConfiguration(regionsFile);
+            regionsFileInst.set("Description", "(ONLY FOR USERS WHO DON'T HAVE OWN HOSTING) urls to css/js files will be stored here :3");
+            try {
+                regionsFileInst.save(regionsFile);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
 
-	public void createDataFile() {
-		File dataFile = new File("plugins/OpenAudio", "serverData.yml");
+    public void createDataFile() {
+        File dataFile = new File("plugins/OpenAudio", "serverData.yml");
         if (!dataFile.exists()) {
             try {
                 dataFile.createNewFile();
@@ -270,10 +273,10 @@ public class Main extends JavaPlugin implements Listener{
                 e.printStackTrace();
             }
         }
-	}
+    }
 
-	public void createServerNode() {
-		File dataFile = new File("plugins/OpenAudio/advanced", "advancedConfig.yml");
+    public void createServerNode() {
+        File dataFile = new File("plugins/OpenAudio/advanced", "advancedConfig.yml");
         if (!dataFile.exists()) {
             try {
                 dataFile.createNewFile();
@@ -291,10 +294,10 @@ public class Main extends JavaPlugin implements Listener{
                 e.printStackTrace();
             }
         }
-	}
+    }
 
-	public void disableSslConfig() {
-		File dataFile = new File("plugins/OpenAudio/advanced", "advancedConfig.yml");
+    public void disableSslConfig() {
+        File dataFile = new File("plugins/OpenAudio/advanced", "advancedConfig.yml");
         if (!dataFile.exists()) {
             try {
                 dataFile.createNewFile();
@@ -312,10 +315,10 @@ public class Main extends JavaPlugin implements Listener{
                 e.printStackTrace();
             }
         }
-	}
+    }
 
-	public void createPlaylist() {
-		File dataFile = new File("plugins/OpenAudio", "playlist.yml");
+    public void createPlaylist() {
+        File dataFile = new File("plugins/OpenAudio", "playlist.yml");
         if (!dataFile.exists()) {
             try {
                 dataFile.createNewFile();
@@ -333,12 +336,5 @@ public class Main extends JavaPlugin implements Listener{
                 e.printStackTrace();
             }
         }
-	}
-
-
-
-
-
-
-
+    }
 }
