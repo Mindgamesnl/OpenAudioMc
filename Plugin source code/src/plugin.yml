@@ -9,33 +9,115 @@ main: net.openaudiomc.minecraft.Main
 commands:
    openaudio:
       description: OpenAudioAdmin command
-      permission: openaudio.admin
-      permission-message: You don't have the permissions to do this
+
    oa:
       description: OpenAudioAdmin command
-      permission: openaudio.admin
-      permission-message: You don't have the permissions to do this
+
    oam:
       description: OpenAudioAdmin command
-      permission: openaudio.admin
-      permission-message: You don't have the permissions to do this
+
    connect:
       description: Give a url for our openaudio client
+
    audio:
       description: Give a url for our openaudio client
+
    music:
       description: Give a url for our openaudio client
+
    sound:
       description: Give a url for our openaudio client
+
    muziek:
       description: Give a url for our openaudio client
+
    audioclient:
       description: Give a url for our openaudio client
+
    audioserver:
       description: Give a url for our openaudio client
+
    volume:
       description: Give a url for our openaudio client
+
 permissions:
   openaudio.admin:
     description: the /openaudio command
     default: op
+
+  openaudio.admin.help:
+      description: the /openaudio help
+      default: op
+
+  openaudio.admin.play:
+      description: the /openaudio play
+      default: op
+
+  openaudio.admin.spy:
+      description: the /openaudio spy
+      default: op
+
+  openaudio.admin.plus:
+      description: the /openaudio oauth
+      default: op
+
+  openaudio.admin.stopall:
+      description: the /openaudio stopall
+      default: op
+
+  openaudio.admin.loop:
+      description: the /openaudio loop
+      default: op
+
+  openaudio.admin.speaker:
+      description: the /openaudio speaker
+      default: op
+
+  openaudio.admin.region:
+      description: the /openaudio region
+      default: op
+
+  openaudio.admin.playlist:
+      description: the /openaudio playlist
+      default: op
+
+  openaudio.admin.playregion:
+      description: the /openaudio playlist
+      default: op
+
+  openaudio.admin.stop:
+      description: the /openaudio stop
+      default: op
+
+  openaudio.admin.skipto:
+      description: the /openaudio skipto
+      default: op
+
+  openaudio.admin.toggle:
+      description: the /openaudio toggle
+      default: op
+
+  openaudio.admin.setvolume:
+      description: the /openaudio setvolume
+      default: op
+
+  openaudio.admin.buffer:
+      description: the /openaudio buffer
+      default: op
+
+  openaudio.admin.send:
+      description: the /openaudio send
+      default: op
+
+  openaudio.admin.json:
+      description: the /openaudio json
+      default: op
+
+  openaudio.admin.setbg:
+      description: the /openaudio setbg
+      default: op
+
+  openaudio.admin.hue:
+      description: the /openaudio hue
+      default: op
+
