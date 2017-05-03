@@ -3,7 +3,6 @@ package net.openaudiomc.socket;
 import net.openaudiomc.minecraft.Main;
 import net.openaudiomc.utils.Callbacknoreturn;
 import net.openaudiomc.utils.webUtils;
-import net.openaudiomc.socket.Authenticator;
 
 import org.json.JSONObject;
 
