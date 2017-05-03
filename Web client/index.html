@@ -30,15 +30,15 @@
 	<script src="files/js/soundmanager2.js"></script>
 </head>
 
-<body>
+<body id="body">
 	<div id="UserBox">
 		<aside class="profile-card" id="box">
-			<div class="box" >
+			<div class="box" id="box2">
 				<span id="status-span" class="status-span status-warning">Connecting to server...</span>
 				<div class="inner-box">
 					<br><br>
 					<div class="container">
-						<img src="https://crafatar.com/avatars/MHF_Question?overlay" id="skull" class="skull">
+						<img src="https://crafatar.com/avatars/MHF_Question?overlay" id="skull" class="skull"  onerror="this.onerror=null;this.src='files/images/footer_logo.png';">
 					</div>
 					<br><br>
 					<div class="slider">
@@ -91,9 +91,9 @@
 	<div id="faders" style="display:none;"></div>
 </body>
 	<!-- Make sure that OpenAudioMc is mentioned in the footer somewhere or your server will be banned until it's fixed as it was stated in the license. To appeal, email us at contact@openaudiomc.net. Thanks, ~OpenAudioMc developers -->
-<footer>
+<footer id="footer">
 	<span>OpenAudioMc 2.5.2 - <a href="http://openaudiomc.net/" id="client-title">OpenAudioMC</a></span>
-	<img class="footer-logo" onclick="loadBg();" id="logo" src="files/images/footer_logo.png">
+	<img class="footer-logo" id="logo" src="files/images/footer_logo.png">
 	<img id="sc-cover" class="sc-cover" src="files/images/soundcloud.png" style="display: none;" onclick="open_soundcloud();"  onerror="this.onerror=null;this.src='files/images/sc-default.png';"/>
 	<p id="sc-title" class="sc-title" style="display: none;" onclick="open_soundcloud();">Song Title</p>
 </footer>

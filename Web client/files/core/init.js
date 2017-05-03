@@ -1,8 +1,21 @@
 function loadBg() {
   var LiturkeyColorsInc = ["#f5d65a","#39e2b0","#3fbe98","#a743c4","#5f5cea","#ea5c5c"];
   var item = LiturkeyColorsInc[Math.floor(Math.random()*LiturkeyColorsInc.length)];
-  document.body.style.backgroundColor = item;
+  $("#body").animate({"background-color":item},{duration:1000});
 }
+
+var ui = {};
+var issmall = getUrlVar("small") == null;
+
+ui.minimal = function() {
+	
+}
+
+ui.color = function(code) {
+	$("#footer").animate({"background-color":code},{duration:1000});
+	$("#box").animate({"background-color":code},{duration:500});
+}
+
 
 console.info("You like to look under the hood? Why not help us ? :-) https://github.com/Mindgamesnl/OpenAudioMc")
 

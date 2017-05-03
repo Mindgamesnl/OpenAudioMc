@@ -26,6 +26,7 @@ public class timeoutManager implements Listener {
     public void onSocketConnected(SocketConnectEvent event) {
 		ioconnected = true;
 		ioready = true;
+		cm_callback.connections_made++;
     }
 
     public static void requestConnect() {
@@ -87,5 +88,6 @@ public class timeoutManager implements Listener {
     @EventHandler
     public void onSocketDisconnected(SocketDisconnectEvent event) {
     	ioconnected = false;
+    	cm_callback.connections_closed++;
     }
 }

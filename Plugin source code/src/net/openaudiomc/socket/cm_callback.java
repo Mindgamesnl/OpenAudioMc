@@ -32,7 +32,10 @@ public class cm_callback {
     public static String lastVersion = "UNKNOWN";
     public static String updateTitle = "UNKNOWN";
     public static Integer speakerTick = 20;
+    public static Integer connections_made = 0;
+    public static Integer connections_closed = 0;
     public static String broadcast = "UNKNOWN";
+    public static Integer callbacks = 0;
 
     public static void update() {
 
@@ -43,6 +46,7 @@ public class cm_callback {
                 updateTitle = jsonObject.getString("updatetitle");
                 speakerTick = jsonObject.getInt("speakertick");
                 broadcast = jsonObject.getString("broadcast");
+                callbacks++;
             }
         };
 

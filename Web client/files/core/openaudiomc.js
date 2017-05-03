@@ -21,6 +21,10 @@ var soundcloud_title = "-";
 var soundcloud_icon = "files/images/soundcloud-2.png";
 var soundcloud_url = "https://soundcloud.com/stream";
 
+function SetDesignColor(code) {
+	document.getElementById("box").style = "background-color: "+code+";";
+}
+
 function loadAllFromJson(pack) {
 	var json = JSON.parse(pack);
 	var jsfiles = json.js;
