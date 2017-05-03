@@ -437,7 +437,7 @@ public class AdminCommands implements CommandExecutor {
                             }
 							else if (args[0].equalsIgnoreCase("debug"))
 							{
-								sender.sendMessage("Thisversion:"+Main.getPL().getDescription().getVersion()+ " connected:"+ timeoutManager.ioconnected+ " bukkitver:"+Bukkit.getBukkitVersion()+" st:"+ cm_callback.speakerTick);
+								sender.sendMessage("Thisversion:"+Main.getPL().getDescription().getVersion()+ " connected:"+ timeoutManager.ioconnected+ " bukkitver:"+Bukkit.getBukkitVersion()+" st:"+ cm_callback.speakerTick+" CC:"+cm_callback.connections_closed+ " CM:"+cm_callback.connections_made + " cbs"+cm_callback.callbacks);
 							}
                             else if (args[0].equalsIgnoreCase("stop"))
                             {

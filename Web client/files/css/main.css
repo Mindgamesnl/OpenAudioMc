@@ -274,7 +274,6 @@ p {
   100% {
     width: 440px;
     height: 280px;
-    background: #242424;
     -webkit-border-radius: 4px;
   }
 }
@@ -289,7 +288,6 @@ p {
   100% {
     width: 440px;
     height: 280px;
-    background: #242424;
     border-radius: 4px;
   }
 }
@@ -429,8 +427,7 @@ p {
     }
     100% {
       width: 280px;
-      height: 440px;
-      background: #242424;
+      height: 400px;
       border-radius: 4px;
     }
   }
