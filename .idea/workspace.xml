@@ -1253,7 +1253,7 @@
         <state relative-caret-position="255">
           <caret line="15" column="16" lean-forward="true" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
           <folding>
-            <element signature="e#0#5086#0" expanded="true" />
+            <element signature="e#0#5086#0" expanded="false" />
           </folding>
         </state>
       </provider>
