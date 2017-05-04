@@ -8,6 +8,9 @@ var ui = {};
 var issmall = getUrlVar("small") == null;
 var debug = getUrlVar("debug") == null;
 
+ui.tell = function(text) {
+  $("#note").animate({"opacity":"100"},{duration:10000})
+}
 ui.color = function(code) {
 	$("#footer").animate({"background-color":code},{duration:1000});
 	$("#box").animate({"background-color":code},{duration:500});
