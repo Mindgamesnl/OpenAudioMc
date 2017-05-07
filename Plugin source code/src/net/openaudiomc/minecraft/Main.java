@@ -39,7 +39,7 @@ import net.openaudiomc.internal.events.SkriptRegistration;
 import net.openaudiomc.speakerSystem.speakerMain;
 import net.openaudiomc.speakerSystem.managers.audioSpeakerManager;
 
-public class Main extends JavaPlugin implements Listener {
+public class Main extends JavaPlugin {
 
 
     public static Main pl;
