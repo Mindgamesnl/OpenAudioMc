@@ -57,11 +57,10 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         pl = this;
-
+        
         fileLoc = getDataFolder();
 
         getDep.runCheck();
-        cm_callback.update();
 
         createDataFile();
         createRegionsFile();
