@@ -6,17 +6,16 @@ import org.bukkit.event.HandlerList;
 
 public class SocketWhisperEvent extends Event {
 
-	Player p;
-	String data;
+	private Player player;
+	private String data;
 	
 	public SocketWhisperEvent(Player player, String eventData) {
-		this.p = player;
+		this.player = player;
 		this.data = eventData;
 	}
 	
-
 	public Player getPlayer() {
-		return p;
+		return player;
 	}
 	
 	public String getData() {
@@ -32,5 +31,4 @@ public class SocketWhisperEvent extends Event {
 	public static HandlerList getHandlerList() {
 	    return handlers;
 	}
-	
 }
