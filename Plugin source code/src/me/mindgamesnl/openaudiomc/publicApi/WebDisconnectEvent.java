@@ -6,12 +6,10 @@ import org.bukkit.event.HandlerList;
 
 public class WebDisconnectEvent extends Event {
 
-	
-	Player p;
-	
+	private Player player;
 	
 	public WebDisconnectEvent(Player player) {
-		this.p = player;
+		this.player = player;
 	}
 	
 	public Player getPlayer() {
@@ -26,6 +24,5 @@ public class WebDisconnectEvent extends Event {
 
 	public static HandlerList getHandlerList() {
 	    return handlers;
-	}
-	
+	}	
 }
