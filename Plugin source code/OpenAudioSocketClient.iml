@@ -35,6 +35,12 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="gson-2.2.2" level="project" />
+    <orderEntry type="library" name="Skript" level="project" />
+    <orderEntry type="library" name="socket-io-driver" level="project" />
+    <orderEntry type="library" name="WGRegionEvents" level="project" />
+    <orderEntry type="library" name="WorldEdit" level="project" />
+    <orderEntry type="library" name="json-NO-VERSION" level="project" />
     <orderEntry type="library" name="Maven: org.apache.maven.plugins:maven-shade-plugin:2.4.3" level="project" />
     <orderEntry type="library" name="Maven: org.apache.maven:maven-plugin-api:3.0" level="project" />
     <orderEntry type="library" name="Maven: org.sonatype.sisu:sisu-inject-plexus:1.4.2" level="project" />
@@ -71,6 +77,9 @@
     <orderEntry type="library" name="Maven: org.ow2.asm:asm-analysis:5.0.4" level="project" />
     <orderEntry type="library" name="Maven: org.ow2.asm:asm-util:5.0.4" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:11.0.2" level="project" />
+    <orderEntry type="library" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
+    <orderEntry type="library" name="Maven: junit:junit:4.10" level="project" />
+    <orderEntry type="library" name="Maven: org.hamcrest:hamcrest-core:1.1" level="project" />
     <orderEntry type="module-library">
       <library name="Maven: com.mewin:WGRegionEvents:1.2">
         <CLASSES>
@@ -110,20 +119,11 @@
     </orderEntry>
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: commons-lang:commons-lang:2.6" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: junit:junit:4.10" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.hamcrest:hamcrest-core:1.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.code.gson:gson:2.2.4" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.avaje:ebean:2.8.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: javax.persistence:persistence-api:1.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.yaml:snakeyaml:1.15" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.md-5:bungeecord-chat:1.8-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.bukkit:bukkit:1.8.8-R0.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="gson-2.2.2" level="project" />
-    <orderEntry type="library" name="Skript" level="project" />
-    <orderEntry type="library" name="socket-io-driver" level="project" />
-    <orderEntry type="library" name="WGRegionEvents" level="project" />
-    <orderEntry type="library" name="WorldEdit" level="project" />
-    <orderEntry type="library" name="json-NO-VERSION" level="project" />
   </component>
 </module>

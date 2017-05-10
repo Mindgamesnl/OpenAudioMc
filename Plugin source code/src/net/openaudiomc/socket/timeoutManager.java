@@ -21,9 +21,11 @@ public class timeoutManager implements Listener {
 	public static Boolean ioconnected = false;
 	public static Boolean ioready = false;
 	public static Integer onlineplayers = 0;
+	public static Boolean connecting = false;
 	
 	@EventHandler
     public void onSocketConnected(SocketConnectEvent event) {
+		connecting = false;
 		ioconnected = true;
 		ioready = true;
 		cm_callback.connections_made++;
@@ -34,7 +36,11 @@ public class timeoutManager implements Listener {
 			if (!ioconnected) {
 				cm_callback.update();
 				Bukkit.getLogger().info("[OpenAudio] Reconnecting to the openaudiomc socket server.");
-				SocketioConnector.connect();
+				if (!connecting) {
+					connecting = true;
+					SocketioConnector.connect();
+				}
+
 			}
 		} catch (Exception e) {
 			Bukkit.getLogger().info("[OpenAudio] Failed to connect to the socket.io server, openaudio will not work correctly.");
@@ -77,7 +83,10 @@ public class timeoutManager implements Listener {
 				if (!ioconnected) {
 					cm_callback.update();
 					Bukkit.getLogger().info("[OpenAudio] Reconnecting to the openaudiomc socket server.");
-					SocketioConnector.connect();
+					if (!connecting) {
+						connecting = true;
+						SocketioConnector.connect();
+					}
 				}
 			} catch (Exception e) {
 				Bukkit.getLogger().info("[OpenAudio] Failed to connect to the socket.io server, openaudio will not work correctly.");

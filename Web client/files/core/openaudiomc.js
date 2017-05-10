@@ -617,7 +617,7 @@
 			stopFading[soundId] = true;
 		}
 		var speakersound = soundManager.createSound({
-			id: id,
+			id: "speaker_ding",
 			url: src_to_file,
 			volume: startingvoluem,
 			from: defaultTime*1000,
@@ -639,7 +639,7 @@
 		for (var i = 0; i < listSpeakerSounds().split(',').length; i++) {
 				listSpeakerSounds().split(',')[i] = listSpeakerSounds().split(',')[i].replace(/^\s*/, "").replace(/\s*$/, "");
 					if (listSpeakerSounds().split(',')[i].indexOf(id) !== -1 && (listSpeakerSounds().split(',')[i].indexOf("speaker_") !== -1)) {
-						soundManager.destroySound(listSpeakerSounds().split(',')[i]);
+						soundManager.destroySound(speaker_ding"");
 					}
 				}
 			}
