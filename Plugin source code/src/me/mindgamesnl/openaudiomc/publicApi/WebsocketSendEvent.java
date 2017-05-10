@@ -6,13 +6,11 @@ import org.bukkit.event.HandlerList;
 
 public class WebsocketSendEvent extends Event {
 
-	
-	Player p;
-	String data;
-	
+	private Player player;
+	private String data;
 	
 	public WebsocketSendEvent(Player player, String eventData) {
-		this.p = player;
+		this.player = player;
 		this.data = eventData;
 	}
 	
@@ -33,5 +31,4 @@ public class WebsocketSendEvent extends Event {
 	public static HandlerList getHandlerList() {
 	    return handlers;
 	}
-	
 }
