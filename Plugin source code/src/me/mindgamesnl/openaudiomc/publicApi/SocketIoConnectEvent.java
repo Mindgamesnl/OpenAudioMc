@@ -16,5 +16,4 @@ public class SocketIoConnectEvent extends Event {
 	public static HandlerList getHandlerList() {
 	    return handlers;
 	}
-	
 }
