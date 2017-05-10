@@ -13,7 +13,7 @@ public class WebDisconnectEvent extends Event {
 	}
 	
 	public Player getPlayer() {
-		return p;
+		return player;
 	}
 	
 	private static final HandlerList handlers = new HandlerList();
