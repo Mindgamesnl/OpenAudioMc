@@ -6,16 +6,14 @@ import org.bukkit.event.HandlerList;
 
 public class HueConnectEvent extends Event {
 
-	
-	Player p;
-	
+	private Player player;
 	
 	public HueConnectEvent(Player player) {
-		this.p = player;
+		this.player = player;
 	}
 	
 	public Player getPlayer() {
-		return p;
+		return player;
 	}
 	
 	private static final HandlerList handlers = new HandlerList();
@@ -27,5 +25,4 @@ public class HueConnectEvent extends Event {
 	public static HandlerList getHandlerList() {
 	    return handlers;
 	}
-	
 }
