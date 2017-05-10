@@ -6,16 +6,16 @@ import org.bukkit.event.HandlerList;
 
 public class SoundEndEvent extends Event {
 
-	Player p;
-	String id;
+	private Player player;
+	private String id;
 	
 	public SoundEndEvent(Player player, String id) {
-		this.p = player;
+		this.player = player;
 		this.id = id;
 	}
 	
 	public Player getPlayer() {
-		return p;
+		return player;
 	}
 	
 	public String getId() {
@@ -31,5 +31,4 @@ public class SoundEndEvent extends Event {
 	public static HandlerList getHandlerList() {
 	    return handlers;
 	}
-	
 }

@@ -6,16 +6,16 @@ import org.bukkit.event.HandlerList;
 
 public class AudioRegionLeaveEvent extends Event {
 
-	Player p;
-	String region_name;
+	private Player player;
+	private String region_name;
 	
 	public AudioRegionLeaveEvent(String region_name, Player player) {
-		this.p = player;
+		this.player = player;
 		this.region_name = region_name;
 	}
 	
 	public Player getPlayer() {
-		return p;
+		return player;
 	}
 	
 	public String getRegion() {
@@ -31,5 +31,4 @@ public class AudioRegionLeaveEvent extends Event {
 	public static HandlerList getHandlerList() {
 	    return handlers;
 	}
-	
 }
