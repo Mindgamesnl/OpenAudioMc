@@ -17,7 +17,7 @@ public class AudioRegionEnterEvent extends Event {
 	}
 	
 	public Player getPlayer() {
-		return p;
+		return player;
 	}
 	
 	public String getRegion() {
