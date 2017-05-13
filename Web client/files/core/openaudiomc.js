@@ -294,7 +294,7 @@ function listSounds() {
 	var str = '';
 	for (var p in obj) {
 		if (obj.hasOwnProperty(p)) {
-			if (soundManager.getSoundById(p).metadata. !== true) {
+			if (soundManager.getSoundById(p).metadata.speaker !== true) {
 				str += p + ",";
 			}
 		}
