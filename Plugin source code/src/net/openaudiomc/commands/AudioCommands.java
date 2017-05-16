@@ -1,6 +1,7 @@
 package net.openaudiomc.commands;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -35,7 +36,7 @@ public class AudioCommands implements CommandExecutor {
 			String command = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + message + "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + url + "\"}}]" + "";
 			Bukkit.dispatchCommand(console, command);
 		} else {
-			sender.sendMessage(Main.prefix + "OpenAudio is starting up, please wait.");
+			sender.sendMessage(Main.prefix + ChatColor.YELLOW + "Our audio client is starting up. Please try again in a few seconds.");
 		}
 		return true;
 	}

@@ -69,6 +69,7 @@ public class command {
 		obj.put("type", "region");
 		obj.put("command", "startRegion");
 		obj.put("src", src);
+		obj.put("id", src.replaceAll("[-+.^:,]","").replaceAll("/", ""));
 		String command = obj.toString();
 		Emitter.EmitToPlayer(name, getCleanURL(command));
 	}
@@ -79,10 +80,11 @@ public class command {
 	 * @param name the name
 	 */
 	@SuppressWarnings("unchecked")
-	public static void stopOldRegion(String name) {
+	public static void stopRegion(String name, String src) {
 		JSONObject obj = new JSONObject();
 		obj.put("type", "region");
 		obj.put("command", "stopOldRegion");
+		obj.put("id", src.replaceAll("[-+.^:,]","").replaceAll("/", ""));
 		String command = obj.toString();
 		Emitter.EmitToPlayer(name, getCleanURL(command));
 	}
@@ -93,7 +95,7 @@ public class command {
 	 * @param name the name
 	 */
 	@SuppressWarnings("unchecked")
-	public static void stopRegion(String name) {
+	public static void stopAllRegions(String name) {
 		JSONObject obj = new JSONObject();
 		obj.put("type", "region");
 		obj.put("command", "stopRegion");
@@ -353,8 +355,7 @@ public class command {
 	
 	public static void stopAll(String name) {
 		command.stop(name);
-		command.stopOldRegion(name);
-		command.stopRegion(name);
+		command.stopAllRegions(name);
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -6,7 +6,7 @@ public class getDep {
 	
 	
 	public static void runCheck() {
-		if (Main.getPL().getServer().getPluginManager().isPluginEnabled("WorldGuard") == true && Main.getPL().getServer().getPluginManager().isPluginEnabled("WorldEdit") == true && Main.getPL().getServer().getPluginManager().isPluginEnabled("WGRegionEvents") == true) {
+		if (Main.getPL().getServer().getPluginManager().isPluginEnabled("WorldGuard") == true && Main.getPL().getServer().getPluginManager().isPluginEnabled("WorldEdit") == true) {
 			System.out.println("[OpenAudio] All dependencies are detected, regions will be enabled!");
 			dependenciesComplete = true;
 		} else {

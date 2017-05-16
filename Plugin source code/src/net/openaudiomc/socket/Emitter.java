@@ -10,27 +10,30 @@ import org.json.simple.JSONObject;
 public class Emitter {
 	
 	public static void EmitToPlayer(String player, String message) {
-		try {
-		if (player.equalsIgnoreCase("@a")) {
-			for(Player p : Bukkit.getServer().getOnlinePlayers()) {
-				JSONObject obj = new JSONObject();
-				obj.put("target", p.getName());
-				obj.put("commandobj", message);
-				((Socket) SocketioConnector.socket).emit("send", obj.toString());
-			}
-		} else {
-			OfflinePlayer p = Bukkit.getOfflinePlayer(player);
-    		if (p.isOnline()) {
-    			JSONObject obj = new JSONObject();
-    			obj.put("target", player);
-    			obj.put("commandobj", message);
-    			((Socket) SocketioConnector.socket).emit("send", obj.toString());
-    		}	
-		}
-	} catch(NullPointerException e) {
+		if (timeoutManager.ioready) {
+			try {
+				if (player.equalsIgnoreCase("@a")) {
+					for(Player p : Bukkit.getServer().getOnlinePlayers()) {
+						JSONObject obj = new JSONObject();
+						obj.put("target", p.getName());
+						obj.put("commandobj", message);
+						((Socket) SocketioConnector.socket).emit("send", obj.toString());
+					}
+				} else {
+					OfflinePlayer p = Bukkit.getOfflinePlayer(player);
+					if (p.isOnline()) {
+						JSONObject obj = new JSONObject();
+						obj.put("target", player);
+						obj.put("commandobj", message);
+						((Socket) SocketioConnector.socket).emit("send", obj.toString());
+					}
+				}
+			} catch(NullPointerException e) {
 
-	}
-		Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.WebsocketSendEvent(Bukkit.getPlayer(player), message));
+			}
+			Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.WebsocketSendEvent(Bukkit.getPlayer(player), message));
+		}
+
 	}
 	
 	public static void KickPlayerConnection(String name) {
@@ -38,18 +41,22 @@ public class Emitter {
 	}
 	
 	public static void offlineInServer(String name) {
-		JSONObject obj = new JSONObject();
-		obj.put("target", name);
-		obj.put("commandobj", "not_in_server");
-		((Socket) SocketioConnector.socket).emit("send", obj.toString());
+		if (timeoutManager.ioready) {
+			JSONObject obj = new JSONObject();
+			obj.put("target", name);
+			obj.put("commandobj", "not_in_server");
+			((Socket) SocketioConnector.socket).emit("send", obj.toString());
+		}
 	}
 	
 	public static void connectedInServer(String name) {
-		JSONObject obj = new JSONObject();
-		obj.put("target", name);
-		obj.put("commandobj", "connectionSuccess");
+		if (timeoutManager.ioready) {
+			JSONObject obj = new JSONObject();
+			obj.put("target", name);
+			obj.put("commandobj", "connectionSuccess");
 
-		((Socket) SocketioConnector.socket).emit("send", obj.toString());
+			((Socket) SocketioConnector.socket).emit("send", obj.toString());
+		}
 	}
 
 }
