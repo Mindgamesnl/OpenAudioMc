@@ -29,7 +29,7 @@ public class userData {
 	public void syncSounds() {
 		for (String id : getSyncedSounds()) {
             syncedSound target = syncedSoundManager.getById(id);
-            if (target.isPlaying()) {
+
             	Integer miliSeconds = target.getTimeInMs();
     			String src = target.getSrc();
     			if (target.isPlaying()) {
@@ -37,7 +37,7 @@ public class userData {
     			} else {
     				syncedSoundManager.remove(target.getId());
     			}
-            }
+
 		}
 	}
 

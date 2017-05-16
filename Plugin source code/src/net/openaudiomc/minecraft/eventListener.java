@@ -3,6 +3,7 @@ package net.openaudiomc.minecraft;
 import java.io.File;
 import java.util.HashMap;
 
+import net.openaudiomc.regions.regionListener;
 import net.openaudiomc.socket.cm_callback;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -33,7 +34,6 @@ import net.openaudiomc.internal.events.SocketUserDisconnectEvent;
 import net.openaudiomc.internal.events.SocketWhisperEvent;
 import net.openaudiomc.syncedSound.managers.userManager;
 import net.openaudiomc.players.Sessions;
-import net.openaudiomc.regions.regionCrap;
 import net.openaudiomc.socket.Emitter;
 import net.openaudiomc.socket.timeoutManager;
 import net.openaudiomc.speakerSystem.speakerMain;
@@ -97,10 +97,11 @@ public class eventListener implements Listener{
 	    	    		String regionNu = "-";
 	    				for(ProtectedRegion r : WGBukkit.getRegionManager(client.getWorld()).getApplicableRegions(client.getLocation())) {
 	    					regionNu = r.getId();
+							if (regionListener.isValidRegion(regionNu)) {
+								command.playRegion(client.getName(), regionListener.getRegionFile(regionNu));
+							}
 	    	            }
-	    				if (regionCrap.isValidRegion(regionNu)) {
-	    					command.playRegion(client.getName(), regionCrap.getRegionFile(regionNu));
-	    				}
+
 	    	    	}
 	    		Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.WebConnectEvent(Bukkit.getPlayer(event.getName())));
 	    	} else {
@@ -161,8 +162,10 @@ public class eventListener implements Listener{
     				regionNu = r.getId();
                 }
     			
-    			if (regionCrap.isValidRegion(regionNu)) {
-    				command.playRegion(event.getPlayer().getName(), regionCrap.getRegionFile(regionNu));
+    			if (regionListener.isValidRegion(regionNu)) {
+					if (regionListener.isValidRegion(regionNu)) {
+						command.playRegion(event.getPlayer().getName(), regionListener.getRegionFile(regionNu));
+					}
     			}
         	}
 
@@ -197,7 +200,7 @@ public class eventListener implements Listener{
 	  public void onPlayerQuit(PlayerQuitEvent event) {
     	Player p = event.getPlayer();	
     	command.stop(p.getName());
-    	command.stopRegion(p.getName());
+    	command.stopAllRegions(p.getName());
     	Emitter.offlineInServer(p.getName());
     	audioSpeakerManager.stopForPlayer(event.getPlayer().getName());
 		

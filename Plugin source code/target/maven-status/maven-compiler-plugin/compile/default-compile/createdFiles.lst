@@ -6,6 +6,8 @@ net\openaudiomc\syncedSound\managers\syncedSoundManager$1.class
 net\openaudiomc\speakerSystem\managers\audioSpeakerManager$1.class
 net\openaudiomc\socket\cm_callback.class
 net\openaudiomc\syncedSound\managers\userManager.class
+net\openaudiomc\regions\regionListener$1.class
+net\openaudiomc\regions\MovementWay.class
 net\openaudiomc\syncedSound\objects\syncedSound$1.class
 net\openaudiomc\speakerSystem\managers\audioSpeakerManager.class
 net\openaudiomc\speakerSystem\objects\audioSpeakerSound.class
@@ -14,12 +16,11 @@ net\openaudiomc\syncedSound\managers\syncedSoundManager.class
 net\openaudiomc\syncedSound\objects\syncedSound$2.class
 net\openaudiomc\speakerSystem\speakerMain.class
 net\openaudiomc\minecraft\getDep.class
+net\openaudiomc\regions\regionListener.class
 net\openaudiomc\minecraft\eventListener$2.class
 net\openaudiomc\syncedSound\objects\syncedSound.class
 net\openaudiomc\speakerSystem\objects\audioSpeaker.class
-io\socket\engineio\client\transports\PollingXHR$1$1.class
-okhttp3\internal\http1\Http1Codec$1.class
 org\json\JSONObject$1.class
-okhttp3\HttpUrl$1.class
 net\openaudiomc\syncedSound\managers\syncedSoundManager$1$1.class
 net\openaudiomc\speakerSystem\objects\audioSpeakerSound$1.class
+net\openaudiomc\regions\regionListener$2.class

@@ -13,20 +13,20 @@ package net.openaudiomc.minecraft;
 import java.io.File;
 import java.io.IOException;
 
+import net.openaudiomc.regions.regionListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import ch.njol.skript.Skript;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
 
-import net.openaudiomc.regions.regionCrap;
-import net.openaudiomc.socket.cm_callback;
 import net.openaudiomc.socket.Authenticator;
 import net.openaudiomc.socket.timeoutManager;
 import net.openaudiomc.actions.command;
@@ -70,6 +70,7 @@ public class Main extends JavaPlugin {
         createModsFile();
         Bukkit.getServer().getPluginManager().registerEvents(new timeoutManager(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new eventListener(), this);
+
         Bukkit.getLogger().info("[OpenAudio] Loading OpenAudioMc by Mindgamesnl/Me_is_mattyh");
 
         prefix = ChatColor.translateAlternateColorCodes('&', "&9[&bOpenAudioMc&9] &3");
@@ -92,8 +93,8 @@ public class Main extends JavaPlugin {
         modManager.setBg("Moved to https://plus.openaudiomc.net");
 
         if (getDep.getStatus()) {
-            regionCrap.enable();
-            Bukkit.getServer().getPluginManager().registerEvents(new net.openaudiomc.regions.regionCrap(), this);
+            Bukkit.getServer().getPluginManager().registerEvents(new regionListener(), this);
+            regionListener.setup(this, getWGPlugin());
         }
 
         if (getDep.skriptInstalled) {
@@ -335,5 +336,13 @@ public class Main extends JavaPlugin {
                 e.printStackTrace();
             }
         }
+    }
+
+    private WorldGuardPlugin getWGPlugin() {
+        Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
+        if ((plugin == null) || (!(plugin instanceof WorldGuardPlugin))) {
+            return null;
+        }
+        return (WorldGuardPlugin)plugin;
     }
 }

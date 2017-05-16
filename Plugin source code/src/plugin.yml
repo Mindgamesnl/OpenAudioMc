@@ -4,121 +4,75 @@ author: Mindgamesnl
 website: https://www.openaudiomc.net/
 prefix: OpenAudioMc
 version: 2.5.3
-softdepend: [WorldGuard, WGRegionEvents, Skript]
+softdepend: [WorldGuard, Skript]
 main: net.openaudiomc.minecraft.Main
-
 commands:
    openaudio:
-      description: OpenAudioAdmin command
-
-   oa:
-      description: OpenAudioAdmin command
-
-   oam:
-      description: OpenAudioAdmin command
-
+      description: The default openaudio command.
+      aliases: [oa, oam]
    connect:
-      description: Give a url for our openaudio client
-
-   audio:
-      description: Give a url for our openaudio client
-
-   music:
-      description: Give a url for our openaudio client
-
-   sound:
-      description: Give a url for our openaudio client
-
-   muziek:
-      description: Give a url for our openaudio client
-
-   audioclient:
-      description: Give a url for our openaudio client
-
-   audioserver:
-      description: Give a url for our openaudio client
-
+      description: Sends the link to your openaudio client to the sender.
+      aliases: [audio, music, sound, muziek, audioclient, audioserver]
    volume:
-      description: Give a url for our openaudio client
-
+      description: Change the volume of the audio for the sender.
 permissions:
   openaudio.admin:
-    description: the /openaudio command
+    description: Allows you to use the /openaudio command.
     default: op
-
   openaudio.admin.help:
-      description: the /openaudio help
+      description: Allows you to use the /openaudio help command.
       default: op
-
   openaudio.admin.play:
-      description: the /openaudio play
+      description: Allows you to use the /openaudio play command.
       default: op
-
   openaudio.admin.spy:
-      description: the /openaudio spy
+      description: Allows you to use the /openaudio spy command.
       default: op
-
   openaudio.admin.plus:
-      description: the /openaudio oauth
+      description: Allows you to use the /openaudio oauth command.
       default: op
-
   openaudio.admin.stopall:
-      description: the /openaudio stopall
+      description: Allows you to use the /openaudio stopall command.
       default: op
-
   openaudio.admin.loop:
-      description: the /openaudio loop
+      description: Allows you to use the /openaudio loop command.
       default: op
-
   openaudio.admin.speaker:
-      description: the /openaudio speaker
+      description: Allows you to use the /openaudio speaker command.
       default: op
-
   openaudio.admin.region:
-      description: the /openaudio region
+      description: Allows you to use the /openaudio region command.
       default: op
-
   openaudio.admin.playlist:
-      description: the /openaudio playlist
+      description: Allows you to use the /openaudio playlist command.
       default: op
-
   openaudio.admin.playregion:
-      description: the /openaudio playlist
+      description: Allows you to use the /openaudio playregion command.
       default: op
-
   openaudio.admin.stop:
-      description: the /openaudio stop
+      description: Allows you to use the /openaudio stop command.
       default: op
-
   openaudio.admin.skipto:
-      description: the /openaudio skipto
+      description: Allows you to use the /openaudio skipto command.
       default: op
-
   openaudio.admin.toggle:
-      description: the /openaudio toggle
+      description: Allows you to use the /openaudio toggle command.
       default: op
-
   openaudio.admin.setvolume:
-      description: the /openaudio setvolume
+      description: Allows you to use the /openaudio setvolume command.
       default: op
-
   openaudio.admin.buffer:
-      description: the /openaudio buffer
+      description: Allows you to use the /openaudio buffer command.
       default: op
-
   openaudio.admin.send:
-      description: the /openaudio send
+      description: Allows you to use the /openaudio send command.
       default: op
-
   openaudio.admin.json:
-      description: the /openaudio json
+      description: Allows you to use the /openaudio json command.
       default: op
-
   openaudio.admin.setbg:
-      description: the /openaudio setbg
+      description: Allows you to use the /openaudio setbg command.
       default: op
-
   openaudio.admin.hue:
-      description: the /openaudio hue
+      description: Allows you to use the /openaudio hue command.
       default: op
-

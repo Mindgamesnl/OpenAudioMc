@@ -1,10 +1,10 @@
 package me.mindgamesnl.openaudiomc.publicApi;
 
+import net.openaudiomc.regions.regionListener;
 import org.bukkit.entity.Player;
 
 import net.openaudiomc.actions.command;
 import net.openaudiomc.minecraft.eventListener;
-import net.openaudiomc.regions.regionCrap;
 
 public class OpenAudioApi {
 	
@@ -53,7 +53,7 @@ public class OpenAudioApi {
 	}
 	
 	public static String getRegionSound(String region) {
-		return regionCrap.getRegionFile(region);
+		return regionListener.getRegionFile(region);
 	}
 	
 	public static String getSessionKey(Player p) {
