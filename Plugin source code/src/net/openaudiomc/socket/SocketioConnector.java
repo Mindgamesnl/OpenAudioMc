@@ -1,29 +1,26 @@
 package net.openaudiomc.socket;
 
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-
+import net.openaudiomc.internal.events.SocketUserConnectEvent;
+import net.openaudiomc.internal.events.SocketWhisperEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-
-import org.json.JSONObject;
-
-import io.socket.client.IO;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
-
-import net.openaudiomc.socket.Authenticator;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 public class SocketioConnector {
 
@@ -36,7 +33,8 @@ public class SocketioConnector {
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio/advanced", "advancedConfig.yml"));
             String apiresponse = Authenticator.getNodeServer(cfg.getString("host"));
 
-            JSONObject jsonObject = new JSONObject(apiresponse);
+
+            JSONObject jsonObject = (JSONObject) JSONValue.parse(apiresponse);
 
             SSLContext sc = SSLContext.getInstance("TLS");
             sc.init(null, trustAllCerts, new SecureRandom());
@@ -48,7 +46,7 @@ public class SocketioConnector {
             options.secure = true;
             options.port = 3000;
 
-            socket = IO.socket(jsonObject.getString("secureSocket"), options);
+            socket = IO.socket((String) jsonObject.get("secureSocket"), options);
             
             ((Emitter) socket).on(Socket.EVENT_CONNECT, new Emitter.Listener() {
                 @Override
@@ -108,14 +106,24 @@ public class SocketioConnector {
     
     public static void whisper(Object args) {
     	String request = (String) args;
-        JSONObject jsonObject = new JSONObject(request);
-        Bukkit.getServer().getPluginManager().callEvent(new net.openaudiomc.internal.events.SocketWhisperEvent(jsonObject.getString("sender"), jsonObject.getString("content")));
+        JSONObject jsonObject = (JSONObject) JSONValue.parse(request);
+
+        String sender = (String) jsonObject.get("sender");
+        String content = (String) jsonObject.get("content");
+
+        SocketWhisperEvent whisperEvent = new SocketWhisperEvent(sender, content);
+        Bukkit.getServer().getPluginManager().callEvent(whisperEvent);
     }
 
     public static void ConnectEvent(Object args) {
         String request = (String) args;
-        JSONObject jsonObject = new JSONObject(request);
-        Bukkit.getServer().getPluginManager().callEvent(new net.openaudiomc.internal.events.SocketUserConnectEvent(jsonObject.getString("name"), jsonObject.getString("key")));
+        JSONObject jsonObject = (JSONObject) JSONValue.parse(request);
+
+        String name = (String) jsonObject.get("name");
+        String key = (String) jsonObject.get("key");
+
+        SocketUserConnectEvent connectEvent = new SocketUserConnectEvent(name, key);
+        Bukkit.getServer().getPluginManager().callEvent(connectEvent);
     }
 
     public static void DisconnectEvent(Object args) {
