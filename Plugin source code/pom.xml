@@ -3,10 +3,15 @@
     <groupId>OpenAudioSocketClient</groupId>
     <artifactId>OpenAudioMc</artifactId>
     <version>2.5.3</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
     <build>
-    
         <sourceDirectory>src</sourceDirectory>
-        
+
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -16,123 +21,123 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                    <shadedArtifactAttached>false</shadedArtifactAttached>
+                    <artifactSet>
+                        <includes>
+                            <include>com.squareup.okio:okio</include>
+                            <include>io.socket:socket.io-client</include>
+                            <include>io.socket:engine.io-client</include>
+                            <include>com.squareup.okhttp3:okhttp</include>
+                        </includes>
+                    </artifactSet> 
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
-        
+
         <resources>
-        
-        
             <resource>
                 <directory>src/</directory>
                 <includes>
                     <include>plugin.yml</include>
                 </includes>
             </resource>
-            
-            
+
             <resource>
                 <directory>${project.basedir}</directory>
                 <includes>
                     <include>/lib/socket-io-driver.jar</include>
                 </includes>
             </resource>
-            
-            
         </resources>
     </build>
+
     <dependencies>
-    
-    
         <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-shade-plugin</artifactId>
-            <version>2.4.3</version>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>3.8.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.android</groupId>
+                    <artifactId>android</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
-
-        <dependency>
-            <groupId>com.googlecode.json-simple</groupId>
-            <artifactId>json-simple</artifactId>
-            <version>1.1.1</version>
-        </dependency>
-        
-        
         <dependency>
             <groupId>com.mewin</groupId>
-			<artifactId>WGRegionEvents</artifactId>
+            <artifactId>WGRegionEvents</artifactId>
             <version>1.2</version>
             <scope>system</scope>
-	    	<systemPath>${basedir}/lib/WGRegionEvents.jar</systemPath>
+            <systemPath>${basedir}/lib/WGRegionEvents.jar</systemPath>
         </dependency>
-        
-        
+
         <dependency>
             <groupId>io.socket</groupId>
             <artifactId>socket.io-client</artifactId>
             <version>0.8.3</version>
         </dependency>
-        
-        
+
         <dependency>
-    		<groupId>com.sk89q</groupId>
-	    	<artifactId>worldedit</artifactId>
-	    	<version>5.5.8</version>
-	    	<scope>system</scope>
-	    	<systemPath>${basedir}/lib/WorldEdit.jar</systemPath>
-		</dependency>
-		
-		
-		<dependency>
-        	<groupId>com.sk89q</groupId>
-        	<artifactId>worldguard</artifactId>
-        	<version>6.1</version>
-    	</dependency>
-    	
-    	
-    	<dependency>
-    		<groupId>ch.njol</groupId>
-	    	<artifactId>Skript</artifactId>
-	    	<version>2.1</version>
-	    	<scope>system</scope>
-	    	<systemPath>${basedir}/lib/Skript.jar</systemPath>
-		</dependency>
-        
-        
+            <groupId>com.sk89q</groupId>
+            <artifactId>worldedit</artifactId>
+            <version>5.5.8</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/WorldEdit.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sk89q</groupId>
+            <artifactId>worldguard</artifactId>
+            <version>6.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.njol</groupId>
+            <artifactId>Skript</artifactId>
+            <version>2.1</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/Skript.jar</systemPath>
+        </dependency>
+
         <!--Spigot API-->
-    	<dependency>
-           	<groupId>org.spigotmc</groupId>
-           	<artifactId>spigot-api</artifactId>
-           	<version>1.8.8-R0.1-SNAPSHOT</version>
-           	<scope>provided</scope>
-    	</dependency>
-    	
-    	
-    	<dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
             <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-    	</dependency>
-        
+        </dependency>
     </dependencies>
-    <repositories>
-    
-    	<repository>
-        	<id>spigot-repo</id>
-	        <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-    	</repository>
-    	
-   
-    	<repository>
-        	<id>sk89q-repo</id>
-	        <url>http://maven.sk89q.com/repo/</url>
-    	</repository>
-    	
-    	
-    	<repository>
-		<id>njol-repo</id>
-		<url>http://maven.njol.ch/repo/</url>
-	</repository>
 
-        
+    <repositories>
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+
+        <repository>
+            <id>sk89q-repo</id>
+            <url>http://maven.sk89q.com/repo/</url>
+        </repository>
+
+        <repository>
+            <id>njol-repo</id>
+            <url>http://maven.njol.ch/repo/</url>
+        </repository>
     </repositories>
 </project>

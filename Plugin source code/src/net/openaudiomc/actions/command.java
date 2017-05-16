@@ -3,10 +3,9 @@
  */
 package net.openaudiomc.actions;
 
+import net.openaudiomc.socket.Emitter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
-import net.openaudiomc.socket.Emitter;
 
 // TODO: Auto-generated Javadoc
 /**
