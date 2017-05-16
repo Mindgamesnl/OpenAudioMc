@@ -1,12 +1,11 @@
 package net.openaudiomc.socket;
 
+import io.socket.client.Socket;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.json.JSONObject;
-
-import io.socket.client.Socket;
-import net.openaudiomc.socket.SocketioConnector;
+import org.json.simple.JSONObject;
 
 public class Emitter {
 	
@@ -42,14 +41,15 @@ public class Emitter {
 		JSONObject obj = new JSONObject();
 		obj.put("target", name);
 		obj.put("commandobj", "not_in_server");
-		((Socket) SocketioConnector.socket).emit("send", obj.toString());	
+		((Socket) SocketioConnector.socket).emit("send", obj.toString());
 	}
 	
 	public static void connectedInServer(String name) {
 		JSONObject obj = new JSONObject();
 		obj.put("target", name);
 		obj.put("commandobj", "connectionSuccess");
-		((Socket) SocketioConnector.socket).emit("send", obj.toString());	
+
+		((Socket) SocketioConnector.socket).emit("send", obj.toString());
 	}
 
 }

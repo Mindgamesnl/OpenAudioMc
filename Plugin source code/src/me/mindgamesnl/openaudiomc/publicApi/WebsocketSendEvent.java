@@ -15,7 +15,7 @@ public class WebsocketSendEvent extends Event {
 	}
 	
 	public Player getPlayer() {
-		return p;
+		return player;
 	}
 	
 	public String getData() {
