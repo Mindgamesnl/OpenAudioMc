@@ -170,16 +170,19 @@ public class eventListener implements Listener{
         	}
 
         	if(event.getPlayer().isOp()) {
-    			if (Main.getPL().getDescription().getVersion() != cm_callback.lastVersion) {
-    				String thisversion = Main.getPL().getDescription().getVersion();
-    				String newversion = cm_callback.lastVersion;
-    				String updateTitle = cm_callback.updateTitle;
-    				String message = Main.prefix + ChatColor.DARK_AQUA + "[UPDATE]" + ChatColor.RESET + " Update is avalible! "+ChatColor.AQUA+" your version:"+thisversion+" new version:"+newversion+ChatColor.RESET+ " Updating is recomended";
-    				event.getPlayer().sendMessage(message);
-				}
-				String broadcast = cm_callback.broadcast;
-				if (broadcast != "") {
-					event.getPlayer().sendMessage(Main.prefix+"Important message: " + ChatColor.RESET + broadcast);
+    			cm_callback.update();
+    			if (cm_callback.callbacks != 0) {
+					if (!Main.getPL().getDescription().getVersion().toString().equals(cm_callback.lastVersion.toString())) {
+						String thisversion = Main.getPL().getDescription().getVersion();
+						String newversion = cm_callback.lastVersion;
+						String updateTitle = cm_callback.updateTitle;
+						String message = Main.prefix + ChatColor.DARK_AQUA + "[UPDATE]" + ChatColor.RESET + " Update is avalible! "+ChatColor.AQUA+" your version:"+thisversion+" new version:"+newversion+ChatColor.RESET+ " Updating is recomended";
+						event.getPlayer().sendMessage(message);
+					}
+					String broadcast = cm_callback.broadcast;
+					if (!broadcast.equals("")) {
+						event.getPlayer().sendMessage(Main.prefix+"Important message: " + ChatColor.RESET + broadcast);
+					}
 				}
 			}
     	} }, 20);

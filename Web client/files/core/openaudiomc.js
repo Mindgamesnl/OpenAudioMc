@@ -6,8 +6,6 @@ var stopFading = {};
 var isFading = {};
 var volume = 20;
 var FadeEnabled = true;
-var newest_region = 0;
-var last_region_id = 1;
 var hue_connected = {};
 var MyHue = new huepi();
 var HueDefaultColor = "rgba(255	,255,255,150)";
@@ -20,6 +18,7 @@ var hue_start_animation = true;
 var audio = [];
 var soundcloud_title = "-";
 var soundcloud_icon = "files/images/soundcloud-2.png";
+var regions = {};
 var soundcloud_url = "https://soundcloud.com/stream";
 
 function SetDesignColor(code) {
@@ -448,22 +447,19 @@ openaudio.decode = function(msg) {
 			openaudio.loop(request.src);
 		}
 	} else if (request.type == "region") {
-		//Regions relateed stuff
-		if (request.command == "stopRegion") {
-			openaudio.stopregion();
-		} else if (request.command == "startRegion") {
-
-			if (request.src.includes("soundcloud.com")) {
-				var scurl = request.src;
-				getSoundcloud(scurl, function(newurl) {
-					openaudio.playregion(newurl);
-				});
-			} else {
-				openaudio.playregion(request.src);
-			}
+		
+		//TODO: REGION HANDLER
+		
+		if (request.command == "startRegion") {
+			openaudio.playRegion(request.src, request.id);
 		} else if (request.command == "stopOldRegion") {
-			stopOldRegion();
+			openaudio.stopRegion(request.id);
+		} else {
+			openaudio.regionsStop();
 		}
+		
+		console.log(msg);
+		
 	} else if (request.command == "volume") {
 		fadeAllTarget(request.volume);
 	} else if (request.type == "buffer") {
@@ -529,7 +525,40 @@ openaudio.decode = function(msg) {
 	}
 }
 
+openaudio.playRegion = function(url, id) {
+	if (!regions[id]) {
+			var regionsound = soundManager.createSound({
+			id: "oa_region_" + id,
+			volume: 0,
+			url: url
+		});
+		regions[id] = true;
 
+		function loopSound(sound) {
+			sound.play({
+				onfinish: function() {
+					loopSound(sound);
+				}
+			});
+		}
+		loopSound(regionsound);
+		fadeIdTarget("oa_region_" + id, volume);
+		}
+}
+
+openaudio.stopRegion = function(id) {
+	regions[id] = false;
+	fadeIdOut("oa_region_"+id);
+}
+
+openaudio.regionsStop = function() {
+	for (var i = 0; i < listSounds().split(',').length; i++) {
+		listSounds().split(',')[i] = listSounds().split(',')[i].replace(/^\s*/, "").replace(/\s*$/, "");
+		if (listSounds().split(',')[i].indexOf("oa_region_") !== -1) {
+			fadeIdOut(listSounds().split(',')[i]);
+		}
+	}
+}
 
 openaudio.playAction = function(action_is_fnc) {
 	for (var i = 0; i < listSounds().split(',').length; i++) {
@@ -554,60 +583,6 @@ openaudio.setGlobalVolume = function(volume) {
 	}
 }
 
-
-
-openaudio.regionAction = function(action_is_fnc) {
-	for (var i = 0; i < listSounds().split(',').length; i++) {
-		listSounds().split(',')[i] = listSounds().split(',')[i].replace(/^\s*/, "").replace(/\s*$/, "");
-		if (listSounds().split(',')[i].indexOf("oa_region_") !== -1) {
-			if (action_is_fnc === "stop") {
-				fadeIdOut(listSounds().split(',')[i]);
-			}
-		}
-	}
-}
-
-
-
-openaudio.playregion = function(src_fo_file) {
-	var soundId = "oa_region_";
-	if (isFading[soundId] === true) {
-		stopFading[soundId] = true;
-	}
-
-
-	loop_active = true;
-	oldRegion = newest_region;
-	last_region_id++;
-	newest_region = last_region_id;
-	var regionsound = soundManager.createSound({
-		id: "oa_region_" + newest_region,
-		volume: 0,
-		url: src_fo_file
-	});
-
-	function loopSound(sound) {
-		sound.play({
-			onfinish: function() {
-				loopSound(sound);
-			}
-		});
-	}
-	loopSound(regionsound);
-	fadeIdTarget("oa_region_" + newest_region, volume);
-}
-
-
-
-function stopOldRegion() {
-	fadeIdOut("oa_region_" + oldRegion);
-}
-
-
-
-openaudio.stopregion = function() {
-	openaudio.regionAction("stop");
-}
 
 openaudio.newspeaker = function(src_to_file, soundID, defaultTime, startingvoluem) {
 
