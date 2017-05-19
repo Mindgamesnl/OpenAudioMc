@@ -11,6 +11,8 @@ public class audioSpeaker {
 	String id;
 	Location location;
 	String soundid;
+	Integer volume = 100;
+	Integer radius = 9;
 	
     public audioSpeaker(String id, Location loc, String sid) {
     	System.out.println("New speaker. ID:"+sid + " BLOCK:"+loc.getBlock().getType());
@@ -19,7 +21,23 @@ public class audioSpeaker {
     	this.soundid = sid;
     	
     }
-    
+
+    public void setRadius(Integer nr) {
+        this.radius = nr;
+    }
+
+    public void setVolume(Integer nv) {
+        this.volume = nv;
+    }
+
+    public Integer getVolume() {
+        return this.volume;
+    }
+
+    public Integer getRadius() {
+        return this.radius;
+    }
+
     public Location getLoc() {
     	return this.location;
     }
