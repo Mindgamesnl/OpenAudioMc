@@ -9,13 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Skull;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 
 import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
@@ -32,7 +29,7 @@ public class audioSpeakerManager {
 	public static HashMap<String, audioSpeakerSound> sounds = new HashMap<String, audioSpeakerSound>();
 	public static HashMap<Location, audioSpeaker> speakers = new HashMap<Location, audioSpeaker>();
 	public static HashMap<String, Boolean> listeners = new HashMap<String, Boolean>();
-	public static HashMap<String, ArrayList<String>> soundsOfP = new HashMap<String, ArrayList<String>>();
+    public static HashMap<String, Integer> Volumes = new HashMap<String, Integer>();
 	public static Boolean running = false;
 	public static Integer timer;
 	
@@ -59,11 +56,6 @@ public class audioSpeakerManager {
 	}
 	
 	public static void stopForPlayer(String name) {
-		try {
-			audioSpeakerManager.soundsOfP.get(name).clear();
-		} catch(NullPointerException e) {
-			//user has no speakers
-		}
 		command.stopAllSpeakers(name);
 	}
 	
@@ -87,7 +79,11 @@ public class audioSpeakerManager {
             command.playNewSpeaker(p.getName(), sounds.get(as.getSoundId()).getFile(), sounds.get(as.getSoundId()).getTime(), fullvolume);
         } else {
 		    //update
-            command.updateSpeakerVolume(p.getName(), sounds.get(as.getSoundId()).getFile(), fullvolume);
+            if (Volumes.get(p.getName()) == null || Volumes.get(p.getName()) != Integer.parseInt(fullvolume)) {
+                command.updateSpeakerVolume(p.getName(), sounds.get(as.getSoundId()).getFile(), fullvolume);
+                Volumes.put(p.getName(), Integer.parseInt(fullvolume));
+            }
+
         }
 
 	}
@@ -107,10 +103,9 @@ public class audioSpeakerManager {
 
 
                         for (Block b : getNearbyBlocks(p.getLocation(), 10)) {
-
                             //NOTEBLOCK
                             if (b.getType() == Material.NOTE_BLOCK) {
-                                if (speakers.get(b.getLocation()).getSoundId() != null) {
+                                if (speakers.get(b.getLocation()).getSoundId() != null && speakers.get(b.getLocation()).isEnabled()) {
                                     if (Math.abs(speakers.get(b.getLocation()).getLoc().distance(p.getLocation())) < highest || iterations == 0) {
                                         found = true;
                                         selected = speakers.get(b.getLocation());
@@ -119,11 +114,26 @@ public class audioSpeakerManager {
                                     }
                                 }
                             }
-
+                            //SKULL
+                            if (b.getType() == Material.SKULL) {
+                                try {
+                                    Skull skull = (Skull)b.getState();
+                                    if (skull.getOwner().equalsIgnoreCase("OpenAudioMc")) {
+                                        if (speakers.get(b.getLocation()).getSoundId() != null && speakers.get(b.getLocation()).isEnabled()) {
+                                            if (Math.abs(speakers.get(b.getLocation()).getLoc().distance(p.getLocation())) < highest || iterations == 0) {
+                                                found = true;
+                                                selected = speakers.get(b.getLocation());
+                                                iterations++;
+                                                highest = Math.abs(speakers.get(b.getLocation()).getLoc().distance(p.getLocation()));
+                                            }
+                                        }
+                                    }
+                                } catch(NullPointerException e) {}
+                            }
                         }
 
                         if (found) {
-
+                            prosessSpeaker(p, selected);
                         } else {
                             command.stopAllSpeakers(p.getName());
                         }
