@@ -33,10 +33,6 @@ public class regionListener implements Listener{
         plugin = oapl;
     }
 
-    private void stop(Player p) {
-
-    }
-
     private void start(final Player p, ApplicableRegionSet appRegions, Set<ProtectedRegion> regions) {
         for (final ProtectedRegion region : appRegions) {
             if (!regions.contains(region)) {
@@ -54,22 +50,6 @@ public class regionListener implements Listener{
 
     private void end(Player p, ProtectedRegion region) {
         command.stopRegion(p.getName(), getRegionFile(region.getId()));
-    }
-
-    @EventHandler
-    public void onPlayerKick(PlayerKickEvent e) {
-        Set<ProtectedRegion> regions = playerRegions.remove(e.getPlayer());
-        if (regions != null) {
-            stop(e.getPlayer());
-        }
-    }
-
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent e) {
-        Set<ProtectedRegion> regions = playerRegions.remove(e.getPlayer());
-        if (regions != null) {
-            stop(e.getPlayer());
-        }
     }
 
     @EventHandler
