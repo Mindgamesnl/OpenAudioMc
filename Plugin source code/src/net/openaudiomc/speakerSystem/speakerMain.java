@@ -88,6 +88,15 @@ public class speakerMain {
 	    		audioSpeakerManager.createSpeaker(config.getString("src")+"_speaker", config.getString("src")+"_sound", new Location(Bukkit.getWorld(config.getString("world")), config.getLong("x"),config.getLong("y"),config.getLong("z")));
 	    		
 	    		audioSpeakerManager.createSound(config.getString("src")+"_sound", config.getString("src"));
+
+	    		if (config.getString("volume") != null) {
+                    audioSpeakerManager.speakers.get(new Location(Bukkit.getWorld(config.getString("world")), config.getLong("x"),config.getLong("y"),config.getLong("z"))).setVolume(Integer.parseInt(config.getString("volume")));
+                }
+
+                if (config.getString("radius") != null) {
+                    audioSpeakerManager.speakers.get(new Location(Bukkit.getWorld(config.getString("world")), config.getLong("x"),config.getLong("y"),config.getLong("z"))).setRadius(Integer.parseInt(config.getString("radius")));
+                }
+
 		    } catch (FileNotFoundException e) {
 		    } catch (IOException e) {
 		    } catch (InvalidConfigurationException e) {

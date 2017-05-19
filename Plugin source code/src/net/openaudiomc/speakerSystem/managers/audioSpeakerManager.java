@@ -31,7 +31,7 @@ public class audioSpeakerManager {
 	
 	public static HashMap<String, audioSpeakerSound> sounds = new HashMap<String, audioSpeakerSound>();
 	public static HashMap<Location, audioSpeaker> speakers = new HashMap<Location, audioSpeaker>();
-	public static HashMap<String, Integer> volumes = new HashMap<String, Integer>();
+	public static HashMap<String, Boolean> listeners = new HashMap<String, Boolean>();
 	public static HashMap<String, ArrayList<String>> soundsOfP = new HashMap<String, ArrayList<String>>();
 	public static Boolean running = false;
 	public static Integer timer;
@@ -71,28 +71,27 @@ public class audioSpeakerManager {
 		running = false;
 		Bukkit.getScheduler().cancelTask(timer);
 	}
-	
-	public static void prosessSpeaker(Player p, Skull skull, Block b) {
-		double dist = speakers.get(b.getLocation()).getLoc().distance(p.getLocation());
-		dist = dist * 100;
+
+	public static void prosessSpeaker(Player p, audioSpeaker as) {
+		double dist = as.getLoc().distance(p.getLocation());
+		dist = dist * as.getVolume();
 		int a = (int) Math.round(dist);
-		a = a / 10;
-		int volume = 100 - a;
+		a = a / as.getRadius();
+		int volume = as.getVolume() - a;
 		String fullvolume = volume+"";
 		fullvolume = fullvolume.replaceAll("-", "");
-		
-		if (volumes.get(p.getName()) == null || volumes.get(p.getName()) != Integer.parseInt(fullvolume)) {
-			if (soundsOfP.get(p.getName()).contains(sounds.get(speakers.get(b.getLocation()).getSoundId()).getFile())) {
-				command.updateSpeakerVolume(p.getName(), sounds.get(speakers.get(b.getLocation()).getSoundId()).getFile(), fullvolume);
-			} else {
-				soundsOfP.get(p.getName()).add(sounds.get(speakers.get(b.getLocation()).getSoundId()).getFile());
-				command.playNewSpeaker(p.getName(), sounds.get(speakers.get(b.getLocation()).getSoundId()).getFile(), sounds.get(speakers.get(b.getLocation()).getSoundId()).getTime(), fullvolume);
-			}
-			volumes.put(p.getName(), Integer.parseInt(fullvolume));
-		}
+
+
+		if (listeners.get(p.getName()) == null || !listeners.get(p.getName())) {
+		    //start
+            command.playNewSpeaker(p.getName(), sounds.get(as.getSoundId()).getFile(), sounds.get(as.getSoundId()).getTime(), fullvolume);
+        } else {
+		    //update
+            command.updateSpeakerVolume(p.getName(), sounds.get(as.getSoundId()).getFile(), fullvolume);
+        }
+
 	}
-	
-	@SuppressWarnings("deprecation")
+
 	public static void Init() {
 		running = true;
 		timer = Bukkit.getScheduler().scheduleAsyncRepeatingTask(Main.getPL(), new Runnable() {
@@ -100,41 +99,35 @@ public class audioSpeakerManager {
 		    public void run() {
 				for (Player p : Bukkit.getOnlinePlayers()) {
 					if (OpenAudioApi.isConnected(p)) {
-						if (soundsOfP.get(p.getName()) == null) {
-							ArrayList<String> list = new ArrayList<String>();
-							list.add("-");
-							soundsOfP.put(p.getName(), list);
-						}
-						Boolean found = false;
-						double highest = 0;
-						Block selectedblockl = null;
-						Skull selectedskull = null;
-						Integer iterations = 0;
-						for (Block b : getNearbyBlocks(p.getLocation(), 10)) {
-							if (b.getType() == Material.SKULL) {
-								Skull skull = (Skull)b.getState();					
-								try {
-									if (skull.getOwner().equalsIgnoreCase("OpenAudioMc") || speakers.get(b.getLocation()).getSoundId() != null) {
-										if (Math.abs(speakers.get(b.getLocation()).getLoc().distance(p.getLocation())) < highest || iterations == 0) {
-											found = true;
-											iterations++;
-											highest = Math.abs(speakers.get(b.getLocation()).getLoc().distance(p.getLocation()));
-											selectedskull = skull;
-											selectedblockl = b;
-										}
-									}
-								} catch(NullPointerException e) {}
-							}
-						}
-						if (!found) {
-							if (!soundsOfP.get(p.getName()).isEmpty()) {
-								volumes.put(p.getName(), 0);
-								soundsOfP.get(p.getName()).clear();
-								command.stopAllSpeakers(p.getName());
-							}
-						} else {
-							prosessSpeaker(p, selectedskull, selectedblockl);
-						}
+
+                        Boolean found = false;
+                        double highest = 0;
+                        Integer iterations = 0;
+                        audioSpeaker selected = null;
+
+
+                        for (Block b : getNearbyBlocks(p.getLocation(), 10)) {
+
+                            //NOTEBLOCK
+                            if (b.getType() == Material.NOTE_BLOCK) {
+                                if (speakers.get(b.getLocation()).getSoundId() != null) {
+                                    if (Math.abs(speakers.get(b.getLocation()).getLoc().distance(p.getLocation())) < highest || iterations == 0) {
+                                        found = true;
+                                        selected = speakers.get(b.getLocation());
+                                        iterations++;
+                                        highest = Math.abs(speakers.get(b.getLocation()).getLoc().distance(p.getLocation()));
+                                    }
+                                }
+                            }
+
+                        }
+
+                        if (found) {
+
+                        } else {
+                            command.stopAllSpeakers(p.getName());
+                        }
+
 					}
 				}
 		    }
