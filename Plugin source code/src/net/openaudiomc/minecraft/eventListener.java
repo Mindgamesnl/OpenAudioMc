@@ -3,6 +3,7 @@ package net.openaudiomc.minecraft;
 import java.io.File;
 import java.util.HashMap;
 
+import net.openaudiomc.commands.volumeCommand;
 import net.openaudiomc.regions.regionListener;
 import net.openaudiomc.socket.cm_callback;
 import org.bukkit.Bukkit;
@@ -15,9 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.player.*;
 import org.json.JSONObject;
 
 import com.sk89q.worldguard.bukkit.WGBukkit;
@@ -71,7 +70,7 @@ public class eventListener implements Listener{
 		if (player.isOnline()) {			
 	    	if (event.getKey().equals(Sessions.getOld(event.getName()))) {
 	    		//good client
-	    		
+					audioSpeakerManager.listeners.put(event.getName(), false);
 	    			Player client = Bukkit.getPlayer(event.getName());
 	    			userManager.addPlayer(client);
 	    			client.sendMessage(Messages.getColor("connected-message"));
@@ -156,6 +155,7 @@ public class eventListener implements Listener{
     		Emitter.connectedInServer(event.getPlayer().getName());
     		userManager.addPlayer(event.getPlayer());
     		userManager.getPlayer(event.getPlayer()).syncSounds();
+    		audioSpeakerManager.listeners.put(event.getPlayer().getName(), false);
     		if (getDep.getStatus()) {
         		String regionNu = "-";
     			for(ProtectedRegion r : WGBukkit.getRegionManager(event.getPlayer().getWorld()).getApplicableRegions(event.getPlayer().getLocation())) {
@@ -197,6 +197,16 @@ public class eventListener implements Listener{
 	 public void BlockBreakEvent(BlockBreakEvent event){
     	speakerMain.onBreak(event);
 	 }
+
+	 @EventHandler
+	 public void PlayerInteractEvent(PlayerInteractEvent event) {
+	 	speakerMain.PlayerInteractEvent(event);
+	 }
+
+	 @EventHandler
+	 public void PlayerItemHeldEvent(PlayerItemHeldEvent event) {
+		 volumeCommand.PlayerItemHeldEvent(event);
+	 }
     
     
 		@EventHandler
@@ -206,6 +216,7 @@ public class eventListener implements Listener{
     	command.stopAllRegions(p.getName());
     	Emitter.offlineInServer(p.getName());
     	audioSpeakerManager.stopForPlayer(event.getPlayer().getName());
+			audioSpeakerManager.listeners.put(event.getPlayer().getName(), false);
 		
     	Main.getPL().getServer().getScheduler().scheduleAsyncDelayedTask(Main.getPL(), new Runnable() { public void run() {
     		timeoutManager.updateCounter();

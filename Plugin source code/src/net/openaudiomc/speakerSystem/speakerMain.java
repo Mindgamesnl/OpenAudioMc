@@ -3,8 +3,10 @@ package net.openaudiomc.speakerSystem;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.openaudiomc.speakerSystem.objects.audioSpeaker;
 import org.bukkit.*;
 import org.bukkit.block.Skull;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -13,6 +15,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.SkullType;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -26,6 +29,7 @@ import net.openaudiomc.speakerSystem.managers.audioSpeakerManager;
 public class speakerMain {
 	
 	public static HashMap<Player, String> placer = new HashMap<Player, String>();
+	public static HashMap<Player, ArrayList<audioSpeaker>> selection = new HashMap<Player, ArrayList<audioSpeaker>>();
 	
 	public static void giveSpeaker(Player p, String file) {
 		placer.put(p, file);
@@ -126,13 +130,40 @@ public class speakerMain {
 			}
 		}
 	}
+
+	public static void PlayerInteractEvent(PlayerInteractEvent event) {
+
+		Player p = event.getPlayer();
+
+		if (p.hasPermission("openaudio.speakers.interact")) {
+			if (event.getClickedBlock().getType() == Material.SKULL || event.getClickedBlock().getType() == Material.NOTE_BLOCK) {
+				if (audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()) != null) {
+					if (selection.get(p) != null) {
+						if (!selection.get(p).contains(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()))) {
+							selection.get(p).add(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()));
+							p.sendMessage(Main.prefix + "Added speaker to selection.");
+						} else {
+							selection.get(p).remove(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()));
+							p.sendMessage(Main.prefix + "Removed speaker from selection.");
+						}
+					} else {
+						ArrayList<audioSpeaker> selected = new ArrayList<audioSpeaker>();
+						selected.add(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()));
+						selection.put(p, selected);
+						p.sendMessage(Main.prefix + "Added speaker to selection.");
+					}
+				} else {
+					p.sendMessage(Main.prefix + "This block is not a speaker.");
+				}
+			}
+		}
+	}
+
 	
 	public static void onBreak(BlockBreakEvent event) {
 		if (event.getBlock().getType() == Material.SKULL) {
 			Skull skull = (Skull)event.getBlock().getState();
 			try {
-
-			
 				if (skull.getOwner().equalsIgnoreCase("OpenAudioMc")) {
 					if (audioSpeakerManager.speakers.get(event.getBlock().getLocation()) != null) {
 						

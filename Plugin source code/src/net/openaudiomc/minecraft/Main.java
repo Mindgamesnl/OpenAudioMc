@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 
 import net.openaudiomc.regions.regionListener;
+import net.openaudiomc.socket.cm_callback;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -67,6 +68,7 @@ public class Main extends JavaPlugin {
         createMessagesFile();
         createServerNode();
         createPlaylist();
+        cm_callback.update();
         createModsFile();
         Bukkit.getServer().getPluginManager().registerEvents(new timeoutManager(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new eventListener(), this);
@@ -111,7 +113,12 @@ public class Main extends JavaPlugin {
         speakerMain.loadSounds();
         speakerMain.loadSpeaker();
 
-        audioSpeakerManager.Init();
+        Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+            @Override
+            public void run() {
+                audioSpeakerManager.Init();
+            }
+        },20*10);
         Bukkit.getLogger().info("[OpenAudio] Started up.");
     }
 
@@ -145,6 +152,9 @@ public class Main extends JavaPlugin {
             MessagesConfig.set("hue-connected-message", "&9[&bOpenAudioMc&9] &3You are now &aConnected&3 with your philips &dh&bu&ae&3!");
             MessagesConfig.set("volume-set", "&9[&bVolume&9] &3Your volume has been set to &a%volume%&3%");
             MessagesConfig.set("volume-error", "&9[&bVolume&9] &4Invalid arguments.");
+            MessagesConfig.set("volume-hotbar-on", "&9[&bVolume&9] &3Hotbar volume is &2Enabled&2.");
+            MessagesConfig.set("volume-hotbar-off", "&9[&bVolume&9] &3Hotbar volume is &4Disabled&2.");
+            MessagesConfig.set("need-connected", "&9[&bOpenAudioMc&9] &3You need to be connected to do this command.");
 
             try {
                 MessagesConfig.save(MessagesFile);
@@ -193,6 +203,34 @@ public class Main extends JavaPlugin {
             MessagesFile = new File("plugins/OpenAudio", "messages.yml");
             MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
             MessagesConfig.set("stop-on-teleport", false);
+            try {
+                MessagesConfig.save(MessagesFile);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+        if (Messages.get("volume-hotbar-on") == null) {
+            MessagesFile = new File("plugins/OpenAudio", "messages.yml");
+            MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
+            MessagesConfig.set("volume-hotbar-on", "&9[&bVolume&9] &3Hotbar volume is &2Enabled&2.");
+            MessagesConfig.set("volume-hotbar-off", "&9[&bVolume&9] &3Hotbar volume is &4Disabled&2.");
+            try {
+                MessagesConfig.save(MessagesFile);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+
+
+
+        if (Messages.get("need-connected") == null) {
+            MessagesFile = new File("plugins/OpenAudio", "messages.yml");
+            MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
+            MessagesConfig.set("need-connected", "&9[&bOpenAudioMc&9] &3You need to be connected to do this command.");
             try {
                 MessagesConfig.save(MessagesFile);
             } catch (IOException e) {

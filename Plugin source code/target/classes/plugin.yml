@@ -76,3 +76,6 @@ permissions:
   openaudio.admin.hue:
       description: Allows you to use the /openaudio hue command.
       default: op
+  openaudio.speakers.interact:
+      description: Allows you to use the /openaudio hue command.
+      default: op

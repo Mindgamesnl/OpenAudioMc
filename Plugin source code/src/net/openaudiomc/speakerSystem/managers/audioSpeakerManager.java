@@ -66,10 +66,10 @@ public class audioSpeakerManager {
 
 	public static void prosessSpeaker(Player p, audioSpeaker as) {
 		double dist = as.getLoc().distance(p.getLocation());
-		dist = dist * as.getVolume();
+		dist = dist * sounds.get(as.getSoundId()).getVolume();
 		int a = (int) Math.round(dist);
-		a = a / as.getRadius();
-		int volume = as.getVolume() - a;
+		a = a / sounds.get(as.getSoundId()).getRadius();
+		int volume = sounds.get(as.getSoundId()).getVolume() - a;
 		String fullvolume = volume+"";
 		fullvolume = fullvolume.replaceAll("-", "");
 
@@ -77,6 +77,7 @@ public class audioSpeakerManager {
 		if (listeners.get(p.getName()) == null || !listeners.get(p.getName())) {
 		    //start
             command.playNewSpeaker(p.getName(), sounds.get(as.getSoundId()).getFile(), sounds.get(as.getSoundId()).getTime(), fullvolume);
+            listeners.put(p.getName(), true);
         } else {
 		    //update
             if (Volumes.get(p.getName()) == null || Volumes.get(p.getName()) != Integer.parseInt(fullvolume)) {
@@ -85,7 +86,6 @@ public class audioSpeakerManager {
             }
 
         }
-
 	}
 
 	public static void Init() {
@@ -132,10 +132,13 @@ public class audioSpeakerManager {
                             }
                         }
 
-                        if (found) {
+                        if (found && !(selected.getLoc().distance(p.getLocation()) > selected.getRadius())) {
                             prosessSpeaker(p, selected);
                         } else {
-                            command.stopAllSpeakers(p.getName());
+                            if (listeners.get(p.getName())) {
+                                audioSpeakerManager.listeners.put(p.getName(), false);
+                                command.stopAllSpeakers(p.getName());
+                            }
                         }
 
 					}

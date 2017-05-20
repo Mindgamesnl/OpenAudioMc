@@ -56,6 +56,14 @@ public class command {
 		String command = obj.toString();
 		Emitter.EmitToPlayer(name, getCleanURL(command));
 	}
+
+	public static void forcevolume(String name, String volume) {
+		JSONObject obj = new JSONObject();
+		obj.put("command", "forcevolume");
+		obj.put("volume", volume);
+		String command = obj.toString();
+		Emitter.EmitToPlayer(name, getCleanURL(command));
+	}
 	
 	/**
 	 * Play region.

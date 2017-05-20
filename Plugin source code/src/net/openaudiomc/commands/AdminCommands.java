@@ -1,5 +1,8 @@
 package net.openaudiomc.commands;
 
+import net.openaudiomc.speakerSystem.objects.audioSpeaker;
+import net.openaudiomc.speakerSystem.objects.audioSpeakerSound;
+import net.openaudiomc.utils.selector;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -62,25 +65,25 @@ public class AdminCommands implements CommandExecutor {
 
 					//Execute
 					sender.sendMessage(Main.prefix + "Help menu.");
-					String command = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + audioHelpMessage + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + audio_help +"\"}}]" + "";
+					String command = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + audioHelpMessage + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + audio_help + "\"}}]" + "";
 					Bukkit.dispatchCommand(console, command);
 
-					String command2 = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + regionHelpMessage + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + region_help +"\"}}]" + "";
+					String command2 = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + regionHelpMessage + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + region_help + "\"}}]" + "";
 					Bukkit.dispatchCommand(console, command2);
 
-					String command3 = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + hueHelpMessage + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + hue_help +"\"}}]" + "";
+					String command3 = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + hueHelpMessage + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + hue_help + "\"}}]" + "";
 					Bukkit.dispatchCommand(console, command3);
 
-					String command4 = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + uiHelpMessage + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + ui_help +"\"}}]" + "";
+					String command4 = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + uiHelpMessage + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + ui_help + "\"}}]" + "";
 					Bukkit.dispatchCommand(console, command4);
 
-					String command6 = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + adminHelpMessage + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + admin_help +"\"}}]" + "";
+					String command6 = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + adminHelpMessage + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + admin_help + "\"}}]" + "";
 					Bukkit.dispatchCommand(console, command6);
 
-					String command5 = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + userHelpMessage + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + uers_help +"\"}}]" + "";
+					String command5 = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + userHelpMessage + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + uers_help + "\"}}]" + "";
 					Bukkit.dispatchCommand(console, command5);
 
-					String command7 = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + speakerHelpMessage + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + speaker_help +"\"}}]" + "";
+					String command7 = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + speakerHelpMessage + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + speaker_help + "\"}}]" + "";
 					Bukkit.dispatchCommand(console, command7);
 				} else if (args[1].equalsIgnoreCase("audio")) {
 					//help 2
@@ -251,18 +254,18 @@ public class AdminCommands implements CommandExecutor {
 				} else {
 					sender.sendMessage(Main.prefix + "Invalid help page.");
 				}
-			}
-			else if (args[0].equalsIgnoreCase("play") && sender.hasPermission("openaudio.admin.play"))
-			{
+			} else if (args[0].equalsIgnoreCase("play") && sender.hasPermission("openaudio.admin.play")) {
 				//Play commands
 				if (args.length == 3 || args.length > 3) {
 					if (args.length > 3) {
 						if (args.length > 4) {
 							if (args[4].equalsIgnoreCase("sync")) {
 								try {
-									syncedSound targetsound = syncedSoundManager.create(args[2], args[3], args[1]);
+									for (Player p: selector.playerSelector(sender, args[1])) {
+										syncedSound targetsound = syncedSoundManager.create(args[2], args[3], p.getName());
+									}
 
-									sender.sendMessage(Main.prefix + "Started synced sound for: "+args[1]);
+									sender.sendMessage(Main.prefix + "Started synced sound for: " + args[1]);
 								} catch (NullPointerException e) {
 									sender.sendMessage(Main.prefix + "User is not connected!");
 								}
@@ -270,62 +273,62 @@ public class AdminCommands implements CommandExecutor {
 								sender.sendMessage(Main.prefix + "Possible modes: " + ChatColor.RESET + "sync");
 							}
 						} else {
-							command.playNormalSoundID(args[1], args[2], args[3]);
+							for (Player p: selector.playerSelector(sender, args[1])) {
+								command.playNormalSoundID(p.getName(), args[2], args[3]);
+							}
 							sender.sendMessage(Main.prefix + "Started a sound for " + args[1]);
 						}
 					} else {
-						command.playNormalSound(args[1], args[2]);
+						for (Player p: selector.playerSelector(sender, args[1])) {
+							command.playNormalSound(p.getName(), args[2]);
+						}
 						sender.sendMessage(Main.prefix + "Started a sound for " + args[1]);
 					}
 				} else {
 					sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio play <mc name> <url> [ID]");
 				}
-			}
-			else if (args[0].equalsIgnoreCase("spy") && sender.hasPermission("openaudio.admin.spy"))
-			{
+			} else if (args[0].equalsIgnoreCase("spy") && sender.hasPermission("openaudio.admin.spy")) {
 				spy.Toggle((Player) sender);
-			}
-			else if (args[0].equalsIgnoreCase("oauth") || args[0].equalsIgnoreCase("auth") && sender.hasPermission("openaudio.admin.plus"))
-			{
+			} else if (args[0].equalsIgnoreCase("oauth") || args[0].equalsIgnoreCase("auth") && sender.hasPermission("openaudio.admin.plus")) {
 				sender.sendMessage(Main.prefix + "Generating url.");
 				sender.sendMessage(Main.prefix + "" + ChatColor.RED + "Please note! this key can only be used ONCE and should only be used on oauth.openaudiomc.net!");
 				sender.sendMessage(Main.prefix + "" + ChatColor.RED + "This code will only be valid for 5 minutes:");
 				sender.sendMessage(ChatColor.AQUA + "Your key: " + ChatColor.YELLOW + oauthConnector.getToken());
-			}
-			else if (args[0].equalsIgnoreCase("stopall") && sender.hasPermission("openaudio.admin.stopall"))
-			{
+			} else if (args[0].equalsIgnoreCase("stopall") && sender.hasPermission("openaudio.admin.stopall")) {
 				if (args.length == 2) {
-					command.stop(args[1]);
-					command.stopAllRegions(args[1]);
-					command.hueStopEffect(args[1]);
-					audioSpeakerManager.stopForPlayer(args[1]);
-					userManager.getPlayer(Bukkit.getPlayer(args[1])).removeAllSyncedSounds();
+					for (Player p: selector.playerSelector(sender, args[1])) {
+						command.stop(p.getName());
+						command.stopAllRegions(p.getName());
+						command.hueStopEffect(p.getName());
+						audioSpeakerManager.stopForPlayer(p.getName());
+						userManager.getPlayer(Bukkit.getPlayer(p.getName())).removeAllSyncedSounds();
+					}
 				} else {
 					sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio stopall <mc name>");
 				}
-			}
-			else if (args[0].equalsIgnoreCase("loop") && sender.hasPermission("openaudio.admin.loop"))
-			{
+			} else if (args[0].equalsIgnoreCase("loop") && sender.hasPermission("openaudio.admin.loop")) {
 				//Play commands
 				if (args.length == 3 || args.length > 3) {
 					if (args.length > 3) {
 						if (args[3].equalsIgnoreCase("stop")) {
-							command.stop(args[1]);
-							command.playLoop(args[1], args[2]);
+							for (Player p: selector.playerSelector(sender, args[1])) {
+								command.stop(p.getName());
+								command.playLoop(p.getName(), args[2]);
+							}
 							sender.sendMessage(Main.prefix + "Started a loop for " + args[1]);
 						} else {
 							sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio loop <mc name> <url>");
 						}
 					} else {
-						command.playLoop(args[1], args[2]);
+						for (Player p: selector.playerSelector(sender, args[1])) {
+							command.playLoop(p.getName(), args[2]);
+						}
 						sender.sendMessage(Main.prefix + "Started a loop for " + args[1]);
 					}
 				} else {
 					sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio loop <mc name> <url>");
 				}
-			}
-			else if (args[0].equalsIgnoreCase("speaker") && sender.hasPermission("openaudio.admin.speaker"))
-			{
+			} else if ((args[0].equalsIgnoreCase("speaker") || args[0].equalsIgnoreCase("speakers")) && sender.hasPermission("openaudio.admin.speaker")) {
 				if (args.length == 3) {
 					if (args[1].equalsIgnoreCase("add")) {
 						sender.sendMessage(Main.prefix + "You received a speaker! place it anywhere you'd like (you can remove it at any time)");
@@ -334,11 +337,40 @@ public class AdminCommands implements CommandExecutor {
 							sender.sendMessage(ChatColor.DARK_RED + "WARNING!" + ChatColor.YELLOW + " Speakers do not officially have support for soundcloud sounds! please use mp3 files instead.");
 						}
 					}
+				} else if (args.length == 4) {
+
+					if (args[1].equalsIgnoreCase("selection")) {
+
+						if (speakerMain.selection.get((Player) sender) != null && speakerMain.selection.get((Player) sender).size() != 0) {
+
+							if (args[2].equalsIgnoreCase("setvolume")) {
+								sender.sendMessage("ba " + volumeCommand.isInt(args[3]));
+								if (volumeCommand.isInt(args[3])) {
+
+										for (audioSpeaker speaker: speakerMain.selection.get((Player) sender)) {
+											audioSpeakerSound sound = audioSpeakerManager.sounds.get(speaker.getSoundId());
+
+											sound.setVolume(Integer.parseInt(args[3]));
+
+										}
+
+								} else {
+									sender.sendMessage(Main.prefix + "Whoops! volume needs to be a number from 0 to 100");
+								}
+
+							}
+
+						} else {
+							sender.sendMessage(Main.prefix + "Oh no! You don't have any speakers selected, right click one to get started.");
+						}
+
+					}
+
 				} else if (args.length == 2) {
 					if (args[1].equalsIgnoreCase("stop")) {
 						if (audioSpeakerManager.running) {
 							audioSpeakerManager.stop();
-							for (Player lp : Bukkit.getOnlinePlayers()) {
+							for (Player lp: Bukkit.getOnlinePlayers()) {
 								audioSpeakerManager.stopForPlayer(lp.getName());
 							}
 							sender.sendMessage(Main.prefix + "Stopped all speakers");
@@ -358,9 +390,7 @@ public class AdminCommands implements CommandExecutor {
 				} else {
 					sender.sendMessage(Main.prefix + "Invalid command, please read /openaudio help");
 				}
-			}
-			else if (args[0].equalsIgnoreCase("region") && sender.hasPermission("openaudio.admin.region"))
-			{
+			} else if (args[0].equalsIgnoreCase("region") && sender.hasPermission("openaudio.admin.region")) {
 				if (getDep.getStatus()) {
 					//region gezijk
 					//Play commands
@@ -385,13 +415,9 @@ public class AdminCommands implements CommandExecutor {
 					sender.sendMessage(Main.prefix + "Whoops, that did not go well. Please report this error to the developers,");
 				}
 
-			}
-			else if (args[0].equalsIgnoreCase("modding"))
-			{
+			} else if (args[0].equalsIgnoreCase("modding")) {
 				sender.sendMessage(Main.prefix + "Modding has been moved to plus.openaudiomc.net");
-			}
-			else if (args[0].equalsIgnoreCase("playlist") && sender.hasPermission("openaudio.admin.playlist"))
-			{
+			} else if (args[0].equalsIgnoreCase("playlist") && sender.hasPermission("openaudio.admin.playlist")) {
 				if (args.length == 5 || args.length > 5) {
 					if (args[1].equalsIgnoreCase("set")) {
 						playlistManager.set(args[2], args[3], args[4]);
@@ -402,7 +428,9 @@ public class AdminCommands implements CommandExecutor {
 				} else if (args.length == 4 || args.length > 4) {
 					if (args[1].equalsIgnoreCase("play")) {
 						if (playlistManager.getAllFilesInOneBigBulcCuzThatIsPrettyAwesome(args[2]) != null) {
-							command.playList(args[3], playlistManager.getAllFilesInOneBigBulcCuzThatIsPrettyAwesome(args[2]));
+							for (Player p: selector.playerSelector(sender, args[3])) {
+								command.playList(p.getName(), playlistManager.getAllFilesInOneBigBulcCuzThatIsPrettyAwesome(args[2]));
+							}
 							sender.sendMessage(Main.prefix + "Started playlist for " + args[3]);
 						} else {
 							sender.sendMessage(Main.prefix + "Invalid playlist :(");
@@ -413,17 +441,11 @@ public class AdminCommands implements CommandExecutor {
 				} else {
 					sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio playlist <sub command> [values]");
 				}
-			}
-			else if (args[0].equalsIgnoreCase("playregion") && sender.hasPermission("openaudio.admin.playregion"))
-			{
+			} else if (args[0].equalsIgnoreCase("playregion") && sender.hasPermission("openaudio.admin.playregion")) {
 				if (getDep.getStatus()) {
 					if (args.length == 3) {
-						for (Player p : Bukkit.getOnlinePlayers()) {
-							for(ProtectedRegion r : WGBukkit.getRegionManager(p.getWorld()).getApplicableRegions(p.getLocation())) {
-								if (args[1].equalsIgnoreCase(r.getId())) {
-									command.playNormalSound(p.getName(), args[2]);
-								}
-							}
+						for (Player p: selector.playerSelector(sender, "region:" + args[1])) {
+							command.playNormalSound(p.getName(), args[2]);
 						}
 						sender.sendMessage(Main.prefix + "Started a sound for players in region " + args[1]);
 					} else {
@@ -432,76 +454,80 @@ public class AdminCommands implements CommandExecutor {
 				} else {
 					sender.sendMessage(Main.prefix + "Whoops, you don't have worldguard installed!");
 				}
-			}
-			else if (args[0].equalsIgnoreCase("debug"))
-			{
-				sender.sendMessage("Thisversion:"+Main.getPL().getDescription().getVersion()+ " connected:"+ timeoutManager.ioconnected+ " bukkitver:"+Bukkit.getBukkitVersion()+" st:"+ cm_callback.speakerTick+" CC:"+cm_callback.connections_closed+ " CM:"+cm_callback.connections_made + " cbs"+cm_callback.callbacks);
-			}
-			else if (args[0].equalsIgnoreCase("stop") && sender.hasPermission("openaudio.admin.stop"))
-			{
+			} else if (args[0].equalsIgnoreCase("debug")) {
+				sender.sendMessage("Thisversion:" + Main.getPL().getDescription().getVersion() + " connected:" + timeoutManager.ioconnected + " bukkitver:" + Bukkit.getBukkitVersion() + " st:" + cm_callback.speakerTick + " CC:" + cm_callback.connections_closed + " CM:" + cm_callback.connections_made + " cbs" + cm_callback.callbacks);
+			} else if (args[0].equalsIgnoreCase("stop") && sender.hasPermission("openaudio.admin.stop")) {
 				if (args.length >= 2) {
 					if (args.length == 3) {
-						command.StopID(args[1], args[2]);
-						sender.sendMessage(Main.prefix + "Stopped sound id "+args[2] + " of " + args[1]);
-						try {
-							userManager.getPlayer(Bukkit.getPlayer(args[1])).removeSyncedSound(syncedSoundManager.getBySoundId(args[2]).getId());
-						} catch (NullPointerException e) {}
+						for (Player p: selector.playerSelector(sender, args[1])) {
+							command.StopID(p.getName(), args[2]);
+							try {
+								userManager.getPlayer(Bukkit.getPlayer(p.getName())).removeSyncedSound(syncedSoundManager.getBySoundId(args[2]).getId());
+							} catch (NullPointerException e) {}
+						}
+						sender.sendMessage(Main.prefix + "Stopped sound id " + args[2] + " of " + args[1]);
 					} else {
-						command.stop(args[1]);
+						for (Player p: selector.playerSelector(sender, args[1])) {
+							try {
+								userManager.getPlayer(Bukkit.getPlayer(p.getName())).removeAllSyncedSounds();
+							} catch (NullPointerException e) {}
+							command.stop(p.getName());
+						}
 						sender.sendMessage(Main.prefix + "Stopped sound of " + args[1]);
-						try {
-							userManager.getPlayer(Bukkit.getPlayer(args[1])).removeAllSyncedSounds();
-						} catch (NullPointerException e) {}
 					}
 				} else {
 					sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio stop <mc name>");
 				}
-			}
-			else if (args[0].equalsIgnoreCase("skipto") && sender.hasPermission("openaudio.admin.skipto"))
-			{
+			} else if (args[0].equalsIgnoreCase("skipto") && sender.hasPermission("openaudio.admin.skipto")) {
 				if (args.length == 4) {
 					sender.sendMessage(Main.prefix + "Skipped " + args[2] + " to " + args[3] + "seconds for " + args[1]);
-					command.skipTo(args[1], args[2], args[3]);
+					for (Player p: selector.playerSelector(sender, args[1])) {
+						command.skipTo(p.getName(), args[2], args[3]);
+					}
 				} else {
 					sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio skipto <mc name> <id> <time in seconds>");
 				}
-			}
-			else if (args[0].equalsIgnoreCase("toggle") && sender.hasPermission("openaudio.admin.toggle"))
-			{
+			} else if (args[0].equalsIgnoreCase("toggle") && sender.hasPermission("openaudio.admin.toggle")) {
 				if (args.length == 3) {
-					command.ToggleID(args[1], args[2]);
+					for (Player p: selector.playerSelector(sender, args[1])) {
+						command.ToggleID(p.getName(), args[2]);
+					}
 					sender.sendMessage(Main.prefix + "Toggled sound for " + args[1]);
 				} else {
 					sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio toggle <mc name> <id>");
 				}
-			}
-			else if (args[0].equalsIgnoreCase("setvolume") && sender.hasPermission("openaudio.admin.setvolume"))
-			{
+			} else if (args[0].equalsIgnoreCase("setvolume") && sender.hasPermission("openaudio.admin.setvolume")) {
 				if (args.length >= 3) {
 					if (args.length == 4) {
-						command.setVolumeID(args[1], args[2], args[3]);
-						sender.sendMessage(Main.prefix + "Volume for sound with id:"+args[3] + " for:" + args[1]+ " is now set.");
+						for (Player p: selector.playerSelector(sender, args[1])) {
+							command.setVolumeID(p.getName(), args[2], args[3]);
+						}
+						sender.sendMessage(Main.prefix + "Volume for sound with id:" + args[3] + " for:" + args[1] + " is now set.");
 					} else {
-						command.setVolume(args[1], args[2]);
+						for (Player p: selector.playerSelector(sender, args[1])) {
+							command.setVolume(p.getName(), args[2]);
+						}
 						sender.sendMessage(Main.prefix + "volume of " + args[1] + " is now set to " + args[2]);
 					}
 
 				} else {
 					sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio setvolume <mc name> <volume>");
 				}
-			}
-			else if (args[0].equalsIgnoreCase("buffer") && sender.hasPermission("openaudio.admin.buffer"))
-			{
+			} else if (args[0].equalsIgnoreCase("buffer") && sender.hasPermission("openaudio.admin.buffer")) {
 				if (args.length == 4 || args.length > 4) {
 					if (args[1].equalsIgnoreCase("create")) {
-						command.createBuffer(args[2], args[3]);
+						for (Player p: selector.playerSelector(sender, args[2])) {
+							command.createBuffer(p.getName(), args[3]);
+						}
 						sender.sendMessage(Main.prefix + "Buffering " + args[3] + " for " + args[2]);
 					} else {
 						sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio buffer <sub command> [values]");
 					}
 				} else if (args.length == 3 || args.length > 3) {
 					if (args[1].equalsIgnoreCase("play")) {
-						command.playBuffer(args[2]);
+						for (Player p: selector.playerSelector(sender, args[2])) {
+							command.playBuffer(p.getName());
+						}
 						sender.sendMessage(Main.prefix + "Started buffer for " + args[2]);
 					} else {
 						sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio buffer <sub command> [values]");
@@ -509,72 +535,83 @@ public class AdminCommands implements CommandExecutor {
 				} else {
 					sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio buffer <sub command> <player> [url]");
 				}
-			}
-			else if (args[0].equalsIgnoreCase("send") && sender.hasPermission("openaudio.admin.send"))
-			{
+			} else if (args[0].equalsIgnoreCase("send") && sender.hasPermission("openaudio.admin.send")) {
 				if (args.length == 3 || args.length > 3) {
 					String myString = "";
-					for(int i = 2; i < args.length; i++){
+					for (int i = 2; i < args.length; i++) {
 						String arg = args[i] + " ";
 						myString = myString + arg;
 					}
-					command.sendMessage(args[1], myString);
+					for (Player p: selector.playerSelector(sender, args[1])) {
+						command.sendMessage(p.getName(), myString);
+					}
 					sender.sendMessage(Main.prefix + "Message send to " + args[1]);
 				} else {
 					sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio send <mc name> <awesome text message>");
 				}
-			}
-			else if (args[0].equalsIgnoreCase("json") && sender.hasPermission("openaudio.admin.json"))
-			{
+			} else if (args[0].equalsIgnoreCase("json") && sender.hasPermission("openaudio.admin.json")) {
 				if (args.length == 3 || args.length > 3) {
 					String myString = "";
-					for(int i = 2; i < args.length; i++){
+					for (int i = 2; i < args.length; i++) {
 						String arg = args[i] + " ";
 						myString = myString + arg;
 					}
-					command.sendJSON(args[1], myString);
+					for (Player p: selector.playerSelector(sender, args[1])) {
+						command.sendJSON(p.getName(), myString);
+					}
 					sender.sendMessage(Main.prefix + "Json send to " + args[1]);
 				} else {
 					sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio json <mc name> <json>");
 				}
-			}
-			else if (args[0].equalsIgnoreCase("setbg") && sender.hasPermission("openaudio.admin.setbg"))
-			{
+			} else if (args[0].equalsIgnoreCase("setbg") && sender.hasPermission("openaudio.admin.setbg")) {
 				if (args.length == 3 || args.length > 3) {
 					if (args[2].equalsIgnoreCase("reset")) {
-						command.resetBg(args[1]);
+						for (Player p: selector.playerSelector(sender, args[1])) {
+							command.resetBg(p.getName());
+						}
+
 					} else {
-						command.setBg(args[1], args[2]);
+						for (Player p: selector.playerSelector(sender, args[1])) {
+							command.setBg(p.getName(), args[2]);
+						}
 					}
 					sender.sendMessage(Main.prefix + "Changed background of " + args[1]);
 				} else {
 					sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio setbg <mcname> <url to image>");
 				}
-			}
-			else if (args[0].equalsIgnoreCase("hue") && sender.hasPermission("openaudio.admin.hue"))
-			{
+			} else if (args[0].equalsIgnoreCase("hue") && sender.hasPermission("openaudio.admin.hue")) {
 				if (args.length == 4 || args.length > 4) {
 					//set and effect
 					if (args[1].equalsIgnoreCase("set")) {
 
 						if (args.length > 4) {
 							String color = args[3] + ":" + args[4];
-							command.hueSet(args[2], color);
+							for (Player p: selector.playerSelector(sender, args[2])) {
+								command.hueSet(p.getName(), color);
+							}
 							sender.sendMessage(Main.prefix + "Changed room color of " + args[2]);
 						} else {
 							String color = args[3];
-							command.hueSet(args[2], color);
+							for (Player p: selector.playerSelector(sender, args[2])) {
+								command.hueSet(p.getName(), color);
+							}
 							sender.sendMessage(Main.prefix + "Changed room color of " + args[2]);
 						}
 					} else if (args[1].equalsIgnoreCase("effect")) {
 						if (args[2].equalsIgnoreCase("blink")) {
-							command.hueBlink(args[3]);
+							for (Player p: selector.playerSelector(sender, args[3])) {
+								command.hueBlink(p.getName());
+							}
 							sender.sendMessage(Main.prefix + "Enabled hue blink effect for " + args[3]);
 						} else if (args[2].equalsIgnoreCase("cycle")) {
-							command.hueCycle(args[3]);
+							for (Player p: selector.playerSelector(sender, args[3])) {
+								command.hueCycle(p.getName());
+							}
 							sender.sendMessage(Main.prefix + "Enabled hue cycle effect for " + args[3]);
 						} else if (args[2].equalsIgnoreCase("stop")) {
-							command.hueStopEffect(args[3]);
+							for (Player p: selector.playerSelector(sender, args[3])) {
+								command.hueStopEffect(p.getName());
+							}
 							sender.sendMessage(Main.prefix + "Stopped all hue effects for " + args[3]);
 						} else {
 							sender.sendMessage(Main.prefix + "Sorry, that's an invalid command :( (unknown effect)");
@@ -583,7 +620,9 @@ public class AdminCommands implements CommandExecutor {
 				} else {
 					if (args.length == 3) {
 						if (args[1].equalsIgnoreCase("reset")) {
-							command.hueReset(args[2]);
+							for (Player p: selector.playerSelector(sender, args[2])) {
+								command.hueReset(p.getName());
+							}
 						} else {
 							sender.sendMessage(Main.prefix + "Sorry, that's an invalid command :( (unknown command)");
 						}
@@ -604,16 +643,21 @@ public class AdminCommands implements CommandExecutor {
 		return b > a ? c > a && c < b : c > b && c < a;
 	}
 
-	public static boolean isNumeric(String str)
-	{
-		try
-		{
+	public static boolean isNumeric(String str) {
+		try {
 			@SuppressWarnings("unused")
 			double d = Double.parseDouble(str);
-		}
-		catch(NumberFormatException nfe)
-		{
+		} catch (NumberFormatException nfe) {
 			return false;
+		}
+		return true;
+	}
+
+	public static boolean isNumeric2(String str)
+	{
+		for (char c : str.toCharArray())
+		{
+			if (!Character.isDigit(c)) return false;
 		}
 		return true;
 	}

@@ -22,6 +22,9 @@ public class audioSpeakerSound {
 	long duration;
 	Integer schedule;
 	Integer timestamp;
+	private Integer volume = 100;
+	private Integer radius = 9;
+	private Boolean enabled = true;
 	
 	public audioSpeakerSound(String file, long seconds) {
 		this.source = file;
@@ -47,7 +50,30 @@ public class audioSpeakerSound {
             }
         }, 0, 20);
 	}
-	
+
+	public Boolean isEnabled() {
+		return this.enabled;
+	}
+
+	public void setEnabled(Boolean state) {
+		this.enabled = state;
+	}
+
+	public void setRadius(Integer nr) {
+		this.radius = nr;
+	}
+
+	public void setVolume(Integer nv) {
+		this.volume = nv;
+	}
+
+	public Integer getVolume() {
+		return this.volume;
+	}
+
+	public Integer getRadius() {
+		return this.radius;
+	}
 	
 	//getters and functions
 	public long getTime() {
