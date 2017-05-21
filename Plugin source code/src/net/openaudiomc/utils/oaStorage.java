@@ -14,7 +14,7 @@ public class oaStorage {
     private FileConfiguration fc;
 
     public oaStorage(String name) {
-        this.file = new File("plugins/OpenAudio/oaStorage", name);
+        this.file = new File("plugins/OpenAudio/oaStorage", name+".yml");
         try {
             this.file.createNewFile();
         } catch (IOException e) {}

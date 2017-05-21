@@ -10,6 +10,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import net.openaudiomc.actions.command;
@@ -26,6 +28,8 @@ import net.openaudiomc.speakerSystem.managers.audioSpeakerManager;
 import net.openaudiomc.syncedSound.objects.syncedSound;
 import net.openaudiomc.syncedSound.managers.syncedSoundManager;
 import net.openaudiomc.syncedSound.managers.userManager;
+
+import java.io.IOException;
 
 public class AdminCommands implements CommandExecutor {
 	//Main
@@ -277,7 +281,8 @@ public class AdminCommands implements CommandExecutor {
 							sender.sendMessage(Main.prefix + "Started a sound for " + args[1]);
 						}
 					} else {
-						for (Player p: selector.playerSelector(sender, args[1])) {
+						for (Player p : selector.playerSelector(sender, args[1])) {
+
 							command.playNormalSound(p.getName(), args[2]);
 						}
 						sender.sendMessage(Main.prefix + "Started a sound for " + args[1]);
@@ -343,13 +348,29 @@ public class AdminCommands implements CommandExecutor {
 
 							if (args[2].equalsIgnoreCase("setvolume")) {
 								sender.sendMessage("ba " + volumeCommand.isInt(args[3]));
+
 								if (volumeCommand.isInt(args[3])) {
-										for (audioSpeaker speaker: speakerMain.selection.get((Player) sender)) {
-											audioSpeakerSound sound = audioSpeakerManager.sounds.get(speaker.getSoundId());
+									Boolean suc6 = true;
+									for (audioSpeaker speaker: speakerMain.selection.get((Player) sender)) {
+										audioSpeakerSound sound = audioSpeakerManager.sounds.get(speaker.getSoundId());
+										if (sound.hasFile()) {
 											sound.setVolume(Integer.parseInt(args[3]));
-											oaStorage file = new oaStorage(speaker.getSoundId());
-											file.set("volume", Integer.parseInt(args[3]));
+											FileConfiguration config = YamlConfiguration.loadConfiguration(sound.getSavedFile());
+											config.set("volume", Integer.parseInt(args[3]));
+											try {
+												config.save(sound.getSavedFile());
+											} catch (IOException e) {
+												e.printStackTrace();
+											}
+										} else {
+											suc6 = false;
 										}
+										sound.setVolume(Integer.parseInt(args[3]));
+
+									}
+									if (!suc6) {
+										sender.sendMessage(Main.prefix + "Whoops! Failed to execute goal, please restart the server before commiting changes to this speaker.");
+									}
 								} else {
 									sender.sendMessage(Main.prefix + "Whoops! volume needs to be a number from 0 to 100");
 								}
@@ -647,10 +668,8 @@ public class AdminCommands implements CommandExecutor {
 		return true;
 	}
 
-	public static boolean isNumeric2(String str)
-	{
-		for (char c : str.toCharArray())
-		{
+	public static boolean isNumeric2(String str) {
+		for (char c: str.toCharArray()) {
 			if (!Character.isDigit(c)) return false;
 		}
 		return true;
