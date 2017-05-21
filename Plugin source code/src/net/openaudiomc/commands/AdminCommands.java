@@ -2,6 +2,7 @@ package net.openaudiomc.commands;
 
 import net.openaudiomc.speakerSystem.objects.audioSpeaker;
 import net.openaudiomc.speakerSystem.objects.audioSpeakerSound;
+import net.openaudiomc.utils.oaStorage;
 import net.openaudiomc.utils.selector;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -10,9 +11,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-
-import com.sk89q.worldguard.bukkit.WGBukkit;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 import net.openaudiomc.actions.command;
 import net.openaudiomc.socket.cm_callback;
@@ -346,20 +344,16 @@ public class AdminCommands implements CommandExecutor {
 							if (args[2].equalsIgnoreCase("setvolume")) {
 								sender.sendMessage("ba " + volumeCommand.isInt(args[3]));
 								if (volumeCommand.isInt(args[3])) {
-
 										for (audioSpeaker speaker: speakerMain.selection.get((Player) sender)) {
 											audioSpeakerSound sound = audioSpeakerManager.sounds.get(speaker.getSoundId());
-
 											sound.setVolume(Integer.parseInt(args[3]));
-
+											oaStorage file = new oaStorage(speaker.getSoundId());
+											file.set("volume", Integer.parseInt(args[3]));
 										}
-
 								} else {
 									sender.sendMessage(Main.prefix + "Whoops! volume needs to be a number from 0 to 100");
 								}
-
 							}
-
 						} else {
 							sender.sendMessage(Main.prefix + "Oh no! You don't have any speakers selected, right click one to get started.");
 						}

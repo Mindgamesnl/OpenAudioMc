@@ -58,6 +58,7 @@ public class Authenticator {
 	 }
 	
 	public static String getNodeServer(String url_to_server) throws Exception {
+		System.setProperty("jsse.enableSNIExtension", "false");
 	    URL url = new URL(url_to_server);
 	    BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 	    String str;

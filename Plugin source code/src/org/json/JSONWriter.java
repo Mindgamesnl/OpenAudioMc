@@ -29,7 +29,7 @@ SOFTWARE.
 /**
  * JSONWriter provides a quick and convenient way of producing JSON text.
  * The texts produced strictly conform to JSON syntax rules. No whitespace is
- * added, so the results are ready for transmission or storage. Each instance of
+ * added, so the results are ready for transmission or oaStorage. Each instance of
  * JSONWriter can produce one JSON text.
  * <p>
  * A JSONWriter instance provides a <code>value</code> method for appending

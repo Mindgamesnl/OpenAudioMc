@@ -16,7 +16,7 @@ import net.openaudiomc.utils.webUtils;
 
 
 public class audioSpeakerSound {
-	
+
 	HashMap<String, ArmorStand> standList;
 	String source;
 	long duration;
@@ -25,7 +25,7 @@ public class audioSpeakerSound {
 	private Integer volume = 100;
 	private Integer radius = 9;
 	private Boolean enabled = true;
-	
+
 	public audioSpeakerSound(String file, long seconds) {
 		this.source = file;
 		this.timestamp = 0;
@@ -87,7 +87,7 @@ public class audioSpeakerSound {
 	public void stop() {
 		Bukkit.getScheduler().cancelTask(this.schedule);
 	}
-	
+
 	public void addArmorStand(String id, ArmorStand as) {
 		standList.put(id, as);
 	}

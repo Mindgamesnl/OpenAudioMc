@@ -3,8 +3,6 @@ package net.openaudiomc.speakerSystem.objects;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
-import java.io.File;
-
 /**
  * Created by mats on 23-4-2017.
  */
@@ -16,12 +14,10 @@ public class audioSpeaker {
     private Integer volume = 100;
     private Integer radius = 9;
 	private Boolean enabled = true;
-	private File file;
 
-    public audioSpeaker(String id, Location loc, String sid, File file) {
+    public audioSpeaker(String id, Location loc, String sid) {
     	System.out.println("New speaker. ID:"+sid + " BLOCK:"+loc.getBlock().getType());
     	this.id = id;
-    	this.file = file;
     	this.location = loc;
     	this.soundid = sid;
     }
@@ -56,10 +52,6 @@ public class audioSpeaker {
     
     public String getSoundId() {
     	return this.soundid;
-    }
-
-    public File getFile() {
-        return this.file;
     }
     
     public String getId() {

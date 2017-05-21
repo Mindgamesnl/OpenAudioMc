@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.openaudiomc.speakerSystem.objects.audioSpeaker;
+import net.openaudiomc.utils.oaStorage;
 import org.bukkit.*;
 import org.bukkit.block.Skull;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -93,12 +94,14 @@ public class speakerMain {
 	    		
 	    		audioSpeakerManager.createSound(config.getString("src")+"_sound", config.getString("src"));
 
-	    		if (config.getString("volume") != null) {
-                    audioSpeakerManager.speakers.get(new Location(Bukkit.getWorld(config.getString("world")), config.getLong("x"),config.getLong("y"),config.getLong("z"))).setVolume(Integer.parseInt(config.getString("volume")));
-                }
+				oaStorage storage = new oaStorage(audioSpeakerManager.speakers.get(new Location(Bukkit.getWorld(config.getString("world")), config.getLong("x"),config.getLong("y"),config.getLong("z"))).getSoundId());
 
-                if (config.getString("radius") != null) {
-                    audioSpeakerManager.speakers.get(new Location(Bukkit.getWorld(config.getString("world")), config.getLong("x"),config.getLong("y"),config.getLong("z"))).setRadius(Integer.parseInt(config.getString("radius")));
+				if (storage.get("volume") != null) {
+					audioSpeakerManager.sounds.get(audioSpeakerManager.speakers.get(new Location(Bukkit.getWorld(config.getString("world")), config.getLong("x"),config.getLong("y"),config.getLong("z"))).getSoundId()).setVolume(Integer.parseInt((String) storage.get("volume")));
+				}
+
+				if (storage.get("radius") != null) {
+					audioSpeakerManager.sounds.get(audioSpeakerManager.speakers.get(new Location(Bukkit.getWorld(config.getString("world")), config.getLong("x"),config.getLong("y"),config.getLong("z"))).getSoundId()).setRadius(Integer.parseInt((String) storage.get("radius")));
                 }
 
 		    } catch (FileNotFoundException e) {
@@ -210,7 +213,7 @@ public class speakerMain {
 
 								audioSpeakerManager.createSpeaker(placer.get(event.getPlayer()) + "_speaker", placer.get(event.getPlayer()) + "_sound", new Location(event.getBlock().getLocation().getWorld(), event.getBlock().getLocation().getX(), event.getBlock().getLocation().getY(), event.getBlock().getLocation().getZ()));
 
-								placer.put(event.getPlayer(), "olditem");
+							//	placer.put(event.getPlayer(), "olditem");
 
 							} else {
 								event.getPlayer().sendMessage(Main.prefix + ChatColor.RED + "This speaker does not have a sound, please add a new speaker.");
