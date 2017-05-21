@@ -1,5 +1,6 @@
 package net.openaudiomc.speakerSystem.objects;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.ArmorStand;
 
@@ -17,18 +19,26 @@ import net.openaudiomc.utils.webUtils;
 
 public class audioSpeakerSound {
 
-	HashMap<String, ArmorStand> standList;
-	String source;
-	long duration;
-	Integer schedule;
-	Integer timestamp;
+	private HashMap<String, ArmorStand> standList;
+	private String source;
+	private long duration;
+	private Integer schedule;
+	private Integer timestamp;
 	private Integer volume = 100;
 	private Integer radius = 9;
 	private Boolean enabled = true;
+	private File config;
 
-	public audioSpeakerSound(String file, long seconds) {
+	public audioSpeakerSound(String file, long seconds, Integer volume, Integer range, File config) {
 		this.source = file;
+		this.config = config;
 		this.timestamp = 0;
+		if (range != null) {
+			this.radius = range;
+		}
+		if (volume != null) {
+			this.volume = volume;
+		}
 		this.duration = seconds;
 		startRun();
 	}
@@ -49,6 +59,17 @@ public class audioSpeakerSound {
             	repeat();
             }
         }, 0, 20);
+	}
+
+	public Boolean hasFile() {
+		if (this.config != null) {
+			return true;
+		}
+		return false;
+	}
+
+	public File getSavedFile() {
+		return this.config;
 	}
 
 	public Boolean isEnabled() {

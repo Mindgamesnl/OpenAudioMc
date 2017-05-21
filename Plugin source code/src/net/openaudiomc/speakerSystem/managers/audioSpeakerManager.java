@@ -1,5 +1,6 @@
 package net.openaudiomc.speakerSystem.managers;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,7 +34,7 @@ public class audioSpeakerManager {
 	public static Boolean running = false;
 	public static Integer timer;
 	
-	public static void createSound(final String id, final String src) {
+	public static void createSound(final String id, final String src, final Integer volume, final Integer range, final File file) {
 		Callbacknoreturn<String> callback = new Callbacknoreturn<String>() {
 		    public void execute(String b) {
 		    	try {
@@ -41,7 +42,13 @@ public class audioSpeakerManager {
 				    Date reference = dateFormat.parse("00:00:00");
 				    Date date = dateFormat.parse(b);
 				    long seconds = (date.getTime() - reference.getTime()) / 1000L;
-				    audioSpeakerSound netitem = new audioSpeakerSound(src, seconds);
+				    if (volume == null) {
+				        Integer volume = 100;
+                    }
+                    if (range == null) {
+                        Integer range = 9;
+                    }
+				    audioSpeakerSound netitem = new audioSpeakerSound(src, seconds, volume, range, file);
 					sounds.put(id, netitem);
 		    	} catch (ParseException e) {}
 		    }
@@ -68,7 +75,7 @@ public class audioSpeakerManager {
 		double dist = as.getLoc().distance(p.getLocation());
 		dist = dist * sounds.get(as.getSoundId()).getVolume();
 		int a = (int) Math.round(dist);
-		a = a / sounds.get(as.getSoundId()).getRadius();
+		a = a / 10;
 		int volume = sounds.get(as.getSoundId()).getVolume() - a;
 		String fullvolume = volume+"";
 		fullvolume = fullvolume.replaceAll("-", "");
@@ -132,7 +139,7 @@ public class audioSpeakerManager {
                             }
                         }
 
-                        if (found && !(selected.getLoc().distance(p.getLocation()) > selected.getRadius())) {
+                        if (found) {
                             prosessSpeaker(p, selected);
                         } else {
                             if (listeners.get(p.getName())) {

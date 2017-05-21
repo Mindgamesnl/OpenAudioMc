@@ -71,7 +71,7 @@ public class speakerMain {
 		for(File file : files){
 				try {
 					config.load(file);
-					audioSpeakerManager.createSound(config.getString("src")+"_sound", config.getString("src"));
+					audioSpeakerManager.createSound(config.getString("src")+"_sound", config.getString("src"), config.getInt("volume"), null, file);
 				} catch (FileNotFoundException e) {
 				} catch (IOException e) {
 				} catch (InvalidConfigurationException e) {
@@ -91,19 +91,6 @@ public class speakerMain {
 	    		config.load(file);
 	    		
 	    		audioSpeakerManager.createSpeaker(config.getString("src")+"_speaker", config.getString("src")+"_sound", new Location(Bukkit.getWorld(config.getString("world")), config.getLong("x"),config.getLong("y"),config.getLong("z")));
-	    		
-	    		audioSpeakerManager.createSound(config.getString("src")+"_sound", config.getString("src"));
-
-				oaStorage storage = new oaStorage(audioSpeakerManager.speakers.get(new Location(Bukkit.getWorld(config.getString("world")), config.getLong("x"),config.getLong("y"),config.getLong("z"))).getSoundId());
-
-				if (storage.get("volume") != null) {
-					audioSpeakerManager.sounds.get(audioSpeakerManager.speakers.get(new Location(Bukkit.getWorld(config.getString("world")), config.getLong("x"),config.getLong("y"),config.getLong("z"))).getSoundId()).setVolume(Integer.parseInt((String) storage.get("volume")));
-				}
-
-				if (storage.get("radius") != null) {
-					audioSpeakerManager.sounds.get(audioSpeakerManager.speakers.get(new Location(Bukkit.getWorld(config.getString("world")), config.getLong("x"),config.getLong("y"),config.getLong("z"))).getSoundId()).setRadius(Integer.parseInt((String) storage.get("radius")));
-                }
-
 		    } catch (FileNotFoundException e) {
 		    } catch (IOException e) {
 		    } catch (InvalidConfigurationException e) {
@@ -204,7 +191,7 @@ public class speakerMain {
 
 								if (audioSpeakerManager.sounds.get(placer.get(event.getPlayer())) == null) {
 									saveSound(placer.get(event.getPlayer()));
-									audioSpeakerManager.createSound(placer.get(event.getPlayer()) + "_sound", placer.get(event.getPlayer()));
+									audioSpeakerManager.createSound(placer.get(event.getPlayer()) + "_sound", placer.get(event.getPlayer()), null, null, null);
 								}
 
 								saveSpeaker(placer.get(event.getPlayer()), event.getBlock().getLocation().getWorld().getName(), event.getBlock().getLocation().getX(), event.getBlock().getLocation().getY(), event.getBlock().getLocation().getZ());

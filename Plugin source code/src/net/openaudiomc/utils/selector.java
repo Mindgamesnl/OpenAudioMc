@@ -33,6 +33,10 @@ public class selector {
                     }
                 }
             }
+        } else if (query.equalsIgnoreCase("@a")) {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                list.add(p);
+            }
         } else if (query.toLowerCase().contains(":".toLowerCase())) {
             sender.sendMessage(Main.prefix + "Invalid selector.");
         } else {
