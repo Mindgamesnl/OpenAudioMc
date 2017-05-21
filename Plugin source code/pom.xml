@@ -80,14 +80,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.mewin</groupId>
-            <artifactId>WGRegionEvents</artifactId>
-            <version>1.2</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/WGRegionEvents.jar</systemPath>
-        </dependency>
-
-        <dependency>
             <groupId>io.socket</groupId>
             <artifactId>socket.io-client</artifactId>
             <version>0.8.3</version>

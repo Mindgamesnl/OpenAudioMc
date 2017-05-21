@@ -34,6 +34,7 @@ net\openaudiomc\syncedSound\managers\userManager.class
 net\openaudiomc\internal\events\SkriptRegistration.class
 org\json\XML$1$1.class
 org\json\HTTP.class
+net\openaudiomc\speakerSystem\managers\dataManager.class
 org\json\JSONObject$Null.class
 net\openaudiomc\speakerSystem\Callbacktje$Callbacknoreturn.class
 net\openaudiomc\internal\events\SkriptRegistration$1.class
@@ -59,6 +60,7 @@ net\openaudiomc\socket\SocketioConnector$7.class
 net\openaudiomc\minecraft\Main$1.class
 net\openaudiomc\internal\events\SkriptRegistration$9.class
 net\openaudiomc\internal\events\SocketUserConnectEvent.class
+net\openaudiomc\utils\oaStorage.class
 net\openaudiomc\files\Messages.class
 net\openaudiomc\socket\timeoutManager.class
 net\openaudiomc\socket\SocketioConnector$5.class
@@ -99,8 +101,8 @@ net\openaudiomc\utils\webUtils$2.class
 net\openaudiomc\syncedSound\managers\syncedSoundManager$1$1.class
 net\openaudiomc\internal\events\SkriptRegistration$4.class
 net\openaudiomc\socket\Authenticator.class
-net\openaudiomc\socket\SocketioConnector$4.class
 net\openaudiomc\utils\selector.class
+net\openaudiomc\socket\SocketioConnector$4.class
 me\mindgamesnl\openaudiomc\publicApi\SoundEndEvent.class
 net\openaudiomc\socket\Main.class
 net\openaudiomc\utils\webUtils$2$1.class
