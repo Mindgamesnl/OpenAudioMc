@@ -376,32 +376,7 @@ public class AdminCommands implements CommandExecutor {
 								} else {
 									sender.sendMessage(Main.prefix + "Whoops! volume needs to be a number from 0 to 100");
 								}
-							} else if (args[2].equalsIgnoreCase("delete")) {
-
-
-								for (audioSpeaker speaker: speakerMain.selection.get((Player) sender)) {
-									if (audioSpeakerManager.speakers.get(speaker.getLoc()) != null) {
-
-										String sound = audioSpeakerManager.sounds.get(speaker.getSoundId()).getFile();
-										File speakerfile = new File("plugins/OpenAudio/speakers/speakers/" + speaker.getLoc().getBlockX() + ".0-" + speaker.getLoc().getBlockY() + ".0-" + speaker.getLoc().getBlockZ() + ".0.yml");
-
-
-
-										if (speakerfile.delete()) {
-											sender.sendMessage(Main.prefix + ChatColor.GREEN + "Successfully removed speaker!");
-											audioSpeakerManager.speakers.remove(speaker.getLoc());
-											speaker.getLoc().getWorld().getBlockAt(speaker.getLoc()).setType(Material.AIR);
-										} else {
-											sender.sendMessage(Main.prefix + ChatColor.RED + "Failed to remove speaker!");
-										}
-
-									} else {
-
-									}
-
-								}
 							}
-
 						} else {
 							sender.sendMessage(Main.prefix + "Oh no! You don't have any speakers selected, right click one to get started.");
 						}
