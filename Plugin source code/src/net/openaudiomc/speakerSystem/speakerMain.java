@@ -176,7 +176,25 @@ public class speakerMain {
 			} catch(NullPointerException e) {
 				
 			}
-		}
+		} else if (event.getBlock().getType() == Material.NOTE_BLOCK) {
+            if (audioSpeakerManager.speakers.get(event.getBlock().getLocation()) != null) {
+
+                String sound = audioSpeakerManager.sounds.get(audioSpeakerManager.speakers.get(event.getBlock().getLocation()).getSoundId()).getFile();
+                File speakerfile = new File("plugins/OpenAudio/speakers/speakers/"+event.getBlock().getLocation().getBlockX()+".0-"+event.getBlock().getLocation().getBlockY()+".0-"+event.getBlock().getLocation().getBlockZ()+".0.yml");
+
+                audioSpeakerManager.speakers.remove(event.getBlock().getLocation());
+
+                if (speakerfile.delete()) {
+                    event.getPlayer().sendMessage(Main.prefix + ChatColor.GREEN + "Successfully removed speaker!");
+                } else {
+                    event.getPlayer().sendMessage(Main.prefix + ChatColor.RED + "Failed to remove speaker!");
+                    event.setCancelled(true);
+                }
+
+            } else {
+                event.getPlayer().sendMessage(Main.prefix + ChatColor.RED + "Did not remove speaker, no sound assigned to this speaker.");
+            }
+        }
 	}
 	
 	public static void onPlace(BlockPlaceEvent event) {

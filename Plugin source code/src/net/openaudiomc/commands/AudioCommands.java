@@ -36,7 +36,7 @@ public class AudioCommands implements CommandExecutor {
 			String command = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + message + "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + url + "\"}}]" + "";
 			Bukkit.dispatchCommand(console, command);
 		} else {
-			sender.sendMessage(Main.prefix + ChatColor.YELLOW + "Our audio client is starting up. Please try again in a few seconds.");
+			sender.sendMessage(Messages.getColor("socketio-loading"));
 		}
 		return true;
 	}
