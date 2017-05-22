@@ -24,10 +24,10 @@ public class webUtils {
 		StringBuilder response = new StringBuilder();
 		String inputLine;
 
-		while ((inputLine = in.readLine()) != null)
+		while ((inputLine = in .readLine()) != null)
 			response.append(inputLine);
 
-		in.close();
+		in .close();
 
 		return response.toString();
 	}
@@ -51,65 +51,58 @@ public class webUtils {
 		String inputLine;
 		StringBuffer response = new StringBuffer();
 
-		while ((inputLine = in.readLine()) != null) {
+		while ((inputLine = in .readLine()) != null) {
 			response.append(inputLine);
-		}
-		in.close();
+		} in .close();
 
 		System.out.println(response.toString());
 		return response.toString();
 	}
 
-	public static void asyncHttpRequest(final String request, final Callback<String> callback) {
-	    new BukkitRunnable() {
-	        @Override
-	        public void run() {
-	            try {
+	public static void asyncHttpRequest(final String request, final Callback < String > callback) {
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				try {
 					URL url;
 					url = new URL(request);
 
-				    BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+					BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 
-				    final String string = in.readLine();
-				    in.close();
-				    new BukkitRunnable()
-		            {
-		                @Override
-		                public void run()
-		                {
-		                    callback.execute(string);
-		                }
-		            }.runTask(Main.getPL());
+					final String string = in .readLine(); in .close();
+					new BukkitRunnable() {
+						@Override
+						public void run() {
+							callback.execute(string);
+						}
+					}.runTask(Main.getPL());
 
 				} catch (IOException e) {}
-	        }
-	    }.runTaskAsynchronously(Main.getPL());
+			}
+		}.runTaskAsynchronously(Main.getPL());
 	}
 
-	public static void asyncHttpRequestNoReturn(final String request, final Callbacknoreturn<String> callback) {
-	    new BukkitRunnable() {
-	        @Override
-	        public void run() {
-	            try {
+	public static void asyncHttpRequestNoReturn(final String request, final Callbacknoreturn < String > callback) {
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				try {
 					URL url;
 					url = new URL(request);
 
-				    BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+					BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 
-				    final String string = in.readLine();
-				    in.close();
-				    new BukkitRunnable()
-		            {
-		                @Override
-		                public void run()
-		                {
-		                    callback.execute(string);
-		                }
-		            }.runTask(Main.getPL());
+					final String string = in .readLine(); in .close();
+					new BukkitRunnable() {
+						@Override
+						public void run() {
+							callback.execute(string);
+						}
+					}.runTask(Main.getPL());
 
 				} catch (IOException e) {}
-	        }
-	    }.runTaskAsynchronously(Main.getPL());
+			}
+		}.runTaskAsynchronously(Main.getPL());
 	}
 
 }
