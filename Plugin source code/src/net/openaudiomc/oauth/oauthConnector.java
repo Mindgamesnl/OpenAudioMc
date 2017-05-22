@@ -11,7 +11,11 @@ public class oauthConnector {
 		String serverid = Authenticator.getID();
 
 		try {
-			return webUtils.textFromUrl("http://api.openaudiomc.net/oauth/request_key?serverid="+serverid);
+		    String value = webUtils.textFromUrl("http://api.openaudiomc.net/oauth/request_key?serverid="+serverid);
+			if (value == null) {
+		        return "Our auth server reached it's maximum load, please contact us.";
+            }
+            return value;
 		} catch (IOException e) {
 			return "Error while requesting key.";
 		}

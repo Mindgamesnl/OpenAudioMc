@@ -156,6 +156,7 @@ public class Main extends JavaPlugin {
             MessagesConfig.set("volume-hotbar-on", "&9[&bVolume&9] &3Hotbar volume is &2Enabled&2.");
             MessagesConfig.set("volume-hotbar-off", "&9[&bVolume&9] &3Hotbar volume is &4Disabled&2.");
             MessagesConfig.set("need-connected", "&9[&bOpenAudioMc&9] &3You need to be connected to do this command.");
+            MessagesConfig.set("socketio-loading", "&eOur audio client is starting up. Please try again in a few seconds.");
 
             try {
                 MessagesConfig.save(MessagesFile);
@@ -180,6 +181,18 @@ public class Main extends JavaPlugin {
             MessagesFile = new File("plugins/OpenAudio", "messages.yml");
             MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
             MessagesConfig.set("disconnect-message", "&9[&bOpenAudioMc&9] &3You are now &4Disconnected&3 from our audio server!");
+            try {
+                MessagesConfig.save(MessagesFile);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+        if (Messages.get("socketio-loading") == null) {
+            MessagesFile = new File("plugins/OpenAudio", "messages.yml");
+            MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
+            MessagesConfig.set("socketio-loading", "&eOur audio client is starting up. Please try again in a few seconds.");
             try {
                 MessagesConfig.save(MessagesFile);
             } catch (IOException e) {
