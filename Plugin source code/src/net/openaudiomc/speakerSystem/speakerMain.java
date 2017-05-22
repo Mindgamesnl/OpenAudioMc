@@ -89,8 +89,8 @@ public class speakerMain {
 		for(File file : files){
 		    try {
 	    		config.load(file);
-	    		
 	    		audioSpeakerManager.createSpeaker(config.getString("src")+"_speaker", config.getString("src")+"_sound", new Location(Bukkit.getWorld(config.getString("world")), config.getLong("x"),config.getLong("y"),config.getLong("z")));
+
 		    } catch (FileNotFoundException e) {
 		    } catch (IOException e) {
 		    } catch (InvalidConfigurationException e) {
@@ -131,7 +131,7 @@ public class speakerMain {
 					if (selection.get(p) != null) {
 						if (!selection.get(p).contains(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()))) {
 							selection.get(p).add(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()));
-							p.sendMessage(Main.prefix + "Added speaker to selection.");
+							p.sendMessage(Main.prefix + "Added speaker to selection. Url:"+audioSpeakerManager.sounds.get(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()).getSoundId()).getFile());
 						} else {
 							selection.get(p).remove(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()));
 							p.sendMessage(Main.prefix + "Removed speaker from selection.");
@@ -218,7 +218,7 @@ public class speakerMain {
 
 								audioSpeakerManager.createSpeaker(placer.get(event.getPlayer()) + "_speaker", placer.get(event.getPlayer()) + "_sound", new Location(event.getBlock().getLocation().getWorld(), event.getBlock().getLocation().getX(), event.getBlock().getLocation().getY(), event.getBlock().getLocation().getZ()));
 
-							//	placer.put(event.getPlayer(), "olditem");
+								placer.put(event.getPlayer(), "olditem");
 
 							} else {
 								event.getPlayer().sendMessage(Main.prefix + ChatColor.RED + "This speaker does not have a sound, please add a new speaker.");

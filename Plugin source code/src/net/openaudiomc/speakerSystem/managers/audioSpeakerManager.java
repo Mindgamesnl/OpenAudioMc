@@ -80,14 +80,16 @@ public class audioSpeakerManager {
 		String fullvolume = volume+"";
 		fullvolume = fullvolume.replaceAll("-", "");
 
-
+        Bukkit.broadcastMessage("1: " + sounds.get(as.getSoundId()).getVolume());
 		if (listeners.get(p.getName()) == null || !listeners.get(p.getName())) {
+
 		    //start
             command.playNewSpeaker(p.getName(), sounds.get(as.getSoundId()).getFile(), sounds.get(as.getSoundId()).getTime(), fullvolume);
             listeners.put(p.getName(), true);
         } else {
 		    //update
             if (Volumes.get(p.getName()) == null || Volumes.get(p.getName()) != Integer.parseInt(fullvolume)) {
+                Bukkit.broadcastMessage("updates");
                 command.updateSpeakerVolume(p.getName(), sounds.get(as.getSoundId()).getFile(), fullvolume);
                 Volumes.put(p.getName(), Integer.parseInt(fullvolume));
             }
@@ -120,9 +122,7 @@ public class audioSpeakerManager {
                                         highest = Math.abs(speakers.get(b.getLocation()).getLoc().distance(p.getLocation()));
                                     }
                                 }
-                            }
-                            //SKULL
-                            if (b.getType() == Material.SKULL) {
+                            } else if (b.getType() == Material.SKULL) {
                                 try {
                                     Skull skull = (Skull)b.getState();
                                     if (skull.getOwner().equalsIgnoreCase("OpenAudioMc")) {
@@ -141,6 +141,7 @@ public class audioSpeakerManager {
 
                         if (found) {
                             prosessSpeaker(p, selected);
+
                         } else {
                             if (listeners.get(p.getName())) {
                                 audioSpeakerManager.listeners.put(p.getName(), false);

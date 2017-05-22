@@ -6,6 +6,7 @@ import net.openaudiomc.utils.oaStorage;
 import net.openaudiomc.utils.selector;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -29,6 +30,7 @@ import net.openaudiomc.syncedSound.objects.syncedSound;
 import net.openaudiomc.syncedSound.managers.syncedSoundManager;
 import net.openaudiomc.syncedSound.managers.userManager;
 
+import java.io.File;
 import java.io.IOException;
 
 public class AdminCommands implements CommandExecutor {
@@ -281,7 +283,7 @@ public class AdminCommands implements CommandExecutor {
 							sender.sendMessage(Main.prefix + "Started a sound for " + args[1]);
 						}
 					} else {
-						for (Player p : selector.playerSelector(sender, args[1])) {
+						for (Player p: selector.playerSelector(sender, args[1])) {
 
 							command.playNormalSound(p.getName(), args[2]);
 						}
@@ -340,7 +342,7 @@ public class AdminCommands implements CommandExecutor {
 							sender.sendMessage(ChatColor.DARK_RED + "WARNING!" + ChatColor.YELLOW + " Speakers do not officially have support for soundcloud sounds! please use mp3 files instead.");
 						}
 					}
-				} else if (args.length == 4) {
+				} else if (args.length == 4 || args.length == 3) {
 
 					if (args[1].equalsIgnoreCase("selection")) {
 
@@ -374,7 +376,32 @@ public class AdminCommands implements CommandExecutor {
 								} else {
 									sender.sendMessage(Main.prefix + "Whoops! volume needs to be a number from 0 to 100");
 								}
+							} else if (args[2].equalsIgnoreCase("delete")) {
+
+
+								for (audioSpeaker speaker: speakerMain.selection.get((Player) sender)) {
+									if (audioSpeakerManager.speakers.get(speaker.getLoc()) != null) {
+
+										String sound = audioSpeakerManager.sounds.get(speaker.getSoundId()).getFile();
+										File speakerfile = new File("plugins/OpenAudio/speakers/speakers/" + speaker.getLoc().getBlockX() + ".0-" + speaker.getLoc().getBlockY() + ".0-" + speaker.getLoc().getBlockZ() + ".0.yml");
+
+
+
+										if (speakerfile.delete()) {
+											sender.sendMessage(Main.prefix + ChatColor.GREEN + "Successfully removed speaker!");
+											audioSpeakerManager.speakers.remove(speaker.getLoc());
+											speaker.getLoc().getWorld().getBlockAt(speaker.getLoc()).setType(Material.AIR);
+										} else {
+											sender.sendMessage(Main.prefix + ChatColor.RED + "Failed to remove speaker!");
+										}
+
+									} else {
+
+									}
+
+								}
 							}
+
 						} else {
 							sender.sendMessage(Main.prefix + "Oh no! You don't have any speakers selected, right click one to get started.");
 						}
