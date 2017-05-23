@@ -2,7 +2,6 @@ package net.openaudiomc.commands;
 
 import net.openaudiomc.speakerSystem.objects.audioSpeaker;
 import net.openaudiomc.speakerSystem.objects.audioSpeakerSound;
-import net.openaudiomc.utils.oaStorage;
 import net.openaudiomc.utils.selector;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -31,10 +30,7 @@ import net.openaudiomc.speakerSystem.managers.audioSpeakerManager;
 import net.openaudiomc.syncedSound.objects.syncedSound;
 import net.openaudiomc.syncedSound.managers.syncedSoundManager;
 import net.openaudiomc.syncedSound.managers.userManager;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
 
-import java.io.File;
 import java.io.IOException;
 
 public class AdminCommands implements CommandExecutor {
