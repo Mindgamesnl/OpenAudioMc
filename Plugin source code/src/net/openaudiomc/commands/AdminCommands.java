@@ -351,19 +351,23 @@ public class AdminCommands implements CommandExecutor {
                     if (args[1].equalsIgnoreCase("set")) {
                         Location target = new Location(Bukkit.getWorld(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]));
                         if (audioSpeakerManager.speakers.get(target) != null) {
-                          sender.sendMessage(Main.prefix + "This is already a speaker.");
-                        } else {
+                          sender.sendMessage(Main.prefix + "This is already a speaker. Replacing");
 
-                            ItemStack removeskull = new ItemStack(Material.SKULL_ITEM);
-                            removeskull.setDurability((short) 3);
-                            SkullMeta sm = (SkullMeta) removeskull.getItemMeta();
-                            sm.setOwner("OpenAudioMc");
-                            sm.setDisplayName(ChatColor.AQUA + "OpenAudioMc Speaker");
-                            removeskull.setItemMeta(sm);
+                        } else {
+							if (audioSpeakerManager.sounds.get(args[6]) == null) {
+								speakerMain.saveSound(args[6]);
+								audioSpeakerManager.createSound(args[6] + "_sound", args[6], null, null, null);
+							}
+
+							speakerMain.saveSpeaker(args[6], target.getWorld().getName(), target.getX(), target.getY(), target.getZ());
+
+							sender.sendMessage(Main.prefix + ChatColor.GREEN + "Created speaker on X:" + target.getBlockX() + " Y:" + target.getBlockY() + " Z:" + target.getBlockZ() + ".");
+
+							audioSpeakerManager.createSpeaker(args[6] + "_speaker", args[6] + "_sound", target);
+
 
                             Block b = Bukkit.getWorld(args[2]).getBlockAt(target);
-                            b.setType(removeskull.getType());
-                            b.setData(removeskull.getData().getData());
+                            b.setType(Material.NOTE_BLOCK);
 
                         }
                     }
