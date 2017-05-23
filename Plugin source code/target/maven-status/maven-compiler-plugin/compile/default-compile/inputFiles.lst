@@ -1,5 +1,6 @@
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\Cookie.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\syncedSound\managers\userManager.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\utils\oaStorage.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\files\Messages.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\speakerSystem\speakerMain.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\JSONString.java
@@ -8,6 +9,7 @@ C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiom
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\HTTPTokener.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\speakerSystem\Callbacktje.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\commands\volumeCommand.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\speakerSystem\managers\dataManager.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\internal\events\SocketUserConnectEvent.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\socket\Authenticator.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\internal\events\SkriptRegistration.java
@@ -19,8 +21,8 @@ C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\JSONM
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\JSONPointerException.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\me\mindgamesnl\openaudiomc\publicApi\WebConnectEvent.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\utils\webUtils.java
-C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\regions\MovementWay.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\socket\cm_callback.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\regions\MovementWay.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\JSONException.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\syncedSound\objects\userData.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\JSONObject.java
@@ -33,6 +35,7 @@ C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiom
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\me\mindgamesnl\openaudiomc\publicApi\HueConnectEvent.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\actions\command.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\syncedSound\managers\syncedSoundManager.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\utils\selector.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\me\mindgamesnl\openaudiomc\publicApi\AudioRegionLeaveEvent.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\commands\AdminCommands.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\me\mindgamesnl\openaudiomc\publicApi\WebsocketSendEvent.java
@@ -44,8 +47,8 @@ C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\me\mindgamesnl
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\regions\regionListener.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\CDL.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\internal\events\SocketWhisperEvent.java
-C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\actions\spy.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\me\mindgamesnl\openaudiomc\publicApi\SocketWhisperEvent.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\actions\spy.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\utils\callback.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\me\mindgamesnl\openaudiomc\publicApi\SocketIoDisconnectEvent.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\me\mindgamesnl\openaudiomc\publicApi\SoundEndEvent.java
@@ -65,6 +68,7 @@ C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiom
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\syncedSound\objects\syncedSound.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\JSONArray.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\speakerSystem\objects\audioSpeakerSound.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\triggers\triggerObject.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\files\playlistManager.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\files\modManager.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\oauth\oauthConnector.java
