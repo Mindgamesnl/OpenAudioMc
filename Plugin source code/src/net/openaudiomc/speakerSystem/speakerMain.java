@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.openaudiomc.speakerSystem.objects.audioSpeaker;
-import net.openaudiomc.utils.oaStorage;
 import org.bukkit.*;
 import org.bukkit.block.Skull;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -124,26 +124,27 @@ public class speakerMain {
 	public static void PlayerInteractEvent(PlayerInteractEvent event) {
 
 		Player p = event.getPlayer();
-
-		if (p.hasPermission("openaudio.speakers.interact")) {
-			if (event.getClickedBlock().getType() == Material.SKULL || event.getClickedBlock().getType() == Material.NOTE_BLOCK) {
-				if (audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()) != null) {
-					if (selection.get(p) != null) {
-						if (!selection.get(p).contains(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()))) {
-							selection.get(p).add(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()));
-							p.sendMessage(Main.prefix + "Added speaker to selection. Url:"+audioSpeakerManager.sounds.get(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()).getSoundId()).getFile());
+		if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+			if (p.hasPermission("openaudio.speakers.interact")) {
+				if (event.getClickedBlock().getType() == Material.SKULL || event.getClickedBlock().getType() == Material.NOTE_BLOCK) {
+					if (audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()) != null) {
+						if (selection.get(p) != null) {
+							if (!selection.get(p).contains(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()))) {
+								selection.get(p).add(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()));
+								p.sendMessage(Main.prefix + "Added speaker to selection. Url:"+audioSpeakerManager.sounds.get(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()).getSoundId()).getFile());
+							} else {
+								selection.get(p).remove(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()));
+								p.sendMessage(Main.prefix + "Removed speaker from selection.");
+							}
 						} else {
-							selection.get(p).remove(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()));
-							p.sendMessage(Main.prefix + "Removed speaker from selection.");
+							ArrayList<audioSpeaker> selected = new ArrayList<audioSpeaker>();
+							selected.add(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()));
+							selection.put(p, selected);
+							p.sendMessage(Main.prefix + "Added speaker to selection.");
 						}
 					} else {
-						ArrayList<audioSpeaker> selected = new ArrayList<audioSpeaker>();
-						selected.add(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()));
-						selection.put(p, selected);
-						p.sendMessage(Main.prefix + "Added speaker to selection.");
+						p.sendMessage(Main.prefix + "This block is not a speaker.");
 					}
-				} else {
-					p.sendMessage(Main.prefix + "This block is not a speaker.");
 				}
 			}
 		}

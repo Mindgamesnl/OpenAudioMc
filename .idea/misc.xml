@@ -45,8 +45,8 @@
   </component>
   <component name="JavadocGenerationManager">
     <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/Desktop/javadoc2" />
-    <option name="OPTION_SCOPE" value="protected" />
-    <option name="OPTION_HIERARCHY" value="true" />
+    <option name="OPTION_SCOPE" value="private" />
+    <option name="OPTION_HIERARCHY" value="false" />
     <option name="OPTION_NAVIGATOR" value="true" />
     <option name="OPTION_INDEX" value="true" />
     <option name="OPTION_SEPARATE_INDEX" value="true" />
