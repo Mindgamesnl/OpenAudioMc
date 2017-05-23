@@ -80,7 +80,6 @@ public class audioSpeakerManager {
 		String fullvolume = volume+"";
 		fullvolume = fullvolume.replaceAll("-", "");
 
-        Bukkit.broadcastMessage("1: " + sounds.get(as.getSoundId()).getVolume());
 		if (listeners.get(p.getName()) == null || !listeners.get(p.getName())) {
 
 		    //start
@@ -89,7 +88,6 @@ public class audioSpeakerManager {
         } else {
 		    //update
             if (Volumes.get(p.getName()) == null || Volumes.get(p.getName()) != Integer.parseInt(fullvolume)) {
-                Bukkit.broadcastMessage("updates");
                 command.updateSpeakerVolume(p.getName(), sounds.get(as.getSoundId()).getFile(), fullvolume);
                 Volumes.put(p.getName(), Integer.parseInt(fullvolume));
             }
