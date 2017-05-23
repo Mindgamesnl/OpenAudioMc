@@ -6,7 +6,9 @@ import net.openaudiomc.utils.oaStorage;
 import net.openaudiomc.utils.selector;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -29,6 +31,8 @@ import net.openaudiomc.speakerSystem.managers.audioSpeakerManager;
 import net.openaudiomc.syncedSound.objects.syncedSound;
 import net.openaudiomc.syncedSound.managers.syncedSoundManager;
 import net.openaudiomc.syncedSound.managers.userManager;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.io.File;
 import java.io.IOException;
@@ -342,7 +346,29 @@ public class AdminCommands implements CommandExecutor {
 							sender.sendMessage(ChatColor.DARK_RED + "WARNING!" + ChatColor.YELLOW + " Speakers do not officially have support for soundcloud sounds! please use mp3 files instead.");
 						}
 					}
-				} else if (args.length == 4 || args.length == 3) {
+				} else if (args.length == 7) {
+
+                    if (args[1].equalsIgnoreCase("set")) {
+                        Location target = new Location(Bukkit.getWorld(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]));
+                        if (audioSpeakerManager.speakers.get(target) != null) {
+                          sender.sendMessage(Main.prefix + "This is already a speaker.");
+                        } else {
+
+                            ItemStack removeskull = new ItemStack(Material.SKULL_ITEM);
+                            removeskull.setDurability((short) 3);
+                            SkullMeta sm = (SkullMeta) removeskull.getItemMeta();
+                            sm.setOwner("OpenAudioMc");
+                            sm.setDisplayName(ChatColor.AQUA + "OpenAudioMc Speaker");
+                            removeskull.setItemMeta(sm);
+
+                            Block b = Bukkit.getWorld(args[2]).getBlockAt(target);
+                            b.setType(removeskull.getType());
+                            b.setData(removeskull.getData().getData());
+
+                        }
+                    }
+
+                } else if (args.length == 4 || args.length == 3) {
 
 					if (args[1].equalsIgnoreCase("selection")) {
 
