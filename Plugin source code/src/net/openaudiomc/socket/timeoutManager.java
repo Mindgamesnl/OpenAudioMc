@@ -79,7 +79,7 @@ public class timeoutManager implements Listener {
 				Bukkit.getLogger().info("[OpenAudio] Connection with socket server is allready closed, skipping closing thingy.");
 			}
 		} else {
-			try {
+			/*try {
 				if (!ioconnected) {
 					cm_callback.update();
 					Bukkit.getLogger().info("[OpenAudio] Reconnecting to the openaudiomc socket server.");
@@ -90,7 +90,7 @@ public class timeoutManager implements Listener {
 				}
 			} catch (Exception e) {
 				Bukkit.getLogger().info("[OpenAudio] Failed to connect to the socket.io server, openaudio will not work correctly.");
-			}
+			}*/
 		}
 	}
     
