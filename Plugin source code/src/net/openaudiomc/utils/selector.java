@@ -12,7 +12,6 @@ import java.util.ArrayList;
 /**
  * Created by mats on 19-5-2017.
  */
-
 public class selector {
 
     public static ArrayList<Player> playerSelector(CommandSender sender, String query) {
