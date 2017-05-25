@@ -122,7 +122,7 @@ public class speakerMain {
 	}
 
 	public static void PlayerInteractEvent(PlayerInteractEvent event) {
-
+		Bukkit.broadcastMessage("bibaboem");
 		Player p = event.getPlayer();
 		if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if (p.hasPermission("openaudio.speakers.interact")) {
@@ -135,6 +135,7 @@ public class speakerMain {
 							} else {
 								selection.get(p).remove(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()));
 								p.sendMessage(Main.prefix + "Removed speaker from selection.");
+								//Bukkit.broadcastMessage(selection.get(p).size() + " selecties.");
 							}
 						} else {
 							ArrayList<audioSpeaker> selected = new ArrayList<audioSpeaker>();
@@ -218,13 +219,15 @@ public class speakerMain {
 								event.getPlayer().sendMessage(Main.prefix + ChatColor.GREEN + "Created speaker on X:" + event.getBlock().getLocation().getBlockX() + " Y:" + event.getBlock().getLocation().getBlockY() + " Z:" + event.getBlock().getLocation().getBlockZ() + ".");
 
 								audioSpeakerManager.createSpeaker(placer.get(event.getPlayer()) + "_speaker", placer.get(event.getPlayer()) + "_sound", new Location(event.getBlock().getLocation().getWorld(), event.getBlock().getLocation().getX(), event.getBlock().getLocation().getY(), event.getBlock().getLocation().getZ()));
-
+								Bukkit.broadcastMessage("Url: " + placer.get(event.getPlayer()));
 								placer.put(event.getPlayer(), "olditem");
 
 							} else {
 								event.getPlayer().sendMessage(Main.prefix + ChatColor.RED + "This speaker does not have a sound, please add a new speaker.");
 								event.setCancelled(true);
 							}
+
+
 							ItemStack removeskull = new ItemStack(Material.SKULL_ITEM);
 							removeskull.setDurability((short) 3);
 							SkullMeta sm = (SkullMeta) removeskull.getItemMeta();
