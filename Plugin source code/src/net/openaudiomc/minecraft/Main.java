@@ -112,14 +112,10 @@ public class Main extends JavaPlugin {
         Bukkit.getLogger().info("[OpenAudio] Loading speakers.");
 
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-            @Override
-            public void run() {
-                speakerMain.loadSounds();
-                speakerMain.loadSpeaker();
-                audioSpeakerManager.Init();
-            }
-        },20*10);
+        speakerMain.loadSounds();
+        speakerMain.loadSpeaker();
+        audioSpeakerManager.Init();
+
         Bukkit.getLogger().info("[OpenAudio] Started up.");
     }
 

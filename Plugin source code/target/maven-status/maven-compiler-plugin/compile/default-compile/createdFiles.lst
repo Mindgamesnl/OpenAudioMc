@@ -57,7 +57,6 @@ net\openaudiomc\commands\volumeCommand.class
 net\openaudiomc\utils\callback$Callback.class
 net\openaudiomc\utils\callback.class
 net\openaudiomc\socket\SocketioConnector$7.class
-net\openaudiomc\minecraft\Main$1.class
 net\openaudiomc\internal\events\SkriptRegistration$9.class
 net\openaudiomc\internal\events\SocketUserConnectEvent.class
 net\openaudiomc\files\Messages.class

@@ -33,7 +33,7 @@ public class audioSpeakerSound {
 		this.source = file;
 		this.config = config;
 		this.timestamp = 0;
-		Bukkit.broadcastMessage("Volume: " + volume);
+
 		if (range != null) {
 			this.radius = range;
 		}
@@ -41,6 +41,7 @@ public class audioSpeakerSound {
 			this.volume = volume;
 		}
 		this.duration = seconds;
+		Bukkit.broadcastMessage("Volume: " + this.volume + " url"+this.source);
 		startRun();
 	}
 	

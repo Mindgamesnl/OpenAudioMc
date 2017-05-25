@@ -1,249 +1,172 @@
 package net.openaudiomc.speakerSystem;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
-import net.openaudiomc.speakerSystem.objects.audioSpeaker;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.Skull;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.SkullType;
-import org.bukkit.inventory.meta.SkullMeta;
 
+import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
+import net.openaudiomc.actions.command;
 import net.openaudiomc.minecraft.Main;
-import net.openaudiomc.speakerSystem.managers.audioSpeakerManager;
+import net.openaudiomc.speakerSystem.objects.audioSpeaker;
+import net.openaudiomc.speakerSystem.objects.audioSpeakerSound;
+import net.openaudiomc.utils.Callbacknoreturn;
+import net.openaudiomc.utils.webUtils;
+import net.openaudiomc.socket.cm_callback;
 
-/**
- * Created by mats on 23-4-2017.
- */
-public class speakerMain {
-	
-	public static HashMap<Player, String> placer = new HashMap<Player, String>();
-	public static HashMap<Player, ArrayList<audioSpeaker>> selection = new HashMap<Player, ArrayList<audioSpeaker>>();
-	
-	public static void giveSpeaker(Player p, String file) {
-		placer.put(p, file);
-          ItemStack skull = new ItemStack(Material.SKULL_ITEM);
-          skull.setDurability((short)3);
-          SkullMeta sm = (SkullMeta) skull.getItemMeta();
-          sm.setOwner("OpenAudioMc");
-          sm.setDisplayName(ChatColor.AQUA + "OpenAudioMc Speaker");
-          skull.setItemMeta(sm);
+public class audioSpeakerManager {
 
-          p.getInventory().addItem(skull);
-	}
-	
-	public static void saveSound(String src) {
-		File savedFile = new File("plugins/OpenAudio/speakers/sounds", src.replaceAll("/", "_slash_")+".yml");
-		if (!savedFile.exists()) {
-			try {
+	public static HashMap<String, audioSpeakerSound> sounds = new HashMap<String, audioSpeakerSound>();
+	public static HashMap<Location, audioSpeaker> speakers = new HashMap<Location, audioSpeaker>();
+	public static HashMap<String, Boolean> listeners = new HashMap<String, Boolean>();
+	public static HashMap<String, Integer> Volumes = new HashMap<String, Integer>();
+	public static Boolean running = false;
+	public static Integer timer;
+
+	public static void createSound(final String id, final String src, final Integer volume, final Integer range, final File file) {
+		Callbacknoreturn<String> callback = new Callbacknoreturn<String>() {
+			public void execute(String b) {
 				try {
-					savedFile.createNewFile();
-				} catch (IOException e) {
-				}
-				FileConfiguration regionsFileInst = YamlConfiguration.loadConfiguration(savedFile);
-				regionsFileInst.set("src", src);
-				try {
-					regionsFileInst.save(savedFile);
-				} catch (IOException e) {
-				}
-			} catch(NullPointerException e) {
-
-			}
-		}
-	}
-	
-	public static void loadSounds() {
-		try {
-		YamlConfiguration config = new YamlConfiguration();
-		File[] files = new File("plugins/OpenAudio/speakers/sounds").listFiles();
-		for(File file : files){
-				try {
-					config.load(file);
-					audioSpeakerManager.createSound(config.getString("src")+"_sound", config.getString("src"), config.getInt("volume"), null, file);
-				} catch (FileNotFoundException e) {
-				} catch (IOException e) {
-				} catch (InvalidConfigurationException e) {
-				}
-			}
-		} catch(NullPointerException e) {
-
-		}
-	}
-	
-	public static void loadSpeaker() {
-		try {
-		YamlConfiguration config = new YamlConfiguration();
-		File[] files = new File("plugins/OpenAudio/speakers/speakers").listFiles();
-		for(File file : files){
-		    try {
-	    		config.load(file);
-	    		audioSpeakerManager.createSpeaker(config.getString("src")+"_speaker", config.getString("src")+"_sound", new Location(Bukkit.getWorld(config.getString("world")), config.getLong("x"),config.getLong("y"),config.getLong("z")));
-
-		    } catch (FileNotFoundException e) {
-		    } catch (IOException e) {
-		    } catch (InvalidConfigurationException e) {
-		    }
-		}
-		} catch(NullPointerException e) {
-
-		}
-	}
-	
-	public static void saveSpeaker(String src, String g, double X, double Y, double Z) {
-		File savedFile = new File("plugins/OpenAudio/speakers/speakers", X+"-"+Y+"-"+Z+".yml");
-		if (!savedFile.exists()) {
-			try {
-				savedFile.createNewFile();
-			} catch (IOException e) {
-			}
-			FileConfiguration regionsFileInst = YamlConfiguration.loadConfiguration(savedFile);
-			regionsFileInst.set("src", src);
-			regionsFileInst.set("x", X);
-			regionsFileInst.set("y", Y);
-			regionsFileInst.set("z", Z);
-			regionsFileInst.set("world", g);
-			try {
-				regionsFileInst.save(savedFile);
-			} catch (IOException e) {
-			}
-		}
-	}
-
-	public static void PlayerInteractEvent(PlayerInteractEvent event) {
-		Bukkit.broadcastMessage("bibaboem");
-		Player p = event.getPlayer();
-		if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			if (p.hasPermission("openaudio.speakers.interact")) {
-				if (event.getClickedBlock().getType() == Material.SKULL || event.getClickedBlock().getType() == Material.NOTE_BLOCK) {
-					if (audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()) != null) {
-						if (selection.get(p) != null) {
-							if (!selection.get(p).contains(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()))) {
-								selection.get(p).add(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()));
-								p.sendMessage(Main.prefix + "Added speaker to selection. Url:"+audioSpeakerManager.sounds.get(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()).getSoundId()).getFile());
-							} else {
-								selection.get(p).remove(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()));
-								p.sendMessage(Main.prefix + "Removed speaker from selection.");
-								//Bukkit.broadcastMessage(selection.get(p).size() + " selecties.");
-							}
-						} else {
-							ArrayList<audioSpeaker> selected = new ArrayList<audioSpeaker>();
-							selected.add(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()));
-							selection.put(p, selected);
-							p.sendMessage(Main.prefix + "Added speaker to selection.");
-						}
-					} else {
-						p.sendMessage(Main.prefix + "This block is not a speaker.");
+					DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+					Date reference = dateFormat.parse("00:00:00");
+					Date date = dateFormat.parse(b);
+					long seconds = (date.getTime() - reference.getTime()) / 1000L;
+					if (volume == null) {
+						Integer volume = 100;
 					}
-				}
+					if (range == null) {
+						Integer range = 9;
+					}
+					audioSpeakerSound netitem = new audioSpeakerSound(src, seconds, volume, range, file);
+					sounds.put(id, netitem);
+				} catch (ParseException e) {}
 			}
+		};
+		webUtils.asyncHttpRequestNoReturn("http://api.openaudiomc.net/plugin/mp3_info.php?s=" + src, callback);
+
+	}
+
+	public static void createSpeaker(String id, String soundid, Location loc) {
+		audioSpeaker newitem = new audioSpeaker(id, loc, soundid);
+		speakers.put(loc, newitem);
+	}
+
+	public static void stopForPlayer(String name) {
+		command.stopAllSpeakers(name);
+	}
+
+	public static void stop() {
+		running = false;
+		Bukkit.getScheduler().cancelTask(timer);
+	}
+
+	public static void prosessSpeaker(Player p, audioSpeaker as) {
+		double dist = as.getLoc().distance(p.getLocation());
+		dist = dist * sounds.get(as.getSoundId()).getVolume();
+		int a = (int) Math.round(dist);
+		a = a / 10;
+		int volume = sounds.get(as.getSoundId()).getVolume() - a;
+		String fullvolume = volume+"";
+		fullvolume = fullvolume.replaceAll("-", "");
+
+		Bukkit.broadcastMessage("1: " + sounds.get(as.getSoundId()).getVolume());
+		if (listeners.get(p.getName()) == null || !listeners.get(p.getName())) {
+
+			//start
+			command.playNewSpeaker(p.getName(), sounds.get(as.getSoundId()).getFile(), sounds.get(as.getSoundId()).getTime(), fullvolume);
+			listeners.put(p.getName(), true);
+		} else {
+			//update
+			if (Volumes.get(p.getName()) == null || Volumes.get(p.getName()) != Integer.parseInt(fullvolume)) {
+				Bukkit.broadcastMessage("updates");
+				command.updateSpeakerVolume(p.getName(), sounds.get(as.getSoundId()).getFile(), fullvolume);
+				Volumes.put(p.getName(), Integer.parseInt(fullvolume));
+			}
+
 		}
 	}
 
-	
-	public static void onBreak(BlockBreakEvent event) {
-		if (event.getBlock().getType() == Material.SKULL) {
-			Skull skull = (Skull)event.getBlock().getState();
-			try {
-				if (skull.getOwner().equalsIgnoreCase("OpenAudioMc")) {
-					if (audioSpeakerManager.speakers.get(event.getBlock().getLocation()) != null) {
-						
-						String sound = audioSpeakerManager.sounds.get(audioSpeakerManager.speakers.get(event.getBlock().getLocation()).getSoundId()).getFile();
-						File speakerfile = new File("plugins/OpenAudio/speakers/speakers/"+event.getBlock().getLocation().getBlockX()+".0-"+event.getBlock().getLocation().getBlockY()+".0-"+event.getBlock().getLocation().getBlockZ()+".0.yml");
-						
-						audioSpeakerManager.speakers.remove(event.getBlock().getLocation());
-						
-						if (speakerfile.delete()) {
-							event.getPlayer().sendMessage(Main.prefix + ChatColor.GREEN + "Successfully removed speaker!");
-						} else {
-							event.getPlayer().sendMessage(Main.prefix + ChatColor.RED + "Failed to remove speaker!");
-							event.setCancelled(true);
-						}
-						
-					} else {
-						event.getPlayer().sendMessage(Main.prefix + ChatColor.RED + "Did not remove speaker, no sound assigned to this speaker.");
-					}
-				}
-			} catch(NullPointerException e) {
-				
-			}
-		} else if (event.getBlock().getType() == Material.NOTE_BLOCK) {
-            if (audioSpeakerManager.speakers.get(event.getBlock().getLocation()) != null) {
+	public static void Init() {
+		running = true;
+		timer = Bukkit.getScheduler().scheduleAsyncRepeatingTask(Main.getPL(), new Runnable() {
+			@Override
+			public void run() {
+				for (Player p : Bukkit.getOnlinePlayers()) {
+					if (OpenAudioApi.isConnected(p)) {
 
-                String sound = audioSpeakerManager.sounds.get(audioSpeakerManager.speakers.get(event.getBlock().getLocation()).getSoundId()).getFile();
-                File speakerfile = new File("plugins/OpenAudio/speakers/speakers/"+event.getBlock().getLocation().getBlockX()+".0-"+event.getBlock().getLocation().getBlockY()+".0-"+event.getBlock().getLocation().getBlockZ()+".0.yml");
-
-                audioSpeakerManager.speakers.remove(event.getBlock().getLocation());
-
-                if (speakerfile.delete()) {
-                    event.getPlayer().sendMessage(Main.prefix + ChatColor.GREEN + "Successfully removed speaker!");
-                } else {
-                    event.getPlayer().sendMessage(Main.prefix + ChatColor.RED + "Failed to remove speaker!");
-                    event.setCancelled(true);
-                }
-
-            } else {
-                event.getPlayer().sendMessage(Main.prefix + ChatColor.RED + "Did not remove speaker, no sound assigned to this speaker.");
-            }
-        }
-	}
-	
-	public static void onPlace(BlockPlaceEvent event) {
-		try {
-			if (event.getBlock().getType() == Material.SKULL) {
-				Skull skull = (Skull) event.getBlock().getState();
-				if (skull.getSkullType() == SkullType.PLAYER	) {
-					if (skull.hasOwner()) {
-						if (skull.getOwner().equalsIgnoreCase("OpenAudioMc")) {
-							if (placer.get(event.getPlayer()) != null && placer.get(event.getPlayer()) != "olditem") {
+						Boolean found = false;
+						double highest = 0;
+						Integer iterations = 0;
+						audioSpeaker selected = null;
 
 
-								if (audioSpeakerManager.sounds.get(placer.get(event.getPlayer())) == null) {
-									saveSound(placer.get(event.getPlayer()));
-									audioSpeakerManager.createSound(placer.get(event.getPlayer()) + "_sound", placer.get(event.getPlayer()), null, null, null);
+						for (Block b : getNearbyBlocks(p.getLocation(), 10)) {
+							//NOTEBLOCK
+							if (b.getType() == Material.NOTE_BLOCK) {
+								if (speakers.get(b.getLocation()).getSoundId() != null && speakers.get(b.getLocation()).isEnabled()) {
+									if (Math.abs(speakers.get(b.getLocation()).getLoc().distance(p.getLocation())) < highest || iterations == 0) {
+										found = true;
+										selected = speakers.get(b.getLocation());
+										iterations++;
+										highest = Math.abs(speakers.get(b.getLocation()).getLoc().distance(p.getLocation()));
+									}
 								}
-
-								saveSpeaker(placer.get(event.getPlayer()), event.getBlock().getLocation().getWorld().getName(), event.getBlock().getLocation().getX(), event.getBlock().getLocation().getY(), event.getBlock().getLocation().getZ());
-
-								event.getPlayer().sendMessage(Main.prefix + ChatColor.GREEN + "Created speaker on X:" + event.getBlock().getLocation().getBlockX() + " Y:" + event.getBlock().getLocation().getBlockY() + " Z:" + event.getBlock().getLocation().getBlockZ() + ".");
-
-								audioSpeakerManager.createSpeaker(placer.get(event.getPlayer()) + "_speaker", placer.get(event.getPlayer()) + "_sound", new Location(event.getBlock().getLocation().getWorld(), event.getBlock().getLocation().getX(), event.getBlock().getLocation().getY(), event.getBlock().getLocation().getZ()));
-								Bukkit.broadcastMessage("Url: " + placer.get(event.getPlayer()));
-								placer.put(event.getPlayer(), "olditem");
-
-							} else {
-								event.getPlayer().sendMessage(Main.prefix + ChatColor.RED + "This speaker does not have a sound, please add a new speaker.");
-								event.setCancelled(true);
+							} else if (b.getType() == Material.SKULL) {
+								try {
+									Skull skull = (Skull)b.getState();
+									if (skull.getOwner().equalsIgnoreCase("OpenAudioMc")) {
+										if (speakers.get(b.getLocation()).getSoundId() != null && speakers.get(b.getLocation()).isEnabled()) {
+											if (Math.abs(speakers.get(b.getLocation()).getLoc().distance(p.getLocation())) < highest || iterations == 0) {
+												found = true;
+												selected = speakers.get(b.getLocation());
+												iterations++;
+												highest = Math.abs(speakers.get(b.getLocation()).getLoc().distance(p.getLocation()));
+											}
+										}
+									}
+								} catch(NullPointerException e) {}
 							}
-
-
-							ItemStack removeskull = new ItemStack(Material.SKULL_ITEM);
-							removeskull.setDurability((short) 3);
-							SkullMeta sm = (SkullMeta) removeskull.getItemMeta();
-							sm.setOwner("OpenAudioMc");
-							sm.setDisplayName(ChatColor.AQUA + "OpenAudioMc Speaker");
-							removeskull.setItemMeta(sm);
-							event.getPlayer().getInventory().remove(removeskull);
 						}
+
+						if (found) {
+							prosessSpeaker(p, selected);
+
+						} else {
+							if (listeners.get(p.getName())) {
+								audioSpeakerManager.listeners.put(p.getName(), false);
+								command.stopAllSpeakers(p.getName());
+							}
+						}
+
 					}
 				}
 			}
-
-
-		} catch (NullPointerException e) {
-			//event.getPlayer().sendMessage(Main.prefix + ChatColor.RED + "Placing the skull failed some how, please send a screenshot of " + ChatColor.GREEN + "/oa debug" + ChatColor.RED + " to the developers.");
-		}
+		}, 0, cm_callback.speakerTick);
 	}
-	
+
+	public static List<Block> getNearbyBlocks(Location location, int radius) {
+		List<Block> blocks = new ArrayList<Block>();
+		for(int x = location.getBlockX() - radius; x <= location.getBlockX() + radius; x++) {
+			for(int y = location.getBlockY() - radius; y <= location.getBlockY() + radius; y++) {
+				for(int z = location.getBlockZ() - radius; z <= location.getBlockZ() + radius; z++) {
+					blocks.add(location.getWorld().getBlockAt(x, y, z));
+				}
+			}
+		}
+		return blocks;
+	}
+
+
+
 }
