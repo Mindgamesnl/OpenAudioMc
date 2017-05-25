@@ -37,7 +37,7 @@ public class audioSpeakerSound {
 		if (range != null) {
 			this.radius = range;
 		}
-		if (volume != null) {
+		if (volume != null && volume != 0) {
 			this.volume = volume;
 		}
 		this.duration = seconds;

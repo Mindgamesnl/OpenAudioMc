@@ -120,7 +120,7 @@ public class Main extends JavaPlugin {
                 speakerMain.loadSpeaker();
                 audioSpeakerManager.Init();
             }
-        },20*10);
+        },20*2);
         Bukkit.getLogger().info("[OpenAudio] Started up.");
     }
 
