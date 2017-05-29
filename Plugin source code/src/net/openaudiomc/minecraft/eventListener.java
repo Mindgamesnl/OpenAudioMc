@@ -41,11 +41,13 @@ import net.openaudiomc.speakerSystem.managers.audioSpeakerManager;
 public class eventListener implements Listener{    
     
 	public static HashMap<String, Boolean> isConnected = new HashMap<String, Boolean>();
-	
+
+	/*
 	@EventHandler
     public void onSocketCommandEvent(SocketCommandEvent event) {
     	//System.out.println("Socket command event: " + event.getCommand());
     }
+    */
     
 	@EventHandler
     public void onSocketWhisperEvent(SocketWhisperEvent event) {
@@ -89,9 +91,7 @@ public class eventListener implements Listener{
 	    					}
 	    				}
 	    			}
-	    			
-	    			
-	    			
+
 	    			if (getDep.getStatus()) {
 	    	    		String regionNu = "-";
 	    				for(ProtectedRegion r : WGBukkit.getRegionManager(client.getWorld()).getApplicableRegions(client.getLocation())) {
@@ -104,6 +104,8 @@ public class eventListener implements Listener{
 	    	    	}
 	    		Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.WebConnectEvent(Bukkit.getPlayer(event.getName())));
 	    	} else {
+	    	    //bad client! no bad!
+                //send force disconnect to socket.io
 	    		Emitter.KickPlayerConnection(event.getName());
 	    	}
 		}
