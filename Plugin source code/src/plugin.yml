@@ -3,7 +3,7 @@ description: Openaudiomc plugin. Brings audio to your server.
 author: Mindgamesnl
 website: https://www.openaudiomc.net/
 prefix: OpenAudioMc
-version: 2.5.7
+version: 2.6
 softdepend: [WorldGuard, Skript]
 main: net.openaudiomc.minecraft.Main
 commands:
@@ -79,3 +79,6 @@ permissions:
   openaudio.speakers.interact:
       description: Allows you to use the /openaudio hue command.
       default: op
+  openaudio.speakers.group:
+        description: Allows you to use the /openaudio group command.
+        default: op
