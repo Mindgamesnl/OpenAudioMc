@@ -79,6 +79,7 @@ public class audioSpeakerManager {
 		String fullvolume = volume+"";
 		fullvolume = fullvolume.replaceAll("-", "");
 
+
 		if (listeners.get(p.getName()) == null || !listeners.get(p.getName())) {
 
 		    //start
@@ -113,10 +114,12 @@ public class audioSpeakerManager {
                             if (b.getType() == Material.NOTE_BLOCK) {
                                 if (speakers.get(b.getLocation()).getSoundId() != null && speakers.get(b.getLocation()).isEnabled()) {
                                     if (Math.abs(speakers.get(b.getLocation()).getLoc().distance(p.getLocation())) < highest || iterations == 0) {
-                                        found = true;
-                                        selected = speakers.get(b.getLocation());
-                                        iterations++;
-                                        highest = Math.abs(speakers.get(b.getLocation()).getLoc().distance(p.getLocation()));
+                                        if (Math.abs(speakers.get(b.getLocation()).getLoc().distance(p.getLocation())) < highest || iterations == 0) {
+                                            found = true;
+                                            selected = speakers.get(b.getLocation());
+                                            iterations++;
+                                            highest = Math.abs(speakers.get(b.getLocation()).getLoc().distance(p.getLocation()));
+                                        }
                                     }
                                 }
                             } else if (b.getType() == Material.SKULL) {
@@ -125,20 +128,22 @@ public class audioSpeakerManager {
                                     if (skull.getOwner().equalsIgnoreCase("OpenAudioMc")) {
                                         if (speakers.get(b.getLocation()).getSoundId() != null && speakers.get(b.getLocation()).isEnabled()) {
                                             if (Math.abs(speakers.get(b.getLocation()).getLoc().distance(p.getLocation())) < highest || iterations == 0) {
-                                                found = true;
-                                                selected = speakers.get(b.getLocation());
-                                                iterations++;
-                                                highest = Math.abs(speakers.get(b.getLocation()).getLoc().distance(p.getLocation()));
+                                                if (sounds.get(speakers.get(b.getLocation()).getSoundId()).isEnabled()) {
+                                                    found = true;
+                                                    selected = speakers.get(b.getLocation());
+                                                    iterations++;
+                                                    highest = Math.abs(speakers.get(b.getLocation()).getLoc().distance(p.getLocation()));
+                                                }
                                             }
                                         }
                                     }
-                                } catch(NullPointerException e) {}
+                                } catch(NullPointerException e) {
+                                }
                             }
                         }
 
                         if (found) {
                             prosessSpeaker(p, selected);
-
                         } else {
                             if (listeners.get(p.getName())) {
                                 audioSpeakerManager.listeners.put(p.getName(), false);

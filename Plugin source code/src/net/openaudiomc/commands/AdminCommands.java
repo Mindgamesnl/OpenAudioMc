@@ -37,7 +37,6 @@ public class AdminCommands implements CommandExecutor {
 	//Main
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-
 		if (args.length > 0) {
 			if (args[0].equalsIgnoreCase("help") && sender.hasPermission("openaudio.admin.help")) {
 				if (args.length == 1 || args[1].equalsIgnoreCase("1")) {
@@ -407,6 +406,14 @@ public class AdminCommands implements CommandExecutor {
 							sender.sendMessage(Main.prefix + "Oh no! You don't have any speakers selected, right click one to get started.");
 						}
 
+					} else if (args[1].equalsIgnoreCase("set")) {
+						if (args[3].equalsIgnoreCase("on")) {
+							sender.sendMessage(Main.prefix + "Unmuted speakers with that url.");
+							audioSpeakerManager.sounds.get(args[2]+"_sound").setEnabled(true);
+						} else {
+							sender.sendMessage(Main.prefix + "Muted speakers with that url.");
+							audioSpeakerManager.sounds.get(args[2]+"_sound").setEnabled(false);
+						}
 					}
 
 				} else if (args.length == 2) {

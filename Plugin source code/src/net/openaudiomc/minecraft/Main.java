@@ -70,7 +70,6 @@ public class Main extends JavaPlugin {
         createServerNode();
         createPlaylist();
         cm_callback.update();
-        createModsFile();
         Bukkit.getServer().getPluginManager().registerEvents(new timeoutManager(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new eventListener(), this);
 
@@ -120,7 +119,7 @@ public class Main extends JavaPlugin {
                 speakerMain.loadSpeaker();
                 audioSpeakerManager.Init();
             }
-        },20*2);
+        },20*5);
         Bukkit.getLogger().info("[OpenAudio] Started up.");
     }
 
@@ -328,12 +327,10 @@ public class Main extends JavaPlugin {
             }
         }
         
-        if (
-        
-        if (Messages.get("disconnect-message") == null) {
-            MessagesFile = new File("plugins/OpenAudio", "messages.yml");
+        if (dataGetter.get("host") == "https://craftmend.com/openaudio.json") {
+            MessagesFile = new File("plugins/OpenAudio/advanced", "advancedConfig.yml");
             MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
-            MessagesConfig.set("disconnect-message", "&9[&bOpenAudioMc&9] &3You are now &4Disconnected&3 from our audio server!");
+            MessagesConfig.set("host", "http://api.openaudiomc.net/host.php");
             try {
                 MessagesConfig.save(MessagesFile);
             } catch (IOException e) {
