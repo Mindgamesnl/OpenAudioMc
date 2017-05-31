@@ -54,7 +54,6 @@ public class audioSpeakerManager {
 		    }
 		};
 		webUtils.asyncHttpRequestNoReturn("http://api.openaudiomc.net/plugin/mp3_info.php?s=" + src, callback);
-		
 	}
 	
 	public static void createSpeaker(String id, String soundid, Location loc) {

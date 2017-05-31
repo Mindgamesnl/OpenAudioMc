@@ -427,6 +427,8 @@ public class AdminCommands implements CommandExecutor {
 						} else {
 							sender.sendMessage(Main.prefix + "Speakers are allready started.");
 						}
+					} else if (args[1].equalsIgnoreCase("select")) {
+						speakerMain.selectPlayer((Player) sender);
 					} else {
 						sender.sendMessage(Main.prefix + "Invalid command, please read /openaudio help");
 					}
