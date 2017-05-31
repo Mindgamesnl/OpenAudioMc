@@ -5,9 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 import net.openaudiomc.speakerSystem.objects.audioSpeaker;
 import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.block.Skull;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -196,6 +198,34 @@ public class speakerMain {
                 event.getPlayer().sendMessage(Main.prefix + ChatColor.RED + "Did not remove speaker, no sound assigned to this speaker.");
             }
         }
+	}
+
+	public static void selectPlayer(Player p) {
+		Block target = p.getTargetBlock((Set<Material>) null, 5);
+		if (target != null) {
+			if (target.getType() == Material.SKULL) {
+				Skull skull = (Skull) target.getState();
+				if (skull.getSkullType() == SkullType.PLAYER) {
+					if (skull.getOwner().equalsIgnoreCase("OpenAudioMc")) {
+						if (selection.get(p) != null) {
+							if (!selection.get(p).contains(audioSpeakerManager.speakers.get(target.getLocation()))) {
+								selection.get(p).add(audioSpeakerManager.speakers.get(target.getLocation()));
+								p.sendMessage(Main.prefix + "Added speaker to selection. Url:"+audioSpeakerManager.sounds.get(audioSpeakerManager.speakers.get(target.getLocation()).getSoundId()).getFile());
+							} else {
+								selection.get(p).remove(audioSpeakerManager.speakers.get(target.getLocation()));
+								p.sendMessage(Main.prefix + "Removed speaker from selection.");
+							}
+						} else {
+							ArrayList<audioSpeaker> selected = new ArrayList<audioSpeaker>();
+							selected.add(audioSpeakerManager.speakers.get(target.getLocation()));
+							selection.put(p, selected);
+							p.sendMessage(Main.prefix + "Added speaker to selection.");
+						}
+					}
+				}
+			}
+		}
+
 	}
 	
 	public static void onPlace(BlockPlaceEvent event) {
