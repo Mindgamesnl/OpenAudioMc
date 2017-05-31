@@ -157,18 +157,6 @@ public class eventListener implements Listener{
     		userManager.addPlayer(event.getPlayer());
     		userManager.getPlayer(event.getPlayer()).syncSounds();
     		audioSpeakerManager.listeners.put(event.getPlayer().getName(), false);
-    		if (getDep.getStatus()) {
-        		String regionNu = "-";
-    			for(ProtectedRegion r : WGBukkit.getRegionManager(event.getPlayer().getWorld()).getApplicableRegions(event.getPlayer().getLocation())) {
-    				regionNu = r.getId();
-                }
-    			
-    			if (regionListener.isValidRegion(regionNu)) {
-					if (regionListener.isValidRegion(regionNu)) {
-						command.playRegion(event.getPlayer().getName(), regionListener.getRegionFile(regionNu));
-					}
-    			}
-        	}
 
         	if(event.getPlayer().isOp()) {
     			cm_callback.update();
@@ -213,6 +201,7 @@ public class eventListener implements Listener{
     	command.stopAllRegions(p.getName());
     	Emitter.offlineInServer(p.getName());
     	audioSpeakerManager.stopForPlayer(event.getPlayer().getName());
+    	regionListener.history.get(p).clear();
 		audioSpeakerManager.listeners.put(event.getPlayer().getName(), false);
 			groupManager.removeFromGroup(event.getPlayer());
 			Main.getPL().getServer().getScheduler().scheduleAsyncDelayedTask(Main.getPL(), new Runnable() { public void run() {
