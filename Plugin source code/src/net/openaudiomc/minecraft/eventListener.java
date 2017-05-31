@@ -205,11 +205,7 @@ public class eventListener implements Listener{
 	 	speakerMain.PlayerInteractEvent(event);
 	 }
 
-	 @EventHandler
-	 public void PlayerItemHeldEvent(PlayerItemHeldEvent event) {
-		 volumeCommand.PlayerItemHeldEvent(event);
-	 }
-    
+
     
 		@EventHandler
 	  public void onPlayerQuit(PlayerQuitEvent event) {
