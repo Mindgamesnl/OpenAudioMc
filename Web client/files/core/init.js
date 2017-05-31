@@ -14,6 +14,8 @@ ui.color = function(code) {
 	$("#box").animate({"background-color":code},{duration:500});
 }
 
+tinyWindow = getUrlVar("tinyWindow");
+
 
 console.info("You like to look under the hood? Why not help us ? :-) https://github.com/Mindgamesnl/OpenAudioMc")
 

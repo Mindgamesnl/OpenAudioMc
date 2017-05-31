@@ -28,6 +28,43 @@ var iconcolor = "#242424";
 var ambtimer = 0;
 var ambdelay = 800;
 
+function openSmallWindow() {
+	swal({
+		title: 'Are you sure?',
+		text: "Current sounds may stop!",
+		type: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: 'Open mini-audio'
+	}).then(function () {
+		minime = window.open(document.URL+"&tinyWindow=true", "OpenAudioMc-Mini", "width=561,height=566");
+	minime.onload = function() {
+		window.location.href = "http://closeme.openaudiomc.net/";
+	}
+	})
+}
+
+function showPlus() {
+	swal(
+  'Do you want to customize?',
+  '<a style="color:black" href="https://plus.openaudiomc.net/">Then click here.</a>',
+  'question'
+)
+}
+
+window.onresize = function() {
+	if (tinyWindow != "(none)") {
+		window.resizeTo(566, 681);
+	}
+	
+}
+window.onclick = function() {
+	if (tinyWindow != "(none)") {
+		window.resizeTo(566, 681);
+	}
+}
+
 function openSite() {
 	window.open(website);
 }
@@ -271,6 +308,7 @@ socketIo.connect = function() {
 	});
 
 	socket.on('oaSettings', function(msg) {
+
 		if (msg != null) {
 			var settings = JSON.parse(msg);
 			addJs("https://rawgit.com/OpenAudioMc/Lang-packs/master/" + settings.language + ".js");
@@ -288,7 +326,15 @@ socketIo.connect = function() {
 				twitterIcon = new trayItem("fa-twitter", "openTwitter");
 				twitter = settings.twitter;
 			}
+			
+			if (settings.minime == "on" && settings.twitter != null) {
+				if (tinyWindow == "(none)") {
+					minimeicon = new trayItem("fa-window-minimize", "openSmallWindow");
+				}
+			}
 
+			
+			
 			if (settings.qrcode != null && settings.qrcode != "off") {
 				qrbutton = new trayItem("fa-qrcode", "showqr");
 			}
@@ -338,8 +384,17 @@ socketIo.connect = function() {
 				}
 
 			}, 1000);
+		} else {
+			ba = new trayItem("fa-warning", "showPlus");
+			ba = new trayItem("fa-warning", "showPlus");
+			ba = new trayItem("fa-warning", "showPlus");
+			ba = new trayItem("fa-warning", "showPlus");
+			ba = new trayItem("fa-warning", "showPlus");
+			
 		}
 	});
+	
+
 
 	socket.on('oaError', function(msg) {
 		socketIo.log("Received error.");
@@ -528,10 +583,10 @@ openaudio.decode = function(msg) {
 			if (request.src.includes("soundcloud.com")) {
 				var scurl = request.src;
 				getSoundcloud(scurl, function(newurl) {
-					openaudio.newspeaker(newurl, "speaker", request.time, request.volume);
+					openaudio.newspeaker(newurl, request.time, request.volume);
 				});
 			} else {
-				openaudio.newspeaker(request.src, "speaker", request.time, request.volume);
+				openaudio.newspeaker(request.src, request.time, request.volume);
 			}
 		} else if (request.type == "volume") {
 			for (var i = 0; i < listSpeakerSounds().split(',').length; i++) {
@@ -550,6 +605,8 @@ openaudio.decode = function(msg) {
 		openaudio.skipTo(request.id, request.timeStamp);
 	} else if (request.command == "setvolumeid") {
 		openaudio.set_directed_volume(request.id, request.volume);
+	} else if (request.command == "forcevolume") {
+		openaudio.set_volume(request.volume);
 	} else if (request.command == "play_normal_id") {
 		if (request.src.includes("soundcloud.com")) {
 			var scurl = request.src;
@@ -715,23 +772,21 @@ openaudio.setGlobalVolume = function(volume) {
 		} catch (e) {
 			//no sounds avalible
 		}
+		
 	}
 }
 
 
-openaudio.newspeaker = function(src_to_file, soundID, defaultTime, startingvoluem) {
-
-	var id = "speaker_" + Math.floor(Math.random() * 60) + 1 + "_" + soundID;
-	var soundId = "speaker";
-	if (isFading[soundId] === true) {
-		stopFading[soundId] = true;
-	}
+openaudio.newspeaker = function(src_to_file, defaultTime, startingvoluem) {
 	var speakersound = soundManager.createSound({
 		id: "speaker_ding",
 		url: src_to_file,
 		volume: startingvoluem,
 		from: defaultTime * 1000,
 		autoPlay: true,
+		onplay: function() {
+			soundManager.getSoundById("speaker_ding").metadata.speaker = true;
+		}
 	});
 
 	function loopSound(sound) {
@@ -742,17 +797,11 @@ openaudio.newspeaker = function(src_to_file, soundID, defaultTime, startingvolue
 		});
 	}
 	loopSound(speakersound);
-	soundManager.getSoundById(id).metadata.speaker = true;
 }
 
 
 openaudio.removeSpeaker = function(id) {
-	for (var i = 0; i < listSpeakerSounds().split(',').length; i++) {
-		listSpeakerSounds().split(',')[i] = listSpeakerSounds().split(',')[i].replace(/^\s*/, "").replace(/\s*$/, "");
-		if (listSpeakerSounds().split(',')[i].indexOf(id) !== -1 && (listSpeakerSounds().split(',')[i].indexOf("speaker_") !== -1)) {
-			soundManager.destroySound("speaker_ding");
-		}
-	}
+	soundManager.destroySound("speaker_ding");
 }
 
 
@@ -1298,9 +1347,7 @@ function on_hue_link(name) {
 		document.getElementById("hue_modal_text").innerHTML = langpack.hue.connected_with_bridge.replace("%bridgename%", name);
 		hue_start_animation = false;
 		setTimeout(function() {
-			hue_off();
 			setTimeout(function() {
-				hue_on();
 				hue_connected = true;
 			}, 1000);
 		}, 1000);
