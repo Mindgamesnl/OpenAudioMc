@@ -35,6 +35,7 @@ import net.openaudiomc.commands.AdminCommands;
 import net.openaudiomc.commands.AudioCommands;
 import net.openaudiomc.commands.volumeCommand;
 import net.openaudiomc.files.Messages;
+import net.openaudiomc.files.dataGetter;
 import net.openaudiomc.files.modManager;
 import net.openaudiomc.internal.events.SkriptRegistration;
 import net.openaudiomc.speakerSystem.speakerMain;
@@ -287,26 +288,6 @@ public class Main extends JavaPlugin {
         }
     }
 
-    public void createModsFile() {
-        File regionsFile = new File("plugins/OpenAudio/advanced", "mods.yml");
-        if (!regionsFile.exists()) {
-            try {
-                regionsFile.createNewFile();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            FileConfiguration regionsFileInst = YamlConfiguration.loadConfiguration(regionsFile);
-            regionsFileInst.set("Description", "(ONLY FOR USERS WHO DON'T HAVE OWN HOSTING) urls to css/js files will be stored here :3");
-            try {
-                regionsFileInst.save(regionsFile);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-    }
-
     public void createDataFile() {
         File dataFile = new File("plugins/OpenAudio", "serverData.yml");
         if (!dataFile.exists()) {
@@ -337,12 +318,26 @@ public class Main extends JavaPlugin {
             }
             FileConfiguration datafileInst = YamlConfiguration.loadConfiguration(dataFile);
             datafileInst.set("Description", "Advanced settings (only for networking )");
-            datafileInst.set("host", "https://craftmend.com/openaudio.json");
+            datafileInst.set("host", "http://api.openaudiomc.net/host.php");
             datafileInst.set("Description-ssl", "WARNING!!! PHILIPS HUE WON'T WORK WHEN SSL IS ENABLED");
             datafileInst.set("ssl-enabled", "false");
             try {
                 datafileInst.save(dataFile);
             } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        if (
+        
+        if (Messages.get("disconnect-message") == null) {
+            MessagesFile = new File("plugins/OpenAudio", "messages.yml");
+            MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
+            MessagesConfig.set("disconnect-message", "&9[&bOpenAudioMc&9] &3You are now &4Disconnected&3 from our audio server!");
+            try {
+                MessagesConfig.save(MessagesFile);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -358,7 +353,7 @@ public class Main extends JavaPlugin {
             }
             FileConfiguration datafileInst = YamlConfiguration.loadConfiguration(dataFile);
             datafileInst.set("Description", "Advanced settings (only for networking )");
-            datafileInst.set("host", "https://craftmend.com/openaudio.json");
+            datafileInst.set("host", "http://api.openaudiomc.net/host.php");
             datafileInst.set("Description-ssl", "Dear user, ssl settings + hue settings have been moved to https://plus.openaudimc.net/");
             datafileInst.set("ssl-enabled", "deprecated");
             try {
@@ -367,6 +362,19 @@ public class Main extends JavaPlugin {
                 e.printStackTrace();
             }
         }
+        
+        if (dataGetter.get("host") == "https://craftmend.com/openaudio.json") {
+            MessagesFile = new File("plugins/OpenAudio/advanced", "advancedConfig.yml");
+            MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
+            MessagesConfig.set("host", "http://api.openaudiomc.net/host.php");
+            try {
+                MessagesConfig.save(MessagesFile);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        
     }
 
     public void createPlaylist() {
