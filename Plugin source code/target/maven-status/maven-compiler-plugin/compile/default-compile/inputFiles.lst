@@ -1,6 +1,5 @@
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\Cookie.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\syncedSound\managers\userManager.java
-C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\utils\oaStorage.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\files\Messages.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\speakerSystem\speakerMain.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\JSONString.java
@@ -10,6 +9,7 @@ C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\HTTPT
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\speakerSystem\Callbacktje.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\commands\volumeCommand.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\speakerSystem\managers\dataManager.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\files\dataGetter.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\internal\events\SocketUserConnectEvent.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\socket\Authenticator.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\internal\events\SkriptRegistration.java
@@ -68,7 +68,6 @@ C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiom
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\syncedSound\objects\syncedSound.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\JSONArray.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\speakerSystem\objects\audioSpeakerSound.java
-C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\triggers\triggerObject.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\files\playlistManager.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\files\modManager.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\oauth\oauthConnector.java

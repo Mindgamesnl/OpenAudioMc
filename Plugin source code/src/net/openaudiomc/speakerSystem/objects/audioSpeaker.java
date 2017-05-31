@@ -17,7 +17,7 @@ public class audioSpeaker {
 	private Boolean enabled = true;
 
     public audioSpeaker(String id, Location loc, String sid) {
-        if (loc.getBlock().getType() == Material.AIR) {
+        if (loc.getBlock().getType() != Material.AIR) {
             System.out.println("New speaker. ID:"+sid + " BLOCK:"+loc.getBlock().getType());
             this.id = id;
             this.location = loc;
