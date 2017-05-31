@@ -34,18 +34,34 @@ public class regionListener implements Listener{
     }
 
     private void start(final Player p, ApplicableRegionSet appRegions, Set<ProtectedRegion> regions) {
+        ProtectedRegion finalel = null;
+        Integer priorety = 0;
+        Boolean found = false;
         for (final ProtectedRegion region : appRegions) {
             if (!regions.contains(region)) {
-                Bukkit.getScheduler().runTaskLater(this.plugin, new Runnable() {
-                    public void run() {
-                        if (isValidRegion(region.getId())) {
-                            command.playRegion(p.getName(), getRegionFile(region.getId()));
-                        }
+
+                if (isValidRegion(region.getId())) {
+                    found = true;
+                    if (region.getPriority() > priorety || region.getPriority() == priorety) {
+                        priorety = region.getPriority();
+                        finalel = region;
                     }
-                }, 1L);
-                regions.add(region);
+                }
             }
+            regions.add(region);
         }
+        if (found) {
+            final ProtectedRegion finalEl = finalel;
+            Bukkit.getScheduler().runTaskLater(this.plugin, new Runnable() {
+                public void run() {
+                    if (isValidRegion(finalEl.getId())) {
+                        command.playRegion(p.getName(), getRegionFile(finalEl.getId()));
+                    }
+                }
+            }, 1L);
+        }
+
+
     }
 
     private void end(Player p, ProtectedRegion region) {

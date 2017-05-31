@@ -40,7 +40,6 @@ public class timeoutManager implements Listener {
 					connecting = true;
 					SocketioConnector.connect();
 				}
-
 			}
 		} catch (Exception e) {
 			Bukkit.getLogger().info("[OpenAudio] Failed to connect to the socket.io server, openaudio will not work correctly.");
