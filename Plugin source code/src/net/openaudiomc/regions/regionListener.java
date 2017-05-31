@@ -54,39 +54,44 @@ public class regionListener implements Listener{
                     if (region.getPriority() > priorety || region.getPriority() == priorety) {
                         priorety = region.getPriority();
                         finalel = region;
-                        regions.add(region);
+
                     }
+                    regions.add(region);
                 }
             }
         }
         if (found) {
             final ProtectedRegion finalEl = finalel;
             final Integer finalFoundNum = foundNum;
-            Bukkit.getScheduler().runTaskLater(this.plugin, new Runnable() {
-                public void run() {
+
                     for (String s : history.get(p)) {
                         if (getRegionFile(finalEl.getId()) != s) {
                             command.stopRegion(p.getName(), s);
                         }
-                        Bukkit.broadcastMessage(s);
                     }
 
                     if (isValidRegion(finalEl.getId())) {
                         if (!history.get(p).contains(getRegionFile(finalEl.getId()))) {
                             command.playRegion(p.getName(), getRegionFile(finalEl.getId()));
                             history.get(p).add(getRegionFile(finalEl.getId()));
+                        } else {
+
+                            if (history.get(p).size() == 1 && history.get(p).contains(getRegionFile(finalEl.getId()))) {
+                                history.get(p).remove(getRegionFile(finalEl.getId()));
+                                command.playRegion(p.getName(), getRegionFile(finalEl.getId()));
+                            }
                         }
                     }
-                }
-            }, 1L);
-        }
 
+
+        }
 
     }
 
     private void end(Player p, ProtectedRegion region) {
         command.stopRegion(p.getName(), getRegionFile(region.getId()));
-        history.get(p).remove(getRegionFile(region.getId()));
+        history.get(p).clear();
+        playerRegions.get(p).clear();
     }
 
     @EventHandler
