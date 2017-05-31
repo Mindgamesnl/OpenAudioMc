@@ -3,7 +3,7 @@ package net.openaudiomc.minecraft;
 import java.io.File;
 import java.util.HashMap;
 
-import net.openaudiomc.commands.volumeCommand;
+import net.openaudiomc.groups.groupManager;
 import net.openaudiomc.regions.regionListener;
 import net.openaudiomc.socket.cm_callback;
 import org.bukkit.Bukkit;
@@ -25,7 +25,6 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.openaudiomc.actions.command;
 import net.openaudiomc.actions.spy;
 import net.openaudiomc.files.Messages;
-import net.openaudiomc.internal.events.SocketCommandEvent;
 import net.openaudiomc.internal.events.SocketConnectEvent;
 import net.openaudiomc.internal.events.SocketDisconnectEvent;
 import net.openaudiomc.internal.events.SocketUserConnectEvent;
@@ -214,9 +213,9 @@ public class eventListener implements Listener{
     	command.stopAllRegions(p.getName());
     	Emitter.offlineInServer(p.getName());
     	audioSpeakerManager.stopForPlayer(event.getPlayer().getName());
-			audioSpeakerManager.listeners.put(event.getPlayer().getName(), false);
-		
-    	Main.getPL().getServer().getScheduler().scheduleAsyncDelayedTask(Main.getPL(), new Runnable() { public void run() {
+		audioSpeakerManager.listeners.put(event.getPlayer().getName(), false);
+			groupManager.removeFromGroup(event.getPlayer());
+			Main.getPL().getServer().getScheduler().scheduleAsyncDelayedTask(Main.getPL(), new Runnable() { public void run() {
     		timeoutManager.updateCounter();
     	} }, 5);
     }

@@ -1,5 +1,6 @@
 package net.openaudiomc.commands;
 
+import net.openaudiomc.groups.groupManager;
 import net.openaudiomc.speakerSystem.objects.audioSpeaker;
 import net.openaudiomc.speakerSystem.objects.audioSpeakerSound;
 import net.openaudiomc.utils.selector;
@@ -63,7 +64,8 @@ public class AdminCommands implements CommandExecutor {
 
 					String speaker_help = "/openaudio help speaker";
 					String speakerHelpMessage = ChatColor.translateAlternateColorCodes('&', "&c&l(Click here)&r&3 for help with the speaker system.");
-
+					String group_help = "/openaudio help group";
+					String groupHelpMessage = ChatColor.translateAlternateColorCodes('&', "&c&l(Click here)&r&3 for help with the group system.");
 
 
 					//Execute
@@ -88,6 +90,9 @@ public class AdminCommands implements CommandExecutor {
 
 					String command7 = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + speakerHelpMessage + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + speaker_help + "\"}}]" + "";
 					Bukkit.dispatchCommand(console, command7);
+
+					String command8 = "tellraw " + sender.getName() + " " + "[\"\",{\"text\":\"" + groupHelpMessage + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + group_help + "\"}}]" + "";
+					Bukkit.dispatchCommand(console, command8);
 				} else if (args[1].equalsIgnoreCase("audio")) {
 					//help 2
 					sender.sendMessage(" ");
@@ -107,16 +112,16 @@ public class AdminCommands implements CommandExecutor {
 					sender.sendMessage(" ");
 					sender.sendMessage(" ");
 					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.prefix + "Help menu / &lAudio"));
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio setvolume <mcname> <volume> [id]&r&a Set the volume for a player."));
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio skipto <mcname> <id> <seconds>&r&a Skip to a part in a song."));
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio play <mcname> <url> [id] [mode]&r&a Play a sound for a player."));
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio toggle <mcname> <id>&r&a Toggle play/pause for a sound."));
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio loop <mcname> <url>&r&a Play a loop for a player."));
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio stop <mcname> [id]&r&a Stop the sound for a player."));
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio stopall <mcname>&r&a Stop all sounds for a player."));
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio setvolume <mcname> [id]&r&a Set the volume for a player."));
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio buffer create <mcname> <url>&r&a Buffer a sound for a player."));
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio buffer play <mcname>&r&a Play sound in buffer for a player."));
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio setvolume <selector/player> <volume> [id]&r&a Set the volume for a player."));
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio skipto <selector/player> <id> <seconds>&r&a Skip to a part in a song."));
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio play <selector/player> <url> [id] [mode]&r&a Play a sound for a player."));
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio toggle <selector/player> <id>&r&a Toggle play/pause for a sound."));
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio loop <selector/player> <url>&r&a Play a loop for a player."));
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio stop <selector/player> [id]&r&a Stop the sound for a player."));
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio stopall <selector/player>&r&a Stop all sounds for a player."));
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio setvolume <selector/player> [id]&r&a Set the volume for a player."));
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio buffer create <selector/player> <url>&r&a Buffer a sound for a player."));
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio buffer play <selector/player>&r&a Play sound in buffer for a player."));
 				} else if (args[1].equalsIgnoreCase("region")) {
 					//help 2
 					sender.sendMessage(" ");
@@ -158,9 +163,9 @@ public class AdminCommands implements CommandExecutor {
 					sender.sendMessage(" ");
 					sender.sendMessage(" ");
 					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.prefix + "Help menu / &lPhilips Hue"));
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio hue set <mcname> <rgba code> [id]&r&a Set the hue lights for a player."));
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio hue reset <mcname>&r&a Reset the hue lights for a player."));
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio hue effect <blink/stop/cycle> <mcname>&r&a Start a hue effect for a player."));
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio hue set <selector/player> <rgba code> [id]&r&a Set the hue lights for a player."));
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio hue reset <selector/player>&r&a Reset the hue lights for a player."));
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio hue effect <blink/stop/cycle> <selector/player>&r&a Start a hue effect for a player."));
 				} else if (args[1].equalsIgnoreCase("admin")) {
 					//help 2
 					sender.sendMessage(" ");
@@ -181,12 +186,12 @@ public class AdminCommands implements CommandExecutor {
 					sender.sendMessage(" ");
 					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.prefix + "Help menu / &lAdmin commands"));
 					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio oauth&a Get a key to use in third party apps."));
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio setbg <mcname> <url/reset>&r&a Set the background image for a player."));
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio setbg <selector/player> <url/reset>&r&a Set the background image for a player."));
 					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio spy&r&a Toggle connection spy."));
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio send <mcname> <message>&r&a Send a push notification."));
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio json <mcname> <json>&r&a Send a custom json string."));
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio send <selector/player> <message>&r&a Send a push notification."));
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio json <selector/player> <json>&r&a Send a custom json string."));
 					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio playlist set <list> <id> <url>&r&a Set a song in a playlist."));
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio playlist play <list> <mcname>&r&a Start the playlist for a player."));
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio playlist play <list> <selector/player>&r&a Start the playlist for a player."));
 				} else if (args[1].equalsIgnoreCase("user")) {
 					//help 2
 					sender.sendMessage(" ");
@@ -254,6 +259,30 @@ public class AdminCommands implements CommandExecutor {
 					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&lHow to remove a speaker?&r&a Just break the speaker skull."));
 					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio speaker stop&r&a Turn off all speakers."));
 					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio speaker start&r&a Turn on all speakers."));
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio speaker set <url> off&r&a Disable one speaker."));
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio speaker set <url> on&r&a Enable one speaker."));
+				} else if (args[1].equalsIgnoreCase("group")) {
+					//help 2
+					sender.sendMessage(" ");
+					sender.sendMessage(" ");
+					sender.sendMessage(" ");
+					sender.sendMessage(" ");
+					sender.sendMessage(" ");
+					sender.sendMessage(" ");
+					sender.sendMessage(" ");
+					sender.sendMessage(" ");
+					sender.sendMessage(" ");
+					sender.sendMessage(" ");
+					sender.sendMessage(" ");
+					sender.sendMessage(" ");
+					sender.sendMessage(" ");
+					sender.sendMessage(" ");
+					sender.sendMessage(" ");
+					sender.sendMessage(" ");
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.prefix + "Help menu / &lGroup"));
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio group set <group name> <selector/player>&r&a Set the players group."));
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio group remove <selector/player>&r&a Remove a player from a group."));
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio group list&r&a List players in a group."));
 				} else {
 					sender.sendMessage(Main.prefix + "Invalid help page.");
 				}
@@ -283,7 +312,6 @@ public class AdminCommands implements CommandExecutor {
 						}
 					} else {
 						for (Player p: selector.playerSelector(sender, args[1])) {
-
 							command.playNormalSound(p.getName(), args[2]);
 						}
 						sender.sendMessage(Main.prefix + "Started a sound for " + args[1]);
@@ -629,7 +657,30 @@ public class AdminCommands implements CommandExecutor {
 					}
 					sender.sendMessage(Main.prefix + "Changed background of " + args[1]);
 				} else {
-					sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio setbg <mcname> <url to image>");
+					sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio setbg <selector/player> <url to image>");
+				}
+			} else if (args[0].equalsIgnoreCase("group") && sender.hasPermission("openaudio.admin.group")) {
+				if (args.length == 3 || args.length > 3) {
+					if (args[1].equalsIgnoreCase("set")) {
+						for (Player p : selector.playerSelector(sender, args[3])) {
+							groupManager.addToGroup(args[2],p);
+						}
+						sender.sendMessage(Main.prefix + "Added " + args[3] + " to the group " + args[2]);
+
+					} else if (args[1].equalsIgnoreCase("remove")) {
+						for (Player p : selector.playerSelector(sender, args[2])) {
+							groupManager.removeFromGroup(p);
+						}
+						sender.sendMessage(Main.prefix + "Removed " + args[2] + " from all groups");
+					} else if (args[1].equalsIgnoreCase("list")) {
+
+						sender.sendMessage(Main.prefix + "Players in group " + args[2]+":");
+						for (Player p : selector.playerSelector(sender, "group:"+args[2])) {
+							sender.sendMessage(" " + ChatColor.RED + "- " + ChatColor.YELLOW+p.getName());
+						}
+					} else {
+						sender.sendMessage(Main.prefix + "Invalid command, please use /openaudio help");
+					}
 				}
 			} else if (args[0].equalsIgnoreCase("hue") && sender.hasPermission("openaudio.admin.hue")) {
 				if (args.length == 4 || args.length > 4) {

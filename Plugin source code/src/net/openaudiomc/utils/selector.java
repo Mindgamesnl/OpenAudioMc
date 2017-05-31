@@ -2,10 +2,12 @@ package net.openaudiomc.utils;
 
 import com.sk89q.worldguard.bukkit.WGBukkit;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import net.openaudiomc.groups.groupManager;
 import net.openaudiomc.minecraft.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.ArrayList;
 
@@ -32,6 +34,11 @@ public class selector {
                         list.add(p);
                     }
                 }
+            }
+        } else if (query.startsWith("group:")) {
+            String target = query.replace("group:", "");
+            for (Player p : groupManager.getGroup(target).getMembers()) {
+                list.add(p);
             }
         } else if (query.equalsIgnoreCase("@a")) {
             for (Player p : Bukkit.getOnlinePlayers()) {
