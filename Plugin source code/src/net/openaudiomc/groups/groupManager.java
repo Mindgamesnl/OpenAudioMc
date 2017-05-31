@@ -26,4 +26,12 @@ public class groupManager {
             g.removeMember(p);
         }
     }
+
+    public static playerGroup getGroup(String group) {
+        if (groups.get(group) == null) {
+            return new playerGroup("dummy");
+        } else {
+            return groups.get(group);
+        }
+    }
 }

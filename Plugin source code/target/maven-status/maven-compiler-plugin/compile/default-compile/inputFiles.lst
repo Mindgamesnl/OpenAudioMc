@@ -11,6 +11,7 @@ C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiom
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\speakerSystem\managers\dataManager.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\files\dataGetter.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\internal\events\SocketUserConnectEvent.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\groups\playerGroup.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\socket\Authenticator.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\internal\events\SkriptRegistration.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\regions\file.java
@@ -62,6 +63,7 @@ C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\Cooki
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\HTTP.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\speakerSystem\objects\audioSpeaker.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\org\json\JSONTokener.java
+C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\groups\groupManager.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\utils\Callbacknoreturn.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\commands\AudioCommands.java
 C:\Users\mats\Documents\GitHub\OpenAudioMc\Plugin source code\src\net\openaudiomc\socket\Emitter.java
