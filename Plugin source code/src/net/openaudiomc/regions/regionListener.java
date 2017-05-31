@@ -25,6 +25,7 @@ import java.util.*;
 public class regionListener implements Listener{
 
     public Map<Player, Set<ProtectedRegion>> playerRegions = new HashMap();
+    public static HashMap<Player, ArrayList<String>> history = new HashMap<Player, ArrayList<String>>();
     public static Main plugin;
     public static WorldGuardPlugin wgPlugin;
 
@@ -36,26 +37,45 @@ public class regionListener implements Listener{
     private void start(final Player p, ApplicableRegionSet appRegions, Set<ProtectedRegion> regions) {
         ProtectedRegion finalel = null;
         Integer priorety = 0;
+        Integer foundNum = 0;
         Boolean found = false;
         for (final ProtectedRegion region : appRegions) {
+
+            if (history.get(p) == null) {
+                history.put(p, new ArrayList<String>());
+            }
+
             if (!regions.contains(region)) {
 
                 if (isValidRegion(region.getId())) {
                     found = true;
+
+                    foundNum++;
                     if (region.getPriority() > priorety || region.getPriority() == priorety) {
                         priorety = region.getPriority();
                         finalel = region;
+                        regions.add(region);
                     }
                 }
             }
-            regions.add(region);
         }
         if (found) {
             final ProtectedRegion finalEl = finalel;
+            final Integer finalFoundNum = foundNum;
             Bukkit.getScheduler().runTaskLater(this.plugin, new Runnable() {
                 public void run() {
+                    for (String s : history.get(p)) {
+                        if (getRegionFile(finalEl.getId()) != s) {
+                            command.stopRegion(p.getName(), s);
+                        }
+                        Bukkit.broadcastMessage(s);
+                    }
+
                     if (isValidRegion(finalEl.getId())) {
-                        command.playRegion(p.getName(), getRegionFile(finalEl.getId()));
+                        if (!history.get(p).contains(getRegionFile(finalEl.getId()))) {
+                            command.playRegion(p.getName(), getRegionFile(finalEl.getId()));
+                            history.get(p).add(getRegionFile(finalEl.getId()));
+                        }
                     }
                 }
             }, 1L);
@@ -66,6 +86,7 @@ public class regionListener implements Listener{
 
     private void end(Player p, ProtectedRegion region) {
         command.stopRegion(p.getName(), getRegionFile(region.getId()));
+        history.get(p).remove(getRegionFile(region.getId()));
     }
 
     @EventHandler
