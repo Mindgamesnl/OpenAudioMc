@@ -47,7 +47,7 @@ public class Authenticator {
 	}
 	
 	public static String getClientToken() throws Exception {
-	    URL url = new URL("http://api.craftmend.com/openaudio/getInfo.php?token="+getID());
+	    URL url = new URL("http://api.openaudiomc.net/plugin/getInfo.php?token="+getID());
 	    BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 	    String str;
 	    while ((str = in.readLine()) != null) {
@@ -69,7 +69,7 @@ public class Authenticator {
 	 }
 	
 	public static String getClient() throws Exception {
-	    URL url = new URL("http://api.craftmend.com/openaudio/genKey.php");
+	    URL url = new URL("http://api.openaudiomc.net/plugin/genKey.php");
 	    BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 	    String str;
 	    while ((str = in.readLine()) != null) {
