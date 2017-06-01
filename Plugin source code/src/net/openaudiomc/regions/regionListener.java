@@ -4,6 +4,7 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
 import net.openaudiomc.actions.command;
 import net.openaudiomc.internal.events.SocketUserDisconnectEvent;
 import net.openaudiomc.minecraft.Main;
@@ -124,44 +125,47 @@ public class regionListener implements Listener{
 
     //from wgregionevents, original by mewin.
     private synchronized boolean updateRegions(final Player player, final MovementWay movement, Location to, final PlayerEvent event) {
-        Set<ProtectedRegion> regions;
-        if (this.playerRegions.get(player) == null) {
-            regions = new HashSet();
-        } else {
-            regions = new HashSet((Collection)this.playerRegions.get(player));
-        }
-        Set<ProtectedRegion> oldRegions = new HashSet(regions);
+        if (OpenAudioApi.isConnected(player)) {
+            Set<ProtectedRegion> regions;
+            if (this.playerRegions.get(player) == null) {
+                regions = new HashSet();
+            } else {
+                regions = new HashSet((Collection)this.playerRegions.get(player));
+            }
+            Set<ProtectedRegion> oldRegions = new HashSet(regions);
 
-        RegionManager rm = this.wgPlugin.getRegionManager(to.getWorld());
-        if (rm == null) {
-            return false;
-        }
-        ApplicableRegionSet appRegions = rm.getApplicableRegions(to);
+            RegionManager rm = this.wgPlugin.getRegionManager(to.getWorld());
+            if (rm == null) {
+                return false;
+            }
+            ApplicableRegionSet appRegions = rm.getApplicableRegions(to);
 
-        //for ding
-        start(player, appRegions, regions);
+            //for ding
+            start(player, appRegions, regions);
 
-        Collection<ProtectedRegion> app = appRegions.getRegions();
-        Object itr = regions.iterator();
-        while (((Iterator)itr).hasNext()) {
-            final ProtectedRegion region = (ProtectedRegion)((Iterator)itr).next();
-            if (!app.contains(region)) {
-                if (rm.getRegion(region.getId()) != region) {
-                    ((Iterator)itr).remove();
-                } else {
+            Collection<ProtectedRegion> app = appRegions.getRegions();
+            Object itr = regions.iterator();
+            while (((Iterator)itr).hasNext()) {
+                final ProtectedRegion region = (ProtectedRegion)((Iterator)itr).next();
+                if (!app.contains(region)) {
+                    if (rm.getRegion(region.getId()) != region) {
+                        ((Iterator)itr).remove();
+                    } else {
 
-                    Bukkit.getScheduler().runTaskLater(this.plugin, new Runnable()
-                    {
-                        public void run()
+                        Bukkit.getScheduler().runTaskLater(this.plugin, new Runnable()
                         {
-                            end(player, region);
-                        }
-                    }, 1L);
-                    ((Iterator)itr).remove();
+                            public void run()
+                            {
+                                end(player, region);
+                            }
+                        }, 1L);
+                        ((Iterator)itr).remove();
+                    }
                 }
             }
+            this.playerRegions.put(player, regions);
+            return false;
         }
-        this.playerRegions.put(player, regions);
         return false;
     }
 
