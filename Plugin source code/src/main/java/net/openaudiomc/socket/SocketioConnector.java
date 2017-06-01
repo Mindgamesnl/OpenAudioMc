@@ -37,14 +37,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 public class SocketioConnector {
-
     public static Object socket;
 
     public static void connect() {
         try {
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio/advanced", "advancedConfig.yml"));
             String apiresponse = Authenticator.getNodeServer(cfg.getString("host"));
-
 
             JSONObject jsonObject = (JSONObject) JSONValue.parse(apiresponse);
 

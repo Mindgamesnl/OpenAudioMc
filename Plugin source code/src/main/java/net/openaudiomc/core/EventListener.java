@@ -13,6 +13,7 @@
  */
 package net.openaudiomc.core;
 
+import com.google.common.collect.Maps;
 import com.sk89q.worldguard.bukkit.WGBukkit;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.openaudiomc.actions.Command;
@@ -48,7 +49,7 @@ import java.io.File;
 import java.util.HashMap;
 
 public class EventListener implements Listener {
-  public static HashMap<String, Boolean> isConnected = new HashMap<String, Boolean>();
+  public static HashMap<String, Boolean> isConnected = Maps.newHashMap();
 
   @EventHandler public void onSocketWhisperEvent(SocketWhisperEvent event) {
     Player player = Bukkit.getPlayer(event.getPlayerName());
@@ -80,7 +81,7 @@ public class EventListener implements Listener {
     if (player.isOnline()) {
       if (event.getKey().equals(Sessions.getOld(event.getName()))) {
         //good client
-        AudioSpeakerManager.listeners.put(event.getName(), false);
+        AudioSpeakerManager.get().getListeners().put(event.getName(), false);
         Player client = Bukkit.getPlayer(event.getName());
         UserManager.addPlayer(client);
         client.sendMessage(Messages.getColor("connected-message"));
@@ -134,20 +135,20 @@ public class EventListener implements Listener {
   }
 
   @EventHandler public void onSocketUserDisconnectEvent(SocketUserDisconnectEvent event) {
-    isConnected.put(event.getName(), false);
+    isConnected.put((String) event.getName(), false);
     Bukkit.getServer()
         .getPluginManager()
         .callEvent(new me.mindgamesnl.openaudiomc.publicApi.WebDisconnectEvent(
-            Bukkit.getPlayer(event.getName())));
+            Bukkit.getPlayer((String) event.getName())));
 
-    String connector = event.getName();
+    String connector = (String) event.getName();
     OfflinePlayer player =
-        Bukkit.getOfflinePlayer(event.getName());
+        Bukkit.getOfflinePlayer((String) event.getName());
     if (player.isOnline()) {
       Bukkit.getPlayer(connector).sendMessage(Messages.getColor("disconnect-message"));
     }
 
-    AudioSpeakerManager.stopForPlayer(event.getName());
+    AudioSpeakerManager.get().stopForPlayer((String) event.getName());
 
     for (Player p : Bukkit.getOnlinePlayers()) {
       if (Spy.getSpyMap().get(p) != null) {
@@ -193,7 +194,7 @@ public class EventListener implements Listener {
         Emitter.connectedInServer(event.getPlayer().getName());
         UserManager.addPlayer(event.getPlayer());
         UserManager.getPlayer(event.getPlayer()).syncSounds();
-        AudioSpeakerManager.listeners.put(event.getPlayer().getName(), false);
+        AudioSpeakerManager.get().getListeners().put(event.getPlayer().getName(), false);
 
         if (event.getPlayer().isOp()) {
           cm_callback.update();
@@ -242,9 +243,9 @@ public class EventListener implements Listener {
     Command.stop(p.getName());
     Command.stopAllRegions(p.getName());
     Emitter.offlineInServer(p.getName());
-    AudioSpeakerManager.stopForPlayer(event.getPlayer().getName());
+    AudioSpeakerManager.get().stopForPlayer(event.getPlayer().getName());
     /* CAN BE NULL */ RegionListener.history.get(p).clear();
-    AudioSpeakerManager.listeners.put(event.getPlayer().getName(), false);
+    AudioSpeakerManager.get().getListeners().put(event.getPlayer().getName(), false);
     GroupManager.get().removeFromGroup(event.getPlayer());
     Main.getPL().getServer().getScheduler().runTaskLaterAsynchronously(Main.getPL(), new Runnable() {
       @Override public void run() {

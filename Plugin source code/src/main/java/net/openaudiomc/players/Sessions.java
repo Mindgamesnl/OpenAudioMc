@@ -13,14 +13,15 @@
  */
 package net.openaudiomc.players;
 
-import java.util.HashMap;
+import com.google.common.collect.Maps;
+import java.util.Map;
 import java.util.Random;
 
 import net.openaudiomc.socket.Authenticator;
 
 public class Sessions {
 	
-	static HashMap<String, String> sessions = new HashMap<String, String>();
+	private static Map<String, String> sessions = Maps.newHashMap();
 	
 	public static String get(String player) {
 		char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
@@ -30,15 +31,10 @@ public class Sessions {
 		    char c = chars[random.nextInt(chars.length)];
 		    sb.append(c);
 		}
-		
 		String key = sb.toString();
 		String clientID = Authenticator.getClientID();
-		
 		String total = clientID + ":" + key;
-		
 		sessions.put(player, key);
-		
-		
 		return total;		
 	}
 	
@@ -49,5 +45,4 @@ public class Sessions {
 			return get(player);
 		}
 	}
-
 }

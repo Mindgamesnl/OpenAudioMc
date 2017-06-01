@@ -13,6 +13,7 @@
  */
 package net.openaudiomc.groups;
 
+import com.google.common.collect.Lists;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 
@@ -27,7 +28,7 @@ import java.util.List;
 public class PlayerGroup {
 
     @Getter
-    private List<Player> members = new ArrayList<>();
+    private List<Player> members = Lists.newArrayList();
     private String name;
 
     PlayerGroup(String name) {

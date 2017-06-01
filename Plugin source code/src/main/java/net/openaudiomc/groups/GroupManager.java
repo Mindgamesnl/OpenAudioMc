@@ -14,6 +14,7 @@
 package net.openaudiomc.groups;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.Maps;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -31,7 +32,7 @@ public class GroupManager {
         return instance == null ? instance = new GroupManager() : instance;
     }
 
-    private Map<String, PlayerGroup> groups = new HashMap<>();
+    private Map<String, PlayerGroup> groups = Maps.newHashMap();
 
     public void addToGroup(String group, Player p) {
         if (groups.get(group) == null) {

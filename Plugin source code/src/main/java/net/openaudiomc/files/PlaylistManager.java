@@ -21,6 +21,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.json.simple.JSONArray;
 
 public class PlaylistManager {
+
 	public static void set(String name, String id, String src) {
 		FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "playlist.yml"));
         cfg.set(name+"."+id, src);
@@ -32,8 +33,7 @@ public class PlaylistManager {
 		}
         
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	public static JSONArray getAllFilesInOneBigBulcCuzThatIsPrettyAwesome(String id) {
 		boolean loaded = false;
 		FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "playlist.yml"));
@@ -46,8 +46,5 @@ public class PlaylistManager {
 			return list;
 		}
 		return list;
-
-		
 	}
-	
 }
