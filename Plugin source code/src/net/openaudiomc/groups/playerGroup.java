@@ -1,5 +1,6 @@
 package net.openaudiomc.groups;
 
+import lombok.Getter;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -8,9 +9,10 @@ import java.util.ArrayList;
  * Created by mats on 31-5-2017.
  * Pretty cool huh?
  */
+@Getter
 public class playerGroup {
 
-    private ArrayList<Player> members = new ArrayList<Player>();
+    @Getter private ArrayList<Player> members = new ArrayList<Player>();
     private String name;
 
     public playerGroup(String name) {
@@ -25,8 +27,6 @@ public class playerGroup {
         this.members.remove(p);
     }
 
-    public ArrayList<Player> getMembers() {
-        return this.members;
-    }
+
 
 }

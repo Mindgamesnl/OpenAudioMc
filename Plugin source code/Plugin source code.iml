@@ -25,6 +25,7 @@
     <orderEntry type="library" name="Maven: io.socket:socket.io-client:0.8.3" level="project" />
     <orderEntry type="library" name="Maven: io.socket:engine.io-client:0.8.3" level="project" />
     <orderEntry type="library" name="Maven: org.json:json:20090211" level="project" />
+    <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.16.6" level="project" />
     <orderEntry type="module-library">
       <library name="Maven: com.sk89q:worldedit:5.5.8">
         <CLASSES>

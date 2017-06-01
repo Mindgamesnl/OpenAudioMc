@@ -407,13 +407,13 @@ public class AdminCommands implements CommandExecutor {
 								if (volumeCommand.isInt(args[3])) {
 									Boolean suc6 = true;
 									for (audioSpeaker speaker: speakerMain.selection.get((Player) sender)) {
-										audioSpeakerSound sound = audioSpeakerManager.sounds.get(speaker.getSoundId());
+										audioSpeakerSound sound = audioSpeakerManager.sounds.get(speaker.getSoundid());
 										if (sound.hasFile()) {
 											sound.setVolume(Integer.parseInt(args[3]));
-											FileConfiguration config = YamlConfiguration.loadConfiguration(sound.getSavedFile());
+											FileConfiguration config = YamlConfiguration.loadConfiguration(sound.getConfig());
 											config.set("volume", Integer.parseInt(args[3]));
 											try {
-												config.save(sound.getSavedFile());
+												config.save(sound.getConfig());
 											} catch (IOException e) {
 												e.printStackTrace();
 											}
