@@ -111,13 +111,15 @@ public class audioSpeakerManager {
                         for (Block b : getNearbyBlocks(p.getLocation(), 10)) {
                             //NOTEBLOCK
                             if (b.getType() == Material.NOTE_BLOCK) {
-                                if (speakers.get(b.getLocation()).getSoundid() != null && speakers.get(b.getLocation()).getEnabled()) {
-                                    if (Math.abs(speakers.get(b.getLocation()).getLocation().distance(p.getLocation())) < highest || iterations == 0) {
+                                if (speakers.get(b.getLocation()).getSoundid() != null) {
+                                    if (speakers.get(b.getLocation()).getEnabled()) {
                                         if (Math.abs(speakers.get(b.getLocation()).getLocation().distance(p.getLocation())) < highest || iterations == 0) {
-                                            found = true;
-                                            selected = speakers.get(b.getLocation());
-                                            iterations++;
-                                            highest = Math.abs(speakers.get(b.getLocation()).getLocation().distance(p.getLocation()));
+                                            if (Math.abs(speakers.get(b.getLocation()).getLocation().distance(p.getLocation())) < highest || iterations == 0) {
+                                                found = true;
+                                                selected = speakers.get(b.getLocation());
+                                                iterations++;
+                                                highest = Math.abs(speakers.get(b.getLocation()).getLocation().distance(p.getLocation()));
+                                            }
                                         }
                                     }
                                 }

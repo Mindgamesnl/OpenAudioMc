@@ -88,15 +88,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.6</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sk89q</groupId>
-            <artifactId>worldedit</artifactId>
-            <version>5.5.8</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/WorldEdit.jar</systemPath>
+            <version>1.16.16</version>
         </dependency>
 
         <dependency>
@@ -138,11 +130,6 @@
         <repository>
             <id>sk89q-repo</id>
             <url>http://maven.sk89q.com/repo/</url>
-        </repository>
-
-        <repository>
-            <id>njol-repo</id>
-            <url>http://maven.njol.ch/repo/</url>
         </repository>
     </repositories>
 </project>
