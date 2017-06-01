@@ -21,13 +21,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-/**
- * Created by mats on 16-5-2017.
- */
 public class RegionListener implements Listener{
 
     public Map<Player, Set<ProtectedRegion>> playerRegions = new HashMap();
-    public static HashMap<Player, ArrayList<String>> history = new HashMap<Player, ArrayList<String>>();
+    public static HashMap<Player, ArrayList<String>> history = new HashMap<>();
     public static Main plugin;
     public static WorldGuardPlugin wgPlugin;
 

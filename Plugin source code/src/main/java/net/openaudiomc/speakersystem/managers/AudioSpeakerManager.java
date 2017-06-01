@@ -150,7 +150,6 @@ public class AudioSpeakerManager {
                                 Command.stopAllSpeakers(p.getName());
                             }
                         }
-
 					}
 				}
 		    }

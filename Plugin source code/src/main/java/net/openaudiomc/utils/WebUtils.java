@@ -26,7 +26,6 @@ public class WebUtils {
             response.append(inputLine);
 
         in.close();
-
         return response.toString();
     }
 

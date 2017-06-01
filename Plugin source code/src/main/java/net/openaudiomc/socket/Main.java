@@ -27,14 +27,13 @@ public class Main {
 	public static Object socket;
 	
 	public static void connect() {
-		
 		try {
 			
 			FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio/advanced", "advancedConfig.yml"));
 			String apiresponse = Authenticator.getNodeServer(cfg.getString("host"));
 			
 			JSONObject jsonObject = new JSONObject(apiresponse);
-			
+
 		    SSLContext sc = SSLContext.getInstance("TLS");
             sc.init(null, trustAllCerts, new SecureRandom());
             IO.setDefaultSSLContext(sc);

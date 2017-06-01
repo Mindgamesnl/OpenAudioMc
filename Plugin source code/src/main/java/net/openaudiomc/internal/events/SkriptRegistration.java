@@ -18,7 +18,6 @@ public class SkriptRegistration {
 		    }
 		}, 0);
 		
-		
 		Skript.registerEvent("OpenAudio disconnect", SimpleEvent.class, WebDisconnectEvent.class, "WebDisconnect", "audio close");
 		EventValues.registerEventValue(WebDisconnectEvent.class, Player.class, new Getter<Player, WebDisconnectEvent>() {
 		    @Override

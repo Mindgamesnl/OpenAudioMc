@@ -20,5 +20,4 @@ public class OAuthConnector {
             return "Error while requesting key.";
         }
     }
-
 }

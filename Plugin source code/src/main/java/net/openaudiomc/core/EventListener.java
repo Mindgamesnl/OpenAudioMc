@@ -35,7 +35,6 @@ import java.io.File;
 import java.util.HashMap;
 
 public class EventListener implements Listener {
-
   public static HashMap<String, Boolean> isConnected = new HashMap<String, Boolean>();
 
   @EventHandler public void onSocketWhisperEvent(SocketWhisperEvent event) {

@@ -4,7 +4,6 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class SocketCommandEvent extends Event {
-
 	private Object command;
 	
 	public SocketCommandEvent(Object args) {

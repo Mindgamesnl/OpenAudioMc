@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import net.openaudiomc.syncedsound.objects.UserData;
 
 public class UserManager {
-	
 	static HashMap<String, UserData> userMap = new HashMap<String, UserData>();
 	
 	public static void addPlayer(Player Player) {

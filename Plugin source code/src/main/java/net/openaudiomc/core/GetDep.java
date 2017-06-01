@@ -16,7 +16,6 @@ public class GetDep {
           "[OpenAudio] Not all dependencies are installed, all the region functions will NOT work! please install WorldEdit, WorldGuard and WgRegionEvents");
       dependenciesComplete = false;
     }
-
     if (Main.getPL().getServer().getPluginManager().isPluginEnabled("Skript")) {
       System.out.println("[OpenAudio] All dependencies are detected, regions will be enabled!");
       skriptInstalled = true;

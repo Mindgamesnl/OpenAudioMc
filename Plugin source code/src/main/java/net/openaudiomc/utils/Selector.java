@@ -47,8 +47,6 @@ public class Selector {
         } else {
             list.add(Bukkit.getPlayer(query));
         }
-
         return list;
     }
-
 }

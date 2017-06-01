@@ -65,7 +65,6 @@ public class TimeoutManager implements Listener {
 			}
 			return;
 		}
-
 		if (onlineplayers == 0) {
 			if (ioconnected) {
 				cm_callback.update();

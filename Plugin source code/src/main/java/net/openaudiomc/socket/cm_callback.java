@@ -35,7 +35,6 @@ public class cm_callback {
     public static Integer callbacks = 0;
 
     public static void update() {
-
         CallbackNoReturn<String> callback = new CallbackNoReturn<String>() {
             public void execute (String b) {
                 JSONObject jsonObject = new JSONObject(b);

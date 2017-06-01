@@ -11,6 +11,7 @@ import java.util.Map;
  * Pretty cool huh?
  */
 public class GroupManager {
+
     private static GroupManager instance;
 
     public static GroupManager get() {

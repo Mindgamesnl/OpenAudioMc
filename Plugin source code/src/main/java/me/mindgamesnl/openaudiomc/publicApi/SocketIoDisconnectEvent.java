@@ -4,7 +4,6 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class SocketIoDisconnectEvent extends Event {
-
 	public SocketIoDisconnectEvent() {}
 	
 	private static final HandlerList handlers = new HandlerList();

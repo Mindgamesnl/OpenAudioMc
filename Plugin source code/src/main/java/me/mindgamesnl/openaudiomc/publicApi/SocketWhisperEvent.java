@@ -5,7 +5,6 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class SocketWhisperEvent extends Event {
-
 	private Player player;
 	private String data;
 	

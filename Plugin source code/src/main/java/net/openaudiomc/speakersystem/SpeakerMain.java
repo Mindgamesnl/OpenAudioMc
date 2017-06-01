@@ -26,11 +26,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import net.openaudiomc.core.Main;
 import net.openaudiomc.speakersystem.managers.AudioSpeakerManager;
 
-/**
- * Created by mats on 23-4-2017.
- */
 public class SpeakerMain {
-	
 	public static HashMap<Player, String> placer = new HashMap<Player, String>();
 	public static HashMap<Player, ArrayList<AudioSpeaker>> selection = new HashMap<Player, ArrayList<AudioSpeaker>>();
 	

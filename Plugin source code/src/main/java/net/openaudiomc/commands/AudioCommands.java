@@ -42,9 +42,10 @@ public class AudioCommands implements CommandExecutor {
           + "\"}}]"
           + "";
       Bukkit.dispatchCommand(console, command);
+      return true;
     } else {
       sender.sendMessage(Messages.getColor("socketio-loading"));
+      return true;
     }
-    return true;
   }
 }

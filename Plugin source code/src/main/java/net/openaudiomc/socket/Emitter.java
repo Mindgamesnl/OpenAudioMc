@@ -29,7 +29,6 @@ public class Emitter {
 					}
 				}
 			} catch(NullPointerException e) {
-
 			}
 			Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.WebsocketSendEvent(Bukkit.getPlayer(player), message));
 		}
