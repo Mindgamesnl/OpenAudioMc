@@ -11,7 +11,6 @@ import net.openaudiomc.core.Main;
 import net.openaudiomc.syncedsound.objects.SyncedSound;
 
 public class SyncedSoundManager {
-	
 	private static Map<String, SyncedSound> syncedSoundMap = Maps.newHashMap();
 	
 	public static SyncedSound create(final String src, final String soundid, final String playername) {

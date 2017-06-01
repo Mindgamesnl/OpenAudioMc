@@ -74,7 +74,6 @@ public class AdminCommands implements CommandExecutor {
           String groupHelpMessage = ChatColor.translateAlternateColorCodes('&',
               "&c&l(Click here)&r&3 for help with the group system.");
 
-          //Execute
           sender.sendMessage(Main.prefix + "Help menu.");
           String command = "tellraw "
               + sender.getName()

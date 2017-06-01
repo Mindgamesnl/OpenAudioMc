@@ -5,7 +5,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
 public class SoundEndEvent extends Event {
-
 	private Player player;
 	private String id;
 	

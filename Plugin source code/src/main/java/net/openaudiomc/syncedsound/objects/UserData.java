@@ -8,7 +8,6 @@ import net.openaudiomc.syncedsound.managers.SyncedSoundManager;
 import org.bukkit.entity.Player;
 
 public class UserData {
-
 	private Player player;
 	private String name;
 	private ArrayList<String> syncedSouncs = new ArrayList<>();

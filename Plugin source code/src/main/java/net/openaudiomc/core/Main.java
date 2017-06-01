@@ -69,7 +69,6 @@ public class Main extends JavaPlugin {
     cm_callback.update();
     Bukkit.getServer().getPluginManager().registerEvents(new TimeoutManager(), this);
     Bukkit.getServer().getPluginManager().registerEvents(new EventListener(), this);
-
     Bukkit.getLogger().info("[OpenAudio] Loading OpenAudioMc by Mindgamesnl/Me_is_mattyh");
 
     prefix = ChatColor.translateAlternateColorCodes('&', "&9[&bOpenAudioMc&9] &3");

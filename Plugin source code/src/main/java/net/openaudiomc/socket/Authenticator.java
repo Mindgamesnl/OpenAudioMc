@@ -11,7 +11,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Authenticator {
-	
 	public static String publicKey;
 	
 	public static String getID() {

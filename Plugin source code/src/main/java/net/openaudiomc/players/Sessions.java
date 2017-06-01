@@ -10,7 +10,6 @@ public class Sessions {
 	static HashMap<String, String> sessions = new HashMap<String, String>();
 	
 	public static String get(String player) {
-		
 		char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
 		StringBuilder sb = new StringBuilder();
 		Random random = new Random();

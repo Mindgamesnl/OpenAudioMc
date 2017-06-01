@@ -5,7 +5,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
 public class AudioRegionEnterEvent extends Event {
-
 	private Player player;
 	private String sound;
 	private String regionName;

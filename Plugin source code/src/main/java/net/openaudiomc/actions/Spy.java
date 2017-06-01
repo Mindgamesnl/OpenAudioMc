@@ -34,10 +34,10 @@ public class Spy {
 
   @EventHandler public void onWebDisconnectEvent(WebDisconnectEvent event) {
     String connector = event.getPlayer().getName();
-    for (Player p : Bukkit.getOnlinePlayers()) {
-      if (spyMap.get(p) != null) {
-        if (spyMap.get(p)) {
-          p.sendMessage(""
+    for (Player player : Bukkit.getOnlinePlayers()) {
+      if (spyMap.get(player) != null) {
+        if (spyMap.get(player)) {
+          player.sendMessage(""
               + ChatColor.AQUA
               + "["
               + ChatColor.DARK_RED

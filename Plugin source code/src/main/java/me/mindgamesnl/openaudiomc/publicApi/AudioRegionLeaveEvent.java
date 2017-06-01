@@ -5,7 +5,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
 public class AudioRegionLeaveEvent extends Event {
-
 	private Player player;
 	private String regionName;
 	

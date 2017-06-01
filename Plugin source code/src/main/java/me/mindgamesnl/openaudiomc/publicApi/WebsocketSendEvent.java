@@ -9,9 +9,9 @@ public class WebsocketSendEvent extends Event {
 	private Player player;
 	private String data;
 	
-	public WebsocketSendEvent(Player player, String eventData) {
+	public WebsocketSendEvent(Player player, String data) {
 		this.player = player;
-		this.data = eventData;
+		this.data = data;
 	}
 	
 	public Player getPlayer() {

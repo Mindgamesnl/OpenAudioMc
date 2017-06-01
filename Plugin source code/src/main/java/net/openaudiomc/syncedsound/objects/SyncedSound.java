@@ -10,7 +10,6 @@ import org.bukkit.Bukkit;
 import net.openaudiomc.core.Main;
 
 public class SyncedSound {
-
     private String source = "";
     private String lenth = "";
     private String id = "";

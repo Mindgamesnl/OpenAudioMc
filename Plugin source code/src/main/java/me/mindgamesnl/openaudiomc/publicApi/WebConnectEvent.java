@@ -5,7 +5,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
 public class WebConnectEvent extends Event {
-
 	private Player player;
 	
 	public WebConnectEvent(Player player) {

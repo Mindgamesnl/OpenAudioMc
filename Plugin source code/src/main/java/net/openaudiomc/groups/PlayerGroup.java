@@ -17,6 +17,7 @@ public class PlayerGroup {
     private List<Player> members = new ArrayList<>();
     private String name;
 
+
     PlayerGroup(String name) {
         this.name = name;
     }

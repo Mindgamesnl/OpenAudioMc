@@ -5,7 +5,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
 public class HueConnectEvent extends Event {
-
 	private Player player;
 	
 	public HueConnectEvent(Player player) {

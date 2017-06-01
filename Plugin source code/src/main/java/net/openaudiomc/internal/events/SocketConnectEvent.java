@@ -4,7 +4,6 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class SocketConnectEvent extends Event {
-	
 	public SocketConnectEvent() {
 	}
 	

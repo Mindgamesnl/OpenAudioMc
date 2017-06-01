@@ -381,6 +381,12 @@ import org.json.simple.JSONObject;
     Emitter.EmitToPlayer(name, getCleanURL(command));
   }
 
+
+  /**
+   * Stop all speakers.
+   *
+   * @param name the url
+   */
   public static void stopAllSpeakers(String name) {
     JSONObject obj = new JSONObject();
     obj.put("command", "speaker");
