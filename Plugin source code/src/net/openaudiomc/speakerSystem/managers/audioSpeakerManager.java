@@ -108,7 +108,6 @@ public class audioSpeakerManager {
                         Integer iterations = 0;
                         audioSpeaker selected = null;
 
-
                         for (Block b : getNearbyBlocks(p.getLocation(), 10)) {
                             //NOTEBLOCK
                             if (b.getType() == Material.NOTE_BLOCK) {

@@ -5,6 +5,7 @@ import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.openaudiomc.actions.command;
+import net.openaudiomc.internal.events.SocketUserDisconnectEvent;
 import net.openaudiomc.minecraft.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -42,6 +43,7 @@ public class regionListener implements Listener{
         for (final ProtectedRegion region : appRegions) {
 
             if (history.get(p) == null) {
+                Bukkit.broadcastMessage("create");
                 history.put(p, new ArrayList<String>());
             }
 
@@ -73,10 +75,12 @@ public class regionListener implements Listener{
                     if (isValidRegion(finalEl.getId())) {
                         if (!history.get(p).contains(getRegionFile(finalEl.getId()))) {
                             command.playRegion(p.getName(), getRegionFile(finalEl.getId()));
+                            Bukkit.broadcastMessage("write");
                             history.get(p).add(getRegionFile(finalEl.getId()));
                         } else {
 
                             if (history.get(p).size() == 1 && history.get(p).contains(getRegionFile(finalEl.getId()))) {
+                                Bukkit.broadcastMessage("remove");
                                 history.get(p).remove(getRegionFile(finalEl.getId()));
                                 command.playRegion(p.getName(), getRegionFile(finalEl.getId()));
                             }
@@ -86,6 +90,12 @@ public class regionListener implements Listener{
 
         }
 
+    }
+
+    public void onSocketClose(SocketUserDisconnectEvent e) {
+        String pName = e.getName();
+        playerRegions.get(pName).clear();
+        history.get(pName).clear();
     }
 
     private void end(Player p, ProtectedRegion region) {
