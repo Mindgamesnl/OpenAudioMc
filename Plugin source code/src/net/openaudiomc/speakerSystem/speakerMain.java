@@ -133,7 +133,7 @@ public class speakerMain {
 						if (selection.get(p) != null) {
 							if (!selection.get(p).contains(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()))) {
 								selection.get(p).add(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()));
-								p.sendMessage(Main.prefix + "Added speaker to selection. Url:"+audioSpeakerManager.sounds.get(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()).getSoundId()).getFile());
+								p.sendMessage(Main.prefix + "Added speaker to selection. Url:"+audioSpeakerManager.sounds.get(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()).getSoundid()).getSource());
 							} else {
 								selection.get(p).remove(audioSpeakerManager.speakers.get(event.getClickedBlock().getLocation()));
 								p.sendMessage(Main.prefix + "Removed speaker from selection.");
@@ -160,7 +160,7 @@ public class speakerMain {
 				if (skull.getOwner().equalsIgnoreCase("OpenAudioMc")) {
 					if (audioSpeakerManager.speakers.get(event.getBlock().getLocation()) != null) {
 						
-						String sound = audioSpeakerManager.sounds.get(audioSpeakerManager.speakers.get(event.getBlock().getLocation()).getSoundId()).getFile();
+						String sound = audioSpeakerManager.sounds.get(audioSpeakerManager.speakers.get(event.getBlock().getLocation()).getSoundid()).getSource();
 						File speakerfile = new File("plugins/OpenAudio/speakers/speakers/"+event.getBlock().getLocation().getBlockX()+".0-"+event.getBlock().getLocation().getBlockY()+".0-"+event.getBlock().getLocation().getBlockZ()+".0.yml");
 						
 						audioSpeakerManager.speakers.remove(event.getBlock().getLocation());
@@ -182,7 +182,7 @@ public class speakerMain {
 		} else if (event.getBlock().getType() == Material.NOTE_BLOCK) {
             if (audioSpeakerManager.speakers.get(event.getBlock().getLocation()) != null) {
 
-                String sound = audioSpeakerManager.sounds.get(audioSpeakerManager.speakers.get(event.getBlock().getLocation()).getSoundId()).getFile();
+                String sound = audioSpeakerManager.sounds.get(audioSpeakerManager.speakers.get(event.getBlock().getLocation()).getSoundid()).getSource();
                 File speakerfile = new File("plugins/OpenAudio/speakers/speakers/"+event.getBlock().getLocation().getBlockX()+".0-"+event.getBlock().getLocation().getBlockY()+".0-"+event.getBlock().getLocation().getBlockZ()+".0.yml");
 
                 audioSpeakerManager.speakers.remove(event.getBlock().getLocation());
@@ -210,7 +210,7 @@ public class speakerMain {
 						if (selection.get(p) != null) {
 							if (!selection.get(p).contains(audioSpeakerManager.speakers.get(target.getLocation()))) {
 								selection.get(p).add(audioSpeakerManager.speakers.get(target.getLocation()));
-								p.sendMessage(Main.prefix + "Added speaker to selection. Url:"+audioSpeakerManager.sounds.get(audioSpeakerManager.speakers.get(target.getLocation()).getSoundId()).getFile());
+								p.sendMessage(Main.prefix + "Added speaker to selection. Url:"+audioSpeakerManager.sounds.get(audioSpeakerManager.speakers.get(target.getLocation()).getSoundid()).getSource());
 							} else {
 								selection.get(p).remove(audioSpeakerManager.speakers.get(target.getLocation()));
 								p.sendMessage(Main.prefix + "Removed speaker from selection.");

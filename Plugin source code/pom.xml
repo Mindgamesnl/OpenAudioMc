@@ -87,10 +87,9 @@
 
         <dependency>
             <groupId>org.projectlombok</groupId>
-            <artifactId>lombok-maven</artifactId>
-            <version>1.16.16.0</version>
+            <artifactId>lombok</artifactId>
+            <version>1.16.6</version>
         </dependency>
-
 
         <dependency>
             <groupId>com.sk89q</groupId>
@@ -127,6 +126,7 @@
             <artifactId>bukkit</artifactId>
             <version>1.8-R0.1-SNAPSHOT</version>
         </dependency>
+
     </dependencies>
 
     <repositories>

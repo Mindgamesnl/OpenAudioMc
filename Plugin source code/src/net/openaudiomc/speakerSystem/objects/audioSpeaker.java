@@ -1,5 +1,7 @@
 package net.openaudiomc.speakerSystem.objects;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -7,14 +9,16 @@ import org.bukkit.Material;
 /**
  * Created by mats on 23-4-2017.
  */
+
+@Getter
+@Setter
 public class audioSpeaker {
 
     private String id;
-    private Location location;
-    private String soundid;
-    private Integer volume = 100;
-    private Integer radius = 9;
-	private Boolean enabled = true;
+    @Getter @Setter private Location location;
+    @Getter @Setter private String soundid;
+    @Setter @Getter private Integer volume = 100;
+	@Setter @Getter private Boolean enabled = true;
 
     public audioSpeaker(String id, Location loc, String sid) {
         if (loc.getBlock().getType() != Material.AIR) {
@@ -24,42 +28,6 @@ public class audioSpeaker {
             this.soundid = sid;
         }
 
-    }
-
-    public Boolean isEnabled() {
-        return this.enabled;
-    }
-
-    public void setEnabled(Boolean state) {
-        this.enabled = state;
-    }
-
-    public void setRadius(Integer nr) {
-        this.radius = nr;
-    }
-
-    public void setVolume(Integer nv) {
-        this.volume = nv;
-    }
-
-    public Integer getVolume() {
-        return this.volume;
-    }
-
-    public Integer getRadius() {
-        return this.radius;
-    }
-
-    public Location getLoc() {
-    	return this.location;
-    }
-    
-    public String getSoundId() {
-    	return this.soundid;
-    }
-    
-    public String getId() {
-    	return this.id;
     }
 
 }
