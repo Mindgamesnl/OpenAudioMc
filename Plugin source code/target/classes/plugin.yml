@@ -1,11 +1,11 @@
 name: OpenAudioMc
+main: net.openaudiomc.core.Main
 description: Openaudiomc plugin. Brings audio to your server.
 author: Mindgamesnl
 website: https://www.openaudiomc.net/
 prefix: OpenAudioMc
 version: 2.6
 softdepend: [WorldGuard, Skript]
-main: net.openaudiomc.minecraft.Main
 commands:
    openaudio:
       description: The default openaudio command.

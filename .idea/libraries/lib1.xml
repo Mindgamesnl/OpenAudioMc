@@ -4,7 +4,6 @@
       <root url="jar://$PROJECT_DIR$/Plugin source code/lib/socket-io-driver.jar!/" />
       <root url="jar://$PROJECT_DIR$/Plugin source code/lib/WorldEdit.jar!/" />
       <root url="jar://$PROJECT_DIR$/Plugin source code/lib/Skript.jar!/" />
-      <root url="jar://$PROJECT_DIR$/Plugin source code/lib/WGRegionEvents.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
