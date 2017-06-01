@@ -43,7 +43,6 @@ public class regionListener implements Listener{
         for (final ProtectedRegion region : appRegions) {
 
             if (history.get(p) == null) {
-                Bukkit.broadcastMessage("create");
                 history.put(p, new ArrayList<String>());
             }
 
@@ -75,12 +74,10 @@ public class regionListener implements Listener{
                     if (isValidRegion(finalEl.getId())) {
                         if (!history.get(p).contains(getRegionFile(finalEl.getId()))) {
                             command.playRegion(p.getName(), getRegionFile(finalEl.getId()));
-                            Bukkit.broadcastMessage("write");
                             history.get(p).add(getRegionFile(finalEl.getId()));
                         } else {
 
                             if (history.get(p).size() == 1 && history.get(p).contains(getRegionFile(finalEl.getId()))) {
-                                Bukkit.broadcastMessage("remove");
                                 history.get(p).remove(getRegionFile(finalEl.getId()));
                                 command.playRegion(p.getName(), getRegionFile(finalEl.getId()));
                             }
