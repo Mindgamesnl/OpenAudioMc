@@ -13,8 +13,10 @@
  */
 package net.openaudiomc.actions;
 
+import com.google.common.collect.Maps;
 import java.util.HashMap;
 
+import java.util.Map;
 import lombok.Getter;
 import me.mindgamesnl.openaudiomc.publicApi.WebConnectEvent;
 import me.mindgamesnl.openaudiomc.publicApi.WebDisconnectEvent;
@@ -26,7 +28,7 @@ import org.bukkit.event.EventHandler;
 
 public class Spy {
 
-  @Getter private static HashMap<Player, Boolean> spyMap = new HashMap<>();
+  @Getter private static Map<Player, Boolean> spyMap = Maps.newHashMap();
 
   public static void Toggle(Player sender) {
     if (spyMap.get(sender) != null) {

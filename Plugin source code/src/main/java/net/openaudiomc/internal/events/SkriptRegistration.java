@@ -53,8 +53,7 @@ public class SkriptRegistration {
 		        return e.getPlayer();
 		    }
 		}, 0);
-		
-		
+
 		Skript.registerEvent("OpenAudio region enter", SimpleEvent.class, AudioRegionEnterEvent.class, "audio region enter", "audio region enter");
 		EventValues.registerEventValue(AudioRegionEnterEvent.class, String.class, new Getter<String, AudioRegionEnterEvent>() {
 		    @Override
@@ -69,7 +68,6 @@ public class SkriptRegistration {
 		    }
 		}, 0);
 
-
 		Skript.registerEvent("OpenAudio region leave", SimpleEvent.class, AudioRegionLeaveEvent.class, "audio region enter", "audio region leave");
 		EventValues.registerEventValue(AudioRegionLeaveEvent.class, Player.class, new Getter<Player, AudioRegionLeaveEvent>() {
 		    @Override
@@ -77,9 +75,7 @@ public class SkriptRegistration {
 		        return e.getPlayer();
 		    }
 		}, 0);
-		
-		//new events
-		//fancy new events
+
 		Skript.registerEvent("OpenAudio sound end", SimpleEvent.class, SoundEndEvent.class, "audio sound end", "audio sound end");
 		EventValues.registerEventValue(SoundEndEvent.class, String.class, new Getter<String, SoundEndEvent>() {
 		    @Override

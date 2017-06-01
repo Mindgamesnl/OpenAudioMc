@@ -54,13 +54,8 @@ public class Main extends JavaPlugin {
     return pl;
   }
 
-  private static File fileLoc;
-
-  //Start zooi
   @Override public void onEnable() {
     pl = this;
-
-    fileLoc = getDataFolder();
 
     GetDep.runCheck();
 
@@ -106,7 +101,7 @@ public class Main extends JavaPlugin {
       @Override public void run() {
         SpeakerMain.loadSounds();
         SpeakerMain.loadSpeaker();
-        AudioSpeakerManager.Init();
+        AudioSpeakerManager.get().init();
       }
     }, 20 * 5);
     Bukkit.getLogger().info("[OpenAudio] Started up.");
@@ -116,7 +111,7 @@ public class Main extends JavaPlugin {
     for (Player p : Bukkit.getOnlinePlayers()) {
       if (OpenAudioApi.isConnected(p)) {
         Command.stopAll(p.getName());
-        AudioSpeakerManager.stopForPlayer(p.getName());
+        AudioSpeakerManager.get().stopForPlayer(p.getName());
       }
     }
   }

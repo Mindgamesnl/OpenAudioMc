@@ -13,25 +13,14 @@
  */
 package net.openaudiomc.internal.events;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class SocketUserConnectEvent extends Event {
+@Getter @AllArgsConstructor public class SocketUserConnectEvent extends Event {
 	private String name;
 	private String key;
-	
-	public SocketUserConnectEvent(String name2, String key2) {
-		this.name = name2;
-		this.key = key2;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public String getKey() {
-		return key;
-	}
 	
 	private static final HandlerList handlers = new HandlerList();
 

@@ -13,28 +13,22 @@
  */
 package me.mindgamesnl.openaudiomc.publicApi;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.bukkit.event.Event;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
-public class WebDisconnectEvent extends Event {
-	private Player player;
-	
-	public WebDisconnectEvent(Player player) {
-		this.player = player;
-	}
-	
-	public Player getPlayer() {
-		return player;
-	}
-	
-	private static final HandlerList handlers = new HandlerList();
+@Getter @AllArgsConstructor public class WebDisconnectEvent extends Event {
+  private Player player;
 
-	public HandlerList getHandlers() {
-	    return handlers;
-	}
+  private static final HandlerList handlers = new HandlerList();
 
-	public static HandlerList getHandlerList() {
-	    return handlers;
-	}	
+  public HandlerList getHandlers() {
+    return handlers;
+  }
+
+  public static HandlerList getHandlerList() {
+    return handlers;
+  }
 }

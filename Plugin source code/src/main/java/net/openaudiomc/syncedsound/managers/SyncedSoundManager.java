@@ -70,7 +70,7 @@ public class SyncedSoundManager {
 
 	private static SyncedSound getBySrc(String src) {
 		for (String key: syncedSoundMap.keySet()) {
-			if (Objects.equals(syncedSoundMap.get(key).getSrc(), src)) {
+			if (Objects.equals(syncedSoundMap.get(key).getSource(), src)) {
 				return syncedSoundMap.get(key);
 			}
 		}

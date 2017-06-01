@@ -365,7 +365,7 @@ public class AdminCommands implements CommandExecutor {
             Command.stop(p.getName());
             Command.stopAllRegions(p.getName());
             Command.hueStopEffect(p.getName());
-            AudioSpeakerManager.stopForPlayer(p.getName());
+            AudioSpeakerManager.get().stopForPlayer(p.getName());
             UserManager.getPlayer(Bukkit.getPlayer(p.getName())).removeAllSyncedSounds();
           }
         } else {
@@ -415,12 +415,12 @@ public class AdminCommands implements CommandExecutor {
           if (args[1].equalsIgnoreCase("set")) {
             Location target = new Location(Bukkit.getWorld(args[2]), Integer.parseInt(args[3]),
                 Integer.parseInt(args[4]), Integer.parseInt(args[5]));
-            if (AudioSpeakerManager.speakers.get(target) != null) {
+            if (AudioSpeakerManager.get().getSpeakers().get(target) != null) {
               sender.sendMessage(Main.prefix + "This is already a speaker. Replacing");
             } else {
-              if (AudioSpeakerManager.sounds.get(args[6]) == null) {
+              if (AudioSpeakerManager.get().getSounds().get(args[6]) == null) {
                 SpeakerMain.saveSound(args[6]);
-                AudioSpeakerManager.createSound(args[6] + "_sound", args[6], null, null, null);
+                AudioSpeakerManager.get().createSound(args[6] + "_sound", args[6], null, null, null);
               }
 
               SpeakerMain.saveSpeaker(args[6], target.getWorld().getName(), target.getX(),
@@ -436,7 +436,7 @@ public class AdminCommands implements CommandExecutor {
                   + target.getBlockZ()
                   + ".");
 
-              AudioSpeakerManager.createSpeaker(args[6] + "_speaker", args[6] + "_sound", target);
+              AudioSpeakerManager.get().createSpeaker(args[6] + "_speaker", args[6] + "_sound", target);
 
               Block b = Bukkit.getWorld(args[2]).getBlockAt(target);
               b.setType(Material.NOTE_BLOCK);
@@ -446,16 +446,16 @@ public class AdminCommands implements CommandExecutor {
 
           if (args[1].equalsIgnoreCase("selection")) {
 
-            if (SpeakerMain.selection.get((Player) sender) != null
-                && SpeakerMain.selection.get((Player) sender).size() != 0) {
+            if (SpeakerMain.getSelection().get((Player) sender) != null
+                && SpeakerMain.getSelection().get((Player) sender).size() != 0) {
 
               if (args[2].equalsIgnoreCase("setvolume")) {
                 sender.sendMessage("ba " + VolumeCommand.isInt(args[3]));
 
                 if (VolumeCommand.isInt(args[3])) {
                   Boolean suc6 = true;
-                  for (AudioSpeaker speaker : SpeakerMain.selection.get((Player) sender)) {
-                    AudioSpeakerSound sound = AudioSpeakerManager.sounds.get(speaker.getSoundid());
+                  for (AudioSpeaker speaker : SpeakerMain.getSelection().get((Player) sender)) {
+                    AudioSpeakerSound sound = AudioSpeakerManager.get().getSounds().get(speaker.getSoundid());
                     if (sound.hasFile()) {
                       sound.setVolume(Integer.parseInt(args[3]));
                       FileConfiguration config =
@@ -487,26 +487,26 @@ public class AdminCommands implements CommandExecutor {
           } else if (args[1].equalsIgnoreCase("set")) {
             if (args[3].equalsIgnoreCase("on")) {
               sender.sendMessage(Main.prefix + "Unmuted speakers with that url.");
-              AudioSpeakerManager.sounds.get(args[2] + "_sound").setEnabled(true);
+              AudioSpeakerManager.get().getSounds().get(args[2] + "_sound").setEnabled(true);
             } else {
               sender.sendMessage(Main.prefix + "Muted speakers with that url.");
-              AudioSpeakerManager.sounds.get(args[2] + "_sound").setEnabled(false);
+              AudioSpeakerManager.get().getSounds().get(args[2] + "_sound").setEnabled(false);
             }
           }
         } else if (args.length == 2) {
           if (args[1].equalsIgnoreCase("stop")) {
-            if (AudioSpeakerManager.running) {
-              AudioSpeakerManager.stop();
+            if (AudioSpeakerManager.get().isRunning()) {
+              AudioSpeakerManager.get().stop();
               for (Player lp : Bukkit.getOnlinePlayers()) {
-                AudioSpeakerManager.stopForPlayer(lp.getName());
+                AudioSpeakerManager.get().stopForPlayer(lp.getName());
               }
               sender.sendMessage(Main.prefix + "Stopped all speakers");
             } else {
               sender.sendMessage(Main.prefix + "Speakers are allready disabled.");
             }
           } else if (args[1].equalsIgnoreCase("start")) {
-            if (!AudioSpeakerManager.running) {
-              AudioSpeakerManager.Init();
+            if (!AudioSpeakerManager.get().isRunning()) {
+              AudioSpeakerManager.get().init();
               sender.sendMessage(Main.prefix + "Restarting all speakers...");
             } else {
               sender.sendMessage(Main.prefix + "Speakers are allready started.");
@@ -522,8 +522,6 @@ public class AdminCommands implements CommandExecutor {
       } else if (args[0].equalsIgnoreCase("region") && sender.hasPermission(
           "openaudio.admin.region")) {
         if (GetDep.getStatus()) {
-          //region gezijk
-          //Play commands
           if (args.length == 4 || args.length > 4) {
             if (args[1].equalsIgnoreCase("create")) {
               RegionListener.registerRegion(args[2], args[3], (Player) sender);

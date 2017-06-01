@@ -17,7 +17,8 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class SocketIoConnectEvent extends Event {
-	public SocketIoConnectEvent() {}
+	public SocketIoConnectEvent() {
+	}
 	
 	private static final HandlerList handlers = new HandlerList();
 
