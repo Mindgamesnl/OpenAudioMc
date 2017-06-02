@@ -567,10 +567,10 @@ public class AdminCommands implements CommandExecutor {
           }
         } else if (args.length == 4 || args.length > 4) {
           if (args[1].equalsIgnoreCase("play")) {
-            if (PlaylistManager.getAllFilesInOneBigBulcCuzThatIsPrettyAwesome(args[2]) != null) {
+            if (PlaylistManager.getAll(args[2]) != null) {
               for (Player p : Selector.playerSelector(sender, args[3])) {
                 Command.playList(p.getName(),
-                    PlaylistManager.getAllFilesInOneBigBulcCuzThatIsPrettyAwesome(args[2]));
+                    PlaylistManager.getAll(args[2]));
               }
               sender.sendMessage(Main.prefix + "Started playlist for " + args[3]);
             } else {
