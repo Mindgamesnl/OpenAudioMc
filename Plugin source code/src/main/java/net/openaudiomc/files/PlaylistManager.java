@@ -28,13 +28,12 @@ public class PlaylistManager {
         try {
 			cfg.save(new File("plugins/OpenAudio", "playlist.yml"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         
 	}
 
-	public static JSONArray getAllFilesInOneBigBulcCuzThatIsPrettyAwesome(String id) {
+	public static JSONArray getAll(String id) {
 		boolean loaded = false;
 		FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "playlist.yml"));
 		JSONArray list = new JSONArray();
@@ -45,6 +44,6 @@ public class PlaylistManager {
 		if (loaded) {
 			return list;
 		}
-		return list;
+		return null;
 	}
 }
