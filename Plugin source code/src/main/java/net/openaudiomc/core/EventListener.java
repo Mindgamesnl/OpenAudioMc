@@ -244,7 +244,10 @@ public class EventListener implements Listener {
     Command.stopAllRegions(p.getName());
     Emitter.offlineInServer(p.getName());
     AudioSpeakerManager.get().stopForPlayer(event.getPlayer().getName());
-    /* CAN BE NULL */ RegionListener.history.get(p).clear();
+    /* CAN BE NULL */
+    if (RegionListener.history.get(p) != null) {
+        RegionListener.history.get(p).clear();
+    }
     AudioSpeakerManager.get().getListeners().put(event.getPlayer().getName(), false);
     GroupManager.get().removeFromGroup(event.getPlayer());
     Main.getPL().getServer().getScheduler().runTaskLaterAsynchronously(Main.getPL(), new Runnable() {
