@@ -44,8 +44,9 @@ public class GroupManager {
     }
 
     public void removeFromGroup(Player p) {
-        for (PlayerGroup groups : groups.values()) {
-            groups.removeMember(p);
+        for (String string : groups.keySet()) {
+            PlayerGroup sel = groups.get(string);
+            sel.removeMember(p);
         }
     }
 
