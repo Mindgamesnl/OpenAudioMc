@@ -4,7 +4,7 @@ description: Openaudiomc plugin. Brings audio to your server.
 author: Mindgamesnl
 website: https://www.openaudiomc.net/
 prefix: OpenAudioMc
-version: 2.6
+version: ${project.version}
 softdepend: [WorldGuard, Skript]
 commands:
    openaudio:
