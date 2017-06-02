@@ -1,7 +1,11 @@
+console.log('%c Welcome to OpenAudioMc ', 'background: blue; color: white; display: block;font-size:80px');
+console.log("%c WARNING! If someone told you to copy/paste something here you have an 11/10 chance you're being scammed. ", 'background: black; color: RED; display: block;font-size:20px');
+logInit("You may see a message like '[Violation] Forced reflow while executing JavaScript took Xms', Please ignore it since it is coused by lovely socketio.")
+
 function loadBg() {
   var LiturkeyColorsInc = ["#f5d65a","#39e2b0","#3fbe98","#a743c4","#5f5cea","#ea5c5c"];
   var item = LiturkeyColorsInc[Math.floor(Math.random()*LiturkeyColorsInc.length)];
-  $("#body").animate({"background-color":item},{duration:1000});
+	document.body.style.backgroundColor = item;
 }
 
 ui = {};
@@ -72,15 +76,11 @@ if (getUrlVar("session").includes(":")) {
 }
 
 function enableMain(clientJs) {
-  $.getScript(clientJs, function() {
-    $.getScript("files/core/openaudiomc.js", function() {
-
-        logInit("Login-sucess");
-        enable();
-        loadBg();
-
-    });
-  });
+	$.getScript("files/core/OAM-Core.js", function() {
+			logInit("Login-sucess");
+			enable();
+			loadBg();
+	});
 }
 
 function logInit(msg) {
