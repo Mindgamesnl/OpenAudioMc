@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="socket-io-driver">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/socket-io-driver.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
