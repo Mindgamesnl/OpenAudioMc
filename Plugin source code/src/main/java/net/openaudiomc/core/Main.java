@@ -22,6 +22,7 @@ import net.openaudiomc.actions.Command;
 import net.openaudiomc.files.DataGetter;
 import net.openaudiomc.files.Messages;
 import net.openaudiomc.regions.RegionListener;
+import net.openaudiomc.socket.SocketioConnector;
 import net.openaudiomc.socket.cm_callback;
 import net.openaudiomc.speakersystem.SpeakerMain;
 import net.openaudiomc.speakersystem.managers.AudioSpeakerManager;
@@ -108,6 +109,7 @@ public class Main extends JavaPlugin {
   }
 
   @Override public void onDisable() {
+    SocketioConnector.close();
     for (Player p : Bukkit.getOnlinePlayers()) {
       if (OpenAudioApi.isConnected(p)) {
         Command.stopAll(p.getName());

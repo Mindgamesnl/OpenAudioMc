@@ -6,10 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="OpenAudioMc" />
         <module name="Plugin source code" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="OpenAudioMc" target="1.7" />
       <module name="Plugin source code" target="1.7" />
     </bytecodeTargetLevel>
   </component>
