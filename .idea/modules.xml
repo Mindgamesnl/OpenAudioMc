@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Plugin source code/OpenAudioMc.iml" filepath="$PROJECT_DIR$/Plugin source code/OpenAudioMc.iml" />
       <module fileurl="file://$PROJECT_DIR$/Plugin source code/Plugin source code.iml" filepath="$PROJECT_DIR$/Plugin source code/Plugin source code.iml" />
     </modules>
   </component>
