@@ -72,8 +72,9 @@ socketIo.connect = function() {
 				twitter = settings.twitter;
 			}
 			
-			if (settings.minime == "on" && settings.twitter != null) {
+			if (settings.minime == "on" && settings.minime != null) {
 				if (tinyWindow == "(none)") {
+					minimeon = true;
 					minimeicon = new trayItem("fa-window-minimize", "openSmallWindow");
 				}
 			}

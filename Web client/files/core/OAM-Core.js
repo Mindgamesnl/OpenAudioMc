@@ -41,6 +41,7 @@ var website = "";
 var iconcolor = "#242424";
 var ambtimer = 0;
 var ambdelay = 800;
+minimeon = false;
 
 function openSmallWindow() {
 	swal({
@@ -109,6 +110,14 @@ document.body.onkeydown = function(data) {
 			openhue();
 		} else {
 			swal("Hue is disabled.");
+		}
+	}
+	
+	if (data.key == "m") {
+		if (minimeon) {
+			openSmallWindow();
+		} else {
+			swal("Minimi is disabled by the server admin.");
 		}
 	}
 
