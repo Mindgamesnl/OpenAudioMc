@@ -40,8 +40,7 @@ public class Authenticator {
         JSONObject obj = new JSONObject(getClientToken());
         publicKey = obj.getString("cid");
         return obj.getString("cid");
-      } catch (JSONException e) {
-      } catch (Exception e) {
+      } catch (Exception ignored) {
       }
     } else {
       return publicKey;
@@ -54,8 +53,7 @@ public class Authenticator {
     try {
       JSONObject obj = new JSONObject(getClient());
       return obj;
-    } catch (JSONException e) {
-    } catch (Exception e) {
+    } catch (Exception ignored) {
     }
     return null;
   }
