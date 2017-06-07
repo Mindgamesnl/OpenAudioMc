@@ -40,7 +40,7 @@ public class AudioCommands implements CommandExecutor {
 
       String url = Messages.getColor("website-url");
       url = url.replace("%name%", sender.getName());
-      url = url.replace("%session%", Sessions.get(sender.getName()));
+      url = url.replace("%session%", Sessions.getSession(sender.getName()));
 
       String message = Messages.getColor("connect-message");
 

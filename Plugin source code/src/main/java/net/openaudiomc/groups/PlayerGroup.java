@@ -16,30 +16,22 @@ package net.openaudiomc.groups;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by mats on 31-5-2017.
- * Pretty cool huh?
- */
-@Getter
-public class PlayerGroup {
+@Getter public class PlayerGroup {
 
-    @Getter
-    private List<Player> members = Lists.newArrayList();
-    private String name;
+  private List<Player> members = Lists.newArrayList();
+  private String name;
 
-    PlayerGroup(String name) {
-        this.name = name;
-    }
+  PlayerGroup(String name) {
+    this.name = name;
+  }
 
-    public void addMember(Player p) {
-        this.members.add(p);
-    }
+  public void addMember(Player player) {
+    getMembers().add(player);
+  }
 
-    public void removeMember(Player p) {
-        this.members.remove(p);
-    }
+  public void removeMember(Player player) {
+    getMembers().remove(player);
+  }
 }
