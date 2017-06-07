@@ -62,7 +62,7 @@ import java.util.ArrayList;
     } else if (query.equalsIgnoreCase("@a")) {
       list.addAll(Bukkit.getOnlinePlayers());
     } else if (query.toLowerCase().contains(":")) {
-      sender.sendMessage(Main.prefix + "Invalid selector.");
+      sender.sendMessage(Main.PREFIX + "Invalid selector.");
     }
     return list;
   }

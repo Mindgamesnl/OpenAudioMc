@@ -46,17 +46,21 @@ import net.openaudiomc.internal.events.SkriptRegistration;
 
 public class Main extends JavaPlugin {
 
-  private static Main pl;
+  public static String PREFIX =
+      ChatColor.translateAlternateColorCodes('&', "&9[&bOpenAudioMc&9] &3");
+
+  private static Main instance;
   private static File MessagesFile;
   private static FileConfiguration MessagesConfig;
-  public static String prefix;
 
   public static Main getPL() {
-    return pl;
+    return instance;
   }
 
   @Override public void onEnable() {
-    pl = this;
+    instance = this;
+
+    long start = System.currentTimeMillis();
 
     GetDep.runCheck();
 
@@ -68,16 +72,11 @@ public class Main extends JavaPlugin {
     cm_callback.update();
     Bukkit.getServer().getPluginManager().registerEvents(new TimeoutManager(), this);
     Bukkit.getServer().getPluginManager().registerEvents(new EventListener(), this);
-    Bukkit.getLogger().info("[OpenAudio] Loading OpenAudioMc by Mindgamesnl/Me_is_mattyh");
+    System.out.println("[OpenAudio] Loading OpenAudioMc by Mindgamesnl/Me_is_mattyh");
 
-    prefix = ChatColor.translateAlternateColorCodes('&', "&9[&bOpenAudioMc&9] &3");
-
-    //Audio commands
-    this.getCommand("connect").setExecutor(new AudioCommands());
-    //Volume command
-    this.getCommand("volume").setExecutor(new VolumeCommand());
-    //Main command
-    this.getCommand("openaudio").setExecutor(new AdminCommands());
+    getCommand("connect").setExecutor(new AudioCommands());
+    getCommand("volume").setExecutor(new VolumeCommand());
+    getCommand("openaudio").setExecutor(new AdminCommands());
 
     if (GetDep.getStatus()) {
       Bukkit.getServer().getPluginManager().registerEvents(new RegionListener(), this);
@@ -87,35 +86,35 @@ public class Main extends JavaPlugin {
     if (GetDep.isSkriptInstalled()) {
       Skript.registerAddon(this);
       SkriptRegistration.load();
-      Bukkit.getLogger().info("[OpenAudio] Whoah! just like that! loaded the skript events :D");
+      System.out.println("[OpenAudio] Whoah! just like that! loaded the skript events :D");
     } else {
-      Bukkit.getLogger()
-          .info(
-              "[OpenAudio] Skript was not found in your server, gues we're not loading the sk-events then.");
+      System.out.println(
+          "[OpenAudio] Skript was not found in your server, gues we're not loading the sk-events then.");
     }
 
     TimeoutManager.updateCounter();
 
     Bukkit.getLogger().info("[OpenAudio] Loading speakers.");
 
-    Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-      @Override public void run() {
-        SpeakerMain.loadSounds();
-        SpeakerMain.loadSpeaker();
-        AudioSpeakerManager.get().init();
-      }
+    Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
+      SpeakerMain.loadSounds();
+      SpeakerMain.loadSpeaker();
+      AudioSpeakerManager.get().init();
     }, 20 * 5);
-    Bukkit.getLogger().info("[OpenAudio] Started up.");
+
+    System.out.println(
+        "[OpenAudio] OpenAudio started in " + (System.currentTimeMillis() - start) + "ms!");
   }
 
   @Override public void onDisable() {
     SocketioConnector.close();
-    for (Player p : Bukkit.getOnlinePlayers()) {
-      if (OpenAudioApi.isConnected(p)) {
-        Command.stopAll(p.getName());
-        AudioSpeakerManager.get().stopForPlayer(p.getName());
+    Bukkit.getOnlinePlayers().forEach(player -> {
+      if (OpenAudioApi.isConnected(player)) {
+        Command.stopAll(player.getName());
+        AudioSpeakerManager.get().stopForPlayer(player.getName());
       }
-    }
+    });
+    instance = null;
   }
 
   private void createMessagesFile() {
@@ -279,6 +278,7 @@ public class Main extends JavaPlugin {
 
       }
       FileConfiguration datafileInst = YamlConfiguration.loadConfiguration(dataFile);
+      datafileInst.options().header("This is identifies the server and should be kept secret, do you have a bungeecord network? just set this id on all your server and bungeecord mode is activated :)");
       datafileInst.set("Description",
           "This is identifies the server and should be kept secret, do you have a bungeecord network? just set this id on all your server and bungeecord mode is activated :)");
       datafileInst.set("serverID", Authenticator.getNewId().getString("server"));

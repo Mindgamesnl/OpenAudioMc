@@ -17,10 +17,7 @@ import com.google.common.collect.Maps;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Map;
-import java.util.Random;
-
 import lombok.Getter;
-import net.openaudiomc.socket.Authenticator;
 
 public class Sessions {
 
@@ -29,11 +26,10 @@ public class Sessions {
   @Getter private static Map<String, String> sessions = Maps.newHashMap();
 
   private static String createSession(String player) {
-    BigInteger bigInteger = new BigInteger(130, random);
+    BigInteger bigInteger = new BigInteger(25, random);
     String sessionId = String.valueOf(bigInteger.toString(LENGTH));
     getSessions().put(player, sessionId);
-    String clientId = Authenticator.getClientID();
-    return sessionId + ":" + clientId;
+    return sessionId;
   }
 
   public static String getSession(String player) {

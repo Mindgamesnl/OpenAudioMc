@@ -51,8 +51,7 @@ public class Authenticator {
 
   public static JSONObject getNewId() {
     try {
-      JSONObject obj = new JSONObject(getClient());
-      return obj;
+      return new JSONObject(getClient());
     } catch (Exception ignored) {
     }
     return null;

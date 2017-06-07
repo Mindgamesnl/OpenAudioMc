@@ -158,7 +158,7 @@ public class SpeakerMain {
                     .add(AudioSpeakerManager.get()
                         .getSpeakers()
                         .get(event.getClickedBlock().getLocation()));
-                p.sendMessage(Main.prefix + "Added speaker to selection. Url:" + AudioSpeakerManager
+                p.sendMessage(Main.PREFIX + "Added speaker to selection. Url:" + AudioSpeakerManager
                     .get()
                     .getSounds()
                     .get(AudioSpeakerManager.get()
@@ -171,7 +171,7 @@ public class SpeakerMain {
                     .remove(AudioSpeakerManager.get()
                         .getSpeakers()
                         .get(event.getClickedBlock().getLocation()));
-                p.sendMessage(Main.prefix + "Removed speaker from selection.");
+                p.sendMessage(Main.PREFIX + "Removed speaker from selection.");
               }
             } else {
               ArrayList<AudioSpeaker> selected = new ArrayList<AudioSpeaker>();
@@ -179,10 +179,10 @@ public class SpeakerMain {
                   .getSpeakers()
                   .get(event.getClickedBlock().getLocation()));
               selection.put(p, selected);
-              p.sendMessage(Main.prefix + "Added speaker to selection.");
+              p.sendMessage(Main.PREFIX + "Added speaker to selection.");
             }
           } else {
-            p.sendMessage(Main.prefix + "This block is not a speaker.");
+            p.sendMessage(Main.PREFIX + "This block is not a speaker.");
           }
         }
       }
@@ -215,15 +215,15 @@ public class SpeakerMain {
 
             if (speakerfile.delete()) {
               event.getPlayer()
-                  .sendMessage(Main.prefix + ChatColor.GREEN + "Successfully removed speaker!");
+                  .sendMessage(Main.PREFIX + ChatColor.GREEN + "Successfully removed speaker!");
             } else {
               event.getPlayer()
-                  .sendMessage(Main.prefix + ChatColor.RED + "Failed to remove speaker!");
+                  .sendMessage(Main.PREFIX + ChatColor.RED + "Failed to remove speaker!");
               event.setCancelled(true);
             }
           } else {
             event.getPlayer()
-                .sendMessage(Main.prefix
+                .sendMessage(Main.PREFIX
                     + ChatColor.RED
                     + "Did not remove speaker, no sound assigned to this speaker.");
           }
@@ -253,14 +253,14 @@ public class SpeakerMain {
 
         if (speakerfile.delete()) {
           event.getPlayer()
-              .sendMessage(Main.prefix + ChatColor.GREEN + "Successfully removed speaker!");
+              .sendMessage(Main.PREFIX + ChatColor.GREEN + "Successfully removed speaker!");
         } else {
-          event.getPlayer().sendMessage(Main.prefix + ChatColor.RED + "Failed to remove speaker!");
+          event.getPlayer().sendMessage(Main.PREFIX + ChatColor.RED + "Failed to remove speaker!");
           event.setCancelled(true);
         }
       } else {
         event.getPlayer()
-            .sendMessage(Main.prefix
+            .sendMessage(Main.PREFIX
                 + ChatColor.RED
                 + "Did not remove speaker, no sound assigned to this speaker.");
       }
@@ -279,7 +279,7 @@ public class SpeakerMain {
                   .contains(AudioSpeakerManager.get().getSpeakers().get(target.getLocation()))) {
                 selection.get(p)
                     .add(AudioSpeakerManager.get().getSpeakers().get(target.getLocation()));
-                p.sendMessage(Main.prefix + "Added speaker to selection. Url:" + AudioSpeakerManager
+                p.sendMessage(Main.PREFIX + "Added speaker to selection. Url:" + AudioSpeakerManager
                     .get()
                     .getSounds()
                     .get(AudioSpeakerManager.get()
@@ -290,13 +290,13 @@ public class SpeakerMain {
               } else {
                 selection.get(p)
                     .remove(AudioSpeakerManager.get().getSpeakers().get(target.getLocation()));
-                p.sendMessage(Main.prefix + "Removed speaker from selection.");
+                p.sendMessage(Main.PREFIX + "Removed speaker from selection.");
               }
             } else {
               ArrayList<AudioSpeaker> selected = new ArrayList<AudioSpeaker>();
               selected.add(AudioSpeakerManager.get().getSpeakers().get(target.getLocation()));
               selection.put(p, selected);
-              p.sendMessage(Main.prefix + "Added speaker to selection.");
+              p.sendMessage(Main.PREFIX + "Added speaker to selection.");
             }
           }
         }
@@ -329,7 +329,7 @@ public class SpeakerMain {
 
                 event.getPlayer()
                     .sendMessage(
-                        Main.prefix
+                        Main.PREFIX
                             + ChatColor.GREEN
                             + "Created speaker on X:"
                             + event.getBlock()
@@ -352,7 +352,7 @@ public class SpeakerMain {
                 placer.put(event.getPlayer(), "olditem");
               } else {
                 event.getPlayer()
-                    .sendMessage(Main.prefix
+                    .sendMessage(Main.PREFIX
                         + ChatColor.RED
                         + "This speaker does not have a sound, please add a new speaker.");
                 event.setCancelled(true);
