@@ -82,7 +82,7 @@ public class EventListener implements Listener {
   @EventHandler public void onSocketUserConnectEvent(SocketUserConnectEvent event) {
     OfflinePlayer player = Bukkit.getOfflinePlayer(event.getName());
     if (player.isOnline()) {
-      if (event.getKey().equals(Sessions.getOld(event.getName()))) {
+      if (event.getKey().equals(Sessions.getSession(event.getName()))) {
         //good client
         AudioSpeakerManager.get().getListeners().put(event.getName(), false);
         Player client = Bukkit.getPlayer(event.getName());

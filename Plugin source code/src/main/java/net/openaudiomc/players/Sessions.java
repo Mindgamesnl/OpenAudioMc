@@ -14,35 +14,33 @@
 package net.openaudiomc.players;
 
 import com.google.common.collect.Maps;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.Map;
 import java.util.Random;
 
+import lombok.Getter;
 import net.openaudiomc.socket.Authenticator;
 
 public class Sessions {
-	
-	private static Map<String, String> sessions = Maps.newHashMap();
-	
-	public static String get(String player) {
-		char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
-		StringBuilder sb = new StringBuilder();
-		Random random = new Random();
-		for (int i = 0; i < 5; i++) {
-		    char c = chars[random.nextInt(chars.length)];
-		    sb.append(c);
-		}
-		String key = sb.toString();
-		String clientID = Authenticator.getClientID();
-		String total = clientID + ":" + key;
-		sessions.put(player, key);
-		return total;		
-	}
-	
-	public static String getOld(String player) {
-		if (sessions.get(player) != null) {
-			return sessions.get(player);
-		} else {
-			return get(player);
-		}
-	}
+
+  private static final int LENGTH = 32;
+  private static SecureRandom random = new SecureRandom();
+  @Getter private static Map<String, String> sessions = Maps.newHashMap();
+
+  private static String createSession(String player) {
+    BigInteger bigInteger = new BigInteger(130, random);
+    String sessionId = String.valueOf(bigInteger.toString(LENGTH));
+    getSessions().put(player, sessionId);
+    String clientId = Authenticator.getClientID();
+    return sessionId + ":" + clientId;
+  }
+
+  public static String getSession(String player) {
+    if (getSessions().get(player) != null) {
+      return getSessions().get(player);
+    } else {
+      return createSession(player);
+    }
+  }
 }
