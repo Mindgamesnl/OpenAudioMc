@@ -4,7 +4,7 @@
   <groupId>net.openaudiomc</groupId>
   <artifactId>OpenAudioMc</artifactId>
   <name>OpenAudioMc</name>
-  <version>2.7</version>
+  <version>2.7-pre1</version>
   <build>
     <defaultGoal>clean package</defaultGoal>
     <resources>

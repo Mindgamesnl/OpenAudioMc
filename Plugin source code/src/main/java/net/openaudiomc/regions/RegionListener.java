@@ -50,14 +50,12 @@ public class RegionListener implements Listener {
 
   private void start(final Player p, ApplicableRegionSet appRegions, Set<ProtectedRegion> regions) {
     ProtectedRegion finalel = null;
-    Integer priorety = 0;
+    Integer priority = 0;
     Integer foundNum = 0;
     Boolean found = false;
     for (final ProtectedRegion region : appRegions) {
 
-      if (history.get(p) == null) {
-        history.put(p, new ArrayList<String>());
-      }
+      history.computeIfAbsent(p, k -> new ArrayList<>());
 
       if (!regions.contains(region)) {
 
@@ -65,8 +63,8 @@ public class RegionListener implements Listener {
           found = true;
 
           foundNum++;
-          if (region.getPriority() > priorety || region.getPriority() == priorety) {
-            priorety = region.getPriority();
+          if (region.getPriority() > priority || region.getPriority() == priority) {
+            priority = region.getPriority();
             finalel = region;
           }
           regions.add(region);
@@ -75,7 +73,6 @@ public class RegionListener implements Listener {
     }
     if (found) {
       final ProtectedRegion finalEl = finalel;
-      final Integer finalFoundNum = foundNum;
 
       for (String s : history.get(p)) {
         if (!Objects.equals(getRegionFile(finalEl.getId()), s)) {
@@ -156,11 +153,7 @@ public class RegionListener implements Listener {
             ((Iterator) itr).remove();
           } else {
 
-            Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
-              public void run() {
-                end(player, region);
-              }
-            }, 1L);
+            Bukkit.getScheduler().runTaskLater(plugin, () -> end(player, region), 1L);
             ((Iterator) itr).remove();
           }
         }

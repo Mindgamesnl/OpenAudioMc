@@ -206,7 +206,7 @@ public class EventListener implements Listener {
               String currentVersion = Main.getPL().getDescription().getVersion();
               String newVersion = cm_callback.lastVersion;
               String updateTitle = cm_callback.updateTitle;
-              String message = Main.prefix
+              String message = Main.PREFIX
                   + ChatColor.RESET
                   + "Update is available!"
                   + ChatColor.AQUA
@@ -221,7 +221,7 @@ public class EventListener implements Listener {
             String broadcast = cm_callback.broadcast;
             if (!broadcast.equals("")) {
               event.getPlayer()
-                  .sendMessage(Main.prefix + "Important message: " + ChatColor.RESET + broadcast);
+                  .sendMessage(Main.PREFIX + "Important message: " + ChatColor.RESET + broadcast);
             }
           }
         }
