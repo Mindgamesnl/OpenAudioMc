@@ -13,11 +13,9 @@
  */
 package net.openaudiomc.groups;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
+import java.util.Optional;
 import org.bukkit.entity.Player;
-
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -52,7 +50,7 @@ public class GroupManager {
 
     public Optional<PlayerGroup> getGroup(String group) {
         if (groups.get(group) == null) {
-            return Optional.absent();
+            return Optional.empty();
         } else {
             return Optional.of(groups.get(group));
         }
