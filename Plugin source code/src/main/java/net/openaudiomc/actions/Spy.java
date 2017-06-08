@@ -25,33 +25,34 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
-public class Spy {
+public class Spy implements Listener {
 
   @Getter private static Map<Player, Boolean> spyMap = Maps.newHashMap();
 
-  public static void Toggle(Player sender) {
-    if (spyMap.get(sender) != null) {
-      if (spyMap.get(sender)) {
+  public static void toggleSpy(Player sender) {
+    if (getSpyMap().get(sender) != null) {
+      if (getSpyMap().get(sender)) {
         //is on
-        spyMap.put(sender, false);
+        getSpyMap().put(sender, false);
         sender.sendMessage(Main.PREFIX + "Connection spy is " + ChatColor.RED + "Disabled");
       } else {
         //is off
-        spyMap.put(sender, true);
+        getSpyMap().put(sender, true);
         sender.sendMessage(Main.PREFIX + "Connection spy is " + ChatColor.GREEN + "Enabled");
       }
     } else {
-      spyMap.put(sender, true);
+      getSpyMap().put(sender, true);
       sender.sendMessage(Main.PREFIX + "Connection spy is " + ChatColor.GREEN + "Enabled");
     }
   }
 
   @EventHandler public void onWebDisconnectEvent(WebDisconnectEvent event) {
     String connector = event.getPlayer().getName();
-    for (Player player : Bukkit.getOnlinePlayers()) {
-      if (spyMap.get(player) != null) {
-        if (spyMap.get(player)) {
+    Bukkit.getOnlinePlayers().forEach(player -> {
+      if (getSpyMap().get(player) != null) {
+        if (getSpyMap().get(player)) {
           player.sendMessage(""
               + ChatColor.AQUA
               + "["
@@ -65,18 +66,18 @@ public class Spy {
               + connector
               + ChatColor.GRAY
               + ChatColor.ITALIC
-              + " disconnected from openaudio.");
+              + " disconnected from OpenAudio.");
         }
       }
-    }
+    });
   }
 
   @EventHandler public void onWebConnectEvent(WebConnectEvent event) {
     String user = event.getPlayer().getName();
-    for (Player p : Bukkit.getOnlinePlayers()) {
-      if (spyMap.get(p) != null) {
-        if (spyMap.get(p)) {
-          p.sendMessage(""
+    Bukkit.getOnlinePlayers().forEach(player -> {
+      if (getSpyMap().get(player) != null) {
+        if (getSpyMap().get(player)) {
+          player.sendMessage(""
               + ChatColor.AQUA
               + "["
               + ChatColor.GREEN
@@ -89,9 +90,9 @@ public class Spy {
               + user
               + ChatColor.GRAY
               + ChatColor.ITALIC
-              + " connected to openaudio.");
+              + " connected to OpenAudio.");
         }
       }
-    }
+    });
   }
 }

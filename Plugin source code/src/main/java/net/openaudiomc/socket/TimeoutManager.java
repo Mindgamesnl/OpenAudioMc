@@ -27,7 +27,6 @@ import java.util.List;
 public class TimeoutManager implements Listener {
   public static Boolean ioconnected = false;
   public static Boolean ioready = false;
-  public static Integer onlineplayers = 0;
   public static Boolean connecting = false;
 
   @EventHandler public void onSocketConnected(SocketConnectEvent event) {
@@ -55,13 +54,8 @@ public class TimeoutManager implements Listener {
   }
 
   public static void updateCounter() {
-    onlineplayers = 0;
-    for (Player p : Bukkit.getOnlinePlayers()) {
-      onlineplayers++;
-    }
-
     Integer connectedPlayersCount = 0;
-    List<Boolean> list = new ArrayList<Boolean>(EventListener.isConnected.values());
+    List<Boolean> list = new ArrayList<>(EventListener.isConnected.values());
     for (Boolean value : list) {
       if (value) {
         connectedPlayersCount++;
@@ -76,7 +70,7 @@ public class TimeoutManager implements Listener {
       }
       return;
     }
-    if (onlineplayers == 0) {
+    if (Bukkit.getOnlinePlayers().size() == 0) {
       if (ioconnected) {
         cm_callback.update();
         Bukkit.getLogger().info("[OpenAudio] Closing connection with the socket server.");
@@ -86,19 +80,6 @@ public class TimeoutManager implements Listener {
             .info(
                 "[OpenAudio] Connection with socket server is already closed, skipping closing thingy.");
       }
-    } else {
-      /*try {
-				if (!ioconnected) {
-					cm_callback.update();
-					Bukkit.getLogger().info("[OpenAudio] Reconnecting to the openaudiomc socket server.");
-					if (!connecting) {
-						connecting = true;
-						SocketioConnector.connect();
-					}
-				}
-			} catch (Exception e) {
-				Bukkit.getLogger().info("[OpenAudio] Failed to connect to the socket.io server, openaudio will not work correctly.");
-			}*/
     }
   }
 

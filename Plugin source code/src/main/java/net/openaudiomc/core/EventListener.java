@@ -95,37 +95,15 @@ public class EventListener implements Listener {
         Emitter.connectedInServer(event.getName());
         isConnected.put(client.getName(), true);
         UserManager.getPlayer(client).syncSounds();
-        String connector = event.getName();
-        for (Player p : Bukkit.getOnlinePlayers()) {
-          if (Spy.getSpyMap().get(p) != null) {
-            if (Spy.getSpyMap().get(p)) {
-              p.sendMessage(""
-                  + ChatColor.AQUA
-                  + "["
-                  + ChatColor.GREEN
-                  + "+"
-                  + ChatColor.AQUA
-                  + "]"
-                  + ChatColor.YELLOW
-                  + ChatColor.ITALIC
-                  + " "
-                  + connector
-                  + ChatColor.GRAY
-                  + ChatColor.ITALIC
-                  + " connected to openaudio.");
-            }
-          }
-        }
-
         if (GetDep.getStatus()) {
-          String regionNu = "-";
-          for (ProtectedRegion r : WGBukkit.getRegionManager(client.getWorld())
-              .getApplicableRegions(client.getLocation())) {
-            regionNu = r.getId();
-            if (RegionListener.isValidRegion(regionNu)) {
-              Command.playRegion(client.getName(), RegionListener.getRegionFile(regionNu));
-            }
-          }
+          WGBukkit.getRegionManager(client.getWorld())
+              .getApplicableRegions(client.getLocation())
+              .forEach(protectedRegion -> {
+                if (RegionListener.isValidRegion(protectedRegion.getId())) {
+                  Command.playRegion(client.getName(),
+                      RegionListener.getRegionFile(protectedRegion.getId()));
+                }
+              });
         }
         Bukkit.getServer()
             .getPluginManager()
@@ -145,34 +123,11 @@ public class EventListener implements Listener {
             Bukkit.getPlayer((String) event.getName())));
 
     String connector = (String) event.getName();
-    OfflinePlayer player =
-        Bukkit.getOfflinePlayer((String) event.getName());
+    OfflinePlayer player = Bukkit.getOfflinePlayer((String) event.getName());
     if (player.isOnline()) {
       Bukkit.getPlayer(connector).sendMessage(Messages.getColor("disconnect-message"));
     }
-
-    AudioSpeakerManager.get().stopForPlayer((String) event.getName());
-
-    for (Player p : Bukkit.getOnlinePlayers()) {
-      if (Spy.getSpyMap().get(p) != null) {
-        if (Spy.getSpyMap().get(p)) {
-          p.sendMessage(""
-              + ChatColor.AQUA
-              + "["
-              + ChatColor.DARK_RED
-              + "-"
-              + ChatColor.AQUA
-              + "]"
-              + ChatColor.YELLOW
-              + ChatColor.ITALIC
-              + " "
-              + connector
-              + ChatColor.GRAY
-              + ChatColor.ITALIC
-              + " disconnected from openaudio.");
-        }
-      }
-    }
+    AudioSpeakerManager.get().stopForPlayer(connector);
   }
 
   @EventHandler public void onSocketConnected(SocketConnectEvent event) {
@@ -249,15 +204,18 @@ public class EventListener implements Listener {
     AudioSpeakerManager.get().stopForPlayer(event.getPlayer().getName());
     /* CAN BE NULL */
     if (RegionListener.history.get(p) != null) {
-        RegionListener.history.get(p).clear();
+      RegionListener.history.get(p).clear();
     }
     AudioSpeakerManager.get().getListeners().put(event.getPlayer().getName(), false);
     GroupManager.get().removeFromGroup(event.getPlayer());
-    Main.getPL().getServer().getScheduler().runTaskLaterAsynchronously(Main.getPL(), new Runnable() {
-      @Override public void run() {
-        TimeoutManager.updateCounter();
-      }
-    }, 5);
+    Main.getPL()
+        .getServer()
+        .getScheduler()
+        .runTaskLaterAsynchronously(Main.getPL(), new Runnable() {
+          @Override public void run() {
+            TimeoutManager.updateCounter();
+          }
+        }, 5);
   }
 
   @EventHandler public void onPlayerTeleport(PlayerTeleportEvent event) {
