@@ -14,6 +14,7 @@
 package net.openaudiomc.commands;
 
 import net.openaudiomc.files.Messages;
+import net.openaudiomc.socket.Authenticator;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -40,7 +41,8 @@ public class AudioCommands implements CommandExecutor {
 
       String url = Messages.getColor("website-url");
       url = url.replace("%name%", sender.getName());
-      url = url.replace("%session%", Sessions.get(sender.getName()));
+      url = url.replace("%session%",
+          Authenticator.getClientID() + ":" + Sessions.getSession(sender.getName()));
 
       String message = Messages.getColor("connect-message");
 

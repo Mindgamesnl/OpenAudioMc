@@ -17,24 +17,23 @@ import com.google.common.collect.Maps;
 import java.util.HashMap;
 
 import java.util.Map;
+import lombok.Getter;
 import org.bukkit.entity.Player;
 
 import net.openaudiomc.syncedsound.objects.UserData;
 
 public class UserManager {
-  private static Map<String, UserData> userMap = Maps.newHashMap();
+  @Getter private static Map<String, UserData> userMap = Maps.newHashMap();
 
-  public static void addPlayer(Player Player) {
-    if (userMap.get(Player.getName()) == null) {
-      userMap.put(Player.getName(), new UserData(Player));
-    }
+  public static void addPlayer(Player player) {
+    getUserMap().computeIfAbsent(player.getName(), k -> new UserData(player));
   }
 
   public static UserData getPlayer(Player player) {
-    return userMap.get(player.getName());
+    return getUserMap().get(player.getName());
   }
 
   public static void removePlayer(Player Player) {
-    userMap.remove(Player.getName());
+    getUserMap().remove(Player.getName());
   }
 }

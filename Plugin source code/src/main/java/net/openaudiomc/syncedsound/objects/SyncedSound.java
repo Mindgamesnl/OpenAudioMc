@@ -24,22 +24,22 @@ import org.bukkit.Bukkit;
 
 import net.openaudiomc.core.Main;
 
-public class SyncedSound {
-  @Getter private String source = "";
-  @Getter private String length = "";
-  @Getter private String id = "";
-  @Getter private Long loop = 0L;
-  @Getter private Integer schedule = 0;
-  @Getter private Integer timeStamp = 0;
-  @Getter private int cycles = 0;
-  @Getter private boolean playing = false;
-  @Getter private String soundId = "";
+@Getter public class SyncedSound {
+  private String source = "";
+  private String length = "";
+  private String id = "";
+  private Long loop = 0L;
+  private Integer schedule = 0;
+  private Integer timeStamp = 0;
+  private int cycles = 0;
+  private boolean playing = false;
+  private String soundId = "";
 
   public SyncedSound(String id, String url, String length, String soundid) {
     this.id = id;
     this.soundId = soundid;
     this.source = url;
-    
+
     try {
       DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
       Date reference = dateFormat.parse("00:00:00");

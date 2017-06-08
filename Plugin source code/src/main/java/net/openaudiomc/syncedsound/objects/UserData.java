@@ -18,75 +18,56 @@ import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
 import java.util.List;
+import java.util.UUID;
+import lombok.Getter;
 import net.openaudiomc.actions.Command;
 import net.openaudiomc.syncedsound.managers.SyncedSoundManager;
 import org.bukkit.entity.Player;
 
-public class UserData {
+@Getter public class UserData {
   private Player player;
   private String name;
-  private List<String> syncedSouncs = Lists.newArrayList();
+  private List<String> syncedSounds = Lists.newArrayList();
 
-  public UserData(Player p) {
-    this.player = p;
-    this.name = p.getName();
+  public UserData(Player player) {
+    this.player = player;
+    this.name = player.getName();
   }
 
   public void stopSounds() {
-    for (String id : getSyncedSounds()) {
-      SyncedSoundManager.remove(SyncedSoundManager.getById(id).getId());
-    }
+    getSyncedSounds().forEach(
+        id -> SyncedSoundManager.remove(SyncedSoundManager.getById(id).getId()));
   }
 
   public void syncSounds() {
-    for (String id : getSyncedSounds()) {
+    getSyncedSounds().forEach(id -> {
       SyncedSound target = SyncedSoundManager.getById(id);
-
-      Integer miliSeconds = target.getTimeStamp() * 1000;
-      String src = target.getSource();
-      if (target.isPlaying()) {
-        Command.playFromTime(this.player.getName(), SyncedSoundManager.getById(id).getSoundId(),
-            src, miliSeconds);
-      } else {
-        SyncedSoundManager.remove(target.getId());
+      if (target != null) {
+        if (target.isPlaying()) {
+          Command.playFromTime(getPlayer().getName(), target.getSoundId(), target.getSource(),
+              target.getTimeStamp() * 1000);
+        } else {
+          SyncedSoundManager.remove(target.getId());
+        }
       }
-    }
-  }
-
-  public Player getPlayer() {
-    return this.player;
-  }
-
-  public String getName() {
-    return this.name;
+    });
   }
 
   public void removeAllSyncedSounds() {
-    try {
-      for (String sound : getSyncedSounds()) {
-        if (!syncedSouncs.isEmpty()) {
-          syncedSouncs.remove(sound);
-        }
+    getSyncedSounds().forEach(sound -> {
+      if (!getSyncedSounds().isEmpty()) {
+        getSyncedSounds().remove(sound);
       }
-    } catch (ConcurrentModificationException e) {
-    }
-  }
-
-  public List<String> getSyncedSounds() {
-    return this.syncedSouncs;
-  }
-
-  public String getSoundId() {
-    return this.getSoundId();
+    });
   }
 
   public void addSyncedSound(String id) {
-    this.syncedSouncs.add(id);
+    getSyncedSounds().add(id);
   }
 
   public void removeSyncedSound(String id) {
-    if (!syncedSouncs.isEmpty()) {
-      this.syncedSouncs.remove(id);
+    if (!getSyncedSounds().isEmpty()) {
+      this.getSyncedSounds().remove(id);
     }
   }
 }

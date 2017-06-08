@@ -82,7 +82,7 @@ public class EventListener implements Listener {
   @EventHandler public void onSocketUserConnectEvent(SocketUserConnectEvent event) {
     OfflinePlayer player = Bukkit.getOfflinePlayer(event.getName());
     if (player.isOnline()) {
-      if (event.getKey().equals(Sessions.getOld(event.getName()))) {
+      if (event.getKey().equals(Sessions.getSession(event.getName()))) {
         //good client
         AudioSpeakerManager.get().getListeners().put(event.getName(), false);
         Player client = Bukkit.getPlayer(event.getName());
@@ -206,7 +206,7 @@ public class EventListener implements Listener {
               String currentVersion = Main.getPL().getDescription().getVersion();
               String newVersion = cm_callback.lastVersion;
               String updateTitle = cm_callback.updateTitle;
-              String message = Main.prefix
+              String message = Main.PREFIX
                   + ChatColor.RESET
                   + "Update is available!"
                   + ChatColor.AQUA
@@ -221,7 +221,7 @@ public class EventListener implements Listener {
             String broadcast = cm_callback.broadcast;
             if (!broadcast.equals("")) {
               event.getPlayer()
-                  .sendMessage(Main.prefix + "Important message: " + ChatColor.RESET + broadcast);
+                  .sendMessage(Main.PREFIX + "Important message: " + ChatColor.RESET + broadcast);
             }
           }
         }
