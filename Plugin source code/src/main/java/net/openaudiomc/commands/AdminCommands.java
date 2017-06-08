@@ -47,6 +47,11 @@ import java.io.IOException;
 
 public class AdminCommands implements CommandExecutor {
 
+  private final String NO_COMMAND_PERMISSION_MESSAGE =
+      "You don't have permission to use this command!";
+  private final String NO_PLAYER_INSTANCE =
+      "This command can only be run by an instance of a player.";
+
   @Override
   public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label,
       String[] args) {
@@ -342,19 +347,35 @@ public class AdminCommands implements CommandExecutor {
           sender.sendMessage(
               Main.PREFIX + "Invalid command, please use /openaudio play <mc name> <url> [ID]");
         }
-      } else if (args[0].equalsIgnoreCase("spy") && sender.hasPermission("openaudio.admin.spy")) {
-        Spy.Toggle((Player) sender);
-      } else if (args[0].equalsIgnoreCase("oauth")
-          || args[0].equalsIgnoreCase("auth") && sender.hasPermission("openaudio.admin.plus")) {
-        sender.sendMessage(Main.PREFIX + "Generating url.");
-        sender.sendMessage(Main.PREFIX
-            + ""
-            + ChatColor.RED
-            + "Please note! this key can only be used ONCE and should only be used on oauth.openaudiomc.net!");
-        sender.sendMessage(
-            Main.PREFIX + "" + ChatColor.RED + "This code will only be valid for 5 minutes:");
-        sender.sendMessage(
-            ChatColor.AQUA + "Your key: " + ChatColor.YELLOW + OAuthConnector.getToken());
+      } else if (args[0].equalsIgnoreCase("spy")) {
+
+        if (sender instanceof Player) {
+          if (sender.hasPermission("openaudio.admin.spy")) {
+            Spy.toggleSpy((Player) sender);
+            return true;
+          } else {
+            error(sender, NO_COMMAND_PERMISSION_MESSAGE);
+            return true;
+          }
+        } else {
+          error(sender, NO_PLAYER_INSTANCE);
+          return true;
+        }
+      } else if (args[0].equalsIgnoreCase("oauth") || args[0].equalsIgnoreCase("auth")) {
+        if (sender.hasPermission("openaudio.admin.plus")) {
+          sender.sendMessage(Main.PREFIX + "Generating url.");
+          sender.sendMessage(Main.PREFIX
+              + ""
+              + ChatColor.RED
+              + "Please note! this key can only be used ONCE and should only be used on oauth.openaudiomc.net!");
+          sender.sendMessage(
+              Main.PREFIX + "" + ChatColor.RED + "This code will only be valid for 5 minutes:");
+          sender.sendMessage(
+              ChatColor.AQUA + "Your key: " + ChatColor.YELLOW + OAuthConnector.getToken());
+        } else {
+          error(sender, NO_COMMAND_PERMISSION_MESSAGE);
+          return true;
+        }
       } else if (args[0].equalsIgnoreCase("stopall") && sender.hasPermission(
           "openaudio.admin.stopall")) {
         if (args.length == 2) {
@@ -366,8 +387,8 @@ public class AdminCommands implements CommandExecutor {
             UserManager.getPlayer(Bukkit.getPlayer(player.getName())).removeAllSyncedSounds();
           });
         } else {
-          sender.sendMessage(
-              Main.PREFIX + "Invalid command, please use /openaudio stopall <mc name>");
+          error(sender, "Invalid usage, please use /openaudio stopall <player>");
+          return true;
         }
       } else if (args[0].equalsIgnoreCase("loop") && sender.hasPermission("openaudio.admin.loop")) {
         //Play commands
@@ -839,7 +860,10 @@ public class AdminCommands implements CommandExecutor {
       sender.sendMessage(Main.PREFIX
           + "OpenAudio made with <3 by Mindgamesnl (you can use '/openaudio help' for help :P) need more help? Contact me!");
     }
-
     return true;
+  }
+
+  private void error(CommandSender sender, String message) {
+    sender.sendMessage(ChatColor.RED + message);
   }
 }

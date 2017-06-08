@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.Objects;
 import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
 import net.openaudiomc.actions.Command;
+import net.openaudiomc.actions.Spy;
 import net.openaudiomc.files.DataGetter;
 import net.openaudiomc.files.Messages;
 import net.openaudiomc.regions.RegionListener;
@@ -72,6 +73,7 @@ public class Main extends JavaPlugin {
     cm_callback.update();
     Bukkit.getServer().getPluginManager().registerEvents(new TimeoutManager(), this);
     Bukkit.getServer().getPluginManager().registerEvents(new EventListener(), this);
+    Bukkit.getServer().getPluginManager().registerEvents(new Spy(), this);
     System.out.println("[OpenAudio] Loading OpenAudioMc by Mindgamesnl/Me_is_mattyh");
 
     getCommand("connect").setExecutor(new AudioCommands());
@@ -278,7 +280,9 @@ public class Main extends JavaPlugin {
 
       }
       FileConfiguration datafileInst = YamlConfiguration.loadConfiguration(dataFile);
-      datafileInst.options().header("This is identifies the server and should be kept secret, do you have a bungeecord network? just set this id on all your server and bungeecord mode is activated :)");
+      datafileInst.options()
+          .header(
+              "This is identifies the server and should be kept secret, do you have a bungeecord network? just set this id on all your server and bungeecord mode is activated :)");
       datafileInst.set("Description",
           "This is identifies the server and should be kept secret, do you have a bungeecord network? just set this id on all your server and bungeecord mode is activated :)");
       datafileInst.set("serverID", Authenticator.getNewId().getString("server"));
