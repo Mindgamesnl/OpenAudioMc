@@ -13,38 +13,47 @@
  */
 package net.openaudiomc.utils;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.sk89q.worldguard.bukkit.WGBukkit;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import java.util.List;
+import lombok.experimental.UtilityClass;
 import net.openaudiomc.groups.GroupManager;
 import net.openaudiomc.core.Main;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-public class Selector {
+@UtilityClass public class Selector {
 
-  public static List<Player> playerSelector(CommandSender sender, String query) {
-    List<Player> list = new ArrayList<>();
-    if (query.startsWith("permission:")) {
+  public List<Player> playerSelector(CommandSender sender, String query) {
+    Preconditions.checkNotNull(sender, "Sender can't be null!");
+    Preconditions.checkNotNull(query, "Query can't be null!");
+
+    List<Player> list = Lists.newArrayList();
+    if (Bukkit.getPlayer(query) != null) {
+      list.add(Bukkit.getPlayer(query));
+    } else if (query.startsWith("permission:")) {
       String permission = query.replace("permission:", "");
-      for (Player p : Bukkit.getOnlinePlayers()) {
-        if (p.hasPermission(permission)) {
-          list.add(p);
+      Bukkit.getOnlinePlayers().forEach(player -> {
+        if (player.hasPermission(permission)) {
+          list.add(player);
         }
-      }
+      });
     } else if (query.startsWith("region:")) {
       String region = query.replace("region:", "");
-      for (Player p : Bukkit.getOnlinePlayers()) {
-        for (ProtectedRegion r : WGBukkit.getRegionManager(p.getWorld())
-            .getApplicableRegions(p.getLocation())) {
-          if (region.equalsIgnoreCase(r.getId())) {
-            list.add(p);
-          }
-        }
-      }
+      Bukkit.getOnlinePlayers()
+          .forEach(player -> WGBukkit.getRegionManager(player.getWorld())
+              .getApplicableRegions(player.getLocation())
+              .forEach(protectedRegion -> {
+                if (region.equalsIgnoreCase(protectedRegion.getId())) {
+                  list.add(player);
+                }
+              }));
     } else if (query.startsWith("group:")) {
       String target = query.replace("group:", "");
       if (GroupManager.get().getGroup(target).isPresent()) {
@@ -52,10 +61,8 @@ public class Selector {
       }
     } else if (query.equalsIgnoreCase("@a")) {
       list.addAll(Bukkit.getOnlinePlayers());
-    } else if (query.toLowerCase().contains(":".toLowerCase())) {
-      sender.sendMessage(Main.prefix + "Invalid selector.");
-    } else {
-      list.add(Bukkit.getPlayer(query));
+    } else if (query.toLowerCase().contains(":")) {
+      sender.sendMessage(Main.PREFIX + "Invalid selector.");
     }
     return list;
   }

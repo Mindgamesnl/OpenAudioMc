@@ -35,15 +35,15 @@ public class Spy {
       if (spyMap.get(sender)) {
         //is on
         spyMap.put(sender, false);
-        sender.sendMessage(Main.prefix + "Connection spy is " + ChatColor.RED + "Disabled");
+        sender.sendMessage(Main.PREFIX + "Connection spy is " + ChatColor.RED + "Disabled");
       } else {
         //is off
         spyMap.put(sender, true);
-        sender.sendMessage(Main.prefix + "Connection spy is " + ChatColor.GREEN + "Enabled");
+        sender.sendMessage(Main.PREFIX + "Connection spy is " + ChatColor.GREEN + "Enabled");
       }
     } else {
       spyMap.put(sender, true);
-      sender.sendMessage(Main.prefix + "Connection spy is " + ChatColor.GREEN + "Enabled");
+      sender.sendMessage(Main.PREFIX + "Connection spy is " + ChatColor.GREEN + "Enabled");
     }
   }
 
