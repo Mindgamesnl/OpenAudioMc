@@ -15,6 +15,7 @@ package net.openaudiomc.groups;
 
 import com.google.common.collect.Maps;
 import java.util.Optional;
+import lombok.Getter;
 import org.bukkit.entity.Player;
 import java.util.Map;
 
@@ -24,35 +25,13 @@ import java.util.Map;
  */
 public class GroupManager {
 
-    private static GroupManager instance;
+  @Getter private Map<String, Group> groups = Maps.newHashMap();
 
-    public static GroupManager get() {
-        return instance == null ? instance = new GroupManager() : instance;
+  public Optional<Group> getGroup(String group) {
+    if (groups.get(group) == null) {
+      return Optional.empty();
+    } else {
+      return Optional.of(groups.get(group));
     }
-
-    private Map<String, PlayerGroup> groups = Maps.newHashMap();
-
-    public void addToGroup(String group, Player p) {
-        if (groups.get(group) == null) {
-            groups.put(group, new PlayerGroup(group));
-            groups.get(group).addMember(p);
-        } else {
-            groups.get(group).addMember(p);
-        }
-    }
-
-    public void removeFromGroup(Player p) {
-        for (String string : groups.keySet()) {
-            PlayerGroup sel = groups.get(string);
-            sel.removeMember(p);
-        }
-    }
-
-    public Optional<PlayerGroup> getGroup(String group) {
-        if (groups.get(group) == null) {
-            return Optional.empty();
-        } else {
-            return Optional.of(groups.get(group));
-        }
-    }
+  }
 }

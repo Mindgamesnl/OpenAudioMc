@@ -19,7 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import lombok.Getter;
-import lombok.experimental.Accessors;
 import org.bukkit.Bukkit;
 
 import net.openaudiomc.core.Main;
@@ -49,7 +48,7 @@ import net.openaudiomc.core.Main;
     } catch (ParseException ignored) {
     }
 
-    this.schedule = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPL(), new Runnable() {
+    this.schedule = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.get(), new Runnable() {
       @Override public void run() {
         cycleTask();
       }
@@ -72,7 +71,7 @@ import net.openaudiomc.core.Main;
     } catch (ParseException e) {
       e.printStackTrace();
     }
-    this.schedule = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPL(), new Runnable() {
+    this.schedule = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.get(), new Runnable() {
       @Override public void run() {
         cycleTask();
       }

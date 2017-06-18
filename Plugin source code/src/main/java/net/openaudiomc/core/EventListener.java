@@ -15,10 +15,8 @@ package net.openaudiomc.core;
 
 import com.google.common.collect.Maps;
 import com.sk89q.worldguard.bukkit.WGBukkit;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 import net.openaudiomc.actions.Command;
-import net.openaudiomc.actions.Spy;
 import net.openaudiomc.files.Messages;
 import net.openaudiomc.groups.GroupManager;
 import net.openaudiomc.internal.events.*;
@@ -63,7 +61,7 @@ public class EventListener implements Listener {
             Bukkit.getPlayer(event.getPlayerName()), event.getData()));
 
     if (event.getData().equals("hueConnected")) {
-      player.sendMessage(Messages.getColor("hue-connected-message"));
+      Main.sm(player, "heu.connected.message");
       Bukkit.getServer()
           .getPluginManager()
           .callEvent(new me.mindgamesnl.openaudiomc.publicApi.HueConnectEvent(
@@ -87,7 +85,7 @@ public class EventListener implements Listener {
         AudioSpeakerManager.get().getListeners().put(event.getName(), false);
         Player client = Bukkit.getPlayer(event.getName());
         UserManager.addPlayer(client);
-        client.sendMessage(Messages.getColor("connected-message"));
+        Main.sm(client, "connected.message");
         if (Messages.get("start-sound") != null && Messages.get("start-sound") != "") {
           Command.playNormalSound(event.getName(), Messages.get("start-sound"));
         }
@@ -95,7 +93,7 @@ public class EventListener implements Listener {
         Emitter.connectedInServer(event.getName());
         isConnected.put(client.getName(), true);
         UserManager.getPlayer(client).syncSounds();
-        if (GetDep.getStatus()) {
+        if (Main.get().isRegionsEnabled()) {
           WGBukkit.getRegionManager(client.getWorld())
               .getApplicableRegions(client.getLocation())
               .forEach(protectedRegion -> {
@@ -125,7 +123,7 @@ public class EventListener implements Listener {
     String connector = (String) event.getName();
     OfflinePlayer player = Bukkit.getOfflinePlayer((String) event.getName());
     if (player.isOnline()) {
-      Bukkit.getPlayer(connector).sendMessage(Messages.getColor("disconnect-message"));
+      Main.sm(player.getPlayer(), "disconnected.message");
     }
     AudioSpeakerManager.get().stopForPlayer(connector);
   }
@@ -147,7 +145,7 @@ public class EventListener implements Listener {
   @EventHandler public void onPlayerJoin(final PlayerJoinEvent event) {
     //delay for if the player joined via bungee
     TimeoutManager.updateCounter();
-    Main.getPL().getServer().getScheduler().scheduleSyncDelayedTask(Main.getPL(), new Runnable() {
+    Main.get().getServer().getScheduler().scheduleSyncDelayedTask(Main.get(), new Runnable() {
       public void run() {
         Emitter.connectedInServer(event.getPlayer().getName());
         UserManager.addPlayer(event.getPlayer());
@@ -157,8 +155,8 @@ public class EventListener implements Listener {
         if (event.getPlayer().isOp()) {
           cm_callback.update();
           if (cm_callback.callbacks != 0) {
-            if (!Main.getPL().getDescription().getVersion().equals(cm_callback.lastVersion)) {
-              String currentVersion = Main.getPL().getDescription().getVersion();
+            if (!Main.get().getDescription().getVersion().equals(cm_callback.lastVersion)) {
+              String currentVersion = Main.get().getDescription().getVersion();
               String newVersion = cm_callback.lastVersion;
               String updateTitle = cm_callback.updateTitle;
               String message = Main.PREFIX
@@ -202,20 +200,22 @@ public class EventListener implements Listener {
     Command.stopAllRegions(p.getName());
     Emitter.offlineInServer(p.getName());
     AudioSpeakerManager.get().stopForPlayer(event.getPlayer().getName());
-    /* CAN BE NULL */
-    if (RegionListener.history.get(p) != null) {
-      RegionListener.history.get(p).clear();
+    if (RegionListener.getHistory().get(p) != null) {
+      RegionListener.getHistory().get(p).clear();
     }
     AudioSpeakerManager.get().getListeners().put(event.getPlayer().getName(), false);
-    GroupManager.get().removeFromGroup(event.getPlayer());
-    Main.getPL()
-        .getServer()
-        .getScheduler()
-        .runTaskLaterAsynchronously(Main.getPL(), new Runnable() {
-          @Override public void run() {
-            TimeoutManager.updateCounter();
-          }
-        }, 5);
+    Main.get().getGroupManager().getGroups().keySet().forEach(s -> {
+      if (Main.get().getGroupManager().getGroup(s).isPresent()) {
+        if (Main.get().getGroupManager().getGroup(s).get().getMembers().contains(p.getUniqueId())) {
+          Main.get().getGroupManager().getGroup(s).get().removeMember(p.getUniqueId());
+        }
+      }
+    });
+    Main.get().getServer().getScheduler().runTaskLaterAsynchronously(Main.get(), new Runnable() {
+      @Override public void run() {
+        TimeoutManager.updateCounter();
+      }
+    }, 5);
   }
 
   @EventHandler public void onPlayerTeleport(PlayerTeleportEvent event) {
@@ -229,11 +229,7 @@ public class EventListener implements Listener {
 
   public static Boolean isConnected(String name) {
     if (isConnected.get(name) != null) {
-      if (!isConnected.get(name)) {
-        return false;
-      } else {
-        return true;
-      }
+      return isConnected.get(name);
     } else {
       return false;
     }

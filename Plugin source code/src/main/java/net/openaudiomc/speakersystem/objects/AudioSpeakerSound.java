@@ -45,7 +45,7 @@ public class AudioSpeakerSound {
 	
 	@SuppressWarnings("deprecation")
 	void startRun() {
-		this.schedule = Bukkit.getScheduler().scheduleAsyncRepeatingTask(Main.getPL(), new Runnable() {
+		this.schedule = Bukkit.getScheduler().scheduleAsyncRepeatingTask(Main.get(), new Runnable() {
             @Override
             public void run() {
             	repeat();

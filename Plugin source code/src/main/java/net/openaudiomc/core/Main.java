@@ -17,21 +17,25 @@ import java.io.File;
 import java.io.IOException;
 
 import java.util.Objects;
+import java.util.Optional;
+import java.util.logging.Logger;
+import lombok.Getter;
 import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
 import net.openaudiomc.actions.Command;
 import net.openaudiomc.actions.Spy;
 import net.openaudiomc.files.DataGetter;
-import net.openaudiomc.files.Messages;
+import net.openaudiomc.groups.GroupManager;
 import net.openaudiomc.regions.RegionListener;
 import net.openaudiomc.socket.SocketioConnector;
 import net.openaudiomc.socket.cm_callback;
 import net.openaudiomc.speakersystem.SpeakerMain;
 import net.openaudiomc.speakersystem.managers.AudioSpeakerManager;
+import net.openaudiomc.utils.lang.SimpleMessageProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -41,20 +45,28 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import net.openaudiomc.socket.Authenticator;
 import net.openaudiomc.socket.TimeoutManager;
 import net.openaudiomc.commands.AdminCommands;
-import net.openaudiomc.commands.AudioCommands;
+import net.openaudiomc.commands.AudioCommand;
 import net.openaudiomc.commands.VolumeCommand;
 import net.openaudiomc.internal.events.SkriptRegistration;
 
 public class Main extends JavaPlugin {
 
+  //CONSTANT
   public static String PREFIX =
       ChatColor.translateAlternateColorCodes('&', "&9[&bOpenAudioMc&9] &3");
+  private static final SimpleMessageProvider SIMPLE_MESSAGE_PROVIDER =
+      new SimpleMessageProvider("openaudio");
+
+
+  private GroupManager groupManager;
 
   private static Main instance;
   private static File MessagesFile;
   private static FileConfiguration MessagesConfig;
+  @Getter private boolean regionsEnabled = false;
+  @Getter private boolean skriptEnabled = false;
 
-  public static Main getPL() {
+  public static Main get() {
     return instance;
   }
 
@@ -63,49 +75,56 @@ public class Main extends JavaPlugin {
 
     long start = System.currentTimeMillis();
 
-    GetDep.runCheck();
+    System.out.println("[OpenAudio] Loading OpenAudioMc by Mindgamesnl/Me_is_mattyh");
+
+    /*  DEPENDENCIES  */
+    if (getServer().getPluginManager().isPluginEnabled("WorldGuard")
+        && getServer().getPluginManager().isPluginEnabled("WorldEdit")) {
+      regionsEnabled = true;
+      System.out.println("[OpenAudio] All dependencies are detected, regions will be enabled!");
+
+      Bukkit.getServer().getPluginManager().registerEvents(new RegionListener(), this);
+      RegionListener.setup(this, getWGPlugin());
+    } else {
+      regionsEnabled = false;
+      System.out.println(
+          "[OpenAudio] Not all dependencies are installed, the region functions will NOT work! please install WorldEdit and WorldGuard");
+    }
+    if (getServer().getPluginManager().isPluginEnabled("Skript")) {
+      skriptEnabled = true;
+      System.out.println("[OpenAudio] All dependencies are detected, regions will be enabled!");
+      Skript.registerAddon(this);
+      SkriptRegistration.load();
+    } else {
+      skriptEnabled = false;
+      System.out.println(
+          "[OpenAudio] Skript was not found in your server, guess we're not loading the sk-events then.");
+    }
 
     createDataFile();
     createRegionsFile();
-    createMessagesFile();
+    //createMessagesFile();
     createServerNode();
     createPlaylist();
     cm_callback.update();
+    groupManager = new GroupManager();
+
     Bukkit.getServer().getPluginManager().registerEvents(new TimeoutManager(), this);
     Bukkit.getServer().getPluginManager().registerEvents(new EventListener(), this);
     Bukkit.getServer().getPluginManager().registerEvents(new Spy(), this);
-    System.out.println("[OpenAudio] Loading OpenAudioMc by Mindgamesnl/Me_is_mattyh");
 
-    getCommand("connect").setExecutor(new AudioCommands());
+    getCommand("connect").setExecutor(new AudioCommand());
     getCommand("volume").setExecutor(new VolumeCommand());
-    getCommand("openaudio").setExecutor(new AdminCommands());
-
-    if (GetDep.getStatus()) {
-      Bukkit.getServer().getPluginManager().registerEvents(new RegionListener(), this);
-      RegionListener.setup(this, getWGPlugin());
-    }
-
-    if (GetDep.isSkriptInstalled()) {
-      Skript.registerAddon(this);
-      SkriptRegistration.load();
-      System.out.println("[OpenAudio] Whoah! just like that! loaded the skript events :D");
-    } else {
-      System.out.println(
-          "[OpenAudio] Skript was not found in your server, gues we're not loading the sk-events then.");
-    }
-
+    getCommand("openaudio").setExecutor(new AdminCommands(this));
     TimeoutManager.updateCounter();
 
-    Bukkit.getLogger().info("[OpenAudio] Loading speakers.");
 
     Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
       SpeakerMain.loadSounds();
       SpeakerMain.loadSpeaker();
       AudioSpeakerManager.get().init();
     }, 20 * 5);
-
-    System.out.println(
-        "[OpenAudio] OpenAudio started in " + (System.currentTimeMillis() - start) + "ms!");
+    info(getLogger(), "plugin.enabled", (System.currentTimeMillis() - start));
   }
 
   @Override public void onDisable() {
@@ -119,7 +138,11 @@ public class Main extends JavaPlugin {
     instance = null;
   }
 
-  private void createMessagesFile() {
+  public GroupManager getGroupManager() {
+    return groupManager;
+  }
+
+  /*private void createMessagesFile() {
     MessagesFile = new File("plugins/OpenAudio", "messages.yml");
     if (!MessagesFile.exists()) {
       try {
@@ -128,29 +151,6 @@ public class Main extends JavaPlugin {
 
       }
       MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
-      MessagesConfig.set("Description",
-          "This is the place to change the messges, host url and more :)");
-      MessagesConfig.set("start-sound", "https://craftmend.com/api_SSL/openaudio/load_sound.mp3");
-      MessagesConfig.set("website-url",
-          "http://client.openaudiomc.net/?name=%name%&session=%session%");
-      MessagesConfig.set("connect-message",
-          "&9[&bOpenAudioMc&9] &3Click &ehere&3 to connect to our audio server!");
-      MessagesConfig.set("disconnect-message",
-          "&9[&bOpenAudioMc&9] &3You are now &4Disconnected&3 from our audio server!");
-      MessagesConfig.set("connected-message",
-          "&9[&bOpenAudioMc&9] &3You are now &aConnected&3 to our audio server!");
-      MessagesConfig.set("hue-connected-message",
-          "&9[&bOpenAudioMc&9] &3You are now &aConnected&3 with your philips &dh&bu&ae&3!");
-      MessagesConfig.set("volume-set",
-          "&9[&bVolume&9] &3Your volume has been set to &a%volume%&3%");
-      MessagesConfig.set("volume-error", "&9[&bVolume&9] &4Invalid arguments.");
-      MessagesConfig.set("volume-hotbar-on", "&9[&bVolume&9] &3Hotbar volume is &2Enabled&2.");
-      MessagesConfig.set("volume-hotbar-off", "&9[&bVolume&9] &3Hotbar volume is &4Disabled&2.");
-      MessagesConfig.set("need-connected",
-          "&9[&bOpenAudioMc&9] &3You need to be connected to do this command.");
-      MessagesConfig.set("socketio-loading",
-          "&eOur audio client is starting up. Please try again in a few seconds.");
-
       try {
         MessagesConfig.save(MessagesFile);
       } catch (IOException e) {
@@ -169,31 +169,6 @@ public class Main extends JavaPlugin {
         e.printStackTrace();
       }
     }
-
-    if (Messages.get("disconnect-message") == null) {
-      MessagesFile = new File("plugins/OpenAudio", "messages.yml");
-      MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
-      MessagesConfig.set("disconnect-message",
-          "&9[&bOpenAudioMc&9] &3You are now &4Disconnected&3 from our audio server!");
-      try {
-        MessagesConfig.save(MessagesFile);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-
-    if (Messages.get("socketio-loading") == null) {
-      MessagesFile = new File("plugins/OpenAudio", "messages.yml");
-      MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
-      MessagesConfig.set("socketio-loading",
-          "&eOur audio client is starting up. Please try again in a few seconds.");
-      try {
-        MessagesConfig.save(MessagesFile);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-
     if (Messages.get("background-image") == null) {
       MessagesFile = new File("plugins/OpenAudio", "messages.yml");
       MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
@@ -215,43 +190,7 @@ public class Main extends JavaPlugin {
         e.printStackTrace();
       }
     }
-
-    if (Messages.get("volume-hotbar-on") == null) {
-      MessagesFile = new File("plugins/OpenAudio", "messages.yml");
-      MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
-      MessagesConfig.set("volume-hotbar-on", "&9[&bVolume&9] &3Hotbar volume is &2Enabled&2.");
-      MessagesConfig.set("volume-hotbar-off", "&9[&bVolume&9] &3Hotbar volume is &4Disabled&2.");
-      try {
-        MessagesConfig.save(MessagesFile);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-
-    if (Messages.get("need-connected") == null) {
-      MessagesFile = new File("plugins/OpenAudio", "messages.yml");
-      MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
-      MessagesConfig.set("need-connected",
-          "&9[&bOpenAudioMc&9] &3You need to be connected to do this command.");
-      try {
-        MessagesConfig.save(MessagesFile);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-
-    if (Messages.get("hue-connected-message") == null) {
-      MessagesFile = new File("plugins/OpenAudio", "messages.yml");
-      MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
-      MessagesConfig.set("hue-connected-message",
-          "&9[&bOpenAudioMc&9] &3You are now &aConnected&3 with your philips &dh&bu&ae&3!");
-      try {
-        MessagesConfig.save(MessagesFile);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-  }
+  }*/
 
   public void createRegionsFile() {
     File regionsFile = new File("plugins/OpenAudio", "regions.yml");
@@ -386,5 +325,22 @@ public class Main extends JavaPlugin {
       return null;
     }
     return (WorldGuardPlugin) plugin;
+  }
+
+  public static void info(Logger logger, String key, Object... args) {
+    tr(key, args).ifPresent(logger::info);
+  }
+
+  public static void warning(Logger logger, String key, Object... args) {
+    tr(key, args).ifPresent(logger::warning);
+  }
+
+  public static void sm(CommandSender sender, String key, Object... args) {
+    tr(key, args).map(s -> ChatColor.translateAlternateColorCodes('&', s))
+        .ifPresent(sender::sendMessage);
+  }
+
+  public static Optional<String> tr(String key, Object... args) {
+    return SIMPLE_MESSAGE_PROVIDER.get(key, args);
   }
 }

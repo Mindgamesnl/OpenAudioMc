@@ -14,49 +14,40 @@
 package net.openaudiomc.commands;
 
 import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
-import net.openaudiomc.files.Messages;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-
 import org.bukkit.entity.Player;
+
+import static net.openaudiomc.commands.AdminCommands.error;
+import static net.openaudiomc.core.Main.sm;
 
 public class VolumeCommand implements CommandExecutor {
 
   @Override
   public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-    if (OpenAudioApi.isConnected((Player) sender)) {
-      if (args.length > 0) {
-        if (isInt(args[0])) {
-          if (Integer.parseInt(args[0]) > 100 || Integer.parseInt(args[0]) < -1) {
-            sender.sendMessage(Messages.getColor("volume-error"));
-            return false;
-          } else {
-            String bericht = Messages.getColor("volume-set");
-            bericht = bericht.replace("%volume%", args[0]);
-            sender.sendMessage(bericht);
+    if (sender instanceof Player) {
+      if (OpenAudioApi.isConnected((Player) sender)) {
+        if (args.length > 0) {
+          if (args[0].chars().allMatch(Character::isDigit) && (Integer.parseInt(args[0]) > 100
+              && Integer.parseInt(args[0]) < -1)) {
+            sm(sender, "volume.set", args[0]);
             net.openaudiomc.actions.Command.setVolume(sender.getName(), args[0]);
+            return true;
+          } else {
+            sm(sender, "volume.error");
             return true;
           }
         } else {
-          sender.sendMessage(Messages.getColor("volume-error"));
-          return false;
+          return true;
         }
       } else {
-        return false;
+        sm(sender, "volume.error");
+        return true;
       }
     } else {
-      sender.sendMessage(Messages.getColor("need-connected"));
-      return false;
+      error(sender, AdminCommands.NO_PLAYER_INSTANCE);
+      return true;
     }
-  }
-
-  public static boolean isInt(String s) {
-    try {
-      Integer.parseInt(s);
-    } catch (NumberFormatException nfe) {
-      return false;
-    }
-    return true;
   }
 }

@@ -13,6 +13,8 @@
  */
 package net.openaudiomc.socket;
 
+import com.google.common.collect.Lists;
+import lombok.Getter;
 import net.openaudiomc.internal.events.SocketConnectEvent;
 import net.openaudiomc.internal.events.SocketDisconnectEvent;
 import net.openaudiomc.core.EventListener;
@@ -25,20 +27,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TimeoutManager implements Listener {
-  public static Boolean ioconnected = false;
-  public static Boolean ioready = false;
-  public static Boolean connecting = false;
+  @Getter private static boolean connected = false;
+  @Getter private static boolean ready = false;
+  @Getter private static boolean connecting = false;
 
   @EventHandler public void onSocketConnected(SocketConnectEvent event) {
     connecting = false;
-    ioconnected = true;
-    ioready = true;
-    cm_callback.connections_made++;
+    connected = true;
+    ready = true;
+    cm_callback.callbacks++;
   }
 
   public static void requestConnect() {
     try {
-      if (!ioconnected) {
+      if (!isConnected()) {
         cm_callback.update();
         Bukkit.getLogger().info("[OpenAudio] Reconnecting to the openaudiomc socket server.");
         if (!connecting) {
@@ -55,7 +57,7 @@ public class TimeoutManager implements Listener {
 
   public static void updateCounter() {
     Integer connectedPlayersCount = 0;
-    List<Boolean> list = new ArrayList<>(EventListener.isConnected.values());
+    List<Boolean> list = Lists.newArrayList(EventListener.isConnected.values());
     for (Boolean value : list) {
       if (value) {
         connectedPlayersCount++;
@@ -63,7 +65,7 @@ public class TimeoutManager implements Listener {
     }
 
     if (connectedPlayersCount == 0) {
-      if (ioconnected) {
+      if (isConnected()) {
         cm_callback.update();
         Bukkit.getLogger().info("[OpenAudio] Closing connection with the socket server.");
         SocketioConnector.close();
@@ -71,7 +73,7 @@ public class TimeoutManager implements Listener {
       return;
     }
     if (Bukkit.getOnlinePlayers().size() == 0) {
-      if (ioconnected) {
+      if (isConnected()) {
         cm_callback.update();
         Bukkit.getLogger().info("[OpenAudio] Closing connection with the socket server.");
         SocketioConnector.close();
@@ -84,7 +86,7 @@ public class TimeoutManager implements Listener {
   }
 
   @EventHandler public void onSocketDisconnected(SocketDisconnectEvent event) {
-    ioconnected = false;
-    cm_callback.connections_closed++;
+    connected = false;
+    cm_callback.connectionsClosed++;
   }
 }

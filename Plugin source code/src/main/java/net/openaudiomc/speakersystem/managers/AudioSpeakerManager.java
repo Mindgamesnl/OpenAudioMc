@@ -20,7 +20,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import java.util.Map;
@@ -119,7 +118,7 @@ import net.openaudiomc.socket.cm_callback;
 
   public void init() {
     running = true;
-    timer = Bukkit.getScheduler().scheduleAsyncRepeatingTask(Main.getPL(), new Runnable() {
+    timer = Bukkit.getScheduler().scheduleAsyncRepeatingTask(Main.get(), new Runnable() {
       @Override public void run() {
         for (Player p : Bukkit.getOnlinePlayers()) {
           if (OpenAudioApi.isConnected(p)) {
