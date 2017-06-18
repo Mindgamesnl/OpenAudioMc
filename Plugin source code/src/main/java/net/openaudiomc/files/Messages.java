@@ -20,6 +20,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class Messages {
+/*
 	public static String getColor(String path) {
 		FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "messages.yml"));
 		String message_admin = cfg.getString(path);
@@ -27,10 +28,9 @@ public class Messages {
 		message_admin = ChatColor.translateAlternateColorCodes('$', message_admin);
 		return message_admin;
 	}
-
+*/
 	public static String get(String path) {
 		FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "messages.yml"));
 		return cfg.getString(path);
 	}
-
 }

@@ -37,131 +37,116 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 public class SocketioConnector {
-    public static Object socket;
+  public static Object socket;
 
-    public static void connect() {
-        try {
-            FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio/advanced", "advancedConfig.yml"));
-            String apiresponse = Authenticator.getNodeServer(cfg.getString("host"));
+  public static void connect() {
+    try {
+      FileConfiguration cfg = YamlConfiguration.loadConfiguration(
+          new File("plugins/OpenAudio/advanced", "advancedConfig.yml"));
+      String apiResponse = Authenticator.getNodeServer(cfg.getString("host"));
 
-            JSONObject jsonObject = (JSONObject) JSONValue.parse(apiresponse);
+      JSONObject jsonObject = (JSONObject) JSONValue.parse(apiResponse);
 
-            SSLContext sc = SSLContext.getInstance("TLS");
-            sc.init(null, trustAllCerts, new SecureRandom());
-            IO.setDefaultSSLContext(sc);
-            HttpsURLConnection.setDefaultHostnameVerifier(new RelaxedHostNameVerifier());
+      SSLContext sc = SSLContext.getInstance("TLS");
+      sc.init(null, trustAllCerts, new SecureRandom());
+      IO.setDefaultSSLContext(sc);
+      HttpsURLConnection.setDefaultHostnameVerifier(new RelaxedHostNameVerifier());
 
-            IO.Options options = new IO.Options();
-            options.sslContext = sc;
-            options.secure = true;
-            options.port = 3000;
+      IO.Options options = new IO.Options();
+      options.sslContext = sc;
+      options.secure = true;
+      options.port = 3000;
 
-            socket = IO.socket((String) jsonObject.get("secureSocket"), options);
-            
-            ((Emitter) socket).on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-                @Override
-                public void call(Object...args) {
-                    JSONObject obj = new JSONObject();
-                    obj.put("type", "server");
-                    obj.put("id", Authenticator.getID());
-                    ((Socket) socket).emit("message", obj.toString());
-                    SocketConnect();
-                }
-            }).on("userconnect", new Emitter.Listener() {
-                @Override
-                public void call(Object...args) {
-                    ConnectEvent(args[0]);
-                }
-            }).on("userdisconnect", new Emitter.Listener() {
-                @Override
-                public void call(Object...args) {
-                    DisconnectEvent(args[0]);
-                }
-            }).on("whisperFromClient", new Emitter.Listener() {
-                @Override
-                public void call(Object...args) {
-                	whisper(args[0]);
-                }
-            }).on("command", new Emitter.Listener() {
-                @Override
-                public void call(Object...args) {
-                    SocketCommandEvent(args[0]);
-                }
-            }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
-                @Override
-                public void call(Object...args) {
-                    SocketDisconnect();
-                }
-            });
-            ((Socket) socket).connect();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+      socket = IO.socket((String) jsonObject.get("secureSocket"), options);
+
+      ((Emitter) socket).on(Socket.EVENT_CONNECT, args -> {
+        JSONObject obj = new JSONObject();
+        obj.put("type", "server");
+        obj.put("id", Authenticator.getID());
+        ((Socket) socket).emit("message", obj.toString());
+        SocketConnect();
+      })
+          .on("userconnect", args -> ConnectEvent(args[0]))
+          .on("userdisconnect", args -> DisconnectEvent(args[0]))
+          .on("whisperFromClient", args -> whisper(args[0]))
+          .on("command", args -> SocketCommandEvent(args[0]))
+          .on(Socket.EVENT_DISCONNECT, args -> SocketDisconnect());
+      ((Socket) socket).connect();
+    } catch (Exception exception) {
+      exception.printStackTrace();
+    }
+  }
+
+  public static void close() {
+    ((Socket) socket).close();
+    ((Socket) socket).disconnect();
+  }
+
+  private static void SocketConnect() {
+    Bukkit.getServer()
+        .getPluginManager()
+        .callEvent(new net.openaudiomc.internal.events.SocketConnectEvent());
+  }
+
+  private static void SocketDisconnect() {
+    Bukkit.getServer()
+        .getPluginManager()
+        .callEvent(new net.openaudiomc.internal.events.SocketDisconnectEvent());
+  }
+
+  private static void whisper(Object args) {
+    String request = (String) args;
+    JSONObject jsonObject = (JSONObject) JSONValue.parse(request);
+
+    String sender = (String) jsonObject.get("sender");
+    String content = (String) jsonObject.get("content");
+
+    SocketWhisperEvent whisperEvent = new SocketWhisperEvent(sender, content);
+    Bukkit.getServer().getPluginManager().callEvent(whisperEvent);
+  }
+
+  private static void ConnectEvent(Object args) {
+    String request = (String) args;
+    JSONObject jsonObject = (JSONObject) JSONValue.parse(request);
+
+    String name = (String) jsonObject.get("name");
+    String key = (String) jsonObject.get("key");
+
+    SocketUserConnectEvent connectEvent = new SocketUserConnectEvent(name, key);
+    Bukkit.getServer().getPluginManager().callEvent(connectEvent);
+  }
+
+  private static void DisconnectEvent(Object args) {
+    Bukkit.getServer()
+        .getPluginManager()
+        .callEvent(new net.openaudiomc.internal.events.SocketUserDisconnectEvent(args));
+  }
+
+  private static void SocketCommandEvent(Object args) {
+    Bukkit.getServer()
+        .getPluginManager()
+        .callEvent(new net.openaudiomc.internal.events.SocketCommandEvent(args));
+  }
+
+  private static TrustManager[] trustAllCerts = new TrustManager[] {
+      new X509TrustManager() {
+        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+          return new java.security.cert.X509Certificate[] {};
         }
-    }
-    
-    public static void close() {
-        ((Socket) socket).close();
-    	((Socket) socket).disconnect();
-    }
 
-    public static void SocketConnect() {
-        Bukkit.getServer().getPluginManager().callEvent(new net.openaudiomc.internal.events.SocketConnectEvent());
-    }
-
-    public static void SocketDisconnect() {
-        Bukkit.getServer().getPluginManager().callEvent(new net.openaudiomc.internal.events.SocketDisconnectEvent());
-    }
-    
-    public static void whisper(Object args) {
-    	String request = (String) args;
-        JSONObject jsonObject = (JSONObject) JSONValue.parse(request);
-
-        String sender = (String) jsonObject.get("sender");
-        String content = (String) jsonObject.get("content");
-
-        SocketWhisperEvent whisperEvent = new SocketWhisperEvent(sender, content);
-        Bukkit.getServer().getPluginManager().callEvent(whisperEvent);
-    }
-
-    public static void ConnectEvent(Object args) {
-        String request = (String) args;
-        JSONObject jsonObject = (JSONObject) JSONValue.parse(request);
-
-        String name = (String) jsonObject.get("name");
-        String key = (String) jsonObject.get("key");
-
-        SocketUserConnectEvent connectEvent = new SocketUserConnectEvent(name, key);
-        Bukkit.getServer().getPluginManager().callEvent(connectEvent);
-    }
-
-    public static void DisconnectEvent(Object args) {
-        Bukkit.getServer().getPluginManager().callEvent(new net.openaudiomc.internal.events.SocketUserDisconnectEvent(args));
-    }
-
-    public static void SocketCommandEvent(Object args) {
-        Bukkit.getServer().getPluginManager().callEvent(new net.openaudiomc.internal.events.SocketCommandEvent(args));
-    }
-
-    private static TrustManager[] trustAllCerts = new TrustManager[] {
-        new X509TrustManager() {
-            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                return new java.security.cert.X509Certificate[] {};
-            }
-
-            public void checkClientTrusted(X509Certificate[] chain,
-                String authType) throws CertificateException {}
-
-            public void checkServerTrusted(X509Certificate[] chain,
-                String authType) throws CertificateException {}
+        public void checkClientTrusted(X509Certificate[] chain, String authType)
+            throws CertificateException {
         }
-    };
 
-    public static class RelaxedHostNameVerifier implements HostnameVerifier {
-        public boolean verify(String hostname, SSLSession session) {
-            return true;
+        public void checkServerTrusted(X509Certificate[] chain, String authType)
+            throws CertificateException {
         }
+      }
+  };
+
+  public static class RelaxedHostNameVerifier implements HostnameVerifier {
+    public boolean verify(String hostname, SSLSession session) {
+      return true;
     }
+  }
 }

@@ -23,7 +23,7 @@ import org.json.simple.JSONObject;
 public class Emitter {
 
   public static void EmitToPlayer(String player, String message) {
-    if (TimeoutManager.ioready) {
+    if (TimeoutManager.isReady()) {
       try {
         if (player.equalsIgnoreCase("@a")) {
           for (Player p : Bukkit.getServer().getOnlinePlayers()) {
@@ -56,7 +56,7 @@ public class Emitter {
   }
 
   public static void offlineInServer(String name) {
-    if (TimeoutManager.ioready) {
+    if (TimeoutManager.isReady()) {
       JSONObject obj = new JSONObject();
       obj.put("target", name);
       obj.put("commandobj", "not_in_server");
@@ -65,7 +65,7 @@ public class Emitter {
   }
 
   public static void connectedInServer(String name) {
-    if (TimeoutManager.ioready) {
+    if (TimeoutManager.isReady()) {
       JSONObject obj = new JSONObject();
       obj.put("target", name);
       obj.put("commandobj", "connectionSuccess");

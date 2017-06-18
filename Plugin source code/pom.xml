@@ -7,7 +7,7 @@
 
     <groupId>net.openaudiomc</groupId>
     <artifactId>OpenAudioMc</artifactId>
-    <version>2.7-pre1</version>
+    <version>2.7-pre3</version>
     <packaging>jar</packaging>
 
     <name>OpenAudioMc</name>
@@ -68,7 +68,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.12-pre6-SNAPSHOT</version>
+            <version>1.12-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

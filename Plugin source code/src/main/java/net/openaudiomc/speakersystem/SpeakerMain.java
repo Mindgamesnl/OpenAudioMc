@@ -13,6 +13,7 @@
  */
 package net.openaudiomc.speakersystem;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import lombok.Getter;
@@ -47,7 +49,7 @@ public class SpeakerMain {
   @Getter private static Map<Player, ArrayList<AudioSpeaker>> selection = Maps.newHashMap();
 
   public static void giveSpeaker(Player p, String file) {
-    placer.put(p, file);
+    getPlacer().put(p, file);
     ItemStack skull = new ItemStack(Material.SKULL_ITEM);
     skull.setDurability((short) 3);
     SkullMeta sm = (SkullMeta) skull.getItemMeta();
@@ -64,15 +66,15 @@ public class SpeakerMain {
       try {
         try {
           savedFile.createNewFile();
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         }
         FileConfiguration regionsFileInst = YamlConfiguration.loadConfiguration(savedFile);
         regionsFileInst.set("src", src);
         try {
           regionsFileInst.save(savedFile);
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         }
-      } catch (NullPointerException e) {
+      } catch (NullPointerException ignored) {
 
       }
     }
@@ -88,12 +90,10 @@ public class SpeakerMain {
           AudioSpeakerManager.get()
               .createSound(config.getString("src") + "_sound", config.getString("src"),
                   config.getInt("volume"), null, file);
-        } catch (FileNotFoundException e) {
-        } catch (IOException e) {
-        } catch (InvalidConfigurationException e) {
+        } catch (InvalidConfigurationException | IOException ignored) {
         }
       }
-    } catch (NullPointerException e) {
+    } catch (NullPointerException ignored) {
 
     }
   }
@@ -110,12 +110,10 @@ public class SpeakerMain {
                   config.getString("src") + "_sound",
                   new Location(Bukkit.getWorld(config.getString("world")), config.getLong("x"),
                       config.getLong("y"), config.getLong("z")));
-        } catch (FileNotFoundException e) {
-        } catch (IOException e) {
-        } catch (InvalidConfigurationException e) {
+        } catch (InvalidConfigurationException | IOException ignored) {
         }
       }
-    } catch (NullPointerException e) {
+    } catch (NullPointerException ignored) {
 
     }
   }
@@ -126,7 +124,7 @@ public class SpeakerMain {
     if (!savedFile.exists()) {
       try {
         savedFile.createNewFile();
-      } catch (IOException e) {
+      } catch (IOException ignored) {
       }
       FileConfiguration regionsFileInst = YamlConfiguration.loadConfiguration(savedFile);
       regionsFileInst.set("src", src);
@@ -136,7 +134,7 @@ public class SpeakerMain {
       regionsFileInst.set("world", g);
       try {
         regionsFileInst.save(savedFile);
-      } catch (IOException e) {
+      } catch (IOException ignored) {
       }
     }
   }
@@ -149,12 +147,12 @@ public class SpeakerMain {
             || event.getClickedBlock().getType() == Material.NOTE_BLOCK) {
           if (AudioSpeakerManager.get().getSpeakers().get(event.getClickedBlock().getLocation())
               != null) {
-            if (selection.get(p) != null) {
-              if (!selection.get(p)
+            if (getSelection().get(p) != null) {
+              if (!getSelection().get(p)
                   .contains(AudioSpeakerManager.get()
                       .getSpeakers()
                       .get(event.getClickedBlock().getLocation()))) {
-                selection.get(p)
+                getSelection().get(p)
                     .add(AudioSpeakerManager.get()
                         .getSpeakers()
                         .get(event.getClickedBlock().getLocation()));
@@ -167,18 +165,18 @@ public class SpeakerMain {
                         .getSoundid())
                     .getSource());
               } else {
-                selection.get(p)
+                getSelection().get(p)
                     .remove(AudioSpeakerManager.get()
                         .getSpeakers()
                         .get(event.getClickedBlock().getLocation()));
                 p.sendMessage(Main.PREFIX + "Removed speaker from selection.");
               }
             } else {
-              ArrayList<AudioSpeaker> selected = new ArrayList<AudioSpeaker>();
+              ArrayList<AudioSpeaker> selected = Lists.newArrayList();
               selected.add(AudioSpeakerManager.get()
                   .getSpeakers()
                   .get(event.getClickedBlock().getLocation()));
-              selection.put(p, selected);
+              getSelection().put(p, selected);
               p.sendMessage(Main.PREFIX + "Added speaker to selection.");
             }
           } else {
@@ -195,14 +193,6 @@ public class SpeakerMain {
       try {
         if (skull.getOwner().equalsIgnoreCase("OpenAudioMc")) {
           if (AudioSpeakerManager.get().getSpeakers().get(event.getBlock().getLocation()) != null) {
-
-            String sound = AudioSpeakerManager.get()
-                .getSounds()
-                .get(AudioSpeakerManager.get()
-                    .getSpeakers()
-                    .get(event.getBlock().getLocation())
-                    .getSoundid())
-                .getSource();
             File speakerfile = new File("plugins/OpenAudio/speakers/speakers/"
                 + event.getBlock().getLocation().getBlockX()
                 + ".0-"
@@ -228,19 +218,11 @@ public class SpeakerMain {
                     + "Did not remove speaker, no sound assigned to this speaker.");
           }
         }
-      } catch (NullPointerException e) {
+      } catch (NullPointerException ignored) {
 
       }
     } else if (event.getBlock().getType() == Material.NOTE_BLOCK) {
       if (AudioSpeakerManager.get().getSpeakers().get(event.getBlock().getLocation()) != null) {
-
-        String sound = AudioSpeakerManager.get()
-            .getSounds()
-            .get(AudioSpeakerManager.get()
-                .getSpeakers()
-                .get(event.getBlock().getLocation())
-                .getSoundid())
-            .getSource();
         File speakerfile = new File("plugins/OpenAudio/speakers/speakers/"
             + event.getBlock().getLocation().getBlockX()
             + ".0-"
@@ -274,10 +256,10 @@ public class SpeakerMain {
         Skull skull = (Skull) target.getState();
         if (skull.getSkullType() == SkullType.PLAYER) {
           if (skull.getOwner().equalsIgnoreCase("OpenAudioMc")) {
-            if (selection.get(p) != null) {
-              if (!selection.get(p)
+            if (getSelection().get(p) != null) {
+              if (!getSelection().get(p)
                   .contains(AudioSpeakerManager.get().getSpeakers().get(target.getLocation()))) {
-                selection.get(p)
+                getSelection().get(p)
                     .add(AudioSpeakerManager.get().getSpeakers().get(target.getLocation()));
                 p.sendMessage(Main.PREFIX + "Added speaker to selection. Url:" + AudioSpeakerManager
                     .get()
@@ -288,14 +270,14 @@ public class SpeakerMain {
                         .getSoundid())
                     .getSource());
               } else {
-                selection.get(p)
+                getSelection().get(p)
                     .remove(AudioSpeakerManager.get().getSpeakers().get(target.getLocation()));
                 p.sendMessage(Main.PREFIX + "Removed speaker from selection.");
               }
             } else {
-              ArrayList<AudioSpeaker> selected = new ArrayList<AudioSpeaker>();
+              ArrayList<AudioSpeaker> selected = Lists.newArrayList();
               selected.add(AudioSpeakerManager.get().getSpeakers().get(target.getLocation()));
-              selection.put(p, selected);
+              getSelection().put(p, selected);
               p.sendMessage(Main.PREFIX + "Added speaker to selection.");
             }
           }
@@ -311,18 +293,18 @@ public class SpeakerMain {
         if (skull.getSkullType() == SkullType.PLAYER) {
           if (skull.hasOwner()) {
             if (skull.getOwner().equalsIgnoreCase("OpenAudioMc")) {
-              if (placer.get(event.getPlayer()) != null
-                  && placer.get(event.getPlayer()) != "olditem") {
+              if (getPlacer().get(event.getPlayer()) != null && !Objects.equals(
+                  getPlacer().get(event.getPlayer()), "olditem")) {
 
-                if (AudioSpeakerManager.get().getSounds().get(placer.get(event.getPlayer()))
+                if (AudioSpeakerManager.get().getSounds().get(getPlacer().get(event.getPlayer()))
                     == null) {
-                  saveSound(placer.get(event.getPlayer()));
+                  saveSound(getPlacer().get(event.getPlayer()));
                   AudioSpeakerManager.get()
-                      .createSound(placer.get(event.getPlayer()) + "_sound",
-                          placer.get(event.getPlayer()), null, null, null);
+                      .createSound(getPlacer().get(event.getPlayer()) + "_sound",
+                          getPlacer().get(event.getPlayer()), null, null, null);
                 }
 
-                saveSpeaker(placer.get(event.getPlayer()),
+                saveSpeaker(getPlacer().get(event.getPlayer()),
                     event.getBlock().getLocation().getWorld().getName(),
                     event.getBlock().getLocation().getX(), event.getBlock().getLocation().getY(),
                     event.getBlock().getLocation().getZ());
@@ -342,14 +324,14 @@ public class SpeakerMain {
                             + ".");
 
                 AudioSpeakerManager.get()
-                    .createSpeaker(placer.get(event.getPlayer()) + "_speaker",
-                        placer.get(event.getPlayer()) + "_sound",
+                    .createSpeaker(getPlacer().get(event.getPlayer()) + "_speaker",
+                        getPlacer().get(event.getPlayer()) + "_sound",
                         new Location(event.getBlock().getLocation().getWorld(),
                             event.getBlock().getLocation().getX(),
                             event.getBlock().getLocation().getY(),
                             event.getBlock().getLocation().getZ()));
 
-                placer.put(event.getPlayer(), "olditem");
+                getPlacer().put(event.getPlayer(), "olditem");
               } else {
                 event.getPlayer()
                     .sendMessage(Main.PREFIX
@@ -368,7 +350,7 @@ public class SpeakerMain {
           }
         }
       }
-    } catch (NullPointerException e) {
+    } catch (NullPointerException ignored) {
       //event.getPlayer().sendMessage(Main.prefix + ChatColor.RED + "Placing the skull failed some how, please send a screenshot of " + ChatColor.GREEN + "/oa debug" + ChatColor.RED + " to the developers.");
     }
   }

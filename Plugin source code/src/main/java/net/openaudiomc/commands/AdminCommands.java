@@ -16,8 +16,8 @@ package net.openaudiomc.commands;
 import net.openaudiomc.actions.Command;
 import net.openaudiomc.actions.Spy;
 import net.openaudiomc.files.PlaylistManager;
+import net.openaudiomc.groups.Group;
 import net.openaudiomc.groups.GroupManager;
-import net.openaudiomc.core.GetDep;
 import net.openaudiomc.core.Main;
 import net.openaudiomc.oauth.OAuthConnector;
 import net.openaudiomc.regions.RegionListener;
@@ -29,7 +29,6 @@ import net.openaudiomc.speakersystem.objects.AudioSpeaker;
 import net.openaudiomc.speakersystem.objects.AudioSpeakerSound;
 import net.openaudiomc.syncedsound.managers.SyncedSoundManager;
 import net.openaudiomc.syncedsound.managers.UserManager;
-import net.openaudiomc.syncedsound.objects.SyncedSound;
 import net.openaudiomc.utils.Selector;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -47,9 +46,15 @@ import java.io.IOException;
 
 public class AdminCommands implements CommandExecutor {
 
-  private final String NO_COMMAND_PERMISSION_MESSAGE =
+  private Main plugin;
+
+  public AdminCommands(Main plugin) {
+    this.plugin = plugin;
+  }
+
+  public static final String NO_COMMAND_PERMISSION_MESSAGE =
       "You don't have permission to use this command!";
-  private final String NO_PLAYER_INSTANCE =
+  public static final String NO_PLAYER_INSTANCE =
       "This command can only be run by an instance of a player.";
 
   @Override
@@ -462,17 +467,13 @@ public class AdminCommands implements CommandExecutor {
               b.setType(Material.NOTE_BLOCK);
             }
           }
-        } else if (args.length == 4 || args.length == 3) {
-
+        } else if (args.length == 4) {
           if (args[1].equalsIgnoreCase("selection")) {
-
             if (SpeakerMain.getSelection().get((Player) sender) != null
                 && SpeakerMain.getSelection().get((Player) sender).size() != 0) {
-
               if (args[2].equalsIgnoreCase("setvolume")) {
-                sender.sendMessage("ba " + VolumeCommand.isInt(args[3]));
 
-                if (VolumeCommand.isInt(args[3])) {
+                if (args[3].chars().allMatch(Character::isDigit)) {
                   Boolean suc6 = true;
                   for (AudioSpeaker speaker : SpeakerMain.getSelection().get((Player) sender)) {
                     AudioSpeakerSound sound =
@@ -542,7 +543,7 @@ public class AdminCommands implements CommandExecutor {
         }
       } else if (args[0].equalsIgnoreCase("region") && sender.hasPermission(
           "openaudio.admin.region")) {
-        if (GetDep.getStatus()) {
+        if (Main.get().isRegionsEnabled()) {
           if (args.length == 4 || args.length > 4) {
             if (args[1].equalsIgnoreCase("create")) {
               RegionListener.registerRegion(args[2], args[3], (Player) sender);
@@ -606,7 +607,7 @@ public class AdminCommands implements CommandExecutor {
         }
       } else if (args[0].equalsIgnoreCase("playregion") && sender.hasPermission(
           "openaudio.admin.playregion")) {
-        if (GetDep.getStatus()) {
+        if (Main.get().isRegionsEnabled()) {
           if (args.length == 3) {
             for (Player p : Selector.playerSelector(sender, "region:" + args[1])) {
               Command.playNormalSound(p.getName(), args[2]);
@@ -620,20 +621,27 @@ public class AdminCommands implements CommandExecutor {
           sender.sendMessage(Main.PREFIX + "Whoops, you don't have worldguard installed!");
         }
       } else if (args[0].equalsIgnoreCase("debug")) {
-        sender.sendMessage("Thisversion:"
-            + Main.getPL().getDescription().getVersion()
-            + " connected:"
-            + TimeoutManager.ioconnected
-            + " bukkitver:"
-            + Bukkit.getBukkitVersion()
-            + " st:"
-            + cm_callback.speakerTick
-            + " CC:"
-            + cm_callback.connections_closed
-            + " CM:"
-            + cm_callback.connections_made
-            + " cbs"
-            + cm_callback.callbacks);
+        if (sender.hasPermission("openaudio.admin.debug")) {
+          sender.sendMessage(ChatColor.DARK_AQUA
+              + "This version: "
+              + Main.get().getDescription().getVersion()
+              + " connected:"
+              + TimeoutManager.isConnected()
+              + " bukkit verion:"
+              + Bukkit.getBukkitVersion()
+              + " st:"
+              + cm_callback.speakerTick
+              + " CC:"
+              + cm_callback.connectionsClosed
+              + " CM:"
+              + cm_callback.connectionsMade
+              + " cbs:"
+              + cm_callback.callbacks);
+          return true;
+        } else {
+          error(sender, NO_COMMAND_PERMISSION_MESSAGE);
+          return true;
+        }
       } else if (args[0].equalsIgnoreCase("stop") && sender.hasPermission("openaudio.admin.stop")) {
         if (args.length >= 2) {
           if (args.length == 3) {
@@ -709,9 +717,7 @@ public class AdminCommands implements CommandExecutor {
           "openaudio.admin.buffer")) {
         if (args.length == 4 || args.length > 4) {
           if (args[1].equalsIgnoreCase("create")) {
-            for (Player p : Selector.playerSelector(sender, args[2])) {
-              Command.createBuffer(p.getName(), args[3]);
-            }
+            Selector.playerSelector(sender, args[2]).forEach(player -> Command.createBuffer(player.getName(), args[3]));
             sender.sendMessage(Main.PREFIX + "Buffering " + args[3] + " for " + args[2]);
           } else {
             sender.sendMessage(Main.PREFIX
@@ -719,9 +725,7 @@ public class AdminCommands implements CommandExecutor {
           }
         } else if (args.length == 3 || args.length > 3) {
           if (args[1].equalsIgnoreCase("play")) {
-            for (Player p : Selector.playerSelector(sender, args[2])) {
-              Command.playBuffer(p.getName());
-            }
+            Selector.playerSelector(sender, args[2]).forEach(player -> Command.playBuffer(player.getName()));
             sender.sendMessage(Main.PREFIX + "Started buffer for " + args[2]);
           } else {
             sender.sendMessage(Main.PREFIX
@@ -738,9 +742,9 @@ public class AdminCommands implements CommandExecutor {
             String arg = args[i] + " ";
             myString = myString + arg;
           }
-          for (Player p : Selector.playerSelector(sender, args[1])) {
-            Command.sendMessage(p.getName(), myString);
-          }
+          String finalMyString = myString;
+          Selector.playerSelector(sender, args[1]).forEach(player ->  Command.sendMessage(player.getName(),
+              finalMyString));
           sender.sendMessage(Main.PREFIX + "Message send to " + args[1]);
         } else {
           sender.sendMessage(Main.PREFIX
@@ -753,9 +757,9 @@ public class AdminCommands implements CommandExecutor {
             String arg = args[i] + " ";
             myString = myString + arg;
           }
-          for (Player p : Selector.playerSelector(sender, args[1])) {
-            Command.sendJSON(p.getName(), myString);
-          }
+          String finalMyString = myString;
+          Selector.playerSelector(sender, args[1]).forEach(player ->  Command.sendJSON(player.getName(),
+              finalMyString));
           sender.sendMessage(Main.PREFIX + "Json send to " + args[1]);
         } else {
           sender.sendMessage(
@@ -765,70 +769,77 @@ public class AdminCommands implements CommandExecutor {
           "openaudio.admin.setbg")) {
         if (args.length == 3 || args.length > 3) {
           if (args[2].equalsIgnoreCase("reset")) {
-            for (Player p : Selector.playerSelector(sender, args[1])) {
-              Command.resetBg(p.getName());
-            }
+            Selector.playerSelector(sender, args[1]).forEach(player -> Command.resetBg(player.getName()));
           } else {
-            for (Player p : Selector.playerSelector(sender, args[1])) {
-              Command.setBg(p.getName(), args[2]);
-            }
+            Selector.playerSelector(sender, args[1]).forEach(player -> Command.setBg(player.getName(), args[2]));
           }
           sender.sendMessage(Main.PREFIX + "Changed background of " + args[1]);
         } else {
           sender.sendMessage(Main.PREFIX
               + "Invalid command, please use /openaudio setbg <selector/player> <url to image>");
         }
-      } else if (args[0].equalsIgnoreCase("group") && sender.hasPermission(
-          "openaudio.admin.group")) {
-        if (args.length == 3 || args.length > 3) {
-          if (args[1].equalsIgnoreCase("set")) {
-            for (Player p : Selector.playerSelector(sender, args[3])) {
-              GroupManager.get().addToGroup(args[2], p);
+      } else if (args[0].equalsIgnoreCase("group")) {
+        if (sender.hasPermission("openaudio.admin.group")) {
+          if (args.length == 3 || args.length > 3) {
+            if (args[1].equalsIgnoreCase("set")) {
+              Selector.playerSelector(sender, args[3]).forEach(player -> {
+                if (plugin.getGroupManager().getGroup(args[2]).isPresent()) {
+                  plugin.getGroupManager().getGroup(args[2]).get().addMember(player.getUniqueId());
+                } else {
+                  plugin.getGroupManager().getGroups().put(args[2], new Group(args[2]));
+                  plugin.getGroupManager().getGroup(args[2]).get().addMember(player.getUniqueId());
+                }
+              });
+              sender.sendMessage(Main.PREFIX + "Added " + args[3] + " to the group " + args[2]);
+            } else if (args[1].equalsIgnoreCase("remove")) {
+              Selector.playerSelector(sender, args[2])
+                  .forEach(player -> plugin.getGroupManager().getGroups().keySet().forEach(s -> {
+                    if (plugin.getGroupManager().getGroup(s).isPresent()) {
+                      if (plugin.getGroupManager()
+                          .getGroup(s)
+                          .get()
+                          .getMembers()
+                          .contains(player.getUniqueId())) {
+                        plugin.getGroupManager()
+                            .getGroup(s)
+                            .get()
+                            .removeMember(player.getUniqueId());
+                      }
+                    }
+                  }));
+              sender.sendMessage(Main.PREFIX + "Removed " + args[2] + " from all groups");
+            } else if (args[1].equalsIgnoreCase("list")) {
+              sender.sendMessage(Main.PREFIX + "Players in group " + args[2] + ":");
+              Selector.playerSelector(sender, "group:" + args[2])
+                  .forEach(player -> sender.sendMessage(
+                      " " + ChatColor.RED + "- " + ChatColor.YELLOW + player.getName()));
+            } else {
+              sender.sendMessage(Main.PREFIX + "Invalid command, please use /openaudio help");
+              return true;
             }
-            sender.sendMessage(Main.PREFIX + "Added " + args[3] + " to the group " + args[2]);
-          } else if (args[1].equalsIgnoreCase("remove")) {
-            for (Player p : Selector.playerSelector(sender, args[2])) {
-              GroupManager.get().removeFromGroup(p);
-            }
-            sender.sendMessage(Main.PREFIX + "Removed " + args[2] + " from all groups");
-          } else if (args[1].equalsIgnoreCase("list")) {
-
-            sender.sendMessage(Main.PREFIX + "Players in group " + args[2] + ":");
-            for (Player p : Selector.playerSelector(sender, "group:" + args[2])) {
-              sender.sendMessage(" " + ChatColor.RED + "- " + ChatColor.YELLOW + p.getName());
-            }
-          } else {
-            sender.sendMessage(Main.PREFIX + "Invalid command, please use /openaudio help");
           }
+        } else {
+          error(sender, NO_COMMAND_PERMISSION_MESSAGE);
+          return true;
         }
       } else if (args[0].equalsIgnoreCase("hue") && sender.hasPermission("openaudio.admin.hue")) {
         if (args.length == 4 || args.length > 4) {
-          //set and effect
           if (args[1].equalsIgnoreCase("set")) {
-
             if (args.length > 4) {
               String color = args[3] + ":" + args[4];
-              for (Player p : Selector.playerSelector(sender, args[2])) {
-                Command.hueSet(p.getName(), color);
-              }
+              Selector.playerSelector(sender, args[2]).forEach(player -> Command.hueSet(player.getName(), color));
               sender.sendMessage(Main.PREFIX + "Changed room color of " + args[2]);
             } else {
               String color = args[3];
-              for (Player p : Selector.playerSelector(sender, args[2])) {
-                Command.hueSet(p.getName(), color);
-              }
+              Selector.playerSelector(sender, args[2]).forEach(player -> Command.hueSet(player.getName(), color));
               sender.sendMessage(Main.PREFIX + "Changed room color of " + args[2]);
             }
           } else if (args[1].equalsIgnoreCase("effect")) {
             if (args[2].equalsIgnoreCase("blink")) {
-              for (Player p : Selector.playerSelector(sender, args[3])) {
-                Command.hueBlink(p.getName());
-              }
+              Selector.playerSelector(sender, args[3]).forEach(player -> Command.hueBlink(player.getName()));
               sender.sendMessage(Main.PREFIX + "Enabled hue blink effect for " + args[3]);
             } else if (args[2].equalsIgnoreCase("cycle")) {
-              for (Player p : Selector.playerSelector(sender, args[3])) {
-                Command.hueCycle(p.getName());
-              }
+              Selector.playerSelector(sender, args[3]).forEach(player -> Command.hueCycle(player.getName()));
               sender.sendMessage(Main.PREFIX + "Enabled hue cycle effect for " + args[3]);
             } else if (args[2].equalsIgnoreCase("stop")) {
               for (Player p : Selector.playerSelector(sender, args[3])) {
@@ -863,7 +874,7 @@ public class AdminCommands implements CommandExecutor {
     return true;
   }
 
-  private void error(CommandSender sender, String message) {
+  public static void error(CommandSender sender, String message) {
     sender.sendMessage(ChatColor.RED + message);
   }
 }

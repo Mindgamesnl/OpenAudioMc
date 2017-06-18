@@ -19,6 +19,7 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import lombok.Getter;
 import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
 import net.openaudiomc.actions.Command;
 import net.openaudiomc.internal.events.SocketUserDisconnectEvent;
@@ -38,10 +39,10 @@ import java.util.*;
 
 public class RegionListener implements Listener {
 
-  public Map<Player, Set<ProtectedRegion>> playerRegions = Maps.newHashMap();
-  public static Map<Player, ArrayList<String>> history = Maps.newHashMap();
+  @Getter private Map<Player, Set<ProtectedRegion>> playerRegions = Maps.newHashMap();
+  @Getter private static Map<Player, ArrayList<String>> history = Maps.newHashMap();
   public static Main plugin;
-  public static WorldGuardPlugin wgPlugin;
+  @Getter private static WorldGuardPlugin wgPlugin;
 
   public static void setup(Main oapl, WorldGuardPlugin wgpg) {
     wgPlugin = wgpg;
@@ -49,47 +50,45 @@ public class RegionListener implements Listener {
   }
 
   private void start(final Player p, ApplicableRegionSet appRegions, Set<ProtectedRegion> regions) {
-    ProtectedRegion finalel = null;
-    Integer priority = 0;
-    Integer foundNum = 0;
-    Boolean found = false;
-    for (final ProtectedRegion region : appRegions) {
+    final ProtectedRegion[] finalel = { null };
+    final Integer[] priority = { 0 };
+    final Integer[] foundNum = { 0 };
+    final Boolean[] found = { false };
+    appRegions.forEach(protectedRegion -> {
+      getHistory().computeIfAbsent(p, k -> new ArrayList<>());
 
-      history.computeIfAbsent(p, k -> new ArrayList<>());
+      if (!regions.contains(protectedRegion)) {
 
-      if (!regions.contains(region)) {
+        if (isValidRegion(protectedRegion.getId())) {
+          found[0] = true;
 
-        if (isValidRegion(region.getId())) {
-          found = true;
-
-          foundNum++;
-          if (region.getPriority() > priority || region.getPriority() == priority) {
-            priority = region.getPriority();
-            finalel = region;
+          foundNum[0]++;
+          if (protectedRegion.getPriority() > priority[0]
+              || protectedRegion.getPriority() == priority[0]) {
+            priority[0] = protectedRegion.getPriority();
+            finalel[0] = protectedRegion;
           }
-          regions.add(region);
+          regions.add(protectedRegion);
         }
       }
-    }
-    if (found) {
-      final ProtectedRegion finalEl = finalel;
-
-      for (String s : history.get(p)) {
-        if (!Objects.equals(getRegionFile(finalEl.getId()), s)) {
+    });
+    if (found[0]) {
+      for (String s : getHistory().get(p)) {
+        if (!Objects.equals(getRegionFile(finalel[0].getId()), s)) {
           Command.stopRegion(p.getName(), s);
         }
       }
 
-      if (isValidRegion(finalEl.getId())) {
-        if (!history.get(p).contains(getRegionFile(finalEl.getId()))) {
-          Command.playRegion(p.getName(), getRegionFile(finalEl.getId()));
-          history.get(p).add(getRegionFile(finalEl.getId()));
+      if (isValidRegion(finalel[0].getId())) {
+        if (!getHistory().get(p).contains(getRegionFile(finalel[0].getId()))) {
+          Command.playRegion(p.getName(), getRegionFile(finalel[0].getId()));
+          getHistory().get(p).add(getRegionFile(finalel[0].getId()));
         } else {
 
-          if (history.get(p).size() == 1 && history.get(p)
-              .contains(getRegionFile(finalEl.getId()))) {
-            history.get(p).remove(getRegionFile(finalEl.getId()));
-            Command.playRegion(p.getName(), getRegionFile(finalEl.getId()));
+          if (getHistory().get(p).size() == 1 && getHistory().get(p)
+              .contains(getRegionFile(finalel[0].getId()))) {
+            getHistory().get(p).remove(getRegionFile(finalel[0].getId()));
+            Command.playRegion(p.getName(), getRegionFile(finalel[0].getId()));
           }
         }
       }
@@ -98,14 +97,14 @@ public class RegionListener implements Listener {
 
   public void onSocketClose(SocketUserDisconnectEvent e) {
     String pName = (String) e.getName();
-    playerRegions.get(pName).clear();
-    history.get(pName).clear();
+    getPlayerRegions().get(pName).clear();
+    getHistory().get(pName).clear();
   }
 
   private void end(Player p, ProtectedRegion region) {
     Command.stopRegion(p.getName(), getRegionFile(region.getId()));
-    history.get(p).clear();
-    playerRegions.get(p).clear();
+    getHistory().get(p).clear();
+    getPlayerRegions().get(p).clear();
   }
 
   @EventHandler public void onPlayerMove(PlayerMoveEvent e) {
@@ -128,14 +127,14 @@ public class RegionListener implements Listener {
       Location to, final PlayerEvent event) {
     if (OpenAudioApi.isConnected(player)) {
       Set<ProtectedRegion> regions;
-      if (this.playerRegions.get(player) == null) {
+      if (getPlayerRegions().get(player) == null) {
         regions = Sets.newHashSet();
       } else {
-        regions = Sets.newHashSet(this.playerRegions.get(player));
+        regions = Sets.newHashSet(getPlayerRegions().get(player));
       }
       Set<ProtectedRegion> oldRegions = Sets.newHashSet(regions);
 
-      RegionManager rm = wgPlugin.getRegionManager(to.getWorld());
+      RegionManager rm = getWgPlugin().getRegionManager(to.getWorld());
       if (rm == null) {
         return false;
       }
@@ -158,7 +157,7 @@ public class RegionListener implements Listener {
           }
         }
       }
-      this.playerRegions.put(player, regions);
+      getPlayerRegions().put(player, regions);
       return false;
     }
     return false;

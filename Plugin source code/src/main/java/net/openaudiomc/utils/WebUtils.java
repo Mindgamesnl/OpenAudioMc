@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
 
+import lombok.Cleanup;
 import net.openaudiomc.core.Main;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -44,11 +45,10 @@ public class WebUtils {
 
 
     public static String textFromUrl(String request) throws IOException {
-        String url = request;
 
-        URL obj = new URL(url);
+        URL obj = new URL(request);
         CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        @Cleanup("disconnect") HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
         con.setRequestMethod("GET");
         con.setRequestProperty("User-Agent", USER_AGENT);
@@ -57,7 +57,7 @@ public class WebUtils {
 
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
-        StringBuffer response = new StringBuffer();
+        StringBuilder response = new StringBuilder();
 
         while ((inputLine = in.readLine()) != null) {
             response.append(inputLine);
@@ -83,12 +83,12 @@ public class WebUtils {
                         public void run() {
                             callback.execute(string);
                         }
-                    }.runTask(Main.getPL());
+                    }.runTask(Main.get());
 
                 } catch (IOException e) {
                 }
             }
-        }.runTaskAsynchronously(Main.getPL());
+        }.runTaskAsynchronously(Main.get());
     }
 
     public static void asyncHttpRequestNoReturn(final String request, final CallbackNoReturn<String> callback) {
@@ -108,11 +108,11 @@ public class WebUtils {
                         public void run() {
                             callback.execute(string);
                         }
-                    }.runTask(Main.getPL());
+                    }.runTask(Main.get());
 
                 } catch (IOException e) {
                 }
             }
-        }.runTaskAsynchronously(Main.getPL());
+        }.runTaskAsynchronously(Main.get());
     }
 }

@@ -56,8 +56,13 @@ import java.util.ArrayList;
               }));
     } else if (query.startsWith("group:")) {
       String target = query.replace("group:", "");
-      if (GroupManager.get().getGroup(target).isPresent()) {
-        list.addAll(GroupManager.get().getGroup(target).get().getMembers());
+      if (Main.get().getGroupManager().getGroup(target).isPresent()) {
+        Main.get()
+            .getGroupManager()
+            .getGroup(target)
+            .get()
+            .getMembers()
+            .forEach(uuid -> list.add(Bukkit.getPlayer(uuid)));
       }
     } else if (query.equalsIgnoreCase("@a")) {
       list.addAll(Bukkit.getOnlinePlayers());
