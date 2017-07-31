@@ -366,7 +366,7 @@ public class AdminCommands implements CommandExecutor {
           error(sender, NO_PLAYER_INSTANCE);
           return true;
         }
-      } else if (args[0].equalsIgnoreCase("oauth") || args[0].equalsIgnoreCase("auth")) {
+      } else if (args[0].equalsIgnoreCase("oauth") {
         if (sender.hasPermission("openaudio.admin.plus")) {
           sender.sendMessage(Main.PREFIX + "Generating url.");
           sender.sendMessage(Main.PREFIX
