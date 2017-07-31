@@ -79,12 +79,11 @@ public class RegionListener implements Listener {
         }
       }
 
-      if (isValidRegion(finalel[0].getId())) {
+      if (finalel[0] != null && isValidRegion(finalel[0].getId())) {
         if (!getHistory().get(p).contains(getRegionFile(finalel[0].getId()))) {
           Command.playRegion(p.getName(), getRegionFile(finalel[0].getId()));
           getHistory().get(p).add(getRegionFile(finalel[0].getId()));
-        } else {
-
+        } else if (finalel[0] != null) {
           if (getHistory().get(p).size() == 1 && getHistory().get(p)
               .contains(getRegionFile(finalel[0].getId()))) {
             getHistory().get(p).remove(getRegionFile(finalel[0].getId()));
@@ -108,22 +107,22 @@ public class RegionListener implements Listener {
   }
 
   @EventHandler public void onPlayerMove(PlayerMoveEvent e) {
-    e.setCancelled(updateRegions(e.getPlayer(), MovementWay.MOVE, e.getTo(), e));
+    e.setCancelled(updateRegions(e.getPlayer(), e.getTo(), e));
   }
 
   @EventHandler public void onPlayerTeleport(PlayerTeleportEvent e) {
-    e.setCancelled(updateRegions(e.getPlayer(), MovementWay.TELEPORT, e.getTo(), e));
+    e.setCancelled(updateRegions(e.getPlayer(), e.getTo(), e));
   }
 
   @EventHandler public void onPlayerJoin(PlayerJoinEvent e) {
-    updateRegions(e.getPlayer(), MovementWay.SPAWN, e.getPlayer().getLocation(), e);
+    updateRegions(e.getPlayer(), e.getPlayer().getLocation(), e);
   }
 
   @EventHandler public void onPlayerRespawn(PlayerRespawnEvent e) {
-    updateRegions(e.getPlayer(), MovementWay.SPAWN, e.getRespawnLocation(), e);
+    updateRegions(e.getPlayer(), e.getRespawnLocation(), e);
   }
 
-  private synchronized boolean updateRegions(final Player player, final MovementWay movement,
+  private synchronized boolean updateRegions(final Player player,
       Location to, final PlayerEvent event) {
     if (OpenAudioApi.isConnected(player)) {
       Set<ProtectedRegion> regions;
