@@ -24,6 +24,7 @@ import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
 import net.openaudiomc.actions.Command;
 import net.openaudiomc.actions.Spy;
 import net.openaudiomc.files.DataGetter;
+import net.openaudiomc.files.Messages;
 import net.openaudiomc.groups.GroupManager;
 import net.openaudiomc.regions.RegionListener;
 import net.openaudiomc.socket.SocketioConnector;
@@ -103,7 +104,7 @@ public class Main extends JavaPlugin {
 
     createDataFile();
     createRegionsFile();
-    //createMessagesFile();
+    createMessagesFile();
     createServerNode();
     createPlaylist();
     cm_callback.update();
@@ -142,7 +143,7 @@ public class Main extends JavaPlugin {
     return groupManager;
   }
 
-  /*private void createMessagesFile() {
+  private void createMessagesFile() {
     MessagesFile = new File("plugins/OpenAudio", "messages.yml");
     if (!MessagesFile.exists()) {
       try {
@@ -190,7 +191,7 @@ public class Main extends JavaPlugin {
         e.printStackTrace();
       }
     }
-  }*/
+  }
 
   public void createRegionsFile() {
     File regionsFile = new File("plugins/OpenAudio", "regions.yml");
