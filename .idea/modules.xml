@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Plugin source code/OpenAudioMc.iml" filepath="$PROJECT_DIR$/Plugin source code/OpenAudioMc.iml" />
+      <module fileurl="file://C:\Users\112684\Desktop\OpenAudioMc\Plugin source code\OpenAudioMc.iml" filepath="C:\Users\112684\Desktop\OpenAudioMc\Plugin source code\OpenAudioMc.iml" />
+      <module fileurl="file://C:\Users\112684\Desktop\OpenAudioMc\Plugin source code\Plugin source code.iml" filepath="C:\Users\112684\Desktop\OpenAudioMc\Plugin source code\Plugin source code.iml" />
+    </modules>
+  </component>
+</project>

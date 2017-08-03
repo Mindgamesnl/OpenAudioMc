@@ -8,12 +8,3 @@ eclipse
 *.iws
 
 bin
-
-.idea/*
-dependency-reduced-pom.xml
-*.eml
-*.iml
-*.userlibraries
-.settings/*
-target
-target/*
