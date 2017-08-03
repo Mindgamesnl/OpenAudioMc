@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="lib1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Plugin source code/lib/socket-io-driver.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Plugin source code/lib/WorldEdit.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Plugin source code/lib/Skript.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

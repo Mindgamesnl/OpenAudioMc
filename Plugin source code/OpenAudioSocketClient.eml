@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component LANGUAGE_LEVEL="JDK_1_7" inheritJdk="true">
+	<output-test url="file://$MODULE_DIR$/target/test-classes"/>
+	<contentEntry url="file://$MODULE_DIR$">
+		<excludeFolder url="file://$MODULE_DIR$/target"/>
+	</contentEntry>
+	<lib name="Maven: org.apache.maven:maven-aether-provider:3.0" scope="RUNTIME"/>
+	<lib name="Maven: com.mewin:WGRegionEvents:1.2" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/WGRegionEvents.jar!/"/>
+	</lib>
+	<lib name="Maven: com.sk89q:worldedit:5.5.8" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/WorldEdit.jar!/"/>
+	</lib>
+	<lib name="Maven: com.sk89q.spigot:bukkit-classloader-check:1.8-R0.1-SNAPSHOT" scope="RUNTIME"/>
+	<lib name="Maven: ch.njol:Skript:2.1" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/Skript.jar!/"/>
+	</lib>
+	<lib name="Maven: org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT" scope="PROVIDED"/>
+	<lib name="Maven: commons-lang:commons-lang:2.6" scope="RUNTIME"/>
+	<lib name="Maven: com.googlecode.json-simple:json-simple:1.1.1" scope="RUNTIME"/>
+	<lib name="Maven: junit:junit:4.10" scope="RUNTIME"/>
+	<lib name="Maven: org.hamcrest:hamcrest-core:1.1" scope="RUNTIME"/>
+	<lib name="Maven: com.google.code.gson:gson:2.2.4" scope="PROVIDED"/>
+	<lib name="Maven: org.avaje:ebean:2.8.1" scope="RUNTIME"/>
+	<lib name="Maven: javax.persistence:persistence-api:1.0" scope="RUNTIME"/>
+	<lib name="Maven: org.yaml:snakeyaml:1.15" scope="RUNTIME"/>
+	<lib name="Maven: net.md-5:bungeecord-chat:1.8-SNAPSHOT" scope="PROVIDED"/>
+	<lib name="Maven: org.bukkit:bukkit:1.8.8-R0.1-SNAPSHOT" scope="PROVIDED"/>
+	<levels>
+		<level name="Maven: org.apache.maven.plugins:maven-shade-plugin:2.4.3" value="project"/>
+		<level name="Maven: org.apache.maven:maven-plugin-api:3.0" value="project"/>
+		<level name="Maven: org.sonatype.sisu:sisu-inject-plexus:1.4.2" value="project"/>
+		<level name="Maven: org.sonatype.sisu:sisu-inject-bean:1.4.2" value="project"/>
+		<level name="Maven: org.sonatype.sisu:sisu-guice:noaop:2.1.7" value="project"/>
+		<level name="Maven: org.apache.maven:maven-model:3.0" value="project"/>
+		<level name="Maven: org.apache.maven:maven-core:3.0" value="project"/>
+		<level name="Maven: org.apache.maven:maven-settings:3.0" value="project"/>
+		<level name="Maven: org.apache.maven:maven-settings-builder:3.0" value="project"/>
+		<level name="Maven: org.apache.maven:maven-repository-metadata:3.0" value="project"/>
+		<level name="Maven: org.apache.maven:maven-model-builder:3.0" value="project"/>
+		<level name="Maven: org.apache.maven:maven-aether-provider:3.0" value="project"/>
+		<level name="Maven: org.sonatype.aether:aether-impl:1.7" value="project"/>
+		<level name="Maven: org.sonatype.aether:aether-spi:1.7" value="project"/>
+		<level name="Maven: org.sonatype.aether:aether-api:1.7" value="project"/>
+		<level name="Maven: org.sonatype.aether:aether-util:1.7" value="project"/>
+		<level name="Maven: org.codehaus.plexus:plexus-interpolation:1.14" value="project"/>
+		<level name="Maven: org.codehaus.plexus:plexus-classworlds:2.2.3" value="project"/>
+		<level name="Maven: org.codehaus.plexus:plexus-component-annotations:1.5.5" value="project"/>
+		<level name="Maven: org.sonatype.plexus:plexus-sec-dispatcher:1.3" value="project"/>
+		<level name="Maven: org.sonatype.plexus:plexus-cipher:1.4" value="project"/>
+		<level name="Maven: org.apache.maven:maven-compat:3.0" value="project"/>
+		<level name="Maven: org.apache.maven.wagon:wagon-provider-api:1.0-beta-6" value="project"/>
+		<level name="Maven: org.apache.maven:maven-artifact:3.0" value="project"/>
+		<level name="Maven: org.codehaus.plexus:plexus-utils:3.0.22" value="project"/>
+		<level name="Maven: org.ow2.asm:asm:5.0.2" value="project"/>
+		<level name="Maven: org.ow2.asm:asm-commons:5.0.2" value="project"/>
+		<level name="Maven: org.ow2.asm:asm-tree:5.0.2" value="project"/>
+		<level name="Maven: org.jdom:jdom:1.1" value="project"/>
+		<level name="Maven: org.apache.maven.shared:maven-dependency-tree:2.2" value="project"/>
+		<level name="Maven: org.eclipse.aether:aether-util:0.9.0.M2" value="project"/>
+		<level name="Maven: commons-io:commons-io:2.2" value="project"/>
+		<level name="Maven: org.vafer:jdependency:1.1" value="project"/>
+		<level name="Maven: org.ow2.asm:asm-analysis:5.0.4" value="project"/>
+		<level name="Maven: org.ow2.asm:asm-util:5.0.4" value="project"/>
+		<level name="Maven: com.google.guava:guava:11.0.2" value="project"/>
+		<level name="Maven: io.socket:socket.io-client:0.8.3" value="project"/>
+		<level name="Maven: io.socket:engine.io-client:0.8.3" value="project"/>
+		<level name="Maven: com.squareup.okhttp3:okhttp:3.5.0" value="project"/>
+		<level name="Maven: com.squareup.okio:okio:1.11.0" value="project"/>
+		<level name="Maven: org.json:json:20090211" value="project"/>
+		<level name="Maven: com.sk89q:worldguard:6.1" value="project"/>
+		<level name="Maven: com.sk89q.spigot:bukkit-classloader-check:1.8-R0.1-SNAPSHOT" value="project"/>
+		<level name="Maven: com.sk89q:commandbook:2.3" value="project"/>
+		<level name="Maven: net.sf.opencsv:opencsv:2.0" value="project"/>
+		<level name="Maven: com.google.code.findbugs:jsr305:1.3.9" value="project"/>
+		<level name="Maven: org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT" value="project"/>
+		<level name="Maven: commons-lang:commons-lang:2.6" value="project"/>
+		<level name="Maven: com.googlecode.json-simple:json-simple:1.1.1" value="project"/>
+		<level name="Maven: junit:junit:4.10" value="project"/>
+		<level name="Maven: org.hamcrest:hamcrest-core:1.1" value="project"/>
+		<level name="Maven: com.google.code.gson:gson:2.2.4" value="project"/>
+		<level name="Maven: org.avaje:ebean:2.8.1" value="project"/>
+		<level name="Maven: javax.persistence:persistence-api:1.0" value="project"/>
+		<level name="Maven: org.yaml:snakeyaml:1.15" value="project"/>
+		<level name="Maven: net.md-5:bungeecord-chat:1.8-SNAPSHOT" value="project"/>
+		<level name="Maven: org.bukkit:bukkit:1.8.8-R0.1-SNAPSHOT" value="project"/>
+		<level name="gson-2.2.2" value="project"/>
+		<level name="Skript" value="project"/>
+		<level name="socket-io-driver" value="project"/>
+		<level name="WGRegionEvents" value="project"/>
+		<level name="WorldEdit" value="project"/>
+	</levels>
+</component>
