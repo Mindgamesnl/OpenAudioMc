@@ -8,3 +8,8 @@ eclipse
 *.iws
 
 bin
+
+.idea/*
+
+out
+out/*
