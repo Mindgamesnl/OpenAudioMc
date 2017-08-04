@@ -475,7 +475,7 @@ public class AdminCommands implements CommandExecutor {
 
                 if (args[3].chars().allMatch(Character::isDigit)) {
                   Boolean suc6 = true;
-                  for (AudioSpeaker speaker : SpeakerMain.getSelection().get((Player) sender)) {
+                  for (AudioSpeaker speaker : SpeakerMain.getSelection().get(sender)) {
                     AudioSpeakerSound sound =
                         AudioSpeakerManager.get().getSounds().get(speaker.getSoundid());
                     if (sound.hasFile()) {

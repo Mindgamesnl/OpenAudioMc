@@ -60,33 +60,24 @@ public class Authenticator {
   public static String getClientToken() throws Exception {
     URL url = new URL("http://api.openaudiomc.net/plugin/getInfo.php?token=" + getID());
     BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-    String str;
-    while ((str = in.readLine()) != null) {
-      return str;
-    }
+    String clientToken = in.readLine();
     in.close();
-    return str;
+    return clientToken;
   }
 
   public static String getNodeServer(String url_to_server) throws Exception {
     URL url = new URL(url_to_server.replace("https", "http"));
     BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-    String str;
-    while ((str = in.readLine()) != null) {
-      return str;
-    }
+    String nodeServer = in.readLine();
     in.close();
-    return str;
+    return nodeServer;
   }
 
   public static String getClient() throws Exception {
     URL url = new URL("http://api.openaudiomc.net/plugin/genKey.php");
     BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-    String str;
-    while ((str = in.readLine()) != null) {
-      return str;
-    }
+    String client = in.readLine();
     in.close();
-    return str;
+    return client;
   }
 }
