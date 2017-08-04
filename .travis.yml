@@ -3,3 +3,4 @@ jdk:
   - oraclejdk8
 script:
   - mvn clean package
+before_script: cd 'Plugin Source Code'
