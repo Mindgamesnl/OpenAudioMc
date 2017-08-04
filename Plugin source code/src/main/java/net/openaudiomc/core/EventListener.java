@@ -145,37 +145,35 @@ public class EventListener implements Listener {
   @EventHandler public void onPlayerJoin(final PlayerJoinEvent event) {
     //delay for if the player joined via bungee
     TimeoutManager.updateCounter();
-    Main.get().getServer().getScheduler().scheduleSyncDelayedTask(Main.get(), new Runnable() {
-      public void run() {
-        Emitter.connectedInServer(event.getPlayer().getName());
-        UserManager.addPlayer(event.getPlayer());
-        UserManager.getPlayer(event.getPlayer()).syncSounds();
-        AudioSpeakerManager.get().getListeners().put(event.getPlayer().getName(), false);
+    Main.get().getServer().getScheduler().scheduleSyncDelayedTask(Main.get(), () -> {
+      Emitter.connectedInServer(event.getPlayer().getName());
+      UserManager.addPlayer(event.getPlayer());
+      UserManager.getPlayer(event.getPlayer()).syncSounds();
+      AudioSpeakerManager.get().getListeners().put(event.getPlayer().getName(), false);
 
-        if (event.getPlayer().isOp()) {
-          cm_callback.update();
-          if (cm_callback.callbacks != 0) {
-            if (!Main.get().getDescription().getVersion().equals(cm_callback.lastVersion)) {
-              String currentVersion = Main.get().getDescription().getVersion();
-              String newVersion = cm_callback.lastVersion;
-              String updateTitle = cm_callback.updateTitle;
-              String message = Main.PREFIX
-                  + ChatColor.RESET
-                  + "Update is available!"
-                  + ChatColor.AQUA
-                  + " your version: "
-                  + currentVersion
-                  + " new version: "
-                  + newVersion
-                  + ChatColor.RESET
-                  + " Updating is recommend";
-              event.getPlayer().sendMessage(message);
-            }
-            String broadcast = cm_callback.broadcast;
-            if (!broadcast.equals("")) {
-              event.getPlayer()
-                  .sendMessage(Main.PREFIX + "Important message: " + ChatColor.RESET + broadcast);
-            }
+      if (event.getPlayer().isOp()) {
+        cm_callback.update();
+        if (cm_callback.callbacks != 0) {
+          if (!Main.get().getDescription().getVersion().equals(cm_callback.lastVersion)) {
+            String currentVersion = Main.get().getDescription().getVersion();
+            String newVersion = cm_callback.lastVersion;
+            String updateTitle = cm_callback.updateTitle;
+            String message = Main.PREFIX
+                + ChatColor.RESET
+                + "Update is available!"
+                + ChatColor.AQUA
+                + " your version: "
+                + currentVersion
+                + " new version: "
+                + newVersion
+                + ChatColor.RESET
+                + " Updating is recommend";
+            event.getPlayer().sendMessage(message);
+          }
+          String broadcast = cm_callback.broadcast;
+          if (!broadcast.equals("")) {
+            event.getPlayer()
+                .sendMessage(Main.PREFIX + "Important message: " + ChatColor.RESET + broadcast);
           }
         }
       }
@@ -211,11 +209,7 @@ public class EventListener implements Listener {
         }
       }
     });
-    Main.get().getServer().getScheduler().runTaskLaterAsynchronously(Main.get(), new Runnable() {
-      @Override public void run() {
-        TimeoutManager.updateCounter();
-      }
-    }, 5);
+    Main.get().getServer().getScheduler().runTaskLaterAsynchronously(Main.get(), () -> TimeoutManager.updateCounter(), 5);
   }
 
   @EventHandler public void onPlayerTeleport(PlayerTeleportEvent event) {
