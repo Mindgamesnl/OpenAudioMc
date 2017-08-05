@@ -68,7 +68,7 @@ public class Emitter {
     if (TimeoutManager.isReady()) {
       JSONObject obj = new JSONObject();
       obj.put("target", name);
-      obj.put("commandobj", "connectionSuccess");
+      obj.put("command", "connectionSuccess");
 
       ((Socket) SocketioConnector.socket).emit("send", obj.toString());
     }

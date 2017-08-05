@@ -96,6 +96,8 @@ public class EventListener implements Listener {
           Command.playNormalSound(event.getName(), Messages.get("start-sound"));
         }
 
+
+
         Emitter.connectedInServer(event.getName());
         isConnected.put(client.getName(), true);
         UserManager.getPlayer(client).syncSounds();
