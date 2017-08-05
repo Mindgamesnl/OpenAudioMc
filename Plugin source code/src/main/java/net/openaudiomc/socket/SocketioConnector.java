@@ -78,8 +78,10 @@ public class SocketioConnector {
   }
 
   public static void close() {
-    ((Socket) socket).close();
-    ((Socket) socket).disconnect();
+    if(socket != null) {
+      ((Socket) socket).close();
+      ((Socket) socket).disconnect();
+    }
   }
 
   private static void SocketConnect() {

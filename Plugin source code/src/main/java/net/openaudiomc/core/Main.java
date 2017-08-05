@@ -33,6 +33,7 @@ import net.openaudiomc.socket.SocketioConnector;
 import net.openaudiomc.socket.cm_callback;
 import net.openaudiomc.speakersystem.SpeakerMain;
 import net.openaudiomc.speakersystem.managers.AudioSpeakerManager;
+import net.openaudiomc.utils.Reflection;
 import net.openaudiomc.utils.lang.SimpleMessageProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -70,6 +71,8 @@ public class Main extends JavaPlugin {
   @Getter private boolean regionsEnabled = false;
   @Getter private boolean skriptEnabled = false;
 
+  @Getter private Reflection reflection;
+
   public static Main get() {
     return instance;
   }
@@ -95,7 +98,7 @@ public class Main extends JavaPlugin {
     }
     if (getServer().getPluginManager().isPluginEnabled("Skript")) {
       skriptEnabled = true;
-     getLogger().info("All dependencies are detected, regions will be enabled!");
+       getLogger().info("All dependencies are detected, regions will be enabled!");
       Skript.registerAddon(this);
       SkriptRegistration.load();
     } else {
@@ -110,6 +113,7 @@ public class Main extends JavaPlugin {
     createPlaylist();
     cm_callback.update();
     groupManager = new GroupManager();
+    reflection = new Reflection(this);
 
     Bukkit.getServer().getPluginManager().registerEvents(new TimeoutManager(), this);
     Bukkit.getServer().getPluginManager().registerEvents(new EventListener(), this);
