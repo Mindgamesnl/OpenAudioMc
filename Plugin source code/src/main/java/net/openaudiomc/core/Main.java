@@ -79,30 +79,28 @@ public class Main extends JavaPlugin {
 
     long start = System.currentTimeMillis();
 
-    System.out.println("[OpenAudio] Loading OpenAudioMc by Mindgamesnl/Me_is_mattyh");
+    getLogger().info("Loading OpenAudioMc by Mindgamesnl/Me_is_mattyh");
 
     /*  DEPENDENCIES  */
     if (getServer().getPluginManager().isPluginEnabled("WorldGuard")
         && getServer().getPluginManager().isPluginEnabled("WorldEdit")) {
       regionsEnabled = true;
-      System.out.println("[OpenAudio] All dependencies are detected, regions will be enabled!");
+      getLogger().info("All dependencies are detected, regions will be enabled!");
 
       Bukkit.getServer().getPluginManager().registerEvents(new RegionListener(), this);
       RegionListener.setup(this, getWGPlugin());
     } else {
       regionsEnabled = false;
-      System.out.println(
-          "[OpenAudio] Not all dependencies are installed, the region functions will NOT work! please install WorldEdit and WorldGuard");
+      getLogger().info("Not all dependencies are installed, the region functions will NOT work! please install WorldEdit and WorldGuard");
     }
     if (getServer().getPluginManager().isPluginEnabled("Skript")) {
       skriptEnabled = true;
-      System.out.println("[OpenAudio] All dependencies are detected, regions will be enabled!");
+     getLogger().info("All dependencies are detected, regions will be enabled!");
       Skript.registerAddon(this);
       SkriptRegistration.load();
     } else {
       skriptEnabled = false;
-      System.out.println(
-          "[OpenAudio] Skript was not found in your server, guess we're not loading the sk-events then.");
+      getLogger().info("Skript was not found in your server, guess we're not loading the sk-events then.");
     }
 
     createDataFile();

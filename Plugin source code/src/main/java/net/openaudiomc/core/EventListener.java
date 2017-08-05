@@ -83,12 +83,8 @@ public class EventListener implements Listener {
 
   @EventHandler public void onSocketUserConnectEvent(SocketUserConnectEvent event) {
     OfflinePlayer player = Bukkit.getOfflinePlayer(event.getName());
-    System.out.println("event being called" );
     if (player.isOnline()) {
-      System.out.println("player online" );
-      System.out.println(event.getKey() + " -:- " + Sessions.getSession( event.getName() ) );
       if (event.getKey().equals(Sessions.getSession(event.getName()))) {
-        System.out.println("good client" );
         //good client
         AudioSpeakerManager.get().getListeners().put(event.getName(), false);
         Player client = Bukkit.getPlayer(event.getName());
@@ -99,7 +95,6 @@ public class EventListener implements Listener {
         }
 
 
-        System.out.println("Emitter.connectedInServer from OnSocketUserConnectEvent" );
         Emitter.connectedInServer(event.getName());
         isConnected.put(client.getName(), true);
         UserManager.getPlayer(client).syncSounds();
@@ -130,14 +125,14 @@ public class EventListener implements Listener {
   }
 
   @EventHandler public void onSocketConnected(SocketConnectEvent event) {
-    System.out.println("[OpenAudio] Socket.io connected");
+    Main.get().getLogger().info("Socket.io connected");
     Bukkit.getServer()
         .getPluginManager()
         .callEvent(new me.mindgamesnl.openaudiomc.publicApi.SocketIoConnectEvent());
   }
 
   @EventHandler public void onSocketDisconnected(SocketDisconnectEvent event) {
-    System.out.println("[OpenAudio] Socket.io disconnected");
+    Main.get().getLogger().info("Socket.io disconnected");;
     Bukkit.getServer()
         .getPluginManager()
         .callEvent(new me.mindgamesnl.openaudiomc.publicApi.SocketIoDisconnectEvent());
@@ -145,7 +140,6 @@ public class EventListener implements Listener {
 
   @EventHandler public void onPlayerJoin(final PlayerJoinEvent event) {
     //delay for if the player joined via bungee
-    System.out.println("player join event" );
     TimeoutManager.updateCounter();
     Main.get().getServer().getScheduler().scheduleSyncDelayedTask(Main.get(), () -> {
       Emitter.connectedInServer(event.getPlayer().getName());

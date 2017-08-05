@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+import net.openaudiomc.core.Main;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.json.JSONException;
@@ -35,8 +36,7 @@ public class Authenticator {
   public static String getClientID() {
     if (publicKey == null) {
       try {
-        System.out.println(
-            "[OpenAudio] Requesting id for the first time (requesting static token)");
+        Main.get().getLogger().info("Requesting id for the first time (requesting static token)");
         JSONObject obj = new JSONObject(getClientToken());
         publicKey = obj.getString("cid");
         return obj.getString("cid");
