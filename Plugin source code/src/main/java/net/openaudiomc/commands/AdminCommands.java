@@ -106,7 +106,6 @@ public class AdminCommands implements CommandExecutor {
                     + audio_help
                     + "\"}}]"
                     + "";
-            Main.get().getReflection().sendChatPacket(player, command);
 
             String command2 = "[\"\",{\"text\":\""
                     + regionHelpMessage
@@ -114,7 +113,6 @@ public class AdminCommands implements CommandExecutor {
                     + region_help
                     + "\"}}]"
                     + "";
-            Main.get().getReflection().sendChatPacket(player, command2);
 
             String command3 ="[\"\",{\"text\":\""
                     + hueHelpMessage
@@ -122,7 +120,6 @@ public class AdminCommands implements CommandExecutor {
                     + hue_help
                     + "\"}}]"
                     + "";
-            Main.get().getReflection().sendChatPacket(player, command3);
 
             String command4 = "[\"\",{\"text\":\""
                     + uiHelpMessage
@@ -130,7 +127,6 @@ public class AdminCommands implements CommandExecutor {
                     + ui_help
                     + "\"}}]"
                     + "";
-            Main.get().getReflection().sendChatPacket(player, command4);
 
             String command5 = "[\"\",{\"text\":\""
                     + adminHelpMessage
@@ -138,7 +134,6 @@ public class AdminCommands implements CommandExecutor {
                     + admin_help
                     + "\"}}]"
                     + "";
-            Main.get().getReflection().sendChatPacket(player, command5);
 
             String command6 = "[\"\",{\"text\":\""
                     + userHelpMessage
@@ -146,7 +141,6 @@ public class AdminCommands implements CommandExecutor {
                     + uers_help
                     + "\"}}]"
                     + "";
-            Main.get().getReflection().sendChatPacket(player, command6);
 
             String command7 = "[\"\",{\"text\":\""
                     + speakerHelpMessage
@@ -154,7 +148,6 @@ public class AdminCommands implements CommandExecutor {
                     + speaker_help
                     + "\"}}]"
                     + "";
-            Main.get().getReflection().sendChatPacket(player, command7);
 
             String command8 = "[\"\",{\"text\":\""
                     + groupHelpMessage
@@ -162,7 +155,66 @@ public class AdminCommands implements CommandExecutor {
                     + group_help
                     + "\"}}]"
                     + "";
-            Main.get().getReflection().sendChatPacket(player, command8);
+
+            if(Main.get().getReflection().isReflectionSupported()) {
+              Main.get().getReflection().sendChatPacket(player, command);
+              Main.get().getReflection().sendChatPacket(player, command2);
+              Main.get().getReflection().sendChatPacket(player, command3);
+              Main.get().getReflection().sendChatPacket(player, command4);
+              Main.get().getReflection().sendChatPacket(player, command5);
+              Main.get().getReflection().sendChatPacket(player, command6);
+              Main.get().getReflection().sendChatPacket(player, command7);
+              Main.get().getReflection().sendChatPacket(player, command8);
+            } else {
+              String tellraw = "tellraw " +
+                      sender.getName()
+                      + " "
+                      + command;
+
+              String tellraw2 = "tellraw " +
+                      sender.getName()
+                      + " "
+                      + command2;
+
+              String tellraw3 = "tellraw " +
+                      sender.getName()
+                      + " "
+                      + command3;
+
+              String tellraw4 = "tellraw " +
+                      sender.getName()
+                      + " "
+                      + command4;
+
+              String tellraw5 = "tellraw " +
+                      sender.getName()
+                      + " "
+                      + command5;
+
+              String tellraw6 = "tellraw " +
+                      sender.getName()
+                      + " "
+                      + command6;
+
+              String tellraw7 = "tellraw " +
+                      sender.getName()
+                      + " "
+                      + command7;
+
+              String tellraw8 = "tellraw " +
+                      sender.getName()
+                      + " "
+                      + command8;
+
+              Main.get().getServer().dispatchCommand(Main.get().getServer().getConsoleSender(), tellraw);
+              Main.get().getServer().dispatchCommand(Main.get().getServer().getConsoleSender(), tellraw2);
+              Main.get().getServer().dispatchCommand(Main.get().getServer().getConsoleSender(), tellraw3);
+              Main.get().getServer().dispatchCommand(Main.get().getServer().getConsoleSender(), tellraw4);
+              Main.get().getServer().dispatchCommand(Main.get().getServer().getConsoleSender(), tellraw5);
+              Main.get().getServer().dispatchCommand(Main.get().getServer().getConsoleSender(), tellraw6);
+              Main.get().getServer().dispatchCommand(Main.get().getServer().getConsoleSender(), tellraw7);
+              Main.get().getServer().dispatchCommand(Main.get().getServer().getConsoleSender(), tellraw8);
+            }
           }
         } else if (args[1].equalsIgnoreCase("audio")) {
           sender.sendMessage(" ");
