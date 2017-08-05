@@ -88,6 +88,13 @@ import org.json.simple.JSONObject;
     Emitter.EmitToPlayer(name, getCleanURL(command));
   }
 
+  public void ConfirmConnection(String name) {
+    JSONObject obj = new JSONObject();
+    obj.put("command", "connectionSuccess");
+    String command = obj.toString();
+    Emitter.EmitToPlayer(name, getCleanURL(command));
+  }
+
   /**
    * Stop old region.
    *
