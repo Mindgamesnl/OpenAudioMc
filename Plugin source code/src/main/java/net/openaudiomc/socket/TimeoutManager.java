@@ -42,7 +42,7 @@ public class TimeoutManager implements Listener {
     try {
       if (!isConnected()) {
         cm_callback.update();
-        Bukkit.getLogger().info("[OpenAudio] Reconnecting to the openaudiomc socket server.");
+        Bukkit.getLogger().info("Reconnecting to the openaudiomc socket server.");
         if (!connecting) {
           connecting = true;
           SocketioConnector.connect();
@@ -51,7 +51,7 @@ public class TimeoutManager implements Listener {
     } catch (Exception e) {
       Bukkit.getLogger()
           .info(
-              "[OpenAudio] Failed to connect to the socket.io server, openaudio will not work correctly.");
+              "Failed to connect to the socket.io server, openaudio will not work correctly.");
     }
   }
 
@@ -67,7 +67,7 @@ public class TimeoutManager implements Listener {
     if (connectedPlayersCount == 0) {
       if (isConnected()) {
         cm_callback.update();
-        Bukkit.getLogger().info("[OpenAudio] Closing connection with the socket server.");
+        Bukkit.getLogger().info("Closing connection with the socket server.");
         SocketioConnector.close();
       }
       return;
@@ -75,12 +75,12 @@ public class TimeoutManager implements Listener {
     if (Bukkit.getOnlinePlayers().size() == 0) {
       if (isConnected()) {
         cm_callback.update();
-        Bukkit.getLogger().info("[OpenAudio] Closing connection with the socket server.");
+        Bukkit.getLogger().info("Closing connection with the socket server.");
         SocketioConnector.close();
       } else {
         Bukkit.getLogger()
             .info(
-                "[OpenAudio] Connection with socket server is already closed, skipping closing thingy.");
+                "Connection with socket server is already closed, skipping closing thingy.");
       }
     }
   }

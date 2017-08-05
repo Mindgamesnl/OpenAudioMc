@@ -65,126 +65,105 @@ public class AdminCommands implements CommandExecutor {
         if (args.length == 1 || args[1].equalsIgnoreCase("1")) {
           ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
 
-          //Commands
-          String audio_help = "/openaudio help audio";
-          String audioHelpMessage = ChatColor.translateAlternateColorCodes('&',
-              "&c&l(Click here)&r&3 for help with sound.");
+          if(sender instanceof Player) {
+            Player player = (Player) sender;
+            //Commands
+            String audio_help = "/openaudio help audio";
+            String audioHelpMessage = ChatColor.translateAlternateColorCodes('&',
+                    "&c&l(Click here)&r&3 for help with sound.");
 
-          String region_help = "/openaudio help region";
-          String regionHelpMessage = ChatColor.translateAlternateColorCodes('&',
-              "&c&l(Click here)&r&3 for help with regions.");
+            String region_help = "/openaudio help region";
+            String regionHelpMessage = ChatColor.translateAlternateColorCodes('&',
+                    "&c&l(Click here)&r&3 for help with regions.");
 
-          String hue_help = "/openaudio help hue";
-          String hueHelpMessage = ChatColor.translateAlternateColorCodes('&',
-              "&c&l(Click here)&r&3 for help with philips hue lights.");
+            String hue_help = "/openaudio help hue";
+            String hueHelpMessage = ChatColor.translateAlternateColorCodes('&',
+                    "&c&l(Click here)&r&3 for help with philips hue lights.");
 
-          String ui_help = "/openaudio help admin";
-          String uiHelpMessage = ChatColor.translateAlternateColorCodes('&',
-              "&c&l(Click here)&r&3 for help with the admin commands.");
+            String ui_help = "/openaudio help admin";
+            String uiHelpMessage = ChatColor.translateAlternateColorCodes('&',
+                    "&c&l(Click here)&r&3 for help with the admin commands.");
 
-          String uers_help = "/openaudio help user";
-          String userHelpMessage = ChatColor.translateAlternateColorCodes('&',
-              "&c&l(Click here)&r&3 for a list of user commands.");
+            String uers_help = "/openaudio help user";
+            String userHelpMessage = ChatColor.translateAlternateColorCodes('&',
+                    "&c&l(Click here)&r&3 for a list of user commands.");
 
-          String admin_help = "/openaudio help modding";
-          String adminHelpMessage = ChatColor.translateAlternateColorCodes('&',
-              "&c&l(Click here)&r&3 for help with modding your client.");
+            String admin_help = "/openaudio help modding";
+            String adminHelpMessage = ChatColor.translateAlternateColorCodes('&',
+                    "&c&l(Click here)&r&3 for help with modding your client.");
 
-          String speaker_help = "/openaudio help speaker";
-          String speakerHelpMessage = ChatColor.translateAlternateColorCodes('&',
-              "&c&l(Click here)&r&3 for help with the speaker system.");
-          String group_help = "/openaudio help group";
-          String groupHelpMessage = ChatColor.translateAlternateColorCodes('&',
-              "&c&l(Click here)&r&3 for help with the group system.");
+            String speaker_help = "/openaudio help speaker";
+            String speakerHelpMessage = ChatColor.translateAlternateColorCodes('&',
+                    "&c&l(Click here)&r&3 for help with the speaker system.");
+            String group_help = "/openaudio help group";
+            String groupHelpMessage = ChatColor.translateAlternateColorCodes('&',
+                    "&c&l(Click here)&r&3 for help with the group system.");
 
-          sender.sendMessage(Main.PREFIX + "Help menu.");
-          String command = "tellraw "
-              + sender.getName()
-              + " "
-              + "[\"\",{\"text\":\""
-              + audioHelpMessage
-              + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\""
-              + audio_help
-              + "\"}}]"
-              + "";
-          Bukkit.dispatchCommand(console, command);
+            sender.sendMessage(Main.PREFIX + "Help menu.");
+            String command = "[\"\",{\"text\":\""
+                    + audioHelpMessage
+                    + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\""
+                    + audio_help
+                    + "\"}}]"
+                    + "";
+            Main.get().getReflection().sendChatPacket(player, command);
 
-          String command2 = "tellraw "
-              + sender.getName()
-              + " "
-              + "[\"\",{\"text\":\""
-              + regionHelpMessage
-              + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\""
-              + region_help
-              + "\"}}]"
-              + "";
-          Bukkit.dispatchCommand(console, command2);
+            String command2 = "[\"\",{\"text\":\""
+                    + regionHelpMessage
+                    + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\""
+                    + region_help
+                    + "\"}}]"
+                    + "";
+            Main.get().getReflection().sendChatPacket(player, command2);
 
-          String command3 = "tellraw "
-              + sender.getName()
-              + " "
-              + "[\"\",{\"text\":\""
-              + hueHelpMessage
-              + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\""
-              + hue_help
-              + "\"}}]"
-              + "";
-          Bukkit.dispatchCommand(console, command3);
+            String command3 ="[\"\",{\"text\":\""
+                    + hueHelpMessage
+                    + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\""
+                    + hue_help
+                    + "\"}}]"
+                    + "";
+            Main.get().getReflection().sendChatPacket(player, command3);
 
-          String command4 = "tellraw "
-              + sender.getName()
-              + " "
-              + "[\"\",{\"text\":\""
-              + uiHelpMessage
-              + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\""
-              + ui_help
-              + "\"}}]"
-              + "";
-          Bukkit.dispatchCommand(console, command4);
+            String command4 = "[\"\",{\"text\":\""
+                    + uiHelpMessage
+                    + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\""
+                    + ui_help
+                    + "\"}}]"
+                    + "";
+            Main.get().getReflection().sendChatPacket(player, command4);
 
-          String command6 = "tellraw "
-              + sender.getName()
-              + " "
-              + "[\"\",{\"text\":\""
-              + adminHelpMessage
-              + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\""
-              + admin_help
-              + "\"}}]"
-              + "";
-          Bukkit.dispatchCommand(console, command6);
+            String command5 = "[\"\",{\"text\":\""
+                    + adminHelpMessage
+                    + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\""
+                    + admin_help
+                    + "\"}}]"
+                    + "";
+            Main.get().getReflection().sendChatPacket(player, command5);
 
-          String command5 = "tellraw "
-              + sender.getName()
-              + " "
-              + "[\"\",{\"text\":\""
-              + userHelpMessage
-              + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\""
-              + uers_help
-              + "\"}}]"
-              + "";
-          Bukkit.dispatchCommand(console, command5);
+            String command6 = "[\"\",{\"text\":\""
+                    + userHelpMessage
+                    + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\""
+                    + uers_help
+                    + "\"}}]"
+                    + "";
+            Main.get().getReflection().sendChatPacket(player, command6);
 
-          String command7 = "tellraw "
-              + sender.getName()
-              + " "
-              + "[\"\",{\"text\":\""
-              + speakerHelpMessage
-              + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\""
-              + speaker_help
-              + "\"}}]"
-              + "";
-          Bukkit.dispatchCommand(console, command7);
+            String command7 = "[\"\",{\"text\":\""
+                    + speakerHelpMessage
+                    + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\""
+                    + speaker_help
+                    + "\"}}]"
+                    + "";
+            Main.get().getReflection().sendChatPacket(player, command7);
 
-          String command8 = "tellraw "
-              + sender.getName()
-              + " "
-              + "[\"\",{\"text\":\""
-              + groupHelpMessage
-              + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\""
-              + group_help
-              + "\"}}]"
-              + "";
-          Bukkit.dispatchCommand(console, command8);
+            String command8 = "[\"\",{\"text\":\""
+                    + groupHelpMessage
+                    + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\""
+                    + group_help
+                    + "\"}}]"
+                    + "";
+            Main.get().getReflection().sendChatPacket(player, command8);
+          }
         } else if (args[1].equalsIgnoreCase("audio")) {
           sender.sendMessage(" ");
           sender.sendMessage(" ");
