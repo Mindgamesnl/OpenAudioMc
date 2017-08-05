@@ -2,6 +2,7 @@ package net.openaudiomc.speakersystem.objects;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.openaudiomc.core.Main;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
@@ -15,7 +16,7 @@ public class AudioSpeaker {
 
   public AudioSpeaker(String id, Location loc, String sid) {
     if (loc.getBlock().getType() != Material.AIR) {
-      System.out.println("New speaker. ID:" + sid + " BLOCK:" + loc.getBlock().getType());
+      Main.get().getLogger().info("New speaker. ID:" + sid + " BLOCK:" + loc.getBlock().getType());
       this.id = id;
       this.location = loc;
       this.soundid = sid;
