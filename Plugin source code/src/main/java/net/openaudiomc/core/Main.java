@@ -170,16 +170,6 @@ public class Main extends JavaPlugin {
         e.printStackTrace();
       }
     }
-    if (Messages.get("background-image") == null) {
-      MessagesFile = new File("plugins/OpenAudio", "messages.yml");
-      MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
-      MessagesConfig.set("background-image", "<none>");
-      try {
-        MessagesConfig.save(MessagesFile);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
 
     if (Messages.get("stop-on-teleport") == null) {
       MessagesFile = new File("plugins/OpenAudio", "messages.yml");
@@ -191,6 +181,8 @@ public class Main extends JavaPlugin {
         e.printStackTrace();
       }
     }
+
+
   }
 
   public void createRegionsFile() {
