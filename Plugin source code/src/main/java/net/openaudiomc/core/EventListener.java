@@ -66,6 +66,12 @@ public class EventListener implements Listener {
           .getPluginManager()
           .callEvent(new me.mindgamesnl.openaudiomc.publicApi.HueConnectEvent(
               Bukkit.getPlayer(event.getPlayerName())));
+    } else if (event.getData().equals("eventMinni")) {
+      Main.sm(player, "connected.warning");
+      Bukkit.getServer()
+              .getPluginManager()
+              .callEvent(new me.mindgamesnl.openaudiomc.publicApi.HueConnectEvent(
+                      Bukkit.getPlayer(event.getPlayerName())));
     } else {
       JSONObject jsonObject = new JSONObject(event.getData());
       if (jsonObject.getString("command").equals("SoundEnded")) {
