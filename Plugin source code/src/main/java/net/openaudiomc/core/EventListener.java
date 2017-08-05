@@ -14,11 +14,9 @@
 package net.openaudiomc.core;
 
 import com.google.common.collect.Maps;
-import com.sk89q.worldguard.bukkit.WGBukkit;
 
 import net.openaudiomc.actions.Command;
 import net.openaudiomc.files.Messages;
-import net.openaudiomc.groups.GroupManager;
 import net.openaudiomc.internal.events.*;
 import net.openaudiomc.players.Sessions;
 import net.openaudiomc.regions.RegionListener;
@@ -85,8 +83,12 @@ public class EventListener implements Listener {
 
   @EventHandler public void onSocketUserConnectEvent(SocketUserConnectEvent event) {
     OfflinePlayer player = Bukkit.getOfflinePlayer(event.getName());
+    System.out.println("event being called" );
     if (player.isOnline()) {
+      System.out.println("player online" );
+      System.out.println(event.getKey() + " -:- " + Sessions.getSession( event.getName() ) );
       if (event.getKey().equals(Sessions.getSession(event.getName()))) {
+        System.out.println("good client" );
         //good client
         AudioSpeakerManager.get().getListeners().put(event.getName(), false);
         Player client = Bukkit.getPlayer(event.getName());
@@ -97,20 +99,11 @@ public class EventListener implements Listener {
         }
 
 
-
+        System.out.println("Emitter.connectedInServer from OnSocketUserConnectEvent" );
         Emitter.connectedInServer(event.getName());
         isConnected.put(client.getName(), true);
         UserManager.getPlayer(client).syncSounds();
-        if (Main.get().isRegionsEnabled()) {
-          WGBukkit.getRegionManager(client.getWorld())
-              .getApplicableRegions(client.getLocation())
-              .forEach(protectedRegion -> {
-                if (RegionListener.isValidRegion(protectedRegion.getId())) {
-                  Command.playRegion(client.getName(),
-                      RegionListener.getRegionFile(protectedRegion.getId()));
-                }
-              });
-        }
+        Main.get().handleRegionListener(client);
         Bukkit.getServer()
             .getPluginManager()
             .callEvent(new me.mindgamesnl.openaudiomc.publicApi.WebConnectEvent(
@@ -152,6 +145,7 @@ public class EventListener implements Listener {
 
   @EventHandler public void onPlayerJoin(final PlayerJoinEvent event) {
     //delay for if the player joined via bungee
+    System.out.println("player join event" );
     TimeoutManager.updateCounter();
     Main.get().getServer().getScheduler().scheduleSyncDelayedTask(Main.get(), () -> {
       Emitter.connectedInServer(event.getPlayer().getName());
