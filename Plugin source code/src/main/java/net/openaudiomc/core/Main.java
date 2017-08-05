@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Logger;
+
+import com.sk89q.worldguard.bukkit.WGBukkit;
 import lombok.Getter;
 import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
 import net.openaudiomc.actions.Command;
@@ -37,6 +39,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -335,5 +338,18 @@ public class Main extends JavaPlugin {
 
   public static Optional<String> tr(String key, Object... args) {
     return SIMPLE_MESSAGE_PROVIDER.get(key, args);
+  }
+
+  public void handleRegionListener(Player client) {
+    if (Main.get().isRegionsEnabled()) {
+      WGBukkit.getRegionManager(client.getWorld())
+              .getApplicableRegions(client.getLocation())
+              .forEach(protectedRegion -> {
+                if (RegionListener.isValidRegion(protectedRegion.getId())) {
+                  Command.playRegion(client.getName(),
+                          RegionListener.getRegionFile(protectedRegion.getId()));
+                }
+              });
+    }
   }
 }
