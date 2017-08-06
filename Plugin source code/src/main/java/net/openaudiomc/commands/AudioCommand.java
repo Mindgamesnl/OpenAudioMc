@@ -60,15 +60,7 @@ public class AudioCommand implements CommandExecutor {
                     + url
                     + "\"}}]"
                     + "";
-            if(Main.get().getReflection().isReflectionSupported()) {
-              Main.get().getReflection().sendChatPacket((Player) sender, message);
-            } else {
-              String tellraw = "tellraw " +
-                    sender.getName()
-                    + " "
-                    + message;
-              Main.get().getServer().dispatchCommand(Main.get().getServer().getConsoleSender(), tellraw);
-            }
+            Main.get().getReflection().sendChatPacket((Player) sender, message);
           }
           return true;
         }
