@@ -15,6 +15,7 @@ package net.openaudiomc.socket;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
@@ -37,7 +38,7 @@ public class Authenticator {
     if (publicKey == null) {
       try {
         Main.get().getLogger().info("Requesting id for the first time (requesting static token)");
-        JSONObject obj = new JSONObject(getClientToken());
+        JSONObject obj = new JSONObject(getWebResponse("http://api.openaudiomc.net/plugin/getInfo.php?token=" + getID()));
         publicKey = obj.getString("cid");
         return obj.getString("cid");
       } catch (Exception ignored) {
@@ -51,33 +52,17 @@ public class Authenticator {
 
   public static JSONObject getNewId() {
     try {
-      return new JSONObject(getClient());
+      return new JSONObject(getWebResponse("http://api.openaudiomc.net/plugin/genKey.php"));
     } catch (Exception ignored) {
     }
     return null;
   }
 
-  public static String getClientToken() throws Exception {
-    URL url = new URL("http://api.openaudiomc.net/plugin/getInfo.php?token=" + getID());
-    BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-    String clientToken = in.readLine();
+  public static String getWebResponse(String url) throws IOException {
+    URL urlObject = new URL(url);
+    BufferedReader in = new BufferedReader(new InputStreamReader(urlObject.openStream()));
+    String response = in.readLine();
     in.close();
-    return clientToken;
-  }
-
-  public static String getNodeServer(String url_to_server) throws Exception {
-    URL url = new URL(url_to_server.replace("https", "http"));
-    BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-    String nodeServer = in.readLine();
-    in.close();
-    return nodeServer;
-  }
-
-  public static String getClient() throws Exception {
-    URL url = new URL("http://api.openaudiomc.net/plugin/genKey.php");
-    BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-    String client = in.readLine();
-    in.close();
-    return client;
+    return response;
   }
 }
