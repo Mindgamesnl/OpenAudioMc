@@ -52,7 +52,7 @@ public class Reflection {
                 playerConnection.getClass().getMethod("sendPacket", Class.forName("net.minecraft.server." + version + ".Packet")).invoke(playerConnection, packet);
                 return;
             } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchFieldException exception) {
-                Main.get().getLogger().warning("Oh no! Something went wrong. Please open an issue at https://www.github.com/Mindgamednl/OpenAudioMC with this information:");
+                Main.get().getLogger().warning("Oh no! Something went wrong. Please open an issue at https://github.com/Mindgamesnl/OpenAudioMc with this information:");
                 Main.get().getLogger().warning("Reflection crash report for " + Main.get().getServer().getName() + " version " + Main.get().getServer().getVersion() + " (" +
                   Main.get().getServer().getBukkitVersion() + ") with reflection version " + version);
                 Main.get().getLogger().warning("Reflection cause: " + exception.getMessage());
