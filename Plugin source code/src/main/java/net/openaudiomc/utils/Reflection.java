@@ -26,9 +26,7 @@ public class Reflection {
     }
 
     public void sendChatPacket(Player p, String json) {
-        if(version.equals("v1_12_R1") || version.equals("v1_11_R1") || version.equals("v1_10_R1") || version.equals("v1_9_R2") || version.equals("v1_9_R1")
-          || version.equals("v1_8_R3") || version.equals("v1_8_R2") || version.equals("v1_8_R1") || version.equals("v1_7_R4") || version.equals("v1_7_R3")
-          || version.equals("v1_7_R2") || version.equals("v1_7_R1")) {
+        if(isReflectionSupported()) {
             try {
                 Object chatClass;
                 if(version.equals("v1_8_R1") || version.equals("v1_7_R4") || version.equals("v1_7_R3") || version.equals("v1_7_R2") || version.equals("v1_7_R1")) {
@@ -52,6 +50,7 @@ public class Reflection {
                 Object handle = p.getClass().getMethod("getHandle").invoke(p);
                 Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
                 playerConnection.getClass().getMethod("sendPacket", Class.forName("net.minecraft.server." + version + ".Packet")).invoke(playerConnection, packet);
+                return;
             } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchFieldException exception) {
                 Main.get().getLogger().warning("Oh no! Something went wrong. Please open an issue at https://www.github.com/Mindgamednl/OpenAudioMC with this information:");
                 Main.get().getLogger().warning("Reflection crash report for " + Main.get().getServer().getName() + " version " + Main.get().getServer().getVersion() + " (" +
@@ -59,9 +58,13 @@ public class Reflection {
                 Main.get().getLogger().warning("Reflection cause: " + exception.getMessage());
                 Main.get().getLogger().warning("Reflection stack trace: ");
                 exception.printStackTrace();
-                p.sendMessage(ChatColor.RED + "Oh, something went wrong. Please check your Server Console for further actions");
             }
         }
+        String tellraw = "tellraw " +
+                p.getName()
+                + " "
+                + json;
+        Main.get().getServer().dispatchCommand(Main.get().getServer().getConsoleSender(), tellraw);
     }
 
     private Class<?> getDeclaredClassName(Class<?> c, String toFind){
