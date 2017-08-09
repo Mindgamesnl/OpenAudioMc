@@ -29,8 +29,8 @@ public class VolumeCommand implements CommandExecutor {
     if (sender instanceof Player) {
       if (OpenAudioApi.isConnected((Player) sender)) {
         if (args.length > 0) {
-          if (args[0].chars().allMatch(Character::isDigit) && (Integer.parseInt(args[0]) > 100
-              && Integer.parseInt(args[0]) < -1)) {
+          if (args[0].chars().allMatch(Character::isDigit) && (Integer.parseInt(args[0]) <= 100
+              && Integer.parseInt(args[0]) > -1)) {
             sm(sender, "volume.set", args[0]);
             net.openaudiomc.actions.Command.setVolume(sender.getName(), args[0]);
             return true;
