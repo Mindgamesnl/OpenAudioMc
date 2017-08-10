@@ -118,65 +118,63 @@ import net.openaudiomc.socket.cm_callback;
 
   public void init() {
     running = true;
-    timer = Bukkit.getScheduler().scheduleAsyncRepeatingTask(Main.get(), new Runnable() {
-      @Override public void run() {
-        for (Player p : Bukkit.getOnlinePlayers()) {
-          if (OpenAudioApi.isConnected(p)) {
-            Boolean found = false;
-            double highest = 0;
-            Integer iterations = 0;
-            AudioSpeaker selected = null;
-            for (Block b : getNearbyBlocks(p.getLocation(), 10)) {
-              if (b.getType() == Material.NOTE_BLOCK) {
-                if (speakers.get(b.getLocation()).getSoundid() != null) {
-                  if (speakers.get(b.getLocation()).getEnabled()) {
+    timer = Bukkit.getScheduler().scheduleAsyncRepeatingTask(Main.get(), () -> {
+      for (Player p : Bukkit.getOnlinePlayers()) {
+        if (OpenAudioApi.isConnected(p)) {
+          Boolean found = false;
+          double highest = 0;
+          Integer iterations = 0;
+          AudioSpeaker selected = null;
+          for (Block b : getNearbyBlocks(p.getLocation(), 10)) {
+            if (b.getType() == Material.NOTE_BLOCK) {
+              if (speakers.get(b.getLocation()).getSoundid() != null) {
+                if (speakers.get(b.getLocation()).getEnabled()) {
+                  if (Math.abs(
+                      speakers.get(b.getLocation()).getLocation().distance(p.getLocation()))
+                      < highest || iterations == 0) {
                     if (Math.abs(
                         speakers.get(b.getLocation()).getLocation().distance(p.getLocation()))
                         < highest || iterations == 0) {
-                      if (Math.abs(
-                          speakers.get(b.getLocation()).getLocation().distance(p.getLocation()))
-                          < highest || iterations == 0) {
+                      found = true;
+                      selected = speakers.get(b.getLocation());
+                      iterations++;
+                      highest = Math.abs(
+                          speakers.get(b.getLocation()).getLocation().distance(p.getLocation()));
+                    }
+                  }
+                }
+              }
+            } else if (b.getType() == Material.SKULL) {
+              try {
+                Skull skull = (Skull) b.getState();
+                if (skull.getOwner().equalsIgnoreCase("OpenAudioMc")) {
+                  if (speakers.get(b.getLocation()).getSoundid() != null && speakers.get(
+                      b.getLocation()).getEnabled()) {
+                    if (Math.abs(
+                        speakers.get(b.getLocation()).getLocation().distance(p.getLocation()))
+                        < highest || iterations == 0) {
+                      if (sounds.get(speakers.get(b.getLocation()).getSoundid()).getEnabled()) {
                         found = true;
                         selected = speakers.get(b.getLocation());
                         iterations++;
-                        highest = Math.abs(
-                            speakers.get(b.getLocation()).getLocation().distance(p.getLocation()));
+                        highest = Math.abs(speakers.get(b.getLocation())
+                            .getLocation()
+                            .distance(p.getLocation()));
                       }
                     }
                   }
                 }
-              } else if (b.getType() == Material.SKULL) {
-                try {
-                  Skull skull = (Skull) b.getState();
-                  if (skull.getOwner().equalsIgnoreCase("OpenAudioMc")) {
-                    if (speakers.get(b.getLocation()).getSoundid() != null && speakers.get(
-                        b.getLocation()).getEnabled()) {
-                      if (Math.abs(
-                          speakers.get(b.getLocation()).getLocation().distance(p.getLocation()))
-                          < highest || iterations == 0) {
-                        if (sounds.get(speakers.get(b.getLocation()).getSoundid()).getEnabled()) {
-                          found = true;
-                          selected = speakers.get(b.getLocation());
-                          iterations++;
-                          highest = Math.abs(speakers.get(b.getLocation())
-                              .getLocation()
-                              .distance(p.getLocation()));
-                        }
-                      }
-                    }
-                  }
-                } catch (NullPointerException ignored) {
-                }
+              } catch (NullPointerException ignored) {
               }
             }
+          }
 
-            if (found) {
-              processSpeaker(p, selected);
-            } else {
-              if (listeners.get(p.getName())) {
-                listeners.put(p.getName(), false);
-                Command.stopAllSpeakers(p.getName());
-              }
+          if (found) {
+            processSpeaker(p, selected);
+          } else {
+            if (listeners.get(p.getName())) {
+              listeners.put(p.getName(), false);
+              Command.stopAllSpeakers(p.getName());
             }
           }
         }

@@ -43,7 +43,7 @@ public class SocketioConnector {
     try {
       FileConfiguration cfg = YamlConfiguration.loadConfiguration(
           new File("plugins/OpenAudio/advanced", "advancedConfig.yml"));
-      String apiResponse = Authenticator.getNodeServer(cfg.getString("host"));
+      String apiResponse = Authenticator.getWebResponse(cfg.getString("host").replace("https", "http"));
 
       JSONObject jsonObject = (JSONObject) JSONValue.parse(apiResponse);
 
@@ -78,8 +78,10 @@ public class SocketioConnector {
   }
 
   public static void close() {
-    ((Socket) socket).close();
-    ((Socket) socket).disconnect();
+    if(socket != null) {
+      ((Socket) socket).close();
+      ((Socket) socket).disconnect();
+    }
   }
 
   private static void SocketConnect() {

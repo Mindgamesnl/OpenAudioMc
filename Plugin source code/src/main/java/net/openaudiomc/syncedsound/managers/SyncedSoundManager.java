@@ -33,7 +33,7 @@ public class SyncedSoundManager {
 			getBySrc(src).restart();
             return getBySrc(src);
 		} else {
-			System.out.println("[OpenAudio] Registerd new synced sound.");
+			Main.get().getLogger().info("Registerd new synced sound.");
 			Callback<String> callback = string -> {
         char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
       StringBuilder sb = new StringBuilder();

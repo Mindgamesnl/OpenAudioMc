@@ -13,8 +13,7 @@
  */
 package net.openaudiomc.commands;
 
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.openaudiomc.core.Main;
 import net.openaudiomc.files.Messages;
 import net.openaudiomc.socket.Authenticator;
 import org.bukkit.command.Command;
@@ -55,9 +54,13 @@ public class AudioCommand implements CommandExecutor {
                 .replace("%session%",
                     Authenticator.getClientID() + ":" + Sessions.getSession(sender.getName()));
 
-            TextComponent message = new TextComponent(tr("connect.message").get());
-            message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
-            sender.spigot().sendMessage(message);
+            String message = "[\"\",{\"text\":\""
+                    + tr("connect.message").get()
+                    + "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\""
+                    + url
+                    + "\"}}]"
+                    + "";
+            Main.get().getReflection().sendChatPacket((Player) sender, message);
           }
           return true;
         }

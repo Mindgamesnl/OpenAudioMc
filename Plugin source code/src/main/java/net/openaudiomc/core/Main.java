@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Logger;
+
+import com.sk89q.worldguard.bukkit.WGBukkit;
 import lombok.Getter;
 import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
 import net.openaudiomc.actions.Command;
@@ -31,12 +33,14 @@ import net.openaudiomc.socket.SocketioConnector;
 import net.openaudiomc.socket.cm_callback;
 import net.openaudiomc.speakersystem.SpeakerMain;
 import net.openaudiomc.speakersystem.managers.AudioSpeakerManager;
+import net.openaudiomc.utils.Reflection;
 import net.openaudiomc.utils.lang.SimpleMessageProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -67,6 +71,8 @@ public class Main extends JavaPlugin {
   @Getter private boolean regionsEnabled = false;
   @Getter private boolean skriptEnabled = false;
 
+  @Getter private Reflection reflection;
+
   public static Main get() {
     return instance;
   }
@@ -76,30 +82,28 @@ public class Main extends JavaPlugin {
 
     long start = System.currentTimeMillis();
 
-    System.out.println("[OpenAudio] Loading OpenAudioMc by Mindgamesnl/Me_is_mattyh");
+    getLogger().info("Loading OpenAudioMc by Mindgamesnl/Me_is_mattyh");
 
     /*  DEPENDENCIES  */
     if (getServer().getPluginManager().isPluginEnabled("WorldGuard")
         && getServer().getPluginManager().isPluginEnabled("WorldEdit")) {
       regionsEnabled = true;
-      System.out.println("[OpenAudio] All dependencies are detected, regions will be enabled!");
+      getLogger().info("All dependencies are detected, regions will be enabled!");
 
       Bukkit.getServer().getPluginManager().registerEvents(new RegionListener(), this);
       RegionListener.setup(this, getWGPlugin());
     } else {
       regionsEnabled = false;
-      System.out.println(
-          "[OpenAudio] Not all dependencies are installed, the region functions will NOT work! please install WorldEdit and WorldGuard");
+      getLogger().info("Not all dependencies are installed, the region functions will NOT work! please install WorldEdit and WorldGuard");
     }
     if (getServer().getPluginManager().isPluginEnabled("Skript")) {
       skriptEnabled = true;
-      System.out.println("[OpenAudio] All dependencies are detected, regions will be enabled!");
+       getLogger().info("All dependencies are detected, regions will be enabled!");
       Skript.registerAddon(this);
       SkriptRegistration.load();
     } else {
       skriptEnabled = false;
-      System.out.println(
-          "[OpenAudio] Skript was not found in your server, guess we're not loading the sk-events then.");
+      getLogger().info("Skript was not found in your server, guess we're not loading the sk-events then.");
     }
 
     createDataFile();
@@ -109,6 +113,7 @@ public class Main extends JavaPlugin {
     createPlaylist();
     cm_callback.update();
     groupManager = new GroupManager();
+    reflection = new Reflection(this);
 
     Bukkit.getServer().getPluginManager().registerEvents(new TimeoutManager(), this);
     Bukkit.getServer().getPluginManager().registerEvents(new EventListener(), this);
@@ -335,5 +340,18 @@ public class Main extends JavaPlugin {
 
   public static Optional<String> tr(String key, Object... args) {
     return SIMPLE_MESSAGE_PROVIDER.get(key, args);
+  }
+
+  public void handleRegionListener(Player client) {
+    if (Main.get().isRegionsEnabled()) {
+      WGBukkit.getRegionManager(client.getWorld())
+              .getApplicableRegions(client.getLocation())
+              .forEach(protectedRegion -> {
+                if (RegionListener.isValidRegion(protectedRegion.getId())) {
+                  Command.playRegion(client.getName(),
+                          RegionListener.getRegionFile(protectedRegion.getId()));
+                }
+              });
+    }
   }
 }
