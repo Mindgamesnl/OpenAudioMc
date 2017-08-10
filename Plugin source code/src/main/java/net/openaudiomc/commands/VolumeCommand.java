@@ -39,10 +39,11 @@ public class VolumeCommand implements CommandExecutor {
             return true;
           }
         } else {
+          sm(sender, "volume.error");
           return true;
         }
       } else {
-        sm(sender, "volume.error");
+        sm(sender, "need.connected");
         return true;
       }
     } else {
