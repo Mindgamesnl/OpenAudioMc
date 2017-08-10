@@ -14,11 +14,9 @@
 package net.openaudiomc.core;
 
 import com.google.common.collect.Maps;
-import com.sk89q.worldguard.bukkit.WGBukkit;
 
 import net.openaudiomc.actions.Command;
 import net.openaudiomc.files.Messages;
-import net.openaudiomc.groups.GroupManager;
 import net.openaudiomc.internal.events.*;
 import net.openaudiomc.players.Sessions;
 import net.openaudiomc.regions.RegionListener;
@@ -97,20 +95,10 @@ public class EventListener implements Listener {
         }
 
 
-
         Emitter.connectedInServer(event.getName());
         isConnected.put(client.getName(), true);
         UserManager.getPlayer(client).syncSounds();
-        if (Main.get().isRegionsEnabled()) {
-          WGBukkit.getRegionManager(client.getWorld())
-              .getApplicableRegions(client.getLocation())
-              .forEach(protectedRegion -> {
-                if (RegionListener.isValidRegion(protectedRegion.getId())) {
-                  Command.playRegion(client.getName(),
-                      RegionListener.getRegionFile(protectedRegion.getId()));
-                }
-              });
-        }
+        Main.get().handleRegionListener(client);
         Bukkit.getServer()
             .getPluginManager()
             .callEvent(new me.mindgamesnl.openaudiomc.publicApi.WebConnectEvent(
@@ -137,14 +125,14 @@ public class EventListener implements Listener {
   }
 
   @EventHandler public void onSocketConnected(SocketConnectEvent event) {
-    System.out.println("[OpenAudio] Socket.io connected");
+    Main.get().getLogger().info("Socket.io connected");
     Bukkit.getServer()
         .getPluginManager()
         .callEvent(new me.mindgamesnl.openaudiomc.publicApi.SocketIoConnectEvent());
   }
 
   @EventHandler public void onSocketDisconnected(SocketDisconnectEvent event) {
-    System.out.println("[OpenAudio] Socket.io disconnected");
+    Main.get().getLogger().info("Socket.io disconnected");;
     Bukkit.getServer()
         .getPluginManager()
         .callEvent(new me.mindgamesnl.openaudiomc.publicApi.SocketIoDisconnectEvent());
@@ -153,37 +141,35 @@ public class EventListener implements Listener {
   @EventHandler public void onPlayerJoin(final PlayerJoinEvent event) {
     //delay for if the player joined via bungee
     TimeoutManager.updateCounter();
-    Main.get().getServer().getScheduler().scheduleSyncDelayedTask(Main.get(), new Runnable() {
-      public void run() {
-        Emitter.connectedInServer(event.getPlayer().getName());
-        UserManager.addPlayer(event.getPlayer());
-        UserManager.getPlayer(event.getPlayer()).syncSounds();
-        AudioSpeakerManager.get().getListeners().put(event.getPlayer().getName(), false);
+    Main.get().getServer().getScheduler().scheduleSyncDelayedTask(Main.get(), () -> {
+      Emitter.connectedInServer(event.getPlayer().getName());
+      UserManager.addPlayer(event.getPlayer());
+      UserManager.getPlayer(event.getPlayer()).syncSounds();
+      AudioSpeakerManager.get().getListeners().put(event.getPlayer().getName(), false);
 
-        if (event.getPlayer().isOp()) {
-          cm_callback.update();
-          if (cm_callback.callbacks != 0) {
-            if (!Main.get().getDescription().getVersion().equals(cm_callback.lastVersion)) {
-              String currentVersion = Main.get().getDescription().getVersion();
-              String newVersion = cm_callback.lastVersion;
-              String updateTitle = cm_callback.updateTitle;
-              String message = Main.PREFIX
-                  + ChatColor.RESET
-                  + "Update is available!"
-                  + ChatColor.AQUA
-                  + " your version: "
-                  + currentVersion
-                  + " new version: "
-                  + newVersion
-                  + ChatColor.RESET
-                  + " Updating is recommend";
-              event.getPlayer().sendMessage(message);
-            }
-            String broadcast = cm_callback.broadcast;
-            if (!broadcast.equals("")) {
-              event.getPlayer()
-                  .sendMessage(Main.PREFIX + "Important message: " + ChatColor.RESET + broadcast);
-            }
+      if (event.getPlayer().isOp()) {
+        cm_callback.update();
+        if (cm_callback.callbacks != 0) {
+          if (!Main.get().getDescription().getVersion().equals(cm_callback.lastVersion)) {
+            String currentVersion = Main.get().getDescription().getVersion();
+            String newVersion = cm_callback.lastVersion;
+            String updateTitle = cm_callback.updateTitle;
+            String message = Main.PREFIX
+                + ChatColor.RESET
+                + "Update is available!"
+                + ChatColor.AQUA
+                + " your version: "
+                + currentVersion
+                + " new version: "
+                + newVersion
+                + ChatColor.RESET
+                + " Updating is recommend";
+            event.getPlayer().sendMessage(message);
+          }
+          String broadcast = cm_callback.broadcast;
+          if (!broadcast.equals("")) {
+            event.getPlayer()
+                .sendMessage(Main.PREFIX + "Important message: " + ChatColor.RESET + broadcast);
           }
         }
       }
@@ -219,11 +205,7 @@ public class EventListener implements Listener {
         }
       }
     });
-    Main.get().getServer().getScheduler().runTaskLaterAsynchronously(Main.get(), new Runnable() {
-      @Override public void run() {
-        TimeoutManager.updateCounter();
-      }
-    }, 5);
+    Main.get().getServer().getScheduler().runTaskLaterAsynchronously(Main.get(), () -> TimeoutManager.updateCounter(), 5);
   }
 
   @EventHandler public void onPlayerTeleport(PlayerTeleportEvent event) {
