@@ -4,3 +4,5 @@
 </p>
 
 Please read more here: http://openaudiomc.net/
+
+Web Client can be downloaded from here: https://github.com/OpenAudioMc/Web-UI-Dev-Builds/releases
