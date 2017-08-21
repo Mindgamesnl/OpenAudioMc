@@ -15,7 +15,6 @@ package net.openaudiomc.core;
 
 import com.google.common.collect.Maps;
 
-import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
 import net.openaudiomc.actions.Command;
 import net.openaudiomc.internal.events.*;
 import net.openaudiomc.players.Sessions;
@@ -88,7 +87,7 @@ public class EventListener implements Listener {
         UserManager.addPlayer(client);
         client.sendMessage(Main.getFormattedMessage(Main.get().getMessageConfig().getConnectedMessage()));
         if (Main.get().getWebConfig().getStartSound() != null && !Main.get().getWebConfig().getStartSound().equals("")) {
-          OpenAudioApi.playSound(event.getName(), Main.get().getWebConfig().getStartSound());
+          Command.playNormalSound(event.getName(), Main.get().getWebConfig().getStartSound());
         }
 
 
@@ -188,7 +187,7 @@ public class EventListener implements Listener {
 
   @EventHandler public void onPlayerQuit(PlayerQuitEvent event) {
     Player p = event.getPlayer();
-    OpenAudioApi.stopSound(p.getName());
+    Command.stop(p.getName());
     Command.stopAllRegions(p.getName());
     Emitter.offlineInServer(p.getName());
     AudioSpeakerManager.get().stopForPlayer(event.getPlayer().getName());
