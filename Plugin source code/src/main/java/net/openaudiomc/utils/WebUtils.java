@@ -26,7 +26,7 @@ import static com.google.common.net.HttpHeaders.USER_AGENT;
 
 public class WebUtils {
 
-    public static String getText(String url) throws Exception {
+    public static String getText(String url) throws IOException {
         URL website = new URL(url);
         URLConnection connection = website.openConnection();
         BufferedReader in = new BufferedReader(
@@ -86,6 +86,7 @@ public class WebUtils {
                     }.runTask(Main.get());
 
                 } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }.runTaskAsynchronously(Main.get());
@@ -111,6 +112,7 @@ public class WebUtils {
                     }.runTask(Main.get());
 
                 } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }.runTaskAsynchronously(Main.get());

@@ -16,7 +16,6 @@ package net.openaudiomc.core;
 import com.google.common.collect.Maps;
 
 import net.openaudiomc.actions.Command;
-import net.openaudiomc.files.Messages;
 import net.openaudiomc.internal.events.*;
 import net.openaudiomc.players.Sessions;
 import net.openaudiomc.regions.RegionListener;
@@ -30,8 +29,6 @@ import net.openaudiomc.syncedsound.managers.UserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -44,7 +41,6 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.HashMap;
 
 public class EventListener implements Listener {
@@ -90,8 +86,8 @@ public class EventListener implements Listener {
         Player client = Bukkit.getPlayer(event.getName());
         UserManager.addPlayer(client);
         Main.sm(client, "connected.message");
-        if (Messages.get("start-sound") != null && Messages.get("start-sound") != "") {
-          Command.playNormalSound(event.getName(), Messages.get("start-sound"));
+        if (Main.get().getWebConfig().getStartSound() != null && !Main.get().getWebConfig().getStartSound().equals("")) {
+          Command.playNormalSound(event.getName(), Main.get().getWebConfig().getStartSound());
         }
 
 
@@ -210,9 +206,7 @@ public class EventListener implements Listener {
 
   @EventHandler public void onPlayerTeleport(PlayerTeleportEvent event) {
     Player p = event.getPlayer();
-    FileConfiguration cfg =
-        YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "messages.yml"));
-    if (cfg.getBoolean("stop-on-teleport")) {
+    if (Main.get().getWebConfig().getStopOnTeleport()) {
       Command.stopAll(p.getName());
     }
   }

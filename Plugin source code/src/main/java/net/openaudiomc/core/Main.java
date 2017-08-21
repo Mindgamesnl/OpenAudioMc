@@ -16,17 +16,16 @@ package net.openaudiomc.core;
 import java.io.File;
 import java.io.IOException;
 
-import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import com.google.gson.Gson;
 import com.sk89q.worldguard.bukkit.WGBukkit;
 import lombok.Getter;
 import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
 import net.openaudiomc.actions.Command;
 import net.openaudiomc.actions.Spy;
-import net.openaudiomc.files.DataGetter;
-import net.openaudiomc.files.Messages;
+import net.openaudiomc.files.WebConfig;
 import net.openaudiomc.groups.GroupManager;
 import net.openaudiomc.regions.RegionListener;
 import net.openaudiomc.socket.SocketioConnector;
@@ -34,6 +33,7 @@ import net.openaudiomc.socket.cm_callback;
 import net.openaudiomc.speakersystem.SpeakerMain;
 import net.openaudiomc.speakersystem.managers.AudioSpeakerManager;
 import net.openaudiomc.utils.Reflection;
+import net.openaudiomc.utils.WebUtils;
 import net.openaudiomc.utils.lang.SimpleMessageProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -72,6 +72,7 @@ public class Main extends JavaPlugin {
   @Getter private boolean skriptEnabled = false;
 
   @Getter private Reflection reflection;
+  @Getter private WebConfig webConfig;
 
   public static Main get() {
     return instance;
@@ -108,11 +109,21 @@ public class Main extends JavaPlugin {
 
     createDataFile();
     createRegionsFile();
-    createMessagesFile();
-    createServerNode();
     createPlaylist();
     cm_callback.update();
-    groupManager = new GroupManager();
+
+      try {
+          String id = Authenticator.getID();
+          String url = "http://apocalypsjenl.snowdns.de/config.php?serverId=" + id;
+          String ret = WebUtils.getText(url);
+          System.out.println(ret);
+          webConfig = new Gson().fromJson(ret, WebConfig.class);
+          System.out.println("Loading webconfig version " + webConfig.getConfigVersion());
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+
+      groupManager = new GroupManager();
     reflection = new Reflection(this);
 
     Bukkit.getServer().getPluginManager().registerEvents(new TimeoutManager(), this);
@@ -134,60 +145,18 @@ public class Main extends JavaPlugin {
   }
 
   @Override public void onDisable() {
-    SocketioConnector.close();
     Bukkit.getOnlinePlayers().forEach(player -> {
       if (OpenAudioApi.isConnected(player)) {
         Command.stopAll(player.getName());
         AudioSpeakerManager.get().stopForPlayer(player.getName());
       }
     });
+      SocketioConnector.close();
     instance = null;
   }
 
   public GroupManager getGroupManager() {
     return groupManager;
-  }
-
-  private void createMessagesFile() {
-    MessagesFile = new File("plugins/OpenAudio", "messages.yml");
-    if (!MessagesFile.exists()) {
-      try {
-        MessagesFile.createNewFile();
-      } catch (IOException e) {
-
-      }
-      MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
-      try {
-        MessagesConfig.save(MessagesFile);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-
-    if (Messages.get("website-url").contains("http://client.openaudiomc.net")) {
-      MessagesFile = new File("plugins/OpenAudio", "messages.yml");
-      MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
-      MessagesConfig.set("website-url",
-          "http://client.openaudiomc.net/?name=%name%&session=%session%");
-      try {
-        MessagesConfig.save(MessagesFile);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-
-    if (Messages.get("stop-on-teleport") == null) {
-      MessagesFile = new File("plugins/OpenAudio", "messages.yml");
-      MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
-      MessagesConfig.set("stop-on-teleport", false);
-      try {
-        MessagesConfig.save(MessagesFile);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-
-
   }
 
   public void createRegionsFile() {
@@ -226,70 +195,6 @@ public class Main extends JavaPlugin {
       datafileInst.set("clientID", Authenticator.getClientID());
       try {
         datafileInst.save(dataFile);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-  }
-
-  public void createServerNode() {
-    File dataFile = new File("plugins/OpenAudio/advanced", "advancedConfig.yml");
-    if (!dataFile.exists()) {
-      try {
-        dataFile.createNewFile();
-      } catch (IOException e) {
-
-      }
-      FileConfiguration datafileInst = YamlConfiguration.loadConfiguration(dataFile);
-      datafileInst.set("Description", "Advanced settings (only for networking )");
-      datafileInst.set("host", "http://api.openaudiomc.net/host.php");
-      datafileInst.set("Description-ssl", "WARNING!!! PHILIPS HUE WON'T WORK WHEN SSL IS ENABLED");
-      datafileInst.set("ssl-enabled", "false");
-      try {
-        datafileInst.save(dataFile);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-    if (Objects.equals(DataGetter.get("host"), "https://craftmend.com/openaudio.json")) {
-      MessagesFile = new File("plugins/OpenAudio/advanced", "advancedConfig.yml");
-      MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
-      MessagesConfig.set("host", "http://api.openaudiomc.net/host.php");
-      try {
-        MessagesConfig.save(MessagesFile);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-  }
-
-  public void disableSslConfig() {
-    File dataFile = new File("plugins/OpenAudio/advanced", "advancedConfig.yml");
-    if (!dataFile.exists()) {
-      try {
-        dataFile.createNewFile();
-      } catch (IOException e) {
-
-      }
-      FileConfiguration datafileInst = YamlConfiguration.loadConfiguration(dataFile);
-      datafileInst.set("Description", "Advanced settings (only for networking )");
-      datafileInst.set("host", "http://api.openaudiomc.net/host.php");
-      datafileInst.set("Description-ssl",
-          "Dear user, ssl settings + hue settings have been moved to https://plus.openaudimc.net/");
-      datafileInst.set("ssl-enabled", "deprecated");
-      try {
-        datafileInst.save(dataFile);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-
-    if (Objects.equals(DataGetter.get("host"), "https://craftmend.com/openaudio.json")) {
-      MessagesFile = new File("plugins/OpenAudio/advanced", "advancedConfig.yml");
-      MessagesConfig = YamlConfiguration.loadConfiguration(MessagesFile);
-      MessagesConfig.set("host", "http://api.openaudiomc.net/host.php");
-      try {
-        MessagesConfig.save(MessagesFile);
       } catch (IOException e) {
         e.printStackTrace();
       }
