@@ -141,7 +141,7 @@ public class Main extends JavaPlugin {
       SpeakerMain.loadSpeaker();
       AudioSpeakerManager.get().init();
     }, 20 * 5);
-    info(getLogger(), "plugin.enabled", (System.currentTimeMillis() - start));
+    getLogger().info("OpenAudio started in " + (System.currentTimeMillis() - start) + "ms!");
   }
 
   @Override public void onDisable() {

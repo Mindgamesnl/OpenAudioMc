@@ -28,45 +28,39 @@ import static net.openaudiomc.core.Main.tr;
 
 public class AudioCommand implements CommandExecutor {
 
-  @Override
-  public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-    if (!(sender instanceof Player)) {
-      error(sender, AdminCommands.NO_PLAYER_INSTANCE);
-      return true;
-    } else {
-      TimeoutManager.requestConnect();
-      if (TimeoutManager.isReady()) {
-        if (args.length > 2) {
-          if (args[0].equalsIgnoreCase("volume")
-              || args[0].equalsIgnoreCase("v")
-              || args[0].equalsIgnoreCase("-v")) {
-            ((Player) sender).chat("/volume " + args[1]);
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (!(sender instanceof Player)) {
+            error(sender, AdminCommands.NO_PLAYER_INSTANCE);
             return true;
-          } else {
-            error(sender, "Usage: /" + label + " volume <0-100>");
-            return false;
-          }
         } else {
-          if (tr("connect.message").isPresent()) {
-            String url = Main.get().getWebConfig().getWebsiteUrl()
-                .replace("%name%", sender.getName())
-                .replace("%session%",
-                    Authenticator.getClientID() + ":" + Sessions.getSession(sender.getName()));
+            TimeoutManager.requestConnect();
+            if (TimeoutManager.isReady()) {
+                if (args.length > 2) {
+                    if (args[0].equalsIgnoreCase("volume") || args[0].equalsIgnoreCase("v")
+                            || args[0].equalsIgnoreCase("-v")) {
+                        ((Player) sender).chat("/volume " + args[1]);
+                        return true;
+                    } else {
+                        error(sender, "Usage: /" + label + " volume <0-100>");
+                        return false;
+                    }
+                } else {
+                    if (tr("connect.message").isPresent()) {
+                        String url = Main.get().getWebConfig().getWebsiteUrl().replace("%name%", sender.getName())
+                                .replace("%session%", Authenticator.getClientID() + ":" +
+                                        Sessions.getSession(sender.getName()));
 
-            String message = "[\"\",{\"text\":\""
-                    + tr("connect.message").get()
-                    + "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\""
-                    + url
-                    + "\"}}]"
-                    + "";
-            Main.get().getReflection().sendChatPacket((Player) sender, message);
-          }
-          return true;
+                        String message = "[\"\",{\"text\":\"" + tr("connect.message").get()
+                                + "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + url + "\"}}]";
+                        Main.get().getReflection().sendChatPacket((Player) sender, message);
+                    }
+                    return true;
+                }
+            } else {
+                sm(sender, "socketio.loading");
+                return true;
+            }
         }
-      } else {
-        sm(sender, "socketio.loading");
-        return true;
-      }
     }
-  }
 }
