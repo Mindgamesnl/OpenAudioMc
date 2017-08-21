@@ -28,6 +28,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import net.openaudiomc.core.Main;
 import net.openaudiomc.internal.events.SocketUserConnectEvent;
 import net.openaudiomc.internal.events.SocketWhisperEvent;
 import org.bukkit.Bukkit;
@@ -41,9 +42,7 @@ public class SocketioConnector {
 
   public static void connect() {
     try {
-      FileConfiguration cfg = YamlConfiguration.loadConfiguration(
-          new File("plugins/OpenAudio/advanced", "advancedConfig.yml"));
-      String apiResponse = Authenticator.getWebResponse(cfg.getString("host").replace("https", "http"));
+      String apiResponse = Authenticator.getWebResponse(Main.get().getWebConfig().getHost().replace("https", "http"));
 
       JSONObject jsonObject = (JSONObject) JSONValue.parse(apiResponse);
 

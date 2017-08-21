@@ -14,7 +14,6 @@
 package net.openaudiomc.commands;
 
 import net.openaudiomc.core.Main;
-import net.openaudiomc.files.Messages;
 import net.openaudiomc.socket.Authenticator;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -49,7 +48,7 @@ public class AudioCommand implements CommandExecutor {
           }
         } else {
           if (tr("connect.message").isPresent()) {
-            String url = Messages.get("website-url")
+            String url = Main.get().getWebConfig().getWebsiteUrl()
                 .replace("%name%", sender.getName())
                 .replace("%session%",
                     Authenticator.getClientID() + ":" + Sessions.getSession(sender.getName()));
