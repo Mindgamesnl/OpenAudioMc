@@ -14,7 +14,6 @@
 package net.openaudiomc.actions;
 
 import lombok.experimental.UtilityClass;
-import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
 import net.openaudiomc.socket.Emitter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -23,6 +22,32 @@ import org.json.simple.JSONObject;
  * The Class command.
  */
 @UtilityClass public class Command {
+
+  /**
+   * Play normal sound.
+   *
+   * @param name the name
+   * @param src the src
+   */
+  public void playNormalSound(String name, String src) {
+    JSONObject obj = new JSONObject();
+    obj.put("command", "play_normal");
+    obj.put("src", src);
+    String command = obj.toString();
+    Emitter.EmitToPlayer(name, getCleanURL(command));
+  }
+
+  /**
+   * Stop.
+   *
+   * @param name the name
+   */
+  public void stop(String name) {
+    JSONObject obj = new JSONObject();
+    obj.put("command", "stop");
+    String command = obj.toString();
+    Emitter.EmitToPlayer(name, getCleanURL(command));
+  }
 
   /**
    * Sets the volume.
@@ -313,7 +338,7 @@ import org.json.simple.JSONObject;
   }
 
   public void stopAll(String name) {
-    OpenAudioApi.stopSound(name);
+    Command.stop(name);
     Command.stopAllRegions(name);
   }
 

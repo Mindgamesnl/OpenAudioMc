@@ -13,7 +13,6 @@
  */
 package net.openaudiomc.commands;
 
-import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
 import net.openaudiomc.actions.Command;
 import net.openaudiomc.actions.Spy;
 import net.openaudiomc.files.PlaylistManager;
@@ -325,7 +324,7 @@ public class AdminCommands implements CommandExecutor {
             }
           } else {
             Selector.playerSelector(sender, args[1])
-                .forEach(player -> OpenAudioApi.playSound(player.getName(), args[2]));
+                .forEach(player -> Command.playNormalSound(player.getName(), args[2]));
 
             sender.sendMessage(Main.PREFIX + "Started a sound for " + args[1]);
           }
@@ -366,7 +365,7 @@ public class AdminCommands implements CommandExecutor {
           "openaudio.admin.stopall")) {
         if (args.length == 2) {
           Selector.playerSelector(sender, args[1]).forEach(player -> {
-            OpenAudioApi.stopSound(player.getName());
+            Command.stop(player.getName());
             Command.stopAllRegions(player.getName());
             Command.hueStopEffect(player.getName());
             AudioSpeakerManager.get().stopForPlayer(player.getName());
@@ -382,7 +381,7 @@ public class AdminCommands implements CommandExecutor {
           if (args.length > 3) {
             if (args[3].equalsIgnoreCase("stop")) {
               Selector.playerSelector(sender, args[1]).forEach(player -> {
-                OpenAudioApi.stopSound(player.getName());
+                Command.stop(player.getName());
                 Command.playLoop(player.getName(), args[2]);
               });
               sender.sendMessage(Main.PREFIX + "Started a loop for " + args[1]);
@@ -591,7 +590,7 @@ public class AdminCommands implements CommandExecutor {
         if (Main.get().isRegionsEnabled()) {
           if (args.length == 3) {
             for (Player p : Selector.playerSelector(sender, "region:" + args[1])) {
-              OpenAudioApi.playSound(p.getName(), args[2]);
+              Command.playNormalSound(p.getName(), args[2]);
             }
             sender.sendMessage(Main.PREFIX + "Started a sound for players in region " + args[1]);
           } else {
@@ -641,7 +640,7 @@ public class AdminCommands implements CommandExecutor {
                 UserManager.getPlayer(Bukkit.getPlayer(p.getName())).removeAllSyncedSounds();
               } catch (NullPointerException e) {
               }
-              OpenAudioApi.stopSound(p.getName());
+              Command.stop(p.getName());
             }
             sender.sendMessage(Main.PREFIX + "Stopped sound of " + args[1]);
           }

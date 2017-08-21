@@ -17,99 +17,72 @@ import lombok.experimental.UtilityClass;
 import net.openaudiomc.actions.Command;
 import net.openaudiomc.core.EventListener;
 import net.openaudiomc.regions.RegionListener;
-import net.openaudiomc.socket.Emitter;
 import org.bukkit.entity.Player;
-import org.json.simple.JSONObject;
 
-@UtilityClass
-public class OpenAudioApi {
+@UtilityClass public class OpenAudioApi {
+  public void playSound(Player p, String source) {
+    Command.playNormalSound(p.getName(), source);
+  }
 
-    /**
-     * Play sound normally
-     *
-     * @param player the Player to play the music to
-     * @param source the source of the music
-     */
-    public void playSound(Player player, String source) {
-        playSound(player.getName(), source);
+  public void stopSound(Player p) {
+    Command.stop(p.getName());
+  }
+
+  public void sendMessage(Player p, String message) {
+    Command.sendMessage(p.getName(), message);
+  }
+
+  public void switchServer(Player p, String newhost) {
+    //for backwards compatibilety
+  }
+
+  public void setHue(Player p, String rgba) {
+    Command.hueSet(p.getName(), rgba);
+  }
+
+  public void kickPlayer(Player p) {
+    //for backwards compatibilety
+  }
+
+  public void setBg(Player p, String bg) {
+    Command.setBg(p.getName(), bg);
+  }
+
+  public void setVolume(Player p, Integer volume) {
+    if (volume > 100 || volume < -1) {
+    } else {
+      String vol = volume.toString();
+      Command.setVolume(p.getName(), vol);
     }
+  }
 
-    /**
-     * Play sound normally.
-     *
-     * @param name the Player name
-     * @param source the source of the music
-     */
-    public void playSound(String name, String source) {
-        JSONObject obj = new JSONObject();
-        obj.put("command", "play_normal");
-        obj.put("src", source);
-        String command = obj.toString();
-        Emitter.EmitToPlayer(name, getCleanURL(command));
-    }
+  public void sendJson(Player p, String json) {
+    Command.sendJSON(p.getName(), json);
+  }
 
-    /**
-     * Stop the sound that's playing for that player.
-     *
-     * @param player the Player which you want to stop the music for
-     */
-    public void stopSound(Player player) {
-        stopSound(player.getName());
-    }
+  public Boolean isConnected(Player p) {
+    return EventListener.isConnected(p.getName());
+  }
 
-    /**
-     * Stop the sound that's playing for that player.
-     *
-     * @param name the name of the Player which you want to stop the music for
-     */
-    public void stopSound(String name) {
-        JSONObject obj = new JSONObject();
-        obj.put("command", "stop");
-        String command = obj.toString();
-        Emitter.EmitToPlayer(name, getCleanURL(command));
-    }
+  public String getRegionSound(String region) {
+    return RegionListener.getRegionFile(region);
+  }
 
-    public void sendMessage(Player p, String message) {
-        Command.sendMessage(p.getName(), message);
-    }
+  public String getSessionKey(Player p) {
+    //for backwards compatibilety
+    return null;
+  }
 
-    public void setHue(Player p, String rgba) {
-        Command.hueSet(p.getName(), rgba);
-    }
+  public String getHost(Player p) {
+    //for backwards compatibilety
+    return null;
+  }
 
-    public void setBg(Player p, String bg) {
-        Command.setBg(p.getName(), bg);
-    }
+  public void playRegion(String region_name, String sourcefile) {
+    Command.playRegion(region_name, sourcefile);
+  }
 
-    public void setVolume(Player p, Integer volume) {
-        if (volume > 100 || volume < -1) {
-        } else {
-            String vol = volume.toString();
-            Command.setVolume(p.getName(), vol);
-        }
-    }
-
-    public void sendJson(Player p, String json) {
-        Command.sendJSON(p.getName(), json);
-    }
-
-    public Boolean isConnected(Player p) {
-        return EventListener.isConnected(p.getName());
-    }
-
-    public String getRegionSound(String region) {
-        return RegionListener.getRegionFile(region);
-    }
-
-    public void playRegion(String region_name, String sourcefile) {
-        Command.playRegion(region_name, sourcefile);
-    }
-
-    public void playLoop(Player p, String src) {
-        Command.playLoop(p.getName(), src);
-    }
-
-    private String getCleanURL(String url) {
-        return url.replaceAll("\\\\", "").trim();
-    }
+  public void playLoop(Player p, String src) {
+    Command.playLoop(p.getName(), src);
+  }
 }
