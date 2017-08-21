@@ -26,7 +26,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Authenticator {
-  private static String publicKey;
 
   public static String getID() {
     FileConfiguration cfg =
@@ -35,16 +34,17 @@ public class Authenticator {
   }
 
   public static String getClientID() {
-    if (publicKey == null) {
+    FileConfiguration cfg =
+            YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "serverData.yml"));
+    if (cfg.get("clientID") == null) {
       try {
         Main.get().getLogger().info("Requesting id for the first time (requesting static token)");
         JSONObject obj = new JSONObject(getWebResponse("http://api.openaudiomc.net/plugin/getInfo.php?token=" + getID()));
-        publicKey = obj.getString("cid");
         return obj.getString("cid");
       } catch (Exception ignored) {
       }
     } else {
-      return publicKey;
+      return cfg.getString("clientId");
     }
 
     return null;
