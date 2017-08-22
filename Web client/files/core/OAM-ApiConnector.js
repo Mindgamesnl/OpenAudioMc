@@ -20,11 +20,11 @@ socketIo.connect = function() {
 	socket.on('command', function(msg) {
 		socketIo.log("Reiceived command.");
 		if (msg == "connectionSuccess") {
-			status_span.innerHTML = langpack.message.welcome.replace("%name%", mcname);
-			status_span.className = "status-span status-success";
+            document.getElementById("status-span").innerHTML = langpack.message.welcome.replace("%name%", mcname);
+            document.getElementById("status-span").className = "status-span status-success";
 		} else if (msg == "not_in_server") {
-			status_span.innerHTML = langpack.message.notconnected;
-			status_span.className = "status-span status-error"
+            document.getElementById("status-span").innerHTML = langpack.message.notconnected;
+            document.getElementById("status-span").className = "status-span status-error"
 		} else if (msg == "connected") {
 
 		} else {
