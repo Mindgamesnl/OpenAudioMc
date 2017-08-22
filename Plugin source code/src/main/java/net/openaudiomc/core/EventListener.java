@@ -56,13 +56,13 @@ public class EventListener implements Listener {
             Bukkit.getPlayer(event.getPlayerName()), event.getData()));
 
     if (event.getData().equals("hueConnected")) {
-      Main.sm(player, "heu.connected.message");
+      player.sendMessage(Main.getFormattedMessage(Main.get().getMessageConfig().getHueConnectedMessage()));
       Bukkit.getServer()
           .getPluginManager()
           .callEvent(new me.mindgamesnl.openaudiomc.publicApi.HueConnectEvent(
               Bukkit.getPlayer(event.getPlayerName())));
     } else if (event.getData().equals("eventMinni")) {
-      Main.sm(player, "connected.warning");
+      player.sendMessage(Main.getFormattedMessage(Main.get().getMessageConfig().getConnectWarning()));
       Bukkit.getServer()
               .getPluginManager()
               .callEvent(new me.mindgamesnl.openaudiomc.publicApi.HueConnectEvent(
@@ -86,7 +86,7 @@ public class EventListener implements Listener {
         AudioSpeakerManager.get().getListeners().put(event.getName(), false);
         Player client = Bukkit.getPlayer(event.getName());
         UserManager.addPlayer(client);
-        Main.sm(client, "connected.message");
+        client.sendMessage(Main.getFormattedMessage(Main.get().getMessageConfig().getConnectedMessage()));
         if (Main.get().getWebConfig().getStartSound() != null && !Main.get().getWebConfig().getStartSound().equals("")) {
           OpenAudioApi.playSound(event.getName(), Main.get().getWebConfig().getStartSound());
         }
@@ -116,7 +116,8 @@ public class EventListener implements Listener {
     String connector = (String) event.getName();
     OfflinePlayer player = Bukkit.getOfflinePlayer((String) event.getName());
     if (player.isOnline()) {
-      Main.sm(player.getPlayer(), "disconnected.message");
+      player.getPlayer().sendMessage(Main.getFormattedMessage(
+              Main.get().getMessageConfig().getDisconnectedMessage()));
     }
     AudioSpeakerManager.get().stopForPlayer(connector);
   }
