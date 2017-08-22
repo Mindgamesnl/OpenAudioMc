@@ -40,6 +40,8 @@ public class Authenticator {
       try {
         Main.get().getLogger().info("Requesting id for the first time (requesting static token)");
         JSONObject obj = new JSONObject(getWebResponse("http://api.openaudiomc.net/plugin/getInfo.php?token=" + getID()));
+        cfg.set("clientId", obj.getString("cid"));
+        cfg.save(new File("plugins/OpenAudio", "serverData.yml"));
         return obj.getString("cid");
       } catch (Exception ignored) {
       }
