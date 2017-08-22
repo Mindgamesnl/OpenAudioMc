@@ -16,15 +16,13 @@ package net.openaudiomc.core;
 import java.io.File;
 import java.io.IOException;
 
-import java.util.Optional;
-import java.util.logging.Logger;
-
 import com.google.gson.Gson;
 import com.sk89q.worldguard.bukkit.WGBukkit;
 import lombok.Getter;
 import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
 import net.openaudiomc.actions.Command;
 import net.openaudiomc.actions.Spy;
+import net.openaudiomc.files.MessageConfig;
 import net.openaudiomc.files.WebConfig;
 import net.openaudiomc.groups.GroupManager;
 import net.openaudiomc.regions.RegionListener;
@@ -34,10 +32,8 @@ import net.openaudiomc.speakersystem.SpeakerMain;
 import net.openaudiomc.speakersystem.managers.AudioSpeakerManager;
 import net.openaudiomc.utils.Reflection;
 import net.openaudiomc.utils.WebUtils;
-import net.openaudiomc.utils.lang.SimpleMessageProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -59,15 +55,11 @@ public class Main extends JavaPlugin {
     //CONSTANT
     public static String PREFIX =
             ChatColor.translateAlternateColorCodes('&', "&9[&bOpenAudioMc&9] &3");
-    private static final SimpleMessageProvider SIMPLE_MESSAGE_PROVIDER =
-            new SimpleMessageProvider("openaudio");
 
 
     private GroupManager groupManager;
 
     private static Main instance;
-    private static File MessagesFile;
-    private static FileConfiguration MessagesConfig;
     @Getter
     private boolean regionsEnabled = false;
     @Getter
@@ -77,6 +69,8 @@ public class Main extends JavaPlugin {
     private Reflection reflection;
     @Getter
     private WebConfig webConfig;
+    @Getter
+    private MessageConfig messageConfig;
 
     public static Main get() {
         return instance;
@@ -89,6 +83,17 @@ public class Main extends JavaPlugin {
         long start = System.currentTimeMillis();
 
         getLogger().info("Loading OpenAudioMc by Mindgamesnl/Me_is_mattyh");
+
+        try {
+            String id = Authenticator.getID();
+            String cliendId = Authenticator.getClientID();
+            String url = "http://apocalypsjenl.snowdns.de/messages.php?serverId=" + id + "&clientId=" + cliendId;
+            String ret = WebUtils.getText(url);
+            messageConfig = new Gson().fromJson(ret, MessageConfig.class);
+            System.out.println("Loading webMessages version " + messageConfig.getMessagesVersion());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     /*  DEPENDENCIES  */
         if (getServer().getPluginManager().isPluginEnabled("WorldGuard")
@@ -124,7 +129,7 @@ public class Main extends JavaPlugin {
             String ret = WebUtils.getText(url);
             System.out.println(ret);
             webConfig = new Gson().fromJson(ret, WebConfig.class);
-            System.out.println("Loading webconfig version " + webConfig.getConfigVersion());
+            System.out.println("Loading webConfig version " + webConfig.getConfigVersion());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -199,7 +204,7 @@ public class Main extends JavaPlugin {
             datafileInst.set("Description",
                     "This is identifies the server and should be kept secret, do you have a bungeecord network? just set this id on all your server and bungeecord mode is activated :)");
             datafileInst.set("serverID", Authenticator.getNewId().getString("server"));
-            datafileInst.set("clientID", Authenticator.getClientID());
+            datafileInst.set("clientId", Authenticator.getClientID());
             try {
                 datafileInst.save(dataFile);
             } catch (IOException e) {
@@ -237,21 +242,8 @@ public class Main extends JavaPlugin {
         return (WorldGuardPlugin) plugin;
     }
 
-    public static void info(Logger logger, String key, Object... args) {
-        tr(key, args).ifPresent(logger::info);
-    }
-
-    public static void warning(Logger logger, String key, Object... args) {
-        tr(key, args).ifPresent(logger::warning);
-    }
-
-    public static void sm(CommandSender sender, String key, Object... args) {
-        tr(key, args).map(s -> ChatColor.translateAlternateColorCodes('&', s))
-                .ifPresent(sender::sendMessage);
-    }
-
-    public static Optional<String> tr(String key, Object... args) {
-        return SIMPLE_MESSAGE_PROVIDER.get(key, args);
+    public static String getFormattedMessage(String message) {
+        return ChatColor.translateAlternateColorCodes('&', Main.get().getMessageConfig().getPrefix() + message);
     }
 
     public void handleRegionListener(Player client) {

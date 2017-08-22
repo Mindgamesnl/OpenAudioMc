@@ -23,8 +23,6 @@ import net.openaudiomc.socket.TimeoutManager;
 import org.bukkit.entity.Player;
 
 import static net.openaudiomc.commands.AdminCommands.error;
-import static net.openaudiomc.core.Main.sm;
-import static net.openaudiomc.core.Main.tr;
 
 public class AudioCommand implements CommandExecutor {
 
@@ -46,19 +44,17 @@ public class AudioCommand implements CommandExecutor {
                         return false;
                     }
                 } else {
-                    if (tr("connect.message").isPresent()) {
-                        String url = Main.get().getWebConfig().getWebsiteUrl().replace("%name%", sender.getName())
-                                .replace("%session%", Authenticator.getClientID() + ":" +
-                                        Sessions.getSession(sender.getName()));
+                    String url = Main.get().getWebConfig().getWebsiteUrl().replace("%name%", sender.getName())
+                            .replace("%session%", Authenticator.getClientID() + ":" +
+                                    Sessions.getSession(sender.getName()));
 
-                        String message = "[\"\",{\"text\":\"" + tr("connect.message").get()
-                                + "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + url + "\"}}]";
-                        Main.get().getReflection().sendChatPacket((Player) sender, message);
-                    }
+                    String message = "[\"\",{\"text\":\"" + Main.getFormattedMessage(Main.get().getMessageConfig().getConnectMessage())
+                            + "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + url + "\"}}]";
+                    Main.get().getReflection().sendChatPacket((Player) sender, message);
                     return true;
                 }
             } else {
-                sm(sender, "socketio.loading");
+                sender.sendMessage(Main.getFormattedMessage(Main.get().getMessageConfig().getSocketioLoading()));
                 return true;
             }
         }

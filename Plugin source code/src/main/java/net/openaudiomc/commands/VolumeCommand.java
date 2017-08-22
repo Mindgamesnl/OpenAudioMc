@@ -14,41 +14,42 @@
 package net.openaudiomc.commands;
 
 import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
+import net.openaudiomc.core.Main;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import static net.openaudiomc.commands.AdminCommands.error;
-import static net.openaudiomc.core.Main.sm;
 
 public class VolumeCommand implements CommandExecutor {
 
-  @Override
-  public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-    if (sender instanceof Player) {
-      if (OpenAudioApi.isConnected((Player) sender)) {
-        if (args.length > 0) {
-          if (args[0].chars().allMatch(Character::isDigit) && (Integer.parseInt(args[0]) <= 100
-              && Integer.parseInt(args[0]) > -1)) {
-            sm(sender, "volume.set", args[0]);
-            net.openaudiomc.actions.Command.setVolume(sender.getName(), args[0]);
-            return true;
-          } else {
-            sm(sender, "volume.error");
-            return true;
-          }
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (sender instanceof Player) {
+            if (OpenAudioApi.isConnected((Player) sender)) {
+                if (args.length > 0) {
+                    if (args[0].chars().allMatch(Character::isDigit) && (Integer.parseInt(args[0]) <= 100
+                            && Integer.parseInt(args[0]) > -1)) {
+                        sender.sendMessage(Main.getFormattedMessage(Main.get().getMessageConfig().getVolumeSet()
+                                .replace("{0}", args[0])));
+                        net.openaudiomc.actions.Command.setVolume(sender.getName(), args[0]);
+                        return true;
+                    } else {
+                        sender.sendMessage(Main.getFormattedMessage(Main.get().getMessageConfig().getVolumeError()));
+                        return true;
+                    }
+                } else {
+                    sender.sendMessage(Main.getFormattedMessage(Main.get().getMessageConfig().getVolumeError()));
+                    return true;
+                }
+            } else {
+                sender.sendMessage(Main.getFormattedMessage(Main.get().getMessageConfig().getNeedConnected()));
+                return true;
+            }
         } else {
-          sm(sender, "volume.error");
-          return true;
+            error(sender, AdminCommands.NO_PLAYER_INSTANCE);
+            return true;
         }
-      } else {
-        sm(sender, "need.connected");
-        return true;
-      }
-    } else {
-      error(sender, AdminCommands.NO_PLAYER_INSTANCE);
-      return true;
     }
-  }
 }
