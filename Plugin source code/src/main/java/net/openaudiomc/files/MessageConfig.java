@@ -4,6 +4,7 @@ import lombok.Getter;
 
 public class MessageConfig {
 
+    @Getter private static String url = "http://apocalypsje.ga/messages.php?serverId={0}&clientId={1}";
     @Getter private String messagesVersion;
     @Getter private String serverId;
     @Getter private String clientId;
