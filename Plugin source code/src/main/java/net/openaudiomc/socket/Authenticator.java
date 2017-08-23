@@ -13,17 +13,11 @@
  */
 package net.openaudiomc.socket;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 
-import net.openaudiomc.core.Main;
 import net.openaudiomc.utils.WebUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Authenticator {

@@ -1,7 +1,6 @@
 package net.openaudiomc.utils;
 
 import net.openaudiomc.core.Main;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Constructor;
@@ -32,7 +31,7 @@ public class Reflection {
                 if(version.equals("v1_8_R1") || version.equals("v1_7_R4") || version.equals("v1_7_R3") || version.equals("v1_7_R2") || version.equals("v1_7_R1")) {
                     chatClass = Class.forName("net.minecraft.server." + version + ".ChatSerializer").getMethod("a", String.class).invoke(null, json);
                 } else {
-                    chatClass = getDeclaredClassName(Class.forName("net.minecraft.server." + version + ".IChatBaseComponent"), "ChatSerializer").getMethod("a", String.class).invoke(null, json);
+                    chatClass = getDeclaredClassName(Class.forName("net.minecraft.server." + version + ".IChatBaseComponent")).getMethod("a", String.class).invoke(null, json);
                 }
                 Object packet;
                 if(version.equals("v1_12_R1")) {
@@ -67,8 +66,8 @@ public class Reflection {
         Main.get().getServer().dispatchCommand(Main.get().getServer().getConsoleSender(), tellraw);
     }
 
-    private Class<?> getDeclaredClassName(Class<?> c, String toFind){
-        for(Class<?> cl : c.getDeclaredClasses()) if(cl.getName().endsWith(toFind)) return cl;
+    private Class<?> getDeclaredClassName(Class<?> c){
+        for(Class<?> cl : c.getDeclaredClasses()) if(cl.getName().endsWith("ChatSerializer")) return cl;
         return null;
     }
 }
