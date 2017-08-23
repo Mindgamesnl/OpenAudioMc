@@ -17,7 +17,6 @@ import net.openaudiomc.actions.Command;
 import net.openaudiomc.actions.Spy;
 import net.openaudiomc.files.PlaylistManager;
 import net.openaudiomc.groups.Group;
-import net.openaudiomc.groups.GroupManager;
 import net.openaudiomc.core.Main;
 import net.openaudiomc.oauth.OAuthConnector;
 import net.openaudiomc.regions.RegionListener;

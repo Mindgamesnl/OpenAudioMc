@@ -48,7 +48,7 @@ import net.openaudiomc.core.Main;
     } catch (ParseException ignored) {
     }
 
-    this.schedule = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.get(), () -> cycleTask(), 0, 20);
+    this.schedule = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.get(), this::cycleTask, 0, 20);
   }
 
   public void restart() {
@@ -67,7 +67,7 @@ import net.openaudiomc.core.Main;
     } catch (ParseException e) {
       e.printStackTrace();
     }
-    this.schedule = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.get(), () -> cycleTask(), 0, 20);
+    this.schedule = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.get(), this::cycleTask, 0, 20);
   }
 
   private void endTask() {

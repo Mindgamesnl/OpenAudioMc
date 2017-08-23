@@ -35,7 +35,7 @@ public class AudioSpeakerSound {
 		startRun();
 	}
 	
-	void repeat() {
+	public void repeat() {
 		if (this.timestamp > this.duration) {
 			this.timestamp = 0;
 		} else {
@@ -44,13 +44,8 @@ public class AudioSpeakerSound {
 	}
 	
 	@SuppressWarnings("deprecation")
-	void startRun() {
-		this.schedule = Bukkit.getScheduler().scheduleAsyncRepeatingTask(Main.get(), new Runnable() {
-            @Override
-            public void run() {
-            	repeat();
-            }
-        }, 0, 20);
+	public void startRun() {
+		this.schedule = Bukkit.getScheduler().scheduleAsyncRepeatingTask(Main.get(), this::repeat, 0, 20);
 	}
 
 	public Boolean hasFile() {
