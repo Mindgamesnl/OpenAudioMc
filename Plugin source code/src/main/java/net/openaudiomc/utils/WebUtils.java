@@ -18,11 +18,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
 
-import lombok.Cleanup;
 import net.openaudiomc.core.Main;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import static com.google.common.net.HttpHeaders.USER_AGENT;
 
 public class WebUtils {
 
@@ -40,30 +37,6 @@ public class WebUtils {
             response.append(inputLine);
 
         in.close();
-        return response.toString();
-    }
-
-
-    public static String textFromUrl(String request) throws IOException {
-
-        URL obj = new URL(request);
-        CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
-        @Cleanup("disconnect") HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-        con.setRequestMethod("GET");
-        con.setRequestProperty("User-Agent", USER_AGENT);
-
-        int responseCode = con.getResponseCode();
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuilder response = new StringBuilder();
-
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-        }
-        in.close();
-
         return response.toString();
     }
 
