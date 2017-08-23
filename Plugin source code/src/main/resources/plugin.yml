@@ -80,5 +80,5 @@ permissions:
       description: Allows you to use the /openaudio hue command.
       default: op
   openaudio.speakers.group:
-        description: Allows you to use the /openaudio group command.
-        default: op
+      description: Allows you to use the /openaudio group command.
+      default: op

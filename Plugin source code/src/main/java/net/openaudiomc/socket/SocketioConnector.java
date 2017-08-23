@@ -31,6 +31,7 @@ import javax.net.ssl.X509TrustManager;
 import net.openaudiomc.core.Main;
 import net.openaudiomc.internal.events.SocketUserConnectEvent;
 import net.openaudiomc.internal.events.SocketWhisperEvent;
+import net.openaudiomc.utils.WebUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -42,7 +43,7 @@ public class SocketioConnector {
 
   public static void connect() {
     try {
-      String apiResponse = Authenticator.getWebResponse(Main.get().getWebConfig().getHost().replace("https", "http"));
+      String apiResponse = WebUtils.getText(Main.get().getWebConfig().getHost().replace("https", "http"));
 
       JSONObject jsonObject = (JSONObject) JSONValue.parse(apiResponse);
 

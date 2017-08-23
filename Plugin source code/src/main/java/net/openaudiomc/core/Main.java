@@ -49,6 +49,7 @@ import net.openaudiomc.commands.AdminCommands;
 import net.openaudiomc.commands.AudioCommand;
 import net.openaudiomc.commands.VolumeCommand;
 import net.openaudiomc.internal.events.SkriptRegistration;
+import org.json.JSONObject;
 
 public class Main extends JavaPlugin {
 
@@ -84,17 +85,6 @@ public class Main extends JavaPlugin {
 
         getLogger().info("Loading OpenAudioMc by Mindgamesnl/Me_is_mattyh");
 
-        try {
-            String id = Authenticator.getID();
-            String cliendId = Authenticator.getClientID();
-            String url = "http://apocalypsjenl.snowdns.de/messages.php?serverId=" + id + "&clientId=" + cliendId;
-            String ret = WebUtils.getText(url);
-            messageConfig = new Gson().fromJson(ret, MessageConfig.class);
-            System.out.println("Loading webMessages version " + messageConfig.getMessagesVersion());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     /*  DEPENDENCIES  */
         if (getServer().getPluginManager().isPluginEnabled("WorldGuard")
                 && getServer().getPluginManager().isPluginEnabled("WorldEdit")) {
@@ -118,21 +108,13 @@ public class Main extends JavaPlugin {
         }
 
         createDataFile();
+
+
+        reloadWebConfig();
+
         createRegionsFile();
         createPlaylist();
         cm_callback.update();
-
-        try {
-            String id = Authenticator.getID();
-            String cliendId = Authenticator.getClientID();
-            String url = "http://apocalypsjenl.snowdns.de/config.php?serverId=" + id + "&clientId=" + cliendId;
-            String ret = WebUtils.getText(url);
-            System.out.println(ret);
-            webConfig = new Gson().fromJson(ret, WebConfig.class);
-            System.out.println("Loading webConfig version " + webConfig.getConfigVersion());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         groupManager = new GroupManager();
         reflection = new Reflection(this);
@@ -203,8 +185,9 @@ public class Main extends JavaPlugin {
                             "This is identifies the server and should be kept secret, do you have a bungeecord network? just set this id on all your server and bungeecord mode is activated :)");
             datafileInst.set("Description",
                     "This is identifies the server and should be kept secret, do you have a bungeecord network? just set this id on all your server and bungeecord mode is activated :)");
-            datafileInst.set("serverID", Authenticator.getNewId().getString("server"));
-            datafileInst.set("clientId", Authenticator.getClientID());
+            JSONObject newTokens = Authenticator.getNewId();
+            datafileInst.set("serverID", newTokens.getString("server"));
+            datafileInst.set("clientId", newTokens.getString("client"));
             try {
                 datafileInst.save(dataFile);
             } catch (IOException e) {
@@ -256,6 +239,22 @@ public class Main extends JavaPlugin {
                                     RegionListener.getRegionFile(protectedRegion.getId()));
                         }
                     });
+        }
+    }
+
+    public void reloadWebConfig() {
+        try {
+            String id = Authenticator.getID();
+            String cliendId = Authenticator.getClientID();
+            String configReturn = WebUtils.getText(WebConfig.getUrl().replace("{0}", id).replace("{1}", cliendId));
+            webConfig = new Gson().fromJson(configReturn, WebConfig.class);
+            System.out.println("Loading webConfig version " + webConfig.getConfigVersion());
+            String messageReturn = WebUtils.getText(MessageConfig.getUrl().replace("{0}", id).replace("{1}", cliendId));
+            messageConfig = new Gson().fromJson(messageReturn, MessageConfig.class);
+            System.out.println("Loading webMessages version " + messageConfig.getMessagesVersion());
+            Main.PREFIX = ChatColor.translateAlternateColorCodes('&', messageConfig.getPrefix());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
