@@ -165,16 +165,16 @@ public class RegionListener implements Listener {
   //returns file of a region
   public static String getRegionFile(String regionName) {
     if (isValidRegion(regionName)) {
-      return net.openaudiomc.regions.File.getString("region.src." + regionName);
+      return net.openaudiomc.regions.File.getString("region.src." + regionName.toUpperCase());
     } else {
       return "InvalidSource";
     }
   }
 
   public static String getRegionWorld(String regionName) {
-    if (net.openaudiomc.regions.File.getString("world." + regionName) != null
-        && net.openaudiomc.regions.File.getString("region.isvalid." + regionName).equals("true")) {
-      return net.openaudiomc.regions.File.getString("world." + regionName);
+    if (net.openaudiomc.regions.File.getString("world." + regionName.toUpperCase()) != null
+        && net.openaudiomc.regions.File.getString("region.isvalid." + regionName.toUpperCase()).equals("true")) {
+      return net.openaudiomc.regions.File.getString("world." + regionName.toUpperCase());
     } else {
       return "<none>";
     }
@@ -182,8 +182,8 @@ public class RegionListener implements Listener {
 
   //check if a region ia know to openaudio (true = valid)
   public static Boolean isValidRegion(String regionName) {
-    return net.openaudiomc.regions.File.getString("region.isvalid." + regionName) != null
-        && net.openaudiomc.regions.File.getString("region.isvalid." + regionName).equals("true");
+    return net.openaudiomc.regions.File.getString("region.isvalid." + regionName.toUpperCase()) != null
+        && net.openaudiomc.regions.File.getString("region.isvalid." + regionName.toUpperCase()).equals("true");
   }
 
   public static void registerRegion(String regionName, String src, Player p) {
