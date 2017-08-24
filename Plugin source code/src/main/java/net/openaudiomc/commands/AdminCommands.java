@@ -18,8 +18,8 @@ import net.openaudiomc.actions.Spy;
 import net.openaudiomc.files.PlaylistManager;
 import net.openaudiomc.groups.Group;
 import net.openaudiomc.core.Main;
-import net.openaudiomc.oauth.OAuthConnector;
 import net.openaudiomc.regions.RegionListener;
+import net.openaudiomc.socket.Authenticator;
 import net.openaudiomc.socket.TimeoutManager;
 import net.openaudiomc.socket.cm_callback;
 import net.openaudiomc.speakersystem.SpeakerMain;
@@ -357,7 +357,7 @@ public class AdminCommands implements CommandExecutor {
           sender.sendMessage(
               Main.PREFIX + "" + ChatColor.RED + "This code will only be valid for 5 minutes:");
           sender.sendMessage(
-              ChatColor.AQUA + "Your key: " + ChatColor.YELLOW + OAuthConnector.getToken());
+              ChatColor.AQUA + "Your key: " + ChatColor.YELLOW + Authenticator.getOauthId());
         } else {
           error(sender, NO_COMMAND_PERMISSION_MESSAGE);
           return true;

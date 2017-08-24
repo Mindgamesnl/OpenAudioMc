@@ -14,6 +14,7 @@
 package net.openaudiomc.socket;
 
 import java.io.File;
+import java.io.IOException;
 
 import net.openaudiomc.utils.WebUtils;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -37,8 +38,17 @@ public class Authenticator {
     public static JSONObject getNewId() {
         try {
             return new JSONObject(WebUtils.getText("http://api.openaudiomc.net/plugin/genKey.php"));
-        } catch (Exception ignored) {
+        } catch (IOException ignored) {
         }
         return null;
+    }
+
+    public static String getOauthId() {
+        String serverid = Authenticator.getID();
+        try {
+            return WebUtils.getText("http://api.openaudiomc.net/oauth/request_key?serverid=" + serverid);
+        } catch (IOException e) {
+            return "Error while requesting key.";
+        }
     }
 }
