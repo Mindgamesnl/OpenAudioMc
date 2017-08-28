@@ -45,31 +45,6 @@ public class WebUtils {
             @Override
             public void run() {
                 try {
-                    URL url = new URL(request);
-
-                    BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-
-                    final String string = in.readLine();
-                    in.close();
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            callback.execute(string);
-                        }
-                    }.runTask(Main.get());
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.runTaskAsynchronously(Main.get());
-    }
-
-    public static void asyncHttpRequestNoReturn(final String request, final CallbackNoReturn<String> callback) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                try {
                     URL url;
                     url = new URL(request);
 

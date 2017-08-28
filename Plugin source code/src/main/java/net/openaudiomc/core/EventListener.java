@@ -41,10 +41,11 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class EventListener implements Listener {
-    public static HashMap<String, Boolean> isConnected = Maps.newHashMap();
+    public static ArrayList<String> isConnected = new ArrayList<>();
 
     @EventHandler
     public void onSocketWhisperEvent(SocketWhisperEvent event) {
@@ -98,7 +99,7 @@ public class EventListener implements Listener {
 
 
                 Emitter.connectedInServer(event.getName());
-                isConnected.put(client.getName(), true);
+                isConnected.add(client.getName());
                 UserManager.getPlayer(client).syncSounds();
                 Main.get().handleRegionListener(client);
                 Bukkit.getServer()
@@ -113,9 +114,8 @@ public class EventListener implements Listener {
 
     @EventHandler
     public void onSocketUserDisconnectEvent(SocketUserDisconnectEvent event) {
-        isConnected.put((String) event.getName(), false);
-        Bukkit.getServer()
-                .getPluginManager()
+        isConnected.remove(event.getName());
+        Bukkit.getServer().getPluginManager()
                 .callEvent(new me.mindgamesnl.openaudiomc.publicApi.WebDisconnectEvent(
                         Bukkit.getPlayer((String) event.getName())));
 
@@ -225,14 +225,6 @@ public class EventListener implements Listener {
         Player p = event.getPlayer();
         if (Main.get().getWebConfig().getStopOnTeleport()) {
             Command.stopAll(p.getName());
-        }
-    }
-
-    public static Boolean isConnected(String name) {
-        if (isConnected.get(name) != null) {
-            return isConnected.get(name);
-        } else {
-            return false;
         }
     }
 }

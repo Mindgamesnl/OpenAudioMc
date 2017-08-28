@@ -14,7 +14,7 @@
 package net.openaudiomc.socket;
 
 import net.openaudiomc.core.Main;
-import net.openaudiomc.utils.CallbackNoReturn;
+import net.openaudiomc.utils.Callback;
 import net.openaudiomc.utils.WebUtils;
 import org.json.JSONObject;
 
@@ -44,7 +44,7 @@ public class cm_callback {
   public static int callbacks = 0;
 
   public static void update() {
-    CallbackNoReturn<String> callback = string -> {
+    Callback<String> callback = string -> {
       JSONObject jsonObject = new JSONObject(string);
       lastVersion = jsonObject.getString("lastupdate");
       updateTitle = jsonObject.getString("updatetitle");
@@ -54,7 +54,7 @@ public class cm_callback {
     };
 
     String id = Authenticator.getClientID();
-    WebUtils.asyncHttpRequestNoReturn(
+    WebUtils.asyncHttpRequest(
         "http://api.openaudiomc.net/status.php?id=" + id + "&version=" + Main.get()
             .getDescription()
             .getVersion(), callback);
