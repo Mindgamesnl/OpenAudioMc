@@ -13,18 +13,13 @@
  */
 package net.openaudiomc.socket;
 
-import com.google.common.collect.Lists;
 import lombok.Getter;
 import net.openaudiomc.internal.events.SocketConnectEvent;
 import net.openaudiomc.internal.events.SocketDisconnectEvent;
 import net.openaudiomc.core.EventListener;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TimeoutManager implements Listener {
     @Getter
@@ -60,13 +55,7 @@ public class TimeoutManager implements Listener {
     }
 
     public static void updateCounter() {
-        Integer connectedPlayersCount = 0;
-        List<Boolean> list = Lists.newArrayList(EventListener.isConnected.values());
-        for (Boolean value : list) {
-            if (value) {
-                connectedPlayersCount++;
-            }
-        }
+        Integer connectedPlayersCount = EventListener.isConnected.size();
 
         if (connectedPlayersCount == 0) {
             if (isConnected()) {

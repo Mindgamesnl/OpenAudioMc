@@ -30,10 +30,9 @@ public class SyncedSoundManager {
     @Getter
     private static Map<String, SyncedSound> syncedSoundMap = Maps.newHashMap();
 
-    public static SyncedSound create(final String src, final String soundid, final String playername) {
+    public static void create(final String src, final String soundid, final String playername) {
         if (getBySrc(src) != null) {
             getBySrc(src).restart();
-            return getBySrc(src);
         } else {
             Main.get().getLogger().info("Registerd new synced sound.");
             Callback<String> callback = string -> {
@@ -51,13 +50,10 @@ public class SyncedSoundManager {
                         UserManager.getPlayer(Bukkit.getPlayer(playername)).addSyncedSound(id);
                         UserManager.getPlayer(Bukkit.getPlayer(playername)).syncSounds();
                     }, 2);
-                    return getSyncedSoundMap().get(id);
                 }
-                return null;
             };
             WebUtils.asyncHttpRequest("http://api.openaudiomc.net/plugin/mp3_info.php?s=" + src, callback);
         }
-        return null;
     }
 
     public static void remove(String id) {

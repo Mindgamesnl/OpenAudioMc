@@ -248,12 +248,14 @@ public class Main extends JavaPlugin {
             String cliendId = Authenticator.getClientID();
             String configReturn = WebUtils.getText(WebConfig.getUrl().replace("{0}", id).replace("{1}", cliendId));
             webConfig = new Gson().fromJson(configReturn, WebConfig.class);
-            System.out.println("Loading webConfig version " + webConfig.getConfigVersion());
+            getLogger().info("Loading webConfig version " + webConfig.getConfigVersion());
             String messageReturn = WebUtils.getText(MessageConfig.getUrl().replace("{0}", id).replace("{1}", cliendId));
             messageConfig = new Gson().fromJson(messageReturn, MessageConfig.class);
-            System.out.println("Loading webMessages version " + messageConfig.getMessagesVersion());
+            getLogger().info("Loading webMessages version " + messageConfig.getMessagesVersion());
             Main.PREFIX = ChatColor.translateAlternateColorCodes('&', messageConfig.getPrefix());
         } catch (IOException e) {
+            getLogger().warning("Couldn't load the webConfig or the webMessages! Plugin is not going to work without them!");
+            getServer().getPluginManager().disablePlugin(this);
             e.printStackTrace();
         }
     }
