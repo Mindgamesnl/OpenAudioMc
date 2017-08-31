@@ -58,14 +58,14 @@ public class EventListener implements Listener {
 
         switch (event.getData()) {
             case "hueConnected":
-                player.sendMessage(Main.getFormattedMessage(Main.get().getMessageConfig().getHueConnectedMessage()));
+                player.sendMessage(Main.getFormattedMessage(Main.get().getWebConfig().getHueConnectedMessage()));
                 Bukkit.getServer()
                         .getPluginManager()
                         .callEvent(new me.mindgamesnl.openaudiomc.publicApi.HueConnectEvent(
                                 Bukkit.getPlayer(event.getPlayerName())));
                 break;
             case "eventMinni":
-                player.sendMessage(Main.getFormattedMessage(Main.get().getMessageConfig().getConnectWarning()));
+                player.sendMessage(Main.getFormattedMessage(Main.get().getWebConfig().getConnectWarning()));
                 Bukkit.getServer()
                         .getPluginManager()
                         .callEvent(new me.mindgamesnl.openaudiomc.publicApi.HueConnectEvent(
@@ -92,7 +92,7 @@ public class EventListener implements Listener {
                 AudioSpeakerManager.get().getListeners().put(event.getName(), false);
                 Player client = Bukkit.getPlayer(event.getName());
                 UserManager.addPlayer(client);
-                client.sendMessage(Main.getFormattedMessage(Main.get().getMessageConfig().getConnectedMessage()));
+                client.sendMessage(Main.getFormattedMessage(Main.get().getWebConfig().getConnectedMessage()));
                 if (Main.get().getWebConfig().getStartSound() != null && !Main.get().getWebConfig().getStartSound().equals("")) {
                     Command.playNormalSound(event.getName(), Main.get().getWebConfig().getStartSound());
                 }
@@ -123,7 +123,7 @@ public class EventListener implements Listener {
         OfflinePlayer player = Bukkit.getOfflinePlayer((String) event.getName());
         if (player.isOnline()) {
             player.getPlayer().sendMessage(Main.getFormattedMessage(
-                    Main.get().getMessageConfig().getDisconnectedMessage()));
+                    Main.get().getWebConfig().getDisconnectedMessage()));
         }
         AudioSpeakerManager.get().stopForPlayer(connector);
     }
