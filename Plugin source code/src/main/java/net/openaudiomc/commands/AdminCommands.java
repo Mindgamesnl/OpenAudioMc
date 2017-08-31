@@ -17,10 +17,9 @@ import net.openaudiomc.actions.Command;
 import net.openaudiomc.actions.Spy;
 import net.openaudiomc.files.PlaylistManager;
 import net.openaudiomc.groups.Group;
-import net.openaudiomc.groups.GroupManager;
 import net.openaudiomc.core.Main;
-import net.openaudiomc.oauth.OAuthConnector;
 import net.openaudiomc.regions.RegionListener;
+import net.openaudiomc.socket.Authenticator;
 import net.openaudiomc.socket.TimeoutManager;
 import net.openaudiomc.socket.cm_callback;
 import net.openaudiomc.speakersystem.SpeakerMain;
@@ -239,6 +238,8 @@ public class AdminCommands implements CommandExecutor {
               " &c- &3&l/openaudio playlist set <list> <id> <url>&r&a Set a song in a playlist."));
           sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
               " &c- &3&l/openaudio playlist play <list> <selector/player>&r&a Start the playlist for a player."));
+          sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                  " &c- &3&l/openaudio reload&r&a Reloads the messages and the config from OA+."));
         } else if (args[1].equalsIgnoreCase("user")) {
           sender.sendMessage(" ");
           sender.sendMessage(" ");
@@ -356,7 +357,7 @@ public class AdminCommands implements CommandExecutor {
           sender.sendMessage(
               Main.PREFIX + "" + ChatColor.RED + "This code will only be valid for 5 minutes:");
           sender.sendMessage(
-              ChatColor.AQUA + "Your key: " + ChatColor.YELLOW + OAuthConnector.getToken());
+              ChatColor.AQUA + "Your key: " + ChatColor.YELLOW + Authenticator.getOauthId());
         } else {
           error(sender, NO_COMMAND_PERMISSION_MESSAGE);
           return true;
@@ -617,6 +618,15 @@ public class AdminCommands implements CommandExecutor {
               + cm_callback.connectionsMade
               + " cbs:"
               + cm_callback.callbacks);
+          return true;
+        } else {
+          error(sender, NO_COMMAND_PERMISSION_MESSAGE);
+          return true;
+        }
+      } else if (args[0].equalsIgnoreCase("reload")) {
+        if (sender.hasPermission("openaudio.admin.reload")) {
+            Main.get().reloadWebConfig();
+            sender.sendMessage(Main.PREFIX + "Reloaded the messages and the config file");
           return true;
         } else {
           error(sender, NO_COMMAND_PERMISSION_MESSAGE);

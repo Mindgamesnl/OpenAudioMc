@@ -13,10 +13,8 @@
  */
 package net.openaudiomc.actions;
 
-import com.google.common.collect.Maps;
-import java.util.HashMap;
+import java.util.ArrayList;
 
-import java.util.Map;
 import lombok.Getter;
 import me.mindgamesnl.openaudiomc.publicApi.WebConnectEvent;
 import me.mindgamesnl.openaudiomc.publicApi.WebDisconnectEvent;
@@ -29,70 +27,62 @@ import org.bukkit.event.Listener;
 
 public class Spy implements Listener {
 
-  @Getter private static Map<Player, Boolean> spyMap = Maps.newHashMap();
+    @Getter
+    private static ArrayList<Player> spyList = new ArrayList<>();
 
-  public static void toggleSpy(Player sender) {
-    if (getSpyMap().get(sender) != null) {
-      if (getSpyMap().get(sender)) {
-        //is on
-        getSpyMap().put(sender, false);
-        sender.sendMessage(Main.PREFIX + "Connection spy is " + ChatColor.RED + "Disabled");
-      } else {
-        //is off
-        getSpyMap().put(sender, true);
-        sender.sendMessage(Main.PREFIX + "Connection spy is " + ChatColor.GREEN + "Enabled");
-      }
-    } else {
-      getSpyMap().put(sender, true);
-      sender.sendMessage(Main.PREFIX + "Connection spy is " + ChatColor.GREEN + "Enabled");
+    public static void toggleSpy(Player sender) {
+        if (spyList.contains(sender)) {
+            spyList.remove(sender);
+            sender.sendMessage(Main.PREFIX + "Connection spy is " + ChatColor.RED + "Disabled");
+        } else {
+            spyList.add(sender);
+            sender.sendMessage(Main.PREFIX + "Connection spy is " + ChatColor.GREEN + "Enabled");
+        }
     }
-  }
 
-  @EventHandler public void onWebDisconnectEvent(WebDisconnectEvent event) {
-    String connector = event.getPlayer().getName();
-    Bukkit.getOnlinePlayers().forEach(player -> {
-      if (getSpyMap().get(player) != null) {
-        if (getSpyMap().get(player)) {
-          player.sendMessage(""
-              + ChatColor.AQUA
-              + "["
-              + ChatColor.DARK_RED
-              + "-"
-              + ChatColor.AQUA
-              + "]"
-              + ChatColor.YELLOW
-              + ChatColor.ITALIC
-              + " "
-              + connector
-              + ChatColor.GRAY
-              + ChatColor.ITALIC
-              + " disconnected from OpenAudio.");
-        }
-      }
-    });
-  }
+    @EventHandler
+    public void onWebDisconnectEvent(WebDisconnectEvent event) {
+        String connector = event.getPlayer().getName();
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if (spyList.contains(player)) {
+                player.sendMessage(""
+                        + ChatColor.AQUA
+                        + "["
+                        + ChatColor.DARK_RED
+                        + "-"
+                        + ChatColor.AQUA
+                        + "]"
+                        + ChatColor.YELLOW
+                        + ChatColor.ITALIC
+                        + " "
+                        + connector
+                        + ChatColor.GRAY
+                        + ChatColor.ITALIC
+                        + " disconnected from OpenAudio.");
+            }
+        });
+    }
 
-  @EventHandler public void onWebConnectEvent(WebConnectEvent event) {
-    String user = event.getPlayer().getName();
-    Bukkit.getOnlinePlayers().forEach(player -> {
-      if (getSpyMap().get(player) != null) {
-        if (getSpyMap().get(player)) {
-          player.sendMessage(""
-              + ChatColor.AQUA
-              + "["
-              + ChatColor.GREEN
-              + "+"
-              + ChatColor.AQUA
-              + "]"
-              + ChatColor.YELLOW
-              + ChatColor.ITALIC
-              + " "
-              + user
-              + ChatColor.GRAY
-              + ChatColor.ITALIC
-              + " connected to OpenAudio.");
-        }
-      }
-    });
-  }
+    @EventHandler
+    public void onWebConnectEvent(WebConnectEvent event) {
+        String user = event.getPlayer().getName();
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if (spyList.contains(player)) {
+                player.sendMessage(""
+                        + ChatColor.AQUA
+                        + "["
+                        + ChatColor.GREEN
+                        + "+"
+                        + ChatColor.AQUA
+                        + "]"
+                        + ChatColor.YELLOW
+                        + ChatColor.ITALIC
+                        + " "
+                        + user
+                        + ChatColor.GRAY
+                        + ChatColor.ITALIC
+                        + " connected to OpenAudio.");
+            }
+        });
+    }
 }

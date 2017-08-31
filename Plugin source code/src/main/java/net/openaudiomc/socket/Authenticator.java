@@ -13,56 +13,42 @@
  */
 package net.openaudiomc.socket;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 
-import net.openaudiomc.core.Main;
+import net.openaudiomc.utils.WebUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Authenticator {
-  private static String publicKey;
 
-  public static String getID() {
-    FileConfiguration cfg =
-        YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "serverData.yml"));
-    return cfg.getString("serverID");
-  }
-
-  public static String getClientID() {
-    if (publicKey == null) {
-      try {
-        Main.get().getLogger().info("Requesting id for the first time (requesting static token)");
-        JSONObject obj = new JSONObject(getWebResponse("http://api.openaudiomc.net/plugin/getInfo.php?token=" + getID()));
-        publicKey = obj.getString("cid");
-        return obj.getString("cid");
-      } catch (Exception ignored) {
-      }
-    } else {
-      return publicKey;
+    public static String getID() {
+        FileConfiguration cfg =
+                YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "serverData.yml"));
+        return cfg.getString("serverID");
     }
 
-    return null;
-  }
-
-  public static JSONObject getNewId() {
-    try {
-      return new JSONObject(getWebResponse("http://api.openaudiomc.net/plugin/genKey.php"));
-    } catch (Exception ignored) {
+    public static String getClientID() {
+        FileConfiguration cfg =
+                YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "serverData.yml"));
+        return cfg.getString("clientId");
     }
-    return null;
-  }
 
-  public static String getWebResponse(String url) throws IOException {
-    URL urlObject = new URL(url);
-    BufferedReader in = new BufferedReader(new InputStreamReader(urlObject.openStream()));
-    String response = in.readLine();
-    in.close();
-    return response;
-  }
+    public static JSONObject getNewId() {
+        try {
+            return new JSONObject(WebUtils.getText("http://api.openaudiomc.net/plugin/genKey.php"));
+        } catch (IOException ignored) {
+        }
+        return null;
+    }
+
+    public static String getOauthId() {
+        String serverid = Authenticator.getID();
+        try {
+            return WebUtils.getText("http://api.openaudiomc.net/oauth/request_key?serverid=" + serverid);
+        } catch (IOException e) {
+            return "Error while requesting key.";
+        }
+    }
 }

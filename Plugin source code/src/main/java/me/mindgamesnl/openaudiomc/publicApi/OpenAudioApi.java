@@ -32,6 +32,7 @@ import org.bukkit.entity.Player;
     Command.sendMessage(p.getName(), message);
   }
 
+  @Deprecated
   public void switchServer(Player p, String newhost) {
     //for backwards compatibilety
   }
@@ -40,6 +41,7 @@ import org.bukkit.entity.Player;
     Command.hueSet(p.getName(), rgba);
   }
 
+  @Deprecated
   public void kickPlayer(Player p) {
     //for backwards compatibilety
   }
@@ -61,18 +63,20 @@ import org.bukkit.entity.Player;
   }
 
   public Boolean isConnected(Player p) {
-    return EventListener.isConnected(p.getName());
+    return EventListener.isConnected.contains(p.getName());
   }
 
   public String getRegionSound(String region) {
     return RegionListener.getRegionFile(region);
   }
 
+  @Deprecated
   public String getSessionKey(Player p) {
     //for backwards compatibilety
     return null;
   }
 
+  @Deprecated
   public String getHost(Player p) {
     //for backwards compatibilety
     return null;

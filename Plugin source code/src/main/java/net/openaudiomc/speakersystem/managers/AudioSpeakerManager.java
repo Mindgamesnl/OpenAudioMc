@@ -26,7 +26,7 @@ import java.util.Map;
 import lombok.Getter;
 import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
 import net.openaudiomc.actions.Command;
-import net.openaudiomc.utils.CallbackNoReturn;
+import net.openaudiomc.utils.Callback;
 import net.openaudiomc.utils.WebUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -50,30 +50,27 @@ import net.openaudiomc.socket.cm_callback;
 
   public void createSound(final String id, final String src, final Integer volume,
       final Integer range, final File file) {
-    CallbackNoReturn<String> callback = new CallbackNoReturn<String>() {
-      public void execute(String b) {
-        try {
-          DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-          Date reference = dateFormat.parse("00:00:00");
-          Date date = dateFormat.parse(b);
-          Integer _volume = 100;
-          Integer _range = 9;
-          if (volume == null) {
-            _volume = volume;
-          }
-          if (range == null) {
-            _range = 9;
-          }
-          AudioSpeakerSound netitem =
-              new AudioSpeakerSound(src, (date.getTime() - reference.getTime()) / 1000L, _volume,
-                  _range, file);
-          sounds.put(id, netitem);
-        } catch (ParseException e) {
+    Callback<String> callback = (b) -> {
+      try {
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        Date reference = dateFormat.parse("00:00:00");
+        Date date = dateFormat.parse(b);
+        Integer _volume = 100;
+        Integer _range = 9;
+        if (volume == null) {
+          _volume = volume;
         }
+        if (range == null) {
+          _range = 9;
+        }
+        AudioSpeakerSound netitem =
+                new AudioSpeakerSound(src, (date.getTime() - reference.getTime()) / 1000L, _volume,
+                        _range, file);
+        sounds.put(id, netitem);
+      } catch (ParseException e) {
       }
     };
-    WebUtils.asyncHttpRequestNoReturn("http://api.openaudiomc.net/plugin/mp3_info.php?s=" + src,
-        callback);
+    WebUtils.asyncHttpRequest("http://api.openaudiomc.net/plugin/mp3_info.php?s=" + src, callback);
   }
 
   public void createSpeaker(String id, String soundid, Location loc) {
