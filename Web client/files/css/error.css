@@ -47,7 +47,6 @@ body {
 
 .container-parent {
   width: 80%;
-  text-align: center;
   padding: 2% 10%;
   height: 60%;
   overflow: hidden;
@@ -105,7 +104,7 @@ body {
   padding: 10px 10%;
   bottom: 0px;
   position: absolute;
-  width: 80%;
+  width: 100%;
   left: 0;
   color: #fff;
 }
