@@ -31,20 +31,20 @@ public class VolumeCommand implements CommandExecutor {
                 if (args.length > 0) {
                     if (args[0].chars().allMatch(Character::isDigit) && (Integer.parseInt(args[0]) <= 100
                             && Integer.parseInt(args[0]) > -1)) {
-                        sender.sendMessage(Main.getFormattedMessage(Main.get().getMessageConfig().getVolumeSet()
+                        sender.sendMessage(Main.getFormattedMessage(Main.get().getWebConfig().getVolumeSet()
                                 .replace("{0}", args[0])));
                         net.openaudiomc.actions.Command.setVolume(sender.getName(), args[0]);
                         return true;
                     } else {
-                        sender.sendMessage(Main.getFormattedMessage(Main.get().getMessageConfig().getVolumeError()));
+                        sender.sendMessage(Main.getFormattedMessage(Main.get().getWebConfig().getVolumeError()));
                         return true;
                     }
                 } else {
-                    sender.sendMessage(Main.getFormattedMessage(Main.get().getMessageConfig().getVolumeError()));
+                    sender.sendMessage(Main.getFormattedMessage(Main.get().getWebConfig().getVolumeError()));
                     return true;
                 }
             } else {
-                sender.sendMessage(Main.getFormattedMessage(Main.get().getMessageConfig().getNeedConnected()));
+                sender.sendMessage(Main.getFormattedMessage(Main.get().getWebConfig().getNeedConnected()));
                 return true;
             }
         } else {
