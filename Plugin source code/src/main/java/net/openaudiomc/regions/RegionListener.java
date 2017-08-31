@@ -165,16 +165,16 @@ public class RegionListener implements Listener {
   //returns file of a region
   public static String getRegionFile(String regionName) {
     if (isValidRegion(regionName)) {
-      return net.openaudiomc.regions.File.getString("region.src." + regionName);
+      return net.openaudiomc.regions.File.getString("region.src." + getRegionConfigName(regionName));
     } else {
       return "InvalidSource";
     }
   }
 
   public static String getRegionWorld(String regionName) {
-    if (net.openaudiomc.regions.File.getString("world." + regionName) != null
-        && net.openaudiomc.regions.File.getString("region.isvalid." + regionName).equals("true")) {
-      return net.openaudiomc.regions.File.getString("world." + regionName);
+    if (net.openaudiomc.regions.File.getString("world." + getRegionConfigName(regionName)) != null
+        && net.openaudiomc.regions.File.getString("region.isvalid." + getRegionConfigName(regionName)).equals("true")) {
+      return net.openaudiomc.regions.File.getString("world." + getRegionConfigName(regionName));
     } else {
       return "<none>";
     }
@@ -182,8 +182,19 @@ public class RegionListener implements Listener {
 
   //check if a region ia know to openaudio (true = valid)
   public static Boolean isValidRegion(String regionName) {
-    return net.openaudiomc.regions.File.getString("region.isvalid." + regionName) != null
-        && net.openaudiomc.regions.File.getString("region.isvalid." + regionName).equals("true");
+    return net.openaudiomc.regions.File.getString("region.isvalid." + getRegionConfigName(regionName)) != null
+        && net.openaudiomc.regions.File.getString("region.isvalid." + getRegionConfigName(regionName)).equals("true");
+  }
+
+  private static String getRegionConfigName(String name) {
+    FileConfiguration cfg =
+        YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "regions.yml"));
+    for(String s : cfg.getConfigurationSection("region.isvalid").getKeys(false)) {
+      if(s.equalsIgnoreCase(name)) {
+        return s;
+      }
+    }
+    return name;
   }
 
   public static void registerRegion(String regionName, String src, Player p) {
@@ -205,8 +216,8 @@ public class RegionListener implements Listener {
     FileConfiguration cfg =
         YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "regions.yml"));
     File regionsFile = new File("plugins/OpenAudio", "regions.yml");
-    cfg.set("region.isvalid." + regionName, "false");
-    cfg.set("region.src." + regionName, "<deleted>");
+    cfg.set("region.isvalid." + getRegionConfigName(regionName), "false");
+    cfg.set("region.src." + getRegionConfigName(regionName), "<deleted>");
     try {
       cfg.save(regionsFile);
     } catch (IOException e) {

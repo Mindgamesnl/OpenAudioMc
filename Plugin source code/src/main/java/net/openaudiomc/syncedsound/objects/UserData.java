@@ -14,11 +14,8 @@
 package net.openaudiomc.syncedsound.objects;
 
 import com.google.common.collect.Lists;
-import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 
 import java.util.List;
-import java.util.UUID;
 import lombok.Getter;
 import net.openaudiomc.actions.Command;
 import net.openaudiomc.syncedsound.managers.SyncedSoundManager;

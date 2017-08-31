@@ -28,10 +28,10 @@ public class GroupManager {
   @Getter private Map<String, Group> groups = Maps.newHashMap();
 
   public Optional<Group> getGroup(String group) {
-    if (groups.get(group) == null) {
+    if (getGroups().get(group) == null) {
       return Optional.empty();
     } else {
-      return Optional.of(groups.get(group));
+      return Optional.of(getGroups().get(group));
     }
   }
 }
