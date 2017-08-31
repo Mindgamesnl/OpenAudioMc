@@ -40,7 +40,7 @@ public class WebUtils {
         return response.toString();
     }
 
-    public static void asyncHttpRequest(final String request, final Callback<String> callback) {
+    public static void asyncHttpRequest(final String request, final Callback callback) {
         new BukkitRunnable() {
             @Override
             public void run() {
