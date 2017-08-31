@@ -66,11 +66,11 @@ if (getUrlVar("session").includes(":")) {
           enableMain(api.clientJS);
         } catch (e) {
           console.error(e);
-          location.href = "files/pages/serverError.html";
+          location.href = "files/pages/setup.html";
           logInit("Login fail!");
         }
       } else {
-        location.href = "files/pages/serverError.html";
+        location.href = "files/pages/setup.html";
         logInit("Failed to get api data.");
       }
     } else {
@@ -100,3 +100,4 @@ function enableMain(clientJs) {
 function logInit(msg) {
   console.info("[Init] " + msg);
 }
+
