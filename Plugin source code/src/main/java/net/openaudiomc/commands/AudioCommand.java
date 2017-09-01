@@ -48,13 +48,13 @@ public class AudioCommand implements CommandExecutor {
                             .replace("%session%", Authenticator.getClientID() + ":" +
                                     Sessions.getSession(sender.getName()));
 
-                    String message = "[\"\",{\"text\":\"" + Main.getFormattedMessage(Main.get().getMessageConfig().getConnectMessage())
+                    String message = "[\"\",{\"text\":\"" + Main.getFormattedMessage(Main.get().getWebConfig().getConnectMessage())
                             + "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + url + "\"}}]";
                     Main.get().getReflection().sendChatPacket((Player) sender, message);
                     return true;
                 }
             } else {
-                sender.sendMessage(Main.getFormattedMessage(Main.get().getMessageConfig().getSocketioLoading()));
+                sender.sendMessage(Main.getFormattedMessage(Main.get().getWebConfig().getSocketioLoading()));
                 return true;
             }
         }

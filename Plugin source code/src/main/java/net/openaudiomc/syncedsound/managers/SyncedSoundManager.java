@@ -35,7 +35,7 @@ public class SyncedSoundManager {
             getBySrc(src).restart();
         } else {
             Main.get().getLogger().info("Registerd new synced sound.");
-            Callback<String> callback = string -> {
+            Callback callback = string -> {
                 char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
                 StringBuilder sb = new StringBuilder();
                 Random random = new Random();

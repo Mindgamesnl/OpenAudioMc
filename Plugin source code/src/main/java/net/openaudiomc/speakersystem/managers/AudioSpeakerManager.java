@@ -50,7 +50,7 @@ import net.openaudiomc.socket.cm_callback;
 
   public void createSound(final String id, final String src, final Integer volume,
       final Integer range, final File file) {
-    Callback<String> callback = (b) -> {
+    Callback callback = (b) -> {
       try {
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         Date reference = dateFormat.parse("00:00:00");

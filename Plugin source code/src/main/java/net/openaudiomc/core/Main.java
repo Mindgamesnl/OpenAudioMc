@@ -22,7 +22,6 @@ import lombok.Getter;
 import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
 import net.openaudiomc.actions.Command;
 import net.openaudiomc.actions.Spy;
-import net.openaudiomc.files.MessageConfig;
 import net.openaudiomc.files.WebConfig;
 import net.openaudiomc.groups.GroupManager;
 import net.openaudiomc.regions.RegionListener;
@@ -70,8 +69,6 @@ public class Main extends JavaPlugin {
     private Reflection reflection;
     @Getter
     private WebConfig webConfig;
-    @Getter
-    private MessageConfig messageConfig;
 
     public static Main get() {
         return instance;
@@ -226,7 +223,7 @@ public class Main extends JavaPlugin {
     }
 
     public static String getFormattedMessage(String message) {
-        return ChatColor.translateAlternateColorCodes('&', Main.get().getMessageConfig().getPrefix() + message);
+        return ChatColor.translateAlternateColorCodes('&', Main.get().getWebConfig().getPrefix() + message);
     }
 
     public void handleRegionListener(Player client) {
@@ -248,11 +245,8 @@ public class Main extends JavaPlugin {
             String cliendId = Authenticator.getClientID();
             String configReturn = WebUtils.getText(WebConfig.getUrl().replace("{0}", id).replace("{1}", cliendId));
             webConfig = new Gson().fromJson(configReturn, WebConfig.class);
-            getLogger().info("Loading webConfig version " + webConfig.getConfigVersion());
-            String messageReturn = WebUtils.getText(MessageConfig.getUrl().replace("{0}", id).replace("{1}", cliendId));
-            messageConfig = new Gson().fromJson(messageReturn, MessageConfig.class);
-            getLogger().info("Loading webMessages version " + messageConfig.getMessagesVersion());
-            Main.PREFIX = ChatColor.translateAlternateColorCodes('&', messageConfig.getPrefix());
+            getLogger().info("Loading webConfig version " + webConfig.getVersion());
+            Main.PREFIX = ChatColor.translateAlternateColorCodes('&', webConfig.getPrefix());
         } catch (IOException e) {
             getLogger().warning("Couldn't load the webConfig or the webMessages! Plugin is not going to work without them!");
             getServer().getPluginManager().disablePlugin(this);

@@ -13,6 +13,6 @@
  */
 package net.openaudiomc.utils;
 
-public interface Callback<T> {
+public interface Callback {
   void execute(String string);
 }
