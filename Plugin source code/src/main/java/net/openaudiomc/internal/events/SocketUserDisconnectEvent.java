@@ -19,7 +19,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 @Getter @AllArgsConstructor public class SocketUserDisconnectEvent extends Event {
-	private Object name;
+	private String name;
 	
 	private static final HandlerList handlers = new HandlerList();
 

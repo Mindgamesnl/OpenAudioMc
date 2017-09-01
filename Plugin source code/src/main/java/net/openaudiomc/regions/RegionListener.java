@@ -95,7 +95,7 @@ public class RegionListener implements Listener {
   }
 
   public void onSocketClose(SocketUserDisconnectEvent e) {
-    String pName = (String) e.getName();
+    String pName = e.getName();
     getPlayerRegions().get(pName).clear();
     getHistory().get(pName).clear();
   }

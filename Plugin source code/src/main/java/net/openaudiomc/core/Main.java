@@ -242,8 +242,7 @@ public class Main extends JavaPlugin {
     public void reloadWebConfig() {
         try {
             String id = Authenticator.getID();
-            String cliendId = Authenticator.getClientID();
-            String configReturn = WebUtils.getText(WebConfig.getUrl().replace("{0}", id).replace("{1}", cliendId));
+            String configReturn = WebUtils.getText(WebConfig.getUrl().replace("{0}", id));
             webConfig = new Gson().fromJson(configReturn, WebConfig.class);
             getLogger().info("Loading webConfig version " + webConfig.getVersion());
             Main.PREFIX = ChatColor.translateAlternateColorCodes('&', webConfig.getPrefix());

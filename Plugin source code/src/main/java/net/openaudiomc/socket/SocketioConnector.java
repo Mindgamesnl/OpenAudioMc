@@ -70,7 +70,7 @@ public class SocketioConnector {
                     })
                     .on("userdisconnect", args -> {
                         Bukkit.getServer().getPluginManager()
-                                .callEvent(new net.openaudiomc.internal.events.SocketUserDisconnectEvent(args));
+                                .callEvent(new net.openaudiomc.internal.events.SocketUserDisconnectEvent((String) args[0]));
                     })
                     .on("whisperFromClient", args -> {
                         JSONObject json = (JSONObject) JSONValue.parse((String) args[0]);

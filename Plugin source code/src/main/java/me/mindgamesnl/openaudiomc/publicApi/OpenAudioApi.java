@@ -63,7 +63,7 @@ import org.bukkit.entity.Player;
   }
 
   public Boolean isConnected(Player p) {
-    return EventListener.isConnected.contains(p.getName());
+    return EventListener.connected.contains(p.getName());
   }
 
   public String getRegionSound(String region) {

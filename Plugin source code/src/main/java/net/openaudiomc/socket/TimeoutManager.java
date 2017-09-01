@@ -55,7 +55,7 @@ public class TimeoutManager implements Listener {
     }
 
     public static void updateCounter() {
-        Integer connectedPlayersCount = EventListener.isConnected.size();
+        Integer connectedPlayersCount = EventListener.connected.size();
 
         if (connectedPlayersCount == 0) {
             if (isConnected()) {

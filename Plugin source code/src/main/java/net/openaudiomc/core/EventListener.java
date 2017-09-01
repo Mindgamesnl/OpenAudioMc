@@ -45,7 +45,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class EventListener implements Listener {
-    public static ArrayList<String> isConnected = new ArrayList<>();
+    public static ArrayList<String> connected = new ArrayList<>();
 
     @EventHandler
     public void onSocketWhisperEvent(SocketWhisperEvent event) {
@@ -99,7 +99,7 @@ public class EventListener implements Listener {
 
 
                 Emitter.connectedInServer(event.getName());
-                isConnected.add(client.getName());
+                connected.add(client.getName());
                 UserManager.getPlayer(client).syncSounds();
                 Main.get().handleRegionListener(client);
                 Bukkit.getServer()
@@ -114,13 +114,13 @@ public class EventListener implements Listener {
 
     @EventHandler
     public void onSocketUserDisconnectEvent(SocketUserDisconnectEvent event) {
-        isConnected.remove(event.getName());
+        connected.remove(event.getName());
         Bukkit.getServer().getPluginManager()
                 .callEvent(new me.mindgamesnl.openaudiomc.publicApi.WebDisconnectEvent(
-                        Bukkit.getPlayer((String) event.getName())));
+                        Bukkit.getPlayer(event.getName())));
 
-        String connector = (String) event.getName();
-        OfflinePlayer player = Bukkit.getOfflinePlayer((String) event.getName());
+        String connector = event.getName();
+        OfflinePlayer player = Bukkit.getOfflinePlayer(event.getName());
         if (player.isOnline()) {
             player.getPlayer().sendMessage(Main.getFormattedMessage(
                     Main.get().getWebConfig().getDisconnectedMessage()));
