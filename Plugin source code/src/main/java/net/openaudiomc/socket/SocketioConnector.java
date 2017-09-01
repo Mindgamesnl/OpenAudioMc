@@ -26,6 +26,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import net.openaudiomc.core.Main;
+import net.openaudiomc.files.WebConfig;
 import net.openaudiomc.internal.events.SocketUserConnectEvent;
 import net.openaudiomc.internal.events.SocketWhisperEvent;
 import net.openaudiomc.utils.WebUtils;
@@ -38,8 +39,6 @@ public class SocketioConnector {
 
     public static void connect() {
         try {
-            String apiResponse = WebUtils.getText(Main.get().getWebConfig().getHost().replace("https", "http"));
-
             SSLContext sc = SSLContext.getInstance("TLS");
             sc.init(null, trustAllCerts, new SecureRandom());
             IO.setDefaultSSLContext(sc);
@@ -51,7 +50,7 @@ public class SocketioConnector {
             options.secure = true;
             options.port = 3000;
 
-            socket = IO.socket((String) ((JSONObject) JSONValue.parse(apiResponse)).get("secureSocket"), options);
+            socket = IO.socket(Main.get().getWebConfig().getSocketIp(), options);
 
 
             ((Emitter) socket)

@@ -44,7 +44,7 @@ public class cm_callback {
   public static int callbacks = 0;
 
   public static void update() {
-    Callback<String> callback = string -> {
+    Callback callback = string -> {
       JSONObject jsonObject = new JSONObject(string);
       lastVersion = jsonObject.getString("lastupdate");
       updateTitle = jsonObject.getString("updatetitle");
