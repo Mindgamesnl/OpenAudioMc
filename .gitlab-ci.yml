@@ -36,6 +36,7 @@ cache:
 .validate: &validate
   stage: build
   script:
+  - cd 'Plugin source code'
     - 'mvn $MAVEN_CLI_OPTS test-compile'
 
 # For merge requests do not `deploy` but only run `verify`.
@@ -43,6 +44,7 @@ cache:
 .verify: &verify
   stage: test
   script:
+    - cd 'Plugin source code'
     - 'mvn $MAVEN_CLI_OPTS verify site site:stage'
   except:
     - master
@@ -77,6 +79,7 @@ deploy:jdk8:
   # Use stage test here, so the pages job may later pickup the created site.
   stage: test
   script:
+    - cd 'Plugin source code'
     - 'mvn $MAVEN_CLI_OPTS deploy site site:stage'
   only:
     - master
