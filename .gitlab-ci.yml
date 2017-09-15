@@ -64,13 +64,19 @@ deploy:jdk8:
   script:
     - cd 'Plugin source code'
     - 'mvn $MAVEN_CLI_OPTS install'
-    - cp '/builds/OpenAudioMC/OpenAudioMC/Plugin source code/target/OpenAudio*' target/builds
+    - cd target/
+    - ls -la
+    - 'find . -name "OpenAudio*.jar*" -type f -exec cp {} builds \;'
+    - 'find . -name "OpenAudio*.jar*" -type f -exec echo {} \;'
+    - cd 'builds'
+    - 'find . -name "OpenAudio*.jar*" -type f -exec cp {} ../../.. \;'
   only:
     - master
   # Archive up the built documentation site.
   artifacts:
     paths:
-    - target/builds
+
+    - 'OpenAudio*.jar'
   image: maven:3.3.9-jdk-8
 
 
