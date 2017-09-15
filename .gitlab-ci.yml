@@ -64,8 +64,8 @@ deploy:jdk8:
   script:
     - cd 'Plugin source code'
     - 'mvn $MAVEN_CLI_OPTS install'
-    - cd target/
-    - cp OpenAudio*.jar builds
+    - 
+    - cp /builds/OpenAudioMC/OpenAudioMC/Plugin source code/target/OpenAudio* target/builds
   only:
     - master
   # Archive up the built documentation site.
