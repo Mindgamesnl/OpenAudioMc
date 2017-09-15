@@ -17,6 +17,7 @@
     </properties>
 
     <build>
+        <outputDirectory>target/build</outputDirectory>
         <defaultGoal>clean package</defaultGoal>
         <plugins>
             <plugin>
