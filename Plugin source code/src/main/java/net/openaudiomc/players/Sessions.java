@@ -14,29 +14,32 @@
 package net.openaudiomc.players;
 
 import com.google.common.collect.Maps;
+
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Map;
+
 import lombok.Getter;
 
 public class Sessions {
 
-  private static final int LENGTH = 32;
-  private static SecureRandom random = new SecureRandom();
-  @Getter private static Map<String, String> sessions = Maps.newHashMap();
+    private static final int LENGTH = 32;
+    private static SecureRandom random = new SecureRandom();
+    @Getter
+    private static Map<String, String> sessions = Maps.newHashMap();
 
-  private static String createSession(String player) {
-    BigInteger bigInteger = new BigInteger(25, random);
-    String sessionId = String.valueOf(bigInteger.toString(LENGTH));
-    getSessions().put(player, sessionId);
-    return sessionId;
-  }
-
-  public static String getSession(String player) {
-    if (getSessions().get(player) != null) {
-      return getSessions().get(player);
-    } else {
-      return createSession(player);
+    private static String createSession(String player) {
+        BigInteger bigInteger = new BigInteger(25, random);
+        String sessionId = String.valueOf(bigInteger.toString(LENGTH));
+        getSessions().put(player, sessionId);
+        return sessionId;
     }
-  }
+
+    public static String getSession(String player) {
+        if (getSessions().get(player) != null) {
+            return getSessions().get(player);
+        } else {
+            return createSession(player);
+        }
+    }
 }

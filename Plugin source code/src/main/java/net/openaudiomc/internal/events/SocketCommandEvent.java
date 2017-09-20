@@ -18,16 +18,18 @@ import lombok.Getter;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-@Getter @AllArgsConstructor public class SocketCommandEvent extends Event {
-  private Object command;
+@Getter
+@AllArgsConstructor
+public class SocketCommandEvent extends Event {
+    private Object command;
 
-  private static final HandlerList handlers = new HandlerList();
+    private static final HandlerList handlers = new HandlerList();
 
-  public HandlerList getHandlers() {
-    return handlers;
-  }
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 
-  public static HandlerList getHandlerList() {
-    return handlers;
-  }
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 }

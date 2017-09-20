@@ -26,10 +26,8 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import net.openaudiomc.core.Main;
-import net.openaudiomc.files.WebConfig;
 import net.openaudiomc.internal.events.SocketUserConnectEvent;
 import net.openaudiomc.internal.events.SocketWhisperEvent;
-import net.openaudiomc.utils.WebUtils;
 import org.bukkit.Bukkit;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -40,7 +38,22 @@ public class SocketioConnector {
     public static void connect() {
         try {
             SSLContext sc = SSLContext.getInstance("TLS");
-            sc.init(null, trustAllCerts, new SecureRandom());
+            sc.init(null, new TrustManager[]{
+                    new X509TrustManager() {
+                        @Override
+                        public void checkClientTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
+                        }
+
+                        @Override
+                        public void checkServerTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
+                        }
+
+                        @Override
+                        public X509Certificate[] getAcceptedIssuers() {
+                            return new X509Certificate[0];
+                        }
+                    }
+            }, new SecureRandom());
             IO.setDefaultSSLContext(sc);
 
             HttpsURLConnection.setDefaultHostnameVerifier((s, sslSession) -> true);
@@ -59,32 +72,25 @@ public class SocketioConnector {
                         obj.put("type", "server");
                         obj.put("id", Authenticator.getID());
                         ((Socket) socket).emit("message", obj.toString());
-                        Bukkit.getServer().getPluginManager()
-                                .callEvent(new net.openaudiomc.internal.events.SocketConnectEvent());
+                        Bukkit.getServer().getPluginManager().callEvent(new net.openaudiomc.internal.events.SocketConnectEvent());
                     })
                     .on("userconnect", args -> {
                         JSONObject json = (JSONObject) JSONValue.parse((String) args[0]);
 
-                        Bukkit.getServer().getPluginManager()
-                                .callEvent(new SocketUserConnectEvent((String) json.get("name"), (String) json.get("key")));
+                        Bukkit.getServer().getPluginManager().callEvent(new SocketUserConnectEvent((String) json.get("name"), (String) json.get("key")));
                     })
                     .on("userdisconnect", args -> {
-                        Bukkit.getServer().getPluginManager()
-                                .callEvent(new net.openaudiomc.internal.events.SocketUserDisconnectEvent(args));
+                        Bukkit.getServer().getPluginManager().callEvent(new net.openaudiomc.internal.events.SocketUserDisconnectEvent((String) args[0]));
                     })
                     .on("whisperFromClient", args -> {
                         JSONObject json = (JSONObject) JSONValue.parse((String) args[0]);
-
-                        Bukkit.getServer().getPluginManager()
-                                .callEvent(new SocketWhisperEvent((String) json.get("sender"), (String) json.get("content")));
+                        Bukkit.getServer().getPluginManager().callEvent(new SocketWhisperEvent((String) json.get("sender"), (String) json.get("content")));
                     })
                     .on("command", args -> {
-                        Bukkit.getServer().getPluginManager()
-                                .callEvent(new net.openaudiomc.internal.events.SocketCommandEvent(args));
+                        Bukkit.getServer().getPluginManager().callEvent(new net.openaudiomc.internal.events.SocketCommandEvent(args));
                     })
                     .on(Socket.EVENT_DISCONNECT, args -> {
-                        Bukkit.getServer().getPluginManager()
-                                .callEvent(new net.openaudiomc.internal.events.SocketDisconnectEvent());
+                        Bukkit.getServer().getPluginManager().callEvent(new net.openaudiomc.internal.events.SocketDisconnectEvent());
                     });
 
             ((Socket) socket).connect();
@@ -99,20 +105,4 @@ public class SocketioConnector {
             ((Socket) socket).disconnect();
         }
     }
-
-    private static TrustManager[] trustAllCerts = new TrustManager[]{
-            new X509TrustManager() {
-                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                    return new java.security.cert.X509Certificate[]{};
-                }
-
-                public void checkClientTrusted(X509Certificate[] chain, String authType)
-                        throws CertificateException {
-                }
-
-                public void checkServerTrusted(X509Certificate[] chain, String authType)
-                        throws CertificateException {
-                }
-            }
-    };
 }

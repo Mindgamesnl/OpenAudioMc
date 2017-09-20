@@ -18,16 +18,18 @@ import lombok.Getter;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-@Getter @AllArgsConstructor public class SocketUserDisconnectEvent extends Event {
-	private Object name;
-	
-	private static final HandlerList handlers = new HandlerList();
+@Getter
+@AllArgsConstructor
+public class SocketUserDisconnectEvent extends Event {
+    private String name;
 
-	public HandlerList getHandlers() {
-	    return handlers;
-	}
+    private static final HandlerList handlers = new HandlerList();
 
-	public static HandlerList getHandlerList() {
-	    return handlers;
-	}
+    public HandlerList getHandlers() {
+        return handlers;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 }

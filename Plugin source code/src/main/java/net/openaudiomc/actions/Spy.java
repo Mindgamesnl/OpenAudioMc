@@ -42,47 +42,15 @@ public class Spy implements Listener {
 
     @EventHandler
     public void onWebDisconnectEvent(WebDisconnectEvent event) {
-        String connector = event.getPlayer().getName();
-        Bukkit.getOnlinePlayers().forEach(player -> {
-            if (spyList.contains(player)) {
-                player.sendMessage(""
-                        + ChatColor.AQUA
-                        + "["
-                        + ChatColor.DARK_RED
-                        + "-"
-                        + ChatColor.AQUA
-                        + "]"
-                        + ChatColor.YELLOW
-                        + ChatColor.ITALIC
-                        + " "
-                        + connector
-                        + ChatColor.GRAY
-                        + ChatColor.ITALIC
-                        + " disconnected from OpenAudio.");
-            }
+        spyList.forEach(player -> {
+            player.sendMessage("" + ChatColor.AQUA + "[" + ChatColor.DARK_RED + "-" + ChatColor.AQUA + "]" + ChatColor.YELLOW + ChatColor.ITALIC + " " + event.getPlayer().getName() + ChatColor.GRAY + ChatColor.ITALIC + " disconnected from OpenAudio.");
         });
     }
 
     @EventHandler
     public void onWebConnectEvent(WebConnectEvent event) {
-        String user = event.getPlayer().getName();
-        Bukkit.getOnlinePlayers().forEach(player -> {
-            if (spyList.contains(player)) {
-                player.sendMessage(""
-                        + ChatColor.AQUA
-                        + "["
-                        + ChatColor.GREEN
-                        + "+"
-                        + ChatColor.AQUA
-                        + "]"
-                        + ChatColor.YELLOW
-                        + ChatColor.ITALIC
-                        + " "
-                        + user
-                        + ChatColor.GRAY
-                        + ChatColor.ITALIC
-                        + " connected to OpenAudio.");
-            }
+        spyList.forEach(player -> {
+            player.sendMessage("" + ChatColor.AQUA + "[" + ChatColor.GREEN + "+" + ChatColor.AQUA + "]" + ChatColor.YELLOW + ChatColor.ITALIC + " " + event.getPlayer().getName() + ChatColor.GRAY + ChatColor.ITALIC + " connected to OpenAudio.");
         });
     }
 }

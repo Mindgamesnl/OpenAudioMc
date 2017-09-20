@@ -13,8 +13,6 @@
  */
 package net.openaudiomc.core;
 
-import com.google.common.collect.Maps;
-
 import net.openaudiomc.actions.Command;
 import net.openaudiomc.internal.events.*;
 import net.openaudiomc.players.Sessions;
@@ -39,45 +37,37 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class EventListener implements Listener {
-    public static ArrayList<String> isConnected = new ArrayList<>();
+    public static ArrayList<String> connected = new ArrayList<>();
 
     @EventHandler
     public void onSocketWhisperEvent(SocketWhisperEvent event) {
         Player player = Bukkit.getPlayer(event.getPlayerName());
 
-        Bukkit.getServer()
-                .getPluginManager()
-                .callEvent(new me.mindgamesnl.openaudiomc.publicApi.SocketWhisperEvent(
-                        Bukkit.getPlayer(event.getPlayerName()), event.getData()));
+        Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.SocketWhisperEvent(Bukkit.getPlayer(event.getPlayerName()), event.getData()));
 
         switch (event.getData()) {
             case "hueConnected":
                 player.sendMessage(Main.getFormattedMessage(Main.get().getWebConfig().getHueConnectedMessage()));
-                Bukkit.getServer()
-                        .getPluginManager()
-                        .callEvent(new me.mindgamesnl.openaudiomc.publicApi.HueConnectEvent(
-                                Bukkit.getPlayer(event.getPlayerName())));
+                Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.HueConnectEvent(Bukkit.getPlayer(event.getPlayerName())));
                 break;
             case "eventMinni":
                 player.sendMessage(Main.getFormattedMessage(Main.get().getWebConfig().getConnectWarning()));
-                Bukkit.getServer()
-                        .getPluginManager()
-                        .callEvent(new me.mindgamesnl.openaudiomc.publicApi.HueConnectEvent(
-                                Bukkit.getPlayer(event.getPlayerName())));
+                Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.HueConnectEvent(Bukkit.getPlayer(event.getPlayerName())));
                 break;
             default:
-                JSONObject jsonObject = new JSONObject(event.getData());
-                if (jsonObject.getString("command").equals("SoundEnded")) {
-                    Bukkit.getServer()
-                            .getPluginManager()
-                            .callEvent(new me.mindgamesnl.openaudiomc.publicApi.SoundEndEvent(
-                                    Bukkit.getPlayer(event.getPlayerName()), jsonObject.getString("id")));
+                try {
+                    JSONObject jsonObject = new JSONObject(event.getData());
+                    if (jsonObject.getString("command").equals("SoundEnded")) {
+                        Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.SoundEndEvent(Bukkit.getPlayer(event.getPlayerName()), jsonObject.getString("id")));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
                 break;
         }
@@ -88,7 +78,6 @@ public class EventListener implements Listener {
         OfflinePlayer player = Bukkit.getOfflinePlayer(event.getName());
         if (player.isOnline()) {
             if (event.getKey().equals(Sessions.getSession(event.getName()))) {
-                //good client
                 AudioSpeakerManager.get().getListeners().put(event.getName(), false);
                 Player client = Bukkit.getPlayer(event.getName());
                 UserManager.addPlayer(client);
@@ -99,13 +88,10 @@ public class EventListener implements Listener {
 
 
                 Emitter.connectedInServer(event.getName());
-                isConnected.add(client.getName());
+                connected.add(client.getName());
                 UserManager.getPlayer(client).syncSounds();
                 Main.get().handleRegionListener(client);
-                Bukkit.getServer()
-                        .getPluginManager()
-                        .callEvent(new me.mindgamesnl.openaudiomc.publicApi.WebConnectEvent(
-                                Bukkit.getPlayer(event.getName())));
+                Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.WebConnectEvent(Bukkit.getPlayer(event.getName())));
             } else {
                 Emitter.KickPlayerConnection(event.getName());
             }
@@ -114,13 +100,11 @@ public class EventListener implements Listener {
 
     @EventHandler
     public void onSocketUserDisconnectEvent(SocketUserDisconnectEvent event) {
-        isConnected.remove(event.getName());
-        Bukkit.getServer().getPluginManager()
-                .callEvent(new me.mindgamesnl.openaudiomc.publicApi.WebDisconnectEvent(
-                        Bukkit.getPlayer((String) event.getName())));
+        connected.remove(event.getName());
+        Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.WebDisconnectEvent(Bukkit.getPlayer(event.getName())));
 
-        String connector = (String) event.getName();
-        OfflinePlayer player = Bukkit.getOfflinePlayer((String) event.getName());
+        String connector = event.getName();
+        OfflinePlayer player = Bukkit.getOfflinePlayer(event.getName());
         if (player.isOnline()) {
             player.getPlayer().sendMessage(Main.getFormattedMessage(
                     Main.get().getWebConfig().getDisconnectedMessage()));
@@ -131,18 +115,14 @@ public class EventListener implements Listener {
     @EventHandler
     public void onSocketConnected(SocketConnectEvent event) {
         Main.get().getLogger().info("Socket.io connected");
-        Bukkit.getServer()
-                .getPluginManager()
-                .callEvent(new me.mindgamesnl.openaudiomc.publicApi.SocketIoConnectEvent());
+        Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.SocketIoConnectEvent());
     }
 
     @EventHandler
     public void onSocketDisconnected(SocketDisconnectEvent event) {
         Main.get().getLogger().info("Socket.io disconnected");
 
-        Bukkit.getServer()
-                .getPluginManager()
-                .callEvent(new me.mindgamesnl.openaudiomc.publicApi.SocketIoDisconnectEvent());
+        Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.SocketIoDisconnectEvent());
     }
 
     @EventHandler
@@ -162,16 +142,7 @@ public class EventListener implements Listener {
                         String currentVersion = Main.get().getDescription().getVersion();
                         String newVersion = cm_callback.lastVersion;
                         String updateTitle = cm_callback.updateTitle;
-                        String message = Main.PREFIX
-                                + ChatColor.RESET
-                                + "Update is available!"
-                                + ChatColor.AQUA
-                                + " your version: "
-                                + currentVersion
-                                + " new version: "
-                                + newVersion
-                                + ChatColor.RESET
-                                + " Updating is recommend";
+                        String message = Main.PREFIX + ChatColor.RESET + "Update is available!" + ChatColor.AQUA + " your version: " + currentVersion + " new version: " + newVersion + ChatColor.RESET + " Updating is recommend";
                         event.getPlayer().sendMessage(message);
                     }
                     String broadcast = cm_callback.broadcast;
@@ -222,9 +193,8 @@ public class EventListener implements Listener {
 
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event) {
-        Player p = event.getPlayer();
         if (Main.get().getWebConfig().getStopOnTeleport()) {
-            Command.stopAll(p.getName());
+            Command.stopAll(event.getPlayer().getName());
         }
     }
 }
