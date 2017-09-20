@@ -16,23 +16,25 @@ package net.openaudiomc.syncedsound.managers;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
+
 import lombok.Getter;
 import org.bukkit.entity.Player;
 
 import net.openaudiomc.syncedsound.objects.UserData;
 
 public class UserManager {
-  @Getter private static Map<String, UserData> userMap = Maps.newHashMap();
+    @Getter
+    private static Map<String, UserData> userMap = Maps.newHashMap();
 
-  public static void addPlayer(Player player) {
-    getUserMap().computeIfAbsent(player.getName(), k -> new UserData(player));
-  }
+    public static void addPlayer(Player player) {
+        getUserMap().computeIfAbsent(player.getName(), k -> new UserData(player));
+    }
 
-  public static UserData getPlayer(Player player) {
-    return getUserMap().get(player.getName());
-  }
+    public static UserData getPlayer(Player player) {
+        return getUserMap().get(player.getName());
+    }
 
-  public static void removePlayer(Player Player) {
-    getUserMap().remove(Player.getName());
-  }
+    public static void removePlayer(Player Player) {
+        getUserMap().remove(Player.getName());
+    }
 }

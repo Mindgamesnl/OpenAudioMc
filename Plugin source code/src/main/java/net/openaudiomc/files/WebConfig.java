@@ -4,7 +4,7 @@ import lombok.Getter;
 
 public class WebConfig {
 
-    @Getter private static String url = "https://api.openaudiomc.net/v2/getPluginConfig.php?token={0}";
+    @Getter private static String url = "https://api.openaudiomc.net/v2/getPluginConfig.php?token={0}&clientId={1}";
     @Getter private String version;
     @Getter private String serverId;
     @Getter private String clientId;

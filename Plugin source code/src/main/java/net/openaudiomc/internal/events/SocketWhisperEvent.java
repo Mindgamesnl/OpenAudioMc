@@ -18,17 +18,19 @@ import lombok.Getter;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-@Getter @AllArgsConstructor public class SocketWhisperEvent extends Event {
-	private String playerName;
-	private String data;
+@Getter
+@AllArgsConstructor
+public class SocketWhisperEvent extends Event {
+    private String playerName;
+    private String data;
 
-	private static final HandlerList handlers = new HandlerList();
+    private static final HandlerList handlers = new HandlerList();
 
-	public HandlerList getHandlers() {
-	    return handlers;
-	}
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 
-	public static HandlerList getHandlerList() {
-	    return handlers;
-	}
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 }

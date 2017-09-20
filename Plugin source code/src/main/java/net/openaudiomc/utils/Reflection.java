@@ -10,10 +10,10 @@ public class Reflection {
 
     private String version;
 
-    public Reflection(Main main){
+    public Reflection(Main main) {
         version = main.getServer().getClass().getPackage().getName().split("\\.")[3];
         main.getLogger().info("Reflection has found MC " + version + " which is " + (isReflectionSupported() ? "" : "not ") + "supported");
-        if(!isReflectionSupported()) {
+        if (!isReflectionSupported()) {
             main.getLogger().info("Falling back to tellraw method because Reflection isn't supported for this version!");
         }
     }
@@ -25,20 +25,20 @@ public class Reflection {
     }
 
     public void sendChatPacket(Player p, String json) {
-        if(isReflectionSupported()) {
+        if (isReflectionSupported()) {
             try {
                 Object chatClass;
-                if(version.equals("v1_8_R1") || version.equals("v1_7_R4") || version.equals("v1_7_R3") || version.equals("v1_7_R2") || version.equals("v1_7_R1")) {
+                if (version.equals("v1_8_R1") || version.equals("v1_7_R4") || version.equals("v1_7_R3") || version.equals("v1_7_R2") || version.equals("v1_7_R1")) {
                     chatClass = Class.forName("net.minecraft.server." + version + ".ChatSerializer").getMethod("a", String.class).invoke(null, json);
                 } else {
                     chatClass = getDeclaredClassName(Class.forName("net.minecraft.server." + version + ".IChatBaseComponent")).getMethod("a", String.class).invoke(null, json);
                 }
                 Object packet;
-                if(version.equals("v1_12_R1")) {
-                    Class chatEnum = Class.forName( "net.minecraft.server." + version + ".ChatMessageType" );
+                if (version.equals("v1_12_R1")) {
+                    Class chatEnum = Class.forName("net.minecraft.server." + version + ".ChatMessageType");
                     Constructor chatConstructor = Class.forName("net.minecraft.server." + version + ".PacketPlayOutChat").getConstructor(Class.forName("net.minecraft.server." + version + ".IChatBaseComponent"), chatEnum);
                     packet = chatConstructor.newInstance(chatClass, chatEnum.getEnumConstants()[0]);
-                } else if(version.equals("v1_7_R4") || version.equals("v1_7_R3") || version.equals("v1_7_R2") || version.equals("v1_7_R1")) {
+                } else if (version.equals("v1_7_R4") || version.equals("v1_7_R3") || version.equals("v1_7_R2") || version.equals("v1_7_R1")) {
                     Constructor chatConstructor = Class.forName("net.minecraft.server." + version + ".PacketPlayOutChat").getConstructor(Class.forName("net.minecraft.server." + version + ".IChatBaseComponent"));
                     packet = chatConstructor.newInstance(chatClass);
                 } else {
@@ -53,7 +53,7 @@ public class Reflection {
             } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchFieldException exception) {
                 Main.get().getLogger().warning("Oh no! Something went wrong. Please open an issue at https://github.com/Mindgamesnl/OpenAudioMc with this information:");
                 Main.get().getLogger().warning("Reflection crash report for " + Main.get().getServer().getName() + " version " + Main.get().getServer().getVersion() + " (" +
-                  Main.get().getServer().getBukkitVersion() + ") with reflection version " + version);
+                        Main.get().getServer().getBukkitVersion() + ") with reflection version " + version);
                 Main.get().getLogger().warning("Reflection cause: " + exception.getMessage());
                 Main.get().getLogger().warning("Reflection stack trace: ");
                 exception.printStackTrace();
@@ -66,8 +66,8 @@ public class Reflection {
         Main.get().getServer().dispatchCommand(Main.get().getServer().getConsoleSender(), tellraw);
     }
 
-    private Class<?> getDeclaredClassName(Class<?> c){
-        for(Class<?> cl : c.getDeclaredClasses()) if(cl.getName().endsWith("ChatSerializer")) return cl;
+    private Class<?> getDeclaredClassName(Class<?> c) {
+        for (Class<?> cl : c.getDeclaredClasses()) if (cl.getName().endsWith("ChatSerializer")) return cl;
         return null;
     }
 }

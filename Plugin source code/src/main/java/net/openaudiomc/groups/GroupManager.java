@@ -14,9 +14,12 @@
 package net.openaudiomc.groups;
 
 import com.google.common.collect.Maps;
+
 import java.util.Optional;
+
 import lombok.Getter;
 import org.bukkit.entity.Player;
+
 import java.util.Map;
 
 /**
@@ -25,13 +28,14 @@ import java.util.Map;
  */
 public class GroupManager {
 
-  @Getter private Map<String, Group> groups = Maps.newHashMap();
+    @Getter
+    private Map<String, Group> groups = Maps.newHashMap();
 
-  public Optional<Group> getGroup(String group) {
-    if (getGroups().get(group) == null) {
-      return Optional.empty();
-    } else {
-      return Optional.of(getGroups().get(group));
+    public Optional<Group> getGroup(String group) {
+        if (getGroups().get(group) == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(getGroups().get(group));
+        }
     }
-  }
 }

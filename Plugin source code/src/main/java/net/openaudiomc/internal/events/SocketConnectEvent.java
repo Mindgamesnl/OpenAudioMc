@@ -17,16 +17,16 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class SocketConnectEvent extends Event {
-	public SocketConnectEvent() {
-	}
-	
-	private static final HandlerList handlers = new HandlerList();
+    public SocketConnectEvent() {
+    }
 
-	public HandlerList getHandlers() {
-	    return handlers;
-	}
+    private static final HandlerList handlers = new HandlerList();
 
-	public static HandlerList getHandlerList() {
-	    return handlers;
-	}
+    public HandlerList getHandlers() {
+        return handlers;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 }

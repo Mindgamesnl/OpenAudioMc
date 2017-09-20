@@ -22,6 +22,9 @@ import lombok.Getter;
 import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
 import net.openaudiomc.actions.Command;
 import net.openaudiomc.actions.Spy;
+import net.openaudiomc.commands.OpenAudioCommandHandler;
+import net.openaudiomc.commands.admin.*;
+import net.openaudiomc.commands.player.*;
 import net.openaudiomc.files.WebConfig;
 import net.openaudiomc.groups.GroupManager;
 import net.openaudiomc.regions.RegionListener;
@@ -44,18 +47,14 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 import net.openaudiomc.socket.Authenticator;
 import net.openaudiomc.socket.TimeoutManager;
-import net.openaudiomc.commands.AdminCommands;
-import net.openaudiomc.commands.AudioCommand;
-import net.openaudiomc.commands.VolumeCommand;
 import net.openaudiomc.internal.events.SkriptRegistration;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Main extends JavaPlugin {
 
     //CONSTANT
-    public static String PREFIX =
-            ChatColor.translateAlternateColorCodes('&', "&9[&bOpenAudioMc&9] &3");
-
+    public static String PREFIX = ChatColor.translateAlternateColorCodes('&', "&9[&bOpenAudioMc&9] &3");
 
     private GroupManager groupManager;
 
@@ -69,6 +68,8 @@ public class Main extends JavaPlugin {
     private Reflection reflection;
     @Getter
     private WebConfig webConfig;
+    @Getter
+    private OpenAudioCommandHandler commandHandler;
 
     public static Main get() {
         return instance;
@@ -115,6 +116,7 @@ public class Main extends JavaPlugin {
 
         groupManager = new GroupManager();
         reflection = new Reflection(this);
+        commandHandler = new OpenAudioCommandHandler();
 
         Bukkit.getServer().getPluginManager().registerEvents(new TimeoutManager(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new EventListener(), this);
@@ -122,7 +124,31 @@ public class Main extends JavaPlugin {
 
         getCommand("connect").setExecutor(new AudioCommand());
         getCommand("volume").setExecutor(new VolumeCommand());
-        getCommand("openaudio").setExecutor(new AdminCommands(this));
+        getCommand("openaudio").setExecutor(commandHandler);
+
+        commandHandler.registerCommand(new CommandBuffer());
+        commandHandler.registerCommand(new CommandDebug());
+        commandHandler.registerCommand(new CommandGroup());
+        commandHandler.registerCommand(new CommandHelp());
+        commandHandler.registerCommand(new CommandHue());
+        commandHandler.registerCommand(new CommandJson());
+        commandHandler.registerCommand(new CommandLoop());
+        commandHandler.registerCommand(new CommandOauth());
+        commandHandler.registerCommand(new CommandPlay());
+        commandHandler.registerCommand(new CommandPlaylist());
+        commandHandler.registerCommand(new CommandPlayRegion());
+        commandHandler.registerCommand(new CommandRegion());
+        commandHandler.registerCommand(new CommandReload());
+        commandHandler.registerCommand(new CommandSend());
+        commandHandler.registerCommand(new CommandSetBg());
+        commandHandler.registerCommand(new CommandSetVolume());
+        commandHandler.registerCommand(new CommandSkipTo());
+        commandHandler.registerCommand(new CommandSpeaker());
+        commandHandler.registerCommand(new CommandSpy());
+        commandHandler.registerCommand(new CommandStop());
+        commandHandler.registerCommand(new CommandStopAll());
+        commandHandler.registerCommand(new CommandToggle());
+
         TimeoutManager.updateCounter();
 
 
@@ -183,8 +209,12 @@ public class Main extends JavaPlugin {
             datafileInst.set("Description",
                     "This is identifies the server and should be kept secret, do you have a bungeecord network? just set this id on all your server and bungeecord mode is activated :)");
             JSONObject newTokens = Authenticator.getNewId();
-            datafileInst.set("serverID", newTokens.getString("server"));
-            datafileInst.set("clientId", newTokens.getString("client"));
+            try {
+                datafileInst.set("serverID", newTokens.getString("server"));
+                datafileInst.set("clientId", newTokens.getString("client"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             try {
                 datafileInst.save(dataFile);
             } catch (IOException e) {
@@ -242,7 +272,8 @@ public class Main extends JavaPlugin {
     public void reloadWebConfig() {
         try {
             String id = Authenticator.getID();
-            String configReturn = WebUtils.getText(WebConfig.getUrl().replace("{0}", id));
+            String clientId = Authenticator.getClientID();
+            String configReturn = WebUtils.getText(WebConfig.getUrl().replace("{0}", id).replace("{1}", clientId));
             webConfig = new Gson().fromJson(configReturn, WebConfig.class);
             getLogger().info("Loading webConfig version " + webConfig.getVersion());
             Main.PREFIX = ChatColor.translateAlternateColorCodes('&', webConfig.getPrefix());

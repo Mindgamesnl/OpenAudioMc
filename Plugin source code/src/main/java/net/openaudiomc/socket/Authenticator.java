@@ -19,26 +19,25 @@ import java.io.IOException;
 import net.openaudiomc.utils.WebUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Authenticator {
 
     public static String getID() {
-        FileConfiguration cfg =
-                YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "serverData.yml"));
+        FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "serverData.yml"));
         return cfg.getString("serverID");
     }
 
     public static String getClientID() {
-        FileConfiguration cfg =
-                YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "serverData.yml"));
+        FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "serverData.yml"));
         return cfg.getString("clientId");
     }
 
     public static JSONObject getNewId() {
         try {
             return new JSONObject(WebUtils.getText("http://api.openaudiomc.net/plugin/genKey.php"));
-        } catch (IOException ignored) {
+        } catch (IOException | JSONException ignored) {
         }
         return null;
     }
