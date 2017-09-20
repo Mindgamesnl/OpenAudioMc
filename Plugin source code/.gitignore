@@ -15,6 +15,7 @@ dependency-reduced-pom.xml
 *.iml
 *.userlibraries
 .settings/*
+target/build/*
 target/classes/*
 target/maven-archiver/*
 target/maven-status/*
