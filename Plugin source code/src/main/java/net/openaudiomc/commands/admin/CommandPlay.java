@@ -12,7 +12,7 @@ public class CommandPlay implements OpenAudioCommand {
 
     @Override
     public String getSubCommand() {
-        return "player";
+        return "play";
     }
 
     @Override
