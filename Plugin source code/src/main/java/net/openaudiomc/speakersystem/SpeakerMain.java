@@ -180,8 +180,6 @@ public class SpeakerMain {
                             getSelection().put(p, selected);
                             p.sendMessage(Main.PREFIX + "Added speaker to selection.");
                         }
-                    } else {
-                        p.sendMessage(Main.PREFIX + "This block is not a speaker.");
                     }
                 }
             }
