@@ -81,35 +81,31 @@ public class Main extends JavaPlugin {
 
         long start = System.currentTimeMillis();
 
-        getLogger().info("Loading OpenAudioMc by Mindgamesnl/Me_is_mattyh");
-
-    /*  DEPENDENCIES  */
-        if (getServer().getPluginManager().isPluginEnabled("WorldGuard")
-                && getServer().getPluginManager().isPluginEnabled("WorldEdit")) {
+        getLogger().info("Loading OpenAudioMc by Mindgamesnl/Me_is_mattyh.");
+        getLogger().info("Developers/Contributors: ApocalypsjeNL, Legoman99573, Mexicaantjes, Sneeuw.");
+        /*  DEPENDENCIES  */
+        if (getServer().getPluginManager().isPluginEnabled("WorldGuard") && getServer().getPluginManager().isPluginEnabled("WorldEdit")) {
             regionsEnabled = true;
-            getLogger().info("All dependencies are detected, regions will be enabled!");
+            getLogger().info("WorldGuard was detected. Enabled Region Handler!");
 
             Bukkit.getServer().getPluginManager().registerEvents(new RegionListener(), this);
             RegionListener.setup(this, getWGPlugin());
         } else {
             regionsEnabled = false;
-            getLogger().info("Not all dependencies are installed, the region functions will NOT work! please install WorldEdit and WorldGuard");
+            getLogger().info("WorldGuard isn't detected. Regions doesn't work without this plugin.");
         }
         if (getServer().getPluginManager().isPluginEnabled("Skript")) {
             skriptEnabled = true;
-            getLogger().info("All dependencies are detected, regions will be enabled!");
+            getLogger().info("Skript was detected. Enabled Skript events");
             Skript.registerAddon(this);
             SkriptRegistration.load();
         } else {
             skriptEnabled = false;
-            getLogger().info("Skript was not found in your server, guess we're not loading the sk-events then.");
+            getLogger().info("Skript isn't detected. Skript events aren't enabled.");
         }
 
         createDataFile();
-
-
         reloadWebConfig();
-
         createRegionsFile();
         createPlaylist();
         cm_callback.update();
@@ -137,6 +133,7 @@ public class Main extends JavaPlugin {
         commandHandler.registerCommand(new CommandPlay());
         commandHandler.registerCommand(new CommandPlaylist());
         commandHandler.registerCommand(new CommandPlayRegion());
+        commandHandler.registerCommand(new CommandPlayRegionPlaylist());
         commandHandler.registerCommand(new CommandRegion());
         commandHandler.registerCommand(new CommandReload());
         commandHandler.registerCommand(new CommandSend());
@@ -170,6 +167,7 @@ public class Main extends JavaPlugin {
         });
         SocketioConnector.close();
         instance = null;
+        Bukkit.getServer().getPluginManager().disablePlugin(this);
     }
 
     public GroupManager getGroupManager() {
@@ -203,11 +201,8 @@ public class Main extends JavaPlugin {
 
             }
             FileConfiguration datafileInst = YamlConfiguration.loadConfiguration(dataFile);
-            datafileInst.options()
-                    .header(
-                            "This is identifies the server and should be kept secret, do you have a bungeecord network? just set this id on all your server and bungeecord mode is activated :)");
-            datafileInst.set("Description",
-                    "This is identifies the server and should be kept secret, do you have a bungeecord network? just set this id on all your server and bungeecord mode is activated :)");
+            datafileInst.options().header("This is identifies the server and should be kept secret, do you have a bungeecord network? just set this id on all your server and bungeecord mode is activated :)");
+            datafileInst.set("Description", "This is identifies the server and should be kept secret, do you have a bungeecord network? just set this id on all your server and bungeecord mode is activated :)");
             JSONObject newTokens = Authenticator.getNewId();
             try {
                 datafileInst.set("serverID", newTokens.getString("server"));

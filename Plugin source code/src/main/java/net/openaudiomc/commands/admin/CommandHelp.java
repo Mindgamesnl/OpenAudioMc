@@ -56,8 +56,10 @@ public class CommandHelp implements OpenAudioCommand {
         } else if (args[0].equalsIgnoreCase("region")) {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.PREFIX + "Help menu / &lRegion"));
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio region create <wg region name> <url>&r&a Add sound to a wg region."));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio region create playlist <wg region name> <playlist name>&r&a Add playlist sound to a wg region."));
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio region delete <wg region name>&r&a Remove the sound from a wg region."));
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio playregion <wg region name> <url>&r&a Start sound for players in a region."));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio playregionplaylist <wg region name> <playlist name>&r&a Start playlist sound for players in a region."));
         } else if (args[0].equalsIgnoreCase("hue")) {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.PREFIX + "Help menu / &lPhilips Hue"));
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c- &3&l/openaudio hue set <selector/player> <rgba code> [id]&r&a Set the hue lights for a player."));

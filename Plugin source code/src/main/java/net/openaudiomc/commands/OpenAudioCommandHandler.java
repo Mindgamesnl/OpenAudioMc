@@ -41,7 +41,7 @@ public class OpenAudioCommandHandler implements CommandExecutor {
             }
             sender.sendMessage(Main.PREFIX + "Subcommand " + args[0] + " does not exists! See /openaudio help for all commands");
         } else {
-            sender.sendMessage(Main.PREFIX + "OpenAudio made with <3 by Mindgamesnl and the contributors. (you can use '/openaudio help' for help :P) need more help? Contact me!");
+            sender.sendMessage(Main.PREFIX + "OpenAudio made with <3 by Mindgamesnl and the contributors. (you can use '/openaudio help' for help :P) need more help? Hop on our spigot resource page or our discord.!");
         }
         return false;
     }

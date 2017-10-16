@@ -22,6 +22,7 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import lombok.Getter;
 import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
 import net.openaudiomc.actions.Command;
+import net.openaudiomc.files.PlaylistManager;
 import net.openaudiomc.internal.events.SocketUserDisconnectEvent;
 import net.openaudiomc.core.Main;
 import org.bukkit.Bukkit;
@@ -82,15 +83,24 @@ public class RegionListener implements Listener {
                 }
             }
 
-            if (finalel[0] != null && isValidRegion(finalel[0].getId())) {
-                if (!getHistory().get(p).contains(getRegionFile(finalel[0].getId()))) {
-                    Command.playRegion(p.getName(), getRegionFile(finalel[0].getId()));
-                    getHistory().get(p).add(getRegionFile(finalel[0].getId()));
-                } else if (finalel[0] != null) {
-                    if (getHistory().get(p).size() == 1 && getHistory().get(p)
-                            .contains(getRegionFile(finalel[0].getId()))) {
-                        getHistory().get(p).remove(getRegionFile(finalel[0].getId()));
-                        Command.playRegion(p.getName(), getRegionFile(finalel[0].getId()));
+            if (finalel[0] != null) {
+                if (isValidRegion(finalel[0].getId())) {
+                    if (!getHistory().get(p).contains(getRegionFile(finalel[0].getId()))) {
+                        if (isPlaylist(finalel[0].getId())) {
+                            Command.playList(p.getName(), PlaylistManager.getAll(getRegionFile(finalel[0].getId())));
+                        } else {
+                            Command.playRegion(p.getName(), getRegionFile(finalel[0].getId()));
+                        }
+                        getHistory().get(p).add(getRegionFile(finalel[0].getId()));
+                    } else if (finalel[0] != null) {
+                        if (getHistory().get(p).size() == 1 && getHistory().get(p).contains(getRegionFile(finalel[0].getId()))) {
+                            getHistory().get(p).remove(getRegionFile(finalel[0].getId()));
+                            if (isPlaylist(finalel[0].getId())) {
+                                Command.playList(p.getName(), PlaylistManager.getAll(getRegionFile(finalel[0].getId())));
+                            } else {
+                                Command.playRegion(p.getName(), getRegionFile(finalel[0].getId()));
+                            }
+                        }
                     }
                 }
             }
@@ -129,8 +139,7 @@ public class RegionListener implements Listener {
         updateRegions(e.getPlayer(), e.getRespawnLocation(), e);
     }
 
-    private synchronized boolean updateRegions(final Player player,
-                                               Location to, final PlayerEvent event) {
+    private synchronized boolean updateRegions(final Player player, Location to, final PlayerEvent event) {
         if (OpenAudioApi.isConnected(player)) {
             Set<ProtectedRegion> regions;
             if (getPlayerRegions().get(player) == null) {
@@ -172,30 +181,38 @@ public class RegionListener implements Listener {
     //returns file of a region
     public static String getRegionFile(String regionName) {
         if (isValidRegion(regionName)) {
-            return net.openaudiomc.regions.File.getString("region.src." + getRegionConfigName(regionName));
+            if (isPlaylist(regionName)) {
+                return net.openaudiomc.regions.File.getString("region.src." + getRegionPlaylist(regionName));
+            } else {
+                return net.openaudiomc.regions.File.getString("region.src." + getRegionConfigName(regionName));
+            }
         } else {
             return "InvalidSource";
         }
     }
 
     public static String getRegionWorld(String regionName) {
-        if (net.openaudiomc.regions.File.getString("world." + getRegionConfigName(regionName)) != null
-                && net.openaudiomc.regions.File.getString("region.isvalid." + getRegionConfigName(regionName)).equals("true")) {
-            return net.openaudiomc.regions.File.getString("world." + getRegionConfigName(regionName));
+        if (net.openaudiomc.regions.File.getString("world." + getRegionConfigName(regionName)) != null && net.openaudiomc.regions.File.getString("region.isvalid." + getRegionConfigName(regionName)).equals("true")) {
+                return net.openaudiomc.regions.File.getString("world." + getRegionConfigName(regionName));
         } else {
             return "<none>";
         }
     }
 
-    //check if a region ia know to openaudio (true = valid)
+    //check if a region is know to openaudio (true = valid)
     public static Boolean isValidRegion(String regionName) {
         return net.openaudiomc.regions.File.getString("region.isvalid." + getRegionConfigName(regionName)) != null
                 && net.openaudiomc.regions.File.getString("region.isvalid." + getRegionConfigName(regionName)).equals("true");
     }
 
+    //check if its a playlist region or not
+    public static Boolean isPlaylist(String regionName) {
+        return net.openaudiomc.regions.File.getString("region.isplaylist." + getRegionConfigName(regionName)) != null
+                && net.openaudiomc.regions.File.getString("region.isplaylist." + getRegionConfigName(regionName)).equals("true");
+    }
+
     private static String getRegionConfigName(String name) {
-        FileConfiguration cfg =
-                YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "regions.yml"));
+        FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "regions.yml"));
         for (String s : cfg.getConfigurationSection("region.isvalid").getKeys(false)) {
             if (s.equalsIgnoreCase(name)) {
                 return s;
@@ -204,11 +221,36 @@ public class RegionListener implements Listener {
         return name;
     }
 
+    private static String getRegionPlaylist(String name) {
+        FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "regions.yml"));
+        for (String s : cfg.getConfigurationSection("region.isplaylist").getKeys(false)) {
+            if (s.equalsIgnoreCase(name)) {
+                return s;
+            }
+        }
+        return name;
+    }
+
     public static void registerRegion(String regionName, String src, Player p) {
-        FileConfiguration cfg =
-                YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "regions.yml"));
+        FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "regions.yml"));
         File regionsFile = new File("plugins/OpenAudio", "regions.yml");
         cfg.set("region.isvalid." + regionName, "true");
+        cfg.set("region.isplaylist." + regionName, "false");
+        cfg.set("region.src." + regionName, src);
+        cfg.set("world." + regionName, p.getLocation().getWorld().getName());
+        try {
+            cfg.save(regionsFile);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public static void registerRegionPlaylist(String regionName, String src, Player p) {
+        FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "regions.yml"));
+        File regionsFile = new File("plugins/OpenAudio", "regions.yml");
+        cfg.set("region.isvalid." + regionName, "true");
+        cfg.set("region.isplaylist." + regionName, "true");
         cfg.set("region.src." + regionName, src);
         cfg.set("world." + regionName, p.getLocation().getWorld().getName());
         try {
@@ -220,10 +262,10 @@ public class RegionListener implements Listener {
     }
 
     public static void deleteRegion(String regionName) {
-        FileConfiguration cfg =
-                YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "regions.yml"));
+        FileConfiguration cfg = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudio", "regions.yml"));
         File regionsFile = new File("plugins/OpenAudio", "regions.yml");
         cfg.set("region.isvalid." + getRegionConfigName(regionName), "false");
+        cfg.set("region.isplaylist." + getRegionConfigName(regionName), "false");
         cfg.set("region.src." + getRegionConfigName(regionName), "<deleted>");
         try {
             cfg.save(regionsFile);
