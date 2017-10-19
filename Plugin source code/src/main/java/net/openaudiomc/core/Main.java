@@ -25,6 +25,7 @@ import net.openaudiomc.actions.Spy;
 import net.openaudiomc.commands.OpenAudioCommandHandler;
 import net.openaudiomc.commands.admin.*;
 import net.openaudiomc.commands.player.*;
+import net.openaudiomc.files.PlaylistManager;
 import net.openaudiomc.files.WebConfig;
 import net.openaudiomc.groups.GroupManager;
 import net.openaudiomc.regions.RegionListener;
@@ -227,10 +228,11 @@ public class Main extends JavaPlugin {
 
             }
             FileConfiguration datafileInst = YamlConfiguration.loadConfiguration(dataFile);
-            datafileInst.set("Description", "Playlists are stored here");
+            datafileInst.set("Description", "Playlists are stored here. Supports YouTube Playlists.");
             datafileInst.set("demo.1", "https://craftmend.com/api_SSL/openaudio/demo_playlist/1.mp3");
             datafileInst.set("demo.2", "https://craftmend.com/api_SSL/openaudio/demo_playlist/2.mp3");
             datafileInst.set("demo.3", "https://craftmend.com/api_SSL/openaudio/demo_playlist/3.mp3");
+            datafileInst.set("youtubeplaylistdemo.1", "https://www.youtube.com/playlist?list=PLRBp0Fe2GpglkzuspoGv-mu7B2ce9_0Fn");
             try {
                 datafileInst.save(dataFile);
             } catch (IOException e) {
@@ -253,14 +255,15 @@ public class Main extends JavaPlugin {
 
     public void handleRegionListener(Player client) {
         if (Main.get().isRegionsEnabled()) {
-            WGBukkit.getRegionManager(client.getWorld())
-                    .getApplicableRegions(client.getLocation())
-                    .forEach(protectedRegion -> {
-                        if (RegionListener.isValidRegion(protectedRegion.getId())) {
-                            Command.playRegion(client.getName(),
-                                    RegionListener.getRegionFile(protectedRegion.getId()));
-                        }
-                    });
+            WGBukkit.getRegionManager(client.getWorld()).getApplicableRegions(client.getLocation()).forEach(protectedRegion -> {
+                if (RegionListener.isValidRegion(protectedRegion.getId())) {
+                    if (RegionListener.isPlaylist(protectedRegion.getId())) {
+                        Command.playList(client.getName(), PlaylistManager.getAll(RegionListener.getRegionFile(protectedRegion.getId())));
+                    } else {
+                        Command.playRegion(client.getName(), RegionListener.getRegionFile(protectedRegion.getId()));
+                    }
+                }
+            });
         }
     }
 

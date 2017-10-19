@@ -121,12 +121,12 @@ public class RegionListener implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e) {
-        e.setCancelled(updateRegions(e.getPlayer(), e.getTo(), e));
+        updateRegions(e.getPlayer(), e.getPlayer().getLocation(), e);
     }
 
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent e) {
-        e.setCancelled(updateRegions(e.getPlayer(), e.getTo(), e));
+        updateRegions(e.getPlayer(), e.getPlayer().getLocation(), e);
     }
 
     @EventHandler
@@ -201,14 +201,12 @@ public class RegionListener implements Listener {
 
     //check if a region is know to openaudio (true = valid)
     public static Boolean isValidRegion(String regionName) {
-        return net.openaudiomc.regions.File.getString("region.isvalid." + getRegionConfigName(regionName)) != null
-                && net.openaudiomc.regions.File.getString("region.isvalid." + getRegionConfigName(regionName)).equals("true");
+        return net.openaudiomc.regions.File.getString("region.isvalid." + getRegionConfigName(regionName)) != null && net.openaudiomc.regions.File.getString("region.isvalid." + getRegionConfigName(regionName)).equals("true");
     }
 
     //check if its a playlist region or not
     public static Boolean isPlaylist(String regionName) {
-        return net.openaudiomc.regions.File.getString("region.isplaylist." + getRegionConfigName(regionName)) != null
-                && net.openaudiomc.regions.File.getString("region.isplaylist." + getRegionConfigName(regionName)).equals("true");
+        return net.openaudiomc.regions.File.getString("region.isplaylist." + getRegionConfigName(regionName)) != null && net.openaudiomc.regions.File.getString("region.isplaylist." + getRegionConfigName(regionName)).equals("true");
     }
 
     private static String getRegionConfigName(String name) {

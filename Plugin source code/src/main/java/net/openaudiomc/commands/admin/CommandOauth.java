@@ -21,7 +21,7 @@ public class CommandOauth implements OpenAudioCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         sender.sendMessage(Main.PREFIX + "Generating url.");
-        sender.sendMessage(Main.PREFIX + ChatColor.RED + "Please note! this key can only be used ONCE and should only be used on a site that starts with oauth.openaudiomc.net!");
+        sender.sendMessage(Main.PREFIX + ChatColor.RED + "Please note! this key can only be used ONCE and should only be used on a site that starts with plus.openaudiomc.net!");
         sender.sendMessage(Main.PREFIX + ChatColor.RED + "This code will only be valid for 5 minutes:");
         sender.sendMessage(ChatColor.AQUA + "Your key: " + ChatColor.YELLOW + Authenticator.getOauthId());
     }
