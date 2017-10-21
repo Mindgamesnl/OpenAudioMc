@@ -7,7 +7,7 @@
 
     <groupId>net.openaudiomc</groupId>
     <artifactId>OpenAudioMc</artifactId>
-    <version>3.0-pre</version>
+    <version>3.0</version>
     <packaging>jar</packaging>
 
     <name>OpenAudioMc</name>
