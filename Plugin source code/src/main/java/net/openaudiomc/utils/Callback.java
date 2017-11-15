@@ -14,5 +14,5 @@
 package net.openaudiomc.utils;
 
 public interface Callback {
-  void execute(String string);
+    void execute(String string);
 }

@@ -18,8 +18,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 public class File {
 
-	public static String getString(String path) {
-		FileConfiguration cfg = YamlConfiguration.loadConfiguration(new java.io.File("plugins/OpenAudio", "regions.yml"));
-		return cfg.getString(path);
-	}
+    public static String getString(String path) {
+        FileConfiguration cfg = YamlConfiguration.loadConfiguration(new java.io.File("plugins/OpenAudio", "regions.yml"));
+        return cfg.getString(path);
+    }
 }

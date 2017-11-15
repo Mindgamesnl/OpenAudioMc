@@ -23,7 +23,7 @@ import org.json.simple.JSONObject;
 public class Emitter {
 
     public static void EmitToPlayer(String player, String message) {
-        if (TimeoutManager.isReady()) {
+        if (TimeoutManager.isConnected()) {
             try {
                 if (player.equalsIgnoreCase("@a")) {
                     for (Player p : Bukkit.getServer().getOnlinePlayers()) {
@@ -43,11 +43,7 @@ public class Emitter {
                 }
             } catch (NullPointerException e) {
             }
-            Bukkit.getServer()
-                    .getPluginManager()
-                    .callEvent(
-                            new me.mindgamesnl.openaudiomc.publicApi.WebsocketSendEvent(Bukkit.getPlayer(player),
-                                    message));
+            Bukkit.getServer().getPluginManager().callEvent(new me.mindgamesnl.openaudiomc.publicApi.WebsocketSendEvent(Bukkit.getPlayer(player), message));
         }
     }
 
@@ -56,7 +52,7 @@ public class Emitter {
     }
 
     public static void offlineInServer(String name) {
-        if (TimeoutManager.isReady()) {
+        if (TimeoutManager.isConnected()) {
             JSONObject obj = new JSONObject();
             obj.put("target", name);
             obj.put("commandobj", "not_in_server");
@@ -65,7 +61,7 @@ public class Emitter {
     }
 
     public static void connectedInServer(String name) {
-        if (TimeoutManager.isReady()) {
+        if (TimeoutManager.isConnected()) {
             JSONObject obj = new JSONObject();
             obj.put("target", name);
             obj.put("commandobj", "connectionSuccess");

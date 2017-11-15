@@ -22,6 +22,10 @@ import lombok.Getter;
 import me.mindgamesnl.openaudiomc.publicApi.OpenAudioApi;
 import net.openaudiomc.actions.Command;
 import net.openaudiomc.actions.Spy;
+import net.openaudiomc.commands.OpenAudioCommandHandler;
+import net.openaudiomc.commands.admin.*;
+import net.openaudiomc.commands.player.*;
+import net.openaudiomc.files.PlaylistManager;
 import net.openaudiomc.files.WebConfig;
 import net.openaudiomc.groups.GroupManager;
 import net.openaudiomc.regions.RegionListener;
@@ -44,18 +48,14 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 import net.openaudiomc.socket.Authenticator;
 import net.openaudiomc.socket.TimeoutManager;
-import net.openaudiomc.commands.AdminCommands;
-import net.openaudiomc.commands.AudioCommand;
-import net.openaudiomc.commands.VolumeCommand;
 import net.openaudiomc.internal.events.SkriptRegistration;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Main extends JavaPlugin {
 
     //CONSTANT
-    public static String PREFIX =
-            ChatColor.translateAlternateColorCodes('&', "&9[&bOpenAudioMc&9] &3");
-
+    public static String PREFIX = ChatColor.translateAlternateColorCodes('&', "&9[&bOpenAudioMc&9] &3");
 
     private GroupManager groupManager;
 
@@ -69,6 +69,8 @@ public class Main extends JavaPlugin {
     private Reflection reflection;
     @Getter
     private WebConfig webConfig;
+    @Getter
+    private OpenAudioCommandHandler commandHandler;
 
     public static Main get() {
         return instance;
@@ -80,41 +82,38 @@ public class Main extends JavaPlugin {
 
         long start = System.currentTimeMillis();
 
-        getLogger().info("Loading OpenAudioMc by Mindgamesnl/Me_is_mattyh");
-
-    /*  DEPENDENCIES  */
-        if (getServer().getPluginManager().isPluginEnabled("WorldGuard")
-                && getServer().getPluginManager().isPluginEnabled("WorldEdit")) {
+        getLogger().info("Loading OpenAudioMc by Mindgamesnl/Me_is_mattyh.");
+        getLogger().info("Developers/Contributors: ApocalypsjeNL, Legoman99573, Mexicaantjes, Sneeuw.");
+        /*  DEPENDENCIES  */
+        if (getServer().getPluginManager().isPluginEnabled("WorldGuard") && getServer().getPluginManager().isPluginEnabled("WorldEdit")) {
             regionsEnabled = true;
-            getLogger().info("All dependencies are detected, regions will be enabled!");
+            getLogger().info("WorldGuard was detected. Enabled Region Handler!");
 
             Bukkit.getServer().getPluginManager().registerEvents(new RegionListener(), this);
             RegionListener.setup(this, getWGPlugin());
         } else {
             regionsEnabled = false;
-            getLogger().info("Not all dependencies are installed, the region functions will NOT work! please install WorldEdit and WorldGuard");
+            getLogger().info("WorldGuard isn't detected. Regions doesn't work without this plugin.");
         }
         if (getServer().getPluginManager().isPluginEnabled("Skript")) {
             skriptEnabled = true;
-            getLogger().info("All dependencies are detected, regions will be enabled!");
+            getLogger().info("Skript was detected. Enabled Skript events");
             Skript.registerAddon(this);
             SkriptRegistration.load();
         } else {
             skriptEnabled = false;
-            getLogger().info("Skript was not found in your server, guess we're not loading the sk-events then.");
+            getLogger().info("Skript isn't detected. Skript events aren't enabled.");
         }
 
         createDataFile();
-
-
         reloadWebConfig();
-
         createRegionsFile();
         createPlaylist();
         cm_callback.update();
 
         groupManager = new GroupManager();
         reflection = new Reflection(this);
+        commandHandler = new OpenAudioCommandHandler();
 
         Bukkit.getServer().getPluginManager().registerEvents(new TimeoutManager(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new EventListener(), this);
@@ -122,7 +121,32 @@ public class Main extends JavaPlugin {
 
         getCommand("connect").setExecutor(new AudioCommand());
         getCommand("volume").setExecutor(new VolumeCommand());
-        getCommand("openaudio").setExecutor(new AdminCommands(this));
+        getCommand("openaudio").setExecutor(commandHandler);
+
+        commandHandler.registerCommand(new CommandBuffer());
+        commandHandler.registerCommand(new CommandDebug());
+        commandHandler.registerCommand(new CommandGroup());
+        commandHandler.registerCommand(new CommandHelp());
+        commandHandler.registerCommand(new CommandHue());
+        commandHandler.registerCommand(new CommandJson());
+        commandHandler.registerCommand(new CommandLoop());
+        commandHandler.registerCommand(new CommandOauth());
+        commandHandler.registerCommand(new CommandPlay());
+        commandHandler.registerCommand(new CommandPlaylist());
+        commandHandler.registerCommand(new CommandPlayRegion());
+        commandHandler.registerCommand(new CommandPlayRegionPlaylist());
+        commandHandler.registerCommand(new CommandRegion());
+        commandHandler.registerCommand(new CommandReload());
+        commandHandler.registerCommand(new CommandSend());
+        commandHandler.registerCommand(new CommandSetBg());
+        commandHandler.registerCommand(new CommandSetVolume());
+        commandHandler.registerCommand(new CommandSkipTo());
+        commandHandler.registerCommand(new CommandSpeaker());
+        commandHandler.registerCommand(new CommandSpy());
+        commandHandler.registerCommand(new CommandStop());
+        commandHandler.registerCommand(new CommandStopAll());
+        commandHandler.registerCommand(new CommandToggle());
+
         TimeoutManager.updateCounter();
 
 
@@ -144,6 +168,7 @@ public class Main extends JavaPlugin {
         });
         SocketioConnector.close();
         instance = null;
+        Bukkit.getServer().getPluginManager().disablePlugin(this);
     }
 
     public GroupManager getGroupManager() {
@@ -177,14 +202,15 @@ public class Main extends JavaPlugin {
 
             }
             FileConfiguration datafileInst = YamlConfiguration.loadConfiguration(dataFile);
-            datafileInst.options()
-                    .header(
-                            "This is identifies the server and should be kept secret, do you have a bungeecord network? just set this id on all your server and bungeecord mode is activated :)");
-            datafileInst.set("Description",
-                    "This is identifies the server and should be kept secret, do you have a bungeecord network? just set this id on all your server and bungeecord mode is activated :)");
+            datafileInst.options().header("This is identifies the server and should be kept secret, do you have a bungeecord network? just set this id on all your server and bungeecord mode is activated :)");
+            datafileInst.set("Description", "This is identifies the server and should be kept secret, do you have a bungeecord network? just set this id on all your server and bungeecord mode is activated :)");
             JSONObject newTokens = Authenticator.getNewId();
-            datafileInst.set("serverID", newTokens.getString("server"));
-            datafileInst.set("clientId", newTokens.getString("client"));
+            try {
+                datafileInst.set("serverID", newTokens.getString("server"));
+                datafileInst.set("clientId", newTokens.getString("client"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             try {
                 datafileInst.save(dataFile);
             } catch (IOException e) {
@@ -202,10 +228,11 @@ public class Main extends JavaPlugin {
 
             }
             FileConfiguration datafileInst = YamlConfiguration.loadConfiguration(dataFile);
-            datafileInst.set("Description", "Playlists are stored here");
+            datafileInst.set("Description", "Playlists are stored here. Supports YouTube Playlists.");
             datafileInst.set("demo.1", "https://craftmend.com/api_SSL/openaudio/demo_playlist/1.mp3");
             datafileInst.set("demo.2", "https://craftmend.com/api_SSL/openaudio/demo_playlist/2.mp3");
             datafileInst.set("demo.3", "https://craftmend.com/api_SSL/openaudio/demo_playlist/3.mp3");
+            datafileInst.set("youtubeplaylistdemo.1", "https://www.youtube.com/playlist?list=PLRBp0Fe2GpglkzuspoGv-mu7B2ce9_0Fn");
             try {
                 datafileInst.save(dataFile);
             } catch (IOException e) {
@@ -228,22 +255,23 @@ public class Main extends JavaPlugin {
 
     public void handleRegionListener(Player client) {
         if (Main.get().isRegionsEnabled()) {
-            WGBukkit.getRegionManager(client.getWorld())
-                    .getApplicableRegions(client.getLocation())
-                    .forEach(protectedRegion -> {
-                        if (RegionListener.isValidRegion(protectedRegion.getId())) {
-                            Command.playRegion(client.getName(),
-                                    RegionListener.getRegionFile(protectedRegion.getId()));
-                        }
-                    });
+            WGBukkit.getRegionManager(client.getWorld()).getApplicableRegions(client.getLocation()).forEach(protectedRegion -> {
+                if (RegionListener.isValidRegion(protectedRegion.getId())) {
+                    if (RegionListener.isPlaylist(protectedRegion.getId())) {
+                        Command.playList(client.getName(), PlaylistManager.getAll(RegionListener.getRegionFile(protectedRegion.getId())));
+                    } else {
+                        Command.playRegion(client.getName(), RegionListener.getRegionFile(protectedRegion.getId()));
+                    }
+                }
+            });
         }
     }
 
     public void reloadWebConfig() {
         try {
             String id = Authenticator.getID();
-            String cliendId = Authenticator.getClientID();
-            String configReturn = WebUtils.getText(WebConfig.getUrl().replace("{0}", id).replace("{1}", cliendId));
+            String clientId = Authenticator.getClientID();
+            String configReturn = WebUtils.getText(WebConfig.getUrl().replace("{0}", id).replace("{1}", clientId));
             webConfig = new Gson().fromJson(configReturn, WebConfig.class);
             getLogger().info("Loading webConfig version " + webConfig.getVersion());
             Main.PREFIX = ChatColor.translateAlternateColorCodes('&', webConfig.getPrefix());

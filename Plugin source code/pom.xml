@@ -7,7 +7,7 @@
 
     <groupId>net.openaudiomc</groupId>
     <artifactId>OpenAudioMc</artifactId>
-    <version>3.0-pre</version>
+    <version>3.0</version>
     <packaging>jar</packaging>
 
     <name>OpenAudioMc</name>
@@ -17,6 +17,7 @@
     </properties>
 
     <build>
+        <outputDirectory>target/build</outputDirectory>
         <defaultGoal>clean package</defaultGoal>
         <plugins>
             <plugin>
@@ -58,17 +59,21 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
-        <repository>
-            <id>sk89q-repo</id>
-            <url>http://maven.sk89q.com/repo/</url>
-        </repository>
+	<repository>
+	    <id>sk89q-repo</id>
+	    <url>http://maven.sk89q.com/repo/</url>
+	</repository>
+    	<repository>
+            <id>projectlombok.org</id>
+            <url>http://projectlombok.org/mavenrepo</url>
+    	</repository>
     </repositories>
 
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.12-R0.1-SNAPSHOT</version>
+            <version>1.12.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -100,11 +105,16 @@
             <version>1.16.16</version>
             <scope>provided</scope>
         </dependency>
+	<dependency>
+	    <groupId>com.sk89q</groupId>
+	    <artifactId>worldguard</artifactId>
+	    <version>6.1.1-SNAPSHOT</version>
+	    <scope>provided</scope>
+	</dependency>
         <dependency>
-            <groupId>com.sk89q</groupId>
-            <artifactId>worldguard</artifactId>
-            <version>6.1</version>
-            <scope>provided</scope>
+            <groupId>org.bukkit</groupId>
+            <artifactId>bukkit</artifactId>
+            <version>1.12.2-R0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>
