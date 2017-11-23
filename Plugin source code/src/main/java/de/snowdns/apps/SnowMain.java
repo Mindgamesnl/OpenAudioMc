@@ -26,7 +26,7 @@ public class SnowMain {
 	}
 	
 	private static boolean isReady() throws IOException {
-		String response = net.openaudiomc.utils.WebUtils.getText("api.snowdns.de/oa.php");
+		String response = Data.datarequest("http://api.snowdns.de/oa.php?test=true");
 		if (response.equalsIgnoreCase("OA SnowFlake Ready")) {
 			return true;
 		} else {

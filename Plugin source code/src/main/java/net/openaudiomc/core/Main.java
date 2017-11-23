@@ -40,6 +40,8 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import ch.njol.skript.Skript;
+import de.snowdns.apps.SnowMain;
+
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 import net.openaudiomc.socket.Authenticator;
@@ -103,8 +105,9 @@ public class Main extends JavaPlugin {
             skriptEnabled = false;
             getLogger().info("Skript was not found in your server, guess we're not loading the sk-events then.");
         }
-
+       
         createDataFile();
+       
 
 
         reloadWebConfig();
@@ -112,6 +115,12 @@ public class Main extends JavaPlugin {
         createRegionsFile();
         createPlaylist();
         cm_callback.update();
+        try {
+			SnowMain.init();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         groupManager = new GroupManager();
         reflection = new Reflection(this);
