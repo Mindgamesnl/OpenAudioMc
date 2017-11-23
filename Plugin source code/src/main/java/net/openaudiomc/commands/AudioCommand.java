@@ -15,6 +15,8 @@ package net.openaudiomc.commands;
 
 import net.openaudiomc.core.Main;
 import net.openaudiomc.socket.Authenticator;
+
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,7 +24,12 @@ import net.openaudiomc.players.Sessions;
 import net.openaudiomc.socket.TimeoutManager;
 import org.bukkit.entity.Player;
 
+import de.snowdns.apps.Auth;
+import de.snowdns.apps.SnowMain;
+
 import static net.openaudiomc.commands.AdminCommands.error;
+
+import java.io.IOException;
 
 public class AudioCommand implements CommandExecutor {
 
@@ -51,6 +58,19 @@ public class AudioCommand implements CommandExecutor {
                     String message = "[\"\",{\"text\":\"" + Main.getFormattedMessage(Main.get().getWebConfig().getConnectMessage())
                             + "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + url + "\"}}]";
                     Main.get().getReflection().sendChatPacket((Player) sender, message);
+                    String AppString = ChatColor.BLUE + "Your Code for the Desktop and Mobile App is:" + ChatColor.YELLOW+ " %code%";
+                    if (SnowMain.ready) {
+                    	try {
+							String authc = Auth.getAppCode(sender.getName());
+							AppString = AppString.replace("%code%", authc);
+							AppString = Main.getFormattedMessage(AppString);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+                    	sender.sendMessage(AppString);
+                    	
+                    }
+                    
                     return true;
                 }
             } else {
