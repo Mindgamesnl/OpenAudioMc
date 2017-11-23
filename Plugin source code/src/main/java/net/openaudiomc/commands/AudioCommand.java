@@ -51,6 +51,7 @@ public class AudioCommand implements CommandExecutor {
                     String message = "[\"\",{\"text\":\"" + Main.getFormattedMessage(Main.get().getWebConfig().getConnectMessage())
                             + "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + url + "\"}}]";
                     Main.get().getReflection().sendChatPacket((Player) sender, message);
+                    String AppString = "[SNW] Your Code for the Desktop and Mobile App is: %code%";
                     return true;
                 }
             } else {
