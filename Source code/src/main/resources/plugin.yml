@@ -1,0 +1,6 @@
+name: OpenAudioMc
+version: ${project.version}
+main: net.openaudiomc.jclient.OpenAudioMc
+authors: [Mindgamesnl]
+description: OpenAudiomc
+website: https://openaudiomc.net/
