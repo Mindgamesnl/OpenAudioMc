@@ -1,5 +1,0 @@
-BEFORE YOU GO AND CHANGE A FILE HERE!
-
-WE WILL  NOT GIVE SUPPORT WHEN YOU HAVE A CUSTOM CLIENT!
-
-Most problems are made by the user while edditing the client, most of the settings and custom css/js can be configured here: https://plus.openaudiomc.net/
