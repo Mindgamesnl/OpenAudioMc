@@ -1,8 +1,10 @@
     package net.openaudiomc.jclient;
 
 import lombok.Getter;
+
 import net.openaudiomc.jclient.modules.player.PlayerModule;
 import net.openaudiomc.jclient.modules.socket.SocketModule;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class OpenAudioMc extends JavaPlugin {

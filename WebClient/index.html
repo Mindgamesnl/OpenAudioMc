@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+        <!-- Title -->
+        <title>OpenAudioMC</title>
+        <!-- CSS -->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <link href="files/css/main.css" rel="stylesheet"/>
+        <link href="files/css/swall.css" rel="stylesheet"/>
+        <!-- META -->
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+        <!-- ICON -->
+        <link rel="icon" href="files/images/small_logo.png"/>
+        <link rel="image" href="files/images/small_logo.png"/>
+        <!-- JS -->
+        <script src="files/js/jquery.js"></script>
+        <script src="files/js/bootstrap.js"></script>
+        <script src="files/js/swall.js"></script>
+        <script src="files/js/jqueryui.js"></script>
+        <script src="files/js/hueapi.js"></script>
+        <script src="files/js/soundmanager2.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.slim.js"></script>
+
+        <!-- CORE -->
+        <script src="files/core/audioman.js"></script>
+        <script src="files/core/ui.js"></script>
+        <script src="files/core/lang.js"></script>
+        <script src="files/core/hue.js"></script>
+        <script src="files/core/core.js"></script>
+        <script src="files/core/socket.js"></script>
+    </head>
+
+    <body id="body">
+        <section>
+            <div class="notification normal closed" id="notification">
+                <span class="title">loading...</span> <span id="notitext">im starting!</span><span class="close">X</span>
+            </div>
+        </section>
+        <div style="text-align: center;">
+            <div class="player">
+                <div class="player__wrapper">
+                    <div class="player__holder">
+                        <div class="player__cover" id="skull"></div>
+                    </div>
+                </div>
+                <div class="player__info">
+                    <h1 class="player__title" id="username">Mr. No name</h1>
+                    <h2 class="oam_volume_display">Vol: 20%</h2>
+                </div>
+                <div class="oam_volume_display_slider-holder">
+                    <div class="oam_volume_display_slider" style="width: 20.86978%;"></div>
+                </div>
+                <div class="player__controls controls">
+                    <button class="btn controls__btn controls__btn--prev" onclick="oa_volume_decrement()">
+                        <i class="fa fa-volume-down"></i>
+                    </button>
+                    <button class="btn controls__btn controls__btn--play-pause" onclick="hue.connect(hue);">
+                        <i class="fa fa-lightbulb-o"></i>
+                    </button>
+                    <button class="btn controls__btn controls__btn--next" onclick="oa_volume_increment()">
+                        <i class="fa fa-volume-up"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </body>
+    <footer id="footer">
+        <span class="roboto">OpenAudioMc&#9400; 4</span>
+        <img class="footer-logo" id="logo" src="files/images/footer_logo.png">
+        <img id="sc-cover" class="sc-cover" src="files/images/soundcloud.png" style="display: none;"
+             onclick="open_soundcloud();" onerror="this.onerror=null;this.src='files/images/sc-default.png';"/>
+        <p id="sc-title" class="sc-title" style="display: none;" onclick="open_soundcloud();">Song Title</p>
+    </footer>
+</html>

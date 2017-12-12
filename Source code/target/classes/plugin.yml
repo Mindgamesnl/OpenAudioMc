@@ -1,0 +1,6 @@
+name: OpenAudioMc
+version: 3.0
+main: net.openaudiomc.jclient.OpenAudioMc
+authors: [Mindgamesnl]
+description: OpenAudiomc
+website: https://openaudiomc.net/

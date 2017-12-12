@@ -1,0 +1,358 @@
+* {
+  outline: none !important;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  background: #2c2c33;
+}
+
+body {
+  margin: 0;
+  background: #2c2c33;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.text, .player__title, .oam_volume_display, .tracks__title, .tracks__artist {
+  width: 100%;
+  margin: 0;
+  font-weight: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.btn {
+  padding: 20px;
+  background: none;
+  font-size: 20px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.player {
+  width: 300px;
+  background: #1a1a1d;
+  font-family: 'Roboto';
+  color: #fff;
+  text-align: center;
+
+  display: inline-block;
+  -webkit-box-shadow: 0 0 30px 0 #0d0d0f;
+  box-shadow: 0 0 30px 0 #0d0d0f;
+}
+
+.player__wrapper {
+  position: relative;
+}
+
+.player__wrapper:hover .player__options {
+  opacity: 1;
+}
+
+.player__holder {
+  position: relative;
+  height: 200px;
+  -webkit-perspective: 500px;
+  perspective: 500px;
+}
+
+.player__holder--flipped .player__cover {
+  -webkit-transform: rotateY(-180deg);
+  transform: rotateY(-180deg);
+}
+
+.player__holder--flipped .player__list {
+  -webkit-transform: rotateY(0);
+  transform: rotateY(0);
+}
+
+.player__cover {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: center center / cover no-repeat;
+  -webkit-transition: all .3s ease-out;
+  transition: all .3s ease-out;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  z-index: 100;
+  background: linear-gradient(
+          rgba(26, 26, 29, 0.45),
+          rgba(30, 30, 33, 0.25),
+          rgba(118, 60, 240, 0.25),
+          rgba(92, 89, 229, 0.45)),
+  url("https://crafatar.com/avatars/notch");
+  background-size: cover;
+}
+
+.player__cover:after {
+  display: none;
+  width: 100%;
+  height: 100%;
+  background: rgba(18, 18, 20, 0.6);
+  content: '?';
+  font-size: 100px;
+  font-weight: 300;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.player__cover--error:after {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.player__list {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  overflow: scroll;
+  -webkit-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+  -webkit-transition: all .3s ease-out;
+  transition: all .3s ease-out;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.player__options {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 100%;
+  opacity: 0;
+  -webkit-transition: all .3s ease-out;
+  transition: all .3s ease-out;
+}
+
+.player__info {
+  padding: 20px 25px;
+}
+
+.player__title {
+  margin-bottom: 5px;
+  font-size: 28px;
+}
+
+.oam_volume_display {
+  font-size: 18px;
+}
+
+.oam_volume_display_slider-holder {
+  width: 100%;
+  height: 3px;
+  cursor: pointer;
+}
+
+.oam_volume_display_slider {
+  width: 0;
+  height: 100%;
+  background: #fff;
+  opacity: .8;
+  -webkit-box-shadow: 0 0 8px 0 rgba(255, 255, 255, 0.3), 0 0 3px 0 rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 8px 0 rgba(255, 255, 255, 0.3), 0 0 3px 0 rgba(255, 255, 255, 0.3);
+  -webkit-transition: all .2s linear;
+  transition: all .2s linear;
+}
+
+.player__controls {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background: #1e1e21;
+}
+
+.controls__btn {
+  background: #1e1e21;
+  -webkit-transition: all .2s linear;
+  transition: all .2s linear;
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.controls__btn:hover {
+  background: #1a1a1d;
+}
+
+.tracks {
+  background: #1e1e21;
+}
+
+.tracks__track {
+  padding: 13px 25px;
+  border-bottom: 1px solid #252529;
+  cursor: pointer;
+}
+
+.tracks__track:last-child {
+  border: none;
+}
+
+.tracks__track--active {
+  background: #252529;
+}
+
+.tracks__list {
+  margin: 0;
+  padding: 0;
+}
+
+.tracks__title {
+  margin-bottom: 4px;
+  font-size: 17px;
+}
+
+.tracks__artist {
+  font-size: 12px;
+}
+
+.options {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.options__btn {
+  -webkit-transition: all .1s linear;
+  transition: all .1s linear;
+}
+
+.options__btn--active {
+  color: #02a9ea;
+}
+
+footer {
+  background-color: rgb(30, 30, 33);
+  padding: 10px;
+  position: absolute;
+  width: 100%;
+  left: 0; bottom: 0px;
+  color: #fff;
+  text-align: center;
+  font-size: 16px;
+  font-family: 'Roboto';
+  text-overflow: ellipsis;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.footer-logo {
+  position: absolute;
+  bottom: 0px;
+  right: 5px;
+  width: 100px;
+  height: 100px;
+}
+
+.footer-icon {
+  margin-left: 10px;
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+  display: block;
+}
+
+.notification{
+  width: 60vw;
+  height: 40px;
+  border-radius: 0px 0px 5px 5px;
+  margin: 0 auto;
+  color: white;
+  line-height: 40px;
+  overflow: hidden;
+  animation: reveal 1 2s;
+}
+.notification .title{
+  margin-right: 15px;
+  padding: 0px 15px;
+  line-height: 40px;
+  display: inline-block;
+}
+
+.notification .close{
+  background: rgba(255,255,255,0.2);
+  padding: 0px 15px;
+  float: right;
+  line-height: 40px;
+  display: inline-block;
+  color: white;
+}
+.notification .close:hover{
+  cursor: pointer;
+}
+.notification.closed{
+  transform: translate(0px, -50px);
+  transition: 0.7s;
+}
+
+@keyframes reveal{
+  0%{
+    transform: translate(0px, -50px);
+  }
+  50%{
+    transform: translate(0px, -50px);
+  }
+  100%{
+    transform: translate(0px, 0px);
+  }
+}
+
+section{
+  width: 100vw;
+  overflow: hidden;
+  height: 25vh;
+}
+.notification.success{
+  background: #2ecc71;
+}
+.notification.success .title{
+  background: #27ae60;
+}
+
+.notification.error{
+  background: #e74c3c;
+}
+.notification.error .title{
+  background: #c0392b;
+}
+
+.notification.warning{
+  background: #f1c40f;
+}
+.notification.warning .title{
+  background: #f39c12;
+}
+
+.notification.normal{
+  background: #3498db;
+}
+.notification.normal .title{
+  background: #2980b9;
+}
