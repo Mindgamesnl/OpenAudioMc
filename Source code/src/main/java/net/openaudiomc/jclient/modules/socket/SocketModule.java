@@ -45,9 +45,9 @@ public class SocketModule {
             IO.Options options = new IO.Options();
             options.sslContext = sc;
             options.secure = true;
-            options.port = 3000;
+            options.port = plugin.getApiEndpoints().getPort();
 
-            socket = IO.socket("api server url TODO LOOOOOOOLLLZ", options);
+            socket = IO.socket(plugin.getApiEndpoints().getSocket(), options);
 
             socket.on(Socket.EVENT_CONNECT, args -> {
 
@@ -60,18 +60,25 @@ public class SocketModule {
                         connected = true;
 
                     })
-                    .on("userconnect", args -> {
+                    .on("onplayerconnect", args -> {
                         JSONObject json = (JSONObject) JSONValue.parse((String) args[0]);
-
                         try {
                             String username = json.getString("name");
                             String key = json.getString("key");
+                            AudioListener l = OpenAudioMc.getInstance().getPlayerModule().getListeners().get(username);
+                            if (l != null && l.isAllowedConnection(key)) {
+                                l.onConnect();
+                                socket.emit("acceptpl", username);
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     })
-                    .on("userdisconnect", (Object... args) -> {
-                        OpenAudioMc.getInstance().getPlayerModule().getListeners().get(args[0]).closeConnection();
+                    .on("onplayerdisconnect", (args) -> {
+                        AudioListener l = OpenAudioMc.getInstance().getPlayerModule().getListeners().get(args);
+                        if (l != null && l.getIsConnected()) {
+                            l.onDisconnect();
+                        }
                     })
                     .on(Socket.EVENT_DISCONNECT, args -> {
                         connected = false;

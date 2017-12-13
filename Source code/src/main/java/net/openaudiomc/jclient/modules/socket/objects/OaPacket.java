@@ -42,12 +42,10 @@ public class OaPacket {
     public String serialize() {
         JSONObject obj = new JSONObject();
         try {
-            obj.put("type", "server");
             obj.put("packet_type", packetType.name());
             obj.put("packet_command", packetCommand.name());
             obj.put("packet_value", value);
             obj.put("packet_player", player);
-            obj.put("serverid", OpenAudioMc.getInstance().getSocketModule().getKeyHolder().getPrivatekey());
         } catch (JSONException e) {
             e.printStackTrace();
         }
