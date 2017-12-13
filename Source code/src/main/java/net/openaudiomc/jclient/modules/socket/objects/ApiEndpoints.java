@@ -9,11 +9,11 @@ public class ApiEndpoints {
     }
 
     //local server from testing
-    private String root = "http://192.168.2.39";
+    private String root = "http://192.168.2.19";
     @Getter  private int port = 6969;
 
     public String getSocket() {
-        return root;
+        return root + ":" + port;
     }
 
     public String getRESTServer() {

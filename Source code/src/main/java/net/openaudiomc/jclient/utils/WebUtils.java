@@ -10,27 +10,22 @@ import java.net.URLConnection;
 
 public class WebUtils {
 
-    public static String getString(String url) {
+    public static String getString(String urlString) {
         try {
-            URL myUrl = new URL(url);
-            HttpsURLConnection conn = null;
-            conn = (HttpsURLConnection) myUrl.openConnection();
-            InputStream is = conn.getInputStream();
-            InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader br = new BufferedReader(isr);
-
-            String inputLine;
+            URL website = new URL(urlString);
+            URLConnection connection = website.openConnection();
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(
+                            connection.getInputStream()));
 
             StringBuilder response = new StringBuilder();
+            String inputLine;
 
-            while ((inputLine = br.readLine()) != null) {
+            while ((inputLine = in.readLine()) != null)
                 response.append(inputLine);
-            }
 
-            br.close();
-
+            in.close();
             return response.toString();
-
         } catch (IOException e) {
             e.printStackTrace();
             return null;
