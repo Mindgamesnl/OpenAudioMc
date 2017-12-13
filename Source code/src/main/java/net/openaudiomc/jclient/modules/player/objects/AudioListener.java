@@ -1,11 +1,14 @@
 package net.openaudiomc.jclient.modules.player.objects;
 
 import lombok.Getter;
-import lombok.Setter;
+
 import net.openaudiomc.jclient.OpenAudioMc;
 import net.openaudiomc.jclient.modules.socket.objects.OaPacket;
+
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import java.util.Base64;
 import java.util.Random;
 
 public class AudioListener {
@@ -19,14 +22,34 @@ public class AudioListener {
         updateToken();
     }
 
+    public void sendLink() {
+        String url = OpenAudioMc.getInstance().getConfig().getString("web.url");
+
+        updateToken();
+
+        String tokenRAW = this.player.getName() +
+                ":" +
+                OpenAudioMc.getInstance().getSocketModule().getKeyHolder().getPublickey() +
+                ":" +
+                this.token;
+
+        url = url + "?s=" + new String(Base64.getEncoder().encode(tokenRAW.getBytes()));
+
+        String message = "[\"\",{\"text\":\"" + ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.provide_url")) + "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + url + "\"}}]";
+        OpenAudioMc.getInstance().getReflection().sendChatPacket(player, message);
+    }
+
+
     public void onConnect() {
         isConnected = true;
         System.out.println("[OpenAudioMc-Connector] User " + player.getName() + " connected!");
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.connected")));
     }
 
     public void onDisconnect() {
         isConnected = false;
         System.out.println("[OpenAudioMc-Connector] User " + player.getName() + " disconnected!");
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.disconnected")));
     }
 
     public void onQuit() {

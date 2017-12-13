@@ -26,6 +26,19 @@ function oa_ui_show_notification(title, text, color) {
 }
 
 function oa_ui_setskull(owner) {
+
+    if (owner == "Whoops") {
+        document.getElementById("skull").style.background = 'linear-gradient(\n' +
+            '          rgba(26, 26, 29, 0.45),\n' +
+            '          rgba(30, 30, 33, 0.25),\n' +
+            '          rgba(118, 60, 240, 0.25),\n' +
+            '          rgba(92, 89, 229, 0.45)),\n' +
+            '  url("https://crafatar.com/avatars/MHF_Question")';
+        document.getElementById("skull").style.backgroundSize = "cover";
+        document.getElementById("username").innerHTML = "Whoops!";
+        return;
+    }
+
     document.getElementById("skull").style.background = 'linear-gradient(\n' +
         '          rgba(26, 26, 29, 0.45),\n' +
         '          rgba(30, 30, 33, 0.25),\n' +

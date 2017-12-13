@@ -36,6 +36,7 @@ public class SocketModule {
         keyHolder = new KeyHolder(plugin);
 
         try {
+            System.out.println("[OpenAudioMc] starting socketio");
             SSLContext sc = SSLContext.getInstance("TLS");
             sc.init(null,  trustAllCerts, new SecureRandom());
             IO.setDefaultSSLContext(sc);
@@ -50,18 +51,19 @@ public class SocketModule {
             socket = IO.socket(plugin.getApiEndpoints().getSocket(), options);
 
             socket.on(Socket.EVENT_CONNECT, args -> {
-
-                        OaPacket p = new OaPacket()
-                                .setType(PacketType.APISERVER)
-                                .setCommand(PacketCommand.REGISTERSERVER)
-                                .setValue(keyHolder.getPublickey());
-
-                        send(p);
+                        JSONObject obj = new JSONObject();
+                        try {
+                            obj.put("pub", keyHolder.getPublickey());
+                            obj.put("priv", keyHolder.getPrivatekey());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         connected = true;
-
+                        System.out.println("[openaudoimc] Authenticating to socket! they are shaking hands! i hope they will be friends some day!");
+                        socket.emit("imaserver", obj.toString());
                     })
-                    .on("onplayerconnect", args -> {
-                        JSONObject json = (JSONObject) JSONValue.parse((String) args[0]);
+                    .on("onplayerconnect", (Object... args) -> {
+                        JSONObject json = (JSONObject) args[0];
                         try {
                             String username = json.getString("name");
                             String key = json.getString("key");
@@ -75,7 +77,7 @@ public class SocketModule {
                         }
                     })
                     .on("onplayerdisconnect", (args) -> {
-                        AudioListener l = OpenAudioMc.getInstance().getPlayerModule().getListeners().get(args);
+                        AudioListener l = OpenAudioMc.getInstance().getPlayerModule().getListeners().get(args[0]);
                         if (l != null && l.getIsConnected()) {
                             l.onDisconnect();
                         }
@@ -83,8 +85,8 @@ public class SocketModule {
                     .on(Socket.EVENT_DISCONNECT, args -> {
                         connected = false;
                     });
-
             socket.connect();
+            System.out.println("[OpenAudioMc] socketio started!");
         } catch (Exception exception) {
             exception.printStackTrace();
         }
