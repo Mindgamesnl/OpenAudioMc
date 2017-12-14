@@ -1,17 +1,32 @@
 function oa_volume_increment() {
     if (__volume == 100) return;
-    __volume = __volume + 5;
+
+    if (__volume + 5 > 100) {
+        __volume = 100;
+    } else {
+        __volume = __volume + 5;
+    }
     oa_audio_setvolume(__volume);
-    document.getElementsByClassName("oam_volume_display")[0].innerHTML = "Vol: "+__volume+"%";
-    document.getElementsByClassName("oam_volume_display_slider")[0].style.width = __volume+"%";
+}
+
+function oa_ui_setbg(a) {
+    if (a.indexOf("http") !== -1) {
+        document.body.style.background = "url("+a+")";
+        document.body.style.backgroundSize = "cover";
+        return;
+    }
+    document.body.style.background = a;
+    document.body.style.backgroundSize = "cover";
 }
 
 function oa_volume_decrement() {
     if (__volume == 0) return;
-    __volume = __volume - 5;
+    if (__volume - 5 < 0) {
+        __volume = 0;
+    } else {
+        __volume = __volume - 5;
+    }
     oa_audio_setvolume(__volume);
-    document.getElementsByClassName("oam_volume_display")[0].innerHTML = "Vol: "+__volume+"%";
-    document.getElementsByClassName("oam_volume_display_slider")[0].style.width = __volume+"%";
 }
 $( document ).ready(function() {
     $(".close").click(function(){
@@ -31,8 +46,8 @@ function oa_ui_setskull(owner) {
         document.getElementById("skull").style.background = 'linear-gradient(\n' +
             '          rgba(26, 26, 29, 0.45),\n' +
             '          rgba(30, 30, 33, 0.25),\n' +
-            '          rgba(118, 60, 240, 0.25),\n' +
-            '          rgba(92, 89, 229, 0.45)),\n' +
+            '          rgba(240, 60, 80, 0.25),\n' +
+            '          rgba(240, 60, 80, 0.95)),\n' +
             '  url("https://crafatar.com/avatars/MHF_Question")';
         document.getElementById("skull").style.backgroundSize = "cover";
         document.getElementById("username").innerHTML = "Whoops!";
@@ -42,8 +57,8 @@ function oa_ui_setskull(owner) {
     document.getElementById("skull").style.background = 'linear-gradient(\n' +
         '          rgba(26, 26, 29, 0.45),\n' +
         '          rgba(30, 30, 33, 0.25),\n' +
-        '          rgba(118, 60, 240, 0.25),\n' +
-        '          rgba(92, 89, 229, 0.45)),\n' +
+        '          rgba(118, 240, 118, 0.25),\n' +
+        '          rgba(92, 229, 89, 0.45)),\n' +
         '  url("https://crafatar.com/avatars/'+owner+'")';
     document.getElementById("skull").style.backgroundSize = "cover";
     document.getElementById("username").innerHTML = owner;

@@ -23,15 +23,19 @@ function oa_audio_setvolume(volume) {
     for (var key in __soundsvolarray) {
         if (__soundsvolarray[key].allowNormalVolume) __soundsvolarray[key].setVolume(volume, true, null, 200);
     }
+    document.getElementsByClassName("oam_volume_display")[0].innerHTML = "Vol: "+__volume+"%";
+    document.getElementsByClassName("oam_volume_display_slider")[0].style.width = __volume+"%";
 }
 
-function OaSound(url) {
+function OaSound(url, start) {
     this.allowNormalVolume = true;
     this.source = url;
+    this.customid = "";
     this.sound = soundManager.createSound({
         id: guid(),
         url: url,
         volume: __volume,
+        from: start,
         autoPlay: true,
         whileloading: function() { console.log(this.id + ' is loading'); },
         onfinish: function() {}

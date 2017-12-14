@@ -2,12 +2,13 @@
 # +------------------------------------------------------+ #
 # |                      messages                        | #
 # |      Messages that the player will see in chat       | #
+# |       (can be disabled by using '-' as value)        | #
 # +------------------------------------------------------+ #
 ############################################################
 messages:
   provide_url: '&2Click here to connect to our audio server!'
   connected: '&7You are now &2connected&7! yeey!'
-  disconnected: '&7You are now &4disconnected7! cya next time!'
+  disconnected: '&7You are now &4disconnected&7! cya next time!'
 
 
 
@@ -17,10 +18,13 @@ messages:
 # +------------------------------------------------------+ #
 # |                      commands                        | #
 # |       custom commands to give the user a link        | #
+# |       (can be disabled by using '-' as value)        | #
 # +------------------------------------------------------+ #
 ############################################################
 commands:
-  audio: '/getlink'
+  - "/getlink"
+  - "/icanhazaudio"
+  - "/gimmesoundplz"
 
 
 
@@ -30,10 +34,14 @@ commands:
 # +------------------------------------------------------+ #
 # |                    web client                        | #
 # |         Configuration for your web client!           | #
+# |       (can be disabled by using '-' as value)        | #
 # +------------------------------------------------------+ #
 ############################################################
 web:
   url: 'http://craftmend.com/lemmejusttestthismkay/lemmejusttestthismkay/'
+  title: 'OpenAudioMc'
+  background: 'https://puu.sh/yGrkf/acd2fe3111.png'
+  startsound: '-'
 
 
 
@@ -42,6 +50,7 @@ web:
 # +------------------------------------------------------+ #
 # |                       data                           | #
 # | Data that makes this server this server! (dont edit) | #
+# |            (really tho, dont touch it)               | #
 # +------------------------------------------------------+ #
 ############################################################
 # key storage! NEVER SHERE THIS WITH ANYONE! NEVER CHANGE THIS DATA! (it wont work, trust me)
