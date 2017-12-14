@@ -8,13 +8,11 @@ import lombok.Getter;
 import net.openaudiomc.jclient.OpenAudioMc;
 import net.openaudiomc.jclient.modules.player.objects.AudioListener;
 import net.openaudiomc.jclient.modules.socket.enums.PacketCommand;
-import net.openaudiomc.jclient.modules.socket.enums.PacketType;
 import net.openaudiomc.jclient.modules.socket.objects.KeyHolder;
 import net.openaudiomc.jclient.modules.socket.objects.OaPacket;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.simple.JSONValue;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -71,6 +69,25 @@ public class SocketModule {
                             if (l != null && l.isAllowedConnection(key)) {
                                 l.onConnect();
                                 socket.emit("acceptpl", username);
+
+                                if (!OpenAudioMc.getInstance().getConfig().getString("web.title").equals("-")) {
+                                    l.sendPacket(new OaPacket()
+                                            .setCommand(PacketCommand.SET_TITLE)
+                                            .setValue(OpenAudioMc.getInstance().getConfig().getString("web.title")));
+                                }
+
+                                if (!OpenAudioMc.getInstance().getConfig().getString("web.background").equals("-")) {
+                                    l.sendPacket(new OaPacket()
+                                            .setCommand(PacketCommand.SET_BACKGROUND)
+                                            .setValue(OpenAudioMc.getInstance().getConfig().getString("web.background")));
+                                }
+
+                                if (!OpenAudioMc.getInstance().getConfig().getString("web.startsound").equals("-")) {
+                                    l.sendPacket(new OaPacket()
+                                            .setCommand(PacketCommand.PLAY)
+                                            .setValue(OpenAudioMc.getInstance().getConfig().getString("web.startsound")));
+                                }
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -83,6 +100,9 @@ public class SocketModule {
                         }
                     })
                     .on(Socket.EVENT_DISCONNECT, args -> {
+                        for (AudioListener l : OpenAudioMc.getInstance().getPlayerModule().getListeners().values()) {
+                            l.onDisconnect();
+                        }
                         connected = false;
                     });
             socket.connect();

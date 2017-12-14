@@ -60,6 +60,7 @@ public class AudioListener {
 
     public void sendPacket(OaPacket p) {
         if (isConnected) {
+            p.setPlayer(this);
             OpenAudioMc.getInstance().getSocketModule().getSocket().emit("toplayer", p.serialize());
         }
     }

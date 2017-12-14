@@ -9,8 +9,7 @@ public class CustomCommandListener implements Listener {
 
     @EventHandler
     public void onCommand(PlayerCommandPreprocessEvent event) {
-        if (OpenAudioMc.getInstance().getConfig().getString("commands.audio").equals("-")) return;
-        if (OpenAudioMc.getInstance().getConfig().getList("commands.audio").contains(event.getMessage())) {
+        if (OpenAudioMc.getInstance().getConfig().getList("commands").contains(event.getMessage())) {
             OpenAudioMc.getInstance().getPlayerModule().getListeners().get(event.getPlayer().getName()).sendLink();
             event.setCancelled(true);
         }

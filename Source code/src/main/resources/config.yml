@@ -18,13 +18,12 @@ messages:
 # +------------------------------------------------------+ #
 # |                      commands                        | #
 # |       custom commands to give the user a link        | #
-# |       (can be disabled by using '-' as value)        | #
 # +------------------------------------------------------+ #
 ############################################################
 commands:
-  - '/getlink'
-  - '/icanhazaudio'
-  - '/gimmesoundplz'
+  - "/getlink"
+  - "/icanhazaudio"
+  - "/gimmesoundplz"
 
 
 
@@ -40,8 +39,8 @@ commands:
 web:
   url: 'http://craftmend.com/lemmejusttestthismkay/lemmejusttestthismkay/'
   title: 'OpenAudioMc'
-  background: ''
-  startsound: ''
+  background: 'https://puu.sh/yGrkf/acd2fe3111.png'
+  startsound: '-'
 
 
 

@@ -2,14 +2,16 @@ net\openaudiomc\jclient\modules\player\objects\AudioListener.class
 net\openaudiomc\jclient\modules\player\PlayerModule.class
 net\openaudiomc\jclient\modules\socket\enums\PacketCommand.class
 net\openaudiomc\jclient\utils\WebUtils.class
-net\openaudiomc\jclient\modules\socket\enums\PacketType.class
 net\openaudiomc\jclient\utils\Reflection.class
 net\openaudiomc\jclient\modules\commands\commands\SuplyUrlCommand.class
 net\openaudiomc\jclient\modules\commands\CommandsModule.class
 net\openaudiomc\jclient\modules\socket\SocketModule$1.class
 net\openaudiomc\jclient\modules\socket\objects\KeyHolder.class
 net\openaudiomc\jclient\modules\player\listeners\JoinQuitListener.class
+net\openaudiomc\jclient\modules\commands\listeners\CustomCommandListener.class
 net\openaudiomc\jclient\modules\socket\objects\ApiEndpoints.class
+net\openaudiomc\jclient\modules\commands\commands\AdminCommand.class
 net\openaudiomc\jclient\OpenAudioMc.class
+net\openaudiomc\jclient\helpers\OperatorHelper.class
 net\openaudiomc\jclient\modules\socket\objects\OaPacket.class
 net\openaudiomc\jclient\modules\socket\SocketModule.class

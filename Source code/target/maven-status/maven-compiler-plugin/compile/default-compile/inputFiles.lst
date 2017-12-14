@@ -1,7 +1,6 @@
 D:\openaudiomc\OpenAudioMc\Source code\src\main\java\net\openaudiomc\jclient\utils\WebUtils.java
 D:\openaudiomc\OpenAudioMc\Source code\src\main\java\net\openaudiomc\jclient\modules\commands\CommandsModule.java
 D:\openaudiomc\OpenAudioMc\Source code\src\main\java\net\openaudiomc\jclient\modules\player\PlayerModule.java
-D:\openaudiomc\OpenAudioMc\Source code\src\main\java\net\openaudiomc\jclient\modules\socket\enums\PacketType.java
 D:\openaudiomc\OpenAudioMc\Source code\src\main\java\net\openaudiomc\jclient\modules\player\objects\AudioListener.java
 D:\openaudiomc\OpenAudioMc\Source code\src\main\java\net\openaudiomc\jclient\modules\socket\objects\KeyHolder.java
 D:\openaudiomc\OpenAudioMc\Source code\src\main\java\net\openaudiomc\jclient\modules\socket\SocketModule.java
@@ -9,5 +8,9 @@ D:\openaudiomc\OpenAudioMc\Source code\src\main\java\net\openaudiomc\jclient\mod
 D:\openaudiomc\OpenAudioMc\Source code\src\main\java\net\openaudiomc\jclient\modules\player\listeners\JoinQuitListener.java
 D:\openaudiomc\OpenAudioMc\Source code\src\main\java\net\openaudiomc\jclient\modules\socket\enums\PacketCommand.java
 D:\openaudiomc\OpenAudioMc\Source code\src\main\java\net\openaudiomc\jclient\modules\socket\objects\ApiEndpoints.java
+D:\openaudiomc\OpenAudioMc\Source code\src\main\java\net\openaudiomc\jclient\utils\Reflection.java
+D:\openaudiomc\OpenAudioMc\Source code\src\main\java\net\openaudiomc\jclient\modules\commands\listeners\CustomCommandListener.java
 D:\openaudiomc\OpenAudioMc\Source code\src\main\java\net\openaudiomc\jclient\OpenAudioMc.java
+D:\openaudiomc\OpenAudioMc\Source code\src\main\java\net\openaudiomc\jclient\helpers\OperatorHelper.java
+D:\openaudiomc\OpenAudioMc\Source code\src\main\java\net\openaudiomc\jclient\modules\commands\commands\AdminCommand.java
 D:\openaudiomc\OpenAudioMc\Source code\src\main\java\net\openaudiomc\jclient\modules\commands\commands\SuplyUrlCommand.java
