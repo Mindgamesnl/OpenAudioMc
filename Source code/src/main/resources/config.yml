@@ -2,6 +2,7 @@
 # +------------------------------------------------------+ #
 # |                      messages                        | #
 # |      Messages that the player will see in chat       | #
+# |       (can be disabled by using '-' as value)        | #
 # +------------------------------------------------------+ #
 ############################################################
 messages:
@@ -17,10 +18,13 @@ messages:
 # +------------------------------------------------------+ #
 # |                      commands                        | #
 # |       custom commands to give the user a link        | #
+# |       (can be disabled by using '-' as value)        | #
 # +------------------------------------------------------+ #
 ############################################################
 commands:
-  audio: '/getlink'
+  - '/getlink'
+  - '/icanhazaudio'
+  - '/gimmesoundplz'
 
 
 
@@ -30,10 +34,14 @@ commands:
 # +------------------------------------------------------+ #
 # |                    web client                        | #
 # |         Configuration for your web client!           | #
+# |       (can be disabled by using '-' as value)        | #
 # +------------------------------------------------------+ #
 ############################################################
 web:
   url: 'http://craftmend.com/lemmejusttestthismkay/lemmejusttestthismkay/'
+  title: 'OpenAudioMc'
+  background: ''
+  startsound: ''
 
 
 
@@ -42,6 +50,7 @@ web:
 # +------------------------------------------------------+ #
 # |                       data                           | #
 # | Data that makes this server this server! (dont edit) | #
+# |            (really tho, dont touch it)               | #
 # +------------------------------------------------------+ #
 ############################################################
 # key storage! NEVER SHERE THIS WITH ANYONE! NEVER CHANGE THIS DATA! (it wont work, trust me)

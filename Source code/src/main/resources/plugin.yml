@@ -6,3 +6,5 @@ description: OpenAudiomc
 website: https://openaudiomc.net/
 commands:
   audio:
+  connect:
+  sound:

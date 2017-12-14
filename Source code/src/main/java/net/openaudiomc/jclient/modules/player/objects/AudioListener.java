@@ -43,12 +43,14 @@ public class AudioListener {
     public void onConnect() {
         isConnected = true;
         System.out.println("[OpenAudioMc-Connector] User " + player.getName() + " connected!");
+        if (OpenAudioMc.getInstance().getConfig().getString("messages.connected").equals("-")) return;
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.connected")));
     }
 
     public void onDisconnect() {
         isConnected = false;
         System.out.println("[OpenAudioMc-Connector] User " + player.getName() + " disconnected!");
+        if (OpenAudioMc.getInstance().getConfig().getString("messages.disconnected").equals("-")) return;
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.disconnected")));
     }
 
