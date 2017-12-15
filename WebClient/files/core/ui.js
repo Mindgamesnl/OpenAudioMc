@@ -1,3 +1,5 @@
+__volume = 0;
+
 function oa_volume_increment() {
     if (__volume == 100) return;
 

@@ -1,4 +1,3 @@
-__volume = 20;
 __soundsvolarray = {};
 
 soundManager.fadeTo = function(id, dur, toVol, callback){
@@ -23,28 +22,37 @@ function oa_audio_setvolume(volume) {
     for (var key in __soundsvolarray) {
         if (__soundsvolarray[key].allowNormalVolume) __soundsvolarray[key].setVolume(volume, true, null, 200);
     }
-    document.getElementsByClassName("oam_volume_display")[0].innerHTML = "Vol: "+__volume+"%";
-    document.getElementsByClassName("oam_volume_display_slider")[0].style.width = __volume+"%";
+    localStorage.volume = volume;
+    document.getElementsByClassName("oam_volume_display")[0].innerHTML = "Vol: "+volume+"%";
+    document.getElementsByClassName("oam_volume_display_slider")[0].style.width = volume+"%";
 }
 
-function OaSound(url, start) {
+function OaSound(url, start, loop) {
     this.allowNormalVolume = true;
     this.source = url;
     this.customid = "";
-    this.sound = soundManager.createSound({
+    this.options = {
         id: guid(),
         url: url,
         volume: __volume,
-        from: start,
         autoPlay: true,
         whileloading: function() { console.log(this.id + ' is loading'); },
         onfinish: function() {}
-    });
-    __soundsvolarray[this.sound.id] = this;
+    };
+
+    __soundsvolarray[this.options.id] = this;
 
     this.blockGlobalVolume = function() {
         this.allowNormalVolume = false;
     }
+
+    this.setLooping = function () {
+        this.options.loops = 900;
+    };
+
+    this.setStartPosition = function (t) {
+        this.options.from = t;
+    };
 
     this.setVolume = function(volume, fade, callback, delay) {
         if (fade) {
@@ -58,18 +66,12 @@ function OaSound(url, start) {
         this.setVolume(0, true, function (s) {
             s.stop();
             delete __soundsvolarray[s.id];
+            //if (this.l)
         }, 200);
     }
 
-    this.loop = function () {
-        this.sound.onfinish = function () {
-            this.play({
-                onfinish: function () {
-                    this.loop();
-                }
-            });
-        }
-        this.sound._onfinish = this.sound.onfinish;
+    this.start = function () {
+        this.sound = soundManager.createSound(this.options);
     }
 }
 
