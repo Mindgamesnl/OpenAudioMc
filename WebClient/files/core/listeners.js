@@ -3,30 +3,30 @@ event("SET_BACKGROUND", function (data) {
 });
 
 event("PLAY", function (data) {
-    new OaSound(data.packet_value);
+    new OaSound(data.packet_value).play();
 });
 
 event("PLAY_SPECIAL", function (data) {
     var url = data.packet_value.split("--==--")[0];
     var json = JSON.parse(data.packet_value.split("--==--")[1]);
 
-    var sound;
+    var sound = new OaSound(url);
 
     if (json.start != null) {
-        sound = new OaSound(url, json.start);
-    } else {
-        sound = new OaSound(url);
+        console.log("start")
+        sound.setStartPosition(json.start);
     }
 
-    console.log(json)
     if (json.loop != null && json.loop) {
-        sound.loop();
+        sound.setLooping();
         console.log("loop")
     }
 
     if (json.id != null) {
         sound.customid = json.id;
     }
+
+    sound.start();
 });
 
 event("STOP", function (data) {

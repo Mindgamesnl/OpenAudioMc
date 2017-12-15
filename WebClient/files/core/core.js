@@ -10,6 +10,12 @@ function validateSession() {
     oa_socket_startup(name, server,token);
     oa_ui_setskull(name);
 
+    if (localStorage.volume == null) {
+        __volume = 20;
+    } else {
+        oa_audio_setvolume(localStorage.volume);
+        __volume = localStorage.volume;
+    }
 }
 
 onload = validateSession;
