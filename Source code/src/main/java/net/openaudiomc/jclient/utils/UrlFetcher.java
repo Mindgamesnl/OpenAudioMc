@@ -1,16 +1,18 @@
 package net.openaudiomc.jclient.utils;
 
-import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class WebUtils {
+public class UrlFetcher {
 
-    public static String getString(String urlString) {
+    public UrlFetcher() {
+
+    }
+
+    public String run(String urlString) {
         try {
             URL website = new URL(urlString);
             URLConnection connection = website.openConnection();

@@ -31,7 +31,7 @@ event("PLAY_SPECIAL", function (data) {
 
 event("STOP", function (data) {
     for (var key in __soundsvolarray) {
-        if (__soundsvolarray[key].allowNormalVolume) __soundsvolarray[key].stop();
+        if (__soundsvolarray[key].allowNormalVolume && !__soundsvolarray[key].customid.startsWith("region_")) __soundsvolarray[key].stop();
     }
 });
 
