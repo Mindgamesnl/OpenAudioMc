@@ -3,6 +3,7 @@ version: ${project.version}
 main: net.openaudiomc.jclient.OpenAudioMc
 authors: [Mindgamesnl]
 description: OpenAudiomc
+softdepend: [WorldGuard]
 website: https://openaudiomc.net/
 
 commands:
@@ -24,5 +25,8 @@ permissions:
     default: op
     description: A openaudio command
   oa.admin.stop:
+    default: op
+    description: A openaudio command
+  oa.admin.region:
     default: op
     description: A openaudio command

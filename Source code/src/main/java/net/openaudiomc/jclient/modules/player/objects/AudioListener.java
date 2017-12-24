@@ -2,13 +2,16 @@ package net.openaudiomc.jclient.modules.player.objects;
 
 import lombok.Getter;
 
+import net.openaudiomc.jclient.OpenAudioApi;
 import net.openaudiomc.jclient.OpenAudioMc;
 import net.openaudiomc.jclient.modules.socket.objects.OaPacket;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 import java.util.Random;
 
 public class AudioListener {
@@ -16,6 +19,8 @@ public class AudioListener {
     @Getter private Player player;
     @Getter private String token;
     @Getter private Boolean isConnected = false;
+    private OpenAudioApi api = new OpenAudioApi();
+    private List<String> regions = new ArrayList<>();
 
     public AudioListener(Player player) {
         this.player = player;
@@ -39,6 +44,24 @@ public class AudioListener {
         OpenAudioMc.getInstance().getReflection().sendChatPacket(player, message);
     }
 
+    public void updateRegions(List<String> c) {
+
+        List<String> newRegions = new ArrayList<String>(c);
+        newRegions.removeAll(regions);
+
+        List<String> leftRegions = new ArrayList<String>(regions);
+        leftRegions.removeAll(c);
+
+        for (String s : newRegions) {
+            api.startRegion(this, s);
+        }
+
+        for (String s : leftRegions) {
+            api.stopRegion(this, s);
+        }
+
+        regions = c;
+    }
 
     public void onConnect() {
         isConnected = true;

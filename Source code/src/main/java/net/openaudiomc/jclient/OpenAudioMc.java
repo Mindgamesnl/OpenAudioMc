@@ -1,4 +1,4 @@
-    package net.openaudiomc.jclient;
+package net.openaudiomc.jclient;
 
 import lombok.Getter;
 import net.openaudiomc.jclient.modules.commands.CommandsModule;
@@ -9,7 +9,6 @@ import net.openaudiomc.jclient.utils.Reflection;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.io.InputStream;
 
     public final class OpenAudioMc extends JavaPlugin {
 

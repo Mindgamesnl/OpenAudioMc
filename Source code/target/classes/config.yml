@@ -18,7 +18,6 @@ messages:
 # +------------------------------------------------------+ #
 # |                      commands                        | #
 # |       custom commands to give the user a link        | #
-# |       (can be disabled by using '-' as value)        | #
 # +------------------------------------------------------+ #
 ############################################################
 commands:
@@ -57,3 +56,9 @@ web:
 key:
   public: '-'
   private: '-'
+  startsound: '-'
+
+# Storage for regions, speakers and all that stuff!
+storage:
+  regions:
+    OA_PLACEHOLDER: '-'

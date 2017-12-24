@@ -3,8 +3,8 @@ package net.openaudiomc.jclient.modules.socket.objects;
 import lombok.Getter;
 
 import net.openaudiomc.jclient.OpenAudioMc;
-import net.openaudiomc.jclient.utils.WebUtils;
 
+import net.openaudiomc.jclient.utils.UrlFetcher;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,7 +24,7 @@ public class KeyHolder {
 
                 System.out.println("biem");
 
-                String webdata = WebUtils.getString(new ApiEndpoints().getRESTServer());
+                String webdata = new UrlFetcher().run(new ApiEndpoints().getRESTServer());
                 System.out.println("test " + webdata);
 
                 JSONObject newdata = new JSONObject(webdata);
