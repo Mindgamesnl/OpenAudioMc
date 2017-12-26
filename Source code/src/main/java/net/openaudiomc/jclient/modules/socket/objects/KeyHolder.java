@@ -22,10 +22,7 @@ public class KeyHolder {
             System.out.println("[OpenAudioMc] This is your first time using OpenAudioMc! welcome! (getting client cridentials)");
             try {
 
-                System.out.println("biem");
-
                 String webdata = new UrlFetcher().run(new ApiEndpoints().getRESTServer());
-                System.out.println("test " + webdata);
 
                 JSONObject newdata = new JSONObject(webdata);
                 publickey = newdata.getString("public");
@@ -38,8 +35,6 @@ public class KeyHolder {
             }
             return;
         }
-
-        System.out.println("[OpenAudioMc] Using public key: " + publickey);
 
         publickey = pukey;
         privatekey = prkey;

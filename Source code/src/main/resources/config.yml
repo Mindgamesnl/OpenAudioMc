@@ -61,4 +61,4 @@ key:
 # Storage for regions, speakers and all that stuff!
 storage:
   regions:
-    OA_PLACEHOLDER: '-'
+      placeholder: 2

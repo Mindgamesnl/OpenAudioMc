@@ -1,5 +1,6 @@
 package net.openaudiomc.jclient;
 
+import net.openaudiomc.jclient.modules.media.objects.AudioRegion;
 import net.openaudiomc.jclient.modules.media.objects.Media;
 import net.openaudiomc.jclient.modules.player.objects.AudioListener;
 import net.openaudiomc.jclient.modules.socket.enums.PacketCommand;
@@ -49,17 +50,13 @@ public class OpenAudioApi {
     }
 
     public void stopRegion(AudioListener listener, String region) {
-        if (OpenAudioMc.getInstance().getConfig().getBoolean("storage.regions." + region + ".isRegion")) {
-            stopId(listener.getPlayer(), "region_" + region);
-        }
+        stopId(listener.getPlayer(), "region_" + region);
     }
 
     public void startRegion(AudioListener listener, String region) {
-        if (OpenAudioMc.getInstance().getConfig().getBoolean("storage.regions." + region + ".isRegion")) {
-            Media media = new Media(OpenAudioMc.getInstance().getConfig().getString("storage.regions." + region + ".src"));
-            media.setLooping();
-            media.setId("region_" + region);
-            play(media, listener.getPlayer());
+        AudioRegion reg = OpenAudioMc.getInstance().getMediaModule().getRegions().get(region);
+        if (reg != null) {
+            reg.play(listener);
         }
     }
 

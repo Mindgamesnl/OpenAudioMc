@@ -18,7 +18,6 @@ public class PlayerModule {
 
     public PlayerModule(OpenAudioMc plugin) {
         plugin.getServer().getPluginManager().registerEvents(new JoinQuitListener(), plugin);
-
         if (Bukkit.getServer().getPluginManager().isPluginEnabled("WorldGuard")) {
             plugin.getLogger().fine("Found worldguard! lets enable regions!");
             System.out.println("Found worldguard! lets enable regions!");

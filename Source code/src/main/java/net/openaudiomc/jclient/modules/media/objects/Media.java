@@ -1,10 +1,12 @@
 package net.openaudiomc.jclient.modules.media.objects;
 
+import net.openaudiomc.jclient.OpenAudioMc;
 import net.openaudiomc.jclient.modules.player.objects.AudioListener;
 import net.openaudiomc.jclient.modules.socket.enums.PacketCommand;
 import net.openaudiomc.jclient.modules.socket.objects.OaPacket;
 
 import net.openaudiomc.jclient.utils.UrlFetcher;
+import org.bukkit.Bukkit;
 import org.json.JSONObject;
 
 import javax.sound.sampled.AudioFileFormat;
@@ -20,6 +22,8 @@ public class Media {
     private Boolean hasTag;
     private PacketCommand command = PacketCommand.PLAY;
     private Boolean syncronized = false;
+    private Integer timestamp = 0;
+    private Integer maxTime = 0;
     
     public Media(String source) {
         this.source = source;
@@ -40,6 +44,19 @@ public class Media {
         try {
             this.tags.put("start", start);
         } catch (Exception e) {}
+        return this;
+    }
+
+    public Media setSyncronized(Integer length) {
+        this.syncronized = true;
+        this.maxTime = length;
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(OpenAudioMc.getInstance(), () -> {
+            if (timestamp != maxTime) {
+                timestamp++;
+            } else {
+                timestamp = 0;
+            }
+        }, 20, 20);
         return this;
     }
 
@@ -65,6 +82,10 @@ public class Media {
     public OaPacket getHandle(AudioListener listener) {
         OaPacket p = new OaPacket();
         p.setPlayer(listener);
+
+        if (syncronized) {
+            setStartingPoint(timestamp * 1000);
+        }
 
         if (this.command == PacketCommand.PLAY) {
             p.setCommand(PacketCommand.PLAY);

@@ -34,7 +34,7 @@ function OaSound(url, start, loop) {
     this.options = {
         id: guid(),
         url: url,
-        volume: __volume,
+        volume: 0,
         autoPlay: true,
         whileloading: function() { console.log(this.id + ' is loading'); },
         onfinish: function() {}
@@ -72,6 +72,7 @@ function OaSound(url, start, loop) {
 
     this.start = function () {
         this.sound = soundManager.createSound(this.options);
+        this.setVolume(__volume, true, function() {}, 500)
     }
 }
 
