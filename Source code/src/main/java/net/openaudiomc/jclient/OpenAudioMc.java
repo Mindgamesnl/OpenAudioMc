@@ -7,7 +7,6 @@ import net.openaudiomc.jclient.modules.media.MediaModule;
 import net.openaudiomc.jclient.modules.player.PlayerModule;
 import net.openaudiomc.jclient.modules.socket.SocketModule;
 import net.openaudiomc.jclient.modules.socket.objects.ApiEndpoints;
-import net.openaudiomc.jclient.modules.speakers.SpeakerModule;
 import net.openaudiomc.jclient.utils.Reflection;
 
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,7 +24,6 @@ public final class OpenAudioMc extends JavaPlugin {
     @Getter private CommandsModule commandsModule;
     @Getter private ApiEndpoints apiEndpoints;
     @Getter private Reflection reflection;
-    @Getter private SpeakerModule speakerModule;
     @Getter private MediaModule mediaModule;
 
     @Override
@@ -45,7 +43,6 @@ public final class OpenAudioMc extends JavaPlugin {
         socketModule = new SocketModule(this);
         commandsModule = new CommandsModule(this);
         reflection = new Reflection(this);
-        speakerModule = new SpeakerModule(this);
         mediaModule = new MediaModule(this);
 
     }

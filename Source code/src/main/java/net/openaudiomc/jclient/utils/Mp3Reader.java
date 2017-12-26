@@ -3,10 +3,7 @@ package net.openaudiomc.jclient.utils;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
 import com.mpatric.mp3agic.UnsupportedTagException;
-import net.openaudiomc.jclient.OpenAudioMc;
 
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioSystem;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
