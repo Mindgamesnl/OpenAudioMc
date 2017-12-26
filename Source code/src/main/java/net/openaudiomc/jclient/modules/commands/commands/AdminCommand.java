@@ -39,8 +39,8 @@ public class AdminCommand implements CommandExecutor {
             if (args.length == 3) {
                 if (args[1].equalsIgnoreCase("delete")) {
 
-                    OpenAudioMc.getInstance().getConfig().set("storage.regions." + args[2] + ".isRegion", false);
                     OpenAudioMc.getInstance().getConfig().set("storage.regions." + args[2] + ".src", null);
+                    OpenAudioMc.getInstance().getMediaModule().getRegions().remove(args[2]);
                     OpenAudioMc.getInstance().saveConfig();
                     s.sendMessage(prefix + args[2] + " is now set to play nothing");
                     return true;
@@ -48,9 +48,9 @@ public class AdminCommand implements CommandExecutor {
             }
             if (args.length == 4) {
                 if (args[1].equalsIgnoreCase("create")) {
-                    OpenAudioMc.getInstance().getConfig().set("storage.regions." + args[2] + ".isRegion", true);
                     OpenAudioMc.getInstance().getConfig().set("storage.regions." + args[2] + ".src", args[3]);
                     OpenAudioMc.getInstance().saveConfig();
+                    OpenAudioMc.getInstance().getMediaModule().loadRegions();
                     s.sendMessage(prefix + "Music for " + args[2] + " is now set to play " + args[3]);
                     return true;
                 }

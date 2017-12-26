@@ -65,6 +65,7 @@ public class AudioListener {
 
     public void onConnect() {
         isConnected = true;
+        this.regions.clear();
         System.out.println("[OpenAudioMc-Connector] User " + player.getName() + " connected!");
         if (OpenAudioMc.getInstance().getConfig().getString("messages.connected").equals("-")) return;
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.connected")));
@@ -75,6 +76,10 @@ public class AudioListener {
         System.out.println("[OpenAudioMc-Connector] User " + player.getName() + " disconnected!");
         if (OpenAudioMc.getInstance().getConfig().getString("messages.disconnected").equals("-")) return;
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.disconnected")));
+    }
+
+    public void updateSpeaker() {
+
     }
 
     public void onQuit() {

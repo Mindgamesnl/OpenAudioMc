@@ -12,17 +12,15 @@ import java.util.List;
 public class PlayerRegionCheck implements Runnable {
     @Override
     public void run() {
-
         WorldGuardPlugin plugin = OpenAudioMc.getInstance().getPlayerModule().getWorldGuardPlugin();
-
         for (AudioListener l : OpenAudioMc.getInstance().getPlayerModule().getListeners().values()) {
-
+            if (l.getIsConnected()) {
                 List<String> regions = new ArrayList<String>();
                 for(ProtectedRegion r : WGBukkit.getRegionManager(l.getPlayer().getWorld()).getApplicableRegions(l.getPlayer().getLocation())) {
                     regions.add(r.getId());
                 }
                 l.updateRegions(regions);
-
+            }
         }
     }
 }
