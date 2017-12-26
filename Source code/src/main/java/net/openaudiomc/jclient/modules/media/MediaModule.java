@@ -6,27 +6,59 @@ import lombok.Getter;
 
 import net.openaudiomc.jclient.OpenAudioMc;
 import net.openaudiomc.jclient.modules.media.objects.AudioRegion;
+import net.openaudiomc.jclient.modules.media.objects.AudioSpeaker;
 import net.openaudiomc.jclient.modules.media.tasks.PlayerRegionCheck;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class MediaModule {
 
+    //region shit
     @Getter private WorldGuardPlugin worldGuardPlugin;
-    @Getter public Map<String, AudioRegion> regions = new HashMap<>();
+    @Getter private Map<String, AudioRegion> regions = new HashMap<>();
+
+    //hey look at that! speaker shit!
+    @Getter private Map<String, AudioSpeaker> speakerMedia = new HashMap<>();
+    @Getter private Map<Location, String> speakers = new HashMap<>();
 
     public MediaModule(OpenAudioMc plugin) {
 
         if (Bukkit.getServer().getPluginManager().isPluginEnabled("WorldGuard")) {
-            plugin.getLogger().fine("Found worldguard! lets enable regions!");
-            System.out.println("Found worldguard! lets enable regions!");
+            System.out.println("[OpenAudioMc] Found worldguard! lets enable regions!");
             worldGuardPlugin = (WorldGuardPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
             Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new PlayerRegionCheck(), 20, 20);
             loadRegions();
         }
+
+        loadSpeakerMedia();
+        loadSpeakers();
+    }
+
+    public void loadSpeakerMedia() {
+        for(String key : OpenAudioMc.getInstance().getConfig().getConfigurationSection("storage.speakermedia").getKeys(false)){
+            if (!speakerMedia.containsKey(key) && !key.equalsIgnoreCase("placeholder"))
+                speakerMedia.put(key, new AudioSpeaker(key, OpenAudioMc.getInstance().getConfig().getString("storage.speakermedia." + key + ".src")));
+        }
+    }
+
+    public void loadSpeakers() {
+        for(String key : OpenAudioMc.getInstance().getConfig().getConfigurationSection("storage.speakerlocations").getKeys(false)){
+            if (!speakers.containsKey(key) && !key.equalsIgnoreCase("placeholder"))
+                speakers.put(new Location(
+                        Bukkit.getWorld(OpenAudioMc.getInstance().getConfig().getString("storage.speakerlocations." + key + ".world")),
+                        OpenAudioMc.getInstance().getConfig().getInt("storage.speakerlocations." + key + ".x"),
+                        OpenAudioMc.getInstance().getConfig().getInt("storage.speakerlocations." + key + ".y"),
+                        OpenAudioMc.getInstance().getConfig().getInt("storage.speakerlocations." + key + ".z")
+                ), OpenAudioMc.getInstance().getConfig().getString("storage.speakerlocations." + key + ".sound"));
+        }
+    }
+
+    public String keyFromLocation(Location loc) {
+        return loc.getBlockX() + "_" + loc.getBlockY() + "_" + loc.getBlockZ() + "_" + loc.getWorld().getName();
     }
 
     public void loadRegions() {

@@ -56,7 +56,6 @@ web:
 key:
   public: '-'
   private: '-'
-  startsound: '-'
 
 # Storage for regions, speakers and all that stuff!
 storage:

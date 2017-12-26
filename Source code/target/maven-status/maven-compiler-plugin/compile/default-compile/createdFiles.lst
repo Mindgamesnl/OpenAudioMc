@@ -1,6 +1,6 @@
 net\openaudiomc\jclient\modules\player\objects\AudioListener.class
 net\openaudiomc\jclient\modules\player\PlayerModule.class
-net\openaudiomc\jclient\modules\media\enums\MediaType.class
+net\openaudiomc\jclient\modules\media\objects\AudioSpeaker.class
 net\openaudiomc\jclient\utils\Reflection.class
 net\openaudiomc\jclient\modules\commands\commands\SuplyUrlCommand.class
 net\openaudiomc\jclient\modules\socket\SocketModule$1.class
@@ -10,17 +10,15 @@ net\openaudiomc\jclient\modules\commands\commands\AdminCommand.class
 net\openaudiomc\jclient\OpenAudioApi.class
 net\openaudiomc\jclient\OpenAudioMc.class
 net\openaudiomc\jclient\modules\socket\objects\OaPacket.class
-net\openaudiomc\jclient\modules\speakers\task\SpeakerTask.class
 net\openaudiomc\jclient\modules\socket\enums\PacketCommand.class
 net\openaudiomc\jclient\utils\OpenaudioFailedMp3ParseException.class
 net\openaudiomc\jclient\modules\media\MediaModule.class
-net\openaudiomc\jclient\modules\speakers\SpeakerModule.class
 net\openaudiomc\jclient\modules\commands\CommandsModule.class
 net\openaudiomc\jclient\utils\Mp3Reader.class
 net\openaudiomc\jclient\modules\socket\objects\KeyHolder.class
 net\openaudiomc\jclient\modules\player\listeners\JoinQuitListener.class
-net\openaudiomc\jclient\modules\player\tasks\PlayerRegionCheck.class
 net\openaudiomc\jclient\utils\UrlFetcher.class
 net\openaudiomc\jclient\modules\commands\listeners\CustomCommandListener.class
 net\openaudiomc\jclient\modules\socket\objects\ApiEndpoints.class
+net\openaudiomc\jclient\modules\media\tasks\PlayerRegionCheck.class
 net\openaudiomc\jclient\modules\socket\SocketModule.class
