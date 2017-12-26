@@ -59,5 +59,9 @@ key:
 
 # Storage for regions, speakers and all that stuff!
 storage:
+  speakermedia:
+    placeholder: 2
+  storage.speakerlocations:
+    placeholder: 2
   regions:
-      placeholder: 2
+    placeholder: 2
