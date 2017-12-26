@@ -1,6 +1,7 @@
 package net.openaudiomc.jclient;
 
 import net.openaudiomc.jclient.modules.media.objects.AudioRegion;
+import net.openaudiomc.jclient.modules.media.objects.AudioSpeaker;
 import net.openaudiomc.jclient.modules.media.objects.Media;
 import net.openaudiomc.jclient.modules.player.objects.AudioListener;
 import net.openaudiomc.jclient.modules.socket.enums.PacketCommand;
@@ -59,6 +60,19 @@ public class OpenAudioApi {
         if (reg != null) {
             reg.play(listener);
         }
+    }
+
+    public void setMediaVolume(AudioListener l, String id, int volume) {
+
+    }
+
+    public void stopSpeaker(AudioListener listener, String speaker) {
+        stopId(listener.getPlayer(), "speaker_" + speaker);
+    }
+
+    public void startSpeaker(AudioListener l, String id, int volume) {
+        AudioSpeaker s = OpenAudioMc.getInstance().getMediaModule().getSpeakerMedia().get(id);
+        l.sendPacket(s.getMedia().getHandle(l, volume));
     }
 
     private List<AudioListener> handleOpperator(String o) {

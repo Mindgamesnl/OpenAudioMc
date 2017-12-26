@@ -44,13 +44,13 @@ public class AudioSpeaker {
         if (this.length != 0) {
             this.media = new Media(this.url);
             this.media.setLooping();
-            this.media.setId("region_" + this.id);
+            this.media.setId("speaker_" + this.id);
             this.media.setSyncronized(this.length);
             System.out.println("[OpenAudioMc] Created syncronized speaker: " + this.id);
         } else {
             this.media = new Media(this.url);
             this.media.setLooping();
-            this.media.setId("region_" + this.id);
+            this.media.setId("speaker_" + this.id);
             System.out.println("[OpenAudioMc] Failed to create syncronized speaker, speaker is now in the old default mode: " + this.id);
         }
     }

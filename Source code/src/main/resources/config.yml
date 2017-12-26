@@ -41,6 +41,7 @@ web:
   title: 'OpenAudioMc'
   background: 'https://puu.sh/yGrkf/acd2fe3111.png'
   startsound: '-'
+  speaker_radius: 30
 
 
 
