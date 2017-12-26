@@ -3,8 +3,8 @@ package net.openaudiomc.jclient.modules.socket.objects;
 import lombok.Getter;
 
 import net.openaudiomc.jclient.OpenAudioMc;
-
 import net.openaudiomc.jclient.utils.UrlFetcher;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 

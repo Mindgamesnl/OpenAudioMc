@@ -1,6 +1,7 @@
 package net.openaudiomc.jclient.modules.media.objects;
 
 import lombok.Getter;
+
 import net.openaudiomc.jclient.OpenAudioMc;
 import net.openaudiomc.jclient.modules.player.objects.AudioListener;
 import net.openaudiomc.jclient.utils.Mp3Reader;

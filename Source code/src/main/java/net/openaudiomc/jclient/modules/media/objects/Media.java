@@ -5,15 +5,8 @@ import net.openaudiomc.jclient.modules.player.objects.AudioListener;
 import net.openaudiomc.jclient.modules.socket.enums.PacketCommand;
 import net.openaudiomc.jclient.modules.socket.objects.OaPacket;
 
-import net.openaudiomc.jclient.utils.UrlFetcher;
 import org.bukkit.Bukkit;
 import org.json.JSONObject;
-
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioSystem;
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.Map;
 
 public class Media {
     

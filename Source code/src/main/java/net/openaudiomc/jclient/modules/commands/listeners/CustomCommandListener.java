@@ -1,6 +1,7 @@
 package net.openaudiomc.jclient.modules.commands.listeners;
 
 import net.openaudiomc.jclient.OpenAudioMc;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;

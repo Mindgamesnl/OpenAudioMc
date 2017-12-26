@@ -1,6 +1,7 @@
 package net.openaudiomc.jclient.utils;
 
 import net.openaudiomc.jclient.OpenAudioMc;
+
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Constructor;
