@@ -40,6 +40,15 @@ public class Media {
         return this;
     }
 
+    public Media setVolume(int volume) {
+        this.hasTag = true;
+        this.command = PacketCommand.PLAY_SPECIAL;
+        try {
+            this.tags.put("volume", volume);
+        } catch (Exception e) {}
+        return this;
+    }
+
     public Media setSyncronized(Integer length) {
         this.syncronized = true;
         this.maxTime = length;
@@ -70,6 +79,30 @@ public class Media {
         this.hasTag = true;
         this.command = PacketCommand.PLAY_SPECIAL;
         return this;
+    }
+
+    public OaPacket getHandle(AudioListener listener, int volume) {
+        OaPacket p = new OaPacket();
+        p.setPlayer(listener);
+
+        if (syncronized) {
+            setStartingPoint(timestamp * 1000);
+        }
+
+        setVolume(volume);
+
+        if (this.command == PacketCommand.PLAY) {
+            p.setCommand(PacketCommand.PLAY);
+            p.setValue(this.source);
+            return p;
+        }
+
+        if (this.hasTag) {
+            p.setCommand(PacketCommand.PLAY_SPECIAL);
+            p.setValue(this.source + "--==--" + this.tags.toString());
+            return p;
+        }
+        return null;
     }
 
     public OaPacket getHandle(AudioListener listener) {
