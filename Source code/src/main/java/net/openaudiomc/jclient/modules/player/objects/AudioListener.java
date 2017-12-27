@@ -55,36 +55,35 @@ public class AudioListener {
         near.forEach(l -> {
             String id = OpenAudioMc.getInstance().getMediaModule().getSpeakers().get(l);
             if (nearest.get(id) == null || (int) player.getLocation().distance(l) > nearest.get(id)) {
-                nearest.put(id, (int) player.getLocation().distance(l));
+                int a = (((int) player.getLocation().distance(l)) - this.speakerRadius);
+                a = (a < 0 ? - a : a);
+                nearest.put(id, a);
             }
         });
 
         Set<String> updatedSpeakers = nearest.keySet();
 
-        List<String> newSpeakers = new ArrayList<>(updatedSpeakers);
-        newSpeakers.remove(speakers);
+        //((this.speakerRadius / 100) * (this.speakerRadius - nearest.get(s))
 
-        List<String> oldSpeakers = new ArrayList<>(speakers.keySet());
-        newSpeakers.remove(updatedSpeakers);
+        List<String> newRegions = new ArrayList<String>(updatedSpeakers);
+        newRegions.removeAll(speakers.keySet());
 
-        List<String> handleSpeakers = (List<String>) updatedSpeakers;
+        List<String> leftRegions = new ArrayList<String>(speakers.keySet());
+        leftRegions.removeAll(updatedSpeakers);
 
-        //update volume for all speakers
-        for (String s : handleSpeakers) {
-            //skip if its a new one, then it needs to be created first in the next loop and skip if volume did not change
-            if (!newSpeakers.contains(s) && speakers.get(s) != ((30 / 100) * nearest.get(s))) {
-                //id = s
-                //volume = ((30 / 100) * nearest.get(s))
+        for (String s : nearest.keySet()) {
+            if (speakers.get(s) != nearest.get(s)) {
+                double a = ((double) nearest.get(s)) / ((double) this.speakerRadius);
+                a = a * 100;
+                this.api.setSpeakerVolume(this, s, (int) a);
             }
         }
 
-        //start new speakers
-        for (String s : newSpeakers) {
-            this.api.startSpeaker(this, s, ((30 / 100) * nearest.get(s)));
+        for (String s : newRegions) {
+            this.api.startSpeaker(this, s, nearest.get(s));
         }
 
-        //stop old speakers
-        for (String s : oldSpeakers) {
+        for (String s : leftRegions) {
             this.api.stopSpeaker(this, s);
         }
 
@@ -113,6 +112,7 @@ public class AudioListener {
     public void onConnect() {
         isConnected = true;
         this.regions.clear();
+        this.speakers.clear();
         System.out.println("[OpenAudioMc-Connector] User " + player.getName() + " connected!");
         if (OpenAudioMc.getInstance().getConfig().getString("messages.connected").equals("-")) return;
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.connected")));
@@ -123,10 +123,6 @@ public class AudioListener {
         System.out.println("[OpenAudioMc-Connector] User " + player.getName() + " disconnected!");
         if (OpenAudioMc.getInstance().getConfig().getString("messages.disconnected").equals("-")) return;
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.disconnected")));
-    }
-
-    public void updateSpeaker() {
-
     }
 
     public void onQuit() {

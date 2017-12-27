@@ -8,6 +8,7 @@ import net.openaudiomc.jclient.modules.socket.enums.PacketCommand;
 import net.openaudiomc.jclient.modules.socket.objects.OaPacket;
 
 import org.bukkit.entity.Player;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +74,19 @@ public class OpenAudioApi {
     public void startSpeaker(AudioListener l, String id, int volume) {
         AudioSpeaker s = OpenAudioMc.getInstance().getMediaModule().getSpeakerMedia().get(id);
         l.sendPacket(s.getMedia().getHandle(l, volume));
+    }
+
+    public void setSpeakerVolume(AudioListener l, String id, int volume) {
+        try {
+            OaPacket p = new OaPacket();
+            p.setCommand(PacketCommand.SET_SPEAKER_VOLUME);
+            p.setPlayer(l);
+            JSONObject tags = new JSONObject();
+            tags.put("id", id);
+            tags.put("volume", volume);
+            p.setValue(tags.toString());
+            l.sendPacket(p);
+        } catch (Exception THISWILLNEVERHAPPEN) {}
     }
 
     private List<AudioListener> handleOpperator(String o) {

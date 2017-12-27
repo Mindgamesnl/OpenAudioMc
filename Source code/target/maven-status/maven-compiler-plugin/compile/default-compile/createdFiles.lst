@@ -9,7 +9,9 @@ net\openaudiomc\jclient\modules\media\objects\AudioRegion.class
 net\openaudiomc\jclient\modules\commands\commands\AdminCommand.class
 net\openaudiomc\jclient\OpenAudioApi.class
 net\openaudiomc\jclient\OpenAudioMc.class
+net\openaudiomc\jclient\modules\player\listeners\SpeakerPlaceBreakListener.class
 net\openaudiomc\jclient\modules\socket\objects\OaPacket.class
+net\openaudiomc\jclient\modules\media\tasks\PlayerSpeakerCheck.class
 net\openaudiomc\jclient\modules\socket\enums\PacketCommand.class
 net\openaudiomc\jclient\utils\OpenaudioFailedMp3ParseException.class
 net\openaudiomc\jclient\modules\media\MediaModule.class

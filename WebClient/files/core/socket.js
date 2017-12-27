@@ -5,7 +5,7 @@ function event(event, runnable) {
 }
 
 function oa_socket_startup(name, server, token) {
-    oaio = io.connect("http://192.168.2.19:6969", {
+    oaio = io.connect("https://craftmendserver.eu:6969", {
         secure: false
     });
 

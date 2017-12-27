@@ -24,7 +24,7 @@ public class SpeakerPlaceBreakListener implements Listener {
                     if (skull.getOwner().equalsIgnoreCase("OpenAudioMc")) {
                         AudioListener l = OpenAudioMc.getInstance().getPlayerModule().getListeners().get(event.getPlayer().getName());
                         if (l.getPlacingSpeaker() != null) {
-                            event.getPlayer().sendMessage(prefix + "Regestering speaker...");
+                            event.getPlayer().sendMessage(prefix + "Regestering speaker... this can take a few seconds...");
                             OpenAudioMc.getInstance().getMediaModule().placeSpeaker(event.getBlock().getLocation(), l.getPlacingSpeaker());
                             event.getPlayer().sendMessage(prefix + "Created a speaker.");
                         }
@@ -41,12 +41,9 @@ public class SpeakerPlaceBreakListener implements Listener {
             if (skull.getSkullType() == SkullType.PLAYER) {
                 if (skull.hasOwner()) {
                     if (skull.getOwner().equalsIgnoreCase("OpenAudioMc")) {
-                        AudioListener l = OpenAudioMc.getInstance().getPlayerModule().getListeners().get(event.getPlayer().getName());
-                        if (l.getPlacingSpeaker() != null) {
-                            event.getPlayer().sendMessage(prefix + "Deleting a speaker...");
-                            OpenAudioMc.getInstance().getMediaModule().destroySpeaker(event.getBlock().getLocation());
-                            event.getPlayer().sendMessage(prefix + "Deleted a speaker.");
-                        }
+                        event.getPlayer().sendMessage(prefix + "Deleting a speaker...");
+                        OpenAudioMc.getInstance().getMediaModule().destroySpeaker(event.getBlock().getLocation());
+                        event.getPlayer().sendMessage(prefix + "Deleted a speaker.");
                     }
                 }
             }
