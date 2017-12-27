@@ -41,7 +41,7 @@ web:
   title: 'OpenAudioMc'
   background: 'https://puu.sh/yGrkf/acd2fe3111.png'
   startsound: '-'
-  speaker_radius: 30
+  speaker_radius: 10
 
 
 
@@ -62,7 +62,7 @@ key:
 storage:
   speakermedia:
     placeholder: 2
-  storage.speakerlocations:
+  speakerlocations:
     placeholder: 2
   regions:
     placeholder: 2

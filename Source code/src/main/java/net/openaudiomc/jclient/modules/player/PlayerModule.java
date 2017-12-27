@@ -4,6 +4,7 @@ import lombok.Getter;
 
 import net.openaudiomc.jclient.OpenAudioMc;
 import net.openaudiomc.jclient.modules.player.listeners.JoinQuitListener;
+import net.openaudiomc.jclient.modules.player.listeners.SpeakerPlaceBreakListener;
 import net.openaudiomc.jclient.modules.player.objects.AudioListener;
 
 import java.util.HashMap;
@@ -15,5 +16,6 @@ public class PlayerModule {
 
     public PlayerModule(OpenAudioMc plugin) {
         plugin.getServer().getPluginManager().registerEvents(new JoinQuitListener(), plugin);
+        plugin.getServer().getPluginManager().registerEvents(new SpeakerPlaceBreakListener(), plugin);
     }
 }

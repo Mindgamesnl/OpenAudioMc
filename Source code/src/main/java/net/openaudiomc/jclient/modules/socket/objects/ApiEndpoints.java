@@ -9,7 +9,7 @@ public class ApiEndpoints {
     }
 
     //local server from testing
-    private String root = "http://192.168.2.19";
+    private String root = "https://craftmendserver.eu";
     @Getter  private int port = 6969;
 
     public String getSocket() {

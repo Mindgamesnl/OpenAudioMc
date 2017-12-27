@@ -30,3 +30,6 @@ permissions:
   oa.admin.region:
     default: op
     description: A openaudio command
+  oa.admin.speakers:
+    default: op
+    description: A openaudio command

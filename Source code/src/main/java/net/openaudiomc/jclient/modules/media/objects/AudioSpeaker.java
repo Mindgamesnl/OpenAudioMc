@@ -17,7 +17,7 @@ public class AudioSpeaker {
 
     public AudioSpeaker(String id, String source) {
         this.id = id;
-        this.url = url;
+        this.url = source;
         this.urlKey = this.url.replace(".", "--_--");
 
         System.out.println("[OpenAudioMc] Initializing speaker: " + this.id);

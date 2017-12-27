@@ -4,10 +4,15 @@ import net.openaudiomc.jclient.OpenAudioApi;
 import net.openaudiomc.jclient.OpenAudioMc;
 import net.openaudiomc.jclient.modules.media.objects.Media;
 
+import net.openaudiomc.jclient.modules.player.objects.AudioListener;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 
 public class AdminCommand implements CommandExecutor {
 
@@ -32,6 +37,32 @@ public class AdminCommand implements CommandExecutor {
                 return true;
             }
             s.sendMessage(prefix + ChatColor.RED + "Correct ussage: /oa play <name> <url> [JSON arguments]");
+            return true;
+        }
+
+        if ((args[0].equalsIgnoreCase("speaker") ||args[0].equalsIgnoreCase("speakers")) && allowed(s, "speakers")) {
+            if (args.length == 3) {
+                if (args[1].equalsIgnoreCase("create")) {
+                    if (!(s instanceof Player)) {
+                        s.sendMessage(prefix + ChatColor.RED + "Only players can execute this command.");
+                        return true;
+                    }
+                    s.sendMessage(prefix + "Generating skull.");
+                    AudioListener l = OpenAudioMc.getInstance().getPlayerModule().getListeners().get(s.getName());
+                    l.setPlacingSpeaker(args[2]);
+                    ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+                    skull.setDurability((short) 3);
+                    SkullMeta sm = (SkullMeta) skull.getItemMeta();
+                    sm.setOwner("OpenAudioMc");
+                    sm.setDisplayName(ChatColor.AQUA + "OpenAudioMc Speaker");
+                    skull.setItemMeta(sm);
+                    ((Player) s).getInventory().addItem(skull);
+                    s.sendMessage(prefix + "Place this skull anywhere in the world to place a speaker.");
+                    s.sendMessage(prefix + "WARNING! when generating a speaker for the first time it may lagg out the server for a few seconds!");
+                    return true;
+                }
+            }
+            s.sendMessage(prefix + ChatColor.RED + "Correct ussage: /oa speakers create <url>");
             return true;
         }
 

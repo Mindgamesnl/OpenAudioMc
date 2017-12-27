@@ -31,6 +31,7 @@ function OaSound(url, start, loop) {
     this.allowNormalVolume = true;
     this.source = url;
     this.customid = "";
+    this.startvolume = __volume;
     this.options = {
         id: guid(),
         url: url,
@@ -49,6 +50,10 @@ function OaSound(url, start, loop) {
     this.setLooping = function () {
         this.options.loops = 900;
     };
+
+    this.setStartVolume = function(v) {
+        this.startvolume = v;
+    }
 
     this.setStartPosition = function (t) {
         this.options.from = t;
@@ -72,7 +77,7 @@ function OaSound(url, start, loop) {
 
     this.start = function () {
         this.sound = soundManager.createSound(this.options);
-        this.setVolume(__volume, true, function() {}, 500)
+        this.setVolume(this.startvolume, true, function() {}, 500)
     }
 }
 

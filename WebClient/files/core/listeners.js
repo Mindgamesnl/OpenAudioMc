@@ -3,7 +3,7 @@ event("SET_BACKGROUND", function (data) {
 });
 
 event("PLAY", function (data) {
-    new OaSound(data.packet_value).play();
+    new OaSound(data.packet_value).start();
 });
 
 event("PLAY_SPECIAL", function (data) {
@@ -13,8 +13,12 @@ event("PLAY_SPECIAL", function (data) {
     var sound = new OaSound(url);
 
     if (json.start != null) {
-        console.log("start")
         sound.setStartPosition(json.start);
+    }
+
+    if (json.volume != null) {
+        console.log("volume")
+        sound.setStartVolume(json.volume);
     }
 
     if (json.loop != null && json.loop) {
@@ -27,6 +31,16 @@ event("PLAY_SPECIAL", function (data) {
     }
 
     sound.start();
+});
+
+event("SET_SPEAKER_VOLUME", function (data) {
+    var data = JSON.parse(data.packet_value);
+    var volume = (data.volume / 100) * __volume;
+    for (var key in __soundsvolarray) {
+        if (__soundsvolarray[key].customid == "speaker_" + data.id) {
+            __soundsvolarray[key].setVolume(volume, true, function() {}, 700);
+        }
+    }
 });
 
 event("STOP", function (data) {
