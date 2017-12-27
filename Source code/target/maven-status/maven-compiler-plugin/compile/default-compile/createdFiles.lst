@@ -1,6 +1,7 @@
 net\openaudiomc\jclient\modules\player\objects\AudioListener.class
 net\openaudiomc\jclient\modules\player\PlayerModule.class
 net\openaudiomc\jclient\modules\media\objects\AudioSpeaker.class
+net\openaudiomc\jclient\modules\media\objects\FlatMedia.class
 net\openaudiomc\jclient\utils\Reflection.class
 net\openaudiomc\jclient\modules\commands\commands\SuplyUrlCommand.class
 net\openaudiomc\jclient\modules\socket\SocketModule$1.class

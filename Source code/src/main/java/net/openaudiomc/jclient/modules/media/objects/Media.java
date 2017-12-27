@@ -19,7 +19,7 @@ public class Media {
     private Integer maxTime = 0;
     
     public Media(String source) {
-        this.source = source;
+        this.source = new FlatMedia(source).getUrl();
     }
 
     public Media setId(String id) {

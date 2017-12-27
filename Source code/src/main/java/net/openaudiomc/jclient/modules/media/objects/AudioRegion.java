@@ -17,7 +17,7 @@ public class AudioRegion {
 
     public AudioRegion(String id, String url) {
         this.id = id;
-        this.url = url;
+        this.url = new FlatMedia(url).getUrl();
         this.urlKey = this.url.replace(".", "--_--");
 
         System.out.println("[OpenAudioMc] Initializing region: " + this.id);

@@ -37,7 +37,7 @@ public class OaPacket {
         JSONObject obj = new JSONObject();
         try {
             obj.put("packet_command", packetCommand.name());
-            obj.put("packet_value", value);
+            obj.put("packet_value", value.replaceAll("%name%", player));
             obj.put("packet_player", player);
         } catch (JSONException e) {
             e.printStackTrace();
