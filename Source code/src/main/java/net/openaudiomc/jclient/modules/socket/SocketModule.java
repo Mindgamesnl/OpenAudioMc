@@ -30,94 +30,123 @@ public class SocketModule {
     @Getter private Boolean connected = false;
 
     public SocketModule(OpenAudioMc plugin) {
-
         keyHolder = new KeyHolder(plugin);
 
-        try {
-            System.out.println("[OpenAudioMc] starting socketio");
-            SSLContext sc = SSLContext.getInstance("TLS");
-            sc.init(null,  trustAllCerts, new SecureRandom());
-            IO.setDefaultSSLContext(sc);
+        connect();
+    }
 
-            HttpsURLConnection.setDefaultHostnameVerifier((s, sslSession) -> true);
-
-            IO.Options options = new IO.Options();
-            options.sslContext = sc;
-            options.secure = true;
-            options.port = plugin.getApiEndpoints().getPort();
-
-            socket = IO.socket(plugin.getApiEndpoints().getSocket(), options);
-
-            socket.on(Socket.EVENT_CONNECT, args -> {
-                        JSONObject obj = new JSONObject();
-                        try {
-                            obj.put("pub", keyHolder.getPublickey());
-                            obj.put("priv", keyHolder.getPrivatekey());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        connected = true;
-                        System.out.println("[openaudoimc] Authenticating to socket! they are shaking hands! i hope they will be friends some day!");
-                        socket.emit("imaserver", obj.toString());
-                    })
-                    .on("onplayerconnect", (Object... args) -> {
-                        JSONObject json = (JSONObject) args[0];
-                        try {
-                            String username = json.getString("name");
-                            String key = json.getString("key");
-                            AudioListener l = OpenAudioMc.getInstance().getPlayerModule().getListeners().get(username);
-                            if (l != null && l.isAllowedConnection(key)) {
-                                l.onConnect();
-                                socket.emit("acceptpl", username);
-
-                                if (!OpenAudioMc.getInstance().getConf().getWeb().getTitle().equals("-")) {
-                                    l.sendPacket(new OaPacket()
-                                            .setCommand(PacketCommand.SET_TITLE)
-                                            .setValue(OpenAudioMc.getInstance().getConf().getWeb().getTitle()));
-                                }
-
-                                if (!OpenAudioMc.getInstance().getConf().getWeb().getBackground().equals("-")) {
-                                    l.sendPacket(new OaPacket()
-                                            .setCommand(PacketCommand.SET_BACKGROUND)
-                                            .setValue(OpenAudioMc.getInstance().getConf().getWeb().getBackground()));
-                                }
-
-                                if (!OpenAudioMc.getInstance().getConf().getWeb().getStartSound().equals("-")) {
-                                    l.sendPacket(new OaPacket()
-                                            .setCommand(PacketCommand.PLAY)
-                                            .setValue(OpenAudioMc.getInstance().getConf().getWeb().getStartSound()));
-                                }
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    })
-                    .on("onplayerdisconnect", (args) -> {
-                        AudioListener l = OpenAudioMc.getInstance().getPlayerModule().getListeners().get(args[0]);
-                        if (l != null && l.getIsConnected()) {
-                            l.onDisconnect();
-                        }
-                    })
-                    .on(Socket.EVENT_DISCONNECT, args -> {
-                        for (AudioListener l : OpenAudioMc.getInstance().getPlayerModule().getListeners().values()) {
-                            l.onDisconnect();
-                        }
-                        connected = false;
-                    });
-            socket.connect();
-            System.out.println("[OpenAudioMc] socketio started!");
-        } catch (Exception exception) {
-            exception.printStackTrace();
+    public void requestClose() {
+        Boolean inUse = false;
+        for (AudioListener l : OpenAudioMc.getInstance().getPlayerModule().getListeners().values()) {
+            if (l.getIsConnected()) inUse = true;
         }
+        if (!inUse) closeConnection();
     }
 
     public void closeConnection() {
-        socket.close();
+        if (connected) {
+            System.out.println("[OpenAudioMc] stopping socketio");
+            socket.close();
+            connected = false;
+        }
     }
 
-    public void send(OaPacket o) {
-        socket.emit("packet", o.serialize());
+    public void kickUser(String s) {
+        if (connected) socket.emit("kickuser", s);
+    }
+
+    public void connect() {
+        if (!connected) {
+            try {
+                System.out.println("[OpenAudioMc] starting socketio");
+                SSLContext sc = SSLContext.getInstance("TLS");
+                sc.init(null, trustAllCerts, new SecureRandom());
+                IO.setDefaultSSLContext(sc);
+
+                HttpsURLConnection.setDefaultHostnameVerifier((s, sslSession) -> true);
+
+                IO.Options options = new IO.Options();
+                options.sslContext = sc;
+                options.secure = true;
+                options.port = OpenAudioMc.getInstance().getApiEndpoints().getPort();
+
+                socket = IO.socket(OpenAudioMc.getInstance().getApiEndpoints().getSocket(), options);
+
+                registerEvents();
+
+                socket.connect();
+                System.out.println("[OpenAudioMc] socketio started!");
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        }
+    }
+
+    private void registerEvents() {
+        socket.on(Socket.EVENT_CONNECT, args -> {
+            JSONObject obj = new JSONObject();
+            try {
+                obj.put("pub", keyHolder.getPublickey());
+                obj.put("priv", keyHolder.getPrivatekey());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            connected = true;
+            System.out.println("[openaudoimc] Authenticating to socket! they are shaking hands! i hope they will be friends some day!");
+            socket.emit("imaserver", obj.toString());
+        });
+
+        socket.on(Socket.EVENT_DISCONNECT, args -> {
+            connected = false;
+        });
+
+        socket.on("onplayerconnect", (Object... args) -> {
+            JSONObject json = (JSONObject) args[0];
+            try {
+                String username = json.getString("name");
+                String key = json.getString("key");
+                AudioListener l = OpenAudioMc.getInstance().getPlayerModule().getListeners().get(username);
+                if (l != null && l.isAllowedConnection(key)) {
+                    l.onConnect();
+                    socket.emit("acceptpl", username);
+
+                    if (!OpenAudioMc.getInstance().getConf().getWeb().getTitle().equals("-")) {
+                        l.sendPacket(new OaPacket()
+                                .setCommand(PacketCommand.SET_TITLE)
+                                .setValue(OpenAudioMc.getInstance().getConf().getWeb().getTitle()));
+                    }
+
+                    if (!OpenAudioMc.getInstance().getConf().getWeb().getBackground().equals("-")) {
+                        l.sendPacket(new OaPacket()
+                                .setCommand(PacketCommand.SET_BACKGROUND)
+                                .setValue(OpenAudioMc.getInstance().getConf().getWeb().getBackground()));
+                    }
+
+                    if (!OpenAudioMc.getInstance().getConf().getWeb().getStartSound().equals("-")) {
+                        l.sendPacket(new OaPacket()
+                                .setCommand(PacketCommand.PLAY)
+                                .setValue(OpenAudioMc.getInstance().getConf().getWeb().getStartSound()));
+                    }
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        });
+
+        socket.on("onplayerdisconnect", (args) -> {
+            AudioListener l = OpenAudioMc.getInstance().getPlayerModule().getListeners().get(args[0]);
+            if (l != null && l.getIsConnected()) {
+                l.onDisconnect();
+            }
+        });
+
+        socket.on(Socket.EVENT_DISCONNECT, args -> {
+            for (AudioListener l : OpenAudioMc.getInstance().getPlayerModule().getListeners().values()) {
+                l.onDisconnect();
+            }
+            connected = false;
+        });
     }
 
     private TrustManager[] trustAllCerts = new TrustManager[]{

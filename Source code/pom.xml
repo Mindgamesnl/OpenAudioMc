@@ -6,7 +6,7 @@
 
     <groupId>net.openaudiomc</groupId>
     <artifactId>net.openaudiomc.jclient</artifactId>
-    <version>3.0</version>
+    <version>4.0</version>
     <packaging>jar</packaging>
 
     <name>OpenAudioMc</name>
