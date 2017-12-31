@@ -63,8 +63,19 @@ public class OpenAudioApi {
         }
     }
 
-    public void setMediaVolume(AudioListener l, String id, int volume) {
+    public void setVolume(Player p, int volume) {
+        AudioListener l = OpenAudioMc.getInstance().getPlayerModule().getListeners().get(p.getName());
+        OaPacket packet = new OaPacket();
+        packet.setCommand(PacketCommand.SETVOLUME);
+        packet.setValue(volume + "");
+        l.sendPacket(packet);
+    }
 
+    public void setVolume(AudioListener l, int volume) {
+        OaPacket packet = new OaPacket();
+        packet.setCommand(PacketCommand.SETVOLUME);
+        packet.setValue(volume + "");
+        l.sendPacket(packet);
     }
 
     public void stopSpeaker(AudioListener listener, String speaker) {

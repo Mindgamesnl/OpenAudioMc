@@ -2,6 +2,7 @@ package net.openaudiomc.jclient.modules.commands;
 
 import net.openaudiomc.jclient.OpenAudioMc;
 import net.openaudiomc.jclient.modules.commands.commands.AdminCommand;
+import net.openaudiomc.jclient.modules.commands.commands.SetvolumeCommand;
 import net.openaudiomc.jclient.modules.commands.commands.SuplyUrlCommand;
 import net.openaudiomc.jclient.modules.commands.listeners.CustomCommandListener;
 
@@ -15,6 +16,10 @@ public class CommandsModule {
         plugin.getCommand("oa").setExecutor(new AdminCommand());
         plugin.getCommand("openaudio").setExecutor(new AdminCommand());
         plugin.getCommand("openaudiomc").setExecutor(new AdminCommand());
+
+        plugin.getCommand("volume").setExecutor(new SetvolumeCommand());
+        plugin.getCommand("vol").setExecutor(new SetvolumeCommand());
+
         plugin.getServer().getPluginManager().registerEvents(new CustomCommandListener(), plugin);
     }
 

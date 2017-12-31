@@ -1,9 +1,10 @@
 package net.openaudiomc.jclient.utils.config;
 
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
+
 import net.openaudiomc.jclient.OpenAudioMc;
+
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -27,19 +28,19 @@ public class Config {
     private ConfigKey keys;
     private ConfigStorage storage;
 
-    private String lineSeperator = System.getProperty("line.separator");
+    private String lineSeparator = System.getProperty("line.separator");
 
     public void save() {
         try {
             List<String> lines = new ArrayList<>();
             lines.addAll(messages.serialize());
-            lines.add(lineSeperator);
+            lines.add(lineSeparator);
             lines.addAll(commands.serialize());
-            lines.add(lineSeperator);
+            lines.add(lineSeparator);
             lines.addAll(web.serialize());
-            lines.add(lineSeperator);
+            lines.add(lineSeparator);
             lines.addAll(keys.serialize());
-            lines.add(lineSeperator);
+            lines.add(lineSeparator);
             lines.addAll(storage.serialize());
             Path file = Paths.get(OpenAudioMc.getInstance().getDataFolder() + "/config.yml");
             Files.write(file, lines, Charset.forName("UTF-8"));
@@ -62,6 +63,8 @@ public class Config {
             this.messages.setProvideUrl(config.getString("messages.provide_url"));
             this.messages.setConnected(config.getString("messages.connected"));
             this.messages.setDisconnected(config.getString("messages.disconnected"));
+            this.messages.setSetvolumefail(config.getString("messages.setvolumefail"));
+            this.messages.setSetvolume(config.getString("messages.setvolume"));
 
             this.commands = new ConfigCommands();
             this.commands.setCommands(config.getStringList("commands"));
@@ -130,11 +133,13 @@ public class Config {
         }
     }
 
-    public void saveDefaultConfig() {
+    private void saveDefaultConfig() {
         this.messages = new ConfigMessages();
         this.messages.setProvideUrl("&2Click here to connect to our audio server!");
         this.messages.setConnected("&7You are now &2connected&7! yeey!");
         this.messages.setDisconnected("&7You are now &4disconnected&7! cya next time!");
+        this.messages.setSetvolumefail("&4Invalid volume! please use a number between 0 and 100");
+        this.messages.setSetvolume("&2Your volume has been set to %volume%");
 
         this.commands = new ConfigCommands();
         this.commands.setCommands(Arrays.asList("/getlink", "/icanhazaudio", "/gimmesoundplz"));
@@ -142,6 +147,7 @@ public class Config {
         this.web = new ConfigWeb();
         this.web.setUrl("http://craftmend.com/lemmejusttestthismkay/lemmejusttestthismkay/");
         this.web.setTitle("OpenAudioMc");
+        //TODO: THIS IMG IS ONLY FOR TESTING! DONT RELEASE IT WITH THIS INT! I KNOW YOU WILL DO IT YOU IDIOT! (from mats to mats)
         this.web.setBackground("https://puu.sh/yGrkf/acd2fe3111.png");
         this.web.setStartSound("-");
         this.web.setSpeakerRadius(10L);
@@ -160,37 +166,37 @@ public class Config {
     }
 
     private void setHeaders() {
-        this.messages.setHeader("############################################################" + lineSeperator +
-                "# +------------------------------------------------------+ #" + lineSeperator +
-                "# |                      Messages                        | #" + lineSeperator +
-                "# |      Messages that the player will see in chat       | #" + lineSeperator +
-                "# |       (can be disabled by using '-' as value)        | #" + lineSeperator +
-                "# +------------------------------------------------------+ #" + lineSeperator +
-                "############################################################");
+        this.messages.setHeader("############################################################" + lineSeparator +
+                                "# +------------------------------------------------------+ #" + lineSeparator +
+                                "# |                      Messages                        | #" + lineSeparator +
+                                "# |      Messages that the player will see in chat       | #" + lineSeparator +
+                                "# |       (can be disabled by using '-' as value)        | #" + lineSeparator +
+                                "# +------------------------------------------------------+ #" + lineSeparator +
+                                "############################################################");
 
-        this.commands.setHeader("############################################################" + lineSeperator +
-                "# +------------------------------------------------------+ #" + lineSeperator +
-                "# |                      Commands                        | #" + lineSeperator +
-                "# |       Custom commands to give the user a link        | #" + lineSeperator +
-                "# +------------------------------------------------------+ #" + lineSeperator +
-                "############################################################");
+        this.commands.setHeader("############################################################" + lineSeparator +
+                                "# +------------------------------------------------------+ #" + lineSeparator +
+                                "# |                      Commands                        | #" + lineSeparator +
+                                "# |       Custom commands to give the user a link        | #" + lineSeparator +
+                                "# +------------------------------------------------------+ #" + lineSeparator +
+                                "############################################################");
 
-        this.web.setHeader("############################################################" + lineSeperator +
-                "# +------------------------------------------------------+ #" + lineSeperator +
-                "# |                    Web Client                        | #" + lineSeperator +
-                "# |         Configuration for your web client!           | #" + lineSeperator +
-                "# |       (can be disabled by using '-' as value)        | #" + lineSeperator +
-                "# +------------------------------------------------------+ #" + lineSeperator +
-                "############################################################");
+        this.web.setHeader("############################################################" + lineSeparator +
+                            "# +------------------------------------------------------+ #" + lineSeparator +
+                            "# |                    Web Client                        | #" + lineSeparator +
+                            "# |         Configuration for your web client!           | #" + lineSeparator +
+                            "# |       (can be disabled by using '-' as value)        | #" + lineSeparator +
+                            "# +------------------------------------------------------+ #" + lineSeparator +
+                            "############################################################");
 
-        this.keys.setHeader("############################################################" + lineSeperator +
-                "# +------------------------------------------------------+ #" + lineSeperator +
-                "# |                       Data                           | #" + lineSeperator +
-                "# | Data that makes this server this server! (dont edit) | #" + lineSeperator +
-                "# |            (really tho, dont touch it)               | #" + lineSeperator +
-                "# +------------------------------------------------------+ #" + lineSeperator +
-                "############################################################" + lineSeperator +
-                "# Key storage! NEVER SHERE THIS WITH ANYONE! NEVER CHANGE THIS DATA! (it won't work, trust me)");
+        this.keys.setHeader("############################################################" + lineSeparator +
+                            "# +------------------------------------------------------+ #" + lineSeparator +
+                            "# |                       Data                           | #" + lineSeparator +
+                            "# | Data that makes this server this server! (dont edit) | #" + lineSeparator +
+                            "# |            (really tho, dont touch it)               | #" + lineSeparator +
+                            "# +------------------------------------------------------+ #" + lineSeparator +
+                            "############################################################" + lineSeparator +
+                            "# Key storage! NEVER SHERE THIS WITH ANYONE! NEVER CHANGE THIS DATA! (it won't work, trust me)");
 
         this.storage.setHeader("# Storage for regions, speakers and all that stuff!");
     }
