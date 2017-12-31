@@ -70,22 +70,22 @@ public class SocketModule {
                                 l.onConnect();
                                 socket.emit("acceptpl", username);
 
-                                if (!OpenAudioMc.getInstance().getConfig().getString("web.title").equals("-")) {
+                                if (!OpenAudioMc.getInstance().getConf().getWeb().getTitle().equals("-")) {
                                     l.sendPacket(new OaPacket()
                                             .setCommand(PacketCommand.SET_TITLE)
-                                            .setValue(OpenAudioMc.getInstance().getConfig().getString("web.title")));
+                                            .setValue(OpenAudioMc.getInstance().getConf().getWeb().getTitle()));
                                 }
 
-                                if (!OpenAudioMc.getInstance().getConfig().getString("web.background").equals("-")) {
+                                if (!OpenAudioMc.getInstance().getConf().getWeb().getBackground().equals("-")) {
                                     l.sendPacket(new OaPacket()
                                             .setCommand(PacketCommand.SET_BACKGROUND)
-                                            .setValue(OpenAudioMc.getInstance().getConfig().getString("web.background")));
+                                            .setValue(OpenAudioMc.getInstance().getConf().getWeb().getBackground()));
                                 }
 
-                                if (!OpenAudioMc.getInstance().getConfig().getString("web.startsound").equals("-")) {
+                                if (!OpenAudioMc.getInstance().getConf().getWeb().getStartSound().equals("-")) {
                                     l.sendPacket(new OaPacket()
                                             .setCommand(PacketCommand.PLAY)
-                                            .setValue(OpenAudioMc.getInstance().getConfig().getString("web.startsound")));
+                                            .setValue(OpenAudioMc.getInstance().getConf().getWeb().getStartSound()));
                                 }
 
                             }

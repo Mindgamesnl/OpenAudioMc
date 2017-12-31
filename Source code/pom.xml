@@ -18,6 +18,7 @@
     <url>https://openaudiomc.net/</url>
 
     <build>
+        <finalName>OpenAudioMc</finalName>
         <defaultGoal>clean package</defaultGoal>
         <plugins>
             <plugin>
