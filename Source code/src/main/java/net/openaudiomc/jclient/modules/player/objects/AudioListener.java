@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import net.openaudiomc.jclient.OpenAudioApi;
 import net.openaudiomc.jclient.OpenAudioMc;
+import net.openaudiomc.jclient.modules.socket.enums.PacketCommand;
 import net.openaudiomc.jclient.modules.socket.objects.OaPacket;
 
 import org.bukkit.Bukkit;
@@ -33,7 +34,8 @@ public class AudioListener {
     public void sendLink() {
         OpenAudioMc.getInstance().getSocketModule().connect();
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(OpenAudioMc.getInstance(), () -> OpenAudioMc.getInstance().getSocketModule().requestClose(), 20 * 10);
+        //dont do anything if the user does nothing
+        Bukkit.getScheduler().scheduleSyncDelayedTask(OpenAudioMc.getInstance(), () -> OpenAudioMc.getInstance().getSocketModule().requestClose(), 20 * 15);
 
         String url = OpenAudioMc.getInstance().getConf().getWeb().getUrl();
 

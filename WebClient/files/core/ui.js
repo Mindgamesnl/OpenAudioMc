@@ -21,6 +21,15 @@ function oa_ui_setbg(a) {
     document.body.style.backgroundSize = "cover";
 }
 
+function oa_volume_set(newvolume) {
+    //invalid! dont do it!
+    if (newvolume > 100 || newvolume < 0) return;
+
+    //okey i gues its save
+    __volume = newvolume;
+    oa_audio_setvolume(newvolume);
+}
+
 function oa_volume_decrement() {
     if (__volume == 0) return;
     if (__volume - 5 < 0) {

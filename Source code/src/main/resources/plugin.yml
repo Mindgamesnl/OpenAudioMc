@@ -13,6 +13,8 @@ commands:
   oa:
   openaudio:
   openaudiomc:
+  volume:
+  vol:
 
 permissions:
   oa.*:

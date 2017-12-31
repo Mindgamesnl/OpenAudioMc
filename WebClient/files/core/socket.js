@@ -24,6 +24,9 @@ function oa_socket_startup(name, server, token) {
     oaio.on('disconnect', function () {
         oa_ui_setskull("Whoops");
         oa_ui_show_notification("Oh no! :(", lang.socket_did_not_do_its_thing, "warning");
+        for (var key in __soundsvolarray) {
+            __soundsvolarray[key].stop();
+        }
     });
 
     oaio.on('connect_timeout', function () {

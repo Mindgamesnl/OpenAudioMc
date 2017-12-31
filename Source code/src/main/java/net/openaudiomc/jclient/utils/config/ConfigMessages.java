@@ -15,6 +15,8 @@ public class ConfigMessages {
     private String provideUrl;
     private String connected;
     private String disconnected;
+    private String setvolumefail;
+    private String setvolume;
 
     public List<String> serialize() {
         List<String> list = new ArrayList<>();
@@ -23,6 +25,8 @@ public class ConfigMessages {
         list.add("  provide_url: '" + provideUrl + "'");
         list.add("  connected: '" + connected + "'");
         list.add("  disconnected: '" + disconnected + "'");
+        list.add("  setvolumefail: '" + setvolumefail + "'");
+        list.add("  setvolume: '" + setvolume + "'");
         return list;
     }
 }

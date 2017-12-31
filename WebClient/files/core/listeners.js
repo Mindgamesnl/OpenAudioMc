@@ -33,6 +33,10 @@ event("PLAY_SPECIAL", function (data) {
     sound.start();
 });
 
+event("SETVOLUME", function(data) {
+    oa_volume_set(data.packet_value);
+});
+
 event("SET_SPEAKER_VOLUME", function (data) {
     var data = JSON.parse(data.packet_value);
     var volume = (data.volume / 100) * __volume;
