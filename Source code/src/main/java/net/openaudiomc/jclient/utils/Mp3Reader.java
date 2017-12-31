@@ -21,14 +21,14 @@ public class Mp3Reader {
         this.url = url;
     }
 
-    public CompletableFuture<Integer> run() throws OpenaudioFailedMp3ParseException {
-        CompletableFuture<Integer> cf = new CompletableFuture<>();
+    public CompletableFuture<Long> run() throws OpenaudioFailedMp3ParseException {
+        CompletableFuture<Long> cf = new CompletableFuture<>();
 
         try {
             String result = downloadFromUrl(new URL(this.url), "CACHE_" + UUID.randomUUID().toString() + ".mp3");
             File file = new File(result);
             Mp3File mp3file = new Mp3File(result);
-            cf.complete((int) mp3file.getLengthInSeconds());
+            cf.complete(mp3file.getLengthInSeconds());
             Boolean fileExists = file.exists();
             file.delete();
         } catch (IOException e) {

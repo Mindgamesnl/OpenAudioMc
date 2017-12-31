@@ -10,10 +10,9 @@ public class CustomCommandListener implements Listener {
 
     @EventHandler
     public void onCommand(PlayerCommandPreprocessEvent event) {
-        if (OpenAudioMc.getInstance().getConfig().getList("commands").contains(event.getMessage())) {
+        if (OpenAudioMc.getInstance().getConf().getCommands().getCommands().contains(event.getMessage())) {
             OpenAudioMc.getInstance().getPlayerModule().getListeners().get(event.getPlayer().getName()).sendLink();
             event.setCancelled(true);
         }
     }
-
 }

@@ -5,6 +5,7 @@ import net.openaudiomc.jclient.OpenAudioMc;
 import net.openaudiomc.jclient.modules.media.objects.Media;
 
 import net.openaudiomc.jclient.modules.player.objects.AudioListener;
+import net.openaudiomc.jclient.utils.config.ConfigStorageRegion;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -70,17 +71,22 @@ public class AdminCommand implements CommandExecutor {
             if (args.length == 3) {
                 if (args[1].equalsIgnoreCase("delete")) {
 
-                    OpenAudioMc.getInstance().getConfig().set("storage.regions." + args[2] + ".src", null);
+                    if(OpenAudioMc.getInstance().getConf().getStorage().getRegion(args[2]) != null) {
+                        OpenAudioMc.getInstance().getConf().getStorage().deleteRegion(OpenAudioMc.getInstance().getConf().getStorage().getRegion(args[2]));
+                    }
                     OpenAudioMc.getInstance().getMediaModule().getRegions().remove(args[2]);
-                    OpenAudioMc.getInstance().saveConfig();
+                    OpenAudioMc.getInstance().getConf().save();
                     s.sendMessage(prefix + args[2] + " is now set to play nothing");
                     return true;
                 }
             }
             if (args.length == 4) {
                 if (args[1].equalsIgnoreCase("create")) {
-                    OpenAudioMc.getInstance().getConfig().set("storage.regions." + args[2] + ".src", args[3]);
-                    OpenAudioMc.getInstance().saveConfig();
+                    ConfigStorageRegion region = new ConfigStorageRegion();
+                    region.setName(args[2]);
+                    region.setSource(args[3]);
+                    OpenAudioMc.getInstance().getConf().getStorage().addRegion(region);
+                    OpenAudioMc.getInstance().getConf().save();
                     OpenAudioMc.getInstance().getMediaModule().loadRegions();
                     s.sendMessage(prefix + "Music for " + args[2] + " is now set to play " + args[3]);
                     return true;

@@ -15,8 +15,8 @@ public class Media {
     private Boolean hasTag;
     private PacketCommand command = PacketCommand.PLAY;
     private Boolean syncronized = false;
-    private Integer timestamp = 0;
-    private Integer maxTime = 0;
+    private Long timestamp = 0L;
+    private Long maxTime = 0L;
     
     public Media(String source) {
         this.source = new FlatMedia(source).getUrl();
@@ -31,7 +31,7 @@ public class Media {
         return this;
     }
 
-    public Media setStartingPoint(Integer start) {
+    public Media setStartingPoint(Long start) {
         this.hasTag = true;
         this.command = PacketCommand.PLAY_SPECIAL;
         try {
@@ -49,14 +49,14 @@ public class Media {
         return this;
     }
 
-    public Media setSyncronized(Integer length) {
+    public Media setSyncronized(Long length) {
         this.syncronized = true;
         this.maxTime = length;
         Bukkit.getScheduler().scheduleSyncRepeatingTask(OpenAudioMc.getInstance(), () -> {
             if (timestamp != maxTime) {
                 timestamp++;
             } else {
-                timestamp = 0;
+                timestamp = 0L;
             }
         }, 20, 20);
         return this;

@@ -6,13 +6,14 @@ import net.openaudiomc.jclient.OpenAudioMc;
 import net.openaudiomc.jclient.modules.player.objects.AudioListener;
 import net.openaudiomc.jclient.utils.Mp3Reader;
 import net.openaudiomc.jclient.utils.OpenaudioFailedMp3ParseException;
+import net.openaudiomc.jclient.utils.config.ConfigStorageMedia;
 
 public class AudioSpeaker {
 
     @Getter private String id;
     private String url;
     private String urlKey;
-    private Integer length;
+    private Long length;
     @Getter private Media media;
 
     public AudioSpeaker(String id, String source) {
@@ -22,23 +23,25 @@ public class AudioSpeaker {
 
         System.out.println("[OpenAudioMc] Initializing speaker: " + this.id);
 
-        if (OpenAudioMc.getInstance().getConfig().contains("storage.media.lenth." + this.urlKey)) {
-            this.length = OpenAudioMc.getInstance().getConfig().getInt("storage.media.lenth." + this.urlKey);
+        if (OpenAudioMc.getInstance().getConf().getStorage().getMedia(this.urlKey) != null) {
+            this.length = OpenAudioMc.getInstance().getConf().getStorage().getMedia(this.urlKey).getLength();
         } else {
+            ConfigStorageMedia media = new ConfigStorageMedia();
+            media.setName(this.urlKey);
             try {
                 new Mp3Reader(this.url).run()
                         .thenAccept(i -> {
                             length = i;
-                            OpenAudioMc.getInstance().getConfig().set("storage.media.lenth." + this.urlKey, i);
-                            OpenAudioMc.getInstance().saveConfig();
+                            media.setLength(i);
                         })
                         .exceptionally(e -> { e.printStackTrace(); return null; });
             } catch (OpenaudioFailedMp3ParseException e) {
                 e.printStackTrace();
                 OpenAudioMc.getInstance().getLogger().fine("Failed to load mp3 length!");
-                this.length = 0;
-                OpenAudioMc.getInstance().getConfig().set("storage.media.lenth." + this.urlKey, 0);
+                this.length = 0L;
+                media.setLength(0L);
             }
+            OpenAudioMc.getInstance().getConf().getStorage().addMedia(media);
         }
 
         if (this.length != 0) {
