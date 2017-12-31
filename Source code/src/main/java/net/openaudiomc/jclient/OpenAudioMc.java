@@ -7,16 +7,17 @@ import net.openaudiomc.jclient.modules.media.MediaModule;
 import net.openaudiomc.jclient.modules.player.PlayerModule;
 import net.openaudiomc.jclient.modules.socket.SocketModule;
 import net.openaudiomc.jclient.modules.socket.objects.ApiEndpoints;
+import net.openaudiomc.jclient.utils.config.Config;
 import net.openaudiomc.jclient.utils.Reflection;
 
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.File;
 
 public final class OpenAudioMc extends JavaPlugin {
 
     //yek static
     @Getter private static OpenAudioMc instance;
+
+    @Getter private Config conf;
 
     //modules
     @Getter private PlayerModule playerModule;
@@ -28,16 +29,12 @@ public final class OpenAudioMc extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        apiEndpoints = new ApiEndpoints();
-
-        if (!new File(getDataFolder(), "config.yml").exists()) {
-            //saveResource("config.yml", false);
-            saveDefaultConfig();
-        }
-
-        reloadConfig();
-
         instance = this;
+
+        conf = new Config();
+        conf.load();
+
+        apiEndpoints = new ApiEndpoints();
 
         playerModule = new PlayerModule(this);
         socketModule = new SocketModule(this);
@@ -50,6 +47,7 @@ public final class OpenAudioMc extends JavaPlugin {
     @Override
     public void onDisable() {
         socketModule.getSocket().close();
+        conf.save();
         // Plugin shutdown logic
     }
 }

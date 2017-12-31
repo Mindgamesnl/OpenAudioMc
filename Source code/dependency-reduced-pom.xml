@@ -15,6 +15,7 @@
         <directory>src/main/resources</directory>
       </resource>
     </resources>
+    <finalName>OpenAudioMc</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>

@@ -15,8 +15,8 @@ public class KeyHolder {
 
     public KeyHolder(OpenAudioMc plugin) {
 
-        String pukey = plugin.getConfig().getString("key.public");
-        String prkey = plugin.getConfig().getString("key.private");
+        String pukey = plugin.getConf().getKeys().getPublicKey();
+        String prkey = plugin.getConf().getKeys().getPrivateKey();
 
         if (pukey.length() != 15) {
             System.out.println("[OpenAudioMc] This is your first time using OpenAudioMc! welcome! (getting client cridentials)");
@@ -27,9 +27,9 @@ public class KeyHolder {
                 JSONObject newdata = new JSONObject(webdata);
                 publickey = newdata.getString("public");
                 privatekey = newdata.getString("private");
-                plugin.getConfig().set("key.public", publickey);
-                plugin.getConfig().set("key.private", privatekey);
-                plugin.saveConfig();
+                plugin.getConf().getKeys().setPublicKey(publickey);
+                plugin.getConf().getKeys().setPrivateKey(privatekey);
+                plugin.getConf().save();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
