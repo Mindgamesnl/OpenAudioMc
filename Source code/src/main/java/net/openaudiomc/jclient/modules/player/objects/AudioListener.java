@@ -22,7 +22,7 @@ public class AudioListener {
     private OpenAudioApi api = new OpenAudioApi();
     private List<String> regions = new ArrayList<>();
     private Map<String, Integer> speakers = new HashMap<>();
-    private int speakerRadius = OpenAudioMc.getInstance().getConfig().getInt("web.speaker_radius");
+    private int speakerRadius = Integer.valueOf(String.valueOf(OpenAudioMc.getInstance().getConf().getWeb().getSpeakerRadius()));
 
     public AudioListener(Player player) {
         this.player = player;
@@ -30,7 +30,7 @@ public class AudioListener {
     }
 
     public void sendLink() {
-        String url = OpenAudioMc.getInstance().getConfig().getString("web.url");
+        String url = OpenAudioMc.getInstance().getConf().getWeb().getUrl();
 
         updateToken();
 
@@ -42,7 +42,7 @@ public class AudioListener {
 
         url = url + "?s=" + new String(Base64.getEncoder().encode(tokenRAW.getBytes()));
 
-        String message = "[\"\",{\"text\":\"" + ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.provide_url")) + "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + url + "\"}}]";
+        String message = "[\"\",{\"text\":\"" + ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConf().getMessages().getProvideUrl()) + "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + url + "\"}}]";
         OpenAudioMc.getInstance().getReflection().sendChatPacket(player, message);
     }
 
@@ -114,15 +114,15 @@ public class AudioListener {
         this.regions.clear();
         this.speakers.clear();
         System.out.println("[OpenAudioMc-Connector] User " + player.getName() + " connected!");
-        if (OpenAudioMc.getInstance().getConfig().getString("messages.connected").equals("-")) return;
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.connected")));
+        if (OpenAudioMc.getInstance().getConf().getMessages().getConnected().equals("-")) return;
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConf().getMessages().getConnected()));
     }
 
     public void onDisconnect() {
         isConnected = false;
         System.out.println("[OpenAudioMc-Connector] User " + player.getName() + " disconnected!");
-        if (OpenAudioMc.getInstance().getConfig().getString("messages.disconnected").equals("-")) return;
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.disconnected")));
+        if (OpenAudioMc.getInstance().getConf().getMessages().getDisconnected().equals("-")) return;
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConf().getMessages().getDisconnected()));
     }
 
     public void onQuit() {
