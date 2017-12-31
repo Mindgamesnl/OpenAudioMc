@@ -25,6 +25,12 @@ public class AdminCommand implements CommandExecutor {
 
         if (args.length == 0) {help(s); return true;}
 
+        if (args[0].equalsIgnoreCase("debug")) {
+            s.sendMessage("OpenAudioMc debug:");
+            s.sendMessage("Connected: " + OpenAudioMc.getInstance().getSocketModule().getConnected());
+            s.sendMessage("Version: " + OpenAudioMc.getInstance().getDescription().getVersion());
+        }
+
         if (args[0].equalsIgnoreCase("play") && allowed(s, "play")) {
             if (args.length == 3) {
                 api.play(new Media(args[2]), args[1]);

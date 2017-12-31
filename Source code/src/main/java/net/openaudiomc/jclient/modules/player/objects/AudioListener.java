@@ -7,6 +7,7 @@ import net.openaudiomc.jclient.OpenAudioApi;
 import net.openaudiomc.jclient.OpenAudioMc;
 import net.openaudiomc.jclient.modules.socket.objects.OaPacket;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -30,6 +31,10 @@ public class AudioListener {
     }
 
     public void sendLink() {
+        OpenAudioMc.getInstance().getSocketModule().connect();
+
+        Bukkit.getScheduler().scheduleSyncDelayedTask(OpenAudioMc.getInstance(), () -> OpenAudioMc.getInstance().getSocketModule().requestClose(), 20 * 10);
+
         String url = OpenAudioMc.getInstance().getConf().getWeb().getUrl();
 
         updateToken();
@@ -62,8 +67,6 @@ public class AudioListener {
         });
 
         Set<String> updatedSpeakers = nearest.keySet();
-
-        //((this.speakerRadius / 100) * (this.speakerRadius - nearest.get(s))
 
         List<String> newRegions = new ArrayList<String>(updatedSpeakers);
         newRegions.removeAll(speakers.keySet());
@@ -119,14 +122,20 @@ public class AudioListener {
     }
 
     public void onDisconnect() {
+        if (!isConnected) return;
         isConnected = false;
         System.out.println("[OpenAudioMc-Connector] User " + player.getName() + " disconnected!");
         if (OpenAudioMc.getInstance().getConf().getMessages().getDisconnected().equals("-")) return;
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConf().getMessages().getDisconnected()));
+        OpenAudioMc.getInstance().getSocketModule().requestClose();
     }
 
     public void onQuit() {
-
+        if (isConnected) {
+            isConnected = false;
+            OpenAudioMc.getInstance().getSocketModule().kickUser(player.getName());
+            OpenAudioMc.getInstance().getSocketModule().requestClose();
+        }
     }
 
     public void sendPacket(OaPacket p) {

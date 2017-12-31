@@ -17,6 +17,7 @@ public final class OpenAudioMc extends JavaPlugin {
     //yek static
     @Getter private static OpenAudioMc instance;
 
+    //config
     @Getter private Config conf;
 
     //modules
@@ -41,12 +42,11 @@ public final class OpenAudioMc extends JavaPlugin {
         commandsModule = new CommandsModule(this);
         reflection = new Reflection(this);
         mediaModule = new MediaModule(this);
-
     }
 
     @Override
     public void onDisable() {
-        socketModule.getSocket().close();
+        socketModule.closeConnection();
         conf.save();
         // Plugin shutdown logic
     }
