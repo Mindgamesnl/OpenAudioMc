@@ -92,7 +92,12 @@ function HueModule(scope) {
                         MyHue.BridgeCreateUser().then(function BridegeUserCreated() {
                             localStorage.MyHueBridgeIP = MyHue.BridgeIP;
                             oa_ui_show_notification("Philips Hue Connect", lang.connected_to_bridge.replace("%name%", MyHue.BridgeName), "normal");
-                            instance._updateLights();
+                            // Grabs proper light data
+                            MyHue.LightsGetData().then(function LightsDataFound() {
+                                instance._updateLights();
+                            }, function UnableToGetLightData() {
+                                oa_ui_show_notification("Unable To Grab Light Data", lang.unable_to_grab_light_data, "danger");
+                            });
                             instance.connected = true;
                             return;
                         }, function UnableToCreateUseronBridge() {
@@ -114,7 +119,12 @@ function HueModule(scope) {
             MyHue.BridgeGetConfig().then(function CachedBridgeConfigReceived() {
                 MyHue.BridgeGetData().then(function CachedBridgeDataReceived() {
                     oa_ui_show_notification("Philips Hue Connect", lang.connected_to_bridge.replace("%name%", MyHue.BridgeName), "normal");
-                    instance._updateLights();
+                    // Grabs proper light data
+                    MyHue.LightsGetData().then(function LightsDataFound() {
+                        instance._updateLights();
+                    }, function UnableToGetLightData() {
+                        oa_ui_show_notification("Unable To Grab Light Data", lang.unable_to_grab_light_data, "danger");
+                    });
                     instance.connected = true;
                 }, function UnableToRetreiveCachedBridgeData() {
                     delete localStorage.MyHueBridgeIP;
