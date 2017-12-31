@@ -96,7 +96,7 @@ function HueModule(scope) {
                             MyHue.LightsGetData().then(function LightsDataFound() {
                                 instance._updateLights();
                             }, function UnableToGetLightData() {
-                                oa_ui_show_notification("Unable To Grab Light Data", lang.unable_to_grab_light_data, "danger");
+                                oa_ui_show_notification("Philips Hue Connect", lang.unable_to_grab_light_data, "danger");
                             });
                             instance.connected = true;
                             return;
@@ -123,7 +123,7 @@ function HueModule(scope) {
                     MyHue.LightsGetData().then(function LightsDataFound() {
                         instance._updateLights();
                     }, function UnableToGetLightData() {
-                        oa_ui_show_notification("Unable To Grab Light Data", lang.unable_to_grab_light_data, "danger");
+                        oa_ui_show_notification("Philips Hue Connect", lang.unable_to_grab_light_data, "danger");
                     });
                     instance.connected = true;
                 }, function UnableToRetreiveCachedBridgeData() {
