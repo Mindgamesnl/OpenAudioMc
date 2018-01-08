@@ -1,4 +1,8 @@
-__volume = 0;
+if (localStorage.volume == null) {
+    __volume = 20;
+} else {
+    __volume = localStorage.volume;
+}
 
 function oa_volume_increment() {
     if (__volume == 100) return;
@@ -70,7 +74,7 @@ function oa_ui_setskull(owner) {
         '          rgba(30, 30, 33, 0.25),\n' +
         '          rgba(118, 240, 118, 0.25),\n' +
         '          rgba(92, 229, 89, 0.45)),\n' +
-        '  url("https://crafatar.com/avatars/'+owner+'")';
+        '  url("https://crafatar.com/avatars/'+owner+'&overlay")';
     document.getElementById("skull").style.backgroundSize = "cover";
     document.getElementById("username").innerHTML = owner;
 }
