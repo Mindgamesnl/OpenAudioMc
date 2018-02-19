@@ -51,7 +51,7 @@ function oa_ui_show_notification(title, text, color) {
     document.getElementById("notitext").innerHTML = text;
 }
 
-function oa_ui_setskull(owner) {
+function oa_ui_setskull(owner, uuid) {
 
     if (owner == "Whoops") {
         document.getElementById("skull").style.background = 'linear-gradient(\n' +
@@ -59,7 +59,7 @@ function oa_ui_setskull(owner) {
             '          rgba(30, 30, 33, 0.25),\n' +
             '          rgba(240, 60, 80, 0.25),\n' +
             '          rgba(240, 60, 80, 0.95)),\n' +
-            '  url("https://crafatar.com/avatars/MHF_Question")';
+            '  url("https://crafatar.com/avatars/606e2ff0-ed77-4842-9d6c-e1d3321c7838")';
         document.getElementById("skull").style.backgroundSize = "cover";
         document.getElementById("username").innerHTML = "Whoops!";
         return;
@@ -70,7 +70,7 @@ function oa_ui_setskull(owner) {
         '          rgba(30, 30, 33, 0.25),\n' +
         '          rgba(118, 240, 118, 0.25),\n' +
         '          rgba(92, 229, 89, 0.45)),\n' +
-        '  url("https://crafatar.com/avatars/'+owner+'")';
+        '  url("https://crafatar.com/avatars/'+uuid+'")';
     document.getElementById("skull").style.backgroundSize = "cover";
     document.getElementById("username").innerHTML = owner;
 }

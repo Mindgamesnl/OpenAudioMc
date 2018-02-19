@@ -121,6 +121,11 @@ public class AudioListener {
         System.out.println("[OpenAudioMc-Connector] User " + player.getName() + " connected!");
         if (OpenAudioMc.getInstance().getConf().getMessages().getConnected().equals("-")) return;
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConf().getMessages().getConnected()));
+        OaPacket oaPacket = new OaPacket();
+        oaPacket.setCommand(PacketCommand.SETUUID);
+        oaPacket.setPlayer(this);
+        oaPacket.setValue(player.getUniqueId().toString());
+        sendPacket(oaPacket);
     }
 
     public void onDisconnect() {

@@ -8,7 +8,7 @@ function validateSession() {
     server = sessionData[1];
     token = sessionData[2];
     oa_socket_startup(name, server,token);
-    oa_ui_setskull(name);
+    oa_ui_setskull("Loading...", "606e2ff0-ed77-4842-9d6c-e1d3321c7838");
 
     if (localStorage.volume == null) {
         __volume = 20;
