@@ -34,7 +34,7 @@ function OaSound(url, start, loop) {
     this.startvolume = __volume;
     this.options = {
         id: guid(),
-        url: url,
+        url: getCorrectUrl(url),
         volume: 0,
         autoPlay: true,
         whileloading: function() { console.log(this.id + ' is loading'); },
@@ -90,4 +90,33 @@ function s4() {
     return Math.floor((1 + Math.random()) * 0x10000)
         .toString(16)
         .substring(1);
+}
+
+function getCorrectUrl(url) {
+    console.log(url);
+    if (url.includes("soundcloud.com")) {
+        //TODO Handle soundcloud
+        console.warn("Soundcloud where are you...");
+    } else if (url.includes("youtube.com")) {
+        youtubeId = url.split("?v=")[1];
+	youtubeBase = youtubeData['mediacomplete'];
+	youtubeBase = youtubeBase.replace('%ytid%', youtubeId);
+	youtubeBase = youtubeBase.replace('%serverid', server);
+	youtubeBase = youtubeBase.replace('clientid%', token);
+	youtubeBase = youtubeBase.replace('%playername%', name);
+	url = youtubeBase;
+    } else if (url.includes("youtu.be")) {
+        youtubeId = url.split('youtu.be/')[1];
+        youtubeBase = youtubeData['mediacomplete'];
+        youtubeBase = youtubeBase.replace('%ytid%', youtubeId);
+        youtubeBase = youtubeBase.replace('%serverid', server);
+        youtubeBase = youtubeBase.replace('clientid%', token);
+        youtubeBase = youtubeBase.replace('%playername%', name);
+        url =  youtubeBase;
+    } else if (url.includes("stackstorage.com/s/")) {
+        //TODO Handle slack
+	console.warn("Whoeps Slack just took a brake");
+    }
+    console.log(url);
+    return url;
 }
