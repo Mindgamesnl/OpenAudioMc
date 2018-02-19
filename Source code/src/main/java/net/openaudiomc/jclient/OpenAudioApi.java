@@ -1,7 +1,9 @@
 package net.openaudiomc.jclient;
 
+import net.openaudiomc.jclient.modules.media.exceptions.InvalidColorCodeException;
 import net.openaudiomc.jclient.modules.media.objects.AudioRegion;
 import net.openaudiomc.jclient.modules.media.objects.AudioSpeaker;
+import net.openaudiomc.jclient.modules.media.objects.HueState;
 import net.openaudiomc.jclient.modules.media.objects.Media;
 import net.openaudiomc.jclient.modules.player.objects.AudioListener;
 import net.openaudiomc.jclient.modules.socket.enums.PacketCommand;
@@ -97,7 +99,46 @@ public class OpenAudioApi {
             tags.put("volume", volume);
             p.setValue(tags.toString());
             l.sendPacket(p);
-        } catch (Exception THISWILLNEVERHAPPEN) {}
+        } catch (Exception THISWILLNEVERHAPPEN) {
+        }
+    }
+
+    public void hueColor(String s, String rgba) throws InvalidColorCodeException {
+        HueState hueState = new HueState();
+        hueState.fromRgba(rgba);
+
+        for (AudioListener a : handleOpperator(s)) {
+            a.sendPacket(hueState.getHandle(a));
+        }
+    }
+
+    public void hueColor(String s, int red, int blue, int green, int brightness) {
+        HueState hueState = new HueState();
+        hueState.setRed(red);
+        hueState.setGreen(green);
+        hueState.setBlue(blue);
+        hueState.setBrightness(brightness);
+
+        for (AudioListener a : handleOpperator(s)) {
+            a.sendPacket(hueState.getHandle(a));
+        }
+    }
+
+    public void hueColor(AudioListener l, String rgba) throws InvalidColorCodeException {
+        HueState hueState = new HueState();
+        hueState.fromRgba(rgba);
+
+        l.sendPacket(hueState.getHandle(l));
+    }
+
+    public void hueColor(AudioListener l, int red, int blue, int green, int brightness) {
+        HueState hueState = new HueState();
+        hueState.setRed(red);
+        hueState.setGreen(green);
+        hueState.setBlue(blue);
+        hueState.setBrightness(brightness);
+
+        l.sendPacket(hueState.getHandle(l));
     }
 
     private List<AudioListener> handleOpperator(String o) {

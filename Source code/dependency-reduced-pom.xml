@@ -4,7 +4,7 @@
   <groupId>net.openaudiomc</groupId>
   <artifactId>net.openaudiomc.jclient</artifactId>
   <name>OpenAudioMc</name>
-  <version>3.0</version>
+  <version>4.0</version>
   <description>OpenAudiomc</description>
   <url>https://openaudiomc.net/</url>
   <build>
