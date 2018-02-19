@@ -1,5 +1,7 @@
 package net.openaudiomc.jclient;
 
+import lombok.NoArgsConstructor;
+
 import net.openaudiomc.jclient.modules.media.exceptions.InvalidColorCodeException;
 import net.openaudiomc.jclient.modules.media.objects.AudioRegion;
 import net.openaudiomc.jclient.modules.media.objects.AudioSpeaker;
@@ -15,11 +17,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+@NoArgsConstructor
 public class OpenAudioApi {
-
-    public OpenAudioApi() {
-
-    }
 
     public void play(Media m, Player p) {
         AudioListener l = OpenAudioMc.getInstance().getPlayerModule().getListeners().get(p.getName());
