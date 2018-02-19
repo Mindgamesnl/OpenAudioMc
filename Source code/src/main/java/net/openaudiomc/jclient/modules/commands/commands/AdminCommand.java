@@ -149,6 +149,8 @@ public class AdminCommand implements CommandExecutor {
             }
         }
 
+        help(s);
+
         return false;
     }
 

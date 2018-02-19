@@ -9,6 +9,7 @@ function validateSession() {
     }
 
 
+    // noinspection JSAnnotator
     name = sessionData[0];
     server = sessionData[1];
     token = sessionData[2];

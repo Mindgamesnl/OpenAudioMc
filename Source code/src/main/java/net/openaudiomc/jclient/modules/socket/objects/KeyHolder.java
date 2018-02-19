@@ -8,10 +8,11 @@ import net.openaudiomc.jclient.utils.UrlFetcher;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+@Getter
 public class KeyHolder {
 
-    @Getter private String publickey = "";
-    @Getter private String privatekey  = "";
+    private String publickey = "";
+    private String privatekey  = "";
 
     public KeyHolder(OpenAudioMc plugin) {
 

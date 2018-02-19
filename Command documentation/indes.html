@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Title -->
+        <title>OpenAudioMC</title>
+        <!-- CSS -->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+            integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <link href="files/css/main.css" rel="stylesheet"/>
+        <!-- META -->
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+        <!-- ICON -->
+        <link rel="icon" href="files/images/small_logo.png"/>
+        <link rel="image" href="files/images/small_logo.png"/>
+        <!-- CORE -->
+        <script src="files/js/jquery.js"></scrip
+            <script src="files/core/main.js">
+        </script>
+    </head>
+    <body id="body">
+        <!-- Place this tag in your head or just before your close body tag. -->
+        <div class="wrapper">
+            <div class="logo">
+                <div class="circ">
+                    <span>O</span><span>A</span>
+                </div>
+                <h1>OpenAudioMc Commands</h1>
+            </div>
+            <div class="error-note">
+                <p><span>Note :</span> These commands are for OpenAudioMc version<span> 4.0</span> and up.</p>
+            </div>
+            <div class="documentation-wrapper clear">
+                <aside id="sidebar">
+                    <nav>
+                        <ul>
+                            <li><a href="#play">/openaudio play</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+                <div class="documentation-content">
+                    <h2>/openaudio play</h2>
+                    <div class="documentation-section">
+                        <p>This command is used to play music for a player and even suports audio atributes in the form of a json object,</p>
+                        <br>
+                        <div class="documentation-section">
+                            <h3>Command format</h3>
+                            <div class="code-block">
+                                <code>
+                                    <pre>/openaudio play (player) (source/url) [optional: arguments]</pre>
+                                </code>
+                            </div>
+                        </div>
+                        <div class="documentation-section">
+                            <h3>Command format</h3>
+                            <div class="code-block">
+<code>
+<pre>
+{
+    "start": 5000, <span class="inline-comment">((int) starting point in miliseconds, in this case 5 sec)</span>
+    "volume": 100,  <span class="inline-comment">((int) start sound with full volume! (in %))</span>
+    "loop": true, <span class="inline-comment">((boolean) loop the sound)</span>
+    "id": "mycoolsound1" <span class="inline-comment">((String) id of the sound, can be used to individually adress a sound)</span>
+}
+</pre>
+</code>
+                            </div>
+                        </div>
+                        <div class="documentation-section">
+                            <h3>Example command</h3>
+                            <div class="code-block">
+                                <code>
+                                    <pre>/openaudio play Mindgamesnl https://craftmend.com/a.mp3 {"loop":true}</pre>
+                                </code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
