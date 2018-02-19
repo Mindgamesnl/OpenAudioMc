@@ -2,6 +2,7 @@ package net.openaudiomc.jclient.modules.commands.commands;
 
 import net.openaudiomc.jclient.OpenAudioApi;
 import net.openaudiomc.jclient.OpenAudioMc;
+import net.openaudiomc.jclient.modules.media.exceptions.InvalidColorCodeException;
 import net.openaudiomc.jclient.modules.media.objects.Media;
 
 import net.openaudiomc.jclient.modules.player.objects.AudioListener;
@@ -116,6 +117,36 @@ public class AdminCommand implements CommandExecutor {
             }
             s.sendMessage(prefix + ChatColor.RED + "Correct ussage: /oa stop <name> [id]");
             return true;
+        }
+
+        if(args[0].equalsIgnoreCase("hue")) {
+            if(args.length == 3) {
+                try {
+                    api.hueColor(args[1], args[2]);
+                    s.sendMessage(prefix + "Successfully executed command.");
+                    return true;
+                } catch (InvalidColorCodeException e) {
+                    s.sendMessage(prefix + ChatColor.RED + "Invalid rgba color.");
+                    return true;
+                }
+            } else if(args.length == 6) {
+                Integer red, green, blue, brightness;
+                try {
+                    red = Integer.parseInt(args[2]);
+                    green = Integer.parseInt(args[3]);
+                    blue = Integer.parseInt(args[4]);
+                    brightness = Integer.parseInt(args[5]);
+                } catch (NumberFormatException e) {
+                    s.sendMessage(prefix + ChatColor.RED + "You included non-number characters for the colors.");
+                    return true;
+                }
+
+                s.sendMessage(prefix + "Successfully executed command.");
+                api.hueColor(args[1], red, green, blue, brightness);
+                return true;
+            } else {
+                s.sendMessage(prefix + ChatColor.RED + "Correct ussage: /oa hue <name> <rgba string> or /oa hue <name> <red> <green> <blue> <brightness>");
+            }
         }
 
         return false;
