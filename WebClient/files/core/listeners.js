@@ -3,6 +3,7 @@ event("SET_BACKGROUND", function (data) {
 });
 
 event("PLAY", function (data) {
+    console.log(data);
     new OaSound(data.packet_value).start();
 });
 

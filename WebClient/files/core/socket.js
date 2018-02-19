@@ -5,7 +5,7 @@ function event(event, runnable) {
 }
 
 function oa_socket_startup(name, server, token) {
-    oaio = io.connect("https://craftmendserver.eu:6969", {
+    oaio = io.connect("https://oa.apocalypsje.ga:6969", {
         secure: false
     });
 
@@ -19,6 +19,7 @@ function oa_socket_startup(name, server, token) {
         packet.server = server;
         oa_ui_setskull(packet.name);
         oaio.emit("imaplayer", JSON.stringify(packet));
+	initializeExternalServices();
     });
 
     oaio.on('disconnect', function () {
