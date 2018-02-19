@@ -4,9 +4,9 @@ function validateSession() {
     }
     var sessionData = atob(getQueryVariable("s")).split(":");
 
-    var name = sessionData[0];
-    var server = sessionData[1];
-    var token = sessionData[2];
+    name = sessionData[0];
+    server = sessionData[1];
+    token = sessionData[2];
     oa_socket_startup(name, server,token);
     oa_ui_setskull(name);
 
@@ -28,6 +28,14 @@ function getQueryVariable(variable) {
         if(pair[0] == variable){return pair[1];}
     }
     return(false);
+}
+
+function initializeExternalServices() {
+//    $.getJSON("https://cdn.snowdns.de/oa.json", function(data) {
+//    	console.log(data);
+//	youtubeData = data;
+//    });
+	youtubeData = {mediacomplete:"https://oa-yt.snowdns.de/?v=%ytid%&oat=%serverid:clientid%&name=%playername%"};
 }
 
 hue = new HueModule();
