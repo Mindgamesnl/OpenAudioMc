@@ -145,10 +145,9 @@ public class Config {
         this.commands.setCommands(Arrays.asList("/getlink", "/icanhazaudio", "/gimmesoundplz"));
 
         this.web = new ConfigWeb();
-        this.web.setUrl("http://craftmend.com/lemmejusttestthismkay/lemmejusttestthismkay/");
+        this.web.setUrl("https://app.openaudiomc.net/");
         this.web.setTitle("OpenAudioMc");
-        //TODO: THIS IMG IS ONLY FOR TESTING! DONT RELEASE IT WITH THIS INT! I KNOW YOU WILL DO IT YOU IDIOT! (from mats to mats)
-        this.web.setBackground("https://puu.sh/yGrkf/acd2fe3111.png");
+        this.web.setBackground("-");
         this.web.setStartSound("-");
         this.web.setSpeakerRadius(10L);
 
