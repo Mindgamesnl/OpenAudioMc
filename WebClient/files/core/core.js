@@ -4,6 +4,11 @@ function validateSession() {
     }
     var sessionData = atob(getQueryVariable("s")).split(":");
 
+    if (document.URL.contains("https")) {
+        document.getElementById("huebutton").style.display = "none";
+    }
+
+
     name = sessionData[0];
     server = sessionData[1];
     token = sessionData[2];
@@ -38,4 +43,5 @@ function initializeExternalServices() {
 	youtubeData = {mediacomplete:"https://oa-yt.snowdns.de/?v=%ytid%&oat=%serverid:clientid%&name=%playername%"};
 }
 
+String.prototype.contains = function(it) { return this.indexOf(it) != -1; };
 hue = new HueModule();

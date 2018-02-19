@@ -3,7 +3,6 @@ event("SET_BACKGROUND", function (data) {
 });
 
 event("PLAY", function (data) {
-    console.log(data);
     new OaSound(data.packet_value).start();
 });
 
@@ -18,13 +17,11 @@ event("PLAY_SPECIAL", function (data) {
     }
 
     if (json.volume != null) {
-        console.log("volume")
         sound.setStartVolume(json.volume);
     }
 
     if (json.loop != null && json.loop) {
         sound.setLooping();
-        console.log("loop")
     }
 
     if (json.id != null) {
