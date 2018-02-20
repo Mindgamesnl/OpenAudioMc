@@ -11,7 +11,7 @@ public class ApiEndpoints {
     private String snowEndpoint = "";
 
     public ApiEndpoints() {
-        snowEndpoint = new Gson().fromJson(new UrlFetcher().run("https://cdn.snowdns.de/oa.json"), SnowYt.class).getMediacomplete();
+        snowEndpoint = new Gson().fromJson(new UrlFetcher().run("https://cdn.snowdns.de/oa.json"), SnowYt.class).getFullEndpoint();
     }
 
     public String youtubeEndpoint(String url, String name) {
