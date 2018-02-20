@@ -16,17 +16,17 @@
     <link rel="image" href="files/images/small_logo.png"/>
     <!-- CORE -->
     <script src="files/js/jquery.js"></script>
-    <script src="files/core/main.js"></script>
+    <script src="files/js/main.js"></script>
 
 </head>
 <body id="body">
-<!-- Place this tag in your head or just before your close body tag. -->
 <div class="wrapper">
     <div class="logo">
         <div class="circ">
         </div>
     </div>
     <div style="text-align: center;"><h1>OpenAudioMc Commands & Api-Documentation</h1></div>
+    <hr />
     <div class="error-note">
         <p><span>Note :</span> These commands are for OpenAudioMc version<span> 4.0</span> and up.</p>
     </div>
@@ -34,13 +34,11 @@
         <aside id="sidebar">
             <nav>
                 <ul>
-                    <li><b style="text-align: center;">Commands:</b></li>
                     <li><a href="#play">Play</a></li>
                     <li><a href="#stop">Stop</a></li>
-                    <li><a href="#region">WolrGuard Regions</a></li>
+                    <li><a href="#region">WorldGuard Regions</a></li>
                     <li><a href="#speaker">Speakers</a></li>
                     <li><a href="#hue">Philips-Hue</a></li>
-                    <li><b style="text-align: center;">Java API:</b></li>
                     <li><a href="#OpenAudioApi">OpenAudioApi</a></li>
                     <li><a href="#protocol">Protocol</a></li>
                 </ul>
@@ -56,7 +54,7 @@
                     <h3>Command format</h3>
                     <div class="code-block">
                         <code>
-                            <pre>/openaudio play (player) (source/url) [optional: arguments]</pre>
+                            <pre>/openaudio play (player) (source/url) <i>[optional: arguments]</i></pre>
                         </code>
                     </div>
                 </div>
@@ -96,7 +94,7 @@
                     <h3>Command format</h3>
                     <div class="code-block">
                         <code>
-                            <pre>/openaudio stop (player) [optional: id]</pre>
+                            <pre>/openaudio stop (player) <i>[optional: id]</i></pre>
                         </code>
                     </div>
                 </div>
@@ -133,7 +131,7 @@
                     <h3>Command format</h3>
                     <div class="code-block">
                         <code>
-                            <pre>/openaudio region (create/delete) (worldguard region id) [url/source]</pre>
+                            <pre>/openaudio region (create/delete) (worldguard region id) <i>[url/source]</i></pre>
                         </code>
                     </div>
                 </div>
@@ -247,15 +245,15 @@
                     <div class="code-block">
                         <code>
 <pre>
-<span class="inline-comment">//Create the api</span>
+<span class="inline-comment">//Create a instance, this is thread safe!</span>
 OpenAudioApi openAudioApi = new OpenAudioApi();
 
 <span class="inline-comment">//Create a media source</span>
 Media mySound = new Media("https://craftmend.com/a.mp3");
 <span class="inline-comment">//Give the sound a id + attributes</span>
-mySound.setId("mycoolsound");
-mySound.setLooping();
-mySound.setVolume(50);
+mySound.setId("mycoolsound"); <span class="inline-comment">//set the id</span>
+mySound.setLooping(); <span class="inline-comment">//set the sound to loop</span>
+mySound.setVolume(50); <span class="inline-comment">//start off at volume 50</span>
 
 <span class="inline-comment">//Play the media for a player</span>
 openAudioApi.play(mySound, "Mindgamesnl");
@@ -269,8 +267,8 @@ openAudioApi.stopId("Mindgamesnl", "mycoolsound");
 openAudioApi.setVolume(Bukkit.getPlayer("Mindgamesnl"), 100);
 
 <span class="inline-comment">//Set a philips-hue color via the 2 rgba values</span>
-openAudioApi.hueColor("Mindgamesnl", "rgba(0,0,255,255)");
-openAudioApi.hueColor("Mindgamesnl", 0,0,255,255);
+openAudioApi.hueColor("Mindgamesnl", "rgba(0,0,255,255)"); <span class="inline-comment">//RGBA as string</span>
+openAudioApi.hueColor("Mindgamesnl", 0,0,255,255); <span class="inline-comment">//RGBA as parts</span>
 </pre>
                         </code>
                     </div>

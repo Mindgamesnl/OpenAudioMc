@@ -5,7 +5,7 @@ var App = function() {
 
     function dragSidebar() {
         $(document).on('scroll', function() {
-            if($(this).scrollTop() > 800) {
+            if($(this).scrollTop() > 400) {
                 $('#sidebar').addClass('drag-sidebar');
             } else {
                 $('#sidebar').removeClass('drag-sidebar');
