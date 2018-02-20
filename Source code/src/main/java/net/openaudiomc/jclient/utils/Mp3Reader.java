@@ -36,10 +36,13 @@ public class Mp3Reader {
                 file.delete();
             } catch (IOException e) {
                 cf.complete(null);
+                e.printStackTrace();
             } catch (InvalidDataException e) {
                 cf.complete(null);
+                e.printStackTrace();
             } catch (UnsupportedTagException e) {
                 cf.complete(null);
+                e.printStackTrace();
             }
         });
 

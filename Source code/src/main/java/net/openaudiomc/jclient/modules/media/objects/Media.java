@@ -106,6 +106,8 @@ public class Media {
     }
 
     public OaPacket getHandle(AudioListener listener) {
+        this.source = OpenAudioMc.getInstance().getApiEndpoints().youtubeEndpoint(source, listener.getPlayer().getName());
+
         OaPacket p = new OaPacket();
         p.setPlayer(listener);
 
