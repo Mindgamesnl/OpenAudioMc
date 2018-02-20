@@ -266,6 +266,14 @@ openAudioApi.stopId("Mindgamesnl", "mycoolsound");
 <span class="inline-comment">//Change the master volume to 100%</span>
 openAudioApi.setVolume(Bukkit.getPlayer("Mindgamesnl"), 100);
 
+<span class="inline-comment">//Check if a player is connected</span>
+if (openAudioApi.isConnected(Bukkit.getPlayer("Mindgamesnl")) {
+    //yes! Mindgamesnl is connected with the web client!
+}
+
+<span class="inline-comment">//Get the main plugin instance of advanced use</span>
+OpenAudioMc openAudioMc = openAudioApi.getMain();
+
 <span class="inline-comment">//Set a philips-hue color via the 2 rgba values</span>
 openAudioApi.hueColor("Mindgamesnl", "rgba(0,0,255,255)"); <span class="inline-comment">//RGBA as string</span>
 openAudioApi.hueColor("Mindgamesnl", 0,0,255,255); <span class="inline-comment">//RGBA as parts</span>
