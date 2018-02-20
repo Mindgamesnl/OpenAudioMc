@@ -17,9 +17,7 @@ import net.openaudiomc.jclient.utils.config.ConfigStorageSpeakerMedia;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class MediaModule {
 
@@ -64,13 +62,15 @@ public class MediaModule {
     }
 
     public void destroySpeaker(Location loc) {
+        List<Location> removeme = new ArrayList<>();
         for(ConfigStorageSpeakerLocation speakerLocation : OpenAudioMc.getInstance().getConf().getStorage().getSpeakerLocations()) {
             Location location = new Location(Bukkit.getWorld(speakerLocation.getWorld()), speakerLocation.getX(), speakerLocation.getY(), speakerLocation.getZ());
             if(location.equals(loc)) {
                 OpenAudioMc.getInstance().getConf().getStorage().deleteSpeakerLocation(speakerLocation);
-                speakers.remove(location);
+                removeme.add(location);
             }
         }
+        removeme.forEach(location -> speakers.remove(location));
     }
 
     public void placeSpeaker(Location loc, String sound) {

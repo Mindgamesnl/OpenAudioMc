@@ -155,7 +155,8 @@ public class AdminCommand implements CommandExecutor {
     }
 
     private void help(CommandSender s) {
-        s.sendMessage("help is comming soon");
+        s.sendMessage(ChatColor.RED + "A list of all commands can be found here: https://help.openaudiomc.net/");
+        s.sendMessage(ChatColor.RED + "If you still have problems then join our discord and we will help (discord invite can be found on the spigot page)");
     }
 
     private Boolean allowed(CommandSender s, String c) {
