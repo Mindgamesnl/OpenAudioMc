@@ -31,6 +31,13 @@ public class AudioRegion {
             try {
                 new Mp3Reader(this.url).run()
                         .thenAccept(i -> {
+                            if (i == null) {
+                                OpenAudioMc.getInstance().getLogger().fine("Failed to load mp3 length!");
+                                this.length = 0L;
+                                media.setLength(0L);
+                                return;
+                            }
+
                             length = i;
                             media.setLength(i);
                         })

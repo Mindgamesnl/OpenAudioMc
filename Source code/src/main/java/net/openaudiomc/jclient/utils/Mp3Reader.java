@@ -3,6 +3,8 @@ package net.openaudiomc.jclient.utils;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
 import com.mpatric.mp3agic.UnsupportedTagException;
+import net.openaudiomc.jclient.OpenAudioMc;
+import org.bukkit.Bukkit;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -24,20 +26,22 @@ public class Mp3Reader {
     public CompletableFuture<Long> run() throws OpenaudioFailedMp3ParseException {
         CompletableFuture<Long> cf = new CompletableFuture<>();
 
-        try {
-            String result = downloadFromUrl(new URL(this.url), "CACHE_" + UUID.randomUUID().toString() + ".mp3");
-            File file = new File(result);
-            Mp3File mp3file = new Mp3File(result);
-            cf.complete(mp3file.getLengthInSeconds());
-            Boolean fileExists = file.exists();
-            file.delete();
-        } catch (IOException e) {
-            throw new OpenaudioFailedMp3ParseException("Could not read mp3 file, are the folder permissions setup correctly? ("+e.getMessage()+")");
-        } catch (InvalidDataException e) {
-            throw new OpenaudioFailedMp3ParseException("Invalid date while loading mp3 file");
-        } catch (UnsupportedTagException e) {
-            throw new OpenaudioFailedMp3ParseException("Invalid mp3 tag while loading mp3 file");
-        }
+        Bukkit.getScheduler().runTaskAsynchronously(OpenAudioMc.getInstance(), () -> {
+            try {
+                String result = downloadFromUrl(new URL(this.url), "CACHE_" + UUID.randomUUID().toString() + ".mp3");
+                File file = new File(result);
+                Mp3File mp3file = new Mp3File(result);
+                cf.complete(mp3file.getLengthInSeconds());
+                Boolean fileExists = file.exists();
+                file.delete();
+            } catch (IOException e) {
+                cf.complete(null);
+            } catch (InvalidDataException e) {
+                cf.complete(null);
+            } catch (UnsupportedTagException e) {
+                cf.complete(null);
+            }
+        });
 
         return cf;
     }
