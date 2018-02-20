@@ -39,7 +39,8 @@
                     <li><a href="#region">WorldGuard Regions</a></li>
                     <li><a href="#speaker">Speakers</a></li>
                     <li><a href="#hue">Philips-Hue</a></li>
-                    <li><a href="#OpenAudioApi">OpenAudioApi</a></li>
+                    <li><a href="#OpenAudioApi">OpenAudioApi (server)</a></li>
+                    <li><a href="#jsapi">OpenAudioApi (client)</a></li>
                     <li><a href="#protocol">Protocol</a></li>
                 </ul>
             </nav>
@@ -234,13 +235,14 @@
 
             <hr />
 
-            <h2 id="OpenAudioApi">OpenAudioApi</h2>
+            <h2 id="OpenAudioApi">OpenAudioApi (java/server end)</h2>
             <div class="documentation-section">
                 <div class="error-note">
                     <p><span>Note :</span> In order to use the OpenAudioApi you need to add the OpenAudioMc.jar as a lib.</p>
                 </div>
                 <p>The OpenAudioMc api can be used to create your own plugins or addon that directly interact with the openaudiomc api.</p>
-                <br>
+                <p>Here follows a list of api commands + ussage and example code</p>
+
                 <div class="documentation-section">
                     <div class="code-block">
                         <code>
@@ -282,7 +284,55 @@ openAudioApi.hueColor("Mindgamesnl", 0,0,255,255); <span class="inline-comment">
                     </div>
                 </div>
 
+                <p>Due to timings and our network in between your minecraft server and the web client, this introduces some delay.</p>
+                <p>This delay usally sticks around 2 ticks.</p>
+                <p>There are lots and lots of other options (custom packets via the packet builder, packet types and network listeners), they can be found on the github page but as of yet there is no documentation (it is a LOT so it requires some time to work out)</p>
+
                 <hr>
+
+
+                <h2 id="jsapi">OpenAudioApi (Javascript/client end)</h2>
+                <div class="documentation-section">
+                    <div class="error-note">
+                        <p><span>Note :</span> Custom js files <span>MUST</span> be added by hand in custom-hosted clients, as of yet, we dont support real time streaming of js files but this is coming.</p>
+                    </div>
+                    <p>The OpenAudioMcApi (client sided) can be used to add custom functionality/networking to your web client</p>
+                    <p>The api takes a few MS to load and enable so please register your api calls after the page has loaded.</p>
+
+                    <div class="documentation-section">
+                        <div class="code-block">
+                            <code>
+<pre>
+<span class="inline-comment">//Register a packet listener</span>
+event("PACKET KEY", function (data) {
+    <span class="inline-comment">//packet received!</span>
+});
+</pre>
+                            </code>
+                        </div>
+                    </div>
+
+                    <p>The "data" variable is a instance (object) of the OpenAudioMc packet, documentation of the keys can be found in the <a href="#protocol">protocol <documentation></documentation></a> </p>
+                    <br>
+                    <p>Some example code as used in the web client</p>
+
+                    <div class="documentation-section">
+                        <div class="code-block">
+                            <code>
+<pre>
+<span class="inline-comment">//Register a packet listener</span>
+event("PLAY", function (data) {
+    new OaSound(data.packet_value).start();
+});
+</pre>
+                            </code>
+                        </div>
+                    </div>
+
+                    <p>There is much more to discover, but you can read that for your self on our <a href="https://github.com/Mindgamesnl/OpenAudioMc/tree/master/WebClient/files/core">github page</a></p>
+
+                    <hr>
+
 
                 <h2 id="protocol">Protocol</h2>
                 <div class="documentation-section">
