@@ -135,7 +135,8 @@ public class OpenAudioApi {
     }
 
     public Boolean isConnected(Player player) {
-        return (getMain().getPlayerModule().getListeners().get(player.getName()) != null);
+        if (getMain().getPlayerModule().getListeners().get(player.getName()) != null) return getMain().getPlayerModule().getListeners().get(player.getName()).getIsConnected();
+        return true;
     }
 
     public void hueColor(AudioListener l, int red, int blue, int green, int brightness) {
