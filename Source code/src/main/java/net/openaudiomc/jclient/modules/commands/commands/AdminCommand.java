@@ -32,7 +32,7 @@ public class AdminCommand implements CommandExecutor {
             s.sendMessage("Version: " + OpenAudioMc.getInstance().getDescription().getVersion());
         }
 
-        if(args[0].equalsIgnoreCase("reload")) {
+        if(args[0].equalsIgnoreCase("reload") && allowed(s, "reload")) {
             OpenAudioMc.getInstance().getConf().load();
             return true;
         }
