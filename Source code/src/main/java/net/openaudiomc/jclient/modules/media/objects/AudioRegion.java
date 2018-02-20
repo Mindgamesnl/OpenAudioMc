@@ -28,6 +28,7 @@ public class AudioRegion {
             this.media = new Media(this.url);
             this.media.setSyncronized(length);
             this.media.setId("region_"+id);
+            this.media.setLooping();
         } else {
             ConfigStorageMedia mediaConfig = new ConfigStorageMedia();
             mediaConfig.setName(this.urlKey);

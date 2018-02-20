@@ -56,7 +56,7 @@ public class Media {
             if (timestamp != maxTime) {
                 timestamp++;
             } else {
-                timestamp = 0L;
+                timestamp = 1L;
             }
         }, 20, 20);
         return this;

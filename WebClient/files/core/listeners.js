@@ -35,6 +35,10 @@ event("SETVOLUME", function(data) {
     oa_volume_set(data.packet_value);
 });
 
+event("SET_TITLE", function(data) {
+    document.getElementById("footer_title").innerHTML = data.packet_value;
+});
+
 event("SETUUID", function (data) {
     oa_ui_setskull("Connected", data.packet_value);
 });
