@@ -16,6 +16,8 @@ body {
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
 }
 
 .text, .player__title, .oam_volume_display, .tracks__title, .tracks__artist {
