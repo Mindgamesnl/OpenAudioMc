@@ -16,7 +16,7 @@ public class ConfigStorageMedia {
     public List<String> serialize() {
         List<String> list = new ArrayList<>();
         list.add("    " + name + ":");
-        list.add("      length: '" + length + "'");
+        list.add("      length: " + length);
         return list;
     }
 }

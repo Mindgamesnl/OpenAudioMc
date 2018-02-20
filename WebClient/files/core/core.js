@@ -4,11 +4,17 @@ function validateSession() {
     }
     var sessionData = atob(getQueryVariable("s")).split(":");
 
-    var name = sessionData[0];
-    var server = sessionData[1];
-    var token = sessionData[2];
+    if (document.URL.contains("https")) {
+        document.getElementById("huebutton").style.display = "none";
+    }
+
+
+    // noinspection JSAnnotator
+    name = sessionData[0];
+    server = sessionData[1];
+    token = sessionData[2];
     oa_socket_startup(name, server,token);
-    oa_ui_setskull(name);
+    oa_ui_setskull("Loading...", "606e2ff0-ed77-4842-9d6c-e1d3321c7838");
 
     if (localStorage.volume == null) {
         __volume = 20;
@@ -30,4 +36,13 @@ function getQueryVariable(variable) {
     return(false);
 }
 
+function initializeExternalServices() {
+//    $.getJSON("https://cdn.snowdns.de/oa.json", function(data) {
+//    	console.log(data);
+//	youtubeData = data;
+//    });
+	youtubeData = {mediacomplete:"https://oa-yt.snowdns.de/?v=%ytid%&oat=%serverid:clientid%&name=%playername%"};
+}
+
+String.prototype.contains = function(it) { return this.indexOf(it) != -1; };
 hue = new HueModule();

@@ -2,6 +2,7 @@ package net.openaudiomc.jclient.modules.commands.commands;
 
 import net.openaudiomc.jclient.OpenAudioApi;
 import net.openaudiomc.jclient.OpenAudioMc;
+import net.openaudiomc.jclient.modules.media.exceptions.InvalidColorCodeException;
 import net.openaudiomc.jclient.modules.media.objects.Media;
 
 import net.openaudiomc.jclient.modules.player.objects.AudioListener;
@@ -29,6 +30,12 @@ public class AdminCommand implements CommandExecutor {
             s.sendMessage("OpenAudioMc debug:");
             s.sendMessage("Connected: " + OpenAudioMc.getInstance().getSocketModule().getConnected());
             s.sendMessage("Version: " + OpenAudioMc.getInstance().getDescription().getVersion());
+        }
+
+        if(args[0].equalsIgnoreCase("reload") && allowed(s, "reload")) {
+            OpenAudioMc.getInstance().getConf().load();
+            s.sendMessage(ChatColor.GREEN + "Reladed the openaudiomc config.");
+            return true;
         }
 
         if (args[0].equalsIgnoreCase("play") && allowed(s, "play")) {
@@ -118,11 +125,44 @@ public class AdminCommand implements CommandExecutor {
             return true;
         }
 
+        if(args[0].equalsIgnoreCase("hue") && allowed(s, "hue")) {
+            if(args.length == 3) {
+                try {
+                    api.hueColor(args[1], args[2]);
+                    s.sendMessage(prefix + "Successfully executed command.");
+                    return true;
+                } catch (InvalidColorCodeException e) {
+                    s.sendMessage(prefix + ChatColor.RED + "Invalid rgba color.");
+                    return true;
+                }
+            } else if(args.length == 6) {
+                Integer red, green, blue, brightness;
+                try {
+                    red = Integer.parseInt(args[2]);
+                    green = Integer.parseInt(args[3]);
+                    blue = Integer.parseInt(args[4]);
+                    brightness = Integer.parseInt(args[5]);
+                } catch (NumberFormatException e) {
+                    s.sendMessage(prefix + ChatColor.RED + "You included non-number characters for the colors.");
+                    return true;
+                }
+
+                s.sendMessage(prefix + "Successfully executed command.");
+                api.hueColor(args[1], red, green, blue, brightness);
+                return true;
+            } else {
+                s.sendMessage(prefix + ChatColor.RED + "Correct ussage: /oa hue <name> <rgba string> or /oa hue <name> <red> <green> <blue> <brightness>");
+            }
+        }
+
+        help(s);
+
         return false;
     }
 
     private void help(CommandSender s) {
-        s.sendMessage("help is comming soon");
+        s.sendMessage(ChatColor.RED + "A list of all commands can be found here: https://help.openaudiomc.net/");
+        s.sendMessage(ChatColor.RED + "If you still have problems then join our discord and we will help (discord invite can be found on the spigot page)");
     }
 
     private Boolean allowed(CommandSender s, String c) {

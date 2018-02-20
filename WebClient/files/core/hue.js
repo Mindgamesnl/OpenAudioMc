@@ -24,8 +24,8 @@ function HueModule(scope) {
                     var colorString = args,
                         colorsOnly = colorString.substring(colorString.indexOf('(') + 1, colorString.lastIndexOf(')')).split(/,\s*/);
                     red = parseInt(colorsOnly[0]);
-                    green = parseInt(colorsOnly[1]);
-                    blue = parseInt(colorsOnly[2]);
+                    blue = parseInt(colorsOnly[1]);
+                    green = parseInt(colorsOnly[2]);
                     opacity = parseInt(colorsOnly[3]);
                     for (var key in MyHue.Lights) {
                         if (MyHue.Lights.hasOwnProperty(key)) {

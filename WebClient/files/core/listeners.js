@@ -17,13 +17,11 @@ event("PLAY_SPECIAL", function (data) {
     }
 
     if (json.volume != null) {
-        console.log("volume")
         sound.setStartVolume(json.volume);
     }
 
     if (json.loop != null && json.loop) {
         sound.setLooping();
-        console.log("loop")
     }
 
     if (json.id != null) {
@@ -35,6 +33,18 @@ event("PLAY_SPECIAL", function (data) {
 
 event("SETVOLUME", function(data) {
     oa_volume_set(data.packet_value);
+});
+
+event("SET_TITLE", function(data) {
+    document.getElementById("footer_title").innerHTML = data.packet_value;
+});
+
+event("SETUUID", function (data) {
+    oa_ui_setskull("Connected", data.packet_value);
+});
+
+event("HUE", function (data) {
+    hue.setRgb(data.packet_value, null)
 });
 
 event("SET_SPEAKER_VOLUME", function (data) {

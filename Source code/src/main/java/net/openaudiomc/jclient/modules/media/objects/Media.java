@@ -19,7 +19,7 @@ public class Media {
     private Long maxTime = 0L;
     
     public Media(String source) {
-        this.source = new FlatMedia(source).getUrl();
+        this.source = source;
     }
 
     public Media setId(String id) {
@@ -56,7 +56,7 @@ public class Media {
             if (timestamp != maxTime) {
                 timestamp++;
             } else {
-                timestamp = 0L;
+                timestamp = 1L;
             }
         }, 20, 20);
         return this;
@@ -106,6 +106,8 @@ public class Media {
     }
 
     public OaPacket getHandle(AudioListener listener) {
+        this.source = OpenAudioMc.getInstance().getApiEndpoints().youtubeEndpoint(source, listener.getPlayer().getName());
+
         OaPacket p = new OaPacket();
         p.setPlayer(listener);
 

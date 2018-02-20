@@ -47,7 +47,7 @@ public final class OpenAudioMc extends JavaPlugin {
     @Override
     public void onDisable() {
         socketModule.closeConnection();
-        conf.save();
+        //conf.save();
         // Plugin shutdown logic
     }
 }

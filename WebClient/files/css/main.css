@@ -1,5 +1,7 @@
+
 * {
   outline: none !important;
+  font-family: Raleway;
 }
 
 html,
@@ -16,6 +18,7 @@ body {
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
+  font-weight: 300;
 }
 
 .text, .player__title, .oam_volume_display, .tracks__title, .tracks__artist {
@@ -39,7 +42,6 @@ body {
 .player {
   width: 300px;
   background: #1a1a1d;
-  font-family: 'Roboto';
   color: #fff;
   text-align: center;
 
@@ -88,7 +90,7 @@ body {
           rgba(30, 30, 33, 0.25),
           rgba(118, 60, 240, 0.25),
           rgba(92, 89, 229, 0.45)),
-  url("https://crafatar.com/avatars/notch");
+  url("https://crafatar.com/avatars/606e2ff0-ed77-4842-9d6c-e1d3321c7838");
   background-size: cover;
 }
 
@@ -140,7 +142,7 @@ body {
 }
 
 .player__info {
-  padding: 20px 25px;
+  padding: 10px 25px;
 }
 
 .player__title {
@@ -252,7 +254,6 @@ footer {
   color: #fff;
   text-align: center;
   font-size: 16px;
-  font-family: 'Roboto';
   text-overflow: ellipsis;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;

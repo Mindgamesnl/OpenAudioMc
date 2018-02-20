@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Title -->
+    <title>OpenAudioMC</title>
+    <!-- CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="files/css/main.css" rel="stylesheet"/>
+    <!-- META -->
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <!-- ICON -->
+    <link rel="icon" href="files/images/small_logo.png"/>
+    <link rel="image" href="files/images/small_logo.png"/>
+    <!-- CORE -->
+    <script src="files/js/jquery.js"></script>
+    <script src="files/js/main.js"></script>
+
+</head>
+<body id="body">
+<div class="wrapper">
+    <div class="logo">
+        <div class="circ">
+        </div>
+    </div>
+    <div style="text-align: center;"><h1>OpenAudioMc Commands & Api-Documentation</h1></div>
+    <hr/>
+    <div class="error-note">
+        <p><span>Note :</span> These commands are for OpenAudioMc version<span> 4.0</span> and up.</p>
+    </div>
+    <div class="documentation-wrapper clear">
+        <aside id="sidebar">
+            <nav>
+                <ul>
+                    <li><a href="#play">Play</a></li>
+                    <li><a href="#stop">Stop</a></li>
+                    <li><a href="#region">WorldGuard Regions</a></li>
+                    <li><a href="#speaker">Speakers</a></li>
+                    <li><a href="#hue">Philips-Hue</a></li>
+                    <li><a href="#reload">Reload</a></li>
+                    <li><a href="#OpenAudioApi">OpenAudioApi (server)</a></li>
+                    <li><a href="#jsapi">OpenAudioApi (client)</a></li>
+                    <li><a href="#protocol">Protocol</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <div class="documentation-content">
+            <h2 id="play">/openaudio play</h2>
+            <div class="documentation-section">
+                <p>This command is used to play music for a player and even suports audio atributes in the form of a
+                    json object,</p>
+                <br>
+                <div class="documentation-section">
+                    <h3>Command format</h3>
+                    <div class="code-block">
+                        <code>
+                            <pre>/openaudio play (player) (source/url) <i>[optional: arguments]</i></pre>
+                        </code>
+                    </div>
+                </div>
+                <div class="documentation-section">
+                    <p>Arguments format</p>
+                    <div class="code-block">
+                        <code>
+<pre>
+{
+    "start": 5000, <span class="inline-comment">((int) starting point in miliseconds, in this case 5 sec)</span>
+    "volume": 100,  <span class="inline-comment">((int) start sound with full volume! (in %))</span>
+    "loop": true, <span class="inline-comment">((boolean) loop the sound)</span>
+    "id": "mycoolsound1" <span class="inline-comment">((String) id of the sound, can be used to individually adress a sound)</span>
+}
+</pre>
+                        </code>
+                    </div>
+                </div>
+                <div class="documentation-section">
+                    <p>Example command</p>
+                    <div class="code-block">
+                        <code>
+                            <pre>/openaudio play Mindgamesnl https://craftmend.com/a.mp3 {"loop":true}</pre>
+                        </code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="documentation-section">
+                <h3>Permissions</h3>
+                <div class="code-block">
+                    <code>
+<pre>
+oa.*
+admin.*
+oa.admin.play
+</pre>
+                    </code>
+                </div>
+            </div>
+
+            <hr>
+
+            <h2 id="stop">/openaudio stop</h2>
+            <div class="documentation-section">
+                <p>Stopping a sound is just as easy as starting one, there are two options and both follow the same
+                    format</p>
+                <br>
+                <div class="documentation-section">
+                    <h3>Command format</h3>
+                    <div class="code-block">
+                        <code>
+                            <pre>/openaudio stop (player) <i>[optional: id]</i></pre>
+                        </code>
+                    </div>
+                </div>
+                <p>You can use a ID to stop one specific sound (id's can be set in the play command with the json
+                    arguments)</p>
+                <div class="documentation-section">
+                    <div class="code-block">
+                        <code>
+                            <pre>/openaudio stop Mindgamesnl mycoolsound1</pre>
+                        </code>
+                    </div>
+                </div>
+                <p>You may also leave the id empty to stop all sounds</p>
+                <div class="documentation-section">
+                    <div class="code-block">
+                        <code>
+                            <pre>/openaudio stop Mindgamesnl</pre>
+                        </code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="documentation-section">
+                <h3>Permissions</h3>
+                <div class="code-block">
+                    <code>
+<pre>
+oa.*
+admin.*
+oa.admin.stop
+</pre>
+                    </code>
+                </div>
+            </div>
+
+            <hr>
+
+            <h2 id="region">/openaudio region</h2>
+            <div class="documentation-section">
+                <div class="error-note">
+                    <p><span>Note :</span> These functions require<span> WorldGuard</span> to be installed.</p>
+                </div>
+                <p>OpenAudioMc has support to add realistic music to regions, this music starts when a player enters a
+                    region and stops when the player exists</p>
+                <br>
+                <div class="documentation-section">
+                    <h3>Command format</h3>
+                    <div class="code-block">
+                        <code>
+                            <pre>/openaudio region (create/delete) (worldguard region id) <i>[url/source]</i></pre>
+                        </code>
+                    </div>
+                </div>
+                <p>For this example, we will be adding music to a worldguard region called "station"</p>
+                <div class="documentation-section">
+                    <div class="error-note">
+                        <p><span>Note :</span> When using a source/url for the first time in this command, it may take
+                            up to one minute before it is active. when it's used again later it will be instant.</p>
+                    </div>
+                    <div class="code-block">
+                        <code>
+                            <pre>/openaudio region create station https://craftmend.com/a.mp3</pre>
+                        </code>
+                    </div>
+                </div>
+                <p>and removing sound from a region goes as follows (still using the station example)</p>
+                <div class="documentation-section">
+                    <div class="code-block">
+                        <code>
+                            <pre>/openaudio region delete station</pre>
+                        </code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="documentation-section">
+                <h3>Permissions</h3>
+                <div class="code-block">
+                    <code>
+<pre>
+oa.*
+admin.*
+oa.admin.region
+</pre>
+                    </code>
+                </div>
+            </div>
+
+
+            <hr>
+
+            <h2 id="speaker">/openaudio speaker</h2>
+            <div class="documentation-section">
+                <p>OpenAudioMc has support to add "speakers" to your world, these speakers will play a sound for a
+                    player when nearby. The volume will change depending on the distance between the player and the
+                    nearest speaker.</p>
+                <br>
+                <div class="documentation-section">
+                    <h3>Command format</h3>
+                    <div class="code-block">
+                        <code>
+                            <pre>/openaudio speaker create (url/source)</pre>
+                        </code>
+                    </div>
+                </div>
+                <p>For this example we will be creating a speaker with a simple mp3 file, you will receive the speaker
+                    in your inventory and can place it when you want. If you want to remove said speaker you can just
+                    break the block.</p>
+                <div class="documentation-section">
+                    <div class="error-note">
+                        <p><span>Note :</span> When using a source/url for the first time in this command, it may take
+                            up to one minute before it is active. when it's used again later it will be instant.</p>
+                    </div>
+                    <div class="code-block">
+                        <code>
+                            <pre>/openaudio speaker create https://craftmend.com/a.mp3</pre>
+                        </code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="documentation-section">
+                <h3>Permissions</h3>
+                <div class="code-block">
+                    <code>
+<pre>
+oa.*
+admin.*
+oa.admin.speakers
+</pre>
+                    </code>
+                </div>
+            </div>
+
+
+            <hr>
+
+            <h2 id="hue">/openaudio hue</h2>
+            <div class="documentation-section">
+                <div class="error-note">
+                    <p><span>Note :</span> When using Philips-Hue you will need to set your web client to
+                        <span>HTTP</span>, unfortunately the hue api (as of writing openaudiomc) does not support ssl.
+                        You can set it to http in your <span>config.yml</span>. Philips-lux lights are also supported
+                        but only for the white color (brightness)</p>
+                </div>
+                <p>Philips-Hue&trade; can be used to add ambiance to your server and create amazing shows with light
+                    effects. Hue lighs will be enabled when a http connection is detected and there is a
+                    Philips-Hue-Bridge in the player's network</p>
+                <br>
+                <div class="documentation-section">
+                    <h3>Command format</h3>
+                    <div class="code-block">
+                        <code>
+                            <pre>/openaudio hue (player) (color format)</pre>
+                        </code>
+                    </div>
+                </div>
+                <div class="error-note">
+                    <p><span>Note :</span> All color codes follow the rgba format for color & brightness</p>
+                </div>
+                <p>There are two possible color formats allowed, in these two examples we'll set all the lights to BLUE
+                    with full brightness</p>
+                <div class="documentation-section">
+                    <div class="code-block">
+                        <code>
+                            <pre>/openaudio hue Mindgamesnl 0 0 255 255</pre>
+                        </code>
+                    </div>
+                </div>
+                <div class="documentation-section">
+                    <div class="code-block">
+                        <code>
+                            <pre>/openaudio hue Mindgamesnl rgba(0,0,255,255)</pre>
+                        </code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="documentation-section">
+                <h3>Permissions</h3>
+                <div class="code-block">
+                    <code>
+<pre>
+oa.*
+admin.*
+oa.admin.hue
+</pre>
+                    </code>
+                </div>
+            </div>
+
+            <hr/>
+
+            <h2 id="reload">/openaudio reload</h2>
+            <div class="documentation-section">
+                <p>This command reloads the openaudiomc config! nothing much besides that.</p>
+                <p><i>(it's not made of cake btw, that was a lie)</i></p>
+                <br>
+                <div class="documentation-section">
+                    <h3>Command format</h3>
+                    <div class="code-block">
+                        <code>
+                            <pre>/openaudio reload</pre>
+                        </code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="documentation-section">
+                <h3>Permissions</h3>
+                <div class="code-block">
+                    <code>
+<pre>
+oa.*
+admin.*
+oa.admin.reload
+</pre>
+                    </code>
+                </div>
+            </div>
+
+            <hr/>
+
+            <h2 id="OpenAudioApi">OpenAudioApi (java/server end)</h2>
+            <div class="documentation-section">
+                <div class="error-note">
+                    <p><span>Note :</span> In order to use the OpenAudioApi you need to add the OpenAudioMc.jar as a
+                        lib.</p>
+                </div>
+                <p>The OpenAudioMc api can be used to create your own plugins or addon that directly interact with the
+                    openaudiomc api.</p>
+                <p>Here follows a list of api commands + ussage and example code</p>
+
+                <div class="documentation-section">
+                    <div class="code-block">
+                        <code>
+<pre>
+<span class="inline-comment">//Create a instance, this is thread safe!</span>
+OpenAudioApi openAudioApi = new OpenAudioApi();
+
+<span class="inline-comment">//Create a media source</span>
+Media mySound = new Media("https://craftmend.com/a.mp3");
+<span class="inline-comment">//Give the sound a id + attributes</span>
+mySound.setId("mycoolsound"); <span class="inline-comment">//set the id</span>
+mySound.setLooping(); <span class="inline-comment">//set the sound to loop</span>
+mySound.setVolume(50); <span class="inline-comment">//start off at volume 50</span>
+
+<span class="inline-comment">//Play the media for a player</span>
+openAudioApi.play(mySound, "Mindgamesnl");
+
+<span class="inline-comment">//stop all sounds</span>
+openAudioApi.stop("Mindgamesnl");
+<span class="inline-comment">//stop a single sound with id</span>
+openAudioApi.stopId("Mindgamesnl", "mycoolsound");
+
+<span class="inline-comment">//Change the master volume to 100%</span>
+openAudioApi.setVolume(Bukkit.getPlayer("Mindgamesnl"), 100);
+
+<span class="inline-comment">//Check if a player is connected</span>
+if (openAudioApi.isConnected(Bukkit.getPlayer("Mindgamesnl")) {
+    //yes! Mindgamesnl is connected with the web client!
+}
+
+<span class="inline-comment">//Get the main plugin instance of advanced use</span>
+OpenAudioMc openAudioMc = openAudioApi.getMain();
+
+<span class="inline-comment">//Set a philips-hue color via the 2 rgba values</span>
+openAudioApi.hueColor("Mindgamesnl", "rgba(0,0,255,255)"); <span class="inline-comment">//RGBA as string</span>
+openAudioApi.hueColor("Mindgamesnl", 0,0,255,255); <span class="inline-comment">//RGBA as parts</span>
+</pre>
+                        </code>
+                    </div>
+                </div>
+
+                <p>Due to timings and our network in between your minecraft server and the web client, this introduces
+                    some delay.</p>
+                <p>This delay usally sticks around 2 ticks.</p>
+                <p>There are lots and lots of other options (custom packets via the packet builder, packet types and
+                    network listeners), they can be found on the github page but as of yet there is no documentation (it
+                    is a LOT so it requires some time to work out)</p>
+
+                <hr>
+
+
+                <h2 id="jsapi">OpenAudioApi (Javascript/client end)</h2>
+                <div class="documentation-section">
+                    <div class="error-note">
+                        <p><span>Note :</span> Custom js files <span>MUST</span> be added by hand in custom-hosted
+                            clients, as of yet, we dont support real time streaming of js files but this is coming.</p>
+                    </div>
+                    <p>The OpenAudioMcApi (client sided) can be used to add custom functionality/networking to your web
+                        client</p>
+                    <p>The api takes a few MS to load and enable so please register your api calls after the page has
+                        loaded.</p>
+
+                    <div class="documentation-section">
+                        <div class="code-block">
+                            <code>
+<pre>
+<span class="inline-comment">//Register a packet listener</span>
+event("PACKET KEY", function (data) {
+    <span class="inline-comment">//packet received!</span>
+});
+</pre>
+                            </code>
+                        </div>
+                    </div>
+
+                    <p>The "data" variable is a instance (object) of the OpenAudioMc packet, documentation of the keys
+                        can be found in the <a href="#protocol">protocol
+                            <documentation></documentation>
+                        </a></p>
+                    <br>
+                    <p>Some example code as used in the web client</p>
+
+                    <div class="documentation-section">
+                        <div class="code-block">
+                            <code>
+<pre>
+<span class="inline-comment">//Register a packet listener</span>
+event("PLAY", function (data) {
+    new OaSound(data.packet_value).start();
+});
+</pre>
+                            </code>
+                        </div>
+                    </div>
+
+                    <p>There is much more to discover, but you can read that for your self on our <a
+                            href="https://github.com/Mindgamesnl/OpenAudioMc/tree/master/WebClient/files/core">github
+                        page</a></p>
+
+                    <hr>
+
+
+                    <h2 id="protocol">Protocol</h2>
+                    <div class="documentation-section">
+                        <div class="error-note">
+                            <p><span>Note :</span> The protocol gets updated constantly, for the most recent version,
+                                please check the github</p>
+                        </div>
+                        <p>The OpenAudioMc protocol is used for cominucation between the web-client and minecraft-server
+                            in real time, it always follows the main format and is in JSON</p>
+                        <br>
+                        <div class="documentation-section">
+                            <h3>Packet format</h3>
+                            <div class="code-block">
+                                <code>
+<pre>
+{
+    "packet_command": "KEY",
+    "packet_value": "VALUE",
+    "packet_player": "USERNAME"
+}
+</pre>
+                                </code>
+                            </div>
+                        </div>
+                        <div class="error-note">
+                            <p><span>Note :</span> All instances of %player% in packet_value will be replaced with the
+                                user name</p>
+                        </div>
+                        <p>A list of all packet_commands (keys) can be found here: <a
+                                href="https://github.com/Mindgamesnl/OpenAudioMc/blob/master/Source%20code/src/main/java/net/openaudiomc/jclient/modules/socket/enums/PacketCommand.java">Github
+                            enums</a></p>
+                        <p>The packet_value is used to transport the value of the packet, this can be a json object
+                            (depending on the command) or a simple string (like in the play command)</p>
+                        <br>
+                        <p>We use the Socket.io libary for the webclient, when using socketio you need to listen for the
+                            <span>packet</span> channel.</p>
+                        <p>Our web-client packet handler can be found <a
+                                href="https://github.com/Mindgamesnl/OpenAudioMc/blob/master/WebClient/files/core/socket.js">HERE
+                            (connector)</a> and <a
+                                href="https://github.com/Mindgamesnl/OpenAudioMc/blob/master/WebClient/files/core/listeners.js">HERE
+                            (listener)</a></p>
+                        <br>
+                        <p>Since 4.0 we offer a SUPER-DUPER-EASY api for javascript that can be found <a
+                                href="https://github.com/Mindgamesnl/OpenAudioMc/blob/master/WebClient/files/core/listeners.js">HERE</a>
+                        </p>
+                        <br>
+                        <p>The packet builder (and all theire values) can be found <a
+                                href="https://github.com/Mindgamesnl/OpenAudioMc/blob/master/Source%20code/src/main/java/net/openaudiomc/jclient/modules/socket/objects/OaPacket.java">HERE</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+</html>
+
