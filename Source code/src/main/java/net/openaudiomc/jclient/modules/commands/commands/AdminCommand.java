@@ -34,6 +34,7 @@ public class AdminCommand implements CommandExecutor {
 
         if(args[0].equalsIgnoreCase("reload") && allowed(s, "reload")) {
             OpenAudioMc.getInstance().getConf().load();
+            s.sendMessage(ChatColor.GREEN + "Reladed the openaudiomc config.");
             return true;
         }
 
@@ -124,7 +125,7 @@ public class AdminCommand implements CommandExecutor {
             return true;
         }
 
-        if(args[0].equalsIgnoreCase("hue")) {
+        if(args[0].equalsIgnoreCase("hue") && allowed(s, "hue")) {
             if(args.length == 3) {
                 try {
                     api.hueColor(args[1], args[2]);

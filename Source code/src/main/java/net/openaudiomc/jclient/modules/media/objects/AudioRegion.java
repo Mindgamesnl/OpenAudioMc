@@ -48,11 +48,13 @@ public class AudioRegion {
                                 this.media.setLooping();
                                 this.media.setId("region_" + this.id);
                                 this.media.setSyncronized(this.length);
+                                mediaConfig.setLength(i);
                                 System.out.println("[OpenAudioMc] Created syncronized region: " + this.id);
                             } else {
                                 this.media = new Media(this.url);
                                 this.media.setLooping();
                                 this.media.setId("region_" + this.id);
+                                mediaConfig.setLength(0l);
                                 System.out.println("[OpenAudioMc] Failed to create syncronized region, region is now in the old default mode: " + this.id);
                             }
 
