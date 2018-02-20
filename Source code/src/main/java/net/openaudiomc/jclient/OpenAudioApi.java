@@ -130,6 +130,14 @@ public class OpenAudioApi {
         l.sendPacket(hueState.getHandle(l));
     }
 
+    public OpenAudioMc getMain() {
+        return OpenAudioMc.getInstance();
+    }
+
+    public Boolean isConnected(Player player) {
+        return (getMain().getPlayerModule().getListeners().get(player.getName()) != null);
+    }
+
     public void hueColor(AudioListener l, int red, int blue, int green, int brightness) {
         HueState hueState = new HueState();
         hueState.setRed(red);
