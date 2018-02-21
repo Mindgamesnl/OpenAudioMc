@@ -14,6 +14,8 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class AudioListener {
 
@@ -22,8 +24,8 @@ public class AudioListener {
     @Getter @Setter private String placingSpeaker = null;
     @Getter private Boolean isConnected = false;
     private OpenAudioApi api = new OpenAudioApi();
-    private List<String> regions = new ArrayList<>();
-    private Map<String, Integer> speakers = new HashMap<>();
+    private List<String> regions = new CopyOnWriteArrayList<>();
+    private Map<String, Integer> speakers = new ConcurrentHashMap<>();
     private int speakerRadius = Integer.valueOf(String.valueOf(OpenAudioMc.getInstance().getConf().getWeb().getSpeakerRadius()));
 
     public AudioListener(Player player) {
@@ -70,10 +72,10 @@ public class AudioListener {
 
         Set<String> updatedSpeakers = nearest.keySet();
 
-        List<String> newRegions = new ArrayList<String>(updatedSpeakers);
+        List<String> newRegions = new ArrayList<>(updatedSpeakers);
         newRegions.removeAll(speakers.keySet());
 
-        List<String> leftRegions = new ArrayList<String>(speakers.keySet());
+        List<String> leftRegions = new ArrayList<>(speakers.keySet());
         leftRegions.removeAll(updatedSpeakers);
 
         for (String s : nearest.keySet()) {
@@ -97,10 +99,10 @@ public class AudioListener {
 
     public void updateRegions(List<String> c) {
 
-        List<String> newRegions = new ArrayList<String>(c);
+        List<String> newRegions = new ArrayList<>(c);
         newRegions.removeAll(regions);
 
-        List<String> leftRegions = new ArrayList<String>(regions);
+        List<String> leftRegions = new ArrayList<>(regions);
         leftRegions.removeAll(c);
 
         for (String s : newRegions) {

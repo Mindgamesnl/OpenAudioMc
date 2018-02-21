@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Getter @ToString
 public class Config {
@@ -82,7 +83,7 @@ public class Config {
             this.keys.setPrivateKey(config.getString("key.private"));
 
             this.storage = new ConfigStorage();
-            List<ConfigStorageSpeakerMedia> speakerMediaList = new ArrayList<>();
+            List<ConfigStorageSpeakerMedia> speakerMediaList = new CopyOnWriteArrayList<>();
             if(config.get("storage.speakermedia") != null) {
                 for(String speakerMediasConfig : config.getConfigurationSection("storage.speakermedia").getKeys(false)) {
                     ConfigStorageSpeakerMedia speakerMedia = new ConfigStorageSpeakerMedia();
@@ -93,7 +94,7 @@ public class Config {
             }
             this.storage.setSpeakerMedias(speakerMediaList);
 
-            List<ConfigStorageSpeakerLocation> speakerLocations = new ArrayList<>();
+            List<ConfigStorageSpeakerLocation> speakerLocations = new CopyOnWriteArrayList<>();
             if(config.get("storage.speakerlocations") != null) {
                 for (String speakerLocationsConfig : config.getConfigurationSection("storage.speakerlocations").getKeys(false)) {
                     ConfigStorageSpeakerLocation speakerLocation = new ConfigStorageSpeakerLocation();
@@ -108,7 +109,7 @@ public class Config {
             }
             this.storage.setSpeakerLocations(speakerLocations);
 
-            List<ConfigStorageRegion> regionList = new ArrayList<>();
+            List<ConfigStorageRegion> regionList = new CopyOnWriteArrayList<>();
             if(config.get("storage.regions") != null) {
                 for (String regionConfig : config.getConfigurationSection("storage.regions").getKeys(false)) {
                     ConfigStorageRegion region = new ConfigStorageRegion();
@@ -119,7 +120,7 @@ public class Config {
             }
             this.storage.setRegions(regionList);
 
-            List<ConfigStorageMedia> mediaList = new ArrayList<>();
+            List<ConfigStorageMedia> mediaList = new CopyOnWriteArrayList<>();
             if(config.get("storage.media") != null) {
                 for (String mediaConfig : config.getConfigurationSection("storage.media").getKeys(false)) {
                     ConfigStorageMedia media = new ConfigStorageMedia();
@@ -158,10 +159,10 @@ public class Config {
         this.keys.setPrivateKey("-");
 
         this.storage = new ConfigStorage();
-        this.storage.speakerMedias = new ArrayList<>();
-        this.storage.speakerLocations = new ArrayList<>();
-        this.storage.regions = new ArrayList<>();
-        this.storage.medias = new ArrayList<>();
+        this.storage.speakerMedias = new CopyOnWriteArrayList<>();
+        this.storage.speakerLocations = new CopyOnWriteArrayList<>();
+        this.storage.regions = new CopyOnWriteArrayList<>();
+        this.storage.medias = new CopyOnWriteArrayList<>();
 
         setHeaders();
     }

@@ -63,15 +63,13 @@ public class MediaModule {
     }
 
     public void destroySpeaker(Location loc) {
-        List<Location> removeme = new ArrayList<>();
         for(ConfigStorageSpeakerLocation speakerLocation : OpenAudioMc.getInstance().getConf().getStorage().getSpeakerLocations()) {
             Location location = new Location(Bukkit.getWorld(speakerLocation.getWorld()), speakerLocation.getX(), speakerLocation.getY(), speakerLocation.getZ());
             if(location.equals(loc)) {
                 OpenAudioMc.getInstance().getConf().getStorage().deleteSpeakerLocation(speakerLocation);
-                removeme.add(location);
+                speakers.remove(location);
             }
         }
-        removeme.forEach(location -> speakers.remove(location));
     }
 
     public void placeSpeaker(Location loc, String sound) {
