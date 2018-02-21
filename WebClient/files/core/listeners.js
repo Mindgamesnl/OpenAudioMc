@@ -35,6 +35,10 @@ event("SETVOLUME", function(data) {
     oa_volume_set(data.packet_value);
 });
 
+event("SET_AMBIANCE_SOUND", function (data) {
+    __oa_ambiance_sound = data.packet_value;
+});
+
 event("SET_TITLE", function(data) {
     document.getElementById("footer_title").innerHTML = data.packet_value;
 });

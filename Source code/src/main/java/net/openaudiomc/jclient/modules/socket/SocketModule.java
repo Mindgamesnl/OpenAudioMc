@@ -122,6 +122,12 @@ public class SocketModule {
                                 .setValue(OpenAudioMc.getInstance().getConf().getWeb().getBackground()));
                     }
 
+                    if (!OpenAudioMc.getInstance().getConf().getWeb().getAmbianceSound().equals("-")) {
+                        l.sendPacket(new OaPacket()
+                                .setCommand(PacketCommand.SET_AMBIANCE_SOUND)
+                                .setValue(OpenAudioMc.getInstance().getConf().getWeb().getAmbianceSound()));
+                    }
+
                     if (!OpenAudioMc.getInstance().getConf().getWeb().getStartSound().equals("-")) {
                         l.sendPacket(new OaPacket()
                                 .setCommand(PacketCommand.PLAY)

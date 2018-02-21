@@ -1,4 +1,7 @@
 __soundsvolarray = {};
+var ambiancePlaying = false;
+var ambianceAudible = false;
+__oa_ambiance_sound = null;
 
 soundManager.fadeTo = function(id, dur, toVol, callback){
     dur      = dur || 1000;
@@ -16,11 +19,51 @@ soundManager.fadeTo = function(id, dur, toVol, callback){
                 i = null;
             }
         }, t);
+};
+
+function getSoundsAmount() {
+    var i = 0;
+    for (var key in __soundsvolarray) i++;
+
+    return i;
 }
+
+setInterval(function() {
+    if (__oa_ambiance_sound != null) {
+        if (getSoundsAmount() <= 1) {
+            if (!ambiancePlaying) {
+                var tempsound = new OaSound(__oa_ambiance_sound);
+                tempsound.setLooping();
+                ambiancePlaying = true;
+                ambianceAudible = true;
+                tempsound.customid = "openaudio_ambiance";
+                tempsound.start();
+            } else {
+                if (!ambianceAudible) {
+                    for (var key in __soundsvolarray) {
+                        if (__soundsvolarray[key].customid == "openaudio_ambiance") {
+                            __soundsvolarray[key].setVolume(__volume, true, function () {}, 500);
+                            __soundsvolarray[key].muted = false;
+                            ambianceAudible = true;
+                        }
+                    }
+                }
+            }
+        } else if (getSoundsAmount() != 1 && ambiancePlaying && ambianceAudible) {
+            for (var key in __soundsvolarray) {
+                if (__soundsvolarray[key].customid == "openaudio_ambiance") {
+                    __soundsvolarray[key].setVolume(0, true, function () {}, 500);
+                    __soundsvolarray[key].muted = true;
+                    ambianceAudible = false;
+                }
+            }
+        }
+    }
+}, 200);
 
 function oa_audio_setvolume(volume) {
     for (var key in __soundsvolarray) {
-        if (__soundsvolarray[key].allowNormalVolume) __soundsvolarray[key].setVolume(volume, true, null, 200);
+        if (__soundsvolarray[key].allowNormalVolume && !__soundsvolarray[key].muted) __soundsvolarray[key].setVolume(volume, true, null, 200);
     }
     localStorage.volume = volume;
     document.getElementsByClassName("oam_volume_display")[0].innerHTML = "Vol: "+volume+"%";
@@ -31,13 +74,14 @@ function OaSound(url, start, loop) {
     this.allowNormalVolume = true;
     this.source = url;
     this.customid = "";
+    this.muted = false;
     this.startvolume = __volume;
     this.options = {
         id: guid(),
-        url: getCorrectUrl(url),
+        url: url,
         volume: 0,
         autoPlay: true,
-        whileloading: function() { console.log(this.id + ' is loading'); },
+        whileloading: function() { console.log("[OpenAudioMc-AudioManager] " + this.id + ' is loading'); },
         onfinish: function() {}
     };
 
@@ -90,33 +134,4 @@ function s4() {
     return Math.floor((1 + Math.random()) * 0x10000)
         .toString(16)
         .substring(1);
-}
-
-function getCorrectUrl(url) {
-    console.log(url);
-    if (url.includes("soundcloud.com")) {
-        //TODO Handle soundcloud
-        console.warn("Soundcloud where are you...");
-    } else if (url.includes("youtube.com")) {
-        youtubeId = url.split("?v=")[1];
-	youtubeBase = youtubeData['mediacomplete'];
-	youtubeBase = youtubeBase.replace('%ytid%', youtubeId);
-	youtubeBase = youtubeBase.replace('%serverid', server);
-	youtubeBase = youtubeBase.replace('clientid%', token);
-	youtubeBase = youtubeBase.replace('%playername%', name);
-	url = youtubeBase;
-    } else if (url.includes("youtu.be")) {
-        youtubeId = url.split('youtu.be/')[1];
-        youtubeBase = youtubeData['mediacomplete'];
-        youtubeBase = youtubeBase.replace('%ytid%', youtubeId);
-        youtubeBase = youtubeBase.replace('%serverid', server);
-        youtubeBase = youtubeBase.replace('clientid%', token);
-        youtubeBase = youtubeBase.replace('%playername%', name);
-        url =  youtubeBase;
-    } else if (url.includes("stackstorage.com/s/")) {
-        //TODO Handle slack
-	console.warn("Whoeps Slack just took a brake");
-    }
-    console.log(url);
-    return url;
 }

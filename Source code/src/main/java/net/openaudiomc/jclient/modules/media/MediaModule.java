@@ -18,16 +18,17 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MediaModule {
 
     //region shit
     @Getter private WorldGuardPlugin worldGuardPlugin;
-    @Getter private Map<String, AudioRegion> regions = new HashMap<>();
+    @Getter private Map<String, AudioRegion> regions = new ConcurrentHashMap<>();
 
     //hey look at that! speaker shit!
-    @Getter private Map<String, AudioSpeaker> speakerMedia = new HashMap<>();
-    @Getter private Map<Location, String> speakers = new HashMap<>();
+    @Getter private Map<String, AudioSpeaker> speakerMedia = new ConcurrentHashMap<>();
+    @Getter private Map<Location, String> speakers = new ConcurrentHashMap<>();
 
     public MediaModule(OpenAudioMc plugin) {
 

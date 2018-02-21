@@ -74,6 +74,7 @@ public class Config {
             this.web.setTitle(config.getString("web.title"));
             this.web.setBackground(config.getString("web.background"));
             this.web.setStartSound(config.getString("web.startsound"));
+            this.web.setAmbianceSound(config.getString("web.ambiancesound"));
             this.web.setSpeakerRadius(config.getLong("web.speaker_radius"));
 
             this.keys = new ConfigKey();
@@ -149,6 +150,7 @@ public class Config {
         this.web.setTitle("OpenAudioMc");
         this.web.setBackground("-");
         this.web.setStartSound("-");
+        this.web.setAmbianceSound("-");
         this.web.setSpeakerRadius(10L);
 
         this.keys = new ConfigKey();

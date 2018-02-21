@@ -16,6 +16,7 @@ public class ConfigWeb {
     private String title;
     private String background;
     private String startSound;
+    private String ambianceSound;
     private Long speakerRadius;
 
     public List<String> serialize() {
@@ -26,6 +27,7 @@ public class ConfigWeb {
         list.add("  title: '" + title + "'");
         list.add("  background: '" + background + "'");
         list.add("  startsound: '" + startSound + "'");
+        list.add("  ambiancesound: '" + ambianceSound + "'");
         list.add("  speaker_radius: " + speakerRadius);
         return list;
     }
