@@ -34,7 +34,7 @@ public class AdminCommand implements CommandExecutor {
 
         if(args[0].equalsIgnoreCase("reload") && allowed(s, "reload")) {
             OpenAudioMc.getInstance().getConf().load();
-            s.sendMessage(ChatColor.GREEN + "Reladed the openaudiomc config.");
+            s.sendMessage(ChatColor.GREEN + "Reloaded the OpenAudioMc config.");
             return true;
         }
 
@@ -50,7 +50,7 @@ public class AdminCommand implements CommandExecutor {
                 s.sendMessage(prefix + "Successfully executed command.");
                 return true;
             }
-            s.sendMessage(prefix + ChatColor.RED + "Correct ussage: /oa play <name> <url> [JSON arguments]");
+            s.sendMessage(prefix + ChatColor.RED + "Correct usage: /oa play <name> <url> [JSON arguments]");
             return true;
         }
 
@@ -72,11 +72,11 @@ public class AdminCommand implements CommandExecutor {
                     skull.setItemMeta(sm);
                     ((Player) s).getInventory().addItem(skull);
                     s.sendMessage(prefix + "Place this skull anywhere in the world to place a speaker.");
-                    s.sendMessage(prefix + "WARNING! when generating a speaker for the first time it may lagg out the server for a few seconds!");
+                    s.sendMessage(prefix + "WARNING! When generating a speaker for the first time it may lagg out the server for a few seconds!");
                     return true;
                 }
             }
-            s.sendMessage(prefix + ChatColor.RED + "Correct ussage: /oa speakers create <url>");
+            s.sendMessage(prefix + ChatColor.RED + "Correct usage: /oa speakers create <url>");
             return true;
         }
 
@@ -105,8 +105,8 @@ public class AdminCommand implements CommandExecutor {
                     return true;
                 }
             }
-            s.sendMessage(prefix + ChatColor.RED + "Correct ussage: /oa region crate <region> <source>");
-            s.sendMessage(prefix + ChatColor.RED + "Correct ussage: /oa region delete <region>");
+            s.sendMessage(prefix + ChatColor.RED + "Correct usage: /oa region create <region> <source>");
+            s.sendMessage(prefix + ChatColor.RED + "Correct usage: /oa region delete <region>");
             return true;
         }
 
@@ -151,7 +151,7 @@ public class AdminCommand implements CommandExecutor {
                 api.hueColor(args[1], red, green, blue, brightness);
                 return true;
             } else {
-                s.sendMessage(prefix + ChatColor.RED + "Correct ussage: /oa hue <name> <rgba string> or /oa hue <name> <red> <green> <blue> <brightness>");
+                s.sendMessage(prefix + ChatColor.RED + "Correct usage: /oa hue <name> <rgba string> or /oa hue <name> <red> <green> <blue> <brightness>");
             }
         }
 
