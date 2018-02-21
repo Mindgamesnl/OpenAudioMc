@@ -52,7 +52,7 @@ event("SET_SPEAKER_VOLUME", function (data) {
     var volume = (data.volume / 100) * __volume;
     for (var key in __soundsvolarray) {
         if (__soundsvolarray[key].customid == "speaker_" + data.id) {
-            __soundsvolarray[key].setVolume(volume, true, function() {}, 700);
+            __soundsvolarray[key].setVolume(volume, true, function() {}, 500);
         }
     }
 });

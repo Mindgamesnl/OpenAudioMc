@@ -1,5 +1,7 @@
 package net.openaudiomc.jclient;
 
+import com.sk89q.worldguard.bukkit.WGBukkit;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import lombok.NoArgsConstructor;
 
 import net.openaudiomc.jclient.modules.media.exceptions.InvalidColorCodeException;
@@ -154,6 +156,19 @@ public class OpenAudioApi {
         if (o.equalsIgnoreCase("@a")) {
             for (AudioListener l : OpenAudioMc.getInstance().getPlayerModule().getListeners().values())
                 list.add(l);
+        }
+
+        if (o.startsWith("region:")) {
+            for (AudioListener l : OpenAudioMc.getInstance().getPlayerModule().getListeners().values()) {
+                String id = o.replace("region:", "");
+                List<String> regions = new ArrayList<String>();
+                for(ProtectedRegion r : WGBukkit.getRegionManager(l.getPlayer().getWorld()).getApplicableRegions(l.getPlayer().getLocation())) {
+                    regions.add(r.getId());
+                }
+                if (regions.contains(id)) {
+                    list.add(l);
+                }
+            }
         }
 
         if (OpenAudioMc.getInstance().getPlayerModule().getListeners().get(o) != null) {
