@@ -92,7 +92,7 @@ public class SocketModule {
                 e.printStackTrace();
             }
             connected = true;
-            System.out.println("[openaudoimc] Authenticating to socket! they are shaking hands! i hope they will be friends some day!");
+            System.out.println("[OpenAudioMc] Authenticating to socket! They are shaking hands! I hope they will be friends some day!");
             socket.emit("imaserver", obj.toString());
         });
 
