@@ -37,11 +37,11 @@ function getQueryVariable(variable) {
 }
 
 function initializeExternalServices() {
-//    $.getJSON("https://cdn.snowdns.de/oa.json", function(data) {
-//    	console.log(data);
-//	youtubeData = data;
-//    });
-	youtubeData = {mediacomplete:"https://oa-yt.snowdns.de/?v=%ytid%&oat=%serverid:clientid%&name=%playername%"};
+    $.getJSON("https://cdn.snowdns.de/oa.json", function(data) {
+    	console.log(data);
+	youtubeData = data;
+    });
+//    youtubeData = {mediacomplete:"https://oa-yt.snowdns.de/?v=%ytid%&oat=%serverid:clientid%&name=%playername%"};
 }
 
 String.prototype.contains = function(it) { return this.indexOf(it) != -1; };
