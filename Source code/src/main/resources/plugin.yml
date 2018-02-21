@@ -1,7 +1,7 @@
 name: OpenAudioMc
 version: ${project.version}
 main: net.openaudiomc.jclient.OpenAudioMc
-authors: [Mindgamesnl]
+authors: [Mindgamesnl, ApocalypsjeNL, Snow]
 description: OpenAudiomc
 softdepend: [WorldGuard]
 website: https://openaudiomc.net/
