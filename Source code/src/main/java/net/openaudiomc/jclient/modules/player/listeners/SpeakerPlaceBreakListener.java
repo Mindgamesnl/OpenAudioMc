@@ -24,7 +24,7 @@ public class SpeakerPlaceBreakListener implements Listener {
                     if (skull.getOwner().equalsIgnoreCase("OpenAudioMc")) {
                         AudioListener l = OpenAudioMc.getInstance().getPlayerModule().getListeners().get(event.getPlayer().getName());
                         if (l.getPlacingSpeaker() != null) {
-                            event.getPlayer().sendMessage(prefix + "Regestering speaker... this can take a few seconds...");
+                            event.getPlayer().sendMessage(prefix + "Registering speaker... This can take a few seconds...");
                             OpenAudioMc.getInstance().getMediaModule().placeSpeaker(event.getBlock().getLocation(), l.getPlacingSpeaker());
                             event.getPlayer().sendMessage(prefix + "Created a speaker.");
                         }
