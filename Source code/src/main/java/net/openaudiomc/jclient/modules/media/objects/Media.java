@@ -53,7 +53,7 @@ public class Media {
         this.syncronized = true;
         this.maxTime = length;
         Bukkit.getScheduler().scheduleSyncRepeatingTask(OpenAudioMc.getInstance(), () -> {
-            if (timestamp != maxTime) {
+            if (timestamp < maxTime) {
                 timestamp++;
             } else {
                 timestamp = 1L;
