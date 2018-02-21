@@ -161,7 +161,7 @@ public class OpenAudioApi {
         if (o.startsWith("region:")) {
             for (AudioListener l : OpenAudioMc.getInstance().getPlayerModule().getListeners().values()) {
                 String id = o.replace("region:", "");
-                List<String> regions = new ArrayList<String>();
+                List<String> regions = new ArrayList<>();
                 for(ProtectedRegion r : WGBukkit.getRegionManager(l.getPlayer().getWorld()).getApplicableRegions(l.getPlayer().getLocation())) {
                     regions.add(r.getId());
                 }

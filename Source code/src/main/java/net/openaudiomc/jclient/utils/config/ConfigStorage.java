@@ -5,9 +5,9 @@ import lombok.Setter;
 import lombok.ToString;
 import net.openaudiomc.jclient.OpenAudioMc;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Getter @Setter @ToString
 public class ConfigStorage {
@@ -20,7 +20,7 @@ public class ConfigStorage {
     protected List<ConfigStorageMedia> medias;
 
     public List<String> serialize() {
-        List<String> list = new ArrayList<>();
+        List<String> list = new CopyOnWriteArrayList<>();
         list.add(header);
         list.add("storage:");
         list.add("  speakermedia:");
