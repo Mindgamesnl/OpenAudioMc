@@ -87,7 +87,7 @@ public class OpenAudioApi {
 
     public void startSpeaker(AudioListener l, String id, int volume) {
         AudioSpeaker s = OpenAudioMc.getInstance().getMediaModule().getSpeakerMedia().get(id);
-        l.sendPacket(s.getMedia().getHandle(l, volume));
+        if (s.getMedia() != null) l.sendPacket(s.getMedia().getHandle(l, volume));
     }
 
     public void setSpeakerVolume(AudioListener l, String id, int volume) {

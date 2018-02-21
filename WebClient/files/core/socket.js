@@ -19,7 +19,6 @@ function oa_socket_startup(name, server, token) {
         packet.server = server;
         oa_ui_setskull("Loading...", "606e2ff0-ed77-4842-9d6c-e1d3321c7838");
         oaio.emit("imaplayer", JSON.stringify(packet));
-	    initializeExternalServices();
     });
 
     oaio.on('disconnect', function () {

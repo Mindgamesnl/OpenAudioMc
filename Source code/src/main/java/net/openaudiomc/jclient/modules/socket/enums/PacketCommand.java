@@ -12,5 +12,6 @@ public enum PacketCommand {
     SET_SPEAKER_VOLUME,
     PLAY_SPECIAL, STOP_SPECIAL, SET_TITLE,
     HUE,
-    SETUUID
+    SETUUID,
+    SET_AMBIANCE_SOUND
 }

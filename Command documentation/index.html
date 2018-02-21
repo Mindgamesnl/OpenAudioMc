@@ -14,9 +14,6 @@
     <!-- ICON -->
     <link rel="icon" href="files/images/small_logo.png"/>
     <link rel="image" href="files/images/small_logo.png"/>
-    <!-- CORE -->
-    <script src="files/js/jquery.js"></script>
-    <script src="files/js/main.js"></script>
 
 </head>
 <body id="body">
@@ -42,6 +39,7 @@
                     <li><a href="#hue">Philips-Hue</a></li>
                     <li><a href="#selectors">Selectors</a></li>
                     <li><a href="#reload">Reload</a></li>
+                    <li><a href="#config">config</a></li>
                     <li><a href="#OpenAudioApi">OpenAudioApi (server)</a></li>
                     <li><a href="#jsapi">OpenAudioApi (client)</a></li>
                     <li><a href="#protocol">Protocol</a></li>
@@ -359,6 +357,83 @@ admin.*
 oa.admin.reload
 </pre>
                     </code>
+                </div>
+            </div>
+
+            <hr/>
+
+            <h2 id="config">Config (<i>config.yml)</i></h2>
+            <div class="error-note">
+                <p><span>Note :</span> be sure to execute the <b>/openaudio reload</b> command after making changes whilst the server is running, restarting the server with un-loaded changes will cause them to be overwritten with the old.</p>
+            </div>
+            <div class="error-note">
+                <p><span>Note :</span> it is recomended to <b>NOT</b> touch the data section of the config file, this is where openaudiomc saves the server-data and could cause harm to your server's tps when handled without care.</p>
+            </div>
+            <div class="documentation-section">
+                <p>OpenAudioMc is configured with a config file (can be found in <i>plugins/OpenAudioMc/config.yml</i></p>
+                <p>These are all the sections, what they do and how to use them</p>
+                <br>
+                <div class="documentation-section">
+                    <h3><b>Messages</b></h3>
+                    <p>Default:</p>
+                    <div class="code-block">
+                        <code>
+                            <pre>
+messages:
+  provide_url: '&2Click here to connect to our audio server!'
+  connected: '&7You are now &2connected&7! yeey!'
+  disconnected: '&7You are now &4disconnected&7! cya next time!'
+  setvolumefail: '&4Invalid volume! please use a number between 0 and 100'
+  setvolume: '&2Your volume has been set to %volume%'
+                            </pre>
+                        </code>
+                    </div>
+                    <p>These are all the messages a player receives in chat whilst doing various actions, they do support color codes and there is no character limit.</p>
+                </div>
+                <br>
+                <div class="documentation-section">
+                    <h3><b>Commands</b></h3>
+                    <p>Default:</p>
+                    <div class="code-block">
+                        <code>
+                            <pre>
+commands:
+  - "/getlink"
+  - "/icanhazaudio"
+  - "/gimmesoundplz"
+                            </pre>
+                        </code>
+                    </div>
+                    <p>Besides /audio, you can also set custom commands to get a clickable text message to open a client.</p>
+                </div>
+                <br>
+                <div class="documentation-section">
+                    <h3><b>Web</b></h3>
+                    <p>Default:</p>
+                    <div class="code-block">
+                        <code>
+                            <pre>
+web:
+  url: 'https://app.openaudiomc.net/'
+  title: 'OpenAudioMc'
+  background: '-'
+  startsound: '-'
+  ambiancesound: '-'
+  speaker_radius: 10
+                            </pre>
+                        </code>
+                    </div>
+                    <p>There are some basic variables for the web client, these are loaded once a player opens a client. They do not update in real time after reloading openaudiomc.</p>
+                    <br>
+                    <p>Here follows a list of all the variables and what they do:</p>
+                    <ul class="u-list">
+                        <li><b>WEB:</b> this is the barebones url to the webclient</li>
+                        <li><b>TITLE:</b> this is the title in the web client, it will be displayed in the footer of the web page.</li>
+                        <li><b>BACKGROUND:</b> it is possible to insert a URL to a background image (.png or .jpg) and it will be displayed in the background of the client.</li>
+                        <li><b>STARTSOUND:</b> it is possible to insert a URL of a start-sound, this sound will play once the player started the client.</li>
+                        <li><b>AMBIANCESOUND:</b> it is possible to insert a URL of a ambiance-sound, this sound will play in a realistic in a realistic manner once nothing else is playing to prevent boring silent moments.</li>
+                        <li><b>SPEAKERRADIUS:</b> This is the radius in blocks of speakers, you can increment it if you'd like but it's not recommended.</li>
+                    </ul>
                 </div>
             </div>
 
