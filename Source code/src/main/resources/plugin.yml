@@ -8,13 +8,14 @@ website: https://openaudiomc.net/
 
 commands:
   audio:
-  connect:
-  sound:
+    aliases: [sound, connect]
+    description: Command to get an url to the webclient
   oa:
-  openaudio:
-  openaudiomc:
+    aliases: [openaudio, openaudiomc, oamc]
+    description: Main command of OpenAudioMc
   volume:
-  vol:
+    aliases: [vol]
+    description: Command to change your volume on the fly
 
 permissions:
   oa.*:

@@ -60,10 +60,7 @@ public class Reflection {
                 exception.printStackTrace();
             }
         }
-        String tellraw = "tellraw " +
-                p.getName()
-                + " "
-                + json;
+        String tellraw = "tellraw " + p.getName() + " " + json;
         OpenAudioMc.getInstance().getServer().dispatchCommand(OpenAudioMc.getInstance().getServer().getConsoleSender(), tellraw);
     }
 

@@ -15,7 +15,6 @@ public class HueState {
     private PacketCommand command = PacketCommand.HUE;
 
     public HueState() {
-
     }
 
     public HueState setRed(int r) {

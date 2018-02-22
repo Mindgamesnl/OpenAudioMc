@@ -28,32 +28,25 @@ public class AudioSpeaker {
         } else {
             ConfigStorageMedia savedMedia = new ConfigStorageMedia();
             savedMedia.setName(this.urlKey);
-            try {
-                new Mp3Reader(this.url).run()
-                        .thenAccept(i -> {
-                            length = i;
-                            savedMedia.setLength(i);
-                            if (i != null && length != 0) {
-                                this.media = new Media(this.url);
-                                this.media.setLooping();
-                                this.media.setId("speaker_" + this.id);
-                                this.media.setSyncronized(this.length);
-                                System.out.println("[OpenAudioMc] Created syncronized speaker: " + this.id);
-                            } else {
-                                this.media = new Media(this.url);
-                                this.media.setLooping();
-                                this.media.setId("speaker_" + this.id);
-                                System.out.println("[OpenAudioMc] Failed to create syncronized speaker, speaker is now in the old default mode: " + this.id);
-                            }
-                            OpenAudioMc.getInstance().getConf().getStorage().addMedia(savedMedia);
-                        })
-                        .exceptionally(e -> { e.printStackTrace(); return null; });
-            } catch (OpenaudioFailedMp3ParseException e) {
-                e.printStackTrace();
-                OpenAudioMc.getInstance().getLogger().fine("Failed to load mp3 length!");
-                this.length = 0L;
-                savedMedia.setLength(0L);
-            }
+            new Mp3Reader(this.url).run()
+                    .thenAccept(i -> {
+                        length = i;
+                        savedMedia.setLength(i);
+                        if (i != null && length != 0) {
+                            this.media = new Media(this.url);
+                            this.media.setLooping();
+                            this.media.setId("speaker_" + this.id);
+                            this.media.setSyncronized(this.length);
+                            System.out.println("[OpenAudioMc] Created syncronized speaker: " + this.id);
+                        } else {
+                            this.media = new Media(this.url);
+                            this.media.setLooping();
+                            this.media.setId("speaker_" + this.id);
+                            System.out.println("[OpenAudioMc] Failed to create syncronized speaker, speaker is now in the old default mode: " + this.id);
+                        }
+                        OpenAudioMc.getInstance().getConf().getStorage().addMedia(savedMedia);
+                    })
+                    .exceptionally(e -> { e.printStackTrace(); return null; });
         }
     }
 
@@ -62,5 +55,4 @@ public class AudioSpeaker {
             l.sendPacket(this.media.getHandle(l));
         }
     }
-
 }

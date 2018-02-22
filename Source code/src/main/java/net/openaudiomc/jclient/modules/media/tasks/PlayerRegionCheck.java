@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerRegionCheck implements Runnable {
+
     @Override
     public void run() {
-        WorldGuardPlugin plugin = OpenAudioMc.getInstance().getMediaModule().getWorldGuardPlugin();
         for (AudioListener l : OpenAudioMc.getInstance().getPlayerModule().getListeners().values()) {
             if (l.getIsConnected()) {
                 List<String> regions = new ArrayList<>();
