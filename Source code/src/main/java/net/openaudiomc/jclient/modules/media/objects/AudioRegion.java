@@ -32,42 +32,35 @@ public class AudioRegion {
         } else {
             ConfigStorageMedia mediaConfig = new ConfigStorageMedia();
             mediaConfig.setName(this.urlKey);
-            try {
-                new Mp3Reader(OpenAudioMc.getInstance().getApiEndpoints().youtubeEndpoint(url, "oa-region-prompter")).run()
-                        .thenAccept(i -> {
-                            if (i == null) {
-                                OpenAudioMc.getInstance().getLogger().fine("Failed to load mp3 length!");
-                                length = 0L;
-                                mediaConfig.setLength(0L);
-                            } else {
-                                length = i;
-                                mediaConfig.setLength(i);
-                            }
+            new Mp3Reader(OpenAudioMc.getInstance().getApiEndpoints().youtubeEndpoint(url, "oa-region-prompter")).run()
+                    .thenAccept(i -> {
+                        if (i == null) {
+                            OpenAudioMc.getInstance().getLogger().fine("Failed to load mp3 length!");
+                            length = 0L;
+                            mediaConfig.setLength(0L);
+                        } else {
+                            length = i;
+                            mediaConfig.setLength(i);
+                        }
 
-                            if (this.length != 0) {
-                                this.media = new Media(this.url);
-                                this.media.setLooping();
-                                this.media.setId("region_" + this.id);
-                                this.media.setSyncronized(this.length);
-                                mediaConfig.setLength(i);
-                                System.out.println("[OpenAudioMc] Created syncronized region: " + this.id);
-                            } else {
-                                this.media = new Media(this.url);
-                                this.media.setLooping();
-                                this.media.setId("region_" + this.id);
-                                mediaConfig.setLength(0l);
-                                System.out.println("[OpenAudioMc] Failed to create syncronized region, region is now in the old default mode: " + this.id);
-                            }
+                        if (this.length != 0) {
+                            this.media = new Media(this.url);
+                            this.media.setLooping();
+                            this.media.setId("region_" + this.id);
+                            this.media.setSyncronized(this.length);
+                            mediaConfig.setLength(i);
+                            System.out.println("[OpenAudioMc] Created syncronized region: " + this.id);
+                        } else {
+                            this.media = new Media(this.url);
+                            this.media.setLooping();
+                            this.media.setId("region_" + this.id);
+                            mediaConfig.setLength(0l);
+                            System.out.println("[OpenAudioMc] Failed to create syncronized region, region is now in the old default mode: " + this.id);
+                        }
 
-                            OpenAudioMc.getInstance().getConf().getStorage().addMedia(mediaConfig);
-                        })
-                        .exceptionally(e -> { e.printStackTrace(); return null; });
-            } catch (OpenaudioFailedMp3ParseException e) {
-                e.printStackTrace();
-                OpenAudioMc.getInstance().getLogger().fine("Failed to load mp3 length!");
-                this.length = 0L;
-                mediaConfig.setLength(0L);
-            }
+                        OpenAudioMc.getInstance().getConf().getStorage().addMedia(mediaConfig);
+                    })
+                    .exceptionally(e -> { e.printStackTrace(); return null; });
         }
     }
 
@@ -76,5 +69,4 @@ public class AudioRegion {
             l.sendPacket(this.media.getHandle(l));
         }
     }
-
 }

@@ -34,20 +34,20 @@ public class AdminCommand implements CommandExecutor {
 
         if(args[0].equalsIgnoreCase("reload") && allowed(s, "reload")) {
             OpenAudioMc.getInstance().getConf().load();
-            s.sendMessage(ChatColor.GREEN + "Reladed the openaudiomc config.");
+            s.sendMessage(ChatColor.GREEN + "Reloaded the OpenAudioMc config.");
             return true;
         }
 
         if (args[0].equalsIgnoreCase("play") && allowed(s, "play")) {
             if (args.length == 3) {
                 api.play(new Media(args[2]), args[1]);
-                s.sendMessage(prefix + "Successfully executed command.");
+                s.sendMessage(prefix + "Successfully executed the command.");
                 return true;
             }
 
             if (args.length == 4) {
                 api.play(new Media(args[2]).setArgs(args[3]), args[1]);
-                s.sendMessage(prefix + "Successfully executed command.");
+                s.sendMessage(prefix + "Successfully executed the command.");
                 return true;
             }
             s.sendMessage(prefix + ChatColor.RED + "Correct ussage: /oa play <name> <url> [JSON arguments]");
@@ -72,7 +72,7 @@ public class AdminCommand implements CommandExecutor {
                     skull.setItemMeta(sm);
                     ((Player) s).getInventory().addItem(skull);
                     s.sendMessage(prefix + "Place this skull anywhere in the world to place a speaker.");
-                    s.sendMessage(prefix + "WARNING! when generating a speaker for the first time it may lagg out the server for a few seconds!");
+                    s.sendMessage(prefix + "WARNING! When generating a speaker for the first time it may lagg out the server for a few seconds!");
                     return true;
                 }
             }
@@ -113,12 +113,12 @@ public class AdminCommand implements CommandExecutor {
         if (args[0].equalsIgnoreCase("stop") && allowed(s, "stop")) {
             if (args.length == 2) {
                 api.stop(args[1]);
-                s.sendMessage(prefix + "Successfully executed command.");
+                s.sendMessage(prefix + "Successfully executed the command.");
                 return true;
             }
             if (args.length == 3) {
                 api.stopId(args[1], args[2]);
-                s.sendMessage(prefix + "Successfully executed command.");
+                s.sendMessage(prefix + "Successfully executed the command.");
                 return true;
             }
             s.sendMessage(prefix + ChatColor.RED + "Correct ussage: /oa stop <name> [id]");
@@ -129,7 +129,7 @@ public class AdminCommand implements CommandExecutor {
             if(args.length == 3) {
                 try {
                     api.hueColor(args[1], args[2]);
-                    s.sendMessage(prefix + "Successfully executed command.");
+                    s.sendMessage(prefix + "Successfully executed the command.");
                     return true;
                 } catch (InvalidColorCodeException e) {
                     s.sendMessage(prefix + ChatColor.RED + "Invalid rgba color.");
@@ -147,7 +147,7 @@ public class AdminCommand implements CommandExecutor {
                     return true;
                 }
 
-                s.sendMessage(prefix + "Successfully executed command.");
+                s.sendMessage(prefix + "Successfully executed the command.");
                 api.hueColor(args[1], red, green, blue, brightness);
                 return true;
             } else {

@@ -14,13 +14,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class OpenAudioMc extends JavaPlugin {
 
-    //yek static
     @Getter private static OpenAudioMc instance;
 
-    //config
     @Getter private Config conf;
 
-    //modules
     @Getter private PlayerModule playerModule;
     @Getter private SocketModule socketModule;
     @Getter private CommandsModule commandsModule;
@@ -47,7 +44,5 @@ public final class OpenAudioMc extends JavaPlugin {
     @Override
     public void onDisable() {
         socketModule.closeConnection();
-        //conf.save();
-        // Plugin shutdown logic
     }
 }

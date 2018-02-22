@@ -40,5 +40,4 @@ public class KeyHolder {
         publickey = pukey;
         privatekey = prkey;
     }
-
 }

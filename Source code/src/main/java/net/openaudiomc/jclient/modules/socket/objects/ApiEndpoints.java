@@ -35,7 +35,6 @@ public class ApiEndpoints {
         return url;
     }
 
-    //local server from testing
     private String root = "https://craftmendserver.eu";
     @Getter  private int port = 6969;
 

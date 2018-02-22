@@ -36,18 +36,13 @@ public class AudioListener {
     public void sendLink() {
         OpenAudioMc.getInstance().getSocketModule().connect();
 
-        //dont do anything if the user does nothing
         Bukkit.getScheduler().scheduleSyncDelayedTask(OpenAudioMc.getInstance(), () -> OpenAudioMc.getInstance().getSocketModule().requestClose(), 20 * 15);
 
         String url = OpenAudioMc.getInstance().getConf().getWeb().getUrl();
 
         updateToken();
 
-        String tokenRAW = this.player.getName() +
-                ":" +
-                OpenAudioMc.getInstance().getSocketModule().getKeyHolder().getPublickey() +
-                ":" +
-                this.token;
+        String tokenRAW = this.player.getName() + ":" + OpenAudioMc.getInstance().getSocketModule().getKeyHolder().getPublickey() + ":" + this.token;
 
         url = url + "?s=" + new String(Base64.getEncoder().encode(tokenRAW.getBytes()));
 

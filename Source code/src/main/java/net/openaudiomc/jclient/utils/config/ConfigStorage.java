@@ -89,6 +89,7 @@ public class ConfigStorage {
     public void deleteSpeakerMedia(ConfigStorageSpeakerMedia speakerMedia) {
         if(speakerMedias.contains(speakerMedia)) {
             speakerMedias.remove(speakerMedia);
+            OpenAudioMc.getInstance().getConf().save();
         } else {
             OpenAudioMc.getInstance().getLogger().warning("Tried to remove an unknown speaker media");
         }
@@ -97,6 +98,7 @@ public class ConfigStorage {
     public void deleteSpeakerLocation(ConfigStorageSpeakerLocation speakerLocation) {
         if(speakerLocations.contains(speakerLocation)) {
             speakerLocations.remove(speakerLocation);
+            OpenAudioMc.getInstance().getConf().save();
         } else {
             OpenAudioMc.getInstance().getLogger().warning("Tried to remove an unknown speaker location");
         }
@@ -105,6 +107,7 @@ public class ConfigStorage {
     public void deleteRegion(ConfigStorageRegion region) {
         if(regions.contains(region)) {
             regions.remove(region);
+            OpenAudioMc.getInstance().getConf().save();
         } else {
             OpenAudioMc.getInstance().getLogger().warning("Tried to remove an unknown region");
         }
@@ -113,6 +116,7 @@ public class ConfigStorage {
     public void deleteMedia(ConfigStorageMedia media) {
         if(medias.contains(media)) {
             medias.remove(media);
+            OpenAudioMc.getInstance().getConf().save();
         } else {
             OpenAudioMc.getInstance().getLogger().warning("Tried to remove an unknown media");
         }

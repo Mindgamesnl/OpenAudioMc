@@ -10,17 +10,9 @@ public class CommandsModule {
 
     public CommandsModule(OpenAudioMc plugin) {
         plugin.getCommand("audio").setExecutor(new SuplyUrlCommand());
-        plugin.getCommand("connect").setExecutor(new SuplyUrlCommand());
-        plugin.getCommand("sound").setExecutor(new SuplyUrlCommand());
-
         plugin.getCommand("oa").setExecutor(new AdminCommand());
-        plugin.getCommand("openaudio").setExecutor(new AdminCommand());
-        plugin.getCommand("openaudiomc").setExecutor(new AdminCommand());
-
         plugin.getCommand("volume").setExecutor(new SetvolumeCommand());
-        plugin.getCommand("vol").setExecutor(new SetvolumeCommand());
 
         plugin.getServer().getPluginManager().registerEvents(new CustomCommandListener(), plugin);
     }
-
 }

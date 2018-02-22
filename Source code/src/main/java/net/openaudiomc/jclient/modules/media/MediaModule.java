@@ -10,7 +10,6 @@ import net.openaudiomc.jclient.modules.media.objects.AudioSpeaker;
 import net.openaudiomc.jclient.modules.media.tasks.PlayerRegionCheck;
 
 import net.openaudiomc.jclient.modules.media.tasks.PlayerSpeakerCheck;
-import net.openaudiomc.jclient.utils.config.Config;
 import net.openaudiomc.jclient.utils.config.ConfigStorageRegion;
 import net.openaudiomc.jclient.utils.config.ConfigStorageSpeakerLocation;
 import net.openaudiomc.jclient.utils.config.ConfigStorageSpeakerMedia;
@@ -22,18 +21,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MediaModule {
 
-    //region shit
     @Getter private WorldGuardPlugin worldGuardPlugin;
     @Getter private Map<String, AudioRegion> regions = new ConcurrentHashMap<>();
 
-    //hey look at that! speaker shit!
     @Getter private Map<String, AudioSpeaker> speakerMedia = new ConcurrentHashMap<>();
     @Getter private Map<Location, String> speakers = new ConcurrentHashMap<>();
 
     public MediaModule(OpenAudioMc plugin) {
 
         if (Bukkit.getServer().getPluginManager().isPluginEnabled("WorldGuard")) {
-            System.out.println("[OpenAudioMc] Found worldguard! lets enable regions!");
+            System.out.println("[OpenAudioMc] Found worldguard! Let's enable regions!");
             worldGuardPlugin = (WorldGuardPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
             Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new PlayerRegionCheck(), 20, 20);
             loadRegions();
@@ -46,53 +43,60 @@ public class MediaModule {
     }
 
     public void loadSpeakerMedia() {
-        for(ConfigStorageSpeakerMedia speakerMedia : OpenAudioMc.getInstance().getConf().getStorage().getSpeakerMedias()) {
-            if(!this.speakerMedia.containsKey(speakerMedia.getName())) {
-                this.speakerMedia.put(speakerMedia.getName(), new AudioSpeaker(speakerMedia.getName(), speakerMedia.getSource()));
+        OpenAudioMc.getInstance().getServer().getScheduler().runTaskAsynchronously(OpenAudioMc.getInstance(), () -> {
+            for(ConfigStorageSpeakerMedia speakerMedia : OpenAudioMc.getInstance().getConf().getStorage().getSpeakerMedias()) {
+                if(!this.speakerMedia.containsKey(speakerMedia.getName())) {
+                    this.speakerMedia.put(speakerMedia.getName(), new AudioSpeaker(speakerMedia.getName(), speakerMedia.getSource()));
+                }
             }
-        }
+        });
     }
 
     public void loadSpeakers() {
-        for(ConfigStorageSpeakerLocation speakerLocation : OpenAudioMc.getInstance().getConf().getStorage().getSpeakerLocations()) {
-            Location location = new Location(Bukkit.getWorld(speakerLocation.getWorld()), speakerLocation.getX(), speakerLocation.getY(), speakerLocation.getZ());
-            if(!speakers.containsKey(location)) {
-                speakers.put(location, speakerLocation.getSound());
+        OpenAudioMc.getInstance().getServer().getScheduler().runTaskAsynchronously(OpenAudioMc.getInstance(), () -> {
+            for(ConfigStorageSpeakerLocation speakerLocation : OpenAudioMc.getInstance().getConf().getStorage().getSpeakerLocations()) {
+                Location location = new Location(Bukkit.getWorld(speakerLocation.getWorld()), speakerLocation.getX(), speakerLocation.getY(), speakerLocation.getZ());
+                if(!speakers.containsKey(location)) {
+                    speakers.put(location, speakerLocation.getSound());
+                }
             }
-        }
+        });
     }
 
     public void destroySpeaker(Location loc) {
-        for(ConfigStorageSpeakerLocation speakerLocation : OpenAudioMc.getInstance().getConf().getStorage().getSpeakerLocations()) {
-            Location location = new Location(Bukkit.getWorld(speakerLocation.getWorld()), speakerLocation.getX(), speakerLocation.getY(), speakerLocation.getZ());
-            if(location.equals(loc)) {
-                OpenAudioMc.getInstance().getConf().getStorage().deleteSpeakerLocation(speakerLocation);
-                speakers.remove(location);
+        OpenAudioMc.getInstance().getServer().getScheduler().runTaskAsynchronously(OpenAudioMc.getInstance(), () -> {
+            for(ConfigStorageSpeakerLocation speakerLocation : OpenAudioMc.getInstance().getConf().getStorage().getSpeakerLocations()) {
+                Location location = new Location(Bukkit.getWorld(speakerLocation.getWorld()), speakerLocation.getX(), speakerLocation.getY(), speakerLocation.getZ());
+                if(location.equals(loc)) {
+                    OpenAudioMc.getInstance().getConf().getStorage().deleteSpeakerLocation(speakerLocation);
+                    speakers.remove(location);
+                }
             }
-        }
+        });
     }
 
     public void placeSpeaker(Location loc, String sound) {
-        //handle sound
-        if (!speakerMedia.containsKey(urlToId(sound))) {
-            speakerMedia.put(sound, new AudioSpeaker(urlToId(sound), sound));
-            ConfigStorageSpeakerMedia speakerMedia = new ConfigStorageSpeakerMedia();
-            speakerMedia.setName(urlToId(sound));
-            speakerMedia.setSource(sound);
-            OpenAudioMc.getInstance().getConf().getStorage().addSpeakerMedia(speakerMedia);
-        }
-        String key = UUID.randomUUID().toString();
-        ConfigStorageSpeakerLocation speakerLocation = new ConfigStorageSpeakerLocation();
-        speakerLocation.setId(UUID.fromString(key));
-        speakerLocation.setWorld(loc.getWorld().getName());
-        speakerLocation.setX((double) loc.getBlockX());
-        speakerLocation.setY((double) loc.getBlockY());
-        speakerLocation.setZ((double) loc.getBlockZ());
-        speakerLocation.setSound(urlToId(sound));
-        OpenAudioMc.getInstance().getConf().getStorage().addSpeakerLocation(speakerLocation);
+        OpenAudioMc.getInstance().getServer().getScheduler().runTaskAsynchronously(OpenAudioMc.getInstance(), () -> {
+            if (!speakerMedia.containsKey(urlToId(sound))) {
+                speakerMedia.put(sound, new AudioSpeaker(urlToId(sound), sound));
+                ConfigStorageSpeakerMedia speakerMedia = new ConfigStorageSpeakerMedia();
+                speakerMedia.setName(urlToId(sound));
+                speakerMedia.setSource(sound);
+                OpenAudioMc.getInstance().getConf().getStorage().addSpeakerMedia(speakerMedia);
+            }
+            String key = UUID.randomUUID().toString();
+            ConfigStorageSpeakerLocation speakerLocation = new ConfigStorageSpeakerLocation();
+            speakerLocation.setId(UUID.fromString(key));
+            speakerLocation.setWorld(loc.getWorld().getName());
+            speakerLocation.setX((double) loc.getBlockX());
+            speakerLocation.setY((double) loc.getBlockY());
+            speakerLocation.setZ((double) loc.getBlockZ());
+            speakerLocation.setSound(urlToId(sound));
+            OpenAudioMc.getInstance().getConf().getStorage().addSpeakerLocation(speakerLocation);
 
-        loadSpeakerMedia();
-        loadSpeakers();
+            loadSpeakerMedia();
+            loadSpeakers();
+        });
     }
 
     public String urlToId(String url) {
@@ -100,11 +104,12 @@ public class MediaModule {
     }
 
     public void loadRegions() {
-        for(ConfigStorageRegion region : OpenAudioMc.getInstance().getConf().getStorage().getRegions()) {
-            if(!regions.containsKey(region.getName())) {
-                regions.put(region.getName(), new AudioRegion(region.getName(), region.getSource()));
+        OpenAudioMc.getInstance().getServer().getScheduler().runTaskAsynchronously(OpenAudioMc.getInstance(), () -> {
+            for(ConfigStorageRegion region : OpenAudioMc.getInstance().getConf().getStorage().getRegions()) {
+                if(!regions.containsKey(region.getName())) {
+                    regions.put(region.getName(), new AudioRegion(region.getName(), region.getSource()));
+                }
             }
-        }
+        });
     }
-
 }

@@ -10,10 +10,8 @@ import org.bukkit.entity.Player;
 
 public class SuplyUrlCommand implements CommandExecutor {
 
-
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-
         if (sender instanceof Player) {
             OpenAudioMc.getInstance().getPlayerModule().getListeners().get(sender.getName()).sendLink();
             return true;

@@ -41,9 +41,7 @@ public class SetvolumeCommand implements CommandExecutor {
     public Boolean isInt(String s) {
         try {
             Integer.parseInt(s);
-        } catch(NumberFormatException e) {
-            return false;
-        } catch(NullPointerException e) {
+        } catch (NumberFormatException | NullPointerException e) {
             return false;
         }
         return true;

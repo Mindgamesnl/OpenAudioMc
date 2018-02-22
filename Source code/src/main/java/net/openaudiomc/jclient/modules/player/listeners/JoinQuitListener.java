@@ -20,5 +20,4 @@ public class JoinQuitListener implements Listener {
         OpenAudioMc.getInstance().getPlayerModule().getListeners().get(event.getPlayer().getName()).onQuit();
         OpenAudioMc.getInstance().getPlayerModule().getListeners().remove(event.getPlayer().getName());
     }
-
 }

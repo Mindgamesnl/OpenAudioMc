@@ -23,7 +23,7 @@ public class Mp3Reader {
         this.url = url;
     }
 
-    public CompletableFuture<Long> run() throws OpenaudioFailedMp3ParseException {
+    public CompletableFuture<Long> run() {
         CompletableFuture<Long> cf = new CompletableFuture<>();
 
         Bukkit.getScheduler().runTaskAsynchronously(OpenAudioMc.getInstance(), () -> {
@@ -34,13 +34,7 @@ public class Mp3Reader {
                 cf.complete(mp3file.getLengthInSeconds());
                 Boolean fileExists = file.exists();
                 file.delete();
-            } catch (IOException e) {
-                cf.complete(null);
-                e.printStackTrace();
-            } catch (InvalidDataException e) {
-                cf.complete(null);
-                e.printStackTrace();
-            } catch (UnsupportedTagException e) {
+            } catch (IOException | InvalidDataException | UnsupportedTagException e) {
                 cf.complete(null);
                 e.printStackTrace();
             }
@@ -55,7 +49,6 @@ public class Mp3Reader {
         String tempDir = System.getProperty("java.io.tmpdir");
         String outputPath = "plugins/OpenAudioMp3Meta";
         try {
-            //connect
             URLConnection urlConn = url.openConnection();
 
             //get inputstream from connection
