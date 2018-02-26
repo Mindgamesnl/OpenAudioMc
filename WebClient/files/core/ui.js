@@ -1,3 +1,4 @@
+
 __volume = 0;
 
 function oa_volume_increment() {
@@ -17,7 +18,8 @@ function oa_ui_setbg(a) {
         document.body.style.backgroundSize = "cover";
         return;
     }
-    document.body.style.background = a;    document.body.style.backgroundSize = "cover";
+    document.body.style.background = a;
+    document.body.style.backgroundSize = "cover";
 }
 
 function oa_volume_set(newvolume) {
