@@ -17,8 +17,7 @@ function oa_ui_setbg(a) {
         document.body.style.backgroundSize = "cover";
         return;
     }
-    document.body.style.background = a;
-    document.body.style.backgroundSize = "cover";
+    document.body.style.background = a;    document.body.style.backgroundSize = "cover";
 }
 
 function oa_volume_set(newvolume) {
@@ -62,7 +61,6 @@ function oa_ui_setskull(owner, uuid) {
             '  url("https://crafatar.com/avatars/606e2ff0-ed77-4842-9d6c-e1d3321c7838")';
         document.getElementById("skull").style.backgroundSize = "cover";
         document.getElementById("username").innerHTML = "Whoops!";
-        return;
     } else {
         document.getElementById("skull").style.background = 'linear-gradient(\n' +
             '          rgba(26, 26, 29, 0.45),\n' +
