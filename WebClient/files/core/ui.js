@@ -1,4 +1,3 @@
-
 __volume = 0;
 
 function oa_volume_increment() {
@@ -53,7 +52,6 @@ function oa_ui_show_notification(title, text, color) {
 }
 
 function oa_ui_setskull(owner, uuid) {
-
     if (owner == "Whoops") {
         document.getElementById("skull").style.background = 'linear-gradient(\n' +
             '          rgba(26, 26, 29, 0.45),\n' +
