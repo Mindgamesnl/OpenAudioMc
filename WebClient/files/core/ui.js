@@ -63,14 +63,14 @@ function oa_ui_setskull(owner, uuid) {
         document.getElementById("skull").style.backgroundSize = "cover";
         document.getElementById("username").innerHTML = "Whoops!";
         return;
+    } else {
+        document.getElementById("skull").style.background = 'linear-gradient(\n' +
+            '          rgba(26, 26, 29, 0.45),\n' +
+            '          rgba(30, 30, 33, 0.25),\n' +
+            '          rgba(118, 240, 118, 0.25),\n' +
+            '          rgba(92, 229, 89, 0.45)),\n' +
+            '  url("https://crafatar.com/avatars/'+uuid+'?default=d3c47f6f-ae3a-45c1-ad7c-e2c762b03ae6&overlay")';
+        document.getElementById("skull").style.backgroundSize = "cover";
+        document.getElementById("username").innerHTML = owner;
     }
-
-    document.getElementById("skull").style.background = 'linear-gradient(\n' +
-        '          rgba(26, 26, 29, 0.45),\n' +
-        '          rgba(30, 30, 33, 0.25),\n' +
-        '          rgba(118, 240, 118, 0.25),\n' +
-        '          rgba(92, 229, 89, 0.45)),\n' +
-        '  url("https://crafatar.com/avatars/'+uuid+'")';
-    document.getElementById("skull").style.backgroundSize = "cover";
-    document.getElementById("username").innerHTML = owner;
 }
