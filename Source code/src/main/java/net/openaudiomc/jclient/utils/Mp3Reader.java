@@ -47,7 +47,7 @@ public class Mp3Reader {
         InputStream is = null;
         FileOutputStream fos = null;
         String tempDir = System.getProperty("java.io.tmpdir");
-        String outputPath = "plugins/OpenAudioMp3Meta";
+        String outputPath = "plugins/OpenAudioMc/Mp3Meta";
         try {
             URLConnection urlConn = url.openConnection();
 
