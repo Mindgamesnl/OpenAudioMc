@@ -25,14 +25,25 @@ public class AudioSpeaker {
 
         if (OpenAudioMc.getInstance().getConf().getStorage().getMedia(this.urlKey) != null) {
             this.length = OpenAudioMc.getInstance().getConf().getStorage().getMedia(this.urlKey).getLength();
+            this.media = new Media(OpenAudioMc.getInstance().getApiEndpoints().youtubeEndpoint(this.url, "oa-region-prompter"));
+            this.media.setSyncronized(length);
+            this.media.setId("speaker_"+id);
+            this.media.setLooping();
         } else {
             ConfigStorageMedia savedMedia = new ConfigStorageMedia();
             savedMedia.setName(this.urlKey);
-            new Mp3Reader(this.url).run()
+            new Mp3Reader(OpenAudioMc.getInstance().getApiEndpoints().youtubeEndpoint(source, "oa-region-prompter")).run()
                     .thenAccept(i -> {
-                        length = i;
-                        savedMedia.setLength(i);
-                        if (i != null && length != 0) {
+                        if (i == null) {
+                            OpenAudioMc.getInstance().getLogger().fine("Failed to load mp3 length!");
+                            length = 0L;
+                            savedMedia.setLength(0L);
+                        } else {
+                            length = i;
+                            savedMedia.setLength(i);
+                        }
+
+                        if (length != 0) {
                             this.media = new Media(this.url);
                             this.media.setLooping();
                             this.media.setId("speaker_" + this.id);
