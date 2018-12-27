@@ -4,11 +4,15 @@ package com.craftmend.openaudiomc.modules.networking.abstracts;
 import com.craftmend.openaudiomc.modules.networking.enums.PacketType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
-@Getter
-@AllArgsConstructor
 public abstract class AbstractPacket {
 
-    private PacketType packetType;
+    @Getter private PacketType packetType;
+    @Setter private AbstractPacket data;
+
+    public AbstractPacket(PacketType packetType) {
+        this.packetType = packetType;
+    }
 
 }
