@@ -7,6 +7,9 @@ import com.craftmend.openaudiomc.modules.networking.packets.PacketServerUpdatePu
 
 public class PrivateKeyUpdateHandler implements IPacketHandler<PacketServerUpdatePublicKey> {
 
+    public PrivateKeyUpdateHandler(OpenAudioMc openAudioMc) {
+    }
+
     @Override
     public void on(PacketServerUpdatePublicKey packet) {
         OpenAudioMc.getInstance().getAuthenticationModule().getServerKeySet().setPublicKey(new Key(packet.getKey()));

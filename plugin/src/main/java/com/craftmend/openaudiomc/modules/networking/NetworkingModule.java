@@ -3,6 +3,8 @@ package com.craftmend.openaudiomc.modules.networking;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.modules.networking.enums.PacketType;
+import com.craftmend.openaudiomc.modules.networking.handlers.ClientConnectHandler;
+import com.craftmend.openaudiomc.modules.networking.handlers.ClientDisconnectHandler;
 import com.craftmend.openaudiomc.modules.networking.handlers.PrivateKeyUpdateHandler;
 import com.craftmend.openaudiomc.modules.networking.interfaces.IPacketHandler;
 
@@ -15,8 +17,9 @@ public class NetworkingModule {
 
     public NetworkingModule(OpenAudioMc openAudioMc) {
         //register socket handlers
-        registerHandler(PacketType.SERVER_UPDATE_PUBLIC_TOKEN, new PrivateKeyUpdateHandler());
-        
+        registerHandler(PacketType.SERVER_UPDATE_PUBLIC_TOKEN, new PrivateKeyUpdateHandler(openAudioMc));
+        registerHandler(PacketType.SERVER_CLIENT_WEB_CONNECT, new ClientConnectHandler(openAudioMc));
+        registerHandler(PacketType.SERVER_CLIENT_WEB_DISCONNECT, new ClientDisconnectHandler(openAudioMc));
     }
 
     public void triggerPacket(AbstractPacket abstractPacket) {

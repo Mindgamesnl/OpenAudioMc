@@ -9,10 +9,14 @@ import lombok.Setter;
 public abstract class AbstractPacket {
 
     @Getter private PacketType packetType;
-    @Setter private AbstractPacket data;
+    private AbstractPacket data;
 
     public AbstractPacket(PacketType packetType) {
         this.packetType = packetType;
+    }
+
+    protected void setData(AbstractPacket abstractPacket) {
+        if (data == null) data = abstractPacket;
     }
 
 }
