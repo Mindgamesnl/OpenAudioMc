@@ -19,5 +19,7 @@ public class PacketClientCreateMedia extends AbstractPacket {
 
         this.media = media;
         this.client = client;
+
+        setData(this);
     }
 }
