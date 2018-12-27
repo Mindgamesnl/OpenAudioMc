@@ -22,6 +22,6 @@ public class Client {
         this.player = player;
     }
 
-    
+
 
 }

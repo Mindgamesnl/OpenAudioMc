@@ -12,13 +12,11 @@ import java.util.UUID;
 public class PacketClientCreateMedia extends AbstractPacket {
 
     private Media media;
-    private int timeStamp;
 
     public PacketClientCreateMedia(Media media, UUID client) {
         super(PacketType.CLIENT_CREATE_MEDIA);
 
         this.media = media;
-        this.timeStamp = this.media.getCurrentTime();
 
         setData(this);
         setTarget(client);
