@@ -7,7 +7,7 @@ public enum PacketType {
     //received from socket
     SERVER_CLIENT_WEB_CONNECT("client_connected_web", PacketTarget.SERVER),
     SERVER_CLIENT_WEB_DISCONNECT("client_disconnected_web", PacketTarget.SERVER),
-    SERVER_UPDATE_PUBLIC_TOKEN("protocol_push_private_token", PacketTarget.SERVER),
+    SERVER_UPDATE_TOKENS("protocol_push_tokens", PacketTarget.SERVER),
 
     //send over socket
     SOCKET_PLAYER_JOIN_SERVER("player_join_server", PacketTarget.SOCKET),

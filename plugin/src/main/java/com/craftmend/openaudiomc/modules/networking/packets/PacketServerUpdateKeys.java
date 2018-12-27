@@ -4,12 +4,13 @@ import com.craftmend.openaudiomc.modules.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.modules.networking.enums.PacketType;
 import lombok.Getter;
 
-public class PacketServerUpdatePublicKey extends AbstractPacket {
+public class PacketServerUpdateKeys extends AbstractPacket {
 
-    @Getter private String key;
+    @Getter private String publicKey;
+    @Getter private String privateKey;
 
-    public PacketServerUpdatePublicKey() {
-        super(PacketType.SERVER_UPDATE_PUBLIC_TOKEN);
+    public PacketServerUpdateKeys() {
+        super(PacketType.SERVER_UPDATE_TOKENS);
 
         setData(this);
     }
