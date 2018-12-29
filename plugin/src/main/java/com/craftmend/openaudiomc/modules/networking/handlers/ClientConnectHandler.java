@@ -1,17 +1,12 @@
 package com.craftmend.openaudiomc.modules.networking.handlers;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.modules.networking.interfaces.IPacketHandler;
-import com.craftmend.openaudiomc.modules.networking.packets.PacketServerConnectClient;
+import com.craftmend.openaudiomc.modules.networking.abstracts.PayloadHandler;
+import com.craftmend.openaudiomc.modules.networking.payloads.ClientConnectionPayload;
 
-public class ClientConnectHandler implements IPacketHandler<PacketServerConnectClient> {
-
-    public ClientConnectHandler(OpenAudioMc openAudioMc) {
-    }
+public class ClientConnectHandler extends PayloadHandler<ClientConnectionPayload> {
 
     @Override
-    public void on(PacketServerConnectClient packet) {
-        //on connect
-    }
+    public void onReceive(ClientConnectionPayload payload) {
 
+    }
 }

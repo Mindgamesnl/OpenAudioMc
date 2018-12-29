@@ -8,7 +8,7 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
 @Getter
-public class SSLHelper {
+class SSLHelper {
 
     private HostnameVerifier hostnameVerifier;
     private TrustManager[] trustAllCerts;

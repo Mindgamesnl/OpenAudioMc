@@ -15,17 +15,4 @@ public class AuthenticationModule {
 
     }
 
-    public Key requestServerIdentifier() {
-        //TODO: http request server id endpoint
-        String response = "TODO";
-
-        if (response != "err") {
-            Key key = new Key(response);
-            serverKeySet.setPrivateKey(key);
-            return key;
-        } else {
-            return null;
-        }
-    }
-
 }

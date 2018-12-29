@@ -22,8 +22,8 @@ public class SocketIoConnector {
 
     public SocketIoConnector(OpenAudioMc openAudioMc) throws KeyManagementException, NoSuchAlgorithmException, URISyntaxException {
         sslHelper = new SSLHelper();
-        setupConnection();
-        registerEvents();
+        //setupConnection();
+        //registerEvents();
     }
 
     private void setupConnection() throws URISyntaxException {
@@ -49,10 +49,11 @@ public class SocketIoConnector {
 
         socket.on(Socket.EVENT_DISCONNECT, args -> {
             //disconnected
+
         });
 
         socket.on("data", args -> {
-            AbstractPacket abstractPacket = gson.fromJson((String) args[0], AbstractPacket.class);
+            AbstractPacket abstractPacket = OpenAudioMc.getGson().fromJson((String) args[0], AbstractPacket.class);
             OpenAudioMc.getInstance().getNetworkingModule().triggerPacket(abstractPacket);
         });
     }
