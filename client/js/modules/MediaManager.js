@@ -1,0 +1,5 @@
+class MediaManager {
+
+    constructor() {}
+
+}

@@ -17,13 +17,12 @@ public class SocketIoConnector {
     @Getter private Socket socket;
     @Getter private Boolean isConnected = false;
     private SSLHelper sslHelper;
-    private String server;
     private Gson gson = new Gson();
 
     public SocketIoConnector(OpenAudioMc openAudioMc) throws KeyManagementException, NoSuchAlgorithmException, URISyntaxException {
         sslHelper = new SSLHelper();
-        //setupConnection();
-        //registerEvents();
+        setupConnection();
+        registerEvents();
     }
 
     private void setupConnection() throws URISyntaxException {
@@ -38,18 +37,23 @@ public class SocketIoConnector {
         IO.Options opts = new IO.Options();
         opts.callFactory = okHttpClient;
         opts.webSocketFactory = okHttpClient;
+        opts.query = "type=server&" +
+                "secret=" + OpenAudioMc.getInstance().getAuthenticationModule().getServerKeySet().getPrivateKey().getValue() + "&" +
+                "public=" + OpenAudioMc.getInstance().getAuthenticationModule().getServerKeySet().getPublicKey().getValue();
 
-        socket = IO.socket(server, opts);
+        socket = IO.socket(OpenAudioMc.getInstance().getConfigurationModule().getServer(), opts);
+        socket.connect();
     }
 
     private void registerEvents() {
         socket.on(Socket.EVENT_CONNECT, args -> {
             //connected
+            System.out.println(OpenAudioMc.getLOG_PREFIX() + "Socket: Opened.");
         });
 
         socket.on(Socket.EVENT_DISCONNECT, args -> {
             //disconnected
-
+            System.out.println(OpenAudioMc.getLOG_PREFIX() + "Socket: closed.");
         });
 
         socket.on("data", args -> {
