@@ -7,6 +7,7 @@ class WebAudio {
         this.meta = {};
         this.time = 0;
         this.task = 0;
+        this.onFinishHandlers = [];
 
         this.isLoading = false;
         this.isPlayable = false;
@@ -43,6 +44,7 @@ class WebAudio {
 
         this.soundElement.onended = function () {
             that.isPlayable = true;
+            that.onFinishHandlers.forEach(h => h());
         };
 
         this.soundElement.onloadstart = function () {
@@ -50,7 +52,7 @@ class WebAudio {
         };
 
         this.soundElement.ontimeupdate = function () {
-            that.time = that.soundElement.currentTime;
+            if (that.soundElement != null) that.time = that.soundElement.currentTime;
         };
     }
 
@@ -62,7 +64,15 @@ class WebAudio {
         return this.soundElement.currentTime;
     }
 
+    onFinish(callback) {
+        this.onFinishHandlers.push(callback);
+    }
+
     setVolume(volume, fadetime) {
+        if (fadetime == null) {
+            this.soundElement.volume = volume / 100;
+            return;
+        }
         if (this.isFading) {
             clearInterval(this.task);
         }
@@ -102,11 +112,12 @@ class WebAudio {
         }, interval);
     }
 
-    startDate(date) {
+    startDate(date, flip) {
         let start = new Date(date * 1000);
         let seconds = Math.abs((start.getTime() - new Date().getTime()) / 1000);
         let length = this.soundElement.duration;
         if (seconds > length) {
+            if (!flip) return;
             //how many times it would have played
             let times = Math.floor(seconds / length);
             //remove other repetitions from time

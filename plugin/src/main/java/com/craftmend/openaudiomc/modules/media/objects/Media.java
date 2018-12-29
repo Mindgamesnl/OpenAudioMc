@@ -11,18 +11,21 @@ import java.util.UUID;
 public class Media {
 
     //media tracker
-    private UUID mediaId = UUID.randomUUID();
+    @Setter @Getter private String mediaId = UUID.randomUUID().toString();
 
     //media owner
     @Setter private transient Client client;
 
     //media information
     private String source;
-    private Instant startInstant;
+    private int startInstant;
+    @Getter @Setter private Boolean doPickup = true;
+    @Getter @Setter private Boolean loop = false;
+    @Getter @Setter private Boolean autoPlay = true;
 
     public Media(String source) {
         this.source = source;
-        this.startInstant = Instant.now();
+        this.startInstant = (int) (System.currentTimeMillis() / 1000L);
     }
 
 }
