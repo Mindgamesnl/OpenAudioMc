@@ -42,8 +42,8 @@ public final class OpenAudioMc extends JavaPlugin {
         instance = this;
 
         //startup modules
-        this.authenticationModule = new AuthenticationModule(this);
         this.configurationModule = new ConfigurationModule(this);
+        this.authenticationModule = new AuthenticationModule(this);
         this.mediaModule = new MediaModule(this);
         this.playerModule = new PlayerModule(this);
         this.networkingModule = new NetworkingModule(this);
