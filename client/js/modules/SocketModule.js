@@ -6,6 +6,8 @@ class SocketModule {
             return;
         }
 
+        this.handlers = {};
+
         let query = atob(main.utils.getParameter().data).split(":");
         main.debugPrint("Username: " + query[0]);
         main.debugPrint("Player uuid: " + query[1]);
@@ -35,9 +37,28 @@ class SocketModule {
 
         this.socket.on("disconnect", function () {
             main.debugPrint("closed");
+            for (var key in main.getMediaManager().sounds) {
+                main.getMediaManager().sounds[key].setVolume(0, 1000);
+                setTimeout(function () {
+                    main.getMediaManager().sounds[key].destroy();
+                }, 1005);
+            }
+
+            setTimeout(function () {
+                main.getMediaManager().sounds = {};
+            }, 1010);
+        });
+
+        this.socket.on("data", function (data) {
+            main.debugPrint("input: " + JSON.stringify(data));
+            if (that.handlers[data.type] != null) that.handlers[data.type](data.payload);
         });
 
         this.socket.connect();
+    }
+
+    registerHandler(channel, f) {
+        this.handlers[channel] = f;
     }
 
 }

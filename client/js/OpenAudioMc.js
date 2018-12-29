@@ -7,6 +7,7 @@ class OpenAudioMc {
         this.mediaManager = new MediaManager(this);
         this.userInterfaceModule = new UserInterfaceModule(this);
         this.socketModule = new SocketModule(this, "http://localhost");
+        new Handlers(this);
     }
 
     log(message) {
@@ -37,6 +38,9 @@ class OpenAudioMc {
 
 //enable
 let  openAudioMc = null;
-onload = function () {
-    openAudioMc = new OpenAudioMc();
-};
+
+function enable(button) {
+    if (openAudioMc == null) {
+        openAudioMc = new OpenAudioMc();
+    }
+}

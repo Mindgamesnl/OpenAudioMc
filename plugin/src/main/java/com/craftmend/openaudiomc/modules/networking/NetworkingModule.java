@@ -6,7 +6,9 @@ import com.craftmend.openaudiomc.modules.networking.handlers.ClientConnectHandle
 
 import com.craftmend.openaudiomc.modules.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.modules.networking.abstracts.PayloadHandler;
+import com.craftmend.openaudiomc.modules.networking.handlers.ClientDisconnectHandler;
 import com.craftmend.openaudiomc.modules.networking.io.SocketIoConnector;
+import com.craftmend.openaudiomc.modules.players.objects.Client;
 import org.bukkit.Bukkit;
 
 import java.util.HashMap;
@@ -20,6 +22,7 @@ public class NetworkingModule {
     public NetworkingModule(OpenAudioMc openAudioMc) {
         //register socket handlers
         registerHandler(PacketChannel.SOCKET_IN_REGISTER_CLIENT, new ClientConnectHandler());
+        registerHandler(PacketChannel.SOCKET_IN_UNREGISTER_CLIENT, new ClientDisconnectHandler());
 
         try {
             socketIoConnector = new SocketIoConnector(openAudioMc);
@@ -27,6 +30,13 @@ public class NetworkingModule {
             Bukkit.getPluginManager().disablePlugin(openAudioMc);
             System.out.println(OpenAudioMc.getLOG_PREFIX() + "The plugin could not start because of a connection problem when requesting the initial private key. Please contact the developers of this plugin.");
             e.printStackTrace();
+        }
+    }
+
+    public void send(Client client, AbstractPacket packet) {
+        if (socketIoConnector.getIsConnected() && client.getIsConnected()) {
+            packet.setClient(client.getPlayer().getUniqueId());
+            socketIoConnector.getSocket().emit("data", OpenAudioMc.getGson().toJson(packet));
         }
     }
 

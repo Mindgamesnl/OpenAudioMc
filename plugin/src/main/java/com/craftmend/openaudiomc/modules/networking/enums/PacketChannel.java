@@ -8,6 +8,7 @@ public enum PacketChannel {
 
     //socket out
     SOCKET_OUT_KICK_CLIENT,
+    SOCKET_OUT_AWKNOLEGECLIENT,
 
     //client target
     CLIENT_OUT_CREATE_MEDIA,

@@ -2,11 +2,17 @@ package com.craftmend.openaudiomc.modules.networking.io;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.networking.abstracts.AbstractPacket;
+import com.craftmend.openaudiomc.modules.networking.packets.PacketAcknowledgeClientRequest;
+import com.craftmend.openaudiomc.modules.networking.payloads.AcknowledgeClientPayload;
+import com.craftmend.openaudiomc.modules.players.objects.Client;
 import com.google.gson.Gson;
+import io.socket.client.Ack;
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 import lombok.Getter;
 import okhttp3.OkHttpClient;
+import org.json.JSONObject;
 
 import java.net.URISyntaxException;
 import java.security.KeyManagementException;
@@ -14,8 +20,10 @@ import java.security.NoSuchAlgorithmException;
 
 public class SocketIoConnector {
 
-    @Getter private Socket socket;
-    @Getter private Boolean isConnected = false;
+    @Getter
+    private Socket socket;
+    @Getter
+    private Boolean isConnected = false;
     private SSLHelper sslHelper;
     private Gson gson = new Gson();
 
@@ -48,16 +56,36 @@ public class SocketIoConnector {
     private void registerEvents() {
         socket.on(Socket.EVENT_CONNECT, args -> {
             //connected
+            isConnected = true;
             System.out.println(OpenAudioMc.getLOG_PREFIX() + "Socket: Opened.");
         });
 
         socket.on(Socket.EVENT_DISCONNECT, args -> {
             //disconnected
+            isConnected = false;
             System.out.println(OpenAudioMc.getLOG_PREFIX() + "Socket: closed.");
         });
 
+        socket.on("acknowledgeClient", args -> {
+            String data = ((JSONObject) args[0]).toString();
+            AcknowledgeClientPayload payload = (AcknowledgeClientPayload) OpenAudioMc.getGson().fromJson(data, AbstractPacket.class).getData();
+
+            Client client = OpenAudioMc.getInstance().getPlayerModule().getClient(payload.getUuid());
+            Ack callback = (Ack) args[1];
+
+            if (client == null) {
+                callback.call(false);
+            } else if (client.getPin().equals(payload.getToken())) {
+                client.onConnect();
+                callback.call(true);
+            } else {
+                callback.call(false);
+            }
+        });
+
         socket.on("data", args -> {
-            AbstractPacket abstractPacket = OpenAudioMc.getGson().fromJson((String) args[0], AbstractPacket.class);
+            String data = ((JSONObject) args[0]).toString();
+            AbstractPacket abstractPacket = OpenAudioMc.getGson().fromJson(data, AbstractPacket.class);
             OpenAudioMc.getInstance().getNetworkingModule().triggerPacket(abstractPacket);
         });
     }

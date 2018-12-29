@@ -6,6 +6,6 @@ import com.craftmend.openaudiomc.modules.networking.payloads.ClientConnectionPay
 
 public class PacketClientConnect extends AbstractPacket {
     public PacketClientConnect(ClientConnectionPayload data) {
-        super(data, PacketChannel.SOCKET_IN_REGISTER_CLIENT);
+        super(data, PacketChannel.SOCKET_IN_REGISTER_CLIENT, null);
     }
 }
