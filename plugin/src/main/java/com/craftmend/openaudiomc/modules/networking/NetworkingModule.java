@@ -1,12 +1,11 @@
 package com.craftmend.openaudiomc.modules.networking;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.modules.networking.abstracts.AbstractPacket;
-import com.craftmend.openaudiomc.modules.networking.enums.PacketType;
+import com.craftmend.openaudiomc.modules.networking.enums.PacketChannel;
 import com.craftmend.openaudiomc.modules.networking.handlers.ClientConnectHandler;
-import com.craftmend.openaudiomc.modules.networking.handlers.ClientDisconnectHandler;
-import com.craftmend.openaudiomc.modules.networking.handlers.SocketKeyUpdateHandler;
-import com.craftmend.openaudiomc.modules.networking.interfaces.IPacketHandler;
+
+import com.craftmend.openaudiomc.modules.networking.abstracts.AbstractPacket;
+import com.craftmend.openaudiomc.modules.networking.abstracts.PayloadHandler;
 import com.craftmend.openaudiomc.modules.networking.io.SocketIoConnector;
 import org.bukkit.Bukkit;
 
@@ -15,14 +14,12 @@ import java.util.Map;
 
 public class NetworkingModule {
 
-    private Map<PacketType, IPacketHandler> packetHandlerMap = new HashMap<>();
+    private Map<PacketChannel, PayloadHandler> packetHandlerMap = new HashMap<>();
     private SocketIoConnector socketIoConnector;
 
     public NetworkingModule(OpenAudioMc openAudioMc) {
         //register socket handlers
-        registerHandler(PacketType.SERVER_UPDATE_TOKENS, new SocketKeyUpdateHandler(openAudioMc));
-        registerHandler(PacketType.SERVER_CLIENT_WEB_CONNECT, new ClientConnectHandler(openAudioMc));
-        registerHandler(PacketType.SERVER_CLIENT_WEB_DISCONNECT, new ClientDisconnectHandler(openAudioMc));
+        registerHandler(PacketChannel.SOCKET_IN_REGISTER_CLIENT, new ClientConnectHandler());
 
         try {
             socketIoConnector = new SocketIoConnector(openAudioMc);
@@ -34,14 +31,14 @@ public class NetworkingModule {
     }
 
     public void triggerPacket(AbstractPacket abstractPacket) {
-        if (packetHandlerMap.get(abstractPacket.getPacketType()) == null) {
+        if (packetHandlerMap.get(abstractPacket.getPacketChannel()) == null) {
             System.out.println(OpenAudioMc.getLOG_PREFIX() + "Unknown handler for packet type " + abstractPacket.getClass().getName());
             return;
         }
-        packetHandlerMap.get(abstractPacket.getPacketType()).on(abstractPacket);
+        packetHandlerMap.get(abstractPacket.getPacketChannel()).trigger(abstractPacket);
     }
 
-    private void registerHandler(PacketType type, IPacketHandler handler) {
+    private void registerHandler(PacketChannel type, PayloadHandler handler) {
         packetHandlerMap.put(type, handler);
     }
 }

@@ -5,8 +5,12 @@ import com.craftmend.openaudiomc.modules.authentication.AuthenticationModule;
 import com.craftmend.openaudiomc.modules.configuration.ConfigurationModule;
 import com.craftmend.openaudiomc.modules.media.MediaModule;
 import com.craftmend.openaudiomc.modules.networking.NetworkingModule;
+import com.craftmend.openaudiomc.modules.networking.addapter.AbstractPacketAddapter;
+import com.craftmend.openaudiomc.modules.networking.abstracts.AbstractPacketPayload;
 import com.craftmend.openaudiomc.modules.players.PlayerModule;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -27,6 +31,9 @@ public final class OpenAudioMc extends JavaPlugin {
 
     //static strings
     @Getter private static final String LOG_PREFIX = "[OpenAudioMc-Log] ";
+    @Getter private static final Gson gson = new GsonBuilder()
+            .registerTypeAdapter(AbstractPacketPayload.class, new AbstractPacketAddapter())
+            .create();
 
 
     @Override
@@ -41,7 +48,6 @@ public final class OpenAudioMc extends JavaPlugin {
         this.playerModule = new PlayerModule(this);
         this.networkingModule = new NetworkingModule(this);
         this.apiModule = new ApiModule(this);
-
     }
 
     @Override
