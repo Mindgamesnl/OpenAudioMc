@@ -80,9 +80,17 @@
         </dependency>
 
         <dependency>
+            <groupId>com.sk89q</groupId>
+            <artifactId>worldguard</artifactId>
+            <version>6.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>com.sk89q.worldguard</groupId>
-            <artifactId>worldguard-legacy</artifactId>
+            <artifactId>worldguard-core</artifactId>
             <version>LATEST</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -115,10 +123,12 @@
             <artifactId>lombok</artifactId>
             <version>1.18.2</version>
         </dependency>
+
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
             <version>7.0.0-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

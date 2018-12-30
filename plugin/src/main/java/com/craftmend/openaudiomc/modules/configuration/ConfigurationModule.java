@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class ConfigurationModule {
 
-    @Getter private String server = "http://192.168.2.19";
+    @Getter private String server = "http://192.168.2.25";
     @Getter private FileConfiguration mainConfig;
     @Getter private FileConfiguration dataConfig;
 
@@ -19,8 +19,9 @@ public class ConfigurationModule {
         openAudioMc.saveConfig();
         openAudioMc.saveResource("data.yml", false);
 
-        dataConfig = YamlConfiguration.loadConfiguration(new File(openAudioMc.getDataFolder() + "data.yml"));
+        dataConfig = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudioMc/data.yml"));
 
+        System.out.println("dataconfig is " + dataConfig);
         mainConfig = openAudioMc.getConfig();
 
         System.out.println(OpenAudioMc.getLOG_PREFIX() + "Starting configurateion module");
@@ -28,7 +29,7 @@ public class ConfigurationModule {
 
     public void saveAll() throws IOException {
         OpenAudioMc.getInstance().saveConfig();
-        dataConfig.save("data.yml");
+        dataConfig.save("plugins/OpenAudioMc/data.yml");
     }
 
 }

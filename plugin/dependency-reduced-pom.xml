@@ -50,6 +50,10 @@
       <id>sonatype</id>
       <url>https://oss.sonatype.org/content/groups/public/</url>
     </repository>
+    <repository>
+      <id>sk89q-repo</id>
+      <url>http://maven.sk89q.com/repo/</url>
+    </repository>
   </repositories>
   <dependencies>
     <dependency>
@@ -85,11 +89,107 @@
       </exclusions>
     </dependency>
     <dependency>
+      <groupId>com.sk89q</groupId>
+      <artifactId>worldguard</artifactId>
+      <version>6.1</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>worldedit</artifactId>
+          <groupId>com.sk89q</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>bukkit-classloader-check</artifactId>
+          <groupId>com.sk89q.spigot</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>bukkit</artifactId>
+          <groupId>org.bukkit</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>commandbook</artifactId>
+          <groupId>com.sk89q</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>jsr305</artifactId>
+          <groupId>com.google.code.findbugs</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.sk89q.worldguard</groupId>
+      <artifactId>worldguard-core</artifactId>
+      <version>LATEST</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>worldedit-core</artifactId>
+          <groupId>com.sk89q.worldedit</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>intake</artifactId>
+          <groupId>com.sk89q.intake</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>squirrelid</artifactId>
+          <groupId>com.sk89q</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>flyway-core</artifactId>
+          <groupId>org.flywaydb</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>prtree</artifactId>
+          <groupId>org.khelekore</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>opencsv</artifactId>
+          <groupId>net.sf.opencsv</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>json-simple</artifactId>
+          <groupId>com.googlecode.json-simple</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>jsr305</artifactId>
+          <groupId>com.google.code.findbugs</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok-maven</artifactId>
       <version>1.18.4.0</version>
       <type>pom</type>
       <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.sk89q.worldedit</groupId>
+      <artifactId>worldedit-bukkit</artifactId>
+      <version>7.0.0-SNAPSHOT</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>dummypermscompat</artifactId>
+          <groupId>com.sk89q</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>bstats-bukkit</artifactId>
+          <groupId>org.bstats</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>paperlib</artifactId>
+          <groupId>io.papermc</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>worldedit-core</artifactId>
+          <groupId>com.sk89q.worldedit</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>bukkit</artifactId>
+          <groupId>org.bukkit</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
   <properties>
