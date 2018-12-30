@@ -12,14 +12,17 @@ class Handlers {
 
             let media;
             media = new WebAudio(source, function () {
+                openAudioMc.getMediaManager().registerMedia(id, media);
                 media.setVolume(0);
                 media.setLooping(looping);
                 if (doPickup) media.startDate(startInstant, looping);
                 if (autoplay) media.play();
                 media.setVolume(100, 1500);
             });
+        });
 
-            openAudioMc.getMediaManager().registerMedia(id, media);
+        openAudioMc.socketModule.registerHandler("ClientDestroyMediaPayload", function (data) {
+            openAudioMc.getMediaManager().destroySounds(data.soundId);
         });
 
     }

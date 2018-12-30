@@ -1,21 +1,20 @@
 package com.craftmend.openaudiomc.modules.regions.objects;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.media.objects.Media;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
+@AllArgsConstructor
 public class RegionPropperties {
 
-    private Media media;
+    private String mediaSrouce;
 
-    public RegionPropperties(String source) {
-        this.media = new Media(source);
-        this.media.setDoPickup(true);
-        this.media.setLoop(true);
-        this.media.setAutoPlay(true);
+    public Media getMedia() {
+        return OpenAudioMc.getInstance().getRegionModule().getRegionMedia(mediaSrouce);
     }
 
 }

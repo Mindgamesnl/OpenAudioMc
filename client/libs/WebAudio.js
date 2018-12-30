@@ -68,7 +68,7 @@ class WebAudio {
         this.onFinishHandlers.push(callback);
     }
 
-    setVolume(volume, fadetime) {
+    setVolume(volume, fadetime, onfinish) {
         if (fadetime == null) {
             this.soundElement.volume = volume / 100;
             return;
@@ -89,12 +89,19 @@ class WebAudio {
 
         const interval = fadetime / steps;
         const that = this;
+        const callback = onfinish;
 
         this.isFading = true;
         this.task = setInterval(function () {
             function cancel() {
                 that.isFading = false;
+                if (callback != null) callback();
                 clearInterval(that.task);
+            }
+
+            if (that.soundElement == null) {
+                cancel();
+                return;
             }
 
             if (volume !== Math.floor((that.soundElement.volume * 100))) {

@@ -16,6 +16,7 @@ public class Media {
     //media information
     private String source;
     private int startInstant;
+    @Getter private transient int keepTimeout = -1;
     @Getter @Setter private Boolean doPickup = true;
     @Getter @Setter private Boolean loop = false;
     @Getter @Setter private Boolean autoPlay = true;
@@ -23,6 +24,15 @@ public class Media {
     public Media(String source) {
         this.source = source;
         this.startInstant = (int) (System.currentTimeMillis() / 1000L);
+    }
+
+    public Media applySettings(MediaOptions options) {
+        this.loop = options.getLoop();
+        this.keepTimeout = options.getExpirationTimeout();
+        this.autoPlay = options.getAutoPlay();
+        this.mediaId = options.getId();
+        this.doPickup = options.getPickUp();
+        return this;
     }
 
 }
