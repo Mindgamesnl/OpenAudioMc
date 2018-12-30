@@ -12,6 +12,7 @@ public enum PacketChannel {
 
     //client target
     CLIENT_OUT_CREATE_MEDIA,
-    CLIENT_OUT_TRIGGER_MEDIA
+    CLIENT_OUT_TRIGGER_MEDIA,
+    CLIENT_OUT_DESTROY_MEDIA
 
 }

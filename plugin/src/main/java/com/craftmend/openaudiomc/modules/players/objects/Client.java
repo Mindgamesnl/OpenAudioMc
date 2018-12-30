@@ -3,10 +3,13 @@ package com.craftmend.openaudiomc.modules.players.objects;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.media.objects.Media;
 import com.craftmend.openaudiomc.modules.networking.packets.PacketClientCreateMedia;
+import com.craftmend.openaudiomc.modules.networking.packets.PacketClientDestroyMedia;
+import com.craftmend.openaudiomc.modules.networking.packets.PacketSocketKickClient;
+
+import com.craftmend.openaudiomc.modules.regions.objects.RegionPropperties;
 import lombok.Getter;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -20,8 +23,8 @@ public class Client {
     @Getter private Boolean isConnected = false;
     @Getter private String pin = "1234"; //TODO: generate pins
 
-    //streaming
-    private List<Media> mediaList = new ArrayList<>();
+    //optional regions
+    private List<String> currentRegions = new ArrayList<>();
 
 
     public Client(Player player) {
@@ -30,55 +33,56 @@ public class Client {
 
     public void publishUrl() {
         this.pin = UUID.randomUUID().toString().subSequence(0, 3).toString();
-        StringBuilder urlBuilder = new StringBuilder();
-        urlBuilder.append(player.getName());
-        urlBuilder.append(":");
-        urlBuilder.append(player.getUniqueId().toString());
-        urlBuilder.append(":");
-        urlBuilder.append(OpenAudioMc.getInstance().getAuthenticationModule().getServerKeySet().getPublicKey().getValue());
-        urlBuilder.append(":");
-        urlBuilder.append(pin);
-
-        String token = new String(Base64.getEncoder().encode(urlBuilder.toString().getBytes()));
-
         TextComponent message = new TextComponent("Click here for a quick test or so");
-        message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "http://craftmend.com/oatest/?&data=" + token));
+        message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "http://craftmend.com/oatest/?&data=" + new TokenFactory().build(this)));
         player.spigot().sendMessage(message);
     }
 
     public void onConnect() {
         this.isConnected = true;
-        Bukkit.getScheduler().runTaskLater(OpenAudioMc.getInstance(), () -> {
-            player.sendMessage("connected! hei");
-
-            //send all current playing songs
-            mediaList.forEach(cachedMedia -> OpenAudioMc.getInstance().getNetworkingModule().send(this, new PacketClientCreateMedia(cachedMedia)));
-
-            //for testing!
-            if (mediaList.size() == 0) {
-                Media media = new Media("https://craftmend.com/a.mp3");
-                media.setLoop(true);
-                media.setClient(this);
-                media.setDoPickup(true);
-                playMedia(media);
-            }
-        }, 20 * 2);
+        player.sendMessage("Welcome");
+        currentRegions.clear();
     }
 
     public void onQuit() {
-
+        kick();
     }
 
-    public void playMedia(Media media) {
-        if (media.getDoPickup()) {
-            mediaList.add(media);
-        }
-        player.sendMessage("starting media first time");
+    public void kick() {
+        OpenAudioMc.getInstance().getNetworkingModule().send(this, new PacketSocketKickClient());
+    }
+
+    public void sendMedia(Media media) {
         OpenAudioMc.getInstance().getNetworkingModule().send(this, new PacketClientCreateMedia(media));
+    }
+
+    public void tickRegions() {
+        if (OpenAudioMc.getInstance().getRegionModule() != null) {
+            //regions are enabled
+            List<String> detectedRegions = OpenAudioMc.getInstance().getRegionModule().getRegions(player.getLocation());
+
+            List<String> enteredRegions = new ArrayList<>(detectedRegions);
+            enteredRegions.removeAll(currentRegions);
+
+            List<String> leftRegions = new ArrayList<>(currentRegions);
+            leftRegions.removeAll(detectedRegions);
+
+            enteredRegions.forEach(entered -> {
+                RegionPropperties regionPropperties = OpenAudioMc.getInstance().getRegionModule().getPropperties(entered);
+                sendMedia(regionPropperties.getMedia());
+            });
+
+            leftRegions.forEach(exited -> {
+                RegionPropperties regionPropperties = OpenAudioMc.getInstance().getRegionModule().getPropperties(exited);
+                OpenAudioMc.getInstance().getNetworkingModule().send(this, new PacketClientDestroyMedia(regionPropperties.getMedia().getMediaId()));
+            });
+
+            currentRegions = detectedRegions;
+        }
     }
 
     public void onDisconnect() {
         this.isConnected = false;
-        player.sendMessage("connected! hei");
+        player.sendMessage("disconnected");
     }
 }
