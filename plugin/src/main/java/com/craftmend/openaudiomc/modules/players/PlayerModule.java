@@ -7,9 +7,7 @@ import com.craftmend.openaudiomc.modules.players.objects.Client;
 
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class PlayerModule {
 
@@ -26,6 +24,10 @@ public class PlayerModule {
 
     public Client getClient(UUID uuid) {
         return clientMap.get(uuid);
+    }
+
+    public Collection<Client> getClients() {
+        return clientMap.values();
     }
 
     public Client getClient(Player player) {

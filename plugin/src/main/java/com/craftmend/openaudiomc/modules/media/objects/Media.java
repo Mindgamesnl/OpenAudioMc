@@ -13,9 +13,6 @@ public class Media {
     //media tracker
     @Setter @Getter private String mediaId = UUID.randomUUID().toString();
 
-    //media owner
-    @Setter private transient Client client;
-
     //media information
     private String source;
     private int startInstant;

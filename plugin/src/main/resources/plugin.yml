@@ -1,5 +1,6 @@
 name: OpenAudioMc
 version: ${project.version}
+softdepend: [WorldGuard]
 main: com.craftmend.openaudiomc.OpenAudioMc
 api-version: 1.13
 authors: [Mindgamesnl]

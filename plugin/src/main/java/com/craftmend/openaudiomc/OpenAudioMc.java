@@ -7,16 +7,16 @@ import com.craftmend.openaudiomc.modules.media.MediaModule;
 import com.craftmend.openaudiomc.modules.networking.NetworkingModule;
 import com.craftmend.openaudiomc.modules.networking.addapter.AbstractPacketAddapter;
 import com.craftmend.openaudiomc.modules.networking.abstracts.AbstractPacketPayload;
-import com.craftmend.openaudiomc.modules.networking.packets.PacketAcknowledgeClientRequest;
-import com.craftmend.openaudiomc.modules.networking.payloads.AcknowledgeClientPayload;
 import com.craftmend.openaudiomc.modules.players.PlayerModule;
 
+import com.craftmend.openaudiomc.modules.players.objects.Client;
+import com.craftmend.openaudiomc.modules.regions.RegionModule;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.UUID;
+import java.io.IOException;
 
 @Getter
 public final class OpenAudioMc extends JavaPlugin {
@@ -28,6 +28,7 @@ public final class OpenAudioMc extends JavaPlugin {
     private PlayerModule playerModule;
     private NetworkingModule networkingModule;
     private ApiModule apiModule;
+    private RegionModule regionModule;
 
     //instance
     @Getter private static OpenAudioMc instance;
@@ -53,11 +54,18 @@ public final class OpenAudioMc extends JavaPlugin {
         this.networkingModule = new NetworkingModule(this);
         this.apiModule = new ApiModule(this);
 
-        System.out.println("json would be like" + gson.toJson(new PacketAcknowledgeClientRequest(new AcknowledgeClientPayload(UUID.randomUUID(), "123456"))));
+        //optional modules
+        if (getServer().getPluginManager().isPluginEnabled("WorldGuard")) {
+            regionModule = new RegionModule(this);
+        }
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        try {
+            configurationModule.saveAll();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
