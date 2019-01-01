@@ -20,6 +20,7 @@ public class Media {
     @Getter @Setter private Boolean doPickup = true;
     @Getter @Setter private Boolean loop = false;
     @Getter @Setter private Boolean autoPlay = true;
+    @Getter @Setter private int fadeTime = 0;
 
     public Media(String source) {
         this.source = source;
@@ -30,8 +31,9 @@ public class Media {
         this.loop = options.getLoop();
         this.keepTimeout = options.getExpirationTimeout();
         this.autoPlay = options.getAutoPlay();
-        this.mediaId = options.getId();
+        if (options.getId() != null) this.mediaId = options.getId();
         this.doPickup = options.getPickUp();
+        this.setFadeTime(options.getFadeTime());
         return this;
     }
 

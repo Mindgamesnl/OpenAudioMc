@@ -29,24 +29,22 @@ public class PlaySubCommand extends SubCommand {
         }
 
         if (args.length == 2) {
-            //username + source
             Media media = new Media(args[1]);
             for (Player player : new PlayerSelector(args[0]).getPlayers(sender)) {
                 Client client = openAudioMc.getPlayerModule().getClient(player);
-                if (client.getIsConnected()) client.sendMedia(media);
+                client.sendMedia(media);
             }
             message(sender, "Media created.");
             return;
         }
 
         if (args.length == 3) {
-            //username + source + options
             try {
                 MediaOptions mediaOptions = new Gson().fromJson(args[2], MediaOptions.class);
                 Media media = new Media(args[1]).applySettings(mediaOptions);
                 for (Player player : new PlayerSelector(args[0]).getPlayers(sender)) {
                     Client client = openAudioMc.getPlayerModule().getClient(player);
-                    if (client.getIsConnected()) client.sendMedia(media);
+                    client.sendMedia(media);
                 }
                 message(sender, "Media and options created.");
             } catch (Exception e) {
