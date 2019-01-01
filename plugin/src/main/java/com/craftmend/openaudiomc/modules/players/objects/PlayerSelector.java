@@ -3,6 +3,8 @@ package com.craftmend.openaudiomc.modules.players.objects;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import lombok.AllArgsConstructor;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.CommandSender;
@@ -21,13 +23,22 @@ public class PlayerSelector {
 
         List<Player> players = new ArrayList<>();
         if (selector.startsWith("@p")) {
-            if (commandSender instanceof Player) {
-                //player
-                players.add((Player) commandSender);
-            } else if (commandSender instanceof BlockCommandSender) {
-                //command block
-                Block block = ((BlockCommandSender) commandSender).getBlock();
-                block.getLocation().getWorld().getPlayers().stream().min(Comparator.comparingDouble(o -> o.getLocation().distanceSquared(block.getLocation()))).ifPresent(players::add);
+            //get Location
+            Location standPoint = getLocation(commandSender);
+            //check if radius is needed
+            if (!getArgument("r").equals("")) {
+                Player nearest = Bukkit.getOnlinePlayers().stream()
+                        .filter(player -> !player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
+                        .min(Comparator.comparing(player -> player.getLocation().distance(standPoint)))
+                        .filter(player -> Integer.valueOf(getArgument("r")) > player.getLocation().distance(standPoint))
+                        .get();
+                players.add(nearest);
+            } else {
+                Player nearest = Bukkit.getOnlinePlayers().stream()
+                        .filter(player -> !player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
+                        .min(Comparator.comparing(player -> player.getLocation().distance(standPoint)))
+                        .get();
+                players.add(nearest);
             }
         } else if (selector.startsWith("@a")) {
             //everyone
@@ -41,6 +52,29 @@ public class PlayerSelector {
             commandSender.sendMessage(OpenAudioMc.getInstance() + "Invalid player query. Try something like @a, @p, uuid, username or other arguments.");
         }
         return players;
+    }
+
+    private Location getLocation(CommandSender commandSender) {
+        Location initialLocation = null;
+        if (commandSender instanceof Player) {
+            initialLocation = ((Player) commandSender).getLocation();
+        } else if (commandSender instanceof BlockCommandSender) {
+            initialLocation = ((BlockCommandSender) commandSender).getBlock().getLocation();
+        }
+
+        if (!getArgument("x").equals("") && !getArgument("y").equals("") && !getArgument("z").equals("")) {
+            try {
+                int x = Integer.valueOf(getArgument("x"));
+                int y = Integer.valueOf(getArgument("y"));
+                int z = Integer.valueOf(getArgument("z"));
+                return new Location(initialLocation.getWorld(), x, y, z);
+            } catch (Exception e) {
+                commandSender.sendMessage(OpenAudioMc.getInstance() + "An error occurred when parsing the location as an Integer");
+                return initialLocation;
+            }
+        }
+
+        return initialLocation;
     }
 
     private String getArgument(String key) {
