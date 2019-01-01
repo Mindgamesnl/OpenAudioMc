@@ -9,6 +9,7 @@ public class RegionMedia extends Media {
         setLoop(true);
         setAutoPlay(true);
         setDoPickup(true);
+        setFadeTime(1000);
     }
 
 }

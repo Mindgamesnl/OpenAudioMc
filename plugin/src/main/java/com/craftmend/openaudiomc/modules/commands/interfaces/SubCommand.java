@@ -8,7 +8,8 @@ import org.bukkit.permissions.Permission;
 
 public abstract class SubCommand {
 
-    @Getter private String command;
+    @Getter
+    private String command;
 
     public SubCommand(String argument) {
         this.command = argument;
@@ -20,7 +21,10 @@ public abstract class SubCommand {
     }
 
     public Boolean isAllowed(CommandSender commandSender) {
-        return commandSender.hasPermission("openaudiomc.commands." + command) || commandSender.isOp();
+        return commandSender.hasPermission("openaudiomc.commands." + command)
+                || commandSender.hasPermission("openaudiomc.commands.*")
+                || commandSender.isOp()
+                || commandSender.hasPermission("openaudiomc.*");
     }
 
     public abstract void onExecute(CommandSender sender, String[] args);

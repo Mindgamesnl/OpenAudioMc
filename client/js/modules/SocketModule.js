@@ -50,7 +50,6 @@ class SocketModule {
         });
 
         this.socket.on("data", function (data) {
-            main.debugPrint("input: " + JSON.stringify(data));
             if (that.handlers[data.type] != null) that.handlers[data.type](data.payload);
         });
 

@@ -12,5 +12,6 @@ public class MediaOptions {
     private int expirationTimeout = -1;
     private Boolean autoPlay = true;
     private Boolean pickUp = true;
+    private int fadeTime = 0;
 
 }

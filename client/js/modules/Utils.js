@@ -2,6 +2,10 @@ class Utils {
 
     constructor() {}
 
+    calculateVolume(distance, maxDistance) {
+        return Math.round((distance / maxDistance) * 100);
+    }
+
     getParameter() {
         var vars = window.location.href.split("&");
         var query_string = {};

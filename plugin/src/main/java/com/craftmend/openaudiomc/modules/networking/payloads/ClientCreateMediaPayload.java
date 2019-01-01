@@ -11,6 +11,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ClientCreateMediaPayload extends AbstractPacketPayload {
 
+    public ClientCreateMediaPayload(Media media) {
+        this.media = media;
+    }
+
     private Media media;
+    private int distance;
+    private int maxDistance;
 
 }

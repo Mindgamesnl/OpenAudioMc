@@ -11,4 +11,8 @@ public class PacketClientCreateMedia extends AbstractPacket {
         super(new ClientCreateMediaPayload(media), PacketChannel.CLIENT_OUT_CREATE_MEDIA, null);
     }
 
+    public PacketClientCreateMedia(Media media, int distance, int maxDistance) {
+        super(new ClientCreateMediaPayload(media, distance, maxDistance), PacketChannel.CLIENT_OUT_CREATE_MEDIA, null);
+    }
+
 }
