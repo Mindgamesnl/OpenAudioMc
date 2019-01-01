@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public class PlayerSelector {
@@ -42,7 +43,17 @@ public class PlayerSelector {
             }
         } else if (selector.startsWith("@a")) {
             //everyone
-            players.addAll(Bukkit.getOnlinePlayers());
+            Location standPoint = getLocation(commandSender);
+            if (!getArgument("r").equals("")) {
+                players.addAll(Bukkit.getOnlinePlayers().stream()
+                        .filter(player -> !player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
+                        .filter(player -> Integer.valueOf(getArgument("r")) > player.getLocation().distance(standPoint))
+                        .collect(Collectors.toList()));
+            } else {
+                players.addAll(Bukkit.getOnlinePlayers().stream()
+                        .filter(player -> !player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
+                        .collect(Collectors.toList()));
+            }
         } else if (selector.length() <= 16) {
             //player
             Player player = Bukkit.getPlayer(selector);
