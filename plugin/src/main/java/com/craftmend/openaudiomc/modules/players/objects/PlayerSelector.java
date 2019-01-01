@@ -23,42 +23,51 @@ public class PlayerSelector {
     public List<Player> getPlayers(CommandSender commandSender) {
 
         List<Player> players = new ArrayList<>();
+
         if (selector.startsWith("@p")) {
             //get Location
             Location standPoint = getLocation(commandSender);
-            //check if radius is needed
-            if (!getArgument("r").equals("")) {
+
+            if (getArgument("r").length() != 0) {
                 Player nearest = Bukkit.getOnlinePlayers().stream()
-                        .filter(player -> !player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
+                        .filter(player -> player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
                         .min(Comparator.comparing(player -> player.getLocation().distance(standPoint)))
                         .filter(player -> Integer.valueOf(getArgument("r")) > player.getLocation().distance(standPoint))
                         .get();
                 players.add(nearest);
-            } else {
+            }
+
+            else {
                 Player nearest = Bukkit.getOnlinePlayers().stream()
-                        .filter(player -> !player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
+                        .filter(player -> player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
                         .min(Comparator.comparing(player -> player.getLocation().distance(standPoint)))
                         .get();
                 players.add(nearest);
             }
-        } else if (selector.startsWith("@a")) {
+        }
+        else if (selector.startsWith("@a")) {
             //everyone
             Location standPoint = getLocation(commandSender);
-            if (!getArgument("r").equals("")) {
+
+            if (getArgument("r").length() != 0) {
                 players.addAll(Bukkit.getOnlinePlayers().stream()
-                        .filter(player -> !player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
+                        .filter(player -> player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
                         .filter(player -> Integer.valueOf(getArgument("r")) > player.getLocation().distance(standPoint))
                         .collect(Collectors.toList()));
-            } else {
+            }
+
+            else {
                 players.addAll(Bukkit.getOnlinePlayers().stream()
-                        .filter(player -> !player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
+                        .filter(player -> player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
                         .collect(Collectors.toList()));
             }
-        } else if (selector.length() <= 16) {
+        }
+        else if (selector.length() <= 16) {
             //player
             Player player = Bukkit.getPlayer(selector);
             if (player != null) players.add(player);
-        } else {
+        }
+        else {
             //you fucked it
             commandSender.sendMessage(OpenAudioMc.getInstance() + "Invalid player query. Try something like @a, @p, uuid, username or other arguments.");
         }
