@@ -18,6 +18,7 @@ public class PlayerSelector {
     private String selector;
 
     public List<Player> getPlayers(CommandSender commandSender) {
+
         List<Player> players = new ArrayList<>();
         if (selector.startsWith("@p")) {
             if (commandSender instanceof Player) {
@@ -40,6 +41,21 @@ public class PlayerSelector {
             commandSender.sendMessage(OpenAudioMc.getInstance() + "Invalid player query. Try something like @a, @p, uuid, username or other arguments.");
         }
         return players;
+    }
+
+    private String getArgument(String key) {
+        StringBuilder result = new StringBuilder();
+        String[] arguments = selector.split(key + "=");
+        if (arguments.length == 1) return "";
+        for (byte type : arguments[1].getBytes()) {
+            char element = (char) type;
+            if (element == ',' || element == ']') {
+                return result.toString();
+            } else {
+                result.append(element);
+            }
+        }
+        return result.toString();
     }
 
 }
