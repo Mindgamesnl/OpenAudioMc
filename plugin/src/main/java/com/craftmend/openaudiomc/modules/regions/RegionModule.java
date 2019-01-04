@@ -43,6 +43,9 @@ public class RegionModule {
             registerRegion(region, new RegionPropperties(openAudioMc.getConfigurationModule().getDataConfig().getString("regions." + region + "")));
         }
 
+        //prompt region media
+        regionProppertiesMap.values().forEach(RegionPropperties::getMedia);
+
         Bukkit.getScheduler().scheduleAsyncRepeatingTask(openAudioMc, () -> {
             for (Client client : openAudioMc.getPlayerModule().getClients()) {
                 if (client.getIsConnected()) client.tickRegions();
