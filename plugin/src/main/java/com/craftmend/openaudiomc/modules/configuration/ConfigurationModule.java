@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class ConfigurationModule {
 
-    @Getter private String server = "http://192.168.2.25";
+    @Getter private String server = "http://192.168.2.31";
     @Getter private FileConfiguration mainConfig;
     @Getter private FileConfiguration dataConfig;
 

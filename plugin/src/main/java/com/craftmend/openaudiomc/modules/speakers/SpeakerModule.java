@@ -61,6 +61,9 @@ public class SpeakerModule {
             }
         }
 
+        //prompt trigger all speakers
+        speakerMap.values().forEach(Speaker::getMedia);
+
         Bukkit.getScheduler().scheduleAsyncRepeatingTask(openAudioMc, () -> {
             for (Client client : openAudioMc.getPlayerModule().getClients()) {
                 if (client.getIsConnected()) client.tickSpeakers();
