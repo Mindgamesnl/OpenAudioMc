@@ -12,7 +12,9 @@ import com.craftmend.openaudiomc.modules.players.PlayerModule;
 
 import com.craftmend.openaudiomc.modules.players.objects.Client;
 import com.craftmend.openaudiomc.modules.regions.RegionModule;
+import com.craftmend.openaudiomc.modules.regions.objects.RegionPropperties;
 import com.craftmend.openaudiomc.modules.speakers.SpeakerModule;
+import com.craftmend.openaudiomc.modules.speakers.objects.Speaker;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
@@ -58,10 +60,12 @@ public final class OpenAudioMc extends JavaPlugin {
         this.networkingModule = new NetworkingModule(this);
         this.apiModule = new ApiModule(this);
         this.speakerModule = new SpeakerModule(this);
+        this.speakerModule.getSpeakerMap().values().forEach(Speaker::getSource);
 
         //optional modules
         if (getServer().getPluginManager().isPluginEnabled("WorldGuard")) {
-            regionModule = new RegionModule(this);
+            this.regionModule = new RegionModule(this);
+            this.regionModule.getRegionProppertiesMap().values().forEach(RegionPropperties::getMedia);
         }
 
         //commands
