@@ -1,10 +1,8 @@
 package com.craftmend.openaudiomc.modules.media.objects;
 
-import com.craftmend.openaudiomc.modules.players.objects.Client;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
 import java.util.UUID;
 
 @Getter
