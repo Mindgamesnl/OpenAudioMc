@@ -21,7 +21,6 @@ public class ConfigurationModule {
 
         dataConfig = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudioMc/data.yml"));
 
-        System.out.println("dataconfig is " + dataConfig);
         mainConfig = openAudioMc.getConfig();
 
         System.out.println(OpenAudioMc.getLOG_PREFIX() + "Starting configurateion module");
