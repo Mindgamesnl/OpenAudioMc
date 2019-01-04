@@ -11,6 +11,7 @@ import com.craftmend.openaudiomc.modules.networking.io.SocketIoConnector;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
 import org.bukkit.Bukkit;
 
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +32,10 @@ public class NetworkingModule {
             System.out.println(OpenAudioMc.getLOG_PREFIX() + "The plugin could not start because of a connection problem when requesting the initial private key. Please contact the developers of this plugin.");
             e.printStackTrace();
         }
+    }
+
+    public void connectIfDown() throws URISyntaxException {
+        socketIoConnector.setupConnection();
     }
 
     public void send(Client client, AbstractPacket packet) {

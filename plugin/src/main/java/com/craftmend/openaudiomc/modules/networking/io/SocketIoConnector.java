@@ -25,7 +25,6 @@ public class SocketIoConnector {
     @Getter
     private Boolean isConnected = false;
     private SSLHelper sslHelper;
-    private Gson gson = new Gson();
 
     public SocketIoConnector(OpenAudioMc openAudioMc) throws KeyManagementException, NoSuchAlgorithmException, URISyntaxException {
         sslHelper = new SSLHelper();
@@ -33,9 +32,9 @@ public class SocketIoConnector {
         registerEvents();
     }
 
-    private void setupConnection() throws URISyntaxException {
-        System.out.println(OpenAudioMc.getLOG_PREFIX() + "Setting up Socket.IO connection.");
+    public void setupConnection() throws URISyntaxException {
         if (isConnected) return;
+        System.out.println(OpenAudioMc.getLOG_PREFIX() + "Setting up Socket.IO connection.");
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .hostnameVerifier(sslHelper.getHostnameVerifier())
@@ -67,10 +66,9 @@ public class SocketIoConnector {
         });
 
         socket.on("acknowledgeClient", args -> {
-            String data = ((JSONObject) args[0]).toString();
-            AcknowledgeClientPayload payload = (AcknowledgeClientPayload) OpenAudioMc.getGson().fromJson(data, AbstractPacket.class).getData();
-
+            AcknowledgeClientPayload payload = (AcknowledgeClientPayload) OpenAudioMc.getGson().fromJson(args[0].toString(), AbstractPacket.class).getData();
             Client client = OpenAudioMc.getInstance().getPlayerModule().getClient(payload.getUuid());
+
             Ack callback = (Ack) args[1];
 
             if (client == null) {
@@ -84,8 +82,7 @@ public class SocketIoConnector {
         });
 
         socket.on("data", args -> {
-            String data = ((JSONObject) args[0]).toString();
-            AbstractPacket abstractPacket = OpenAudioMc.getGson().fromJson(data, AbstractPacket.class);
+            AbstractPacket abstractPacket = OpenAudioMc.getGson().fromJson(args[0].toString(), AbstractPacket.class);
             OpenAudioMc.getInstance().getNetworkingModule().triggerPacket(abstractPacket);
         });
     }

@@ -18,6 +18,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.net.URISyntaxException;
 import java.util.*;
 
 public class Client {
@@ -45,6 +46,12 @@ public class Client {
     }
 
     public void publishUrl() {
+        try {
+            OpenAudioMc.getInstance().getNetworkingModule().connectIfDown();
+        } catch (URISyntaxException e) {
+            player.sendMessage(OpenAudioMc.getLOG_PREFIX() + "Failed to execute goal.");
+            e.printStackTrace();
+        }
         this.pin = UUID.randomUUID().toString().subSequence(0, 3).toString();
         TextComponent message = new TextComponent("Click here for a quick test or so");
         message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "http://craftmend.com/oatest/?&data=" + new TokenFactory().build(this)));
