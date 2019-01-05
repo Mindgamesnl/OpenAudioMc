@@ -9,6 +9,7 @@ import com.craftmend.openaudiomc.modules.speakers.objects.SimpleLocation;
 import com.craftmend.openaudiomc.modules.speakers.objects.Speaker;
 import com.craftmend.openaudiomc.modules.speakers.objects.SpeakerMedia;
 
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -22,7 +23,7 @@ import java.util.*;
 
 public class SpeakerModule {
 
-    private Map<SimpleLocation, Speaker> speakerMap = new HashMap<>();
+    @Getter private Map<SimpleLocation, Speaker> speakerMap = new HashMap<>();
     private Map<String, SpeakerMedia> speakerMediaMap = new HashMap<>();
     private Material playerSkullItem;
     private Boolean is113;
