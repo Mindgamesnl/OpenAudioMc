@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class ConfigurationModule {
 
-    @Getter private String server = "http://192.168.2.25";
+    @Getter private String server = "http://192.168.2.31";
     @Getter private FileConfiguration mainConfig;
     @Getter private FileConfiguration dataConfig;
 
@@ -21,7 +21,6 @@ public class ConfigurationModule {
 
         dataConfig = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudioMc/data.yml"));
 
-        System.out.println("dataconfig is " + dataConfig);
         mainConfig = openAudioMc.getConfig();
 
         System.out.println(OpenAudioMc.getLOG_PREFIX() + "Starting configurateion module");
