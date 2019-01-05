@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.modules.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.modules.commands.subcommands.PlaySubCommand;
 import com.craftmend.openaudiomc.modules.commands.subcommands.RegionsSubCommand;
 import com.craftmend.openaudiomc.modules.commands.subcommands.SpeakersSubCommand;
+import com.craftmend.openaudiomc.modules.commands.subcommands.StopSubCommand;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -24,6 +25,7 @@ public class CommandModule {
         registerSubCommand(new RegionsSubCommand(openAudioMc));
         registerSubCommand(new PlaySubCommand(openAudioMc));
         registerSubCommand(new SpeakersSubCommand(openAudioMc));
+        registerSubCommand(new StopSubCommand(openAudioMc));
     }
 
     private void registerSubCommand(SubCommand subCommand) {
