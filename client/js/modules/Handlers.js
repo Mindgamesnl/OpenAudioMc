@@ -11,6 +11,7 @@ class Handlers {
             const doPickup = data.media.doPickup;
             const fadeTime = data.media.fadeTime;
             const distance = data.distance;
+            const flag = data.media.flag;
             const maxDistance = data.maxDistance;
             let volume = openAudioMc.getMediaManager().getMasterVolume();
 
@@ -21,10 +22,12 @@ class Handlers {
 
                 if (maxDistance !== 0) {
                     volume = openAudioMc.getUtils().calculateVolume((maxDistance - distance), maxDistance);
-                    media.hasCustomVolume = true;
+                    media.setHasOwnVolume(true);
                 } else {
-                    media.hasCustomVolume = false;
+                    media.setHasOwnVolume(false);
                 }
+
+                media.setFlag(flag);
 
                 if (fadeTime === 0) {
                     media.setVolume(volume);

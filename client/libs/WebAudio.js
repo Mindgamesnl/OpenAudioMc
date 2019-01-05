@@ -8,13 +8,13 @@ class WebAudio {
         this.time = 0;
         this.task = 0;
         this.onFinishHandlers = [];
-
         this.isLoading = false;
         this.isPlayable = false;
         this.isFading = false;
         this.isFirstRun = true;
         this.volume = openAudioMc.getMediaManager().getMasterVolume();
         this.hasCustomVolume = false;
+        this.flag = "DEFAULT";
 
         //referance
         const that = this;
@@ -157,6 +157,22 @@ class WebAudio {
             return;
         }
         this.soundElement.play();
+    }
+
+    hasOwnVolume() {
+        return this.hasCustomVolume;
+    }
+
+    setFlag(flag) {
+        this.flag = flag;
+    }
+
+    getFlag() {
+        return this.flag;
+    }
+
+    setHasOwnVolume(state) {
+        this.hasCustomVolume = state;
     }
 
     setLooping(state) {
