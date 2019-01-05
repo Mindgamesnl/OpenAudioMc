@@ -3,10 +3,16 @@ class SocketModule {
     constructor(main, host) {
         this.handlers = {};
 
+        main.getUserInterfaceModule().setMessage("Loading data..");
+        main.getUserInterfaceModule().showVolumeSlider(false);
+
         if (main.utils.getParameter().data == null) {
             main.debugPrint("data is empty");
+            main.getUserInterfaceModule().setMessage("Oh no, the url you currently have entered does not contain the required data for the web client to function. Please go back to the minecraft server and request a new URL with  <b>/audio</b>");
             return;
         }
+
+        main.getUserInterfaceModule().setMessage("Connecting to the OpenAudioMc api servers..");
 
         let query = atob(main.utils.getParameter().data).split(":");
         main.debugPrint("Username: " + query[0]);
@@ -32,7 +38,8 @@ class SocketModule {
         this.socket = io(host, {query: that.authHeader, autoConnect:false});
 
         this.socket.on("connect", function () {
-            main.debugPrint("connected");
+            main.getUserInterfaceModule().setMessage("You are now connected to the Minecraft server and ready to listen to the Audio. Enjoy the experiance.");
+            main.getUserInterfaceModule().showVolumeSlider(true);
         });
 
         this.socket.on("disconnect", function () {
@@ -43,6 +50,9 @@ class SocketModule {
                     main.getMediaManager().sounds[key].destroy();
                 }, 1005);
             }
+
+            main.getUserInterfaceModule().showVolumeSlider(true);
+            main.getUserInterfaceModule().setMessage("We've lost connecting to the server you where connected to. If you have not logged out, please contact a server administrator to report this problem.");
 
             setTimeout(function () {
                 main.getMediaManager().sounds = {};

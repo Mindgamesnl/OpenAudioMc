@@ -12,6 +12,7 @@ import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import lombok.Getter;
 import okhttp3.OkHttpClient;
+import org.bukkit.Bukkit;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
@@ -70,6 +71,8 @@ public class SocketIoConnector {
             Client client = OpenAudioMc.getInstance().getPlayerModule().getClient(payload.getUuid());
 
             Ack callback = (Ack) args[1];
+
+            Bukkit.broadcastMessage("Checking " + client.getPin() + " vs " + payload.getToken());
 
             if (client == null) {
                 callback.call(false);

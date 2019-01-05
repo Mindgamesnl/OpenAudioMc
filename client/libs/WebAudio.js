@@ -13,6 +13,8 @@ class WebAudio {
         this.isPlayable = false;
         this.isFading = false;
         this.isFirstRun = true;
+        this.volume = openAudioMc.getMediaManager().getMasterVolume();
+        this.hasCustomVolume = false;
 
         //referance
         const that = this;
@@ -62,6 +64,12 @@ class WebAudio {
 
     getTime() {
         return this.soundElement.currentTime;
+    }
+
+    setMasterVolume(masterVolume) {
+        if (!this.hasCustomVolume) {
+            this.setVolume(masterVolume);
+        }
     }
 
     onFinish(callback) {
