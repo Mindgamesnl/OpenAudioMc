@@ -1,12 +1,12 @@
 class SocketModule {
 
     constructor(main, host) {
+        this.handlers = {};
+
         if (main.utils.getParameter().data == null) {
             main.debugPrint("data is empty");
             return;
         }
-
-        this.handlers = {};
 
         let query = atob(main.utils.getParameter().data).split(":");
         main.debugPrint("Username: " + query[0]);
