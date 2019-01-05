@@ -12,13 +12,19 @@ class Handlers {
             const fadeTime = data.media.fadeTime;
             const distance = data.distance;
             const maxDistance = data.maxDistance;
-            let volume = 100;
+            let volume = openAudioMc.getMediaManager().getMasterVolume();
 
             let media;
             media = new WebAudio(source, function () {
                 openAudioMc.getMediaManager().registerMedia(id, media);
+                media.setMasterVolume(openAudioMc.getMediaManager().getMasterVolume());
 
-                if (maxDistance !== 0) volume = openAudioMc.getUtils().calculateVolume((maxDistance - distance), maxDistance);
+                if (maxDistance !== 0) {
+                    volume = openAudioMc.getUtils().calculateVolume((maxDistance - distance), maxDistance);
+                    media.hasCustomVolume = true;
+                } else {
+                    media.hasCustomVolume = false;
+                }
 
                 if (fadeTime === 0) {
                     media.setVolume(volume);

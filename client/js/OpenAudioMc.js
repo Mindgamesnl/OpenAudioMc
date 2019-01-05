@@ -4,21 +4,21 @@ class OpenAudioMc {
         //enable modules
         this.log("Enabling the web client for " + window.navigator.userAgent);
         this.debugPrint("starting.");
+        this.userInterfaceModule = new UserInterfaceModule(this);
         this.utils = new Utils(this);
         this.hueModule = new HueModule(this);
         this.mediaManager = new MediaManager(this);
-        this.userInterfaceModule = new UserInterfaceModule(this);
         this.socketModule = new SocketModule(this, "http://localhost");
         new Handlers(this);
     }
 
     log(message) {
         console.log("[OpenAudioMc] " + message);
-        this.debugPrint(message);
     }
 
     debugPrint(message) {
-        document.write("(debug) " + message + "<br />");
+        this.log(message)
+      //  document.write("(debug) " + message + "<br />");
     }
 
     getUtils() {
@@ -46,7 +46,7 @@ class OpenAudioMc {
 //enable
 let  openAudioMc = null;
 
-function enable(button) {
+function enable() {
     if (openAudioMc == null) {
         openAudioMc = new OpenAudioMc();
     }

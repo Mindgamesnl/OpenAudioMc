@@ -1,17 +1,87 @@
-<!-- enable libs -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script>
-<script src="libs/WebAudio.js"></script>
-<script src="libs/JsHue.js"></script>
+<html lang="en">
+<head>
+    <link type="text/css" rel="stylesheet" href="css/openaudiomc.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
-<!--  load modules -->
-<script src="js/modules/Utils.js"></script>
-<script src="js/modules/SocketModule.js"></script>
-<script src="js/modules/MediaManager.js"></script>
-<script src="js/modules/UserInterfaceModule.js"></script>
-<script src="js/modules/Handlers.js"></script>
-<script src="js/modules/HueModule.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script>
+    <script src="libs/WebAudio.js"></script>
+    <script src="libs/JsHue.js"></script>
+    <script src="libs/color.js"></script>
 
-<!-- load maiin -->
-<script src="js/OpenAudioMc.js"></script>
+    <!--  load modules -->
+    <script src="js/modules/Utils.js"></script>
+    <script src="js/modules/SocketModule.js"></script>
+    <script src="js/modules/MediaManager.js"></script>
+    <script src="js/modules/UserInterfaceModule.js"></script>
+    <script src="js/modules/Handlers.js"></script>
+    <script src="js/modules/HueModule.js"></script>
 
-<button onclick="enable(this)">start</button>
+    <!-- load main -->
+    <script src="js/OpenAudioMc.js"></script>
+    <title>OpenAudioMc | Client</title>
+</head>
+<body>
+
+<div class="random" id="welcome">
+    <div class="random-word"\>
+        <div><p class="blurrOut">Welcome to OpenAudioMc!</p>
+            <h2 class="blurrOut">
+                <span class="button" onclick="enable();">Connect</span>
+            </h2>
+            <p class="blurrOut">
+                Click the connect button above to start the web client.
+            </p>
+        </div>
+    </div>
+    <p class="footer">&copy; OpenAudioMc 2019</p>
+</div>
+
+<div class="random" id="app" style="display: none;">
+    <div class="random-word">
+        <div><p class="blurrOut">Welcome</p>
+            <h1 class="blurrOut">
+                <span>Mindgamesnl</span>
+            </h1>
+            <p class="blurrOut">
+                <label id="volume-label">
+                    <input type="range" oninput="openAudioMc.getMediaManager().setMasterVolume(this.value);" name="volume" min="1" max="100" value="80"/>
+                </label>
+                <br/><br/>
+                <span id="status-message"></span>
+            </p>
+        </div>
+    </div>
+    <div>
+        <p class="hueFooter blurrOut" id="hue-bridge-menu-button" style="display: none;" onclick="openAudioMc.getUserInterfaceModule().showHue();">Philips Hue <i class="fa fa-lightbulb-o"></i></p>
+    </div>
+    <div onmouseenter="document.getElementById('cog').classList.add('spinner');"
+         onmouseleave="document.getElementById('cog').classList.remove('spinner');">
+        <p class="settingsFooter blurrOut">Settings <i class="fa fa-cog" id="cog"></i></p>
+    </div>
+    <p class="footer">&copy; OpenAudioMc 2019</p>
+</div>
+
+
+<div class="random" id="hueMenu" style="display: none;">
+    <div class="hue-page">
+        <h2 class="blurrOut">Philips hue</h2>
+        <div class="blurrOut" id="select-bridge">
+            <p>Your Philips Hue lights have not yet been setup with OpenAudioMc. Doing so will give the minecraft server (limited) control over your selected lights to enhance your experience.</p>
+            <span class="button" onclick="openAudioMc.getHueModule().startSetup();" style="color: white;">Click here to start the setup process</span>
+        </div>
+    </div>
+
+    <div>
+        <p class="hueFooter blurrOut" onclick="openAudioMc.getUserInterfaceModule().showMain();">Player <i class="fa fa-volume-up"></i></p>
+    </div>
+
+    <div onmouseenter="document.getElementById('cog').classList.add('spinner');"
+         onmouseleave="document.getElementById('cog').classList.remove('spinner');">
+        <p class="settingsFooter blurrOut">Settings <i class="fa fa-cog" id="cog"></i></p>
+    </div>
+    <p class="footer">&copy; OpenAudioMc 2019</p>
+</div>
+
+</body>
+</html>
