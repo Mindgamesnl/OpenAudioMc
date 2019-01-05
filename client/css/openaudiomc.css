@@ -5,7 +5,7 @@ body{
         /* top, transparent red, faked with gradient */
             linear-gradient(
                     rgba(98, 90, 238, 0.45),
-                    rgba(98, 90, 238, 0.35)
+                    rgba(98, 90, 238, 0.25)
             ),
                 /* bottom, image */
             url(../assets/background.png);

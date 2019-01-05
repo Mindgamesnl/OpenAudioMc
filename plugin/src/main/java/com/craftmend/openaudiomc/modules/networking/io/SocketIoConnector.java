@@ -2,18 +2,14 @@ package com.craftmend.openaudiomc.modules.networking.io;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.networking.abstracts.AbstractPacket;
-import com.craftmend.openaudiomc.modules.networking.packets.PacketAcknowledgeClientRequest;
 import com.craftmend.openaudiomc.modules.networking.payloads.AcknowledgeClientPayload;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
-import com.google.gson.Gson;
 import io.socket.client.Ack;
 import io.socket.client.IO;
 import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 import lombok.Getter;
 import okhttp3.OkHttpClient;
 import org.bukkit.Bukkit;
-import org.json.JSONObject;
 
 import java.net.URISyntaxException;
 import java.security.KeyManagementException;
@@ -30,7 +26,6 @@ public class SocketIoConnector {
     public SocketIoConnector(OpenAudioMc openAudioMc) throws KeyManagementException, NoSuchAlgorithmException, URISyntaxException {
         sslHelper = new SSLHelper();
         setupConnection();
-        registerEvents();
     }
 
     public void setupConnection() throws URISyntaxException {
@@ -50,6 +45,9 @@ public class SocketIoConnector {
                 "public=" + OpenAudioMc.getInstance().getAuthenticationModule().getServerKeySet().getPublicKey().getValue();
 
         socket = IO.socket(OpenAudioMc.getInstance().getConfigurationModule().getServer(), opts);
+
+        registerEvents();
+
         socket.connect();
     }
 
