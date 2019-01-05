@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.modules.media.objects;
 
+import com.craftmend.openaudiomc.modules.media.enums.MediaFlag;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,6 +20,7 @@ public class Media {
     @Getter @Setter private Boolean loop = false;
     @Getter @Setter private Boolean autoPlay = true;
     @Getter @Setter private int fadeTime = 0;
+    @Getter @Setter private MediaFlag flag = MediaFlag.DEFAULT;
 
     public Media(String source) {
         this.source = source;
