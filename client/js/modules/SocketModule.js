@@ -38,7 +38,7 @@ class SocketModule {
         this.socket = io(host, {query: that.authHeader, autoConnect:false});
 
         this.socket.on("connect", function () {
-            main.getUserInterfaceModule().setMessage("You are now connected to the Minecraft server and ready to listen to the Audio. Enjoy the experiance.");
+            main.getUserInterfaceModule().setMessage("You are now connected to the Minecraft server and ready to listen to the Audio. Enjoy the experience.");
             main.getUserInterfaceModule().showVolumeSlider(true);
         });
 
