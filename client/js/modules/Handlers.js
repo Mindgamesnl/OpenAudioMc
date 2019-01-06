@@ -53,10 +53,7 @@ class Handlers {
         openAudioMc.socketModule.registerHandler("HueColorPayload", function (data) {
             const targetLights = data.lights;
             const targetColor = data.hueColor;
-            console.log(targetColor)
-            console.log(convertRange( targetColor.bri, [0, 255], [0, 1]))
             const rgbaColor = "rgba(" + targetColor.r + "," + targetColor.g + "," + targetColor.b + "," + convertRange( targetColor.bir, [0, 255], [0, 1]) + ")";
-
             if (openAudioMc.getHueModule().isLinked) {
                 openAudioMc.getHueModule().setLight(targetLights, rgbaColor);
             }
