@@ -1,6 +1,6 @@
 class HueModule {
 
-    constructor(main) {
+    constructor(main, options) {
         this.hue = jsHue();
         this.bridges = [];
         this.isSsl = (document.location.href.startsWith("https://"));
@@ -8,6 +8,7 @@ class HueModule {
         this.currentBridge = null;
         this.currentUser = null;
         this.color = net.brehaut.Color;
+        this.options = options;
 
         this.lights = [];
 
@@ -31,6 +32,12 @@ class HueModule {
             document.getElementById("hue-bridge-menu-button").style.display = "";
             if (this.isSsl) {
                 document.getElementById("select-bridge").innerHTML = "<p><i>So close... yet so far...</i> Unfortunately, Philips Hue is not supported over SSL (https), please reaload this page over HTTP (in the address bar) to hue the hue integration.</p>";
+                return;
+            }
+
+            if (this.options.userid != null) {
+                document.getElementById("select-bridge").innerHTML = "<p>Loading auto connect.</p>";
+                openAudioMc.getHueModule().startSetup();
             }
         } else {
             openAudioMc.log("No hue bridges found");
@@ -45,23 +52,35 @@ class HueModule {
     }
 
     onConnect() {
+        const that = this;
         document.getElementById("select-bridge").innerHTML = "<p>Preparing user..</p>";
         this.currentUser.getGroups().then(groups => {
             document.getElementById("select-bridge").innerHTML = "<p>You are now connected with your Philips Hue Lights! " +
                 "Please select your group (you can always change this later) and click 'player' in the left bottem corner to return to the home menu.</p>" +
-                "<select oninput='openAudioMc.getHueModule().selectGroup(this.value)' class=\"blue-select\" id='brige-list'><option value=\"\" disabled selected>Select a group</option></select> <br/>";
+                "<select oninput='openAudioMc.getHueModule().selectGroup(this.value)' class=\"blue-select\" id='brige-list'><option value=\"\" disabled selected id='default-group'>Select a group</option></select>";
             for (var key in groups) {
-                document.getElementById("brige-list").innerHTML += "<option>" + groups[key].name + "</option>"
+                document.getElementById("brige-list").innerHTML += "<option>" + groups[key].name + "</option>";
+                if (that.options.group != null && groups[key].name === that.options.group) {
+                    this.updateSelector(groups[key].name);
+                    this.selectGroup(groups[key].name);
+                }
             }
         });
     }
 
+    updateSelector(name) {
+        setTimeout(function () {
+            document.getElementById("default-group").selected = false;
+            document.getElementById("brige-list").value = name;
+        }, 200);
+    }
 
     selectGroup(value) {
+        Cookies.set("huegroup", value);
         const that = this;
         this.currentUser.getGroups().then(groups => {
             for (var key in groups) {
-                if (groups[key].name == value) {
+                if (groups[key].name === value) {
                     that.lights = [];
                     for (var id in groups[key].lights) {
                         id++;
@@ -83,22 +102,46 @@ class HueModule {
         }
     }
 
+    setUserId(id) {
+        Cookies.set('hueid', id);
+    }
+
     setLight(id, rgb) {
         let query = [];
-        if (typeof id == "object") {
-            id.forEach(target => {
+        if (typeof  id == "number") {
+            query.push(this.lights[id-1]);
+        } else if (id.startsWith("[")) {
+            JSON.parse(id).forEach(target => {
                 query.push(this.lights[target-1]);
             });
         } else {
-            query.push(this.lights[id-1]);
+            query.push(this.lights[parseInt(id)-1]);
         }
         query.forEach(light => {
             this.currentUser.setLightState(light, this.colorToHueHsv(rgb)).then(data => {});
         });
     }
 
-    linkBridge(bridgeIp) {
+    linkBridge(bridgeIp, precheck) {
         document.getElementById("select-bridge").innerHTML = "<p>Preparing setup..</p>";
+
+        if (precheck == null && this.options.userid != null) {
+            document.getElementById("select-bridge").innerHTML = "<p>Logging in..</p>";
+            this.currentUser = this.hue.bridge(bridgeIp).user(this.options.userid);
+            this.currentUser.getGroups().then(data => {
+                //check result
+                if (data[0] != null && data[0].error == null) {
+                    this.linkBridge(bridgeIp, "error");
+                } else {
+                    openAudioMc.log("Linked with hue bridge after trying to connect with the old username");
+                    this.isLinked = true;
+                    this.onConnect();
+                }
+            });
+            //check the user
+            return;
+        }
+
         this.currentBridge = this.hue.bridge(bridgeIp);
         if (this.currentBridge == null) {
             openAudioMc.log("Invalid bridge IP");

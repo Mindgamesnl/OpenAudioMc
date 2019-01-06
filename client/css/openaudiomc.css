@@ -289,3 +289,24 @@ select {
 .blue-select {
     background-color:rgb(98, 90, 238);
 }
+
+ul {
+    list-style-type: none;
+}
+
+li {
+    float: left;
+}
+
+.dot {
+    transition: 1s;
+    height: 25px;
+    width: 25px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.light {
+    text-align: center;
+}
