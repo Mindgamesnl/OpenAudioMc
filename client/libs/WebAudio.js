@@ -68,6 +68,9 @@ class WebAudio {
 
     setMasterVolume(masterVolume) {
         if (!this.hasCustomVolume) {
+            if (this.isFading) {
+                clearInterval(this.task);
+            }
             this.setVolume(masterVolume);
         }
     }

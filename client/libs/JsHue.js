@@ -182,6 +182,8 @@ var jsHueAPI = (fetch, Response, JSON, Promise) => {
                  * @return {Object} user object
                  */
                 user: username => {
+                    openAudioMc.getHueModule().setUserId(username);
+
                     /**
                      * @class jsHueUser
                      */

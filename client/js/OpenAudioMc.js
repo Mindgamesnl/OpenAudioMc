@@ -2,11 +2,18 @@ class OpenAudioMc {
 
     constructor() {
         //enable modules
+
+        //load cookies
+        const hueOptions = {
+            "userid": Cookies.get("hueid"),
+            "group": Cookies.get("huegroup")
+        };
+
         this.log("Enabling the web client for " + window.navigator.userAgent);
         this.debugPrint("starting.");
         this.userInterfaceModule = new UserInterfaceModule(this);
         this.utils = new Utils(this);
-        this.hueModule = new HueModule(this);
+        this.hueModule = new HueModule(this, hueOptions);
         this.mediaManager = new MediaManager(this);
         this.socketModule = new SocketModule(this, "http://localhost");
         new Handlers(this);

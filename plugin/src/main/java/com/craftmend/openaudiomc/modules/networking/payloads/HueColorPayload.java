@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class HueColorPayload extends AbstractPacketPayload {
 
-    private int[] lights;
+    private String lights;
     private HueColor hueColor;
 
 }
