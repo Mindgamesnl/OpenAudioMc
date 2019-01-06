@@ -70,8 +70,6 @@ public class SocketIoConnector {
 
             Ack callback = (Ack) args[1];
 
-            Bukkit.broadcastMessage("Checking " + client.getPin() + " vs " + payload.getToken());
-
             if (client == null) {
                 callback.call(false);
             } else if (client.getPin().equals(payload.getToken())) {

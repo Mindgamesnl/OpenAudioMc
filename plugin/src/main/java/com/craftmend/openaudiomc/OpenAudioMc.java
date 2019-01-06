@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.modules.api.ApiModule;
 import com.craftmend.openaudiomc.modules.authentication.AuthenticationModule;
 import com.craftmend.openaudiomc.modules.commands.CommandModule;
 import com.craftmend.openaudiomc.modules.configuration.ConfigurationModule;
+import com.craftmend.openaudiomc.modules.hue.HueModule;
 import com.craftmend.openaudiomc.modules.media.MediaModule;
 import com.craftmend.openaudiomc.modules.networking.NetworkingModule;
 import com.craftmend.openaudiomc.modules.networking.addapter.AbstractPacketAddapter;
@@ -35,6 +36,7 @@ public final class OpenAudioMc extends JavaPlugin {
     private RegionModule regionModule;
     private CommandModule commandModule;
     private SpeakerModule speakerModule;
+    private HueModule hueModule;
 
     //instance
     @Getter private static OpenAudioMc instance;
@@ -70,6 +72,7 @@ public final class OpenAudioMc extends JavaPlugin {
 
         //commands
         this.commandModule = new CommandModule(this);
+        this.hueModule = new HueModule(this);
     }
 
     @Override
