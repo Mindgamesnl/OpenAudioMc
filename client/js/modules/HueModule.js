@@ -29,12 +29,11 @@ class HueModule {
             //bridges found
             openAudioMc.log(this.bridges.length + " hue bridges found");
             document.getElementById("hue-bridge-menu-button").style.display = "";
+            if (this.isSsl) {
+                document.getElementById("select-bridge").innerHTML = "<p><i>So close... yet so far...</i> Unfortunately, Philips Hue is not supported over SSL (https), please reaload this page over HTTP (in the address bar) to hue the hue integration.</p>";
+            }
         } else {
             openAudioMc.log("No hue bridges found");
-            document.getElementById("bridge-list").innerHTML += "<tr>\n" +
-                "                    <td>Christina Berglund</td>\n" +
-                "                    <td>Sweden</td>\n" +
-                "                </tr>";
         }
     }
 
@@ -50,7 +49,7 @@ class HueModule {
         this.currentUser.getGroups().then(groups => {
             document.getElementById("select-bridge").innerHTML = "<p>You are now connected with your Philips Hue Lights! " +
                 "Please select your group (you can always change this later) and click 'player' in the left bottem corner to return to the home menu.</p>" +
-                "<select oninput='openAudioMc.getHueModule().selectGroup(this.value)' class=\"blue-select\" id='brige-list'><option value=\"\" disabled selected>Select a group</option></select> <br/> <p><i>(tip, click the test button to blink the ligs to check the setup)</i></p>";
+                "<select oninput='openAudioMc.getHueModule().selectGroup(this.value)' class=\"blue-select\" id='brige-list'><option value=\"\" disabled selected>Select a group</option></select> <br/>";
             for (var key in groups) {
                 document.getElementById("brige-list").innerHTML += "<option>" + groups[key].name + "</option>"
             }
