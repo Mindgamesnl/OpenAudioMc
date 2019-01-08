@@ -5,3 +5,4 @@ messages:
 
 options:
   send-on-join: true
+  speaker-radius: 10

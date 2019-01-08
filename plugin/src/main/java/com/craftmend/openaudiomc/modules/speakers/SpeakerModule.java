@@ -50,12 +50,11 @@ public class SpeakerModule {
             int x = openAudioMc.getConfigurationModule().getDataConfig().getInt("speakers." + id + ".x");
             int y = openAudioMc.getConfigurationModule().getDataConfig().getInt("speakers." + id + ".y");
             int z = openAudioMc.getConfigurationModule().getDataConfig().getInt("speakers." + id + ".z");
-            int radius = openAudioMc.getConfigurationModule().getDataConfig().getInt("speakers." + id + ".radius");
             if (world != null) {
                 SimpleLocation simpleLocation = new SimpleLocation(x, y, z, world);
                 Block blockAt = simpleLocation.getBlock();
                 if (blockAt != null && isSpeakerSkull(blockAt)) {
-                    registerSpeaker(simpleLocation, media, UUID.fromString(id), radius);
+                    registerSpeaker(simpleLocation, media, UUID.fromString(id), OpenAudioMc.getInstance().getConfig().getInt("options.speaker-radius"));
                 } else {
                     System.out.println(OpenAudioMc.getLOG_PREFIX() + "Speaker " + id + " doesn't to seem be valid anymore, so it's not getting loaded.");
                 }

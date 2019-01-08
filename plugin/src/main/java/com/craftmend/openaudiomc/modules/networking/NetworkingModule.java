@@ -26,7 +26,7 @@ public class NetworkingModule {
         registerHandler(PacketChannel.SOCKET_IN_UNREGISTER_CLIENT, new ClientDisconnectHandler());
 
         try {
-            socketIoConnector = new SocketIoConnector(openAudioMc);
+            socketIoConnector = new SocketIoConnector();
         } catch (Exception e) {
             Bukkit.getPluginManager().disablePlugin(openAudioMc);
             System.out.println(OpenAudioMc.getLOG_PREFIX() + "The plugin could not start because of a connection problem when requesting the initial private key. Please contact the developers of this plugin.");

@@ -7,7 +7,9 @@ import com.craftmend.openaudiomc.modules.commands.subcommands.*;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CommandModule {
@@ -16,13 +18,19 @@ public class CommandModule {
     @Getter private String commandPrefix = ChatColor.DARK_AQUA + "[" + ChatColor.AQUA + "OpenAudioMc" + ChatColor.DARK_AQUA + "] " + ChatColor.GRAY;
 
     public CommandModule(OpenAudioMc openAudioMc) {
-        openAudioMc.getCommand("openaudiomc").setExecutor(new MainCommand(openAudioMc, this));
+        MainCommand mainCommand = new MainCommand(openAudioMc, this);
+        openAudioMc.getCommand("openaudiomc").setExecutor(mainCommand);
+        openAudioMc.getCommand("openaudiomc").setTabCompleter(mainCommand);
 
         registerSubCommand(new RegionsSubCommand(openAudioMc));
         registerSubCommand(new PlaySubCommand(openAudioMc));
         registerSubCommand(new SpeakersSubCommand(openAudioMc));
         registerSubCommand(new StopSubCommand(openAudioMc));
         registerSubCommand(new HueSubCommand(openAudioMc));
+    }
+
+    public List<String> getSubCommands() {
+        return new ArrayList<>(subCommands.keySet());
     }
 
     private void registerSubCommand(SubCommand subCommand) {

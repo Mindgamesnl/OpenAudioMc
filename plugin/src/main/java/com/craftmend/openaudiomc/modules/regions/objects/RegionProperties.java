@@ -5,16 +5,15 @@ import com.craftmend.openaudiomc.modules.media.objects.Media;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class RegionPropperties {
+public class RegionProperties {
 
-    private String mediaSrouce;
+    private String source;
 
     public Media getMedia() {
-        return OpenAudioMc.getInstance().getRegionModule().getRegionMedia(mediaSrouce);
+        return OpenAudioMc.getInstance().getRegionModule().getRegionMedia(source);
     }
 
 }

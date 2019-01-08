@@ -8,7 +8,6 @@ import com.craftmend.openaudiomc.modules.authentication.objects.ServerKeySet;
 import lombok.Getter;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
@@ -18,7 +17,7 @@ public class AuthenticationModule {
     @Getter
     private ServerKeySet serverKeySet = new ServerKeySet();
 
-    public AuthenticationModule(OpenAudioMc openAudioMc) {
+    public AuthenticationModule() {
         System.out.println(OpenAudioMc.getLOG_PREFIX() + "Starting authentication module");
         loadData();
     }

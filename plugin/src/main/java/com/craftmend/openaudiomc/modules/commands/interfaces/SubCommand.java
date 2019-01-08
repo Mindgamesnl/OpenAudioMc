@@ -16,7 +16,7 @@ public abstract class SubCommand {
         Bukkit.getPluginManager().addPermission(new Permission("openaudiomc.commands." + command));
     }
 
-    public void message(CommandSender sender, String message) {
+    protected void message(CommandSender sender, String message) {
         sender.sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + message);
     }
 
