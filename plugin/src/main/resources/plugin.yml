@@ -8,5 +8,6 @@ description: OAM 2019, #soon
 website: https://craftmend.com/
 commands:
   audio:
+    aliases: [sound, connect, media, muziek, geluid]
   openaudiomc:
     aliases: [oam, oa, openaudio]
