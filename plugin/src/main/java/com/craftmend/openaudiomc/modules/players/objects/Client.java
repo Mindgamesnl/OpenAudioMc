@@ -7,6 +7,9 @@ import com.craftmend.openaudiomc.modules.networking.packets.PacketClientCreateMe
 import com.craftmend.openaudiomc.modules.networking.packets.PacketClientDestroyMedia;
 import com.craftmend.openaudiomc.modules.networking.packets.PacketClientUpdateMedia;
 import com.craftmend.openaudiomc.modules.networking.packets.PacketSocketKickClient;
+import com.craftmend.openaudiomc.modules.players.events.ClientConnectEvent;
+import com.craftmend.openaudiomc.modules.players.events.ClientDisconnectEvent;
+import com.craftmend.openaudiomc.modules.players.interfaces.ClientConnection;
 import com.craftmend.openaudiomc.modules.regions.objects.IRegion;
 import com.craftmend.openaudiomc.modules.speakers.objects.ApplicableSpeaker;
 
@@ -21,7 +24,7 @@ import org.bukkit.entity.Player;
 import java.net.URISyntaxException;
 import java.util.*;
 
-public class Client {
+public class Client implements ClientConnection {
 
     //spigot
     @Getter private Player player;
@@ -66,11 +69,13 @@ public class Client {
         currentRegions.clear();
         currentSpeakers.clear();
         Bukkit.getScheduler().scheduleAsyncDelayedTask(OpenAudioMc.getInstance(), () -> ongoingMedia.forEach(this::sendMedia), 20);
+        Bukkit.getServer().getPluginManager().callEvent(new ClientConnectEvent(player, this));
     }
 
     public void onDisconnect() {
         this.isConnected = false;
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.client-closed")));
+        Bukkit.getServer().getPluginManager().callEvent(new ClientDisconnectEvent(player));
     }
 
     public void onQuit() {
@@ -174,5 +179,20 @@ public class Client {
     private Boolean containsRegion(List<IRegion> list, IRegion query) {
         for (IRegion r : list) if (query.getMedia().getSource().equals(r.getMedia().getSource())) return true;
         return false;
+    }
+
+    @Override
+    public Boolean isConnected() {
+        return this.isConnected;
+    }
+
+    @Override
+    public List<Media> getOngoingMedia() {
+        return this.ongoingMedia;
+    }
+
+    @Override
+    public void playMedia(Media media) {
+        sendMedia(media);
     }
 }

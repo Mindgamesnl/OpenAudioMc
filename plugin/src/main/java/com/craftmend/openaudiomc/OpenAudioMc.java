@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc;
 
-import com.craftmend.openaudiomc.modules.api.ApiModule;
+import com.craftmend.openaudiomc.modules.api.objects.OpenAudioApi;
 import com.craftmend.openaudiomc.modules.authentication.AuthenticationModule;
 import com.craftmend.openaudiomc.modules.commands.CommandModule;
 import com.craftmend.openaudiomc.modules.configuration.ConfigurationModule;
@@ -26,7 +26,6 @@ public final class OpenAudioMc extends JavaPlugin {
     private AuthenticationModule authenticationModule;
     private PlayerModule playerModule;
     private NetworkingModule networkingModule;
-    private ApiModule apiModule;
     private RegionModule regionModule;
     private CommandModule commandModule;
     private SpeakerModule speakerModule;
@@ -35,7 +34,8 @@ public final class OpenAudioMc extends JavaPlugin {
     @Getter private static OpenAudioMc instance;
 
 
-    //static strings
+    //static data
+    @Getter private static final OpenAudioApi api = new OpenAudioApi();
     @Getter private static final String LOG_PREFIX = "[OpenAudioMc-Log] ";
     @Getter private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(AbstractPacketPayload.class, new AbstractPacketAddapter())
@@ -52,7 +52,6 @@ public final class OpenAudioMc extends JavaPlugin {
         this.authenticationModule = new AuthenticationModule();
         this.playerModule = new PlayerModule(this);
         this.networkingModule = new NetworkingModule(this);
-        this.apiModule = new ApiModule(this);
         this.speakerModule = new SpeakerModule(this);
 
         //optional modules

@@ -9,6 +9,7 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 import lombok.Getter;
 import okhttp3.OkHttpClient;
+import org.bukkit.Bukkit;
 
 import java.net.URISyntaxException;
 import java.security.KeyManagementException;
@@ -16,10 +17,8 @@ import java.security.NoSuchAlgorithmException;
 
 public class SocketIoConnector {
 
-    @Getter
     private Socket socket;
-    @Getter
-    private Boolean isConnected = false;
+    @Getter private Boolean isConnected = false;
     private SSLHelper sslHelper;
 
     public SocketIoConnector() throws KeyManagementException, NoSuchAlgorithmException, URISyntaxException {
@@ -83,5 +82,14 @@ public class SocketIoConnector {
             AbstractPacket abstractPacket = OpenAudioMc.getGson().fromJson(args[0].toString(), AbstractPacket.class);
             OpenAudioMc.getInstance().getNetworkingModule().triggerPacket(abstractPacket);
         });
+    }
+
+    public void send(Client client, AbstractPacket packet) {
+        if (isConnected && client.getIsConnected()) {
+            //check if the player is real, fake players aren't cool
+            if (Bukkit.getPlayer(client.getPlayer().getUniqueId()) == null) return;
+            packet.setClient(client.getPlayer().getUniqueId());
+            socket.emit("data", OpenAudioMc.getGson().toJson(packet));
+        }
     }
 }

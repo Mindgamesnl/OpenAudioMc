@@ -39,10 +39,7 @@ public class NetworkingModule {
     }
 
     public void send(Client client, AbstractPacket packet) {
-        if (socketIoConnector.getIsConnected() && client.getIsConnected()) {
-            packet.setClient(client.getPlayer().getUniqueId());
-            socketIoConnector.getSocket().emit("data", OpenAudioMc.getGson().toJson(packet));
-        }
+        socketIoConnector.send(client, packet);
     }
 
     public void triggerPacket(AbstractPacket abstractPacket) {
