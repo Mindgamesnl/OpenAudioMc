@@ -29,7 +29,6 @@ public class SpeakersSubCommand extends SubCommand {
             client.setSelectedSpeakerSource(args[0]);
             player.getInventory().addItem(OpenAudioMc.getInstance().getSpeakerModule().getSkull());
             message(sender, "Speaker media created! You've received a Speaker skull in your inventory. Placing it anywhere in the world will add the configured sound in the are.");
-            return;
         }
     }
 

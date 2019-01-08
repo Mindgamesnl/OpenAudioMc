@@ -7,9 +7,14 @@ import lombok.AllArgsConstructor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
+import org.bukkit.util.StringUtil;
+
+import java.util.Collections;
+import java.util.List;
 
 @AllArgsConstructor
-public class MainCommand implements CommandExecutor {
+public class MainCommand implements CommandExecutor, TabCompleter {
 
     private OpenAudioMc openAudioMc;
     private CommandModule commandModule;
@@ -37,5 +42,13 @@ public class MainCommand implements CommandExecutor {
             sender.sendMessage(commandModule.getCommandPrefix() + "Unknown sub command: " + args[0].toLowerCase());
             return true;
         }
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
+        final List<String> completions = openAudioMc.getCommandModule().getSubCommands();
+        StringUtil.copyPartialMatches(strings[0], openAudioMc.getCommandModule().getSubCommands(), completions);
+        Collections.sort(completions);
+        return completions;
     }
 }

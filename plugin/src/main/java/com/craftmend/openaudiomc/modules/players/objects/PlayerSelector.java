@@ -37,11 +37,10 @@ public class PlayerSelector {
             }
 
             else {
-                Player nearest = Bukkit.getOnlinePlayers().stream()
+                Bukkit.getOnlinePlayers().stream()
                         .filter(player -> player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
                         .min(Comparator.comparing(player -> player.getLocation().distance(standPoint)))
-                        .get();
-                players.add(nearest);
+                        .ifPresent(players::add);
             }
         }
         else if (selector.startsWith("@a")) {
@@ -86,6 +85,7 @@ public class PlayerSelector {
                 int x = Integer.valueOf(getArgument("x"));
                 int y = Integer.valueOf(getArgument("y"));
                 int z = Integer.valueOf(getArgument("z"));
+                assert initialLocation != null;
                 return new Location(initialLocation.getWorld(), x, y, z);
             } catch (Exception e) {
                 commandSender.sendMessage(OpenAudioMc.getInstance() + "An error occurred when parsing the location as an Integer");

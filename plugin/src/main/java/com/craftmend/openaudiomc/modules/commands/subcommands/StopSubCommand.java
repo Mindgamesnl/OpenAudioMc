@@ -38,7 +38,6 @@ public class StopSubCommand extends SubCommand {
                 openAudioMc.getNetworkingModule().send(client, new PacketClientDestroyMedia(args[1]));
             }
             message(sender, "Destroyed all sounds for the clients in selection with id " + args[1]);
-            return;
         }
     }
 }

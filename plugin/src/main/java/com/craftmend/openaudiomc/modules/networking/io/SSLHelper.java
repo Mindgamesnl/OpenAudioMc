@@ -1,7 +1,6 @@
 package com.craftmend.openaudiomc.modules.networking.io;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import javax.net.ssl.*;
 import java.security.KeyManagementException;
@@ -15,13 +14,8 @@ class SSLHelper {
     private X509TrustManager trustManager;
     private SSLSocketFactory sslSocketFactory;
 
-    public SSLHelper() throws NoSuchAlgorithmException, KeyManagementException {
-        hostnameVerifier = new HostnameVerifier() {
-            @Override
-            public boolean verify(String hostname, SSLSession session) {
-                return true;
-            }
-        };
+    SSLHelper() throws NoSuchAlgorithmException, KeyManagementException {
+        hostnameVerifier = (hostname, session) -> true;
 
         trustAllCerts = new TrustManager[]{new X509TrustManager() {
             @Override

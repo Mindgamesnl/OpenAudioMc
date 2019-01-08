@@ -2,9 +2,7 @@ package com.craftmend.openaudiomc.modules.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.commands.interfaces.SubCommand;
-import com.craftmend.openaudiomc.modules.regions.objects.RegionPropperties;
-import com.google.gson.Gson;
-import org.bukkit.Bukkit;
+import com.craftmend.openaudiomc.modules.regions.objects.RegionProperties;
 import org.bukkit.command.CommandSender;
 
 public class RegionsSubCommand extends SubCommand {
@@ -30,7 +28,7 @@ public class RegionsSubCommand extends SubCommand {
 
         if (args[0].equalsIgnoreCase("create") && args.length == 3) {
             openAudioMc.getConfigurationModule().getDataConfig().set("regions." + args[1], args[2]);
-            openAudioMc.getRegionModule().registerRegion(args[1], new RegionPropperties(args[2]));
+            openAudioMc.getRegionModule().registerRegion(args[1], new RegionProperties(args[2]));
             message(sender, "Thw WorldGuard region with the id " + args[0] + " now has the sound " + args[2]);
             return;
         }
@@ -39,7 +37,6 @@ public class RegionsSubCommand extends SubCommand {
             openAudioMc.getConfigurationModule().getDataConfig().set("regions." + args[1], null);
             openAudioMc.getRegionModule().removeRegion(args[1]);
             message(sender, "Thw WorldGuard region with the id " + args[0] + " lo longer has any sound linked to it since it has now been removed.");
-            return;
         }
     }
 }

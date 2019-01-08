@@ -6,7 +6,7 @@ import com.craftmend.openaudiomc.modules.regions.enums.RegionsVersion;
 import com.craftmend.openaudiomc.modules.regions.objects.IRegion;
 import com.craftmend.openaudiomc.modules.regions.objects.Region;
 import com.craftmend.openaudiomc.modules.regions.objects.RegionMedia;
-import com.craftmend.openaudiomc.modules.regions.objects.RegionPropperties;
+import com.craftmend.openaudiomc.modules.regions.objects.RegionProperties;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
@@ -23,7 +23,7 @@ import java.util.*;
 
 public class RegionModule {
 
-    @Getter private Map<String, RegionPropperties> regionProppertiesMap = new HashMap<>();
+    @Getter private Map<String, RegionProperties> regionPropertiesMap = new HashMap<>();
     private Map<String, RegionMedia> regionMediaMap = new HashMap<>();
     private RegionsVersion regionsVersion;
 
@@ -41,7 +41,7 @@ public class RegionModule {
 
         //load config
         for (String region : openAudioMc.getConfigurationModule().getDataConfig().getConfigurationSection("regions").getKeys(false)) {
-            registerRegion(region, new RegionPropperties(openAudioMc.getConfigurationModule().getDataConfig().getString("regions." + region + "")));
+            registerRegion(region, new RegionProperties(openAudioMc.getConfigurationModule().getDataConfig().getString("regions." + region + "")));
         }
 
         Bukkit.getScheduler().scheduleAsyncRepeatingTask(openAudioMc, () -> {
@@ -51,13 +51,13 @@ public class RegionModule {
         }, 10, 10);
     }
 
-    public void registerRegion(String id, RegionPropperties propperties) {
-        if (id == "iamnotactuallyaregionjustadefaultvaluesoyeahokaibye") return;
-        regionProppertiesMap.put(id, propperties);
+    public void registerRegion(String id, RegionProperties propperties) {
+        if (id.equals("iamnotactuallyaregionjustadefaultvaluesoyeahokaibye")) return;
+        regionPropertiesMap.put(id, propperties);
     }
 
     public void removeRegion(String id) {
-        regionProppertiesMap.remove(id);
+        regionPropertiesMap.remove(id);
     }
 
     public RegionMedia getRegionMedia(String source) {
@@ -67,23 +67,16 @@ public class RegionModule {
         return regionMedia;
     }
 
-    public RegionPropperties getPropperties(String region) {
-        return regionProppertiesMap.get(region);
-    }
-    public RegionMedia getMedia(String source) {
-        return regionMediaMap.get(source);
-    }
-
     private List<IRegion> handleRegions(Set<ProtectedRegion> collection) {
         List<IRegion> regions = new ArrayList<>();
         int prio = 0;
         for (ProtectedRegion r : collection) {
-            if (regionProppertiesMap.get(r.getId()) == null) continue;
+            if (regionPropertiesMap.get(r.getId()) == null) continue;
             if (r.getPriority() > prio) {
                 prio = r.getPriority();
                 regions.clear();
             }
-            regions.add(new Region(r.getId(), regionProppertiesMap.get(r.getId())));
+            regions.add(new Region(r.getId(), regionPropertiesMap.get(r.getId())));
         }
         return regions;
     }

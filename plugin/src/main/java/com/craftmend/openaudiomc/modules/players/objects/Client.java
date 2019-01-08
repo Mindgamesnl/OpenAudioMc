@@ -9,7 +9,6 @@ import com.craftmend.openaudiomc.modules.networking.packets.PacketClientUpdateMe
 import com.craftmend.openaudiomc.modules.networking.packets.PacketSocketKickClient;
 import com.craftmend.openaudiomc.modules.regions.objects.IRegion;
 import com.craftmend.openaudiomc.modules.speakers.objects.ApplicableSpeaker;
-import com.craftmend.openaudiomc.modules.speakers.objects.Speaker;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -115,9 +114,7 @@ public class Client {
             }
         });
 
-        leftSpeakers.forEach(left -> {
-            OpenAudioMc.getInstance().getNetworkingModule().send(this, new PacketClientDestroyMedia(left.getSpeaker().getMedia().getMediaId()));
-        });
+        leftSpeakers.forEach(left -> OpenAudioMc.getInstance().getNetworkingModule().send(this, new PacketClientDestroyMedia(left.getSpeaker().getMedia().getMediaId())));
 
         currentSpeakers = applicableSpeakers;
     }
@@ -171,11 +168,6 @@ public class Client {
 
     private Boolean containsSpeaker(List<ApplicableSpeaker> list, ApplicableSpeaker speaker) {
         for (ApplicableSpeaker currentSpeaker : list) if (currentSpeaker.getSpeaker().getSource().equals(speaker.getSpeaker().getSource())) return true;
-        return false;
-    }
-
-    private Boolean containsSpeaker(List<Speaker> list, Speaker speaker) {
-        for (Speaker currentSpeaker : list) if (currentSpeaker.getSource().equals(speaker.getSource())) return true;
         return false;
     }
 

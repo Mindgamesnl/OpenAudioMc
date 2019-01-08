@@ -10,8 +10,6 @@ import com.google.gson.Gson;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.concurrent.ExecutionException;
-
 public class PlaySubCommand extends SubCommand {
 
     private OpenAudioMc openAudioMc;

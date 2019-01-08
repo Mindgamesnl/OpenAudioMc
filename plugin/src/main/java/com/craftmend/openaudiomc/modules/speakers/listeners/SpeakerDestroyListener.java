@@ -5,7 +5,6 @@ import com.craftmend.openaudiomc.modules.speakers.SpeakerModule;
 import com.craftmend.openaudiomc.modules.speakers.objects.SimpleLocation;
 import com.craftmend.openaudiomc.modules.speakers.objects.Speaker;
 import lombok.AllArgsConstructor;
-import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

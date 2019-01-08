@@ -9,7 +9,6 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 import lombok.Getter;
 import okhttp3.OkHttpClient;
-import org.bukkit.Bukkit;
 
 import java.net.URISyntaxException;
 import java.security.KeyManagementException;
@@ -23,7 +22,7 @@ public class SocketIoConnector {
     private Boolean isConnected = false;
     private SSLHelper sslHelper;
 
-    public SocketIoConnector(OpenAudioMc openAudioMc) throws KeyManagementException, NoSuchAlgorithmException, URISyntaxException {
+    public SocketIoConnector() throws KeyManagementException, NoSuchAlgorithmException, URISyntaxException {
         sslHelper = new SSLHelper();
         setupConnection();
     }

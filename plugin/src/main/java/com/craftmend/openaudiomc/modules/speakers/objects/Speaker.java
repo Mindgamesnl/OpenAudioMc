@@ -19,16 +19,6 @@ public class Speaker {
         this.location = location;
     }
 
-    public void save(SimpleLocation location) {
-        OpenAudioMc.getInstance().getConfigurationModule().getDataConfig().set("speakers." + id.toString() + ".world", location.getWorld());
-        OpenAudioMc.getInstance().getConfigurationModule().getDataConfig().set("speakers." + id.toString() + ".x", location.getX());
-        OpenAudioMc.getInstance().getConfigurationModule().getDataConfig().set("speakers." + id.toString() + ".y", location.getY());
-        OpenAudioMc.getInstance().getConfigurationModule().getDataConfig().set("speakers." + id.toString() + ".z", location.getZ());
-        OpenAudioMc.getInstance().getConfigurationModule().getDataConfig().set("speakers." + id.toString() + ".radius", 10);
-        OpenAudioMc.getInstance().getConfigurationModule().getDataConfig().set("speakers." + id.toString() + ".media", source);
-        OpenAudioMc.getInstance().getSpeakerModule().registerSpeaker(location, source, id, radius);
-    }
-
     public SpeakerMedia getMedia() {
         return OpenAudioMc.getInstance().getSpeakerModule().getMedia(source);
     }
