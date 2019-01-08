@@ -2,3 +2,6 @@ regions:
   iamnotactuallyaregionjustadefaultvaluesoyeahokaibye: dudewhy
 speakers:
   none: none
+keyset:
+  private: not-set
+  base-url: http://craftmend.com/oatest/?&data=
