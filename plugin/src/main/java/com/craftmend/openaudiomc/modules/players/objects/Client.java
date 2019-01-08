@@ -7,15 +7,16 @@ import com.craftmend.openaudiomc.modules.networking.packets.PacketClientCreateMe
 import com.craftmend.openaudiomc.modules.networking.packets.PacketClientDestroyMedia;
 import com.craftmend.openaudiomc.modules.networking.packets.PacketClientUpdateMedia;
 import com.craftmend.openaudiomc.modules.networking.packets.PacketSocketKickClient;
-
 import com.craftmend.openaudiomc.modules.regions.objects.IRegion;
 import com.craftmend.openaudiomc.modules.speakers.objects.ApplicableSpeaker;
 import com.craftmend.openaudiomc.modules.speakers.objects.Speaker;
+
 import lombok.Getter;
 import lombok.Setter;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.net.URISyntaxException;
@@ -43,6 +44,7 @@ public class Client {
 
     public Client(Player player) {
         this.player = player;
+        if (OpenAudioMc.getInstance().getConfig().getBoolean("options.send-on-join")) publishUrl();
     }
 
     public void publishUrl() {
@@ -53,17 +55,23 @@ public class Client {
             e.printStackTrace();
         }
         this.pin = UUID.randomUUID().toString().subSequence(0, 3).toString();
-        TextComponent message = new TextComponent("Click here for a quick test or so");
-        message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "http://craftmend.com/oatest/?&data=" + new TokenFactory().build(this)));
+        TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.click-to-connect")));
+        message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,
+                OpenAudioMc.getInstance().getConfigurationModule().getDataConfig().getString("keyset.base-url") + new TokenFactory().build(this)));
         player.spigot().sendMessage(message);
     }
 
     public void onConnect() {
         this.isConnected = true;
-        player.sendMessage("Welcome");
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.client-opened")));
         currentRegions.clear();
         currentSpeakers.clear();
         Bukkit.getScheduler().scheduleAsyncDelayedTask(OpenAudioMc.getInstance(), () -> ongoingMedia.forEach(this::sendMedia), 20);
+    }
+
+    public void onDisconnect() {
+        this.isConnected = false;
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.client-closed")));
     }
 
     public void onQuit() {
@@ -174,10 +182,5 @@ public class Client {
     private Boolean containsRegion(List<IRegion> list, IRegion query) {
         for (IRegion r : list) if (query.getMedia().getSource().equals(r.getMedia().getSource())) return true;
         return false;
-    }
-
-    public void onDisconnect() {
-        this.isConnected = false;
-        player.sendMessage("disconnected");
     }
 }
