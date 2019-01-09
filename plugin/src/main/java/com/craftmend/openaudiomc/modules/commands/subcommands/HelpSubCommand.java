@@ -19,8 +19,8 @@ public class HelpSubCommand extends SubCommand {
 
     @Override
     public void onExecute(CommandSender sender, String[] args) {
-        args[0] = args[0].toLowerCase();
         if (args.length == 1) {
+            args[0] = args[0].toLowerCase();
             SubCommand subCommand = commandModule.getSubCommand(args[0]);
             if (subCommand != null) {
                 message(sender, "Showing command usage for " + args[0]);
@@ -45,7 +45,7 @@ public class HelpSubCommand extends SubCommand {
 
     private void goldClickableMessage(CommandSender s, String message, String command) {
         TextComponent component = new TextComponent(" " + ChatColor.YELLOW + "> " + ChatColor.GOLD + message);
-        component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
+        component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + command));
         s.spigot().sendMessage(component);
     }
 
