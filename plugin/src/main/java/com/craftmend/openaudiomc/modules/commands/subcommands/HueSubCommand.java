@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.modules.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.modules.commands.objects.Argument;
 import com.craftmend.openaudiomc.modules.hue.objects.HueColor;
 import com.craftmend.openaudiomc.modules.networking.packets.PacketClientApplyHueColor;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
@@ -15,6 +16,10 @@ public class HueSubCommand extends SubCommand {
 
     public HueSubCommand(OpenAudioMc openAudioMc) {
         super("hue");
+        registerArguments(
+                new Argument("set <selector> <lights> <r> <g> <b> <brightness>",
+                        "Set the HUE lights of a specific selector to a RGBA value. The lights selection is a JSON array, like [1,2,3]")
+        );
         this.openAudioMc = openAudioMc;
     }
 

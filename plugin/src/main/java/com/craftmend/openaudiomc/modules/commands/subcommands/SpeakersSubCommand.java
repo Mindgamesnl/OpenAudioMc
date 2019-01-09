@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.modules.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.modules.commands.objects.Argument;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -12,6 +13,11 @@ public class SpeakersSubCommand extends SubCommand {
 
     public SpeakersSubCommand(OpenAudioMc openAudioMc) {
         super("speaker");
+        registerArguments(
+                new Argument("<source>",
+                        "Gives you a speaker block with you can place anywhere in the word. " +
+                                "The speaker will play the sound you entered in the argument")
+        );
         this.openAudioMc = openAudioMc;
     }
 

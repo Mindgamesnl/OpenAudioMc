@@ -1,7 +1,7 @@
 messages:
-  click-to-connect: &6Welcome! click here to connect to the audio client!
-  client-opened: &2You are now connected with the audio client!
-  client-closed: &4You closed the web client!
+  click-to-connect: '&6Welcome! click here to connect to the audio client!'
+  client-opened: '&2You are now connected with the audio client!'
+  client-closed: '&4You closed the web client!'
 
 options:
   send-on-join: true

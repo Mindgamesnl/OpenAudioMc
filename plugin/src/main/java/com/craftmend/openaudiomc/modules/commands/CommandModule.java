@@ -22,6 +22,7 @@ public class CommandModule {
         openAudioMc.getCommand("openaudiomc").setExecutor(mainCommand);
         openAudioMc.getCommand("openaudiomc").setTabCompleter(mainCommand);
 
+        registerSubCommand(new HelpSubCommand(this));
         registerSubCommand(new RegionsSubCommand(openAudioMc));
         registerSubCommand(new PlaySubCommand(openAudioMc));
         registerSubCommand(new SpeakersSubCommand(openAudioMc));
@@ -31,6 +32,10 @@ public class CommandModule {
 
     public List<String> getSubCommands() {
         return new ArrayList<>(subCommands.keySet());
+    }
+
+    public List<SubCommand> getSubCommandHandlers() {
+        return new ArrayList<>(subCommands.values());
     }
 
     private void registerSubCommand(SubCommand subCommand) {

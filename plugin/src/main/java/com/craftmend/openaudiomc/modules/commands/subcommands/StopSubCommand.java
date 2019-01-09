@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.modules.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.modules.commands.objects.Argument;
 import com.craftmend.openaudiomc.modules.networking.packets.PacketClientDestroyMedia;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
 import com.craftmend.openaudiomc.modules.players.objects.PlayerSelector;
@@ -14,6 +15,12 @@ public class StopSubCommand extends SubCommand {
 
     public StopSubCommand(OpenAudioMc openAudioMc) {
         super("stop");
+        registerArguments(
+                new Argument("<selector>",
+                        "Stops all manual sounds for all players in a selection"),
+                new Argument("<selector> <sound-ID>",
+                        "Only stops one specified sound for all players in the selection with a selected ID")
+        );
         this.openAudioMc = openAudioMc;
     }
 

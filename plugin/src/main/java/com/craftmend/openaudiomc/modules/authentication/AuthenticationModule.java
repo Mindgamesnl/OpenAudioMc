@@ -23,7 +23,7 @@ public class AuthenticationModule {
     }
 
     private void loadData() {
-        if (OpenAudioMc.getInstance().getConfig().getString("keyset.private").equals("not-set")) {
+        if (OpenAudioMc.getInstance().getConfigurationModule().getDataConfig().getString("keyset.private").equals("not-set")) {
             //setup process
             try {
                 RequestResponse requestResponse = OpenAudioMc.getGson().fromJson(readHttp(OpenAudioMc.getInstance().getConfigurationModule().getServer() + "/genid"), RequestResponse.class);
