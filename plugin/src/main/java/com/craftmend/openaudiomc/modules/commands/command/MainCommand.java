@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.modules.commands.command;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.commands.CommandModule;
 import com.craftmend.openaudiomc.modules.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.modules.commands.objects.Argument;
 import lombok.AllArgsConstructor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -31,7 +32,12 @@ public class MainCommand implements CommandExecutor, TabCompleter {
             if (subCommand.isAllowed(sender)) {
                 String[] subArgs = new String[args.length - 1];
                 if (args.length != 1) System.arraycopy(args, 1, subArgs, 0, args.length - 1);
-                subCommand.onExecute(sender, subArgs);
+                try {
+                    subCommand.onExecute(sender, subArgs);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    sender.sendMessage(commandModule.getCommandPrefix() + "An error occurred while executing the command. Please check your command.");
+                }
                 return true;
             } else {
                 sender.sendMessage(commandModule.getCommandPrefix() + "You dont have the permissions to do this, sorry!");
@@ -49,6 +55,14 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         List<String> completions = new ArrayList<>();
         for (String subCommand : commandModule.getSubCommands()) {
             if (args.length <= 1 && subCommand.startsWith(args[0])) completions.add(subCommand);
+        }
+        if (args.length == 2) {
+            SubCommand subCommand = commandModule.getSubCommand(args[0].toLowerCase());
+            for (Argument argument : subCommand.getArguments()) {
+                if (argument.getSyntax().startsWith(args[1].toLowerCase())) {
+                    completions.add(argument.getSyntax());
+                }
+            }
         }
         return completions;
     }
