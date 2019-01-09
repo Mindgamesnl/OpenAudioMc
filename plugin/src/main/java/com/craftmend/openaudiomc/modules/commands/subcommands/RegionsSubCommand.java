@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.modules.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.modules.commands.objects.Argument;
 import com.craftmend.openaudiomc.modules.regions.objects.RegionProperties;
 import org.bukkit.command.CommandSender;
 
@@ -11,6 +12,12 @@ public class RegionsSubCommand extends SubCommand {
 
     public RegionsSubCommand(OpenAudioMc openAudioMc) {
         super("region");
+        registerArguments(
+                new Argument("create <WG-region> <source>",
+                        "Assigns a sound to a WorldGuard region by name"),
+                new Argument("delete <WG-region>",
+                        "Unlink the sound from a WorldGuard specific region by name")
+        );
         this.openAudioMc = openAudioMc;
     }
 
@@ -27,6 +34,7 @@ public class RegionsSubCommand extends SubCommand {
         }
 
         if (args[0].equalsIgnoreCase("create") && args.length == 3) {
+            args[1] = args[1].toLowerCase();
             openAudioMc.getConfigurationModule().getDataConfig().set("regions." + args[1], args[2]);
             openAudioMc.getRegionModule().registerRegion(args[1], new RegionProperties(args[2]));
             message(sender, "Thw WorldGuard region with the id " + args[0] + " now has the sound " + args[2]);

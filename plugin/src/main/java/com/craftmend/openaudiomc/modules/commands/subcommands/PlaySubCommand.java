@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.modules.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.modules.commands.objects.Argument;
 import com.craftmend.openaudiomc.modules.media.objects.Media;
 import com.craftmend.openaudiomc.modules.media.objects.MediaOptions;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
@@ -16,6 +17,12 @@ public class PlaySubCommand extends SubCommand {
 
     public PlaySubCommand(OpenAudioMc openAudioMc) {
         super("play");
+        registerArguments(
+                new Argument("<selector> <source>",
+                        "Plays a sound for all the players in a selection"),
+                new Argument("<selector> <source> <options>",
+                        "Plays a sound with configuration (like fade time, sync etc) for all players in a selection")
+        );
         this.openAudioMc = openAudioMc;
     }
 
