@@ -19,15 +19,15 @@ public class SocketIoConnector {
 
     private Socket socket;
     @Getter private Boolean isConnected = false;
+    @Getter private Boolean isConnecting = false;
     private SSLHelper sslHelper;
 
     public SocketIoConnector() throws KeyManagementException, NoSuchAlgorithmException, URISyntaxException {
         sslHelper = new SSLHelper();
-        setupConnection();
     }
 
     public void setupConnection() throws URISyntaxException {
-        if (isConnected) return;
+        if (!canConnect()) return;
         System.out.println(OpenAudioMc.getLOG_PREFIX() + "Setting up Socket.IO connection.");
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
@@ -44,8 +44,8 @@ public class SocketIoConnector {
 
         socket = IO.socket(OpenAudioMc.getInstance().getConfigurationModule().getServer(), opts);
 
+        isConnecting = true;
         registerEvents();
-
         socket.connect();
     }
 
@@ -53,13 +53,19 @@ public class SocketIoConnector {
         socket.on(Socket.EVENT_CONNECT, args -> {
             //connected
             isConnected = true;
+            isConnecting = false;
             System.out.println(OpenAudioMc.getLOG_PREFIX() + "Socket: Opened.");
         });
 
         socket.on(Socket.EVENT_DISCONNECT, args -> {
             //disconnected
             isConnected = false;
+            isConnecting = false;
             System.out.println(OpenAudioMc.getLOG_PREFIX() + "Socket: closed.");
+        });
+
+        socket.on(Socket.EVENT_CONNECT_TIMEOUT, args -> {
+            isConnecting = false;
         });
 
         socket.on("acknowledgeClient", args -> {
@@ -82,6 +88,10 @@ public class SocketIoConnector {
             AbstractPacket abstractPacket = OpenAudioMc.getGson().fromJson(args[0].toString(), AbstractPacket.class);
             OpenAudioMc.getInstance().getNetworkingService().triggerPacket(abstractPacket);
         });
+    }
+
+    private Boolean canConnect() {
+        return (!isConnecting && !isConnected);
     }
 
     public void send(Client client, AbstractPacket packet) {

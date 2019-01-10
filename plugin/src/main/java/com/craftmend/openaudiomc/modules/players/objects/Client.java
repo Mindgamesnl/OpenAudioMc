@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.modules.players.objects;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.media.objects.Media;
 import com.craftmend.openaudiomc.modules.media.objects.MediaUpdate;
+import com.craftmend.openaudiomc.services.networking.NetworkingService;
 import com.craftmend.openaudiomc.services.networking.packets.PacketClientCreateMedia;
 import com.craftmend.openaudiomc.services.networking.packets.PacketClientDestroyMedia;
 import com.craftmend.openaudiomc.services.networking.packets.PacketClientUpdateMedia;
@@ -50,6 +51,11 @@ public class Client implements ClientConnection {
     }
 
     public void publishUrl() {
+        NetworkingService service = OpenAudioMc.getInstance().getNetworkingService();
+        if (service.isConnecting()) {
+            player.sendMessage(OpenAudioMc.getLOG_PREFIX() + "Hold on! Im already trying to connect to the OpenAudioMc api! please try again later!");
+            return;
+        }
         try {
             OpenAudioMc.getInstance().getNetworkingService().connectIfDown();
         } catch (URISyntaxException e) {
