@@ -50,6 +50,14 @@ public class NetworkingService {
         packetHandlerMap.get(abstractPacket.getPacketChannel()).trigger(abstractPacket);
     }
 
+    public Boolean isConnected() {
+        return socketIoConnector.getIsConnected();
+    }
+
+    public Boolean isConnecting() {
+        return socketIoConnector.getIsConnecting();
+    }
+
     private void registerHandler(PacketChannel type, PayloadHandler handler) {
         packetHandlerMap.put(type, handler);
     }
