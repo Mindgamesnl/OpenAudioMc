@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.modules.networking.abstracts;
+package com.craftmend.openaudiomc.services.networking.abstracts;
 
 import lombok.NoArgsConstructor;
 

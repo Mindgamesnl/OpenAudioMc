@@ -1,7 +1,7 @@
-package com.craftmend.openaudiomc.modules.networking.handlers;
+package com.craftmend.openaudiomc.services.networking.handlers;
 
-import com.craftmend.openaudiomc.modules.networking.abstracts.PayloadHandler;
-import com.craftmend.openaudiomc.modules.networking.payloads.ClientConnectionPayload;
+import com.craftmend.openaudiomc.services.networking.abstracts.PayloadHandler;
+import com.craftmend.openaudiomc.services.networking.payloads.ClientConnectionPayload;
 
 public class ClientConnectHandler extends PayloadHandler<ClientConnectionPayload> {
 

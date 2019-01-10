@@ -1,8 +1,8 @@
-package com.craftmend.openaudiomc.modules.networking.io;
+package com.craftmend.openaudiomc.services.networking.io;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.modules.networking.abstracts.AbstractPacket;
-import com.craftmend.openaudiomc.modules.networking.payloads.AcknowledgeClientPayload;
+import com.craftmend.openaudiomc.services.networking.abstracts.AbstractPacket;
+import com.craftmend.openaudiomc.services.networking.payloads.AcknowledgeClientPayload;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
 import io.socket.client.Ack;
 import io.socket.client.IO;
@@ -39,8 +39,8 @@ public class SocketIoConnector {
         opts.callFactory = okHttpClient;
         opts.webSocketFactory = okHttpClient;
         opts.query = "type=server&" +
-                "secret=" + OpenAudioMc.getInstance().getAuthenticationModule().getServerKeySet().getPrivateKey().getValue() + "&" +
-                "public=" + OpenAudioMc.getInstance().getAuthenticationModule().getServerKeySet().getPublicKey().getValue();
+                "secret=" + OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue() + "&" +
+                "public=" + OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue();
 
         socket = IO.socket(OpenAudioMc.getInstance().getConfigurationModule().getServer(), opts);
 
@@ -80,7 +80,7 @@ public class SocketIoConnector {
 
         socket.on("data", args -> {
             AbstractPacket abstractPacket = OpenAudioMc.getGson().fromJson(args[0].toString(), AbstractPacket.class);
-            OpenAudioMc.getInstance().getNetworkingModule().triggerPacket(abstractPacket);
+            OpenAudioMc.getInstance().getNetworkingService().triggerPacket(abstractPacket);
         });
     }
 
