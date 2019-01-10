@@ -1,13 +1,13 @@
-package com.craftmend.openaudiomc.modules.networking;
+package com.craftmend.openaudiomc.services.networking;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.modules.networking.enums.PacketChannel;
-import com.craftmend.openaudiomc.modules.networking.handlers.ClientConnectHandler;
+import com.craftmend.openaudiomc.services.networking.enums.PacketChannel;
+import com.craftmend.openaudiomc.services.networking.handlers.ClientConnectHandler;
 
-import com.craftmend.openaudiomc.modules.networking.abstracts.AbstractPacket;
-import com.craftmend.openaudiomc.modules.networking.abstracts.PayloadHandler;
-import com.craftmend.openaudiomc.modules.networking.handlers.ClientDisconnectHandler;
-import com.craftmend.openaudiomc.modules.networking.io.SocketIoConnector;
+import com.craftmend.openaudiomc.services.networking.abstracts.AbstractPacket;
+import com.craftmend.openaudiomc.services.networking.abstracts.PayloadHandler;
+import com.craftmend.openaudiomc.services.networking.handlers.ClientDisconnectHandler;
+import com.craftmend.openaudiomc.services.networking.io.SocketIoConnector;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
 import org.bukkit.Bukkit;
 
@@ -15,12 +15,12 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NetworkingModule {
+public class NetworkingService {
 
     private Map<PacketChannel, PayloadHandler> packetHandlerMap = new HashMap<>();
     private SocketIoConnector socketIoConnector;
 
-    public NetworkingModule(OpenAudioMc openAudioMc) {
+    public NetworkingService(OpenAudioMc openAudioMc) {
         //register socket handlers
         registerHandler(PacketChannel.SOCKET_IN_REGISTER_CLIENT, new ClientConnectHandler());
         registerHandler(PacketChannel.SOCKET_IN_UNREGISTER_CLIENT, new ClientDisconnectHandler());

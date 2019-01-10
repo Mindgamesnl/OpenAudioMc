@@ -21,7 +21,7 @@ class Handlers {
                 media.setMasterVolume(openAudioMc.getMediaManager().getMasterVolume());
 
                 if (maxDistance !== 0) {
-                    volume = openAudioMc.getUtils().calculateVolume((maxDistance - distance), maxDistance);
+                    volume = Utils.calculateVolume((maxDistance - distance), maxDistance);
                     media.setHasOwnVolume(true);
                 } else {
                     media.setHasOwnVolume(false);
@@ -65,7 +65,7 @@ class Handlers {
             const distance = data.mediaOptions.distance;
             const maxDistance = data.mediaOptions.maxDistance;
             const media = openAudioMc.getMediaManager().getSound(id);
-            if (media != null) media.setVolume(openAudioMc.getUtils().calculateVolume((maxDistance - distance), maxDistance), fadeTime);
+            if (media != null) media.setVolume(Utils.calculateVolume((maxDistance - distance), maxDistance), fadeTime);
         });
 
     }

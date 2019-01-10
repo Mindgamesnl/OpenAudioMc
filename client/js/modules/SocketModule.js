@@ -6,7 +6,7 @@ class SocketModule {
         main.getUserInterfaceModule().setMessage("Loading data..");
         main.getUserInterfaceModule().showVolumeSlider(false);
 
-        if (main.utils.getParameter().data == null) {
+        if (Utils.getParameter().data == null) {
             main.debugPrint("data is empty");
             main.getUserInterfaceModule().setMessage("Oh no, the url you currently have entered does not contain the required data for the web client to function. Please go back to the minecraft server and request a new URL with  <b>/audio</b>");
             return;
@@ -14,7 +14,7 @@ class SocketModule {
 
         main.getUserInterfaceModule().setMessage("Connecting to the OpenAudioMc api servers..");
 
-        let query = atob(main.utils.getParameter().data).split(":");
+        let query = atob(Utils.getParameter().data).split(":");
         main.debugPrint("Username: " + query[0]);
         main.debugPrint("Player uuid: " + query[1]);
         main.debugPrint("Server uuid: " + query[2]);

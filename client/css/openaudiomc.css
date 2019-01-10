@@ -2,25 +2,22 @@
 body{
     vertical-align: middle;
     background:
-        /* top, transparent red, faked with gradient */
             linear-gradient(
                     rgba(98, 90, 238, 0.45),
                     rgba(98, 90, 238, 0.25)
             ),
-                /* bottom, image */
             url(../assets/background.png);
-    font-family: 'Roboto';
+    font-family: 'Roboto', serif;
 }
-
 
 img{
     filter: invert(100%);
     position: absolute;
     z-index: 1;
-    align:top;
+    align: top;
     cursor: pointer;
 }
-.random{
+.panel{
     width:60%;
     height:70%;
     background: #22262F;
@@ -32,6 +29,7 @@ img{
     box-shadow: 0 14px 30px rgba(0,0,0,0.25), 0 10px 30px rgba(0,0,0,0.22);
     transition: all 0.4s;
 }
+
 .settingsFooter {
     font-size: 2vh;
     color: #707377;
@@ -39,7 +37,6 @@ img{
     position: absolute;
     bottom: 0;
 }
-
 
 .hueFooter {
     font-size: 2vh;
@@ -49,7 +46,7 @@ img{
     bottom: 0;
 }
 
-.footer{
+.footer {
     font-size: 2vh;
     color: #707377;
     left: 4%;
@@ -57,15 +54,7 @@ img{
     bottom: 0;
 }
 
-.google{
-    padding-left: 82%;
-    float: left;
-    font-size: 2vh;
-    color: #707377;
-    bottom: 0px;
-    position: absolute;
-}
-.random-word h1{
+.panel-content h1 {
     position: absolute;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -74,7 +63,7 @@ img{
     color: #fff;
 }
 
-.random-word h2{
+.panel-content h2 {
     position: absolute;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -83,7 +72,7 @@ img{
     color: #fff;
 }
 
-.random-word p{
+.panel-content p {
     font-size: 2.5vh;
     color: #707377;
     text-align: center;
@@ -94,7 +83,7 @@ img{
 
 }
 
-.hue-page h2{
+.hue-page h2 {
     position: absolute;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -103,7 +92,7 @@ img{
     color: #fff;
 }
 
-.hue-page div{
+.hue-page div {
     font-size: 2.5vh;
     color: #707377;
     text-align: center;
@@ -113,96 +102,12 @@ img{
     position: absolute;
 }
 
-#bridge-list {
-    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
-
-#bridge-list td, #bridge-list th {
-    padding: 8px;
-    color: #707377;
-}
-
-#bridge-list th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: #4CAF50;
-    color: white;
-}
-
-.random-word p:nth-child(1){
-    font-size: 3vh;
-    position: absolute;
-    top:20%;
-}
-/*CSS Loader*/
-
-.loader {
-    display: inline-block;
-    position: absolute;
-    width: 70px;
-    height: 64px;
-    top:50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-.loader div {
-    position: absolute;
-    top: 27px;
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-    background: #fff;
-    animation-timing-function: cubic-bezier(0, 1, 1, 0);
-}
-.loader div:nth-child(1) {
-    left: 6px;
-    animation: loader1 0.6s infinite;
-}
-.loader div:nth-child(2) {
-    left: 6px;
-    animation: loader2 0.6s infinite;
-}
-.loader div:nth-child(3) {
-    left: 26px;
-    animation: loader2 0.6s infinite;
-}
-.loader div:nth-child(4) {
-    left: 45px;
-    animation: loader3 0.6s infinite;
-}
-@keyframes loader1 {
-    0% {
-        transform: scale(0);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-@keyframes loader3 {
-    0% {
-        transform: scale(1);
-    }
-    100% {
-        transform: scale(0);
-    }
-}
-@keyframes loader2 {
-    0% {
-        transform: translate(0, 0);
-    }
-    100% {
-        transform: translate(19px, 0);
-    }
-}
-/**/
-.blurrOut{
-    animation-name:blurrOut;
+.blurIn {
+    animation-name:blurIn;
     animation-duration: 0.5s;
 }
-@keyframes blurrOut{
+
+@keyframes blurIn {
     0% {
         opacity: 0;
 
@@ -216,7 +121,7 @@ img{
     }
 }
 
-input[type="range"]{
+input[type="range"] {
     -webkit-appearance:none;
     width:70%;
     height:20px;
@@ -226,11 +131,11 @@ input[type="range"]{
     border-radius: 10px;
 }
 
-input[type="range"]:first-of-type{
+input[type="range"]:first-of-type {
     margin-top:30px;
 }
 
-input[type="range"]::-webkit-slider-thumb{
+input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance:none;
     width:20px;
     height:20px;
@@ -238,8 +143,6 @@ input[type="range"]::-webkit-slider-thumb{
     background-color: #FF1744;
     border-radius: 10px;
 }
-
-
 
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
@@ -260,15 +163,12 @@ input[type="range"]::-webkit-slider-thumb{
 }
 
 select {
-    background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50px' height='50px'><polyline points='46.139,15.518 25.166,36.49 4.193,15.519'/></svg>");
     background-color:#3498DB;
     background-repeat:no-repeat;
     background-position: right 10px top 15px;
     background-size: 16px 16px;
-    color:white;
     padding:12px;
     width:auto;
-    font-family:arial,tahoma;
     font-size:16px;
     font-weight:bold;
     color:#fff;

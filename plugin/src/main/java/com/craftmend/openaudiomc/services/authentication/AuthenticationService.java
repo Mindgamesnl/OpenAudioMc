@@ -1,9 +1,9 @@
-package com.craftmend.openaudiomc.modules.authentication;
+package com.craftmend.openaudiomc.services.authentication;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.modules.authentication.objects.Key;
-import com.craftmend.openaudiomc.modules.authentication.objects.RequestResponse;
-import com.craftmend.openaudiomc.modules.authentication.objects.ServerKeySet;
+import com.craftmend.openaudiomc.services.authentication.objects.Key;
+import com.craftmend.openaudiomc.services.authentication.objects.RequestResponse;
+import com.craftmend.openaudiomc.services.authentication.objects.ServerKeySet;
 
 import lombok.Getter;
 
@@ -12,12 +12,12 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
-public class AuthenticationModule {
+public class AuthenticationService {
 
     @Getter
     private ServerKeySet serverKeySet = new ServerKeySet();
 
-    public AuthenticationModule() {
+    public AuthenticationService() {
         System.out.println(OpenAudioMc.getLOG_PREFIX() + "Starting authentication module");
         loadData();
     }

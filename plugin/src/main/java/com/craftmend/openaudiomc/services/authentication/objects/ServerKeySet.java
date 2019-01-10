@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.modules.authentication.objects;
+package com.craftmend.openaudiomc.services.authentication.objects;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

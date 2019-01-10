@@ -1,12 +1,12 @@
 package com.craftmend.openaudiomc;
 
 import com.craftmend.openaudiomc.modules.api.objects.OpenAudioApi;
-import com.craftmend.openaudiomc.modules.authentication.AuthenticationModule;
+import com.craftmend.openaudiomc.services.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.modules.commands.CommandModule;
 import com.craftmend.openaudiomc.modules.configuration.ConfigurationModule;
-import com.craftmend.openaudiomc.modules.networking.NetworkingModule;
-import com.craftmend.openaudiomc.modules.networking.addapter.AbstractPacketAddapter;
-import com.craftmend.openaudiomc.modules.networking.abstracts.AbstractPacketPayload;
+import com.craftmend.openaudiomc.services.networking.NetworkingService;
+import com.craftmend.openaudiomc.services.networking.addapter.AbstractPacketAddapter;
+import com.craftmend.openaudiomc.services.networking.abstracts.AbstractPacketPayload;
 import com.craftmend.openaudiomc.modules.players.PlayerModule;
 import com.craftmend.openaudiomc.modules.regions.RegionModule;
 import com.craftmend.openaudiomc.modules.speakers.SpeakerModule;
@@ -19,18 +19,19 @@ import org.bukkit.plugin.java.JavaPlugin;
 @Getter
 public final class OpenAudioMc extends JavaPlugin {
 
+    //services
+    private AuthenticationService authenticationService;
+    private NetworkingService networkingService;
+
     //modules
     private ConfigurationModule configurationModule;
-    private AuthenticationModule authenticationModule;
     private PlayerModule playerModule;
-    private NetworkingModule networkingModule;
     private RegionModule regionModule;
     private CommandModule commandModule;
     private SpeakerModule speakerModule;
 
     //instance
     @Getter private static OpenAudioMc instance;
-
 
     //static data
     @Getter private static final OpenAudioApi api = new OpenAudioApi();
@@ -39,17 +40,16 @@ public final class OpenAudioMc extends JavaPlugin {
             .registerTypeAdapter(AbstractPacketPayload.class, new AbstractPacketAddapter())
             .create();
 
-
     @Override
     public void onEnable() {
         // Plugin startup logic
         instance = this;
 
-        //startup modules
+        //startup modules and services
         this.configurationModule = new ConfigurationModule(this);
-        this.authenticationModule = new AuthenticationModule();
+        this.authenticationService = new AuthenticationService();
         this.playerModule = new PlayerModule(this);
-        this.networkingModule = new NetworkingModule(this);
+        this.networkingService = new NetworkingService(this);
         this.speakerModule = new SpeakerModule(this);
         this.commandModule = new CommandModule(this);
 

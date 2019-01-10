@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.modules.commands.subcommands;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.modules.commands.objects.Argument;
-import com.craftmend.openaudiomc.modules.networking.packets.PacketClientDestroyMedia;
+import com.craftmend.openaudiomc.services.networking.packets.PacketClientDestroyMedia;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
 import com.craftmend.openaudiomc.modules.players.objects.PlayerSelector;
 import org.bukkit.command.CommandSender;
@@ -33,7 +33,7 @@ public class StopSubCommand extends SubCommand {
         if (args.length == 1) {
             for (Player player : new PlayerSelector(args[0]).getPlayers(sender)) {
                 Client client = openAudioMc.getPlayerModule().getClient(player);
-                openAudioMc.getNetworkingModule().send(client, new PacketClientDestroyMedia(null));
+                openAudioMc.getNetworkingService().send(client, new PacketClientDestroyMedia(null));
             }
             message(sender, "Destroyed all normal sounds for the clients in selection");
             return;
@@ -42,7 +42,7 @@ public class StopSubCommand extends SubCommand {
         if (args.length == 2) {
             for (Player player : new PlayerSelector(args[0]).getPlayers(sender)) {
                 Client client = openAudioMc.getPlayerModule().getClient(player);
-                openAudioMc.getNetworkingModule().send(client, new PacketClientDestroyMedia(args[1]));
+                openAudioMc.getNetworkingService().send(client, new PacketClientDestroyMedia(args[1]));
             }
             message(sender, "Destroyed all sounds for the clients in selection with id " + args[1]);
         }

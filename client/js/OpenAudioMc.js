@@ -1,8 +1,6 @@
 class OpenAudioMc {
 
     constructor() {
-        //enable modules
-
         //load cookies
         const hueOptions = {
             "userid": Cookies.get("hueid"),
@@ -24,8 +22,7 @@ class OpenAudioMc {
     }
 
     debugPrint(message) {
-        this.log(message)
-      //  document.write("(debug) " + message + "<br />");
+        this.log(message);
     }
 
     getUtils() {
