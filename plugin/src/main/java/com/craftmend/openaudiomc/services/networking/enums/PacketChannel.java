@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.modules.networking.enums;
+package com.craftmend.openaudiomc.services.networking.enums;
 
 public enum PacketChannel {
 
@@ -8,7 +8,7 @@ public enum PacketChannel {
 
     //socket out
     SOCKET_OUT_KICK_CLIENT,
-    SOCKET_OUT_AWKNOLEGECLIENT,
+    SOCKET_OUT_ACKNOWLEDGEMENT,
 
     //client target
     CLIENT_OUT_CREATE_MEDIA,

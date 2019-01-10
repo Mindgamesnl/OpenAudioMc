@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.modules.networking.io;
+package com.craftmend.openaudiomc.services.networking.io;
 
 import lombok.Getter;
 
