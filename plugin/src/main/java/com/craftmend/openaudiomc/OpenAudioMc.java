@@ -16,8 +16,6 @@ import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.IOException;
-
 @Getter
 public final class OpenAudioMc extends JavaPlugin {
 
@@ -53,22 +51,16 @@ public final class OpenAudioMc extends JavaPlugin {
         this.playerModule = new PlayerModule(this);
         this.networkingModule = new NetworkingModule(this);
         this.speakerModule = new SpeakerModule(this);
+        this.commandModule = new CommandModule(this);
 
         //optional modules
         if (getServer().getPluginManager().isPluginEnabled("WorldGuard")) {
             this.regionModule = new RegionModule(this);
         }
-
-        //commands
-        this.commandModule = new CommandModule(this);
     }
 
     @Override
     public void onDisable() {
-        try {
-            configurationModule.saveAll();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        configurationModule.saveAll();
     }
 }

@@ -15,6 +15,7 @@ public class RegionsSubCommand extends SubCommand {
         registerArguments(
                 new Argument("create <WG-region> <source>",
                         "Assigns a sound to a WorldGuard region by name"),
+
                 new Argument("delete <WG-region>",
                         "Unlink the sound from a WorldGuard specific region by name")
         );

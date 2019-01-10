@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.modules.api.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.modules.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.modules.players.interfaces.ClientConnection;
 import com.craftmend.openaudiomc.modules.regions.objects.IRegion;
 import com.craftmend.openaudiomc.modules.speakers.objects.SimpleLocation;
@@ -19,6 +20,10 @@ public class OpenAudioApi {
 
     public ClientConnection getClient(Player player) {
         return OpenAudioMc.getInstance().getPlayerModule().getClient(player.getUniqueId());
+    }
+
+    public void registerAddonCommand(SubCommand subCommand) {
+        OpenAudioMc.getInstance().getCommandModule().registerSubCommand(subCommand);
     }
 
     public List<IRegion> getRegion(Location location) {

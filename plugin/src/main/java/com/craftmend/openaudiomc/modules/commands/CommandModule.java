@@ -38,7 +38,7 @@ public class CommandModule {
         return new ArrayList<>(subCommands.values());
     }
 
-    private void registerSubCommand(SubCommand subCommand) {
+    public void registerSubCommand(SubCommand subCommand) {
         subCommands.put(subCommand.getCommand(), subCommand);
     }
 
