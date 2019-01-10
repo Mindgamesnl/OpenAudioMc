@@ -24,10 +24,10 @@
 </head>
 <body>
 
-<div class="random blurrOut" id="welcome">
-    <div class="random-word">
-        <div><p class="blurrOut">Welcome to OpenAudioMc!</p>
-            <p class="blurrOut">
+<div class="panel blurIn" id="welcome">
+    <div class="panel-content">
+        <div><p class="blurIn">Welcome to OpenAudioMc!</p>
+            <p class="blurIn">
                 Please wait while we get things sorted out...
             </p>
         </div>
@@ -35,13 +35,13 @@
     <p class="footer">&copy; OpenAudioMc 2019</p>
 </div>
 
-<div class="random" id="app" style="display: none;">
-    <div class="random-word">
-        <div><p class="blurrOut">Welcome</p>
-            <h1 class="blurrOut">
+<div class="panel" id="app" style="display: none;">
+    <div class="panel-content">
+        <div><p class="blurIn">Welcome</p>
+            <h1 class="blurIn">
                 <span>Mindgamesnl</span>
             </h1>
-            <p class="blurrOut">
+            <p class="blurIn">
                 <label id="volume-label">
                     <input type="range" oninput="openAudioMc.getMediaManager().setMasterVolume(this.value);" name="volume" min="1" max="100" value="80"/>
                 </label>
@@ -51,7 +51,7 @@
         </div>
     </div>
     <div>
-        <p class="hueFooter blurrOut" id="hue-bridge-menu-button" style="display: none;" onclick="openAudioMc.getUserInterfaceModule().showHue();">Philips Hue <i class="fa fa-lightbulb-o"></i></p>
+        <p class="hueFooter blurIn" id="hue-bridge-menu-button" style="display: none;" onclick="openAudioMc.getUserInterfaceModule().showHue();">Philips Hue <i class="fa fa-lightbulb-o"></i></p>
     </div>
     <div onmouseenter="document.getElementById('cog1').classList.add('spinner');"
          onmouseleave="document.getElementById('cog1').classList.remove('spinner');">
@@ -61,17 +61,17 @@
 </div>
 
 
-<div class="random" id="hueMenu" style="display: none;">
+<div class="panel" id="hueMenu" style="display: none;">
     <div class="hue-page">
-        <h2 class="blurrOut">Philips hue</h2>
-        <div class="blurrOut" id="select-bridge">
+        <h2 class="blurIn">Philips hue</h2>
+        <div class="blurIn" id="select-bridge">
             <p>Your Philips Hue lights have not yet been setup with OpenAudioMc. Doing so will give the minecraft server (limited) control over your selected lights to enhance your experience.</p>
             <span class="button" onclick="openAudioMc.getHueModule().startSetup();" style="color: white;">Click here to start the setup process</span>
         </div>
     </div>
 
     <div>
-        <p class="hueFooter blurrOut" onclick="openAudioMc.getUserInterfaceModule().showMain();">Player <i class="fa fa-volume-up"></i></p>
+        <p class="hueFooter blurIn" onclick="openAudioMc.getUserInterfaceModule().showMain();">Player <i class="fa fa-volume-up"></i></p>
     </div>
 
     <div onmouseenter="document.getElementById('cog').classList.add('spinner');"

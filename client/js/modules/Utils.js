@@ -2,24 +2,23 @@ class Utils {
 
     constructor() {}
 
-    calculateVolume(distance, maxDistance) {
+    static calculateVolume(distance, maxDistance) {
         return Math.round((distance / maxDistance) * 100);
     }
 
-    getParameter() {
-        var vars = window.location.href.split("&");
-        var query_string = {};
-        for (var i = 0; i < vars.length; i++) {
-            var pair = vars[i].split("=");
-            var key = decodeURIComponent(pair[0]);
-            var value = decodeURIComponent(pair[1]);
+    static getParameter() {
+        let vars = window.location.href.split("&");
+        let query_string = {};
+        for (let i = 0; i < vars.length; i++) {
+            let pair = vars[i].split("=");
+            let key = decodeURIComponent(pair[0]);
+            let value = decodeURIComponent(pair[1]);
             // If first entry with this name
             if (typeof query_string[key] === "undefined") {
                 query_string[key] = decodeURIComponent(value);
                 // If second entry with this name
             } else if (typeof query_string[key] === "string") {
-                var arr = [query_string[key], decodeURIComponent(value)];
-                query_string[key] = arr;
+                query_string[key] = [query_string[key], decodeURIComponent(value)];
                 // If third or later entry with this name
             } else {
                 query_string[key].push(decodeURIComponent(value));

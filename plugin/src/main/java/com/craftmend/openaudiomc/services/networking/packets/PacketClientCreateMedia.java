@@ -1,9 +1,9 @@
-package com.craftmend.openaudiomc.modules.networking.packets;
+package com.craftmend.openaudiomc.services.networking.packets;
 
 import com.craftmend.openaudiomc.modules.media.objects.Media;
-import com.craftmend.openaudiomc.modules.networking.abstracts.AbstractPacket;
-import com.craftmend.openaudiomc.modules.networking.enums.PacketChannel;
-import com.craftmend.openaudiomc.modules.networking.payloads.ClientCreateMediaPayload;
+import com.craftmend.openaudiomc.services.networking.abstracts.AbstractPacket;
+import com.craftmend.openaudiomc.services.networking.enums.PacketChannel;
+import com.craftmend.openaudiomc.services.networking.payloads.ClientCreateMediaPayload;
 
 public class PacketClientCreateMedia extends AbstractPacket {
 

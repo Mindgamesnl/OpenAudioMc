@@ -3,7 +3,7 @@ class WebAudio {
     constructor(source, onready) {
         this._source = source;
 
-        //maudio meta data
+        //audio meta data
         this.meta = {};
         this.time = 0;
         this.task = 0;
@@ -16,7 +16,7 @@ class WebAudio {
         this.hasCustomVolume = false;
         this.flag = "DEFAULT";
 
-        //referance
+        //reference
         const that = this;
 
         //create audio element

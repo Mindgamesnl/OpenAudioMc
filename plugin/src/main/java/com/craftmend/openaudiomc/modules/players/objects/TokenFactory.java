@@ -13,7 +13,7 @@ class TokenFactory {
                 ":" +
                 client.getPlayer().getUniqueId().toString() +
                 ":" +
-                OpenAudioMc.getInstance().getAuthenticationModule().getServerKeySet().getPublicKey().getValue() +
+                OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue() +
                 ":" +
                 client.getPin();
         return new String(Base64.getEncoder().encode(url.getBytes()));

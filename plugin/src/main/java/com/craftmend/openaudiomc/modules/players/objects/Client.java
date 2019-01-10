@@ -3,10 +3,10 @@ package com.craftmend.openaudiomc.modules.players.objects;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.media.objects.Media;
 import com.craftmend.openaudiomc.modules.media.objects.MediaUpdate;
-import com.craftmend.openaudiomc.modules.networking.packets.PacketClientCreateMedia;
-import com.craftmend.openaudiomc.modules.networking.packets.PacketClientDestroyMedia;
-import com.craftmend.openaudiomc.modules.networking.packets.PacketClientUpdateMedia;
-import com.craftmend.openaudiomc.modules.networking.packets.PacketSocketKickClient;
+import com.craftmend.openaudiomc.services.networking.packets.PacketClientCreateMedia;
+import com.craftmend.openaudiomc.services.networking.packets.PacketClientDestroyMedia;
+import com.craftmend.openaudiomc.services.networking.packets.PacketClientUpdateMedia;
+import com.craftmend.openaudiomc.services.networking.packets.PacketSocketKickClient;
 import com.craftmend.openaudiomc.modules.players.events.ClientConnectEvent;
 import com.craftmend.openaudiomc.modules.players.events.ClientDisconnectEvent;
 import com.craftmend.openaudiomc.modules.players.interfaces.ClientConnection;
@@ -51,7 +51,7 @@ public class Client implements ClientConnection {
 
     public void publishUrl() {
         try {
-            OpenAudioMc.getInstance().getNetworkingModule().connectIfDown();
+            OpenAudioMc.getInstance().getNetworkingService().connectIfDown();
         } catch (URISyntaxException e) {
             player.sendMessage(OpenAudioMc.getLOG_PREFIX() + "Failed to execute goal.");
             e.printStackTrace();
@@ -83,7 +83,7 @@ public class Client implements ClientConnection {
     }
 
     private void kick() {
-        OpenAudioMc.getInstance().getNetworkingModule().send(this, new PacketSocketKickClient());
+        OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketSocketKickClient());
     }
 
     public void sendMedia(Media media) {
@@ -91,7 +91,7 @@ public class Client implements ClientConnection {
             ongoingMedia.add(media);
             Bukkit.getScheduler().scheduleAsyncDelayedTask(OpenAudioMc.getInstance(), () -> ongoingMedia.remove(media), 20 * media.getKeepTimeout());
         }
-        if (isConnected) OpenAudioMc.getInstance().getNetworkingModule().send(this, new PacketClientCreateMedia(media));
+        if (isConnected) OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientCreateMedia(media));
     }
 
     public void tickSpeakers() {
@@ -105,7 +105,7 @@ public class Client implements ClientConnection {
 
         enteredSpeakers.forEach(entered -> {
             if (!isPlayingSpeaker(entered)) {
-                OpenAudioMc.getInstance().getNetworkingModule().send(this, new PacketClientCreateMedia(entered.getSpeaker().getMedia(), entered.getDistance(), entered.getSpeaker().getRadius()));
+                OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientCreateMedia(entered.getSpeaker().getMedia(), entered.getDistance(), entered.getSpeaker().getRadius()));
             }
         });
 
@@ -114,12 +114,12 @@ public class Client implements ClientConnection {
                 ApplicableSpeaker selector = filterSpeaker(applicableSpeakers, current);
                 if (selector != null && (current.getDistance() != selector.getDistance())) {
                     MediaUpdate mediaUpdate = new MediaUpdate(selector.getDistance(), selector.getSpeaker().getRadius(), 450, current.getSpeaker().getMedia().getMediaId());
-                    OpenAudioMc.getInstance().getNetworkingModule().send(this, new PacketClientUpdateMedia(mediaUpdate));
+                    OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientUpdateMedia(mediaUpdate));
                 }
             }
         });
 
-        leftSpeakers.forEach(left -> OpenAudioMc.getInstance().getNetworkingModule().send(this, new PacketClientDestroyMedia(left.getSpeaker().getMedia().getMediaId())));
+        leftSpeakers.forEach(left -> OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientDestroyMedia(left.getSpeaker().getMedia().getMediaId())));
 
         currentSpeakers = applicableSpeakers;
     }
@@ -146,7 +146,7 @@ public class Client implements ClientConnection {
 
             leftRegions.forEach(exited -> {
                 if (!containsRegion(takeOverMedia, exited)) {
-                    OpenAudioMc.getInstance().getNetworkingModule().send(this, new PacketClientDestroyMedia(exited.getMedia().getMediaId()));
+                    OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientDestroyMedia(exited.getMedia().getMediaId()));
                 }
             });
 
