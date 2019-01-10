@@ -26,9 +26,13 @@ public class ConfigurationModule {
         System.out.println(OpenAudioMc.getLOG_PREFIX() + "Starting configurateion module");
     }
 
-    public void saveAll() throws IOException {
+    public void saveAll() {
         OpenAudioMc.getInstance().saveConfig();
-        dataConfig.save("plugins/OpenAudioMc/data.yml");
+        try {
+            dataConfig.save("plugins/OpenAudioMc/data.yml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
