@@ -42,6 +42,36 @@ class Handlers {
             });
         });
 
+        openAudioMc.socketModule.registerHandler("ClientSettingsPayload", data => {
+            const settings = data.clientSettings;
+            const background = settings.background;
+            const title = settings.title;
+            const welcomeMessage = settings.welcomeMessage;
+            const errorMessage = settings.errorMessage;
+            const hueConnected = settings.hueConnected;
+            const hueLinking = settings.hueLinking;
+            const hueBridgeFound = settings.hueBridgeFound;
+
+            if (hueConnected !== "default") openAudioMc.getMessages().hueConnected = hueConnected;
+            if (hueLinking !== "default") openAudioMc.getMessages().hueLinking = hueLinking;
+            if (hueBridgeFound !== "default") openAudioMc.getMessages().hueWelcome = hueBridgeFound;
+            if (errorMessage !== "default") openAudioMc.getMessages().errorMessage = errorMessage;
+            if (welcomeMessage !== "default") openAudioMc.getMessages().welcomeMessage = welcomeMessage;
+
+            if (background !== "default") {
+                document.body.style.background = "" +
+                    "linear-gradient(\n" +
+                    "                    rgba(98, 90, 238, 0.45),\n" +
+                    "                    rgba(98, 90, 238, 0.25)\n" +
+                    "            ),\n" +
+                    "            url(" + background + ");"
+            }
+
+            if (title !== "default") {
+                document.title = title;
+            }
+        });
+
         openAudioMc.socketModule.registerHandler("ClientVolumePayload", data => {
             const target = data.volume;
             openAudioMc.getMediaManager().setMasterVolume(target);

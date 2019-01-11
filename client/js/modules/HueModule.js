@@ -55,8 +55,7 @@ class HueModule {
         const that = this;
         document.getElementById("select-bridge").innerHTML = "<p>Preparing user..</p>";
         this.currentUser.getGroups().then(groups => {
-            document.getElementById("select-bridge").innerHTML = "<p>You are now connected with your Philips Hue Lights! " +
-                "Please select your group (you can always change this later) and click 'player' in the left bottem corner to return to the home menu.</p>" +
+            document.getElementById("select-bridge").innerHTML = "<p>" + openAudioMc.getMessages().hueConnected + "</p>" +
                 "<select oninput='openAudioMc.getHueModule().selectGroup(this.value)' class=\"blue-select\" id='brige-list'><option value=\"\" disabled selected id='default-group'>Select a group</option></select>";
             for (var key in groups) {
                 document.getElementById("brige-list").innerHTML += "<option>" + groups[key].name + "</option>";
@@ -165,7 +164,8 @@ class HueModule {
                 return;
             }
 
-            document.getElementById("select-bridge").innerHTML = "<p>Press the link button on your hue bridge within " + (60 - linkAttempts) + " seconds to connect.</p>";
+            let sec = (60 - linkAttempts);
+            document.getElementById("select-bridge").innerHTML = "<p>" + openAudioMc.getMessages().hueLinking.replace("%sec%", sec) + "</p>";
 
             that.currentBridge.createUser("OpenAudioMc#WebClient")
                 .then(data => {
