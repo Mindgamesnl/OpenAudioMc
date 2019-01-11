@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.modules.players.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.modules.regions.RegionModule;
 import lombok.AllArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -47,6 +48,20 @@ public class PlayerSelector {
             //everyone
             Location standPoint = getLocation(commandSender);
 
+            if (getArgument("region").length() != 0) {
+                RegionModule regionModule = OpenAudioMc.getInstance().getRegionModule();
+                String targetRegion = getArgument("region");
+                if (regionModule != null) {
+                    Bukkit.getOnlinePlayers().forEach(player -> regionModule.getRegions(player.getLocation()).forEach(region -> {
+                        if (region.getId().equals(targetRegion)) {
+                            players.add(player);
+                        }
+                    }));
+                } else {
+                    commandSender.sendMessage(OpenAudioMc.getLOG_PREFIX() + "You dont have worldguard installed. Skipping the region argument.");
+                }
+            }
+
             if (getArgument("r").length() != 0) {
                 players.addAll(Bukkit.getOnlinePlayers().stream()
                         .filter(player -> player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
@@ -67,7 +82,7 @@ public class PlayerSelector {
         }
         else {
             //you fucked it
-            commandSender.sendMessage(OpenAudioMc.getInstance() + "Invalid player query. Try something like @a, @p, uuid, username or other arguments.");
+            commandSender.sendMessage(OpenAudioMc.getLOG_PREFIX() + "Invalid player query. Try something like @a, @p, uuid, username or other arguments.");
         }
         return players;
     }
@@ -88,7 +103,7 @@ public class PlayerSelector {
                 assert initialLocation != null;
                 return new Location(initialLocation.getWorld(), x, y, z);
             } catch (Exception e) {
-                commandSender.sendMessage(OpenAudioMc.getInstance() + "An error occurred when parsing the location as an Integer");
+                commandSender.sendMessage(OpenAudioMc.getLOG_PREFIX() + "An error occurred when parsing the location as an Integer");
                 return initialLocation;
             }
         }

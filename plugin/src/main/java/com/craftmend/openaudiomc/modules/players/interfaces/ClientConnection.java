@@ -10,5 +10,6 @@ public interface ClientConnection {
     String getPin();
     List<Media> getOngoingMedia();
     void playMedia(Media media);
+    void setVolume(int volume);
 
 }

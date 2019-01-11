@@ -4,16 +4,14 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.media.objects.Media;
 import com.craftmend.openaudiomc.modules.media.objects.MediaUpdate;
 import com.craftmend.openaudiomc.services.networking.NetworkingService;
-import com.craftmend.openaudiomc.services.networking.packets.PacketClientCreateMedia;
-import com.craftmend.openaudiomc.services.networking.packets.PacketClientDestroyMedia;
-import com.craftmend.openaudiomc.services.networking.packets.PacketClientUpdateMedia;
-import com.craftmend.openaudiomc.services.networking.packets.PacketSocketKickClient;
+import com.craftmend.openaudiomc.services.networking.packets.*;
 import com.craftmend.openaudiomc.modules.players.events.ClientConnectEvent;
 import com.craftmend.openaudiomc.modules.players.events.ClientDisconnectEvent;
 import com.craftmend.openaudiomc.modules.players.interfaces.ClientConnection;
 import com.craftmend.openaudiomc.modules.regions.objects.IRegion;
 import com.craftmend.openaudiomc.modules.speakers.objects.ApplicableSpeaker;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import lombok.Getter;
 import lombok.Setter;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -53,9 +51,15 @@ public class Client implements ClientConnection {
     public void publishUrl() {
         NetworkingService service = OpenAudioMc.getInstance().getNetworkingService();
         if (service.isConnecting()) {
-            player.sendMessage(OpenAudioMc.getLOG_PREFIX() + "Hold on! Im already trying to connect to the OpenAudioMc api! please try again later!");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("api-starting-up")));
             return;
         }
+
+        if (isConnected) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("client-already-connected")));
+            return;
+        }
+
         try {
             OpenAudioMc.getInstance().getNetworkingService().connectIfDown();
         } catch (URISyntaxException e) {
@@ -82,6 +86,15 @@ public class Client implements ClientConnection {
         this.isConnected = false;
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.client-closed")));
         Bukkit.getServer().getPluginManager().callEvent(new ClientDisconnectEvent(player));
+    }
+
+    @Override
+    public void setVolume(int volume) {
+        if (volume < 0 || volume > 100) {
+            throw new IllegalArgumentException("Volume must be between 0 and 100");
+        }
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.client-volume-change").replaceAll("__amount__", volume + "")));
+        OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientSetVolume(volume));
     }
 
     public void onQuit() {
