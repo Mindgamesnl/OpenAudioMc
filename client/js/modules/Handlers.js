@@ -43,6 +43,8 @@ class Handlers {
         });
 
         openAudioMc.socketModule.registerHandler("ClientSettingsPayload", data => {
+            openAudioMc.debugPrint("Updating settings...");
+            console.log(data)
             const settings = data.clientSettings;
             const background = settings.background;
             const title = settings.title;
@@ -57,19 +59,25 @@ class Handlers {
             if (hueBridgeFound !== "default") openAudioMc.getMessages().hueWelcome = hueBridgeFound;
             if (errorMessage !== "default") openAudioMc.getMessages().errorMessage = errorMessage;
             if (welcomeMessage !== "default") openAudioMc.getMessages().welcomeMessage = welcomeMessage;
-
+            
             if (background !== "default") {
-                document.body.style.background = "" +
-                    "linear-gradient(\n" +
+                document.getElementById("page").style = "vertical-align: middle;\n" +
+                    "    background:\n" +
+                    "            linear-gradient(\n" +
                     "                    rgba(98, 90, 238, 0.45),\n" +
                     "                    rgba(98, 90, 238, 0.25)\n" +
                     "            ),\n" +
-                    "            url(" + background + ");"
+                    "            url(" + background + ");\n" +
+                    "    font-family: 'Roboto', serif;\n" +
+                    "    -webkit-background-size: cover;\n" +
+                    "    background-size: cover;"
             }
 
             if (title !== "default") {
                 document.title = title;
             }
+
+            openAudioMc.getMessages().apply();
         });
 
         openAudioMc.socketModule.registerHandler("ClientVolumePayload", data => {

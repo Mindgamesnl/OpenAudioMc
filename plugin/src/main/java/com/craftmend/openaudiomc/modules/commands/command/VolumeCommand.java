@@ -16,12 +16,12 @@ public class VolumeCommand implements CommandExecutor {
             Client client = OpenAudioMc.getInstance().getPlayerModule().getClient(((Player) sender).getUniqueId());
 
             if (!client.isConnected()) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("client-not-connected")));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.client-not-connected")));
                 return true;
             }
 
             if (args.length == 0) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("client-volume-invalid")));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.client-volume-invalid")));
                 return true;
             }
 
@@ -29,13 +29,13 @@ public class VolumeCommand implements CommandExecutor {
                 int volume = Integer.parseInt(args[0]);
                 //check if in range
                 if (volume < 0 || volume > 100) {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("client-volume-invalid")));
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.client-volume-invalid")));
                     return true;
                 } else {
                     client.setVolume(volume);
                 }
             } catch (Exception e) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("client-volume-invalid")));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.client-volume-invalid")));
                 return true;
             }
         } else {

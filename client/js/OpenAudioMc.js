@@ -9,13 +9,14 @@ class OpenAudioMc {
 
         this.log("Enabling the web client for " + window.navigator.userAgent);
         this.debugPrint("starting.");
-        this.messages = new Messages();
+        this.messages = new Messages(this);
         this.userInterfaceModule = new UserInterfaceModule(this);
         this.utils = new Utils(this);
         this.hueModule = new HueModule(this, hueOptions);
         this.mediaManager = new MediaManager(this);
         this.socketModule = new SocketModule(this, "http://localhost");
         new Handlers(this);
+        this.messages.apply();
     }
 
     log(message) {
