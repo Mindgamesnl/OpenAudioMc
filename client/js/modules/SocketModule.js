@@ -41,7 +41,7 @@ class SocketModule {
         this.socket.on("connect", function () {
             main.getUserInterfaceModule().setMessage(openAudioMc.getMessages().welcomeMessage);
             main.getUserInterfaceModule().showVolumeSlider(true);
-            that.state = "ok";
+            main.socketModule.state = "ok";
         });
 
         this.socket.on("disconnect", function () {

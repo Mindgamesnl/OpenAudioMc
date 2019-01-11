@@ -51,12 +51,12 @@ public class Client implements ClientConnection {
     public void publishUrl() {
         NetworkingService service = OpenAudioMc.getInstance().getNetworkingService();
         if (service.isConnecting()) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("api-starting-up")));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.api-starting-up")));
             return;
         }
 
         if (isConnected) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("client-already-connected")));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.client-already-connected")));
             return;
         }
 

@@ -16,7 +16,7 @@ public class ConfigurationModule {
 
     public ConfigurationModule(OpenAudioMc openAudioMc) {
         //save default
-        openAudioMc.saveConfig();
+        openAudioMc.saveDefaultConfig();
         openAudioMc.saveResource("data.yml", false);
 
         dataConfig = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudioMc/data.yml"));

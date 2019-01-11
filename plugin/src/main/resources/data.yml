@@ -4,4 +4,4 @@ speakers:
   none: none
 keyset:
   private: not-set
-  base-url: http://craftmend.com/oatest/?&data=
+  base-url: https://app.openaudiomc.net/?&data=
