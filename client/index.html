@@ -10,6 +10,7 @@
     <script src="libs/js.cookie.js"></script>
 
     <!--  load modules -->
+    <script src="js/modules/Messages.js"></script>
     <script src="js/modules/Utils.js"></script>
     <script src="js/modules/SocketModule.js"></script>
     <script src="js/modules/MediaManager.js"></script>
@@ -64,8 +65,8 @@
     <div class="hue-page">
         <h2 class="blurIn">Philips hue</h2>
         <div class="blurIn" id="select-bridge">
-            <p>Your Philips Hue lights have not yet been setup with OpenAudioMc. Doing so will give the minecraft server (limited) control over your selected lights to enhance your experience.</p>
-            <span class="button" onclick="openAudioMc.getHueModule().startSetup();" style="color: white;">Click here to start the setup process</span>
+            <p id="hue-welcome-message">-</p>
+            <span class="button" onclick="openAudioMc.getHueModule().startSetup();" style="color: white;">Start</span>
         </div>
     </div>
 

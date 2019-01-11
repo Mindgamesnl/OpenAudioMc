@@ -24,6 +24,7 @@ class SocketModule {
         this.playerUuid = query[1];
         this.severUuid = query[2];
         this.token = query[3];
+        this.state = "loading";
 
         this.authHeader = "" +
             "type=client&" +
@@ -38,8 +39,9 @@ class SocketModule {
         this.socket = io(host, {query: that.authHeader, autoConnect:false});
 
         this.socket.on("connect", function () {
-            main.getUserInterfaceModule().setMessage("You are now connected to the Minecraft server and ready to listen to the Audio. Enjoy the experience.");
+            main.getUserInterfaceModule().setMessage(openAudioMc.getMessages().welcomeMessage);
             main.getUserInterfaceModule().showVolumeSlider(true);
+            that.state = "ok";
         });
 
         this.socket.on("disconnect", function () {
@@ -52,7 +54,8 @@ class SocketModule {
             }
 
             main.getUserInterfaceModule().showVolumeSlider(true);
-            main.getUserInterfaceModule().setMessage("We've lost connecting to the server you where connected to. If you have not logged out, please contact a server administrator to report this problem.");
+            main.getUserInterfaceModule().setMessage(openAudioMc.getMessages().errorMessage);
+            that.state = "closed";
 
             setTimeout(function () {
                 main.getMediaManager().sounds = {};

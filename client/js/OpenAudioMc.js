@@ -9,6 +9,7 @@ class OpenAudioMc {
 
         this.log("Enabling the web client for " + window.navigator.userAgent);
         this.debugPrint("starting.");
+        this.messages = new Messages();
         this.userInterfaceModule = new UserInterfaceModule(this);
         this.utils = new Utils(this);
         this.hueModule = new HueModule(this, hueOptions);
@@ -19,6 +20,10 @@ class OpenAudioMc {
 
     log(message) {
         console.log("[OpenAudioMc] " + message);
+    }
+
+    getMessages() {
+        return this.messages;
     }
 
     debugPrint(message) {

@@ -11,3 +11,13 @@ messages:
 options:
   send-on-join: true
   speaker-radius: 10
+
+client:
+  title: default
+  background: default
+  welcome-message: default
+  error-message: default
+
+  hue-connected: default
+  hue-linking: default
+  hue-bridge-found: default

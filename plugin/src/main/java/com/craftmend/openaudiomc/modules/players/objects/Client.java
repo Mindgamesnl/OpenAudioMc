@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.modules.players.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.modules.configuration.objects.ClientSettings;
 import com.craftmend.openaudiomc.modules.media.objects.Media;
 import com.craftmend.openaudiomc.modules.media.objects.MediaUpdate;
 import com.craftmend.openaudiomc.services.networking.NetworkingService;
@@ -11,7 +12,6 @@ import com.craftmend.openaudiomc.modules.players.interfaces.ClientConnection;
 import com.craftmend.openaudiomc.modules.regions.objects.IRegion;
 import com.craftmend.openaudiomc.modules.speakers.objects.ApplicableSpeaker;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import lombok.Getter;
 import lombok.Setter;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -78,7 +78,13 @@ public class Client implements ClientConnection {
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.client-opened")));
         currentRegions.clear();
         currentSpeakers.clear();
-        Bukkit.getScheduler().scheduleAsyncDelayedTask(OpenAudioMc.getInstance(), () -> ongoingMedia.forEach(this::sendMedia), 20);
+        Bukkit.getScheduler().scheduleAsyncDelayedTask(OpenAudioMc.getInstance(), () -> {
+            ongoingMedia.forEach(this::sendMedia);
+            ClientSettings settings = new ClientSettings().load();
+            if (!settings.equals(new ClientSettings())) {
+                OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientPushSettings(settings));
+            }
+        }, 20);
         Bukkit.getServer().getPluginManager().callEvent(new ClientConnectEvent(player, this));
     }
 
