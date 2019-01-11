@@ -9,5 +9,7 @@ website: https://craftmend.com/
 commands:
   audio:
     aliases: [sound, connect, media, muziek, geluid]
+  volume:
+    aliases: [setvolume, vol]
   openaudiomc:
     aliases: [oam, oa, openaudio]

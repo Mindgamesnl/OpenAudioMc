@@ -8,6 +8,8 @@ body{
             ),
             url(../assets/background.png);
     font-family: 'Roboto', serif;
+    -webkit-background-size: cover;
+    background-size: cover;
 }
 
 img{

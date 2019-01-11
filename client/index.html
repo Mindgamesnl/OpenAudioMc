@@ -1,8 +1,7 @@
 <html lang="en">
 <head>
     <link type="text/css" rel="stylesheet" href="css/openaudiomc.css">
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script>
     <script src="libs/WebAudio.js"></script>
@@ -43,7 +42,7 @@
             </h1>
             <p class="blurIn">
                 <label id="volume-label">
-                    <input type="range" oninput="openAudioMc.getMediaManager().setMasterVolume(this.value);" name="volume" min="1" max="100" value="80"/>
+                    <input type="range" id="volume-slider" oninput="openAudioMc.getMediaManager().setMasterVolume(this.value);" name="volume" min="0" max="100" value="70"/>
                 </label>
                 <br/><br/>
                 <span id="status-message"></span>

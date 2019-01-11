@@ -2,7 +2,7 @@ class Handlers {
 
     constructor(openAudioMc) {
 
-        openAudioMc.socketModule.registerHandler("ClientCreateMediaPayload", function (data) {
+        openAudioMc.socketModule.registerHandler("ClientCreateMediaPayload", data => {
             const looping = data.media.loop;
             const autoplay = data.media.autoPlay;
             const startInstant = data.media.startInstant;
@@ -42,7 +42,13 @@ class Handlers {
             });
         });
 
-        openAudioMc.socketModule.registerHandler("ClientDestroyMediaPayload", function (data) {
+        openAudioMc.socketModule.registerHandler("ClientVolumePayload", data => {
+            const target = data.volume;
+            openAudioMc.getMediaManager().setMasterVolume(target);
+            document.getElementById("volume-slider").value = target;
+        });
+
+        openAudioMc.socketModule.registerHandler("ClientDestroyMediaPayload", data => {
             openAudioMc.getMediaManager().destroySounds(data.soundId);
         });
 
@@ -50,7 +56,7 @@ class Handlers {
             return ( value - r1[ 0 ] ) * ( r2[ 1 ] - r2[ 0 ] ) / ( r1[ 1 ] - r1[ 0 ] ) + r2[ 0 ];
         }
 
-        openAudioMc.socketModule.registerHandler("HueColorPayload", function (data) {
+        openAudioMc.socketModule.registerHandler("HueColorPayload", data => {
             const targetLights = data.lights;
             const targetColor = data.hueColor;
             const rgbaColor = "rgba(" + targetColor.r + "," + targetColor.g + "," + targetColor.b + "," + convertRange( targetColor.bir, [0, 255], [0, 1]) + ")";
@@ -59,7 +65,7 @@ class Handlers {
             }
         });
 
-        openAudioMc.socketModule.registerHandler("ClientUpdateMediaPayload", function (data) {
+        openAudioMc.socketModule.registerHandler("ClientUpdateMediaPayload", data => {
             const id = data.mediaOptions.target;
             const fadeTime = data.mediaOptions.fadeTime;
             const distance = data.mediaOptions.distance;

@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.modules.commands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.commands.command.MainCommand;
+import com.craftmend.openaudiomc.modules.commands.command.VolumeCommand;
 import com.craftmend.openaudiomc.modules.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.modules.commands.subcommands.*;
 import lombok.Getter;
@@ -21,6 +22,7 @@ public class CommandModule {
         MainCommand mainCommand = new MainCommand(openAudioMc, this);
         openAudioMc.getCommand("openaudiomc").setExecutor(mainCommand);
         openAudioMc.getCommand("openaudiomc").setTabCompleter(mainCommand);
+        openAudioMc.getCommand("volume").setExecutor(new VolumeCommand());
 
         registerSubCommand(new HelpSubCommand(this));
         registerSubCommand(new RegionsSubCommand(openAudioMc));

@@ -2,6 +2,11 @@ messages:
   click-to-connect: '&6Welcome! click here to connect to the audio client!'
   client-opened: '&2You are now connected with the audio client!'
   client-closed: '&4You closed the web client!'
+  client-volume-change: '&6Your volume has been changed to __amount__%'
+  client-volume-invalid: '&4You must enter a number between 0 and 100'
+  client-not-connected: '&4You need to be connected to the web client to be able to do that'
+  client-already-connected: '&4You are already connected to the web client'
+  api-starting-up: '&3The connection is still beeing set up. Please try again in a few seconds.'
 
 options:
   send-on-join: true
