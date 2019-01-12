@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.modules.hue.objects.HueColor;
 import com.craftmend.openaudiomc.services.networking.packets.PacketClientApplyHueColor;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
 import com.craftmend.openaudiomc.modules.players.objects.PlayerSelector;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -26,7 +27,7 @@ public class HueSubCommand extends SubCommand {
     @Override
     public void onExecute(CommandSender sender, String[] args) {
         if (args.length == 0) {
-            message(sender, "invalid arguments");
+            Bukkit.getServer().dispatchCommand(sender, "oa help " + getCommand());
             return;
         }
 
@@ -37,6 +38,9 @@ public class HueSubCommand extends SubCommand {
                 openAudioMc.getNetworkingService().send(client, new PacketClientApplyHueColor(hueColor, args[2]));
             }
             message(sender, "updated hue state for " + args[1]);
+            return;
         }
+
+        Bukkit.getServer().dispatchCommand(sender, "oa help " + getCommand());
     }
 }

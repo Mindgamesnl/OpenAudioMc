@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.modules.commands.objects.Argument;
 import com.craftmend.openaudiomc.services.networking.packets.PacketClientDestroyMedia;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
 import com.craftmend.openaudiomc.modules.players.objects.PlayerSelector;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -27,7 +28,8 @@ public class StopSubCommand extends SubCommand {
     @Override
     public void onExecute(CommandSender sender, String[] args) {
         if (args.length == 0) {
-            message(sender, "Invalid arguments.");
+            Bukkit.getServer().dispatchCommand(sender, "oa help " + getCommand());
+            return;
         }
 
         if (args.length == 1) {
@@ -45,6 +47,9 @@ public class StopSubCommand extends SubCommand {
                 openAudioMc.getNetworkingService().send(client, new PacketClientDestroyMedia(args[1]));
             }
             message(sender, "Destroyed all sounds for the clients in selection with id " + args[1]);
+            return;
         }
+
+        Bukkit.getServer().dispatchCommand(sender, "oa help " + getCommand());
     }
 }

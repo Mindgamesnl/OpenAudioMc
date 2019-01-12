@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.modules.media.objects.MediaOptions;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
 import com.craftmend.openaudiomc.modules.players.objects.PlayerSelector;
 import com.google.gson.Gson;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -29,7 +30,7 @@ public class PlaySubCommand extends SubCommand {
     @Override
     public void onExecute(CommandSender sender, String[] args) {
         if (args.length == 0) {
-            message(sender, "Invalid command.");
+            Bukkit.getServer().dispatchCommand(sender, "oa help " + getCommand());
             return;
         }
 
@@ -57,6 +58,6 @@ public class PlaySubCommand extends SubCommand {
             }
             return;
         }
-        message(sender, "Could not create media. Invalid command");
+        Bukkit.getServer().dispatchCommand(sender, "oa help " + getCommand());
     }
 }

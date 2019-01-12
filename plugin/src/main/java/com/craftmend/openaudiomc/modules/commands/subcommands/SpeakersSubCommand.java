@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.modules.commands.objects.Argument;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -26,7 +27,7 @@ public class SpeakersSubCommand extends SubCommand {
         Player player = (Player) sender;
 
         if (args.length == 0) {
-            message(sender, "Invalid command.");
+            Bukkit.getServer().dispatchCommand(sender, "oa help " + getCommand());
             return;
         }
 
@@ -35,7 +36,10 @@ public class SpeakersSubCommand extends SubCommand {
             client.setSelectedSpeakerSource(args[0]);
             player.getInventory().addItem(OpenAudioMc.getInstance().getSpeakerModule().getSkull());
             message(sender, "Speaker media created! You've received a Speaker skull in your inventory. Placing it anywhere in the world will add the configured sound in the are.");
+            return;
         }
+
+        Bukkit.getServer().dispatchCommand(sender, "oa help " + getCommand());
     }
 
 }
