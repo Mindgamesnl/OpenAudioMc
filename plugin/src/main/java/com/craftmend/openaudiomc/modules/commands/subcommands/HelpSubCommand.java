@@ -48,7 +48,8 @@ public class HelpSubCommand extends SubCommand {
         if (s instanceof Player) {
             TextComponent component = new TextComponent(" " + ChatColor.YELLOW + "> " + ChatColor.GOLD + message);
             component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + command));
-            s.spigot().sendMessage(component);
+            Player player = (Player) s;
+            player.spigot().sendMessage(component);
         } else {
             s.sendMessage(" " + ChatColor.YELLOW + "> " + ChatColor.GOLD + message + ChatColor.GRAY + ". (" + command + ")");
         }
