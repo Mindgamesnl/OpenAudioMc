@@ -28,7 +28,7 @@ class SocketModule {
 
         document.getElementById("username-display").innerText = this.username;
 
-            this.authHeader = "" +
+        this.authHeader = "" +
             "type=client&" +
             "n=" + this.username + "&" +
             "player=" + this.playerUuid + "&" +
@@ -38,15 +38,15 @@ class SocketModule {
         main.debugPrint(this.authHeader);
 
         const that = this;
-        this.socket = io(host, {query: that.authHeader, autoConnect:false});
+        this.socket = io(host, {query: that.authHeader, autoConnect: false});
 
-        this.socket.on("connect", function () {
+        this.socket.on("connect", () => {
             main.getUserInterfaceModule().setMessage(openAudioMc.getMessages().welcomeMessage);
             main.getUserInterfaceModule().showVolumeSlider(true);
             main.socketModule.state = "ok";
         });
 
-        this.socket.on("disconnect", function () {
+        this.socket.on("disconnect", () => {
             main.debugPrint("closed");
             for (let key in main.getMediaManager().sounds) {
                 main.getMediaManager().sounds[key].setVolume(0, 1000);
@@ -59,12 +59,12 @@ class SocketModule {
             main.getUserInterfaceModule().setMessage(openAudioMc.getMessages().errorMessage);
             that.state = "closed";
 
-            setTimeout(function () {
+            setTimeout(() => {
                 main.getMediaManager().sounds = {};
             }, 1010);
         });
 
-        this.socket.on("data", function (data) {
+        this.socket.on("data", data => {
             if (that.handlers[data.type] != null) that.handlers[data.type](data.payload);
         });
 
