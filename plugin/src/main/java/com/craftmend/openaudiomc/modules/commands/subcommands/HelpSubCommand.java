@@ -7,6 +7,7 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class HelpSubCommand extends SubCommand {
 
@@ -44,9 +45,14 @@ public class HelpSubCommand extends SubCommand {
     }
 
     private void goldClickableMessage(CommandSender s, String message, String command) {
-        TextComponent component = new TextComponent(" " + ChatColor.YELLOW + "> " + ChatColor.GOLD + message);
-        component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + command));
-        s.spigot().sendMessage(component);
+        if (s instanceof Player) {
+            TextComponent component = new TextComponent(" " + ChatColor.YELLOW + "> " + ChatColor.GOLD + message);
+            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + command));
+            s.spigot().sendMessage(component);
+        } else {
+            s.sendMessage(" " + ChatColor.YELLOW + "> " + ChatColor.GOLD + message + ChatColor.GRAY + ". (" + command + ")");
+        }
+
     }
 
     private void grayMessage(CommandSender s, String message) {
