@@ -14,7 +14,7 @@ class OpenAudioMc {
         this.utils = new Utils(this);
         this.hueModule = new HueModule(this, hueOptions);
         this.mediaManager = new MediaManager(this);
-        this.socketModule = new SocketModule(this, "http://localhost");
+        this.socketModule = new SocketModule(this, "https://craftmendserver.eu");
         new Handlers(this);
         this.messages.apply();
     }
