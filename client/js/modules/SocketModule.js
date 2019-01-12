@@ -26,7 +26,9 @@ class SocketModule {
         this.token = query[3];
         this.state = "loading";
 
-        this.authHeader = "" +
+        document.getElementById("username-display").innerText = this.username;
+
+            this.authHeader = "" +
             "type=client&" +
             "n=" + this.username + "&" +
             "player=" + this.playerUuid + "&" +
@@ -46,7 +48,7 @@ class SocketModule {
 
         this.socket.on("disconnect", function () {
             main.debugPrint("closed");
-            for (var key in main.getMediaManager().sounds) {
+            for (let key in main.getMediaManager().sounds) {
                 main.getMediaManager().sounds[key].setVolume(0, 1000);
                 setTimeout(function () {
                     main.getMediaManager().sounds[key].destroy();

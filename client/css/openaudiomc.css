@@ -32,18 +32,10 @@ img{
     transition: all 0.4s;
 }
 
-.settingsFooter {
-    font-size: 2vh;
-    color: #707377;
-    right: 4%;
-    position: absolute;
-    bottom: 0;
-}
-
 .hueFooter {
     font-size: 2vh;
     color: #707377;
-    right: 14%;
+    right: 4%;
     position: absolute;
     bottom: 0;
 }
