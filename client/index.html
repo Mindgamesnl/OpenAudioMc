@@ -24,14 +24,14 @@
 </head>
 <body id="page">
 
-<div class="random blurrOut" id="welcome">
-    <div class="random-word">
-        <div><p class="blurrOut">Welcome to OpenAudioMc!</p>
-            <h2 class="blurrOut">
+<div class="panel blurrOut" id="welcome">
+    <div class="panel-content">
+        <div>
+            <h2 class="blurIn">
                 <span class="button" onclick="enable();">Connect</span>
             </h2>
-            <p class="blurrOut">
-                Click the connect button above to start the web client.
+            <p class="blurIn">
+                Welcome to OpenAudioMc!<br />Click the connect button above to start the web client.
             </p>
         </div>
     </div>
@@ -42,7 +42,7 @@
     <div class="panel-content">
         <div>
             <h1 class="blurIn">
-                <span>Mindgamesnl</span>
+                <span id="username-display">Loading</span>
             </h1>
             <p class="blurIn">
                 <label id="volume-label">
@@ -53,13 +53,7 @@
             </p>
         </div>
     </div>
-    <div>
-        <p class="hueFooter blurIn" id="hue-bridge-menu-button" style="display: none;" onclick="openAudioMc.getUserInterfaceModule().showHue();">Philips Hue <i class="fa fa-lightbulb-o"></i></p>
-    </div>
-    <div onmouseenter="document.getElementById('cog1').classList.add('spinner');"
-         onmouseleave="document.getElementById('cog1').classList.remove('spinner');">
-        <p class="settingsFooter ">Settings <i class="fa fa-cog" id="cog1"></i></p>
-    </div>
+    <p class="hueFooter blurIn" id="hue-bridge-menu-button" style="display: none;" onclick="openAudioMc.getUserInterfaceModule().showHue();">Philips Hue <i class="fa fa-lightbulb-o"></i></p>
     <p class="footer">&copy; OpenAudioMc 2019</p>
 </div>
 
@@ -77,10 +71,6 @@
         <p class="hueFooter blurIn" onclick="openAudioMc.getUserInterfaceModule().showMain();">Player <i class="fa fa-volume-up"></i></p>
     </div>
 
-    <div onmouseenter="document.getElementById('cog').classList.add('spinner');"
-         onmouseleave="document.getElementById('cog').classList.remove('spinner');">
-        <p class="settingsFooter">Settings <i class="fa fa-cog" id="cog"></i></p>
-    </div>
     <p class="footer">&copy; OpenAudioMc 2019</p>
 </div>
 
