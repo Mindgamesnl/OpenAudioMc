@@ -11,15 +11,18 @@ import com.craftmend.openaudiomc.modules.players.PlayerModule;
 import com.craftmend.openaudiomc.modules.regions.RegionModule;
 import com.craftmend.openaudiomc.modules.speakers.SpeakerModule;
 
+import com.craftmend.openaudiomc.services.time.TimeService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
 public final class OpenAudioMc extends JavaPlugin {
 
     //services
+    private TimeService timeService;
     private AuthenticationService authenticationService;
     private NetworkingService networkingService;
 
@@ -46,6 +49,7 @@ public final class OpenAudioMc extends JavaPlugin {
         instance = this;
 
         //startup modules and services
+        this.timeService = new TimeService();
         this.configurationModule = new ConfigurationModule(this);
         this.authenticationService = new AuthenticationService();
         this.playerModule = new PlayerModule(this);

@@ -68,6 +68,11 @@ public class SocketIoConnector {
             isConnecting = false;
         });
 
+        socket.on("time-update", args -> {
+            Integer time = (Integer) args[0];
+            OpenAudioMc.getInstance().getTimeService().pushServerUpdate(time);
+        });
+
         socket.on("acknowledgeClient", args -> {
             AcknowledgeClientPayload payload = (AcknowledgeClientPayload) OpenAudioMc.getGson().fromJson(args[0].toString(), AbstractPacket.class).getData();
             Client client = OpenAudioMc.getInstance().getPlayerModule().getClient(payload.getUuid());
