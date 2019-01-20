@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.modules.media.objects;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.media.enums.MediaFlag;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +25,7 @@ public class Media {
 
     public Media(String source) {
         this.source = source;
-        this.startInstant = (int) (System.currentTimeMillis() / 1000L);
+        this.startInstant = (int) (OpenAudioMc.getInstance().getTimeService().getSyncedInstant().toEpochMilli() / 1000);
     }
 
     public Media applySettings(MediaOptions options) {
