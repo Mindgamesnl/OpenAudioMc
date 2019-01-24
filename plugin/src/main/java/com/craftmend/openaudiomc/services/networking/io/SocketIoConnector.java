@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.services.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.services.networking.payloads.AcknowledgeClientPayload;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
+import com.craftmend.openaudiomc.services.networking.payloads.UpdateServerTimePayload;
 import io.socket.client.Ack;
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -69,8 +70,8 @@ public class SocketIoConnector {
         });
 
         socket.on("time-update", args -> {
-            Integer time = (Integer) args[0];
-            OpenAudioMc.getInstance().getTimeService().pushServerUpdate(time);
+            UpdateServerTimePayload payload = (UpdateServerTimePayload) OpenAudioMc.getGson().fromJson(args[0].toString(), AbstractPacket.class).getData();
+            OpenAudioMc.getInstance().getTimeService().pushServerUpdate(payload.getTimestamp(), payload.getOffset());
         });
 
         socket.on("acknowledgeClient", args -> {
