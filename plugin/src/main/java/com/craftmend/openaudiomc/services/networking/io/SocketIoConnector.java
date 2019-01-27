@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.services.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.services.networking.payloads.AcknowledgeClientPayload;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
 import com.craftmend.openaudiomc.services.networking.payloads.UpdateServerTimePayload;
+import com.google.gson.Gson;
 import io.socket.client.Ack;
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -70,8 +71,10 @@ public class SocketIoConnector {
         });
 
         socket.on("time-update", args -> {
-            UpdateServerTimePayload payload = (UpdateServerTimePayload) OpenAudioMc.getGson().fromJson(args[0].toString(), AbstractPacket.class).getData();
-            OpenAudioMc.getInstance().getTimeService().pushServerUpdate(payload.getTimestamp(), payload.getOffset());
+            String[] data = ((String) args[args.length - 1]).split(":");
+            long timeStamp = Long.parseLong(data[0]);
+            long offset = Long.parseLong(data[1]);
+            OpenAudioMc.getInstance().getTimeService().pushServerUpdate(timeStamp, offset);
         });
 
         socket.on("acknowledgeClient", args -> {

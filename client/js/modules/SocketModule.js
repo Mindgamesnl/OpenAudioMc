@@ -47,7 +47,10 @@ class SocketModule {
         });
 
         this.socket.on("time-update", (time) => {
-
+            let data = time.split(":");
+            let hoursOffset = parseInt(data[1]);
+            let timeStamp = parseInt(data[0]);
+            openAudioMc.getTimeService().sync(timeStamp, hoursOffset);
         });
 
         this.socket.on("disconnect", () => {

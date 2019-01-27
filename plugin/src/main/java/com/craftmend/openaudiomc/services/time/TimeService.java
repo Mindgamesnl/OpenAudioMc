@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.services.time;
 
 import lombok.NoArgsConstructor;
+import org.bukkit.Bukkit;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -22,7 +23,7 @@ public class TimeService {
     }
 
     public void pushServerUpdate(long timeStamp, long offset) {
-        Instant server = Instant.ofEpochMilli(timeStamp * 1000);
+        Instant server = Instant.ofEpochMilli(timeStamp);
         if (offset < 0) {
             server.minus(Duration.ofHours(offset));
         } else {
@@ -31,7 +32,7 @@ public class TimeService {
         Instant local = Instant.now();
         Duration diff = Duration.between(local, server);
         serverIsAhead = !diff.isNegative();
-        this.offset = (diff.toMillis() / 1000);
+        this.offset = diff.toMillis();
     }
 
 }
