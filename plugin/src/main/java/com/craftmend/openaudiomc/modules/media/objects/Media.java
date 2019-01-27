@@ -24,7 +24,7 @@ public class Media {
     @Getter @Setter private MediaFlag flag = MediaFlag.DEFAULT;
 
     public Media(String source) {
-        this.source = source;
+        this.source = OpenAudioMc.getInstance().getMediaModule().process(source);
         this.startInstant = (int) (OpenAudioMc.getInstance().getTimeService().getSyncedInstant().toEpochMilli() / 1000);
     }
 
