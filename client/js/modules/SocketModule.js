@@ -46,6 +46,10 @@ class SocketModule {
             main.socketModule.state = "ok";
         });
 
+        this.socket.on("time-update", (time) => {
+
+        });
+
         this.socket.on("disconnect", () => {
             main.debugPrint("closed");
             for (let key in main.getMediaManager().sounds) {

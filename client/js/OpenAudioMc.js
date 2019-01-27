@@ -9,6 +9,7 @@ class OpenAudioMc {
 
         this.log("Enabling the web client for " + window.navigator.userAgent);
         this.debugPrint("starting.");
+        this.timeService = new TimeService();
         this.messages = new Messages(this);
         this.userInterfaceModule = new UserInterfaceModule(this);
         this.utils = new Utils(this);
@@ -25,6 +26,10 @@ class OpenAudioMc {
 
     getMessages() {
         return this.messages;
+    }
+
+    getTimeService() {
+        return this.timeService;
     }
 
     debugPrint(message) {
