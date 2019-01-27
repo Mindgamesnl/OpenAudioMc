@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc;
 
 import com.craftmend.openaudiomc.modules.api.objects.OpenAudioApi;
+import com.craftmend.openaudiomc.modules.media.MediaModule;
 import com.craftmend.openaudiomc.services.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.modules.commands.CommandModule;
 import com.craftmend.openaudiomc.modules.configuration.ConfigurationModule;
@@ -31,6 +32,7 @@ public final class OpenAudioMc extends JavaPlugin {
     private RegionModule regionModule;
     private CommandModule commandModule;
     private SpeakerModule speakerModule;
+    private MediaModule mediaModule;
 
     //instance
     @Getter private static OpenAudioMc instance;
@@ -49,6 +51,7 @@ public final class OpenAudioMc extends JavaPlugin {
 
         //startup modules and services
         this.timeService = new TimeService();
+        this.mediaModule = new MediaModule(this);
         this.configurationModule = new ConfigurationModule(this);
         this.authenticationService = new AuthenticationService();
         this.playerModule = new PlayerModule(this);
