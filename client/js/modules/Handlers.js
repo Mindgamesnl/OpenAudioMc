@@ -44,7 +44,6 @@ class Handlers {
 
         openAudioMc.socketModule.registerHandler("ClientSettingsPayload", data => {
             openAudioMc.debugPrint("Updating settings...");
-            console.log(data)
             const settings = data.clientSettings;
             const background = settings.background;
             const title = settings.title;

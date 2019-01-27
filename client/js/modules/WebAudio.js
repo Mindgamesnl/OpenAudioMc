@@ -131,8 +131,8 @@ class WebAudio {
     }
 
     startDate(date, flip) {
-        let start = new Date(date * 1000);
-        let seconds = Math.abs((start.getTime() - new Date().getTime()) / 1000);
+        let start = new Date(date);
+        let seconds = Math.abs((start.getTime() - openAudioMc.getTimeService().getPredictedTime().getTime()) / 1000);
         let length = this.soundElement.duration;
         if (seconds > length) {
             if (!flip) return;
