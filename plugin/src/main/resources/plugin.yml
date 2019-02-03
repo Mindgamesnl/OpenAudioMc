@@ -1,10 +1,10 @@
 name: OpenAudioMc
-version: ${project.version}
+version: 5.0-PRE-RELEASE
 softdepend: [WorldGuard]
 main: com.craftmend.openaudiomc.OpenAudioMc
 api-version: 1.13
 authors: [Mindgamesnl]
-description: OAM 2019, #soon
+description: The OpenAudioMc plugin. Brings real sound and lights to your minecraft server with the help of a custom web client.
 website: https://craftmend.com/
 commands:
   audio:

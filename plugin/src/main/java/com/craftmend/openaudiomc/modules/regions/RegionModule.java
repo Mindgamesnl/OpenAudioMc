@@ -11,6 +11,7 @@ import com.craftmend.openaudiomc.modules.regions.objects.RegionProperties;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WGBukkit;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
@@ -37,6 +38,16 @@ public class RegionModule {
         } else {
             System.out.println(OpenAudioMc.getLOG_PREFIX() + "Unknown version. Falling back to the 1.8 to 1.12 region implementation.");
             regionsVersion = RegionsVersion.V112;
+        }
+
+        //validate choise
+        if (regionsVersion == RegionsVersion.V112) {
+            try {
+                WorldGuardPlugin unused = WGBukkit.getPlugin();
+            } catch (Exception e) {
+                System.out.println(OpenAudioMc.getLOG_PREFIX() + "Wrong world guard detection! re-switching to 1.13");
+                regionsVersion = RegionsVersion.V113;
+            }
         }
 
         //load config
