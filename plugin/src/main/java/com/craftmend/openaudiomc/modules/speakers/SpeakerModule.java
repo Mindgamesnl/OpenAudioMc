@@ -38,8 +38,23 @@ public class SpeakerModule {
             playerSkullItem = Material.PLAYER_HEAD;
             is113 = true;
         } else {
-            playerSkullItem = Material.valueOf("SKULL_ITEM");
             System.out.println(OpenAudioMc.getLOG_PREFIX() + "Enabling the 1.12 speaker system");
+            try {
+                System.out.println(OpenAudioMc.getLOG_PREFIX() + "Hooking speakers attempt 1..");
+                playerSkullItem = Material.valueOf("SKULL_ITEM");
+            } catch (Exception e) {
+                System.out.println(OpenAudioMc.getLOG_PREFIX() + "Failed hook speakers attempt 1..");
+            }
+            try {
+                System.out.println(OpenAudioMc.getLOG_PREFIX() + "Hooking speakers attempt 2..");
+                playerSkullItem = Material.valueOf("LEGACY_SKULL_ITEM");
+            } catch (Exception e) {
+                System.out.println(OpenAudioMc.getLOG_PREFIX() + "Failed hook speakers attempt 2..");
+            }
+            if (playerSkullItem == null) {
+                System.out.println(OpenAudioMc.getLOG_PREFIX() + "Speakers failed to hook. Hooking to a block.");
+                playerSkullItem = Material.JUKEBOX;
+            }
             is113 = false;
         }
 
