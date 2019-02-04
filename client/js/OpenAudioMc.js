@@ -12,7 +12,6 @@ class OpenAudioMc {
         this.timeService = new TimeService();
         this.messages = new Messages(this);
         this.userInterfaceModule = new UserInterfaceModule(this);
-        this.utils = new Utils(this);
         this.hueModule = new HueModule(this, hueOptions);
         this.mediaManager = new MediaManager(this);
         this.socketModule = new SocketModule(this, "https://craftmendserver.eu");
@@ -36,16 +35,8 @@ class OpenAudioMc {
         this.log(message);
     }
 
-    getUtils() {
-        return this.utils;
-    }
-
     getMediaManager() {
         return this.mediaManager;
-    }
-
-    getSocketModule() {
-        return this.socketModule;
     }
 
     getHueModule() {

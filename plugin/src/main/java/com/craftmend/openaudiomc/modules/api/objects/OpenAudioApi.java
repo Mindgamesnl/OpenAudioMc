@@ -23,7 +23,7 @@ public class OpenAudioApi {
         return OpenAudioMc.getInstance().getPlayerModule().getClient(player.getUniqueId());
     }
 
-    public void registerMutation(String host, UrlMutation urlMutation) {
+        public void registerMutation(String host, UrlMutation urlMutation) {
         OpenAudioMc.getInstance().getMediaModule().registerMutation(host, urlMutation);
     }
 

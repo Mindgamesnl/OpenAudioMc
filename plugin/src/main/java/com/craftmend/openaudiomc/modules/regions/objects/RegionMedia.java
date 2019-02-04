@@ -8,7 +8,6 @@ public class RegionMedia extends Media {
     public RegionMedia(String source) {
         super(source);
         setLoop(true);
-        setAutoPlay(true);
         setDoPickup(true);
         setFadeTime(1000);
         setFlag(MediaFlag.REGION);
