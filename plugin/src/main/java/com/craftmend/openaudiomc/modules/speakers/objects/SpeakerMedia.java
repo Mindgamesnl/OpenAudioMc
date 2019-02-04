@@ -13,7 +13,6 @@ public class SpeakerMedia extends Media {
     public SpeakerMedia(String source) {
         super(source);
         setLoop(true);
-        setAutoPlay(true);
         setDoPickup(true);
         setFadeTime(500);
         setFlag(MediaFlag.SPEAKER);

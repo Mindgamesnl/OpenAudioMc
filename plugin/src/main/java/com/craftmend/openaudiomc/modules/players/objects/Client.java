@@ -217,6 +217,16 @@ public class Client implements ClientConnection {
     }
 
     @Override
+    public List<IRegion> getRegions() {
+        return currentRegions;
+    }
+
+    @Override
+    public List<ApplicableSpeaker> getSpeakers() {
+        return currentSpeakers;
+    }
+
+    @Override
     public void playMedia(Media media) {
         sendMedia(media);
     }
