@@ -6,15 +6,16 @@
 
     <groupId>com.craftmend.openaudiomc</groupId>
     <artifactId>OpenAudioMc</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>5.0</version>
     <packaging>jar</packaging>
 
     <name>OpenAudioMc</name>
 
-    <description>OAM 2019, #soon</description>
+    <description>The OpenAudioMc Java plugin and Api</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <url>https://craftmend.com/</url>
 
     <build>
