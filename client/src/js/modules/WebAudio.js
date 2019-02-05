@@ -56,6 +56,8 @@ export class WebAudio {
         this.soundElement.ontimeupdate = function () {
             if (that.soundElement != null) that.time = that.soundElement.currentTime;
         };
+
+        document.getElementById("volume-slider").oninput = () => this.setMasterVolume(document.getElementById("volume-slider").value);
     }
 
     setTime(target) {

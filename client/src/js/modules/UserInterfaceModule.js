@@ -3,6 +3,10 @@ export class UserInterfaceModule {
     constructor() {
         document.getElementById("welcome").style.display = "none";
         document.getElementById("app").style.display = "";
+
+        document.getElementById("hue-bridge-menu-button").onclick = () => this.showHue();
+        document.getElementById("show-main-button").onclick = () => this.showMain();
+
     }
 
     setMessage(text) {

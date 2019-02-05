@@ -78,4 +78,4 @@ function enable() {
     }
 }
 
-enable();
+document.getElementById("start-button").onclick = () => enable();

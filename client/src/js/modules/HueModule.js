@@ -23,6 +23,8 @@ export class HueModule {
         if (this.isSsl) {
             main.log("Failed to initiate Philips Hue integration since this web page is served over ssl. The user will be promted to downgrade to HTTP when a user interaction is made that is related to Hue");
         }
+
+        document.getElementById("startup-hue").onclick = () => this.startSetup();
     }
 
     onDiscover() {
@@ -159,7 +161,7 @@ export class HueModule {
             linkAttempts++;
             if (linkAttempts > 60) {
                 cancel();
-                document.getElementById("select-bridge").innerHTML = "<p>Could not connect to your hue bridge after 60 seconds, did you press the link button?</p><span class=\"button\" onclick=\"openAudioMc.getHueModule().startSetup();\" style=\"color: white;\">Click here to try again</span>";
+                document.getElementById("select-bridge").innerHTML = "<p>Could not connect to your hue bridge after 60 seconds, did you press the link button?</p><span class=\"button\" id='startup-hue' style=\"color: white;\">Click here to try again</span>";
                 openAudioMc.log("Failed to authenticate with bridge in 60 seconds.");
                 return;
             }
