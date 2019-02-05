@@ -4,3 +4,8 @@ The web client needs to be compiled. You can do this by running
  * npm run-script build
  
  The compiled web client will appear in the target folder.
+
+# Building?.. wait wahat
+Yes. You need to "compile" the web client via webpack.
+This is to run babel and minimize everything which improves code quality, browser support and maintainability for the project.
+A Windows build script may be added later, but i dont have a computer running windows, so, yeah sorry <3<3<3 ~Mindgamesnl

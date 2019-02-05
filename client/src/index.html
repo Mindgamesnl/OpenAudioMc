@@ -17,7 +17,7 @@
     <div class="panel-content">
         <div>
             <h2 class="blurIn">
-                <span class="button" onclick="enable();">Connect</span>
+                <span class="button" id="start-button">Connect</span>
             </h2>
             <p class="blurIn">
                 Welcome to OpenAudioMc!<br/>Click the connect button above to start the web client.
@@ -36,7 +36,7 @@
             <p class="blurIn">
                 <label id="volume-label">
                     <input type="range" id="volume-slider"
-                           oninput="openAudioMc.getMediaManager().setMasterVolume(this.value);" name="volume" min="0"
+                           name="volume" min="0"
                            max="100" value="70"/>
                 </label>
                 <br/><br/>
@@ -44,8 +44,10 @@
             </p>
         </div>
     </div>
-    <p class="hueFooter blurIn" id="hue-bridge-menu-button" style="display: none;"
-       onclick="openAudioMc.getUserInterfaceModule().showHue();">Philips Hue <i class="fa fa-lightbulb-o"></i></p>
+    <p class="hueFooter blurIn"
+       id="hue-bridge-menu-button"
+       style="display: none;"
+        >Philips Hue <i class="fa fa-lightbulb-o"></i></p>
     <p class="footer">&copy; OpenAudioMc 2019</p>
 </div>
 
@@ -55,12 +57,12 @@
         <h2 class="blurIn">Philips hue</h2>
         <div class="blurIn" id="select-bridge">
             <p id="hue-welcome-message">-</p>
-            <span class="button" onclick="openAudioMc.getHueModule().startSetup();" style="color: white;">Start</span>
+            <span class="button" id="startup-hue" style="color: white;">Start</span>
         </div>
     </div>
 
     <div>
-        <p class="hueFooter blurIn" onclick="openAudioMc.getUserInterfaceModule().showMain();">Player <i
+        <p class="hueFooter blurIn" id="show-main-button">Player <i
                 class="fa fa-volume-up"></i></p>
     </div>
 
