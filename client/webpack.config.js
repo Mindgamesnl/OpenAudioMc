@@ -40,14 +40,7 @@ const preInstall = [
 ];
 
 const postInstall = [
-    "echo finishing setup",
-    "rm -rf target",
-    "mkdir target",
-    "cp -R ./src/libs ./target/libs/",
-    "cp -R ./src/css ./target/css/",
-    "cp -R ./src/assets ./target/assets/",
-    "cp ./src/index.html ./target/index.html",
-    "cp ./dist/OpenAudioMc.bundle.js ./target/OpenAudioMc.bundle.js",
+    "finishing compile"
 ];
 
 module.exports = {
@@ -69,5 +62,5 @@ module.exports = {
     plugins: [new WebpackShellPlugin({
         onBuildStart: preInstall,
         onBuildEnd: postInstall
-    })]
+    })],
 };
