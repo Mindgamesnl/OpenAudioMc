@@ -4,7 +4,6 @@ class Handlers {
 
         openAudioMc.socketModule.registerHandler("ClientCreateMediaPayload", data => {
             const looping = data.media.loop;
-            const autoplay = data.media.autoPlay;
             const startInstant = data.media.startInstant;
             const id = data.media.mediaId;
             const source = data.media.source;
@@ -38,7 +37,7 @@ class Handlers {
 
                 media.setLooping(looping);
                 if (doPickup) media.startDate(startInstant, looping);
-                if (autoplay) media.play();
+                media.play();
             });
         });
 
@@ -58,7 +57,7 @@ class Handlers {
             if (hueBridgeFound !== "default") openAudioMc.getMessages().hueWelcome = hueBridgeFound;
             if (errorMessage !== "default") openAudioMc.getMessages().errorMessage = errorMessage;
             if (welcomeMessage !== "default") openAudioMc.getMessages().welcomeMessage = welcomeMessage;
-            
+
             if (background !== "default") {
                 document.getElementById("page").style = "vertical-align: middle;\n" +
                     "    background:\n" +
