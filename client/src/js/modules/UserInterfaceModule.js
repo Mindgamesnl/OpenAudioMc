@@ -1,4 +1,4 @@
-class UserInterfaceModule {
+export class UserInterfaceModule {
 
     constructor() {
         document.getElementById("welcome").style.display = "none";

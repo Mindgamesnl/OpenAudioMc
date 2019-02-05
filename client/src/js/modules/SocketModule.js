@@ -1,4 +1,4 @@
-class SocketModule {
+export class SocketModule {
 
     constructor(main, host) {
         this.handlers = {};

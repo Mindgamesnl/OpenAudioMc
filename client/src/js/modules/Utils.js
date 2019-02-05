@@ -1,4 +1,4 @@
-class Utils {
+export class Utils {
 
     constructor() {}
 

@@ -1,23 +1,13 @@
 <html lang="en">
 <head>
     <link type="text/css" rel="stylesheet" href="css/openaudiomc.css">
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script>
-    <script src="libs/WebAudio.js"></script>
     <script src="libs/JsHue.js"></script>
     <script src="libs/color.js"></script>
     <script src="libs/js.cookie.js"></script>
-
-    <!--  load modules -->
-    <script src="js/modules/TimeService.js"></script>
-    <script src="js/modules/Messages.js"></script>
-    <script src="js/modules/Utils.js"></script>
-    <script src="js/modules/SocketModule.js"></script>
-    <script src="js/modules/MediaManager.js"></script>
-    <script src="js/modules/UserInterfaceModule.js"></script>
-    <script src="js/modules/Handlers.js"></script>
-    <script src="js/modules/HueModule.js"></script>
 
     <!-- load main -->
     <script src="js/OpenAudioMc.js"></script>
@@ -32,7 +22,7 @@
                 <span class="button" onclick="enable();">Connect</span>
             </h2>
             <p class="blurIn">
-                Welcome to OpenAudioMc!<br />Click the connect button above to start the web client.
+                Welcome to OpenAudioMc!<br/>Click the connect button above to start the web client.
             </p>
         </div>
     </div>
@@ -47,14 +37,17 @@
             </h1>
             <p class="blurIn">
                 <label id="volume-label">
-                    <input type="range" id="volume-slider" oninput="openAudioMc.getMediaManager().setMasterVolume(this.value);" name="volume" min="0" max="100" value="70"/>
+                    <input type="range" id="volume-slider"
+                           oninput="openAudioMc.getMediaManager().setMasterVolume(this.value);" name="volume" min="0"
+                           max="100" value="70"/>
                 </label>
                 <br/><br/>
                 <span id="status-message"></span>
             </p>
         </div>
     </div>
-    <p class="hueFooter blurIn" id="hue-bridge-menu-button" style="display: none;" onclick="openAudioMc.getUserInterfaceModule().showHue();">Philips Hue <i class="fa fa-lightbulb-o"></i></p>
+    <p class="hueFooter blurIn" id="hue-bridge-menu-button" style="display: none;"
+       onclick="openAudioMc.getUserInterfaceModule().showHue();">Philips Hue <i class="fa fa-lightbulb-o"></i></p>
     <p class="footer">&copy; OpenAudioMc 2019</p>
 </div>
 
@@ -69,11 +62,13 @@
     </div>
 
     <div>
-        <p class="hueFooter blurIn" onclick="openAudioMc.getUserInterfaceModule().showMain();">Player <i class="fa fa-volume-up"></i></p>
+        <p class="hueFooter blurIn" onclick="openAudioMc.getUserInterfaceModule().showMain();">Player <i
+                class="fa fa-volume-up"></i></p>
     </div>
 
     <p class="footer">&copy; OpenAudioMc 2019</p>
 </div>
 
 </body>
+<script src="OpenAudioMc.bundle.js"></script>
 </html>

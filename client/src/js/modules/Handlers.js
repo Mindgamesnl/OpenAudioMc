@@ -1,4 +1,4 @@
-class Handlers {
+export class Handlers {
 
     constructor(openAudioMc) {
 

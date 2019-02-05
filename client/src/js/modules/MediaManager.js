@@ -1,4 +1,4 @@
-class MediaManager {
+export class MediaManager {
 
     constructor() {
         this.sounds = {};

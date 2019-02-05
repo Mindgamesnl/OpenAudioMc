@@ -1,4 +1,4 @@
-class TimeService {
+export class TimeService {
 
     constructor() {
         this.isServerAhead = false;

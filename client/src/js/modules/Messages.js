@@ -1,4 +1,4 @@
-class Messages {
+export class Messages {
 
     constructor(main) {
         this.main = main;
