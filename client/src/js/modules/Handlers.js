@@ -1,3 +1,6 @@
+import {WebAudio} from "./WebAudio";
+import {Utils} from "./Utils";
+
 export class Handlers {
 
     constructor(openAudioMc) {
