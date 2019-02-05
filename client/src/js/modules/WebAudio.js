@@ -1,4 +1,4 @@
-class WebAudio {
+export class WebAudio {
 
     constructor(source, onready) {
         this._source = source;
@@ -6,7 +6,7 @@ class WebAudio {
         //audio meta data
         this.meta = {};
         this.time = 0;
-        this.task = 0;
+        this.task = 0;ß
         this.onFinishHandlers = [];
         this.isLoading = false;
         this.isPlayable = false;

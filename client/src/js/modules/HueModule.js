@@ -1,4 +1,4 @@
-class HueModule {
+export class HueModule {
 
     constructor(main, options) {
         this.hue = jsHue();
