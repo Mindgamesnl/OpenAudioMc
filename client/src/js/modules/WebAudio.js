@@ -1,18 +1,19 @@
 export class WebAudio {
 
-    constructor(source, onready) {
+    constructor(source, main, onready) {
         this._source = source;
 
         //audio meta data
         this.meta = {};
+        this.openAudioMc = main;
         this.time = 0;
-        this.task = 0;ß
+        this.task = 0;
         this.onFinishHandlers = [];
         this.isLoading = false;
         this.isPlayable = false;
         this.isFading = false;
         this.isFirstRun = true;
-        this.volume = openAudioMc.getMediaManager().getMasterVolume();
+        this.volume = this.openAudioMc.getMediaManager().getMasterVolume();
         this.hasCustomVolume = false;
         this.flag = "DEFAULT";
 
@@ -134,7 +135,7 @@ export class WebAudio {
 
     startDate(date, flip) {
         let start = new Date(date);
-        let seconds = Math.abs((start.getTime() - openAudioMc.getTimeService().getPredictedTime().getTime()) / 1000);
+        let seconds = Math.abs((start.getTime() - this.openAudioMc.getTimeService().getPredictedTime().getTime()) / 1000);
         let length = this.soundElement.duration;
         if (seconds > length) {
             if (!flip) return;

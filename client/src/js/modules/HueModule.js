@@ -9,14 +9,14 @@ export class HueModule {
         this.currentUser = null;
         this.color = net.brehaut.Color;
         this.options = options;
+        this.openAudioMc = main;
 
         this.lights = [];
 
-        const that = this;
         this.hue.discover().then(bridges => {
             bridges.forEach(bridge => {
-                that.bridges.push(bridge);
-                that.onDiscover();
+                this.bridges.push(bridge);
+                this.onDiscover();
             });
         }).catch(e => console.log('Error finding bridges', e));
 
@@ -30,7 +30,7 @@ export class HueModule {
     onDiscover() {
         if (this.bridges.length !== 0) {
             //bridges found
-            openAudioMc.log(this.bridges.length + " hue bridges found");
+            this.openAudioMc.log(this.bridges.length + " hue bridges found");
             document.getElementById("hue-bridge-menu-button").style.display = "";
             if (this.isSsl) {
                 document.getElementById("select-bridge").innerHTML = "<p><i>So close... yet so far...</i> Unfortunately, Philips Hue is not supported over SSL (https), please reaload this page over HTTP (in the address bar) to hue the hue integration.</p>";
@@ -39,7 +39,7 @@ export class HueModule {
 
             if (this.options.userid != null) {
                 document.getElementById("select-bridge").innerHTML = "<p>Loading auto connect.</p>";
-                openAudioMc.getHueModule().startSetup();
+                this.openAudioMc.getHueModule().startSetup();
             }
         } else {
             openAudioMc.log("No hue bridges found");
@@ -57,8 +57,12 @@ export class HueModule {
         const that = this;
         document.getElementById("select-bridge").innerHTML = "<p>Preparing user..</p>";
         this.currentUser.getGroups().then(groups => {
-            document.getElementById("select-bridge").innerHTML = "<p>" + openAudioMc.getMessages().hueConnected + "</p>" +
-                "<select oninput='openAudioMc.getHueModule().selectGroup(this.value)' class=\"blue-select\" id='brige-list'><option value=\"\" disabled selected id='default-group'>Select a group</option></select>";
+            document.getElementById("select-bridge").innerHTML = "<p>" + this.openAudioMc.getMessages().hueConnected + "</p>" +
+                "<select id='input-bridge-select' class=\"blue-select\" id='brige-list'><option value=\"\" disabled selected id='default-group'>Select a group</option></select>";
+            document.getElementById("input-bridge-select").oninput = () => {
+                this.selectGroup(document.getElementById("input-bridge-select").value);
+            };
+
             for (var key in groups) {
                 document.getElementById("brige-list").innerHTML += "<option>" + groups[key].name + "</option>";
                 if (that.options.group != null && groups[key].name === that.options.group) {
@@ -134,7 +138,7 @@ export class HueModule {
                 if (data[0] != null && data[0].error == null) {
                     this.linkBridge(bridgeIp, "error");
                 } else {
-                    openAudioMc.log("Linked with hue bridge after trying to connect with the old username");
+                    this.openAudioMc.log("Linked with hue bridge after trying to connect with the old username");
                     this.isLinked = true;
                     this.onConnect();
                 }
@@ -145,7 +149,7 @@ export class HueModule {
 
         this.currentBridge = this.hue.bridge(bridgeIp);
         if (this.currentBridge == null) {
-            openAudioMc.log("Invalid bridge IP");
+            this.openAudioMc.log("Invalid bridge IP");
             return;
         }
 
@@ -162,12 +166,12 @@ export class HueModule {
             if (linkAttempts > 60) {
                 cancel();
                 document.getElementById("select-bridge").innerHTML = "<p>Could not connect to your hue bridge after 60 seconds, did you press the link button?</p><span class=\"button\" id='startup-hue' style=\"color: white;\">Click here to try again</span>";
-                openAudioMc.log("Failed to authenticate with bridge in 60 seconds.");
+                this.openAudioMc.log("Failed to authenticate with bridge in 60 seconds.");
                 return;
             }
 
             let sec = (60 - linkAttempts);
-            document.getElementById("select-bridge").innerHTML = "<p>" + openAudioMc.getMessages().hueLinking.replace("%sec%", sec) + "</p>";
+            document.getElementById("select-bridge").innerHTML = "<p>" + this.openAudioMc.getMessages().hueLinking.replace("%sec%", sec) + "</p>";
 
             that.currentBridge.createUser("OpenAudioMc#WebClient")
                 .then(data => {
@@ -181,7 +185,7 @@ export class HueModule {
                         }
                     } else if (data[0].success != null) {
                         that.currentUser = that.currentBridge.user(data[0].success.username);
-                        openAudioMc.log("Linked with hue bridge after " + linkAttempts + " attempt(s).");
+                        this.openAudioMc.log("Linked with hue bridge after " + linkAttempts + " attempt(s).");
                         that.isLinked = true;
                         that.onConnect();
                         cancel();
