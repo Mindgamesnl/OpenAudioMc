@@ -35,6 +35,9 @@ WebpackShellPlugin.prototype.apply = function(compiler) {
     });
 };
 
+const preInstall = [
+    "rm -rf dist"
+];
 
 const postInstall = [
     "echo finishing setup",
@@ -48,17 +51,9 @@ const postInstall = [
 ];
 
 module.exports = {
+    mode: 'production',
     entry: {
         main: './src/js/OpenAudioMc.js',
-        Handlers: './src/js/modules/Handlers.js',
-        HueModule: './src/js/modules/HueModule.js',
-        MediaManager: './src/js/modules/MediaManager.js',
-        Messages: './src/js/modules/Messages.js',
-        SocketModule: './src/js/modules/SocketModule.js',
-        TimeService: './src/js/modules/TimeService.js',
-        UserInterfaceModule: './src/js/modules/UserInterfaceModule.js',
-        Utils: './src/js/modules/Utils.js',
-        WebAudio: './src/js/modules/WebAudio.js',
     },
     output: {
         filename: (chunkData) => {
@@ -72,7 +67,7 @@ module.exports = {
         ]
     },
     plugins: [new WebpackShellPlugin({
-        onBuildStart: ['echo "hello world"'],
+        onBuildStart: preInstall,
         onBuildEnd: postInstall
     })]
 };
