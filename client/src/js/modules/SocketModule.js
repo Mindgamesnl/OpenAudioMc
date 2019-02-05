@@ -1,3 +1,5 @@
+import {Utils} from "./Utils";
+
 export class SocketModule {
 
     constructor(main, host) {
