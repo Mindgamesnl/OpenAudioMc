@@ -4,6 +4,7 @@ import {Utils} from "./Utils";
 export class Handlers {
 
     constructor(openAudioMc) {
+        this.openAudioMc = openAudioMc;
 
         openAudioMc.socketModule.registerHandler("ClientCreateMediaPayload", data => {
             const looping = data.media.loop;
@@ -18,7 +19,7 @@ export class Handlers {
             let volume = openAudioMc.getMediaManager().getMasterVolume();
 
             let media;
-            media = new WebAudio(source, function () {
+            media = new WebAudio(source, openAudioMc, function () {
                 openAudioMc.getMediaManager().registerMedia(id, media);
                 media.setMasterVolume(openAudioMc.getMediaManager().getMasterVolume());
 
@@ -83,12 +84,12 @@ export class Handlers {
 
         openAudioMc.socketModule.registerHandler("ClientVolumePayload", data => {
             const target = data.volume;
-            openAudioMc.getMediaManager().setMasterVolume(target);
+            this.openAudioMc.getMediaManager().setMasterVolume(target);
             document.getElementById("volume-slider").value = target;
         });
 
         openAudioMc.socketModule.registerHandler("ClientDestroyMediaPayload", data => {
-            openAudioMc.getMediaManager().destroySounds(data.soundId);
+            this.openAudioMc.getMediaManager().destroySounds(data.soundId);
         });
 
         function convertRange( value, r1, r2 ) {

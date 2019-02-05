@@ -4,6 +4,7 @@ export class SocketModule {
 
     constructor(main, host) {
         this.handlers = {};
+        this.openAudioMc = main;
 
         main.getUserInterfaceModule().setMessage("Loading data..");
         main.getUserInterfaceModule().showVolumeSlider(false);
@@ -43,7 +44,7 @@ export class SocketModule {
         this.socket = io(host, {query: that.authHeader, autoConnect: false});
 
         this.socket.on("connect", () => {
-            main.getUserInterfaceModule().setMessage(openAudioMc.getMessages().welcomeMessage);
+            main.getUserInterfaceModule().setMessage(this.openAudioMc.getMessages().welcomeMessage);
             main.getUserInterfaceModule().showVolumeSlider(true);
             main.socketModule.state = "ok";
         });
@@ -52,7 +53,7 @@ export class SocketModule {
             let data = time.split(":");
             let hoursOffset = parseInt(data[1]);
             let timeStamp = parseInt(data[0]);
-            openAudioMc.getTimeService().sync(timeStamp, hoursOffset);
+            this.openAudioMc.getTimeService().sync(timeStamp, hoursOffset);
         });
 
         this.socket.on("disconnect", () => {
@@ -65,7 +66,7 @@ export class SocketModule {
             }
 
             main.getUserInterfaceModule().showVolumeSlider(true);
-            main.getUserInterfaceModule().setMessage(openAudioMc.getMessages().errorMessage);
+            main.getUserInterfaceModule().setMessage(this.openAudioMc.getMessages().errorMessage);
             that.state = "closed";
 
             setTimeout(() => {

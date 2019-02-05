@@ -16,7 +16,9 @@ import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
+
 import lombok.Getter;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -40,7 +42,7 @@ public class RegionModule {
             regionsVersion = RegionsVersion.V112;
         }
 
-        //validate choise
+        //validate detection
         if (regionsVersion == RegionsVersion.V112) {
             try {
                 WorldGuardPlugin unused = WGBukkit.getPlugin();

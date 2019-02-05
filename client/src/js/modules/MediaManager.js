@@ -1,20 +1,21 @@
 export class MediaManager {
 
-    constructor() {
+    constructor(main) {
         this.sounds = {};
         this.masterVolume = 80;
+        this.openAudioMc = main;
     }
 
     destroySounds(key) {
-        openAudioMc.debugPrint("<b>starting to quit fade </b> " + key)
+        this.openAudioMc.debugPrint("<b>starting to quit fade </b> " + key)
         let that = this;
 
         if (key != null && that.sounds[key] != null) {
-            that.sounds[key].setVolume(0, 300, function () {
-                openAudioMc.debugPrint("<b>finished fading</b> " + key + "")
+            that.sounds[key].setVolume(0, 300, () => {
+                this.openAudioMc.debugPrint("<b>finished fading</b> " + key + "")
                 if (that.sounds[key] != null) that.sounds[key].destroy();
                 delete that.sounds[key];
-                openAudioMc.debugPrint("<b>stopping</b> " + key + " <b>after fading</b>")
+                this.openAudioMc.debugPrint("<b>stopping</b> " + key + " <b>after fading</b>")
             });
         } else {
             for (var key in this.sounds) {
@@ -43,7 +44,7 @@ export class MediaManager {
 
     registerMedia(id, media) {
         this.sounds[id] = media;
-        openAudioMc.debugPrint("<b>created media</b> " + id + "")
+        this.openAudioMc.debugPrint("<b>created media</b> " + id + "")
     }
 
 }
