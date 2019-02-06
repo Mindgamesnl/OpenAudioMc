@@ -84,6 +84,10 @@ public class Client implements ClientConnection {
             if (!settings.equals(new ClientSettings())) {
                 OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientPushSettings(settings));
             }
+            String startSound = OpenAudioMc.getInstance().getConfigurationModule().getMainConfig().getString("options.start-sound");
+            if (startSound != null && !startSound.equals("none")) {
+                playMedia(new Media(startSound));
+            }
         }, 20);
         Bukkit.getServer().getPluginManager().callEvent(new ClientConnectEvent(player, this));
     }
