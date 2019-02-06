@@ -27,7 +27,6 @@ public class ConfigurationModule {
     }
 
     public void saveAll() {
-        OpenAudioMc.getInstance().saveConfig();
         try {
             dataConfig.save("plugins/OpenAudioMc/data.yml");
         } catch (IOException e) {

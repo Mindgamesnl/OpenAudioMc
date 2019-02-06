@@ -30,6 +30,7 @@ public class CommandModule {
         registerSubCommand(new SpeakersSubCommand(openAudioMc));
         registerSubCommand(new StopSubCommand(openAudioMc));
         registerSubCommand(new HueSubCommand(openAudioMc));
+        registerSubCommand(new ReloadSubCommand());
     }
 
     public List<String> getSubCommands() {
