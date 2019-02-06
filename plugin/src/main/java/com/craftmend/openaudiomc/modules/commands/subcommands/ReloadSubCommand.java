@@ -20,7 +20,7 @@ public class ReloadSubCommand extends SubCommand {
     @Override
     public void onExecute(CommandSender sender, String[] args) {
         message(sender, "Reloading config...");
-        OpenAudioMc.getInstance().reloadConfig();
+        OpenAudioMc.getInstance().reloadConfigurationModule();
         message(sender, "Reloaded config.");
     }
 }
