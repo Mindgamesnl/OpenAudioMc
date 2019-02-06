@@ -14,7 +14,7 @@ public class SpeakerMedia extends Media {
     public SpeakerMedia(String source) {
         super(source);
         setLoop(true);
-        setDoPickup(OpenAudioMc.getInstance().getConfigurationModule().getMainConfig().getBoolean("options.sync-speakers"));
+        setDoPickup(!OpenAudioMc.getInstance().getConfigurationModule().getMainConfig().contains("options.sync-speakers") || OpenAudioMc.getInstance().getConfigurationModule().getMainConfig().getBoolean("options.sync-speakers"));
         setFadeTime(500);
         setFlag(MediaFlag.SPEAKER);
     }

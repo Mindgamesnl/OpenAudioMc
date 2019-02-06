@@ -9,7 +9,7 @@ public class RegionMedia extends Media {
     public RegionMedia(String source) {
         super(source);
         setLoop(true);
-        setDoPickup(OpenAudioMc.getInstance().getConfigurationModule().getMainConfig().getBoolean("options.sync-regions"));
+        setDoPickup(!OpenAudioMc.getInstance().getConfigurationModule().getMainConfig().contains("options.sync-regions") || OpenAudioMc.getInstance().getConfigurationModule().getMainConfig().getBoolean("options.sync-regions"));
         setFadeTime(1000);
         setFlag(MediaFlag.REGION);
     }
