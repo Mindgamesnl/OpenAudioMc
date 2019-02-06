@@ -26,7 +26,8 @@ import java.util.*;
 
 public class RegionModule {
 
-    @Getter private Map<String, RegionProperties> regionPropertiesMap = new HashMap<>();
+    @Getter
+    private Map<String, RegionProperties> regionPropertiesMap = new HashMap<>();
     private Map<String, RegionMedia> regionMediaMap = new HashMap<>();
     private RegionsVersion regionsVersion;
 
@@ -45,8 +46,8 @@ public class RegionModule {
         //validate detection
         if (regionsVersion == RegionsVersion.V112) {
             try {
-                WorldGuardPlugin unused = WGBukkit.getPlugin();
-            } catch (Exception e) {
+                Class.forName("com.sk89q.worldguard.bukkit.WGBukkit");
+            } catch (ClassNotFoundException e) {
                 System.out.println(OpenAudioMc.getLOG_PREFIX() + "Wrong world guard detection! re-switching to 1.13");
                 regionsVersion = RegionsVersion.V113;
             }
