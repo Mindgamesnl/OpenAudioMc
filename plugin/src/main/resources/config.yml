@@ -11,6 +11,9 @@ messages:
 options:
   send-on-join: true
   speaker-radius: 10
+  sync-speakers: true
+  sync-regions: true
+  start-sound: none
 
 client:
   title: default
