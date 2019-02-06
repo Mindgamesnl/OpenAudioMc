@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.modules.speakers.objects;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.media.enums.MediaFlag;
 import com.craftmend.openaudiomc.modules.media.objects.Media;
 import lombok.Getter;
@@ -13,7 +14,7 @@ public class SpeakerMedia extends Media {
     public SpeakerMedia(String source) {
         super(source);
         setLoop(true);
-        setDoPickup(true);
+        setDoPickup(OpenAudioMc.getInstance().getConfigurationModule().getMainConfig().getBoolean("options.sync-speakers"));
         setFadeTime(500);
         setFlag(MediaFlag.SPEAKER);
     }
