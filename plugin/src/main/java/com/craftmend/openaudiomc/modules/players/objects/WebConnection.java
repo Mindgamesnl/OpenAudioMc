@@ -27,6 +27,7 @@ public abstract class WebConnection implements ClientConnection {
 
     /**
      * send the client a message that they can click on to open the client
+     * and generate a hashed token
      */
     public void publishUrl() {
         NetworkingService service = OpenAudioMc.getInstance().getNetworkingService();

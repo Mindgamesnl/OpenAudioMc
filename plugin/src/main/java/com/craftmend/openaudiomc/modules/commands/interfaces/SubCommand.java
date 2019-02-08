@@ -25,6 +25,8 @@ public abstract class SubCommand {
     }
 
     /**
+     * send a openaudiomc styled message
+     *
      * @param sender Command sender
      * @param message Your message
      */
@@ -33,6 +35,9 @@ public abstract class SubCommand {
     }
 
     /**
+     * check if the sender has permissions to execute this command.
+     * you do not need to run this check itself, its used by the framework.
+     *
      * @param commandSender Command sender
      * @return true if the player is allowed to execute a command
      */
@@ -44,7 +49,10 @@ public abstract class SubCommand {
     }
 
     /**
-     * @param args Register one (or more) arguments for tab completion and the help menu
+     * Register one or more arguments.
+     * used for auto complete and the help menu
+     *
+     * @param args one or more arguments
      */
     protected void registerArguments(Argument... args) {
         arguments.addAll(Arrays.asList(args));

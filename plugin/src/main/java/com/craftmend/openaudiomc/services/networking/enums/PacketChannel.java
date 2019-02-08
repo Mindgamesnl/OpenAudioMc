@@ -2,6 +2,13 @@ package com.craftmend.openaudiomc.services.networking.enums;
 
 public enum PacketChannel {
 
+    /**
+     * All the channel names that are used in communication
+     *
+     * SOCKET_IN is what the plugin receives via the client
+     * SOCKET_OUT is what is send to the socket to proxy to the client
+     */
+
     //socket in
     SOCKET_IN_REGISTER_CLIENT,
     SOCKET_IN_UNREGISTER_CLIENT,

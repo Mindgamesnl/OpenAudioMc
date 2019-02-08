@@ -21,6 +21,9 @@ public class PlayerSelector {
     private String selector;
 
     /**
+     * this turns selectors like @a[r=5] into a usable list, since
+     * 1.13 spigot removed this feature, FOR SOME REASON.. thanks guys..
+     *
      * @param commandSender the sender
      * @return players following the selector
      */

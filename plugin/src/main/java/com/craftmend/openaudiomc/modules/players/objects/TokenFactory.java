@@ -10,6 +10,7 @@ class TokenFactory {
 
     /**
      * generate a new token
+     * this is usually only done on startup
      *
      * @param client the owner
      * @return token

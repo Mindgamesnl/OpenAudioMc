@@ -23,7 +23,11 @@ public class Media {
     @Getter @Setter private MediaFlag flag = MediaFlag.DEFAULT;
 
     /**
-     * @param source Create a new Media source based on your url
+     * Create a new media based on a url
+     * the source will first be processed by the mutation api
+     * so you can just use addons without needing to worry
+     *
+     * @param source the resource url
      */
     public Media(String source) {
         this.source = OpenAudioMc.getInstance().getMediaModule().process(source);
@@ -31,6 +35,9 @@ public class Media {
     }
 
     /**
+     * You can apply multiple options.
+     * Used by the commands to allow settings via JSON
+     *
      * @param options The options. Selected via the command
      * @return instance of self
      */

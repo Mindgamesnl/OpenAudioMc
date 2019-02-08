@@ -6,7 +6,7 @@ import com.craftmend.openaudiomc.services.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.modules.commands.CommandModule;
 import com.craftmend.openaudiomc.modules.configuration.ConfigurationModule;
 import com.craftmend.openaudiomc.services.networking.NetworkingService;
-import com.craftmend.openaudiomc.services.networking.addapter.AbstractPacketAddapter;
+import com.craftmend.openaudiomc.services.networking.addapter.AbstractPacketAdapter;
 import com.craftmend.openaudiomc.services.networking.abstracts.AbstractPacketPayload;
 import com.craftmend.openaudiomc.modules.players.PlayerModule;
 import com.craftmend.openaudiomc.modules.regions.RegionModule;
@@ -21,12 +21,26 @@ import org.bukkit.plugin.java.JavaPlugin;
 @Getter
 public final class OpenAudioMc extends JavaPlugin {
 
-    //services
+    /**
+     * services OpenAudioMc uses in the background
+     *
+     *  - authentication (auth)
+     *  - time service (time sync with clients)
+     *  - networking service (api connection)
+     */
     private TimeService timeService;
     private AuthenticationService authenticationService;
     private NetworkingService networkingService;
 
-    //modules
+    /**
+     * modules that make up the plugin
+     *
+     * - configuration module (loads user data)
+     * - player module (manages player connections)
+     * - region module (OPTIONAL) (only loads regions if WorldGuard is enabled)
+     * - command module (registers and loads the OpenAudioMc commands)
+     * - media module (loads and manages all media in the service)
+     */
     private ConfigurationModule configurationModule;
     private PlayerModule playerModule;
     private RegionModule regionModule;
@@ -34,16 +48,27 @@ public final class OpenAudioMc extends JavaPlugin {
     private SpeakerModule speakerModule;
     private MediaModule mediaModule;
 
-    //instance
+    /**
+     * Constant: main plugin instance
+     */
     @Getter private static OpenAudioMc instance;
 
-    //static data
+    /**
+     * Constants:
+     *  - api: the api
+     *  - LOG_PREFIX: the prefix in server logs
+     *  - GSON: the gson thats used with the type adapter
+     */
     @Getter private static final OpenAudioApi api = new OpenAudioApi();
     @Getter private static final String LOG_PREFIX = "[OpenAudioMc-Log] ";
     @Getter private static final Gson gson = new GsonBuilder()
-            .registerTypeAdapter(AbstractPacketPayload.class, new AbstractPacketAddapter())
+            .registerTypeAdapter(AbstractPacketPayload.class, new AbstractPacketAdapter())
             .create();
 
+    /**
+     * load the plugin and start all of it's independent modules and services
+     * this is in a specific order
+     */
     @Override
     public void onEnable() {
         // Plugin startup logic
@@ -65,11 +90,17 @@ public final class OpenAudioMc extends JavaPlugin {
         }
     }
 
+    /**
+     * reload the entire configuration module
+     */
     public void reloadConfigurationModule() {
         reloadConfig();
         this.configurationModule = new ConfigurationModule(this);
     }
 
+    /**
+     * save configuration and stop the plugin
+     */
     @Override
     public void onDisable() {
         configurationModule.saveAll();

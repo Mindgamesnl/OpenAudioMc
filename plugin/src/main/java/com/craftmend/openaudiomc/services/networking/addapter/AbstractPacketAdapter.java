@@ -4,7 +4,11 @@ import com.craftmend.openaudiomc.services.networking.abstracts.AbstractPacketPay
 import com.google.gson.*;
 import java.lang.reflect.Type;
 
-public class AbstractPacketAddapter implements JsonSerializer<AbstractPacketPayload>, JsonDeserializer<AbstractPacketPayload> {
+public class AbstractPacketAdapter implements JsonSerializer<AbstractPacketPayload>, JsonDeserializer<AbstractPacketPayload> {
+
+    /**
+     * a type adapter for the using of the packet framework
+     */
 
     @Override
     public JsonElement serialize(AbstractPacketPayload src, Type typeOfSrc, JsonSerializationContext context) {
