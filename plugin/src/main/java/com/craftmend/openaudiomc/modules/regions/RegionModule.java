@@ -11,7 +11,6 @@ import com.craftmend.openaudiomc.modules.regions.objects.RegionProperties;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WGBukkit;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
@@ -60,7 +59,7 @@ public class RegionModule {
 
         Bukkit.getScheduler().scheduleAsyncRepeatingTask(openAudioMc, () -> {
             for (Client client : openAudioMc.getPlayerModule().getClients()) {
-                if (client.getIsConnected()) client.tickRegions();
+                if (client.getIsConnected()) client.getRegionHandler().tickRegions();
             }
         }, 10, 10);
     }

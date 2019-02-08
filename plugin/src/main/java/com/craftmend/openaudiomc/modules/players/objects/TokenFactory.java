@@ -8,7 +8,7 @@ import java.util.Base64;
 @NoArgsConstructor
 class TokenFactory {
 
-    String build(Client client) {
+    String build(WebConnection client) {
         String url = client.getPlayer().getName() +
                 ":" +
                 client.getPlayer().getUniqueId().toString() +
