@@ -26,6 +26,9 @@ public class ConfigurationModule {
         System.out.println(OpenAudioMc.getLOG_PREFIX() + "Starting configurateion module");
     }
 
+    /**
+     * saves the data to the file, like new regions and speakers.
+     */
     public void saveAll() {
         try {
             dataConfig.save("plugins/OpenAudioMc/data.yml");

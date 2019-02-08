@@ -19,6 +19,9 @@ public class SpeakerHandler {
     private Player player;
     private Client client;
 
+    /**
+     * update speakers based on the players location
+     */
     public void tickSpeakers() {
         List<ApplicableSpeaker> applicableSpeakers = new ArrayList<>(OpenAudioMc.getInstance().getSpeakerModule().getApplicableSpeakers(player.getLocation()));
 

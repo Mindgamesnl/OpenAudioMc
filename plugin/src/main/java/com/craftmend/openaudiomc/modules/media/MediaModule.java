@@ -16,6 +16,12 @@ public class MediaModule {
         urlMutations.put(host, urlMutation);
     }
 
+    /**
+     * Process the url trough the mutation api
+     *
+     * @param original the original url
+     * @return the altered url
+     */
     public String process(String original) {
         for (String selector : urlMutations.keySet()) {
             if (original.startsWith(selector)) {
