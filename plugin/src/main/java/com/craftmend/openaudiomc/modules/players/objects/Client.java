@@ -1,7 +1,9 @@
 package com.craftmend.openaudiomc.modules.players.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.modules.api.objects.HueState;
 import com.craftmend.openaudiomc.modules.configuration.objects.ClientSettings;
+import com.craftmend.openaudiomc.modules.hue.objects.SerializedHueColor;
 import com.craftmend.openaudiomc.modules.media.objects.Media;
 import com.craftmend.openaudiomc.modules.media.objects.MediaUpdate;
 import com.craftmend.openaudiomc.services.networking.NetworkingService;
@@ -30,7 +32,7 @@ public class Client implements ClientConnection {
 
     //socket
     @Getter private Boolean isConnected = false;
-    @Getter private String pin = "1234"; //TODO: generate pins
+    @Getter private String pin = UUID.randomUUID().toString().subSequence(0, 3).toString();
 
     //optional regions and speakers
     private List<IRegion> currentRegions = new ArrayList<>();
@@ -66,7 +68,7 @@ public class Client implements ClientConnection {
             player.sendMessage(OpenAudioMc.getLOG_PREFIX() + "Failed to execute goal.");
             e.printStackTrace();
         }
-        this.pin = UUID.randomUUID().toString().subSequence(0, 3).toString();
+
         TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.click-to-connect")));
         message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,
                 OpenAudioMc.getInstance().getConfigurationModule().getDataConfig().getString("keyset.base-url") + new TokenFactory().build(this)));
@@ -105,6 +107,13 @@ public class Client implements ClientConnection {
         }
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.client-volume-change").replaceAll("__amount__", volume + "")));
         OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientSetVolume(volume));
+    }
+
+    public void setHue(HueState hueState) {
+        hueState.getColorMap().forEach((light, color) -> {
+            SerializedHueColor serializedHueColor = new SerializedHueColor(color.getRed(), color.getGreen(), color.getGreen(), color.getBrightness());
+            OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientApplyHueColor(serializedHueColor, "[" + light + "]"));
+        });
     }
 
     public void onQuit() {
