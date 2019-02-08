@@ -14,5 +14,4 @@ public class SerializedHueColor {
     private int b;
     private int bir;
 
-
 }

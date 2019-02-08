@@ -13,6 +13,11 @@ import java.util.UUID;
 @AllArgsConstructor
 public class AbstractPacket {
 
+    /**
+     * AbstractPacket
+     *
+     * Used by the openaudiomc packet lib
+     */
     private AbstractPacketPayload data;
     private PacketChannel packetChannel;
     @Setter private UUID client;

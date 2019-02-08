@@ -20,7 +20,9 @@ public class ClientSettings {
     private String hueBridgeFound = "default;";
 
     /**
-     * @return Load the client settings from the config
+     * load the settings from the config file, and overwrite the default values if found
+     *
+     * @return ClientSettings
      */
     public ClientSettings load() {
         FileConfiguration config = OpenAudioMc.getInstance().getConfig();

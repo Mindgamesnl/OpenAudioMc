@@ -20,6 +20,11 @@ public class NetworkingService {
     private Map<PacketChannel, PayloadHandler> packetHandlerMap = new HashMap<>();
     private SocketIoConnector socketIoConnector;
 
+    /**
+     * setup the plugin connection
+     *
+     * @param openAudioMc main plugin instance
+     */
     public NetworkingService(OpenAudioMc openAudioMc) {
         //register socket handlers
         registerHandler(PacketChannel.SOCKET_IN_REGISTER_CLIENT, new ClientConnectHandler());
@@ -34,14 +39,31 @@ public class NetworkingService {
         }
     }
 
+    /**
+     * try to connect to the api, if it is not already connected
+     *
+     * @throws URISyntaxException server unreachable
+     */
     public void connectIfDown() throws URISyntaxException {
         socketIoConnector.setupConnection();
     }
 
+    /**
+     * send a packet to a client connection, if connected
+     *
+     * @param client the target
+     * @param packet the data
+     */
     public void send(Client client, AbstractPacket packet) {
         socketIoConnector.send(client, packet);
     }
 
+    /**
+     * a packet got received, this function handles it on to the api for
+     * parsing and processing in the plugin
+     *
+     * @param abstractPacket received
+     */
     public void triggerPacket(AbstractPacket abstractPacket) {
         if (packetHandlerMap.get(abstractPacket.getPacketChannel()) == null) {
             System.out.println(OpenAudioMc.getLOG_PREFIX() + "Unknown handler for packet type " + abstractPacket.getClass().getName());
@@ -50,14 +72,30 @@ public class NetworkingService {
         packetHandlerMap.get(abstractPacket.getPacketChannel()).trigger(abstractPacket);
     }
 
+    /**
+     * check the state
+     *
+     * @return true if connected
+     */
     public Boolean isConnected() {
         return socketIoConnector.getIsConnected();
     }
 
+    /**
+     * check the state
+     *
+     * @return true if connecting
+     */
     public Boolean isConnecting() {
         return socketIoConnector.getIsConnecting();
     }
 
+    /**
+     * link a handler to a packet type
+     *
+     * @param type channel id
+     * @param handler handler
+     */
     private void registerHandler(PacketChannel type, PayloadHandler handler) {
         packetHandlerMap.put(type, handler);
     }

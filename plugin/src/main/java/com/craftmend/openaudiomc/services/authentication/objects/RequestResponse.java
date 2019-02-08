@@ -9,6 +9,9 @@ import java.util.UUID;
 @NoArgsConstructor
 public class RequestResponse {
 
+    /**
+     * response of a http request, and its possible values
+     */
     private Boolean success;
     private UUID publicKey;
     private UUID privateKey;

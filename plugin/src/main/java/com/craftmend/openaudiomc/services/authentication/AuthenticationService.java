@@ -22,6 +22,10 @@ public class AuthenticationService {
         loadData();
     }
 
+    /**
+     * Load the tokens from files.
+     * If they dont exist, then they will be requested by the cool OpenAuioMc api.
+     */
     private void loadData() {
         if (OpenAudioMc.getInstance().getConfigurationModule().getDataConfig().getString("keyset.private").equals("not-set")) {
             //setup process
@@ -46,6 +50,14 @@ public class AuthenticationService {
         }
     }
 
+    /**
+     * A small util function, does only one thing really and only once.
+     * Almost as useless as i am.
+     *
+     * @param url The url
+     * @return The response
+     * @throws IOException a big fuck you
+     */
     private String readHttp(String url) throws IOException {
         try (Scanner scanner = new Scanner(new URL(url).openStream(),
                 StandardCharsets.UTF_8.toString())) {
