@@ -9,7 +9,7 @@ OpenAudio is free to download on spigot.
 
 ## Useful Links
 * **Website** - <http://openaudiomc.net/>
-* **Wiki** - <https://github.com/Mindgamesnl/OpenAudioMc/wiki>
+* **Discord Community** - <https://discordapp.com/invite/mfAgdhx>
 * **Javadocs** - <https://javadoc.openaudiomc.net/>
 
 
