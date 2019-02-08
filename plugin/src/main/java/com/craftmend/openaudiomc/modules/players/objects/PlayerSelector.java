@@ -20,6 +20,10 @@ public class PlayerSelector {
 
     private String selector;
 
+    /**
+     * @param commandSender the sender
+     * @return players following the selector
+     */
     public List<Player> getPlayers(CommandSender commandSender) {
 
         List<Player> players = new ArrayList<>();
@@ -87,6 +91,12 @@ public class PlayerSelector {
         return players;
     }
 
+    /**
+     * attempt to parse the location
+     *
+     * @param commandSender the sender
+     * @return the location or null
+     */
     private Location getLocation(CommandSender commandSender) {
         Location initialLocation = null;
         if (commandSender instanceof Player) {

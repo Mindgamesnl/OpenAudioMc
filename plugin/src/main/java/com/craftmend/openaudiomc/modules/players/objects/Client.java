@@ -36,6 +36,9 @@ public class Client extends WebConnection {
     @Setter @Getter private String selectedSpeakerSource = null;
 
 
+    /**
+     * @param player client startup logic
+     */
     public Client(Player player) {
         super(player);
         if (OpenAudioMc.getInstance().getConfig().getBoolean("options.send-on-join")) publishUrl();
@@ -44,6 +47,9 @@ public class Client extends WebConnection {
         this.speakerHandler = new SpeakerHandler(player, this);
     }
 
+    /**
+     * player connect logic, for when authenticated.
+     */
     public void onConnect() {
         this.isConnected = true;
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.client-opened")));
@@ -63,12 +69,20 @@ public class Client extends WebConnection {
         Bukkit.getServer().getPluginManager().callEvent(new ClientConnectEvent(player, this));
     }
 
+    /**
+     * player disconnect logic, if a problem with socket occurs or the client closes the web client
+     */
     public void onDisconnect() {
         this.isConnected = false;
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.client-closed")));
         Bukkit.getServer().getPluginManager().callEvent(new ClientDisconnectEvent(player));
     }
 
+    /**
+     * change the volume for the client
+     *
+     * @param volume the new volume
+     */
     @Override
     public void setVolume(int volume) {
         if (volume < 0 || volume > 100) {
@@ -78,6 +92,11 @@ public class Client extends WebConnection {
         OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientSetVolume(volume));
     }
 
+    /**
+     * change the players hue lights
+     *
+     * @param hueState the new light state
+     */
     public void setHue(HueState hueState) {
         hueState.getColorMap().forEach((light, color) -> {
             SerializedHueColor serializedHueColor = new SerializedHueColor(color.getRed(), color.getGreen(), color.getGreen(), color.getBrightness());
@@ -85,14 +104,18 @@ public class Client extends WebConnection {
         });
     }
 
-    public void onQuit() {
-        kick();
-    }
-
-    private void kick() {
+    /**
+     * Close the clients web client
+     */
+    public void kick() {
         OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketSocketKickClient());
     }
 
+    /**
+     * send media to the client to play
+     *
+     * @param media media to be send
+     */
     public void sendMedia(Media media) {
         if (media.getKeepTimeout() != -1 && !ongoingMedia.contains(media)) {
             ongoingMedia.add(media);
@@ -101,21 +124,33 @@ public class Client extends WebConnection {
         if (isConnected) OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientCreateMedia(media));
     }
 
+    /**
+     * @return playing media
+     */
     @Override
     public List<Media> getOngoingMedia() {
         return this.ongoingMedia;
     }
 
+    /**
+     * @return regions that the player is a part of
+     */
     @Override
     public List<IRegion> getRegions() {
         return currentRegions;
     }
 
+    /**
+     * @return speakers in range of the player
+     */
     @Override
     public List<ApplicableSpeaker> getSpeakers() {
         return currentSpeakers;
     }
 
+    /**
+     * @param media start media for the client
+     */
     @Override
     public void playMedia(Media media) {
         sendMedia(media);

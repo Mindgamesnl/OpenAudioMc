@@ -22,11 +22,18 @@ public class Media {
     @Getter @Setter private int fadeTime = 0;
     @Getter @Setter private MediaFlag flag = MediaFlag.DEFAULT;
 
+    /**
+     * @param source Create a new Media source based on your url
+     */
     public Media(String source) {
         this.source = OpenAudioMc.getInstance().getMediaModule().process(source);
         this.startInstant = (int) (OpenAudioMc.getInstance().getTimeService().getSyncedInstant().toEpochMilli() / 1000);
     }
 
+    /**
+     * @param options The options. Selected via the command
+     * @return instance of self
+     */
     public Media applySettings(MediaOptions options) {
         this.loop = options.getLoop();
         this.keepTimeout = options.getExpirationTimeout();

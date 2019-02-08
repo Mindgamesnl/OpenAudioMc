@@ -19,6 +19,9 @@ public class ClientSettings {
     private String hueLinking = "default";
     private String hueBridgeFound = "default;";
 
+    /**
+     * @return Load the client settings from the config
+     */
     public ClientSettings load() {
         FileConfiguration config = OpenAudioMc.getInstance().getConfig();
         title = config.getString("client.title");
@@ -31,6 +34,10 @@ public class ClientSettings {
         return this;
     }
 
+    /**
+     * @param other Compare the settings to other client settings
+     * @return true if equal
+     */
     public Boolean equals(ClientSettings other) {
         return (other.getTitle().equals(getTitle())
             && other.getBackground().equals(getBackground())

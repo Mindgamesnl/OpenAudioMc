@@ -11,6 +11,9 @@ public class ClientDisconnectEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
 
+    /**
+     * the player that disconnected
+     */
     @Getter private Player player;
 
     public HandlerList getHandlers() {

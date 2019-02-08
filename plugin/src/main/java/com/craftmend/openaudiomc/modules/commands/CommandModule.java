@@ -33,18 +33,31 @@ public class CommandModule {
         registerSubCommand(new ReloadSubCommand());
     }
 
+    /**
+     * @return All sub commands as strings
+     */
     public List<String> getSubCommands() {
         return new ArrayList<>(subCommands.keySet());
     }
 
+    /**
+     * @return All sub command handlers
+     */
     public List<SubCommand> getSubCommandHandlers() {
         return new ArrayList<>(subCommands.values());
     }
 
+    /**
+     * @param subCommand registers a sub command
+     */
     public void registerSubCommand(SubCommand subCommand) {
         subCommands.put(subCommand.getCommand(), subCommand);
     }
 
+    /**
+     * @param argument get the sub command from a name
+     * @return returns the handler, can be null
+     */
     public SubCommand getSubCommand(String argument) {
         return subCommands.get(argument);
     }

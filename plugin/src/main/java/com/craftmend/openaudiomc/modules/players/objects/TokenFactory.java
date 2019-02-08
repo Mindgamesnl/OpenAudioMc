@@ -8,6 +8,12 @@ import java.util.Base64;
 @NoArgsConstructor
 class TokenFactory {
 
+    /**
+     * generate a new token
+     *
+     * @param client the owner
+     * @return token
+     */
     String build(WebConnection client) {
         String url = client.getPlayer().getName() +
                 ":" +

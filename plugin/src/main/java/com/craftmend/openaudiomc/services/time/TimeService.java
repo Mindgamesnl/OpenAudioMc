@@ -21,6 +21,12 @@ public class TimeService {
         return now;
     }
 
+    /**
+     * calculate the time difference between server and client
+     *
+     * @param timeStamp the server time
+     * @param offset the server offset
+     */
     public void pushServerUpdate(long timeStamp, long offset) {
         Instant server = Instant.ofEpochMilli(timeStamp);
         if (offset < 0) {

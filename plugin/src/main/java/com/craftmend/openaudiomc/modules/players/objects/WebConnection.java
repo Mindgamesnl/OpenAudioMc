@@ -25,6 +25,9 @@ public abstract class WebConnection implements ClientConnection {
         this.player = player;
     }
 
+    /**
+     * send the client a message that they can click on to open the client
+     */
     public void publishUrl() {
         NetworkingService service = OpenAudioMc.getInstance().getNetworkingService();
         if (service.isConnecting()) {
@@ -50,6 +53,9 @@ public abstract class WebConnection implements ClientConnection {
         player.spigot().sendMessage(message);
     }
 
+    /**
+     * @return true if the client is connected
+     */
     @Override
     public Boolean isConnected() {
         return this.isConnected;

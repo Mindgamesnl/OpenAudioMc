@@ -16,6 +16,9 @@ public class RegionHandler {
     private Player player;
     private Client client;
 
+    /**
+     * update regions based on the players location
+     */
     public void tickRegions() {
         if (OpenAudioMc.getInstance().getRegionModule() != null) {
             //regions are enabled

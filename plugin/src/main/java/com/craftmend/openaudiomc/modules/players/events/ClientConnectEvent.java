@@ -12,7 +12,14 @@ public class ClientConnectEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
 
+    /**
+     * the player that connected
+     */
     @Getter private Player player;
+
+    /**
+     * the client instance of the connected player
+     */
     @Getter private ClientConnection client;
 
     public HandlerList getHandlers() {

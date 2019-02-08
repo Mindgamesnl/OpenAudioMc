@@ -31,10 +31,19 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         if (subCommand != null) {
             if (subCommand.isAllowed(sender)) {
                 String[] subArgs = new String[args.length - 1];
+                /*
+                 * Move the arguments for the sub command framework
+                 */
                 if (args.length != 1) System.arraycopy(args, 1, subArgs, 0, args.length - 1);
                 try {
+                    /*
+                     * execute the sub command
+                     */
                     subCommand.onExecute(sender, subArgs);
                 } catch (Exception e) {
+                    /*
+                     * It's more dead inside then i am
+                     */
                     e.printStackTrace();
                     sender.sendMessage(commandModule.getCommandPrefix() + "An error occurred while executing the command. Please check your command.");
                 }
