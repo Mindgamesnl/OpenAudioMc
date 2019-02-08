@@ -11,12 +11,12 @@ public class Region implements IRegion {
 
     @Override
     public Media getMedia() {
-        if (getPropperties() == null) return null;
+        if (getProperties() == null) return null;
         return regionProperties.getMedia();
     }
 
     @Override
-    public RegionProperties getPropperties() {
+    public RegionProperties getProperties() {
         return regionProperties;
     }
 

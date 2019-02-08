@@ -4,6 +4,6 @@ import com.craftmend.openaudiomc.modules.media.objects.Media;
 
 public interface IRegion {
     Media getMedia();
-    RegionProperties getPropperties();
+    RegionProperties getProperties();
     String getId();
 }
