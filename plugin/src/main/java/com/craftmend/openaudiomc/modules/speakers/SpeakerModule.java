@@ -78,7 +78,7 @@ public class SpeakerModule {
 
         Bukkit.getScheduler().scheduleAsyncRepeatingTask(openAudioMc, () -> {
             for (Client client : openAudioMc.getPlayerModule().getClients()) {
-                if (client.getIsConnected()) client.tickSpeakers();
+                if (client.getIsConnected()) client.getSpeakerHandler().tickSpeakers();
             }
         }, 5, 5);
     }
