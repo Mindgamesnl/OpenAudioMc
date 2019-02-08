@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class HueColor {
+public class SerializedHueColor {
 
     private int r;
     private int g;
