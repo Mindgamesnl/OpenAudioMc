@@ -4,8 +4,6 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.services.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.services.networking.payloads.AcknowledgeClientPayload;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
-import com.craftmend.openaudiomc.services.networking.payloads.UpdateServerTimePayload;
-import com.google.gson.Gson;
 import io.socket.client.Ack;
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -24,7 +22,7 @@ public class SocketIoConnector {
     @Getter private Boolean isConnecting = false;
     private SSLHelper sslHelper;
 
-    public SocketIoConnector() throws KeyManagementException, NoSuchAlgorithmException, URISyntaxException {
+    public SocketIoConnector() throws KeyManagementException, NoSuchAlgorithmException {
         sslHelper = new SSLHelper();
     }
 
@@ -66,9 +64,7 @@ public class SocketIoConnector {
             System.out.println(OpenAudioMc.getLOG_PREFIX() + "Socket: closed.");
         });
 
-        socket.on(Socket.EVENT_CONNECT_TIMEOUT, args -> {
-            isConnecting = false;
-        });
+        socket.on(Socket.EVENT_CONNECT_TIMEOUT, args -> isConnecting = false);
 
         socket.on("time-update", args -> {
             String[] data = ((String) args[args.length - 1]).split(":");
