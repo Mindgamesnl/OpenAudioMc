@@ -144,8 +144,10 @@ public class SpeakerModule {
         if (block.getState() != null && block.getState() instanceof Skull) {
             Skull skull = (Skull) block.getState();
             if (is113) {
+                if (skull.getOwningPlayer() == null) return false;
                 return skull.getOwningPlayer().getName().equals("OpenAudioMc");
             } else {
+                if (skull.getOwner() == null) return false;
                 return skull.getOwner().equals("OpenAudioMc");
             }
         }

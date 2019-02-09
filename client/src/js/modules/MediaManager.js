@@ -4,6 +4,10 @@ export class MediaManager {
         this.sounds = {};
         this.masterVolume = 80;
         this.openAudioMc = main;
+
+        document.getElementById("volume-slider").oninput = () => {
+            this.setMasterVolume(document.getElementById("volume-slider").value);
+        }
     }
 
     destroySounds(key) {
