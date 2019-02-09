@@ -57,7 +57,7 @@ public final class OpenAudioMc extends JavaPlugin {
      * Constants:
      *  - api: the api
      *  - LOG_PREFIX: the prefix in server logs
-     *  - GSON: the gson thats used with the type adapter
+     *  - Gson: the google json instance that is used with the type adapter
      */
     @Getter private static final OpenAudioApi api = new OpenAudioApi();
     @Getter private static final String LOG_PREFIX = "[OpenAudioMc-Log] ";

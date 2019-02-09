@@ -8,32 +8,24 @@ import io.socket.client.Ack;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import okhttp3.OkHttpClient;
 import org.bukkit.Bukkit;
 
 import java.net.URISyntaxException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 
+@NoArgsConstructor
 public class SocketIoConnector {
 
     private Socket socket;
     @Getter private Boolean isConnected = false;
     @Getter private Boolean isConnecting = false;
-    private SSLHelper sslHelper;
-
-    public SocketIoConnector() throws KeyManagementException, NoSuchAlgorithmException {
-        sslHelper = new SSLHelper();
-    }
 
     public void setupConnection() throws URISyntaxException {
         if (!canConnect()) return;
         System.out.println(OpenAudioMc.getLOG_PREFIX() + "Setting up Socket.IO connection.");
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .hostnameVerifier(sslHelper.getHostnameVerifier())
-                .sslSocketFactory(sslHelper.getSslSocketFactory(), sslHelper.getTrustManager())
-                .build();
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
 
         IO.Options opts = new IO.Options();
         opts.callFactory = okHttpClient;
