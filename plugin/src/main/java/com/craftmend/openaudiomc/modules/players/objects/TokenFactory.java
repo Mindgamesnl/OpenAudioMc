@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import lombok.NoArgsConstructor;
 
 import java.util.Base64;
+import java.util.UUID;
 
 @NoArgsConstructor
 class TokenFactory {
@@ -22,7 +23,7 @@ class TokenFactory {
                 ":" +
                 OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue() +
                 ":" +
-                client.getPin();
+                UUID.randomUUID().toString().subSequence(0, 3).toString();
         return new String(Base64.getEncoder().encode(url.getBytes()));
     }
 
