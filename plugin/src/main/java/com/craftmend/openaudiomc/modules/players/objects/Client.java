@@ -129,8 +129,8 @@ public class Client extends WebConnection {
      * @return token
      */
     @Override
-    public String getPin() {
-        return key;
+    public Session getSession() {
+        return session;
     }
 
     /**

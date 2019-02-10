@@ -73,7 +73,7 @@ public class SocketIoConnector {
 
             if (client == null) {
                 callback.call(false);
-            } else if (client.getPin().equals(payload.getToken())) {
+            } else if (client.getSession().getKey().equals(payload.getToken())) {
                 client.onConnect();
                 callback.call(true);
             } else {
