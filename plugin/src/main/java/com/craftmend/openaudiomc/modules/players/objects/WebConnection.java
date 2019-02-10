@@ -18,10 +18,11 @@ public abstract class WebConnection implements ClientConnection {
 
     //socket
     @Getter protected Boolean isConnected = false;
-    protected String key = new TokenFactory().build(this);
+    protected String key;
 
     WebConnection(Player player) {
         this.player = player;
+        this.key = new TokenFactory().build(this);
     }
 
     /**
