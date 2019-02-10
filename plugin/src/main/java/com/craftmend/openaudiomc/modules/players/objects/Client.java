@@ -35,7 +35,6 @@ public class Client extends WebConnection {
     //plugin data
     @Setter @Getter private String selectedSpeakerSource = null;
 
-
     /**
      * @param player client startup logic
      */
@@ -122,6 +121,16 @@ public class Client extends WebConnection {
             Bukkit.getScheduler().scheduleAsyncDelayedTask(OpenAudioMc.getInstance(), () -> ongoingMedia.remove(media), 20 * media.getKeepTimeout());
         }
         if (isConnected) OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientCreateMedia(media));
+    }
+
+    /**
+     * Return the current token for the url. This can only be used for this session.
+     *
+     * @return token
+     */
+    @Override
+    public String getPin() {
+        return key;
     }
 
     /**

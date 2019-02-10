@@ -10,7 +10,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.net.URISyntaxException;
-import java.util.UUID;
 
 public abstract class WebConnection implements ClientConnection {
 
@@ -19,7 +18,7 @@ public abstract class WebConnection implements ClientConnection {
 
     //socket
     @Getter protected Boolean isConnected = false;
-    @Getter protected String pin = UUID.randomUUID().toString().subSequence(0, 3).toString();
+    protected String key = new TokenFactory().build(this);
 
     WebConnection(Player player) {
         this.player = player;
@@ -50,7 +49,7 @@ public abstract class WebConnection implements ClientConnection {
 
         TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.click-to-connect")));
         message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,
-                OpenAudioMc.getInstance().getConfigurationModule().getDataConfig().getString("keyset.base-url") + new TokenFactory().build(this)));
+                OpenAudioMc.getInstance().getConfigurationModule().getDataConfig().getString("keyset.base-url") + key));
         player.spigot().sendMessage(message);
     }
 
