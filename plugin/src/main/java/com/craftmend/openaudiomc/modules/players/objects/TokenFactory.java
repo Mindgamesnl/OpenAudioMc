@@ -16,15 +16,16 @@ class TokenFactory {
      * @param client the owner
      * @return token
      */
-    String build(WebConnection client) {
+    Session build(WebConnection client) {
+        String key = UUID.randomUUID().toString().subSequence(0, 3).toString();
         String url = client.getPlayer().getName() +
                 ":" +
                 client.getPlayer().getUniqueId().toString() +
                 ":" +
                 OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue() +
                 ":" +
-                UUID.randomUUID().toString().subSequence(0, 3).toString();
-        return new String(Base64.getEncoder().encode(url.getBytes()));
+                key;
+        return new Session(key, new String(Base64.getEncoder().encode(url.getBytes())));
     }
 
 }

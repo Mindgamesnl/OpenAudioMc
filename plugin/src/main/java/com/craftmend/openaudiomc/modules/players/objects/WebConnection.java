@@ -18,11 +18,11 @@ public abstract class WebConnection implements ClientConnection {
 
     //socket
     @Getter protected Boolean isConnected = false;
-    protected String key;
+    protected Session session;
 
     WebConnection(Player player) {
         this.player = player;
-        this.key = new TokenFactory().build(this);
+        session = new TokenFactory().build(this);
     }
 
     /**
@@ -50,7 +50,7 @@ public abstract class WebConnection implements ClientConnection {
 
         TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.click-to-connect")));
         message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,
-                OpenAudioMc.getInstance().getConfigurationModule().getDataConfig().getString("keyset.base-url") + key));
+                OpenAudioMc.getInstance().getConfigurationModule().getDataConfig().getString("keyset.base-url") + session.getToken()));
         player.spigot().sendMessage(message);
     }
 
