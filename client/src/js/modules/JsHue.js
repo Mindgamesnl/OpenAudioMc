@@ -665,6 +665,8 @@ var jsHueAPI = (fetch, Response, JSON, Promise) => {
     };
 };
 
+let jsHue;
+
 if(typeof fetch !== 'undefined' && typeof Response !== 'undefined'
     && typeof JSON !== 'undefined' && typeof Promise !== 'undefined') {
     /**
@@ -676,6 +678,8 @@ if(typeof fetch !== 'undefined' && typeof Response !== 'undefined'
      * @return {Object} instance
      */
 
+
+    jsHue = jsHueAPI.bind(null, fetch, Response, JSON, Promise);
 
     // Try to export to be used as a module via a bundler
     if(typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
