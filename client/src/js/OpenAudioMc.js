@@ -37,6 +37,10 @@ class OpenAudioMc {
         this.socketModule = new SocketModule(this, "https://craftmendserver.eu");
         new Handlers(this);
         this.messages.apply();
+
+        //set volume
+        let presetVolume = Cookies.get("volume");
+        if (presetVolume != null) this.mediaManager.changeVolume(presetVolume);
     }
 
     log(message) {

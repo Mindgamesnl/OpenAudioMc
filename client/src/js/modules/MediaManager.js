@@ -7,6 +7,7 @@ export class MediaManager {
 
         document.getElementById("volume-slider").oninput = () => {
             this.setMasterVolume(document.getElementById("volume-slider").value);
+            Cookies.set("volume", document.getElementById("volume-slider").value);
         }
     }
 
@@ -22,7 +23,7 @@ export class MediaManager {
                 this.openAudioMc.debugPrint("<b>stopping</b> " + key + " <b>after fading</b>")
             });
         } else {
-            for (var key in this.sounds) {
+            for (let key in this.sounds) {
                 if (this.sounds[key].getFlag() === "DEFAULT") {
                     if (that.sounds[key] != null) that.sounds[key].destroy();
                     delete that.sounds[key];
@@ -33,9 +34,14 @@ export class MediaManager {
 
     setMasterVolume(volume) {
         this.masterVolume = volume;
-        for (var key in this.sounds) {
+        for (let key in this.sounds) {
             this.sounds[key].setMasterVolume(volume);
         }
+    }
+
+    changeVolume(volume) {
+        document.getElementById("volume-slider").value = volume;
+        this.setMasterVolume(volume);
     }
 
     getMasterVolume() {
