@@ -91,14 +91,6 @@ public final class OpenAudioMc extends JavaPlugin {
     }
 
     /**
-     * reload the entire configuration module
-     */
-    public void reloadConfigurationModule() {
-        reloadConfig();
-        this.configurationModule = new ConfigurationModule(this);
-    }
-
-    /**
      * save configuration and stop the plugin
      */
     @Override
