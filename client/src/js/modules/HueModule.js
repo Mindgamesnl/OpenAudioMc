@@ -1,7 +1,9 @@
+import {getHueInstance} from "./JsHue";
+
 export class HueModule {
 
     constructor(main, options) {
-        this.hue = jsHue();
+        this.hue = getHueInstance();
         this.bridges = [];
         this.isSsl = (document.location.href.startsWith("https://"));
         this.isLinked = false;

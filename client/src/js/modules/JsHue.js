@@ -675,10 +675,14 @@ if(typeof fetch !== 'undefined' && typeof Response !== 'undefined'
      * @constructor
      * @return {Object} instance
      */
-    var jsHue = jsHueAPI.bind(null, fetch, Response, JSON, Promise);
+
 
     // Try to export to be used as a module via a bundler
     if(typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
         module.exports = jsHue;
     }
+}
+
+export function getHueInstance() {
+    return jsHue();
 }
