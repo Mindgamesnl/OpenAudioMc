@@ -28,7 +28,6 @@ public class PlayerSelector {
      * @return players following the selector
      */
     public List<Player> getPlayers(CommandSender commandSender) {
-
         List<Player> players = new ArrayList<>();
 
         if (selector.startsWith("@p")) {
@@ -101,7 +100,8 @@ public class PlayerSelector {
      * @return the location or null
      */
     private Location getLocation(CommandSender commandSender) {
-        Location initialLocation = null;
+        Location initialLocation = new Location(Bukkit.getWorlds().get(0), 0, 0, 0);
+
         if (commandSender instanceof Player) {
             initialLocation = ((Player) commandSender).getLocation();
         } else if (commandSender instanceof BlockCommandSender) {
