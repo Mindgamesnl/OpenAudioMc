@@ -27,6 +27,14 @@ public class ConfigurationModule {
     }
 
     /**
+     * Reload the config file
+     */
+    public void reloadConfig() {
+        OpenAudioMc.getInstance().reloadConfig();
+        mainConfig = OpenAudioMc.getInstance().getConfig();
+    }
+
+    /**
      * saves the data to the file, like new regions and speakers.
      */
     public void saveAll() {
