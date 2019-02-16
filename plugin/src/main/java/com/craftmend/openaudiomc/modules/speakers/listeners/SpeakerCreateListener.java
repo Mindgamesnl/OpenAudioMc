@@ -46,7 +46,8 @@ public class SpeakerCreateListener implements Listener {
             openAudioMc.getConfigurationModule().getDataConfig().set("speakers." + id.toString() + ".x", location.getX());
             openAudioMc.getConfigurationModule().getDataConfig().set("speakers." + id.toString() + ".y", location.getY());
             openAudioMc.getConfigurationModule().getDataConfig().set("speakers." + id.toString() + ".z", location.getZ());
-            openAudioMc.getConfigurationModule().getDataConfig().set("speakers." + id.toString() + ".radius", 10);
+            openAudioMc.getConfigurationModule().getDataConfig().set("speakers." + id.toString() + ".radius",
+                    openAudioMc.getConfigurationModule().getMainConfig().getInt("options.speaker-radius"));
             openAudioMc.getConfigurationModule().getDataConfig().set("speakers." + id.toString() + ".media", client.getSelectedSpeakerSource());
 
             event.getPlayer().sendMessage(openAudioMc.getCommandModule().getCommandPrefix() + "Speaker registered");

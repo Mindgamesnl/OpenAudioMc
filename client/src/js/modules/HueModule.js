@@ -58,13 +58,13 @@ export class HueModule {
         document.getElementById("select-bridge").innerHTML = "<p>Preparing user..</p>";
         this.currentUser.getGroups().then(groups => {
             document.getElementById("select-bridge").innerHTML = "<p>" + this.openAudioMc.getMessages().hueConnected + "</p>" +
-                "<select id='input-bridge-select' class=\"blue-select\" id='brige-list'><option value=\"\" disabled selected id='default-group'>Select a group</option></select>";
+                "<select id='input-bridge-select' class=\"blue-select\"><option value=\"\" disabled selected id='default-group'>Select a group</option></select>";
             document.getElementById("input-bridge-select").oninput = () => {
                 this.selectGroup(document.getElementById("input-bridge-select").value);
             };
 
             for (var key in groups) {
-                document.getElementById("brige-list").innerHTML += "<option>" + groups[key].name + "</option>";
+                document.getElementById("input-bridge-select").innerHTML += "<option>" + groups[key].name + "</option>";
                 if (that.options.group != null && groups[key].name === that.options.group) {
                     this.updateSelector(groups[key].name);
                     this.selectGroup(groups[key].name);
@@ -105,10 +105,6 @@ export class HueModule {
             "sat": Math.floor(jqc.saturation * 255),
             "bri": Math.round((jqc.alpha * 2) * 127.5)
         }
-    }
-
-    setUserId(id) {
-        Cookies.set('hueid', id);
     }
 
     setLight(id, rgb) {
