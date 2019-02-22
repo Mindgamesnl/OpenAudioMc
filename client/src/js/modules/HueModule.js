@@ -78,7 +78,7 @@ export class HueModule {
     updateSelector(name) {
         setTimeout(function () {
             document.getElementById("default-group").selected = false;
-            document.getElementById("brige-list").value = name;
+            document.getElementById("input-bridge-select").value = name;
         }, 200);
     }
 
@@ -86,10 +86,10 @@ export class HueModule {
         Cookies.set("huegroup", value);
         const that = this;
         this.currentUser.getGroups().then(groups => {
-            for (var key in groups) {
+            for (let key in groups) {
                 if (groups[key].name === value) {
                     that.lights = [];
-                    for (var id in groups[key].lights) {
+                    for (let id in groups[key].lights) {
                         id++;
                         that.lights.push(id);
                         that.setLight(id, "rgba(58,50,238,0.5)");

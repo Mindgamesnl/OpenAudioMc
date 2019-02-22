@@ -67,6 +67,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         }
         if (args.length == 2) {
             SubCommand subCommand = commandModule.getSubCommand(args[0].toLowerCase());
+            if (subCommand == null) return new ArrayList<>();
             for (Argument argument : subCommand.getArguments()) {
                 if (argument.getSyntax().startsWith(args[1].toLowerCase())) {
                     completions.add(argument.getSyntax());
