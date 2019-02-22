@@ -23,7 +23,6 @@ public class SocketIoConnector {
 
     public void setupConnection() throws URISyntaxException {
         if (!canConnect()) return;
-        System.out.println(OpenAudioMc.getLOG_PREFIX() + "Setting up Socket.IO connection.");
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
 
@@ -46,14 +45,12 @@ public class SocketIoConnector {
             //connected
             isConnected = true;
             isConnecting = false;
-            System.out.println(OpenAudioMc.getLOG_PREFIX() + "Socket: Opened.");
         });
 
         socket.on(Socket.EVENT_DISCONNECT, args -> {
             //disconnected
             isConnected = false;
             isConnecting = false;
-            System.out.println(OpenAudioMc.getLOG_PREFIX() + "Socket: closed.");
         });
 
         socket.on(Socket.EVENT_CONNECT_TIMEOUT, args -> isConnecting = false);
