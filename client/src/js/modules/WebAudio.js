@@ -14,8 +14,9 @@ export class WebAudio {
         this.isFading = false;
         this.isFirstRun = true;
         this.volume = this.openAudioMc.getMediaManager().getMasterVolume();
-        this.hasCustomVolume = false;
         this.flag = "DEFAULT";
+        this._distance = -1;
+        this._maxDistance = -1;
 
         //reference
         const that = this;
@@ -68,12 +69,11 @@ export class WebAudio {
     }
 
     setMasterVolume(masterVolume) {
-        if (!this.hasCustomVolume) {
             if (this.isFading) {
                 clearInterval(this.task);
             }
             this.setVolume(masterVolume);
-        }
+
     }
 
     onFinish(callback) {
@@ -81,6 +81,10 @@ export class WebAudio {
     }
 
     setVolume(volume, fadetime, onfinish) {
+        //calculate volume if it is a speaker
+        if (this._maxDistance !== -1) {
+            volume = Math.round((this._distance / this._maxDistance) * this.openAudioMc.getMediaManager().masterVolume);
+        }
         if (fadetime == null) {
             this.soundElement.volume = volume / 100;
             return;
@@ -163,8 +167,13 @@ export class WebAudio {
         this.soundElement.play();
     }
 
-    hasOwnVolume() {
-        return this.hasCustomVolume;
+    setSpeakerData(maxDistance, distance) {
+        this._maxDistance = maxDistance;
+        this._distance = distance;
+    }
+
+    updateDistance(distance) {
+        this._distance = distance;
     }
 
     setFlag(flag) {
@@ -173,10 +182,6 @@ export class WebAudio {
 
     getFlag() {
         return this.flag;
-    }
-
-    setHasOwnVolume(state) {
-        this.hasCustomVolume = state;
     }
 
     setLooping(state) {

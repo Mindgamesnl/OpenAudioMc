@@ -59,6 +59,7 @@ export class SocketModule {
         this.socket.on("disconnect", () => {
             main.debugPrint("closed");
             for (let key in main.getMediaManager().sounds) {
+                if (!main.getMediaManager().sounds.hasOwnProperty(key)) continue;
                 main.getMediaManager().sounds[key].setVolume(0, 1000);
                 setTimeout(function () {
                     main.getMediaManager().sounds[key].destroy();

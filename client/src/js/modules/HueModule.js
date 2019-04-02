@@ -2,8 +2,8 @@ import {getHueInstance} from "./JsHue";
 
 export class HueModule {
 
-    constructor(main, options) {
-        this.hue = getHueInstance();
+    constructor(main, options, hue) {
+        this.hue = hue;
         this.bridges = [];
         this.isSsl = (document.location.href.startsWith("https://"));
         this.isLinked = false;
@@ -23,7 +23,7 @@ export class HueModule {
         }).catch(e => console.log('Error finding bridges', e));
 
         if (this.isSsl) {
-            main.log("Failed to initiate Philips Hue integration since this web page is served over ssl. The user will be promted to downgrade to HTTP when a user interaction is made that is related to Hue");
+            this.openAudioMc.log("Failed to initiate Philips Hue integration since this web page is served over ssl. The user will be promted to downgrade to HTTP when a user interaction is made that is related to Hue");
         }
 
         document.getElementById("startup-hue").onclick = () => this.startSetup();
@@ -44,7 +44,7 @@ export class HueModule {
                 this.openAudioMc.getHueModule().startSetup();
             }
         } else {
-            openAudioMc.log("No hue bridges found");
+            this.openAudioMc.log("No hue bridges found");
         }
     }
 
@@ -65,8 +65,9 @@ export class HueModule {
                 this.selectGroup(document.getElementById("input-bridge-select").value);
             };
 
-            for (var key in groups) {
-                document.getElementById("input-bridge-select").innerHTML += "<option>" + groups[key].name + "</option>";
+            for (let key in groups) {
+                if (!groups.hasOwnProperty(key)) continue;
+                document.getElementById("input-bridge-select").innerHTML += `<option>${groups[key].name}</option>`;
                 if (that.options.group != null && groups[key].name === that.options.group) {
                     this.updateSelector(groups[key].name);
                     this.selectGroup(groups[key].name);
@@ -87,7 +88,8 @@ export class HueModule {
         const that = this;
         this.currentUser.getGroups().then(groups => {
             for (let key in groups) {
-                if (groups[key].name === value) {
+                if (!groups.hasOwnProperty(key)) continue;
+                if (value === groups[key].name) {
                     that.lights = [];
                     for (let id in groups[key].lights) {
                         id++;
@@ -121,7 +123,7 @@ export class HueModule {
             query.push(this.lights[parseInt(id)-1]);
         }
         query.forEach(light => {
-            this.currentUser.setLightState(light, this.colorToHueHsv(rgb)).then(data => {});
+            this.currentUser.setLightState(light, this.colorToHueHsv(rgb)).then(() => {});
         });
     }
 
@@ -179,7 +181,7 @@ export class HueModule {
                         } else {
                             //unexpected error
                             cancel();
-                            openAudioMc.log("Unexpected error while connecting: " + data[0].error.type);
+                            this.openAudioMc.log("Unexpected error while connecting: " + data[0].error.type);
                         }
                     } else if (data[0].success != null) {
                         that.currentUser = that.currentBridge.user(data[0].success.username);
