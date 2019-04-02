@@ -83,27 +83,32 @@ public class SpeakerModule {
         }, 5, 5);
     }
 
-    public Collection<ApplicableSpeaker> getApplicableSpeakers(Location location) {
-        List<Speaker> applicableSpeakers = new ArrayList<>(speakerMap.values());
-        Map<String, ApplicableSpeaker> distanceMap = new HashMap<>();
+public Collection<ApplicableSpeaker> getApplicableSpeakers(Location location) {
+    List<Speaker> applicableSpeakers = new ArrayList<>(speakerMap.values());
+    Map<String, ApplicableSpeaker> distanceMap = new HashMap<>();
 
-        applicableSpeakers.removeIf(speaker -> !speaker.getLocation().getWorld().equals(location.getWorld().getName()));
-        applicableSpeakers.removeIf(speaker -> speaker.getLocation().toBukkit().distance(location) > speaker.getRadius());
-        applicableSpeakers.removeIf(speaker -> !isSpeakerSkull(speaker.getLocation().getBlock()));
+    applicableSpeakers.removeIf(speaker -> !speaker.getLocation().getWorld()
+            .equals(location.getWorld().getName()));
+    applicableSpeakers.removeIf(speaker -> speaker.getLocation().toBukkit()
+            .distance(location) > speaker.getRadius());
+    applicableSpeakers.removeIf(speaker ->
+            !isSpeakerSkull(speaker.getLocation().getBlock()));
 
-        for (Speaker speaker : applicableSpeakers) {
-            int distance = Math.toIntExact(Math.round(speaker.getLocation().toBukkit().distance(location)));
-            if (distanceMap.get(speaker.getSource()) == null) {
+    for (Speaker speaker : applicableSpeakers) {
+        int distance = Math.toIntExact(Math.round(speaker.getLocation().toBukkit()
+                .distance(location)));
+
+        if (distanceMap.get(speaker.getSource()) == null) {
+            distanceMap.put(speaker.getSource(), new ApplicableSpeaker(distance, speaker));
+        } else {
+            if (distance < distanceMap.get(speaker.getSource()).getDistance()) {
                 distanceMap.put(speaker.getSource(), new ApplicableSpeaker(distance, speaker));
-            } else {
-                if (distance < distanceMap.get(speaker.getSource()).getDistance()) {
-                    distanceMap.put(speaker.getSource(), new ApplicableSpeaker(distance, speaker));
-                }
             }
         }
-
-        return distanceMap.values();
     }
+
+    return distanceMap.values();
+}
 
     public void registerSpeaker(SimpleLocation simpleLocation, String source, UUID uuid, int radius) {
         Speaker speaker = new Speaker(source, uuid, radius, simpleLocation);

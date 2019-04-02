@@ -1,5 +1,4 @@
 import {WebAudio} from "./WebAudio";
-import {Utils} from "./Utils";
 
 export class Handlers {
 
@@ -24,10 +23,7 @@ export class Handlers {
                 media.setMasterVolume(openAudioMc.getMediaManager().getMasterVolume());
 
                 if (maxDistance !== 0) {
-                    volume = Utils.calculateVolume((maxDistance - distance), maxDistance);
-                    media.setHasOwnVolume(true);
-                } else {
-                    media.setHasOwnVolume(false);
+                    media.setSpeakerData(maxDistance, distance);
                 }
 
                 media.setFlag(flag);
@@ -46,7 +42,7 @@ export class Handlers {
         });
 
         openAudioMc.socketModule.registerHandler("ClientSettingsPayload", data => {
-            openAudioMc.debugPrint("Updating settings...");
+            this.openAudioMc.debugPrint("Updating settings...");
             const settings = data.clientSettings;
             const background = settings.background;
             const title = settings.title;
@@ -109,9 +105,13 @@ export class Handlers {
             const id = data.mediaOptions.target;
             const fadeTime = data.mediaOptions.fadeTime;
             const distance = data.mediaOptions.distance;
-            const maxDistance = data.mediaOptions.maxDistance;
             const media = openAudioMc.getMediaManager().getSound(id);
-            if (media != null) media.setVolume(Utils.calculateVolume((maxDistance - distance), maxDistance), fadeTime);
+            if (media != null){
+                if (distance != null) {
+                    media.updateDistance(distance);
+                }
+                media.setVolume(openAudioMc.getMediaManager().masterVolume, fadeTime);
+            }
         });
 
     }

@@ -6,8 +6,9 @@ export class MediaManager {
         this.openAudioMc = main;
 
         document.getElementById("volume-slider").oninput = () => {
-            this.setMasterVolume(document.getElementById("volume-slider").value);
-            Cookies.set("volume", document.getElementById("volume-slider").value);
+            let value = document.getElementById("volume-slider").value;
+            this.setMasterVolume(value);
+            Cookies.set("volume", value);
         }
     }
 
@@ -24,6 +25,7 @@ export class MediaManager {
             });
         } else {
             for (let key in this.sounds) {
+                if (!this.sounds.hasOwnProperty(key)) continue;
                 if (this.sounds[key].getFlag() === "DEFAULT") {
                     if (that.sounds[key] != null) that.sounds[key].destroy();
                     delete that.sounds[key];
@@ -35,7 +37,7 @@ export class MediaManager {
     setMasterVolume(volume) {
         this.masterVolume = volume;
         for (let key in this.sounds) {
-            this.sounds[key].setMasterVolume(volume);
+            if (this.sounds.hasOwnProperty(key)) this.sounds[key].setMasterVolume(volume);
         }
     }
 

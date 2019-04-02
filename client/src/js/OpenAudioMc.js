@@ -5,8 +5,10 @@ import {HueModule} from "./modules/HueModule";
 import {MediaManager} from "./modules/MediaManager";
 import {SocketModule} from "./modules/SocketModule";
 import {Handlers} from "./modules/Handlers";
+import {Utils} from "./modules/Utils";
+import {getHueInstance} from "./modules/JsHue";
 
-console.log('%c Take note! this is a bundled version of OpenAudioMc. To get the full source code, please visit https://github.com/Mindgamesnl/OpenAudioMc', [
+console.log('%c Made with love. Take note! this is a bundled version of OpenAudioMc. To get the full source code, please visit https://github.com/Mindgamesnl/OpenAudioMc', [
     'background: linear-gradient(#D33106, #571402)'
     , 'border: 1px solid #3E0E02'
     , 'color: white'
@@ -28,14 +30,16 @@ class OpenAudioMc {
         };
 
         this.log("Enabling the web client for " + window.navigator.userAgent);
+        this.log("Build: April 02 (speaker volume patch)");
         this.debugPrint("starting.");
         this.timeService = new TimeService();
         this.messages = new Messages(this);
         this.userInterfaceModule = new UserInterfaceModule(this);
-        this.hueModule = new HueModule(this, hueOptions);
+        this.hueModule = new HueModule(this, hueOptions, getHueInstance());
         this.mediaManager = new MediaManager(this);
         this.socketModule = new SocketModule(this, "https://craftmendserver.eu");
         new Handlers(this);
+        new Utils(this);
         this.messages.apply();
 
         //set volume

@@ -23,7 +23,7 @@ public class ConfigurationModule {
 
         mainConfig = openAudioMc.getConfig();
 
-        System.out.println(OpenAudioMc.getLOG_PREFIX() + "Starting configurateion module");
+        System.out.println(OpenAudioMc.getLOG_PREFIX() + "Starting configuration module");
     }
 
     /**
