@@ -83,7 +83,7 @@ export class WebAudio {
     setVolume(volume, fadetime, onfinish) {
         //calculate volume if it is a speaker
         if (this._maxDistance !== -1) {
-            volume = Math.round((this._distance / this._maxDistance) * this.openAudioMc.getMediaManager().masterVolume);
+            volume = Math.round(((this._maxDistance - this._distance) / this._maxDistance) * this.openAudioMc.getMediaManager().masterVolume);
         }
         if (fadetime == null) {
             this.soundElement.volume = volume / 100;

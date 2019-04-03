@@ -13,7 +13,6 @@ body{
 }
 
 img{
-    filter: invert(100%);
     position: absolute;
     z-index: 1;
     align: top;
@@ -22,7 +21,12 @@ img{
 .panel{
     width:60%;
     height:70%;
-    background: #22262F;
+    background-image:linear-gradient(
+            rgba(98, 90, 218, 0.34),
+    #22262F
+    ),
+    url(../assets/background.png);
+    background-position: center;
     position: absolute;
     left:50%;
     border-radius: 10px;
@@ -52,8 +56,8 @@ img{
     position: absolute;
     left: 50%;
     transform: translate(-50%, -50%);
-    top:25%;
-    font-size: 8vw;
+    top: 0;
+    font-size: 2vw;
     color: #fff;
 }
 
@@ -203,4 +207,16 @@ li {
 
 .light {
     text-align: center;
+}
+
+img {
+    position: absolute;
+    margin: auto;
+    height: 250px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 20%;
+    box-shadow: 0 5px 8px rgba(98, 90, 238, 0.45), 0 5px 8px rgba(98, 90, 238, 0.25);
+    border-radius: 10%;
 }
