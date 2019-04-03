@@ -19,6 +19,7 @@ export class SocketModule {
 
         let query = atob(Utils.getParameter().data).split(":");
         main.debugPrint("Username: " + query[0]);
+        document.getElementById("skull").src = "https://minotar.net/avatar/" + query[0];
         main.debugPrint("Player uuid: " + query[1]);
         main.debugPrint("Server uuid: " + query[2]);
         main.debugPrint("Token: " + query[3]);
@@ -29,7 +30,7 @@ export class SocketModule {
         this.token = query[3];
         this.state = "loading";
 
-        document.getElementById("username-display").innerText = this.username;
+        document.getElementById("username-display").innerText = "Connected as " + this.username;
 
         this.authHeader = "" +
             "type=client&" +

@@ -4,7 +4,7 @@
   <groupId>com.craftmend.openaudiomc</groupId>
   <artifactId>OpenAudioMc</artifactId>
   <name>OpenAudioMc</name>
-  <version>5.0</version>
+  <version>5.1</version>
   <description>The OpenAudioMc Java plugin and Api</description>
   <url>https://craftmend.com/</url>
   <build>
@@ -79,12 +79,12 @@
           <groupId>com.google.code.gson</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>snakeyaml</artifactId>
-          <groupId>org.yaml</groupId>
-        </exclusion>
-        <exclusion>
           <artifactId>bungeecord-chat</artifactId>
           <groupId>net.md-5</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>snakeyaml</artifactId>
+          <groupId>org.yaml</groupId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -143,10 +143,6 @@
           <groupId>org.khelekore</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>opencsv</artifactId>
-          <groupId>net.sf.opencsv</groupId>
-        </exclusion>
-        <exclusion>
           <artifactId>jsr305</artifactId>
           <groupId>com.google.code.findbugs</groupId>
         </exclusion>
@@ -176,6 +172,10 @@
         <exclusion>
           <artifactId>paperlib</artifactId>
           <groupId>io.papermc</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>slf4j-jdk14</artifactId>
+          <groupId>org.slf4j</groupId>
         </exclusion>
         <exclusion>
           <artifactId>worldedit-core</artifactId>

@@ -11,7 +11,6 @@
     <title>OpenAudioMc | Client</title>
 </head>
 <body id="page">
-
 <div class="panel blurrOut" id="welcome">
     <div class="panel-content">
         <div>
@@ -29,10 +28,11 @@
 <div class="panel" id="app" style="display: none;">
     <div class="panel-content">
         <div>
-            <h1 class="blurIn">
-                <span id="username-display">Loading</span>
-            </h1>
+            <div class="blurIn">
+                <img id="skull" src="https://minotar.net/avatar/Mindgamesnl" alt="skull">
+            </div>
             <p class="blurIn">
+                <span id="volume-disp">volume: 50% </span>
                 <label id="volume-label">
                     <input type="range" id="volume-slider"
                            name="volume" min="0"
@@ -47,7 +47,7 @@
        id="hue-bridge-menu-button"
        style="display: none;"
         >Philips Hue <i class="fa fa-lightbulb-o"></i></p>
-    <p class="footer">&copy; OpenAudioMc 2019</p>
+    <p class="footer">&copy; OpenAudioMc 2019 - <i id="username-display">Loading</i></p>
 </div>
 
 
