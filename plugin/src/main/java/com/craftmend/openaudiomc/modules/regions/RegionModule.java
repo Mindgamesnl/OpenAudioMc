@@ -94,6 +94,23 @@ public class RegionModule {
         return regions;
     }
 
+    public List<String> getRegionIds(Location location) {
+        List<String> regions = new ArrayList<>();
+        if (regionsVersion == RegionsVersion.V113) {
+            RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+            RegionQuery query = container.createQuery();
+            ApplicableRegionSet set = query.getApplicableRegions(BukkitAdapter.adapt(location));
+            for (ProtectedRegion region : set.getRegions()) {
+                regions.add(region.getId());
+            }
+        } else {
+            for (ProtectedRegion region : WGBukkit.getRegionManager(location.getWorld()).getApplicableRegions(location).getRegions()) {
+                regions.add(region.getId());
+            }
+        }
+        return regions;
+    }
+
     public List<IRegion> getRegions(Location location) {
         if (regionsVersion == RegionsVersion.V113) {
             RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
