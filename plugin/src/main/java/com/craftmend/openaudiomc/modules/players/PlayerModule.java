@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.modules.players.commands.ConnectCommand;
 import com.craftmend.openaudiomc.modules.players.listeners.PlayerConnectionListener;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -30,7 +31,18 @@ public class PlayerModule {
      * @return the client that corresponds to the player. can be null
      */
     public Client getClient(UUID uuid) {
-        return clientMap.get(uuid);
+        Client proposedClient = clientMap.get(uuid);
+
+        if (proposedClient != null) return proposedClient;
+
+        // check if the player is real
+        Player target = Bukkit.getPlayer(uuid);
+        if (target != null && target.isOnline()) {
+            register(target);
+            return getClient(uuid);
+        }
+
+        return null;
     }
 
     /**

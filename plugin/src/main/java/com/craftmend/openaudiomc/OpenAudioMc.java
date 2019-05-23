@@ -96,5 +96,8 @@ public final class OpenAudioMc extends JavaPlugin {
     @Override
     public void onDisable() {
         configurationModule.saveAll();
+        if (this.networkingService.isConnected()) {
+            this.networkingService.shutDown();
+        }
     }
 }
