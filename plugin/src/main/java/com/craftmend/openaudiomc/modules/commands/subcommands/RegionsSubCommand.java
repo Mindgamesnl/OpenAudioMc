@@ -15,10 +15,12 @@ public class RegionsSubCommand extends SubCommand {
         super("region");
         registerArguments(
                 new Argument("create <WG-region> <source>",
-                        "Assigns a sound to a WorldGuard region by name"),
+                        "Assigns a sound to a WorldGuard region by name",
+                        -1),
 
                 new Argument("delete <WG-region>",
-                        "Unlink the sound from a WorldGuard specific region by name")
+                        "Unlink the sound from a WorldGuard specific region by name",
+                        -1)
         );
         this.openAudioMc = openAudioMc;
     }
