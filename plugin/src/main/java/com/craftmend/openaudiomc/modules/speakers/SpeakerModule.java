@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.modules.speakers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
+import com.craftmend.openaudiomc.modules.server.enums.ServerVersion;
 import com.craftmend.openaudiomc.modules.speakers.listeners.SpeakerCreateListener;
 import com.craftmend.openaudiomc.modules.speakers.listeners.SpeakerDestroyListener;
 import com.craftmend.openaudiomc.modules.speakers.objects.ApplicableSpeaker;
@@ -27,18 +28,16 @@ public class SpeakerModule {
     private Map<SimpleLocation, Speaker> speakerMap = new HashMap<>();
     private Map<String, SpeakerMedia> speakerMediaMap = new HashMap<>();
     private Material playerSkullItem;
-    private Boolean isModernMinecraft;
+    private ServerVersion version;
 
     public SpeakerModule(OpenAudioMc openAudioMc) {
         openAudioMc.getServer().getPluginManager().registerEvents(new SpeakerCreateListener(openAudioMc, this), openAudioMc);
         openAudioMc.getServer().getPluginManager().registerEvents(new SpeakerDestroyListener(openAudioMc, this), openAudioMc);
 
-        isModernMinecraft = (
-                Bukkit.getServer().getClass().getPackage().getName().contains("1.13")
-                        ||
-                        Bukkit.getServer().getClass().getPackage().getName().contains("1.14"));
+        version = openAudioMc.getServerModule().getVersion();
 
-        if (isModernMinecraft) {
+
+        if (version == ServerVersion.MODERN) {
             System.out.println(OpenAudioMc.getLOG_PREFIX() + "Enabling the 1.13 speaker system");
             playerSkullItem = Material.PLAYER_HEAD;
         } else {
@@ -153,7 +152,7 @@ public class SpeakerModule {
     public Boolean isSpeakerSkull(Block block) {
         if (block.getState() != null && block.getState() instanceof Skull) {
             Skull skull = (Skull) block.getState();
-            if (isModernMinecraft) {
+            if (version == ServerVersion.MODERN) {
                 if (skull.getOwningPlayer() == null) return false;
                 return skull.getOwningPlayer().getName().equals("OpenAudioMc");
             } else {
