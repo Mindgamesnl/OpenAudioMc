@@ -39,14 +39,14 @@ public class RegionsSubCommand extends SubCommand {
             args[1] = args[1].toLowerCase();
             openAudioMc.getConfigurationModule().getDataConfig().set("regions." + args[1], args[2]);
             openAudioMc.getRegionModule().registerRegion(args[1], new RegionProperties(args[2]));
-            message(sender, "Thw WorldGuard region with the id " + args[0] + " now has the sound " + args[2]);
+            message(sender, "Thw WorldGuard region with the id " + args[1] + " now has the sound " + args[3]);
             return;
         }
 
         if (args[0].equalsIgnoreCase("delete") && args.length == 2) {
             openAudioMc.getConfigurationModule().getDataConfig().set("regions." + args[1], null);
             openAudioMc.getRegionModule().removeRegion(args[1]);
-            message(sender, "Thw WorldGuard region with the id " + args[0] + " lo longer has any sound linked to it since it has now been removed.");
+            message(sender, "Thw WorldGuard region with the id " + args[1] + " no longer has a sound linked to it.");
             return;
         }
 

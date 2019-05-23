@@ -4,7 +4,6 @@
   "description": "",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "chmod +x compile.sh && ./compile.sh"
   },
   "keywords": [],

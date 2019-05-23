@@ -162,20 +162,24 @@
       <scope>provided</scope>
       <exclusions>
         <exclusion>
-          <artifactId>dummypermscompat</artifactId>
-          <groupId>com.sk89q</groupId>
+          <artifactId>bukkit</artifactId>
+          <groupId>com.sk89q.worldedit.worldedit-libs</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>bstats-bukkit</artifactId>
-          <groupId>org.bstats</groupId>
+          <artifactId>dummypermscompat</artifactId>
+          <groupId>com.sk89q</groupId>
         </exclusion>
         <exclusion>
           <artifactId>paperlib</artifactId>
           <groupId>io.papermc</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>slf4j-jdk14</artifactId>
-          <groupId>org.slf4j</groupId>
+          <artifactId>log4j-slf4j-impl</artifactId>
+          <groupId>org.apache.logging.log4j</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>bstats-bukkit</artifactId>
+          <groupId>org.bstats</groupId>
         </exclusion>
         <exclusion>
           <artifactId>worldedit-core</artifactId>

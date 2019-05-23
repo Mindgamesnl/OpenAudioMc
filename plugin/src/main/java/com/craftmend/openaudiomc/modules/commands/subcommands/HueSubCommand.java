@@ -19,7 +19,8 @@ public class HueSubCommand extends SubCommand {
         super("hue");
         registerArguments(
                 new Argument("set <selector> <lights> <r> <g> <b> <brightness>",
-                        "Set the HUE lights of a specific selector to a RGBA value. The lights selection is a JSON array, like [1,2,3]")
+                        "Set the HUE lights of a specific selector to a RGBA value. The lights selection is a JSON array, like [1,2,3]",
+                        1)
         );
         this.openAudioMc = openAudioMc;
     }
