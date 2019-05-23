@@ -23,20 +23,24 @@ import java.util.*;
 
 public class SpeakerModule {
 
-    @Getter private Map<SimpleLocation, Speaker> speakerMap = new HashMap<>();
+    @Getter
+    private Map<SimpleLocation, Speaker> speakerMap = new HashMap<>();
     private Map<String, SpeakerMedia> speakerMediaMap = new HashMap<>();
     private Material playerSkullItem;
-    private Boolean is113;
+    private Boolean isModernMinecraft;
 
     public SpeakerModule(OpenAudioMc openAudioMc) {
         openAudioMc.getServer().getPluginManager().registerEvents(new SpeakerCreateListener(openAudioMc, this), openAudioMc);
         openAudioMc.getServer().getPluginManager().registerEvents(new SpeakerDestroyListener(openAudioMc, this), openAudioMc);
 
-        boolean isMinecraft13 = Bukkit.getServer().getClass().getPackage().getName().contains("1.13");
-        if (isMinecraft13) {
+        isModernMinecraft = (
+                Bukkit.getServer().getClass().getPackage().getName().contains("1.13")
+                        ||
+                        Bukkit.getServer().getClass().getPackage().getName().contains("1.14"));
+
+        if (isModernMinecraft) {
             System.out.println(OpenAudioMc.getLOG_PREFIX() + "Enabling the 1.13 speaker system");
             playerSkullItem = Material.PLAYER_HEAD;
-            is113 = true;
         } else {
             System.out.println(OpenAudioMc.getLOG_PREFIX() + "Enabling the 1.12 speaker system");
             try {
@@ -45,17 +49,18 @@ public class SpeakerModule {
             } catch (Exception e) {
                 System.out.println(OpenAudioMc.getLOG_PREFIX() + "Failed hook speakers attempt 1..");
             }
+
             try {
                 System.out.println(OpenAudioMc.getLOG_PREFIX() + "Hooking speakers attempt 2..");
                 playerSkullItem = Material.valueOf("LEGACY_SKULL_ITEM");
             } catch (Exception e) {
                 System.out.println(OpenAudioMc.getLOG_PREFIX() + "Failed hook speakers attempt 2..");
             }
+
             if (playerSkullItem == null) {
                 System.out.println(OpenAudioMc.getLOG_PREFIX() + "Speakers failed to hook. Hooking to a block.");
                 playerSkullItem = Material.JUKEBOX;
             }
-            is113 = false;
         }
 
         //load speakers
@@ -83,32 +88,32 @@ public class SpeakerModule {
         }, 5, 5);
     }
 
-public Collection<ApplicableSpeaker> getApplicableSpeakers(Location location) {
-    List<Speaker> applicableSpeakers = new ArrayList<>(speakerMap.values());
-    Map<String, ApplicableSpeaker> distanceMap = new HashMap<>();
+    public Collection<ApplicableSpeaker> getApplicableSpeakers(Location location) {
+        List<Speaker> applicableSpeakers = new ArrayList<>(speakerMap.values());
+        Map<String, ApplicableSpeaker> distanceMap = new HashMap<>();
 
-    applicableSpeakers.removeIf(speaker -> !speaker.getLocation().getWorld()
-            .equals(location.getWorld().getName()));
-    applicableSpeakers.removeIf(speaker -> speaker.getLocation().toBukkit()
-            .distance(location) > speaker.getRadius());
-    applicableSpeakers.removeIf(speaker ->
-            !isSpeakerSkull(speaker.getLocation().getBlock()));
+        applicableSpeakers.removeIf(speaker -> !speaker.getLocation().getWorld()
+                .equals(location.getWorld().getName()));
+        applicableSpeakers.removeIf(speaker -> speaker.getLocation().toBukkit()
+                .distance(location) > speaker.getRadius());
+        applicableSpeakers.removeIf(speaker ->
+                !isSpeakerSkull(speaker.getLocation().getBlock()));
 
-    for (Speaker speaker : applicableSpeakers) {
-        int distance = Math.toIntExact(Math.round(speaker.getLocation().toBukkit()
-                .distance(location)));
+        for (Speaker speaker : applicableSpeakers) {
+            int distance = Math.toIntExact(Math.round(speaker.getLocation().toBukkit()
+                    .distance(location)));
 
-        if (distanceMap.get(speaker.getSource()) == null) {
-            distanceMap.put(speaker.getSource(), new ApplicableSpeaker(distance, speaker));
-        } else {
-            if (distance < distanceMap.get(speaker.getSource()).getDistance()) {
+            if (distanceMap.get(speaker.getSource()) == null) {
                 distanceMap.put(speaker.getSource(), new ApplicableSpeaker(distance, speaker));
+            } else {
+                if (distance < distanceMap.get(speaker.getSource()).getDistance()) {
+                    distanceMap.put(speaker.getSource(), new ApplicableSpeaker(distance, speaker));
+                }
             }
         }
-    }
 
-    return distanceMap.values();
-}
+        return distanceMap.values();
+    }
 
     public void registerSpeaker(SimpleLocation simpleLocation, String source, UUID uuid, int radius) {
         Speaker speaker = new Speaker(source, uuid, radius, simpleLocation);
@@ -148,7 +153,7 @@ public Collection<ApplicableSpeaker> getApplicableSpeakers(Location location) {
     public Boolean isSpeakerSkull(Block block) {
         if (block.getState() != null && block.getState() instanceof Skull) {
             Skull skull = (Skull) block.getState();
-            if (is113) {
+            if (isModernMinecraft) {
                 if (skull.getOwningPlayer() == null) return false;
                 return skull.getOwningPlayer().getName().equals("OpenAudioMc");
             } else {
