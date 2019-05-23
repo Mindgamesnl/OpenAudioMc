@@ -1,19 +1,20 @@
 package com.craftmend.openaudiomc;
 
-import com.craftmend.openaudiomc.modules.api.objects.OpenAudioApi;
-import com.craftmend.openaudiomc.modules.media.MediaModule;
-import com.craftmend.openaudiomc.modules.server.ServerModule;
+import com.craftmend.openaudiomc.services.time.TimeService;
 import com.craftmend.openaudiomc.services.authentication.AuthenticationService;
-import com.craftmend.openaudiomc.modules.commands.CommandModule;
-import com.craftmend.openaudiomc.modules.configuration.ConfigurationModule;
 import com.craftmend.openaudiomc.services.networking.NetworkingService;
 import com.craftmend.openaudiomc.services.networking.addapter.AbstractPacketAdapter;
 import com.craftmend.openaudiomc.services.networking.abstracts.AbstractPacketPayload;
+
+import com.craftmend.openaudiomc.modules.api.objects.OpenAudioApi;
+import com.craftmend.openaudiomc.modules.media.MediaModule;
+import com.craftmend.openaudiomc.modules.server.ServerModule;
+import com.craftmend.openaudiomc.modules.commands.CommandModule;
+import com.craftmend.openaudiomc.modules.configuration.ConfigurationModule;
 import com.craftmend.openaudiomc.modules.players.PlayerModule;
 import com.craftmend.openaudiomc.modules.regions.RegionModule;
 import com.craftmend.openaudiomc.modules.speakers.SpeakerModule;
 
-import com.craftmend.openaudiomc.services.time.TimeService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
