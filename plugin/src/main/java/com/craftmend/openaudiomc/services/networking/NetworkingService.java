@@ -81,6 +81,11 @@ public class NetworkingService {
         return socketIoConnector.getIsConnected();
     }
 
+
+    public void shutDown() {
+        this.socketIoConnector.disconnect();
+    }
+
     /**
      * check the state
      *
