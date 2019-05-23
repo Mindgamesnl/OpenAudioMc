@@ -6,7 +6,7 @@
 
     <groupId>com.craftmend.openaudiomc</groupId>
     <artifactId>OpenAudioMc</artifactId>
-    <version>5.2</version>
+    <version>5.3</version>
     <packaging>jar</packaging>
 
     <name>OpenAudioMc</name>

@@ -1,5 +1,5 @@
 name: OpenAudioMc
-version: 5.2
+version: 5.3
 softdepend: [WorldGuard]
 main: com.craftmend.openaudiomc.OpenAudioMc
 api-version: 1.13
