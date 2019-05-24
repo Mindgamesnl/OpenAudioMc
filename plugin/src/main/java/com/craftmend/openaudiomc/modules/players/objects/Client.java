@@ -65,7 +65,8 @@ public class Client extends WebConnection {
                 playMedia(new Media(startSound));
             }
         }, 20);
-        Bukkit.getServer().getPluginManager().callEvent(new ClientConnectEvent(player, this));
+
+        Bukkit.getScheduler().runTask(OpenAudioMc.getInstance(), () -> Bukkit.getServer().getPluginManager().callEvent(new ClientConnectEvent(player, this)));
     }
 
     /**
@@ -74,7 +75,7 @@ public class Client extends WebConnection {
     public void onDisconnect() {
         this.isConnected = false;
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.client-closed")));
-        Bukkit.getServer().getPluginManager().callEvent(new ClientDisconnectEvent(player));
+        Bukkit.getScheduler().runTask(OpenAudioMc.getInstance(), () -> Bukkit.getServer().getPluginManager().callEvent(new ClientDisconnectEvent(player)));
     }
 
     /**
