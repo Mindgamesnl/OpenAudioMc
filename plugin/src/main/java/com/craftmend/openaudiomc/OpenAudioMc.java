@@ -1,18 +1,20 @@
 package com.craftmend.openaudiomc;
 
-import com.craftmend.openaudiomc.modules.api.objects.OpenAudioApi;
-import com.craftmend.openaudiomc.modules.media.MediaModule;
+import com.craftmend.openaudiomc.services.time.TimeService;
 import com.craftmend.openaudiomc.services.authentication.AuthenticationService;
-import com.craftmend.openaudiomc.modules.commands.CommandModule;
-import com.craftmend.openaudiomc.modules.configuration.ConfigurationModule;
 import com.craftmend.openaudiomc.services.networking.NetworkingService;
 import com.craftmend.openaudiomc.services.networking.addapter.AbstractPacketAdapter;
 import com.craftmend.openaudiomc.services.networking.abstracts.AbstractPacketPayload;
+
+import com.craftmend.openaudiomc.modules.api.objects.OpenAudioApi;
+import com.craftmend.openaudiomc.modules.media.MediaModule;
+import com.craftmend.openaudiomc.modules.server.ServerModule;
+import com.craftmend.openaudiomc.modules.commands.CommandModule;
+import com.craftmend.openaudiomc.modules.configuration.ConfigurationModule;
 import com.craftmend.openaudiomc.modules.players.PlayerModule;
 import com.craftmend.openaudiomc.modules.regions.RegionModule;
 import com.craftmend.openaudiomc.modules.speakers.SpeakerModule;
 
-import com.craftmend.openaudiomc.services.time.TimeService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
@@ -35,12 +37,14 @@ public final class OpenAudioMc extends JavaPlugin {
     /**
      * modules that make up the plugin
      *
+     * - server module (loads version info)
      * - configuration module (loads user data)
      * - player module (manages player connections)
      * - region module (OPTIONAL) (only loads regions if WorldGuard is enabled)
      * - command module (registers and loads the OpenAudioMc commands)
      * - media module (loads and manages all media in the service)
      */
+    private ServerModule serverModule;
     private ConfigurationModule configurationModule;
     private PlayerModule playerModule;
     private RegionModule regionModule;
@@ -75,6 +79,7 @@ public final class OpenAudioMc extends JavaPlugin {
         instance = this;
 
         //startup modules and services
+        this.serverModule = new ServerModule();
         this.timeService = new TimeService();
         this.mediaModule = new MediaModule();
         this.configurationModule = new ConfigurationModule(this);
@@ -96,5 +101,8 @@ public final class OpenAudioMc extends JavaPlugin {
     @Override
     public void onDisable() {
         configurationModule.saveAll();
+        if (this.networkingService.isConnected()) {
+            this.networkingService.shutDown();
+        }
     }
 }

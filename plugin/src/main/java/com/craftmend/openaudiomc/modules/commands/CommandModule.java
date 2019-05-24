@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.modules.commands.command.VolumeCommand;
 import com.craftmend.openaudiomc.modules.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.modules.commands.middleware.CommandTranslationMiddleware;
 import com.craftmend.openaudiomc.modules.commands.subcommands.*;
+import com.craftmend.openaudiomc.modules.server.enums.ServerVersion;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -39,9 +40,11 @@ public class CommandModule {
         registerSubCommand(new ReloadSubCommand());
 
         // if it is a older version, register the middleware
-        String classPath = Bukkit.getServer().getClass().getPackage().getName();
-        if (!classPath.contains("1.14") && !classPath.contains("1.13")) {
-            openAudioMc.getServer().getPluginManager().registerEvents(new CommandTranslationMiddleware(openAudioMc), openAudioMc);
+        if (openAudioMc.getServerModule().getVersion() == ServerVersion.LEGACY) {
+            openAudioMc.getServer().getPluginManager().registerEvents(
+                    new CommandTranslationMiddleware(openAudioMc),
+                    openAudioMc
+            );
         }
     }
 
