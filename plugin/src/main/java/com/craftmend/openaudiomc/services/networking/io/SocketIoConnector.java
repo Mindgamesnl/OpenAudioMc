@@ -85,6 +85,10 @@ public class SocketIoConnector {
         });
     }
 
+    public void disconnect() {
+        this.socket.disconnect();
+    }
+
     private Boolean canConnect() {
         return (!isConnecting && !isConnected);
     }
