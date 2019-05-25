@@ -17,8 +17,7 @@ public class SpeakersSubCommand extends SubCommand {
         registerArguments(
                 new Argument("<source>",
                         "Gives you a speaker block with you can place anywhere in the word. " +
-                                "The speaker will play the sound you entered in the argument",
-                        -1)
+                                "The speaker will play the sound you entered in the argument")
         );
         this.openAudioMc = openAudioMc;
     }

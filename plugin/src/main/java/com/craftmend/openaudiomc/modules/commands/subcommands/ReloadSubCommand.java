@@ -9,7 +9,7 @@ public class ReloadSubCommand extends SubCommand {
 
     public ReloadSubCommand() {
         super("reload");
-        registerArguments(new Argument("", "Reloads the config.yml file", -1));
+        registerArguments(new Argument("", "Reloads the config.yml file"));
     }
 
     @Override
