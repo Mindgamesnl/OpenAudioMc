@@ -18,11 +18,9 @@ public class StopSubCommand extends SubCommand {
         super("stop");
         registerArguments(
                 new Argument("<selector>",
-                        "Stops all manual sounds for all players in a selection",
-                        0),
+                        "Stops all manual sounds for all players in a selection"),
                 new Argument("<selector> <sound-ID>",
-                        "Only stops one specified sound for all players in the selection with a selected ID",
-                        0)
+                        "Only stops one specified sound for all players in the selection with a selected ID")
         );
         this.openAudioMc = openAudioMc;
     }

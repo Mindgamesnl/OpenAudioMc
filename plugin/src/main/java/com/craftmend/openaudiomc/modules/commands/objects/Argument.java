@@ -15,6 +15,5 @@ public class Argument {
      */
     private String syntax;
     private String description;
-    private int selector; // the index of the selector, -1 if none
 
 }
