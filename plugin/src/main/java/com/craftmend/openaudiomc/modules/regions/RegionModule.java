@@ -2,12 +2,16 @@ package com.craftmend.openaudiomc.modules.regions;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
+import com.craftmend.openaudiomc.modules.regions.adapters.LegacyRegionAdapter;
+import com.craftmend.openaudiomc.modules.regions.adapters.ModernRegionAdapter;
 import com.craftmend.openaudiomc.modules.regions.enums.RegionsVersion;
+import com.craftmend.openaudiomc.modules.regions.interfaces.AbstractRegionAdapter;
 import com.craftmend.openaudiomc.modules.regions.objects.IRegion;
 import com.craftmend.openaudiomc.modules.regions.objects.Region;
 import com.craftmend.openaudiomc.modules.regions.objects.RegionMedia;
 import com.craftmend.openaudiomc.modules.regions.objects.RegionProperties;
 
+import com.craftmend.openaudiomc.modules.server.enums.ServerVersion;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WGBukkit;
@@ -20,6 +24,7 @@ import lombok.Getter;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
@@ -28,27 +33,26 @@ public class RegionModule {
     @Getter
     private Map<String, RegionProperties> regionPropertiesMap = new HashMap<>();
     private Map<String, RegionMedia> regionMediaMap = new HashMap<>();
-    private RegionsVersion regionsVersion;
+    @Getter private AbstractRegionAdapter regionAdapter;
 
     public RegionModule(OpenAudioMc openAudioMc) {
         System.out.println(OpenAudioMc.getLOG_PREFIX() + "Turns out you have WorldGuard installed! enabling regions and the region tasks..");
 
-        boolean isMinecraft13 = Bukkit.getServer().getClass().getPackage().getName().contains("1.13");
-        if (isMinecraft13) {
+        if (openAudioMc.getServerModule().getVersion() == ServerVersion.MODERN) {
             System.out.println(OpenAudioMc.getLOG_PREFIX() + "Enabling the newer 1.13 regions");
-            regionsVersion = RegionsVersion.V113;
+            regionAdapter = new ModernRegionAdapter(this);
         } else {
             System.out.println(OpenAudioMc.getLOG_PREFIX() + "Unknown version. Falling back to the 1.8 to 1.12 region implementation.");
-            regionsVersion = RegionsVersion.V112;
+            regionAdapter = new LegacyRegionAdapter(this);
         }
 
         //validate detection
-        if (regionsVersion == RegionsVersion.V112) {
+        if (openAudioMc.getServerModule().getVersion() == ServerVersion.LEGACY) {
             try {
                 Class.forName("com.sk89q.worldguard.bukkit.WGBukkit");
             } catch (ClassNotFoundException e) {
                 System.out.println(OpenAudioMc.getLOG_PREFIX() + "Wrong world guard detection! re-switching to 1.13");
-                regionsVersion = RegionsVersion.V113;
+                regionAdapter = new ModernRegionAdapter(this);
             }
         }
 
@@ -57,11 +61,14 @@ public class RegionModule {
             registerRegion(region, new RegionProperties(openAudioMc.getConfigurationModule().getDataConfig().getString("regions." + region + "")));
         }
 
-        Bukkit.getScheduler().scheduleAsyncRepeatingTask(openAudioMc, () -> {
-            for (Client client : openAudioMc.getPlayerModule().getClients()) {
-                if (client.getIsConnected()) client.getRegionHandler().tickRegions();
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (Client client : openAudioMc.getPlayerModule().getClients()) {
+                    if (client.getIsConnected()) client.getRegionHandler().tickRegions();
+                }
             }
-        }, 10, 10);
+        }.runTaskTimerAsynchronously(openAudioMc, 10, 10);
     }
 
     public void registerRegion(String id, RegionProperties propperties) {
@@ -79,47 +86,4 @@ public class RegionModule {
         regionMediaMap.put(source, regionMedia);
         return regionMedia;
     }
-
-    private List<IRegion> handleRegions(Set<ProtectedRegion> collection) {
-        List<IRegion> regions = new ArrayList<>();
-        int prio = 0;
-        for (ProtectedRegion r : collection) {
-            if (regionPropertiesMap.get(r.getId()) == null) continue;
-            if (r.getPriority() > prio) {
-                prio = r.getPriority();
-                regions.clear();
-            }
-            regions.add(new Region(r.getId(), regionPropertiesMap.get(r.getId())));
-        }
-        return regions;
-    }
-
-    public List<String> getRegionIds(Location location) {
-        List<String> regions = new ArrayList<>();
-        if (regionsVersion == RegionsVersion.V113) {
-            RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
-            RegionQuery query = container.createQuery();
-            ApplicableRegionSet set = query.getApplicableRegions(BukkitAdapter.adapt(location));
-            for (ProtectedRegion region : set.getRegions()) {
-                regions.add(region.getId());
-            }
-        } else {
-            for (ProtectedRegion region : WGBukkit.getRegionManager(location.getWorld()).getApplicableRegions(location).getRegions()) {
-                regions.add(region.getId());
-            }
-        }
-        return regions;
-    }
-
-    public List<IRegion> getRegions(Location location) {
-        if (regionsVersion == RegionsVersion.V113) {
-            RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
-            RegionQuery query = container.createQuery();
-            ApplicableRegionSet set = query.getApplicableRegions(BukkitAdapter.adapt(location));
-            return handleRegions(set.getRegions());
-        } else {
-            return handleRegions(WGBukkit.getRegionManager(location.getWorld()).getApplicableRegions(location).getRegions());
-        }
-    }
-
 }
