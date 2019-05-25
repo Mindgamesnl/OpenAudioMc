@@ -4,28 +4,13 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
 import com.craftmend.openaudiomc.modules.regions.adapters.LegacyRegionAdapter;
 import com.craftmend.openaudiomc.modules.regions.adapters.ModernRegionAdapter;
-import com.craftmend.openaudiomc.modules.regions.enums.RegionsVersion;
 import com.craftmend.openaudiomc.modules.regions.interfaces.AbstractRegionAdapter;
-import com.craftmend.openaudiomc.modules.regions.objects.IRegion;
-import com.craftmend.openaudiomc.modules.regions.objects.Region;
 import com.craftmend.openaudiomc.modules.regions.objects.RegionMedia;
 import com.craftmend.openaudiomc.modules.regions.objects.RegionProperties;
-
 import com.craftmend.openaudiomc.modules.server.enums.ServerVersion;
-import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldguard.WorldGuard;
-import com.sk89q.worldguard.bukkit.WGBukkit;
-import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-import com.sk89q.worldguard.protection.regions.RegionContainer;
-import com.sk89q.worldguard.protection.regions.RegionQuery;
 
 import lombok.Getter;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
-
 import java.util.*;
 
 public class RegionModule {
@@ -57,15 +42,23 @@ public class RegionModule {
         }
 
         //load config
-        for (String region : openAudioMc.getConfigurationModule().getDataConfig().getConfigurationSection("regions").getKeys(false)) {
-            registerRegion(region, new RegionProperties(openAudioMc.getConfigurationModule().getDataConfig().getString("regions." + region + "")));
+        for (String region : openAudioMc.getConfigurationModule().getDataConfig().getConfigurationSection("regions")
+                .getKeys(false)) {
+
+            // before we actually add it, we should check if the WG region still exists, to lesser load
+            if (regionAdapter.doesRegionExist(region.toLowerCase())) {
+
+                String source = openAudioMc.getConfigurationModule().getDataConfig().getString("regions." + region + "");
+                RegionProperties properties = new RegionProperties(source);
+                registerRegion(region, properties);
+            }
         }
 
         new BukkitRunnable() {
             @Override
             public void run() {
                 for (Client client : openAudioMc.getPlayerModule().getClients()) {
-                    if (client.getIsConnected()) client.getRegionHandler().tickRegions();
+                    if (client.getIsConnected()) client.getRegionHandler().tick();
                 }
             }
         }.runTaskTimerAsynchronously(openAudioMc, 10, 10);

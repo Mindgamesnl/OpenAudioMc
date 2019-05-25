@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.modules.players.handlers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.modules.players.interfaces.ITickableHandler;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
 import com.craftmend.openaudiomc.modules.regions.objects.IRegion;
 import com.craftmend.openaudiomc.services.networking.packets.PacketClientDestroyMedia;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
-public class RegionHandler {
+public class RegionHandler implements ITickableHandler {
 
     private Player player;
     private Client client;
@@ -19,7 +20,8 @@ public class RegionHandler {
     /**
      * update regions based on the players location
      */
-    public void tickRegions() {
+    @Override
+    public void tick() {
         if (OpenAudioMc.getInstance().getRegionModule() != null) {
             //regions are enabled
             List<IRegion> detectedRegions = OpenAudioMc.getInstance().getRegionModule()

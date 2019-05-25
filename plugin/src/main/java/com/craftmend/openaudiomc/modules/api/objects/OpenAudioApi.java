@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.modules.media.interfaces.UrlMutation;
 import com.craftmend.openaudiomc.modules.players.interfaces.ClientConnection;
+import com.craftmend.openaudiomc.modules.players.objects.Session;
 import com.craftmend.openaudiomc.modules.regions.objects.IRegion;
 import com.craftmend.openaudiomc.modules.speakers.objects.SimpleLocation;
 import com.craftmend.openaudiomc.modules.speakers.objects.Speaker;
@@ -79,6 +80,16 @@ public class OpenAudioApi {
      */
     public Speaker getSpeaker(Location location) {
         return OpenAudioMc.getInstance().getSpeakerModule().getSpeaker(new SimpleLocation(location));
+    }
+
+    /**
+     * Get the current session token for a player
+     *
+     * @param player
+     * @return
+     */
+    public Session getSession(Player player) {
+        return getClient(player.getUniqueId()).getSession();
     }
 
 }
