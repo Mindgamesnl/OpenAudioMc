@@ -22,7 +22,8 @@ public class RegionHandler {
     public void tickRegions() {
         if (OpenAudioMc.getInstance().getRegionModule() != null) {
             //regions are enabled
-            List<IRegion> detectedRegions = OpenAudioMc.getInstance().getRegionModule().getRegions(player.getLocation());
+            List<IRegion> detectedRegions = OpenAudioMc.getInstance().getRegionModule()
+                    .getRegionAdapter().getAudioRegions(player.getLocation());
 
             List<IRegion> enteredRegions = new ArrayList<>(detectedRegions);
             enteredRegions.removeIf(t -> containsRegion(client.getRegions(), t));

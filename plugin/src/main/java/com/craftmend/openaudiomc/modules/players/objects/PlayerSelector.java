@@ -57,17 +57,22 @@ public class PlayerSelector {
             if (getArgument("region").length() != 0) {
                 RegionModule regionModule = OpenAudioMc.getInstance().getRegionModule();
                 String targetRegion = getArgument("region");
+
                 if (regionModule != null) {
+
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        for (String region : regionModule.getRegionIds(player.getLocation())) {
-                            if (region.equalsIgnoreCase(targetRegion)) {
+                        regionModule.getRegionAdapter()
+                                .getRegionsAtLocation(player.getLocation(standPoint)).forEach(region -> {
+                            if (region.getId().equalsIgnoreCase(targetRegion)) {
                                 players.add(player);
                             }
-                        }
+                        });
                     }
+
                 } else {
                     commandSender.sendMessage(OpenAudioMc.getLOG_PREFIX() + "You dont have worldguard installed. Skipping the region argument.");
                 }
+
             } else if (getArgument("r").length() != 0) {
                 players.addAll(Bukkit.getOnlinePlayers().stream()
                         .filter(player -> player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))

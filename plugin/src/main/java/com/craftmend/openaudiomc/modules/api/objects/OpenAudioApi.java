@@ -67,7 +67,7 @@ public class OpenAudioApi {
      */
     public List<IRegion> getRegion(Location location) {
         if (OpenAudioMc.getInstance().getRegionModule() == null) return new ArrayList<>();
-        return OpenAudioMc.getInstance().getRegionModule().getRegions(location);
+        return OpenAudioMc.getInstance().getRegionModule().getRegionAdapter().getAudioRegions(location);
     }
 
     /**
