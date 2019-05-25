@@ -36,11 +36,19 @@ WebpackShellPlugin.prototype.apply = function(compiler) {
 };
 
 const preInstall = [
-    "rm -rf dist"
+    "rm -rf dist",
+    "rm -rf target",
+    "mkdir target",
 ];
 
 const postInstall = [
-    "finishing compile"
+    "echo executing post commands",
+    "npx ./node_modules/.bin/babel --presets babel-preset-es2015-ie ./dist/OpenAudioMc.bundle.js -o ./target/OpenAudioMc.bundle.js",
+    "cp -R ./src/libs ./target/libs/",
+    "cp -R ./src/css ./target/css/",
+    "cp -R ./src/assets ./target/assets/",
+    "cp ./src/index.html ./target/index.html",
+    "echo finished post commands",
 ];
 
 module.exports = {
