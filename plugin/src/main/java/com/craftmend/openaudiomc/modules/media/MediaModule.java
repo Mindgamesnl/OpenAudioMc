@@ -4,16 +4,22 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.media.interfaces.UrlMutation;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @NoArgsConstructor
 public class MediaModule {
 
-    private Map<String, UrlMutation> urlMutations = new HashMap<>();
+    private Map<String, List<UrlMutation>> urlMutations = new HashMap<>();
 
     public void registerMutation(String host, UrlMutation urlMutation) {
-        urlMutations.put(host, urlMutation);
+        List<UrlMutation> mutatables = urlMutations.get(host);
+        if (mutatables == null) {
+            urlMutations.put(host, new ArrayList<>());
+        }
+        mutatables.add(urlMutation);
     }
 
     /**
@@ -25,7 +31,9 @@ public class MediaModule {
     public String process(String original) {
         for (String selector : urlMutations.keySet()) {
             if (original.startsWith(selector)) {
-                return urlMutations.get(selector).onRequest(OpenAudioMc.getInstance(), original);
+                for (UrlMutation urlMutation : urlMutations.get(selector)) {
+                    original = urlMutation.onRequest(OpenAudioMc.getInstance(), original);
+                }
             }
         }
         return original;
