@@ -25,7 +25,7 @@ class TokenFactory {
                 OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue() +
                 ":" +
                 key;
-        return new Session(key, new String(Base64.getEncoder().encode(url.getBytes())));
+        return new Session(client, key, new String(Base64.getEncoder().encode(url.getBytes())));
     }
 
 }

@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.modules.players.handlers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.media.objects.MediaUpdate;
+import com.craftmend.openaudiomc.modules.players.interfaces.ITickableHandler;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
 import com.craftmend.openaudiomc.modules.speakers.objects.ApplicableSpeaker;
 import com.craftmend.openaudiomc.services.networking.packets.PacketClientCreateMedia;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
-public class SpeakerHandler {
+public class SpeakerHandler implements ITickableHandler {
 
     private Player player;
     private Client client;
@@ -22,7 +23,8 @@ public class SpeakerHandler {
     /**
      * update speakers based on the players location
      */
-    public void tickSpeakers() {
+    @Override
+    public void tick() {
         List<ApplicableSpeaker> applicableSpeakers = new ArrayList<>(OpenAudioMc.getInstance().getSpeakerModule().getApplicableSpeakers(player.getLocation()));
 
         List<ApplicableSpeaker> enteredSpeakers = new ArrayList<>(applicableSpeakers);

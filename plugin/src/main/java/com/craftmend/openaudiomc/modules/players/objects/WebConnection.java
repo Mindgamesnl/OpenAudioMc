@@ -22,6 +22,10 @@ public abstract class WebConnection implements ClientConnection {
 
     WebConnection(Player player) {
         this.player = player;
+        refreshSession();
+    }
+
+    public void refreshSession() {
         session = new TokenFactory().build(this);
     }
 
