@@ -2,16 +2,25 @@ package com.craftmend.openaudiomc.modules.commands.command;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
+import lombok.AllArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+@AllArgsConstructor
 public class VolumeCommand implements CommandExecutor {
+
+    private OpenAudioMc main;
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+        if (!main.getAuthenticationService().getIsSuccesfull()) {
+            sender.sendMessage(main.getCommandModule().getCommandPrefix() + main.getAuthenticationService().getFailureMessage());
+            return true;
+        }
+
         if (sender instanceof Player) {
             Client client = OpenAudioMc.getInstance().getPlayerModule().getClient(((Player) sender).getUniqueId());
 

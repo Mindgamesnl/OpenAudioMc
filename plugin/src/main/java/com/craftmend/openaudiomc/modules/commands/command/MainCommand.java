@@ -22,6 +22,11 @@ public class MainCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
+        if (!openAudioMc.getAuthenticationService().getIsSuccesfull()) {
+            sender.sendMessage(commandModule.getCommandPrefix() + openAudioMc.getAuthenticationService().getFailureMessage());
+            return true;
+        }
+
         if (args.length == 0) {
             sender.sendMessage(commandModule.getCommandPrefix() + "OpenAudioMc version " + openAudioMc.getDescription().getVersion() + ". For help, please use /openaudio help");
             return true;

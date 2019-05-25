@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.services.authentication.objects.RequestResponse
 import com.craftmend.openaudiomc.services.authentication.objects.ServerKeySet;
 
 import lombok.Getter;
+import org.bukkit.ChatColor;
 
 import java.io.IOException;
 import java.net.URL;
@@ -14,8 +15,9 @@ import java.util.Scanner;
 
 public class AuthenticationService {
 
-    @Getter
-    private ServerKeySet serverKeySet = new ServerKeySet();
+    @Getter private ServerKeySet serverKeySet = new ServerKeySet();
+    @Getter private Boolean isSuccesfull = false;
+    @Getter private String failureMessage = ChatColor.RED + "Oh no, it looks like the initial setup of OpenAudioMc has failed. Please try to restart the server and try again, if that still does not work, please contact OpenAudioMc staff or support.";
 
     public AuthenticationService() {
         System.out.println(OpenAudioMc.getLOG_PREFIX() + "Starting authentication module");
@@ -37,16 +39,20 @@ public class AuthenticationService {
                     serverKeySet.setPublicKey(new Key(requestResponse.getPublicKey().toString()));
                     OpenAudioMc.getInstance().getConfigurationModule().getDataConfig().set("keyset.private", serverKeySet.getPrivateKey().getValue());
                     OpenAudioMc.getInstance().getConfigurationModule().getDataConfig().set("keyset.public", serverKeySet.getPublicKey().getValue());
+                    isSuccesfull = true;
                 } else {
                     System.out.println(OpenAudioMc.getLOG_PREFIX() + "Failed to request token.");
+                    isSuccesfull = false;
                 }
             } catch (IOException e) {
                 System.out.println(OpenAudioMc.getLOG_PREFIX() + "Failed to request token.");
+                isSuccesfull = false;
                 e.printStackTrace();
             }
         } else {
             serverKeySet.setPrivateKey(new Key(OpenAudioMc.getInstance().getConfigurationModule().getDataConfig().getString("keyset.private")));
             serverKeySet.setPublicKey(new Key(OpenAudioMc.getInstance().getConfigurationModule().getDataConfig().getString("keyset.public")));
+            isSuccesfull = true;
         }
     }
 
