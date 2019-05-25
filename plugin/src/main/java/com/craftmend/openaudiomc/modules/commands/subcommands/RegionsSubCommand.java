@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.modules.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.modules.commands.objects.Argument;
 import com.craftmend.openaudiomc.modules.regions.objects.RegionProperties;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 public class RegionsSubCommand extends SubCommand {
@@ -39,16 +40,23 @@ public class RegionsSubCommand extends SubCommand {
 
         if (args[0].equalsIgnoreCase("create") && args.length == 3) {
             args[1] = args[1].toLowerCase();
+
+            if (!openAudioMc.getRegionModule().getRegionAdapter().doesRegionExist(args[1])) {
+                message(sender, ChatColor.RED + "ERROR! There is no worldguard region called '" + args[1]
+                        + "'. Please make the worldguard region before you regester it in OpenAudioMc.");
+                return;
+            }
+
             openAudioMc.getConfigurationModule().getDataConfig().set("regions." + args[1], args[2]);
             openAudioMc.getRegionModule().registerRegion(args[1], new RegionProperties(args[2]));
-            message(sender, "Thw WorldGuard region with the id " + args[1] + " now has the sound " + args[2]);
+            message(sender, "The WorldGuard region with the id " + args[1] + " now has the sound " + args[2]);
             return;
         }
 
         if (args[0].equalsIgnoreCase("delete") && args.length == 2) {
             openAudioMc.getConfigurationModule().getDataConfig().set("regions." + args[1], null);
             openAudioMc.getRegionModule().removeRegion(args[1]);
-            message(sender, "Thw WorldGuard region with the id " + args[1] + " no longer has a sound linked to it.");
+            message(sender, "The WorldGuard region with the id " + args[1] + " no longer has a sound linked to it.");
             return;
         }
 
