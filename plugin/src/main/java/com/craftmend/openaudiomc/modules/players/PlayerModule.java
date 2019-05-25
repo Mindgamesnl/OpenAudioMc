@@ -16,7 +16,7 @@ public class PlayerModule {
 
     public PlayerModule(OpenAudioMc openAudioMc) {
         openAudioMc.getServer().getPluginManager().registerEvents(new PlayerConnectionListener(), openAudioMc);
-        openAudioMc.getCommand("audio").setExecutor(new ConnectCommand());
+        openAudioMc.getCommand("audio").setExecutor(new ConnectCommand(openAudioMc));
     }
 
     /**

@@ -2,15 +2,25 @@ package com.craftmend.openaudiomc.modules.players.commands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.players.objects.PlayerSelector;
+import lombok.AllArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+@AllArgsConstructor
 public class ConnectCommand implements CommandExecutor {
+
+    private OpenAudioMc main;
+
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
+
+        if (!main.getAuthenticationService().getIsSuccesfull()) {
+            commandSender.sendMessage(main.getCommandModule().getCommandPrefix() + main.getAuthenticationService().getFailureMessage());
+            return true;
+        }
 
         if (commandSender instanceof Player) {
             Player sender = (Player) commandSender;

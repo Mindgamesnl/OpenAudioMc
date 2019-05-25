@@ -26,7 +26,7 @@ public class CommandModule {
         MainCommand mainCommand = new MainCommand(openAudioMc, this);
         openAudioMc.getCommand("openaudiomc").setExecutor(mainCommand);
         openAudioMc.getCommand("openaudiomc").setTabCompleter(mainCommand);
-        openAudioMc.getCommand("volume").setExecutor(new VolumeCommand());
+        openAudioMc.getCommand("volume").setExecutor(new VolumeCommand(openAudioMc));
 
         aliases.addAll(openAudioMc.getCommand("openaudiomc").getAliases());
         aliases.add("openaudiomc");
