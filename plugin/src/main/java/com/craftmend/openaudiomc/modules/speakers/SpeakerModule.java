@@ -154,6 +154,7 @@ public class SpeakerModule {
             Skull skull = (Skull) block.getState();
             if (version == ServerVersion.MODERN) {
                 if (skull.getOwningPlayer() == null) return false;
+                if (skull.getOwningPlayer().getName() == null) return false;
                 return skull.getOwningPlayer().getName().equals("OpenAudioMc");
             } else {
                 if (skull.getOwner() == null) return false;

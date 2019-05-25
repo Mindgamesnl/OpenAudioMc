@@ -64,7 +64,11 @@ public class SocketIoConnector {
         });
 
         socket.on("acknowledgeClient", args -> {
-            AcknowledgeClientPayload payload = (AcknowledgeClientPayload) OpenAudioMc.getGson().fromJson(args[0].toString(), AbstractPacket.class).getData();
+            AcknowledgeClientPayload payload = (AcknowledgeClientPayload)OpenAudioMc.getGson().fromJson(
+                    args[0].toString(),
+                    AbstractPacket.class
+            ).getData();
+
             Client client = OpenAudioMc.getInstance().getPlayerModule().getClient(payload.getUuid());
 
             Ack callback = (Ack) args[1];

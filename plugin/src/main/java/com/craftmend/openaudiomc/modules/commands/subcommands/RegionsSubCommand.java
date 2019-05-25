@@ -41,7 +41,7 @@ public class RegionsSubCommand extends SubCommand {
             args[1] = args[1].toLowerCase();
             openAudioMc.getConfigurationModule().getDataConfig().set("regions." + args[1], args[2]);
             openAudioMc.getRegionModule().registerRegion(args[1], new RegionProperties(args[2]));
-            message(sender, "Thw WorldGuard region with the id " + args[1] + " now has the sound " + args[3]);
+            message(sender, "Thw WorldGuard region with the id " + args[1] + " now has the sound " + args[2]);
             return;
         }
 
