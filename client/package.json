@@ -4,7 +4,7 @@
   "description": "",
   "private": true,
   "scripts": {
-    "build": "chmod +x compile.sh && ./compile.sh"
+    "build": "webpack --config webpack.config.js"
   },
   "keywords": [],
   "author": "",
