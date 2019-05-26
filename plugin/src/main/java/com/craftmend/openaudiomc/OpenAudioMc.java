@@ -8,7 +8,7 @@ import com.craftmend.openaudiomc.services.networking.abstracts.AbstractPacketPay
 
 import com.craftmend.openaudiomc.modules.api.objects.OpenAudioApi;
 import com.craftmend.openaudiomc.modules.media.MediaModule;
-import com.craftmend.openaudiomc.modules.server.ServerModule;
+import com.craftmend.openaudiomc.services.server.ServerService;
 import com.craftmend.openaudiomc.modules.commands.CommandModule;
 import com.craftmend.openaudiomc.modules.configuration.ConfigurationModule;
 import com.craftmend.openaudiomc.modules.players.PlayerModule;
@@ -26,10 +26,12 @@ public final class OpenAudioMc extends JavaPlugin {
     /**
      * services OpenAudioMc uses in the background
      *
+     *  - Server service (compatibillity and stuff)
      *  - authentication (auth)
      *  - time service (time sync with clients)
      *  - networking service (api connection)
      */
+    private ServerService serverService;
     private TimeService timeService;
     private AuthenticationService authenticationService;
     private NetworkingService networkingService;
@@ -37,14 +39,12 @@ public final class OpenAudioMc extends JavaPlugin {
     /**
      * modules that make up the plugin
      *
-     * - server module (loads version info)
      * - configuration module (loads user data)
      * - player module (manages player connections)
      * - region module (OPTIONAL) (only loads regions if WorldGuard is enabled)
      * - command module (registers and loads the OpenAudioMc commands)
      * - media module (loads and manages all media in the service)
      */
-    private ServerModule serverModule;
     private ConfigurationModule configurationModule;
     private PlayerModule playerModule;
     private RegionModule regionModule;
@@ -79,7 +79,7 @@ public final class OpenAudioMc extends JavaPlugin {
         instance = this;
 
         //startup modules and services
-        this.serverModule = new ServerModule();
+        this.serverService = new ServerService();
         this.timeService = new TimeService();
         this.mediaModule = new MediaModule();
         this.configurationModule = new ConfigurationModule(this);

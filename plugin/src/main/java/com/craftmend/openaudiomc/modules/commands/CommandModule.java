@@ -6,9 +6,8 @@ import com.craftmend.openaudiomc.modules.commands.command.VolumeCommand;
 import com.craftmend.openaudiomc.modules.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.modules.commands.middleware.CommandTranslationMiddleware;
 import com.craftmend.openaudiomc.modules.commands.subcommands.*;
-import com.craftmend.openaudiomc.modules.server.enums.ServerVersion;
+import com.craftmend.openaudiomc.services.server.enums.ServerVersion;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class CommandModule {
         registerSubCommand(new ReloadSubCommand());
 
         // if it is a older version, register the middleware
-        if (openAudioMc.getServerModule().getVersion() == ServerVersion.LEGACY) {
+        if (openAudioMc.getServerService().getVersion() == ServerVersion.LEGACY) {
             openAudioMc.getServer().getPluginManager().registerEvents(
                     new CommandTranslationMiddleware(openAudioMc),
                     openAudioMc

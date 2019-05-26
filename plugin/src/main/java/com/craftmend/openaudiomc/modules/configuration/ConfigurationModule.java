@@ -17,7 +17,7 @@ public class ConfigurationModule {
     public ConfigurationModule(OpenAudioMc openAudioMc) {
         //save default
         openAudioMc.saveDefaultConfig();
-        openAudioMc.saveResource("data.yml", false);
+        if (!hasDataFile()) openAudioMc.saveResource("data.yml", false);
 
         dataConfig = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudioMc/data.yml"));
 
@@ -43,6 +43,11 @@ public class ConfigurationModule {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private Boolean hasDataFile() {
+        File dataFile = new File("plugins/OpenAudioMc/data.yml");
+        return dataFile.exists();
     }
 
 }

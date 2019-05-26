@@ -7,7 +7,7 @@ import com.craftmend.openaudiomc.modules.regions.adapters.ModernRegionAdapter;
 import com.craftmend.openaudiomc.modules.regions.interfaces.AbstractRegionAdapter;
 import com.craftmend.openaudiomc.modules.regions.objects.RegionMedia;
 import com.craftmend.openaudiomc.modules.regions.objects.RegionProperties;
-import com.craftmend.openaudiomc.modules.server.enums.ServerVersion;
+import com.craftmend.openaudiomc.services.server.enums.ServerVersion;
 
 import lombok.Getter;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -23,7 +23,7 @@ public class RegionModule {
     public RegionModule(OpenAudioMc openAudioMc) {
         System.out.println(OpenAudioMc.getLOG_PREFIX() + "Turns out you have WorldGuard installed! enabling regions and the region tasks..");
 
-        if (openAudioMc.getServerModule().getVersion() == ServerVersion.MODERN) {
+        if (openAudioMc.getServerService().getVersion() == ServerVersion.MODERN) {
             System.out.println(OpenAudioMc.getLOG_PREFIX() + "Enabling the newer 1.13 regions");
             regionAdapter = new ModernRegionAdapter(this);
         } else {
@@ -32,7 +32,7 @@ public class RegionModule {
         }
 
         //validate detection
-        if (openAudioMc.getServerModule().getVersion() == ServerVersion.LEGACY) {
+        if (openAudioMc.getServerService().getVersion() == ServerVersion.LEGACY) {
             try {
                 Class.forName("com.sk89q.worldguard.bukkit.WGBukkit");
             } catch (ClassNotFoundException e) {
