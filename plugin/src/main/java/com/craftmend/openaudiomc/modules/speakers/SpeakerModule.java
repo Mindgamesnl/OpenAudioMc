@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.modules.speakers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
-import com.craftmend.openaudiomc.modules.server.enums.ServerVersion;
+import com.craftmend.openaudiomc.services.server.enums.ServerVersion;
 import com.craftmend.openaudiomc.modules.speakers.listeners.SpeakerCreateListener;
 import com.craftmend.openaudiomc.modules.speakers.listeners.SpeakerDestroyListener;
 import com.craftmend.openaudiomc.modules.speakers.objects.ApplicableSpeaker;
@@ -34,7 +34,7 @@ public class SpeakerModule {
         openAudioMc.getServer().getPluginManager().registerEvents(new SpeakerCreateListener(openAudioMc, this), openAudioMc);
         openAudioMc.getServer().getPluginManager().registerEvents(new SpeakerDestroyListener(openAudioMc, this), openAudioMc);
 
-        version = openAudioMc.getServerModule().getVersion();
+        version = openAudioMc.getServerService().getVersion();
 
 
         if (version == ServerVersion.MODERN) {
@@ -47,13 +47,6 @@ public class SpeakerModule {
                 playerSkullItem = Material.valueOf("SKULL_ITEM");
             } catch (Exception e) {
                 System.out.println(OpenAudioMc.getLOG_PREFIX() + "Failed hook speakers attempt 1..");
-            }
-
-            try {
-                System.out.println(OpenAudioMc.getLOG_PREFIX() + "Hooking speakers attempt 2..");
-                playerSkullItem = Material.valueOf("LEGACY_SKULL_ITEM");
-            } catch (Exception e) {
-                System.out.println(OpenAudioMc.getLOG_PREFIX() + "Failed hook speakers attempt 2..");
             }
 
             if (playerSkullItem == null) {

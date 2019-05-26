@@ -1,16 +1,16 @@
-package com.craftmend.openaudiomc.modules.server;
+package com.craftmend.openaudiomc.services.server;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.modules.server.enums.ServerVersion;
+import com.craftmend.openaudiomc.services.server.enums.ServerVersion;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
-public class ServerModule {
+public class ServerService {
 
     @Getter private ServerVersion version;
 
-    public ServerModule() {
+    public ServerService() {
         String versionClassPath = Bukkit.getServer().getClass().getPackage().getName();
         Boolean isModernMinecraft = (versionClassPath.contains("1.13") || versionClassPath.contains("1.14"));
         version = isModernMinecraft ? ServerVersion.MODERN : ServerVersion.LEGACY;
