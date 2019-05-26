@@ -20,6 +20,9 @@ import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.time.Duration;
+import java.time.Instant;
+
 @Getter
 public final class OpenAudioMc extends JavaPlugin {
 
@@ -75,6 +78,10 @@ public final class OpenAudioMc extends JavaPlugin {
      */
     @Override
     public void onEnable() {
+
+        // Timing
+        Instant boot = Instant.now();
+
         // Plugin startup logic
         instance = this;
 
@@ -93,6 +100,10 @@ public final class OpenAudioMc extends JavaPlugin {
         if (getServer().getPluginManager().isPluginEnabled("WorldGuard")) {
             this.regionModule = new RegionModule(this);
         }
+
+        // timing end and cacl
+        Instant finish = Instant.now();
+        System.out.println(getLOG_PREFIX() + "Starting and loading took " + Duration.between(boot, finish).toMillis() + "MS");
     }
 
     /**
