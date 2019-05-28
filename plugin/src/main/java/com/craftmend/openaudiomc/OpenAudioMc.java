@@ -1,5 +1,7 @@
 package com.craftmend.openaudiomc;
 
+import com.craftmend.openaudiomc.services.state.StateService;
+import com.craftmend.openaudiomc.services.state.states.IdleState;
 import com.craftmend.openaudiomc.services.time.TimeService;
 import com.craftmend.openaudiomc.services.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.services.networking.NetworkingService;
@@ -29,11 +31,13 @@ public final class OpenAudioMc extends JavaPlugin {
     /**
      * services OpenAudioMc uses in the background
      *
-     *  - Server service (compatibillity and stuff)
+     *  - State service (keeps track of connections and state of the api)
+     *  - Server service (compatibility and stuff)
      *  - authentication (auth)
      *  - time service (time sync with clients)
      *  - networking service (api connection)
      */
+    private StateService stateService;
     private ServerService serverService;
     private TimeService timeService;
     private AuthenticationService authenticationService;
@@ -85,7 +89,8 @@ public final class OpenAudioMc extends JavaPlugin {
         // Plugin startup logic
         instance = this;
 
-        //startup modules and services
+        // startup modules and services
+        this.stateService = new StateService();
         this.serverService = new ServerService();
         this.timeService = new TimeService();
         this.mediaModule = new MediaModule();
@@ -96,12 +101,15 @@ public final class OpenAudioMc extends JavaPlugin {
         this.speakerModule = new SpeakerModule(this);
         this.commandModule = new CommandModule(this);
 
-        //optional modules
+        // optional modules
         if (getServer().getPluginManager().isPluginEnabled("WorldGuard")) {
             this.regionModule = new RegionModule(this);
         }
 
-        // timing end and cacl
+        // set state to idle, to allow connections and such
+        this.stateService.setState(new IdleState("OpenAudioMc started and awaiting command"));
+
+        // timing end and calc
         Instant finish = Instant.now();
         System.out.println(getLOG_PREFIX() + "Starting and loading took " + Duration.between(boot, finish).toMillis() + "MS");
     }
@@ -112,8 +120,8 @@ public final class OpenAudioMc extends JavaPlugin {
     @Override
     public void onDisable() {
         configurationModule.saveAll();
-        if (this.networkingService.isConnected()) {
-            this.networkingService.shutDown();
+        if (this.stateService.getCurrentState().isConnected()) {
+            this.networkingService.stop();
         }
     }
 }

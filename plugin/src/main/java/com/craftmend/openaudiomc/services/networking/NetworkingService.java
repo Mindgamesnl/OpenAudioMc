@@ -31,7 +31,7 @@ public class NetworkingService {
         registerHandler(PacketChannel.SOCKET_IN_UNREGISTER_CLIENT, new ClientDisconnectHandler());
 
         try {
-            socketIoConnector = new SocketIoConnector();
+            socketIoConnector = new SocketIoConnector(openAudioMc);
         } catch (Exception e) {
             Bukkit.getPluginManager().disablePlugin(openAudioMc);
             System.out.println(OpenAudioMc.getLOG_PREFIX() + "The plugin could not start because of a connection problem when requesting the initial private key. Please contact the developers of this plugin.");
@@ -73,29 +73,6 @@ public class NetworkingService {
     }
 
     /**
-     * check the state
-     *
-     * @return true if connected
-     */
-    public Boolean isConnected() {
-        return socketIoConnector.getIsConnected();
-    }
-
-
-    public void shutDown() {
-        this.socketIoConnector.disconnect();
-    }
-
-    /**
-     * check the state
-     *
-     * @return true if connecting
-     */
-    public Boolean isConnecting() {
-        return socketIoConnector.getIsConnecting();
-    }
-
-    /**
      * link a handler to a packet type
      *
      * @param type channel id
@@ -103,5 +80,12 @@ public class NetworkingService {
      */
     private void registerHandler(PacketChannel type, PayloadHandler handler) {
         packetHandlerMap.put(type, handler);
+    }
+
+    /**
+     * close the socket by force, because you are a strong and independent instance
+     */
+    public void stop() {
+        socketIoConnector.disconnect();
     }
 }
