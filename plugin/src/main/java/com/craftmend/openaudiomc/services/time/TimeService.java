@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.services.time;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.Duration;
@@ -8,7 +9,7 @@ import java.time.Instant;
 @NoArgsConstructor
 public class TimeService {
 
-    private long offset = 0;
+    @Getter private long offset = 0;
     private boolean serverIsAhead = false;
 
     public Instant getSyncedInstant() {

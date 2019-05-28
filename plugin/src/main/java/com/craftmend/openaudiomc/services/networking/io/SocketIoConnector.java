@@ -1,60 +1,66 @@
 package com.craftmend.openaudiomc.services.networking.io;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.modules.players.objects.Session;
 import com.craftmend.openaudiomc.services.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.services.networking.payloads.AcknowledgeClientPayload;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
+import com.craftmend.openaudiomc.services.state.states.ConnectedState;
+import com.craftmend.openaudiomc.services.state.states.ConnectingState;
+import com.craftmend.openaudiomc.services.state.states.IdleState;
 import io.socket.client.Ack;
 import io.socket.client.IO;
 import io.socket.client.Socket;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import okhttp3.OkHttpClient;
 import org.bukkit.Bukkit;
 
 import java.net.URISyntaxException;
 
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class SocketIoConnector {
 
+    private final OpenAudioMc openAudioMc;
     private Socket socket;
-    @Getter private Boolean isConnected = false;
-    @Getter private Boolean isConnecting = false;
 
     public void setupConnection() throws URISyntaxException {
-        if (!canConnect()) return;
+        if (!openAudioMc.getStateService().getCurrentState().canConnect()) return;
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
 
         IO.Options opts = new IO.Options();
         opts.callFactory = okHttpClient;
         opts.webSocketFactory = okHttpClient;
+
+        // authentication headers
         opts.query = "type=server&" +
                 "secret=" + OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue() + "&" +
                 "public=" + OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue();
 
         socket = IO.socket(OpenAudioMc.getInstance().getConfigurationModule().getServer(), opts);
 
-        isConnecting = true;
+        // register state to be connecting
+        openAudioMc.getStateService().setState(new ConnectingState());
+
+        // attempt to setup
         registerEvents();
         socket.connect();
     }
 
     private void registerEvents() {
         socket.on(Socket.EVENT_CONNECT, args -> {
-            //connected
-            isConnected = true;
-            isConnecting = false;
+            // connected with success
+            openAudioMc.getStateService().setState(new ConnectedState());
         });
 
         socket.on(Socket.EVENT_DISCONNECT, args -> {
-            //disconnected
-            isConnected = false;
-            isConnecting = false;
+            // disconnected, probably with a reason or something
+            openAudioMc.getStateService().setState(new IdleState("Disconnected from the socket"));
         });
 
-        socket.on(Socket.EVENT_CONNECT_TIMEOUT, args -> isConnecting = false);
+        socket.on(Socket.EVENT_CONNECT_TIMEOUT, args -> {
+            // failed to connect
+            openAudioMc.getStateService().setState(new IdleState("Connecting timed out, something wrong with the api, network or token?"));
+        });
 
         socket.on("time-update", args -> {
             String[] data = ((String) args[args.length - 1]).split(":");
@@ -93,12 +99,9 @@ public class SocketIoConnector {
         this.socket.disconnect();
     }
 
-    private Boolean canConnect() {
-        return (!isConnecting && !isConnected);
-    }
-
     public void send(Client client, AbstractPacket packet) {
-        if (isConnected && client.getIsConnected()) {
+        // only send the packet if the client is online, valid and the plugin is connected
+        if (client.getIsConnected() && openAudioMc.getStateService().getCurrentState().isConnected()) {
             //check if the player is real, fake players aren't cool
             if (Bukkit.getPlayer(client.getPlayer().getUniqueId()) == null) return;
             packet.setClient(client.getPlayer().getUniqueId());

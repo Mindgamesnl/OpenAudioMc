@@ -37,6 +37,7 @@ public class CommandModule {
         registerSubCommand(new StopSubCommand(openAudioMc));
         registerSubCommand(new HueSubCommand(openAudioMc));
         registerSubCommand(new ReloadSubCommand());
+        registerSubCommand(new StateSubCommand());
 
         // if it is a older version, register the middleware
         if (openAudioMc.getServerService().getVersion() == ServerVersion.LEGACY) {

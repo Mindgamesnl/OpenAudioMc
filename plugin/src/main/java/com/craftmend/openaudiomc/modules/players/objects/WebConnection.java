@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.modules.players.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.players.interfaces.ClientConnection;
-import com.craftmend.openaudiomc.services.networking.NetworkingService;
+import com.craftmend.openaudiomc.services.state.StateService;
 import lombok.Getter;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -10,6 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.net.URISyntaxException;
+import java.util.Objects;
 
 public abstract class WebConnection implements ClientConnection {
 
@@ -34,14 +35,14 @@ public abstract class WebConnection implements ClientConnection {
      * and generate a hashed token
      */
     public void publishUrl() {
-        NetworkingService service = OpenAudioMc.getInstance().getNetworkingService();
-        if (service.isConnecting()) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.api-starting-up")));
+        StateService service = OpenAudioMc.getInstance().getStateService();
+        if (service.getCurrentState().isConnected()) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(OpenAudioMc.getInstance().getConfig().getString("messages.api-starting-up"))));
             return;
         }
 
         if (isConnected) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.client-already-connected")));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(OpenAudioMc.getInstance().getConfig().getString("messages.client-already-connected"))));
             return;
         }
 
@@ -52,7 +53,7 @@ public abstract class WebConnection implements ClientConnection {
             e.printStackTrace();
         }
 
-        TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.click-to-connect")));
+        TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(OpenAudioMc.getInstance().getConfig().getString("messages.click-to-connect"))));
         message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,
                 OpenAudioMc.getInstance().getConfigurationModule().getDataConfig().getString("keyset.base-url") + session.getToken()));
         player.spigot().sendMessage(message);
