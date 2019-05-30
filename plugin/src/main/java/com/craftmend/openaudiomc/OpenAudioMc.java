@@ -7,10 +7,10 @@ import com.craftmend.openaudiomc.services.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.services.networking.NetworkingService;
 import com.craftmend.openaudiomc.services.networking.addapter.AbstractPacketAdapter;
 import com.craftmend.openaudiomc.services.networking.abstracts.AbstractPacketPayload;
+import com.craftmend.openaudiomc.services.server.ServerService;
 
 import com.craftmend.openaudiomc.modules.api.objects.OpenAudioApi;
 import com.craftmend.openaudiomc.modules.media.MediaModule;
-import com.craftmend.openaudiomc.services.server.ServerService;
 import com.craftmend.openaudiomc.modules.commands.CommandModule;
 import com.craftmend.openaudiomc.modules.configuration.ConfigurationModule;
 import com.craftmend.openaudiomc.modules.players.PlayerModule;
@@ -82,7 +82,6 @@ public final class OpenAudioMc extends JavaPlugin {
      */
     @Override
     public void onEnable() {
-
         // Timing
         Instant boot = Instant.now();
 
