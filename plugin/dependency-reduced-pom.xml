@@ -51,6 +51,10 @@
       <url>https://oss.sonatype.org/content/groups/public/</url>
     </repository>
     <repository>
+      <id>papermc</id>
+      <url>https://papermc.io/repo/repository/maven-public/</url>
+    </repository>
+    <repository>
       <id>sk89q-repo</id>
       <url>http://maven.sk89q.com/repo/</url>
     </repository>
@@ -168,6 +172,10 @@
         <exclusion>
           <artifactId>dummypermscompat</artifactId>
           <groupId>com.sk89q</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>paper-api</artifactId>
+          <groupId>com.destroystokyo.paper</groupId>
         </exclusion>
         <exclusion>
           <artifactId>paperlib</artifactId>
