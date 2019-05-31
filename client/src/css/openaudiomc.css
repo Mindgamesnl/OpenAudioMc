@@ -1,38 +1,39 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
-body{
+
+body {
     vertical-align: middle;
-    background:
-            linear-gradient(
-                    rgba(98, 90, 238, 0.45),
-                    rgba(98, 90, 238, 0.25)
-            ),
-            url(../assets/background.png);
+    background: linear-gradient(
+            rgba(98, 90, 238, 0.45),
+            rgba(98, 90, 238, 0.25)
+    ),
+    url(../assets/background.png);
     font-family: 'Roboto', serif;
     -webkit-background-size: cover;
     background-size: cover;
 }
 
-img{
+img {
     position: absolute;
     z-index: 1;
     align: top;
     cursor: pointer;
 }
-.panel{
-    width:100%;
-    height:65%;
-    background-image:linear-gradient(
+
+.panel {
+    width: 100%;
+    height: 65%;
+    background-image: linear-gradient(
             rgba(30, 27, 69, 0.34),
             #353535
     ),
     url(../assets/background.png);
     background-position: center;
     position: absolute;
-    left:50%;
+    left: 50%;
     border-radius: 10px;
     transform: translate(-50%, -50%);
-    top:50%;
-    box-shadow: 0 14px 30px rgba(0,0,0,0.25), 0 10px 30px rgba(0,0,0,0.22);
+    top: 50%;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25), 0 10px 30px rgba(0, 0, 0, 0.22);
     transition: all 0.4s;
 }
 
@@ -65,7 +66,7 @@ img{
     position: absolute;
     left: 50%;
     transform: translate(-50%, -50%);
-    top:35%;
+    top: 35%;
     font-size: 5vw;
     color: #ffa600;
 }
@@ -74,9 +75,9 @@ img{
     font-size: 2.5vh;
     color: rgb(160, 140, 238);
     text-align: center;
-    left:50%;
+    left: 50%;
     transform: translate(-50%, -50%);
-    top:65%;
+    top: 65%;
     position: absolute;
 
 }
@@ -85,7 +86,7 @@ img{
     position: absolute;
     left: 50%;
     transform: translate(-50%, -50%);
-    top:10%;
+    top: 10%;
     text-transform: uppercase;
     font-size: 2vw;
     color: #fff;
@@ -95,14 +96,14 @@ img{
     font-size: 2.5vh;
     color: #8a8d91;
     text-align: center;
-    left:50%;
+    left: 50%;
     transform: translate(-50%, -50%);
     top: 50%;
     position: absolute;
 }
 
 .blurIn {
-    animation-name:blurIn;
+    animation-name: blurIn;
     animation-duration: 0.7s;
 }
 
@@ -121,36 +122,75 @@ img{
 }
 
 input[type="range"] {
-    -webkit-appearance:none;
-    width:70%;
-    height:20px;
+    -webkit-appearance: none;
+    width: 70%;
+    height: 20px;
     background: linear-gradient(to right, rgba(98, 90, 238, 0.25) 0%, rgba(98, 90, 238, 1) 100%);
-    overflow:hidden;
+    overflow: hidden;
     outline: none;
     border-radius: 10px;
 }
 
 input[type="range"]:first-of-type {
-    margin-top:30px;
+    margin-top: 30px;
 }
 
 input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance:none;
-    width:20px;
-    height:20px;
-    position:relative;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    position: relative;
     background-color: #FF1744;
     border-radius: 10px;
 }
 
-@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
-@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
-@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+@-moz-keyframes spin {
+    100% {
+        -moz-transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes border {
+    0% {
+        box-shadow: 0 5px 8px rgba(98, 90, 238, 0.45), 0 5px 8px rgba(98, 90, 238, 0.25);
+    }
+
+    25% {
+        box-shadow: 0 10px 20px rgb(146, 8, 0), 0 5px 8px rgba(98, 90, 238, 0.25);
+        transform: rotate(-15deg);
+    }
+
+    50% {
+        box-shadow: 0 20px 40px rgba(98, 90, 238, 0.45), 0 5px 8px rgba(98, 90, 238, 0.25);
+        transform: rotate(10deg);
+    }
+
+    98% {
+        box-shadow: 0 5px 8px rgba(98, 90, 238, 0.45), 0 5px 8px rgba(98, 90, 238, 0.25);
+    }
+
+    100% {
+        box-shadow: 0 5px 8px rgba(98, 90, 238, 0.45), 0 5px 8px rgba(98, 90, 238, 0.25);
+    }
+}
 
 .spinner {
-    -webkit-animation:spin 4s linear infinite;
-    -moz-animation:spin 4s linear infinite;
-    animation:spin 4s linear infinite;
+    -webkit-animation: spin 4s linear infinite;
+    -moz-animation: spin 4s linear infinite;
+    animation: spin 4s linear infinite;
 }
 
 .button {
@@ -162,31 +202,31 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 select {
-    background-color:#3498DB;
-    background-repeat:no-repeat;
+    background-color: #3498DB;
+    background-repeat: no-repeat;
     background-position: right 10px top 15px;
     background-size: 16px 16px;
-    padding:12px;
-    width:auto;
-    font-size:16px;
-    font-weight:bold;
-    color:#fff;
-    text-align:center;
-    text-shadow:0 -1px 0 rgba(0, 0, 0, 0.25);
-    border-radius:3px;
-    -webkit-border-radius:3px;
+    padding: 12px;
+    width: auto;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
     -webkit-appearance: none;
-    border:0;
-    outline:0;
-    -webkit-transition:0.3s ease all;
-    -moz-transition:0.3s ease all;
-    -ms-transition:0.3s ease all;
-    -o-transition:0.3s ease all;
-    transition:0.3s ease all;
+    border: 0;
+    outline: 0;
+    -webkit-transition: 0.3s ease all;
+    -moz-transition: 0.3s ease all;
+    -ms-transition: 0.3s ease all;
+    -o-transition: 0.3s ease all;
+    transition: 0.3s ease all;
 }
 
 .blue-select {
-    background-color:rgb(98, 90, 238);
+    background-color: rgb(98, 90, 238);
 }
 
 ul {
@@ -218,6 +258,6 @@ img {
     left: 0;
     right: 0;
     bottom: 20%;
-    box-shadow: 0 5px 8px rgba(98, 90, 238, 0.45), 0 5px 8px rgba(98, 90, 238, 0.25);
+    animation: border 10s alternate infinite;
     border-radius: 10%;
 }
