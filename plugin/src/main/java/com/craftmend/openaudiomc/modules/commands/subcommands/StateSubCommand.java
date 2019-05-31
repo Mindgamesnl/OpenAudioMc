@@ -19,6 +19,7 @@ public class StateSubCommand extends SubCommand {
 
     @Override
     public void onExecute(CommandSender sender, String[] args) {
+        message(sender, ChatColor.YELLOW + "State: " + ChatColor.GRAY + "Usefull session info");
         message(sender, ChatColor.YELLOW + "State: " + ChatColor.AQUA + OpenAudioMc.getInstance().getStateService().getCurrentState().getClass().getSimpleName());
         message(sender, ChatColor.YELLOW + "State Info: " + ChatColor.AQUA + OpenAudioMc.getInstance().getStateService().getCurrentState().getDescription());
 

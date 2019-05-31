@@ -19,11 +19,11 @@ img{
     cursor: pointer;
 }
 .panel{
-    width:60%;
-    height:70%;
+    width:100%;
+    height:65%;
     background-image:linear-gradient(
-            rgba(98, 90, 218, 0.34),
-    #22262F
+            rgba(30, 27, 69, 0.34),
+            #353535
     ),
     url(../assets/background.png);
     background-position: center;
@@ -38,7 +38,7 @@ img{
 
 .hueFooter {
     font-size: 2vh;
-    color: #707377;
+    color: #ffa600;
     right: 4%;
     position: absolute;
     bottom: 0;
@@ -46,7 +46,7 @@ img{
 
 .footer {
     font-size: 2vh;
-    color: #707377;
+    color: #b66c00;
     left: 4%;
     position: absolute;
     bottom: 0;
@@ -58,7 +58,7 @@ img{
     transform: translate(-50%, -50%);
     top: 0;
     font-size: 2vw;
-    color: #fff;
+    color: #ffa600;
 }
 
 .panel-content h2 {
@@ -67,12 +67,12 @@ img{
     transform: translate(-50%, -50%);
     top:35%;
     font-size: 5vw;
-    color: #fff;
+    color: #ffa600;
 }
 
 .panel-content p {
     font-size: 2.5vh;
-    color: #707377;
+    color: rgb(160, 140, 238);
     text-align: center;
     left:50%;
     transform: translate(-50%, -50%);
@@ -86,13 +86,14 @@ img{
     left: 50%;
     transform: translate(-50%, -50%);
     top:10%;
+    text-transform: uppercase;
     font-size: 2vw;
     color: #fff;
 }
 
 .hue-page div {
     font-size: 2.5vh;
-    color: #707377;
+    color: #8a8d91;
     text-align: center;
     left:50%;
     transform: translate(-50%, -50%);
@@ -102,7 +103,7 @@ img{
 
 .blurIn {
     animation-name:blurIn;
-    animation-duration: 0.5s;
+    animation-duration: 0.7s;
 }
 
 @keyframes blurIn {
@@ -212,8 +213,8 @@ li {
 img {
     position: absolute;
     margin: auto;
-    height: 250px;
-    top: 0;
+    height: 30%;
+    top: -15%;
     left: 0;
     right: 0;
     bottom: 20%;

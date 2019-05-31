@@ -33,8 +33,8 @@ public class SocketIoConnector {
 
         // authentication headers
         opts.query = "type=server&" +
-                "secret=" + OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue() + "&" +
-                "public=" + OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue();
+                "secret=" + OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue() +
+                "&public=" + OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue();
 
         socket = IO.socket(OpenAudioMc.getInstance().getConfigurationModule().getServer(), opts);
 

@@ -39,6 +39,24 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.1.1</version>
+        <executions>
+          <execution>
+            <id>my-exec</id>
+            <phase>install</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <inherited>false</inherited>
+          </execution>
+        </executions>
+        <configuration>
+          <executable>cp target/OpenAudioMc-5.3.jar ./mnt/ssd-projects/utils/1.12.2\ test\ server/plugins/</executable>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <repositories>
