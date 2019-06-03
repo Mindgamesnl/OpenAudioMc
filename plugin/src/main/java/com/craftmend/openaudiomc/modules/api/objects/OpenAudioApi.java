@@ -6,7 +6,7 @@ import com.craftmend.openaudiomc.modules.media.interfaces.UrlMutation;
 import com.craftmend.openaudiomc.modules.players.interfaces.ClientConnection;
 import com.craftmend.openaudiomc.modules.players.objects.Session;
 import com.craftmend.openaudiomc.modules.regions.objects.IRegion;
-import com.craftmend.openaudiomc.modules.speakers.objects.SimpleLocation;
+import com.craftmend.openaudiomc.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.modules.speakers.objects.Speaker;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -79,7 +79,7 @@ public class OpenAudioApi {
      * @return Speaker
      */
     public Speaker getSpeaker(Location location) {
-        return OpenAudioMc.getInstance().getSpeakerModule().getSpeaker(new SimpleLocation(location));
+        return OpenAudioMc.getInstance().getSpeakerModule().getSpeaker(new MappedLocation(location));
     }
 
     /**

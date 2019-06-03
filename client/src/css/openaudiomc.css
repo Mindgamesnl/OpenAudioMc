@@ -79,7 +79,6 @@ img {
     transform: translate(-50%, -50%);
     top: 65%;
     position: absolute;
-
 }
 
 .hue-page h2 {
@@ -92,7 +91,7 @@ img {
     color: #fff;
 }
 
-.hue-page div {
+.hue-page .content {
     font-size: 2.5vh;
     color: #8a8d91;
     text-align: center;
@@ -101,6 +100,29 @@ img {
     top: 50%;
     position: absolute;
 }
+
+.hue-page .menu {
+    font-size: 2.5vh;
+    color: #8a8d91;
+    text-align: center;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    top: 50%;
+    position: fixed;
+}
+
+.bulbs {
+    width:70%;
+}
+
+.bulb {
+    height: 50px;
+    display: inline-block;
+    width:33.33%;
+    margin-right:-4px;
+}
+
 
 .blurIn {
     animation-name: blurIn;
@@ -203,19 +225,10 @@ input[type="range"]::-webkit-slider-thumb {
 
 select {
     background-color: #3498DB;
-    background-repeat: no-repeat;
-    background-position: right 10px top 15px;
-    background-size: 16px 16px;
-    padding: 12px;
-    width: auto;
-    font-size: 16px;
-    font-weight: bold;
+    padding: 5px;
     color: #fff;
     text-align: center;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    border-radius: 3px;
-    -webkit-border-radius: 3px;
-    -webkit-appearance: none;
     border: 0;
     outline: 0;
     -webkit-transition: 0.3s ease all;
@@ -227,6 +240,12 @@ select {
 
 .blue-select {
     background-color: rgb(98, 90, 238);
+    border-radius: 20px;
+    font-size: 15px;
+}
+
+.light-dropdown {
+    margin-top: 4px;
 }
 
 ul {
@@ -250,7 +269,7 @@ li {
     text-align: center;
 }
 
-img {
+.skull-image {
     position: absolute;
     margin: auto;
     height: 30%;

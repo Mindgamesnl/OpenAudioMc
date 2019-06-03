@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.modules.speakers.listeners;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.speakers.SpeakerModule;
-import com.craftmend.openaudiomc.modules.speakers.objects.SimpleLocation;
+import com.craftmend.openaudiomc.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.modules.speakers.objects.Speaker;
 import lombok.AllArgsConstructor;
 import org.bukkit.block.Block;
@@ -27,7 +27,7 @@ public class SpeakerDestroyListener implements Listener {
                 return;
             }
 
-            SimpleLocation location = new SimpleLocation(broken.getLocation());
+            MappedLocation location = new MappedLocation(broken.getLocation());
             Speaker speaker = speakerModule.getSpeaker(location);
             if (speaker == null) return;
 

@@ -10,9 +10,9 @@ public class Speaker {
     @Getter private String source;
     @Getter private UUID id;
     @Getter private int radius;
-    @Getter private SimpleLocation location;
+    @Getter private MappedLocation location;
 
-    public Speaker(String source, UUID id, int radius, SimpleLocation location) {
+    public Speaker(String source, UUID id, int radius, MappedLocation location) {
         this.source = source;
         this.id = id;
         this.radius = radius;
