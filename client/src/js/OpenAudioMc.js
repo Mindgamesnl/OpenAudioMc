@@ -31,7 +31,7 @@ class OpenAudioMc {
         };
 
         this.log("Enabling the web client for " + window.navigator.userAgent);
-        this.log("Build: April 02 (speaker volume patch)");
+        this.log("Build: April 03 (hue, media and UI update)");
         this.debugPrint("starting.");
         this.timeService = new TimeService();
         this.messages = new Messages(this);
