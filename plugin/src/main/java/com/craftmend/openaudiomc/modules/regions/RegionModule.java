@@ -10,6 +10,7 @@ import com.craftmend.openaudiomc.modules.regions.objects.RegionProperties;
 import com.craftmend.openaudiomc.services.server.enums.ServerVersion;
 
 import lombok.Getter;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 import java.util.*;
 
@@ -41,14 +42,13 @@ public class RegionModule {
             }
         }
 
-        //load config
-        for (String region : openAudioMc.getConfigurationModule().getDataConfig().getConfigurationSection("regions")
-                .getKeys(false)) {
+        FileConfiguration dataFile = openAudioMc.getConfigurationModule().getDataConfig();
 
+        //load config
+        for (String region : dataFile.getConfigurationSection("regions").getKeys(false)) {
             // before we actually add it, we should check if the WG region still exists, to lesser load
             if (regionAdapter.doesRegionExist(region.toLowerCase())) {
-
-                String source = openAudioMc.getConfigurationModule().getDataConfig().getString("regions." + region + "");
+                String source = dataFile.getString("regions." + region + "");
                 RegionProperties properties = new RegionProperties(source);
                 registerRegion(region, properties);
             }
