@@ -2,11 +2,11 @@ package com.craftmend.openaudiomc.modules.speakers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
+import com.craftmend.openaudiomc.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.services.server.enums.ServerVersion;
 import com.craftmend.openaudiomc.modules.speakers.listeners.SpeakerCreateListener;
 import com.craftmend.openaudiomc.modules.speakers.listeners.SpeakerDestroyListener;
 import com.craftmend.openaudiomc.modules.speakers.objects.ApplicableSpeaker;
-import com.craftmend.openaudiomc.modules.speakers.objects.SimpleLocation;
 import com.craftmend.openaudiomc.modules.speakers.objects.Speaker;
 import com.craftmend.openaudiomc.modules.speakers.objects.SpeakerMedia;
 
@@ -26,7 +26,7 @@ import java.util.*;
 public class SpeakerModule {
 
     @Getter
-    private Map<SimpleLocation, Speaker> speakerMap = new HashMap<>();
+    private Map<MappedLocation, Speaker> speakerMap = new HashMap<>();
     private Map<String, SpeakerMedia> speakerMediaMap = new HashMap<>();
     private Material playerSkullItem;
     private ServerVersion version;
@@ -60,16 +60,19 @@ public class SpeakerModule {
 
         //load speakers
         for (String id : dataFile.getConfigurationSection("speakers").getKeys(false)) {
+
             String world = dataFile.getString("speakers." + id + ".world");
             String media = dataFile.getString("speakers." + id + ".media");
             int x = dataFile.getInt("speakers." + id + ".x");
             int y = dataFile.getInt("speakers." + id + ".y");
             int z = dataFile.getInt("speakers." + id + ".z");
+
             if (world != null) {
-                SimpleLocation simpleLocation = new SimpleLocation(x, y, z, world);
-                Block blockAt = simpleLocation.getBlock();
+                MappedLocation mappedLocation = new MappedLocation(x, y, z, world);
+                Block blockAt = mappedLocation.getBlock();
+
                 if (blockAt != null) {
-                    registerSpeaker(simpleLocation, media, UUID.fromString(id), dataFile.getInt("options.speaker-radius"));
+                    registerSpeaker(mappedLocation, media, UUID.fromString(id), dataFile.getInt("options.speaker-radius"));
                 } else {
                     System.out.println(OpenAudioMc.getLOG_PREFIX() + "Speaker " + id + " doesn't to seem be valid anymore, so it's not getting loaded.");
                 }
@@ -110,12 +113,12 @@ public class SpeakerModule {
         return distanceMap.values();
     }
 
-    public void registerSpeaker(SimpleLocation simpleLocation, String source, UUID uuid, int radius) {
-        Speaker speaker = new Speaker(source, uuid, radius, simpleLocation);
-        speakerMap.put(simpleLocation, speaker);
+    public void registerSpeaker(MappedLocation mappedLocation, String source, UUID uuid, int radius) {
+        Speaker speaker = new Speaker(source, uuid, radius, mappedLocation);
+        speakerMap.put(mappedLocation, speaker);
     }
 
-    public Speaker getSpeaker(SimpleLocation location) {
+    public Speaker getSpeaker(MappedLocation location) {
         return speakerMap.get(location);
     }
 
@@ -126,7 +129,7 @@ public class SpeakerModule {
         return speakerMedia;
     }
 
-    public void unlistSpeaker(SimpleLocation location) {
+    public void unlistSpeaker(MappedLocation location) {
         speakerMap.remove(location);
     }
 

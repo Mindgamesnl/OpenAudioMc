@@ -7,6 +7,7 @@ import {SocketModule} from "./modules/SocketModule";
 import {Handlers} from "./modules/Handlers";
 import {Utils} from "./modules/Utils";
 import {getHueInstance} from "./modules/JsHue";
+import {HueConfigurationModule} from "./modules/HueConfigurationModule";
 
 console.log('%c Made with love. Take note! this is a bundled version of OpenAudioMc. To get the full source code, please visit https://github.com/Mindgamesnl/OpenAudioMc', [
     'background: linear-gradient(#D33106, #571402)'
@@ -35,6 +36,7 @@ class OpenAudioMc {
         this.timeService = new TimeService();
         this.messages = new Messages(this);
         this.userInterfaceModule = new UserInterfaceModule(this);
+        this.hueConfiguration = new HueConfigurationModule(this);
         this.hueModule = new HueModule(this, hueOptions, getHueInstance());
         this.mediaManager = new MediaManager(this);
         this.socketModule = new SocketModule(this, "https://craftmendserver.eu");
@@ -45,6 +47,8 @@ class OpenAudioMc {
         //set volume
         let presetVolume = Cookies.get("volume");
         if (presetVolume != null) this.mediaManager.changeVolume(presetVolume);
+
+        this.userInterfaceModule.showHue();
     }
 
     log(message) {
@@ -57,6 +61,10 @@ class OpenAudioMc {
 
     getTimeService() {
         return this.timeService;
+    }
+
+    getHueConfiguration() {
+        return this.hueConfiguration;
     }
 
     debugPrint(message) {
@@ -77,7 +85,7 @@ class OpenAudioMc {
 
 }
 
-//enable
+// enable
 let openAudioMc = null;
 
 function enable() {

@@ -9,14 +9,14 @@ import org.bukkit.block.Block;
 
 @Data
 @AllArgsConstructor
-public class SimpleLocation {
+public class MappedLocation {
 
     private int x;
     private int y;
     private int z;
     private String world;
 
-    public SimpleLocation(Location location) {
+    public MappedLocation(Location location) {
         this.x = location.getBlockX();
         this.y = location.getBlockY();
         this.z = location.getBlockZ();

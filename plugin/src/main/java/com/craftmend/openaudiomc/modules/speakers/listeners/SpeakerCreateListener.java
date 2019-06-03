@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.modules.speakers.listeners;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
 import com.craftmend.openaudiomc.modules.speakers.SpeakerModule;
-import com.craftmend.openaudiomc.modules.speakers.objects.SimpleLocation;
+import com.craftmend.openaudiomc.modules.speakers.objects.MappedLocation;
 import lombok.AllArgsConstructor;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -38,7 +38,7 @@ public class SpeakerCreateListener implements Listener {
             }
 
             UUID id = UUID.randomUUID();
-            SimpleLocation location = new SimpleLocation(placed.getLocation());
+            MappedLocation location = new MappedLocation(placed.getLocation());
             speakerModule.registerSpeaker(location, client.getSelectedSpeakerSource(), id, 10);
 
             //save to config

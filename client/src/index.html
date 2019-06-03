@@ -29,7 +29,7 @@
     <div class="panel-content">
         <div>
             <div class="blurIn">
-                <img id="skull" src="https://minotar.net/avatar/OpenAudioMc" alt="skull">
+                <img id="skull" class="skull-image" src="https://minotar.net/avatar/OpenAudioMc" alt="skull">
             </div>
             <p class="blurIn">
                 <span id="volume-disp">volume: 50% </span>
@@ -46,7 +46,7 @@
     <p class="hueFooter blurIn"
        id="hue-bridge-menu-button"
        style="display: none;"
-        >Philips Hue <i class="fa fa-lightbulb-o"></i></p>
+    >Philips Hue <i class="fa fa-lightbulb-o"></i></p>
     <p class="footer">&copy; OpenAudioMc 2019 - <i id="username-display">Loading</i></p>
 </div>
 
@@ -54,14 +54,47 @@
 <div class="panel" id="hueMenu" style="display: none;">
     <div class="hue-page">
         <h2 class="blurIn">Philips hue</h2>
-        <div class="blurIn" id="select-bridge">
+        <div class="blurIn content" id="select-bridge" style="display: none;">
             <p id="hue-welcome-message">-</p>
             <span class="button" id="startup-hue" style="color: white;">Start</span>
+        </div>
+
+        <div class="blurIn menu">
+            <p>You are now connected with your Hue Bridge, <span id="bridge-name">{{name}}</span>.</p>
+            <div style="display: block; text-align: -webkit-center;">
+                <div class="bulbs">
+                    <div class="bulb">
+                        <h3>Light one</h3>
+                        <i class="fa fa-3x fa-lightbulb-o"></i>
+                        <div class="light-dropdown">
+                            <select id='bulb-selection-1' data-bulb="1" onchange="openAudioMc.getHueConfiguration().select(this);" class="blue-select">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="bulb">
+                        <h3>Light two</h3>
+                        <i class="fa fa-3x fa-lightbulb-o"></i>
+                        <div class="light-dropdown">
+                            <select id='bulb-selection-2' data-bulb="2" onchange="openAudioMc.getHueConfiguration().select(this);" class="blue-select">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="bulb">
+                        <h3>Light three</h3>
+                        <i class="fa fa-3x fa-lightbulb-o"></i>
+                        <div class="light-dropdown">
+                            <select id='bulb-selection-3' data-bulb="3" onchange="openAudioMc.getHueConfiguration().select(this);" class="blue-select">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <p>You may now link up to three lights that the server will control. Usually from right to left.</p>
+            </div>
         </div>
     </div>
 
     <div>
-        <p class="hueFooter blurIn" id="show-main-button">Player <i
+        <p class="hueFooter blurIn" id="show-main-button">Back to the player <i
                 class="fa fa-volume-up"></i></p>
     </div>
 
