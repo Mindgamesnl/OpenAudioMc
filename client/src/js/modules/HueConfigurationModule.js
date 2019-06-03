@@ -10,43 +10,17 @@ export class HueConfigurationModule {
         this.dropdowns.push(document.getElementById("bulb-selection-3"));
 
         this.dropdowns.forEach(item => {
-            item.onchange = me => {
-                this.select(me);
+            item.onchange = () => {
+                this.select();
             };
         });
-
-        this.setLightNamesAndIds([
-            {
-                "name": "Lamp 1",
-                "id": 0
-            },
-            {
-                "name": "Lamp 2",
-                "id": 1
-            },
-            {
-                "name": "Lamp 3",
-                "id": 2
-            },
-            {
-                "name": "Lamp 4",
-                "id": 3
-            }
-        ]);
-
-        // load state, or default
-        const oldState = Cookies.get("hue-state");
-        if (oldState != null) {
-            this.state = JSON.parse(Cookies.get("hue-state"));
-            this.applyState();
-        }
     }
 
     setBridgeName(name) {
         document.getElementById("bridge-name").innerText = name;
     }
 
-    select(item) {
+    select() {
         this.updateState();
     }
 
