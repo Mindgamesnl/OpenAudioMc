@@ -15,7 +15,6 @@ body {
 img {
     position: absolute;
     z-index: 1;
-    align: top;
     cursor: pointer;
 }
 
@@ -28,6 +27,7 @@ img {
     ),
     url(../assets/background.png);
     background-position: center;
+    background-size: inherit;
     position: absolute;
     left: 50%;
     border-radius: 10px;
@@ -93,7 +93,7 @@ img {
 
 .hue-page .content {
     font-size: 2.5vh;
-    color: #8a8d91;
+    color: rgb(160, 140, 238);
     text-align: center;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -103,7 +103,7 @@ img {
 
 .hue-page .menu {
     font-size: 2.5vh;
-    color: #8a8d91;
+    color: rgb(160, 140, 238);
     text-align: center;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -216,11 +216,27 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .button {
-    background-color: #00C853;
+    color: #ff9800;
     border-radius: 10px;
     padding-left: 10px;
     padding-right: 10px;
-    color: white;
+    border-style: solid;
+    border-color: #ff9800;
+    border-width: 2px;
+}
+
+.button-inactive {
+    color: #4db6ac;
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-style: solid;
+    border-color: #4db6ac;
+    border-width: 2px;
+}
+
+.graytext {
+    color: #707377;
 }
 
 select {
@@ -233,15 +249,23 @@ select {
     outline: 0;
     -webkit-transition: 0.3s ease all;
     -moz-transition: 0.3s ease all;
-    -ms-transition: 0.3s ease all;
     -o-transition: 0.3s ease all;
     transition: 0.3s ease all;
+}
+
+.center {
+    display: block;
+    text-align: -webkit-center;
 }
 
 .blue-select {
     background-color: rgb(98, 90, 238);
     border-radius: 20px;
     font-size: 15px;
+}
+
+.small-text {
+    width: 50%;
 }
 
 .light-dropdown {

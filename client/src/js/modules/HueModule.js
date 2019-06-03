@@ -13,8 +13,6 @@ export class HueModule {
         this.options = options;
         this.openAudioMc = main;
 
-        this.lights = [];
-
         this.hue.discover().then(bridges => {
             bridges.forEach(bridge => {
                 this.bridges.push(bridge);
@@ -26,7 +24,9 @@ export class HueModule {
             this.openAudioMc.log("Failed to initiate Philips Hue integration since this web page is served over ssl. The user will be promted to downgrade to HTTP when a user interaction is made that is related to Hue");
         }
 
-        document.getElementById("startup-hue").onclick = () => this.startSetup();
+        document.getElementById("hue-start-linking-button").onclick = () => {
+            this.startSetup();
+        }
     }
 
     onDiscover() {
@@ -35,12 +35,12 @@ export class HueModule {
             this.openAudioMc.log(this.bridges.length + " hue bridges found");
             document.getElementById("hue-bridge-menu-button").style.display = "";
             if (this.isSsl) {
-                document.getElementById("select-bridge").innerHTML = "<p><i>So close... yet so far...</i> Unfortunately, Philips Hue is not supported over SSL (https), please reaload this page over HTTP (in the address bar) to hue the hue integration.</p>";
+                document.getElementById("hue-bridge-menu-button").style.display = "none";
+                this.openAudioMc.getUserInterfaceModule().showMain();
                 return;
             }
 
             if (this.options.userid != null) {
-                document.getElementById("select-bridge").innerHTML = "<p>Loading auto connect.</p>";
                 this.openAudioMc.getHueModule().startSetup();
             }
         } else {
@@ -50,6 +50,9 @@ export class HueModule {
 
     startSetup() {
         const that = this;
+        // switch display
+        document.getElementById("hue-link-menu").style.display = "none";
+        document.getElementById("hue-linking-menu").style.display = "";
         this.bridges.forEach(bridge => {
             that.linkBridge(bridge.internalipaddress);
         })
@@ -57,22 +60,34 @@ export class HueModule {
 
     onConnect() {
         const that = this;
-        document.getElementById("select-bridge").innerHTML = "<p>Preparing user..</p>";
-        this.currentUser.getGroups().then(groups => {
-            document.getElementById("select-bridge").innerHTML = "<p>" + this.openAudioMc.getMessages().hueConnected + "</p>" +
-                "<select id='input-bridge-select' class=\"blue-select\"><option value=\"\" disabled selected id='default-group'>Select a group</option></select>";
-            document.getElementById("input-bridge-select").oninput = () => {
-                this.selectGroup(document.getElementById("input-bridge-select").value);
-            };
 
-            for (let key in groups) {
-                if (!groups.hasOwnProperty(key)) continue;
-                document.getElementById("input-bridge-select").innerHTML += `<option>${groups[key].name}</option>`;
-                if (that.options.group != null && groups[key].name === that.options.group) {
-                    this.updateSelector(groups[key].name);
-                    this.selectGroup(groups[key].name);
+        // this.openAudioMc.getMessages().hueConnected
+        // this.currentUser.getGroups().then(groups => {
+        this.currentUser.getConfig().then(data => {
+            document.getElementById("hue-settings-menu").style.display = "";
+            document.getElementById("hue-linking-menu").style.display = "none";
+            document.getElementById("hue-link-menu").style.display = "none";
+
+            this.openAudioMc.getHueConfiguration().setBridgeName(data.name);
+
+            this.currentUser.getLights().then(data => {
+                let settingsLights = [];
+                for (let property in data) {
+                    if (data.hasOwnProperty(property)) {
+                        settingsLights.push({
+                            "name": data[property].name,
+                            "id": parseInt(property)
+                        });
+                    }
                 }
-            }
+                this.openAudioMc.getHueConfiguration().setLightNamesAndIds(settingsLights);
+                // load state, or default
+                const oldState = Cookies.get("hue-state");
+                if (oldState != null) {
+                    this.openAudioMc.getHueConfiguration().state = JSON.parse(Cookies.get("hue-state"));
+                    this.openAudioMc.getHueConfiguration().applyState();
+                }
+            });
         });
     }
 
@@ -114,13 +129,13 @@ export class HueModule {
     setLight(id, rgb) {
         let query = [];
         if (typeof  id == "number") {
-            query.push(this.lights[id-1]);
+            query.push(this.openAudioMc.getHueConfiguration().getBulbStateById((id-1)));
         } else if (id.startsWith("[")) {
             JSON.parse(id).forEach(target => {
-                query.push(this.lights[target-1]);
+                query.push(this.openAudioMc.getHueConfiguration().getHueIdFromId((target-1)));
             });
         } else {
-            query.push(this.lights[parseInt(id)-1]);
+            query.push(this.openAudioMc.getHueConfiguration().getHueIdFromId((parseInt(id)-1)));
         }
         query.forEach(light => {
             this.currentUser.setLightState(light, this.colorToHueHsv(rgb)).then(() => {});
@@ -128,10 +143,10 @@ export class HueModule {
     }
 
     linkBridge(bridgeIp, precheck) {
-        document.getElementById("select-bridge").innerHTML = "<p>Preparing setup..</p>";
+        document.getElementById("hue-linking-message").innerHTML = "<p>Preparing setup..</p>";
 
         if (precheck == null && this.options.userid != null) {
-            document.getElementById("select-bridge").innerHTML = "<p>Logging in..</p>";
+            document.getElementById("hue-linking-message").innerHTML = "<p>Logging in..</p>";
             this.currentUser = this.hue.bridge(bridgeIp).user(this.options.userid);
             this.currentUser.getGroups().then(data => {
                 //check result
@@ -165,13 +180,14 @@ export class HueModule {
             linkAttempts++;
             if (linkAttempts > 60) {
                 cancel();
-                document.getElementById("select-bridge").innerHTML = "<p>Could not connect to your hue bridge after 60 seconds, did you press the link button?</p><span class=\"button\" id='startup-hue' style=\"color: white;\">Click here to try again</span>";
+                document.getElementById("hue-linking-message").innerHTML = "<p>Could not connect to your hue bridge after 60 seconds, did you press the link button?</p><span class=\"button\" id='restart-hue-linking'>Click here to try again</span>";
+                document.getElementById("restart-hue-linking").onclick = () => this.startSetup();
                 this.openAudioMc.log("Failed to authenticate with bridge in 60 seconds.");
                 return;
             }
 
             let sec = (60 - linkAttempts);
-            document.getElementById("select-bridge").innerHTML = "<p>" + this.openAudioMc.getMessages().hueLinking.replace("%sec%", sec) + "</p>";
+            document.getElementById("hue-linking-message").innerText = this.openAudioMc.getMessages().hueLinking.replace("%sec%", sec);
 
             that.currentBridge.createUser("OpenAudioMc#WebClient")
                 .then(data => {
