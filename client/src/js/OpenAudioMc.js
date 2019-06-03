@@ -47,8 +47,6 @@ class OpenAudioMc {
         //set volume
         let presetVolume = Cookies.get("volume");
         if (presetVolume != null) this.mediaManager.changeVolume(presetVolume);
-
-        this.userInterfaceModule.showHue();
     }
 
     log(message) {
@@ -95,3 +93,4 @@ function enable() {
 }
 
 document.getElementById("start-button").onclick = () => enable();
+document.body.onclick = () => enable();

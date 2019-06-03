@@ -52,7 +52,6 @@ export class HueConfigurationModule {
 
     applyState() {
         this.state.forEach(state => {
-            console.log(state.bulb)
             this.getInputById(state.bulb).selectedIndex = state.selectedIndex;
         });
     }
@@ -87,6 +86,10 @@ export class HueConfigurationModule {
         for (const dropdown of this.dropdowns) {
             if (dropdown.dataset.bulb == id) return dropdown;
         }
+    }
+
+    getHueIdFromId(id) {
+        return this.state[parseInt(id)].value;;
     }
 
     setLightNamesAndIds(items) {

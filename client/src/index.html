@@ -15,10 +15,10 @@
     <div class="panel-content">
         <div>
             <h2 class="blurIn">
-                <span class="button" id="start-button">Connect</span>
+                <span class="button" id="start-button">Click to connect</span>
             </h2>
             <p class="blurIn">
-                Welcome to OpenAudioMc!<br/>Click the connect button above to start the web client.
+                Welcome!<br/>Click anywhere on this page to connect to the server.
             </p>
         </div>
     </div>
@@ -54,20 +54,31 @@
 <div class="panel" id="hueMenu" style="display: none;">
     <div class="hue-page">
         <h2 class="blurIn">Philips hue</h2>
-        <div class="blurIn content" id="select-bridge" style="display: none;">
-            <p id="hue-welcome-message">-</p>
-            <span class="button" id="startup-hue" style="color: white;">Start</span>
+
+        <div class="blurIn menu" id="hue-link-menu">
+            <div class="center">
+                <p class="small-text" id="hue-welcome-message"></p>
+            </div>
+            <span class="button" id="hue-start-linking-button">Click here to connect</span>
         </div>
 
-        <div class="blurIn menu">
+        <div class="blurIn menu" id="hue-linking-menu" style="display: none;">
+            <div class="center">
+                <p class="small-text" id="hue-linking-message"></p>
+            </div>
+        </div>
+
+
+        <div class="blurIn menu" id="hue-settings-menu" style="display: none;">
             <p>You are now connected with your Hue Bridge, <span id="bridge-name">{{name}}</span>.</p>
-            <div style="display: block; text-align: -webkit-center;">
+            <div class="graytext" style="display: block; text-align: -webkit-center;">
                 <div class="bulbs">
                     <div class="bulb">
                         <h3>Light one</h3>
                         <i class="fa fa-3x fa-lightbulb-o"></i>
                         <div class="light-dropdown">
-                            <select id='bulb-selection-1' data-bulb="1" onchange="openAudioMc.getHueConfiguration().select(this);" class="blue-select">
+                            <select id='bulb-selection-1' data-bulb="1" :(
+                                    class="blue-select">
                             </select>
                         </div>
                     </div>
@@ -75,7 +86,7 @@
                         <h3>Light two</h3>
                         <i class="fa fa-3x fa-lightbulb-o"></i>
                         <div class="light-dropdown">
-                            <select id='bulb-selection-2' data-bulb="2" onchange="openAudioMc.getHueConfiguration().select(this);" class="blue-select">
+                            <select id='bulb-selection-2' data-bulb="2" class="blue-select">
                             </select>
                         </div>
                     </div>
@@ -83,7 +94,7 @@
                         <h3>Light three</h3>
                         <i class="fa fa-3x fa-lightbulb-o"></i>
                         <div class="light-dropdown">
-                            <select id='bulb-selection-3' data-bulb="3" onchange="openAudioMc.getHueConfiguration().select(this);" class="blue-select">
+                            <select id='bulb-selection-3' data-bulb="3" class="blue-select">
                             </select>
                         </div>
                     </div>
