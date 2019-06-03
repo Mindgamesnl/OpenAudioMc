@@ -117,6 +117,7 @@ img {
 }
 
 .bulb {
+    color: white;
     height: 50px;
     display: inline-block;
     width:33.33%;
@@ -192,12 +193,12 @@ input[type="range"]::-webkit-slider-thumb {
 
     25% {
         box-shadow: 0 10px 20px rgb(146, 8, 0), 0 5px 8px rgba(98, 90, 238, 0.25);
-        transform: rotate(-15deg);
+        transform: rotate(-6deg);
     }
 
     50% {
         box-shadow: 0 20px 40px rgba(98, 90, 238, 0.45), 0 5px 8px rgba(98, 90, 238, 0.25);
-        transform: rotate(10deg);
+        transform: rotate(8deg);
     }
 
     98% {
@@ -296,7 +297,7 @@ li {
 .skull-image {
     position: absolute;
     margin: auto;
-    height: 30%;
+    height: 40%;
     top: -15%;
     left: 0;
     right: 0;
