@@ -17,6 +17,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Skull;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
@@ -55,18 +56,20 @@ public class SpeakerModule {
             }
         }
 
+        FileConfiguration dataFile = openAudioMc.getConfigurationModule().getDataConfig();
+
         //load speakers
-        for (String id : openAudioMc.getConfigurationModule().getDataConfig().getConfigurationSection("speakers").getKeys(false)) {
-            String world = openAudioMc.getConfigurationModule().getDataConfig().getString("speakers." + id + ".world");
-            String media = openAudioMc.getConfigurationModule().getDataConfig().getString("speakers." + id + ".media");
-            int x = openAudioMc.getConfigurationModule().getDataConfig().getInt("speakers." + id + ".x");
-            int y = openAudioMc.getConfigurationModule().getDataConfig().getInt("speakers." + id + ".y");
-            int z = openAudioMc.getConfigurationModule().getDataConfig().getInt("speakers." + id + ".z");
+        for (String id : dataFile.getConfigurationSection("speakers").getKeys(false)) {
+            String world = dataFile.getString("speakers." + id + ".world");
+            String media = dataFile.getString("speakers." + id + ".media");
+            int x = dataFile.getInt("speakers." + id + ".x");
+            int y = dataFile.getInt("speakers." + id + ".y");
+            int z = dataFile.getInt("speakers." + id + ".z");
             if (world != null) {
                 SimpleLocation simpleLocation = new SimpleLocation(x, y, z, world);
                 Block blockAt = simpleLocation.getBlock();
-                if (blockAt != null && isSpeakerSkull(blockAt)) {
-                    registerSpeaker(simpleLocation, media, UUID.fromString(id), OpenAudioMc.getInstance().getConfig().getInt("options.speaker-radius"));
+                if (blockAt != null) {
+                    registerSpeaker(simpleLocation, media, UUID.fromString(id), dataFile.getInt("options.speaker-radius"));
                 } else {
                     System.out.println(OpenAudioMc.getLOG_PREFIX() + "Speaker " + id + " doesn't to seem be valid anymore, so it's not getting loaded.");
                 }
