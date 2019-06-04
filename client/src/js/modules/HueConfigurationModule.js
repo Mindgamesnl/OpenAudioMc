@@ -1,6 +1,6 @@
 export class HueConfigurationModule {
 
-    constructor(main) {
+    constructor() {
         // attach items
         this.dropdowns = [];
         this.state = [];
