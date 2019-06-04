@@ -5,3 +5,5 @@ speakers:
 keyset:
   private: not-set
   base-url: https://client.openaudiomc.net/?&data=
+debug:
+  log-state-changes: false

@@ -48,7 +48,7 @@ export class WebAudio {
 
         this.soundElement.onended = function () {
             that.isPlayable = true;
-            that.onFinishHandlers.forEach(h => h());
+            that.onFinishHandlers.forEach(callback => callback());
         };
 
         this.soundElement.onloadstart = function () {
