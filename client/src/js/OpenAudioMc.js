@@ -15,6 +15,7 @@ export class OpenAudioMc extends Getters {
 
     constructor() {
         super();
+
         this.timeService = new TimeService();
         this.messages = new Messages(this);
         this.userInterfaceModule = new UserInterfaceModule(this);
