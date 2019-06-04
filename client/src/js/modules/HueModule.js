@@ -1,8 +1,6 @@
-import {getHueInstance} from "./JsHue";
-
 export class HueModule {
 
-    constructor(main, options, hue) {
+    constructor(main, hue) {
         this.hue = hue;
         this.bridges = [];
         this.isSsl = (document.location.href.startsWith("https://"));
@@ -10,7 +8,10 @@ export class HueModule {
         this.currentBridge = null;
         this.currentUser = null;
         this.color = net.brehaut.Color;
-        this.options = options;
+        this.options = {
+            "userid": Cookies.get("hueid")
+        };
+
         this.openAudioMc = main;
 
         this.hue.discover().then(bridges => {
