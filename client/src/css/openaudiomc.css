@@ -27,10 +27,10 @@ img {
     ),
     url(../assets/background.png);
     background-position: center;
-    background-size: inherit;
+    background-repeat: no-repeat;
+    background-size: cover;
     position: absolute;
     left: 50%;
-    border-radius: 10px;
     transform: translate(-50%, -50%);
     top: 50%;
     box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25), 0 10px 30px rgba(0, 0, 0, 0.22);
@@ -220,7 +220,7 @@ input[type="range"]::-webkit-slider-thumb {
     color: #ff9800;
     border-radius: 10px;
     padding-left: 10px;
-    padding-right: 10px;
+    padding-right: 13px;
     border-style: solid;
     border-color: #ff9800;
     border-width: 2px;

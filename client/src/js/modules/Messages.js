@@ -16,8 +16,6 @@ export class Messages {
 
         if (this.main.socketModule.state === "ok") {
             document.getElementById("status-message").innerHTML = this.welcomeMessage;
-        } else {
-            document.getElementById("status-message").innerHTML = this.errorMessage;
         }
     }
 
