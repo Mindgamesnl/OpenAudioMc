@@ -60,10 +60,6 @@ export class HueModule {
     }
 
     onConnect() {
-        const that = this;
-
-        // this.openAudioMc.getMessages().hueConnected
-        // this.currentUser.getGroups().then(groups => {
         this.currentUser.getConfig().then(data => {
             document.getElementById("hue-settings-menu").style.display = "";
             document.getElementById("hue-linking-menu").style.display = "none";
@@ -97,24 +93,6 @@ export class HueModule {
             document.getElementById("default-group").selected = false;
             document.getElementById("input-bridge-select").value = name;
         }, 200);
-    }
-
-    selectGroup(value) {
-        Cookies.set("huegroup", value);
-        const that = this;
-        this.currentUser.getGroups().then(groups => {
-            for (let key in groups) {
-                if (!groups.hasOwnProperty(key)) continue;
-                if (value === groups[key].name) {
-                    that.lights = [];
-                    for (let id in groups[key].lights) {
-                        id++;
-                        that.lights.push(id);
-                        that.setLight(id, "rgba(58,50,238,0.5)");
-                    }
-                }
-            }
-        });
     }
 
     colorToHueHsv(color) {
