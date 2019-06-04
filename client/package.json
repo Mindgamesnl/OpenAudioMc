@@ -1,7 +1,7 @@
 {
-  "name": "webpack-demo",
-  "version": "1.0.0",
-  "description": "",
+  "name": "OpenAudioMc-Web-Client",
+  "version": "1.0.5",
+  "description": "The OpenAudioMc web client",
   "private": true,
   "scripts": {
     "build": "webpack --config webpack.config.js"
