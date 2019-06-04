@@ -1,14 +1,12 @@
-const webpack = require("webpack");
 const path = require('path');
-
-var exec = require('child_process').exec;
+const exec = require('child_process').exec;
 
 function puts(error, stdout, stderr) {
-    console.log(stdout);
+    if (stdout != "") console.log(stdout);
 }
 
 function WebpackShellPlugin(options) {
-    var defaultOptions = {
+    let defaultOptions = {
         onBuildStart: [],
         onBuildEnd: []
     };
@@ -16,20 +14,24 @@ function WebpackShellPlugin(options) {
     this.options = Object.assign(defaultOptions, options);
 }
 
-WebpackShellPlugin.prototype.apply = function(compiler) {
+WebpackShellPlugin.prototype.apply = function (compiler) {
     const options = this.options;
 
     compiler.plugin("compilation", compilation => {
-        if(options.onBuildStart.length){
+        if (options.onBuildStart.length) {
             console.log("Executing pre-build scripts");
-            options.onBuildStart.forEach(script => exec(script, puts));
+            for (const script of options.onBuildStart) {
+                exec(script, puts);
+            }
         }
     });
 
     compiler.plugin("emit", (compilation, callback) => {
-        if(options.onBuildEnd.length){
+        if (options.onBuildEnd.length) {
             console.log("Executing post-build scripts");
-            options.onBuildEnd.forEach(script => exec(script, puts));
+            for (const script of options.onBuildEnd) {
+                exec(script, puts);
+            }
         }
         callback();
     });
@@ -58,14 +60,9 @@ module.exports = {
     },
     output: {
         filename: (chunkData) => {
-            return chunkData.chunk.name === 'main' ? 'OpenAudioMc.bundle.js': '[name]/[name].js';
+            return chunkData.chunk.name === 'main' ? 'OpenAudioMc.bundle.js' : '[name]/[name].js';
         },
         path: path.resolve(__dirname, 'dist')
-    },
-    module: {
-        rules: [
-
-        ]
     },
     plugins: [new WebpackShellPlugin({
         onBuildStart: preInstall,
