@@ -89,7 +89,7 @@ public final class OpenAudioMc extends JavaPlugin {
         instance = this;
 
         // startup modules and services
-        this.stateService = new StateService();
+        this.stateService = new StateService(this);
         this.serverService = new ServerService();
         this.timeService = new TimeService();
         this.mediaModule = new MediaModule();
