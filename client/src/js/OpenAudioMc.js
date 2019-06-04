@@ -7,9 +7,9 @@ import {MediaManager} from "./modules/MediaManager";
 import {SocketModule} from "./modules/SocketModule";
 import {Handlers} from "./modules/Handlers";
 import {HueConfigurationModule} from "./modules/HueConfigurationModule";
-import {Getters} from "./modules/Getters";
-import {getHueInstance} from "./modules/JsHue";
-import {linkBootListeners} from "./modules/StaticFunctions";
+import {Getters} from "./helpers/Getters";
+import {getHueInstance} from "./helpers/JsHue";
+import {linkBootListeners} from "./helpers/StaticFunctions";
 
 export class OpenAudioMc extends Getters {
 
