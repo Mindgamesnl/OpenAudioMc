@@ -8,8 +8,6 @@ import {SocketModule} from "./modules/SocketModule";
 import {Handlers} from "./modules/Handlers";
 import {HueConfigurationModule} from "./modules/HueConfigurationModule";
 import {Getters} from "./modules/Getters";
-
-// Static functions
 import {getHueInstance} from "./modules/JsHue";
 import {linkBootListeners} from "./modules/StaticFunctions";
 
