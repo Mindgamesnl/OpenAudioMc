@@ -6,10 +6,8 @@ export class WebAudio {
         //audio meta data
         this.meta = {};
         this.openAudioMc = main;
-        this.time = 0;
         this.task = 0;
         this.onFinishHandlers = [];
-        this.isLoading = false;
         this.isPlayable = false;
         this.isFading = false;
         this.isFirstRun = true;
@@ -123,9 +121,19 @@ export class WebAudio {
             if (volume !== Math.floor((that.soundElement.volume * 100))) {
                 //check if it needs to be higher
                 if (diff > 0) {
-                    that.soundElement.volume =(Math.ceil((that.soundElement.volume * 100) + 1) / 100);
+                    const tVol = (Math.ceil((that.soundElement.volume * 100) + 1) / 100);
+                    if (tVol > 1 || tVol < 0) {
+                        cancel();
+                        return;
+                    }
+                    that.soundElement.volume = tVol;
                 } else if (diff < 0) {
-                    that.soundElement.volume = (Math.floor((that.soundElement.volume * 100) - 1) / 100);
+                    const tVol = (Math.floor((that.soundElement.volume * 100) - 1) / 100);
+                    if (tVol > 1 || tVol < 0) {
+                        cancel();
+                        return;
+                    }
+                    that.soundElement.volume = tVol;
                 } else {
                     cancel();
                 }

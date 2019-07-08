@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.modules.commands.interfaces;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.commands.objects.Argument;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
@@ -14,6 +15,7 @@ import java.util.List;
 public abstract class SubCommand {
 
     @Getter private String command;
+    @Getter @Setter private Boolean isConnectionRequired = false;
     @Getter private List<Argument> arguments = new ArrayList<>();
 
     /**
