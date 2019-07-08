@@ -15,7 +15,6 @@ import java.util.List;
 public abstract class SubCommand {
 
     @Getter private String command;
-    @Getter @Setter private Boolean isConnectionRequired = false;
     @Getter private List<Argument> arguments = new ArrayList<>();
 
     /**

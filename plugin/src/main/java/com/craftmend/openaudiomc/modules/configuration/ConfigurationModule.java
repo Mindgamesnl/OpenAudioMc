@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.modules.configuration;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.modules.configuration.objects.ClientSettings;
 import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -13,6 +14,7 @@ public class ConfigurationModule {
     @Getter private String server = "http://craftmendserver.eu";
     @Getter private FileConfiguration mainConfig;
     @Getter private FileConfiguration dataConfig;
+    @Getter private ClientSettings clientSettings;
 
     public ConfigurationModule(OpenAudioMc openAudioMc) {
         //save default
@@ -20,8 +22,9 @@ public class ConfigurationModule {
         if (!hasDataFile()) openAudioMc.saveResource("data.yml", false);
 
         dataConfig = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudioMc/data.yml"));
-
         mainConfig = openAudioMc.getConfig();
+
+        clientSettings = new ClientSettings().load();
 
         System.out.println(OpenAudioMc.getLOG_PREFIX() + "Starting configuration module");
     }

@@ -131,10 +131,6 @@
           <groupId>com.sk89q.worldedit</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>intake</artifactId>
-          <groupId>com.sk89q.intake</groupId>
-        </exclusion>
-        <exclusion>
           <artifactId>squirrelid</artifactId>
           <groupId>com.sk89q</groupId>
         </exclusion>

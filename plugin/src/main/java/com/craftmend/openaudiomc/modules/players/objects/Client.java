@@ -56,7 +56,7 @@ public class Client extends WebConnection {
         currentSpeakers.clear();
         Bukkit.getScheduler().scheduleAsyncDelayedTask(OpenAudioMc.getInstance(), () -> {
             ongoingMedia.forEach(this::sendMedia);
-            ClientSettings settings = new ClientSettings().load();
+            ClientSettings settings = OpenAudioMc.getInstance().getConfigurationModule().getClientSettings();
             if (!settings.equals(new ClientSettings())) {
                 OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientPushSettings(settings));
             }
