@@ -108,13 +108,19 @@ export class HueModule {
     setLight(id, rgb) {
         let query = [];
         if (typeof  id == "number") {
-            query.push(this.openAudioMc.getHueConfiguration().getBulbStateById((id-1)));
+            let lId = this.openAudioMc.getHueConfiguration().getBulbStateById((id-1));
+            if (lId === -1) return false;
+            query.push(lId);
         } else if (id.startsWith("[")) {
             JSON.parse(id).forEach(target => {
-                query.push(this.openAudioMc.getHueConfiguration().getHueIdFromId((target-1)));
+                let lId = this.openAudioMc.getHueConfiguration().getHueIdFromId((target-1));
+                if (lId === -1) return false;
+                query.push(lId);
             });
         } else {
-            query.push(this.openAudioMc.getHueConfiguration().getHueIdFromId((parseInt(id)-1)));
+            let lId = this.openAudioMc.getHueConfiguration().getHueIdFromId((parseInt(id)-1));
+            if (lId === -1) return false;
+            query.push(lId);
         }
         query.forEach(light => {
             this.currentUser.setLightState(light, this.colorToHueHsv(rgb)).then(() => {});
