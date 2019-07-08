@@ -38,7 +38,7 @@ public class PlayerSelector {
                 Player nearest = Bukkit.getOnlinePlayers().stream()
                         .filter(player -> player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
                         .min(Comparator.comparing(player -> player.getLocation().distance(standPoint)))
-                        .filter(player -> Integer.valueOf(getArgument("r")) > player.getLocation().distance(standPoint))
+                        .filter(player -> Integer.parseInt(getArgument("r")) > player.getLocation().distance(standPoint))
                         .get();
                 players.add(nearest);
             }
@@ -76,7 +76,7 @@ public class PlayerSelector {
             } else if (getArgument("r").length() != 0) {
                 players.addAll(Bukkit.getOnlinePlayers().stream()
                         .filter(player -> player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
-                        .filter(player -> Integer.valueOf(getArgument("r")) > player.getLocation().distance(standPoint))
+                        .filter(player -> Integer.parseInt(getArgument("r")) > player.getLocation().distance(standPoint))
                         .collect(Collectors.toList()));
             }
 
@@ -115,10 +115,9 @@ public class PlayerSelector {
 
         if (!getArgument("x").equals("") && !getArgument("y").equals("") && !getArgument("z").equals("")) {
             try {
-                int x = Integer.valueOf(getArgument("x"));
-                int y = Integer.valueOf(getArgument("y"));
-                int z = Integer.valueOf(getArgument("z"));
-                assert initialLocation != null;
+                int x = Integer.parseInt(getArgument("x"));
+                int y = Integer.parseInt(getArgument("y"));
+                int z = Integer.parseInt(getArgument("z"));
                 return new Location(initialLocation.getWorld(), x, y, z);
             } catch (Exception e) {
                 commandSender.sendMessage(OpenAudioMc.getLOG_PREFIX() + "An error occurred when parsing the location as an Integer");
