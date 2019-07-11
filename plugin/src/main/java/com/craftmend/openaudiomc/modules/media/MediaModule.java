@@ -15,11 +15,8 @@ public class MediaModule {
     private Map<String, List<UrlMutation>> urlMutations = new HashMap<>();
 
     public void registerMutation(String host, UrlMutation urlMutation) {
-        List<UrlMutation> mutatables = urlMutations.get(host);
-        if (mutatables == null) {
-            urlMutations.put(host, new ArrayList<>());
-        }
-        mutatables.add(urlMutation);
+        urlMutations.computeIfAbsent(host, k -> new ArrayList<>());
+        urlMutations.get(host).add(urlMutation);
     }
 
     /**
