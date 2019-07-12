@@ -65,7 +65,6 @@ public class RegionModule {
     }
 
     public void registerRegion(String id, RegionProperties propperties) {
-        if (id.equals("iamnotactuallyaregionjustadefaultvaluesoyeahokaibye")) return;
         regionPropertiesMap.put(id, propperties);
     }
 

@@ -1,7 +1,5 @@
 regions:
-  iamnotactuallyaregionjustadefaultvaluesoyeahokaibye: dudewhy
 speakers:
-  none: none
 keyset:
   private: not-set
   base-url: https://client.openaudiomc.net/?&data=

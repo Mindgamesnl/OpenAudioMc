@@ -149,12 +149,15 @@ public class SpeakerModule {
     }
 
     public Boolean isSpeakerSkull(Block block) {
-        if (block.getState() != null && block.getState() instanceof Skull) {
+        if (block.getState() instanceof Skull) {
             Skull skull = (Skull) block.getState();
             if (version == ServerVersion.MODERN) {
                 if (skull.getOwningPlayer() == null) return false;
                 if (skull.getOwningPlayer().getName() == null) return false;
-                return skull.getOwningPlayer().getName().equals("OpenAudioMc");
+                return
+                        skull.getOwningPlayer().getName().equals("OpenAudioMc")
+                        ||
+                        skull.getOwningPlayer().getUniqueId().toString().equals("c0db149e-d498-4a16-8e35-93d57577589f");
             } else {
                 if (skull.getOwner() == null) return false;
                 return skull.getOwner().equals("OpenAudioMc");
