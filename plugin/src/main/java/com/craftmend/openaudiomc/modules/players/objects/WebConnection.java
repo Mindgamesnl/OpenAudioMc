@@ -41,7 +41,6 @@ public abstract class WebConnection implements ClientConnection {
         }
 
         try {
-            player.sendMessage("starting??");
             OpenAudioMc.getInstance().getNetworkingService().connectIfDown();
         } catch (URISyntaxException e) {
             player.sendMessage(OpenAudioMc.getLOG_PREFIX() + "Failed to execute goal.");
