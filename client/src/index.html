@@ -8,29 +8,24 @@
     <script src="libs/color.js"></script>
     <script src="libs/js.cookie.js"></script>
 
+    <link rel="icon" href="assets/logo.png" />
+    <link rel="image" href="assets/logo.png" />
+
     <title>OpenAudioMc | Client</title>
 </head>
 <body id="page">
-<div class="panel blurrOut" id="welcome">
+<div class="panel panel-small blurrOut" id="welcome">
     <div class="panel-content">
-        <div>
-            <h2 class="blurIn">
-                <span class="button" id="start-button">Click to connect</span>
-            </h2>
-            <p class="blurIn">
-                Welcome!<br/>Click anywhere on this page to connect to the server.
-            </p>
+        <div class="prompt-press">
+            Welcome!<br/>Click here to start.
         </div>
     </div>
-    <p class="footer">&copy; OpenAudioMc 2019</p>
 </div>
 
 <div class="panel" id="app" style="display: none;">
     <div class="panel-content">
         <div>
-            <div class="blurIn">
-                <img id="skull" class="skull-image" src="https://minotar.net/avatar/OpenAudioMc" alt="skull">
-            </div>
+            <img id="skull" class="skull-image" src="https://minotar.net/avatar/OpenAudioMc" alt="skull">
             <p class="blurIn">
                 <span id="volume-disp">volume: 50% </span>
                 <label id="volume-label">
@@ -47,11 +42,10 @@
        id="hue-bridge-menu-button"
        style="display: none;"
     >Philips Hue <i class="fa fa-lightbulb-o"></i></p>
-    <p class="footer">&copy; OpenAudioMc 2019 - <i id="username-display">Loading</i></p>
 </div>
 
 
-<div class="panel" id="hueMenu" style="display: none;">
+<div class="panel wider-panel" id="hueMenu" style="display: none;">
     <div class="hue-page">
         <h2 class="blurIn">Philips hue</h2>
 
@@ -108,10 +102,13 @@
         <p class="hueFooter blurIn" id="show-main-button">Back to the player <i
                 class="fa fa-volume-up"></i></p>
     </div>
-
-    <p class="footer">&copy; OpenAudioMc 2019</p>
 </div>
-
+<footer id="footer">
+    <span class="roboto">
+        <span class="notice">&copy; <a href="https://openaudiomc.net/">OpenAudioMc</a> 2019</span>
+        <i id="username-display">Awaiting command.</i>
+    </span>
+</footer>
 </body>
 <script src="OpenAudioMc.bundle.js"></script>
 </html>

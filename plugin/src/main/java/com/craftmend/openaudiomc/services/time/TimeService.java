@@ -11,6 +11,7 @@ public class TimeService {
 
     @Getter private long offset = 0;
     private boolean serverIsAhead = false;
+    @Getter private Instant lastUpdated = Instant.now();
 
     public Instant getSyncedInstant() {
         Instant now = Instant.now();
@@ -39,6 +40,7 @@ public class TimeService {
         Duration diff = Duration.between(local, server);
         serverIsAhead = !diff.isNegative();
         this.offset = diff.toMillis();
+        lastUpdated = Instant.now();
     }
 
 }
