@@ -35,18 +35,13 @@ public abstract class WebConnection implements ClientConnection {
      * and generate a hashed token
      */
     public void publishUrl() {
-        StateService service = OpenAudioMc.getInstance().getStateService();
-        if (service.getCurrentState().isConnected()) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(OpenAudioMc.getInstance().getConfig().getString("messages.api-starting-up"))));
-            return;
-        }
-
         if (isConnected) {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(OpenAudioMc.getInstance().getConfig().getString("messages.client-already-connected"))));
             return;
         }
 
         try {
+            player.sendMessage("starting??");
             OpenAudioMc.getInstance().getNetworkingService().connectIfDown();
         } catch (URISyntaxException e) {
             player.sendMessage(OpenAudioMc.getLOG_PREFIX() + "Failed to execute goal.");

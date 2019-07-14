@@ -104,9 +104,11 @@ export class WebAudio {
         const interval = fadetime / steps;
         const that = this;
         const callback = onfinish;
+        let stepsMade = 0;
 
         this.isFading = true;
         this.task = setInterval(function () {
+            stepsMade++;
             function cancel() {
                 that.isFading = false;
                 if (callback != null) callback();
@@ -114,6 +116,11 @@ export class WebAudio {
             }
 
             if (that.soundElement == null) {
+                cancel();
+                return;
+            }
+
+            if (steps < stepsMade) {
                 cancel();
                 return;
             }
