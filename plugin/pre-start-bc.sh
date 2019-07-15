@@ -8,7 +8,7 @@ echo -e "[Webhook]: Sending webhook to Discord...\\n";
 
 TIMESTAMP=$(date --utc +%FT%TZ)
 WEBHOOK_DATA='{
-  "username": "",
+  "username": "Maven builds",
   "avatar_url": "https://github.com/Mindgamesnl.png",
   "embeds": [ {
     "color": '3066993',
