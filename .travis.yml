@@ -11,6 +11,6 @@ jdk:
   - oraclejdk8
 script:
   - chmod +x pre-start-bc.sh
-  - ./pre-start-bc.sh $WEBHOOK_URL
+  - ./pre-start-bc.sh ohyesfuck $WEBHOOK_URL
   - mvn clean package
 before_script: cd 'plugin'
