@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.modules.speakers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.configuration.ConfigurationModule;
+import com.craftmend.openaudiomc.modules.configuration.enums.StorageKey;
 import com.craftmend.openaudiomc.modules.configuration.enums.StorageLocation;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
 import com.craftmend.openaudiomc.modules.speakers.objects.MappedLocation;
@@ -68,13 +69,14 @@ public class SpeakerModule {
             int x = config.getIntFromPath("speakers." + id + ".x", StorageLocation.DATA_FILE);
             int y = config.getIntFromPath("speakers." + id + ".y", StorageLocation.DATA_FILE);
             int z = config.getIntFromPath("speakers." + id + ".z", StorageLocation.DATA_FILE);
+            int radius = config.getInt(StorageKey.SETTINGS_SPEAKER_RANGE);
 
             if (world != null) {
                 MappedLocation mappedLocation = new MappedLocation(x, y, z, world);
                 Block blockAt = mappedLocation.getBlock();
 
                 if (blockAt != null) {
-                    registerSpeaker(mappedLocation, media, UUID.fromString(id), config.getIntFromPath("options.speaker-radius", StorageLocation.DATA_FILE));
+                    registerSpeaker(mappedLocation, media, UUID.fromString(id), radius);
                 } else {
                     System.out.println(OpenAudioMc.getLOG_PREFIX() + "Speaker " + id + " doesn't to seem be valid anymore, so it's not getting loaded.");
                 }
@@ -154,6 +156,14 @@ public class SpeakerModule {
         if (block.getState() instanceof Skull) {
             Skull skull = (Skull) block.getState();
             if (version == ServerVersion.MODERN) {
+
+                try {
+                    if (skull.getOwner() == null) return false;
+                    return skull.getOwner().equals("OpenAudioMc");
+                } catch (Exception e) {
+                    // bukkit did remove the method! oh well
+                }
+
                 if (skull.getOwningPlayer() == null) return false;
                 if (skull.getOwningPlayer().getName() == null) return false;
                 return

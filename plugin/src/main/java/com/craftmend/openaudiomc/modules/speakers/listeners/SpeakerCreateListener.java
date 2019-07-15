@@ -41,15 +41,17 @@ public class SpeakerCreateListener implements Listener {
 
             UUID id = UUID.randomUUID();
             MappedLocation location = new MappedLocation(placed.getLocation());
-            speakerModule.registerSpeaker(location, client.getSelectedSpeakerSource(), id, 10);
+
+            int range = openAudioMc.getConfigurationModule().getInt(StorageKey.SETTINGS_SPEAKER_RANGE);
+
+            speakerModule.registerSpeaker(location, client.getSelectedSpeakerSource(), id, range);
 
             //save to config
             openAudioMc.getConfigurationModule().setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".world", location.getWorld());
             openAudioMc.getConfigurationModule().setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".x", location.getX());
             openAudioMc.getConfigurationModule().setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".y", location.getY());
             openAudioMc.getConfigurationModule().setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".z", location.getZ());
-            openAudioMc.getConfigurationModule().setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".radius",
-                    openAudioMc.getConfigurationModule().getInt(StorageKey.SETTINGS_SPEAKER_RANGE));
+            openAudioMc.getConfigurationModule().setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".radius", range);
             openAudioMc.getConfigurationModule().setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".media", client.getSelectedSpeakerSource());
 
             event.getPlayer().sendMessage(openAudioMc.getCommandModule().getCommandPrefix() + "Speaker registered");
