@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.modules.regions;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.modules.configuration.ConfigurationModule;
+import com.craftmend.openaudiomc.modules.configuration.enums.StorageLocation;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
 import com.craftmend.openaudiomc.modules.regions.adapters.LegacyRegionAdapter;
 import com.craftmend.openaudiomc.modules.regions.adapters.ModernRegionAdapter;
@@ -42,13 +44,13 @@ public class RegionModule {
             }
         }
 
-        FileConfiguration dataFile = openAudioMc.getConfigurationModule().getDataConfig();
+        ConfigurationModule config = openAudioMc.getConfigurationModule();
 
         //load config
-        for (String region : dataFile.getConfigurationSection("regions").getKeys(false)) {
+        for (String region : config.getStringSet("regions", StorageLocation.DATA_FILE)) {
             // before we actually add it, we should check if the WG region still exists, to lesser load
             if (regionAdapter.doesRegionExist(region.toLowerCase())) {
-                String source = dataFile.getString("regions." + region + "");
+                String source = config.getStringFromPath("regions." + region, StorageLocation.DATA_FILE);
                 RegionProperties properties = new RegionProperties(source);
                 registerRegion(region, properties);
             }

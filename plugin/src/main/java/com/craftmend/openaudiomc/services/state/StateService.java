@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.services.state;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.modules.configuration.enums.StorageKey;
 import com.craftmend.openaudiomc.services.state.interfaces.State;
 import com.craftmend.openaudiomc.services.state.states.BootingState;
 import lombok.Getter;
@@ -16,7 +17,8 @@ public class StateService {
 
     public void setState(State state) {
         // check if state logging is enabled
-        Boolean logState = this.openAudioMc.getConfigurationModule().getDataConfig().getBoolean("debug.log-state-changes");
+        Boolean logState = this.openAudioMc.getConfigurationModule().getBoolean(StorageKey.DEBUG_LOG_STATE_CHANGES);
+
         if (logState) System.out.println(OpenAudioMc.getLOG_PREFIX() + "Changing state from ["
                 + currentState.getClass().getSimpleName()
                 + "] to ["

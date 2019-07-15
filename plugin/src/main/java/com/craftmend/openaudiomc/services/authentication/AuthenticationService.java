@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.services.authentication;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.modules.configuration.ConfigurationModule;
+import com.craftmend.openaudiomc.modules.configuration.enums.StorageKey;
 import com.craftmend.openaudiomc.services.authentication.objects.Key;
 import com.craftmend.openaudiomc.services.authentication.objects.RequestResponse;
 import com.craftmend.openaudiomc.services.authentication.objects.ServerKeySet;
@@ -29,7 +31,9 @@ public class AuthenticationService {
      * If they dont exist, then they will be requested by the cool OpenAuioMc api.
      */
     private void loadData() {
-        if (OpenAudioMc.getInstance().getConfigurationModule().getDataConfig().getString("keyset.private").equals("not-set")) {
+        ConfigurationModule configurationModule = OpenAudioMc.getInstance().getConfigurationModule();
+
+        if (configurationModule.getString(StorageKey.AUTH_PRIVATE_KEY).equals("not-set")) {
             //setup process
             try {
                 RequestResponse requestResponse = OpenAudioMc.getGson().fromJson(readHttp(OpenAudioMc.getInstance().getConfigurationModule().getServer() + "/genid"), RequestResponse.class);
@@ -37,8 +41,8 @@ public class AuthenticationService {
                 if (requestResponse.getSuccess()) {
                     serverKeySet.setPrivateKey(new Key(requestResponse.getPrivateKey().toString()));
                     serverKeySet.setPublicKey(new Key(requestResponse.getPublicKey().toString()));
-                    OpenAudioMc.getInstance().getConfigurationModule().getDataConfig().set("keyset.private", serverKeySet.getPrivateKey().getValue());
-                    OpenAudioMc.getInstance().getConfigurationModule().getDataConfig().set("keyset.public", serverKeySet.getPublicKey().getValue());
+                    configurationModule.setString(StorageKey.AUTH_PRIVATE_KEY, serverKeySet.getPrivateKey().getValue());
+                    configurationModule.setString(StorageKey.AUTH_PUBLIC_KEY, serverKeySet.getPublicKey().getValue());
                     isSuccesfull = true;
                 } else {
                     System.out.println(OpenAudioMc.getLOG_PREFIX() + "Failed to request token.");
@@ -50,8 +54,8 @@ public class AuthenticationService {
                 e.printStackTrace();
             }
         } else {
-            serverKeySet.setPrivateKey(new Key(OpenAudioMc.getInstance().getConfigurationModule().getDataConfig().getString("keyset.private")));
-            serverKeySet.setPublicKey(new Key(OpenAudioMc.getInstance().getConfigurationModule().getDataConfig().getString("keyset.public")));
+            serverKeySet.setPrivateKey(new Key(configurationModule.getString(StorageKey.AUTH_PRIVATE_KEY)));
+            serverKeySet.setPublicKey(new Key(configurationModule.getString(StorageKey.AUTH_PUBLIC_KEY)));
             isSuccesfull = true;
         }
     }
