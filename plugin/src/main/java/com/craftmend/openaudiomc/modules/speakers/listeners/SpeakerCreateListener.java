@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.modules.speakers.listeners;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.modules.configuration.enums.StorageKey;
+import com.craftmend.openaudiomc.modules.configuration.enums.StorageLocation;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
 import com.craftmend.openaudiomc.modules.speakers.SpeakerModule;
 import com.craftmend.openaudiomc.modules.speakers.objects.MappedLocation;
@@ -42,13 +44,13 @@ public class SpeakerCreateListener implements Listener {
             speakerModule.registerSpeaker(location, client.getSelectedSpeakerSource(), id, 10);
 
             //save to config
-            openAudioMc.getConfigurationModule().getDataConfig().set("speakers." + id.toString() + ".world", location.getWorld());
-            openAudioMc.getConfigurationModule().getDataConfig().set("speakers." + id.toString() + ".x", location.getX());
-            openAudioMc.getConfigurationModule().getDataConfig().set("speakers." + id.toString() + ".y", location.getY());
-            openAudioMc.getConfigurationModule().getDataConfig().set("speakers." + id.toString() + ".z", location.getZ());
-            openAudioMc.getConfigurationModule().getDataConfig().set("speakers." + id.toString() + ".radius",
-                    openAudioMc.getConfigurationModule().getMainConfig().getInt("options.speaker-radius"));
-            openAudioMc.getConfigurationModule().getDataConfig().set("speakers." + id.toString() + ".media", client.getSelectedSpeakerSource());
+            openAudioMc.getConfigurationModule().setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".world", location.getWorld());
+            openAudioMc.getConfigurationModule().setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".x", location.getX());
+            openAudioMc.getConfigurationModule().setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".y", location.getY());
+            openAudioMc.getConfigurationModule().setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".z", location.getZ());
+            openAudioMc.getConfigurationModule().setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".radius",
+                    openAudioMc.getConfigurationModule().getInt(StorageKey.SETTINGS_SPEAKER_RANGE));
+            openAudioMc.getConfigurationModule().setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".media", client.getSelectedSpeakerSource());
 
             event.getPlayer().sendMessage(openAudioMc.getCommandModule().getCommandPrefix() + "Speaker registered");
         }

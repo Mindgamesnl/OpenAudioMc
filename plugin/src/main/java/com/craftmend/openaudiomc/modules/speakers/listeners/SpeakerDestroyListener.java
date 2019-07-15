@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.modules.speakers.listeners;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.modules.configuration.enums.StorageLocation;
 import com.craftmend.openaudiomc.modules.speakers.SpeakerModule;
 import com.craftmend.openaudiomc.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.modules.speakers.objects.Speaker;
@@ -34,12 +35,12 @@ public class SpeakerDestroyListener implements Listener {
             speakerModule.unlistSpeaker(location);
 
             //save to config
-            openAudioMc.getConfigurationModule().getDataConfig().set("speakers." + speaker.getId().toString() + ".world", null);
-            openAudioMc.getConfigurationModule().getDataConfig().set("speakers." + speaker.getId().toString() + ".x", null);
-            openAudioMc.getConfigurationModule().getDataConfig().set("speakers." + speaker.getId().toString() + ".y", null);
-            openAudioMc.getConfigurationModule().getDataConfig().set("speakers." + speaker.getId().toString() + ".z", null);
-            openAudioMc.getConfigurationModule().getDataConfig().set("speakers." + speaker.getId().toString() + ".media", null);
-            openAudioMc.getConfigurationModule().getDataConfig().set("speakers." + speaker.getId().toString(), null);
+            openAudioMc.getConfigurationModule().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".world", null);
+            openAudioMc.getConfigurationModule().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".x", null);
+            openAudioMc.getConfigurationModule().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".y", null);
+            openAudioMc.getConfigurationModule().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".z", null);
+            openAudioMc.getConfigurationModule().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".media", null);
+            openAudioMc.getConfigurationModule().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString(), null);
 
             event.getPlayer().sendMessage(openAudioMc.getCommandModule().getCommandPrefix() + "Speaker removed");
         }

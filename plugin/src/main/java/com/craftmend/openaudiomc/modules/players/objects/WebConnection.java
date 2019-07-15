@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.modules.players.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.modules.configuration.enums.StorageKey;
 import com.craftmend.openaudiomc.modules.players.interfaces.ClientConnection;
 import com.craftmend.openaudiomc.services.state.StateService;
 import lombok.Getter;
@@ -47,9 +48,11 @@ public abstract class WebConnection implements ClientConnection {
             e.printStackTrace();
         }
 
+        String url = OpenAudioMc.getInstance().getConfigurationModule().getString(StorageKey.AUTH_PUBLIC_URL) +
+                session.getToken();
+
         TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(OpenAudioMc.getInstance().getConfig().getString("messages.click-to-connect"))));
-        message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,
-                OpenAudioMc.getInstance().getConfigurationModule().getDataConfig().getString("keyset.base-url") + session.getToken()));
+        message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
         player.spigot().sendMessage(message);
     }
 

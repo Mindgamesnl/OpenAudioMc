@@ -2,6 +2,9 @@ package com.craftmend.openaudiomc.modules.players.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.api.objects.HueState;
+import com.craftmend.openaudiomc.modules.configuration.ConfigurationModule;
+import com.craftmend.openaudiomc.modules.configuration.enums.StorageKey;
+import com.craftmend.openaudiomc.modules.configuration.enums.StorageLocation;
 import com.craftmend.openaudiomc.modules.configuration.objects.ClientSettings;
 import com.craftmend.openaudiomc.modules.hue.objects.SerializedHueColor;
 import com.craftmend.openaudiomc.modules.media.objects.Media;
@@ -50,22 +53,35 @@ public class Client extends WebConnection {
      * player connect logic, for when authenticated.
      */
     public void onConnect() {
+        ConfigurationModule configurationModule = OpenAudioMc.getInstance().getConfigurationModule();
+        String connectedMessage = configurationModule.getString(StorageKey.MESSAGE_CLIENT_OPENED);
+        String startSound = configurationModule.getString(StorageKey.SETTINGS_CLIENT_START_SOUND);
+
+
         this.isConnected = true;
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMc.getInstance().getConfig().getString("messages.client-opened")));
+
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', connectedMessage));
         currentRegions.clear();
         currentSpeakers.clear();
+
+        // wait a bit before sending settings and curent media
         Bukkit.getScheduler().scheduleAsyncDelayedTask(OpenAudioMc.getInstance(), () -> {
+            // sync ongoing media
             ongoingMedia.forEach(this::sendMedia);
+
+            // check and send settings, if any
             ClientSettings settings = OpenAudioMc.getInstance().getConfigurationModule().getClientSettings();
             if (!settings.equals(new ClientSettings())) {
                 OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientPushSettings(settings));
             }
-            String startSound = OpenAudioMc.getInstance().getConfigurationModule().getMainConfig().getString("options.start-sound");
+
+            // if a start sound is configured, send it
             if (startSound != null && !startSound.equals("none")) {
                 playMedia(new Media(startSound));
             }
         }, 20);
 
+        // trigger a sync connect event
         Bukkit.getScheduler().runTask(OpenAudioMc.getInstance(), () -> Bukkit.getServer().getPluginManager().callEvent(new ClientConnectEvent(player, this)));
     }
 

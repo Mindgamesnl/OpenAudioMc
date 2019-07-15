@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.modules.commands.subcommands;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.modules.commands.objects.Argument;
+import com.craftmend.openaudiomc.modules.configuration.enums.StorageLocation;
 import com.craftmend.openaudiomc.modules.regions.objects.RegionProperties;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -45,14 +46,14 @@ public class RegionsSubCommand extends SubCommand {
                 return;
             }
 
-            openAudioMc.getConfigurationModule().getDataConfig().set("regions." + args[1], args[2]);
+            openAudioMc.getConfigurationModule().setString(StorageLocation.DATA_FILE, "regions." + args[1], args[2]);
             openAudioMc.getRegionModule().registerRegion(args[1], new RegionProperties(args[2]));
             message(sender, "The WorldGuard region with the id " + args[1] + " now has the sound " + args[2]);
             return;
         }
 
         if (args[0].equalsIgnoreCase("delete") && args.length == 2) {
-            openAudioMc.getConfigurationModule().getDataConfig().set("regions." + args[1], null);
+            openAudioMc.getConfigurationModule().setString(StorageLocation.DATA_FILE, "regions." + args[1], null);
             openAudioMc.getRegionModule().removeRegion(args[1]);
             message(sender, "The WorldGuard region with the id " + args[1] + " no longer has a sound linked to it.");
             return;

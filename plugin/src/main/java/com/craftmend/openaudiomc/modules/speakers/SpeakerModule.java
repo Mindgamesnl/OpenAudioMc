@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.modules.speakers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.modules.configuration.ConfigurationModule;
+import com.craftmend.openaudiomc.modules.configuration.enums.StorageLocation;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
 import com.craftmend.openaudiomc.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.services.server.enums.ServerVersion;
@@ -56,23 +58,23 @@ public class SpeakerModule {
             }
         }
 
-        FileConfiguration dataFile = openAudioMc.getConfigurationModule().getDataConfig();
+        ConfigurationModule config = openAudioMc.getConfigurationModule();
 
         //load speakers
-        for (String id : dataFile.getConfigurationSection("speakers").getKeys(false)) {
+        for (String id : config.getStringSet("speakers", StorageLocation.DATA_FILE)) {
 
-            String world = dataFile.getString("speakers." + id + ".world");
-            String media = dataFile.getString("speakers." + id + ".media");
-            int x = dataFile.getInt("speakers." + id + ".x");
-            int y = dataFile.getInt("speakers." + id + ".y");
-            int z = dataFile.getInt("speakers." + id + ".z");
+            String world = config.getStringFromPath("speakers." + id + ".world", StorageLocation.DATA_FILE);
+            String media = config.getStringFromPath("speakers." + id + ".media", StorageLocation.DATA_FILE);
+            int x = config.getIntFromPath("speakers." + id + ".x", StorageLocation.DATA_FILE);
+            int y = config.getIntFromPath("speakers." + id + ".y", StorageLocation.DATA_FILE);
+            int z = config.getIntFromPath("speakers." + id + ".z", StorageLocation.DATA_FILE);
 
             if (world != null) {
                 MappedLocation mappedLocation = new MappedLocation(x, y, z, world);
                 Block blockAt = mappedLocation.getBlock();
 
                 if (blockAt != null) {
-                    registerSpeaker(mappedLocation, media, UUID.fromString(id), dataFile.getInt("options.speaker-radius"));
+                    registerSpeaker(mappedLocation, media, UUID.fromString(id), config.getIntFromPath("options.speaker-radius", StorageLocation.DATA_FILE));
                 } else {
                     System.out.println(OpenAudioMc.getLOG_PREFIX() + "Speaker " + id + " doesn't to seem be valid anymore, so it's not getting loaded.");
                 }
