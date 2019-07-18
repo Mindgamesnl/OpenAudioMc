@@ -3,7 +3,6 @@ package com.craftmend.openaudiomc.modules.regions;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.configuration.ConfigurationModule;
 import com.craftmend.openaudiomc.modules.configuration.enums.StorageLocation;
-import com.craftmend.openaudiomc.modules.players.objects.Client;
 import com.craftmend.openaudiomc.modules.regions.adapters.LegacyRegionAdapter;
 import com.craftmend.openaudiomc.modules.regions.adapters.ModernRegionAdapter;
 import com.craftmend.openaudiomc.modules.regions.interfaces.AbstractRegionAdapter;
@@ -12,8 +11,6 @@ import com.craftmend.openaudiomc.modules.regions.objects.RegionProperties;
 import com.craftmend.openaudiomc.services.server.enums.ServerVersion;
 
 import lombok.Getter;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.scheduler.BukkitRunnable;
 import java.util.*;
 
 public class RegionModule {
@@ -55,15 +52,6 @@ public class RegionModule {
                 registerRegion(region, properties);
             }
         }
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                for (Client client : openAudioMc.getPlayerModule().getClients()) {
-                    if (client.getIsConnected()) client.getRegionHandler().tick();
-                }
-            }
-        }.runTaskTimerAsynchronously(openAudioMc, 10, 10);
     }
 
     public void registerRegion(String id, RegionProperties propperties) {

@@ -4,7 +4,6 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.configuration.ConfigurationModule;
 import com.craftmend.openaudiomc.modules.configuration.enums.StorageKey;
 import com.craftmend.openaudiomc.modules.configuration.enums.StorageLocation;
-import com.craftmend.openaudiomc.modules.players.objects.Client;
 import com.craftmend.openaudiomc.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.services.server.enums.ServerVersion;
 import com.craftmend.openaudiomc.modules.speakers.listeners.SpeakerCreateListener;
@@ -14,13 +13,11 @@ import com.craftmend.openaudiomc.modules.speakers.objects.Speaker;
 import com.craftmend.openaudiomc.modules.speakers.objects.SpeakerMedia;
 
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Skull;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
@@ -39,7 +36,6 @@ public class SpeakerModule {
         openAudioMc.getServer().getPluginManager().registerEvents(new SpeakerDestroyListener(openAudioMc, this), openAudioMc);
 
         version = openAudioMc.getServerService().getVersion();
-
 
         if (version == ServerVersion.MODERN) {
             System.out.println(OpenAudioMc.getLOG_PREFIX() + "Enabling the 1.13 speaker system");
@@ -82,12 +78,6 @@ public class SpeakerModule {
                 }
             }
         }
-
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(openAudioMc, () -> {
-            for (Client client : openAudioMc.getPlayerModule().getClients()) {
-                if (client.getIsConnected()) client.getSpeakerHandler().tick();
-            }
-        }, 5, 5);
     }
 
     public Collection<ApplicableSpeaker> getApplicableSpeakers(Location location) {

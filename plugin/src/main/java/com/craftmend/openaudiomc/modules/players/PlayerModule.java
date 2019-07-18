@@ -65,7 +65,9 @@ public class PlayerModule {
      */
     public void remove(Player player) {
         if (clientMap.containsKey(player.getUniqueId())) {
-            clientMap.get(player.getUniqueId()).kick();
+            Client client = clientMap.get(player.getUniqueId());
+            client.kick();
+            client.onDestroy();
             clientMap.remove(player.getUniqueId());
         }
     }
