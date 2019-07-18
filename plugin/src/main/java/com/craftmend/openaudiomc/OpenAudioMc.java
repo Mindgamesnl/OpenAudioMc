@@ -17,6 +17,7 @@ import com.craftmend.openaudiomc.modules.players.PlayerModule;
 import com.craftmend.openaudiomc.modules.regions.RegionModule;
 import com.craftmend.openaudiomc.modules.speakers.SpeakerModule;
 
+import com.craftmend.openaudiomc.services.utils.DataWatcher;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
