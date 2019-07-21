@@ -2,8 +2,12 @@ package com.craftmend.openaudiomc.services.networking.io;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.services.networking.abstracts.AbstractPacket;
+import com.craftmend.openaudiomc.services.networking.addapter.GenericApiResponse;
+import com.craftmend.openaudiomc.services.networking.addapter.RelayHost;
 import com.craftmend.openaudiomc.services.networking.payloads.AcknowledgeClientPayload;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
+import com.craftmend.openaudiomc.services.networking.rest.RestRequest;
+import com.craftmend.openaudiomc.services.state.states.AssigningRelayState;
 import com.craftmend.openaudiomc.services.state.states.ConnectedState;
 import com.craftmend.openaudiomc.services.state.states.ConnectingState;
 import com.craftmend.openaudiomc.services.state.states.IdleState;
@@ -15,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import okhttp3.OkHttpClient;
 import org.bukkit.Bukkit;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 
 @RequiredArgsConstructor
@@ -23,7 +28,7 @@ public class SocketIoConnector {
     private final OpenAudioMc openAudioMc;
     private Socket socket;
 
-    public void setupConnection() throws URISyntaxException {
+    public void setupConnection() throws URISyntaxException, IOException {
         if (!openAudioMc.getStateService().getCurrentState().canConnect()) return;
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
@@ -32,12 +37,37 @@ public class SocketIoConnector {
         opts.callFactory = okHttpClient;
         opts.webSocketFactory = okHttpClient;
 
+        // update state
+        openAudioMc.getStateService().setState(new AssigningRelayState());
+
+        // load keys
+        String privateKey = OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue();
+        String publicKey = OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue();
+
         // authentication headers
         opts.query = "type=server&" +
-                "secret=" + OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue() +
-                "&public=" + OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue();
+                "private=" + privateKey +
+                "&public=" + publicKey;
 
-        socket = IO.socket(OpenAudioMc.getInstance().getConfigurationModule().getServer(), opts);
+        // request a relay server
+        GenericApiResponse genericApiResponse = new RestRequest("/login")
+                .setQuery("private", privateKey)
+                .setQuery("public", publicKey)
+                .execute();
+
+        // check if relay request has errors
+        if (genericApiResponse.getErrors().size() != 0) {
+            System.out.println(OpenAudioMc.getLOG_PREFIX() + "Failed to get relay host.");
+            System.out.println(OpenAudioMc.getLOG_PREFIX() + " - message: " + genericApiResponse.getErrors().get(0).getMessage());
+            System.out.println(OpenAudioMc.getLOG_PREFIX() + " - code: " + genericApiResponse.getErrors().get(0).getCode());
+            throw new IOException("Failed to get relay! see console for error information");
+        }
+
+        // get the relay
+        RelayHost relayHost = genericApiResponse.getData().get(0).findInsecureRelay();
+
+        // setup socketio connection
+        socket = IO.socket(relayHost.getUrl(), opts);
 
         // register state to be connecting
         openAudioMc.getStateService().setState(new ConnectingState());

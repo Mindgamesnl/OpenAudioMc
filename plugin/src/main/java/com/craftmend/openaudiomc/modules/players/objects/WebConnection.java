@@ -10,6 +10,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Objects;
 
@@ -43,7 +44,7 @@ public abstract class WebConnection implements ClientConnection {
 
         try {
             OpenAudioMc.getInstance().getNetworkingService().connectIfDown();
-        } catch (URISyntaxException e) {
+        } catch (URISyntaxException | IOException e) {
             player.sendMessage(OpenAudioMc.getLOG_PREFIX() + "Failed to execute goal.");
             e.printStackTrace();
         }
