@@ -4,16 +4,14 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.modules.configuration.ConfigurationModule;
 import com.craftmend.openaudiomc.modules.configuration.enums.StorageKey;
 import com.craftmend.openaudiomc.services.authentication.objects.Key;
-import com.craftmend.openaudiomc.services.authentication.objects.RequestResponse;
 import com.craftmend.openaudiomc.services.authentication.objects.ServerKeySet;
 
+import com.craftmend.openaudiomc.services.networking.addapter.GenericApiResponse;
+import com.craftmend.openaudiomc.services.networking.rest.RestRequest;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 
 import java.io.IOException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
 
 public class AuthenticationService {
 
@@ -36,11 +34,11 @@ public class AuthenticationService {
         if (configurationModule.getString(StorageKey.AUTH_PRIVATE_KEY).equals("not-set")) {
             //setup process
             try {
-                RequestResponse requestResponse = OpenAudioMc.getGson().fromJson(readHttp(OpenAudioMc.getInstance().getConfigurationModule().getServer() + "/genid"), RequestResponse.class);
+                GenericApiResponse genericApiResponse = new RestRequest("/signup").execute();
 
-                if (requestResponse.getSuccess()) {
-                    serverKeySet.setPrivateKey(new Key(requestResponse.getPrivateKey().toString()));
-                    serverKeySet.setPublicKey(new Key(requestResponse.getPublicKey().toString()));
+                if (genericApiResponse.getErrors().size() == 0) {
+                    serverKeySet.setPrivateKey(new Key(genericApiResponse.getData().get(0).getPrivateKey()));
+                    serverKeySet.setPublicKey(new Key(genericApiResponse.getData().get(0).getPublicKey()));
                     configurationModule.setString(StorageKey.AUTH_PRIVATE_KEY, serverKeySet.getPrivateKey().getValue());
                     configurationModule.setString(StorageKey.AUTH_PUBLIC_KEY, serverKeySet.getPublicKey().getValue());
                     isSuccesfull = true;
@@ -59,21 +57,4 @@ public class AuthenticationService {
             isSuccesfull = true;
         }
     }
-
-    /**
-     * A small util function, does only one thing really and only once.
-     * Almost as useless as i am.
-     *
-     * @param url The url
-     * @return The response
-     * @throws IOException a big fuck you
-     */
-    private String readHttp(String url) throws IOException {
-        try (Scanner scanner = new Scanner(new URL(url).openStream(),
-                StandardCharsets.UTF_8.toString())) {
-            scanner.useDelimiter("\\A");
-            return scanner.hasNext() ? scanner.next() : "";
-        }
-    }
-
 }

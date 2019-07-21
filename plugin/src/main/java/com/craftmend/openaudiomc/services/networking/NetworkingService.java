@@ -11,6 +11,7 @@ import com.craftmend.openaudiomc.services.networking.io.SocketIoConnector;
 import com.craftmend.openaudiomc.modules.players.objects.Client;
 import org.bukkit.Bukkit;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,7 +45,7 @@ public class NetworkingService {
      *
      * @throws URISyntaxException server unreachable
      */
-    public void connectIfDown() throws URISyntaxException {
+    public void connectIfDown() throws URISyntaxException, IOException {
         socketIoConnector.setupConnection();
     }
 
