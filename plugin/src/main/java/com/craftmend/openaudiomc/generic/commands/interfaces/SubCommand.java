@@ -1,10 +1,10 @@
-package com.craftmend.openaudiomc.spigot.modules.commands.interfaces;
+package com.craftmend.openaudiomc.generic.commands.interfaces;
 
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.commands.objects.Argument;
+import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
 
 import java.util.ArrayList;
@@ -21,7 +21,9 @@ public abstract class SubCommand {
      */
     public SubCommand(String argument) {
         this.command = argument;
-        Bukkit.getPluginManager().addPermission(new Permission("openaudiomc.commands." + command));
+        if (OpenAudioMcCore.getInstance().getPlatform() == Platform.SPIGOT) {
+            Bukkit.getPluginManager().addPermission(new Permission("openaudiomc.commands." + command));
+        }
     }
 
     /**
@@ -30,8 +32,8 @@ public abstract class SubCommand {
      * @param sender Command sender
      * @param message Your message
      */
-    protected void message(CommandSender sender, String message) {
-        sender.sendMessage(OpenAudioMcSpigot.getInstance().getCommandModule().getCommandPrefix() + message);
+    protected void message(GenericExecutor sender, String message) {
+        sender.sendMessage(OpenAudioMcCore.getInstance().getCommandModule().getCommandPrefix() + message);
     }
 
     /**
@@ -41,10 +43,9 @@ public abstract class SubCommand {
      * @param commandSender Command sender
      * @return true if the player is allowed to execute a command
      */
-    public Boolean isAllowed(CommandSender commandSender) {
+    public Boolean isAllowed(GenericExecutor commandSender) {
         return commandSender.hasPermission("openaudiomc.commands." + command)
                 || commandSender.hasPermission("openaudiomc.commands.*")
-                || commandSender.isOp()
                 || commandSender.hasPermission("openaudiomc.*");
     }
 
@@ -62,6 +63,6 @@ public abstract class SubCommand {
      * @param sender the sender that executed the commands
      * @param args the arguments after your command, starting at index 0
      */
-    public abstract void onExecute(CommandSender sender, String[] args);
+    public abstract void onExecute(GenericExecutor sender, String[] args);
 
 }

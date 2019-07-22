@@ -34,7 +34,7 @@ public class SpeakerModule {
 
     public SpeakerModule(OpenAudioMcSpigot openAudioMcSpigot) {
         openAudioMcSpigot.getServer().getPluginManager().registerEvents(new SpeakerCreateListener(openAudioMcSpigot, this), openAudioMcSpigot);
-        openAudioMcSpigot.getServer().getPluginManager().registerEvents(new SpeakerDestroyListener(openAudioMcSpigot, this), openAudioMcSpigot);
+        openAudioMcSpigot.getServer().getPluginManager().registerEvents(new SpeakerDestroyListener(OpenAudioMcCore.getInstance(), this), openAudioMcSpigot);
 
         version = openAudioMcSpigot.getServerService().getVersion();
 

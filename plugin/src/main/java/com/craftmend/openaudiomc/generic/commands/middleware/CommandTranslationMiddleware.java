@@ -1,8 +1,9 @@
-package com.craftmend.openaudiomc.spigot.modules.commands.middleware;
+package com.craftmend.openaudiomc.generic.commands.middleware;
 
+import com.craftmend.openaudiomc.OpenAudioMcCore;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.commands.interfaces.SubCommand;
-import com.craftmend.openaudiomc.spigot.modules.players.objects.PlayerSelector;
+import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
 import lombok.AllArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -12,8 +13,6 @@ import org.bukkit.event.server.ServerCommandEvent;
 
 @AllArgsConstructor
 public class CommandTranslationMiddleware implements Listener {
-
-    private OpenAudioMcSpigot openAudioMcSpigot;
 
     @EventHandler
     public void onCommand(ServerCommandEvent event) {
@@ -25,10 +24,10 @@ public class CommandTranslationMiddleware implements Listener {
         // check if the command is a openaudiomc command
         parts[0] = parts[0].toLowerCase();
 
-        if (!openAudioMcSpigot.getCommandModule().getAliases().contains(parts[0])) return;
+        if (!OpenAudioMcCore.getInstance().getCommandModule().getAliases().contains(parts[0])) return;
 
         // get the command
-        SubCommand subCommand = OpenAudioMcSpigot.getInstance().getCommandModule().getSubCommand(parts[1].toLowerCase());
+        SubCommand subCommand = OpenAudioMcCore.getInstance().getCommandModule().getSubCommand(parts[1].toLowerCase());
         if (subCommand == null) return;
 
         String selector = null;
@@ -45,10 +44,10 @@ public class CommandTranslationMiddleware implements Listener {
         commandPreset = commandPreset.replaceAll(selector, "%%player%%");
 
         // process the selector, build a new command and re-run
-        for (Player player : new PlayerSelector(selector).getPlayers(event.getSender())) {
+        for (Player player : new SpigotPlayerSelector(selector).getPlayers(event.getSender())) {
             String playerCommand = commandPreset.replaceAll("%%player%%", player.getName());
             Bukkit.getServer().dispatchCommand(event.getSender(), playerCommand);
-            event.getSender().sendMessage(openAudioMcSpigot.getCommandModule().getCommandPrefix() + "Changed selector to execute for " + player.getName());
+            event.getSender().sendMessage(OpenAudioMcCore.getInstance().getCommandModule().getCommandPrefix() + "Changed selector to execute for " + player.getName());
         }
 
         event.setCancelled(true);

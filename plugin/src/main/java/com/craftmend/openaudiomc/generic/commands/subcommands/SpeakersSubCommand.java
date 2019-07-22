@@ -1,8 +1,9 @@
-package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
+package com.craftmend.openaudiomc.generic.commands.subcommands;
 
+import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.commands.interfaces.SubCommand;
-import com.craftmend.openaudiomc.spigot.modules.commands.objects.Argument;
+import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -23,11 +24,11 @@ public class SpeakersSubCommand extends SubCommand {
     }
 
     @Override
-    public void onExecute(CommandSender sender, String[] args) {
+    public void onExecute(GenericExecutor sender, String[] args) {
         Player player = (Player) sender;
 
         if (args.length == 0) {
-            Bukkit.getServer().dispatchCommand(sender, "oa help " + getCommand());
+            Bukkit.getServer().dispatchCommand((CommandSender) sender.getOriginal(), "oa help " + getCommand());
             return;
         }
 
@@ -39,7 +40,7 @@ public class SpeakersSubCommand extends SubCommand {
             return;
         }
 
-        Bukkit.getServer().dispatchCommand(sender, "oa help " + getCommand());
+        Bukkit.getServer().dispatchCommand((CommandSender) sender.getOriginal(), "oa help " + getCommand());
     }
 
 }

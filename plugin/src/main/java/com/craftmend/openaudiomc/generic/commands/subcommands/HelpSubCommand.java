@@ -1,8 +1,10 @@
-package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
+package com.craftmend.openaudiomc.generic.commands.subcommands;
 
-import com.craftmend.openaudiomc.spigot.modules.commands.CommandModule;
-import com.craftmend.openaudiomc.spigot.modules.commands.interfaces.SubCommand;
-import com.craftmend.openaudiomc.spigot.modules.commands.objects.Argument;
+import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.generic.commands.CommandModule;
+import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
+import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -13,13 +15,13 @@ public class HelpSubCommand extends SubCommand {
 
     private CommandModule commandModule;
 
-    public HelpSubCommand(CommandModule commandModule) {
+    public HelpSubCommand() {
         super("help");
-        this.commandModule = commandModule;
+        this.commandModule = OpenAudioMcCore.getInstance().getCommandModule();
     }
 
     @Override
-    public void onExecute(CommandSender sender, String[] args) {
+    public void onExecute(GenericExecutor sender, String[] args) {
         if (args.length == 1) {
             args[0] = args[0].toLowerCase();
             SubCommand subCommand = commandModule.getSubCommand(args[0]);
@@ -40,11 +42,11 @@ public class HelpSubCommand extends SubCommand {
             message(sender, "For more personal help or other questions, please visit https://help.openaudiomc.net/");
     }
 
-    private void goldMessage(CommandSender s, String message) {
+    private void goldMessage(GenericExecutor s, String message) {
         s.sendMessage(" " + ChatColor.YELLOW + "> " + ChatColor.GOLD + message);
     }
 
-    private void goldClickableMessage(CommandSender s, String message, String command) {
+    private void goldClickableMessage(GenericExecutor s, String message, String command) {
         if (s instanceof Player) {
             TextComponent component = new TextComponent(" " + ChatColor.YELLOW + "> " + ChatColor.GOLD + message);
             component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + command));
@@ -56,7 +58,7 @@ public class HelpSubCommand extends SubCommand {
 
     }
 
-    private void grayMessage(CommandSender s, String message) {
+    private void grayMessage(GenericExecutor s, String message) {
         s.sendMessage("  " + ChatColor.DARK_GRAY + "> " + ChatColor.ITALIC + "" + ChatColor.GRAY + message);
     }
 }

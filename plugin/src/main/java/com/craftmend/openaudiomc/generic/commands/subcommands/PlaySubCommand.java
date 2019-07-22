@@ -1,12 +1,13 @@
-package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
+package com.craftmend.openaudiomc.generic.commands.subcommands;
 
+import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.commands.interfaces.SubCommand;
-import com.craftmend.openaudiomc.spigot.modules.commands.objects.Argument;
+import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.media.objects.MediaOptions;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
-import com.craftmend.openaudiomc.spigot.modules.players.objects.PlayerSelector;
+import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
 import com.google.gson.Gson;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -28,15 +29,15 @@ public class PlaySubCommand extends SubCommand {
     }
 
     @Override
-    public void onExecute(CommandSender sender, String[] args) {
+    public void onExecute(GenericExecutor sender, String[] args) {
         if (args.length == 0) {
-            Bukkit.getServer().dispatchCommand(sender, "oa help " + getCommand());
+            Bukkit.getServer().dispatchCommand((CommandSender) sender.getOriginal(), "oa help " + getCommand());
             return;
         }
 
         if (args.length == 2) {
             Media media = new Media(args[1]);
-            for (Player player : new PlayerSelector(args[0]).getPlayers(sender)) {
+            for (Player player : new SpigotPlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal())) {
                 SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(player);
                 spigotConnection.getClientConnection().sendMedia(media);
             }
@@ -48,7 +49,7 @@ public class PlaySubCommand extends SubCommand {
             try {
                 MediaOptions mediaOptions = new Gson().fromJson(args[2], MediaOptions.class);
                 Media media = new Media(args[1]).applySettings(mediaOptions);
-                for (Player player : new PlayerSelector(args[0]).getPlayers(sender)) {
+                for (Player player : new SpigotPlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal())) {
                     SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(player);
                     spigotConnection.getClientConnection().sendMedia(media);
                 }
@@ -58,6 +59,6 @@ public class PlaySubCommand extends SubCommand {
             }
             return;
         }
-        Bukkit.getServer().dispatchCommand(sender, "oa help " + getCommand());
+        Bukkit.getServer().dispatchCommand((CommandSender) sender.getOriginal(), "oa help " + getCommand());
     }
 }

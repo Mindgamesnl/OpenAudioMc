@@ -18,7 +18,7 @@ public class PlayerModule {
 
     public PlayerModule(OpenAudioMcSpigot openAudioMcSpigot) {
         openAudioMcSpigot.getServer().getPluginManager().registerEvents(new PlayerConnectionListener(), openAudioMcSpigot);
-        openAudioMcSpigot.getCommand("audio").setExecutor(new ConnectCommand(openAudioMcSpigot));
+        openAudioMcSpigot.getCommand("audio").setExecutor(new ConnectCommand());
     }
 
     /**

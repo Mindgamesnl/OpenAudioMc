@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.generic.configuration.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
+
 import lombok.AllArgsConstructor;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -29,14 +30,14 @@ public class SpeakerCreateListener implements Listener {
 
         if (speakerModule.isSpeakerSkull(placed)) {
             if (!isAllowed(event.getPlayer())) {
-                event.getPlayer().sendMessage(openAudioMcSpigot.getCommandModule().getCommandPrefix() + "You are not allowed to place OpenAudioMc speakers, please ask the server administrator for more information.");
+                event.getPlayer().sendMessage(OpenAudioMcCore.getInstance().getCommandModule().getCommandPrefix() + "You are not allowed to place OpenAudioMc speakers, please ask the server administrator for more information.");
                 event.setCancelled(true);
                 return;
             }
 
             SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(event.getPlayer());
             if (spigotConnection.getSelectedSpeakerSource() == null) {
-                event.getPlayer().sendMessage(openAudioMcSpigot.getCommandModule().getCommandPrefix() + "You cant place OpenAudioMc speakers without using the command first. I dont know what sound you would like to add.");
+                event.getPlayer().sendMessage(OpenAudioMcCore.getInstance().getCommandModule().getCommandPrefix() + "You cant place OpenAudioMc speakers without using the command first. I dont know what sound you would like to add.");
                 event.setCancelled(true);
                 return;
             }
@@ -58,7 +59,7 @@ public class SpeakerCreateListener implements Listener {
             congig.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".radius", range);
             congig.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".media", spigotConnection.getSelectedSpeakerSource());
 
-            event.getPlayer().sendMessage(openAudioMcSpigot.getCommandModule().getCommandPrefix() + "Speaker registered");
+            event.getPlayer().sendMessage(OpenAudioMcCore.getInstance().getCommandModule().getCommandPrefix() + "Speaker registered");
         }
     }
 
