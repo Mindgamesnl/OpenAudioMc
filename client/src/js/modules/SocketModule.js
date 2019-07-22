@@ -32,6 +32,9 @@ export class SocketModule {
 
         document.getElementById("username-display").innerText = "Connected as " + this.username;
 
+        // fetch relay
+
+
         this.authHeader = "" +
             "type=client&" +
             "n=" + this.username + "&" +

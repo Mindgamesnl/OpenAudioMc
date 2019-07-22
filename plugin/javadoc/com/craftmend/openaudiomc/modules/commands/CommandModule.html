@@ -91,7 +91,7 @@ var activeTableTab = "activeTableTab";
 <!-- ========= END OF TOP NAVBAR ========= -->
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="subTitle">com.craftmend.openaudiomc.modules.commands</div>
+<div class="subTitle">com.craftmend.openaudiomc.spigot.modules.commands</div>
 <h2 title="Class CommandModule" class="title">Class CommandModule</h2>
 </div>
 <div class="contentContainer">
@@ -99,7 +99,7 @@ var activeTableTab = "activeTableTab";
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li>com.craftmend.openaudiomc.modules.commands.CommandModule</li>
+<li>com.craftmend.openaudiomc.spigot.modules.commands.CommandModule</li>
 </ul>
 </li>
 </ul>
@@ -128,7 +128,7 @@ extends java.lang.Object</pre>
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../com/craftmend/openaudiomc/modules/commands/CommandModule.html#CommandModule-com.craftmend.openaudiomc.OpenAudioMc-">CommandModule</a></span>(<a href="../../../../../com/craftmend/openaudiomc/OpenAudioMc.html" title="class in com.craftmend.openaudiomc">OpenAudioMc</a>&nbsp;openAudioMc)</code>&nbsp;</td>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../com/craftmend/openaudiomc/modules/commands/CommandModule.html#CommandModule-com.craftmend.openaudiomc.OpenAudioMc-">CommandModule</a></span>(<a href="../../../../../com/craftmend/openaudiomc/OpenAudioMc.html" title="class in com.craftmend.openaudiomc">OpenAudioMc</a>&nbsp;openAudioMcSpigot)</code>&nbsp;</td>
 </tr>
 </table>
 </li>
@@ -146,11 +146,11 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code><a href="../../../../../com/craftmend/openaudiomc/modules/commands/interfaces/SubCommand.html" title="class in com.craftmend.openaudiomc.modules.commands.interfaces">SubCommand</a></code></td>
+<td class="colFirst"><code><a href="../../../../../com/craftmend/openaudiomc/modules/commands/interfaces/SubCommand.html" title="class in com.craftmend.openaudiomc.spigot.modules.commands.interfaces">SubCommand</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/craftmend/openaudiomc/modules/commands/CommandModule.html#getSubCommand-java.lang.String-">getSubCommand</a></span>(java.lang.String&nbsp;argument)</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>java.util.List&lt;<a href="../../../../../com/craftmend/openaudiomc/modules/commands/interfaces/SubCommand.html" title="class in com.craftmend.openaudiomc.modules.commands.interfaces">SubCommand</a>&gt;</code></td>
+<td class="colFirst"><code>java.util.List&lt;<a href="../../../../../com/craftmend/openaudiomc/modules/commands/interfaces/SubCommand.html" title="class in com.craftmend.openaudiomc.spigot.modules.commands.interfaces">SubCommand</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/craftmend/openaudiomc/modules/commands/CommandModule.html#getSubCommandHandlers--">getSubCommandHandlers</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
@@ -159,7 +159,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/craftmend/openaudiomc/modules/commands/CommandModule.html#registerSubCommand-com.craftmend.openaudiomc.modules.commands.interfaces.SubCommand-">registerSubCommand</a></span>(<a href="../../../../../com/craftmend/openaudiomc/modules/commands/interfaces/SubCommand.html" title="class in com.craftmend.openaudiomc.modules.commands.interfaces">SubCommand</a>&nbsp;subCommand)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/craftmend/openaudiomc/modules/commands/CommandModule.html#registerSubCommand-com.craftmend.openaudiomc.modules.commands.interfaces.SubCommand-">registerSubCommand</a></span>(<a href="../../../../../com/craftmend/openaudiomc/modules/commands/interfaces/SubCommand.html" title="class in com.craftmend.openaudiomc.spigot.modules.commands.interfaces">SubCommand</a>&nbsp;subCommand)</code>&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -189,7 +189,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>CommandModule</h4>
-<pre>public&nbsp;CommandModule(<a href="../../../../../com/craftmend/openaudiomc/OpenAudioMc.html" title="class in com.craftmend.openaudiomc">OpenAudioMc</a>&nbsp;openAudioMc)</pre>
+<pre>public&nbsp;CommandModule(<a href="../../../../../com/craftmend/openaudiomc/OpenAudioMc.html" title="class in com.craftmend.openaudiomc">OpenAudioMc</a>&nbsp;openAudioMcSpigot)</pre>
 </li>
 </ul>
 </li>
@@ -219,7 +219,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getSubCommandHandlers</h4>
-<pre>public&nbsp;java.util.List&lt;<a href="../../../../../com/craftmend/openaudiomc/modules/commands/interfaces/SubCommand.html" title="class in com.craftmend.openaudiomc.modules.commands.interfaces">SubCommand</a>&gt;&nbsp;getSubCommandHandlers()</pre>
+<pre>public&nbsp;java.util.List&lt;<a href="../../../../../com/craftmend/openaudiomc/modules/commands/interfaces/SubCommand.html" title="class in com.craftmend.openaudiomc.spigot.modules.commands.interfaces">SubCommand</a>&gt;&nbsp;getSubCommandHandlers()</pre>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>All sub command handlers</dd>
@@ -232,7 +232,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>registerSubCommand</h4>
-<pre>public&nbsp;void&nbsp;registerSubCommand(<a href="../../../../../com/craftmend/openaudiomc/modules/commands/interfaces/SubCommand.html" title="class in com.craftmend.openaudiomc.modules.commands.interfaces">SubCommand</a>&nbsp;subCommand)</pre>
+<pre>public&nbsp;void&nbsp;registerSubCommand(<a href="../../../../../com/craftmend/openaudiomc/modules/commands/interfaces/SubCommand.html" title="class in com.craftmend.openaudiomc.spigot.modules.commands.interfaces">SubCommand</a>&nbsp;subCommand)</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>subCommand</code> - registers a sub command</dd>
@@ -245,7 +245,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>getSubCommand</h4>
-<pre>public&nbsp;<a href="../../../../../com/craftmend/openaudiomc/modules/commands/interfaces/SubCommand.html" title="class in com.craftmend.openaudiomc.modules.commands.interfaces">SubCommand</a>&nbsp;getSubCommand(java.lang.String&nbsp;argument)</pre>
+<pre>public&nbsp;<a href="../../../../../com/craftmend/openaudiomc/modules/commands/interfaces/SubCommand.html" title="class in com.craftmend.openaudiomc.spigot.modules.commands.interfaces">SubCommand</a>&nbsp;getSubCommand(java.lang.String&nbsp;argument)</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>argument</code> - get the sub command from a name</dd>

@@ -91,7 +91,7 @@ var activeTableTab = "activeTableTab";
 <!-- ========= END OF TOP NAVBAR ========= -->
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="subTitle">com.craftmend.openaudiomc.services.networking</div>
+<div class="subTitle">com.craftmend.openaudiomc.generic.networking</div>
 <h2 title="Class NetworkingService" class="title">Class NetworkingService</h2>
 </div>
 <div class="contentContainer">
@@ -99,7 +99,7 @@ var activeTableTab = "activeTableTab";
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li>com.craftmend.openaudiomc.services.networking.NetworkingService</li>
+<li>com.craftmend.openaudiomc.generic.networking.NetworkingService</li>
 </ul>
 </li>
 </ul>
@@ -128,7 +128,7 @@ extends java.lang.Object</pre>
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../com/craftmend/openaudiomc/services/networking/NetworkingService.html#NetworkingService-com.craftmend.openaudiomc.OpenAudioMc-">NetworkingService</a></span>(<a href="../../../../../com/craftmend/openaudiomc/OpenAudioMc.html" title="class in com.craftmend.openaudiomc">OpenAudioMc</a>&nbsp;openAudioMc)</code>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../com/craftmend/openaudiomc/services/networking/NetworkingService.html#NetworkingService-com.craftmend.openaudiomc.OpenAudioMc-">NetworkingService</a></span>(<a href="../../../../../com/craftmend/openaudiomc/OpenAudioMc.html" title="class in com.craftmend.openaudiomc">OpenAudioMc</a>&nbsp;openAudioMcSpigot)</code>
 <div class="block">setup the plugin connection</div>
 </td>
 </tr>
@@ -155,8 +155,8 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/craftmend/openaudiomc/services/networking/NetworkingService.html#send-com.craftmend.openaudiomc.modules.players.objects.Client-com.craftmend.openaudiomc.services.networking.abstracts.AbstractPacket-">send</a></span>(<a href="../../../../../com/craftmend/openaudiomc/modules/players/objects/Client.html" title="class in com.craftmend.openaudiomc.modules.players.objects">Client</a>&nbsp;client,
-    <a href="../../../../../com/craftmend/openaudiomc/services/networking/abstracts/AbstractPacket.html" title="class in com.craftmend.openaudiomc.services.networking.abstracts">AbstractPacket</a>&nbsp;packet)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/craftmend/openaudiomc/services/networking/NetworkingService.html#send-com.craftmend.openaudiomc.modules.players.objects.Client-com.craftmend.openaudiomc.services.networking.abstracts.AbstractPacket-">send</a></span>(<a href="../../../../../com/craftmend/openaudiomc/modules/players/objects/Client.html" title="class in com.craftmend.openaudiomc.spigot.modules.players.objects">Client</a>&nbsp;client,
+    <a href="../../../../../com/craftmend/openaudiomc/services/networking/abstracts/AbstractPacket.html" title="class in com.craftmend.openaudiomc.generic.networking.abstracts">AbstractPacket</a>&nbsp;packet)</code>
 <div class="block">send a packet to a client connection, if connected</div>
 </td>
 </tr>
@@ -168,7 +168,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/craftmend/openaudiomc/services/networking/NetworkingService.html#triggerPacket-com.craftmend.openaudiomc.services.networking.abstracts.AbstractPacket-">triggerPacket</a></span>(<a href="../../../../../com/craftmend/openaudiomc/services/networking/abstracts/AbstractPacket.html" title="class in com.craftmend.openaudiomc.services.networking.abstracts">AbstractPacket</a>&nbsp;abstractPacket)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/craftmend/openaudiomc/services/networking/NetworkingService.html#triggerPacket-com.craftmend.openaudiomc.services.networking.abstracts.AbstractPacket-">triggerPacket</a></span>(<a href="../../../../../com/craftmend/openaudiomc/services/networking/abstracts/AbstractPacket.html" title="class in com.craftmend.openaudiomc.generic.networking.abstracts">AbstractPacket</a>&nbsp;abstractPacket)</code>
 <div class="block">a packet got received, this function handles it on to the api for
  parsing and processing in the plugin</div>
 </td>
@@ -201,11 +201,11 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>NetworkingService</h4>
-<pre>public&nbsp;NetworkingService(<a href="../../../../../com/craftmend/openaudiomc/OpenAudioMc.html" title="class in com.craftmend.openaudiomc">OpenAudioMc</a>&nbsp;openAudioMc)</pre>
+<pre>public&nbsp;NetworkingService(<a href="../../../../../com/craftmend/openaudiomc/OpenAudioMc.html" title="class in com.craftmend.openaudiomc">OpenAudioMc</a>&nbsp;openAudioMcSpigot)</pre>
 <div class="block">setup the plugin connection</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>openAudioMc</code> - main plugin instance</dd>
+<dd><code>openAudioMcSpigot</code> - main plugin instance</dd>
 </dl>
 </li>
 </ul>
@@ -238,8 +238,8 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>send</h4>
-<pre>public&nbsp;void&nbsp;send(<a href="../../../../../com/craftmend/openaudiomc/modules/players/objects/Client.html" title="class in com.craftmend.openaudiomc.modules.players.objects">Client</a>&nbsp;client,
-                 <a href="../../../../../com/craftmend/openaudiomc/services/networking/abstracts/AbstractPacket.html" title="class in com.craftmend.openaudiomc.services.networking.abstracts">AbstractPacket</a>&nbsp;packet)</pre>
+<pre>public&nbsp;void&nbsp;send(<a href="../../../../../com/craftmend/openaudiomc/modules/players/objects/Client.html" title="class in com.craftmend.openaudiomc.spigot.modules.players.objects">Client</a>&nbsp;client,
+                 <a href="../../../../../com/craftmend/openaudiomc/services/networking/abstracts/AbstractPacket.html" title="class in com.craftmend.openaudiomc.generic.networking.abstracts">AbstractPacket</a>&nbsp;packet)</pre>
 <div class="block">send a packet to a client connection, if connected</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -254,7 +254,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>triggerPacket</h4>
-<pre>public&nbsp;void&nbsp;triggerPacket(<a href="../../../../../com/craftmend/openaudiomc/services/networking/abstracts/AbstractPacket.html" title="class in com.craftmend.openaudiomc.services.networking.abstracts">AbstractPacket</a>&nbsp;abstractPacket)</pre>
+<pre>public&nbsp;void&nbsp;triggerPacket(<a href="../../../../../com/craftmend/openaudiomc/services/networking/abstracts/AbstractPacket.html" title="class in com.craftmend.openaudiomc.generic.networking.abstracts">AbstractPacket</a>&nbsp;abstractPacket)</pre>
 <div class="block">a packet got received, this function handles it on to the api for
  parsing and processing in the plugin</div>
 <dl>
