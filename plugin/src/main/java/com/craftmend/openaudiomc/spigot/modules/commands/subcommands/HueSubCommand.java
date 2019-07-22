@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.spigot.modules.commands.objects.Argument;
-import com.craftmend.openaudiomc.spigot.modules.hue.objects.SerializedHueColor;
+import com.craftmend.openaudiomc.generic.objects.SerializedHueColor;
 import com.craftmend.openaudiomc.generic.networking.packets.PacketClientApplyHueColor;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.Client;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.PlayerSelector;

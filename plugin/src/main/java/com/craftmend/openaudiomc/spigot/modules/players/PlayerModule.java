@@ -12,8 +12,6 @@ import java.util.*;
 
 public class PlayerModule {
 
-    private Map<UUID, Client> clientMap = new HashMap<>();
-
     public PlayerModule(OpenAudioMcSpigot openAudioMcSpigot) {
         openAudioMcSpigot.getServer().getPluginManager().registerEvents(new PlayerConnectionListener(), openAudioMcSpigot);
         openAudioMcSpigot.getCommand("audio").setExecutor(new ConnectCommand(openAudioMcSpigot));

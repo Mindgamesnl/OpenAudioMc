@@ -1,5 +1,5 @@
 com.craftmend.openaudiomc
-com.craftmend.openaudiomc.spigot.modules.api.objects
+com.craftmend.openaudiomc.generic.objects
 com.craftmend.openaudiomc.spigot.modules.commands
 com.craftmend.openaudiomc.spigot.modules.commands.command
 com.craftmend.openaudiomc.spigot.modules.commands.interfaces
@@ -8,7 +8,7 @@ com.craftmend.openaudiomc.spigot.modules.commands.objects
 com.craftmend.openaudiomc.spigot.modules.commands.subcommands
 com.craftmend.openaudiomc.generic.configuration
 com.craftmend.openaudiomc.generic.configuration.objects
-com.craftmend.openaudiomc.spigot.modules.hue.objects
+com.craftmend.openaudiomc.generic.objects
 com.craftmend.openaudiomc.generic.media
 com.craftmend.openaudiomc.generic.media.enums
 com.craftmend.openaudiomc.generic.media.interfaces

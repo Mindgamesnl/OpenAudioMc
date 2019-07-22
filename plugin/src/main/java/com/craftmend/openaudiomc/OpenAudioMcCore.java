@@ -2,12 +2,13 @@ package com.craftmend.openaudiomc;
 
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.bungee.modules.configuration.BungeeConfigurationModule;
+import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
 import com.craftmend.openaudiomc.generic.media.MediaModule;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.api.objects.OpenAudioApi;
+import com.craftmend.openaudiomc.generic.objects.OpenAudioApi;
 import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfigurationModule;
 import com.craftmend.openaudiomc.generic.networking.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
@@ -40,6 +41,7 @@ public class OpenAudioMcCore {
      */
     private MediaModule mediaModule;
     private ConfigurationInterface configurationInterface;
+    private AuthenticationService authenticationService;
 
     /**
      * Constant: main plugin instance
@@ -75,6 +77,7 @@ public class OpenAudioMcCore {
         }
 
         // enable stuff
+        this.authenticationService = new AuthenticationService();
         this.stateService = new StateService();
         this.timeService = new TimeService();
         this.mediaModule = new MediaModule();

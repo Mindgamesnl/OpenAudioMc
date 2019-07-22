@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking;
 
 import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.enums.PacketChannel;
 import com.craftmend.openaudiomc.generic.networking.handlers.ClientConnectHandler;
 
@@ -8,15 +9,17 @@ import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.abstracts.PayloadHandler;
 import com.craftmend.openaudiomc.generic.networking.handlers.ClientDisconnectHandler;
 import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
-import com.craftmend.openaudiomc.spigot.modules.players.objects.Client;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class NetworkingService {
 
+    private Map<UUID, ClientConnection> clientMap = new HashMap<>();
     private Map<PacketChannel, PayloadHandler> packetHandlerMap = new HashMap<>();
     private SocketIoConnector socketIoConnector;
 
@@ -51,7 +54,7 @@ public class NetworkingService {
      * @param client the target
      * @param packet the data
      */
-    public void send(Client client, AbstractPacket packet) {
+    public void send(ClientConnection client, AbstractPacket packet) {
         socketIoConnector.send(client, packet);
     }
 
@@ -77,6 +80,32 @@ public class NetworkingService {
      */
     private void registerHandler(PacketChannel type, PayloadHandler handler) {
         packetHandlerMap.put(type, handler);
+    }
+
+    /**
+     * @param uuid the uuid of a player
+     * @return the client that corresponds to the player. can be null
+     */
+    public ClientConnection getClient(UUID uuid) {
+        return clientMap.get(uuid);
+    }
+
+    /**
+     * @return a collection of all clients
+     */
+    public Collection<ClientConnection> getClients() {
+        return clientMap.values();
+    }
+
+    /**
+     * @param player the player to unregister
+     */
+    public void remove(UUID player) {
+        if (clientMap.containsKey(player)) {
+            ClientConnection client = clientMap.get(player);
+            client.kick();
+            clientMap.remove(player);
+        }
     }
 
     /**

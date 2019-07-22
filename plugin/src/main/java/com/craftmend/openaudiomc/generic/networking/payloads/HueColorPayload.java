@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.networking.payloads;
 
-import com.craftmend.openaudiomc.spigot.modules.hue.objects.SerializedHueColor;
+import com.craftmend.openaudiomc.generic.objects.SerializedHueColor;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
 import lombok.AllArgsConstructor;
 import lombok.Data;

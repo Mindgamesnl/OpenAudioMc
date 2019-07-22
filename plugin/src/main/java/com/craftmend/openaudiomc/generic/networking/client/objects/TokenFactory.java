@@ -1,6 +1,6 @@
-package com.craftmend.openaudiomc.spigot.modules.players.objects;
+package com.craftmend.openaudiomc.generic.networking.client.objects;
 
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.OpenAudioMcCore;
 import lombok.NoArgsConstructor;
 
 import java.util.Base64;
@@ -16,13 +16,13 @@ class TokenFactory {
      * @param client the owner
      * @return token
      */
-    Session build(WebConnection client) {
+    Session build(ClientConnection client) {
         String key = UUID.randomUUID().toString().subSequence(0, 3).toString();
         String url = client.getPlayer().getName() +
                 ":" +
                 client.getPlayer().getUniqueId().toString() +
                 ":" +
-                OpenAudioMcSpigot.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue() +
+                OpenAudioMcCore.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue() +
                 ":" +
                 key;
         return new Session(client, key, new String(Base64.getEncoder().encode(url.getBytes())));

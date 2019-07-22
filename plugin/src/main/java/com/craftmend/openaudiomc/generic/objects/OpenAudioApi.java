@@ -1,10 +1,10 @@
-package com.craftmend.openaudiomc.spigot.modules.api.objects;
+package com.craftmend.openaudiomc.generic.objects;
 
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.media.interfaces.UrlMutation;
 import com.craftmend.openaudiomc.spigot.modules.players.interfaces.ClientConnection;
-import com.craftmend.openaudiomc.spigot.modules.players.objects.Session;
+import com.craftmend.openaudiomc.generic.networking.client.objects.Session;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.IRegion;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
