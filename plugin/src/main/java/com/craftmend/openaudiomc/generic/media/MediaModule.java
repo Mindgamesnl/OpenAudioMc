@@ -1,7 +1,6 @@
-package com.craftmend.openaudiomc.spigot.modules.media;
+package com.craftmend.openaudiomc.generic.media;
 
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.media.interfaces.UrlMutation;
+import com.craftmend.openaudiomc.generic.media.interfaces.UrlMutation;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ public class MediaModule {
         for (String selector : urlMutations.keySet()) {
             if (original.startsWith(selector)) {
                 for (UrlMutation urlMutation : urlMutations.get(selector)) {
-                    original = urlMutation.onRequest(OpenAudioMcSpigot.getInstance(), original);
+                    original = urlMutation.onRequest(original);
                 }
             }
         }

@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.spigot.services.time;
+package com.craftmend.openaudiomc.generic.media.time;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

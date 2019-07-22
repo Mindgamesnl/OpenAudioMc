@@ -1,8 +1,8 @@
 package com.craftmend.openaudiomc.spigot.modules.api.objects;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.commands.interfaces.SubCommand;
-import com.craftmend.openaudiomc.spigot.modules.media.interfaces.UrlMutation;
+import com.craftmend.openaudiomc.generic.media.interfaces.UrlMutation;
 import com.craftmend.openaudiomc.spigot.modules.players.interfaces.ClientConnection;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.Session;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.IRegion;
@@ -25,7 +25,7 @@ public class OpenAudioApi {
      * @return instance of ClientConnection
      */
     public ClientConnection getClient(UUID uuid) {
-        return OpenAudioMc.getInstance().getPlayerModule().getClient(uuid);
+        return OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(uuid);
     }
 
     /**
@@ -36,7 +36,7 @@ public class OpenAudioApi {
      * @return instance of ClientConnection
      */
     public ClientConnection getClient(Player player) {
-        return OpenAudioMc.getInstance().getPlayerModule().getClient(player.getUniqueId());
+        return OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(player.getUniqueId());
     }
 
     /**
@@ -47,7 +47,7 @@ public class OpenAudioApi {
      * @param urlMutation Your UrlMutation implementation
      */
     public void registerMutation(String host, UrlMutation urlMutation) {
-        OpenAudioMc.getInstance().getMediaModule().registerMutation(host, urlMutation);
+        OpenAudioMcSpigot.getInstance().getMediaModule().registerMutation(host, urlMutation);
     }
 
     /**
@@ -56,7 +56,7 @@ public class OpenAudioApi {
      * @param subCommand your sub command
      */
     public void registerAddonCommand(SubCommand subCommand) {
-        OpenAudioMc.getInstance().getCommandModule().registerSubCommand(subCommand);
+        OpenAudioMcSpigot.getInstance().getCommandModule().registerSubCommand(subCommand);
     }
 
     /**
@@ -67,8 +67,8 @@ public class OpenAudioApi {
      * @return A list of openaudiomc regions
      */
     public List<IRegion> getRegion(Location location) {
-        if (OpenAudioMc.getInstance().getRegionModule() == null) return new ArrayList<>();
-        return OpenAudioMc.getInstance().getRegionModule().getRegionAdapter().getAudioRegions(location);
+        if (OpenAudioMcSpigot.getInstance().getRegionModule() == null) return new ArrayList<>();
+        return OpenAudioMcSpigot.getInstance().getRegionModule().getRegionAdapter().getAudioRegions(location);
     }
 
     /**
@@ -79,7 +79,7 @@ public class OpenAudioApi {
      * @return Speaker
      */
     public Speaker getSpeaker(Location location) {
-        return OpenAudioMc.getInstance().getSpeakerModule().getSpeaker(new MappedLocation(location));
+        return OpenAudioMcSpigot.getInstance().getSpeakerModule().getSpeaker(new MappedLocation(location));
     }
 
     /**

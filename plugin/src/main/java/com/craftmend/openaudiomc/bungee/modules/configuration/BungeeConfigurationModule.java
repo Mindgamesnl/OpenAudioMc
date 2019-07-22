@@ -21,7 +21,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class ConfigurationModule implements ConfigurationInterface {
+public class BungeeConfigurationModule implements ConfigurationInterface {
 
     @Getter private ClientSettings clientSettings;
     private Configuration mainConfig;
@@ -29,7 +29,7 @@ public class ConfigurationModule implements ConfigurationInterface {
 
     private Map<StorageKey, String> cachedConfigStrings = new HashMap<>();
 
-    public ConfigurationModule(OpenAudioMcBungee openAudioMcBungee) {
+    public BungeeConfigurationModule(OpenAudioMcBungee openAudioMcBungee) {
         //save default
         saveDefaultFile("data.yml");
         saveDefaultFile("config.yml");

@@ -1,7 +1,7 @@
-package com.craftmend.openaudiomc.spigot.modules.media.objects;
+package com.craftmend.openaudiomc.generic.media.objects;
 
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.media.enums.MediaFlag;
+import com.craftmend.openaudiomc.generic.media.enums.MediaFlag;
 import lombok.Getter;
 import lombok.Setter;
 

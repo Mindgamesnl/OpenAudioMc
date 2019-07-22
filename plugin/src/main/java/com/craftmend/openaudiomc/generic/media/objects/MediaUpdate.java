@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.spigot.modules.media.objects;
+package com.craftmend.openaudiomc.generic.media.objects;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.regions.objects;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.spigot.modules.media.objects.Media;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.generic.media.objects.Media;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +13,7 @@ public class RegionProperties {
     private String source;
 
     public Media getMedia() {
-        return OpenAudioMc.getInstance().getRegionModule().getRegionMedia(source);
+        return OpenAudioMcSpigot.getInstance().getRegionModule().getRegionMedia(source);
     }
 
 }

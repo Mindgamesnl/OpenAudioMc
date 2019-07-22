@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.objects;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import lombok.Getter;
 
 import java.util.UUID;
@@ -20,7 +20,7 @@ public class Speaker {
     }
 
     public SpeakerMedia getMedia() {
-        return OpenAudioMc.getInstance().getSpeakerModule().getMedia(source);
+        return OpenAudioMcSpigot.getInstance().getSpeakerModule().getMedia(source);
     }
 
 }

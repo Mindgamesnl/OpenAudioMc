@@ -1,10 +1,11 @@
-package com.craftmend.openaudiomc.spigot.modules.configuration.objects;
+package com.craftmend.openaudiomc.generic.configuration.objects;
 
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.generic.configuration.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.bukkit.configuration.file.FileConfiguration;
 
 @Data
 @NoArgsConstructor
@@ -26,14 +27,14 @@ public class ClientSettings {
      * @return ClientSettings
      */
     public ClientSettings load() {
-        FileConfiguration config = OpenAudioMcSpigot.getInstance().getConfig();
-        title = config.getString("client.title");
-        background = config.getString("client.background");
-        welcomeMessage = config.getString("client.welcome-message");
-        errorMessage = config.getString("client.error-message");
-        hueConnected = config.getString("client.hue-connected");
-        hueLinking = config.getString("client.hue-linking");
-        hueBridgeFound = config.getString("client.hue-bridge-found");
+        ConfigurationInterface config = OpenAudioMcCore.getInstance().getConfigurationInterface();
+        title = config.getString(StorageKey.SETTING_CLIENT_TITLE);
+        background = config.getString(StorageKey.SETTING_CLIENT_BACKGROUND);
+        welcomeMessage = config.getString(StorageKey.SETTING_CLIENT_WELCOME_TEXT);
+        errorMessage = config.getString(StorageKey.SETTING_CLIENT_ERROR_TEXT);
+        hueConnected = config.getString(StorageKey.SETTINGS_HUE_CONNECTED_TEXT);
+        hueLinking = config.getString(StorageKey.SETTINGS_HUE_CONNECTING_TEXT);
+        hueBridgeFound = config.getString(StorageKey.SETTINGS_HUE_AVAILABLE_TEXT);
         return this;
     }
 

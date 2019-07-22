@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.spigot.modules.configuration.enums;
+package com.craftmend.openaudiomc.generic.configuration.enums;
 
 public enum StorageLocation {
 

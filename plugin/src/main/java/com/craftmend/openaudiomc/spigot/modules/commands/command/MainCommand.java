@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.command;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.commands.CommandModule;
 import com.craftmend.openaudiomc.spigot.modules.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.spigot.modules.commands.objects.Argument;
@@ -16,19 +16,19 @@ import java.util.List;
 @AllArgsConstructor
 public class MainCommand implements CommandExecutor, TabCompleter {
 
-    private OpenAudioMc openAudioMc;
+    private OpenAudioMcSpigot openAudioMcSpigot;
     private CommandModule commandModule;
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!openAudioMc.getAuthenticationService().getIsSuccesfull()) {
-            sender.sendMessage(commandModule.getCommandPrefix() + openAudioMc.getAuthenticationService().getFailureMessage());
+        if (!openAudioMcSpigot.getAuthenticationService().getIsSuccesfull()) {
+            sender.sendMessage(commandModule.getCommandPrefix() + openAudioMcSpigot.getAuthenticationService().getFailureMessage());
             return true;
         }
 
         if (args.length == 0) {
-            sender.sendMessage(commandModule.getCommandPrefix() + "OpenAudioMc version " + openAudioMc.getDescription().getVersion() + ". For help, please use /openaudio help");
+            sender.sendMessage(commandModule.getCommandPrefix() + "OpenAudioMc version " + openAudioMcSpigot.getDescription().getVersion() + ". For help, please use /openaudio help");
             return true;
         }
 

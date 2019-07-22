@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.interfaces;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.commands.objects.Argument;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -31,7 +31,7 @@ public abstract class SubCommand {
      * @param message Your message
      */
     protected void message(CommandSender sender, String message) {
-        sender.sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + message);
+        sender.sendMessage(OpenAudioMcSpigot.getInstance().getCommandModule().getCommandPrefix() + message);
     }
 
     /**

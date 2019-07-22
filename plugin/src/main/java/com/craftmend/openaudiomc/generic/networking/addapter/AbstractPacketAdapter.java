@@ -26,7 +26,7 @@ public class AbstractPacketAdapter implements JsonSerializer<AbstractPacketPaylo
         JsonElement element = jsonObject.get("payload");
 
         try {
-            return context.deserialize(element, Class.forName("com.craftmend.openaudiomc.spigot.services.networking.payloads." + type));
+            return context.deserialize(element, Class.forName("com.craftmend.openaudiomc.generic.networking.payloads." + type));
         } catch (ClassNotFoundException cnfe) {
             throw new JsonParseException("Unknown element type: " + type, cnfe);
         }

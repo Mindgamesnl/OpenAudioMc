@@ -1,10 +1,10 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.spigot.modules.commands.objects.Argument;
-import com.craftmend.openaudiomc.spigot.modules.media.objects.Media;
-import com.craftmend.openaudiomc.spigot.modules.media.objects.MediaOptions;
+import com.craftmend.openaudiomc.generic.media.objects.Media;
+import com.craftmend.openaudiomc.generic.media.objects.MediaOptions;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.Client;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.PlayerSelector;
 import com.google.gson.Gson;
@@ -14,9 +14,9 @@ import org.bukkit.entity.Player;
 
 public class PlaySubCommand extends SubCommand {
 
-    private OpenAudioMc openAudioMc;
+    private OpenAudioMcSpigot openAudioMcSpigot;
 
-    public PlaySubCommand(OpenAudioMc openAudioMc) {
+    public PlaySubCommand(OpenAudioMcSpigot openAudioMcSpigot) {
         super("play");
         registerArguments(
                 new Argument("<selector> <source>",
@@ -24,7 +24,7 @@ public class PlaySubCommand extends SubCommand {
                 new Argument("<selector> <source> <options>",
                         "Plays a sound with configuration (like fade time, sync etc) for all players in a selection")
         );
-        this.openAudioMc = openAudioMc;
+        this.openAudioMcSpigot = openAudioMcSpigot;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class PlaySubCommand extends SubCommand {
         if (args.length == 2) {
             Media media = new Media(args[1]);
             for (Player player : new PlayerSelector(args[0]).getPlayers(sender)) {
-                Client client = openAudioMc.getPlayerModule().getClient(player);
+                Client client = openAudioMcSpigot.getPlayerModule().getClient(player);
                 client.sendMedia(media);
             }
             message(sender, "Media created.");
@@ -49,7 +49,7 @@ public class PlaySubCommand extends SubCommand {
                 MediaOptions mediaOptions = new Gson().fromJson(args[2], MediaOptions.class);
                 Media media = new Media(args[1]).applySettings(mediaOptions);
                 for (Player player : new PlayerSelector(args[0]).getPlayers(sender)) {
-                    Client client = openAudioMc.getPlayerModule().getClient(player);
+                    Client client = openAudioMcSpigot.getPlayerModule().getClient(player);
                     client.sendMedia(media);
                 }
                 message(sender, "Media and options created.");

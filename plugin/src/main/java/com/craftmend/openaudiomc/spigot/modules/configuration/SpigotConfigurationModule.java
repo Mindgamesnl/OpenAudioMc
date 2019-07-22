@@ -19,7 +19,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class ConfigurationModule implements ConfigurationInterface {
+public class SpigotConfigurationModule implements ConfigurationInterface {
 
     @Getter private ClientSettings clientSettings;
     private FileConfiguration mainConfig;
@@ -27,7 +27,7 @@ public class ConfigurationModule implements ConfigurationInterface {
 
     private Map<StorageKey, String> cachedConfigStrings = new HashMap<>();
 
-    public ConfigurationModule(OpenAudioMcSpigot openAudioMcSpigot) {
+    public SpigotConfigurationModule(OpenAudioMcSpigot openAudioMcSpigot) {
         //save default
         openAudioMcSpigot.saveDefaultConfig();
         if (!hasDataFile()) openAudioMcSpigot.saveResource("data.yml", false);

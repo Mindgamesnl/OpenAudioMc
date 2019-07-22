@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.players.objects;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.spigot.modules.configuration.enums.StorageKey;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.generic.configuration.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.modules.players.interfaces.ClientConnection;
 import lombok.Getter;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -37,21 +37,21 @@ public abstract class WebConnection implements ClientConnection {
      */
     public void publishUrl() {
         if (isConnected) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(OpenAudioMc.getInstance().getConfig().getString("messages.client-already-connected"))));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(OpenAudioMcSpigot.getInstance().getConfig().getString("messages.client-already-connected"))));
             return;
         }
 
         try {
-            OpenAudioMc.getInstance().getNetworkingService().connectIfDown();
+            OpenAudioMcSpigot.getInstance().getNetworkingService().connectIfDown();
         } catch (URISyntaxException | IOException e) {
-            player.sendMessage(OpenAudioMc.getLOG_PREFIX() + "Failed to execute goal.");
+            player.sendMessage(OpenAudioMcSpigot.getLOG_PREFIX() + "Failed to execute goal.");
             e.printStackTrace();
         }
 
-        String url = OpenAudioMc.getInstance().getConfigurationModule().getString(StorageKey.AUTH_PUBLIC_URL) +
+        String url = OpenAudioMcSpigot.getInstance().getConfigurationModule().getString(StorageKey.AUTH_PUBLIC_URL) +
                 session.getToken();
 
-        TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(OpenAudioMc.getInstance().getConfig().getString("messages.click-to-connect"))));
+        TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(OpenAudioMcSpigot.getInstance().getConfig().getString("messages.click-to-connect"))));
         message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
         player.spigot().sendMessage(message);
     }
