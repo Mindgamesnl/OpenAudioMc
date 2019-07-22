@@ -1,6 +1,6 @@
-package com.craftmend.openaudiomc.spigot.services.state.states;
+package com.craftmend.openaudiomc.generic.state.states;
 
-import com.craftmend.openaudiomc.spigot.services.state.interfaces.State;
+import com.craftmend.openaudiomc.generic.state.interfaces.State;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 

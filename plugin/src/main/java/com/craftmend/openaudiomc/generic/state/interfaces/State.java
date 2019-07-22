@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.spigot.services.state.interfaces;
+package com.craftmend.openaudiomc.generic.state.interfaces;
 
 public interface State {
 
