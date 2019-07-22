@@ -14,7 +14,6 @@ public class ConnectCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
-
         if (!OpenAudioMcCore.getInstance().getAuthenticationService().getIsSuccesfull()) {
             commandSender.sendMessage(OpenAudioMcCore.getInstance().getCommandModule().getCommandPrefix() +
                     OpenAudioMcCore.getInstance().getAuthenticationService().getFailureMessage());
@@ -34,7 +33,6 @@ public class ConnectCommand implements CommandExecutor {
                 OpenAudioMcCore.getInstance().getNetworkingService().getClient(player.getUniqueId()).publishUrl();
             }
         }
-
         return true;
     }
 }

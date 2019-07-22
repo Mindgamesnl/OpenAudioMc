@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.bungee.modules.commands;
+package com.craftmend.openaudiomc.bungee.modules.commands.commands;
 
 import com.craftmend.openaudiomc.OpenAudioMcCore;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
@@ -14,7 +14,7 @@ public class OpenAudioMcBungeeCommand extends Command {
     private CommandModule commandModule = OpenAudioMcCore.getInstance().getCommandModule();
 
     public OpenAudioMcBungeeCommand() {
-        super("openaudiomc");
+        super("openaudiomc", "openaudiomc.openaudiomc", "oam", "oa", "openaudio");
     }
 
     @Override
