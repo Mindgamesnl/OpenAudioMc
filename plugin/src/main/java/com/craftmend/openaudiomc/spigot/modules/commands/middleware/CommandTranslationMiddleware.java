@@ -1,7 +1,6 @@
-package com.craftmend.openaudiomc.generic.commands.middleware;
+package com.craftmend.openaudiomc.spigot.modules.commands.middleware;
 
 import com.craftmend.openaudiomc.OpenAudioMcCore;
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
 import lombok.AllArgsConstructor;

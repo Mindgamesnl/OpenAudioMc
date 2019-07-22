@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.spigot;
 import com.craftmend.openaudiomc.OpenAudioMcCore;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.modules.commands.SpigotCommandModule;
-import com.craftmend.openaudiomc.spigot.services.state.states.IdleState;
+import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 
 import com.craftmend.openaudiomc.spigot.modules.players.PlayerModule;

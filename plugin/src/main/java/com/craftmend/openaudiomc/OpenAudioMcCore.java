@@ -14,7 +14,7 @@ import com.craftmend.openaudiomc.generic.networking.addapter.AbstractPacketAdapt
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfigurationModule;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
-import com.craftmend.openaudiomc.spigot.services.state.StateService;
+import com.craftmend.openaudiomc.generic.state.StateService;
 
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.bungee.modules.configuration.BungeeConfigurationModule;
