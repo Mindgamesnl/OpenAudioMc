@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.bungee;
 
 import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.bungee.modules.player.PlayerManager;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.services.state.states.IdleState;
 import lombok.Getter;
@@ -17,6 +18,11 @@ public class OpenAudioMcBungee extends Plugin {
      */
     @Getter private static OpenAudioMcBungee instance;
 
+    /**
+     * Managers
+     */
+    @Getter private PlayerManager playerManager;
+
     @Override
     public void onEnable() {
         // Timing
@@ -26,6 +32,9 @@ public class OpenAudioMcBungee extends Plugin {
 
         // setup core
         new OpenAudioMcCore(Platform.BUNGEE);
+
+        // load managers and shit
+        this.playerManager = new PlayerManager(this);
 
         // set state to idle, to allow connections and such
         OpenAudioMcCore.getInstance().getStateService().setState(new IdleState("OpenAudioMc started and awaiting command"));
