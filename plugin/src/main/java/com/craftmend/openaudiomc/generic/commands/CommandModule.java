@@ -15,10 +15,6 @@ public class CommandModule {
     @Getter private List<String> aliases = new ArrayList<>();
     @Getter private String commandPrefix = ChatColor.DARK_AQUA + "[" + ChatColor.AQUA + "OpenAudioMc" + ChatColor.DARK_AQUA + "] " + ChatColor.GRAY;
 
-    public CommandModule() {
-
-    }
-
     /**
      * @return All sub commands as strings
      */
