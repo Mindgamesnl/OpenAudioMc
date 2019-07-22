@@ -16,12 +16,7 @@ public class OpenAudioMcBungee extends Plugin {
      * Constant: main plugin instance
      */
     @Getter private static OpenAudioMcBungee instance;
-
-    /**
-     * Modules used
-     */
-
-
+    
     @Override
     public void onEnable() {
         // Timing
@@ -38,6 +33,17 @@ public class OpenAudioMcBungee extends Plugin {
         // timing end and calc
         Instant finish = Instant.now();
         System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Starting and loading took " + Duration.between(boot, finish).toMillis() + "MS");
+    }
+
+    /**
+     * save configuration and stop the plugin
+     */
+    @Override
+    public void onDisable() {
+        OpenAudioMcCore.getInstance().getConfigurationInterface().saveAll();
+        if (OpenAudioMcCore.getInstance().getStateService().getCurrentState().isConnected()) {
+            OpenAudioMcCore.getInstance().getNetworkingService().stop();
+        }
     }
 
 }
