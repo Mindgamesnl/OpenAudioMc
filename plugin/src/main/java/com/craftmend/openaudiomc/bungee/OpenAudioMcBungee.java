@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.bungee;
 
 import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.bungee.modules.commands.BungeeCommandModule;
 import com.craftmend.openaudiomc.bungee.modules.player.PlayerManager;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
@@ -22,6 +23,7 @@ public class OpenAudioMcBungee extends Plugin {
      * Managers
      */
     @Getter private PlayerManager playerManager;
+    @Getter private BungeeCommandModule commandModule;
 
     @Override
     public void onEnable() {
@@ -35,6 +37,7 @@ public class OpenAudioMcBungee extends Plugin {
 
         // load managers and shit
         this.playerManager = new PlayerManager(this);
+        this.commandModule = new BungeeCommandModule(this);
 
         // set state to idle, to allow connections and such
         OpenAudioMcCore.getInstance().getStateService().setState(new IdleState("OpenAudioMc started and awaiting command"));
