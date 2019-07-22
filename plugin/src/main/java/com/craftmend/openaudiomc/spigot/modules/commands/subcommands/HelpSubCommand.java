@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.commands.subcommands;
+package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMcCore;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
@@ -8,7 +8,6 @@ import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class HelpSubCommand extends SubCommand {

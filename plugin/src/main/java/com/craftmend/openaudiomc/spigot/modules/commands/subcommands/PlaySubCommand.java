@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.commands.subcommands;
+package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
 
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;

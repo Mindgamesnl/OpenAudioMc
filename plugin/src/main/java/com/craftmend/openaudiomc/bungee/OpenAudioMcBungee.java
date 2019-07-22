@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.bungee;
 import com.craftmend.openaudiomc.OpenAudioMcCore;
 import com.craftmend.openaudiomc.bungee.modules.player.PlayerManager;
 import com.craftmend.openaudiomc.generic.platform.Platform;
-import com.craftmend.openaudiomc.spigot.services.state.states.IdleState;
+import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import lombok.Getter;
 import net.md_5.bungee.api.plugin.Plugin;
 

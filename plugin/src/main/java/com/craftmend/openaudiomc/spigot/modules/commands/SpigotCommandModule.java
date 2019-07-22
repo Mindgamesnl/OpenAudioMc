@@ -2,8 +2,8 @@ package com.craftmend.openaudiomc.spigot.modules.commands;
 
 import com.craftmend.openaudiomc.OpenAudioMcCore;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
-import com.craftmend.openaudiomc.generic.commands.middleware.CommandTranslationMiddleware;
-import com.craftmend.openaudiomc.generic.commands.subcommands.*;
+import com.craftmend.openaudiomc.spigot.modules.commands.middleware.CommandTranslationMiddleware;
+import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.*;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.commands.command.SpigotMainCommand;
 import com.craftmend.openaudiomc.spigot.modules.commands.command.VolumeCommand;

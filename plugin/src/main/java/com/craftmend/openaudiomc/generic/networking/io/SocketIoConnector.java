@@ -7,10 +7,10 @@ import com.craftmend.openaudiomc.generic.networking.addapter.GenericApiResponse;
 import com.craftmend.openaudiomc.generic.networking.addapter.RelayHost;
 import com.craftmend.openaudiomc.generic.networking.payloads.AcknowledgeClientPayload;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
-import com.craftmend.openaudiomc.spigot.services.state.states.AssigningRelayState;
-import com.craftmend.openaudiomc.spigot.services.state.states.ConnectedState;
-import com.craftmend.openaudiomc.spigot.services.state.states.ConnectingState;
-import com.craftmend.openaudiomc.spigot.services.state.states.IdleState;
+import com.craftmend.openaudiomc.generic.state.states.AssigningRelayState;
+import com.craftmend.openaudiomc.generic.state.states.ConnectedState;
+import com.craftmend.openaudiomc.generic.state.states.ConnectingState;
+import com.craftmend.openaudiomc.generic.state.states.IdleState;
 
 import io.socket.client.Ack;
 import io.socket.client.IO;
