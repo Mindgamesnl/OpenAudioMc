@@ -1,7 +1,8 @@
 package com.craftmend.openaudiomc.spigot.modules.regions;
 
+import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfigurationModule;
 import com.craftmend.openaudiomc.generic.configuration.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.modules.regions.adapters.LegacyRegionAdapter;
 import com.craftmend.openaudiomc.spigot.modules.regions.adapters.ModernRegionAdapter;
@@ -21,13 +22,13 @@ public class RegionModule {
     @Getter private AbstractRegionAdapter regionAdapter;
 
     public RegionModule(OpenAudioMcSpigot openAudioMcSpigot) {
-        System.out.println(OpenAudioMcSpigot.getLOG_PREFIX() + "Turns out you have WorldGuard installed! enabling regions and the region tasks..");
+        System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Turns out you have WorldGuard installed! enabling regions and the region tasks..");
 
         if (openAudioMcSpigot.getServerService().getVersion() == ServerVersion.MODERN) {
-            System.out.println(OpenAudioMcSpigot.getLOG_PREFIX() + "Enabling the newer 1.13 regions");
+            System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Enabling the newer 1.13 regions");
             regionAdapter = new ModernRegionAdapter(this);
         } else {
-            System.out.println(OpenAudioMcSpigot.getLOG_PREFIX() + "Unknown version. Falling back to the 1.8 to 1.12 region implementation.");
+            System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Unknown version. Falling back to the 1.8 to 1.12 region implementation.");
             regionAdapter = new LegacyRegionAdapter(this);
         }
 
@@ -36,12 +37,12 @@ public class RegionModule {
             try {
                 Class.forName("com.sk89q.worldguard.bukkit.WGBukkit");
             } catch (ClassNotFoundException e) {
-                System.out.println(OpenAudioMcSpigot.getLOG_PREFIX() + "Wrong world guard detection! re-switching to 1.13");
+                System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Wrong world guard detection! re-switching to 1.13");
                 regionAdapter = new ModernRegionAdapter(this);
             }
         }
 
-        SpigotConfigurationModule config = openAudioMcSpigot.getConfigurationModule();
+        ConfigurationInterface config = OpenAudioMcCore.getInstance().getConfigurationInterface();
 
         //load config
         for (String region : config.getStringSet("regions", StorageLocation.DATA_FILE)) {

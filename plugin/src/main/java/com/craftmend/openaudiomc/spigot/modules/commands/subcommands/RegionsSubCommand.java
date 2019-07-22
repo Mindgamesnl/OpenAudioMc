@@ -1,5 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
 
+import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.spigot.modules.commands.objects.Argument;
@@ -37,6 +39,7 @@ public class RegionsSubCommand extends SubCommand {
             return;
         }
 
+        ConfigurationInterface config = OpenAudioMcCore.getInstance().getConfigurationInterface();
         if (args[0].equalsIgnoreCase("create") && args.length == 3) {
             args[1] = args[1].toLowerCase();
 
@@ -46,14 +49,14 @@ public class RegionsSubCommand extends SubCommand {
                 return;
             }
 
-            openAudioMcSpigot.getConfigurationModule().setString(StorageLocation.DATA_FILE, "regions." + args[1], args[2]);
+            config.setString(StorageLocation.DATA_FILE, "regions." + args[1], args[2]);
             openAudioMcSpigot.getRegionModule().registerRegion(args[1], new RegionProperties(args[2]));
             message(sender, "The WorldGuard region with the id " + args[1] + " now has the sound " + args[2]);
             return;
         }
 
         if (args[0].equalsIgnoreCase("delete") && args.length == 2) {
-            openAudioMcSpigot.getConfigurationModule().setString(StorageLocation.DATA_FILE, "regions." + args[1], null);
+            config.setString(StorageLocation.DATA_FILE, "regions." + args[1], null);
             openAudioMcSpigot.getRegionModule().removeRegion(args[1]);
             message(sender, "The WorldGuard region with the id " + args[1] + " no longer has a sound linked to it.");
             return;

@@ -38,7 +38,7 @@ public class PlaySubCommand extends SubCommand {
             Media media = new Media(args[1]);
             for (Player player : new PlayerSelector(args[0]).getPlayers(sender)) {
                 SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(player);
-                spigotConnection.sendMedia(media);
+                spigotConnection.getClientConnection().sendMedia(media);
             }
             message(sender, "Media created.");
             return;
@@ -50,7 +50,7 @@ public class PlaySubCommand extends SubCommand {
                 Media media = new Media(args[1]).applySettings(mediaOptions);
                 for (Player player : new PlayerSelector(args[0]).getPlayers(sender)) {
                     SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(player);
-                    spigotConnection.sendMedia(media);
+                    spigotConnection.getClientConnection().sendMedia(media);
                 }
                 message(sender, "Media and options created.");
             } catch (Exception e) {

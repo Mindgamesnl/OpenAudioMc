@@ -170,4 +170,8 @@ public class ClientConnection {
         if (isConnected)
             OpenAudioMcCore.getInstance().getNetworkingService().send(this, new PacketClientCreateMedia(media));
     }
+
+    public Boolean isConnected() {
+        return getIsConnected();
+    }
 }

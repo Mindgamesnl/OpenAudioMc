@@ -9,6 +9,10 @@ import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.abstracts.PayloadHandler;
 import com.craftmend.openaudiomc.generic.networking.handlers.ClientDisconnectHandler;
 import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
+import com.craftmend.openaudiomc.generic.player.ProxiedPlayerAdapter;
+import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
+import org.bukkit.entity.Player;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -106,6 +110,18 @@ public class NetworkingService {
             client.kick();
             clientMap.remove(player);
         }
+    }
+
+    public ClientConnection register(Player player) {
+        ClientConnection clientConnection = new ClientConnection(new SpigotPlayerAdapter(player));
+        clientMap.put(player.getUniqueId(), clientConnection);
+        return clientConnection;
+    }
+
+    public ClientConnection register(ProxiedPlayer player) {
+        ClientConnection clientConnection = new ClientConnection(new ProxiedPlayerAdapter(player));
+        clientMap.put(player.getUniqueId(), clientConnection);
+        return clientConnection;
     }
 
     /**

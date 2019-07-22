@@ -21,7 +21,7 @@ import java.util.*;
 
 public class SpigotConnection {
 
-    private ClientConnection clientConnection;
+    @Getter private ClientConnection clientConnection;
 
     // optional regions and speakers
     @Setter private List<IRegion> currentRegions = new ArrayList<>();
@@ -45,7 +45,8 @@ public class SpigotConnection {
     /**
      * @param player client startup logic
      */
-    public SpigotConnection(Player player) {
+    public SpigotConnection(Player player, ClientConnection clientConnection) {
+        this.clientConnection = clientConnection;
         // if the region system is enabled, then load the handler
         if (OpenAudioMcSpigot.getInstance().getRegionModule() != null) this.regionHandler = new RegionHandler(player, this);
         // register the speaker handler
