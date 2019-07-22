@@ -1,11 +1,13 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.command;
 
 import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.generic.commands.adapters.SpigotCommandSenderAdapter;
+import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,15 +16,18 @@ import org.bukkit.command.TabCompleter;
 import java.util.ArrayList;
 import java.util.List;
 
-@AllArgsConstructor
-public class MainCommand implements CommandExecutor, TabCompleter {
+public class SpigotMainCommand implements CommandExecutor, TabCompleter {
 
     private OpenAudioMcSpigot openAudioMcSpigot;
-    private CommandModule commandModule;
+    private CommandModule commandModule = OpenAudioMcCore.getInstance().getCommandModule();
+
+    public SpigotMainCommand(OpenAudioMcSpigot openAudioMcSpigot) {
+        this.openAudioMcSpigot = openAudioMcSpigot;
+    }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-
+    public boolean onCommand(CommandSender originalSender, Command command, String label, String[] args) {
+        GenericExecutor sender = new SpigotCommandSenderAdapter(originalSender);
         if (!OpenAudioMcCore.getInstance().getAuthenticationService().getIsSuccesfull()) {
             sender.sendMessage(commandModule.getCommandPrefix() + OpenAudioMcCore.getInstance().getAuthenticationService().getFailureMessage());
             return true;

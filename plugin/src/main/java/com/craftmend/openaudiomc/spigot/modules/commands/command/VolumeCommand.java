@@ -1,10 +1,12 @@
-package com.craftmend.openaudiomc.generic.commands.command;
+package com.craftmend.openaudiomc.spigot.modules.commands.command;
 
 import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.generic.configuration.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import lombok.AllArgsConstructor;
-import org.bukkit.ChatColor;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,12 +15,10 @@ import org.bukkit.entity.Player;
 @AllArgsConstructor
 public class VolumeCommand implements CommandExecutor {
 
-    private OpenAudioMcSpigot main;
-
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (!OpenAudioMcCore.getInstance().getAuthenticationService().getIsSuccesfull()) {
-            sender.sendMessage(main.getCommandModule().getCommandPrefix() + OpenAudioMcCore.getInstance().getAuthenticationService().getFailureMessage());
+            sender.sendMessage(OpenAudioMcCore.getInstance().getCommandModule().getCommandPrefix() + OpenAudioMcCore.getInstance().getAuthenticationService().getFailureMessage());
             return true;
         }
 
@@ -26,12 +26,14 @@ public class VolumeCommand implements CommandExecutor {
             SpigotConnection spigotConnection = OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(((Player) sender).getUniqueId());
 
             if (!spigotConnection.getClientConnection().isConnected()) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMcSpigot.getInstance().getConfig().getString("messages.client-not-connected")));
+                String message = Platform.translateColors(OpenAudioMcCore.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_NOT_CONNECTED));
+                sender.sendMessage(message);
                 return true;
             }
 
             if (args.length == 0) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMcSpigot.getInstance().getConfig().getString("messages.client-volume-invalid")));
+                String message = Platform.translateColors(OpenAudioMcCore.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_VOLUME_INVALID));
+                sender.sendMessage(message);
                 return true;
             }
 
@@ -39,13 +41,15 @@ public class VolumeCommand implements CommandExecutor {
                 int volume = Integer.parseInt(args[0]);
                 //check if in range
                 if (volume < 0 || volume > 100) {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMcSpigot.getInstance().getConfig().getString("messages.client-volume-invalid")));
+                    String message = Platform.translateColors(OpenAudioMcCore.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_VOLUME_INVALID));
+                    sender.sendMessage(message);
                     return true;
                 } else {
                     spigotConnection.getClientConnection().setVolume(volume);
                 }
             } catch (Exception e) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMcSpigot.getInstance().getConfig().getString("messages.client-volume-invalid")));
+                String message = Platform.translateColors(OpenAudioMcCore.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_VOLUME_INVALID));
+                sender.sendMessage(message);
                 return true;
             }
         } else {
