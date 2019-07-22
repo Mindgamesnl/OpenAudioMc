@@ -1,12 +1,11 @@
 package com.craftmend.openaudiomc.generic.networking.io;
 
 import com.craftmend.openaudiomc.OpenAudioMcCore;
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.addapter.GenericApiResponse;
 import com.craftmend.openaudiomc.generic.networking.addapter.RelayHost;
 import com.craftmend.openaudiomc.generic.networking.payloads.AcknowledgeClientPayload;
-import com.craftmend.openaudiomc.spigot.modules.players.objects.Client;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.spigot.services.state.states.AssigningRelayState;
 import com.craftmend.openaudiomc.spigot.services.state.states.ConnectedState;
@@ -18,7 +17,6 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 import lombok.RequiredArgsConstructor;
 import okhttp3.OkHttpClient;
-import org.bukkit.Bukkit;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -41,8 +39,8 @@ public class SocketIoConnector {
         OpenAudioMcCore.getInstance().getStateService().setState(new AssigningRelayState());
 
         // load keys
-        String privateKey = OpenAudioMcSpigot.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue();
-        String publicKey = OpenAudioMcSpigot.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue();
+        String privateKey = OpenAudioMcCore.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue();
+        String publicKey = OpenAudioMcCore.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue();
 
         // authentication headers
         opts.query = "type=server&" +
@@ -57,9 +55,9 @@ public class SocketIoConnector {
 
         // check if relay request has errors
         if (genericApiResponse.getErrors().size() != 0) {
-            System.out.println(OpenAudioMcSpigot.getLOG_PREFIX() + "Failed to get relay host.");
-            System.out.println(OpenAudioMcSpigot.getLOG_PREFIX() + " - message: " + genericApiResponse.getErrors().get(0).getMessage());
-            System.out.println(OpenAudioMcSpigot.getLOG_PREFIX() + " - code: " + genericApiResponse.getErrors().get(0).getCode());
+            System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Failed to get relay host.");
+            System.out.println(OpenAudioMcCore.getLOG_PREFIX() + " - message: " + genericApiResponse.getErrors().get(0).getMessage());
+            System.out.println(OpenAudioMcCore.getLOG_PREFIX() + " - code: " + genericApiResponse.getErrors().get(0).getCode());
             throw new IOException("Failed to get relay! see console for error information");
         }
 
@@ -70,7 +68,7 @@ public class SocketIoConnector {
         socket = IO.socket(relayHost.getUrl(), opts);
 
         // register state to be connecting
-        openAudioMcSpigot.getStateService().setState(new ConnectingState());
+        OpenAudioMcCore.getInstance().getStateService().setState(new ConnectingState());
 
         // attempt to setup
         registerEvents();
@@ -80,33 +78,33 @@ public class SocketIoConnector {
     private void registerEvents() {
         socket.on(Socket.EVENT_CONNECT, args -> {
             // connected with success
-            openAudioMcSpigot.getStateService().setState(new ConnectedState());
+            OpenAudioMcCore.getInstance().getStateService().setState(new ConnectedState());
         });
 
         socket.on(Socket.EVENT_DISCONNECT, args -> {
             // disconnected, probably with a reason or something
-            openAudioMcSpigot.getStateService().setState(new IdleState("Disconnected from the socket"));
+            OpenAudioMcCore.getInstance().getStateService().setState(new IdleState("Disconnected from the socket"));
         });
 
         socket.on(Socket.EVENT_CONNECT_TIMEOUT, args -> {
             // failed to connect
-            openAudioMcSpigot.getStateService().setState(new IdleState("Connecting timed out, something wrong with the api, network or token?"));
+            OpenAudioMcCore.getInstance().getStateService().setState(new IdleState("Connecting timed out, something wrong with the api, network or token?"));
         });
 
         socket.on("time-update", args -> {
             String[] data = ((String) args[args.length - 1]).split(":");
             long timeStamp = Long.parseLong(data[0]);
             long offset = Long.parseLong(data[1]);
-            OpenAudioMcSpigot.getInstance().getTimeService().pushServerUpdate(timeStamp, offset);
+            OpenAudioMcCore.getInstance().getTimeService().pushServerUpdate(timeStamp, offset);
         });
 
         socket.on("acknowledgeClient", args -> {
-            AcknowledgeClientPayload payload = (AcknowledgeClientPayload) OpenAudioMcSpigot.getGson().fromJson(
+            AcknowledgeClientPayload payload = (AcknowledgeClientPayload) OpenAudioMcCore.getGson().fromJson(
                     args[0].toString(),
                     AbstractPacket.class
             ).getData();
 
-            Client client = OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(payload.getUuid());
+            ClientConnection client = OpenAudioMcCore.getInstance().getNetworkingService().getClient(payload.getUuid());
 
             Ack callback = (Ack) args[1];
 
@@ -121,8 +119,8 @@ public class SocketIoConnector {
         });
 
         socket.on("data", args -> {
-            AbstractPacket abstractPacket = OpenAudioMcSpigot.getGson().fromJson(args[0].toString(), AbstractPacket.class);
-            OpenAudioMcSpigot.getInstance().getNetworkingService().triggerPacket(abstractPacket);
+            AbstractPacket abstractPacket = OpenAudioMcCore.getGson().fromJson(args[0].toString(), AbstractPacket.class);
+            OpenAudioMcCore.getInstance().getNetworkingService().triggerPacket(abstractPacket);
         });
     }
 
@@ -130,13 +128,11 @@ public class SocketIoConnector {
         this.socket.disconnect();
     }
 
-    public void send(Client client, AbstractPacket packet) {
+    public void send(ClientConnection client, AbstractPacket packet) {
         // only send the packet if the client is online, valid and the plugin is connected
-        if (client.getIsConnected() && openAudioMcSpigot.getStateService().getCurrentState().isConnected()) {
-            //check if the player is real, fake players aren't cool
-            if (Bukkit.getPlayer(client.getPlayer().getUniqueId()) == null) return;
+        if (client.getIsConnected() && OpenAudioMcCore.getInstance().getStateService().getCurrentState().isConnected()) {
             packet.setClient(client.getPlayer().getUniqueId());
-            socket.emit("data", OpenAudioMcSpigot.getGson().toJson(packet));
+            socket.emit("data", OpenAudioMcCore.getGson().toJson(packet));
         }
     }
 }

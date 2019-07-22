@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.spigot.modules.hue.objects;
+package com.craftmend.openaudiomc.generic.objects;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

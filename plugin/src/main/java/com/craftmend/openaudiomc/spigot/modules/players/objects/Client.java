@@ -1,11 +1,9 @@
 package com.craftmend.openaudiomc.spigot.modules.players.objects;
 
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.api.objects.HueState;
 import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfigurationModule;
 import com.craftmend.openaudiomc.generic.configuration.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.configuration.objects.ClientSettings;
-import com.craftmend.openaudiomc.spigot.modules.hue.objects.SerializedHueColor;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.spigot.modules.players.handlers.RegionHandler;
 import com.craftmend.openaudiomc.spigot.modules.players.handlers.SpeakerHandler;
@@ -130,70 +128,6 @@ public class Client extends WebConnection {
         this.isConnected = false;
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMcSpigot.getInstance().getConfig().getString("messages.client-closed")));
         Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> Bukkit.getServer().getPluginManager().callEvent(new ClientDisconnectEvent(player)));
-    }
-
-    /**
-     * change the volume for the client
-     *
-     * @param volume the new volume
-     */
-    @Override
-    public void setVolume(int volume) {
-        if (volume < 0 || volume > 100) {
-            throw new IllegalArgumentException("Volume must be between 0 and 100");
-        }
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMcSpigot.getInstance().getConfig().getString("messages.client-volume-change").replaceAll("__amount__", volume + "")));
-        OpenAudioMcSpigot.getInstance().getNetworkingService().send(this, new PacketClientSetVolume(volume));
-    }
-
-    /**
-     * change the players hue lights
-     *
-     * @param hueState the new light state
-     */
-    public void setHue(HueState hueState) {
-        hueState.getColorMap().forEach((light, color) -> {
-            SerializedHueColor serializedHueColor = new SerializedHueColor(color.getRed(), color.getGreen(), color.getGreen(), color.getBrightness());
-            OpenAudioMcSpigot.getInstance().getNetworkingService().send(this, new PacketClientApplyHueColor(serializedHueColor, "[" + light + "]"));
-        });
-    }
-
-    /**
-     * Close the clients web client
-     */
-    public void kick() {
-        OpenAudioMcSpigot.getInstance().getNetworkingService().send(this, new PacketSocketKickClient());
-    }
-
-    /**
-     * send media to the client to play
-     *
-     * @param media media to be send
-     */
-    public void sendMedia(Media media) {
-        if (media.getKeepTimeout() != -1 && !ongoingMedia.contains(media)) {
-            ongoingMedia.add(media);
-            Bukkit.getScheduler().scheduleAsyncDelayedTask(OpenAudioMcSpigot.getInstance(), () -> ongoingMedia.remove(media), 20 * media.getKeepTimeout());
-        }
-        if (isConnected) OpenAudioMcSpigot.getInstance().getNetworkingService().send(this, new PacketClientCreateMedia(media));
-    }
-
-    /**
-     * Return the current token for the url. This can only be used for this session.
-     *
-     * @return token
-     */
-    @Override
-    public Session getSession() {
-        return session;
-    }
-
-    /**
-     * @return playing media
-     */
-    @Override
-    public List<Media> getOngoingMedia() {
-        return this.ongoingMedia;
     }
 
     /**

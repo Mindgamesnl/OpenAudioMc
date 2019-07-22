@@ -1,8 +1,19 @@
 package com.craftmend.openaudiomc.generic.platform;
 
+import com.craftmend.openaudiomc.OpenAudioMcCore;
+import org.bukkit.ChatColor;
+
 public enum Platform {
 
     SPIGOT,
-    BUNGEE
+    BUNGEE;
+
+    public static String translateColors(String input) {
+        if (OpenAudioMcCore.getInstance().getPlatform() == SPIGOT) {
+            return ChatColor.translateAlternateColorCodes('&', input);
+        } else {
+            return net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', input);
+        }
+    }
 
 }

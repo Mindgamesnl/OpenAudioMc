@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.spigot.modules.players.objects;
+package com.craftmend.openaudiomc.generic.networking.client.objects;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class Session {
 
-    private WebConnection webConnection;
+    private ClientConnection client;
     private String key;
     private String token;
 
@@ -19,7 +19,7 @@ public class Session {
      * useless
      */
     public void regenerate() {
-        webConnection.refreshSession();
+        client.refreshSession();
     }
 
 }

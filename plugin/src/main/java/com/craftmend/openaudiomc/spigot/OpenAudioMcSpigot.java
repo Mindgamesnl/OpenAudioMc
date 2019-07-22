@@ -30,7 +30,6 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
      *  - networking service (api connection)
      */
     private ServerService serverService;
-    private AuthenticationService authenticationService;
 
     /**
      * modules that make up the plugin
@@ -67,7 +66,6 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
 
         // startup modules and services
         this.serverService = new ServerService();
-        this.authenticationService = new AuthenticationService();
         this.playerModule = new PlayerModule(this);
         this.speakerModule = new SpeakerModule(this);
         this.commandModule = new CommandModule(this);
