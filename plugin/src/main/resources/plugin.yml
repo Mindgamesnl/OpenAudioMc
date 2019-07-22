@@ -1,7 +1,7 @@
 name: OpenAudioMc
 version: 5.4.5
 softdepend: [WorldGuard]
-main: com.craftmend.openaudiomc.OpenAudioMc
+main: com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot
 api-version: 1.13
 authors: [Mindgamesnl]
 description: The OpenAudioMc plugin. Brings real sound and lights to your minecraft server with the help of a custom web client.
