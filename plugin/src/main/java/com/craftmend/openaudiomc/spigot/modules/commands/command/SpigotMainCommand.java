@@ -2,9 +2,9 @@ package com.craftmend.openaudiomc.spigot.modules.commands.command;
 
 import com.craftmend.openaudiomc.OpenAudioMcCore;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.commands.CommandModule;
-import com.craftmend.openaudiomc.spigot.modules.commands.interfaces.SubCommand;
-import com.craftmend.openaudiomc.spigot.modules.commands.objects.Argument;
+import com.craftmend.openaudiomc.generic.commands.CommandModule;
+import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import lombok.AllArgsConstructor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

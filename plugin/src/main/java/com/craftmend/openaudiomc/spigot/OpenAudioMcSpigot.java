@@ -2,11 +2,10 @@ package com.craftmend.openaudiomc.spigot;
 
 import com.craftmend.openaudiomc.OpenAudioMcCore;
 import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.spigot.modules.commands.SpigotCommandModule;
 import com.craftmend.openaudiomc.spigot.services.state.states.IdleState;
-import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 
-import com.craftmend.openaudiomc.spigot.modules.commands.CommandModule;
 import com.craftmend.openaudiomc.spigot.modules.players.PlayerModule;
 import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
@@ -41,7 +40,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
      */
     private PlayerModule playerModule;
     private RegionModule regionModule;
-    private CommandModule commandModule;
+    private SpigotCommandModule commandModule;
     private SpeakerModule speakerModule;
 
     /**
@@ -68,7 +67,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
         this.serverService = new ServerService();
         this.playerModule = new PlayerModule(this);
         this.speakerModule = new SpeakerModule(this);
-        this.commandModule = new CommandModule(this);
+        this.commandModule = new SpigotCommandModule(this);
 
         // optional modules
         if (getServer().getPluginManager().isPluginEnabled("WorldGuard")) {

@@ -1,7 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.listeners;
 
 import com.craftmend.openaudiomc.OpenAudioMcCore;
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.configuration.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
@@ -16,7 +15,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 @AllArgsConstructor
 public class SpeakerDestroyListener implements Listener {
 
-    private OpenAudioMcSpigot openAudioMcSpigot;
+    private OpenAudioMcCore openAudioMcCore;
     private SpeakerModule speakerModule;
 
     @EventHandler
@@ -24,7 +23,7 @@ public class SpeakerDestroyListener implements Listener {
         Block broken = event.getBlock();
         if (speakerModule.isSpeakerSkull(broken)) {
             if (!isAllowed(event.getPlayer())) {
-                event.getPlayer().sendMessage(openAudioMcSpigot.getCommandModule().getCommandPrefix() + "You are not allowed to break OpenAudioMc speakers, please ask the server administrator for more information.");
+                event.getPlayer().sendMessage(OpenAudioMcCore.getInstance().getCommandModule().getCommandPrefix() + "You are not allowed to break OpenAudioMc speakers, please ask the server administrator for more information.");
                 event.setCancelled(true);
                 return;
             }
@@ -36,14 +35,14 @@ public class SpeakerDestroyListener implements Listener {
             speakerModule.unlistSpeaker(location);
 
             //save to config
-            OpenAudioMcCore.getInstance().getConfigurationInterface().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".world", null);
-            OpenAudioMcCore.getInstance().getConfigurationInterface().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".x", null);
-            OpenAudioMcCore.getInstance().getConfigurationInterface().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".y", null);
-            OpenAudioMcCore.getInstance().getConfigurationInterface().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".z", null);
-            OpenAudioMcCore.getInstance().getConfigurationInterface().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".media", null);
-            OpenAudioMcCore.getInstance().getConfigurationInterface().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString(), null);
+            openAudioMcCore.getConfigurationInterface().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".world", null);
+            openAudioMcCore.getConfigurationInterface().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".x", null);
+            openAudioMcCore.getConfigurationInterface().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".y", null);
+            openAudioMcCore.getConfigurationInterface().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".z", null);
+            openAudioMcCore.getConfigurationInterface().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".media", null);
+            openAudioMcCore.getConfigurationInterface().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString(), null);
 
-            event.getPlayer().sendMessage(openAudioMcSpigot.getCommandModule().getCommandPrefix() + "Speaker removed");
+            event.getPlayer().sendMessage(openAudioMcCore.getCommandModule().getCommandPrefix() + "Speaker removed");
         }
     }
 

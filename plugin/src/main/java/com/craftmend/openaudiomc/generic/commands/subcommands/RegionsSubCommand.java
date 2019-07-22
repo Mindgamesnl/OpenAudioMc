@@ -1,10 +1,11 @@
-package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
+package com.craftmend.openaudiomc.generic.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.commands.interfaces.SubCommand;
-import com.craftmend.openaudiomc.spigot.modules.commands.objects.Argument;
+import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.configuration.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
 import org.bukkit.Bukkit;
@@ -28,9 +29,9 @@ public class RegionsSubCommand extends SubCommand {
     }
 
     @Override
-    public void onExecute(CommandSender sender, String[] args) {
+    public void onExecute(GenericExecutor sender, String[] args) {
         if (args.length == 0) {
-            Bukkit.getServer().dispatchCommand(sender, "oa help " + getCommand());
+            Bukkit.getServer().dispatchCommand((CommandSender) sender.getOriginal(), "oa help " + getCommand());
             return;
         }
 
@@ -62,6 +63,6 @@ public class RegionsSubCommand extends SubCommand {
             return;
         }
 
-        Bukkit.getServer().dispatchCommand(sender, "oa help " + getCommand());
+        Bukkit.getServer().dispatchCommand((CommandSender) sender.getOriginal(), "oa help " + getCommand());
     }
 }

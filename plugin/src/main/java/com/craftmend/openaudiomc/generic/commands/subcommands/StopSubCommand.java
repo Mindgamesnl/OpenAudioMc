@@ -1,12 +1,13 @@
-package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
+package com.craftmend.openaudiomc.generic.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.commands.interfaces.SubCommand;
-import com.craftmend.openaudiomc.spigot.modules.commands.objects.Argument;
+import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.networking.packets.PacketClientDestroyMedia;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
-import com.craftmend.openaudiomc.spigot.modules.players.objects.PlayerSelector;
+import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -27,14 +28,14 @@ public class StopSubCommand extends SubCommand {
     }
 
     @Override
-    public void onExecute(CommandSender sender, String[] args) {
+    public void onExecute(GenericExecutor sender, String[] args) {
         if (args.length == 0) {
-            Bukkit.getServer().dispatchCommand(sender, "oa help " + getCommand());
+            Bukkit.getServer().dispatchCommand((CommandSender) sender.getOriginal(), "oa help " + getCommand());
             return;
         }
 
         if (args.length == 1) {
-            for (Player player : new PlayerSelector(args[0]).getPlayers(sender)) {
+            for (Player player : new SpigotPlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal())) {
                 SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(player);
                 OpenAudioMcCore.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(null));
             }
@@ -43,7 +44,7 @@ public class StopSubCommand extends SubCommand {
         }
 
         if (args.length == 2) {
-            for (Player player : new PlayerSelector(args[0]).getPlayers(sender)) {
+            for (Player player : new SpigotPlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal())) {
                 SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(player);
                 OpenAudioMcCore.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(args[1]));
             }
@@ -51,6 +52,6 @@ public class StopSubCommand extends SubCommand {
             return;
         }
 
-        Bukkit.getServer().dispatchCommand(sender, "oa help " + getCommand());
+        Bukkit.getServer().dispatchCommand((CommandSender) sender.getOriginal(), "oa help " + getCommand());
     }
 }

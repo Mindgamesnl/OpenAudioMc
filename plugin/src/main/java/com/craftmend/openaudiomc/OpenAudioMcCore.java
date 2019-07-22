@@ -1,20 +1,24 @@
 package com.craftmend.openaudiomc;
 
-import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
-import com.craftmend.openaudiomc.bungee.modules.configuration.BungeeConfigurationModule;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
+import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
 import com.craftmend.openaudiomc.generic.media.MediaModule;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.objects.OpenAudioApi;
-import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfigurationModule;
 import com.craftmend.openaudiomc.generic.networking.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
 import com.craftmend.openaudiomc.generic.networking.addapter.AbstractPacketAdapter;
+
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfigurationModule;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 import com.craftmend.openaudiomc.spigot.services.state.StateService;
+
+import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
+import com.craftmend.openaudiomc.bungee.modules.configuration.BungeeConfigurationModule;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
@@ -22,39 +26,19 @@ import lombok.Getter;
 @Getter
 public class OpenAudioMcCore {
 
-    /**
-     * services OpenAudioMc uses in the background
-     *
-     *  - State service (keeps track of connections and state of the api)
-     *  - Server service (compatibility and stuff)
-     *  - authentication (auth)
-     *  - time service (time sync with clients)
-     *  - networking service (api connection)
-     */
     private StateService stateService;
     private ServerService serverService;
     private TimeService timeService;
+    private CommandModule commandModule;
     private NetworkingService networkingService;
 
-    /**
-     * modules that are common across all platforms
-     */
+
     private MediaModule mediaModule;
     private ConfigurationInterface configurationInterface;
     private AuthenticationService authenticationService;
 
-    /**
-     * Constant: main plugin instance
-     */
-    @Getter
-    private static OpenAudioMcCore instance;
+    @Getter private static OpenAudioMcCore instance;
 
-    /**
-     * Constants:
-     *  - api: the api
-     *  - LOG_PREFIX: the prefix in server logs
-     *  - Gson: the google json instance that is used with the type adapter
-     */
     @Getter private static final OpenAudioApi api = new OpenAudioApi();
     @Getter private static final String LOG_PREFIX = "[OpenAudioMc-Log] ";
     @Getter private static final String server = "http://craftmendserver.eu";
@@ -71,6 +55,7 @@ public class OpenAudioMcCore {
 
         // if spigot, load the spigot configuration system and the bungee one for bungee
         if (platform == Platform.SPIGOT) {
+            this.serverService = new ServerService();
             this.configurationInterface = new SpigotConfigurationModule(OpenAudioMcSpigot.getInstance());
         } else {
             this.configurationInterface = new BungeeConfigurationModule((OpenAudioMcBungee.getInstance()));
@@ -82,6 +67,7 @@ public class OpenAudioMcCore {
         this.timeService = new TimeService();
         this.mediaModule = new MediaModule();
         this.networkingService = new NetworkingService();
+        this.commandModule = new CommandModule();
     }
 
 }

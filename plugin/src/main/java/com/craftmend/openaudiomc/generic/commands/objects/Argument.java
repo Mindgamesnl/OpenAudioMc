@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.spigot.modules.commands.objects;
+package com.craftmend.openaudiomc.generic.commands.objects;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

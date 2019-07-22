@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
-public class PlayerSelector {
+public class SpigotPlayerSelector {
 
     private String selector;
 
@@ -94,7 +94,7 @@ public class PlayerSelector {
         }
         else {
             //you fucked it
-            commandSender.sendMessage(OpenAudioMcCore.getLOG_PREFIX() + "Invalid player query. Try something like @a, @p, uuid, username or other arguments.");
+            commandSender.sendMessage(OpenAudioMcCore.getLOG_PREFIX() + "Invalid player query. Try something like @a, @p, username or other arguments.");
         }
         return players;
     }

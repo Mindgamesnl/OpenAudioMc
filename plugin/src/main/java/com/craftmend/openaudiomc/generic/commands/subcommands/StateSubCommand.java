@@ -1,12 +1,12 @@
-package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
+package com.craftmend.openaudiomc.generic.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.commands.interfaces.SubCommand;
-import com.craftmend.openaudiomc.spigot.modules.commands.objects.Argument;
+import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -19,7 +19,7 @@ public class StateSubCommand extends SubCommand {
     }
 
     @Override
-    public void onExecute(CommandSender sender, String[] args) {
+    public void onExecute(GenericExecutor sender, String[] args) {
         message(sender, ChatColor.YELLOW + "State: " + ChatColor.GRAY + "Usefull session info");
         message(sender, ChatColor.YELLOW + "State: " + ChatColor.AQUA + OpenAudioMcCore.getInstance().getStateService().getCurrentState().getClass().getSimpleName());
         message(sender, ChatColor.YELLOW + "State Info: " + ChatColor.AQUA + OpenAudioMcCore.getInstance().getStateService().getCurrentState().getDescription());

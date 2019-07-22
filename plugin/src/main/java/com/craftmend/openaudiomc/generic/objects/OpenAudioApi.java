@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnect
 import com.craftmend.openaudiomc.generic.networking.client.objects.Session;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.IRegion;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
@@ -45,8 +45,7 @@ public class OpenAudioApi {
      * @param subCommand your sub command
      */
     public void registerAddonCommand(SubCommand subCommand) {
-        if (OpenAudioMcCore.getInstance().getPlatform() == Platform.BUNGEE) throw new IllegalStateException("Sub command modification is only for spigot plugins");
-        OpenAudioMcSpigot.getInstance().getCommandModule().registerSubCommand(subCommand);
+        OpenAudioMcCore.getInstance().getCommandModule().registerSubCommand(subCommand);
     }
 
     /**
