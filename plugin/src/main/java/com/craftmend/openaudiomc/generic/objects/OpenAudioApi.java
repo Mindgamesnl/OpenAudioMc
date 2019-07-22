@@ -1,15 +1,16 @@
 package com.craftmend.openaudiomc.generic.objects;
-
+import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.generic.media.interfaces.UrlMutation;
+import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.client.objects.Session;
+import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.commands.interfaces.SubCommand;
-import com.craftmend.openaudiomc.generic.media.interfaces.UrlMutation;
-import com.craftmend.openaudiomc.spigot.modules.players.interfaces.ClientConnection;
-import com.craftmend.openaudiomc.generic.networking.client.objects.Session;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.IRegion;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
+import sun.plugin.dom.exception.InvalidStateException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,18 +26,7 @@ public class OpenAudioApi {
      * @return instance of ClientConnection
      */
     public ClientConnection getClient(UUID uuid) {
-        return OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(uuid);
-    }
-
-    /**
-     * Every player has a ClientConnection to manage the web interaction.
-     * Used method to get it based on a Player.
-     *
-     * @param player Get client that's linked with a Player
-     * @return instance of ClientConnection
-     */
-    public ClientConnection getClient(Player player) {
-        return OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(player.getUniqueId());
+        return OpenAudioMcCore.getInstance().getNetworkingService().getClient(uuid);
     }
 
     /**
@@ -47,7 +37,7 @@ public class OpenAudioApi {
      * @param urlMutation Your UrlMutation implementation
      */
     public void registerMutation(String host, UrlMutation urlMutation) {
-        OpenAudioMcSpigot.getInstance().getMediaModule().registerMutation(host, urlMutation);
+        OpenAudioMcCore.getInstance().getMediaModule().registerMutation(host, urlMutation);
     }
 
     /**
@@ -56,6 +46,7 @@ public class OpenAudioApi {
      * @param subCommand your sub command
      */
     public void registerAddonCommand(SubCommand subCommand) {
+        if (OpenAudioMcCore.getInstance().getPlatform() == Platform.BUNGEE) throw new InvalidStateException("Sub command modification is only for spigot plugins");
         OpenAudioMcSpigot.getInstance().getCommandModule().registerSubCommand(subCommand);
     }
 
@@ -67,6 +58,7 @@ public class OpenAudioApi {
      * @return A list of openaudiomc regions
      */
     public List<IRegion> getRegion(Location location) {
+        if (OpenAudioMcCore.getInstance().getPlatform() == Platform.BUNGEE) throw new InvalidStateException("Sub command modification is only for spigot plugins");
         if (OpenAudioMcSpigot.getInstance().getRegionModule() == null) return new ArrayList<>();
         return OpenAudioMcSpigot.getInstance().getRegionModule().getRegionAdapter().getAudioRegions(location);
     }
@@ -79,6 +71,7 @@ public class OpenAudioApi {
      * @return Speaker
      */
     public Speaker getSpeaker(Location location) {
+        if (OpenAudioMcCore.getInstance().getPlatform() == Platform.BUNGEE) throw new InvalidStateException("Sub command modification is only for spigot plugins");
         return OpenAudioMcSpigot.getInstance().getSpeakerModule().getSpeaker(new MappedLocation(location));
     }
 
@@ -86,10 +79,10 @@ public class OpenAudioApi {
      * Get the current session token for a player
      *
      * @param player
-     * @return
+     * @return the session
      */
-    public Session getSession(Player player) {
-        return getClient(player.getUniqueId()).getSession();
+    public Session getSession(UUID player) {
+        return getClient(player).getSession();
     }
 
 }

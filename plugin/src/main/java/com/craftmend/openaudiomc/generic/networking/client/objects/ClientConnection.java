@@ -11,6 +11,7 @@ import com.craftmend.openaudiomc.generic.networking.packets.PacketSocketKickClie
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.objects.HueState;
 import com.craftmend.openaudiomc.generic.objects.SerializedHueColor;
+import com.craftmend.openaudiomc.generic.scheduling.SyncDelayedTask;
 import lombok.Getter;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -114,7 +115,11 @@ public class ClientConnection {
     public void sendMedia(Media media) {
         if (media.getKeepTimeout() != -1 && !ongoingMedia.contains(media)) {
             ongoingMedia.add(media);
-            Bukkit.getScheduler().scheduleAsyncDelayedTask(OpenAudioMcSpigot.getInstance(), () -> ongoingMedia.remove(media), 20 * media.getKeepTimeout());
+
+            // stop after x seconds
+            new SyncDelayedTask(20 * media.getKeepTimeout())
+                    .setTask(() -> ongoingMedia.remove(media))
+                    .start();
         }
         if (isConnected) OpenAudioMcCore.getInstance().getNetworkingService().send(this, new PacketClientCreateMedia(media));
     }

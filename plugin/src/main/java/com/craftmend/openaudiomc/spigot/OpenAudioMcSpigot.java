@@ -88,9 +88,9 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
      */
     @Override
     public void onDisable() {
-        configurationModule.saveAll();
+        OpenAudioMcCore.getInstance().getConfigurationInterface().saveAll();
         if (OpenAudioMcCore.getInstance().getStateService().getCurrentState().isConnected()) {
-            this.networkingService.stop();
+            OpenAudioMcCore.getInstance().getNetworkingService().stop();
         }
     }
 }
