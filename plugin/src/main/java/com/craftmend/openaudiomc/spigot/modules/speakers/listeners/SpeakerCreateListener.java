@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.speakers.listeners;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.configuration.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.configuration.enums.StorageLocation;
-import com.craftmend.openaudiomc.spigot.modules.players.objects.Client;
+import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import lombok.AllArgsConstructor;
@@ -32,8 +32,8 @@ public class SpeakerCreateListener implements Listener {
                 return;
             }
 
-            Client client = openAudioMcSpigot.getPlayerModule().getClient(event.getPlayer());
-            if (client.getSelectedSpeakerSource() == null) {
+            SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(event.getPlayer());
+            if (spigotConnection.getSelectedSpeakerSource() == null) {
                 event.getPlayer().sendMessage(openAudioMcSpigot.getCommandModule().getCommandPrefix() + "You cant place OpenAudioMc speakers without using the command first. I dont know what sound you would like to add.");
                 event.setCancelled(true);
                 return;
@@ -44,7 +44,7 @@ public class SpeakerCreateListener implements Listener {
 
             int range = openAudioMcSpigot.getConfigurationModule().getInt(StorageKey.SETTINGS_SPEAKER_RANGE);
 
-            speakerModule.registerSpeaker(location, client.getSelectedSpeakerSource(), id, range);
+            speakerModule.registerSpeaker(location, spigotConnection.getSelectedSpeakerSource(), id, range);
 
             //save to config
             openAudioMcSpigot.getConfigurationModule().setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".world", location.getWorld());
@@ -52,7 +52,7 @@ public class SpeakerCreateListener implements Listener {
             openAudioMcSpigot.getConfigurationModule().setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".y", location.getY());
             openAudioMcSpigot.getConfigurationModule().setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".z", location.getZ());
             openAudioMcSpigot.getConfigurationModule().setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".radius", range);
-            openAudioMcSpigot.getConfigurationModule().setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".media", client.getSelectedSpeakerSource());
+            openAudioMcSpigot.getConfigurationModule().setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".media", spigotConnection.getSelectedSpeakerSource());
 
             event.getPlayer().sendMessage(openAudioMcSpigot.getCommandModule().getCommandPrefix() + "Speaker registered");
         }

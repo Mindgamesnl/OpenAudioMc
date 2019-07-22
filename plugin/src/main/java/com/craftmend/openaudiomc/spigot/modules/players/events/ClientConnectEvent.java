@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.players.events;
 
-import com.craftmend.openaudiomc.spigot.modules.players.interfaces.ClientConnection;
+import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.entity.Player;
@@ -20,7 +20,7 @@ public class ClientConnectEvent extends Event {
     /**
      * the client instance of the connected player
      */
-    @Getter private ClientConnection client;
+    @Getter private SpigotConnection spigotConnection;
 
     public HandlerList getHandlers() {
         return handlers;

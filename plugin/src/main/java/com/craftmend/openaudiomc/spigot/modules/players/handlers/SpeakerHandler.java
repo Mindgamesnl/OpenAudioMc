@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.players.handlers;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.media.objects.MediaUpdate;
 import com.craftmend.openaudiomc.spigot.modules.players.interfaces.ITickableHandler;
-import com.craftmend.openaudiomc.spigot.modules.players.objects.Client;
+import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.ApplicableSpeaker;
 import com.craftmend.openaudiomc.generic.networking.packets.PacketClientCreateMedia;
 import com.craftmend.openaudiomc.generic.networking.packets.PacketClientDestroyMedia;
@@ -18,7 +18,7 @@ import java.util.List;
 public class SpeakerHandler implements ITickableHandler {
 
     private Player player;
-    private Client client;
+    private SpigotConnection spigotConnection;
 
     /**
      * update speakers based on the players location
@@ -28,34 +28,34 @@ public class SpeakerHandler implements ITickableHandler {
         List<ApplicableSpeaker> applicableSpeakers = new ArrayList<>(OpenAudioMcSpigot.getInstance().getSpeakerModule().getApplicableSpeakers(player.getLocation()));
 
         List<ApplicableSpeaker> enteredSpeakers = new ArrayList<>(applicableSpeakers);
-        enteredSpeakers.removeIf(speaker -> containsSpeaker(client.getSpeakers(), speaker));
+        enteredSpeakers.removeIf(speaker -> containsSpeaker(spigotConnection.getSpeakers(), speaker));
 
-        List<ApplicableSpeaker> leftSpeakers = new ArrayList<>(client.getSpeakers());
+        List<ApplicableSpeaker> leftSpeakers = new ArrayList<>(spigotConnection.getSpeakers());
         leftSpeakers.removeIf(speaker -> containsSpeaker(applicableSpeakers, speaker));
 
         enteredSpeakers.forEach(entered -> {
             if (!isPlayingSpeaker(entered)) {
-                OpenAudioMcSpigot.getInstance().getNetworkingService().send(client, new PacketClientCreateMedia(entered.getSpeaker().getMedia(), entered.getDistance(), entered.getSpeaker().getRadius()));
+                OpenAudioMcSpigot.getInstance().getNetworkingService().send(spigotConnection, new PacketClientCreateMedia(entered.getSpeaker().getMedia(), entered.getDistance(), entered.getSpeaker().getRadius()));
             }
         });
 
-        client.getSpeakers().forEach(current -> {
+        spigotConnection.getSpeakers().forEach(current -> {
             if (containsSpeaker(applicableSpeakers, current)) {
                 ApplicableSpeaker selector = filterSpeaker(applicableSpeakers, current);
                 if (selector != null && (current.getDistance() != selector.getDistance())) {
                     MediaUpdate mediaUpdate = new MediaUpdate(selector.getDistance(), selector.getSpeaker().getRadius(), 450, current.getSpeaker().getMedia().getMediaId());
-                    OpenAudioMcSpigot.getInstance().getNetworkingService().send(client, new PacketClientUpdateMedia(mediaUpdate));
+                    OpenAudioMcSpigot.getInstance().getNetworkingService().send(spigotConnection, new PacketClientUpdateMedia(mediaUpdate));
                 }
             }
         });
 
-        leftSpeakers.forEach(left -> OpenAudioMcSpigot.getInstance().getNetworkingService().send(client, new PacketClientDestroyMedia(left.getSpeaker().getMedia().getMediaId())));
+        leftSpeakers.forEach(left -> OpenAudioMcSpigot.getInstance().getNetworkingService().send(spigotConnection, new PacketClientDestroyMedia(left.getSpeaker().getMedia().getMediaId())));
 
-        client.setCurrentSpeakers(applicableSpeakers);
+        spigotConnection.setCurrentSpeakers(applicableSpeakers);
     }
 
     private Boolean isPlayingSpeaker(ApplicableSpeaker speaker) {
-        for (ApplicableSpeaker currentSpeaker : client.getSpeakers()) if (currentSpeaker.getSpeaker().getSource().equals(speaker.getSpeaker().getSource())) return true;
+        for (ApplicableSpeaker currentSpeaker : spigotConnection.getSpeakers()) if (currentSpeaker.getSpeaker().getSource().equals(speaker.getSpeaker().getSource())) return true;
         return false;
     }
 

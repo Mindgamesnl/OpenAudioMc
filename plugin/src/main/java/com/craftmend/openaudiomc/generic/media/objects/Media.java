@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.media.objects;
 
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.OpenAudioMcCore;
 import com.craftmend.openaudiomc.generic.media.enums.MediaFlag;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,8 +30,8 @@ public class Media {
      * @param source the resource url
      */
     public Media(String source) {
-        this.source = OpenAudioMcSpigot.getInstance().getMediaModule().process(source);
-        this.startInstant = (int) (OpenAudioMcSpigot.getInstance().getTimeService().getSyncedInstant().toEpochMilli() / 1000);
+        this.source = OpenAudioMcCore.getInstance().getMediaModule().process(source);
+        this.startInstant = (int) (OpenAudioMcCore.getInstance().getTimeService().getSyncedInstant().toEpochMilli() / 1000);
     }
 
     /**

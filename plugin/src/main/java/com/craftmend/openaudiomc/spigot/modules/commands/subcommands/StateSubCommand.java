@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.spigot.modules.commands.objects.Argument;
-import com.craftmend.openaudiomc.spigot.modules.players.objects.Client;
+import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -24,8 +24,8 @@ public class StateSubCommand extends SubCommand {
         message(sender, ChatColor.YELLOW + "State Info: " + ChatColor.AQUA + OpenAudioMcSpigot.getInstance().getStateService().getCurrentState().getDescription());
 
         int clients = 0;
-        for (Client client : OpenAudioMcSpigot.getInstance().getPlayerModule().getClients()) {
-            if (client.isConnected()) clients++;
+        for (SpigotConnection spigotConnection : OpenAudioMcSpigot.getInstance().getPlayerModule().getClients()) {
+            if (spigotConnection.isConnected()) clients++;
         }
 
         message(sender, ChatColor.YELLOW + "Connected Clients: " + ChatColor.AQUA + "" + clients);

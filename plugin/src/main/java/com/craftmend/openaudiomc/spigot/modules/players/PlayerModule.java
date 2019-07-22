@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.players;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.commands.ConnectCommand;
 import com.craftmend.openaudiomc.spigot.modules.players.listeners.PlayerConnectionListener;
-import com.craftmend.openaudiomc.spigot.modules.players.objects.Client;
+import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -21,17 +21,17 @@ public class PlayerModule {
      * @param player registers the player
      */
     public void register(Player player) {
-        clientMap.put(player.getUniqueId(), new Client(player));
+        clientMap.put(player.getUniqueId(), new SpigotConnection(player));
     }
 
     /**
      * @param uuid the uuid of a player
      * @return the client that corresponds to the player. can be null
      */
-    public Client getClient(UUID uuid) {
-        Client proposedClient = clientMap.get(uuid);
+    public SpigotConnection getClient(UUID uuid) {
+        SpigotConnection proposedSpigotConnection = clientMap.get(uuid);
 
-        if (proposedClient != null) return proposedClient;
+        if (proposedSpigotConnection != null) return proposedSpigotConnection;
 
         // check if the player is real
         Player target = Bukkit.getPlayer(uuid);
@@ -46,7 +46,7 @@ public class PlayerModule {
     /**
      * @return a collection of all clients
      */
-    public Collection<Client> getClients() {
+    public Collection<SpigotConnection> getClients() {
         return clientMap.values();
     }
 
@@ -54,7 +54,7 @@ public class PlayerModule {
      * @param player target player
      * @return the connection of the player
      */
-    public Client getClient(Player player) {
+    public SpigotConnection getClient(Player player) {
         return getClient(player.getUniqueId());
     }
 
@@ -63,9 +63,9 @@ public class PlayerModule {
      */
     public void remove(Player player) {
         if (clientMap.containsKey(player.getUniqueId())) {
-            Client client = clientMap.get(player.getUniqueId());
-            client.kick();
-            client.onDestroy();
+            SpigotConnection spigotConnection = clientMap.get(player.getUniqueId());
+            spigotConnection.kick();
+            spigotConnection.onDestroy();
             clientMap.remove(player.getUniqueId());
         }
     }

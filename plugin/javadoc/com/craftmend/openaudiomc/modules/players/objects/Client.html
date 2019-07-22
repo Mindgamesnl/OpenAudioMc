@@ -102,7 +102,7 @@ var activeTableTab = "activeTableTab";
 <li><a href="../../../../../../com/craftmend/openaudiomc/modules/players/objects/WebConnection.html" title="class in com.craftmend.openaudiomc.spigot.modules.players.objects">com.craftmend.openaudiomc.spigot.modules.players.objects.WebConnection</a></li>
 <li>
 <ul class="inheritance">
-<li>com.craftmend.openaudiomc.spigot.modules.players.objects.Client</li>
+<li>com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection</li>
 </ul>
 </li>
 </ul>
@@ -190,7 +190,7 @@ extends <a href="../../../../../../com/craftmend/openaudiomc/modules/players/obj
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../com/craftmend/openaudiomc/modules/players/objects/Client.html#kick--">kick</a></span>()</code>
-<div class="block">Close the clients web client</div>
+<div class="block">Close the clients web spigotConnection</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
@@ -202,7 +202,7 @@ extends <a href="../../../../../../com/craftmend/openaudiomc/modules/players/obj
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../com/craftmend/openaudiomc/modules/players/objects/Client.html#onDisconnect--">onDisconnect</a></span>()</code>
-<div class="block">player disconnect logic, if a problem with socket occurs or the client closes the web client</div>
+<div class="block">player disconnect logic, if a problem with socket occurs or the spigotConnection closes the web spigotConnection</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
@@ -212,7 +212,7 @@ extends <a href="../../../../../../com/craftmend/openaudiomc/modules/players/obj
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../com/craftmend/openaudiomc/modules/players/objects/Client.html#sendMedia-com.craftmend.openaudiomc.modules.media.objects.Media-">sendMedia</a></span>(<a href="../../../../../../com/craftmend/openaudiomc/modules/media/objects/Media.html" title="class in com.craftmend.openaudiomc.generic.media.objects">Media</a>&nbsp;media)</code>
-<div class="block">send media to the client to play</div>
+<div class="block">send media to the spigotConnection to play</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
@@ -224,7 +224,7 @@ extends <a href="../../../../../../com/craftmend/openaudiomc/modules/players/obj
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../com/craftmend/openaudiomc/modules/players/objects/Client.html#setVolume-int-">setVolume</a></span>(int&nbsp;volume)</code>
-<div class="block">change the volume for the client</div>
+<div class="block">change the volume for the spigotConnection</div>
 </td>
 </tr>
 </table>
@@ -265,7 +265,7 @@ extends <a href="../../../../../../com/craftmend/openaudiomc/modules/players/obj
 <pre>public&nbsp;Client(org.bukkit.entity.Player&nbsp;player)</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>player</code> - client startup logic</dd>
+<dd><code>player</code> - spigotConnection startup logic</dd>
 </dl>
 </li>
 </ul>
@@ -294,7 +294,7 @@ extends <a href="../../../../../../com/craftmend/openaudiomc/modules/players/obj
 <li class="blockList">
 <h4>onDisconnect</h4>
 <pre>public&nbsp;void&nbsp;onDisconnect()</pre>
-<div class="block">player disconnect logic, if a problem with socket occurs or the client closes the web client</div>
+<div class="block">player disconnect logic, if a problem with socket occurs or the spigotConnection closes the web spigotConnection</div>
 </li>
 </ul>
 <a name="setVolume-int-">
@@ -304,7 +304,7 @@ extends <a href="../../../../../../com/craftmend/openaudiomc/modules/players/obj
 <li class="blockList">
 <h4>setVolume</h4>
 <pre>public&nbsp;void&nbsp;setVolume(int&nbsp;volume)</pre>
-<div class="block">change the volume for the client</div>
+<div class="block">change the volume for the spigotConnection</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>volume</code> - the new volume</dd>
@@ -332,7 +332,7 @@ extends <a href="../../../../../../com/craftmend/openaudiomc/modules/players/obj
 <li class="blockList">
 <h4>kick</h4>
 <pre>public&nbsp;void&nbsp;kick()</pre>
-<div class="block">Close the clients web client</div>
+<div class="block">Close the clients web spigotConnection</div>
 </li>
 </ul>
 <a name="sendMedia-com.craftmend.openaudiomc.modules.media.objects.Media-">
@@ -342,7 +342,7 @@ extends <a href="../../../../../../com/craftmend/openaudiomc/modules/players/obj
 <li class="blockList">
 <h4>sendMedia</h4>
 <pre>public&nbsp;void&nbsp;sendMedia(<a href="../../../../../../com/craftmend/openaudiomc/modules/media/objects/Media.html" title="class in com.craftmend.openaudiomc.generic.media.objects">Media</a>&nbsp;media)</pre>
-<div class="block">send media to the client to play</div>
+<div class="block">send media to the spigotConnection to play</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>media</code> - media to be send</dd>
@@ -411,7 +411,7 @@ extends <a href="../../../../../../com/craftmend/openaudiomc/modules/players/obj
 <pre>public&nbsp;void&nbsp;playMedia(<a href="../../../../../../com/craftmend/openaudiomc/modules/media/objects/Media.html" title="class in com.craftmend.openaudiomc.generic.media.objects">Media</a>&nbsp;media)</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>media</code> - start media for the client</dd>
+<dd><code>media</code> - start media for the spigotConnection</dd>
 </dl>
 </li>
 </ul>

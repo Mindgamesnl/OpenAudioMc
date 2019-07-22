@@ -187,7 +187,7 @@ extends java.lang.Object</pre>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../com/craftmend/openaudiomc/modules/api/objects/OpenAudioApi.html#registerMutation-java.lang.String-com.craftmend.openaudiomc.modules.media.interfaces.UrlMutation-">registerMutation</a></span>(java.lang.String&nbsp;host,
                 <a href="../../../../../../com/craftmend/openaudiomc/modules/media/interfaces/UrlMutation.html" title="interface in com.craftmend.openaudiomc.generic.media.interfaces">UrlMutation</a>&nbsp;urlMutation)</code>
 <div class="block">A mutation is a proxy for url's starting with a prefix so you can manipulate them before they are send to
- the client</div>
+ the spigotConnection</div>
 </td>
 </tr>
 </table>
@@ -240,7 +240,7 @@ extends java.lang.Object</pre>
  Used method to get it based on a Player.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>uuid</code> - Get the client based on Mojang UUID</dd>
+<dd><code>uuid</code> - Get the spigotConnection based on Mojang UUID</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>instance of ClientConnection</dd>
 </dl>
@@ -257,7 +257,7 @@ extends java.lang.Object</pre>
  Used method to get it based on a Player.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>player</code> - Get client that's linked with a Player</dd>
+<dd><code>player</code> - Get spigotConnection that's linked with a Player</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>instance of ClientConnection</dd>
 </dl>
@@ -272,7 +272,7 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;void&nbsp;registerMutation(java.lang.String&nbsp;host,
                              <a href="../../../../../../com/craftmend/openaudiomc/modules/media/interfaces/UrlMutation.html" title="interface in com.craftmend.openaudiomc.generic.media.interfaces">UrlMutation</a>&nbsp;urlMutation)</pre>
 <div class="block">A mutation is a proxy for url's starting with a prefix so you can manipulate them before they are send to
- the client</div>
+ the spigotConnection</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>host</code> - The starting part of an url. Example: https://soundcloud.com/</dd>

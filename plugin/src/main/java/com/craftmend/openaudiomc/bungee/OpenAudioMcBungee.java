@@ -16,7 +16,7 @@ public class OpenAudioMcBungee extends Plugin {
      * Constant: main plugin instance
      */
     @Getter private static OpenAudioMcBungee instance;
-    
+
     @Override
     public void onEnable() {
         // Timing

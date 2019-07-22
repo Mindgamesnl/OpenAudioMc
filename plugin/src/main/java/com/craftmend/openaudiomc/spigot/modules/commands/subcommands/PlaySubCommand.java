@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.spigot.modules.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.spigot.modules.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.media.objects.MediaOptions;
-import com.craftmend.openaudiomc.spigot.modules.players.objects.Client;
+import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.PlayerSelector;
 import com.google.gson.Gson;
 import org.bukkit.Bukkit;
@@ -37,8 +37,8 @@ public class PlaySubCommand extends SubCommand {
         if (args.length == 2) {
             Media media = new Media(args[1]);
             for (Player player : new PlayerSelector(args[0]).getPlayers(sender)) {
-                Client client = openAudioMcSpigot.getPlayerModule().getClient(player);
-                client.sendMedia(media);
+                SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(player);
+                spigotConnection.sendMedia(media);
             }
             message(sender, "Media created.");
             return;
@@ -49,8 +49,8 @@ public class PlaySubCommand extends SubCommand {
                 MediaOptions mediaOptions = new Gson().fromJson(args[2], MediaOptions.class);
                 Media media = new Media(args[1]).applySettings(mediaOptions);
                 for (Player player : new PlayerSelector(args[0]).getPlayers(sender)) {
-                    Client client = openAudioMcSpigot.getPlayerModule().getClient(player);
-                    client.sendMedia(media);
+                    SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(player);
+                    spigotConnection.sendMedia(media);
                 }
                 message(sender, "Media and options created.");
             } catch (Exception e) {
