@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.players.listeners;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -10,12 +10,12 @@ public class PlayerConnectionListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        OpenAudioMc.getInstance().getPlayerModule().register(event.getPlayer());
+        OpenAudioMcSpigot.getInstance().getPlayerModule().register(event.getPlayer());
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        OpenAudioMc.getInstance().getPlayerModule().remove(event.getPlayer());
+        OpenAudioMcSpigot.getInstance().getPlayerModule().remove(event.getPlayer());
     }
 
 }

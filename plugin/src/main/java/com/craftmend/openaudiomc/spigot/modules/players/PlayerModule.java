@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.players;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.commands.ConnectCommand;
 import com.craftmend.openaudiomc.spigot.modules.players.listeners.PlayerConnectionListener;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.Client;
@@ -14,9 +14,9 @@ public class PlayerModule {
 
     private Map<UUID, Client> clientMap = new HashMap<>();
 
-    public PlayerModule(OpenAudioMc openAudioMc) {
-        openAudioMc.getServer().getPluginManager().registerEvents(new PlayerConnectionListener(), openAudioMc);
-        openAudioMc.getCommand("audio").setExecutor(new ConnectCommand(openAudioMc));
+    public PlayerModule(OpenAudioMcSpigot openAudioMcSpigot) {
+        openAudioMcSpigot.getServer().getPluginManager().registerEvents(new PlayerConnectionListener(), openAudioMcSpigot);
+        openAudioMcSpigot.getCommand("audio").setExecutor(new ConnectCommand(openAudioMcSpigot));
     }
 
     /**

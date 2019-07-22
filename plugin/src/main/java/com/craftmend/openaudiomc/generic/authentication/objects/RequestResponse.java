@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.spigot.services.authentication.objects;
+package com.craftmend.openaudiomc.generic.authentication.objects;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

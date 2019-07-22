@@ -1,9 +1,9 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.spigot.modules.configuration.ConfigurationModule;
-import com.craftmend.openaudiomc.spigot.modules.configuration.enums.StorageKey;
-import com.craftmend.openaudiomc.spigot.modules.configuration.enums.StorageLocation;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfigurationModule;
+import com.craftmend.openaudiomc.generic.configuration.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.configuration.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerCreateListener;
@@ -31,31 +31,31 @@ public class SpeakerModule {
     private Material playerSkullItem;
     private ServerVersion version;
 
-    public SpeakerModule(OpenAudioMc openAudioMc) {
-        openAudioMc.getServer().getPluginManager().registerEvents(new SpeakerCreateListener(openAudioMc, this), openAudioMc);
-        openAudioMc.getServer().getPluginManager().registerEvents(new SpeakerDestroyListener(openAudioMc, this), openAudioMc);
+    public SpeakerModule(OpenAudioMcSpigot openAudioMcSpigot) {
+        openAudioMcSpigot.getServer().getPluginManager().registerEvents(new SpeakerCreateListener(openAudioMcSpigot, this), openAudioMcSpigot);
+        openAudioMcSpigot.getServer().getPluginManager().registerEvents(new SpeakerDestroyListener(openAudioMcSpigot, this), openAudioMcSpigot);
 
-        version = openAudioMc.getServerService().getVersion();
+        version = openAudioMcSpigot.getServerService().getVersion();
 
         if (version == ServerVersion.MODERN) {
-            System.out.println(OpenAudioMc.getLOG_PREFIX() + "Enabling the 1.13 speaker system");
+            System.out.println(OpenAudioMcSpigot.getLOG_PREFIX() + "Enabling the 1.13 speaker system");
             playerSkullItem = Material.PLAYER_HEAD;
         } else {
-            System.out.println(OpenAudioMc.getLOG_PREFIX() + "Enabling the 1.12 speaker system");
+            System.out.println(OpenAudioMcSpigot.getLOG_PREFIX() + "Enabling the 1.12 speaker system");
             try {
-                System.out.println(OpenAudioMc.getLOG_PREFIX() + "Hooking speakers attempt 1..");
+                System.out.println(OpenAudioMcSpigot.getLOG_PREFIX() + "Hooking speakers attempt 1..");
                 playerSkullItem = Material.valueOf("SKULL_ITEM");
             } catch (Exception e) {
-                System.out.println(OpenAudioMc.getLOG_PREFIX() + "Failed hook speakers attempt 1..");
+                System.out.println(OpenAudioMcSpigot.getLOG_PREFIX() + "Failed hook speakers attempt 1..");
             }
 
             if (playerSkullItem == null) {
-                System.out.println(OpenAudioMc.getLOG_PREFIX() + "Speakers failed to hook. Hooking to a block.");
+                System.out.println(OpenAudioMcSpigot.getLOG_PREFIX() + "Speakers failed to hook. Hooking to a block.");
                 playerSkullItem = Material.JUKEBOX;
             }
         }
 
-        ConfigurationModule config = openAudioMc.getConfigurationModule();
+        SpigotConfigurationModule config = openAudioMcSpigot.getConfigurationModule();
 
         //load speakers
         for (String id : config.getStringSet("speakers", StorageLocation.DATA_FILE)) {
@@ -74,7 +74,7 @@ public class SpeakerModule {
                 if (blockAt != null) {
                     registerSpeaker(mappedLocation, media, UUID.fromString(id), radius);
                 } else {
-                    System.out.println(OpenAudioMc.getLOG_PREFIX() + "Speaker " + id + " doesn't to seem be valid anymore, so it's not getting loaded.");
+                    System.out.println(OpenAudioMcSpigot.getLOG_PREFIX() + "Speaker " + id + " doesn't to seem be valid anymore, so it's not getting loaded.");
                 }
             }
         }

@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.players.objects;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import lombok.NoArgsConstructor;
 
 import java.util.Base64;
@@ -22,7 +22,7 @@ class TokenFactory {
                 ":" +
                 client.getPlayer().getUniqueId().toString() +
                 ":" +
-                OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue() +
+                OpenAudioMcSpigot.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue() +
                 ":" +
                 key;
         return new Session(client, key, new String(Base64.getEncoder().encode(url.getBytes())));

@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.regions.objects;
 
-import com.craftmend.openaudiomc.spigot.modules.media.objects.Media;
+import com.craftmend.openaudiomc.generic.media.objects.Media;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor

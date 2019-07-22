@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.players.objects;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
 import lombok.AllArgsConstructor;
 import org.bukkit.Bukkit;
@@ -55,7 +55,7 @@ public class PlayerSelector {
             Location standPoint = getLocation(commandSender);
 
             if (getArgument("region").length() != 0) {
-                RegionModule regionModule = OpenAudioMc.getInstance().getRegionModule();
+                RegionModule regionModule = OpenAudioMcSpigot.getInstance().getRegionModule();
                 String targetRegion = getArgument("region");
 
                 if (regionModule != null) {
@@ -70,7 +70,7 @@ public class PlayerSelector {
                     }
 
                 } else {
-                    commandSender.sendMessage(OpenAudioMc.getLOG_PREFIX() + "You dont have worldguard installed. Skipping the region argument.");
+                    commandSender.sendMessage(OpenAudioMcSpigot.getLOG_PREFIX() + "You dont have worldguard installed. Skipping the region argument.");
                 }
 
             } else if (getArgument("r").length() != 0) {
@@ -93,7 +93,7 @@ public class PlayerSelector {
         }
         else {
             //you fucked it
-            commandSender.sendMessage(OpenAudioMc.getLOG_PREFIX() + "Invalid player query. Try something like @a, @p, uuid, username or other arguments.");
+            commandSender.sendMessage(OpenAudioMcSpigot.getLOG_PREFIX() + "Invalid player query. Try something like @a, @p, uuid, username or other arguments.");
         }
         return players;
     }
@@ -120,7 +120,7 @@ public class PlayerSelector {
                 int z = Integer.parseInt(getArgument("z"));
                 return new Location(initialLocation.getWorld(), x, y, z);
             } catch (Exception e) {
-                commandSender.sendMessage(OpenAudioMc.getLOG_PREFIX() + "An error occurred when parsing the location as an Integer");
+                commandSender.sendMessage(OpenAudioMcSpigot.getLOG_PREFIX() + "An error occurred when parsing the location as an Integer");
                 return initialLocation;
             }
         }

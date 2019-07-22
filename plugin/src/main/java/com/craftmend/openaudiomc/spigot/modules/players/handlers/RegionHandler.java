@@ -1,10 +1,10 @@
 package com.craftmend.openaudiomc.spigot.modules.players.handlers;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.interfaces.ITickableHandler;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.Client;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.IRegion;
-import com.craftmend.openaudiomc.spigot.services.networking.packets.PacketClientDestroyMedia;
+import com.craftmend.openaudiomc.generic.networking.packets.PacketClientDestroyMedia;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.Player;
 
@@ -22,9 +22,9 @@ public class RegionHandler implements ITickableHandler {
      */
     @Override
     public void tick() {
-        if (OpenAudioMc.getInstance().getRegionModule() != null) {
+        if (OpenAudioMcSpigot.getInstance().getRegionModule() != null) {
             //regions are enabled
-            List<IRegion> detectedRegions = OpenAudioMc.getInstance().getRegionModule()
+            List<IRegion> detectedRegions = OpenAudioMcSpigot.getInstance().getRegionModule()
                     .getRegionAdapter().getAudioRegions(player.getLocation());
 
             List<IRegion> enteredRegions = new ArrayList<>(detectedRegions);
@@ -44,7 +44,7 @@ public class RegionHandler implements ITickableHandler {
 
             leftRegions.forEach(exited -> {
                 if (!containsRegion(takeOverMedia, exited)) {
-                    OpenAudioMc.getInstance().getNetworkingService().send(client, new PacketClientDestroyMedia(exited.getMedia().getMediaId()));
+                    OpenAudioMcSpigot.getInstance().getNetworkingService().send(client, new PacketClientDestroyMedia(exited.getMedia().getMediaId()));
                 }
             });
 
