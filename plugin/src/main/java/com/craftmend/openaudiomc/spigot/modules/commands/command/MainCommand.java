@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.command;
 
+import com.craftmend.openaudiomc.OpenAudioMcCore;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.commands.CommandModule;
 import com.craftmend.openaudiomc.spigot.modules.commands.interfaces.SubCommand;
@@ -22,8 +23,8 @@ public class MainCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!openAudioMcSpigot.getAuthenticationService().getIsSuccesfull()) {
-            sender.sendMessage(commandModule.getCommandPrefix() + openAudioMcSpigot.getAuthenticationService().getFailureMessage());
+        if (!OpenAudioMcCore.getInstance().getAuthenticationService().getIsSuccesfull()) {
+            sender.sendMessage(commandModule.getCommandPrefix() + OpenAudioMcCore.getInstance().getAuthenticationService().getFailureMessage());
             return true;
         }
 

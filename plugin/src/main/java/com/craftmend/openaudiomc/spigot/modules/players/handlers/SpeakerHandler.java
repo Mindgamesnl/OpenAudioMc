@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.players.handlers;
 
+import com.craftmend.openaudiomc.OpenAudioMcCore;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.media.objects.MediaUpdate;
 import com.craftmend.openaudiomc.spigot.modules.players.interfaces.ITickableHandler;
@@ -35,7 +36,7 @@ public class SpeakerHandler implements ITickableHandler {
 
         enteredSpeakers.forEach(entered -> {
             if (!isPlayingSpeaker(entered)) {
-                OpenAudioMcSpigot.getInstance().getNetworkingService().send(spigotConnection, new PacketClientCreateMedia(entered.getSpeaker().getMedia(), entered.getDistance(), entered.getSpeaker().getRadius()));
+                OpenAudioMcCore.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientCreateMedia(entered.getSpeaker().getMedia(), entered.getDistance(), entered.getSpeaker().getRadius()));
             }
         });
 
@@ -44,18 +45,19 @@ public class SpeakerHandler implements ITickableHandler {
                 ApplicableSpeaker selector = filterSpeaker(applicableSpeakers, current);
                 if (selector != null && (current.getDistance() != selector.getDistance())) {
                     MediaUpdate mediaUpdate = new MediaUpdate(selector.getDistance(), selector.getSpeaker().getRadius(), 450, current.getSpeaker().getMedia().getMediaId());
-                    OpenAudioMcSpigot.getInstance().getNetworkingService().send(spigotConnection, new PacketClientUpdateMedia(mediaUpdate));
+                    OpenAudioMcCore.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientUpdateMedia(mediaUpdate));
                 }
             }
         });
 
-        leftSpeakers.forEach(left -> OpenAudioMcSpigot.getInstance().getNetworkingService().send(spigotConnection, new PacketClientDestroyMedia(left.getSpeaker().getMedia().getMediaId())));
+        leftSpeakers.forEach(left -> OpenAudioMcCore.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(left.getSpeaker().getMedia().getMediaId())));
 
         spigotConnection.setCurrentSpeakers(applicableSpeakers);
     }
 
     private Boolean isPlayingSpeaker(ApplicableSpeaker speaker) {
-        for (ApplicableSpeaker currentSpeaker : spigotConnection.getSpeakers()) if (currentSpeaker.getSpeaker().getSource().equals(speaker.getSpeaker().getSource())) return true;
+        for (ApplicableSpeaker currentSpeaker : spigotConnection.getSpeakers())
+            if (currentSpeaker.getSpeaker().getSource().equals(speaker.getSpeaker().getSource())) return true;
         return false;
     }
 
@@ -67,7 +69,8 @@ public class SpeakerHandler implements ITickableHandler {
     }
 
     private Boolean containsSpeaker(List<ApplicableSpeaker> list, ApplicableSpeaker speaker) {
-        for (ApplicableSpeaker currentSpeaker : list) if (currentSpeaker.getSpeaker().getSource().equals(speaker.getSpeaker().getSource())) return true;
+        for (ApplicableSpeaker currentSpeaker : list)
+            if (currentSpeaker.getSpeaker().getSource().equals(speaker.getSpeaker().getSource())) return true;
         return false;
     }
 

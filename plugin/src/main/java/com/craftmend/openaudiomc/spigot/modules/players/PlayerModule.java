@@ -1,5 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.players;
 
+import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.commands.ConnectCommand;
 import com.craftmend.openaudiomc.spigot.modules.players.listeners.PlayerConnectionListener;
@@ -12,6 +14,8 @@ import java.util.*;
 
 public class PlayerModule {
 
+    private Map<UUID, SpigotConnection> spigotConnectionMap = new HashMap<>();
+
     public PlayerModule(OpenAudioMcSpigot openAudioMcSpigot) {
         openAudioMcSpigot.getServer().getPluginManager().registerEvents(new PlayerConnectionListener(), openAudioMcSpigot);
         openAudioMcSpigot.getCommand("audio").setExecutor(new ConnectCommand(openAudioMcSpigot));
@@ -21,7 +25,8 @@ public class PlayerModule {
      * @param player registers the player
      */
     public void register(Player player) {
-        clientMap.put(player.getUniqueId(), new SpigotConnection(player));
+        ClientConnection clientConnection = OpenAudioMcCore.getInstance().getNetworkingService().register(player);
+        spigotConnectionMap.put(player.getUniqueId(), new SpigotConnection(player, clientConnection));
     }
 
     /**
@@ -29,7 +34,7 @@ public class PlayerModule {
      * @return the client that corresponds to the player. can be null
      */
     public SpigotConnection getClient(UUID uuid) {
-        SpigotConnection proposedSpigotConnection = clientMap.get(uuid);
+        SpigotConnection proposedSpigotConnection = spigotConnectionMap.get(uuid);
 
         if (proposedSpigotConnection != null) return proposedSpigotConnection;
 
@@ -47,7 +52,7 @@ public class PlayerModule {
      * @return a collection of all clients
      */
     public Collection<SpigotConnection> getClients() {
-        return clientMap.values();
+        return spigotConnectionMap.values();
     }
 
     /**
@@ -62,11 +67,12 @@ public class PlayerModule {
      * @param player the player to unregister
      */
     public void remove(Player player) {
-        if (clientMap.containsKey(player.getUniqueId())) {
-            SpigotConnection spigotConnection = clientMap.get(player.getUniqueId());
-            spigotConnection.kick();
+        if (spigotConnectionMap.containsKey(player.getUniqueId())) {
+            SpigotConnection spigotConnection = spigotConnectionMap.get(player.getUniqueId());
             spigotConnection.onDestroy();
-            clientMap.remove(player.getUniqueId());
+            spigotConnectionMap.remove(player.getUniqueId());
         }
+
+        OpenAudioMcCore.getInstance().getNetworkingService().remove(player.getUniqueId());
     }
 }

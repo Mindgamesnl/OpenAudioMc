@@ -1,5 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.listeners;
 
+import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.configuration.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.configuration.enums.StorageLocation;
@@ -42,17 +44,19 @@ public class SpeakerCreateListener implements Listener {
             UUID id = UUID.randomUUID();
             MappedLocation location = new MappedLocation(placed.getLocation());
 
-            int range = openAudioMcSpigot.getConfigurationModule().getInt(StorageKey.SETTINGS_SPEAKER_RANGE);
+            ConfigurationInterface congig = OpenAudioMcCore.getInstance().getConfigurationInterface();
+
+            int range = congig.getInt(StorageKey.SETTINGS_SPEAKER_RANGE);
 
             speakerModule.registerSpeaker(location, spigotConnection.getSelectedSpeakerSource(), id, range);
 
             //save to config
-            openAudioMcSpigot.getConfigurationModule().setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".world", location.getWorld());
-            openAudioMcSpigot.getConfigurationModule().setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".x", location.getX());
-            openAudioMcSpigot.getConfigurationModule().setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".y", location.getY());
-            openAudioMcSpigot.getConfigurationModule().setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".z", location.getZ());
-            openAudioMcSpigot.getConfigurationModule().setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".radius", range);
-            openAudioMcSpigot.getConfigurationModule().setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".media", spigotConnection.getSelectedSpeakerSource());
+            congig.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".world", location.getWorld());
+            congig.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".x", location.getX());
+            congig.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".y", location.getY());
+            congig.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".z", location.getZ());
+            congig.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".radius", range);
+            congig.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".media", spigotConnection.getSelectedSpeakerSource());
 
             event.getPlayer().sendMessage(openAudioMcSpigot.getCommandModule().getCommandPrefix() + "Speaker registered");
         }

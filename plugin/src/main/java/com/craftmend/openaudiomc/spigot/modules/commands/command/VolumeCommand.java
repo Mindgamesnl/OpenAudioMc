@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.command;
 
+import com.craftmend.openaudiomc.OpenAudioMcCore;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import lombok.AllArgsConstructor;
@@ -16,15 +17,15 @@ public class VolumeCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        if (!main.getAuthenticationService().getIsSuccesfull()) {
-            sender.sendMessage(main.getCommandModule().getCommandPrefix() + main.getAuthenticationService().getFailureMessage());
+        if (!OpenAudioMcCore.getInstance().getAuthenticationService().getIsSuccesfull()) {
+            sender.sendMessage(main.getCommandModule().getCommandPrefix() + OpenAudioMcCore.getInstance().getAuthenticationService().getFailureMessage());
             return true;
         }
 
         if (sender instanceof Player) {
             SpigotConnection spigotConnection = OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(((Player) sender).getUniqueId());
 
-            if (!spigotConnection.isConnected()) {
+            if (!spigotConnection.getClientConnection().isConnected()) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMcSpigot.getInstance().getConfig().getString("messages.client-not-connected")));
                 return true;
             }
@@ -41,14 +42,14 @@ public class VolumeCommand implements CommandExecutor {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMcSpigot.getInstance().getConfig().getString("messages.client-volume-invalid")));
                     return true;
                 } else {
-                    spigotConnection.setVolume(volume);
+                    spigotConnection.getClientConnection().setVolume(volume);
                 }
             } catch (Exception e) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMcSpigot.getInstance().getConfig().getString("messages.client-volume-invalid")));
                 return true;
             }
         } else {
-            sender.sendMessage(OpenAudioMcSpigot.getLOG_PREFIX() + "This command can only be used by players");
+            sender.sendMessage(OpenAudioMcCore.getLOG_PREFIX() + "This command can only be used by players");
         }
         return true;
     }

@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.networking.rest;
 
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.OpenAudioMcCore;
 import com.craftmend.openaudiomc.generic.networking.addapter.GenericApiResponse;
 import com.google.gson.Gson;
 
@@ -30,7 +30,7 @@ public class RestRequest {
     }
 
     private String getUrl() {
-        String url = OpenAudioMcSpigot.getInstance().getConfigurationModule().getServer();
+        String url = OpenAudioMcCore.getInstance().getServer();
         url += this.endpoint;
         if (variables.size() != 0) {
             url+= '?';

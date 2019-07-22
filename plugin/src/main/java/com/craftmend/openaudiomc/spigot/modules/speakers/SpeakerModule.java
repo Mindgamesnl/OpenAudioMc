@@ -1,7 +1,8 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers;
 
+import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfigurationModule;
 import com.craftmend.openaudiomc.generic.configuration.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.configuration.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
@@ -38,24 +39,24 @@ public class SpeakerModule {
         version = openAudioMcSpigot.getServerService().getVersion();
 
         if (version == ServerVersion.MODERN) {
-            System.out.println(OpenAudioMcSpigot.getLOG_PREFIX() + "Enabling the 1.13 speaker system");
+            System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Enabling the 1.13 speaker system");
             playerSkullItem = Material.PLAYER_HEAD;
         } else {
-            System.out.println(OpenAudioMcSpigot.getLOG_PREFIX() + "Enabling the 1.12 speaker system");
+            System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Enabling the 1.12 speaker system");
             try {
-                System.out.println(OpenAudioMcSpigot.getLOG_PREFIX() + "Hooking speakers attempt 1..");
+                System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Hooking speakers attempt 1..");
                 playerSkullItem = Material.valueOf("SKULL_ITEM");
             } catch (Exception e) {
-                System.out.println(OpenAudioMcSpigot.getLOG_PREFIX() + "Failed hook speakers attempt 1..");
+                System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Failed hook speakers attempt 1..");
             }
 
             if (playerSkullItem == null) {
-                System.out.println(OpenAudioMcSpigot.getLOG_PREFIX() + "Speakers failed to hook. Hooking to a block.");
+                System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Speakers failed to hook. Hooking to a block.");
                 playerSkullItem = Material.JUKEBOX;
             }
         }
 
-        SpigotConfigurationModule config = openAudioMcSpigot.getConfigurationModule();
+        ConfigurationInterface config = OpenAudioMcCore.getInstance().getConfigurationInterface();
 
         //load speakers
         for (String id : config.getStringSet("speakers", StorageLocation.DATA_FILE)) {
@@ -74,7 +75,7 @@ public class SpeakerModule {
                 if (blockAt != null) {
                     registerSpeaker(mappedLocation, media, UUID.fromString(id), radius);
                 } else {
-                    System.out.println(OpenAudioMcSpigot.getLOG_PREFIX() + "Speaker " + id + " doesn't to seem be valid anymore, so it's not getting loaded.");
+                    System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Speaker " + id + " doesn't to seem be valid anymore, so it's not getting loaded.");
                 }
             }
         }

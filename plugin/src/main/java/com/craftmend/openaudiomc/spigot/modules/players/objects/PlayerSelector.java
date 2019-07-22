@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.players.objects;
 
+import com.craftmend.openaudiomc.OpenAudioMcCore;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
 import lombok.AllArgsConstructor;
@@ -70,7 +71,7 @@ public class PlayerSelector {
                     }
 
                 } else {
-                    commandSender.sendMessage(OpenAudioMcSpigot.getLOG_PREFIX() + "You dont have worldguard installed. Skipping the region argument.");
+                    commandSender.sendMessage(OpenAudioMcCore.getLOG_PREFIX() + "You dont have worldguard installed. Skipping the region argument.");
                 }
 
             } else if (getArgument("r").length() != 0) {
@@ -93,7 +94,7 @@ public class PlayerSelector {
         }
         else {
             //you fucked it
-            commandSender.sendMessage(OpenAudioMcSpigot.getLOG_PREFIX() + "Invalid player query. Try something like @a, @p, uuid, username or other arguments.");
+            commandSender.sendMessage(OpenAudioMcCore.getLOG_PREFIX() + "Invalid player query. Try something like @a, @p, uuid, username or other arguments.");
         }
         return players;
     }
@@ -120,7 +121,7 @@ public class PlayerSelector {
                 int z = Integer.parseInt(getArgument("z"));
                 return new Location(initialLocation.getWorld(), x, y, z);
             } catch (Exception e) {
-                commandSender.sendMessage(OpenAudioMcSpigot.getLOG_PREFIX() + "An error occurred when parsing the location as an Integer");
+                commandSender.sendMessage(OpenAudioMcCore.getLOG_PREFIX() + "An error occurred when parsing the location as an Integer");
                 return initialLocation;
             }
         }
