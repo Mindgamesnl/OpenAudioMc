@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.spigot.modules.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.spigot.modules.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.objects.SerializedHueColor;
 import com.craftmend.openaudiomc.generic.networking.packets.PacketClientApplyHueColor;
-import com.craftmend.openaudiomc.spigot.modules.players.objects.Client;
+import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.PlayerSelector;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -34,8 +34,8 @@ public class HueSubCommand extends SubCommand {
         if (args.length == 7 && args[0].equals("set")) {
             SerializedHueColor serializedHueColor = new SerializedHueColor(Integer.valueOf(args[3]), Integer.valueOf(args[4]), Integer.valueOf(args[5]), Integer.valueOf(args[6]));
             for (Player player : new PlayerSelector(args[1]).getPlayers(sender)) {
-                Client client = openAudioMcSpigot.getPlayerModule().getClient(player);
-                openAudioMcSpigot.getNetworkingService().send(client, new PacketClientApplyHueColor(serializedHueColor, args[2]));
+                SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(player);
+                openAudioMcSpigot.getNetworkingService().send(spigotConnection, new PacketClientApplyHueColor(serializedHueColor, args[2]));
             }
             message(sender, "updated hue state for " + args[1]);
             return;

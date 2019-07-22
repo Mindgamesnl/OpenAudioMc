@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.players.handlers;
 
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.interfaces.ITickableHandler;
-import com.craftmend.openaudiomc.spigot.modules.players.objects.Client;
+import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.IRegion;
 import com.craftmend.openaudiomc.generic.networking.packets.PacketClientDestroyMedia;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ import java.util.List;
 public class RegionHandler implements ITickableHandler {
 
     private Player player;
-    private Client client;
+    private SpigotConnection spigotConnection;
 
     /**
      * update regions based on the players location
@@ -28,15 +28,15 @@ public class RegionHandler implements ITickableHandler {
                     .getRegionAdapter().getAudioRegions(player.getLocation());
 
             List<IRegion> enteredRegions = new ArrayList<>(detectedRegions);
-            enteredRegions.removeIf(t -> containsRegion(client.getRegions(), t));
+            enteredRegions.removeIf(t -> containsRegion(spigotConnection.getRegions(), t));
 
-            List<IRegion> leftRegions = new ArrayList<>(client.getRegions());
+            List<IRegion> leftRegions = new ArrayList<>(spigotConnection.getRegions());
             leftRegions.removeIf(t -> containsRegion(detectedRegions, t));
 
             List<IRegion> takeOverMedia = new ArrayList<>();
             enteredRegions.forEach(entered -> {
                 if (!isPlayingRegion(entered)) {
-                    client.sendMedia(entered.getMedia());
+                    spigotConnection.sendMedia(entered.getMedia());
                 } else {
                     takeOverMedia.add(entered);
                 }
@@ -44,11 +44,11 @@ public class RegionHandler implements ITickableHandler {
 
             leftRegions.forEach(exited -> {
                 if (!containsRegion(takeOverMedia, exited)) {
-                    OpenAudioMcSpigot.getInstance().getNetworkingService().send(client, new PacketClientDestroyMedia(exited.getMedia().getMediaId()));
+                    OpenAudioMcSpigot.getInstance().getNetworkingService().send(spigotConnection, new PacketClientDestroyMedia(exited.getMedia().getMediaId()));
                 }
             });
 
-            client.setCurrentRegions(detectedRegions);
+            spigotConnection.setCurrentRegions(detectedRegions);
         }
     }
 
@@ -58,7 +58,7 @@ public class RegionHandler implements ITickableHandler {
     }
 
     private Boolean isPlayingRegion(IRegion region) {
-        for (IRegion r : client.getRegions()) if (region.getMedia().getSource().equals(r.getMedia().getSource())) return true;
+        for (IRegion r : spigotConnection.getRegions()) if (region.getMedia().getSource().equals(r.getMedia().getSource())) return true;
         return false;
     }
 

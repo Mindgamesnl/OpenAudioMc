@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.command;
 
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.players.objects.Client;
+import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import lombok.AllArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -22,9 +22,9 @@ public class VolumeCommand implements CommandExecutor {
         }
 
         if (sender instanceof Player) {
-            Client client = OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(((Player) sender).getUniqueId());
+            SpigotConnection spigotConnection = OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(((Player) sender).getUniqueId());
 
-            if (!client.isConnected()) {
+            if (!spigotConnection.isConnected()) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMcSpigot.getInstance().getConfig().getString("messages.client-not-connected")));
                 return true;
             }
@@ -41,7 +41,7 @@ public class VolumeCommand implements CommandExecutor {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMcSpigot.getInstance().getConfig().getString("messages.client-volume-invalid")));
                     return true;
                 } else {
-                    client.setVolume(volume);
+                    spigotConnection.setVolume(volume);
                 }
             } catch (Exception e) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', OpenAudioMcSpigot.getInstance().getConfig().getString("messages.client-volume-invalid")));

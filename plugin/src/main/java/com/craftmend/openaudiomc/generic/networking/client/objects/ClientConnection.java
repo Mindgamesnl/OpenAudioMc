@@ -2,20 +2,20 @@ package com.craftmend.openaudiomc.generic.networking.client.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMcCore;
 import com.craftmend.openaudiomc.generic.configuration.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.configuration.objects.ClientSettings;
+import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.networking.client.interfaces.PlayerContainer;
-import com.craftmend.openaudiomc.generic.networking.packets.PacketClientApplyHueColor;
-import com.craftmend.openaudiomc.generic.networking.packets.PacketClientCreateMedia;
-import com.craftmend.openaudiomc.generic.networking.packets.PacketClientSetVolume;
-import com.craftmend.openaudiomc.generic.networking.packets.PacketSocketKickClient;
+import com.craftmend.openaudiomc.generic.networking.packets.*;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.objects.HueState;
 import com.craftmend.openaudiomc.generic.objects.SerializedHueColor;
 import com.craftmend.openaudiomc.generic.scheduling.SyncDelayedTask;
+
 import lombok.Getter;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
+
 import org.bukkit.ChatColor;
 
 import java.io.IOException;
@@ -30,15 +30,22 @@ public class ClientConnection {
     @Getter private List<Media> ongoingMedia = new ArrayList<>();
 
     // session info
-    @Getter protected Boolean isConnected = false;
-    @Getter protected Session session;
+    @Getter private Boolean isConnected = false;
+    @Getter private Session session;
 
     // player implementation
     @Getter private PlayerContainer player;
 
+    // on connect and disconnect handlers
+    private List<Runnable> connectHandlers = new ArrayList<>();
+    private List<Runnable> disconnectHandlers = new ArrayList<>();
+
     public ClientConnection(PlayerContainer playerContainer) {
         this.player = playerContainer;
         refreshSession();
+
+        if (OpenAudioMcCore.getInstance().getConfigurationInterface().getBoolean(StorageKey.SETTINGS_SEND_URL_ON_JOIN))
+            publishUrl();
     }
 
     public void publishUrl() {
@@ -68,11 +75,50 @@ public class ClientConnection {
 
     // client connected!
     public void onConnect() {
+        ConfigurationInterface configurationInterface = OpenAudioMcCore.getInstance().getConfigurationInterface();
+        String connectedMessage = configurationInterface.getString(StorageKey.MESSAGE_CLIENT_OPENED);
+        String startSound = configurationInterface.getString(StorageKey.SETTINGS_CLIENT_START_SOUND);
 
+        player.sendMessage(Platform.translateColors(connectedMessage));
+        this.isConnected = true;
+
+        new SyncDelayedTask(20)
+                .setTask(() -> {
+                    ongoingMedia.forEach(this::sendMedia);
+                    // check and send settings, if any
+                    ClientSettings settings = new ClientSettings().load();
+                    if (!settings.equals(new ClientSettings())) {
+                        OpenAudioMcCore.getInstance().getNetworkingService().send(this, new PacketClientPushSettings(settings));
+                    }
+
+                    // if a start sound is configured, send it
+                    if (startSound != null && !startSound.equals("none")) {
+                        sendMedia(new Media(startSound));
+                    }
+                }).start();
+
+        connectHandlers.forEach(event -> event.run());
+    }
+
+    public void onDisconnect() {
+        this.isConnected = false;
+        disconnectHandlers.forEach(event -> event.run());
+        String message = OpenAudioMcCore.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_CLOSED);
+        player.sendMessage(Platform.translateColors(message));
     }
 
     public void refreshSession() {
         this.session = new TokenFactory().build(this);
+    }
+
+    public ClientConnection addOnConnectHandler(Runnable runnable) {
+        this.connectHandlers.add(runnable);
+        return this;
+    }
+
+    public ClientConnection addOnDisconnectHandler(Runnable runnable) {
+        this.disconnectHandlers.add(runnable);
+        return this;
     }
 
     /**
@@ -121,6 +167,7 @@ public class ClientConnection {
                     .setTask(() -> ongoingMedia.remove(media))
                     .start();
         }
-        if (isConnected) OpenAudioMcCore.getInstance().getNetworkingService().send(this, new PacketClientCreateMedia(media));
+        if (isConnected)
+            OpenAudioMcCore.getInstance().getNetworkingService().send(this, new PacketClientCreateMedia(media));
     }
 }

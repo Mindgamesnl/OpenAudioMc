@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.players.commands;
 
+import com.craftmend.openaudiomc.OpenAudioMcCore;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.PlayerSelector;
 import lombok.AllArgsConstructor;
@@ -17,14 +18,15 @@ public class ConnectCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
 
-        if (!main.getAuthenticationService().getIsSuccesfull()) {
-            commandSender.sendMessage(main.getCommandModule().getCommandPrefix() + main.getAuthenticationService().getFailureMessage());
+        if (!OpenAudioMcCore.getInstance().getAuthenticationService().getIsSuccesfull()) {
+            commandSender.sendMessage(main.getCommandModule().getCommandPrefix() +
+                    OpenAudioMcCore.getInstance().getAuthenticationService().getFailureMessage());
             return true;
         }
 
         if (commandSender instanceof Player) {
             Player sender = (Player) commandSender;
-            OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(sender).publishUrl();
+            OpenAudioMcCore.getInstance().getNetworkingService().getClient(sender.getUniqueId()).publishUrl();
         } else {
             if (args.length == 0) {
                 commandSender.sendMessage(OpenAudioMcSpigot.getInstance().getCommandModule().getCommandPrefix() + ChatColor.RED + "You must provide a player name OR selector to send trigger the URL");
@@ -32,7 +34,7 @@ public class ConnectCommand implements CommandExecutor {
             }
 
             for (Player player : new PlayerSelector(args[0]).getPlayers(commandSender)) {
-                OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(player).publishUrl();
+                OpenAudioMcCore.getInstance().getNetworkingService().getClient(player.getUniqueId()).publishUrl();
             }
         }
 
