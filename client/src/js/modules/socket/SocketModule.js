@@ -1,4 +1,4 @@
-import {Utils} from "../helpers/Utils";
+import {Utils} from "../../helpers/Utils";
 
 export class SocketModule {
 

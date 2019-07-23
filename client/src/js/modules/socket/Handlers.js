@@ -1,4 +1,4 @@
-import {WebAudio} from "./WebAudio";
+import {WebAudio} from "../media/WebAudio";
 
 export class Handlers {
 
