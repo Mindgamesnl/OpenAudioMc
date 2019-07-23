@@ -25,7 +25,7 @@ public class SpeakersSubCommand extends SubCommand {
 
     @Override
     public void onExecute(GenericExecutor sender, String[] args) {
-        Player player = (Player) sender;
+        Player player = (Player) sender.getOriginal();
 
         if (args.length == 0) {
             Bukkit.getServer().dispatchCommand((CommandSender) sender.getOriginal(), "oa help " + getCommand());
