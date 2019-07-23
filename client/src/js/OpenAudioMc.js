@@ -10,6 +10,7 @@ import {HueConfigurationModule} from "./modules/HueConfigurationModule";
 import {Getters} from "./helpers/Getters";
 import {getHueInstance} from "./helpers/JsHue";
 import {linkBootListeners} from "./helpers/StaticFunctions";
+import {SocketDirector} from "./modules/socket/SocketDirector";
 
 export class OpenAudioMc extends Getters {
 
@@ -22,12 +23,24 @@ export class OpenAudioMc extends Getters {
         this.hueConfiguration = new HueConfigurationModule(this);
         this.hueModule = new HueModule(this, getHueInstance());
         this.mediaManager = new MediaManager(this);
-        this.socketModule = new SocketModule(this, "https://craftmendserver.eu");
 
-        // setup packet handler
-        new Handlers(this);
+        this.userInterfaceModule.showVolumeSlider(false);
+        this.userInterfaceModule.setMessage("Loading proxy..");
 
-        this.boot();
+        // request a socket service, then do the booting
+        const director = new SocketDirector("https://craftmendserver.eu");
+        director.route()
+            .then((host) => {
+                this.socketModule = new SocketModule(this, host);
+                // setup packet handler
+                new Handlers(this);
+
+                this.boot();
+            })
+            .catch((error) => {
+                this.userInterfaceModule.showVolumeSlider(false);
+                this.userInterfaceModule.setMessage("Error while booting. Message: " + error);
+            });
     }
 }
 
