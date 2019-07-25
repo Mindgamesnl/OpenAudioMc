@@ -24,6 +24,9 @@ export class SocketModule {
         main.debugPrint("Server uuid: " + query[2]);
         main.debugPrint("Token: " + query[3]);
 
+        main.voiceModule.currentUser.uuid = query[1];
+        main.voiceModule.currentUser.name = query[0];
+
         this.username = query[0];
         this.playerUuid = query[1];
         this.severUuid = query[2];
@@ -81,6 +84,27 @@ export class SocketModule {
 
         this.socket.on("data", data => {
             if (that.handlers[data.type] != null) that.handlers[data.type](data.payload);
+        });
+
+        this.socket.on('join-call', (joinCallPacket) => {
+            let roomId = joinCallPacket.room;
+            let assignedCallServer = joinCallPacket.server;
+            let callAccessToken = joinCallPacket.accessToken;
+            let callMembers = joinCallPacket.members;
+
+            let memberNames = [];
+            for (const member of callMembers) {
+                memberNames.push(member.name);
+            }
+
+            main.voiceModule.promptCall(assignedCallServer, roomId, callAccessToken, memberNames);
+        });
+
+        this.socket.on('member-left-call', (uuidOfLeavingClient) => {
+            const room = main.voiceModule.room;
+            if (room != null) {
+                room.handleMemberLeaving(uuidOfLeavingClient);
+            }
         });
 
         this.socket.connect();

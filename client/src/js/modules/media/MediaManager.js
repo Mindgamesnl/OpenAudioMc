@@ -40,6 +40,9 @@ export class MediaManager {
         for (let key in this.sounds) {
             if (this.sounds.hasOwnProperty(key)) this.sounds[key].setMasterVolume(volume);
         }
+
+        // update voice call volume, if any
+        this.openAudioMc.voiceModule.setVolume(volume);
     }
 
     changeVolume(volume) {

@@ -292,3 +292,164 @@ footer a {
     position: absolute;
     left: 0px;
 }
+
+.alert-area {
+    max-height: 100%;
+    position: fixed;
+    top: 5px;
+    left: 20px;
+    right: 20px;
+}
+
+.call-control-left {
+    z-index: 99999;
+    max-height: 95%;
+    position: absolute;
+    padding-top: 5px;
+    left: 20px;
+    max-width: 25%;
+    overflow-y: scroll
+}
+
+
+.alert-area-left {
+    max-height: 80%;
+    position: absolute;
+    padding-top: 100px;
+    left: 20px;
+    max-width: 25%;
+    overflow-y: scroll
+}
+
+.alert-box {
+    font-size: 16px;
+    color: white;
+    background-image: linear-gradient( #2c2c33, #1a1a1d );
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    line-height: 1.3em;
+    padding: 1px 5px;
+    margin: 2.5px 5px;
+    position: relative;
+    border-radius: 5px;
+    transition: opacity 0.5s ease-in;
+}
+
+.alert-box.hide {
+    opacity: 0;
+}
+
+.alert-close {
+    background: transparent;
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.alert-close:before,
+.alert-close:after {
+    content: '';
+    width: 15px;
+    border-top: solid 2px white;
+    position: absolute;
+    top: 5px;
+    right: -1px;
+    display: block;
+}
+
+.alert-close:before {
+    transform: rotate(45deg);
+}
+
+.alert-close:after {
+    transform: rotate(135deg);
+}
+
+.alert-close:hover:before,
+.alert-close:hover:after {
+    border-top: solid 2px #d8d8d8;
+}
+
+@media (max-width: 767px) and (min-width: 481px) {
+    .alert-area {
+        left: 100px;
+        right: 100px;
+    }
+}
+
+@media (min-width: 768px) {
+    .alert-area {
+        width: 350px;
+        left: auto;
+        right: 0;
+    }
+}
+
+/* ALERT RELATED CLASS (END) */
+
+.alert-message-container {
+    text-align: center;
+    line-height: 2.5em;
+    margin-top: 50px;
+}
+
+.alert-message-box {
+    font-size: 20px;
+    width: 500px;
+    border: solid 1px #444;
+    padding: 10px 15px;
+    outline: none;
+    transition: box-shadow 0.1s;
+}
+
+.alert-message-box:focus {
+    box-shadow: 0 0 15px 2px #888;
+}
+
+.alert-message-button {
+    font-size: 18px;
+    color: white;
+    background: #14b9ff;
+    width: 250px;
+    border: solid 1px #14b9ff;
+    padding: 10px 20px;
+    margin-top: 5px;
+    cursor: pointer;
+    outline: none;
+    transition: background 0.1s;
+}
+
+.alert-message-button:hover,
+.alert-message-button:focus,
+.alert-message-button:active {
+    background: #7dd8ff;
+}
+.warning {
+    background: red !important;
+}
+
+
+.call-box {
+    /* Add the blur effect */
+    filter: blur(14px);
+    -webkit-filter: blur(14px);
+
+    /* Full height */
+    height: 40px;
+    width: 100px;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.call-content {
+    width: 100%;
+    position: absolute;
+    top: 10px;
+    left: 0%;
+}
