@@ -30,15 +30,18 @@ export class OpenAudioMc extends Getters {
         this.hueConfiguration = new HueConfigurationModule(this);
         this.hueModule = new HueModule(this, getHueInstance());
         this.mediaManager = new MediaManager(this);
-
         this.userInterfaceModule.showVolumeSlider(false);
         this.userInterfaceModule.setMessage("Loading proxy..");
-
 
         //initialize audio encoding
         initAudioCodec(window);
 
         this.voiceModule = new VoiceModule(this);
+
+        this.userInterfaceModule.setMessage(this.messages.welcomeMessage);
+        this.userInterfaceModule.showVolumeSlider(true);
+
+        this.boot();
 
         // request a socket service, then do the booting
         const director = new SocketDirector("https://craftmendserver.eu");
@@ -46,14 +49,14 @@ export class OpenAudioMc extends Getters {
             .then((host) => {
                 this.socketModule = new SocketModule(this, host);
 
+                this.messages.apply();
+
                 // setup packet handler
                 new Handlers(this);
-
-                this.boot();
             })
             .catch((error) => {
-                this.userInterfaceModule.showVolumeSlider(false);
-                this.userInterfaceModule.setMessage("Something went wrong. Please try again in a bit.");
+                // this.userInterfaceModule.showVolumeSlider(false);
+                // this.userInterfaceModule.setMessage("Something went wrong. Please try again in a bit.");
                 new AlertBox('#alert-area', {
                     closeTime: 20000,
                     persistent: false,

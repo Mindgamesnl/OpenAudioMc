@@ -1,5 +1,3 @@
-import {initAudioCodec} from "../modules/voice/api/ws-audio-api";
-
 export class Boot {
 
     constructor() {
@@ -20,11 +18,11 @@ export class Boot {
     }
 
     boot() {
-        this.messages.apply();
-
         //set volume
         let presetVolume = Cookies.get("volume");
-        if (presetVolume != null) this.mediaManager.changeVolume(presetVolume);
+        if (presetVolume != null) {
+            this.mediaManager.changeVolume(presetVolume);
+        }
     }
 
 }

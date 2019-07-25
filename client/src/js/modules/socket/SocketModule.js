@@ -18,14 +18,11 @@ export class SocketModule {
         main.getUserInterfaceModule().setMessage("Connecting to the OpenAudioMc api servers..");
 
         main.debugPrint("Username: " + main.tokenSet.name);
-        document.getElementById("skull").src = "https://minotar.net/avatar/" + main.tokenSet.name;
         main.debugPrint("Player uuid: " + main.tokenSet.uuid);
         main.debugPrint("Server uuid: " + main.tokenSet.publicServerKey);
         main.debugPrint("Token: " + main.tokenSet.token);
 
         this.state = "loading";
-
-        document.getElementById("username-display").innerText = "Connected as " + main.tokenSet.name;
 
         // fetch relay
 
