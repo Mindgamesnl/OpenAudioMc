@@ -14,7 +14,7 @@ export class AcceptCallNotification extends AlertBox {
             hideCloseButton: true,
         });
 
-        main.notificationModule.sendNotification(main, "Incoming call!", "Please see your web client for more information, and to accept or deny.");
+        main.notificationModule.sendNotification("Incoming call!", "Please see your web client for more information, and to accept or deny.");
 
         let readableNames = names.join(', ').replace(/,(?=[^,]*$)/, ' and');
 
