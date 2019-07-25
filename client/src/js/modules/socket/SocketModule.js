@@ -17,33 +17,25 @@ export class SocketModule {
 
         main.getUserInterfaceModule().setMessage("Connecting to the OpenAudioMc api servers..");
 
-        let query = atob(Utils.getParameter().data).split(":");
-        main.debugPrint("Username: " + query[0]);
-        document.getElementById("skull").src = "https://minotar.net/avatar/" + query[0];
-        main.debugPrint("Player uuid: " + query[1]);
-        main.debugPrint("Server uuid: " + query[2]);
-        main.debugPrint("Token: " + query[3]);
+        main.debugPrint("Username: " + main.tokenSet.name);
+        document.getElementById("skull").src = "https://minotar.net/avatar/" + main.tokenSet.name;
+        main.debugPrint("Player uuid: " + main.tokenSet.uuid);
+        main.debugPrint("Server uuid: " + main.tokenSet.publicServerKey);
+        main.debugPrint("Token: " + main.tokenSet.token);
 
-        main.voiceModule.currentUser.uuid = query[1];
-        main.voiceModule.currentUser.name = query[0];
-
-        this.username = query[0];
-        this.playerUuid = query[1];
-        this.severUuid = query[2];
-        this.token = query[3];
         this.state = "loading";
 
-        document.getElementById("username-display").innerText = "Connected as " + this.username;
+        document.getElementById("username-display").innerText = "Connected as " + main.tokenSet.name;
 
         // fetch relay
 
 
         this.authHeader = "" +
             "type=client&" +
-            "n=" + this.username + "&" +
-            "player=" + this.playerUuid + "&" +
-            "s=" + this.severUuid + "&" +
-            "p=" + this.token;
+            "n=" + main.tokenSet.name + "&" +
+            "player=" + main.tokenSet.uuid + "&" +
+            "s=" + main.tokenSet.publicServerKey + "&" +
+            "p=" + main.tokenSet.token;
 
         main.debugPrint(this.authHeader);
 
