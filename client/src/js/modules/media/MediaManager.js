@@ -36,7 +36,14 @@ export class MediaManager {
 
     setMasterVolume(volume) {
         this.masterVolume = volume;
-        document.getElementById("volume-disp").innerText = "volume: " + volume + "%";
+        if (volume == 0) {
+            document.getElementById("volume-disp").innerHTML = "<i>(muted)</i>";
+        } else {
+            document.getElementById("volume-disp").innerText = volume + "%";
+        }
+
+        Cookies.set("volume", volume);
+
         for (let key in this.sounds) {
             if (this.sounds.hasOwnProperty(key)) this.sounds[key].setMasterVolume(volume);
         }

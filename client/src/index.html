@@ -21,7 +21,7 @@
 <div class="panel panel-small blurrOut" id="welcome">
     <div class="panel-content">
         <div>
-            <div class="prompt-press">
+            <div class="prompt-press" id="welcome-text-landing">
                 Welcome to your web client!
             </div>
             <p class="alert-message-button">Click here to start</p>
@@ -29,12 +29,11 @@
     </div>
 </div>
 
-<div class="panel" id="app" style="display: none;">
+<div class="panel home-panel" id="app" style="display: none;">
     <div class="panel-content">
         <div>
-            <img id="skull" class="skull-image" src="https://minotar.net/avatar/OpenAudioMc" alt="skull">
-            <p class="blurIn">
-                <span id="volume-disp">volume: 50% </span>
+            <p class="blurIn home">
+                <span class="volume-display" id="volume-disp">50% </span>
                 <label id="volume-label">
                     <input type="range" id="volume-slider"
                            name="volume" min="0"
@@ -59,7 +58,7 @@
             <div class="center">
                 <p class="small-text" id="hue-welcome-message"></p>
             </div>
-            <span class="button" id="hue-start-linking-button">Click here to connect</span>
+            <span class="alert-message-button" id="hue-start-linking-button">Click here to connect</span>
         </div>
 
         <div class="blurIn menu" id="hue-linking-menu" style="display: none;">
@@ -112,8 +111,9 @@
 <footer id="footer">
     <span class="roboto">
         <span class="notice">&copy; <a href="https://openaudiomc.net/">OpenAudioMc</a> 2019</span>
-        <i id="username-display">Awaiting command.</i>
     </span>
+    <p class="footer-welcome" id="footer-welcome">No active session</p>
+    <img id="skull" class="footer-skull" src="https://minotar.net/avatar/OpenAudioMc" alt="skull">
 </footer>
 </body>
 <script src="OpenAudioMc.bundle.js"></script>
