@@ -1,3 +1,5 @@
+import {initAudioCodec} from "../modules/voice/api/ws-audio-api";
+
 export class Boot {
 
     constructor() {

@@ -11,12 +11,20 @@ import {Getters} from "./helpers/Getters";
 import {getHueInstance} from "./helpers/JsHue";
 import {linkBootListeners} from "./helpers/StaticFunctions";
 import {SocketDirector} from "./modules/socket/SocketDirector";
+import {AlertBox} from "./modules/ui/Notification";
+import {initAudioCodec} from "./modules/voice/api/ws-audio-api";
+import {VoiceModule} from "./modules/voice/VoiceModule";
+import {NotificationModule} from "./modules/notifications/NotificationModule";
+import ClientTokenSet from "./helpers/ClientTokenSet";
+import {UserCard} from "./modules/voice/notifications/UserCard";
 
 export class OpenAudioMc extends Getters {
 
     constructor() {
         super();
 
+        this.tokenSet = new ClientTokenSet().fromUrl(window.location.href);
+        this.notificationModule = new NotificationModule();
         this.timeService = new TimeService();
         this.messages = new Messages(this);
         this.userInterfaceModule = new UserInterfaceModule(this);
@@ -27,11 +35,16 @@ export class OpenAudioMc extends Getters {
         this.userInterfaceModule.showVolumeSlider(false);
         this.userInterfaceModule.setMessage("Loading proxy..");
 
+        initAudioCodec(window);
+
+        this.voiceModule = new VoiceModule(this);
+
         // request a socket service, then do the booting
         const director = new SocketDirector("https://craftmendserver.eu");
         director.route()
             .then((host) => {
                 this.socketModule = new SocketModule(this, host);
+
                 // setup packet handler
                 new Handlers(this);
 
@@ -39,7 +52,13 @@ export class OpenAudioMc extends Getters {
             })
             .catch((error) => {
                 this.userInterfaceModule.showVolumeSlider(false);
-                this.userInterfaceModule.setMessage("Error while booting. Message: " + error);
+                this.userInterfaceModule.setMessage("Something went wrong. Please try again in a bit.");
+                new AlertBox('#alert-area', {
+                    closeTime: 20000,
+                    persistent: false,
+                    hideCloseButton: true,
+                    extra: 'warning'
+                }).show('A networking error occurred while connecting to the server, please request a new url and try again.');
             });
     }
 }

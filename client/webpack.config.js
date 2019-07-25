@@ -55,6 +55,7 @@ const postInstall = [
 
 module.exports = {
     mode: 'production',
+    performance: { hints: false },
     entry: {
         main: './src/js/OpenAudioMc.js',
     },
