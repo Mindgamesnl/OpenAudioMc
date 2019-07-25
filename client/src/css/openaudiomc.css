@@ -6,7 +6,7 @@ body {
             rgba(98, 90, 238, 0.45),
             rgba(98, 90, 238, 0.25)
     ),
-    url(../assets/background.png);
+    url(../assets/bg.png);
     font-family: 'Roboto', serif;
     -webkit-background-size: cover;
     background-size: cover;
@@ -19,6 +19,7 @@ img {
 }
 
 .panel {
+    border-radius: 5px;
     width: 30%;
     height: 60%;
     background-image: linear-gradient(
@@ -42,7 +43,7 @@ img {
 
 .panel-small {
     width: 30%;
-    height: 10%;
+    height: 15%;
 }
 
 .hueFooter {

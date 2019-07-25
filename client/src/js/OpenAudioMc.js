@@ -23,7 +23,7 @@ export class OpenAudioMc extends Getters {
         super();
 
         this.tokenSet = new ClientTokenSet().fromUrl(window.location.href);
-        this.notificationModule = new NotificationModule();
+        this.notificationModule = new NotificationModule(this);
         this.timeService = new TimeService();
         this.messages = new Messages(this);
         this.userInterfaceModule = new UserInterfaceModule(this);
