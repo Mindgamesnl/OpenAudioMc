@@ -11,6 +11,7 @@ import com.craftmend.openaudiomc.generic.networking.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
 import com.craftmend.openaudiomc.generic.networking.addapter.AbstractPacketAdapter;
 
+import com.craftmend.openaudiomc.generic.voice.VoiceRoomManager;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfigurationModule;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
@@ -36,6 +37,7 @@ public class OpenAudioMcCore {
     private MediaModule mediaModule;
     private ConfigurationInterface configurationInterface;
     private AuthenticationService authenticationService;
+    private VoiceRoomManager voiceRoomManager;
 
     @Getter private static OpenAudioMcCore instance;
 
@@ -67,6 +69,7 @@ public class OpenAudioMcCore {
         this.timeService = new TimeService();
         this.mediaModule = new MediaModule();
         this.networkingService = new NetworkingService();
+        this.voiceRoomManager = new VoiceRoomManager(this);
         this.commandModule = new CommandModule();
     }
 
