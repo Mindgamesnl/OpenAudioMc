@@ -28,7 +28,9 @@ export class UserInterfaceModule {
     showVolumeSlider(state) {
         if (state) {
             document.getElementById("volume-label").style.display = "";
+            document.getElementById("volume-disp").style.display = "";
         } else {
+            document.getElementById("volume-disp").style.display = "none";
             document.getElementById("volume-label").style.display = "none";
         }
     }

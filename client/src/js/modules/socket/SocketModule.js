@@ -66,6 +66,8 @@ export class SocketModule {
             main.getUserInterfaceModule().setMessage(this.openAudioMc.getMessages().errorMessage);
             that.state = "closed";
 
+            main.voiceModule.handleSocketClosed();
+
             setTimeout(() => {
                 main.getMediaManager().sounds = {};
             }, 1010);
