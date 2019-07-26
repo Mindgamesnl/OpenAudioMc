@@ -22,6 +22,7 @@ import okhttp3.OkHttpClient;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.function.Consumer;
 
 @RequiredArgsConstructor
 public class SocketIoConnector {
@@ -142,7 +143,9 @@ public class SocketIoConnector {
         socket.emit(key, data);
     }
 
-    public void createRoom(List<RoomMember> members) {
-        socket.emit("request-call-creation", members);
+    public void createRoom(List<RoomMember> members, Consumer<Boolean> wasSucessful) {
+        socket.emit("request-call-creation", members, (Ack) args -> {
+            wasSucessful.accept((Boolean) args[0]);
+        });
     }
 }

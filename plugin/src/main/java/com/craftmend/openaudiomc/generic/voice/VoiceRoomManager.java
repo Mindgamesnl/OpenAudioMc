@@ -57,7 +57,12 @@ public class VoiceRoomManager {
         }
 
         isRequestPending = true;
-        this.core.getNetworkingService().requestRoomCreation(roomContent);
+        this.core.getNetworkingService().requestRoomCreation(roomContent, (ok) -> {
+            if (!ok) {
+                isRequestPending = false;
+                System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Failed to create call. Server denied or could not handle the request");
+            }
+        });
 
         return new RoomPrototype(members, deniedMembers);
     }
