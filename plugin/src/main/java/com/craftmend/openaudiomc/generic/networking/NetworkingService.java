@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.*;
+import java.util.function.Consumer;
 
 public class NetworkingService {
 
@@ -129,7 +130,7 @@ public class NetworkingService {
         socketIoConnector.disconnect();
     }
 
-    public void requestRoomCreation(List<RoomMember> members) {
-        this.socketIoConnector.createRoom(members);
+    public void requestRoomCreation(List<RoomMember> members, Consumer<Boolean> wasSucessful) {
+        this.socketIoConnector.createRoom(members, wasSucessful);
     }
 }
