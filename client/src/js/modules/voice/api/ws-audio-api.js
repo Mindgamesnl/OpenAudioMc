@@ -50,7 +50,7 @@ export function initAudioCodec(global) {
             this.encoder = new OpusEncoder(this.config.codec.sampleRate, this.config.codec.channels, this.config.codec.app, this.config.codec.frameDuration);
             var _this = this;
             this._makeStream = function (onError) {
-                navigator.getUserMedia({audio: true}, (stream) => {
+                navigator.getUserMedia({audio: config.micId}, (stream) => {
                     _this.stream = stream;
                     _this.audioInput = audioContext.createMediaStreamSource(stream);
                     _this.gainNode = audioContext.createGain();

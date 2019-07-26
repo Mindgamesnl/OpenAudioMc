@@ -51,6 +51,7 @@ export class Room {
     toggleMic() {
         let voice = null;
         if (!this.canToggleMute) return;
+        this.muteMicButtonElement.disabled = true;
         this.canToggleMute = false;
 
         // find the broadcaster
@@ -66,7 +67,9 @@ export class Room {
             voice.start();
         }
 
+
         setTimeout(() => {
+            this.muteMicButtonElement.disabled = false;
             this.canToggleMute = true;
         }, 1000);
     }
@@ -88,9 +91,7 @@ export class Room {
                         // ok
                         // do shutdown stuff
                         this.roomMembers.forEach((member) => {
-                            if (member.voiceBroadcast != null) member.voiceBroadcast.shutdown();
-                            if (member.voiceReceiver != null) member.voiceReceiver.shutdown();
-                            member.removeCard();
+                            this.handleMemberLeaving(member.uuid);
                         });
                         this.inCallBanner.hide();
                     } else {
@@ -109,7 +110,10 @@ export class Room {
         let member = this.roomMembers.get(uuid);
         if (member == null) return;
 
-        if (member.voiceBroadcast != null) member.voiceBroadcast.shutdown();
+        if (member.voiceBroadcast != null) {
+            member.voiceBroadcast.shutdown();
+            member.voiceBroadcast.changeMicPopup.hide();
+        }
         if (member.voiceReceiver != null) member.voiceReceiver.shutdown();
         member.removeCard();
     }
