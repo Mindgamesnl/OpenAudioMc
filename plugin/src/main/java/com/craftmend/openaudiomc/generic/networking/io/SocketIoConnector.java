@@ -12,11 +12,16 @@ import com.craftmend.openaudiomc.generic.state.states.ConnectedState;
 import com.craftmend.openaudiomc.generic.state.states.ConnectingState;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 
+import com.craftmend.openaudiomc.generic.voice.packets.MemberLeftRoomPacket;
+import com.craftmend.openaudiomc.generic.voice.packets.RoomClosedPacket;
+import com.craftmend.openaudiomc.generic.voice.packets.RoomCreatedPacket;
 import com.craftmend.openaudiomc.generic.voice.packets.subtypes.RoomMember;
 import io.socket.client.Ack;
 import io.socket.client.IO;
 import io.socket.client.Socket;
+
 import lombok.RequiredArgsConstructor;
+
 import okhttp3.OkHttpClient;
 
 import java.io.IOException;
@@ -119,6 +124,22 @@ public class SocketIoConnector {
             } else {
                 callback.call(false);
             }
+        });
+
+        socket.on("voice-room-created", args -> {
+            String data = ((String) args[args.length - 1]);
+            OpenAudioMcCore.getInstance().getVoiceRoomManager().registerCall(OpenAudioMcCore.getGson().fromJson(data, RoomCreatedPacket.class));
+        });
+
+
+        socket.on("voice-room-player-left", args -> {
+            String data = ((String) args[args.length - 1]);
+            OpenAudioMcCore.getInstance().getVoiceRoomManager().leaveCall(OpenAudioMcCore.getGson().fromJson(data, MemberLeftRoomPacket.class));
+        });
+
+        socket.on("voice-room-closed", args -> {
+            String data = ((String) args[args.length - 1]);
+            OpenAudioMcCore.getInstance().getVoiceRoomManager().closeCall(OpenAudioMcCore.getGson().fromJson(data, RoomClosedPacket.class));
         });
 
         socket.on("data", args -> {
