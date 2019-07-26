@@ -1,5 +1,5 @@
 name: OpenAudioMc
-version: 5.4.5
+version: 5.5
 softdepend: [WorldGuard]
 main: com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot
 api-version: 1.13
