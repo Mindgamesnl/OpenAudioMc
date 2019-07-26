@@ -57,6 +57,11 @@ export class VoiceModule {
         }).show('Failed to cancel call. Please try again in a moment.');
     }
 
+    handleSocketClosed() {
+        if (this.room == null) return;
+        this.room.unsubscribe();
+    }
+
     setVolume(master) {
         if (this.room != null) {
             this.room.roomMembers.forEach((member, id) => {

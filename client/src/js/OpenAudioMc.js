@@ -48,15 +48,14 @@ export class OpenAudioMc extends Getters {
         director.route()
             .then((host) => {
                 this.socketModule = new SocketModule(this, host);
-
                 this.messages.apply();
 
                 // setup packet handler
                 new Handlers(this);
             })
             .catch((error) => {
-                // this.userInterfaceModule.showVolumeSlider(false);
-                // this.userInterfaceModule.setMessage("Something went wrong. Please try again in a bit.");
+                this.userInterfaceModule.showVolumeSlider(false);
+                this.userInterfaceModule.setMessage("Something went wrong. Please try again in a bit.");
                 new AlertBox('#alert-area', {
                     closeTime: 20000,
                     persistent: false,
