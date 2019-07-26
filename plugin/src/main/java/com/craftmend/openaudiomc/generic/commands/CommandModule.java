@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.commands;
 
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.generic.commands.subcommands.CallSubCommand;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 
@@ -14,6 +15,10 @@ public class CommandModule {
     private Map<String, SubCommand> subCommands = new HashMap<>();
     @Getter private List<String> aliases = new ArrayList<>();
     @Getter private String commandPrefix = ChatColor.DARK_AQUA + "[" + ChatColor.AQUA + "OpenAudioMc" + ChatColor.DARK_AQUA + "] " + ChatColor.GRAY;
+
+    public CommandModule() {
+        registerSubCommand(new CallSubCommand(this));
+    }
 
     /**
      * @return All sub commands as strings
