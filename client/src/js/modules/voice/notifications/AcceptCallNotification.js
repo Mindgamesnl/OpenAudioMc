@@ -18,7 +18,7 @@ export class AcceptCallNotification extends AlertBox {
 
         let readableNames = names.join(', ').replace(/,(?=[^,]*$)/, ' and');
 
-        this.show('You have a incoming call with ' + readableNames + '.<hr /><a id="call-accept-button" class="alert-message-button"><u><i>Accept Call</i></u></a> or <a id="call-deny-button" class="alert-message-button"><u><i>Deny Call</i></u></a>');
+        this.show('You have a incoming call with ' + readableNames + '.<hr /><a id="call-accept-button" class="alert-message-button">Accept Call</a> or <a id="call-deny-button" class="alert-message-button">Deny Call</a>');
 
         document.getElementById('call-accept-button').onclick = () => {
             ignored = true;

@@ -433,6 +433,10 @@ footer a {
 .alert-message-button:active {
     background: #7dd8ff;
 }
+.alert-message-button:disabled {
+    background: rgba(125, 216, 255, 0.23);
+}
+
 .warning {
     background: red !important;
 }

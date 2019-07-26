@@ -16,6 +16,7 @@ import {initAudioCodec} from "./modules/voice/api/ws-audio-api";
 import {VoiceModule} from "./modules/voice/VoiceModule";
 import {NotificationModule} from "./modules/notifications/NotificationModule";
 import ClientTokenSet from "./helpers/ClientTokenSet";
+import {RequestMicrophonePermissions} from "./modules/voice/notifications/RequestMicrophonePermissions";
 
 export class OpenAudioMc extends Getters {
 
