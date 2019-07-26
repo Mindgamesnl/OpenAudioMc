@@ -12,6 +12,7 @@ import com.craftmend.openaudiomc.generic.state.states.ConnectedState;
 import com.craftmend.openaudiomc.generic.state.states.ConnectingState;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 
+import com.craftmend.openaudiomc.generic.voice.packets.subtypes.RoomMember;
 import io.socket.client.Ack;
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -20,6 +21,7 @@ import okhttp3.OkHttpClient;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class SocketIoConnector {
@@ -134,5 +136,13 @@ public class SocketIoConnector {
             packet.setClient(client.getPlayer().getUniqueId());
             socket.emit("data", OpenAudioMcCore.getGson().toJson(packet));
         }
+    }
+
+    public void emit(String key, Object data) {
+        socket.emit(key, data);
+    }
+
+    public void createRoom(List<RoomMember> members) {
+        socket.emit("request-call-creation", members);
     }
 }

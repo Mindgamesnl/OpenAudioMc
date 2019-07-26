@@ -11,15 +11,13 @@ import com.craftmend.openaudiomc.generic.networking.handlers.ClientDisconnectHan
 import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
 import com.craftmend.openaudiomc.generic.player.ProxiedPlayerAdapter;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
+import com.craftmend.openaudiomc.generic.voice.packets.subtypes.RoomMember;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class NetworkingService {
 
@@ -129,5 +127,9 @@ public class NetworkingService {
      */
     public void stop() {
         socketIoConnector.disconnect();
+    }
+
+    public void requestRoomCreation(List<RoomMember> members) {
+        this.socketIoConnector.createRoom(members);
     }
 }
