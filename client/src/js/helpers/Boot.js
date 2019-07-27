@@ -14,7 +14,7 @@ export class Boot {
         ].join(';'));
 
         this.log("Enabling the web client for " + window.navigator.userAgent);
-        this.log("Build: April 03 (hue, media and UI update)");
+        this.log("Build: 27 jul (Modern UI, calling, proxy, protocol and notification update)");
     }
 
     boot() {

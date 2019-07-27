@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.bungee.modules.commands.BungeeCommandModule;
 import com.craftmend.openaudiomc.bungee.modules.player.PlayerManager;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
+
 import lombok.Getter;
 import net.md_5.bungee.api.plugin.Plugin;
 
