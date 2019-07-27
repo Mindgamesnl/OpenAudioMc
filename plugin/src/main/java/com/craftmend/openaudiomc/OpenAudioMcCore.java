@@ -33,7 +33,6 @@ public class OpenAudioMcCore {
     private CommandModule commandModule;
     private NetworkingService networkingService;
 
-
     private MediaModule mediaModule;
     private ConfigurationInterface configurationInterface;
     private AuthenticationService authenticationService;

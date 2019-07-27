@@ -11,11 +11,11 @@ import com.craftmend.openaudiomc.generic.state.states.AssigningRelayState;
 import com.craftmend.openaudiomc.generic.state.states.ConnectedState;
 import com.craftmend.openaudiomc.generic.state.states.ConnectingState;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
-
 import com.craftmend.openaudiomc.generic.voice.packets.MemberLeftRoomPacket;
 import com.craftmend.openaudiomc.generic.voice.packets.RoomClosedPacket;
 import com.craftmend.openaudiomc.generic.voice.packets.RoomCreatedPacket;
 import com.craftmend.openaudiomc.generic.voice.packets.subtypes.RoomMember;
+
 import io.socket.client.Ack;
 import io.socket.client.IO;
 import io.socket.client.Socket;
