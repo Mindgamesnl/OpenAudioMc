@@ -16,7 +16,6 @@ import {initAudioCodec} from "./modules/voice/api/ws-audio-api";
 import {VoiceModule} from "./modules/voice/VoiceModule";
 import {NotificationModule} from "./modules/notifications/NotificationModule";
 import ClientTokenSet from "./helpers/ClientTokenSet";
-import {RequestMicrophonePermissions} from "./modules/voice/notifications/RequestMicrophonePermissions";
 
 export class OpenAudioMc extends Getters {
 
@@ -56,7 +55,7 @@ export class OpenAudioMc extends Getters {
             })
             .catch((error) => {
                 this.userInterfaceModule.showVolumeSlider(false);
-                this.userInterfaceModule.setMessage("Something went wrong. Please try again in a bit.");
+                this.userInterfaceModule.setMessage("Something went wrong. Please try again with a new link.");
                 new AlertBox('#alert-area', {
                     closeTime: 20000,
                     persistent: false,

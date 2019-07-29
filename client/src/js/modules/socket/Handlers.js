@@ -41,6 +41,11 @@ export class Handlers {
             });
         });
 
+        openAudioMc.socketModule.registerHandler("NotificationPayload", data => {
+            const message = data.message;
+            this.openAudioMc.notificationModule.sendNotification("From the server:", message);
+        });
+
         openAudioMc.socketModule.registerHandler("ClientSettingsPayload", data => {
             this.openAudioMc.debugPrint("Updating settings...");
             const settings = data.clientSettings;

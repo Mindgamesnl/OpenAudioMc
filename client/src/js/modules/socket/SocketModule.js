@@ -15,7 +15,7 @@ export class SocketModule {
             return;
         }
 
-        main.getUserInterfaceModule().setMessage("Connecting to the OpenAudioMc api servers..");
+        main.getUserInterfaceModule().setMessage("Connecting and authenticating, please wait.");
 
         main.debugPrint("Username: " + main.tokenSet.name);
         main.debugPrint("Player uuid: " + main.tokenSet.uuid);

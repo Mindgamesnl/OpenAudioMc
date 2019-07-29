@@ -26,12 +26,6 @@ export class Room {
             hideCloseButton: true,
         }).show('Loading call..');
 
-        this.inCallBanner = new AlertBox('#call-controll-area', {
-            closeTime: 500,
-            persistent: true,
-            hideCloseButton: true,
-        }).show('<div style="text-align: center;">You are currently in a call<hr /><a id="leave-call-button" class="alert-message-button">Leave Call</a><a class="alert-message-button" id="mute-microphone">Mute Microphone</a></div>');
-
         document.getElementById('leave-call-button').onclick = () => {
             this.unsubscribe();
         };
