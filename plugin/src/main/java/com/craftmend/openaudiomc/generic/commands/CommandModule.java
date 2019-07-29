@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.generic.commands;
 
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.CallSubCommand;
+import com.craftmend.openaudiomc.generic.commands.subcommands.NotificationSubCommand;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 
@@ -18,6 +19,7 @@ public class CommandModule {
 
     public CommandModule() {
         registerSubCommand(new CallSubCommand(this));
+        registerSubCommand(new NotificationSubCommand(this));
     }
 
     /**
