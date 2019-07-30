@@ -40,7 +40,7 @@ export class RequestMicrophonePermissions extends AlertBox {
                             .then((stream) => {
                                 // retry the popup
                                 stream.getTracks()[0].stop();
-                                new RequestMicrophonePermissions(hasPermissions);
+                                new RequestMicrophonePermissions(defaultMic);
                             })
                             .catch((err) => {
                                 console.log(err);

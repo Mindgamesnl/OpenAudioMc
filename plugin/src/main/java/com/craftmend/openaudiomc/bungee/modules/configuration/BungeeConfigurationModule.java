@@ -37,9 +37,11 @@ public class BungeeConfigurationModule implements ConfigurationInterface {
         dataConfig = getFile("data.yml");
         mainConfig = getFile("config.yml");
 
-        clientSettings = new ClientSettings().load();
-
         System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Starting configuration module");
+    }
+
+    public void loadSettings() {
+        clientSettings = new ClientSettings().load();
     }
 
     /**

@@ -57,11 +57,11 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
         // Timing
         Instant boot = Instant.now();
 
-        // setup core
-        new OpenAudioMcCore(Platform.SPIGOT);
-
         // Plugin startup logic
         instance = this;
+
+        // setup core
+        new OpenAudioMcCore(Platform.SPIGOT);
 
         // startup modules and services
         this.serverService = new ServerService();

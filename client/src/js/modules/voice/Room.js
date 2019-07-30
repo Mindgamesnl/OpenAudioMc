@@ -14,17 +14,17 @@ export class Room {
 
         this.isUnsubscribing = false;
 
-        // inject fake data
-        this.voiceServer = {
-            "rest": "http://localhost:3824",
-            "ws": "ws://localhost:3824"
-        };
-
         new AlertBox('#alert-area-left', {
             closeTime: 500,
             persistent: false,
             hideCloseButton: true,
         }).show('Loading call..');
+
+        this.inCallBanner = new AlertBox('#call-controll-area', {
+            closeTime: 500,
+            persistent: true,
+            hideCloseButton: true,
+        }).show('<div style="text-align: center;">You are currently in a call<hr /><a id="leave-call-button" class="alert-message-button">Leave Call</a><a class="alert-message-button" id="mute-microphone">Mute Microphone</a></div>');
 
         document.getElementById('leave-call-button').onclick = () => {
             this.unsubscribe();
@@ -38,6 +38,7 @@ export class Room {
 
         // loop for members
         memberList.forEach((remoteMember) => {
+            console.log(remoteMember)
             this.registerMember(remoteMember.uuid, remoteMember.name);
         });
     }
@@ -53,12 +54,12 @@ export class Room {
             if (member.voiceBroadcast != null) voice = member.voiceBroadcast;
         });
 
-        if (voice.isRunning) {
-            this.muteMicButtonElement.innerText = "Unmute Microphone";
-            voice.shutdown();
-        } else {
+        if (voice.isMuted) {
             this.muteMicButtonElement.innerText = "Mute Microphone";
-            voice.start();
+            voice.unMute();
+        } else {
+            this.muteMicButtonElement.innerText = "Unmute Microphone";
+            voice.mute();
         }
 
 
@@ -81,7 +82,7 @@ export class Room {
         fetch(this.voiceServer.rest + "/leave-room?room=" + this.roomId + "&uuid=" + this.currentUser.uuid + "&accessToken=" + this.accessToken)
             .then((response) => {
                 response.json().then((json) => {
-                    if (json.results.length != 0) {
+                    if (json.results.length !== 0) {
                         // ok
                         // do shutdown stuff
                         this.roomMembers.forEach((member) => {
@@ -93,9 +94,11 @@ export class Room {
                         this.leaveErrorhandler('denied request');
                     }
                 }).catch((e) => {
+                    console.error(e.stack);
                     this.leaveErrorhandler(e);
                 });
             }).catch((e) => {
+            console.error(e.stack);
             this.leaveErrorhandler(e);
         });
     }

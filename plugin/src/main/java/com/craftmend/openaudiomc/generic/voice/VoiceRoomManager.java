@@ -67,6 +67,11 @@ public class VoiceRoomManager {
         return new RoomPrototype(members, deniedMembers);
     }
 
+    public void clearCache() {
+        voiceRooms = new HashMap<>();
+        isRequestPending = false;
+    }
+
     public void registerCall(RoomCreatedPacket packet) {
         this.isRequestPending = false;
         this.voiceRooms.put(packet.getRoomId(), new Room(packet.getRoomId(), packet.getMembers()));

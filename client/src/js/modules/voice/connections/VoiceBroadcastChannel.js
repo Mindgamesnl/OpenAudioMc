@@ -7,6 +7,7 @@ export class VoiceBroadcastChannel {
         this.isRunning = false;
         this.streamer = null;
         this.micId = true;
+        this.isMuted = false;
 
         this.changeMicPopup = new RequestMicrophonePermissions((micId) => {
             this.shutdown();
@@ -17,6 +18,16 @@ export class VoiceBroadcastChannel {
                 this.micId = micId;
             }
         });
+    }
+
+    mute() {
+        this.isMuted= true;
+        this.streamer.mute();
+    }
+
+    unMute() {
+        this.isMuted= false;
+        this.streamer.unMute();
     }
 
     start() {

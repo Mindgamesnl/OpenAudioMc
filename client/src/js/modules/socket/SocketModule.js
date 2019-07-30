@@ -88,7 +88,7 @@ export class SocketModule {
                 memberNames.push(member.name);
             }
 
-            main.voiceModule.promptCall(assignedCallServer, roomId, callAccessToken, memberNames);
+            main.voiceModule.promptCall(assignedCallServer, roomId, callAccessToken, memberNames, callMembers);
         });
 
         this.socket.on('member-left-call', (uuidOfLeavingClient) => {

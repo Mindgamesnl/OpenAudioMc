@@ -12,6 +12,8 @@ export class VoiceModule {
     }
 
     promptCall(server, roomId, token, memberNames, memberList) {
+        console.log(memberNames)
+        console.log(memberList)
         if (this.room == null) {
             new AcceptCallNotification(this.main, memberNames,
                 // on accept
