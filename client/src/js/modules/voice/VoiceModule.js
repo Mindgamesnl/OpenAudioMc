@@ -64,6 +64,10 @@ export class VoiceModule {
         this.room.unsubscribe();
     }
 
+    clearCall() {
+        this.room = null;
+    }
+
     setVolume(master) {
         if (this.room != null) {
             this.room.roomMembers.forEach((member, id) => {

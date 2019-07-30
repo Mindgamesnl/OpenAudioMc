@@ -107,6 +107,7 @@ public class NetworkingService {
         if (clientMap.containsKey(player)) {
             ClientConnection client = clientMap.get(player);
             client.kick();
+            OpenAudioMcCore.getInstance().getVoiceRoomManager().removePlayer(client);
             clientMap.remove(player);
         }
     }

@@ -3,7 +3,7 @@ class VoiceReceivingChannel {
     constructor(room, roomMember) {
         this.room = room;
         this.roomMember = roomMember;
-
+        this.isStopped = false;
         this.player = new WSAudioAPI.Player({}, new WebSocket(this.room.voiceServer.ws
             + "/listener?room=" + this.room.roomId
             + "&uuid=" + this.room.currentUser.uuid
@@ -20,6 +20,8 @@ class VoiceReceivingChannel {
     }
 
     shutdown() {
+        if (this.isStopped) return;
+        this.isStopped = true;
         this.player.stop();
     }
 

@@ -75,6 +75,12 @@ public class VoiceRoomManager {
     public void registerCall(RoomCreatedPacket packet) {
         this.isRequestPending = false;
         this.voiceRooms.put(packet.getRoomId(), new Room(packet.getRoomId(), packet.getMembers()));
+        for (RoomMember member : packet.getMembers()) {
+            ClientConnection clientConnection = OpenAudioMcCore.getInstance().getNetworkingService().getClient(member.getUuid());
+            if (clientConnection != null) {
+                clientConnection.getPlayer().sendMessage("ring ring");
+            }
+        }
     }
 
     public void leaveCall(MemberLeftRoomPacket packet) {
@@ -85,6 +91,10 @@ public class VoiceRoomManager {
         // send a message?
         // send a message! :-)
         // TODO: send a message
+        ClientConnection clientConnection = OpenAudioMcCore.getInstance().getNetworkingService().getClient(packet.getMember());
+        if (clientConnection != null) {
+            clientConnection.getPlayer().sendMessage("left a call");
+        }
     }
 
     public void closeCall(RoomClosedPacket packet) {
@@ -101,6 +111,22 @@ public class VoiceRoomManager {
             }
         }
         return null;
+    }
+
+    public void removePlayer(ClientConnection clientConnection) {
+        Room room = findRoomOfClient(clientConnection);
+        if (room != null) {
+            RoomMember member = null;
+            for (RoomMember itterationmember : room.getMembers()) {
+                if (itterationmember.getUuid().equals(clientConnection.getPlayer().getUniqueId())) {
+                    member = itterationmember;
+                }
+            }
+
+            if (member != null) {
+                room.getMembers().remove(member);
+            }
+        }
     }
 
 }

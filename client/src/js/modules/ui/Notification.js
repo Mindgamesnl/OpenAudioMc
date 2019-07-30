@@ -38,6 +38,7 @@ export class AlertBox {
                 }, this.option.closeTime);
             }
         }
+        return this;
     };
 
     hide(alertBox) {
