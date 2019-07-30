@@ -91,6 +91,7 @@ export class Room {
                         this.inCallBanner.hide();
                     } else {
                         // fuck
+                        console.log(json)
                         this.leaveErrorhandler('denied request');
                     }
                 }).catch((e) => {
