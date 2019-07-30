@@ -20,7 +20,7 @@ export function initAudioCodec(global) {
             sampleRate: 24000,
             channels: 1,
             app: 2048,
-            frameDuration: 20,
+            frameDuration: 5,
             bufferSize: 4096
         }
     };
@@ -32,7 +32,7 @@ export function initAudioCodec(global) {
             this.config = {};
             this.config.codec = this.config.codec || defaultConfig.codec;
             this.config.server = this.config.server || defaultConfig.server;
-            this.sampler = new Resampler(this.config.codec.sampleRate, 44100, 1, this.config.codec.bufferSize);
+            this.sampler = new Resampler(this.config.codec.sampleRate, audioContext.sampleRate, 1, this.config.codec.bufferSize);
             this.parentSocket = socket;
             this.decoder = new OpusDecoder(this.config.codec.sampleRate, this.config.codec.channels);
             this.silence = new Float32Array(this.config.codec.bufferSize);
@@ -45,7 +45,7 @@ export function initAudioCodec(global) {
 
             this.config = {};
             this.config.codec = this.config.codec || defaultConfig.codec;
-            this.sampler = new Resampler(44100, this.config.codec.sampleRate, 1, this.config.codec.bufferSize);
+            this.sampler = new Resampler(audioContext.sampleRate, this.config.codec.sampleRate, 1, this.config.codec.bufferSize);
             this.parentSocket = socket;
             this.encoder = new OpusEncoder(this.config.codec.sampleRate, this.config.codec.channels, this.config.codec.app, this.config.codec.frameDuration);
             var _this = this;
