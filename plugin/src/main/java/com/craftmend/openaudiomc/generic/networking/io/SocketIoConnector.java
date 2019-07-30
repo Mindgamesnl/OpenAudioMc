@@ -41,6 +41,7 @@ public class SocketIoConnector {
 
         IO.Options opts = new IO.Options();
         opts.callFactory = okHttpClient;
+        opts.reconnection = false;
         opts.webSocketFactory = okHttpClient;
 
         // update state
@@ -92,6 +93,7 @@ public class SocketIoConnector {
         socket.on(Socket.EVENT_DISCONNECT, args -> {
             // disconnected, probably with a reason or something
             OpenAudioMcCore.getInstance().getStateService().setState(new IdleState("Disconnected from the socket"));
+            OpenAudioMcCore.getInstance().getVoiceRoomManager().clearCache();
         });
 
         socket.on(Socket.EVENT_CONNECT_TIMEOUT, args -> {
@@ -165,7 +167,7 @@ public class SocketIoConnector {
     }
 
     public void createRoom(List<RoomMember> members, Consumer<Boolean> wasSucessful) {
-        socket.emit("request-call-creation", members, (Ack) args -> {
+        socket.emit("request-call-creation", OpenAudioMcCore.getGson().toJson(members), (Ack) args -> {
             wasSucessful.accept((Boolean) args[0]);
         });
     }

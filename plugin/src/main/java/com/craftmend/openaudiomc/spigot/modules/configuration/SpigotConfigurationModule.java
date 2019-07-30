@@ -35,9 +35,11 @@ public class SpigotConfigurationModule implements ConfigurationInterface {
         dataConfig = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudioMc/data.yml"));
         mainConfig = openAudioMcSpigot.getConfig();
 
-        clientSettings = new ClientSettings().load();
-
         System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Starting configuration module");
+    }
+
+    public void loadSettings() {
+        clientSettings = new ClientSettings().load();
     }
 
     /**

@@ -1,4 +1,5 @@
 import {WebAudio} from "../media/WebAudio";
+import {AlertBox} from "../ui/Notification";
 
 export class Handlers {
 
@@ -44,6 +45,11 @@ export class Handlers {
         openAudioMc.socketModule.registerHandler("NotificationPayload", data => {
             const message = data.message;
             this.openAudioMc.notificationModule.sendNotification("From the server:", message);
+            new AlertBox('#alert-area', {
+                closeTime: 30000,
+                persistent: false,
+                hideCloseButton: false,
+            }).show('Notification from the server<hr />' + message);
         });
 
         openAudioMc.socketModule.registerHandler("ClientSettingsPayload", data => {

@@ -16,7 +16,7 @@ class VoiceReceivingChannel {
     }
 
     setVolume(v) {
-        if (this.player != null) this.player.setVolume(v);
+        if (this.player != null) this.player.setVolume(v / 50);
     }
 
     shutdown() {

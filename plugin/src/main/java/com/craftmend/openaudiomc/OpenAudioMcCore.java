@@ -10,12 +10,12 @@ import com.craftmend.openaudiomc.generic.objects.OpenAudioApi;
 import com.craftmend.openaudiomc.generic.networking.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
 import com.craftmend.openaudiomc.generic.networking.addapter.AbstractPacketAdapter;
-
 import com.craftmend.openaudiomc.generic.voice.VoiceRoomManager;
+import com.craftmend.openaudiomc.generic.state.StateService;
+
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfigurationModule;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
-import com.craftmend.openaudiomc.generic.state.StateService;
 
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.bungee.modules.configuration.BungeeConfigurationModule;
@@ -42,7 +42,7 @@ public class OpenAudioMcCore {
 
     @Getter private static final OpenAudioApi api = new OpenAudioApi();
     @Getter private static final String LOG_PREFIX = "[OpenAudioMc-Log] ";
-    @Getter private static final String server = "http://craftmendserver.eu";
+    @Getter private static final String server = "http://craftmendserver.eu:81";
     @Getter private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(AbstractPacketPayload.class, new AbstractPacketAdapter())
             .create();
@@ -58,8 +58,10 @@ public class OpenAudioMcCore {
         if (platform == Platform.SPIGOT) {
             this.serverService = new ServerService();
             this.configurationInterface = new SpigotConfigurationModule(OpenAudioMcSpigot.getInstance());
+            this.configurationInterface.loadSettings();
         } else {
             this.configurationInterface = new BungeeConfigurationModule((OpenAudioMcBungee.getInstance()));
+            this.configurationInterface.loadSettings();
         }
 
         // enable stuff

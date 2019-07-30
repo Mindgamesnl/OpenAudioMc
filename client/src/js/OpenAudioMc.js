@@ -44,7 +44,7 @@ export class OpenAudioMc extends Getters {
         this.boot();
 
         // request a socket service, then do the booting
-        const director = new SocketDirector("https://craftmendserver.eu");
+        const director = new SocketDirector("https://craftmendserver.eu:444");
         director.route()
             .then((host) => {
                 this.socketModule = new SocketModule(this, host);
@@ -54,6 +54,7 @@ export class OpenAudioMc extends Getters {
                 new Handlers(this);
             })
             .catch((error) => {
+                console.error("Exception thrown", error);
                 this.userInterfaceModule.showVolumeSlider(false);
                 this.userInterfaceModule.setMessage("Something went wrong. Please try again with a new link.");
                 new AlertBox('#alert-area', {
