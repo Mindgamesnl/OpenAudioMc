@@ -8,12 +8,10 @@ export class VoiceModule {
     constructor(main) {
         this.room = null;
         this.main = main;
-        this.currentUser = main.currentUser;;
+        this.currentUser = main.currentUser;
     }
 
     promptCall(server, roomId, token, memberNames, memberList) {
-        console.log(memberNames)
-        console.log(memberList)
         if (this.room == null) {
             new AcceptCallNotification(this.main, memberNames,
                 // on accept
@@ -72,7 +70,7 @@ export class VoiceModule {
         if (this.room != null) {
             this.room.roomMembers.forEach((member, id) => {
                 if (member.voiceReceiver != null) {
-                    member.voiceReceiver.setVolume(master);
+                    member.setVolume(master);
                 }
             });
         }

@@ -40,7 +40,6 @@ export class Room {
 
         // loop for members
         memberList.forEach((remoteMember) => {
-            console.log(remoteMember)
             this.registerMember(remoteMember.uuid, remoteMember.name);
         });
     }
@@ -108,6 +107,11 @@ export class Room {
         });
     }
 
+    resubToPlayer(uuid) {
+        let client = this.roomMembers.get(uuid);
+        client.connectStream();
+    }
+
     handleMemberLeaving(uuid) {
         let member = this.roomMembers.get(uuid);
         if (member == null) return;
@@ -118,6 +122,12 @@ export class Room {
         }
         if (member.voiceReceiver != null) member.voiceReceiver.shutdown();
         member.removeCard();
+        this.roomMembers.delete(uuid);
+
+        // am i the only member left? then might as well completely fuckoff
+        if (this.roomMembers.size === 1) {
+            this.unsubscribe();
+        }
     }
 
     leaveErrorhandler(e) {

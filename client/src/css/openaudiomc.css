@@ -314,7 +314,7 @@ footer a {
     padding-top: 5px;
     left: 20px;
     max-width: 25%;
-    overflow-y: scroll
+    overflow-y: auto
 }
 
 
@@ -324,7 +324,7 @@ footer a {
     padding-top: 100px;
     left: 20px;
     max-width: 25%;
-    overflow-y: scroll
+    overflow-y: auto
 }
 
 .alert-box {
@@ -441,7 +441,6 @@ footer a {
     background: red !important;
 }
 
-
 .call-box {
     /* Add the blur effect */
     filter: blur(14px);
@@ -494,4 +493,45 @@ footer a {
 
 .volume-display {
     font-size: 4rem;
+}
+
+.loader {
+    height: 4px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background-color: #ddd;
+}
+.loader:before{
+    display: block;
+    position: absolute;
+    content: "";
+    left: -200px;
+    width: 200px;
+    height: 4px;
+    background-color: #2980b9;
+    animation: loading 2s linear infinite;
+}
+
+@keyframes loading {
+    from {left: -200px; width: 30%;}
+    50% {width: 30%;}
+    70% {width: 70%;}
+    80% { left: 50%;}
+    95% {left: 120%;}
+    to {left: 100%;}
+}
+
+@keyframes fading-border {
+    0% {background: linear-gradient(red, rgba(0,0,0,0), red);}
+    50% {background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0));}
+    100% {background: linear-gradient(red, rgba(0,0,0,0), red);}
+}
+
+.mutedUser {
+    animation: fading-border 2s linear infinite;
+}
+
+.pointer-event {
+    pointer-events: none
 }

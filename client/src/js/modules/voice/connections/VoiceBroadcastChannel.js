@@ -11,12 +11,14 @@ export class VoiceBroadcastChannel {
 
         this.changeMicPopup = new RequestMicrophonePermissions((micId) => {
             this.shutdown();
-            this.start();
-            if (micId == null) {
-                this.micId = true;
-            } else {
-                this.micId = micId;
-            }
+            setTimeout(() => {
+                if (micId == null) {
+                    this.micId = true;
+                } else {
+                    this.micId = micId;
+                }
+                this.start();
+            }, 5000);
         });
     }
 

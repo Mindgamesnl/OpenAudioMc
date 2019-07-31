@@ -33,7 +33,7 @@ public class SpeakersSubCommand extends SubCommand {
         }
 
         if (args.length == 1) {
-            SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(((Player) sender));
+            SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(((Player) sender.getOriginal()));
             spigotConnection.setSelectedSpeakerSource(args[0]);
             player.getInventory().addItem(OpenAudioMcSpigot.getInstance().getSpeakerModule().getSkull());
             message(sender, "Speaker media created! You've received a Speaker skull in your inventory. Placing it anywhere in the world will add the configured sound in the are.");

@@ -10,7 +10,8 @@ export class RoomMember {
         this.name = name;
         this.voiceReceiver = null;
         this.voiceBroadcast = null;
-        this.card = new UserCard(name);
+        this.card = new UserCard(room, name, this);
+        this.volume = room.main.mediaManager.getMasterVolume();
     }
 
     removeCard() {
@@ -18,7 +19,22 @@ export class RoomMember {
     }
 
     connectStream() {
+        console.log('opening channel')
         this.voiceReceiver = new VoiceReceivingChannel(this.room, this);
+        if (this.card.isMuted) this.voiceReceiver.setVolume(0);
+    }
+
+    setVolume(v) {
+        this.volume = v;
+        if (!this.card.isMuted) this.voiceReceiver.setVolume(v);
+    }
+
+    muteReceiver() {
+        this.voiceReceiver.setVolume(0);
+    }
+
+    unmuteReceiver() {
+        this.voiceReceiver.setVolume(this.volume);
     }
 
     broadcastStream() {
