@@ -20,6 +20,7 @@ export class Boot {
     boot() {
         //set volume
         let presetVolume = Cookies.get("volume");
+        Cookies.set('auto-join-call', false);
         if (presetVolume != null) {
             this.mediaManager.changeVolume(presetVolume);
         }

@@ -1,4 +1,5 @@
 import {Utils} from "../../helpers/Utils";
+import {AlertBox} from "../ui/Notification";
 
 export class SocketModule {
 
@@ -89,6 +90,19 @@ export class SocketModule {
             }
 
             main.voiceModule.promptCall(assignedCallServer, roomId, callAccessToken, memberNames, callMembers);
+        });
+
+        this.socket.on('resub-to-player-in-call', (uuid) => {
+            new AlertBox('#alert-area', {
+                closeTime: 20000,
+                persistent: false,
+                hideCloseButton: true,
+                extra: 'warning'
+            }).show('pls resub ' + uuid);
+            const room = main.voiceModule.room;
+            if (room != null) {
+                room.resubToPlayer(uuid);
+            }
         });
 
         this.socket.on('member-left-call', (uuidOfLeavingClient) => {

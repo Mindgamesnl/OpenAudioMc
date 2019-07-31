@@ -60,7 +60,8 @@ export class RequestMicrophonePermissions extends AlertBox {
                     dropdown += '</select>';
 
                     this.show('<div style="text-align: center;">What microphone would you like to use in this voicecall?' +
-                        '<br /><small>changes can take a second or two to apply</small><br />' + dropdown + '</div>');
+                        '<br /><small>changes can take a second or two to apply</small><br />' + dropdown + '' +
+                        '<div id="mic-loader" style="display:none;"><h2>Switching mic input. Please wait.</h2><div class="loader"></div></div></div>');
 
                     // if default, set it!
                     if (Cookies.get('default-mic') != null) {
@@ -74,12 +75,16 @@ export class RequestMicrophonePermissions extends AlertBox {
 
                     document.getElementById('select-mic-dropdown').onchange = (value) => {
                         document.getElementById('select-mic-dropdown').disabled = true;
+                        document.getElementById('select-mic-dropdown').style.display = 'none';
+                        document.getElementById('mic-loader').style.display = '';
                         Cookies.set('default-mic', value.target.selectedOptions[0].childNodes[0].data);
                         defaultMic(this.getId());
 
                         setTimeout(() => {
+                            document.getElementById('select-mic-dropdown').style.display = '';
+                            document.getElementById('mic-loader').style.display = 'none';
                             document.getElementById('select-mic-dropdown').disabled = false;
-                        }, 2 * 1000);
+                        }, 6 * 1000);
                     };
 
                     defaultMic(this.getId());

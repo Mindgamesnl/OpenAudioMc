@@ -4,6 +4,8 @@ import ClientTokenSet from "./ClientTokenSet";
 
 let openAudioMc = null;
 
+export default openAudioMc;
+
 function enable() {
     if (openAudioMc == null) {
         openAudioMc = new OpenAudioMc();
