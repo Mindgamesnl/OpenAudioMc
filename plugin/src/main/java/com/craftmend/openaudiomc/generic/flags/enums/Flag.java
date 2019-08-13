@@ -2,15 +2,18 @@ package com.craftmend.openaudiomc.generic.flags.enums;
 
 import lombok.Getter;
 
-public enum OptionalModule {
+public enum Flag {
 
     VOICE_CHAT("flag_voice_chat_enabled");
 
-    @Getter private String flag;
+    @Getter private String tag;
 
-    OptionalModule(String flag) {
-        this.flag = flag;
+    Flag(String tag) {
+        this.tag = tag;
     }
 
-    public static O
+    public static Flag getByBackendTag(String flag) {
+        for (Flag value : values()) if (value.getTag().equals(flag)) return value;
+        return null;
+    }
 }
