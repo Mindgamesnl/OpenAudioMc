@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class NotificationPayload extends AbstractPacketPayload {
 
+    private String title;
     private String message;
 
 }

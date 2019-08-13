@@ -6,9 +6,9 @@ import com.craftmend.openaudiomc.generic.networking.payloads.NotificationPayload
 
 public class PacketPushNotification extends AbstractPacket {
 
-    public PacketPushNotification(String message) {
+    public PacketPushNotification(String title, String message) {
         super(
-                new NotificationPayload(message),
+                new NotificationPayload(title, message),
                 PacketChannel.CLIENT_OUT_PUSH_NOTIFICATION,
                 null
         );

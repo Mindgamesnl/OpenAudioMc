@@ -7,7 +7,7 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
-import com.craftmend.openaudiomc.generic.networking.packets.PacketPushNotification;
+import com.craftmend.openaudiomc.generic.networking.client.objects.Notification;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -62,9 +62,9 @@ public class NotificationSubCommand extends SubCommand {
             }
 
             // send packet to everyone
-            players.forEach(clientConnection -> {
-                OpenAudioMcCore.getInstance().getNetworkingService().send(clientConnection, new PacketPushNotification(message.toString()));
-            });
+            Notification notification = new Notification();
+            notification.setTitle("Server Message").setMessage(message.toString());
+            players.forEach(notification::send);
 
             sender.sendMessage(commandModule.getCommandPrefix() + "Message send");
         }
