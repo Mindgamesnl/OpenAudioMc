@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.commands.subcommands;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.modules.player.objects.BungeePlayerSelector;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
@@ -48,22 +48,22 @@ public class CallSubCommand extends SubCommand {
             List<ClientConnection> players = new ArrayList<>();
             for (String subArg : subArgs) {
                 // handle differently based on if im bungee or spigot
-                if (OpenAudioMcCore.getInstance().getPlatform() == Platform.SPIGOT) {
+                if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
                     List<Player> spigotPlayers = new SpigotPlayerSelector(subArg).getPlayers((CommandSender) sender.getOriginal());
                     for (Player spigotPlayer : spigotPlayers) {
-                        players.add(OpenAudioMcCore.getInstance().getNetworkingService().getClient(spigotPlayer.getUniqueId()));
+                        players.add(OpenAudioMc.getInstance().getNetworkingService().getClient(spigotPlayer.getUniqueId()));
                     }
                 } else {
                     List<ProxiedPlayer> proxiedPlayers = new BungeePlayerSelector(subArg).getPlayers((net.md_5.bungee.api.CommandSender) sender.getOriginal());
                     for (ProxiedPlayer proxiedPlayer : proxiedPlayers) {
-                        players.add(OpenAudioMcCore.getInstance().getNetworkingService().getClient(proxiedPlayer.getUniqueId()));
+                        players.add(OpenAudioMc.getInstance().getNetworkingService().getClient(proxiedPlayer.getUniqueId()));
                     }
                 }
             }
 
             // now that we have that bullshit figured out, let's create the call! becasue FUCK we've been waiting for that
             try {
-                RoomPrototype roomPrototype = OpenAudioMcCore.getInstance().getVoiceRoomManager().createCall(players);
+                RoomPrototype roomPrototype = OpenAudioMc.getInstance().getVoiceRoomManager().createCall(players);
                 sender.sendMessage(commandModule.getCommandPrefix() + "Request send to create a room. The clients will receive a invite in a short while.");
             } catch (InvalidCallParameterException | RequestPendingException e) {
                 sender.sendMessage(commandModule.getCommandPrefix() + "Failed to create room! error: " + e.getMessage());
@@ -73,7 +73,7 @@ public class CallSubCommand extends SubCommand {
     }
 
     private void sendHelp(GenericExecutor genericExecutor) {
-        OpenAudioMcCore.getInstance().getCommandModule().getSubCommand("help").onExecute(genericExecutor, new String[] {
+        OpenAudioMc.getInstance().getCommandModule().getSubCommand("help").onExecute(genericExecutor, new String[] {
                 getCommand()
         });;
     }

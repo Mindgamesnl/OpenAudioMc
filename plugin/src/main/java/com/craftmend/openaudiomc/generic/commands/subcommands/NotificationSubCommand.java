@@ -1,13 +1,13 @@
 package com.craftmend.openaudiomc.generic.commands.subcommands;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.modules.player.objects.BungeePlayerSelector;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
-import com.craftmend.openaudiomc.generic.networking.packets.PacketPushNotification;
+import com.craftmend.openaudiomc.generic.networking.client.objects.Notification;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -26,7 +26,7 @@ public class NotificationSubCommand extends SubCommand {
         registerArguments(
                 new Argument("notification <selector> <message>",
                         "Push a notification to a group of players")
-                );
+        );
         this.commandModule = commandModule;
     }
 
@@ -44,15 +44,15 @@ public class NotificationSubCommand extends SubCommand {
 
             List<ClientConnection> players = new ArrayList<>();
             // handle differently based on if im bungee or spigot
-            if (OpenAudioMcCore.getInstance().getPlatform() == Platform.SPIGOT) {
+            if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
                 List<Player> spigotPlayers = new SpigotPlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal());
                 for (Player spigotPlayer : spigotPlayers) {
-                    players.add(OpenAudioMcCore.getInstance().getNetworkingService().getClient(spigotPlayer.getUniqueId()));
+                    players.add(OpenAudioMc.getInstance().getNetworkingService().getClient(spigotPlayer.getUniqueId()));
                 }
             } else {
                 List<ProxiedPlayer> proxiedPlayers = new BungeePlayerSelector(args[0]).getPlayers((net.md_5.bungee.api.CommandSender) sender.getOriginal());
                 for (ProxiedPlayer proxiedPlayer : proxiedPlayers) {
-                    players.add(OpenAudioMcCore.getInstance().getNetworkingService().getClient(proxiedPlayer.getUniqueId()));
+                    players.add(OpenAudioMc.getInstance().getNetworkingService().getClient(proxiedPlayer.getUniqueId()));
                 }
             }
 
@@ -62,16 +62,17 @@ public class NotificationSubCommand extends SubCommand {
             }
 
             // send packet to everyone
-            players.forEach(clientConnection -> {
-                OpenAudioMcCore.getInstance().getNetworkingService().send(clientConnection, new PacketPushNotification(message.toString()));
-            });
+            Notification notification = new Notification()
+                    .setTitle("Server Message")
+                    .setMessage(message.toString());
+            players.forEach(notification::send);
 
             sender.sendMessage(commandModule.getCommandPrefix() + "Message send");
         }
     }
 
     private void sendHelp(GenericExecutor genericExecutor) {
-        OpenAudioMcCore.getInstance().getCommandModule().getSubCommand("help").onExecute(genericExecutor, new String[]{
+        OpenAudioMc.getInstance().getCommandModule().getSubCommand("help").onExecute(genericExecutor, new String[]{
                 getCommand()
         });
     }

@@ -13,6 +13,7 @@ public class AbstractPacketAdapter implements JsonSerializer<AbstractPacketPaylo
     @Override
     public JsonElement serialize(AbstractPacketPayload src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();
+
         result.add("type", new JsonPrimitive(src.getClass().getSimpleName()));
         result.add("payload", context.serialize(src, src.getClass()));
 

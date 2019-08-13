@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.commands.interfaces;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import lombok.Getter;
@@ -21,7 +21,7 @@ public abstract class SubCommand {
      */
     public SubCommand(String argument) {
         this.command = argument;
-        if (OpenAudioMcCore.getInstance().getPlatform() == Platform.SPIGOT) {
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
             Bukkit.getPluginManager().addPermission(new Permission("openaudiomc.commands." + command));
         }
     }
@@ -33,7 +33,7 @@ public abstract class SubCommand {
      * @param message Your message
      */
     protected void message(GenericExecutor sender, String message) {
-        sender.sendMessage(OpenAudioMcCore.getInstance().getCommandModule().getCommandPrefix() + message);
+        sender.sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + message);
     }
 
     /**

@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.command;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.configuration.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -17,8 +17,8 @@ public class VolumeCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        if (!OpenAudioMcCore.getInstance().getAuthenticationService().getIsSuccesfull()) {
-            sender.sendMessage(OpenAudioMcCore.getInstance().getCommandModule().getCommandPrefix() + OpenAudioMcCore.getInstance().getAuthenticationService().getFailureMessage());
+        if (!OpenAudioMc.getInstance().getAuthenticationService().getIsSuccesfull()) {
+            sender.sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + OpenAudioMc.getInstance().getAuthenticationService().getFailureMessage());
             return true;
         }
 
@@ -26,13 +26,13 @@ public class VolumeCommand implements CommandExecutor {
             SpigotConnection spigotConnection = OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(((Player) sender).getUniqueId());
 
             if (!spigotConnection.getClientConnection().isConnected()) {
-                String message = Platform.translateColors(OpenAudioMcCore.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_NOT_CONNECTED));
+                String message = Platform.translateColors(OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_NOT_CONNECTED));
                 sender.sendMessage(message);
                 return true;
             }
 
             if (args.length == 0) {
-                String message = Platform.translateColors(OpenAudioMcCore.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_VOLUME_INVALID));
+                String message = Platform.translateColors(OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_VOLUME_INVALID));
                 sender.sendMessage(message);
                 return true;
             }
@@ -41,19 +41,19 @@ public class VolumeCommand implements CommandExecutor {
                 int volume = Integer.parseInt(args[0]);
                 //check if in range
                 if (volume < 0 || volume > 100) {
-                    String message = Platform.translateColors(OpenAudioMcCore.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_VOLUME_INVALID));
+                    String message = Platform.translateColors(OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_VOLUME_INVALID));
                     sender.sendMessage(message);
                     return true;
                 } else {
                     spigotConnection.getClientConnection().setVolume(volume);
                 }
             } catch (Exception e) {
-                String message = Platform.translateColors(OpenAudioMcCore.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_VOLUME_INVALID));
+                String message = Platform.translateColors(OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_VOLUME_INVALID));
                 sender.sendMessage(message);
                 return true;
             }
         } else {
-            sender.sendMessage(OpenAudioMcCore.getLOG_PREFIX() + "This command can only be used by players");
+            sender.sendMessage(OpenAudioMc.getLOG_PREFIX() + "This command can only be used by players");
         }
         return true;
     }
