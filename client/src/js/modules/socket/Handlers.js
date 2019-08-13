@@ -44,12 +44,12 @@ export class Handlers {
 
         openAudioMc.socketModule.registerHandler("NotificationPayload", data => {
             const message = data.message;
-            this.openAudioMc.notificationModule.sendNotification("From the server:", message);
+            this.openAudioMc.notificationModule.sendNotification(data.title, message);
             new AlertBox('#alert-area', {
                 closeTime: 30000,
                 persistent: false,
                 hideCloseButton: false,
-            }).show('Notification from the server<hr />' + message);
+            }).show(data.title + '<hr />' + message);
         });
 
         openAudioMc.socketModule.registerHandler("ClientSettingsPayload", data => {
