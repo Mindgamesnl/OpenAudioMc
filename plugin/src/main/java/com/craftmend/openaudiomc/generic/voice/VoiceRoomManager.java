@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.voice;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.voice.exception.InvalidCallParameterException;
 import com.craftmend.openaudiomc.generic.voice.exception.RequestPendingException;
@@ -15,11 +15,11 @@ import java.util.*;
 
 public class VoiceRoomManager {
 
-    private OpenAudioMcCore core;
+    private OpenAudioMc core;
     private Map<UUID, Room> voiceRooms = new HashMap<>();
     private Boolean isRequestPending = false;
 
-    public VoiceRoomManager(OpenAudioMcCore core) {
+    public VoiceRoomManager(OpenAudioMc core) {
         this.core = core;
     }
 
@@ -60,7 +60,7 @@ public class VoiceRoomManager {
         this.core.getNetworkingService().requestRoomCreation(roomContent, (ok) -> {
             if (!ok) {
                 isRequestPending = false;
-                System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Failed to create call. Server denied or could not handle the request");
+                System.out.println(OpenAudioMc.getLOG_PREFIX() + "Failed to create call. Server denied or could not handle the request");
             }
         });
 
@@ -76,7 +76,7 @@ public class VoiceRoomManager {
         this.isRequestPending = false;
         this.voiceRooms.put(packet.getRoomId(), new Room(packet.getRoomId(), packet.getMembers()));
         for (RoomMember member : packet.getMembers()) {
-            ClientConnection clientConnection = OpenAudioMcCore.getInstance().getNetworkingService().getClient(member.getUuid());
+            ClientConnection clientConnection = OpenAudioMc.getInstance().getNetworkingService().getClient(member.getUuid());
             if (clientConnection != null) {
                 clientConnection.getPlayer().sendMessage("ring ring");
             }
@@ -91,7 +91,7 @@ public class VoiceRoomManager {
         // send a message?
         // send a message! :-)
         // TODO: send a message
-        ClientConnection clientConnection = OpenAudioMcCore.getInstance().getNetworkingService().getClient(packet.getMember());
+        ClientConnection clientConnection = OpenAudioMc.getInstance().getNetworkingService().getClient(packet.getMember());
         if (clientConnection != null) {
             clientConnection.getPlayer().sendMessage("left a call");
         }

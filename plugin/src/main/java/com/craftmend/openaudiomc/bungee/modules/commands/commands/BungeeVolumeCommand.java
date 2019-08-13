@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.bungee.modules.commands.commands;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.configuration.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
@@ -11,7 +11,7 @@ import net.md_5.bungee.api.plugin.Command;
 
 public class BungeeVolumeCommand extends Command {
 
-    private CommandModule commandModule = OpenAudioMcCore.getInstance().getCommandModule();
+    private CommandModule commandModule = OpenAudioMc.getInstance().getCommandModule();
 
     public BungeeVolumeCommand() {
         super("vol", null, "vol");
@@ -19,26 +19,26 @@ public class BungeeVolumeCommand extends Command {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if (!OpenAudioMcCore.getInstance().getAuthenticationService().getIsSuccesfull()) {
-            sender.sendMessage(OpenAudioMcCore.getInstance().getCommandModule().getCommandPrefix() + OpenAudioMcCore.getInstance().getAuthenticationService().getFailureMessage());
+        if (!OpenAudioMc.getInstance().getAuthenticationService().getIsSuccesfull()) {
+            sender.sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + OpenAudioMc.getInstance().getAuthenticationService().getFailureMessage());
             return;
         }
 
         if (!(sender instanceof ProxiedPlayer)) {
-            sender.sendMessage(OpenAudioMcCore.getLOG_PREFIX() + "This command can only be used by players");
+            sender.sendMessage(OpenAudioMc.getLOG_PREFIX() + "This command can only be used by players");
             return;
         }
 
-        ClientConnection clientConnection = OpenAudioMcCore.getInstance().getNetworkingService().getClient(((ProxiedPlayer) sender).getUniqueId());
+        ClientConnection clientConnection = OpenAudioMc.getInstance().getNetworkingService().getClient(((ProxiedPlayer) sender).getUniqueId());
 
         if (!clientConnection.isConnected()) {
-            String message = Platform.translateColors(OpenAudioMcCore.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_NOT_CONNECTED));
+            String message = Platform.translateColors(OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_NOT_CONNECTED));
             sender.sendMessage(message);
             return;
         }
 
         if (args.length == 0) {
-            String message = Platform.translateColors(OpenAudioMcCore.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_VOLUME_INVALID));
+            String message = Platform.translateColors(OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_VOLUME_INVALID));
             sender.sendMessage(message);
             return;
         }
@@ -47,14 +47,14 @@ public class BungeeVolumeCommand extends Command {
             int volume = Integer.parseInt(args[0]);
             //check if in range
             if (volume < 0 || volume > 100) {
-                String message = Platform.translateColors(OpenAudioMcCore.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_VOLUME_INVALID));
+                String message = Platform.translateColors(OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_VOLUME_INVALID));
                 sender.sendMessage(message);
                 return;
             } else {
                 clientConnection.setVolume(volume);
             }
         } catch (Exception e) {
-            String message = Platform.translateColors(OpenAudioMcCore.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_VOLUME_INVALID));
+            String message = Platform.translateColors(OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_VOLUME_INVALID));
             sender.sendMessage(message);
             return;
         }

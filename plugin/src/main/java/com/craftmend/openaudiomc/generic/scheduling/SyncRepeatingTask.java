@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.scheduling;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -25,7 +25,7 @@ public class SyncRepeatingTask {
 
     public void start() {
         // handle based on platform
-        if (OpenAudioMcCore.getInstance().getPlatform() == Platform.SPIGOT) {
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
             Bukkit.getScheduler().scheduleSyncRepeatingTask(OpenAudioMcSpigot.getInstance(), executable, delay, delay);
         } else {
             Plugin bungee = OpenAudioMcBungee.getInstance();

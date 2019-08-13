@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.bungee.modules.commands;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.bungee.modules.commands.commands.BungeeAudioCommand;
 import com.craftmend.openaudiomc.bungee.modules.commands.commands.BungeeVolumeCommand;
@@ -18,11 +18,11 @@ public class BungeeCommandModule {
         openAudioMcBungee.getProxy().getPluginManager().registerCommand(openAudioMcBungee, new BungeeVolumeCommand());
         openAudioMcBungee.getProxy().getPluginManager().registerCommand(openAudioMcBungee, new BungeeAudioCommand());
 
-        OpenAudioMcCore.getInstance().getCommandModule().registerSubCommand(new HelpSubCommand());
-        OpenAudioMcCore.getInstance().getCommandModule().registerSubCommand(new StateSubCommand());
-        OpenAudioMcCore.getInstance().getCommandModule().registerSubCommand(new BungeePlayCommand(OpenAudioMcCore.getInstance()));
-        OpenAudioMcCore.getInstance().getCommandModule().registerSubCommand(new BungeeStopCommand(OpenAudioMcCore.getInstance()));
-        OpenAudioMcCore.getInstance().getCommandModule().registerSubCommand(new BungeeHueCommand());
+        OpenAudioMc.getInstance().getCommandModule().registerSubCommand(new HelpSubCommand());
+        OpenAudioMc.getInstance().getCommandModule().registerSubCommand(new StateSubCommand());
+        OpenAudioMc.getInstance().getCommandModule().registerSubCommand(new BungeePlayCommand(OpenAudioMc.getInstance()));
+        OpenAudioMc.getInstance().getCommandModule().registerSubCommand(new BungeeStopCommand(OpenAudioMc.getInstance()));
+        OpenAudioMc.getInstance().getCommandModule().registerSubCommand(new BungeeHueCommand());
 
     }
 

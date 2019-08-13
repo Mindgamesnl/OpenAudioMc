@@ -1,13 +1,12 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.command;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.adapters.SpigotCommandSenderAdapter;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
-import lombok.RequiredArgsConstructor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,7 +18,7 @@ import java.util.List;
 public class SpigotMainCommand implements CommandExecutor, TabCompleter {
 
     private OpenAudioMcSpigot openAudioMcSpigot;
-    private CommandModule commandModule = OpenAudioMcCore.getInstance().getCommandModule();
+    private CommandModule commandModule = OpenAudioMc.getInstance().getCommandModule();
 
     public SpigotMainCommand(OpenAudioMcSpigot openAudioMcSpigot) {
         this.openAudioMcSpigot = openAudioMcSpigot;
@@ -28,8 +27,8 @@ public class SpigotMainCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender originalSender, Command command, String label, String[] args) {
         GenericExecutor sender = new SpigotCommandSenderAdapter(originalSender);
-        if (!OpenAudioMcCore.getInstance().getAuthenticationService().getIsSuccesfull()) {
-            sender.sendMessage(commandModule.getCommandPrefix() + OpenAudioMcCore.getInstance().getAuthenticationService().getFailureMessage());
+        if (!OpenAudioMc.getInstance().getAuthenticationService().getIsSuccesfull()) {
+            sender.sendMessage(commandModule.getCommandPrefix() + OpenAudioMc.getInstance().getAuthenticationService().getFailureMessage());
             return true;
         }
 

@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.networking.client.objects;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.configuration.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.configuration.objects.ClientSettings;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
@@ -44,30 +44,30 @@ public class ClientConnection {
         this.player = playerContainer;
         refreshSession();
 
-        if (OpenAudioMcCore.getInstance().getConfigurationInterface().getBoolean(StorageKey.SETTINGS_SEND_URL_ON_JOIN))
+        if (OpenAudioMc.getInstance().getConfigurationInterface().getBoolean(StorageKey.SETTINGS_SEND_URL_ON_JOIN))
             publishUrl();
     }
 
     public void publishUrl() {
         if (isConnected) {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(
-                    OpenAudioMcCore.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_ALREADY_CONNECTED)
+                    OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_ALREADY_CONNECTED)
             )));
             return;
         }
 
         try {
-            OpenAudioMcCore.getInstance().getNetworkingService().connectIfDown();
+            OpenAudioMc.getInstance().getNetworkingService().connectIfDown();
         } catch (URISyntaxException | IOException e) {
-            player.sendMessage(OpenAudioMcCore.getLOG_PREFIX() + "Failed to execute goal.");
+            player.sendMessage(OpenAudioMc.getLOG_PREFIX() + "Failed to execute goal.");
             e.printStackTrace();
         }
 
-        String url = OpenAudioMcCore.getInstance().getConfigurationInterface().getString(StorageKey.AUTH_PUBLIC_URL) +
+        String url = OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.AUTH_PUBLIC_URL) +
                 session.getToken();
 
         TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(
-                OpenAudioMcCore.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLICK_TO_CONNECT)
+                OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLICK_TO_CONNECT)
         )));
         message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
         player.sendMessage(message);
@@ -75,7 +75,7 @@ public class ClientConnection {
 
     // client connected!
     public void onConnect() {
-        ConfigurationInterface configurationInterface = OpenAudioMcCore.getInstance().getConfigurationInterface();
+        ConfigurationInterface configurationInterface = OpenAudioMc.getInstance().getConfigurationInterface();
         String connectedMessage = configurationInterface.getString(StorageKey.MESSAGE_CLIENT_OPENED);
         String startSound = configurationInterface.getString(StorageKey.SETTINGS_CLIENT_START_SOUND);
 
@@ -88,7 +88,7 @@ public class ClientConnection {
                     // check and send settings, if any
                     ClientSettings settings = new ClientSettings().load();
                     if (!settings.equals(new ClientSettings())) {
-                        OpenAudioMcCore.getInstance().getNetworkingService().send(this, new PacketClientPushSettings(settings));
+                        OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientPushSettings(settings));
                     }
 
                     // if a start sound is configured, send it
@@ -103,7 +103,7 @@ public class ClientConnection {
     public void onDisconnect() {
         this.isConnected = false;
         disconnectHandlers.forEach(event -> event.run());
-        String message = OpenAudioMcCore.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_CLOSED);
+        String message = OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_CLOSED);
         player.sendMessage(Platform.translateColors(message));
     }
 
@@ -130,8 +130,8 @@ public class ClientConnection {
         if (volume < 0 || volume > 100) {
             throw new IllegalArgumentException("Volume must be between 0 and 100");
         }
-        player.sendMessage(Platform.translateColors(OpenAudioMcCore.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_VOLUME_CHANGED)).replaceAll("__amount__", volume + ""));
-        OpenAudioMcCore.getInstance().getNetworkingService().send(this, new PacketClientSetVolume(volume));
+        player.sendMessage(Platform.translateColors(OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_VOLUME_CHANGED)).replaceAll("__amount__", volume + ""));
+        OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientSetVolume(volume));
     }
 
     /**
@@ -142,7 +142,7 @@ public class ClientConnection {
     public void setHue(HueState hueState) {
         hueState.getColorMap().forEach((light, color) -> {
             SerializedHueColor serializedHueColor = new SerializedHueColor(color.getRed(), color.getGreen(), color.getGreen(), color.getBrightness());
-            OpenAudioMcCore.getInstance().getNetworkingService().send(this, new PacketClientApplyHueColor(serializedHueColor, "[" + light + "]"));
+            OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientApplyHueColor(serializedHueColor, "[" + light + "]"));
         });
     }
 
@@ -150,7 +150,7 @@ public class ClientConnection {
      * Close the clients web client
      */
     public void kick() {
-        OpenAudioMcCore.getInstance().getNetworkingService().send(this, new PacketSocketKickClient());
+        OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketSocketKickClient());
     }
 
     /**
@@ -168,7 +168,7 @@ public class ClientConnection {
                     .start();
         }
         if (isConnected)
-            OpenAudioMcCore.getInstance().getNetworkingService().send(this, new PacketClientCreateMedia(media));
+            OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientCreateMedia(media));
     }
 
     public Boolean isConnected() {

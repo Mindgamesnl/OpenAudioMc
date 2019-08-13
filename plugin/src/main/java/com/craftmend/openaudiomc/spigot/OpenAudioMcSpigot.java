@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.modules.commands.SpigotCommandModule;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
@@ -61,7 +61,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
         instance = this;
 
         // setup core
-        new OpenAudioMcCore(Platform.SPIGOT);
+        new OpenAudioMc(Platform.SPIGOT);
 
         // startup modules and services
         this.serverService = new ServerService();
@@ -75,11 +75,11 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
         }
 
         // set state to idle, to allow connections and such
-        OpenAudioMcCore.getInstance().getStateService().setState(new IdleState("OpenAudioMc started and awaiting command"));
+        OpenAudioMc.getInstance().getStateService().setState(new IdleState("OpenAudioMc started and awaiting command"));
 
         // timing end and calc
         Instant finish = Instant.now();
-        System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Starting and loading took " + Duration.between(boot, finish).toMillis() + "MS");
+        System.out.println(OpenAudioMc.getLOG_PREFIX() + "Starting and loading took " + Duration.between(boot, finish).toMillis() + "MS");
     }
 
     /**
@@ -87,9 +87,9 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
      */
     @Override
     public void onDisable() {
-        OpenAudioMcCore.getInstance().getConfigurationInterface().saveAll();
-        if (OpenAudioMcCore.getInstance().getStateService().getCurrentState().isConnected()) {
-            OpenAudioMcCore.getInstance().getNetworkingService().stop();
+        OpenAudioMc.getInstance().getConfigurationInterface().saveAll();
+        if (OpenAudioMc.getInstance().getStateService().getCurrentState().isConnected()) {
+            OpenAudioMc.getInstance().getNetworkingService().stop();
         }
     }
 }

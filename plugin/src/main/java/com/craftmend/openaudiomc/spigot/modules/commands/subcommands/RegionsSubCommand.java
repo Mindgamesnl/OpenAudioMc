@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -40,7 +40,7 @@ public class RegionsSubCommand extends SubCommand {
             return;
         }
 
-        ConfigurationInterface config = OpenAudioMcCore.getInstance().getConfigurationInterface();
+        ConfigurationInterface config = OpenAudioMc.getInstance().getConfigurationInterface();
         if (args[0].equalsIgnoreCase("create") && args.length == 3) {
             args[1] = args[1].toLowerCase();
 

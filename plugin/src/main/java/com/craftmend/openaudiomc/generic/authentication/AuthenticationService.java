@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.authentication;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
 import com.craftmend.openaudiomc.generic.configuration.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.authentication.objects.Key;
@@ -20,7 +20,7 @@ public class AuthenticationService {
     @Getter private String failureMessage = ChatColor.RED + "Oh no, it looks like the initial setup of OpenAudioMc has failed. Please try to restart the server and try again, if that still does not work, please contact OpenAudioMc staff or support.";
 
     public AuthenticationService() {
-        System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Starting authentication module");
+        System.out.println(OpenAudioMc.getLOG_PREFIX() + "Starting authentication module");
         loadData();
     }
 
@@ -29,7 +29,7 @@ public class AuthenticationService {
      * If they dont exist, then they will be requested by the cool OpenAuioMc api.
      */
     private void loadData() {
-        ConfigurationInterface spigotConfigurationModule = OpenAudioMcCore.getInstance().getConfigurationInterface();
+        ConfigurationInterface spigotConfigurationModule = OpenAudioMc.getInstance().getConfigurationInterface();
 
         if (spigotConfigurationModule.getString(StorageKey.AUTH_PRIVATE_KEY).equals("not-set")) {
             //setup process
@@ -43,11 +43,11 @@ public class AuthenticationService {
                     spigotConfigurationModule.setString(StorageKey.AUTH_PUBLIC_KEY, serverKeySet.getPublicKey().getValue());
                     isSuccesfull = true;
                 } else {
-                    System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Failed to request token.");
+                    System.out.println(OpenAudioMc.getLOG_PREFIX() + "Failed to request token.");
                     isSuccesfull = false;
                 }
             } catch (IOException e) {
-                System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Failed to request token.");
+                System.out.println(OpenAudioMc.getLOG_PREFIX() + "Failed to request token.");
                 isSuccesfull = false;
                 e.printStackTrace();
             }

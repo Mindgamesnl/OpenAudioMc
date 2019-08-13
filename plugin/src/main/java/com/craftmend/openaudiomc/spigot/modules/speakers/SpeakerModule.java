@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.configuration.enums.StorageKey;
@@ -34,29 +34,29 @@ public class SpeakerModule {
 
     public SpeakerModule(OpenAudioMcSpigot openAudioMcSpigot) {
         openAudioMcSpigot.getServer().getPluginManager().registerEvents(new SpeakerCreateListener(openAudioMcSpigot, this), openAudioMcSpigot);
-        openAudioMcSpigot.getServer().getPluginManager().registerEvents(new SpeakerDestroyListener(OpenAudioMcCore.getInstance(), this), openAudioMcSpigot);
+        openAudioMcSpigot.getServer().getPluginManager().registerEvents(new SpeakerDestroyListener(OpenAudioMc.getInstance(), this), openAudioMcSpigot);
 
         version = openAudioMcSpigot.getServerService().getVersion();
 
         if (version == ServerVersion.MODERN) {
-            System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Enabling the 1.13 speaker system");
+            System.out.println(OpenAudioMc.getLOG_PREFIX() + "Enabling the 1.13 speaker system");
             playerSkullItem = Material.PLAYER_HEAD;
         } else {
-            System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Enabling the 1.12 speaker system");
+            System.out.println(OpenAudioMc.getLOG_PREFIX() + "Enabling the 1.12 speaker system");
             try {
-                System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Hooking speakers attempt 1..");
+                System.out.println(OpenAudioMc.getLOG_PREFIX() + "Hooking speakers attempt 1..");
                 playerSkullItem = Material.valueOf("SKULL_ITEM");
             } catch (Exception e) {
-                System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Failed hook speakers attempt 1..");
+                System.out.println(OpenAudioMc.getLOG_PREFIX() + "Failed hook speakers attempt 1..");
             }
 
             if (playerSkullItem == null) {
-                System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Speakers failed to hook. Hooking to a block.");
+                System.out.println(OpenAudioMc.getLOG_PREFIX() + "Speakers failed to hook. Hooking to a block.");
                 playerSkullItem = Material.JUKEBOX;
             }
         }
 
-        ConfigurationInterface config = OpenAudioMcCore.getInstance().getConfigurationInterface();
+        ConfigurationInterface config = OpenAudioMc.getInstance().getConfigurationInterface();
 
         //load speakers
         for (String id : config.getStringSet("speakers", StorageLocation.DATA_FILE)) {
@@ -75,7 +75,7 @@ public class SpeakerModule {
                 if (blockAt != null) {
                     registerSpeaker(mappedLocation, media, UUID.fromString(id), radius);
                 } else {
-                    System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Speaker " + id + " doesn't to seem be valid anymore, so it's not getting loaded.");
+                    System.out.println(OpenAudioMc.getLOG_PREFIX() + "Speaker " + id + " doesn't to seem be valid anymore, so it's not getting loaded.");
                 }
             }
         }
