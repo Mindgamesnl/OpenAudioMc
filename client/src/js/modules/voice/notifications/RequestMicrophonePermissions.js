@@ -39,6 +39,7 @@ export class RequestMicrophonePermissions extends AlertBox {
                         navigator.mediaDevices.getUserMedia({ audio: true })
                             .then((stream) => {
                                 // retry the popup
+                                this.hide();
                                 stream.getTracks()[0].stop();
                                 new RequestMicrophonePermissions(defaultMic);
                             })
