@@ -4,7 +4,9 @@ import lombok.Getter;
 
 public enum Flag {
 
-    VOICE_CHAT("flag_voice_chat_enabled");
+    VOICE_CHAT_16("flag_voice_chat_enabled_16"),
+    VOICE_CHAT_8("flag_voice_chat_enabled_8"),
+    VOICE_CHAT_2("flag_voice_chat_enabled_2");
 
     @Getter private String tag;
 
