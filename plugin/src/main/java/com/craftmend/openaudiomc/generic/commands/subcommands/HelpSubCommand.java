@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.commands.subcommands;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
@@ -16,7 +16,7 @@ public class HelpSubCommand extends SubCommand {
 
     public HelpSubCommand() {
         super("help");
-        this.commandModule = OpenAudioMcCore.getInstance().getCommandModule();
+        this.commandModule = OpenAudioMc.getInstance().getCommandModule();
     }
 
     @Override

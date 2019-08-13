@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.commands;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.commands.subcommands.HelpSubCommand;
 import com.craftmend.openaudiomc.spigot.modules.commands.middleware.CommandTranslationMiddleware;
@@ -18,7 +18,7 @@ public class SpigotCommandModule {
         openAudioMcSpigot.getCommand("openaudiomc").setTabCompleter(spigotMainCommand);
         openAudioMcSpigot.getCommand("volume").setExecutor(new VolumeCommand());
 
-        CommandModule commandModule = OpenAudioMcCore.getInstance().getCommandModule();
+        CommandModule commandModule = OpenAudioMc.getInstance().getCommandModule();
 
         commandModule.getAliases().addAll(openAudioMcSpigot.getCommand("openaudiomc").getAliases());
         commandModule.getAliases().add("openaudiomc");

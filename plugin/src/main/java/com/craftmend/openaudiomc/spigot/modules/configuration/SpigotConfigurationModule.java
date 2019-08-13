@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.configuration;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.configuration.enums.StorageKey;
@@ -35,7 +35,7 @@ public class SpigotConfigurationModule implements ConfigurationInterface {
         dataConfig = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudioMc/data.yml"));
         mainConfig = openAudioMcSpigot.getConfig();
 
-        System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Starting configuration module");
+        System.out.println(OpenAudioMc.getLOG_PREFIX() + "Starting configuration module");
     }
 
     public void loadSettings() {

@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.networking.client.objects;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import lombok.NoArgsConstructor;
 
 import java.util.Base64;
@@ -22,7 +22,7 @@ class TokenFactory {
                 ":" +
                 client.getPlayer().getUniqueId().toString() +
                 ":" +
-                OpenAudioMcCore.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue() +
+                OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue() +
                 ":" +
                 key;
         return new Session(client, key, new String(Base64.getEncoder().encode(url.getBytes())));

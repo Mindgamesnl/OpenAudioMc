@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc;
 
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
+import com.craftmend.openaudiomc.generic.flags.FlagSet;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
 import com.craftmend.openaudiomc.generic.media.MediaModule;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
@@ -25,20 +26,50 @@ import com.google.gson.GsonBuilder;
 import lombok.Getter;
 
 @Getter
-public class OpenAudioMcCore {
+public class OpenAudioMc {
 
+    /*
+     *  -- NOTE --
+     *
+     * This is not the plugin of OpenAudioMc, this is the core.
+     * The core manages all the services used to run OpenAudioMc clients of all types.
+     * The core is not version or platform dependant, as long as it runs java.
+     *
+     * The core is initialized by the plugin (bungeecord or spigot) and only needs a flag
+     * to know what platform it is running of.
+     *
+     * This is always where the magic will happen, since this pretty much handles everything
+     * including framework stuff.
+     */
+
+    /**
+     * Services used by the core to run OpenAudioMc
+     *
+     *      (SERVICE)                               (PURPOSE)
+     * ===========================================================================
+     *  - State Service          []   (responsible for tracking the current state)
+     *  - Server Service         []   (used to probe and detect what it is running)
+     *  - Time Service           []   (used to synchronize time with the central OpenAudioMc-time-server)
+     *  - Networking Service     []   (handles connections, clients, packets etc)
+     *  - Flag Set               []   (keeps track of OpenAudioMc account data like if its partnered or not)
+     *  - Configuration Interface[]   (storage implementation for the platform type)
+     *  - Authentication Service []   (handle authentication for the api)
+     *  - Voice Room Manager     []   (keep track of ongoing voice calls)
+     *  - Command Module         []   (common framework to keep all commands as common-code regardless of platform)
+     *  - Media Module           []   (keep track of media and timings)
+     */
     private StateService stateService;
     private ServerService serverService;
     private TimeService timeService;
-    private CommandModule commandModule;
     private NetworkingService networkingService;
-
-    private MediaModule mediaModule;
+    private FlagSet flagSet;
     private ConfigurationInterface configurationInterface;
     private AuthenticationService authenticationService;
     private VoiceRoomManager voiceRoomManager;
+    private CommandModule commandModule;
+    private MediaModule mediaModule;
 
-    @Getter private static OpenAudioMcCore instance;
+    @Getter private static OpenAudioMc instance;
 
     @Getter private static final OpenAudioApi api = new OpenAudioApi();
     @Getter private static final String LOG_PREFIX = "[OpenAudioMc-Log] ";
@@ -50,7 +81,7 @@ public class OpenAudioMcCore {
     // The platform, easy for detecting what should be enabled and what not ya know
     private Platform platform;
 
-    public OpenAudioMcCore(Platform platform) {
+    public OpenAudioMc(Platform platform) {
         instance = this;
         this.platform = platform;
 
@@ -65,6 +96,7 @@ public class OpenAudioMcCore {
         }
 
         // enable stuff
+        this.flagSet = new FlagSet();
         this.authenticationService = new AuthenticationService();
         this.stateService = new StateService();
         this.timeService = new TimeService();

@@ -1,5 +1,5 @@
 package com.craftmend.openaudiomc.generic.objects;
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.media.interfaces.UrlMutation;
 import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.client.objects.Session;
@@ -25,7 +25,7 @@ public class OpenAudioApi {
      * @return instance of ClientConnection
      */
     public ClientConnection getClient(UUID uuid) {
-        return OpenAudioMcCore.getInstance().getNetworkingService().getClient(uuid);
+        return OpenAudioMc.getInstance().getNetworkingService().getClient(uuid);
     }
 
     /**
@@ -36,7 +36,7 @@ public class OpenAudioApi {
      * @param urlMutation Your UrlMutation implementation
      */
     public void registerMutation(String host, UrlMutation urlMutation) {
-        OpenAudioMcCore.getInstance().getMediaModule().registerMutation(host, urlMutation);
+        OpenAudioMc.getInstance().getMediaModule().registerMutation(host, urlMutation);
     }
 
     /**
@@ -45,7 +45,7 @@ public class OpenAudioApi {
      * @param subCommand your sub command
      */
     public void registerAddonCommand(SubCommand subCommand) {
-        OpenAudioMcCore.getInstance().getCommandModule().registerSubCommand(subCommand);
+        OpenAudioMc.getInstance().getCommandModule().registerSubCommand(subCommand);
     }
 
     /**
@@ -56,7 +56,7 @@ public class OpenAudioApi {
      * @return A list of openaudiomc regions
      */
     public List<IRegion> getRegion(Location location) {
-        if (OpenAudioMcCore.getInstance().getPlatform() == Platform.BUNGEE) throw new IllegalStateException("Region modification is only for spigot plugins");
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) throw new IllegalStateException("Region modification is only for spigot plugins");
         if (OpenAudioMcSpigot.getInstance().getRegionModule() == null) return new ArrayList<>();
         return OpenAudioMcSpigot.getInstance().getRegionModule().getRegionAdapter().getAudioRegions(location);
     }
@@ -69,7 +69,7 @@ public class OpenAudioApi {
      * @return Speaker
      */
     public Speaker getSpeaker(Location location) {
-        if (OpenAudioMcCore.getInstance().getPlatform() == Platform.BUNGEE) throw new IllegalStateException("Speaker modification is only for spigot plugins");
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) throw new IllegalStateException("Speaker modification is only for spigot plugins");
         return OpenAudioMcSpigot.getInstance().getSpeakerModule().getSpeaker(new MappedLocation(location));
     }
 

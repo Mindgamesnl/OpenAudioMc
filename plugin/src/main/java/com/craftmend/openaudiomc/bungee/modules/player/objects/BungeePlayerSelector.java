@@ -1,17 +1,13 @@
 package com.craftmend.openaudiomc.bungee.modules.player.objects;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import lombok.AllArgsConstructor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public class BungeePlayerSelector {
@@ -47,7 +43,7 @@ public class BungeePlayerSelector {
             else {
                 String serverName = serverName(commandSender);
                 if (serverName == null) {
-                    commandSender.sendMessage(OpenAudioMcCore.getLOG_PREFIX() + "Only players can play sounds for their entire server. If you want a sound that can be heard across all servers, please use @a[global=true]");
+                    commandSender.sendMessage(OpenAudioMc.getLOG_PREFIX() + "Only players can play sounds for their entire server. If you want a sound that can be heard across all servers, please use @a[global=true]");
                     return new ArrayList<>();
                 }
             }
@@ -57,7 +53,7 @@ public class BungeePlayerSelector {
             if (proxiedPlayer != null) players.add(proxiedPlayer);
         } else {
             //you fucked it
-            commandSender.sendMessage(OpenAudioMcCore.getLOG_PREFIX() + "Invalid player query. Try something like @a, @a[server=lobby], username or other arguments.");
+            commandSender.sendMessage(OpenAudioMc.getLOG_PREFIX() + "Invalid player query. Try something like @a, @a[server=lobby], username or other arguments.");
         }
         return players;
     }

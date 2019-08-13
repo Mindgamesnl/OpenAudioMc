@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
@@ -21,8 +21,8 @@ public class StateSubCommand extends SubCommand {
     @Override
     public void onExecute(GenericExecutor sender, String[] args) {
         message(sender, ChatColor.YELLOW + "State: " + ChatColor.GRAY + "Usefull session info");
-        message(sender, ChatColor.YELLOW + "State: " + ChatColor.AQUA + OpenAudioMcCore.getInstance().getStateService().getCurrentState().getClass().getSimpleName());
-        message(sender, ChatColor.YELLOW + "State Info: " + ChatColor.AQUA + OpenAudioMcCore.getInstance().getStateService().getCurrentState().getDescription());
+        message(sender, ChatColor.YELLOW + "State: " + ChatColor.AQUA + OpenAudioMc.getInstance().getStateService().getCurrentState().getClass().getSimpleName());
+        message(sender, ChatColor.YELLOW + "State Info: " + ChatColor.AQUA + OpenAudioMc.getInstance().getStateService().getCurrentState().getDescription());
 
         int clients = 0;
         for (SpigotConnection spigotConnection : OpenAudioMcSpigot.getInstance().getPlayerModule().getClients()) {
@@ -37,8 +37,8 @@ public class StateSubCommand extends SubCommand {
         }
         message(sender, ChatColor.YELLOW + "Loaded Speakers: " + ChatColor.AQUA + "" + OpenAudioMcSpigot.getInstance().getSpeakerModule().getSpeakerMap().size());
         message(sender, ChatColor.YELLOW + "Detected Version: " + ChatColor.AQUA + "" + OpenAudioMcSpigot.getInstance().getServerService().getVersion());
-        message(sender, ChatColor.YELLOW + "OpenAudioMc Provider: " + ChatColor.AQUA + "" + OpenAudioMcCore.getInstance().getPlatform());
-        message(sender, ChatColor.YELLOW + "Time Offset: " + ChatColor.AQUA + "" + OpenAudioMcCore.getInstance().getTimeService().getOffset());
-        message(sender, ChatColor.YELLOW + "Lat time update: " + ChatColor.AQUA + "" + Duration.between(OpenAudioMcCore.getInstance().getTimeService().getLastUpdated(), Instant.now()).getSeconds() + " seconds ago");
+        message(sender, ChatColor.YELLOW + "OpenAudioMc Provider: " + ChatColor.AQUA + "" + OpenAudioMc.getInstance().getPlatform());
+        message(sender, ChatColor.YELLOW + "Time Offset: " + ChatColor.AQUA + "" + OpenAudioMc.getInstance().getTimeService().getOffset());
+        message(sender, ChatColor.YELLOW + "Lat time update: " + ChatColor.AQUA + "" + Duration.between(OpenAudioMc.getInstance().getTimeService().getLastUpdated(), Instant.now()).getSeconds() + " seconds ago");
     }
 }
