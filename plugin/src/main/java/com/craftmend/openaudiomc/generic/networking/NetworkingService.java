@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.networking;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.enums.PacketChannel;
 import com.craftmend.openaudiomc.generic.networking.handlers.ClientConnectHandler;
@@ -37,7 +37,7 @@ public class NetworkingService {
         try {
             socketIoConnector = new SocketIoConnector();
         } catch (Exception e) {
-            System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "The plugin could not start because of a connection problem when requesting the initial private key. Please contact the developers of this plugin.");
+            System.out.println(OpenAudioMc.getLOG_PREFIX() + "The plugin could not start because of a connection problem when requesting the initial private key. Please contact the developers of this plugin.");
             e.printStackTrace();
         }
     }
@@ -69,7 +69,7 @@ public class NetworkingService {
      */
     public void triggerPacket(AbstractPacket abstractPacket) {
         if (packetHandlerMap.get(abstractPacket.getPacketChannel()) == null) {
-            System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Unknown handler for packet type " + abstractPacket.getClass().getName());
+            System.out.println(OpenAudioMc.getLOG_PREFIX() + "Unknown handler for packet type " + abstractPacket.getClass().getName());
             return;
         }
         packetHandlerMap.get(abstractPacket.getPacketChannel()).trigger(abstractPacket);
@@ -107,7 +107,7 @@ public class NetworkingService {
         if (clientMap.containsKey(player)) {
             ClientConnection client = clientMap.get(player);
             client.kick();
-            OpenAudioMcCore.getInstance().getVoiceRoomManager().removePlayer(client);
+            OpenAudioMc.getInstance().getVoiceRoomManager().removePlayer(client);
             clientMap.remove(player);
         }
     }

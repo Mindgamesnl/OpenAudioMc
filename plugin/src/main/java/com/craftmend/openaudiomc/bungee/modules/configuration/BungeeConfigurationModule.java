@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.bungee.modules.configuration;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.generic.configuration.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.configuration.enums.StorageLocation;
@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -37,7 +36,7 @@ public class BungeeConfigurationModule implements ConfigurationInterface {
         dataConfig = getFile("data.yml");
         mainConfig = getFile("config.yml");
 
-        System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Starting configuration module");
+        System.out.println(OpenAudioMc.getLOG_PREFIX() + "Starting configuration module");
     }
 
     public void loadSettings() {

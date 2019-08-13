@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.configuration.objects;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.configuration.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
 import lombok.AllArgsConstructor;
@@ -27,7 +27,7 @@ public class ClientSettings {
      * @return ClientSettings
      */
     public ClientSettings load() {
-        ConfigurationInterface config = OpenAudioMcCore.getInstance().getConfigurationInterface();
+        ConfigurationInterface config = OpenAudioMc.getInstance().getConfigurationInterface();
         title = config.getString(StorageKey.SETTING_CLIENT_TITLE);
         background = config.getString(StorageKey.SETTING_CLIENT_BACKGROUND);
         welcomeMessage = config.getString(StorageKey.SETTING_CLIENT_WELCOME_TEXT);

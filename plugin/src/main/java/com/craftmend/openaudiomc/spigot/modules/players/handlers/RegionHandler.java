@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.players.handlers;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.interfaces.ITickableHandler;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
@@ -45,7 +45,7 @@ public class RegionHandler implements ITickableHandler {
 
             leftRegions.forEach(exited -> {
                 if (!containsRegion(takeOverMedia, exited)) {
-                    OpenAudioMcCore.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(exited.getMedia().getMediaId()));
+                    OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(exited.getMedia().getMediaId()));
                 }
             });
 

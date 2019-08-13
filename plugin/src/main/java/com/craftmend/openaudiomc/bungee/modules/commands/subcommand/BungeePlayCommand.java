@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.bungee.modules.commands.subcommand;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.modules.player.objects.BungeePlayerSelector;
 
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
@@ -16,9 +16,9 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class BungeePlayCommand extends SubCommand {
 
-    private OpenAudioMcCore openAudioMcCore;
+    private OpenAudioMc openAudioMc;
 
-    public BungeePlayCommand(OpenAudioMcCore openAudioMcCore) {
+    public BungeePlayCommand(OpenAudioMc openAudioMc) {
         super("play");
         registerArguments(
                 new Argument("<selector> <source>",
@@ -26,7 +26,7 @@ public class BungeePlayCommand extends SubCommand {
                 new Argument("<selector> <source> <options>",
                         "Plays a sound with configuration (like fade time, sync etc) for all players in a selection")
         );
-        this.openAudioMcCore = openAudioMcCore;
+        this.openAudioMc = openAudioMc;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class BungeePlayCommand extends SubCommand {
         if (args.length == 2) {
             Media media = new Media(args[1]);
             for (ProxiedPlayer player : new BungeePlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal())) {
-                ClientConnection clientConnection = openAudioMcCore.getNetworkingService().getClient(player.getUniqueId());
+                ClientConnection clientConnection = openAudioMc.getNetworkingService().getClient(player.getUniqueId());
                 clientConnection.sendMedia(media);
             }
             message(sender, "Media created.");
@@ -51,7 +51,7 @@ public class BungeePlayCommand extends SubCommand {
                 MediaOptions mediaOptions = new Gson().fromJson(args[2], MediaOptions.class);
                 Media media = new Media(args[1]).applySettings(mediaOptions);
                 for (ProxiedPlayer player : new BungeePlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal())) {
-                    ClientConnection clientConnection = openAudioMcCore.getNetworkingService().getClient(player.getUniqueId());
+                    ClientConnection clientConnection = openAudioMc.getNetworkingService().getClient(player.getUniqueId());
                     clientConnection.sendMedia(media);
                 }
                 message(sender, "Media and options created.");
@@ -64,7 +64,7 @@ public class BungeePlayCommand extends SubCommand {
     }
 
     private void sendHelp(GenericExecutor genericExecutor) {
-        OpenAudioMcCore.getInstance().getCommandModule().getSubCommand("help").onExecute(genericExecutor, new String[] {
+        OpenAudioMc.getInstance().getCommandModule().getSubCommand("help").onExecute(genericExecutor, new String[] {
                 getCommand()
         });;
     }

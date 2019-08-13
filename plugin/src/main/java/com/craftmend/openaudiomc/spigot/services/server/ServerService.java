@@ -1,7 +1,6 @@
 package com.craftmend.openaudiomc.spigot.services.server;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -39,7 +38,7 @@ public class ServerService {
             }
         }
 
-        System.out.println(OpenAudioMcCore.getLOG_PREFIX() + "Detected version type: " + version);
+        System.out.println(OpenAudioMc.getLOG_PREFIX() + "Detected version type: " + version);
     }
 
 }

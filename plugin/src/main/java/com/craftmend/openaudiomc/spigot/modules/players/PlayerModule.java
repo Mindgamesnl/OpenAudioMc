@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.players;
 
-import com.craftmend.openaudiomc.OpenAudioMcCore;
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.commands.ConnectCommand;
@@ -25,7 +25,7 @@ public class PlayerModule {
      * @param player registers the player
      */
     public void register(Player player) {
-        ClientConnection clientConnection = OpenAudioMcCore.getInstance().getNetworkingService().register(player);
+        ClientConnection clientConnection = OpenAudioMc.getInstance().getNetworkingService().register(player);
         spigotConnectionMap.put(player.getUniqueId(), new SpigotConnection(player, clientConnection));
     }
 
@@ -73,6 +73,6 @@ public class PlayerModule {
             spigotConnectionMap.remove(player.getUniqueId());
         }
 
-        OpenAudioMcCore.getInstance().getNetworkingService().remove(player.getUniqueId());
+        OpenAudioMc.getInstance().getNetworkingService().remove(player.getUniqueId());
     }
 }

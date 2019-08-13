@@ -8,7 +8,7 @@ after_failure:
   - ./send.sh failure $WEBHOOK_URL
 language: java
 jdk:
-  - oraclejdk8
+  - openjdk8
 script:
   - chmod +x pre-start-bc.sh
   - ./pre-start-bc.sh ohyesfuck $WEBHOOK_URL
