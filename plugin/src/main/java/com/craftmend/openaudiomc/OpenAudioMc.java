@@ -45,7 +45,7 @@ public class OpenAudioMc {
     /**
      * Services used by the core to run OpenAudioMc
      *
-     *      (SERVICE)                               (PURPOSE)
+     *           (SERVICE)                            (PURPOSE)
      * ===========================================================================
      *  - State Service          []   (responsible for tracking the current state)
      *  - Server Service         []   (used to probe and detect what it is running)
