@@ -69,7 +69,7 @@ public class CallSubCommand extends SubCommand {
 
             // now that we have that bullshit figured out, let's create the call! becasue FUCK we've been waiting for that
             try {
-                RoomPrototype roomPrototype = OpenAudioMc.getInstance().getVoiceRoomManager().createCall(players);
+                OpenAudioMc.getInstance().getVoiceRoomManager().createCall(players);
                 sender.sendMessage(commandModule.getCommandPrefix() + "Request send to create a room. The clients will receive a invite in a short while.");
             } catch (InvalidCallParameterException | RequestPendingException e) {
                 sender.sendMessage(commandModule.getCommandPrefix() + "Failed to create room! error: " + e.getMessage());
@@ -81,6 +81,6 @@ public class CallSubCommand extends SubCommand {
     private void sendHelp(GenericExecutor genericExecutor) {
         OpenAudioMc.getInstance().getCommandModule().getSubCommand("help").onExecute(genericExecutor, new String[] {
                 getCommand()
-        });;
+        });
     }
 }
