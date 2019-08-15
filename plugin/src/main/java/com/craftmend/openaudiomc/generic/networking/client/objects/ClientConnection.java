@@ -10,7 +10,6 @@ import com.craftmend.openaudiomc.generic.networking.packets.*;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.objects.HueState;
 import com.craftmend.openaudiomc.generic.objects.SerializedHueColor;
-import com.craftmend.openaudiomc.generic.scheduling.SyncDelayedTask;
 
 import lombok.Getter;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -82,8 +81,8 @@ public class ClientConnection {
         player.sendMessage(Platform.translateColors(connectedMessage));
         this.isConnected = true;
 
-        new SyncDelayedTask(20)
-                .setTask(() -> {
+        OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(
+                () -> {
                     ongoingMedia.forEach(this::sendMedia);
                     // check and send settings, if any
                     ClientSettings settings = new ClientSettings().load();
@@ -95,9 +94,9 @@ public class ClientConnection {
                     if (startSound != null && !startSound.equals("none")) {
                         sendMedia(new Media(startSound));
                     }
-                }).start();
-
-        connectHandlers.forEach(event -> event.run());
+                },
+                20
+        );
     }
 
     public void onDisconnect() {
@@ -163,9 +162,7 @@ public class ClientConnection {
             ongoingMedia.add(media);
 
             // stop after x seconds
-            new SyncDelayedTask(20 * media.getKeepTimeout())
-                    .setTask(() -> ongoingMedia.remove(media))
-                    .start();
+            OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(() -> ongoingMedia.remove(media), (20 * media.getKeepTimeout()));
         }
         if (isConnected)
             OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientCreateMedia(media));
