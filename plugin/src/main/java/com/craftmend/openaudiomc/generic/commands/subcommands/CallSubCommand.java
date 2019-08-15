@@ -13,6 +13,7 @@ import com.craftmend.openaudiomc.generic.voice.exception.RequestPendingException
 import com.craftmend.openaudiomc.generic.voice.objects.RoomPrototype;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -38,6 +39,11 @@ public class CallSubCommand extends SubCommand {
     public void onExecute(GenericExecutor sender, String[] args) {
         if (args.length == 0) {
             sendHelp(sender);
+            return;
+        }
+
+        if (OpenAudioMc.getInstance().getVoiceRoomManager().getMaxRoomSize() == -1) {
+            sender.sendMessage(ChatColor.RED + "Voice call's are only for partnered servers. Please see https://blog.openaudiomc.net/voice-and-partners for more information.");
             return;
         }
 

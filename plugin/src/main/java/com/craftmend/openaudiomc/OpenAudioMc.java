@@ -32,6 +32,7 @@ public class OpenAudioMc {
      *  -- NOTE --
      *
      * This is not the plugin of OpenAudioMc, this is the core.
+     * For the plugin, see /bungee and the /spigot packages.
      * The core manages all the services used to run OpenAudioMc clients of all types.
      * The core is not version or platform dependant, as long as it runs java.
      *
@@ -81,6 +82,12 @@ public class OpenAudioMc {
     // The platform, easy for detecting what should be enabled and what not ya know
     private Platform platform;
 
+
+    // IT WORKS
+    // i dont know how, but it works.
+    // you may try to make it into a nicer solution
+    // please update this as you work on it
+    // amount of hours wasted trying to fix this = 3
     public OpenAudioMc(Platform platform) {
         instance = this;
         this.platform = platform;
