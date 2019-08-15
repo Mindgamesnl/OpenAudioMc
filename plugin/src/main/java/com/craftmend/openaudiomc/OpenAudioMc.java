@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc;
 
+import com.craftmend.openaudiomc.bungee.modules.scheduling.BungeeTaskProvider;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.flags.FlagSet;
@@ -11,11 +12,13 @@ import com.craftmend.openaudiomc.generic.objects.OpenAudioApi;
 import com.craftmend.openaudiomc.generic.networking.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
 import com.craftmend.openaudiomc.generic.networking.addapter.AbstractPacketAdapter;
+import com.craftmend.openaudiomc.generic.scheduling.interfaces.ITaskProvider;
 import com.craftmend.openaudiomc.generic.voice.VoiceRoomManager;
 import com.craftmend.openaudiomc.generic.state.StateService;
 
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfigurationModule;
+import com.craftmend.openaudiomc.spigot.services.scheduling.SpigotTaskProvider;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
@@ -58,6 +61,7 @@ public class OpenAudioMc {
      *  - Voice Room Manager     []   (keep track of ongoing voice calls)
      *  - Command Module         []   (common framework to keep all commands as common-code regardless of platform)
      *  - Media Module           []   (keep track of media and timings)
+     *  - Task Provider          []   (create and register tasks regardless of platform)
      */
     private StateService stateService;
     private ServerService serverService;
@@ -69,6 +73,7 @@ public class OpenAudioMc {
     private VoiceRoomManager voiceRoomManager;
     private CommandModule commandModule;
     private MediaModule mediaModule;
+    private ITaskProvider taskProvider;
 
     @Getter private static OpenAudioMc instance;
 
@@ -97,9 +102,11 @@ public class OpenAudioMc {
             this.serverService = new ServerService();
             this.configurationInterface = new SpigotConfigurationModule(OpenAudioMcSpigot.getInstance());
             this.configurationInterface.loadSettings();
+            this.taskProvider = new SpigotTaskProvider();
         } else {
             this.configurationInterface = new BungeeConfigurationModule((OpenAudioMcBungee.getInstance()));
             this.configurationInterface.loadSettings();
+            this.taskProvider = new BungeeTaskProvider();
         }
 
         // enable stuff
