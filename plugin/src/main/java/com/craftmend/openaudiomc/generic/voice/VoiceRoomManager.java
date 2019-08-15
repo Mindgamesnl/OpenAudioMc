@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.generic.voice;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.flags.FlagSet;
+import com.craftmend.openaudiomc.generic.flags.enums.Flag;
 import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.voice.exception.InvalidCallParameterException;
 import com.craftmend.openaudiomc.generic.voice.exception.RequestPendingException;
@@ -10,6 +12,7 @@ import com.craftmend.openaudiomc.generic.voice.packets.MemberLeftRoomPacket;
 import com.craftmend.openaudiomc.generic.voice.packets.RoomClosedPacket;
 import com.craftmend.openaudiomc.generic.voice.packets.RoomCreatedPacket;
 import com.craftmend.openaudiomc.generic.voice.packets.subtypes.RoomMember;
+import com.sun.org.apache.regexp.internal.RE;
 
 import java.util.*;
 
@@ -29,8 +32,9 @@ public class VoiceRoomManager {
         List<ClientConnection> members = new ArrayList<>();
         List<ClientConnection> deniedMembers = new ArrayList<>();
 
-        // check if the suggestion is not more than 16 members
-        if (suggestedMembers.size() > 16) throw new InvalidCallParameterException("Call can't have more than 16 members.");
+        // check if the suggestion is not more than the max members members
+        if (getMaxRoomSize() == -1) throw new IllegalStateException("Voice calls are not enabled for this server");
+        if (suggestedMembers.size() > getMaxRoomSize()) throw new InvalidCallParameterException("Call can't have more than " + getMaxRoomSize() + " members.");
 
         // check for all the suggested members if they already have a call or not.
         // if they do, deny them
@@ -127,6 +131,16 @@ public class VoiceRoomManager {
                 room.getMembers().remove(member);
             }
         }
+    }
+
+    public int getMaxRoomSize() {
+        FlagSet set = OpenAudioMc.getInstance().getFlagSet();
+
+        if (set.hasFlag(Flag.VOICE_CHAT_2)) return 2;
+        if (set.hasFlag(Flag.VOICE_CHAT_8)) return 8;
+        if (set.hasFlag(Flag.VOICE_CHAT_16)) return 16;
+
+        return -1;
     }
 
 }
