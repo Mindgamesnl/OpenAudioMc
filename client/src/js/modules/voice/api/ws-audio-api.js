@@ -21,7 +21,7 @@ export function initAudioCodec(global) {
             channels: 1,
             app: 2048,
             frameDuration: 40,
-            bufferSize: 4096
+            bufferSize: 2096
         }
     };
 
