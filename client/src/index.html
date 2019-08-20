@@ -14,10 +14,25 @@
 
     <title>OpenAudioMc</title>
 </head>
-<body id="page">
+<body id="page" class="dark-bg">
 <div id="call-controll-area" class="call-control-left"></div>
 <div id="alert-area-left" class="alert-area-left"></div>
 <div id="alert-area" class="alert-area"></div>
+
+
+<div class="call-modal" id="call-modal" style="display: none">
+    <div class="modal-inner">
+        <div class="modal-top"><b>Incoming call!</b><br/>
+            <h4 id="call-modal-text">You have a incoming call with <i>a6d and Fallen</i></h4>
+        </div>
+        <div class="modal-bottom">
+            <a class="modal-btn accept-button" id="call-accept-button">Accept</a><a class="modal-btn deny-button" id="call-deny-button">Deny</a><br />
+            <label style="color: gray"><input type="checkbox" id="auto-join-call-or-not">Automatically join next calls this sesssion</label>
+        </div>
+    </div>
+</div>
+<div class="overlay" id="modal-overlay" style="display: none"></div>
+
 <div class="panel panel-small blurrOut" id="welcome">
     <div class="panel-content">
         <div>

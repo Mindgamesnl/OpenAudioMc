@@ -1,6 +1,4 @@
-import {AlertBox} from "../../ui/Notification";
-
-export class AcceptCallNotification extends AlertBox {
+export class AcceptCallNotification {
 
     constructor(main, members, onAccept, onDeny) {
         let names = [];
@@ -8,24 +6,18 @@ export class AcceptCallNotification extends AlertBox {
             if (member != main.tokenSet.name) names.push(member);
         });
 
-        super('#alert-area', {
-            closeTime: 60000,
-            persistent: false,
-            hideCloseButton: true,
-        });
-
         main.notificationModule.sendNotification("Incoming call!", "Please see your web client for more information, and to accept or deny.");
 
         let readableNames = names.join(', ').replace(/,(?=[^,]*$)/, ' and');
 
-        this.show('You have a incoming call with ' + readableNames + '.<br />' +
-            '<div style="text-align: center;"><a id="call-accept-button" style="background: limegreen" class="alert-message-button">Accept Call</a><a style="background: red" id="call-deny-button" class="alert-message-button">Deny Call</a></div>' +
-            '<br /><hr /><label class="container"><input type="checkbox" id="auto-join-call-or-not">Automatically join future calls this sesssion</label>');
+        document.getElementById("call-modal-text").innerText = 'You have a incoming call with ' + readableNames;
+            document.getElementById('call-modal').style.display = '';
+        document.getElementById('modal-overlay').style.display = '';
 
-        let ignored = false;
+        this.ignored = false;
 
         document.getElementById('call-accept-button').onclick = () => {
-            ignored = true;
+            this.ignored = true;
             this.hide(this);
             new AlertBox('#alert-area', {
                 closeTime: 1500,
@@ -43,13 +35,13 @@ export class AcceptCallNotification extends AlertBox {
         };
 
         if (Cookies.get('auto-join-call') === "true") {
-            ignored = true;
+            this.ignored = true;
             document.getElementById('call-accept-button').click();
         }
 
         let ignoreCallFunction = () => {
-            if (ignored) return;
-            ignored = true;
+            if (this.ignored) return;
+            this.ignored = true;
             this.hide(this);
             new AlertBox('#alert-area', {
                 closeTime: 1500,
@@ -62,6 +54,11 @@ export class AcceptCallNotification extends AlertBox {
         this.onTimeout = ignoreCallFunction;
 
         document.getElementById('call-deny-button').onclick = ignoreCallFunction;
+    }
+
+    hide() {
+        document.getElementById('call-modal').style.display = 'none';
+        document.getElementById('modal-overlay').style.display = 'none';
     }
 
 }
