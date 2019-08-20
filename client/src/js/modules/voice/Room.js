@@ -94,8 +94,6 @@ export class Room {
                         this.main.voiceModule.clearCall();
                     } else {
                         // fuck
-                        console.log(json)
-                        this.leaveErrorhandler('denied request');
                     }
                 }).catch((e) => {
                     console.error(e.stack);
