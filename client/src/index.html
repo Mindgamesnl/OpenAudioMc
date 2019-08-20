@@ -9,8 +9,8 @@
     <script src="libs/libopus.js"></script>
     <script src="libs/js.cookie.js"></script>
 
-    <link rel="icon" href="assets/logo.png" />
-    <link rel="image" href="assets/logo.png" />
+    <link rel="icon" href="assets/logo.png"/>
+    <link rel="image" href="assets/logo.png"/>
 
     <title>OpenAudioMc</title>
 </head>
@@ -26,8 +26,10 @@
             <h4 id="call-modal-text">You have a incoming call with <i>a6d and Fallen</i></h4>
         </div>
         <div class="modal-bottom">
-            <a class="modal-btn accept-button" id="call-accept-button">Accept</a><a class="modal-btn deny-button" id="call-deny-button">Deny</a><br />
-            <label style="color: gray"><input type="checkbox" id="auto-join-call-or-not">Automatically join next calls this sesssion</label>
+            <a class="modal-btn accept-button" id="call-accept-button">Accept</a><a class="modal-btn deny-button"
+                                                                                    id="call-deny-button">Deny</a><br/>
+            <label style="color: gray"><input type="checkbox" id="auto-join-call-or-not">Automatically join next calls
+                this sesssion</label>
         </div>
     </div>
 </div>
@@ -47,16 +49,23 @@
 <div class="panel home-panel" id="app" style="display: none;">
     <div class="panel-content">
         <div>
-            <p class="blurIn home">
-                <span class="volume-display" id="volume-disp">50% </span>
-                <label id="volume-label">
-                    <input type="range" id="volume-slider"
-                           name="volume" min="0"
-                           max="100" value="50"/>
-                </label>
-                <br/><br/>
-                <span id="status-message"></span>
-            </p>
+            <div class="blurIn home">
+                <div class="volume-section">
+                    <div style="text-align: center;">
+                        <span class="volume-display" id="volume-disp">50% </span>
+                    </div>
+                </div>
+                <div class="volume-control">
+                        <label id="volume-label">
+                            <input type="range" id="volume-slider"
+                                   name="volume" min="0"
+                                   max="100" value="50"/>
+                        </label>
+                </div>
+                <p>
+                    <span id="status-message"></span>
+                </p>
+            </div>
         </div>
     </div>
     <p class="hueFooter blurIn"
