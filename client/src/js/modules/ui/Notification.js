@@ -5,7 +5,7 @@ export class AlertBox {
         this.onTimeout = null;
     }
 
-    show(msg) {
+    show(msg, isHtml = false) {
         if (msg === ''  || typeof msg === 'undefined' || msg === null) {
             throw '"msg parameter is empty"';
         }
@@ -16,7 +16,11 @@ export class AlertBox {
             this.alertClose = document.createElement('A');
             this.alertClass = this;
             this.alertContent.classList.add('alert-content');
-            this.alertContent.innerHTML = "<p>" + msg + "</p>";
+            if (isHtml) {
+                this.alertContent.innerHTML = msg;
+            } else {
+                this.alertContent.innerHTML = "<p>" + msg + "</p>";
+            }
             this.alertClose.classList.add('alert-close');
             this.alertClose.setAttribute('href', '#');
             this.alertBox.classList.add('alert-box');

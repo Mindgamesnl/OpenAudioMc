@@ -15,7 +15,7 @@ public enum Flag {
     }
 
     public static Flag getByBackendTag(String flag) {
-        for (Flag value : values()) if (value.getTag().equals(flag)) return value;
+        for (Flag value : values()) if (value.getTag().equals(flag) || value.name().equals(flag)) return value;
         return null;
     }
 }

@@ -67,8 +67,8 @@ export class RequestMicrophonePermissions extends AlertBox {
                     // if default, set it!
                     if (Cookies.get('default-mic') != null) {
                         let select = document.getElementById('select-mic-dropdown');
-                        for(var i = 0;i < select.options.length;i++){
-                            if(select.options[i].innerText == Cookies.get('default-mic')){
+                        for(let i = 0; i < select.options.length; i++){
+                            if(select.options[i].innerText === Cookies.get('default-mic')){
                                 select.options[i].selected = true;
                             }
                         }

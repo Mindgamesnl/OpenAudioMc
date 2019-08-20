@@ -14,19 +14,13 @@ export class Room {
 
         this.isUnsubscribing = false;
 
-        new AlertBox('#alert-area-left', {
+        new AlertBox('#call-members', {
             closeTime: 500,
             persistent: false,
             hideCloseButton: true,
         }).show('Loading call..');
 
-        this.inCallBanner = new AlertBox('#call-controll-area', {
-            closeTime: 500,
-            persistent: true,
-            hideCloseButton: true,
-        });
-
-        this.inCallBanner.show('<div style="text-align: center;">You are currently in a call<hr /><a id="leave-call-button" class="alert-message-button">Leave Call</a><a class="alert-message-button" id="mute-microphone">Mute Microphone</a></div>');
+        document.getElementById("call-control-box").style.display = "";
 
         document.getElementById('leave-call-button').onclick = () => {
             this.unsubscribe();
@@ -73,7 +67,6 @@ export class Room {
     unsubscribe() {
         if (this.isUnsubscribing) return;
         this.isUnsubscribing = true;
-        let banner = this.inCallBanner;
 
         new AlertBox('#alert-area', {
             closeTime: 1500,
@@ -90,7 +83,7 @@ export class Room {
                         this.roomMembers.forEach((member) => {
                             this.handleMemberLeaving(member.uuid);
                         });
-                        banner.hide();
+                        document.getElementById("call-control-box").style.display = "none";
                         this.main.voiceModule.clearCall();
                     } else {
                         // fuck

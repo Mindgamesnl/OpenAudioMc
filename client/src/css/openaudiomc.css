@@ -24,9 +24,12 @@ body {
 }
 
 img {
-    position: absolute;
     z-index: 1;
     cursor: pointer;
+}
+
+p {
+    font-family: "Open Sans";
 }
 
 .call-settings-main {
@@ -38,20 +41,33 @@ img {
 }
 
 .call-settings-panel {
-    width: 100%;
     background: #1D1F20;
     border-radius: 10px;
 }
 
 .call-buttons {
-    width: 15%;
     background: #00B0FF;
     border-top-left-radius: inherit;
-    border-bottom-left-radius: inherit;
+    border-top-right-radius: inherit;
 }
 
 .call-option-button {
     color: white !important;
+}
+
+#call-members * {
+    width: 100px;
+    display: inline-block;
+}
+
+#call-members .alert-box {
+    background-image: none;
+    padding-top: 2px;
+}
+
+.call-member-list {
+    width: 100%;
+    display: inline-table;
 }
 
 .panel {
@@ -480,13 +496,12 @@ footer a {
 }
 
 .call-box {
-    /* Add the blur effect */
-    filter: blur(14px);
-    -webkit-filter: blur(14px);
-
     /* Full height */
-    height: 40px;
+    height: 100px;
     width: 100px;
+
+    border-radius: 20px;
+    border: solid white 2px;
 
     /* Center and scale the image nicely */
     background-position: center;
@@ -496,9 +511,8 @@ footer a {
 
 .call-content {
     width: 100%;
-    position: absolute;
     top: 10px;
-    left: 0%;
+    color: white;
 }
 
 .footer-welcome {
@@ -512,6 +526,7 @@ footer a {
     right: 15px;
     bottom: 10px;
     border-radius: 5px;
+    position: absolute;
     height: 60px;
     width: 60px;
     border: 8px;
