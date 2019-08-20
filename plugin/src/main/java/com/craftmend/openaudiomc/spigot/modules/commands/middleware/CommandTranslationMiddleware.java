@@ -10,6 +10,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerCommandEvent;
 
+import java.util.regex.Pattern;
+
 @AllArgsConstructor
 public class CommandTranslationMiddleware implements Listener {
 
@@ -40,7 +42,7 @@ public class CommandTranslationMiddleware implements Listener {
         // prepare the command with %%player%% as placeholder
         String commandPreset = event.getCommand();
         if (commandPreset.charAt(0) == '/') commandPreset = commandPreset.replace("/", "");
-        commandPreset = commandPreset.replaceAll(selector, "%%player%%");
+        commandPreset = commandPreset.replaceAll(Pattern.quote(selector), "%%player%%");
 
         // process the selector, build a new command and re-run
         for (Player player : new SpigotPlayerSelector(selector).getPlayers(event.getSender())) {
