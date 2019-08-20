@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.configuration.enums;
+package com.craftmend.openaudiomc.generic.storage.enums;
 
 import lombok.Getter;
 

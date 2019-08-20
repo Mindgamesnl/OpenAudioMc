@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.regions.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.configuration.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.media.enums.MediaFlag;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 

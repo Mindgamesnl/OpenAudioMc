@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.interfaces;
 
-import com.craftmend.openaudiomc.generic.configuration.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.configuration.enums.StorageLocation;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 
 import java.util.Set;
 
