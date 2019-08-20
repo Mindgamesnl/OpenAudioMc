@@ -6,7 +6,7 @@ messages:
   client-volume-invalid: '&4You must enter a number between 0 and 100'
   client-not-connected: '&4You need to be connected to the web client to be able to do that'
   client-already-connected: '&4You are already connected to the web client'
-  api-starting-up: '&3The connection is still beeing set up. Please try again in a few seconds.'
+  api-starting-up: '&3The connection is still setting up. Please try again in a few seconds.'
 
 options:
   send-on-join: true

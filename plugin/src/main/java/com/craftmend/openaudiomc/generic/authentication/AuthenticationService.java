@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.authentication;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.configuration.enums.StorageLocation;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
 import com.craftmend.openaudiomc.generic.configuration.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.authentication.objects.Key;
@@ -18,10 +19,20 @@ public class AuthenticationService {
     @Getter private ServerKeySet serverKeySet = new ServerKeySet();
     @Getter private Boolean isSuccesfull = false;
     @Getter private String failureMessage = ChatColor.RED + "Oh no, it looks like the initial setup of OpenAudioMc has failed. Please try to restart the server and try again, if that still does not work, please contact OpenAudioMc staff or support.";
+    private final int keyVersion = 2;
 
     public AuthenticationService() {
         System.out.println(OpenAudioMc.getLOG_PREFIX() + "Starting authentication module");
         loadData();
+    }
+
+    /**
+     * version of the authentication version that's currently stored
+     * @return version
+     */
+    public int getAuthVersion() {
+        int version = OpenAudioMc.getInstance().getConfigurationInterface().getInt(StorageKey.AUTH_KEY_VERSION);
+        return version == -1 ? 1 : version;
     }
 
     /**
@@ -31,7 +42,7 @@ public class AuthenticationService {
     private void loadData() {
         ConfigurationInterface spigotConfigurationModule = OpenAudioMc.getInstance().getConfigurationInterface();
 
-        if (spigotConfigurationModule.getString(StorageKey.AUTH_PRIVATE_KEY).equals("not-set")) {
+        if (spigotConfigurationModule.getString(StorageKey.AUTH_PRIVATE_KEY).equals("not-set") || getAuthVersion() != keyVersion) {
             //setup process
             try {
                 GenericApiResponse genericApiResponse = new RestRequest("/signup").execute();
@@ -41,6 +52,7 @@ public class AuthenticationService {
                     serverKeySet.setPublicKey(new Key(genericApiResponse.getData().get(0).getPublicKey()));
                     spigotConfigurationModule.setString(StorageKey.AUTH_PRIVATE_KEY, serverKeySet.getPrivateKey().getValue());
                     spigotConfigurationModule.setString(StorageKey.AUTH_PUBLIC_KEY, serverKeySet.getPublicKey().getValue());
+                    spigotConfigurationModule.setInt(StorageLocation.DATA_FILE, StorageKey.AUTH_KEY_VERSION.getPath(), keyVersion);
                     isSuccesfull = true;
                 } else {
                     System.out.println(OpenAudioMc.getLOG_PREFIX() + "Failed to request token.");
