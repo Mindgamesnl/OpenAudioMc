@@ -15,9 +15,9 @@ options:
   speaker-radius: 10
   sync-speakers: true
   sync-regions: true
-  start-sound: none
 
 client:
+  start-sound: none
   title: default
   background: default
   welcome-message: default
