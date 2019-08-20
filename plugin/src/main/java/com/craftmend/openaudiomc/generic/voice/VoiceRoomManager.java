@@ -14,7 +14,6 @@ import com.craftmend.openaudiomc.generic.voice.packets.MemberLeftRoomPacket;
 import com.craftmend.openaudiomc.generic.voice.packets.RoomClosedPacket;
 import com.craftmend.openaudiomc.generic.voice.packets.RoomCreatedPacket;
 import com.craftmend.openaudiomc.generic.voice.packets.subtypes.RoomMember;
-import com.sun.org.apache.regexp.internal.RE;
 
 import java.util.*;
 
