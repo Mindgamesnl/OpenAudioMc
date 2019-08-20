@@ -1,8 +1,8 @@
 package com.craftmend.openaudiomc.generic.networking.client.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.configuration.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.configuration.objects.ClientSettings;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.storage.objects.ClientSettings;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.networking.client.interfaces.PlayerContainer;

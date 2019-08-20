@@ -2,9 +2,9 @@ package com.craftmend.openaudiomc.bungee.modules.configuration;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
-import com.craftmend.openaudiomc.generic.configuration.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.configuration.enums.StorageLocation;
-import com.craftmend.openaudiomc.generic.configuration.objects.ClientSettings;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
+import com.craftmend.openaudiomc.generic.storage.objects.ClientSettings;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
 import lombok.Getter;
 import net.md_5.bungee.config.Configuration;
