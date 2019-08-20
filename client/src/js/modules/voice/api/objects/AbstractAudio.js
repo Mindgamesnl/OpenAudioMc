@@ -1,3 +1,9 @@
+let staticAdudioContext = null;
+
+export function initAudioContext() {
+    staticAdudioContext = new (window.AudioContext || window.webkitAudioContext)();
+}
+
 export class AbstractAudio {
 
     constructor() {
@@ -11,8 +17,6 @@ export class AbstractAudio {
             }
         };
 
-        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        this.audioContext = staticAdudioContext;
     }
-
-
 }
