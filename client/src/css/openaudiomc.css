@@ -507,6 +507,11 @@ footer a {
 
 .volume-display {
     font-size: 4rem;
+    background: #00B0FF;
+    border-radius: 80px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
 }
 
 .loader {
