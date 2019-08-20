@@ -29,6 +29,31 @@ img {
     cursor: pointer;
 }
 
+.call-settings-main {
+    padding-right: 5%;
+    padding-left: 5%;
+    width: 90%;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.call-settings-panel {
+    width: 100%;
+    background: #1D1F20;
+    border-radius: 10px;
+}
+
+.call-buttons {
+    width: 15%;
+    background: #00B0FF;
+    border-top-left-radius: inherit;
+    border-bottom-left-radius: inherit;
+}
+
+.call-option-button {
+    color: white !important;
+}
+
 .panel {
     border-radius: 5px;
     width: 30%;
