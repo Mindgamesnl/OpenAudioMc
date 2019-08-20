@@ -15,6 +15,7 @@ import {AlertBox} from "./modules/ui/Notification";
 import {VoiceModule} from "./modules/voice/VoiceModule";
 import {NotificationModule} from "./modules/notifications/NotificationModule";
 import ClientTokenSet from "./helpers/ClientTokenSet";
+import {initAudioContext} from "./modules/voice/api/objects/AbstractAudio";
 
 export class OpenAudioMc extends Getters {
 
@@ -33,7 +34,7 @@ export class OpenAudioMc extends Getters {
         this.userInterfaceModule.setMessage("Loading proxy..");
 
         //initialize audio encoding
-        initAudioCodec(window);
+        initAudioContext()
 
         this.voiceModule = new VoiceModule(this);
 
