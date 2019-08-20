@@ -6,6 +6,8 @@ messages:
   client-volume-invalid: '&4You must enter a number between 0 and 100'
   client-not-connected: '&4You need to be connected to the web client to be able to do that'
   client-already-connected: '&4You are already connected to the web client'
+  call-ringing: '&2You have a pending voice call! please check your web client to answer'
+  call-left: '&4Your current voice call got ended. You can now talk to yourself in peace again.'
   api-starting-up: '&3The connection is still setting up. Please try again in a few seconds.'
 
 options:

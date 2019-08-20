@@ -4,6 +4,8 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.flags.FlagSet;
 import com.craftmend.openaudiomc.generic.flags.enums.Flag;
 import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
+import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.voice.exception.InvalidCallParameterException;
 import com.craftmend.openaudiomc.generic.voice.exception.RequestPendingException;
 import com.craftmend.openaudiomc.generic.voice.objects.Room;
@@ -82,7 +84,9 @@ public class VoiceRoomManager {
         for (RoomMember member : packet.getMembers()) {
             ClientConnection clientConnection = OpenAudioMc.getInstance().getNetworkingService().getClient(member.getUuid());
             if (clientConnection != null) {
-                clientConnection.getPlayer().sendMessage("ring ring");
+                clientConnection.getPlayer().sendMessage(Platform.translateColors(Objects.requireNonNull(
+                        OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CALL_RINGING)
+                )));
             }
         }
     }
@@ -97,7 +101,9 @@ public class VoiceRoomManager {
         // TODO: send a message
         ClientConnection clientConnection = OpenAudioMc.getInstance().getNetworkingService().getClient(packet.getMember());
         if (clientConnection != null) {
-            clientConnection.getPlayer().sendMessage("left a call");
+            clientConnection.getPlayer().sendMessage(Platform.translateColors(Objects.requireNonNull(
+                    OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CALL_ENDED)
+            )));
         }
     }
 

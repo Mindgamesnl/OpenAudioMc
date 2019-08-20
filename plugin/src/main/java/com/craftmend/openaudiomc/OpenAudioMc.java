@@ -87,12 +87,6 @@ public class OpenAudioMc {
     // The platform, easy for detecting what should be enabled and what not ya know
     private Platform platform;
 
-
-    // IT WORKS
-    // i dont know how, but it works.
-    // you may try to make it into a nicer solution
-    // please update this as you work on it
-    // amount of hours wasted trying to fix this = 3
     public OpenAudioMc(Platform platform) {
         instance = this;
         this.platform = platform;
