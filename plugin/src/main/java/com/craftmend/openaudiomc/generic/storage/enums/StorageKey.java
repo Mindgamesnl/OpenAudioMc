@@ -11,6 +11,8 @@ public enum StorageKey {
     MESSAGE_CLIENT_VOLUME_INVALID("messages.client-volume-invalid", StorageLocation.CONFIG_FILE),
     MESSAGE_CLIENT_NOT_CONNECTED("messages.client-not-connected", StorageLocation.CONFIG_FILE),
     MESSAGE_CLIENT_ALREADY_CONNECTED("messages.client-already-connected", StorageLocation.CONFIG_FILE),
+    MESSAGE_CALL_RINGING("call-ringing", StorageLocation.CONFIG_FILE),
+    MESSAGE_CALL_ENDED("call-left", StorageLocation.CONFIG_FILE),
     MESSAGE_API_BOOTING("messages.api-starting-up", StorageLocation.CONFIG_FILE),
 
     SETTING_CLIENT_TITLE("client.title", StorageLocation.CONFIG_FILE),

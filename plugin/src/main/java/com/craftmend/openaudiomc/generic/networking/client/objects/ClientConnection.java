@@ -15,8 +15,6 @@ import lombok.Getter;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
-import org.bukkit.ChatColor;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -49,7 +47,7 @@ public class ClientConnection {
 
     public void publishUrl() {
         if (isConnected) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(
+            player.sendMessage(Platform.translateColors(Objects.requireNonNull(
                     OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_ALREADY_CONNECTED)
             )));
             return;
@@ -65,7 +63,7 @@ public class ClientConnection {
         String url = OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.AUTH_PUBLIC_URL) +
                 session.getToken();
 
-        TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(
+        TextComponent message = new TextComponent(Platform.translateColors(Objects.requireNonNull(
                 OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLICK_TO_CONNECT)
         )));
         message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));

@@ -57,7 +57,7 @@ public class SpigotConfigurationModule implements ConfigurationInterface {
                 return cachedConfigStrings.computeIfAbsent(storageKey, v -> mainConfig.getString(storageKey.getPath()));
 
             default:
-                return "no string";
+                return "<unknown openaudiomc value " + storageKey.getPath() + ">";
         }
     }
 
@@ -90,7 +90,7 @@ public class SpigotConfigurationModule implements ConfigurationInterface {
     public String getStringFromPath(String path, StorageLocation storageLocation) {
         Validate.isTrue(storageLocation == StorageLocation.DATA_FILE, "Getting strings from a config file with hardcoded paths is not allowed");
         String value = dataConfig.getString(path);
-        return value == null ? "" : value;
+        return value == null ? "<unknown openaudiomc value " + path + ">" : value;
     }
 
     /**
