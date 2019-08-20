@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Raleway:200');
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,300");
 
 body {
     vertical-align: middle;
@@ -7,9 +8,19 @@ body {
             rgba(98, 90, 238, 0.25)
     ),
     url(../assets/bg.png);
-    font-family: 'Roboto', serif;
+    font-family: 'Raleway';
     -webkit-background-size: cover;
     background-size: cover;
+}
+
+.blur {
+    filter: blur(7px);
+}
+
+.dark-bg {
+    background-position:-9999px;
+    background: #1D1F20;
+    transition: 2s;
 }
 
 img {
@@ -42,7 +53,7 @@ img {
 }
 
 .panel-small {
-    width: 30%;
+    width: 35%;
     height: 15%;
 }
 
@@ -88,7 +99,8 @@ img {
 }
 
 .home-panel {
-    height: 40%;
+    min-width: 34%;
+    height: 35%;
 }
 
 .home {
@@ -425,13 +437,15 @@ footer a {
     margin-top: 5px;
     cursor: pointer;
     outline: none;
-    transition: background 0.1s;
+    transition: 0.1s;
+    border-radius: 8px;
 }
 
 .alert-message-button:hover,
 .alert-message-button:focus,
 .alert-message-button:active {
     background: #7dd8ff;
+    border-radius: 2px;
 }
 .alert-message-button:disabled {
     background: rgba(125, 216, 255, 0.23) !important;
@@ -534,4 +548,140 @@ footer a {
 
 .pointer-event {
     pointer-events: none
+}
+
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.75);
+    height: 100%;
+    width: 100%;
+    z-index: 250;
+}
+
+.call-modal {
+    position: fixed;
+    left: 50%;
+    font-family: Open Sans;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    z-index: 500;
+}
+
+.modal-inner {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    border-radius: .5rem;
+}
+.modal-inner .modal-top {
+    background: #00B0FF;
+    color: #fff;
+    padding: 2rem;
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
+    text-align: center;
+}
+.modal-inner .modal-top b {
+    font-size: 2.25rem;
+    margin-bottom: .25rem;
+    display: block;
+}
+.modal-inner .modal-top h4 {
+    font-weight: 200;
+    margin-bottom: 0;
+}
+.modal-inner .modal-content {
+    position: relative;
+    background: #f5f5f5;
+    border-radius: 0;
+    border: 0;
+    padding: 2rem;
+    overflow: hidden;
+    display: none;
+}
+.modal-inner .modal-bottom {
+    background: rgb(30, 30, 33);
+    padding: 1rem;
+    text-align: center;
+    border: 1px solid transparent;
+    border-bottom-left-radius: .5rem;
+    border-bottom-right-radius: .5rem;
+}
+
+.modal-btn {
+    display: inline-block;
+    border: 1px solid white;
+    padding: .75rem 2.25rem;
+    border-radius: 5px;
+    color: white;
+    margin: .5rem;
+}
+.modal-btn:hover, .modal-btn:focus {
+    text-decoration: none;
+    color: #2196F3;
+}
+
+.register-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    padding: 2rem;
+    transition: 600ms ease;
+    -webkit-transform: translateX(25vw);
+    transform: translateX(25vw);
+}
+@media (max-width: 1600px) {
+    .register-slide {
+        -webkit-transform: translateX(100vw);
+        transform: translateX(100vw);
+    }
+}
+
+.active-register {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+}
+
+.login-form {
+    transition: 600ms ease;
+}
+
+.move-form {
+    -webkit-transform: translateX(-25vw);
+    transform: translateX(-25vw);
+}
+@media (max-width: 1600px) {
+    .move-form {
+        -webkit-transform: translateX(-100vw);
+        transform: translateX(-100vw);
+    }
+}
+
+.register-link {
+    position: relative;
+    left: 1rem;
+    top: 1px;
+}
+
+.close-register {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #999;
+}
+
+.close-register:hover, .close-register:focus {
+    color: #999;
+    text-decoration: none;
+}
+
+.accept-button {
+    border: 1px solid lime;
+}
+
+.deny-button {
+    border: 1px solid orangered;
 }
