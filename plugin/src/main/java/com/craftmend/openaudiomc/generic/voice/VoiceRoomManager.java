@@ -93,7 +93,7 @@ public class VoiceRoomManager {
     public void leaveCall(MemberLeftRoomPacket packet) {
         Room room = voiceRooms.get(packet.getRoomId());
         if (room == null) return;
-        room.getMembers().remove(packet.getMember());
+        room.getMembers().removeIf(member -> member.getUuid() == packet.getMember());
 
         // send a message?
         // send a message! :-)
