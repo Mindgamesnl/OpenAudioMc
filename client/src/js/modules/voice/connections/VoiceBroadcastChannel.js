@@ -1,4 +1,5 @@
 import {RequestMicrophonePermissions} from "../notifications/RequestMicrophonePermissions";
+import {Streamer} from "../api/Streamer";
 
 export class VoiceBroadcastChannel {
 
@@ -33,7 +34,7 @@ export class VoiceBroadcastChannel {
     }
 
     start() {
-        this.streamer = new WSAudioAPI.Streamer({
+        this.streamer = new Streamer({
             'micId': this.micId
         }, new WebSocket(this.room.voiceServer.ws
             + "/stream?room=" + this.room.roomId
