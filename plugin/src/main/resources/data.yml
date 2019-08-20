@@ -1,6 +1,7 @@
 regions:
 speakers:
 keyset:
+  key-version: 2
   private: not-set
   base-url: https://client.openaudiomc.net/?&data=
 debug:

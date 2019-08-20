@@ -32,6 +32,7 @@ public enum StorageKey {
     AUTH_PRIVATE_KEY("keyset.private", StorageLocation.DATA_FILE),
     AUTH_PUBLIC_KEY("keyset.public", StorageLocation.DATA_FILE),
     AUTH_PUBLIC_URL("keyset.base-url", StorageLocation.DATA_FILE),
+    AUTH_KEY_VERSION("keyset.key-version", StorageLocation.DATA_FILE),
     ;
 
     @Getter private String path;
