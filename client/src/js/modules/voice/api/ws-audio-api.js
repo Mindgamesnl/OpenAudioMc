@@ -15,7 +15,7 @@ require.context("/", true, /\.js$/);
 
 export function initAudioCodec(global) {
     setupXaudio();
-    var defaultConfig = {
+    let defaultConfig = {
         codec: {
             sampleRate: 24000,
             channels: 1,
@@ -25,9 +25,9 @@ export function initAudioCodec(global) {
         }
     };
 
-    var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    let audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
-    var WSAudioAPI = global.WSAudioAPI = {
+    let WSAudioAPI = global.WSAudioAPI = {
         Player: function (config, socket) {
             this.config = {};
             this.config.codec = this.config.codec || defaultConfig.codec;
@@ -48,7 +48,7 @@ export function initAudioCodec(global) {
             this.sampler = new Resampler(audioContext.sampleRate, this.config.codec.sampleRate, 1, this.config.codec.bufferSize);
             this.parentSocket = socket;
             this.encoder = new OpusEncoder(this.config.codec.sampleRate, this.config.codec.channels, this.config.codec.app, this.config.codec.frameDuration);
-            var _this = this;
+            let _this = this;
             this._makeStream = function (onError) {
                 navigator.getUserMedia({audio: config.micId}, (stream) => {
                     _this.stream = stream;
@@ -56,9 +56,9 @@ export function initAudioCodec(global) {
                     _this.gainNode = audioContext.createGain();
                     _this.recorder = audioContext.createScriptProcessor(_this.config.codec.bufferSize, 1, 1);
                     _this.recorder.onaudioprocess = function (e) {
-                        var resampled = _this.sampler.resampler(e.inputBuffer.getChannelData(0));
-                        var packets = _this.encoder.encode_float(resampled);
-                        for (var i = 0; i < packets.length; i++) {
+                        let resampled = _this.sampler.resampler(e.inputBuffer.getChannelData(0));
+                        let packets = _this.encoder.encode_float(resampled);
+                        for (let i = 0; i < packets.length; i++) {
                             if (_this.socket.readyState == 1) _this.socket.send(packets[i]);
                         }
                     };
@@ -71,7 +71,7 @@ export function initAudioCodec(global) {
     };
 
     WSAudioAPI.Streamer.prototype.start = function (onError) {
-        var _this = this;
+        let _this = this;
 
         this.socket = this.parentSocket;
         this.socket.binaryType = 'arraybuffer';
@@ -79,7 +79,7 @@ export function initAudioCodec(global) {
         if (this.socket.readyState == WebSocket.OPEN) {
             this._makeStream(onError);
         } else if (this.socket.readyState == WebSocket.CONNECTING) {
-            var _onopen = this.socket.onopen;
+            let _onopen = this.socket.onopen;
             this.socket.onopen = function () {
                 if (_onopen) {
                     _onopen();
@@ -90,7 +90,7 @@ export function initAudioCodec(global) {
             console.error('Socket is in CLOSED state');
         }
 
-        var _onclose = this.socket.onclose;
+        let _onclose = this.socket.onclose;
         this.socket.onclose = function () {
             if (_onclose) {
                 _onclose();
@@ -128,7 +128,7 @@ export function initAudioCodec(global) {
     };
 
     WSAudioAPI.Streamer.prototype.onError = function (e) {
-        var error = new Error(e.name);
+        let error = new Error(e.name);
         error.name = 'NavigatorUserMediaError';
         throw error;
     };
@@ -159,22 +159,26 @@ export function initAudioCodec(global) {
     };
 
     WSAudioAPI.Player.prototype.start = function () {
-        var _this = this;
+        let _this = this;
 
         this.audioQueue = {
             buffer: new Float32Array(0),
 
             write: function (newAudio) {
-                var currentQLength = this.buffer.length;
+                if (this.length() > 5000) {
+                    console.log("Too much delay. Clearing buffer");
+                    this.buffer = new Float32Array(0);
+                }
+                let currentQLength = this.buffer.length;
                 newAudio = _this.sampler.resampler(newAudio);
-                var newBuffer = new Float32Array(currentQLength + newAudio.length);
+                let newBuffer = new Float32Array(currentQLength + newAudio.length);
                 newBuffer.set(this.buffer, 0);
                 newBuffer.set(newAudio, currentQLength);
                 this.buffer = newBuffer;
             },
 
             read: function (nSamples) {
-                var samplesToPlay = this.buffer.subarray(0, nSamples);
+                let samplesToPlay = this.buffer.subarray(0, nSamples);
                 this.buffer = this.buffer.subarray(nSamples, this.buffer.length);
                 return samplesToPlay;
             },
@@ -200,13 +204,13 @@ export function initAudioCodec(global) {
         //this.socket.onopen = function () {
         //    console.log('Connected to server ' + _this.config.server.host + ' as listener');
         //};
-        var _onmessage = this.parentOnmessage = this.socket.onmessage;
+        let _onmessage = this.parentOnmessage = this.socket.onmessage;
         this.socket.onmessage = function (message) {
             if (_onmessage) {
                 _onmessage(message);
             }
             if (message.data instanceof Blob) {
-                var reader = new FileReader();
+                let reader = new FileReader();
                 reader.onload = function () {
                     _this.audioQueue.write(_this.decoder.decode_float(reader.result));
                 };

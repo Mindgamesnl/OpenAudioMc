@@ -38,6 +38,7 @@ p {
     width: 90%;
     text-align: center;
     border-radius: 10px;
+    padding-top: 20px;
 }
 
 .call-settings-panel {
@@ -87,7 +88,7 @@ p {
 }
 
 .wider-panel {
-    width: 55%;
+    width: 85%;
 }
 
 .panel-small {
@@ -131,17 +132,18 @@ p {
     color: #fff;
     text-align: center;
     left: 50%;
-    transform: translate(-50%, -50%);
-    top: 65%;
-    position: absolute;
+    transform: translate(-50%, -0%);
+    position: relative;
 }
 
 .home-panel {
     min-width: 34%;
-    height: 35%;
+    height: auto;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }
+
+.clear { clear: both; }
 
 .home {
     top: 45% !important;
@@ -680,4 +682,9 @@ footer a {
 
 .deny-button {
     border: 1px solid orangered;
+}
+
+.pull-down {
+    position: absolute !important;
+    bottom: 0;
 }

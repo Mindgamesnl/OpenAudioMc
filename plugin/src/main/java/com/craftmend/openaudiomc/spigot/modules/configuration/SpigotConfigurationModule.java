@@ -54,7 +54,8 @@ public class SpigotConfigurationModule implements ConfigurationInterface {
                 return dataConfig.getString(storageKey.getPath());
 
             case CONFIG_FILE:
-                return cachedConfigStrings.computeIfAbsent(storageKey, v -> mainConfig.getString(storageKey.getPath()));
+                return cachedConfigStrings.computeIfAbsent(storageKey, v ->
+                        ((mainConfig.getString(storageKey.getPath()) == null ? "<unknown openaudiomc value " + storageKey.getPath() + ">" : mainConfig.getString(storageKey.getPath()))));
 
             default:
                 return "<unknown openaudiomc value " + storageKey.getPath() + ">";
