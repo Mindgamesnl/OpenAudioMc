@@ -1,10 +1,12 @@
-class VoiceReceivingChannel {
+import {Listener} from "../api/Listener";
+
+export class VoiceReceivingChannel {
 
     constructor(room, roomMember) {
         this.room = room;
         this.roomMember = roomMember;
         this.isStopped = false;
-        this.player = new WSAudioAPI.Player({}, new WebSocket(this.room.voiceServer.ws
+        this.player = new Listener({}, new WebSocket(this.room.voiceServer.ws
             + "/listener?room=" + this.room.roomId
             + "&uuid=" + this.room.currentUser.uuid
             + "&target=" + this.roomMember.uuid

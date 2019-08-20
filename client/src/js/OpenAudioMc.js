@@ -12,11 +12,9 @@ import {getHueInstance} from "./helpers/JsHue";
 import {linkBootListeners} from "./helpers/StaticFunctions";
 import {SocketDirector} from "./modules/socket/SocketDirector";
 import {AlertBox} from "./modules/ui/Notification";
-import {initAudioCodec} from "./modules/voice/api/ws-audio-api";
 import {VoiceModule} from "./modules/voice/VoiceModule";
 import {NotificationModule} from "./modules/notifications/NotificationModule";
 import ClientTokenSet from "./helpers/ClientTokenSet";
-import {UserCard} from "./modules/voice/notifications/UserCard";
 
 export class OpenAudioMc extends Getters {
 
