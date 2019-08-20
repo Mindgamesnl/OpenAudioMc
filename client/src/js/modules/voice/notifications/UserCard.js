@@ -3,7 +3,7 @@ import {AlertBox} from "../../ui/Notification";
 export class UserCard extends AlertBox {
 
     constructor(room, username, member) {
-        super('#alert-area-left', {
+        super('#call-members', {
             closeTime: 60000,
             persistent: true,
             hideCloseButton: true,
@@ -14,13 +14,13 @@ export class UserCard extends AlertBox {
         this.isMuted = false;
         this.member = member;
 
-        let content = '<div class="call-box" style="background-image: url(https://minotar.net/avatar/' + username + ');">';
-        content += "</div>";
+        let content = '<img class="call-box" src="https://minotar.net/avatar/' + username + '" />';
         content += '<div class="call-content" id="user-box-content-'+username+'">';
         content += '<div style="text-align: center;"><p>(loading)</p></div>';
         content += "</div>";
 
-        this.show(content);
+        this.show(content, true);
+
 
         this.setUsernameAsContent();
 

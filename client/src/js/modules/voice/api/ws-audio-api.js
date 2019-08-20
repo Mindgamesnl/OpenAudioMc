@@ -20,8 +20,8 @@ export function initAudioCodec(global) {
             sampleRate: 24000,
             channels: 1,
             app: 2048,
-            frameDuration: 40,
-            bufferSize: 2096
+            frameDuration: 2.5,
+            bufferSize: 512
         }
     };
 

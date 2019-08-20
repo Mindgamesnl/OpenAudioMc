@@ -1,3 +1,5 @@
+import {AlertBox} from "../../ui/Notification";
+
 export class AcceptCallNotification {
 
     constructor(main, members, onAccept, onDeny) {

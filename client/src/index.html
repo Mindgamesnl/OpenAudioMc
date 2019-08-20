@@ -10,22 +10,23 @@
     <script src="libs/js.cookie.js"></script>
 
     <link rel="icon" href="assets/logo.png"/>
-    <link rel="image" href="assets/logo.png"/>
+    <link relw="image" href="assets/logo.png"/>
 
     <title>OpenAudioMc</title>
 </head>
 <body id="page" class="dark-bg">
 <div id="call-controll-area" class="call-control-left"></div>
-<div id="alert-area-left" class="alert-area-left"></div>
+
 <div id="alert-area" class="alert-area"></div>
 
-<div class="call-settings-main">
+<div class="call-settings-main" id="call-control-box" style="display: none">
     <div class="call-settings-panel">
+        <div style="text-align: center;">
         <div class="call-buttons">
-            <div style="text-align: center;">
-                <a class="modal-btn call-option-button">Mute Mic</a>
-                <a class="modal-btn call-option-button">Leave Call</a>
-            </div>
+                <a class="modal-btn call-option-button" id="mute-microphone"><b>Mute Mic</b></a>
+                <a class="modal-btn call-option-button" id="leave-call-button"><b>Leave Call</b></a>
+        </div>
+            <div id="call-members"></div>
         </div>
     </div>
 </div>

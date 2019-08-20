@@ -3,6 +3,6 @@ speakers:
 keyset:
   key-version: 2
   private: not-set
-  base-url: https://client.openaudiomc.net/?&data=
+  base-url: https://app.openaudiomc.net/?&data=
 debug:
   log-state-changes: false
