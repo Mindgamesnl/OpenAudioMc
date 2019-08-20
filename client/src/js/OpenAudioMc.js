@@ -34,7 +34,7 @@ export class OpenAudioMc extends Getters {
         this.userInterfaceModule.setMessage("Loading proxy..");
 
         //initialize audio encoding
-        initAudioContext()
+        initAudioContext();
 
         this.voiceModule = new VoiceModule(this);
 
