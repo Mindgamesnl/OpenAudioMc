@@ -1,5 +1,6 @@
 import Resampler from "./libs/xaudio";
 import {OpusEncoder} from "./libs/opus";
+import {AbstractAudio} from "./objects/AbstractAudio";
 
 export class Streamer extends AbstractAudio {
 
@@ -18,16 +19,16 @@ export class Streamer extends AbstractAudio {
     }
 
     _makeStream(onError) {
-        navigator.getUserMedia({audio: config.micId}, (stream) => {
+        navigator.getUserMedia({audio: this.config.micId}, (stream) => {
             this.stream = stream;
             this.audioInput = this.audioContext.createMediaStreamSource(stream);
             this.gainNode = this.audioContext.createGain();
             this.recorder = this.audioContext.createScriptProcessor(this.config.codec.bufferSize, 1, 1);
-            this.recorder.onaudioprocess = function (e) {
-                let resampled = _this.sampler.resampler(e.inputBuffer.getChannelData(0));
-                let packets = _this.encoder.encode_float(resampled);
+            this.recorder.onaudioprocess = (e) => {
+                let resampled = this.sampler.resampler(e.inputBuffer.getChannelData(0));
+                let packets = this.encoder.encode_float(resampled);
                 for (let i = 0; i < packets.length; i++) {
-                    if (_this.socket.readyState == 1) this.socket.send(packets[i]);
+                    if (this.socket.readyState === 1) this.socket.send(packets[i]);
                 }
             };
             this.audioInput.connect(this.gainNode);
@@ -40,11 +41,11 @@ export class Streamer extends AbstractAudio {
         this.socket = this.parentSocket;
         this.socket.binaryType = 'arraybuffer';
 
-        if (this.socket.readyState == WebSocket.OPEN) {
+        if (this.socket.readyState === WebSocket.OPEN) {
             this._makeStream(onError);
-        } else if (this.socket.readyState == WebSocket.CONNECTING) {
+        } else if (this.socket.readyState === WebSocket.CONNECTING) {
             let _onopen = this.socket.onopen;
-            this.socket.onopen = function () {
+            this.socket.onopen = () => {
                 if (_onopen) {
                     _onopen();
                 }

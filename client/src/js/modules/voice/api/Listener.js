@@ -35,13 +35,10 @@ export class Listener extends AbstractAudio {
         this.socket = this.parentSocket;
 
         this.socket.onmessage = (message) => {
-            if (this.socket.onmessage) {
-                this.socket.onmessage(this.socket.onmessage);
-            }
             if (message.data instanceof Blob) {
                 let reader = new FileReader();
-                reader.onload = function () {
-                    this.audioQueue.write(this.decoder.decode_float(reader.result));
+                reader.onload = () => {
+                    this.audioQueue.write(this, this.decoder.decode_float(reader.result));
                 };
                 reader.readAsArrayBuffer(message.data);
             }

@@ -28,5 +28,3 @@ export class VoiceReceivingChannel {
     }
 
 }
-
-module.exports.VoiceReceivingChannel = VoiceReceivingChannel;
