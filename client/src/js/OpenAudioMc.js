@@ -15,7 +15,7 @@ import {AlertBox} from "./modules/ui/Notification";
 import {VoiceModule} from "./modules/voice/VoiceModule";
 import {NotificationModule} from "./modules/notifications/NotificationModule";
 import ClientTokenSet from "./helpers/ClientTokenSet";
-import {initAudioContext} from "./modules/voice/api/objects/AbstractAudio";
+import {initAudioContext} from "./modules/voice/objects/AbstractAudio";
 
 export class OpenAudioMc extends Getters {
 

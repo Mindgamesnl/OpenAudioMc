@@ -1,4 +1,4 @@
-import {Listener} from "../api/Listener";
+import {Listener} from "../streaming/Listener";
 
 export class VoiceReceivingChannel {
 

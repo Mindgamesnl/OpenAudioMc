@@ -1,4 +1,4 @@
-import {Room} from "./Room";
+import {Room} from "./room/Room";
 import {AcceptCallNotification} from "./notifications/AcceptCallNotification";
 import {AlertBox} from "../ui/Notification";
 import {fetch} from "../../../libs/github.fetch";

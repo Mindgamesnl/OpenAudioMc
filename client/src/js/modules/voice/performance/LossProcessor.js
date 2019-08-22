@@ -1,4 +1,4 @@
-import {AbstractAudio} from "../api/objects/AbstractAudio";
+import {AbstractAudio} from "../objects/AbstractAudio";
 
 export class LossProcessor extends AbstractAudio {
 
@@ -15,7 +15,6 @@ export class LossProcessor extends AbstractAudio {
 
         // the perfect rate of packets per second
         this.perfectRate = ((~~(rate / buffer)) + 4) * 2;
-        console.log('perfect rate would be ' + this.perfectRate);
 
         this.lowestAcceptable = this.perfectRate - margin;
         this.highestAcceptable = this.perfectRate + margin;
@@ -26,7 +25,6 @@ export class LossProcessor extends AbstractAudio {
     }
 
     handleMeasurement(measurement) {
-        console.log('Newly fed data is ' + measurement);
         if (this.isAcceptable(measurement)) {
             this.decreaseBufferSize();
         } else {

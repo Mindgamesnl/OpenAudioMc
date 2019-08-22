@@ -1,6 +1,6 @@
-import Resampler from "./libs/xaudio";
-import {OpusEncoder} from "./libs/opus";
-import {AbstractAudio} from "./objects/AbstractAudio";
+import Resampler from "../api/libs/xaudio";
+import {OpusEncoder} from "../api/libs/opus";
+import {AbstractAudio} from "../objects/AbstractAudio";
 
 export class Streamer extends AbstractAudio {
 
