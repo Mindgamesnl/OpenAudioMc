@@ -1,5 +1,5 @@
 import {RequestMicrophonePermissions} from "../notifications/RequestMicrophonePermissions";
-import {Streamer} from "../api/Streamer";
+import {Streamer} from "../streaming/Streamer";
 
 export class VoiceBroadcastChannel {
 

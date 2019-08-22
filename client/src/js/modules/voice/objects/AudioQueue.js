@@ -1,5 +1,5 @@
-import {LossProcessor} from "../../utils/LossProcessor";
-import {TPSCounter} from "../../utils/TPSCounter";
+import {LossProcessor} from "../performance/LossProcessor";
+import {TPSCounter} from "../performance/TPSCounter";
 
 export class AudioQueue {
 

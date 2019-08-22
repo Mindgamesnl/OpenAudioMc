@@ -1,7 +1,7 @@
-import Resampler from "./libs/xaudio";
-import {OpusDecoder} from "./libs/opus";
-import {AudioQueue} from "./objects/AudioQueue";
-import {AbstractAudio} from "./objects/AbstractAudio";
+import Resampler from "../api/libs/xaudio";
+import {OpusDecoder} from "../api/libs/opus";
+import {AudioQueue} from "../objects/AudioQueue";
+import {AbstractAudio} from "../objects/AbstractAudio";
 
 export class Listener extends AbstractAudio {
 

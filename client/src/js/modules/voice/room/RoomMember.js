@@ -1,7 +1,7 @@
 
-import {UserCard} from "./notifications/UserCard";
-import {VoiceReceivingChannel} from "./connections/VoiceReceivingChannel";
-import {VoiceBroadcastChannel} from "./connections/VoiceBroadcastChannel";
+import {UserCard} from "../notifications/UserCard";
+import {VoiceReceivingChannel} from "../connections/VoiceReceivingChannel";
+import {VoiceBroadcastChannel} from "../connections/VoiceBroadcastChannel";
 
 export class RoomMember {
 

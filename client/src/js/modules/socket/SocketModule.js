@@ -99,6 +99,7 @@ export class SocketModule {
                 hideCloseButton: true,
                 extra: 'warning'
             }).show('pls resub ' + uuid);
+
             const room = main.voiceModule.room;
             if (room != null) {
                 room.resubToPlayer(uuid);

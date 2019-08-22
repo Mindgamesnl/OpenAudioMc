@@ -1,6 +1,6 @@
 import {RoomMember} from "./RoomMember";
-import {fetch} from "../../../libs/github.fetch";
-import {AlertBox} from "../ui/Notification";
+import {fetch} from "../../../../libs/github.fetch";
+import {AlertBox} from "../../ui/Notification";
 
 export class Room {
 
@@ -100,6 +100,13 @@ export class Room {
 
     resubToPlayer(uuid) {
         let client = this.roomMembers.get(uuid);
+        // cancel if i dont even know who this doot is
+        if (client == null) return;
+
+        // shutdown old listener
+        if (client.voiceReceiver != null) client.voiceReceiver.shutdown();
+
+        // create new listener
         client.connectStream();
     }
 
