@@ -14,7 +14,8 @@ export class LossProcessor extends AbstractAudio {
         const buffer = this.defaultConfig.codec.bufferSize;
 
         // the perfect rate of packets per second
-        this.perfectRate = (~~(rate / buffer)) + 1;
+        this.perfectRate = ((~~(rate / buffer)) + 4) * 2;
+        console.log('perfect rate would be ' + this.perfectRate);
 
         this.lowestAcceptable = this.perfectRate - margin;
         this.highestAcceptable = this.perfectRate + margin;
@@ -25,6 +26,7 @@ export class LossProcessor extends AbstractAudio {
     }
 
     handleMeasurement(measurement) {
+        console.log('Newly fed data is ' + measurement);
         if (this.isAcceptable(measurement)) {
             this.decreaseBufferSize();
         } else {
@@ -33,11 +35,17 @@ export class LossProcessor extends AbstractAudio {
     }
 
     increaseBufferSize() {
-        if (this.queueSize < 10240) this.queueSize += 512;
+        if (this.queueSize < 10240) {
+            this.queueSize += 512;
+            console.log('Buffer size increased and is now ' + this.queueSize);
+        }
     }
 
     decreaseBufferSize() {
-        if (this.queueSize > this.minimalQueueSize) this.queueSize -= 512;
+        if (this.queueSize > this.minimalQueueSize) {
+            this.queueSize -= 512;
+            console.log('Buffer size decreased and is now ' + this.queueSize);
+        }
     }
 
     getBufferSize() {

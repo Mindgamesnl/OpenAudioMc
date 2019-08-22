@@ -2,7 +2,6 @@ import Resampler from "./libs/xaudio";
 import {OpusDecoder} from "./libs/opus";
 import {AudioQueue} from "./objects/AudioQueue";
 import {AbstractAudio} from "./objects/AbstractAudio";
-import {TPSCounter} from "../utils/TPSCounter";
 
 export class Listener extends AbstractAudio {
 
