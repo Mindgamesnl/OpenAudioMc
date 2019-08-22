@@ -16,7 +16,8 @@ export class LossProcessor extends AbstractAudio {
         const buffer = this.defaultConfig.codec.bufferSize;
 
         // the perfect rate of packets per second
-        this.perfectRate = ((~~(rate / buffer)) + 4) * 2;
+        // this.perfectRate = ((~~(rate / buffer)) + 4) * 2;
+        this.perfectRate = 50;
 
         this.lowestAcceptable = this.perfectRate - margin;
         this.highestAcceptable = this.perfectRate + margin;
@@ -27,6 +28,7 @@ export class LossProcessor extends AbstractAudio {
     }
 
     handleMeasurement(measurement) {
+        console.log(measurement)
         if (this.isAcceptable(measurement)) {
             this.unstableSeconds = 0;
             // if it has been stable for 5 seconds or longer, try to decrease the buffer size slowly

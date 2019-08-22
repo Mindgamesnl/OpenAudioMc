@@ -12,8 +12,8 @@ export class AbstractAudio {
                 sampleRate: 24000,
                 channels: 1,
                 app: 2048,
-                frameDuration: 10,
-                bufferSize: 512
+                frameDuration: 20,
+                bufferSize: 2048
             }
         };
 
