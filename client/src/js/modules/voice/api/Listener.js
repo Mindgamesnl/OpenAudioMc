@@ -2,6 +2,7 @@ import Resampler from "./libs/xaudio";
 import {OpusDecoder} from "./libs/opus";
 import {AudioQueue} from "./objects/AudioQueue";
 import {AbstractAudio} from "./objects/AbstractAudio";
+import {TPSCounter} from "../utils/TPSCounter";
 
 export class Listener extends AbstractAudio {
 
@@ -36,6 +37,8 @@ export class Listener extends AbstractAudio {
 
         this.socket.onmessage = (message) => {
             if (message.data instanceof Blob) {
+                this.audioQueue.tick();
+
                 let reader = new FileReader();
                 reader.onload = () => {
                     this.audioQueue.write(this, this.decoder.decode_float(reader.result));
@@ -66,6 +69,7 @@ export class Listener extends AbstractAudio {
     }
 
     stop() {
+        this.audioQueue.stop();
         this.audioQueue = null;
         this.scriptNode.disconnect();
         this.scriptNode = null;
