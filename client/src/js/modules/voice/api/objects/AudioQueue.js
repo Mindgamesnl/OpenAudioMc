@@ -1,14 +1,27 @@
+import {LossProcessor} from "../../utils/LossProcessor";
+import {TPSCounter} from "../../utils/TPSCounter";
+
 export class AudioQueue {
 
     constructor() {
         this.buffer = new Float32Array(0);
+        this.processor = new LossProcessor();
+
+        this.tickTimer = new TPSCounter((measurement) => {
+            this.processor.handleMeasurement(measurement);
+        });
+    }
+
+    tick() {
+        this.tickTimer.tick();
     }
 
     write(inst, newAudio) {
-        if (this.length() > 5000) {
+        if (this.length() > this.processor.getBufferSize()) {
             console.log("Too much delay. Clearing buffer");
             this.buffer = new Float32Array(0);
         }
+
         let currentQLength = this.buffer.length;
         newAudio = inst.sampler.resampler(newAudio);
         let newBuffer = new Float32Array(currentQLength + newAudio.length);
@@ -25,6 +38,10 @@ export class AudioQueue {
 
     length() {
         return this.buffer.length;
+    }
+
+    stop() {
+        this.tickTimer.stop();
     }
 
 }
