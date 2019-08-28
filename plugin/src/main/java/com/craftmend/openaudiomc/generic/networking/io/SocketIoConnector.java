@@ -7,10 +7,12 @@ import com.craftmend.openaudiomc.generic.networking.addapter.GenericApiResponse;
 import com.craftmend.openaudiomc.generic.networking.addapter.RelayHost;
 import com.craftmend.openaudiomc.generic.networking.payloads.AcknowledgeClientPayload;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.AssigningRelayState;
 import com.craftmend.openaudiomc.generic.state.states.ConnectedState;
 import com.craftmend.openaudiomc.generic.state.states.ConnectingState;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.voice.packets.MemberLeftRoomPacket;
 import com.craftmend.openaudiomc.generic.voice.packets.RoomClosedPacket;
 import com.craftmend.openaudiomc.generic.voice.packets.RoomCreatedPacket;
@@ -94,6 +96,14 @@ public class SocketIoConnector {
             // disconnected, probably with a reason or something
             OpenAudioMc.getInstance().getStateService().setState(new IdleState("Disconnected from the socket"));
             OpenAudioMc.getInstance().getVoiceRoomManager().clearCache();
+
+            String message = Platform.translateColors(OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_LINK_EXPIRED));
+            for (ClientConnection client : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
+                if (client.getHasWaitingToken()) {
+                    client.getPlayer().sendMessage(message);
+                    client.setHasWaitingToken(false);
+                }
+            }
         });
 
         socket.on(Socket.EVENT_CONNECT_TIMEOUT, args -> {

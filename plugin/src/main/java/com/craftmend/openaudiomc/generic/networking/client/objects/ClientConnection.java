@@ -12,6 +12,7 @@ import com.craftmend.openaudiomc.generic.objects.HueState;
 import com.craftmend.openaudiomc.generic.objects.SerializedHueColor;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -29,6 +30,7 @@ public class ClientConnection {
     // session info
     @Getter private Boolean isConnected = false;
     @Getter private Session session;
+    @Setter @Getter private Boolean hasWaitingToken = false;
 
     // player implementation
     @Getter private PlayerContainer player;
@@ -67,6 +69,7 @@ public class ClientConnection {
                 OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLICK_TO_CONNECT)
         )));
         message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
+        this.hasWaitingToken = true;
         player.sendMessage(message);
     }
 
@@ -78,6 +81,7 @@ public class ClientConnection {
 
         player.sendMessage(Platform.translateColors(connectedMessage));
         this.isConnected = true;
+        this.hasWaitingToken = false;
 
         OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(
                 () -> {
