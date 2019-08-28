@@ -1,17 +1,21 @@
 package com.craftmend.openaudiomc.generic.media;
 
 import com.craftmend.openaudiomc.generic.media.interfaces.UrlMutation;
-import lombok.NoArgsConstructor;
+import com.craftmend.openaudiomc.generic.media.middleware.GoogleDriveMiddleware;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@NoArgsConstructor
 public class MediaModule {
 
     private Map<String, List<UrlMutation>> urlMutations = new HashMap<>();
+
+    public MediaModule() {
+        // register default mutations
+        registerMutation("https://drive.google.com/", new GoogleDriveMiddleware());
+    }
 
     public void registerMutation(String host, UrlMutation urlMutation) {
         urlMutations.computeIfAbsent(host, k -> new ArrayList<>());
