@@ -1,5 +1,6 @@
 messages:
   click-to-connect: '&6Welcome! click here to connect to the audio client!'
+  click-link-expired: '&3Your link to the audio client has expired. Use /audio to request a new one.'
   client-opened: '&2You are now connected with the audio client!'
   client-closed: '&4You closed the web client!'
   client-volume-change: '&6Your volume has been changed to __amount__%'

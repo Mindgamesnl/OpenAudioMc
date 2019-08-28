@@ -28,7 +28,6 @@ export class LossProcessor extends AbstractAudio {
     }
 
     handleMeasurement(measurement) {
-        console.log(measurement)
         if (this.isAcceptable(measurement)) {
             this.unstableSeconds = 0;
             // if it has been stable for 5 seconds or longer, try to decrease the buffer size slowly

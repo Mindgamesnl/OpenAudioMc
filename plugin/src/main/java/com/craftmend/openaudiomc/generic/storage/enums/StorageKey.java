@@ -5,6 +5,7 @@ import lombok.Getter;
 public enum StorageKey {
 
     MESSAGE_CLICK_TO_CONNECT("messages.click-to-connect", StorageLocation.CONFIG_FILE),
+    MESSAGE_LINK_EXPIRED("messages.click-link-expired", StorageLocation.CONFIG_FILE),
     MESSAGE_CLIENT_CLOSED("messages.client-closed", StorageLocation.CONFIG_FILE),
     MESSAGE_CLIENT_OPENED("messages.client-opened", StorageLocation.CONFIG_FILE),
     MESSAGE_CLIENT_VOLUME_CHANGED("messages.client-volume-change", StorageLocation.CONFIG_FILE),
