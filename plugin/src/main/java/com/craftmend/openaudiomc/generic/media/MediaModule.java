@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.media;
 
 import com.craftmend.openaudiomc.generic.media.interfaces.UrlMutation;
+import com.craftmend.openaudiomc.generic.media.middleware.DropBoxMiddleware;
 import com.craftmend.openaudiomc.generic.media.middleware.GoogleDriveMiddleware;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class MediaModule {
     public MediaModule() {
         // register default mutations
         registerMutation("https://drive.google.com/", new GoogleDriveMiddleware());
+        registerMutation("https://dropbox.com/", new DropBoxMiddleware());
     }
 
     public void registerMutation(String host, UrlMutation urlMutation) {
