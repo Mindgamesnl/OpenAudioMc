@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.generic.media;
 import com.craftmend.openaudiomc.generic.media.interfaces.UrlMutation;
 import com.craftmend.openaudiomc.generic.media.middleware.DropBoxMiddleware;
 import com.craftmend.openaudiomc.generic.media.middleware.GoogleDriveMiddleware;
+import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,12 +17,13 @@ public class MediaModule {
     public MediaModule() {
         // register default mutations
         registerMutation("https://drive.google.com/", new GoogleDriveMiddleware());
-        registerMutation("https://dropbox.com/", new DropBoxMiddleware());
+        registerMutation("https://www.dropbox.com", new DropBoxMiddleware());
     }
 
     public void registerMutation(String host, UrlMutation urlMutation) {
-        urlMutations.computeIfAbsent(host, k -> new ArrayList<>());
-        urlMutations.get(host).add(urlMutation);
+        List<UrlMutation> list = urlMutations.getOrDefault(host, new ArrayList<>());
+        list.add(urlMutation);
+        urlMutations.put(host, list);
     }
 
     /**
@@ -34,7 +36,7 @@ public class MediaModule {
         for (String selector : urlMutations.keySet()) {
             if (original.startsWith(selector)) {
                 for (UrlMutation urlMutation : urlMutations.get(selector)) {
-                    original = urlMutation.onRequest(original);
+                    return urlMutation.onRequest(original);
                 }
             }
         }
