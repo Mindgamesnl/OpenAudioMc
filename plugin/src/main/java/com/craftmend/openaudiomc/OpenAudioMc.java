@@ -2,6 +2,9 @@ package com.craftmend.openaudiomc;
 
 import com.craftmend.openaudiomc.bungee.modules.scheduling.BungeeTaskProvider;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
+import com.craftmend.openaudiomc.generic.cards.enums.TextStyle;
+import com.craftmend.openaudiomc.generic.cards.objects.Card;
+import com.craftmend.openaudiomc.generic.cards.objects.Text;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.flags.FlagSet;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
@@ -90,6 +93,15 @@ public class OpenAudioMc {
     public OpenAudioMc(Platform platform) {
         instance = this;
         this.platform = platform;
+
+        Card card = new Card("Test with the api");
+        card.addRow(
+                new Text("Mindgamesnl: &230 points").setHyperlink("https://twitter.com/Mindgamesnl"),
+                new Text("test"),
+                new Text("Test two").addStyle(TextStyle.BOLD).addStyle(TextStyle.ITALLIC).addStyle(TextStyle.UNDERLINE)
+        );
+
+        System.out.println(card.toJson());
 
         // if spigot, load the spigot configuration system and the bungee one for bungee
         if (platform == Platform.SPIGOT) {
