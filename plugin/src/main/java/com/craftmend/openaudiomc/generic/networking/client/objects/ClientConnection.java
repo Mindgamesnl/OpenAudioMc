@@ -1,10 +1,6 @@
 package com.craftmend.openaudiomc.generic.networking.client.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.cards.enums.TextStyle;
-import com.craftmend.openaudiomc.generic.cards.objects.Card;
-import com.craftmend.openaudiomc.generic.cards.objects.Text;
-import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.objects.ClientSettings;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
@@ -15,14 +11,10 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.objects.HueState;
 import com.craftmend.openaudiomc.generic.objects.SerializedHueColor;
 
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.services.utils.DataWatcher;
 import lombok.Getter;
 import lombok.Setter;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -108,22 +100,6 @@ public class ClientConnection {
                     }
 
                     connectHandlers.forEach(a -> a.run());
-
-Card testCard = new Card("Welcome to the lobby!")
-        .addRow(new Text("&eWelcome back, &3" + player.getName() + "!"))
-        .addRow(new Text("&7You are currently not in a game"))
-        .addRow(new Text("Our Twitter").addStyle(TextStyle.ITALLIC).setHyperlink("https://twitter.com/OpenAudioMc"))
-        .addRow(new Text("Your location is: "), new Text("-, -, -").setId("location"));
-
-testCard.addPlayer(player.getUniqueId());
-
-DataWatcher<Location> dataWatcher = new DataWatcher<Location>(OpenAudioMcSpigot.getInstance(), true, 2);
-dataWatcher.setFeeder(() -> ((SpigotPlayerAdapter) player).getPlayer().getLocation());
-dataWatcher.setTask(location -> {
-    testCard.updateText("location", new Text("X" + location.getBlockX() + " Y" + location.getBlockY() + " Z" + location.getBlockZ()).setId("location"));
-});
-
-
                 },
                 20
         );
