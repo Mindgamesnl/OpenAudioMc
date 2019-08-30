@@ -1,5 +1,6 @@
 import {WebAudio} from "../media/WebAudio";
 import {AlertBox} from "../ui/Notification";
+import {Card} from "../card/Card";
 
 export class Handlers {
 
@@ -41,6 +42,23 @@ export class Handlers {
                 media.play();
             });
         });
+
+        openAudioMc.socketModule.registerHandler("ClientDestroyCardPayload", () => {
+            document.getElementById("card-panel").style.display = "none";
+        });
+
+        openAudioMc.socketModule.registerHandler("ClientUpdateCardPayload", data => {
+            const cardData = JSON.parse(data.serializedCard);
+            new Card().replaceWithJson(data.id, cardData);
+        });
+
+        openAudioMc.socketModule.registerHandler("ClientCreateCardPayload", data => {
+            const cardData = JSON.parse(data.serializedCard);
+            console.log("creating card ");
+            console.log(cardData);
+            new Card(cardData);
+        });
+
 
         openAudioMc.socketModule.registerHandler("NotificationPayload", data => {
             const message = data.message;

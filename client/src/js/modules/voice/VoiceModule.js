@@ -25,7 +25,7 @@ export class VoiceModule {
                     fetch(this.voiceServer.rest + "/leave-room?room=" + roomId + "&uuid=" + this.currentUser.uuid + "&accessToken=" + token)
                         .then((response) => {
                             response.json().then((json) => {
-                                if (json.results.length != 0) {
+                                if (json.results.length !== 0) {
                                     console.log("cancelled call");
                                 } else {
                                     // fuck

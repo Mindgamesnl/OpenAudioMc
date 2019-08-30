@@ -9,7 +9,6 @@ export class AudioQueue {
 
         this.tickTimer = new TPSCounter((measurement) => {
             this.processor.handleMeasurement(measurement);
-            console.log("msm is " + measurement)
         });
     }
 

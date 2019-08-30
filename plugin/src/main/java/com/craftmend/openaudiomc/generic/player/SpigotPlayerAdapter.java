@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.generic.player;
 
 import com.craftmend.openaudiomc.generic.networking.client.interfaces.PlayerContainer;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 
@@ -10,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class SpigotPlayerAdapter implements PlayerContainer {
 
-    private Player player;
+    @Getter private Player player;
 
     @Override
     public void sendMessage(String string) {

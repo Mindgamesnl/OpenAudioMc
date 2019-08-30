@@ -79,10 +79,8 @@ p {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    top: 50%;
+    position: relative;
+    left: 33%;
     box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25), 0 10px 30px rgba(0, 0, 0, 0.22);
     transition: all 0.4s;
 }
@@ -92,8 +90,16 @@ p {
 }
 
 .panel-small {
-    width: 35%;
+    width: 34%;
     height: 15%;
+}
+
+.custom-card {
+    border-radius: 5px;
+    margin-top: 20px;
+    height: auto;
+    position: fixed;
+    bottom: 30px;
 }
 
 .hueFooter {
@@ -187,6 +193,14 @@ p {
     text-align: center;
     font-size: 1.5vw;
     position: absolute;
+    top: 15%;
+}
+
+.title {
+    color: #ffffff;
+    width: 100%;
+    text-align: center;
+    font-size: 1.5vw;
     top: 15%;
 }
 
@@ -552,6 +566,16 @@ footer a {
     background: #00B0FF;
 }
 
+.title-section {
+    padding-left: 10px;
+    padding-right: 10px;
+    width: fit-content;
+    color: white;
+    background: #00B0FF;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
 .volume-display {
     font-size: 4rem;
 }
@@ -687,4 +711,24 @@ footer a {
 .pull-down {
     position: absolute !important;
     bottom: 0;
+}
+
+.container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.no-offset p {
+    padding: 0px;
+    margin: 0;
+}
+
+.vertical-center {
+    margin: 0;
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
 }
