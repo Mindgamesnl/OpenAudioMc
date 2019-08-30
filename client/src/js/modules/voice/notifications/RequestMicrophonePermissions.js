@@ -1,4 +1,5 @@
 import {AlertBox} from "../../ui/Notification";
+import {StreamingPlatform} from "../helpers/StreamingPlatform";
 
 export class RequestMicrophonePermissions extends AlertBox {
 
@@ -36,19 +37,20 @@ export class RequestMicrophonePermissions extends AlertBox {
                         '</div>');
 
                     document.getElementById('request-mic-permissions').onclick = () => {
-                        navigator.mediaDevices.getUserMedia({ audio: true })
-                            .then((stream) => {
+                        new StreamingPlatform({ audio: true },
+                            (stream) => {
                                 // retry the popup
                                 this.hide();
                                 stream.getTracks()[0].stop();
                                 new RequestMicrophonePermissions(defaultMic);
-                            })
-                            .catch((err) => {
+                            },
+                            (err) => {
                                 console.log(err);
                                 this.hide();
                                 this.deniedMessage();
                                 defaultMic(null);
-                            });
+                            }
+                        );
                     }
                 } else {
                     if (this.requestBox != null) this.requestBox.hide();
