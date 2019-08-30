@@ -1,15 +1,12 @@
 import Resampler from "../api/libs/xaudio";
 import {OpusEncoder} from "../api/libs/opus";
 import {AbstractAudio} from "../objects/AbstractAudio";
+import {StreamingPlatform} from "../helpers/StreamingPlatform";
 
 export class Streamer extends AbstractAudio {
 
     constructor(config, socket) {
         super();
-        navigator.getUserMedia = (navigator.getUserMedia ||
-            navigator.webkitGetUserMedia ||
-            navigator.mozGetUserMedia ||
-            navigator.msGetUserMedia);
 
         this.config = config;
         this.config.codec = this.config.codec || this.defaultConfig.codec;
@@ -19,7 +16,7 @@ export class Streamer extends AbstractAudio {
     }
 
     _makeStream(onError) {
-        navigator.getUserMedia({audio: this.config.micId}, (stream) => {
+        new StreamingPlatform({audio: this.config.micId}, (stream) => {
             this.stream = stream;
             this.audioInput = this.audioContext.createMediaStreamSource(stream);
             this.gainNode = this.audioContext.createGain();
