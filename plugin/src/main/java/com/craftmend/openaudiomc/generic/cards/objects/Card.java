@@ -18,7 +18,7 @@ public class Card {
 
     @Getter private String title;
     private List<Row> rows = new ArrayList<>();
-    private UUID cardId = UUID.randomUUID();
+    @Getter private UUID cardId = UUID.randomUUID();
     private transient List<String> ids = new ArrayList<>();
 
     public Card(String title) {
@@ -44,7 +44,7 @@ public class Card {
         PacketClientUpdateCard cardUpdate = new PacketClientUpdateCard(id, new Gson().toJson(newText));
 
         OpenAudioMc.getInstance().getNetworkingService().getClients().forEach(client -> {
-            if (client.getCardId() != null && cardId.toString().equals(client.getCardId().toString())) {
+            if (client.getCard() != null && cardId.toString().equals(client.getCard().getCardId().toString())) {
                 // update card
                 OpenAudioMc.getInstance().getNetworkingService().send(client, cardUpdate);
             }
@@ -67,10 +67,9 @@ public class Card {
         ClientConnection clientConnection = OpenAudioMc.getApi().getClient(uuid);
         if (clientConnection == null) throw new IllegalStateException("Player does not have a client connection session");
 
-        clientConnection.setCardId(cardId);
+        clientConnection.setCard(this);
         // send show packet
-        OpenAudioMc.getInstance().getNetworkingService().send(clientConnection, new PacketClientCreateCard(this
-        ));
+        OpenAudioMc.getInstance().getNetworkingService().send(clientConnection, new PacketClientCreateCard(this));
         return this;
     }
 
@@ -78,8 +77,8 @@ public class Card {
         ClientConnection clientConnection = OpenAudioMc.getApi().getClient(uuid);
         if (clientConnection == null) throw new IllegalStateException("Player does not have a client connection session");
 
-        if (clientConnection.getCardId() != null && clientConnection.getCardId().toString().equals(cardId.toString())) {
-            clientConnection.setCardId(null);
+        if (clientConnection.getCard() != null && clientConnection.getCard().toString().equals(cardId.toString())) {
+            clientConnection.setCard(null);
         }
 
         // send destroy card packet
