@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking.client.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.cards.objects.Card;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.objects.ClientSettings;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
@@ -21,7 +22,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 public class ClientConnection {
 
@@ -31,7 +31,7 @@ public class ClientConnection {
     // session info
     @Getter private Boolean isConnected = false;
     @Getter private Session session;
-    @Setter @Getter private UUID cardId = null;
+    @Setter @Getter private Card card = null;
     @Setter @Getter private Boolean hasWaitingToken = false;
 
     // player implementation
@@ -100,6 +100,10 @@ public class ClientConnection {
                     }
 
                     connectHandlers.forEach(a -> a.run());
+
+                    if (card != null) {
+                        OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientCreateCard(card));
+                    }
                 },
                 20
         );
