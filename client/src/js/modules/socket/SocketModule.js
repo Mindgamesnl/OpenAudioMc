@@ -93,13 +93,6 @@ export class SocketModule {
         });
 
         this.socket.on('resub-to-player-in-call', (uuid) => {
-            new AlertBox('#alert-area', {
-                closeTime: 20000,
-                persistent: false,
-                hideCloseButton: true,
-                extra: 'warning'
-            }).show('pls resub ' + uuid);
-
             const room = main.voiceModule.room;
             if (room != null) {
                 room.resubToPlayer(uuid);

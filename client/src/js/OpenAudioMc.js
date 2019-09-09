@@ -1,4 +1,3 @@
-// OpenAudioMc classes
 import {TimeService} from "./modules/socket/TimeService";
 import {Messages} from "./modules/ui/Messages";
 import {UserInterfaceModule} from "./modules/ui/UserInterfaceModule";
@@ -8,14 +7,14 @@ import {SocketModule} from "./modules/socket/SocketModule";
 import {Handlers} from "./modules/socket/Handlers";
 import {HueConfigurationModule} from "./modules/hue/HueConfigurationModule";
 import {Getters} from "./helpers/Getters";
-import {getHueInstance} from "./helpers/JsHue";
-import {linkBootListeners} from "./helpers/StaticFunctions";
 import {SocketDirector} from "./modules/socket/SocketDirector";
 import {AlertBox} from "./modules/ui/Notification";
 import {VoiceModule} from "./modules/voice/VoiceModule";
 import {NotificationModule} from "./modules/notifications/NotificationModule";
 import ClientTokenSet from "./helpers/ClientTokenSet";
 import {initAudioContext} from "./modules/voice/objects/AbstractAudio";
+import {getHueInstance} from "./helpers/JsHue";
+import {linkBootListeners} from "./helpers/StaticFunctions";
 
 export class OpenAudioMc extends Getters {
 
@@ -40,10 +39,7 @@ export class OpenAudioMc extends Getters {
 
         this.userInterfaceModule.setMessage(this.messages.welcomeMessage);
         this.userInterfaceModule.showVolumeSlider(true);
-
         this.boot();
-
-
 
         // request a socket service, then do the booting
         const director = new SocketDirector("https://craftmendserver.eu:444");
@@ -56,7 +52,7 @@ export class OpenAudioMc extends Getters {
                 new Handlers(this);
             })
             .catch((error) => {
-                console.error("Exception thrown", error);
+                console.error("Exception thrown", error.stack);
                 this.userInterfaceModule.showVolumeSlider(false);
                 this.userInterfaceModule.setMessage("Something went wrong. Please try again with a new link.");
                 new AlertBox('#alert-area', {

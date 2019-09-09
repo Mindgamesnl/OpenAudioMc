@@ -52,32 +52,12 @@ export class Streamer extends AbstractAudio {
             console.error('Socket is in CLOSED state');
         }
 
-        let _onclose = this.socket.onclose;
         this.socket.onclose = () => {
             if (onclose) {
                 onclose();
             }
 
-            if (this.audioInput) {
-                this.audioInput.disconnect();
-                this.audioInput = null;
-            }
-
-            if (this.gainNode) {
-                this.gainNode.disconnect();
-                this.gainNode = null;
-            }
-
-            if (this.recorder) {
-                this.recorder.disconnect();
-                this.recorder = null;
-            }
-
-            if (this.stream != null) {
-                this.stream.getTracks().forEach(track => {
-                    track.stop();
-                });
-            }
+            this._shutdown();
             console.log('Disconnected from server');
         };
     };
@@ -98,15 +78,17 @@ export class Streamer extends AbstractAudio {
         throw error;
     }
 
-    stop() {
+    _shutdown() {
         if (this.audioInput) {
             this.audioInput.disconnect();
             this.audioInput = null;
         }
+
         if (this.gainNode) {
             this.gainNode.disconnect();
             this.gainNode = null;
         }
+
         if (this.recorder) {
             this.recorder.disconnect();
             this.recorder = null;
@@ -117,6 +99,10 @@ export class Streamer extends AbstractAudio {
                 track.stop();
             })
         }
+    }
+
+    stop() {
+        this._shutdown();
 
         if (!this.parentSocket) {
             this.socket.close();

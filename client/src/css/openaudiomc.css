@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway:200');
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,300");
+@import url("https://fonts.googleapis.com/css?family=Rajdhani&display=swap");
 
 body {
     vertical-align: middle;
-    background: linear-gradient(
-            rgba(98, 90, 238, 0.45),
-            rgba(98, 90, 238, 0.25)
-    ),
+    background: linear-gradient(rgba(29, 31, 32, .3), rgba(29, 31, 32, .3)),
+    linear-gradient(45deg, rgba(0, 176, 255, .4), transparent),
+    linear-gradient(180deg, rgba(230,81,0, .6), transparent),
     url(../assets/bg.png);
     font-family: 'Raleway';
     -webkit-background-size: cover;
@@ -18,7 +18,7 @@ body {
 }
 
 .dark-bg {
-    background-position:-9999px;
+    background-position: -9999px;
     background: #1D1F20;
     transition: 2s;
 }
@@ -140,6 +140,8 @@ p {
     left: 50%;
     transform: translate(-50%, -0%);
     position: relative;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .home-panel {
@@ -149,7 +151,9 @@ p {
     border-bottom-right-radius: 10px;
 }
 
-.clear { clear: both; }
+.clear {
+    clear: both;
+}
 
 .home {
     top: 45% !important;
@@ -205,15 +209,15 @@ p {
 }
 
 .bulbs {
-    width:50%;
+    width: 50%;
 }
 
 .bulb {
     color: white;
     height: 50px;
     display: inline-block;
-    width:33.33%;
-    margin-right:-4px;
+    width: 33.33%;
+    margin-right: -4px;
 }
 
 
@@ -240,9 +244,10 @@ input[type="range"] {
     -webkit-appearance: none;
     width: 90%;
     height: 10px;
-    background: linear-gradient(to right, rgb(30, 30, 33) 0%, #00B0FF 60%);
+    background: linear-gradient(45deg, rgba(230,81 ,0, .6), transparent),
+    linear-gradient(190deg, rgba(0, 176, 255, 1), transparent);
     outline: none;
-    border-radius: 5px
+    border-radius: 5px;
 }
 
 input[type="range"]:first-of-type {
@@ -251,11 +256,11 @@ input[type="range"]:first-of-type {
 
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 15px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     z-index: 999;
     position: relative;
-    background-color: white;
+    background-color: #ff9800;
     border-radius: 5px
 }
 
@@ -398,7 +403,7 @@ footer a {
 .alert-box {
     font-size: 16px;
     color: white;
-    background-image: linear-gradient( #2c2c33, #1a1a1d );
+    background-image: linear-gradient(#2c2c33, #1a1a1d);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -503,6 +508,7 @@ footer a {
     background: #7dd8ff;
     border-radius: 2px;
 }
+
 .alert-message-button:disabled {
     background: rgba(125, 216, 255, 0.23) !important;
 }
@@ -546,6 +552,7 @@ footer a {
     height: 60px;
     width: 60px;
     border: 8px;
+    background-color: inherit;
     border-style: solid;
     border-color: rgb(30, 30, 33);
 }
@@ -578,11 +585,12 @@ footer a {
 
 .volume-display {
     font-size: 4rem;
+    font-family: 'Rajdhani', sans-serif;
 }
 
 .volume-control {
     width: 100%;
-    text-align:center
+    text-align: center
 }
 
 .loader {
@@ -592,7 +600,8 @@ footer a {
     overflow: hidden;
     background-color: #ddd;
 }
-.loader:before{
+
+.loader:before {
     display: block;
     position: absolute;
     content: "";
@@ -604,18 +613,37 @@ footer a {
 }
 
 @keyframes loading {
-    from {left: -200px; width: 30%;}
-    50% {width: 30%;}
-    70% {width: 70%;}
-    80% { left: 50%;}
-    95% {left: 120%;}
-    to {left: 100%;}
+    from {
+        left: -200px;
+        width: 30%;
+    }
+    50% {
+        width: 30%;
+    }
+    70% {
+        width: 70%;
+    }
+    80% {
+        left: 50%;
+    }
+    95% {
+        left: 120%;
+    }
+    to {
+        left: 100%;
+    }
 }
 
 @keyframes fading-border {
-    0% {background: linear-gradient(red, rgba(0,0,0,0), red);}
-    50% {background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0));}
-    100% {background: linear-gradient(red, rgba(0,0,0,0), red);}
+    0% {
+        background: linear-gradient(red, rgba(0, 0, 0, 0), red);
+    }
+    50% {
+        background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0));
+    }
+    100% {
+        background: linear-gradient(red, rgba(0, 0, 0, 0), red);
+    }
 }
 
 .mutedUser {
@@ -651,6 +679,7 @@ footer a {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
     border-radius: .5rem;
 }
+
 .modal-inner .modal-top {
     background: #00B0FF;
     color: #fff;
@@ -659,15 +688,18 @@ footer a {
     border-top-right-radius: .5rem;
     text-align: center;
 }
+
 .modal-inner .modal-top b {
     font-size: 2.25rem;
     margin-bottom: .25rem;
     display: block;
 }
+
 .modal-inner .modal-top h4 {
     font-weight: 200;
     margin-bottom: 0;
 }
+
 .modal-inner .modal-content {
     position: relative;
     background: #f5f5f5;
@@ -677,6 +709,7 @@ footer a {
     overflow: hidden;
     display: none;
 }
+
 .modal-inner .modal-bottom {
     background: rgb(30, 30, 33);
     padding: 1rem;

@@ -59,7 +59,7 @@ public class SocketIoConnector {
                 "&public=" + publicKey;
 
         // request a relay server
-        GenericApiResponse genericApiResponse = new RestRequest("/login")
+        GenericApiResponse genericApiResponse = new RestRequest("/login.php")
                 .setQuery("private", privateKey)
                 .setQuery("public", publicKey)
                 .execute();

@@ -10,7 +10,6 @@ import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
 import com.craftmend.openaudiomc.generic.networking.addapter.GenericApiResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import lombok.Getter;
-import org.bukkit.ChatColor;
 
 import java.io.IOException;
 
@@ -18,7 +17,7 @@ public class AuthenticationService {
 
     @Getter private ServerKeySet serverKeySet = new ServerKeySet();
     @Getter private Boolean isSuccesfull = false;
-    @Getter private String failureMessage = ChatColor.RED + "Oh no, it looks like the initial setup of OpenAudioMc has failed. Please try to restart the server and try again, if that still does not work, please contact OpenAudioMc staff or support.";
+    @Getter private String failureMessage = "Oh no, it looks like the initial setup of OpenAudioMc has failed. Please try to restart the server and try again, if that still does not work, please contact OpenAudioMc staff or support.";
     private final int keyVersion = 2;
 
     public AuthenticationService() {
@@ -45,7 +44,7 @@ public class AuthenticationService {
         if (spigotConfigurationModule.getString(StorageKey.AUTH_PRIVATE_KEY).equals("not-set") || getAuthVersion() != keyVersion) {
             //setup process
             try {
-                GenericApiResponse genericApiResponse = new RestRequest("/signup").execute();
+                GenericApiResponse genericApiResponse = new RestRequest("/register.php").execute();
 
                 if (genericApiResponse.getErrors().size() == 0) {
                     serverKeySet.setPrivateKey(new Key(genericApiResponse.getData().get(0).getPrivateKey()));
