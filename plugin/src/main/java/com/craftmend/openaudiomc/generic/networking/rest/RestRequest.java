@@ -30,7 +30,7 @@ public class RestRequest {
     }
 
     private String getUrl() {
-        String url = OpenAudioMc.getInstance().getServer();
+        String url = "http://api.openaudiomc.net/auth";
         url += this.endpoint;
         if (variables.size() != 0) {
             url+= '?';

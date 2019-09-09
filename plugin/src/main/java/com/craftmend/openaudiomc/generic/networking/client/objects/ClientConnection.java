@@ -110,22 +110,6 @@ public class ClientConnection {
                     if (card != null) {
                         OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientCreateCard(card));
                     }
-
-                    Card testCard = new Card("Welcome to the lobby!")
-                            .addRow(new Text("&eWelcome back, &3" + player.getName() + "!"))
-                            .addRow(new Text("&7You are currently not in a game"))
-                            .addRow(new Text("Our Twitter").addStyle(TextStyle.ITALLIC).setHyperlink("https://twitter.com/OpenAudioMc"))
-                            .addRow(new Text("Your location is: "), new Text("-, -, -").setId("location"));
-
-                    testCard.addPlayer(player.getUniqueId());
-
-                    DataWatcher<Location> dataWatcher = new DataWatcher<Location>(OpenAudioMcSpigot.getInstance(), true, 2);
-                    dataWatcher.setFeeder(() -> ((SpigotPlayerAdapter) player).getPlayer().getLocation());
-                    dataWatcher.setTask(location -> {
-                        testCard.updateText("location", new Text("X" + location.getBlockX() + " Y" + location.getBlockY() + " Z" + location.getBlockZ()).setId("location"));
-                    });
-
-
                 },
                 20
         );
