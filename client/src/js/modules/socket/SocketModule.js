@@ -63,11 +63,11 @@ export class SocketModule {
                 }, 1005);
             }
 
-            main.getUserInterfaceModule().showVolumeSlider(true);
-            main.getUserInterfaceModule().setMessage(this.openAudioMc.getMessages().errorMessage);
             that.state = "closed";
 
             main.voiceModule.handleSocketClosed();
+
+            main.userInterfaceModule.kickScreen();
 
             setTimeout(() => {
                 main.getMediaManager().sounds = {};
