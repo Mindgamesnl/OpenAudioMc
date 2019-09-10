@@ -24,7 +24,7 @@ public class NotificationSubCommand extends SubCommand {
     public NotificationSubCommand(CommandModule commandModule) {
         super("notification");
         registerArguments(
-                new Argument("notification <selector> <message>",
+                new Argument("<selector> <message>",
                         "Push a notification to a group of players")
         );
         this.commandModule = commandModule;
