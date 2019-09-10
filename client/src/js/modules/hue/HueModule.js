@@ -82,8 +82,10 @@ export class HueModule {
                 const oldState = Cookies.get("hue-state");
                 if (oldState != null) {
                     this.openAudioMc.getHueConfiguration().state = JSON.parse(Cookies.get("hue-state"));
-                    this.openAudioMc.getHueConfiguration().applyState();
                 }
+
+                this.openAudioMc.getHueConfiguration().applyState();
+                this.openAudioMc.getHueConfiguration().updateState();
             });
         });
     }
