@@ -29,7 +29,8 @@ public class SpeakerModule {
     @Getter
     private Map<MappedLocation, Speaker> speakerMap = new HashMap<>();
     private Map<String, SpeakerMedia> speakerMediaMap = new HashMap<>();
-    private Material playerSkullItem;
+    @Getter private Material playerSkullItem;
+    @Getter private Material playerSkullBlock;
     private ServerVersion version;
 
     public SpeakerModule(OpenAudioMcSpigot openAudioMcSpigot) {
@@ -41,11 +42,13 @@ public class SpeakerModule {
         if (version == ServerVersion.MODERN) {
             System.out.println(OpenAudioMc.getLOG_PREFIX() + "Enabling the 1.13 speaker system");
             playerSkullItem = Material.PLAYER_HEAD;
+            playerSkullBlock = Material.PLAYER_HEAD;
         } else {
             System.out.println(OpenAudioMc.getLOG_PREFIX() + "Enabling the 1.12 speaker system");
             try {
                 System.out.println(OpenAudioMc.getLOG_PREFIX() + "Hooking speakers attempt 1..");
                 playerSkullItem = Material.valueOf("SKULL_ITEM");
+                playerSkullBlock = Material.valueOf("SKULL");
             } catch (Exception e) {
                 System.out.println(OpenAudioMc.getLOG_PREFIX() + "Failed hook speakers attempt 1..");
             }
@@ -53,6 +56,7 @@ public class SpeakerModule {
             if (playerSkullItem == null) {
                 System.out.println(OpenAudioMc.getLOG_PREFIX() + "Speakers failed to hook. Hooking to a block.");
                 playerSkullItem = Material.JUKEBOX;
+                playerSkullBlock = Material.JUKEBOX;
             }
         }
 

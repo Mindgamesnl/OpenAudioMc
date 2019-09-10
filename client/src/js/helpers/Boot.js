@@ -18,9 +18,6 @@ export class Boot {
     }
 
     boot() {
-        // load background
-        document.getElementById('page').classList.remove('dark-bg');
-
         //set volume
         let presetVolume = Cookies.get("volume");
         Cookies.set('auto-join-call', false);

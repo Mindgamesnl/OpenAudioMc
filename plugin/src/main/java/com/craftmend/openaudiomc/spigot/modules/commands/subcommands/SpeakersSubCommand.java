@@ -12,10 +12,19 @@ import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
+import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.SkullType;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Skull;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 
 public class SpeakersSubCommand extends SubCommand {
@@ -82,6 +91,28 @@ public class SpeakersSubCommand extends SubCommand {
             config.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".radius", range);
             config.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".media", source);
 
+            // place block
+            Location location = mappedLocation.toBukkit();
+            location.getBlock().setType(openAudioMcSpigot.getSpeakerModule().getPlayerSkullBlock());
+
+            if (OpenAudioMc.getInstance().getServerService().getVersion() == ServerVersion.LEGACY) {
+                // reflection for the old map
+                try {
+                    Block.class.getMethod("setData", byte.class).invoke(location.getBlock(), (byte) 1);
+                } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+                    message(sender, "Something went wrong with reflection");
+                    e.printStackTrace();
+                    return;
+                }
+            } else {
+                location.getBlock().setBlockData(openAudioMcSpigot.getSpeakerModule().getPlayerSkullBlock().createBlockData());
+            }
+
+            Skull s = (Skull) location.getBlock().getState();
+            s.setSkullType(SkullType.PLAYER);
+            s.setOwner("OpenAudioMc");
+            s.update();
+
             message(sender, "Speaker registered");
             return;
         }
@@ -109,6 +140,7 @@ public class SpeakersSubCommand extends SubCommand {
             config.setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString(), null);
 
             message(sender, "Removed speaker");
+            mappedLocation.toBukkit().getBlock().setType(Material.AIR);
             return;
         }
 

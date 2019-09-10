@@ -31,6 +31,10 @@ p {
     font-family: "Open Sans";
 }
 
+button {
+    transition: 1s;
+}
+
 .call-settings-main {
     padding-right: 5%;
     padding-left: 5%;
