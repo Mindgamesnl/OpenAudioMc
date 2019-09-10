@@ -44,20 +44,17 @@ public class SpeakerCreateListener implements Listener {
 
             UUID id = UUID.randomUUID();
             MappedLocation location = new MappedLocation(placed.getLocation());
-
-            ConfigurationInterface congig = OpenAudioMc.getInstance().getConfigurationInterface();
-
-            int range = congig.getInt(StorageKey.SETTINGS_SPEAKER_RANGE);
-
+            ConfigurationInterface config = OpenAudioMc.getInstance().getConfigurationInterface();
+            int range = config.getInt(StorageKey.SETTINGS_SPEAKER_RANGE);
             speakerModule.registerSpeaker(location, spigotConnection.getSelectedSpeakerSource(), id, range);
 
             //save to config
-            congig.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".world", location.getWorld());
-            congig.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".x", location.getX());
-            congig.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".y", location.getY());
-            congig.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".z", location.getZ());
-            congig.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".radius", range);
-            congig.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".media", spigotConnection.getSelectedSpeakerSource());
+            config.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".world", location.getWorld());
+            config.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".x", location.getX());
+            config.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".y", location.getY());
+            config.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".z", location.getZ());
+            config.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".radius", range);
+            config.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".media", spigotConnection.getSelectedSpeakerSource());
 
             event.getPlayer().sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + "Speaker registered");
         }
