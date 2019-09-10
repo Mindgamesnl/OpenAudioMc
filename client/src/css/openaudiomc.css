@@ -7,7 +7,7 @@ body {
     background: linear-gradient(rgba(29, 31, 32, .3), rgba(29, 31, 32, .3)),
     linear-gradient(45deg, rgba(0, 176, 255, .4), transparent),
     linear-gradient(180deg, rgba(230,81,0, .6), transparent),
-    url(../assets/bg.png);
+    url(../assets/bg.jpg);
     font-family: 'Raleway';
     -webkit-background-size: cover;
     background-size: cover;
