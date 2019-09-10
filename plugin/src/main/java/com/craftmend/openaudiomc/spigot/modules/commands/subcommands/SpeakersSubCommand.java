@@ -26,7 +26,7 @@ public class SpeakersSubCommand extends SubCommand {
         super("speaker");
         registerArguments(
                 new Argument("<source>",
-                        "Gives you a speaker block with you can place anywhere in the word. " +
+                        "Gives you a speaker block with you can place anywhere in the world. " +
                                 "The speaker will play the sound you entered in the argument"),
 
                 new Argument("set <world> <x> <y> <z> <url>",
