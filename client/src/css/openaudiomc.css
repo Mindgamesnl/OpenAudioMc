@@ -20,7 +20,6 @@ body {
 .dark-bg {
     background-position: -9999px;
     background: #1D1F20;
-    transition: 2s;
 }
 
 img {
@@ -160,6 +159,10 @@ p {
     width: 100%;
 }
 
+.hue-page {
+    height: 200px;
+}
+
 .hue-page h2 {
     position: absolute;
     left: 50%;
@@ -218,26 +221,6 @@ p {
     display: inline-block;
     width: 33.33%;
     margin-right: -4px;
-}
-
-
-.blurIn {
-    animation-name: blurIn;
-    animation-duration: 0.7s;
-}
-
-@keyframes blurIn {
-    0% {
-        opacity: 0;
-
-        filter: blur(90px);
-    }
-
-    100% {
-        opacity: 1;
-
-        filter: blur(0px);
-    }
 }
 
 input[type="range"] {
@@ -370,6 +353,7 @@ footer {
 
 footer a {
     color: #ffffff;
+    text-decoration: none;
 }
 
 .alert-area {

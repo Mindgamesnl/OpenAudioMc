@@ -14,7 +14,7 @@ import {NotificationModule} from "./modules/notifications/NotificationModule";
 import ClientTokenSet from "./helpers/ClientTokenSet";
 import {initAudioContext} from "./modules/voice/objects/AbstractAudio";
 import {getHueInstance} from "./helpers/JsHue";
-import {linkBootListeners} from "./helpers/StaticFunctions";
+import openAudioMc, {linkBootListeners} from "./helpers/StaticFunctions";
 
 export class OpenAudioMc extends Getters {
 
@@ -22,6 +22,13 @@ export class OpenAudioMc extends Getters {
         super();
 
         this.tokenSet = new ClientTokenSet().fromUrl(window.location.href);
+
+        if (this.tokenSet == null) {
+            document.getElementById("boot-button").style.display = "none";
+            document.getElementById("welcome-text-landing").innerHTML = "The audio client is only available for players who are online in the server. Use <small>/audio</small> to obtain a URL<br />";
+            return;
+        }
+
         this.notificationModule = new NotificationModule(this);
         this.timeService = new TimeService();
         this.messages = new Messages(this);
@@ -43,7 +50,7 @@ export class OpenAudioMc extends Getters {
 
         // request a socket service, then do the booting
         const director = new SocketDirector("https://craftmendserver.eu:444");
-        if (this.tokenSet != null) director.route()
+        director.route()
             .then((host) => {
                 this.socketModule = new SocketModule(this, host);
                 this.messages.apply();
@@ -53,8 +60,7 @@ export class OpenAudioMc extends Getters {
             })
             .catch((error) => {
                 console.error("Exception thrown", error.stack);
-                this.userInterfaceModule.showVolumeSlider(false);
-                this.userInterfaceModule.setMessage("Something went wrong. Please try again with a new link.");
+                this.userInterfaceModule.kickScreen("Your current URL appears to be invalid. Please request a new one in-game using the /audio command. If this issue if persists please contact a member of staff.")
                 new AlertBox('#alert-area', {
                     closeTime: 20000,
                     persistent: false,
