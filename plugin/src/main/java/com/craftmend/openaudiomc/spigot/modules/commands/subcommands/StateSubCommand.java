@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
+import net.md_5.bungee.protocol.packet.Chat;
 import org.bukkit.ChatColor;
 
 import java.time.Duration;
@@ -38,6 +39,7 @@ public class StateSubCommand extends SubCommand {
         message(sender, ChatColor.YELLOW + "Loaded Speakers: " + ChatColor.AQUA + "" + OpenAudioMcSpigot.getInstance().getSpeakerModule().getSpeakerMap().size());
         message(sender, ChatColor.YELLOW + "Detected Version: " + ChatColor.AQUA + "" + OpenAudioMcSpigot.getInstance().getServerService().getVersion());
         message(sender, ChatColor.YELLOW + "OpenAudioMc Provider: " + ChatColor.AQUA + "" + OpenAudioMc.getInstance().getPlatform());
+        message(sender, ChatColor.YELLOW + "Skull: " + ChatColor.AQUA + OpenAudioMcSpigot.getInstance().getSpeakerModule().getPlayerSkullItem());
         message(sender, ChatColor.YELLOW + "Time Offset: " + ChatColor.AQUA + "" + OpenAudioMc.getInstance().getTimeService().getOffset());
         message(sender, ChatColor.YELLOW + "Lat time update: " + ChatColor.AQUA + "" + Duration.between(OpenAudioMc.getInstance().getTimeService().getLastUpdated(), Instant.now()).getSeconds() + " seconds ago");
     }

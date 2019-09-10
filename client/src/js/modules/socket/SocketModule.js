@@ -41,6 +41,7 @@ export class SocketModule {
         this.socket = io(host, {query: that.authHeader, autoConnect: false});
 
         this.socket.on("connect", () => {
+            main.userInterfaceModule.openApp();
             main.getUserInterfaceModule().setMessage(this.openAudioMc.getMessages().welcomeMessage);
             main.getUserInterfaceModule().showVolumeSlider(true);
             main.socketModule.state = "ok";

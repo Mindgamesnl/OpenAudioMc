@@ -2,8 +2,6 @@ export class UserInterfaceModule {
 
     constructor(oa) {
         this.openAudioMc = oa;
-        document.getElementById("welcome").style.display = "none";
-        document.getElementById("app").style.display = "";
 
         document.getElementById("hue-bridge-menu-button").onclick = () => this.showHue();
         document.getElementById("show-main-button").onclick = () => this.showMain();
@@ -17,6 +15,14 @@ export class UserInterfaceModule {
         document.getElementById("welcome").style.display = "none";
         document.getElementById("hueMenu").style.display = "none";
         document.getElementById("app").style.display = "";
+    }
+
+    openApp() {
+        document.getElementById("welcome").style.display = "none";
+        document.getElementById("app").style.display = "";
+        this.openAudioMc.userInterfaceModule.setMessage(this.openAudioMc.messages.welcomeMessage);
+        this.openAudioMc.userInterfaceModule.showVolumeSlider(true);
+        document.getElementById('page').classList.remove('dark-bg');
     }
 
     showHue() {

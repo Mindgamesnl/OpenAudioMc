@@ -8,6 +8,8 @@ export default openAudioMc;
 
 function enable() {
     if (openAudioMc == null) {
+        document.getElementById("boot-button").style.display = "none";
+        document.getElementById("welcome-text-landing").innerHTML = "Connecting you to the server. Please wait.";
         openAudioMc = new OpenAudioMc();
     }
 }

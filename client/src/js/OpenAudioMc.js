@@ -24,7 +24,6 @@ export class OpenAudioMc extends Getters {
         this.tokenSet = new ClientTokenSet().fromUrl(window.location.href);
 
         if (this.tokenSet == null) {
-            document.getElementById("boot-button").style.display = "none";
             document.getElementById("welcome-text-landing").innerHTML = "The audio client is only available for players who are online in the server. Use <small>/audio</small> to obtain a URL<br />";
             return;
         }
@@ -43,9 +42,6 @@ export class OpenAudioMc extends Getters {
         initAudioContext();
 
         this.voiceModule = new VoiceModule(this);
-
-        this.userInterfaceModule.setMessage(this.messages.welcomeMessage);
-        this.userInterfaceModule.showVolumeSlider(true);
         this.boot();
 
         // request a socket service, then do the booting
