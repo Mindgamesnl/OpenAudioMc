@@ -63,7 +63,7 @@ export class HueConfigurationModule {
     }
 
     getHueIdFromId(id) {
-        return this.state[parseInt(id)].value;;
+        return this.state[parseInt(id)].value;
     }
 
     setLightNamesAndIds(items) {

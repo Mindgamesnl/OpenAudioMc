@@ -4,10 +4,7 @@
 
 body {
     vertical-align: middle;
-    background: linear-gradient(rgba(29, 31, 32, .3), rgba(29, 31, 32, .3)),
-    linear-gradient(45deg, rgba(0, 176, 255, .4), transparent),
-    linear-gradient(180deg, rgba(230,81,0, .6), transparent),
-    url(../assets/bg.jpg);
+    background: linear-gradient(rgba(29, 31, 32, .3), rgba(29, 31, 32, .3)),     linear-gradient(45deg, rgba(0, 176, 255, .4) 20%, transparent),     linear-gradient(180deg, rgba(230,81,0, .6) 30%, transparent),     url(../assets/bg.jpg);
     font-family: 'Raleway';
     -webkit-background-size: cover;
     background-size: cover;
@@ -164,17 +161,22 @@ button {
 }
 
 .hue-page {
-    height: 200px;
+    height: 550px;
 }
 
 .hue-page h2 {
     position: absolute;
     left: 50%;
     transform: translate(-50%, -50%);
-    top: 10%;
+    top: 3%;
     text-transform: uppercase;
     font-size: 2vw;
     color: #fff;
+}
+
+.hue-page p {
+    position: relative;
+    padding-top: 12%;
 }
 
 .hue-page .content {
@@ -192,10 +194,8 @@ button {
     color: rgb(160, 140, 238);
     text-align: center;
     left: 50%;
-    transform: translate(-50%, -50%);
     width: 100%;
     top: 50%;
-    position: fixed;
 }
 
 .prompt-press {
@@ -216,14 +216,14 @@ button {
 }
 
 .bulbs {
-    width: 50%;
+    width: 100%;
 }
 
 .bulb {
     color: white;
     height: 50px;
     display: inline-block;
-    width: 33.33%;
+    width: 32.33%;
     margin-right: -4px;
 }
 
@@ -558,7 +558,7 @@ footer a {
 .volume-section {
     width: 100%;
     color: white;
-    background: #00B0FF;
+    background: linear-gradient(90deg, rgb(230,81,0) 40%, rgba(0, 176, 255, 1));
 }
 
 .title-section {
