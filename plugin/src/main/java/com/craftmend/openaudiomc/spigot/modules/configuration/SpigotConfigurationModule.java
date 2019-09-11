@@ -37,7 +37,7 @@ public class SpigotConfigurationModule implements ConfigurationInterface {
 
         System.out.println(OpenAudioMc.getLOG_PREFIX() + "Starting configuration module");
         // migration
-        if (getString(StorageKey.AUTH_PUBLIC_URL).contains("client.openaudiomc")) {
+        if (getString(StorageKey.AUTH_PUBLIC_URL).contains("client.openaudiomc.net")) {
             setString(StorageKey.AUTH_PUBLIC_URL, "https://app.openaudiomc.net/?&data=");
         }
     }
