@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.generic.flags.FlagSet;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
 import com.craftmend.openaudiomc.generic.media.MediaModule;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
+import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.objects.OpenAudioApi;
 import com.craftmend.openaudiomc.generic.networking.NetworkingService;
@@ -27,6 +28,8 @@ import com.craftmend.openaudiomc.bungee.modules.configuration.BungeeConfiguratio
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
+
+import java.lang.reflect.InvocationTargetException;
 
 @Getter
 public class OpenAudioMc {
@@ -66,7 +69,7 @@ public class OpenAudioMc {
     private StateService stateService;
     private ServerService serverService;
     private TimeService timeService;
-    private NetworkingService networkingService;
+    private INetworkingService networkingService;
     private FlagSet flagSet;
     private ConfigurationInterface configurationInterface;
     private AuthenticationService authenticationService;
@@ -87,7 +90,7 @@ public class OpenAudioMc {
     // The platform, easy for detecting what should be enabled and what not ya know
     private Platform platform;
 
-    public OpenAudioMc(Platform platform) {
+    public OpenAudioMc(Platform platform, Class networkingService) {
         instance = this;
         this.platform = platform;
 
@@ -109,7 +112,15 @@ public class OpenAudioMc {
         this.stateService = new StateService();
         this.timeService = new TimeService();
         this.mediaModule = new MediaModule();
-        this.networkingService = new NetworkingService();
+
+        try {
+            this.networkingService = (INetworkingService) networkingService.getConstructor().newInstance();
+        } catch (InstantiationException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            // SHOULD NEVER FIRE
+            // I control the class and i'm not stupid
+            e.printStackTrace();
+        }
+
         this.voiceRoomManager = new VoiceRoomManager(this);
         this.commandModule = new CommandModule();
     }

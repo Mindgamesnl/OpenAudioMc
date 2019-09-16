@@ -80,6 +80,11 @@
             <id>sk89q-repo</id>
             <url>http://maven.sk89q.com/repo/</url>
         </repository>
+
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -148,6 +153,12 @@
             <version>1.12-SNAPSHOT</version>
             <type>jar</type>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.iKeirNez</groupId>
+            <artifactId>PluginMessageAPI-Plus-LEGACY</artifactId>
+            <version>-38c8a016a3-1</version>
         </dependency>
 
         <dependency>

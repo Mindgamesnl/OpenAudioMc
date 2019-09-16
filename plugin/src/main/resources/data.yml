@@ -4,5 +4,6 @@ keyset:
   key-version: 2
   private: not-set
   base-url: https://app.openaudiomc.net/?&data=
+  link-mode: true
 debug:
   log-state-changes: false
