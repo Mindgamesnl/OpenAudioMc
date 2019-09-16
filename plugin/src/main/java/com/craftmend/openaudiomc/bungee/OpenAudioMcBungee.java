@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.bungee;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.modules.commands.BungeeCommandModule;
+import com.craftmend.openaudiomc.bungee.modules.node.NodeManager;
 import com.craftmend.openaudiomc.bungee.modules.player.PlayerManager;
 import com.craftmend.openaudiomc.generic.networking.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
@@ -25,6 +26,7 @@ public class OpenAudioMcBungee extends Plugin {
     /**
      * Managers
      */
+    @Getter private NodeManager nodeManager;
     @Getter private PlayerManager playerManager;
     @Getter private BungeeCommandModule commandModule;
 
@@ -41,6 +43,7 @@ public class OpenAudioMcBungee extends Plugin {
         // load managers and shit
         this.playerManager = new PlayerManager(this);
         this.commandModule = new BungeeCommandModule(this);
+        this.nodeManager = new NodeManager(this);
 
         // set state to idle, to allow connections and such
         OpenAudioMc.getInstance().getStateService().setState(new IdleState("OpenAudioMc started and awaiting command"));
