@@ -4,9 +4,12 @@ import com.craftmend.openaudiomc.generic.networking.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingService;
+import com.craftmend.openaudiomc.generic.node.packets.ForwardSocketPacket;
+import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.generic.voice.packets.subtypes.RoomMember;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.listeners.BungeePacketListener;
+import com.ikeirnez.pluginmessageframework.PacketPlayer;
 import com.ikeirnez.pluginmessageframework.implementations.BukkitPacketManager;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.bukkit.entity.Player;
@@ -36,7 +39,14 @@ public class ProxyNetworkingService implements INetworkingService {
     @Override
     public void send(ClientConnection client, AbstractPacket packet) {
         // handle packet if it should be passed to bungee
-
+        // forward every packet starting with PacketClient
+        if (packet.getClass().getSimpleName().startsWith("PacketClient")) {
+            packet.setClient(client.getPlayer().getUniqueId());
+            if (client.isConnected()) {
+                Player player = ((SpigotPlayerAdapter) client.getPlayer()).getPlayer();
+                packetManager.sendPacket(new PacketPlayer(player), new ForwardSocketPacket(packet));
+            }
+        }
     }
 
     @Override

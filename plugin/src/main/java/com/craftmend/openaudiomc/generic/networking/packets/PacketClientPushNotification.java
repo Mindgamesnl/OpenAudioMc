@@ -4,9 +4,9 @@ import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.enums.PacketChannel;
 import com.craftmend.openaudiomc.generic.networking.payloads.NotificationPayload;
 
-public class PacketPushNotification extends AbstractPacket {
+public class PacketClientPushNotification extends AbstractPacket {
 
-    public PacketPushNotification(String title, String message) {
+    public PacketClientPushNotification(String title, String message) {
         super(
                 new NotificationPayload(title, message),
                 PacketChannel.CLIENT_OUT_PUSH_NOTIFICATION,

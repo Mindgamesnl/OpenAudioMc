@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking.client.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.networking.packets.PacketPushNotification;
+import com.craftmend.openaudiomc.generic.networking.packets.PacketClientPushNotification;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,7 +26,7 @@ public class Notification {
 
     public void send(ClientConnection clientConnection) {
         if (title != null && !title.equals("") && message != null && !message.equals("")) {
-            OpenAudioMc.getInstance().getNetworkingService().send(clientConnection, new PacketPushNotification(title, message));
+            OpenAudioMc.getInstance().getNetworkingService().send(clientConnection, new PacketClientPushNotification(title, message));
         }
     }
 
