@@ -4,3 +4,10 @@ main: com.craftmend.openaudiomc.bungee.OpenAudioMcBungee
 authors: [Mindgamesnl]
 description: The OpenAudioMc plugin. Brings real sound and lights to your minecraft server with the help of a custom web client.
 website: https://openaudiomc.net/
+commands:
+  audio:
+    aliases: [sound, connect, media, muziek, geluid]
+  volume:
+    aliases: [setvolume, vol]
+  openaudiomc:
+    aliases: [oam, oa, openaudio]

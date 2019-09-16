@@ -14,7 +14,7 @@ public class OpenAudioMcBungeeCommand extends Command {
     private CommandModule commandModule = OpenAudioMc.getInstance().getCommandModule();
 
     public OpenAudioMcBungeeCommand() {
-        super("openaudiomc", "openaudiomc.openaudiomc", "oam", "oa", "openaudio");
+        super("openaudiomc", null, "oam", "oa", "openaudio");
     }
 
     @Override

@@ -39,7 +39,7 @@ public class ClientConnection {
     @Getter private List<Media> ongoingMedia = new ArrayList<>();
 
     // session info
-    @Getter private Boolean isConnected = false;
+    private Boolean isConnected = false;
     @Getter private Session session;
     @Setter @Getter private Card card = null;
     @Setter @Getter private Boolean hasWaitingToken = false;
@@ -61,6 +61,9 @@ public class ClientConnection {
     }
 
     public void publishUrl() {
+        // cancel if the player is via bungee because bungee should handle it
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE) return;
+
         if (isConnected) {
             player.sendMessage(Platform.translateColors(Objects.requireNonNull(
                     OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_ALREADY_CONNECTED)
@@ -202,14 +205,19 @@ public class ClientConnection {
             // stop after x seconds
             OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(() -> ongoingMedia.remove(media), (20 * media.getKeepTimeout()));
         }
-        if (isConnected)
+        if (getIsConnected())
             OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientCreateMedia(media));
     }
 
     public void tickPrompt() {
-        if (!isConnected && (Duration.between(lastConnectPrompt, Instant.now()).toMillis() * 1000) > 15) {
+        if (!getIsConnected() && (Duration.between(lastConnectPrompt, Instant.now()).toMillis() * 1000) > 15) {
             player.sendMessage(Platform.translateColors(OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_PROMPT_TO_CONNECT)));
         }
+    }
+
+    public Boolean getIsConnected() {
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE) return true;
+        return this.isConnected;
     }
 
     public Boolean isConnected() {

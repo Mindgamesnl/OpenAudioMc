@@ -42,10 +42,8 @@ public class ProxyNetworkingService implements INetworkingService {
         // forward every packet starting with PacketClient
         if (packet.getClass().getSimpleName().startsWith("PacketClient")) {
             packet.setClient(client.getPlayer().getUniqueId());
-            if (client.isConnected()) {
-                Player player = ((SpigotPlayerAdapter) client.getPlayer()).getPlayer();
-                packetManager.sendPacket(new PacketPlayer(player), new ForwardSocketPacket(packet));
-            }
+            Player player = ((SpigotPlayerAdapter) client.getPlayer()).getPlayer();
+            packetManager.sendPacket(new PacketPlayer(player), new ForwardSocketPacket(packet));
         }
     }
 

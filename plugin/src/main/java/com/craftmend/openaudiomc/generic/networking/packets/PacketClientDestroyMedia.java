@@ -6,8 +6,12 @@ import com.craftmend.openaudiomc.generic.networking.payloads.ClientDestroyMediaP
 
 public class PacketClientDestroyMedia extends AbstractPacket {
 
+    public PacketClientDestroyMedia(String soundId, Boolean deleteSpecial) {
+        super(new ClientDestroyMediaPayload(soundId, deleteSpecial), PacketChannel.CLIENT_OUT_DESTROY_MEDIA, null);
+    }
+
     public PacketClientDestroyMedia(String soundId) {
-        super(new ClientDestroyMediaPayload(soundId), PacketChannel.CLIENT_OUT_DESTROY_MEDIA, null);
+        super(new ClientDestroyMediaPayload(soundId, false), PacketChannel.CLIENT_OUT_DESTROY_MEDIA, null);
     }
 
 }

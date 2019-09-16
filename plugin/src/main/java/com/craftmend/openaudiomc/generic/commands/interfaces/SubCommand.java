@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.permissions.Permission;
 
 import java.util.ArrayList;
@@ -47,6 +48,14 @@ public abstract class SubCommand {
         return commandSender.hasPermission("openaudiomc.commands." + command)
                 || commandSender.hasPermission("openaudiomc.commands.*")
                 || commandSender.hasPermission("openaudiomc.*");
+    }
+
+    protected String getColor(String color) {
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) {
+            return net.md_5.bungee.api.ChatColor.valueOf(color).toString();
+        } else {
+            return ChatColor.valueOf(color).toString();
+        }
     }
 
     /**
