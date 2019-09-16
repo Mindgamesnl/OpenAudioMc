@@ -9,7 +9,6 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class HelpSubCommand extends SubCommand {
@@ -44,13 +43,13 @@ public class HelpSubCommand extends SubCommand {
     }
 
     private void goldMessage(GenericExecutor s, String message) {
-        s.sendMessage(" " + ChatColor.YELLOW + "> " + ChatColor.GOLD + message);
+        s.sendMessage(" " + getColor("YELLOW") + "> " + getColor("GOLD") + message);
     }
 
     private void goldClickableMessage(GenericExecutor s, String message, String command) {
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
             if (s.getOriginal() instanceof Player) {
-                TextComponent component = new TextComponent(" " + ChatColor.YELLOW + "> " + ChatColor.GOLD + message);
+                TextComponent component = new TextComponent(" " + getColor("YELLOW") + "> " + getColor("GOLD") + message);
                 component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + command));
                 Player player = (Player) s.getOriginal();
                 player.spigot().sendMessage(component);
@@ -60,7 +59,7 @@ public class HelpSubCommand extends SubCommand {
 
         if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) {
             if (s.getOriginal() instanceof ProxiedPlayer) {
-                TextComponent component = new TextComponent(" " + ChatColor.YELLOW + "> " + ChatColor.GOLD + message);
+                TextComponent component = new TextComponent(" " + getColor("YELLOW") + "> " + getColor("GOLD") + message);
                 component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + command));
                 ProxiedPlayer player = (ProxiedPlayer) s.getOriginal();
                 player.sendMessage(component);
@@ -68,10 +67,10 @@ public class HelpSubCommand extends SubCommand {
             }
         }
 
-        s.sendMessage(" " + ChatColor.YELLOW + "> " + ChatColor.GOLD + message + ChatColor.GRAY + ". (" + command + ")");
+        s.sendMessage(" " + getColor("YELLOW") + "> " + getColor("GOLD") + message + getColor("GRAY") + ". (" + command + ")");
     }
 
     private void grayMessage(GenericExecutor s, String message) {
-        s.sendMessage("  " + ChatColor.DARK_GRAY + "> " + ChatColor.ITALIC + "" + ChatColor.GRAY + message);
+        s.sendMessage("  " + getColor("DARK_GRAY") + "> " + getColor("ITALIC") + "" + getColor("GRAY") + message);
     }
 }

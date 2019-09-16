@@ -114,7 +114,7 @@ export class Handlers {
         });
 
         openAudioMc.socketModule.registerHandler("ClientDestroyMediaPayload", data => {
-            this.openAudioMc.getMediaManager().destroySounds(data.soundId);
+            this.openAudioMc.getMediaManager().destroySounds(data.soundId, data.all);
         });
 
         function convertRange(value, r1, r2) {

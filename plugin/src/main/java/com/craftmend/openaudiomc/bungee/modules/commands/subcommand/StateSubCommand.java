@@ -18,17 +18,17 @@ public class StateSubCommand extends SubCommand {
 
     @Override
     public void onExecute(GenericExecutor sender, String[] args) {
-        message(sender, ChatColor.YELLOW + "State: " + ChatColor.GRAY + "Usefull session info");
-        message(sender, ChatColor.YELLOW + "State: " + ChatColor.AQUA + OpenAudioMc.getInstance().getStateService().getCurrentState().getClass().getSimpleName());
-        message(sender, ChatColor.YELLOW + "State Info: " + ChatColor.AQUA + OpenAudioMc.getInstance().getStateService().getCurrentState().getDescription());
+        message(sender, getColor("YELLOW") + "State: " + getColor("GRAY") + "Usefull session info");
+        message(sender, getColor("YELLOW") + "State: " + getColor("AQUA") + OpenAudioMc.getInstance().getStateService().getCurrentState().getClass().getSimpleName());
+        message(sender, getColor("YELLOW") + "State Info: " + getColor("AQUA") + OpenAudioMc.getInstance().getStateService().getCurrentState().getDescription());
 
         int clients = 0;
         for (ClientConnection clientConnection : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
             if (clientConnection.isConnected()) clients++;
         }
-        message(sender, ChatColor.YELLOW + "Connected Clients: " + ChatColor.AQUA + "" + clients);
-        message(sender, ChatColor.YELLOW + "OpenAudioMc Provider: " + ChatColor.AQUA + "" + OpenAudioMc.getInstance().getPlatform());
-        message(sender, ChatColor.YELLOW + "Time Offset: " + ChatColor.AQUA + "" + OpenAudioMc.getInstance().getTimeService().getOffset());
-        message(sender, ChatColor.YELLOW + "Lat time update: " + ChatColor.AQUA + "" + Duration.between(OpenAudioMc.getInstance().getTimeService().getLastUpdated(), Instant.now()).getSeconds() + " seconds ago");
+        message(sender, getColor("YELLOW") + "Connected Clients: " + getColor("AQUA") + "" + clients);
+        message(sender, getColor("YELLOW") + "OpenAudioMc Provider: " + getColor("AQUA") + "" + OpenAudioMc.getInstance().getPlatform());
+        message(sender, getColor("YELLOW") + "Time Offset: " + getColor("AQUA") + "" + OpenAudioMc.getInstance().getTimeService().getOffset());
+        message(sender, getColor("YELLOW") + "Lat time update: " + getColor("AQUA") + "" + Duration.between(OpenAudioMc.getInstance().getTimeService().getLastUpdated(), Instant.now()).getSeconds() + " seconds ago");
     }
 }

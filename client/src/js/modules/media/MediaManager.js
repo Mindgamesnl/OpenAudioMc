@@ -12,7 +12,7 @@ export class MediaManager {
         }
     }
 
-    destroySounds(key) {
+    destroySounds(key, all) {
         this.openAudioMc.debugPrint("<b>starting to quit fade </b> " + key)
         let that = this;
 
@@ -26,7 +26,7 @@ export class MediaManager {
         } else {
             for (let key in this.sounds) {
                 if (!this.sounds.hasOwnProperty(key)) continue;
-                if (this.sounds[key].getFlag() === "DEFAULT") {
+                if (this.sounds[key].getFlag() === "DEFAULT" || (all != null && all)) {
                     if (that.sounds[key] != null) that.sounds[key].destroy();
                     delete that.sounds[key];
                 }

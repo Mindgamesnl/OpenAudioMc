@@ -43,7 +43,7 @@ public class CallSubCommand extends SubCommand {
         }
 
         if (OpenAudioMc.getInstance().getVoiceRoomManager().getMaxRoomSize() == -1) {
-            sender.sendMessage(ChatColor.RED + "Voice call's are only for partnered servers. Please see https://blog.openaudiomc.net/voice-and-partners for more information.");
+            sender.sendMessage(getColor("RED") + "Voice call's are only for partnered servers. Please see https://blog.openaudiomc.net/voice-and-partners for more information.");
             return;
         }
 

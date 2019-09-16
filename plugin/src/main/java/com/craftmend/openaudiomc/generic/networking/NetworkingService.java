@@ -123,6 +123,9 @@ public class NetworkingService implements INetworkingService {
                     client.kick();
                     OpenAudioMc.getInstance().getVoiceRoomManager().removePlayer(client);
                 }
+            } else {
+                client.kick();
+                OpenAudioMc.getInstance().getVoiceRoomManager().removePlayer(client);
             }
 
             clientMap.remove(player);
