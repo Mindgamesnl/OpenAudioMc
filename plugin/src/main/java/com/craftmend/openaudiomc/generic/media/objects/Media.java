@@ -15,7 +15,7 @@ public class Media {
 
     //media information
     private String source;
-    private int startInstant;
+    @Setter @Getter private long startInstant;
     @Setter @Getter private transient int keepTimeout = -1;
     @Getter @Setter private Boolean doPickup = true;
     @Getter @Setter private Boolean loop = false;
@@ -31,7 +31,7 @@ public class Media {
      */
     public Media(String source) {
         this.source = OpenAudioMc.getInstance().getMediaModule().process(source);
-        this.startInstant = (int) (OpenAudioMc.getInstance().getTimeService().getSyncedInstant().toEpochMilli() / 1000);
+        this.startInstant = OpenAudioMc.getInstance().getTimeService().getSyncedInstant().toEpochMilli();
     }
 
     /**
