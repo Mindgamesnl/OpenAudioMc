@@ -10,7 +10,6 @@ import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.objects.OpenAudioApi;
-import com.craftmend.openaudiomc.generic.networking.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
 import com.craftmend.openaudiomc.generic.networking.addapter.AbstractPacketAdapter;
 import com.craftmend.openaudiomc.generic.scheduling.interfaces.ITaskProvider;
