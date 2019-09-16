@@ -3,9 +3,11 @@ package com.craftmend.openaudiomc.bungee;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.modules.commands.BungeeCommandModule;
 import com.craftmend.openaudiomc.bungee.modules.player.PlayerManager;
+import com.craftmend.openaudiomc.generic.networking.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 
+import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import lombok.Getter;
 import net.md_5.bungee.api.plugin.Plugin;
 
@@ -34,7 +36,7 @@ public class OpenAudioMcBungee extends Plugin {
         instance = this;
 
         // setup core
-        new OpenAudioMc(Platform.BUNGEE);
+        new OpenAudioMc(Platform.BUNGEE, ClientMode.STAND_ALONE.serviceClass);
 
         // load managers and shit
         this.playerManager = new PlayerManager(this);

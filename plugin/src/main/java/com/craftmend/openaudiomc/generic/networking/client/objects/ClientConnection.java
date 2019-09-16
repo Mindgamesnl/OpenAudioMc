@@ -1,10 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking.client.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.cards.enums.TextStyle;
 import com.craftmend.openaudiomc.generic.cards.objects.Card;
-import com.craftmend.openaudiomc.generic.cards.objects.Text;
-import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.objects.ClientSettings;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
@@ -15,16 +12,15 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.objects.HueState;
 import com.craftmend.openaudiomc.generic.objects.SerializedHueColor;
 
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.services.utils.DataWatcher;
 import lombok.Getter;
 import lombok.Setter;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Location;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -42,6 +38,7 @@ public class ClientConnection {
 
     // player implementation
     @Getter private PlayerContainer player;
+    private Instant lastConnectPrompt = Instant.now();
 
     // on connect and disconnect handlers
     private List<Runnable> connectHandlers = new ArrayList<>();
@@ -182,6 +179,12 @@ public class ClientConnection {
         }
         if (isConnected)
             OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientCreateMedia(media));
+    }
+
+    public void tickPrompt() {
+        if (!isConnected && (Duration.between(lastConnectPrompt, Instant.now()).toMillis() * 1000) > 15) {
+            player.sendMessage(Platform.translateColors(OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_PROMPT_TO_CONNECT)));
+        }
     }
 
     public Boolean isConnected() {

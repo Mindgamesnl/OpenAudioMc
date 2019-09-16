@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.modules.commands.SpigotCommandModule;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
+import com.craftmend.openaudiomc.spigot.modules.proxy.ProxyModule;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 
 import com.craftmend.openaudiomc.spigot.modules.players.PlayerModule;
@@ -11,6 +12,8 @@ import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
 
 import lombok.Getter;
+import org.bukkit.Bukkit;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.time.Duration;
@@ -33,11 +36,13 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
     /**
      * modules that make up the plugin
      *
+     * - ProxyModule (manages bungeecord link)
      * - player module (manages player connections)
      * - region module (OPTIONAL) (only loads regions if WorldGuard is enabled)
      * - command module (registers and loads the OpenAudioMc commands)
      * - media module (loads and manages all media in the service)
      */
+    private ProxyModule proxyModule;
     private PlayerModule playerModule;
     private RegionModule regionModule;
     private SpigotCommandModule commandModule;
@@ -60,8 +65,11 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
         // Plugin startup logic
         instance = this;
 
+        // setup loader
+        this.proxyModule = new ProxyModule();
+
         // setup core
-        new OpenAudioMc(Platform.SPIGOT);
+        new OpenAudioMc(Platform.SPIGOT, proxyModule.getMode().serviceClass);
 
         // startup modules and services
         this.serverService = new ServerService();
@@ -87,9 +95,21 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
      */
     @Override
     public void onDisable() {
+        System.out.println(OpenAudioMc.getLOG_PREFIX() + "Shutting down");
         OpenAudioMc.getInstance().getConfigurationInterface().saveAll();
+        HandlerList.unregisterAll(this);
         if (OpenAudioMc.getInstance().getStateService().getCurrentState().isConnected()) {
             OpenAudioMc.getInstance().getNetworkingService().stop();
         }
+        System.out.println(OpenAudioMc.getLOG_PREFIX() + "Stopped OpenAudioMc. Goodbye.");
+    }
+
+    /**
+     * reload openaudiomc
+     */
+    public void reload() {
+        onDisable();
+        System.out.println(OpenAudioMc.getLOG_PREFIX() + "Restarting OpenAudioMc.");
+        onEnable();
     }
 }

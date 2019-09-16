@@ -8,10 +8,14 @@ import com.craftmend.openaudiomc.generic.networking.handlers.ClientConnectHandle
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.abstracts.PayloadHandler;
 import com.craftmend.openaudiomc.generic.networking.handlers.ClientDisconnectHandler;
+import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingService;
 import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
+import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.player.ProxiedPlayerAdapter;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.generic.voice.packets.subtypes.RoomMember;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.bukkit.entity.Player;
 
@@ -20,7 +24,7 @@ import java.net.URISyntaxException;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class NetworkingService {
+public class NetworkingService implements INetworkingService {
 
     private Map<UUID, ClientConnection> clientMap = new HashMap<>();
     private Map<PacketChannel, PayloadHandler> packetHandlerMap = new HashMap<>();
@@ -47,6 +51,7 @@ public class NetworkingService {
      *
      * @throws URISyntaxException server unreachable
      */
+    @Override
     public void connectIfDown() throws URISyntaxException, IOException {
         socketIoConnector.setupConnection();
     }
@@ -57,6 +62,7 @@ public class NetworkingService {
      * @param client the target
      * @param packet the data
      */
+    @Override
     public void send(ClientConnection client, AbstractPacket packet) {
         socketIoConnector.send(client, packet);
     }
@@ -67,6 +73,7 @@ public class NetworkingService {
      *
      * @param abstractPacket received
      */
+    @Override
     public void triggerPacket(AbstractPacket abstractPacket) {
         if (packetHandlerMap.get(abstractPacket.getPacketChannel()) == null) {
             System.out.println(OpenAudioMc.getLOG_PREFIX() + "Unknown handler for packet type " + abstractPacket.getClass().getName());
@@ -89,6 +96,7 @@ public class NetworkingService {
      * @param uuid the uuid of a player
      * @return the client that corresponds to the player. can be null
      */
+    @Override
     public ClientConnection getClient(UUID uuid) {
         return clientMap.get(uuid);
     }
@@ -96,6 +104,7 @@ public class NetworkingService {
     /**
      * @return a collection of all clients
      */
+    @Override
     public Collection<ClientConnection> getClients() {
         return clientMap.values();
     }
@@ -103,21 +112,31 @@ public class NetworkingService {
     /**
      * @param player the player to unregister
      */
+    @Override
     public void remove(UUID player) {
         if (clientMap.containsKey(player)) {
             ClientConnection client = clientMap.get(player);
-            client.kick();
-            OpenAudioMc.getInstance().getVoiceRoomManager().removePlayer(client);
+
+            // are we in stand alone mode? then kick this client
+            if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
+                if (OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.STAND_ALONE) {
+                    client.kick();
+                    OpenAudioMc.getInstance().getVoiceRoomManager().removePlayer(client);
+                }
+            }
+
             clientMap.remove(player);
         }
     }
 
+    @Override
     public ClientConnection register(Player player) {
         ClientConnection clientConnection = new ClientConnection(new SpigotPlayerAdapter(player));
         clientMap.put(player.getUniqueId(), clientConnection);
         return clientConnection;
     }
 
+    @Override
     public ClientConnection register(ProxiedPlayer player) {
         ClientConnection clientConnection = new ClientConnection(new ProxiedPlayerAdapter(player));
         clientMap.put(player.getUniqueId(), clientConnection);
@@ -127,10 +146,12 @@ public class NetworkingService {
     /**
      * close the socket by force, because you are a strong and independent instance
      */
+    @Override
     public void stop() {
         socketIoConnector.disconnect();
     }
 
+    @Override
     public void requestRoomCreation(List<RoomMember> members, Consumer<Boolean> wasSucessful) {
         this.socketIoConnector.createRoom(members, wasSucessful);
     }

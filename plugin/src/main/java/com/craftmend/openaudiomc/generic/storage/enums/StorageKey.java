@@ -4,6 +4,7 @@ import lombok.Getter;
 
 public enum StorageKey {
 
+    MESSAGE_PROMPT_TO_CONNECT("messages.suggest-connection", StorageLocation.CONFIG_FILE),
     MESSAGE_CLICK_TO_CONNECT("messages.click-to-connect", StorageLocation.CONFIG_FILE),
     MESSAGE_LINK_EXPIRED("messages.click-link-expired", StorageLocation.CONFIG_FILE),
     MESSAGE_CLIENT_CLOSED("messages.client-closed", StorageLocation.CONFIG_FILE),
@@ -36,6 +37,8 @@ public enum StorageKey {
     AUTH_PUBLIC_KEY("keyset.public", StorageLocation.DATA_FILE),
     AUTH_PUBLIC_URL("keyset.base-url", StorageLocation.DATA_FILE),
     AUTH_KEY_VERSION("keyset.key-version", StorageLocation.DATA_FILE),
+
+    OPTIONS_SOCKET_MODE("keyset.link-mode", StorageLocation.DATA_FILE)
     ;
 
     @Getter private String path;

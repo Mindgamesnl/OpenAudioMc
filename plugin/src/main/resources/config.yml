@@ -1,4 +1,5 @@
 messages:
+  suggest-connection: '&eYou are currently missing out on some sounds! connect with the audio client via /audio'
   click-to-connect: '&6Welcome! click here to connect to the audio client!'
   click-link-expired: '&3Your link to the audio client has expired. Use /audio to request a new one.'
   client-opened: '&2You are now connected with the audio client!'

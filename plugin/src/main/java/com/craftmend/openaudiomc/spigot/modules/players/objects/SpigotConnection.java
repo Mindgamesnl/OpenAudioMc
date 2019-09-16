@@ -1,11 +1,14 @@
 package com.craftmend.openaudiomc.spigot.modules.players.objects;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.packets.PacketClientDestroyMedia;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.spigot.modules.players.handlers.RegionHandler;
 import com.craftmend.openaudiomc.spigot.modules.players.handlers.SpeakerHandler;
 import com.craftmend.openaudiomc.spigot.modules.players.events.ClientConnectEvent;
+import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.IRegion;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.ApplicableSpeaker;
 
@@ -79,6 +82,21 @@ public class SpigotConnection {
      * Called before the Client object is destroyed
      */
     public void onDestroy() {
+        // are we a node? then stop everything we have running!
+        if (OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE) {
+            // cancel speakers
+            for (ApplicableSpeaker speaker : getSpeakers()) {
+                OpenAudioMc.getInstance().getNetworkingService().send(getClientConnection(), new PacketClientDestroyMedia(speaker.getSpeaker().getMedia().getMediaId()));
+            }
+
+            // cancel regions
+            for (IRegion region : getRegions()) {
+                OpenAudioMc.getInstance().getNetworkingService().send(getClientConnection(), new PacketClientDestroyMedia(region.getMedia().getMediaId()));
+            }
+
+            // cancel other shit
+            OpenAudioMc.getInstance().getNetworkingService().send(getClientConnection(), new PacketClientDestroyMedia(null));
+        }
         // shutdown the data watcher
         this.locationDataWatcher.stop();
     }
