@@ -1,7 +1,11 @@
 package com.craftmend.openaudiomc.generic.networking.client.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.generic.cards.objects.Card;
+import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
+import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
+import com.craftmend.openaudiomc.generic.player.ProxiedPlayerAdapter;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.objects.ClientSettings;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
@@ -12,10 +16,14 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.objects.HueState;
 import com.craftmend.openaudiomc.generic.objects.SerializedHueColor;
 
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
+import com.ikeirnez.pluginmessageframework.PacketPlayer;
 import lombok.Getter;
 import lombok.Setter;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -81,10 +89,8 @@ public class ClientConnection {
     // client connected!
     public void onConnect() {
         ConfigurationInterface configurationInterface = OpenAudioMc.getInstance().getConfigurationInterface();
-        String connectedMessage = configurationInterface.getString(StorageKey.MESSAGE_CLIENT_OPENED);
         String startSound = configurationInterface.getString(StorageKey.SETTINGS_CLIENT_START_SOUND);
 
-        player.sendMessage(Platform.translateColors(connectedMessage));
         this.isConnected = true;
         this.hasWaitingToken = false;
 
@@ -110,11 +116,30 @@ public class ClientConnection {
                 },
                 20
         );
+
+        // am I a bungeecord thingy? then send it to my other thingy
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) {
+            ProxiedPlayer proxiedPlayer = ((ProxiedPlayerAdapter) player).getPlayer();
+            OpenAudioMcBungee.getInstance().getNodeManager().getPacketManager().sendPacket(new PacketPlayer(proxiedPlayer), new ClientConnectedPacket(player.getUniqueId()));
+        }
+
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE) return;
+        String connectedMessage = configurationInterface.getString(StorageKey.MESSAGE_CLIENT_OPENED);
+        player.sendMessage(Platform.translateColors(connectedMessage));
     }
 
     public void onDisconnect() {
         this.isConnected = false;
         disconnectHandlers.forEach(event -> event.run());
+
+        // am I a bungeecord thingy? then send it to my other thingy
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) {
+            ProxiedPlayer proxiedPlayer = ((ProxiedPlayerAdapter) player).getPlayer();
+            OpenAudioMcBungee.getInstance().getNodeManager().getPacketManager().sendPacket(new PacketPlayer(proxiedPlayer), new ClientDisconnectedPacket(player.getUniqueId()));
+        }
+
+        // Don't send if i'm spigot and a node
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE) return;
         String message = OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLIENT_CLOSED);
         player.sendMessage(Platform.translateColors(message));
     }

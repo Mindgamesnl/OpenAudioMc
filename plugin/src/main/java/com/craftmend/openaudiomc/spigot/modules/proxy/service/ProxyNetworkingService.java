@@ -5,6 +5,9 @@ import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingService;
 import com.craftmend.openaudiomc.generic.voice.packets.subtypes.RoomMember;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.proxy.listeners.BungeePacketListener;
+import com.ikeirnez.pluginmessageframework.implementations.BukkitPacketManager;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.bukkit.entity.Player;
 
@@ -18,6 +21,12 @@ import java.util.function.Consumer;
 public class ProxyNetworkingService implements INetworkingService {
 
     private NetworkingService realService = new NetworkingService();
+    private BukkitPacketManager packetManager;
+
+    public ProxyNetworkingService() {
+        packetManager = new BukkitPacketManager(OpenAudioMcSpigot.getInstance(), "OpenAudioMc-Node");
+        packetManager.registerListener(new BungeePacketListener());
+    }
 
     @Override
     public void connectIfDown() throws URISyntaxException, IOException {
@@ -27,6 +36,7 @@ public class ProxyNetworkingService implements INetworkingService {
     @Override
     public void send(ClientConnection client, AbstractPacket packet) {
         // handle packet if it should be passed to bungee
+
     }
 
     @Override
