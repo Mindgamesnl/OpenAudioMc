@@ -3,7 +3,6 @@ package com.craftmend.openaudiomc.spigot.modules.speakers.listeners;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
@@ -36,7 +35,7 @@ public class SpeakerCreateListener implements Listener {
             }
 
             SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(event.getPlayer());
-            if (spigotConnection.getSelectedSpeakerSource() == null) {
+            if (spigotConnection.getSelectedSpeakerSettings() == null) {
                 event.getPlayer().sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + "You cant place OpenAudioMc speakers without using the command first. I dont know what sound you would like to add.");
                 event.setCancelled(true);
                 return;
@@ -45,8 +44,8 @@ public class SpeakerCreateListener implements Listener {
             UUID id = UUID.randomUUID();
             MappedLocation location = new MappedLocation(placed.getLocation());
             ConfigurationInterface config = OpenAudioMc.getInstance().getConfigurationInterface();
-            int range = config.getInt(StorageKey.SETTINGS_SPEAKER_RANGE);
-            speakerModule.registerSpeaker(location, spigotConnection.getSelectedSpeakerSource(), id, range);
+            int range = spigotConnection.getSelectedSpeakerSettings().getRadius();
+            speakerModule.registerSpeaker(location, spigotConnection.getSelectedSpeakerSettings().getSource(), id, range);
 
             //save to config
             config.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".world", location.getWorld());
@@ -54,7 +53,7 @@ public class SpeakerCreateListener implements Listener {
             config.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".y", location.getY());
             config.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".z", location.getZ());
             config.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".radius", range);
-            config.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".media", spigotConnection.getSelectedSpeakerSource());
+            config.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".media", spigotConnection.getSelectedSpeakerSettings().getSource());
 
             event.getPlayer().sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + "Speaker registered");
         }

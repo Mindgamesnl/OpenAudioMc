@@ -12,6 +12,7 @@ import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
+import com.craftmend.openaudiomc.spigot.modules.speakers.objects.SpeakerSettings;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -34,9 +35,9 @@ public class SpeakersSubCommand extends SubCommand {
     public SpeakersSubCommand(OpenAudioMcSpigot openAudioMcSpigot) {
         super("speaker");
         registerArguments(
-                new Argument("<source>",
+                new Argument("<source> [radius]",
                         "Gives you a speaker block which you can place anywhere in the world. " +
-                                "The speaker will play the sound you entered in the argument"),
+                                "The speaker will play the sound you entered in the argument. Optional radius as number."),
 
                 new Argument("set <world> <x> <y> <z> <url>",
                         "Force place a speaker on a location, no interactions required"),
@@ -53,14 +54,25 @@ public class SpeakersSubCommand extends SubCommand {
             return;
         }
 
-        if (args.length == 1) {
+        if (args.length == 1 || args.length == 2) {
             if (!(sender.getOriginal() instanceof Player)) {
                 message(sender, "Only players can receive a speaker item.");
                 return;
             }
+
+            int radius = 10;
+            if (args.length == 2 && isInteger(args[1])) {
+                radius = Integer.valueOf(args[1]);
+            }
+
             Player player = (Player) sender.getOriginal();
             SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(((Player) sender.getOriginal()));
-            spigotConnection.setSelectedSpeakerSource(args[0]);
+            spigotConnection.setSelectedSpeakerSettings(
+                    new SpeakerSettings(
+                            args[0],
+                            radius
+                    )
+            );
             player.getInventory().addItem(OpenAudioMcSpigot.getInstance().getSpeakerModule().getSkull());
             message(sender, "Speaker media created! You've received a Speaker skull in your inventory. Placing it anywhere in the world will add the configured sound in the are.");
             return;
@@ -163,6 +175,22 @@ public class SpeakersSubCommand extends SubCommand {
             // failed to parse location
             return null;
         }
+    }
+
+    private boolean isInteger(String s) {
+        return isInteger(s,10);
+    }
+
+    private boolean isInteger(String s, int radix) {
+        if(s.isEmpty()) return false;
+        for(int i = 0; i < s.length(); i++) {
+            if(i == 0 && s.charAt(i) == '-') {
+                if(s.length() == 1) return false;
+                else continue;
+            }
+            if(Character.digit(s.charAt(i),radix) < 0) return false;
+        }
+        return true;
     }
 
 }

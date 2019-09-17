@@ -9,6 +9,7 @@ import com.craftmend.openaudiomc.spigot.modules.players.events.ClientConnectEven
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.IRegion;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.ApplicableSpeaker;
 
+import com.craftmend.openaudiomc.spigot.modules.speakers.objects.SpeakerSettings;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import com.craftmend.openaudiomc.spigot.services.utils.DataWatcher;
 import lombok.Getter;
@@ -40,7 +41,7 @@ public class SpigotConnection {
     private RegionHandler regionHandler;
 
     //plugin data
-    @Setter @Getter private String selectedSpeakerSource = null;
+    @Setter @Getter private SpeakerSettings selectedSpeakerSettings = null;
 
     /**
      * @param player client startup logic
