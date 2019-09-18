@@ -1,7 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.regions.interfaces;
 
 import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
-import com.craftmend.openaudiomc.spigot.modules.regions.objects.IRegion;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.Region;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.Location;

@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.players.interfaces;
 
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.networking.client.objects.Session;
-import com.craftmend.openaudiomc.spigot.modules.regions.objects.IRegion;
+import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.ApplicableSpeaker;
 
 import java.util.List;

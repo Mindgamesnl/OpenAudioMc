@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
+import com.craftmend.openaudiomc.spigot.modules.regions.objects.TimedRegionProperties;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -21,6 +22,9 @@ public class RegionsSubCommand extends SubCommand {
         registerArguments(
                 new Argument("create <WG-region> <source>",
                         "Assigns a sound to a WorldGuard region by name"),
+
+                new Argument("temp <WG-region> <source> <duration>",
+                        "Create a temporary region with it's own synced sound"),
 
                 new Argument("delete <WG-region>",
                         "Unlink the sound from a WorldGuard specific region by name")
@@ -40,13 +44,34 @@ public class RegionsSubCommand extends SubCommand {
             return;
         }
 
+        if (args[0].equalsIgnoreCase("temp") && args.length == 4) {
+            if (!isInteger(args[3])) {
+                message(sender, ChatColor.RED + "You must have a duration in seconds, like 60");
+                return;
+            }
+
+            int duration = Integer.parseInt(args[3]);
+
+            args[1] = args[1].toLowerCase();
+
+            if (!openAudioMcSpigot.getRegionModule().getRegionAdapter().doesRegionExist(args[1])) {
+                message(sender, ChatColor.RED + "ERROR! There is no WorldGuard region called '" + args[1]
+                        + "'. Please make the WorldGuard region before you register it in OpenAudioMc.");
+                return;
+            }
+
+            openAudioMcSpigot.getRegionModule().registerRegion(args[1], new TimedRegionProperties(args[2], duration, args[1]));
+            message(sender, "The WorldGuard region with the id " + args[1] + " now has the sound " + args[2]);
+            return;
+        }
+
         ConfigurationInterface config = OpenAudioMc.getInstance().getConfigurationInterface();
         if (args[0].equalsIgnoreCase("create") && args.length == 3) {
             args[1] = args[1].toLowerCase();
 
             if (!openAudioMcSpigot.getRegionModule().getRegionAdapter().doesRegionExist(args[1])) {
-                message(sender, ChatColor.RED + "ERROR! There is no worldguard region called '" + args[1]
-                        + "'. Please make the worldguard region before you regester it in OpenAudioMc.");
+                message(sender, ChatColor.RED + "ERROR! There is no WorldGuard region called '" + args[1]
+                        + "'. Please make the WorldGuard region before you register it in OpenAudioMc.");
                 return;
             }
 
@@ -64,5 +89,21 @@ public class RegionsSubCommand extends SubCommand {
         }
 
         Bukkit.getServer().dispatchCommand((CommandSender) sender.getOriginal(), "oa help " + getCommand());
+    }
+
+    private boolean isInteger(String s) {
+        return isInteger(s,10);
+    }
+
+    private boolean isInteger(String s, int radix) {
+        if(s.isEmpty()) return false;
+        for(int i = 0; i < s.length(); i++) {
+            if(i == 0 && s.charAt(i) == '-') {
+                if(s.length() == 1) return false;
+                else continue;
+            }
+            if(Character.digit(s.charAt(i),radix) < 0) return false;
+        }
+        return true;
     }
 }

@@ -27,7 +27,7 @@ public class ProxyNetworkingService implements INetworkingService {
     private BukkitPacketManager packetManager;
 
     public ProxyNetworkingService() {
-        packetManager = new BukkitPacketManager(OpenAudioMcSpigot.getInstance(), "OpenAudioMc:Node");
+        packetManager = new BukkitPacketManager(OpenAudioMcSpigot.getInstance(), "openaudiomcnode");
         packetManager.registerListener(new BungeePacketListener());
     }
 
