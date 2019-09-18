@@ -6,7 +6,7 @@ import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.spigot.modules.players.handlers.RegionHandler;
 import com.craftmend.openaudiomc.spigot.modules.players.handlers.SpeakerHandler;
 import com.craftmend.openaudiomc.spigot.modules.players.events.ClientConnectEvent;
-import com.craftmend.openaudiomc.spigot.modules.regions.objects.IRegion;
+import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.ApplicableSpeaker;
 
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.SpeakerSettings;

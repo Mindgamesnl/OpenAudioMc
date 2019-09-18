@@ -9,7 +9,7 @@ import com.craftmend.openaudiomc.generic.voice.exception.RequestPendingException
 import com.craftmend.openaudiomc.generic.voice.objects.RoomPrototype;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
-import com.craftmend.openaudiomc.spigot.modules.regions.objects.IRegion;
+import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import org.bukkit.Location;
