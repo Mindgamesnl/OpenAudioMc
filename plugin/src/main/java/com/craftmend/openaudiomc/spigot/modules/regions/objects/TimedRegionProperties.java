@@ -23,6 +23,6 @@ public class TimedRegionProperties extends RegionProperties {
 
     @Override
     public Media getMedia() {
-        return this.getMedia();
+        return this.media;
     }
 }
