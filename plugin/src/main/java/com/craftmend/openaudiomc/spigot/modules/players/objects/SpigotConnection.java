@@ -30,7 +30,7 @@ public class SpigotConnection {
 
     // data watcher that watches for changes in the location, every 5 ticks.
     // If the server version is MODERN (so 1.13 or higher) the task will run sync
-    private DataWatcher<Location> locationDataWatcher = new DataWatcher<>(
+    @Getter private DataWatcher<Location> locationDataWatcher = new DataWatcher<>(
             OpenAudioMcSpigot.getInstance(),
             (OpenAudioMcSpigot.getInstance().getServerService().getVersion() == ServerVersion.MODERN),
             5
