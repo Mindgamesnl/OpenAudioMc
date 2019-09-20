@@ -30,12 +30,7 @@ public class TimedRegionProperties extends RegionProperties {
     private void forceUpdateClients() {
         OpenAudioMcSpigot.getInstance().getPlayerModule().getClients()
                 .stream()
-                .filter(client -> {
-                    for (IRegion region : client.getRegions()) {
-                        if (region.getId().equals(id)) return true;
-                    }
-                    return false;
-                })
+                .filter(client -> client.getRegions().stream().anyMatch(region -> region.getId().equals(id)))
                 .forEach(client -> client.getLocationDataWatcher().forceTicK());
     }
 
@@ -43,4 +38,5 @@ public class TimedRegionProperties extends RegionProperties {
     public Media getMedia() {
         return this.media;
     }
+    
 }
