@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
+import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
 import org.bukkit.Bukkit;
 
 public class TimedRegionProperties extends RegionProperties {
@@ -29,7 +30,12 @@ public class TimedRegionProperties extends RegionProperties {
     private void forceUpdateClients() {
         OpenAudioMcSpigot.getInstance().getPlayerModule().getClients()
                 .stream()
-                .filter(client -> client.getRegions().contains(id))
+                .filter(client -> {
+                    for (IRegion region : client.getRegions()) {
+                        if (region.getId().equals(id)) return true;
+                    }
+                    return false;
+                })
                 .forEach(client -> client.getLocationDataWatcher().forceTicK());
     }
 
