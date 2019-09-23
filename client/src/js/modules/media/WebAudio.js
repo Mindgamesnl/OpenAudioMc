@@ -32,7 +32,7 @@ export class WebAudio {
         this.soundElement.setAttribute("display", "none");
 
         //register events
-        this.soundElement.oncanplay = function () {
+        this.soundElement.oncanplay = () => {
             that.isPlayable = true;
             that.isLoading = true;
             if (that.isFirstRun) {
@@ -41,20 +41,20 @@ export class WebAudio {
             }
         };
 
-        this.soundElement.oncanplaythrough = function () {
+        this.soundElement.oncanplaythrough = () => {
             that.isLoading = false;
         };
 
-        this.soundElement.onended = function () {
+        this.soundElement.onended = () => {
             that.isPlayable = true;
             that.onFinishHandlers.forEach(callback => callback());
         };
 
-        this.soundElement.onloadstart = function () {
+        this.soundElement.onloadstart = () => {
             that.isLoading = true;
         };
 
-        this.soundElement.ontimeupdate = function () {
+        this.soundElement.ontimeupdate = () => {
             if (that.soundElement != null) that.time = that.soundElement.currentTime;
         };
     }
@@ -86,7 +86,6 @@ export class WebAudio {
 
     setVolume(volume, fadetime, onfinish) {
         //calculate volume if it is a speaker
-        this._onFadeFinish = onfinish;
         if (this._maxDistance !== -1) {
             volume = Math.round(((this._maxDistance - this._distance) / this._maxDistance) * this.openAudioMc.getMediaManager().masterVolume);
         }
@@ -98,6 +97,7 @@ export class WebAudio {
             clearInterval(this.task);
             this._executeOnFinish();
         }
+        this._onFadeFinish = onfinish;
         const diff = volume - (this.soundElement.volume * 100);
         let steps = 0;
 
