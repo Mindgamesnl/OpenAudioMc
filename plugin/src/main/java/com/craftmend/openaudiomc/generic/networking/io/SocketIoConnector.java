@@ -3,7 +3,6 @@ package com.craftmend.openaudiomc.generic.networking.io;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
-import com.craftmend.openaudiomc.generic.networking.addapter.GenericApiResponse;
 import com.craftmend.openaudiomc.generic.networking.addapter.RelayHost;
 import com.craftmend.openaudiomc.generic.networking.payloads.AcknowledgeClientPayload;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
@@ -59,31 +58,40 @@ public class SocketIoConnector {
                 "&public=" + publicKey;
 
         // request a relay server
-        GenericApiResponse genericApiResponse = new RestRequest("/login.php")
+        new RestRequest("/login.php")
                 .setQuery("private", privateKey)
                 .setQuery("public", publicKey)
-                .execute();
+                .execute()
+                .thenAccept((genericApiResponse) -> {
+                    // check if relay request has errors
+                    if (genericApiResponse.getErrors().size() != 0) {
+                        System.out.println(OpenAudioMc.getLOG_PREFIX() + "Failed to get relay host.");
+                        System.out.println(OpenAudioMc.getLOG_PREFIX() + " - message: " + genericApiResponse.getErrors().get(0).getMessage());
+                        System.out.println(OpenAudioMc.getLOG_PREFIX() + " - code: " + genericApiResponse.getErrors().get(0).getCode());
+                        try {
+                            throw new IOException("Failed to get relay! see console for error information");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
 
-        // check if relay request has errors
-        if (genericApiResponse.getErrors().size() != 0) {
-            System.out.println(OpenAudioMc.getLOG_PREFIX() + "Failed to get relay host.");
-            System.out.println(OpenAudioMc.getLOG_PREFIX() + " - message: " + genericApiResponse.getErrors().get(0).getMessage());
-            System.out.println(OpenAudioMc.getLOG_PREFIX() + " - code: " + genericApiResponse.getErrors().get(0).getCode());
-            throw new IOException("Failed to get relay! see console for error information");
-        }
+                    // get the relay
+                    RelayHost relayHost = genericApiResponse.getData().get(0).findInsecureRelay();
 
-        // get the relay
-        RelayHost relayHost = genericApiResponse.getData().get(0).findInsecureRelay();
+                    // setup socketio connection
+                    try {
+                        socket = IO.socket(relayHost.getUrl(), opts);
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
 
-        // setup socketio connection
-        socket = IO.socket(relayHost.getUrl(), opts);
+                    // register state to be connecting
+                    OpenAudioMc.getInstance().getStateService().setState(new ConnectingState());
 
-        // register state to be connecting
-        OpenAudioMc.getInstance().getStateService().setState(new ConnectingState());
-
-        // attempt to setup
-        registerEvents();
-        socket.connect();
+                    // attempt to setup
+                    registerEvents();
+                    socket.connect();
+                });
     }
 
     private void registerEvents() {
@@ -175,10 +183,6 @@ public class SocketIoConnector {
             packet.setClient(client.getPlayer().getUniqueId());
             socket.emit("data", OpenAudioMc.getGson().toJson(packet));
         }
-    }
-
-    public void emit(String key, Object data) {
-        socket.emit(key, data);
     }
 
     public void createRoom(List<RoomMember> members, Consumer<Boolean> wasSucessful) {

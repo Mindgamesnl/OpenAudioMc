@@ -26,4 +26,9 @@ public class BungeeTaskProvider implements ITaskProvider {
     public void cancelRepeatingTask(int id) {
         OpenAudioMcBungee.getInstance().getProxy().getScheduler().cancel(id);
     }
+
+    @Override
+    public void runAsync(Runnable runnable) {
+        OpenAudioMcBungee.getInstance().getProxy().getScheduler().runAsync(OpenAudioMcBungee.getInstance(), runnable);
+    }
 }
