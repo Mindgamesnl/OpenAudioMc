@@ -1,5 +1,5 @@
 # OpenAudioMc [![Build Status](https://travis-ci.org/Mindgamesnl/OpenAudioMc.svg?branch=master)](https://travis-ci.org/Mindgamesnl/OpenAudioMc)
-![alt text](http://static.craftmend.com/spigot/openaudio/page.png "OpenAudio")
+![alt text](http://static.craftmend.com/spigot/openaudio/updated-page.png "OpenAudio")
 
 OpenAudio is free to download on spigot.
 * [Spigot Release Page](https://www.spigotmc.org/resources/openaudiomc-open-source-audio-client.30691/ "Spigot Plugin Page")
