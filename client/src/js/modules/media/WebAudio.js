@@ -13,6 +13,7 @@ export class WebAudio {
         this.isFirstRun = true;
         this.volume = this.openAudioMc.getMediaManager().getMasterVolume();
         this.flag = "DEFAULT";
+        this._onFadeFinish = null;
         this._distance = -1;
         this._maxDistance = -1;
 
@@ -67,19 +68,25 @@ export class WebAudio {
     }
 
     setMasterVolume(masterVolume) {
-            if (this.isFading) {
-                clearInterval(this.task);
-            }
-            this.setVolume(masterVolume);
-
+        if (this.isFading) {
+            clearInterval(this.task);
+            this._executeOnFinish();
+        }
+        this.setVolume(masterVolume);
     }
 
     onFinish(callback) {
         this.onFinishHandlers.push(callback);
     }
 
+    _executeOnFinish() {
+        if (this._onFadeFinish != null) this._onFadeFinish();
+        this._onFadeFinish = null;
+    }
+
     setVolume(volume, fadetime, onfinish) {
         //calculate volume if it is a speaker
+        this._onFadeFinish = onfinish;
         if (this._maxDistance !== -1) {
             volume = Math.round(((this._maxDistance - this._distance) / this._maxDistance) * this.openAudioMc.getMediaManager().masterVolume);
         }
@@ -89,6 +96,7 @@ export class WebAudio {
         }
         if (this.isFading) {
             clearInterval(this.task);
+            this._executeOnFinish();
         }
         const diff = volume - (this.soundElement.volume * 100);
         let steps = 0;
@@ -107,12 +115,14 @@ export class WebAudio {
         let stepsMade = 0;
 
         this.isFading = true;
-        this.task = setInterval(function () {
+        this.task = setInterval(() => {
             stepsMade++;
-            function cancel() {
+
+            let cancel = () => {
                 that.isFading = false;
                 if (callback != null) callback();
                 clearInterval(that.task);
+                this._onFadeFinish = null;
             }
 
             if (that.soundElement == null) {
