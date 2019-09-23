@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
+import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.TimedRegionProperties;
 import org.bukkit.Bukkit;
@@ -50,9 +51,25 @@ public class RegionsSubCommand extends SubCommand {
                 return;
             }
 
-            int duration = Integer.parseInt(args[3]);
-
             args[1] = args[1].toLowerCase();
+
+            // check if this region already is defined
+            RegionProperties regionProperties = OpenAudioMcSpigot.getInstance().getRegionModule().getRegionPropertiesMap().get(args[1]);
+            if (regionProperties != null) {
+                if (regionProperties instanceof TimedRegionProperties) {
+                    // reset it, because fuck it
+                    TimedRegionProperties timedRegion = (TimedRegionProperties) regionProperties;
+                    openAudioMcSpigot.getRegionModule().removeRegion(args[1]);
+                    timedRegion.destroy();
+                } else {
+                    // message, fail
+                    message(sender, ChatColor.RED + "ERROR! The region '" + args[1]
+                            + "' already has a static media assigned to it.");
+                    return;
+                }
+            }
+
+            int duration = Integer.parseInt(args[3]);
 
             if (!openAudioMcSpigot.getRegionModule().getRegionAdapter().doesRegionExist(args[1])) {
                 message(sender, ChatColor.RED + "ERROR! There is no WorldGuard region called '" + args[1]

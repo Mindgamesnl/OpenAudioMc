@@ -1,11 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.regions.objects;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
-import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
-import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
 import org.bukkit.Bukkit;
 
 public class TimedRegionProperties extends RegionProperties {
@@ -32,6 +28,11 @@ public class TimedRegionProperties extends RegionProperties {
                 .stream()
                 .filter(client -> client.getRegions().stream().anyMatch(region -> region.getId().equals(id)))
                 .forEach(client -> client.getLocationDataWatcher().forceTicK());
+    }
+
+    public void destroy() {
+        Bukkit.getScheduler().cancelTask(task);
+        forceUpdateClients();
     }
 
     @Override

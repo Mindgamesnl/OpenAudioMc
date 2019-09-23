@@ -10,7 +10,7 @@ import net.md_5.bungee.api.plugin.Command;
 public class BungeeAudioCommand extends Command {
 
     public BungeeAudioCommand() {
-        super("audio", null, "sound", "connect", "muziek", "mcaudio", "mcconnect", "mconnect");
+        super("audio", null, "sound", "connect", "muziek", "mcaudio", "mcconnect", "mconnect", "geluid");
     }
 
     @Override
