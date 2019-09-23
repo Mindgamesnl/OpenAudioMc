@@ -25,4 +25,9 @@ public class SpigotTaskProvider implements ITaskProvider {
     public void cancelRepeatingTask(int id) {
         Bukkit.getScheduler().cancelTask(id);
     }
+
+    @Override
+    public void runAsync(Runnable runnable) {
+        Bukkit.getScheduler().runTaskAsynchronously(OpenAudioMcSpigot.getInstance(), runnable);
+    }
 }

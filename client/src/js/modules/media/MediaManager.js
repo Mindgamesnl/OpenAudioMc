@@ -13,15 +13,15 @@ export class MediaManager {
     }
 
     destroySounds(key, all) {
-        this.openAudioMc.debugPrint("<b>starting to quit fade </b> " + key)
+        this.openAudioMc.debugPrint("starting to quit fade " + key)
         let that = this;
 
         if (key != null && that.sounds[key] != null) {
             that.sounds[key].setVolume(0, 300, () => {
-                this.openAudioMc.debugPrint("<b>finished fading</b> " + key + "")
+                this.openAudioMc.debugPrint("finished fading " + key + "")
                 if (that.sounds[key] != null) that.sounds[key].destroy();
                 delete that.sounds[key];
-                this.openAudioMc.debugPrint("<b>stopping</b> " + key + " <b>after fading</b>")
+                this.openAudioMc.debugPrint("stopping " + key + " after fading")
             });
         } else {
             for (let key in this.sounds) {

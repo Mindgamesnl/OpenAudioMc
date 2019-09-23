@@ -39,5 +39,5 @@ public class TimedRegionProperties extends RegionProperties {
     public Media getMedia() {
         return this.media;
     }
-    
+
 }
