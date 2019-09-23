@@ -33,20 +33,10 @@ public class BungeePlayerSelector {
                         players.add(player);
                     }
                 }
+                return players;
             }
-            else if (getArgument("global").length() != 0) {
-                String targetServer = getArgument("global");
-                if (targetServer.equals("true")) {
-                    players.addAll(ProxyServer.getInstance().getPlayers());
-                }
-            }
-            else {
-                String serverName = serverName(commandSender);
-                if (serverName == null) {
-                    commandSender.sendMessage(OpenAudioMc.getLOG_PREFIX() + "Only players can play sounds for their entire server. If you want a sound that can be heard across all servers, please use @a[global=true]");
-                    return new ArrayList<>();
-                }
-            }
+            players.addAll(ProxyServer.getInstance().getPlayers());
+            return players;
         } else if (selector.length() <= 16) {
             //player
             ProxiedPlayer proxiedPlayer = ProxyServer.getInstance().getPlayer(selector);
