@@ -12,7 +12,6 @@ import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
 
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -104,12 +103,4 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
         System.out.println(OpenAudioMc.getLOG_PREFIX() + "Stopped OpenAudioMc. Goodbye.");
     }
 
-    /**
-     * reload openaudiomc
-     */
-    public void reload() {
-        onDisable();
-        System.out.println(OpenAudioMc.getLOG_PREFIX() + "Restarting OpenAudioMc.");
-        onEnable();
-    }
 }

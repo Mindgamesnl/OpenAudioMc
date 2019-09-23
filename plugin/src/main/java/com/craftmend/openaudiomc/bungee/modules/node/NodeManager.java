@@ -11,7 +11,7 @@ public class NodeManager {
     @Getter private PacketManager packetManager;
 
     public NodeManager(OpenAudioMcBungee openAudioMcBungee) {
-        packetManager = new BungeeCordPacketManager(openAudioMcBungee, "openaudiomcnode");
+        packetManager = new BungeeCordPacketManager(openAudioMcBungee, "openaudiomc:node");
         packetManager.registerListener(new NodePacketListener());
     }
 

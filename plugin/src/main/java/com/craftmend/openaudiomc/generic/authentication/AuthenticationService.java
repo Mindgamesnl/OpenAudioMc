@@ -7,7 +7,6 @@ import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.authentication.objects.Key;
 import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
 
-import com.craftmend.openaudiomc.generic.networking.addapter.GenericApiResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import lombok.Getter;
 
@@ -44,19 +43,19 @@ public class AuthenticationService {
         if (spigotConfigurationModule.getString(StorageKey.AUTH_PRIVATE_KEY).equals("not-set") || getAuthVersion() != keyVersion) {
             //setup process
             try {
-                GenericApiResponse genericApiResponse = new RestRequest("/register.php").execute();
-
-                if (genericApiResponse.getErrors().size() == 0) {
-                    serverKeySet.setPrivateKey(new Key(genericApiResponse.getData().get(0).getPrivateKey()));
-                    serverKeySet.setPublicKey(new Key(genericApiResponse.getData().get(0).getPublicKey()));
-                    spigotConfigurationModule.setString(StorageKey.AUTH_PRIVATE_KEY, serverKeySet.getPrivateKey().getValue());
-                    spigotConfigurationModule.setString(StorageKey.AUTH_PUBLIC_KEY, serverKeySet.getPublicKey().getValue());
-                    spigotConfigurationModule.setInt(StorageLocation.DATA_FILE, StorageKey.AUTH_KEY_VERSION.getPath(), keyVersion);
-                    isSuccesfull = true;
-                } else {
-                    System.out.println(OpenAudioMc.getLOG_PREFIX() + "Failed to request token.");
-                    isSuccesfull = false;
-                }
+                new RestRequest("/register.php").execute().thenAccept((genericApiResponse) -> {
+                    if (genericApiResponse.getErrors().size() == 0) {
+                        serverKeySet.setPrivateKey(new Key(genericApiResponse.getData().get(0).getPrivateKey()));
+                        serverKeySet.setPublicKey(new Key(genericApiResponse.getData().get(0).getPublicKey()));
+                        spigotConfigurationModule.setString(StorageKey.AUTH_PRIVATE_KEY, serverKeySet.getPrivateKey().getValue());
+                        spigotConfigurationModule.setString(StorageKey.AUTH_PUBLIC_KEY, serverKeySet.getPublicKey().getValue());
+                        spigotConfigurationModule.setInt(StorageLocation.DATA_FILE, StorageKey.AUTH_KEY_VERSION.getPath(), keyVersion);
+                        isSuccesfull = true;
+                    } else {
+                        System.out.println(OpenAudioMc.getLOG_PREFIX() + "Failed to request token.");
+                        isSuccesfull = false;
+                    }
+                });
             } catch (IOException e) {
                 System.out.println(OpenAudioMc.getLOG_PREFIX() + "Failed to request token.");
                 isSuccesfull = false;
