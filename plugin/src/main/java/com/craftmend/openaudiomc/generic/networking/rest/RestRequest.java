@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.concurrent.CompletableFuture;
 
 public class RestRequest {
 
@@ -25,8 +26,16 @@ public class RestRequest {
         return this;
     }
 
-    public GenericApiResponse execute() throws IOException {
-        return new Gson().fromJson(readHttp(getUrl()), GenericApiResponse.class);
+    public CompletableFuture<GenericApiResponse> execute() throws IOException {
+        CompletableFuture<GenericApiResponse> response = new CompletableFuture<>();
+        OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
+            try {
+                response.complete(new Gson().fromJson(readHttp(getUrl()), GenericApiResponse.class));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        return response;
     }
 
     private String getUrl() {
