@@ -14,21 +14,20 @@ export class MediaManager {
 
     destroySounds(key, all) {
         this.openAudioMc.debugPrint("starting to quit fade " + key)
-        let that = this;
 
-        if (key != null && that.sounds[key] != null) {
-            that.sounds[key].setVolume(0, 300, () => {
+        if (key != null && this.sounds[key] != null) {
+            this.sounds[key].setVolume(0, 300, () => {
                 this.openAudioMc.debugPrint("finished fading " + key + "")
-                if (that.sounds[key] != null) that.sounds[key].destroy();
-                delete that.sounds[key];
+                if (this.sounds[key] != null) this.sounds[key].destroy();
+                delete this.sounds[key];
                 this.openAudioMc.debugPrint("stopping " + key + " after fading")
             });
         } else {
             for (let key in this.sounds) {
                 if (!this.sounds.hasOwnProperty(key)) continue;
                 if (this.sounds[key].getFlag() === "DEFAULT" || (all != null && all)) {
-                    if (that.sounds[key] != null) that.sounds[key].destroy();
-                    delete that.sounds[key];
+                    if (this.sounds[key] != null) this.sounds[key].destroy();
+                    delete this.sounds[key];
                 }
             }
         }
@@ -65,7 +64,18 @@ export class MediaManager {
         return this.sounds[id];
     }
 
-    registerMedia(id, media) {
+    getMedia(id) {
+        if (this.sounds[id] != null) {
+            return this.sounds[id];
+        }
+        return null;
+    }
+
+    registerOrGetMedia(id, media) {
+        if (this.sounds[id] != null) {
+            return this.sounds[id];
+        }
+
         this.sounds[id] = media;
         this.openAudioMc.debugPrint("<b>created media</b> " + id + "")
     }

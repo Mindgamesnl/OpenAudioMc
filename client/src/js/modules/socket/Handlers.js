@@ -19,28 +19,47 @@ export class Handlers {
             const maxDistance = data.maxDistance;
             let volume = openAudioMc.getMediaManager().getMasterVolume();
 
-            let media;
-            media = new WebAudio(source, openAudioMc, function () {
-                openAudioMc.getMediaManager().registerMedia(id, media);
-                media.setMasterVolume(openAudioMc.getMediaManager().getMasterVolume());
 
+            const existingMedia = openAudioMc.getMediaManager().getMedia(id);
+            if (existingMedia != null) {
+                if (existingMedia.isFading) {
+                    existingMedia.cancelCallback();
+                }
                 if (maxDistance !== 0) {
-                    media.setSpeakerData(maxDistance, distance);
+                    existingMedia.setSpeakerData(maxDistance, distance);
                 }
-
-                media.setFlag(flag);
-
                 if (fadeTime === 0) {
-                    media.setVolume(volume);
+                    existingMedia.setVolume(volume);
                 } else {
-                    media.setVolume(0);
-                    media.setVolume(volume, fadeTime);
+                    existingMedia.setVolume(0);
+                    existingMedia.setVolume(volume, fadeTime);
                 }
+                existingMedia.setLooping(looping);
+                if (doPickup) existingMedia.startDate(startInstant, looping);
+            } else {
+                let media;
+                media = new WebAudio(source, openAudioMc, function () {
+                    openAudioMc.getMediaManager().registerOrGetMedia(id, media);
+                    media.setMasterVolume(openAudioMc.getMediaManager().getMasterVolume());
 
-                media.setLooping(looping);
-                if (doPickup) media.startDate(startInstant, looping);
-                media.play();
-            });
+                    if (maxDistance !== 0) {
+                        media.setSpeakerData(maxDistance, distance);
+                    }
+
+                    media.setFlag(flag);
+
+                    if (fadeTime === 0) {
+                        media.setVolume(volume);
+                    } else {
+                        media.setVolume(0);
+                        media.setVolume(volume, fadeTime);
+                    }
+
+                    media.setLooping(looping);
+                    if (doPickup) media.startDate(startInstant, looping);
+                    media.play();
+                });
+            }
         });
 
         openAudioMc.socketModule.registerHandler("ClientDestroyCardPayload", () => {
