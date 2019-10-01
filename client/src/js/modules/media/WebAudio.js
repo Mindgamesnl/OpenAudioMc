@@ -84,6 +84,10 @@ export class WebAudio {
         this._onFadeFinish = null;
     }
 
+    cancelCallback() {
+        this._onFadeFinish = null;
+    }
+
     setVolume(volume, fadetime, onfinish) {
         //calculate volume if it is a speaker
         if (this._maxDistance !== -1) {
