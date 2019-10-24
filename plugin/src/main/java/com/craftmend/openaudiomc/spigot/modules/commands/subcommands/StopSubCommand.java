@@ -37,6 +37,7 @@ public class StopSubCommand extends SubCommand {
         if (args.length == 1) {
             for (Player player : new SpigotPlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal())) {
                 SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(player);
+                spigotConnection.getClientConnection().getOngoingMedia().clear();
                 OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(null));
             }
             message(sender, "Destroyed all normal sounds for the clients in selection");

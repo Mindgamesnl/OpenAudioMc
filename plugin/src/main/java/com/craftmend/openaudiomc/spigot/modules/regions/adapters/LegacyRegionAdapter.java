@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -20,7 +21,22 @@ public class LegacyRegionAdapter extends AbstractRegionAdapter {
 
     @Override
     public Set<ProtectedRegion> getRegionsAtLocation(Location location) {
-        return new HashSet<>(WGBukkit.getRegionManager(location.getWorld()).getApplicableRegions(location).getRegions());
+
+        Set<ProtectedRegion> regions = WGBukkit.getRegionManager(location.getWorld()).getApplicableRegions(location).getRegions();
+
+        int highestPriority = 0;
+        ProtectedRegion highestRegion = null;
+
+        for (ProtectedRegion region : regions) {
+            if (region.getPriority() != 0) {
+                if (region.getPriority() > highestPriority) {
+                    highestPriority = region.getPriority();
+                    highestRegion = region;
+                }
+            }
+        }
+
+        return new HashSet<>((highestRegion == null ? regions : Arrays.asList(highestRegion)));
     }
 
     @Override

@@ -107,6 +107,9 @@ public class SpeakersSubCommand extends SubCommand {
             Location location = mappedLocation.toBukkit();
             location.getBlock().setType(openAudioMcSpigot.getSpeakerModule().getPlayerSkullBlock());
 
+            Skull s = (Skull) location.getBlock().getState();
+            s.setSkullType(SkullType.PLAYER);
+
             if (OpenAudioMc.getInstance().getServerService().getVersion() == ServerVersion.LEGACY) {
                 // reflection for the old map
                 try {
@@ -120,8 +123,6 @@ public class SpeakersSubCommand extends SubCommand {
                 location.getBlock().setBlockData(openAudioMcSpigot.getSpeakerModule().getPlayerSkullBlock().createBlockData());
             }
 
-            Skull s = (Skull) location.getBlock().getState();
-            s.setSkullType(SkullType.PLAYER);
             s.setOwner("OpenAudioMc");
             s.update();
 
