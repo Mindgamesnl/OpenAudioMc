@@ -4,11 +4,13 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.ikeirnez.pluginmessageframework.PacketWriter;
 import com.ikeirnez.pluginmessageframework.StandardPacket;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.UUID;
 
+@Getter
 @AllArgsConstructor
 public class ClientDisconnectedPacket extends StandardPacket {
 

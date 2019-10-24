@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.proxy.listeners;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
+import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.CommandProxyPacket;
 import com.craftmend.openaudiomc.spigot.modules.proxy.objects.FakeCommandSender;
 
@@ -21,7 +22,7 @@ public class BungeePacketListener implements PacketListener {
     }
 
     @PacketHandler
-    public void onDisconnect(ClientConnectedPacket packet) {
+    public void onDisconnect(ClientDisconnectedPacket packet) {
         ClientConnection connection = OpenAudioMc.getInstance().getNetworkingService().getClient(packet.getClientUuid());
         if (connection != null) connection.onDisconnect();
     }
