@@ -14,6 +14,8 @@ messages:
 
 options:
   send-on-join: true
+  remind-to-connect: true
+  remind-to-connect-interval: 30
   speaker-radius: 10
   sync-speakers: true
   sync-regions: true
