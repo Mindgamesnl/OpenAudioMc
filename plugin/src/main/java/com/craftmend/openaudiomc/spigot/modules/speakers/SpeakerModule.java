@@ -70,7 +70,7 @@ public class SpeakerModule {
             int x = config.getIntFromPath("speakers." + id + ".x", StorageLocation.DATA_FILE);
             int y = config.getIntFromPath("speakers." + id + ".y", StorageLocation.DATA_FILE);
             int z = config.getIntFromPath("speakers." + id + ".z", StorageLocation.DATA_FILE);
-            int radius = config.getInt(StorageKey.SETTINGS_SPEAKER_RANGE);
+            int radius = config.getIntFromPath("speakers." + id + ".radius", StorageLocation.DATA_FILE);
 
             if (world != null) {
                 MappedLocation mappedLocation = new MappedLocation(x, y, z, world);
