@@ -29,6 +29,7 @@ import com.google.gson.GsonBuilder;
 import lombok.Getter;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.function.Consumer;
 
 @Getter
 public class OpenAudioMc {
@@ -50,20 +51,20 @@ public class OpenAudioMc {
 
     /**
      * Services used by the core to run OpenAudioMc
-     *
-     *           (SERVICE)                            (PURPOSE)
+     * <p>
+     * (SERVICE)                            (PURPOSE)
      * ===========================================================================
-     *  - State Service          []   (responsible for tracking the current state)
-     *  - Server Service         []   (used to probe and detect what it is running)
-     *  - Time Service           []   (used to synchronize time with the central OpenAudioMc-time-server)
-     *  - Networking Service     []   (handles connections, clients, packets etc)
-     *  - Flag Set               []   (keeps track of OpenAudioMc account data like if its partnered or not)
-     *  - Configuration Interface[]   (storage implementation for the platform type)
-     *  - Authentication Service []   (handle authentication for the api)
-     *  - Voice Room Manager     []   (keep track of ongoing voice calls)
-     *  - Command Module         []   (common framework to keep all commands as common-code regardless of platform)
-     *  - Media Module           []   (keep track of media and timings)
-     *  - Task Provider          []   (create and register tasks regardless of platform)
+     * - State Service          []   (responsible for tracking the current state)
+     * - Server Service         []   (used to probe and detect what it is running)
+     * - Time Service           []   (used to synchronize time with the central OpenAudioMc-time-server)
+     * - Networking Service     []   (handles connections, clients, packets etc)
+     * - Flag Set               []   (keeps track of OpenAudioMc account data like if its partnered or not)
+     * - Configuration Interface[]   (storage implementation for the platform type)
+     * - Authentication Service []   (handle authentication for the api)
+     * - Voice Room Manager     []   (keep track of ongoing voice calls)
+     * - Command Module         []   (common framework to keep all commands as common-code regardless of platform)
+     * - Media Module           []   (keep track of media and timings)
+     * - Task Provider          []   (create and register tasks regardless of platform)
      */
     private StateService stateService;
     private ServerService serverService;
@@ -77,19 +78,24 @@ public class OpenAudioMc {
     private MediaModule mediaModule;
     private ITaskProvider taskProvider;
 
-    @Getter private static OpenAudioMc instance;
+    @Getter
+    private static OpenAudioMc instance;
 
-    @Getter private static final OpenAudioApi api = new OpenAudioApi();
-    @Getter private static final String LOG_PREFIX = "[OpenAudioMc-Log] ";
-    @Getter private static final String server = "http://craftmendserver.eu:81";
-    @Getter private static final Gson gson = new GsonBuilder()
+    @Getter
+    private static final OpenAudioApi api = new OpenAudioApi();
+    @Getter
+    private static final String LOG_PREFIX = "[OpenAudioMc-Log] ";
+    @Getter
+    private static final String server = "http://craftmendserver.eu:81";
+    @Getter
+    private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(AbstractPacketPayload.class, new AbstractPacketAdapter())
             .create();
 
     // The platform, easy for detecting what should be enabled and what not ya know
     private Platform platform;
 
-    public OpenAudioMc(Platform platform, Class networkingService) {
+    public OpenAudioMc(Platform platform, Class networkingService) throws Exception {
         instance = this;
         this.platform = platform;
 
@@ -112,13 +118,7 @@ public class OpenAudioMc {
         this.timeService = new TimeService();
         this.mediaModule = new MediaModule();
 
-        try {
-            this.networkingService = (INetworkingService) networkingService.getConstructor().newInstance();
-        } catch (InstantiationException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            // SHOULD NEVER FIRE
-            // I control the class and i'm not stupid
-            e.printStackTrace();
-        }
+        this.networkingService = (INetworkingService) networkingService.getConstructor().newInstance();
 
         this.voiceRoomManager = new VoiceRoomManager(this);
         this.commandModule = new CommandModule();

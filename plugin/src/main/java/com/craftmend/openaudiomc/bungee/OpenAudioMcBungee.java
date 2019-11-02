@@ -10,6 +10,7 @@ import com.craftmend.openaudiomc.generic.state.states.IdleState;
 
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import lombok.Getter;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 
 import java.time.Duration;
@@ -38,7 +39,12 @@ public class OpenAudioMcBungee extends Plugin {
         instance = this;
 
         // setup core
-        new OpenAudioMc(Platform.BUNGEE, ClientMode.STAND_ALONE.serviceClass);
+        try {
+            new OpenAudioMc(Platform.BUNGEE, ClientMode.STAND_ALONE.serviceClass);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
 
         // load managers and shit
         this.playerManager = new PlayerManager(this);

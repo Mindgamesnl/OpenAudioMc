@@ -9,6 +9,7 @@ public class DropBoxMiddleware implements UrlMutation {
         if (original.contains("?dl=0")) {
             return original.replace("?dl=0", "?dl=1");
         } else {
+            if (original.contains("?dl=1")) return original;
             return original += "?dl=1";
         }
     }
