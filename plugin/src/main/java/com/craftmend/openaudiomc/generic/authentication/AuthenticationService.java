@@ -19,9 +19,11 @@ public class AuthenticationService {
     @Getter private String failureMessage = "Oh no, it looks like the initial setup of OpenAudioMc has failed. Please try to restart the server and try again, if that still does not work, please contact OpenAudioMc staff or support.";
     private final int keyVersion = 2;
 
-    public AuthenticationService() {
+    public AuthenticationService() throws IllegalStateException {
         System.out.println(OpenAudioMc.getLOG_PREFIX() + "Starting authentication module");
         loadData();
+
+        if (!isSuccesfull) throw new IllegalStateException("Failed to parse tokens");
     }
 
     /**

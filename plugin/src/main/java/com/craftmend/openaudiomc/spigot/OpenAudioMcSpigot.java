@@ -12,6 +12,7 @@ import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
 
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -68,7 +69,13 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
         this.proxyModule = new ProxyModule();
 
         // setup core
-        new OpenAudioMc(Platform.SPIGOT, proxyModule.getMode().serviceClass);
+        try {
+            new OpenAudioMc(Platform.SPIGOT, proxyModule.getMode().serviceClass);
+        } catch (Exception e) {
+            Bukkit.getServer().getPluginManager().disablePlugin(this);
+            e.printStackTrace();
+            return;
+        }
 
         // startup modules and services
         this.serverService = new ServerService();
