@@ -209,9 +209,14 @@ public class ClientConnection {
             OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientCreateMedia(media));
     }
 
-    public void tickPrompt() {
-        if (!getIsConnected() && (Duration.between(lastConnectPrompt, Instant.now()).toMillis() * 1000) > 15) {
-            player.sendMessage(Platform.translateColors(OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_PROMPT_TO_CONNECT)));
+    public void tickClient() {
+        boolean remindToConnect = OpenAudioMc.getInstance().getConfigurationInterface().getBoolean(StorageKey.SETTINGS_REMIND_TO_CONNECT);
+
+        if (remindToConnect) {
+            int reminderInterval = OpenAudioMc.getInstance().getConfigurationInterface().getInt(StorageKey.SETTINGS_REMIND_TO_CONNECT_INTERVAL);
+            if (!getIsConnected() && (Duration.between(lastConnectPrompt, Instant.now()).toMillis() * 1000) > reminderInterval) {
+                player.sendMessage(Platform.translateColors(OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_PROMPT_TO_CONNECT)));
+            }
         }
     }
 

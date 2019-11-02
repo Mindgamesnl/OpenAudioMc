@@ -16,6 +16,7 @@ public enum StorageKey {
     MESSAGE_CALL_RINGING("messages.call-ringing", StorageLocation.CONFIG_FILE),
     MESSAGE_CALL_ENDED("messages.call-left", StorageLocation.CONFIG_FILE),
     MESSAGE_API_BOOTING("messages.api-starting-up", StorageLocation.CONFIG_FILE),
+    MESSAGE_PROPOSE_CLIENT("messages.sound-could-be-heard", StorageLocation.CONFIG_FILE),
 
     SETTING_CLIENT_TITLE("client.title", StorageLocation.CONFIG_FILE),
     SETTING_CLIENT_BACKGROUND("client.background", StorageLocation.CONFIG_FILE),
@@ -26,6 +27,8 @@ public enum StorageKey {
     SETTINGS_HUE_AVAILABLE_TEXT("client.hue-bridge-found", StorageLocation.CONFIG_FILE),
     SETTINGS_CLIENT_START_SOUND("client.start-sound", StorageLocation.CONFIG_FILE),
 
+    SETTINGS_REMIND_TO_CONNECT("options.remind-to-connect", StorageLocation.CONFIG_FILE),
+    SETTINGS_REMIND_TO_CONNECT_INTERVAL("options.remind-to-connect-interval", StorageLocation.CONFIG_FILE),
     SETTINGS_REGIONS_SYNC("options.sync-regions", StorageLocation.CONFIG_FILE),
     SETTINGS_SPEAKER_SYNC("options.sync-speakers", StorageLocation.CONFIG_FILE),
     SETTINGS_SPEAKER_RANGE("options.speaker-radius", StorageLocation.CONFIG_FILE),
