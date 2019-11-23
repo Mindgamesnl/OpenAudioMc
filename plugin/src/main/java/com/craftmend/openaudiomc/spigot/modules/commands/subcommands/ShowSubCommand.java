@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 import com.craftmend.openaudiomc.spigot.modules.show.objects.Show;
+import com.craftmend.openaudiomc.spigot.modules.show.util.TimeParser;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -73,11 +74,14 @@ public class ShowSubCommand extends SubCommand {
 
             Long time = 0L;
             try {
-                time = Long.valueOf(args[2]);
+                time = TimeParser.toMilis(args[2]);
             } catch (Exception e) {
-                sender.sendMessage(ChatColor.RED + "The time must be a number in MILLISECONDS. (1 tick = 50 MS)");
+                e.printStackTrace();
+                sender.sendMessage(ChatColor.RED + "Time must be valid format, like 1.5S or 5M.");
                 return;
             }
+
+            Bukkit.broadcastMessage("time " + time);
 
             ShowRunnable task = openAudioMcSpigot.getShowModule().createRunnable(args[3], data.toString());
 
