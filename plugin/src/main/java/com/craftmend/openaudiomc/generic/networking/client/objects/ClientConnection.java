@@ -215,7 +215,7 @@ public class ClientConnection {
         if (remindToConnect) {
             int reminderInterval = OpenAudioMc.getInstance().getConfigurationInterface().getInt(StorageKey.SETTINGS_REMIND_TO_CONNECT_INTERVAL);
             if (!getIsConnected() && (Duration.between(lastConnectPrompt, Instant.now()).toMillis() * 1000) > reminderInterval) {
-                player.sendMessage(Platform.translateColors(OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_PROMPT_TO_CONNECT)));
+                // player.sendMessage(Platform.translateColors(OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_PROMPT_TO_CONNECT)));
             }
         }
     }

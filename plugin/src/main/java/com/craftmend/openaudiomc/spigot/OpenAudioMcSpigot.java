@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.modules.commands.SpigotCommandModule;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import com.craftmend.openaudiomc.spigot.modules.proxy.ProxyModule;
+import com.craftmend.openaudiomc.spigot.modules.show.ShowModule;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 
 import com.craftmend.openaudiomc.spigot.modules.players.PlayerModule;
@@ -41,12 +42,14 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
      * - region module (OPTIONAL) (only loads regions if WorldGuard is enabled)
      * - command module (registers and loads the OpenAudioMc commands)
      * - media module (loads and manages all media in the service)
+     * - show module (manages shows)
      */
     private ProxyModule proxyModule;
     private PlayerModule playerModule;
     private RegionModule regionModule;
     private SpigotCommandModule commandModule;
     private SpeakerModule speakerModule;
+    private ShowModule showModule;
 
     /**
      * Constant: main plugin instance
@@ -82,6 +85,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
         this.playerModule = new PlayerModule(this);
         this.speakerModule = new SpeakerModule(this);
         this.commandModule = new SpigotCommandModule(this);
+        this.showModule = new ShowModule(this);
 
         // optional modules
         if (getServer().getPluginManager().isPluginEnabled("WorldGuard")) {

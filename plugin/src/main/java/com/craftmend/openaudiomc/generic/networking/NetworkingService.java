@@ -17,6 +17,7 @@ import com.craftmend.openaudiomc.generic.voice.packets.subtypes.RoomMember;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
@@ -103,7 +104,13 @@ public class NetworkingService implements INetworkingService {
      */
     @Override
     public ClientConnection getClient(UUID uuid) {
-        return clientMap.get(uuid);
+        if (clientMap.containsKey(uuid)) {
+            return clientMap.get(uuid);
+        } else {
+            Player player = Bukkit.getPlayer(uuid);
+            if (player == null) return null;
+            return register(player);
+        }
     }
 
     /**

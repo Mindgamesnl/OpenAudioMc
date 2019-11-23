@@ -20,6 +20,7 @@ public class CommandTranslationMiddleware implements Listener {
         String[] parts = event.getCommand().split(" ");
 
         // if first char is /, remove it
+        if (parts.length == 0) return;
         if (parts[0].charAt(0) == '/') parts[0] = parts[0].replace("/", "");
 
         // check if the command is a openaudiomc command

@@ -55,7 +55,7 @@ public class SpigotMainCommand implements CommandExecutor, TabCompleter {
                      * It's more dead inside then i am
                      */
                     e.printStackTrace();
-                    sender.sendMessage(commandModule.getCommandPrefix() + "An error occurred while executing the command. Please check your command.");
+                    sender.sendMessage(commandModule.getCommandPrefix() + "An error occurred while executing the command. Please check your command. Type: " + e.getClass().getSimpleName());
                 }
                 return true;
             } else {

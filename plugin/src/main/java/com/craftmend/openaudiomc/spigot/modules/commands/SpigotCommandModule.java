@@ -29,6 +29,7 @@ public class SpigotCommandModule {
         commandModule.registerSubCommand(new SpeakersSubCommand(openAudioMcSpigot));
         commandModule.registerSubCommand(new StopSubCommand(openAudioMcSpigot));
         commandModule.registerSubCommand(new HueSubCommand(openAudioMcSpigot));
+        commandModule.registerSubCommand(new ShowSubCommand(openAudioMcSpigot));
         commandModule.registerSubCommand(new ReloadSubCommand());
         commandModule.registerSubCommand(new StateSubCommand());
 
