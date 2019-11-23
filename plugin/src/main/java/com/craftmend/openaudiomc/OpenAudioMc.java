@@ -1,6 +1,5 @@
 package com.craftmend.openaudiomc;
 
-import com.craftmend.openaudiomc.bungee.modules.scheduling.BungeeTaskProvider;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.flags.FlagSet;
@@ -18,18 +17,18 @@ import com.craftmend.openaudiomc.generic.state.StateService;
 
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfigurationModule;
+import com.craftmend.openaudiomc.spigot.modules.show.adapter.RunnableTypeAdapter;
+import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 import com.craftmend.openaudiomc.spigot.services.scheduling.SpigotTaskProvider;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.bungee.modules.configuration.BungeeConfigurationModule;
+import com.craftmend.openaudiomc.bungee.modules.scheduling.BungeeTaskProvider;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.function.Consumer;
 
 @Getter
 public class OpenAudioMc {
@@ -90,6 +89,7 @@ public class OpenAudioMc {
     @Getter
     private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(AbstractPacketPayload.class, new AbstractPacketAdapter())
+            .registerTypeAdapter(ShowRunnable.class, new RunnableTypeAdapter())
             .create();
 
     // The platform, easy for detecting what should be enabled and what not ya know
@@ -123,5 +123,4 @@ public class OpenAudioMc {
         this.voiceRoomManager = new VoiceRoomManager(this);
         this.commandModule = new CommandModule();
     }
-
 }

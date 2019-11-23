@@ -1,0 +1,80 @@
+package com.craftmend.openaudiomc.spigot.modules.show;
+
+import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
+import com.craftmend.openaudiomc.spigot.modules.show.objects.Show;
+import com.craftmend.openaudiomc.spigot.modules.show.runnables.CommandRunnable;
+
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+public class ShowModule {
+
+    private Map<String, Class> taskTypes = new HashMap<>();
+    private Map<String, Show> showCache = new HashMap<>();
+
+    public ShowModule(OpenAudioMcSpigot openAudioMcSpigot) {
+
+        // register default type
+        taskTypes.put("command", CommandRunnable.class);
+    }
+
+    public void addTask(String name, Class executor) {
+        taskTypes.put(name.toLowerCase(), executor);
+    }
+
+    public Show getShow(String name) {
+        String id = name.toLowerCase();
+        if (showCache.containsKey(id)) {
+            return showCache.get(id);
+        } else {
+            Show show = fromFile(id);
+            if (show != null) showCache.put(id, show);
+            return show;
+        }
+    }
+
+    public Set<String> getTaskTypes() {
+        return taskTypes.keySet();
+    }
+
+    public Show createShow(String name) {
+        // check if it already exists
+        if (fromFile(name) != null) return null;
+
+        Show show = new Show(name).save();
+        showCache.put(name.toLowerCase(), show);
+        return show;
+    }
+
+    public Show fromFile(String name) {
+        try {
+            return OpenAudioMc.getGson().fromJson(new String(Files.readAllBytes(new File(OpenAudioMcSpigot.getInstance().getDataFolder(), name.toLowerCase() + ".json").toPath())), Show.class);
+        } catch (IOException e) {
+            // ignored
+        }
+        return null;
+    }
+
+    public ShowRunnable createRunnable(String name, String serialized) {
+        Class clazz = taskTypes.get(name.toLowerCase());
+
+        if (clazz == null) return null;
+
+        try {
+            ShowRunnable runnable = (ShowRunnable) clazz.getConstructor().newInstance();
+            runnable.prepare(serialized);
+            return runnable;
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            // ignored
+        }
+        return null;
+    }
+
+}
