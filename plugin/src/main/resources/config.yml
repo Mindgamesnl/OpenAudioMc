@@ -19,6 +19,7 @@ options:
   speaker-radius: 10
   sync-speakers: true
   sync-regions: true
+  use-region-priority: true
 
 client:
   start-sound: none

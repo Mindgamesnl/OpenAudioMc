@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.speakers.objects;
 
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
@@ -9,7 +10,7 @@ public class Speaker {
 
     @Getter private String source;
     @Getter private UUID id;
-    @Getter private int radius;
+    @Setter @Getter private int radius;
     @Getter private MappedLocation location;
 
     public Speaker(String source, UUID id, int radius, MappedLocation location) {

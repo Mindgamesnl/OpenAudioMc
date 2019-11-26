@@ -1,5 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.regions.adapters;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.AbstractRegionAdapter;
 import com.sk89q.worldguard.bukkit.WGBukkit;
@@ -18,6 +20,7 @@ public class LegacyRegionAdapter extends AbstractRegionAdapter {
     public LegacyRegionAdapter(RegionModule regionModule) {
         super(regionModule);
     }
+    private Boolean usePriority = OpenAudioMc.getInstance().getConfigurationInterface().getBoolean(StorageKey.SETTINGS_USE_WG_PRIORITY);
 
     @Override
     public Set<ProtectedRegion> getRegionsAtLocation(Location location) {
@@ -27,11 +30,13 @@ public class LegacyRegionAdapter extends AbstractRegionAdapter {
         int highestPriority = 0;
         ProtectedRegion highestRegion = null;
 
-        for (ProtectedRegion region : regions) {
-            if (region.getPriority() != 0) {
-                if (region.getPriority() > highestPriority) {
-                    highestPriority = region.getPriority();
-                    highestRegion = region;
+        if (usePriority) {
+            for (ProtectedRegion region : regions) {
+                if (region.getPriority() != 0) {
+                    if (region.getPriority() > highestPriority) {
+                        highestPriority = region.getPriority();
+                        highestRegion = region;
+                    }
                 }
             }
         }
