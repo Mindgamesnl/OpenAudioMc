@@ -83,11 +83,9 @@ public class ShowSubCommand extends SubCommand {
                 time = TimeParser.toMilis(args[2]);
             } catch (Exception e) {
                 e.printStackTrace();
-                sender.sendMessage(ChatColor.RED + "Time must be valid format, like 1.5S or 5M.");
+                sender.sendMessage(ChatColor.RED + "Time must be valid format, like 1.5S or 5M or HH:mm:ss.");
                 return;
             }
-
-            Bukkit.broadcastMessage("time " + time);
 
             ShowRunnable task = openAudioMcSpigot.getShowModule().createRunnable(args[3], data.toString());
 
