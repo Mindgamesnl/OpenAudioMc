@@ -14,7 +14,7 @@ public class ShowHomeMenu extends Menu {
 
         setItem(2,
                 new Item(Material.REDSTONE)
-                        .setName(ChatColor.GREEN + "Edit cue's")
+                        .setName(ChatColor.GREEN + "Edit Cues")
                         .onClick((player, item) -> {
                             new ShowCueMenu(show, 1).openFor(player);
                         })
