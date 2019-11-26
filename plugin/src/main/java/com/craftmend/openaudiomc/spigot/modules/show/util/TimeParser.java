@@ -3,11 +3,20 @@ package com.craftmend.openaudiomc.spigot.modules.show.util;
 import com.google.gson.Gson;
 import org.bukkit.Bukkit;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 public class TimeParser {
 
     public static Long toMilis(String input) {
-        input = input.toLowerCase() + "-";
         Long time = 0L;
+
+        // ITS A TIMECODE
+        if (input.contains(":")) {
+            return Long.valueOf(LocalTime.parse(input, DateTimeFormatter.ofPattern("HH:mm:ss")).getSecond() * 1000);
+        }
+
+        input = input.toLowerCase() + "-";
 
         String[] milisSplit = input.split("ms");
         if (isValid(milisSplit)) {
