@@ -4,7 +4,6 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -75,7 +74,6 @@ public class Show {
 
         // one tick after it ended
         showTimer.schedule(() -> {
-            Bukkit.broadcastMessage("Show " + showName + " ended!");
             stop();
         }, lastTaskTime + 50, TimeUnit.MILLISECONDS);
 

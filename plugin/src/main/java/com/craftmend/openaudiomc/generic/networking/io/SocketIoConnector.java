@@ -26,7 +26,10 @@ import lombok.RequiredArgsConstructor;
 import okhttp3.OkHttpClient;
 
 import java.io.IOException;
+import java.net.ProxySelector;
 import java.net.URISyntaxException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -38,7 +41,10 @@ public class SocketIoConnector {
     public void setupConnection() throws URISyntaxException, IOException {
         if (!OpenAudioMc.getInstance().getStateService().getCurrentState().canConnect()) return;
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
+
+        ProxySelector.setDefault(new NullProxySelector());
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().proxySelector(new NullProxySelector()).build();
 
         IO.Options opts = new IO.Options();
         opts.callFactory = okHttpClient;
@@ -58,6 +64,8 @@ public class SocketIoConnector {
                 "&public=" + publicKey;
 
         // request a relay server
+        System.out.println(OpenAudioMc.getLOG_PREFIX() + "Requesting relay..");
+        Instant request = Instant.now();
         new RestRequest("/login.php")
                 .setQuery("private", privateKey)
                 .setQuery("public", publicKey)
@@ -77,6 +85,8 @@ public class SocketIoConnector {
 
                     // get the relay
                     RelayHost relayHost = genericApiResponse.getData().get(0).findInsecureRelay();
+                    Instant finish = Instant.now();
+                    System.out.println(OpenAudioMc.getLOG_PREFIX() + "Assigned relay: " + relayHost.getUrl() + " request took " + Duration.between(request, finish).toMillis() + "MS");
 
                     // setup socketio connection
                     try {

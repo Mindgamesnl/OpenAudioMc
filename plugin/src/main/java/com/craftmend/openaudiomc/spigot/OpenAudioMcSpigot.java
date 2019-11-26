@@ -75,8 +75,8 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
         try {
             new OpenAudioMc(Platform.SPIGOT, proxyModule.getMode().serviceClass);
         } catch (Exception e) {
-            Bukkit.getServer().getPluginManager().disablePlugin(this);
             e.printStackTrace();
+            Bukkit.getServer().getPluginManager().disablePlugin(this);
             return;
         }
 

@@ -23,7 +23,7 @@ public class AuthenticationService {
         System.out.println(OpenAudioMc.getLOG_PREFIX() + "Starting authentication module");
         loadData();
 
-        if (!isSuccesfull) throw new IllegalStateException("Failed to parse tokens");
+        // if (!isSuccesfull) throw new IllegalStateException("Failed to parse tokens");
     }
 
     /**

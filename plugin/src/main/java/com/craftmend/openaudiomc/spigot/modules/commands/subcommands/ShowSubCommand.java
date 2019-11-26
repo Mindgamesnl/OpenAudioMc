@@ -5,11 +5,13 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
+import com.craftmend.openaudiomc.spigot.modules.show.menu.ShowHomeMenu;
 import com.craftmend.openaudiomc.spigot.modules.show.objects.Show;
 import com.craftmend.openaudiomc.spigot.modules.show.util.TimeParser;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class ShowSubCommand extends SubCommand {
 
@@ -18,8 +20,12 @@ public class ShowSubCommand extends SubCommand {
     public ShowSubCommand(OpenAudioMcSpigot openAudioMcSpigot) {
         super("show");
         registerArguments(
+
                 new Argument("create <show name>",
                         "Create a new show"),
+
+                new Argument("gui <show name>",
+                        "Open the show editor"),
 
                 new Argument("start <show name>",
                         "Start a show"),
@@ -114,6 +120,23 @@ public class ShowSubCommand extends SubCommand {
             message(sender, "Length: " + show.getLastTaskTime() + "MS" + " (" + (Math.round(show.getLastTaskTime()/1000)) + " seconds)");
             message(sender, "Event count: " + show.getCueList().size());
 
+            return;
+        }
+
+        if (args[0].equalsIgnoreCase("gui") && args.length == 2) {
+            Show show = openAudioMcSpigot.getShowModule().getShow(args[1]);
+
+            if (show == null) {
+                sender.sendMessage(ChatColor.RED + "There is no show called " + args[1]);
+                return;
+            }
+
+            if (show.isRunning()) {
+                sender.sendMessage(ChatColor.RED + "This show is already running. You should cancel it or wait until it is over.");
+                return;
+            }
+
+            new ShowHomeMenu(show).openFor((Player) sender.getOriginal());
             return;
         }
 
