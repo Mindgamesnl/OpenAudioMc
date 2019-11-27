@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -21,6 +23,8 @@ public class Show {
     @Getter private String showName;
     @Getter private Set<ShowCue> cueList = new HashSet<>();
     private transient ScheduledExecutorService showTimer = null;
+    private transient Instant startedAt = null;
+    @Getter private transient int eventsProcessed = 0;
     @Getter private Long lastTaskTime = 1L;
 
     public Show(String showName) {
@@ -59,7 +63,10 @@ public class Show {
         showTimer = Executors.newScheduledThreadPool(1);
 
         for (ShowCue cue : cueList) {
-            showTimer.schedule(() -> cue.getTask().run(), cue.getTimestamp(), TimeUnit.MILLISECONDS);
+            showTimer.schedule(() ->{
+                eventsProcessed++;
+                cue.getTask().run();
+            }, cue.getTimestamp(), TimeUnit.MILLISECONDS);
         }
 
         updateLastTime();
@@ -76,7 +83,21 @@ public class Show {
         showTimer.schedule(() -> {
             stop();
         }, lastTaskTime + 50, TimeUnit.MILLISECONDS);
+        startedAt = Instant.now();
+    }
 
+    public String currentFrameAsString() {
+        Long millis = Duration.between(startedAt, Instant.now()).toMillis();
+        return String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millis),
+                TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
+                TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
+    }
+
+    public String getTimeRemainingAsString() {
+        Long millis = getLastTaskTime() - Duration.between(startedAt, Instant.now()).toMillis();
+        return String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millis),
+                TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
+                TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
     }
 
     public void updateLastTime() {

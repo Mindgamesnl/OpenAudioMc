@@ -73,6 +73,8 @@ public class ShowCueMenu extends Menu {
         } else {
             setItem(45, new Item(Material.BARRIER).setName(ChatColor.RED + "Not available"));
         }
+
+        setItem(49, new Item(Material.CHEST).setName("Back to home").onClick((player, item) -> new ShowHomeMenu(show, player)));
     }
 
 }
