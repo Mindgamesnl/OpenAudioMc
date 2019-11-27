@@ -23,6 +23,10 @@ public abstract class Menu implements InventoryHolder {
         InventoryManager.getInstance(javaPlugin);
     }
 
+    public void onClose(Player player) {
+
+    }
+
     public Menu setItem(int slot, Item item) {
         slotMap.put(slot, item);
         inventory.setItem(slot, item.getItem());

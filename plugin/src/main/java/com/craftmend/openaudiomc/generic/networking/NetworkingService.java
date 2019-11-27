@@ -45,11 +45,6 @@ public class NetworkingService implements INetworkingService {
             System.out.println(OpenAudioMc.getLOG_PREFIX() + "The plugin could not start because of a connection problem when requesting the initial private key. Please contact the developers of this plugin.");
             e.printStackTrace();
         }
-
-        // tick all clients
-        OpenAudioMc.getInstance().getTaskProvider().schduleAsyncRepeatingTask(() -> {
-            clientMap.values().forEach(ClientConnection::tickClient);
-        }, 20, 20);
     }
 
     /**

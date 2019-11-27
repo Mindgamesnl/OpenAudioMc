@@ -129,12 +129,7 @@ public class ShowSubCommand extends SubCommand {
                 return;
             }
 
-            if (show.isRunning()) {
-                sender.sendMessage(ChatColor.RED + "This show is already running. You should cancel it or wait until it is over.");
-                return;
-            }
-
-            new ShowHomeMenu(show).openFor((Player) sender.getOriginal());
+            new ShowHomeMenu(show, (Player) sender.getOriginal());
             return;
         }
 
