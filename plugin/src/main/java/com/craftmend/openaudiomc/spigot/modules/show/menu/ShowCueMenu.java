@@ -26,8 +26,6 @@ public class ShowCueMenu extends Menu {
         } else {
             count = 45;
         }
-
-
         // copy
         System.arraycopy(show.getCueList().toArray(), ((page - 1) * 45), cues, 0, count);
 

@@ -45,6 +45,7 @@ public class BungeeStopCommand extends SubCommand {
 
         if (args.length == 2) {
             for (ProxiedPlayer player : new BungeePlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal())) {
+
                 ClientConnection clientConnection = openAudioMc.getNetworkingService().getClient(player.getUniqueId());
                 OpenAudioMc.getInstance().getNetworkingService().send(clientConnection, new PacketClientDestroyMedia(args[1]));
             }

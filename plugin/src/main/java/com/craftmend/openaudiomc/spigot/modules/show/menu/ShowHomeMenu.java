@@ -26,7 +26,7 @@ public class ShowHomeMenu extends Menu {
             }
             fillout(show, player);
             player.updateInventory();
-        }, 2, 2);
+        }, 1, 1);
 
         openFor(player);
     }
@@ -55,6 +55,7 @@ public class ShowHomeMenu extends Menu {
                             ChatColor.AQUA + "Remaining time: " + ChatColor.RESET + show.getTimeRemainingAsString(),
                             ChatColor.AQUA + "Events ran: " + ChatColor.RESET + show.getEventsProcessed(),
                             ChatColor.AQUA + "Remaining events: " + ChatColor.RESET + (show.getCueList().size() - show.getEventsProcessed()),
+                            ChatColor.AQUA + "Is looping: " + ChatColor.RESET + (show.isLooping() ? ChatColor.GREEN + "Yes" : ChatColor.RED + "No"),
                     })
                     .setName(ChatColor.GREEN + "Show is running"));
 
@@ -62,17 +63,28 @@ public class ShowHomeMenu extends Menu {
                         if (!show.isRunning()) {
                             return;
                         }
+                        show.cancelLooping();
                         show.stop();
                     }
             ));
+
+            setItem(7, new Item(Material.BARRIER).setName(ChatColor.RED + "Action unavailable"));
         } else {
             setItem(4, new Item(Material.LEVER).setName(ChatColor.GREEN + "Show is not running"));
 
-            setItem(6, new Item(Material.LEVER).setName(ChatColor.GREEN + "Start show").onClick((clickingPlayer, item) -> {
+            setItem(6, new Item(Material.LEVER).setName(ChatColor.GREEN + "Start show once").onClick((clickingPlayer, item) -> {
                         if (show.isRunning()) {
                             return;
                         }
                         show.start();
+                    }
+            ));
+
+            setItem(7, new Item(Material.LEVER).setName(ChatColor.GREEN + "Start looping show").onClick((clickingPlayer, item) -> {
+                        if (show.isRunning()) {
+                            return;
+                        }
+                        show.startLooping();
                     }
             ));
         }
