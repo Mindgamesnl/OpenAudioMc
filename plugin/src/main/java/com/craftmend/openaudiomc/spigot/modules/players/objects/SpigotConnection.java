@@ -32,7 +32,7 @@ public class SpigotConnection {
     // If the server version is MODERN (so 1.13 or higher) the task will run sync
     @Getter private DataWatcher<Location> locationDataWatcher = new DataWatcher<>(
             OpenAudioMcSpigot.getInstance(),
-            (OpenAudioMcSpigot.getInstance().getServerService().getVersion() == ServerVersion.MODERN),
+            true,
             5
     );
 

@@ -24,6 +24,7 @@ public class Show {
     @Getter private Set<ShowCue> cueList = new HashSet<>();
     private transient ScheduledExecutorService showTimer = null;
     private transient Instant startedAt = null;
+    @Getter private transient boolean isLooping = false;
     @Getter private transient int eventsProcessed = 0;
     @Getter private Long lastTaskTime = 1L;
 
@@ -57,8 +58,18 @@ public class Show {
     }
 
     public void start() {
+        start(false);
+    }
+
+    public void startLooping() {
+        isLooping = true;
+        start(true);
+    }
+
+    public void start(boolean fromLoop) {
         if (isRunning()) return;
         lastTaskTime = 1L;
+        eventsProcessed = 0;
 
         showTimer = Executors.newScheduledThreadPool(1);
 
@@ -82,6 +93,7 @@ public class Show {
         // one tick after it ended
         showTimer.schedule(() -> {
             stop();
+            if (isLooping) start(true);
         }, lastTaskTime + 50, TimeUnit.MILLISECONDS);
         startedAt = Instant.now();
     }
@@ -104,6 +116,10 @@ public class Show {
         for (ShowCue cue : cueList) {
             if (lastTaskTime < cue.getTimestamp()) lastTaskTime = cue.getTimestamp();
         }
+    }
+
+    public void cancelLooping() {
+        isLooping = false;
     }
 
     public void stop() {

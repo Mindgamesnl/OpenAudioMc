@@ -30,6 +30,9 @@ public class ShowSubCommand extends SubCommand {
                 new Argument("start <show name>",
                         "Start a show"),
 
+                new Argument("loop <show name>",
+                        "Start to loop a show until the server stops or the show is cancelled"),
+
                 new Argument("cancel <show name>",
                         "Cancel a running show"),
 
@@ -78,7 +81,7 @@ public class ShowSubCommand extends SubCommand {
                 data.append(subArg).append(" ");
             }
 
-            Long time = 0L;
+            Long time;
             try {
                 time = TimeParser.toMilis(args[2]);
             } catch (Exception e) {
@@ -151,6 +154,24 @@ public class ShowSubCommand extends SubCommand {
             return;
         }
 
+        if (args[0].equalsIgnoreCase("loop") && args.length == 2) {
+            Show show = openAudioMcSpigot.getShowModule().getShow(args[1]);
+
+            if (show == null) {
+                sender.sendMessage(ChatColor.RED + "There is no show called " + args[1]);
+                return;
+            }
+
+            if (show.isRunning()) {
+                sender.sendMessage(ChatColor.RED + "This show is already running. You should cancel it or wait until it is over.");
+                return;
+            }
+
+            show.startLooping();
+            sender.sendMessage(ChatColor.GOLD + "Show started looping!");
+            return;
+        }
+
         if (args[0].equalsIgnoreCase("cancel") && args.length == 2) {
             Show show = openAudioMcSpigot.getShowModule().getShow(args[1]);
 
@@ -164,6 +185,7 @@ public class ShowSubCommand extends SubCommand {
                 return;
             }
 
+            show.cancelLooping();
             show.stop();
             sender.sendMessage(ChatColor.GOLD + "Show cancelled!");
             return;
