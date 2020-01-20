@@ -6,18 +6,14 @@ import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerSelectListener;
-import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
+import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.WorldLoadListener;
+import com.craftmend.openaudiomc.spigot.modules.speakers.objects.*;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerCreateListener;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerDestroyListener;
-import com.craftmend.openaudiomc.spigot.modules.speakers.objects.ApplicableSpeaker;
-import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
-import com.craftmend.openaudiomc.spigot.modules.speakers.objects.SpeakerMedia;
 
 import lombok.Getter;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Skull;
 import org.bukkit.inventory.ItemStack;
@@ -27,17 +23,18 @@ import java.util.*;
 
 public class SpeakerModule {
 
-    @Getter
-    private Map<MappedLocation, Speaker> speakerMap = new HashMap<>();
+    @Getter private Map<MappedLocation, Speaker> speakerMap = new HashMap<>();
     private Map<String, SpeakerMedia> speakerMediaMap = new HashMap<>();
     @Getter private Material playerSkullItem;
     @Getter private Material playerSkullBlock;
+    @Getter private Map<String, Set<QueuedSpeaker>> waitingWorlds = new HashMap<>();
     private ServerVersion version;
 
     public SpeakerModule(OpenAudioMcSpigot openAudioMcSpigot) {
         openAudioMcSpigot.getServer().getPluginManager().registerEvents(new SpeakerSelectListener(this), openAudioMcSpigot);
         openAudioMcSpigot.getServer().getPluginManager().registerEvents(new SpeakerCreateListener(openAudioMcSpigot, this), openAudioMcSpigot);
         openAudioMcSpigot.getServer().getPluginManager().registerEvents(new SpeakerDestroyListener(OpenAudioMc.getInstance(), this), openAudioMcSpigot);
+        openAudioMcSpigot.getServer().getPluginManager().registerEvents(new WorldLoadListener(), openAudioMcSpigot);
 
         version = openAudioMcSpigot.getServerService().getVersion();
 
@@ -66,23 +63,37 @@ public class SpeakerModule {
 
         //load speakers
         for (String id : config.getStringSet("speakers", StorageLocation.DATA_FILE)) {
-
+            // check if said world is loaded
             String world = config.getStringFromPath("speakers." + id + ".world", StorageLocation.DATA_FILE);
-            String media = config.getStringFromPath("speakers." + id + ".media", StorageLocation.DATA_FILE);
-            int x = config.getIntFromPath("speakers." + id + ".x", StorageLocation.DATA_FILE);
-            int y = config.getIntFromPath("speakers." + id + ".y", StorageLocation.DATA_FILE);
-            int z = config.getIntFromPath("speakers." + id + ".z", StorageLocation.DATA_FILE);
-            int radius = config.getIntFromPath("speakers." + id + ".radius", StorageLocation.DATA_FILE);
+            World bukkitWorld = Bukkit.getWorld(world);
+            if (bukkitWorld == null) {
+                Set<QueuedSpeaker> queue = waitingWorlds.getOrDefault(world, new HashSet<>());
+                queue.add(new QueuedSpeaker(world, id));
+                waitingWorlds.put(world, queue);
+            } else {
+                register(id);
+            }
+        }
+    }
 
-            if (world != null) {
-                MappedLocation mappedLocation = new MappedLocation(x, y, z, world);
-                Block blockAt = mappedLocation.getBlock();
+    public void register(String id) {
+        ConfigurationInterface config = OpenAudioMc.getInstance().getConfigurationInterface();
 
-                if (blockAt != null) {
-                    registerSpeaker(mappedLocation, media, UUID.fromString(id), radius);
-                } else {
-                    System.out.println(OpenAudioMc.getLOG_PREFIX() + "Speaker " + id + " doesn't to seem be valid anymore, so it's not getting loaded.");
-                }
+        String world = config.getStringFromPath("speakers." + id + ".world", StorageLocation.DATA_FILE);
+        String media = config.getStringFromPath("speakers." + id + ".media", StorageLocation.DATA_FILE);
+        int x = config.getIntFromPath("speakers." + id + ".x", StorageLocation.DATA_FILE);
+        int y = config.getIntFromPath("speakers." + id + ".y", StorageLocation.DATA_FILE);
+        int z = config.getIntFromPath("speakers." + id + ".z", StorageLocation.DATA_FILE);
+        int radius = config.getIntFromPath("speakers." + id + ".radius", StorageLocation.DATA_FILE);
+
+        if (world != null) {
+            MappedLocation mappedLocation = new MappedLocation(x, y, z, world);
+            Block blockAt = mappedLocation.getBlock();
+
+            if (blockAt != null) {
+                registerSpeaker(mappedLocation, media, UUID.fromString(id), radius);
+            } else {
+                System.out.println(OpenAudioMc.getLOG_PREFIX() + "Speaker " + id + " doesn't to seem be valid anymore, so it's not getting loaded.");
             }
         }
     }
