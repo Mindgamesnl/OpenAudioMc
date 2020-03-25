@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.enums.PacketChannel;
 import com.craftmend.openaudiomc.generic.networking.handlers.ClientConnectHandler;
@@ -26,7 +27,7 @@ import java.net.URISyntaxException;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class NetworkingService implements INetworkingService {
+public class NetworkingService extends INetworkingService {
 
     private Map<UUID, ClientConnection> clientMap = new HashMap<>();
     private Map<PacketChannel, PayloadHandler> packetHandlerMap = new HashMap<>();
@@ -43,7 +44,7 @@ public class NetworkingService implements INetworkingService {
         try {
             socketIoConnector = new SocketIoConnector();
         } catch (Exception e) {
-            System.out.println(OpenAudioMc.getLOG_PREFIX() + "The plugin could not start because of a connection problem when requesting the initial private key. Please contact the developers of this plugin.");
+            OpenAudioLogger.toConsole("The plugin could not start because of a connection problem when requesting the initial private key. Please contact the developers of this plugin.");
             e.printStackTrace();
         }
     }
@@ -78,7 +79,7 @@ public class NetworkingService implements INetworkingService {
     @Override
     public void triggerPacket(AbstractPacket abstractPacket) {
         if (packetHandlerMap.get(abstractPacket.getPacketChannel()) == null) {
-            System.out.println(OpenAudioMc.getLOG_PREFIX() + "Unknown handler for packet type " + abstractPacket.getClass().getName());
+            OpenAudioLogger.toConsole("Unknown handler for packet type " + abstractPacket.getClass().getName());
             return;
         }
         packetHandlerMap.get(abstractPacket.getPacketChannel()).trigger(abstractPacket);

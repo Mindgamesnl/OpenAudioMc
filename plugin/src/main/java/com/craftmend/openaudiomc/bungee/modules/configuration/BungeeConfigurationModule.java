@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.bungee.modules.configuration;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
+import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.generic.storage.objects.ClientSettings;
@@ -28,7 +28,7 @@ public class BungeeConfigurationModule implements ConfigurationInterface {
 
     private Map<StorageKey, String> cachedConfigStrings = new HashMap<>();
 
-    public BungeeConfigurationModule(OpenAudioMcBungee openAudioMcBungee) {
+    public BungeeConfigurationModule() {
         //save default
         saveDefaultFile("data.yml");
         saveDefaultFile("config.yml");
@@ -36,7 +36,7 @@ public class BungeeConfigurationModule implements ConfigurationInterface {
         dataConfig = getFile("data.yml");
         mainConfig = getFile("config.yml");
 
-        System.out.println(OpenAudioMc.getLOG_PREFIX() + "Starting configuration module");
+        OpenAudioLogger.toConsole("Starting configuration module");
     }
 
     public void loadSettings() {

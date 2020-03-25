@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public class ProxyNetworkingService implements INetworkingService {
+public class ProxyNetworkingService extends INetworkingService {
 
     private NetworkingService realService = new NetworkingService();
     private BukkitPacketManager packetManager;

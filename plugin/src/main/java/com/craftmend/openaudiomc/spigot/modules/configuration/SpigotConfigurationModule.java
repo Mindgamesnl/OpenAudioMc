@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.configuration;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
+import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
@@ -35,7 +36,7 @@ public class SpigotConfigurationModule implements ConfigurationInterface {
         dataConfig = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudioMc/data.yml"));
         mainConfig = openAudioMcSpigot.getConfig();
 
-        System.out.println(OpenAudioMc.getLOG_PREFIX() + "Starting configuration module");
+        OpenAudioLogger.toConsole("Starting configuration module");
         // migration
         if (getString(StorageKey.AUTH_PUBLIC_URL).contains("client.openaudiomc.net")) {
             setString(StorageKey.AUTH_PUBLIC_URL, "https://app.openaudiomc.net/?&data=");

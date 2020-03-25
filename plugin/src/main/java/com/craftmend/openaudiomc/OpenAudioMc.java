@@ -22,7 +22,6 @@ import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 import com.craftmend.openaudiomc.spigot.services.scheduling.SpigotTaskProvider;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 
-import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.bungee.modules.configuration.BungeeConfigurationModule;
 import com.craftmend.openaudiomc.bungee.modules.scheduling.BungeeTaskProvider;
 
@@ -80,7 +79,6 @@ public class OpenAudioMc {
     @Getter private static OpenAudioMc instance;
 
     @Getter private static final OpenAudioApi api = new OpenAudioApi();
-    @Getter private static final String LOG_PREFIX = "[OpenAudioMc-Log] ";
     @Getter private static final String server = "http://craftmendserver.eu:81";
     @Getter private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(AbstractPacketPayload.class, new AbstractPacketAdapter())
@@ -90,7 +88,7 @@ public class OpenAudioMc {
     // The platform, easy for detecting what should be enabled and what not ya know
     private Platform platform;
 
-    public OpenAudioMc(Platform platform, Class networkingService) throws Exception {
+    public OpenAudioMc(Platform platform, Class<? extends INetworkingService> networkingService) throws Exception {
         instance = this;
         this.platform = platform;
 
@@ -101,7 +99,7 @@ public class OpenAudioMc {
             this.configurationInterface.loadSettings();
             this.taskProvider = new SpigotTaskProvider();
         } else {
-            this.configurationInterface = new BungeeConfigurationModule((OpenAudioMcBungee.getInstance()));
+            this.configurationInterface = new BungeeConfigurationModule();
             this.configurationInterface.loadSettings();
             this.taskProvider = new BungeeTaskProvider();
         }
@@ -113,7 +111,7 @@ public class OpenAudioMc {
         this.timeService = new TimeService();
         this.mediaModule = new MediaModule();
 
-        this.networkingService = (INetworkingService) networkingService.getConstructor().newInstance();
+        this.networkingService = networkingService.getConstructor().newInstance();
 
         this.voiceRoomManager = new VoiceRoomManager(this);
         this.commandModule = new CommandModule();

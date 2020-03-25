@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.speakers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
+import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
@@ -39,21 +40,21 @@ public class SpeakerModule {
         version = openAudioMcSpigot.getServerService().getVersion();
 
         if (version == ServerVersion.MODERN) {
-            System.out.println(OpenAudioMc.getLOG_PREFIX() + "Enabling the 1.13 speaker system");
+            OpenAudioLogger.toConsole("Enabling the 1.13 speaker system");
             playerSkullItem = Material.PLAYER_HEAD;
             playerSkullBlock = Material.PLAYER_HEAD;
         } else {
-            System.out.println(OpenAudioMc.getLOG_PREFIX() + "Enabling the 1.12 speaker system");
+            OpenAudioLogger.toConsole("Enabling the 1.12 speaker system");
             try {
-                System.out.println(OpenAudioMc.getLOG_PREFIX() + "Hooking speakers attempt 1..");
+                OpenAudioLogger.toConsole("Hooking speakers attempt 1..");
                 playerSkullItem = Material.valueOf("SKULL_ITEM");
                 playerSkullBlock = Material.valueOf("SKULL");
             } catch (Exception e) {
-                System.out.println(OpenAudioMc.getLOG_PREFIX() + "Failed hook speakers attempt 1..");
+                OpenAudioLogger.toConsole("Failed hook speakers attempt 1..");
             }
 
             if (playerSkullItem == null) {
-                System.out.println(OpenAudioMc.getLOG_PREFIX() + "Speakers failed to hook. Hooking to a block.");
+                OpenAudioLogger.toConsole("Speakers failed to hook. Hooking to a block.");
                 playerSkullItem = Material.JUKEBOX;
                 playerSkullBlock = Material.JUKEBOX;
             }
@@ -93,7 +94,7 @@ public class SpeakerModule {
             if (blockAt != null) {
                 registerSpeaker(mappedLocation, media, UUID.fromString(id), radius);
             } else {
-                System.out.println(OpenAudioMc.getLOG_PREFIX() + "Speaker " + id + " doesn't to seem be valid anymore, so it's not getting loaded.");
+                OpenAudioLogger.toConsole("Speaker " + id + " doesn't to seem be valid anymore, so it's not getting loaded.");
             }
         }
     }

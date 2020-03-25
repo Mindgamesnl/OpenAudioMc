@@ -16,12 +16,12 @@ public class IdleState implements State {
     }
 
     @Override
-    public Boolean isConnected() {
+    public boolean isConnected() {
         return false;
     }
 
     @Override
-    public Boolean canConnect() {
+    public boolean canConnect() {
         return true;
     }
 }

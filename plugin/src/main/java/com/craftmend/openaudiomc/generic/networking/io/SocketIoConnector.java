@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking.io;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.addapter.RelayHost;
@@ -64,7 +65,7 @@ public class SocketIoConnector {
                 "&public=" + publicKey;
 
         // request a relay server
-        System.out.println(OpenAudioMc.getLOG_PREFIX() + "Requesting relay..");
+        OpenAudioLogger.toConsole("Requesting relay..");
         Instant request = Instant.now();
         new RestRequest("/login.php")
                 .setQuery("private", privateKey)
@@ -73,9 +74,9 @@ public class SocketIoConnector {
                 .thenAccept((genericApiResponse) -> {
                     // check if relay request has errors
                     if (genericApiResponse.getErrors().size() != 0) {
-                        System.out.println(OpenAudioMc.getLOG_PREFIX() + "Failed to get relay host.");
-                        System.out.println(OpenAudioMc.getLOG_PREFIX() + " - message: " + genericApiResponse.getErrors().get(0).getMessage());
-                        System.out.println(OpenAudioMc.getLOG_PREFIX() + " - code: " + genericApiResponse.getErrors().get(0).getCode());
+                        OpenAudioLogger.toConsole("Failed to get relay host.");
+                        OpenAudioLogger.toConsole(" - message: " + genericApiResponse.getErrors().get(0).getMessage());
+                        OpenAudioLogger.toConsole(" - code: " + genericApiResponse.getErrors().get(0).getCode());
                         try {
                             throw new IOException("Failed to get relay! see console for error information");
                         } catch (IOException e) {
@@ -86,7 +87,7 @@ public class SocketIoConnector {
                     // get the relay
                     RelayHost relayHost = genericApiResponse.getData().get(0).findInsecureRelay();
                     Instant finish = Instant.now();
-                    System.out.println(OpenAudioMc.getLOG_PREFIX() + "Assigned relay: " + relayHost.getUrl() + " request took " + Duration.between(request, finish).toMillis() + "MS");
+                    OpenAudioLogger.toConsole("Assigned relay: " + relayHost.getUrl() + " request took " + Duration.between(request, finish).toMillis() + "MS");
 
                     // setup socketio connection
                     try {
@@ -101,7 +102,7 @@ public class SocketIoConnector {
                     // schedule timeout check
                     OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(() -> {
                         if (OpenAudioMc.getInstance().getStateService().getCurrentState() instanceof ConnectingState) {
-                            System.out.println(OpenAudioMc.getLOG_PREFIX() + "Connecting timed out.");
+                            OpenAudioLogger.toConsole("Connecting timed out.");
                             OpenAudioMc.getInstance().getStateService().setState(new IdleState());
                         }
                     }, 20 * 5);

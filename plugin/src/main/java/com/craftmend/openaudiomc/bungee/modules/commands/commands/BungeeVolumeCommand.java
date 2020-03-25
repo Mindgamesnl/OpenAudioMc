@@ -25,7 +25,7 @@ public class BungeeVolumeCommand extends Command {
         }
 
         if (!(sender instanceof ProxiedPlayer)) {
-            sender.sendMessage(OpenAudioMc.getLOG_PREFIX() + "This command can only be used by players");
+            sender.sendMessage("This command can only be used by players");
             return;
         }
 
