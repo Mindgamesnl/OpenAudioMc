@@ -13,17 +13,17 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public interface INetworkingService {
+public abstract class INetworkingService {
 
-    void connectIfDown() throws URISyntaxException, IOException;
-    void send(ClientConnection client, AbstractPacket packet);
-    void triggerPacket(AbstractPacket abstractPacket);
-    ClientConnection getClient(UUID uuid);
-    Collection<ClientConnection> getClients();
-    void remove(UUID player);
-    ClientConnection register(Player player);
-    ClientConnection register(ProxiedPlayer player);
-    void stop();
-    void requestRoomCreation(List<RoomMember> members, Consumer<Boolean> wasSucessful);
+    public abstract void connectIfDown() throws URISyntaxException, IOException;
+    public abstract void send(ClientConnection client, AbstractPacket packet);
+    public abstract void triggerPacket(AbstractPacket abstractPacket);
+    public abstract ClientConnection getClient(UUID uuid);
+    public abstract Collection<ClientConnection> getClients();
+    public abstract void remove(UUID player);
+    public abstract ClientConnection register(Player player);
+    public abstract ClientConnection register(ProxiedPlayer player);
+    public abstract void stop();
+    public abstract void requestRoomCreation(List<RoomMember> members, Consumer<Boolean> wasSucessful);
 
 }

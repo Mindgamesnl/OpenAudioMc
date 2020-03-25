@@ -74,7 +74,7 @@ public class ClientConnection {
         try {
             OpenAudioMc.getInstance().getNetworkingService().connectIfDown();
         } catch (URISyntaxException | IOException e) {
-            player.sendMessage(OpenAudioMc.getLOG_PREFIX() + "Failed to execute goal.");
+            player.sendMessage("Failed to execute goal.");
             e.printStackTrace();
         }
 

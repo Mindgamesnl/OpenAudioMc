@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.generic.voice;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.flags.FlagSet;
 import com.craftmend.openaudiomc.generic.flags.enums.Flag;
+import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
@@ -65,7 +66,7 @@ public class VoiceRoomManager {
         this.core.getNetworkingService().requestRoomCreation(roomContent, (ok) -> {
             if (!ok) {
                 isRequestPending = false;
-                System.out.println(OpenAudioMc.getLOG_PREFIX() + "Failed to create call. Server denied or could not handle the request");
+                OpenAudioLogger.toConsole("Failed to create call. Server denied or could not handle the request");
             }
         });
 

@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.proxy;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -21,10 +22,10 @@ public class ProxyModule {
         Boolean bungeeMode = yamlConfiguration.getBoolean("settings.bungeecord");
 
         if (bungeeMode != null && bungeeMode) {
-            System.out.println(OpenAudioMc.getLOG_PREFIX() + "Starting in bungee mode");
+            OpenAudioLogger.toConsole("Starting in bungee mode");
             mode = ClientMode.NODE;
         } else {
-            System.out.println(OpenAudioMc.getLOG_PREFIX() + "Starting in socket mode");
+            OpenAudioLogger.toConsole("Starting in socket mode");
             mode = ClientMode.STAND_ALONE;
         }
     }

@@ -16,12 +16,12 @@ public class ConnectedState implements State {
     }
 
     @Override
-    public Boolean isConnected() {
+    public boolean isConnected() {
         return true;
     }
 
     @Override
-    public Boolean canConnect() {
+    public boolean canConnect() {
         return false;
     }
 }

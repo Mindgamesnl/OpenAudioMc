@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.modules.commands.BungeeCommandModule;
 import com.craftmend.openaudiomc.bungee.modules.node.NodeManager;
 import com.craftmend.openaudiomc.bungee.modules.player.PlayerManager;
+import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 
@@ -54,7 +55,7 @@ public class OpenAudioMcBungee extends Plugin {
 
         // timing end and calc
         Instant finish = Instant.now();
-        System.out.println(OpenAudioMc.getLOG_PREFIX() + "Starting and loading took " + Duration.between(boot, finish).toMillis() + "MS");
+        OpenAudioLogger.toConsole("Starting and loading took " + Duration.between(boot, finish).toMillis() + "MS");
     }
 
     /**
