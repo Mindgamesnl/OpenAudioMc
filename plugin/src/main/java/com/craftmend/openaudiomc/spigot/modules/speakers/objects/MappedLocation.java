@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.speakers.objects;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;

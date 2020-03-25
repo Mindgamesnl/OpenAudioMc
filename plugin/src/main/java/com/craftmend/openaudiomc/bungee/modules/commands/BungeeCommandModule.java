@@ -22,6 +22,7 @@ public class BungeeCommandModule {
         OpenAudioMc.getInstance().getCommandModule().registerSubCommand(new BungeeHueCommand());
         OpenAudioMc.getInstance().getCommandModule().registerSubCommand(new BungeeRegionCommand());
         OpenAudioMc.getInstance().getCommandModule().registerSubCommand(new BungeeSpeakerCommand());
+        OpenAudioMc.getInstance().getCommandModule().registerSubCommand(new BungeeShowCommand());
 
     }
 

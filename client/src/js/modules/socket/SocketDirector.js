@@ -1,4 +1,5 @@
 import {fetch} from "../../../libs/github.fetch";
+import UrlReader from "../../helpers/UrlReader";
 
 export class SocketDirector {
 
@@ -8,7 +9,11 @@ export class SocketDirector {
 
     route() {
         return new Promise((accept, reject) => {
-            fetch(this.host + '/proxy')
+
+            // cors workaround
+            const params = UrlReader.getParametersFromUrl(window.location.href.split('?')[1]);
+
+            fetch(this.host + '/proxy?referer=' + params.data )
                 .then(function (response) {
                     response.json().then(result => {
                         // error handling first! because, reasons! alright fuck you just let me do what i want!
@@ -34,6 +39,7 @@ export class SocketDirector {
                         if (relayHost == null) relayHost = assignedHost[0].url;
 
                         // complete the promise with the resulted url
+                        console.log("accepting")
                         accept(relayHost);
                     })
                         .catch((e => {

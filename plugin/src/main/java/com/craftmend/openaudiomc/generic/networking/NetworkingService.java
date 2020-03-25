@@ -16,6 +16,7 @@ import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.generic.voice.packets.subtypes.RoomMember;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -102,9 +103,16 @@ public class NetworkingService implements INetworkingService {
         if (clientMap.containsKey(uuid)) {
             return clientMap.get(uuid);
         } else {
-            Player player = Bukkit.getPlayer(uuid);
-            if (player == null) return null;
-            return register(player);
+            // if the platform is spigot, we should do the api check, we can skip it otherwise
+            if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
+                Player player = Bukkit.getPlayer(uuid);
+                if (player == null) return null;
+                return register(player);
+            } else {
+                ProxiedPlayer player = ProxyServer.getInstance().getPlayer(uuid);
+                if (player == null) return null;
+                return register(player);
+            }
         }
     }
 

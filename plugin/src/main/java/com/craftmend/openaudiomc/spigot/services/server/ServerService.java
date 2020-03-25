@@ -12,7 +12,7 @@ public class ServerService {
 
     public ServerService() {
         String versionClassPath = Bukkit.getServer().getClass().getPackage().getName();
-        Boolean isModernMinecraft = (versionClassPath.contains("1.13") || versionClassPath.contains("1.14"));
+        Boolean isModernMinecraft = (versionClassPath.contains("1.13") || versionClassPath.contains("1.14")) || versionClassPath.contains("1.15") || versionClassPath.contains("1.16");
         version = isModernMinecraft ? ServerVersion.MODERN : ServerVersion.LEGACY;
 
         // do checks to validate

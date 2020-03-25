@@ -6,17 +6,21 @@ import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommandRunnable extends ShowRunnable {
 
     private String command;
-    private MockExecutor mockExecutor = new MockExecutor();
+    private String worldName;
+    private transient MockExecutor mockExecutor;
 
     @Override
-    public void prepare(String serialized) {
+    public void prepare(String serialized, World world) {
         this.command = serialized;
+        this.worldName = world.getName();
+        this.mockExecutor = new MockExecutor(worldName);
         if (this.command.startsWith("/")) this.command = this.command.replace("/" , "");
     }
 
@@ -27,8 +31,14 @@ public class CommandRunnable extends ShowRunnable {
 
     @Override
     public void run() {
-        Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> {
-            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
-        });
+        if (worldName == null) {
+            Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> {
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
+            });
+        } else {
+            Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> {
+                Bukkit.getServer().dispatchCommand(mockExecutor, command);
+            });
+        }
     }
 }

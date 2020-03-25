@@ -19,6 +19,7 @@ import openAudioMc, {linkBootListeners} from "./helpers/StaticFunctions";
 export class OpenAudioMc extends Getters {
 
     constructor() {
+
         super();
 
         this.tokenSet = new ClientTokenSet().fromUrl(window.location.href);
