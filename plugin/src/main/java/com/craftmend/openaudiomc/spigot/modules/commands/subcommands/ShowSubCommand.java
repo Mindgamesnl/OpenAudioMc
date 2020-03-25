@@ -90,7 +90,12 @@ public class ShowSubCommand extends SubCommand {
                 return;
             }
 
-            ShowRunnable task = openAudioMcSpigot.getShowModule().createRunnable(args[3], data.toString());
+            if (!(sender.getOriginal() instanceof Player)) {
+                sender.sendMessage(ChatColor.RED + "This command can only be executed by players");
+                return;
+            }
+            Player player = (Player) sender.getOriginal();
+            ShowRunnable task = openAudioMcSpigot.getShowModule().createRunnable(args[3], data.toString(), player.getWorld());
 
             if (task == null) {
                 sender.sendMessage(ChatColor.RED + "Could not create task. Available types are:");

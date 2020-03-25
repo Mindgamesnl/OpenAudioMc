@@ -20,10 +20,10 @@
 <div class="call-settings-main" id="call-control-box" style="display: none">
     <div class="call-settings-panel">
         <div style="text-align: center;">
-        <div class="call-buttons">
+            <div class="call-buttons">
                 <a class="modal-btn call-option-button" id="mute-microphone"><b>Mute Mic</b></a>
                 <a class="modal-btn call-option-button" id="leave-call-button"><b>Leave Call</b></a>
-        </div>
+            </div>
             <div id="call-members"></div>
         </div>
     </div>
@@ -48,126 +48,129 @@
 <div class="container">
     <div class="vertical-center">
 
-<div class="panel panel-small blurrOut" id="welcome">
-    <div class="panel-content">
-        <div>
-            <div class="prompt-press" id="welcome-text-landing">
-                Welcome to your web client!
-            </div>
-            <p class="alert-message-button pull-down" id="boot-button">Click here to start</p>
-        </div>
-    </div>
-</div>
-
-<div class="panel home-panel" id="app" style="display: none;">
-    <div class="panel-content">
-        <div>
-            <div class="blurIn home">
-                <div class="volume-section">
-                    <div style="text-align: center;">
-                        <span class="volume-display" id="volume-disp">Volume: 50% </span>
+        <div class="panel panel-small blurrOut" id="welcome">
+            <div class="panel-content">
+                <div>
+                    <div class="prompt-press" id="welcome-text-landing">
+                        Welcome to your web client!
                     </div>
+                    <p class="alert-message-button pull-down" id="boot-button">Click here to start</p>
                 </div>
-                <div class="volume-control">
-                        <label id="volume-label">
-                            <input id="volume-slider" max="100"
-                                   min="0" name="volume"
-                                   type="range" value="50"/>
-                        </label>
-                </div>
-                <p id="status-message"></p>
-            </div>
-        </div>
-    </div>
-    <p class="hueFooter blurIn"
-       id="hue-bridge-menu-button"
-       style="display: none;"
-    >Philips Hue <i class="fa fa-lightbulb-o"></i></p>
-    <br class="clear" />
-</div>
-
-
-
-<div class="panel home-panel" id="hueMenu" style="display: none;">
-    <div class="hue-page">
-        <h2 class="blurIn">Philips hue</h2>
-
-        <div class="blurIn menu" id="hue-link-menu">
-            <div class="center">
-                <p class="small-text" id="hue-welcome-message"></p>
-            </div>
-            <span class="alert-message-button" id="hue-start-linking-button">Click here to connect</span>
-        </div>
-
-        <div class="blurIn menu" id="hue-linking-menu" style="display: none;">
-            <div class="center">
-                <p class="small-text" id="hue-linking-message"></p>
             </div>
         </div>
 
-
-        <div class="blurIn menu" id="hue-settings-menu" style="display: none;">
-            <p>You are now connected with your Hue Bridge, <span id="bridge-name">{{name}}</span>.</p>
-            <div class="graytext" style="display: block; text-align: -webkit-center;">
-                <div class="bulbs">
-                    <div class="bulb">
-                        <h3>Light one</h3>
-                        <i class="fa fa-3x fa-lightbulb-o"></i>
-                        <div class="light-dropdown">
-                            <select :( class="blue-select" data-bulb="1"
-                                    id='bulb-selection-1'>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="bulb">
-                        <h3>Light two</h3>
-                        <i class="fa fa-3x fa-lightbulb-o"></i>
-                        <div class="light-dropdown">
-                            <select class="blue-select" data-bulb="2" id='bulb-selection-2'>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="bulb">
-                        <h3>Light three</h3>
-                        <i class="fa fa-3x fa-lightbulb-o"></i>
-                        <div class="light-dropdown">
-                            <select class="blue-select" data-bulb="3" id='bulb-selection-3'>
-                            </select>
+        <div class="panel home-panel" id="app" style="display: none;">
+            <div class="panel-content">
+                <div>
+                    <div class="blurIn home">
+                        <img alt="skull" class="display-skull" id="skull" src="https://minotar.net/avatar/OpenAudioMc">
+                        <p id="status-message"></p>
+                        <div class="volume-section">
+                            <div style="text-align: center;">
+                                <span class="volume-display" id="volume-disp">Volume: 50% </span>
+                            </div>
+                            <div class="volume-control">
+                                <label id="volume-label">
+                                    <input id="volume-slider" max="100"
+                                           min="0" name="volume"
+                                           type="range" value="50"
+                                           class="range blue"/>
+                                </label>
+                            </div>
+                            <br/>
                         </div>
                     </div>
                 </div>
-                <p>You may now link up to three lights that the server will control. Usually from right to left.</p>
+                <p class="hueFooter blurIn"
+                   id="hue-bridge-menu-button"
+                   style="display: none;"
+                >Philips Hue <i class="fa fa-lightbulb-o"></i></p>
+                <br class="clear"/>
             </div>
-        </div>
-    </div>
 
-    <div>
-        <p class="hueFooter blurIn" id="show-main-button">Back to the player <i
-                class="fa fa-volume-up"></i></p>
-    </div>
-    <br class="clear" />
-</div>
-    </div>
-</div>
 
-<div class="panel panel-small custom-card" id="card-panel" style="display: none;">
-    <div class="panel-content no-offset">
-        <div>
-            <div style="display: block; text-align: -webkit-center; border-top: 3px solid #00B0FF;">
-                <div class="title-section">
-                    <div class="title" id="card-title">
-                        API Real-Time Panel Demo
+            <div class="panel home-panel" id="hueMenu" style="display: none;">
+                <div class="hue-page">
+                    <h2 class="blurIn">Philips hue</h2>
+
+                    <div class="blurIn menu" id="hue-link-menu">
+                        <div class="center">
+                            <p class="small-text" id="hue-welcome-message"></p>
+                        </div>
+                        <span class="alert-message-button" id="hue-start-linking-button">Click here to connect</span>
+                    </div>
+
+                    <div class="blurIn menu" id="hue-linking-menu" style="display: none;">
+                        <div class="center">
+                            <p class="small-text" id="hue-linking-message"></p>
+                        </div>
+                    </div>
+
+
+                    <div class="blurIn menu" id="hue-settings-menu" style="display: none;">
+                        <p>You are now connected with your Hue Bridge, <span id="bridge-name">{{name}}</span>.</p>
+                        <div class="graytext" style="display: block; text-align: -webkit-center;">
+                            <div class="bulbs">
+                                <div class="bulb">
+                                    <h3>Light one</h3>
+                                    <i class="fa fa-3x fa-lightbulb-o"></i>
+                                    <div class="light-dropdown">
+                                        <select :( class="blue-select" data-bulb="1"
+                                                id='bulb-selection-1'>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="bulb">
+                                    <h3>Light two</h3>
+                                    <i class="fa fa-3x fa-lightbulb-o"></i>
+                                    <div class="light-dropdown">
+                                        <select class="blue-select" data-bulb="2" id='bulb-selection-2'>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="bulb">
+                                    <h3>Light three</h3>
+                                    <i class="fa fa-3x fa-lightbulb-o"></i>
+                                    <div class="light-dropdown">
+                                        <select class="blue-select" data-bulb="3" id='bulb-selection-3'>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>You may now link up to three lights that the server will control. Usually from right to
+                                left.</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div style="width: 100%; height: 100%" id="card-content">
 
+                <div>
+                    <p class="hueFooter blurIn" id="show-main-button">Back to the player <i
+                            class="fa fa-volume-up"></i></p>
+                </div>
+                <br class="clear"/>
             </div>
-            <br />
         </div>
     </div>
-</div>
 
+    <div class="panel panel-small custom-card" id="card-panel" style="display: none;">
+        <div class="panel-content no-offset">
+            <div>
+                <div style="display: block; text-align: -webkit-center; border-top: 3px solid #00B0FF;">
+                    <div class="title-section">
+                        <div class="title" id="card-title">
+                            API Real-Time Panel Demo
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 100%; height: 100%" id="card-content">
+
+                </div>
+                <br/>
+            </div>
+        </div>
+    </div>
+
+</div>
 <div class="call-control-left" id="call-controll-area"></div>
 
 <div class="alert-area" id="alert-area"></div>
@@ -177,7 +180,7 @@
         <span class="notice">&copy; <a href="https://openaudiomc.net/">OpenAudioMc</a> 2020</span>
     </span>
     <p class="footer-welcome" id="footer-welcome">No active session</p>
-    <img alt="skull" class="footer-skull" id="skull" src="https://minotar.net/avatar/OpenAudioMc">
+    <img alt="skull" class="footer-skull" src="assets/logo.png">
 </footer>
 </body>
 <script src="OpenAudioMc.bundle.js"></script>
