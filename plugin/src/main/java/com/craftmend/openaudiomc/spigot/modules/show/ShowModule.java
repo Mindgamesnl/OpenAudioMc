@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 import com.craftmend.openaudiomc.spigot.modules.show.objects.Show;
 import com.craftmend.openaudiomc.spigot.modules.show.runnables.CommandRunnable;
+import org.bukkit.World;
 
 import java.io.File;
 import java.io.IOException;
@@ -62,14 +63,14 @@ public class ShowModule {
         return null;
     }
 
-    public ShowRunnable createRunnable(String name, String serialized) {
+    public ShowRunnable createRunnable(String name, String serialized, World context) {
         Class clazz = taskTypes.get(name.toLowerCase());
 
         if (clazz == null) return null;
 
         try {
             ShowRunnable runnable = (ShowRunnable) clazz.getConstructor().newInstance();
-            runnable.prepare(serialized);
+            runnable.prepare(serialized, context);
             return runnable;
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             // ignored

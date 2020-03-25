@@ -16,7 +16,6 @@ public enum StorageKey {
     MESSAGE_CALL_RINGING("messages.call-ringing", StorageLocation.CONFIG_FILE),
     MESSAGE_CALL_ENDED("messages.call-left", StorageLocation.CONFIG_FILE),
     MESSAGE_API_BOOTING("messages.api-starting-up", StorageLocation.CONFIG_FILE),
-    MESSAGE_PROPOSE_CLIENT("messages.suggest-connection", StorageLocation.CONFIG_FILE),
 
     SETTING_CLIENT_TITLE("client.title", StorageLocation.CONFIG_FILE),
     SETTING_CLIENT_BACKGROUND("client.background", StorageLocation.CONFIG_FILE),

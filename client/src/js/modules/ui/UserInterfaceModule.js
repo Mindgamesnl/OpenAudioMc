@@ -5,6 +5,8 @@ export class UserInterfaceModule {
 
         document.getElementById("hue-bridge-menu-button").onclick = () => this.showHue();
         document.getElementById("show-main-button").onclick = () => this.showMain();
+        // slider shit
+
     }
 
     setMessage(text) {

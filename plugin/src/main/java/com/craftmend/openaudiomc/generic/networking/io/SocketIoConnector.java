@@ -98,6 +98,14 @@ public class SocketIoConnector {
                     // register state to be connecting
                     OpenAudioMc.getInstance().getStateService().setState(new ConnectingState());
 
+                    // schedule timeout check
+                    OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(() -> {
+                        if (OpenAudioMc.getInstance().getStateService().getCurrentState() instanceof ConnectingState) {
+                            System.out.println(OpenAudioMc.getLOG_PREFIX() + "Connecting timed out.");
+                            OpenAudioMc.getInstance().getStateService().setState(new IdleState());
+                        }
+                    }, 20 * 5);
+
                     // attempt to setup
                     registerEvents();
                     socket.connect();

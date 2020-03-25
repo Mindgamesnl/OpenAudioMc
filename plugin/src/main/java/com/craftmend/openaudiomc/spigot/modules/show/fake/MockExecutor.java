@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.show.fake;
 
+import lombok.AllArgsConstructor;
 import org.bukkit.*;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.advancement.AdvancementProgress;
@@ -32,7 +33,10 @@ import org.bukkit.util.Vector;
 import java.net.InetSocketAddress;
 import java.util.*;
 
+@AllArgsConstructor
 public class MockExecutor implements Player, CommandSender {
+
+    private String worldName;
 
     @Override
     public String getDisplayName() {
@@ -701,12 +705,12 @@ public class MockExecutor implements Player, CommandSender {
 
     @Override
     public Location getLocation() {
-        return null;
+        return new Location(Bukkit.getWorld(worldName), 0, 0, 0);
     }
 
     @Override
     public Location getLocation(Location location) {
-        return null;
+        return new Location(Bukkit.getWorld(worldName), 0, 0, 0);
     }
 
     @Override
@@ -741,7 +745,7 @@ public class MockExecutor implements Player, CommandSender {
 
     @Override
     public World getWorld() {
-        return null;
+        return Bukkit.getWorld(worldName);
     }
 
     @Override
@@ -1066,7 +1070,7 @@ public class MockExecutor implements Player, CommandSender {
 
     @Override
     public String getName() {
-        return null;
+        return "OaShow";
     }
 
     @Override

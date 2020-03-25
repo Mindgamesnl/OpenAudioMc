@@ -51,19 +51,19 @@ public class OpenAudioMc {
     /**
      * Services used by the core to run OpenAudioMc
      * <p>
-     * (SERVICE)                            (PURPOSE)
+     *           (SERVICE)                            (PURPOSE)
      * ===========================================================================
-     * - State Service          []   (responsible for tracking the current state)
-     * - Server Service         []   (used to probe and detect what it is running)
-     * - Time Service           []   (used to synchronize time with the central OpenAudioMc-time-server)
-     * - Networking Service     []   (handles connections, clients, packets etc)
-     * - Flag Set               []   (keeps track of OpenAudioMc account data like if its partnered or not)
-     * - Configuration Interface[]   (storage implementation for the platform type)
-     * - Authentication Service []   (handle authentication for the api)
-     * - Voice Room Manager     []   (keep track of ongoing voice calls)
-     * - Command Module         []   (common framework to keep all commands as common-code regardless of platform)
-     * - Media Module           []   (keep track of media and timings)
-     * - Task Provider          []   (create and register tasks regardless of platform)
+     * - State Service           []   (responsible for tracking the current state)
+     * - Server Service          []   (used to probe and detect what it is running)
+     * - Time Service            []   (used to synchronize time with the central OpenAudioMc-time-server)
+     * - Networking Service      []   (handles connections, clients, packets etc)
+     * - Flag Set                []   (keeps track of OpenAudioMc account data like if its partnered or not)
+     * - Configuration Interface []   (storage implementation for the platform type)
+     * - Authentication Service  []   (handle authentication for the api)
+     * - Voice Room Manager      []   (keep track of ongoing voice calls)
+     * - Command Module          []   (common framework to keep all commands as common-code regardless of platform)
+     * - Media Module            []   (keep track of media and timings)
+     * - Task Provider           []   (create and register tasks regardless of platform)
      */
     private StateService stateService;
     private ServerService serverService;
@@ -77,17 +77,12 @@ public class OpenAudioMc {
     private MediaModule mediaModule;
     private ITaskProvider taskProvider;
 
-    @Getter
-    private static OpenAudioMc instance;
+    @Getter private static OpenAudioMc instance;
 
-    @Getter
-    private static final OpenAudioApi api = new OpenAudioApi();
-    @Getter
-    private static final String LOG_PREFIX = "[OpenAudioMc-Log] ";
-    @Getter
-    private static final String server = "http://craftmendserver.eu:81";
-    @Getter
-    private static final Gson gson = new GsonBuilder()
+    @Getter private static final OpenAudioApi api = new OpenAudioApi();
+    @Getter private static final String LOG_PREFIX = "[OpenAudioMc-Log] ";
+    @Getter private static final String server = "http://craftmendserver.eu:81";
+    @Getter private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(AbstractPacketPayload.class, new AbstractPacketAdapter())
             .registerTypeAdapter(ShowRunnable.class, new RunnableTypeAdapter())
             .create();
