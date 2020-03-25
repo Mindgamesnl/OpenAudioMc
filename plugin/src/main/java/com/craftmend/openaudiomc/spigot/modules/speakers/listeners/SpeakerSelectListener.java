@@ -1,10 +1,12 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.listeners;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
 import com.craftmend.openaudiomc.spigot.modules.speakers.menu.SpeakerMenu;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 
+import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import lombok.AllArgsConstructor;
 
 import org.bukkit.entity.Player;
@@ -21,7 +23,8 @@ public class SpeakerSelectListener implements Listener {
 
     @EventHandler
     public void onClick(PlayerInteractEvent event) {
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getHand() == EquipmentSlot.HAND) {
+        if (OpenAudioMc.getInstance().getServerService().getVersion() == ServerVersion.MODERN && event.getHand() != EquipmentSlot.HAND) return;
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (isAllowed(event.getPlayer())) {
                 Speaker speaker = speakerModule.getSpeaker(new MappedLocation(event.getClickedBlock().getLocation()));
                 if (speaker == null) {
@@ -32,7 +35,7 @@ public class SpeakerSelectListener implements Listener {
         }
     }
 
-    private Boolean isAllowed(Player player) {
+    private boolean isAllowed(Player player) {
         return player.isOp()
                 || player.hasPermission("openaudiomc.speakers.*")
                 || player.hasPermission("openaudiomc.*")
