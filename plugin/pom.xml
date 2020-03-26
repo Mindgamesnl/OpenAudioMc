@@ -168,5 +168,11 @@
             <type>javadoc</type>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>io.lettuce</groupId>
+            <artifactId>lettuce-core</artifactId>
+            <version>5.2.0.RELEASE</version>
+        </dependency>
     </dependencies>
 </project>
