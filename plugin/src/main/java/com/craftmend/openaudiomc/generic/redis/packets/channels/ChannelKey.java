@@ -1,12 +1,12 @@
 package com.craftmend.openaudiomc.generic.redis.packets.channels;
 
-import com.craftmend.openaudiomc.generic.redis.packets.PlaceHolderPacket;
+import com.craftmend.openaudiomc.generic.redis.packets.ExecuteCommandPacket;
 import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
 import lombok.Getter;
 
 public enum ChannelKey {
 
-    DUMMY("test", PlaceHolderPacket.class);
+    TRIGGER_COMMAND("oa-show-trigger", ExecuteCommandPacket.class);
 
     @Getter
     private String redisChannelName;
