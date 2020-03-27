@@ -39,10 +39,10 @@ public class ClientConnection {
     @Getter private List<Media> ongoingMedia = new ArrayList<>();
 
     // session info
-    private Boolean isConnected = false;
+    private boolean isConnected = false;
     @Getter private Session session;
     @Setter @Getter private Card card = null;
-    @Setter @Getter private Boolean hasWaitingToken = false;
+    @Setter @Getter private boolean isWaitingToken = false;
 
     // player implementation
     @Getter private PlayerContainer player;
@@ -56,7 +56,7 @@ public class ClientConnection {
         this.player = playerContainer;
         refreshSession();
 
-        if (OpenAudioMc.getInstance().getConfigurationInterface().getBoolean(StorageKey.SETTINGS_SEND_URL_ON_JOIN))
+        if (OpenAudioMc.getInstance().getConfigurationInterface().getboolean(StorageKey.SETTINGS_SEND_URL_ON_JOIN))
             publishUrl();
     }
 
@@ -85,7 +85,7 @@ public class ClientConnection {
                 OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CLICK_TO_CONNECT)
         )));
         message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
-        this.hasWaitingToken = true;
+        this.isWaitingToken = true;
         player.sendMessage(message);
     }
 
@@ -95,7 +95,7 @@ public class ClientConnection {
         String startSound = configurationInterface.getString(StorageKey.SETTINGS_CLIENT_START_SOUND);
 
         this.isConnected = true;
-        this.hasWaitingToken = false;
+        this.isWaitingToken = false;
 
         OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(
                 () -> {
@@ -213,7 +213,7 @@ public class ClientConnection {
     }
 
     public void tickClient() {
-        boolean remindToConnect = OpenAudioMc.getInstance().getConfigurationInterface().getBoolean(StorageKey.SETTINGS_REMIND_TO_CONNECT);
+        boolean remindToConnect = OpenAudioMc.getInstance().getConfigurationInterface().getboolean(StorageKey.SETTINGS_REMIND_TO_CONNECT);
 
         if (remindToConnect) {
             int reminderInterval = OpenAudioMc.getInstance().getConfigurationInterface().getInt(StorageKey.SETTINGS_REMIND_TO_CONNECT_INTERVAL);
@@ -223,12 +223,12 @@ public class ClientConnection {
         }
     }
 
-    public Boolean getIsConnected() {
+    public boolean getIsConnected() {
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE) return true;
         return this.isConnected;
     }
 
-    public Boolean isConnected() {
+    public boolean isConnected() {
         return getIsConnected();
     }
 }

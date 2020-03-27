@@ -174,7 +174,7 @@ public class BungeeConfigurationModule implements ConfigurationInterface {
      * @return boolean value
      */
     @Override
-    public Boolean getBoolean(StorageKey storageKey) {
+    public boolean getboolean(StorageKey storageKey) {
         switch (storageKey.getStorageLocation()) {
             case DATA_FILE:
                 return dataConfig.getBoolean(storageKey.getPath());
@@ -210,7 +210,7 @@ public class BungeeConfigurationModule implements ConfigurationInterface {
     }
 
     @Override
-    public Boolean hasDataFile() {
+    public boolean hasDataFile() {
         return true;
     }
 

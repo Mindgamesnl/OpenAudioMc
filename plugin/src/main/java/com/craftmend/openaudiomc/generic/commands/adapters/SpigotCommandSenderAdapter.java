@@ -15,7 +15,7 @@ public class SpigotCommandSenderAdapter implements GenericExecutor {
     }
 
     @Override
-    public Boolean hasPermission(String permission) {
+    public boolean hasPermission(String permission) {
         return commandSender.hasPermission(permission) || commandSender.isOp();
     }
 

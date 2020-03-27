@@ -16,9 +16,9 @@ public interface ConfigurationInterface {
     void setString(StorageKey storageKey, String string);
     void setString(StorageLocation storageLocation, String path, String string);
     void setInt(StorageLocation storageLocation, String path, int value);
-    Boolean getBoolean(StorageKey storageKey);
+    boolean getboolean(StorageKey storageKey);
     void reloadConfig();
     void saveAll();
-    Boolean hasDataFile();
+    boolean hasDataFile();
 
 }

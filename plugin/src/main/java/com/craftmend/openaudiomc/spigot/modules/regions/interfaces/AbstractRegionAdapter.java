@@ -18,7 +18,7 @@ public abstract class AbstractRegionAdapter {
     }
 
     public abstract Set<ProtectedRegion> getRegionsAtLocation(Location location);
-    public abstract Boolean doesRegionExist(String name);
+    public abstract boolean doesRegionExist(String name);
 
     public List<IRegion> getAudioRegions(Location location) {
         List<IRegion> regions = new ArrayList<>();

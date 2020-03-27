@@ -25,7 +25,7 @@ public class ModernRegionAdapter extends AbstractRegionAdapter {
     public ModernRegionAdapter(RegionModule regionModule) {
         super(regionModule);
     }
-    private Boolean usePriority = OpenAudioMc.getInstance().getConfigurationInterface().getBoolean(StorageKey.SETTINGS_USE_WG_PRIORITY);
+    private boolean usePriority = OpenAudioMc.getInstance().getConfigurationInterface().getboolean(StorageKey.SETTINGS_USE_WG_PRIORITY);
 
     @Override
     public Set<ProtectedRegion> getRegionsAtLocation(Location location) {
@@ -52,7 +52,7 @@ public class ModernRegionAdapter extends AbstractRegionAdapter {
     }
 
     @Override
-    public Boolean doesRegionExist(String name) {
+    public boolean doesRegionExist(String name) {
         RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
         for (World world : Bukkit.getWorlds()) {
             RegionManager manager = container.get(BukkitAdapter.adapt(world));

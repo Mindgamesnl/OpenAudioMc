@@ -20,7 +20,7 @@ public class OpenAudioMcBungeeCommand extends Command {
     @Override
     public void execute(CommandSender originalSender, String[] args) {
         GenericExecutor sender = new BungeeCommandSenderAdapter(originalSender);
-        if (!OpenAudioMc.getInstance().getAuthenticationService().getIsSuccesfull()) {
+        if (!OpenAudioMc.getInstance().getAuthenticationService().isSuccesfull()) {
             sender.sendMessage(commandModule.getCommandPrefix() + OpenAudioMc.getInstance().getAuthenticationService().getFailureMessage());
             return;
         }

@@ -53,12 +53,12 @@ public class RegionHandler implements ITickableHandler {
         }
     }
 
-    private Boolean containsRegion(List<IRegion> list, IRegion query) {
+    private boolean containsRegion(List<IRegion> list, IRegion query) {
         for (IRegion r : list) if (query.getMedia().getSource().equals(r.getMedia().getSource())) return true;
         return false;
     }
 
-    private Boolean isPlayingRegion(IRegion region) {
+    private boolean isPlayingRegion(IRegion region) {
         for (IRegion r : spigotConnection.getRegions()) if (region.getMedia().getSource().equals(r.getMedia().getSource())) return true;
         return false;
     }

@@ -165,7 +165,7 @@ public class SpeakerModule {
         return skull;
     }
 
-    public Boolean isSpeakerSkull(Block block) {
+    public boolean isSpeakerSkull(Block block) {
         if (block.getState() instanceof Skull) {
             Skull skull = (Skull) block.getState();
             if (version == ServerVersion.MODERN) {

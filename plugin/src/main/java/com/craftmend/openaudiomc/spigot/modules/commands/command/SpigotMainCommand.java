@@ -27,7 +27,7 @@ public class SpigotMainCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender originalSender, Command command, String label, String[] args) {
         GenericExecutor sender = new SpigotCommandSenderAdapter(originalSender);
-        if (!OpenAudioMc.getInstance().getAuthenticationService().getIsSuccesfull()) {
+        if (!OpenAudioMc.getInstance().getAuthenticationService().isSuccesfull()) {
             sender.sendMessage(commandModule.getCommandPrefix() + OpenAudioMc.getInstance().getAuthenticationService().getFailureMessage());
             return true;
         }

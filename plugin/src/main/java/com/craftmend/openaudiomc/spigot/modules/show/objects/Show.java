@@ -53,7 +53,7 @@ public class Show {
         return null;
     }
 
-    public Boolean isRunning() {
+    public boolean isRunning() {
         return showTimer != null;
     }
 

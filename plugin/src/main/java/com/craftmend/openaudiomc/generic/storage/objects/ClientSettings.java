@@ -42,7 +42,7 @@ public class ClientSettings {
      * @param other Compare the settings to other client settings
      * @return true if equal
      */
-    public Boolean equals(ClientSettings other) {
+    public boolean equals(ClientSettings other) {
         return (other.getTitle().equals(getTitle())
                 && other.getBackground().equals(getBackground())
                 && other.getWelcomeMessage().equals(getWelcomeMessage())

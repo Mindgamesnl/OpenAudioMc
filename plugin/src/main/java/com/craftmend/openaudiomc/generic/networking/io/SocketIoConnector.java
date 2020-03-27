@@ -126,9 +126,9 @@ public class SocketIoConnector {
 
             String message = Platform.translateColors(OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_LINK_EXPIRED));
             for (ClientConnection client : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
-                if (client.getHasWaitingToken()) {
+                if (client.isWaitingToken()) {
                     client.getPlayer().sendMessage(message);
-                    client.setHasWaitingToken(false);
+                    client.setWaitingToken(false);
                 }
             }
         });
@@ -206,7 +206,7 @@ public class SocketIoConnector {
 
     public void createRoom(List<RoomMember> members, Consumer<Boolean> wasSucessful) {
         socket.emit("request-call-creation", OpenAudioMc.getGson().toJson(members), (Ack) args -> {
-            wasSucessful.accept((Boolean) args[0]);
+            wasSucessful.accept((boolean) args[0]);
         });
     }
 }

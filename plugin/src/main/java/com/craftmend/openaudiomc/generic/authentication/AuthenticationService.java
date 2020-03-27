@@ -16,7 +16,7 @@ import java.io.IOException;
 public class AuthenticationService {
 
     @Getter private ServerKeySet serverKeySet = new ServerKeySet();
-    @Getter private Boolean isSuccesfull = false;
+    @Getter private boolean isSuccesfull = false;
     @Getter private String failureMessage = "Oh no, it looks like the initial setup of OpenAudioMc has failed. Please try to restart the server and try again, if that still does not work, please contact OpenAudioMc staff or support.";
     private final int keyVersion = 2;
 

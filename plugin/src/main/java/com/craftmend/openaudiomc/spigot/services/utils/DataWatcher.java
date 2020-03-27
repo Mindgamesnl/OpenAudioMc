@@ -12,10 +12,10 @@ public class DataWatcher<T> {
     private int task;
     private Feeder<T> dataFeeder;
     private Consumer<T> callback;
-    private Boolean isRunning = false;
-    private Boolean forced = false;
+    private boolean isRunning = false;
+    private boolean forced = false;
 
-    public DataWatcher(JavaPlugin plugin, Boolean sync, int delayTicks) {
+    public DataWatcher(JavaPlugin plugin, boolean sync, int delayTicks) {
         Runnable executor = () -> {
             if (this.dataFeeder == null || this.dataFeeder == null) return;
             T newValue = dataFeeder.feed();
@@ -47,7 +47,7 @@ public class DataWatcher<T> {
         this.forced = true;
     }
 
-    public Boolean isRunning() {
+    public boolean isRunning() {
         return this.isRunning;
     }
 

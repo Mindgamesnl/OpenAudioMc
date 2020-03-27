@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 public class ClientDestroyMediaPayload extends AbstractPacketPayload {
 
     private String soundId;
-    private Boolean all = false;
+    private boolean all = false;
 
 }

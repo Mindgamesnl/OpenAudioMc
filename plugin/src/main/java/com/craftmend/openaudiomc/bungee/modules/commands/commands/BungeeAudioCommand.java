@@ -15,7 +15,7 @@ public class BungeeAudioCommand extends Command {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if (!OpenAudioMc.getInstance().getAuthenticationService().getIsSuccesfull()) {
+        if (!OpenAudioMc.getInstance().getAuthenticationService().isSuccesfull()) {
             sender.sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() +
                     OpenAudioMc.getInstance().getAuthenticationService().getFailureMessage());
             return;

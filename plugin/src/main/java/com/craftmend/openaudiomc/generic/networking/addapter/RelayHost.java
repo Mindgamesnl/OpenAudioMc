@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class RelayHost {
 
     private String url;
-    private Boolean secure;
+    private boolean secure;
 
 }

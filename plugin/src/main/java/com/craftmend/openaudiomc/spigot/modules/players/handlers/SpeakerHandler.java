@@ -55,7 +55,7 @@ public class SpeakerHandler implements ITickableHandler {
         spigotConnection.setCurrentSpeakers(applicableSpeakers);
     }
 
-    private Boolean isPlayingSpeaker(ApplicableSpeaker speaker) {
+    private boolean isPlayingSpeaker(ApplicableSpeaker speaker) {
         for (ApplicableSpeaker currentSpeaker : spigotConnection.getSpeakers())
             if (currentSpeaker.getSpeaker().getSource().equals(speaker.getSpeaker().getSource())) return true;
         return false;
@@ -68,7 +68,7 @@ public class SpeakerHandler implements ITickableHandler {
         return null;
     }
 
-    private Boolean containsSpeaker(List<ApplicableSpeaker> list, ApplicableSpeaker speaker) {
+    private boolean containsSpeaker(List<ApplicableSpeaker> list, ApplicableSpeaker speaker) {
         for (ApplicableSpeaker currentSpeaker : list)
             if (currentSpeaker.getSpeaker().getSource().equals(speaker.getSpeaker().getSource())) return true;
         return false;
