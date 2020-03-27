@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.generic.redis.packets;
 import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
 
 public class PlaceHolderPacket extends OARedisPacket<PlaceHolderPacket> {
+
     @Override
     public String serialize() {
         return null;
