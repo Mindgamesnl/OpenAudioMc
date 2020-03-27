@@ -8,10 +8,8 @@ public enum ChannelKey {
 
     TRIGGER_COMMAND("oa-show-trigger", ExecuteCommandPacket.class);
 
-    @Getter
-    private String redisChannelName;
-    @Getter
-    private Class<? extends OARedisPacket> packetClass;
+    @Getter private String redisChannelName;
+    @Getter private Class<? extends OARedisPacket> packetClass;
 
     ChannelKey(String channel, Class<? extends OARedisPacket> packetClass) {
         this.redisChannelName = channel;

@@ -85,5 +85,5 @@ redis:
   password: none
   # If SSL should be used to connect to your redis server (only if you have setup TLS)
   useSSL: false
-  # The section to sync with. When configured, OpenAudioMc will only sync to servers on redis with the same section
+  # The channel to sync with. When configured, OpenAudioMc will only sync to servers on redis with the same section
   section: event
