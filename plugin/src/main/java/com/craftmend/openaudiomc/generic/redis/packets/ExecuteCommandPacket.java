@@ -8,10 +8,11 @@ import com.craftmend.openaudiomc.spigot.modules.show.runnables.CommandRunnable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.bukkit.Bukkit;
 
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExecuteCommandPacket extends OARedisPacket<ExecuteCommandPacket> {
+public class ExecuteCommandPacket extends OARedisPacket {
 
     @Getter private String command;
 
@@ -21,9 +22,10 @@ public class ExecuteCommandPacket extends OARedisPacket<ExecuteCommandPacket> {
     }
 
     @Override
-    public void handle(ExecuteCommandPacket received) {
+    public void handle(OARedisPacket a) {
+        ExecuteCommandPacket received = (ExecuteCommandPacket) a;
         CommandRunnable commandRunnable = new CommandRunnable();
-        commandRunnable.prepare(command, null);
+        commandRunnable.prepare(received.getCommand(), Bukkit.getWorlds().get(0));
         commandRunnable.setExecutedFromRedis(true);
         commandRunnable.run();
     }

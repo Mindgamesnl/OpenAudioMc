@@ -6,14 +6,14 @@ import com.google.gson.*;
 
 import java.lang.reflect.Type;
 
-public class RedisTypeAdapter implements JsonSerializer<OARedisPacket<?>>, JsonDeserializer<OARedisPacket<?>> {
+public class RedisTypeAdapter implements JsonSerializer<OARedisPacket>, JsonDeserializer<OARedisPacket> {
 
     /**
      * a type adapter for the using of the packet framework
      */
 
     @Override
-    public JsonElement serialize(OARedisPacket<?> src, Type typeOfSrc, JsonSerializationContext context) {
+    public JsonElement serialize(OARedisPacket src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();
 
         result.add("type", new JsonPrimitive(src.getClass().getName()));
@@ -23,7 +23,7 @@ public class RedisTypeAdapter implements JsonSerializer<OARedisPacket<?>>, JsonD
     }
 
     @Override
-    public OARedisPacket<?> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    public OARedisPacket deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
         String type = jsonObject.get("type").getAsString();
         JsonElement element = jsonObject.get("payload");

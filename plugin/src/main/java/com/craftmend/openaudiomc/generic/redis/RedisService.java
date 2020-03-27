@@ -70,7 +70,7 @@ public class RedisService {
         OpenAudioLogger.toConsole("Enabled redis service!");
     }
 
-    public void sendMessage(ChannelKey key, OARedisPacket<?> packet) {
+    public void sendMessage(ChannelKey key, OARedisPacket packet) {
         if (!enabled) return;
         packet.setSenderUUID(serviceId);
         asyncPub.publish(key.getRedisChannelName(), packet.serialize());
