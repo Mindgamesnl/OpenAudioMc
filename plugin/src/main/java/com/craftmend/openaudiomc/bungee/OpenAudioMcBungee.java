@@ -39,7 +39,7 @@ public class OpenAudioMcBungee extends Plugin {
 
         // setup core
         try {
-            new OpenAudioMc(Platform.BUNGEE, ClientMode.STAND_ALONE.serviceClass);
+            new OpenAudioMc(Platform.BUNGEE, ClientMode.STAND_ALONE.getServiceClass());
         } catch (Exception e) {
             e.printStackTrace();
             return;
