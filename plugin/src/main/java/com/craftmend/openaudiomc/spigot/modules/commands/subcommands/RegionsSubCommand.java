@@ -2,12 +2,11 @@ package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
-import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
+import com.craftmend.openaudiomc.generic.interfaces.OAConfiguration;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
-import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.TimedRegionProperties;
 import org.bukkit.Bukkit;
@@ -84,7 +83,7 @@ public class RegionsSubCommand extends SubCommand {
             return;
         }
 
-        ConfigurationInterface config = OpenAudioMc.getInstance().getConfigurationInterface();
+        OAConfiguration config = OpenAudioMc.getInstance().getOAConfiguration();
         if (args[0].equalsIgnoreCase("create") && args.length == 3) {
             args[1] = args[1].toLowerCase();
 

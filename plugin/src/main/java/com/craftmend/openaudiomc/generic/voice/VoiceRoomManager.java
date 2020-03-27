@@ -85,7 +85,7 @@ public class VoiceRoomManager {
             ClientConnection clientConnection = OpenAudioMc.getInstance().getNetworkingService().getClient(member.getUuid());
             if (clientConnection != null) {
                 clientConnection.getPlayer().sendMessage(Platform.translateColors(Objects.requireNonNull(
-                        OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CALL_RINGING)
+                        OpenAudioMc.getInstance().getOAConfiguration().getString(StorageKey.MESSAGE_CALL_RINGING)
                 )));
             }
         }
@@ -102,7 +102,7 @@ public class VoiceRoomManager {
         ClientConnection clientConnection = OpenAudioMc.getInstance().getNetworkingService().getClient(packet.getMember());
         if (clientConnection != null) {
             clientConnection.getPlayer().sendMessage(Platform.translateColors(Objects.requireNonNull(
-                    OpenAudioMc.getInstance().getConfigurationInterface().getString(StorageKey.MESSAGE_CALL_ENDED)
+                    OpenAudioMc.getInstance().getOAConfiguration().getString(StorageKey.MESSAGE_CALL_ENDED)
             )));
         }
     }

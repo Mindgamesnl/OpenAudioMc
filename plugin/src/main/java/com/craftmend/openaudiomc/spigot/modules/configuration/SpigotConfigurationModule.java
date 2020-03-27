@@ -1,7 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.configuration;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
+import com.craftmend.openaudiomc.generic.interfaces.OAConfiguration;
 import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
@@ -20,7 +19,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class SpigotConfigurationModule implements ConfigurationInterface {
+public class SpigotConfigurationModule implements OAConfiguration {
 
     @Getter private ClientSettings clientSettings;
     private FileConfiguration mainConfig;
@@ -182,7 +181,7 @@ public class SpigotConfigurationModule implements ConfigurationInterface {
      * @return boolean value
      */
     @Override
-    public boolean getboolean(StorageKey storageKey) {
+    public boolean getBoolean(StorageKey storageKey) {
         switch (storageKey.getStorageLocation()) {
             case DATA_FILE:
                 return dataConfig.getBoolean(storageKey.getPath());

@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.generic.storage.objects.ClientSettings;
-import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
+import com.craftmend.openaudiomc.generic.interfaces.OAConfiguration;
 import lombok.Getter;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class BungeeConfigurationModule implements ConfigurationInterface {
+public class BungeeConfigurationModule implements OAConfiguration {
 
     @Getter private ClientSettings clientSettings;
     private Configuration mainConfig;
@@ -174,7 +174,7 @@ public class BungeeConfigurationModule implements ConfigurationInterface {
      * @return boolean value
      */
     @Override
-    public boolean getboolean(StorageKey storageKey) {
+    public boolean getBoolean(StorageKey storageKey) {
         switch (storageKey.getStorageLocation()) {
             case DATA_FILE:
                 return dataConfig.getBoolean(storageKey.getPath());
