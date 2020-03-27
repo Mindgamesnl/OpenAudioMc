@@ -63,10 +63,7 @@ public class OpenAudioMcBungee extends Plugin {
      */
     @Override
     public void onDisable() {
-        OpenAudioMc.getInstance().getConfigurationInterface().saveAll();
-        if (OpenAudioMc.getInstance().getStateService().getCurrentState().isConnected()) {
-            OpenAudioMc.getInstance().getNetworkingService().stop();
-        }
+        OpenAudioMc.getInstance().disable();
     }
 
 }

@@ -41,6 +41,13 @@ public enum StorageKey {
     AUTH_PUBLIC_URL("keyset.base-url", StorageLocation.DATA_FILE),
     AUTH_KEY_VERSION("keyset.key-version", StorageLocation.DATA_FILE),
 
+    REDIS_ENABLED("redis.enabled", StorageLocation.CONFIG_FILE),
+    REDIS_HOST("redis.host", StorageLocation.CONFIG_FILE),
+    REDIS_PORT("redis.port", StorageLocation.CONFIG_FILE),
+    REDIS_PASSWORD("redis.password", StorageLocation.CONFIG_FILE),
+    REDIS_USE_SSL("redis.useSSL", StorageLocation.CONFIG_FILE),
+    REDIS_SECTION("redis.section", StorageLocation.CONFIG_FILE),
+
     OPTIONS_SOCKET_MODE("keyset.link-mode", StorageLocation.DATA_FILE)
     ;
 

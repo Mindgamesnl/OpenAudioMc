@@ -107,11 +107,8 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
     @Override
     public void onDisable() {
         OpenAudioLogger.toConsole("Shutting down");
-        OpenAudioMc.getInstance().getConfigurationInterface().saveAll();
+        OpenAudioMc.getInstance().disable();
         HandlerList.unregisterAll(this);
-        if (OpenAudioMc.getInstance().getStateService().getCurrentState().isConnected()) {
-            OpenAudioMc.getInstance().getNetworkingService().stop();
-        }
         OpenAudioLogger.toConsole("Stopped OpenAudioMc. Goodbye.");
     }
 
