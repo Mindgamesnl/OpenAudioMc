@@ -1,41 +1,89 @@
+# MESSAGES
+# These are the messages as presented to the client. Be sure to use ' to encapsulate them. If you use ' in your native
+# language (like french), be sure to escape them.
 messages:
+  # The message a client gets when they are not connected but a sound got triggered. this can be disabled under settings
   suggest-connection: '&eYou are currently missing out on some sounds! connect with the audio client via /audio'
+  # The message the client gets when executing /audio of joins (if send-on-join is enabled)
   click-to-connect: '&6Welcome! click here to connect to the audio client!'
+  # The message the client gets when their audio link has expired
   click-link-expired: '&3Your link to the audio client has expired. Use /audio to request a new one.'
+  # The message a client gets when their web-client has been opened
   client-opened: '&2You are now connected with the audio client!'
+  # The message a client gets when their web-client has been closed
   client-closed: '&4You closed the web client!'
+  # The message a client gets as confirmation for executing /volume or /vol
   client-volume-change: '&6Your volume has been changed to __amount__%'
+  # The message a client gets as warning that they messed up /volume or /vol
   client-volume-invalid: '&4You must enter a number between 0 and 100'
+  # The message a client gets as warning that they aren't even connected
   client-not-connected: '&4You need to be connected to the web client to be able to do that'
+  # The message a client gets as warning that they are already connected
   client-already-connected: '&4You are already connected to the web client'
+  # The message a client gets when they have a incomming call
   call-ringing: '&2You have a pending voice call! please check your web client to answer'
+  # The message a client gets when their call has ended
   call-left: '&4Your current voice call got ended. You can now talk to yourself in peace again.'
+  # The message a client gets when openaudio messed up internally and it's currently recovering
   api-starting-up: '&3The connection is still setting up. Please try again in a few seconds.'
 
+
+# OPTIONS
+# These are general plugin settings
 options:
+  # When set to true, the player automatically receives a link upon joining
   send-on-join: true
+  # When set to true, the player gets reminded to connect (see messages.suggest-connection)
   remind-to-connect: true
+  # The delay in seconds between reminding to connect
   remind-to-connect-interval: 30
+  # The default radius for speakers (in blocks)
   speaker-radius: 10
+  # When set to true, speakers will sync their timecodes
   sync-speakers: true
+  # When set to true, regions will sync their timecodes
   sync-regions: true
+  # When set to true, regions will use priorities. If this causes problems, just set it to false.
   use-region-priority: true
 
+# CLIENT
+# Messages as they get displayed in the web-client.
+# Be sure to surround them in ', like 'text'
+# Leave any of these at "default" to have them set to the text as defined in the web build
 client:
+  # A source (https://help.openaudiomc.net/#media) to a sound that should get played directly after connecting. Leav
   start-sound: none
+  # The title is the small piece of text displayed in the browser tab
   title: default
+  # This can be a url to a direct .png image and will be used as background image
   background: default
+  # This is the message that gets displayed in the center of the web page after connecting
   welcome-message: default
+  # This is the message the player gets to see when an error occurs
   error-message: default
-
+  # This is the message that gets put in the hue tab after connected
   hue-connected: default
+  # This is the message that gets put in the hue tab while connecting
   hue-linking: default
+  # This is the notification message that gets displayed when a unlinked hue bridge is found on the clients netwrok
   hue-bridge-found: default
 
+# REDIS
+# Redis is an optional professional feature for OpenAudioMc that (when configured) will sync shows
+# Between multiple OpenAudioMc installations.
+# This originally got implemented for BarelyAlive's block party but now everyone can use it.
+# Isn't that lovely?
 redis:
+  # When set to true, the redis service will be enabled
   enabled: false
+  # The host of your redis server
   host: localhost
+  # The port of your redis server
   port: 6969
+  # The password to your redis server.
+  # Leave set to "none" to connect without authentication
   password: none
+  # If SSL should be used to connect to your redis server (only if you have setup TLS)
   useSSL: false
+  # The section to sync with. When configured, OpenAudioMc will only sync to servers on redis with the same section
   section: event

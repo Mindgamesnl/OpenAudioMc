@@ -13,6 +13,8 @@ import io.lettuce.core.pubsub.StatefulRedisPubSubConnection;
 import io.lettuce.core.pubsub.api.async.RedisPubSubAsyncCommands;
 import lombok.Getter;
 
+import java.util.UUID;
+
 public class RedisService {
 
     private RedisClient redisPub;
@@ -24,6 +26,7 @@ public class RedisService {
     private RedisPubSubAsyncCommands<String, String> asyncPub;
     @Getter private static final Gson GSON = new Gson();
     private boolean enabled = false;
+    @Getter private UUID serviceId = UUID.randomUUID();
 
     public RedisService(ConfigurationInterface configurationInterface) {
         if (!configurationInterface.getBoolean(StorageKey.REDIS_ENABLED)) return;
@@ -67,6 +70,7 @@ public class RedisService {
 
     public void sendMessage(ChannelKey key, OARedisPacket<?> packet) {
         if (!enabled) return;
+        packet.setSenderUUID(serviceId);
         asyncPub.publish(key.getRedisChannelName(), packet.serialize());
     }
 
