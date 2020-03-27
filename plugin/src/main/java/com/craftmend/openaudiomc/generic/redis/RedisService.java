@@ -2,10 +2,12 @@ package com.craftmend.openaudiomc.generic.redis;
 
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
 import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.redis.packets.adapter.RedisTypeAdapter;
 import com.craftmend.openaudiomc.generic.redis.packets.channels.ChannelKey;
 import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import io.lettuce.core.ClientOptions;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
@@ -24,7 +26,7 @@ public class RedisService {
     private StatefulRedisPubSubConnection<String, String> redisPubConnection;
     private RedisPubSubAsyncCommands<String, String> asyncSub;
     private RedisPubSubAsyncCommands<String, String> asyncPub;
-    @Getter private static final Gson GSON = new Gson();
+    @Getter private static final Gson GSON = new GsonBuilder().registerTypeAdapter(OARedisPacket.class, new RedisTypeAdapter()).create();
     private boolean enabled = false;
     @Getter private UUID serviceId = UUID.randomUUID();
 
