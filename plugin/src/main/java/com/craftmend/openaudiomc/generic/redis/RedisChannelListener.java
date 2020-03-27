@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class RedisChannelListener extends RedisPubSubAdapter<String, String> {
 
-    private Map<ChannelKey, OARedisPacket<?>> sacreficcialPlayerPackets = new HashMap<>();
+    private Map<ChannelKey, OARedisPacket> sacreficcialPlayerPackets = new HashMap<>();
     private Map<String, ChannelKey> channelNameMap = new HashMap<>();
 
     public RedisChannelListener() {
@@ -28,7 +28,7 @@ public class RedisChannelListener extends RedisPubSubAdapter<String, String> {
     public void message(String channel, String message) {
         if (channelNameMap.containsKey(channel)) {
             ChannelKey key = channelNameMap.get(channel);
-            OARedisPacket<?> handler = sacreficcialPlayerPackets.get(key);
+            OARedisPacket handler = sacreficcialPlayerPackets.get(key);
             handler.receive(handler.deSerialize(message));
         }
     }
