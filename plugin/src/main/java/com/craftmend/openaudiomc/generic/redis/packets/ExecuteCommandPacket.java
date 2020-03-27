@@ -7,7 +7,9 @@ import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
 import com.craftmend.openaudiomc.spigot.modules.show.runnables.CommandRunnable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @AllArgsConstructor
 public class ExecuteCommandPacket extends OARedisPacket<ExecuteCommandPacket> {
 
