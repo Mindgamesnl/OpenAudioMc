@@ -3,7 +3,6 @@ package com.craftmend.openaudiomc.generic.redis;
 import com.craftmend.openaudiomc.generic.redis.packets.channels.ChannelKey;
 import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
 import io.lettuce.core.pubsub.RedisPubSubAdapter;
-import org.bukkit.Bukkit;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
