@@ -38,7 +38,7 @@ public class SpigotConnection {
 
     // Speaker and region handles. Region handler can be null if the feature is disabled
     private SpeakerHandler speakerHandler;
-    private RegionHandler regionHandler;
+    @Getter private RegionHandler regionHandler;
 
     //plugin data
     @Setter @Getter private SpeakerSettings selectedSpeakerSettings = null;
