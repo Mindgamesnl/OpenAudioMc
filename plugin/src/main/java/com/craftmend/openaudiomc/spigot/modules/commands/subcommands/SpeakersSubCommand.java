@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
-import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
+import com.craftmend.openaudiomc.generic.interfaces.OAConfiguration;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -19,11 +19,9 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.SkullType;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
 import org.bukkit.block.Skull;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
@@ -90,7 +88,7 @@ public class SpeakersSubCommand extends SubCommand {
 
             // create
             UUID id = UUID.randomUUID();
-            ConfigurationInterface config = OpenAudioMc.getInstance().getConfigurationInterface();
+            OAConfiguration config = OpenAudioMc.getInstance().getOAConfiguration();
             int range = config.getInt(StorageKey.SETTINGS_SPEAKER_RANGE);
             SpeakerModule speakerModule = OpenAudioMcSpigot.getInstance().getSpeakerModule();
             speakerModule.registerSpeaker(mappedLocation, source, id, range);
@@ -139,7 +137,7 @@ public class SpeakersSubCommand extends SubCommand {
             }
 
             // remove from cache
-            ConfigurationInterface config = OpenAudioMc.getInstance().getConfigurationInterface();
+            OAConfiguration config = OpenAudioMc.getInstance().getOAConfiguration();
             SpeakerModule speakerModule = OpenAudioMcSpigot.getInstance().getSpeakerModule();
             Speaker speaker = speakerModule.getSpeaker(mappedLocation);
             speakerModule.unlistSpeaker(mappedLocation);

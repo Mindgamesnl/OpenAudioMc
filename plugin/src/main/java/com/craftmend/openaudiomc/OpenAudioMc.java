@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.flags.FlagSet;
-import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
+import com.craftmend.openaudiomc.generic.interfaces.OAConfiguration;
 import com.craftmend.openaudiomc.generic.media.MediaModule;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingService;
@@ -71,7 +71,7 @@ public class OpenAudioMc {
     private TimeService timeService;
     private INetworkingService networkingService;
     private FlagSet flagSet;
-    private ConfigurationInterface configurationInterface;
+    private OAConfiguration OAConfiguration;
     private AuthenticationService authenticationService;
     private VoiceRoomManager voiceRoomManager;
     private CommandModule commandModule;
@@ -98,17 +98,17 @@ public class OpenAudioMc {
         // if spigot, load the spigot configuration system and the bungee one for bungee
         if (platform == Platform.SPIGOT) {
             this.serverService = new ServerService();
-            this.configurationInterface = new SpigotConfigurationModule(OpenAudioMcSpigot.getInstance());
-            this.configurationInterface.loadSettings();
+            this.OAConfiguration = new SpigotConfigurationModule(OpenAudioMcSpigot.getInstance());
+            this.OAConfiguration.loadSettings();
             this.taskProvider = new SpigotTaskProvider();
         } else {
-            this.configurationInterface = new BungeeConfigurationModule();
-            this.configurationInterface.loadSettings();
+            this.OAConfiguration = new BungeeConfigurationModule();
+            this.OAConfiguration.loadSettings();
             this.taskProvider = new BungeeTaskProvider();
         }
 
         // enable stuff
-        this.redisService = new RedisService(this.configurationInterface);
+        this.redisService = new RedisService(this.OAConfiguration);
         this.flagSet = new FlagSet();
         this.authenticationService = new AuthenticationService();
         this.stateService = new StateService();
@@ -123,7 +123,7 @@ public class OpenAudioMc {
 
     public void disable() {
         redisService.shutdown();
-        configurationInterface.saveAll();
+        OAConfiguration.saveAll();
         if (stateService.getCurrentState().isConnected()) {
             networkingService.stop();
         }

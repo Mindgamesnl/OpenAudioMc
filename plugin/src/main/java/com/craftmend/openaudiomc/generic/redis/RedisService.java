@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.redis;
 
-import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
+import com.craftmend.openaudiomc.generic.interfaces.OAConfiguration;
 import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.redis.packets.adapter.RedisTypeAdapter;
 import com.craftmend.openaudiomc.generic.redis.packets.channels.ChannelKey;
@@ -30,24 +30,24 @@ public class RedisService {
     private boolean enabled = false;
     @Getter private UUID serviceId = UUID.randomUUID();
 
-    public RedisService(ConfigurationInterface configurationInterface) {
-        if (!configurationInterface.getboolean(StorageKey.REDIS_ENABLED)) return;
+    public RedisService(OAConfiguration OAConfiguration) {
+        if (!OAConfiguration.getBoolean(StorageKey.REDIS_ENABLED)) return;
         enabled = true;
 
         OpenAudioLogger.toConsole("Enabling redis service..");
 
-        if (configurationInterface.getString(StorageKey.REDIS_PASSWORD).equals("none")) {
+        if (OAConfiguration.getString(StorageKey.REDIS_PASSWORD).equals("none")) {
             uri = RedisURI.builder()
-                    .withHost(configurationInterface.getString(StorageKey.REDIS_HOST))
-                    .withPort(configurationInterface.getInt(StorageKey.REDIS_PORT))
-                    .withSsl(configurationInterface.getboolean(StorageKey.REDIS_USE_SSL))
+                    .withHost(OAConfiguration.getString(StorageKey.REDIS_HOST))
+                    .withPort(OAConfiguration.getInt(StorageKey.REDIS_PORT))
+                    .withSsl(OAConfiguration.getBoolean(StorageKey.REDIS_USE_SSL))
                     .build();
         } else {
             uri = RedisURI.builder()
-                    .withPassword(configurationInterface.getString(StorageKey.REDIS_PASSWORD))
-                    .withHost(configurationInterface.getString(StorageKey.REDIS_HOST))
-                    .withPort(configurationInterface.getInt(StorageKey.REDIS_PORT))
-                    .withSsl(configurationInterface.getboolean(StorageKey.REDIS_USE_SSL))
+                    .withPassword(OAConfiguration.getString(StorageKey.REDIS_PASSWORD))
+                    .withHost(OAConfiguration.getString(StorageKey.REDIS_HOST))
+                    .withPort(OAConfiguration.getInt(StorageKey.REDIS_PORT))
+                    .withSsl(OAConfiguration.getBoolean(StorageKey.REDIS_USE_SSL))
                     .build();
         }
 

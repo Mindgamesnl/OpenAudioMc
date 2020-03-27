@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 
 import java.util.Set;
 
-public interface ConfigurationInterface {
+public interface OAConfiguration {
 
     void loadSettings();
     String getString(StorageKey storageKey);
@@ -16,7 +16,7 @@ public interface ConfigurationInterface {
     void setString(StorageKey storageKey, String string);
     void setString(StorageLocation storageLocation, String path, String string);
     void setInt(StorageLocation storageLocation, String path, int value);
-    boolean getboolean(StorageKey storageKey);
+    boolean getBoolean(StorageKey storageKey);
     void reloadConfig();
     void saveAll();
     boolean hasDataFile();

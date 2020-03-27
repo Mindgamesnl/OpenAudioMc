@@ -15,7 +15,7 @@ public class ReloadSubCommand extends SubCommand {
     @Override
     public void onExecute(GenericExecutor sender, String[] args) {
         message(sender, "Reloading config...");
-        OpenAudioMc.getInstance().getConfigurationInterface().reloadConfig();
+        OpenAudioMc.getInstance().getOAConfiguration().reloadConfig();
         message(sender, "Reloaded config.");
     }
 }
