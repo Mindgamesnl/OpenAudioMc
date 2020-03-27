@@ -11,6 +11,7 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.objects.OpenAudioApi;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
 import com.craftmend.openaudiomc.generic.networking.addapter.AbstractPacketAdapter;
+import com.craftmend.openaudiomc.generic.redis.RedisManager;
 import com.craftmend.openaudiomc.generic.scheduling.interfaces.ITaskProvider;
 import com.craftmend.openaudiomc.generic.voice.VoiceRoomManager;
 import com.craftmend.openaudiomc.generic.state.StateService;
@@ -63,6 +64,7 @@ public class OpenAudioMc {
      * - Command Module          []   (common framework to keep all commands as common-code regardless of platform)
      * - Media Module            []   (keep track of media and timings)
      * - Task Provider           []   (create and register tasks regardless of platform)
+     * - Redis Service           []   (provides redis to openaudio and the gang)
      */
     private StateService stateService;
     private ServerService serverService;
@@ -75,6 +77,7 @@ public class OpenAudioMc {
     private CommandModule commandModule;
     private MediaModule mediaModule;
     private ITaskProvider taskProvider;
+    private RedisManager redisManager;
 
     @Getter private static OpenAudioMc instance;
 
@@ -105,6 +108,7 @@ public class OpenAudioMc {
         }
 
         // enable stuff
+        this.redisManager = new RedisManager(this.configurationInterface);
         this.flagSet = new FlagSet();
         this.authenticationService = new AuthenticationService();
         this.stateService = new StateService();
@@ -115,5 +119,13 @@ public class OpenAudioMc {
 
         this.voiceRoomManager = new VoiceRoomManager(this);
         this.commandModule = new CommandModule();
+    }
+
+    public void disable() {
+        redisManager.shutdown();
+        configurationInterface.saveAll();
+        if (stateService.getCurrentState().isConnected()) {
+            networkingService.stop();
+        }
     }
 }

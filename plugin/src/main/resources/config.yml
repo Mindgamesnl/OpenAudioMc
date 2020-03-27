@@ -31,3 +31,11 @@ client:
   hue-connected: default
   hue-linking: default
   hue-bridge-found: default
+
+redis:
+  enabled: false
+  host: localhost
+  port: 6969
+  password: none
+  useSSL: false
+  section: event

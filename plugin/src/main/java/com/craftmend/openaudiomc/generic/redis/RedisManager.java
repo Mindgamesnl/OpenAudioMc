@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.generic.redis;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
 import com.craftmend.openaudiomc.generic.redis.packets.channels.ChannelKey;
 import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.google.gson.Gson;
 import io.lettuce.core.ClientOptions;
 import io.lettuce.core.RedisClient;
@@ -20,23 +21,25 @@ public class RedisManager {
     private StatefulRedisPubSubConnection<String, String> redisPubConnection;
     private RedisPubSubAsyncCommands<String, String> asyncSub;
     private RedisPubSubAsyncCommands<String, String> asyncPub;
-    @Getter
-    private static final Gson GSON = new Gson();
+    @Getter private static final Gson GSON = new Gson();
+    private boolean enabled = false;
 
     public RedisManager(ConfigurationInterface configurationInterface) {
+        if (!configurationInterface.getBoolean(StorageKey.REDIS_ENABLED)) return;
+        enabled = true;
 
-        if (config.getString("redis.password").equals("none")) {
+        if (configurationInterface.getString(StorageKey.REDIS_PASSWORD).equals("none")) {
             uri = RedisURI.builder()
-                    .withHost(config.getString("redis.host"))
-                    .withPort(config.getInt("redis.port"))
-                    .withSsl(false)
+                    .withHost(configurationInterface.getString(StorageKey.REDIS_HOST))
+                    .withPort(configurationInterface.getInt(StorageKey.REDIS_PORT))
+                    .withSsl(configurationInterface.getBoolean(StorageKey.REDIS_USE_SSL))
                     .build();
         } else {
             uri = RedisURI.builder()
-                    .withPassword(config.getString("redis.password"))
-                    .withHost(config.getString("redis.host"))
-                    .withPort(config.getInt("redis.port"))
-                    .withSsl(false)
+                    .withPassword(configurationInterface.getString(StorageKey.REDIS_PASSWORD))
+                    .withHost(configurationInterface.getString(StorageKey.REDIS_HOST))
+                    .withPort(configurationInterface.getInt(StorageKey.REDIS_PORT))
+                    .withSsl(configurationInterface.getBoolean(StorageKey.REDIS_USE_SSL))
                     .build();
         }
 
@@ -60,10 +63,12 @@ public class RedisManager {
     }
 
     public void sendMessage(ChannelKey key, OARedisPacket<?> packet) {
+        if (!enabled) return;
         asyncPub.publish(key.getRedisChannelName(), packet.serialize());
     }
 
     public void shutdown() {
+        if (!enabled) return;
         redisSubConnection.close();
         redisSub.shutdown();
         redisPubConnection.close();

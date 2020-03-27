@@ -10,18 +10,12 @@ import org.bukkit.Location;
 @AllArgsConstructor
 public class SerializableLocation {
 
-    @Getter
-    private double x;
-    @Getter
-    private double y;
-    @Getter
-    private double z;
-    @Getter
-    private float pitch;
-    @Getter
-    private float yaw;
-    @Getter
-    private String world;
+    @Getter private double x;
+    @Getter private double y;
+    @Getter private double z;
+    @Getter private float pitch;
+    @Getter private float yaw;
+    @Getter private String world;
     private transient Location cachedBukkit; // TRANSIENT! NEVER SERIALIZE OR I WILL FUCK YOU UP! ITS JUST A CACHE!
 
     public static SerializableLocation fromBukkit(Location bukkitLocation) {
