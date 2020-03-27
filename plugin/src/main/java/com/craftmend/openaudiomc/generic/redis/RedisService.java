@@ -1,6 +1,5 @@
 package com.craftmend.openaudiomc.generic.redis;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
 import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.redis.packets.channels.ChannelKey;
@@ -14,7 +13,7 @@ import io.lettuce.core.pubsub.StatefulRedisPubSubConnection;
 import io.lettuce.core.pubsub.api.async.RedisPubSubAsyncCommands;
 import lombok.Getter;
 
-public class RedisManager {
+public class RedisService {
 
     private RedisClient redisPub;
     private RedisClient redisSub;
@@ -26,7 +25,7 @@ public class RedisManager {
     @Getter private static final Gson GSON = new Gson();
     private boolean enabled = false;
 
-    public RedisManager(ConfigurationInterface configurationInterface) {
+    public RedisService(ConfigurationInterface configurationInterface) {
         if (!configurationInterface.getBoolean(StorageKey.REDIS_ENABLED)) return;
         enabled = true;
 
