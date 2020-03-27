@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.show.runnables;
 
+import com.craftmend.openaudiomc.generic.redis.packets.ExecuteCommandPacket;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.show.fake.MockExecutor;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
@@ -31,6 +32,14 @@ public class CommandRunnable extends ShowRunnable {
 
     @Override
     public void run() {
+        if (!isExecutedFromRedis()) new ExecuteCommandPacket(command).send();
+
+        Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> {
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
+        });
+
+        /*
+        todo, figure out why console senders autistic
         if (worldName == null) {
             Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> {
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
@@ -40,5 +49,6 @@ public class CommandRunnable extends ShowRunnable {
                 Bukkit.getServer().dispatchCommand(mockExecutor, command);
             });
         }
+        */
     }
 }

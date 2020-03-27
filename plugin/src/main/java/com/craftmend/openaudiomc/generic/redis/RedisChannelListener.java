@@ -29,7 +29,7 @@ public class RedisChannelListener extends RedisPubSubAdapter<String, String> {
         if (channelNameMap.containsKey(channel)) {
             ChannelKey key = channelNameMap.get(channel);
             OARedisPacket<?> handler = sacreficcialPlayerPackets.get(key);
-            handler.handle(handler.deSerialize(message));
+            handler.receive(handler.deSerialize(message));
         }
     }
 }
