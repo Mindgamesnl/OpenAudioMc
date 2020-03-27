@@ -44,7 +44,7 @@ public abstract class SubCommand {
      * @param commandSender Command sender
      * @return true if the player is allowed to execute a command
      */
-    public Boolean isAllowed(GenericExecutor commandSender) {
+    public boolean isAllowed(GenericExecutor commandSender) {
         return commandSender.hasPermission("openaudiomc.commands." + command)
                 || commandSender.hasPermission("openaudiomc.commands.*")
                 || commandSender.hasPermission("openaudiomc.*");

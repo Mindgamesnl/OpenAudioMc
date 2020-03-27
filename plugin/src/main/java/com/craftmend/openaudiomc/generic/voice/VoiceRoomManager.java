@@ -22,7 +22,7 @@ public class VoiceRoomManager {
 
     private OpenAudioMc core;
     private Map<UUID, Room> voiceRooms = new HashMap<>();
-    private Boolean isRequestPending = false;
+    private boolean isRequestPending = false;
 
     public VoiceRoomManager(OpenAudioMc core) {
         this.core = core;

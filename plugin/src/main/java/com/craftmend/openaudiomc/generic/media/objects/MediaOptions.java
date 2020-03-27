@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MediaOptions {
 
-    private Boolean loop = false;
+    private boolean loop = false;
     private String id;
     private int expirationTimeout = -1;
-    private Boolean pickUp = true;
+    private boolean pickUp = true;
     private int fadeTime = 0;
 
 }

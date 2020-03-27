@@ -29,7 +29,7 @@ public class RedisService {
     @Getter private UUID serviceId = UUID.randomUUID();
 
     public RedisService(ConfigurationInterface configurationInterface) {
-        if (!configurationInterface.getBoolean(StorageKey.REDIS_ENABLED)) return;
+        if (!configurationInterface.getboolean(StorageKey.REDIS_ENABLED)) return;
         enabled = true;
 
         OpenAudioLogger.toConsole("Enabling redis service..");
@@ -38,14 +38,14 @@ public class RedisService {
             uri = RedisURI.builder()
                     .withHost(configurationInterface.getString(StorageKey.REDIS_HOST))
                     .withPort(configurationInterface.getInt(StorageKey.REDIS_PORT))
-                    .withSsl(configurationInterface.getBoolean(StorageKey.REDIS_USE_SSL))
+                    .withSsl(configurationInterface.getboolean(StorageKey.REDIS_USE_SSL))
                     .build();
         } else {
             uri = RedisURI.builder()
                     .withPassword(configurationInterface.getString(StorageKey.REDIS_PASSWORD))
                     .withHost(configurationInterface.getString(StorageKey.REDIS_HOST))
                     .withPort(configurationInterface.getInt(StorageKey.REDIS_PORT))
-                    .withSsl(configurationInterface.getBoolean(StorageKey.REDIS_USE_SSL))
+                    .withSsl(configurationInterface.getboolean(StorageKey.REDIS_USE_SSL))
                     .build();
         }
 

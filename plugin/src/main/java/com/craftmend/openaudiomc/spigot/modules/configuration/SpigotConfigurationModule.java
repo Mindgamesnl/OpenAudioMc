@@ -182,7 +182,7 @@ public class SpigotConfigurationModule implements ConfigurationInterface {
      * @return boolean value
      */
     @Override
-    public Boolean getBoolean(StorageKey storageKey) {
+    public boolean getboolean(StorageKey storageKey) {
         switch (storageKey.getStorageLocation()) {
             case DATA_FILE:
                 return dataConfig.getBoolean(storageKey.getPath());
@@ -218,7 +218,7 @@ public class SpigotConfigurationModule implements ConfigurationInterface {
     }
 
     @Override
-    public Boolean hasDataFile() {
+    public boolean hasDataFile() {
         File dataFile = new File("plugins/OpenAudioMc/data.yml");
         return dataFile.exists();
     }

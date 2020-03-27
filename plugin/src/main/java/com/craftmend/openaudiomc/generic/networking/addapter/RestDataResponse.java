@@ -17,7 +17,7 @@ public class RestDataResponse {
 
     public RelayHost findInsecureRelay() {
         for (RelayHost assignedEndpoint : assignedEndpoints) {
-            if (!assignedEndpoint.getSecure()) return assignedEndpoint;
+            if (!assignedEndpoint.isSecure()) return assignedEndpoint;
         }
 
         return null;

@@ -45,7 +45,7 @@ public class TimeParser {
         return time;
     }
 
-    private static Boolean isValid(String[] array) {
+    private static boolean isValid(String[] array) {
         return array.length > 1 && array[0].length() > 0;
     }
 

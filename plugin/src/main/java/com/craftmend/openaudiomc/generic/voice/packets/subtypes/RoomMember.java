@@ -13,6 +13,6 @@ public class RoomMember {
 
     private String name;
     private UUID uuid;
-    private Boolean isReady = false;
+    private boolean isReady = false;
 
 }

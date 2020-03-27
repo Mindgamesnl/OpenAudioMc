@@ -16,7 +16,7 @@ public class MediaModule {
 
     public MediaModule() {
         // register default mutations
-        registerMutation("https://drive.google.com/", new GoogleDriveMiddleware());
+        registerMutation("https://drive.google.com", new GoogleDriveMiddleware());
         registerMutation("https://www.dropbox.com", new DropBoxMiddleware());
         registerMutation("https://soundcloud.com", new SoundCloudMiddleware());
     }

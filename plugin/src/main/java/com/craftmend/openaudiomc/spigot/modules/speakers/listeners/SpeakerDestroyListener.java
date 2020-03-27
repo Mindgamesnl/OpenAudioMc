@@ -46,7 +46,7 @@ public class SpeakerDestroyListener implements Listener {
         }
     }
 
-    private Boolean isAllowed(Player player) {
+    private boolean isAllowed(Player player) {
         return player.isOp()
                 || player.hasPermission("openaudiomc.speakers.*")
                 || player.hasPermission("openaudiomc.*")

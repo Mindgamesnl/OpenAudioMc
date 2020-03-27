@@ -15,7 +15,7 @@ public class FakeCommandSender implements GenericExecutor {
     }
 
     @Override
-    public Boolean hasPermission(String permission) {
+    public boolean hasPermission(String permission) {
         return player.hasPermission(permission);
     }
 

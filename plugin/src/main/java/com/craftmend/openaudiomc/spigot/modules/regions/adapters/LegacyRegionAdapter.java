@@ -20,7 +20,7 @@ public class LegacyRegionAdapter extends AbstractRegionAdapter {
     public LegacyRegionAdapter(RegionModule regionModule) {
         super(regionModule);
     }
-    private Boolean usePriority = OpenAudioMc.getInstance().getConfigurationInterface().getBoolean(StorageKey.SETTINGS_USE_WG_PRIORITY);
+    private boolean usePriority = OpenAudioMc.getInstance().getConfigurationInterface().getboolean(StorageKey.SETTINGS_USE_WG_PRIORITY);
 
     @Override
     public Set<ProtectedRegion> getRegionsAtLocation(Location location) {
@@ -45,7 +45,7 @@ public class LegacyRegionAdapter extends AbstractRegionAdapter {
     }
 
     @Override
-    public Boolean doesRegionExist(String name) {
+    public boolean doesRegionExist(String name) {
         for (World world : Bukkit.getWorlds()) {
             for (Map.Entry<String, ProtectedRegion> entry : WGBukkit.getRegionManager(world).getRegions().entrySet()) {
                 if (name.equals(entry.getKey())) return true;

@@ -14,7 +14,7 @@ public class ConnectCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
-        if (!OpenAudioMc.getInstance().getAuthenticationService().getIsSuccesfull()) {
+        if (!OpenAudioMc.getInstance().getAuthenticationService().isSuccesfull()) {
             commandSender.sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() +
                     OpenAudioMc.getInstance().getAuthenticationService().getFailureMessage());
             return true;

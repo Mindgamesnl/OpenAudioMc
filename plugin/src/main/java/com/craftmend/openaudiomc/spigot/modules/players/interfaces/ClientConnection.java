@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ClientConnection {
 
-    Boolean isConnected();
+    boolean isConnected();
     Session getSession();
     List<Media> getOngoingMedia();
     List<IRegion> getRegions();

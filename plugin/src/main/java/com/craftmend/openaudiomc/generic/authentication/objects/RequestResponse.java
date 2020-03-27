@@ -12,7 +12,7 @@ public class RequestResponse {
     /**
      * response of a http request, and its possible values
      */
-    private Boolean success;
+    private boolean success;
     private UUID publicKey;
     private UUID privateKey;
 

@@ -92,7 +92,7 @@ public class Item {
         return this;
     }
 
-    public Item setEnchanted(Boolean state) {
+    public Item setEnchanted(boolean state) {
         if (state) {
             setEnchanted();
         } else {

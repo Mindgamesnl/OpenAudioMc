@@ -17,7 +17,7 @@ public class FlagSet {
         flags.add(flag);
     }
 
-    public Boolean hasFlag(Flag flag) {
+    public boolean hasFlag(Flag flag) {
         return flags.contains(flag);
     }
 
