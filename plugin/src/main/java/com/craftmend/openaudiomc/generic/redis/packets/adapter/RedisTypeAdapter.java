@@ -1,7 +1,6 @@
 package com.craftmend.openaudiomc.generic.redis.packets.adapter;
 
 import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
-import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;

@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.generic.redis;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.interfaces.OAConfiguration;
 import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.redis.packets.adapter.RedisTypeAdapter;
@@ -24,7 +25,7 @@ public class RedisService {
     private RedisURI uri;
     private StatefulRedisPubSubConnection<String, String> redisSubConnection;
     private StatefulRedisPubSubConnection<String, String> redisPubConnection;
-    private RedisPubSubAsyncCommands<String, String> asyncSub;
+    @Getter private RedisPubSubAsyncCommands<String, String> asyncSub;
     private RedisPubSubAsyncCommands<String, String> asyncPub;
     @Getter private static final Gson GSON = new GsonBuilder().registerTypeAdapter(OARedisPacket.class, new RedisTypeAdapter()).create();
     private boolean enabled = false;
@@ -59,7 +60,7 @@ public class RedisService {
         asyncSub = redisSubConnection.async();
 
         for (ChannelKey value : ChannelKey.values()) {
-            asyncSub.subscribe(value.getRedisChannelName());
+            if (value.getTargetPlatform().equals(OpenAudioMc.getInstance().getPlatform())) asyncSub.subscribe(value.getRedisChannelName());
         }
 
         // set up publisher

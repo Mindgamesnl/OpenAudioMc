@@ -33,6 +33,7 @@ public enum StorageKey {
     SETTINGS_SPEAKER_RANGE("options.speaker-radius", StorageLocation.CONFIG_FILE),
     SETTINGS_SEND_URL_ON_JOIN("options.send-on-join", StorageLocation.CONFIG_FILE),
     SETTINGS_USE_WG_PRIORITY("options.use-region-priority", StorageLocation.CONFIG_FILE),
+    SETTINGS_LOOP_TEMP_REGIONS("options.loop-temp-regions", StorageLocation.CONFIG_FILE),
 
     DEBUG_LOG_STATE_CHANGES("debug.log-state-changes", StorageLocation.DATA_FILE),
 

@@ -21,6 +21,7 @@ export class Handlers {
 
 
             const existingMedia = openAudioMc.getMediaManager().getMedia(id);
+
             if (existingMedia != null) {
                 if (existingMedia.isFading) {
                     existingMedia.cancelCallback();
@@ -36,6 +37,7 @@ export class Handlers {
                 }
                 existingMedia.setLooping(looping);
                 if (doPickup) existingMedia.startDate(startInstant, looping);
+
             } else {
                 let media;
                 media = new WebAudio(source, openAudioMc, function () {
@@ -57,7 +59,6 @@ export class Handlers {
 
                     media.setLooping(looping);
                     if (doPickup) media.startDate(startInstant, looping);
-                    media.play();
                 });
             }
         });

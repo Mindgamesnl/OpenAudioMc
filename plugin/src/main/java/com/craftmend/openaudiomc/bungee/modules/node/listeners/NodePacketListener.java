@@ -15,6 +15,7 @@ public class NodePacketListener implements PacketListener {
         UUID client = packet.payload.getClient();
         ClientConnection clientConnection = OpenAudioMc.getInstance().getNetworkingService().getClient(client);
 
+        // the client might be via redis bungee
         if (clientConnection == null) return;
         if (!clientConnection.getIsConnected()) return;
 

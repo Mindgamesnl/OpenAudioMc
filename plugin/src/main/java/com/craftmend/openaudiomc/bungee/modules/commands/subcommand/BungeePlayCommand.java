@@ -66,6 +66,6 @@ public class BungeePlayCommand extends SubCommand {
     private void sendHelp(GenericExecutor genericExecutor) {
         OpenAudioMc.getInstance().getCommandModule().getSubCommand("help").onExecute(genericExecutor, new String[] {
                 getCommand()
-        });;
+        });
     }
 }

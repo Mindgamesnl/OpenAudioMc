@@ -111,7 +111,10 @@ public class NetworkingService extends INetworkingService {
                 return register(player);
             } else {
                 ProxiedPlayer player = ProxyServer.getInstance().getPlayer(uuid);
-                if (player == null) return null;
+                if (player == null) {
+                    // if the player is null or not on this server, it might be a case of redis bungee
+                    return null;
+                }
                 return register(player);
             }
         }

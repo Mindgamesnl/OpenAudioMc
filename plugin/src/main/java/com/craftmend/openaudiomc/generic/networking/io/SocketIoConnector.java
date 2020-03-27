@@ -1,10 +1,12 @@
 package com.craftmend.openaudiomc.generic.networking.io;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.bungee.modules.node.redis.BungeeSyncedPlayerPacket;
 import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.addapter.RelayHost;
+import com.craftmend.openaudiomc.generic.networking.client.objects.MockedClientConnection;
 import com.craftmend.openaudiomc.generic.networking.payloads.AcknowledgeClientPayload;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.platform.Platform;
@@ -197,6 +199,12 @@ public class SocketIoConnector {
     }
 
     public void send(ClientConnection client, AbstractPacket packet) {
+        // if its a fake client, do bungee magic
+        if (client instanceof MockedClientConnection) {
+            new BungeeSyncedPlayerPacket(client.getPlayer().getName(), packet).send();
+            return;
+        }
+
         // only send the packet if the client is online, valid and the plugin is connected
         if (client.getIsConnected() && OpenAudioMc.getInstance().getStateService().getCurrentState().isConnected()) {
             packet.setClient(client.getPlayer().getUniqueId());

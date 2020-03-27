@@ -17,14 +17,25 @@ export class MediaManager {
 
         if (key != null && this.sounds[key] != null) {
             this.sounds[key].setVolume(0, 300, () => {
-                this.openAudioMc.debugPrint("finished fading " + key + "")
-                if (this.sounds[key] != null) this.sounds[key].destroy();
-                delete this.sounds[key];
-                this.openAudioMc.debugPrint("stopping " + key + " after fading")
+                setTimeout(() => {
+                    this.openAudioMc.debugPrint("finished fading " + key + "")
+                    if (this.sounds[key] != null) this.sounds[key].destroy();
+                    this.openAudioMc.debugPrint("stopping " + key + " after fading")
+                    delete this.sounds[key];
+                }, 50)
             });
         } else {
             for (let key in this.sounds) {
+                console.log(this.sounds[key])
+                let temp = this.sounds[key];
+                if (temp._source.indexOf("barelyalive") != -1) {
+                    temp.destroy();
+                    delete this.sounds[key];
+                    console.log("temp destroy")
+                    continue;
+                }
                 if (!this.sounds.hasOwnProperty(key)) continue;
+
                 if (this.sounds[key].getFlag() === "DEFAULT" || (all != null && all)) {
                     if (this.sounds[key] != null) this.sounds[key].destroy();
                     delete this.sounds[key];
@@ -73,7 +84,7 @@ export class MediaManager {
 
     registerOrGetMedia(id, media) {
         if (this.sounds[id] != null) {
-            return this.sounds[id];
+            this.sounds[id].destroy();
         }
 
         this.sounds[id] = media;
