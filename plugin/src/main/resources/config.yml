@@ -45,6 +45,8 @@ options:
   sync-regions: true
   # When set to true, regions will use priorities. If this causes problems, just set it to false.
   use-region-priority: true
+  # Wether temp regions should be looped or not
+  loop-temp-regions: false
 
 # CLIENT
 # Messages as they get displayed in the web-client.

@@ -6,6 +6,8 @@ import com.craftmend.openaudiomc.bungee.modules.node.NodeManager;
 import com.craftmend.openaudiomc.bungee.modules.player.PlayerManager;
 import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.generic.redis.RedisService;
+import com.craftmend.openaudiomc.generic.redis.packets.channels.ChannelKey;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
@@ -29,6 +31,7 @@ public class OpenAudioMcBungee extends Plugin {
     @Getter private NodeManager nodeManager;
     @Getter private PlayerManager playerManager;
     @Getter private BungeeCommandModule commandModule;
+    @Getter private RedisService redisService;
 
     @Override
     public void onEnable() {
@@ -46,6 +49,8 @@ public class OpenAudioMcBungee extends Plugin {
         }
 
         // load managers and shit
+        this.redisService = new RedisService(OpenAudioMc.getInstance().getOAConfiguration());
+
         this.playerManager = new PlayerManager(this);
         this.commandModule = new BungeeCommandModule(this);
         this.nodeManager = new NodeManager(this);

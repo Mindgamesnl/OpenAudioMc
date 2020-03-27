@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.spigot.modules.regions.objects;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import org.bukkit.Bukkit;
 
@@ -20,6 +22,7 @@ public class TimedRegionProperties extends RegionProperties {
         }, 20 * timeInSeconds);
 
         this.media = new RegionMedia(source);
+        this.media.setLoop(OpenAudioMc.getInstance().getOAConfiguration().getBoolean(StorageKey.SETTINGS_LOOP_TEMP_REGIONS));
         forceUpdateClients();
     }
 

@@ -16,6 +16,7 @@ export class WebAudio {
         this._onFadeFinish = null;
         this._distance = -1;
         this._maxDistance = -1;
+        this.requestedToDelete = false;
 
         //reference
         const that = this;
@@ -31,6 +32,8 @@ export class WebAudio {
         this.soundElement.setAttribute("controls", "none");
         this.soundElement.setAttribute("display", "none");
 
+        this.soundElement.autoplay = false;
+
         //register events
         this.soundElement.oncanplay = () => {
             that.isPlayable = true;
@@ -38,6 +41,9 @@ export class WebAudio {
             if (that.isFirstRun) {
                 that.isFirstRun = false;
                 if (onready != null) onready();
+                setTimeout(() => {
+                    this.play();
+                }, 2)
             }
         };
 
@@ -95,6 +101,7 @@ export class WebAudio {
         }
         if (fadetime == null) {
             this.soundElement.volume = volume / 100;
+            if (onfinish != null) onfinish();
             return;
         }
         if (this.isFading) {
@@ -179,21 +186,38 @@ export class WebAudio {
     }
 
     pause() {
-        this.soundElement.pause();
+        if (this.requestedToDelete) return;
+        this.requestedToDelete = true;
+        try {
+            this.soundElement.pause();
+        } catch (e) {
+            console.log("Skipped the fuckywucky")
+        }
     }
 
     destroy() {
-        this.pause();
+        this.setLooping(false);
+        this.requestedToDelete = true;
+        try {
+            this.pause();
+        } catch (e) {
+            console.log("Skipped the fuckywucky")
+        }
         this.soundElement.remove();
         this.soundElement = null;
     }
 
     play() {
+        if (this.requestedToDelete) return;
         if (!this.isPlayable) {
             console.error("Media could not start.");
             return;
         }
-        this.soundElement.play();
+        try {
+            this.soundElement.play();
+        } catch (e) {
+            console.log("Skipped the fuckywucky")
+        }
     }
 
     setSpeakerData(maxDistance, distance) {
