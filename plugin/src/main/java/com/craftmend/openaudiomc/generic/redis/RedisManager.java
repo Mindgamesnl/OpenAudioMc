@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.generic.redis;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationInterface;
+import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.redis.packets.channels.ChannelKey;
 import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
@@ -27,6 +29,8 @@ public class RedisManager {
     public RedisManager(ConfigurationInterface configurationInterface) {
         if (!configurationInterface.getBoolean(StorageKey.REDIS_ENABLED)) return;
         enabled = true;
+
+        OpenAudioLogger.toConsole("Enabling redis service..");
 
         if (configurationInterface.getString(StorageKey.REDIS_PASSWORD).equals("none")) {
             uri = RedisURI.builder()
@@ -59,7 +63,7 @@ public class RedisManager {
         redisPub.setOptions(ClientOptions.builder().autoReconnect(true).build());
         redisPubConnection = redisPub.connectPubSub();
         asyncPub = redisPubConnection.async();
-
+        OpenAudioLogger.toConsole("Enabled redis service!");
     }
 
     public void sendMessage(ChannelKey key, OARedisPacket<?> packet) {
