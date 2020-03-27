@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.generic.redis.packets.interfaces;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,16 +13,13 @@ public abstract class OARedisPacket<T extends OARedisPacket<T>> {
     public abstract <T extends OARedisPacket> T deSerialize(String json);
 
     public OARedisPacket<T> receive(OARedisPacket<T> received) {
-        // TODO: check sender id and channel
-
+        if (OpenAudioMc.getInstance().getRedisService().getServiceId().equals(getSenderUUID())) return received;
         handle((T) received);
         return received;
     }
 
     public abstract void handle(T received);
 
-    @Getter
-    @Setter
-    private UUID packetUUID = UUID.randomUUID();
+    @Setter @Getter private UUID senderUUID;
 
 }
