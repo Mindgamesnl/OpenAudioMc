@@ -73,7 +73,7 @@ public class SocketIoConnector {
                 .thenAccept((genericApiResponse) -> {
                     // check if relay request has errors
                     if (genericApiResponse.getErrors().size() != 0) {
-                        OpenAudioMc.getInstance().getStateService().setState(new IdleState());
+                        OpenAudioMc.getInstance().getStateService().setState(new IdleState("Failed to do the initial handshake"));
                         OpenAudioLogger.toConsole("Failed to get relay host.");
                         OpenAudioLogger.toConsole(" - message: " + genericApiResponse.getErrors().get(0).getMessage());
                         OpenAudioLogger.toConsole(" - code: " + genericApiResponse.getErrors().get(0).getCode());
@@ -103,9 +103,9 @@ public class SocketIoConnector {
                     OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(() -> {
                         if (OpenAudioMc.getInstance().getStateService().getCurrentState() instanceof ConnectingState) {
                             OpenAudioLogger.toConsole("Connecting timed out.");
-                            OpenAudioMc.getInstance().getStateService().setState(new IdleState());
+                            OpenAudioMc.getInstance().getStateService().setState(new IdleState("Connecting to the relay timed out"));
                         }
-                    }, 20 * 20);
+                    }, 20 * 35);
 
                     // attempt to setup
                     registerEvents();
