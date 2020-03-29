@@ -12,6 +12,7 @@ import com.craftmend.openaudiomc.generic.objects.OpenAudioApi;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
 import com.craftmend.openaudiomc.generic.networking.addapter.AbstractPacketAdapter;
 import com.craftmend.openaudiomc.generic.redis.RedisService;
+import com.craftmend.openaudiomc.generic.redis.packets.channels.ChannelKey;
 import com.craftmend.openaudiomc.generic.scheduling.interfaces.ITaskProvider;
 import com.craftmend.openaudiomc.generic.voice.VoiceRoomManager;
 import com.craftmend.openaudiomc.generic.state.StateService;
@@ -29,6 +30,8 @@ import com.craftmend.openaudiomc.bungee.modules.scheduling.BungeeTaskProvider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
+
+import java.util.Arrays;
 
 @Getter
 public class OpenAudioMc {
@@ -108,7 +111,12 @@ public class OpenAudioMc {
         }
 
         // enable stuff
-        this.redisService = new RedisService(this.OAConfiguration);
+
+        // only enable redis if there are packets that require it for this platform
+        if (Arrays.stream(ChannelKey.values()).anyMatch(value -> value.getTargetPlatform() == platform)) {
+            this.redisService = new RedisService(this.OAConfiguration);
+        }
+
         this.flagSet = new FlagSet();
         this.authenticationService = new AuthenticationService();
         this.stateService = new StateService();
