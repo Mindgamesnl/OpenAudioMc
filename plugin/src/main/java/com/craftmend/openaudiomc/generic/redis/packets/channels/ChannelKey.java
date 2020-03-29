@@ -1,14 +1,14 @@
 package com.craftmend.openaudiomc.generic.redis.packets.channels;
 
-import com.craftmend.openaudiomc.bungee.modules.node.redis.BungeeSyncedPlayerPacket;
 import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.generic.redis.packets.ExecuteBulkCommandsPacket;
 import com.craftmend.openaudiomc.generic.redis.packets.ExecuteCommandPacket;
 import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
 import lombok.Getter;
 
 public enum ChannelKey {
 
-    SYNC_BUNGEE_PACKET(Platform.BUNGEE, "oa-bungee-forward", BungeeSyncedPlayerPacket.class),
+    TRIGGER_BULK_COMMANDS(Platform.SPIGOT, "oa-show-bulk", ExecuteBulkCommandsPacket.class),
     TRIGGER_COMMAND(Platform.SPIGOT,"oa-show-trigger", ExecuteCommandPacket.class);
 
     @Getter private Platform targetPlatform;
