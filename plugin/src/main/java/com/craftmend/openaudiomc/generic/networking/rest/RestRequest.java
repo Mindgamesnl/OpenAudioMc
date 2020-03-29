@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.generic.networking.rest;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.addapter.GenericApiResponse;
+import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -32,6 +33,7 @@ public class RestRequest {
             try {
                 response.complete(new Gson().fromJson(readHttp(getUrl()), GenericApiResponse.class));
             } catch (IOException e) {
+                OpenAudioMc.getInstance().getStateService().setState(new IdleState("IOException while shaking hands"));
                 e.printStackTrace();
             }
         });

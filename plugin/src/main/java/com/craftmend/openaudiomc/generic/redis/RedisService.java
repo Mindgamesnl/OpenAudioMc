@@ -42,25 +42,26 @@ public class RedisService {
         // combine all the commands
         if (packetQue.isEmpty()) return;
         List<String> commands = new ArrayList<>();
-        List<WaitingPacket> skipList = new ArrayList<>();
 
         // try to generify the set
         for (WaitingPacket packet : packetQue) {
             if (packet.getPacket() instanceof ExecuteCommandPacket) {
-                commands.add(((ExecuteCommandPacket) packet.getPacket()).getCommand());
-                skipList.add(packet);
+                String command = ((ExecuteCommandPacket) packet.getPacket()).getCommand();
+                if (!command.toLowerCase().startsWith("oa show") && !command.toLowerCase().startsWith("openaudio show") && !command.toLowerCase().startsWith("openaudiomc show")) {
+                    commands.add(command);
+                }
+                packetQue.remove(packet);
             }
         }
 
         // send all other packets
         for (WaitingPacket packet : packetQue) {
-            if (!skipList.contains(packet)) asyncPub.publish(packet.getChannel().getRedisChannelName(), packet.getPacket().serialize());
+            asyncPub.publish(packet.getChannel().getRedisChannelName(), packet.getPacket().serialize());
         }
 
         // if there are bulk packets waiting, send them
         if (commands.isEmpty()) return;
         asyncPub.publish(ChannelKey.TRIGGER_BULK_COMMANDS.getRedisChannelName(), new ExecuteBulkCommandsPacket(commands).serialize());
-
     };
 
     public RedisService(OAConfiguration OAConfiguration) {
