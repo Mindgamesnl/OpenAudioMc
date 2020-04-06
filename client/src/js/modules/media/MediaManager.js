@@ -22,7 +22,7 @@ export class MediaManager {
             const channel = this.mixer.getChannels()[channelsKey];
 
             if (soundId == null || soundId === "") {
-                if ((channel.hasTag(soundId) && channel.hasTag("default")) || all) {
+                if (channel.hasTag("DEFAULT") || all) {
                     this.mixer.removeChannel(channel);
                 }
             } else {
