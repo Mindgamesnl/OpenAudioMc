@@ -10,11 +10,14 @@ export class Mixer {
 
     setMasterVolume(masterVolume) {
         this.masterVolume = masterVolume;
+        for (let channel of this.channels.values()) {
+            channel.updateFromMasterVolume();
+        }
     }
 
     removeChannel(channelName) {
         let channel;
-        if (channelName in Channel) {
+        if (channelName instanceof Channel) {
             channel = channelName;
         } else {
             channel = this.channels.get(channelName);
@@ -22,7 +25,7 @@ export class Mixer {
 
         if (channel != null) {
             channel.destroy();
-            this.channels.delete(channelName);
+            this.channels.delete(channelName.channelName);
         }
     }
 
@@ -38,7 +41,7 @@ export class Mixer {
                 existingChannel.destroy();
             }
             channel.registerMixer(this);
-            this.channels.put(channelId, channel);
+            this.channels.set(channelId, channel);
         } else {
             throw new Error("Argument isn't a channel");
         }

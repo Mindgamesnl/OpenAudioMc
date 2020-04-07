@@ -13,22 +13,33 @@ export class Sound {
         this.soundElement.setAttribute("controls", "none");
         this.soundElement.setAttribute("display", "none");
 
-        this.soundElement.autoplay = false;
-
         this.onFinish = null;
         this.loop = false;
+        this.mixer = null;
+        this.channel = null;
+    }
 
-        this.soundElement.onended = () => {
-            if (this.onFinish != null) this.onFinish();
-            if (this.loop) {
-                this.setTime(0);
-                this.soundElement.play();
-            }
-        };
+    registerMixer(mixer, channel) {
+        this.mixer = mixer;
+        this.channel = channel;
+    }
 
-        this.soundElement.oncanplay = () => {
-            this.soundElement.play().then(r => console.log);
-        };
+    finalize() {
+        return new Promise((resolve => {
+            this.soundElement.onended = () => {
+                if (this.onFinish != null) this.onFinish();
+                if (this.loop) {
+                    this.setTime(0);
+                    this.soundElement.play();
+                } else {
+                    this.mixer.removeChannel(this.channel);
+                }
+            };
+
+            setTimeout(() => {
+                this.soundElement.play().then(resolve).catch(resolve);
+            }, 1);
+        }));
     }
 
     setLooping(state) {
@@ -40,12 +51,13 @@ export class Sound {
     }
 
     setVolume(volume) {
-        this.soundElement.volume = volume;
+        if (volume > 100) volume = 100;
+        this.soundElement.volume = volume / 100;
     }
 
     startDate(date, flip) {
         let start = new Date(date);
-        let seconds = Math.abs((start.getTime() - openAudioMc.timeService.getPredictedTime()) / 1000);
+        let seconds = Math.abs((start.getTime() - this.openAudioMc.timeService.getPredictedTime()) / 1000);
         let length = this.soundElement.duration;
         if (seconds > length) {
             if (!flip) return;
