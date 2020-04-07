@@ -21,6 +21,9 @@ export class Channel {
 
     addSound(sound) {
         this.sounds.push(sound);
+        for (let value of this.sounds.values()) {
+            value.registerMixer(this.mixer, this);
+        }
         this._updateVolume();
     }
 
@@ -31,9 +34,12 @@ export class Channel {
 
     registerMixer(mixer) {
         this.mixer = mixer;
+        for (let value of this.sounds.values()) {
+            value.registerMixer(this.mixer, this);
+        }
     }
 
-    fadeChannel(targetVolume, time) {
+    fadeChannel(targetVolume, time, extraCallback) {
         this.interruptFade();
         this.targetAfterFade = targetVolume;
         this.isFading = true;
@@ -46,8 +52,19 @@ export class Channel {
                 t    = dur/Math.abs(k - toVol),
                 i    = setInterval(() => {
                     k = k > toVol ? k - 1 : k + 1;
-                    s.setVolume(k);
+
+                    let effectiveVolume = this.mixer.masterVolume;
+
+                    // handle channel volume
+                    let result = (k / 100) * effectiveVolume;
+
+                    for (let sound of this.sounds) {
+                        sound.setVolume(result);
+                    }
+                    this.channelVolume = k;
+
                     if(k == toVol){
+                        if (extraCallback != null) extraCallback();
                         callback.call(this);
                         clearInterval(i);
                         const index = this.fadeTimer.indexOf(i);
@@ -61,9 +78,7 @@ export class Channel {
             this.fadeTimer.push(i);
         };
 
-        for (let sound of this.sounds) {
-            fadeTo(sound, time, targetVolume);
-        }
+        fadeTo(this, time, targetVolume);
     }
 
 
@@ -83,6 +98,18 @@ export class Channel {
         // handle channel volume
         let result = (this.channelVolume / 100) * effectiveVolume;
 
+        for (let sound of this.sounds) {
+            sound.setVolume(result);
+        }
+    }
+
+    updateFromMasterVolume() {
+        let effectiveVolume = this.mixer.masterVolume;
+
+        // handle channel volume
+        let result = (this.channelVolume / 100) * effectiveVolume;
+        console.log("Result: " + result)
+        console.log("Channel: " + this.channelVolume)
         for (let sound of this.sounds) {
             sound.setVolume(result);
         }

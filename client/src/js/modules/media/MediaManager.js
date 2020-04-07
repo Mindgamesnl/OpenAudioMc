@@ -18,17 +18,20 @@ export class MediaManager {
     destroySounds(soundId, all) {
         this.openAudioMc.debugPrint("starting to quit fade " + soundId)
 
-        for (let channelsKey in this.mixer.getChannels()) {
-            const channel = this.mixer.getChannels()[channelsKey];
-
+        for (let channel of this.mixer.getChannels()) {
+            console.log(channel)
             if (soundId == null || soundId === "") {
                 if (channel.hasTag("DEFAULT") || all) {
-                    this.mixer.removeChannel(channel);
+                    channel.fadeChannel(250, () => {
+                        this.mixer.removeChannel(channel);
+                    });
                 }
             } else {
                 // sound id provided, only get that one or all if needed
                 if (channel.hasTag(soundId) || all) {
-                    this.mixer.removeChannel(channel);
+                    channel.fadeChannel(0, 250, () => {
+                        this.mixer.removeChannel(channel);
+                    });
                 }
             }
         }
