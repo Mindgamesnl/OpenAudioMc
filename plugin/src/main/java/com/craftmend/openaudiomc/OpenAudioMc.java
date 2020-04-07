@@ -110,8 +110,6 @@ public class OpenAudioMc {
             this.taskProvider = new BungeeTaskProvider();
         }
 
-        // enable stuff
-
         // only enable redis if there are packets that require it for this platform
         if (Arrays.stream(ChannelKey.values()).anyMatch(value -> value.getTargetPlatform() == platform)) {
             this.redisService = new RedisService(this.OAConfiguration);
@@ -130,7 +128,7 @@ public class OpenAudioMc {
     }
 
     public void disable() {
-        redisService.shutdown();
+        if (redisService != null) redisService.shutdown();
         OAConfiguration.saveAll();
         if (stateService.getCurrentState().isConnected()) {
             networkingService.stop();

@@ -1,9 +1,12 @@
+import {Mixer} from "./objects/Mixer";
+
 export class MediaManager {
 
     constructor(main) {
         this.sounds = {};
         this.masterVolume = 80;
         this.openAudioMc = main;
+        this.mixer = new Mixer();
 
         document.getElementById("volume-slider").oninput = () => {
             let value = document.getElementById("volume-slider").value;
@@ -12,33 +15,20 @@ export class MediaManager {
         }
     }
 
-    destroySounds(key, all) {
-        this.openAudioMc.debugPrint("starting to quit fade " + key)
+    destroySounds(soundId, all) {
+        this.openAudioMc.debugPrint("starting to quit fade " + soundId)
 
-        if (key != null && this.sounds[key] != null) {
-            this.sounds[key].setVolume(0, 300, () => {
-                setTimeout(() => {
-                    this.openAudioMc.debugPrint("finished fading " + key + "")
-                    if (this.sounds[key] != null) this.sounds[key].destroy();
-                    this.openAudioMc.debugPrint("stopping " + key + " after fading")
-                    delete this.sounds[key];
-                }, 50)
-            });
-        } else {
-            for (let key in this.sounds) {
-                console.log(this.sounds[key])
-                let temp = this.sounds[key];
-                if (temp._source.indexOf("barelyalive") != -1) {
-                    temp.destroy();
-                    delete this.sounds[key];
-                    console.log("temp destroy")
-                    continue;
+        for (let channelsKey in this.mixer.getChannels()) {
+            const channel = this.mixer.getChannels()[channelsKey];
+
+            if (soundId == null || soundId === "") {
+                if (channel.hasTag("DEFAULT") || all) {
+                    this.mixer.removeChannel(channel);
                 }
-                if (!this.sounds.hasOwnProperty(key)) continue;
-
-                if (this.sounds[key].getFlag() === "DEFAULT" || (all != null && all)) {
-                    if (this.sounds[key] != null) this.sounds[key].destroy();
-                    delete this.sounds[key];
+            } else {
+                // sound id provided, only get that one or all if needed
+                if (channel.hasTag(soundId) || all) {
+                    this.mixer.removeChannel(channel);
                 }
             }
         }
@@ -46,7 +36,7 @@ export class MediaManager {
 
     setMasterVolume(volume) {
         this.masterVolume = volume;
-        if (volume == 0) {
+        if (volume === 0) {
             document.getElementById("volume-disp").innerHTML = "<i>(muted)</i>";
         } else {
             document.getElementById("volume-disp").innerText = "Volume: " + volume + "%";
@@ -54,9 +44,7 @@ export class MediaManager {
 
         Cookies.set("volume", volume);
 
-        for (let key in this.sounds) {
-            if (this.sounds.hasOwnProperty(key)) this.sounds[key].setMasterVolume(volume);
-        }
+        this.mixer.setMasterVolume(volume);
 
         // update voice call volume, if any
         this.openAudioMc.voiceModule.setVolume(volume);
@@ -70,25 +58,4 @@ export class MediaManager {
     getMasterVolume() {
         return this.masterVolume;
     }
-
-    getSound(id) {
-        return this.sounds[id];
-    }
-
-    getMedia(id) {
-        if (this.sounds[id] != null) {
-            return this.sounds[id];
-        }
-        return null;
-    }
-
-    registerOrGetMedia(id, media) {
-        if (this.sounds[id] != null) {
-            this.sounds[id].destroy();
-        }
-
-        this.sounds[id] = media;
-        this.openAudioMc.debugPrint("<b>created media</b> " + id + "")
-    }
-
 }

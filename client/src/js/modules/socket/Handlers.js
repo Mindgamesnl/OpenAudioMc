@@ -1,6 +1,7 @@
-import {WebAudio} from "../media/WebAudio";
 import {AlertBox} from "../ui/Notification";
 import {Card} from "../card/Card";
+import {Channel} from "../media/objects/Channel";
+import {Sound} from "../media/objects/Sound";
 
 export class Handlers {
 
@@ -19,48 +20,42 @@ export class Handlers {
             const maxDistance = data.maxDistance;
             let volume = openAudioMc.getMediaManager().getMasterVolume();
 
-
-            const existingMedia = openAudioMc.getMediaManager().getMedia(id);
-
-            if (existingMedia != null) {
-                if (existingMedia.isFading) {
-                    existingMedia.cancelCallback();
+            // attempt to stop the existing one, if any
+            for (let channelsKey in openAudioMc.getMediaManager().mixer.getChannels()) {
+                let channel = openAudioMc.getMediaManager().mixer.getChannels()[channelsKey];
+                if (channel.hasTag(id)) {
+                    openAudioMc.getMediaManager().mixer.removeChannel(channel);
                 }
-                if (maxDistance !== 0) {
-                    existingMedia.setSpeakerData(maxDistance, distance);
-                }
-                if (fadeTime === 0) {
-                    existingMedia.setVolume(volume);
-                } else {
-                    existingMedia.setVolume(0);
-                    existingMedia.setVolume(volume, fadeTime);
-                }
-                existingMedia.setLooping(looping);
-                if (doPickup) existingMedia.startDate(startInstant, looping);
-
-            } else {
-                let media;
-                media = new WebAudio(source, openAudioMc, function () {
-                    openAudioMc.getMediaManager().registerOrGetMedia(id, media);
-                    media.setMasterVolume(openAudioMc.getMediaManager().getMasterVolume());
-
-                    if (maxDistance !== 0) {
-                        media.setSpeakerData(maxDistance, distance);
-                    }
-
-                    media.setFlag(flag);
-
-                    if (fadeTime === 0) {
-                        media.setVolume(volume);
-                    } else {
-                        media.setVolume(0);
-                        media.setVolume(volume, fadeTime);
-                    }
-
-                    media.setLooping(looping);
-                    if (doPickup) media.startDate(startInstant, looping);
-                });
             }
+
+            const createdChannel = new Channel(id);
+            const createdMedia = new Sound(source);
+            createdChannel.addSound(createdMedia);
+            openAudioMc.getMediaManager().mixer.addChannel(createdChannel);
+            createdChannel.setChannelVolume(0);
+            createdMedia.setLooping(looping);
+
+            if (fadeTime === 0) {
+                createdChannel.setChannelVolume(volume);
+            } else {
+                createdChannel.fadeChannel(volume, fadeTime);
+            }
+
+            // convert distance
+            if (maxDistance !== 0) {
+                let startVolume = this.convertDistanceToVolume(maxDistance, distance);
+                createdChannel.setTag("SPECIAL");
+                createdChannel.maxDistance = maxDistance;
+                createdChannel.fadeChannel(startVolume, fadeTime);
+            } else {
+                // default sound, just play
+                createdChannel.setTag("DEFAULT");
+                createdChannel.fadeChannel(100, fadeTime);
+            }
+
+
+            createdChannel.setTag(flag);
+            if (doPickup) createdChannel.startDate(startInstant, looping);
         });
 
         openAudioMc.socketModule.registerHandler("ClientDestroyCardPayload", () => {
@@ -154,15 +149,19 @@ export class Handlers {
             const id = data.mediaOptions.target;
             const fadeTime = data.mediaOptions.fadeTime;
             const distance = data.mediaOptions.distance;
-            const media = openAudioMc.getMediaManager().getSound(id);
-            if (media != null){
-                if (distance != null) {
-                    media.updateDistance(distance);
+
+            for (let channelsKey in openAudioMc.getMediaManager().mixer.getChannels()) {
+                let channel = openAudioMc.getMediaManager().mixer.getChannels()[channelsKey];
+                if (channel.hasTag(id)) {
+                    channel.fadeChannel(this.convertDistanceToVolume(channel.maxDistance, distance), fadeTime);
                 }
-                media.setVolume(openAudioMc.getMediaManager().masterVolume, fadeTime);
             }
         });
 
+    }
+
+    convertDistanceToVolume(maxDistance, currentDistance) {
+        return Math.round(((maxDistance - currentDistance) / maxDistance) * 100);
     }
 
 }
