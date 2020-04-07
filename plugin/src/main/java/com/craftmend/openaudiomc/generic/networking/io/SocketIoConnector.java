@@ -39,7 +39,7 @@ public class SocketIoConnector {
 
     private Socket socket;
 
-    public void setupConnection() throws URISyntaxException, IOException {
+    public void setupConnection() throws IOException {
         if (!OpenAudioMc.getInstance().getStateService().getCurrentState().canConnect()) return;
 
         ProxySelector.setDefault(new NullProxySelector());
@@ -72,7 +72,7 @@ public class SocketIoConnector {
                 .execute()
                 .thenAccept((genericApiResponse) -> {
                     // check if relay request has errors
-                    if (genericApiResponse.getErrors().size() != 0) {
+                    if (!genericApiResponse.getErrors().isEmpty()) {
                         OpenAudioMc.getInstance().getStateService().setState(new IdleState("Failed to do the initial handshake"));
                         OpenAudioLogger.toConsole("Failed to get relay host.");
                         OpenAudioLogger.toConsole(" - message: " + genericApiResponse.getErrors().get(0).getMessage());

@@ -157,7 +157,7 @@ export function Request(e, t) {
         if (e.bodyUsed) throw new TypeError("Already read");
         this.url = e.url, this.credentials = e.credentials, t.headers || (this.headers = new Headers(e.headers)), this.method = e.method, this.mode = e.mode, this.signal = e.signal, r || null == e._bodyInit || (r = e._bodyInit, e.bodyUsed = !0)
     } else this.url = String(e);
-    if (this.credentials = t.credentials || this.credentials || "same-origin", !t.headers && this.headers || (this.headers = new Headers(t.headers)), this.method = normalizeMethod(t.method || this.method || "GET"), this.mode = t.mode || this.mode || null, this.signal = t.signal || this.signal, this.referrer = null, ("GET" === this.method || "HEAD" === this.method) && r) throw new TypeError("Body not allowed for GET or HEAD requests");
+    if (this.credentials = t.credentials || this.credentials || !t.headers && this.headers || (this.headers = new Headers(t.headers)), this.method = normalizeMethod(t.method || this.method || "GET"), this.mode = t.mode || this.mode || null, this.signal = t.signal || this.signal, this.referrer = null, ("GET" === this.method || "HEAD" === this.method) && r) throw new TypeError("Body not allowed for GET or HEAD requests");
     this._initBody(r)
 };
 

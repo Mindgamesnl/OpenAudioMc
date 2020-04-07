@@ -30,7 +30,7 @@ import java.util.function.Consumer;
 public class NetworkingService extends INetworkingService {
 
     private Map<UUID, ClientConnection> clientMap = new HashMap<>();
-    private Map<PacketChannel, PayloadHandler> packetHandlerMap = new HashMap<>();
+    private Map<PacketChannel, PayloadHandler<?>> packetHandlerMap = new HashMap<>();
     private SocketIoConnector socketIoConnector;
 
     /**
