@@ -21,7 +21,7 @@ export class MediaManager {
         for (let channel of this.mixer.getChannels()) {
             console.log(channel)
             if (soundId == null || soundId === "") {
-                if (channel.hasTag("DEFAULT") || all) {
+                if ((!channel.hasTag("SPECIAL") && !channel.hasTag("REGION") && !channel.hasTag("SPEAKER")) || all) {
                     channel.fadeChannel(250, () => {
                         this.mixer.removeChannel(channel);
                     });

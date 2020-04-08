@@ -13,10 +13,17 @@ export class Sound {
         this.soundElement.setAttribute("controls", "none");
         this.soundElement.setAttribute("display", "none");
 
+        this.openAudioMc = null;
+
         this.onFinish = null;
         this.loop = false;
         this.mixer = null;
         this.channel = null;
+        this.finsishedInitializing = false;
+    }
+
+    setOa(oa) {
+        this.openAudioMc = oa;
     }
 
     registerMixer(mixer, channel) {
@@ -27,6 +34,8 @@ export class Sound {
     finalize() {
         return new Promise((resolve => {
             this.soundElement.onended = () => {
+                if (!this.finsishedInitializing) return;
+                console.log("Resource stream ended")
                 if (this.onFinish != null) this.onFinish();
                 if (this.loop) {
                     this.setTime(0);
@@ -46,6 +55,10 @@ export class Sound {
         this.loop = state;
     }
 
+    finish() {
+        this.finsishedInitializing = true;
+    }
+
     setOnFinish(runnable) {
         this.onFinish = runnable;
     }
@@ -56,12 +69,12 @@ export class Sound {
     }
 
     startDate(date, flip) {
+        console.log("Calculating offset for " + date)
         let start = new Date(date);
         let seconds = Math.abs((start.getTime() - this.openAudioMc.timeService.getPredictedTime()) / 1000);
         let length = this.soundElement.duration;
         if (seconds > length) {
-            if (!flip) return;
-            //how many times it would have played
+            // how many times it would have played
             let times = Math.floor(seconds / length);
             //remove other repetitions from time
             seconds = seconds - (times * length);
@@ -70,6 +83,7 @@ export class Sound {
     }
 
     setTime(target) {
+        console.log("Skipping to " + target)
         this.soundElement.currentTime = target;
     }
 
