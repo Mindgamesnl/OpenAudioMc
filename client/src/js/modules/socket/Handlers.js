@@ -30,14 +30,14 @@ export class Handlers {
 
             const createdChannel = new Channel(id);
             const createdMedia = new Sound(source);
+            createdMedia.openAudioMc = openAudioMc;
+            createdMedia.setOa(openAudioMc);
             createdMedia.finalize().then(ready => {
                 openAudioMc.getMediaManager().mixer.addChannel(createdChannel);
-                createdMedia.openAudioMc = openAudioMc;
                 createdChannel.addSound(createdMedia);
                 createdChannel.setChannelVolume(0);
                 createdMedia.setLooping(looping);
                 createdChannel.setTag(id);
-                if (doPickup) createdMedia.startDate(startInstant, true);
 
                 // convert distance
                 if (maxDistance !== 0) {
@@ -62,6 +62,8 @@ export class Handlers {
 
 
                 createdChannel.setTag(flag);
+                if (doPickup) createdMedia.startDate(startInstant, true);
+                createdMedia.finish();
             });
         });
 
