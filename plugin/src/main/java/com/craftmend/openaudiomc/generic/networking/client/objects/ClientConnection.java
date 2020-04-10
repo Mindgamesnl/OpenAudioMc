@@ -97,15 +97,14 @@ public class ClientConnection {
         this.isConnected = true;
         this.isWaitingToken = false;
 
+        ClientSettings settings = new ClientSettings().load();
+        if (!settings.equals(new ClientSettings())) {
+            OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientPushSettings(settings));
+        }
+
         OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(
                 () -> {
                     ongoingMedia.forEach(this::sendMedia);
-                    // check and send settings, if any
-                    ClientSettings settings = new ClientSettings().load();
-                    if (!settings.equals(new ClientSettings())) {
-                        OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientPushSettings(settings));
-                    }
-
                     // if a start sound is configured, send it
                     if (startSound != null && !startSound.equals("none")) {
                         sendMedia(new Media(startSound));

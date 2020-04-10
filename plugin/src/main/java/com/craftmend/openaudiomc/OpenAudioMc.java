@@ -27,7 +27,6 @@ import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 import com.craftmend.openaudiomc.bungee.modules.configuration.BungeeConfigurationModule;
 import com.craftmend.openaudiomc.bungee.modules.scheduling.BungeeTaskProvider;
 
-import com.craftmend.openaudiomc.spigot.services.threading.ExecutorService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
