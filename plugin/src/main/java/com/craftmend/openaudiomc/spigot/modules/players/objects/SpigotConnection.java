@@ -28,12 +28,11 @@ public class SpigotConnection {
     @Setter private List<IRegion> currentRegions = new ArrayList<>();
     @Setter private List<ApplicableSpeaker> currentSpeakers = new ArrayList<>();
 
-    // data watcher that watches for changes in the location, every 5 ticks.
-    // If the server version is MODERN (so 1.13 or higher) the task will run sync
+    // data watcher that watches for changes in the location, every 2 ticks.
     @Getter private DataWatcher<Location> locationDataWatcher = new DataWatcher<>(
             OpenAudioMcSpigot.getInstance(),
             true,
-            5
+            2
     );
 
     // Speaker and region handles. Region handler can be null if the feature is disabled
