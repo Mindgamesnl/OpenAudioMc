@@ -20,18 +20,24 @@ export class MediaManager {
 
         for (let channel of this.mixer.getChannels()) {
             console.log(channel)
-            if (soundId == null || soundId === "") {
-                if ((!channel.hasTag("SPECIAL") && !channel.hasTag("REGION") && !channel.hasTag("SPEAKER")) || all) {
-                    channel.fadeChannel(0, 250, () => {
-                        this.mixer.removeChannel(channel);
-                    });
-                }
+
+            if (all) {
+                channel.fadeChannel(0, 250, () => {
+                    this.mixer.removeChannel(channel);
+                });
             } else {
-                // sound id provided, only get that one or all if needed
-                if (channel.hasTag(soundId) || all) {
-                    channel.fadeChannel(0, 250, () => {
-                        this.mixer.removeChannel(channel);
-                    });
+                if (soundId == null || soundId === "") {
+                    if ((!channel.hasTag("SPECIAL") && !channel.hasTag("REGION") && !channel.hasTag("SPEAKER"))) {
+                        channel.fadeChannel(0, 250, () => {
+                            this.mixer.removeChannel(channel);
+                        });
+                    }
+                } else {
+                    if (channel.hasTag(soundId)) {
+                        channel.fadeChannel(0, 250, () => {
+                            this.mixer.removeChannel(channel);
+                        });
+                    }
                 }
             }
         }
