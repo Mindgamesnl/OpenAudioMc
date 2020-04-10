@@ -15,26 +15,28 @@ export class MediaManager {
         }
     }
 
-    destroySounds(soundId, all) {
+    destroySounds(soundId, all, instantly) {
         this.openAudioMc.debugPrint("starting to quit fade " + soundId)
+        let time = 250;
+        if (instantly) time = 0;
 
         for (let channel of this.mixer.getChannels()) {
             console.log(channel)
 
             if (all) {
-                channel.fadeChannel(0, 250, () => {
+                channel.fadeChannel(0, time, () => {
                     this.mixer.removeChannel(channel);
                 });
             } else {
                 if (soundId == null || soundId === "") {
                     if ((!channel.hasTag("SPECIAL") && !channel.hasTag("REGION") && !channel.hasTag("SPEAKER"))) {
-                        channel.fadeChannel(0, 250, () => {
+                        channel.fadeChannel(0, time, () => {
                             this.mixer.removeChannel(channel);
                         });
                     }
                 } else {
                     if (channel.hasTag(soundId)) {
-                        channel.fadeChannel(0, 250, () => {
+                        channel.fadeChannel(0, time, () => {
                             this.mixer.removeChannel(channel);
                         });
                     }
