@@ -21,8 +21,7 @@ export class Handlers {
             let volume = 100;
 
             // attempt to stop the existing one, if any
-            for (let channelsKey in openAudioMc.getMediaManager().mixer.getChannels()) {
-                let channel = openAudioMc.getMediaManager().mixer.getChannels()[channelsKey];
+            for (let channel of openAudioMc.getMediaManager().mixer.getChannels()) {
                 if (channel.hasTag(id)) {
                     openAudioMc.getMediaManager().mixer.removeChannel(channel);
                 }
