@@ -45,9 +45,13 @@ export class Sound {
                 }
             };
 
-            setTimeout(() => {
-                this.soundElement.play().then(resolve).catch(resolve);
-            }, 1);
+            let fired = false;
+            this.soundElement.onprogress = () => {
+                if (!fired) {
+                    this.soundElement.play().then(resolve).catch(resolve);
+                }
+                fired = true;
+            }
         }));
     }
 
@@ -68,7 +72,7 @@ export class Sound {
         this.soundElement.volume = volume / 100;
     }
 
-    startDate(date, flip) {
+    startDate(date) {
         console.log("Calculating offset for " + date)
         let start = new Date(date);
         let seconds = Math.abs((start.getTime() - this.openAudioMc.timeService.getPredictedTime()) / 1000);
@@ -76,6 +80,7 @@ export class Sound {
         if (seconds > length) {
             // how many times it would have played
             let times = Math.floor(seconds / length);
+            console.log("Has played " + times + " times")
             //remove other repetitions from time
             seconds = seconds - (times * length);
         }

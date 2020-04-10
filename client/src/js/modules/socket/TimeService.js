@@ -3,6 +3,7 @@ export class TimeService {
     constructor() {
         this.isServerAhead = false;
         this.msOffset = 0;
+        this.hasSynced = false;
     }
 
     sync(serverTime, serverLocale) {
@@ -24,9 +25,11 @@ export class TimeService {
 
         // relative timing for later calculation
         this.msOffset = (this.isServerAhead ? (serverDate.getTime() - localDate.getTime()) : (localDate.getTime() - serverDate.getTime()));
+        this.hasSynced = true;
     }
 
     getPredictedTime() {
+        if (!this.hasSynced) new Date().getTime();
         // calculate the time based on the offset and which is ahead
         let time = new Date().getTime();
         return new Date(this.isServerAhead ? time + this.msOffset : time - this.msOffset);

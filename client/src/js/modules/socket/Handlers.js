@@ -27,7 +27,9 @@ export class Handlers {
             const createdMedia = new Sound(source);
             createdMedia.openAudioMc = openAudioMc;
             createdMedia.setOa(openAudioMc);
+            if (doPickup) createdMedia.startDate(startInstant, true);
             createdMedia.finalize().then(ready => {
+                if (doPickup) createdMedia.startDate(startInstant, true);
                 openAudioMc.getMediaManager().mixer.addChannel(createdChannel);
                 createdChannel.addSound(createdMedia);
                 createdChannel.setChannelVolume(0);
@@ -57,7 +59,6 @@ export class Handlers {
 
 
                 createdChannel.setTag(flag);
-                if (doPickup) createdMedia.startDate(startInstant, true);
                 createdMedia.finish();
             });
         });
