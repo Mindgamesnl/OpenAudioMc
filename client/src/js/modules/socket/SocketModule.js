@@ -56,14 +56,8 @@ export class SocketModule {
 
         this.socket.on("disconnect", () => {
             main.debugPrint("closed");
-            for (let key in main.getMediaManager().sounds) {
-                if (!main.getMediaManager().sounds.hasOwnProperty(key)) continue;
-                main.getMediaManager().sounds[key].setVolume(0, 1000);
-                setTimeout(function () {
-                    main.getMediaManager().sounds[key].destroy();
-                }, 1005);
-            }
-
+            main.getMediaManager().destroySounds(null, true);
+            
             that.state = "closed";
 
             main.voiceModule.handleSocketClosed();
