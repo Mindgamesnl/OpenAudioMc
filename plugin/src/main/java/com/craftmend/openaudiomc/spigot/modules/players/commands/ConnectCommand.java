@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.spigot.modules.players.commands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.state.interfaces.State;
+import com.craftmend.openaudiomc.generic.state.states.WorkerState;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
 import lombok.AllArgsConstructor;
 import org.bukkit.ChatColor;
@@ -14,6 +16,13 @@ public class ConnectCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
+        State state = OpenAudioMc.getInstance().getStateService().getCurrentState();
+        if (state instanceof WorkerState) {
+            commandSender.sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() +
+                    state.getDescription());
+            return true;
+        }
+
         if (!OpenAudioMc.getInstance().getAuthenticationService().isSuccesfull()) {
             commandSender.sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() +
                     OpenAudioMc.getInstance().getAuthenticationService().getFailureMessage());

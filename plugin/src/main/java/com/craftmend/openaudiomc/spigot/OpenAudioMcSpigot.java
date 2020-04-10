@@ -3,9 +3,11 @@ package com.craftmend.openaudiomc.spigot;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.generic.state.states.WorkerState;
 import com.craftmend.openaudiomc.spigot.modules.commands.SpigotCommandModule;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import com.craftmend.openaudiomc.spigot.modules.proxy.ProxyModule;
+import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import com.craftmend.openaudiomc.spigot.modules.show.ShowModule;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 
@@ -101,8 +103,12 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
             this.regionModule = new RegionModule(this);
         }
 
-        // set state to idle, to allow connections and such
-        OpenAudioMc.getInstance().getStateService().setState(new IdleState("OpenAudioMc started and awaiting command"));
+        // set state to idle, to allow connections and such, but only if not a node
+        if (proxyModule.getMode() == ClientMode.NODE) {
+            OpenAudioMc.getInstance().getStateService().setState(new WorkerState());
+        } else {
+            OpenAudioMc.getInstance().getStateService().setState(new IdleState("OpenAudioMc started and awaiting command"));
+        }
 
         // timing end and calc
         Instant finish = Instant.now();
