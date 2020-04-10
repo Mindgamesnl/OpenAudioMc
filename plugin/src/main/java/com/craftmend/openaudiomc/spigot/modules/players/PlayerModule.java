@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnect
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.commands.ConnectCommand;
 import com.craftmend.openaudiomc.spigot.modules.players.listeners.PlayerConnectionListener;
+import com.craftmend.openaudiomc.spigot.modules.players.listeners.PlayerTeleportationListener;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 
 import org.bukkit.Bukkit;
@@ -18,6 +19,7 @@ public class PlayerModule {
 
     public PlayerModule(OpenAudioMcSpigot openAudioMcSpigot) {
         openAudioMcSpigot.getServer().getPluginManager().registerEvents(new PlayerConnectionListener(), openAudioMcSpigot);
+        openAudioMcSpigot.getServer().getPluginManager().registerEvents(new PlayerTeleportationListener(), openAudioMcSpigot);
         openAudioMcSpigot.getCommand("audio").setExecutor(new ConnectCommand());
     }
 
