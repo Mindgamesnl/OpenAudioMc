@@ -13,6 +13,7 @@ import com.craftmend.openaudiomc.spigot.modules.players.PlayerModule;
 import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
 
+import com.craftmend.openaudiomc.spigot.services.threading.ExecutorService;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
@@ -38,6 +39,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
     /**
      * modules that make up the plugin
      *
+     * - ExecutorService (manages fake syncronized tasks)
      * - ProxyModule (manages bungeecord link)
      * - player module (manages player connections)
      * - region module (OPTIONAL) (only loads regions if WorldGuard is enabled)
@@ -45,6 +47,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
      * - media module (loads and manages all media in the service)
      * - show module (manages shows)
      */
+    private ExecutorService executorService;
     private ProxyModule proxyModule;
     private PlayerModule playerModule;
     private RegionModule regionModule;
@@ -56,6 +59,10 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
      * Constant: main plugin instance
      */
     @Getter private static OpenAudioMcSpigot instance;
+
+    public OpenAudioMcSpigot(ExecutorService executorService) {
+        this.executorService = executorService;
+    }
 
     /**
      * load the plugin and start all of it's independent modules and services
@@ -82,6 +89,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
         }
 
         // startup modules and services
+        this.executorService = new ExecutorService(this);
         this.serverService = new ServerService();
         this.playerModule = new PlayerModule(this);
         this.speakerModule = new SpeakerModule(this);
