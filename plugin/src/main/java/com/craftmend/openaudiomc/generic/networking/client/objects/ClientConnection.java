@@ -116,7 +116,7 @@ public class ClientConnection {
                         OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientCreateCard(card));
                     }
                 },
-                20
+                1
         );
 
         // am I a bungeecord thingy? then send it to my other thingy
