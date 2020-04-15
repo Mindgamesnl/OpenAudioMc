@@ -45,13 +45,17 @@ export class Sound {
                 }
             };
 
-            let fired = false;
-            this.soundElement.onprogress = () => {
+            const attemptToPlay = () => {
                 if (!fired) {
                     this.soundElement.play().then(resolve).catch(resolve);
                 }
                 fired = true;
-            }
+            };
+
+            let fired = false;
+            this.soundElement.onprogress = attemptToPlay;
+            this.soundElement.canplay = attemptToPlay;
+            this.soundElement.canplaythrough = attemptToPlay;
         }));
     }
 
