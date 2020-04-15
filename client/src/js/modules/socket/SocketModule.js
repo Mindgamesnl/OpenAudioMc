@@ -8,7 +8,6 @@ export class SocketModule {
         this.openAudioMc = main;
 
         main.getUserInterfaceModule().setMessage("Loading data..");
-        main.getUserInterfaceModule().showVolumeSlider(false);
 
         if (Utils.getParameter().data == null) {
             main.debugPrint("data is empty");
@@ -43,7 +42,6 @@ export class SocketModule {
         this.socket.on("connect", () => {
             main.userInterfaceModule.openApp();
             main.getUserInterfaceModule().setMessage(this.openAudioMc.getMessages().welcomeMessage);
-            main.getUserInterfaceModule().showVolumeSlider(true);
             main.socketModule.state = "ok";
         });
 

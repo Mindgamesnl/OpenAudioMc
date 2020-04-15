@@ -23,7 +23,6 @@ export class UserInterfaceModule {
         document.getElementById("welcome").style.display = "none";
         document.getElementById("app").style.display = "";
         this.openAudioMc.userInterfaceModule.setMessage(this.openAudioMc.messages.welcomeMessage);
-        this.openAudioMc.userInterfaceModule.showVolumeSlider(true);
         document.getElementById('page').classList.remove('dark-bg');
     }
 

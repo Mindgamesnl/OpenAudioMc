@@ -111,7 +111,6 @@ export class Handlers {
                 document.getElementById("page").style = "vertical-align: middle;\n" +
                     "    background:\n" +
                     "            url(" + background + ");\n" +
-                    "    font-family: 'Roboto', serif;\n" +
                     "    -webkit-background-size: cover;\n" +
                     "    background-size: cover;"
             }

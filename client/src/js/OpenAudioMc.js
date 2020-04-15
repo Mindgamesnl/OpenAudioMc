@@ -36,7 +36,6 @@ export class OpenAudioMc extends Getters {
         this.hueConfiguration = new HueConfigurationModule(this);
         this.hueModule = new HueModule(this, getHueInstance());
         this.mediaManager = new MediaManager(this);
-        this.userInterfaceModule.showVolumeSlider(false);
         this.userInterfaceModule.setMessage("Loading proxy..");
 
         //initialize audio encoding
