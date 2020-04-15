@@ -62,10 +62,6 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
      */
     @Getter private static OpenAudioMcSpigot instance;
 
-    public OpenAudioMcSpigot(ExecutorService executorService) {
-        this.executorService = executorService;
-    }
-
     /**
      * load the plugin and start all of it's independent modules and services
      * this is in a specific order
