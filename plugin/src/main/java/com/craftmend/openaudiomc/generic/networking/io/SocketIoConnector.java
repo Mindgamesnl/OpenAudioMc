@@ -65,6 +65,15 @@ public class SocketIoConnector {
 
         // request a relay server
         OpenAudioLogger.toConsole("Requesting relay..");
+
+        // schedule timeout check
+        OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(() -> {
+            if (OpenAudioMc.getInstance().getStateService().getCurrentState() instanceof AssigningRelayState) {
+                OpenAudioLogger.toConsole("Connecting timed out.");
+                OpenAudioMc.getInstance().getStateService().setState(new IdleState("Connecting to the relay timed out"));
+            }
+        }, 20 * 35);
+
         Instant request = Instant.now();
         new RestRequest("/login.php")
                 .setQuery("private", privateKey)
