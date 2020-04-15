@@ -167,8 +167,8 @@ public class SocketIoConnector {
             if (client == null) {
                 callback.call(false);
             } else if (client.getSession().getKey().equals(payload.getToken())) {
-                client.onConnect();
                 callback.call(true);
+                client.onConnect();
             } else {
                 callback.call(false);
             }

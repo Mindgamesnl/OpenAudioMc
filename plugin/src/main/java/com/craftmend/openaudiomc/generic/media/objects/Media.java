@@ -17,7 +17,7 @@ public class Media {
     private String source;
     @Setter @Getter private long startInstant;
     @Setter @Getter private transient int keepTimeout = -1;
-    @Getter @Setter private boolean doPickup = true;
+    @Getter @Setter private boolean doPickup = false;
     @Getter @Setter private boolean loop = false;
     @Getter @Setter private int fadeTime = 0;
     @Getter @Setter private MediaFlag flag = MediaFlag.DEFAULT;

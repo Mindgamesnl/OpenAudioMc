@@ -16,7 +16,7 @@ body {
 
 .dark-bg {
     background-position: -9999px;
-    background: #1D1F20;
+    background: #1F1B24;
 }
 
 img {
@@ -112,7 +112,7 @@ button {
 
 .footer {
     font-size: 2vh;
-    color: #b66c00;
+    color: #121212;
     left: 4%;
     position: absolute;
     bottom: 0;
@@ -318,6 +318,7 @@ li {
 
 footer {
     background-color: rgb(30, 30, 33);
+    border-top: 2px solid #304FFE;
     padding: 10px;
     position: absolute;
     width: 100%;
@@ -521,6 +522,7 @@ footer a {
     background-color: inherit;
     border-style: solid;
     border-color: rgb(30, 30, 33);
+
 }
 
 .notice {
@@ -847,4 +849,8 @@ input[type=range]::-moz-range-thumb:active {
     padding-top: 20px;
     padding-bottom: 0px;
     border-radius: 25px;
+}
+
+.donate {
+    font-size: 11px;
 }
