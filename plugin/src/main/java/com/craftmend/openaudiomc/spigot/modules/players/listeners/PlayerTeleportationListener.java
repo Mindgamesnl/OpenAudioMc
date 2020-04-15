@@ -11,8 +11,9 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 public class PlayerTeleportationListener implements Listener {
 
     @EventHandler
-    public void onJoin(PlayerTeleportEvent event) {
+    public void onTp(PlayerTeleportEvent event) {
         SpigotConnection spigotConnection = OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(event.getPlayer());
+        if (spigotConnection == null) return;
         if (spigotConnection.getRegionHandler() != null) {
             spigotConnection.getRegionHandler().tick();
         }
