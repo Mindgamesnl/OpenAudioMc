@@ -14,7 +14,6 @@ export class Boot {
         ].join(';'));
 
         this.log("Enabling the web client for " + window.navigator.userAgent);
-        this.log("Build: 20 aug. Voice chat, ui, backend. Basically new openaudiomc.");
     }
 
     boot() {

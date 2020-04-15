@@ -12,6 +12,8 @@ export class Sound {
         this.soundElement.setAttribute("preload", "auto");
         this.soundElement.setAttribute("controls", "none");
         this.soundElement.setAttribute("display", "none");
+        this.soundElement.preload = "autoauto";
+        this.soundElement.abort = console.log;
 
         this.openAudioMc = null;
 
@@ -54,8 +56,8 @@ export class Sound {
 
             let fired = false;
             this.soundElement.onprogress = attemptToPlay;
-            this.soundElement.canplay = attemptToPlay;
-            this.soundElement.canplaythrough = attemptToPlay;
+            this.soundElement.oncanplay = attemptToPlay;
+            this.soundElement.oncanplaythrough = attemptToPlay;
         }));
     }
 

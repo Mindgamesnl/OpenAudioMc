@@ -25,7 +25,7 @@ export class Mixer {
 
         if (channel != null) {
             channel.destroy();
-            this.channels.delete(channelName.channelName);
+            this.channels.delete(channel.channelName);
         }
     }
 
