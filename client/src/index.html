@@ -1,6 +1,6 @@
 <html lang="en">
 <head>
-    <link href="css/openaudiomc.css" rel="stylesheet" type="text/css">
+    <link href="css/openaudiomc.css?rev=new" rel="stylesheet" type="text/css">
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" rel="stylesheet">
 
@@ -61,34 +61,25 @@
             </div>
         </div>
 
-        <div class="panel home-panel" id="app" style="display: none;">
-            <div class="panel-content">
-                <div>
-                    <div class="blurIn home">
-                        <img alt="skull" class="display-skull" id="skull" src="https://minotar.net/avatar/OpenAudioMc">
-                        <p id="status-message"></p>
-                        <div class="volume-section">
-                            <div style="text-align: center;">
-                                <span class="volume-display" id="volume-disp">Volume: 50% </span>
-                            </div>
-                            <div class="volume-control">
-                                <label id="volume-label">
-                                    <input id="volume-slider" max="100"
-                                           min="0" name="volume"
-                                           type="range" value="50"
-                                           class="range blue"/>
-                                </label>
-                            </div>
-                            <br/>
-                        </div>
-                    </div>
+        <div class="courses-container" id="app" style="display: none">
+            <div class="course">
+                <div class="main-sidebar" id="sidebar-head"></div>
+                <div class="course-info">
+                    <h2 id="status-message">Loading</h2>
+                    <h6 id="volume-disp">Volume: 50%</h6>
+                    <input id="volume-slider" max="100"
+                           min="0" name="volume"
+                           type="range" value="50"
+                           class="range blue btn"/>
+                    <p class="hueFooter blurIn"
+                       id="hue-bridge-menu-button"
+                       style="display: none;"
+                    >Philips Hue <i class="fa fa-lightbulb-o"></i></p>
+                    <br class="clear"/>
                 </div>
-                <p class="hueFooter blurIn"
-                   id="hue-bridge-menu-button"
-                   style="display: none;"
-                >Philips Hue <i class="fa fa-lightbulb-o"></i></p>
-                <br class="clear"/>
             </div>
+        </div>
+
 
 
             <div class="panel home-panel" id="hueMenu" style="display: none;">
@@ -185,5 +176,5 @@
     <img alt="skull" class="footer-skull" src="assets/logo.png">
 </footer>
 </body>
-<script src="OpenAudioMc.bundle.js?version=4"></script>
+<script src="OpenAudioMc.bundle.js?version=5"></script>
 </html>
