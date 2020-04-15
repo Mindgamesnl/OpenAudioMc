@@ -29,7 +29,7 @@ messages:
   # The message a client gets as warning that they are already connected
   client-already-connected: '&4You are already connected to the web client'
 
-  # The message a client gets when they have a incomming call
+  # The message a client gets when they have a incoming call
   call-ringing: '&2You have a pending voice call! please check your web client to answer'
 
   # The message a client gets when their call has ended
