@@ -25,7 +25,7 @@ public class Media {
     /**
      * Create a new media based on a url
      * the source will first be processed by the mutation api
-     * so you can just use addons without needing to worry
+     * so you can just use addons without needing to wor§§ry
      *
      * @param source the resource url
      */

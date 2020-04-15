@@ -110,10 +110,6 @@ export class Handlers {
             if (background !== "default") {
                 document.getElementById("page").style = "vertical-align: middle;\n" +
                     "    background:\n" +
-                    "            linear-gradient(\n" +
-                    "                    rgba(98, 90, 238, 0.45),\n" +
-                    "                    rgba(98, 90, 238, 0.25)\n" +
-                    "            ),\n" +
                     "            url(" + background + ");\n" +
                     "    font-family: 'Roboto', serif;\n" +
                     "    -webkit-background-size: cover;\n" +
