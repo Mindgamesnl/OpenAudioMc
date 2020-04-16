@@ -1,7 +1,7 @@
 regions:
 speakers:
 keyset:
-  key-version: 2
+  key-version: 3
   private: not-set
   base-url: https://client.openaudiomc.net/?&data=
   link-mode: true
