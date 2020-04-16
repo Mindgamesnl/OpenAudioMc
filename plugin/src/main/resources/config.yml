@@ -97,6 +97,17 @@ client:
   hue-bridge-found: default
 
 
+# PRIVACY
+# OpenAudioMc has the ability to syncronize some information about your players (Name, UUID and Client state)
+# for your own personal use on the OpenAudioMc-Plus platform. We do NOT store this data for longer than we need to
+# everything gets thrown out as soon as a player disconnects or your server restarts.
+# This data will never be shared with third parties nor do I (Mindgamesnl) personally care to look at them.
+# Disabling any features below might hinder the functioning of your openaudiomc-plus account.
+# It shouldn't really matter but still want you to give the option to opt out, I won't judge, I love you.
+plus:
+  sync-players: true
+
+
 # REDIS
 # Redis is an optional professional feature for OpenAudioMc that (when configured) will sync shows
 # Between multiple OpenAudioMc installations.

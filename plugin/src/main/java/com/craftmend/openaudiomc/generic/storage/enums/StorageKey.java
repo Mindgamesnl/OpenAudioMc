@@ -49,6 +49,8 @@ public enum StorageKey {
     REDIS_USE_SSL("redis.useSSL", StorageLocation.CONFIG_FILE),
     REDIS_SECTION("redis.section", StorageLocation.CONFIG_FILE),
 
+    PLUS_SYNC_PLAYERS("plus.sync-players", StorageLocation.CONFIG_FILE),
+
     OPTIONS_SOCKET_MODE("keyset.link-mode", StorageLocation.DATA_FILE)
     ;
 

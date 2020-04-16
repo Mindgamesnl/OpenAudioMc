@@ -12,6 +12,7 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.objects.OpenAudioApi;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
 import com.craftmend.openaudiomc.generic.networking.addapter.AbstractPacketAdapter;
+import com.craftmend.openaudiomc.generic.plus.PlusService;
 import com.craftmend.openaudiomc.generic.redis.RedisService;
 import com.craftmend.openaudiomc.generic.redis.packets.channels.ChannelKey;
 import com.craftmend.openaudiomc.generic.scheduling.interfaces.ITaskProvider;
@@ -69,6 +70,7 @@ public class OpenAudioMc {
      * - Media Module            []   (keep track of media and timings)
      * - Task Provider           []   (create and register tasks regardless of platform)
      * - Redis Service           []   (provides redis to openaudio and the gang)
+     * - Plus Service            []   (Manages everything OpenAudioMc-Plus related, from auth to upstream data)
      */
     private StateService stateService;
     private ServerService serverService;
@@ -82,6 +84,7 @@ public class OpenAudioMc {
     private MediaModule mediaModule;
     private ITaskProvider taskProvider;
     private RedisService redisService;
+    private PlusService plusService;
 
     @Getter private static OpenAudioMc instance;
 
@@ -128,6 +131,7 @@ public class OpenAudioMc {
 
         this.voiceRoomManager = new VoiceRoomManager(this);
         this.commandModule = new CommandModule();
+        this.plusService = new PlusService(this);
     }
 
     public void disable() {
