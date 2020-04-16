@@ -1,9 +1,11 @@
 package com.craftmend.openaudiomc.generic.networking.rest;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.networking.addapter.GenericApiResponse;
+import com.craftmend.openaudiomc.generic.networking.rest.interfaces.GenericApiResponse;
+import com.craftmend.openaudiomc.generic.networking.rest.interfaces.AbstractRestResponse;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.net.URL;
@@ -13,7 +15,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
 
-public class RestRequest {
+public class RestRequest<R extends AbstractRestResponse> {
 
     private String endpoint;
     private Map<String, String> variables = new HashMap<>();
@@ -27,11 +29,11 @@ public class RestRequest {
         return this;
     }
 
-    public CompletableFuture<GenericApiResponse> execute() throws IOException {
-        CompletableFuture<GenericApiResponse> response = new CompletableFuture<>();
+    public CompletableFuture<GenericApiResponse<R>> execute() throws IOException {
+        CompletableFuture<GenericApiResponse<R>> response = new CompletableFuture<>();
         OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
             try {
-                response.complete(new Gson().fromJson(readHttp(getUrl()), GenericApiResponse.class));
+                response.complete(new Gson().fromJson(readHttp(getUrl()), new TypeToken<GenericApiResponse<R>>(){}.getType()));
             } catch (IOException e) {
                 OpenAudioMc.getInstance().getStateService().setState(new IdleState("IOException while shaking hands"));
                 e.printStackTrace();
@@ -41,7 +43,7 @@ public class RestRequest {
     }
 
     private String getUrl() {
-        String url = "http://api.openaudiomc.net/auth";
+        String url = "http://plus.openaudiomc.net";
         url += this.endpoint;
         if (variables.size() != 0) {
             url+= '?';

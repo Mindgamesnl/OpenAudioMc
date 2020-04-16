@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.generic.authentication;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.networking.rest.responses.RegistrationResponse;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.generic.interfaces.OAConfiguration;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
@@ -9,16 +10,19 @@ import com.craftmend.openaudiomc.generic.authentication.objects.Key;
 import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
 
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
+import com.google.gson.Gson;
 import lombok.Getter;
 
 import java.io.IOException;
 
 public class AuthenticationService {
 
+    private RestRequest<RegistrationResponse> registrationProvider = new RestRequest<>("/api/v1/servers/register");
+
     @Getter private ServerKeySet serverKeySet = new ServerKeySet();
     @Getter private boolean isSuccesfull = false;
     @Getter private String failureMessage = "Oh no, it looks like the initial setup of OpenAudioMc has failed. Please try to restart the server and try again, if that still does not work, please contact OpenAudioMc staff or support.";
-    private final int keyVersion = 2;
+    private final int keyVersion = 3; // OpenAudioMc-Plus update
 
     public AuthenticationService() throws IllegalStateException {
         OpenAudioLogger.toConsole("Starting authentication module");
@@ -46,19 +50,21 @@ public class AuthenticationService {
         if (spigotConfigurationModule.getString(StorageKey.AUTH_PRIVATE_KEY).equals("not-set") || getAuthVersion() != keyVersion) {
             //setup process
             try {
-                new RestRequest("/register.php").execute().thenAccept((genericApiResponse) -> {
-                    if (genericApiResponse.getErrors().size() == 0) {
-                        serverKeySet.setPrivateKey(new Key(genericApiResponse.getData().get(0).getPrivateKey()));
-                        serverKeySet.setPublicKey(new Key(genericApiResponse.getData().get(0).getPublicKey()));
-                        spigotConfigurationModule.setString(StorageKey.AUTH_PRIVATE_KEY, serverKeySet.getPrivateKey().getValue());
-                        spigotConfigurationModule.setString(StorageKey.AUTH_PUBLIC_KEY, serverKeySet.getPublicKey().getValue());
-                        spigotConfigurationModule.setInt(StorageLocation.DATA_FILE, StorageKey.AUTH_KEY_VERSION.getPath(), keyVersion);
-                        isSuccesfull = true;
-                    } else {
-                        OpenAudioLogger.toConsole("Failed to request token.");
-                        isSuccesfull = false;
-                    }
-                });
+                registrationProvider.execute()
+                        .thenAccept((response -> {
+                            if (response.getErrors().size() == 0) {
+                                RegistrationResponse registrationResponse = response.getResponses().get(0).getResponse();
+                                serverKeySet.setPrivateKey(new Key(registrationResponse.getPrivateKey()));
+                                serverKeySet.setPublicKey(new Key(registrationResponse.getPublicKey()));
+                                spigotConfigurationModule.setString(StorageKey.AUTH_PRIVATE_KEY, serverKeySet.getPrivateKey().getValue());
+                                spigotConfigurationModule.setString(StorageKey.AUTH_PUBLIC_KEY, serverKeySet.getPublicKey().getValue());
+                                spigotConfigurationModule.setInt(StorageLocation.DATA_FILE, StorageKey.AUTH_KEY_VERSION.getPath(), keyVersion);
+                                isSuccesfull = true;
+                            } else {
+                                OpenAudioLogger.toConsole("Failed to request token. Error: " + new Gson().toJson(response.getErrors()));
+                                isSuccesfull = false;
+                            }
+                        }));
             } catch (IOException e) {
                 OpenAudioLogger.toConsole("Failed to request token.");
                 isSuccesfull = false;
