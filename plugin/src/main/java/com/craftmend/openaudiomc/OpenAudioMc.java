@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.generic.flags.FlagSet;
 import com.craftmend.openaudiomc.generic.interfaces.OAConfiguration;
 import com.craftmend.openaudiomc.generic.media.MediaModule;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
+import com.craftmend.openaudiomc.generic.migrations.MigrationUtil;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.objects.OpenAudioApi;
@@ -109,6 +110,8 @@ public class OpenAudioMc {
             this.OAConfiguration.loadSettings();
             this.taskProvider = new BungeeTaskProvider();
         }
+
+        MigrationUtil.handleMigrations(this);
 
         // only enable redis if there are packets that require it for this platform
         if (Arrays.stream(ChannelKey.values()).anyMatch(value -> value.getTargetPlatform() == platform)) {
