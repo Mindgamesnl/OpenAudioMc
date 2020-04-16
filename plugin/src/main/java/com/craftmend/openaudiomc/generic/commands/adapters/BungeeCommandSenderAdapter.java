@@ -3,6 +3,9 @@ package com.craftmend.openaudiomc.generic.commands.adapters;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import lombok.AllArgsConstructor;
 import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
+
+import java.util.UUID;
 
 @AllArgsConstructor
 public class BungeeCommandSenderAdapter implements GenericExecutor {
@@ -17,6 +20,19 @@ public class BungeeCommandSenderAdapter implements GenericExecutor {
     @Override
     public boolean hasPermission(String permission) {
         return commandSender.hasPermission(permission);
+    }
+
+    @Override
+    public UUID getUuid() {
+        if (commandSender instanceof ProxiedPlayer) {
+            return ((ProxiedPlayer) commandSender).getUniqueId();
+        }
+        return null;
+    }
+
+    @Override
+    public String getName() {
+        return commandSender.getName();
     }
 
     @Override

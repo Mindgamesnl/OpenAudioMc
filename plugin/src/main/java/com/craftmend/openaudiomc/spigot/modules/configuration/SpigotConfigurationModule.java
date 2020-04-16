@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.configuration;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.interfaces.OAConfiguration;
 import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -214,6 +215,12 @@ public class SpigotConfigurationModule implements OAConfiguration {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void saveAllhard() {
+        saveAll();
+        OpenAudioMcSpigot.getInstance().saveResource("config.yml", true);
     }
 
     @Override
