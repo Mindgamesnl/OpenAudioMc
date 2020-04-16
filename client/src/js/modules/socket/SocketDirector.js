@@ -26,7 +26,7 @@ export class SocketDirector {
                         }
 
                         // handle the cool things
-                        let response = result.responses[0].response;
+                        let response = result.response;
 
                         // loop over them and try to find one with a secure tag
                         // if you cant find one like the blind fuck that

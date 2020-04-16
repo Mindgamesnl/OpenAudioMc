@@ -2,10 +2,14 @@ package com.craftmend.openaudiomc.generic.networking.rest;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.networking.rest.adapters.RegistrationResponseAdapter;
+import com.craftmend.openaudiomc.generic.networking.rest.data.RestSuccessResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.GenericApiResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.AbstractRestResponse;
+import com.craftmend.openaudiomc.generic.networking.rest.responses.RegistrationResponse;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
@@ -16,10 +20,13 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
 
-public class RestRequest<R extends AbstractRestResponse> {
+public class RestRequest {
 
     private String endpoint;
     private Map<String, String> variables = new HashMap<>();
+    private static final Gson GSON = new GsonBuilder()
+            .registerTypeAdapter(RegistrationResponse.class, new RegistrationResponseAdapter())
+            .create();
 
     public RestRequest(String endpoint) {
         this.endpoint = endpoint;
@@ -30,15 +37,14 @@ public class RestRequest<R extends AbstractRestResponse> {
         return this;
     }
 
-    public CompletableFuture<GenericApiResponse<R>> execute() {
-        CompletableFuture<GenericApiResponse<R>> response = new CompletableFuture<>();
+    public CompletableFuture<GenericApiResponse> execute() {
+        CompletableFuture<GenericApiResponse> response = new CompletableFuture<>();
         OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
             try {
                 String url = getUrl();
-                OpenAudioLogger.toConsole("Requesting endpoint " + url);
-                response.complete(new Gson().fromJson(readHttp(url), new TypeToken<GenericApiResponse<R>>(){}.getType()));
-            } catch (IOException e) {
-                OpenAudioMc.getInstance().getStateService().setState(new IdleState("IOException while shaking hands"));
+                response.complete(GSON.fromJson(readHttp(url), GenericApiResponse.class));
+            } catch (Exception e) {
+                OpenAudioMc.getInstance().getStateService().setState(new IdleState("Exception while shaking hands"));
                 e.printStackTrace();
             }
         });
