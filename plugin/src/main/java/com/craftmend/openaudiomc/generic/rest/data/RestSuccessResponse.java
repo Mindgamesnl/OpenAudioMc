@@ -1,6 +1,6 @@
-package com.craftmend.openaudiomc.generic.networking.rest.data;
+package com.craftmend.openaudiomc.generic.rest.data;
 
-import com.craftmend.openaudiomc.generic.networking.rest.interfaces.AbstractRestResponse;
+import com.craftmend.openaudiomc.generic.rest.interfaces.AbstractRestResponse;
 import lombok.Getter;
 
 @Getter

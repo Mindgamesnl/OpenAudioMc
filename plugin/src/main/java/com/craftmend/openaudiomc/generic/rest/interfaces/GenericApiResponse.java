@@ -1,11 +1,9 @@
-package com.craftmend.openaudiomc.generic.networking.rest.interfaces;
+package com.craftmend.openaudiomc.generic.rest.interfaces;
 
-import com.craftmend.openaudiomc.generic.networking.rest.data.RestErrorResponse;
-import com.craftmend.openaudiomc.generic.networking.rest.data.RestSuccessResponse;
+import com.craftmend.openaudiomc.generic.rest.data.RestErrorResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.internal.LinkedTreeMap;
-import com.google.gson.reflect.TypeToken;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

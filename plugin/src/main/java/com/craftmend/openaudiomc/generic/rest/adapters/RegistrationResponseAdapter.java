@@ -1,8 +1,6 @@
-package com.craftmend.openaudiomc.generic.networking.rest.adapters;
+package com.craftmend.openaudiomc.generic.rest.adapters;
 
-import com.craftmend.openaudiomc.generic.networking.rest.data.RestSuccessResponse;
-import com.craftmend.openaudiomc.generic.networking.rest.responses.RegistrationResponse;
-import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
+import com.craftmend.openaudiomc.generic.rest.responses.RegistrationResponse;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
