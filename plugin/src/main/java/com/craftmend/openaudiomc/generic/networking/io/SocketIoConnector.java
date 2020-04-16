@@ -40,8 +40,8 @@ import java.util.function.Consumer;
 public class SocketIoConnector {
 
     private Socket socket;
-    private RestRequest<LoginResponse> plusHandler = new RestRequest<>("/api/v1/servers/login/" + OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey());
-    private RestRequest<EmptyResponse> logoutHandler = new RestRequest<>("/api/v1/servers/logout/" + OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey());
+    private RestRequest plusHandler = new RestRequest("/api/v1/servers/login/" + OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue());
+    private RestRequest logoutHandler = new RestRequest("/api/v1/servers/logout/" + OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue());
 
     public void initializeLogout() {
         OpenAudioMc.getInstance().getStateService().addListener((oldState, updagtedState) -> {
@@ -103,7 +103,7 @@ public class SocketIoConnector {
                         return;
                     }
 
-                    LoginResponse loginResponse = response.getResponses().get(0).getResponse();
+                    LoginResponse loginResponse = response.getResponse(LoginResponse.class);
                     Instant finish = Instant.now();
                     OpenAudioLogger.toConsole("Assigned relay: " + loginResponse.getAssignedOpenAudioServer().getInsecureEndpoint() + " request took " + Duration.between(request, finish).toMillis() + "MS");
 
