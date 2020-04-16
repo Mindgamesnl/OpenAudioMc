@@ -11,6 +11,6 @@ public class PlusPlayer {
 
     private String name;
     private UUID uuid;
-    private boolean connected;
+    private String key;
 
 }

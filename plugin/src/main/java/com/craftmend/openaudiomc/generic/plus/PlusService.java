@@ -11,4 +11,8 @@ public class PlusService {
         playerSynchroniser = new PlayerSynchroniser(this, openAudioMc);
     }
 
+    public void shutdown() {
+        playerSynchroniser.deleteAll();
+    }
+
 }

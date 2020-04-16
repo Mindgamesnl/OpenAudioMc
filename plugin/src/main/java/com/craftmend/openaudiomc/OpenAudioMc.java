@@ -88,6 +88,7 @@ public class OpenAudioMc {
 
     @Getter private static OpenAudioMc instance;
 
+    @Getter private boolean isDisabled = false;
     @Getter private static final OpenAudioApi api = new OpenAudioApi();
     @Getter private static final String server = "http://craftmendserver.eu:81";
     @Getter private static final Gson gson = new GsonBuilder()
@@ -135,8 +136,10 @@ public class OpenAudioMc {
     }
 
     public void disable() {
+        isDisabled = true;
         if (redisService != null) redisService.shutdown();
         OAConfiguration.saveAll();
+        this.plusService.shutdown();
         if (stateService.getCurrentState().isConnected()) {
             networkingService.stop();
         }

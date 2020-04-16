@@ -1,12 +1,15 @@
 package com.craftmend.openaudiomc.generic.rest;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.rest.adapters.RegistrationResponseAdapter;
 import com.craftmend.openaudiomc.generic.rest.interfaces.GenericApiResponse;
 import com.craftmend.openaudiomc.generic.rest.responses.RegistrationResponse;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import lombok.Setter;
+import okhttp3.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,7 +21,9 @@ import java.util.concurrent.CompletableFuture;
 
 public class RestRequest {
 
+    public static final OkHttpClient client = new OkHttpClient();
     private String endpoint;
+    @Setter private String body = null;
     private Map<String, String> variables = new HashMap<>();
     private static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(RegistrationResponse.class, new RegistrationResponseAdapter())
@@ -38,9 +43,14 @@ public class RestRequest {
         OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
             try {
                 String url = getUrl();
-                response.complete(GSON.fromJson(readHttp(url), GenericApiResponse.class));
+                String output = readHttp(url);
+                try {
+                    response.complete(GSON.fromJson(output, GenericApiResponse.class));
+                } catch (Exception e) {
+                    OpenAudioLogger.toConsole("Failed to handle output: " + output);
+                }
             } catch (Exception e) {
-                OpenAudioMc.getInstance().getStateService().setState(new IdleState("Exception while shaking hands"));
+                OpenAudioMc.getInstance().getStateService().setState(new IdleState("Net exception"));
                 e.printStackTrace();
             }
         });
@@ -62,11 +72,20 @@ public class RestRequest {
     }
 
     private String readHttp(String url) throws IOException {
-        try (Scanner scanner = new Scanner(new URL(url).openStream(),
-                StandardCharsets.UTF_8.toString())) {
-            scanner.useDelimiter("\\A");
-            return scanner.hasNext() ? scanner.next() : "";
+        Request.Builder request = new Request.Builder()
+                .url(url);
+
+        if (this.body == null) {
+            request = request.get();
+        } else {
+            RequestBody body = RequestBody.create(
+                    MediaType.parse("application/json"), this.body);
+            request = request.post(body);
         }
+
+        Call call = client.newCall(request.build());
+        Response response = call.execute();
+        return response.body().string();
     }
 
 }
