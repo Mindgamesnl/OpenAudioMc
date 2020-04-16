@@ -10,6 +10,8 @@ public class MigrationUtil {
         // old client
         if (main.getOAConfiguration().getString(StorageKey.AUTH_PUBLIC_URL).contains("app.openaudiomc")) {
             main.getOAConfiguration().setString(StorageKey.AUTH_PUBLIC_URL, "https://client.openaudiomc.net/?&data=");
+            // hard update! I'm sorry...
+            main.getOAConfiguration().saveAllhard();
         }
 
     }

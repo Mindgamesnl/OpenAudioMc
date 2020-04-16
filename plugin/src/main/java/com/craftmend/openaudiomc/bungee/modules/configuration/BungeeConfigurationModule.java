@@ -30,8 +30,8 @@ public class BungeeConfigurationModule implements OAConfiguration {
 
     public BungeeConfigurationModule() {
         //save default
-        saveDefaultFile("data.yml");
-        saveDefaultFile("config.yml");
+        saveDefaultFile("data.yml", false);
+        saveDefaultFile("config.yml", false);
 
         dataConfig = getFile("data.yml");
         mainConfig = getFile("config.yml");
@@ -210,6 +210,12 @@ public class BungeeConfigurationModule implements OAConfiguration {
     }
 
     @Override
+    public void saveAllhard() {
+        saveAll();
+        saveDefaultFile("config.yml", true);
+    }
+
+    @Override
     public boolean hasDataFile() {
         return true;
     }
@@ -224,14 +230,14 @@ public class BungeeConfigurationModule implements OAConfiguration {
         return load;
     }
 
-    private void saveDefaultFile(String filename) {
+    private void saveDefaultFile(String filename, boolean hard) {
         if (!OpenAudioMcBungee.getInstance().getDataFolder().exists())
             OpenAudioMcBungee.getInstance().getDataFolder().mkdir();
 
         File file = new File(OpenAudioMcBungee.getInstance().getDataFolder(), filename);
 
 
-        if (!file.exists()) {
+        if (!file.exists() || hard) {
             try (InputStream in = OpenAudioMcBungee.getInstance().getResourceAsStream(filename)) {
                 Files.copy(in, file.toPath());
             } catch (IOException e) {

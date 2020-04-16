@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.generic.commands;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.CallSubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.NotificationSubCommand;
+import com.craftmend.openaudiomc.generic.commands.subcommands.PlusSubCommand;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import lombok.Getter;
 
@@ -20,6 +21,7 @@ public class CommandModule {
     public CommandModule() {
         registerSubCommand(new CallSubCommand(this));
         registerSubCommand(new NotificationSubCommand(this));
+        registerSubCommand(new PlusSubCommand());
     }
 
     /**

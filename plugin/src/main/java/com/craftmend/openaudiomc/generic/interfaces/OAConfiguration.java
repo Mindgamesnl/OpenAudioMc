@@ -19,6 +19,7 @@ public interface OAConfiguration {
     boolean getBoolean(StorageKey storageKey);
     void reloadConfig();
     void saveAll();
+    void saveAllhard();
     boolean hasDataFile();
 
 }
