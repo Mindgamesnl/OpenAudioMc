@@ -40,10 +40,12 @@ import java.util.function.Consumer;
 public class SocketIoConnector {
 
     private Socket socket;
-    private RestRequest plusHandler = new RestRequest("/api/v1/servers/login/" + OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue());
-    private RestRequest logoutHandler = new RestRequest("/api/v1/servers/logout/" + OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue());
+    private RestRequest plusHandler;
+    private RestRequest logoutHandler;
 
     public void initializeLogout() {
+        plusHandler = new RestRequest("/api/v1/servers/login/" + OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue());;
+        logoutHandler = new RestRequest("/api/v1/servers/logout/" + OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue());;
         OpenAudioMc.getInstance().getStateService().addListener((oldState, updagtedState) -> {
             if (oldState instanceof ConnectedState) {
                 logoutHandler.execute();
@@ -121,7 +123,7 @@ public class SocketIoConnector {
                     OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(() -> {
                         if (OpenAudioMc.getInstance().getStateService().getCurrentState() instanceof ConnectingState) {
                             OpenAudioLogger.toConsole("Connecting timed out.");
-                            OpenAudioMc.getInstance().getStateService().setState(new IdleState("Connecting to the relay timed out"));
+                            OpenAudioMc.getInstance().getStateService().setState(new IdleState("Connecting to the relay timed out (socket)"));
                         }
                     }, 20 * 35);
 
