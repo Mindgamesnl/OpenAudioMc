@@ -49,27 +49,21 @@ public class AuthenticationService {
 
         if (spigotConfigurationModule.getString(StorageKey.AUTH_PRIVATE_KEY).equals("not-set") || getAuthVersion() != keyVersion) {
             //setup process
-            try {
-                registrationProvider.execute()
-                        .thenAccept((response -> {
-                            if (response.getErrors().size() == 0) {
-                                RegistrationResponse registrationResponse = response.getResponses().get(0).getResponse();
-                                serverKeySet.setPrivateKey(new Key(registrationResponse.getPrivateKey()));
-                                serverKeySet.setPublicKey(new Key(registrationResponse.getPublicKey()));
-                                spigotConfigurationModule.setString(StorageKey.AUTH_PRIVATE_KEY, serverKeySet.getPrivateKey().getValue());
-                                spigotConfigurationModule.setString(StorageKey.AUTH_PUBLIC_KEY, serverKeySet.getPublicKey().getValue());
-                                spigotConfigurationModule.setInt(StorageLocation.DATA_FILE, StorageKey.AUTH_KEY_VERSION.getPath(), keyVersion);
-                                isSuccesfull = true;
-                            } else {
-                                OpenAudioLogger.toConsole("Failed to request token. Error: " + new Gson().toJson(response.getErrors()));
-                                isSuccesfull = false;
-                            }
-                        }));
-            } catch (IOException e) {
-                OpenAudioLogger.toConsole("Failed to request token.");
-                isSuccesfull = false;
-                e.printStackTrace();
-            }
+            registrationProvider.execute()
+                    .thenAccept((response -> {
+                        if (response.getErrors().size() == 0) {
+                            RegistrationResponse registrationResponse = response.getResponses().get(0).getResponse();
+                            serverKeySet.setPrivateKey(new Key(registrationResponse.getPrivateKey()));
+                            serverKeySet.setPublicKey(new Key(registrationResponse.getPublicKey()));
+                            spigotConfigurationModule.setString(StorageKey.AUTH_PRIVATE_KEY, serverKeySet.getPrivateKey().getValue());
+                            spigotConfigurationModule.setString(StorageKey.AUTH_PUBLIC_KEY, serverKeySet.getPublicKey().getValue());
+                            spigotConfigurationModule.setInt(StorageLocation.DATA_FILE, StorageKey.AUTH_KEY_VERSION.getPath(), keyVersion);
+                            isSuccesfull = true;
+                        } else {
+                            OpenAudioLogger.toConsole("Failed to request token. Error: " + new Gson().toJson(response.getErrors()));
+                            isSuccesfull = false;
+                        }
+                    }));
         } else {
             serverKeySet.setPrivateKey(new Key(spigotConfigurationModule.getString(StorageKey.AUTH_PRIVATE_KEY)));
             serverKeySet.setPublicKey(new Key(spigotConfigurationModule.getString(StorageKey.AUTH_PUBLIC_KEY)));

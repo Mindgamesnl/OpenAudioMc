@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking.rest;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.GenericApiResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.AbstractRestResponse;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
@@ -29,11 +30,13 @@ public class RestRequest<R extends AbstractRestResponse> {
         return this;
     }
 
-    public CompletableFuture<GenericApiResponse<R>> execute() throws IOException {
+    public CompletableFuture<GenericApiResponse<R>> execute() {
         CompletableFuture<GenericApiResponse<R>> response = new CompletableFuture<>();
         OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
             try {
-                response.complete(new Gson().fromJson(readHttp(getUrl()), new TypeToken<GenericApiResponse<R>>(){}.getType()));
+                String url = getUrl();
+                OpenAudioLogger.toConsole("Requesting endpoint " + url);
+                response.complete(new Gson().fromJson(readHttp(url), new TypeToken<GenericApiResponse<R>>(){}.getType()));
             } catch (IOException e) {
                 OpenAudioMc.getInstance().getStateService().setState(new IdleState("IOException while shaking hands"));
                 e.printStackTrace();
