@@ -5,10 +5,10 @@ import lombok.Data;
 import java.util.UUID;
 
 @Data
-public class PlusAccount {
+public class PlusServer {
 
-    private UUID privateKey;
-    private UUID publicKey;
-    private UUID currentRelay;
+    private UUID relayId;
+    private String insecureEndpoint;
+    private String secureEndpoint;
 
 }
