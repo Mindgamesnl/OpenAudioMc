@@ -1,16 +1,12 @@
-package com.craftmend.openaudiomc.generic.networking.rest;
+package com.craftmend.openaudiomc.generic.rest;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
-import com.craftmend.openaudiomc.generic.networking.rest.adapters.RegistrationResponseAdapter;
-import com.craftmend.openaudiomc.generic.networking.rest.data.RestSuccessResponse;
-import com.craftmend.openaudiomc.generic.networking.rest.interfaces.GenericApiResponse;
-import com.craftmend.openaudiomc.generic.networking.rest.interfaces.AbstractRestResponse;
-import com.craftmend.openaudiomc.generic.networking.rest.responses.RegistrationResponse;
+import com.craftmend.openaudiomc.generic.rest.adapters.RegistrationResponseAdapter;
+import com.craftmend.openaudiomc.generic.rest.interfaces.GenericApiResponse;
+import com.craftmend.openaudiomc.generic.rest.responses.RegistrationResponse;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.net.URL;
