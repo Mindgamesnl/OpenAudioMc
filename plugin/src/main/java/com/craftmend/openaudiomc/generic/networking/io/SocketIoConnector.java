@@ -46,11 +46,7 @@ public class SocketIoConnector {
     public void initializeLogout() {
         OpenAudioMc.getInstance().getStateService().addListener((oldState, updagtedState) -> {
             if (oldState instanceof ConnectedState) {
-                try {
-                    logoutHandler.execute();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                logoutHandler.execute();
             }
         });
     }
