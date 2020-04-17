@@ -24,6 +24,7 @@ public class PlayerSynchroniser implements Runnable {
 
         // is it enabled? No? Then dont start the task
         if (!main.getOAConfiguration().getBoolean(StorageKey.PLUS_SYNC_PLAYERS)) return;
+        if (main.isSlave()) return;
 
         // update 10 seconds
         int timeout = 20 * 5;

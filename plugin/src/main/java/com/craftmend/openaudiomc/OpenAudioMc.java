@@ -21,6 +21,7 @@ import com.craftmend.openaudiomc.generic.state.StateService;
 
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfigurationModule;
+import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import com.craftmend.openaudiomc.spigot.modules.show.adapter.RunnableTypeAdapter;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 import com.craftmend.openaudiomc.spigot.services.scheduling.SpigotTaskProvider;
@@ -91,6 +92,7 @@ public class OpenAudioMc {
     @Getter private boolean isDisabled = false;
     @Getter private static final OpenAudioApi api = new OpenAudioApi();
     @Getter private static final String server = "http://craftmendserver.eu:81";
+    @Getter private Class<? extends INetworkingService> serviceImplementation;
     @Getter private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(AbstractPacketPayload.class, new AbstractPacketAdapter())
             .registerTypeAdapter(ShowRunnable.class, new RunnableTypeAdapter())
@@ -102,7 +104,7 @@ public class OpenAudioMc {
     public OpenAudioMc(Platform platform, Class<? extends INetworkingService> networkingService) throws Exception {
         instance = this;
         this.platform = platform;
-
+        this.serviceImplementation = networkingService;
         // if spigot, load the spigot configuration system and the bungee one for bungee
         if (platform == Platform.SPIGOT) {
             this.serverService = new ServerService();
@@ -123,16 +125,31 @@ public class OpenAudioMc {
         }
 
         this.flagSet = new FlagSet();
-        this.authenticationService = new AuthenticationService();
+        this.authenticationService = new AuthenticationService(() -> {
+            try {
+                boot();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void boot() throws Exception {
         this.stateService = new StateService();
         this.timeService = new TimeService();
         this.mediaModule = new MediaModule();
 
-        this.networkingService = networkingService.getConstructor().newInstance();
+        this.networkingService = serviceImplementation.getConstructor().newInstance();
 
         this.voiceRoomManager = new VoiceRoomManager(this);
         this.commandModule = new CommandModule();
         this.plusService = new PlusService(this);
+    }
+
+    public boolean isSlave() {
+        if (platform == Platform.BUNGEE) return false;
+        if (OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.STAND_ALONE) return false;
+        return true;
     }
 
     public void disable() {

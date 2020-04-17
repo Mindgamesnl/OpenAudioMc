@@ -22,9 +22,9 @@ public class AuthenticationService {
     @Getter private String failureMessage = "Oh no, it looks like the initial setup of OpenAudioMc has failed. Please try to restart the server and try again, if that still does not work, please contact OpenAudioMc staff or support.";
     private final int keyVersion = 3; // OpenAudioMc-Plus update
 
-    public AuthenticationService() throws IllegalStateException {
+    public AuthenticationService(Runnable callback) throws Exception {
         OpenAudioLogger.toConsole("Starting authentication module");
-        loadData();
+        loadData(callback);
 
         // if (!isSuccesfull) throw new IllegalStateException("Failed to parse tokens");
     }
@@ -42,7 +42,7 @@ public class AuthenticationService {
      * Load the tokens from files.
      * If they dont exist, then they will be requested by the cool OpenAuioMc api.
      */
-    private void loadData() {
+    private void loadData(Runnable whenFinished) throws Exception {
         OAConfiguration spigotConfigurationModule = OpenAudioMc.getInstance().getOAConfiguration();
 
         if (spigotConfigurationModule.getString(StorageKey.AUTH_PRIVATE_KEY).equals("not-set") || getAuthVersion() != keyVersion) {
@@ -62,6 +62,7 @@ public class AuthenticationService {
                                 OpenAudioLogger.toConsole("Failed to request token. Error: " + new Gson().toJson(response.getErrors()));
                                 isSuccesfull = false;
                             }
+                            whenFinished.run();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -70,6 +71,7 @@ public class AuthenticationService {
             serverKeySet.setPrivateKey(new Key(spigotConfigurationModule.getString(StorageKey.AUTH_PRIVATE_KEY)));
             serverKeySet.setPublicKey(new Key(spigotConfigurationModule.getString(StorageKey.AUTH_PUBLIC_KEY)));
             isSuccesfull = true;
+            whenFinished.run();
         }
     }
 }
