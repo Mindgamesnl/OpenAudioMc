@@ -15,7 +15,7 @@ import java.util.Map;
 public class MigrationUtil {
 
     public static void handleMigrations(OpenAudioMc main) {
-        // check for old client settings
+        // check for old client settings, update them and then push them to the plus server
         ClientSettings settings = new ClientSettings().load();
         if (!settings.equals(new ClientSettings())) {
             // oh god.. yeah thats no fun.. we need to migrate it..
