@@ -91,7 +91,6 @@ public class OpenAudioMc {
 
     @Getter private boolean isDisabled = false;
     @Getter private static final OpenAudioApi api = new OpenAudioApi();
-    private Runnable postBootHandler;
     @Getter private Class<? extends INetworkingService> serviceImplementation;
     @Getter private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(AbstractPacketPayload.class, new AbstractPacketAdapter())
@@ -101,10 +100,9 @@ public class OpenAudioMc {
     // The platform, easy for detecting what should be enabled and what not ya know
     private Platform platform;
 
-    public OpenAudioMc(Platform platform, Class<? extends INetworkingService> networkingService, Runnable postBoot) throws Exception {
+    public OpenAudioMc(Platform platform, Class<? extends INetworkingService> networkingService) throws Exception {
         instance = this;
         this.platform = platform;
-        this.postBootHandler = postBoot;
         this.serviceImplementation = networkingService;
         // if spigot, load the spigot configuration system and the bungee one for bungee
         if (platform == Platform.SPIGOT) {
@@ -118,24 +116,17 @@ public class OpenAudioMc {
             this.taskProvider = new BungeeTaskProvider();
         }
 
-        MigrationUtil.handleMigrations(this);
-
         // only enable redis if there are packets that require it for this platform
         if (Arrays.stream(ChannelKey.values()).anyMatch(value -> value.getTargetPlatform() == platform)) {
             this.redisService = new RedisService(this.OAConfiguration);
         }
 
         this.flagSet = new FlagSet();
-        this.authenticationService = new AuthenticationService(() -> {
-            try {
-                boot();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
+        this.authenticationService = new AuthenticationService();
 
-    private void boot() throws Exception {
+        // do migration
+        MigrationUtil.handleMigrations(this);
+
         this.stateService = new StateService();
         this.timeService = new TimeService();
         this.mediaModule = new MediaModule();
@@ -145,7 +136,6 @@ public class OpenAudioMc {
         this.voiceRoomManager = new VoiceRoomManager(this);
         this.commandModule = new CommandModule();
         this.plusService = new PlusService(this);
-        this.postBootHandler.run();
     }
 
     public boolean isSlave() {

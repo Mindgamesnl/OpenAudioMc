@@ -79,7 +79,7 @@ public class ClientConnection {
             e.printStackTrace();
         }
 
-        String url = OpenAudioMc.getInstance().getOAConfiguration().getString(StorageKey.AUTH_PUBLIC_URL) +
+        String url = OpenAudioMc.getInstance().getPlusService().getBaseUrl() +
                 session.getToken();
 
         TextComponent message = new TextComponent(Platform.translateColors(Objects.requireNonNull(
@@ -94,23 +94,13 @@ public class ClientConnection {
     public void onConnect() {
         sessionUpdated = true;
         OAConfiguration OAConfiguration = OpenAudioMc.getInstance().getOAConfiguration();
-        String startSound = OAConfiguration.getString(StorageKey.SETTINGS_CLIENT_START_SOUND);
 
         this.isConnected = true;
         this.isWaitingToken = false;
 
-        ClientSettings settings = new ClientSettings().load();
-        if (!settings.equals(new ClientSettings())) {
-            OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientPushSettings(settings));
-        }
-
         OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(
                 () -> {
                     ongoingMedia.forEach(this::sendMedia);
-                    // if a start sound is configured, send it
-                    if (startSound != null && !startSound.equals("none")) {
-                        sendMedia(new Media(startSound));
-                    }
 
                     connectHandlers.forEach(a -> a.run());
 

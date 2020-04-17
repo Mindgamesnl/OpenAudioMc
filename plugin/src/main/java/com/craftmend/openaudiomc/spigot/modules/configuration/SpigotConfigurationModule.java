@@ -37,10 +37,6 @@ public class SpigotConfigurationModule implements OAConfiguration {
         mainConfig = openAudioMcSpigot.getConfig();
 
         OpenAudioLogger.toConsole("Starting configuration module");
-        // migration
-        if (getString(StorageKey.AUTH_PUBLIC_URL).contains("client.openaudiomc.net")) {
-            setString(StorageKey.AUTH_PUBLIC_URL, "https://app.openaudiomc.net/?&data=");
-        }
     }
 
     public void loadSettings() {

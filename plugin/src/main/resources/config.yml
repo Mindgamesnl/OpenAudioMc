@@ -1,3 +1,8 @@
+# OPENAUDIOMC+
+# Most settings have been moved to OpenAudioMc-Plus!
+# You can login by typing /openaudiomc plus
+# Old legacy client settings have been migrated and ware now in there, along with your old settings!
+
 # MESSAGES
 # These are the messages as presented to the client. Be sure to use ' to encapsulate them. If you use ' in your native
 # language (like french), be sure to escape them.
@@ -65,48 +70,6 @@ options:
 
   # Wether temp regions should be looped or not
   loop-temp-regions: false
-
-
-# CLIENT
-# Messages as they get displayed in the web-client.
-# Be sure to surround them in ', like 'text'
-# Leave any of these at "default" to have them set to the text as defined in the web build
-client:
-  # A source (https://help.openaudiomc.net/#media) to a sound that should get played directly after connecting. Leav
-  start-sound: none
-
-  # The title is the small piece of text displayed in the browser tab
-  title: default
-
-  # This can be a url to a direct .png image and will be used as background image
-  background: default
-
-  # This is the message that gets displayed in the center of the web page after connecting
-  welcome-message: default
-
-  # This is the message the player gets to see when an error occurs
-  error-message: default
-
-  # This is the message that gets put in the hue tab after connected
-  hue-connected: default
-
-  # This is the message that gets put in the hue tab while connecting
-  hue-linking: default
-
-  # This is the notification message that gets displayed when a unlinked hue bridge is found on the clients netwrok
-  hue-bridge-found: default
-
-
-# PRIVACY
-# OpenAudioMc has the ability to syncronize some information about your players (Name, UUID and Client state)
-# for your own personal use on the OpenAudioMc-Plus platform. We do NOT store this data for longer than we need to
-# everything gets thrown out as soon as a player disconnects or your server restarts.
-# This data will never be shared with third parties nor do I (Mindgamesnl) personally care to look at them.
-# Disabling any features below might hinder the functioning of your openaudiomc-plus account.
-# It shouldn't really matter but still want you to give the option to opt out, I won't judge, I love you.
-plus:
-  sync-players: true
-
 
 # REDIS
 # Redis is an optional professional feature for OpenAudioMc that (when configured) will sync shows

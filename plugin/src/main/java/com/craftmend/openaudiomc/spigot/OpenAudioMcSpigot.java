@@ -77,37 +77,34 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
 
         // setup core
         try {
-            new OpenAudioMc(Platform.SPIGOT, proxyModule.getMode().getServiceClass(), this::bootSpigot);
+            new OpenAudioMc(Platform.SPIGOT, proxyModule.getMode().getServiceClass());
+            // startup modules and services
+            this.executorService = new ExecutorService(this);
+            this.serverService = new ServerService();
+            this.playerModule = new PlayerModule(this);
+            this.speakerModule = new SpeakerModule(this);
+            this.commandModule = new SpigotCommandModule(this);
+            this.showModule = new ShowModule(this);
+
+            // optional modules
+            if (getServer().getPluginManager().isPluginEnabled("WorldGuard")) {
+                this.regionModule = new RegionModule(this);
+            }
+
+            // set state to idle, to allow connections and such, but only if not a node
+            if (proxyModule.getMode() == ClientMode.NODE) {
+                OpenAudioMc.getInstance().getStateService().setState(new WorkerState());
+            } else {
+                OpenAudioMc.getInstance().getStateService().setState(new IdleState("OpenAudioMc started and awaiting command"));
+            }
+
+            // timing end and calc
+            Instant finish = Instant.now();
+            OpenAudioLogger.toConsole("Starting and loading took " + Duration.between(boot, finish).toMillis() + "MS");
         } catch (Exception e) {
             e.printStackTrace();
             Bukkit.getServer().getPluginManager().disablePlugin(this);
         }
-    }
-
-    private void bootSpigot() {
-        // startup modules and services
-        this.executorService = new ExecutorService(this);
-        this.serverService = new ServerService();
-        this.playerModule = new PlayerModule(this);
-        this.speakerModule = new SpeakerModule(this);
-        this.commandModule = new SpigotCommandModule(this);
-        this.showModule = new ShowModule(this);
-
-        // optional modules
-        if (getServer().getPluginManager().isPluginEnabled("WorldGuard")) {
-            this.regionModule = new RegionModule(this);
-        }
-
-        // set state to idle, to allow connections and such, but only if not a node
-        if (proxyModule.getMode() == ClientMode.NODE) {
-            OpenAudioMc.getInstance().getStateService().setState(new WorkerState());
-        } else {
-            OpenAudioMc.getInstance().getStateService().setState(new IdleState("OpenAudioMc started and awaiting command"));
-        }
-
-        // timing end and calc
-        Instant finish = Instant.now();
-        OpenAudioLogger.toConsole("Starting and loading took " + Duration.between(boot, finish).toMillis() + "MS");
     }
 
     /**

@@ -17,14 +17,14 @@ public enum StorageKey {
     MESSAGE_CALL_ENDED("messages.call-left", StorageLocation.CONFIG_FILE),
     MESSAGE_API_BOOTING("messages.api-starting-up", StorageLocation.CONFIG_FILE),
 
-    SETTING_CLIENT_TITLE("client.title", StorageLocation.CONFIG_FILE),
-    SETTING_CLIENT_BACKGROUND("client.background", StorageLocation.CONFIG_FILE),
-    SETTING_CLIENT_WELCOME_TEXT("client.welcome-message", StorageLocation.CONFIG_FILE),
-    SETTING_CLIENT_ERROR_TEXT("client.error-message", StorageLocation.CONFIG_FILE),
-    SETTINGS_HUE_CONNECTED_TEXT("client.hue-connected", StorageLocation.CONFIG_FILE),
-    SETTINGS_HUE_CONNECTING_TEXT("client.hue-linking", StorageLocation.CONFIG_FILE),
-    SETTINGS_HUE_AVAILABLE_TEXT("client.hue-bridge-found", StorageLocation.CONFIG_FILE),
-    SETTINGS_CLIENT_START_SOUND("client.start-sound", StorageLocation.CONFIG_FILE),
+    @Deprecated SETTING_CLIENT_TITLE("client.title", StorageLocation.CONFIG_FILE),
+    @Deprecated SETTING_CLIENT_BACKGROUND("client.background", StorageLocation.CONFIG_FILE),
+    @Deprecated SETTING_CLIENT_WELCOME_TEXT("client.welcome-message", StorageLocation.CONFIG_FILE),
+    @Deprecated SETTING_CLIENT_ERROR_TEXT("client.error-message", StorageLocation.CONFIG_FILE),
+    @Deprecated SETTINGS_HUE_CONNECTED_TEXT("client.hue-connected", StorageLocation.CONFIG_FILE),
+    @Deprecated SETTINGS_HUE_CONNECTING_TEXT("client.hue-linking", StorageLocation.CONFIG_FILE),
+    @Deprecated SETTINGS_HUE_AVAILABLE_TEXT("client.hue-bridge-found", StorageLocation.CONFIG_FILE),
+    @Deprecated SETTINGS_CLIENT_START_SOUND("client.start-sound", StorageLocation.CONFIG_FILE),
 
     SETTINGS_REMIND_TO_CONNECT("options.remind-to-connect", StorageLocation.CONFIG_FILE),
     SETTINGS_REMIND_TO_CONNECT_INTERVAL("options.remind-to-connect-interval", StorageLocation.CONFIG_FILE),
@@ -39,7 +39,6 @@ public enum StorageKey {
 
     AUTH_PRIVATE_KEY("keyset.private", StorageLocation.DATA_FILE),
     AUTH_PUBLIC_KEY("keyset.public", StorageLocation.DATA_FILE),
-    AUTH_PUBLIC_URL("keyset.base-url", StorageLocation.DATA_FILE),
     AUTH_KEY_VERSION("keyset.key-version", StorageLocation.DATA_FILE),
 
     REDIS_ENABLED("redis.enabled", StorageLocation.CONFIG_FILE),
@@ -48,10 +47,6 @@ public enum StorageKey {
     REDIS_PASSWORD("redis.password", StorageLocation.CONFIG_FILE),
     REDIS_USE_SSL("redis.useSSL", StorageLocation.CONFIG_FILE),
     REDIS_SECTION("redis.section", StorageLocation.CONFIG_FILE),
-
-    PLUS_SYNC_PLAYERS("plus.sync-players", StorageLocation.CONFIG_FILE),
-
-    OPTIONS_SOCKET_MODE("keyset.link-mode", StorageLocation.DATA_FILE)
     ;
 
     @Getter private String path;
