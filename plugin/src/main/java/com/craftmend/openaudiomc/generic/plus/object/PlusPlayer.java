@@ -12,5 +12,11 @@ public class PlusPlayer {
     private String name;
     private UUID uuid;
     private String key;
+    private boolean isConnected;
 
+    // secondary state update for packet
+    public PlusPlayer(UUID uniqueId, boolean isConnected) {
+        this.uuid = uniqueId;
+        this.isConnected = isConnected;
+    }
 }

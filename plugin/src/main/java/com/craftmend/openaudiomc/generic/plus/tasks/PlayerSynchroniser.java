@@ -45,9 +45,14 @@ public class PlayerSynchroniser implements Runnable {
         for (ClientConnection client : main.getNetworkingService().getClients()) {
             if (!trackedPlayers.contains(client.getPlayer().getUniqueId())) {
                 // not tracked yet!
-                playerUpdatePayload.getPlusPlayers().add(new PlusPlayer(client.getPlayer().getName(), client.getPlayer().getUniqueId(), client.getSession().getKey()));
+                playerUpdatePayload.getPlusPlayers().add(new PlusPlayer(client.getPlayer().getName(), client.getPlayer().getUniqueId(), client.getSession().getKey(), client.getIsConnected()));
             }
             currentPlayers.add(client.getPlayer().getUniqueId());
+
+            if (client.isSessionUpdated()) {
+                client.setSessionUpdated(false);
+                playerUpdatePayload.getStateUpdated().add(new PlusPlayer(client.getPlayer().getUniqueId(), client.getIsConnected()));
+            }
         }
 
         // old ones
@@ -59,7 +64,7 @@ public class PlayerSynchroniser implements Runnable {
         }
 
         // If there's something to do then do the thing ye
-        if (!playerUpdatePayload.getOfflinePlayers().isEmpty() || !playerUpdatePayload.getPlusPlayers().isEmpty()) {
+        if (!playerUpdatePayload.getStateUpdated().isEmpty() || !playerUpdatePayload.getOfflinePlayers().isEmpty() || !playerUpdatePayload.getPlusPlayers().isEmpty()) {
             // trigger update
             update(playerUpdatePayload);
             for (PlusPlayer plusPlayer : playerUpdatePayload.getPlusPlayers()) {
