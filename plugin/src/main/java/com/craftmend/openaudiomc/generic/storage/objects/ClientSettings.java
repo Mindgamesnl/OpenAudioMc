@@ -36,6 +36,15 @@ public class ClientSettings {
         hueConnected = config.getString(StorageKey.SETTINGS_HUE_CONNECTED_TEXT);
         hueLinking = config.getString(StorageKey.SETTINGS_HUE_CONNECTING_TEXT);
         hueBridgeFound = config.getString(StorageKey.SETTINGS_HUE_AVAILABLE_TEXT);
+
+        // if any of them seem to be dead, just reset them
+        if (title.startsWith("<un")) title = "default";
+        if (background.startsWith("<un")) background = "default";
+        if (welcomeMessage.startsWith("<un")) welcomeMessage = "default";
+        if (errorMessage.startsWith("<un")) errorMessage = "default";
+        if (hueConnected.startsWith("<un")) hueConnected = "default";
+        if (hueLinking.startsWith("<un")) hueLinking = "default";
+        if (hueBridgeFound.startsWith("<un")) hueBridgeFound = "default";
         return this;
     }
 
