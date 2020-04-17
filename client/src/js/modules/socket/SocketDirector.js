@@ -1,6 +1,9 @@
 import {fetch} from "../../../libs/github.fetch";
 import UrlReader from "../../helpers/UrlReader";
 import ClientTokenSet from "../../helpers/ClientTokenSet";
+import {parseStyle} from "../../helpers/MinecraftColorCodes";
+import {Channel} from "../media/objects/Channel";
+import {Sound} from "../media/objects/Sound";
 
 export class SocketDirector {
 
@@ -8,7 +11,7 @@ export class SocketDirector {
         this.host = host;
     }
 
-    route() {
+    route(openAudioMc) {
         return new Promise((accept, reject) => {
 
             // cors workaround
@@ -38,7 +41,53 @@ export class SocketDirector {
                         if (relayHost == null) relayHost = response.insecureEndpoint;
 
                         // complete the promise with the resulted url
-                        console.log("accepting")
+                        console.log("accepting and applying settings")
+
+                        openAudioMc.debugPrint("Updating settings...");
+                        const background = response.backgroundImage;
+                        const title = response.title;
+                        const welcomeMessage = response.clientWelcomeMessage;
+                        const errorMessage = response.clientErrorMessage;
+
+                        let errorHtml = "";
+                        parseStyle(errorMessage).childNodes.forEach(node => {
+                            errorHtml += node.outerHTML;
+                        });
+
+                        let welcomeHtml = "";
+                        parseStyle(welcomeMessage).childNodes.forEach(node => {
+                            welcomeHtml += node.outerHTML;
+                        });
+
+                        if (errorMessage !== "") openAudioMc.getMessages().errorMessage = errorHtml;
+                        if (welcomeMessage !== "") openAudioMc.getMessages().welcomeMessage = welcomeHtml;
+
+                        if (background !== "") {
+                            document.getElementById("page").style = "vertical-align: middle;\n" +
+                                "    background:\n" +
+                                "            url(" + background + ");\n" +
+                                "    -webkit-background-size: cover;\n" +
+                                "    background-size: cover;"
+                        }
+
+                        if (response.startSound != "") {
+                            const createdChannel = new Channel("startsound");
+                            const createdMedia = new Sound(response.startSound);
+                            createdMedia.openAudioMc = openAudioMc;
+                            createdMedia.setOa(openAudioMc);
+                            createdMedia.finalize().then(ready => {
+                                openAudioMc.getMediaManager().mixer.addChannel(createdChannel);
+                                createdChannel.addSound(createdMedia);
+                                createdChannel.setChannelVolume(100);
+                                createdChannel.updateFromMasterVolume();
+                                createdMedia.finish();
+                            });
+                        }
+
+                        if (title !== "default") {
+                            document.title = title;
+                        }
+
                         accept(relayHost);
                     })
                         .catch((e => {

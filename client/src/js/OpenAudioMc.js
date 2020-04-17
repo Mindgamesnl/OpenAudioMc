@@ -46,7 +46,7 @@ export class OpenAudioMc extends Getters {
 
         // request a socket service, then do the booting
         const director = new SocketDirector("https://plus.openaudiomc.net/");
-        director.route()
+        director.route(this)
             .then((host) => {
                 this.socketModule = new SocketModule(this, host);
                 this.messages.apply();
