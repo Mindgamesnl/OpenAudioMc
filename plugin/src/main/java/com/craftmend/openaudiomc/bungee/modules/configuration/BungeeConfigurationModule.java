@@ -22,7 +22,7 @@ import java.util.Set;
 
 public class BungeeConfigurationModule implements OAConfiguration {
 
-    @Getter private ClientSettings clientSettings;
+    @Deprecated @Getter private ClientSettings clientSettings;
     private Configuration mainConfig;
     private Configuration dataConfig;
 

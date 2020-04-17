@@ -40,19 +40,21 @@ public class SocketIoConnector {
     private Socket socket;
     private RestRequest plusHandler;
     private RestRequest logoutHandler;
-
-    public void initializeLogout() {
-        plusHandler = new RestRequest("/api/v1/servers/login/" + OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue());;
-        logoutHandler = new RestRequest("/api/v1/servers/logout/" + OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue());;
-        OpenAudioMc.getInstance().getStateService().addListener((oldState, updagtedState) -> {
-            if (oldState instanceof ConnectedState) {
-                logoutHandler.execute();
-            }
-        });
-    }
+    private boolean registeredLogout = false;
 
     public void setupConnection() throws IOException {
         if (!OpenAudioMc.getInstance().getStateService().getCurrentState().canConnect()) return;
+
+        if (!registeredLogout) {
+            plusHandler = new RestRequest("/api/v1/servers/login/" + OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue());;
+            logoutHandler = new RestRequest("/api/v1/servers/logout/" + OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue());;
+            OpenAudioMc.getInstance().getStateService().addListener((oldState, updagtedState) -> {
+                if (oldState instanceof ConnectedState) {
+                    logoutHandler.execute();
+                }
+            });
+            registeredLogout = true;
+        }
 
         ProxySelector.setDefault(new NullProxySelector());
 
@@ -147,6 +149,9 @@ public class SocketIoConnector {
                 if (client.isWaitingToken()) {
                     client.getPlayer().sendMessage(message);
                     client.setWaitingToken(false);
+                }
+                if (client.isConnected()) {
+                    client.onDisconnect();
                 }
             }
         });

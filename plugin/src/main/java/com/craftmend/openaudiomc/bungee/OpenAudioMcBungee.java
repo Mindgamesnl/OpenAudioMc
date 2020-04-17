@@ -38,23 +38,20 @@ public class OpenAudioMcBungee extends Plugin {
 
         // setup core
         try {
-            new OpenAudioMc(Platform.BUNGEE, ClientMode.STAND_ALONE.getServiceClass(), this::bootBungee);
+            new OpenAudioMc(Platform.BUNGEE, ClientMode.STAND_ALONE.getServiceClass());
+            this.playerManager = new PlayerManager(this);
+            this.commandModule = new BungeeCommandModule(this);
+            this.nodeManager = new NodeManager(this);
+
+            // set state to idle, to allow connections and such
+            OpenAudioMc.getInstance().getStateService().setState(new IdleState("OpenAudioMc started and awaiting command"));
+
+            // timing end and calc
+            Instant finish = Instant.now();
+            OpenAudioLogger.toConsole("Starting and loading took " + Duration.between(boot, finish).toMillis() + "MS");
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private void bootBungee() {
-        this.playerManager = new PlayerManager(this);
-        this.commandModule = new BungeeCommandModule(this);
-        this.nodeManager = new NodeManager(this);
-
-        // set state to idle, to allow connections and such
-        OpenAudioMc.getInstance().getStateService().setState(new IdleState("OpenAudioMc started and awaiting command"));
-
-        // timing end and calc
-        Instant finish = Instant.now();
-        OpenAudioLogger.toConsole("Starting and loading took " + Duration.between(boot, finish).toMillis() + "MS");
     }
 
     /**

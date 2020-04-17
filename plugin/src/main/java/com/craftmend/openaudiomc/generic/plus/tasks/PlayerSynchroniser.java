@@ -7,7 +7,6 @@ import com.craftmend.openaudiomc.generic.plus.PlusService;
 import com.craftmend.openaudiomc.generic.plus.object.PlusPlayer;
 import com.craftmend.openaudiomc.generic.plus.updates.PlayerUpdatePayload;
 import com.craftmend.openaudiomc.generic.rest.RestRequest;
-import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,7 +22,7 @@ public class PlayerSynchroniser implements Runnable {
         deleteAll();
 
         // is it enabled? No? Then dont start the task
-        if (!main.getOAConfiguration().getBoolean(StorageKey.PLUS_SYNC_PLAYERS)) return;
+        if (!service.isPlusEnabled()) return;
         if (main.isSlave()) return;
 
         // update 10 seconds

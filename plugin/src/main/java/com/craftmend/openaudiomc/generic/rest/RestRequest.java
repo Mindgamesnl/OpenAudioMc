@@ -41,20 +41,25 @@ public class RestRequest {
     public CompletableFuture<GenericApiResponse> execute() {
         CompletableFuture<GenericApiResponse> response = new CompletableFuture<>();
         OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
-            try {
-                String url = getUrl();
-                String output = readHttp(url);
-                try {
-                    response.complete(GSON.fromJson(output, GenericApiResponse.class));
-                } catch (Exception e) {
-                    OpenAudioLogger.toConsole("Failed to handle output: " + output);
-                }
-            } catch (Exception e) {
-                OpenAudioMc.getInstance().getStateService().setState(new IdleState("Net exception"));
-                e.printStackTrace();
-            }
+            response.complete(executeSync());
         });
         return response;
+    }
+
+    public GenericApiResponse executeSync() {
+        try {
+            String url = getUrl();
+            String output = readHttp(url);
+            try {
+                return GSON.fromJson(output, GenericApiResponse.class);
+            } catch (Exception e) {
+                OpenAudioLogger.toConsole("Failed to handle output: " + output);
+            }
+        } catch (Exception e) {
+            OpenAudioMc.getInstance().getStateService().setState(new IdleState("Net exception"));
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private String getUrl() {

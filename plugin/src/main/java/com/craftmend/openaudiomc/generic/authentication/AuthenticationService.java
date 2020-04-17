@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.generic.authentication;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.rest.interfaces.GenericApiResponse;
 import com.craftmend.openaudiomc.generic.rest.responses.RegistrationResponse;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.generic.interfaces.OAConfiguration;
@@ -17,20 +18,24 @@ public class AuthenticationService {
 
     private RestRequest registrationProvider = new RestRequest("/api/v1/servers/register");
 
-    @Getter private ServerKeySet serverKeySet = new ServerKeySet();
-    @Getter private boolean isSuccesfull = false;
-    @Getter private String failureMessage = "Oh no, it looks like the initial setup of OpenAudioMc has failed. Please try to restart the server and try again, if that still does not work, please contact OpenAudioMc staff or support.";
+    @Getter
+    private ServerKeySet serverKeySet = new ServerKeySet();
+    @Getter
+    private boolean isSuccesfull = false;
+    @Getter
+    private String failureMessage = "Oh no, it looks like the initial setup of OpenAudioMc has failed. Please try to restart the server and try again, if that still does not work, please contact OpenAudioMc staff or support.";
     private final int keyVersion = 3; // OpenAudioMc-Plus update
 
-    public AuthenticationService(Runnable callback) throws Exception {
+    public AuthenticationService() throws IllegalStateException {
         OpenAudioLogger.toConsole("Starting authentication module");
-        loadData(callback);
+        loadData();
 
         // if (!isSuccesfull) throw new IllegalStateException("Failed to parse tokens");
     }
 
     /**
      * version of the authentication version that's currently stored
+     *
      * @return version
      */
     public int getAuthVersion() {
@@ -42,36 +47,35 @@ public class AuthenticationService {
      * Load the tokens from files.
      * If they dont exist, then they will be requested by the cool OpenAuioMc api.
      */
-    private void loadData(Runnable whenFinished) throws Exception {
+    private void loadData() {
         OAConfiguration spigotConfigurationModule = OpenAudioMc.getInstance().getOAConfiguration();
 
         if (spigotConfigurationModule.getString(StorageKey.AUTH_PRIVATE_KEY).equals("not-set") || getAuthVersion() != keyVersion) {
+            OpenAudioLogger.toConsole("Creating account...");
             //setup process
-            registrationProvider.execute()
-                    .thenAccept((response -> {
-                        try {
-                            if (response.getErrors().isEmpty()) {
-                                RegistrationResponse registrationResponse = response.getResponse(RegistrationResponse.class);
-                                serverKeySet.setPrivateKey(new Key(registrationResponse.getPrivateKey()));
-                                serverKeySet.setPublicKey(new Key(registrationResponse.getPublicKey()));
-                                spigotConfigurationModule.setString(StorageKey.AUTH_PRIVATE_KEY, serverKeySet.getPrivateKey().getValue());
-                                spigotConfigurationModule.setString(StorageKey.AUTH_PUBLIC_KEY, serverKeySet.getPublicKey().getValue());
-                                spigotConfigurationModule.setInt(StorageLocation.DATA_FILE, StorageKey.AUTH_KEY_VERSION.getPath(), keyVersion);
-                                isSuccesfull = true;
-                            } else {
-                                OpenAudioLogger.toConsole("Failed to request token. Error: " + new Gson().toJson(response.getErrors()));
-                                isSuccesfull = false;
-                            }
-                            whenFinished.run();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }));
+            GenericApiResponse response = registrationProvider.executeSync();
+            try {
+                if (response.getErrors().isEmpty()) {
+                    RegistrationResponse registrationResponse = response.getResponse(RegistrationResponse.class);
+                    serverKeySet.setPrivateKey(new Key(registrationResponse.getPrivateKey()));
+                    serverKeySet.setPublicKey(new Key(registrationResponse.getPublicKey()));
+                    spigotConfigurationModule.setString(StorageKey.AUTH_PRIVATE_KEY, serverKeySet.getPrivateKey().getValue());
+                    spigotConfigurationModule.setString(StorageKey.AUTH_PUBLIC_KEY, serverKeySet.getPublicKey().getValue());
+                    spigotConfigurationModule.setInt(StorageLocation.DATA_FILE, StorageKey.AUTH_KEY_VERSION.getPath(), keyVersion);
+                    isSuccesfull = true;
+                } else {
+                    OpenAudioLogger.toConsole("Failed to request token. Error: " + new Gson().toJson(response.getErrors()));
+                    isSuccesfull = false;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         } else {
+            OpenAudioLogger.toConsole("This server already has an account, skipping signup.");
             serverKeySet.setPrivateKey(new Key(spigotConfigurationModule.getString(StorageKey.AUTH_PRIVATE_KEY)));
             serverKeySet.setPublicKey(new Key(spigotConfigurationModule.getString(StorageKey.AUTH_PUBLIC_KEY)));
             isSuccesfull = true;
-            whenFinished.run();
         }
     }
 }
