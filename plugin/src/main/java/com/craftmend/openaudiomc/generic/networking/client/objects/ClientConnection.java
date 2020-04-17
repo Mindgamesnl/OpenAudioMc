@@ -43,6 +43,7 @@ public class ClientConnection {
     @Getter private Session session;
     @Setter @Getter private Card card = null;
     @Setter @Getter private boolean isWaitingToken = false;
+    @Setter @Getter private boolean sessionUpdated = false;
 
     // player implementation
     @Getter private PlayerContainer player;
@@ -91,6 +92,7 @@ public class ClientConnection {
 
     // client connected!
     public void onConnect() {
+        sessionUpdated = true;
         OAConfiguration OAConfiguration = OpenAudioMc.getInstance().getOAConfiguration();
         String startSound = OAConfiguration.getString(StorageKey.SETTINGS_CLIENT_START_SOUND);
 
@@ -131,6 +133,7 @@ public class ClientConnection {
     }
 
     public void onDisconnect() {
+        sessionUpdated = true;
         this.isConnected = false;
         disconnectHandlers.forEach(event -> event.run());
 

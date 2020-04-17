@@ -17,6 +17,7 @@ public class PlayerUpdatePayload {
 
     private String privateKey;
     private List<PlusPlayer> plusPlayers = new ArrayList<>();
+    private List<PlusPlayer> stateUpdated = new ArrayList<>();
     private List<UUID> offlinePlayers = new ArrayList<>();
     @Setter private boolean forceClear = false;
 
