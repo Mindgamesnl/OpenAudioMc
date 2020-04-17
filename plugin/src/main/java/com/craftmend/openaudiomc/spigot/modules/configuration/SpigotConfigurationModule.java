@@ -191,6 +191,31 @@ public class SpigotConfigurationModule implements OAConfiguration {
         }
     }
 
+    @Override
+    public Object get(StorageKey storageKey) {
+        switch (storageKey.getStorageLocation()) {
+            case DATA_FILE:
+                return dataConfig.get(storageKey.getPath());
+
+            case CONFIG_FILE:
+                return mainConfig.get(storageKey.getPath());
+
+            default:
+                return false;
+        }
+    }
+
+    @Override
+    public void set(StorageKey storageKey, Object value) {
+        switch (storageKey.getStorageLocation()) {
+            case DATA_FILE:
+                dataConfig.set(storageKey.getPath(), value);
+
+            case CONFIG_FILE:
+                mainConfig.set(storageKey.getPath(), value);
+        }
+    }
+
     /**
      * Reload the config file
      */

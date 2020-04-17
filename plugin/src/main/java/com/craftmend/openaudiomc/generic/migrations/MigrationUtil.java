@@ -9,10 +9,12 @@ import com.craftmend.openaudiomc.generic.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.objects.ClientSettings;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MigrationUtil {
 
     public static void handleMigrations(OpenAudioMc main) {
-
         // check for old client settings
         ClientSettings settings = new ClientSettings().load();
         if (!settings.equals(new ClientSettings())) {
@@ -45,8 +47,26 @@ public class MigrationUtil {
             upload.setBody(OpenAudioMc.getGson().toJson(new UploadSettingsWrapper(privateKey, clientSettingsResponse)));
             upload.executeSync();
 
+            // settings that should be moved over
+            Map<StorageKey, Object> oldValues = new HashMap<>();
+            for (StorageKey value : StorageKey.values()) {
+                if (!value.isDeprecated()) {
+                    oldValues.put(value, OpenAudioMc.getInstance().getOAConfiguration().get(value));
+                }
+            }
+
             // force reload conf
             OpenAudioMc.getInstance().getOAConfiguration().saveAllhard();
+
+            // force update values
+            for (Map.Entry<StorageKey, Object> entry : oldValues.entrySet()) {
+                StorageKey key = entry.getKey();
+                Object value = entry.getValue();
+                OpenAudioMc.getInstance().getOAConfiguration().set(key, value);
+            }
+
+            // soft save to reflect the old values and write them to the new file
+            OpenAudioMc.getInstance().getOAConfiguration().saveAll();
         }
 
     }

@@ -17,6 +17,8 @@ public interface OAConfiguration {
     void setString(StorageLocation storageLocation, String path, String string);
     void setInt(StorageLocation storageLocation, String path, int value);
     boolean getBoolean(StorageKey storageKey);
+    Object get(StorageKey storageKey);
+    void set(StorageKey storageKey, Object value);
     void reloadConfig();
     void saveAll();
     void saveAllhard();
