@@ -29,22 +29,22 @@ public class OpenAudioMcBungee extends Plugin {
     @Getter private NodeManager nodeManager;
     @Getter private PlayerManager playerManager;
     @Getter private BungeeCommandModule commandModule;
+    private Instant boot = Instant.now();
 
     @Override
     public void onEnable() {
-        // Timing
-        Instant boot = Instant.now();
 
         instance = this;
 
         // setup core
         try {
-            new OpenAudioMc(Platform.BUNGEE, ClientMode.STAND_ALONE.getServiceClass());
+            new OpenAudioMc(Platform.BUNGEE, ClientMode.STAND_ALONE.getServiceClass(), this::bootBungee);
         } catch (Exception e) {
             e.printStackTrace();
-            return;
         }
+    }
 
+    private void bootBungee() {
         this.playerManager = new PlayerManager(this);
         this.commandModule = new BungeeCommandModule(this);
         this.nodeManager = new NodeManager(this);
