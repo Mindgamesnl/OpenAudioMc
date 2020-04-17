@@ -58,9 +58,10 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
     private ShowModule showModule;
 
     /**
-     * Constant: main plugin instance
+     * Constant: main plugin instance and plugin timing
      */
     @Getter private static OpenAudioMcSpigot instance;
+    private Instant boot = Instant.now();
 
     /**
      * load the plugin and start all of it's independent modules and services
@@ -68,9 +69,6 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
      */
     @Override
     public void onEnable() {
-        // Timing
-        Instant boot = Instant.now();
-
         // Plugin startup logic
         instance = this;
 
@@ -79,13 +77,14 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
 
         // setup core
         try {
-            new OpenAudioMc(Platform.SPIGOT, proxyModule.getMode().getServiceClass());
+            new OpenAudioMc(Platform.SPIGOT, proxyModule.getMode().getServiceClass(), this::bootSpigot);
         } catch (Exception e) {
             e.printStackTrace();
             Bukkit.getServer().getPluginManager().disablePlugin(this);
-            return;
         }
+    }
 
+    private void bootSpigot() {
         // startup modules and services
         this.executorService = new ExecutorService(this);
         this.serverService = new ServerService();

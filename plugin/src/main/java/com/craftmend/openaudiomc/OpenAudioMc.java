@@ -91,7 +91,7 @@ public class OpenAudioMc {
 
     @Getter private boolean isDisabled = false;
     @Getter private static final OpenAudioApi api = new OpenAudioApi();
-    @Getter private static final String server = "http://craftmendserver.eu:81";
+    private Runnable postBootHandler;
     @Getter private Class<? extends INetworkingService> serviceImplementation;
     @Getter private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(AbstractPacketPayload.class, new AbstractPacketAdapter())
@@ -101,9 +101,10 @@ public class OpenAudioMc {
     // The platform, easy for detecting what should be enabled and what not ya know
     private Platform platform;
 
-    public OpenAudioMc(Platform platform, Class<? extends INetworkingService> networkingService) throws Exception {
+    public OpenAudioMc(Platform platform, Class<? extends INetworkingService> networkingService, Runnable postBoot) throws Exception {
         instance = this;
         this.platform = platform;
+        this.postBootHandler = postBoot;
         this.serviceImplementation = networkingService;
         // if spigot, load the spigot configuration system and the bungee one for bungee
         if (platform == Platform.SPIGOT) {
@@ -144,6 +145,7 @@ public class OpenAudioMc {
         this.voiceRoomManager = new VoiceRoomManager(this);
         this.commandModule = new CommandModule();
         this.plusService = new PlusService(this);
+        this.postBootHandler.run();
     }
 
     public boolean isSlave() {
