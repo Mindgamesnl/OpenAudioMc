@@ -6,7 +6,7 @@ import com.craftmend.openaudiomc.generic.flags.FlagSet;
 import com.craftmend.openaudiomc.generic.interfaces.OAConfiguration;
 import com.craftmend.openaudiomc.generic.media.MediaModule;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
-import com.craftmend.openaudiomc.generic.migrations.MigrationUtil;
+import com.craftmend.openaudiomc.generic.migrations.MigrationWorker;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.objects.OpenAudioApi;
@@ -125,7 +125,7 @@ public class OpenAudioMc {
         this.authenticationService = new AuthenticationService();
 
         // do migration
-        MigrationUtil.handleMigrations(this);
+        new MigrationWorker().handleMigrations(this);
 
         this.stateService = new StateService();
         this.timeService = new TimeService();
@@ -140,8 +140,7 @@ public class OpenAudioMc {
 
     public boolean isSlave() {
         if (platform == Platform.BUNGEE) return false;
-        if (OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.STAND_ALONE) return false;
-        return true;
+        return OpenAudioMcSpigot.getInstance().getProxyModule().getMode() != ClientMode.STAND_ALONE;
     }
 
     public void disable() {
