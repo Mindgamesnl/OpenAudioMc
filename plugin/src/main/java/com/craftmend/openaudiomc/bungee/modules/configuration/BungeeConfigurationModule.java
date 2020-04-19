@@ -261,6 +261,13 @@ public class BungeeConfigurationModule implements OAConfiguration {
 
         File file = new File(OpenAudioMcBungee.getInstance().getDataFolder(), filename);
 
+        if (hard && file.exists()) {
+            try {
+                Files.delete(file.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         if (!file.exists() || hard) {
             try (InputStream in = OpenAudioMcBungee.getInstance().getResourceAsStream(filename)) {

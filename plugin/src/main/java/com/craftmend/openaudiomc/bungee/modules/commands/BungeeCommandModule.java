@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.bungee.modules.commands.commands.BungeeVolumeCo
 import com.craftmend.openaudiomc.bungee.modules.commands.commands.OpenAudioMcBungeeCommand;
 import com.craftmend.openaudiomc.bungee.modules.commands.subcommand.*;
 import com.craftmend.openaudiomc.generic.commands.subcommands.HelpSubCommand;
+import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.ReloadSubCommand;
 
 public class BungeeCommandModule {
 
@@ -23,6 +24,7 @@ public class BungeeCommandModule {
         OpenAudioMc.getInstance().getCommandModule().registerSubCommand(new BungeeRegionCommand());
         OpenAudioMc.getInstance().getCommandModule().registerSubCommand(new BungeeSpeakerCommand());
         OpenAudioMc.getInstance().getCommandModule().registerSubCommand(new BungeeShowCommand());
+        OpenAudioMc.getInstance().getCommandModule().registerSubCommand(new ReloadSubCommand());
 
     }
 
