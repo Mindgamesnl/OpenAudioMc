@@ -47,6 +47,12 @@ messages:
 # OPTIONS
 # These are general plugin settings
 options:
+  # Possible values:
+  #   OP_ONLY = Only players who have explicit OP
+  #   STAFF = Everyone who either has openaudiomc.command.plus permissions or OP
+  #   CONSOLE_ONLY = Only the console may receive the link
+  plus-access-level: STAFF
+
   # When set to true, the player automatically receives a link upon joining
   send-on-join: true
 

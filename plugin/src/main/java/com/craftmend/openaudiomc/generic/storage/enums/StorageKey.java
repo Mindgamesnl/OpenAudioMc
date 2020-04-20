@@ -34,6 +34,7 @@ public enum StorageKey {
     SETTINGS_SEND_URL_ON_JOIN(false, "options.send-on-join", StorageLocation.CONFIG_FILE),
     SETTINGS_USE_WG_PRIORITY(false, "options.use-region-priority", StorageLocation.CONFIG_FILE),
     SETTINGS_LOOP_TEMP_REGIONS(false, "options.loop-temp-regions", StorageLocation.CONFIG_FILE),
+    SETTINGS_PLUS_ACCESS_LEVEL(false, "options.plus-access-level", StorageLocation.CONFIG_FILE),
 
     DEBUG_LOG_STATE_CHANGES(false, "debug.log-state-changes", StorageLocation.DATA_FILE),
 

@@ -4,13 +4,15 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.migrations.interfaces.SimpleMigration;
 import com.craftmend.openaudiomc.generic.migrations.migrations.LocalClientToPlusMigration;
+import com.craftmend.openaudiomc.generic.migrations.migrations.PlusAccessLevelMigration;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class MigrationWorker {
 
     private final SimpleMigration[] migrations = new SimpleMigration[] {
-            new LocalClientToPlusMigration()
+            new LocalClientToPlusMigration(),
+            new PlusAccessLevelMigration()
     };
 
     public void handleMigrations(OpenAudioMc main) {
