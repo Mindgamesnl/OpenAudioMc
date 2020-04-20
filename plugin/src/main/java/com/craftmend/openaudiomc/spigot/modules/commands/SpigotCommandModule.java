@@ -9,6 +9,7 @@ import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.commands.command.SpigotMainCommand;
 import com.craftmend.openaudiomc.spigot.modules.commands.command.VolumeCommand;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
+import org.bukkit.plugin.SimplePluginManager;
 
 public class SpigotCommandModule {
 
@@ -23,18 +24,20 @@ public class SpigotCommandModule {
         commandModule.getAliases().addAll(openAudioMcSpigot.getCommand("openaudiomc").getAliases());
         commandModule.getAliases().add("openaudiomc");
 
-        commandModule.registerSubCommand(new HelpSubCommand());
-        commandModule.registerSubCommand(new RegionsSubCommand(openAudioMcSpigot));
-        commandModule.registerSubCommand(new PlaySubCommand(openAudioMcSpigot));
-        commandModule.registerSubCommand(new SpeakersSubCommand(openAudioMcSpigot));
-        commandModule.registerSubCommand(new StopSubCommand(openAudioMcSpigot));
-        commandModule.registerSubCommand(new HueSubCommand(openAudioMcSpigot));
-        commandModule.registerSubCommand(new ShowSubCommand(openAudioMcSpigot));
-        commandModule.registerSubCommand(new ReloadSubCommand());
-        commandModule.registerSubCommand(new StateSubCommand());
+        commandModule.registerSubCommands(
+                new HelpSubCommand(),
+                new RegionsSubCommand(openAudioMcSpigot),
+                new PlaySubCommand(openAudioMcSpigot),
+                new SpeakersSubCommand(openAudioMcSpigot),
+                new StopSubCommand(openAudioMcSpigot),
+                new HueSubCommand(openAudioMcSpigot),
+                new ShowSubCommand(openAudioMcSpigot),
+                new ReloadSubCommand(),
+                new StateSubCommand()
+        );
 
         // if it is a older version, register the middleware
-        if (openAudioMcSpigot.getServerService().getVersion() == ServerVersion.LEGACY) {
+        if (openAudioMcSpigot.getServerService().getVersion().getRevision() > ServerVersion.LEGACY.getRevision()) {
             openAudioMcSpigot.getServer().getPluginManager().registerEvents(
                     new CommandTranslationMiddleware(),
                     openAudioMcSpigot
