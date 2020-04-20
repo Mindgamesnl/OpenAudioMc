@@ -45,6 +45,12 @@ public class CommandModule {
         subCommands.put(subCommand.getCommand(), subCommand);
     }
 
+    public void registerSubCommands(SubCommand... commandList) {
+        for (SubCommand subCommand : commandList) {
+            subCommands.put(subCommand.getCommand(), subCommand);
+        }
+    }
+
     /**
      * @param argument get the sub command from a name
      * @return returns the handler, can be null

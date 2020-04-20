@@ -12,11 +12,8 @@ import lombok.Setter;
 import okhttp3.*;
 
 import java.io.IOException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
 
 public class RestRequest {
