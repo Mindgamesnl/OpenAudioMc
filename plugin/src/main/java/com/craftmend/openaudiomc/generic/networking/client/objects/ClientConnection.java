@@ -7,8 +7,7 @@ import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
 import com.craftmend.openaudiomc.generic.player.ProxiedPlayerAdapter;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.storage.objects.ClientSettings;
-import com.craftmend.openaudiomc.generic.interfaces.OAConfiguration;
+import com.craftmend.openaudiomc.generic.interfaces.ConfigurationImplementation;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.networking.client.interfaces.PlayerContainer;
 import com.craftmend.openaudiomc.generic.networking.packets.*;
@@ -57,7 +56,7 @@ public class ClientConnection {
         this.player = playerContainer;
         refreshSession();
 
-        if (OpenAudioMc.getInstance().getOAConfiguration().getBoolean(StorageKey.SETTINGS_SEND_URL_ON_JOIN))
+        if (OpenAudioMc.getInstance().getConfigurationImplementation().getBoolean(StorageKey.SETTINGS_SEND_URL_ON_JOIN))
             publishUrl();
     }
 
@@ -67,7 +66,7 @@ public class ClientConnection {
 
         if (isConnected) {
             player.sendMessage(Platform.translateColors(Objects.requireNonNull(
-                    OpenAudioMc.getInstance().getOAConfiguration().getString(StorageKey.MESSAGE_CLIENT_ALREADY_CONNECTED)
+                    OpenAudioMc.getInstance().getConfigurationImplementation().getString(StorageKey.MESSAGE_CLIENT_ALREADY_CONNECTED)
             )));
             return;
         }
@@ -83,7 +82,7 @@ public class ClientConnection {
                 session.getToken();
 
         TextComponent message = new TextComponent(Platform.translateColors(Objects.requireNonNull(
-                OpenAudioMc.getInstance().getOAConfiguration().getString(StorageKey.MESSAGE_CLICK_TO_CONNECT)
+                OpenAudioMc.getInstance().getConfigurationImplementation().getString(StorageKey.MESSAGE_CLICK_TO_CONNECT)
         )));
         message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
         this.isWaitingToken = true;
@@ -93,7 +92,7 @@ public class ClientConnection {
     // client connected!
     public void onConnect() {
         sessionUpdated = true;
-        OAConfiguration OAConfiguration = OpenAudioMc.getInstance().getOAConfiguration();
+        ConfigurationImplementation ConfigurationImplementation = OpenAudioMc.getInstance().getConfigurationImplementation();
 
         this.isConnected = true;
         this.isWaitingToken = false;
@@ -118,7 +117,7 @@ public class ClientConnection {
         }
 
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE) return;
-        String connectedMessage = OAConfiguration.getString(StorageKey.MESSAGE_CLIENT_OPENED);
+        String connectedMessage = ConfigurationImplementation.getString(StorageKey.MESSAGE_CLIENT_OPENED);
         player.sendMessage(Platform.translateColors(connectedMessage));
     }
 
@@ -135,7 +134,7 @@ public class ClientConnection {
 
         // Don't send if i'm spigot and a node
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE) return;
-        String message = OpenAudioMc.getInstance().getOAConfiguration().getString(StorageKey.MESSAGE_CLIENT_CLOSED);
+        String message = OpenAudioMc.getInstance().getConfigurationImplementation().getString(StorageKey.MESSAGE_CLIENT_CLOSED);
         player.sendMessage(Platform.translateColors(message));
     }
 
@@ -162,7 +161,7 @@ public class ClientConnection {
         if (volume < 0 || volume > 100) {
             throw new IllegalArgumentException("Volume must be between 0 and 100");
         }
-        player.sendMessage(Platform.translateColors(OpenAudioMc.getInstance().getOAConfiguration().getString(StorageKey.MESSAGE_CLIENT_VOLUME_CHANGED)).replaceAll("__amount__", volume + ""));
+        player.sendMessage(Platform.translateColors(OpenAudioMc.getInstance().getConfigurationImplementation().getString(StorageKey.MESSAGE_CLIENT_VOLUME_CHANGED)).replaceAll("__amount__", volume + ""));
         OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientSetVolume(volume));
     }
 
@@ -205,12 +204,12 @@ public class ClientConnection {
     }
 
     public void tickClient() {
-        boolean remindToConnect = OpenAudioMc.getInstance().getOAConfiguration().getBoolean(StorageKey.SETTINGS_REMIND_TO_CONNECT);
+        boolean remindToConnect = OpenAudioMc.getInstance().getConfigurationImplementation().getBoolean(StorageKey.SETTINGS_REMIND_TO_CONNECT);
 
         if (remindToConnect) {
-            int reminderInterval = OpenAudioMc.getInstance().getOAConfiguration().getInt(StorageKey.SETTINGS_REMIND_TO_CONNECT_INTERVAL);
+            int reminderInterval = OpenAudioMc.getInstance().getConfigurationImplementation().getInt(StorageKey.SETTINGS_REMIND_TO_CONNECT_INTERVAL);
             if (!getIsConnected() && (Duration.between(lastConnectPrompt, Instant.now()).toMillis() * 1000) > reminderInterval) {
-                player.sendMessage(Platform.translateColors(OpenAudioMc.getInstance().getOAConfiguration().getString(StorageKey.MESSAGE_PROMPT_TO_CONNECT)));
+                player.sendMessage(Platform.translateColors(OpenAudioMc.getInstance().getConfigurationImplementation().getString(StorageKey.MESSAGE_PROMPT_TO_CONNECT)));
             }
         }
     }
