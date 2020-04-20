@@ -22,7 +22,7 @@ public class TimedRegionProperties extends RegionProperties {
         }, 20 * timeInSeconds);
 
         this.media = new RegionMedia(source);
-        this.media.setLoop(OpenAudioMc.getInstance().getOAConfiguration().getBoolean(StorageKey.SETTINGS_LOOP_TEMP_REGIONS));
+        this.media.setLoop(OpenAudioMc.getInstance().getConfigurationImplementation().getBoolean(StorageKey.SETTINGS_LOOP_TEMP_REGIONS));
         forceUpdateClients();
     }
 

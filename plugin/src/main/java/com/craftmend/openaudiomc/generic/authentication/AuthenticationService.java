@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.rest.interfaces.GenericApiResponse;
 import com.craftmend.openaudiomc.generic.rest.responses.RegistrationResponse;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
-import com.craftmend.openaudiomc.generic.interfaces.OAConfiguration;
+import com.craftmend.openaudiomc.generic.interfaces.ConfigurationImplementation;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.authentication.objects.Key;
 import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
@@ -39,7 +39,7 @@ public class AuthenticationService {
      * @return version
      */
     public int getAuthVersion() {
-        int version = OpenAudioMc.getInstance().getOAConfiguration().getInt(StorageKey.AUTH_KEY_VERSION);
+        int version = OpenAudioMc.getInstance().getConfigurationImplementation().getInt(StorageKey.AUTH_KEY_VERSION);
         return version == -1 ? 1 : version;
     }
 
@@ -48,7 +48,7 @@ public class AuthenticationService {
      * If they dont exist, then they will be requested by the cool OpenAuioMc api.
      */
     private void loadData() {
-        OAConfiguration spigotConfigurationModule = OpenAudioMc.getInstance().getOAConfiguration();
+        ConfigurationImplementation spigotConfigurationModule = OpenAudioMc.getInstance().getConfigurationImplementation();
 
         if (spigotConfigurationModule.getString(StorageKey.AUTH_PRIVATE_KEY).equals("not-set") || getAuthVersion() != keyVersion) {
             OpenAudioLogger.toConsole("Creating account...");

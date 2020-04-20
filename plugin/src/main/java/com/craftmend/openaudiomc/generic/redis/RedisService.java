@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.redis;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.interfaces.OAConfiguration;
+import com.craftmend.openaudiomc.generic.interfaces.ConfigurationImplementation;
 import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.redis.packets.ExecuteBulkCommandsPacket;
 import com.craftmend.openaudiomc.generic.redis.packets.ExecuteCommandPacket;
@@ -64,24 +64,24 @@ public class RedisService {
         asyncPub.publish(ChannelKey.TRIGGER_BULK_COMMANDS.getRedisChannelName(), new ExecuteBulkCommandsPacket(commands).serialize());
     };
 
-    public RedisService(OAConfiguration OAConfiguration) {
-        if (!OAConfiguration.getBoolean(StorageKey.REDIS_ENABLED)) return;
+    public RedisService(ConfigurationImplementation ConfigurationImplementation) {
+        if (!ConfigurationImplementation.getBoolean(StorageKey.REDIS_ENABLED)) return;
         enabled = true;
 
         OpenAudioLogger.toConsole("Enabling redis service..");
 
-        if (OAConfiguration.getString(StorageKey.REDIS_PASSWORD).equals("none")) {
+        if (ConfigurationImplementation.getString(StorageKey.REDIS_PASSWORD).equals("none")) {
             uri = RedisURI.builder()
-                    .withHost(OAConfiguration.getString(StorageKey.REDIS_HOST))
-                    .withPort(OAConfiguration.getInt(StorageKey.REDIS_PORT))
-                    .withSsl(OAConfiguration.getBoolean(StorageKey.REDIS_USE_SSL))
+                    .withHost(ConfigurationImplementation.getString(StorageKey.REDIS_HOST))
+                    .withPort(ConfigurationImplementation.getInt(StorageKey.REDIS_PORT))
+                    .withSsl(ConfigurationImplementation.getBoolean(StorageKey.REDIS_USE_SSL))
                     .build();
         } else {
             uri = RedisURI.builder()
-                    .withPassword(OAConfiguration.getString(StorageKey.REDIS_PASSWORD))
-                    .withHost(OAConfiguration.getString(StorageKey.REDIS_HOST))
-                    .withPort(OAConfiguration.getInt(StorageKey.REDIS_PORT))
-                    .withSsl(OAConfiguration.getBoolean(StorageKey.REDIS_USE_SSL))
+                    .withPassword(ConfigurationImplementation.getString(StorageKey.REDIS_PASSWORD))
+                    .withHost(ConfigurationImplementation.getString(StorageKey.REDIS_HOST))
+                    .withPort(ConfigurationImplementation.getInt(StorageKey.REDIS_PORT))
+                    .withSsl(ConfigurationImplementation.getBoolean(StorageKey.REDIS_USE_SSL))
                     .build();
         }
 

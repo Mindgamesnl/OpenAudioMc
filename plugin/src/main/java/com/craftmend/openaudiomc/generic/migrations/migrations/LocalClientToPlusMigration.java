@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.migrations.migrations;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.interfaces.OAConfiguration;
+import com.craftmend.openaudiomc.generic.interfaces.ConfigurationImplementation;
 import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.migrations.interfaces.SimpleMigration;
 import com.craftmend.openaudiomc.generic.migrations.wrapper.UploadSettingsWrapper;
@@ -43,8 +43,8 @@ public class LocalClientToPlusMigration implements SimpleMigration {
             clientSettingsResponse.setTitle(settings.getTitle());
 
         // check for start sound
-        OAConfiguration OAConfiguration = OpenAudioMc.getInstance().getOAConfiguration();
-        String startSound = OAConfiguration.getString(StorageKey.SETTINGS_CLIENT_START_SOUND);
+        ConfigurationImplementation ConfigurationImplementation = OpenAudioMc.getInstance().getConfigurationImplementation();
+        String startSound = ConfigurationImplementation.getString(StorageKey.SETTINGS_CLIENT_START_SOUND);
         if (startSound != null && !startSound.equals("none") && !startSound.startsWith("<un"))
             clientSettingsResponse.setStartSound(startSound);
 
@@ -56,12 +56,12 @@ public class LocalClientToPlusMigration implements SimpleMigration {
         Map<StorageKey, Object> oldValues = new HashMap<>();
         for (StorageKey value : StorageKey.values()) {
             if (!value.isDeprecated()) {
-                oldValues.put(value, OpenAudioMc.getInstance().getOAConfiguration().get(value));
+                oldValues.put(value, OpenAudioMc.getInstance().getConfigurationImplementation().get(value));
             }
         }
 
         // force reload conf
-        OpenAudioMc.getInstance().getOAConfiguration().saveAllhard();
+        OpenAudioMc.getInstance().getConfigurationImplementation().saveAllhard();
 
         // force update values
         for (Map.Entry<StorageKey, Object> entry : oldValues.entrySet()) {
@@ -72,10 +72,10 @@ public class LocalClientToPlusMigration implements SimpleMigration {
             } else {
                 OpenAudioLogger.toConsole("Migrating " + key.name() + " value " + value.toString());
             }
-            OpenAudioMc.getInstance().getOAConfiguration().set(key, value);
+            OpenAudioMc.getInstance().getConfigurationImplementation().set(key, value);
         }
 
         // soft save to reflect the old values and write them to the new file
-        OpenAudioMc.getInstance().getOAConfiguration().saveAll();
+        OpenAudioMc.getInstance().getConfigurationImplementation().saveAll();
     }
 }

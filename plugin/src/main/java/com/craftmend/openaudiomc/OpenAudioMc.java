@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.flags.FlagSet;
-import com.craftmend.openaudiomc.generic.interfaces.OAConfiguration;
+import com.craftmend.openaudiomc.generic.interfaces.ConfigurationImplementation;
 import com.craftmend.openaudiomc.generic.media.MediaModule;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import com.craftmend.openaudiomc.generic.migrations.MigrationWorker;
@@ -20,14 +20,14 @@ import com.craftmend.openaudiomc.generic.voice.VoiceRoomManager;
 import com.craftmend.openaudiomc.generic.state.StateService;
 
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfigurationModule;
+import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfigurationImplementationModule;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import com.craftmend.openaudiomc.spigot.modules.show.adapter.RunnableTypeAdapter;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 import com.craftmend.openaudiomc.spigot.services.scheduling.SpigotTaskProvider;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 
-import com.craftmend.openaudiomc.bungee.modules.configuration.BungeeConfigurationModule;
+import com.craftmend.openaudiomc.bungee.modules.configuration.BungeeConfigurationImplementationModule;
 import com.craftmend.openaudiomc.bungee.modules.scheduling.BungeeTaskProvider;
 
 import com.google.gson.Gson;
@@ -78,7 +78,7 @@ public class OpenAudioMc {
     private TimeService timeService;
     private INetworkingService networkingService;
     private FlagSet flagSet;
-    private OAConfiguration OAConfiguration;
+    private ConfigurationImplementation ConfigurationImplementation;
     private AuthenticationService authenticationService;
     private VoiceRoomManager voiceRoomManager;
     private CommandModule commandModule;
@@ -107,18 +107,18 @@ public class OpenAudioMc {
         // if spigot, load the spigot configuration system and the bungee one for bungee
         if (platform == Platform.SPIGOT) {
             this.serverService = new ServerService();
-            this.OAConfiguration = new SpigotConfigurationModule(OpenAudioMcSpigot.getInstance());
-            this.OAConfiguration.loadSettings();
+            this.ConfigurationImplementation = new SpigotConfigurationImplementationModule(OpenAudioMcSpigot.getInstance());
+            this.ConfigurationImplementation.loadSettings();
             this.taskProvider = new SpigotTaskProvider();
         } else {
-            this.OAConfiguration = new BungeeConfigurationModule();
-            this.OAConfiguration.loadSettings();
+            this.ConfigurationImplementation = new BungeeConfigurationImplementationModule();
+            this.ConfigurationImplementation.loadSettings();
             this.taskProvider = new BungeeTaskProvider();
         }
 
         // only enable redis if there are packets that require it for this platform
         if (Arrays.stream(ChannelKey.values()).anyMatch(value -> value.getTargetPlatform() == platform)) {
-            this.redisService = new RedisService(this.OAConfiguration);
+            this.redisService = new RedisService(this.ConfigurationImplementation);
         }
 
         this.flagSet = new FlagSet();
@@ -146,7 +146,7 @@ public class OpenAudioMc {
     public void disable() {
         isDisabled = true;
         if (redisService != null) redisService.shutdown();
-        OAConfiguration.saveAll();
+        ConfigurationImplementation.saveAll();
         this.plusService.shutdown();
         if (stateService.getCurrentState().isConnected()) {
             networkingService.stop();

@@ -23,7 +23,7 @@ public class PlusService {
     public PlusService(OpenAudioMc openAudioMc) {
         getPlusSettings();
         playerSynchroniser = new PlayerSynchroniser(this, openAudioMc);
-        accessLevel = PlusAccessLevel.valueOf(OpenAudioMc.getInstance().getOAConfiguration().getString(StorageKey.SETTINGS_PLUS_ACCESS_LEVEL));
+        accessLevel = PlusAccessLevel.valueOf(OpenAudioMc.getInstance().getConfigurationImplementation().getString(StorageKey.SETTINGS_PLUS_ACCESS_LEVEL));
     }
 
     public CompletableFuture<String> createLoginToken(String playerName) {

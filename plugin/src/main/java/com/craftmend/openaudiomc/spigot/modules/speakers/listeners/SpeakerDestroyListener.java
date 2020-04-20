@@ -35,12 +35,12 @@ public class SpeakerDestroyListener implements Listener {
             speakerModule.unlistSpeaker(location);
 
             //save to config
-            openAudioMc.getOAConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".world", null);
-            openAudioMc.getOAConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".x", null);
-            openAudioMc.getOAConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".y", null);
-            openAudioMc.getOAConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".z", null);
-            openAudioMc.getOAConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".media", null);
-            openAudioMc.getOAConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString(), null);
+            openAudioMc.getConfigurationImplementation().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".world", null);
+            openAudioMc.getConfigurationImplementation().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".x", null);
+            openAudioMc.getConfigurationImplementation().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".y", null);
+            openAudioMc.getConfigurationImplementation().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".z", null);
+            openAudioMc.getConfigurationImplementation().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".media", null);
+            openAudioMc.getConfigurationImplementation().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString(), null);
 
             event.getPlayer().sendMessage(openAudioMc.getCommandModule().getCommandPrefix() + "Speaker removed");
         }

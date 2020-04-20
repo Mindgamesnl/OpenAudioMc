@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
-import com.craftmend.openaudiomc.generic.interfaces.OAConfiguration;
+import com.craftmend.openaudiomc.generic.interfaces.ConfigurationImplementation;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -88,7 +88,7 @@ public class SpeakersSubCommand extends SubCommand {
 
             // create
             UUID id = UUID.randomUUID();
-            OAConfiguration config = OpenAudioMc.getInstance().getOAConfiguration();
+            ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
             int range = config.getInt(StorageKey.SETTINGS_SPEAKER_RANGE);
             SpeakerModule speakerModule = OpenAudioMcSpigot.getInstance().getSpeakerModule();
             speakerModule.registerSpeaker(mappedLocation, source, id, range);
@@ -137,7 +137,7 @@ public class SpeakersSubCommand extends SubCommand {
             }
 
             // remove from cache
-            OAConfiguration config = OpenAudioMc.getInstance().getOAConfiguration();
+            ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
             SpeakerModule speakerModule = OpenAudioMcSpigot.getInstance().getSpeakerModule();
             Speaker speaker = speakerModule.getSpeaker(mappedLocation);
             speakerModule.unlistSpeaker(mappedLocation);
