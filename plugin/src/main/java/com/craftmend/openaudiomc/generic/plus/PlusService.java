@@ -1,12 +1,14 @@
 package com.craftmend.openaudiomc.generic.plus;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.plus.enums.PlusAccessLevel;
 import com.craftmend.openaudiomc.generic.plus.response.ClientSettingsResponse;
 import com.craftmend.openaudiomc.generic.plus.response.PlusLoginToken;
 import com.craftmend.openaudiomc.generic.plus.tasks.PlayerSynchroniser;
 import com.craftmend.openaudiomc.generic.plus.updates.CreateLoginPayload;
 import com.craftmend.openaudiomc.generic.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.rest.interfaces.GenericApiResponse;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import lombok.Getter;
 
 import java.util.concurrent.CompletableFuture;
@@ -14,13 +16,14 @@ import java.util.concurrent.CompletableFuture;
 public class PlusService {
 
     private PlayerSynchroniser playerSynchroniser;
-    @Getter
-    private String baseUrl;
+    @Getter private String baseUrl;
     @Getter private boolean plusEnabled;
+    @Getter private PlusAccessLevel accessLevel;
 
     public PlusService(OpenAudioMc openAudioMc) {
         getPlusSettings();
         playerSynchroniser = new PlayerSynchroniser(this, openAudioMc);
+        accessLevel = PlusAccessLevel.valueOf(OpenAudioMc.getInstance().getOAConfiguration().getString(StorageKey.SETTINGS_PLUS_ACCESS_LEVEL));
     }
 
     public CompletableFuture<String> createLoginToken(String playerName) {
