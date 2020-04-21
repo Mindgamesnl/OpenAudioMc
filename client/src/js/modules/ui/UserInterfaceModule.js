@@ -9,6 +9,38 @@ export class UserInterfaceModule {
 
     }
 
+    colorToHex(color) {
+        if (color.substr(0, 1) === '#') {
+            return color;
+        }
+        let digits = /(.*?)rgb\((\d+), (\d+), (\d+)\)/.exec(color);
+        let red = parseInt(digits[2]);
+        let green = parseInt(digits[3]);
+        let blue = parseInt(digits[4]);
+        let rgb = blue | (green << 8) | (red << 16);
+        return digits[1] + '#' + rgb.toString(16);
+    };
+
+    changeColor(from, to) {
+        let elements = document.getElementsByTagName('*');
+        for (let i=0;i<elements.length;i++) {
+            let color = window.getComputedStyle(elements[i]).color;
+            let hex = this.colorToHex(color);
+            if (hex == from) {
+                elements[i].style.color=to;
+            }
+            let backgroundColor = window.getComputedStyle(elements[i]).backgroundColor;
+            console.log(backgroundColor);
+            if (backgroundColor.indexOf('rgba')<0) {
+                let hex = this.colorToHex(backgroundColor);
+                if (hex == from) {
+                    elements[i].style.backgroundColor=to;
+                }
+            }
+
+        }
+    }
+
     setMessage(text) {
         document.getElementById("status-message").innerHTML = text;
     }

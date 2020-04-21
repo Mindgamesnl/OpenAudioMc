@@ -19,17 +19,19 @@ public class PlusService {
     @Getter private String baseUrl;
     @Getter private boolean plusEnabled;
     @Getter private PlusAccessLevel accessLevel;
+    private OpenAudioMc openAudioMc;
 
     public PlusService(OpenAudioMc openAudioMc) {
+        this.openAudioMc = openAudioMc;
         getPlusSettings();
         playerSynchroniser = new PlayerSynchroniser(this, openAudioMc);
-        accessLevel = PlusAccessLevel.valueOf(OpenAudioMc.getInstance().getConfigurationImplementation().getString(StorageKey.SETTINGS_PLUS_ACCESS_LEVEL));
+        accessLevel = PlusAccessLevel.valueOf(openAudioMc.getConfigurationImplementation().getString(StorageKey.SETTINGS_PLUS_ACCESS_LEVEL));
     }
 
     public CompletableFuture<String> createLoginToken(String playerName) {
         CompletableFuture<String> cf = new CompletableFuture<>();
         OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
-            CreateLoginPayload createLoginPayload = new CreateLoginPayload(playerName, OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue());
+            CreateLoginPayload createLoginPayload = new CreateLoginPayload(playerName, openAudioMc.getAuthenticationService().getServerKeySet().getPrivateKey().getValue());
             RestRequest keyRequest = new RestRequest("/api/v1/servers/createlogin");
             keyRequest.setBody(OpenAudioMc.getGson().toJson(createLoginPayload));
             GenericApiResponse response = keyRequest.executeSync();
@@ -42,7 +44,7 @@ public class PlusService {
     }
 
     public void getPlusSettings() {
-        RestRequest keyRequest = new RestRequest("/api/v1/public/settings/" + OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue());
+        RestRequest keyRequest = new RestRequest("/api/v1/public/settings/" + openAudioMc.getAuthenticationService().getServerKeySet().getPublicKey().getValue());
         ClientSettingsResponse response = keyRequest.executeSync().getResponse(ClientSettingsResponse.class);
         baseUrl = response.getDomain() + "?&data=";
         plusEnabled = response.getPlayerSync();
