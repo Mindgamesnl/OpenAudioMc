@@ -35,17 +35,26 @@ import java.util.Objects;
 public class ClientConnection {
 
     //ongoing sounds
-    @Getter private List<Media> ongoingMedia = new ArrayList<>();
+    @Getter
+    private List<Media> ongoingMedia = new ArrayList<>();
 
     // session info
     private boolean isConnected = false;
-    @Getter private Session session;
-    @Setter @Getter private Card card = null;
-    @Setter @Getter private boolean isWaitingToken = false;
-    @Setter @Getter private boolean sessionUpdated = false;
+    @Getter
+    private Session session;
+    @Setter
+    @Getter
+    private Card card = null;
+    @Setter
+    @Getter
+    private boolean isWaitingToken = false;
+    @Setter
+    @Getter
+    private boolean sessionUpdated = false;
 
     // player implementation
-    @Getter private PlayerContainer player;
+    @Getter
+    private PlayerContainer player;
     private Instant lastConnectPrompt = Instant.now();
 
     // on connect and disconnect handlers
@@ -62,7 +71,8 @@ public class ClientConnection {
 
     public void publishUrl() {
         // cancel if the player is via bungee because bungee should handle it
-        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE) return;
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE)
+            return;
 
         if (isConnected) {
             player.sendMessage(Platform.translateColors(Objects.requireNonNull(
@@ -71,12 +81,14 @@ public class ClientConnection {
             return;
         }
 
-        try {
-            OpenAudioMc.getInstance().getNetworkingService().connectIfDown();
-        } catch (URISyntaxException | IOException e) {
-            player.sendMessage("Failed to execute goal.");
-            e.printStackTrace();
-        }
+        OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
+            try {
+                OpenAudioMc.getInstance().getNetworkingService().connectIfDown();
+            } catch (URISyntaxException | IOException e) {
+                player.sendMessage("Failed to execute goal.");
+                e.printStackTrace();
+            }
+        });
 
         String url = OpenAudioMc.getInstance().getPlusService().getBaseUrl() +
                 session.getToken();
@@ -116,7 +128,8 @@ public class ClientConnection {
             OpenAudioMcBungee.getInstance().getNodeManager().getPacketManager().sendPacket(new PacketPlayer(proxiedPlayer), new ClientConnectedPacket(player.getUniqueId()));
         }
 
-        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE) return;
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE)
+            return;
         String connectedMessage = ConfigurationImplementation.getString(StorageKey.MESSAGE_CLIENT_OPENED);
         player.sendMessage(Platform.translateColors(connectedMessage));
     }
@@ -133,7 +146,8 @@ public class ClientConnection {
         }
 
         // Don't send if i'm spigot and a node
-        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE) return;
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE)
+            return;
         String message = OpenAudioMc.getInstance().getConfigurationImplementation().getString(StorageKey.MESSAGE_CLIENT_CLOSED);
         player.sendMessage(Platform.translateColors(message));
     }
@@ -215,7 +229,8 @@ public class ClientConnection {
     }
 
     public boolean getIsConnected() {
-        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE) return true;
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE)
+            return true;
         return this.isConnected;
     }
 
