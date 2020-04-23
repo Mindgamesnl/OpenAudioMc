@@ -17,13 +17,13 @@ public enum RestEndpoint {
     private boolean translate;
     RestEndpoint(String url, boolean translate) {
         this.url = url;
-        this.translate = true;
+        this.translate = translate;
     }
 
     public String getURL() {
         if (this.translate) {
-            this.url = this.url.replace("{private_key}", OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue());
-            this.url = this.url.replace("{public_key}", OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue());
+            this.url = this.url.replaceAll("{private_key}", OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue());
+            this.url = this.url.replaceAll("{public_key}", OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue());
         }
         return this.url;
     }
