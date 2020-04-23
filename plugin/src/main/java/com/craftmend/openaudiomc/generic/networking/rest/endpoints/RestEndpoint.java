@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.rest.endpoints;
+package com.craftmend.openaudiomc.generic.networking.rest.endpoints;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 

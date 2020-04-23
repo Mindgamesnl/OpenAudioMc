@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.rest.responses.login;
+package com.craftmend.openaudiomc.generic.networking.rest.responses.login;
 
 import lombok.Data;
 

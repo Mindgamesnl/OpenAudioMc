@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.proxy;
 
-import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;

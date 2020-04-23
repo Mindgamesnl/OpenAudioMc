@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.migrations;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.migrations.interfaces.SimpleMigration;
 import com.craftmend.openaudiomc.generic.migrations.migrations.LocalClientToPlusMigration;
 import com.craftmend.openaudiomc.generic.migrations.migrations.PlusAccessLevelMigration;
