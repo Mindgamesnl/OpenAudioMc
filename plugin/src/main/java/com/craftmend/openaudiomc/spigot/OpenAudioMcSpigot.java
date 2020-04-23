@@ -1,15 +1,20 @@
 package com.craftmend.openaudiomc.spigot;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.core.interfaces.ITaskProvider;
 import com.craftmend.openaudiomc.generic.core.interfaces.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.WorkerState;
 import com.craftmend.openaudiomc.spigot.modules.commands.SpigotCommandModule;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
+import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfigurationImplementation;
 import com.craftmend.openaudiomc.spigot.modules.proxy.ProxyModule;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import com.craftmend.openaudiomc.spigot.modules.show.ShowModule;
+import com.craftmend.openaudiomc.spigot.services.scheduling.SpigotTaskProvider;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 
 import com.craftmend.openaudiomc.spigot.modules.players.PlayerModule;
@@ -36,6 +41,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
      *  - authentication (auth)
      *  - time service (time sync with clients)
      *  - networking service (api connection)
+     *  - Server Service (used to probe and detect what it is running)
      */
     private ServerService serverService;
 
@@ -78,7 +84,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
 
         // setup core
         try {
-            new OpenAudioMc(Platform.SPIGOT, this, proxyModule.getMode().getServiceClass());
+            new OpenAudioMc(this);
             // startup modules and services
             this.executorService = new ExecutorService(this);
             this.serverService = new ServerService();
@@ -122,5 +128,35 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
     @Override
     public boolean hasPlayersOnline() {
         return !Bukkit.getOnlinePlayers().isEmpty();
+    }
+
+    @Override
+    public boolean isSlave() {
+        return getProxyModule().getMode() != ClientMode.STAND_ALONE;
+    }
+
+    @Override
+    public Platform getPlatform() {
+        return Platform.SPIGOT;
+    }
+
+    @Override
+    public Class<? extends INetworkingService> getServiceClass() {
+        return proxyModule.getMode().getServiceClass();
+    }
+
+    @Override
+    public ITaskProvider getTaskProvider() {
+        return new SpigotTaskProvider();
+    }
+
+    @Override
+    public ConfigurationImplementation getConfigurationProvider() {
+        return new SpigotConfigurationImplementation(OpenAudioMcSpigot.getInstance());
+    }
+
+    @Override
+    public void onPreBoot(OpenAudioMc openAudioMc) {
+
     }
 }
