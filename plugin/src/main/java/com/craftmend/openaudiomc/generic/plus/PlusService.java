@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.generic.plus.response.PlusLoginToken;
 import com.craftmend.openaudiomc.generic.plus.tasks.PlayerSynchroniser;
 import com.craftmend.openaudiomc.generic.plus.updates.CreateLoginPayload;
 import com.craftmend.openaudiomc.generic.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.rest.interfaces.GenericApiResponse;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import lombok.Getter;
@@ -32,7 +33,7 @@ public class PlusService {
         CompletableFuture<String> cf = new CompletableFuture<>();
         OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
             CreateLoginPayload createLoginPayload = new CreateLoginPayload(playerName, openAudioMc.getAuthenticationService().getServerKeySet().getPrivateKey().getValue());
-            RestRequest keyRequest = new RestRequest("/api/v1/servers/createlogin");
+            RestRequest keyRequest = new RestRequest(RestEndpoint.ENDPOINT_PLUS_GENTOKEN);
             keyRequest.setBody(OpenAudioMc.getGson().toJson(createLoginPayload));
             GenericApiResponse response = keyRequest.executeSync();
             if (!response.getErrors().isEmpty()) throw new IllegalArgumentException("Auth failed!");
@@ -44,7 +45,7 @@ public class PlusService {
     }
 
     public void getPlusSettings() {
-        RestRequest keyRequest = new RestRequest("/api/v1/public/settings/" + openAudioMc.getAuthenticationService().getServerKeySet().getPublicKey().getValue());
+        RestRequest keyRequest = new RestRequest(RestEndpoint.ENDPOINT_PLUS_GET_SETTINGS);
         ClientSettingsResponse response = keyRequest.executeSync().getResponse(ClientSettingsResponse.class);
         baseUrl = response.getDomain() + "?&data=";
         plusEnabled = response.getPlayerSync();

@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.generic.plus.PlusService;
 import com.craftmend.openaudiomc.generic.plus.object.PlusPlayer;
 import com.craftmend.openaudiomc.generic.plus.updates.PlayerUpdatePayload;
 import com.craftmend.openaudiomc.generic.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.rest.endpoints.RestEndpoint;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -74,7 +75,7 @@ public class PlayerSynchroniser implements Runnable {
     }
 
     private void update(PlayerUpdatePayload playerUpdatePayload, boolean sync) {
-        RestRequest restRequest = new RestRequest("/api/v1/plus/players");
+        RestRequest restRequest = new RestRequest(RestEndpoint.ENDPOINT_PLUS_UPDATE_PLAYERS);
         restRequest.setBody(OpenAudioMc.getGson().toJson(playerUpdatePayload));
         if (sync) {
             restRequest.executeSync();

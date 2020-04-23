@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.generic.authentication;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.rest.interfaces.GenericApiResponse;
 import com.craftmend.openaudiomc.generic.rest.responses.RegistrationResponse;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
@@ -16,7 +17,7 @@ import lombok.Getter;
 
 public class AuthenticationService {
 
-    private RestRequest registrationProvider = new RestRequest("/api/v1/servers/register");
+    private RestRequest registrationProvider = new RestRequest(RestEndpoint.ENDPOINT_REGISTER);
 
     @Getter
     private ServerKeySet serverKeySet = new ServerKeySet();
