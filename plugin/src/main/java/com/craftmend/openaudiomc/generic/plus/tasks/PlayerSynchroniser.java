@@ -19,7 +19,7 @@ public class PlayerSynchroniser implements Runnable {
 
     public PlayerSynchroniser(PlusService service, OpenAudioMc main) {
         this.main = main;
-        deleteAll();
+        deleteAll(true);
 
         // is it enabled? No? Then dont start the task
         if (!service.isPlusEnabled()) return;
@@ -30,10 +30,10 @@ public class PlayerSynchroniser implements Runnable {
         main.getTaskProvider().scheduleAsyncRepeatingTask(this, timeout, timeout);
     }
 
-    public void deleteAll() {
+    public void deleteAll(boolean sync) {
         PlayerUpdatePayload playerUpdatePayload = new PlayerUpdatePayload(main.getAuthenticationService().getServerKeySet().getPrivateKey().getValue());
         playerUpdatePayload.setForceClear(true);
-        update(playerUpdatePayload);
+        update(playerUpdatePayload, sync);
         trackedPlayers.clear();
     }
 
@@ -66,16 +66,20 @@ public class PlayerSynchroniser implements Runnable {
         // If there's something to do then do the thing ye
         if (!playerUpdatePayload.getStateUpdated().isEmpty() || !playerUpdatePayload.getOfflinePlayers().isEmpty() || !playerUpdatePayload.getPlusPlayers().isEmpty()) {
             // trigger update
-            update(playerUpdatePayload);
+            update(playerUpdatePayload, false);
             for (PlusPlayer plusPlayer : playerUpdatePayload.getPlusPlayers()) {
                 trackedPlayers.add(plusPlayer.getUuid());
             }
         }
     }
 
-    private void update(PlayerUpdatePayload playerUpdatePayload) {
+    private void update(PlayerUpdatePayload playerUpdatePayload, boolean sync) {
         RestRequest restRequest = new RestRequest("/api/v1/plus/players");
         restRequest.setBody(OpenAudioMc.getGson().toJson(playerUpdatePayload));
+        if (sync) {
+            restRequest.executeSync();
+            return;
+        }
         restRequest.execute().thenAccept(response -> {
             if (!response.getErrors().isEmpty()) {
                 OpenAudioLogger.toConsole("Warning, the server returned an error while updating player states!");

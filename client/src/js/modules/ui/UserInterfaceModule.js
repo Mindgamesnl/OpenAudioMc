@@ -6,8 +6,6 @@ export class UserInterfaceModule {
         document.getElementById("hue-bridge-menu-button").onclick = () => this.showHue();
         document.getElementById("show-main-button").onclick = () => this.showMain();
         // slider shit
-
-        this.changeColor("#304FFE", "#456780");
     }
 
     changeColor(findHexColor, replaceWith) {
