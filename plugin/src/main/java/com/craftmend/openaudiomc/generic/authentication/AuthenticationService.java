@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.authentication;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.GenericApiResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.responses.RegistrationResponse;

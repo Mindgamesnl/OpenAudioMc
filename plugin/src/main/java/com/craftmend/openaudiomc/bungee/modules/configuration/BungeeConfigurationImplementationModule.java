@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.bungee.modules.configuration;
 
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
-import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.generic.storage.objects.ClientSettings;

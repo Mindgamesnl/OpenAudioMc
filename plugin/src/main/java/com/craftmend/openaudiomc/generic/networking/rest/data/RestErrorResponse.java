@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.rest.data;
+package com.craftmend.openaudiomc.generic.networking.rest.data;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

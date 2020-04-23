@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.configuration;
 
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationImplementation;
-import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;

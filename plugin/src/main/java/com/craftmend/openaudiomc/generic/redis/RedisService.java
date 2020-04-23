@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.generic.redis;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationImplementation;
-import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.redis.packets.ExecuteBulkCommandsPacket;
 import com.craftmend.openaudiomc.generic.redis.packets.ExecuteCommandPacket;
 import com.craftmend.openaudiomc.generic.redis.packets.adapter.RedisTypeAdapter;

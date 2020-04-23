@@ -1,6 +1,6 @@
-package com.craftmend.openaudiomc.generic.rest.interfaces;
+package com.craftmend.openaudiomc.generic.networking.rest.interfaces;
 
-import com.craftmend.openaudiomc.generic.rest.data.RestErrorResponse;
+import com.craftmend.openaudiomc.generic.networking.rest.data.RestErrorResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.internal.LinkedTreeMap;
