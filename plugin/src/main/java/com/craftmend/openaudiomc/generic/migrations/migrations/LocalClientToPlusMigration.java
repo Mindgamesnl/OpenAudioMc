@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.generic.migrations.interfaces.SimpleMigration;
 import com.craftmend.openaudiomc.generic.migrations.wrapper.UploadSettingsWrapper;
 import com.craftmend.openaudiomc.generic.plus.response.ClientSettingsResponse;
 import com.craftmend.openaudiomc.generic.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.objects.ClientSettings;
 
@@ -48,7 +49,7 @@ public class LocalClientToPlusMigration implements SimpleMigration {
         if (startSound != null && !startSound.equals("none") && !startSound.startsWith("<un"))
             clientSettingsResponse.setStartSound(startSound);
 
-        RestRequest upload = new RestRequest("/api/v1/plus/settings");
+        RestRequest upload = new RestRequest(RestEndpoint.ENDPOINT_PLUS_SAVE_SETTINGS);
         upload.setBody(OpenAudioMc.getGson().toJson(new UploadSettingsWrapper(privateKey, clientSettingsResponse)));
         upload.executeSync();
 

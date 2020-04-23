@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.generic.rest;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.rest.adapters.RegistrationResponseAdapter;
+import com.craftmend.openaudiomc.generic.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.rest.interfaces.GenericApiResponse;
 import com.craftmend.openaudiomc.generic.rest.responses.RegistrationResponse;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
@@ -26,8 +27,8 @@ public class RestRequest {
             .registerTypeAdapter(RegistrationResponse.class, new RegistrationResponseAdapter())
             .create();
 
-    public RestRequest(String endpoint) {
-        this.endpoint = endpoint;
+    public RestRequest(RestEndpoint endpoint) {
+        this.endpoint = endpoint.getURL();
     }
 
     public RestRequest setQuery(String key, String value) {

@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnect
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.payloads.AcknowledgeClientPayload;
 import com.craftmend.openaudiomc.generic.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.rest.responses.LoginResponse;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.AssigningRelayState;
@@ -46,8 +47,8 @@ public class SocketIoConnector {
         if (!OpenAudioMc.getInstance().getStateService().getCurrentState().canConnect()) return;
 
         if (!registeredLogout) {
-            plusHandler = new RestRequest("/api/v1/servers/login/" + OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue());;
-            logoutHandler = new RestRequest("/api/v1/servers/logout/" + OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue());;
+            plusHandler = new RestRequest(RestEndpoint.ENDPOINT_LOGIN);
+            logoutHandler = new RestRequest(RestEndpoint.ENDPOINT_LOGOUT);
             OpenAudioMc.getInstance().getStateService().addListener((oldState, updagtedState) -> {
                 if (oldState instanceof ConnectedState) {
                     logoutHandler.execute();
