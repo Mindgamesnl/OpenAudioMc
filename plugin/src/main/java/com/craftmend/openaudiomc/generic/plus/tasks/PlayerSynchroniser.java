@@ -6,8 +6,8 @@ import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnect
 import com.craftmend.openaudiomc.generic.plus.PlusService;
 import com.craftmend.openaudiomc.generic.plus.object.PlusPlayer;
 import com.craftmend.openaudiomc.generic.plus.updates.PlayerUpdatePayload;
-import com.craftmend.openaudiomc.generic.rest.RestRequest;
-import com.craftmend.openaudiomc.generic.rest.endpoints.RestEndpoint;
+import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 
 import java.util.HashSet;
 import java.util.Set;

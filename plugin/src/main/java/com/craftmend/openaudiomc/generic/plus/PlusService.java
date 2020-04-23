@@ -7,9 +7,9 @@ import com.craftmend.openaudiomc.generic.plus.response.ClientSettingsResponse;
 import com.craftmend.openaudiomc.generic.plus.response.PlusLoginToken;
 import com.craftmend.openaudiomc.generic.plus.tasks.PlayerSynchroniser;
 import com.craftmend.openaudiomc.generic.plus.updates.CreateLoginPayload;
-import com.craftmend.openaudiomc.generic.rest.RestRequest;
-import com.craftmend.openaudiomc.generic.rest.endpoints.RestEndpoint;
-import com.craftmend.openaudiomc.generic.rest.interfaces.GenericApiResponse;
+import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
+import com.craftmend.openaudiomc.generic.networking.rest.interfaces.GenericApiResponse;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import lombok.Getter;
 
