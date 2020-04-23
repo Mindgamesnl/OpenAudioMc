@@ -119,16 +119,14 @@ public class OpenAudioMc {
             this.taskProvider = new BungeeTaskProvider();
         }
 
-        // only enable redis if there are packets that require it for this platform
-        if (Arrays.stream(ChannelKey.values()).anyMatch(value -> value.getTargetPlatform() == platform)) {
-            this.redisService = new RedisService(this.ConfigurationImplementation);
-        }
-
         this.authenticationService = new AuthenticationService();
 
         // do migration
         new MigrationWorker().handleMigrations(this);
 
+        // only enable redis if there are packets that require it for this platform
+        if (platformUsesRedis())
+            this.redisService = new RedisService(this.ConfigurationImplementation);
         this.stateService = new StateService();
         this.timeService = new TimeService();
         this.mediaModule = new MediaModule();
@@ -136,11 +134,6 @@ public class OpenAudioMc {
         this.voiceRoomManager = new VoiceRoomManager(this);
         this.commandModule = new CommandModule();
         this.plusService = new PlusService(this);
-    }
-
-    public boolean isSlave() {
-        if (platform == Platform.BUNGEE) return false;
-        return OpenAudioMcSpigot.getInstance().getProxyModule().getMode() != ClientMode.STAND_ALONE;
     }
 
     public void disable() {
@@ -151,5 +144,14 @@ public class OpenAudioMc {
         if (stateService.getCurrentState().isConnected()) {
             networkingService.stop();
         }
+    }
+
+    public boolean isSlave() {
+        if (platform == Platform.BUNGEE) return false;
+        return OpenAudioMcSpigot.getInstance().getProxyModule().getMode() != ClientMode.STAND_ALONE;
+    }
+
+    private boolean platformUsesRedis() {
+        return Arrays.stream(ChannelKey.values()).anyMatch(value -> value.getTargetPlatform() == platform);
     }
 }
