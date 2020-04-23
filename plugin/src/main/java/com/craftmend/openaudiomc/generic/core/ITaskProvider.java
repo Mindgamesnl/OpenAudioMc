@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.scheduling.interfaces;
+package com.craftmend.openaudiomc.generic.core;
 
 public interface ITaskProvider {
 

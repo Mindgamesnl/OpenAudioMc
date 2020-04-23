@@ -4,19 +4,21 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.modules.commands.BungeeCommandModule;
 import com.craftmend.openaudiomc.bungee.modules.node.NodeManager;
 import com.craftmend.openaudiomc.bungee.modules.player.PlayerManager;
+import com.craftmend.openaudiomc.generic.core.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import lombok.Getter;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 
 import java.time.Duration;
 import java.time.Instant;
 
 @Getter
-public class OpenAudioMcBungee extends Plugin {
+public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
 
     /**
      * Constant: main plugin instance
@@ -38,7 +40,7 @@ public class OpenAudioMcBungee extends Plugin {
 
         // setup core
         try {
-            new OpenAudioMc(Platform.BUNGEE, ClientMode.STAND_ALONE.getServiceClass());
+            new OpenAudioMc(Platform.BUNGEE, this, ClientMode.STAND_ALONE.getServiceClass());
             this.playerManager = new PlayerManager(this);
             this.commandModule = new BungeeCommandModule(this);
             this.nodeManager = new NodeManager(this);
@@ -62,4 +64,8 @@ public class OpenAudioMcBungee extends Plugin {
         OpenAudioMc.getInstance().disable();
     }
 
+    @Override
+    public boolean hasPlayersOnline() {
+        return !ProxyServer.getInstance().getPlayers().isEmpty();
+    }
 }

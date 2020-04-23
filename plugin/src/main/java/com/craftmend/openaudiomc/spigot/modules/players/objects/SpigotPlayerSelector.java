@@ -1,6 +1,5 @@
 package com.craftmend.openaudiomc.spigot.modules.players.objects;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
 import lombok.AllArgsConstructor;

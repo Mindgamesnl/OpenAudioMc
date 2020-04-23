@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc;
 
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
-import com.craftmend.openaudiomc.generic.flags.FlagSet;
+import com.craftmend.openaudiomc.generic.core.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.interfaces.ConfigurationImplementation;
 import com.craftmend.openaudiomc.generic.media.MediaModule;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
@@ -15,7 +15,7 @@ import com.craftmend.openaudiomc.generic.networking.addapter.AbstractPacketAdapt
 import com.craftmend.openaudiomc.generic.plus.PlusService;
 import com.craftmend.openaudiomc.generic.redis.RedisService;
 import com.craftmend.openaudiomc.generic.redis.packets.channels.ChannelKey;
-import com.craftmend.openaudiomc.generic.scheduling.interfaces.ITaskProvider;
+import com.craftmend.openaudiomc.generic.core.ITaskProvider;
 import com.craftmend.openaudiomc.generic.voice.VoiceRoomManager;
 import com.craftmend.openaudiomc.generic.state.StateService;
 
@@ -63,7 +63,6 @@ public class OpenAudioMc {
      * - Server Service          []   (used to probe and detect what it is running)
      * - Time Service            []   (used to synchronize time with the central OpenAudioMc-time-server)
      * - Networking Service      []   (handles connections, clients, packets etc)
-     * - Flag Set                []   (keeps track of OpenAudioMc account data like if its partnered or not)
      * - Configuration Interface []   (storage implementation for the platform type)
      * - Authentication Service  []   (handle authentication for the api)
      * - Voice Room Manager      []   (keep track of ongoing voice calls)
@@ -77,7 +76,6 @@ public class OpenAudioMc {
     private ServerService serverService;
     private TimeService timeService;
     private INetworkingService networkingService;
-    private FlagSet flagSet;
     private ConfigurationImplementation ConfigurationImplementation;
     private AuthenticationService authenticationService;
     private VoiceRoomManager voiceRoomManager;
@@ -89,6 +87,8 @@ public class OpenAudioMc {
 
     @Getter private static OpenAudioMc instance;
 
+    @Getter OpenAudioInvoker invoker;
+    @Getter private boolean cleanStartup;
     @Getter private boolean isDisabled = false;
     @Getter private static final OpenAudioApi api = new OpenAudioApi();
     @Getter private Class<? extends INetworkingService> serviceImplementation;
@@ -100,10 +100,13 @@ public class OpenAudioMc {
     // The platform, easy for detecting what should be enabled and what not ya know
     private Platform platform;
 
-    public OpenAudioMc(Platform platform, Class<? extends INetworkingService> networkingService) throws Exception {
+    public OpenAudioMc(Platform platform, OpenAudioInvoker invoker, Class<? extends INetworkingService> networkingService) throws Exception {
         instance = this;
         this.platform = platform;
         this.serviceImplementation = networkingService;
+        this.invoker = invoker;
+        this.cleanStartup = !this.invoker.hasPlayersOnline();
+
         // if spigot, load the spigot configuration system and the bungee one for bungee
         if (platform == Platform.SPIGOT) {
             this.serverService = new ServerService();
@@ -121,7 +124,6 @@ public class OpenAudioMc {
             this.redisService = new RedisService(this.ConfigurationImplementation);
         }
 
-        this.flagSet = new FlagSet();
         this.authenticationService = new AuthenticationService();
 
         // do migration
@@ -130,9 +132,7 @@ public class OpenAudioMc {
         this.stateService = new StateService();
         this.timeService = new TimeService();
         this.mediaModule = new MediaModule();
-
         this.networkingService = serviceImplementation.getConstructor().newInstance();
-
         this.voiceRoomManager = new VoiceRoomManager(this);
         this.commandModule = new CommandModule();
         this.plusService = new PlusService(this);

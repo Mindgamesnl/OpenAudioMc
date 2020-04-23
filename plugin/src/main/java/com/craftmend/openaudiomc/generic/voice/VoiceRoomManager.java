@@ -1,11 +1,11 @@
 package com.craftmend.openaudiomc.generic.voice;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.flags.FlagSet;
-import com.craftmend.openaudiomc.generic.flags.enums.Flag;
+import com.craftmend.openaudiomc.generic.plus.object.FlagSet;
 import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.generic.plus.enums.PlusAccessLevel;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.voice.exception.InvalidCallParameterException;
 import com.craftmend.openaudiomc.generic.voice.exception.RequestPendingException;
@@ -140,11 +140,11 @@ public class VoiceRoomManager {
     }
 
     public int getMaxRoomSize() {
-        FlagSet set = OpenAudioMc.getInstance().getFlagSet();
+        FlagSet set = OpenAudioMc.getInstance().getPlusService().getFlagSet();
 
-        if (set.hasFlag(Flag.VOICE_CHAT_2)) return 2;
-        if (set.hasFlag(Flag.VOICE_CHAT_8)) return 8;
-        if (set.hasFlag(Flag.VOICE_CHAT_16)) return 16;
+        if (set.hasFlag(PlusAccessLevel.Flag.VOICE_CHAT_2)) return 2;
+        if (set.hasFlag(PlusAccessLevel.Flag.VOICE_CHAT_8)) return 8;
+        if (set.hasFlag(PlusAccessLevel.Flag.VOICE_CHAT_16)) return 16;
 
         return -1;
     }
