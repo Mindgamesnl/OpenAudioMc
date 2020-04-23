@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.logging;
+package com.craftmend.openaudiomc.generic.core.logging;
 
 public class OpenAudioLogger {
 

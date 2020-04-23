@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.core;
+package com.craftmend.openaudiomc.generic.core.interfaces;
 
 public interface ITaskProvider {
 

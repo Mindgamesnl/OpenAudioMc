@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.bungee.modules.scheduling;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
-import com.craftmend.openaudiomc.generic.core.ITaskProvider;
+import com.craftmend.openaudiomc.generic.core.interfaces.ITaskProvider;
 
 import java.util.concurrent.TimeUnit;
 
