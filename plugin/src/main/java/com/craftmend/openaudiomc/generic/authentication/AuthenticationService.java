@@ -27,10 +27,11 @@ public class AuthenticationService {
     private String failureMessage = "Oh no, it looks like the initial setup of OpenAudioMc has failed. Please try to restart the server and try again, if that still does not work, please contact OpenAudioMc staff or support.";
     private final int keyVersion = 3; // OpenAudioMc-Plus update
 
-    public AuthenticationService() throws IllegalStateException {
+    public AuthenticationService initialize() {
         registrationProvider = new RestRequest(RestEndpoint.ENDPOINT_REGISTER);
         OpenAudioLogger.toConsole("Starting authentication module");
         loadData();
+        return this;
     }
 
     /**

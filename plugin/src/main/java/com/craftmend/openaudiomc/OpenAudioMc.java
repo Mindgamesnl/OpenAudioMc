@@ -120,6 +120,7 @@ public class OpenAudioMc {
         }
 
         this.authenticationService = new AuthenticationService();
+        this.authenticationService.initialize();
 
         // do migration
         new MigrationWorker().handleMigrations(this);
