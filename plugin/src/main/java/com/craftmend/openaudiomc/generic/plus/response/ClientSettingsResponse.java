@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.plus.response;
 
-import com.craftmend.openaudiomc.generic.rest.interfaces.AbstractRestResponse;
+import com.craftmend.openaudiomc.generic.networking.rest.interfaces.AbstractRestResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
