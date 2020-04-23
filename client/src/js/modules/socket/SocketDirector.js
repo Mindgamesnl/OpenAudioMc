@@ -70,6 +70,9 @@ export class SocketDirector {
                                 "    background-size: cover;"
                         }
 
+                        // replace the default with a defined one
+                        openAudioMc.getUserInterfaceModule().changeColor("#304FFE", response.accentColor);
+
                         if (response.startSound != "") {
                             const createdChannel = new Channel("startsound");
                             const createdMedia = new Sound(response.startSound);

@@ -51,7 +51,7 @@ public class PlusService {
     }
 
     public void shutdown() {
-        playerSynchroniser.deleteAll();
+        playerSynchroniser.deleteAll(true);
         createLoginToken(null);
     }
 
