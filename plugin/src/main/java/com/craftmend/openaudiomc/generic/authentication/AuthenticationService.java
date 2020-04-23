@@ -17,7 +17,7 @@ import lombok.Getter;
 
 public class AuthenticationService {
 
-    private RestRequest registrationProvider = new RestRequest(RestEndpoint.ENDPOINT_REGISTER);
+    private RestRequest registrationProvider;
 
     @Getter
     private ServerKeySet serverKeySet = new ServerKeySet();
@@ -28,10 +28,9 @@ public class AuthenticationService {
     private final int keyVersion = 3; // OpenAudioMc-Plus update
 
     public AuthenticationService() throws IllegalStateException {
+        registrationProvider = new RestRequest(RestEndpoint.ENDPOINT_REGISTER);
         OpenAudioLogger.toConsole("Starting authentication module");
         loadData();
-
-        // if (!isSuccesfull) throw new IllegalStateException("Failed to parse tokens");
     }
 
     /**

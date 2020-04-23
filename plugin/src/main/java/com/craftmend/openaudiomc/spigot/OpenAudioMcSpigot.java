@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.core.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.loggin.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.WorkerState;
@@ -25,7 +26,7 @@ import java.time.Duration;
 import java.time.Instant;
 
 @Getter
-public final class OpenAudioMcSpigot extends JavaPlugin {
+public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvoker {
 
     /**
      * services OpenAudioMc uses in the background
@@ -77,7 +78,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
 
         // setup core
         try {
-            new OpenAudioMc(Platform.SPIGOT, proxyModule.getMode().getServiceClass());
+            new OpenAudioMc(Platform.SPIGOT, this, proxyModule.getMode().getServiceClass());
             // startup modules and services
             this.executorService = new ExecutorService(this);
             this.serverService = new ServerService();
@@ -118,4 +119,8 @@ public final class OpenAudioMcSpigot extends JavaPlugin {
         OpenAudioLogger.toConsole("Stopped OpenAudioMc. Goodbye.");
     }
 
+    @Override
+    public boolean hasPlayersOnline() {
+        return !Bukkit.getOnlinePlayers().isEmpty();
+    }
 }

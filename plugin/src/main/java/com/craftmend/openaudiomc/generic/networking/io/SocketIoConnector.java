@@ -189,11 +189,6 @@ public class SocketIoConnector {
             }
         });
 
-        socket.on("push-flag", args -> {
-            String data = ((String) args[args.length - 1]);
-            OpenAudioMc.getInstance().getFlagSet().addFlag(data);
-        });
-
         socket.on("voice-room-created", args -> {
             String data = ((String) args[args.length - 1]);
             OpenAudioMc.getInstance().getVoiceRoomManager().registerCall(OpenAudioMc.getGson().fromJson(data, RoomCreatedPacket.class));
