@@ -2,10 +2,15 @@ package com.craftmend.openaudiomc.bungee;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.modules.commands.BungeeCommandModule;
+import com.craftmend.openaudiomc.bungee.modules.configuration.BungeeConfigurationImplementation;
 import com.craftmend.openaudiomc.bungee.modules.node.NodeManager;
 import com.craftmend.openaudiomc.bungee.modules.player.PlayerManager;
+import com.craftmend.openaudiomc.bungee.modules.scheduling.BungeeTaskProvider;
+import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.core.interfaces.ITaskProvider;
 import com.craftmend.openaudiomc.generic.core.interfaces.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 
@@ -40,7 +45,7 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
 
         // setup core
         try {
-            new OpenAudioMc(Platform.BUNGEE, this, ClientMode.STAND_ALONE.getServiceClass());
+            new OpenAudioMc(this);
             this.playerManager = new PlayerManager(this);
             this.commandModule = new BungeeCommandModule(this);
             this.nodeManager = new NodeManager(this);
@@ -67,5 +72,35 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
     @Override
     public boolean hasPlayersOnline() {
         return !ProxyServer.getInstance().getPlayers().isEmpty();
+    }
+
+    @Override
+    public boolean isSlave() {
+        return false;
+    }
+
+    @Override
+    public Platform getPlatform() {
+        return Platform.BUNGEE;
+    }
+
+    @Override
+    public Class<? extends INetworkingService> getServiceClass() {
+        return ClientMode.STAND_ALONE.getServiceClass();
+    }
+
+    @Override
+    public ITaskProvider getTaskProvider() {
+        return new BungeeTaskProvider();
+    }
+
+    @Override
+    public ConfigurationImplementation getConfigurationProvider() {
+        return new BungeeConfigurationImplementation();
+    }
+
+    @Override
+    public void onPreBoot(OpenAudioMc openAudioMc) {
+
     }
 }

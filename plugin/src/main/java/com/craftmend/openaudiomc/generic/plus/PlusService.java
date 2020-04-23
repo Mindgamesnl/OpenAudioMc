@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.generic.plus.enums.PlusAccessLevel;
 import com.craftmend.openaudiomc.generic.plus.object.FlagSet;
 import com.craftmend.openaudiomc.generic.plus.response.ClientSettingsResponse;
 import com.craftmend.openaudiomc.generic.plus.response.PlusLoginToken;
-import com.craftmend.openaudiomc.generic.plus.tasks.PlayerSynchroniser;
+import com.craftmend.openaudiomc.generic.plus.tasks.PlayerStateStreamer;
 import com.craftmend.openaudiomc.generic.plus.updates.CreateLoginPayload;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
@@ -17,7 +17,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class PlusService {
 
-    private PlayerSynchroniser playerSynchroniser;
+    private PlayerStateStreamer playerStateStreamer;
     @Getter private String baseUrl;
     @Getter private boolean plusEnabled;
     @Getter private PlusAccessLevel accessLevel;
@@ -28,7 +28,7 @@ public class PlusService {
         this.openAudioMc = openAudioMc;
         this.flagSet = new FlagSet();
         getPlusSettings();
-        playerSynchroniser = new PlayerSynchroniser(this, openAudioMc);
+        playerStateStreamer = new PlayerStateStreamer(this, openAudioMc);
         accessLevel = PlusAccessLevel.valueOf(openAudioMc.getConfigurationImplementation().getString(StorageKey.SETTINGS_PLUS_ACCESS_LEVEL));
     }
 
@@ -55,7 +55,7 @@ public class PlusService {
     }
 
     public void shutdown() {
-        playerSynchroniser.deleteAll(true);
+        playerStateStreamer.deleteAll(true);
         createLoginToken(null);
     }
 

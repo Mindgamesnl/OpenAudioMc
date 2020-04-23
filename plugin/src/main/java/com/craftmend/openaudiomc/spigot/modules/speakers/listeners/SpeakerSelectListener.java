@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.listeners;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
 import com.craftmend.openaudiomc.spigot.modules.speakers.menu.SpeakerMenu;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
@@ -23,7 +24,7 @@ public class SpeakerSelectListener implements Listener {
 
     @EventHandler
     public void onClick(PlayerInteractEvent event) {
-        if (OpenAudioMc.getInstance().getServerService().getVersion() == ServerVersion.MODERN && event.getHand() != EquipmentSlot.HAND) return;
+        if (OpenAudioMcSpigot.getInstance().getServerService().getVersion() == ServerVersion.MODERN && event.getHand() != EquipmentSlot.HAND) return;
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (isAllowed(event.getPlayer())) {
                 Speaker speaker = speakerModule.getSpeaker(new MappedLocation(event.getClickedBlock().getLocation()));

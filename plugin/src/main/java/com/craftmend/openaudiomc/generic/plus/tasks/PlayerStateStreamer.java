@@ -13,20 +13,20 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class PlayerSynchroniser implements Runnable {
+public class PlayerStateStreamer implements Runnable {
 
     private Set<UUID> trackedPlayers = new HashSet<>();
     private OpenAudioMc main;
 
-    public PlayerSynchroniser(PlusService service, OpenAudioMc main) {
+    public PlayerStateStreamer(PlusService service, OpenAudioMc main) {
         this.main = main;
         deleteAll(true);
 
         // is it enabled? No? Then dont start the task
         if (!service.isPlusEnabled()) return;
-        if (main.isSlave()) return;
+        if (main.getInvoker().isSlave()) return;
 
-        // update 10 seconds
+        // update every 5 seconds
         int timeout = 20 * 5;
         main.getTaskProvider().scheduleAsyncRepeatingTask(this, timeout, timeout);
     }

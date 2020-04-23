@@ -19,16 +19,8 @@ import com.craftmend.openaudiomc.generic.core.interfaces.ITaskProvider;
 import com.craftmend.openaudiomc.generic.voice.VoiceRoomManager;
 import com.craftmend.openaudiomc.generic.state.StateService;
 
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfigurationImplementation;
-import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import com.craftmend.openaudiomc.spigot.modules.show.adapter.RunnableTypeAdapter;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
-import com.craftmend.openaudiomc.spigot.services.scheduling.SpigotTaskProvider;
-import com.craftmend.openaudiomc.spigot.services.server.ServerService;
-
-import com.craftmend.openaudiomc.bungee.modules.configuration.BungeeConfigurationImplementation;
-import com.craftmend.openaudiomc.bungee.modules.scheduling.BungeeTaskProvider;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -60,7 +52,6 @@ public class OpenAudioMc {
      *           (SERVICE)                            (PURPOSE)
      * ===========================================================================
      * - State Service           []   (responsible for tracking the current state)
-     * - Server Service          []   (used to probe and detect what it is running)
      * - Time Service            []   (used to synchronize time with the central OpenAudioMc-time-server)
      * - Networking Service      []   (handles connections, clients, packets etc)
      * - Configuration Interface []   (storage implementation for the platform type)
@@ -73,10 +64,9 @@ public class OpenAudioMc {
      * - Plus Service            []   (Manages everything OpenAudioMc-Plus related, from auth to upstream data)
      */
     private StateService stateService;
-    private ServerService serverService;
     private TimeService timeService;
     private INetworkingService networkingService;
-    private ConfigurationImplementation ConfigurationImplementation;
+    private ConfigurationImplementation configurationImplementation;
     private AuthenticationService authenticationService;
     private VoiceRoomManager voiceRoomManager;
     private CommandModule commandModule;
@@ -100,22 +90,16 @@ public class OpenAudioMc {
     // The platform, easy for detecting what should be enabled and what not ya know
     private Platform platform;
 
-    public OpenAudioMc(Platform platform, OpenAudioInvoker invoker, Class<? extends INetworkingService> networkingService) throws Exception {
+    public OpenAudioMc(OpenAudioInvoker invoker) throws Exception {
         instance = this;
-        this.platform = platform;
-        this.serviceImplementation = networkingService;
+        this.platform = invoker.getPlatform();
+        this.serviceImplementation = invoker.getServiceClass();
         this.invoker = invoker;
         this.cleanStartup = !this.invoker.hasPlayersOnline();
+        this.taskProvider = invoker.getTaskProvider();
+        this.configurationImplementation = invoker.getConfigurationProvider();
 
-        // if spigot, load the spigot configuration system and the bungee one for bungee
-        if (platform == Platform.SPIGOT) {
-            this.serverService = new ServerService();
-            this.ConfigurationImplementation = new SpigotConfigurationImplementation(OpenAudioMcSpigot.getInstance());
-            this.taskProvider = new SpigotTaskProvider();
-        } else {
-            this.ConfigurationImplementation = new BungeeConfigurationImplementation();
-            this.taskProvider = new BungeeTaskProvider();
-        }
+        this.invoker.onPreBoot(this);
 
         this.authenticationService = new AuthenticationService();
         this.authenticationService.initialize();
@@ -125,7 +109,7 @@ public class OpenAudioMc {
 
         // only enable redis if there are packets that require it for this platform
         if (platformUsesRedis())
-            this.redisService = new RedisService(this.ConfigurationImplementation);
+            this.redisService = new RedisService(this.configurationImplementation);
         this.stateService = new StateService();
         this.timeService = new TimeService();
         this.mediaModule = new MediaModule();
@@ -138,16 +122,11 @@ public class OpenAudioMc {
     public void disable() {
         isDisabled = true;
         if (redisService != null) redisService.shutdown();
-        ConfigurationImplementation.saveAll();
+        configurationImplementation.saveAll();
         this.plusService.shutdown();
         if (stateService.getCurrentState().isConnected()) {
             networkingService.stop();
         }
-    }
-
-    public boolean isSlave() {
-        if (platform == Platform.BUNGEE) return false;
-        return OpenAudioMcSpigot.getInstance().getProxyModule().getMode() != ClientMode.STAND_ALONE;
     }
 
     private boolean platformUsesRedis() {

@@ -108,7 +108,7 @@ public class SpeakersSubCommand extends SubCommand {
             Skull s = (Skull) location.getBlock().getState();
             s.setSkullType(SkullType.PLAYER);
 
-            if (OpenAudioMc.getInstance().getServerService().getVersion() == ServerVersion.LEGACY) {
+            if (OpenAudioMcSpigot.getInstance().getServerService().getVersion() == ServerVersion.LEGACY) {
                 // reflection for the old map
                 try {
                     Block.class.getMethod("setData", byte.class).invoke(location.getBlock(), (byte) 1);
