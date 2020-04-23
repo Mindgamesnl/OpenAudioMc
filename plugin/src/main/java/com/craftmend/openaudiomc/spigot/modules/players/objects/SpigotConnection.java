@@ -65,7 +65,7 @@ public class SpigotConnection {
         });
 
         // the feeder, how the data watcher gets its new fed data
-        locationDataWatcher.setFeeder(() -> player.getLocation());
+        locationDataWatcher.setFeeder(player::getLocation);
 
         // set handlers
         clientConnection.addOnConnectHandler(() -> {
