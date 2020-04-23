@@ -7,38 +7,51 @@ export class UserInterfaceModule {
         document.getElementById("show-main-button").onclick = () => this.showMain();
         // slider shit
 
+        this.changeColor("#304FFE", "#456780");
     }
 
-    colorToHex(color) {
-        if (color.substr(0, 1) === '#') {
-            return color;
-        }
-        let digits = /(.*?)rgb\((\d+), (\d+), (\d+)\)/.exec(color);
-        let red = parseInt(digits[2]);
-        let green = parseInt(digits[3]);
-        let blue = parseInt(digits[4]);
-        let rgb = blue | (green << 8) | (red << 16);
-        return digits[1] + '#' + rgb.toString(16);
-    };
-
-    changeColor(from, to) {
-        let elements = document.getElementsByTagName('*');
-        for (let i=0;i<elements.length;i++) {
-            let color = window.getComputedStyle(elements[i]).color;
-            let hex = this.colorToHex(color);
-            if (hex == from) {
-                elements[i].style.color=to;
+    changeColor(findHexColor, replaceWith) {
+        // Convert rgb color strings to hex
+        // REF: https://stackoverflow.com/a/3627747/1938889
+        function rgb2hex(rgb) {
+            if (/^#[0-9A-F]{6}$/i.test(rgb)) return rgb;
+            rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+            function hex(x) {
+                return ("0" + parseInt(x).toString(16)).slice(-2);
             }
-            let backgroundColor = window.getComputedStyle(elements[i]).backgroundColor;
-            console.log(backgroundColor);
-            if (backgroundColor.indexOf('rgba')<0) {
-                let hex = this.colorToHex(backgroundColor);
-                if (hex == from) {
-                    elements[i].style.backgroundColor=to;
+            return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+        }
+
+        function hexToRgb(hex){
+            hex = hex.replace('#','');
+            let r = parseInt(hex.substring(0,2), 16);
+            let g = parseInt(hex.substring(2,4), 16);
+            let b = parseInt(hex.substring(4,6), 16);
+
+            return  'rgb('+r+', '+g+', '+b+')';
+        }
+
+        let convertedColor = hexToRgb(findHexColor);
+
+        // Select and run a map function on every tag
+        document.querySelectorAll('*').forEach(function(el, i) {
+            // Get the computed styles of each tag
+            let styles = window.getComputedStyle(el);
+            // Go through each computed style and search for "color"
+            Object.keys(styles).reduce(function(acc, k) {
+                let name = styles[k];
+                let value = styles.getPropertyValue(name);
+                if (value.indexOf(convertedColor) >=0 ) {
+                    let newValue = value.replace(convertedColor, replaceWith);
+                    // special attributes
+                    if (name.indexOf("border-top") >= 0) {
+                        el.style.borderTop = '2px solid ' + newValue;
+                    } else {
+                        el.style[name] = newValue;
+                    }
                 }
-            }
-
-        }
+            });
+        });
     }
 
     setMessage(text) {
