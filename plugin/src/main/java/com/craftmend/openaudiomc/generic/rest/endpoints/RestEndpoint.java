@@ -20,7 +20,7 @@ public enum RestEndpoint {
 
     public String getURL() {
         this.url = this.url.replace("{private_key}", OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue());
-        this.url = this.url.replace("{public_key}", OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue());
+        this.url = this.url.replace("{public_key}", OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue());
         return this.url;
     }
 }
