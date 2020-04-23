@@ -19,7 +19,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class SpigotConfigurationImplementationModule implements ConfigurationImplementation {
+public class SpigotConfigurationImplementation implements ConfigurationImplementation {
 
     @Getter private ClientSettings clientSettings;
     private FileConfiguration mainConfig;
@@ -27,7 +27,7 @@ public class SpigotConfigurationImplementationModule implements ConfigurationImp
 
     private Map<StorageKey, String> cachedConfigStrings = new HashMap<>();
 
-    public SpigotConfigurationImplementationModule(OpenAudioMcSpigot openAudioMcSpigot) {
+    public SpigotConfigurationImplementation(OpenAudioMcSpigot openAudioMcSpigot) {
         //save default
         openAudioMcSpigot.saveDefaultConfig();
         if (!hasDataFile()) openAudioMcSpigot.saveResource("data.yml", false);
@@ -36,10 +36,12 @@ public class SpigotConfigurationImplementationModule implements ConfigurationImp
         mainConfig = openAudioMcSpigot.getConfig();
 
         OpenAudioLogger.toConsole("Starting configuration module");
+        this.loadSettings();
     }
 
-    public void loadSettings() {
+    public ConfigurationImplementation loadSettings() {
         clientSettings = new ClientSettings().load();
+        return this;
     }
 
     /**

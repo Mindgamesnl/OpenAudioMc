@@ -7,7 +7,7 @@ import java.util.Set;
 
 public interface ConfigurationImplementation {
 
-    void loadSettings();
+    ConfigurationImplementation loadSettings();
     String getString(StorageKey storageKey);
     int getInt(StorageKey storageKey);
     String getStringFromPath(String path, StorageLocation storageLocation);

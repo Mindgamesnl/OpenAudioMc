@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class BungeeConfigurationImplementationModule implements ConfigurationImplementation {
+public class BungeeConfigurationImplementation implements ConfigurationImplementation {
 
     @Deprecated @Getter private ClientSettings clientSettings;
     private Configuration mainConfig;
@@ -28,7 +28,7 @@ public class BungeeConfigurationImplementationModule implements ConfigurationImp
 
     private Map<StorageKey, String> cachedConfigStrings = new HashMap<>();
 
-    public BungeeConfigurationImplementationModule() {
+    public BungeeConfigurationImplementation() {
         //save default
         saveDefaultFile("data.yml", false);
         saveDefaultFile("config.yml", false);
@@ -37,10 +37,12 @@ public class BungeeConfigurationImplementationModule implements ConfigurationImp
         mainConfig = getFile("config.yml");
 
         OpenAudioLogger.toConsole("Starting configuration module");
+        this.loadSettings();
     }
 
-    public void loadSettings() {
+    public ConfigurationImplementation loadSettings() {
         clientSettings = new ClientSettings().load();
+        return this;
     }
 
     /**

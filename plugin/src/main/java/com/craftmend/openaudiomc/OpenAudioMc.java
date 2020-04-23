@@ -20,14 +20,14 @@ import com.craftmend.openaudiomc.generic.voice.VoiceRoomManager;
 import com.craftmend.openaudiomc.generic.state.StateService;
 
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfigurationImplementationModule;
+import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfigurationImplementation;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import com.craftmend.openaudiomc.spigot.modules.show.adapter.RunnableTypeAdapter;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 import com.craftmend.openaudiomc.spigot.services.scheduling.SpigotTaskProvider;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 
-import com.craftmend.openaudiomc.bungee.modules.configuration.BungeeConfigurationImplementationModule;
+import com.craftmend.openaudiomc.bungee.modules.configuration.BungeeConfigurationImplementation;
 import com.craftmend.openaudiomc.bungee.modules.scheduling.BungeeTaskProvider;
 
 import com.google.gson.Gson;
@@ -85,13 +85,13 @@ public class OpenAudioMc {
     private RedisService redisService;
     private PlusService plusService;
 
-    @Getter private static OpenAudioMc instance;
+    private OpenAudioInvoker invoker;
+    private boolean cleanStartup;
+    private boolean isDisabled = false;
+    private Class<? extends INetworkingService> serviceImplementation;
 
-    @Getter OpenAudioInvoker invoker;
-    @Getter private boolean cleanStartup;
-    @Getter private boolean isDisabled = false;
     @Getter private static final OpenAudioApi api = new OpenAudioApi();
-    @Getter private Class<? extends INetworkingService> serviceImplementation;
+    @Getter private static OpenAudioMc instance;
     @Getter private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(AbstractPacketPayload.class, new AbstractPacketAdapter())
             .registerTypeAdapter(ShowRunnable.class, new RunnableTypeAdapter())
@@ -110,12 +110,10 @@ public class OpenAudioMc {
         // if spigot, load the spigot configuration system and the bungee one for bungee
         if (platform == Platform.SPIGOT) {
             this.serverService = new ServerService();
-            this.ConfigurationImplementation = new SpigotConfigurationImplementationModule(OpenAudioMcSpigot.getInstance());
-            this.ConfigurationImplementation.loadSettings();
+            this.ConfigurationImplementation = new SpigotConfigurationImplementation(OpenAudioMcSpigot.getInstance());
             this.taskProvider = new SpigotTaskProvider();
         } else {
-            this.ConfigurationImplementation = new BungeeConfigurationImplementationModule();
-            this.ConfigurationImplementation.loadSettings();
+            this.ConfigurationImplementation = new BungeeConfigurationImplementation();
             this.taskProvider = new BungeeTaskProvider();
         }
 
