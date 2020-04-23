@@ -220,7 +220,6 @@ public class SocketIoConnector {
     }
 
     public void send(ClientConnection client, AbstractPacket packet) {
-
         // only send the packet if the client is online, valid and the plugin is connected
         if (client.getIsConnected() && OpenAudioMc.getInstance().getStateService().getCurrentState().isConnected()) {
             packet.setClient(client.getPlayer().getUniqueId());
