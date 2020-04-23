@@ -2,8 +2,8 @@ package com.craftmend.openaudiomc;
 
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
-import com.craftmend.openaudiomc.generic.core.OpenAudioInvoker;
-import com.craftmend.openaudiomc.generic.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.core.interfaces.OpenAudioInvoker;
+import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementation;
 import com.craftmend.openaudiomc.generic.media.MediaModule;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import com.craftmend.openaudiomc.generic.migrations.MigrationWorker;
@@ -15,7 +15,7 @@ import com.craftmend.openaudiomc.generic.networking.addapter.AbstractPacketAdapt
 import com.craftmend.openaudiomc.generic.plus.PlusService;
 import com.craftmend.openaudiomc.generic.redis.RedisService;
 import com.craftmend.openaudiomc.generic.redis.packets.channels.ChannelKey;
-import com.craftmend.openaudiomc.generic.core.ITaskProvider;
+import com.craftmend.openaudiomc.generic.core.interfaces.ITaskProvider;
 import com.craftmend.openaudiomc.generic.voice.VoiceRoomManager;
 import com.craftmend.openaudiomc.generic.state.StateService;
 

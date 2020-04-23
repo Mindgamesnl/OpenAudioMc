@@ -1,8 +1,8 @@
-package com.craftmend.openaudiomc.generic.storage.objects;
+package com.craftmend.openaudiomc.generic.core.storage.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
