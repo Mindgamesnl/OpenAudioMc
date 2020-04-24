@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.generic.commands.adapters.SpigotCommandSenderAd
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
+import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
@@ -24,6 +25,7 @@ public class SpigotMainCommand implements CommandExecutor, TabCompleter {
     private OpenAudioMcSpigot openAudioMcSpigot;
     private CommandModule commandModule = OpenAudioMc.getInstance().getCommandModule();
     private CommandMiddleware[] commandMiddleware = new CommandMiddleware[] {
+            new CatchCrashMiddleware(),
             new CleanStateCheckMiddleware()
     };
 
@@ -34,10 +36,6 @@ public class SpigotMainCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender originalSender, Command command, String label, String[] args) {
         GenericExecutor sender = new SpigotCommandSenderAdapter(originalSender);
-        if (!OpenAudioMc.getInstance().getAuthenticationService().isSuccesfull()) {
-            sender.sendMessage(commandModule.getCommandPrefix() + OpenAudioMc.getInstance().getAuthenticationService().getFailureMessage());
-            return true;
-        }
 
         if (args.length == 0) {
             sender.sendMessage(commandModule.getCommandPrefix() + "OpenAudioMc version " + openAudioMcSpigot.getDescription().getVersion() + ". For help, please use /openaudio help");

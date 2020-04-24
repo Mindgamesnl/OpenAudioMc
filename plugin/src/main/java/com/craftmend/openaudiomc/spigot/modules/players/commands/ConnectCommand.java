@@ -1,6 +1,11 @@
 package com.craftmend.openaudiomc.spigot.modules.players.commands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.commands.adapters.SpigotCommandSenderAdapter;
+import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
+import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
+import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
+import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
 import com.craftmend.openaudiomc.generic.state.interfaces.State;
 import com.craftmend.openaudiomc.generic.state.states.WorkerState;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
@@ -14,6 +19,11 @@ import org.bukkit.entity.Player;
 @AllArgsConstructor
 public class ConnectCommand implements CommandExecutor {
 
+    private CommandMiddleware[] commandMiddleware = new CommandMiddleware[] {
+            new CatchCrashMiddleware(),
+            new CleanStateCheckMiddleware()
+    };
+
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         State state = OpenAudioMc.getInstance().getStateService().getCurrentState();
@@ -23,11 +33,7 @@ public class ConnectCommand implements CommandExecutor {
             return true;
         }
 
-        if (!OpenAudioMc.getInstance().getAuthenticationService().isSuccesfull()) {
-            commandSender.sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() +
-                    OpenAudioMc.getInstance().getAuthenticationService().getFailureMessage());
-            return true;
-        }
+        if (CommandMiddewareExecutor.shouldBeCanceled(new SpigotCommandSenderAdapter(commandSender), null, commandMiddleware)) return true;
 
         if (commandSender instanceof Player) {
             Player sender = (Player) commandSender;
