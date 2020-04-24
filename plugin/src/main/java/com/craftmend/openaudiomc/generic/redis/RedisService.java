@@ -20,6 +20,7 @@ import io.lettuce.core.pubsub.api.async.RedisPubSubAsyncCommands;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -64,6 +65,7 @@ public class RedisService {
     };
 
     public RedisService(ConfigurationImplementation ConfigurationImplementation) {
+        if (!Arrays.stream(ChannelKey.values()).anyMatch(value -> value.getTargetPlatform() == OpenAudioMc.getInstance().getPlatform())) return;
         if (!ConfigurationImplementation.getBoolean(StorageKey.REDIS_ENABLED)) return;
         enabled = true;
 
