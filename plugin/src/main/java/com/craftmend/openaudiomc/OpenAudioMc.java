@@ -17,7 +17,6 @@ import com.craftmend.openaudiomc.generic.networking.addapter.AbstractPacketAdapt
 import com.craftmend.openaudiomc.generic.plus.PlusService;
 import com.craftmend.openaudiomc.generic.redis.RedisService;
 import com.craftmend.openaudiomc.generic.redis.packets.adapter.RedisTypeAdapter;
-import com.craftmend.openaudiomc.generic.redis.packets.channels.ChannelKey;
 import com.craftmend.openaudiomc.generic.core.interfaces.ITaskProvider;
 import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
 import com.craftmend.openaudiomc.generic.voice.VoiceRoomManager;
@@ -79,6 +78,7 @@ public class OpenAudioMc {
     private RedisService redisService;
     private PlusService plusService;
 
+    private Platform platform;
     private OpenAudioInvoker invoker;
     private boolean cleanStartup;
     private boolean isDisabled = false;
@@ -92,9 +92,6 @@ public class OpenAudioMc {
             .registerTypeAdapter(RegistrationResponse.class, new RegistrationResponseAdapter())
             .registerTypeAdapter(OARedisPacket.class, new RedisTypeAdapter())
             .create();
-
-    // The platform, easy for detecting what should be enabled and what not ya know
-    private Platform platform;
 
     public OpenAudioMc(OpenAudioInvoker invoker) throws Exception {
         instance = this;
@@ -114,8 +111,7 @@ public class OpenAudioMc {
         new MigrationWorker().handleMigrations(this);
 
         // only enable redis if there are packets that require it for this platform
-        if (platformUsesRedis())
-            this.redisService = new RedisService(this.configurationImplementation);
+        this.redisService = new RedisService(this.configurationImplementation);
         this.stateService = new StateService();
         this.timeService = new TimeService();
         this.mediaModule = new MediaModule();
@@ -127,15 +123,11 @@ public class OpenAudioMc {
 
     public void disable() {
         isDisabled = true;
-        if (redisService != null) redisService.shutdown();
+        redisService.shutdown();
         configurationImplementation.saveAll();
         this.plusService.shutdown();
         if (stateService.getCurrentState().isConnected()) {
             networkingService.stop();
         }
-    }
-
-    private boolean platformUsesRedis() {
-        return Arrays.stream(ChannelKey.values()).anyMatch(value -> value.getTargetPlatform() == platform);
     }
 }
