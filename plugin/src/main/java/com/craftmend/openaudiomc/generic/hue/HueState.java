@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.objects;
+package com.craftmend.openaudiomc.generic.hue;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
