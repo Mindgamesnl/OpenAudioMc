@@ -18,13 +18,14 @@ public class LocalClientToPlusMigration implements SimpleMigration {
 
     @Override
     public boolean shouldBeRun() {
-        // Ignore deprecation warnings, that's the point
-        ClientSettings settings = new ClientSettings().load();
-        return !settings.equals(new ClientSettings());
+        // only do the thing when there are values
+        return new ClientSettings().load().hasValues();
     }
 
     @Override
     public void execute() {
+        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
+        
         ClientSettings settings = new ClientSettings().load();
         ClientSettingsResponse clientSettingsResponse = new ClientSettingsResponse();
         // apply key so we can force it down its throat
@@ -44,7 +45,7 @@ public class LocalClientToPlusMigration implements SimpleMigration {
             clientSettingsResponse.setTitle(settings.getTitle());
 
         // check for start sound
-        ConfigurationImplementation ConfigurationImplementation = OpenAudioMc.getInstance().getConfigurationImplementation();
+        ConfigurationImplementation ConfigurationImplementation = config;
         String startSound = ConfigurationImplementation.getString(StorageKey.SETTINGS_CLIENT_START_SOUND);
         if (startSound != null && !startSound.equals("none") && !startSound.startsWith("<un"))
             clientSettingsResponse.setStartSound(startSound);
@@ -57,12 +58,14 @@ public class LocalClientToPlusMigration implements SimpleMigration {
         Map<StorageKey, Object> oldValues = new HashMap<>();
         for (StorageKey value : StorageKey.values()) {
             if (!value.isDeprecated()) {
-                oldValues.put(value, OpenAudioMc.getInstance().getConfigurationImplementation().get(value));
+                oldValues.put(value, config.get(value));
             }
         }
 
         // force reload conf
-        OpenAudioMc.getInstance().getConfigurationImplementation().saveAllhard();
+        config.saveAllhard();
+        // reload values since the file got replaced
+        config.reloadConfig();
 
         // force update values
         for (Map.Entry<StorageKey, Object> entry : oldValues.entrySet()) {
@@ -73,10 +76,10 @@ public class LocalClientToPlusMigration implements SimpleMigration {
             } else {
                 OpenAudioLogger.toConsole("Migrating " + key.name() + " value " + value.toString());
             }
-            OpenAudioMc.getInstance().getConfigurationImplementation().set(key, value);
+            config.set(key, value);
         }
 
         // soft save to reflect the old values and write them to the new file
-        OpenAudioMc.getInstance().getConfigurationImplementation().saveAll();
+        config.saveAll();
     }
 }
