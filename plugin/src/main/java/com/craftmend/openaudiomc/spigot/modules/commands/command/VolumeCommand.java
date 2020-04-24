@@ -10,14 +10,14 @@ import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
-import lombok.AllArgsConstructor;
 
+import lombok.NoArgsConstructor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@AllArgsConstructor
+@NoArgsConstructor
 public class VolumeCommand implements CommandExecutor {
 
     private CommandMiddleware[] commandMiddleware = new CommandMiddleware[] {
