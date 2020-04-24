@@ -12,7 +12,6 @@ import com.craftmend.openaudiomc.generic.authentication.objects.Key;
 import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
 
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
-import com.google.gson.Gson;
 import lombok.Getter;
 
 public class AuthenticationService {
@@ -65,7 +64,7 @@ public class AuthenticationService {
                     spigotConfigurationModule.setInt(StorageLocation.DATA_FILE, StorageKey.AUTH_KEY_VERSION.getPath(), keyVersion);
                     isSuccesfull = true;
                 } else {
-                    OpenAudioLogger.toConsole("Failed to request token. Error: " + new Gson().toJson(response.getErrors()));
+                    OpenAudioLogger.toConsole("Failed to request token. Error: " + OpenAudioMc.getGson().toJson(response.getErrors()));
                     isSuccesfull = false;
                 }
             } catch (Exception e) {

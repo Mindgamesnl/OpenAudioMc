@@ -18,7 +18,7 @@ public class ExecuteCommandPacket extends OARedisPacket {
 
     @Override
     public String serialize() {
-        return RedisService.getGSON().toJson(this);
+        return OpenAudioMc.getGson().toJson(this);
     }
 
     @Override

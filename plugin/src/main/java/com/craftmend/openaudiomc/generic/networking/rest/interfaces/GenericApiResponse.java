@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.generic.networking.rest.interfaces;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.rest.data.RestErrorResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -18,7 +19,7 @@ public class GenericApiResponse {
     private LinkedTreeMap response;
 
     public <T> T getResponse(Class<T> type) {
-        Gson gson = new Gson();
+        Gson gson = OpenAudioMc.getGson();
         JsonObject jsonObject = gson.toJsonTree(response).getAsJsonObject();
         return gson.fromJson(gson.toJson(jsonObject), type);
     }

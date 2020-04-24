@@ -12,7 +12,7 @@ public abstract class OARedisPacket {
     public abstract String serialize();
 
     public OARedisPacket deSerialize(String json) {
-        return RedisService.getGSON().fromJson(json, getClass());
+        return OpenAudioMc.getGson().fromJson(json, getClass());
     }
 
     public void receive(OARedisPacket received) {

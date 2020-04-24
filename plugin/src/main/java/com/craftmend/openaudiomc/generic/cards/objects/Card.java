@@ -41,7 +41,7 @@ public class Card {
             });
         });
 
-        PacketClientUpdateCard cardUpdate = new PacketClientUpdateCard(id, new Gson().toJson(newText));
+        PacketClientUpdateCard cardUpdate = new PacketClientUpdateCard(id, OpenAudioMc.getGson().toJson(newText));
 
         OpenAudioMc.getInstance().getNetworkingService().getClients().forEach(client -> {
             if (client.getCard() != null && cardId.toString().equals(client.getCard().getCardId().toString())) {
@@ -102,7 +102,7 @@ public class Card {
     }
 
     public String toJson() {
-        return new Gson().toJson(this);
+        return OpenAudioMc.getGson().toJson(this);
     }
 
 

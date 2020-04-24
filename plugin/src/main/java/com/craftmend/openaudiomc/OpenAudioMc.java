@@ -8,14 +8,18 @@ import com.craftmend.openaudiomc.generic.media.MediaModule;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import com.craftmend.openaudiomc.generic.migrations.MigrationWorker;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingService;
+import com.craftmend.openaudiomc.generic.networking.rest.adapters.RegistrationResponseAdapter;
+import com.craftmend.openaudiomc.generic.networking.rest.responses.RegistrationResponse;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.objects.OpenAudioApi;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
 import com.craftmend.openaudiomc.generic.networking.addapter.AbstractPacketAdapter;
 import com.craftmend.openaudiomc.generic.plus.PlusService;
 import com.craftmend.openaudiomc.generic.redis.RedisService;
+import com.craftmend.openaudiomc.generic.redis.packets.adapter.RedisTypeAdapter;
 import com.craftmend.openaudiomc.generic.redis.packets.channels.ChannelKey;
 import com.craftmend.openaudiomc.generic.core.interfaces.ITaskProvider;
+import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
 import com.craftmend.openaudiomc.generic.voice.VoiceRoomManager;
 import com.craftmend.openaudiomc.generic.state.StateService;
 
@@ -85,6 +89,8 @@ public class OpenAudioMc {
     @Getter private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(AbstractPacketPayload.class, new AbstractPacketAdapter())
             .registerTypeAdapter(ShowRunnable.class, new RunnableTypeAdapter())
+            .registerTypeAdapter(RegistrationResponse.class, new RegistrationResponseAdapter())
+            .registerTypeAdapter(OARedisPacket.class, new RedisTypeAdapter())
             .create();
 
     // The platform, easy for detecting what should be enabled and what not ya know
