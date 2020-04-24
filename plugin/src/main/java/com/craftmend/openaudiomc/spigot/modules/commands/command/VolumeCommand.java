@@ -1,6 +1,10 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.command;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.commands.adapters.SpigotCommandSenderAdapter;
+import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
+import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
+import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
 import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -15,8 +19,14 @@ import org.bukkit.entity.Player;
 @AllArgsConstructor
 public class VolumeCommand implements CommandExecutor {
 
+    private CommandMiddleware[] commandMiddleware = new CommandMiddleware[] {
+            new CleanStateCheckMiddleware()
+    };
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+        if (CommandMiddewareExecutor.shouldBeCanceled(new SpigotCommandSenderAdapter(sender), null, commandMiddleware)) return true;
+
         if (!OpenAudioMc.getInstance().getAuthenticationService().isSuccesfull()) {
             sender.sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + OpenAudioMc.getInstance().getAuthenticationService().getFailureMessage());
             return true;

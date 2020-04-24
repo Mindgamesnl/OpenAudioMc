@@ -4,14 +4,20 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.commands.adapters.BungeeCommandSenderAdapter;
+import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
+import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
 
 public class OpenAudioMcBungeeCommand extends Command {
 
     private CommandModule commandModule = OpenAudioMc.getInstance().getCommandModule();
+    private CommandMiddleware[] commandMiddleware = new CommandMiddleware[] {
+            new CleanStateCheckMiddleware()
+    };
 
     public OpenAudioMcBungeeCommand() {
         super("openaudiomc", null, "oam", "oa", "openaudio");
@@ -31,6 +37,9 @@ public class OpenAudioMcBungeeCommand extends Command {
         }
 
         SubCommand subCommand = commandModule.getSubCommand(args[0].toLowerCase());
+
+        if (CommandMiddewareExecutor.shouldBeCanceled(sender, subCommand, commandMiddleware)) return;
+
         if (subCommand != null) {
             if (subCommand.isAllowed(sender)) {
                 String[] subArgs = new String[args.length - 1];
