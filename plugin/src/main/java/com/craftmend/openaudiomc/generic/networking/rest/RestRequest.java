@@ -23,9 +23,6 @@ public class RestRequest {
     private String endpoint;
     @Setter private String body = null;
     private Map<String, String> variables = new HashMap<>();
-    private static final Gson GSON = new GsonBuilder()
-            .registerTypeAdapter(RegistrationResponse.class, new RegistrationResponseAdapter())
-            .create();
 
     public RestRequest(RestEndpoint endpoint) {
         this.endpoint = endpoint.getURL();
@@ -49,7 +46,7 @@ public class RestRequest {
             String url = getUrl();
             String output = readHttp(url);
             try {
-                return GSON.fromJson(output, GenericApiResponse.class);
+                return OpenAudioMc.getGson().fromJson(output, GenericApiResponse.class);
             } catch (Exception e) {
                 OpenAudioLogger.toConsole("Failed to handle output: " + output);
             }

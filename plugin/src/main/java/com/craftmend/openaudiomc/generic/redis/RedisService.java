@@ -33,7 +33,6 @@ public class RedisService {
     private StatefulRedisPubSubConnection<String, String> redisPubConnection;
     @Getter private RedisPubSubAsyncCommands<String, String> asyncSub;
     private RedisPubSubAsyncCommands<String, String> asyncPub;
-    @Getter private static final Gson GSON = new GsonBuilder().registerTypeAdapter(OARedisPacket.class, new RedisTypeAdapter()).create();
     private boolean enabled = false;
     @Getter private UUID serviceId = UUID.randomUUID();
     private ConcurrentLinkedQueue<WaitingPacket> packetQue = new ConcurrentLinkedQueue<>();

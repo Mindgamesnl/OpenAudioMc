@@ -48,7 +48,7 @@ public class BungeePlayCommand extends SubCommand {
 
         if (args.length == 3) {
             try {
-                MediaOptions mediaOptions = new Gson().fromJson(args[2], MediaOptions.class);
+                MediaOptions mediaOptions = OpenAudioMc.getGson().fromJson(args[2], MediaOptions.class);
                 Media media = new Media(args[1]).applySettings(mediaOptions);
                 for (ProxiedPlayer player : new BungeePlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal())) {
                     ClientConnection clientConnection = openAudioMc.getNetworkingService().getClient(player.getUniqueId());
