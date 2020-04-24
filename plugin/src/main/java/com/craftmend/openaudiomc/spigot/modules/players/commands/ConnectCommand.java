@@ -9,14 +9,14 @@ import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMidd
 import com.craftmend.openaudiomc.generic.state.interfaces.State;
 import com.craftmend.openaudiomc.generic.state.states.WorkerState;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
-import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@AllArgsConstructor
+@NoArgsConstructor
 public class ConnectCommand implements CommandExecutor {
 
     private CommandMiddleware[] commandMiddleware = new CommandMiddleware[] {
