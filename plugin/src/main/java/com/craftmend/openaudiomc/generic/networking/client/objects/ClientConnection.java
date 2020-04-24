@@ -12,8 +12,8 @@ import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.networking.client.interfaces.PlayerContainer;
 import com.craftmend.openaudiomc.generic.networking.packets.*;
 import com.craftmend.openaudiomc.generic.platform.Platform;
-import com.craftmend.openaudiomc.generic.objects.HueState;
-import com.craftmend.openaudiomc.generic.objects.SerializedHueColor;
+import com.craftmend.openaudiomc.generic.hue.HueState;
+import com.craftmend.openaudiomc.generic.hue.SerializedHueColor;
 
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
