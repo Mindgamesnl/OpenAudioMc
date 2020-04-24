@@ -1,6 +1,5 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.listeners;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
 import com.craftmend.openaudiomc.spigot.modules.speakers.menu.SpeakerMenu;

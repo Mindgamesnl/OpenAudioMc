@@ -1,8 +1,12 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.command;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.commands.adapters.BungeeCommandSenderAdapter;
 import com.craftmend.openaudiomc.generic.commands.adapters.SpigotCommandSenderAdapter;
+import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
+import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
+import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
@@ -19,6 +23,9 @@ public class SpigotMainCommand implements CommandExecutor, TabCompleter {
 
     private OpenAudioMcSpigot openAudioMcSpigot;
     private CommandModule commandModule = OpenAudioMc.getInstance().getCommandModule();
+    private CommandMiddleware[] commandMiddleware = new CommandMiddleware[] {
+            new CleanStateCheckMiddleware()
+    };
 
     public SpigotMainCommand(OpenAudioMcSpigot openAudioMcSpigot) {
         this.openAudioMcSpigot = openAudioMcSpigot;
@@ -38,6 +45,9 @@ public class SpigotMainCommand implements CommandExecutor, TabCompleter {
         }
 
         SubCommand subCommand = commandModule.getSubCommand(args[0].toLowerCase());
+
+        if (CommandMiddewareExecutor.shouldBeCanceled(sender, subCommand, commandMiddleware)) return true;
+
         if (subCommand != null) {
             if (subCommand.isAllowed(sender)) {
                 String[] subArgs = new String[args.length - 1];

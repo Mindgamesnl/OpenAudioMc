@@ -40,7 +40,6 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
 
     @Override
     public void onEnable() {
-
         instance = this;
 
         // setup core
