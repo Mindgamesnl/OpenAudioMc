@@ -20,7 +20,6 @@ public class ClientSettings {
     private String hueConnected = "default";
     private String hueLinking = "default";
     private String hueBridgeFound = "default;";
-    private String ambianceSound = null;
 
     /**
      * load the settings from the config file, and overwrite the default values if found
@@ -60,6 +59,17 @@ public class ClientSettings {
                 && other.getHueBridgeFound().equals(getHueBridgeFound())
                 && other.getHueConnected().equals(getHueConnected())
                 && other.getHueLinking().equals(getHueLinking()));
+    }
+
+    public boolean hasValues() {
+        if (!title.equals("default")) return true;
+        if (!background.equals("default")) return true;
+        if (!welcomeMessage.equals("default")) return true;
+        if (!errorMessage.equals("default")) return true;
+        if (!hueConnected.equals("default")) return true;
+        if (!hueLinking.equals("default")) return true;
+        if (!hueBridgeFound.equals("default")) return true;
+        return false;
     }
 
 }
