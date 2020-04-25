@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.migrations.migrations;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementation;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.migrations.interfaces.SimpleMigration;
 import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
@@ -18,16 +19,19 @@ public class PlusAccessLevelMigration implements SimpleMigration {
 
     @Override
     public void execute() {
+        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
+
         // settings that should be moved over
         Map<StorageKey, Object> oldValues = new HashMap<>();
         for (StorageKey value : StorageKey.values()) {
             if (!value.isDeprecated()) {
-                oldValues.put(value, OpenAudioMc.getInstance().getConfigurationImplementation().get(value));
+                oldValues.put(value, config.get(value));
             }
         }
 
         // force reload conf
-        OpenAudioMc.getInstance().getConfigurationImplementation().saveAllhard();
+        config.saveAllhard();
+        config.reloadConfig();
 
         // force update values
         for (Map.Entry<StorageKey, Object> entry : oldValues.entrySet()) {
@@ -38,10 +42,10 @@ public class PlusAccessLevelMigration implements SimpleMigration {
             } else {
                 OpenAudioLogger.toConsole("Migrating " + key.name() + " value " + value.toString());
             }
-            OpenAudioMc.getInstance().getConfigurationImplementation().set(key, value);
+            config.set(key, value);
         }
 
         // soft save to reflect the old values and write them to the new file
-        OpenAudioMc.getInstance().getConfigurationImplementation().saveAll();
+        config.saveAll();
     }
 }

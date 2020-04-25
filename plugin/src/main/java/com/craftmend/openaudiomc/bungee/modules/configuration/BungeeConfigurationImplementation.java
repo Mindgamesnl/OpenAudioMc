@@ -221,6 +221,7 @@ public class BungeeConfigurationImplementation implements ConfigurationImplement
     public void reloadConfig() {
         this.cachedConfigStrings.clear();
         mainConfig = getFile("config.yml");
+        this.loadSettings();
     }
 
     /**

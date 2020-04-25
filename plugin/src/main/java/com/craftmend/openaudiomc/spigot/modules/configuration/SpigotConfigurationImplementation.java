@@ -225,6 +225,7 @@ public class SpigotConfigurationImplementation implements ConfigurationImplement
         this.cachedConfigStrings.clear();
         OpenAudioMcSpigot.getInstance().reloadConfig();
         mainConfig = OpenAudioMcSpigot.getInstance().getConfig();
+        this.loadSettings();
     }
 
     /**
