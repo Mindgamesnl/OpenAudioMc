@@ -28,6 +28,7 @@ import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Arrays;
 
@@ -69,7 +70,7 @@ public class OpenAudioMc {
     private StateService stateService;
     private TimeService timeService;
     private INetworkingService networkingService;
-    private ConfigurationImplementation configurationImplementation;
+    @Setter private ConfigurationImplementation configurationImplementation;
     private AuthenticationService authenticationService;
     private VoiceRoomManager voiceRoomManager;
     private CommandModule commandModule;

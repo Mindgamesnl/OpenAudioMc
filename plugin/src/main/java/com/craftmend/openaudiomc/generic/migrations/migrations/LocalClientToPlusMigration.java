@@ -11,10 +11,7 @@ import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.core.storage.objects.ClientSettings;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class LocalClientToPlusMigration implements SimpleMigration {
+public class LocalClientToPlusMigration extends SimpleMigration {
 
     @Override
     public boolean shouldBeRun() {
@@ -54,32 +51,6 @@ public class LocalClientToPlusMigration implements SimpleMigration {
         upload.setBody(OpenAudioMc.getGson().toJson(new UploadSettingsWrapper(privateKey, clientSettingsResponse)));
         upload.executeSync();
 
-        // settings that should be moved over
-        Map<StorageKey, Object> oldValues = new HashMap<>();
-        for (StorageKey value : StorageKey.values()) {
-            if (!value.isDeprecated()) {
-                oldValues.put(value, config.get(value));
-            }
-        }
-
-        // force reload conf
-        config.saveAllhard();
-        // reload values since the file got replaced
-        config.reloadConfig();
-
-        // force update values
-        for (Map.Entry<StorageKey, Object> entry : oldValues.entrySet()) {
-            StorageKey key = entry.getKey();
-            Object value = entry.getValue();
-            if (value == null) {
-                OpenAudioLogger.toConsole("Skipping migration key " + key.name() + " because its null.");
-            } else {
-                OpenAudioLogger.toConsole("Migrating " + key.name() + " value " + value.toString());
-            }
-            config.set(key, value);
-        }
-
-        // soft save to reflect the old values and write them to the new file
-        config.saveAll();
+        migrateFilesFromResources();
     }
 }
