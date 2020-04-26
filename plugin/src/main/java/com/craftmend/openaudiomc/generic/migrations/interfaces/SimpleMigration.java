@@ -21,7 +21,7 @@ public abstract class SimpleMigration {
         Map<StorageKey, Object> oldValues = new HashMap<>();
         for (StorageKey value : StorageKey.values()) {
             if (!value.isDeprecated()) {
-                oldValues.put(value, config.get(value));
+                if (config.hasStorageKey(value)) oldValues.put(value, config.get(value));
             }
         }
 
