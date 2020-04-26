@@ -13,8 +13,8 @@ public class PlusAccessLevelMigration extends SimpleMigration {
 
     @Override
     public boolean shouldBeRun() {
-        String value = OpenAudioMc.getInstance().getConfigurationImplementation().getString(StorageKey.SETTINGS_PLUS_ACCESS_LEVEL);
-        return (value == null || value.startsWith("<un"));
+        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
+        return config.hasStorageKey(StorageKey.SETTINGS_CLIENT_START_SOUND);
     }
 
     @Override

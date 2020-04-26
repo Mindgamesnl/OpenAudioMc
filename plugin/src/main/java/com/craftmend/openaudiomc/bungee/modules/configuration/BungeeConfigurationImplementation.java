@@ -248,6 +248,14 @@ public class BungeeConfigurationImplementation implements ConfigurationImplement
         return true;
     }
 
+    @Override
+    public boolean hasStorageKey(StorageKey storageKey) {
+        if (storageKey.getStorageLocation() == StorageLocation.DATA_FILE) {
+            return dataConfig.contains(storageKey.getPath());
+        }
+        return mainConfig.contains(storageKey.getPath());
+    }
+
     private Configuration getFile(String filename) {
         Configuration load = null;
         try {
