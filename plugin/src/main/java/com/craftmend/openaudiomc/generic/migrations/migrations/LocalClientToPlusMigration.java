@@ -16,7 +16,8 @@ public class LocalClientToPlusMigration extends SimpleMigration {
     @Override
     public boolean shouldBeRun() {
         // only do the thing when there are values
-        return new ClientSettings().load().hasValues();
+        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
+        return config.hasStorageKey(StorageKey.SETTINGS_CLIENT_START_SOUND);
     }
 
     @Override

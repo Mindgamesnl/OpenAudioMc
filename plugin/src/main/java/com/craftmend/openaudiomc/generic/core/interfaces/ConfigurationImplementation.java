@@ -23,5 +23,6 @@ public interface ConfigurationImplementation {
     void saveAll();
     void saveAllhard();
     boolean hasDataFile();
+    boolean hasStorageKey(StorageKey storageKey);
 
 }
