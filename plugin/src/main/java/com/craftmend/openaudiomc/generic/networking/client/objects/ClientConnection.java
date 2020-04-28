@@ -21,8 +21,10 @@ import com.ikeirnez.pluginmessageframework.PacketPlayer;
 import lombok.Getter;
 import lombok.Setter;
 import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import sun.security.util.ManifestEntryVerifier;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -97,7 +99,15 @@ public class ClientConnection {
                 OpenAudioMc.getInstance().getConfigurationImplementation().getString(StorageKey.MESSAGE_CLICK_TO_CONNECT)
         )));
 
+        TextComponent[] hover = new TextComponent[] {
+                new TextComponent(Platform.translateColors(Objects.requireNonNull(
+                        OpenAudioMc.getInstance().getConfigurationImplementation().getString(StorageKey.MESSAGE_HOVER_TO_CONNECT)
+                )))
+        };
+
         message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
+        message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover));
+
         this.isWaitingToken = true;
         player.sendMessage(message);
     }

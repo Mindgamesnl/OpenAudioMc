@@ -35,16 +35,20 @@ public class PlusService {
     public CompletableFuture<String> createLoginToken(String playerName) {
         CompletableFuture<String> cf = new CompletableFuture<>();
         OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
-            CreateLoginPayload createLoginPayload = new CreateLoginPayload(playerName, openAudioMc.getAuthenticationService().getServerKeySet().getPrivateKey().getValue());
-            RestRequest keyRequest = new RestRequest(RestEndpoint.ENDPOINT_PLUS_GENTOKEN);
-            keyRequest.setBody(OpenAudioMc.getGson().toJson(createLoginPayload));
-            GenericApiResponse response = keyRequest.executeSync();
-            if (!response.getErrors().isEmpty()) throw new IllegalArgumentException("Auth failed!");
-
-            PlusLoginToken plusLoginToken = response.getResponse(PlusLoginToken.class);
-            cf.complete(plusLoginToken.getToken());
+            cf.complete(doLoginRequest(playerName));
         });
         return cf;
+    }
+
+    public String doLoginRequest(String playerName) {
+        CreateLoginPayload createLoginPayload = new CreateLoginPayload(playerName, openAudioMc.getAuthenticationService().getServerKeySet().getPrivateKey().getValue());
+        RestRequest keyRequest = new RestRequest(RestEndpoint.ENDPOINT_PLUS_GENTOKEN);
+        keyRequest.setBody(OpenAudioMc.getGson().toJson(createLoginPayload));
+        GenericApiResponse response = keyRequest.executeSync();
+        if (!response.getErrors().isEmpty()) throw new IllegalArgumentException("Auth failed!");
+
+        PlusLoginToken plusLoginToken = response.getResponse(PlusLoginToken.class);
+        return plusLoginToken.getToken();
     }
 
     public void getPlusSettings() {
@@ -56,7 +60,7 @@ public class PlusService {
 
     public void shutdown() {
         playerStateStreamer.deleteAll(true);
-        createLoginToken(null);
+        doLoginRequest(null);
     }
 
 }

@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.spigot.services.scheduling;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.core.interfaces.ITaskProvider;
+import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import org.bukkit.Bukkit;
 
@@ -55,6 +56,7 @@ public class SpigotTaskProvider implements ITaskProvider {
     @Override
     public void runAsync(Runnable runnable) {
         if (OpenAudioMc.getInstance().isDisabled()) {
+            OpenAudioLogger.toConsole("A async task was requested but server is already stopping, so I'm doing it now.");
             runnable.run();
             return;
         }

@@ -5,12 +5,14 @@ import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementa
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
 
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class SimpleMigration {
 
     public abstract boolean shouldBeRun();
+
     public abstract void execute();
 
     protected void migrateFilesFromResources() {
@@ -34,6 +36,41 @@ public abstract class SimpleMigration {
         openAudioMc.setConfigurationImplementation(openAudioMc.getInvoker().getConfigurationProvider());
         config = openAudioMc.getConfigurationImplementation();
 
+        // file handling is super SUPER weird, we need to manually update some fields
+        File mainConfig = new File("plugins/OpenAudioMc/config.yml");
+        String oldContent = "";
+        try (BufferedReader reader = new BufferedReader(new FileReader(mainConfig))) {
+            String line = reader.readLine();
+
+            while (line != null) {
+                // if the line contains a key, do magic
+                for (Map.Entry<StorageKey, Object> entry : oldValues.entrySet()) {
+                    StorageKey key = entry.getKey();
+                    Object value = entry.getValue();
+                    if (value != null) {
+                        String subSection = key.getSubSection();
+                        if (line.contains(" " + subSection + ": ")) {
+                            String[] lineElements = line.split(subSection);
+
+                            // actual line
+                            line = lineElements[0] + subSection + ": '" + escapeValues(value.toString()) + "'";
+                        }
+                    }
+                }
+
+                oldContent = oldContent + line + System.lineSeparator();
+                line = reader.readLine();
+            }
+
+            try (FileWriter writer = new FileWriter(mainConfig)) {
+                writer.write(oldContent);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         // force update values
         for (Map.Entry<StorageKey, Object> entry : oldValues.entrySet()) {
             StorageKey key = entry.getKey();
@@ -42,12 +79,26 @@ public abstract class SimpleMigration {
                 OpenAudioLogger.toConsole("Skipping migration key " + key.name() + " because its null.");
             } else {
                 OpenAudioLogger.toConsole("Migrating " + key.name() + " value " + value.toString() + " as part of " + getClass().getSimpleName());
+                config.set(key, value);
             }
-            config.set(key, value);
         }
 
         // soft save to reflect the old values and write them to the new file
         config.saveAll();
+    }
+
+    private String escapeValues(String input) {
+        char[] characters = input.toCharArray();
+        StringBuilder escpaed = new StringBuilder();
+
+        for (char character : characters) {
+            // extra escape rules
+            if (character == '\'') escpaed.append(character);
+
+            escpaed.append(character);
+        }
+
+        return escpaed.toString();
     }
 
 }
