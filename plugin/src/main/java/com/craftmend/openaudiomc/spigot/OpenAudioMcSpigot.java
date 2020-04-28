@@ -15,6 +15,7 @@ import com.craftmend.openaudiomc.spigot.modules.proxy.ProxyModule;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import com.craftmend.openaudiomc.spigot.modules.shortner.AliasModule;
 import com.craftmend.openaudiomc.spigot.modules.show.ShowModule;
+import com.craftmend.openaudiomc.spigot.modules.traincarts.TrainCartsModule;
 import com.craftmend.openaudiomc.spigot.services.scheduling.SpigotTaskProvider;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 
@@ -57,6 +58,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
      * - command module (registers and loads the OpenAudioMc commands)
      * - media module (loads and manages all media in the service)
      * - show module (manages shows)
+     * - Train carts module (hookds into traincarts)
      */
     private AliasModule aliasModule;
     private ExecutorService executorService;
@@ -66,6 +68,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
     private SpigotCommandModule commandModule;
     private SpeakerModule speakerModule;
     private ShowModule showModule;
+    private TrainCartsModule trainCartsModule;
 
     /**
      * Constant: main plugin instance and plugin timing
@@ -99,6 +102,10 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
 
             // optional modules
             if (getServer().getPluginManager().isPluginEnabled("WorldGuard")) {
+                this.regionModule = new RegionModule(this);
+            }
+
+            if (getServer().getPluginManager().isPluginEnabled("Train_Carts")) {
                 this.regionModule = new RegionModule(this);
             }
 
