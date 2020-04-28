@@ -13,16 +13,17 @@ public class TrainMedia {
     private UUID mediaId = UUID.randomUUID();
     private Instant startedAt = OpenAudioMc.getInstance().getTimeService().getSyncedInstant();
     private String source;
+    private Media media;
 
     public TrainMedia(String source) {
         this.source = source;
+        this.media = new Media(this.source);
+        this.media.setDoPickup(true);
+        this.media.setMediaId(this.mediaId.toString());
+        this.media.setLoop(false);
     }
 
     public Media toMedia() {
-        Media media = new Media(this.source);
-        media.setDoPickup(true);
-        media.setMediaId(this.mediaId.toString());
-        media.setLoop(false);
         return media;
     }
 

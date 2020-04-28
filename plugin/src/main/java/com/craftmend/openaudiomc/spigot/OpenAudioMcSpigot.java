@@ -106,7 +106,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
             }
 
             if (getServer().getPluginManager().isPluginEnabled("Train_Carts")) {
-                this.regionModule = new RegionModule(this);
+                this.trainCartsModule = new TrainCartsModule(this);
             }
 
             // set state to idle, to allow connections and such, but only if not a node

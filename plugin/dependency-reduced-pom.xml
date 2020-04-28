@@ -4,7 +4,7 @@
   <groupId>com.craftmend.openaudiomc</groupId>
   <artifactId>OpenAudioMc</artifactId>
   <name>OpenAudioMc</name>
-  <version>6.2.2</version>
+  <version>6.2.3</version>
   <description>The OpenAudioMc Java plugin and Api</description>
   <url>https://craftmend.com/</url>
   <build>
@@ -65,6 +65,10 @@
     <repository>
       <id>jitpack.io</id>
       <url>https://jitpack.io</url>
+    </repository>
+    <repository>
+      <id>MG-Dev Jenkins CI Maven Repository</id>
+      <url>https://ci.mg-dev.eu/plugin/repository/everything</url>
     </repository>
   </repositories>
   <dependencies>
@@ -241,6 +245,24 @@
         <exclusion>
           <artifactId>guava</artifactId>
           <groupId>com.google.guava</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.bergerkiller.bukkit</groupId>
+      <artifactId>TrainCarts</artifactId>
+      <version>1.15.2-v2-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.bergerkiller.bukkit</groupId>
+      <artifactId>BKCommonLib</artifactId>
+      <version>1.15.2-v2-SNAPSHOT</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>Mountiplex</artifactId>
+          <groupId>com.bergerkiller.mountiplex</groupId>
         </exclusion>
       </exclusions>
     </dependency>
