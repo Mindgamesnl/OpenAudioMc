@@ -53,7 +53,7 @@ public abstract class SimpleMigration {
                             String[] lineElements = line.split(subSection);
 
                             // actual line
-                            line = lineElements[0] + subSection + ": '" + escapeValues(value.toString()) + "'";
+                            line = lineElements[0] + subSection + ": " + escapeValues(value.toString(), value);
                         }
                     }
                 }
@@ -87,9 +87,12 @@ public abstract class SimpleMigration {
         config.saveAll();
     }
 
-    private String escapeValues(String input) {
+    private String escapeValues(String input, Object original) {
         char[] characters = input.toCharArray();
         StringBuilder escpaed = new StringBuilder();
+        boolean shouldEnclose = original instanceof String;
+
+        if (shouldEnclose) escpaed.append("'");
 
         for (char character : characters) {
             // extra escape rules
@@ -97,6 +100,8 @@ public abstract class SimpleMigration {
 
             escpaed.append(character);
         }
+
+        if (shouldEnclose) escpaed.append("'");
 
         return escpaed.toString();
     }

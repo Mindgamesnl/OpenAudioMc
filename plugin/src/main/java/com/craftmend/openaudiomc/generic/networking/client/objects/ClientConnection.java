@@ -24,7 +24,6 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import sun.security.util.ManifestEntryVerifier;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
