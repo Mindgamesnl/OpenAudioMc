@@ -21,7 +21,7 @@ public class StateSubCommand extends SubCommand {
 
     @Override
     public void onExecute(GenericExecutor sender, String[] args) {
-        message(sender, ChatColor.YELLOW + "State: " + ChatColor.GRAY + "Usefull session info");
+        message(sender, ChatColor.GRAY + "Usefull session info");
         message(sender, ChatColor.YELLOW + "State: " + ChatColor.AQUA + OpenAudioMc.getInstance().getStateService().getCurrentState().getClass().getSimpleName());
         message(sender, ChatColor.YELLOW + "State Info: " + ChatColor.AQUA + OpenAudioMc.getInstance().getStateService().getCurrentState().getDescription());
 
@@ -37,6 +37,7 @@ public class StateSubCommand extends SubCommand {
             message(sender, ChatColor.YELLOW + "Loaded Audio Regions: " + ChatColor.AQUA + "" + OpenAudioMcSpigot.getInstance().getRegionModule().getRegionPropertiesMap().size());
         }
         message(sender, ChatColor.YELLOW + "Loaded Speakers: " + ChatColor.AQUA + "" + OpenAudioMcSpigot.getInstance().getSpeakerModule().getSpeakerMap().size());
+        message(sender, ChatColor.YELLOW + "Loaded Aliases: " + ChatColor.AQUA + "" + OpenAudioMcSpigot.getInstance().getAliasModule().getAliasMap().size());
         message(sender, ChatColor.YELLOW + "Detected Version: " + ChatColor.AQUA + "" + OpenAudioMcSpigot.getInstance().getServerService().getVersion());
         message(sender, ChatColor.YELLOW + "OpenAudioMc Provider: " + ChatColor.AQUA + "" + OpenAudioMc.getInstance().getPlatform());
         message(sender, ChatColor.YELLOW + "Skull: " + ChatColor.AQUA + OpenAudioMcSpigot.getInstance().getSpeakerModule().getPlayerSkullItem());

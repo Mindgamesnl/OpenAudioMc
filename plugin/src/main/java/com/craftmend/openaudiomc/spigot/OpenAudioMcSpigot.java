@@ -13,6 +13,7 @@ import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfigurationImplementation;
 import com.craftmend.openaudiomc.spigot.modules.proxy.ProxyModule;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
+import com.craftmend.openaudiomc.spigot.modules.shortner.AliasModule;
 import com.craftmend.openaudiomc.spigot.modules.show.ShowModule;
 import com.craftmend.openaudiomc.spigot.services.scheduling.SpigotTaskProvider;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
@@ -48,6 +49,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
     /**
      * modules that make up the plugin
      *
+     * - ShortnerModule (handles shortners for urls)
      * - ExecutorService (manages fake syncronized tasks)
      * - ProxyModule (manages bungeecord link)
      * - player module (manages player connections)
@@ -56,6 +58,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
      * - media module (loads and manages all media in the service)
      * - show module (manages shows)
      */
+    private AliasModule aliasModule;
     private ExecutorService executorService;
     private ProxyModule proxyModule;
     private PlayerModule playerModule;
@@ -86,6 +89,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
         try {
             new OpenAudioMc(this);
             // startup modules and services
+            this.aliasModule = new AliasModule(this);
             this.executorService = new ExecutorService(this);
             this.serverService = new ServerService();
             this.playerModule = new PlayerModule(this);
