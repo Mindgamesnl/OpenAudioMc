@@ -6,7 +6,7 @@
 
     <groupId>com.craftmend.openaudiomc</groupId>
     <artifactId>OpenAudioMc</artifactId>
-    <version>6.2.2</version>
+    <version>6.2.3</version>
     <packaging>jar</packaging>
 
     <name>OpenAudioMc</name>
@@ -168,7 +168,7 @@
 
         <dependency>
             <groupId>net.md-5</groupId>
-            <artifactId>bungeecord-api</artifactId>x
+            <artifactId>bungeecord-api</artifactId>
             <version>1.12-SNAPSHOT</version>
             <type>javadoc</type>
             <scope>provided</scope>
@@ -183,13 +183,6 @@
         <dependency>
             <groupId>com.bergerkiller.bukkit</groupId>
             <artifactId>TrainCarts</artifactId>
-            <version>1.15.2-v2-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.bergerkiller.bukkit</groupId>
-            <artifactId>BKCommonLib</artifactId>
             <version>1.15.2-v2-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
