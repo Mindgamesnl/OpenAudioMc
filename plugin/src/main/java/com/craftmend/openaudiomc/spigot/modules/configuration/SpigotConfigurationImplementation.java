@@ -254,9 +254,9 @@ public class SpigotConfigurationImplementation implements ConfigurationImplement
     @Override
     public boolean hasStorageKey(StorageKey storageKey) {
         if (storageKey.getStorageLocation() == StorageLocation.DATA_FILE) {
-            return dataConfig.contains(storageKey.getPath());
+            return dataConfig.isSet(storageKey.getPath());
         }
-        return mainConfig.contains(storageKey.getPath());
+        return mainConfig.isSet(storageKey.getPath());
     }
 
 }

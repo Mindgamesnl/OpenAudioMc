@@ -6,6 +6,7 @@ public enum StorageKey {
 
     MESSAGE_PROMPT_TO_CONNECT(false, "messages.suggest-connection", StorageLocation.CONFIG_FILE),
     MESSAGE_CLICK_TO_CONNECT(false, "messages.click-to-connect", StorageLocation.CONFIG_FILE),
+    MESSAGE_HOVER_TO_CONNECT(false, "messages.click-to-connect-hover", StorageLocation.CONFIG_FILE),
     MESSAGE_LINK_EXPIRED(false, "messages.click-link-expired", StorageLocation.CONFIG_FILE),
     MESSAGE_CLIENT_CLOSED(false, "messages.client-closed", StorageLocation.CONFIG_FILE),
     MESSAGE_CLIENT_OPENED(false, "messages.client-opened", StorageLocation.CONFIG_FILE),
@@ -57,5 +58,10 @@ public enum StorageKey {
         this.isDeprecated = isDeprecated;
         this.path = path;
         this.storageLocation = storageLocation;
+    }
+
+    public String getSubSection() {
+        String[] elements = this.path.split("\\.");
+        return elements[elements.length - 1];
     }
 }

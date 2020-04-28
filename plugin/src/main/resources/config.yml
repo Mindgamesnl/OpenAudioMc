@@ -11,7 +11,10 @@ messages:
   suggest-connection: '&eYou are currently missing out on some sounds! connect with the audio client via /audio'
 
   # The message the client gets when executing /audio of joins (if send-on-join is enabled)
-  click-to-connect: '&6Welcome! click here to connect to the audio client!'
+  click-to-connect: '&bClick here to connect to the online audio client'
+
+  # A hover message for the click-to-connect message, only appears right before clicking when you mouse over it
+  click-to-connect-hover: '&6Minecraft will prompt you to open the web client when you click this message'
 
   # The message the client gets when their audio link has expired
   click-link-expired: '&3Your link to the audio client has expired. Use /audio to request a new one.'
@@ -53,28 +56,28 @@ options:
   #   CONSOLE_ONLY = Only the console may receive the link
   plus-access-level: STAFF
 
-  # When set to true, the player automatically receives a link upon joining
+  # If set to true, the player automatically receives a link upon joining
   send-on-join: true
 
-  # When set to true, the player gets reminded to connect (see messages.suggest-connection)
+  # If set to true, the player gets reminded to connect (see messages.suggest-connection)
   remind-to-connect: true
 
-  # The delay in seconds between reminding to connect
+  # If delay in seconds between reminding to connect
   remind-to-connect-interval: 30
 
-  # The default radius for speakers (in blocks)
+  # If default radius for speakers (in blocks)
   speaker-radius: 10
 
-  # When set to true, speakers will sync their timecodes
+  # If set to true, speakers will sync their timecodes
   sync-speakers: true
 
-  # When set to true, regions will sync their timecodes
+  # If set to true, regions will sync their timecodes
   sync-regions: true
 
-  # When set to true, regions will use priorities. If this causes problems, just set it to false.
+  # If set to true, regions will use priorities. If this causes problems, just set it to false.
   use-region-priority: true
 
-  # Wether temp regions should be looped or not
+  # If temp regions should be looped or not
   loop-temp-regions: false
 
 # REDIS
