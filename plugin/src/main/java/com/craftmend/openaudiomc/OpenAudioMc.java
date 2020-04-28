@@ -121,9 +121,9 @@ public class OpenAudioMc {
 
     public void disable() {
         isDisabled = true;
+        this.plusService.shutdown();
         redisService.shutdown();
         configurationImplementation.saveAll();
-        this.plusService.shutdown();
         if (stateService.getCurrentState().isConnected()) {
             networkingService.stop();
         }

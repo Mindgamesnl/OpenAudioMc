@@ -52,6 +52,8 @@ public class TrainCartsModule {
     }
 
     public void registerTrain(String trainName, String source, SignActionEvent event) {
+        if (trainMediaMap.containsKey(trainName)) stopStrain(trainName, event);
+
         TrainMedia media = new TrainMedia(source);
         trainMediaMap.put(trainName, media);
 

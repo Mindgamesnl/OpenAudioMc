@@ -1,5 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.players.objects;
 
+import com.bergerkiller.bukkit.tc.controller.MinecartMember;
+import com.bergerkiller.bukkit.tc.controller.MinecartMemberStore;
 import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
@@ -10,12 +12,15 @@ import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.ApplicableSpeaker;
 
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.SpeakerSettings;
+import com.craftmend.openaudiomc.spigot.modules.traincarts.TrainCartsModule;
+import com.craftmend.openaudiomc.spigot.modules.traincarts.models.TrainMedia;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import com.craftmend.openaudiomc.spigot.services.utils.DataWatcher;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -75,6 +80,26 @@ public class SpigotConnection {
                 });
 
 
+        clientConnection.addOnConnectHandler(() -> {
+            // if traincarts is enabled, check for that
+            TrainCartsModule trainCartsModule = OpenAudioMcSpigot.getInstance().getTrainCartsModule();
+            if (trainCartsModule == null) return;
+
+            Entity vehicle = player.getVehicle();
+            if (vehicle == null) return;
+
+            MinecartMember<?> member = MinecartMemberStore.getFromEntity(vehicle);
+            if (member == null)
+                return;
+
+            String trainName = member.getGroup().getProperties().getTrainName();
+
+            TrainMedia media = trainCartsModule.getMediaFromTrain(trainName);
+            if (media == null) return;
+
+            SpigotConnection spigotConnection = OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(player);
+            spigotConnection.getClientConnection().sendMedia(media.toMedia());
+        });
     }
 
     /**
