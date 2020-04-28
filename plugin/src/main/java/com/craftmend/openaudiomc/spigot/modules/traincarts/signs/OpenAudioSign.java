@@ -5,11 +5,19 @@ import com.bergerkiller.bukkit.tc.events.SignChangeActionEvent;
 import com.bergerkiller.bukkit.tc.signactions.SignAction;
 import com.bergerkiller.bukkit.tc.signactions.SignActionType;
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.spigot.modules.traincarts.TrainCartsModule;
+
 
 public class OpenAudioSign extends SignAction {
 
     private static final String[] names = new String[] { "audio", "oa", "oam", "play" };
     private final static SignActionType[] prerequisites = new SignActionType[] { SignActionType.GROUP_ENTER };
+
+    private TrainCartsModule trainCartsModule;
+
+    public OpenAudioSign(TrainCartsModule trainCartsModule) {
+        this.trainCartsModule = trainCartsModule;
+    }
 
     public boolean match(SignActionEvent info) {
         return info.isType(names);
@@ -25,13 +33,13 @@ public class OpenAudioSign extends SignAction {
         String trainName = info.getGroup().getProperties().getTrainName();
 
         if (info.getLine(2).equalsIgnoreCase("stop")) {
-            // todo: stop
+            // todo: stop and update occupants
             return;
         }
 
-        String source = info.getLine(2);
-        String syncDuration = info.getLine(3);
-        // todo: parse optional duration, re-map source and play
+        String alias = info.getLine(2) + info.getLine(3);
+        // register play media and update current occupants
+
     }
 
     public boolean build(SignChangeActionEvent event) {
