@@ -8,7 +8,7 @@ import com.craftmend.openaudiomc.generic.networking.packets.PacketClientDestroyM
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.traincarts.TrainCartsModule;
-import com.craftmend.openaudiomc.spigot.modules.traincarts.models.CurrentTrainMedia;
+import com.craftmend.openaudiomc.spigot.modules.traincarts.models.TrainMedia;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -37,7 +37,7 @@ public class TrainListener implements Listener {
             String trainName = member.getGroup().getProperties().getTrainName();
             Player player = (Player) event.getEntered();
 
-            CurrentTrainMedia media = trainCartsModule.getMediaFromTrain(trainName);
+            TrainMedia media = trainCartsModule.getMediaFromTrain(trainName);
             if (media == null) return;
 
             SpigotConnection spigotConnection = OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(player);
@@ -55,7 +55,7 @@ public class TrainListener implements Listener {
             String trainName = member.getGroup().getProperties().getTrainName();
             Player player = (Player) event.getExited();
 
-            CurrentTrainMedia media = trainCartsModule.getMediaFromTrain(trainName);
+            TrainMedia media = trainCartsModule.getMediaFromTrain(trainName);
             if (media == null) return;
 
             SpigotConnection spigotConnection = OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(player);

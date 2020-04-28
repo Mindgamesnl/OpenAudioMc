@@ -7,39 +7,39 @@ import com.bergerkiller.bukkit.tc.signactions.SignActionType;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.spigot.modules.traincarts.TrainCartsModule;
 
-
-public class OpenAudioSign extends SignAction {
+public class AudioSign extends SignAction {
 
     private static final String[] names = new String[] { "audio", "oa", "oam", "play" };
     private final static SignActionType[] prerequisites = new SignActionType[] { SignActionType.GROUP_ENTER };
 
     private TrainCartsModule trainCartsModule;
 
-    public OpenAudioSign(TrainCartsModule trainCartsModule) {
+    public AudioSign(TrainCartsModule trainCartsModule) {
         this.trainCartsModule = trainCartsModule;
     }
 
-    public boolean match(SignActionEvent info) {
-        return info.isType(names);
+    public boolean match(SignActionEvent event) {
+        return event.isType(names);
     }
 
-    public void execute(SignActionEvent info) {
-        if (!info.isAction(prerequisites))
+    public void execute(SignActionEvent event) {
+        if (!event.isAction(prerequisites))
             return;
 
-        if (!info.isPowered())
+        if (!event.isPowered())
             return;
 
-        String trainName = info.getGroup().getProperties().getTrainName();
+        String trainName = event.getGroup().getProperties().getTrainName();
 
-        if (info.getLine(2).equalsIgnoreCase("stop")) {
+        if (event.getLine(2).equalsIgnoreCase("stop")) {
             // todo: stop and update occupants
+            trainCartsModule.stopStrain(trainName, event);
             return;
         }
 
-        String alias = info.getLine(2) + info.getLine(3);
+        String alias = event.getLine(2) + event.getLine(3);
         // register play media and update current occupants
-
+        trainCartsModule.registerTrain(trainName, alias, event);
     }
 
     public boolean build(SignChangeActionEvent event) {

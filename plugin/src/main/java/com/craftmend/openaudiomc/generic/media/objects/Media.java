@@ -2,13 +2,11 @@ package com.craftmend.openaudiomc.generic.media.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.media.enums.MediaFlag;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.UUID;
 
-@Builder
 @Getter
 public class Media {
 
