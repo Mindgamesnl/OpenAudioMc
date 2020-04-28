@@ -25,14 +25,12 @@ public class AudioSign extends SignAction {
     public void execute(SignActionEvent event) {
         if (!event.isAction(prerequisites))
             return;
-
         if (!event.isPowered())
             return;
 
         String trainName = event.getGroup().getProperties().getTrainName();
 
         if (event.getLine(2).equalsIgnoreCase("stop")) {
-            // todo: stop and update occupants
             trainCartsModule.stopStrain(trainName, event);
             return;
         }
