@@ -28,7 +28,8 @@ public class BungeeCommandModule {
                 new BungeeRegionCommand(),
                 new BungeeSpeakerCommand(),
                 new BungeeShowCommand(),
-                new ReloadSubCommand()
+                new ReloadSubCommand(),
+                new BungeeAliasCommand()
         );
 
     }

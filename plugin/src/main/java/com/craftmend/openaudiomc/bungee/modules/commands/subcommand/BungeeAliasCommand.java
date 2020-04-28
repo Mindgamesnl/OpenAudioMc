@@ -10,16 +10,14 @@ import com.craftmend.openaudiomc.spigot.modules.proxy.objects.CommandProxyPayloa
 import com.ikeirnez.pluginmessageframework.PacketPlayer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
-public class BungeeRegionCommand extends SubCommand {
+public class BungeeAliasCommand extends SubCommand {
 
-    public BungeeRegionCommand() {
-        super("region");
+    public BungeeAliasCommand() {
+        super("alias");
         registerArguments(
-                new Argument("create <WG-region> <source>",
-                        "Assigns a sound to a WorldGuard region by name"),
-
-                new Argument("delete <WG-region>",
-                        "Unlink the sound from a WorldGuard specific region by name")
+                new Argument("<alias name> <source>",
+                        "Register a Alias for a source URL so you can easaly memorize them and can paste them onto signs without having to type a complete dictionary." +
+                                " When an alias like onride_music is set, you can trigger it by using a:onride_music as your source.")
         );
     }
 
@@ -32,7 +30,7 @@ public class BungeeRegionCommand extends SubCommand {
             CommandProxyPayload payload = new CommandProxyPayload();
             payload.setExecutor(player.getUniqueId());
             payload.setArgs(args);
-            payload.setCommandProxy(CommandProxy.REGION);
+            payload.setCommandProxy(CommandProxy.ALIAS);
 
             OpenAudioMcBungee.getInstance().getNodeManager().getPacketManager().sendPacket(new PacketPlayer(player), new CommandProxyPacket(payload));
         }
