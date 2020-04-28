@@ -88,7 +88,6 @@ public class OpenAudioMc {
     @Getter private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(AbstractPacketPayload.class, new AbstractPacketAdapter())
             .registerTypeAdapter(ShowRunnable.class, new RunnableTypeAdapter())
-            .registerTypeAdapter(RegistrationResponse.class, new RegistrationResponseAdapter())
             .registerTypeAdapter(OARedisPacket.class, new RedisTypeAdapter())
             .create();
 

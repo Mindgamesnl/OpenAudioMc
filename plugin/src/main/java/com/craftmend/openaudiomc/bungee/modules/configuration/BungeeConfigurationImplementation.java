@@ -22,7 +22,6 @@ import java.util.Set;
 
 public class BungeeConfigurationImplementation implements ConfigurationImplementation {
 
-    @Deprecated @Getter private ClientSettings clientSettings;
     private Configuration mainConfig;
     private Configuration dataConfig;
 
@@ -41,7 +40,7 @@ public class BungeeConfigurationImplementation implements ConfigurationImplement
     }
 
     public ConfigurationImplementation loadSettings() {
-        clientSettings = new ClientSettings().load();
+        // deperecated
         return this;
     }
 

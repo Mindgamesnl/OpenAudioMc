@@ -21,7 +21,6 @@ import java.util.Set;
 
 public class SpigotConfigurationImplementation implements ConfigurationImplementation {
 
-    @Getter private ClientSettings clientSettings;
     private FileConfiguration mainConfig;
     private FileConfiguration dataConfig;
 
@@ -40,7 +39,7 @@ public class SpigotConfigurationImplementation implements ConfigurationImplement
     }
 
     public ConfigurationImplementation loadSettings() {
-        clientSettings = new ClientSettings().load();
+        // deprecated
         return this;
     }
 

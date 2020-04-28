@@ -96,6 +96,7 @@ public class ClientConnection {
         TextComponent message = new TextComponent(Platform.translateColors(Objects.requireNonNull(
                 OpenAudioMc.getInstance().getConfigurationImplementation().getString(StorageKey.MESSAGE_CLICK_TO_CONNECT)
         )));
+
         message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
         this.isWaitingToken = true;
         player.sendMessage(message);
