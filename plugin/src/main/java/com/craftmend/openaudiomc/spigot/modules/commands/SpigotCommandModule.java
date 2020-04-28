@@ -33,7 +33,8 @@ public class SpigotCommandModule {
                 new HueSubCommand(openAudioMcSpigot),
                 new ShowSubCommand(openAudioMcSpigot),
                 new ReloadSubCommand(),
-                new StateSubCommand()
+                new StateSubCommand(),
+                new AliasSubCommand()
         );
 
         // if it is a older version, register the middleware
