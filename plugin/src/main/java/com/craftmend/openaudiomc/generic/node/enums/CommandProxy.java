@@ -4,6 +4,7 @@ public enum CommandProxy {
 
     REGION,
     SPEAKER,
-    SHOW
+    SHOW,
+    ALIAS
 
 }
