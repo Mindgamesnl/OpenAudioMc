@@ -38,6 +38,8 @@ public class SpeakerModule {
 
         version = openAudioMcSpigot.getServerService().getVersion();
 
+
+
         if (version == ServerVersion.MODERN) {
             OpenAudioLogger.toConsole("Enabling the 1.13 speaker system");
             playerSkullItem = Material.PLAYER_HEAD;
@@ -103,16 +105,16 @@ public class SpeakerModule {
         Map<String, ApplicableSpeaker> distanceMap = new HashMap<>();
 
         // filter all speakers from other worlds
-        applicableSpeakers.removeIf(speaker -> !speaker.getLocation().getWorld()
-                .equals(location.getWorld().getName()));
+        applicableSpeakers.removeIf(speaker ->
+                !speaker.getLocation().getWorld().equals(location.getWorld().getName()));
 
         // filter all speakers outside of radius
-        applicableSpeakers.removeIf(speaker -> speaker.getLocation().toBukkit()
-                .distance(location) > speaker.getRadius());
+        applicableSpeakers.removeIf(speaker ->
+                speaker.getLocation().toBukkit().distance(location) > speaker.getRadius());
 
         // filter all speakers that are not actual speakers (crazy shit RIGHT HERE)
         applicableSpeakers.removeIf(speaker ->
-                !isSpeakerSkull(speaker.getLocation().getBlock()));
+                speaker.isNative() && !isSpeakerSkull(speaker.getLocation().getBlock()));
 
         for (Speaker speaker : applicableSpeakers) {
             int distance = Math.toIntExact(Math.round(speaker.getLocation().toBukkit().distance(location)));

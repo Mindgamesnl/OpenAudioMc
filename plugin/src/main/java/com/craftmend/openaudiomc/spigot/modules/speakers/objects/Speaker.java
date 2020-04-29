@@ -20,6 +20,10 @@ public class Speaker {
         this.location = location;
     }
 
+    public boolean isNative() {
+        return true;
+    }
+
     public SpeakerMedia getMedia() {
         return OpenAudioMcSpigot.getInstance().getSpeakerModule().getMedia(source);
     }
