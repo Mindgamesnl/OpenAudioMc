@@ -49,7 +49,12 @@ export class Sound {
 
             const attemptToPlay = () => {
                 if (!fired) {
-                    this.soundElement.play().then(resolve).catch(resolve);
+                    let prom = this.soundElement.play();
+                    if (prom instanceof Promise) {
+                        prom.then(resolve).catch(resolve);
+                    } else {
+                        resolve();
+                    }
                 }
                 fired = true;
             };

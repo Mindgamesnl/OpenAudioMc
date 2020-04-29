@@ -8,8 +8,6 @@ import com.craftmend.openaudiomc.generic.media.MediaModule;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import com.craftmend.openaudiomc.generic.migrations.MigrationWorker;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingService;
-import com.craftmend.openaudiomc.generic.networking.rest.adapters.RegistrationResponseAdapter;
-import com.craftmend.openaudiomc.generic.networking.rest.responses.RegistrationResponse;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.objects.OpenAudioApi;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
