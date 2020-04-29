@@ -13,7 +13,6 @@ public class ProxyModule {
     @Getter private ClientMode mode;
 
     public ProxyModule() {
-
         FileConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(new File("spigot.yml"));
 
         boolean bungeeMode = yamlConfiguration.getBoolean("settings.bungeecord");
