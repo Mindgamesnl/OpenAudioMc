@@ -47,6 +47,8 @@ export class Sound {
                 }
             };
 
+            let fired = false;
+
             const attemptToPlay = () => {
                 if (!fired) {
                     let prom = this.soundElement.play();
@@ -59,7 +61,6 @@ export class Sound {
                 fired = true;
             };
 
-            let fired = false;
             this.soundElement.onprogress = attemptToPlay;
             this.soundElement.oncanplay = attemptToPlay;
             this.soundElement.oncanplaythrough = attemptToPlay;
