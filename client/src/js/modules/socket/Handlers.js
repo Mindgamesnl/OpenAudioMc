@@ -43,7 +43,6 @@ export class Handlers {
                     createdChannel.maxDistance = maxDistance;
                     createdChannel.fadeChannel(startVolume, fadeTime);
                 } else {
-
                     // default sound, just play
                     createdChannel.setTag("DEFAULT");
                     setTimeout(() => {

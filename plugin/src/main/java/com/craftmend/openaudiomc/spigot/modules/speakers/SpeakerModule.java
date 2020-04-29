@@ -23,11 +23,15 @@ import java.util.*;
 
 public class SpeakerModule {
 
-    @Getter private Map<MappedLocation, Speaker> speakerMap = new HashMap<>();
+    @Getter
+    private Map<MappedLocation, Speaker> speakerMap = new HashMap<>();
     private Map<String, SpeakerMedia> speakerMediaMap = new HashMap<>();
-    @Getter private Material playerSkullItem;
-    @Getter private Material playerSkullBlock;
-    @Getter private Map<String, Set<QueuedSpeaker>> waitingWorlds = new HashMap<>();
+    @Getter
+    private Material playerSkullItem;
+    @Getter
+    private Material playerSkullBlock;
+    @Getter
+    private Map<String, Set<QueuedSpeaker>> waitingWorlds = new HashMap<>();
     private ServerVersion version;
 
     public SpeakerModule(OpenAudioMcSpigot openAudioMcSpigot) {
@@ -37,7 +41,6 @@ public class SpeakerModule {
         openAudioMcSpigot.getServer().getPluginManager().registerEvents(new WorldLoadListener(), openAudioMcSpigot);
 
         version = openAudioMcSpigot.getServerService().getVersion();
-
 
 
         if (version == ServerVersion.MODERN) {
@@ -104,21 +107,14 @@ public class SpeakerModule {
         List<Speaker> applicableSpeakers = new ArrayList<>(speakerMap.values());
         Map<String, ApplicableSpeaker> distanceMap = new HashMap<>();
 
-        // filter all speakers from other worlds
-        applicableSpeakers.removeIf(speaker ->
-                !speaker.getLocation().getWorld().equals(location.getWorld().getName()));
+        applicableSpeakers.removeIf(speaker -> (
+                !speaker.getLocation().getWorld().equals(location.getWorld().getName())) // filter all speakers from other worlds
+                || (speaker.getLocation().toBukkit().distance(location) > speaker.getRadius()) // filter all speakers outside of radius
+                || speaker.isNative() && !isSpeakerSkull(speaker.getLocation().getBlock()) // filter all speakers that are not actual speakers (crazy shit RIGHT HERE)
+        );
 
-        // filter all speakers outside of radius
-        applicableSpeakers.removeIf(speaker ->
-                speaker.getLocation().toBukkit().distance(location) > speaker.getRadius());
-
-        // filter all speakers that are not actual speakers (crazy shit RIGHT HERE)
-        applicableSpeakers.removeIf(speaker ->
-                speaker.isNative() && !isSpeakerSkull(speaker.getLocation().getBlock()));
-
-        for (Speaker speaker : applicableSpeakers) {
+        applicableSpeakers.forEach(speaker -> {
             int distance = Math.toIntExact(Math.round(speaker.getLocation().toBukkit().distance(location)));
-
             if (distanceMap.get(speaker.getSource()) == null) {
                 distanceMap.put(speaker.getSource(), new ApplicableSpeaker(distance, speaker));
             } else {
@@ -126,7 +122,7 @@ public class SpeakerModule {
                     distanceMap.put(speaker.getSource(), new ApplicableSpeaker(distance, speaker));
                 }
             }
-        }
+        });
 
         return distanceMap.values();
     }
@@ -182,8 +178,8 @@ public class SpeakerModule {
                 if (skull.getOwningPlayer().getName() == null) return false;
                 return
                         skull.getOwningPlayer().getName().equals("OpenAudioMc")
-                        ||
-                        skull.getOwningPlayer().getUniqueId().toString().equals("c0db149e-d498-4a16-8e35-93d57577589f");
+                                ||
+                                skull.getOwningPlayer().getUniqueId().toString().equals("c0db149e-d498-4a16-8e35-93d57577589f");
             } else {
                 if (skull.getOwner() == null) return false;
                 return skull.getOwner().equals("OpenAudioMc");
