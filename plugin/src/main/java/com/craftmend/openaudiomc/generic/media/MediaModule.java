@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.generic.media;
 
+import com.craftmend.openaudiomc.generic.media.interfaces.ForcedUrlMutation;
 import com.craftmend.openaudiomc.generic.media.interfaces.UrlMutation;
 import com.craftmend.openaudiomc.generic.media.middleware.DropBoxMiddleware;
 import com.craftmend.openaudiomc.generic.media.middleware.GoogleDriveMiddleware;
@@ -34,6 +35,16 @@ public class MediaModule {
      * @return the altered url
      */
     public String process(String original) {
+        for (String selector : urlMutations.keySet()) {
+            if (original.startsWith(selector)) {
+                for (UrlMutation urlMutation : urlMutations.get(selector)) {
+                    if (urlMutation instanceof ForcedUrlMutation) {
+                        original = urlMutation.onRequest(original);
+                    }
+                }
+            }
+        }
+
         for (String selector : urlMutations.keySet()) {
             if (original.startsWith(selector)) {
                 for (UrlMutation urlMutation : urlMutations.get(selector)) {
