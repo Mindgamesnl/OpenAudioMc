@@ -21,6 +21,9 @@ export class OpenAudioMc extends Getters {
     constructor() {
 
         super();
+        this.canStart = false;
+        this.host = null;
+        this.background = null;
 
         this.tokenSet = new ClientTokenSet().fromUrl(window.location.href);
 
@@ -34,9 +37,7 @@ export class OpenAudioMc extends Getters {
         this.messages = new Messages(this);
         this.userInterfaceModule = new UserInterfaceModule(this);
         this.hueConfiguration = new HueConfigurationModule(this);
-        this.hueModule = new HueModule(this, getHueInstance());
         this.mediaManager = new MediaManager(this);
-        this.userInterfaceModule.setMessage("Loading proxy..");
 
         //initialize audio encoding
         initAudioContext();
@@ -47,12 +48,10 @@ export class OpenAudioMc extends Getters {
         // request a socket service, then do the booting
         const director = new SocketDirector("https://plus.openaudiomc.net/");
         director.route(this)
-            .then((host) => {
-                this.socketModule = new SocketModule(this, host);
-                this.messages.apply();
-
-                // setup packet handler
-                new Handlers(this);
+            .then((res) => {
+                this.canStart = true;
+                this.host = res.host;
+                this.background = res.background;
             })
             .catch((error) => {
                 console.error("Exception thrown", error.stack);
@@ -64,6 +63,25 @@ export class OpenAudioMc extends Getters {
                     extra: 'warning'
                 }).show('A networking error occurred while connecting to the server, please request a new url and try again.');
             });
+    }
+
+    start() {
+        console.log("init")
+        if (!this.canStart) return;
+        this.canStart = false;
+        this.hueModule = new HueModule(this, getHueInstance());
+        this.socketModule = new SocketModule(this, this.host);
+        this.messages.apply();
+
+        // setup packet handler
+        new Handlers(this);
+        if (this.background !== "") {
+            document.getElementById("page").style = "vertical-align: middle;\n" +
+                "    background:\n" +
+                "            url(" + this.background + ");\n" +
+                "    -webkit-background-size: cover;\n" +
+                "    background-size: cover;"
+        }
     }
 }
 

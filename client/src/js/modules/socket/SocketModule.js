@@ -7,15 +7,11 @@ export class SocketModule {
         this.handlers = {};
         this.openAudioMc = main;
 
-        main.getUserInterfaceModule().setMessage("Loading data..");
-
         if (Utils.getParameter().data == null) {
             main.debugPrint("data is empty");
             main.getUserInterfaceModule().setMessage("<h3>Invalid url. Please connect via the server, by executing <b><u>/audio</u></b></h3>");
             return;
         }
-
-        main.getUserInterfaceModule().setMessage("Connecting and authenticating, please wait.");
 
         main.debugPrint("Username: " + main.tokenSet.name);
         main.debugPrint("Player uuid: " + main.tokenSet.uuid);
@@ -25,7 +21,6 @@ export class SocketModule {
         this.state = "loading";
 
         // fetch relay
-
 
         this.authHeader = "" +
             "type=client&" +
