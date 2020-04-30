@@ -7,10 +7,8 @@ let openAudioMc = null;
 export default openAudioMc;
 
 function enable() {
-    if (openAudioMc == null) {
-        document.getElementById("boot-button").style.display = "none";
-        document.getElementById("welcome-text-landing").innerHTML = "Connecting you to the server. Please wait.";
-        openAudioMc = new OpenAudioMc();
+    if (openAudioMc.canStart) {
+        openAudioMc.start();
     }
 }
 
@@ -29,8 +27,8 @@ export function linkBootListeners() {
     // makes the experiance a bit more personal
 
     if (tokenSet != null && tokenSet.name != null) {
-        document.getElementById('welcome-text-landing').innerText = "Welcome to your web client, " + tokenSet.name + "!";
         document.getElementById("sidebar-head").style.background = "linear-gradient(0deg, rgba(42, 38, 95, .8), rgba(42, 38, 95, .4)), url(https://minotar.net/avatar/" + tokenSet.name + ")";
         document.getElementById('footer-welcome').innerText = 'Logged in as ' + tokenSet.name;
+        openAudioMc = new OpenAudioMc();
     }
 }

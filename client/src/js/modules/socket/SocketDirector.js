@@ -62,13 +62,12 @@ export class SocketDirector {
                         if (errorMessage !== "") openAudioMc.getMessages().errorMessage = errorHtml;
                         if (welcomeMessage !== "") openAudioMc.getMessages().welcomeMessage = welcomeHtml;
 
-                        if (background !== "") {
-                            document.getElementById("page").style = "vertical-align: middle;\n" +
-                                "    background:\n" +
-                                "            url(" + background + ");\n" +
-                                "    -webkit-background-size: cover;\n" +
-                                "    background-size: cover;"
-                        }
+                        let hello = response.greetingMessage;
+                        hello = hello.replace('%name', openAudioMc.tokenSet.name);
+
+                        document.getElementById("welcome-text-landing").innerHTML = hello;
+                        document.getElementById("boot-button").style.display = "";
+                        document.getElementById("boot-button").innerHTML = response.connectButtonText;
 
                         // replace the default with a defined one
                         openAudioMc.getUserInterfaceModule().changeColor("#304FFE", response.accentColor);
@@ -91,7 +90,10 @@ export class SocketDirector {
                             document.title = title;
                         }
 
-                        accept(relayHost);
+                        accept({
+                            "host": relayHost,
+                            "background": background
+                        });
                     })
                         .catch((e => {
                             console.log('Dead end 1')

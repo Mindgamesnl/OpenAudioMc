@@ -49,7 +49,7 @@ public class SocketIoConnector {
         if (!registeredLogout) {
             plusHandler = new RestRequest(RestEndpoint.ENDPOINT_LOGIN);
             logoutHandler = new RestRequest(RestEndpoint.ENDPOINT_LOGOUT);
-            OpenAudioMc.getInstance().getStateService().addListener((oldState, updagtedState) -> {
+            OpenAudioMc.getInstance().getStateService().addListener((oldState, updatedState) -> {
                 if (oldState instanceof ConnectedState) {
                     logoutHandler.execute();
                 }
