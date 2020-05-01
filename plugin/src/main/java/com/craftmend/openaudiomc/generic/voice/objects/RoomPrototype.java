@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.voice.objects;
 
-import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

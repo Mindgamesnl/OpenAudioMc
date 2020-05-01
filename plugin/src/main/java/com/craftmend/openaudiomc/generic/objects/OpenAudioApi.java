@@ -1,8 +1,8 @@
 package com.craftmend.openaudiomc.generic.objects;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.media.interfaces.UrlMutation;
-import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
-import com.craftmend.openaudiomc.generic.networking.client.objects.Session;
+import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.client.objects.player.PlayerSession;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.voice.exception.InvalidCallParameterException;
 import com.craftmend.openaudiomc.generic.voice.exception.RequestPendingException;
@@ -83,7 +83,7 @@ public class OpenAudioApi {
      * @param player
      * @return the session
      */
-    public Session getSession(UUID player) {
+    public PlayerSession getSession(UUID player) {
         return getClient(player).getSession();
     }
 

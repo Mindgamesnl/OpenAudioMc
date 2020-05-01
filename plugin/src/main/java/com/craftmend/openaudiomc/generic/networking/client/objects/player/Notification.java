@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.networking.client.objects;
+package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.packets.PacketClientPushNotification;
