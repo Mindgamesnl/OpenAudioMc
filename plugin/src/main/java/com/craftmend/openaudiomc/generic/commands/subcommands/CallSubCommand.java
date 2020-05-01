@@ -6,14 +6,12 @@ import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
-import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.voice.exception.InvalidCallParameterException;
 import com.craftmend.openaudiomc.generic.voice.exception.RequestPendingException;
-import com.craftmend.openaudiomc.generic.voice.objects.RoomPrototype;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

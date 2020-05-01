@@ -1,11 +1,11 @@
-package com.craftmend.openaudiomc.generic.networking.client.objects;
+package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class Session {
+public class PlayerSession {
 
     private ClientConnection client;
     private String key;

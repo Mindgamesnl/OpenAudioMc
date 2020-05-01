@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.networking.client.objects;
+package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 
 import com.craftmend.openaudiomc.generic.networking.client.interfaces.PlayerContainer;
 import net.md_5.bungee.api.chat.TextComponent;

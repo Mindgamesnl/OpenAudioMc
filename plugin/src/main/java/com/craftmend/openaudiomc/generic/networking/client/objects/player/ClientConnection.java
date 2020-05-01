@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.networking.client.objects;
+package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
@@ -42,7 +42,7 @@ public class ClientConnection {
     // session info
     private boolean isConnected = false;
     @Getter
-    private Session session;
+    private PlayerSession session;
     @Setter
     @Getter
     private Card card = null;
