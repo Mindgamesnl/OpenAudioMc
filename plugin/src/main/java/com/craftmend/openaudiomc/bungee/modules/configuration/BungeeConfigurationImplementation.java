@@ -237,7 +237,7 @@ public class BungeeConfigurationImplementation implements ConfigurationImplement
     }
 
     @Override
-    public void saveAllhard() {
+    public void overwriteConfigFile() {
         saveDefaultFile("config.yml", true);
     }
 
