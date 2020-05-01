@@ -48,7 +48,8 @@ public class MediaModule {
         for (String selector : urlMutations.keySet()) {
             if (original.startsWith(selector)) {
                 for (UrlMutation urlMutation : urlMutations.get(selector)) {
-                    return urlMutation.onRequest(original);
+                    if (!(urlMutation instanceof ForcedUrlMutation))
+                    original = urlMutation.onRequest(original);
                 }
             }
         }
