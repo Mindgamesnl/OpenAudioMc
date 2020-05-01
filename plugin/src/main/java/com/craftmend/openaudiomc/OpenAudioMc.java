@@ -100,6 +100,7 @@ public class OpenAudioMc {
 
         this.invoker.onPreBoot(this);
 
+        this.stateService = new StateService();
         this.authenticationService = new AuthenticationService();
         this.authenticationService.initialize();
 
@@ -108,7 +109,6 @@ public class OpenAudioMc {
 
         // only enable redis if there are packets that require it for this platform
         this.redisService = new RedisService(this.configurationImplementation);
-        this.stateService = new StateService();
         this.timeService = new TimeService();
         this.mediaModule = new MediaModule();
         this.networkingService = serviceImplementation.getConstructor().newInstance();
