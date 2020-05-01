@@ -241,7 +241,6 @@ public class SpigotConfigurationImplementation implements ConfigurationImplement
 
     @Override
     public void saveAllhard() {
-        saveAll();
         OpenAudioMcSpigot.getInstance().saveResource("config.yml", true);
     }
 
