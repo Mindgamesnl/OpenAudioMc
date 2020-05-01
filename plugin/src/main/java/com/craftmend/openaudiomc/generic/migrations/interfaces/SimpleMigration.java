@@ -89,6 +89,8 @@ public abstract class SimpleMigration {
 
         // soft save to reflect the old values and write them to the new file
         config.saveAll();
+        // force oa to reload
+        OpenAudioMc.getInstance().getInvoker().getConfigurationProvider().reloadConfig();
     }
 
     private String escapeValues(String input, Object original) {
