@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.plus;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.networking.client.objects.plus.PlusSocketSession;
 import com.craftmend.openaudiomc.generic.plus.enums.PlusAccessLevel;
 import com.craftmend.openaudiomc.generic.plus.object.FlagSet;
 import com.craftmend.openaudiomc.generic.plus.response.ClientSettingsResponse;
@@ -23,6 +24,7 @@ public class PlusService {
     @Getter private PlusAccessLevel accessLevel;
     private OpenAudioMc openAudioMc;
     @Getter private FlagSet flagSet;
+    @Getter private PlusSocketSession plusSocketSession = new PlusSocketSession();
 
     public PlusService(OpenAudioMc openAudioMc) {
         this.openAudioMc = openAudioMc;
@@ -41,6 +43,7 @@ public class PlusService {
     }
 
     public String doLoginRequest(String playerName) {
+        plusSocketSession = new PlusSocketSession();
         CreateLoginPayload createLoginPayload = new CreateLoginPayload(playerName, openAudioMc.getAuthenticationService().getServerKeySet().getPrivateKey().getValue());
         RestRequest keyRequest = new RestRequest(RestEndpoint.ENDPOINT_PLUS_GENTOKEN);
         keyRequest.setBody(OpenAudioMc.getGson().toJson(createLoginPayload));
