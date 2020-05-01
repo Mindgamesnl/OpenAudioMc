@@ -103,6 +103,14 @@ public class SpeakerModule {
         }
     }
 
+    private boolean isValid(Speaker speaker) {
+        if (speaker.isNative()) {
+            return isSpeakerSkull(speaker.getLocation().getBlock());
+        } else {
+            return true;
+        }
+    }
+
     public Collection<ApplicableSpeaker> getApplicableSpeakers(Location location) {
         List<Speaker> applicableSpeakers = new ArrayList<>(speakerMap.values());
         Map<String, ApplicableSpeaker> distanceMap = new HashMap<>();
@@ -110,7 +118,7 @@ public class SpeakerModule {
         applicableSpeakers.removeIf(speaker -> (
                 !speaker.getLocation().getWorld().equals(location.getWorld().getName())) // filter all speakers from other worlds
                 || (speaker.getLocation().toBukkit().distance(location) > speaker.getRadius()) // filter all speakers outside of radius
-                || speaker.isNative() && !isSpeakerSkull(speaker.getLocation().getBlock()) // filter all speakers that are not actual speakers (crazy shit RIGHT HERE)
+                || !isValid(speaker) // filter all speakers that are not actual speakers (crazy shit RIGHT HERE)
         );
 
         applicableSpeakers.forEach(speaker -> {

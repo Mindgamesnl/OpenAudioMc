@@ -28,7 +28,7 @@ public abstract class SimpleMigration {
         }
 
         // overwrite files
-        config.saveAllhard();
+        config.overwriteConfigFile();
 
         // re-initialize entire module
         config.reloadConfig();
@@ -53,7 +53,11 @@ public abstract class SimpleMigration {
                             String[] lineElements = line.split(subSection);
 
                             // actual line
-                            line = lineElements[0] + subSection + ": " + escapeValues(value.toString(), value);
+                            if (value instanceof String) {
+                                line = lineElements[0] + subSection + ": " + escapeValues(value.toString(), value);
+                            } else {
+                                line = lineElements[0] + subSection + ": " + value.toString();
+                            }
                         }
                     }
                 }
