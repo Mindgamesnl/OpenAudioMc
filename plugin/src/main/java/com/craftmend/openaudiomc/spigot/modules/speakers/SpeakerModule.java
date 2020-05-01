@@ -115,11 +115,9 @@ public class SpeakerModule {
         List<Speaker> applicableSpeakers = new ArrayList<>(speakerMap.values());
         Map<String, ApplicableSpeaker> distanceMap = new HashMap<>();
 
-        applicableSpeakers.removeIf(speaker -> (
-                !speaker.getLocation().getWorld().equals(location.getWorld().getName())) // filter all speakers from other worlds
-                || (speaker.getLocation().toBukkit().distance(location) > speaker.getRadius()) // filter all speakers outside of radius
-                || !isValid(speaker) // filter all speakers that are not actual speakers (crazy shit RIGHT HERE)
-        );
+        applicableSpeakers.removeIf(speaker -> !speaker.getLocation().getWorld().equals(location.getWorld().getName()));
+        applicableSpeakers.removeIf(speaker -> speaker.getLocation().toBukkit().distance(location) > speaker.getRadius());
+        applicableSpeakers.removeIf(speaker -> !isValid(speaker));
 
         applicableSpeakers.forEach(speaker -> {
             int distance = Math.toIntExact(Math.round(speaker.getLocation().toBukkit().distance(location)));
