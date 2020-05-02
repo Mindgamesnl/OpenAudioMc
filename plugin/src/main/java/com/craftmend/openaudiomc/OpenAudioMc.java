@@ -63,14 +63,19 @@ public class OpenAudioMc {
      * - Redis Service           []   (provides redis to openaudio and the gang)
      * - Plus Service            []   (Manages everything OpenAudioMc-Plus related, from auth to upstream data)
      */
+<<<<<<< Updated upstream
     private StateService stateService;
     private TimeService timeService;
+=======
+    private StateService stateService = new StateService();;
+    private TimeService timeService = new TimeService();;
+>>>>>>> Stashed changes
     private INetworkingService networkingService;
     @Setter private ConfigurationImplementation configurationImplementation;
-    private AuthenticationService authenticationService;
+    private AuthenticationService authenticationService = new AuthenticationService();;
     private VoiceRoomManager voiceRoomManager;
     private CommandModule commandModule;
-    private MediaModule mediaModule;
+    private MediaModule mediaModule = new MediaModule();;
     private ITaskProvider taskProvider;
     private RedisService redisService;
     private PlusService plusService;
@@ -100,7 +105,6 @@ public class OpenAudioMc {
 
         this.invoker.onPreBoot(this);
 
-        this.authenticationService = new AuthenticationService();
         this.authenticationService.initialize();
 
         // do migration
@@ -108,9 +112,12 @@ public class OpenAudioMc {
 
         // only enable redis if there are packets that require it for this platform
         this.redisService = new RedisService(this.configurationImplementation);
+<<<<<<< Updated upstream
         this.stateService = new StateService();
         this.timeService = new TimeService();
         this.mediaModule = new MediaModule();
+=======
+>>>>>>> Stashed changes
         this.networkingService = serviceImplementation.getConstructor().newInstance();
         this.voiceRoomManager = new VoiceRoomManager(this);
         this.commandModule = new CommandModule();
