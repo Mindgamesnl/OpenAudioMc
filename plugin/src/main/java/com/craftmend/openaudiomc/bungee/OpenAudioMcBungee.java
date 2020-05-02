@@ -98,8 +98,4 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
         return new BungeeConfigurationImplementation();
     }
 
-    @Override
-    public void onPreBoot(OpenAudioMc openAudioMc) {
-
-    }
 }
