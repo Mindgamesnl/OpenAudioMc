@@ -20,13 +20,8 @@ import java.util.*;
 
 public class VoiceRoomManager {
 
-    private OpenAudioMc core;
     private Map<UUID, Room> voiceRooms = new HashMap<>();
     private boolean isRequestPending = false;
-
-    public VoiceRoomManager(OpenAudioMc core) {
-        this.core = core;
-    }
 
     public RoomPrototype createCall(List<ClientConnection> suggestedMembers) throws InvalidCallParameterException, RequestPendingException {
         if (isRequestPending) throw new RequestPendingException("There already is a room awaiting creation. Please wait.");
@@ -52,7 +47,7 @@ public class VoiceRoomManager {
         if (members.size() <= 1) throw new InvalidCallParameterException("Call must have at least two members who are not already in another call.");
 
         // is the state valid?
-        if (!this.core.getStateService().getCurrentState().isConnected()) throw new InvalidCallParameterException("There must at least be one connected client with OpenAudioMc before a call can be started");
+        if (!OpenAudioMc.getInstance().getStateService().getCurrentState().isConnected()) throw new InvalidCallParameterException("There must at least be one connected client with OpenAudioMc before a call can be started");
 
         // setup array with members
         List<RoomMember> roomContent = new ArrayList<>();
@@ -63,7 +58,7 @@ public class VoiceRoomManager {
         }
 
         isRequestPending = true;
-        this.core.getNetworkingService().requestRoomCreation(roomContent, (ok) -> {
+        OpenAudioMc.getInstance().getNetworkingService().requestRoomCreation(roomContent, (ok) -> {
             if (!ok) {
                 isRequestPending = false;
                 OpenAudioLogger.toConsole("Failed to create call. Server denied or could not handle the request");
