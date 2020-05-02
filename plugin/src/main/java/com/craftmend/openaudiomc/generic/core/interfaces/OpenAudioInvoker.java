@@ -12,6 +12,5 @@ public interface OpenAudioInvoker {
     Class<? extends INetworkingService> getServiceClass();
     ITaskProvider getTaskProvider();
     ConfigurationImplementation getConfigurationProvider();
-    void onPreBoot(OpenAudioMc openAudioMc);
 
 }
