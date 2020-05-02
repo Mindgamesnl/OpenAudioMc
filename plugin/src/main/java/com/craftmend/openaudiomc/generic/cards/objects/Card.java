@@ -1,11 +1,10 @@
 package com.craftmend.openaudiomc.generic.cards.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.packets.PacketClientCreateCard;
 import com.craftmend.openaudiomc.generic.networking.packets.PacketClientDestroyCard;
 import com.craftmend.openaudiomc.generic.networking.packets.PacketClientUpdateCard;
-import com.google.gson.Gson;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 

@@ -3,8 +3,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
-import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
-import org.bukkit.ChatColor;
+import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 
 import java.time.Duration;
 import java.time.Instant;

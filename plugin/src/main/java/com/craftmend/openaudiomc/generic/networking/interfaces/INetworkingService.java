@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking.interfaces;
 
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
-import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.voice.packets.subtypes.RoomMember;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.bukkit.entity.Player;
