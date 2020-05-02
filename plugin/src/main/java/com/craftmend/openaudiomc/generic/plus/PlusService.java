@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.generic.plus.enums.PlusAccessLevel;
 import com.craftmend.openaudiomc.generic.plus.object.FlagSet;
 import com.craftmend.openaudiomc.generic.plus.response.ClientSettingsResponse;
 import com.craftmend.openaudiomc.generic.plus.response.PlusLoginToken;
+import com.craftmend.openaudiomc.generic.plus.socket.PlusConnectionManager;
 import com.craftmend.openaudiomc.generic.plus.tasks.PlayerStateStreamer;
 import com.craftmend.openaudiomc.generic.plus.updates.CreateLoginPayload;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
@@ -18,6 +19,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class PlusService {
 
+    @Getter private PlusConnectionManager connectionManager = new PlusConnectionManager();
     private PlayerStateStreamer playerStateStreamer;
     @Getter private String baseUrl;
     @Getter private boolean plusEnabled;
