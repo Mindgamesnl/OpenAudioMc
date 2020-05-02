@@ -63,7 +63,7 @@ public class OpenAudioMc {
      * - Redis Service           []   (provides redis to openaudio and the gang)
      * - Plus Service            []   (Manages everything OpenAudioMc-Plus related, from auth to upstream data)
      */
-    private StateService stateService;
+    private StateService stateService = new StateService();;
     private TimeService timeService;
     private INetworkingService networkingService;
     @Setter private ConfigurationImplementation configurationImplementation;
@@ -100,7 +100,6 @@ public class OpenAudioMc {
 
         this.invoker.onPreBoot(this);
 
-        this.stateService = new StateService();
         this.authenticationService = new AuthenticationService();
         this.authenticationService.initialize();
 
