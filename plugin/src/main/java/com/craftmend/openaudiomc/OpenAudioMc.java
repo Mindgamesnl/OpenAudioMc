@@ -98,8 +98,6 @@ public class OpenAudioMc {
         this.taskProvider = invoker.getTaskProvider();
         this.configurationImplementation = invoker.getConfigurationProvider();
 
-        this.invoker.onPreBoot(this);
-
         this.authenticationService.initialize();
 
         // do migration
