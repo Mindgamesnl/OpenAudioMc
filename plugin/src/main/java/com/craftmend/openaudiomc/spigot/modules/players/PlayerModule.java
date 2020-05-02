@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.players;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.networking.client.objects.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.commands.ConnectCommand;
 import com.craftmend.openaudiomc.spigot.modules.players.listeners.PlayerConnectionListener;
