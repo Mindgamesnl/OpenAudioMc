@@ -135,6 +135,7 @@ public class NetworkingService extends INetworkingService {
     public void remove(UUID player) {
         if (clientMap.containsKey(player)) {
             ClientConnection client = clientMap.get(player);
+            OpenAudioMc.getInstance().getPlusService().getConnectionManager().removeSessionIfPresent(client);
 
             // are we in stand alone mode? then kick this client
             if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
