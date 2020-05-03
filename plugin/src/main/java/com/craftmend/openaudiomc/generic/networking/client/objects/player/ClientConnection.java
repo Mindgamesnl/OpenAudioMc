@@ -148,6 +148,7 @@ public class ClientConnection {
         sessionUpdated = true;
         this.isConnected = false;
         disconnectHandlers.forEach(event -> event.run());
+        OpenAudioMc.getInstance().getPlusService().getConnectionManager().removeSessionIfPresent(this);
 
         // am I a bungeecord thingy? then send it to my other thingy
         if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) {
