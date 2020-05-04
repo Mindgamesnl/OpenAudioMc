@@ -10,7 +10,7 @@ import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.abstracts.PayloadHandler;
 import com.craftmend.openaudiomc.generic.networking.handlers.ClientDisconnectHandler;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
-import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingService;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.player.ProxiedPlayerAdapter;
@@ -28,7 +28,7 @@ import java.net.URISyntaxException;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class NetworkingService extends INetworkingService {
+public class DefaultNetworkingService extends NetworkingService {
 
     private Map<UUID, ClientConnection> clientMap = new HashMap<>();
     private Map<PacketChannel, PayloadHandler<?>> packetHandlerMap = new HashMap<>();
@@ -37,7 +37,7 @@ public class NetworkingService extends INetworkingService {
     /**
      * setup the plugin connection
      */
-    public NetworkingService() {
+    public DefaultNetworkingService() {
         //register socket handlers
         registerHandler(PacketChannel.SOCKET_IN_REGISTER_CLIENT, new ClientConnectHandler());
         registerHandler(PacketChannel.SOCKET_IN_UNREGISTER_CLIENT, new ClientDisconnectHandler());
