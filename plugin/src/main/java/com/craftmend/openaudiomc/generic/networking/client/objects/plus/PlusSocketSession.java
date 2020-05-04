@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking.client.objects.plus;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
@@ -33,11 +34,13 @@ public class PlusSocketSession implements Authenticatable {
     @Override
     public void onConnect() {
         this.isConnected = true;
+        OpenAudioLogger.toConsole(owner.getPlayer().getName() + " opened a real time OpenAudioMc+ session.");
     }
 
     @Override
     public void onDisconnect() {
         this.isConnected = false;
+        OpenAudioLogger.toConsole(owner.getPlayer().getName() + " closed a real time OpenAudioMc+ session.");
     }
 
     @Override
@@ -47,6 +50,7 @@ public class PlusSocketSession implements Authenticatable {
 
     @Override
     public UUID getOwnerUUID() {
+        // to mock a connection, pretend that it is its own owner
         return sessionUuid;
     }
 }
