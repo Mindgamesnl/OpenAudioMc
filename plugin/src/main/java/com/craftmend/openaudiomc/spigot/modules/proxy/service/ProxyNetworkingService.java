@@ -1,10 +1,10 @@
 package com.craftmend.openaudiomc.spigot.modules.proxy.service;
 
-import com.craftmend.openaudiomc.generic.networking.NetworkingService;
+import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
-import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingService;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.node.packets.ForwardSocketPacket;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.generic.voice.packets.subtypes.RoomMember;
@@ -22,9 +22,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public class ProxyNetworkingService extends INetworkingService {
+public class ProxyNetworkingService extends NetworkingService {
 
-    private NetworkingService realService = new NetworkingService();
+    private DefaultNetworkingService realService = new DefaultNetworkingService();
     private BukkitPacketManager packetManager;
 
     public ProxyNetworkingService() {

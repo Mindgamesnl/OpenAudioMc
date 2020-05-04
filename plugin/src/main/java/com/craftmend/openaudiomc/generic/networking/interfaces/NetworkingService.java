@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public abstract class INetworkingService {
+public abstract class NetworkingService {
 
     public abstract void connectIfDown() throws URISyntaxException, IOException;
     public abstract void send(Authenticatable client, AbstractPacket packet);
