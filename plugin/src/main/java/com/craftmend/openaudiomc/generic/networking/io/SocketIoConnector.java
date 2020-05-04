@@ -4,6 +4,8 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
+import com.craftmend.openaudiomc.generic.networking.client.objects.plus.PlusSocketSession;
+import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.payloads.AcknowledgeClientPayload;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
@@ -33,6 +35,7 @@ import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 @RequiredArgsConstructor
@@ -175,15 +178,15 @@ public class SocketIoConnector {
                     AbstractPacket.class
             ).getData();
 
-            ClientConnection client = OpenAudioMc.getInstance().getNetworkingService().getClient(payload.getUuid());
+            Authenticatable authenticatable = findSession(payload.getUuid());
 
             Ack callback = (Ack) args[1];
 
-            if (client == null) {
+            if (authenticatable == null) {
                 callback.call(false);
-            } else if (client.getSession().getKey().equals(payload.getToken())) {
+            } else if (authenticatable.isTokenCorrect(payload.getToken())) {
                 callback.call(true);
-                client.onConnect();
+                authenticatable.onConnect();
             } else {
                 callback.call(false);
             }
@@ -211,14 +214,21 @@ public class SocketIoConnector {
         });
     }
 
+    private Authenticatable findSession(UUID id) {
+        ClientConnection clientConnection = OpenAudioMc.getInstance().getNetworkingService().getClient(id);
+        if (clientConnection != null) return clientConnection;
+        PlusSocketSession plusSocketSession = OpenAudioMc.getInstance().getPlusService().getConnectionManager().getBySessionId(id);
+        return plusSocketSession;
+    }
+
     public void disconnect() {
         this.socket.disconnect();
     }
 
-    public void send(ClientConnection client, AbstractPacket packet) {
+    public void send(Authenticatable client, AbstractPacket packet) {
         // only send the packet if the client is online, valid and the plugin is connected
         if (client.getIsConnected() && OpenAudioMc.getInstance().getStateService().getCurrentState().isConnected()) {
-            packet.setClient(client.getPlayer().getUniqueId());
+            packet.setClient(client.getOwnerUUID());
             socket.emit("data", OpenAudioMc.getGson().toJson(packet));
         }
     }

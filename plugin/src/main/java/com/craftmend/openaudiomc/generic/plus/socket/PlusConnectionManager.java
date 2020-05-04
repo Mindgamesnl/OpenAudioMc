@@ -12,7 +12,20 @@ public class PlusConnectionManager {
     private Map<UUID, PlusSocketSession> sessionMap = new HashMap<>();
 
     public void removeSessionIfPresent(ClientConnection owner) {
-        sessionMap.remove(owner.getPlayer().getUniqueId());
+        PlusSocketSession foundSession = getByOwner(owner);
+        if (foundSession != null) sessionMap.remove(foundSession.getSessionUuid());
+    }
+
+    public PlusSocketSession getBySessionId(UUID uuid) {
+        return sessionMap.get(uuid);
+    }
+
+    public PlusSocketSession getByOwner(ClientConnection clientConnection) {
+        return sessionMap.values().stream()
+                .filter(session ->
+                        session.getOwner().getPlayer().getUniqueId().equals(clientConnection.getPlayer().getUniqueId()))
+                .findFirst()
+                .orElse(null);
     }
 
 }
