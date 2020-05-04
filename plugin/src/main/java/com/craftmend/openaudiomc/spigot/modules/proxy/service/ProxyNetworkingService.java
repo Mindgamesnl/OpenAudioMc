@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.proxy.service;
 import com.craftmend.openaudiomc.generic.networking.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingService;
 import com.craftmend.openaudiomc.generic.node.packets.ForwardSocketPacket;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
@@ -37,12 +38,13 @@ public class ProxyNetworkingService extends INetworkingService {
     }
 
     @Override
-    public void send(ClientConnection client, AbstractPacket packet) {
+    public void send(Authenticatable client, AbstractPacket packet) {
         // handle packet if it should be passed to bungee
         // forward every packet starting with PacketClient
+        if (!(client instanceof ClientConnection)) throw new UnsupportedOperationException("The bungee adapter for the networking service only supports client connections");
         if (packet.getClass().getSimpleName().startsWith("PacketClient")) {
-            packet.setClient(client.getPlayer().getUniqueId());
-            Player player = ((SpigotPlayerAdapter) client.getPlayer()).getPlayer();
+            packet.setClient(client.getOwnerUUID());
+            Player player = ((SpigotPlayerAdapter) ((ClientConnection) client).getPlayer()).getPlayer();
             packetManager.sendPacket(new PacketPlayer(player), new ForwardSocketPacket(packet));
         }
     }

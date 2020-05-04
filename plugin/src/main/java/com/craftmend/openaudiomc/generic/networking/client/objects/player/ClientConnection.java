@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.generic.cards.objects.Card;
+import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
 import com.craftmend.openaudiomc.generic.player.ProxiedPlayerAdapter;
@@ -32,30 +33,22 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
-public class ClientConnection {
+public class ClientConnection implements Authenticatable {
 
     //ongoing sounds
-    @Getter
-    private List<Media> ongoingMedia = new ArrayList<>();
+    @Getter private List<Media> ongoingMedia = new ArrayList<>();
 
     // session info
     private boolean isConnected = false;
-    @Getter
-    private PlayerSession session;
-    @Setter
-    @Getter
-    private Card card = null;
-    @Setter
-    @Getter
-    private boolean isWaitingToken = false;
-    @Setter
-    @Getter
-    private boolean sessionUpdated = false;
+    @Getter private PlayerSession session;
+    @Setter @Getter private Card card = null;
+    @Setter @Getter private boolean isWaitingToken = false;
+    @Setter @Getter private boolean sessionUpdated = false;
 
     // player implementation
-    @Getter
-    private PlayerContainer player;
+    @Getter private PlayerContainer player;
     private Instant lastConnectPrompt = Instant.now();
 
     // on connect and disconnect handlers
@@ -111,7 +104,13 @@ public class ClientConnection {
         player.sendMessage(message);
     }
 
+    @Override
+    public boolean isTokenCorrect(String token) {
+        return getSession().getKey().equals(token);
+    }
+
     // client connected!
+    @Override
     public void onConnect() {
         sessionUpdated = true;
         ConfigurationImplementation ConfigurationImplementation = OpenAudioMc.getInstance().getConfigurationImplementation();
@@ -144,6 +143,7 @@ public class ClientConnection {
         player.sendMessage(Platform.translateColors(connectedMessage));
     }
 
+    @Override
     public void onDisconnect() {
         sessionUpdated = true;
         this.isConnected = false;
@@ -243,6 +243,11 @@ public class ClientConnection {
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE)
             return true;
         return this.isConnected;
+    }
+
+    @Override
+    public UUID getOwnerUUID() {
+        return player.getUniqueId();
     }
 
     public boolean isConnected() {

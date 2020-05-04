@@ -9,6 +9,7 @@ import com.craftmend.openaudiomc.generic.networking.handlers.ClientConnectHandle
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.abstracts.PayloadHandler;
 import com.craftmend.openaudiomc.generic.networking.handlers.ClientDisconnectHandler;
+import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingService;
 import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
 import com.craftmend.openaudiomc.generic.platform.Platform;
@@ -66,7 +67,7 @@ public class NetworkingService extends INetworkingService {
      * @param packet the data
      */
     @Override
-    public void send(ClientConnection client, AbstractPacket packet) {
+    public void send(Authenticatable client, AbstractPacket packet) {
         socketIoConnector.send(client, packet);
     }
 
