@@ -1,5 +1,5 @@
 {
-  "channels": [
-    "HUE_CONNECTED"
-  ]
+  "channels": {
+    "hue_connected": "SOCKET_IN_CLIENT_ENABLED_HUE"
+  }
 }
