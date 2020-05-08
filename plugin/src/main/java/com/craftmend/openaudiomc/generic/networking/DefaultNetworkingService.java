@@ -58,7 +58,7 @@ public class DefaultNetworkingService extends NetworkingService {
      * @throws URISyntaxException server unreachable
      */
     @Override
-    public void connectIfDown() throws URISyntaxException, IOException {
+    public void connectIfDown() throws IOException {
         socketIoConnector.setupConnection();
     }
 
