@@ -9,43 +9,30 @@
 messages:
   # The message a client gets when they are not connected but a sound got triggered. this can be disabled under settings
   suggest-connection: '&eYou are currently missing out on some sounds! connect with the audio client via /audio'
-
   # The message the client gets when executing /audio of joins (if send-on-join is enabled)
   click-to-connect: '&bClick here to connect to the online audio client'
-
   # A hover message for the click-to-connect message, only appears right before clicking when you mouse over it
   click-to-connect-hover: '&6Minecraft will prompt you to open the web client when you click this message'
-
   # The message the client gets when their audio link has expired
   click-link-expired: '&3Your link to the audio client has expired. Use /audio to request a new one.'
-
   # The message a client gets when their web-client has been opened
   client-opened: '&2You are now connected with the audio client!'
-
   # The message a client gets when their web-client has been closed
   client-closed: '&4You closed the web client!'
-
   # The message a client gets as confirmation for executing /volume or /vol
   client-volume-change: '&6Your volume has been changed to __amount__%'
-
   # The message a client gets as warning that they messed up /volume or /vol
   client-volume-invalid: '&4You must enter a number between 0 and 100'
-
   # The message a client gets as warning that they aren't even connected
   client-not-connected: '&4You need to be connected to the web client to be able to do that'
-
   # The message a client gets as warning that they are already connected
   client-already-connected: '&4You are already connected to the web client'
-
   # The message a client gets when they have a incoming call
   call-ringing: '&2You have a pending voice call! please check your web client to answer'
-
   # The message a client gets when their call has ended
   call-left: '&4Your current voice call got ended. You can now talk to yourself in peace again.'
-
   # The message a client gets when openaudio messed up internally and it's currently recovering
   api-starting-up: '&3The connection is still setting up. Please try again in a few seconds.'
-
 
 # OPTIONS
 # These are general plugin settings
@@ -55,28 +42,20 @@ options:
   #   STAFF = Everyone who either has openaudiomc.command.plus permissions or OP
   #   CONSOLE_ONLY = Only the console may receive the link
   plus-access-level: STAFF
-
   # If set to true, the player automatically receives a link upon joining
   send-on-join: true
-
   # If set to true, the player gets reminded to connect (see messages.suggest-connection)
   remind-to-connect: true
-
   # If delay in seconds between reminding to connect
   remind-to-connect-interval: 30
-
   # If default radius for speakers (in blocks)
   speaker-radius: 10
-
   # If set to true, speakers will sync their timecodes
   sync-speakers: true
-
   # If set to true, regions will sync their timecodes
   sync-regions: true
-
   # If set to true, regions will use priorities. If this causes problems, just set it to false.
   use-region-priority: true
-
   # If temp regions should be looped or not
   loop-temp-regions: false
 
@@ -88,19 +67,14 @@ options:
 redis:
   # When set to true, the redis service will be enabled
   enabled: false
-
   # The host of your redis server
   host: localhost
-
   # The port of your redis server
   port: 6969
-
   # The password to your redis server.
   # Leave set to "none" to connect without authentication
   password: none
-
   # If SSL should be used to connect to your redis server (only if you have setup TLS)
   useSSL: false
-
   # The channel to sync with. When configured, OpenAudioMc will only sync to servers on redis with the same section
   section: event
