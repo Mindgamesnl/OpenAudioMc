@@ -16,11 +16,4 @@ public class ClientDisconnectHandler extends PayloadHandler<ClientDisconnectPayl
         Authenticatable authenticatable = findSession(payload.getClient());
         if (authenticatable != null) authenticatable.onDisconnect();
     }
-
-    private Authenticatable findSession(UUID id) {
-        ClientConnection clientConnection = OpenAudioMc.getInstance().getNetworkingService().getClient(id);
-        if (clientConnection != null) return clientConnection;
-        PlusSocketSession plusSocketSession = OpenAudioMc.getInstance().getPlusService().getConnectionManager().getBySessionId(id);
-        return plusSocketSession;
-    }
 }
