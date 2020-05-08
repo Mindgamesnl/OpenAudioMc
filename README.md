@@ -1,5 +1,4 @@
 # OpenAudioMc [![Build Status](https://travis-ci.org/Mindgamesnl/OpenAudioMc.svg?branch=master)](https://travis-ci.org/Mindgamesnl/OpenAudioMc)
-![alt text](http://static.craftmend.com/spigot/openaudio/updated-page.png "OpenAudio")
 
 OpenAudio is free to download on spigot.
 * [Spigot Release Page](https://www.spigotmc.org/resources/openaudiomc-open-source-audio-client.30691/ "Spigot Plugin Page")
@@ -22,7 +21,8 @@ OpenAudioMc is a free spigot plugin and we'd like to keep it this way.  But to k
 * [WebPack](https://webpack.js.org/)
 * [NodeJS](https://nodejs.org/en/)
 * [Maven](https://maven.apache.org/)
-* [WebAudio](https://github.com/Mindgamesnl/WebAudio)
+* [OpenAudioMc+](https://plus.openaudiomc.net/)
+* [Docker](https://www.docker.com/)
 * Love (there is a lot of time in this project)
 
 
