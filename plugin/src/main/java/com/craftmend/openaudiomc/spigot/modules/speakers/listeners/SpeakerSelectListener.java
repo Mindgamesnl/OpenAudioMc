@@ -30,6 +30,7 @@ public class SpeakerSelectListener implements Listener {
                 if (speaker == null) {
                     return;
                 }
+                if (!speakerModule.isSpeakerSkull(speaker.getLocation().getBlock())) return;
                 new SpeakerMenu(speaker).openFor(event.getPlayer());
             }
         }
