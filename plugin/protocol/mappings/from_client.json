@@ -2,7 +2,7 @@
   "channels": {
     "hue_connected": {
       "packetChannel": "SOCKET_IN_CLIENT_ENABLED_HUE",
-      "gsonClass": "ClientDisconnectPayload"
+      "gsonClass": "ClientEnabledHuePayload"
     }
   }
 }
