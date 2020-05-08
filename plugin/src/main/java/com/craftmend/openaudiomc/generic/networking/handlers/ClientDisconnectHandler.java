@@ -1,13 +1,8 @@
 package com.craftmend.openaudiomc.generic.networking.handlers;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.abstracts.PayloadHandler;
-import com.craftmend.openaudiomc.generic.networking.client.objects.plus.PlusSocketSession;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.payloads.ClientDisconnectPayload;
-
-import java.util.UUID;
 
 public class ClientDisconnectHandler extends PayloadHandler<ClientDisconnectPayload> {
 

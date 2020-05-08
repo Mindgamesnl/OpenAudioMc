@@ -26,8 +26,6 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -76,14 +74,7 @@ public class ClientConnection implements Authenticatable {
             return;
         }
 
-        OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
-            try {
-                OpenAudioMc.getInstance().getNetworkingService().connectIfDown();
-            } catch (URISyntaxException | IOException e) {
-                player.sendMessage("Failed to execute goal.");
-                e.printStackTrace();
-            }
-        });
+        OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> OpenAudioMc.getInstance().getNetworkingService().connectIfDown());
 
         String url = OpenAudioMc.getInstance().getPlusService().getBaseUrl() +
                 session.getToken();

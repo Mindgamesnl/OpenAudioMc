@@ -15,8 +15,6 @@ import com.ikeirnez.pluginmessageframework.implementations.BukkitPacketManager;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.bukkit.entity.Player;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -33,7 +31,7 @@ public class ProxyNetworkingService extends NetworkingService {
     }
 
     @Override
-    public void connectIfDown() throws URISyntaxException, IOException {
+    public void connectIfDown() {
         // unused in fake system
     }
 

@@ -46,7 +46,7 @@ public class SocketIoConnector {
     private RestRequest logoutHandler;
     private boolean registeredLogout = false;
 
-    public void setupConnection() throws IOException {
+    public void setupConnection() {
         if (!OpenAudioMc.getInstance().getStateService().getCurrentState().canConnect()) return;
 
         if (!registeredLogout) {

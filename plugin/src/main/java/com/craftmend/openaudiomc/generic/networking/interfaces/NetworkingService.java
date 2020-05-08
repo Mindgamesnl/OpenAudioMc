@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 
 public abstract class NetworkingService {
 
-    public abstract void connectIfDown() throws URISyntaxException, IOException;
+    public abstract void connectIfDown();
     public abstract void send(Authenticatable client, AbstractPacket packet);
     public abstract void triggerPacket(AbstractPacket abstractPacket);
     public abstract ClientConnection getClient(UUID uuid);

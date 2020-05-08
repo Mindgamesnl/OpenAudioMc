@@ -24,7 +24,6 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.*;
 import java.util.function.Consumer;
@@ -58,7 +57,7 @@ public class DefaultNetworkingService extends NetworkingService {
      * @throws URISyntaxException server unreachable
      */
     @Override
-    public void connectIfDown() throws IOException {
+    public void connectIfDown() {
         socketIoConnector.setupConnection();
     }
 
