@@ -9,6 +9,7 @@ import com.craftmend.openaudiomc.generic.networking.handlers.ClientConnectHandle
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.abstracts.PayloadHandler;
 import com.craftmend.openaudiomc.generic.networking.handlers.ClientDisconnectHandler;
+import com.craftmend.openaudiomc.generic.networking.handlers.ClientLinkedHueHandler;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
@@ -38,9 +39,10 @@ public class DefaultNetworkingService extends NetworkingService {
      * setup the plugin connection
      */
     public DefaultNetworkingService() {
-        //register socket handlers
+        // register socket handlers
         registerHandler(PacketChannel.SOCKET_IN_REGISTER_CLIENT, new ClientConnectHandler());
         registerHandler(PacketChannel.SOCKET_IN_UNREGISTER_CLIENT, new ClientDisconnectHandler());
+        registerHandler(PacketChannel.SOCKET_IN_CLIENT_ENABLED_HUE, new ClientLinkedHueHandler());
 
         try {
             socketIoConnector = new SocketIoConnector();
