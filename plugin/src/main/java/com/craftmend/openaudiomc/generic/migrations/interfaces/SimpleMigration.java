@@ -28,7 +28,7 @@ public abstract class SimpleMigration {
         }
 
         // overwrite files
-        config.saveAllhard();
+        config.overwriteConfigFile();
 
         // re-initialize entire module
         config.reloadConfig();
@@ -53,7 +53,11 @@ public abstract class SimpleMigration {
                             String[] lineElements = line.split(subSection);
 
                             // actual line
-                            line = lineElements[0] + subSection + ": " + escapeValues(value.toString(), value);
+                            if (value instanceof String) {
+                                line = lineElements[0] + subSection + ": " + escapeValues(value.toString(), value);
+                            } else {
+                                line = lineElements[0] + subSection + ": " + value.toString();
+                            }
                         }
                     }
                 }
@@ -85,6 +89,8 @@ public abstract class SimpleMigration {
 
         // soft save to reflect the old values and write them to the new file
         config.saveAll();
+        // force oa to reload
+        OpenAudioMc.getInstance().getInvoker().getConfigurationProvider().reloadConfig();
     }
 
     private String escapeValues(String input, Object original) {

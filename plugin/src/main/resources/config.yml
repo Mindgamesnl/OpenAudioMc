@@ -55,7 +55,7 @@ options:
   # If set to true, regions will sync their timecodes
   sync-regions: true
   # If set to true, regions will use priorities. If this causes problems, just set it to false.
-  use-region-priority: true
+  use-region-priority: false
   # If temp regions should be looped or not
   loop-temp-regions: false
 

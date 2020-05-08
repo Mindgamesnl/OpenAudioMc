@@ -232,6 +232,7 @@ public class SpigotConfigurationImplementation implements ConfigurationImplement
      */
     @Override
     public void saveAll() {
+        OpenAudioMcSpigot.getInstance().saveConfig();
         try {
             dataConfig.save("plugins/OpenAudioMc/data.yml");
         } catch (IOException e) {
@@ -240,8 +241,7 @@ public class SpigotConfigurationImplementation implements ConfigurationImplement
     }
 
     @Override
-    public void saveAllhard() {
-        saveAll();
+    public void overwriteConfigFile() {
         OpenAudioMcSpigot.getInstance().saveResource("config.yml", true);
     }
 
