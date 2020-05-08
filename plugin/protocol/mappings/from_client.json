@@ -1,5 +1,8 @@
 {
   "channels": {
-    "hue_connected": "SOCKET_IN_CLIENT_ENABLED_HUE"
+    "hue_connected": {
+      "packetChannel": "SOCKET_IN_CLIENT_ENABLED_HUE",
+      "gsonClass": "ClientDisconnectPayload"
+    }
   }
 }
