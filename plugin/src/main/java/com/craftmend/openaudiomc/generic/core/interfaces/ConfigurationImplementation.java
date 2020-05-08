@@ -21,7 +21,7 @@ public interface ConfigurationImplementation {
     void set(StorageKey storageKey, Object value);
     void reloadConfig();
     void saveAll();
-    void saveAllhard();
+    void overwriteConfigFile();
     boolean hasDataFile();
     boolean hasStorageKey(StorageKey storageKey);
 

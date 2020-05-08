@@ -29,7 +29,7 @@ public class BungeePlayerSelector {
             if (getArgument("server").length() != 0) {
                 String targetServer = getArgument("server");
                 for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                    if (player.getServer().getInfo().getName().equals(serverName(commandSender))) {
+                    if (player.getServer().getInfo().getName().equals(targetServer)) {
                         players.add(player);
                     }
                 }

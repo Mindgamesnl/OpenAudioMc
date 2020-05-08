@@ -6,13 +6,10 @@ eclipse
 *.iml
 *.ipr
 *.iws
-
+.DS_Store
 bin
 
 .idea/*
 
 out
 out/*
-
-target
-target/*
