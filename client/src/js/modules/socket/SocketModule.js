@@ -97,6 +97,10 @@ export class SocketModule {
         this.socket.connect();
     }
 
+    send(event, data) {
+        this.socket.emit(event, data);
+    }
+
     registerHandler(channel, f) {
         this.handlers[channel] = f;
     }

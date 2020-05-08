@@ -46,6 +46,7 @@ public class ClientConnection implements Authenticatable {
     @Setter @Getter private Card card = null;
     @Setter @Getter private boolean isWaitingToken = false;
     @Setter @Getter private boolean sessionUpdated = false;
+    @Getter @Setter private boolean hasHueLinked = false;
 
     // player implementation
     @Getter private PlayerContainer player;
