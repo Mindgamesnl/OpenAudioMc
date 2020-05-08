@@ -209,8 +209,13 @@ public class SocketIoConnector {
         });
 
         socket.on("data", args -> {
-            AbstractPacket abstractPacket = OpenAudioMc.getGson().fromJson(args[0].toString(), AbstractPacket.class);
-            OpenAudioMc.getInstance().getNetworkingService().triggerPacket(abstractPacket);
+            try {
+                AbstractPacket abstractPacket = OpenAudioMc.getGson().fromJson(args[0].toString(), AbstractPacket.class);
+                OpenAudioMc.getInstance().getNetworkingService().triggerPacket(abstractPacket);
+            } catch (Exception e) {
+                OpenAudioLogger.toConsole("An incoming packet was attempted to be parsed but failed horribly and it broke. Please update your plugin, of if this is already the latest version, let me know of this exception. The received data was: " + args[0].toString());
+                e.printStackTrace();
+            }
         });
     }
 
