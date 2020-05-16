@@ -26,7 +26,6 @@ public class SpeakerCreateListener implements Listener {
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         Block placed = event.getBlockPlaced();
-
         if (speakerModule.isSpeakerSkull(placed)) {
             if (!isAllowed(event.getPlayer())) {
                 event.getPlayer().sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + "You are not allowed to place OpenAudioMc speakers, please ask the server administrator for more information.");
