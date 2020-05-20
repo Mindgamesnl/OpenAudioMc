@@ -44,3 +44,6 @@ We provide the option for Players with administrative privileges on their server
  spelling errors and changes reserved,
  Mindgamesnl 20th of May
  2020
+ 
+ I am not a lawyer, nor do I claim to be one.
+ I'm just a nerd with a computer.
