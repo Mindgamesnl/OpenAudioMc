@@ -5,6 +5,7 @@ This document will go over all types of data as processed and/or stored and disc
 This document is subject to change as the service grows with time. Changes will be linked to their corresponding update and mentioned in the Discord server as they happen.
 
 Extra rules and terms are listed at the end of this document.
+This document overrides the license as used before May 20th, 2020 at 7PM (UTC+2)
 
 ## Definitions
  - The author of this document uses the term **I** and **me** to reference me, Mindgamesnl, as the author of OpenAudioMc.
