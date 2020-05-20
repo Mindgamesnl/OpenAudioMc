@@ -36,6 +36,7 @@ We provide the option for Players with administrative privileges on their server
     3. The website does not communicate to the OpenAudioMc servers that fall out of protocol (or as released in any current/previous public release/beta build)
  - The Java plugin may be altered for as long as it does not harm Players or any other OpenAudioMc related services.
  - Disobeying one or more rules, terms or notes may result in the termination or a "Ban" of your account.
+ - The use of OpenAudioMc's backend servers always follows the rules and privacy statement as in the latest version of this document, no matter the released version use of the individual.
  - I do not have to disclose a reason for a ban publicly or privately.
  - I decide whether a Ban is necessary and or deserved for any reason given in this document or as stated in context of the ban.
  
