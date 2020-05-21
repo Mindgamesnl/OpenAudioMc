@@ -14,10 +14,10 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public abstract class INetworkingService {
+public abstract class NetworkingService {
 
-    public abstract void connectIfDown() throws URISyntaxException, IOException;
-    public abstract void send(ClientConnection client, AbstractPacket packet);
+    public abstract void connectIfDown();
+    public abstract void send(Authenticatable client, AbstractPacket packet);
     public abstract void triggerPacket(AbstractPacket abstractPacket);
     public abstract ClientConnection getClient(UUID uuid);
     public abstract Collection<ClientConnection> getClients();

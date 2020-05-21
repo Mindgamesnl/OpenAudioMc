@@ -25,7 +25,11 @@ public class PlusSubCommand extends SubCommand {
     public void onExecute(GenericExecutor sender, String[] args) {
         PlusAccessLevel level = OpenAudioMc.getInstance().getPlusService().getAccessLevel();
         if (level.getCheck().checkPermissions(sender)) {
+
+
+
             OpenAudioMc.getInstance().getPlusService().createLoginToken(sender.getName()).thenAccept(token -> {
+
                 String url = "https://plus.openaudiomc.net/login/" + token;
                 // if the platform is spigot, do a additional console check
                 if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {

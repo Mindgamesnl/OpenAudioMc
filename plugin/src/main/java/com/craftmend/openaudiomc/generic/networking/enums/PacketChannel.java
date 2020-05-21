@@ -9,15 +9,16 @@ public enum PacketChannel {
      * SOCKET_OUT is what is send to the socket to proxy to the client
      */
 
-    // socket in
-    SOCKET_IN_REGISTER_CLIENT,
-    SOCKET_IN_UNREGISTER_CLIENT,
+    // socket in, so received by the minecraft server
+    SOCKET_IN_REGISTER_CLIENT, // client connected
+    SOCKET_IN_UNREGISTER_CLIENT, // client disconnected
+    SOCKET_IN_CLIENT_ENABLED_HUE, // client connected to a hue bridge
 
-    // socket out
+    // socket out, so received by the socket and send from the minecraft server
     SOCKET_OUT_KICK_CLIENT,
     SOCKET_OUT_ACKNOWLEDGEMENT,
 
-    // client target
+    // client target, targeted to the client
     CLIENT_OUT_CREATE_MEDIA,
     CLIENT_OUT_UPDATE_MEDIA,
     CLIENT_OUT_DESTROY_MEDIA,

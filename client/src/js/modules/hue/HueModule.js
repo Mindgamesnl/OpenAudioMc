@@ -87,6 +87,9 @@ export class HueModule {
                 this.openAudioMc.getHueConfiguration().applyState();
                 this.openAudioMc.getHueConfiguration().updateState();
             });
+
+            // let the server know that I am, in fact, connected
+            this.openAudioMc.socketModule.send("hue_connected", {});
         });
     }
 
