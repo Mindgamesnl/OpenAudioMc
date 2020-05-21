@@ -1,5 +1,5 @@
 name: OpenAudioMc
-version: 6.2.3
+version: 6.2.4
 main: com.craftmend.openaudiomc.bungee.OpenAudioMcBungee
 authors: [Mindgamesnl]
 description: The OpenAudioMc plugin. Brings real sound and lights to your minecraft server with the help of a custom web client.
