@@ -9,9 +9,7 @@ import org.bukkit.command.ConsoleCommandSender;
 
 public enum PlusAccessLevel {
 
-    STAFF((sender) -> {
-        return true;
-    }),
+    STAFF((sender) -> true),
     OP_ONLY((sender) -> {
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
             CommandSender bukkitCommandSender = (CommandSender) sender.getOriginal();

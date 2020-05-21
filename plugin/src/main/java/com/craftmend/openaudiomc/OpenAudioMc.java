@@ -7,7 +7,7 @@ import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementa
 import com.craftmend.openaudiomc.generic.media.MediaModule;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import com.craftmend.openaudiomc.generic.migrations.MigrationWorker;
-import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingService;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.objects.OpenAudioApi;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
@@ -68,7 +68,7 @@ public class OpenAudioMc {
     private StateService stateService = new StateService();
     private TimeService timeService = new TimeService();
     private MediaModule mediaModule = new MediaModule();
-    private INetworkingService networkingService;
+    private NetworkingService networkingService;
     @Setter private ConfigurationImplementation configurationImplementation;
     private CommandModule commandModule;
     private ITaskProvider taskProvider;
@@ -79,7 +79,7 @@ public class OpenAudioMc {
     private OpenAudioInvoker invoker;
     private boolean cleanStartup;
     private boolean isDisabled = false;
-    private Class<? extends INetworkingService> serviceImplementation;
+    private Class<? extends NetworkingService> serviceImplementation;
 
     @Getter private static final OpenAudioApi api = new OpenAudioApi();
     @Getter private static OpenAudioMc instance;

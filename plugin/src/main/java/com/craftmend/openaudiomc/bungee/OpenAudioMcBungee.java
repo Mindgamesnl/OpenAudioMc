@@ -10,7 +10,7 @@ import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementa
 import com.craftmend.openaudiomc.generic.core.interfaces.ITaskProvider;
 import com.craftmend.openaudiomc.generic.core.interfaces.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
-import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingService;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 
@@ -84,7 +84,7 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
     }
 
     @Override
-    public Class<? extends INetworkingService> getServiceClass() {
+    public Class<? extends NetworkingService> getServiceClass() {
         return ClientMode.STAND_ALONE.getServiceClass();
     }
 
