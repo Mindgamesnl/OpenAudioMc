@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -25,5 +26,7 @@ public abstract class INetworkingService {
     public abstract ClientConnection register(ProxiedPlayer player);
     public abstract void stop();
     public abstract void requestRoomCreation(List<RoomMember> members, Consumer<Boolean> wasSucessful);
+    public abstract Set<INetworkingEvents> getEvents();
+    public abstract void addEventHandler(INetworkingEvents events);
 
 }

@@ -9,6 +9,7 @@ import com.craftmend.openaudiomc.generic.networking.handlers.ClientConnectHandle
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.abstracts.PayloadHandler;
 import com.craftmend.openaudiomc.generic.networking.handlers.ClientDisconnectHandler;
+import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingService;
 import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
 import com.craftmend.openaudiomc.generic.platform.Platform;
@@ -17,6 +18,7 @@ import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.generic.voice.packets.subtypes.RoomMember;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
+import lombok.Getter;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.bukkit.Bukkit;
@@ -29,6 +31,7 @@ import java.util.function.Consumer;
 
 public class NetworkingService extends INetworkingService {
 
+    @Getter private Set<INetworkingEvents> eventHandlers = new HashSet<>();
     private Map<UUID, ClientConnection> clientMap = new HashMap<>();
     private Map<PacketChannel, PayloadHandler<?>> packetHandlerMap = new HashMap<>();
     private SocketIoConnector socketIoConnector;
@@ -67,6 +70,7 @@ public class NetworkingService extends INetworkingService {
      */
     @Override
     public void send(ClientConnection client, AbstractPacket packet) {
+        for (INetworkingEvents event : getEvents()) event.onPacketSend(client, packet);
         socketIoConnector.send(client, packet);
     }
 
@@ -176,5 +180,15 @@ public class NetworkingService extends INetworkingService {
     @Override
     public void requestRoomCreation(List<RoomMember> members, Consumer<Boolean> wasSucessful) {
         this.socketIoConnector.createRoom(members, wasSucessful);
+    }
+
+    @Override
+    public Set<INetworkingEvents> getEvents() {
+        return eventHandlers;
+    }
+
+    @Override
+    public void addEventHandler(INetworkingEvents events) {
+        eventHandlers.add(events);
     }
 }
