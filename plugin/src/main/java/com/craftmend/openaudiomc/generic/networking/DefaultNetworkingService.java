@@ -9,8 +9,9 @@ import com.craftmend.openaudiomc.generic.networking.handlers.ClientConnectHandle
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.abstracts.PayloadHandler;
 import com.craftmend.openaudiomc.generic.networking.handlers.ClientDisconnectHandler;
+import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
-import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingService;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.player.ProxiedPlayerAdapter;
@@ -24,12 +25,10 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class NetworkingService extends INetworkingService {
+public class DefaultNetworkingService extends NetworkingService {
 
     @Getter private Set<INetworkingEvents> eventHandlers = new HashSet<>();
     private Map<UUID, ClientConnection> clientMap = new HashMap<>();
@@ -39,7 +38,7 @@ public class NetworkingService extends INetworkingService {
     /**
      * setup the plugin connection
      */
-    public NetworkingService() {
+    public DefaultNetworkingService() {
         //register socket handlers
         registerHandler(PacketChannel.SOCKET_IN_REGISTER_CLIENT, new ClientConnectHandler());
         registerHandler(PacketChannel.SOCKET_IN_UNREGISTER_CLIENT, new ClientDisconnectHandler());
@@ -54,11 +53,9 @@ public class NetworkingService extends INetworkingService {
 
     /**
      * try to connect to the api, if it is not already connected
-     *
-     * @throws URISyntaxException server unreachable
      */
     @Override
-    public void connectIfDown() throws URISyntaxException, IOException {
+    public void connectIfDown() {
         socketIoConnector.setupConnection();
     }
 
@@ -69,7 +66,7 @@ public class NetworkingService extends INetworkingService {
      * @param packet the data
      */
     @Override
-    public void send(ClientConnection client, AbstractPacket packet) {
+    public void send(Authenticatable client, AbstractPacket packet) {
         for (INetworkingEvents event : getEvents()) event.onPacketSend(client, packet);
         socketIoConnector.send(client, packet);
     }
