@@ -7,6 +7,7 @@ OpenAudio is free to download on spigot.
 [![](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/images/0)](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/links/0)[![](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/images/1)](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/links/1)[![](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/images/2)](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/links/2)[![](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/images/3)](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/links/3)[![](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/images/4)](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/links/4)[![](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/images/5)](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/links/5)[![](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/images/6)](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/links/6)[![](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/images/7)](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/links/7)
 
 ## Useful Links
+* **Privacy and License** - <https://github.com/Mindgamesnl/OpenAudioMc/blob/master/LICENCE_and_PRIVACY.md>
 * **Website** - <http://openaudiomc.net/>
 * **Discord Community** - <https://discordapp.com/invite/mfAgdhx>
 * **Javadocs** - <https://javadoc.openaudiomc.net/>
@@ -27,8 +28,3 @@ OpenAudioMc is a free spigot plugin and we'd like to keep it this way.  But to k
 * [OpenAudioMc+](https://plus.openaudiomc.net/)
 * [Docker](https://www.docker.com/)
 * Love (there is a lot of time in this project)
-
-
-## License
-OpenAudio is licensed under the Apache 2.0 License. Please
-see [`LICENSE`](https://github.com/Mindgamesnl/OpenAudioMc/blob/master/LICENSE) for more info.
