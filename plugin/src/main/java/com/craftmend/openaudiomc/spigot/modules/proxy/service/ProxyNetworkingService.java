@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
+import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.node.packets.ForwardSocketPacket;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
@@ -16,13 +17,12 @@ import lombok.Getter;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.bukkit.entity.Player;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class ProxyNetworkingService extends NetworkingService {
 
+    @Getter private Set<INetworkingEvents> eventHandlers = new HashSet<>();
     private DefaultNetworkingService realService = new DefaultNetworkingService();
     private BukkitPacketManager packetManager;
 
