@@ -1,7 +1,6 @@
 package com.craftmend.openaudiomc.generic.plus;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.networking.client.objects.plus.PlusSocketSession;
 import com.craftmend.openaudiomc.generic.plus.enums.PlusAccessLevel;
 import com.craftmend.openaudiomc.generic.plus.object.FlagSet;
 import com.craftmend.openaudiomc.generic.plus.response.ClientSettingsResponse;
