@@ -24,6 +24,11 @@ public class SpigotPlayerAdapter implements PlayerContainer {
     }
 
     @Override
+    public boolean isAdministrator() {
+        return player.isOp() || player.hasPermission("openaudiomc.tips");
+    }
+
+    @Override
     public UUID getUniqueId() {
         return player.getUniqueId();
     }

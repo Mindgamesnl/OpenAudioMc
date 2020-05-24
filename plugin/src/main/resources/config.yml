@@ -58,6 +58,8 @@ options:
   use-region-priority: false
   # If temp regions should be looped or not
   loop-temp-regions: false
+  # Staff will receive helpful tips and error messages when something went wrong while playing a file
+  staff-tips: true
 
 # REDIS
 # Redis is an optional professional feature for OpenAudioMc that (when configured) will sync shows

@@ -59,7 +59,8 @@ export class Sound {
                     // report back as failure
                     console.log("Reporting media failure " + type);
                     this.openAudioMc.socketModule.send(PluginChannel.MEDIA_FAILURE, {
-                        "mediaError": type
+                        "mediaError": type,
+                        "source": this.soundElement.src
                     });
                 }
             }
