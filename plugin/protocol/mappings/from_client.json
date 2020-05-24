@@ -3,6 +3,10 @@
     "hue_connected": {
       "packetChannel": "SOCKET_IN_CLIENT_ENABLED_HUE",
       "gsonClass": "ClientEnabledHuePayload"
+    },
+    "media_failure": {
+      "packetChannel": "SOCKET_IN_CLIENT_FAILED_MEDIA",
+      "gsonClass": "ClientFailedMediaPayload"
     }
   }
 }

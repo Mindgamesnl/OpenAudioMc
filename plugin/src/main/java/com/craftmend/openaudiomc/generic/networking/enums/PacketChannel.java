@@ -13,6 +13,7 @@ public enum PacketChannel {
     SOCKET_IN_REGISTER_CLIENT, // client connected
     SOCKET_IN_UNREGISTER_CLIENT, // client disconnected
     SOCKET_IN_CLIENT_ENABLED_HUE, // client connected to a hue bridge
+    SOCKET_IN_CLIENT_FAILED_MEDIA, // client failed to fetch media
 
     // socket out, so received by the socket and send from the minecraft server
     SOCKET_OUT_KICK_CLIENT,

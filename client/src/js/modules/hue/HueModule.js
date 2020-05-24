@@ -1,3 +1,5 @@
+import * as PluginChannel from "../../helpers/PluginChannel";
+
 export class HueModule {
 
     constructor(main, hue) {
@@ -89,7 +91,7 @@ export class HueModule {
             });
 
             // let the server know that I am, in fact, connected
-            this.openAudioMc.socketModule.send("hue_connected", {});
+            this.openAudioMc.socketModule.send(PluginChannel.HUE_CONNECTED, {});
         });
     }
 
