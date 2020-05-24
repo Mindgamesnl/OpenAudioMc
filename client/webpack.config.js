@@ -1,5 +1,6 @@
 const path = require('path');
 const exec = require('child_process').exec;
+const MinifyPlugin = require("babel-minify-webpack-plugin");
 
 function puts(error, stdout, stderr) {
     if (stdout != "") console.log(stdout);
@@ -55,7 +56,8 @@ const postInstall = [
 
 module.exports = {
     mode: 'production',
-    performance: { hints: false },
+    performance: {hints: false},
+
     entry: {
         main: './src/js/OpenAudioMc.js',
     },
@@ -65,8 +67,12 @@ module.exports = {
         },
         path: path.resolve(__dirname, 'dist')
     },
-    plugins: [new WebpackShellPlugin({
-        onBuildStart: preInstall,
-        onBuildEnd: postInstall
-    })],
+    plugins: [
+        new MinifyPlugin(),
+        new WebpackShellPlugin({
+                onBuildStart: preInstall,
+                onBuildEnd: postInstall
+            }
+        )
+    ],
 };
