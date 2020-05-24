@@ -1,9 +1,20 @@
 import openAudioMc from "../../../helpers/StaticFunctions";
+import * as PluginChannel from "../../../helpers/PluginChannel";
 
 export class Sound {
 
     constructor(source) {
         this.soundElement = document.createElement("audio");
+
+        this.hadError = false;
+        this.error = null;
+
+        // error handling
+        this.soundElement.onerror = (error) => {
+            this.hadError = true;
+            this.error = error;
+            this._handleError();
+        };
 
         //set source
         this.soundElement.src = source;
@@ -26,6 +37,33 @@ export class Sound {
 
     setOa(oa) {
         this.openAudioMc = oa;
+        this._handleError();
+    }
+
+    _handleError() {
+        if (this.hadError && this.openAudioMc != null) {
+            if (this.error.type == "error") {
+                let errorCode = this.soundElement.error.code;
+                let type = null;
+                if (errorCode === 1) {
+                    type = "MEDIA_ERR_ABORTED";
+                } else if (errorCode === 2) {
+                    type = "MEDIA_ERR_NETWORK";
+                } else if (errorCode === 3) {
+                    type = "MEDIA_ERR_DECODE";
+                } else if (errorCode === 4) {
+                    type = "MEDIA_ERR_SRC_NOT_SUPPORTED";
+                }
+
+                if (type != null) {
+                    // report back as failure
+                    console.log("Reporting media failure " + type);
+                    this.openAudioMc.socketModule.send(PluginChannel.MEDIA_FAILURE, {
+                        "mediaError": type
+                    });
+                }
+            }
+        }
     }
 
     registerMixer(mixer, channel) {
