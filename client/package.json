@@ -4,7 +4,7 @@
   "description": "The OpenAudioMc web client",
   "private": true,
   "scripts": {
-    "build": "webpack --config webpack.config.js"
+    "build": "webpack --config webpack.config.js --display-modules"
   },
   "keywords": [],
   "author": "",
