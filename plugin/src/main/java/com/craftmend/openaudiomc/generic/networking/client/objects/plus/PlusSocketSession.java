@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import lombok.Getter;
 
@@ -52,5 +53,10 @@ public class PlusSocketSession implements Authenticatable {
     public UUID getOwnerUUID() {
         // to mock a connection, pretend that it is its own owner
         return sessionUuid;
+    }
+
+    @Override
+    public void handleError(MediaError error, String source) {
+        throw new UnsupportedOperationException("Plus sockets don't play media");
     }
 }

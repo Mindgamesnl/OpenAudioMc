@@ -8,6 +8,7 @@ public interface PlayerContainer {
 
     void sendMessage(String string);
     void sendMessage(TextComponent textComponent);
+    boolean isAdministrator();
     UUID getUniqueId();
     String getName();
 

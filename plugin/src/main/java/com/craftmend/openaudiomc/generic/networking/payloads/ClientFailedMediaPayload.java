@@ -15,5 +15,6 @@ public class ClientFailedMediaPayload extends AbstractPacketPayload {
 
     private UUID client;
     private MediaError mediaError;
+    private String source;
 
 }

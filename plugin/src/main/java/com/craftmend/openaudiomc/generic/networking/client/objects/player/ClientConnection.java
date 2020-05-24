@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.generic.cards.objects.Card;
+import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
@@ -240,6 +241,17 @@ public class ClientConnection implements Authenticatable {
     @Override
     public UUID getOwnerUUID() {
         return player.getUniqueId();
+    }
+
+    @Override
+    public void handleError(MediaError error, String source) {
+        if (getPlayer().isAdministrator() && OpenAudioMc.getInstance().getConfigurationImplementation().getBoolean(StorageKey.SETTINGS_STAFF_TIPS)) {
+            String prefix = OpenAudioMc.getInstance().getCommandModule().getCommandPrefix();
+            getPlayer().sendMessage(prefix + "Something went wrong while playing a sound for you, here's what we know:");
+            getPlayer().sendMessage(prefix + "what happened: " + error.getExplanation());
+            getPlayer().sendMessage(prefix + "where: " + source);
+            getPlayer().sendMessage(prefix + "The only reason you got this message is because you are staff and tips are enabled in the config");
+        }
     }
 
     public boolean isConnected() {

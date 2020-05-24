@@ -24,6 +24,11 @@ public class ProxiedPlayerAdapter implements PlayerContainer {
     }
 
     @Override
+    public boolean isAdministrator() {
+        return player.hasPermission("openaudiomc.*") || player.hasPermission("openaudiomc.tips");
+    }
+
+    @Override
     public UUID getUniqueId() {
         return player.getUniqueId();
     }

@@ -22,6 +22,11 @@ public class MockedClientConnection extends ClientConnection {
             }
 
             @Override
+            public boolean isAdministrator() {
+                return true;
+            }
+
+            @Override
             public UUID getUniqueId() {
                 return uuid;
             }
