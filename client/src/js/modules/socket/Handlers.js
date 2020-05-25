@@ -2,6 +2,9 @@ import {AlertBox} from "../ui/Notification";
 import {Card} from "../card/Card";
 import {Channel} from "../media/objects/Channel";
 import {Sound} from "../media/objects/Sound";
+import {Euler} from "../../helpers/ThreeJS/Euler";
+import {Quaternion} from "../../helpers/ThreeJS/Quaternion";
+import {Vector3} from "../../helpers/ThreeJS/Vector3";
 
 export class Handlers {
 
@@ -166,6 +169,16 @@ export class Handlers {
                     channel.fadeChannel(this.convertDistanceToVolume(channel.maxDistance, distance), fadeTime);
                 }
             }
+        });
+
+        openAudioMc.socketModule.registerHandler("ClientPlayerLocationPayload", data => {
+            const x = data.x;
+            const y = data.y;
+            const z = data.z;
+            const pitch = data.pitch;
+            const yaw = data.yaw;
+
+            
         });
 
     }
