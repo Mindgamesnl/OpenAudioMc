@@ -6,7 +6,7 @@ export class MediaManager {
         this.sounds = {};
         this.masterVolume = 80;
         this.openAudioMc = main;
-        this.mixer = new Mixer();
+        this.mixer = new Mixer(null, main);
 
         document.getElementById("volume-slider").oninput = () => {
             let value = document.getElementById("volume-slider").value;

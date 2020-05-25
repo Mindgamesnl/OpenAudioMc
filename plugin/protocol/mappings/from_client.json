@@ -2,11 +2,15 @@
   "channels": {
     "hue_connected": {
       "packetChannel": "SOCKET_IN_CLIENT_ENABLED_HUE",
-      "gsonClass": "ClientEnabledHuePayload"
+      "gsonClass": "in.ClientEnabledHuePayload"
     },
     "media_failure": {
       "packetChannel": "SOCKET_IN_CLIENT_FAILED_MEDIA",
-      "gsonClass": "ClientFailedMediaPayload"
+      "gsonClass": "in.ClientFailedMediaPayload"
+    },
+    "current_channels": {
+      "packetChannel": "SOCKET_IN_CLIENT_UPDATE_CHANNELS",
+      "gsonClass": "in.ClientUpdateChannelListPayload"
     }
   }
 }
