@@ -8,7 +8,7 @@ export class Handlers {
 
     constructor(openAudioMc) {
         this.openAudioMc = openAudioMc;
-        
+
         openAudioMc.socketModule.registerHandler("ClientCreateMediaPayload", data => {
             const looping = data.media.loop;
             const startInstant = data.media.startInstant;
@@ -180,29 +180,6 @@ export class Handlers {
             const yaw = data.yaw;
         });
 
-    }
-
-    degreesToRadians(degrees) {
-        var pi = Math.PI;
-        return degrees * (pi / 180);
-    }
-
-    calculateOffset(x, y, z, pitch, yaw, distance) {
-        pitch = this.degreesToRadians(pitch);
-        yaw = this.degreesToRadians(yaw);
-        let targetX = x;
-        let targetY = y;
-        let targetZ = z;
-
-        targetX = Math.sin(pitch) * Math.cos(yaw);
-        targetY = Math.sin(yaw) * Math.cos(pitch);
-        targetZ = Math.sin(pitch) * Math.sin(yaw);
-
-        return new Vector3(
-            x + (targetX * distance) - 1,
-            y + (targetY * distance),
-            z + (targetZ * distance),
-        );
     }
 
     convertDistanceToVolume(maxDistance, currentDistance) {
