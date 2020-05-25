@@ -22,6 +22,7 @@ import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import com.ikeirnez.pluginmessageframework.PacketPlayer;
 import lombok.Getter;
 import lombok.Setter;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -250,7 +251,7 @@ public class ClientConnection implements Authenticatable {
             getPlayer().sendMessage(prefix + "Something went wrong while playing a sound for you, here's what we know:");
             getPlayer().sendMessage(prefix + "what happened: " + error.getExplanation());
             getPlayer().sendMessage(prefix + "where: " + source);
-            getPlayer().sendMessage(prefix + "The only reason you got this message is because you are staff and tips are enabled in the config");
+            getPlayer().sendMessage(prefix + ChatColor.YELLOW + "Players do NOT receive this warning, only staff does. You can disable it in the config.");
         }
     }
 
