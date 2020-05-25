@@ -4,7 +4,6 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
-import com.craftmend.openaudiomc.generic.networking.client.objects.plus.PlusSocketSession;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.payloads.AcknowledgeClientPayload;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
@@ -222,8 +221,7 @@ public class SocketIoConnector {
     private Authenticatable findSession(UUID id) {
         ClientConnection clientConnection = OpenAudioMc.getInstance().getNetworkingService().getClient(id);
         if (clientConnection != null) return clientConnection;
-        PlusSocketSession plusSocketSession = OpenAudioMc.getInstance().getPlusService().getConnectionManager().getBySessionId(id);
-        return plusSocketSession;
+        return OpenAudioMc.getInstance().getPlusService().getConnectionManager().getBySessionId(id);
     }
 
     public void disconnect() {
@@ -238,9 +236,7 @@ public class SocketIoConnector {
         }
     }
 
-    public void createRoom(List<RoomMember> members, Consumer<Boolean> wasSucessful) {
-        socket.emit("request-call-creation", OpenAudioMc.getGson().toJson(members), (Ack) args -> {
-            wasSucessful.accept((boolean) args[0]);
-        });
+    public void createRoom(List<RoomMember> members, Consumer<Boolean> wasSuccessful) {
+        socket.emit("request-call-creation", OpenAudioMc.getGson().toJson(members), (Ack) args -> wasSuccessful.accept((boolean) args[0]));
     }
 }
