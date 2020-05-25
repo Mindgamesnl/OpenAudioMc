@@ -21,7 +21,6 @@ export class MediaManager {
         if (instantly) time = 0;
 
         for (let channel of this.mixer.getChannels()) {
-            console.log(channel)
 
             if (all) {
                 channel.fadeChannel(0, time, () => {

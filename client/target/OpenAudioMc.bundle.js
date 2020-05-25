@@ -780,7 +780,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       try {
         var _loop = function _loop() {
           var i = _step9.value;
-          console.log(i), t ? i.fadeChannel(0, n, function () {
+          t ? i.fadeChannel(0, n, function () {
             _this8.mixer.removeChannel(i);
           }) : null == e || "" === e ? !i.hasTag("SPECIAL") && !i.hasTag("REGION") && !i.hasTag("SPEAKER") && i.fadeChannel(0, n, function () {
             _this8.mixer.removeChannel(i);
@@ -1229,7 +1229,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }), e.socketModule.registerHandler("ClientUpdateCardPayload", function (e) {
         var t = JSON.parse(e.serializedCard);new q().replaceWithJson(e.id, t);
       }), e.socketModule.registerHandler("ClientCreateCardPayload", function (e) {
-        var t = JSON.parse(e.serializedCard);console.log("creating card "), console.log(t), new q(t);
+        var t = JSON.parse(e.serializedCard);new q(t);
       }), e.socketModule.registerHandler("NotificationPayload", function (e) {
         var t = e.message;_this14.openAudioMc.notificationModule.sendNotification(e.title, t), new D("#alert-area", { closeTime: 3e4, persistent: !1, hideCloseButton: !1 }).show(e.title + "<hr />" + t);
       }), e.socketModule.registerHandler("ClientSettingsPayload", function (t) {

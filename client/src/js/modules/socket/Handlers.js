@@ -76,8 +76,6 @@ export class Handlers {
 
         openAudioMc.socketModule.registerHandler("ClientCreateCardPayload", data => {
             const cardData = JSON.parse(data.serializedCard);
-            console.log("creating card ");
-            console.log(cardData);
             new Card(cardData);
         });
 
