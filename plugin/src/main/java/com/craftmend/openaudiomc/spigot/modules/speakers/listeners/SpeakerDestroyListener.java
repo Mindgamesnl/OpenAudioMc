@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import lombok.AllArgsConstructor;
+import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -42,7 +43,7 @@ public class SpeakerDestroyListener implements Listener {
             openAudioMc.getConfigurationImplementation().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".media", null);
             openAudioMc.getConfigurationImplementation().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString(), null);
 
-            event.getPlayer().sendMessage(openAudioMc.getCommandModule().getCommandPrefix() + "Speaker removed");
+            event.getPlayer().sendMessage(openAudioMc.getCommandModule().getCommandPrefix() + ChatColor.RED + "Speaker destroyed");
         }
     }
 

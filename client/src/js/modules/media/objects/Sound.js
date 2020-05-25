@@ -76,7 +76,6 @@ export class Sound {
         return new Promise((resolve => {
             this.soundElement.onended = () => {
                 if (!this.finsishedInitializing) return;
-                console.log("Resource stream ended")
                 if (this.onFinish != null) this.onFinish();
                 if (this.loop) {
                     this.setTime(0);
@@ -124,14 +123,12 @@ export class Sound {
     }
 
     startDate(date) {
-        console.log("Calculating offset for " + date)
         let start = new Date(date);
         let seconds = Math.abs((start.getTime() - this.openAudioMc.timeService.getPredictedTime()) / 1000);
         let length = this.soundElement.duration;
         if (seconds > length) {
             // how many times it would have played
             let times = Math.floor(seconds / length);
-            console.log("Has played " + times + " times")
             //remove other repetitions from time
             seconds = seconds - (times * length);
         }
@@ -139,7 +136,6 @@ export class Sound {
     }
 
     setTime(target) {
-        console.log("Skipping to " + target)
         this.soundElement.currentTime = target;
     }
 

@@ -14,10 +14,7 @@ import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.SpeakerSettings;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.SkullType;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Skull;
 import org.bukkit.command.CommandSender;
@@ -124,7 +121,7 @@ public class SpeakersSubCommand extends SubCommand {
             s.setOwner("OpenAudioMc");
             s.update();
 
-            message(sender, "Speaker registered");
+            message(sender, ChatColor.GREEN + "Speaker placed");
             return;
         }
 

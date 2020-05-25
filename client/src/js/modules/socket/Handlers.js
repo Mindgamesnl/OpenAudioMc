@@ -58,6 +58,9 @@ export class Handlers {
 
 
                 createdChannel.setTag(flag);
+
+                openAudioMc.getMediaManager().mixer.updateCurrent();
+
                 createdMedia.finish();
             });
         });

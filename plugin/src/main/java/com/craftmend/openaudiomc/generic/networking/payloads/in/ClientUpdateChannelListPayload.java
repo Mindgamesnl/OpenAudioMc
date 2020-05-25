@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.generic.networking.payloads.in;
 
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
 import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
+import com.craftmend.openaudiomc.generic.networking.payloads.in.objects.MixerTrack;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,6 @@ import java.util.UUID;
 public class ClientUpdateChannelListPayload extends AbstractPacketPayload {
 
     private UUID client;
-    private List<String> channelNames;
+    private List<MixerTrack> tracks;
 
 }

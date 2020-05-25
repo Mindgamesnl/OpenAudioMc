@@ -16,7 +16,7 @@ public class CommandModule {
 
     private Map<String, SubCommand> subCommands = new HashMap<>();
     @Getter private List<String> aliases = new ArrayList<>();
-    @Getter private String commandPrefix = Platform.translateColors("&3[&bOpenAudioMc&3] &7");
+    @Getter private String commandPrefix = Platform.translateColors("&3[&bOA&3] &7");
 
     public CommandModule() {
         registerSubCommand(new CallSubCommand(this));

@@ -709,8 +709,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     F.prototype.updateCurrent = function updateCurrent() {
       var e = [];this.channels.forEach(function (t, i) {
-        e.push(i);
-      }), this.openAudioMc.socketModule.send("current_channels", { channelNames: e });
+        var n = [];t.tags.forEach(function (e, t) {
+          n.push(t);
+        }), e.push({ name: i, tags: n });
+      }), this.openAudioMc.socketModule.send("current_channels", { tracks: e });
     };
 
     F.prototype.setMasterVolume = function setMasterVolume(e) {
@@ -750,7 +752,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     F.prototype.addChannel = function addChannel(e) {
       if (!(e instanceof U)) throw new Error("Argument isn't a channel");{
         var _t4 = e.channelName,
-            _i2 = this.channels.get(_t4);null != _i2 && _i2.destroy(), e.registerMixer(this), this.channels.set(_t4, e), this.updateCurrent();
+            _i2 = this.channels.get(_t4);null != _i2 && _i2.destroy(), e.registerMixer(this), this.channels.set(_t4, e);
       }
     };
 
@@ -1155,7 +1157,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       return new Promise(function (e) {
         _this13.soundElement.onended = function () {
-          _this13.finsishedInitializing && (console.log("Resource stream ended"), null != _this13.onFinish && _this13.onFinish(), _this13.loop ? (_this13.setTime(0), _this13.soundElement.play()) : _this13.mixer.removeChannel(_this13.channel));
+          _this13.finsishedInitializing && (null != _this13.onFinish && _this13.onFinish(), _this13.loop ? (_this13.setTime(0), _this13.soundElement.play()) : _this13.mixer.removeChannel(_this13.channel));
         };var t = !1;var i = function i() {
           if (!t) {
             var _t7 = _this13.soundElement.play();_t7 instanceof Promise ? _t7.then(e).catch(e) : e();
@@ -1181,15 +1183,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     K.prototype.startDate = function startDate(e) {
-      console.log("Calculating offset for " + e);var t = new Date(e),
+      var t = new Date(e),
           i = T((t.getTime() - this.openAudioMc.timeService.getPredictedTime()) / 1e3),
           n = this.soundElement.duration;if (i > n) {
-        var _e18 = z(i / n);console.log("Has played " + _e18 + " times"), i -= _e18 * n;
+        i -= z(i / n) * n;
       }this.setTime(i);
     };
 
     K.prototype.setTime = function setTime(e) {
-      console.log("Skipping to " + e), this.soundElement.currentTime = e;
+      this.soundElement.currentTime = e;
     };
 
     K.prototype.destroy = function destroy() {
@@ -1217,10 +1219,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             h = t.maxDistance;e.getMediaManager().destroySounds(o, !1, !0);var d = new U(o),
             c = new K(s);c.openAudioMc = e, c.setOa(e), r && c.startDate(n, !0), c.finalize().then(function () {
           if (r && c.startDate(n, !0), e.getMediaManager().mixer.addChannel(d), d.addSound(c), d.setChannelVolume(0), c.setLooping(i), d.setTag(o), 0 !== h) {
-            var _e19 = _this14.convertDistanceToVolume(h, l);d.setTag("SPECIAL"), d.maxDistance = h, d.fadeChannel(_e19, a);
+            var _e18 = _this14.convertDistanceToVolume(h, l);d.setTag("SPECIAL"), d.maxDistance = h, d.fadeChannel(_e18, a);
           } else d.setTag("DEFAULT"), setTimeout(function () {
             0 === a ? (d.setChannelVolume(100), d.updateFromMasterVolume()) : (d.updateFromMasterVolume(), d.fadeChannel(100, a));
-          }, 1);d.setTag(u), c.finish();
+          }, 1);d.setTag(u), e.getMediaManager().mixer.updateCurrent(), c.finish();
         });
       }), e.socketModule.registerHandler("ClientDestroyCardPayload", function () {
         document.getElementById("card-panel").style.display = "none";
@@ -1892,8 +1894,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
           try {
             for (var _iterator19 = t[Symbol.iterator](), _step19; !(_iteratorNormalCompletion19 = (_step19 = _iterator19.next()).done); _iteratorNormalCompletion19 = true) {
-              var _e21 = _step19.value;
-              _i6 += '<option value="' + _e21.id + '">' + _e21.name + "</option>";
+              var _e20 = _step19.value;
+              _i6 += '<option value="' + _e20.id + '">' + _e20.name + "</option>";
             }
           } catch (err) {
             _didIteratorError19 = true;
@@ -1911,8 +1913,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           }
 
           if (_i6 += "</select>", _this25.show('<div style="text-align: center;">What microphone would you like to use in this voicecall?<br /><small>changes can take a second or two to apply</small><br />' + _i6 + '<div id="mic-loader" style="display:none;"><h2>Switching mic input. Please wait.</h2><div class="loader"></div></div></div>'), null != Cookies.get("default-mic")) {
-            var _e20 = document.getElementById("select-mic-dropdown");for (var _t10 = 0; _t10 < _e20.options.length; _t10++) {
-              _e20.options[_t10].innerText === Cookies.get("default-mic") && (_e20.options[_t10].selected = !0);
+            var _e19 = document.getElementById("select-mic-dropdown");for (var _t10 = 0; _t10 < _e19.options.length; _t10++) {
+              _e19.options[_t10].innerText === Cookies.get("default-mic") && (_e19.options[_t10].selected = !0);
             }
           }document.getElementById("select-mic-dropdown").onchange = function (t) {
             document.getElementById("select-mic-dropdown").disabled = !0, document.getElementById("select-mic-dropdown").style.display = "none", document.getElementById("mic-loader").style.display = "", Cookies.set("default-mic", t.target.selectedOptions[0].childNodes[0].data), e(_this25.getId()), setTimeout(function () {
@@ -1955,8 +1957,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       new ze({ audio: this.config.micId }, function (e) {
         _this27.stream = e, _this27.audioInput = _this27.audioContext.createMediaStreamSource(e), _this27.gainNode = _this27.audioContext.createGain(), _this27.recorder = _this27.audioContext.createScriptProcessor(_this27.config.codec.bufferSize, 1, 1), _this27.recorder.onaudioprocess = function (e) {
           var t = _this27.sampler.resampler(e.inputBuffer.getChannelData(0)),
-              i = _this27.encoder.encode_float(t);for (var _e22 = 0; _e22 < i.length; _e22++) {
-            1 === _this27.socket.readyState && _this27.socket.send(i[_e22]);
+              i = _this27.encoder.encode_float(t);for (var _e21 = 0; _e21 < i.length; _e21++) {
+            1 === _this27.socket.readyState && _this27.socket.send(i[_e21]);
           }
         }, _this27.audioInput.connect(_this27.gainNode), _this27.gainNode.connect(_this27.recorder), _this27.recorder.connect(_this27.audioContext.destination);
       }, e || this.onError);

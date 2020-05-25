@@ -13,11 +13,19 @@ export class Mixer {
     updateCurrent() {
         let current = [];
         this.channels.forEach((channel, key) => {
-            current.push(key);
+            let tags = [];
+            channel.tags.forEach((value, tag) => {
+                tags.push(tag);
+            });
+
+            current.push({
+                "name": key,
+                "tags": tags
+            });
         });
 
         this.openAudioMc.socketModule.send(PluginChannel.CHANNELS_UPDATED, {
-            "channelNames": current
+            "tracks": current
         });
     }
 
@@ -57,7 +65,6 @@ export class Mixer {
             }
             channel.registerMixer(this);
             this.channels.set(channelId, channel);
-            this.updateCurrent();
         } else {
             throw new Error("Argument isn't a channel");
         }

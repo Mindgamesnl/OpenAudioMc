@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking.handlers;
 
 import com.craftmend.openaudiomc.generic.networking.abstracts.PayloadHandler;
+import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.payloads.in.ClientUpdateChannelListPayload;
 
@@ -9,6 +10,10 @@ public class ClientChannelUpdateHandler extends PayloadHandler<ClientUpdateChann
     @Override
     public void onReceive(ClientUpdateChannelListPayload payload) {
         Authenticatable authenticatable = findSession(payload.getClient());
-        System.out.println("Client has " + payload.getChannelNames().size() + " channels");
+
+        if (authenticatable instanceof ClientConnection) {
+            ClientConnection client = (ClientConnection) authenticatable;
+            client.getMixTracker().submitChannels(payload.getTracks());
+        }
     }
 }
