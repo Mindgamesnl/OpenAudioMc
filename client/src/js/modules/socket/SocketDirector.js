@@ -1,5 +1,4 @@
 import {fetch} from "../../../libs/github.fetch";
-import UrlReader from "../../helpers/UrlReader";
 import ClientTokenSet from "../../helpers/ClientTokenSet";
 import {parseStyle} from "../../helpers/MinecraftColorCodes";
 import {Channel} from "../media/objects/Channel";
@@ -41,7 +40,7 @@ export class SocketDirector {
                         if (relayHost == null) relayHost = response.insecureEndpoint;
 
                         // complete the promise with the resulted url
-                        console.log("accepting and applying settings")
+                        console.log("[OpenAudioMc] accepting and applying settings")
 
                         openAudioMc.debugPrint("Updating settings...");
                         const background = response.backgroundImage;

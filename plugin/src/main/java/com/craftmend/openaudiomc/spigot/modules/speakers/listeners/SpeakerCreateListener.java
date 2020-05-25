@@ -55,7 +55,7 @@ public class SpeakerCreateListener implements Listener {
             config.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".radius", range);
             config.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".media", spigotConnection.getSelectedSpeakerSettings().getSource());
 
-            event.getPlayer().sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + ChatColor.GREEN + "Speaker registered");
+            event.getPlayer().sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + ChatColor.GREEN + "Speaker placed");
         }
     }
 
