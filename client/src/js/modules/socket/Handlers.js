@@ -169,9 +169,6 @@ export class Handlers {
             }
         });
 
-        var listener = audioCtx.listener;
-        listener.setOrientation(0, 0, -1, 0, 1, 0);
-
         openAudioMc.socketModule.registerHandler("ClientPlayerLocationPayload", data => {
             const x = data.x;
             const y = data.y;
