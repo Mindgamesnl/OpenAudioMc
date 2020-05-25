@@ -37,8 +37,9 @@ import java.util.UUID;
 
 public class ClientConnection implements Authenticatable {
 
-    //ongoing sounds
+    // ongoing sounds
     @Getter private List<Media> ongoingMedia = new ArrayList<>();
+    @Getter private MixTracker mixTracker;
 
     // session info
     private boolean isConnected = false;
@@ -58,6 +59,7 @@ public class ClientConnection implements Authenticatable {
 
     public ClientConnection(PlayerContainer playerContainer) {
         this.player = playerContainer;
+        this.mixTracker = new MixTracker();
         refreshSession();
 
         if (OpenAudioMc.getInstance().getConfigurationImplementation().getBoolean(StorageKey.SETTINGS_SEND_URL_ON_JOIN))
@@ -156,6 +158,7 @@ public class ClientConnection implements Authenticatable {
             return;
         String message = OpenAudioMc.getInstance().getConfigurationImplementation().getString(StorageKey.MESSAGE_CLIENT_CLOSED);
         player.sendMessage(Platform.translateColors(message));
+        this.mixTracker.clear();
     }
 
     public void refreshSession() {
