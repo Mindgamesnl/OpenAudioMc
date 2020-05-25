@@ -192,11 +192,6 @@ public class SocketIoConnector {
             }
         });
 
-        socket.on("data", args -> {
-            AbstractPacket abstractPacket = OpenAudioMc.getGson().fromJson(args[0].toString(), AbstractPacket.class);
-            OpenAudioMc.getInstance().getNetworkingService().triggerPacket(abstractPacket);
-        });
-
         socket.on("voice-room-created", args -> {
             String data = ((String) args[args.length - 1]);
             OpenAudioMc.getInstance().getVoiceRoomManager().registerCall(OpenAudioMc.getGson().fromJson(data, RoomCreatedPacket.class));

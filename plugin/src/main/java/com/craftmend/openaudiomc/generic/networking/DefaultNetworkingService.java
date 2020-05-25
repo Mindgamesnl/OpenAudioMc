@@ -87,6 +87,7 @@ public class DefaultNetworkingService extends NetworkingService {
             OpenAudioLogger.toConsole("Unknown handler for packet type " + abstractPacket.getClass().getName());
             return;
         }
+
         packetHandlerMap.get(abstractPacket.getPacketChannel()).trigger(abstractPacket);
     }
 
