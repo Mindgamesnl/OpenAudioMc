@@ -112,8 +112,9 @@ public class ClientConnection implements Authenticatable {
         this.isConnected = true;
         this.isWaitingToken = false;
 
-        OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(
-                () -> {
+        OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(() -> {
+                    OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientProtocolRevisionPacket());
+
                     ongoingMedia.forEach(this::sendMedia);
 
                     connectHandlers.forEach(a -> a.run());

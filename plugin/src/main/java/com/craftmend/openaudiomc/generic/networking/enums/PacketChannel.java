@@ -22,6 +22,7 @@ public enum PacketChannel {
     // client target, targeted to the client
     CLIENT_OUT_CREATE_MEDIA,
     CLIENT_OUT_UPDATE_MEDIA,
+    CLIENT_OUT_SET_PROTOCOL_VERSION,
     CLIENT_OUT_DESTROY_MEDIA,
     CLIENT_OUT_PUSH_NOTIFICATION,
     CLIENT_OUT_SET_VOLUME,

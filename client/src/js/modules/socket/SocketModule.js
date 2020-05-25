@@ -6,6 +6,7 @@ export class SocketModule {
     constructor(main, host) {
         this.handlers = {};
         this.openAudioMc = main;
+        this.callbacksEnabled = false;
 
         if (Utils.getParameter().data == null) {
             main.debugPrint("data is empty");
@@ -98,7 +99,11 @@ export class SocketModule {
     }
 
     send(event, data) {
-        this.socket.emit(event, data);
+        if (this.callbacksEnabled) {
+            this.socket.emit(event, data);
+        } else {
+            console.log("[OpenAudioMc] could not satisfy callback " + event + " because the protocol is outdated");
+        }
     }
 
     registerHandler(channel, f) {

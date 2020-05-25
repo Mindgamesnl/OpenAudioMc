@@ -79,8 +79,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                   g = p + "/config",
                   y = p + "/lights",
                   b = p + "/groups",
-                  w = p + "/schedules",
-                  v = p + "/scenes",
+                  v = p + "/schedules",
+                  w = p + "/scenes",
                   M = p + "/sensors",
                   k = p + "/rules",
                   E = p + "/resourcelinks",
@@ -91,8 +91,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
               },
                   S = B(y),
                   I = B(b),
-                  A = B(w),
-                  x = B(v),
+                  A = B(v),
+                  x = B(w),
                   C = B(M),
                   T = B(k),
                   _ = B(E);return { getCapabilities: a.bind(null, f), deleteUser: d(h, function (e) {
@@ -104,9 +104,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                   return S(e) + "/state";
                 }), deleteLight: d(h, S), getGroups: a.bind(null, b), createGroup: u.bind(null, b), getGroup: d(a, I), setGroup: d(l, I), setGroupState: d(l, function (e) {
                   return I(e) + "/action";
-                }), deleteGroup: d(h, I), getSchedules: a.bind(null, w), createSchedule: u.bind(null, w), getSchedule: d(a, A), setSchedule: d(l, A), deleteSchedule: d(h, A), scheduleCommandGenerator: function scheduleCommandGenerator() {
+                }), deleteGroup: d(h, I), getSchedules: a.bind(null, v), createSchedule: u.bind(null, v), getSchedule: d(a, A), setSchedule: d(l, A), deleteSchedule: d(h, A), scheduleCommandGenerator: function scheduleCommandGenerator() {
                   return o(c(s), t, i, n).bridge(e).user(m);
-                }, getScenes: a.bind(null, v), createScene: u.bind(null, v), getScene: d(a, x), setScene: d(l, x), setSceneLightState: function setSceneLightState(e, t, i) {
+                }, getScenes: a.bind(null, w), createScene: u.bind(null, w), getScene: d(a, x), setScene: d(l, x), setSceneLightState: function setSceneLightState(e, t, i) {
                   return l(x(e) + "/lightstates/" + t, i);
                 }, deleteScene: d(h, x), getSensors: a.bind(null, M), createSensor: u.bind(null, M), searchForNewSensors: u.bind(null, M, null), getNewSensors: a.bind(null, M + "/new"), getSensor: d(a, C), setSensor: d(l, C), setSensorConfig: d(l, function (e) {
                   return C(e) + "/config";
@@ -250,7 +250,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }), t;
   }function b(e, t) {
     t || (t = {}), this.type = "default", this.status = void 0 === t.status ? 200 : t.status, this.ok = 200 <= this.status && 300 > this.status, this.statusText = "statusText" in t ? t.statusText : "OK", this.headers = new u(t.headers), this.url = t.url || "", this._initBody(e);
-  }function w(e, t) {
+  }function v(e, t) {
     return new Promise(function (i, n) {
       function o() {
         r.abort();
@@ -268,7 +268,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         4 === r.readyState && s.signal.removeEventListener("abort", o);
       }), r.send(void 0 === s._bodyInit ? null : s._bodyInit);
     });
-  }function v(e, t, i, n, o) {
+  }function w(e, t, i, n, o) {
     this.fromSampleRate = e, this.toSampleRate = t, this.channels = 0 | i, this.outputBufferSize = n, this.noReturn = !!o, this.initialize();
   }function M(e, t, i, n, o, s) {
     this.audioChannels = 2 == e ? 2 : 1, fe = 1 == this.audioChannels, pe = 0 < t && 16777215 >= t ? t : 44100, de = i >= ae << 1 && i < n ? i & (fe ? 4294967295 : 4294967294) : ae << 1, ce = z(n) > de + this.audioChannels ? n & (fe ? 4294967295 : 4294967294) : i << 1, this.underRunCallback = "function" == typeof o ? o : function () {}, ge = -1 <= s && 1 >= s && 0 != s ? s : 0, this.audioType = -1, this.mozAudioTail = [], this.audioHandleMoz = null, this.audioHandleFlash = null, this.flashInitialized = !1, this.mozAudioFound = !1, this.initializeAudio();
@@ -289,17 +289,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       } while (++i < e);
     }return t;
   }function B() {
-    for (var e = "", t = "", i = 0; i < ae && we != ve; ++i) {
-      e += T(12288 + (0 | 16383 * C(x(he[we++] + 1, 0), 2))), t += T(12288 + (0 | 16383 * C(x(he[we++] + 1, 0), 2))), we == Me && (we = 0);
+    for (var e = "", t = "", i = 0; i < ae && ve != we; ++i) {
+      e += T(12288 + (0 | 16383 * C(x(he[ve++] + 1, 0), 2))), t += T(12288 + (0 | 16383 * C(x(he[ve++] + 1, 0), 2))), ve == Me && (ve = 0);
     }return e + t;
   }function S() {
-    for (var e = "", t = 0; t < ae && we != ve; ++t) {
-      e += T(12288 + (0 | 16383 * C(x(he[we++] + 1, 0), 2))), we == Me && (we = 0);
+    for (var e = "", t = 0; t < ae && ve != we; ++t) {
+      e += T(12288 + (0 | 16383 * C(x(he[ve++] + 1, 0), 2))), ve == Me && (ve = 0);
     }return e;
   }function I() {
-    return (we <= ve ? 0 : Me) + ve - we;
+    return (ve <= we ? 0 : Me) + we - ve;
   }function A(e) {
-    ue = k(ce), be = ce, we = 0, ve = 0, Me = x(ce * Math.ceil(pe / e), ae) << 1, fe ? (he = E(Me), ye = new v(pe, e, 1, Me, !0), S) : (he = E(Me <<= 1), ye = new v(pe, e, 2, Me, !0), B);
+    ue = k(ce), be = ce, ve = 0, we = 0, Me = x(ce * Math.ceil(pe / e), ae) << 1, fe ? (he = E(Me), ye = new w(pe, e, 1, Me, !0), S) : (he = E(Me <<= 1), ye = new w(pe, e, 2, Me, !0), B);
   }var x = Math.max,
       C = Math.min,
       T = String.fromCharCode,
@@ -850,7 +850,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       _classCallCheck(this, V);
 
-      if (this.handlers = {}, this.openAudioMc = e, null == function () {
+      if (this.handlers = {}, this.openAudioMc = e, this.callbacksEnabled = !1, null == function () {
         function _class() {
           _classCallCheck(this, _class);
         }
@@ -915,7 +915,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
 
     V.prototype.send = function send(e, t) {
-      this.socket.emit(e, t);
+      this.callbacksEnabled ? this.socket.emit(e, t) : console.log("[OpenAudioMc] could not satisfy callback " + e + " because the protocol is outdated");
     };
 
     V.prototype.registerHandler = function registerHandler(e, t) {
@@ -1233,6 +1233,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             a = i.hueConnected,
             l = i.hueLinking,
             u = i.hueBridgeFound;"default" !== a && (e.getMessages().hueConnected = a), "default" !== l && (e.getMessages().hueLinking = l), "default" !== u && (e.getMessages().hueWelcome = u), "default" !== r && (e.getMessages().errorMessage = r), "default" !== s && (e.getMessages().welcomeMessage = s), "default" !== n && (document.getElementById("page").style = "vertical-align: middle;\n    background:\n            url(" + n + ");\n    -webkit-background-size: cover;\n    background-size: cover;"), "default" !== o && (document.title = o), e.getMessages().apply();
+      }), e.socketModule.registerHandler("ClientVersionPayload", function (t) {
+        parseInt(t.protocolRevision), console.log("[OpenAudioMc] Received revision update"), function () {
+          return 2;
+        } && (console.log("[OpenAudioMc] rev => 2, enabling callbacks"), e.socketModule.callbacksEnabled = !0);
       }), e.socketModule.registerHandler("ClientVolumePayload", function (e) {
         var t = e.volume;_this14.openAudioMc.getMediaManager().setMasterVolume(t), document.getElementById("volume-slider").value = t;
       }), e.socketModule.registerHandler("ClientDestroyMediaPayload", function (e) {
@@ -1417,7 +1421,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     (ie = function ie(e, t) {
       this.message = e, this.name = t;var i = Error(e);this.stack = i.stack;
     }).prototype = Object.create(Error.prototype), ie.prototype.constructor = ie;
-  }w.polyfill = !0, self.fetch || (self.fetch = w, self.Headers = u, self.Request = f, self.Response = b);
+  }v.polyfill = !0, self.fetch || (self.fetch = v, self.Headers = u, self.Request = f, self.Response = b);
   var ne = function () {
     function ne(e) {
       _classCallCheck(this, ne);
@@ -1429,7 +1433,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       var _this18 = this;
 
       return new Promise(function (t, i) {
-        _this18.tokenSet = new G().fromUrl(window.location.href), w(_this18.host + "/api/v1/client/login/" + _this18.tokenSet.publicServerKey).then(function (n) {
+        _this18.tokenSet = new G().fromUrl(window.location.href), v(_this18.host + "/api/v1/client/login/" + _this18.tokenSet.publicServerKey).then(function (n) {
           n.json().then(function (n) {
             if (null == n.errors || 0 != n.errors.length) return i(n.errors), void console.log(n.errors);var o = n.response,
                 r = o.secureEndpoint;null == r && (r = o.insecureEndpoint), console.log("accepting and applying settings"), e.debugPrint("Updating settings...");var a = o.backgroundImage,
@@ -1489,9 +1493,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     return oe;
   }(D);
 
-  v.prototype.initialize = function () {
+  w.prototype.initialize = function () {
     if (!(0 < this.fromSampleRate && 0 < this.toSampleRate && 0 < this.channels)) throw new Error("Invalid settings specified for the resampler.");this.fromSampleRate == this.toSampleRate ? (this.resampler = this.bypassResampler, this.ratioWeight = 1) : (this.compileInterpolationFunction(), this.resampler = this.interpolate, this.ratioWeight = this.fromSampleRate / this.toSampleRate, this.tailExists = !1, this.lastWeight = 0, this.initializeBuffers());
-  }, v.prototype.compileInterpolationFunction = function () {
+  }, w.prototype.compileInterpolationFunction = function () {
     for (var e = "var bufferLength = Math.min(buffer.length, this.outputBufferSize);\tif ((bufferLength % " + this.channels + ") == 0) {\t\tif (bufferLength > 0) {\t\t\tvar ratioWeight = this.ratioWeight;\t\t\tvar weight = 0;", t = 0; t < this.channels; ++t) {
       e += "var output" + t + " = 0;";
     }for (e += "var actualPosition = 0;\t\t\tvar amountToNext = 0;\t\t\tvar alreadyProcessedTail = !this.tailExists;\t\t\tthis.tailExists = false;\t\t\tvar outputBuffer = this.outputBuffer;\t\t\tvar outputOffset = 0;\t\t\tvar currentPosition = 0;\t\t\tdo {\t\t\t\tif (alreadyProcessedTail) {\t\t\t\t\tweight = ratioWeight;", t = 0; t < this.channels; ++t) {
@@ -1507,9 +1511,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }for (e += "}\t\t\t\telse {\t\t\t\t\tthis.lastWeight = weight;", t = 0; t < this.channels; ++t) {
       e += "this.lastOutput[" + t + "] = output" + t + ";";
     }e += 'this.tailExists = true;\t\t\t\t\tbreak;\t\t\t\t}\t\t\t} while (actualPosition < bufferLength);\t\t\treturn this.bufferSlice(outputOffset);\t\t}\t\telse {\t\t\treturn (this.noReturn) ? 0 : [];\t\t}\t}\telse {\t\tthrow(new Error("Buffer was of incorrect sample length."));\t}', this.interpolate = Function("buffer", e);
-  }, v.prototype.bypassResampler = function (e) {
+  }, w.prototype.bypassResampler = function (e) {
     return this.noReturn ? (this.outputBuffer = e, e.length) : e;
-  }, v.prototype.bufferSlice = function (e) {
+  }, w.prototype.bufferSlice = function (e) {
     if (this.noReturn) return e;try {
       return this.outputBuffer.subarray(0, e);
     } catch (t) {
@@ -1519,7 +1523,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         return this.outputBuffer.slice(0, e);
       }
     }
-  }, v.prototype.initializeBuffers = function () {
+  }, w.prototype.initializeBuffers = function () {
     try {
       this.outputBuffer = new Float32Array(this.outputBufferSize), this.lastOutput = new Float32Array(this.channels);
     } catch (e) {
@@ -1607,10 +1611,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       ge = 0,
       ye = null,
       be = 0,
-      we = 0,
       ve = 0,
+      we = 0,
       Me = 2,
-      ke = v;!function (e) {
+      ke = w;!function (e) {
     e[e.VoIP = 2048] = "VoIP", e[e.Audio = 2049] = "Audio", e[e.RestrictedLowDelay = 2051] = "RestrictedLowDelay";
   }(se || (se = {})), function (e) {
     e[e.OK = 0] = "OK", e[e.BadArgument = -1] = "BadArgument", e[e.BufferTooSmall = -2] = "BufferTooSmall", e[e.InternalError = -3] = "InternalError", e[e.InvalidPacket = -4] = "InvalidPacket", e[e.Unimplemented = -5] = "Unimplemented", e[e.InvalidState = -6] = "InvalidState", e[e.AllocFail = -7] = "AllocFail";
@@ -2083,7 +2087,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     Ue.prototype.unsubscribe = function unsubscribe() {
       var _this32 = this;
 
-      this.isUnsubscribing || (this.isUnsubscribing = !0, new D("#alert-area", { closeTime: 1500, persistent: !1, hideCloseButton: !0 }).show("Quitting room, please wait."), w(this.voiceServer.rest + "/leave-room?room=" + this.roomId + "&uuid=" + this.currentUser.uuid + "&accessToken=" + this.accessToken).then(function (e) {
+      this.isUnsubscribing || (this.isUnsubscribing = !0, new D("#alert-area", { closeTime: 1500, persistent: !1, hideCloseButton: !0 }).show("Quitting room, please wait."), v(this.voiceServer.rest + "/leave-room?room=" + this.roomId + "&uuid=" + this.currentUser.uuid + "&accessToken=" + this.accessToken).then(function (e) {
         e.json().then(function (e) {
           0 !== e.results.length && (_this32.roomMembers.forEach(function (e) {
             _this32.handleMemberLeaving(e.uuid);
@@ -2158,7 +2162,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       null == this.room ? new Fe(this.main, n, function () {
         _this34.room = new Ue(_this34.main, e, t, _this34.main.tokenSet, i, o);
       }, function () {
-        w(_this34.voiceServer.rest + "/leave-room?room=" + t + "&uuid=" + _this34.currentUser.uuid + "&accessToken=" + i).then(function (e) {
+        v(_this34.voiceServer.rest + "/leave-room?room=" + t + "&uuid=" + _this34.currentUser.uuid + "&accessToken=" + i).then(function (e) {
           e.json().then(function (e) {
             0 === e.results.length ? _this34.leaveErrorhandler("denied request") : console.log("cancelled call");
           }).catch(function (e) {
