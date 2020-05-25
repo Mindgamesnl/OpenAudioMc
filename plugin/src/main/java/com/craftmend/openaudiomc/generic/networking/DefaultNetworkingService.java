@@ -12,6 +12,7 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
+import com.craftmend.openaudiomc.generic.networking.packets.PacketClientCreateMedia;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.player.ProxiedPlayerAdapter;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
@@ -48,6 +49,17 @@ public class DefaultNetworkingService extends NetworkingService {
         registerHandler(PacketChannel.SOCKET_IN_CLIENT_UPDATE_CHANNELS, new ClientChannelUpdateHandler());
 
         init();
+
+        // middleware
+        addEventHandler(new INetworkingEvents() {
+            @Override
+            public void onPacketSend(Authenticatable target, AbstractPacket packet) {
+                if (target instanceof ClientConnection && packet instanceof PacketClientCreateMedia) {
+                    ClientConnection client = (ClientConnection) target;
+                    client.getMixTracker().triggerExpectedTrack();
+                }
+            }
+        });
     }
 
     private void init() {

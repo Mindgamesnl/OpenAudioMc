@@ -7,10 +7,10 @@ import java.util.List;
 
 public class MixTracker {
 
-    private int maxTracks = 0;
+    private int expectedTracksToStart = 0;
     private List<MixerTrack> currentTracks = new ArrayList<>();
 
-    public void submitChannels(List<MixerTrack> tracks) {
+    public void submitChannels(List<MixerTrack> tracks) throws IllegalAccessException {
         List<MixerTrack> deletedTracks = new ArrayList<>(currentTracks);
         removeByName(deletedTracks, tracks);
 
@@ -19,7 +19,20 @@ public class MixTracker {
 
         this.currentTracks = tracks;
 
+        if (!createdTracks.isEmpty()) {
+            expectedTracksToStart = expectedTracksToStart - createdTracks.size();
+            if (expectedTracksToStart < 0) {
+                throw new IllegalAccessException("Client tried to fake sound id's");
+            }
+        }
+    }
 
+    public void triggerExpectedTrack() {
+        expectedTracksToStart++;
+    }
+
+    public void stealExpectedTrack() {
+        expectedTracksToStart--;
     }
 
     private void removeByName(List<MixerTrack> collection, List<MixerTrack> removers) {

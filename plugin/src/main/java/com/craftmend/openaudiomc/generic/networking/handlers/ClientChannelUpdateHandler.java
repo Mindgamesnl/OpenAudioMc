@@ -13,7 +13,13 @@ public class ClientChannelUpdateHandler extends PayloadHandler<ClientUpdateChann
 
         if (authenticatable instanceof ClientConnection) {
             ClientConnection client = (ClientConnection) authenticatable;
-            client.getMixTracker().submitChannels(payload.getTracks());
+            
+            try {
+                client.getMixTracker().submitChannels(payload.getTracks());
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+                authenticatable.kickConnection();
+            }
         }
     }
 }
