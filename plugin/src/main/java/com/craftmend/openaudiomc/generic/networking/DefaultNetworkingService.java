@@ -41,12 +41,18 @@ public class DefaultNetworkingService extends NetworkingService {
      * setup the plugin connection
      */
     public DefaultNetworkingService() {
-        //register socket handlers
+        // register socket handlers
         registerHandler(PacketChannel.SOCKET_IN_REGISTER_CLIENT, new ClientConnectHandler());
         registerHandler(PacketChannel.SOCKET_IN_UNREGISTER_CLIENT, new ClientDisconnectHandler());
+
+        // register UI handlers
         registerHandler(PacketChannel.SOCKET_IN_CLIENT_ENABLED_HUE, new ClientLinkedHueHandler());
         registerHandler(PacketChannel.SOCKET_IN_CLIENT_FAILED_MEDIA, new ClientMediaErrorHandler());
 
+        init();
+    }
+
+    private void init() {
         try {
             socketIoConnector = new SocketIoConnector();
         } catch (Exception e) {
