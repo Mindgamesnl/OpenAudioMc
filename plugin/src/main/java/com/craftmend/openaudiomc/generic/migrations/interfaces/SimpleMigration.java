@@ -33,12 +33,11 @@ public abstract class SimpleMigration {
         // re-initialize entire module
         config.reloadConfig();
 
-        openAudioMc.setConfigurationImplementation(openAudioMc.getInvoker().getConfigurationProvider());
         config = openAudioMc.getConfigurationImplementation();
 
         // file handling is super SUPER weird, we need to manually update some fields
         File mainConfig = new File("plugins/OpenAudioMc/config.yml");
-        String oldContent = "";
+        StringBuilder oldContent = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(mainConfig))) {
             String line = reader.readLine();
 
@@ -62,15 +61,13 @@ public abstract class SimpleMigration {
                     }
                 }
 
-                oldContent = oldContent + line + System.lineSeparator();
+                oldContent.append(line).append(System.lineSeparator());
                 line = reader.readLine();
             }
 
             try (FileWriter writer = new FileWriter(mainConfig)) {
-                writer.write(oldContent);
+                writer.write(oldContent.toString());
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -95,21 +92,21 @@ public abstract class SimpleMigration {
 
     private String escapeValues(String input, Object original) {
         char[] characters = input.toCharArray();
-        StringBuilder escpaed = new StringBuilder();
+        StringBuilder escaped = new StringBuilder();
         boolean shouldEnclose = original instanceof String;
 
-        if (shouldEnclose) escpaed.append("'");
+        if (shouldEnclose) escaped.append("'");
 
         for (char character : characters) {
             // extra escape rules
-            if (character == '\'') escpaed.append(character);
+            if (character == '\'') escaped.append(character);
 
-            escpaed.append(character);
+            escaped.append(character);
         }
 
-        if (shouldEnclose) escpaed.append("'");
+        if (shouldEnclose) escaped.append("'");
 
-        return escpaed.toString();
+        return escaped.toString();
     }
 
 }

@@ -26,7 +26,6 @@ import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public class OpenAudioMc {
@@ -63,23 +62,23 @@ public class OpenAudioMc {
      * - Redis Service           []   (provides redis to openaudio and the gang)
      * - Plus Service            []   (Manages everything OpenAudioMc-Plus related, from auth to upstream data)
      */
-    private AuthenticationService authenticationService = new AuthenticationService();
-    private VoiceRoomManager voiceRoomManager = new VoiceRoomManager();
-    private StateService stateService = new StateService();
-    private TimeService timeService = new TimeService();
-    private MediaModule mediaModule = new MediaModule();
-    private NetworkingService networkingService;
-    @Setter private ConfigurationImplementation configurationImplementation;
-    private CommandModule commandModule;
-    private ITaskProvider taskProvider;
-    private RedisService redisService;
-    private PlusService plusService;
+    private final AuthenticationService authenticationService = new AuthenticationService();
+    private final VoiceRoomManager voiceRoomManager = new VoiceRoomManager();
+    private final StateService stateService = new StateService();
+    private final TimeService timeService = new TimeService();
+    private final MediaModule mediaModule = new MediaModule();
+    private final NetworkingService networkingService;
+    private final ConfigurationImplementation configurationImplementation;
+    private final CommandModule commandModule;
+    private final ITaskProvider taskProvider;
+    private final RedisService redisService;
+    private final PlusService plusService;
 
-    private Platform platform;
-    private OpenAudioInvoker invoker;
-    private boolean cleanStartup;
+    private final Platform platform;
+    private final OpenAudioInvoker invoker;
+    private final boolean cleanStartup;
     private boolean isDisabled = false;
-    private Class<? extends NetworkingService> serviceImplementation;
+    private final Class<? extends NetworkingService> serviceImplementation;
 
     @Getter private static final OpenAudioApi api = new OpenAudioApi();
     @Getter private static OpenAudioMc instance;
