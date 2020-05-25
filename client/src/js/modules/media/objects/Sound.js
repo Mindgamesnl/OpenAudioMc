@@ -57,7 +57,7 @@ export class Sound {
 
                 if (type != null) {
                     // report back as failure
-                    console.log("Reporting media failure " + type);
+                    console.log("[OpenAudioMc] Reporting media failure " + type);
                     this.openAudioMc.socketModule.send(PluginChannel.MEDIA_FAILURE, {
                         "mediaError": type,
                         "source": this.soundElement.src

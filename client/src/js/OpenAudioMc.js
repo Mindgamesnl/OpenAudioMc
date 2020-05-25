@@ -66,7 +66,6 @@ export class OpenAudioMc extends Getters {
     }
 
     start() {
-        console.log("init")
         if (!this.canStart) return;
         this.canStart = false;
         this.hueModule = new HueModule(this, getHueInstance());

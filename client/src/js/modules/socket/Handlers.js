@@ -125,10 +125,10 @@ export class Handlers {
         openAudioMc.socketModule.registerHandler("ClientVersionPayload", data => {
             const revision = parseInt(data.protocolRevision);
 
-            console.log("[OpenAudioMc] Received revision update");
+            console.log("[OpenAudioMc] Received PROTOCOL revision update");
             if (revision => 2) {
                 // enable callbacks
-                console.log("[OpenAudioMc] rev => 2, enabling callbacks");
+                console.log("[OpenAudioMc] PROTO rev => 2, enabling callbacks");
                 openAudioMc.socketModule.callbacksEnabled = true;
             }
         });
