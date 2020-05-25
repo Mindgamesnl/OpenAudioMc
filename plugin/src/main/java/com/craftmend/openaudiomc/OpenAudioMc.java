@@ -31,8 +31,6 @@ import lombok.Getter;
 public class OpenAudioMc {
 
     /*
-     *  -- NOTE --
-     *
      * This is not the plugin of OpenAudioMc, this is the core.
      * For the plugin, see /bungee and the /spigot packages.
      * The core manages all the services used to run OpenAudioMc clients of all types.
@@ -43,11 +41,8 @@ public class OpenAudioMc {
      *
      * This is always where the magic will happen, since this pretty much handles everything
      * including framework stuff.
-     */
-
-    /**
+     *
      * Services used by the core to run OpenAudioMc
-     * <p>
      *           (SERVICE)                            (PURPOSE)
      * ===========================================================================
      * - State Service           []   (responsible for tracking the current state)
@@ -73,7 +68,6 @@ public class OpenAudioMc {
     private final ITaskProvider taskProvider;
     private final RedisService redisService;
     private final PlusService plusService;
-
     private final Platform platform;
     private final OpenAudioInvoker invoker;
     private final boolean cleanStartup;
@@ -96,12 +90,9 @@ public class OpenAudioMc {
         this.cleanStartup = !this.invoker.hasPlayersOnline();
         this.taskProvider = invoker.getTaskProvider();
         this.configurationImplementation = invoker.getConfigurationProvider();
+
         this.authenticationService.initialize();
-
-        // do migration
         new MigrationWorker().handleMigrations(this);
-
-        // only enable redis if there are packets that require it for this platform
         this.redisService = new RedisService(this.configurationImplementation);
         this.networkingService = serviceImplementation.getConstructor().newInstance();
         this.commandModule = new CommandModule();
