@@ -121,6 +121,17 @@ export class Handlers {
             openAudioMc.getMessages().apply();
         });
 
+        openAudioMc.socketModule.registerHandler("ClientVersionPayload", data => {
+            const revision = parseInt(data.protocolRevision);
+
+            console.log("[OpenAudioMc] Received revision update");
+            if (revision => 2) {
+                // enable callbacks
+                console.log("[OpenAudioMc] rev => 2, enabling callbacks");
+                openAudioMc.socketModule.callbacksEnabled = true;
+            }
+        });
+
         openAudioMc.socketModule.registerHandler("ClientVolumePayload", data => {
             const target = data.volume;
             this.openAudioMc.getMediaManager().setMasterVolume(target);
