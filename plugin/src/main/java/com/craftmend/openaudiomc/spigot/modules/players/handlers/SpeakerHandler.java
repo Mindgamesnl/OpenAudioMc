@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.spigot.modules.players.handlers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.networking.packets.PacketClientUpdateLocation;
+import com.craftmend.openaudiomc.generic.networking.payloads.ClientPlayerLocationPayload;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.media.objects.MediaUpdate;
 import com.craftmend.openaudiomc.spigot.modules.players.interfaces.ITickableHandler;
@@ -10,8 +12,11 @@ import com.craftmend.openaudiomc.generic.networking.packets.PacketClientCreateMe
 import com.craftmend.openaudiomc.generic.networking.packets.PacketClientDestroyMedia;
 import com.craftmend.openaudiomc.generic.networking.packets.PacketClientUpdateMedia;
 import lombok.AllArgsConstructor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +31,18 @@ public class SpeakerHandler implements ITickableHandler {
      */
     @Override
     public void tick() {
+        // send player location update
+        Location location = player.getLocation();
+        ClientPlayerLocationPayload locationPayload = new ClientPlayerLocationPayload(
+                round(location.getX(), 1),
+                round(location.getY(), 1),
+                round(location.getZ(), 1),
+                (int) location.getPitch(),
+                (int) location.getYaw()
+        );
+
+        OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientUpdateLocation(locationPayload));
+
         List<ApplicableSpeaker> applicableSpeakers = new ArrayList<>(OpenAudioMcSpigot.getInstance().getSpeakerModule().getApplicableSpeakers(player.getLocation()));
 
         List<ApplicableSpeaker> enteredSpeakers = new ArrayList<>(applicableSpeakers);
@@ -72,6 +89,14 @@ public class SpeakerHandler implements ITickableHandler {
         for (ApplicableSpeaker currentSpeaker : list)
             if (currentSpeaker.getSpeaker().getSource().equals(speaker.getSpeaker().getSource())) return true;
         return false;
+    }
+
+    private double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
 }
