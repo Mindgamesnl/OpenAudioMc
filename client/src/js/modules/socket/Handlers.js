@@ -8,85 +8,7 @@ export class Handlers {
 
     constructor(openAudioMc) {
         this.openAudioMc = openAudioMc;
-
-        if (window.location.href.indexOf("debug") > -1) {
-            console.log("Allowing debug")
-            var AudioContext = window.AudioContext || window.webkitAudioContext;
-            var audioCtx = new AudioContext();
-
-            var panner = audioCtx.createPanner();
-            panner.panningModel = 'HRTF';
-            panner.distanceModel = 'inverse';
-            panner.refDistance = 1;
-            panner.maxDistance = 10;
-            panner.rolloffFactor = 1;
-            panner.coneInnerAngle = 360;
-            panner.coneOuterAngle = 360;
-            panner.coneOuterGain = 0;
-
-            panner.positionX.value = -387.5;
-            panner.positionY.value = 73;
-            panner.positionZ.value = 275.5;
-
-
-            let source = audioCtx.createBufferSource();
-            let request = new XMLHttpRequest();
-
-            request.open('GET', 'https://cf-media.sndcdn.com/LHfrvAkR4OrR.128.mp3?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiKjovL2NmLW1lZGlhLnNuZGNkbi5jb20vTEhmcnZBa1I0T3JSLjEyOC5tcDMiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE1OTA0MjA1NTZ9fX1dfQ__&Signature=OuF5Uy8LzyJb3AP53A1gCWxd9lyOiH3yWE5DwwhQZzPiRkppYm6xpAqKxiFuH7sHIh~S4ioVTmGAwBnUdscyNQmLIbeL26h-vosYr8j8xYCIg83nfZ5Uxp3mc9zZpgR-DE7tHLFebcqSZbsTEv9uizWx26y-l6DVYSOCyM5XXgsWv0qeIix14SjS-GGOFBRtGyPThWKxNWTQeuWDIVH~MadeMjaFy11Sd6MlnGIReCKPXje4ybjsq8BIYtaeaqj1Wq4qIxqxPvwaEAKM~dgcnyKKsY65aVRx6L6MFnuyfXkpshY6io4u1Wcx0AYtGMxnOZN4oylZONmDwxTwcKGmZQ__&Key-Pair-Id=APKAI6TU7MMXM5DG6EPQ', true);
-
-            request.responseType = 'arraybuffer';
-
-
-            request.onload = function () {
-                let audioData = request.response;
-
-                audioCtx.decodeAudioData(audioData, function (buffer) {
-                        let myBuffer = buffer;
-                        source.buffer = myBuffer;
-
-                        source.connect(panner);
-                        panner.connect(audioCtx.destination);
-                        source.loop = true;
-                    },
-
-                    function (e) {
-                        console.log("Error with decoding audio data" + e.err);
-                    });
-            }
-            request.send();
-
-            var listener = audioCtx.listener;
-            listener.setOrientation(0, 0, -1, 0, 1, 0);
-
-            openAudioMc.socketModule.registerHandler("ClientPlayerLocationPayload", data => {
-                const x = data.x;
-                const y = data.y;
-                const z = data.z;
-                const pitch = data.pitch;
-                const yaw = data.yaw;
-
-                let position = new Vector3(x, y, z);
-                let forward = this.calculateOffset(x, y, z, pitch + 90, yaw, 1);
-                let up = this.calculateOffset(x, y, z, 90 + pitch, yaw, 1);
-
-                listener.forwardX.value = forward.x;
-                listener.forwardY.value = forward.y;
-                listener.forwardZ.value = forward.z;
-                listener.positionX.value = position.x;
-                listener.positionY.value = position.y;
-                listener.positionZ.value = position.z;
-                listener.upX.value = up.x;
-                listener.upY.value = up.y;
-                listener.upZ.value = up.z;
-
-                console.log("update loc")
-            });
-
-            source.start(0);
-
-        }
-
-
+        
         openAudioMc.socketModule.registerHandler("ClientCreateMediaPayload", data => {
             const looping = data.media.loop;
             const startInstant = data.media.startInstant;
@@ -245,6 +167,17 @@ export class Handlers {
                     channel.fadeChannel(this.convertDistanceToVolume(channel.maxDistance, distance), fadeTime);
                 }
             }
+        });
+
+        var listener = audioCtx.listener;
+        listener.setOrientation(0, 0, -1, 0, 1, 0);
+
+        openAudioMc.socketModule.registerHandler("ClientPlayerLocationPayload", data => {
+            const x = data.x;
+            const y = data.y;
+            const z = data.z;
+            const pitch = data.pitch;
+            const yaw = data.yaw;
         });
 
     }
