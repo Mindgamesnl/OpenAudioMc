@@ -100,6 +100,7 @@ export class SocketModule {
 
     send(event, data) {
         if (this.callbacksEnabled) {
+            console.log("[OpenAudioMc] Submitting value for " + event);
             this.socket.emit(event, data);
         } else {
             console.log("[OpenAudioMc] could not satisfy callback " + event + " because the protocol is outdated");

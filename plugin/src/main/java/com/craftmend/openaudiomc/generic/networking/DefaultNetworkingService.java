@@ -4,13 +4,10 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.enums.PacketChannel;
-import com.craftmend.openaudiomc.generic.networking.handlers.ClientConnectHandler;
+import com.craftmend.openaudiomc.generic.networking.handlers.*;
 
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.abstracts.PayloadHandler;
-import com.craftmend.openaudiomc.generic.networking.handlers.ClientDisconnectHandler;
-import com.craftmend.openaudiomc.generic.networking.handlers.ClientLinkedHueHandler;
-import com.craftmend.openaudiomc.generic.networking.handlers.ClientMediaErrorHandler;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
@@ -48,6 +45,7 @@ public class DefaultNetworkingService extends NetworkingService {
         // register UI handlers
         registerHandler(PacketChannel.SOCKET_IN_CLIENT_ENABLED_HUE, new ClientLinkedHueHandler());
         registerHandler(PacketChannel.SOCKET_IN_CLIENT_FAILED_MEDIA, new ClientMediaErrorHandler());
+        registerHandler(PacketChannel.SOCKET_IN_CLIENT_UPDATE_CHANNELS, new ClientChannelUpdateHandler());
 
         init();
     }

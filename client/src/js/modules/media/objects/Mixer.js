@@ -1,11 +1,24 @@
 import {Channel} from "./Channel";
+import * as PluginChannel from "../../../helpers/PluginChannel";
 
 export class Mixer {
 
-    constructor(mixerName) {
+    constructor(mixerName, main) {
+        this.openAudioMc = main;
         this.mixerName = mixerName;
         this.masterVolume = 100;
         this.channels = new Map();
+    }
+
+    updateCurrent() {
+        let current = [];
+        this.channels.forEach((channel, key) => {
+            current.push(key);
+        });
+
+        this.openAudioMc.socketModule.send(PluginChannel.CHANNELS_UPDATED, {
+            "channelNames": current
+        });
     }
 
     setMasterVolume(masterVolume) {
@@ -27,6 +40,8 @@ export class Mixer {
             channel.destroy();
             this.channels.delete(channel.channelName);
         }
+
+        this.updateCurrent();
     }
 
     getChannels() {
@@ -42,6 +57,7 @@ export class Mixer {
             }
             channel.registerMixer(this);
             this.channels.set(channelId, channel);
+            this.updateCurrent();
         } else {
             throw new Error("Argument isn't a channel");
         }
