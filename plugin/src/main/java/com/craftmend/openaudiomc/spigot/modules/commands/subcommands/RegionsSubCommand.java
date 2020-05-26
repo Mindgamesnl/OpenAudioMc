@@ -40,7 +40,7 @@ public class RegionsSubCommand extends SubCommand {
         }
 
         if (openAudioMcSpigot.getRegionModule() == null) {
-            message(sender,"You need to have WorldGuard installed in order to use the regions in OpenAudioMc.");
+            message(sender,ChatColor.RED + "You need to have WorldGuard installed in order to use the regions in OpenAudioMc.");
             return;
         }
 
@@ -77,7 +77,7 @@ public class RegionsSubCommand extends SubCommand {
             }
 
             openAudioMcSpigot.getRegionModule().registerRegion(args[1], new TimedRegionProperties(args[2], duration, args[1]));
-            message(sender, "The WorldGuard region with the id " + args[1] + " now has the sound " + args[2]);
+            message(sender, ChatColor.GREEN + "The WorldGuard region with the id " + args[1] + " now has the sound " + args[2]);
 
             openAudioMcSpigot.getRegionModule().forceUpdateRegions();
             return;
@@ -95,7 +95,7 @@ public class RegionsSubCommand extends SubCommand {
 
             config.setString(StorageLocation.DATA_FILE, "regions." + args[1], args[2]);
             openAudioMcSpigot.getRegionModule().registerRegion(args[1], new RegionProperties(args[2]));
-            message(sender, "The WorldGuard region with the id " + args[1] + " now has the sound " + args[2]);
+            message(sender, ChatColor.GREEN + "The WorldGuard region with the id " + args[1] + " now has the sound " + args[2]);
             openAudioMcSpigot.getRegionModule().forceUpdateRegions();
             return;
         }
@@ -103,7 +103,7 @@ public class RegionsSubCommand extends SubCommand {
         if (args[0].equalsIgnoreCase("delete") && args.length == 2) {
             config.setString(StorageLocation.DATA_FILE, "regions." + args[1], null);
             openAudioMcSpigot.getRegionModule().removeRegion(args[1]);
-            message(sender, "The WorldGuard region with the id " + args[1] + " no longer has a sound linked to it.");
+            message(sender, ChatColor.RED + "The WorldGuard region with the id " + args[1] + " no longer has a sound linked to it.");
             openAudioMcSpigot.getRegionModule().forceUpdateRegions();
             return;
         }
