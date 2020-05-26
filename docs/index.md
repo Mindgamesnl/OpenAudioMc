@@ -7,8 +7,8 @@ Topics (click on any of them to learn more about it with examples)
  - [OpenAudioMc+](OpenAudioMc+.md)
  - [Installation (bungeecord and spigot)](installation.md)
  - [Media](media.md)
- - Configuration files
- - Selectors
+ - [Configuration and Customization](configuration.md)
+ - [Selectors](selectors.md)
  - The Play Command
  - Aliases
  - The Notification Command
