@@ -4,7 +4,7 @@ Welcome to the OpenAudioMc documentation.
 If you are still having problems, feel free to join our [Discord](https://discord.openaudiomc.net/) and ask for help.
 
 Topics (click on any of them to learn more about it with examples)
- - OpenAudioMc+
+ - [OpenAudioMc+](OpenAudioMc+.md)
  - Installation (bungeecord and spigot)
  - Media
  - Configuration files
