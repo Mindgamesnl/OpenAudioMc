@@ -21,6 +21,11 @@ export class Handlers {
             const maxDistance = data.maxDistance;
             let volume = 100;
 
+            // only if its a new version and provided, then use that volume
+            if (data.volume) {
+                volume = data.volume.volume;
+            }
+
             // attempt to stop the existing one, if any
             openAudioMc.getMediaManager().destroySounds(id, false, true);
 
