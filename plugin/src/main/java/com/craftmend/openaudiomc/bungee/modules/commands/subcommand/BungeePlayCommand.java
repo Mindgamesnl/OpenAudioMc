@@ -4,12 +4,14 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.modules.player.objects.BungeePlayerSelector;
 
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
+import com.craftmend.openaudiomc.generic.media.objects.OptionalError;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.media.objects.MediaOptions;
 
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
@@ -41,21 +43,28 @@ public class BungeePlayCommand extends SubCommand {
                 ClientConnection clientConnection = openAudioMc.getNetworkingService().getClient(player.getUniqueId());
                 clientConnection.sendMedia(media);
             }
-            message(sender, "Media created.");
+            message(sender, ChatColor.GREEN + "Media created and requested to be played.");
             return;
         }
 
         if (args.length == 3) {
             try {
                 MediaOptions mediaOptions = OpenAudioMc.getGson().fromJson(args[2], MediaOptions.class);
+
+                OptionalError parsingError = mediaOptions.validate();
+                if (parsingError.isError()) {
+                    message(sender, ChatColor.RED + "Error! " + parsingError.getMessage());
+                    return;
+                }
+
                 Media media = new Media(args[1]).applySettings(mediaOptions);
                 for (ProxiedPlayer player : new BungeePlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal())) {
                     ClientConnection clientConnection = openAudioMc.getNetworkingService().getClient(player.getUniqueId());
                     clientConnection.sendMedia(media);
                 }
-                message(sender, "Media and options created.");
+                message(sender, ChatColor.GREEN + "Media (with arguments) created and requested to be played.");
             } catch (Exception e) {
-                message(sender, "Error. Invalid options. Please refer to the command guide.");
+                message(sender, ChatColor.RED + "Error. Invalid options. Please refer to the command guide.");
             }
             return;
         }
