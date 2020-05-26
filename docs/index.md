@@ -1,15 +1,12 @@
 ---
 layout: default
----
-# OpenAudioMc [![Build Status](https://travis-ci.org/Mindgamesnl/OpenAudioMc.svg?branch=master)](https://travis-ci.org/Mindgamesnl/OpenAudioMc)
-Welcome to the OpenAudioMc documentation.
-
+--
 If you are still having problems, feel free to join our [Discord](https://discord.openaudiomc.net/) and ask for help.
 
 Topics (click on any of them to learn more about it with examples)
  - [OpenAudioMc+](OpenAudioMc+.md)
- - Installation (bungeecord and spigot)
- - Media
+ - [Installation (bungeecord and spigot)](installation.md)
+ - [Media](media.md)
  - Configuration files
  - Selectors
  - The Play Command
