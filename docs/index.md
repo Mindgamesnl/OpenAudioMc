@@ -1,3 +1,6 @@
+---
+layout: default
+---
 # OpenAudioMc [![Build Status](https://travis-ci.org/Mindgamesnl/OpenAudioMc.svg?branch=master)](https://travis-ci.org/Mindgamesnl/OpenAudioMc)
 Welcome to the OpenAudioMc documentation.
 
