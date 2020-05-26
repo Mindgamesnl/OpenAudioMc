@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.packets.PacketClientDestroyMedia;
 
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
@@ -39,7 +40,7 @@ public class BungeeStopCommand extends SubCommand {
                 clientConnection.getOngoingMedia().clear();
                 OpenAudioMc.getInstance().getNetworkingService().send(clientConnection, new PacketClientDestroyMedia(null));
             }
-            message(sender, "Destroyed all normal sounds for the clients in selection");
+            message(sender, ChatColor.GREEN + "Destroyed all normal sounds for the clients in selection");
             return;
         }
 
@@ -49,7 +50,7 @@ public class BungeeStopCommand extends SubCommand {
                 ClientConnection clientConnection = openAudioMc.getNetworkingService().getClient(player.getUniqueId());
                 OpenAudioMc.getInstance().getNetworkingService().send(clientConnection, new PacketClientDestroyMedia(args[1]));
             }
-            message(sender, "Destroyed all sounds for the clients in selection with id " + args[1]);
+            message(sender, ChatColor.GREEN + "Destroyed all sounds for the clients in selection with id " + args[1]);
             return;
         }
 

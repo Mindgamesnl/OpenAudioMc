@@ -9,6 +9,7 @@ import com.craftmend.openaudiomc.generic.networking.packets.PacketClientDestroyM
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -40,7 +41,7 @@ public class StopSubCommand extends SubCommand {
                 spigotConnection.getClientConnection().getOngoingMedia().clear();
                 OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(null));
             }
-            message(sender, "Destroyed all normal sounds for the clients in selection");
+            message(sender, ChatColor.GREEN + "Destroyed all normal sounds for the clients in selection");
             return;
         }
 
@@ -49,7 +50,7 @@ public class StopSubCommand extends SubCommand {
                 SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(player);
                 OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(args[1]));
             }
-            message(sender, "Destroyed all sounds for the clients in selection with id " + args[1]);
+            message(sender, ChatColor.GREEN + "Destroyed all sounds for the clients in selection with id " + args[1]);
             return;
         }
 
