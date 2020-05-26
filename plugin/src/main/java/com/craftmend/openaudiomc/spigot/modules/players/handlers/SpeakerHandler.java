@@ -32,6 +32,7 @@ public class SpeakerHandler implements ITickableHandler {
     @Override
     public void tick() {
         // send player location update
+        /*
         Location location = player.getLocation();
         ClientPlayerLocationPayload locationPayload = new ClientPlayerLocationPayload(
                 round(location.getX(), 1),
@@ -42,6 +43,7 @@ public class SpeakerHandler implements ITickableHandler {
         );
 
         OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientUpdateLocation(locationPayload));
+         */
 
         List<ApplicableSpeaker> applicableSpeakers = new ArrayList<>(OpenAudioMcSpigot.getInstance().getSpeakerModule().getApplicableSpeakers(player.getLocation()));
 
