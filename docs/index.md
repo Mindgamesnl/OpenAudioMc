@@ -12,8 +12,8 @@ Topics (click on any of them to learn more about it with examples)
  - [The Play Command](play.md)
  - [Aliases](alias.md)
  - [TrainCarts integration](traincarts.md)
- - The Stop Command
- - The Show Command
+ - [The Stop Command](stop.md)
+ - [The Show Command](show.md)
  - Speakers
  - Regions
  - The Notification Command
