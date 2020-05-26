@@ -14,7 +14,7 @@ Topics (click on any of them to learn more about it with examples)
  - [TrainCarts integration](traincarts.md)
  - [The Stop Command](stop.md)
  - [The Show Command](show.md)
- - Speakers
+ - [Speakers](speakers.md)
  - Regions
  - The Notification Command
  - The Hue Command
