@@ -9,15 +9,15 @@ Topics (click on any of them to learn more about it with examples)
  - [Media](media.md)
  - [Configuration and Customization](configuration.md)
  - [Selectors](selectors.md)
- - The Play Command
- - Aliases
- - The Notification Command
+ - [The Play Command](play.md)
+ - [Aliases](alias.md)
+ - [TrainCarts integration](traincarts.md)
  - The Stop Command
  - The Show Command
  - Speakers
  - Regions
+ - The Notification Command
  - The Hue Command
  - The Hue Connection
- - Traincarts integration
  - OpenAudioMc partners
  - Voice Chat/Calls
