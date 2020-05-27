@@ -1,3 +1,4 @@
+# Partners
 new starting this launch is the OpenAudioMc Partner Program. We understand that for bigger servers and networks control can be of great importance. For partners, we can offer extra features, these are (but not limited to)
 - Dedicated (and scalable) private hosting solutions
 - (optional) Dedicated Voice Chat servers

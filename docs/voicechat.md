@@ -1,3 +1,4 @@
+# Voice Chat
 ### *Note: as explained later in this article, voice chat is currently only available to select partners due to cost. There are plans to roll it out eventually as a monthly plan but there's no say in release date yet.* 
 
 tarting 6.0, OpenAudioMc has a build in voice chat system.

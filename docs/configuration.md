@@ -1,3 +1,4 @@
+### Configuration
 OpenAudioMc makes a sub directory named after the plugin (`plugins/openaudiomc`) and makes two files, a `config.yml` and `data.yml`.
 
 - `config.yml` Contains all your in-game configuration options. Every option is described in the file itself. Please only make changes to this file since it may be overwritten otherwise.

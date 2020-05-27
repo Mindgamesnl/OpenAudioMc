@@ -1,3 +1,4 @@
+### Media Aliases
 Source URL'S can get pretty long and may need replacement. Luckily, you can shorten them into aliases. This is like a shortcut for any given source.
 
 To start, you need to define an alias, for this example, we'll make a sound called test

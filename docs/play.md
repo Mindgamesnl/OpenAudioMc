@@ -1,3 +1,4 @@
+# Play Media
 The play command is used to start [Media](media.md) for a client or to schedule it to play. It follows the syntax of:
 ```
 /openaudio play <selector> <source> [media options]

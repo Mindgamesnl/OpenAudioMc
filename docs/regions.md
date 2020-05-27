@@ -1,3 +1,4 @@
+# WorldGuard Regions
 ### Note: You need the WorldGuard plugin to use regions
 OpenAudioMc has an integration for WorldGuard (both 1.8 to 1.12.2, and the 1.13/1.14 update).
 This enables you to add music to your regions. The media will be synced between everyone in the region, and those who enter it later. When two bordered regions have the same sound selected OpenAudioMc will handle them as extensions and not re-start the sound when the player moves from one to the other. When both regions have different sounds then the old one will slowly fade out while the new sound starts. Overlapping regions are also supported.

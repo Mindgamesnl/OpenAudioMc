@@ -1,3 +1,4 @@
+# Shows
 With shows, you can make time coded shows. Our definition of a show is a list of cues, or scheduled events.
 
 The major benefit about shows is that they are multithreaded. Meaning that in-game lag (TPS drops) will NOT affect or hinder the timing of your show to always keep it in sync with the audio.

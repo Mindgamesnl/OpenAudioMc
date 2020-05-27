@@ -1,3 +1,4 @@
+# Installation
 Installation couldn't be simpler
 1. Download the most recent jar from https://openaudiomc.net/
 2. Place the jar inside the `plugins` directory of your server

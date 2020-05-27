@@ -1,6 +1,3 @@
----
-layout: default
---
 If you are still having problems, feel free to join our [Discord](https://discord.openaudiomc.net/) and ask for help.
 
 Topics (click on any of them to learn more about it with examples)
