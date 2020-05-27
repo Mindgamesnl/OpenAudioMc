@@ -15,7 +15,7 @@ import com.craftmend.openaudiomc.generic.networking.addapter.AbstractPacketAdapt
 import com.craftmend.openaudiomc.generic.plus.PlusService;
 import com.craftmend.openaudiomc.generic.redis.RedisService;
 import com.craftmend.openaudiomc.generic.redis.packets.adapter.RedisTypeAdapter;
-import com.craftmend.openaudiomc.generic.core.interfaces.ITaskProvider;
+import com.craftmend.openaudiomc.generic.core.interfaces.TaskProvider;
 import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
 import com.craftmend.openaudiomc.generic.voice.VoiceRoomManager;
 import com.craftmend.openaudiomc.generic.state.StateService;
@@ -65,7 +65,7 @@ public class OpenAudioMc {
     private final NetworkingService networkingService;
     private final ConfigurationImplementation configurationImplementation;
     private final CommandModule commandModule;
-    private final ITaskProvider taskProvider;
+    private final TaskProvider taskProvider;
     private final RedisService redisService;
     private final PlusService plusService;
     private final Platform platform;

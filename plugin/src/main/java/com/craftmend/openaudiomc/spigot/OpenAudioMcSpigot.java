@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.spigot;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementation;
-import com.craftmend.openaudiomc.generic.core.interfaces.ITaskProvider;
+import com.craftmend.openaudiomc.generic.core.interfaces.TaskProvider;
 import com.craftmend.openaudiomc.generic.core.interfaces.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
@@ -161,7 +161,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
     }
 
     @Override
-    public ITaskProvider getTaskProvider() {
+    public TaskProvider getTaskProvider() {
         return new SpigotTaskProvider();
     }
 

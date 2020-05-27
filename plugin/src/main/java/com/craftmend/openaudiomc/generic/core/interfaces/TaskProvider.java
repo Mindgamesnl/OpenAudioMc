@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.core.interfaces;
 
-public interface ITaskProvider {
+public interface TaskProvider {
 
     int scheduleAsyncRepeatingTask(Runnable runnable, int period, int delay);
     int scheduleSyncRepeatingTask(Runnable runnable, int period, int delay);
