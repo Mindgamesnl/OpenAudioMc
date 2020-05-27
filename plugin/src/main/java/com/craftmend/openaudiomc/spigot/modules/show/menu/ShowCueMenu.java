@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class ShowCueMenu extends Menu {
 
     public ShowCueMenu(Show show, int page) {
-        super(OpenAudioMcSpigot.getInstance(), ChatColor.BLUE + show.getShowName() + ChatColor.RESET + " - page " + page + " / " +  ((int) Math.ceil(show.getCueList().size() / 45) + 1), 6 * 9);;
+        super(ChatColor.BLUE + show.getShowName() + ChatColor.RESET + " - page " + page + " / " +  ((int) Math.ceil(show.getCueList().size() / 45) + 1), 6 * 9);;
         int pages = (int) Math.ceil(show.getCueList().size() / 45) + 1;
 
         // get 45 items
