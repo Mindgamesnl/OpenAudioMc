@@ -554,7 +554,7 @@ a:hover {
   color: #fff;
   text-align: center;
   background-color: #159957;
-  background-image: linear-gradient(120deg, #155799, #159957)
+  background-image: linear-gradient(120deg, rgba(21,87,153,.5), rgba(21,153,87, .8)), url("https://client.openaudiomc.net/assets/bg.png");
 }
 
 @media screen and (min-width: 64em) {
