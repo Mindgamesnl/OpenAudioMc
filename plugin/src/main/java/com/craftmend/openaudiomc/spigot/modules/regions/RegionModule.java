@@ -51,7 +51,12 @@ public class RegionModule {
             // before we actually add it, we should check if the WG region still exists, to lesser load
             if (regionAdapter.doesRegionExist(region.toLowerCase())) {
                 String source = config.getStringFromPath("regions." + region, StorageLocation.DATA_FILE);
-                RegionProperties properties = new RegionProperties(source);
+                int volume = config.getIntFromPath("regionsvolume." + region, StorageLocation.DATA_FILE);
+                if (volume < 5) {
+                    volume = 100;
+                }
+
+                RegionProperties properties = new RegionProperties(source, volume);
                 registerRegion(region, properties);
             }
         }
@@ -71,10 +76,14 @@ public class RegionModule {
         }
     }
 
-    public RegionMedia getRegionMedia(String source) {
+    public RegionMedia getRegionMedia(String source, int volume) {
         if (regionMediaMap.containsKey(source)) return regionMediaMap.get(source);
-        RegionMedia regionMedia = new RegionMedia(source);
+        RegionMedia regionMedia = new RegionMedia(source, volume);
         regionMediaMap.put(source, regionMedia);
         return regionMedia;
+    }
+
+    public void removeRegionMedia(String source) {
+        regionMediaMap.remove(source);
     }
 }
