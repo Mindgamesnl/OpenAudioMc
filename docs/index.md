@@ -15,9 +15,8 @@ Topics (click on any of them to learn more about it with examples)
  - [The Stop Command](stop.md)
  - [The Show Command](show.md)
  - [Speakers](speakers.md)
- - Regions
- - The Notification Command
- - The Hue Command
- - The Hue Connection
- - OpenAudioMc partners
- - Voice Chat/Calls
+ - [Regions](regions.md)
+ - [The Notification Command](notifications.md)
+ - [Philips Hue setup and commands](hue.md)
+ - [OpenAudioMc partners](partners.md)
+ - [Voice Chat/Calls](voicechat.md)
