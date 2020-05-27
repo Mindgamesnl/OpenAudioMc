@@ -13,6 +13,16 @@ function enable() {
 }
 
 export function linkBootListeners() {
+    const isSafari = navigator.vendor && navigator.vendor.indexOf('Apple') > -1 &&
+        navigator.userAgent &&
+        navigator.userAgent.indexOf('CriOS') == -1 &&
+        navigator.userAgent.indexOf('FxiOS') == -1;
+
+    if (isSafari) {
+        window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/browsers.html";
+        return;
+    }
+
     let tokenSet = new ClientTokenSet().fromUrl(window.location.href);
     if (tokenSet == null) {
         document.getElementById('footer-welcome').innerText = 'No authentication provided';
