@@ -4,6 +4,7 @@ Listed below are all the documentation topics and their articles, If you are sti
 # Installation Articles
 How to install OpenAudioMc
 - [Installation (bungeecord and spigot)](installation.md)
+- [Supported Browsers](browsers.md)
 
 # Configuration Articles
 How to make OpenAudioMc truely your own
