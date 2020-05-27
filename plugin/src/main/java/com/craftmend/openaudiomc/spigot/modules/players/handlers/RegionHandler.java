@@ -53,13 +53,22 @@ public class RegionHandler implements ITickableHandler {
         }
     }
 
+    @Override
+    public void reset() {
+        for (IRegion exited : spigotConnection.getRegions()) {
+            OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(exited.getMedia().getMediaId()));
+        }
+        spigotConnection.getRegions().clear();
+    }
+
     private boolean containsRegion(List<IRegion> list, IRegion query) {
         for (IRegion r : list) if (query.getMedia().getSource().equals(r.getMedia().getSource())) return true;
         return false;
     }
 
     private boolean isPlayingRegion(IRegion region) {
-        for (IRegion r : spigotConnection.getRegions()) if (region.getMedia().getSource().equals(r.getMedia().getSource())) return true;
+        for (IRegion r : spigotConnection.getRegions())
+            if (region.getMedia().getSource().equals(r.getMedia().getSource())) return true;
         return false;
     }
 

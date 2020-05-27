@@ -13,7 +13,7 @@ public class TimedRegionProperties extends RegionProperties {
     private Media media;
 
     public TimedRegionProperties(String source, int timeInSeconds, String id) {
-        super(source);
+        super(source, 100);
         this.id = id;
 
         this.task = Bukkit.getScheduler().scheduleAsyncDelayedTask(OpenAudioMcSpigot.getInstance(), () -> {
@@ -21,7 +21,7 @@ public class TimedRegionProperties extends RegionProperties {
             forceUpdateClients();
         }, 20 * timeInSeconds);
 
-        this.media = new RegionMedia(source);
+        this.media = new RegionMedia(source, 100);
         this.media.setLoop(OpenAudioMc.getInstance().getConfigurationImplementation().getBoolean(StorageKey.SETTINGS_LOOP_TEMP_REGIONS));
         forceUpdateClients();
     }

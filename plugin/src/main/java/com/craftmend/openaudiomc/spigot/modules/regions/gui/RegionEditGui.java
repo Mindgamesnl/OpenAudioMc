@@ -3,6 +3,9 @@ package com.craftmend.openaudiomc.spigot.modules.regions.gui;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementation;
 import com.craftmend.openaudiomc.generic.core.storage.enums.StorageLocation;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.players.interfaces.ClientConnection;
+import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
 import com.craftmend.openaudiomc.spigot.services.clicklib.Item;
 import com.craftmend.openaudiomc.spigot.services.clicklib.menu.Menu;
@@ -44,6 +47,9 @@ public class RegionEditGui extends Menu {
                     config.setInt(StorageLocation.DATA_FILE, "regions." + region.getId().toString() + ".volume", volume);
                     region.setVolume(volume);
                     player.sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + ChatColor.GREEN + "Updated region volume to " + volume);
+                    SpigotConnection spigotClient = OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(player.getUniqueId());
+                    spigotClient.getRegionHandler().reset();
+
                     new RegionEditGui(region).openFor(player);
                 });
     }
