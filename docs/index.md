@@ -1,5 +1,30 @@
-If you are still having problems, feel free to join our [Discord](https://discord.openaudiomc.net/) and ask for help.
+# Help Topics
+Listed below are all the documentation topics and their articles, If you are still having problems after reading, feel free to join our [Discord](https://discord.openaudiomc.net/) and ask for help.
 
-| Installation                                            | Configuration                                                                          | Features                                                                                                                                                                                                                                                                                                                                                      | For experts                                                                                            |
-|---------------------------------------------------------|----------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
-| [Installation (bungeecord and spigot)](installation.md) | [OpenAudioMc+](OpenAudioMc+.md)<br>[Configuration and Customization](configuration.md) | [Media](media.md)<br>[Selectors](selectors.md)<br>[The Play Command](play.md)<br>[Aliases](alias.md)<br>[TrainCarts integration](traincarts.md)<br>[The Stop Command](stop.md)<br>[The Show Command](show.md)<br>[Speakers](speakers.md)<br>[Regions](regions.md)<br>[The Notification Command](notifications.md)<br>[Philips Hue setup and commands](hue.md) | [OpenAudioMc partners](partners.md)<br>[Voice Chat/Calls](voicechat.md)<br>[Client hosting](client.md) |
+# Installation Articles
+How to install OpenAudioMc
+- [Installation (bungeecord and spigot)](installation.md)
+# Configuration Articles
+How to make OpenAudioMc truely your own
+- [OpenAudioMc+](OpenAudioMc+.md)
+- [Configuration and Customization](configuration.md)
+- [Permissions](permissions.md)
+# Features
+How to use OpenAudioMc's features (with examples)
+ - [Media](media.md)
+ - [Selectors](selectors.md)
+ - [The Play Command](play.md)
+ - [Aliases](alias.md)
+ - [TrainCarts integration](traincarts.md)
+ - [The Stop Command](stop.md)
+ - [The Show Command](show.md)
+ - [Speakers](speakers.md)
+ - [Regions](regions.md)
+ - [The Notification Command](notifications.md)
+ - [Philips Hue setup and commands](hue.md)
+ # For experts
+ If you want to go the extra mile
+ - [OpenAudioMc partners](partners.md)
+ - [Voice Chat/Calls](voicechat.md)
+ - [Client hosting](client.md)
+ 
