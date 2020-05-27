@@ -7,7 +7,7 @@ import com.craftmend.openaudiomc.bungee.modules.node.NodeManager;
 import com.craftmend.openaudiomc.bungee.modules.player.PlayerManager;
 import com.craftmend.openaudiomc.bungee.modules.scheduling.BungeeTaskProvider;
 import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementation;
-import com.craftmend.openaudiomc.generic.core.interfaces.ITaskProvider;
+import com.craftmend.openaudiomc.generic.core.interfaces.TaskProvider;
 import com.craftmend.openaudiomc.generic.core.interfaces.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
@@ -89,7 +89,7 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
     }
 
     @Override
-    public ITaskProvider getTaskProvider() {
+    public TaskProvider getTaskProvider() {
         return new BungeeTaskProvider();
     }
 

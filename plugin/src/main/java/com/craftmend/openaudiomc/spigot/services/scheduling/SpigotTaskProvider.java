@@ -1,12 +1,12 @@
 package com.craftmend.openaudiomc.spigot.services.scheduling;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.core.interfaces.ITaskProvider;
+import com.craftmend.openaudiomc.generic.core.interfaces.TaskProvider;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import org.bukkit.Bukkit;
 
-public class SpigotTaskProvider implements ITaskProvider {
+public class SpigotTaskProvider implements TaskProvider {
 
     @Override
     public int scheduleAsyncRepeatingTask(Runnable runnable, int period, int delay) {

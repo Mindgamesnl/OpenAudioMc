@@ -9,7 +9,7 @@ public interface OpenAudioInvoker {
     boolean isSlave();
     Platform getPlatform();
     Class<? extends NetworkingService> getServiceClass();
-    ITaskProvider getTaskProvider();
+    TaskProvider getTaskProvider();
     ConfigurationImplementation getConfigurationProvider();
 
 }
