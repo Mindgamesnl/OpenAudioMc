@@ -8,4 +8,4 @@ audio
 a:test
 ```
 
-And then, well, nothing, that's it actually. It's that easy! If you want to remove the music from your train, just write stop instead of play.
+And then, well, nothing, that's it actually. It's that easy! If you want to remove the music from your train, just write stop instead of a source.
