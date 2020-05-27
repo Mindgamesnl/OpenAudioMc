@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.services.clicklib.menu;
 
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.services.clicklib.Item;
 import com.craftmend.openaudiomc.spigot.services.clicklib.managers.InventoryManager;
 import lombok.Getter;
@@ -18,9 +19,9 @@ public abstract class Menu implements InventoryHolder {
     private Inventory inventory;
     private Map<Integer, Item> slotMap = new HashMap<>();
 
-    public Menu(JavaPlugin javaPlugin, String name, int size) {
+    public Menu(String name, int size) {
         inventory = Bukkit.createInventory(this, size, name);
-        InventoryManager.getInstance(javaPlugin);
+        InventoryManager.getInstance(OpenAudioMcSpigot.getInstance());
     }
 
     public void onClose(Player player) {

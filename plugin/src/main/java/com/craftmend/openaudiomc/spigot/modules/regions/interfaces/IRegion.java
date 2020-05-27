@@ -7,4 +7,6 @@ public interface IRegion {
     Media getMedia();
     RegionProperties getProperties();
     String getId();
+    void setVolume(int volume);
+    int getVolume();
 }

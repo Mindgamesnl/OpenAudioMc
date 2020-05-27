@@ -26,4 +26,15 @@ public class Region implements IRegion {
         return id;
     }
 
+    @Override
+    public void setVolume(int volume) {
+        regionProperties.setVolume(volume);
+        regionProperties.updateMedia();
+    }
+
+    @Override
+    public int getVolume() {
+        return regionProperties.getVolume();
+    }
+
 }

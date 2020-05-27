@@ -13,7 +13,7 @@ import org.bukkit.Material;
 public class SpeakerMenu extends Menu {
 
     public SpeakerMenu(Speaker speaker) {
-        super(OpenAudioMcSpigot.getInstance(), ChatColor.BLUE + "Updating speaker", 9);
+        super(ChatColor.BLUE + "Updating speaker", 9);
 
         setItem(0, new Item(OpenAudioMcSpigot.getInstance().getSpeakerModule().getSkull())
                 .setName(ChatColor.YELLOW + "Playing: " + ChatColor.AQUA + speaker.getMedia().getSource()));

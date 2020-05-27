@@ -11,9 +11,14 @@ import lombok.Data;
 public class RegionProperties {
 
     private String source;
+    private int volume;
+
+    public void updateMedia() {
+        OpenAudioMcSpigot.getInstance().getRegionModule().removeRegionMedia(source);
+    }
 
     public Media getMedia() {
-        return OpenAudioMcSpigot.getInstance().getRegionModule().getRegionMedia(source);
+        return OpenAudioMcSpigot.getInstance().getRegionModule().getRegionMedia(source, volume);
     }
 
 }

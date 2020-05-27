@@ -15,7 +15,7 @@ public class ShowHomeMenu extends Menu {
     private boolean canceled = false;
 
     public ShowHomeMenu(Show show, Player player) {
-        super(OpenAudioMcSpigot.getInstance(), ChatColor.BLUE + "Editing show: " + ChatColor.BLACK + show.getShowName(), 9);
+        super(ChatColor.BLUE + "Editing show: " + ChatColor.BLACK + show.getShowName(), 9);
 
         fillout(show, player);
 
