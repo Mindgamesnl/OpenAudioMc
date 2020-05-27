@@ -7,11 +7,13 @@ import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.core.storage.enums.StorageLocation;
+import com.craftmend.openaudiomc.spigot.modules.regions.gui.RegionSelectionGui;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.TimedRegionProperties;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class RegionsSubCommand extends SubCommand {
 
@@ -27,7 +29,10 @@ public class RegionsSubCommand extends SubCommand {
                         "Create a temporary region with it's own synced sound"),
 
                 new Argument("delete <WG-region>",
-                        "Unlink the sound from a WorldGuard specific region by name")
+                        "Unlink the sound from a WorldGuard specific region by name"),
+
+                new Argument("edit",
+                        "Opens the region editor GUI")
         );
         this.openAudioMcSpigot = openAudioMcSpigot;
     }
@@ -41,6 +46,12 @@ public class RegionsSubCommand extends SubCommand {
 
         if (openAudioMcSpigot.getRegionModule() == null) {
             message(sender,ChatColor.RED + "You need to have WorldGuard installed in order to use the regions in OpenAudioMc.");
+            return;
+        }
+
+        if (sender.getOriginal() instanceof Player && (args[0].equalsIgnoreCase("edit") || args[0].equalsIgnoreCase("gui"))) {
+            Player player = (Player) sender.getOriginal();
+            new RegionSelectionGui(player);
             return;
         }
 
