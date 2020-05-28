@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.core.interfaces.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.media.MediaModule;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import com.craftmend.openaudiomc.generic.migrations.MigrationWorker;
@@ -101,11 +102,19 @@ public class OpenAudioMc {
 
     public void disable() {
         isDisabled = true;
-        this.plusService.shutdown();
-        redisService.shutdown();
+        try {
+            redisService.shutdown();
+            if (stateService.getCurrentState().isConnected()) {
+                networkingService.stop();
+            }
+        } catch (NoClassDefFoundError exception) {
+            OpenAudioLogger.toConsole("Bukkit already unloaded the networking classes, can't kill socket.");
+        }
         configurationImplementation.saveAll();
-        if (stateService.getCurrentState().isConnected()) {
-            networkingService.stop();
+        try {
+            this.plusService.shutdown();
+        } catch (NoClassDefFoundError exception) {
+            OpenAudioLogger.toConsole("Bukkit already unloaded the OA+ classes, can't kill tokens.");
         }
     }
 }

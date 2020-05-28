@@ -55,9 +55,10 @@ public class RegionHandler implements ITickableHandler {
 
     @Override
     public void reset() {
-        for (IRegion exited : spigotConnection.getRegions()) {
-            OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(exited.getMedia().getMediaId()));
+        for (IRegion currentRegions : spigotConnection.getCurrentRegions()) {
+            OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(currentRegions.getMedia().getMediaId()));
         }
+
         spigotConnection.getRegions().clear();
     }
 

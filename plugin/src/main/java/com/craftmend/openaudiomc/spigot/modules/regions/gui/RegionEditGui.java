@@ -43,11 +43,15 @@ public class RegionEditGui extends Menu {
                 .onClick((player, item) -> {
                     if (volume == region.getVolume()) return;
                     ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
-                    config.setInt(StorageLocation.DATA_FILE, "regions." + region.getId().toString() + ".volume", volume);
+                    config.setInt(StorageLocation.DATA_FILE, "regionsvolume." + region.getId().toString(), volume);
                     region.setVolume(volume);
+
                     player.sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + ChatColor.GREEN + "Updated region volume to " + volume);
+
                     SpigotConnection spigotClient = OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(player.getUniqueId());
                     spigotClient.getRegionHandler().reset();
+
+                    spigotClient.getRegionHandler().tick();
 
                     new RegionEditGui(region).openFor(player);
                 });

@@ -83,7 +83,8 @@ public class RegionModule {
         return regionMedia;
     }
 
-    public void removeRegionMedia(String source) {
+    public void removeRegionMedia(String id, String source) {
         regionMediaMap.remove(source);
+        regionPropertiesMap.remove(id);
     }
 }
