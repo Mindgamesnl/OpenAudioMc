@@ -1216,7 +1216,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             a = t.media.fadeTime,
             l = t.distance,
             u = t.media.flag,
-            h = t.maxDistance;var d = 100;null != t.media.volume && (d = t.media.volume), e.getMediaManager().destroySounds(o, !1, !0);var c = new U(o),
+            h = t.maxDistance;var d = 100;null != t.media.volume && 0 != t.media.volume && (d = t.media.volume), e.getMediaManager().destroySounds(o, !1, !0);var c = new U(o),
             m = new K(s);m.openAudioMc = e, m.setOa(e), r && m.startDate(n, !0), m.finalize().then(function () {
           if (r && m.startDate(n, !0), e.getMediaManager().mixer.addChannel(c), c.addSound(m), c.setChannelVolume(0), m.setLooping(i), c.setTag(o), 0 !== h) {
             var _e18 = _this14.convertDistanceToVolume(h, l);c.setTag("SPECIAL"), c.maxDistance = h, c.fadeChannel(_e18, a);
