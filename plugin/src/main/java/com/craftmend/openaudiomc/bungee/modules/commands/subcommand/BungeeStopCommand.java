@@ -35,22 +35,25 @@ public class BungeeStopCommand extends SubCommand {
         }
 
         if (args.length == 1) {
+            int affected = 0;
             for (ProxiedPlayer player : new BungeePlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal())) {
                 ClientConnection clientConnection = openAudioMc.getNetworkingService().getClient(player.getUniqueId());
+                if (clientConnection.isConnected()) affected++;
                 clientConnection.getOngoingMedia().clear();
                 OpenAudioMc.getInstance().getNetworkingService().send(clientConnection, new PacketClientDestroyMedia(null));
             }
-            message(sender, ChatColor.GREEN + "Destroyed all normal sounds for the clients in selection");
+            message(sender, ChatColor.GREEN + "Destroyed all normal sounds for " + affected + " clients");
             return;
         }
 
         if (args.length == 2) {
+            int affected = 0;
             for (ProxiedPlayer player : new BungeePlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal())) {
-
                 ClientConnection clientConnection = openAudioMc.getNetworkingService().getClient(player.getUniqueId());
+                if (clientConnection.isConnected()) affected++;
                 OpenAudioMc.getInstance().getNetworkingService().send(clientConnection, new PacketClientDestroyMedia(args[1]));
             }
-            message(sender, ChatColor.GREEN + "Destroyed all sounds for the clients in selection with id " + args[1]);
+            message(sender, ChatColor.GREEN + "Destroyed the sound" + args[1] + " for " + affected + " clients");
             return;
         }
 

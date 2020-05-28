@@ -39,11 +39,13 @@ public class BungeePlayCommand extends SubCommand {
 
         if (args.length == 2) {
             Media media = new Media(args[1]);
+            int affected = 0;
             for (ProxiedPlayer player : new BungeePlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal())) {
                 ClientConnection clientConnection = openAudioMc.getNetworkingService().getClient(player.getUniqueId());
+                if (clientConnection.isConnected()) affected++;
                 clientConnection.sendMedia(media);
             }
-            message(sender, ChatColor.GREEN + "Media created and requested to be played.");
+            message(sender, ChatColor.GREEN + "Media created and requested to be played for " + affected + " clients");
             return;
         }
 
