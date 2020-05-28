@@ -14,7 +14,7 @@ public class Media {
     @Setter @Getter private String mediaId = UUID.randomUUID().toString();
 
     //media information
-    private String source;
+    private final String source;
     @Setter @Getter private long startInstant;
     @Setter @Getter private transient int keepTimeout = -1;
     @Getter @Setter private boolean doPickup = false;
