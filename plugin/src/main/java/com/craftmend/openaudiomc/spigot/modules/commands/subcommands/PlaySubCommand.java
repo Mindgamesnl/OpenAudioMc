@@ -40,11 +40,13 @@ public class PlaySubCommand extends SubCommand {
 
         if (args.length == 2) {
             Media media = new Media(args[1]);
+            int affected = 0;
             for (Player player : new SpigotPlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal())) {
                 SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(player);
+                if (spigotConnection.getClientConnection().isConnected()) affected++;
                 spigotConnection.getClientConnection().sendMedia(media);
             }
-            message(sender, ChatColor.GREEN + "Media created and requested to be played.");
+            message(sender, ChatColor.GREEN + "Media created and requested to be played for " + affected + " clients");
             return;
         }
 
