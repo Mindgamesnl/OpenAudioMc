@@ -5,7 +5,11 @@ export class WorldModule {
 
     constructor(openAudioMc) {
         this.openAudioMc = openAudioMc;
-        this.player = new Player(new Vector3(0, 0, 0), 0, 0);
+        this.player = new Player(this, new Vector3(0, 0, 0), 0, 0);
+    }
+
+    onLocationUpdate() {
+        
     }
 
 }
