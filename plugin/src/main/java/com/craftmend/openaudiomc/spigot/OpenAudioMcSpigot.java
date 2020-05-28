@@ -69,6 +69,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
     private SpeakerModule speakerModule;
     private ShowModule showModule;
     private TrainCartsModule trainCartsModule;
+    private OpenAudioMc openAudioMc;
 
     /**
      * Constant: main plugin instance and plugin timing
@@ -90,7 +91,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
 
         // setup core
         try {
-            new OpenAudioMc(this);
+            openAudioMc = new OpenAudioMc(this);
             // startup modules and services
             this.aliasModule = new AliasModule(this);
             this.executorService = new ExecutorService(this);
@@ -135,7 +136,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
     @Override
     public void onDisable() {
         OpenAudioLogger.toConsole("Shutting down");
-        OpenAudioMc.getInstance().disable();
+        openAudioMc.disable();
         HandlerList.unregisterAll(this);
         OpenAudioLogger.toConsole("Stopped OpenAudioMc. Goodbye.");
     }

@@ -29,7 +29,7 @@ public class SpigotConnection {
     @Getter private ClientConnection clientConnection;
 
     // optional regions and speakers
-    @Setter private List<IRegion> currentRegions = new ArrayList<>();
+    @Getter @Setter private List<IRegion> currentRegions = new ArrayList<>();
     @Setter private List<ApplicableSpeaker> currentSpeakers = new ArrayList<>();
 
     // data watcher that watches for changes in the location, every 2 ticks.

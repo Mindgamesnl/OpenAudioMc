@@ -13,8 +13,10 @@ public class RegionProperties {
     private String source;
     private int volume;
 
-    public void updateMedia() {
-        OpenAudioMcSpigot.getInstance().getRegionModule().removeRegionMedia(source);
+    public void updateMedia(String regionName) {
+        OpenAudioMcSpigot.getInstance().getRegionModule().removeRegionMedia(regionName, source);
+        OpenAudioMcSpigot.getInstance().getRegionModule().getRegionPropertiesMap().put(regionName, this);
+
     }
 
     public Media getMedia() {

@@ -4,6 +4,8 @@ import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
 import lombok.AllArgsConstructor;
 
+import java.util.UUID;
+
 @AllArgsConstructor
 public class Region implements IRegion {
 
@@ -28,8 +30,13 @@ public class Region implements IRegion {
 
     @Override
     public void setVolume(int volume) {
+        long start = regionProperties.getMedia().getStartInstant();
+        String oldId = regionProperties.getMedia().getMediaId();
         regionProperties.setVolume(volume);
-        regionProperties.updateMedia();
+        regionProperties.updateMedia(id);
+        regionProperties.getMedia(); // trigger
+        regionProperties.getMedia().setMediaId(oldId);
+        regionProperties.getMedia().setStartInstant(start);
     }
 
     @Override
