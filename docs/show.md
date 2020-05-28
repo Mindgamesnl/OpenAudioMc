@@ -44,3 +44,5 @@ You can also edit a show via a gui using
 /openaudio show gui <show name>
 ```
 you can change the show state, scroll through cues and delete them from this GUI.
+
+## Want more? read [The redis documentation](redis.md)

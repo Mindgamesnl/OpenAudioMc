@@ -31,4 +31,5 @@ If you want to go the extra mile
 - [OpenAudioMc partners](partners.md)
 - [Voice Chat/Calls](voicechat.md)
 - [Client hosting](client.md)
+- [Redis](redis.md)
  

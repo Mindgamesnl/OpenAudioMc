@@ -72,7 +72,7 @@ redis:
   # The host of your redis server
   host: localhost
   # The port of your redis server
-  port: 6969
+  port: 6379
   # The password to your redis server.
   # Leave set to "none" to connect without authentication
   password: none
