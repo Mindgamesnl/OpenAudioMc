@@ -722,6 +722,15 @@ Object.assign( Vector3.prototype, {
 
         return this;
 
+    },
+
+    square: function (a) {
+        return a * a;
+    },
+
+    distance: function (o) {
+        const d = this.square(this.x - o.x) + this.square(this.y - o.y) + this.square(this.z - o.z);
+        return Math.sqrt(d);
     }
 
 } );
