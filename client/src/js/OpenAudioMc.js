@@ -15,6 +15,7 @@ import ClientTokenSet from "./helpers/ClientTokenSet";
 import {initAudioContext} from "./modules/voice/objects/AbstractAudio";
 import {getHueInstance} from "./helpers/JsHue";
 import openAudioMc, {linkBootListeners} from "./helpers/StaticFunctions";
+import {WorldModule} from "./modules/world/WorldModule";
 
 export class OpenAudioMc extends Getters {
 
@@ -38,6 +39,7 @@ export class OpenAudioMc extends Getters {
         this.userInterfaceModule = new UserInterfaceModule(this);
         this.hueConfiguration = new HueConfigurationModule(this);
         this.mediaManager = new MediaManager(this);
+        this.world = new WorldModule(this);
 
         //initialize audio encoding
         initAudioContext();
