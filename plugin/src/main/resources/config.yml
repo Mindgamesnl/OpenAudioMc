@@ -62,10 +62,7 @@ options:
   staff-tips: true
 
 # REDIS
-# Redis is an optional professional feature for OpenAudioMc that (when configured) will sync shows
-# Between multiple OpenAudioMc installations.
-# This originally got implemented for BarelyAlive's block party but now everyone can use it.
-# Isn't that lovely?
+# More explanation about redis: https://mindgamesnl.github.io/OpenAudioMc/redis.html
 redis:
   # When set to true, the redis service will be enabled
   enabled: false
