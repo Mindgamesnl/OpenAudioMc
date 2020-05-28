@@ -20,7 +20,7 @@ public class Media {
     @Getter @Setter private boolean doPickup = false;
     @Getter @Setter private boolean loop = false;
     @Getter @Setter private int fadeTime = 0;
-    @Getter @Setter private int volume = 0;
+    @Getter @Setter private int volume = 100;
     @Getter @Setter private MediaFlag flag = MediaFlag.DEFAULT;
 
     /**
