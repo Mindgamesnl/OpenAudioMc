@@ -30,8 +30,7 @@ public class RegionEditGui extends Menu {
     }
 
     private Item getVolumeItem(IRegion region, int volume) {
-        return new Item(Material.NOTE_BLOCK)
-                .setAmount(volume)
+        return new Item(((region.getVolume() == volume) ? Material.REDSTONE_BLOCK : Material.NOTE_BLOCK))
                 .setEnchanted((region.getVolume() == volume))
                 .setName(
                         (region.getVolume() == volume ? (
