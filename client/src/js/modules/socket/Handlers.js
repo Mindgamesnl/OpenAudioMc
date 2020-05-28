@@ -180,6 +180,8 @@ export class Handlers {
             const z = data.z;
             const pitch = data.pitch;
             const yaw = data.yaw;
+
+            this.openAudioMc.world.player.updateLocation(new Vector3(x, y, z), pitch, yaw);
         });
 
     }
