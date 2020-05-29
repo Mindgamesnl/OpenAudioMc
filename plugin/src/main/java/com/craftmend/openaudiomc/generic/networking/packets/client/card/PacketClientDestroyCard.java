@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.generic.networking.packets.client.card;
 
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.enums.PacketChannel;
-import com.craftmend.openaudiomc.generic.networking.payloads.out.card.ClientDestroyCardPayload;
+import com.craftmend.openaudiomc.generic.networking.payloads.client.card.ClientDestroyCardPayload;
 
 public class PacketClientDestroyCard extends AbstractPacket {
 

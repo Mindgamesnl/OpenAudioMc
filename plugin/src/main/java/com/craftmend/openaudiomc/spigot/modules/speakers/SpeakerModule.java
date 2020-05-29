@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementa
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.utils.TypeCounter;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
-import com.craftmend.openaudiomc.generic.networking.payloads.out.speakers.objects.Vector3;
+import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.objects.Vector3;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.core.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerSelectListener;
