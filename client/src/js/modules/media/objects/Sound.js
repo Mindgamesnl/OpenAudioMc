@@ -24,7 +24,7 @@ export class Sound {
         this.soundElement.setAttribute("preload", "auto");
         this.soundElement.setAttribute("controls", "none");
         this.soundElement.setAttribute("display", "none");
-        this.soundElement.preload = "autoauto";
+        this.soundElement.preload = "auto";
         this.soundElement.abort = console.log;
 
         this.openAudioMc = null;
