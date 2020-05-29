@@ -20,7 +20,15 @@ export class Vector3 {
         this.z = iz * qw + iw * -qz + ix * -qy - iy * -qx;
 
         return this;
+    }
 
+    square (a) {
+        return a * a;
+    }
+
+    distance (o) {
+        const d = this.square(this.x - o.x) + this.square(this.y - o.y) + this.square(this.z - o.z);
+        return Math.sqrt(d);
     }
 
 }
