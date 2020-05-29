@@ -41,7 +41,6 @@ export class SpeakerPlayer {
             }
 
             if (closest.type == SPEAKER_3D) {
-                console.log("Setting up!")
                 // inject spatial audio stuff
                 // create panner node
                 const player = this.openAudioMc.world.player;
@@ -76,7 +75,6 @@ export class SpeakerPlayer {
             const location = closest.location;
             const position = new Position(location);
             position.applyTo(this.pannerNode);
-            console.log(this.pannerNode)
         }
     }
 
