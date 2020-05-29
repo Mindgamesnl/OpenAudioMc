@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.speakers;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementation;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
-import com.craftmend.openaudiomc.generic.networking.payloads.out.speakers.objects.SpeakerType;
+import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import com.craftmend.openaudiomc.generic.networking.payloads.out.speakers.objects.Vector3;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.core.storage.enums.StorageLocation;

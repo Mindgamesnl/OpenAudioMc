@@ -9,7 +9,7 @@ import com.craftmend.openaudiomc.generic.networking.payloads.out.speakers.Client
 import com.craftmend.openaudiomc.generic.networking.payloads.out.speakers.ClientSpeakerCreatePayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.out.speakers.ClientSpeakerDestroyPayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.out.speakers.objects.ClientSpeaker;
-import com.craftmend.openaudiomc.generic.networking.payloads.out.speakers.objects.SpeakerType;
+import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.interfaces.ITickableHandler;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
