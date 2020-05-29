@@ -84,7 +84,8 @@ public class SpeakerMenu extends Menu {
             Collection<Entity> entities = bukkitSpeakerLocation.getWorld().getNearbyEntities(bukkitSpeakerLocation, safeRadius, safeRadius, safeRadius);
 
             ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
-            config.setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".type", mode.toString());
+            config.setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".type", nextSelectableMode.toString());
+            config.saveAll();
 
             for (Entity entity : entities) {
                 // skip non-players

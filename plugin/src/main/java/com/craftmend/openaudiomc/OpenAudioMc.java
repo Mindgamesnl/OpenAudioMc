@@ -102,6 +102,7 @@ public class OpenAudioMc {
 
     public void disable() {
         isDisabled = true;
+        configurationImplementation.saveAll();
         try {
             redisService.shutdown();
             if (stateService.getCurrentState().isConnected()) {
@@ -110,7 +111,6 @@ public class OpenAudioMc {
         } catch (NoClassDefFoundError exception) {
             OpenAudioLogger.toConsole("Bukkit already unloaded the networking classes, can't kill socket.");
         }
-        configurationImplementation.saveAll();
         try {
             this.plusService.shutdown();
         } catch (NoClassDefFoundError exception) {

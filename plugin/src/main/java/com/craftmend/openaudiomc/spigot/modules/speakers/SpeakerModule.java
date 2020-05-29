@@ -153,7 +153,7 @@ public class SpeakerModule {
         // it might be none, since speakers were introduced before this update
         // but we'll just fallback to 2d when it comes to it
         SpeakerType speakerType;
-        if (config.isPathValid("speakers." + id + ".type", StorageLocation.DATA_FILE)) {
+        if (!config.getStringFromPath("speakers." + id + ".type", StorageLocation.DATA_FILE).startsWith("<")) {
             String typeName = config.getStringFromPath("speakers." + id + ".type", StorageLocation.DATA_FILE);
             speakerType = SpeakerType.valueOf(typeName);
         } else {

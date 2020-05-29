@@ -99,10 +99,10 @@ public class SpigotConfigurationImplementation implements ConfigurationImplement
     public boolean isPathValid(String path, StorageLocation storageLocation) {
         switch (storageLocation) {
             case DATA_FILE:
-                return dataConfig.contains(path);
+                return dataConfig.contains(path, true);
 
             case CONFIG_FILE:
-                return mainConfig.contains(path);
+                return mainConfig.contains(path, true);
 
             default:
                 return false;
