@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.networking.packets;
+package com.craftmend.openaudiomc.generic.networking.packets.client.ui;
 
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.enums.PacketChannel;

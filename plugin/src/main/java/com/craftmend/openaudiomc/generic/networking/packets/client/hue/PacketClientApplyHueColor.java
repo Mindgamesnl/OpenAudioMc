@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.networking.packets;
+package com.craftmend.openaudiomc.generic.networking.packets.client.hue;
 
 import com.craftmend.openaudiomc.generic.hue.SerializedHueColor;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;

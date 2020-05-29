@@ -7,7 +7,7 @@ import com.craftmend.openaudiomc.generic.networking.client.objects.player.Client
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.hue.SerializedHueColor;
-import com.craftmend.openaudiomc.generic.networking.packets.PacketClientApplyHueColor;
+import com.craftmend.openaudiomc.generic.networking.packets.client.hue.PacketClientApplyHueColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 

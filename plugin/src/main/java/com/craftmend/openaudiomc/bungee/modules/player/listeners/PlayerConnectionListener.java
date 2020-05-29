@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.bungee.modules.player.listeners;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
-import com.craftmend.openaudiomc.generic.networking.packets.PacketClientDestroyMedia;
+import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.event.ServerSwitchEvent;
