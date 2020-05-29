@@ -13,6 +13,7 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientCreateMedia;
+import com.craftmend.openaudiomc.generic.networking.packets.client.speakers.PacketClientCreateSpeaker;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.player.ProxiedPlayerAdapter;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
@@ -30,7 +31,8 @@ import java.util.function.Consumer;
 
 public class DefaultNetworkingService extends NetworkingService {
 
-    @Getter private Set<INetworkingEvents> eventHandlers = new HashSet<>();
+    @Getter
+    private Set<INetworkingEvents> eventHandlers = new HashSet<>();
     private Map<UUID, ClientConnection> clientMap = new HashMap<>();
     private Map<PacketChannel, PayloadHandler<?>> packetHandlerMap = new HashMap<>();
     private SocketIoConnector socketIoConnector;
@@ -54,7 +56,9 @@ public class DefaultNetworkingService extends NetworkingService {
         addEventHandler(new INetworkingEvents() {
             @Override
             public void onPacketSend(Authenticatable target, AbstractPacket packet) {
-                if (target instanceof ClientConnection && packet instanceof PacketClientCreateMedia) {
+                if (target instanceof ClientConnection && (
+                        packet instanceof PacketClientCreateMedia || packet instanceof PacketClientCreateSpeaker
+                )) {
                     ClientConnection client = (ClientConnection) target;
                     client.getMixTracker().triggerExpectedTrack();
                 }
