@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.objects;
 
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
-import com.craftmend.openaudiomc.generic.networking.payloads.out.speakers.objects.Vector3;
+import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.objects.Vector3;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
