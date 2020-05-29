@@ -78,14 +78,17 @@ public class SpeakerHandler implements ITickableHandler {
         }
     }
 
-    public void forceDeleteSpeaker(Speaker speaker) {
-        ClientSpeaker clientSpeaker = toClientSpeaker(new ApplicableSpeaker(
-                0,
-                speaker,
-                speaker.getSpeakerType(),
-                Vector3.from(speaker.getLocation())
-        ));
-        OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientRemoveSpeaker(new ClientSpeakerDestroyPayload(clientSpeaker)));
+    public void forceDeleteSpeaker(String id, SpeakerType type, String source) {
+        OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientRemoveSpeaker(new ClientSpeakerDestroyPayload(
+                new ClientSpeaker(
+                        new Vector3(),
+                        type,
+                        id,
+                        source,
+                        0,
+                        0
+                )
+        )));
     }
 
     private boolean isPlayingSpeaker(ApplicableSpeaker speaker) {
