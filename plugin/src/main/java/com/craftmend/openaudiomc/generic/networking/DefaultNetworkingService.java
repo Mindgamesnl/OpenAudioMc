@@ -12,7 +12,7 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
-import com.craftmend.openaudiomc.generic.networking.packets.PacketClientCreateMedia;
+import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientCreateMedia;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.player.ProxiedPlayerAdapter;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;

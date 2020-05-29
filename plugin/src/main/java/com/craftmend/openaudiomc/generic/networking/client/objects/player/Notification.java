@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.networking.packets.PacketClientPushNotification;
+import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClientPushNotification;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

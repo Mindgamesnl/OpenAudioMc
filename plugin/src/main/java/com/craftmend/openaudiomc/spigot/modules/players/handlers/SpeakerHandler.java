@@ -6,9 +6,9 @@ import com.craftmend.openaudiomc.generic.media.objects.MediaUpdate;
 import com.craftmend.openaudiomc.spigot.modules.players.interfaces.ITickableHandler;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.ApplicableSpeaker;
-import com.craftmend.openaudiomc.generic.networking.packets.PacketClientCreateMedia;
-import com.craftmend.openaudiomc.generic.networking.packets.PacketClientDestroyMedia;
-import com.craftmend.openaudiomc.generic.networking.packets.PacketClientUpdateMedia;
+import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientCreateMedia;
+import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
+import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientUpdateMedia;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.Player;
 
