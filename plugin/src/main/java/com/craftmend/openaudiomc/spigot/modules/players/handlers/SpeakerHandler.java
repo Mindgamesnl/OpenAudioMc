@@ -29,18 +29,6 @@ public class SpeakerHandler implements ITickableHandler {
     @Override
     public void tick() {
         // send player location update
-        /*
-        Location location = player.getLocation();
-        ClientPlayerLocationPayload locationPayload = new ClientPlayerLocationPayload(
-                round(location.getX(), 1),
-                round(location.getY(), 1),
-                round(location.getZ(), 1),
-                (int) location.getPitch(),
-                (int) location.getYaw()
-        );
-
-        OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientUpdateLocation(locationPayload));
-         */
 
         List<ApplicableSpeaker> applicableSpeakers = new ArrayList<>(OpenAudioMcSpigot.getInstance().getSpeakerModule().getApplicableSpeakers(player.getLocation()));
 
@@ -69,6 +57,19 @@ public class SpeakerHandler implements ITickableHandler {
         leftSpeakers.forEach(left -> OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(left.getSpeaker().getMedia().getMediaId())));
 
         spigotConnection.setCurrentSpeakers(applicableSpeakers);
+
+        if (!applicableSpeakers.isEmpty()) {
+            Location location = player.getLocation();
+            ClientPlayerLocationPayload locationPayload = new ClientPlayerLocationPayload(
+                    round(location.getX(), 1),
+                    round(location.getY(), 1),
+                    round(location.getZ(), 1),
+                    (int) location.getPitch(),
+                    (int) location.getYaw()
+            );
+
+            OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientUpdateLocation(locationPayload));
+        }
     }
 
     private boolean isPlayingSpeaker(ApplicableSpeaker speaker) {
