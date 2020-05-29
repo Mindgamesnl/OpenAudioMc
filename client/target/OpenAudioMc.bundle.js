@@ -142,7 +142,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, 0));
     }function n(t, e) {
       var i = j(function (t, e) {
-        return X(Math.random() * (e - t + 1)) + t;
+        return Y(Math.random() * (e - t + 1)) + t;
       }(64, 90));return t.substr(0, e) + i + t.substr(e + 1, t.length);
     }var s = void 0,
         o = void 0,
@@ -277,7 +277,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   }function v(t, e, i, n, s) {
     this.fromSampleRate = t, this.toSampleRate = e, this.channels = 0 | i, this.outputBufferSize = n, this.noReturn = !!s, this.initialize();
   }function M(t, e, i, n, s, o) {
-    this.audioChannels = 2 == t ? 2 : 1, Ft = 1 == this.audioChannels, Rt = 0 < e && 16777215 >= e ? e : 44100, Bt = i >= zt << 1 && i < n ? i & (Ft ? 4294967295 : 4294967294) : zt << 1, It = X(n) > Bt + this.audioChannels ? n & (Ft ? 4294967295 : 4294967294) : i << 1, this.underRunCallback = "function" == typeof s ? s : function () {}, Ot = -1 <= o && 1 >= o && 0 != o ? o : 0, this.audioType = -1, this.mozAudioTail = [], this.audioHandleMoz = null, this.audioHandleFlash = null, this.flashInitialized = !1, this.mozAudioFound = !1, this.initializeAudio();
+    this.audioChannels = 2 == t ? 2 : 1, Ft = 1 == this.audioChannels, Rt = 0 < e && 16777215 >= e ? e : 44100, Bt = i >= zt << 1 && i < n ? i & (Ft ? 4294967295 : 4294967294) : zt << 1, It = Y(n) > Bt + this.audioChannels ? n & (Ft ? 4294967295 : 4294967294) : i << 1, this.underRunCallback = "function" == typeof s ? s : function () {}, Ot = -1 <= o && 1 >= o && 0 != o ? o : 0, this.audioType = -1, this.mozAudioTail = [], this.audioHandleMoz = null, this.audioHandleFlash = null, this.flashInitialized = !1, this.mozAudioFound = !1, this.initializeAudio();
   }function k(t) {
     try {
       var e = new Float32Array(t);
@@ -325,24 +325,24 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       j = String.fromCharCode,
       q = Math.abs,
       Z = Math.round,
-      X = Math.floor;i.r(e);
-  var Y = function () {
-    function Y() {
-      _classCallCheck(this, Y);
+      Y = Math.floor;i.r(e);
+  var X = function () {
+    function X() {
+      _classCallCheck(this, X);
 
       this.isServerAhead = !1, this.msOffset = 0, this.hasSynced = !1;
     }
 
-    Y.prototype.sync = function sync(t, e) {
+    X.prototype.sync = function sync(t, e) {
       var i = new Date(t),
           n = new Date().getTime();n += 60 * e * 60 * 1e3;var s = new Date(n);this.isServerAhead = i.getTime() > s.getTime(), this.msOffset = this.isServerAhead ? i.getTime() - s.getTime() : s.getTime() - i.getTime(), this.hasSynced = !0;
     };
 
-    Y.prototype.getPredictedTime = function getPredictedTime() {
+    X.prototype.getPredictedTime = function getPredictedTime() {
       this.hasSynced || new Date().getTime();var t = new Date().getTime();return new Date(this.isServerAhead ? t + this.msOffset : t - this.msOffset);
     };
 
-    return Y;
+    return X;
   }();
 
   var Q = function () {
@@ -460,7 +460,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     K.prototype.colorToHueHsv = function colorToHueHsv(t) {
-      var e = this.color(t).toHSV();return { on: 0 != 2 * e.alpha * 127.5, hue: X(65535 * e.hue / 360), sat: X(255 * e.saturation), bri: Z(2 * e.alpha * 127.5) };
+      var e = this.color(t).toHSV();return { on: 0 != 2 * e.alpha * 127.5, hue: Y(65535 * e.hue / 360), sat: Y(255 * e.saturation), bri: Z(2 * e.alpha * 127.5) };
     };
 
     K.prototype.setLight = function setLight(t, e) {
@@ -1212,7 +1212,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       var e = new Date(t),
           i = q((e.getTime() - this.openAudioMc.timeService.getPredictedTime()) / 1e3),
           n = this.soundElement.duration;if (i > n) {
-        i -= X(i / n) * n;
+        i -= Y(i / n) * n;
       }this.setTime(i);
     };
 
@@ -1247,7 +1247,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, smootherstep: function smootherstep(t, e, i) {
       return t <= e ? 0 : t >= i ? 1 : (t = (t - e) / (i - e)) * t * t * (t * (6 * t - 15) + 10);
     }, randInt: function randInt(t, e) {
-      return t + X(Math.random() * (e - t + 1));
+      return t + Y(Math.random() * (e - t + 1));
     }, randFloat: function randFloat(t, e) {
       return t + Math.random() * (e - t);
     }, randFloatSpread: function randFloatSpread(t) {
@@ -1261,7 +1261,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, ceilPowerOfTwo: function ceilPowerOfTwo(t) {
       return L(2, U(V(t) / D));
     }, floorPowerOfTwo: function floorPowerOfTwo(t) {
-      return L(2, X(V(t) / D));
+      return L(2, Y(V(t) / D));
     }, setQuaternionFromProperEuler: function setQuaternionFromProperEuler(t, e, i, n, s) {
       var o = O,
           r = F,
@@ -1504,13 +1504,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, clampLength: function clampLength(t, e) {
       var i = this.length();return this.divideScalar(i || 1).multiplyScalar(H(t, N(e, i)));
     }, floor: function floor() {
-      return this.x = X(this.x), this.y = X(this.y), this.z = X(this.z), this;
+      return this.x = Y(this.x), this.y = Y(this.y), this.z = Y(this.z), this;
     }, ceil: function ceil() {
       return this.x = U(this.x), this.y = U(this.y), this.z = U(this.z), this;
     }, round: function round() {
       return this.x = Z(this.x), this.y = Z(this.y), this.z = Z(this.z), this;
     }, roundToZero: function roundToZero() {
-      return this.x = 0 > this.x ? U(this.x) : X(this.x), this.y = 0 > this.y ? U(this.y) : X(this.y), this.z = 0 > this.z ? U(this.z) : X(this.z), this;
+      return this.x = 0 > this.x ? U(this.x) : Y(this.x), this.y = 0 > this.y ? U(this.y) : Y(this.y), this.z = 0 > this.z ? U(this.z) : Y(this.z), this;
     }, negate: function negate() {
       return this.x = -this.x, this.y = -this.y, this.z = -this.z, this;
     }, dot: function dot(t) {
@@ -2096,45 +2096,45 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       this.handle && (_opus_decoder_destroy(this.handle), _free(this.in_ptr), _free(this.out_ptr), this.handle = this.in_ptr = this.out_ptr = 0);
     }, t;
   }();var Zt = null;
-  var Xt = function Xt() {
-    _classCallCheck(this, Xt);
+  var Yt = function Yt() {
+    _classCallCheck(this, Yt);
 
     this.defaultConfig = { codec: { sampleRate: 24e3, channels: 1, app: 2048, frameDuration: 20, bufferSize: 2048 } }, this.audioContext = Zt;
   };
 
-  var Yt = function (_Xt) {
-    _inherits(Yt, _Xt);
+  var Xt = function (_Yt) {
+    _inherits(Xt, _Yt);
 
-    function Yt() {
+    function Xt() {
       var _this20;
 
-      _classCallCheck(this, Yt);
+      _classCallCheck(this, Xt);
 
-      (_this20 = _possibleConstructorReturn(this, _Xt.call(this)), _this20), _this20.queueSize = 5120, _this20.unstableSeconds = 0, _this20.stableSeconds = 0, _this20.minimalQueueSize = _this20.queueSize;_this20.defaultConfig.codec.sampleRate, _this20.defaultConfig.codec.bufferSize;_this20.perfectRate = 50, _this20.lowestAcceptable = _this20.perfectRate - 5, _this20.highestAcceptable = _this20.perfectRate + 5;return _this20;
+      (_this20 = _possibleConstructorReturn(this, _Yt.call(this)), _this20), _this20.queueSize = 5120, _this20.unstableSeconds = 0, _this20.stableSeconds = 0, _this20.minimalQueueSize = _this20.queueSize;_this20.defaultConfig.codec.sampleRate, _this20.defaultConfig.codec.bufferSize;_this20.perfectRate = 50, _this20.lowestAcceptable = _this20.perfectRate - 5, _this20.highestAcceptable = _this20.perfectRate + 5;return _this20;
     }
 
-    Yt.prototype.isAcceptable = function isAcceptable(t) {
+    Xt.prototype.isAcceptable = function isAcceptable(t) {
       return t >= this.lowestAcceptable && t <= this.highestAcceptable;
     };
 
-    Yt.prototype.handleMeasurement = function handleMeasurement(t) {
+    Xt.prototype.handleMeasurement = function handleMeasurement(t) {
       this.isAcceptable(t) ? (this.unstableSeconds = 0, 5 <= this.stableSeconds && (this.decreaseBufferSize(), this.stableSeconds = 3), this.stableSeconds++) : (this.stableSeconds = 0, 5 <= this.unstableSeconds && this.increaseBufferSize(), this.unstableSeconds++);
     };
 
-    Yt.prototype.increaseBufferSize = function increaseBufferSize() {
+    Xt.prototype.increaseBufferSize = function increaseBufferSize() {
       10240 > this.queueSize && (this.queueSize += 512, console.log("Buffer size increased and is now " + this.queueSize));
     };
 
-    Yt.prototype.decreaseBufferSize = function decreaseBufferSize() {
+    Xt.prototype.decreaseBufferSize = function decreaseBufferSize() {
       this.queueSize > this.minimalQueueSize && (this.queueSize -= 512, console.log("Buffer size decreased and is now " + this.queueSize));
     };
 
-    Yt.prototype.getBufferSize = function getBufferSize() {
+    Xt.prototype.getBufferSize = function getBufferSize() {
       return this.queueSize;
     };
 
-    return Yt;
-  }(Xt);
+    return Xt;
+  }(Yt);
 
   var Qt = function () {
     function Qt(t) {
@@ -2164,7 +2164,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       _classCallCheck(this, Gt);
 
-      this.buffer = new Float32Array(0), this.processor = new Yt(), this.tickTimer = new Qt(function (t) {
+      this.buffer = new Float32Array(0), this.processor = new Xt(), this.tickTimer = new Qt(function (t) {
         _this22.processor.handleMeasurement(t);
       });
     }
@@ -2192,15 +2192,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     return Gt;
   }();
 
-  var Kt = function (_Xt2) {
-    _inherits(Kt, _Xt2);
+  var Kt = function (_Yt2) {
+    _inherits(Kt, _Yt2);
 
     function Kt(t, e) {
       var _this23;
 
       _classCallCheck(this, Kt);
 
-      (_this23 = _possibleConstructorReturn(this, _Xt2.call(this)), _this23), _this23.config = _this23.defaultConfig, _this23.config.codec = _this23.config.codec || _this23.defaultConfig.codec, _this23.config.server = _this23.config.server || _this23.defaultConfig.server, _this23.sampler = new Nt(_this23.config.codec.sampleRate, _this23.audioContext.sampleRate, 1, _this23.config.codec.bufferSize), _this23.parentSocket = e, _this23.decoder = new qt(_this23.config.codec.sampleRate, _this23.config.codec.channels), _this23.silence = new Float32Array(_this23.config.codec.bufferSize);return _this23;
+      (_this23 = _possibleConstructorReturn(this, _Yt2.call(this)), _this23), _this23.config = _this23.defaultConfig, _this23.config.codec = _this23.config.codec || _this23.defaultConfig.codec, _this23.config.server = _this23.config.server || _this23.defaultConfig.server, _this23.sampler = new Nt(_this23.config.codec.sampleRate, _this23.audioContext.sampleRate, 1, _this23.config.codec.bufferSize), _this23.parentSocket = e, _this23.decoder = new qt(_this23.config.codec.sampleRate, _this23.config.codec.channels), _this23.silence = new Float32Array(_this23.config.codec.bufferSize);return _this23;
     }
 
     Kt.prototype.start = function start() {
@@ -2236,7 +2236,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     return Kt;
-  }(Xt);
+  }(Yt);
 
   var Jt = function () {
     function Jt(t, e) {
@@ -2359,15 +2359,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     return te;
   }(et);
 
-  var ee = function (_Xt3) {
-    _inherits(ee, _Xt3);
+  var ee = function (_Yt3) {
+    _inherits(ee, _Yt3);
 
     function ee(t, e) {
       var _this26;
 
       _classCallCheck(this, ee);
 
-      (_this26 = _possibleConstructorReturn(this, _Xt3.call(this)), _this26), _this26.config = t, _this26.config.codec = _this26.config.codec || _this26.defaultConfig.codec, _this26.sampler = new Nt(_this26.audioContext.sampleRate, _this26.config.codec.sampleRate, 1, _this26.config.codec.bufferSize), _this26.parentSocket = e, _this26.encoder = new jt(_this26.config.codec.sampleRate, _this26.config.codec.channels, _this26.config.codec.app, _this26.config.codec.frameDuration);return _this26;
+      (_this26 = _possibleConstructorReturn(this, _Yt3.call(this)), _this26), _this26.config = t, _this26.config.codec = _this26.config.codec || _this26.defaultConfig.codec, _this26.sampler = new Nt(_this26.audioContext.sampleRate, _this26.config.codec.sampleRate, 1, _this26.config.codec.bufferSize), _this26.parentSocket = e, _this26.encoder = new jt(_this26.config.codec.sampleRate, _this26.config.codec.channels, _this26.config.codec.app, _this26.config.codec.frameDuration);return _this26;
     }
 
     ee.prototype._makeStream = function _makeStream(t) {
@@ -2418,7 +2418,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     return ee;
-  }(Xt);
+  }(Yt);
 
   var ie = function () {
     function ie(t) {
@@ -2981,8 +2981,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
 
     we.prototype.updateLocation = function updateLocation(t, e, i) {
-      this.location = t, this.pitch = e, this.yaw = i - 180, this.world.onLocationUpdate();var n = new B(this.yaw, this.pitch, 0, "XYZ"),
-          s = new r();s.setFromEuler(n);new be(t, s).applyTo(this.listener);
+      this.location = t, this.pitch = this.degrees_to_radians(e), this.yaw = this.degrees_to_radians(this.normalizeYaw(i - 180));var n = new B(this.pitch, this.yaw, 0, "XYZ"),
+          s = new r();s.setFromEuler(n);new be(t, s).applyTo(this.listener), this.world.onLocationUpdate();
+    };
+
+    we.prototype.degrees_to_radians = function degrees_to_radians(t) {
+      return t * (W / 180);
+    };
+
+    we.prototype.normalizeYaw = function normalizeYaw(t) {
+      return 0 > (t %= 360) && (t += 360), t;
     };
 
     return we;
@@ -3142,7 +3150,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       _classCallCheck(this, Me);
 
-      if ((_this40 = _possibleConstructorReturn(this, _ref.call(this)), _this40), _this40.canStart = !1, _this40.host = null, _this40.background = null, _this40.tokenSet = new rt().fromUrl(window.location.href), null == _this40.tokenSet) return _ret2 = void (document.getElementById("welcome-text-landing").innerHTML = "The audio client is only available for players who are online in the server. Use <small>/audio</small> to obtain a URL<br />"), _possibleConstructorReturn(_this40, _ret2);_this40.notificationModule = new ae(_this40), _this40.timeService = new Y(), _this40.messages = new Q(_this40), _this40.userInterfaceModule = new G(_this40), _this40.hueConfiguration = new gt(_this40), _this40.mediaManager = new tt(_this40), Zt = new (window.AudioContext || window.webkitAudioContext)(), _this40.voiceModule = new re(_this40), _this40.boot();new Mt("https://plus.openaudiomc.net/").route(_this40).then(function (t) {
+      if ((_this40 = _possibleConstructorReturn(this, _ref.call(this)), _this40), _this40.canStart = !1, _this40.host = null, _this40.background = null, _this40.tokenSet = new rt().fromUrl(window.location.href), null == _this40.tokenSet) return _ret2 = void (document.getElementById("welcome-text-landing").innerHTML = "The audio client is only available for players who are online in the server. Use <small>/audio</small> to obtain a URL<br />"), _possibleConstructorReturn(_this40, _ret2);_this40.notificationModule = new ae(_this40), _this40.timeService = new X(), _this40.messages = new Q(_this40), _this40.userInterfaceModule = new G(_this40), _this40.hueConfiguration = new gt(_this40), _this40.mediaManager = new tt(_this40), Zt = new (window.AudioContext || window.webkitAudioContext)(), _this40.voiceModule = new re(_this40), _this40.boot();new Mt("https://plus.openaudiomc.net/").route(_this40).then(function (t) {
         _this40.canStart = !0, _this40.host = t.host, _this40.background = t.background;
       }).catch(function (t) {
         console.error("Exception thrown", t.stack), _this40.userInterfaceModule.kickScreen("Your current URL appears to be invalid. Please request a new one in-game using the /audio command. If this issue if persists please contact a member of staff."), new et("#alert-area", { closeTime: 2e4, persistent: !1, hideCloseButton: !0, extra: "warning" }).show("A networking error occurred while connecting to the server, please request a new url and try again.");

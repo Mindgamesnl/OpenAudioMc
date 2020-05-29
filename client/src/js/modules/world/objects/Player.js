@@ -15,11 +15,11 @@ export class Player {
 
     updateLocation(location, pitch, yaw) {
         this.location = location;
-        this.pitch = pitch;
-        this.yaw = yaw;
+        this.pitch = this.degrees_to_radians(pitch);
+        this.yaw = this.degrees_to_radians(this.normalizeYaw(yaw - 180));
 
         // location already is a Vector3
-        const euler = new Euler(this.yaw, this.pitch, 0, "XYZ");
+        const euler = new Euler(this.pitch, this.yaw, 0, "XYZ");
         const quaternion = new Quaternion();
         quaternion.setFromEuler(euler);
 
@@ -27,6 +27,17 @@ export class Player {
         position.applyTo(this.listener);
 
         this.world.onLocationUpdate();
+    }
+
+    degrees_to_radians(degrees) {
+        var pi = Math.PI;
+        return degrees * (pi / 180);
+    }
+
+    normalizeYaw(yaw) {
+        yaw = yaw % 360;
+        if (yaw < 0) yaw += 360.0;
+        return yaw;
     }
 
 }
