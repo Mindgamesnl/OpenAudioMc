@@ -88,7 +88,7 @@ public class SpeakersSubCommand extends SubCommand {
             ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
             int range = config.getInt(StorageKey.SETTINGS_SPEAKER_RANGE);
             SpeakerModule speakerModule = OpenAudioMcSpigot.getInstance().getSpeakerModule();
-            speakerModule.registerSpeaker(mappedLocation, source, id, range);
+            speakerModule.registerSpeaker(mappedLocation, source, id, range, SpeakerModule.DEFAULT_SPEAKER_TYPE);
 
             // save
             config.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".world", mappedLocation.getWorld());

@@ -25,15 +25,12 @@ import java.util.*;
 
 public class SpeakerModule {
 
-    @Getter
-    private Map<MappedLocation, Speaker> speakerMap = new HashMap<>();
+    public static final SpeakerType DEFAULT_SPEAKER_TYPE = SpeakerType.SPEAKER_2D;
+    @Getter private Map<MappedLocation, Speaker> speakerMap = new HashMap<>();
     private Map<String, SpeakerMedia> speakerMediaMap = new HashMap<>();
-    @Getter
-    private Material playerSkullItem;
-    @Getter
-    private Material playerSkullBlock;
-    @Getter
-    private Map<String, Set<QueuedSpeaker>> waitingWorlds = new HashMap<>();
+    @Getter private Material playerSkullItem;
+    @Getter private Material playerSkullBlock;
+    @Getter private Map<String, Set<QueuedSpeaker>> waitingWorlds = new HashMap<>();
     private ServerVersion version;
 
     public SpeakerModule(OpenAudioMcSpigot openAudioMcSpigot) {
@@ -93,12 +90,25 @@ public class SpeakerModule {
         int z = config.getIntFromPath("speakers." + id + ".z", StorageLocation.DATA_FILE);
         int radius = config.getIntFromPath("speakers." + id + ".radius", StorageLocation.DATA_FILE);
 
+        // try to figure out what type the speaker is when loading
+        // it might be none, since speakers were introduced before this update
+        // but we'll just fallback to 2d when it comes to it
+        SpeakerType speakerType;
+        if (config.isPathValid("speakers." + id + ".type", StorageLocation.DATA_FILE)) {
+            String typeName = config.getStringFromPath("speakers." + id + ".type", StorageLocation.DATA_FILE);
+            speakerType = SpeakerType.valueOf(typeName);
+        } else {
+            // like i said, falling back on 2D, but might fallback to 3D later
+            speakerType = DEFAULT_SPEAKER_TYPE;
+        }
+
+
         if (world != null) {
             MappedLocation mappedLocation = new MappedLocation(x, y, z, world);
             Block blockAt = mappedLocation.getBlock();
 
             if (blockAt != null) {
-                registerSpeaker(mappedLocation, media, UUID.fromString(id), radius);
+                registerSpeaker(mappedLocation, media, UUID.fromString(id), radius, speakerType);
             } else {
                 OpenAudioLogger.toConsole("Speaker " + id + " doesn't to seem be valid anymore, so it's not getting loaded.");
             }
@@ -124,22 +134,19 @@ public class SpeakerModule {
         applicableSpeakers.forEach(speaker -> {
             int distance = Math.toIntExact(Math.round(speaker.getLocation().toBukkit().distance(location)));
             if (distanceMap.get(speaker.getSource()) == null) {
-
-                // TODO: LOAD ACTUAL SPEAKER TYPE, HARDCODING DEFAULTS FOR NOW BECAUSE IM FFFF LAZY AND JUST WANT TO TEST THIS
                 distanceMap.put(speaker.getSource(), new ApplicableSpeaker(
                         distance,
                         speaker,
-                        SpeakerType.SPEAKER_2D,
+                        speaker.getSpeakerType(),
                         Vector3.from(speaker.getLocation())
                 ));
 
             } else {
                 if (distance < distanceMap.get(speaker.getSource()).getDistance()) {
-                    // TODO: LOAD ACTUAL SPEAKER TYPE, HARDCODING DEFAULTS FOR NOW BECAUSE IM FFF LAZY AND JUST WANT TO TEST THIS
                     distanceMap.put(speaker.getSource(), new ApplicableSpeaker(
                             distance,
                             speaker,
-                            SpeakerType.SPEAKER_2D,
+                            speaker.getSpeakerType(),
                             Vector3.from(speaker.getLocation())
                     ));
                 }
@@ -149,8 +156,8 @@ public class SpeakerModule {
         return distanceMap.values();
     }
 
-    public void registerSpeaker(MappedLocation mappedLocation, String source, UUID uuid, int radius) {
-        Speaker speaker = new Speaker(source, uuid, radius, mappedLocation);
+    public void registerSpeaker(MappedLocation mappedLocation, String source, UUID uuid, int radius, SpeakerType type) {
+        Speaker speaker = new Speaker(source, uuid, radius, mappedLocation, type);
         speakerMap.put(mappedLocation, speaker);
     }
 
