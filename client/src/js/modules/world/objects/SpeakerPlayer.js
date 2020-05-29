@@ -1,12 +1,13 @@
 import {Channel} from "../../media/objects/Channel";
 import {Sound} from "../../media/objects/Sound";
-import {SPEAKER_2D} from "../constants/SpeakerType";
+import {SPEAKER_2D, SPEAKER_3D} from "../constants/SpeakerType";
 
 export class SpeakerPlayer {
 
     constructor(openAudioMc, source, startInstant) {
         this.id = "SPEAKER__" + source;
         this.openAudioMc = openAudioMc;
+        this.lastUsedMode = SPEAKER_2D;
 
         const createdChannel = new Channel(this.id);
         this.channel = createdChannel;
@@ -33,6 +34,17 @@ export class SpeakerPlayer {
     }
 
     updateLocation(closest, world, player) {
+        if (closest.type != this.lastUsedMode) {
+            // adapt mode change
+            if (closest.type == SPEAKER_2D) {
+                // remove spatial audio stuff
+            }
+
+            if (closest.type == SPEAKER_3D) {
+                // inject spatial audio stuff
+            }
+        }
+
         if (closest.type == SPEAKER_2D) {
             const distance = closest.getDistance(world, player);
             const volume = this._convertDistanceToVolume(closest.maxDistance, distance);
