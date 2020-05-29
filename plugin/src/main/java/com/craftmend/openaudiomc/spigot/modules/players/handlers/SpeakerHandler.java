@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.players.handlers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.packets.client.speakers.PacketClientCreateSpeaker;
 import com.craftmend.openaudiomc.generic.networking.packets.client.speakers.PacketClientRemoveSpeaker;
 import com.craftmend.openaudiomc.generic.networking.packets.client.speakers.PacketClientUpdateLocation;
@@ -10,12 +11,9 @@ import com.craftmend.openaudiomc.generic.networking.payloads.out.speakers.Client
 import com.craftmend.openaudiomc.generic.networking.payloads.out.speakers.objects.ClientSpeaker;
 import com.craftmend.openaudiomc.generic.networking.payloads.out.speakers.objects.SpeakerType;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.generic.media.objects.MediaUpdate;
 import com.craftmend.openaudiomc.spigot.modules.players.interfaces.ITickableHandler;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.ApplicableSpeaker;
-import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
-import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientUpdateMedia;
 import lombok.AllArgsConstructor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -30,6 +28,7 @@ public class SpeakerHandler implements ITickableHandler {
 
     private Player player;
     private SpigotConnection spigotConnection;
+    private final List<AbstractPacket> packetQue = new ArrayList<>();
 
     /**
      * update speakers based on the players location
@@ -44,18 +43,14 @@ public class SpeakerHandler implements ITickableHandler {
 
         enteredSpeakers.forEach(entered -> {
             if (!isPlayingSpeaker(entered)) {
-                OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(),
-                        new PacketClientCreateSpeaker(new ClientSpeakerCreatePayload(toClientSpeaker(entered)))
-                );
+                packetQue.add(new PacketClientCreateSpeaker(new ClientSpeakerCreatePayload(toClientSpeaker(entered))));
             }
         });
 
         // send deletion packets
         leftSpeakers.forEach(left -> {
             ClientSpeaker clientSpeaker = toClientSpeaker(left);
-            OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(),
-                    new PacketClientRemoveSpeaker(new ClientSpeakerDestroyPayload(clientSpeaker))
-            );
+            packetQue.add(new PacketClientRemoveSpeaker(new ClientSpeakerDestroyPayload(clientSpeaker)));
         });
 
         spigotConnection.setCurrentSpeakers(applicableSpeakers);
@@ -72,6 +67,12 @@ public class SpeakerHandler implements ITickableHandler {
             );
 
             OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientUpdateLocation(locationPayload));
+
+            for (AbstractPacket abstractPacket : packetQue) {
+                OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), abstractPacket);
+            }
+
+            packetQue.clear();
         }
     }
 

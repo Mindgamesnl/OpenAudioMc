@@ -5,9 +5,8 @@ export class WorldModule {
 
     constructor(openAudioMc) {
         this.openAudioMc = openAudioMc;
-        this.player = new Player(this, new Vector3(0, 0, 0), 0, 0);
-
         this.speakers = new Map();
+        this.player = new Player(this, new Vector3(0, 0, 0), 0, 0);
     }
 
     getSpeakerById(id) {
