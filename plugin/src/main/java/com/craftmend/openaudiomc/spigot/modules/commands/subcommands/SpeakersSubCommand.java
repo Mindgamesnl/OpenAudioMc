@@ -13,6 +13,7 @@ import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.SpeakerSettings;
+import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -68,7 +69,7 @@ public class SpeakersSubCommand extends SubCommand {
                             radius
                     )
             );
-            player.getInventory().addItem(OpenAudioMcSpigot.getInstance().getSpeakerModule().getSkull());
+            player.getInventory().addItem(SpeakerUtils.getSkull());
             message(sender, "Speaker media created! You've received a Speaker skull in your inventory. Placing it anywhere in the world will add the configured sound in the are.");
             return;
         }

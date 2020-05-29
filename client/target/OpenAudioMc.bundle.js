@@ -295,17 +295,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       } while (++i < t);
     }return e;
   }function C() {
-    for (var t = "", e = "", i = 0; i < zt && Dt != Vt; ++i) {
-      t += j(12288 + (0 | 16383 * N(H(Tt[Dt++] + 1, 0), 2))), e += j(12288 + (0 | 16383 * N(H(Tt[Dt++] + 1, 0), 2))), Dt == Ht && (Dt = 0);
+    for (var t = "", e = "", i = 0; i < zt && Vt != Dt; ++i) {
+      t += j(12288 + (0 | 16383 * N(H(Tt[Vt++] + 1, 0), 2))), e += j(12288 + (0 | 16383 * N(H(Tt[Vt++] + 1, 0), 2))), Vt == Ht && (Vt = 0);
     }return t + e;
   }function z() {
-    for (var t = "", e = 0; e < zt && Dt != Vt; ++e) {
-      t += j(12288 + (0 | 16383 * N(H(Tt[Dt++] + 1, 0), 2))), Dt == Ht && (Dt = 0);
+    for (var t = "", e = 0; e < zt && Vt != Dt; ++e) {
+      t += j(12288 + (0 | 16383 * N(H(Tt[Vt++] + 1, 0), 2))), Vt == Ht && (Vt = 0);
     }return t;
   }function S() {
-    return (Dt <= Vt ? 0 : Ht) + Vt - Dt;
+    return (Vt <= Dt ? 0 : Ht) + Dt - Vt;
   }function A(t) {
-    At = k(It), Ut = It, Dt = 0, Vt = 0, Ht = H(It * U(Rt / t), zt) << 1, Ft ? (Tt = E(Ht), Lt = new v(Rt, t, 1, Ht, !0), z) : (Tt = E(Ht <<= 1), Lt = new v(Rt, t, 2, Ht, !0), C);
+    At = k(It), Ut = It, Vt = 0, Dt = 0, Ht = H(It * U(Rt / t), zt) << 1, Ft ? (Tt = E(Ht), Lt = new v(Rt, t, 1, Ht, !0), z) : (Tt = E(Ht <<= 1), Lt = new v(Rt, t, 2, Ht, !0), C);
   }function T() {
     this.elements = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], 0 < arguments.length && console.error("THREE.Matrix4: the constructor no longer reads arguments. use .set() instead.");
   }function B(t, e, i, n) {
@@ -317,8 +317,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       O = Math.cos,
       L = Math.pow,
       U = Math.ceil,
-      D = Math.LN2,
-      V = Math.log,
+      V = Math.LN2,
+      D = Math.log,
       H = Math.max,
       N = Math.min,
       W = Math.PI,
@@ -1259,9 +1259,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, isPowerOfTwo: function isPowerOfTwo(t) {
       return 0 == (t & t - 1) && 0 !== t;
     }, ceilPowerOfTwo: function ceilPowerOfTwo(t) {
-      return L(2, U(V(t) / D));
+      return L(2, U(D(t) / V));
     }, floorPowerOfTwo: function floorPowerOfTwo(t) {
-      return L(2, Y(V(t) / D));
+      return L(2, Y(D(t) / V));
     }, setQuaternionFromProperEuler: function setQuaternionFromProperEuler(t, e, i, n, s) {
       var o = O,
           r = F,
@@ -2038,8 +2038,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       Ot = 0,
       Lt = null,
       Ut = 0,
-      Dt = 0,
       Vt = 0,
+      Dt = 0,
       Ht = 2,
       Nt = v;!function (t) {
     t[t.VoIP = 2048] = "VoIP", t[t.Audio = 2049] = "Audio", t[t.RestrictedLowDelay = 2051] = "RestrictedLowDelay";
@@ -2981,11 +2981,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
 
     we.prototype.updateLocation = function updateLocation(t, e, i) {
-      this.location = t, this.pitch = this.degrees_to_radians(e), this.yaw = this.degrees_to_radians(this.normalizeYaw(360 - i));var n = new B(this.pitch, this.yaw, 0, "XYZ"),
+      this.location = t, this.pitch = this.toRadians(e), this.yaw = this.toRadians(this.normalizeYaw(360 - i));var n = new B(this.pitch, this.yaw, 0, "XYZ"),
           s = new r();s.setFromEuler(n);new be(t, s).applyTo(this.listener), this.world.onLocationUpdate();
     };
 
-    we.prototype.degrees_to_radians = function degrees_to_radians(t) {
+    we.prototype.toRadians = function toRadians(t) {
       return t * (W / 180);
     };
 
@@ -3016,13 +3016,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     xe.prototype.updateLocation = function updateLocation(t, e, i) {
       if (t.type != this.lastUsedMode) {
         if (t.type, "SPEAKER_3D" == t.type) {
-          var _e13 = this.openAudioMc.world.player;this.pannerNode = _e13.audioCtx.createPanner(), this.media.addNode(_e13, this.pannerNode), this.pannerNode.connect(_e13.audioCtx.destination), this.pannerNode.panningModel = "HRTF", this.pannerNode.maxDistance = t.maxDistance, this.pannerNode.rolloffFactor = 1, this.pannerNode.distanceModel = "exponential";var _i15 = t.location;new be(_i15).applyTo(this.pannerNode);
+          var _e13 = this.openAudioMc.world.player;this.pannerNode = _e13.audioCtx.createPanner(), this.media.addNode(_e13, this.pannerNode), this.pannerNode.connect(_e13.audioCtx.destination), this.pannerNode.panningModel = "HRTF", this.pannerNode.maxDistance = t.maxDistance, this.pannerNode.rolloffFactor = 1, this.pannerNode.distanceModel = "exponential";
         }this.lastUsedMode = t.type;
       }if (t.type == mt) {
         var _n12 = t.getDistance(e, i),
             _s11 = this._convertDistanceToVolume(t.maxDistance, _n12);if (0 > _s11) return;this.channel.fadeChannel(_s11, 100);
       } else {
-        var _e14 = t.location;new be(_e14).applyTo(this.pannerNode);
+        this.channel.setChannelVolume(100), this.channel.fadeChannel(volume, 100);var _e14 = t.location;new be(_e14).applyTo(this.pannerNode);
       }
     };
 
@@ -3111,8 +3111,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       try {
         for (var _iterator21 = t[Symbol.iterator](), _step21; !(_iteratorNormalCompletion21 = (_step21 = _iterator21.next()).done); _iteratorNormalCompletion21 = true) {
-          var _i16 = _step21.value;
-          var _t34 = e.get(_i16.source);null != _t34 ? _t34.distance > _i16.distance && _i16.distance <= _i16.speaker.maxDistance && e.set(_i16.source, _i16) : _i16.distance <= _i16.speaker.maxDistance && e.set(_i16.source, _i16);
+          var _i15 = _step21.value;
+          var _t34 = e.get(_i15.source);null != _t34 ? _t34.distance > _i15.distance && _i15.distance <= _i15.speaker.maxDistance && e.set(_i15.source, _i15) : _i15.distance <= _i15.speaker.maxDistance && e.set(_i15.source, _i15);
         }
       } catch (err) {
         _didIteratorError21 = true;

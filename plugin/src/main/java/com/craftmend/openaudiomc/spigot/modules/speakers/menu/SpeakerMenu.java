@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
+import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;
 import com.craftmend.openaudiomc.spigot.services.clicklib.Item;
 import com.craftmend.openaudiomc.spigot.services.clicklib.menu.Menu;
 import org.bukkit.ChatColor;
@@ -23,7 +24,7 @@ public class SpeakerMenu extends Menu {
         super(ChatColor.BLUE + "Updating speaker", 18);
 
         // show source
-        setItem(3, new Item(OpenAudioMcSpigot.getInstance().getSpeakerModule().getSkull())
+        setItem(3, new Item(SpeakerUtils.getSkull())
                 .setName(ChatColor.YELLOW + "Playing: " + ChatColor.AQUA + speaker.getMedia().getSource())
                 .setLore(new String[]{})
         );
@@ -81,6 +82,9 @@ public class SpeakerMenu extends Menu {
             Location bukkitSpeakerLocation = speaker.getLocation().toBukkit();
             int safeRadius = speaker.getRadius() + 1;
             Collection<Entity> entities = bukkitSpeakerLocation.getWorld().getNearbyEntities(bukkitSpeakerLocation, safeRadius, safeRadius, safeRadius);
+
+            ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
+            config.setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".type", mode.toString());
 
             for (Entity entity : entities) {
                 // skip non-players

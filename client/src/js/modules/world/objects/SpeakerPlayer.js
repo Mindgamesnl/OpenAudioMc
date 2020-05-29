@@ -54,10 +54,6 @@ export class SpeakerPlayer {
                 this.pannerNode.maxDistance = closest.maxDistance;
                 this.pannerNode.rolloffFactor = 1;
                 this.pannerNode.distanceModel = "exponential";
-
-                const location = closest.location;
-                const position = new Position(location);
-                position.applyTo(this.pannerNode);
             }
             this.lastUsedMode = closest.type;
         }
@@ -72,6 +68,8 @@ export class SpeakerPlayer {
             this.channel.fadeChannel(volume, 100);
         } else {
             // fancy 3d shit goes here
+            this.channel.setChannelVolume(100);
+            this.channel.fadeChannel(volume, 100);
             const location = closest.location;
             const position = new Position(location);
             position.applyTo(this.pannerNode);

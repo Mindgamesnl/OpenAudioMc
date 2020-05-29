@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.speakers;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementation;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.utils.TypeCounter;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import com.craftmend.openaudiomc.generic.networking.payloads.out.speakers.objects.Vector3;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -10,6 +11,7 @@ import com.craftmend.openaudiomc.generic.core.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerSelectListener;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.WorldLoadListener;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.*;
+import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerCreateListener;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerDestroyListener;
@@ -17,9 +19,6 @@ import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerDestro
 import lombok.Getter;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.block.Skull;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.*;
 
@@ -31,7 +30,7 @@ public class SpeakerModule {
     @Getter private Material playerSkullItem;
     @Getter private Material playerSkullBlock;
     @Getter private Map<String, Set<QueuedSpeaker>> waitingWorlds = new HashMap<>();
-    private ServerVersion version;
+    @Getter private ServerVersion version;
 
     public SpeakerModule(OpenAudioMcSpigot openAudioMcSpigot) {
         openAudioMcSpigot.getServer().getPluginManager().registerEvents(new SpeakerSelectListener(this), openAudioMcSpigot);
@@ -75,49 +74,14 @@ public class SpeakerModule {
                 queue.add(new QueuedSpeaker(world, id));
                 waitingWorlds.put(world, queue);
             } else {
-                register(id);
-            }
-        }
-    }
-
-    public void register(String id) {
-        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
-
-        String world = config.getStringFromPath("speakers." + id + ".world", StorageLocation.DATA_FILE);
-        String media = config.getStringFromPath("speakers." + id + ".media", StorageLocation.DATA_FILE);
-        int x = config.getIntFromPath("speakers." + id + ".x", StorageLocation.DATA_FILE);
-        int y = config.getIntFromPath("speakers." + id + ".y", StorageLocation.DATA_FILE);
-        int z = config.getIntFromPath("speakers." + id + ".z", StorageLocation.DATA_FILE);
-        int radius = config.getIntFromPath("speakers." + id + ".radius", StorageLocation.DATA_FILE);
-
-        // try to figure out what type the speaker is when loading
-        // it might be none, since speakers were introduced before this update
-        // but we'll just fallback to 2d when it comes to it
-        SpeakerType speakerType;
-        if (config.isPathValid("speakers." + id + ".type", StorageLocation.DATA_FILE)) {
-            String typeName = config.getStringFromPath("speakers." + id + ".type", StorageLocation.DATA_FILE);
-            speakerType = SpeakerType.valueOf(typeName);
-        } else {
-            // like i said, falling back on 2D, but might fallback to 3D later
-            speakerType = DEFAULT_SPEAKER_TYPE;
-        }
-
-
-        if (world != null) {
-            MappedLocation mappedLocation = new MappedLocation(x, y, z, world);
-            Block blockAt = mappedLocation.getBlock();
-
-            if (blockAt != null) {
-                registerSpeaker(mappedLocation, media, UUID.fromString(id), radius, speakerType);
-            } else {
-                OpenAudioLogger.toConsole("Speaker " + id + " doesn't to seem be valid anymore, so it's not getting loaded.");
+                loadFromFile(id);
             }
         }
     }
 
     private boolean isValid(Speaker speaker) {
         if (speaker.isNative()) {
-            return isSpeakerSkull(speaker.getLocation().getBlock());
+            return SpeakerUtils.isSpeakerSkull(speaker.getLocation().getBlock());
         } else {
             return true;
         }
@@ -162,42 +126,52 @@ public class SpeakerModule {
         speakerMap.remove(location);
     }
 
-    public ItemStack getSkull() {
-        ItemStack skull = new ItemStack(playerSkullItem);
-        skull.setDurability((short) 3);
-        SkullMeta sm = (SkullMeta) skull.getItemMeta();
-        sm.setOwner("OpenAudioMc");
-        sm.setDisplayName(ChatColor.AQUA + "OpenAudioMc Speaker");
-        sm.setLore(Arrays.asList("",
-                ChatColor.AQUA + "Place me anywhere",
-                ChatColor.AQUA + "in the world to place",
-                ChatColor.AQUA + "a speaker for that area",
-                ""));
-        skull.setItemMeta(sm);
-        return skull;
+    public SpeakerType guessSpeakerType(Location location, String source) {
+        Collection<ApplicableSpeaker> speakers = getApplicableSpeakers(location);
+        speakers.removeIf(other -> !other.getSpeaker().getMedia().getSource().equals(source));
+        TypeCounter<SpeakerType> typeCounter = new TypeCounter<>();
+
+        for (ApplicableSpeaker speaker : speakers) {
+            typeCounter.bumpCounter(speaker.getSpeakerType());
+        }
+
+        SpeakerType highest = typeCounter.getHighest();
+        return highest == null ? DEFAULT_SPEAKER_TYPE : highest;
     }
 
-    public boolean isSpeakerSkull(Block block) {
-        if (block.getState() instanceof Skull) {
-            Skull skull = (Skull) block.getState();
-            if (version == ServerVersion.MODERN) {
+    public void loadFromFile(String id) {
+        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
 
-                try {
-                    if (skull.getOwner() == null) return false;
-                    return skull.getOwner().equalsIgnoreCase("OpenAudioMc");
-                } catch (Exception e) {
-                    // bukkit did remove the method! oh well
-                }
+        String world = config.getStringFromPath("speakers." + id + ".world", StorageLocation.DATA_FILE);
+        String media = config.getStringFromPath("speakers." + id + ".media", StorageLocation.DATA_FILE);
+        int x = config.getIntFromPath("speakers." + id + ".x", StorageLocation.DATA_FILE);
+        int y = config.getIntFromPath("speakers." + id + ".y", StorageLocation.DATA_FILE);
+        int z = config.getIntFromPath("speakers." + id + ".z", StorageLocation.DATA_FILE);
+        int radius = config.getIntFromPath("speakers." + id + ".radius", StorageLocation.DATA_FILE);
 
-                if (skull.getOwningPlayer() == null) return false;
-                if (skull.getOwningPlayer().getName() == null) return false;
-                return skull.getOwningPlayer().getName().equalsIgnoreCase("OpenAudioMc") || skull.getOwningPlayer().getUniqueId().toString().equalsIgnoreCase("c0db149e-d498-4a16-8e35-93d57577589f");
+        // try to figure out what type the speaker is when loading
+        // it might be none, since speakers were introduced before this update
+        // but we'll just fallback to 2d when it comes to it
+        SpeakerType speakerType;
+        if (config.isPathValid("speakers." + id + ".type", StorageLocation.DATA_FILE)) {
+            String typeName = config.getStringFromPath("speakers." + id + ".type", StorageLocation.DATA_FILE);
+            speakerType = SpeakerType.valueOf(typeName);
+        } else {
+            // like i said, falling back on 2D, but might fallback to 3D later
+            speakerType = SpeakerModule.DEFAULT_SPEAKER_TYPE;
+        }
+
+
+        if (world != null) {
+            MappedLocation mappedLocation = new MappedLocation(x, y, z, world);
+            Block blockAt = mappedLocation.getBlock();
+
+            if (blockAt != null) {
+                registerSpeaker(mappedLocation, media, UUID.fromString(id), radius, speakerType);
             } else {
-                if (skull.getOwner() == null) return false;
-                return skull.getOwner().equalsIgnoreCase("OpenAudioMc");
+                OpenAudioLogger.toConsole("Speaker " + id + " doesn't to seem be valid anymore, so it's not getting loaded.");
             }
         }
-        return false;
     }
 
 }
