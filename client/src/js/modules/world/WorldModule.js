@@ -2,6 +2,7 @@ import {Player} from "./objects/Player";
 import {Vector3} from "../../helpers/math/Vector3";
 import {SpeakerRenderFrame} from "./objects/SpeakerRenderFrame";
 import {SpeakerPlayer} from "./objects/SpeakerPlayer";
+import {SPEAKER_2D} from "./constants/SpeakerType";
 
 export class WorldModule {
 
@@ -26,6 +27,12 @@ export class WorldModule {
         let speaker = this.getSpeakerById(id);
         if (speaker != null) speaker.onRemove();
         this.speakers.delete(id);
+
+        // remove render nodes
+        this.audioMap.forEach((speakerPlayer, id) => {
+            speakerPlayer.removeSpeakerLocation(id);
+        });
+
         this.renderAudio2D();
     }
 
@@ -79,20 +86,38 @@ export class WorldModule {
             let alternative = closestForSources.get(frame.source);
             // set if none
             if (alternative == null) {
-                if (frame.distance <= frame.speaker.maxDistance) closestForSources.set(frame.source, frame);
+                if (frame.speaker.type == SPEAKER_2D) {
+                    if (frame.distance <= frame.speaker.maxDistance) closestForSources.set(frame.source, frame);
+                } else {
+                    if (frame.distance <= frame.speaker.maxDistance) closestForSources.set(frame.source, [frame]);
+                }
                 continue;
             }
 
             // replace if closer
-            if (alternative.distance > frame.distance) {
-                if (frame.distance <= frame.speaker.maxDistance) closestForSources.set(frame.source, frame);
+            if (Array.isArray(alternative)) {
+                alternative.push(frame);
+                closestForSources.set(frame.source, alternative);
+            } else {
+                if (alternative.distance > frame.distance) {
+                    if (frame.distance <= frame.speaker.maxDistance) closestForSources.set(frame.source, frame);
+                }
             }
         }
 
         // update closest
         closestForSources.forEach((result, id) => {
-            const media = this.getMediaForSource(result.source, result.speaker.startInstant);
-            media.updateLocation(result.speaker, this, this.player)
+            let doFor;
+            if (!Array.isArray(result)) {
+                doFor = [result];
+            } else {
+                doFor = result;
+            }
+
+            for (let element of doFor) {
+                const media = this.getMediaForSource(element.source, element.speaker.startInstant);
+                media.updateLocation(element.speaker, this, this.player)
+            }
         });
 
         // check for media that's unused by every speaker

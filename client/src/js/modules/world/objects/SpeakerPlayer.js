@@ -2,6 +2,7 @@ import {Channel} from "../../media/objects/Channel";
 import {Sound} from "../../media/objects/Sound";
 import {SPEAKER_2D, SPEAKER_3D} from "../constants/SpeakerType";
 import {Position} from "../../../helpers/math/Position";
+import {SpeakerRenderNode} from "./SpeakerRenderNode";
 
 export class SpeakerPlayer {
 
@@ -9,6 +10,8 @@ export class SpeakerPlayer {
         this.id = "SPEAKER__" + source;
         this.openAudioMc = openAudioMc;
         this.lastUsedMode = SPEAKER_2D;
+
+        this.speakerNodes = new Map();
 
         const createdChannel = new Channel(this.id);
         this.channel = createdChannel;
@@ -32,25 +35,15 @@ export class SpeakerPlayer {
         });
     }
 
-    updateLocation(closest, world, player) {
-        if (closest.type != this.lastUsedMode) {
-            // adapt mode change
-            if (closest.type == SPEAKER_3D) {
-                // inject spatial audio stuff
-                const player = this.openAudioMc.world.player;
-                this.pannerNode = player.audioCtx.createPanner();
-
-                this.media.addNode(player, this.pannerNode);
-                this.pannerNode.connect(player.audioCtx.destination);
-
-                this.pannerNode.panningModel = 'HRTF';
-                this.pannerNode.maxDistance = closest.maxDistance;
-                this.pannerNode.rolloffFactor = 1;
-                this.pannerNode.distanceModel = "exponential";
-            }
-            this.lastUsedMode = closest.type;
+    removeSpeakerLocation(id) {
+        const node = this.speakerNodes.get(id);
+        if (node != null) {
+            node.unRegister();
+            this.speakerNodes.delete(id);
         }
+    }
 
+    updateLocation(closest, world, player) {
         if (closest.type == SPEAKER_2D) {
             const distance = closest.getDistance(world, player);
             const volume = this._convertDistanceToVolume(closest.maxDistance, distance);
@@ -60,10 +53,12 @@ export class SpeakerPlayer {
             }
             this.channel.fadeChannel(volume, 100);
         } else {
-            // fancy 3d shit goes here
-            const location = closest.location;
-            const position = new Position(location);
-            position.applyTo(this.pannerNode);
+            if (!this.speakerNodes.has(closest.id)) {
+                this.speakerNodes.set(closest.id, new SpeakerRenderNode(
+                    closest, world, player, this.media
+                ));
+            }
+
         }
     }
 
