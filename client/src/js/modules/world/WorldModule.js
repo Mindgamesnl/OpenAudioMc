@@ -8,7 +8,7 @@ export class WorldModule {
     constructor(openAudioMc) {
         this.openAudioMc = openAudioMc;
         this.speakers = new Map();
-        this.audioMap2D = new Map();
+        this.audioMap = new Map();
         this.player = new Player(this, new Vector3(0, 0, 0), 0, 0);
     }
 
@@ -30,7 +30,7 @@ export class WorldModule {
     }
 
     getMediaForSource(source, startInstant) {
-        const loaded = this.audioMap2D.get(source);
+        const loaded = this.audioMap.get(source);
         if (loaded != null) return loaded;
 
         // dont create if we dont know about the fuckery
@@ -39,7 +39,7 @@ export class WorldModule {
         }
 
         const created = new SpeakerPlayer(this.openAudioMc, source, startInstant);
-        this.audioMap2D.set(source, created);
+        this.audioMap.set(source, created);
         return created;
     }
 
@@ -48,7 +48,7 @@ export class WorldModule {
         if (found == null) return;
 
         found.remove();
-        this.audioMap2D.delete(source);
+        this.audioMap.delete(source);
     }
 
     onLocationUpdate() {
@@ -96,7 +96,7 @@ export class WorldModule {
         });
 
         // check for media that's unused by every speaker
-        this.audioMap2D.forEach((audio, source) => {
+        this.audioMap.forEach((audio, source) => {
             if (!this.isMediaUsed(source)) {
                 this.removeMediaFromSource(source);
             }
