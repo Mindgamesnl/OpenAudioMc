@@ -108,12 +108,7 @@ public class SpeakerHandler implements ITickableHandler {
     }
 
     private ClientSpeaker toClientSpeaker(ApplicableSpeaker speaker) {
-        String id;
-        if (speaker.getSpeakerType() == SpeakerType.SPEAKER_3D) {
-            id = speaker.getSpeaker().getId().toString();
-        } else {
-            id = speaker.getSpeaker().getMedia().getMediaId();
-        }
+        String id = speaker.getSpeaker().getId().toString();
 
         return new ClientSpeaker(
                 speaker.getLocation(),
