@@ -4,12 +4,18 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementation;
 import com.craftmend.openaudiomc.generic.core.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import com.craftmend.openaudiomc.spigot.services.clicklib.Item;
 import com.craftmend.openaudiomc.spigot.services.clicklib.menu.Menu;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+
+import java.util.Collection;
 
 public class SpeakerMenu extends Menu {
 
@@ -69,6 +75,24 @@ public class SpeakerMenu extends Menu {
         item.onClick((clicker, clickedItem) -> {
             speaker.setSpeakerType(nextSelectableMode);
             new SpeakerMenu(speaker).openFor(clicker);
+
+            // trigger re-render for everyone in the area
+            Location bukkitSpeakerLocation = speaker.getLocation().toBukkit();
+            int safeRadius = speaker.getRadius() + 1;
+            Collection<Entity> entities = bukkitSpeakerLocation.getWorld().getNearbyEntities(bukkitSpeakerLocation, safeRadius, safeRadius, safeRadius);
+
+            for (Entity entity : entities) {
+                // skip non-players
+                if (!(entity instanceof Player)) continue;
+
+                Player nearbyPlayer = (Player) entity;
+                SpigotConnection spigotConnection = OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(nearbyPlayer);
+
+                // reset speakers and force-tick
+                spigotConnection.getSpeakerHandler().forceDeleteSpeaker(speaker);
+                spigotConnection.getSpeakers().clear();
+                spigotConnection.getSpeakerHandler().tick();
+            }
         });
 
         return item;
