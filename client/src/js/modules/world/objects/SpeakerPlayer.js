@@ -1,8 +1,8 @@
 import {Channel} from "../../media/objects/Channel";
 import {Sound} from "../../media/objects/Sound";
 import {SPEAKER_2D, SPEAKER_3D} from "../constants/SpeakerType";
-import {Quaternion} from "../../../helpers/ThreeJS/Quaternion";
-import {Position} from "../../../helpers/Position";
+import {Quaternion} from "../../../helpers/math/Quaternion";
+import {Position} from "../../../helpers/math/Position";
 
 export class SpeakerPlayer {
 

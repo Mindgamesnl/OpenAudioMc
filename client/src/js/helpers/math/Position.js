@@ -14,15 +14,6 @@ export class Position {
         this.rotation = rotation;
     }
 
-    static read(data) {
-        return new Position(new Vector3(data.posX, data.posY, data.posZ), new Quaternion(data.rotX, data.rotY, data.rotZ, data.rotW));
-    }
-
-    lerp(a, b, t) {
-        this.position.lerpVectors(a.position, b.position, t);
-        this.rotation = Quaternion.slerp(a.rotation, b.rotation, this.rotation, t);
-    }
-
     set(other) {
         this.position.copy(other.position);
         this.rotation.copy(other.rotation);

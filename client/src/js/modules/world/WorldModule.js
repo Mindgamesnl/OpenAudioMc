@@ -1,5 +1,5 @@
 import {Player} from "./objects/Player";
-import {Vector3} from "../../helpers/ThreeJS/Vector3";
+import {Vector3} from "../../helpers/math/Vector3";
 import {SpeakerRenderFrame} from "./objects/SpeakerRenderFrame";
 import {SpeakerPlayer} from "./objects/SpeakerPlayer";
 

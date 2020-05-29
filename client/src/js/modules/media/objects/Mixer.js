@@ -1,5 +1,5 @@
 import {Channel} from "./Channel";
-import * as PluginChannel from "../../../helpers/PluginChannel";
+import * as PluginChannel from "../../../helpers/protocol/PluginChannel";
 
 export class Mixer {
 

@@ -6,15 +6,15 @@ import {MediaManager} from "./modules/media/MediaManager";
 import {SocketModule} from "./modules/socket/SocketModule";
 import {Handlers} from "./modules/socket/Handlers";
 import {HueConfigurationModule} from "./modules/hue/HueConfigurationModule";
-import {Getters} from "./helpers/Getters";
+import {Getters} from "./helpers/utils/Getters";
 import {SocketDirector} from "./modules/socket/SocketDirector";
 import {AlertBox} from "./modules/ui/Notification";
 import {VoiceModule} from "./modules/voice/VoiceModule";
 import {NotificationModule} from "./modules/notifications/NotificationModule";
-import ClientTokenSet from "./helpers/ClientTokenSet";
+import ClientTokenSet from "./helpers/libs/ClientTokenSet";
 import {initAudioContext} from "./modules/voice/objects/AbstractAudio";
-import {getHueInstance} from "./helpers/JsHue";
-import openAudioMc, {linkBootListeners} from "./helpers/StaticFunctions";
+import {getHueInstance} from "./helpers/libs/JsHue";
+import openAudioMc, {linkBootListeners} from "./helpers/utils/StaticFunctions";
 import {WorldModule} from "./modules/world/WorldModule";
 
 export class OpenAudioMc extends Getters {

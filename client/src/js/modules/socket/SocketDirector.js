@@ -1,6 +1,6 @@
 import {fetch} from "../../../libs/github.fetch";
-import ClientTokenSet from "../../helpers/ClientTokenSet";
-import {parseStyle} from "../../helpers/MinecraftColorCodes";
+import ClientTokenSet from "../../helpers/libs/ClientTokenSet";
+import {parseStyle} from "../../helpers/libs/MinecraftColorCodes";
 import {Channel} from "../media/objects/Channel";
 import {Sound} from "../media/objects/Sound";
 

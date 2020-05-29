@@ -1,7 +1,3 @@
-import {SPEAKER_2D, SPEAKER_3D} from "../constants/SpeakerType";
-import {Channel} from "../../media/objects/Channel";
-import {Sound} from "../../media/objects/Sound";
-
 export class Speaker {
 
     constructor(id, source, location, type, maxDistance, startInstant, openAudioMc) {

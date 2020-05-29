@@ -1,5 +1,5 @@
-import openAudioMc from "../../../helpers/StaticFunctions";
-import * as PluginChannel from "../../../helpers/PluginChannel";
+import openAudioMc from "../../../helpers/utils/StaticFunctions";
+import * as PluginChannel from "../../../helpers/protocol/PluginChannel";
 
 export class Sound {
 
