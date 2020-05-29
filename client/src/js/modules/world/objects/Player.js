@@ -1,7 +1,15 @@
+import {Euler} from "../../../helpers/ThreeJS/Euler";
+import {Quaternion} from "../../../helpers/ThreeJS/Quaternion";
+import {Position} from "../../../helpers/Position";
+
 export class Player {
 
     constructor(world, location, pitch, yaw) {
         this.world = world;
+        this.audioContext = window.AudioContext || window.webkitAudioContext;
+        this.audioCtx = new AudioContext();
+        this.listener = this.audioCtx.listener;
+
         this.updateLocation(location, pitch, yaw);
     }
 
@@ -11,7 +19,14 @@ export class Player {
         this.yaw = yaw;
 
         this.world.onLocationUpdate();
-    }
 
+        // location already is a Vector3
+        const euler = new Euler(yaw, pitch, 0, "XYZ");
+        const quaternion = new Quaternion();
+        quaternion.setFromEuler(euler);
+
+        const position = new Position(location, quaternion);
+        position.applyTo(this.listener);
+    }
 
 }
