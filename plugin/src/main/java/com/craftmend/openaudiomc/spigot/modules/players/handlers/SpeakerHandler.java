@@ -116,7 +116,8 @@ public class SpeakerHandler implements ITickableHandler {
                 speaker.getSpeakerType(),
                 id,
                 speaker.getSpeaker().getSource(),
-                speaker.getSpeaker().getRadius()
+                speaker.getSpeaker().getRadius(),
+                speaker.getSpeaker().getMedia().getStartInstant()
         );
     }
 

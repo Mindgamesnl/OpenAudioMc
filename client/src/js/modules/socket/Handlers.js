@@ -72,7 +72,6 @@ export class Handlers {
                 createdChannel.setTag(flag);
 
                 openAudioMc.getMediaManager().mixer.updateCurrent();
-
                 createdMedia.finish();
             });
         });
@@ -203,10 +202,12 @@ export class Handlers {
                     speaker.location.z
                 ),
                 speaker.type,
-                speaker.maxDistance
+                speaker.maxDistance,
+                speaker.startInstant,
+                this.openAudioMc
             );
 
-            console.log("Created speaker " + JSON.stringify(speakerData));
+            console.log("Created speaker ");
 
             this.openAudioMc.world.addSpeaker(speaker.id, speakerData);
         });
