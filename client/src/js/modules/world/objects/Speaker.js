@@ -21,7 +21,7 @@ export class Speaker {
         // huhuhu, mapping go BRRRRRRRR
 
         // initialize audio stream if i am boring and 2d
-        // assuming ill be on my own, forvever
+        // assuming ill be on its own, forever
         // big sad
         if (this.type == SPEAKER_2D) {
             const createdChannel = new Channel(this.id);
@@ -54,6 +54,10 @@ export class Speaker {
             // calculate distance and update volume
             const distance = player.location.distance(this.location);
             const volume = this._convertDistanceToVolume(this.maxDistance, distance);
+            if (volume < 0) {
+                // assuming the range got updated so skipping it
+                return;
+            }
             this.channel.fadeChannel(volume, 100);
         }
     }
