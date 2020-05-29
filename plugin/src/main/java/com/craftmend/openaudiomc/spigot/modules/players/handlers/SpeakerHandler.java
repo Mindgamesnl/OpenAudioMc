@@ -2,9 +2,11 @@ package com.craftmend.openaudiomc.spigot.modules.players.handlers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.packets.client.speakers.PacketClientCreateSpeaker;
+import com.craftmend.openaudiomc.generic.networking.packets.client.speakers.PacketClientRemoveSpeaker;
 import com.craftmend.openaudiomc.generic.networking.packets.client.speakers.PacketClientUpdateLocation;
 import com.craftmend.openaudiomc.generic.networking.payloads.out.speakers.ClientPlayerLocationPayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.out.speakers.ClientSpeakerCreatePayload;
+import com.craftmend.openaudiomc.generic.networking.payloads.out.speakers.ClientSpeakerDestroyPayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.out.speakers.objects.ClientSpeaker;
 import com.craftmend.openaudiomc.generic.networking.payloads.out.speakers.objects.SpeakerType;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -48,19 +50,13 @@ public class SpeakerHandler implements ITickableHandler {
             }
         });
 
-        // this can be removed, since we do this client side aye lmao, not my problem anymore
-        spigotConnection.getSpeakers().forEach(current -> {
-            if (containsSpeaker(applicableSpeakers, current)) {
-                ApplicableSpeaker selector = filterSpeaker(applicableSpeakers, current);
-                if (selector != null && (current.getDistance() != selector.getDistance())) {
-                    MediaUpdate mediaUpdate = new MediaUpdate(selector.getDistance(), selector.getSpeaker().getRadius(), 450, current.getSpeaker().getMedia().getMediaId());
-                    OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientUpdateMedia(mediaUpdate));
-                }
-            }
-        });
-
         // send deletion packets
-        leftSpeakers.forEach(left -> OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(left.getSpeaker().getMedia().getMediaId())));
+        leftSpeakers.forEach(left -> {
+            ClientSpeaker clientSpeaker = toClientSpeaker(left);
+            OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(),
+                    new PacketClientRemoveSpeaker(new ClientSpeakerDestroyPayload(clientSpeaker))
+            );
+        });
 
         spigotConnection.setCurrentSpeakers(applicableSpeakers);
 
