@@ -76,16 +76,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
               r = o + "/api";return { createUser: function createUser(t) {
               return h(r, { devicetype: t });
             }, user: function user(m) {
-              Cookies.set("hueid", m);var f = r + "/" + m,
-                  p = f + "/capabilities",
-                  g = f + "/config",
-                  y = f + "/lights",
-                  b = f + "/groups",
-                  w = f + "/schedules",
-                  _ = f + "/scenes",
-                  x = f + "/sensors",
-                  v = f + "/rules",
-                  M = f + "/resourcelinks",
+              Cookies.set("hueid", m);var p = r + "/" + m,
+                  f = p + "/capabilities",
+                  g = p + "/config",
+                  y = p + "/lights",
+                  b = p + "/groups",
+                  w = p + "/schedules",
+                  _ = p + "/scenes",
+                  x = p + "/sensors",
+                  v = p + "/rules",
+                  M = p + "/resourcelinks",
                   k = function k(t) {
                 return function (e) {
                   return t + "/" + e;
@@ -97,9 +97,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                   S = k(_),
                   A = k(x),
                   T = k(v),
-                  B = k(M);return { getCapabilities: a.bind(null, p), deleteUser: c(u, function (t) {
+                  B = k(M);return { getCapabilities: a.bind(null, f), deleteUser: c(u, function (t) {
                   return g + "/whitelist/" + t;
-                }), getConfig: a.bind(null, g), setConfig: l.bind(null, g), getFullState: a.bind(null, f), getLights: a.bind(null, y), getNewLights: a.bind(null, y + "/new"), searchForNewLights: function searchForNewLights() {
+                }), getConfig: a.bind(null, g), setConfig: l.bind(null, g), getFullState: a.bind(null, p), getLights: a.bind(null, y), getNewLights: a.bind(null, y + "/new"), searchForNewLights: function searchForNewLights() {
                   var t = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
                   return h(y, t);
                 }, getLight: c(a, E), setLight: c(l, E), setLightState: c(l, function (t) {
@@ -115,7 +115,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 }), setSensorState: c(l, function (t) {
                   return A(t) + "/state";
                 }), deleteSensor: c(u, A), getRules: a.bind(null, v), createRule: h.bind(null, v), getRule: c(a, T), setRule: c(l, T), deleteRule: c(u, T), ruleActionGenerator: function ruleActionGenerator() {
-                  return s(d(f), e, i, n).bridge(t).user(m);
+                  return s(d(p), e, i, n).bridge(t).user(m);
                 }, getResourceLinks: a.bind(null, M), createResourceLink: h.bind(null, M), getResourceLink: c(a, B), setResourceLink: c(l, B), deleteResourceLink: c(u, B) };
             } };
         } };
@@ -205,20 +205,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         i(t.error);
       };
     });
-  }function f(t) {
+  }function p(t) {
     var e = new FileReader(),
         i = m(e);return e.readAsArrayBuffer(t), i;
-  }function p(t) {
+  }function f(t) {
     if (t.slice) return t.slice(0);var e = new Uint8Array(t.byteLength);return e.set(new Uint8Array(t)), e.buffer;
   }function g() {
     return this.bodyUsed = !1, this._initBody = function (t) {
       this._bodyInit = t, t ? "string" == typeof t ? this._bodyText = t : yt.blob && Blob.prototype.isPrototypeOf(t) ? this._bodyBlob = t : yt.formData && FormData.prototype.isPrototypeOf(t) ? this._bodyFormData = t : yt.searchParams && URLSearchParams.prototype.isPrototypeOf(t) ? this._bodyText = t.toString() : yt.arrayBuffer && yt.blob && function (t) {
         return t && DataView.prototype.isPrototypeOf(t);
-      }(t) ? (this._bodyArrayBuffer = p(t.buffer), this._bodyInit = new Blob([this._bodyArrayBuffer])) : yt.arrayBuffer && (ArrayBuffer.prototype.isPrototypeOf(t) || wt(t)) ? this._bodyArrayBuffer = p(t) : this._bodyText = t = Object.prototype.toString.call(t) : this._bodyText = "", this.headers.get("content-type") || ("string" == typeof t ? this.headers.set("content-type", "text/plain;charset=UTF-8") : this._bodyBlob && this._bodyBlob.type ? this.headers.set("content-type", this._bodyBlob.type) : yt.searchParams && URLSearchParams.prototype.isPrototypeOf(t) && this.headers.set("content-type", "application/x-www-form-urlencoded;charset=UTF-8"));
+      }(t) ? (this._bodyArrayBuffer = f(t.buffer), this._bodyInit = new Blob([this._bodyArrayBuffer])) : yt.arrayBuffer && (ArrayBuffer.prototype.isPrototypeOf(t) || wt(t)) ? this._bodyArrayBuffer = f(t) : this._bodyText = t = Object.prototype.toString.call(t) : this._bodyText = "", this.headers.get("content-type") || ("string" == typeof t ? this.headers.set("content-type", "text/plain;charset=UTF-8") : this._bodyBlob && this._bodyBlob.type ? this.headers.set("content-type", this._bodyBlob.type) : yt.searchParams && URLSearchParams.prototype.isPrototypeOf(t) && this.headers.set("content-type", "application/x-www-form-urlencoded;charset=UTF-8"));
     }, yt.blob && (this.blob = function () {
       var t = d(this);if (t) return t;if (this._bodyBlob) return Promise.resolve(this._bodyBlob);if (this._bodyArrayBuffer) return Promise.resolve(new Blob([this._bodyArrayBuffer]));if (this._bodyFormData) throw new Error("could not read FormData body as blob");return Promise.resolve(new Blob([this._bodyText]));
     }, this.arrayBuffer = function () {
-      return this._bodyArrayBuffer ? d(this) || Promise.resolve(this._bodyArrayBuffer) : this.blob().then(f);
+      return this._bodyArrayBuffer ? d(this) || Promise.resolve(this._bodyArrayBuffer) : this.blob().then(p);
     }), this.text = function () {
       var t = d(this);if (t) return t;if (this._bodyBlob) return function (t) {
         var e = new FileReader(),
@@ -295,17 +295,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       } while (++i < t);
     }return e;
   }function C() {
-    for (var t = "", e = "", i = 0; i < zt && Vt != Ht; ++i) {
-      t += j(12288 + (0 | 16383 * N(D(Tt[Vt++] + 1, 0), 2))), e += j(12288 + (0 | 16383 * N(D(Tt[Vt++] + 1, 0), 2))), Vt == Dt && (Vt = 0);
+    for (var t = "", e = "", i = 0; i < zt && Dt != Vt; ++i) {
+      t += j(12288 + (0 | 16383 * N(H(Tt[Dt++] + 1, 0), 2))), e += j(12288 + (0 | 16383 * N(H(Tt[Dt++] + 1, 0), 2))), Dt == Ht && (Dt = 0);
     }return t + e;
   }function z() {
-    for (var t = "", e = 0; e < zt && Vt != Ht; ++e) {
-      t += j(12288 + (0 | 16383 * N(D(Tt[Vt++] + 1, 0), 2))), Vt == Dt && (Vt = 0);
+    for (var t = "", e = 0; e < zt && Dt != Vt; ++e) {
+      t += j(12288 + (0 | 16383 * N(H(Tt[Dt++] + 1, 0), 2))), Dt == Ht && (Dt = 0);
     }return t;
   }function S() {
-    return (Vt <= Ht ? 0 : Dt) + Ht - Vt;
+    return (Dt <= Vt ? 0 : Ht) + Vt - Dt;
   }function A(t) {
-    At = k(It), Ut = It, Vt = 0, Ht = 0, Dt = D(It * U(Rt / t), zt) << 1, Ft ? (Tt = E(Dt), Lt = new v(Rt, t, 1, Dt, !0), z) : (Tt = E(Dt <<= 1), Lt = new v(Rt, t, 2, Dt, !0), C);
+    At = k(It), Ut = It, Dt = 0, Vt = 0, Ht = H(It * U(Rt / t), zt) << 1, Ft ? (Tt = E(Ht), Lt = new v(Rt, t, 1, Ht, !0), z) : (Tt = E(Ht <<= 1), Lt = new v(Rt, t, 2, Ht, !0), C);
   }function T() {
     this.elements = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], 0 < arguments.length && console.error("THREE.Matrix4: the constructor no longer reads arguments. use .set() instead.");
   }function B(t, e, i, n) {
@@ -317,9 +317,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       O = Math.cos,
       L = Math.pow,
       U = Math.ceil,
-      V = Math.LN2,
-      H = Math.log,
-      D = Math.max,
+      D = Math.LN2,
+      V = Math.log,
+      H = Math.max,
       N = Math.min,
       W = Math.PI,
       j = String.fromCharCode,
@@ -1154,7 +1154,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       _classCallCheck(this, lt);
 
-      this.soundElement = document.createElement("audio"), this.hadError = !1, this.error = null, this.soundElement.onerror = function (t) {
+      this.soundElement = document.createElement("audio"), this.hadError = !1, this.source = t, this.error = null, this.soundElement.onerror = function (t) {
         _this12.hadError = !0, _this12.error = t, _this12._handleError();
       }, this.soundElement.src = t, this.soundElement.setAttribute("preload", "auto"), this.soundElement.setAttribute("controls", "none"), this.soundElement.setAttribute("display", "none"), this.soundElement.preload = "autoauto", this.soundElement.abort = console.log, this.openAudioMc = null, this.onFinish = null, this.loop = !1, this.mixer = null, this.channel = null, this.finsishedInitializing = !1;
     }
@@ -1168,6 +1168,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         var _t18 = this.soundElement.error.code,
             e = null;1 === _t18 ? e = "MEDIA_ERR_ABORTED" : 2 === _t18 ? e = "MEDIA_ERR_NETWORK" : 3 === _t18 ? e = "MEDIA_ERR_DECODE" : 4 === _t18 && (e = "MEDIA_ERR_SRC_NOT_SUPPORTED"), null != e && (console.log("[OpenAudioMc] Reporting media failure " + e), this.openAudioMc.socketModule.send("media_failure", { mediaError: e, source: this.soundElement.src }));
       }
+    };
+
+    lt.prototype.addNode = function addNode(t, e) {
+      this.soundElement.crossOrigin = "anonymous", null == this.controller && (this.controller = t.audioCtx.createMediaElementSource(this.soundElement)), console.log(this.controller), this.controller.source = this.source, this.controller.connect(e);
     };
 
     lt.prototype.registerMixer = function registerMixer(t, e) {
@@ -1231,7 +1235,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           i = 0 | 4294967295 * Math.random(),
           n = 0 | 4294967295 * Math.random();return (ht[255 & t] + ht[255 & t >> 8] + ht[255 & t >> 16] + ht[255 & t >> 24] + "-" + ht[255 & e] + ht[255 & e >> 8] + "-" + ht[64 | 15 & e >> 16] + ht[255 & e >> 24] + "-" + ht[128 | 63 & i] + ht[255 & i >> 8] + "-" + ht[255 & i >> 16] + ht[255 & i >> 24] + ht[255 & n] + ht[255 & n >> 8] + ht[255 & n >> 16] + ht[255 & n >> 24]).toUpperCase();
     }, clamp: function clamp(t, e, i) {
-      return D(e, N(i, t));
+      return H(e, N(i, t));
     }, euclideanModulo: function euclideanModulo(t, e) {
       return (t % e + e) % e;
     }, mapLinear: function mapLinear(t, e, i, n, s) {
@@ -1255,9 +1259,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, isPowerOfTwo: function isPowerOfTwo(t) {
       return 0 == (t & t - 1) && 0 !== t;
     }, ceilPowerOfTwo: function ceilPowerOfTwo(t) {
-      return L(2, U(H(t) / V));
+      return L(2, U(V(t) / D));
     }, floorPowerOfTwo: function floorPowerOfTwo(t) {
-      return L(2, X(H(t) / V));
+      return L(2, X(V(t) / D));
     }, setQuaternionFromProperEuler: function setQuaternionFromProperEuler(t, e, i, n, s) {
       var o = O,
           r = F,
@@ -1268,7 +1272,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           c = o((e - n) / 2),
           d = r((e - n) / 2),
           m = o((n - e) / 2),
-          f = r((n - e) / 2);"XYX" === s ? t.set(a * u, l * c, l * d, a * h) : "YZY" === s ? t.set(l * d, a * u, l * c, a * h) : "ZXZ" === s ? t.set(l * c, l * d, a * u, a * h) : "XZX" === s ? t.set(a * u, l * f, l * m, a * h) : "YXY" === s ? t.set(l * m, a * u, l * f, a * h) : "ZYZ" === s ? t.set(l * f, l * m, a * u, a * h) : console.warn("THREE.MathUtils: .setQuaternionFromProperEuler() encountered an unknown order: " + s);
+          p = r((n - e) / 2);"XYX" === s ? t.set(a * u, l * c, l * d, a * h) : "YZY" === s ? t.set(l * d, a * u, l * c, a * h) : "ZXZ" === s ? t.set(l * c, l * d, a * u, a * h) : "XZX" === s ? t.set(a * u, l * p, l * m, a * h) : "YXY" === s ? t.set(l * m, a * u, l * p, a * h) : "ZYZ" === s ? t.set(l * p, l * m, a * u, a * h) : console.warn("THREE.MathUtils: .setQuaternionFromProperEuler() encountered an unknown order: " + s);
     } };_extends(r, { slerp: function slerp(t, e, i, n) {
       return i.copy(t).slerp(e, n);
     }, slerpFlat: function slerpFlat(t, e, i, n, s, o, r) {
@@ -1279,14 +1283,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           c = s[o + 0],
           d = s[o + 1],
           m = s[o + 2],
-          f = s[o + 3];if (u !== f || a !== c || l !== d || h !== m) {
+          p = s[o + 3];if (u !== p || a !== c || l !== d || h !== m) {
         var _t20 = 1 - r,
-            _e9 = a * c + l * d + h * m + u * f,
+            _e9 = a * c + l * d + h * m + u * p,
             _i5 = 0 <= _e9 ? 1 : -1,
             _n4 = 1 - _e9 * _e9;if (_n4 > R) {
           var _s4 = P(_n4),
               _o4 = I(_s4, _e9 * _i5);_t20 = F(_t20 * _o4) / _s4, r = F(r * _o4) / _s4;
-        }var _s3 = r * _i5;if (a = a * _t20 + c * _s3, l = l * _t20 + d * _s3, h = h * _t20 + m * _s3, u = u * _t20 + f * _s3, _t20 == 1 - r) {
+        }var _s3 = r * _i5;if (a = a * _t20 + c * _s3, l = l * _t20 + d * _s3, h = h * _t20 + m * _s3, u = u * _t20 + p * _s3, _t20 == 1 - r) {
           var _t21 = 1 / P(a * a + l * l + h * h + u * u);a *= _t21, l *= _t21, h *= _t21, u *= _t21;
         }
       }t[e] = a, t[e + 1] = l, t[e + 2] = h, t[e + 3] = u;
@@ -1492,13 +1496,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, min: function min(t) {
       return this.x = N(this.x, t.x), this.y = N(this.y, t.y), this.z = N(this.z, t.z), this;
     }, max: function max(t) {
-      return this.x = D(this.x, t.x), this.y = D(this.y, t.y), this.z = D(this.z, t.z), this;
+      return this.x = H(this.x, t.x), this.y = H(this.y, t.y), this.z = H(this.z, t.z), this;
     }, clamp: function clamp(t, e) {
-      return this.x = D(t.x, N(e.x, this.x)), this.y = D(t.y, N(e.y, this.y)), this.z = D(t.z, N(e.z, this.z)), this;
+      return this.x = H(t.x, N(e.x, this.x)), this.y = H(t.y, N(e.y, this.y)), this.z = H(t.z, N(e.z, this.z)), this;
     }, clampScalar: function clampScalar(t, e) {
-      return this.x = D(t, N(e, this.x)), this.y = D(t, N(e, this.y)), this.z = D(t, N(e, this.z)), this;
+      return this.x = H(t, N(e, this.x)), this.y = H(t, N(e, this.y)), this.z = H(t, N(e, this.z)), this;
     }, clampLength: function clampLength(t, e) {
-      var i = this.length();return this.divideScalar(i || 1).multiplyScalar(D(t, N(e, i)));
+      var i = this.length();return this.divideScalar(i || 1).multiplyScalar(H(t, N(e, i)));
     }, floor: function floor() {
       return this.x = X(this.x), this.y = X(this.y), this.z = X(this.z), this;
     }, ceil: function ceil() {
@@ -1583,31 +1587,31 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, distance: function distance(t) {
       var e = this.square(this.x - t.x) + this.square(this.y - t.y) + this.square(this.z - t.z);return P(e);
     } });var mt = "SPEAKER_2D";
-  var ft = function () {
-    function ft(t, e, i, n, s, o, r) {
-      _classCallCheck(this, ft);
+  var pt = function () {
+    function pt(t, e, i, n, s, o, r) {
+      _classCallCheck(this, pt);
 
       this.id = t, this.source = e, this.location = i, this.type = n, this.maxDistance = s, this.startInstant = o, this.openAudioMc = r, this.channel = null;
     }
 
-    ft.prototype.initialize = function initialize() {};
+    pt.prototype.initialize = function initialize() {};
 
-    ft.prototype.onPlayerLocationUpdate = function onPlayerLocationUpdate() {};
+    pt.prototype.onPlayerLocationUpdate = function onPlayerLocationUpdate() {};
 
-    ft.prototype.getDistance = function getDistance(t, e) {
+    pt.prototype.getDistance = function getDistance(t, e) {
       return e.location.distance(this.location);
     };
 
-    ft.prototype.onRemove = function onRemove() {};
+    pt.prototype.onRemove = function onRemove() {};
 
-    return ft;
+    return pt;
   }();
 
-  var pt = function () {
-    function pt(t) {
+  var ft = function () {
+    function ft(t) {
       var _this14 = this;
 
-      _classCallCheck(this, pt);
+      _classCallCheck(this, ft);
 
       function e(e, i) {
         t.socketModule.registerHandler(e, i);
@@ -1693,17 +1697,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             o = t.yaw;_this14.openAudioMc.world.player.updateLocation(new a(e, i, n), s, o);
       }), e("ClientSpeakerCreatePayload", function (t) {
         var e = t.clientSpeaker,
-            i = new ft(e.id, e.source, new a(e.location.x, e.location.y, e.location.z), e.type, e.maxDistance, e.startInstant, _this14.openAudioMc);_this14.openAudioMc.world.addSpeaker(e.id, i);
+            i = new pt(e.id, e.source, new a(e.location.x, e.location.y, e.location.z), e.type, e.maxDistance, e.startInstant, _this14.openAudioMc);_this14.openAudioMc.world.addSpeaker(e.id, i);
       }), e("ClientSpeakerDestroyPayload", function (t) {
         var e = t.clientSpeaker;_this14.openAudioMc.world.removeSpeaker(e.id);
       });
     }
 
-    pt.prototype.convertDistanceToVolume = function convertDistanceToVolume(t, e) {
+    ft.prototype.convertDistanceToVolume = function convertDistanceToVolume(t, e) {
       return Z((t - e) / t * 100);
     };
 
-    return pt;
+    return ft;
   }();
 
   var gt = function () {
@@ -2034,9 +2038,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       Ot = 0,
       Lt = null,
       Ut = 0,
+      Dt = 0,
       Vt = 0,
-      Ht = 0,
-      Dt = 2,
+      Ht = 2,
       Nt = v;!function (t) {
     t[t.VoIP = 2048] = "VoIP", t[t.Audio = 2049] = "Audio", t[t.RestrictedLowDelay = 2051] = "RestrictedLowDelay";
   }(Et || (Et = {})), function (t) {
@@ -2653,9 +2657,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       ce = new a(0, 0, 0),
       de = new a(1, 1, 1),
       me = new a(),
-      fe = new a(),
-      pe = new a();_extends(T.prototype, { isMatrix4: !0, set: function set(t, e, i, n, s, o, r, a, l, h, u, c, d, m, f, p) {
-      var g = this.elements;return g[0] = t, g[4] = e, g[8] = i, g[12] = n, g[1] = s, g[5] = o, g[9] = r, g[13] = a, g[2] = l, g[6] = h, g[10] = u, g[14] = c, g[3] = d, g[7] = m, g[11] = f, g[15] = p, this;
+      pe = new a(),
+      fe = new a();_extends(T.prototype, { isMatrix4: !0, set: function set(t, e, i, n, s, o, r, a, l, h, u, c, d, m, p, f) {
+      var g = this.elements;return g[0] = t, g[4] = e, g[8] = i, g[12] = n, g[1] = s, g[5] = o, g[9] = r, g[13] = a, g[2] = l, g[6] = h, g[10] = u, g[14] = c, g[3] = d, g[7] = m, g[11] = p, g[15] = f, this;
     }, identity: function identity() {
       return this.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1), this;
     }, clone: function clone() {
@@ -2720,7 +2724,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, makeRotationFromQuaternion: function makeRotationFromQuaternion(t) {
       return this.compose(ce, t, de);
     }, lookAt: function lookAt(t, e, i) {
-      var n = this.elements;return pe.subVectors(t, e), 0 === pe.lengthSq() && (pe.z = 1), pe.normalize(), me.crossVectors(i, pe), 0 === me.lengthSq() && (1 === q(i.z) ? pe.x += 1e-4 : pe.z += 1e-4, pe.normalize(), me.crossVectors(i, pe)), me.normalize(), fe.crossVectors(pe, me), n[0] = me.x, n[4] = fe.x, n[8] = pe.x, n[1] = me.y, n[5] = fe.y, n[9] = pe.y, n[2] = me.z, n[6] = fe.z, n[10] = pe.z, this;
+      var n = this.elements;return fe.subVectors(t, e), 0 === fe.lengthSq() && (fe.z = 1), fe.normalize(), me.crossVectors(i, fe), 0 === me.lengthSq() && (1 === q(i.z) ? fe.x += 1e-4 : fe.z += 1e-4, fe.normalize(), me.crossVectors(i, fe)), me.normalize(), pe.crossVectors(fe, me), n[0] = me.x, n[4] = pe.x, n[8] = fe.x, n[1] = me.y, n[5] = pe.y, n[9] = fe.y, n[2] = me.z, n[6] = pe.z, n[10] = fe.z, this;
     }, multiply: function multiply(t, e) {
       return void 0 === e ? this.multiplyMatrices(this, t) : (console.warn("THREE.Matrix4: .multiply() now only accepts one argument. Use .multiplyMatrices( a, b ) instead."), this.multiplyMatrices(t, e));
     }, premultiply: function premultiply(t) {
@@ -2738,8 +2742,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           c = i[9],
           d = i[13],
           m = i[2],
-          f = i[6],
-          p = i[10],
+          p = i[6],
+          f = i[10],
           g = i[14],
           y = i[3],
           b = i[7],
@@ -2760,7 +2764,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           P = n[3],
           R = n[7],
           F = n[11],
-          O = n[15];return s[0] = o * x + r * E + a * A + l * P, s[4] = o * v + r * C + a * T + l * R, s[8] = o * M + r * z + a * B + l * F, s[12] = o * k + r * S + a * I + l * O, s[1] = h * x + u * E + c * A + d * P, s[5] = h * v + u * C + c * T + d * R, s[9] = h * M + u * z + c * B + d * F, s[13] = h * k + u * S + c * I + d * O, s[2] = m * x + f * E + p * A + g * P, s[6] = m * v + f * C + p * T + g * R, s[10] = m * M + f * z + p * B + g * F, s[14] = m * k + f * S + p * I + g * O, s[3] = y * x + b * E + w * A + _ * P, s[7] = y * v + b * C + w * T + _ * R, s[11] = y * M + b * z + w * B + _ * F, s[15] = y * k + b * S + w * I + _ * O, this;
+          O = n[15];return s[0] = o * x + r * E + a * A + l * P, s[4] = o * v + r * C + a * T + l * R, s[8] = o * M + r * z + a * B + l * F, s[12] = o * k + r * S + a * I + l * O, s[1] = h * x + u * E + c * A + d * P, s[5] = h * v + u * C + c * T + d * R, s[9] = h * M + u * z + c * B + d * F, s[13] = h * k + u * S + c * I + d * O, s[2] = m * x + p * E + f * A + g * P, s[6] = m * v + p * C + f * T + g * R, s[10] = m * M + p * z + f * B + g * F, s[14] = m * k + p * S + f * I + g * O, s[3] = y * x + b * E + w * A + _ * P, s[7] = y * v + b * C + w * T + _ * R, s[11] = y * M + b * z + w * B + _ * F, s[15] = y * k + b * S + w * I + _ * O, this;
     }, multiplyScalar: function multiplyScalar(t) {
       var e = this.elements;return e[0] *= t, e[4] *= t, e[8] *= t, e[12] *= t, e[1] *= t, e[5] *= t, e[9] *= t, e[13] *= t, e[2] *= t, e[6] *= t, e[10] *= t, e[14] *= t, e[3] *= t, e[7] *= t, e[11] *= t, e[15] *= t, this;
     }, determinant: function determinant() {
@@ -2795,17 +2799,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           c = n[7],
           d = n[8],
           m = n[9],
-          f = n[10],
-          p = n[11],
+          p = n[10],
+          f = n[11],
           g = n[12],
           y = n[13],
           b = n[14],
           w = n[15],
-          _ = m * b * c - y * f * c + y * u * p - h * b * p - m * u * w + h * f * w,
-          x = g * f * c - d * b * c - g * u * p + l * b * p + d * u * w - l * f * w,
-          v = d * y * c - g * m * c + g * h * p - l * y * p - d * h * w + l * m * w,
-          M = g * m * u - d * y * u - g * h * f + l * y * f + d * h * b - l * m * b,
-          k = s * _ + o * x + r * v + a * M;if (0 == k) return this.set(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);var E = 1 / k;return i[0] = _ * E, i[1] = (y * f * a - m * b * a - y * r * p + o * b * p + m * r * w - o * f * w) * E, i[2] = (h * b * a - y * u * a + y * r * c - o * b * c - h * r * w + o * u * w) * E, i[3] = (m * u * a - h * f * a - m * r * c + o * f * c + h * r * p - o * u * p) * E, i[4] = x * E, i[5] = (d * b * a - g * f * a + g * r * p - s * b * p - d * r * w + s * f * w) * E, i[6] = (g * u * a - l * b * a - g * r * c + s * b * c + l * r * w - s * u * w) * E, i[7] = (l * f * a - d * u * a + d * r * c - s * f * c - l * r * p + s * u * p) * E, i[8] = v * E, i[9] = (g * m * a - d * y * a - g * o * p + s * y * p + d * o * w - s * m * w) * E, i[10] = (l * y * a - g * h * a + g * o * c - s * y * c - l * o * w + s * h * w) * E, i[11] = (d * h * a - l * m * a - d * o * c + s * m * c + l * o * p - s * h * p) * E, i[12] = M * E, i[13] = (d * y * r - g * m * r + g * o * f - s * y * f - d * o * b + s * m * b) * E, i[14] = (g * h * r - l * y * r - g * o * u + s * y * u + l * o * b - s * h * b) * E, i[15] = (l * m * r - d * h * r + d * o * u - s * m * u - l * o * f + s * h * f) * E, this;
+          _ = m * b * c - y * p * c + y * u * f - h * b * f - m * u * w + h * p * w,
+          x = g * p * c - d * b * c - g * u * f + l * b * f + d * u * w - l * p * w,
+          v = d * y * c - g * m * c + g * h * f - l * y * f - d * h * w + l * m * w,
+          M = g * m * u - d * y * u - g * h * p + l * y * p + d * h * b - l * m * b,
+          k = s * _ + o * x + r * v + a * M;if (0 == k) return this.set(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);var E = 1 / k;return i[0] = _ * E, i[1] = (y * p * a - m * b * a - y * r * f + o * b * f + m * r * w - o * p * w) * E, i[2] = (h * b * a - y * u * a + y * r * c - o * b * c - h * r * w + o * u * w) * E, i[3] = (m * u * a - h * p * a - m * r * c + o * p * c + h * r * f - o * u * f) * E, i[4] = x * E, i[5] = (d * b * a - g * p * a + g * r * f - s * b * f - d * r * w + s * p * w) * E, i[6] = (g * u * a - l * b * a - g * r * c + s * b * c + l * r * w - s * u * w) * E, i[7] = (l * p * a - d * u * a + d * r * c - s * p * c - l * r * f + s * u * f) * E, i[8] = v * E, i[9] = (g * m * a - d * y * a - g * o * f + s * y * f + d * o * w - s * m * w) * E, i[10] = (l * y * a - g * h * a + g * o * c - s * y * c - l * o * w + s * h * w) * E, i[11] = (d * h * a - l * m * a - d * o * c + s * m * c + l * o * f - s * h * f) * E, i[12] = M * E, i[13] = (d * y * r - g * m * r + g * o * p - s * y * p - d * o * b + s * m * b) * E, i[14] = (g * h * r - l * y * r - g * o * u + s * y * u + l * o * b - s * h * b) * E, i[15] = (l * m * r - d * h * r + d * o * u - s * m * u - l * o * p + s * h * p) * E, this;
     }, scale: function scale(t) {
       var e = this.elements,
           i = t.x,
@@ -2815,7 +2819,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       var t = this.elements,
           e = t[0] * t[0] + t[1] * t[1] + t[2] * t[2],
           i = t[4] * t[4] + t[5] * t[5] + t[6] * t[6],
-          n = t[8] * t[8] + t[9] * t[9] + t[10] * t[10];return P(D(e, i, n));
+          n = t[8] * t[8] + t[9] * t[9] + t[10] * t[10];return P(H(e, i, n));
     }, makeTranslation: function makeTranslation(t, e, i) {
       return this.set(1, 0, 0, t, 0, 1, 0, e, 0, 0, 1, i, 0, 0, 0, 1), this;
     }, makeRotationX: function makeRotationX(t) {
@@ -2852,15 +2856,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           c = s * l,
           d = s * h,
           m = s * u,
-          f = o * h,
-          p = o * u,
+          p = o * h,
+          f = o * u,
           g = r * u,
           y = a * l,
           b = a * h,
           w = a * u,
           _ = i.x,
           x = i.y,
-          v = i.z;return n[0] = (1 - (f + g)) * _, n[1] = (d + w) * _, n[2] = (m - b) * _, n[3] = 0, n[4] = (d - w) * x, n[5] = (1 - (c + g)) * x, n[6] = (p + y) * x, n[7] = 0, n[8] = (m + b) * v, n[9] = (p - y) * v, n[10] = (1 - (c + f)) * v, n[11] = 0, n[12] = t.x, n[13] = t.y, n[14] = t.z, n[15] = 1, this;
+          v = i.z;return n[0] = (1 - (p + g)) * _, n[1] = (d + w) * _, n[2] = (m - b) * _, n[3] = 0, n[4] = (d - w) * x, n[5] = (1 - (c + g)) * x, n[6] = (f + y) * x, n[7] = 0, n[8] = (m + b) * v, n[9] = (f - y) * v, n[10] = (1 - (c + p)) * v, n[11] = 0, n[12] = t.x, n[13] = t.y, n[14] = t.z, n[15] = 1, this;
     }, decompose: function decompose(t, e, i) {
       var n = this.elements,
           s = he.set(n[0], n[1], n[2]).length(),
@@ -2920,7 +2924,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           c = o[9],
           d = o[2],
           m = o[6],
-          f = o[10];return "XYZ" === (e = e || this._order) ? (this._y = n(s(l, -1, 1)), .9999999 > q(l) ? (this._x = I(-c, f), this._z = I(-a, r)) : (this._x = I(m, u), this._z = 0)) : "YXZ" === e ? (this._x = n(-s(c, -1, 1)), .9999999 > q(c) ? (this._y = I(l, f), this._z = I(h, u)) : (this._y = I(-d, r), this._z = 0)) : "ZXY" === e ? (this._x = n(s(m, -1, 1)), .9999999 > q(m) ? (this._y = I(-d, f), this._z = I(-a, u)) : (this._y = 0, this._z = I(h, r))) : "ZYX" === e ? (this._y = n(-s(d, -1, 1)), .9999999 > q(d) ? (this._x = I(m, f), this._z = I(h, r)) : (this._x = 0, this._z = I(-a, u))) : "YZX" === e ? (this._z = n(s(h, -1, 1)), .9999999 > q(h) ? (this._x = I(-c, u), this._y = I(-d, r)) : (this._x = 0, this._y = I(l, f))) : "XZY" === e ? (this._z = n(-s(a, -1, 1)), .9999999 > q(a) ? (this._x = I(m, u), this._y = I(l, r)) : (this._x = I(-c, f), this._y = 0)) : console.warn("THREE.Euler: .setFromRotationMatrix() encountered an unknown order: " + e), this._order = e, !1 !== i && this._onChangeCallback(), this;
+          p = o[10];return "XYZ" === (e = e || this._order) ? (this._y = n(s(l, -1, 1)), .9999999 > q(l) ? (this._x = I(-c, p), this._z = I(-a, r)) : (this._x = I(m, u), this._z = 0)) : "YXZ" === e ? (this._x = n(-s(c, -1, 1)), .9999999 > q(c) ? (this._y = I(l, p), this._z = I(h, u)) : (this._y = I(-d, r), this._z = 0)) : "ZXY" === e ? (this._x = n(s(m, -1, 1)), .9999999 > q(m) ? (this._y = I(-d, p), this._z = I(-a, u)) : (this._y = 0, this._z = I(h, r))) : "ZYX" === e ? (this._y = n(-s(d, -1, 1)), .9999999 > q(d) ? (this._x = I(m, p), this._z = I(h, r)) : (this._x = 0, this._z = I(-a, u))) : "YZX" === e ? (this._z = n(s(h, -1, 1)), .9999999 > q(h) ? (this._x = I(-c, u), this._y = I(-d, r)) : (this._x = 0, this._y = I(l, p))) : "XZY" === e ? (this._z = n(-s(a, -1, 1)), .9999999 > q(a) ? (this._x = I(m, u), this._y = I(l, r)) : (this._x = I(-c, p), this._y = 0)) : console.warn("THREE.Euler: .setFromRotationMatrix() encountered an unknown order: " + e), this._order = e, !1 !== i && this._onChangeCallback(), this;
     }, setFromQuaternion: function setFromQuaternion(t, e, i) {
       return ge.makeRotationFromQuaternion(t), this.setFromRotationMatrix(ge, e, i);
     }, setFromVector3: function setFromVector3(t, e) {
@@ -3002,7 +3006,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
 
     xe.prototype.updateLocation = function updateLocation(t, e, i) {
-      if (t.type != this.lastUsedMode && (t.type, t.type), t.type == mt) {
+      var _this38 = this;
+
+      if (t.type != this.lastUsedMode) {
+        if (t.type, "SPEAKER_3D" == t.type) {
+          var _e13 = this.openAudioMc.world.player;this.pannerNode = _e13.audioCtx.createPanner(), this.pannerNode.panningModel = "HRTF", this.pannerNode.distanceModel = "inverse", this.pannerNode.refDistance = 1, this.pannerNode.maxDistance = 1e4 * t.maxDistance, this.pannerNode.rolloffFactor = 1, this.pannerNode.coneInnerAngle = 360, this.pannerNode.coneOuterAngle = 0, this.pannerNode.coneOuterGain = 0;var _i15 = t.location;new be(_i15).applyTo(this.pannerNode), console.log(this.pannerNode), this.media.setVolume(100), this.channel.fadeChannel(100, 10, function () {
+            _this38.media.addNode(_e13, _this38.pannerNode), _this38.pannerNode.connect(_e13.audioCtx.destination);
+          });
+        }this.lastUsedMode = t.type;
+      }if (t.type == mt) {
         var _n12 = t.getDistance(e, i),
             _s11 = this._convertDistanceToVolume(t.maxDistance, _n12);if (0 > _s11) return;this.channel.fadeChannel(_s11, 100);
       }
@@ -3047,10 +3059,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     ve.prototype.onLocationUpdate = function onLocationUpdate() {
-      var _this38 = this;
+      var _this39 = this;
 
       this.speakers.forEach(function (t) {
-        t.onPlayerLocationUpdate(_this38, _this38.player);
+        t.onPlayerLocationUpdate(_this39, _this39.player);
       }), this.renderAudio2D();
     };
 
@@ -3083,18 +3095,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     ve.prototype.renderAudio2D = function renderAudio2D() {
-      var _this39 = this;
+      var _this40 = this;
 
       var t = [];this.speakers.forEach(function (e) {
-        var i = e.getDistance(_this39, _this39.player);t.push(new _e(e.source, i, e));
+        var i = e.getDistance(_this40, _this40.player);t.push(new _e(e.source, i, e));
       });var e = new Map();var _iteratorNormalCompletion21 = true;
       var _didIteratorError21 = false;
       var _iteratorError21 = undefined;
 
       try {
         for (var _iterator21 = t[Symbol.iterator](), _step21; !(_iteratorNormalCompletion21 = (_step21 = _iterator21.next()).done); _iteratorNormalCompletion21 = true) {
-          var _i15 = _step21.value;
-          var _t34 = e.get(_i15.source);null != _t34 ? _t34.distance > _i15.distance && _i15.distance <= _i15.speaker.maxDistance && e.set(_i15.source, _i15) : _i15.distance <= _i15.speaker.maxDistance && e.set(_i15.source, _i15);
+          var _i16 = _step21.value;
+          var _t34 = e.get(_i16.source);null != _t34 ? _t34.distance > _i16.distance && _i16.distance <= _i16.speaker.maxDistance && e.set(_i16.source, _i16) : _i16.distance <= _i16.speaker.maxDistance && e.set(_i16.source, _i16);
         }
       } catch (err) {
         _didIteratorError21 = true;
@@ -3112,9 +3124,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }
 
       e.forEach(function (t) {
-        _this39.getMediaForSource(t.source, t.speaker.startInstant).updateLocation(t.speaker, _this39, _this39.player);
+        _this40.getMediaForSource(t.source, t.speaker.startInstant).updateLocation(t.speaker, _this40, _this40.player);
       }), this.audioMap2D.forEach(function (t, e) {
-        _this39.isMediaUsed(e) || _this39.removeMediaFromSource(e);
+        _this40.isMediaUsed(e) || _this40.removeMediaFromSource(e);
       });
     };
 
@@ -3128,19 +3140,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     _inherits(Me, _ref);
 
     function Me() {
-      var _this40, _ret2;
+      var _this41, _ret2;
 
       _classCallCheck(this, Me);
 
-      if ((_this40 = _possibleConstructorReturn(this, _ref.call(this)), _this40), _this40.canStart = !1, _this40.host = null, _this40.background = null, _this40.tokenSet = new rt().fromUrl(window.location.href), null == _this40.tokenSet) return _ret2 = void (document.getElementById("welcome-text-landing").innerHTML = "The audio client is only available for players who are online in the server. Use <small>/audio</small> to obtain a URL<br />"), _possibleConstructorReturn(_this40, _ret2);_this40.notificationModule = new ae(_this40), _this40.timeService = new Y(), _this40.messages = new Q(_this40), _this40.userInterfaceModule = new G(_this40), _this40.hueConfiguration = new gt(_this40), _this40.mediaManager = new tt(_this40), Zt = new (window.AudioContext || window.webkitAudioContext)(), _this40.voiceModule = new re(_this40), _this40.boot();new Mt("https://plus.openaudiomc.net/").route(_this40).then(function (t) {
-        _this40.canStart = !0, _this40.host = t.host, _this40.background = t.background;
+      if ((_this41 = _possibleConstructorReturn(this, _ref.call(this)), _this41), _this41.canStart = !1, _this41.host = null, _this41.background = null, _this41.tokenSet = new rt().fromUrl(window.location.href), null == _this41.tokenSet) return _ret2 = void (document.getElementById("welcome-text-landing").innerHTML = "The audio client is only available for players who are online in the server. Use <small>/audio</small> to obtain a URL<br />"), _possibleConstructorReturn(_this41, _ret2);_this41.notificationModule = new ae(_this41), _this41.timeService = new Y(), _this41.messages = new Q(_this41), _this41.userInterfaceModule = new G(_this41), _this41.hueConfiguration = new gt(_this41), _this41.mediaManager = new tt(_this41), Zt = new (window.AudioContext || window.webkitAudioContext)(), _this41.voiceModule = new re(_this41), _this41.boot();new Mt("https://plus.openaudiomc.net/").route(_this41).then(function (t) {
+        _this41.canStart = !0, _this41.host = t.host, _this41.background = t.background;
       }).catch(function (t) {
-        console.error("Exception thrown", t.stack), _this40.userInterfaceModule.kickScreen("Your current URL appears to be invalid. Please request a new one in-game using the /audio command. If this issue if persists please contact a member of staff."), new et("#alert-area", { closeTime: 2e4, persistent: !1, hideCloseButton: !0, extra: "warning" }).show("A networking error occurred while connecting to the server, please request a new url and try again.");
-      });return _possibleConstructorReturn(_this40);
+        console.error("Exception thrown", t.stack), _this41.userInterfaceModule.kickScreen("Your current URL appears to be invalid. Please request a new one in-game using the /audio command. If this issue if persists please contact a member of staff."), new et("#alert-area", { closeTime: 2e4, persistent: !1, hideCloseButton: !0, extra: "warning" }).show("A networking error occurred while connecting to the server, please request a new url and try again.");
+      });return _possibleConstructorReturn(_this41);
     }
 
     Me.prototype.start = function start() {
-      this.canStart && (this.canStart = !1, this.world = new ve(this), this.hueModule = new K(this, Object(le.a)()), this.socketModule = new it(this, this.host), this.messages.apply(), new pt(this), "" !== this.background && (document.getElementById("page").style = "vertical-align: middle;\n    background:\n            url(" + this.background + ");\n    -webkit-background-size: cover;\n    background-size: cover;"));
+      this.canStart && (this.canStart = !1, this.world = new ve(this), this.hueModule = new K(this, Object(le.a)()), this.socketModule = new it(this, this.host), this.messages.apply(), new ft(this), "" !== this.background && (document.getElementById("page").style = "vertical-align: middle;\n    background:\n            url(" + this.background + ");\n    -webkit-background-size: cover;\n    background-size: cover;"));
     };
 
     return Me;

@@ -37,8 +37,7 @@ export class Position {
             target.positionX.value = pos.x;
             target.positionY.value = pos.y;
             target.positionZ.value = pos.z;
-        }
-        else {
+        } else {
             // noinspection JSDeprecatedSymbols
             target.setPosition(pos.x, pos.y, pos.z);
         }
@@ -47,13 +46,11 @@ export class Position {
                 target.orientationX.value = forward.x;
                 target.orientationY.value = forward.y;
                 target.orientationZ.value = forward.z;
-            }
-            else {
+            } else {
                 // noinspection JSDeprecatedSymbols
                 target.setOrientation(forward.x, forward.y, forward.z);
             }
-        }
-        else {
+        } else {
             if (target.forwardX) {
                 target.forwardX.value = forward.x;
                 target.forwardY.value = forward.y;
@@ -61,8 +58,7 @@ export class Position {
                 target.upX.value = up.x;
                 target.upY.value = up.y;
                 target.upZ.value = up.z;
-            }
-            else {
+            } else {
                 // noinspection JSDeprecatedSymbols
                 target.setOrientation(forward.x, forward.y, forward.z, up.x, up.y, up.z);
             }

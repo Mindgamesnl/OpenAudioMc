@@ -7,6 +7,7 @@ export class Sound {
         this.soundElement = document.createElement("audio");
 
         this.hadError = false;
+        this.source = source;
         this.error = null;
 
         // error handling
@@ -65,6 +66,14 @@ export class Sound {
                 }
             }
         }
+    }
+
+    addNode(player, node) {
+        this.soundElement.crossOrigin = "anonymous";
+        if (this.controller == null) this.controller = player.audioCtx.createMediaElementSource(this.soundElement);
+        console.log(this.controller)
+        this.controller.source = this.source;
+        this.controller.connect(node);
     }
 
     registerMixer(mixer, channel) {

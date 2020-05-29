@@ -1,6 +1,8 @@
 import {Channel} from "../../media/objects/Channel";
 import {Sound} from "../../media/objects/Sound";
 import {SPEAKER_2D, SPEAKER_3D} from "../constants/SpeakerType";
+import {Quaternion} from "../../../helpers/ThreeJS/Quaternion";
+import {Position} from "../../../helpers/Position";
 
 export class SpeakerPlayer {
 
@@ -28,8 +30,6 @@ export class SpeakerPlayer {
             createdChannel.setTag("SPECIAL");
             this.openAudioMc.getMediaManager().mixer.updateCurrent();
             createdMedia.finish();
-
-            // createdChannel.fadeChannel(5, 100);
         });
     }
 
@@ -42,7 +42,30 @@ export class SpeakerPlayer {
 
             if (closest.type == SPEAKER_3D) {
                 // inject spatial audio stuff
+                // create panner node
+                const player = this.openAudioMc.world.player;
+                this.pannerNode = player.audioCtx.createPanner();
+                this.pannerNode.panningModel = 'HRTF';
+                this.pannerNode.distanceModel = 'inverse';
+                this.pannerNode.refDistance = 1;
+                this.pannerNode.maxDistance = closest.maxDistance * 10000;
+                this.pannerNode.rolloffFactor = 1;
+                this.pannerNode.coneInnerAngle = 360;
+                this.pannerNode.coneOuterAngle = 0;
+                this.pannerNode.coneOuterGain = 0;
+
+                const location = closest.location;
+                const position = new Position(location);
+                position.applyTo(this.pannerNode);
+                console.log(this.pannerNode)
+
+                this.media.setVolume(100);
+                this.channel.fadeChannel(100, 10, () => {
+                    this.media.addNode(player, this.pannerNode);
+                    this.pannerNode.connect(player.audioCtx.destination);
+                })
             }
+            this.lastUsedMode = closest.type;
         }
 
         if (closest.type == SPEAKER_2D) {
