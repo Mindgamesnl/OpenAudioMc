@@ -1,4 +1,3 @@
-import openAudioMc from "../../../helpers/utils/StaticFunctions";
 import * as PluginChannel from "../../../helpers/protocol/PluginChannel";
 
 export class Sound {
@@ -69,11 +68,13 @@ export class Sound {
     }
 
     addNode(player, node) {
-        this.soundElement.crossOrigin = "anonymous";
-        if (this.soundElement.src.indexOf("http") > -1) {
-            this.soundElement.src = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + this.soundElement.src;
+        if (this.controller == null) {
+            this.soundElement.crossOrigin = "anonymous";
+            if (this.soundElement.src.indexOf("http") > -1) {
+                this.soundElement.src = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + this.soundElement.src;
+            }
+            this.controller = player.audioCtx.createMediaElementSource(this.soundElement);
         }
-        if (this.controller == null) this.controller = player.audioCtx.createMediaElementSource(this.soundElement);
         this.controller.connect(node);
     }
 
