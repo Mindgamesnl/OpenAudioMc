@@ -1,8 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.players.handlers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.networking.packets.PacketClientUpdateLocation;
-import com.craftmend.openaudiomc.generic.networking.payloads.ClientPlayerLocationPayload;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.media.objects.MediaUpdate;
 import com.craftmend.openaudiomc.spigot.modules.players.interfaces.ITickableHandler;
@@ -12,7 +10,6 @@ import com.craftmend.openaudiomc.generic.networking.packets.PacketClientCreateMe
 import com.craftmend.openaudiomc.generic.networking.packets.PacketClientDestroyMedia;
 import com.craftmend.openaudiomc.generic.networking.packets.PacketClientUpdateMedia;
 import lombok.AllArgsConstructor;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
