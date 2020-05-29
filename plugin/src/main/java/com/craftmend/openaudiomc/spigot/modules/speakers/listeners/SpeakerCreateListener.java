@@ -6,8 +6,10 @@ import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.core.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
+import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 
+import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;
 import lombok.AllArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
@@ -27,7 +29,7 @@ public class SpeakerCreateListener implements Listener {
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         Block placed = event.getBlockPlaced();
-        if (speakerModule.isSpeakerSkull(placed)) {
+        if (SpeakerUtils.isSpeakerSkull(placed)) {
             if (!isAllowed(event.getPlayer())) {
                 event.getPlayer().sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + "You are not allowed to place OpenAudioMc speakers, please ask the server administrator for more information.");
                 event.setCancelled(true);
@@ -45,7 +47,10 @@ public class SpeakerCreateListener implements Listener {
             MappedLocation location = new MappedLocation(placed.getLocation());
             ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
             int range = spigotConnection.getSelectedSpeakerSettings().getRadius();
-            speakerModule.registerSpeaker(location, spigotConnection.getSelectedSpeakerSettings().getSource(), id, range, SpeakerModule.DEFAULT_SPEAKER_TYPE);
+
+            SpeakerType speakerType = speakerModule.guessSpeakerType(location.toBukkit(), spigotConnection.getSelectedSpeakerSettings().getSource());
+
+            speakerModule.registerSpeaker(location, spigotConnection.getSelectedSpeakerSettings().getSource(), id, range, speakerType);
 
             //save to config
             config.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".world", location.getWorld());
@@ -54,8 +59,9 @@ public class SpeakerCreateListener implements Listener {
             config.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".z", location.getZ());
             config.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".radius", range);
             config.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".media", spigotConnection.getSelectedSpeakerSettings().getSource());
+            config.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".type", speakerType.toString());
 
-            event.getPlayer().sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + ChatColor.GREEN + "Speaker placed");
+            event.getPlayer().sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + ChatColor.GREEN + "Placed a " + speakerType.getName() + " speaker" + ChatColor.GRAY + " (guessed bases on other nearby speakers, click placed speaker to edit)");
         }
     }
 

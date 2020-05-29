@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.generic.core.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
+import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;
 import lombok.AllArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
@@ -22,7 +23,7 @@ public class SpeakerDestroyListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         Block broken = event.getBlock();
-        if (speakerModule.isSpeakerSkull(broken)) {
+        if (SpeakerUtils.isSpeakerSkull(broken)) {
             if (!isAllowed(event.getPlayer())) {
                 event.getPlayer().sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + "You are not allowed to break OpenAudioMc speakers, please ask the server administrator for more information.");
                 event.setCancelled(true);

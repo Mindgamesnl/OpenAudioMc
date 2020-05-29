@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.spigot.modules.speakers.menu.SpeakerMenu;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 
+import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import lombok.AllArgsConstructor;
 
@@ -30,7 +31,7 @@ public class SpeakerSelectListener implements Listener {
                 if (speaker == null) {
                     return;
                 }
-                if (!speakerModule.isSpeakerSkull(speaker.getLocation().getBlock())) return;
+                if (!SpeakerUtils.isSpeakerSkull(speaker.getLocation().getBlock())) return;
                 new SpeakerMenu(speaker).openFor(event.getPlayer());
             }
         }
