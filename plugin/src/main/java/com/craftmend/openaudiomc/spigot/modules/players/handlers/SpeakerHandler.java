@@ -9,11 +9,13 @@ import com.craftmend.openaudiomc.generic.networking.payloads.out.speakers.Client
 import com.craftmend.openaudiomc.generic.networking.payloads.out.speakers.ClientSpeakerCreatePayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.out.speakers.ClientSpeakerDestroyPayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.out.speakers.objects.ClientSpeaker;
+import com.craftmend.openaudiomc.generic.networking.payloads.out.speakers.objects.Vector3;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.interfaces.ITickableHandler;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.ApplicableSpeaker;
+import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import lombok.AllArgsConstructor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -74,6 +76,16 @@ public class SpeakerHandler implements ITickableHandler {
 
             packetQue.clear();
         }
+    }
+
+    public void forceDeleteSpeaker(Speaker speaker) {
+        ClientSpeaker clientSpeaker = toClientSpeaker(new ApplicableSpeaker(
+                0,
+                speaker,
+                speaker.getSpeakerType(),
+                Vector3.from(speaker.getLocation())
+        ));
+        OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientRemoveSpeaker(new ClientSpeakerDestroyPayload(clientSpeaker)));
     }
 
     private boolean isPlayingSpeaker(ApplicableSpeaker speaker) {
