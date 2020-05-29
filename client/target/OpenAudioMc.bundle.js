@@ -1588,12 +1588,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     de.prototype.onPlayerLocationUpdate = function onPlayerLocationUpdate(e, t) {
       if ("SPEAKER_3D" == this.type) ;else if ("SPEAKER_2D" == this.type) {
-        var _e18 = t.location.distance(this.location);this._convertDistanceToVolume(this.maxDistance, _e18);
+        var _e18 = t.location.distance(this.location),
+            _i5 = this._convertDistanceToVolume(this.maxDistance, _e18);console.log("My volume updated to " + _i5);
       }
     };
 
     de.prototype.onRemove = function onRemove() {
-      console.log("Killing myself " + this);
+      console.log("Killing myself " + JSON.stringify(this));
     };
 
     de.prototype._convertDistanceToVolume = function _convertDistanceToVolume(e, t) {
@@ -1693,7 +1694,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             o = e.yaw;_this14.openAudioMc.world.player.updateLocation(new a(t, i, n), s, o);
       }), t("ClientSpeakerCreatePayload", function (e) {
         var t = e.clientSpeaker,
-            i = new de(t.id, t.source, new a(t.location.x, t.location.y, t.location.z), t.type, t.maxDistance);console.log("Created speaker " + i), _this14.openAudioMc.world.addSpeaker(t.id, i);
+            i = new de(t.id, t.source, new a(t.location.x, t.location.y, t.location.z), t.type, t.maxDistance);console.log("Created speaker " + JSON.stringify(i)), _this14.openAudioMc.world.addSpeaker(t.id, i);
       }), t("ClientSpeakerDestroyPayload", function (e) {
         var t = e.clientSpeaker;_this14.openAudioMc.world.removeSpeaker(t.id);
       });
@@ -1868,8 +1869,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
               d += e.outerHTML;
             }), "" !== u && (e.getMessages().errorMessage = c), "" !== h && (e.getMessages().welcomeMessage = d);var m = s.greetingMessage;if (m = m.replace("%name", e.tokenSet.name), document.getElementById("welcome-text-landing").innerHTML = m, document.getElementById("boot-button").style.display = "", document.getElementById("boot-button").innerHTML = s.connectButtonText, e.getUserInterfaceModule().changeColor("#304FFE", s.accentColor), "" != s.startSound) {
               var _t9 = new X("startsound"),
-                  _i5 = new re(s.startSound);_i5.openAudioMc = e, _i5.setOa(e), _i5.finalize().then(function () {
-                e.getMediaManager().mixer.addChannel(_t9), _t9.addSound(_i5), _t9.setChannelVolume(100), _t9.updateFromMasterVolume(), _i5.finish();
+                  _i6 = new re(s.startSound);_i6.openAudioMc = e, _i6.setOa(e), _i6.finalize().then(function () {
+                e.getMediaManager().mixer.addChannel(_t9), _t9.addSound(_i6), _t9.setChannelVolume(100), _t9.updateFromMasterVolume(), _i6.finish();
               });
             }"default" !== l && (document.title = l), t({ host: r, background: a });
           }).catch(function (e) {
@@ -2303,14 +2304,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             console.log(t), _this25.hide(), _this25.deniedMessage(), e(null);
           });
         };else {
-          null != _this25.requestBox && _this25.requestBox.hide();var _i6 = '<select id="select-mic-dropdown" class="alert-message-button">';var _iteratorNormalCompletion19 = true;
+          null != _this25.requestBox && _this25.requestBox.hide();var _i7 = '<select id="select-mic-dropdown" class="alert-message-button">';var _iteratorNormalCompletion19 = true;
           var _didIteratorError19 = false;
           var _iteratorError19 = undefined;
 
           try {
             for (var _iterator19 = t[Symbol.iterator](), _step19; !(_iteratorNormalCompletion19 = (_step19 = _iterator19.next()).done); _iteratorNormalCompletion19 = true) {
               var _e21 = _step19.value;
-              _i6 += '<option value="' + _e21.id + '">' + _e21.name + "</option>";
+              _i7 += '<option value="' + _e21.id + '">' + _e21.name + "</option>";
             }
           } catch (err) {
             _didIteratorError19 = true;
@@ -2327,7 +2328,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             }
           }
 
-          if (_i6 += "</select>", _this25.show('<div style="text-align: center;">What microphone would you like to use in this voicecall?<br /><small>changes can take a second or two to apply</small><br />' + _i6 + '<div id="mic-loader" style="display:none;"><h2>Switching mic input. Please wait.</h2><div class="loader"></div></div></div>'), null != Cookies.get("default-mic")) {
+          if (_i7 += "</select>", _this25.show('<div style="text-align: center;">What microphone would you like to use in this voicecall?<br /><small>changes can take a second or two to apply</small><br />' + _i7 + '<div id="mic-loader" style="display:none;"><h2>Switching mic input. Please wait.</h2><div class="loader"></div></div></div>'), null != Cookies.get("default-mic")) {
             var _e20 = document.getElementById("select-mic-dropdown");for (var _t10 = 0; _t10 < _e20.options.length; _t10++) {
               _e20.options[_t10].innerText === Cookies.get("default-mic") && (_e20.options[_t10].selected = !0);
             }

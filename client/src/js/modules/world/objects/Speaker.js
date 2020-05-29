@@ -1,4 +1,3 @@
-import {Vector3} from "../../../helpers/ThreeJS/Vector3";
 import {SPEAKER_2D, SPEAKER_3D} from "../constants/SpeakerType";
 
 export class Speaker {
@@ -12,7 +11,8 @@ export class Speaker {
     }
 
     initialize() {
-
+        // NOOOO SPEAKERS SHOULDN'T INITIALIZE THEMSELFS HERE, THATS THE CONSTRUCTOR
+        // huhuhu, mapping go BRRRRRRRR
     }
 
     onPlayerLocationUpdate(world, player) {
@@ -22,12 +22,14 @@ export class Speaker {
             // calculate distance and update volume
             const distance = player.location.distance(this.location);
             const volume = this._convertDistanceToVolume(this.maxDistance, distance);
+
+            console.log("My volume updated to " + volume);
         }
     }
 
     onRemove() {
         // goodbye world
-        console.log("Killing myself " + this)
+        console.log("Killing myself " + JSON.stringify(this))
     }
 
     _convertDistanceToVolume(maxDistance, currentDistance) {

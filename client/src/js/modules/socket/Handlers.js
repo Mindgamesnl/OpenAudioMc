@@ -206,7 +206,7 @@ export class Handlers {
                 speaker.maxDistance
             );
 
-            console.log("Created speaker " + speakerData);
+            console.log("Created speaker " + JSON.stringify(speakerData));
 
             this.openAudioMc.world.addSpeaker(speaker.id, speakerData);
         });
