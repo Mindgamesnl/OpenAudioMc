@@ -95,6 +95,20 @@ public class BungeeConfigurationImplementation implements ConfigurationImplement
         return value == null ? "" : value;
     }
 
+    @Override
+    public boolean isPathValid(String path, StorageLocation storageLocation) {
+        switch (storageLocation) {
+            case DATA_FILE:
+                return dataConfig.contains(path);
+
+            case CONFIG_FILE:
+                return mainConfig.contains(path);
+
+            default:
+                return false;
+        }
+    }
+
     /**
      * A safe int getter
      * @param path The path

@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.objects;
 
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,12 +13,14 @@ public class Speaker {
     @Getter private UUID id;
     @Setter @Getter private int radius;
     @Getter private MappedLocation location;
+    @Getter private SpeakerType speakerType;
 
-    public Speaker(String source, UUID id, int radius, MappedLocation location) {
+    public Speaker(String source, UUID id, int radius, MappedLocation location, SpeakerType speakerType) {
         this.source = source;
         this.id = id;
         this.radius = radius;
         this.location = location;
+        this.speakerType = speakerType;
     }
 
     public boolean isNative() {

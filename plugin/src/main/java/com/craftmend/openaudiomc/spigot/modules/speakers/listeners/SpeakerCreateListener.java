@@ -45,7 +45,7 @@ public class SpeakerCreateListener implements Listener {
             MappedLocation location = new MappedLocation(placed.getLocation());
             ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
             int range = spigotConnection.getSelectedSpeakerSettings().getRadius();
-            speakerModule.registerSpeaker(location, spigotConnection.getSelectedSpeakerSettings().getSource(), id, range);
+            speakerModule.registerSpeaker(location, spigotConnection.getSelectedSpeakerSettings().getSource(), id, range, SpeakerModule.DEFAULT_SPEAKER_TYPE);
 
             //save to config
             config.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".world", location.getWorld());

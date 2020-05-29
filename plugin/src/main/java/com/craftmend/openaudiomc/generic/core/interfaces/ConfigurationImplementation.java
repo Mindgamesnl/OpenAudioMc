@@ -11,6 +11,7 @@ public interface ConfigurationImplementation {
     String getString(StorageKey storageKey);
     int getInt(StorageKey storageKey);
     String getStringFromPath(String path, StorageLocation storageLocation);
+    boolean isPathValid(String path, StorageLocation storageLocation);
     Integer getIntFromPath(String path, StorageLocation storageLocation);
     Set<String> getStringSet(String path, StorageLocation storageLocation);
     void setString(StorageKey storageKey, String string);
