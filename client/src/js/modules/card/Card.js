@@ -1,4 +1,4 @@
-import {parseStyle} from "../../helpers/MinecraftColorCodes";
+import {parseStyle} from "../../helpers/libs/MinecraftColorCodes";
 
 export class Card {
 

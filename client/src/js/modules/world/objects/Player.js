@@ -1,6 +1,6 @@
-import {Euler} from "../../../helpers/ThreeJS/Euler";
-import {Quaternion} from "../../../helpers/ThreeJS/Quaternion";
-import {Position} from "../../../helpers/Position";
+import {Euler} from "../../../helpers/math/Euler";
+import {Quaternion} from "../../../helpers/math/Quaternion";
+import {Position} from "../../../helpers/math/Position";
 
 export class Player {
 

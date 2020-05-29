@@ -2,7 +2,7 @@ import {AlertBox} from "../ui/Notification";
 import {Card} from "../card/Card";
 import {Channel} from "../media/objects/Channel";
 import {Sound} from "../media/objects/Sound";
-import {Vector3} from "../../helpers/ThreeJS/Vector3";
+import {Vector3} from "../../helpers/math/Vector3";
 import {Speaker} from "../world/objects/Speaker";
 
 export class Handlers {

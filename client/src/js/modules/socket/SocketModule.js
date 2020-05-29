@@ -1,4 +1,4 @@
-import {Utils} from "../../helpers/Utils";
+import {Utils} from "../../helpers/utils/Utils";
 import {AlertBox} from "../ui/Notification";
 
 export class SocketModule {

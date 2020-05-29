@@ -1,6 +1,6 @@
 // boot
-import {OpenAudioMc} from "../OpenAudioMc";
-import ClientTokenSet from "./ClientTokenSet";
+import {OpenAudioMc} from "../../OpenAudioMc";
+import ClientTokenSet from "../libs/ClientTokenSet";
 
 let openAudioMc = null;
 
