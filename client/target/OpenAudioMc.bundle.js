@@ -295,17 +295,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       } while (++i < t);
     }return e;
   }function C() {
-    for (var t = "", e = "", i = 0; i < zt && Vt != Dt; ++i) {
-      t += j(12288 + (0 | 16383 * N(H(Tt[Vt++] + 1, 0), 2))), e += j(12288 + (0 | 16383 * N(H(Tt[Vt++] + 1, 0), 2))), Vt == Ht && (Vt = 0);
+    for (var t = "", e = "", i = 0; i < zt && Dt != Vt; ++i) {
+      t += j(12288 + (0 | 16383 * N(H(Tt[Dt++] + 1, 0), 2))), e += j(12288 + (0 | 16383 * N(H(Tt[Dt++] + 1, 0), 2))), Dt == Ht && (Dt = 0);
     }return t + e;
   }function z() {
-    for (var t = "", e = 0; e < zt && Vt != Dt; ++e) {
-      t += j(12288 + (0 | 16383 * N(H(Tt[Vt++] + 1, 0), 2))), Vt == Ht && (Vt = 0);
+    for (var t = "", e = 0; e < zt && Dt != Vt; ++e) {
+      t += j(12288 + (0 | 16383 * N(H(Tt[Dt++] + 1, 0), 2))), Dt == Ht && (Dt = 0);
     }return t;
   }function S() {
-    return (Vt <= Dt ? 0 : Ht) + Dt - Vt;
+    return (Dt <= Vt ? 0 : Ht) + Vt - Dt;
   }function A(t) {
-    At = k(It), Ut = It, Vt = 0, Dt = 0, Ht = H(It * U(Rt / t), zt) << 1, Ft ? (Tt = E(Ht), Lt = new v(Rt, t, 1, Ht, !0), z) : (Tt = E(Ht <<= 1), Lt = new v(Rt, t, 2, Ht, !0), C);
+    At = k(It), Ut = It, Dt = 0, Vt = 0, Ht = H(It * U(Rt / t), zt) << 1, Ft ? (Tt = E(Ht), Lt = new v(Rt, t, 1, Ht, !0), z) : (Tt = E(Ht <<= 1), Lt = new v(Rt, t, 2, Ht, !0), C);
   }function T() {
     this.elements = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], 0 < arguments.length && console.error("THREE.Matrix4: the constructor no longer reads arguments. use .set() instead.");
   }function B(t, e, i, n) {
@@ -317,8 +317,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       O = Math.cos,
       L = Math.pow,
       U = Math.ceil,
-      V = Math.LN2,
-      D = Math.log,
+      D = Math.LN2,
+      V = Math.log,
       H = Math.max,
       N = Math.min,
       W = Math.PI,
@@ -1171,7 +1171,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     lt.prototype.addNode = function addNode(t, e) {
-      this.soundElement.crossOrigin = "anonymous", null == this.controller && (this.controller = t.audioCtx.createMediaElementSource(this.soundElement)), this.controller.connect(e);
+      this.soundElement.crossOrigin = "anonymous", -1 < this.soundElement.src.indexOf("http") && (this.soundElement.src = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + this.soundElement.src), null == this.controller && (this.controller = t.audioCtx.createMediaElementSource(this.soundElement)), this.controller.connect(e);
     };
 
     lt.prototype.registerMixer = function registerMixer(t, e) {
@@ -1259,9 +1259,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, isPowerOfTwo: function isPowerOfTwo(t) {
       return 0 == (t & t - 1) && 0 !== t;
     }, ceilPowerOfTwo: function ceilPowerOfTwo(t) {
-      return L(2, U(D(t) / V));
+      return L(2, U(V(t) / D));
     }, floorPowerOfTwo: function floorPowerOfTwo(t) {
-      return L(2, Y(D(t) / V));
+      return L(2, Y(V(t) / D));
     }, setQuaternionFromProperEuler: function setQuaternionFromProperEuler(t, e, i, n, s) {
       var o = O,
           r = F,
@@ -2038,8 +2038,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       Ot = 0,
       Lt = null,
       Ut = 0,
-      Vt = 0,
       Dt = 0,
+      Vt = 0,
       Ht = 2,
       Nt = v;!function (t) {
     t[t.VoIP = 2048] = "VoIP", t[t.Audio = 2049] = "Audio", t[t.RestrictedLowDelay = 2051] = "RestrictedLowDelay";
@@ -3022,7 +3022,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         var _n12 = t.getDistance(e, i),
             _s11 = this._convertDistanceToVolume(t.maxDistance, _n12);if (0 > _s11) return;this.channel.fadeChannel(_s11, 100);
       } else {
-        this.channel.setChannelVolume(100), this.channel.fadeChannel(volume, 100);var _e14 = t.location;new be(_e14).applyTo(this.pannerNode);
+        var _e14 = t.location;new be(_e14).applyTo(this.pannerNode);
       }
     };
 

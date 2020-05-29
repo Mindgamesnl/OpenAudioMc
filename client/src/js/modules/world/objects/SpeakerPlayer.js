@@ -49,7 +49,6 @@ export class SpeakerPlayer {
                 this.media.addNode(player, this.pannerNode);
                 this.pannerNode.connect(player.audioCtx.destination);
 
-
                 this.pannerNode.panningModel = 'HRTF';
                 this.pannerNode.maxDistance = closest.maxDistance;
                 this.pannerNode.rolloffFactor = 1;
@@ -68,8 +67,6 @@ export class SpeakerPlayer {
             this.channel.fadeChannel(volume, 100);
         } else {
             // fancy 3d shit goes here
-            this.channel.setChannelVolume(100);
-            this.channel.fadeChannel(volume, 100);
             const location = closest.location;
             const position = new Position(location);
             position.applyTo(this.pannerNode);
