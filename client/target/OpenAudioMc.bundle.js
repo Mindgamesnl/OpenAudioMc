@@ -1128,37 +1128,37 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   }();
 
   var K = null;
-  var Z = function () {
-    function Z(e) {
+  var J = function () {
+    function J(e) {
       var _this12 = this;
 
-      _classCallCheck(this, Z);
+      _classCallCheck(this, J);
 
       this.soundElement = new Audio(), this.hadError = !1, this.source = e, this.error = null, this.soundElement.onerror = function (e) {
         _this12.hadError = !0, _this12.error = e, _this12._handleError();
       }, this.soundElement.src = e, this.soundElement.setAttribute("preload", "auto"), this.soundElement.setAttribute("controls", "none"), this.soundElement.setAttribute("display", "none"), this.soundElement.preload = "autoauto", this.soundElement.abort = console.log, this.openAudioMc = null, this.onFinish = null, this.loop = !1, this.mixer = null, this.channel = null, this.finsishedInitializing = !1;
     }
 
-    Z.prototype.setOa = function setOa(e) {
+    J.prototype.setOa = function setOa(e) {
       this.openAudioMc = e, this._handleError();
     };
 
-    Z.prototype._handleError = function _handleError() {
+    J.prototype._handleError = function _handleError() {
       if (this.hadError && null != this.openAudioMc && "error" == this.error.type) {
         var _e18 = this.soundElement.error.code,
             t = null;1 === _e18 ? t = "MEDIA_ERR_ABORTED" : 2 === _e18 ? t = "MEDIA_ERR_NETWORK" : 3 === _e18 ? t = "MEDIA_ERR_DECODE" : 4 === _e18 && (t = "MEDIA_ERR_SRC_NOT_SUPPORTED"), null != t && (console.log("[OpenAudioMc] Reporting media failure " + t), this.openAudioMc.socketModule.send("media_failure", { mediaError: t, source: this.soundElement.src }));
       }
     };
 
-    Z.prototype.addNode = function addNode(e, t) {
+    J.prototype.addNode = function addNode(e, t) {
       this.soundElement.crossOrigin = "anonymous", -1 < this.soundElement.src.indexOf("http") && (this.soundElement.src = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + this.soundElement.src), null == this.controller && (this.controller = e.audioCtx.createMediaElementSource(this.soundElement)), this.controller.connect(t);
     };
 
-    Z.prototype.registerMixer = function registerMixer(e, t) {
+    J.prototype.registerMixer = function registerMixer(e, t) {
       this.mixer = e, this.channel = t;
     };
 
-    Z.prototype.finalize = function finalize() {
+    J.prototype.finalize = function finalize() {
       var _this13 = this;
 
       return new Promise(function (e) {
@@ -1172,23 +1172,23 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       });
     };
 
-    Z.prototype.setLooping = function setLooping(e) {
+    J.prototype.setLooping = function setLooping(e) {
       this.loop = e;
     };
 
-    Z.prototype.finish = function finish() {
+    J.prototype.finish = function finish() {
       this.finsishedInitializing = !0;
     };
 
-    Z.prototype.setOnFinish = function setOnFinish(e) {
+    J.prototype.setOnFinish = function setOnFinish(e) {
       this.onFinish = e;
     };
 
-    Z.prototype.setVolume = function setVolume(e) {
+    J.prototype.setVolume = function setVolume(e) {
       100 < e && (e = 100), this.soundElement.volume = e / 100;
     };
 
-    Z.prototype.startDate = function startDate(e) {
+    J.prototype.startDate = function startDate(e) {
       var t = new Date(e),
           i = _((t.getTime() - this.openAudioMc.timeService.getPredictedTime()) / 1e3),
           n = this.soundElement.duration;if (i > n) {
@@ -1196,25 +1196,25 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }this.setTime(i);
     };
 
-    Z.prototype.setTime = function setTime(e) {
+    J.prototype.setTime = function setTime(e) {
       this.soundElement.currentTime = e;
     };
 
-    Z.prototype.destroy = function destroy() {
+    J.prototype.destroy = function destroy() {
       this.setLooping(!1), this.soundElement.pause(), this.soundElement.remove();
     };
 
-    return Z;
+    return J;
   }();
 
-  var Y = function () {
-    function Y(e, t, i) {
-      _classCallCheck(this, Y);
+  var Z = function () {
+    function Z(e, t, i) {
+      _classCallCheck(this, Z);
 
       this.x = e || 0, this.y = t || 0, this.z = i || 0;
     }
 
-    Y.prototype.applyQuaternion = function applyQuaternion(e) {
+    Z.prototype.applyQuaternion = function applyQuaternion(e) {
       var t = this.x,
           i = this.y,
           n = this.z,
@@ -1228,34 +1228,42 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           d = -o * t - s * i - r * n;return this.x = l * a + d * -o + u * -r - h * -s, this.y = u * a + d * -s + h * -o - l * -r, this.z = h * a + d * -r + l * -s - u * -o, this;
     };
 
-    return Y;
+    Z.prototype.square = function square(e) {
+      return e * e;
+    };
+
+    Z.prototype.distance = function distance(e) {
+      var t = this.square(this.x - e.x) + this.square(this.y - e.y) + this.square(this.z - e.z);return Math.sqrt(t);
+    };
+
+    return Z;
   }();
 
-  var J = function () {
-    function J(e, t, i, n, o, s, r) {
-      _classCallCheck(this, J);
+  var Y = function () {
+    function Y(e, t, i, n, o, s, r) {
+      _classCallCheck(this, Y);
 
       this.id = e, this.source = t, this.location = i, this.type = n, this.maxDistance = o, this.startInstant = s, this.openAudioMc = r, this.channel = null;
     }
 
-    J.prototype.initialize = function initialize() {};
+    Y.prototype.initialize = function initialize() {};
 
-    J.prototype.onPlayerLocationUpdate = function onPlayerLocationUpdate() {};
+    Y.prototype.onPlayerLocationUpdate = function onPlayerLocationUpdate() {};
 
-    J.prototype.getDistance = function getDistance(e, t) {
+    Y.prototype.getDistance = function getDistance(e, t) {
       return t.location.distance(this.location);
     };
 
-    J.prototype.onRemove = function onRemove() {};
+    Y.prototype.onRemove = function onRemove() {};
 
-    return J;
+    return Y;
   }();
 
-  var X = function () {
-    function X(e) {
+  var Q = function () {
+    function Q(e) {
       var _this14 = this;
 
-      _classCallCheck(this, X);
+      _classCallCheck(this, Q);
 
       function t(t, i) {
         e.socketModule.registerHandler(t, i);
@@ -1269,7 +1277,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             l = t.distance,
             u = t.media.flag,
             h = t.maxDistance;var d = 100;null != t.media.volume && 0 != t.media.volume && (d = t.media.volume), e.getMediaManager().destroySounds(o, !1, !0);var c = new F(o),
-            m = new Z(s);m.openAudioMc = e, m.setOa(e), r && m.startDate(n, !0), m.finalize().then(function () {
+            m = new J(s);m.openAudioMc = e, m.setOa(e), r && m.startDate(n, !0), m.finalize().then(function () {
           if (r && m.startDate(n, !0), e.getMediaManager().mixer.addChannel(c), c.addSound(m), c.setChannelVolume(0), m.setLooping(i), c.setTag(o), 0 !== h) {
             var _e19 = _this14.convertDistanceToVolume(h, l);c.setTag("SPECIAL"), c.maxDistance = h, c.fadeChannel(_e19, a);
           } else c.setTag("DEFAULT"), setTimeout(function () {
@@ -1338,27 +1346,27 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             i = e.y,
             n = e.z,
             o = e.pitch,
-            s = e.yaw;_this14.openAudioMc.world.player.updateLocation(new Y(t, i, n), o, s);
+            s = e.yaw;_this14.openAudioMc.world.player.updateLocation(new Z(t, i, n), o, s);
       }), t("ClientSpeakerCreatePayload", function (e) {
         var t = e.clientSpeaker,
-            i = new J(t.id, t.source, new Y(t.location.x, t.location.y, t.location.z), t.type, t.maxDistance, t.startInstant, _this14.openAudioMc);_this14.openAudioMc.world.addSpeaker(t.id, i);
+            i = new Y(t.id, t.source, new Z(t.location.x, t.location.y, t.location.z), t.type, t.maxDistance, t.startInstant, _this14.openAudioMc);_this14.openAudioMc.world.addSpeaker(t.id, i);
       }), t("ClientSpeakerDestroyPayload", function (e) {
         var t = e.clientSpeaker;_this14.openAudioMc.world.removeSpeaker(t.id);
       });
     }
 
-    X.prototype.convertDistanceToVolume = function convertDistanceToVolume(e, t) {
+    Q.prototype.convertDistanceToVolume = function convertDistanceToVolume(e, t) {
       return P((e - t) / e * 100);
     };
 
-    return X;
+    return Q;
   }();
 
-  var Q = function () {
-    function Q() {
+  var X = function () {
+    function X() {
       var _this15 = this;
 
-      _classCallCheck(this, Q);
+      _classCallCheck(this, X);
 
       this.dropdowns = [], this.state = [], this.dropdowns.push(document.getElementById("bulb-selection-1")), this.dropdowns.push(document.getElementById("bulb-selection-2")), this.dropdowns.push(document.getElementById("bulb-selection-3")), this.dropdowns.forEach(function (e) {
         e.onchange = function () {
@@ -1367,15 +1375,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       });
     }
 
-    Q.prototype.setBridgeName = function setBridgeName(e) {
+    X.prototype.setBridgeName = function setBridgeName(e) {
       document.getElementById("bridge-name").innerText = e;
     };
 
-    Q.prototype.select = function select() {
+    X.prototype.select = function select() {
       this.updateState();
     };
 
-    Q.prototype.applyState = function applyState() {
+    X.prototype.applyState = function applyState() {
       var _this16 = this;
 
       this.state.forEach(function (e) {
@@ -1383,7 +1391,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       });
     };
 
-    Q.prototype.updateState = function updateState() {
+    X.prototype.updateState = function updateState() {
       var _this17 = this;
 
       this.state = [], this.dropdowns.forEach(function (e) {
@@ -1391,18 +1399,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }), Cookies.set("hue-state", this.state);
     };
 
-    Q.prototype.obtainSelection = function obtainSelection(e) {
+    X.prototype.obtainSelection = function obtainSelection(e) {
       var t = e.dataset.bulb,
           i = e.options[e.selectedIndex].dataset.light;return { selectedIndex: e.selectedIndex, bulb: t, value: i };
     };
 
-    Q.prototype.getBulbStateById = function getBulbStateById(e) {
+    X.prototype.getBulbStateById = function getBulbStateById(e) {
       return this.state.forEach(function (t) {
         if (t.id == e) return t;
       }), -1;
     };
 
-    Q.prototype.getInputById = function getInputById(e) {
+    X.prototype.getInputById = function getInputById(e) {
       var _iteratorNormalCompletion17 = true;
       var _didIteratorError17 = false;
       var _iteratorError17 = undefined;
@@ -1428,11 +1436,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }
     };
 
-    Q.prototype.getHueIdFromId = function getHueIdFromId(e) {
+    X.prototype.getHueIdFromId = function getHueIdFromId(e) {
       return this.state[parseInt(e)].value;
     };
 
-    Q.prototype.setLightNamesAndIds = function setLightNamesAndIds(e) {
+    X.prototype.setLightNamesAndIds = function setLightNamesAndIds(e) {
       var t = "";e.forEach(function (e) {
         t += "<option data-light='" + e.id + "'>" + e.name + "</option>";
       }), this.dropdowns.forEach(function (e) {
@@ -1440,7 +1448,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       });
     };
 
-    return Q;
+    return X;
   }();
 
   var $ = { searchParams: "URLSearchParams" in self, iterable: "Symbol" in self && "iterator" in Symbol, blob: "FileReader" in self && "Blob" in self && function () {
@@ -1516,7 +1524,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
               c += e.outerHTML;
             }), "" !== h && (e.getMessages().errorMessage = d), "" !== u && (e.getMessages().welcomeMessage = c);var m = o.greetingMessage;if (m = m.replace("%name", e.tokenSet.name), document.getElementById("welcome-text-landing").innerHTML = m, document.getElementById("boot-button").style.display = "", document.getElementById("boot-button").innerHTML = o.connectButtonText, e.getUserInterfaceModule().changeColor("#304FFE", o.accentColor), "" != o.startSound) {
               var _t9 = new F("startsound"),
-                  _i5 = new Z(o.startSound);_i5.openAudioMc = e, _i5.setOa(e), _i5.finalize().then(function () {
+                  _i5 = new J(o.startSound);_i5.openAudioMc = e, _i5.setOa(e), _i5.finalize().then(function () {
                 e.getMediaManager().mixer.addChannel(_t9), _t9.addSound(_i5), _t9.setChannelVolume(100), _t9.updateFromMasterVolume(), _i5.finish();
               });
             }"default" !== l && (document.title = l), t({ host: r, background: a });
@@ -2298,22 +2306,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
   var je = i(0);
   var qe = function () {
-    function qe(e, t, i, n) {
+    function qe(e, t, i) {
       _classCallCheck(this, qe);
 
-      this.x = e || 0, this.y = t || 0, this.z = i || 0, this.order = n || "XYZ";
+      this.x = e || 0, this.y = t || 0, this.z = i || 0;
     }
 
-    qe.prototype.set = function set(e, t, i, n) {
-      return this.x = e || 0, this.y = t || 0, this.z = i || 0, this.order = n || this.order, this;
-    };
-
-    qe.prototype.clone = function clone() {
-      return new qe(this.x, this.y, this.z, this.order);
-    };
-
     qe.prototype.copy = function copy(e) {
-      return this.x = e.x, this.y = e.y, this.z = e.z, this.order = e.order, this;
+      return this.x = e.x, this.y = e.y, this.z = e.z, this;
     };
 
     return qe;
@@ -2344,7 +2344,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
   var Ke = function () {
     function Ke() {
-      var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Y();
+      var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Z();
       var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new Ge();
 
       _classCallCheck(this, Ke);
@@ -2358,60 +2358,60 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     Ke.prototype.applyTo = function applyTo(e) {
       var t = this.position,
-          i = new Y(0, 0, 1).applyQuaternion(this.rotation),
-          n = new Y(0, 1, 0).applyQuaternion(this.rotation);e.positionX ? (e.positionX.value = t.x, e.positionY.value = t.y, e.positionZ.value = t.z) : e.setPosition(t.x, t.y, t.z), e instanceof PannerNode ? e.orientationX ? (e.orientationX.value = i.x, e.orientationY.value = i.y, e.orientationZ.value = i.z) : e.setOrientation(i.x, i.y, i.z) : e.forwardX ? (e.forwardX.value = i.x, e.forwardY.value = i.y, e.forwardZ.value = i.z, e.upX.value = n.x, e.upY.value = n.y, e.upZ.value = n.z) : e.setOrientation(i.x, i.y, i.z, n.x, n.y, n.z);
+          i = new Z(0, 0, 1).applyQuaternion(this.rotation),
+          n = new Z(0, 1, 0).applyQuaternion(this.rotation);e.positionX ? (e.positionX.value = t.x, e.positionY.value = t.y, e.positionZ.value = t.z) : e.setPosition(t.x, t.y, t.z), e instanceof PannerNode ? e.orientationX ? (e.orientationX.value = i.x, e.orientationY.value = i.y, e.orientationZ.value = i.z) : e.setOrientation(i.x, i.y, i.z) : e.forwardX ? (e.forwardX.value = i.x, e.forwardY.value = i.y, e.forwardZ.value = i.z, e.upX.value = n.x, e.upY.value = n.y, e.upZ.value = n.z) : e.setOrientation(i.x, i.y, i.z, n.x, n.y, n.z);
     };
 
     return Ke;
   }();
 
-  var Ze = function () {
-    function Ze(e, t, i, n) {
-      _classCallCheck(this, Ze);
+  var Je = function () {
+    function Je(e, t, i, n) {
+      _classCallCheck(this, Je);
 
       this.world = e, this.audioContext = window.AudioContext || window.webkitAudioContext, this.audioCtx = new AudioContext(), this.listener = this.audioCtx.listener, this.updateLocation(t, i, n);
     }
 
-    Ze.prototype.updateLocation = function updateLocation(e, t, i) {
-      this.location = e, this.pitch = this.toRadians(t), this.yaw = this.toRadians(this.normalizeYaw(360 - i));var n = new qe(this.pitch, this.yaw, 0, "XYZ"),
+    Je.prototype.updateLocation = function updateLocation(e, t, i) {
+      this.location = e, this.pitch = this.toRadians(t), this.yaw = this.toRadians(this.normalizeYaw(360 - i));var n = new qe(this.pitch, this.yaw, 0),
           o = new Ge();o.setFromEuler(n);new Ke(e, o).applyTo(this.listener), this.world.onLocationUpdate();
     };
 
-    Ze.prototype.toRadians = function toRadians(e) {
+    Je.prototype.toRadians = function toRadians(e) {
       return e * (Math.PI / 180);
     };
 
-    Ze.prototype.normalizeYaw = function normalizeYaw(e) {
+    Je.prototype.normalizeYaw = function normalizeYaw(e) {
       return 0 > (e %= 360) && (e += 360), e;
     };
 
-    return Ze;
+    return Je;
   }();
 
-  var Ye = function Ye(e, t, i) {
-    _classCallCheck(this, Ye);
+  var Ze = function Ze(e, t, i) {
+    _classCallCheck(this, Ze);
 
     this.source = e, this.distance = t, this.speaker = i;
   };
 
-  var Je = "SPEAKER_2D";
-  var Xe = function () {
-    function Xe(e, t, i) {
+  var Ye = "SPEAKER_2D";
+  var Qe = function () {
+    function Qe(e, t, i) {
       var _this37 = this;
 
-      _classCallCheck(this, Xe);
+      _classCallCheck(this, Qe);
 
-      this.id = "SPEAKER__" + t, this.openAudioMc = e, this.lastUsedMode = Je;var n = new F(this.id);this.channel = n;var o = new Z(t);this.media = o, o.openAudioMc = e, o.setOa(e), n.mixer = this.openAudioMc.getMediaManager().mixer, o.startDate(i, !0), o.finalize().then(function () {
+      this.id = "SPEAKER__" + t, this.openAudioMc = e, this.lastUsedMode = Ye;var n = new F(this.id);this.channel = n;var o = new J(t);this.media = o, o.openAudioMc = e, o.setOa(e), n.mixer = this.openAudioMc.getMediaManager().mixer, o.startDate(i, !0), o.finalize().then(function () {
         o.startDate(i, !0), e.getMediaManager().mixer.addChannel(n), n.addSound(o), n.setChannelVolume(100), o.setLooping(!0), n.setTag(_this37.id), n.setTag("SPECIAL"), _this37.openAudioMc.getMediaManager().mixer.updateCurrent(), o.finish();
       });
     }
 
-    Xe.prototype.updateLocation = function updateLocation(e, t, i) {
+    Qe.prototype.updateLocation = function updateLocation(e, t, i) {
       if (e.type != this.lastUsedMode) {
         if (e.type, "SPEAKER_3D" == e.type) {
           var _t11 = this.openAudioMc.world.player;this.pannerNode = _t11.audioCtx.createPanner(), this.media.addNode(_t11, this.pannerNode), this.pannerNode.connect(_t11.audioCtx.destination), this.pannerNode.panningModel = "HRTF", this.pannerNode.maxDistance = e.maxDistance, this.pannerNode.rolloffFactor = 1, this.pannerNode.distanceModel = "exponential";
         }this.lastUsedMode = e.type;
-      }if (e.type == Je) {
+      }if (e.type == Ye) {
         var _n5 = e.getDistance(t, i),
             _o3 = this._convertDistanceToVolume(e.maxDistance, _n5);if (0 > _o3) return;this.channel.fadeChannel(_o3, 100);
       } else {
@@ -2419,45 +2419,45 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }
     };
 
-    Xe.prototype._convertDistanceToVolume = function _convertDistanceToVolume(e, t) {
+    Qe.prototype._convertDistanceToVolume = function _convertDistanceToVolume(e, t) {
       return P((e - t) / e * 100);
     };
 
-    Xe.prototype.remove = function remove() {
+    Qe.prototype.remove = function remove() {
       this.openAudioMc.getMediaManager().destroySounds(this.id, !1);
     };
 
-    return Xe;
+    return Qe;
   }();
 
-  var Qe = function () {
-    function Qe(e) {
-      _classCallCheck(this, Qe);
+  var Xe = function () {
+    function Xe(e) {
+      _classCallCheck(this, Xe);
 
-      this.openAudioMc = e, this.speakers = new Map(), this.audioMap2D = new Map(), this.player = new Ze(this, new Y(0, 0, 0), 0, 0);
+      this.openAudioMc = e, this.speakers = new Map(), this.audioMap2D = new Map(), this.player = new Je(this, new Z(0, 0, 0), 0, 0);
     }
 
-    Qe.prototype.getSpeakerById = function getSpeakerById(e) {
+    Xe.prototype.getSpeakerById = function getSpeakerById(e) {
       return this.speakers.get(e);
     };
 
-    Qe.prototype.addSpeaker = function addSpeaker(e, t) {
+    Xe.prototype.addSpeaker = function addSpeaker(e, t) {
       this.speakers.set(e, t), t.initialize(), this.renderAudio2D();
     };
 
-    Qe.prototype.removeSpeaker = function removeSpeaker(e) {
+    Xe.prototype.removeSpeaker = function removeSpeaker(e) {
       var t = this.getSpeakerById(e);null != t && t.onRemove(), this.speakers.delete(e), this.renderAudio2D();
     };
 
-    Qe.prototype.getMediaForSource = function getMediaForSource(e, t) {
-      var i = this.audioMap2D.get(e);if (null != i) return i;if (null == t) return null;var n = new Xe(this.openAudioMc, e, t);return this.audioMap2D.set(e, n), n;
+    Xe.prototype.getMediaForSource = function getMediaForSource(e, t) {
+      var i = this.audioMap2D.get(e);if (null != i) return i;if (null == t) return null;var n = new Qe(this.openAudioMc, e, t);return this.audioMap2D.set(e, n), n;
     };
 
-    Qe.prototype.removeMediaFromSource = function removeMediaFromSource(e) {
+    Xe.prototype.removeMediaFromSource = function removeMediaFromSource(e) {
       var t = this.getMediaForSource(e);null == t || (t.remove(), this.audioMap2D.delete(e));
     };
 
-    Qe.prototype.onLocationUpdate = function onLocationUpdate() {
+    Xe.prototype.onLocationUpdate = function onLocationUpdate() {
       var _this38 = this;
 
       this.speakers.forEach(function (e) {
@@ -2465,7 +2465,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }), this.renderAudio2D();
     };
 
-    Qe.prototype.isMediaUsed = function isMediaUsed(e) {
+    Xe.prototype.isMediaUsed = function isMediaUsed(e) {
       var _iteratorNormalCompletion20 = true;
       var _didIteratorError20 = false;
       var _iteratorError20 = undefined;
@@ -2493,11 +2493,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       return !1;
     };
 
-    Qe.prototype.renderAudio2D = function renderAudio2D() {
+    Xe.prototype.renderAudio2D = function renderAudio2D() {
       var _this39 = this;
 
       var e = [];this.speakers.forEach(function (t) {
-        var i = t.getDistance(_this39, _this39.player);e.push(new Ye(t.source, i, t));
+        var i = t.getDistance(_this39, _this39.player);e.push(new Ze(t.source, i, t));
       });var t = new Map();var _iteratorNormalCompletion21 = true;
       var _didIteratorError21 = false;
       var _iteratorError21 = undefined;
@@ -2529,7 +2529,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       });
     };
 
-    return Qe;
+    return Xe;
   }();
 
   i.d(t, "OpenAudioMc", function () {
@@ -2543,7 +2543,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       _classCallCheck(this, $e);
 
-      if ((_this40 = _possibleConstructorReturn(this, _ref.call(this)), _this40), _this40.canStart = !1, _this40.host = null, _this40.background = null, _this40.tokenSet = new G().fromUrl(window.location.href), null == _this40.tokenSet) return _ret2 = void (document.getElementById("welcome-text-landing").innerHTML = "The audio client is only available for players who are online in the server. Use <small>/audio</small> to obtain a URL<br />"), _possibleConstructorReturn(_this40, _ret2);_this40.notificationModule = new We(_this40), _this40.timeService = new O(), _this40.messages = new L(_this40), _this40.userInterfaceModule = new R(_this40), _this40.hueConfiguration = new Q(_this40), _this40.mediaManager = new D(_this40), Ce = new (window.AudioContext || window.webkitAudioContext)(), _this40.voiceModule = new Ve(_this40), _this40.boot();new se("https://plus.openaudiomc.net/").route(_this40).then(function (e) {
+      if ((_this40 = _possibleConstructorReturn(this, _ref.call(this)), _this40), _this40.canStart = !1, _this40.host = null, _this40.background = null, _this40.tokenSet = new G().fromUrl(window.location.href), null == _this40.tokenSet) return _ret2 = void (document.getElementById("welcome-text-landing").innerHTML = "The audio client is only available for players who are online in the server. Use <small>/audio</small> to obtain a URL<br />"), _possibleConstructorReturn(_this40, _ret2);_this40.notificationModule = new We(_this40), _this40.timeService = new O(), _this40.messages = new L(_this40), _this40.userInterfaceModule = new R(_this40), _this40.hueConfiguration = new X(_this40), _this40.mediaManager = new D(_this40), Ce = new (window.AudioContext || window.webkitAudioContext)(), _this40.voiceModule = new Ve(_this40), _this40.boot();new se("https://plus.openaudiomc.net/").route(_this40).then(function (e) {
         _this40.canStart = !0, _this40.host = e.host, _this40.background = e.background;
       }).catch(function (e) {
         console.error("Exception thrown", e.stack), _this40.userInterfaceModule.kickScreen("Your current URL appears to be invalid. Please request a new one in-game using the /audio command. If this issue if persists please contact a member of staff."), new H("#alert-area", { closeTime: 2e4, persistent: !1, hideCloseButton: !0, extra: "warning" }).show("A networking error occurred while connecting to the server, please request a new url and try again.");
@@ -2551,7 +2551,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
 
     $e.prototype.start = function start() {
-      this.canStart && (this.canStart = !1, this.world = new Qe(this), this.hueModule = new U(this, Object(je.a)()), this.socketModule = new V(this, this.host), this.messages.apply(), new X(this), "" !== this.background && (document.getElementById("page").style = "vertical-align: middle;\n    background:\n            url(" + this.background + ");\n    -webkit-background-size: cover;\n    background-size: cover;"));
+      this.canStart && (this.canStart = !1, this.world = new Xe(this), this.hueModule = new U(this, Object(je.a)()), this.socketModule = new V(this, this.host), this.messages.apply(), new Q(this), "" !== this.background && (document.getElementById("page").style = "vertical-align: middle;\n    background:\n            url(" + this.background + ");\n    -webkit-background-size: cover;\n    background-size: cover;"));
     };
 
     return $e;
