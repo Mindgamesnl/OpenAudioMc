@@ -2981,7 +2981,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
 
     we.prototype.updateLocation = function updateLocation(t, e, i) {
-      this.location = t, this.pitch = this.degrees_to_radians(e), this.yaw = this.degrees_to_radians(this.normalizeYaw(i - 180));var n = new B(this.pitch, this.yaw, 0, "XYZ"),
+      this.location = t, this.pitch = this.degrees_to_radians(e), this.yaw = this.degrees_to_radians(this.normalizeYaw(360 - i));var n = new B(this.pitch, this.yaw, 0, "XYZ"),
           s = new r();s.setFromEuler(n);new be(t, s).applyTo(this.listener), this.world.onLocationUpdate();
     };
 

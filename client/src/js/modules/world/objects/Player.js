@@ -15,8 +15,8 @@ export class Player {
 
     updateLocation(location, pitch, yaw) {
         this.location = location;
-        this.pitch = this.degrees_to_radians(pitch);
-        this.yaw = this.degrees_to_radians(this.normalizeYaw(yaw - 180));
+        this.pitch = this.toRadians(pitch);
+        this.yaw = this.toRadians(this.normalizeYaw(360 - yaw));
 
         // location already is a Vector3
         const euler = new Euler(this.pitch, this.yaw, 0, "XYZ");
@@ -29,9 +29,8 @@ export class Player {
         this.world.onLocationUpdate();
     }
 
-    degrees_to_radians(degrees) {
-        var pi = Math.PI;
-        return degrees * (pi / 180);
+    toRadians(degrees) {
+        return degrees * (Math.PI / 180);
     }
 
     normalizeYaw(yaw) {
