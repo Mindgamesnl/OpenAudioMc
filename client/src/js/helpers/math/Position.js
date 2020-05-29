@@ -1,11 +1,5 @@
-import {Vector3} from "./ThreeJS/Vector3";
-import {Quaternion} from "./ThreeJS/Quaternion";
-
-/**
- * After days of struggling, https://github.com/56738 (56738#9296) gave this code to handle
- * complicated math which I don't understand, full credits for this class go to them!
- * Thank you so much.
- */
+import {Vector3} from "./Vector3";
+import {Quaternion} from "./Quaternion";
 
 export class Position {
 
