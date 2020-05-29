@@ -52,7 +52,6 @@ export class Position {
             }
         } else {
             if (target.forwardX) {
-                console.log(forward)
                 target.forwardX.value = forward.x;
                 target.forwardY.value = forward.y;
                 target.forwardZ.value = forward.z;

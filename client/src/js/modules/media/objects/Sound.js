@@ -69,7 +69,6 @@ export class Sound {
     }
 
     addNode(player, node) {
-        console.log("Im going insane")
         this.soundElement.crossOrigin = "anonymous";
         if (this.controller == null) this.controller = player.audioCtx.createMediaElementSource(this.soundElement);
         this.controller.connect(node);

@@ -329,11 +329,7 @@ Object.assign( Quaternion.prototype, {
             trace = m11 + m22 + m33,
             s;
 
-        console.log("a")
-        console.log(te)
-
         if ( trace > 0 ) {
-            console.log("hier")
 
             s = 0.5 / Math.sqrt( trace + 1.0 );
 
@@ -343,7 +339,6 @@ Object.assign( Quaternion.prototype, {
             this._z = ( m21 - m12 ) * s;
 
         } else if ( m11 > m22 && m11 > m33 ) {
-            console.log("bier")
 
             s = 2.0 * Math.sqrt( 1.0 + m11 - m22 - m33 );
 
@@ -353,7 +348,6 @@ Object.assign( Quaternion.prototype, {
             this._z = ( m13 + m31 ) / s;
 
         } else if ( m22 > m33 ) {
-            console.log("sier")
 
             s = 2.0 * Math.sqrt( 1.0 + m22 - m11 - m33 );
 
@@ -365,15 +359,13 @@ Object.assign( Quaternion.prototype, {
         } else {
 
             s = 2.0 * Math.sqrt( 1.0 + m33 - m11 - m22 );
-            console.log(m11)
+
             this._w = ( m21 - m12 ) / s;
             this._x = ( m13 + m31 ) / s;
             this._y = ( m23 + m32 ) / s;
             this._z = 0.25 * s;
 
         }
-
-        console.log(this)
 
         this._onChangeCallback();
 
