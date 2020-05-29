@@ -11,6 +11,9 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.world.WorldSaveEvent;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +22,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class SpigotConfigurationImplementation implements ConfigurationImplementation {
+public class SpigotConfigurationImplementation implements ConfigurationImplementation, Listener {
 
     private FileConfiguration mainConfig;
     private FileConfiguration dataConfig;
@@ -30,12 +33,19 @@ public class SpigotConfigurationImplementation implements ConfigurationImplement
         //save default
         openAudioMcSpigot.saveDefaultConfig();
         if (!hasDataFile()) openAudioMcSpigot.saveResource("data.yml", false);
+        openAudioMcSpigot.getServer().getPluginManager().registerEvents(this, openAudioMcSpigot);
 
         dataConfig = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudioMc/data.yml"));
         mainConfig = openAudioMcSpigot.getConfig();
 
         OpenAudioLogger.toConsole("Starting configuration module");
         this.loadSettings();
+    }
+
+    @EventHandler
+    public void onWorldSave(WorldSaveEvent event) {
+        OpenAudioLogger.toConsole("Saving OpenAudioMc data with world save...");
+        saveAll();
     }
 
     public ConfigurationImplementation loadSettings() {
