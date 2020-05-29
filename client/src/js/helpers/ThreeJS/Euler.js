@@ -9,8 +9,8 @@ import { MathUtils } from './MathUtils.js';
  * @author bhouston / http://clara.io
  */
 
-var _matrix = new Matrix4();
-var _quaternion = new Quaternion();
+let _matrix = new Matrix4();
+let _quaternion = new Quaternion();
 
 function Euler( x, y, z, order ) {
 
@@ -135,14 +135,14 @@ Object.assign( Euler.prototype, {
 
     setFromRotationMatrix: function ( m, order, update ) {
 
-        var clamp = MathUtils.clamp;
+        let clamp = MathUtils.clamp;
 
         // assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
 
-        var te = m.elements;
-        var m11 = te[ 0 ], m12 = te[ 4 ], m13 = te[ 8 ];
-        var m21 = te[ 1 ], m22 = te[ 5 ], m23 = te[ 9 ];
-        var m31 = te[ 2 ], m32 = te[ 6 ], m33 = te[ 10 ];
+        let te = m.elements;
+        let m11 = te[ 0 ], m12 = te[ 4 ], m13 = te[ 8 ];
+        let m21 = te[ 1 ], m22 = te[ 5 ], m23 = te[ 9 ];
+        let m31 = te[ 2 ], m32 = te[ 6 ], m33 = te[ 10 ];
 
         order = order || this._order;
 

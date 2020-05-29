@@ -6,10 +6,10 @@ export default class UrlReader {
 
     static getParametersFromUrl(url) {
         if (url.indexOf('?&') > -1) return {};
-        let vars = url.split("&");
+        let lets = url.split("&");
         let query_string = {};
-        for (let i = 0; i < vars.length; i++) {
-            let pair = vars[i].split("=");
+        for (let i = 0; i < lets.length; i++) {
+            let pair = lets[i].split("=");
             let key = decodeURIComponent(pair[0]);
             let value = decodeURIComponent(pair[1]);
             // If first entry with this name
