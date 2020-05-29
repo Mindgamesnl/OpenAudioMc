@@ -16,6 +16,7 @@ export class WorldModule {
 
     addSpeaker(id, speakerData) {
         this.speakers.set(id, speakerData);
+        speakerData.initialize();
     }
 
     removeSpeaker(id) {

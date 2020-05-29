@@ -3,6 +3,8 @@ package com.craftmend.openaudiomc.spigot.modules.speakers;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementation;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.networking.payloads.out.speakers.objects.SpeakerType;
+import com.craftmend.openaudiomc.generic.networking.payloads.out.speakers.objects.Vector3;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.core.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerSelectListener;
@@ -122,10 +124,24 @@ public class SpeakerModule {
         applicableSpeakers.forEach(speaker -> {
             int distance = Math.toIntExact(Math.round(speaker.getLocation().toBukkit().distance(location)));
             if (distanceMap.get(speaker.getSource()) == null) {
-                distanceMap.put(speaker.getSource(), new ApplicableSpeaker(distance, speaker));
+
+                // TODO: LOAD ACTUAL SPEAKER TYPE, HARDCODING DEFAULTS FOR NOW BECAUSE IM FFFF LAZY AND JUST WANT TO TEST THIS
+                distanceMap.put(speaker.getSource(), new ApplicableSpeaker(
+                        distance,
+                        speaker,
+                        SpeakerType.SPEAKER_2D,
+                        Vector3.from(speaker.getLocation())
+                ));
+
             } else {
                 if (distance < distanceMap.get(speaker.getSource()).getDistance()) {
-                    distanceMap.put(speaker.getSource(), new ApplicableSpeaker(distance, speaker));
+                    // TODO: LOAD ACTUAL SPEAKER TYPE, HARDCODING DEFAULTS FOR NOW BECAUSE IM FFF LAZY AND JUST WANT TO TEST THIS
+                    distanceMap.put(speaker.getSource(), new ApplicableSpeaker(
+                            distance,
+                            speaker,
+                            SpeakerType.SPEAKER_2D,
+                            Vector3.from(speaker.getLocation())
+                    ));
                 }
             }
         });

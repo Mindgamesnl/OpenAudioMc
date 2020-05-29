@@ -16,6 +16,10 @@ export class Speaker {
         this.maxDistance = maxDistance;
     }
 
+    initialize() {
+
+    }
+
     onPlayerLocationUpdate(world, player) {
         if (this.type == SPEAKER_3D) {
             // Don't do anything, since the player changes the volume
@@ -28,6 +32,7 @@ export class Speaker {
 
     onRemove() {
         // goodbye world
+        console.log("Killing myself " + this)
     }
 
     _convertDistanceToVolume(maxDistance, currentDistance) {
