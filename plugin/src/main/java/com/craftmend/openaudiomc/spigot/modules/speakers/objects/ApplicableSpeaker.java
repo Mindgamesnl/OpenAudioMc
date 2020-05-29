@@ -14,4 +14,11 @@ public class ApplicableSpeaker {
     private SpeakerType speakerType;
     private Vector3 location;
 
+    @Override
+    public boolean equals(Object otherSpeaker) {
+        if (!(otherSpeaker instanceof ApplicableSpeaker)) return false;
+        ApplicableSpeaker other = (ApplicableSpeaker) otherSpeaker;
+        return other.getLocation().equals(location) && speakerType.equals(other.getSpeakerType());
+    }
+
 }

@@ -1599,7 +1599,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     de.prototype.onPlayerLocationUpdate = function onPlayerLocationUpdate(e, t) {
       if ("SPEAKER_3D" == this.type) ;else if (this.type == ce) {
         var _e24 = t.location.distance(this.location),
-            _i6 = this._convertDistanceToVolume(this.maxDistance, _e24);this.channel.fadeChannel(_i6, 100);
+            _i6 = this._convertDistanceToVolume(this.maxDistance, _e24);if (0 > _i6) return;this.channel.fadeChannel(_i6, 100);
       }
     };
 

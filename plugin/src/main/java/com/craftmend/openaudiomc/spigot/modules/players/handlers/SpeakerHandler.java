@@ -50,7 +50,7 @@ public class SpeakerHandler implements ITickableHandler {
         // send deletion packets
         leftSpeakers.forEach(left -> {
             ClientSpeaker clientSpeaker = toClientSpeaker(left);
-            packetQue.add(new PacketClientRemoveSpeaker(new ClientSpeakerDestroyPayload(clientSpeaker)));
+            OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientRemoveSpeaker(new ClientSpeakerDestroyPayload(clientSpeaker)));
         });
 
         spigotConnection.setCurrentSpeakers(applicableSpeakers);
@@ -77,22 +77,15 @@ public class SpeakerHandler implements ITickableHandler {
     }
 
     private boolean isPlayingSpeaker(ApplicableSpeaker speaker) {
-        for (ApplicableSpeaker currentSpeaker : spigotConnection.getSpeakers())
-            if (currentSpeaker.getSpeaker().getSource().equals(speaker.getSpeaker().getSource())) return true;
-        return false;
+        return spigotConnection.getSpeakers().stream().anyMatch(currentSpeaker -> currentSpeaker.getSpeaker().getSource().equals(speaker.getSpeaker().getSource()));
     }
 
     private ApplicableSpeaker filterSpeaker(List<ApplicableSpeaker> list, ApplicableSpeaker query) {
-        for (ApplicableSpeaker applicableSpeaker : list) {
-            if (applicableSpeaker.getSpeaker() == query.getSpeaker()) return applicableSpeaker;
-        }
-        return null;
+        return list.stream().filter(applicableSpeaker -> applicableSpeaker.getSpeaker() == query.getSpeaker()).findFirst().orElse(null);
     }
 
     private boolean containsSpeaker(List<ApplicableSpeaker> list, ApplicableSpeaker speaker) {
-        for (ApplicableSpeaker currentSpeaker : list)
-            if (currentSpeaker.getSpeaker().getSource().equals(speaker.getSpeaker().getSource())) return true;
-        return false;
+        return list.stream().anyMatch(currentSpeaker -> currentSpeaker.getSpeaker().getSource().equals(speaker.getSpeaker().getSource()));
     }
 
     private double round(double value, int places) {
