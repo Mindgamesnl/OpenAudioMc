@@ -3,13 +3,19 @@ import {Card} from "../card/Card";
 import {Channel} from "../media/objects/Channel";
 import {Sound} from "../media/objects/Sound";
 import {Vector3} from "../../helpers/ThreeJS/Vector3";
+import {Speaker} from "../world/objects/Speaker";
 
 export class Handlers {
 
     constructor(openAudioMc) {
         this.openAudioMc = openAudioMc;
 
-        openAudioMc.socketModule.registerHandler("ClientCreateMediaPayload", data => {
+        // util
+        function registerHandler(channel, handler) {
+            openAudioMc.socketModule.registerHandler(channel, handler);
+        }
+
+        registerHandler("ClientCreateMediaPayload", data => {
             const looping = data.media.loop;
             const startInstant = data.media.startInstant;
             const id = data.media.mediaId;
@@ -71,22 +77,22 @@ export class Handlers {
             });
         });
 
-        openAudioMc.socketModule.registerHandler("ClientDestroyCardPayload", () => {
+        registerHandler("ClientDestroyCardPayload", () => {
             document.getElementById("card-panel").style.display = "none";
         });
 
-        openAudioMc.socketModule.registerHandler("ClientUpdateCardPayload", data => {
+        registerHandler("ClientUpdateCardPayload", data => {
             const cardData = JSON.parse(data.serializedCard);
             new Card().replaceWithJson(data.id, cardData);
         });
 
-        openAudioMc.socketModule.registerHandler("ClientCreateCardPayload", data => {
+        registerHandler("ClientCreateCardPayload", data => {
             const cardData = JSON.parse(data.serializedCard);
             new Card(cardData);
         });
 
 
-        openAudioMc.socketModule.registerHandler("NotificationPayload", data => {
+        registerHandler("NotificationPayload", data => {
             const message = data.message;
             this.openAudioMc.notificationModule.sendNotification(data.title, message);
             new AlertBox('#alert-area', {
@@ -96,7 +102,7 @@ export class Handlers {
             }).show(data.title + '<hr />' + message);
         });
 
-        openAudioMc.socketModule.registerHandler("ClientSettingsPayload", data => {
+        registerHandler("ClientSettingsPayload", data => {
             this.openAudioMc.debugPrint("Updating settings...");
             const settings = data.clientSettings;
             const background = settings.background;
@@ -128,7 +134,7 @@ export class Handlers {
             openAudioMc.getMessages().apply();
         });
 
-        openAudioMc.socketModule.registerHandler("ClientVersionPayload", data => {
+        registerHandler("ClientVersionPayload", data => {
             const revision = parseInt(data.protocolRevision);
 
             console.log("[OpenAudioMc] Received PROTOCOL revision update");
@@ -139,13 +145,13 @@ export class Handlers {
             }
         });
 
-        openAudioMc.socketModule.registerHandler("ClientVolumePayload", data => {
+        registerHandler("ClientVolumePayload", data => {
             const target = data.volume;
             this.openAudioMc.getMediaManager().setMasterVolume(target);
             document.getElementById("volume-slider").value = target;
         });
 
-        openAudioMc.socketModule.registerHandler("ClientDestroyMediaPayload", data => {
+        registerHandler("ClientDestroyMediaPayload", data => {
             this.openAudioMc.getMediaManager().destroySounds(data.soundId, data.all);
         });
 
@@ -153,7 +159,7 @@ export class Handlers {
             return (value - r1[0]) * (r2[1] - r2[0]) / (r1[1] - r1[0]) + r2[0];
         }
 
-        openAudioMc.socketModule.registerHandler("HueColorPayload", data => {
+        registerHandler("HueColorPayload", data => {
             const targetLights = data.lights;
             const targetColor = data.hueColor;
             const rgbaColor = "rgba(" + targetColor.r + "," + targetColor.g + "," + targetColor.b + "," + convertRange(targetColor.bir, [0, 255], [0, 1]) + ")";
@@ -162,7 +168,7 @@ export class Handlers {
             }
         });
 
-        openAudioMc.socketModule.registerHandler("ClientUpdateMediaPayload", data => {
+        registerHandler("ClientUpdateMediaPayload", data => {
             const id = data.mediaOptions.target;
             const fadeTime = data.mediaOptions.fadeTime;
             const distance = data.mediaOptions.distance;
@@ -174,7 +180,7 @@ export class Handlers {
             }
         });
 
-        openAudioMc.socketModule.registerHandler("ClientPlayerLocationPayload", data => {
+        registerHandler("ClientPlayerLocationPayload", data => {
             const x = data.x;
             const y = data.y;
             const z = data.z;
@@ -182,6 +188,33 @@ export class Handlers {
             const yaw = data.yaw;
 
             this.openAudioMc.world.player.updateLocation(new Vector3(x, y, z), pitch, yaw);
+        });
+
+        registerHandler("ClientSpeakerCreatePayload", data => {
+           // speaker in range
+            const speaker = data.clientSpeaker;
+
+            const speakerData = new Speaker(
+                speaker.id,
+                speaker.source,
+                new Vector3(
+                    speaker.location.x,
+                    speaker.location.y,
+                    speaker.location.z
+                ),
+                speaker.type,
+                speaker.maxDistance
+            );
+
+            console.log("Created speaker " + speakerData);
+
+            this.openAudioMc.world.addSpeaker(speaker.id, speakerData);
+        });
+
+        registerHandler("ClientSpeakerDestroyPayload", data => {
+            // speaker out of range
+            const speaker = data.clientSpeaker;
+            this.openAudioMc.world.removeSpeaker(speaker.id);
         });
 
     }
