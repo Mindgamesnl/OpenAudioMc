@@ -65,7 +65,7 @@ public class SpeakersSubCommand extends SubCommand {
             SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(((Player) sender.getOriginal()));
             spigotConnection.setSelectedSpeakerSettings(
                     new SpeakerSettings(
-                            args[0],
+                            OpenAudioMc.getInstance().getMediaModule().process(args[0]),
                             radius
                     )
             );
