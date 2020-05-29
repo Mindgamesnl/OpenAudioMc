@@ -1,4 +1,4 @@
-import UrlReader from "./UrlReader";
+import UrlReader from "../protocol/UrlReader";
 
 export default class ClientTokenSet {
 
