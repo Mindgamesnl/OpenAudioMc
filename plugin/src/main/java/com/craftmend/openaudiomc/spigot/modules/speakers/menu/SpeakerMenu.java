@@ -89,21 +89,11 @@ public class SpeakerMenu extends Menu {
                 Player nearbyPlayer = (Player) entity;
                 SpigotConnection spigotConnection = OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(nearbyPlayer);
 
-                // reset speakers and force-tick
-                // if the speaker was 2d, use the media id, if not, use the speaker id
-                if (mode == SpeakerType.SPEAKER_2D) {
-                    spigotConnection.getSpeakerHandler().forceDeleteSpeaker(
-                            speaker.getMedia().getMediaId(),
-                            mode,
-                            speaker.getMedia().getSource()
-                    );
-                } else {
-                    spigotConnection.getSpeakerHandler().forceDeleteSpeaker(
-                            speaker.getId().toString(),
-                            mode,
-                            speaker.getMedia().getSource()
-                    );
-                }
+                spigotConnection.getSpeakerHandler().forceDeleteSpeaker(
+                        speaker.getId().toString(),
+                        mode,
+                        speaker.getMedia().getSource()
+                );
 
                 spigotConnection.getSpeakers().clear();
                 spigotConnection.getSpeakerHandler().tick();

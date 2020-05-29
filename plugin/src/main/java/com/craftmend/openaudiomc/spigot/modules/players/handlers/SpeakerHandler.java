@@ -15,7 +15,6 @@ import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.interfaces.ITickableHandler;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.ApplicableSpeaker;
-import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import lombok.AllArgsConstructor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -92,15 +91,12 @@ public class SpeakerHandler implements ITickableHandler {
     }
 
     private boolean isPlayingSpeaker(ApplicableSpeaker speaker) {
-        return spigotConnection.getSpeakers().stream().anyMatch(currentSpeaker -> currentSpeaker.getSpeaker().getSource().equals(speaker.getSpeaker().getSource()));
+        return containsSpeaker(spigotConnection.getSpeakers(), speaker);
     }
 
-    private ApplicableSpeaker filterSpeaker(List<ApplicableSpeaker> list, ApplicableSpeaker query) {
-        return list.stream().filter(applicableSpeaker -> applicableSpeaker.getSpeaker() == query.getSpeaker()).findFirst().orElse(null);
-    }
 
     private boolean containsSpeaker(List<ApplicableSpeaker> list, ApplicableSpeaker speaker) {
-        return list.stream().anyMatch(currentSpeaker -> currentSpeaker.getSpeaker().getSource().equals(speaker.getSpeaker().getSource()));
+        return list.stream().anyMatch(currentSpeaker -> currentSpeaker.equals(speaker));
     }
 
     private double round(double value, int places) {
