@@ -4,7 +4,7 @@ import * as PluginChannel from "../../../helpers/PluginChannel";
 export class Sound {
 
     constructor(source) {
-        this.soundElement = document.createElement("audio");
+        this.soundElement = new Audio();
 
         this.hadError = false;
         this.source = source;
@@ -69,10 +69,9 @@ export class Sound {
     }
 
     addNode(player, node) {
+        console.log("Im going insane")
         this.soundElement.crossOrigin = "anonymous";
         if (this.controller == null) this.controller = player.audioCtx.createMediaElementSource(this.soundElement);
-        console.log(this.controller)
-        this.controller.source = this.source;
         this.controller.connect(node);
     }
 
