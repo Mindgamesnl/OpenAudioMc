@@ -18,8 +18,6 @@ export class Player {
         this.pitch = pitch;
         this.yaw = yaw;
 
-        this.world.onLocationUpdate();
-
         // location already is a Vector3
         const euler = new Euler(this.yaw, this.pitch, 0, "XYZ");
         const quaternion = new Quaternion();
@@ -27,6 +25,8 @@ export class Player {
 
         const position = new Position(location, quaternion);
         position.applyTo(this.listener);
+
+        this.world.onLocationUpdate();
     }
 
 }
