@@ -36,7 +36,7 @@ export class AlertBox {
                 this.alertClass.hide(this.alertBox);
             });
             if (!this.option.persistent) {
-                var alertTimeout = setTimeout(() => {
+                let alertTimeout = setTimeout(() => {
                     this.alertClass.hide(this.alertBox);
                     clearTimeout(alertTimeout);
                 }, this.option.closeTime);
@@ -47,7 +47,7 @@ export class AlertBox {
 
     hide(alertBox) {
         this.alertBox.classList.add('hide');
-        var disperseTimeout = setTimeout(() => {
+        let disperseTimeout = setTimeout(() => {
             this.alertBox.parentNode.removeChild(this.alertBox);
             clearTimeout(disperseTimeout);
             if (this.onTimeout != null) this.onTimeout();

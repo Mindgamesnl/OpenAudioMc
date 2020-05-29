@@ -26,7 +26,7 @@ Object.assign( Quaternion, {
 
         // fuzz-free, array-based Quaternion SLERP operation
 
-        var x0 = src0[ srcOffset0 + 0 ],
+        let x0 = src0[ srcOffset0 + 0 ],
             y0 = src0[ srcOffset0 + 1 ],
             z0 = src0[ srcOffset0 + 2 ],
             w0 = src0[ srcOffset0 + 3 ],
@@ -38,7 +38,7 @@ Object.assign( Quaternion, {
 
         if ( w0 !== w1 || x0 !== x1 || y0 !== y1 || z0 !== z1 ) {
 
-            var s = 1 - t,
+            let s = 1 - t,
 
                 cos = x0 * x1 + y0 * y1 + z0 * z1 + w0 * w1,
 
@@ -48,7 +48,7 @@ Object.assign( Quaternion, {
             // Skip the Slerp for tiny steps to avoid numeric problems:
             if ( sqrSin > Number.EPSILON ) {
 
-                var sin = Math.sqrt( sqrSin ),
+                let sin = Math.sqrt( sqrSin ),
                     len = Math.atan2( sin, cos * dir );
 
                 s = Math.sin( s * len ) / sin;
@@ -56,7 +56,7 @@ Object.assign( Quaternion, {
 
             }
 
-            var tDir = t * dir;
+            let tDir = t * dir;
 
             x0 = x0 * s + x1 * tDir;
             y0 = y0 * s + y1 * tDir;
@@ -66,7 +66,7 @@ Object.assign( Quaternion, {
             // Normalize in case we just did a lerp:
             if ( s === 1 - t ) {
 
-                var f = 1 / Math.sqrt( x0 * x0 + y0 * y0 + z0 * z0 + w0 * w0 );
+                let f = 1 / Math.sqrt( x0 * x0 + y0 * y0 + z0 * z0 + w0 * w0 );
 
                 x0 *= f;
                 y0 *= f;
@@ -86,15 +86,15 @@ Object.assign( Quaternion, {
 
     multiplyQuaternionsFlat: function ( dst, dstOffset, src0, srcOffset0, src1, srcOffset1 ) {
 
-        var x0 = src0[ srcOffset0 ];
-        var y0 = src0[ srcOffset0 + 1 ];
-        var z0 = src0[ srcOffset0 + 2 ];
-        var w0 = src0[ srcOffset0 + 3 ];
+        let x0 = src0[ srcOffset0 ];
+        let y0 = src0[ srcOffset0 + 1 ];
+        let z0 = src0[ srcOffset0 + 2 ];
+        let w0 = src0[ srcOffset0 + 3 ];
 
-        var x1 = src1[ srcOffset1 ];
-        var y1 = src1[ srcOffset1 + 1 ];
-        var z1 = src1[ srcOffset1 + 2 ];
-        var w1 = src1[ srcOffset1 + 3 ];
+        let x1 = src1[ srcOffset1 ];
+        let y1 = src1[ srcOffset1 + 1 ];
+        let z1 = src1[ srcOffset1 + 2 ];
+        let w1 = src1[ srcOffset1 + 3 ];
 
         dst[ dstOffset ] = x0 * w1 + w0 * x1 + y0 * z1 - z0 * y1;
         dst[ dstOffset + 1 ] = y0 * w1 + w0 * y1 + z0 * x1 - x0 * z1;
@@ -223,22 +223,22 @@ Object.assign( Quaternion.prototype, {
 
         }
 
-        var x = euler._x, y = euler._y, z = euler._z, order = euler.order;
+        let x = euler._x, y = euler._y, z = euler._z, order = euler.order;
 
         // http://www.mathworks.com/matlabcentral/fileexchange/
         // 	20696-function-to-convert-between-dcm-euler-angles-quaternions-and-euler-vectors/
         //	content/SpinCalc.m
 
-        var cos = Math.cos;
-        var sin = Math.sin;
+        let cos = Math.cos;
+        let sin = Math.sin;
 
-        var c1 = cos( x / 2 );
-        var c2 = cos( y / 2 );
-        var c3 = cos( z / 2 );
+        let c1 = cos( x / 2 );
+        let c2 = cos( y / 2 );
+        let c3 = cos( z / 2 );
 
-        var s1 = sin( x / 2 );
-        var s2 = sin( y / 2 );
-        var s3 = sin( z / 2 );
+        let s1 = sin( x / 2 );
+        let s2 = sin( y / 2 );
+        let s3 = sin( z / 2 );
 
         switch ( order ) {
 
@@ -301,7 +301,7 @@ Object.assign( Quaternion.prototype, {
 
         // assumes axis is normalized
 
-        var halfAngle = angle / 2, s = Math.sin( halfAngle );
+        let halfAngle = angle / 2, s = Math.sin( halfAngle );
 
         this._x = axis.x * s;
         this._y = axis.y * s;
@@ -320,7 +320,7 @@ Object.assign( Quaternion.prototype, {
 
         // assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
 
-        var te = m.elements,
+        let te = m.elements,
 
             m11 = te[ 0 ], m12 = te[ 4 ], m13 = te[ 8 ],
             m21 = te[ 1 ], m22 = te[ 5 ], m23 = te[ 9 ],
@@ -377,9 +377,9 @@ Object.assign( Quaternion.prototype, {
 
         // assumes direction vectors vFrom and vTo are normalized
 
-        var EPS = 0.000001;
+        let EPS = 0.000001;
 
-        var r = vFrom.dot( vTo ) + 1;
+        let r = vFrom.dot( vTo ) + 1;
 
         if ( r < EPS ) {
 
@@ -418,11 +418,11 @@ Object.assign( Quaternion.prototype, {
 
     rotateTowards: function ( q, step ) {
 
-        var angle = this.angleTo( q );
+        let angle = this.angleTo( q );
 
         if ( angle === 0 ) return this;
 
-        var t = Math.min( 1, step / angle );
+        let t = Math.min( 1, step / angle );
 
         this.slerp( q, t );
 
@@ -470,7 +470,7 @@ Object.assign( Quaternion.prototype, {
 
     normalize: function () {
 
-        var l = this.length();
+        let l = this.length();
 
         if ( l === 0 ) {
 
@@ -519,8 +519,8 @@ Object.assign( Quaternion.prototype, {
 
         // from http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/code/index.htm
 
-        var qax = a._x, qay = a._y, qaz = a._z, qaw = a._w;
-        var qbx = b._x, qby = b._y, qbz = b._z, qbw = b._w;
+        let qax = a._x, qay = a._y, qaz = a._z, qaw = a._w;
+        let qbx = b._x, qby = b._y, qbz = b._z, qbw = b._w;
 
         this._x = qax * qbw + qaw * qbx + qay * qbz - qaz * qby;
         this._y = qay * qbw + qaw * qby + qaz * qbx - qax * qbz;
@@ -538,11 +538,11 @@ Object.assign( Quaternion.prototype, {
         if ( t === 0 ) return this;
         if ( t === 1 ) return this.copy( qb );
 
-        var x = this._x, y = this._y, z = this._z, w = this._w;
+        let x = this._x, y = this._y, z = this._z, w = this._w;
 
         // http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/slerp/
 
-        var cosHalfTheta = w * qb._w + x * qb._x + y * qb._y + z * qb._z;
+        let cosHalfTheta = w * qb._w + x * qb._x + y * qb._y + z * qb._z;
 
         if ( cosHalfTheta < 0 ) {
 
@@ -570,11 +570,11 @@ Object.assign( Quaternion.prototype, {
 
         }
 
-        var sqrSinHalfTheta = 1.0 - cosHalfTheta * cosHalfTheta;
+        let sqrSinHalfTheta = 1.0 - cosHalfTheta * cosHalfTheta;
 
         if ( sqrSinHalfTheta <= Number.EPSILON ) {
 
-            var s = 1 - t;
+            let s = 1 - t;
             this._w = s * w + t * this._w;
             this._x = s * x + t * this._x;
             this._y = s * y + t * this._y;
@@ -587,9 +587,9 @@ Object.assign( Quaternion.prototype, {
 
         }
 
-        var sinHalfTheta = Math.sqrt( sqrSinHalfTheta );
-        var halfTheta = Math.atan2( sinHalfTheta, cosHalfTheta );
-        var ratioA = Math.sin( ( 1 - t ) * halfTheta ) / sinHalfTheta,
+        let sinHalfTheta = Math.sqrt( sqrSinHalfTheta );
+        let halfTheta = Math.atan2( sinHalfTheta, cosHalfTheta );
+        let ratioA = Math.sin( ( 1 - t ) * halfTheta ) / sinHalfTheta,
             ratioB = Math.sin( t * halfTheta ) / sinHalfTheta;
 
         this._w = ( w * ratioA + this._w * ratioB );
