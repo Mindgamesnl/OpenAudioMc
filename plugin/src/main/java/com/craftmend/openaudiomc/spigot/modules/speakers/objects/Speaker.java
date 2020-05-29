@@ -13,7 +13,7 @@ public class Speaker {
     @Getter private UUID id;
     @Setter @Getter private int radius;
     @Getter private MappedLocation location;
-    @Getter private SpeakerType speakerType;
+    @Setter @Getter private SpeakerType speakerType;
 
     public Speaker(String source, UUID id, int radius, MappedLocation location, SpeakerType speakerType) {
         this.source = source;
