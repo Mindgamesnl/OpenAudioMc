@@ -207,8 +207,6 @@ export class Handlers {
                 this.openAudioMc
             );
 
-            console.log("Created speaker ");
-
             this.openAudioMc.world.addSpeaker(speaker.id, speakerData);
         });
 

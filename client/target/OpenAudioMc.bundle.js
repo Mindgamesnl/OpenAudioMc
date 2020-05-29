@@ -86,25 +86,25 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                   v = p + "/sensors",
                   x = p + "/rules",
                   M = p + "/resourcelinks",
-                  E = function E(e) {
+                  k = function k(e) {
                 return function (t) {
                   return e + "/" + t;
                 };
               },
-                  k = E(y),
-                  C = E(b),
-                  S = E(w),
-                  A = E(_),
-                  z = E(v),
-                  B = E(x),
-                  T = E(M);return { getCapabilities: a.bind(null, f), deleteUser: c(u, function (e) {
+                  E = k(y),
+                  C = k(b),
+                  S = k(w),
+                  A = k(_),
+                  z = k(v),
+                  T = k(x),
+                  B = k(M);return { getCapabilities: a.bind(null, f), deleteUser: c(u, function (e) {
                   return g + "/whitelist/" + e;
                 }), getConfig: a.bind(null, g), setConfig: l.bind(null, g), getFullState: a.bind(null, p), getLights: a.bind(null, y), getNewLights: a.bind(null, y + "/new"), searchForNewLights: function searchForNewLights() {
                   var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
                   return h(y, e);
-                }, getLight: c(a, k), setLight: c(l, k), setLightState: c(l, function (e) {
-                  return k(e) + "/state";
-                }), deleteLight: c(u, k), getGroups: a.bind(null, b), createGroup: h.bind(null, b), getGroup: c(a, C), setGroup: c(l, C), setGroupState: c(l, function (e) {
+                }, getLight: c(a, E), setLight: c(l, E), setLightState: c(l, function (e) {
+                  return E(e) + "/state";
+                }), deleteLight: c(u, E), getGroups: a.bind(null, b), createGroup: h.bind(null, b), getGroup: c(a, C), setGroup: c(l, C), setGroupState: c(l, function (e) {
                   return C(e) + "/action";
                 }), deleteGroup: c(u, C), getSchedules: a.bind(null, w), createSchedule: h.bind(null, w), getSchedule: c(a, S), setSchedule: c(l, S), deleteSchedule: c(u, S), scheduleCommandGenerator: function scheduleCommandGenerator() {
                   return s(d(o), t, i, n).bridge(e).user(m);
@@ -114,9 +114,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                   return z(e) + "/config";
                 }), setSensorState: c(l, function (e) {
                   return z(e) + "/state";
-                }), deleteSensor: c(u, z), getRules: a.bind(null, x), createRule: h.bind(null, x), getRule: c(a, B), setRule: c(l, B), deleteRule: c(u, B), ruleActionGenerator: function ruleActionGenerator() {
+                }), deleteSensor: c(u, z), getRules: a.bind(null, x), createRule: h.bind(null, x), getRule: c(a, T), setRule: c(l, T), deleteRule: c(u, T), ruleActionGenerator: function ruleActionGenerator() {
                   return s(d(p), t, i, n).bridge(e).user(m);
-                }, getResourceLinks: a.bind(null, M), createResourceLink: h.bind(null, M), getResourceLink: c(a, T), setResourceLink: c(l, T), deleteResourceLink: c(u, T) };
+                }, getResourceLinks: a.bind(null, M), createResourceLink: h.bind(null, M), getResourceLink: c(a, B), setResourceLink: c(l, B), deleteResourceLink: c(u, B) };
             } };
         } };
     };var o = void 0;"undefined" != typeof fetch && "undefined" != typeof Response && "undefined" != typeof JSON && "undefined" != typeof Promise && (o = s.bind(null, fetch, Response, JSON, Promise), void 0 !== e.exports && (e.exports = o));
@@ -277,8 +277,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   }function x(e, t, i, n, s) {
     this.fromSampleRate = e, this.toSampleRate = t, this.channels = 0 | i, this.outputBufferSize = n, this.noReturn = !!s, this.initialize();
   }function M(e, t, i, n, s, o) {
-    this.audioChannels = 2 == e ? 2 : 1, Pe = 1 == this.audioChannels, Ie = 0 < t && 16777215 >= t ? t : 44100, ze = i >= ke << 1 && i < n ? i & (Pe ? 4294967295 : 4294967294) : ke << 1, Be = q(n) > ze + this.audioChannels ? n & (Pe ? 4294967295 : 4294967294) : i << 1, this.underRunCallback = "function" == typeof s ? s : function () {}, Oe = -1 <= o && 1 >= o && 0 != o ? o : 0, this.audioType = -1, this.mozAudioTail = [], this.audioHandleMoz = null, this.audioHandleFlash = null, this.flashInitialized = !1, this.mozAudioFound = !1, this.initializeAudio();
-  }function E(e) {
+    this.audioChannels = 2 == e ? 2 : 1, Pe = 1 == this.audioChannels, Ie = 0 < t && 16777215 >= t ? t : 44100, ze = i >= Ee << 1 && i < n ? i & (Pe ? 4294967295 : 4294967294) : Ee << 1, Te = q(n) > ze + this.audioChannels ? n & (Pe ? 4294967295 : 4294967294) : i << 1, this.underRunCallback = "function" == typeof s ? s : function () {}, Oe = -1 <= o && 1 >= o && 0 != o ? o : 0, this.audioType = -1, this.mozAudioTail = [], this.audioHandleMoz = null, this.audioHandleFlash = null, this.flashInitialized = !1, this.mozAudioFound = !1, this.initializeAudio();
+  }function k(e) {
     try {
       var t = new Float32Array(e);
     } catch (t) {
@@ -286,7 +286,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }for (var i = 0; i < e; ++i) {
       t[i] = Oe * (i / e);
     }return t;
-  }function k(e) {
+  }function E(e) {
     try {
       var t = new Float32Array(e);
     } catch (n) {
@@ -295,19 +295,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       } while (++i < e);
     }return t;
   }function C() {
-    for (var e = "", t = "", i = 0; i < ke && Fe != Ue; ++i) {
+    for (var e = "", t = "", i = 0; i < Ee && Fe != Ue; ++i) {
       e += N(12288 + (0 | 16383 * V(H(Ae[Fe++] + 1, 0), 2))), t += N(12288 + (0 | 16383 * V(H(Ae[Fe++] + 1, 0), 2))), Fe == He && (Fe = 0);
     }return e + t;
   }function S() {
-    for (var e = "", t = 0; t < ke && Fe != Ue; ++t) {
+    for (var e = "", t = 0; t < Ee && Fe != Ue; ++t) {
       e += N(12288 + (0 | 16383 * V(H(Ae[Fe++] + 1, 0), 2))), Fe == He && (Fe = 0);
     }return e;
   }function A() {
     return (Fe <= Ue ? 0 : He) + Ue - Fe;
   }function z(e) {
-    Se = E(Be), Re = Be, Fe = 0, Ue = 0, He = H(Be * R(Ie / e), ke) << 1, Pe ? (Ae = k(He), Le = new x(Ie, e, 1, He, !0), S) : (Ae = k(He <<= 1), Le = new x(Ie, e, 2, He, !0), C);
-  }var B = Math.atan2,
-      T = Math.sqrt,
+    Se = k(Te), Re = Te, Fe = 0, Ue = 0, He = H(Te * R(Ie / e), Ee) << 1, Pe ? (Ae = E(He), Le = new x(Ie, e, 1, He, !0), S) : (Ae = E(He <<= 1), Le = new x(Ie, e, 2, He, !0), C);
+  }var T = Math.atan2,
+      B = Math.sqrt,
       I = Number.EPSILON,
       P = Math.sin,
       O = Math.cos,
@@ -1280,10 +1280,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             _t8 = a * c + l * d + h * m + u * p,
             _i5 = 0 <= _t8 ? 1 : -1,
             _n4 = 1 - _t8 * _t8;if (_n4 > I) {
-          var _s4 = T(_n4),
-              _o4 = B(_s4, _t8 * _i5);_e20 = P(_e20 * _o4) / _s4, r = P(r * _o4) / _s4;
+          var _s4 = B(_n4),
+              _o4 = T(_s4, _t8 * _i5);_e20 = P(_e20 * _o4) / _s4, r = P(r * _o4) / _s4;
         }var _s3 = r * _i5;if (a = a * _e20 + c * _s3, l = l * _e20 + d * _s3, h = h * _e20 + m * _s3, u = u * _e20 + p * _s3, _e20 == 1 - r) {
-          var _e21 = 1 / T(a * a + l * l + h * h + u * u);a *= _e21, l *= _e21, h *= _e21, u *= _e21;
+          var _e21 = 1 / B(a * a + l * l + h * h + u * u);a *= _e21, l *= _e21, h *= _e21, u *= _e21;
         }
       }e[t] = a, e[t + 1] = l, e[t + 2] = h, e[t + 3] = u;
     }, multiplyQuaternionsFlat: function multiplyQuaternionsFlat(e, t, i, n, s, o) {
@@ -1345,7 +1345,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           h = i[2],
           u = i[6],
           c = i[10],
-          d = n + a + c;return 0 < d ? (t = .5 / T(d + 1), this._w = .25 / t, this._x = (u - l) * t, this._y = (o - h) * t, this._z = (r - s) * t) : n > a && n > c ? (t = 2 * T(1 + n - a - c), this._w = (u - l) / t, this._x = .25 * t, this._y = (s + r) / t, this._z = (o + h) / t) : a > c ? (t = 2 * T(1 + a - n - c), this._w = (o - h) / t, this._x = (s + r) / t, this._y = .25 * t, this._z = (l + u) / t) : (t = 2 * T(1 + c - n - a), this._w = (r - s) / t, this._x = (o + h) / t, this._y = (l + u) / t, this._z = .25 * t), this._onChangeCallback(), this;
+          d = n + a + c;return 0 < d ? (t = .5 / B(d + 1), this._w = .25 / t, this._x = (u - l) * t, this._y = (o - h) * t, this._z = (r - s) * t) : n > a && n > c ? (t = 2 * B(1 + n - a - c), this._w = (u - l) / t, this._x = .25 * t, this._y = (s + r) / t, this._z = (o + h) / t) : a > c ? (t = 2 * B(1 + a - n - c), this._w = (o - h) / t, this._x = (s + r) / t, this._y = .25 * t, this._z = (l + u) / t) : (t = 2 * B(1 + c - n - a), this._w = (r - s) / t, this._x = (o + h) / t, this._y = (l + u) / t, this._z = .25 * t), this._onChangeCallback(), this;
     }, setFromUnitVectors: function setFromUnitVectors(e, t) {
       var i = e.dot(t) + 1;return i < 1e-6 ? (i = 0, W(e.x) > W(e.z) ? (this._x = -e.y, this._y = e.x, this._z = 0, this._w = i) : (this._x = 0, this._y = -e.z, this._z = e.y, this._w = i)) : (this._x = e.y * t.z - e.z * t.y, this._y = e.z * t.x - e.x * t.z, this._z = e.x * t.y - e.y * t.x, this._w = i), this.normalize();
     }, rotateTowards: function rotateTowards(e, t) {
@@ -1359,7 +1359,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, lengthSq: function lengthSq() {
       return this._x * this._x + this._y * this._y + this._z * this._z + this._w * this._w;
     }, length: function length() {
-      return T(this._x * this._x + this._y * this._y + this._z * this._z + this._w * this._w);
+      return B(this._x * this._x + this._y * this._y + this._z * this._z + this._w * this._w);
     }, normalize: function normalize() {
       var e = this.length();return 0 === e ? (this._x = 0, this._y = 0, this._z = 0, this._w = 1) : (e = 1 / e, this._x *= e, this._y *= e, this._z *= e, this._w *= e), this._onChangeCallback(), this;
     }, multiply: function multiply(e, t) {
@@ -1382,8 +1382,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           o = this._w,
           r = o * e._w + i * e._x + n * e._y + s * e._z;if (0 > r ? (this._w = -e._w, this._x = -e._x, this._y = -e._y, this._z = -e._z, r = -r) : this.copy(e), 1 <= r) return this._w = o, this._x = i, this._y = n, this._z = s, this;var a = 1 - r * r;if (a <= I) {
         var _e22 = 1 - t;return this._w = _e22 * o + t * this._w, this._x = _e22 * i + t * this._x, this._y = _e22 * n + t * this._y, this._z = _e22 * s + t * this._z, this.normalize(), this._onChangeCallback(), this;
-      }var l = T(a),
-          h = B(l, r),
+      }var l = B(a),
+          h = T(l, r),
           u = P((1 - t) * h) / l,
           c = P(t * h) / l;return this._w = o * u + this._w * c, this._x = i * u + this._x * c, this._y = n * u + this._y * c, this._z = s * u + this._z * c, this._onChangeCallback(), this;
     }, equals: function equals(e) {
@@ -1510,7 +1510,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, lengthSq: function lengthSq() {
       return this.x * this.x + this.y * this.y + this.z * this.z;
     }, length: function length() {
-      return T(this.x * this.x + this.y * this.y + this.z * this.z);
+      return B(this.x * this.x + this.y * this.y + this.z * this.z);
     }, manhattanLength: function manhattanLength() {
       return W(this.x) + W(this.y) + W(this.z);
     }, normalize: function normalize() {
@@ -1537,9 +1537,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, reflect: function reflect(e) {
       return this.sub(he.copy(e).multiplyScalar(2 * this.dot(e)));
     }, angleTo: function angleTo(e) {
-      var t = T(this.lengthSq() * e.lengthSq());if (0 === t) return D / 2;var i = this.dot(e) / t;return Math.acos(le.clamp(i, -1, 1));
+      var t = B(this.lengthSq() * e.lengthSq());if (0 === t) return D / 2;var i = this.dot(e) / t;return Math.acos(le.clamp(i, -1, 1));
     }, distanceTo: function distanceTo(e) {
-      return T(this.distanceToSquared(e));
+      return B(this.distanceToSquared(e));
     }, distanceToSquared: function distanceToSquared(e) {
       var t = this.x - e.x,
           i = this.y - e.y,
@@ -1577,7 +1577,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, square: function square(e) {
       return e * e;
     }, distance: function distance(e) {
-      var t = this.square(this.x - e.x) + this.square(this.y - e.y) + this.square(this.z - e.z);return T(t);
+      var t = this.square(this.x - e.x) + this.square(this.y - e.y) + this.square(this.z - e.z);return B(t);
     } });var ce = "SPEAKER_2D";
   var de = function () {
     function de(e, t, i, n, s, o, r) {
@@ -1604,7 +1604,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     de.prototype.onRemove = function onRemove() {
-      console.log("Killing myself "), this.type == ce && this.openAudioMc.getMediaManager().destroySounds(this.id, !1);
+      this.type == ce && this.openAudioMc.getMediaManager().destroySounds(this.id, !1);
     };
 
     de.prototype._convertDistanceToVolume = function _convertDistanceToVolume(e, t) {
@@ -1704,7 +1704,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             o = e.yaw;_this15.openAudioMc.world.player.updateLocation(new a(t, i, n), s, o);
       }), t("ClientSpeakerCreatePayload", function (e) {
         var t = e.clientSpeaker,
-            i = new de(t.id, t.source, new a(t.location.x, t.location.y, t.location.z), t.type, t.maxDistance, t.startInstant, _this15.openAudioMc);console.log("Created speaker "), _this15.openAudioMc.world.addSpeaker(t.id, i);
+            i = new de(t.id, t.source, new a(t.location.x, t.location.y, t.location.z), t.type, t.maxDistance, t.startInstant, _this15.openAudioMc);_this15.openAudioMc.world.addSpeaker(t.id, i);
       }), t("ClientSpeakerDestroyPayload", function (e) {
         var t = e.clientSpeaker;_this15.openAudioMc.world.removeSpeaker(t.id);
       });
@@ -1970,7 +1970,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   }, M.prototype.callbackBasedWriteAudio = function (e) {
     this.callbackBasedWriteAudioNoCallback(e), this.callbackBasedExecuteCallback();
   }, M.prototype.callbackBasedWriteAudioNoCallback = function (e) {
-    if (e) for (var t = e.length, i = 0; i < t && Re < Be;) {
+    if (e) for (var t = e.length, i = 0; i < t && Re < Te;) {
       Se[Re++] = e[i++];
     }
   }, M.prototype.writeAudio = function (e) {
@@ -2011,9 +2011,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }
     }this.samplesAlreadyWritten += t, ze += this.samplesAlreadyWritten, this.mozAudioFound = !0;
   }, M.prototype.initializeMozAudio = function () {
-    this.writeMozAudio(E(ze)), this.audioType = 0;
+    this.writeMozAudio(k(ze)), this.audioType = 0;
   }, M.prototype.initializeWebAudio = function () {
-    if (!Ce) throw new Error("");z(Te), this.audioType = 1;
+    if (!Ce) throw new Error("");z(Be), this.audioType = 1;
   }, M.prototype.initializeFlashAudio = function () {
     var e = document.getElementById("XAudioJS");if (null == e) {
       var t = this,
@@ -2025,21 +2025,21 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     if (e) {
       var t = this.mozAudioTail.length;if (0 < t) {
         var i = this.audioHandleMoz.mozWriteAudio(this.mozAudioTail);this.samplesAlreadyWritten += i, this.mozAudioTail.splice(0, i);
-      }t = V(e.length, Be - this.samplesAlreadyWritten + this.audioHandleMoz.mozCurrentSampleOffset());i = this.audioHandleMoz.mozWriteAudio(e);this.samplesAlreadyWritten += i;for (var n = 0; t > i; --t) {
+      }t = V(e.length, Te - this.samplesAlreadyWritten + this.audioHandleMoz.mozCurrentSampleOffset());i = this.audioHandleMoz.mozWriteAudio(e);this.samplesAlreadyWritten += i;for (var n = 0; t > i; --t) {
         this.mozAudioTail.push(e[n++]);
       }
     }
   }, M.prototype.checkFlashInit = function () {
     return !this.flashInitialized && this.audioHandleFlash && this.audioHandleFlash.initialize && (this.flashInitialized = !0, this.audioHandleFlash.initialize(this.audioChannels, Oe), z(44100)), this.flashInitialized;
   };var Me,
-      Ee,
-      ke = 2048,
+      ke,
+      Ee = 2048,
       Ce = !1,
       Se = [],
       Ae = [],
       ze = 15e3,
-      Be = 25e3,
-      Te = 44100,
+      Te = 25e3,
+      Be = 44100,
       Ie = 0,
       Pe = !1,
       Oe = 0,
@@ -2052,7 +2052,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     e[e.VoIP = 2048] = "VoIP", e[e.Audio = 2049] = "Audio", e[e.RestrictedLowDelay = 2051] = "RestrictedLowDelay";
   }(Me || (Me = {})), function (e) {
     e[e.OK = 0] = "OK", e[e.BadArgument = -1] = "BadArgument", e[e.BufferTooSmall = -2] = "BufferTooSmall", e[e.InternalError = -3] = "InternalError", e[e.InvalidPacket = -4] = "InvalidPacket", e[e.Unimplemented = -5] = "Unimplemented", e[e.InvalidState = -6] = "InvalidState", e[e.AllocFail = -7] = "AllocFail";
-  }(Ee || (Ee = {}));var De = function () {
+  }(ke || (ke = {}));var De = function () {
     function e() {}return e.getVersion = function () {
       var e = _opus_get_version_string();return Pointer_stringify(e);
     }, e.getMaxFrameSize = function (e) {
@@ -2686,11 +2686,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     lt.prototype.addSpeaker = function addSpeaker(e, t) {
-      this.speakers.set(e, t), t.initialize();
+      this.speakers.set(e, t), t.initialize(), console.log("There are " + this.speakers.size + " speakers");
     };
 
     lt.prototype.removeSpeaker = function removeSpeaker(e) {
-      var t = this.getSpeakerById(e);null != t && t.onRemove(), this.speakers.delete(e);
+      var t = this.getSpeakerById(e);null != t && t.onRemove(), this.speakers.delete(e), console.log("There are " + this.speakers.size + " speakers");
     };
 
     lt.prototype.onLocationUpdate = function onLocationUpdate() {

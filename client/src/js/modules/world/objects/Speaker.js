@@ -64,7 +64,6 @@ export class Speaker {
 
     onRemove() {
         // goodbye world
-        console.log("Killing myself ")
         if (this.type == SPEAKER_2D) {
             this.openAudioMc.getMediaManager().destroySounds(this.id, false);
         }

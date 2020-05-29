@@ -9,7 +9,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class ApplicableSpeaker {
 
-    private int distance;
     private Speaker speaker;
     private SpeakerType speakerType;
     private Vector3 location;

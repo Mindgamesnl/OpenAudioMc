@@ -125,35 +125,21 @@ public class SpeakerModule {
 
     public Collection<ApplicableSpeaker> getApplicableSpeakers(Location location) {
         List<Speaker> applicableSpeakers = new ArrayList<>(speakerMap.values());
-        Map<String, ApplicableSpeaker> distanceMap = new HashMap<>();
+        Collection<ApplicableSpeaker> speakers = new ArrayList<>();
 
         applicableSpeakers.removeIf(speaker -> !speaker.getLocation().getWorld().equals(location.getWorld().getName()));
         applicableSpeakers.removeIf(speaker -> speaker.getLocation().toBukkit().distance(location) > speaker.getRadius());
         applicableSpeakers.removeIf(speaker -> !isValid(speaker));
 
         applicableSpeakers.forEach(speaker -> {
-            int distance = Math.toIntExact(Math.round(speaker.getLocation().toBukkit().distance(location)));
-            if (distanceMap.get(speaker.getSource()) == null) {
-                distanceMap.put(speaker.getSource(), new ApplicableSpeaker(
-                        distance,
-                        speaker,
-                        speaker.getSpeakerType(),
-                        Vector3.from(speaker.getLocation())
-                ));
-
-            } else {
-                if (distance < distanceMap.get(speaker.getSource()).getDistance()) {
-                    distanceMap.put(speaker.getSource(), new ApplicableSpeaker(
-                            distance,
-                            speaker,
-                            speaker.getSpeakerType(),
-                            Vector3.from(speaker.getLocation())
-                    ));
-                }
-            }
+            speakers.add(new ApplicableSpeaker(
+                    speaker,
+                    speaker.getSpeakerType(),
+                    Vector3.from(speaker.getLocation())
+            ));
         });
 
-        return distanceMap.values();
+        return speakers;
     }
 
     public void registerSpeaker(MappedLocation mappedLocation, String source, UUID uuid, int radius, SpeakerType type) {

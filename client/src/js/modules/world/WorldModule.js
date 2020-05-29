@@ -16,12 +16,14 @@ export class WorldModule {
     addSpeaker(id, speakerData) {
         this.speakers.set(id, speakerData);
         speakerData.initialize();
+        console.log("There are " + this.speakers.size + " speakers")
     }
 
     removeSpeaker(id) {
         let speaker = this.getSpeakerById(id);
         if (speaker != null) speaker.onRemove();
         this.speakers.delete(id);
+        console.log("There are " + this.speakers.size + " speakers")
     }
 
     onLocationUpdate() {
