@@ -33,6 +33,7 @@ export class Sound {
         this.mixer = null;
         this.channel = null;
         this.finsishedInitializing = false;
+        this.gotShutDown = false;
     }
 
     setOa(oa) {
@@ -86,6 +87,7 @@ export class Sound {
     finalize() {
         return new Promise((resolve => {
             this.soundElement.onended = () => {
+                if (this.gotShutDown) return;
                 if (!this.finsishedInitializing) return;
                 if (this.onFinish != null) this.onFinish();
                 if (this.loop) {
@@ -99,6 +101,7 @@ export class Sound {
             let fired = false;
 
             const attemptToPlay = () => {
+                if (this.gotShutDown) return;
                 if (!fired) {
                     let prom = this.soundElement.play();
                     if (prom instanceof Promise) {
@@ -151,6 +154,7 @@ export class Sound {
     }
 
     destroy() {
+        this.gotShutDown = true;
         this.setLooping(false);
         this.soundElement.pause();
         this.soundElement.remove();
