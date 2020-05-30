@@ -35,7 +35,7 @@ public class SpigotConnection {
     // data watcher that watches for changes in the location, every 2 ticks.
     @Getter private DataWatcher<Location> locationDataWatcher = new DataWatcher<>(
             OpenAudioMcSpigot.getInstance(),
-            true,
+            false,
             2
     );
 
