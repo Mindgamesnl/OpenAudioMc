@@ -114,6 +114,14 @@ export class Sound {
                 fired = true;
             };
 
+            const whenStarted = () => {
+                if (this.gotShutDown) {
+                    console.log("[OpenAudioMc] Canceled a sound that started to play, for some reason.");
+                    this.soundElement.pause();
+                }
+            };
+
+            this.soundElement.onplay = whenStarted;
             this.soundElement.onprogress = attemptToPlay;
             this.soundElement.oncanplay = attemptToPlay;
             this.soundElement.oncanplaythrough = attemptToPlay;

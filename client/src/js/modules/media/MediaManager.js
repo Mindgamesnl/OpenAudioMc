@@ -35,6 +35,9 @@ export class MediaManager {
                     }
                 } else {
                     if (channel.hasTag(soundId)) {
+                        channel.sounds.forEach((sound) => {
+                            sound.gotShutDown = true;
+                        });
                         channel.fadeChannel(0, time, () => {
                             this.mixer.removeChannel(channel);
                         });
