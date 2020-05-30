@@ -1,7 +1,6 @@
 import {Channel} from "../../media/objects/Channel";
 import {Sound} from "../../media/objects/Sound";
 import {SPEAKER_2D, SPEAKER_3D} from "../constants/SpeakerType";
-import {Position} from "../../../helpers/math/Position";
 import {SpeakerRenderNode} from "./SpeakerRenderNode";
 
 export class SpeakerPlayer {
