@@ -193,14 +193,19 @@ export class Handlers {
            // speaker in range
             const speaker = data.clientSpeaker;
 
+            const loc = new Vector3(
+                speaker.location.x,
+                speaker.location.y,
+                speaker.location.z
+            );
+
+            // center of block
+            loc.add(0.5, 0.5, 0.5);
+
             const speakerData = new Speaker(
                 speaker.id,
                 speaker.source,
-                new Vector3(
-                    speaker.location.x,
-                    speaker.location.y,
-                    speaker.location.z
-                ),
+                loc,
                 speaker.type,
                 speaker.maxDistance,
                 speaker.startInstant,
