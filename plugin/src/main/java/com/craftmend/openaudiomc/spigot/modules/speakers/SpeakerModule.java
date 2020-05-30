@@ -11,6 +11,7 @@ import com.craftmend.openaudiomc.generic.core.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerSelectListener;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.WorldLoadListener;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.*;
+import com.craftmend.openaudiomc.spigot.modules.speakers.tasks.SpeakerGarbageCollection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerCreateListener;
@@ -77,14 +78,9 @@ public class SpeakerModule {
                 loadFromFile(id);
             }
         }
-    }
 
-    private boolean isValid(Speaker speaker) {
-        if (speaker.isNative()) {
-            return SpeakerUtils.isSpeakerSkull(speaker.getLocation().getBlock());
-        } else {
-            return true;
-        }
+        // setup garbage system
+        new SpeakerGarbageCollection(this);
     }
 
     public Collection<ApplicableSpeaker> getApplicableSpeakers(Location location) {
@@ -93,7 +89,6 @@ public class SpeakerModule {
 
         applicableSpeakers.removeIf(speaker -> !speaker.getLocation().getWorld().equals(location.getWorld().getName()));
         applicableSpeakers.removeIf(speaker -> speaker.getLocation().toBukkit().distance(location) > speaker.getRadius());
-        applicableSpeakers.removeIf(speaker -> !isValid(speaker));
 
         applicableSpeakers.forEach(speaker -> {
             speakers.add(new ApplicableSpeaker(
