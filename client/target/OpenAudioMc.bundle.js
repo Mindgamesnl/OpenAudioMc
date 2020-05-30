@@ -784,9 +784,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             _this8.mixer.removeChannel(i);
           }) : null == e || "" === e ? !i.hasTag("SPECIAL") && !i.hasTag("REGION") && !i.hasTag("SPEAKER") && i.fadeChannel(0, 5 * n, function () {
             _this8.mixer.removeChannel(i);
-          }) : i.hasTag(e) && i.fadeChannel(0, n, function () {
+          }) : i.hasTag(e) && (i.sounds.forEach(function (e) {
+            e.gotShutDown = !0;
+          }), i.fadeChannel(0, n, function () {
             _this8.mixer.removeChannel(i);
-          });
+          }));
         };
 
         for (var _iterator9 = this.mixer.getChannels()[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
@@ -1137,7 +1139,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
               var _t7 = _this13.soundElement.play();_t7 instanceof Promise ? _t7.then(e).catch(e) : e();
             }t = !0;
           }
-        };_this13.soundElement.onprogress = i, _this13.soundElement.oncanplay = i, _this13.soundElement.oncanplaythrough = i;
+        };_this13.soundElement.onplay = function () {
+          _this13.gotShutDown && (console.log("[OpenAudioMc] Canceled a sound that started to play, for some reason."), _this13.soundElement.pause());
+        }, _this13.soundElement.onprogress = i, _this13.soundElement.oncanplay = i, _this13.soundElement.oncanplaythrough = i;
       });
     };
 
