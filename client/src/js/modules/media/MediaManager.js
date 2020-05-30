@@ -17,19 +17,19 @@ export class MediaManager {
 
     destroySounds(soundId, all, instantly) {
         this.openAudioMc.debugPrint("starting to quit fade " + soundId)
-        let time = 250;
+        let time = 100;
         if (instantly) time = 0;
 
         for (let channel of this.mixer.getChannels()) {
 
             if (all) {
-                channel.fadeChannel(0, time, () => {
+                channel.fadeChannel(0, time * 5, () => {
                     this.mixer.removeChannel(channel);
                 });
             } else {
                 if (soundId == null || soundId === "") {
                     if ((!channel.hasTag("SPECIAL") && !channel.hasTag("REGION") && !channel.hasTag("SPEAKER"))) {
-                        channel.fadeChannel(0, time, () => {
+                        channel.fadeChannel(0, time * 5, () => {
                             this.mixer.removeChannel(channel);
                         });
                     }

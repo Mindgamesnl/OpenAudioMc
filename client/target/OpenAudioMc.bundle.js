@@ -773,16 +773,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     D.prototype.destroySounds = function destroySounds(e, t, i) {
       var _this8 = this;
 
-      this.openAudioMc.debugPrint("starting to quit fade " + e);var n = 250;i && (n = 0);var _iteratorNormalCompletion9 = true;
+      this.openAudioMc.debugPrint("starting to quit fade " + e);var n = 100;i && (n = 0);var _iteratorNormalCompletion9 = true;
       var _didIteratorError9 = false;
       var _iteratorError9 = undefined;
 
       try {
         var _loop = function _loop() {
           var i = _step9.value;
-          t ? i.fadeChannel(0, n, function () {
+          t ? i.fadeChannel(0, 5 * n, function () {
             _this8.mixer.removeChannel(i);
-          }) : null == e || "" === e ? !i.hasTag("SPECIAL") && !i.hasTag("REGION") && !i.hasTag("SPEAKER") && i.fadeChannel(0, n, function () {
+          }) : null == e || "" === e ? !i.hasTag("SPECIAL") && !i.hasTag("REGION") && !i.hasTag("SPEAKER") && i.fadeChannel(0, 5 * n, function () {
             _this8.mixer.removeChannel(i);
           }) : i.hasTag(e) && i.fadeChannel(0, n, function () {
             _this8.mixer.removeChannel(i);
