@@ -19,7 +19,7 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
 
     public SpeakerGarbageCollection(SpeakerModule speakerModule) {
         this.speakerModule = speakerModule;
-        runTaskTimer(OpenAudioMcSpigot.getInstance(), 40, 40);
+        runTaskTimer(OpenAudioMcSpigot.getInstance(), 600, 600);
     }
 
     @Override
