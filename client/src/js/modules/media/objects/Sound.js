@@ -95,6 +95,7 @@ export class Sound {
                     this.soundElement.play();
                 } else {
                     this.mixer.removeChannel(this.channel);
+                    if (!this.soundElement.paused) this.soundElement.pause();
                 }
             };
 

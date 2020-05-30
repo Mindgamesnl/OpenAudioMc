@@ -1130,7 +1130,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       return new Promise(function (e) {
         _this13.soundElement.onended = function () {
-          _this13.gotShutDown || !_this13.finsishedInitializing || (null != _this13.onFinish && _this13.onFinish(), _this13.loop ? (_this13.setTime(0), _this13.soundElement.play()) : _this13.mixer.removeChannel(_this13.channel));
+          _this13.gotShutDown || !_this13.finsishedInitializing || (null != _this13.onFinish && _this13.onFinish(), _this13.loop ? (_this13.setTime(0), _this13.soundElement.play()) : (_this13.mixer.removeChannel(_this13.channel), !_this13.soundElement.paused && _this13.soundElement.pause()));
         };var t = !1;var i = function i() {
           if (!_this13.gotShutDown) {
             if (!t) {
