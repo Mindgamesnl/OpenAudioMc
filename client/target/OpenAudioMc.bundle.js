@@ -759,18 +759,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     return F;
   }();
 
-  var H = function () {
-    function H(e) {
+  var D = function () {
+    function D(e) {
       var _this7 = this;
 
-      _classCallCheck(this, H);
+      _classCallCheck(this, D);
 
       this.sounds = {}, this.masterVolume = 80, this.openAudioMc = e, this.mixer = new F(null, e), document.getElementById("volume-slider").oninput = function () {
         var e = document.getElementById("volume-slider").value;_this7.setMasterVolume(e), Cookies.set("volume", e);
       };
     }
 
-    H.prototype.destroySounds = function destroySounds(e, t, i) {
+    D.prototype.destroySounds = function destroySounds(e, t, i) {
       var _this8 = this;
 
       this.openAudioMc.debugPrint("starting to quit fade " + e);var n = 250;i && (n = 0);var _iteratorNormalCompletion9 = true;
@@ -808,29 +808,29 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }
     };
 
-    H.prototype.setMasterVolume = function setMasterVolume(e) {
+    D.prototype.setMasterVolume = function setMasterVolume(e) {
       this.masterVolume = e, 0 === e ? document.getElementById("volume-disp").innerHTML = "<i>(muted)</i>" : document.getElementById("volume-disp").innerText = "Volume: " + e + "%", Cookies.set("volume", e), this.mixer.setMasterVolume(e), this.openAudioMc.voiceModule.setVolume(e);
     };
 
-    H.prototype.changeVolume = function changeVolume(e) {
+    D.prototype.changeVolume = function changeVolume(e) {
       document.getElementById("volume-slider").value = e, this.setMasterVolume(e);
     };
 
-    H.prototype.getMasterVolume = function getMasterVolume() {
+    D.prototype.getMasterVolume = function getMasterVolume() {
       return this.masterVolume;
     };
 
-    return H;
+    return D;
   }();
 
-  var D = function () {
-    function D(e, t) {
-      _classCallCheck(this, D);
+  var H = function () {
+    function H(e, t) {
+      _classCallCheck(this, H);
 
       this.id = e, this.option = t, this.onTimeout = null;
     }
 
-    D.prototype.show = function show(e) {
+    H.prototype.show = function show(e) {
       var _this9 = this;
 
       var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : !1;
@@ -843,7 +843,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }return this;
     };
 
-    D.prototype.hide = function hide() {
+    H.prototype.hide = function hide() {
       var _this10 = this;
 
       this.alertBox.classList.add("hide");var e = setTimeout(function () {
@@ -851,7 +851,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, 500);
     };
 
-    return D;
+    return H;
   }();
 
   var V = function () {
@@ -1103,7 +1103,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       this.soundElement = new Audio(), this.hadError = !1, this.source = e, this.error = null, this.soundElement.onerror = function (e) {
         _this12.hadError = !0, _this12.error = e, _this12._handleError();
-      }, this.soundElement.src = e, this.soundElement.setAttribute("preload", "auto"), this.soundElement.setAttribute("controls", "none"), this.soundElement.setAttribute("display", "none"), this.soundElement.preload = "auto", this.soundElement.abort = console.log, this.openAudioMc = null, this.onFinish = null, this.loop = !1, this.mixer = null, this.channel = null, this.finsishedInitializing = !1;
+      }, this.soundElement.src = e, this.soundElement.setAttribute("preload", "auto"), this.soundElement.setAttribute("controls", "none"), this.soundElement.setAttribute("display", "none"), this.soundElement.preload = "auto", this.soundElement.abort = console.log, this.openAudioMc = null, this.onFinish = null, this.loop = !1, this.mixer = null, this.channel = null, this.finsishedInitializing = !1, this.gotShutDown = !1;
     }
 
     G.prototype.setOa = function setOa(e) {
@@ -1130,11 +1130,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       return new Promise(function (e) {
         _this13.soundElement.onended = function () {
-          _this13.finsishedInitializing && (null != _this13.onFinish && _this13.onFinish(), _this13.loop ? (_this13.setTime(0), _this13.soundElement.play()) : _this13.mixer.removeChannel(_this13.channel));
+          _this13.gotShutDown || !_this13.finsishedInitializing || (null != _this13.onFinish && _this13.onFinish(), _this13.loop ? (_this13.setTime(0), _this13.soundElement.play()) : _this13.mixer.removeChannel(_this13.channel));
         };var t = !1;var i = function i() {
-          if (!t) {
-            var _t7 = _this13.soundElement.play();_t7 instanceof Promise ? _t7.then(e).catch(e) : e();
-          }t = !0;
+          if (!_this13.gotShutDown) {
+            if (!t) {
+              var _t7 = _this13.soundElement.play();_t7 instanceof Promise ? _t7.then(e).catch(e) : e();
+            }t = !0;
+          }
         };_this13.soundElement.onprogress = i, _this13.soundElement.oncanplay = i, _this13.soundElement.oncanplaythrough = i;
       });
     };
@@ -1168,7 +1170,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     G.prototype.destroy = function destroy() {
-      this.setLooping(!1), this.soundElement.pause(), this.soundElement.remove();
+      this.gotShutDown = !0, this.setLooping(!1), this.soundElement.pause(), this.soundElement.remove();
     };
 
     return G;
@@ -1180,6 +1182,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       this.x = e || 0, this.y = t || 0, this.z = i || 0;
     }
+
+    K.prototype.add = function add(e, t, i) {
+      this.x += e, this.y += t, this.z += i;
+    };
 
     K.prototype.applyQuaternion = function applyQuaternion(e) {
       var t = this.x,
@@ -1258,7 +1264,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }), t("ClientCreateCardPayload", function (e) {
         var t = JSON.parse(e.serializedCard);new q(t);
       }), t("NotificationPayload", function (e) {
-        var t = e.message;_this14.openAudioMc.notificationModule.sendNotification(e.title, t), new D("#alert-area", { closeTime: 3e4, persistent: !1, hideCloseButton: !1 }).show(e.title + "<hr />" + t);
+        var t = e.message;_this14.openAudioMc.notificationModule.sendNotification(e.title, t), new H("#alert-area", { closeTime: 3e4, persistent: !1, hideCloseButton: !1 }).show(e.title + "<hr />" + t);
       }), t("ClientSettingsPayload", function (t) {
         _this14.openAudioMc.debugPrint("Updating settings...");var i = t.clientSettings,
             n = i.background,
@@ -1316,7 +1322,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             s = e.yaw;_this14.openAudioMc.world.player.updateLocation(new K(t, i, n), o, s);
       }), t("ClientSpeakerCreatePayload", function (e) {
         var t = e.clientSpeaker,
-            i = new J(t.id, t.source, new K(t.location.x, t.location.y, t.location.z), t.type, t.maxDistance, t.startInstant, _this14.openAudioMc);_this14.openAudioMc.world.addSpeaker(t.id, i);
+            i = new K(t.location.x, t.location.y, t.location.z);i.add(.5, .5, .5);var n = new J(t.id, t.source, i, t.type, t.maxDistance, t.startInstant, _this14.openAudioMc);_this14.openAudioMc.world.addSpeaker(t.id, n);
       }), t("ClientSpeakerDestroyPayload", function (e) {
         var t = e.clientSpeaker;_this14.openAudioMc.world.removeSpeaker(t.id);
       });
@@ -1539,15 +1545,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     return oe;
   }();
 
-  var se = function (_D) {
-    _inherits(se, _D);
+  var se = function (_H) {
+    _inherits(se, _H);
 
     function se(e, t, i) {
       var _this19;
 
       _classCallCheck(this, se);
 
-      (_this19 = _possibleConstructorReturn(this, _D.call(this, "#call-members", { closeTime: 6e4, persistent: !0, hideCloseButton: !0 })), _this19), _this19.room = e, _this19.username = t, _this19.isMuted = !1, _this19.member = i;var n = '<img class="call-box" src="https://minotar.net/avatar/' + t + '" />';n += '<div class="call-content" id="user-box-content-' + t + '">', n += '<div style="text-align: center;"><p>(loading)</p></div>', n += "</div>", _this19.show(n, !0), _this19.setUsernameAsContent(), document.getElementById("user-box-content-" + _this19.username).onmouseenter = function () {
+      (_this19 = _possibleConstructorReturn(this, _H.call(this, "#call-members", { closeTime: 6e4, persistent: !0, hideCloseButton: !0 })), _this19), _this19.room = e, _this19.username = t, _this19.isMuted = !1, _this19.member = i;var n = '<img class="call-box" src="https://minotar.net/avatar/' + t + '" />';n += '<div class="call-content" id="user-box-content-' + t + '">', n += '<div style="text-align: center;"><p>(loading)</p></div>', n += "</div>", _this19.show(n, !0), _this19.setUsernameAsContent(), document.getElementById("user-box-content-" + _this19.username).onmouseenter = function () {
         _this19.setStateAsContent();
       }, document.getElementById("user-box-content-" + _this19.username).onmouseout = function () {
         _this19.setUsernameAsContent();
@@ -1569,7 +1575,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     return se;
-  }(D);
+  }(H);
 
   v.prototype.initialize = function () {
     if (!(0 < this.fromSampleRate && 0 < this.toSampleRate && 0 < this.channels)) throw new Error("Invalid settings specified for the resampler.");this.fromSampleRate == this.toSampleRate ? (this.resampler = this.bypassResampler, this.ratioWeight = 1) : (this.compileInterpolationFunction(), this.resampler = this.interpolate, this.ratioWeight = this.fromSampleRate / this.toSampleRate, this.tailExists = !1, this.lastWeight = 0, this.initializeBuffers());
@@ -1917,13 +1923,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }) : void navigator.webkitGetUserMedia(e, t, i) : void navigator.getUserMedia(e, t, i);
   };
 
-  var Le = function (_D2) {
-    _inherits(Le, _D2);
+  var Le = function (_H2) {
+    _inherits(Le, _H2);
 
     function Le(e) {
       _classCallCheck(this, Le);
 
-      var _this25 = _possibleConstructorReturn(this, _D2.call(this, "#alert-area", { closeTime: 6e4, persistent: !0, hideCloseButton: !0 }));
+      var _this25 = _possibleConstructorReturn(this, _H2.call(this, "#alert-area", { closeTime: 6e4, persistent: !0, hideCloseButton: !0 }));
 
       var t = [],
           i = !1;navigator.mediaDevices.enumerateDevices().then(function (e) {
@@ -2004,11 +2010,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     Le.prototype.deniedMessage = function deniedMessage() {
-      this.requestBox = new D("#alert-area", { closeTime: 5e3, persistent: !0, hideCloseButton: !0, extra: "warning" }).show("It looks like you denied OpenAudioMc's request to use your Microphone. You won't be able to join voice calls because of this. Please go to your browser settings, and enable them manually.");
+      this.requestBox = new H("#alert-area", { closeTime: 5e3, persistent: !0, hideCloseButton: !0, extra: "warning" }).show("It looks like you denied OpenAudioMc's request to use your Microphone. You won't be able to join voice calls because of this. Please go to your browser settings, and enable them manually.");
     };
 
     return Le;
-  }(D);
+  }(H);
 
   var Re = function (_Ce3) {
     _inherits(Re, _Ce3);
@@ -2143,7 +2149,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       _classCallCheck(this, Fe);
 
-      this.main = e, this.voiceServer = t, this.roomId = i, this.accessToken = o, this.roomMembers = new Map(), this.currentUser = n, this.isUnsubscribing = !1, new D("#call-members", { closeTime: 500, persistent: !1, hideCloseButton: !0 }).show("Loading call.."), document.getElementById("call-control-box").style.display = "", document.getElementById("leave-call-button").onclick = function () {
+      this.main = e, this.voiceServer = t, this.roomId = i, this.accessToken = o, this.roomMembers = new Map(), this.currentUser = n, this.isUnsubscribing = !1, new H("#call-members", { closeTime: 500, persistent: !1, hideCloseButton: !0 }).show("Loading call.."), document.getElementById("call-control-box").style.display = "", document.getElementById("leave-call-button").onclick = function () {
         _this30.unsubscribe();
       }, this.muteMicButtonElement = document.getElementById("mute-microphone"), this.canToggleMute = !0, this.muteMicButtonElement.onclick = function () {
         _this30.toggleMic();
@@ -2165,7 +2171,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     Fe.prototype.unsubscribe = function unsubscribe() {
       var _this32 = this;
 
-      this.isUnsubscribing || (this.isUnsubscribing = !0, new D("#alert-area", { closeTime: 1500, persistent: !1, hideCloseButton: !0 }).show("Quitting room, please wait."), w(this.voiceServer.rest + "/leave-room?room=" + this.roomId + "&uuid=" + this.currentUser.uuid + "&accessToken=" + this.accessToken).then(function (e) {
+      this.isUnsubscribing || (this.isUnsubscribing = !0, new H("#alert-area", { closeTime: 1500, persistent: !1, hideCloseButton: !0 }).show("Quitting room, please wait."), w(this.voiceServer.rest + "/leave-room?room=" + this.roomId + "&uuid=" + this.currentUser.uuid + "&accessToken=" + this.accessToken).then(function (e) {
         e.json().then(function (e) {
           0 !== e.results.length && (_this32.roomMembers.forEach(function (e) {
             _this32.handleMemberLeaving(e.uuid);
@@ -2187,11 +2193,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     Fe.prototype.leaveErrorhandler = function leaveErrorhandler() {
-      new D("#alert-area", { closeTime: 5e3, persistent: !0, hideCloseButton: !0, extra: "warning" }).show("Something went wrong while leaving your wrong. Please try again in a moment."), this.isUnsubscribing = !1;
+      new H("#alert-area", { closeTime: 5e3, persistent: !0, hideCloseButton: !0, extra: "warning" }).show("Something went wrong while leaving your wrong. Please try again in a moment."), this.isUnsubscribing = !1;
     };
 
     Fe.prototype.errorHandler = function errorHandler(e) {
-      new D("#alert-area", { closeTime: 2e4, persistent: !1, hideCloseButton: !0, extra: "warning" }).show("A networking error occurred when loading the voice room."), console.error(e);
+      new H("#alert-area", { closeTime: 2e4, persistent: !1, hideCloseButton: !0, extra: "warning" }).show("A networking error occurred when loading the voice room."), console.error(e);
     };
 
     Fe.prototype.registerMember = function registerMember(e, t) {
@@ -2201,43 +2207,43 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     return Fe;
   }();
 
-  var He = function () {
-    function He(e, t, i, n) {
+  var De = function () {
+    function De(e, t, i, n) {
       var _this33 = this;
 
-      _classCallCheck(this, He);
+      _classCallCheck(this, De);
 
       var o = [];t.forEach(function (t) {
         t != e.tokenSet.name && o.push(t);
       }), e.notificationModule.sendNotification("Incoming call!", "Please see your web client for more information, and to accept or deny.");var s = o.join(", ").replace(/,(?=[^,]*$)/, " and");document.getElementById("call-modal-text").innerText = "You have a incoming call with " + s, document.getElementById("call-modal").style.display = "", document.getElementById("modal-overlay").style.display = "", this.ignored = !1, document.getElementById("call-accept-button").onclick = function () {
-        _this33.ignored = !0, _this33.hide(_this33), new D("#alert-area", { closeTime: 1500, persistent: !1, hideCloseButton: !0 }).show("Starting call."), setTimeout(function () {
+        _this33.ignored = !0, _this33.hide(_this33), new H("#alert-area", { closeTime: 1500, persistent: !1, hideCloseButton: !0 }).show("Starting call."), setTimeout(function () {
           i();
         }, 1e3);
       }, document.getElementById("auto-join-call-or-not").onclick = function () {
         console.log("auto join is set to " + document.getElementById("auto-join-call-or-not").checked), Cookies.set("auto-join-call", document.getElementById("auto-join-call-or-not").checked);
       }, "true" === Cookies.get("auto-join-call") && (this.ignored = !0, document.getElementById("call-accept-button").click());var r = function r() {
-        _this33.ignored || (_this33.ignored = !0, _this33.hide(_this33), new D("#alert-area", { closeTime: 1500, persistent: !1, hideCloseButton: !0 }).show("Ignored call."), n());
+        _this33.ignored || (_this33.ignored = !0, _this33.hide(_this33), new H("#alert-area", { closeTime: 1500, persistent: !1, hideCloseButton: !0 }).show("Ignored call."), n());
       };this.onTimeout = r, document.getElementById("call-deny-button").onclick = r;
     }
 
-    He.prototype.hide = function hide() {
+    De.prototype.hide = function hide() {
       document.getElementById("call-modal").style.display = "none", document.getElementById("modal-overlay").style.display = "none";
     };
 
-    return He;
+    return De;
   }();
 
-  var De = function () {
-    function De(e) {
-      _classCallCheck(this, De);
+  var He = function () {
+    function He(e) {
+      _classCallCheck(this, He);
 
       this.room = null, this.main = e, this.currentUser = e.currentUser;
     }
 
-    De.prototype.promptCall = function promptCall(e, t, i, n, o) {
+    He.prototype.promptCall = function promptCall(e, t, i, n, o) {
       var _this34 = this;
 
-      null == this.room ? new He(this.main, n, function () {
+      null == this.room ? new De(this.main, n, function () {
         _this34.room = new Fe(_this34.main, e, t, _this34.main.tokenSet, i, o);
       }, function () {
         w(_this34.voiceServer.rest + "/leave-room?room=" + t + "&uuid=" + _this34.currentUser.uuid + "&accessToken=" + i).then(function (e) {
@@ -2249,28 +2255,28 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }).catch(function (e) {
           _this34.leaveErrorhandler(e);
         });
-      }) : new D("#alert-area", { closeTime: 2e4, persistent: !1, hideCloseButton: !1, extra: "warning" }).show("You just got invited to another call, but you are already chitter-chatting. There for your new call request was ignored. You can always leave this call and request another invite.");
+      }) : new H("#alert-area", { closeTime: 2e4, persistent: !1, hideCloseButton: !1, extra: "warning" }).show("You just got invited to another call, but you are already chitter-chatting. There for your new call request was ignored. You can always leave this call and request another invite.");
     };
 
-    De.prototype.leaveErrorhandler = function leaveErrorhandler() {
-      new D("#alert-area", { closeTime: 5e3, persistent: !0, hideCloseButton: !0, extra: "warning" }).show("Failed to cancel call. Please try again in a moment.");
+    He.prototype.leaveErrorhandler = function leaveErrorhandler() {
+      new H("#alert-area", { closeTime: 5e3, persistent: !0, hideCloseButton: !0, extra: "warning" }).show("Failed to cancel call. Please try again in a moment.");
     };
 
-    De.prototype.handleSocketClosed = function handleSocketClosed() {
+    He.prototype.handleSocketClosed = function handleSocketClosed() {
       null == this.room || this.room.unsubscribe();
     };
 
-    De.prototype.clearCall = function clearCall() {
+    He.prototype.clearCall = function clearCall() {
       this.room = null;
     };
 
-    De.prototype.setVolume = function setVolume(e) {
+    He.prototype.setVolume = function setVolume(e) {
       null != this.room && this.room.roomMembers.forEach(function (t) {
         null != t.voiceReceiver && t.setVolume(e);
       });
     };
 
-    return De;
+    return He;
   }();
 
   var Ve = function () {
@@ -2283,7 +2289,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     Ve.prototype.setupPermissions = function setupPermissions() {
       var _this35 = this;
 
-      "granted" === Notification.permission || "denied" !== Notification.permission && (this.requestBox = new D("#alert-area", { closeTime: 6e4, persistent: !1, hideCloseButton: !0 }), this.requestBox.show('<div style="text-align: center;"><b>Welcome!</b> you can enable push notifications to get notified when you get a call or the server sends you a message. To get them setup, press the button below.<br/><br/><a id="noti-perm-request-link" class="alert-message-button">Setup</a></div>'), document.getElementById("noti-perm-request-link").onclick = function () {
+      "granted" === Notification.permission || "denied" !== Notification.permission && (this.requestBox = new H("#alert-area", { closeTime: 6e4, persistent: !1, hideCloseButton: !0 }), this.requestBox.show('<div style="text-align: center;"><b>Welcome!</b> you can enable push notifications to get notified when you get a call or the server sends you a message. To get them setup, press the button below.<br/><br/><a id="noti-perm-request-link" class="alert-message-button">Setup</a></div>'), document.getElementById("noti-perm-request-link").onclick = function () {
         _this35.requestNotificationPermissions();
       });
     };
@@ -2296,7 +2302,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       var _this36 = this;
 
       Notification.requestPermission().then(function (e) {
-        "granted" === e && (_this36.requestBox.hide(), new D("#alert-area", { closeTime: 1500, persistent: !1, hideCloseButton: !0 }).show("Hurray! you'll now receive notifications"), _this36.sendNotification("Testing testing 123", "It worked! you have configured Notifications correctly!"));
+        "granted" === e && (_this36.requestBox.hide(), new H("#alert-area", { closeTime: 1500, persistent: !1, hideCloseButton: !0 }).show("Hurray! you'll now receive notifications"), _this36.sendNotification("Testing testing 123", "It worked! you have configured Notifications correctly!"));
       });
     };
 
@@ -2576,10 +2582,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       _classCallCheck(this, et);
 
-      if ((_this40 = _possibleConstructorReturn(this, _ref.call(this)), _this40), _this40.canStart = !1, _this40.host = null, _this40.background = null, _this40.tokenSet = new ne().fromUrl(window.location.href), null == _this40.tokenSet) return _ret2 = void (document.getElementById("welcome-text-landing").innerHTML = "The audio client is only available for players who are online in the server. Use <small>/audio</small> to obtain a URL<br />"), _possibleConstructorReturn(_this40, _ret2);_this40.notificationModule = new Ve(_this40), _this40.timeService = new O(), _this40.messages = new L(_this40), _this40.userInterfaceModule = new R(_this40), _this40.hueConfiguration = new Y(_this40), _this40.mediaManager = new H(_this40), Be = new (window.AudioContext || window.webkitAudioContext)(), _this40.voiceModule = new De(_this40), _this40.boot();new oe("https://plus.openaudiomc.net/").route(_this40).then(function (e) {
+      if ((_this40 = _possibleConstructorReturn(this, _ref.call(this)), _this40), _this40.canStart = !1, _this40.host = null, _this40.background = null, _this40.tokenSet = new ne().fromUrl(window.location.href), null == _this40.tokenSet) return _ret2 = void (document.getElementById("welcome-text-landing").innerHTML = "The audio client is only available for players who are online in the server. Use <small>/audio</small> to obtain a URL<br />"), _possibleConstructorReturn(_this40, _ret2);_this40.notificationModule = new Ve(_this40), _this40.timeService = new O(), _this40.messages = new L(_this40), _this40.userInterfaceModule = new R(_this40), _this40.hueConfiguration = new Y(_this40), _this40.mediaManager = new D(_this40), Be = new (window.AudioContext || window.webkitAudioContext)(), _this40.voiceModule = new He(_this40), _this40.boot();new oe("https://plus.openaudiomc.net/").route(_this40).then(function (e) {
         _this40.canStart = !0, _this40.host = e.host, _this40.background = e.background;
       }).catch(function (e) {
-        console.error("Exception thrown", e.stack), _this40.userInterfaceModule.kickScreen("Your current URL appears to be invalid. Please request a new one in-game using the /audio command. If this issue if persists please contact a member of staff."), new D("#alert-area", { closeTime: 2e4, persistent: !1, hideCloseButton: !0, extra: "warning" }).show("A networking error occurred while connecting to the server, please request a new url and try again.");
+        console.error("Exception thrown", e.stack), _this40.userInterfaceModule.kickScreen("Your current URL appears to be invalid. Please request a new one in-game using the /audio command. If this issue if persists please contact a member of staff."), new H("#alert-area", { closeTime: 2e4, persistent: !1, hideCloseButton: !0, extra: "warning" }).show("A networking error occurred while connecting to the server, please request a new url and try again.");
       });return _possibleConstructorReturn(_this40);
     }
 

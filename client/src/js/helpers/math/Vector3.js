@@ -6,6 +6,12 @@ export class Vector3 {
         this.z = z || 0;
     }
 
+    add(x, y, z) {
+        this.x += x;
+        this.y += y;
+        this.z += z;
+    }
+
     applyQuaternion(q) {
         let x = this.x, y = this.y, z = this.z;
         let qx = q.x, qy = q.y, qz = q.z, qw = q.w;
