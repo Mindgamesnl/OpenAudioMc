@@ -14,7 +14,7 @@ public class AbstractPacketAdapter implements JsonSerializer<AbstractPacketPaylo
     public JsonElement serialize(AbstractPacketPayload src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();
 
-        result.add("type", new JsonPrimitive(src.getClass().getSimpleName()));
+        result.add("type", new JsonPrimitive(src.getClass().getName()));
         result.add("payload", context.serialize(src, src.getClass()));
 
         return result;
@@ -27,7 +27,11 @@ public class AbstractPacketAdapter implements JsonSerializer<AbstractPacketPaylo
         JsonElement element = jsonObject.get("payload");
 
         try {
-            return context.deserialize(element, Class.forName("com.craftmend.openaudiomc.generic.networking.payloads." + type));
+            if (type.contains("com.ceraftmend.openaudiomc")) {
+                return context.deserialize(element, Class.forName("com.craftmend.openaudiomc.generic.networking.payloads." + type));
+            }
+
+            return context.deserialize(element, Class.forName(type));
         } catch (ClassNotFoundException cnfe) {
             throw new JsonParseException("Unknown element type: " + type, cnfe);
         }
