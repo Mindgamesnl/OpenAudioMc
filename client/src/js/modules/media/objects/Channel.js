@@ -41,12 +41,16 @@ export class Channel {
 
     fadeChannel(targetVolume, time, extraCallback) {
         this.interruptFade();
+        if (extraCallback == null) {
+            extraCallback = () => {};
+        }
+
         this.targetAfterFade = targetVolume;
         this.isFading = true;
         const fadeTo = (sound, dur, toVol, callback) => {
             dur      = dur || 1000;
             toVol    = toVol || 0;
-            callback = typeof callback == 'function' ? callback : function(){};
+            callback = callback;
             let s    = sound,
                 k    = this.channelVolume,
                 t    = dur/Math.abs(k - toVol),
@@ -61,11 +65,11 @@ export class Channel {
                     for (let sound of this.sounds) {
                         sound.setVolume(result);
                     }
+
                     this.channelVolume = k;
 
                     if(k == toVol){
-                        if (extraCallback != null) extraCallback();
-                        callback.call(this);
+                        extraCallback();
                         clearInterval(i);
                         const index = this.fadeTimer.indexOf(i);
                         if (index > -1) {
@@ -78,7 +82,7 @@ export class Channel {
             this.fadeTimer.push(i);
         };
 
-        fadeTo(this, time, targetVolume);
+        fadeTo(this, time, targetVolume, extraCallback);
     }
 
 

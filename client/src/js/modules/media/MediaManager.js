@@ -21,7 +21,6 @@ export class MediaManager {
         if (instantly) time = 0;
 
         for (let channel of this.mixer.getChannels()) {
-
             if (all) {
                 channel.fadeChannel(0, time * 5, () => {
                     this.mixer.removeChannel(channel);
@@ -38,9 +37,12 @@ export class MediaManager {
                         channel.sounds.forEach((sound) => {
                             sound.gotShutDown = true;
                         });
-                        channel.fadeChannel(0, time, () => {
+
+                        let callback = () => {
                             this.mixer.removeChannel(channel);
-                        });
+                        };
+
+                        channel.fadeChannel(0, time, callback);
                     }
                 }
             }
