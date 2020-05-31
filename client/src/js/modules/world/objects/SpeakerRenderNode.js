@@ -14,7 +14,7 @@ export class SpeakerRenderNode {
         this.pannerNode.panningModel = 'HRTF';
         this.pannerNode.maxDistance = speaker.maxDistance;
         this.pannerNode.rolloffFactor = 1;
-        this.pannerNode.distanceModel = "exponential";
+        this.pannerNode.distanceModel = "inverse";
 
         const location = speaker.location;
         const position = new Position(location);
@@ -23,7 +23,7 @@ export class SpeakerRenderNode {
         this.gainNode = player.audioCtx.createGain();
 
         // since panner tends to lose volume
-        this.gainNode.gain.value = 2;
+        this.gainNode.gain.value = 2.5;
 
         this.pannerNode.connect(this.gainNode);
         this.gainNode.connect(player.audioCtx.destination);

@@ -21,7 +21,6 @@ export class SpeakerPlayer {
 
         createdMedia.startDate(startInstant, true);
         createdMedia.finalize().then(() => {
-            createdMedia.startDate(startInstant, true);
             openAudioMc.getMediaManager().mixer.addChannel(createdChannel);
             createdChannel.addSound(createdMedia);
             createdChannel.setChannelVolume(100);
@@ -29,6 +28,7 @@ export class SpeakerPlayer {
             createdChannel.setTag(this.id);
             createdChannel.setTag("SPECIAL");
             this.openAudioMc.getMediaManager().mixer.updateCurrent();
+            createdMedia.startDate(startInstant, true);
             createdMedia.finish();
         });
     }
