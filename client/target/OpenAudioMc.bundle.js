@@ -1188,7 +1188,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
 
     K.prototype.add = function add(e, t, i) {
-      this.x += e, this.y += t, this.z += i;
+      return this.x += e, this.y += t, this.z += i, this;
     };
 
     K.prototype.applyQuaternion = function applyQuaternion(e) {
@@ -1320,7 +1320,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             s = e.yaw;_this14.openAudioMc.world.player.updateLocation(new K(t, i, n), o, s);
       }), t("ClientSpeakerCreatePayload", function (e) {
         var t = e.clientSpeaker,
-            i = new K(t.location.x, t.location.y, t.location.z);i.add(.5, .5, .5);var n = new J(t.id, t.source, i, t.type, t.maxDistance, t.startInstant, _this14.openAudioMc);_this14.openAudioMc.world.addSpeaker(t.id, n);
+            i = new K(t.location.x, t.location.y, t.location.z).add(.5, .5, .5),
+            n = new J(t.id, t.source, i, t.type, t.maxDistance, t.startInstant, _this14.openAudioMc);_this14.openAudioMc.world.addSpeaker(t.id, n);
       }), t("ClientSpeakerDestroyPayload", function (e) {
         var t = e.clientSpeaker;_this14.openAudioMc.world.removeSpeaker(t.id);
       });
@@ -2334,7 +2335,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           i = Math.cos;var n = e.x,
           o = e.y,
           s = e.z,
-          r = (e.order, i(n / 2)),
+          r = i(n / 2),
           a = i(o / 2),
           l = i(s / 2),
           u = t(n / 2),
