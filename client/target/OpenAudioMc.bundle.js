@@ -1249,12 +1249,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             l = t.distance,
             u = t.media.flag,
             h = t.maxDistance;var d = 100;null != t.media.volume && 0 != t.media.volume && (d = t.media.volume), e.getMediaManager().destroySounds(o, !1, !0);var c = new U(o),
-            m = new G(s);if (m.openAudioMc = e, m.setOa(e), r && m.startDate(n, !0), e.getMediaManager().mixer.addChannel(c), c.addSound(m), r && m.startDate(n, !0), c.setChannelVolume(0), m.setLooping(i), c.setTag(o), 0 !== h) {
+            m = new G(s);if (m.openAudioMc = e, m.setOa(e), e.getMediaManager().mixer.addChannel(c), c.addSound(m), c.setChannelVolume(0), m.setLooping(i), c.setTag(o), 0 !== h) {
           var _e18 = _this14.convertDistanceToVolume(h, l);c.setTag("SPECIAL"), c.maxDistance = h, c.fadeChannel(_e18, a);
         } else c.setTag("DEFAULT"), setTimeout(function () {
           0 === a ? (c.setChannelVolume(d), c.updateFromMasterVolume()) : (c.updateFromMasterVolume(), c.fadeChannel(d, a));
         }, 1);c.setTag(u), e.getMediaManager().mixer.updateCurrent(), m.finalize().then(function () {
-          m.finish();
+          r && m.startDate(n, !0), m.finish();
         });
       }), t("ClientDestroyCardPayload", function () {
         document.getElementById("card-panel").style.display = "none";
@@ -2399,7 +2399,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   var Qe = function Qe(e, t, i, n) {
     _classCallCheck(this, Qe);
 
-    this.pannerNode = i.audioCtx.createPanner(), this.media = n, n.addNode(i, this.pannerNode), this.pannerNode.panningModel = "HRTF", this.pannerNode.maxDistance = e.maxDistance, this.pannerNode.rolloffFactor = 1, this.pannerNode.distanceModel = "exponential";var o = e.location;new Ke(o).applyTo(this.pannerNode), this.gainNode = i.audioCtx.createGain(), this.gainNode.gain.value = 2, this.pannerNode.connect(this.gainNode), this.gainNode.connect(i.audioCtx.destination);
+    this.pannerNode = i.audioCtx.createPanner(), this.media = n, n.addNode(i, this.pannerNode), this.pannerNode.panningModel = "HRTF", this.pannerNode.maxDistance = e.maxDistance, this.pannerNode.rolloffFactor = 1, this.pannerNode.distanceModel = "inverse";var o = e.location;new Ke(o).applyTo(this.pannerNode), this.gainNode = i.audioCtx.createGain(), this.gainNode.gain.value = 2.5, this.pannerNode.connect(this.gainNode), this.gainNode.connect(i.audioCtx.destination);
   };
 
   var Xe = function () {
@@ -2409,7 +2409,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       _classCallCheck(this, Xe);
 
       this.id = "SPEAKER__" + t, this.openAudioMc = e, this.speakerNodes = new Map();var n = new U(this.id);this.channel = n;var o = new G(t);this.media = o, o.openAudioMc = e, o.setOa(e), n.mixer = this.openAudioMc.getMediaManager().mixer, o.startDate(i, !0), o.finalize().then(function () {
-        o.startDate(i, !0), e.getMediaManager().mixer.addChannel(n), n.addSound(o), n.setChannelVolume(100), o.setLooping(!0), n.setTag(_this37.id), n.setTag("SPECIAL"), _this37.openAudioMc.getMediaManager().mixer.updateCurrent(), o.finish();
+        e.getMediaManager().mixer.addChannel(n), n.addSound(o), n.setChannelVolume(100), o.setLooping(!0), n.setTag(_this37.id), n.setTag("SPECIAL"), _this37.openAudioMc.getMediaManager().mixer.updateCurrent(), o.startDate(i, !0), o.finish();
       });
     }
 
