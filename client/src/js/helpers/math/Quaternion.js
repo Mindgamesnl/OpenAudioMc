@@ -8,7 +8,7 @@ export class Quaternion {
     }
 
     setFromEuler(euler) {
-        let x = euler.x, y = euler.y, z = euler.z, order = euler.order;
+        let x = euler.x, y = euler.y, z = euler.z;
 
         let c1 = Math.cos(x / 2);
         let c2 = Math.cos(y / 2);

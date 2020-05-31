@@ -10,6 +10,7 @@ export class Vector3 {
         this.x += x;
         this.y += y;
         this.z += z;
+        return this;
     }
 
     applyQuaternion(q) {
@@ -28,11 +29,11 @@ export class Vector3 {
         return this;
     }
 
-    square (a) {
+    square(a) {
         return a * a;
     }
 
-    distance (o) {
+    distance(o) {
         const d = this.square(this.x - o.x) + this.square(this.y - o.y) + this.square(this.z - o.z);
         return Math.sqrt(d);
     }
