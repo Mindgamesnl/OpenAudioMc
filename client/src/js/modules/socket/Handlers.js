@@ -40,38 +40,36 @@ export class Handlers {
             createdMedia.openAudioMc = openAudioMc;
             createdMedia.setOa(openAudioMc);
             if (doPickup) createdMedia.startDate(startInstant, true);
-            createdMedia.finalize().then(ready => {
-                if (doPickup) createdMedia.startDate(startInstant, true);
-                openAudioMc.getMediaManager().mixer.addChannel(createdChannel);
-                createdChannel.addSound(createdMedia);
-                createdChannel.setChannelVolume(0);
-                createdMedia.setLooping(looping);
-                createdChannel.setTag(id);
+            openAudioMc.getMediaManager().mixer.addChannel(createdChannel);
+            createdChannel.addSound(createdMedia);
+            if (doPickup) createdMedia.startDate(startInstant, true);
+            createdChannel.setChannelVolume(0);
+            createdMedia.setLooping(looping);
+            createdChannel.setTag(id);
 
-                // convert distance
-                if (maxDistance !== 0) {
-                    let startVolume = this.convertDistanceToVolume(maxDistance, distance);
-                    createdChannel.setTag("SPECIAL");
-                    createdChannel.maxDistance = maxDistance;
-                    createdChannel.fadeChannel(startVolume, fadeTime);
-                } else {
-                    // default sound, just play
-                    createdChannel.setTag("DEFAULT");
-                    setTimeout(() => {
-                        if (fadeTime === 0) {
-                            createdChannel.setChannelVolume(volume);
-                            createdChannel.updateFromMasterVolume();
-                        } else {
-                            createdChannel.updateFromMasterVolume();
-                            createdChannel.fadeChannel(volume, fadeTime);
-                        }
-                    }, 1);
-                }
+            // convert distance
+            if (maxDistance !== 0) {
+                let startVolume = this.convertDistanceToVolume(maxDistance, distance);
+                createdChannel.setTag("SPECIAL");
+                createdChannel.maxDistance = maxDistance;
+                createdChannel.fadeChannel(startVolume, fadeTime);
+            } else {
+                // default sound, just play
+                createdChannel.setTag("DEFAULT");
+                setTimeout(() => {
+                    if (fadeTime === 0) {
+                        createdChannel.setChannelVolume(volume);
+                        createdChannel.updateFromMasterVolume();
+                    } else {
+                        createdChannel.updateFromMasterVolume();
+                        createdChannel.fadeChannel(volume, fadeTime);
+                    }
+                }, 1);
+            }
+            createdChannel.setTag(flag);
+            openAudioMc.getMediaManager().mixer.updateCurrent();
 
-
-                createdChannel.setTag(flag);
-
-                openAudioMc.getMediaManager().mixer.updateCurrent();
+            createdMedia.finalize().then(() => {
                 createdMedia.finish();
             });
         });
