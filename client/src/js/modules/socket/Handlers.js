@@ -191,15 +191,14 @@ export class Handlers {
            // speaker in range
             const speaker = data.clientSpeaker;
 
+            // Vector3 representing the center of the speaker
             const loc = new Vector3(
                 speaker.location.x,
                 speaker.location.y,
                 speaker.location.z
-            );
+            ).add(0.5, 0.5, 0.5);
 
-            // center of block
-            loc.add(0.5, 0.5, 0.5);
-
+            // create speaker
             const speakerData = new Speaker(
                 speaker.id,
                 speaker.source,
@@ -210,6 +209,7 @@ export class Handlers {
                 this.openAudioMc
             );
 
+            // add it to the render queue
             this.openAudioMc.world.addSpeaker(speaker.id, speakerData);
         });
 
