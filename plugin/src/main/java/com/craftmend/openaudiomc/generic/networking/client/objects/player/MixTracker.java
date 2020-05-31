@@ -1,6 +1,9 @@
 package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.payloads.in.objects.MixerTrack;
+import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.spigot.modules.proxy.service.ProxyNetworkingService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +25,11 @@ public class MixTracker {
         if (!createdTracks.isEmpty()) {
             expectedTracksToStart = expectedTracksToStart - createdTracks.size();
             if (expectedTracksToStart < 0) {
+                // might be invalid if its a slave server, so lets check that first
+                if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) {
+                    // im not the master, disabling and ignoring.
+                    return;
+                }
                 throw new IllegalAccessException("Client tried to fake sound id's");
             }
         }

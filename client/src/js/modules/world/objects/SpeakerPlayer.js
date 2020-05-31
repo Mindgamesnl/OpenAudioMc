@@ -55,7 +55,6 @@ export class SpeakerPlayer {
                     closest, world, player, this.media
                 ));
             }
-
         }
     }
 
