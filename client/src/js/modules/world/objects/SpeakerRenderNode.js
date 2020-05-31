@@ -19,9 +19,4 @@ export class SpeakerRenderNode {
         position.applyTo(this.pannerNode);
     }
 
-    unRegister() {
-        // this.pannerNode.disconnect();
-    }
-
-
 }

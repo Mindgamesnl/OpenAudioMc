@@ -19,13 +19,10 @@ export class WorldModule {
 
     addSpeaker(id, speakerData) {
         this.speakers.set(id, speakerData);
-        speakerData.initialize();
         this.renderAudio2D();
     }
 
     removeSpeaker(id) {
-        let speaker = this.getSpeakerById(id);
-        if (speaker != null) speaker.onRemove();
         this.speakers.delete(id);
 
         // remove render nodes
@@ -59,9 +56,6 @@ export class WorldModule {
     }
 
     onLocationUpdate() {
-        this.speakers.forEach((speaker, id) => {
-            speaker.onPlayerLocationUpdate(this, this.player);
-        });
         this.renderAudio2D();
     }
 
