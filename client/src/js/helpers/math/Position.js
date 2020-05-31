@@ -8,11 +8,6 @@ export class Position {
         this.rotation = rotation;
     }
 
-    set(other) {
-        this.position.copy(other.position);
-        this.rotation.copy(other.rotation);
-    }
-
     // apply to a PannerNode or AudioListener
     applyTo(target) {
         const pos = this.position;

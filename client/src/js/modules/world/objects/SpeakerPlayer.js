@@ -1,6 +1,6 @@
 import {Channel} from "../../media/objects/Channel";
 import {Sound} from "../../media/objects/Sound";
-import {SPEAKER_2D, SPEAKER_3D} from "../constants/SpeakerType";
+import {SPEAKER_2D} from "../constants/SpeakerType";
 import {SpeakerRenderNode} from "./SpeakerRenderNode";
 
 export class SpeakerPlayer {
@@ -8,7 +8,6 @@ export class SpeakerPlayer {
     constructor(openAudioMc, source, startInstant) {
         this.id = "SPEAKER__" + source;
         this.openAudioMc = openAudioMc;
-        this.lastUsedMode = SPEAKER_2D;
 
         this.speakerNodes = new Map();
 
@@ -21,7 +20,7 @@ export class SpeakerPlayer {
         createdChannel.mixer = this.openAudioMc.getMediaManager().mixer;
 
         createdMedia.startDate(startInstant, true);
-        createdMedia.finalize().then(ready => {
+        createdMedia.finalize().then(() => {
             createdMedia.startDate(startInstant, true);
             openAudioMc.getMediaManager().mixer.addChannel(createdChannel);
             createdChannel.addSound(createdMedia);
@@ -37,7 +36,6 @@ export class SpeakerPlayer {
     removeSpeakerLocation(id) {
         const node = this.speakerNodes.get(id);
         if (node != null) {
-            node.unRegister();
             this.speakerNodes.delete(id);
         }
     }
