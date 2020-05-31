@@ -27,11 +27,11 @@ public class AbstractPacketAdapter implements JsonSerializer<AbstractPacketPaylo
         JsonElement element = jsonObject.get("payload");
 
         try {
-            if (type.contains("com.ceraftmend.openaudiomc")) {
-                return context.deserialize(element, Class.forName("com.craftmend.openaudiomc.generic.networking.payloads." + type));
+            if (type.contains("com.craftmend.openaudiomc")) {
+                return context.deserialize(element, Class.forName(type));
             }
 
-            return context.deserialize(element, Class.forName(type));
+            return context.deserialize(element, Class.forName("com.craftmend.openaudiomc.generic.networking.payloads." + type));
         } catch (ClassNotFoundException cnfe) {
             throw new JsonParseException("Unknown element type: " + type, cnfe);
         }

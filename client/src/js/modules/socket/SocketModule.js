@@ -64,7 +64,9 @@ export class SocketModule {
         });
 
         this.socket.on("data", data => {
-            if (that.handlers[data.type] != null) that.handlers[data.type](data.payload);
+            let packages = data.type.split(".");
+            let payloadType = packages[packages.length - 1];
+            if (that.handlers[payloadType] != null) that.handlers[payloadType](data.payload);
         });
 
         this.socket.on('join-call', (joinCallPacket) => {

@@ -24,9 +24,12 @@ export class Mixer {
             });
         });
 
+
         this.openAudioMc.socketModule.send(PluginChannel.CHANNELS_UPDATED, {
             "tracks": current
         });
+
+
     }
 
     setMasterVolume(masterVolume) {
