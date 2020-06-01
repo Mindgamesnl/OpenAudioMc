@@ -37,8 +37,9 @@ public class HueSubCommand extends SubCommand {
             SerializedHueColor serializedHueColor = new SerializedHueColor(Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]), Integer.parseInt(args[6]));
             for (Player player : new SpigotPlayerSelector(args[1]).getPlayers((CommandSender) sender.getOriginal())) {
                 SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(player);
-                if (!spigotConnection.getClientConnection().isHasHueLinked()) continue; // don't send the packet if hue isn't linked
-                OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientApplyHueColor(serializedHueColor, args[2]));
+                if (spigotConnection.getClientConnection().isHasHueLinked()) {
+                    OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientApplyHueColor(serializedHueColor, args[2]));
+                }
             }
             message(sender, "updated hue state for " + args[1]);
             return;

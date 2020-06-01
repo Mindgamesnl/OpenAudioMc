@@ -7,6 +7,8 @@ export class SocketModule {
         this.handlers = {};
         this.openAudioMc = main;
         this.callbacksEnabled = false;
+        this.hasConnected = false;
+        this.outgoingQueue = [];
 
         if (Utils.getParameter().data == null) {
             main.debugPrint("data is empty");
@@ -39,6 +41,10 @@ export class SocketModule {
             main.userInterfaceModule.openApp();
             main.getUserInterfaceModule().setMessage(this.openAudioMc.getMessages().welcomeMessage);
             main.socketModule.state = "ok";
+            this.hasConnected = true;
+            this.outgoingQueue.forEach((waiting) => {
+                this.send(waiting.key, waiting.value);
+            });
         });
 
         this.socket.on("time-update", (time) => {
@@ -101,11 +107,18 @@ export class SocketModule {
     }
 
     send(event, data) {
-        if (this.callbacksEnabled) {
-            console.log("[OpenAudioMc] Submitting value for " + event);
-            this.socket.emit(event, data);
+        if (this.hasConnected) {
+            if (this.callbacksEnabled) {
+                console.log("[OpenAudioMc] Submitting value for " + event);
+                this.socket.emit(event, data);
+            } else {
+                console.log("[OpenAudioMc] could not satisfy callback " + event + " because the protocol is outdated");
+            }
         } else {
-            console.log("[OpenAudioMc] could not satisfy callback " + event + " because the protocol is outdated");
+            this.outgoingQueue.push({
+                key: event,
+                value: data
+            });
         }
     }
 
