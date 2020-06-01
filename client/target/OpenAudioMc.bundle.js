@@ -91,8 +91,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
               },
                   A = x(y),
                   S = x(b),
-                  B = x(w),
-                  C = x(v),
+                  C = x(w),
+                  B = x(v),
                   I = x(M),
                   T = x(k),
                   _ = x(E);return { getCapabilities: a.bind(null, f), deleteUser: d(h, function (e) {
@@ -104,11 +104,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                   return A(e) + "/state";
                 }), deleteLight: d(h, A), getGroups: a.bind(null, b), createGroup: u.bind(null, b), getGroup: d(a, S), setGroup: d(l, S), setGroupState: d(l, function (e) {
                   return S(e) + "/action";
-                }), deleteGroup: d(h, S), getSchedules: a.bind(null, w), createSchedule: u.bind(null, w), getSchedule: d(a, B), setSchedule: d(l, B), deleteSchedule: d(h, B), scheduleCommandGenerator: function scheduleCommandGenerator() {
+                }), deleteGroup: d(h, S), getSchedules: a.bind(null, w), createSchedule: u.bind(null, w), getSchedule: d(a, C), setSchedule: d(l, C), deleteSchedule: d(h, C), scheduleCommandGenerator: function scheduleCommandGenerator() {
                   return o(c(s), t, i, n).bridge(e).user(m);
-                }, getScenes: a.bind(null, v), createScene: u.bind(null, v), getScene: d(a, C), setScene: d(l, C), setSceneLightState: function setSceneLightState(e, t, i) {
-                  return l(C(e) + "/lightstates/" + t, i);
-                }, deleteScene: d(h, C), getSensors: a.bind(null, M), createSensor: u.bind(null, M), searchForNewSensors: u.bind(null, M, null), getNewSensors: a.bind(null, M + "/new"), getSensor: d(a, I), setSensor: d(l, I), setSensorConfig: d(l, function (e) {
+                }, getScenes: a.bind(null, v), createScene: u.bind(null, v), getScene: d(a, B), setScene: d(l, B), setSceneLightState: function setSceneLightState(e, t, i) {
+                  return l(B(e) + "/lightstates/" + t, i);
+                }, deleteScene: d(h, B), getSensors: a.bind(null, M), createSensor: u.bind(null, M), searchForNewSensors: u.bind(null, M, null), getNewSensors: a.bind(null, M + "/new"), getSensor: d(a, I), setSensor: d(l, I), setSensorConfig: d(l, function (e) {
                   return I(e) + "/config";
                 }), setSensorState: d(l, function (e) {
                   return I(e) + "/state";
@@ -178,7 +178,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   }function l(e) {
     var t = { next: function next() {
         var t = e.shift();return { done: void 0 === t, value: t };
-      } };return Q.iterable && (t[Symbol.iterator] = function () {
+      } };return Y.iterable && (t[Symbol.iterator] = function () {
       return t;
     }), t;
   }function u(e) {
@@ -206,10 +206,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     if (e.slice) return e.slice(0);var t = new Uint8Array(e.byteLength);return t.set(new Uint8Array(e)), t.buffer;
   }function p() {
     return this.bodyUsed = !1, this._initBody = function (e) {
-      this._bodyInit = e, e ? "string" == typeof e ? this._bodyText = e : Q.blob && Blob.prototype.isPrototypeOf(e) ? this._bodyBlob = e : Q.formData && FormData.prototype.isPrototypeOf(e) ? this._bodyFormData = e : Q.searchParams && URLSearchParams.prototype.isPrototypeOf(e) ? this._bodyText = e.toString() : Q.arrayBuffer && Q.blob && function (e) {
+      this._bodyInit = e, e ? "string" == typeof e ? this._bodyText = e : Y.blob && Blob.prototype.isPrototypeOf(e) ? this._bodyBlob = e : Y.formData && FormData.prototype.isPrototypeOf(e) ? this._bodyFormData = e : Y.searchParams && URLSearchParams.prototype.isPrototypeOf(e) ? this._bodyText = e.toString() : Y.arrayBuffer && Y.blob && function (e) {
         return e && DataView.prototype.isPrototypeOf(e);
-      }(e) ? (this._bodyArrayBuffer = m(e.buffer), this._bodyInit = new Blob([this._bodyArrayBuffer])) : Q.arrayBuffer && (ArrayBuffer.prototype.isPrototypeOf(e) || $(e)) ? this._bodyArrayBuffer = m(e) : this._bodyText = e = Object.prototype.toString.call(e) : this._bodyText = "", this.headers.get("content-type") || ("string" == typeof e ? this.headers.set("content-type", "text/plain;charset=UTF-8") : this._bodyBlob && this._bodyBlob.type ? this.headers.set("content-type", this._bodyBlob.type) : Q.searchParams && URLSearchParams.prototype.isPrototypeOf(e) && this.headers.set("content-type", "application/x-www-form-urlencoded;charset=UTF-8"));
-    }, Q.blob && (this.blob = function () {
+      }(e) ? (this._bodyArrayBuffer = m(e.buffer), this._bodyInit = new Blob([this._bodyArrayBuffer])) : Y.arrayBuffer && (ArrayBuffer.prototype.isPrototypeOf(e) || $(e)) ? this._bodyArrayBuffer = m(e) : this._bodyText = e = Object.prototype.toString.call(e) : this._bodyText = "", this.headers.get("content-type") || ("string" == typeof e ? this.headers.set("content-type", "text/plain;charset=UTF-8") : this._bodyBlob && this._bodyBlob.type ? this.headers.set("content-type", this._bodyBlob.type) : Y.searchParams && URLSearchParams.prototype.isPrototypeOf(e) && this.headers.set("content-type", "application/x-www-form-urlencoded;charset=UTF-8"));
+    }, Y.blob && (this.blob = function () {
       var e = h(this);if (e) return e;if (this._bodyBlob) return Promise.resolve(this._bodyBlob);if (this._bodyArrayBuffer) return Promise.resolve(new Blob([this._bodyArrayBuffer]));if (this._bodyFormData) throw new Error("could not read FormData body as blob");return Promise.resolve(new Blob([this._bodyText]));
     }, this.arrayBuffer = function () {
       return this._bodyArrayBuffer ? h(this) || Promise.resolve(this._bodyArrayBuffer) : this.blob().then(c);
@@ -222,7 +222,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           i[n] = T(t[n]);
         }return i.join("");
       }(this._bodyArrayBuffer));if (this._bodyFormData) throw new Error("could not read FormData body as text");return Promise.resolve(this._bodyText);
-    }, Q.formData && (this.formData = function () {
+    }, Y.formData && (this.formData = function () {
       return this.text().then(g);
     }), this.json = function () {
       return this.text().then(JSON.parse);
@@ -262,7 +262,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         n(new TypeError("Network request failed"));
       }, r.onabort = function () {
         n(new ie("Aborted", "AbortError"));
-      }, r.open(s.method, s.url, !0), "include" === s.credentials ? r.withCredentials = !0 : "omit" === s.credentials && (r.withCredentials = !1), "responseType" in r && Q.blob && (r.responseType = "blob"), s.headers.forEach(function (e, t) {
+      }, r.open(s.method, s.url, !0), "include" === s.credentials ? r.withCredentials = !0 : "omit" === s.credentials && (r.withCredentials = !1), "responseType" in r && Y.blob && (r.responseType = "blob"), s.headers.forEach(function (e, t) {
         r.setRequestHeader(t, e);
       }), s.signal && (s.signal.addEventListener("abort", o), r.onreadystatechange = function () {
         4 === r.readyState && s.signal.removeEventListener("abort", o);
@@ -290,17 +290,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }return t;
   }function x() {
     for (var e = "", t = "", i = 0; i < le && ve != Me; ++i) {
-      e += T(12288 + (0 | 16383 * I(C(de[ve++] + 1, 0), 2))), t += T(12288 + (0 | 16383 * I(C(de[ve++] + 1, 0), 2))), ve == ke && (ve = 0);
+      e += T(12288 + (0 | 16383 * I(B(de[ve++] + 1, 0), 2))), t += T(12288 + (0 | 16383 * I(B(de[ve++] + 1, 0), 2))), ve == ke && (ve = 0);
     }return e + t;
   }function A() {
     for (var e = "", t = 0; t < le && ve != Me; ++t) {
-      e += T(12288 + (0 | 16383 * I(C(de[ve++] + 1, 0), 2))), ve == ke && (ve = 0);
+      e += T(12288 + (0 | 16383 * I(B(de[ve++] + 1, 0), 2))), ve == ke && (ve = 0);
     }return e;
   }function S() {
     return (ve <= Me ? 0 : ke) + Me - ve;
-  }function B(e) {
-    he = k(me), we = me, ve = 0, Me = 0, ke = C(me * Math.ceil(fe / e), le) << 1, ge ? (de = E(ke), be = new v(fe, e, 1, ke, !0), A) : (de = E(ke <<= 1), be = new v(fe, e, 2, ke, !0), x);
-  }var C = Math.max,
+  }function C(e) {
+    he = k(me), we = me, ve = 0, Me = 0, ke = B(me * Math.ceil(fe / e), le) << 1, ge ? (de = E(ke), be = new v(fe, e, 1, ke, !0), A) : (de = E(ke <<= 1), be = new v(fe, e, 2, ke, !0), x);
+  }var B = Math.max,
       I = Math.min,
       T = String.fromCharCode,
       _ = Math.abs,
@@ -862,7 +862,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       _classCallCheck(this, V);
 
-      if (this.handlers = {}, this.openAudioMc = e, this.callbacksEnabled = !1, null == function () {
+      if (this.handlers = {}, this.openAudioMc = e, this.callbacksEnabled = !1, this.hasConnected = !1, this.outgoingQueue = [], null == function () {
         function _class() {
           _classCallCheck(this, _class);
         }
@@ -878,7 +878,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         return _class;
       }().getParameter().data) return e.debugPrint("data is empty"), void e.getUserInterfaceModule().setMessage("<h3>Invalid url. Please connect via the server, by executing <b><u>/audio</u></b></h3>");e.debugPrint("Username: " + e.tokenSet.name), e.debugPrint("Player uuid: " + e.tokenSet.uuid), e.debugPrint("Server uuid: " + e.tokenSet.publicServerKey), e.debugPrint("Token: " + e.tokenSet.token), this.state = "loading", this.authHeader = "type=client&n=" + e.tokenSet.name + "&player=" + e.tokenSet.uuid + "&s=" + e.tokenSet.publicServerKey + "&p=" + e.tokenSet.token, e.debugPrint(this.authHeader);var i = this;this.socket = io(t, { query: i.authHeader, autoConnect: !1 }), this.socket.on("connect", function () {
-        e.userInterfaceModule.openApp(), e.getUserInterfaceModule().setMessage(_this11.openAudioMc.getMessages().welcomeMessage), e.socketModule.state = "ok";
+        e.userInterfaceModule.openApp(), e.getUserInterfaceModule().setMessage(_this11.openAudioMc.getMessages().welcomeMessage), e.socketModule.state = "ok", _this11.hasConnected = !0, _this11.outgoingQueue.forEach(function (e) {
+          _this11.send(e.key, e.value);
+        });
       }), this.socket.on("time-update", function (e) {
         var t = e.split(":"),
             i = parseInt(t[1]),
@@ -928,7 +930,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
 
     V.prototype.send = function send(e, t) {
-      this.callbacksEnabled ? (console.log("[OpenAudioMc] Submitting value for " + e), this.socket.emit(e, t)) : console.log("[OpenAudioMc] could not satisfy callback " + e + " because the protocol is outdated");
+      this.hasConnected ? this.callbacksEnabled ? (console.log("[OpenAudioMc] Submitting value for " + e), this.socket.emit(e, t)) : console.log("[OpenAudioMc] could not satisfy callback " + e + " because the protocol is outdated") : this.outgoingQueue.push({ key: e, value: t });
     };
 
     V.prototype.registerHandler = function registerHandler(e, t) {
@@ -1217,25 +1219,25 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     return K;
   }();
 
-  var J = function () {
-    function J(e, t, i, n, o, s, r) {
-      _classCallCheck(this, J);
+  var Q = function () {
+    function Q(e, t, i, n, o, s, r) {
+      _classCallCheck(this, Q);
 
       this.id = e, this.source = t, this.location = i, this.type = n, this.maxDistance = o, this.startInstant = s, this.openAudioMc = r, this.channel = null;
     }
 
-    J.prototype.getDistance = function getDistance(e, t) {
+    Q.prototype.getDistance = function getDistance(e, t) {
       return t.location.distance(this.location);
     };
 
-    return J;
+    return Q;
   }();
 
-  var Z = function () {
-    function Z(e) {
+  var J = function () {
+    function J(e) {
       var _this14 = this;
 
-      _classCallCheck(this, Z);
+      _classCallCheck(this, J);
 
       function t(t, i) {
         e.socketModule.registerHandler(t, i);
@@ -1322,24 +1324,24 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }), t("ClientSpeakerCreatePayload", function (e) {
         var t = e.clientSpeaker,
             i = new K(t.location.x, t.location.y, t.location.z).add(.5, .5, .5),
-            n = new J(t.id, t.source, i, t.type, t.maxDistance, t.startInstant, _this14.openAudioMc);_this14.openAudioMc.world.addSpeaker(t.id, n);
+            n = new Q(t.id, t.source, i, t.type, t.maxDistance, t.startInstant, _this14.openAudioMc);_this14.openAudioMc.world.addSpeaker(t.id, n);
       }), t("ClientSpeakerDestroyPayload", function (e) {
         var t = e.clientSpeaker;_this14.openAudioMc.world.removeSpeaker(t.id);
       });
     }
 
-    Z.prototype.convertDistanceToVolume = function convertDistanceToVolume(e, t) {
+    J.prototype.convertDistanceToVolume = function convertDistanceToVolume(e, t) {
       return P((e - t) / e * 100);
     };
 
-    return Z;
+    return J;
   }();
 
-  var Y = function () {
-    function Y() {
+  var Z = function () {
+    function Z() {
       var _this15 = this;
 
-      _classCallCheck(this, Y);
+      _classCallCheck(this, Z);
 
       this.dropdowns = [], this.state = [], this.dropdowns.push(document.getElementById("bulb-selection-1")), this.dropdowns.push(document.getElementById("bulb-selection-2")), this.dropdowns.push(document.getElementById("bulb-selection-3")), this.dropdowns.forEach(function (e) {
         e.onchange = function () {
@@ -1348,15 +1350,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       });
     }
 
-    Y.prototype.setBridgeName = function setBridgeName(e) {
+    Z.prototype.setBridgeName = function setBridgeName(e) {
       document.getElementById("bridge-name").innerText = e;
     };
 
-    Y.prototype.select = function select() {
+    Z.prototype.select = function select() {
       this.updateState();
     };
 
-    Y.prototype.applyState = function applyState() {
+    Z.prototype.applyState = function applyState() {
       var _this16 = this;
 
       this.state.forEach(function (e) {
@@ -1364,7 +1366,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       });
     };
 
-    Y.prototype.updateState = function updateState() {
+    Z.prototype.updateState = function updateState() {
       var _this17 = this;
 
       this.state = [], this.dropdowns.forEach(function (e) {
@@ -1372,18 +1374,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }), Cookies.set("hue-state", this.state);
     };
 
-    Y.prototype.obtainSelection = function obtainSelection(e) {
+    Z.prototype.obtainSelection = function obtainSelection(e) {
       var t = e.dataset.bulb,
           i = e.options[e.selectedIndex].dataset.light;return { selectedIndex: e.selectedIndex, bulb: t, value: i };
     };
 
-    Y.prototype.getBulbStateById = function getBulbStateById(e) {
+    Z.prototype.getBulbStateById = function getBulbStateById(e) {
       return this.state.forEach(function (t) {
         if (t.id == e) return t;
       }), -1;
     };
 
-    Y.prototype.getInputById = function getInputById(e) {
+    Z.prototype.getInputById = function getInputById(e) {
       var _iteratorNormalCompletion17 = true;
       var _didIteratorError17 = false;
       var _iteratorError17 = undefined;
@@ -1409,11 +1411,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }
     };
 
-    Y.prototype.getHueIdFromId = function getHueIdFromId(e) {
+    Z.prototype.getHueIdFromId = function getHueIdFromId(e) {
       return this.state[parseInt(e)].value;
     };
 
-    Y.prototype.setLightNamesAndIds = function setLightNamesAndIds(e) {
+    Z.prototype.setLightNamesAndIds = function setLightNamesAndIds(e) {
       var t = "";e.forEach(function (e) {
         t += "<option data-light='" + e.id + "'>" + e.name + "</option>";
       }), this.dropdowns.forEach(function (e) {
@@ -1421,16 +1423,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       });
     };
 
-    return Y;
+    return Z;
   }();
 
-  var Q = { searchParams: "URLSearchParams" in self, iterable: "Symbol" in self && "iterator" in Symbol, blob: "FileReader" in self && "Blob" in self && function () {
+  var Y = { searchParams: "URLSearchParams" in self, iterable: "Symbol" in self && "iterator" in Symbol, blob: "FileReader" in self && "Blob" in self && function () {
       try {
         return new Blob(), !0;
       } catch (e) {
         return !1;
       }
-    }(), formData: "FormData" in self, arrayBuffer: "ArrayBuffer" in self };if (Q.arrayBuffer) var X = ["[object Int8Array]", "[object Uint8Array]", "[object Uint8ClampedArray]", "[object Int16Array]", "[object Uint16Array]", "[object Int32Array]", "[object Uint32Array]", "[object Float32Array]", "[object Float64Array]"],
+    }(), formData: "FormData" in self, arrayBuffer: "ArrayBuffer" in self };if (Y.arrayBuffer) var X = ["[object Int8Array]", "[object Uint8Array]", "[object Uint8ClampedArray]", "[object Int16Array]", "[object Uint16Array]", "[object Int32Array]", "[object Uint32Array]", "[object Float32Array]", "[object Float64Array]"],
       $ = ArrayBuffer.isView || function (e) {
     return e && -1 < X.indexOf(Object.prototype.toString.call(e));
   };u.prototype.append = function (e, t) {
@@ -1459,7 +1461,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var e = [];return this.forEach(function (t, i) {
       e.push([i, t]);
     }), l(e);
-  }, Q.iterable && (u.prototype[Symbol.iterator] = u.prototype.entries);var ee = ["DELETE", "GET", "HEAD", "OPTIONS", "POST", "PUT"];f.prototype.clone = function () {
+  }, Y.iterable && (u.prototype[Symbol.iterator] = u.prototype.entries);var ee = ["DELETE", "GET", "HEAD", "OPTIONS", "POST", "PUT"];f.prototype.clone = function () {
     return new f(this, { body: this._bodyInit });
   }, p.call(f.prototype), p.call(b.prototype), b.prototype.clone = function () {
     return new b(this._bodyInit, { status: this.status, statusText: this.statusText, headers: new u(this.headers), url: this.url });
@@ -1663,7 +1665,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   }, M.prototype.initializeMozAudio = function () {
     this.writeMozAudio(k(ce)), this.audioType = 0;
   }, M.prototype.initializeWebAudio = function () {
-    if (!ue) throw new Error("");B(pe), this.audioType = 1;
+    if (!ue) throw new Error("");C(pe), this.audioType = 1;
   }, M.prototype.initializeFlashAudio = function () {
     var e = document.getElementById("XAudioJS");if (null == e) {
       var t = this,
@@ -1680,7 +1682,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }
     }
   }, M.prototype.checkFlashInit = function () {
-    return !this.flashInitialized && this.audioHandleFlash && this.audioHandleFlash.initialize && (this.flashInitialized = !0, this.audioHandleFlash.initialize(this.audioChannels, ye), B(44100)), this.flashInitialized;
+    return !this.flashInitialized && this.audioHandleFlash && this.audioHandleFlash.initialize && (this.flashInitialized = !0, this.audioHandleFlash.initialize(this.audioChannels, ye), C(44100)), this.flashInitialized;
   };var re,
       ae,
       le = 2048,
@@ -1752,22 +1754,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, e.prototype.destroy = function () {
       this.handle && (_opus_decoder_destroy(this.handle), _free(this.in_ptr), _free(this.out_ptr), this.handle = this.in_ptr = this.out_ptr = 0);
     }, e;
-  }();var Be = null;
-  var Ce = function Ce() {
-    _classCallCheck(this, Ce);
+  }();var Ce = null;
+  var Be = function Be() {
+    _classCallCheck(this, Be);
 
-    this.defaultConfig = { codec: { sampleRate: 24e3, channels: 1, app: 2048, frameDuration: 20, bufferSize: 2048 } }, this.audioContext = Be;
+    this.defaultConfig = { codec: { sampleRate: 24e3, channels: 1, app: 2048, frameDuration: 20, bufferSize: 2048 } }, this.audioContext = Ce;
   };
 
-  var Ie = function (_Ce) {
-    _inherits(Ie, _Ce);
+  var Ie = function (_Be) {
+    _inherits(Ie, _Be);
 
     function Ie() {
       var _this20;
 
       _classCallCheck(this, Ie);
 
-      (_this20 = _possibleConstructorReturn(this, _Ce.call(this)), _this20), _this20.queueSize = 5120, _this20.unstableSeconds = 0, _this20.stableSeconds = 0, _this20.minimalQueueSize = _this20.queueSize;_this20.defaultConfig.codec.sampleRate, _this20.defaultConfig.codec.bufferSize;_this20.perfectRate = 50, _this20.lowestAcceptable = _this20.perfectRate - 5, _this20.highestAcceptable = _this20.perfectRate + 5;return _this20;
+      (_this20 = _possibleConstructorReturn(this, _Be.call(this)), _this20), _this20.queueSize = 5120, _this20.unstableSeconds = 0, _this20.stableSeconds = 0, _this20.minimalQueueSize = _this20.queueSize;_this20.defaultConfig.codec.sampleRate, _this20.defaultConfig.codec.bufferSize;_this20.perfectRate = 50, _this20.lowestAcceptable = _this20.perfectRate - 5, _this20.highestAcceptable = _this20.perfectRate + 5;return _this20;
     }
 
     Ie.prototype.isAcceptable = function isAcceptable(e) {
@@ -1791,7 +1793,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     return Ie;
-  }(Ce);
+  }(Be);
 
   var Te = function () {
     function Te(e) {
@@ -1849,15 +1851,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     return _e;
   }();
 
-  var Pe = function (_Ce2) {
-    _inherits(Pe, _Ce2);
+  var Pe = function (_Be2) {
+    _inherits(Pe, _Be2);
 
     function Pe(e, t) {
       var _this23;
 
       _classCallCheck(this, Pe);
 
-      (_this23 = _possibleConstructorReturn(this, _Ce2.call(this)), _this23), _this23.config = _this23.defaultConfig, _this23.config.codec = _this23.config.codec || _this23.defaultConfig.codec, _this23.config.server = _this23.config.server || _this23.defaultConfig.server, _this23.sampler = new Ee(_this23.config.codec.sampleRate, _this23.audioContext.sampleRate, 1, _this23.config.codec.bufferSize), _this23.parentSocket = t, _this23.decoder = new Se(_this23.config.codec.sampleRate, _this23.config.codec.channels), _this23.silence = new Float32Array(_this23.config.codec.bufferSize);return _this23;
+      (_this23 = _possibleConstructorReturn(this, _Be2.call(this)), _this23), _this23.config = _this23.defaultConfig, _this23.config.codec = _this23.config.codec || _this23.defaultConfig.codec, _this23.config.server = _this23.config.server || _this23.defaultConfig.server, _this23.sampler = new Ee(_this23.config.codec.sampleRate, _this23.audioContext.sampleRate, 1, _this23.config.codec.bufferSize), _this23.parentSocket = t, _this23.decoder = new Se(_this23.config.codec.sampleRate, _this23.config.codec.channels), _this23.silence = new Float32Array(_this23.config.codec.bufferSize);return _this23;
     }
 
     Pe.prototype.start = function start() {
@@ -1893,7 +1895,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     return Pe;
-  }(Ce);
+  }(Be);
 
   var ze = function () {
     function ze(e, t) {
@@ -2016,15 +2018,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     return Le;
   }(H);
 
-  var Re = function (_Ce3) {
-    _inherits(Re, _Ce3);
+  var Re = function (_Be3) {
+    _inherits(Re, _Be3);
 
     function Re(e, t) {
       var _this26;
 
       _classCallCheck(this, Re);
 
-      (_this26 = _possibleConstructorReturn(this, _Ce3.call(this)), _this26), _this26.config = e, _this26.config.codec = _this26.config.codec || _this26.defaultConfig.codec, _this26.sampler = new Ee(_this26.audioContext.sampleRate, _this26.config.codec.sampleRate, 1, _this26.config.codec.bufferSize), _this26.parentSocket = t, _this26.encoder = new Ae(_this26.config.codec.sampleRate, _this26.config.codec.channels, _this26.config.codec.app, _this26.config.codec.frameDuration);return _this26;
+      (_this26 = _possibleConstructorReturn(this, _Be3.call(this)), _this26), _this26.config = e, _this26.config.codec = _this26.config.codec || _this26.defaultConfig.codec, _this26.sampler = new Ee(_this26.audioContext.sampleRate, _this26.config.codec.sampleRate, 1, _this26.config.codec.bufferSize), _this26.parentSocket = t, _this26.encoder = new Ae(_this26.config.codec.sampleRate, _this26.config.codec.channels, _this26.config.codec.app, _this26.config.codec.frameDuration);return _this26;
     }
 
     Re.prototype._makeStream = function _makeStream(e) {
@@ -2075,7 +2077,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     return Re;
-  }(Ce);
+  }(Be);
 
   var Ne = function () {
     function Ne(e) {
@@ -2366,40 +2368,40 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     return Ke;
   }();
 
-  var Je = function () {
-    function Je(e, t, i, n) {
-      _classCallCheck(this, Je);
+  var Qe = function () {
+    function Qe(e, t, i, n) {
+      _classCallCheck(this, Qe);
 
       this.world = e, this.audioContext = window.AudioContext || window.webkitAudioContext, this.audioCtx = new AudioContext(), this.listener = this.audioCtx.listener, this.updateLocation(t, i, n);
     }
 
-    Je.prototype.updateLocation = function updateLocation(e, t, i) {
+    Qe.prototype.updateLocation = function updateLocation(e, t, i) {
       this.location = e, this.pitch = this.toRadians(t), this.yaw = this.toRadians(this.normalizeYaw(360 - i));var n = new qe(this.pitch, this.yaw, 0),
           o = new Ge();o.setFromEuler(n);new Ke(e, o).applyTo(this.listener), this.world.onLocationUpdate();
     };
 
-    Je.prototype.toRadians = function toRadians(e) {
+    Qe.prototype.toRadians = function toRadians(e) {
       return e * (Math.PI / 180);
     };
 
-    Je.prototype.normalizeYaw = function normalizeYaw(e) {
+    Qe.prototype.normalizeYaw = function normalizeYaw(e) {
       return 0 > (e %= 360) && (e += 360), e;
     };
 
-    return Je;
+    return Qe;
   }();
 
-  var Ze = function Ze(e, t, i) {
-    _classCallCheck(this, Ze);
+  var Je = function Je(e, t, i) {
+    _classCallCheck(this, Je);
 
     this.source = e, this.distance = t, this.speaker = i;
   };
 
-  var Ye = "SPEAKER_2D";
-  var Qe = function Qe(e, t, i, n) {
-    _classCallCheck(this, Qe);
+  var Ze = "SPEAKER_2D";
+  var Ye = function Ye(e, t, i, n) {
+    _classCallCheck(this, Ye);
 
-    this.pannerNode = i.audioCtx.createPanner(), this.media = n, n.addNode(i, this.pannerNode), this.pannerNode.panningModel = "HRTF", this.pannerNode.maxDistance = e.maxDistance, this.pannerNode.rolloffFactor = 1, this.pannerNode.distanceModel = "inverse";var o = e.location;new Ke(o).applyTo(this.pannerNode), this.gainNode = i.audioCtx.createGain(), this.gainNode.gain.value = 2.5, this.pannerNode.connect(this.gainNode), this.gainNode.connect(i.audioCtx.destination);
+    this.pannerNode = i.audioCtx.createPanner(), this.media = n, n.addNode(i, this.pannerNode), this.pannerNode.panningModel = "HRTF", this.pannerNode.maxDistance = e.maxDistance, this.pannerNode.rolloffFactor = .9, this.pannerNode.distanceModel = "linear";var o = e.location;new Ke(o).applyTo(this.pannerNode), this.gainNode = i.audioCtx.createGain(), this.gainNode.gain.value = 1.5, this.pannerNode.connect(this.gainNode), this.gainNode.connect(i.audioCtx.destination);
   };
 
   var Xe = function () {
@@ -2408,8 +2410,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       _classCallCheck(this, Xe);
 
-      this.id = "SPEAKER__" + t, this.openAudioMc = e, this.speakerNodes = new Map();var n = new U(this.id);this.channel = n;var o = new G(t);this.media = o, o.openAudioMc = e, o.setOa(e), n.mixer = this.openAudioMc.getMediaManager().mixer, o.startDate(i, !0), o.finalize().then(function () {
-        e.getMediaManager().mixer.addChannel(n), n.addSound(o), n.setChannelVolume(100), o.setLooping(!0), n.setTag(_this37.id), n.setTag("SPECIAL"), _this37.openAudioMc.getMediaManager().mixer.updateCurrent(), o.startDate(i, !0), o.finish();
+      this.id = "SPEAKER__" + t, this.openAudioMc = e, this.speakerNodes = new Map();var n = new U(this.id);this.channel = n;var o = new G(t);this.media = o, o.openAudioMc = e, o.setOa(e), n.mixer = this.openAudioMc.getMediaManager().mixer, n.addSound(o), this.media.setVolume(0), n.setChannelVolume(0), o.startDate(i, !0), o.finalize().then(function () {
+        e.getMediaManager().mixer.addChannel(n), n.fadeChannel(100, 100), o.setLooping(!0), n.setTag(_this37.id), n.setTag("SPECIAL"), _this37.openAudioMc.getMediaManager().mixer.updateCurrent(), o.startDate(i, !0), o.finish();
       });
     }
 
@@ -2418,10 +2420,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     Xe.prototype.updateLocation = function updateLocation(e, t, i) {
-      if (e.type == Ye) {
+      if (e.type == Ze) {
         var _n5 = e.getDistance(t, i),
             _o3 = this._convertDistanceToVolume(e.maxDistance, _n5);if (0 > _o3) return;this.channel.fadeChannel(_o3, 100);
-      } else this.speakerNodes.has(e.id) || this.speakerNodes.set(e.id, new Qe(e, t, i, this.media));
+      } else this.speakerNodes.has(e.id) || this.speakerNodes.set(e.id, new Ye(e, t, i, this.media));
     };
 
     Xe.prototype._convertDistanceToVolume = function _convertDistanceToVolume(e, t) {
@@ -2439,7 +2441,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     function $e(e) {
       _classCallCheck(this, $e);
 
-      this.openAudioMc = e, this.speakers = new Map(), this.audioMap = new Map(), this.player = new Je(this, new K(0, 0, 0), 0, 0);
+      this.openAudioMc = e, this.speakers = new Map(), this.audioMap = new Map(), this.player = new Qe(this, new K(0, 0, 0), 0, 0);
     }
 
     $e.prototype.getSpeakerById = function getSpeakerById(e) {
@@ -2500,7 +2502,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       var _this38 = this;
 
       var e = [];this.speakers.forEach(function (t) {
-        var i = t.getDistance(_this38, _this38.player);e.push(new Ze(t.source, i, t));
+        var i = t.getDistance(_this38, _this38.player);e.push(new Je(t.source, i, t));
       });var t = new Map();var _iteratorNormalCompletion21 = true;
       var _didIteratorError21 = false;
       var _iteratorError21 = undefined;
@@ -2508,7 +2510,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       try {
         for (var _iterator21 = e[Symbol.iterator](), _step21; !(_iteratorNormalCompletion21 = (_step21 = _iterator21.next()).done); _iteratorNormalCompletion21 = true) {
           var _i7 = _step21.value;
-          var _e24 = t.get(_i7.source);null != _e24 ? Array.isArray(_e24) ? (_e24.push(_i7), t.set(_i7.source, _e24)) : _e24.distance > _i7.distance && _i7.distance <= _i7.speaker.maxDistance && t.set(_i7.source, _i7) : _i7.speaker.type == Ye ? _i7.distance <= _i7.speaker.maxDistance && t.set(_i7.source, _i7) : _i7.distance <= _i7.speaker.maxDistance && t.set(_i7.source, [_i7]);
+          var _e24 = t.get(_i7.source);null != _e24 ? Array.isArray(_e24) ? (_e24.push(_i7), t.set(_i7.source, _e24)) : _e24.distance > _i7.distance && _i7.distance <= _i7.speaker.maxDistance && t.set(_i7.source, _i7) : _i7.speaker.type == Ze ? _i7.distance <= _i7.speaker.maxDistance && t.set(_i7.source, _i7) : _i7.distance <= _i7.speaker.maxDistance && t.set(_i7.source, [_i7]);
         }
       } catch (err) {
         _didIteratorError21 = true;
@@ -2568,7 +2570,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       _classCallCheck(this, et);
 
-      if ((_this39 = _possibleConstructorReturn(this, _ref.call(this)), _this39), _this39.canStart = !1, _this39.host = null, _this39.background = null, _this39.tokenSet = new ne().fromUrl(window.location.href), null == _this39.tokenSet) return _ret2 = void (document.getElementById("welcome-text-landing").innerHTML = "The audio client is only available for players who are online in the server. Use <small>/audio</small> to obtain a URL<br />"), _possibleConstructorReturn(_this39, _ret2);_this39.notificationModule = new Ve(_this39), _this39.timeService = new O(), _this39.messages = new L(_this39), _this39.userInterfaceModule = new R(_this39), _this39.hueConfiguration = new Y(_this39), _this39.mediaManager = new D(_this39), Be = new (window.AudioContext || window.webkitAudioContext)(), _this39.voiceModule = new He(_this39), _this39.boot();new oe("https://plus.openaudiomc.net/").route(_this39).then(function (e) {
+      if ((_this39 = _possibleConstructorReturn(this, _ref.call(this)), _this39), _this39.canStart = !1, _this39.host = null, _this39.background = null, _this39.tokenSet = new ne().fromUrl(window.location.href), null == _this39.tokenSet) return _ret2 = void (document.getElementById("welcome-text-landing").innerHTML = "The audio client is only available for players who are online in the server. Use <small>/audio</small> to obtain a URL<br />"), _possibleConstructorReturn(_this39, _ret2);_this39.notificationModule = new Ve(_this39), _this39.timeService = new O(), _this39.messages = new L(_this39), _this39.userInterfaceModule = new R(_this39), _this39.hueConfiguration = new Z(_this39), _this39.mediaManager = new D(_this39), Ce = new (window.AudioContext || window.webkitAudioContext)(), _this39.voiceModule = new He(_this39), _this39.boot();new oe("https://plus.openaudiomc.net/").route(_this39).then(function (e) {
         _this39.canStart = !0, _this39.host = e.host, _this39.background = e.background;
       }).catch(function (e) {
         console.error("Exception thrown", e.stack), _this39.userInterfaceModule.kickScreen("Your current URL appears to be invalid. Please request a new one in-game using the /audio command. If this issue if persists please contact a member of staff."), new H("#alert-area", { closeTime: 2e4, persistent: !1, hideCloseButton: !0, extra: "warning" }).show("A networking error occurred while connecting to the server, please request a new url and try again.");
@@ -2576,7 +2578,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
 
     et.prototype.start = function start() {
-      this.canStart && (this.canStart = !1, this.world = new $e(this), this.hueModule = new N(this, Object(We.a)()), this.socketModule = new V(this, this.host), this.messages.apply(), new Z(this), "" !== this.background && (document.getElementById("page").style = "vertical-align: middle;\n    background:\n            url(" + this.background + ");\n    -webkit-background-size: cover;\n    background-size: cover;"));
+      this.canStart && (this.canStart = !1, this.world = new $e(this), this.hueModule = new N(this, Object(We.a)()), this.socketModule = new V(this, this.host), this.messages.apply(), new J(this), "" !== this.background && (document.getElementById("page").style = "vertical-align: middle;\n    background:\n            url(" + this.background + ");\n    -webkit-background-size: cover;\n    background-size: cover;"));
     };
 
     return et;
