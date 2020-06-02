@@ -13,9 +13,12 @@ import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfigurationImplementation;
 import com.craftmend.openaudiomc.spigot.modules.proxy.ProxyModule;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
+import com.craftmend.openaudiomc.spigot.modules.regions.service.RegionService;
 import com.craftmend.openaudiomc.spigot.modules.shortner.AliasModule;
 import com.craftmend.openaudiomc.spigot.modules.show.ShowModule;
 import com.craftmend.openaudiomc.spigot.modules.traincarts.TrainCartsModule;
+import com.craftmend.openaudiomc.spigot.modules.traincarts.service.TrainCartsService;
+import com.craftmend.openaudiomc.spigot.services.dependency.DependencyService;
 import com.craftmend.openaudiomc.spigot.services.scheduling.SpigotTaskProvider;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 
@@ -25,6 +28,7 @@ import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
 
 import com.craftmend.openaudiomc.spigot.services.threading.ExecutorService;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -64,11 +68,12 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
     private ExecutorService executorService;
     private ProxyModule proxyModule;
     private PlayerModule playerModule;
-    private RegionModule regionModule;
+    @Setter private RegionModule regionModule;
     private SpigotCommandModule commandModule;
     private SpeakerModule speakerModule;
     private ShowModule showModule;
-    private TrainCartsModule trainCartsModule;
+    @Setter private TrainCartsModule trainCartsModule;
+    private DependencyService dependencyService;
     private OpenAudioMc openAudioMc;
 
     /**
@@ -93,6 +98,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
         try {
             openAudioMc = new OpenAudioMc(this);
             // startup modules and services
+            this.dependencyService = new DependencyService(this);
             this.aliasModule = new AliasModule(this);
             this.executorService = new ExecutorService(this);
             this.serverService = new ServerService();
@@ -101,18 +107,9 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
             this.commandModule = new SpigotCommandModule(this);
             this.showModule = new ShowModule(this);
 
-            // optional modules
-            if (getServer().getPluginManager().isPluginEnabled("WorldGuard")) {
-                this.regionModule = new RegionModule(this);
-            }
-
-            if (getServer().getPluginManager().isPluginEnabled("Train_Carts")) {
-                try {
-                    this.trainCartsModule = new TrainCartsModule(this);
-                } catch (Exception e) {
-                    OpenAudioLogger.toConsole("Hmn, looks like you have an old version of traincarts and thus OpenAudio failed to hook in.");
-                }
-            }
+            this.dependencyService
+                    .ifPluginEnabled("WorldGuard", new RegionService(this))
+                    .ifPluginEnabled("Train_Carts", new TrainCartsService(this));
 
             // set state to idle, to allow connections and such, but only if not a node
             if (proxyModule.getMode() == ClientMode.NODE) {
