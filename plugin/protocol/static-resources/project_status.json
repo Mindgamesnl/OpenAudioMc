@@ -1,0 +1,13 @@
+{
+  "versioning": {
+    "version_tag": "6.0.2",
+    "version_importance": "normal",
+    "version_importance_color": "GREEN",
+    "version_update_message": "This update includes some fixes, and hugs"
+  },
+
+  "announcement": {
+    "is_announcement": false,
+    "announcement_message": ""
+  }
+}
