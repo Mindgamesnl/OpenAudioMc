@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking.rest.endpoints;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
 
 public enum RestEndpoint {
 
@@ -25,8 +26,9 @@ public enum RestEndpoint {
 
     public String getURL() {
         if (this.translate) {
-            this.url = this.url.replace("_private_key_", OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue());
-            this.url = this.url.replace("_public_key_", OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue());
+            ServerKeySet keySet = OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet();
+            this.url = this.url.replace("_private_key_", keySet.getPrivateKey().getValue());
+            this.url = this.url.replace("_public_key_", keySet.getPublicKey().getValue());
         }
         return this.url;
     }

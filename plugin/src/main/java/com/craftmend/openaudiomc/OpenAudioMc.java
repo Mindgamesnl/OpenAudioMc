@@ -18,6 +18,7 @@ import com.craftmend.openaudiomc.generic.redis.RedisService;
 import com.craftmend.openaudiomc.generic.redis.packets.adapter.RedisTypeAdapter;
 import com.craftmend.openaudiomc.generic.core.interfaces.TaskProvider;
 import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
+import com.craftmend.openaudiomc.generic.updates.UpdateService;
 import com.craftmend.openaudiomc.generic.voice.VoiceRoomManager;
 import com.craftmend.openaudiomc.generic.state.StateService;
 
@@ -57,12 +58,14 @@ public class OpenAudioMc {
      * - Task Provider           []   (create and register tasks regardless of platform)
      * - Redis Service           []   (provides redis to openaudio and the gang)
      * - Plus Service            []   (Manages everything OpenAudioMc-Plus related, from auth to upstream data)
+     * - Update Service          []   (Checks the master branch every once in a while to compare versions)
      */
     private final AuthenticationService authenticationService = new AuthenticationService();
     private final VoiceRoomManager voiceRoomManager = new VoiceRoomManager();
     private final StateService stateService = new StateService();
     private final TimeService timeService = new TimeService();
     private final MediaModule mediaModule = new MediaModule();
+    private final UpdateService updateService = new UpdateService();
     private final NetworkingService networkingService;
     private final ConfigurationImplementation configurationImplementation;
     private final CommandModule commandModule;
