@@ -54,6 +54,9 @@ public class TrainCartsModule {
     public void registerTrain(String trainName, String source, SignActionEvent event) {
         if (trainMediaMap.containsKey(trainName)) stopStrain(trainName, event);
 
+        // for broken stupid signs
+        if (source == null) return;
+
         TrainMedia media = new TrainMedia(source);
         trainMediaMap.put(trainName, media);
 

@@ -712,7 +712,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         var n = [];t.tags.forEach(function (e, t) {
           n.push(t);
         }), e.push({ name: i, tags: n });
-      }), this.openAudioMc.socketModule.send("current_channels", { tracks: e });
+      });
     };
 
     F.prototype.setMasterVolume = function setMasterVolume(e) {
