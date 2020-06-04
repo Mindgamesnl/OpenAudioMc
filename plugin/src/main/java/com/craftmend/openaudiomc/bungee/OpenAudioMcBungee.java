@@ -36,7 +36,7 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
     @Getter private NodeManager nodeManager;
     @Getter private PlayerManager playerManager;
     @Getter private BungeeCommandModule commandModule;
-    private Instant boot = Instant.now();
+    private final Instant boot = Instant.now();
 
     @Override
     public void onEnable() {
@@ -96,6 +96,11 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
     @Override
     public ConfigurationImplementation getConfigurationProvider() {
         return new BungeeConfigurationImplementation();
+    }
+
+    @Override
+    public String getPluginVersion() {
+        return getDescription().getVersion();
     }
 
 }

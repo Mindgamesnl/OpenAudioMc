@@ -21,6 +21,10 @@ public class UpdateService {
         });
     }
 
-
+    public boolean isUpdateAvailable() {
+        if (projectStatus == null) return false;
+        updateProjectStatus();
+        return !projectStatus.isLocalLatest();
+    }
 
 }

@@ -11,5 +11,6 @@ public interface OpenAudioInvoker {
     Class<? extends NetworkingService> getServiceClass();
     TaskProvider getTaskProvider();
     ConfigurationImplementation getConfigurationProvider();
+    String getPluginVersion();
 
 }

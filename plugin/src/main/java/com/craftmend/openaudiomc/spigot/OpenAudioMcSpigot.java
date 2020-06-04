@@ -168,4 +168,9 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
         return new SpigotConfigurationImplementation(OpenAudioMcSpigot.getInstance());
     }
 
+    @Override
+    public String getPluginVersion() {
+        return getDescription().getVersion();
+    }
+
 }
