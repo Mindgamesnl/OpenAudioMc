@@ -8,7 +8,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Data
-public class TrainMedia {
+public class    TrainMedia {
 
     private UUID mediaId = UUID.randomUUID();
     private Instant startedAt = OpenAudioMc.getInstance().getTimeService().getSyncedInstant();
