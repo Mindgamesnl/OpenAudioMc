@@ -20,9 +20,9 @@ import java.util.concurrent.CompletableFuture;
 public class RestRequest {
 
     public static final OkHttpClient client = new OkHttpClient();
-    private String endpoint;
+    private final String endpoint;
     @Setter private String body = null;
-    private Map<String, String> variables = new HashMap<>();
+    private final Map<String, String> variables = new HashMap<>();
 
     public RestRequest(RestEndpoint endpoint) {
         this.endpoint = endpoint.getURL();
@@ -58,8 +58,7 @@ public class RestRequest {
     }
 
     private String getUrl() {
-        String url = "http://plus.openaudiomc.net";
-        url += this.endpoint;
+        String url = this.endpoint;
         if (variables.size() != 0) {
             url+= '?';
             for (Map.Entry<String, String> entry : variables.entrySet()) {
