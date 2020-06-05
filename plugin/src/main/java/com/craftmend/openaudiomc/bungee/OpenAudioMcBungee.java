@@ -25,14 +25,7 @@ import java.time.Instant;
 @Getter
 public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
 
-    /**
-     * Constant: main plugin instance
-     */
     @Getter private static OpenAudioMcBungee instance;
-
-    /**
-     * Managers
-     */
     @Getter private NodeManager nodeManager;
     @Getter private PlayerManager playerManager;
     @Getter private BungeeCommandModule commandModule;
