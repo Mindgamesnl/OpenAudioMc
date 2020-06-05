@@ -1,8 +1,6 @@
 import {fetch} from "../../../libs/github.fetch";
 import ClientTokenSet from "../../helpers/libs/ClientTokenSet";
 import {parseStyle} from "../../helpers/libs/MinecraftColorCodes";
-import {Channel} from "../media/objects/Channel";
-import {Sound} from "../media/objects/Sound";
 
 export class SocketDirector {
 
@@ -72,17 +70,7 @@ export class SocketDirector {
                         openAudioMc.getUserInterfaceModule().changeColor("#304FFE", response.accentColor);
 
                         if (response.startSound != "") {
-                            const createdChannel = new Channel("startsound");
-                            const createdMedia = new Sound(response.startSound);
-                            createdMedia.openAudioMc = openAudioMc;
-                            createdMedia.setOa(openAudioMc);
-                            createdMedia.finalize().then(ready => {
-                                openAudioMc.getMediaManager().mixer.addChannel(createdChannel);
-                                createdChannel.addSound(createdMedia);
-                                createdChannel.setChannelVolume(100);
-                                createdChannel.updateFromMasterVolume();
-                                createdMedia.finish();
-                            });
+                            openAudioMc.getMediaManager().startSound = response.startSound;
                         }
 
                         if (title !== "default") {

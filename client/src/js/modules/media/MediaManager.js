@@ -1,4 +1,6 @@
 import {Mixer} from "./objects/Mixer";
+import {Channel} from "./objects/Channel";
+import {Sound} from "./objects/Sound";
 
 export class MediaManager {
 
@@ -6,12 +8,29 @@ export class MediaManager {
         this.sounds = {};
         this.masterVolume = 80;
         this.openAudioMc = main;
+        this.startSound = null;
         this.mixer = new Mixer(null, main);
 
         document.getElementById("volume-slider").oninput = () => {
             let value = document.getElementById("volume-slider").value;
             this.setMasterVolume(value);
             Cookies.set("volume", value);
+        }
+    }
+
+    postBoot() {
+        if (this.startSound != null) {
+            const createdChannel = new Channel("startsound");
+            const createdMedia = new Sound(this.startSound);
+            createdMedia.openAudioMc = this.openAudioMc;
+            createdMedia.setOa(this.openAudioMc);
+            createdMedia.finalize().then(() => {
+                this.mixer.addChannel(createdChannel);
+                createdChannel.addSound(createdMedia);
+                createdChannel.setChannelVolume(100);
+                createdChannel.updateFromMasterVolume();
+                createdMedia.finish();
+            });
         }
     }
 

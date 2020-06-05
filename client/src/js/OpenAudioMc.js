@@ -83,6 +83,8 @@ export class OpenAudioMc extends Getters {
                 "    -webkit-background-size: cover;\n" +
                 "    background-size: cover;"
         }
+
+        this.mediaManager.postBoot();
     }
 }
 
