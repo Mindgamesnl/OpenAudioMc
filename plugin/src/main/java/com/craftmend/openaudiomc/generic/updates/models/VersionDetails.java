@@ -12,9 +12,6 @@ public class VersionDetails {
     @SerializedName("version_importance")
     private String importance; // eg, normal
 
-    @SerializedName("version_importance_color")
-    private String getImportanceColor; // eg, RED
-
     @SerializedName("version_update_message")
     private String updateMessage; // why you should update
 

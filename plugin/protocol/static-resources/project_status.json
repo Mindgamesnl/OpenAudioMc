@@ -1,13 +1,12 @@
 {
   "versioning": {
     "version_tag": "6.0.2",
-    "version_importance": "normal",
-    "version_importance_color": "GREEN",
+    "version_importance": "&4important",
     "version_update_message": "This update includes some fixes, and hugs"
   },
 
   "announcement": {
-    "is_announcement": false,
-    "announcement_message": ""
+    "is_announcement": true,
+    "announcement_message": "&eEpic announcement test"
   }
 }
