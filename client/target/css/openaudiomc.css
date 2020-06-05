@@ -849,7 +849,7 @@ input[type=range]::-moz-range-thumb:active {
 
 .courses-container {
     margin: auto;
-    width: 45%;
+    width: 65%;
 }
 
 .course {
@@ -865,7 +865,8 @@ input[type=range]::-moz-range-thumb:active {
 }
 
 .course h6 {
-    opacity: 0.6;
+    opacity: 0.8;
+    font-size: smaller;
     margin: 0;
     letter-spacing: 1px;
     text-transform: uppercase;
