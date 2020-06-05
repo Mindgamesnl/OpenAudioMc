@@ -21,7 +21,7 @@ public class AuthenticationService {
     @Getter
     private ServerKeySet serverKeySet = new ServerKeySet();
     @Getter
-    private boolean isSuccesfull = false;
+    private boolean isSuccessful = false;
     @Getter
     private String failureMessage = "Oh no, it looks like the initial setup of OpenAudioMc has failed. Please try to restart the server and try again, if that still does not work, please contact OpenAudioMc staff or support.";
     private final int keyVersion = 3; // OpenAudioMc-Plus update
@@ -63,10 +63,10 @@ public class AuthenticationService {
                     spigotConfigurationModule.setString(StorageKey.AUTH_PUBLIC_KEY, serverKeySet.getPublicKey().getValue());
                     spigotConfigurationModule.setInt(StorageLocation.DATA_FILE, StorageKey.AUTH_KEY_VERSION.getPath(), keyVersion);
                     spigotConfigurationModule.saveAll();
-                    isSuccesfull = true;
+                    isSuccessful = true;
                 } else {
                     OpenAudioLogger.toConsole("Failed to request token. Error: " + OpenAudioMc.getGson().toJson(response.getErrors()));
-                    isSuccesfull = false;
+                    isSuccessful = false;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -76,7 +76,7 @@ public class AuthenticationService {
             OpenAudioLogger.toConsole("This server already has an account, skipping signup.");
             serverKeySet.setPrivateKey(new Key(spigotConfigurationModule.getString(StorageKey.AUTH_PRIVATE_KEY)));
             serverKeySet.setPublicKey(new Key(spigotConfigurationModule.getString(StorageKey.AUTH_PUBLIC_KEY)));
-            isSuccesfull = true;
+            isSuccessful = true;
         }
     }
 }
