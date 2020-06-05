@@ -40,7 +40,7 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
         }
 
         if (!garbageSpeakers.isEmpty()) {
-            OpenAudioLogger.toConsole("Found " + garbageSpeakers.size() + " dead speakers with the garbage collector. Removing them.");
+            OpenAudioLogger.toConsole("Found " + garbageSpeakers.size() + " corrupted speakers with the garbage collector. Removing them from the cache.");
             for (MappedLocation garbageSpeaker : garbageSpeakers) {
                 speakerModule.getSpeakerMap().remove(garbageSpeaker);
             }
