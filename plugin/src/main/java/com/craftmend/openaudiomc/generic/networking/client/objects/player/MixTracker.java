@@ -2,8 +2,6 @@ package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.payloads.in.objects.MixerTrack;
-import com.craftmend.openaudiomc.generic.platform.Platform;
-import com.craftmend.openaudiomc.spigot.modules.proxy.service.ProxyNetworkingService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +24,7 @@ public class MixTracker {
             expectedTracksToStart = expectedTracksToStart - createdTracks.size();
             if (expectedTracksToStart < 5) { // minor room for error and latency
                 // might be invalid if its a slave server, so lets check that first
-                if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) {
+                if (OpenAudioMc.getInstance().getInvoker().isSlave()) {
                     // im not the master, disabling and ignoring.
                     return;
                 }

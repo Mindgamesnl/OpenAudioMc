@@ -4,10 +4,10 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 
 @Getter
-public class Annoucement {
+public class Announcement {
 
     @SerializedName("is_announcement")
-    private boolean hasAnnouncement;
+    private Boolean hasAnnouncement;
 
     @SerializedName("announcement_message")
     private String message;
