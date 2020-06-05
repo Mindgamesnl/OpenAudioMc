@@ -39,31 +39,6 @@ import java.time.Instant;
 @Getter
 public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvoker {
 
-    /**
-     * services OpenAudioMc uses in the background
-     *
-     *  - State service (keeps track of connections and state of the api)
-     *  - Server service (compatibility and stuff)
-     *  - authentication (auth)
-     *  - time service (time sync with clients)
-     *  - networking service (api connection)
-     *  - Server Service (used to probe and detect what it is running)
-     */
-    private ServerService serverService;
-
-    /**
-     * modules that make up the plugin
-     *
-     * - ShortnerModule (handles shortners for urls)
-     * - ExecutorService (manages fake syncronized tasks)
-     * - ProxyModule (manages bungeecord link)
-     * - player module (manages player connections)
-     * - region module (OPTIONAL) (only loads regions if WorldGuard is enabled)
-     * - command module (registers and loads the OpenAudioMc commands)
-     * - media module (loads and manages all media in the service)
-     * - show module (manages shows)
-     * - Train carts module (hookds into traincarts)
-     */
     private AliasModule aliasModule;
     private ExecutorService executorService;
     private ProxyModule proxyModule;
@@ -74,6 +49,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
     private ShowModule showModule;
     @Setter private TrainCartsModule trainCartsModule;
     private DependencyService dependencyService;
+    private ServerService serverService;
     private OpenAudioMc openAudioMc;
 
     /**
