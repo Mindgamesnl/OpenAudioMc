@@ -37,6 +37,8 @@ public enum StorageKey {
     SETTINGS_LOOP_TEMP_REGIONS(false, "options.loop-temp-regions", StorageLocation.CONFIG_FILE),
     SETTINGS_PLUS_ACCESS_LEVEL(false, "options.plus-access-level", StorageLocation.CONFIG_FILE),
     SETTINGS_STAFF_TIPS(false, "options.staff-tips", StorageLocation.CONFIG_FILE),
+    SETTINGS_NOTIFY_UPDATES(false, "options.notify-updates", StorageLocation.CONFIG_FILE),
+    SETTINGS_NOTIFY_ANNOUNCEMENTS(false, "options.notify-annoucements", StorageLocation.CONFIG_FILE),
 
     DEBUG_LOG_STATE_CHANGES(false, "debug.log-state-changes", StorageLocation.DATA_FILE),
 
