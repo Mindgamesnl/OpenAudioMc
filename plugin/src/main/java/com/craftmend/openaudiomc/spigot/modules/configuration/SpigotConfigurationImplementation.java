@@ -5,8 +5,6 @@ import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.core.storage.enums.StorageLocation;
-import com.craftmend.openaudiomc.generic.core.storage.objects.ClientSettings;
-import lombok.Getter;
 import org.apache.commons.lang.Validate;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -44,7 +42,6 @@ public class SpigotConfigurationImplementation implements ConfigurationImplement
 
     @EventHandler
     public void onWorldSave(WorldSaveEvent event) {
-        OpenAudioLogger.toConsole("Saving OpenAudioMc data with world save...");
         saveAll();
     }
 
