@@ -60,6 +60,10 @@ options:
   loop-temp-regions: false
   # Staff will receive helpful tips and error messages when something went wrong while playing a file
   staff-tips: true
+  # If you want to receive update notifications, recommended to leave it on, but turn it off if you have to for some weird reason
+  notify-updates: true
+  # If you want to receive announcements over things like server maintenance, highly recommended, we'll never bother you if not needed
+  notify-annoucements: true
 
 # REDIS
 # More explanation about redis: https://mindgamesnl.github.io/OpenAudioMc/redis.html

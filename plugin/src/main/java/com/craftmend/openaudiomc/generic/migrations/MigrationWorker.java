@@ -3,10 +3,7 @@ package com.craftmend.openaudiomc.generic.migrations;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.migrations.interfaces.SimpleMigration;
-import com.craftmend.openaudiomc.generic.migrations.migrations.LocalClientToPlusMigration;
-import com.craftmend.openaudiomc.generic.migrations.migrations.MouseHoverMessageMigration;
-import com.craftmend.openaudiomc.generic.migrations.migrations.PlusAccessLevelMigration;
-import com.craftmend.openaudiomc.generic.migrations.migrations.TipsSettingMigration;
+import com.craftmend.openaudiomc.generic.migrations.migrations.*;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
@@ -16,7 +13,8 @@ public class MigrationWorker {
             new LocalClientToPlusMigration(),  // migrates old users to 6.2 and uploads old data to oa+, then resets config
             new PlusAccessLevelMigration(),    // adds config values for the permissions patch
             new MouseHoverMessageMigration(),  // adds a config field for the hover-to-connect message
-            new TipsSettingMigration()         // adds a config field for the staff-tips option
+            new TipsSettingMigration(),        // adds a config field for the staff-tips option
+            new UpdateSettingMigration()       // adds config fields for update and announcement preferences
     };
 
     public void handleMigrations(OpenAudioMc main) {
