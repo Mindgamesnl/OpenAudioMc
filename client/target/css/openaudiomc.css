@@ -369,10 +369,8 @@ footer a {
 .alert-box {
     z-index: 99999;
     font-size: 16px;
-    color: white;
-    background-image: linear-gradient(#2c2c33, #1a1a1d);
-    background-position: center;
-    background-repeat: no-repeat;
+    color: #1a1a1d;
+    background: #fff;
     background-size: cover;
     line-height: 1.3em;
     padding: 1px 5px;
