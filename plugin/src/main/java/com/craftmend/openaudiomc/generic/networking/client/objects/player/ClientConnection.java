@@ -258,6 +258,11 @@ public class ClientConnection implements Authenticatable {
     }
 
     @Override
+    public PlayerSession getSessionTokens() {
+        return session;
+    }
+
+    @Override
     public void handleError(MediaError error, String source) {
         if (getPlayer().isAdministrator() && OpenAudioMc.getInstance().getConfigurationImplementation().getBoolean(StorageKey.SETTINGS_STAFF_TIPS)) {
             String prefix = OpenAudioMc.getInstance().getCommandModule().getCommandPrefix();
