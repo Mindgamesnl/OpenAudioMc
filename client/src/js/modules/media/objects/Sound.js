@@ -8,6 +8,7 @@ export class Sound {
         this.hadError = false;
         this.source = source;
         this.error = null;
+        this.trackable = false;
 
         // error handling
         this.soundElement.onerror = (error) => {

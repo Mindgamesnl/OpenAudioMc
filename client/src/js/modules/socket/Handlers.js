@@ -36,6 +36,7 @@ export class Handlers {
             openAudioMc.getMediaManager().destroySounds(id, false, true);
 
             const createdChannel = new Channel(id);
+            createdChannel.trackable = true;
             const createdMedia = new Sound(source);
             createdMedia.openAudioMc = openAudioMc;
             createdMedia.setOa(openAudioMc);

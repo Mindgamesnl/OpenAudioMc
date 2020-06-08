@@ -18,10 +18,12 @@ export class Mixer {
                 tags.push(tag);
             });
 
-            current.push({
-                "name": key,
-                "tags": tags
-            });
+            if (channel.trackable) {
+                current.push({
+                    "name": key,
+                    "tags": tags
+                });
+            }
         });
 
 
