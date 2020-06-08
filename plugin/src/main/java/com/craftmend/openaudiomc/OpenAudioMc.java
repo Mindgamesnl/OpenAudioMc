@@ -65,7 +65,7 @@ public class OpenAudioMc {
     private final StateService stateService = new StateService();
     private final TimeService timeService = new TimeService();
     private final MediaModule mediaModule = new MediaModule();
-    private final UpdateService updateService = new UpdateService();
+    private UpdateService updateService;
     private final NetworkingService networkingService;
     private final ConfigurationImplementation configurationImplementation;
     private final CommandModule commandModule;
@@ -96,6 +96,8 @@ public class OpenAudioMc {
         this.configurationImplementation = invoker.getConfigurationProvider();
 
         this.authenticationService.initialize();
+
+        updateService = new UpdateService();
         new MigrationWorker().handleMigrations(this);
         this.redisService = new RedisService(this.configurationImplementation);
         this.networkingService = serviceImplementation.getConstructor().newInstance();

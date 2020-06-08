@@ -12,6 +12,7 @@ export class SpeakerPlayer {
         this.speakerNodes = new Map();
 
         const createdChannel = new Channel(this.id);
+        createdChannel.trackable = true;
         this.channel = createdChannel;
         const createdMedia = new Sound(source);
         this.media = createdMedia;

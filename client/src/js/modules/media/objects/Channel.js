@@ -9,6 +9,7 @@ export class Channel {
         this.isFading = false;
         this.fadeTimer = new Array();
         this.tags = new Map();
+        this.trackable = false;
     }
 
     setTag(name) {
