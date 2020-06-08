@@ -737,8 +737,7 @@ footer a {
     -webkit-appearance: none;
     -moz-appearance: none;
     position: absolute;
-    width: 87%;
-    margin-top: 10px;
+    width: 90%;
 }
 
 input[type=range]::-webkit-slider-runnable-track {
@@ -859,7 +858,7 @@ input[type=range]::-moz-range-thumb:active {
     margin: 20px;
     overflow: hidden;
     width: 100%;
-
+    height: 100%;
 }
 
 .course h6 {
@@ -867,6 +866,7 @@ input[type=range]::-moz-range-thumb:active {
     font-size: smaller;
     margin: 0;
     letter-spacing: 1px;
+    top: 100%;
     text-transform: uppercase;
 }
 

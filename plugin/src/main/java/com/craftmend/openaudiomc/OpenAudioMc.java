@@ -65,7 +65,7 @@ public class OpenAudioMc {
     private final StateService stateService = new StateService();
     private final TimeService timeService = new TimeService();
     private final MediaModule mediaModule = new MediaModule();
-    private UpdateService updateService;
+    private final UpdateService updateService;
     private final NetworkingService networkingService;
     private final ConfigurationImplementation configurationImplementation;
     private final CommandModule commandModule;
