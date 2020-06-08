@@ -6,7 +6,7 @@
   },
 
   "announcement": {
-    "is_announcement": true,
+    "is_announcement": false,
     "announcement_message": "&eEpic announcement test"
   }
 }
