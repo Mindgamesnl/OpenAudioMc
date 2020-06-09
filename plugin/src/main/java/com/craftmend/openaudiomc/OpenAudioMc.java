@@ -19,7 +19,6 @@ import com.craftmend.openaudiomc.generic.redis.packets.adapter.RedisTypeAdapter;
 import com.craftmend.openaudiomc.generic.core.interfaces.TaskProvider;
 import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
 import com.craftmend.openaudiomc.generic.updates.UpdateService;
-import com.craftmend.openaudiomc.generic.voice.VoiceRoomManager;
 import com.craftmend.openaudiomc.generic.state.StateService;
 
 import com.craftmend.openaudiomc.spigot.modules.show.adapter.RunnableTypeAdapter;
@@ -61,7 +60,6 @@ public class OpenAudioMc {
      * - Update Service          []   (Checks the master branch every once in a while to compare versions)
      */
     private final AuthenticationService authenticationService = new AuthenticationService();
-    private final VoiceRoomManager voiceRoomManager = new VoiceRoomManager();
     private final StateService stateService = new StateService();
     private final TimeService timeService = new TimeService();
     private final MediaModule mediaModule = new MediaModule();
