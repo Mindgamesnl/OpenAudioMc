@@ -8,7 +8,6 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.node.packets.ForwardSocketPacket;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
-import com.craftmend.openaudiomc.generic.voice.packets.subtypes.RoomMember;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.listeners.BungeePacketListener;
 import com.ikeirnez.pluginmessageframework.PacketPlayer;
@@ -18,13 +17,12 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.*;
-import java.util.function.Consumer;
 
 public class ProxyNetworkingService extends NetworkingService {
 
-    @Getter private Set<INetworkingEvents> eventHandlers = new HashSet<>();
-    private DefaultNetworkingService realService = new DefaultNetworkingService();
-    private BukkitPacketManager packetManager;
+    @Getter private final Set<INetworkingEvents> eventHandlers = new HashSet<>();
+    private final DefaultNetworkingService realService = new DefaultNetworkingService();
+    private final BukkitPacketManager packetManager;
 
     public ProxyNetworkingService() {
         packetManager = new BukkitPacketManager(OpenAudioMcSpigot.getInstance(), "openaudiomc:node");
@@ -82,12 +80,6 @@ public class ProxyNetworkingService extends NetworkingService {
     public void stop() {
         // unused in fake system
     }
-
-    @Override
-    public void requestRoomCreation(List<RoomMember> members, Consumer<Boolean> wasSucessful) {
-        // unused in fake system
-    }
-
 
     @Override
     public Set<INetworkingEvents> getEvents() {

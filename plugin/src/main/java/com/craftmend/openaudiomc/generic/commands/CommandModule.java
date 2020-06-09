@@ -1,7 +1,6 @@
 package com.craftmend.openaudiomc.generic.commands;
 
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
-import com.craftmend.openaudiomc.generic.commands.subcommands.CallSubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.NotificationSubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.PlusSubCommand;
 import com.craftmend.openaudiomc.generic.platform.Platform;
@@ -14,12 +13,11 @@ import java.util.Map;
 
 public class CommandModule {
 
-    private Map<String, SubCommand> subCommands = new HashMap<>();
-    @Getter private List<String> aliases = new ArrayList<>();
-    @Getter private String commandPrefix = Platform.translateColors("&3[&bOA&3] &7");
+    private final Map<String, SubCommand> subCommands = new HashMap<>();
+    @Getter private final List<String> aliases = new ArrayList<>();
+    @Getter private final String commandPrefix = Platform.translateColors("&3[&bOA&3] &7");
 
     public CommandModule() {
-        registerSubCommand(new CallSubCommand(this));
         registerSubCommand(new NotificationSubCommand(this));
         registerSubCommand(new PlusSubCommand());
     }

@@ -15,10 +15,6 @@ import com.craftmend.openaudiomc.generic.state.states.ConnectedState;
 import com.craftmend.openaudiomc.generic.state.states.ConnectingState;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.voice.packets.MemberLeftRoomPacket;
-import com.craftmend.openaudiomc.generic.voice.packets.RoomClosedPacket;
-import com.craftmend.openaudiomc.generic.voice.packets.RoomCreatedPacket;
-import com.craftmend.openaudiomc.generic.voice.packets.subtypes.RoomMember;
 
 import io.socket.client.Ack;
 import io.socket.client.IO;
@@ -33,9 +29,7 @@ import java.net.ProxySelector;
 import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.List;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 @RequiredArgsConstructor
 public class SocketIoConnector {
@@ -145,7 +139,6 @@ public class SocketIoConnector {
         socket.on(Socket.EVENT_DISCONNECT, args -> {
             // disconnected, probably with a reason or something
             OpenAudioMc.getInstance().getStateService().setState(new IdleState("Disconnected from the socket"));
-            OpenAudioMc.getInstance().getVoiceRoomManager().clearCache();
 
             String message = Platform.translateColors(OpenAudioMc.getInstance().getConfigurationImplementation().getString(StorageKey.MESSAGE_LINK_EXPIRED));
             for (ClientConnection client : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
@@ -191,22 +184,6 @@ public class SocketIoConnector {
             }
         });
 
-        socket.on("voice-room-created", args -> {
-            String data = ((String) args[args.length - 1]);
-            OpenAudioMc.getInstance().getVoiceRoomManager().registerCall(OpenAudioMc.getGson().fromJson(data, RoomCreatedPacket.class));
-        });
-
-
-        socket.on("voice-room-player-left", args -> {
-            String data = ((String) args[args.length - 1]);
-            OpenAudioMc.getInstance().getVoiceRoomManager().leaveCall(OpenAudioMc.getGson().fromJson(data, MemberLeftRoomPacket.class));
-        });
-
-        socket.on("voice-room-closed", args -> {
-            String data = ((String) args[args.length - 1]);
-            OpenAudioMc.getInstance().getVoiceRoomManager().closeCall(OpenAudioMc.getGson().fromJson(data, RoomClosedPacket.class));
-        });
-
         socket.on("data", args -> {
             try {
                 AbstractPacket abstractPacket = OpenAudioMc.getGson().fromJson(args[0].toString(), AbstractPacket.class);
@@ -234,9 +211,5 @@ public class SocketIoConnector {
             packet.setClient(client.getOwnerUUID());
             socket.emit("data", OpenAudioMc.getGson().toJson(packet));
         }
-    }
-
-    public void createRoom(List<RoomMember> members, Consumer<Boolean> wasSuccessful) {
-        socket.emit("request-call-creation", OpenAudioMc.getGson().toJson(members), (Ack) args -> wasSuccessful.accept((boolean) args[0]));
     }
 }
