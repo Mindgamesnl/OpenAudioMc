@@ -21,9 +21,15 @@ public class UpdateService {
 
     private void scheduleStatusUpdate() {
         OpenAudioMc.getInstance().getTaskProvider().runAsync(
-                () -> projectStatus = new RestRequest(RestEndpoint.GITHUB_VERSION_CHECK)
-                        .executeSync()
-                        .getResponse(ProjectStatus.class)
+                () -> {
+                    try {
+                        projectStatus = new RestRequest(RestEndpoint.GITHUB_VERSION_CHECK)
+                                .executeSync()
+                                .getResponse(ProjectStatus.class);
+                    } catch (Exception e) {
+                        // Failed to check
+                    }
+                }
         );
     }
 
@@ -40,6 +46,7 @@ public class UpdateService {
 
     public void sendNotifications(PlayerContainer player) {
         if (!player.isAdministrator()) return;
+        if (OpenAudioMc.getInstance().getInvoker().isSlave()) return;
         if (!allowChecks()) return;
         scheduleStatusUpdate();
 
@@ -49,8 +56,8 @@ public class UpdateService {
         String prefix = OpenAudioMc.getInstance().getCommandModule().getCommandPrefix();
 
         if (notifyUpdates && isUpdateAvailable()) {
-            player.sendMessage(prefix + Platform.translateColors(projectStatus.getUpdate().getImportance()) + " update available!");
-            player.sendMessage(prefix + "> " + Platform.translateColors(projectStatus.getUpdate().getUpdateMessage()));
+            player.sendMessage(prefix + Platform.translateColors(projectStatus.getVersioning().getImportance()) + " update available!");
+            player.sendMessage(prefix + "> " + Platform.translateColors(projectStatus.getVersioning().getUpdateMessage()));
         }
 
         if (notifyAnnouncements && projectStatus != null && projectStatus.isAnnouncementAvailable()) {
