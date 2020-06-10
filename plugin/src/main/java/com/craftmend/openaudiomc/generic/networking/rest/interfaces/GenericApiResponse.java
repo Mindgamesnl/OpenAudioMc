@@ -18,7 +18,7 @@ public class GenericApiResponse {
     @Getter private List<RestErrorResponse> errors;
     private LinkedTreeMap response;
 
-    public <T> T getResponse(Class<T> type) {
+    public <T extends AbstractRestResponse> T getResponse(Class<T> type) {
         Gson gson = OpenAudioMc.getGson();
         JsonObject jsonObject = gson.toJsonTree(response).getAsJsonObject();
         return gson.fromJson(gson.toJson(jsonObject), type);
