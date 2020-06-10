@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.voicechat.implementations;
+package com.craftmend.openaudiomc.generic.voicechat;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
@@ -14,12 +14,14 @@ import com.craftmend.openaudiomc.generic.voicechat.api.models.MinecraftAccount;
 import com.craftmend.openaudiomc.generic.voicechat.api.util.Task;
 import com.craftmend.openaudiomc.generic.voicechat.interfaces.VoiceManagerImplementation;
 import com.craftmend.openaudiomc.generic.voicechat.room.objects.VoiceRoom;
+import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@NoArgsConstructor
 public class VoiceChatManager implements VoiceManagerImplementation {
 
     private final Map<String, VoiceRoom> rooms = new HashMap<>();
