@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.updates.models;
+package com.craftmend.openaudiomc.generic.enviroment.models;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;

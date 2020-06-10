@@ -24,11 +24,6 @@ public class RestRequest {
         this.endpoint = endpoint.getURL();
     }
 
-    @Deprecated // you should probably figure another way to do this
-    public RestRequest(String url) {
-        this.endpoint = url;
-    }
-
     public RestRequest setQuery(String key, String value) {
         variables.put(key, value);
         return this;

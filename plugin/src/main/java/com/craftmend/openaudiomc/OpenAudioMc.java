@@ -18,9 +18,10 @@ import com.craftmend.openaudiomc.generic.redis.RedisService;
 import com.craftmend.openaudiomc.generic.redis.packets.adapter.RedisTypeAdapter;
 import com.craftmend.openaudiomc.generic.core.interfaces.TaskProvider;
 import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
-import com.craftmend.openaudiomc.generic.updates.UpdateService;
+import com.craftmend.openaudiomc.generic.enviroment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.state.StateService;
 
+import com.craftmend.openaudiomc.generic.voicechat.interfaces.VoiceManagerImplementation;
 import com.craftmend.openaudiomc.spigot.modules.show.adapter.RunnableTypeAdapter;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 
@@ -63,9 +64,10 @@ public class OpenAudioMc {
     private final StateService stateService = new StateService();
     private final TimeService timeService = new TimeService();
     private final MediaModule mediaModule = new MediaModule();
-    private final UpdateService updateService;
+    private final GlobalConstantService globalConstantService;
     private final NetworkingService networkingService;
     private final ConfigurationImplementation configurationImplementation;
+    private final VoiceManagerImplementation voiceManagerImplementation;
     private final CommandModule commandModule;
     private final TaskProvider taskProvider;
     private final RedisService redisService;
@@ -92,10 +94,11 @@ public class OpenAudioMc {
         this.cleanStartup = !this.invoker.hasPlayersOnline();
         this.taskProvider = invoker.getTaskProvider();
         this.configurationImplementation = invoker.getConfigurationProvider();
+        this.voiceManagerImplementation = invoker.getVoiceImplementation();
 
         this.authenticationService.initialize();
 
-        updateService = new UpdateService();
+        globalConstantService = new GlobalConstantService();
         new MigrationWorker().handleMigrations(this);
         this.redisService = new RedisService(this.configurationImplementation);
         this.networkingService = serviceImplementation.getConstructor().newInstance();

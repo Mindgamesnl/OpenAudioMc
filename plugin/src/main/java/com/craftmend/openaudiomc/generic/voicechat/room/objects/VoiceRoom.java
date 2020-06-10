@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class VoiceRoom {
 
-    private List<MinecraftAccount> members;
+    @Getter private List<MinecraftAccount> members;
     @Getter private String roomId;
     @Getter private VoiceRoomDriver driver;
 

@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.updates.models;
+package com.craftmend.openaudiomc.generic.enviroment.models;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.AbstractRestResponse;
@@ -11,6 +11,7 @@ public class ProjectStatus extends AbstractRestResponse {
     @SerializedName("versioning")
     private VersionDetails update;
     private Announcement announcement;
+    private ProjectConfiguration configuration;
 
     public boolean isLocalLatest() {
         return OpenAudioMc.getInstance().getInvoker().getPluginVersion().equals(update.getVersionTag());

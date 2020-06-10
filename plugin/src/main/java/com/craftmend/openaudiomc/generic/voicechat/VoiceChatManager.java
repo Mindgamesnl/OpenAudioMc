@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.voicechat;
+package com.craftmend.openaudiomc.generic.voicechat.implementations;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
@@ -12,6 +12,7 @@ import com.craftmend.openaudiomc.generic.voicechat.api.body.VoiceRoomRequestBody
 import com.craftmend.openaudiomc.generic.voicechat.api.drivers.VoiceRoomDriver;
 import com.craftmend.openaudiomc.generic.voicechat.api.models.MinecraftAccount;
 import com.craftmend.openaudiomc.generic.voicechat.api.util.Task;
+import com.craftmend.openaudiomc.generic.voicechat.interfaces.VoiceManagerImplementation;
 import com.craftmend.openaudiomc.generic.voicechat.room.objects.VoiceRoom;
 
 import java.util.HashMap;
@@ -19,14 +20,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class VoiceChatManager {
+public class VoiceChatManager implements VoiceManagerImplementation {
 
-    private Map<UUID, VoiceRoom> rooms = new HashMap<>();
+    private final Map<String, VoiceRoom> rooms = new HashMap<>();
 
+    /**
+     * Validate a request to make a room, execute the request and finish the task
+     * @param members Call members
+     * @return task promise
+     */
+    @Override
     public Task<VoiceRoom> requestVoiceRoomAsync(List<MinecraftAccount> members) {
         Task<VoiceRoom> task = new Task<>();
 
-        if (members.isEmpty()) {
+        // filter all members that already have a call
+        members.removeIf(member -> findRoomByPlayer(member.getUuid()) != null);
+
+        // validate room size
+        int size = members.size();
+        if (size <2 || size > OpenAudioMc.getInstance().getGlobalConstantService().getProjectStatus().getConfiguration().getMaxVoiceRoomSize()) {
             task.fail(RestErrorType.BAD_REQUEST);
             return task;
         }
@@ -48,10 +60,29 @@ public class VoiceChatManager {
             VoiceRoomCreatedBody resultingVoiceRoom = response.getResponse(VoiceRoomCreatedBody.class);
             VoiceRoomDriver driver = new VoiceRoomDriver(resultingVoiceRoom);
 
-            task.success(new VoiceRoom(resultingVoiceRoom.getRoomId(), driver, members));
+            String roomId = resultingVoiceRoom.getRoomId();
+            VoiceRoom room = new VoiceRoom(roomId, driver, members);
+            rooms.put(roomId, room);
+            task.success(room);
         });
 
         return task;
+    }
+
+    /**
+     * Tries to find a room that contains a mamber
+     * @param playerUuid player
+     * @return room
+     */
+    @Override
+    public VoiceRoom findRoomByPlayer(UUID playerUuid) {
+        return rooms.values()
+                .stream()
+                .filter(room -> room.getMembers().
+                        stream()
+                        .anyMatch(member -> member.getUuid() == playerUuid))
+                .findFirst().orElse(null);
+
     }
 
 }
