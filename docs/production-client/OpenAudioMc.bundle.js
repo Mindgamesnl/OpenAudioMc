@@ -1284,7 +1284,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             r = i.errorMessage,
             a = i.hueConnected,
             l = i.hueLinking,
-            u = i.hueBridgeFound;"default" !== a && (e.getMessages().hueConnected = a), "default" !== l && (e.getMessages().hueLinking = l), "default" !== u && (e.getMessages().hueWelcome = u), "default" !== r && (e.getMessages().errorMessage = r), "default" !== s && (e.getMessages().welcomeMessage = s), "default" !== n && (document.getElementById("page").style = "vertical-align: middle;\n    background:\n            url(" + n + ");\n    -webkit-background-size: cover;\n    background-size: cover;"), "default" !== o && (document.title = o), e.getMessages().apply();
+            u = i.hueBridgeFound;if ("default" !== a && (e.getMessages().hueConnected = a), "default" !== l && (e.getMessages().hueLinking = l), "default" !== u && (e.getMessages().hueWelcome = u), "default" !== r && (e.getMessages().errorMessage = r), "default" !== s && (e.getMessages().welcomeMessage = s), "default" !== n && (document.getElementById("page").style = "vertical-align: middle;\n    background:\n            url(" + n + ");\n    -webkit-background-size: cover;\n    background-size: cover;"), "default" !== o) {
+          document.title = o;try {
+            parent.document.title = o;
+          } catch (t) {}
+        }e.getMessages().apply();
       }), t("ClientVersionPayload", function (t) {
         parseInt(t.protocolRevision), console.log("[OpenAudioMc] Received PROTOCOL revision update"), function () {
           return 2;
@@ -1539,7 +1543,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
               d += e.outerHTML;
             });var c = "";s(u).childNodes.forEach(function (e) {
               c += e.outerHTML;
-            }), "" !== h && (e.getMessages().errorMessage = d), "" !== u && (e.getMessages().welcomeMessage = c);var m = o.greetingMessage;m = m.replace("%name", e.tokenSet.name), document.getElementById("welcome-text-landing").innerHTML = m, document.getElementById("boot-button").style.display = "", document.getElementById("boot-button").innerHTML = o.connectButtonText, e.getUserInterfaceModule().changeColor("#304FFE", o.accentColor), "" != o.startSound && (e.getMediaManager().startSound = o.startSound), "default" !== l && (document.title = l), t({ host: r, background: a });
+            }), "" !== h && (e.getMessages().errorMessage = d), "" !== u && (e.getMessages().welcomeMessage = c);var m = o.greetingMessage;if (m = m.replace("%name", e.tokenSet.name), document.getElementById("welcome-text-landing").innerHTML = m, document.getElementById("boot-button").style.display = "", document.getElementById("boot-button").innerHTML = o.connectButtonText, e.getUserInterfaceModule().changeColor("#304FFE", o.accentColor), "" != o.startSound && (e.getMediaManager().startSound = o.startSound), "default" !== l) {
+              document.title = l;try {
+                parent.document.title = l;
+              } catch (e) {}
+            }t({ host: r, background: a });
           }).catch(function (e) {
             console.log("Dead end 1"), i(e);
           });
