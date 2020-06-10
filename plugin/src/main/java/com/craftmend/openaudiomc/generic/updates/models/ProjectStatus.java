@@ -1,18 +1,18 @@
 package com.craftmend.openaudiomc.generic.updates.models;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.networking.rest.interfaces.AbstractRestResponse;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 
 @Getter
-public class ProjectStatus {
+public class ProjectStatus extends AbstractRestResponse {
 
-    @SerializedName("versioning")
-    private VersionDetails update;
+    private VersionDetails versioning;
     private Announcement announcement;
 
     public boolean isLocalLatest() {
-        return OpenAudioMc.getInstance().getInvoker().getPluginVersion().equals(update.getVersionTag());
+        return OpenAudioMc.getInstance().getInvoker().getPluginVersion().equals(versioning.getVersionTag());
     }
 
     public boolean isAnnouncementAvailable() {
