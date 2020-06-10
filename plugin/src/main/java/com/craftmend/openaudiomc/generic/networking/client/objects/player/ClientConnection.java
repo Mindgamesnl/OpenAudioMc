@@ -253,6 +253,11 @@ public class ClientConnection implements Authenticatable {
     }
 
     @Override
+    public String getOwnerName() {
+        return getPlayer().getName();
+    }
+
+    @Override
     public UUID getOwnerUUID() {
         return player.getUniqueId();
     }

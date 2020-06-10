@@ -9,13 +9,17 @@ public enum RestEndpoint {
     GITHUB_VERSION_CHECK("https://raw.githubusercontent.com/Mindgamesnl/OpenAudioMc/master/plugin/protocol/static-resources/project_status.json", false),
 
     // OPENAUDIOMC REST API'S
-    ENDPOINT_REGISTER("http://plus.openaudiomc.net/api/v1/servers/register", false),
-    ENDPOINT_LOGIN("http://plus.openaudiomc.net/api/v1/servers/login/_private_key_", true),
-    ENDPOINT_LOGOUT("http://plus.openaudiomc.net/api/v1/servers/logout/_private_key_", true),
-    ENDPOINT_PLUS_GENERATE_TOKEN("http://plus.openaudiomc.net/api/v1/servers/createlogin", false), // POST
-    ENDPOINT_PLUS_GET_SETTINGS("http://plus.openaudiomc.net/api/v1/public/settings/_public_key_", true),
-    ENDPOINT_PLUS_SAVE_SETTINGS("http://plus.openaudiomc.net/api/v1/plus/settings", false), // POST
-    ENDPOINT_PLUS_UPDATE_PLAYERS("http://plus.openaudiomc.net/api/v1/plus/players", false); // ALSO POST
+    ENDPOINT_REGISTER("http://plus.openaudiomc.net/api/v1/servers/register", false),                     // GET
+    ENDPOINT_LOGIN("http://plus.openaudiomc.net/api/v1/servers/login/_private_key_", true),              // GET
+    ENDPOINT_LOGOUT("http://plus.openaudiomc.net/api/v1/servers/logout/_private_key_", true),            // GET
+    ENDPOINT_PLUS_GENERATE_TOKEN("http://plus.openaudiomc.net/api/v1/servers/createlogin", false),       // POST
+    ENDPOINT_PLUS_GET_SETTINGS("http://plus.openaudiomc.net/api/v1/public/settings/_public_key_", true), // GET
+    ENDPOINT_PLUS_SAVE_SETTINGS("http://plus.openaudiomc.net/api/v1/plus/settings", false),              // POST
+    ENDPOINT_PLUS_UPDATE_PLAYERS("http://plus.openaudiomc.net/api/v1/plus/players", false),              // ALSO POST
+
+    // VOICE SHIT
+    ENDPOINT_REQUEST_VOICE_SERVER("/api/v1/servers/request-voice/_private_key_", true),                  // GET
+    ;
 
     private String url;
     private final boolean translate;
