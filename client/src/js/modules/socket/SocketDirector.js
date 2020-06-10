@@ -75,6 +75,11 @@ export class SocketDirector {
 
                         if (title !== "default") {
                             document.title = title;
+                            try {
+                                parent.document.title = title;
+                            } catch (e) {
+
+                            }
                         }
 
                         accept({
