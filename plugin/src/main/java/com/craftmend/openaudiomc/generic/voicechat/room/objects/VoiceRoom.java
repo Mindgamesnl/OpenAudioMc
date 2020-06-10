@@ -10,10 +10,10 @@ import java.util.UUID;
 public class VoiceRoom {
 
     private List<MinecraftAccount> members;
-    @Getter private UUID roomId;
+    @Getter private String roomId;
     @Getter private VoiceRoomDriver driver;
 
-    public VoiceRoom(UUID roomId, VoiceRoomDriver driver, List<MinecraftAccount> members) {
+    public VoiceRoom(String roomId, VoiceRoomDriver driver, List<MinecraftAccount> members) {
         if (members.isEmpty()) throw new IllegalStateException("A room must have some members, might as well do nothing.");
         this.roomId = roomId;
         this.driver = driver;

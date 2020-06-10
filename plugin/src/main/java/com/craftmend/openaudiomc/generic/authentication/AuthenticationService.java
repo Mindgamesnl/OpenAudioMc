@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.generic.authentication;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
-import com.craftmend.openaudiomc.generic.networking.rest.interfaces.GenericApiResponse;
+import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.responses.RegistrationResponse;
 import com.craftmend.openaudiomc.generic.core.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementation;
@@ -50,7 +50,7 @@ public class AuthenticationService {
         if (spigotConfigurationModule.getString(StorageKey.AUTH_PRIVATE_KEY).equals("not-set") || getAuthVersion() != keyVersion) {
             OpenAudioLogger.toConsole("Creating account...");
             //setup process
-            GenericApiResponse response = registrationProvider.executeSync();
+            ApiResponse response = registrationProvider.executeSync();
             try {
                 if (response.getErrors().isEmpty()) {
                     RegistrationResponse registrationResponse = response.getResponse(RegistrationResponse.class);

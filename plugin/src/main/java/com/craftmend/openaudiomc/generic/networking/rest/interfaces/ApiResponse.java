@@ -13,7 +13,7 @@ import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
-public class GenericApiResponse {
+public class ApiResponse {
 
     @Getter private List<RestErrorResponse> errors;
     private LinkedTreeMap response;

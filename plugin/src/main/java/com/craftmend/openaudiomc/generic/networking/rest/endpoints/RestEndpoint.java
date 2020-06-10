@@ -18,7 +18,7 @@ public enum RestEndpoint {
     ENDPOINT_PLUS_UPDATE_PLAYERS("http://plus.openaudiomc.net/api/v1/plus/players", false),              // ALSO POST
 
     // VOICE SHIT
-    ENDPOINT_REQUEST_VOICE_SERVER("/api/v1/servers/request-voice/_private_key_", true),                  // GET
+    ENDPOINT_VOICE_CREATE("/api/v1/servers/create-voice/_private_key_", true),                   // GET
     ;
 
     private String url;
