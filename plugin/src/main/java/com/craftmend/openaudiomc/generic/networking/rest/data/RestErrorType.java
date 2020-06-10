@@ -13,7 +13,7 @@ public enum RestErrorType {
     ROOM_TOO_BIG,       // mutation will overwrite room size and got declined
     INVALID_ARGUMENT,   // I just don't understand what you mean
     INVALID_DATA,       // I understand what you mean, but no
-    WTF,                // I don't know what, just happens some time
+    WTF,                // I don't know what, it just happened and exploded right in your face
     SERVER_OFFLINE,     // The server you tried to interact with is not registered
 
 }
