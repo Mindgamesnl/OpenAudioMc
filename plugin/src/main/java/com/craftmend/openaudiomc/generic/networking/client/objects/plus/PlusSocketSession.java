@@ -51,6 +51,11 @@ public class PlusSocketSession implements Authenticatable {
     }
 
     @Override
+    public String getOwnerName() {
+        throw new UnsupportedOperationException("Im not a player");
+    }
+
+    @Override
     public UUID getOwnerUUID() {
         // to mock a connection, pretend that it is its own owner
         return sessionUuid;
@@ -58,7 +63,7 @@ public class PlusSocketSession implements Authenticatable {
 
     @Override
     public PlayerSession getSessionTokens() {
-        return null;
+        throw new UnsupportedOperationException("Im not a player");
     }
 
     @Override
