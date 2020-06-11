@@ -11,6 +11,7 @@
   },
 
   "configuration": {
-    "max_voice_room_size": 4
+    "max_voice_room_size": 4,
+    "call_timeout": 25
   }
 }
