@@ -8,5 +8,9 @@
   "announcement": {
     "is_announcement": false,
     "announcement_message": "&eEpic announcement test"
+  },
+
+  "configuration": {
+    "max_voice_room_size": 4
   }
 }

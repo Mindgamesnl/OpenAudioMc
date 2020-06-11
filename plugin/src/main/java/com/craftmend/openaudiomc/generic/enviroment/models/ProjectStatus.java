@@ -8,13 +8,12 @@ import lombok.Getter;
 @Getter
 public class ProjectStatus extends AbstractRestResponse {
 
-    @SerializedName("versioning")
-    private VersionDetails update;
+    private VersionDetails versioning;
     private Announcement announcement;
     private ProjectConfiguration configuration;
 
     public boolean isLocalLatest() {
-        return OpenAudioMc.getInstance().getInvoker().getPluginVersion().equals(update.getVersionTag());
+        return OpenAudioMc.getInstance().getInvoker().getPluginVersion().equals(versioning.getVersionTag());
     }
 
     public boolean isAnnouncementAvailable() {

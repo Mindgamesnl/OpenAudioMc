@@ -126,6 +126,11 @@ export class Handlers {
 
             if (title !== "default") {
                 document.title = title;
+                try {
+                    parent.document.title = title;
+                } catch (e) {
+
+                }
             }
 
             openAudioMc.getMessages().apply();

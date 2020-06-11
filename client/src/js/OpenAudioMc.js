@@ -14,7 +14,7 @@ import {NotificationModule} from "./modules/notifications/NotificationModule";
 import ClientTokenSet from "./helpers/libs/ClientTokenSet";
 import {initAudioContext} from "./modules/voice/objects/AbstractAudio";
 import {getHueInstance} from "./helpers/libs/JsHue";
-import openAudioMc, {linkBootListeners} from "./helpers/utils/StaticFunctions";
+import {linkBootListeners} from "./helpers/utils/StaticFunctions";
 import {WorldModule} from "./modules/world/WorldModule";
 
 export class OpenAudioMc extends Getters {
