@@ -5,6 +5,7 @@ import com.bergerkiller.bukkit.tc.controller.MinecartMemberStore;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
+import com.craftmend.openaudiomc.spigot.modules.players.events.ClientDisconnectEvent;
 import com.craftmend.openaudiomc.spigot.modules.players.handlers.RegionHandler;
 import com.craftmend.openaudiomc.spigot.modules.players.handlers.SpeakerHandler;
 import com.craftmend.openaudiomc.spigot.modules.players.events.ClientConnectEvent;
@@ -98,6 +99,10 @@ public class SpigotConnection {
 
             SpigotConnection spigotConnection = OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(player);
             spigotConnection.getClientConnection().sendMedia(media.toMedia());
+        });
+
+        clientConnection.addOnDisconnectHandler(() -> {
+            Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> Bukkit.getServer().getPluginManager().callEvent(new ClientDisconnectEvent(player)));
         });
     }
 
