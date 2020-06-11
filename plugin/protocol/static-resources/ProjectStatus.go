@@ -14,5 +14,6 @@ type ProductionValues struct {
 
 	Configuration struct {
 		MaxVoiceRoomSize int `json:"max_voice_room_size"`
+		CallTimeout int `json:"call_timeout"`
 	} `json:"configuration"`
 }
