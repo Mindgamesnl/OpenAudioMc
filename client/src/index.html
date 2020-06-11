@@ -11,10 +11,18 @@
     <script src="libs/libopus.js"></script>
     <script src="libs/js.cookie.js"></script>
 
-    <link href="assets/logo.png" rel="icon"/>
-    <link href="assets/logo.png" relw="image"/>
+    <link href="https://mindgamesnl.github.io/OpenAudioMc/production-client/assets/logo.png" rel="icon"/>
+    <link href="https://mindgamesnl.github.io/OpenAudioMc/production-client/assets/logo.png" relw="image"/>
 
     <title>OpenAudioMc</title>
+
+    <script>
+        try {
+            window.parent.document.title = "OpenAudioMc";
+        } catch (e) {
+            console.log(e)
+        }
+    </script>
 </head>
 <body class="dark-bg" id="page">
 
@@ -173,8 +181,8 @@
         <span class="notice">&copy; <a href="https://openaudiomc.net/">OpenAudioMc</a> V6.3</span>
     </span>
     <p class="footer-welcome" id="footer-welcome">No active session</p>
-    <img alt="skull" class="footer-skull" src="assets/logo.png">
+    <img alt="skull" class="footer-skull" src="https://mindgamesnl.github.io/OpenAudioMc/production-client/assets/logo.png">
 </footer>
 </body>
-<script src="OpenAudioMc.bundle.js?version=9"  onerror="window.location.href = 'https://help.openaudiomc.net/'"></script>
+<script src="OpenAudioMc.bundle.js?version=10" onerror="window.location.href = 'https://help.openaudiomc.net/'"></script>
 </html>

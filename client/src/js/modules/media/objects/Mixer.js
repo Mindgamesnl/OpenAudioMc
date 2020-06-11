@@ -27,11 +27,10 @@ export class Mixer {
         });
 
 
-        this.openAudioMc.socketModule.send(PluginChannel.CHANNELS_UPDATED, {
-            "tracks": current
-        });
-
-
+        // TODO: fix
+        // this.openAudioMc.socketModule.send(PluginChannel.CHANNELS_UPDATED, {
+        //     "tracks": current
+        // });
     }
 
     setMasterVolume(masterVolume) {
