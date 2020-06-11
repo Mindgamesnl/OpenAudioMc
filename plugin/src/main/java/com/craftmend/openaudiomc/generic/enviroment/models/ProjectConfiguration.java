@@ -9,4 +9,7 @@ public class ProjectConfiguration {
     @SerializedName("max_voice_room_size")
     private int maxVoiceRoomSize;
 
+    @SerializedName("call_timeout")
+    private int callTimeout;
+
 }
