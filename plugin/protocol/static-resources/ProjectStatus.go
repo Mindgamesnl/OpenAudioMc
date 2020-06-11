@@ -8,12 +8,12 @@ type ProductionValues struct {
 	} `json:"versioning"`
 
 	Announcement struct {
-		IsAnnouncement      bool   `json:"is_announcement"`
-		AnnouncementMessage string `json:"announcement_message"`
+		IsAnnouncement       bool   `json:"is_announcement"`
+		AnnouncementMessage  string `json:"announcement_message"`
 	} `json:"announcement"`
 
 	Configuration struct {
-		MaxVoiceRoomSize int `json:"max_voice_room_size"`
-		CallTimeout int `json:"call_timeout"`
+		MaxVoiceRoomSize     int `json:"max_voice_room_size"`
+		CallTimeout          int `json:"call_timeout"`
 	} `json:"configuration"`
 }
