@@ -1,5 +1,7 @@
 package staticresources
 
+// One of the few public bits of the backend
+// Just here for convenience
 type ProductionValues struct {
 	Versioning struct {
 		VersionTag           string `json:"version_tag"`
