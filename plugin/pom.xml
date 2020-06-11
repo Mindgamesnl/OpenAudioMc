@@ -42,6 +42,32 @@
                         </goals>
                         <configuration>
                             <minimizeJar>true</minimizeJar>
+                            <relocations>
+                                <relocation>
+                                    <pattern>io.</pattern>
+                                    <shadedPattern>com.craftmend.thirdparty.io.</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>reactor.</pattern>
+                                    <shadedPattern>com.craftmend.thirdparty.reactor.</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>okhttp3</pattern>
+                                    <shadedPattern>com.craftmend.thirdparty.okhttp3.</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>okio</pattern>
+                                    <shadedPattern>com.craftmend.thirdparty.okio.</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.</pattern>
+                                    <shadedPattern>com.craftmend.thirdparty.org.</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>kotlin</pattern>
+                                    <shadedPattern>com.craftmend.thirdparty.kotlin.</shadedPattern>
+                                </relocation>
+                            </relocations>
                         </configuration>
                     </execution>
                 </executions>
