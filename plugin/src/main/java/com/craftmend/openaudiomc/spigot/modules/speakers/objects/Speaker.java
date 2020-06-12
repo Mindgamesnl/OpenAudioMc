@@ -14,6 +14,7 @@ public class Speaker {
     @Setter @Getter private int radius;
     @Getter private MappedLocation location;
     @Setter @Getter private SpeakerType speakerType;
+    @Getter @Setter private boolean validated = false;
 
     public Speaker(String source, UUID id, int radius, MappedLocation location, SpeakerType speakerType) {
         this.source = source;
