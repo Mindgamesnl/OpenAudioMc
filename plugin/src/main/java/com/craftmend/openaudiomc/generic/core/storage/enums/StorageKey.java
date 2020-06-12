@@ -38,7 +38,7 @@ public enum StorageKey {
     SETTINGS_PLUS_ACCESS_LEVEL(false, "options.plus-access-level", StorageLocation.CONFIG_FILE),
     SETTINGS_STAFF_TIPS(false, "options.staff-tips", StorageLocation.CONFIG_FILE),
     SETTINGS_NOTIFY_UPDATES(false, "options.notify-updates", StorageLocation.CONFIG_FILE),
-    SETTINGS_NOTIFY_ANNOUNCEMENTS(false, "options.notify-annoucements", StorageLocation.CONFIG_FILE),
+    SETTINGS_NOTIFY_ANNOUNCEMENTS(false, "options.notify-announcements", StorageLocation.CONFIG_FILE),
 
     DEBUG_LOG_STATE_CHANGES(false, "debug.log-state-changes", StorageLocation.DATA_FILE),
 
@@ -52,6 +52,8 @@ public enum StorageKey {
     REDIS_PASSWORD(false, "redis.password", StorageLocation.CONFIG_FILE),
     REDIS_USE_SSL(false, "redis.useSSL", StorageLocation.CONFIG_FILE),
     REDIS_SECTION(false, "redis.section", StorageLocation.CONFIG_FILE),
+
+    LEGAL_ACCEPTED_TOS_AND_PRIVACY(false, "legal.accepted", StorageLocation.DATA_FILE),
     ;
 
     @Getter private String path;

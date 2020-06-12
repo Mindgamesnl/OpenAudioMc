@@ -9,6 +9,7 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
+import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
@@ -17,6 +18,7 @@ public class OpenAudioMcBungeeCommand extends Command {
 
     private CommandModule commandModule = OpenAudioMc.getInstance().getCommandModule();
     private CommandMiddleware[] commandMiddleware = new CommandMiddleware[] {
+            new CatchLegalBindingMiddleware(),
             new CatchCrashMiddleware(),
             new CleanStateCheckMiddleware()
     };

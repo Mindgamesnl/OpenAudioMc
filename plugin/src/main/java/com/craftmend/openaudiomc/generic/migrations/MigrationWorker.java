@@ -14,7 +14,8 @@ public class MigrationWorker {
             new PlusAccessLevelMigration(),    // adds config values for the permissions patch
             new MouseHoverMessageMigration(),  // adds a config field for the hover-to-connect message
             new TipsSettingMigration(),        // adds a config field for the staff-tips option
-            new UpdateSettingMigration()       // adds config fields for update and announcement preferences
+            new UpdateSettingMigration(),      // adds config fields for update and announcement preferences,
+            new LegalAcceptanceMigration(),    // binding statements about accepting our rules
     };
 
     public void handleMigrations(OpenAudioMc main) {

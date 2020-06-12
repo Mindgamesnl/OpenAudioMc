@@ -1,3 +1,10 @@
+# If the user agreed to the TOS and Privacy statement.
+# Having any value representing "true" filled (either manually changed or through software after manual trigger or third party input) means
+# That you read, understood and agree to everything mentioned in
+# https://github.com/Mindgamesnl/OpenAudioMc/blob/master/LICENCE_and_PRIVACY.md
+legal:
+  accepted: false
+
 regions:
 aliases:
 speakers:

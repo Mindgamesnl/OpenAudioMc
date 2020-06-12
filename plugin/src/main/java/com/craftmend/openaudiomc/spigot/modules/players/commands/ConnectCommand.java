@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.generic.commands.adapters.SpigotCommandSenderAd
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
+import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
 import com.craftmend.openaudiomc.generic.state.interfaces.State;
 import com.craftmend.openaudiomc.generic.state.states.WorkerState;
@@ -20,6 +21,7 @@ import org.bukkit.entity.Player;
 public class ConnectCommand implements CommandExecutor {
 
     private CommandMiddleware[] commandMiddleware = new CommandMiddleware[] {
+            new CatchLegalBindingMiddleware(),
             new CatchCrashMiddleware(),
             new CleanStateCheckMiddleware()
     };
