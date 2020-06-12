@@ -1,5 +1,5 @@
 name: OpenAudioMc
-version: 6.3
+version: 6.3.2
 softdepend: [WorldGuard, Train_Carts]
 main: com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot
 api-version: 1.13
