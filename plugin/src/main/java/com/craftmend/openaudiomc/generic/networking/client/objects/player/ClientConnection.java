@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.generic.cards.objects.Card;
+import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.packets.client.card.PacketClientCreateCard;
@@ -80,9 +81,15 @@ public class ClientConnection implements Authenticatable {
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE)
             return;
 
+        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
+        if (!config.getBoolean(StorageKey.LEGAL_ACCEPTED_TOS_AND_PRIVACY)) {
+            new CatchLegalBindingMiddleware().continueCommand(player.asExecutor(), null);
+            return;
+        }
+
         if (isConnected) {
             player.sendMessage(Platform.translateColors(Objects.requireNonNull(
-                    OpenAudioMc.getInstance().getConfigurationImplementation().getString(StorageKey.MESSAGE_CLIENT_ALREADY_CONNECTED)
+                    config.getString(StorageKey.MESSAGE_CLIENT_ALREADY_CONNECTED)
             )));
             return;
         }
@@ -93,12 +100,12 @@ public class ClientConnection implements Authenticatable {
                 session.getToken();
 
         TextComponent message = new TextComponent(Platform.translateColors(Objects.requireNonNull(
-                OpenAudioMc.getInstance().getConfigurationImplementation().getString(StorageKey.MESSAGE_CLICK_TO_CONNECT)
+                config.getString(StorageKey.MESSAGE_CLICK_TO_CONNECT)
         )));
 
         TextComponent[] hover = new TextComponent[] {
                 new TextComponent(Platform.translateColors(Objects.requireNonNull(
-                        OpenAudioMc.getInstance().getConfigurationImplementation().getString(StorageKey.MESSAGE_HOVER_TO_CONNECT)
+                        config.getString(StorageKey.MESSAGE_HOVER_TO_CONNECT)
                 )))
         };
 
