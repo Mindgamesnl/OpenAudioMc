@@ -31,6 +31,9 @@ This document overrides the license as used before May 20th, 2020 at 7PM (UTC+2)
 We provide the option for Players with administrative privileges on their server to have their Server-Authentication removed along with all the other Data linked to it (settings and possibly active tokens). Please contact Me (Mats, Mindgamesnl) through the OpenAudioMc Discord (https://discord.openaudiomc.net/) or via the GitHub issues. I'll ask you for your public and private key (and other validation if I deem it necessary) before deleting all traces of your servers existence on the OpenAudioMc platform.
 
 ## Other terms, Notes and Rules
+ - All services and features OpenAudioMc provides for free (so that's excluding partner-specific features) may not be locked behind a paywall of any kind. Examples:
+    1. You may not lock OpenAudioMc permissions behind paid ranks
+    2. You may not restrict access to the web client based on rank, unless its for selected testing purposes. 
  - Every Minecraft server is allowed to host their on installation of the web-client, given that it meets the following demands.
     1. The website has an unchanged and readable OpenAudioMc copyright notice in the footer.
     2. The website is not modified to function in ways that contradicts the needs of a Player (abuse, spam and related)
@@ -42,7 +45,7 @@ We provide the option for Players with administrative privileges on their server
  - I decide whether a Ban is necessary and or deserved for any reason given in this document or as stated in context of the ban.
  
  spelling errors and changes reserved,
- Mindgamesnl 20th of May
+ Mindgamesnl 12th of June
  2020
  
  I am not a lawyer, nor do I claim to be one.
