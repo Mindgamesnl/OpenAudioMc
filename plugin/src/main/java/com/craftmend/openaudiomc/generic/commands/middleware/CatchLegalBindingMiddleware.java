@@ -16,6 +16,9 @@ public class CatchLegalBindingMiddleware implements CommandMiddleware {
     public boolean continueCommand(GenericExecutor genericExecutor, SubCommand subCommand) {
         ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
 
+        // skip if its a slave
+        if (OpenAudioMc.getInstance().getInvoker().isSlave()) return true;
+
         if (config.getBoolean(StorageKey.LEGAL_ACCEPTED_TOS_AND_PRIVACY)) {
             List<String> lines = new ArrayList<>();
             lines.add(Platform.translateColors("&eWelcome to OpenAudioMc!"));
