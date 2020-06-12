@@ -95,14 +95,14 @@ public class OpenAudioMc {
         this.taskProvider = invoker.getTaskProvider();
         this.configurationImplementation = invoker.getConfigurationProvider();
         this.voiceManagerImplementation = invoker.getVoiceImplementation();
-
         this.authenticationService.initialize();
-
         globalConstantService = new GlobalConstantService();
+
         new MigrationWorker().handleMigrations(this);
+
         this.redisService = new RedisService(this.configurationImplementation);
         this.networkingService = serviceImplementation.getConstructor().newInstance();
-        this.commandModule = new CommandModule();
+        this.commandModule = new CommandModule(this);
         this.plusService = new PlusService(this);
     }
 

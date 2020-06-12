@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.generic.commands.subcommands.AcceptSubCommand;
 import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementation;
 import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.platform.Platform;
@@ -18,6 +19,11 @@ public class CatchLegalBindingMiddleware implements CommandMiddleware {
 
         // skip if its a slave
         if (OpenAudioMc.getInstance().getInvoker().isSlave()) return true;
+
+        // allow the accept command
+        if (subCommand != null) {
+            if (subCommand instanceof AcceptSubCommand) return true;
+        }
 
         if (config.getBoolean(StorageKey.LEGAL_ACCEPTED_TOS_AND_PRIVACY)) {
             List<String> lines = new ArrayList<>();
