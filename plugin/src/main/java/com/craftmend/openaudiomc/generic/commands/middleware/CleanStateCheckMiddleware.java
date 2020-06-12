@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 
 public class CleanStateCheckMiddleware implements CommandMiddleware {
+
     @Override
     public boolean continueCommand(GenericExecutor genericExecutor, SubCommand subCommand) {
         if (!OpenAudioMc.getInstance().isCleanStartup()) {
@@ -14,4 +15,5 @@ public class CleanStateCheckMiddleware implements CommandMiddleware {
         }
         return true;
     }
+
 }
