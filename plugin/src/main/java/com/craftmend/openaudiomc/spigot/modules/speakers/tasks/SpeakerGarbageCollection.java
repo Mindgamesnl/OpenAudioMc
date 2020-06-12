@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 public class SpeakerGarbageCollection extends BukkitRunnable {
 
     private final SpeakerModule speakerModule;
+    private final Set<MappedLocation> garbageSpeakers = new HashSet<>();
 
     public SpeakerGarbageCollection(SpeakerModule speakerModule) {
         this.speakerModule = speakerModule;
@@ -25,7 +26,13 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
 
     @Override
     public void run() {
-        Set<MappedLocation> garbageSpeakers = new HashSet<>();
+        if (!garbageSpeakers.isEmpty()) {
+            OpenAudioLogger.toConsole("Found " + garbageSpeakers.size() + " corrupted speakers with the garbage collector. Removing them from the cache.");
+            for (MappedLocation garbageSpeaker : garbageSpeakers) {
+                speakerModule.getSpeakerMap().remove(garbageSpeaker);
+            }
+        }
+        garbageSpeakers.clear();
 
         this.speakerModule.getSpeakerMap().values().stream()
                 .filter(speaker -> !speaker.isValidated())
@@ -43,12 +50,5 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
                         }
                     }
                 });
-
-        if (!garbageSpeakers.isEmpty()) {
-            OpenAudioLogger.toConsole("Found " + garbageSpeakers.size() + " corrupted speakers with the garbage collector. Removing them from the cache.");
-            for (MappedLocation garbageSpeaker : garbageSpeakers) {
-                speakerModule.getSpeakerMap().remove(garbageSpeaker);
-            }
-        }
     }
 }
