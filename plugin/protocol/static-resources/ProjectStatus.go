@@ -23,6 +23,19 @@ type ProductionValues struct {
 }
 
 
+func (config ProductionValues) GetApi() string {
+	env := os.Getenv("OA_ENV")
+	if env == "" {
+		return config.Configuration.ProductionBackend
+	}
+
+	if env == "DEV" {
+		return config.Configuration.DevelopmentBackend
+	}
+
+	return config.Configuration.ProductionBackend
+}
+
 func GetProductionConfiguration() *ProductionValues {
 	var productionValues *ProductionValues = &ProductionValues{}
 	getJson("https://raw.githubusercontent.com/Mindgamesnl/OpenAudioMc/master/plugin/protocol/static-resources/project_status.json", productionValues)
