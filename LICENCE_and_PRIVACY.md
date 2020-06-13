@@ -34,7 +34,7 @@ We provide the option for Players with administrative privileges on their server
  - All services and features OpenAudioMc provides for free (so that's excluding partner-specific features) may not be locked behind a paywall of any kind. Examples:
     1. You may not lock OpenAudioMc permissions behind paid ranks
     2. You may not restrict access to the web client based on rank, unless its for selected testing purposes. 
- - Every Minecraft server is allowed to host their on installation of the web-client, given that it meets the following demands.
+ - Every Minecraft server is allowed to host their own installation of the web-client, given that it meets the following demands.
     1. The website has an unchanged and readable OpenAudioMc copyright notice in the footer.
     2. The website is not modified to function in ways that contradicts the needs of a Player (abuse, spam and related)
     3. The website does not communicate to the OpenAudioMc servers that fall out of protocol (or as released in any current/previous public release/beta build)
