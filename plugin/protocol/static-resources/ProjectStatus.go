@@ -22,6 +22,32 @@ type ProductionValues struct {
 	} `json:"configuration"`
 }
 
+type ServerStatus struct {
+	Errors   []interface{} `json:"errors"`
+	Response struct {
+		TotalConnections int `json:"totalConnections"`
+		MinecraftPlayers int `json:"minecraftPlayers"`
+		Relays           []struct {
+			ID               int    `json:"id"`
+			RelayID          string `json:"relayId"`
+			Connections      string `json:"connections"`
+			UpdatedAt        string `json:"updated_at"`
+			CreatedAt        string `json:"created_at"`
+			InsecureEndpoint string `json:"insecureEndpoint"`
+			SecureEndpoint   string `json:"secureEndpoint"`
+		} `json:"relays"`
+		VoiceServers []struct {
+			ID            int    `json:"id"`
+			VoiceServerID string `json:"voiceServerId"`
+			Connections   string `json:"connections"`
+			UpdatedAt     string `json:"updated_at"`
+			CreatedAt     string `json:"created_at"`
+			Host          string `json:"host"`
+			Password      string `json:"password"`
+		} `json:"voiceServers"`
+	} `json:"response"`
+}
+
 
 func (config ProductionValues) GetApi() string {
 	env := os.Getenv("OA_ENV")
