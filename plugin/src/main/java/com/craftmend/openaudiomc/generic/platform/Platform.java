@@ -16,4 +16,12 @@ public enum Platform {
         }
     }
 
+    public static String makeColor(String color) {
+        if (OpenAudioMc.getInstance().getPlatform() == SPIGOT) {
+            return ChatColor.valueOf(color) + "";
+        } else {
+            return net.md_5.bungee.api.ChatColor.valueOf(color) + "";
+        }
+    }
+
 }

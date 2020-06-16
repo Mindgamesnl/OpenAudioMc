@@ -8,7 +8,7 @@ import com.craftmend.openaudiomc.bungee.modules.commands.commands.OpenAudioMcBun
 import com.craftmend.openaudiomc.bungee.modules.commands.subcommand.*;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.commands.subcommands.HelpSubCommand;
-import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.ReloadSubCommand;
+import com.craftmend.openaudiomc.generic.commands.subcommands.ReloadSubCommand;
 
 public class BungeeCommandModule {
 
@@ -28,7 +28,6 @@ public class BungeeCommandModule {
                 new BungeeRegionCommand(),
                 new BungeeSpeakerCommand(),
                 new BungeeShowCommand(),
-                new ReloadSubCommand(),
                 new BungeeAliasCommand()
         );
 
