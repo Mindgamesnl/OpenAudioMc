@@ -2,13 +2,9 @@ package com.craftmend.openaudiomc.generic.networking.rest;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
-import com.craftmend.openaudiomc.generic.networking.rest.adapters.RegistrationResponseAdapter;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
-import com.craftmend.openaudiomc.generic.networking.rest.interfaces.GenericApiResponse;
-import com.craftmend.openaudiomc.generic.networking.rest.responses.RegistrationResponse;
+import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import lombok.Setter;
 import okhttp3.*;
 
@@ -33,20 +29,25 @@ public class RestRequest {
         return this;
     }
 
-    public CompletableFuture<GenericApiResponse> execute() {
-        CompletableFuture<GenericApiResponse> response = new CompletableFuture<>();
+    public RestRequest setBody(Object object) {
+        this.body = OpenAudioMc.getGson().toJson(object);
+        return this;
+    }
+
+    public CompletableFuture<ApiResponse> execute() {
+        CompletableFuture<ApiResponse> response = new CompletableFuture<>();
         OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
             response.complete(executeSync());
         });
         return response;
     }
 
-    public GenericApiResponse executeSync() {
+    public ApiResponse executeSync() {
         try {
             String url = getUrl();
             String output = readHttp(url);
             try {
-                return OpenAudioMc.getGson().fromJson(output, GenericApiResponse.class);
+                return OpenAudioMc.getGson().fromJson(output, ApiResponse.class);
             } catch (Exception e) {
                 OpenAudioLogger.toConsole("Failed to handle output: " + output);
             }

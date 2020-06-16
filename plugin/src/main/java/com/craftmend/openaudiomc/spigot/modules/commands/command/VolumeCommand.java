@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.generic.commands.adapters.SpigotCommandSenderAd
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
+import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
 import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.platform.Platform;
@@ -21,6 +22,7 @@ import org.bukkit.entity.Player;
 public class VolumeCommand implements CommandExecutor {
 
     private CommandMiddleware[] commandMiddleware = new CommandMiddleware[] {
+            new CatchLegalBindingMiddleware(),
             new CatchCrashMiddleware(),
             new CleanStateCheckMiddleware()
     };

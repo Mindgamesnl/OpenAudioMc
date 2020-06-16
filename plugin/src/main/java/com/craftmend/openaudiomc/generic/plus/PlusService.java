@@ -10,7 +10,7 @@ import com.craftmend.openaudiomc.generic.plus.tasks.PlayerStateStreamer;
 import com.craftmend.openaudiomc.generic.plus.updates.CreateLoginPayload;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
-import com.craftmend.openaudiomc.generic.networking.rest.interfaces.GenericApiResponse;
+import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
 import lombok.Getter;
 
@@ -46,7 +46,7 @@ public class PlusService {
         CreateLoginPayload createLoginPayload = new CreateLoginPayload(playerName, openAudioMc.getAuthenticationService().getServerKeySet().getPrivateKey().getValue());
         RestRequest keyRequest = new RestRequest(RestEndpoint.ENDPOINT_PLUS_GENERATE_TOKEN);
         keyRequest.setBody(OpenAudioMc.getGson().toJson(createLoginPayload));
-        GenericApiResponse response = keyRequest.executeSync();
+        ApiResponse response = keyRequest.executeSync();
         if (!response.getErrors().isEmpty()) throw new IllegalArgumentException("Auth failed!");
 
         PlusLoginToken plusLoginToken = response.getResponse(PlusLoginToken.class);

@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.updates;
+package com.craftmend.openaudiomc.generic.enviroment;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
@@ -6,16 +6,16 @@ import com.craftmend.openaudiomc.generic.networking.client.interfaces.PlayerCont
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.platform.Platform;
-import com.craftmend.openaudiomc.generic.updates.models.ProjectStatus;
+import com.craftmend.openaudiomc.generic.enviroment.models.ProjectStatus;
 import lombok.Getter;
 
-public class UpdateService {
+public class GlobalConstantService {
 
     // project status
     @Getter
     private ProjectStatus projectStatus = null;
 
-    public UpdateService() {
+    public GlobalConstantService() {
         scheduleStatusUpdate();
     }
 

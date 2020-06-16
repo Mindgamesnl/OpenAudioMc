@@ -1,10 +1,11 @@
 package com.craftmend.openaudiomc.generic.commands;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
-import com.craftmend.openaudiomc.generic.commands.subcommands.CallSubCommand;
+import com.craftmend.openaudiomc.generic.commands.subcommands.AcceptSubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.NotificationSubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.PlusSubCommand;
-import com.craftmend.openaudiomc.generic.commands.subcommands.ReloadSubCommand;
+import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import lombok.Getter;
 
@@ -15,14 +16,20 @@ import java.util.Map;
 
 public class CommandModule {
 
-    private Map<String, SubCommand> subCommands = new HashMap<>();
-    @Getter private List<String> aliases = new ArrayList<>();
-    @Getter private String commandPrefix = Platform.translateColors("&3[&bOA&3] &7");
+    private final Map<String, SubCommand> subCommands = new HashMap<>();
+    @Getter private final List<String> aliases = new ArrayList<>();
+    @Getter private final String commandPrefix = Platform.translateColors("&3[&bOA&3] &7");
 
-    public CommandModule() {
-        registerSubCommand(new CallSubCommand(this));
-        registerSubCommand(new NotificationSubCommand(this));
-        registerSubCommand(new PlusSubCommand());
+    public CommandModule(OpenAudioMc openAudioMc) {
+        registerSubCommands(
+                new NotificationSubCommand(this),
+                new PlusSubCommand()
+        );
+
+        // add accept sub command if the player is new
+        if (!openAudioMc.getConfigurationImplementation().getBoolean(StorageKey.LEGAL_ACCEPTED_TOS_AND_PRIVACY)) {
+            registerSubCommand(new AcceptSubCommand());
+        }
         registerSubCommand(new ReloadSubCommand());
     }
 

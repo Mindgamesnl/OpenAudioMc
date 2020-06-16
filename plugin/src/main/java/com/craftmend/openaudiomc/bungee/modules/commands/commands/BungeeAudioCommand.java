@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.generic.commands.adapters.BungeeCommandSenderAd
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
+import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -15,6 +16,7 @@ import net.md_5.bungee.api.plugin.Command;
 public class BungeeAudioCommand extends Command {
 
     private CommandMiddleware[] commandMiddleware = new CommandMiddleware[] {
+            new CatchLegalBindingMiddleware(),
             new CatchCrashMiddleware(),
             new CleanStateCheckMiddleware()
     };
