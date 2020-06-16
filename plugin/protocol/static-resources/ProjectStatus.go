@@ -1,7 +1,4 @@
-package staticresources
-
-// One of the few public bits of the backend
-// Just here for convenience
+// public json
 type ProductionValues struct {
 	Versioning struct {
 		VersionTag           string `json:"version_tag"`
@@ -22,6 +19,7 @@ type ProductionValues struct {
 	} `json:"configuration"`
 }
 
+// openaudio backend state api
 type ServerStatus struct {
 	Errors   []interface{} `json:"errors"`
 	Response struct {
@@ -48,7 +46,7 @@ type ServerStatus struct {
 	} `json:"response"`
 }
 
-
+// get api for local configuration
 func (config ProductionValues) GetApi() string {
 	env := os.Getenv("OA_ENV")
 	if env == "" {
@@ -62,12 +60,14 @@ func (config ProductionValues) GetApi() string {
 	return config.Configuration.ProductionBackend
 }
 
+// request values from master
 func GetProductionConfiguration() *ProductionValues {
 	var productionValues *ProductionValues = &ProductionValues{}
 	getJson("https://raw.githubusercontent.com/Mindgamesnl/OpenAudioMc/master/plugin/protocol/static-resources/project_status.json", productionValues)
 	return productionValues
 }
 
+// json helper
 func getJson(url string, target interface{}) interface{} {
 	client := &http.Client{Timeout: 10 * time.Second}
 	r, err := client.Get(url)
