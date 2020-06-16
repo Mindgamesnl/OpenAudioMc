@@ -3,13 +3,13 @@ package com.craftmend.openaudiomc.spigot.modules.commands;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.commands.subcommands.HelpSubCommand;
+import com.craftmend.openaudiomc.generic.commands.subcommands.ReloadSubCommand;
 import com.craftmend.openaudiomc.spigot.modules.commands.middleware.CommandTranslationMiddleware;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.*;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.commands.command.SpigotMainCommand;
 import com.craftmend.openaudiomc.spigot.modules.commands.command.VolumeCommand;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
-import org.bukkit.plugin.SimplePluginManager;
 
 public class SpigotCommandModule {
 
@@ -32,7 +32,6 @@ public class SpigotCommandModule {
                 new StopSubCommand(openAudioMcSpigot),
                 new HueSubCommand(openAudioMcSpigot),
                 new ShowSubCommand(openAudioMcSpigot),
-                new ReloadSubCommand(),
                 new StateSubCommand(),
                 new AliasSubCommand()
         );

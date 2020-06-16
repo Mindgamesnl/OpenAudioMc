@@ -3,9 +3,6 @@
 # You can login by typing /openaudiomc plus
 # Old legacy client settings have been migrated and ware now in there, along with your old settings!
 
-# MESSAGES
-# These are the messages as presented to the client. Be sure to use ' to encapsulate them. If you use ' in your native
-# language (like french), be sure to escape them.
 messages:
   # The message a client gets when they are not connected but a sound got triggered. this can be disabled under settings
   suggest-connection: '&eYou are currently missing out on some sounds! connect with the audio client via /audio'
@@ -34,8 +31,6 @@ messages:
   # The message a client gets when openaudio messed up internally and it's currently recovering
   api-starting-up: '&3The connection is still setting up. Please try again in a few seconds.'
 
-# OPTIONS
-# These are general plugin settings
 options:
   # Possible values:
   #   OP_ONLY = Only players who have explicit OP
