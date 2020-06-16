@@ -301,4 +301,15 @@ public class BungeeConfigurationImplementation implements ConfigurationImplement
         }
     }
 
+    @Override
+    public void setBoolean(StorageKey location, boolean value) {
+        switch (location.getStorageLocation()) {
+            case DATA_FILE:
+                dataConfig.set(location.getPath(), value);
+
+            case CONFIG_FILE:
+                mainConfig.set(location.getPath(), value);
+        }
+    }
+
 }

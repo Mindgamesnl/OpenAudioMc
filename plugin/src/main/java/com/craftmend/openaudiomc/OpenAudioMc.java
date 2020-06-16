@@ -18,10 +18,10 @@ import com.craftmend.openaudiomc.generic.redis.RedisService;
 import com.craftmend.openaudiomc.generic.redis.packets.adapter.RedisTypeAdapter;
 import com.craftmend.openaudiomc.generic.core.interfaces.TaskProvider;
 import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
-import com.craftmend.openaudiomc.generic.updates.UpdateService;
-import com.craftmend.openaudiomc.generic.voice.VoiceRoomManager;
+import com.craftmend.openaudiomc.generic.enviroment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.state.StateService;
 
+import com.craftmend.openaudiomc.generic.voicechat.interfaces.VoiceManagerImplementation;
 import com.craftmend.openaudiomc.spigot.modules.show.adapter.RunnableTypeAdapter;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 
@@ -61,13 +61,13 @@ public class OpenAudioMc {
      * - Update Service          []   (Checks the master branch every once in a while to compare versions)
      */
     private final AuthenticationService authenticationService = new AuthenticationService();
-    private final VoiceRoomManager voiceRoomManager = new VoiceRoomManager();
     private final StateService stateService = new StateService();
     private final TimeService timeService = new TimeService();
     private final MediaModule mediaModule = new MediaModule();
-    private final UpdateService updateService;
+    private final GlobalConstantService globalConstantService;
     private final NetworkingService networkingService;
     private final ConfigurationImplementation configurationImplementation;
+    private final VoiceManagerImplementation voiceManagerImplementation;
     private final CommandModule commandModule;
     private final TaskProvider taskProvider;
     private final RedisService redisService;
@@ -94,14 +94,15 @@ public class OpenAudioMc {
         this.cleanStartup = !this.invoker.hasPlayersOnline();
         this.taskProvider = invoker.getTaskProvider();
         this.configurationImplementation = invoker.getConfigurationProvider();
-
+        this.voiceManagerImplementation = invoker.getVoiceImplementation();
         this.authenticationService.initialize();
+        globalConstantService = new GlobalConstantService();
 
-        updateService = new UpdateService();
         new MigrationWorker().handleMigrations(this);
+
         this.redisService = new RedisService(this.configurationImplementation);
         this.networkingService = serviceImplementation.getConstructor().newInstance();
-        this.commandModule = new CommandModule();
+        this.commandModule = new CommandModule(this);
         this.plusService = new PlusService(this);
     }
 

@@ -4,9 +4,6 @@ import com.craftmend.openaudiomc.generic.media.interfaces.UrlMutation;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.PlayerSession;
 import com.craftmend.openaudiomc.generic.platform.Platform;
-import com.craftmend.openaudiomc.generic.voice.exception.InvalidCallParameterException;
-import com.craftmend.openaudiomc.generic.voice.exception.RequestPendingException;
-import com.craftmend.openaudiomc.generic.voice.objects.RoomPrototype;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
@@ -84,14 +81,6 @@ public class OpenAudioApi {
      */
     public PlayerSession getSession(UUID player) {
         return getClient(player).getSession();
-    }
-
-    /**
-     * Attempt to create a call with members, and return the call id and a list
-     * of members who could sucessfully be added to a call
-     */
-    public RoomPrototype createVoiceCall(List<ClientConnection> connections) throws RequestPendingException, InvalidCallParameterException {
-        return OpenAudioMc.getInstance().getVoiceRoomManager().createCall(connections);
     }
 
 }

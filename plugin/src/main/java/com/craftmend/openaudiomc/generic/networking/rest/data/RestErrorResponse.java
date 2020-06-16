@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class RestErrorResponse {
 
     private String message;
-    private String code;
+    private RestErrorType code;
 
 }

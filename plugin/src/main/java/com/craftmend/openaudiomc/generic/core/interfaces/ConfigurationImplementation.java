@@ -16,6 +16,7 @@ public interface ConfigurationImplementation {
     Set<String> getStringSet(String path, StorageLocation storageLocation);
     void setString(StorageKey storageKey, String string);
     void setString(StorageLocation storageLocation, String path, String string);
+    void setBoolean(StorageKey location, boolean value);
     void setInt(StorageLocation storageLocation, String path, int value);
     boolean getBoolean(StorageKey storageKey);
     Object get(StorageKey storageKey);

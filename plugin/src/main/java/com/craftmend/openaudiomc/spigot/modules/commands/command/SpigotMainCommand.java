@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecut
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
+import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
@@ -25,6 +26,7 @@ public class SpigotMainCommand implements CommandExecutor, TabCompleter {
     private OpenAudioMcSpigot openAudioMcSpigot;
     private CommandModule commandModule = OpenAudioMc.getInstance().getCommandModule();
     private CommandMiddleware[] commandMiddleware = new CommandMiddleware[] {
+            new CatchLegalBindingMiddleware(),
             new CatchCrashMiddleware(),
             new CleanStateCheckMiddleware()
     };

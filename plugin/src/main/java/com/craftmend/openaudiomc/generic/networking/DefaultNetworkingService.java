@@ -17,7 +17,6 @@ import com.craftmend.openaudiomc.generic.networking.packets.client.speakers.Pack
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.player.ProxiedPlayerAdapter;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
-import com.craftmend.openaudiomc.generic.voice.packets.subtypes.RoomMember;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import lombok.Getter;
@@ -27,14 +26,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.*;
-import java.util.function.Consumer;
 
 public class DefaultNetworkingService extends NetworkingService {
 
     @Getter
-    private Set<INetworkingEvents> eventHandlers = new HashSet<>();
-    private Map<UUID, ClientConnection> clientMap = new HashMap<>();
-    private Map<PacketChannel, PayloadHandler<?>> packetHandlerMap = new HashMap<>();
+    private final Set<INetworkingEvents> eventHandlers = new HashSet<>();
+    private final Map<UUID, ClientConnection> clientMap = new HashMap<>();
+    private final Map<PacketChannel, PayloadHandler<?>> packetHandlerMap = new HashMap<>();
     private SocketIoConnector socketIoConnector;
 
     /**
@@ -117,7 +115,7 @@ public class DefaultNetworkingService extends NetworkingService {
      * @param type    channel id
      * @param handler handler
      */
-    private void registerHandler(PacketChannel type, PayloadHandler handler) {
+    private void registerHandler(PacketChannel type, PayloadHandler<?> handler) {
         packetHandlerMap.put(type, handler);
     }
 
@@ -164,13 +162,9 @@ public class DefaultNetworkingService extends NetworkingService {
 
             // are we in stand alone mode? then kick this client
             if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
-                if (OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.STAND_ALONE) {
-                    client.kick();
-                    OpenAudioMc.getInstance().getVoiceRoomManager().removePlayer(client);
-                }
+                if (OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.STAND_ALONE) client.kick();
             } else {
                 client.kick();
-                OpenAudioMc.getInstance().getVoiceRoomManager().removePlayer(client);
             }
 
             clientMap.remove(player);
@@ -197,11 +191,6 @@ public class DefaultNetworkingService extends NetworkingService {
     @Override
     public void stop() {
         socketIoConnector.disconnect();
-    }
-
-    @Override
-    public void requestRoomCreation(List<RoomMember> members, Consumer<Boolean> wasSucessful) {
-        this.socketIoConnector.createRoom(members, wasSucessful);
     }
 
     @Override
