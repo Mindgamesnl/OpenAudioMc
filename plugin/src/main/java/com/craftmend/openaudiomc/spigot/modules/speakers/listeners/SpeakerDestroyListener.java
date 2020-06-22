@@ -37,6 +37,8 @@ public class SpeakerDestroyListener implements Listener {
             speakerModule.unlistSpeaker(location);
 
             //save to config
+            openAudioMc.getConfigurationImplementation().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".type", null);
+            openAudioMc.getConfigurationImplementation().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".radius", null);
             openAudioMc.getConfigurationImplementation().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".world", null);
             openAudioMc.getConfigurationImplementation().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".x", null);
             openAudioMc.getConfigurationImplementation().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".y", null);
