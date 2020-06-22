@@ -26,6 +26,7 @@ public class CommandTranslationMiddleware implements Listener {
         // check if the command is a openaudiomc command
         parts[0] = parts[0].toLowerCase();
 
+        if (parts.length < 2) return;
         if (!OpenAudioMc.getInstance().getCommandModule().getAliases().contains(parts[0])) return;
 
         // get the command
