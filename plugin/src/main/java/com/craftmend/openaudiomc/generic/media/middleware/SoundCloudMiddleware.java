@@ -6,6 +6,6 @@ public class SoundCloudMiddleware implements UrlMutation {
 
     @Override
     public String onRequest(String s) {
-        return "https://api.openaudiomc.net/stream.php?u=" + s;
+        return "https://weathered-dust-0281.craftmend.workers.dev/?u=" + s;
     }
 }
