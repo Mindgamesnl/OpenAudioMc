@@ -28,7 +28,7 @@ This document overrides the license as used before May 20th, 2020 at 7PM (UTC+2)
  - **Online Players**: OpenAudioMc Plus stores a list of the Player Names, OpenAudioMc-Tokens and Player UUID's for everyone online on a Minecraft server that has OpenAudioMc installed **AND** player synchronization enabled on the OA Plus panel. Data related to a Player gets removed once they Close the game after their session, or if a Player disables the setting in OpenAudioMc Plus.
  
 ## Removal of references
-We provide the option for Players with administrative privileges on their server to have their Server-Authentication removed along with all the other Data linked to it (settings and possibly active tokens). Please contact Me (Mats, Mindgamesnl) through the OpenAudioMc Discord (https://discord.openaudiomc.net/) or via the GitHub issues. I'll ask you for your public and private key (and other validation if I deem it necessary) before deleting all traces of your servers existence on the OpenAudioMc platform.
+We provide the option for Players with administrative privileges on their server to have their Server-Authentication removed along with all the other Data linked to it (settings and possibly active tokens). Please contact Me (Mats, Mindgamesnl) through the OpenAudioMc Discord (https://discord.gg/6TagKB9/) or via the GitHub issues. I'll ask you for your public and private key (and other validation if I deem it necessary) before deleting all traces of your servers existence on the OpenAudioMc platform.
 
 ## Other terms, Notes and Rules
  - All services and features OpenAudioMc provides for free (so that's excluding partner-specific features) may not be locked behind a paywall of any kind. Examples:
