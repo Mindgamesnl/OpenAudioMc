@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @NoArgsConstructor
-public class VoiceChatManager implements VoiceManagerImplementation {
+public class  VoiceChatManager implements VoiceManagerImplementation {
 
     private final Map<String, VoiceRoom> rooms = new HashMap<>();
 

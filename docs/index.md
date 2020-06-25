@@ -1,5 +1,5 @@
 # Help Topics
-Listed below are all the documentation topics and their articles, If you are still having problems after reading, feel free to join our [Discord](https://discord.openaudiomc.net/) and ask for help.
+Listed below are all the documentation topics and their articles, If you are still having problems after reading, feel free to join our [Discord](https://discord.gg/6TagKB9/) and ask for help.
 
 # Installation Articles
 How to install OpenAudioMc
