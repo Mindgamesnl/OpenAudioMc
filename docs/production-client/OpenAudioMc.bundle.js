@@ -89,8 +89,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                   return e + "/" + t;
                 };
               },
-                  S = x(y),
-                  A = x(b),
+                  A = x(y),
+                  S = x(b),
                   C = x(w),
                   B = x(v),
                   I = x(M),
@@ -100,11 +100,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 }), getConfig: a.bind(null, g), setConfig: l.bind(null, g), getFullState: a.bind(null, p), getLights: a.bind(null, y), getNewLights: a.bind(null, y + "/new"), searchForNewLights: function searchForNewLights() {
                   var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
                   return u(y, e);
-                }, getLight: d(a, S), setLight: d(l, S), setLightState: d(l, function (e) {
-                  return S(e) + "/state";
-                }), deleteLight: d(h, S), getGroups: a.bind(null, b), createGroup: u.bind(null, b), getGroup: d(a, A), setGroup: d(l, A), setGroupState: d(l, function (e) {
-                  return A(e) + "/action";
-                }), deleteGroup: d(h, A), getSchedules: a.bind(null, w), createSchedule: u.bind(null, w), getSchedule: d(a, C), setSchedule: d(l, C), deleteSchedule: d(h, C), scheduleCommandGenerator: function scheduleCommandGenerator() {
+                }, getLight: d(a, A), setLight: d(l, A), setLightState: d(l, function (e) {
+                  return A(e) + "/state";
+                }), deleteLight: d(h, A), getGroups: a.bind(null, b), createGroup: u.bind(null, b), getGroup: d(a, S), setGroup: d(l, S), setGroupState: d(l, function (e) {
+                  return S(e) + "/action";
+                }), deleteGroup: d(h, S), getSchedules: a.bind(null, w), createSchedule: u.bind(null, w), getSchedule: d(a, C), setSchedule: d(l, C), deleteSchedule: d(h, C), scheduleCommandGenerator: function scheduleCommandGenerator() {
                   return o(c(s), t, i, n).bridge(e).user(m);
                 }, getScenes: a.bind(null, v), createScene: u.bind(null, v), getScene: d(a, B), setScene: d(l, B), setSceneLightState: function setSceneLightState(e, t, i) {
                   return l(B(e) + "/lightstates/" + t, i);
@@ -292,14 +292,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     for (var e = "", t = "", i = 0; i < le && ve != Me; ++i) {
       e += T(12288 + (0 | 16383 * I(B(de[ve++] + 1, 0), 2))), t += T(12288 + (0 | 16383 * I(B(de[ve++] + 1, 0), 2))), ve == ke && (ve = 0);
     }return e + t;
-  }function S() {
+  }function A() {
     for (var e = "", t = 0; t < le && ve != Me; ++t) {
       e += T(12288 + (0 | 16383 * I(B(de[ve++] + 1, 0), 2))), ve == ke && (ve = 0);
     }return e;
-  }function A() {
+  }function S() {
     return (ve <= Me ? 0 : ke) + Me - ve;
   }function C(e) {
-    he = k(me), we = me, ve = 0, Me = 0, ke = B(me * Math.ceil(fe / e), le) << 1, ge ? (de = E(ke), be = new v(fe, e, 1, ke, !0), S) : (de = E(ke <<= 1), be = new v(fe, e, 2, ke, !0), x);
+    he = k(me), we = me, ve = 0, Me = 0, ke = B(me * Math.ceil(fe / e), le) << 1, ge ? (de = E(ke), be = new v(fe, e, 1, ke, !0), A) : (de = E(ke <<= 1), be = new v(fe, e, 2, ke, !0), x);
   }var B = Math.max,
       I = Math.min,
       T = String.fromCharCode,
@@ -1535,8 +1535,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       return new Promise(function (t, i) {
         _this19.tokenSet = new ne().fromUrl(window.location.href), w(_this19.host + "/api/v1/client/login/" + _this19.tokenSet.publicServerKey).then(function (n) {
           n.json().then(function (n) {
-            if (null == n.errors || 0 != n.errors.length) return i(n.errors), void console.log(n.errors);var o = n.response,
-                r = o.secureEndpoint;null == r && (r = o.insecureEndpoint), console.log("[OpenAudioMc] accepting and applying settings"), e.debugPrint("Updating settings...");var a = o.backgroundImage,
+            if (null == n.errors || 0 != n.errors.length) return i(n.errors), void console.log(n.errors);var o = n.response;o.banned && (window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/blocked_domain.html");var r = o.secureEndpoint;null == r && (r = o.insecureEndpoint), console.log("[OpenAudioMc] accepting and applying settings"), e.debugPrint("Updating settings...");var a = o.backgroundImage,
                 l = o.title,
                 u = o.clientWelcomeMessage,
                 h = o.clientErrorMessage;var d = "";s(h).childNodes.forEach(function (e) {
@@ -1643,8 +1642,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   }, M.prototype.writeAudioNoCallback = function (e) {
     0 == this.audioType ? this.MOZWriteAudioNoCallback(e) : 1 == this.audioType ? this.callbackBasedWriteAudioNoCallback(e) : 2 == this.audioType && (this.checkFlashInit() || ue ? this.callbackBasedWriteAudioNoCallback(e) : this.mozAudioFound && this.MOZWriteAudioNoCallback(e));
   }, M.prototype.remainingBuffer = function () {
-    if (0 == this.audioType) return this.samplesAlreadyWritten - this.audioHandleMoz.mozCurrentSampleOffset();if (1 == this.audioType) return (A() * be.ratioWeight >> this.audioChannels - 1 << this.audioChannels - 1) + we;if (2 == this.audioType) {
-      if (this.checkFlashInit() || ue) return (A() * be.ratioWeight >> this.audioChannels - 1 << this.audioChannels - 1) + we;if (this.mozAudioFound) return this.samplesAlreadyWritten - this.audioHandleMoz.mozCurrentSampleOffset();
+    if (0 == this.audioType) return this.samplesAlreadyWritten - this.audioHandleMoz.mozCurrentSampleOffset();if (1 == this.audioType) return (S() * be.ratioWeight >> this.audioChannels - 1 << this.audioChannels - 1) + we;if (2 == this.audioType) {
+      if (this.checkFlashInit() || ue) return (S() * be.ratioWeight >> this.audioChannels - 1 << this.audioChannels - 1) + we;if (this.mozAudioFound) return this.samplesAlreadyWritten - this.audioHandleMoz.mozCurrentSampleOffset();
     }return 0;
   }, M.prototype.MOZExecuteCallback = function () {
     var e = ce - this.remainingBuffer();0 < e && this.writeMozAudio(this.underRunCallback(e));
@@ -1734,7 +1733,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       return t / 1e3 * e.getMaxFrameDuration();
     }, e;
   }(),
-      Se = function () {
+      Ae = function () {
     function e(e, t, i, n) {
       if (void 0 === n && (n = 20), this.handle = 0, this.frame_size = 0, this.in_ptr = 0, this.in_off = 0, this.out_ptr = 0, !xe.validFrameDuration(n)) throw "invalid frame duration";this.frame_size = e * n / 1e3;var o = allocate(4, "i32", ALLOC_STACK);if (this.handle = _opus_encoder_create(e, t, i, o), 0 != getValue(o, "i32")) throw "opus_encoder_create failed: " + getValue(o, "i32");this.in_ptr = _malloc(this.frame_size * t * 4), this.in_len = this.frame_size * t, this.in_i16 = HEAP16.subarray(this.in_ptr >> 1, (this.in_ptr >> 1) + this.in_len), this.in_f32 = HEAPF32.subarray(this.in_ptr >> 2, (this.in_ptr >> 2) + this.in_len), this.out_bytes = xe.getMaxFrameSize(), this.out_ptr = _malloc(this.out_bytes), this.out_buf = HEAPU8.subarray(this.out_ptr, this.out_ptr + this.out_bytes);
     }return e.prototype.encode = function (e) {
@@ -1757,7 +1756,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       this.handle && (_opus_encoder_destroy(this.handle), _free(this.in_ptr), this.handle = this.in_ptr = 0);
     }, e;
   }(),
-      Ae = function () {
+      Se = function () {
     function e(e, t) {
       this.handle = 0, this.in_ptr = 0, this.out_ptr = 0, this.channels = t;var i = allocate(4, "i32", ALLOC_STACK);if (this.handle = _opus_decoder_create(e, t, i), 0 != getValue(i, "i32")) throw "opus_decoder_create failed: " + getValue(i, "i32");this.in_ptr = _malloc(xe.getMaxFrameSize(t)), this.in_buf = HEAPU8.subarray(this.in_ptr, this.in_ptr + xe.getMaxFrameSize(t)), this.out_len = xe.getMaxSamplesPerChannel(e);var n = this.out_len * t * 4;this.out_ptr = _malloc(n), this.out_i16 = HEAP16.subarray(this.out_ptr >> 1, this.out_ptr + n >> 1), this.out_f32 = HEAPF32.subarray(this.out_ptr >> 2, this.out_ptr + n >> 2);
     }return e.prototype.decode = function (e) {
@@ -1872,7 +1871,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       _classCallCheck(this, Pe);
 
-      (_this24 = _possibleConstructorReturn(this, _Be2.call(this)), _this24), _this24.config = _this24.defaultConfig, _this24.config.codec = _this24.config.codec || _this24.defaultConfig.codec, _this24.config.server = _this24.config.server || _this24.defaultConfig.server, _this24.sampler = new Ee(_this24.config.codec.sampleRate, _this24.audioContext.sampleRate, 1, _this24.config.codec.bufferSize), _this24.parentSocket = t, _this24.decoder = new Ae(_this24.config.codec.sampleRate, _this24.config.codec.channels), _this24.silence = new Float32Array(_this24.config.codec.bufferSize);return _this24;
+      (_this24 = _possibleConstructorReturn(this, _Be2.call(this)), _this24), _this24.config = _this24.defaultConfig, _this24.config.codec = _this24.config.codec || _this24.defaultConfig.codec, _this24.config.server = _this24.config.server || _this24.defaultConfig.server, _this24.sampler = new Ee(_this24.config.codec.sampleRate, _this24.audioContext.sampleRate, 1, _this24.config.codec.bufferSize), _this24.parentSocket = t, _this24.decoder = new Se(_this24.config.codec.sampleRate, _this24.config.codec.channels), _this24.silence = new Float32Array(_this24.config.codec.bufferSize);return _this24;
     }
 
     Pe.prototype.start = function start() {
@@ -2039,7 +2038,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       _classCallCheck(this, Re);
 
-      (_this27 = _possibleConstructorReturn(this, _Be3.call(this)), _this27), _this27.config = e, _this27.config.codec = _this27.config.codec || _this27.defaultConfig.codec, _this27.sampler = new Ee(_this27.audioContext.sampleRate, _this27.config.codec.sampleRate, 1, _this27.config.codec.bufferSize), _this27.parentSocket = t, _this27.encoder = new Se(_this27.config.codec.sampleRate, _this27.config.codec.channels, _this27.config.codec.app, _this27.config.codec.frameDuration);return _this27;
+      (_this27 = _possibleConstructorReturn(this, _Be3.call(this)), _this27), _this27.config = e, _this27.config.codec = _this27.config.codec || _this27.defaultConfig.codec, _this27.sampler = new Ee(_this27.audioContext.sampleRate, _this27.config.codec.sampleRate, 1, _this27.config.codec.bufferSize), _this27.parentSocket = t, _this27.encoder = new Ae(_this27.config.codec.sampleRate, _this27.config.codec.channels, _this27.config.codec.app, _this27.config.codec.frameDuration);return _this27;
     }
 
     Re.prototype._makeStream = function _makeStream(e) {
