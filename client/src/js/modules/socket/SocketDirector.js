@@ -28,6 +28,10 @@ export class SocketDirector {
                         // handle the cool things
                         let response = result.response;
 
+                        if (response.banned) {
+                            window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/blocked_domain.html";
+                        }
+
                         // loop over them and try to find one with a secure tag
                         // if you cant find one like the blind fuck that
                         // you are or the server has no ssl enabled (like a debug env)
