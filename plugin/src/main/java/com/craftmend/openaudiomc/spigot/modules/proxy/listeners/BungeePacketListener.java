@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
+import com.craftmend.openaudiomc.generic.node.packets.ClientSyncHueStatePacket;
 import com.craftmend.openaudiomc.generic.node.packets.CommandProxyPacket;
 import com.craftmend.openaudiomc.spigot.modules.proxy.objects.FakeCommandSender;
 
@@ -25,6 +26,12 @@ public class BungeePacketListener implements PacketListener {
     public void onDisconnect(ClientDisconnectedPacket packet) {
         ClientConnection connection = OpenAudioMc.getInstance().getNetworkingService().getClient(packet.getClientUuid());
         if (connection != null) connection.onDisconnect();
+    }
+
+    @PacketHandler
+    public void onHue(ClientSyncHueStatePacket packet) {
+        ClientConnection connection = OpenAudioMc.getInstance().getNetworkingService().getClient(packet.getClientUuid());
+        connection.setHasHueLinked(true);
     }
 
     @PacketHandler

@@ -125,6 +125,7 @@ public class ClientConnection implements Authenticatable {
     @Override
     public void onConnect() {
         sessionUpdated = true;
+        if (isConnected) return;
         ConfigurationImplementation ConfigurationImplementation = OpenAudioMc.getInstance().getConfigurationImplementation();
 
         this.isConnected = true;
@@ -158,6 +159,7 @@ public class ClientConnection implements Authenticatable {
 
     @Override
     public void onDisconnect() {
+        if (!isConnected) return;
         sessionUpdated = true;
         this.isConnected = false;
         disconnectHandlers.forEach(event -> event.run());
@@ -254,8 +256,6 @@ public class ClientConnection implements Authenticatable {
     }
 
     public boolean getIsConnected() {
-        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE)
-            return true;
         return this.isConnected;
     }
 
