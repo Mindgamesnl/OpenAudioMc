@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class DependencyService implements Listener {
 
-    private Map<String, List<DependencyHandler>> handlerMap = new HashMap<>();
+    private final Map<String, List<DependencyHandler>> handlerMap = new HashMap<>();
 
     public DependencyService(OpenAudioMcSpigot spigot) {
         spigot.getServer().getPluginManager().registerEvents(this, spigot);

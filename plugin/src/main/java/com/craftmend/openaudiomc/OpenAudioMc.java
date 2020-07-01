@@ -20,8 +20,8 @@ import com.craftmend.openaudiomc.generic.core.interfaces.TaskProvider;
 import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
 import com.craftmend.openaudiomc.generic.enviroment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.state.StateService;
-
 import com.craftmend.openaudiomc.generic.voicechat.interfaces.VoiceManagerImplementation;
+
 import com.craftmend.openaudiomc.spigot.modules.show.adapter.RunnableTypeAdapter;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 

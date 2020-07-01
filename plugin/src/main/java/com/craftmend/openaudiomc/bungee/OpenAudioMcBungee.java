@@ -13,7 +13,6 @@ import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
-
 import com.craftmend.openaudiomc.generic.voicechat.VoiceChatManager;
 import com.craftmend.openaudiomc.generic.voicechat.interfaces.VoiceManagerImplementation;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
