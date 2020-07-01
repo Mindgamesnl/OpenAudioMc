@@ -15,5 +15,6 @@ public enum RestErrorType {
     INVALID_DATA,       // I understand what you mean, but no
     WTF,                // I don't know what, it just happened and exploded right in your face
     SERVER_OFFLINE,     // The server you tried to interact with is not registered
+    SERVER_BANNED,      // Server has been banned due to TOS, client url setting contains a URL to the ban page with details
 
 }
