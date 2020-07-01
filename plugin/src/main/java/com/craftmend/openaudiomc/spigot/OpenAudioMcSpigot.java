@@ -11,8 +11,9 @@ import com.craftmend.openaudiomc.generic.state.states.WorkerState;
 import com.craftmend.openaudiomc.generic.voicechat.implementations.MockVoiceImpl;
 import com.craftmend.openaudiomc.generic.voicechat.VoiceChatManager;
 import com.craftmend.openaudiomc.generic.voicechat.interfaces.VoiceManagerImplementation;
-import com.craftmend.openaudiomc.spigot.modules.commands.SpigotCommandModule;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
+
+import com.craftmend.openaudiomc.spigot.modules.commands.SpigotCommandModule;
 import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfigurationImplementation;
 import com.craftmend.openaudiomc.spigot.modules.proxy.ProxyModule;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
@@ -24,12 +25,11 @@ import com.craftmend.openaudiomc.spigot.modules.traincarts.service.TrainCartsSer
 import com.craftmend.openaudiomc.spigot.services.dependency.DependencyService;
 import com.craftmend.openaudiomc.spigot.services.scheduling.SpigotTaskProvider;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
-
 import com.craftmend.openaudiomc.spigot.modules.players.PlayerModule;
 import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
-
 import com.craftmend.openaudiomc.spigot.services.threading.ExecutorService;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;

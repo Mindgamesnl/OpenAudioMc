@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 public class DataWatcher<T> {
 
     private T value;
-    private int task;
+    private final int task;
     private Feeder<T> dataFeeder;
     private Consumer<T> callback;
     private boolean isRunning;
