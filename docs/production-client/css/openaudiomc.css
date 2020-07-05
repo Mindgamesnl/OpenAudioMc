@@ -10,10 +10,6 @@ body {
     background-size: cover;
 }
 
-.blur {
-    filter: blur(7px);
-}
-
 .dark-bg {
     background-position: -9999px;
     background: #1F1B24;
@@ -21,7 +17,6 @@ body {
 
 img {
     z-index: 1;
-    cursor: pointer;
 }
 
 p {

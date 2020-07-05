@@ -765,7 +765,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       _classCallCheck(this, D);
 
-      this.soundElement = new Audio(), this.hadError = !1, this.source = e, this.error = null, this.trackable = !1, this.soundElement.onerror = function (e) {
+      "https:" === location.protocol && e.includes("http") && !e.includes("https://") && (e = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + e), this.soundElement = new Audio(), this.hadError = !1, this.source = e, this.error = null, this.trackable = !1, this.soundElement.onerror = function (e) {
         _this7.hadError = !0, _this7.error = e, _this7._handleError();
       }, this.soundElement.src = e, this.soundElement.setAttribute("preload", "auto"), this.soundElement.setAttribute("controls", "none"), this.soundElement.setAttribute("display", "none"), this.soundElement.preload = "auto", this.soundElement.abort = console.log, this.openAudioMc = null, this.onFinish = null, this.loop = !1, this.mixer = null, this.channel = null, this.finsishedInitializing = !1, this.gotShutDown = !1;
     }
@@ -1535,7 +1535,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       return new Promise(function (t, i) {
         _this19.tokenSet = new ne().fromUrl(window.location.href), w(_this19.host + "/api/v1/client/login/" + _this19.tokenSet.publicServerKey).then(function (n) {
           n.json().then(function (n) {
-            if (null == n.errors || 0 != n.errors.length) return i(n.errors), void console.log(n.errors);var o = n.response;o.banned && (window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/blocked_domain.html");var r = o.secureEndpoint;null == r && (r = o.insecureEndpoint), console.log("[OpenAudioMc] accepting and applying settings"), e.debugPrint("Updating settings...");var a = o.backgroundImage,
+            if (null == n.errors || 0 != n.errors.length) return i(n.errors), void console.log(n.errors);var o = n.response;o.banned && (window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/blocked_domain.html");var r = o.secureEndpoint;null == r && (r = o.insecureEndpoint), console.log("[OpenAudioMc] accepting and applying settings"), e.debugPrint("Updating settings...");var a = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + o.backgroundImage,
                 l = o.title,
                 u = o.clientWelcomeMessage,
                 h = o.clientErrorMessage;var d = "";s(h).childNodes.forEach(function (e) {
