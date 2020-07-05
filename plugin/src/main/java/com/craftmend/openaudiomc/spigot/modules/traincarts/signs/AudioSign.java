@@ -9,10 +9,10 @@ import com.craftmend.openaudiomc.spigot.modules.traincarts.TrainCartsModule;
 
 public class AudioSign extends SignAction {
 
-    private static final String[] names = new String[] { "audio", "oa", "oam", "play" };
-    private final static SignActionType[] prerequisites = new SignActionType[] { SignActionType.GROUP_ENTER, SignActionType.REDSTONE_ON };
+    private static final String[] names = new String[]{"audio", "oa", "oam", "play"};
+    private final static SignActionType[] prerequisites = new SignActionType[]{SignActionType.GROUP_ENTER, SignActionType.REDSTONE_ON};
 
-    private TrainCartsModule trainCartsModule;
+    private final TrainCartsModule trainCartsModule;
 
     public AudioSign(TrainCartsModule trainCartsModule) {
         this.trainCartsModule = trainCartsModule;

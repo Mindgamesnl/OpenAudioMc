@@ -3,6 +3,13 @@ import * as PluginChannel from "../../../helpers/protocol/PluginChannel";
 export class Sound {
 
     constructor(source) {
+        // if the page is SSL, but source is http, then proxy it, but only if it is http at all
+        if (location.protocol === 'https:') {
+            if (source.includes("http") && !source.includes("https://")) {
+                source = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + source;
+            }
+        }
+
         this.soundElement = new Audio();
 
         this.hadError = false;
