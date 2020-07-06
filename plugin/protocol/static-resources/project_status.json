@@ -1,7 +1,7 @@
 {
   "versioning": {
-    "version_tag": "6.3",
-    "version_importance": "&4important",
+    "version_tag": "6.3.2",
+    "version_importance": "&aoptional",
     "version_update_message": "This update includes some fixes, and hugs"
   },
 
