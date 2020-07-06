@@ -9,7 +9,7 @@ public class GoogleDriveMiddleware implements UrlMutation {
         // check if it's a valid google drive link with 6 /'s
         String[] parts = original.split("/");
         if (parts.length != 7) return original;
-        return "http://docs.google.com/uc?export=open&id=" + parts[5];
+        return "https://openaudio-google-proxy.craftmend.workers.dev/?id=" + parts[5];
     }
 
 }
