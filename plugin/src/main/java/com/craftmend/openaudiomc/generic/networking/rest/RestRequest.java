@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
+import lombok.Getter;
 import lombok.Setter;
 import okhttp3.*;
 
@@ -17,7 +18,7 @@ public class RestRequest {
 
     public static final OkHttpClient client = new OkHttpClient();
     private final String endpoint;
-    @Setter private String body = null;
+    @Getter @Setter private String body = null;
     private final Map<String, String> variables = new HashMap<>();
 
     public RestRequest(RestEndpoint endpoint) {
@@ -49,7 +50,8 @@ public class RestRequest {
             try {
                 return OpenAudioMc.getGson().fromJson(output, ApiResponse.class);
             } catch (Exception e) {
-                OpenAudioLogger.toConsole("Failed to handle output: " + output);
+                OpenAudioLogger.toConsole("Failed to handle output on endpoint " + endpoint + " : " + output + ".");
+                e.printStackTrace();
             }
         } catch (Exception e) {
             OpenAudioMc.getInstance().getStateService().setState(new IdleState("Net exception"));
@@ -72,14 +74,12 @@ public class RestRequest {
     }
 
     private String readHttp(String url) throws IOException {
-        Request.Builder request = new Request.Builder()
-                .url(url);
+        Request.Builder request = new Request.Builder().url(url);
 
         if (this.body == null) {
             request = request.get();
         } else {
-            RequestBody body = RequestBody.create(
-                    MediaType.parse("application/json"), this.body);
+            RequestBody body = RequestBody.create(MediaType.parse("application/json"), this.body);
             request = request.post(body);
         }
 
