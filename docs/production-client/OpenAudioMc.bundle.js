@@ -765,7 +765,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       _classCallCheck(this, D);
 
-      "https:" === location.protocol && e.includes("http") && !e.includes("https://") && (e = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + e), this.soundElement = new Audio(), this.hadError = !1, this.source = e, this.error = null, this.trackable = !1, this.soundElement.onerror = function (e) {
+      if (e.includes("http://docs.google.com/uc?export=open&id=")) {
+        var _t5 = e.replace("http://docs.google.com/uc?export=open&id=", "https://openaudio-google-proxy.craftmend.workers.dev/?id=");e = _t5;
+      }"https:" === location.protocol && e.includes("http") && !e.includes("https://") && (e = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + e), this.soundElement = new Audio(), this.hadError = !1, this.source = e, this.error = null, this.trackable = !1, this.soundElement.onerror = function (e) {
         _this7.hadError = !0, _this7.error = e, _this7._handleError();
       }, this.soundElement.src = e, this.soundElement.setAttribute("preload", "auto"), this.soundElement.setAttribute("controls", "none"), this.soundElement.setAttribute("display", "none"), this.soundElement.preload = "auto", this.soundElement.abort = console.log, this.openAudioMc = null, this.onFinish = null, this.loop = !1, this.mixer = null, this.channel = null, this.finsishedInitializing = !1, this.gotShutDown = !1;
     }
@@ -777,7 +779,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     D.prototype._handleError = function _handleError() {
       if (this.hadError && null != this.openAudioMc && "error" == this.error.type) {
         var _e12 = this.soundElement.error.code,
-            _t5 = null;1 === _e12 ? _t5 = "MEDIA_ERR_ABORTED" : 2 === _e12 ? _t5 = "MEDIA_ERR_NETWORK" : 3 === _e12 ? _t5 = "MEDIA_ERR_DECODE" : 4 === _e12 && (_t5 = "MEDIA_ERR_SRC_NOT_SUPPORTED"), null != _t5 && (console.log("[OpenAudioMc] Reporting media failure " + _t5), this.openAudioMc.socketModule.send("media_failure", { mediaError: _t5, source: this.soundElement.src }));
+            _t6 = null;1 === _e12 ? _t6 = "MEDIA_ERR_ABORTED" : 2 === _e12 ? _t6 = "MEDIA_ERR_NETWORK" : 3 === _e12 ? _t6 = "MEDIA_ERR_DECODE" : 4 === _e12 && (_t6 = "MEDIA_ERR_SRC_NOT_SUPPORTED"), null != _t6 && (console.log("[OpenAudioMc] Reporting media failure " + _t6), this.openAudioMc.socketModule.send("media_failure", { mediaError: _t6, source: this.soundElement.src }));
       }
     };
 
@@ -798,7 +800,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         };var t = !1;var i = function i() {
           if (!_this8.gotShutDown) {
             if (!t) {
-              var _t6 = _this8.soundElement.play();_t6 instanceof Promise ? _t6.then(e).catch(e) : e();
+              var _t7 = _this8.soundElement.play();_t7 instanceof Promise ? _t7.then(e).catch(e) : e();
             }t = !0;
           }
         };_this8.soundElement.onplay = function () {
@@ -858,8 +860,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       if (null != this.startSound) {
         var _e13 = new U("startsound"),
-            _t7 = new D(this.startSound);_t7.openAudioMc = this.openAudioMc, _t7.setOa(this.openAudioMc), _t7.finalize().then(function () {
-          _this10.mixer.addChannel(_e13), _e13.addSound(_t7), _e13.setChannelVolume(100), _e13.updateFromMasterVolume(), _t7.finish();
+            _t8 = new D(this.startSound);_t8.openAudioMc = this.openAudioMc, _t8.setOa(this.openAudioMc), _t8.finalize().then(function () {
+          _this10.mixer.addChannel(_e13), _e13.addSound(_t8), _e13.setChannelVolume(100), _e13.updateFromMasterVolume(), _t8.finish();
         });
       }
     };
@@ -1056,8 +1058,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       try {
         for (var _iterator11 = e.rows[Symbol.iterator](), _step11; !(_iteratorNormalCompletion11 = (_step11 = _iterator11.next()).done); _iteratorNormalCompletion11 = true) {
-          var _t8 = _step11.value;
-          this.lines.push(this.rowToHtml(_t8));
+          var _t9 = _step11.value;
+          this.lines.push(this.rowToHtml(_t9));
         }
       } catch (err) {
         _didIteratorError11 = true;
@@ -1120,8 +1122,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       try {
         for (var _iterator13 = e.styles[Symbol.iterator](), _step13; !(_iteratorNormalCompletion13 = (_step13 = _iterator13.next()).done); _iteratorNormalCompletion13 = true) {
-          var _t9 = _step13.value;
-          "BOLD" === _t9 ? (i.push("<b>"), n.push("</b>")) : "ITALLIC" === _t9 ? (i.push("<i>"), n.push("</i>")) : "UNDERLINE" === _t9 && (i.push("<u>"), n.push("</u>"));
+          var _t10 = _step13.value;
+          "BOLD" === _t10 ? (i.push("<b>"), n.push("</b>")) : "ITALLIC" === _t10 ? (i.push("<i>"), n.push("</i>")) : "UNDERLINE" === _t10 && (i.push("<u>"), n.push("</u>"));
         }
       } catch (err) {
         _didIteratorError13 = true;
@@ -1312,8 +1314,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         try {
           for (var _iterator16 = e.getMediaManager().mixer.getChannels()[Symbol.iterator](), _step16; !(_iteratorNormalCompletion16 = (_step16 = _iterator16.next()).done); _iteratorNormalCompletion16 = true) {
-            var _t10 = _step16.value;
-            _t10.hasTag(i) && _t10.fadeChannel(_this15.convertDistanceToVolume(_t10.maxDistance, o), n);
+            var _t11 = _step16.value;
+            _t11.hasTag(i) && _t11.fadeChannel(_this15.convertDistanceToVolume(_t11.maxDistance, o), n);
           }
         } catch (err) {
           _didIteratorError16 = true;
@@ -2003,8 +2005,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           }
 
           if (_i5 += "</select>", _this26.show('<div style="text-align: center;">What microphone would you like to use in this voicecall?<br /><small>changes can take a second or two to apply</small><br />' + _i5 + '<div id="mic-loader" style="display:none;"><h2>Switching mic input. Please wait.</h2><div class="loader"></div></div></div>'), null != Cookies.get("default-mic")) {
-            var _e21 = document.getElementById("select-mic-dropdown");for (var _t11 = 0; _t11 < _e21.options.length; _t11++) {
-              _e21.options[_t11].innerText === Cookies.get("default-mic") && (_e21.options[_t11].selected = !0);
+            var _e21 = document.getElementById("select-mic-dropdown");for (var _t12 = 0; _t12 < _e21.options.length; _t12++) {
+              _e21.options[_t12].innerText === Cookies.get("default-mic") && (_e21.options[_t12].selected = !0);
             }
           }document.getElementById("select-mic-dropdown").onchange = function (t) {
             document.getElementById("select-mic-dropdown").disabled = !0, document.getElementById("select-mic-dropdown").style.display = "none", document.getElementById("mic-loader").style.display = "", Cookies.set("default-mic", t.target.selectedOptions[0].childNodes[0].data), e(_this26.getId()), setTimeout(function () {
