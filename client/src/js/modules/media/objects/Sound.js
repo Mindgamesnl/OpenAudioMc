@@ -3,6 +3,12 @@ import * as PluginChannel from "../../../helpers/protocol/PluginChannel";
 export class Sound {
 
     constructor(source) {
+        // work around for the old google docs system, for those who didn't update yet
+        if (source.includes("http://docs.google.com/uc?export=open&id=")) {
+            let craftmendProxy = source.replace("http://docs.google.com/uc?export=open&id=", "https://openaudio-google-proxy.craftmend.workers.dev/?id=")
+            source = craftmendProxy;
+        }
+
         // if the page is SSL, but source is http, then proxy it, but only if it is http at all
         if (location.protocol === 'https:') {
             if (source.includes("http") && !source.includes("https://")) {
