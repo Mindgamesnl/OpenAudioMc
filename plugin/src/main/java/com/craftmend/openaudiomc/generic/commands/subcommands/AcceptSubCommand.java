@@ -15,6 +15,7 @@ public class AcceptSubCommand extends SubCommand {
     public void onExecute(GenericExecutor sender, String[] args) {
         // set the value to true
         OpenAudioMc.getInstance().getConfigurationImplementation().setBoolean(StorageKey.LEGAL_ACCEPTED_TOS_AND_PRIVACY, true);
+        OpenAudioMc.getInstance().getConfigurationImplementation().saveAll();
         sender.sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + "Welcome to OpenAudioMc! you accepted the terms, enjoy the service!");
     }
 }
