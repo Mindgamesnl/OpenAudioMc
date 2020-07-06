@@ -25,7 +25,7 @@ public class CatchLegalBindingMiddleware implements CommandMiddleware {
             if (subCommand instanceof AcceptSubCommand) return true;
         }
 
-        if (config.getBoolean(StorageKey.LEGAL_ACCEPTED_TOS_AND_PRIVACY)) {
+        if (!config.getBoolean(StorageKey.LEGAL_ACCEPTED_TOS_AND_PRIVACY)) {
             List<String> lines = new ArrayList<>();
             lines.add(Platform.translateColors("&eWelcome to OpenAudioMc!"));
             lines.add(Platform.translateColors("&2You have to accept our &5Privacy and Terms Of Service&2 before you can start using the plugin."));
