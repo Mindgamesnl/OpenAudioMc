@@ -53,7 +53,7 @@
                   <shadedPattern>com.craftmend.thirdparty.okio.</shadedPattern>
                 </relocation>
                 <relocation>
-                  <pattern>org.</pattern>
+                  <pattern>org.projectlombok</pattern>
                   <shadedPattern>com.craftmend.thirdparty.org.</shadedPattern>
                 </relocation>
                 <relocation>

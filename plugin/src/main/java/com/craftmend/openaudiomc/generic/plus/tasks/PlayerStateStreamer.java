@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.generic.plus.object.PlusPlayer;
 import com.craftmend.openaudiomc.generic.plus.updates.PlayerUpdatePayload;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
+import org.bukkit.Bukkit;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,11 +21,12 @@ public class PlayerStateStreamer implements Runnable {
 
     public PlayerStateStreamer(PlusService service, OpenAudioMc main) {
         this.main = main;
-        deleteAll(true);
 
         // is it enabled? No? Then dont start the task
         if (!service.isPlusEnabled()) return;
         if (main.getInvoker().isSlave()) return;
+
+        deleteAll(true);
 
         // update every 5 seconds
         int timeout = 20 * 5;
@@ -33,6 +35,7 @@ public class PlayerStateStreamer implements Runnable {
 
     public void deleteAll(boolean sync) {
         PlayerUpdatePayload playerUpdatePayload = new PlayerUpdatePayload(main.getAuthenticationService().getServerKeySet().getPrivateKey().getValue());
+        if (playerUpdatePayload.getPrivateKey() == null) return;
         playerUpdatePayload.setForceClear(true);
         update(playerUpdatePayload, sync);
         trackedPlayers.clear();
@@ -76,11 +79,12 @@ public class PlayerStateStreamer implements Runnable {
 
     private void update(PlayerUpdatePayload playerUpdatePayload, boolean sync) {
         RestRequest restRequest = new RestRequest(RestEndpoint.ENDPOINT_PLUS_UPDATE_PLAYERS);
-        restRequest.setBody(OpenAudioMc.getGson().toJson(playerUpdatePayload));
+        restRequest.setBody(playerUpdatePayload);
         if (sync) {
             restRequest.executeSync();
             return;
         }
+
         restRequest.execute().thenAccept(response -> {
             if (!response.getErrors().isEmpty()) {
                 OpenAudioLogger.toConsole("Warning, the server returned an error while updating player states!");
