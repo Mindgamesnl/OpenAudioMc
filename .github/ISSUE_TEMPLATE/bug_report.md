@@ -8,25 +8,16 @@ assignees: ''
 ---
 
 **Describe the bug**
-A clear and concise description of what the bug is.
-
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
-
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+A clear and concise description of what the bug is. We won't be able to help you without propper information to reproduce the bug. (please add links, sources etc if applicable)
 
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+ - Plugin Version: [eg, 6.3.2]
+ - Server Version: [eg, Paper spigot 1.12.2]
+ - Web client used: [client.openaudiomc.net (default)]
+ - Other setup details: [please note if you use bungeecord or run your server in offlinemode, remove otherwise]
 
 **Additional context**
 Add any other context about the problem here.
