@@ -45,7 +45,10 @@ export class SocketDirector {
                         console.log("[OpenAudioMc] accepting and applying settings")
 
                         openAudioMc.debugPrint("Updating settings...");
-                        const background = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + response.backgroundImage;
+                        if (response.backgroundImage != null &&  response.backgroundImage != "") {
+                            response.backgroundImage = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + response.backgroundImage;
+                        }
+                        const background = response.backgroundImage;
                         const title = response.title;
                         const welcomeMessage = response.clientWelcomeMessage;
                         const errorMessage = response.clientErrorMessage;

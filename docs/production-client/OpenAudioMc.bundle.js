@@ -1537,7 +1537,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       return new Promise(function (t, i) {
         _this19.tokenSet = new ne().fromUrl(window.location.href), w(_this19.host + "/api/v1/client/login/" + _this19.tokenSet.publicServerKey).then(function (n) {
           n.json().then(function (n) {
-            if (null == n.errors || 0 != n.errors.length) return i(n.errors), void console.log(n.errors);var o = n.response;o.banned && (window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/blocked_domain.html");var r = o.secureEndpoint;null == r && (r = o.insecureEndpoint), console.log("[OpenAudioMc] accepting and applying settings"), e.debugPrint("Updating settings...");var a = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + o.backgroundImage,
+            if (null == n.errors || 0 != n.errors.length) return i(n.errors), void console.log(n.errors);var o = n.response;o.banned && (window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/blocked_domain.html");var r = o.secureEndpoint;null == r && (r = o.insecureEndpoint), console.log("[OpenAudioMc] accepting and applying settings"), e.debugPrint("Updating settings..."), null != o.backgroundImage && "" != o.backgroundImage && (o.backgroundImage = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + o.backgroundImage);var a = o.backgroundImage,
                 l = o.title,
                 u = o.clientWelcomeMessage,
                 h = o.clientErrorMessage;var d = "";s(h).childNodes.forEach(function (e) {
