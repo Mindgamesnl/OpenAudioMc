@@ -45,27 +45,27 @@
                             <relocations>
                                 <relocation>
                                     <pattern>io.</pattern>
-                                    <shadedPattern>com.craftmend.thirdparty.io.</shadedPattern>
+                                    <shadedPattern>com.craftmend.thirdparty.io</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>reactor.</pattern>
-                                    <shadedPattern>com.craftmend.thirdparty.reactor.</shadedPattern>
+                                    <shadedPattern>com.craftmend.thirdparty.reactor</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>okhttp3</pattern>
-                                    <shadedPattern>com.craftmend.thirdparty.okhttp3.</shadedPattern>
+                                    <shadedPattern>com.craftmend.thirdparty.okhttp3</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>okio</pattern>
-                                    <shadedPattern>com.craftmend.thirdparty.okio.</shadedPattern>
+                                    <shadedPattern>com.craftmend.thirdparty.okio</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>org.projectlombok</pattern>
-                                    <shadedPattern>com.craftmend.thirdparty.org.</shadedPattern>
+                                    <shadedPattern>com.craftmend.thirdparty.org</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>kotlin</pattern>
-                                    <shadedPattern>com.craftmend.thirdparty.kotlin.</shadedPattern>
+                                    <shadedPattern>com.craftmend.thirdparty.kotlin</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
