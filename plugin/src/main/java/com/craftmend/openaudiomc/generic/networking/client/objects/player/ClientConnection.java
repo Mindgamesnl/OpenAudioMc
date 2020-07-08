@@ -68,7 +68,7 @@ public class ClientConnection implements Authenticatable {
         this.mixTracker = new MixTracker();
         refreshSession();
 
-        if (OpenAudioMc.getInstance().getConfigurationImplementation().getBoolean(StorageKey.SETTINGS_SEND_URL_ON_JOIN))
+        if (OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_SEND_URL_ON_JOIN))
             publishUrl();
 
         if (!OpenAudioMc.getInstance().getInvoker().isSlave()) {
@@ -81,7 +81,7 @@ public class ClientConnection implements Authenticatable {
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE)
             return;
 
-        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
+        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
         if (!config.getBoolean(StorageKey.LEGAL_ACCEPTED_TOS_AND_PRIVACY)) {
             new CatchLegalBindingMiddleware().continueCommand(player.asExecutor(), null);
             return;
@@ -126,7 +126,7 @@ public class ClientConnection implements Authenticatable {
     public void onConnect() {
         sessionUpdated = true;
         if (isConnected) return;
-        ConfigurationImplementation ConfigurationImplementation = OpenAudioMc.getInstance().getConfigurationImplementation();
+        ConfigurationImplementation ConfigurationImplementation = OpenAudioMc.getInstance().getConfiguration();
 
         this.isConnected = true;
         this.isWaitingToken = false;
@@ -174,7 +174,7 @@ public class ClientConnection implements Authenticatable {
         // Don't send if i'm spigot and a node
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE)
             return;
-        String message = OpenAudioMc.getInstance().getConfigurationImplementation().getString(StorageKey.MESSAGE_CLIENT_CLOSED);
+        String message = OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.MESSAGE_CLIENT_CLOSED);
         player.sendMessage(Platform.translateColors(message));
         this.mixTracker.clear();
     }
@@ -202,7 +202,7 @@ public class ClientConnection implements Authenticatable {
         if (volume < 0 || volume > 100) {
             throw new IllegalArgumentException("Volume must be between 0 and 100");
         }
-        player.sendMessage(Platform.translateColors(OpenAudioMc.getInstance().getConfigurationImplementation().getString(StorageKey.MESSAGE_CLIENT_VOLUME_CHANGED)).replaceAll("__amount__", volume + ""));
+        player.sendMessage(Platform.translateColors(OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.MESSAGE_CLIENT_VOLUME_CHANGED)).replaceAll("__amount__", volume + ""));
         OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientSetVolume(volume));
     }
 
@@ -245,12 +245,12 @@ public class ClientConnection implements Authenticatable {
     }
 
     public void tickClient() {
-        boolean remindToConnect = OpenAudioMc.getInstance().getConfigurationImplementation().getBoolean(StorageKey.SETTINGS_REMIND_TO_CONNECT);
+        boolean remindToConnect = OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_REMIND_TO_CONNECT);
 
         if (remindToConnect) {
-            int reminderInterval = OpenAudioMc.getInstance().getConfigurationImplementation().getInt(StorageKey.SETTINGS_REMIND_TO_CONNECT_INTERVAL);
+            int reminderInterval = OpenAudioMc.getInstance().getConfiguration().getInt(StorageKey.SETTINGS_REMIND_TO_CONNECT_INTERVAL);
             if (!getIsConnected() && (Duration.between(lastConnectPrompt, Instant.now()).toMillis() * 1000) > reminderInterval) {
-                player.sendMessage(Platform.translateColors(OpenAudioMc.getInstance().getConfigurationImplementation().getString(StorageKey.MESSAGE_PROMPT_TO_CONNECT)));
+                player.sendMessage(Platform.translateColors(OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.MESSAGE_PROMPT_TO_CONNECT)));
             }
         }
     }
@@ -276,7 +276,7 @@ public class ClientConnection implements Authenticatable {
 
     @Override
     public void handleError(MediaError error, String source) {
-        if (getPlayer().isAdministrator() && OpenAudioMc.getInstance().getConfigurationImplementation().getBoolean(StorageKey.SETTINGS_STAFF_TIPS)) {
+        if (getPlayer().isAdministrator() && OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_STAFF_TIPS)) {
             String prefix = OpenAudioMc.getInstance().getCommandModule().getCommandPrefix();
             getPlayer().sendMessage(prefix + "Something went wrong while playing a sound for you, here's what we know:");
             getPlayer().sendMessage(prefix + "what happened: " + error.getExplanation());

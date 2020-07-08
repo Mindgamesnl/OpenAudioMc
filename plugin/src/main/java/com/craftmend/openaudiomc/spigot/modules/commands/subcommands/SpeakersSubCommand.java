@@ -86,7 +86,7 @@ public class SpeakersSubCommand extends SubCommand {
 
             // create
             UUID id = UUID.randomUUID();
-            ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
+            ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
             int range = config.getInt(StorageKey.SETTINGS_SPEAKER_RANGE);
             SpeakerModule speakerModule = OpenAudioMcSpigot.getInstance().getSpeakerModule();
             speakerModule.registerSpeaker(mappedLocation, source, id, range, SpeakerModule.DEFAULT_SPEAKER_TYPE);
@@ -135,7 +135,7 @@ public class SpeakersSubCommand extends SubCommand {
             }
 
             // remove from cache
-            ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
+            ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
             SpeakerModule speakerModule = OpenAudioMcSpigot.getInstance().getSpeakerModule();
             Speaker speaker = speakerModule.getSpeaker(mappedLocation);
             speakerModule.unlistSpeaker(mappedLocation);

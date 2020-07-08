@@ -10,7 +10,7 @@ public class RegionMedia extends Media {
     public RegionMedia(String source, int volume) {
         super(source);
         setLoop(true);
-        setDoPickup(OpenAudioMc.getInstance().getConfigurationImplementation().getBoolean(StorageKey.SETTINGS_REGIONS_SYNC));
+        setDoPickup(OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_REGIONS_SYNC));
         setFadeTime(1000);
         setVolume(volume);
         setFlag(MediaFlag.REGION);

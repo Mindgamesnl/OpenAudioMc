@@ -27,7 +27,7 @@ public class ClientSettings {
      * @return ClientSettings
      */
     public ClientSettings load() {
-        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
+        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
         title = config.getString(StorageKey.SETTING_CLIENT_TITLE);
         background = config.getString(StorageKey.SETTING_CLIENT_BACKGROUND);
         welcomeMessage = config.getString(StorageKey.SETTING_CLIENT_WELCOME_TEXT);

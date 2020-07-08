@@ -27,7 +27,7 @@ public class AliasSubCommand extends SubCommand {
             String aliasName = args[0].toLowerCase();
             String aliasSource = args[1];
             OpenAudioMcSpigot.getInstance().getAliasModule().getAliasMap().put(aliasName, aliasSource);
-            OpenAudioMc.getInstance().getConfigurationImplementation().setString(StorageLocation.DATA_FILE, "aliases." + aliasName, aliasSource);
+            OpenAudioMc.getInstance().getConfiguration().setString(StorageLocation.DATA_FILE, "aliases." + aliasName, aliasSource);
             message(sender, ChatColor.GREEN + "Success! the alias " + ChatColor.YELLOW + "a:" + aliasName.toLowerCase() + ChatColor.GRAY + " will be read as " + ChatColor.YELLOW + aliasSource);
             return;
         }

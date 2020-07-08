@@ -66,8 +66,8 @@ public class OpenAudioMc {
     private final MediaModule mediaModule = new MediaModule();
     private final GlobalConstantService globalConstantService;
     private final NetworkingService networkingService;
-    private final ConfigurationImplementation configurationImplementation;
-    private final VoiceManagerImplementation voiceManagerImplementation;
+    private final ConfigurationImplementation configuration;
+    private final VoiceManagerImplementation voiceManager;
     private final CommandModule commandModule;
     private final TaskProvider taskProvider;
     private final RedisService redisService;
@@ -93,14 +93,14 @@ public class OpenAudioMc {
         this.invoker = invoker;
         this.cleanStartup = !this.invoker.hasPlayersOnline();
         this.taskProvider = invoker.getTaskProvider();
-        this.configurationImplementation = invoker.getConfigurationProvider();
-        this.voiceManagerImplementation = invoker.getVoiceImplementation();
+        this.configuration = invoker.getConfigurationProvider();
+        this.voiceManager = invoker.getVoiceImplementation();
         this.authenticationService.initialize();
         globalConstantService = new GlobalConstantService();
 
         new MigrationWorker().handleMigrations(this);
 
-        this.redisService = new RedisService(this.configurationImplementation);
+        this.redisService = new RedisService(this.configuration);
         this.networkingService = serviceImplementation.getConstructor().newInstance();
         this.commandModule = new CommandModule(this);
         this.plusService = new PlusService(this);
@@ -108,7 +108,7 @@ public class OpenAudioMc {
 
     public void disable() {
         isDisabled = true;
-        configurationImplementation.saveAll();
+        configuration.saveAll();
         try {
             redisService.shutdown();
             if (stateService.getCurrentState().isConnected()) {

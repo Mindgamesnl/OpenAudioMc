@@ -12,7 +12,6 @@ import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerSelect
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.WorldLoadListener;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.*;
 import com.craftmend.openaudiomc.spigot.modules.speakers.tasks.SpeakerGarbageCollection;
-import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerCreateListener;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerDestroyListener;
@@ -63,7 +62,7 @@ public class SpeakerModule {
             }
         }
 
-        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
+        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
 
         //load speakers
         for (String id : config.getStringSet("speakers", StorageLocation.DATA_FILE)) {
@@ -135,7 +134,7 @@ public class SpeakerModule {
     }
 
     public void loadFromFile(String id) {
-        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
+        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
 
         String world = config.getStringFromPath("speakers." + id + ".world", StorageLocation.DATA_FILE);
         String media = config.getStringFromPath("speakers." + id + ".media", StorageLocation.DATA_FILE);

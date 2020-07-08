@@ -9,7 +9,7 @@ public class TipsSettingMigration extends SimpleMigration {
 
     @Override
     public boolean shouldBeRun() {
-        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
+        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
         return !config.hasStorageKey(StorageKey.SETTINGS_STAFF_TIPS);
     }
 

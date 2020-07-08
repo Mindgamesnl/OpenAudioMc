@@ -94,7 +94,7 @@ public class RegionsSubCommand extends SubCommand {
             return;
         }
 
-        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
+        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
         if (args[0].equalsIgnoreCase("create") && args.length == 3) {
             args[1] = args[1].toLowerCase();
 

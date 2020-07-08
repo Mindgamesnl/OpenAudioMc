@@ -44,7 +44,7 @@ public class RegionModule {
             }
         }
 
-        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
+        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
 
         //load config
         for (String region : config.getStringSet("regions", StorageLocation.DATA_FILE)) {

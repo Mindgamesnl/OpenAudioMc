@@ -17,7 +17,7 @@ public abstract class SimpleMigration {
 
     protected void migrateFilesFromResources() {
         OpenAudioMc openAudioMc = OpenAudioMc.getInstance();
-        ConfigurationImplementation config = openAudioMc.getConfigurationImplementation();
+        ConfigurationImplementation config = openAudioMc.getConfiguration();
 
         // settings that should be moved over
         Map<StorageKey, Object> oldValues = new HashMap<>();
@@ -31,7 +31,7 @@ public abstract class SimpleMigration {
         // re-initialize entire module
         config.reloadConfig();
 
-        config = openAudioMc.getConfigurationImplementation();
+        config = openAudioMc.getConfiguration();
 
         // file handling is super SUPER weird, we need to manually update some fields
         File mainConfig = new File("plugins/OpenAudioMc/config.yml");
