@@ -8,6 +8,19 @@ export class Sound {
             let craftmendProxy = source.replace("http://docs.google.com/uc?export=open&id=", "https://openaudio-google-proxy.craftmend.workers.dev/?id=")
             source = craftmendProxy;
         }
+        if (source.includes("https://docs.google.com/uc?export=open&id=")) {
+            let craftmendProxy = source.replace("https://docs.google.com/uc?export=open&id=", "https://openaudio-google-proxy.craftmend.workers.dev/?id=")
+            source = craftmendProxy;
+        }
+
+        // handle youtube proxy, if peeps are interested in that but don't know how to
+        // basically for those who can't or wont read documentatino lmao
+        this.isYoutube = false;
+        if (source.includes("//youtu")) {
+            let ytId = source.split("v=")[1]
+            source = "https://fetch-yt.craftmend.workers.dev/?v=" + ytId;
+            this.isYoutube = true;
+        }
 
         // if the page is SSL, but source is http, then proxy it, but only if it is http at all
         if (location.protocol === 'https:') {
@@ -60,14 +73,24 @@ export class Sound {
             if (this.error.type == "error") {
                 let errorCode = this.soundElement.error.code;
                 let type = null;
-                if (errorCode === 1) {
-                    type = "MEDIA_ERR_ABORTED";
-                } else if (errorCode === 2) {
-                    type = "MEDIA_ERR_NETWORK";
-                } else if (errorCode === 3) {
-                    type = "MEDIA_ERR_DECODE";
-                } else if (errorCode === 4) {
-                    type = "MEDIA_ERR_SRC_NOT_SUPPORTED";
+
+                // depends really, if it is youtube, we can assume its a yt fuckup, if not, handle it like any other media
+                if (this.isYoutube) {
+                    if (this.openAudioMc.socketModule.supportsYoutube) {
+                        type = "YOUTUBE_ERR";
+                    } else {
+                        type = "MEDIA_ERR_SRC_NOT_SUPPORTED";
+                    }
+                } else {
+                    if (errorCode === 1) {
+                        type = "MEDIA_ERR_ABORTED";
+                    } else if (errorCode === 2) {
+                        type = "MEDIA_ERR_NETWORK";
+                    } else if (errorCode === 3) {
+                        type = "MEDIA_ERR_DECODE";
+                    } else if (errorCode === 4) {
+                        type = "MEDIA_ERR_SRC_NOT_SUPPORTED";
+                    }
                 }
 
                 if (type != null) {

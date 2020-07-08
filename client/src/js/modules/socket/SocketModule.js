@@ -7,6 +7,7 @@ export class SocketModule {
         this.handlers = {};
         this.openAudioMc = main;
         this.callbacksEnabled = false;
+        this.supportsYoutube = false;
         this.hasConnected = false;
         this.outgoingQueue = [];
 
