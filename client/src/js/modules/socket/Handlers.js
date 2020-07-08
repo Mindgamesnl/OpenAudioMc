@@ -145,6 +145,12 @@ export class Handlers {
                 console.log("[OpenAudioMc] PROTO rev => 2, enabling callbacks");
                 openAudioMc.socketModule.callbacksEnabled = true;
             }
+
+            if (revision => 3) {
+                // enable callbacks
+                console.log("[OpenAudioMc] PROTO rev => 3, enabling youtube callbacks");
+                openAudioMc.socketModule.supportsYoutube = true;
+            }
         });
 
         registerHandler("ClientVolumePayload", data => {
