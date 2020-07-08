@@ -769,7 +769,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         var _t5 = e.replace("http://docs.google.com/uc?export=open&id=", "https://openaudio-google-proxy.craftmend.workers.dev/?id=");e = _t5;
       }if (e.includes("https://docs.google.com/uc?export=open&id=")) {
         var _t6 = e.replace("https://docs.google.com/uc?export=open&id=", "https://openaudio-google-proxy.craftmend.workers.dev/?id=");e = _t6;
-      }if (this.isYoutube = !1, e.includes("//youtu")) {
+      }if (this.isYoutube = !1, e.includes("youtube") || e.includes("youtu.be")) {
         var _t7 = e.split("v=")[1];e = "https://fetch-yt.craftmend.workers.dev/?v=" + _t7, this.isYoutube = !0;
       }"https:" === location.protocol && e.includes("http") && !e.includes("https://") && (e = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + e), this.soundElement = new Audio(), this.hadError = !1, this.source = e, this.error = null, this.trackable = !1, this.soundElement.onerror = function (e) {
         _this7.hadError = !0, _this7.error = e, _this7._handleError();
