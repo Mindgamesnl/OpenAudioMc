@@ -140,13 +140,13 @@ export class Handlers {
             const revision = parseInt(data.protocolRevision);
 
             console.log("[OpenAudioMc] Received PROTOCOL revision update");
-            if (revision => 2) {
+            if (revision >= 2) {
                 // enable callbacks
                 console.log("[OpenAudioMc] PROTO rev => 2, enabling callbacks");
                 openAudioMc.socketModule.callbacksEnabled = true;
             }
 
-            if (revision => 3) {
+            if (revision >= 3) {
                 // enable callbacks
                 console.log("[OpenAudioMc] PROTO rev => 3, enabling youtube callbacks");
                 openAudioMc.socketModule.supportsYoutube = true;

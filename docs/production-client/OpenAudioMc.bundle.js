@@ -1296,11 +1296,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           } catch (t) {}
         }e.getMessages().apply();
       }), t("ClientVersionPayload", function (t) {
-        parseInt(t.protocolRevision), console.log("[OpenAudioMc] Received PROTOCOL revision update"), function () {
-          return 2;
-        } && (console.log("[OpenAudioMc] PROTO rev => 2, enabling callbacks"), e.socketModule.callbacksEnabled = !0), function () {
-          return 3;
-        } && (console.log("[OpenAudioMc] PROTO rev => 3, enabling youtube callbacks"), e.socketModule.supportsYoutube = !0);
+        var i = parseInt(t.protocolRevision);console.log("[OpenAudioMc] Received PROTOCOL revision update"), 2 <= i && (console.log("[OpenAudioMc] PROTO rev => 2, enabling callbacks"), e.socketModule.callbacksEnabled = !0), 3 <= i && (console.log("[OpenAudioMc] PROTO rev => 3, enabling youtube callbacks"), e.socketModule.supportsYoutube = !0);
       }), t("ClientVolumePayload", function (e) {
         var t = e.volume;_this15.openAudioMc.getMediaManager().setMasterVolume(t), document.getElementById("volume-slider").value = t;
       }), t("ClientDestroyMediaPayload", function (e) {
