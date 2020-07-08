@@ -16,7 +16,7 @@ export class Sound {
         // handle youtube proxy, if peeps are interested in that but don't know how to
         // basically for those who can't or wont read documentatino lmao
         this.isYoutube = false;
-        if (source.includes("//youtu")) {
+        if (source.includes("youtube") || source.includes("youtu.be")) {
             let ytId = source.split("v=")[1]
             source = "https://fetch-yt.craftmend.workers.dev/?v=" + ytId;
             this.isYoutube = true;
