@@ -17,7 +17,7 @@ public class ReloadSubCommand extends SubCommand {
     @Override
     public void onExecute(GenericExecutor sender, String[] args) {
         message(sender, Platform.makeColor("RED") + "Reloading OpenAudioMc (config and account details)...");
-        OpenAudioMc.getInstance().getConfigurationImplementation().reloadConfig();
+        OpenAudioMc.getInstance().getConfiguration().reloadConfig();
         OpenAudioMc.getInstance().getPlusService().getPlusSettings();
         for (ClientConnection client : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
             client.getSession().regenerate();

@@ -29,7 +29,7 @@ public class CommandModule {
         );
 
         // add accept sub command if the player is new
-        if (!openAudioMc.getConfigurationImplementation().getBoolean(StorageKey.LEGAL_ACCEPTED_TOS_AND_PRIVACY)) {
+        if (!openAudioMc.getConfiguration().getBoolean(StorageKey.LEGAL_ACCEPTED_TOS_AND_PRIVACY)) {
             registerSubCommand(new AcceptSubCommand());
         }
     }

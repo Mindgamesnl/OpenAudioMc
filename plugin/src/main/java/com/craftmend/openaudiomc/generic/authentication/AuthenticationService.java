@@ -34,7 +34,7 @@ public class AuthenticationService {
      * @return version
      */
     public int getAuthVersion() {
-        int version = OpenAudioMc.getInstance().getConfigurationImplementation().getInt(StorageKey.AUTH_KEY_VERSION);
+        int version = OpenAudioMc.getInstance().getConfiguration().getInt(StorageKey.AUTH_KEY_VERSION);
         return version == -1 ? 1 : version;
     }
 
@@ -43,7 +43,7 @@ public class AuthenticationService {
      * If they dont exist, then they will be requested by the cool oa api.
      */
     private void loadData() {
-        ConfigurationImplementation spigotConfigurationModule = OpenAudioMc.getInstance().getConfigurationImplementation();
+        ConfigurationImplementation spigotConfigurationModule = OpenAudioMc.getInstance().getConfiguration();
 
         // OpenAudioMc-Plus update
         int keyVersion = 3;

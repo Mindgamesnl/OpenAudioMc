@@ -140,7 +140,7 @@ public class SocketIoConnector {
             // disconnected, probably with a reason or something
             OpenAudioMc.getInstance().getStateService().setState(new IdleState("Disconnected from the socket"));
 
-            String message = Platform.translateColors(OpenAudioMc.getInstance().getConfigurationImplementation().getString(StorageKey.MESSAGE_LINK_EXPIRED));
+            String message = Platform.translateColors(OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.MESSAGE_LINK_EXPIRED));
             for (ClientConnection client : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
                 if (client.isWaitingToken()) {
                     client.getPlayer().sendMessage(message);

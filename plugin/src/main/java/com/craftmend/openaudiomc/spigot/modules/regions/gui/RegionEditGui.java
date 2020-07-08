@@ -41,7 +41,7 @@ public class RegionEditGui extends Menu {
                 )
                 .onClick((player, item) -> {
                     if (volume == region.getVolume()) return;
-                    ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
+                    ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
                     config.setInt(StorageLocation.DATA_FILE, "regionsvolume." + region.getId().toString(), volume);
                     region.setVolume(volume);
 

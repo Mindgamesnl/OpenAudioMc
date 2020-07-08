@@ -15,7 +15,7 @@ import java.util.List;
 public class CatchLegalBindingMiddleware implements CommandMiddleware {
     @Override
     public boolean continueCommand(GenericExecutor genericExecutor, SubCommand subCommand) {
-        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
+        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
 
         // skip if its a slave
         if (OpenAudioMc.getInstance().getInvoker().isSlave()) return true;

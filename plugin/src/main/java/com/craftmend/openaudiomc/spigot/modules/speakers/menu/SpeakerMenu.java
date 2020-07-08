@@ -83,7 +83,7 @@ public class SpeakerMenu extends Menu {
             int safeRadius = speaker.getRadius() + 1;
             Collection<Entity> entities = bukkitSpeakerLocation.getWorld().getNearbyEntities(bukkitSpeakerLocation, safeRadius, safeRadius, safeRadius);
 
-            ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
+            ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
             config.setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".type", nextSelectableMode.toString());
             config.saveAll();
 
@@ -121,7 +121,7 @@ public class SpeakerMenu extends Menu {
                 )
                 .onClick((player, item) -> {
                     if (distance == speaker.getRadius()) return;
-                    ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
+                    ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
                     config.setInt(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".radius", distance);
                     speaker.setRadius(distance);
                     player.sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + "Updated speaker radius to " + distance);

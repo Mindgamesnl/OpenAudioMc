@@ -39,8 +39,8 @@ public class GlobalConstantService {
     }
 
     private boolean allowChecks() {
-        boolean notifyUpdates = OpenAudioMc.getInstance().getConfigurationImplementation().getBoolean(StorageKey.SETTINGS_NOTIFY_UPDATES);
-        boolean notifyAnnouncements = OpenAudioMc.getInstance().getConfigurationImplementation().getBoolean(StorageKey.SETTINGS_NOTIFY_ANNOUNCEMENTS);
+        boolean notifyUpdates = OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_NOTIFY_UPDATES);
+        boolean notifyAnnouncements = OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_NOTIFY_ANNOUNCEMENTS);
         return notifyAnnouncements || notifyUpdates;
     }
 
@@ -50,8 +50,8 @@ public class GlobalConstantService {
         if (!allowChecks()) return;
         scheduleStatusUpdate();
 
-        boolean notifyUpdates = OpenAudioMc.getInstance().getConfigurationImplementation().getBoolean(StorageKey.SETTINGS_NOTIFY_UPDATES);
-        boolean notifyAnnouncements = OpenAudioMc.getInstance().getConfigurationImplementation().getBoolean(StorageKey.SETTINGS_NOTIFY_ANNOUNCEMENTS);
+        boolean notifyUpdates = OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_NOTIFY_UPDATES);
+        boolean notifyAnnouncements = OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_NOTIFY_ANNOUNCEMENTS);
 
         String prefix = OpenAudioMc.getInstance().getCommandModule().getCommandPrefix();
 

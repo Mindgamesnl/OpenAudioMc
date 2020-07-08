@@ -16,13 +16,13 @@ public class LocalClientToPlusMigration extends SimpleMigration {
     @Override
     public boolean shouldBeRun() {
         // only do the thing when there are values
-        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
+        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
         return config.hasStorageKey(StorageKey.SETTINGS_CLIENT_START_SOUND);
     }
 
     @Override
     public void execute() {
-        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
+        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
         
         ClientSettings settings = new ClientSettings().load();
         ClientSettingsResponse clientSettingsResponse = new ClientSettingsResponse();

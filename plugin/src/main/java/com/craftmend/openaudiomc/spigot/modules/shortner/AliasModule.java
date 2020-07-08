@@ -19,7 +19,7 @@ public class AliasModule {
         OpenAudioLogger.toConsole("Loading aliases...");
         OpenAudioMc.getInstance().getMediaModule().registerMutation("a:", new AliasMiddleware(this));
 
-        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfigurationImplementation();
+        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
 
         //load config
         for (String alias : config.getStringSet("aliases", StorageLocation.DATA_FILE)) {
