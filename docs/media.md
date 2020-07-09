@@ -9,14 +9,17 @@ OpenAudioMc supports multiple file formats for your sounds, these are:
 - Google Drive Public Share Link
 - DropBox Public Share Link
 - SoundCloud
+- YouTube (**BETA**)
 
 If you are running the client over SSL (https) all your content is also expected to go over SSL, any other content WILL be denied and won't play. A solution will be to switch the client over to normal `http://`
 
 It is possible to add support for other sources as well. OpenAudioMc has a java api to add support for url manipulations. This means that there are add-on plugins like [OpenAudioMc-Youtube](https://www.spigotmc.org/resources/openaudiomc-youtube-support.64584/) to expand the feature set.
 
 *Notes:*
+ - Youtube videos need to be public and big videos might not work. It's best to upload your own.
  - Some soundcloud artists block their music from being played on third party sites like OpenAudioMc, if a soundcloud song fails to play, its most likely this. You are best off uploading it to your own account (but be sure to set it to public)
  - GoogleDrive and DropBox share url's have to be public and permanent. Please note the permanent part, since it'd be a shame if your music suddenly stops playing.
+ 
 # Playback Options
 
 The OpenAudioMc audio format is what's being used throughout the network. It contains the source, and a UNIX timestamp for when the command was executed. This is defined by the plugin and does NOT get changed anywhere further on in the process.
