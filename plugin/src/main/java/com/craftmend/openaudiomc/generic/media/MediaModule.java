@@ -17,9 +17,8 @@ public class MediaModule {
 
     public MediaModule() {
         // register default mutations
-        registerMutation("https://drive.google.com", new GoogleDriveMiddleware());
         registerMutation("https://www.dropbox.com", new DropBoxMiddleware());
-        registerMutation("https://soundcloud.com", new SoundCloudMiddleware());
+        // note that google drive, soundcloud, ssl-proxy and youtube are handled client side
     }
 
     public void registerMutation(String host, UrlMutation urlMutation) {

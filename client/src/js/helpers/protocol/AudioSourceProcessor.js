@@ -22,6 +22,11 @@ export class AudioSourceProcessor {
             this.isYoutube = true;
         }
 
+        // handle soundcloud
+        if (source.includes("soundcloud.com")) {
+            source = "https://weathered-dust-0281.craftmend.workers.dev/?u=" + source;
+        }
+
         // if the page is SSL, but source is http, then proxy it, but only if it is http at all
         if (location.protocol === 'https:') {
             if (source.includes("http") && !source.includes("https://")) {
