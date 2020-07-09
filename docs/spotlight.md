@@ -1,5 +1,5 @@
 # Spotlight
-Recommended servers that shine with openaudiomc
+Amazing servers that use OpenAudioMc to power their experience
 
 | ImagineFun      | Sprookjescraft |
 | ----------- | ----------- |
