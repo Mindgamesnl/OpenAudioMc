@@ -1,16 +1,21 @@
 import ClientTokenSet from "../libs/ClientTokenSet";
 
+const API_ENDPOINTS = {
+    PROXY: "https://media.openaudiomc.net/proxy?apiurl=",
+    YOUTUBE: "https://media.openaudiomc.net/youtube?id=",
+    SOUNDCLOUD: "https://media.openaudiomc.net/soundcloud?u=",
+    DRIVE: "https://media.openaudiomc.net/googledrive?id="
+};
+
 export class AudioSourceProcessor {
 
     translate(source) {
         // work around for the old google docs system, for those who didn't update yet
         if (source.includes("http://docs.google.com/uc?export=open&id=")) {
-            let craftmendProxy = source.replace("http://docs.google.com/uc?export=open&id=", "https://media.openaudiomc.net/googledrive?id=");
-            source = craftmendProxy;
+            source = source.replace("http://docs.google.com/uc?export=open&id=", API_ENDPOINTS.DRIVE);
         }
         if (source.includes("https://docs.google.com/uc?export=open&id=")) {
-            let craftmendProxy = source.replace("https://docs.google.com/uc?export=open&id=", "https://media.openaudiomc.net/googledrive?id=");
-            source = craftmendProxy;
+            source = source.replace("https://docs.google.com/uc?export=open&id=", API_ENDPOINTS.DRIVE);
         }
 
         // handle youtube proxy, if peeps are interested in that but don't know how to
@@ -18,19 +23,19 @@ export class AudioSourceProcessor {
         this.isYoutube = false;
         if (source.includes("youtube") || source.includes("youtu.be")) {
             let ytId = source.split("v=")[1];
-            source = "https://media.openaudiomc.net/youtube?id=" + ytId;
+            source = API_ENDPOINTS.YOUTUBE + ytId;
             this.isYoutube = true;
         }
 
         // handle soundcloud
         if (source.includes("soundcloud.com")) {
-            source = "https://media.openaudiomc.net/soundcloud?u=" + source;
+            source = API_ENDPOINTS.SOUNDCLOUD + source;
         }
 
         // if the page is SSL, but source is http, then proxy it, but only if it is http at all
         if (location.protocol === 'https:') {
             if (source.includes("http") && !source.includes("https://")) {
-                source = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + source;
+                source = API_ENDPOINTS.PROXY + source;
             }
         }
 
