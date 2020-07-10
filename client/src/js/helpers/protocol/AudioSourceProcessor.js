@@ -5,11 +5,11 @@ export class AudioSourceProcessor {
     translate(source) {
         // work around for the old google docs system, for those who didn't update yet
         if (source.includes("http://docs.google.com/uc?export=open&id=")) {
-            let craftmendProxy = source.replace("http://docs.google.com/uc?export=open&id=", "https://openaudio-google-proxy.craftmend.workers.dev/?id=");
+            let craftmendProxy = source.replace("http://docs.google.com/uc?export=open&id=", "https://media.openaudiomc.net/googledrive?id=");
             source = craftmendProxy;
         }
         if (source.includes("https://docs.google.com/uc?export=open&id=")) {
-            let craftmendProxy = source.replace("https://docs.google.com/uc?export=open&id=", "https://openaudio-google-proxy.craftmend.workers.dev/?id=");
+            let craftmendProxy = source.replace("https://docs.google.com/uc?export=open&id=", "https://media.openaudiomc.net/googledrive?id=");
             source = craftmendProxy;
         }
 
@@ -18,13 +18,13 @@ export class AudioSourceProcessor {
         this.isYoutube = false;
         if (source.includes("youtube") || source.includes("youtu.be")) {
             let ytId = source.split("v=")[1];
-            source = "https://fetch-yt.craftmend.workers.dev/?v=" + ytId;
+            source = "https://media.openaudiomc.net/youtube?id=" + ytId;
             this.isYoutube = true;
         }
 
         // handle soundcloud
         if (source.includes("soundcloud.com")) {
-            source = "https://weathered-dust-0281.craftmend.workers.dev/?u=" + source;
+            source = "https://media.openaudiomc.net/soundcloud?u=" + source;
         }
 
         // if the page is SSL, but source is http, then proxy it, but only if it is http at all

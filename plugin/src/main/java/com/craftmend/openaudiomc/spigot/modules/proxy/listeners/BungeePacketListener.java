@@ -37,10 +37,8 @@ public class BungeePacketListener implements PacketListener {
     @PacketHandler
     public void onCommand(CommandProxyPacket packet) {
         Player player = Bukkit.getPlayer(packet.commandProxy.getExecutor());
-        if (player != null);
-
+        if (player == null) return;
         FakeCommandSender fakeCommandSender = new FakeCommandSender(player);
-
         OpenAudioMc.getInstance().getCommandModule().getSubCommand(packet.commandProxy.getCommandProxy().toString().toLowerCase()).onExecute(fakeCommandSender, packet.commandProxy.getArgs());
     }
 
