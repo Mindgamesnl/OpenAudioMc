@@ -3,8 +3,6 @@ package com.craftmend.openaudiomc.generic.media;
 import com.craftmend.openaudiomc.generic.media.interfaces.ForcedUrlMutation;
 import com.craftmend.openaudiomc.generic.media.interfaces.UrlMutation;
 import com.craftmend.openaudiomc.generic.media.middleware.DropBoxMiddleware;
-import com.craftmend.openaudiomc.generic.media.middleware.GoogleDriveMiddleware;
-import com.craftmend.openaudiomc.generic.media.middleware.SoundCloudMiddleware;
 
 import java.util.ArrayList;
 import java.util.HashMap;
