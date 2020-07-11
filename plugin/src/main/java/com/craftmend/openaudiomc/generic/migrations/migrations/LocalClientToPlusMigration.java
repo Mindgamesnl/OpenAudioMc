@@ -48,7 +48,7 @@ public class LocalClientToPlusMigration extends SimpleMigration {
         if (startSound != null && !startSound.equals("none") && !startSound.startsWith("<un"))
             clientSettingsResponse.setStartSound(startSound);
 
-        RestRequest upload = new RestRequest(RestEndpoint.ENDPOINT_PLUS_SAVE_SETTINGS);
+        RestRequest upload = new RestRequest(RestEndpoint.PLUS_PUSH_LEGACY_SETTINGS);
         upload.setBody(OpenAudioMc.getGson().toJson(new UploadSettingsWrapper(privateKey, clientSettingsResponse)));
         upload.executeSync();
 

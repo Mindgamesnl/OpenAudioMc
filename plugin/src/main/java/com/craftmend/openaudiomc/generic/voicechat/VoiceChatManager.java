@@ -47,7 +47,7 @@ public class  VoiceChatManager implements VoiceManagerImplementation {
 
         OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
             // try to make a request
-            ApiResponse response = new RestRequest(RestEndpoint.ENDPOINT_VOICE_CREATE)
+            ApiResponse response = new RestRequest(RestEndpoint.VOICE_CREATE_ROOM)
                     .setBody(new VoiceRoomRequestBody(members))
                     .executeSync();
 
