@@ -16,5 +16,6 @@ public enum RestErrorType {
     WTF,                // I don't know what, it just happened and exploded right in your face
     SERVER_OFFLINE,     // The server you tried to interact with is not registered
     SERVER_BANNED,      // Server has been banned due to TOS, client url setting contains a URL to the ban page with details
+    REQUEST_TOO_BIG,    // The request (probably post body) is too big to be handled (likely due to cloudflare caching rules)
 
 }

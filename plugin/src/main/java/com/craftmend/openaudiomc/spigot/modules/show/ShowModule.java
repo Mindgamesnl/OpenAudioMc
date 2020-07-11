@@ -1,9 +1,16 @@
 package com.craftmend.openaudiomc.spigot.modules.show;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.client.objects.plus.PlusSocketSession;
+import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
+import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
+import com.craftmend.openaudiomc.generic.networking.rest.interfaces.SimpleString;
 import com.craftmend.openaudiomc.generic.voicechat.api.util.Task;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
+import com.craftmend.openaudiomc.spigot.modules.show.networking.rest.ShowUploadBody;
 import com.craftmend.openaudiomc.spigot.modules.show.objects.Show;
 import com.craftmend.openaudiomc.spigot.modules.show.runnables.CommandRunnable;
 import org.bukkit.World;
@@ -28,12 +35,37 @@ public class ShowModule {
         openAudioMc = OpenAudioMc.getInstance();
     }
 
-    public Task<String> uploadShow(Show show) {
+    public Task<String> uploadShow(Show show, ClientConnection owner) {
         // upload show to the web editor and return the KEY
         Task<String> task = new Task<>();
 
         openAudioMc.getTaskProvider().runAsync(() -> {
+            // prepare object
+            ShowUploadBody body = new ShowUploadBody();
 
+            // create session
+            PlusSocketSession session = openAudioMc.getPlusService().getConnectionManager().createSessionForClient(owner);
+
+            body.setSession(session);
+            body.setName(owner.getOwnerName());
+            body.setPlayerUuid(owner.getOwnerUUID().toString());
+            body.setName(show.getShowName());
+            body.setShowData(show.toString());
+
+            // push
+            RestRequest restRequest = new RestRequest(RestEndpoint.WORKER_SHOWS_UPLOAD);
+            restRequest.setBody(body);
+
+            // execute here since we're already in an async thread
+            ApiResponse response = restRequest.executeSync();
+
+            if (!response.getErrors().isEmpty()) {
+                task.fail(response.getErrors().get(0).getCode());
+                return;
+            }
+
+            // probably a string, but we might change the response later to include Time Till Death etc
+            task.success(response.getResponse(SimpleString.class).getValue());
         });
 
         return task;
