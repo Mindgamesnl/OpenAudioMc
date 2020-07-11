@@ -23,7 +23,7 @@ public class AuthenticationService {
     private final String failureMessage = "Oh no, it looks like the initial setup of OpenAudioMc has failed. Please try to restart the server and try again, if that still does not work, please contact OpenAudioMc staff or support.";
 
     public void initialize() {
-        registrationProvider = new RestRequest(RestEndpoint.ENDPOINT_REGISTER);
+        registrationProvider = new RestRequest(RestEndpoint.PLUS_REGISTER);
         OpenAudioLogger.toConsole("Starting authentication module");
         loadData();
     }

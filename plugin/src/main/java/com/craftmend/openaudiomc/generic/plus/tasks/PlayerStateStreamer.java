@@ -8,7 +8,6 @@ import com.craftmend.openaudiomc.generic.plus.object.PlusPlayer;
 import com.craftmend.openaudiomc.generic.plus.updates.PlayerUpdatePayload;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
-import org.bukkit.Bukkit;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -78,7 +77,7 @@ public class PlayerStateStreamer implements Runnable {
     }
 
     private void update(PlayerUpdatePayload playerUpdatePayload, boolean sync) {
-        RestRequest restRequest = new RestRequest(RestEndpoint.ENDPOINT_PLUS_UPDATE_PLAYERS);
+        RestRequest restRequest = new RestRequest(RestEndpoint.PLUS_UPDATE_PLAYERS);
         restRequest.setBody(playerUpdatePayload);
         if (sync) {
             restRequest.executeSync();
