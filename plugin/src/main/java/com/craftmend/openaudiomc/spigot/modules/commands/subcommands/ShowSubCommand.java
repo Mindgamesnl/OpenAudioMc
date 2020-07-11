@@ -96,7 +96,6 @@ public class ShowSubCommand extends SubCommand {
             }
             Player player = (Player) sender.getOriginal();
             ShowRunnable task = openAudioMcSpigot.getShowModule().createRunnable(args[3], data.toString(), player.getWorld());
-
             if (task == null) {
                 sender.sendMessage(ChatColor.RED + "Could not create task. Available types are:");
                 for (String taskType : openAudioMcSpigot.getShowModule().getTaskTypes()) {
@@ -105,7 +104,6 @@ public class ShowSubCommand extends SubCommand {
                 sender.sendMessage(ChatColor.RED + "You can download extra types via addons or create your own using the API.");
                 return;
             }
-
             show.addCue(task, time);
             show.save();
             sender.sendMessage(ChatColor.GOLD + "Show updated!");
@@ -114,46 +112,38 @@ public class ShowSubCommand extends SubCommand {
 
         if (args[0].equalsIgnoreCase("info") && args.length == 2) {
             Show show = openAudioMcSpigot.getShowModule().getShow(args[1]);
-
             if (show == null) {
                 sender.sendMessage(ChatColor.RED + "There is no show called " + args[1]);
                 return;
             }
-
             show.updateLastTime();
             message(sender, "About show " + show.getShowName());
             message(sender, "Is running: " + show.isRunning());
             message(sender, "Length: " + show.getLastTaskTime() + "MS" + " (" + (Math.round(show.getLastTaskTime()/1000)) + " seconds)");
             message(sender, "Event count: " + show.getCueList().size());
-
             return;
         }
 
         if (args[0].equalsIgnoreCase("gui") && args.length == 2) {
             Show show = openAudioMcSpigot.getShowModule().getShow(args[1]);
-
             if (show == null) {
                 sender.sendMessage(ChatColor.RED + "There is no show called " + args[1]);
                 return;
             }
-
             new ShowHomeMenu(show, (Player) sender.getOriginal());
             return;
         }
 
         if (args[0].equalsIgnoreCase("start") && args.length == 2) {
             Show show = openAudioMcSpigot.getShowModule().getShow(args[1]);
-
             if (show == null) {
                 sender.sendMessage(ChatColor.RED + "There is no show called " + args[1]);
                 return;
             }
-
             if (show.isRunning()) {
                 sender.sendMessage(ChatColor.RED + "This show is already running. You should cancel it or wait until it is over.");
                 return;
             }
-
             show.start();
             sender.sendMessage(ChatColor.GOLD + "Show started!");
             return;
@@ -161,17 +151,14 @@ public class ShowSubCommand extends SubCommand {
 
         if (args[0].equalsIgnoreCase("loop") && args.length == 2) {
             Show show = openAudioMcSpigot.getShowModule().getShow(args[1]);
-
             if (show == null) {
                 sender.sendMessage(ChatColor.RED + "There is no show called " + args[1]);
                 return;
             }
-
             if (show.isRunning()) {
                 sender.sendMessage(ChatColor.RED + "This show is already running. You should cancel it or wait until it is over.");
                 return;
             }
-
             show.startLooping();
             sender.sendMessage(ChatColor.GOLD + "Show started looping!");
             return;
