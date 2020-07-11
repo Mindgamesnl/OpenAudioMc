@@ -1,8 +1,12 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
+import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.rest.data.RestErrorType;
+import com.craftmend.openaudiomc.generic.voicechat.api.util.Task;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 import com.craftmend.openaudiomc.spigot.modules.show.menu.ShowHomeMenu;
@@ -40,7 +44,10 @@ public class ShowSubCommand extends SubCommand {
                         "Add a task/cue to a show"),
 
                 new Argument("info <show name>",
-                        "Display info about a show")
+                        "Display info about a show"),
+
+                new Argument("upload <show name>",
+                        "Upload a show to the web editor to control/change it from there")
         );
         this.openAudioMcSpigot = openAudioMcSpigot;
     }
@@ -49,6 +56,36 @@ public class ShowSubCommand extends SubCommand {
     public void onExecute(GenericExecutor sender, String[] args) {
         if (args.length == 0) {
             Bukkit.getServer().dispatchCommand((CommandSender) sender.getOriginal(), "oa help " + getCommand());
+            return;
+        }
+
+        if (args[0].equalsIgnoreCase("upload") && args.length == 2) {
+            Show show = openAudioMcSpigot.getShowModule().getShow(args[1]);
+            if (show == null) {
+                sender.sendMessage(ChatColor.RED + "There is no show called " + args[1]);
+                return;
+            }
+
+            ClientConnection connection = OpenAudioMc.getInstance().getNetworkingService().getClient(sender.getUuid());
+            if (connection == null) {
+                sender.sendMessage(ChatColor.RED + "Only players can use the web gui");
+                return;
+            }
+
+            sender.sendMessage(ChatColor.GRAY + "" + ChatColor.ITALIC + "Hold on while we process your show...");
+
+            Task<String> uploadTask = openAudioMcSpigot.getShowModule().uploadShow(show, connection);
+            uploadTask.setWhenFails(error -> {
+                if (error == RestErrorType.REQUEST_TOO_BIG) {
+                    sender.sendMessage(ChatColor.RED + "I don't know how, but you got your showfile to be almost a gigabyte and therefor got declined by the server. Meaning that you can't open this show in the web editor. Sorry!");
+                } else {
+                    sender.sendMessage(ChatColor.RED + "An unexpected error occurred, code: " + error.toString());
+                }
+            });
+
+            uploadTask.setWhenSuccessful(id -> {
+                // yeet, now do something with it
+            });
             return;
         }
 
@@ -63,7 +100,6 @@ public class ShowSubCommand extends SubCommand {
 
         if (args[0].equalsIgnoreCase("add") && args.length >= 4) {
             Show show = openAudioMcSpigot.getShowModule().getShow(args[1]);
-
             if (show == null) {
                 sender.sendMessage(ChatColor.RED + "There is no show called " + args[1]);
                 return;

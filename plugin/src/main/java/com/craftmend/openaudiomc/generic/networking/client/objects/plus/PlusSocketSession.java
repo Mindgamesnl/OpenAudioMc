@@ -16,8 +16,8 @@ public class PlusSocketSession implements Authenticatable {
 
     private final UUID sessionUuid = UUID.randomUUID();
     private final String key = UUID.randomUUID().toString().subSequence(0, 3).toString();
-    private ClientConnection owner;
-    private boolean isConnected = false;
+    private transient ClientConnection owner;
+    private transient boolean isConnected = false;
 
     public PlusSocketSession(ClientConnection owner) {
         this.owner = owner;
