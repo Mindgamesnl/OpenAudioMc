@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.show;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.voicechat.api.util.Task;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 import com.craftmend.openaudiomc.spigot.modules.show.objects.Show;
@@ -17,13 +18,25 @@ import java.util.Set;
 
 public class ShowModule {
 
+    private OpenAudioMc openAudioMc;
     private Map<String, Class> taskTypes = new HashMap<>();
     private Map<String, Show> showCache = new HashMap<>();
 
     public ShowModule(OpenAudioMcSpigot openAudioMcSpigot) {
-
         // register default type
         taskTypes.put("command", CommandRunnable.class);
+        openAudioMc = OpenAudioMc.getInstance();
+    }
+
+    public Task<String> uploadShow(Show show) {
+        // upload show to the web editor and return the KEY
+        Task<String> task = new Task<>();
+
+        openAudioMc.getTaskProvider().runAsync(() -> {
+
+        });
+
+        return task;
     }
 
     public void addTask(String name, Class executor) {
@@ -65,9 +78,7 @@ public class ShowModule {
 
     public ShowRunnable createRunnable(String name, String serialized, World context) {
         Class clazz = taskTypes.get(name.toLowerCase());
-
         if (clazz == null) return null;
-
         try {
             ShowRunnable runnable = (ShowRunnable) clazz.getConstructor().newInstance();
             runnable.prepare(serialized, context);
