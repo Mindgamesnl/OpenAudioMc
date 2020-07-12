@@ -23,8 +23,8 @@ public class MixTracker {
         if (!createdTracks.isEmpty()) {
             expectedTracksToStart = expectedTracksToStart - createdTracks.size();
             if (expectedTracksToStart < 5) { // minor room for error and latency
-                // might be invalid if its a slave server, so lets check that first
-                if (OpenAudioMc.getInstance().getInvoker().isSlave()) {
+                // might be invalid if its a node server, so lets check that first
+                if (OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
                     // im not the master, disabling and ignoring.
                     return;
                 }

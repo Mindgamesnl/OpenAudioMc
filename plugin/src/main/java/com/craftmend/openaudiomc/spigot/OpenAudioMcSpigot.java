@@ -123,7 +123,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
     }
 
     @Override
-    public boolean isSlave() {
+    public boolean isNodeServer() {
         return getProxyModule().getMode() != ClientMode.STAND_ALONE;
     }
 
@@ -154,7 +154,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
 
     @Override
     public VoiceManagerImplementation getVoiceImplementation() {
-        if (isSlave()) {
+        if (isNodeServer()) {
             return new MockVoiceImpl();
         }
         return new VoiceChatManager();

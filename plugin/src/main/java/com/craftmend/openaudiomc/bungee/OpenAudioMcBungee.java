@@ -68,7 +68,7 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
     }
 
     @Override
-    public boolean isSlave() {
+    public boolean isNodeServer() {
         return false;
     }
 

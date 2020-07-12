@@ -23,7 +23,7 @@ public class PlayerStateStreamer implements Runnable {
 
         // is it enabled? No? Then dont start the task
         if (!service.isPlusEnabled()) return;
-        if (main.getInvoker().isSlave()) return;
+        if (main.getInvoker().isNodeServer()) return;
 
         deleteAll(true);
 
