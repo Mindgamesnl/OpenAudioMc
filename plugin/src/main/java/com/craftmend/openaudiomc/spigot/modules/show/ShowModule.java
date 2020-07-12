@@ -19,9 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class ShowModule {
 
@@ -119,6 +117,18 @@ public class ShowModule {
             // ignored
         }
         return null;
+    }
+
+    public List<String> getAllShows() {
+        List<String> showNames = new ArrayList<>();
+        for (File file : Objects.requireNonNull(OpenAudioMcSpigot.getInstance().getDataFolder().listFiles())) {
+            if (file.getName().contains("json")) {
+                String name = file.getName();
+                name = name.replace(".json", "");
+                showNames.add(name);
+            }
+        }
+        return showNames;
     }
 
 }
