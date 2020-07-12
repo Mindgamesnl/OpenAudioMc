@@ -85,6 +85,7 @@ public class ShowSubCommand extends SubCommand {
 
             uploadTask.setWhenSuccessful(id -> {
                 // yeet, now do something with it
+
             });
             return;
         }
