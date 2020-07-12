@@ -18,6 +18,7 @@ import com.craftmend.openaudiomc.spigot.modules.show.util.TimeParser;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.apache.logging.log4j.util.Strings;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -53,6 +54,9 @@ public class ShowSubCommand extends SubCommand {
 
                 new Argument("info <show name>",
                         "Display info about a show"),
+
+                new Argument("list",
+                        "List all shows"),
 
                 new Argument("upload <show name>",
                         "Upload a show to the web editor to control/change it from there")
@@ -189,6 +193,12 @@ public class ShowSubCommand extends SubCommand {
                 return;
             }
             new ShowHomeMenu(show, (Player) sender.getOriginal());
+            return;
+        }
+
+        if (args[0].equalsIgnoreCase("list") && args.length == 2) {
+            String names = Strings.join(openAudioMcSpigot.getShowModule().getAllShows(), ',');
+            message(sender, "All local shows: " + names);
             return;
         }
 
