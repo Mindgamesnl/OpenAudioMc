@@ -196,8 +196,9 @@ public class ShowSubCommand extends SubCommand {
             return;
         }
 
-        if (args[0].equalsIgnoreCase("list") && args.length == 2) {
+        if (args[0].equalsIgnoreCase("list")) {
             String names = Strings.join(openAudioMcSpigot.getShowModule().getAllShows(), ',');
+            names = names.replaceAll(",", ChatColor.GRAY + ", " + ChatColor.AQUA + "");
             message(sender, "All local shows: " + names);
             return;
         }
