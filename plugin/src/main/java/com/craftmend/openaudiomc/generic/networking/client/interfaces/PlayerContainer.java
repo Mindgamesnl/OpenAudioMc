@@ -26,6 +26,11 @@ public interface PlayerContainer {
             }
 
             @Override
+            public void sendMessage(TextComponent message) {
+                // do nothing
+            }
+
+            @Override
             public UUID getUuid() {
                 return PlayerContainer.this.getUniqueId();
             }

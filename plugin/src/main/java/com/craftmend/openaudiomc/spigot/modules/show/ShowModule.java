@@ -6,11 +6,11 @@ import com.craftmend.openaudiomc.generic.networking.client.objects.plus.PlusSock
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
-import com.craftmend.openaudiomc.generic.networking.rest.interfaces.SimpleString;
 import com.craftmend.openaudiomc.generic.voicechat.api.util.Task;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 import com.craftmend.openaudiomc.spigot.modules.show.networking.rest.ShowUploadBody;
+import com.craftmend.openaudiomc.spigot.modules.show.networking.rest.ShowUploadResponse;
 import com.craftmend.openaudiomc.spigot.modules.show.objects.Show;
 import com.craftmend.openaudiomc.spigot.modules.show.runnables.CommandRunnable;
 import org.bukkit.World;
@@ -35,9 +35,9 @@ public class ShowModule {
         openAudioMc = OpenAudioMc.getInstance();
     }
 
-    public Task<String> uploadShow(Show show, ClientConnection owner) {
+    public Task<ShowUploadResponse> uploadShow(Show show, ClientConnection owner) {
         // upload show to the web editor and return the KEY
-        Task<String> task = new Task<>();
+        Task<ShowUploadResponse> task = new Task<>();
 
         openAudioMc.getTaskProvider().runAsync(() -> {
             // prepare object
@@ -65,7 +65,7 @@ public class ShowModule {
             }
 
             // probably a string, but we might change the response later to include Time Till Death etc
-            task.success(response.getResponse(SimpleString.class).getValue());
+            task.success(response.getResponse(ShowUploadResponse.class));
         });
 
         return task;

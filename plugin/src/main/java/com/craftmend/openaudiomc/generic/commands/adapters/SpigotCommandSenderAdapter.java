@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.generic.commands.adapters;
 
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import lombok.AllArgsConstructor;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -20,6 +21,11 @@ public class SpigotCommandSenderAdapter implements GenericExecutor {
     @Override
     public boolean hasPermission(String permission) {
         return commandSender.hasPermission(permission) || commandSender.isOp();
+    }
+
+    @Override
+    public void sendMessage(TextComponent message) {
+        commandSender.sendMessage(message.getText());
     }
 
     @Override
