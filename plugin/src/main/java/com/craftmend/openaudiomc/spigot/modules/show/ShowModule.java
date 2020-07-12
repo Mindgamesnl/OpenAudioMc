@@ -47,9 +47,8 @@ public class ShowModule {
             PlusSocketSession session = openAudioMc.getPlusService().getConnectionManager().createSessionForClient(owner);
 
             body.setSession(session);
-            body.setName(owner.getOwnerName());
+            body.setPlayerName(owner.getOwnerName());
             body.setPlayerUuid(owner.getOwnerUUID().toString());
-            body.setName(show.getShowName());
             body.setShow(show);
 
             // push
