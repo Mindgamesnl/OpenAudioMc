@@ -15,7 +15,7 @@ public class BungeeCommandSenderAdapter implements GenericExecutor {
 
     @Override
     public void sendMessage(String message) {
-        commandSender.sendMessage(message);
+        commandSender.sendMessage(new TextComponent(message));
     }
 
     @Override
