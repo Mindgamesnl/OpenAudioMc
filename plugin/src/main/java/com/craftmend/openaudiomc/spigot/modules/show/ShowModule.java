@@ -26,7 +26,7 @@ import java.util.Set;
 public class ShowModule {
 
     private OpenAudioMc openAudioMc;
-    private Map<String, Class> taskTypes = new HashMap<>();
+    private Map<String, Class<?>> taskTypes = new HashMap<>();
     private Map<String, Show> showCache = new HashMap<>();
 
     public ShowModule(OpenAudioMcSpigot openAudioMcSpigot) {
@@ -50,7 +50,7 @@ public class ShowModule {
             body.setName(owner.getOwnerName());
             body.setPlayerUuid(owner.getOwnerUUID().toString());
             body.setName(show.getShowName());
-            body.setShowData(show.toString());
+            body.setShow(show);
 
             // push
             RestRequest restRequest = new RestRequest(RestEndpoint.WORKER_SHOWS_UPLOAD);
@@ -71,7 +71,7 @@ public class ShowModule {
         return task;
     }
 
-    public void addTask(String name, Class executor) {
+    public void addTask(String name, Class<?> executor) {
         taskTypes.put(name.toLowerCase(), executor);
     }
 
@@ -109,7 +109,7 @@ public class ShowModule {
     }
 
     public ShowRunnable createRunnable(String name, String serialized, World context) {
-        Class clazz = taskTypes.get(name.toLowerCase());
+        Class<?> clazz = taskTypes.get(name.toLowerCase());
         if (clazz == null) return null;
         try {
             ShowRunnable runnable = (ShowRunnable) clazz.getConstructor().newInstance();

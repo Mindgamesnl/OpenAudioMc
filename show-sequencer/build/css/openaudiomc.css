@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:200');
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,300");
+@import url("https://fonts.googleapis.com/css?family=Rajdhani&display=swap");
+
+body {
+    font-family: 'Raleway';
+}
+
+footer {
+    background-color: rgb(30, 30, 33);
+    border-top: 2px solid #304FFE;
+    padding: 10px;
+    height: 40px;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 0px;
+    color: #fff;
+    text-align: center;
+    font-size: 16px;
+    text-overflow: ellipsis;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+footer a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.notice {
+    position: absolute;
+    left: 10px;
+    color: rgb(114, 114, 117);
+}
+
+.notice a {
+    color: inherit;
+}
