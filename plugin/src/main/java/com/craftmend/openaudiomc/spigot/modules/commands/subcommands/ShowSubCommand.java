@@ -4,18 +4,26 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
+import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.rest.data.RestErrorType;
+import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.voicechat.api.util.Task;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 import com.craftmend.openaudiomc.spigot.modules.show.menu.ShowHomeMenu;
+import com.craftmend.openaudiomc.spigot.modules.show.networking.rest.ShowUploadResponse;
 import com.craftmend.openaudiomc.spigot.modules.show.objects.Show;
 import com.craftmend.openaudiomc.spigot.modules.show.util.TimeParser;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.Objects;
 
 public class ShowSubCommand extends SubCommand {
 
@@ -74,7 +82,7 @@ public class ShowSubCommand extends SubCommand {
 
             sender.sendMessage(ChatColor.GRAY + "" + ChatColor.ITALIC + "Hold on while we process your show...");
 
-            Task<String> uploadTask = openAudioMcSpigot.getShowModule().uploadShow(show, connection);
+            Task<ShowUploadResponse> uploadTask = openAudioMcSpigot.getShowModule().uploadShow(show, connection);
             uploadTask.setWhenFails(error -> {
                 if (error == RestErrorType.REQUEST_TOO_BIG) {
                     sender.sendMessage(ChatColor.RED + "I don't know how, but you got your showfile to be almost a gigabyte and therefor got declined by the server. Meaning that you can't open this show in the web editor. Sorry!");
@@ -83,9 +91,22 @@ public class ShowSubCommand extends SubCommand {
                 }
             });
 
-            uploadTask.setWhenSuccessful(id -> {
+            uploadTask.setWhenSuccessful(response -> {
                 // yeet, now do something with it
+                TextComponent message = new TextComponent(Platform.translateColors(Objects.requireNonNull(
+                        response.getMessage()
+                )));
 
+                if (response.getRedirectUrl() != null) {
+                    message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, response.getRedirectUrl()));
+                    TextComponent[] hover = new TextComponent[] {
+                            new TextComponent(Platform.translateColors("Click here to open the")),
+                            new TextComponent(Platform.translateColors("online show editor"))
+                    };
+                    message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover));
+                }
+
+                sender.sendMessage(message);
             });
             return;
         }

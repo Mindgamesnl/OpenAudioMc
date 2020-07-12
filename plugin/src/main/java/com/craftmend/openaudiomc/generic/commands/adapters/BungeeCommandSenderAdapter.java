@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.generic.commands.adapters;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import lombok.AllArgsConstructor;
 import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.UUID;
@@ -20,6 +21,11 @@ public class BungeeCommandSenderAdapter implements GenericExecutor {
     @Override
     public boolean hasPermission(String permission) {
         return commandSender.hasPermission(permission);
+    }
+
+    @Override
+    public void sendMessage(TextComponent message) {
+
     }
 
     @Override

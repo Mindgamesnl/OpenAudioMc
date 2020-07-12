@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.proxy.objects;
 
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import lombok.AllArgsConstructor;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -19,6 +20,11 @@ public class FakeCommandSender implements GenericExecutor {
     @Override
     public boolean hasPermission(String permission) {
         return player.hasPermission(permission);
+    }
+
+    @Override
+    public void sendMessage(TextComponent message) {
+        // do nothing
     }
 
     @Override
