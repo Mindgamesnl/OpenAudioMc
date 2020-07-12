@@ -25,7 +25,7 @@ public class SpigotCommandSenderAdapter implements GenericExecutor {
 
     @Override
     public void sendMessage(TextComponent message) {
-        commandSender.sendMessage(message.getText());
+        commandSender.spigot().sendMessage(message);
     }
 
     @Override
