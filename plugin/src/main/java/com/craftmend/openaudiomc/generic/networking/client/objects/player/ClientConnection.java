@@ -71,7 +71,7 @@ public class ClientConnection implements Authenticatable {
         if (OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_SEND_URL_ON_JOIN))
             publishUrl();
 
-        if (!OpenAudioMc.getInstance().getInvoker().isSlave()) {
+        if (!OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
             OpenAudioMc.getInstance().getGlobalConstantService().sendNotifications(player);
         }
     }

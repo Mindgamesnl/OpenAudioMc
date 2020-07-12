@@ -17,8 +17,8 @@ public class CatchLegalBindingMiddleware implements CommandMiddleware {
     public boolean continueCommand(GenericExecutor genericExecutor, SubCommand subCommand) {
         ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
 
-        // skip if its a slave
-        if (OpenAudioMc.getInstance().getInvoker().isSlave()) return true;
+        // skip if its a node
+        if (OpenAudioMc.getInstance().getInvoker().isNodeServer()) return true;
 
         // allow the accept command
         if (subCommand != null) {

@@ -7,7 +7,7 @@ import com.craftmend.openaudiomc.generic.voicechat.interfaces.VoiceManagerImplem
 public interface OpenAudioInvoker {
 
     boolean hasPlayersOnline();
-    boolean isSlave();
+    boolean isNodeServer();
     Platform getPlatform();
     Class<? extends NetworkingService> getServiceClass();
     TaskProvider getTaskProvider();

@@ -46,7 +46,7 @@ public class GlobalConstantService {
 
     public void sendNotifications(PlayerContainer player) {
         if (!player.isAdministrator()) return;
-        if (OpenAudioMc.getInstance().getInvoker().isSlave()) return;
+        if (OpenAudioMc.getInstance().getInvoker().isNodeServer()) return;
         if (!allowChecks()) return;
         scheduleStatusUpdate();
 
