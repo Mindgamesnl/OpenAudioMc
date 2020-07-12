@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Builder
 @Setter
 @NoArgsConstructor
@@ -17,5 +19,6 @@ public class ShowUploadBody {
     private String playerName;         // player name
     private Show show;                 // serialized show
     private PlusSocketSession session; // for socket authentication
+    private String publicKey;             // public key
 
 }

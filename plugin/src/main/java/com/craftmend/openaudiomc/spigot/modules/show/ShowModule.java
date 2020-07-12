@@ -50,6 +50,7 @@ public class ShowModule {
             body.setPlayerName(owner.getOwnerName());
             body.setPlayerUuid(owner.getOwnerUUID().toString());
             body.setShow(show);
+            body.setPublicKey(openAudioMc.getAuthenticationService().getServerKeySet().getPublicKey().getValue());
 
             // push
             RestRequest restRequest = new RestRequest(RestEndpoint.WORKER_SHOWS_UPLOAD);
