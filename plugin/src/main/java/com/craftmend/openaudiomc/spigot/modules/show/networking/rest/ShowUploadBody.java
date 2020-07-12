@@ -15,7 +15,7 @@ public class ShowUploadBody {
 
     private String playerUuid;         // player uuid
     private String playerName;         // player name
-    private Show show;           // serialized show
+    private Show show;                 // serialized show
     private PlusSocketSession session; // for socket authentication
 
 }
