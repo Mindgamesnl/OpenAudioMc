@@ -12,6 +12,10 @@
 <body>
 <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
 
+<div id="loading-overlay" style="display: block">
+    <div id="loading-text">Please wait<br /><small>Loading...</small></div>
+</div>
+
 
 <div class="container">
     <div class="header-wrapper">
@@ -20,209 +24,43 @@
             <li>Editor</li>
             <li>Controller</li>
         </ul>
-        <div class="title">Welcome back, Kelly!</div>
-        <div class="note">Editing show: <span class="focus">disney_magic</span>. Last saved: <span class="focus">22:02</span></div>
+        <div class="title">Welcome back, <span id="player-name"></span></div>
+        <div class="note">Editing show: <span class="focus" id="show-name">-</span>. Last saved: <span id="saved" class="focus">-</span>. Cueues: <span class="focus" id="cueue-count">-</span>.</div>
 
         <span class="material-button"></span>
     </div>
+
     <div style="text-align: center;display: block;text-align: -webkit-center;">
-    <div class="content-wrapper">
-        <div class="table-wrapper">
-            <ul class="horizontal col header">
-                <li class="content">Time</li>
-                <li class="content">Action</li>
-            </ul>
+        <div class="content-wrapper">
+            <div class="table-wrapper">
+                <ul class="horizontal col header">
+                    <li class="content">Time</li>
+                    <li class="content">Action</li>
+                </ul>
 
-            <ul class="data col horizontal">
-                <li class="content">
-                    <div>00:00:00</div>
-                    <div class="secondary">0 ticks</div>
-                </li>
-                <li class="content">
-                    <div>/sudo Mindgamesnl localtoggle Misfit_Dreamer</div>
-                    <div class="secondary">Type: Command</div>
-                </li>
-                <li class="content">
-                    <div class="icon-wrapper">
-                        <span class="icon play" data-tooltip="Run"></span><span class="icon edit" data-tooltip="Edit"></span><span class="icon delete" data-tooltip="Delete"></span></div>
-                </li>
-            </ul>
+                <ul class="data col horizontal">
+                    <li class="content">
+                        <div>00:00:00</div>
+                        <div class="secondary">0 ticks</div>
+                    </li>
+                    <li class="content">
+                        <div>/sudo Mindgamesnl localtoggle Misfit_Dreamer</div>
+                        <div class="secondary">Type: Command</div>
+                    </li>
+                    <li class="content">
+                        <div class="icon-wrapper">
+                            <span class="icon play" data-tooltip="Run"></span><span class="icon edit"
+                                                                                    data-tooltip="Edit"></span><span
+                                class="icon delete" data-tooltip="Delete"></span></div>
+                    </li>
+                </ul>
 
-            <ul class="data col horizontal">
-                <li class="content">
-                    <div>00:01:00</div>
-                    <div class="secondary">20 ticks</div>
-                </li>
-                <li class="content">
-                    <div>/sudo Mindgamesnl c:Fear me</div>
-                    <div class="secondary">Type: Command</div>
-                </li>
-                <li class="content">
-                    <div class="icon-wrapper">
-                        <span class="icon play" data-tooltip="Run"></span><span class="icon edit" data-tooltip="Edit"></span><span class="icon delete" data-tooltip="Delete"></span></div>
-                </li>
-            </ul>
 
-            <ul class="data col horizontal">
-                <li class="content">
-                    <div>00:02:00</div>
-                    <div class="secondary">40 ticks</div>
-                </li>
-                <li class="content">
-                    <div>/sudo Mindgamesnl c:For I am braindead</div>
-                    <div class="secondary">Type: Command</div>
-                </li>
-                <li class="content">
-                    <div class="icon-wrapper">
-                        <span class="icon play" data-tooltip="Run"></span><span class="icon edit" data-tooltip="Edit"></span><span class="icon delete" data-tooltip="Delete"></span></div>
-                </li>
-            </ul>
-
-            <ul class="data col horizontal">
-                <li class="content">
-                    <div>00:02:00</div>
-                    <div class="secondary">40 ticks</div>
-                </li>
-                <li class="content">
-                    <div>/sudo Mindgamesnl c:For I am braindead</div>
-                    <div class="secondary">Type: Command</div>
-                </li>
-                <li class="content">
-                    <div class="icon-wrapper">
-                        <span class="icon play" data-tooltip="Run"></span><span class="icon edit" data-tooltip="Edit"></span><span class="icon delete" data-tooltip="Delete"></span></div>
-                </li>
-            </ul>
-            <ul class="data col horizontal">
-                <li class="content">
-                    <div>00:02:00</div>
-                    <div class="secondary">40 ticks</div>
-                </li>
-                <li class="content">
-                    <div>/sudo Mindgamesnl c:For I am braindead</div>
-                    <div class="secondary">Type: Command</div>
-                </li>
-                <li class="content">
-                    <div class="icon-wrapper">
-                        <span class="icon play" data-tooltip="Run"></span><span class="icon edit" data-tooltip="Edit"></span><span class="icon delete" data-tooltip="Delete"></span></div>
-                </li>
-            </ul>
-            <ul class="data col horizontal">
-                <li class="content">
-                    <div>00:02:00</div>
-                    <div class="secondary">40 ticks</div>
-                </li>
-                <li class="content">
-                    <div>/sudo Mindgamesnl c:For I am braindead</div>
-                    <div class="secondary">Type: Command</div>
-                </li>
-                <li class="content">
-                    <div class="icon-wrapper">
-                        <span class="icon play" data-tooltip="Run"></span><span class="icon edit" data-tooltip="Edit"></span><span class="icon delete" data-tooltip="Delete"></span></div>
-                </li>
-            </ul>
-            <ul class="data col horizontal">
-                <li class="content">
-                    <div>00:02:00</div>
-                    <div class="secondary">40 ticks</div>
-                </li>
-                <li class="content">
-                    <div>/sudo Mindgamesnl c:For I am braindead</div>
-                    <div class="secondary">Type: Command</div>
-                </li>
-                <li class="content">
-                    <div class="icon-wrapper">
-                        <span class="icon play" data-tooltip="Run"></span><span class="icon edit" data-tooltip="Edit"></span><span class="icon delete" data-tooltip="Delete"></span></div>
-                </li>
-            </ul>
-            <ul class="data col horizontal">
-                <li class="content">
-                    <div>00:02:00</div>
-                    <div class="secondary">40 ticks</div>
-                </li>
-                <li class="content">
-                    <div>/sudo Mindgamesnl c:For I am braindead</div>
-                    <div class="secondary">Type: Command</div>
-                </li>
-                <li class="content">
-                    <div class="icon-wrapper">
-                        <span class="icon play" data-tooltip="Run"></span><span class="icon edit" data-tooltip="Edit"></span><span class="icon delete" data-tooltip="Delete"></span></div>
-                </li>
-            </ul>
-            <ul class="data col horizontal">
-                <li class="content">
-                    <div>00:02:00</div>
-                    <div class="secondary">40 ticks</div>
-                </li>
-                <li class="content">
-                    <div>/sudo Mindgamesnl c:For I am braindead</div>
-                    <div class="secondary">Type: Command</div>
-                </li>
-                <li class="content">
-                    <div class="icon-wrapper">
-                        <span class="icon play" data-tooltip="Run"></span><span class="icon edit" data-tooltip="Edit"></span><span class="icon delete" data-tooltip="Delete"></span></div>
-                </li>
-            </ul>
-            <ul class="data col horizontal">
-                <li class="content">
-                    <div>00:02:00</div>
-                    <div class="secondary">40 ticks</div>
-                </li>
-                <li class="content">
-                    <div>/sudo Mindgamesnl c:For I am braindead</div>
-                    <div class="secondary">Type: Command</div>
-                </li>
-                <li class="content">
-                    <div class="icon-wrapper">
-                        <span class="icon play" data-tooltip="Run"></span><span class="icon edit" data-tooltip="Edit"></span><span class="icon delete" data-tooltip="Delete"></span></div>
-                </li>
-            </ul>
-            <ul class="data col horizontal">
-                <li class="content">
-                    <div>00:02:00</div>
-                    <div class="secondary">40 ticks</div>
-                </li>
-                <li class="content">
-                    <div>/sudo Mindgamesnl c:For I am braindead</div>
-                    <div class="secondary">Type: Command</div>
-                </li>
-                <li class="content">
-                    <div class="icon-wrapper">
-                        <span class="icon play" data-tooltip="Run"></span><span class="icon edit" data-tooltip="Edit"></span><span class="icon delete" data-tooltip="Delete"></span></div>
-                </li>
-            </ul>
-            <ul class="data col horizontal">
-                <li class="content">
-                    <div>00:02:00</div>
-                    <div class="secondary">40 ticks</div>
-                </li>
-                <li class="content">
-                    <div>/sudo Mindgamesnl c:For I am braindead</div>
-                    <div class="secondary">Type: Command</div>
-                </li>
-                <li class="content">
-                    <div class="icon-wrapper">
-                        <span class="icon play" data-tooltip="Run"></span><span class="icon edit" data-tooltip="Edit"></span><span class="icon delete" data-tooltip="Delete"></span></div>
-                </li>
-            </ul>
-            <ul class="data col horizontal">
-                <li class="content">
-                    <div>00:02:00</div>
-                    <div class="secondary">40 ticks</div>
-                </li>
-                <li class="content">
-                    <div>/sudo Mindgamesnl c:For I am braindead</div>
-                    <div class="secondary">Type: Command</div>
-                </li>
-                <li class="content">
-                    <div class="icon-wrapper">
-                        <span class="icon play" data-tooltip="Run"></span><span class="icon edit" data-tooltip="Edit"></span><span class="icon delete" data-tooltip="Delete"></span></div>
-                </li>
-            </ul>
-
+            </div>
         </div>
-    </div>
     </div>
 </div>
 </body>
-<script src="OpenAudioMc.bundle.js?version=10" onerror="window.location.href = 'https://help.openaudiomc.net/'"></script>
+<script src="OpenAudioMc.bundle.js?version=10"
+        onerror="window.location.href = 'https://help.openaudiomc.net/'"></script>
 </html>

@@ -81,6 +81,30 @@ html, body {
     min-height: 100%;
 }
 
+#loading-overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #201c2f;
+    z-index: 2;
+}
+
+#loading-text{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 50px;
+    color: white;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    text-align: center;
+}
+
 .table-wrapper > ul {
     opacity: 0;
     -webkit-animation: nav-fade .5s forwards;
@@ -356,6 +380,7 @@ html, body {
 
 .icon {
     cursor: pointer;
+    color: white;
     position: relative;
     padding: 15px;
     opacity: .5;
@@ -368,7 +393,7 @@ html, body {
 }
 
 .icon:before {
-    color: #5092D5;
+    color: white;
     font-family: 'FontAwesome';
     font-size: 20px;
 }
@@ -388,6 +413,7 @@ html, body {
 
 .icon-wrapper {
     float: right;
+    color: white;
     margin-top: 12px;
 }
 
