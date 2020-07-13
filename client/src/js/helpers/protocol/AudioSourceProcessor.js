@@ -27,6 +27,11 @@ export class AudioSourceProcessor {
             this.isYoutube = true;
         }
 
+        // strip old endpoint
+        if (source.includes("https://weathered-dust-0281.craftmend.workers.dev/")) {
+            source = source.replace("https://weathered-dust-0281.craftmend.workers.dev/", "");
+        }
+
         // handle soundcloud
         if (source.includes("soundcloud.com")) {
             source = API_ENDPOINTS.SOUNDCLOUD + source;
