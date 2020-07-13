@@ -262,6 +262,8 @@ html, body {
     display: -webkit-box;
     display: flex;
     padding: 40px;
+    width: 85%;
+    text-align: left;
 }
 
 .table-wrapper {

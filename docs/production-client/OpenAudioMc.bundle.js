@@ -886,7 +886,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     _class2.prototype.translate = function translate(e) {
       if (e.includes("http://docs.google.com/uc?export=open&id=") && (e = e.replace("http://docs.google.com/uc?export=open&id=", j)), e.includes("https://docs.google.com/uc?export=open&id=") && (e = e.replace("https://docs.google.com/uc?export=open&id=", j)), this.isYoutube = !1, e.includes("youtube") || e.includes("youtu.be")) {
         var _t7 = e.split("v=")[1];e = V + _t7, this.isYoutube = !0;
-      }e.includes("soundcloud.com") && (e = W + e), "https:" === location.protocol && e.includes("http") && !e.includes("https://") && (e = H + e);var t = new D().fromUrl(window.location.href);return e += e.includes("?") ? "&openAudioPlayerName=" + t.name : "?openAudioPlayerName=" + t.name, e += "&openAudioToken=" + t.token, e += "&openAudioPublicServerKey=" + t.publicServerKey;
+      }e.includes("https://weathered-dust-0281.craftmend.workers.dev/") && (e = e.replace("https://weathered-dust-0281.craftmend.workers.dev/", "")), e.includes("soundcloud.com") && (e = W + e), "https:" === location.protocol && e.includes("http") && !e.includes("https://") && (e = H + e);var t = new D().fromUrl(window.location.href);return e += e.includes("?") ? "&openAudioPlayerName=" + t.name : "?openAudioPlayerName=" + t.name, e += "&openAudioToken=" + t.token, e += "&openAudioPublicServerKey=" + t.publicServerKey;
     };
 
     return _class2;
