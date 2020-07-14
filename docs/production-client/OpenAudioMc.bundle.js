@@ -820,7 +820,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     q.prototype.addNode = function addNode(e, t) {
-      null == this.controller && (this.soundElement.crossOrigin = "anonymous", -1 < this.soundElement.src.indexOf("http") && (this.soundElement.src = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + this.soundElement.src), this.controller = e.audioCtx.createMediaElementSource(this.soundElement)), this.controller.connect(t);
+      null == this.controller && (this.soundElement.crossOrigin = "anonymous", this.soundElement.src.includes("http") && !this.soundElement.src.includes("openaudiomc.net") && (this.soundElement.src = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + this.soundElement.src), this.controller = e.audioCtx.createMediaElementSource(this.soundElement)), this.controller.connect(t);
     };
 
     q.prototype.registerMixer = function registerMixer(e, t) {
