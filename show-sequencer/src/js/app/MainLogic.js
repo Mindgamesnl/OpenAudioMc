@@ -1,4 +1,5 @@
 import {setPageOverlay} from "../ui/Overlay";
+import {CueueElement} from "../components/editor/CueueElement";
 
 export class MainLogic {
 
@@ -18,6 +19,7 @@ export class MainLogic {
         this.updateSaveTime();
         this.updateCount();
         setPageOverlay(null)
+        this.renderCompleteTable();
     }
 
     updateSaveTime() {
@@ -39,6 +41,15 @@ export class MainLogic {
 
     updateCount() {
         document.getElementById("cueue-count").innerText = this.show.cueList.length;
+    }
+
+    renderCompleteTable() {
+        // clear
+        document.getElementById("show-cue-list").innerHTML = "";
+        for (const element of this.show.cueList) {
+            console.log(element)
+            new CueueElement(element).insertIntoPage();
+        }
     }
 
 }
