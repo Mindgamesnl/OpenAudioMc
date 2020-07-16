@@ -89,8 +89,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                   return e + "/" + t;
                 };
               },
-                  A = x(y),
-                  S = x(b),
+                  S = x(y),
+                  A = x(b),
                   C = x(w),
                   B = x(v),
                   I = x(M),
@@ -100,11 +100,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 }), getConfig: a.bind(null, g), setConfig: l.bind(null, g), getFullState: a.bind(null, p), getLights: a.bind(null, y), getNewLights: a.bind(null, y + "/new"), searchForNewLights: function searchForNewLights() {
                   var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
                   return u(y, e);
-                }, getLight: d(a, A), setLight: d(l, A), setLightState: d(l, function (e) {
-                  return A(e) + "/state";
-                }), deleteLight: d(h, A), getGroups: a.bind(null, b), createGroup: u.bind(null, b), getGroup: d(a, S), setGroup: d(l, S), setGroupState: d(l, function (e) {
-                  return S(e) + "/action";
-                }), deleteGroup: d(h, S), getSchedules: a.bind(null, w), createSchedule: u.bind(null, w), getSchedule: d(a, C), setSchedule: d(l, C), deleteSchedule: d(h, C), scheduleCommandGenerator: function scheduleCommandGenerator() {
+                }, getLight: d(a, S), setLight: d(l, S), setLightState: d(l, function (e) {
+                  return S(e) + "/state";
+                }), deleteLight: d(h, S), getGroups: a.bind(null, b), createGroup: u.bind(null, b), getGroup: d(a, A), setGroup: d(l, A), setGroupState: d(l, function (e) {
+                  return A(e) + "/action";
+                }), deleteGroup: d(h, A), getSchedules: a.bind(null, w), createSchedule: u.bind(null, w), getSchedule: d(a, C), setSchedule: d(l, C), deleteSchedule: d(h, C), scheduleCommandGenerator: function scheduleCommandGenerator() {
                   return n(c(s), t, i, o).bridge(e).user(m);
                 }, getScenes: a.bind(null, v), createScene: u.bind(null, v), getScene: d(a, B), setScene: d(l, B), setSceneLightState: function setSceneLightState(e, t, i) {
                   return l(B(e) + "/lightstates/" + t, i);
@@ -135,12 +135,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     function i(e, t) {
       var i = 0,
           n = t || e.innerHTML,
-          s = n.length;Q.push(window.setInterval(function () {
+          s = n.length;K.push(window.setInterval(function () {
         i >= s && (i = 0), n = o(n, i), e.innerHTML = n, i++;
       }, 0));
     }function o(e, t) {
       var i = T(function (e, t) {
-        return z(Math.random() * (t - e + 1)) + e;
+        return O(Math.random() * (t - e + 1)) + e;
       }(64, 90));return e.substr(0, t) + i + e.substr(t + 1, e.length);
     }var n = void 0,
         s = void 0,
@@ -153,7 +153,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var i = t.length,
         n = document.createElement("span"),
         s = !1;for (var _r = 0; _r < i; _r++) {
-      n.style.cssText += J[t[_r]] + ";", "§k" === t[_r] && (o(e, n), s = !0);
+      n.style.cssText += Q[t[_r]] + ";", "§k" === t[_r] && (o(e, n), s = !0);
     }return s || (n.innerHTML = e), n;
   }function s(e) {
     var t,
@@ -271,7 +271,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   }function v(e, t, i, o, n) {
     this.fromSampleRate = e, this.toSampleRate = t, this.channels = 0 | i, this.outputBufferSize = o, this.noReturn = !!n, this.initialize();
   }function M(e, t, i, o, n, s) {
-    this.audioChannels = 2 == e ? 2 : 1, ve = 1 == this.audioChannels, we = 0 < t && 16777215 >= t ? t : 44100, ge = i >= ce << 1 && i < o ? i & (ve ? 4294967295 : 4294967294) : ce << 1, ye = z(o) > ge + this.audioChannels ? o & (ve ? 4294967295 : 4294967294) : i << 1, this.underRunCallback = "function" == typeof n ? n : function () {}, Me = -1 <= s && 1 >= s && 0 != s ? s : 0, this.audioType = -1, this.mozAudioTail = [], this.audioHandleMoz = null, this.audioHandleFlash = null, this.flashInitialized = !1, this.mozAudioFound = !1, this.initializeAudio();
+    this.audioChannels = 2 == e ? 2 : 1, ve = 1 == this.audioChannels, we = 0 < t && 16777215 >= t ? t : 44100, ge = i >= ce << 1 && i < o ? i & (ve ? 4294967295 : 4294967294) : ce << 1, ye = O(o) > ge + this.audioChannels ? o & (ve ? 4294967295 : 4294967294) : i << 1, this.underRunCallback = "function" == typeof n ? n : function () {}, Me = -1 <= s && 1 >= s && 0 != s ? s : 0, this.audioType = -1, this.mozAudioTail = [], this.audioHandleMoz = null, this.audioHandleFlash = null, this.flashInitialized = !1, this.mozAudioFound = !1, this.initializeAudio();
   }function k(e) {
     try {
       var t = new Float32Array(e);
@@ -289,61 +289,61 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       } while (++i < e);
     }return t;
   }function x() {
-    for (var e = "", t = "", i = 0; i < ce && xe != Ae; ++i) {
-      e += T(12288 + (0 | 16383 * I(B(fe[xe++] + 1, 0), 2))), t += T(12288 + (0 | 16383 * I(B(fe[xe++] + 1, 0), 2))), xe == Se && (xe = 0);
+    for (var e = "", t = "", i = 0; i < ce && xe != Se; ++i) {
+      e += T(12288 + (0 | 16383 * I(B(fe[xe++] + 1, 0), 2))), t += T(12288 + (0 | 16383 * I(B(fe[xe++] + 1, 0), 2))), xe == Ae && (xe = 0);
     }return e + t;
-  }function A() {
-    for (var e = "", t = 0; t < ce && xe != Ae; ++t) {
-      e += T(12288 + (0 | 16383 * I(B(fe[xe++] + 1, 0), 2))), xe == Se && (xe = 0);
-    }return e;
   }function S() {
-    return (xe <= Ae ? 0 : Se) + Ae - xe;
+    for (var e = "", t = 0; t < ce && xe != Se; ++t) {
+      e += T(12288 + (0 | 16383 * I(B(fe[xe++] + 1, 0), 2))), xe == Ae && (xe = 0);
+    }return e;
+  }function A() {
+    return (xe <= Se ? 0 : Ae) + Se - xe;
   }function C(e) {
-    pe = k(ye), Ee = ye, xe = 0, Ae = 0, Se = B(ye * Math.ceil(we / e), ce) << 1, ve ? (fe = E(Se), ke = new v(we, e, 1, Se, !0), A) : (fe = E(Se <<= 1), ke = new v(we, e, 2, Se, !0), x);
+    pe = k(ye), Ee = ye, xe = 0, Se = 0, Ae = B(ye * Math.ceil(we / e), ce) << 1, ve ? (fe = E(Ae), ke = new v(we, e, 1, Ae, !0), S) : (fe = E(Ae <<= 1), ke = new v(we, e, 2, Ae, !0), x);
   }var B = Math.max,
       I = Math.min,
       T = String.fromCharCode,
       _ = Math.abs,
       P = Math.round,
-      z = Math.floor;i.r(t);
-  var O = function () {
-    function O() {
-      _classCallCheck(this, O);
+      O = Math.floor;i.r(t);
+  var z = function () {
+    function z() {
+      _classCallCheck(this, z);
 
       this.isServerAhead = !1, this.msOffset = 0, this.hasSynced = !1;
     }
 
-    O.prototype.sync = function sync(e, t) {
+    z.prototype.sync = function sync(e, t) {
       var i = new Date(e),
           o = new Date().getTime();o += 60 * t * 60 * 1e3;var n = new Date(o);this.isServerAhead = i.getTime() > n.getTime(), this.msOffset = this.isServerAhead ? i.getTime() - n.getTime() : n.getTime() - i.getTime(), this.hasSynced = !0;
     };
 
-    O.prototype.getPredictedTime = function getPredictedTime() {
+    z.prototype.getPredictedTime = function getPredictedTime() {
       this.hasSynced || new Date().getTime();var e = new Date().getTime();return new Date(this.isServerAhead ? e + this.msOffset : e - this.msOffset);
     };
 
-    return O;
-  }();
-
-  var L = function () {
-    function L(e) {
-      _classCallCheck(this, L);
-
-      this.fallback = "No message provided in oa+", this.main = e, this.hueConnected = 'You are now connected with your Philips Hue Lights! Please select your group (you can always change this later) and click "player" in the left bottem corner to return to the home menu.', this.hueLinking = "Press the link button on your hue bridge within %sec% seconds to connect.", this.hueWelcome = "We've detected a Philips Hue Bridge! You can connect it to OpenAudioMc and link your in-game session to your lights. This allows your current server to add real-time lighting effects. You can unlink at any time and manually select your lights.", this.welcomeMessage = this.fallback, this.errorMessage = this.fallback;
-    }
-
-    L.prototype.apply = function apply() {
-      null != document.getElementById("hue-welcome-message") && (document.getElementById("hue-welcome-message").innerHTML = this.hueWelcome), "ok" === this.main.socketModule.state && (document.getElementById("status-message").innerHTML = this.welcomeMessage);
-    };
-
-    return L;
+    return z;
   }();
 
   var R = function () {
     function R(e) {
+      _classCallCheck(this, R);
+
+      this.fallback = "No message provided in oa+", this.main = e, this.hueConnected = 'You are now connected with your Philips Hue Lights! Please select your group (you can always change this later) and click "player" in the left bottem corner to return to the home menu.', this.hueLinking = "Press the link button on your hue bridge within %sec% seconds to connect.", this.hueWelcome = "We've detected a Philips Hue Bridge! You can connect it to OpenAudioMc and link your in-game session to your lights. This allows your current server to add real-time lighting effects. You can unlink at any time and manually select your lights.", this.welcomeMessage = this.fallback, this.errorMessage = this.fallback;
+    }
+
+    R.prototype.apply = function apply() {
+      null != document.getElementById("hue-welcome-message") && (document.getElementById("hue-welcome-message").innerHTML = this.hueWelcome), "ok" === this.main.socketModule.state && (document.getElementById("status-message").innerHTML = this.welcomeMessage);
+    };
+
+    return R;
+  }();
+
+  var L = function () {
+    function L(e) {
       var _this = this;
 
-      _classCallCheck(this, R);
+      _classCallCheck(this, L);
 
       this.openAudioMc = e, document.getElementById("hue-bridge-menu-button").onclick = function () {
         return _this.showHue();
@@ -352,7 +352,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       };
     }
 
-    R.prototype.changeColor = function changeColor(e, t) {
+    L.prototype.changeColor = function changeColor(e, t) {
       var i = function (e) {
         return e = e.replace("#", ""), "rgb(" + parseInt(e.substring(0, 2), 16) + ", " + parseInt(e.substring(2, 4), 16) + ", " + parseInt(e.substring(4, 6), 16) + ")";
       }(e);document.querySelectorAll("*").forEach(function (e) {
@@ -365,31 +365,31 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       });
     };
 
-    R.prototype.setMessage = function setMessage(e) {
+    L.prototype.setMessage = function setMessage(e) {
       document.getElementById("status-message").innerHTML = e;
     };
 
-    R.prototype.showMain = function showMain() {
+    L.prototype.showMain = function showMain() {
       document.getElementById("welcome").style.display = "none", document.getElementById("hueMenu").style.display = "none", document.getElementById("app").style.display = "";
     };
 
-    R.prototype.openApp = function openApp() {
+    L.prototype.openApp = function openApp() {
       document.getElementById("welcome").style.display = "none", document.getElementById("app").style.display = "", this.openAudioMc.userInterfaceModule.setMessage(this.openAudioMc.messages.welcomeMessage), document.getElementById("page").classList.remove("dark-bg");
     };
 
-    R.prototype.showHue = function showHue() {
+    L.prototype.showHue = function showHue() {
       document.getElementById("welcome").style.display = "none", document.getElementById("hueMenu").style.display = "", document.getElementById("app").style.display = "none";
     };
 
-    R.prototype.kickScreen = function kickScreen(e) {
+    L.prototype.kickScreen = function kickScreen(e) {
       document.getElementById("footer-welcome").innerText = "Session terminated", document.getElementById("boot-button").style.display = "none", document.getElementById("welcome-text-landing").innerHTML = null == e ? this.openAudioMc.messages.errorMessage : e, document.getElementById("welcome").style.display = "", document.getElementById("page").classList.add("dark-bg"), document.getElementById("app").style.display = "none";
     };
 
-    R.prototype.showVolumeSlider = function showVolumeSlider(e) {
+    L.prototype.showVolumeSlider = function showVolumeSlider(e) {
       e ? (document.getElementById("volume-label").style.display = "", document.getElementById("volume-disp").style.display = "") : (document.getElementById("volume-disp").style.display = "none", document.getElementById("volume-label").style.display = "none");
     };
 
-    return R;
+    return L;
   }();
 
   var N = function () {
@@ -440,7 +440,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     N.prototype.colorToHueHsv = function colorToHueHsv(e) {
-      var t = this.color(e).toHSV();return { on: 0 != 2 * t.alpha * 127.5, hue: z(65535 * t.hue / 360), sat: z(255 * t.saturation), bri: P(2 * t.alpha * 127.5) };
+      var t = this.color(e).toHSV();return { on: 0 != 2 * t.alpha * 127.5, hue: O(65535 * t.hue / 360), sat: O(255 * t.saturation), bri: P(2 * t.alpha * 127.5) };
     };
 
     N.prototype.setLight = function setLight(e, t) {
@@ -794,7 +794,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   var H = "https://media.openaudiomc.net/proxy?apiurl=",
       V = "https://media.openaudiomc.net/youtube?id=",
       W = "https://media.openaudiomc.net/soundcloud?u=",
-      j = "https://media.openaudiomc.net/googledrive?id=";
+      j = "https://media.openaudiomc.net/googledrive?id=";"toJSON" in Error.prototype || Object.defineProperty(Error.prototype, "toJSON", { value: function value() {
+      var e = {};return Object.getOwnPropertyNames(this).forEach(function (t) {
+        e[t] = this[t];
+      }, this), e;
+    }, configurable: !0, writable: !0 });
   var q = function (_ref) {
     _inherits(q, _ref);
 
@@ -814,8 +818,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     q.prototype._handleError = function _handleError() {
       if (this.hadError && null != this.openAudioMc && "error" == this.error.type) {
-        var _e13 = this.soundElement.error.code,
-            _t5 = null;this.isYoutube ? _t5 = this.openAudioMc.socketModule.supportsYoutube ? "YOUTUBE_ERR" : "MEDIA_ERR_SRC_NOT_SUPPORTED" : 1 === _e13 ? _t5 = "MEDIA_ERR_ABORTED" : 2 === _e13 ? _t5 = "MEDIA_ERR_NETWORK" : 3 === _e13 ? _t5 = "MEDIA_ERR_DECODE" : 4 === _e13 && (_t5 = "MEDIA_ERR_SRC_NOT_SUPPORTED"), null != _t5 && (console.log("[OpenAudioMc] Reporting media failure " + _t5), this.openAudioMc.socketModule.send("media_failure", { mediaError: _t5, source: this.soundElement.src }));
+        var _t5 = this.soundElement.error.code,
+            _i3 = null;if (this.isYoutube ? _i3 = this.openAudioMc.socketModule.supportsYoutube ? "YOUTUBE_ERR" : "MEDIA_ERR_SRC_NOT_SUPPORTED" : 1 === _t5 ? _i3 = "MEDIA_ERR_ABORTED" : 2 === _t5 ? _i3 = "MEDIA_ERR_NETWORK" : 3 === _t5 ? _i3 = "MEDIA_ERR_DECODE" : 4 === _t5 && (_i3 = "MEDIA_ERR_SRC_NOT_SUPPORTED"), null != _i3) {
+          if (console.log("[OpenAudioMc] Reporting media failure " + _i3), "MEDIA_ERR_SRC_NOT_SUPPORTED" != _i3 || !this.isYoutube) {
+            var e = function e(_e13, t, i) {
+              var o = {};return Object.getOwnPropertyNames(_e13).forEach(function (t) {
+                o[t] = _e13[t];
+              }), JSON.stringify(o, t, i);
+            };this.openAudioMc.sendError("A sound failed to load.\nurl=" + this.source + "\nerror-code=" + this.soundElement.error.code + "\nerror-message=" + this.soundElement.error.message + "\ndetected-error=" + _i3 + "\ndump=" + e(this.error, null, "\t") + e(this.soundElement.error, null, "\t") + "\nhostname=" + window.location.host);
+          }this.openAudioMc.socketModule.send("media_failure", { mediaError: _i3, source: this.soundElement.src });
+        }
       }
     };
 
@@ -865,7 +877,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       var t = new Date(e),
           i = _((t.getTime() - this.openAudioMc.timeService.getPredictedTime()) / 1e3),
           o = this.soundElement.duration;if (i > o) {
-        i -= z(i / o) * o;
+        i -= O(i / o) * o;
       }this.setTime(i);
     };
 
@@ -1000,11 +1012,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     return Y;
   }();
 
-  var K = function () {
-    function K(e, t) {
+  var J = function () {
+    function J(e, t) {
       var _this14 = this;
 
-      _classCallCheck(this, K);
+      _classCallCheck(this, J);
 
       if (this.handlers = {}, this.openAudioMc = e, this.callbacksEnabled = !1, this.supportsYoutube = !1, this.hasConnected = !1, this.outgoingQueue = [], null == function () {
         function _class3() {
@@ -1013,8 +1025,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         _class3.getParameter = function getParameter() {
           var e = window.location.href.split("&"),
-              t = {};for (var _i3 = 0; _i3 < e.length; _i3++) {
-            var _o3 = e[_i3].split("="),
+              t = {};for (var _i4 = 0; _i4 < e.length; _i4++) {
+            var _o3 = e[_i4].split("="),
                 _n2 = decodeURIComponent(_o3[0]),
                 _s3 = decodeURIComponent(_o3[1]);void 0 === t[_n2] ? t[_n2] = decodeURIComponent(_s3) : "string" == typeof t[_n2] ? t[_n2] = [t[_n2], decodeURIComponent(_s3)] : t[_n2].push(decodeURIComponent(_s3));
           }return t;
@@ -1073,23 +1085,23 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }), this.socket.connect();
     }
 
-    K.prototype.send = function send(e, t) {
+    J.prototype.send = function send(e, t) {
       this.hasConnected ? this.callbacksEnabled ? (console.log("[OpenAudioMc] Submitting value for " + e), this.socket.emit(e, t)) : console.log("[OpenAudioMc] could not satisfy callback " + e + " because the protocol is outdated") : this.outgoingQueue.push({ key: e, value: t });
     };
 
-    K.prototype.registerHandler = function registerHandler(e, t) {
+    J.prototype.registerHandler = function registerHandler(e, t) {
       this.handlers[e] = t;
     };
 
-    return K;
+    return J;
   }();
 
-  var Q = [],
-      J = { "&4": "font-weight:normal;text-decoration:none;color:#be0000", "&c": "font-weight:normal;text-decoration:none;color:#fe3f3f", "&6": "font-weight:normal;text-decoration:none;color:#d9a334", "&e": "font-weight:normal;text-decoration:none;color:#fefe3f", "&2": "font-weight:normal;text-decoration:none;color:#00be00", "&a": "font-weight:normal;text-decoration:none;color:#3ffe3f", "&b": "font-weight:normal;text-decoration:none;color:#3ffefe", "&3": "font-weight:normal;text-decoration:none;color:#00bebe", "&1": "font-weight:normal;text-decoration:none;color:#0000be", "&9": "font-weight:normal;text-decoration:none;color:#3f3ffe", "&d": "font-weight:normal;text-decoration:none;color:#fe3ffe", "&5": "font-weight:normal;text-decoration:none;color:#be00be", "&f": "font-weight:normal;text-decoration:none;color:#ffffff", "&7": "font-weight:normal;text-decoration:none;color:#bebebe", "&8": "font-weight:normal;text-decoration:none;color:#3f3f3f", "&0": "font-weight:normal;text-decoration:none;color:#000000", "&l": "font-weight:bold", "&n": "text-decoration:underline;text-decoration-skip:spaces", "&o": "font-style:italic", "&m": "text-decoration:line-through;text-decoration-skip:spaces" };String.prototype.replaceColorCodes = function () {
+  var K = [],
+      Q = { "&4": "font-weight:normal;text-decoration:none;color:#be0000", "&c": "font-weight:normal;text-decoration:none;color:#fe3f3f", "&6": "font-weight:normal;text-decoration:none;color:#d9a334", "&e": "font-weight:normal;text-decoration:none;color:#fefe3f", "&2": "font-weight:normal;text-decoration:none;color:#00be00", "&a": "font-weight:normal;text-decoration:none;color:#3ffe3f", "&b": "font-weight:normal;text-decoration:none;color:#3ffefe", "&3": "font-weight:normal;text-decoration:none;color:#00bebe", "&1": "font-weight:normal;text-decoration:none;color:#0000be", "&9": "font-weight:normal;text-decoration:none;color:#3f3ffe", "&d": "font-weight:normal;text-decoration:none;color:#fe3ffe", "&5": "font-weight:normal;text-decoration:none;color:#be00be", "&f": "font-weight:normal;text-decoration:none;color:#ffffff", "&7": "font-weight:normal;text-decoration:none;color:#bebebe", "&8": "font-weight:normal;text-decoration:none;color:#3f3f3f", "&0": "font-weight:normal;text-decoration:none;color:#000000", "&l": "font-weight:bold", "&n": "text-decoration:underline;text-decoration-skip:spaces", "&o": "font-style:italic", "&m": "text-decoration:line-through;text-decoration-skip:spaces" };String.prototype.replaceColorCodes = function () {
     return function () {
-      for (var _e17 = Q.length; _e17--;) {
-        clearInterval(Q[_e17]);
-      }Q = [];
+      for (var _e17 = K.length; _e17--;) {
+        clearInterval(K[_e17]);
+      }K = [];
     }(), s(this + "");
   };
   var Z = function () {
@@ -1140,8 +1152,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       try {
         for (var _iterator12 = e.textList[Symbol.iterator](), _step12; !(_iteratorNormalCompletion12 = (_step12 = _iterator12.next()).done); _iteratorNormalCompletion12 = true) {
-          var _i4 = _step12.value;
-          t += this.partToHtml(_i4);
+          var _i5 = _step12.value;
+          t += this.partToHtml(_i5);
         }
       } catch (err) {
         _didIteratorError12 = true;
@@ -1658,8 +1670,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   }, M.prototype.writeAudioNoCallback = function (e) {
     0 == this.audioType ? this.MOZWriteAudioNoCallback(e) : 1 == this.audioType ? this.callbackBasedWriteAudioNoCallback(e) : 2 == this.audioType && (this.checkFlashInit() || me ? this.callbackBasedWriteAudioNoCallback(e) : this.mozAudioFound && this.MOZWriteAudioNoCallback(e));
   }, M.prototype.remainingBuffer = function () {
-    if (0 == this.audioType) return this.samplesAlreadyWritten - this.audioHandleMoz.mozCurrentSampleOffset();if (1 == this.audioType) return (S() * ke.ratioWeight >> this.audioChannels - 1 << this.audioChannels - 1) + Ee;if (2 == this.audioType) {
-      if (this.checkFlashInit() || me) return (S() * ke.ratioWeight >> this.audioChannels - 1 << this.audioChannels - 1) + Ee;if (this.mozAudioFound) return this.samplesAlreadyWritten - this.audioHandleMoz.mozCurrentSampleOffset();
+    if (0 == this.audioType) return this.samplesAlreadyWritten - this.audioHandleMoz.mozCurrentSampleOffset();if (1 == this.audioType) return (A() * ke.ratioWeight >> this.audioChannels - 1 << this.audioChannels - 1) + Ee;if (2 == this.audioType) {
+      if (this.checkFlashInit() || me) return (A() * ke.ratioWeight >> this.audioChannels - 1 << this.audioChannels - 1) + Ee;if (this.mozAudioFound) return this.samplesAlreadyWritten - this.audioHandleMoz.mozCurrentSampleOffset();
     }return 0;
   }, M.prototype.MOZExecuteCallback = function () {
     var e = ge - this.remainingBuffer();0 < e && this.writeMozAudio(this.underRunCallback(e));
@@ -1726,8 +1738,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       ke = null,
       Ee = 0,
       xe = 0,
-      Ae = 0,
-      Se = 2,
+      Se = 0,
+      Ae = 2,
       Ce = v;!function (e) {
     e[e.VoIP = 2048] = "VoIP", e[e.Audio = 2049] = "Audio", e[e.RestrictedLowDelay = 2051] = "RestrictedLowDelay";
   }(he || (he = {})), function (e) {
@@ -1789,111 +1801,111 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     this.defaultConfig = { codec: { sampleRate: 24e3, channels: 1, app: 2048, frameDuration: 20, bufferSize: 2048 } }, this.audioContext = _e;
   };
 
-  var ze = function (_Pe) {
-    _inherits(ze, _Pe);
+  var Oe = function (_Pe) {
+    _inherits(Oe, _Pe);
 
-    function ze() {
+    function Oe() {
       var _this21;
 
-      _classCallCheck(this, ze);
+      _classCallCheck(this, Oe);
 
       (_this21 = _possibleConstructorReturn(this, _Pe.call(this)), _this21), _this21.queueSize = 5120, _this21.unstableSeconds = 0, _this21.stableSeconds = 0, _this21.minimalQueueSize = _this21.queueSize;_this21.defaultConfig.codec.sampleRate, _this21.defaultConfig.codec.bufferSize;_this21.perfectRate = 50, _this21.lowestAcceptable = _this21.perfectRate - 5, _this21.highestAcceptable = _this21.perfectRate + 5;return _this21;
     }
 
-    ze.prototype.isAcceptable = function isAcceptable(e) {
+    Oe.prototype.isAcceptable = function isAcceptable(e) {
       return e >= this.lowestAcceptable && e <= this.highestAcceptable;
     };
 
-    ze.prototype.handleMeasurement = function handleMeasurement(e) {
+    Oe.prototype.handleMeasurement = function handleMeasurement(e) {
       this.isAcceptable(e) ? (this.unstableSeconds = 0, 5 <= this.stableSeconds && (this.decreaseBufferSize(), this.stableSeconds = 3), this.stableSeconds++) : (this.stableSeconds = 0, 5 <= this.unstableSeconds && this.increaseBufferSize(), this.unstableSeconds++);
     };
 
-    ze.prototype.increaseBufferSize = function increaseBufferSize() {
+    Oe.prototype.increaseBufferSize = function increaseBufferSize() {
       10240 > this.queueSize && (this.queueSize += 512, console.log("Buffer size increased and is now " + this.queueSize));
     };
 
-    ze.prototype.decreaseBufferSize = function decreaseBufferSize() {
+    Oe.prototype.decreaseBufferSize = function decreaseBufferSize() {
       this.queueSize > this.minimalQueueSize && (this.queueSize -= 512, console.log("Buffer size decreased and is now " + this.queueSize));
     };
 
-    ze.prototype.getBufferSize = function getBufferSize() {
+    Oe.prototype.getBufferSize = function getBufferSize() {
       return this.queueSize;
     };
 
-    return ze;
+    return Oe;
   }(Pe);
 
-  var Oe = function () {
-    function Oe(e) {
+  var ze = function () {
+    function ze(e) {
       var _this22 = this;
 
-      _classCallCheck(this, Oe);
+      _classCallCheck(this, ze);
 
       this.ticks = 0, this.task = setInterval(function () {
         e(_this22.ticks), _this22.ticks = 0;
       }, 1e3);
     }
 
-    Oe.prototype.tick = function tick() {
+    ze.prototype.tick = function tick() {
       this.ticks++;
     };
 
-    Oe.prototype.stop = function stop() {
+    ze.prototype.stop = function stop() {
       clearInterval(this.task);
     };
 
-    return Oe;
+    return ze;
   }();
 
-  var Le = function () {
-    function Le() {
+  var Re = function () {
+    function Re() {
       var _this23 = this;
 
-      _classCallCheck(this, Le);
+      _classCallCheck(this, Re);
 
-      this.buffer = new Float32Array(0), this.processor = new ze(), this.tickTimer = new Oe(function (e) {
+      this.buffer = new Float32Array(0), this.processor = new Oe(), this.tickTimer = new ze(function (e) {
         _this23.processor.handleMeasurement(e);
       });
     }
 
-    Le.prototype.tick = function tick() {
+    Re.prototype.tick = function tick() {
       this.tickTimer.tick();
     };
 
-    Le.prototype.write = function write(e, t) {
+    Re.prototype.write = function write(e, t) {
       this.length() > this.processor.getBufferSize() && (console.log("Too much delay. Clearing buffer"), this.buffer = new Float32Array(0));var i = this.buffer.length;t = e.sampler.resampler(t);var o = new Float32Array(i + t.length);o.set(this.buffer, 0), o.set(t, i), this.buffer = o;
     };
 
-    Le.prototype.read = function read(e) {
+    Re.prototype.read = function read(e) {
       var t = this.buffer.subarray(0, e);return this.buffer = this.buffer.subarray(e, this.buffer.length), t;
     };
 
-    Le.prototype.length = function length() {
+    Re.prototype.length = function length() {
       return this.buffer.length;
     };
 
-    Le.prototype.stop = function stop() {
+    Re.prototype.stop = function stop() {
       this.tickTimer.stop();
     };
 
-    return Le;
+    return Re;
   }();
 
-  var Re = function (_Pe2) {
-    _inherits(Re, _Pe2);
+  var Le = function (_Pe2) {
+    _inherits(Le, _Pe2);
 
-    function Re(e, t) {
+    function Le(e, t) {
       var _this24;
 
-      _classCallCheck(this, Re);
+      _classCallCheck(this, Le);
 
       (_this24 = _possibleConstructorReturn(this, _Pe2.call(this)), _this24), _this24.config = _this24.defaultConfig, _this24.config.codec = _this24.config.codec || _this24.defaultConfig.codec, _this24.config.server = _this24.config.server || _this24.defaultConfig.server, _this24.sampler = new Ce(_this24.config.codec.sampleRate, _this24.audioContext.sampleRate, 1, _this24.config.codec.bufferSize), _this24.parentSocket = t, _this24.decoder = new Te(_this24.config.codec.sampleRate, _this24.config.codec.channels), _this24.silence = new Float32Array(_this24.config.codec.bufferSize);return _this24;
     }
 
-    Re.prototype.start = function start() {
+    Le.prototype.start = function start() {
       var _this25 = this;
 
-      this.audioQueue = new Le(), this.scriptNode = this.audioContext.createScriptProcessor(this.config.codec.bufferSize, 1, 1), this.scriptNode.onaudioprocess = function (e) {
+      this.audioQueue = new Re(), this.scriptNode = this.audioContext.createScriptProcessor(this.config.codec.bufferSize, 1, 1), this.scriptNode.onaudioprocess = function (e) {
         _this25.audioQueue.length() ? e.outputBuffer.getChannelData(0).set(_this25.audioQueue.read(_this25.config.codec.bufferSize)) : e.outputBuffer.getChannelData(0).set(_this25.silence);
       }, this.gainNode = this.audioContext.createGain(), this.scriptNode.connect(this.gainNode), this.gainNode.connect(this.audioContext.destination), this.socket = this.parentSocket, this.socket.onmessage = function (e) {
         if (e.data instanceof Blob) {
@@ -1910,26 +1922,26 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, 1e3);
     };
 
-    Re.prototype.getVolume = function getVolume() {
+    Le.prototype.getVolume = function getVolume() {
       return this.gainNode ? this.gainNode.gain.value : "Stream not started yet";
     };
 
-    Re.prototype.setVolume = function setVolume(e) {
+    Le.prototype.setVolume = function setVolume(e) {
       this.gainNode && (this.gainNode.gain.value = e);
     };
 
-    Re.prototype.stop = function stop() {
+    Le.prototype.stop = function stop() {
       this.audioQueue.stop(), this.audioQueue = null, this.scriptNode.disconnect(), this.scriptNode = null, this.gainNode.disconnect(), this.gainNode = null, clearInterval(this.socketKeepAliveTimer), this.parentSocket ? this.socket.onmessage = this.parentOnmessage : this.socket.close();
     };
 
-    return Re;
+    return Le;
   }(Pe);
 
   var Ne = function () {
     function Ne(e, t) {
       _classCallCheck(this, Ne);
 
-      this.room = e, this.roomMember = t, this.isStopped = !1, this.player = new Re({}, new WebSocket(this.room.voiceServer.ws + "/listener?room=" + this.room.roomId + "&uuid=" + this.room.currentUser.uuid + "&target=" + this.roomMember.uuid + "&accessToken=" + this.room.accessToken)), this.player.start(), this.setVolume(this.room.main.getMediaManager().masterVolume);
+      this.room = e, this.roomMember = t, this.isStopped = !1, this.player = new Le({}, new WebSocket(this.room.voiceServer.ws + "/listener?room=" + this.room.roomId + "&uuid=" + this.room.currentUser.uuid + "&target=" + this.roomMember.uuid + "&accessToken=" + this.room.accessToken)), this.player.start(), this.setVolume(this.room.main.getMediaManager().masterVolume);
     }
 
     Ne.prototype.setVolume = function setVolume(e) {
@@ -1994,14 +2006,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             console.log(t), _this26.hide(), _this26.deniedMessage(), e(null);
           });
         };else {
-          null != _this26.requestBox && _this26.requestBox.hide();var _i5 = '<select id="select-mic-dropdown" class="alert-message-button">';var _iteratorNormalCompletion19 = true;
+          null != _this26.requestBox && _this26.requestBox.hide();var _i6 = '<select id="select-mic-dropdown" class="alert-message-button">';var _iteratorNormalCompletion19 = true;
           var _didIteratorError19 = false;
           var _iteratorError19 = undefined;
 
           try {
             for (var _iterator19 = t[Symbol.iterator](), _step19; !(_iteratorNormalCompletion19 = (_step19 = _iterator19.next()).done); _iteratorNormalCompletion19 = true) {
               var _e22 = _step19.value;
-              _i5 += '<option value="' + _e22.id + '">' + _e22.name + "</option>";
+              _i6 += '<option value="' + _e22.id + '">' + _e22.name + "</option>";
             }
           } catch (err) {
             _didIteratorError19 = true;
@@ -2018,7 +2030,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             }
           }
 
-          if (_i5 += "</select>", _this26.show('<div style="text-align: center;">What microphone would you like to use in this voicecall?<br /><small>changes can take a second or two to apply</small><br />' + _i5 + '<div id="mic-loader" style="display:none;"><h2>Switching mic input. Please wait.</h2><div class="loader"></div></div></div>'), null != Cookies.get("default-mic")) {
+          if (_i6 += "</select>", _this26.show('<div style="text-align: center;">What microphone would you like to use in this voicecall?<br /><small>changes can take a second or two to apply</small><br />' + _i6 + '<div id="mic-loader" style="display:none;"><h2>Switching mic input. Please wait.</h2><div class="loader"></div></div></div>'), null != Cookies.get("default-mic")) {
             var _e21 = document.getElementById("select-mic-dropdown");for (var _t12 = 0; _t12 < _e21.options.length; _t12++) {
               _e21.options[_t12].innerText === Cookies.get("default-mic") && (_e21.options[_t12].selected = !0);
             }
@@ -2339,29 +2351,29 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     return Ge;
   }();
 
-  var Ye = i(0);var Ke = null;
-  var Qe = function () {
-    function Qe(e, t, i) {
-      _classCallCheck(this, Qe);
+  var Ye = i(0);var Je = null;
+  var Ke = function () {
+    function Ke(e, t, i) {
+      _classCallCheck(this, Ke);
 
       this.x = e || 0, this.y = t || 0, this.z = i || 0;
     }
 
-    Qe.prototype.copy = function copy(e) {
+    Ke.prototype.copy = function copy(e) {
       return this.x = e.x, this.y = e.y, this.z = e.z, this;
     };
 
-    return Qe;
+    return Ke;
   }();
 
-  var Je = function () {
-    function Je(e, t, i, o) {
-      _classCallCheck(this, Je);
+  var Qe = function () {
+    function Qe(e, t, i, o) {
+      _classCallCheck(this, Qe);
 
       this.x = e || 0, this.y = t || 0, this.z = i || 0, this.w = void 0 === o ? 1 : o;
     }
 
-    Je.prototype.setFromEuler = function setFromEuler(e) {
+    Qe.prototype.setFromEuler = function setFromEuler(e) {
       var t = Math.sin,
           i = Math.cos;var o = e.x,
           n = e.y,
@@ -2374,13 +2386,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           d = t(s / 2);return this.x = u * a * l + r * h * d, this.y = r * h * l - u * a * d, this.z = r * a * d + u * h * l, this.w = r * a * l - u * h * d, this;
     };
 
-    return Je;
+    return Qe;
   }();
 
   var Ze = function () {
     function Ze() {
       var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new X();
-      var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new Je();
+      var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new Qe();
 
       _classCallCheck(this, Ze);
 
@@ -2404,8 +2416,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
 
     Xe.prototype.updateLocation = function updateLocation(e, t, i) {
-      this.location = e, this.pitch = this.toRadians(t), this.yaw = this.toRadians(this.normalizeYaw(360 - i));var o = new Qe(this.pitch, this.yaw, 0),
-          n = new Je();n.setFromEuler(o);new Ze(e, n).applyTo(this.listener), this.world.onLocationUpdate();
+      this.location = e, this.pitch = this.toRadians(t), this.yaw = this.toRadians(this.normalizeYaw(360 - i));var o = new Ke(this.pitch, this.yaw, 0),
+          n = new Qe();n.setFromEuler(o);new Ze(e, n).applyTo(this.listener), this.world.onLocationUpdate();
     };
 
     Xe.prototype.toRadians = function toRadians(e) {
@@ -2537,8 +2549,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       try {
         for (var _iterator21 = e[Symbol.iterator](), _step21; !(_iteratorNormalCompletion21 = (_step21 = _iterator21.next()).done); _iteratorNormalCompletion21 = true) {
-          var _i6 = _step21.value;
-          var _e25 = t.get(_i6.source);null != _e25 ? Array.isArray(_e25) ? (_e25.push(_i6), t.set(_i6.source, _e25)) : _e25.distance > _i6.distance && _i6.distance <= _i6.speaker.maxDistance && t.set(_i6.source, _i6) : _i6.speaker.type == et ? _i6.distance <= _i6.speaker.maxDistance && t.set(_i6.source, _i6) : _i6.distance <= _i6.speaker.maxDistance && t.set(_i6.source, [_i6]);
+          var _i7 = _step21.value;
+          var _e25 = t.get(_i7.source);null != _e25 ? Array.isArray(_e25) ? (_e25.push(_i7), t.set(_i7.source, _e25)) : _e25.distance > _i7.distance && _i7.distance <= _i7.speaker.maxDistance && t.set(_i7.source, _i7) : _i7.speaker.type == et ? _i7.distance <= _i7.speaker.maxDistance && t.set(_i7.source, _i7) : _i7.distance <= _i7.speaker.maxDistance && t.set(_i7.source, [_i7]);
         }
       } catch (err) {
         _didIteratorError21 = true;
@@ -2598,7 +2610,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       _classCallCheck(this, nt);
 
-      if ((_this40 = _possibleConstructorReturn(this, _ref2.call(this)), _this40), _this40.canStart = !1, _this40.host = null, _this40.background = null, _this40.tokenSet = new D().fromUrl(window.location.href), null == _this40.tokenSet) return _ret2 = void (document.getElementById("welcome-text-landing").innerHTML = "The audio client is only available for players who are online in the server. Use <small>/audio</small> to obtain a URL<br />"), _possibleConstructorReturn(_this40, _ret2);_this40.notificationModule = new Ge(_this40), _this40.timeService = new O(), _this40.messages = new L(_this40), _this40.userInterfaceModule = new R(_this40), _this40.hueConfiguration = new te(_this40), _this40.mediaManager = new G(_this40), _e = new (window.AudioContext || window.webkitAudioContext)(), _this40.voiceModule = new qe(_this40), _this40.boot();new le("https://plus.openaudiomc.net/").route(_this40).then(function (e) {
+      if ((_this40 = _possibleConstructorReturn(this, _ref2.call(this)), _this40), _this40.canStart = !1, _this40.host = null, _this40.background = null, _this40.tokenSet = new D().fromUrl(window.location.href), null == _this40.tokenSet) return _ret2 = void (document.getElementById("welcome-text-landing").innerHTML = "The audio client is only available for players who are online in the server. Use <small>/audio</small> to obtain a URL<br />"), _possibleConstructorReturn(_this40, _ret2);_this40.notificationModule = new Ge(_this40), _this40.timeService = new z(), _this40.messages = new R(_this40), _this40.userInterfaceModule = new L(_this40), _this40.hueConfiguration = new te(_this40), _this40.mediaManager = new G(_this40), _e = new (window.AudioContext || window.webkitAudioContext)(), _this40.voiceModule = new qe(_this40), _this40.boot();new le("https://plus.openaudiomc.net/").route(_this40).then(function (e) {
         _this40.canStart = !0, _this40.host = e.host, _this40.background = e.background;
       }).catch(function (e) {
         console.error("Exception thrown", e.stack), _this40.userInterfaceModule.kickScreen("Your current URL appears to be invalid. Please request a new one in-game using the /audio command. If this issue if persists please contact a member of staff."), new Y("#alert-area", { closeTime: 2e4, persistent: !1, hideCloseButton: !0, extra: "warning" }).show("A networking error occurred while connecting to the server, please request a new url and try again.");
@@ -2606,7 +2618,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
 
     nt.prototype.start = function start() {
-      this.canStart && (this.canStart = !1, this.world = new ot(this), this.hueModule = new N(this, Object(Ye.a)()), this.socketModule = new K(this, this.host), this.messages.apply(), new ee(this), "" !== this.background && (document.getElementById("page").style = "vertical-align: middle;\n    background:\n            url(" + this.background + ");\n    -webkit-background-size: cover;\n    background-size: cover;"), this.mediaManager.postBoot());
+      this.canStart && (this.canStart = !1, this.world = new ot(this), this.hueModule = new N(this, Object(Ye.a)()), this.socketModule = new J(this, this.host), this.messages.apply(), new ee(this), "" !== this.background && (document.getElementById("page").style = "vertical-align: middle;\n    background:\n            url(" + this.background + ");\n    -webkit-background-size: cover;\n    background-size: cover;"), this.mediaManager.postBoot());
+    };
+
+    nt.prototype.sendError = function sendError(e) {
+      !function (e, t) {
+        w("https://plus.openaudiomc.net/cf-log/production", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: t, message: e }) }).then(function (e) {
+          e.json().then(function (e) {
+            console.log("Reported error. Reponse was: " + JSON.stringify(e));
+          });
+        }).catch(function () {
+          console.log("An error occoured while reporting another error. Weird.");
+        });
+      }(e, this.tokenSet.name);
     };
 
     return nt;
@@ -2672,7 +2696,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
   !function () {
     if (navigator.vendor && -1 < navigator.vendor.indexOf("Apple") && navigator.userAgent && -1 == navigator.userAgent.indexOf("CriOS") && -1 == navigator.userAgent.indexOf("FxiOS")) return void (window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/browsers.html");var e = new D().fromUrl(window.location.href);null == e ? (document.getElementById("footer-welcome").innerText = "No authentication provided", document.getElementById("boot-button").style.display = "none", document.getElementById("welcome-text-landing").innerHTML = "The audio client is only available for players who are online in the server. Use <small>/audio</small> to obtain a URL<br />") : (document.body.onclick = function () {
-      Ke.canStart && Ke.start();
-    }, null != e && null != e.name && (document.getElementById("sidebar-head").style.background = "linear-gradient(0deg, rgba(42, 38, 95, .8), rgba(42, 38, 95, .4)), url(https://minotar.net/avatar/" + e.name + ")", document.getElementById("footer-welcome").innerText = "Logged in as " + e.name, Ke = new nt()));
+      Je.canStart && Je.start();
+    }, null != e && null != e.name && (document.getElementById("sidebar-head").style.background = "linear-gradient(0deg, rgba(42, 38, 95, .8), rgba(42, 38, 95, .4)), url(https://minotar.net/avatar/" + e.name + ")", document.getElementById("footer-welcome").innerText = "Logged in as " + e.name, Je = new nt()));
   }();
 }]);
