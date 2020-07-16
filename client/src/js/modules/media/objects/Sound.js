@@ -74,6 +74,7 @@ export class Sound extends AudioSourceProcessor{
                 if (type != null) {
                     // report back as failure
                     console.log("[OpenAudioMc] Reporting media failure " + type);
+                    this.openAudioMc.sendError("A sound failed to load. url=" + this.source +" error-code=" + this.soundElement.error.code + " error-message=" + this.soundElement.message + " detected-error=" + type);
                     this.openAudioMc.socketModule.send(PluginChannel.MEDIA_FAILURE, {
                         "mediaError": type,
                         "source": this.soundElement.src

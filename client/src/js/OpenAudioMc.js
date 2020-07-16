@@ -16,6 +16,7 @@ import {initAudioContext} from "./modules/voice/objects/AbstractAudio";
 import {getHueInstance} from "./helpers/libs/JsHue";
 import {linkBootListeners} from "./helpers/utils/StaticFunctions";
 import {WorldModule} from "./modules/world/WorldModule";
+import {ReportError} from "./helpers/protocol/ErrorReporter";
 
 export class OpenAudioMc extends Getters {
 
@@ -85,6 +86,10 @@ export class OpenAudioMc extends Getters {
         }
 
         this.mediaManager.postBoot();
+    }
+
+    sendError(message) {
+        ReportError(message, this.tokenSet.name);
     }
 }
 
