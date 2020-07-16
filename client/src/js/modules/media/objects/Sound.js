@@ -1,7 +1,22 @@
 import * as PluginChannel from "../../../helpers/protocol/PluginChannel";
 import {AudioSourceProcessor} from "../../../helpers/protocol/AudioSourceProcessor";
 
-export class Sound extends AudioSourceProcessor{
+if (!('toJSON' in Error.prototype))
+    Object.defineProperty(Error.prototype, 'toJSON', {
+        value: function () {
+            var alt = {};
+
+            Object.getOwnPropertyNames(this).forEach(function (key) {
+                alt[key] = this[key];
+            }, this);
+
+            return alt;
+        },
+        configurable: true,
+        writable: true
+    });
+
+export class Sound extends AudioSourceProcessor {
 
     constructor(source) {
         super()
@@ -77,7 +92,14 @@ export class Sound extends AudioSourceProcessor{
 
                     // don't send youtube, youtube errors will appear somewhere else
                     if (!(type == "MEDIA_ERR_SRC_NOT_SUPPORTED" && this.isYoutube)) {
-                        this.openAudioMc.sendError("A sound failed to load. url=" + this.source +" error-code=" + this.soundElement.error.code + " error-message=" + this.soundElement.message + " detected-error=" + type);
+                        var stringifyError = function(err, filter, space) {
+                            var plainObject = {};
+                            Object.getOwnPropertyNames(err).forEach(function(key) {
+                                plainObject[key] = err[key];
+                            });
+                            return JSON.stringify(plainObject, filter, space);
+                        };
+                        this.openAudioMc.sendError("A sound failed to load.\nurl=" + this.source + "\nerror-code=" + this.soundElement.error.code + "\nerror-message=" + this.soundElement.error.message + "\ndetected-error=" + type + "\ndump=" + stringifyError(this.error, null, '\t') + stringifyError(this.soundElement.error, null, '\t') + "\nhostname=" + window.location.host);
                     }
 
                     this.openAudioMc.socketModule.send(PluginChannel.MEDIA_FAILURE, {
