@@ -26,6 +26,7 @@ This document overrides the license as used before May 20th, 2020 at 7PM (UTC+2)
  - **Plus-Authentication**: OA Players who have administrative-rights can access the OpenAudioMc Plus get a unique token assigned to login to the OA Plus panel. this token is associated with their Player Username, Player UUID, A four-character string for verification, the public-and private key of the Server and date of creation. This token gets deleted as soon as the Player quits their session and closes Minecraft. This token is only public to those who received the URL from the command, but can be looked up by me for customer support reasons (only when the player explicitly gives to me their Player UUID and Server-Authentication)
  - **Client Settings**: Any provided Client Settings are stored indefinitely in relation to your Server-Authentication (as described in the first bullet under "Processed Data"). The Client Url setting may be monitored when changed to check whether the specific client installation complies with the Terms (as described below). This is a semi-automatic process, where it only notifies Me when it changed, I then review the page manually and decide to issue a ban or not. (These terms are listed at the end of this document)
  - **Online Players**: OpenAudioMc Plus stores a list of the Player Names, OpenAudioMc-Tokens and Player UUID's for everyone online on a Minecraft server that has OpenAudioMc installed **AND** player synchronization enabled on the OA Plus panel. Data related to a Player gets removed once they Close the game after their session, or if a Player disables the setting in OpenAudioMc Plus.
+ - **Fatal client errors**: Fatal client errors get logged in a private Discord channel where OpenAudioMc staff can look to assist in the help channel.  This channel gets cleared every week. Logged data contains: The player name whose client ran into a problem, the exact js error message and code, and the source that caused the issue (if applicable). This information will not be shared with third parties.
  
 ## Removal of references
 We provide the option for Players with administrative privileges on their server to have their Server-Authentication removed along with all the other Data linked to it (settings and possibly active tokens). Please contact Me (Mats, Mindgamesnl) through the OpenAudioMc Discord (https://discord.gg/6TagKB9/) or via the GitHub issues. I'll ask you for your public and private key (and other validation if I deem it necessary) before deleting all traces of your servers existence on the OpenAudioMc platform.
@@ -45,7 +46,7 @@ We provide the option for Players with administrative privileges on their server
  - I decide whether a Ban is necessary and or deserved for any reason given in this document or as stated in context of the ban.
  
  spelling errors and changes reserved,
- Mindgamesnl 12th of June
+ Mindgamesnl 16th of July
  2020
  
  I am not a lawyer, nor do I claim to be one.
