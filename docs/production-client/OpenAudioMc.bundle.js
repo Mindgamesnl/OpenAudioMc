@@ -325,25 +325,25 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     return z;
   }();
 
-  var R = function () {
-    function R(e) {
-      _classCallCheck(this, R);
+  var L = function () {
+    function L(e) {
+      _classCallCheck(this, L);
 
       this.fallback = "No message provided in oa+", this.main = e, this.hueConnected = 'You are now connected with your Philips Hue Lights! Please select your group (you can always change this later) and click "player" in the left bottem corner to return to the home menu.', this.hueLinking = "Press the link button on your hue bridge within %sec% seconds to connect.", this.hueWelcome = "We've detected a Philips Hue Bridge! You can connect it to OpenAudioMc and link your in-game session to your lights. This allows your current server to add real-time lighting effects. You can unlink at any time and manually select your lights.", this.welcomeMessage = this.fallback, this.errorMessage = this.fallback;
     }
 
-    R.prototype.apply = function apply() {
+    L.prototype.apply = function apply() {
       null != document.getElementById("hue-welcome-message") && (document.getElementById("hue-welcome-message").innerHTML = this.hueWelcome), "ok" === this.main.socketModule.state && (document.getElementById("status-message").innerHTML = this.welcomeMessage);
     };
 
-    return R;
+    return L;
   }();
 
-  var L = function () {
-    function L(e) {
+  var R = function () {
+    function R(e) {
       var _this = this;
 
-      _classCallCheck(this, L);
+      _classCallCheck(this, R);
 
       this.openAudioMc = e, document.getElementById("hue-bridge-menu-button").onclick = function () {
         return _this.showHue();
@@ -352,7 +352,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       };
     }
 
-    L.prototype.changeColor = function changeColor(e, t) {
+    R.prototype.changeColor = function changeColor(e, t) {
       var i = function (e) {
         return e = e.replace("#", ""), "rgb(" + parseInt(e.substring(0, 2), 16) + ", " + parseInt(e.substring(2, 4), 16) + ", " + parseInt(e.substring(4, 6), 16) + ")";
       }(e);document.querySelectorAll("*").forEach(function (e) {
@@ -365,31 +365,31 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       });
     };
 
-    L.prototype.setMessage = function setMessage(e) {
+    R.prototype.setMessage = function setMessage(e) {
       document.getElementById("status-message").innerHTML = e;
     };
 
-    L.prototype.showMain = function showMain() {
+    R.prototype.showMain = function showMain() {
       document.getElementById("welcome").style.display = "none", document.getElementById("hueMenu").style.display = "none", document.getElementById("app").style.display = "";
     };
 
-    L.prototype.openApp = function openApp() {
+    R.prototype.openApp = function openApp() {
       document.getElementById("welcome").style.display = "none", document.getElementById("app").style.display = "", this.openAudioMc.userInterfaceModule.setMessage(this.openAudioMc.messages.welcomeMessage), document.getElementById("page").classList.remove("dark-bg");
     };
 
-    L.prototype.showHue = function showHue() {
+    R.prototype.showHue = function showHue() {
       document.getElementById("welcome").style.display = "none", document.getElementById("hueMenu").style.display = "", document.getElementById("app").style.display = "none";
     };
 
-    L.prototype.kickScreen = function kickScreen(e) {
+    R.prototype.kickScreen = function kickScreen(e) {
       document.getElementById("footer-welcome").innerText = "Session terminated", document.getElementById("boot-button").style.display = "none", document.getElementById("welcome-text-landing").innerHTML = null == e ? this.openAudioMc.messages.errorMessage : e, document.getElementById("welcome").style.display = "", document.getElementById("page").classList.add("dark-bg"), document.getElementById("app").style.display = "none";
     };
 
-    L.prototype.showVolumeSlider = function showVolumeSlider(e) {
+    R.prototype.showVolumeSlider = function showVolumeSlider(e) {
       e ? (document.getElementById("volume-label").style.display = "", document.getElementById("volume-disp").style.display = "") : (document.getElementById("volume-disp").style.display = "none", document.getElementById("volume-label").style.display = "none");
     };
 
-    return L;
+    return R;
   }();
 
   var N = function () {
@@ -820,13 +820,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       if (this.hadError && null != this.openAudioMc && "error" == this.error.type) {
         var _t5 = this.soundElement.error.code,
             _i3 = null;if (this.isYoutube ? _i3 = this.openAudioMc.socketModule.supportsYoutube ? "YOUTUBE_ERR" : "MEDIA_ERR_SRC_NOT_SUPPORTED" : 1 === _t5 ? _i3 = "MEDIA_ERR_ABORTED" : 2 === _t5 ? _i3 = "MEDIA_ERR_NETWORK" : 3 === _t5 ? _i3 = "MEDIA_ERR_DECODE" : 4 === _t5 && (_i3 = "MEDIA_ERR_SRC_NOT_SUPPORTED"), null != _i3) {
-          if (console.log("[OpenAudioMc] Reporting media failure " + _i3), "MEDIA_ERR_SRC_NOT_SUPPORTED" != _i3 || !this.isYoutube) {
-            var e = function e(_e13, t, i) {
-              var o = {};return Object.getOwnPropertyNames(_e13).forEach(function (t) {
-                o[t] = _e13[t];
-              }), JSON.stringify(o, t, i);
-            };this.openAudioMc.sendError("A sound failed to load.\nurl=" + this.source + "\nerror-code=" + this.soundElement.error.code + "\nerror-message=" + this.soundElement.error.message + "\ndetected-error=" + _i3 + "\ndump=" + e(this.error, null, "\t") + e(this.soundElement.error, null, "\t") + "\nhostname=" + window.location.host);
-          }this.openAudioMc.socketModule.send("media_failure", { mediaError: _i3, source: this.soundElement.src });
+          console.log("[OpenAudioMc] Reporting media failure " + _i3);var e = function e(_e13, t, i) {
+            var o = {};return Object.getOwnPropertyNames(_e13).forEach(function (t) {
+              o[t] = _e13[t];
+            }), JSON.stringify(o, t, i);
+          };this.openAudioMc.sendError("A sound failed to load.\nurl=" + this.source + "\nerror-code=" + this.soundElement.error.code + "\nerror-message=" + this.soundElement.error.message + "\ndetected-error=" + _i3 + "\ndump=" + e(this.error, null, "\t") + e(this.soundElement.error, null, "\t") + "\nhostname=" + window.location.host), this.openAudioMc.socketModule.send("media_failure", { mediaError: _i3, source: this.soundElement.src });
         }
       }
     };
@@ -1857,55 +1855,55 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     return ze;
   }();
 
-  var Re = function () {
-    function Re() {
+  var Le = function () {
+    function Le() {
       var _this23 = this;
 
-      _classCallCheck(this, Re);
+      _classCallCheck(this, Le);
 
       this.buffer = new Float32Array(0), this.processor = new Oe(), this.tickTimer = new ze(function (e) {
         _this23.processor.handleMeasurement(e);
       });
     }
 
-    Re.prototype.tick = function tick() {
+    Le.prototype.tick = function tick() {
       this.tickTimer.tick();
     };
 
-    Re.prototype.write = function write(e, t) {
+    Le.prototype.write = function write(e, t) {
       this.length() > this.processor.getBufferSize() && (console.log("Too much delay. Clearing buffer"), this.buffer = new Float32Array(0));var i = this.buffer.length;t = e.sampler.resampler(t);var o = new Float32Array(i + t.length);o.set(this.buffer, 0), o.set(t, i), this.buffer = o;
     };
 
-    Re.prototype.read = function read(e) {
+    Le.prototype.read = function read(e) {
       var t = this.buffer.subarray(0, e);return this.buffer = this.buffer.subarray(e, this.buffer.length), t;
     };
 
-    Re.prototype.length = function length() {
+    Le.prototype.length = function length() {
       return this.buffer.length;
     };
 
-    Re.prototype.stop = function stop() {
+    Le.prototype.stop = function stop() {
       this.tickTimer.stop();
     };
 
-    return Re;
+    return Le;
   }();
 
-  var Le = function (_Pe2) {
-    _inherits(Le, _Pe2);
+  var Re = function (_Pe2) {
+    _inherits(Re, _Pe2);
 
-    function Le(e, t) {
+    function Re(e, t) {
       var _this24;
 
-      _classCallCheck(this, Le);
+      _classCallCheck(this, Re);
 
       (_this24 = _possibleConstructorReturn(this, _Pe2.call(this)), _this24), _this24.config = _this24.defaultConfig, _this24.config.codec = _this24.config.codec || _this24.defaultConfig.codec, _this24.config.server = _this24.config.server || _this24.defaultConfig.server, _this24.sampler = new Ce(_this24.config.codec.sampleRate, _this24.audioContext.sampleRate, 1, _this24.config.codec.bufferSize), _this24.parentSocket = t, _this24.decoder = new Te(_this24.config.codec.sampleRate, _this24.config.codec.channels), _this24.silence = new Float32Array(_this24.config.codec.bufferSize);return _this24;
     }
 
-    Le.prototype.start = function start() {
+    Re.prototype.start = function start() {
       var _this25 = this;
 
-      this.audioQueue = new Re(), this.scriptNode = this.audioContext.createScriptProcessor(this.config.codec.bufferSize, 1, 1), this.scriptNode.onaudioprocess = function (e) {
+      this.audioQueue = new Le(), this.scriptNode = this.audioContext.createScriptProcessor(this.config.codec.bufferSize, 1, 1), this.scriptNode.onaudioprocess = function (e) {
         _this25.audioQueue.length() ? e.outputBuffer.getChannelData(0).set(_this25.audioQueue.read(_this25.config.codec.bufferSize)) : e.outputBuffer.getChannelData(0).set(_this25.silence);
       }, this.gainNode = this.audioContext.createGain(), this.scriptNode.connect(this.gainNode), this.gainNode.connect(this.audioContext.destination), this.socket = this.parentSocket, this.socket.onmessage = function (e) {
         if (e.data instanceof Blob) {
@@ -1922,26 +1920,26 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, 1e3);
     };
 
-    Le.prototype.getVolume = function getVolume() {
+    Re.prototype.getVolume = function getVolume() {
       return this.gainNode ? this.gainNode.gain.value : "Stream not started yet";
     };
 
-    Le.prototype.setVolume = function setVolume(e) {
+    Re.prototype.setVolume = function setVolume(e) {
       this.gainNode && (this.gainNode.gain.value = e);
     };
 
-    Le.prototype.stop = function stop() {
+    Re.prototype.stop = function stop() {
       this.audioQueue.stop(), this.audioQueue = null, this.scriptNode.disconnect(), this.scriptNode = null, this.gainNode.disconnect(), this.gainNode = null, clearInterval(this.socketKeepAliveTimer), this.parentSocket ? this.socket.onmessage = this.parentOnmessage : this.socket.close();
     };
 
-    return Le;
+    return Re;
   }(Pe);
 
   var Ne = function () {
     function Ne(e, t) {
       _classCallCheck(this, Ne);
 
-      this.room = e, this.roomMember = t, this.isStopped = !1, this.player = new Le({}, new WebSocket(this.room.voiceServer.ws + "/listener?room=" + this.room.roomId + "&uuid=" + this.room.currentUser.uuid + "&target=" + this.roomMember.uuid + "&accessToken=" + this.room.accessToken)), this.player.start(), this.setVolume(this.room.main.getMediaManager().masterVolume);
+      this.room = e, this.roomMember = t, this.isStopped = !1, this.player = new Re({}, new WebSocket(this.room.voiceServer.ws + "/listener?room=" + this.room.roomId + "&uuid=" + this.room.currentUser.uuid + "&target=" + this.roomMember.uuid + "&accessToken=" + this.room.accessToken)), this.player.start(), this.setVolume(this.room.main.getMediaManager().masterVolume);
     }
 
     Ne.prototype.setVolume = function setVolume(e) {
@@ -2610,7 +2608,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       _classCallCheck(this, nt);
 
-      if ((_this40 = _possibleConstructorReturn(this, _ref2.call(this)), _this40), _this40.canStart = !1, _this40.host = null, _this40.background = null, _this40.tokenSet = new D().fromUrl(window.location.href), null == _this40.tokenSet) return _ret2 = void (document.getElementById("welcome-text-landing").innerHTML = "The audio client is only available for players who are online in the server. Use <small>/audio</small> to obtain a URL<br />"), _possibleConstructorReturn(_this40, _ret2);_this40.notificationModule = new Ge(_this40), _this40.timeService = new z(), _this40.messages = new R(_this40), _this40.userInterfaceModule = new L(_this40), _this40.hueConfiguration = new te(_this40), _this40.mediaManager = new G(_this40), _e = new (window.AudioContext || window.webkitAudioContext)(), _this40.voiceModule = new qe(_this40), _this40.boot();new le("https://plus.openaudiomc.net/").route(_this40).then(function (e) {
+      if ((_this40 = _possibleConstructorReturn(this, _ref2.call(this)), _this40), _this40.canStart = !1, _this40.host = null, _this40.background = null, _this40.tokenSet = new D().fromUrl(window.location.href), null == _this40.tokenSet) return _ret2 = void (document.getElementById("welcome-text-landing").innerHTML = "The audio client is only available for players who are online in the server. Use <small>/audio</small> to obtain a URL<br />"), _possibleConstructorReturn(_this40, _ret2);_this40.notificationModule = new Ge(_this40), _this40.timeService = new z(), _this40.messages = new L(_this40), _this40.userInterfaceModule = new R(_this40), _this40.hueConfiguration = new te(_this40), _this40.mediaManager = new G(_this40), _e = new (window.AudioContext || window.webkitAudioContext)(), _this40.voiceModule = new qe(_this40), _this40.boot();new le("https://plus.openaudiomc.net/").route(_this40).then(function (e) {
         _this40.canStart = !0, _this40.host = e.host, _this40.background = e.background;
       }).catch(function (e) {
         console.error("Exception thrown", e.stack), _this40.userInterfaceModule.kickScreen("Your current URL appears to be invalid. Please request a new one in-game using the /audio command. If this issue if persists please contact a member of staff."), new Y("#alert-area", { closeTime: 2e4, persistent: !1, hideCloseButton: !0, extra: "warning" }).show("A networking error occurred while connecting to the server, please request a new url and try again.");

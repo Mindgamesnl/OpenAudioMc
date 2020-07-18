@@ -90,17 +90,14 @@ export class Sound extends AudioSourceProcessor {
                     // report back as failure
                     console.log("[OpenAudioMc] Reporting media failure " + type);
 
-                    // don't send youtube, youtube errors will appear somewhere else
-                    if (!(type == "MEDIA_ERR_SRC_NOT_SUPPORTED" && this.isYoutube)) {
-                        var stringifyError = function(err, filter, space) {
-                            var plainObject = {};
-                            Object.getOwnPropertyNames(err).forEach(function(key) {
-                                plainObject[key] = err[key];
-                            });
-                            return JSON.stringify(plainObject, filter, space);
-                        };
-                        this.openAudioMc.sendError("A sound failed to load.\nurl=" + this.source + "\nerror-code=" + this.soundElement.error.code + "\nerror-message=" + this.soundElement.error.message + "\ndetected-error=" + type + "\ndump=" + stringifyError(this.error, null, '\t') + stringifyError(this.soundElement.error, null, '\t') + "\nhostname=" + window.location.host);
-                    }
+                    var stringifyError = function(err, filter, space) {
+                        var plainObject = {};
+                        Object.getOwnPropertyNames(err).forEach(function(key) {
+                            plainObject[key] = err[key];
+                        });
+                        return JSON.stringify(plainObject, filter, space);
+                    };
+                    this.openAudioMc.sendError("A sound failed to load.\nurl=" + this.source + "\nerror-code=" + this.soundElement.error.code + "\nerror-message=" + this.soundElement.error.message + "\ndetected-error=" + type + "\ndump=" + stringifyError(this.error, null, '\t') + stringifyError(this.soundElement.error, null, '\t') + "\nhostname=" + window.location.host);
 
                     this.openAudioMc.socketModule.send(PluginChannel.MEDIA_FAILURE, {
                         "mediaError": type,
