@@ -23,6 +23,7 @@ export class SpeakerPlayer {
         this.media.setVolume(0);
         createdChannel.setChannelVolume(0);
         createdMedia.startDate(startInstant, true);
+
         createdMedia.finalize().then(() => {
             openAudioMc.getMediaManager().mixer.addChannel(createdChannel);
             createdChannel.fadeChannel(100, 100);

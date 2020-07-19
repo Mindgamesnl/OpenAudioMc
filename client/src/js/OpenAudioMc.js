@@ -41,10 +41,6 @@ export class OpenAudioMc extends Getters {
         this.hueConfiguration = new HueConfigurationModule(this);
         this.mediaManager = new MediaManager(this);
 
-        //initialize audio encoding
-        initAudioContext();
-
-        this.voiceModule = new VoiceModule(this);
         this.boot();
 
         // request a socket service, then do the booting
@@ -70,6 +66,11 @@ export class OpenAudioMc extends Getters {
     start() {
         if (!this.canStart) return;
         this.canStart = false;
+
+        //initialize audio encoding
+        initAudioContext();
+
+        this.voiceModule = new VoiceModule(this);
         this.world = new WorldModule(this);
         this.hueModule = new HueModule(this, getHueInstance());
         this.socketModule = new SocketModule(this, this.host);
