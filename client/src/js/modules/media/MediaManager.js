@@ -81,7 +81,7 @@ export class MediaManager {
         this.mixer.setMasterVolume(volume);
 
         // update voice call volume, if any
-        this.openAudioMc.voiceModule.setVolume(volume);
+        // this.openAudioMc.voiceModule.setVolume(volume);
     }
 
     changeVolume(volume) {

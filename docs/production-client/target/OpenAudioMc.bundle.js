@@ -973,7 +973,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     J.prototype.setMasterVolume = function setMasterVolume(e) {
-      this.masterVolume = e, 0 === e ? document.getElementById("volume-disp").innerHTML = "<i>(muted)</i>" : document.getElementById("volume-disp").innerText = "Volume: " + e + "%", Cookies.set("volume", e), this.mixer.setMasterVolume(e), this.openAudioMc.voiceModule.setVolume(e);
+      this.masterVolume = e, 0 === e ? document.getElementById("volume-disp").innerHTML = "<i>(muted)</i>" : document.getElementById("volume-disp").innerText = "Volume: " + e + "%", Cookies.set("volume", e), this.mixer.setMasterVolume(e);
     };
 
     J.prototype.changeVolume = function changeVolume(e) {
