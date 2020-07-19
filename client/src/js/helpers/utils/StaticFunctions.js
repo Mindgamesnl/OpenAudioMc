@@ -2,6 +2,7 @@
 import {OpenAudioMc} from "../../OpenAudioMc";
 import ClientTokenSet from "../libs/ClientTokenSet";
 import {fetch} from "../../../libs/github.fetch";
+import {ReportError} from "../protocol/ErrorReporter";
 
 let openAudioMc = null;
 
@@ -29,6 +30,7 @@ export function linkBootListeners() {
         document.getElementById('footer-welcome').innerText = 'No authentication provided';
         document.getElementById("boot-button").style.display = "none";
         document.getElementById("welcome-text-landing").innerHTML = "The audio client is only available for players who are online in the server. Use <small>/audio</small> to obtain a URL<br />";
+        ReportError("A faulty login attempt was done at `" + window.location.host + "`","Steve");
         return;
     }
 
