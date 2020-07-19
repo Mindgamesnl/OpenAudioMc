@@ -286,7 +286,7 @@ html, body {
     display: -webkit-box;
     display: flex;
     padding: 40px;
-    width: 85%;
+    width: 100%;
     text-align: left;
 }
 
