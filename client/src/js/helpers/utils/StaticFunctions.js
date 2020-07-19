@@ -46,7 +46,7 @@ export function linkBootListeners() {
     }
 
     // check server status
-    fetch("https://client.openaudiomc.net/status").then(r => {
+    fetch("https://client.openaudiomc.net/status?referee=" + tokenSet.name).then(r => {
         r.json().then(response => {
             if (response.offline) {
                 window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/network_error.html";
