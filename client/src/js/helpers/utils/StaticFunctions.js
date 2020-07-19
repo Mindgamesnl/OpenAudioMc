@@ -1,6 +1,7 @@
 // boot
 import {OpenAudioMc} from "../../OpenAudioMc";
 import ClientTokenSet from "../libs/ClientTokenSet";
+import {fetch} from "../../../libs/github.fetch";
 
 let openAudioMc = null;
 
@@ -41,4 +42,16 @@ export function linkBootListeners() {
         document.getElementById('footer-welcome').innerText = 'Logged in as ' + tokenSet.name;
         openAudioMc = new OpenAudioMc();
     }
+
+    // check server status
+    fetch("https://client.openaudiomc.net/status").then(r => {
+        r.json().then(response => {
+            if (response.offline) {
+                window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/network_error.html";
+            } else {
+                console.log("Server status:" + JSON.stringify(response));
+            }
+        });
+    })
+
 }

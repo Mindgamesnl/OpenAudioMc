@@ -1,0 +1,2 @@
+# Server Outage!
+The core OpenAudioMc servers seem to be unreachable right now. This could be because a number of issues. Please contact us in the [discord](https://discord.openaudiomc.net/) and we'll work on resolving the issue as soon as possible.  
