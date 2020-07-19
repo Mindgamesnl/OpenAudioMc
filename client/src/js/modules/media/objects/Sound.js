@@ -1,7 +1,22 @@
 import * as PluginChannel from "../../../helpers/protocol/PluginChannel";
 import {AudioSourceProcessor} from "../../../helpers/protocol/AudioSourceProcessor";
 
-export class Sound extends AudioSourceProcessor{
+if (!('toJSON' in Error.prototype))
+    Object.defineProperty(Error.prototype, 'toJSON', {
+        value: function () {
+            var alt = {};
+
+            Object.getOwnPropertyNames(this).forEach(function (key) {
+                alt[key] = this[key];
+            }, this);
+
+            return alt;
+        },
+        configurable: true,
+        writable: true
+    });
+
+export class Sound extends AudioSourceProcessor {
 
     constructor(source) {
         super()
@@ -74,6 +89,16 @@ export class Sound extends AudioSourceProcessor{
                 if (type != null) {
                     // report back as failure
                     console.log("[OpenAudioMc] Reporting media failure " + type);
+
+                    var stringifyError = function(err, filter, space) {
+                        var plainObject = {};
+                        Object.getOwnPropertyNames(err).forEach(function(key) {
+                            plainObject[key] = err[key];
+                        });
+                        return JSON.stringify(plainObject, filter, space);
+                    };
+                    this.openAudioMc.sendError("A sound failed to load.\nurl=" + this.source + "\nerror-code=" + this.soundElement.error.code + "\nerror-message=" + this.soundElement.error.message + "\ndetected-error=" + type + "\ndump=" + stringifyError(this.error, null, '\t') + stringifyError(this.soundElement.error, null, '\t') + "\nhostname=" + window.location.host);
+
                     this.openAudioMc.socketModule.send(PluginChannel.MEDIA_FAILURE, {
                         "mediaError": type,
                         "source": this.soundElement.src
