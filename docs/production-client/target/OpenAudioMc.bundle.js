@@ -775,7 +775,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
 
     H.prototype.fromUrl = function fromUrl(e) {
-      if (null == e) return null;if (2 > e.split("?").length) return null;var t = function () {
+      if (null != window.tokenCache) return window.tokenCache;if (null == e) return null;if (2 > e.split("?").length) return null;var t = function () {
         function _class() {
           _classCallCheck(this, _class);
         }
@@ -793,7 +793,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }().getParametersFromUrl(e.split("?")[1]);if (null == t.data) return null;var i = atob(t.data).split(":");if (4 !== i.length) return null;var o = i[0],
           n = i[1],
           s = i[2],
-          r = i[3];return null != o && 16 >= o.length && null != n && 40 >= n.length && null != s && 40 >= s.length && null != r && 5 >= r.length ? new H(s, n, o, r) : null;
+          r = i[3];if (!(null != o && 16 >= o.length && null != n && 40 >= n.length && null != s && 40 >= s.length && null != r && 5 >= r.length)) return null;var a = new H(s, n, o, r);return window.tokenCache = a, a;
     };
 
     return H;
@@ -2624,7 +2624,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
 
     st.prototype.start = function start() {
-      this.canStart && (this.canStart = !1, this.world = new nt(this), this.hueModule = new U(this, Object(Ye.a)()), this.socketModule = new K(this, this.host), this.messages.apply(), new te(this), "" !== this.background && (document.getElementById("page").style = "vertical-align: middle;\n    background:\n            url(" + this.background + ");\n    -webkit-background-size: cover;\n    background-size: cover;"), this.mediaManager.postBoot());
+      this.canStart && (this.canStart = !1, this.world = new nt(this), this.hueModule = new U(this, Object(Ye.a)()), this.socketModule = new K(this, this.host), this.messages.apply(), new te(this), "" !== this.background && (document.getElementById("page").style = "vertical-align: middle;\n    background:\n            url(" + this.background + ");\n    -webkit-background-size: cover;\n    background-size: cover;"), this.mediaManager.postBoot(), window.history.pushState("Logged In Openaudio Client", "Logged In Openaudio Client", "/#connected"));
     };
 
     st.prototype.sendError = function sendError(e) {
