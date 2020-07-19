@@ -1,6 +1,7 @@
 import {fetch} from "../../../libs/github.fetch";
 import ClientTokenSet from "../../helpers/libs/ClientTokenSet";
 import {parseStyle} from "../../helpers/libs/MinecraftColorCodes";
+import {ReportError} from "../../helpers/protocol/ErrorReporter";
 
 export class SocketDirector {
 
@@ -30,6 +31,8 @@ export class SocketDirector {
 
                         if (response.banned) {
                             window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/blocked_domain.html";
+                            ReportError("Declined connection due to ban " + window.location.host,"Steve");
+                            return;
                         }
 
                         // loop over them and try to find one with a secure tag
