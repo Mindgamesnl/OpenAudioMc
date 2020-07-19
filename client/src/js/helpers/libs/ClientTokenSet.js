@@ -10,6 +10,9 @@ export default class ClientTokenSet {
     }
 
     fromUrl(url) {
+        if (window.tokenCache != null) {
+            return window.tokenCache;
+        }
         if (url == null) return null;
         if (url.split('?').length < 2) return null;
         const params = UrlReader.getParametersFromUrl(url.split('?')[1]);
@@ -36,7 +39,9 @@ export default class ClientTokenSet {
         }
 
         // all appears to be okay! thats good! give a session
-        return new ClientTokenSet(serverUuid, playerUuid, playerName, playerToken);
+        const out = new ClientTokenSet(serverUuid, playerUuid, playerName, playerToken)
+        window.tokenCache = out;
+        return out;
     }
 
 }
