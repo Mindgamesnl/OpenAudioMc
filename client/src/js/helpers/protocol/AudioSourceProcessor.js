@@ -17,6 +17,10 @@ export class AudioSourceProcessor {
         if (source.includes("https://docs.google.com/uc?export=open&id=")) {
             source = source.replace("https://docs.google.com/uc?export=open&id=", API_ENDPOINTS.DRIVE);
         }
+        if (source.includes("https://drive.google.com/")) {
+            source = source.split("file/d/")[1];
+            source = source.split("/view")[0];
+        }
 
         // handle youtube proxy, if peeps are interested in that but don't know how to
         // basically for those who can't or wont read documentatino lmao
