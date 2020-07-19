@@ -1,4 +1,4 @@
-# OpenAudioMc [![Build Status](https://travis-ci.org/Mindgamesnl/OpenAudioMc.svg?branch=master)](https://travis-ci.org/Mindgamesnl/OpenAudioMc) [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FMindgamesnl%2FOpenAudioMc.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FMindgamesnl%2FOpenAudioMc?ref=badge_shield)
+# OpenAudioMc [![Build Status](https://travis-ci.org/Mindgamesnl/OpenAudioMc.svg?branch=master)](https://travis-ci.org/Mindgamesnl/OpenAudioMc) [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FMindgamesnl%2FOpenAudioMc.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FMindgamesnl%2FOpenAudioMc?ref=badge_shield) ![commit activity](https://img.shields.io/github/commit-activity/4w/mindgamesnl/openaudiomc.svg)
 
 OpenAudio is free to download on spigot.
 * [Spigot Release Page](https://www.spigotmc.org/resources/openaudiomc-open-source-audio-client.30691/ "Spigot Plugin Page")
