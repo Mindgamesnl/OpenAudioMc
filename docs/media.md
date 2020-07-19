@@ -9,7 +9,7 @@ OpenAudioMc supports multiple file formats for your sounds, these are:
 - Google Drive Public Share Link
 - DropBox Public Share Link
 - SoundCloud
-- YouTube (**BETA**)
+- YouTube
 
 *Notes:*
  - Youtube videos need to be public and big videos might not work. It's best to upload your own.
