@@ -56,10 +56,10 @@ public class ShowSubCommand extends SubCommand {
                         "Display info about a show"),
 
                 new Argument("list",
-                        "List all shows"),
+                        "List all shows")// ,
 
-                new Argument("upload <show name>",
-                        "Upload a show to the web editor to control/change it from there")
+                // new Argument("upload <show name>",
+                //        "Upload a show to the web editor to control/change it from there")
         );
         this.openAudioMcSpigot = openAudioMcSpigot;
     }
