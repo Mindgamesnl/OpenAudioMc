@@ -1,6 +1,6 @@
 import ClientTokenSet from "../libs/ClientTokenSet";
 
-const API_ENDPOINTS = {
+export const API_ENDPOINTS = {
     PROXY: "https://media.openaudiomc.net/proxy?apiurl=",
     YOUTUBE: "https://media.openaudiomc.net/youtube?id=",
     SOUNDCLOUD: "https://media.openaudiomc.net/soundcloud?u=",

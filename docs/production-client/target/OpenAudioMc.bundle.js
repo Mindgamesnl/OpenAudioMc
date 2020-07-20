@@ -268,39 +268,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         4 === r.readyState && s.signal.removeEventListener("abort", n);
       }), r.send(void 0 === s._bodyInit ? null : s._bodyInit);
     });
-  }function v(e, t, i, o, n) {
-    this.fromSampleRate = e, this.toSampleRate = t, this.channels = 0 | i, this.outputBufferSize = o, this.noReturn = !!n, this.initialize();
-  }function M(e, t, i, o, n, s) {
-    this.audioChannels = 2 == e ? 2 : 1, Me = 1 == this.audioChannels, ve = 0 < t && 16777215 >= t ? t : 44100, ye = i >= me << 1 && i < o ? i & (Me ? 4294967295 : 4294967294) : me << 1, be = z(o) > ye + this.audioChannels ? o & (Me ? 4294967295 : 4294967294) : i << 1, this.underRunCallback = "function" == typeof n ? n : function () {}, ke = -1 <= s && 1 >= s && 0 != s ? s : 0, this.audioType = -1, this.mozAudioTail = [], this.audioHandleMoz = null, this.audioHandleFlash = null, this.flashInitialized = !1, this.mozAudioFound = !1, this.initializeAudio();
-  }function k(e) {
-    try {
-      var t = new Float32Array(e);
-    } catch (t) {
-      var t;Array(e);
-    }for (var i = 0; i < e; ++i) {
-      t[i] = ke * (i / e);
-    }return t;
-  }function E(e) {
-    try {
-      var t = new Float32Array(e);
-    } catch (o) {
-      t = Array(e);var i = 0;do {
-        t[i] = 0;
-      } while (++i < e);
-    }return t;
-  }function S() {
-    for (var e = "", t = "", i = 0; i < me && xe != Ae; ++i) {
-      e += _(12288 + (0 | 16383 * T(I(ge[xe++] + 1, 0), 2))), t += _(12288 + (0 | 16383 * T(I(ge[xe++] + 1, 0), 2))), xe == Ce && (xe = 0);
-    }return e + t;
-  }function x() {
-    for (var e = "", t = 0; t < me && xe != Ae; ++t) {
-      e += _(12288 + (0 | 16383 * T(I(ge[xe++] + 1, 0), 2))), xe == Ce && (xe = 0);
-    }return e;
-  }function A() {
-    return (xe <= Ae ? 0 : Ce) + Ae - xe;
-  }function C(e) {
-    fe = k(be), Se = be, xe = 0, Ae = 0, Ce = I(be * Math.ceil(ve / e), me) << 1, Me ? (ge = E(Ce), Ee = new v(ve, e, 1, Ce, !0), x) : (ge = E(Ce <<= 1), Ee = new v(ve, e, 2, Ce, !0), S);
-  }function B(e, t) {
+  }function v(e, t) {
     w("https://plus.openaudiomc.net/cf-log/production", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: t, message: e }) }).then(function (e) {
       e.json().then(function (e) {
         console.log("Reported error. Reponse was: " + JSON.stringify(e));
@@ -308,6 +276,38 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }).catch(function () {
       console.log("An error occoured while reporting another error. Weird.");
     });
+  }function M(e, t, i, o, n) {
+    this.fromSampleRate = e, this.toSampleRate = t, this.channels = 0 | i, this.outputBufferSize = o, this.noReturn = !!n, this.initialize();
+  }function k(e, t, i, o, n, s) {
+    this.audioChannels = 2 == e ? 2 : 1, Me = 1 == this.audioChannels, ve = 0 < t && 16777215 >= t ? t : 44100, ye = i >= me << 1 && i < o ? i & (Me ? 4294967295 : 4294967294) : me << 1, be = z(o) > ye + this.audioChannels ? o & (Me ? 4294967295 : 4294967294) : i << 1, this.underRunCallback = "function" == typeof n ? n : function () {}, ke = -1 <= s && 1 >= s && 0 != s ? s : 0, this.audioType = -1, this.mozAudioTail = [], this.audioHandleMoz = null, this.audioHandleFlash = null, this.flashInitialized = !1, this.mozAudioFound = !1, this.initializeAudio();
+  }function E(e) {
+    try {
+      var t = new Float32Array(e);
+    } catch (t) {
+      var t;Array(e);
+    }for (var i = 0; i < e; ++i) {
+      t[i] = ke * (i / e);
+    }return t;
+  }function S(e) {
+    try {
+      var t = new Float32Array(e);
+    } catch (o) {
+      t = Array(e);var i = 0;do {
+        t[i] = 0;
+      } while (++i < e);
+    }return t;
+  }function x() {
+    for (var e = "", t = "", i = 0; i < me && xe != Ae; ++i) {
+      e += _(12288 + (0 | 16383 * T(I(ge[xe++] + 1, 0), 2))), t += _(12288 + (0 | 16383 * T(I(ge[xe++] + 1, 0), 2))), xe == Ce && (xe = 0);
+    }return e + t;
+  }function A() {
+    for (var e = "", t = 0; t < me && xe != Ae; ++t) {
+      e += _(12288 + (0 | 16383 * T(I(ge[xe++] + 1, 0), 2))), xe == Ce && (xe = 0);
+    }return e;
+  }function C() {
+    return (xe <= Ae ? 0 : Ce) + Ae - xe;
+  }function B(e) {
+    fe = E(be), Se = be, xe = 0, Ae = 0, Ce = I(be * Math.ceil(ve / e), me) << 1, Me ? (ge = S(Ce), Ee = new M(ve, e, 1, Ce, !0), A) : (ge = S(Ce <<= 1), Ee = new M(ve, e, 2, Ce, !0), x);
   }var I = Math.max,
       T = Math.min,
       _ = String.fromCharCode,
@@ -838,7 +838,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     G.prototype.addNode = function addNode(e, t) {
-      null == this.controller && (this.soundElement.crossOrigin = "anonymous", this.soundElement.src.includes("http") && !this.soundElement.src.includes("openaudiomc.net") && (this.soundElement.src = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + this.soundElement.src), this.controller = e.audioCtx.createMediaElementSource(this.soundElement)), this.controller.connect(t);
+      null == this.controller && (this.soundElement.crossOrigin = "anonymous", !this.soundElement.src.includes("openaudiomc.net") && (this.soundElement.src = V + this.soundElement.src), this.controller = e.audioCtx.createMediaElementSource(this.soundElement)), this.controller.connect(t);
     };
 
     G.prototype.registerMixer = function registerMixer(e, t) {
@@ -1569,7 +1569,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       return new Promise(function (t, i) {
         _this19.tokenSet = new H().fromUrl(window.location.href), w(_this19.host + "/api/v1/client/login/" + _this19.tokenSet.publicServerKey).then(function (o) {
           o.json().then(function (o) {
-            if (null == o.errors || 0 != o.errors.length) return i(o.errors), void console.log(o.errors);var n = o.response;n.banned && (window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/blocked_domain.html");var r = n.secureEndpoint;null == r && (r = n.insecureEndpoint), console.log("[OpenAudioMc] accepting and applying settings"), e.debugPrint("Updating settings..."), null != n.backgroundImage && "" != n.backgroundImage && (n.backgroundImage = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + n.backgroundImage);var a = n.backgroundImage,
+            if (null == o.errors || 0 != o.errors.length) return i(o.errors), void console.log(o.errors);var n = o.response;if (n.banned) return window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/blocked_domain.html", void v("Declined connection due to ban " + window.location.host, "Steve");var r = n.secureEndpoint;null == r && (r = n.insecureEndpoint), console.log("[OpenAudioMc] accepting and applying settings"), e.debugPrint("Updating settings..."), null != n.backgroundImage && "" != n.backgroundImage && (n.backgroundImage = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + n.backgroundImage);var a = n.backgroundImage,
                 l = n.title,
                 u = n.clientWelcomeMessage,
                 h = n.clientErrorMessage;var d = "";s(h).childNodes.forEach(function (e) {
@@ -1625,9 +1625,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     return he;
   }(Y);
 
-  v.prototype.initialize = function () {
+  M.prototype.initialize = function () {
     if (!(0 < this.fromSampleRate && 0 < this.toSampleRate && 0 < this.channels)) throw new Error("Invalid settings specified for the resampler.");this.fromSampleRate == this.toSampleRate ? (this.resampler = this.bypassResampler, this.ratioWeight = 1) : (this.compileInterpolationFunction(), this.resampler = this.interpolate, this.ratioWeight = this.fromSampleRate / this.toSampleRate, this.tailExists = !1, this.lastWeight = 0, this.initializeBuffers());
-  }, v.prototype.compileInterpolationFunction = function () {
+  }, M.prototype.compileInterpolationFunction = function () {
     for (var e = "var bufferLength = Math.min(buffer.length, this.outputBufferSize);\tif ((bufferLength % " + this.channels + ") == 0) {\t\tif (bufferLength > 0) {\t\t\tvar ratioWeight = this.ratioWeight;\t\t\tvar weight = 0;", t = 0; t < this.channels; ++t) {
       e += "var output" + t + " = 0;";
     }for (e += "var actualPosition = 0;\t\t\tvar amountToNext = 0;\t\t\tvar alreadyProcessedTail = !this.tailExists;\t\t\tthis.tailExists = false;\t\t\tvar outputBuffer = this.outputBuffer;\t\t\tvar outputOffset = 0;\t\t\tvar currentPosition = 0;\t\t\tdo {\t\t\t\tif (alreadyProcessedTail) {\t\t\t\t\tweight = ratioWeight;", t = 0; t < this.channels; ++t) {
@@ -1643,9 +1643,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }for (e += "}\t\t\t\telse {\t\t\t\t\tthis.lastWeight = weight;", t = 0; t < this.channels; ++t) {
       e += "this.lastOutput[" + t + "] = output" + t + ";";
     }e += 'this.tailExists = true;\t\t\t\t\tbreak;\t\t\t\t}\t\t\t} while (actualPosition < bufferLength);\t\t\treturn this.bufferSlice(outputOffset);\t\t}\t\telse {\t\t\treturn (this.noReturn) ? 0 : [];\t\t}\t}\telse {\t\tthrow(new Error("Buffer was of incorrect sample length."));\t}', this.interpolate = Function("buffer", e);
-  }, v.prototype.bypassResampler = function (e) {
+  }, M.prototype.bypassResampler = function (e) {
     return this.noReturn ? (this.outputBuffer = e, e.length) : e;
-  }, v.prototype.bufferSlice = function (e) {
+  }, M.prototype.bufferSlice = function (e) {
     if (this.noReturn) return e;try {
       return this.outputBuffer.subarray(0, e);
     } catch (t) {
@@ -1655,37 +1655,37 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         return this.outputBuffer.slice(0, e);
       }
     }
-  }, v.prototype.initializeBuffers = function () {
+  }, M.prototype.initializeBuffers = function () {
     try {
       this.outputBuffer = new Float32Array(this.outputBufferSize), this.lastOutput = new Float32Array(this.channels);
     } catch (e) {
       this.outputBuffer = [], this.lastOutput = [];
     }
-  }, M.prototype.MOZWriteAudio = function (e) {
+  }, k.prototype.MOZWriteAudio = function (e) {
     this.MOZWriteAudioNoCallback(e), this.MOZExecuteCallback();
-  }, M.prototype.MOZWriteAudioNoCallback = function (e) {
+  }, k.prototype.MOZWriteAudioNoCallback = function (e) {
     this.writeMozAudio(e);
-  }, M.prototype.callbackBasedWriteAudio = function (e) {
+  }, k.prototype.callbackBasedWriteAudio = function (e) {
     this.callbackBasedWriteAudioNoCallback(e), this.callbackBasedExecuteCallback();
-  }, M.prototype.callbackBasedWriteAudioNoCallback = function (e) {
+  }, k.prototype.callbackBasedWriteAudioNoCallback = function (e) {
     if (e) for (var t = e.length, i = 0; i < t && Se < be;) {
       fe[Se++] = e[i++];
     }
-  }, M.prototype.writeAudio = function (e) {
+  }, k.prototype.writeAudio = function (e) {
     0 == this.audioType ? this.MOZWriteAudio(e) : 1 == this.audioType ? this.callbackBasedWriteAudio(e) : 2 == this.audioType && (this.checkFlashInit() || pe ? this.callbackBasedWriteAudio(e) : this.mozAudioFound && this.MOZWriteAudio(e));
-  }, M.prototype.writeAudioNoCallback = function (e) {
+  }, k.prototype.writeAudioNoCallback = function (e) {
     0 == this.audioType ? this.MOZWriteAudioNoCallback(e) : 1 == this.audioType ? this.callbackBasedWriteAudioNoCallback(e) : 2 == this.audioType && (this.checkFlashInit() || pe ? this.callbackBasedWriteAudioNoCallback(e) : this.mozAudioFound && this.MOZWriteAudioNoCallback(e));
-  }, M.prototype.remainingBuffer = function () {
-    if (0 == this.audioType) return this.samplesAlreadyWritten - this.audioHandleMoz.mozCurrentSampleOffset();if (1 == this.audioType) return (A() * Ee.ratioWeight >> this.audioChannels - 1 << this.audioChannels - 1) + Se;if (2 == this.audioType) {
-      if (this.checkFlashInit() || pe) return (A() * Ee.ratioWeight >> this.audioChannels - 1 << this.audioChannels - 1) + Se;if (this.mozAudioFound) return this.samplesAlreadyWritten - this.audioHandleMoz.mozCurrentSampleOffset();
+  }, k.prototype.remainingBuffer = function () {
+    if (0 == this.audioType) return this.samplesAlreadyWritten - this.audioHandleMoz.mozCurrentSampleOffset();if (1 == this.audioType) return (C() * Ee.ratioWeight >> this.audioChannels - 1 << this.audioChannels - 1) + Se;if (2 == this.audioType) {
+      if (this.checkFlashInit() || pe) return (C() * Ee.ratioWeight >> this.audioChannels - 1 << this.audioChannels - 1) + Se;if (this.mozAudioFound) return this.samplesAlreadyWritten - this.audioHandleMoz.mozCurrentSampleOffset();
     }return 0;
-  }, M.prototype.MOZExecuteCallback = function () {
+  }, k.prototype.MOZExecuteCallback = function () {
     var e = ye - this.remainingBuffer();0 < e && this.writeMozAudio(this.underRunCallback(e));
-  }, M.prototype.callbackBasedExecuteCallback = function () {
+  }, k.prototype.callbackBasedExecuteCallback = function () {
     var e = ye - this.remainingBuffer();0 < e && this.callbackBasedWriteAudioNoCallback(this.underRunCallback(e));
-  }, M.prototype.executeCallback = function () {
+  }, k.prototype.executeCallback = function () {
     0 == this.audioType ? this.MOZExecuteCallback() : 1 == this.audioType ? this.callbackBasedExecuteCallback() : 2 == this.audioType && (this.checkFlashInit() || pe ? this.callbackBasedExecuteCallback() : this.mozAudioFound && this.MOZExecuteCallback());
-  }, M.prototype.initializeAudio = function () {
+  }, k.prototype.initializeAudio = function () {
     try {
       if (this.preInitializeMozAudio(), "Linux i686" == navigator.platform) throw new Error("");this.initializeMozAudio();
     } catch (e) {
@@ -1699,7 +1699,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }
       }
     }
-  }, M.prototype.preInitializeMozAudio = function () {
+  }, k.prototype.preInitializeMozAudio = function () {
     this.audioHandleMoz = new Audio(), this.audioHandleMoz.mozSetup(this.audioChannels, ve), this.samplesAlreadyWritten = 0;var e = 2 == this.audioChannels ? [0, 0] : [0],
         t = 0;if ("MacIntel" != navigator.platform && "MacPPC" != navigator.platform) {
       for (; 0 == this.audioHandleMoz.mozCurrentSampleOffset();) {
@@ -1708,18 +1708,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         this.samplesAlreadyWritten += this.audioHandleMoz.mozWriteAudio(e);
       }
     }this.samplesAlreadyWritten += t, ye += this.samplesAlreadyWritten, this.mozAudioFound = !0;
-  }, M.prototype.initializeMozAudio = function () {
-    this.writeMozAudio(k(ye)), this.audioType = 0;
-  }, M.prototype.initializeWebAudio = function () {
-    if (!pe) throw new Error("");C(we), this.audioType = 1;
-  }, M.prototype.initializeFlashAudio = function () {
+  }, k.prototype.initializeMozAudio = function () {
+    this.writeMozAudio(E(ye)), this.audioType = 0;
+  }, k.prototype.initializeWebAudio = function () {
+    if (!pe) throw new Error("");B(we), this.audioType = 1;
+  }, k.prototype.initializeFlashAudio = function () {
     var e = document.getElementById("XAudioJS");if (null == e) {
       var t = this,
           i = document.createElement("div");i.setAttribute("style", "position: fixed; bottom: 0px; right: 0px; margin: 0px; padding: 0px; border: none; width: 8px; height: 8px; overflow: hidden; z-index: -1000; ");var o = document.createElement("div");o.setAttribute("style", "position: static; border: none; width: 0px; height: 0px; visibility: hidden; margin: 8px; padding: 0px;"), o.setAttribute("id", "XAudioJS"), i.appendChild(o), document.getElementsByTagName("body")[0].appendChild(i), swfobject.embedSWF("XAudioJS.swf", "XAudioJS", "8", "8", "9.0.0", "", {}, { allowscriptaccess: "always" }, { style: "position: static; visibility: hidden; margin: 8px; padding: 0px; border: none" }, function (e) {
         e.success ? t.audioHandleFlash = e.ref : t.audioType = 1;
       });
     } else this.audioHandleFlash = e;this.audioType = 2;
-  }, M.prototype.writeMozAudio = function (e) {
+  }, k.prototype.writeMozAudio = function (e) {
     if (e) {
       var t = this.mozAudioTail.length;if (0 < t) {
         var i = this.audioHandleMoz.mozWriteAudio(this.mozAudioTail);this.samplesAlreadyWritten += i, this.mozAudioTail.splice(0, i);
@@ -1727,8 +1727,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         this.mozAudioTail.push(e[o++]);
       }
     }
-  }, M.prototype.checkFlashInit = function () {
-    return !this.flashInitialized && this.audioHandleFlash && this.audioHandleFlash.initialize && (this.flashInitialized = !0, this.audioHandleFlash.initialize(this.audioChannels, ke), C(44100)), this.flashInitialized;
+  }, k.prototype.checkFlashInit = function () {
+    return !this.flashInitialized && this.audioHandleFlash && this.audioHandleFlash.initialize && (this.flashInitialized = !0, this.audioHandleFlash.initialize(this.audioChannels, ke), B(44100)), this.flashInitialized;
   };var de,
       ce,
       me = 2048,
@@ -1746,7 +1746,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       xe = 0,
       Ae = 0,
       Ce = 2,
-      Be = v;!function (e) {
+      Be = M;!function (e) {
     e[e.VoIP = 2048] = "VoIP", e[e.Audio = 2049] = "Audio", e[e.RestrictedLowDelay = 2051] = "RestrictedLowDelay";
   }(de || (de = {})), function (e) {
     e[e.OK = 0] = "OK", e[e.BadArgument = -1] = "BadArgument", e[e.BufferTooSmall = -2] = "BufferTooSmall", e[e.InternalError = -3] = "InternalError", e[e.InvalidPacket = -4] = "InvalidPacket", e[e.Unimplemented = -5] = "Unimplemented", e[e.InvalidState = -6] = "InvalidState", e[e.AllocFail = -7] = "AllocFail";
@@ -2628,7 +2628,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     st.prototype.sendError = function sendError(e) {
-      B(e, this.tokenSet.name);
+      v(e, this.tokenSet.name);
     };
 
     return st;
@@ -2693,7 +2693,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   }()));
 
   !function () {
-    if (navigator.vendor && -1 < navigator.vendor.indexOf("Apple") && navigator.userAgent && -1 == navigator.userAgent.indexOf("CriOS") && -1 == navigator.userAgent.indexOf("FxiOS")) return void (window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/browsers.html");var e = new H().fromUrl(window.location.href);null == e ? (document.getElementById("footer-welcome").innerText = "No authentication provided", document.getElementById("boot-button").style.display = "none", document.getElementById("welcome-text-landing").innerHTML = "The audio client is only available for players who are online in the server. Use <small>/audio</small> to obtain a URL<br />", B("A faulty login attempt was done at `" + window.location.host + "`", "Steve")) : (document.body.onclick = function () {
+    if (navigator.vendor && -1 < navigator.vendor.indexOf("Apple") && navigator.userAgent && -1 == navigator.userAgent.indexOf("CriOS") && -1 == navigator.userAgent.indexOf("FxiOS")) return void (window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/browsers.html");var e = new H().fromUrl(window.location.href);null == e ? (document.getElementById("footer-welcome").innerText = "No authentication provided", document.getElementById("boot-button").style.display = "none", document.getElementById("welcome-text-landing").innerHTML = "The audio client is only available for players who are online in the server. Use <small>/audio</small> to obtain a URL<br />", v("A faulty login attempt was done at " + window.location.host, "Steve")) : (document.body.onclick = function () {
       Ke.canStart && Ke.start();
     }, null != e && null != e.name && (document.getElementById("sidebar-head").style.background = "linear-gradient(0deg, rgba(42, 38, 95, .8), rgba(42, 38, 95, .4)), url(https://minotar.net/avatar/" + e.name + ")", document.getElementById("footer-welcome").innerText = "Logged in as " + e.name, Ke = new st()), w("https://client.openaudiomc.net/status?referee=" + e.name).then(function (e) {
       e.json().then(function (e) {
