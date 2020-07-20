@@ -1,5 +1,4 @@
-import {Utils} from "../../helpers/utils/Utils";
-import {AlertBox} from "../ui/Notification";
+import UrlReader from "../../helpers/protocol/UrlReader";
 
 export class SocketModule {
 
@@ -11,7 +10,7 @@ export class SocketModule {
         this.hasConnected = false;
         this.outgoingQueue = [];
 
-        if (Utils.getParameter().data == null) {
+        if (UrlReader.getParameter().data == null) {
             main.debugPrint("data is empty");
             main.getUserInterfaceModule().setMessage("<h3>Invalid url. Please connect via the server, by executing <b><u>/audio</u></b></h3>");
             return;

@@ -26,4 +26,9 @@ export default class UrlReader {
         return query_string;
     }
 
+    static getParameter() {
+        let vars = window.location.href.split("&");
+        return this.getParametersFromUrl(vars);
+    }
+
 }
