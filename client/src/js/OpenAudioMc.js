@@ -17,6 +17,7 @@ import {getHueInstance} from "./helpers/libs/JsHue";
 import {linkBootListeners} from "./helpers/utils/StaticFunctions";
 import {WorldModule} from "./modules/world/WorldModule";
 import {ReportError} from "./helpers/protocol/ErrorReporter";
+import {API_ENDPOINT} from "./helpers/protocol/ApiEndpoints";
 
 export class OpenAudioMc extends Getters {
 
@@ -44,7 +45,7 @@ export class OpenAudioMc extends Getters {
         this.boot();
 
         // request a socket service, then do the booting
-        const director = new SocketDirector("https://plus.openaudiomc.net/");
+        const director = new SocketDirector(API_ENDPOINT.MAIN_BACKEND);
         director.route(this)
             .then((res) => {
                 this.canStart = true;

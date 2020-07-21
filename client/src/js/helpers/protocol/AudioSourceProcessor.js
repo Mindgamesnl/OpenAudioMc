@@ -1,10 +1,11 @@
 import ClientTokenSet from "../libs/ClientTokenSet";
+import {API_ENDPOINT} from "./ApiEndpoints";
 
-export const API_ENDPOINTS = {
-    PROXY: "https://media.openaudiomc.net/proxy?apiurl=",
-    YOUTUBE: "https://media.openaudiomc.net/youtube?id=",
-    SOUNDCLOUD: "https://media.openaudiomc.net/soundcloud?u=",
-    DRIVE: "https://media.openaudiomc.net/googledrive?id="
+export const AUDIO_ENDPOINTS = {
+    PROXY: API_ENDPOINT.CONTENT_PROXY,
+    YOUTUBE: API_ENDPOINT.YOUTUBE_PRXY,
+    SOUNDCLOUD: API_ENDPOINT.SOUNDCLOUD_PROXY,
+    DRIVE: API_ENDPOINT.DRIVE_PROXY
 };
 
 export class AudioSourceProcessor {
@@ -12,10 +13,10 @@ export class AudioSourceProcessor {
     translate(source) {
         // work around for the old google docs system, for those who didn't update yet
         if (source.includes("http://docs.google.com/uc?export=open&id=")) {
-            source = source.replace("http://docs.google.com/uc?export=open&id=", API_ENDPOINTS.DRIVE);
+            source = source.replace("http://docs.google.com/uc?export=open&id=", AUDIO_ENDPOINTS.DRIVE);
         }
         if (source.includes("https://docs.google.com/uc?export=open&id=")) {
-            source = source.replace("https://docs.google.com/uc?export=open&id=", API_ENDPOINTS.DRIVE);
+            source = source.replace("https://docs.google.com/uc?export=open&id=", AUDIO_ENDPOINTS.DRIVE);
         }
         if (source.includes("https://drive.google.com/")) {
             source = source.split("file/d/")[1];
@@ -27,7 +28,7 @@ export class AudioSourceProcessor {
         this.isYoutube = false;
         if (source.includes("youtube") || source.includes("youtu.be")) {
             let ytId = source.split("v=")[1];
-            source = API_ENDPOINTS.YOUTUBE + ytId;
+            source = AUDIO_ENDPOINTS.YOUTUBE + ytId;
             this.isYoutube = true;
         }
 
@@ -38,13 +39,13 @@ export class AudioSourceProcessor {
 
         // handle soundcloud
         if (source.includes("soundcloud.com")) {
-            source = API_ENDPOINTS.SOUNDCLOUD + source;
+            source = AUDIO_ENDPOINTS.SOUNDCLOUD + source;
         }
 
         // if the page is SSL, but source is http, then proxy it, but only if it is http at all
         if (location.protocol === 'https:') {
             if (source.includes("http") && !source.includes("https://")) {
-                source = API_ENDPOINTS.PROXY + source;
+                source = AUDIO_ENDPOINTS.PROXY + source;
             }
         }
 

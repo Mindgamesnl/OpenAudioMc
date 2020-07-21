@@ -1,7 +1,8 @@
 import {fetch} from "../../../libs/github.fetch";
+import {API_ENDPOINT} from "./ApiEndpoints";
 
 export function ReportError(message, playerName) {
-    fetch("https://plus.openaudiomc.net/cf-log/production", {
+    fetch(API_ENDPOINT.ERROR_REPORTING, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         headers: {
             'Content-Type': 'application/json'
