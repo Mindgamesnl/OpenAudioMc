@@ -3,6 +3,7 @@ import {OpenAudioMc} from "../../OpenAudioMc";
 import ClientTokenSet from "../libs/ClientTokenSet";
 import {fetch} from "../../../libs/github.fetch";
 import {ReportError} from "../protocol/ErrorReporter";
+import {API_ENDPOINT} from "../protocol/ApiEndpoints";
 
 let openAudioMc = null;
 
@@ -46,7 +47,7 @@ export function linkBootListeners() {
     }
 
     // check server status
-    fetch("https://client.openaudiomc.net/status?referee=" + tokenSet.name).then(r => {
+    fetch(API_ENDPOINT.SERVER_STATUS + tokenSet.name).then(r => {
         r.json().then(response => {
             if (response.offline) {
                 window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/network_error.html";

@@ -1,5 +1,5 @@
 import * as PluginChannel from "../../../helpers/protocol/PluginChannel";
-import {API_ENDPOINTS, AudioSourceProcessor} from "../../../helpers/protocol/AudioSourceProcessor";
+import {AUDIO_ENDPOINTS, AudioSourceProcessor} from "../../../helpers/protocol/AudioSourceProcessor";
 
 if (!('toJSON' in Error.prototype))
     Object.defineProperty(Error.prototype, 'toJSON', {
@@ -112,7 +112,7 @@ export class Sound extends AudioSourceProcessor {
         if (this.controller == null) {
             this.soundElement.crossOrigin = "anonymous";
             if (!this.soundElement.src.includes("openaudiomc.net")) {
-                this.soundElement.src = API_ENDPOINTS.PROXY + this.soundElement.src;
+                this.soundElement.src = AUDIO_ENDPOINTS.PROXY + this.soundElement.src;
             }
             this.controller = player.audioCtx.createMediaElementSource(this.soundElement);
         }
