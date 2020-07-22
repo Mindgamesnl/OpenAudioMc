@@ -62,7 +62,7 @@ export class SocketModule {
 
             main.voiceModule.handleSocketClosed();
 
-            main.userInterfaceModule.kickScreen();
+            strictlyShowCard("bad-auth-card")
 
             setTimeout(() => {
                 main.getMediaManager().sounds = {};
