@@ -15,6 +15,7 @@ export default class ClientTokenSet {
         }
         if (url == null) return null;
         if (url.split('?').length < 2) return null;
+        console.log(url)
         const params = UrlReader.getParametersFromUrl(url.split('?')[1]);
 
         // if the params does not contain shit, dont return shit either

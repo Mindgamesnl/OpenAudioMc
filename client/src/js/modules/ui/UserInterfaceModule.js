@@ -1,3 +1,5 @@
+import {strictlyShowCard} from "../../helpers/utils/StaticFunctions";
+
 export class UserInterfaceModule {
 
     constructor(oa) {
@@ -63,10 +65,8 @@ export class UserInterfaceModule {
     }
 
     openApp() {
-        document.getElementById("welcome").style.display = "none";
-        document.getElementById("app").style.display = "";
+        strictlyShowCard("main-card")
         this.openAudioMc.userInterfaceModule.setMessage(this.openAudioMc.messages.welcomeMessage);
-        document.getElementById('page').classList.remove('dark-bg');
     }
 
     showHue() {
@@ -76,17 +76,10 @@ export class UserInterfaceModule {
     }
 
     kickScreen(message) {
-        document.getElementById('footer-welcome').innerText = 'Session terminated';
-        document.getElementById("boot-button").style.display = "none";
-        if (message == null) {
-            document.getElementById("welcome-text-landing").innerHTML = this.openAudioMc.messages.errorMessage;
-        } else {
-            document.getElementById("welcome-text-landing").innerHTML = message;
-        }
-        document.getElementById("welcome").style.display = "";
-        document.getElementById('page').classList.add('dark-bg');
-        document.getElementById("app").style.display = "none";
+        strictlyShowCard("kicked-card")
+        document.getElementById("kick-message").innerHTML = message;
     }
+
 
     showVolumeSlider(state) {
         if (state) {
