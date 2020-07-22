@@ -1,0 +1,257 @@
+/* Copyright 1999-2019. Plesk International GmbH. All rights reserved. */
+
+@font-face {
+    font-family: "Lato";
+    font-display: swap;
+    font-style: normal;
+    font-weight: 400;
+    src: url("fonts/lato-v16-latin-regular.woff2") format("woff2"),
+    url("fonts/lato-v16-latin-regular.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Lato";
+    font-display: swap;
+    font-style: normal;
+    font-weight: 700;
+    src: url("fonts/lato-v16-latin-700.woff2") format("woff2"),
+    url("fonts/lato-v16-latin-700.woff") format("woff");
+}
+
+html {
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+    box-sizing: border-box;
+    height: 100%;
+    font-size: 10px;
+    -webkit-tap-highlight-color: transparent;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 320px;
+    min-height: 100vh;
+    font-size: 14px;
+    line-height: 1.714em;
+    font-family: "Lato", sans-serif;
+    color: #222;
+    word-wrap: break-word;
+    background-color: #f3f3f3;
+    height: 100%;
+}
+
+a {
+    color: #53bce6;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+a:active,
+a:hover {
+    outline: none;
+}
+
+a:hover {
+    color: #03ade4;
+}
+
+p,
+ul {
+    margin: 0 0 16px;
+}
+
+.header {
+    background-color: #374758;
+    background-image: url("img/header-bg.svg");
+}
+
+.header__content {
+    max-width: 960px;
+    margin: auto;
+    padding: 20px 20px 30px;
+}
+
+.header__title {
+    margin: 12px 0;
+    font-size: 28px;
+    line-height: 1.286em;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.header__message {
+    position: relative;
+    z-index: 1;
+    margin: 0 0 30px;
+    font-size: 16px;
+    line-height: 24px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.header__message p,
+.header__message ul {
+    margin-bottom: 0;
+}
+
+.note {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    font-size: 16px;
+    line-height: 24px;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    border-radius: 4px;
+}
+
+.note:after {
+    content: "";
+    position: absolute;
+    top: -76px;
+    right: 32%;
+    width: 72px;
+    height: 143px;
+    background: url("img/guy.png") no-repeat;
+    background-size: contain;
+}
+
+.note__button {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 8px 12px 10px;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 0.9);
+    background-color: #53bce6;
+    z-index: 1;
+    white-space: nowrap;
+}
+
+.note__message {
+    flex: 1;
+    z-index: 1;
+}
+
+.note__button:hover {
+    color: rgba(255, 255, 255, 0.9);
+    background-color: #03ade4;
+}
+
+@media (max-width: 769px) {
+    .header__title br {
+        display: none;
+    }
+}
+
+@media (min-width: 768px) {
+    .header__inner {
+        max-width: 1280px;
+        margin: auto;
+        background: url("img/header-domain-page.png") 100% 0 no-repeat;
+        background-size: 499px 420px;
+    }
+
+    .header__content {
+        padding: 40px 20px;
+    }
+
+    .header__title {
+        margin: 50px 0 18px;
+    }
+
+    .header__message {
+        line-height: 28px;
+    }
+
+    .note {
+        padding: 24px;
+        font-size: 18px;
+        line-height: 28px;
+    }
+
+    .note__button {
+        padding: 8px 30px 12px;
+        font-size: 20px;
+        line-height: 28px;
+    }
+}
+
+.content {
+    display: block;
+    flex: auto;
+}
+
+.content__inner {
+    max-width: 960px;
+    margin: auto;
+    padding: 26px 20px;
+}
+
+.content__title {
+    margin: 0 0 8px;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 28px;
+}
+
+.resources-list {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px 0 0;
+    list-style: none;
+    justify-content: space-around;
+}
+
+.resources-list__item {
+    flex: none;
+    min-width: 0;
+    padding: 10px;
+    text-align: center;
+}
+
+.resources-list__item > a {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+}
+
+.resources-list__item .icon {
+    display: block;
+    margin: 0 auto 8px;
+    width: 48px;
+    height: 48px;
+    transition: 0.3s;
+}
+
+.footer {
+    flex: none;
+    font-size: 13px;
+    line-height: 20px;
+    background-color: #374758;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.footer a {
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.footer a:hover {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.footer__inner {
+    margin: auto;
+    padding: 20px;
+    max-width: 640px;
+    text-align: center;
+}
