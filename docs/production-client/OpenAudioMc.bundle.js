@@ -1080,7 +1080,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             i = parseInt(t[1]),
             o = parseInt(t[0]);_this12.openAudioMc.getTimeService().sync(o, i);
       }), this.socket.on("disconnect", function () {
-        e.debugPrint("closed"), e.getMediaManager().destroySounds(null, !0), i.state = "closed", e.voiceModule.handleSocketClosed(), e.userInterfaceModule.kickScreen(), setTimeout(function () {
+        e.debugPrint("closed"), e.getMediaManager().destroySounds(null, !0), i.state = "closed", e.voiceModule.handleSocketClosed(), b("bad-auth-card"), setTimeout(function () {
           e.getMediaManager().sounds = {};
         }, 1010);
       }), this.socket.on("data", function (e) {
