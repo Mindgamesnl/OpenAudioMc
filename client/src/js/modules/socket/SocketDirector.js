@@ -72,12 +72,11 @@ export class SocketDirector {
                         let hello = response.greetingMessage;
                         hello = hello.replace('%name', openAudioMc.tokenSet.name);
 
-                        document.getElementById("welcome-text-landing").innerHTML = hello;
-                        document.getElementById("boot-button").style.display = "";
-                        document.getElementById("boot-button").innerHTML = response.connectButtonText;
+                        document.getElementById("initialize-text").innerHTML = hello;
+                        document.getElementById("initialize-button").innerHTML = response.connectButtonText;
 
                         // replace the default with a defined one
-                        openAudioMc.getUserInterfaceModule().changeColor("#304FFE", response.accentColor);
+                        openAudioMc.getUserInterfaceModule().changeColor("#2c78f6", response.accentColor);
 
                         if (response.startSound != "") {
                             openAudioMc.getMediaManager().startSound = response.startSound;

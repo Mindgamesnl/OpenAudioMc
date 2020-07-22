@@ -99,43 +99,6 @@ export class Handlers {
             }).show(data.title + '<hr />' + message);
         });
 
-        registerHandler("ClientSettingsPayload", data => {
-            this.openAudioMc.debugPrint("Updating settings...");
-            const settings = data.clientSettings;
-            const background = settings.background;
-            const title = settings.title;
-            const welcomeMessage = settings.welcomeMessage;
-            const errorMessage = settings.errorMessage;
-            const hueConnected = settings.hueConnected;
-            const hueLinking = settings.hueLinking;
-            const hueBridgeFound = settings.hueBridgeFound;
-
-            if (hueConnected !== "default") openAudioMc.getMessages().hueConnected = hueConnected;
-            if (hueLinking !== "default") openAudioMc.getMessages().hueLinking = hueLinking;
-            if (hueBridgeFound !== "default") openAudioMc.getMessages().hueWelcome = hueBridgeFound;
-            if (errorMessage !== "default") openAudioMc.getMessages().errorMessage = errorMessage;
-            if (welcomeMessage !== "default") openAudioMc.getMessages().welcomeMessage = welcomeMessage;
-
-            if (background !== "default") {
-                document.getElementById("page").style = "vertical-align: middle;\n" +
-                    "    background:\n" +
-                    "            url(" + background + ");\n" +
-                    "    -webkit-background-size: cover;\n" +
-                    "    background-size: cover;"
-            }
-
-            if (title !== "default") {
-                document.title = title;
-                try {
-                    parent.document.title = title;
-                } catch (e) {
-
-                }
-            }
-
-            openAudioMc.getMessages().apply();
-        });
-
         registerHandler("ClientVersionPayload", data => {
             const revision = parseInt(data.protocolRevision);
 

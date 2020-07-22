@@ -5,8 +5,9 @@ export default class UrlReader {
     }
 
     static getParametersFromUrl(url) {
-        if (url.indexOf('?&') > -1) return {};
-        let lets = url.split("&");
+        console.log(url)
+        if (url.indexOf('&') == -1) return {};
+        var lets = url.split("&");
         let query_string = {};
         for (let i = 0; i < lets.length; i++) {
             let pair = lets[i].split("=");
@@ -27,8 +28,7 @@ export default class UrlReader {
     }
 
     static getParameter() {
-        let vars = window.location.href.split("&");
-        return this.getParametersFromUrl(vars);
+        return this.getParametersFromUrl(window.location.href);
     }
 
 }

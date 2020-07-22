@@ -1,4 +1,5 @@
 import UrlReader from "../../helpers/protocol/UrlReader";
+import {strictlyShowCard} from "../../helpers/utils/StaticFunctions";
 
 export class SocketModule {
 
@@ -11,8 +12,8 @@ export class SocketModule {
         this.outgoingQueue = [];
 
         if (UrlReader.getParameter().data == null) {
-            main.debugPrint("data is empty");
-            main.getUserInterfaceModule().setMessage("<h3>Invalid url. Please connect via the server, by executing <b><u>/audio</u></b></h3>");
+            console.log("Empty authentication")
+            strictlyShowCard("kicked-card")
             return;
         }
 
@@ -39,7 +40,6 @@ export class SocketModule {
 
         this.socket.on("connect", () => {
             main.userInterfaceModule.openApp();
-            main.getUserInterfaceModule().setMessage(this.openAudioMc.getMessages().welcomeMessage);
             main.socketModule.state = "ok";
             this.hasConnected = true;
             this.outgoingQueue.forEach((waiting) => {

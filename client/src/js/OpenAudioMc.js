@@ -14,7 +14,7 @@ import {NotificationModule} from "./modules/notifications/NotificationModule";
 import ClientTokenSet from "./helpers/libs/ClientTokenSet";
 import {initAudioContext} from "./modules/voice/objects/AbstractAudio";
 import {getHueInstance} from "./helpers/libs/JsHue";
-import {linkBootListeners} from "./helpers/utils/StaticFunctions";
+import {linkBootListeners, strictlyShowCard} from "./helpers/utils/StaticFunctions";
 import {WorldModule} from "./modules/world/WorldModule";
 import {ReportError} from "./helpers/protocol/ErrorReporter";
 import {API_ENDPOINT} from "./helpers/protocol/ApiEndpoints";
@@ -22,8 +22,8 @@ import {API_ENDPOINT} from "./helpers/protocol/ApiEndpoints";
 export class OpenAudioMc extends Getters {
 
     constructor() {
-
         super();
+
         this.canStart = false;
         this.host = null;
         this.background = null;
@@ -31,7 +31,7 @@ export class OpenAudioMc extends Getters {
         this.tokenSet = new ClientTokenSet().fromUrl(window.location.href);
 
         if (this.tokenSet == null) {
-            document.getElementById("welcome-text-landing").innerHTML = "The audio client is only available for players who are online in the server. Use <small>/audio</small> to obtain a URL<br />";
+            strictlyShowCard("bad-auth-card");
             return;
         }
 
@@ -51,16 +51,11 @@ export class OpenAudioMc extends Getters {
                 this.canStart = true;
                 this.host = res.host;
                 this.background = res.background;
+                strictlyShowCard("welcome-card");
             })
             .catch((error) => {
                 console.error("Exception thrown", error.stack);
                 this.userInterfaceModule.kickScreen("Your current URL appears to be invalid. Please request a new one in-game using the /audio command. If this issue if persists please contact a member of staff.")
-                new AlertBox('#alert-area', {
-                    closeTime: 20000,
-                    persistent: false,
-                    hideCloseButton: true,
-                    extra: 'warning'
-                }).show('A networking error occurred while connecting to the server, please request a new url and try again.');
             });
     }
 
@@ -80,15 +75,11 @@ export class OpenAudioMc extends Getters {
         // setup packet handler
         new Handlers(this);
         if (this.background !== "") {
-            document.getElementById("page").style = "vertical-align: middle;\n" +
-                "    background:\n" +
-                "            url(" + this.background + ");\n" +
-                "    -webkit-background-size: cover;\n" +
-                "    background-size: cover;"
+            document.getElementById("banner-image").src = this.background;
         }
 
         this.mediaManager.postBoot();
-        window.history.pushState('Logged In Openaudio Client', 'Logged In Openaudio Client', '/#connected');
+        // window.history.pushState('Logged In Openaudio Client', 'Logged In Openaudio Client', '/#connected');
     }
 
     sendError(message) {
