@@ -76,9 +76,6 @@ export class SocketDirector {
                         document.getElementById("initialize-button").innerHTML = response.connectButtonText;
 
                         // replace the default with a defined one
-
-
-
                         function convertHexToRGBA(hexCode, opacity) {
                             const tempHex = hexCode.replace('#', '');
                             const r = parseInt(tempHex.substring(0, 2), 16);
@@ -87,6 +84,8 @@ export class SocketDirector {
 
                             return `rgba(${r},${g},${b},${opacity / 100})`;
                         };
+
+
 
                         document.documentElement.style.setProperty('--border-color-dark', response.accentColor);
                         let normal = convertHexToRGBA(response.accentColor, 70)
