@@ -4,6 +4,8 @@ import lombok.Getter;
 
 public enum StorageKey {
 
+    MESSAGE_GENERATING_SESSION(false, "messages.preparing-session", StorageLocation.CONFIG_FILE),
+    MESSAGE_SESSION_ERROR(false, "messages.session-error", StorageLocation.CONFIG_FILE),
     MESSAGE_PROMPT_TO_CONNECT(false, "messages.suggest-connection", StorageLocation.CONFIG_FILE),
     MESSAGE_CLICK_TO_CONNECT(false, "messages.click-to-connect", StorageLocation.CONFIG_FILE),
     MESSAGE_HOVER_TO_CONNECT(false, "messages.click-to-connect-hover", StorageLocation.CONFIG_FILE),
@@ -18,15 +20,6 @@ public enum StorageKey {
     MESSAGE_CALL_ENDED(false, "messages.call-left", StorageLocation.CONFIG_FILE),
     MESSAGE_API_BOOTING(false, "messages.api-starting-up", StorageLocation.CONFIG_FILE),
 
-    @Deprecated SETTING_CLIENT_TITLE(true, "client.title", StorageLocation.CONFIG_FILE),
-    @Deprecated SETTING_CLIENT_BACKGROUND(true, "client.background", StorageLocation.CONFIG_FILE),
-    @Deprecated SETTING_CLIENT_WELCOME_TEXT(true, "client.welcome-message", StorageLocation.CONFIG_FILE),
-    @Deprecated SETTING_CLIENT_ERROR_TEXT(true, "client.error-message", StorageLocation.CONFIG_FILE),
-    @Deprecated SETTINGS_HUE_CONNECTED_TEXT(true, "client.hue-connected", StorageLocation.CONFIG_FILE),
-    @Deprecated SETTINGS_HUE_CONNECTING_TEXT(true, "client.hue-linking", StorageLocation.CONFIG_FILE),
-    @Deprecated SETTINGS_HUE_AVAILABLE_TEXT(true, "client.hue-bridge-found", StorageLocation.CONFIG_FILE),
-    @Deprecated SETTINGS_CLIENT_START_SOUND(true, "client.start-sound", StorageLocation.CONFIG_FILE),
-
     SETTINGS_REMIND_TO_CONNECT(false, "options.remind-to-connect", StorageLocation.CONFIG_FILE),
     SETTINGS_REMIND_TO_CONNECT_INTERVAL(false, "options.remind-to-connect-interval", StorageLocation.CONFIG_FILE),
     SETTINGS_REGIONS_SYNC(false, "options.sync-regions", StorageLocation.CONFIG_FILE),
@@ -34,7 +27,6 @@ public enum StorageKey {
     SETTINGS_SPEAKER_RANGE(false, "options.speaker-radius", StorageLocation.CONFIG_FILE),
     SETTINGS_SEND_URL_ON_JOIN(false, "options.send-on-join", StorageLocation.CONFIG_FILE),
     SETTINGS_USE_WG_PRIORITY(false, "options.use-region-priority", StorageLocation.CONFIG_FILE),
-    @Deprecated SETTINGS_LOOP_TEMP_REGIONS(false, "options.loop-temp-regions", StorageLocation.CONFIG_FILE),
     SETTINGS_PLUS_ACCESS_LEVEL(false, "options.plus-access-level", StorageLocation.CONFIG_FILE),
     SETTINGS_STAFF_TIPS(false, "options.staff-tips", StorageLocation.CONFIG_FILE),
     SETTINGS_NOTIFY_UPDATES(false, "options.notify-updates", StorageLocation.CONFIG_FILE),
@@ -54,6 +46,16 @@ public enum StorageKey {
     REDIS_SECTION(false, "redis.section", StorageLocation.CONFIG_FILE),
 
     LEGAL_ACCEPTED_TOS_AND_PRIVACY(false, "legal.accepted", StorageLocation.DATA_FILE),
+
+    @Deprecated SETTING_CLIENT_TITLE(true, "client.title", StorageLocation.CONFIG_FILE),
+    @Deprecated SETTING_CLIENT_BACKGROUND(true, "client.background", StorageLocation.CONFIG_FILE),
+    @Deprecated SETTING_CLIENT_WELCOME_TEXT(true, "client.welcome-message", StorageLocation.CONFIG_FILE),
+    @Deprecated SETTING_CLIENT_ERROR_TEXT(true, "client.error-message", StorageLocation.CONFIG_FILE),
+    @Deprecated SETTINGS_HUE_CONNECTED_TEXT(true, "client.hue-connected", StorageLocation.CONFIG_FILE),
+    @Deprecated SETTINGS_HUE_CONNECTING_TEXT(true, "client.hue-linking", StorageLocation.CONFIG_FILE),
+    @Deprecated SETTINGS_HUE_AVAILABLE_TEXT(true, "client.hue-bridge-found", StorageLocation.CONFIG_FILE),
+    @Deprecated SETTINGS_CLIENT_START_SOUND(true, "client.start-sound", StorageLocation.CONFIG_FILE),
+    @Deprecated SETTINGS_LOOP_TEMP_REGIONS(true, "options.loop-temp-regions", StorageLocation.CONFIG_FILE),
     ;
 
     @Getter private String path;
