@@ -76,6 +76,24 @@ export class SocketDirector {
                         document.getElementById("initialize-button").innerHTML = response.connectButtonText;
 
                         // replace the default with a defined one
+                        function convertHexToRGBA(hexCode, opacity) {
+                            const tempHex = hexCode.replace('#', '');
+                            const r = parseInt(tempHex.substring(0, 2), 16);
+                            const g = parseInt(tempHex.substring(2, 4), 16);
+                            const b = parseInt(tempHex.substring(4, 6), 16);
+
+                            return `rgba(${r},${g},${b},${opacity / 100})`;
+                        };
+
+
+
+                        document.documentElement.style.setProperty('--border-color-dark', response.accentColor);
+                        let normal = convertHexToRGBA(response.accentColor, 70)
+                        let light = convertHexToRGBA(response.accentColor, 40)
+                        document.documentElement.style.setProperty('--border-color-normal', normal);
+                        document.documentElement.style.setProperty('--border-color-light', light);
+                        console.log("new value " + light)
+
                         openAudioMc.getUserInterfaceModule().changeColor("#2c78f6", response.accentColor);
 
                         if (response.startSound != "") {
