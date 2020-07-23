@@ -32,4 +32,5 @@ If you want to go the extra mile
 - [Voice Chat/Calls](voicechat.md)
 - [Client hosting](client.md)
 - [Redis](redis.md)
+- [Network/Server requirements](technical_requirements.md)
  
