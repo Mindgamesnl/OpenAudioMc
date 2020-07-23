@@ -34,7 +34,7 @@ public enum StorageKey {
     SETTINGS_SPEAKER_RANGE(false, "options.speaker-radius", StorageLocation.CONFIG_FILE),
     SETTINGS_SEND_URL_ON_JOIN(false, "options.send-on-join", StorageLocation.CONFIG_FILE),
     SETTINGS_USE_WG_PRIORITY(false, "options.use-region-priority", StorageLocation.CONFIG_FILE),
-    SETTINGS_LOOP_TEMP_REGIONS(false, "options.loop-temp-regions", StorageLocation.CONFIG_FILE),
+    @Deprecated SETTINGS_LOOP_TEMP_REGIONS(false, "options.loop-temp-regions", StorageLocation.CONFIG_FILE),
     SETTINGS_PLUS_ACCESS_LEVEL(false, "options.plus-access-level", StorageLocation.CONFIG_FILE),
     SETTINGS_STAFF_TIPS(false, "options.staff-tips", StorageLocation.CONFIG_FILE),
     SETTINGS_NOTIFY_UPDATES(false, "options.notify-updates", StorageLocation.CONFIG_FILE),

@@ -25,8 +25,8 @@ public class RegionsSubCommand extends SubCommand {
                 new Argument("create <WG-region> <source>",
                         "Assigns a sound to a WorldGuard region by name"),
 
-                new Argument("temp <WG-region> <source> <duration>",
-                        "Create a temporary region with it's own synced sound"),
+                new Argument("show <WG-region> <source> <duration>",
+                        "Create a temporary region with it's own synced sound for shows"),
 
                 new Argument("delete <WG-region>",
                         "Unlink the sound from a WorldGuard specific region by name"),
@@ -55,31 +55,19 @@ public class RegionsSubCommand extends SubCommand {
             return;
         }
 
-        if (args[0].equalsIgnoreCase("temp") && args.length == 4) {
-            if (!isInteger(args[3])) {
-                message(sender, ChatColor.RED + "You must have a duration in seconds, like 60");
-                return;
-            }
-
+        if (args[0].equalsIgnoreCase("show") || args[0].equalsIgnoreCase("temp") && args.length >= 3) {
             args[1] = args[1].toLowerCase();
 
             // check if this region already is defined
             RegionProperties regionProperties = OpenAudioMcSpigot.getInstance().getRegionModule().getRegionPropertiesMap().get(args[1]);
             if (regionProperties != null) {
-                if (regionProperties instanceof TimedRegionProperties) {
-                    // reset it, because fuck it
-                    TimedRegionProperties timedRegion = (TimedRegionProperties) regionProperties;
-                    openAudioMcSpigot.getRegionModule().removeRegion(args[1]);
-                    timedRegion.destroy();
-                } else {
-                    // message, fail
-                    message(sender, ChatColor.RED + "ERROR! The region '" + args[1]
-                            + "' already has a static media assigned to it.");
-                    return;
-                }
+                // remove the region and update all clients
+                openAudioMcSpigot.getRegionModule().removeRegion(args[1]);
+                OpenAudioMcSpigot.getInstance().getPlayerModule().getClients()
+                        .stream()
+                        .filter(client -> client.getRegions().stream().anyMatch(region -> region.getId().equals(args[1])))
+                        .forEach(client -> client.getLocationDataWatcher().forceTicK());
             }
-
-            int duration = Integer.parseInt(args[3]);
 
             if (!openAudioMcSpigot.getRegionModule().getRegionAdapter().doesRegionExist(args[1])) {
                 message(sender, ChatColor.RED + "ERROR! There is no WorldGuard region called '" + args[1]
@@ -87,7 +75,7 @@ public class RegionsSubCommand extends SubCommand {
                 return;
             }
 
-            openAudioMcSpigot.getRegionModule().registerRegion(args[1], new TimedRegionProperties(args[2], duration, args[1]));
+            openAudioMcSpigot.getRegionModule().registerRegion(args[1], new TimedRegionProperties(args[2], args[1]));
             message(sender, ChatColor.GREEN + "The WorldGuard region with the id " + args[1] + " now has the sound " + args[2]);
 
             openAudioMcSpigot.getRegionModule().forceUpdateRegions();

@@ -10,12 +10,13 @@ import lombok.NoArgsConstructor;
 public class MigrationWorker {
 
     private final SimpleMigration[] migrations = new SimpleMigration[] {
-            new LocalClientToPlusMigration(),  // migrates old users to 6.2 and uploads old data to oa+, then resets config
-            new PlusAccessLevelMigration(),    // adds config values for the permissions patch
-            new MouseHoverMessageMigration(),  // adds a config field for the hover-to-connect message
-            new TipsSettingMigration(),        // adds a config field for the staff-tips option
-            new UpdateSettingMigration(),      // adds config fields for update and announcement preferences,
-            new LegalAcceptanceMigration(),    // binding statements about accepting our rules
+            new LocalClientToPlusMigration(),       // migrates old users to 6.2 and uploads old data to oa+, then resets config
+            new PlusAccessLevelMigration(),         // adds config values for the permissions patch
+            new MouseHoverMessageMigration(),       // adds a config field for the hover-to-connect message
+            new TipsSettingMigration(),             // adds a config field for the staff-tips option
+            new UpdateSettingMigration(),           // adds config fields for update and announcement preferences,
+            new LegalAcceptanceMigration(),         // binding statements about accepting our rules
+            new RemoveLoopTempRegionMigration(),    // re branding temp regions to shows
     };
 
     public void handleMigrations(OpenAudioMc main) {

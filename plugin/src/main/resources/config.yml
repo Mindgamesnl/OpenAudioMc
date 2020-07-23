@@ -51,8 +51,6 @@ options:
   sync-regions: true
   # If set to true, regions will use priorities. If this causes problems, just set it to false.
   use-region-priority: false
-  # If temp regions should be looped or not
-  loop-temp-regions: false
   # Staff will receive helpful tips and error messages when something went wrong while playing a file
   staff-tips: true
   # If you want to receive update notifications, recommended to leave it on, but turn it off if you have to for some weird reason
