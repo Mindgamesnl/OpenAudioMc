@@ -5,24 +5,17 @@ import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
 
 public enum RestEndpoint {
 
-    // EXTERNAL SOURCES
     GITHUB_VERSION_CHECK("https://raw.githubusercontent.com/Mindgamesnl/OpenAudioMc/master/plugin/protocol/static-resources/project_status.json", false),
-
-    // OPENAUDIOMC REST API'S
-    PLUS_REGISTER("https://plus.openaudiomc.net/api/v1/servers/register", false),                     // GET
-    PLUS_LOGIN("https://plus.openaudiomc.net/api/v1/servers/login/_private_key_", true),              // GET
-    PLUS_LOGOUT("https://plus.openaudiomc.net/api/v1/servers/logout/_private_key_", true),            // GET
-    PLUS_GEN_SESSION("https://plus.openaudiomc.net/api/v1/servers/createlogin", false),       // POST
-    PLUS_GET_SETTINGS("https://plus.openaudiomc.net/api/v1/public/settings/_public_key_", true), // GET
-    PLUS_PUSH_LEGACY_SETTINGS("https://plus.openaudiomc.net/api/v1/plus/settings", false),              // POST
-    PLUS_UPDATE_PLAYERS("https://plus.openaudiomc.net/api/v1/plus/players", false),              // ALSO POST
-
-    // SERVERLESS API'S
-    WORKER_SHOWS_UPLOAD("https://plus.openaudiomc.net/worker-proxy/shows/upload", false),                 // POST SHOW-DATA AND AUTH
-
-
-    // VOICE SHIT
-    VOICE_CREATE_ROOM("https://plus.openaudiomc.net/api/v1/servers/create-voice/_private_key_", true),                   // GET
+    PLUS_REGISTER("https://plus.openaudiomc.net/api/v1/servers/register", false),
+    PLUS_LOGIN("https://plus.openaudiomc.net/api/v1/servers/login/_private_key_", true),
+    PLUS_LOGOUT("https://plus.openaudiomc.net/api/v1/servers/logout/_private_key_", true),
+    PLUS_GEN_SESSION("https://plus.openaudiomc.net/api/v1/servers/createlogin", false),
+    PLUS_GET_SETTINGS("https://plus.openaudiomc.net/api/v1/public/settings/_public_key_", true),
+    PLUS_PUSH_LEGACY_SETTINGS("https://plus.openaudiomc.net/api/v1/plus/settings", false),
+    PLUS_UPDATE_PLAYERS("https://plus.openaudiomc.net/api/v1/plus/players", false),
+    WORKER_SHOWS_UPLOAD("https://plus.openaudiomc.net/worker-proxy/shows/upload", false),
+    WORKERS_CREATE_SESSION("https://plus.openaudiomc.net/session", false),
+    VOICE_CREATE_ROOM("https://plus.openaudiomc.net/api/v1/servers/create-voice/_private_key_", true),
     ;
 
     private String url;
