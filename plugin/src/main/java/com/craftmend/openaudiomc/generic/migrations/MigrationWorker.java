@@ -21,15 +21,17 @@ public class MigrationWorker {
     };
 
     public void handleMigrations(OpenAudioMc main) {
+        int skipped = 0;
         for (SimpleMigration migration : migrations) {
             if (migration.shouldBeRun()) {
                 OpenAudioLogger.toConsole("Migration Service: Running migration " + migration.getClass().getSimpleName());
                 migration.execute();
                 OpenAudioLogger.toConsole("Migration Service: Finished migrating " + migration.getClass().getSimpleName());
             } else {
-                OpenAudioLogger.toConsole("Skipping migration " + migration.getClass().getSimpleName());
+                skipped++;
             }
         }
+        OpenAudioLogger.toConsole("Skipped " + skipped + " migrations.");
     }
 
 }
