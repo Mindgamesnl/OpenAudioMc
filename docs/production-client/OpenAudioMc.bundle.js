@@ -73,17 +73,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           var s = "http://" + e,
               r = s + "/api";return { createUser: function createUser(e) {
               return u(r, { devicetype: e });
-            }, user: function user(p) {
-              Cookies.set("hueid", p);var m = r + "/" + p,
-                  f = m + "/capabilities",
-                  g = m + "/config",
-                  y = m + "/lights",
-                  b = m + "/groups",
-                  w = m + "/schedules",
-                  v = m + "/scenes",
-                  M = m + "/sensors",
-                  k = m + "/rules",
-                  E = m + "/resourcelinks",
+            }, user: function user(m) {
+              Cookies.set("hueid", m);var p = r + "/" + m,
+                  f = p + "/capabilities",
+                  g = p + "/config",
+                  y = p + "/lights",
+                  b = p + "/groups",
+                  w = p + "/schedules",
+                  v = p + "/scenes",
+                  M = p + "/sensors",
+                  k = p + "/rules",
+                  E = p + "/resourcelinks",
                   S = function S(e) {
                 return function (t) {
                   return e + "/" + t;
@@ -97,7 +97,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                   B = S(k),
                   I = S(E);return { getCapabilities: a.bind(null, f), deleteUser: c(h, function (e) {
                   return g + "/whitelist/" + e;
-                }), getConfig: a.bind(null, g), setConfig: l.bind(null, g), getFullState: a.bind(null, m), getLights: a.bind(null, y), getNewLights: a.bind(null, y + "/new"), searchForNewLights: function searchForNewLights() {
+                }), getConfig: a.bind(null, g), setConfig: l.bind(null, g), getFullState: a.bind(null, p), getLights: a.bind(null, y), getNewLights: a.bind(null, y + "/new"), searchForNewLights: function searchForNewLights() {
                   var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
                   return u(y, e);
                 }, getLight: c(a, A), setLight: c(l, A), setLightState: c(l, function (e) {
@@ -105,7 +105,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 }), deleteLight: c(h, A), getGroups: a.bind(null, b), createGroup: u.bind(null, b), getGroup: c(a, x), setGroup: c(l, x), setGroupState: c(l, function (e) {
                   return x(e) + "/action";
                 }), deleteGroup: c(h, x), getSchedules: a.bind(null, w), createSchedule: u.bind(null, w), getSchedule: c(a, C), setSchedule: c(l, C), deleteSchedule: c(h, C), scheduleCommandGenerator: function scheduleCommandGenerator() {
-                  return n(d(s), t, i, o).bridge(e).user(p);
+                  return n(d(s), t, i, o).bridge(e).user(m);
                 }, getScenes: a.bind(null, v), createScene: u.bind(null, v), getScene: c(a, _), setScene: c(l, _), setSceneLightState: function setSceneLightState(e, t, i) {
                   return l(_(e) + "/lightstates/" + t, i);
                 }, deleteScene: c(h, _), getSensors: a.bind(null, M), createSensor: u.bind(null, M), searchForNewSensors: u.bind(null, M, null), getNewSensors: a.bind(null, M + "/new"), getSensor: c(a, T), setSensor: c(l, T), setSensorConfig: c(l, function (e) {
@@ -113,7 +113,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 }), setSensorState: c(l, function (e) {
                   return T(e) + "/state";
                 }), deleteSensor: c(h, T), getRules: a.bind(null, k), createRule: u.bind(null, k), getRule: c(a, B), setRule: c(l, B), deleteRule: c(h, B), ruleActionGenerator: function ruleActionGenerator() {
-                  return n(d(m), t, i, o).bridge(e).user(p);
+                  return n(d(p), t, i, o).bridge(e).user(m);
                 }, getResourceLinks: a.bind(null, E), createResourceLink: u.bind(null, E), getResourceLink: c(a, I), setResourceLink: c(l, I), deleteResourceLink: c(h, I) };
             } };
         } };
@@ -183,7 +183,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }return i.join("");
       }(this._bodyArrayBuffer));if (this._bodyFormData) throw new Error("could not read FormData body as text");return Promise.resolve(this._bodyText);
     }, F.formData && (this.formData = function () {
-      return this.text().then(p);
+      return this.text().then(m);
     }), this.json = function () {
       return this.text().then(JSON.parse);
     }, this;
@@ -193,7 +193,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     } else this.url = e + "";if (this.credentials = t.credentials || this.credentials || !t.headers && this.headers || (this.headers = new r(t.headers)), this.method = function (e) {
       var t = e.toUpperCase();return -1 < W.indexOf(t) ? t : e;
     }(t.method || this.method || "GET"), this.mode = t.mode || this.mode || null, this.signal = t.signal || this.signal, this.referrer = null, ("GET" === this.method || "HEAD" === this.method) && i) throw new TypeError("Body not allowed for GET or HEAD requests");this._initBody(i);
-  }function p(e) {
+  }function m(e) {
     var t = new FormData();return e.trim().split("&").forEach(function (e) {
       if (e) {
         var i = e.split("="),
@@ -201,7 +201,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             n = i.join("=").replace(/\+/g, " ");t.append(decodeURIComponent(o), decodeURIComponent(n));
       }
     }), t;
-  }function m(e) {
+  }function p(e) {
     var t = new r();return e.replace(/\r?\n[\t ]+/g, " ").split(/\r?\n/).forEach(function (e) {
       var i = e.split(":"),
           o = i.shift().trim();if (o) {
@@ -215,7 +215,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       function n() {
         r.abort();
       }var s = new d(e, t);if (s.signal && s.signal.aborted) return o(new q("Aborted", "AbortError"));var r = new XMLHttpRequest();r.onload = function () {
-        var e = { status: r.status, statusText: r.statusText, headers: m(r.getAllResponseHeaders() || "") };e.url = "responseURL" in r ? r.responseURL : e.headers.get("X-Request-URL");var t = "response" in r ? r.response : r.responseText;i(new f(t, e));
+        var e = { status: r.status, statusText: r.statusText, headers: p(r.getAllResponseHeaders() || "") };e.url = "responseURL" in r ? r.responseURL : e.headers.get("X-Request-URL");var t = "response" in r ? r.response : r.responseText;i(new f(t, e));
       }, r.onerror = function () {
         o(new TypeError("Network request failed"));
       }, r.ontimeout = function () {
@@ -305,7 +305,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   }function k(e, t, i, o, n) {
     this.fromSampleRate = e, this.toSampleRate = t, this.channels = 0 | i, this.outputBufferSize = o, this.noReturn = !!n, this.initialize();
   }function E(e, t, i, o, n, s) {
-    this.audioChannels = 2 == e ? 2 : 1, ke = 1 == this.audioChannels, Me = 0 < t && 16777215 >= t ? t : 44100, be = i >= me << 1 && i < o ? i & (ke ? 4294967295 : 4294967294) : me << 1, we = R(o) > be + this.audioChannels ? o & (ke ? 4294967295 : 4294967294) : i << 1, this.underRunCallback = "function" == typeof n ? n : function () {}, Ee = -1 <= s && 1 >= s && 0 != s ? s : 0, this.audioType = -1, this.mozAudioTail = [], this.audioHandleMoz = null, this.audioHandleFlash = null, this.flashInitialized = !1, this.mozAudioFound = !1, this.initializeAudio();
+    this.audioChannels = 2 == e ? 2 : 1, ke = 1 == this.audioChannels, Me = 0 < t && 16777215 >= t ? t : 44100, be = i >= pe << 1 && i < o ? i & (ke ? 4294967295 : 4294967294) : pe << 1, we = R(o) > be + this.audioChannels ? o & (ke ? 4294967295 : 4294967294) : i << 1, this.underRunCallback = "function" == typeof n ? n : function () {}, Ee = -1 <= s && 1 >= s && 0 != s ? s : 0, this.audioType = -1, this.mozAudioTail = [], this.audioHandleMoz = null, this.audioHandleFlash = null, this.flashInitialized = !1, this.mozAudioFound = !1, this.initializeAudio();
   }function S(e) {
     try {
       var t = new Float32Array(e);
@@ -323,17 +323,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       } while (++i < e);
     }return t;
   }function x() {
-    for (var e = "", t = "", i = 0; i < me && xe != Ce; ++i) {
+    for (var e = "", t = "", i = 0; i < pe && xe != Ce; ++i) {
       e += z(12288 + (0 | 16383 * I(B(ye[xe++] + 1, 0), 2))), t += z(12288 + (0 | 16383 * I(B(ye[xe++] + 1, 0), 2))), xe == _e && (xe = 0);
     }return e + t;
   }function C() {
-    for (var e = "", t = 0; t < me && xe != Ce; ++t) {
+    for (var e = "", t = 0; t < pe && xe != Ce; ++t) {
       e += z(12288 + (0 | 16383 * I(B(ye[xe++] + 1, 0), 2))), xe == _e && (xe = 0);
     }return e;
   }function _() {
     return (xe <= Ce ? 0 : _e) + Ce - xe;
   }function T(e) {
-    ge = S(we), Ae = we, xe = 0, Ce = 0, _e = B(we * Math.ceil(Me / e), me) << 1, ke ? (ye = A(_e), Se = new k(Me, e, 1, _e, !0), C) : (ye = A(_e <<= 1), Se = new k(Me, e, 2, _e, !0), x);
+    ge = S(we), Ae = we, xe = 0, Ce = 0, _e = B(we * Math.ceil(Me / e), pe) << 1, ke ? (ye = A(_e), Se = new k(Me, e, 1, _e, !0), C) : (ye = A(_e <<= 1), Se = new k(Me, e, 2, _e, !0), x);
   }var B = Math.max,
       I = Math.min,
       O = Math.abs,
@@ -1392,12 +1392,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             a = t.media.fadeTime,
             l = t.distance,
             u = t.media.flag,
-            h = t.maxDistance;var c = 100;null != t.media.volume && 0 != t.media.volume && (c = t.media.volume), e.getMediaManager().destroySounds(n, !1, !0);var d = new K(n);d.trackable = !0;var p = new $(s);if (p.openAudioMc = e, p.setOa(e), e.getMediaManager().mixer.addChannel(d), d.addSound(p), d.setChannelVolume(0), p.setLooping(i), d.setTag(n), 0 !== h) {
+            h = t.maxDistance;var c = 100;null != t.media.volume && 0 != t.media.volume && (c = t.media.volume), e.getMediaManager().destroySounds(n, !1, !0);var d = new K(n);d.trackable = !0;var m = new $(s);if (m.openAudioMc = e, m.setOa(e), e.getMediaManager().mixer.addChannel(d), d.addSound(m), d.setChannelVolume(0), m.setLooping(i), d.setTag(n), 0 !== h) {
           var _e21 = _this15.convertDistanceToVolume(h, l);d.setTag("SPECIAL"), d.maxDistance = h, d.fadeChannel(_e21, a);
         } else d.setTag("DEFAULT"), setTimeout(function () {
           0 === a ? (d.setChannelVolume(c), d.updateFromMasterVolume()) : (d.updateFromMasterVolume(), d.fadeChannel(c, a));
-        }, 1);d.setTag(u), e.getMediaManager().mixer.updateCurrent(), p.finalize().then(function () {
-          r && p.startDate(o, !0), p.finish();
+        }, 1);d.setTag(u), e.getMediaManager().mixer.updateCurrent(), m.finalize().then(function () {
+          r && m.startDate(o, !0), m.finish();
         });
       }), t("ClientDestroyCardPayload", function () {
         document.getElementById("card-panel").style.display = "none";
@@ -1569,18 +1569,21 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       return new Promise(function (t, i) {
         _this19.tokenSet = new D().fromUrl(window.location.href), g(_this19.host + "/api/v1/client/login/" + _this19.tokenSet.publicServerKey).then(function (o) {
           o.json().then(function (o) {
-            if (null == o.errors || 0 != o.errors.length) return i(o.errors), void console.log(o.errors);var n = o.response;if (n.banned) return window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/blocked_domain.html", void y("Declined connection due to ban " + window.location.host, "Steve");var s = n.secureEndpoint;null == s && (s = n.insecureEndpoint), console.log("[OpenAudioMc] accepting and applying settings"), e.debugPrint("Updating settings..."), null != n.backgroundImage && "" != n.backgroundImage && (n.backgroundImage = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + n.backgroundImage);var r = n.backgroundImage,
-                a = n.title,
-                l = n.clientWelcomeMessage,
-                u = n.clientErrorMessage;var h = "";M(u).childNodes.forEach(function (e) {
-              h += e.outerHTML;
-            });var c = "";M(l).childNodes.forEach(function (e) {
+            function n(e, t) {
+              var i = e.replace("#", "");return "rgba(" + parseInt(i.substring(0, 2), 16) + "," + parseInt(i.substring(2, 4), 16) + "," + parseInt(i.substring(4, 6), 16) + "," + t / 100 + ")";
+            }if (null == o.errors || 0 != o.errors.length) return i(o.errors), void console.log(o.errors);var s = o.response;if (s.banned) return window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/blocked_domain.html", void y("Declined connection due to ban " + window.location.host, "Steve");var r = s.secureEndpoint;null == r && (r = s.insecureEndpoint), console.log("[OpenAudioMc] accepting and applying settings"), e.debugPrint("Updating settings..."), null != s.backgroundImage && "" != s.backgroundImage && (s.backgroundImage = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + s.backgroundImage);var a = s.backgroundImage,
+                l = s.title,
+                u = s.clientWelcomeMessage,
+                h = s.clientErrorMessage;var c = "";M(h).childNodes.forEach(function (e) {
               c += e.outerHTML;
-            }), "" !== u && (e.getMessages().errorMessage = h), "" !== l && (e.getMessages().welcomeMessage = c);var d = n.greetingMessage;if (d = d.replace("%name", e.tokenSet.name), document.getElementById("initialize-text").innerHTML = d, document.getElementById("initialize-button").innerHTML = n.connectButtonText, e.getUserInterfaceModule().changeColor("#2c78f6", n.accentColor), "" != n.startSound && (e.getMediaManager().startSound = n.startSound), "default" !== a) {
-              document.title = a;try {
-                parent.document.title = a;
+            });var d = "";M(u).childNodes.forEach(function (e) {
+              d += e.outerHTML;
+            }), "" !== h && (e.getMessages().errorMessage = c), "" !== u && (e.getMessages().welcomeMessage = d);var m = s.greetingMessage;m = m.replace("%name", e.tokenSet.name), document.getElementById("initialize-text").innerHTML = m, document.getElementById("initialize-button").innerHTML = s.connectButtonText, document.documentElement.style.setProperty("--border-color-dark", s.accentColor);var p = n(s.accentColor, 70),
+                f = n(s.accentColor, 40);if (document.documentElement.style.setProperty("--border-color-normal", p), document.documentElement.style.setProperty("--border-color-light", f), console.log("new value " + f), e.getUserInterfaceModule().changeColor("#2c78f6", s.accentColor), "" != s.startSound && (e.getMediaManager().startSound = s.startSound), "default" !== l) {
+              document.title = l;try {
+                parent.document.title = l;
               } catch (e) {}
-            }t({ host: s, background: r });
+            }t({ host: r, background: a });
           }).catch(function (e) {
             console.log("Dead end 1"), i(e);
           });
@@ -1730,8 +1733,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   }, E.prototype.checkFlashInit = function () {
     return !this.flashInitialized && this.audioHandleFlash && this.audioHandleFlash.initialize && (this.flashInitialized = !0, this.audioHandleFlash.initialize(this.audioChannels, Ee), T(44100)), this.flashInitialized;
   };var de,
-      pe,
-      me = 2048,
+      me,
+      pe = 2048,
       fe = !1,
       ge = [],
       ye = [],
@@ -1750,7 +1753,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     e[e.VoIP = 2048] = "VoIP", e[e.Audio = 2049] = "Audio", e[e.RestrictedLowDelay = 2051] = "RestrictedLowDelay";
   }(de || (de = {})), function (e) {
     e[e.OK = 0] = "OK", e[e.BadArgument = -1] = "BadArgument", e[e.BufferTooSmall = -2] = "BufferTooSmall", e[e.InternalError = -3] = "InternalError", e[e.InvalidPacket = -4] = "InvalidPacket", e[e.Unimplemented = -5] = "Unimplemented", e[e.InvalidState = -6] = "InvalidState", e[e.AllocFail = -7] = "AllocFail";
-  }(pe || (pe = {}));var Be = function () {
+  }(me || (me = {}));var Be = function () {
     function e() {}return e.getVersion = function () {
       var e = _opus_get_version_string();return Pointer_stringify(e);
     }, e.getMaxFrameSize = function (e) {
