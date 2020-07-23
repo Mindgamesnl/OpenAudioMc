@@ -109,15 +109,53 @@ p{
 .header-img{
     height: 100%;
     border-radius: 50%;
-    box-shadow: 0 0 0 .5em var(--border-color-dark),
+    /*box-shadow: 0 0 0 .5em var(--border-color-dark),
     0 0 0 1em var(--border-color-normal),
-    0 0 0 1.5em var(--border-color-light);
+    0 0 0 1.5em var(--border-color-light);*/
     height: 15em;
     width: 15em;
     margin: 2em auto;
     overflow: hidden;
+    
+    animation: fancy-fade;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    box-shadow: 0 0 0 1.25em var(--border-color-light);
+}
+
+@keyframes fancy-fade {
+    0% {
+        box-shadow: 0 0 0 1.25em var(--border-color-light);
+    }
+
+    25% {
+        box-shadow: 0 0 0 1.25em var(--border-color-normal),
+        0 0 0 2.5em var(--border-color-light);
+    }
+
+    45% {
+        box-shadow: 0 0 0 1.25em var(--border-color-dark),
+        0 0 0 2.5em var(--border-color-normal),
+        0 0 0 3.75em var(--border-color-light);
+    }
+
+    55% {
+        box-shadow: 0 0 0 1.25em var(--border-color-dark),
+        0 0 0 2.5em var(--border-color-normal),
+        0 0 0 3.75em var(--border-color-light);
+    }
+
+    75% {
+        box-shadow: 0 0 0 1.25em var(--border-color-normal),
+        0 0 0 2.5em var(--border-color-light);
+    }
+
+    100% {
+        box-shadow: 0 0 0 1.25em var(--border-color-light);
+    }
 
 }
+
 .header-description{
     margin: auto;
     max-width: 30em
