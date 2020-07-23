@@ -17,6 +17,7 @@ public class MigrationWorker {
             new UpdateSettingMigration(),           // adds config fields for update and announcement preferences,
             new LegalAcceptanceMigration(),         // binding statements about accepting our rules
             new RemoveLoopTempRegionMigration(),    // re branding temp regions to shows
+            new SessionGenerationMigration(),       // messages for generation and session errors
     };
 
     public void handleMigrations(OpenAudioMc main) {

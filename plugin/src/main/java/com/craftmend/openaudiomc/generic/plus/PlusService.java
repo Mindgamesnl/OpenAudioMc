@@ -56,7 +56,7 @@ public class PlusService {
     public void getPlusSettings() {
         RestRequest keyRequest = new RestRequest(RestEndpoint.PLUS_GET_SETTINGS);
         ClientSettingsResponse response = keyRequest.executeSync().getResponse(ClientSettingsResponse.class);
-        baseUrl = response.getDomain() + "?&data=";
+        baseUrl = response.getDomain() + "#";
         plusEnabled = response.getPlayerSync();
     }
 

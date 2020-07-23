@@ -20,7 +20,6 @@ public class ReloadSubCommand extends SubCommand {
         OpenAudioMc.getInstance().getConfiguration().reloadConfig();
         OpenAudioMc.getInstance().getPlusService().getPlusSettings();
         for (ClientConnection client : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
-            client.getSession().regenerate();
             client.kick();
         }
         message(sender, Platform.makeColor("GREEN") + "Reloaded system! Welcome back.");

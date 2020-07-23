@@ -48,6 +48,7 @@ public class ClientConnection implements Authenticatable {
     @Getter private MixTracker mixTracker;
 
     // session info
+    private Publisher sessionPublisher;
     private boolean isConnected = false;
     @Getter private PlayerSession session;
     @Setter @Getter private Card card = null;
@@ -56,7 +57,8 @@ public class ClientConnection implements Authenticatable {
     @Getter @Setter private boolean hasHueLinked = false;
 
     // player implementation
-    @Getter private PlayerContainer player;
+    @Getter
+    private PlayerContainer player;
     private Instant lastConnectPrompt = Instant.now();
 
     // on connect and disconnect handlers
@@ -67,6 +69,7 @@ public class ClientConnection implements Authenticatable {
         this.player = playerContainer;
         this.mixTracker = new MixTracker();
         refreshSession();
+        sessionPublisher = new Publisher(this);
 
         if (OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_SEND_URL_ON_JOIN))
             publishUrl();
@@ -77,43 +80,7 @@ public class ClientConnection implements Authenticatable {
     }
 
     public void publishUrl() {
-        // cancel if the player is via bungee because bungee should handle it
-        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE)
-            return;
-
-        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
-        if (!config.getBoolean(StorageKey.LEGAL_ACCEPTED_TOS_AND_PRIVACY)) {
-            new CatchLegalBindingMiddleware().continueCommand(player.asExecutor(), null);
-            return;
-        }
-
-        if (isConnected) {
-            player.sendMessage(Platform.translateColors(Objects.requireNonNull(
-                    config.getString(StorageKey.MESSAGE_CLIENT_ALREADY_CONNECTED)
-            )));
-            return;
-        }
-
-        OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> OpenAudioMc.getInstance().getNetworkingService().connectIfDown());
-
-        String url = OpenAudioMc.getInstance().getPlusService().getBaseUrl() +
-                session.getToken();
-
-        TextComponent message = new TextComponent(Platform.translateColors(Objects.requireNonNull(
-                config.getString(StorageKey.MESSAGE_CLICK_TO_CONNECT)
-        )));
-
-        TextComponent[] hover = new TextComponent[] {
-                new TextComponent(Platform.translateColors(Objects.requireNonNull(
-                        config.getString(StorageKey.MESSAGE_HOVER_TO_CONNECT)
-                )))
-        };
-
-        message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
-        message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover));
-
-        this.isWaitingToken = true;
-        player.sendMessage(message);
+        sessionPublisher.publishUrl();
     }
 
     @Override

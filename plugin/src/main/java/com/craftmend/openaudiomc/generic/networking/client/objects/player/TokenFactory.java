@@ -18,14 +18,7 @@ class TokenFactory {
      */
     PlayerSession build(ClientConnection client) {
         String key = UUID.randomUUID().toString().subSequence(0, 3).toString();
-        String url = client.getPlayer().getName() +
-                ":" +
-                client.getPlayer().getUniqueId().toString() +
-                ":" +
-                OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue() +
-                ":" +
-                key;
-        return new PlayerSession(client, key, new String(Base64.getEncoder().encode(url.getBytes())));
+        return new PlayerSession(client, key);
     }
 
 }
