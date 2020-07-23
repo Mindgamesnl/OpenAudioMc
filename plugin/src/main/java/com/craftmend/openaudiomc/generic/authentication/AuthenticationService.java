@@ -1,7 +1,10 @@
 package com.craftmend.openaudiomc.generic.authentication;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.authentication.requests.ClientTokenRequestBody;
+import com.craftmend.openaudiomc.generic.authentication.requests.ClientTokenResponseBody;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.responses.RegistrationResponse;
@@ -12,6 +15,7 @@ import com.craftmend.openaudiomc.generic.authentication.objects.Key;
 import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
 
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.voicechat.api.util.Task;
 import lombok.Getter;
 
 @Getter
@@ -75,5 +79,31 @@ public class AuthenticationService {
             serverKeySet.setPublicKey(new Key(spigotConfigurationModule.getString(StorageKey.AUTH_PUBLIC_KEY)));
             isSuccessful = true;
         }
+    }
+
+    // create an async client token, the returned string is the token itself, always runs async
+    public Task<String> createPlayerSession(Authenticatable authenticatable) {
+        Task<String> task = new Task<>();
+        OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
+            // create request
+            ClientTokenRequestBody requestBody = new ClientTokenRequestBody(
+                    authenticatable.getOwnerName(),
+                    authenticatable.getOwnerUUID().toString(),
+                    authenticatable.getSessionTokens().getKey(),
+                    serverKeySet.getPublicKey().getValue()
+            );
+
+            ApiResponse request = new RestRequest(RestEndpoint.WORKERS_CREATE_SESSION)
+                    .setBody(requestBody)
+                    .executeSync();
+
+            if (!request.getErrors().isEmpty()) {
+                task.fail(request.getErrors().get(0).getCode());
+                return;
+            }
+
+            task.success(request.getResponse(ClientTokenResponseBody.class).getToken());
+        });
+        return task;
     }
 }
