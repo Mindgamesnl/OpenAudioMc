@@ -18,6 +18,12 @@ export class MediaManager {
         }
     }
 
+    setupAmbianceSound(source) {
+        // dont do anything if its empty or whatever
+        if (source == "" || source == null) return;
+        this.mixer.setupAmbianceSound(source);
+    }
+
     postBoot() {
         if (this.startSound != null) {
             const createdChannel = new Channel("startsound");
@@ -32,6 +38,10 @@ export class MediaManager {
                 createdMedia.finish();
             });
         }
+
+        setTimeout(() => {
+            this.mixer._updatePlayingSounds();
+        }, 2000)
     }
 
     destroySounds(soundId, all, instantly) {

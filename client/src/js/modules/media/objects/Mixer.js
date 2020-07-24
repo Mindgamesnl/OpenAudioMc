@@ -1,5 +1,6 @@
 import {Channel} from "./Channel";
 import * as PluginChannel from "../../../helpers/protocol/PluginChannel";
+import {Sound} from "./Sound";
 
 export class Mixer {
 
@@ -9,6 +10,7 @@ export class Mixer {
         this.masterVolume = 100;
         this.channels = new Map();
         this.areSoundsPlaying = false;
+        this.ambianceSoundMedia = null;
     }
 
     _updatePlayingSounds() {
@@ -25,7 +27,35 @@ export class Mixer {
     }
 
     _playingStateChangeChanged(isSoundPlaying) {
+        console.log("Updating ambiance")
+        if (this.ambianceSoundMedia == null) return;
+        if (!isSoundPlaying) {
+            // start
+            console.log("Starting ambiance sound")
+            this.ambianceSoundMedia.fadeChannel(this.masterVolume, 800, () => {});
+        } else {
+            // stop
+            console.log("Stopping ambiance sound")
+            this.ambianceSoundMedia.fadeChannel(0, 800, () => {});
+        }
+    }
 
+    setupAmbianceSound(source) {
+        // create media
+        let channel = new Channel("ambiance-lol-dics");
+        let ambianceMedia = new Sound(source);
+        ambianceMedia.setLooping(true);
+        ambianceMedia.setVolume(0);
+        ambianceMedia.finalize().then(() => {
+            ambianceMedia.finish();
+        });
+        channel.mixer = {masterVolume: this.masterVolume};
+        channel.addSound(ambianceMedia);
+        this.ambianceSoundMedia = channel;
+        this.ambianceSoundMedia.mixer = {masterVolume: this.masterVolume};
+        this.ambianceSoundMedia.setChannelVolume(0);
+        this.ambianceSoundMedia.updateFromMasterVolume(this.masterVolume);
+        this._updatePlayingSounds();
     }
 
     updateCurrent() {
@@ -58,6 +88,11 @@ export class Mixer {
         this.masterVolume = masterVolume;
         for (let channel of this.channels.values()) {
             channel.updateFromMasterVolume();
+        }
+
+        if (this.ambianceSoundMedia != null) {
+            this.ambianceSoundMedia.mixer = {masterVolume: this.masterVolume};
+            this.ambianceSoundMedia.updateFromMasterVolume(masterVolume);
         }
     }
 

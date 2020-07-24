@@ -73,31 +73,31 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           var s = "http://" + e,
               r = s + "/api";return { createUser: function createUser(e) {
               return u(r, { devicetype: e });
-            }, user: function user(p) {
-              Cookies.set("hueid", p);var m = r + "/" + p,
-                  f = m + "/capabilities",
-                  g = m + "/config",
-                  y = m + "/lights",
-                  b = m + "/groups",
-                  w = m + "/schedules",
-                  v = m + "/scenes",
-                  M = m + "/sensors",
-                  k = m + "/rules",
-                  E = m + "/resourcelinks",
-                  S = function S(e) {
+            }, user: function user(m) {
+              Cookies.set("hueid", m);var p = r + "/" + m,
+                  f = p + "/capabilities",
+                  g = p + "/config",
+                  y = p + "/lights",
+                  b = p + "/groups",
+                  w = p + "/schedules",
+                  v = p + "/scenes",
+                  M = p + "/sensors",
+                  S = p + "/rules",
+                  k = p + "/resourcelinks",
+                  E = function E(e) {
                 return function (t) {
                   return e + "/" + t;
                 };
               },
-                  A = S(y),
-                  x = S(b),
-                  C = S(w),
-                  _ = S(v),
-                  T = S(M),
-                  B = S(k),
-                  I = S(E);return { getCapabilities: a.bind(null, f), deleteUser: c(h, function (e) {
+                  A = E(y),
+                  x = E(b),
+                  C = E(w),
+                  _ = E(v),
+                  T = E(M),
+                  B = E(S),
+                  I = E(k);return { getCapabilities: a.bind(null, f), deleteUser: c(h, function (e) {
                   return g + "/whitelist/" + e;
-                }), getConfig: a.bind(null, g), setConfig: l.bind(null, g), getFullState: a.bind(null, m), getLights: a.bind(null, y), getNewLights: a.bind(null, y + "/new"), searchForNewLights: function searchForNewLights() {
+                }), getConfig: a.bind(null, g), setConfig: l.bind(null, g), getFullState: a.bind(null, p), getLights: a.bind(null, y), getNewLights: a.bind(null, y + "/new"), searchForNewLights: function searchForNewLights() {
                   var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
                   return u(y, e);
                 }, getLight: c(a, A), setLight: c(l, A), setLightState: c(l, function (e) {
@@ -105,16 +105,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 }), deleteLight: c(h, A), getGroups: a.bind(null, b), createGroup: u.bind(null, b), getGroup: c(a, x), setGroup: c(l, x), setGroupState: c(l, function (e) {
                   return x(e) + "/action";
                 }), deleteGroup: c(h, x), getSchedules: a.bind(null, w), createSchedule: u.bind(null, w), getSchedule: c(a, C), setSchedule: c(l, C), deleteSchedule: c(h, C), scheduleCommandGenerator: function scheduleCommandGenerator() {
-                  return n(d(s), t, i, o).bridge(e).user(p);
+                  return n(d(s), t, i, o).bridge(e).user(m);
                 }, getScenes: a.bind(null, v), createScene: u.bind(null, v), getScene: c(a, _), setScene: c(l, _), setSceneLightState: function setSceneLightState(e, t, i) {
                   return l(_(e) + "/lightstates/" + t, i);
                 }, deleteScene: c(h, _), getSensors: a.bind(null, M), createSensor: u.bind(null, M), searchForNewSensors: u.bind(null, M, null), getNewSensors: a.bind(null, M + "/new"), getSensor: c(a, T), setSensor: c(l, T), setSensorConfig: c(l, function (e) {
                   return T(e) + "/config";
                 }), setSensorState: c(l, function (e) {
                   return T(e) + "/state";
-                }), deleteSensor: c(h, T), getRules: a.bind(null, k), createRule: u.bind(null, k), getRule: c(a, B), setRule: c(l, B), deleteRule: c(h, B), ruleActionGenerator: function ruleActionGenerator() {
-                  return n(d(m), t, i, o).bridge(e).user(p);
-                }, getResourceLinks: a.bind(null, E), createResourceLink: u.bind(null, E), getResourceLink: c(a, I), setResourceLink: c(l, I), deleteResourceLink: c(h, I) };
+                }), deleteSensor: c(h, T), getRules: a.bind(null, S), createRule: u.bind(null, S), getRule: c(a, B), setRule: c(l, B), deleteRule: c(h, B), ruleActionGenerator: function ruleActionGenerator() {
+                  return n(d(p), t, i, o).bridge(e).user(m);
+                }, getResourceLinks: a.bind(null, k), createResourceLink: u.bind(null, k), getResourceLink: c(a, I), setResourceLink: c(l, I), deleteResourceLink: c(h, I) };
             } };
         } };
     };var s = void 0;"undefined" != typeof fetch && "undefined" != typeof Response && "undefined" != typeof JSON && "undefined" != typeof Promise && (s = n.bind(null, fetch, Response, JSON, Promise), void 0 !== e.exports && (e.exports = s));
@@ -183,7 +183,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }return i.join("");
       }(this._bodyArrayBuffer));if (this._bodyFormData) throw new Error("could not read FormData body as text");return Promise.resolve(this._bodyText);
     }, D.formData && (this.formData = function () {
-      return this.text().then(p);
+      return this.text().then(m);
     }), this.json = function () {
       return this.text().then(JSON.parse);
     }, this;
@@ -191,9 +191,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var i = (t = t || {}).body;if (e instanceof d) {
       if (e.bodyUsed) throw new TypeError("Already read");this.url = e.url, this.credentials = e.credentials, t.headers || (this.headers = new r(e.headers)), this.method = e.method, this.mode = e.mode, this.signal = e.signal, i || null == e._bodyInit || (i = e._bodyInit, e.bodyUsed = !0);
     } else this.url = e + "";if (this.credentials = t.credentials || this.credentials || !t.headers && this.headers || (this.headers = new r(t.headers)), this.method = function (e) {
-      var t = e.toUpperCase();return -1 < H.indexOf(t) ? t : e;
+      var t = e.toUpperCase();return -1 < V.indexOf(t) ? t : e;
     }(t.method || this.method || "GET"), this.mode = t.mode || this.mode || null, this.signal = t.signal || this.signal, this.referrer = null, ("GET" === this.method || "HEAD" === this.method) && i) throw new TypeError("Body not allowed for GET or HEAD requests");this._initBody(i);
-  }function p(e) {
+  }function m(e) {
     var t = new FormData();return e.trim().split("&").forEach(function (e) {
       if (e) {
         var i = e.split("="),
@@ -201,7 +201,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             n = i.join("=").replace(/\+/g, " ");t.append(decodeURIComponent(o), decodeURIComponent(n));
       }
     }), t;
-  }function m(e) {
+  }function p(e) {
     var t = new r();return e.replace(/\r?\n[\t ]+/g, " ").split(/\r?\n/).forEach(function (e) {
       var i = e.split(":"),
           o = i.shift().trim();if (o) {
@@ -215,7 +215,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       function n() {
         r.abort();
       }var s = new d(e, t);if (s.signal && s.signal.aborted) return o(new W("Aborted", "AbortError"));var r = new XMLHttpRequest();r.onload = function () {
-        var e = { status: r.status, statusText: r.statusText, headers: m(r.getAllResponseHeaders() || "") };e.url = "responseURL" in r ? r.responseURL : e.headers.get("X-Request-URL");var t = "response" in r ? r.response : r.responseText;i(new f(t, e));
+        var e = { status: r.status, statusText: r.statusText, headers: p(r.getAllResponseHeaders() || "") };e.url = "responseURL" in r ? r.responseURL : e.headers.get("X-Request-URL");var t = "response" in r ? r.response : r.responseText;i(new f(t, e));
       }, r.onerror = function () {
         o(new TypeError("Network request failed"));
       }, r.ontimeout = function () {
@@ -302,17 +302,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }s.push(o[_l]);
       } else s.push(o[_l]);-1 < s.lastIndexOf("§r") && (s = s.slice(s.lastIndexOf("§r") + 1)), t = e.substring(n[_l], n[_l + 1]), r.appendChild(v(t, s));
     }return r;
-  }function k(e, t, i, o, n) {
+  }function S(e, t, i, o, n) {
     this.fromSampleRate = e, this.toSampleRate = t, this.channels = 0 | i, this.outputBufferSize = o, this.noReturn = !!n, this.initialize();
-  }function E(e, t, i, o, n, s) {
-    this.audioChannels = 2 == e ? 2 : 1, Me = 1 == this.audioChannels, ve = 0 < t && 16777215 >= t ? t : 44100, ye = i >= pe << 1 && i < o ? i & (Me ? 4294967295 : 4294967294) : pe << 1, be = R(o) > ye + this.audioChannels ? o & (Me ? 4294967295 : 4294967294) : i << 1, this.underRunCallback = "function" == typeof n ? n : function () {}, ke = -1 <= s && 1 >= s && 0 != s ? s : 0, this.audioType = -1, this.mozAudioTail = [], this.audioHandleMoz = null, this.audioHandleFlash = null, this.flashInitialized = !1, this.mozAudioFound = !1, this.initializeAudio();
-  }function S(e) {
+  }function k(e, t, i, o, n, s) {
+    this.audioChannels = 2 == e ? 2 : 1, Me = 1 == this.audioChannels, ve = 0 < t && 16777215 >= t ? t : 44100, ye = i >= me << 1 && i < o ? i & (Me ? 4294967295 : 4294967294) : me << 1, be = R(o) > ye + this.audioChannels ? o & (Me ? 4294967295 : 4294967294) : i << 1, this.underRunCallback = "function" == typeof n ? n : function () {}, Se = -1 <= s && 1 >= s && 0 != s ? s : 0, this.audioType = -1, this.mozAudioTail = [], this.audioHandleMoz = null, this.audioHandleFlash = null, this.flashInitialized = !1, this.mozAudioFound = !1, this.initializeAudio();
+  }function E(e) {
     try {
       var t = new Float32Array(e);
     } catch (t) {
       var t;Array(e);
     }for (var i = 0; i < e; ++i) {
-      t[i] = ke * (i / e);
+      t[i] = Se * (i / e);
     }return t;
   }function A(e) {
     try {
@@ -323,17 +323,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       } while (++i < e);
     }return t;
   }function x() {
-    for (var e = "", t = "", i = 0; i < pe && Ae != xe; ++i) {
+    for (var e = "", t = "", i = 0; i < me && Ae != xe; ++i) {
       e += N(12288 + (0 | 16383 * I(B(ge[Ae++] + 1, 0), 2))), t += N(12288 + (0 | 16383 * I(B(ge[Ae++] + 1, 0), 2))), Ae == Ce && (Ae = 0);
     }return e + t;
   }function C() {
-    for (var e = "", t = 0; t < pe && Ae != xe; ++t) {
+    for (var e = "", t = 0; t < me && Ae != xe; ++t) {
       e += N(12288 + (0 | 16383 * I(B(ge[Ae++] + 1, 0), 2))), Ae == Ce && (Ae = 0);
     }return e;
   }function _() {
     return (Ae <= xe ? 0 : Ce) + xe - Ae;
   }function T(e) {
-    fe = S(be), Se = be, Ae = 0, xe = 0, Ce = B(be * Math.ceil(ve / e), pe) << 1, Me ? (ge = A(Ce), Ee = new k(ve, e, 1, Ce, !0), C) : (ge = A(Ce <<= 1), Ee = new k(ve, e, 2, Ce, !0), x);
+    fe = E(be), Ee = be, Ae = 0, xe = 0, Ce = B(be * Math.ceil(ve / e), me) << 1, Me ? (ge = A(Ce), ke = new S(ve, e, 1, Ce, !0), C) : (ge = A(Ce <<= 1), ke = new S(ve, e, 2, Ce, !0), x);
   }var B = Math.max,
       I = Math.min,
       O = Math.abs,
@@ -408,14 +408,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var e = [];return this.forEach(function (t, i) {
       e.push([i, t]);
     }), s(e);
-  }, D.iterable && (r.prototype[Symbol.iterator] = r.prototype.entries);var H = ["DELETE", "GET", "HEAD", "OPTIONS", "POST", "PUT"];d.prototype.clone = function () {
+  }, D.iterable && (r.prototype[Symbol.iterator] = r.prototype.entries);var V = ["DELETE", "GET", "HEAD", "OPTIONS", "POST", "PUT"];d.prototype.clone = function () {
     return new d(this, { body: this._bodyInit });
   }, c.call(d.prototype), c.call(f.prototype), f.prototype.clone = function () {
     return new f(this._bodyInit, { status: this.status, statusText: this.statusText, headers: new r(this.headers), url: this.url });
   }, f.error = function () {
     var e = new f(null, { status: 0, statusText: "" });return e.type = "error", e;
-  };var V = [301, 302, 303, 307, 308];f.redirect = function (e, t) {
-    if (-1 === V.indexOf(t)) throw new RangeError("Invalid status code");return new f(null, { status: t, headers: { location: e } });
+  };var H = [301, 302, 303, 307, 308];f.redirect = function (e, t) {
+    if (-1 === H.indexOf(t)) throw new RangeError("Invalid status code");return new f(null, { status: t, headers: { location: e } });
   };var W = self.DOMException;try {
     new W();
   } catch (t) {
@@ -653,15 +653,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       return this.tags.has(e);
     };
 
-    J.prototype.addSound = function addSound(e) {
-      this.sounds.push(e);var _iteratorNormalCompletion2 = true;
+    J.prototype.hasSoundPlaying = function hasSoundPlaying() {
+      var _iteratorNormalCompletion2 = true;
       var _didIteratorError2 = false;
       var _iteratorError2 = undefined;
 
       try {
         for (var _iterator2 = this.sounds.values()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
           var _e6 = _step2.value;
-          _e6.registerMixer(this.mixer, this);
+          return !0;
         }
       } catch (err) {
         _didIteratorError2 = true;
@@ -678,15 +678,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }
       }
 
-      this._updateVolume();
+      return !1;
     };
 
-    J.prototype.setChannelVolume = function setChannelVolume(e) {
-      this.channelVolume = e, this._updateVolume();
-    };
-
-    J.prototype.registerMixer = function registerMixer(e) {
-      this.mixer = e;var _iteratorNormalCompletion3 = true;
+    J.prototype.addSound = function addSound(e) {
+      this.sounds.push(e);var _iteratorNormalCompletion3 = true;
       var _didIteratorError3 = false;
       var _iteratorError3 = undefined;
 
@@ -709,6 +705,38 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           }
         }
       }
+
+      this._updateVolume();
+    };
+
+    J.prototype.setChannelVolume = function setChannelVolume(e) {
+      this.channelVolume = e, this._updateVolume();
+    };
+
+    J.prototype.registerMixer = function registerMixer(e) {
+      this.mixer = e;var _iteratorNormalCompletion4 = true;
+      var _didIteratorError4 = false;
+      var _iteratorError4 = undefined;
+
+      try {
+        for (var _iterator4 = this.sounds.values()[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+          var _e8 = _step4.value;
+          _e8.registerMixer(this.mixer, this);
+        }
+      } catch (err) {
+        _didIteratorError4 = true;
+        _iteratorError4 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion4 && _iterator4.return) {
+            _iterator4.return();
+          }
+        } finally {
+          if (_didIteratorError4) {
+            throw _iteratorError4;
+          }
+        }
+      }
     };
 
     J.prototype.fadeChannel = function fadeChannel(e, t, i) {
@@ -719,32 +747,32 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             r = t / O(s - o),
             a = setInterval(function () {
           s = s > o ? s - 1 : s + 1;var e = _this8.mixer.masterVolume,
-              t = s / 100 * e;var _iteratorNormalCompletion4 = true;
-          var _didIteratorError4 = false;
-          var _iteratorError4 = undefined;
+              t = s / 100 * e;var _iteratorNormalCompletion5 = true;
+          var _didIteratorError5 = false;
+          var _iteratorError5 = undefined;
 
           try {
-            for (var _iterator4 = _this8.sounds[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-              var _e9 = _step4.value;
-              _e9.setVolume(t);
+            for (var _iterator5 = _this8.sounds[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+              var _e10 = _step5.value;
+              _e10.setVolume(t);
             }
           } catch (err) {
-            _didIteratorError4 = true;
-            _iteratorError4 = err;
+            _didIteratorError5 = true;
+            _iteratorError5 = err;
           } finally {
             try {
-              if (!_iteratorNormalCompletion4 && _iterator4.return) {
-                _iterator4.return();
+              if (!_iteratorNormalCompletion5 && _iterator5.return) {
+                _iterator5.return();
               }
             } finally {
-              if (_didIteratorError4) {
-                throw _iteratorError4;
+              if (_didIteratorError5) {
+                throw _iteratorError5;
               }
             }
           }
 
           if (_this8.channelVolume = s, s == o) {
-            i(), clearInterval(a);var _e8 = _this8.fadeTimer.indexOf(a);-1 < _e8 && _this8.fadeTimer.splice(_e8, 1), _this8.isFading = !1, a = null;
+            i(), clearInterval(a);var _e9 = _this8.fadeTimer.indexOf(a);-1 < _e9 && _this8.fadeTimer.splice(_e9, 1), _this8.isFading = !1, a = null;
           }
         }, r);_this8.fadeTimer.push(a);
       }(0, t, e, i);
@@ -752,26 +780,26 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     J.prototype.interruptFade = function interruptFade() {
       if (this.isFading) {
-        this.isFading = !1, this.setChannelVolume(this.targetAfterFade);var _iteratorNormalCompletion5 = true;
-        var _didIteratorError5 = false;
-        var _iteratorError5 = undefined;
+        this.isFading = !1, this.setChannelVolume(this.targetAfterFade);var _iteratorNormalCompletion6 = true;
+        var _didIteratorError6 = false;
+        var _iteratorError6 = undefined;
 
         try {
-          for (var _iterator5 = this.fadeTimer[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-            var _e10 = _step5.value;
-            clearInterval(_e10);
+          for (var _iterator6 = this.fadeTimer[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+            var _e11 = _step6.value;
+            clearInterval(_e11);
           }
         } catch (err) {
-          _didIteratorError5 = true;
-          _iteratorError5 = err;
+          _didIteratorError6 = true;
+          _iteratorError6 = err;
         } finally {
           try {
-            if (!_iteratorNormalCompletion5 && _iterator5.return) {
-              _iterator5.return();
+            if (!_iteratorNormalCompletion6 && _iterator6.return) {
+              _iterator6.return();
             }
           } finally {
-            if (_didIteratorError5) {
-              throw _iteratorError5;
+            if (_didIteratorError6) {
+              throw _iteratorError6;
             }
           }
         }
@@ -780,33 +808,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     J.prototype._updateVolume = function _updateVolume() {
       this.interruptFade();var e = this.mixer.masterVolume,
-          t = this.channelVolume / 100 * e;var _iteratorNormalCompletion6 = true;
-      var _didIteratorError6 = false;
-      var _iteratorError6 = undefined;
-
-      try {
-        for (var _iterator6 = this.sounds[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-          var _e11 = _step6.value;
-          _e11.setVolume(t);
-        }
-      } catch (err) {
-        _didIteratorError6 = true;
-        _iteratorError6 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion6 && _iterator6.return) {
-            _iterator6.return();
-          }
-        } finally {
-          if (_didIteratorError6) {
-            throw _iteratorError6;
-          }
-        }
-      }
-    };
-
-    J.prototype.updateFromMasterVolume = function updateFromMasterVolume() {
-      var e = this.mixer.masterVolume,
           t = this.channelVolume / 100 * e;var _iteratorNormalCompletion7 = true;
       var _didIteratorError7 = false;
       var _iteratorError7 = undefined;
@@ -832,15 +833,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }
     };
 
-    J.prototype.destroy = function destroy() {
-      this.interruptFade();var _iteratorNormalCompletion8 = true;
+    J.prototype.updateFromMasterVolume = function updateFromMasterVolume() {
+      var e = this.mixer.masterVolume,
+          t = this.channelVolume / 100 * e;var _iteratorNormalCompletion8 = true;
       var _didIteratorError8 = false;
       var _iteratorError8 = undefined;
 
       try {
         for (var _iterator8 = this.sounds[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
           var _e13 = _step8.value;
-          _e13.destroy();
+          _e13.setVolume(t);
         }
       } catch (err) {
         _didIteratorError8 = true;
@@ -858,33 +860,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }
     };
 
-    return J;
-  }();
-
-  var Q = function () {
-    function Q(e, t) {
-      _classCallCheck(this, Q);
-
-      this.openAudioMc = t, this.mixerName = e, this.masterVolume = 100, this.channels = new Map();
-    }
-
-    Q.prototype.updateCurrent = function updateCurrent() {
-      var e = [];this.channels.forEach(function (t, i) {
-        var o = [];t.tags.forEach(function (e, t) {
-          o.push(t);
-        }), t.trackable && e.push({ name: i, tags: o });
-      });
-    };
-
-    Q.prototype.setMasterVolume = function setMasterVolume(e) {
-      this.masterVolume = e;var _iteratorNormalCompletion9 = true;
+    J.prototype.destroy = function destroy() {
+      this.interruptFade();var _iteratorNormalCompletion9 = true;
       var _didIteratorError9 = false;
       var _iteratorError9 = undefined;
 
       try {
-        for (var _iterator9 = this.channels.values()[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
+        for (var _iterator9 = this.sounds[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
           var _e14 = _step9.value;
-          _e14.updateFromMasterVolume();
+          _e14.destroy();
         }
       } catch (err) {
         _didIteratorError9 = true;
@@ -902,68 +886,53 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }
     };
 
-    Q.prototype.removeChannel = function removeChannel(e) {
-      var t = void 0;t = e instanceof J ? e : this.channels.get(e), null != t && (t.destroy(), this.channels.delete(t.channelName)), this.updateCurrent();
-    };
-
-    Q.prototype.getChannels = function getChannels() {
-      return this.channels.values();
-    };
-
-    Q.prototype.addChannel = function addChannel(e) {
-      if (!(e instanceof J)) throw new Error("Argument isn't a channel");{
-        var t = e.channelName,
-            _i4 = this.channels.get(t);null != _i4 && _i4.destroy(), e.registerMixer(this), this.channels.set(t, e);
-      }
-    };
-
-    return Q;
+    return J;
   }();
 
-  var Z = { PROXY: j.CONTENT_PROXY, YOUTUBE: j.YOUTUBE_PRXY, SOUNDCLOUD: j.SOUNDCLOUD_PROXY, DRIVE: j.DRIVE_PROXY };"toJSON" in Error.prototype || Object.defineProperty(Error.prototype, "toJSON", { value: function value() {
+  var Q = { PROXY: j.CONTENT_PROXY, YOUTUBE: j.YOUTUBE_PRXY, SOUNDCLOUD: j.SOUNDCLOUD_PROXY, DRIVE: j.DRIVE_PROXY };"toJSON" in Error.prototype || Object.defineProperty(Error.prototype, "toJSON", { value: function value() {
       var e = {};return Object.getOwnPropertyNames(this).forEach(function (t) {
         e[t] = this[t];
       }, this), e;
     }, configurable: !0, writable: !0 });
-  var $ = function (_ref) {
-    _inherits($, _ref);
+  var Z = function (_ref) {
+    _inherits(Z, _ref);
 
-    function $(e) {
+    function Z(e) {
       var _this9;
 
-      _classCallCheck(this, $);
+      _classCallCheck(this, Z);
 
       (_this9 = _possibleConstructorReturn(this, _ref.call(this)), _this9), e = _this9.translate(e), _this9.soundElement = new Audio(), _this9.hadError = !1, _this9.source = e, _this9.error = null, _this9.trackable = !1, _this9.soundElement.onerror = function (e) {
         _this9.hadError = !0, _this9.error = e, _this9._handleError();
       }, _this9.soundElement.src = e, _this9.soundElement.setAttribute("preload", "auto"), _this9.soundElement.setAttribute("controls", "none"), _this9.soundElement.setAttribute("display", "none"), _this9.soundElement.preload = "auto", _this9.soundElement.abort = console.log, _this9.openAudioMc = null, _this9.onFinish = null, _this9.loop = !1, _this9.mixer = null, _this9.channel = null, _this9.finsishedInitializing = !1, _this9.gotShutDown = !1;return _this9;
     }
 
-    $.prototype.setOa = function setOa(e) {
+    Z.prototype.setOa = function setOa(e) {
       this.openAudioMc = e, this._handleError();
     };
 
-    $.prototype._handleError = function _handleError() {
+    Z.prototype._handleError = function _handleError() {
       if (this.hadError && null != this.openAudioMc && "error" == this.error.type) {
         var t = this.soundElement.error.code,
-            _i5 = null;if (this.isYoutube ? _i5 = this.openAudioMc.socketModule.supportsYoutube ? "YOUTUBE_ERR" : "MEDIA_ERR_SRC_NOT_SUPPORTED" : 1 === t ? _i5 = "MEDIA_ERR_ABORTED" : 2 === t ? _i5 = "MEDIA_ERR_NETWORK" : 3 === t ? _i5 = "MEDIA_ERR_DECODE" : 4 === t && (_i5 = "MEDIA_ERR_SRC_NOT_SUPPORTED"), null != _i5) {
-          console.log("[OpenAudioMc] Reporting media failure " + _i5);var e = function e(_e15, t, i) {
+            _i4 = null;if (this.isYoutube ? _i4 = this.openAudioMc.socketModule.supportsYoutube ? "YOUTUBE_ERR" : "MEDIA_ERR_SRC_NOT_SUPPORTED" : 1 === t ? _i4 = "MEDIA_ERR_ABORTED" : 2 === t ? _i4 = "MEDIA_ERR_NETWORK" : 3 === t ? _i4 = "MEDIA_ERR_DECODE" : 4 === t && (_i4 = "MEDIA_ERR_SRC_NOT_SUPPORTED"), null != _i4) {
+          console.log("[OpenAudioMc] Reporting media failure " + _i4);var e = function e(_e15, t, i) {
             var o = {};return Object.getOwnPropertyNames(_e15).forEach(function (t) {
               o[t] = _e15[t];
             }), JSON.stringify(o, t, i);
-          };this.openAudioMc.sendError("A sound failed to load.\nurl=" + this.source + "\nerror-code=" + this.soundElement.error.code + "\nerror-message=" + this.soundElement.error.message + "\ndetected-error=" + _i5 + "\ndump=" + e(this.error, null, "\t") + e(this.soundElement.error, null, "\t") + "\nhostname=" + window.location.host), this.openAudioMc.socketModule.send("media_failure", { mediaError: _i5, source: this.soundElement.src });
+          };this.openAudioMc.sendError("A sound failed to load.\nurl=" + this.source + "\nerror-code=" + this.soundElement.error.code + "\nerror-message=" + this.soundElement.error.message + "\ndetected-error=" + _i4 + "\ndump=" + e(this.error, null, "\t") + e(this.soundElement.error, null, "\t") + "\nhostname=" + window.location.host), this.openAudioMc.socketModule.send("media_failure", { mediaError: _i4, source: this.soundElement.src });
         }
       }
     };
 
-    $.prototype.addNode = function addNode(e, t) {
-      null == this.controller && (this.soundElement.crossOrigin = "anonymous", !this.soundElement.src.includes("openaudiomc.net") && (this.soundElement.src = Z.PROXY + this.soundElement.src), this.controller = e.audioCtx.createMediaElementSource(this.soundElement)), this.controller.connect(t);
+    Z.prototype.addNode = function addNode(e, t) {
+      null == this.controller && (this.soundElement.crossOrigin = "anonymous", !this.soundElement.src.includes("openaudiomc.net") && (this.soundElement.src = Q.PROXY + this.soundElement.src), this.controller = e.audioCtx.createMediaElementSource(this.soundElement)), this.controller.connect(t);
     };
 
-    $.prototype.registerMixer = function registerMixer(e, t) {
+    Z.prototype.registerMixer = function registerMixer(e, t) {
       this.mixer = e, this.channel = t;
     };
 
-    $.prototype.finalize = function finalize() {
+    Z.prototype.finalize = function finalize() {
       var _this10 = this;
 
       return new Promise(function (e) {
@@ -981,23 +950,23 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       });
     };
 
-    $.prototype.setLooping = function setLooping(e) {
+    Z.prototype.setLooping = function setLooping(e) {
       this.loop = e;
     };
 
-    $.prototype.finish = function finish() {
+    Z.prototype.finish = function finish() {
       this.finsishedInitializing = !0;
     };
 
-    $.prototype.setOnFinish = function setOnFinish(e) {
+    Z.prototype.setOnFinish = function setOnFinish(e) {
       this.onFinish = e;
     };
 
-    $.prototype.setVolume = function setVolume(e) {
+    Z.prototype.setVolume = function setVolume(e) {
       100 < e && (e = 100), this.soundElement.volume = e / 100;
     };
 
-    $.prototype.startDate = function startDate(e) {
+    Z.prototype.startDate = function startDate(e) {
       var t = new Date(e),
           i = O((t.getTime() - this.openAudioMc.timeService.getPredictedTime()) / 1e3),
           o = this.soundElement.duration;if (i > o) {
@@ -1005,74 +974,70 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }this.setTime(i);
     };
 
-    $.prototype.setTime = function setTime(e) {
+    Z.prototype.setTime = function setTime(e) {
       this.soundElement.currentTime = e;
     };
 
-    $.prototype.destroy = function destroy() {
+    Z.prototype.destroy = function destroy() {
       this.gotShutDown = !0, this.setLooping(!1), this.soundElement.pause(), this.soundElement.remove();
     };
 
-    return $;
+    return Z;
   }(function () {
     function _class2() {
       _classCallCheck(this, _class2);
     }
 
     _class2.prototype.translate = function translate(e) {
-      if (e.includes("http://docs.google.com/uc?export=open&id=") && (e = e.replace("http://docs.google.com/uc?export=open&id=", Z.DRIVE)), e.includes("https://docs.google.com/uc?export=open&id=") && (e = e.replace("https://docs.google.com/uc?export=open&id=", Z.DRIVE)), e.includes("https://drive.google.com/") && (e = (e = e.split("file/d/")[1]).split("/view")[0]), this.isYoutube = !1, e.includes("youtube") || e.includes("youtu.be")) {
-        var _t5 = e.split("v=")[1];e = Z.YOUTUBE + _t5, this.isYoutube = !0;
-      }e.includes("https://weathered-dust-0281.craftmend.workers.dev/") && (e = e.replace("https://weathered-dust-0281.craftmend.workers.dev/", "")), e.includes("soundcloud.com") && (e = Z.SOUNDCLOUD + e), "https:" === location.protocol && e.includes("http") && !e.includes("https://") && (e = Z.PROXY + e);var t = new q().fromCache();return e += e.includes("?") ? "&openAudioPlayerName=" + t.name : "?openAudioPlayerName=" + t.name, e += "&openAudioToken=" + t.token, e += "&openAudioPublicServerKey=" + t.publicServerKey;
+      if (e.includes("http://docs.google.com/uc?export=open&id=") && (e = e.replace("http://docs.google.com/uc?export=open&id=", Q.DRIVE)), e.includes("https://docs.google.com/uc?export=open&id=") && (e = e.replace("https://docs.google.com/uc?export=open&id=", Q.DRIVE)), e.includes("https://drive.google.com/") && (e = (e = e.split("file/d/")[1]).split("/view")[0]), this.isYoutube = !1, e.includes("youtube") || e.includes("youtu.be")) {
+        var _t5 = e.split("v=")[1];e = Q.YOUTUBE + _t5, this.isYoutube = !0;
+      }e.includes("https://weathered-dust-0281.craftmend.workers.dev/") && (e = e.replace("https://weathered-dust-0281.craftmend.workers.dev/", "")), e.includes("soundcloud.com") && (e = Q.SOUNDCLOUD + e), "https:" === location.protocol && e.includes("http") && !e.includes("https://") && (e = Q.PROXY + e);var t = new q().fromCache();return e += e.includes("?") ? "&openAudioPlayerName=" + t.name : "?openAudioPlayerName=" + t.name, e += "&openAudioToken=" + t.token, e += "&openAudioPublicServerKey=" + t.publicServerKey;
     };
 
     return _class2;
   }());
 
-  var ee = function () {
-    function ee(e) {
-      var _this11 = this;
+  var $ = function () {
+    function $(e, t) {
+      _classCallCheck(this, $);
 
-      _classCallCheck(this, ee);
-
-      this.sounds = {}, this.masterVolume = 80, this.openAudioMc = e, this.startSound = null, this.mixer = new Q(null, e), document.getElementById("volume-slider").oninput = function () {
-        var e = document.getElementById("volume-slider").value;_this11.setMasterVolume(e), Cookies.set("volume", e);
-      };
+      this.openAudioMc = t, this.mixerName = e, this.masterVolume = 100, this.channels = new Map(), this.areSoundsPlaying = !1, this.ambianceSoundMedia = null;
     }
 
-    ee.prototype.postBoot = function postBoot() {
-      var _this12 = this;
-
-      if (null != this.startSound) {
-        var _e16 = new J("startsound"),
-            t = new $(this.startSound);t.openAudioMc = this.openAudioMc, t.setOa(this.openAudioMc), t.finalize().then(function () {
-          _this12.mixer.addChannel(_e16), _e16.addSound(t), _e16.setChannelVolume(100), _e16.updateFromMasterVolume(), t.finish();
-        });
-      }
+    $.prototype._updatePlayingSounds = function _updatePlayingSounds() {
+      var e = !1;this.channels.forEach(function (t) {
+        t.hasSoundPlaying() && (e = !0);
+      }), e != this.areSoundsPlaying && (this._playingStateChangeChanged(e), this.areSoundsPlaying = e);
     };
 
-    ee.prototype.destroySounds = function destroySounds(e, t, i) {
-      var _this13 = this;
+    $.prototype._playingStateChangeChanged = function _playingStateChangeChanged(e) {
+      console.log("Updating ambiance"), null == this.ambianceSoundMedia || (e ? (console.log("Stopping ambiance sound"), this.ambianceSoundMedia.fadeChannel(0, 800, function () {})) : (console.log("Starting ambiance sound"), this.ambianceSoundMedia.fadeChannel(this.masterVolume, 800, function () {})));
+    };
 
-      this.openAudioMc.debugPrint("starting to quit fade " + e);var o = 100;i && (o = 0);var _iteratorNormalCompletion10 = true;
+    $.prototype.setupAmbianceSound = function setupAmbianceSound(e) {
+      var t = new J("ambiance-lol-dics"),
+          i = new Z(e);i.setLooping(!0), i.setVolume(0), i.finalize().then(function () {
+        i.finish();
+      }), t.mixer = { masterVolume: this.masterVolume }, t.addSound(i), this.ambianceSoundMedia = t, this.ambianceSoundMedia.mixer = { masterVolume: this.masterVolume }, this.ambianceSoundMedia.setChannelVolume(0), this.ambianceSoundMedia.updateFromMasterVolume(this.masterVolume), this._updatePlayingSounds();
+    };
+
+    $.prototype.updateCurrent = function updateCurrent() {
+      var e = [];this.channels.forEach(function (t, i) {
+        var o = [];t.tags.forEach(function (e, t) {
+          o.push(t);
+        }), t.trackable && e.push({ name: i, tags: o });
+      }), this._updatePlayingSounds();
+    };
+
+    $.prototype.setMasterVolume = function setMasterVolume(e) {
+      this.masterVolume = e;var _iteratorNormalCompletion10 = true;
       var _didIteratorError10 = false;
       var _iteratorError10 = undefined;
 
       try {
-        var _loop = function _loop() {
-          var i = _step10.value;
-          t ? i.fadeChannel(0, 5 * o, function () {
-            _this13.mixer.removeChannel(i);
-          }) : null == e || "" === e ? i.hasTag("SPECIAL") || i.hasTag("REGION") || i.hasTag("SPEAKER") || i.fadeChannel(0, 5 * o, function () {
-            _this13.mixer.removeChannel(i);
-          }) : i.hasTag(e) && (i.sounds.forEach(function (e) {
-            e.gotShutDown = !0;
-          }), i.fadeChannel(0, o, function () {
-            _this13.mixer.removeChannel(i);
-          }));
-        };
-
-        for (var _iterator10 = this.mixer.getChannels()[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
-          _loop();
+        for (var _iterator10 = this.channels.values()[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
+          var _e16 = _step10.value;
+          _e16.updateFromMasterVolume();
         }
       } catch (err) {
         _didIteratorError10 = true;
@@ -1085,6 +1050,94 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         } finally {
           if (_didIteratorError10) {
             throw _iteratorError10;
+          }
+        }
+      }
+
+      null != this.ambianceSoundMedia && (this.ambianceSoundMedia.mixer = { masterVolume: this.masterVolume }, this.ambianceSoundMedia.updateFromMasterVolume(e));
+    };
+
+    $.prototype.removeChannel = function removeChannel(e) {
+      var t = void 0;t = e instanceof J ? e : this.channels.get(e), null != t && (t.destroy(), this.channels.delete(t.channelName)), this._updatePlayingSounds();
+    };
+
+    $.prototype.getChannels = function getChannels() {
+      return this.channels.values();
+    };
+
+    $.prototype.addChannel = function addChannel(e) {
+      if (!(e instanceof J)) throw new Error("Argument isn't a channel");{
+        var t = e.channelName,
+            _i5 = this.channels.get(t);null != _i5 && _i5.destroy(), e.registerMixer(this), this.channels.set(t, e);
+      }this._updatePlayingSounds();
+    };
+
+    return $;
+  }();
+
+  var ee = function () {
+    function ee(e) {
+      var _this11 = this;
+
+      _classCallCheck(this, ee);
+
+      this.sounds = {}, this.masterVolume = 80, this.openAudioMc = e, this.startSound = null, this.mixer = new $(null, e), document.getElementById("volume-slider").oninput = function () {
+        var e = document.getElementById("volume-slider").value;_this11.setMasterVolume(e), Cookies.set("volume", e);
+      };
+    }
+
+    ee.prototype.setupAmbianceSound = function setupAmbianceSound(e) {
+      "" == e || null == e || this.mixer.setupAmbianceSound(e);
+    };
+
+    ee.prototype.postBoot = function postBoot() {
+      var _this12 = this;
+
+      if (null != this.startSound) {
+        var _e17 = new J("startsound"),
+            t = new Z(this.startSound);t.openAudioMc = this.openAudioMc, t.setOa(this.openAudioMc), t.finalize().then(function () {
+          _this12.mixer.addChannel(_e17), _e17.addSound(t), _e17.setChannelVolume(100), _e17.updateFromMasterVolume(), t.finish();
+        });
+      }setTimeout(function () {
+        _this12.mixer._updatePlayingSounds();
+      }, 2e3);
+    };
+
+    ee.prototype.destroySounds = function destroySounds(e, t, i) {
+      var _this13 = this;
+
+      this.openAudioMc.debugPrint("starting to quit fade " + e);var o = 100;i && (o = 0);var _iteratorNormalCompletion11 = true;
+      var _didIteratorError11 = false;
+      var _iteratorError11 = undefined;
+
+      try {
+        var _loop = function _loop() {
+          var i = _step11.value;
+          t ? i.fadeChannel(0, 5 * o, function () {
+            _this13.mixer.removeChannel(i);
+          }) : null == e || "" === e ? i.hasTag("SPECIAL") || i.hasTag("REGION") || i.hasTag("SPEAKER") || i.fadeChannel(0, 5 * o, function () {
+            _this13.mixer.removeChannel(i);
+          }) : i.hasTag(e) && (i.sounds.forEach(function (e) {
+            e.gotShutDown = !0;
+          }), i.fadeChannel(0, o, function () {
+            _this13.mixer.removeChannel(i);
+          }));
+        };
+
+        for (var _iterator11 = this.mixer.getChannels()[Symbol.iterator](), _step11; !(_iteratorNormalCompletion11 = (_step11 = _iterator11.next()).done); _iteratorNormalCompletion11 = true) {
+          _loop();
+        }
+      } catch (err) {
+        _didIteratorError11 = true;
+        _iteratorError11 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion11 && _iterator11.return) {
+            _iterator11.return();
+          }
+        } finally {
+          if (_didIteratorError11) {
+            throw _iteratorError11;
           }
         }
       }
@@ -1131,26 +1184,26 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             o = t.server,
             n = t.accessToken,
             s = t.members,
-            r = [];var _iteratorNormalCompletion11 = true;
-        var _didIteratorError11 = false;
-        var _iteratorError11 = undefined;
+            r = [];var _iteratorNormalCompletion12 = true;
+        var _didIteratorError12 = false;
+        var _iteratorError12 = undefined;
 
         try {
-          for (var _iterator11 = s[Symbol.iterator](), _step11; !(_iteratorNormalCompletion11 = (_step11 = _iterator11.next()).done); _iteratorNormalCompletion11 = true) {
-            var _e17 = _step11.value;
-            r.push(_e17.name);
+          for (var _iterator12 = s[Symbol.iterator](), _step12; !(_iteratorNormalCompletion12 = (_step12 = _iterator12.next()).done); _iteratorNormalCompletion12 = true) {
+            var _e18 = _step12.value;
+            r.push(_e18.name);
           }
         } catch (err) {
-          _didIteratorError11 = true;
-          _iteratorError11 = err;
+          _didIteratorError12 = true;
+          _iteratorError12 = err;
         } finally {
           try {
-            if (!_iteratorNormalCompletion11 && _iterator11.return) {
-              _iterator11.return();
+            if (!_iteratorNormalCompletion12 && _iterator12.return) {
+              _iterator12.return();
             }
           } finally {
-            if (_didIteratorError11) {
-              throw _iteratorError11;
+            if (_didIteratorError12) {
+              throw _iteratorError12;
             }
           }
         }
@@ -1177,8 +1230,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   var ie = [],
       oe = { "&4": "font-weight:normal;text-decoration:none;color:#be0000", "&c": "font-weight:normal;text-decoration:none;color:#fe3f3f", "&6": "font-weight:normal;text-decoration:none;color:#d9a334", "&e": "font-weight:normal;text-decoration:none;color:#fefe3f", "&2": "font-weight:normal;text-decoration:none;color:#00be00", "&a": "font-weight:normal;text-decoration:none;color:#3ffe3f", "&b": "font-weight:normal;text-decoration:none;color:#3ffefe", "&3": "font-weight:normal;text-decoration:none;color:#00bebe", "&1": "font-weight:normal;text-decoration:none;color:#0000be", "&9": "font-weight:normal;text-decoration:none;color:#3f3ffe", "&d": "font-weight:normal;text-decoration:none;color:#fe3ffe", "&5": "font-weight:normal;text-decoration:none;color:#be00be", "&f": "font-weight:normal;text-decoration:none;color:#ffffff", "&7": "font-weight:normal;text-decoration:none;color:#bebebe", "&8": "font-weight:normal;text-decoration:none;color:#3f3f3f", "&0": "font-weight:normal;text-decoration:none;color:#000000", "&l": "font-weight:bold", "&n": "text-decoration:underline;text-decoration-skip:spaces", "&o": "font-style:italic", "&m": "text-decoration:line-through;text-decoration-skip:spaces" };String.prototype.replaceColorCodes = function () {
     return function () {
-      for (var _e18 = ie.length; _e18--;) {
-        clearInterval(ie[_e18]);
+      for (var _e19 = ie.length; _e19--;) {
+        clearInterval(ie[_e19]);
       }ie = [];
     }(), M(this + "");
   };
@@ -1190,48 +1243,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
 
     ne.prototype.fromJson = function fromJson(e) {
-      document.getElementById("card-panel").style.display = "", this.lines = [], this.title = e.title;var _iteratorNormalCompletion12 = true;
-      var _didIteratorError12 = false;
-      var _iteratorError12 = undefined;
-
-      try {
-        for (var _iterator12 = e.rows[Symbol.iterator](), _step12; !(_iteratorNormalCompletion12 = (_step12 = _iterator12.next()).done); _iteratorNormalCompletion12 = true) {
-          var _t6 = _step12.value;
-          this.lines.push(this.rowToHtml(_t6));
-        }
-      } catch (err) {
-        _didIteratorError12 = true;
-        _iteratorError12 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion12 && _iterator12.return) {
-            _iterator12.return();
-          }
-        } finally {
-          if (_didIteratorError12) {
-            throw _iteratorError12;
-          }
-        }
-      }
-
-      document.getElementById("card-title").innerText = this.title;var t = "";this.lines.forEach(function (e) {
-        t += e;
-      }), document.getElementById("card-content").innerHTML = t;
-    };
-
-    ne.prototype.replaceWithJson = function replaceWithJson(e, t) {
-      document.getElementById(e).replaceWith(new DOMParser().parseFromString(this.partToHtml(t), "text/html").body.childNodes[0]);
-    };
-
-    ne.prototype.rowToHtml = function rowToHtml(e) {
-      var t = "";var _iteratorNormalCompletion13 = true;
+      document.getElementById("card-panel").style.display = "", this.lines = [], this.title = e.title;var _iteratorNormalCompletion13 = true;
       var _didIteratorError13 = false;
       var _iteratorError13 = undefined;
 
       try {
-        for (var _iterator13 = e.textList[Symbol.iterator](), _step13; !(_iteratorNormalCompletion13 = (_step13 = _iterator13.next()).done); _iteratorNormalCompletion13 = true) {
-          var _i6 = _step13.value;
-          t += this.partToHtml(_i6);
+        for (var _iterator13 = e.rows[Symbol.iterator](), _step13; !(_iteratorNormalCompletion13 = (_step13 = _iterator13.next()).done); _iteratorNormalCompletion13 = true) {
+          var _t6 = _step13.value;
+          this.lines.push(this.rowToHtml(_t6));
         }
       } catch (err) {
         _didIteratorError13 = true;
@@ -1248,20 +1267,24 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }
       }
 
-      return t;
+      document.getElementById("card-title").innerText = this.title;var t = "";this.lines.forEach(function (e) {
+        t += e;
+      }), document.getElementById("card-content").innerHTML = t;
     };
 
-    ne.prototype.partToHtml = function partToHtml(e) {
-      var t = "",
-          i = [],
-          o = [];i.push("<p id='" + e.id + "'>"), o.push("</p>");var _iteratorNormalCompletion14 = true;
+    ne.prototype.replaceWithJson = function replaceWithJson(e, t) {
+      document.getElementById(e).replaceWith(new DOMParser().parseFromString(this.partToHtml(t), "text/html").body.childNodes[0]);
+    };
+
+    ne.prototype.rowToHtml = function rowToHtml(e) {
+      var t = "";var _iteratorNormalCompletion14 = true;
       var _didIteratorError14 = false;
       var _iteratorError14 = undefined;
 
       try {
-        for (var _iterator14 = e.styles[Symbol.iterator](), _step14; !(_iteratorNormalCompletion14 = (_step14 = _iterator14.next()).done); _iteratorNormalCompletion14 = true) {
-          var _t7 = _step14.value;
-          "BOLD" === _t7 ? (i.push("<b>"), o.push("</b>")) : "ITALLIC" === _t7 ? (i.push("<i>"), o.push("</i>")) : "UNDERLINE" === _t7 && (i.push("<u>"), o.push("</u>"));
+        for (var _iterator14 = e.textList[Symbol.iterator](), _step14; !(_iteratorNormalCompletion14 = (_step14 = _iterator14.next()).done); _iteratorNormalCompletion14 = true) {
+          var _i6 = _step14.value;
+          t += this.partToHtml(_i6);
         }
       } catch (err) {
         _didIteratorError14 = true;
@@ -1278,14 +1301,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }
       }
 
-      null != e.hyperlink && "" != e.hyperlink && (i.push("<a href='" + e.hyperlink + "'>"), o.push("</a>"));var _iteratorNormalCompletion15 = true;
+      return t;
+    };
+
+    ne.prototype.partToHtml = function partToHtml(e) {
+      var t = "",
+          i = [],
+          o = [];i.push("<p id='" + e.id + "'>"), o.push("</p>");var _iteratorNormalCompletion15 = true;
       var _didIteratorError15 = false;
       var _iteratorError15 = undefined;
 
       try {
-        for (var _iterator15 = i[Symbol.iterator](), _step15; !(_iteratorNormalCompletion15 = (_step15 = _iterator15.next()).done); _iteratorNormalCompletion15 = true) {
-          var _e19 = _step15.value;
-          t += _e19;
+        for (var _iterator15 = e.styles[Symbol.iterator](), _step15; !(_iteratorNormalCompletion15 = (_step15 = _iterator15.next()).done); _iteratorNormalCompletion15 = true) {
+          var _t7 = _step15.value;
+          "BOLD" === _t7 ? (i.push("<b>"), o.push("</b>")) : "ITALLIC" === _t7 ? (i.push("<i>"), o.push("</i>")) : "UNDERLINE" === _t7 && (i.push("<u>"), o.push("</u>"));
         }
       } catch (err) {
         _didIteratorError15 = true;
@@ -1302,14 +1331,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }
       }
 
-      e.text = e.text.split("&").join("&"), M(e.text).childNodes.forEach(function (e) {
-        t += e.outerHTML;
-      });var _iteratorNormalCompletion16 = true;
+      null != e.hyperlink && "" != e.hyperlink && (i.push("<a href='" + e.hyperlink + "'>"), o.push("</a>"));var _iteratorNormalCompletion16 = true;
       var _didIteratorError16 = false;
       var _iteratorError16 = undefined;
 
       try {
-        for (var _iterator16 = o[Symbol.iterator](), _step16; !(_iteratorNormalCompletion16 = (_step16 = _iterator16.next()).done); _iteratorNormalCompletion16 = true) {
+        for (var _iterator16 = i[Symbol.iterator](), _step16; !(_iteratorNormalCompletion16 = (_step16 = _iterator16.next()).done); _iteratorNormalCompletion16 = true) {
           var _e20 = _step16.value;
           t += _e20;
         }
@@ -1324,6 +1351,32 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         } finally {
           if (_didIteratorError16) {
             throw _iteratorError16;
+          }
+        }
+      }
+
+      e.text = e.text.split("&").join("&"), M(e.text).childNodes.forEach(function (e) {
+        t += e.outerHTML;
+      });var _iteratorNormalCompletion17 = true;
+      var _didIteratorError17 = false;
+      var _iteratorError17 = undefined;
+
+      try {
+        for (var _iterator17 = o[Symbol.iterator](), _step17; !(_iteratorNormalCompletion17 = (_step17 = _iterator17.next()).done); _iteratorNormalCompletion17 = true) {
+          var _e21 = _step17.value;
+          t += _e21;
+        }
+      } catch (err) {
+        _didIteratorError17 = true;
+        _iteratorError17 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion17 && _iterator17.return) {
+            _iterator17.return();
+          }
+        } finally {
+          if (_didIteratorError17) {
+            throw _iteratorError17;
           }
         }
       }
@@ -1401,12 +1454,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             a = t.media.fadeTime,
             l = t.distance,
             u = t.media.flag,
-            h = t.maxDistance;var c = 100;null != t.media.volume && 0 != t.media.volume && (c = t.media.volume), e.getMediaManager().destroySounds(n, !1, !0);var d = new J(n);d.trackable = !0;var p = new $(s);if (p.openAudioMc = e, p.setOa(e), e.getMediaManager().mixer.addChannel(d), d.addSound(p), d.setChannelVolume(0), p.setLooping(i), d.setTag(n), 0 !== h) {
-          var _e21 = _this15.convertDistanceToVolume(h, l);d.setTag("SPECIAL"), d.maxDistance = h, d.fadeChannel(_e21, a);
+            h = t.maxDistance;var c = 100;null != t.media.volume && 0 != t.media.volume && (c = t.media.volume), e.getMediaManager().destroySounds(n, !1, !0);var d = new J(n);d.trackable = !0;var m = new Z(s);if (m.openAudioMc = e, m.setOa(e), e.getMediaManager().mixer.addChannel(d), d.addSound(m), d.setChannelVolume(0), m.setLooping(i), d.setTag(n), 0 !== h) {
+          var _e22 = _this15.convertDistanceToVolume(h, l);d.setTag("SPECIAL"), d.maxDistance = h, d.fadeChannel(_e22, a);
         } else d.setTag("DEFAULT"), setTimeout(function () {
           0 === a ? (d.setChannelVolume(c), d.updateFromMasterVolume()) : (d.updateFromMasterVolume(), d.fadeChannel(c, a));
-        }, 1);d.setTag(u), e.getMediaManager().mixer.updateCurrent(), p.finalize().then(function () {
-          r && p.startDate(o, !0), p.finish();
+        }, 1);d.setTag(u), e.getMediaManager().mixer.updateCurrent(), m.finalize().then(function () {
+          r && m.startDate(o, !0), m.finish();
         });
       }), t("ClientDestroyCardPayload", function () {
         document.getElementById("card-panel").style.display = "none";
@@ -1431,26 +1484,26 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }), t("ClientUpdateMediaPayload", function (t) {
         var i = t.mediaOptions.target,
             o = t.mediaOptions.fadeTime,
-            n = t.mediaOptions.distance;var _iteratorNormalCompletion17 = true;
-        var _didIteratorError17 = false;
-        var _iteratorError17 = undefined;
+            n = t.mediaOptions.distance;var _iteratorNormalCompletion18 = true;
+        var _didIteratorError18 = false;
+        var _iteratorError18 = undefined;
 
         try {
-          for (var _iterator17 = e.getMediaManager().mixer.getChannels()[Symbol.iterator](), _step17; !(_iteratorNormalCompletion17 = (_step17 = _iterator17.next()).done); _iteratorNormalCompletion17 = true) {
-            var _t8 = _step17.value;
+          for (var _iterator18 = e.getMediaManager().mixer.getChannels()[Symbol.iterator](), _step18; !(_iteratorNormalCompletion18 = (_step18 = _iterator18.next()).done); _iteratorNormalCompletion18 = true) {
+            var _t8 = _step18.value;
             _t8.hasTag(i) && _t8.fadeChannel(_this15.convertDistanceToVolume(_t8.maxDistance, n), o);
           }
         } catch (err) {
-          _didIteratorError17 = true;
-          _iteratorError17 = err;
+          _didIteratorError18 = true;
+          _iteratorError18 = err;
         } finally {
           try {
-            if (!_iteratorNormalCompletion17 && _iterator17.return) {
-              _iterator17.return();
+            if (!_iteratorNormalCompletion18 && _iterator18.return) {
+              _iterator18.return();
             }
           } finally {
-            if (_didIteratorError17) {
-              throw _iteratorError17;
+            if (_didIteratorError18) {
+              throw _iteratorError18;
             }
           }
         }
@@ -1525,26 +1578,26 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     le.prototype.getInputById = function getInputById(e) {
-      var _iteratorNormalCompletion18 = true;
-      var _didIteratorError18 = false;
-      var _iteratorError18 = undefined;
+      var _iteratorNormalCompletion19 = true;
+      var _didIteratorError19 = false;
+      var _iteratorError19 = undefined;
 
       try {
-        for (var _iterator18 = this.dropdowns[Symbol.iterator](), _step18; !(_iteratorNormalCompletion18 = (_step18 = _iterator18.next()).done); _iteratorNormalCompletion18 = true) {
-          var t = _step18.value;
+        for (var _iterator19 = this.dropdowns[Symbol.iterator](), _step19; !(_iteratorNormalCompletion19 = (_step19 = _iterator19.next()).done); _iteratorNormalCompletion19 = true) {
+          var t = _step19.value;
           if (t.dataset.bulb == e) return t;
         }
       } catch (err) {
-        _didIteratorError18 = true;
-        _iteratorError18 = err;
+        _didIteratorError19 = true;
+        _iteratorError19 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion18 && _iterator18.return) {
-            _iterator18.return();
+          if (!_iteratorNormalCompletion19 && _iterator19.return) {
+            _iterator19.return();
           }
         } finally {
-          if (_didIteratorError18) {
-            throw _iteratorError18;
+          if (_didIteratorError19) {
+            throw _iteratorError19;
           }
         }
       }
@@ -1580,18 +1633,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           o.json().then(function (o) {
             function n(e, t) {
               var i = e.replace("#", "");return "rgba(" + parseInt(i.substring(0, 2), 16) + "," + parseInt(i.substring(2, 4), 16) + "," + parseInt(i.substring(4, 6), 16) + "," + t / 100 + ")";
-            }if (null == o.errors || 0 != o.errors.length) return i(o.errors), void console.log(o.errors);var s = o.response;if (s.banned) return window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/blocked_domain.html", void y("Declined connection due to ban " + window.location.host, "Steve");var r = s.secureEndpoint;null == r && (r = s.insecureEndpoint), console.log("[OpenAudioMc] accepting and applying settings"), e.debugPrint("Updating settings..."), null != s.backgroundImage && "" != s.backgroundImage && (s.backgroundImage = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + s.backgroundImage);var a = s.backgroundImage;"" !== a && (document.getElementById("banner-image").src = a);var l = s.title,
-                u = s.clientWelcomeMessage,
-                h = s.clientErrorMessage;var c = "";M(h).childNodes.forEach(function (e) {
-              c += e.outerHTML;
-            });var d = "";M(u).childNodes.forEach(function (e) {
+            }if (null == o.errors || 0 != o.errors.length) return i(o.errors), void console.log(o.errors);var s = o.response;if (s.banned) return window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/blocked_domain.html", void y("Declined connection due to ban " + window.location.host, "Steve");var r = s.secureEndpoint,
+                a = s.ambianceSound;null == r && (r = s.insecureEndpoint), console.log("[OpenAudioMc] accepting and applying settings"), e.debugPrint("Updating settings..."), null != s.backgroundImage && "" != s.backgroundImage && (s.backgroundImage = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + s.backgroundImage);var l = s.backgroundImage;"" !== l && (document.getElementById("banner-image").src = l);var u = s.title,
+                h = s.clientWelcomeMessage,
+                c = s.clientErrorMessage;var d = "";M(c).childNodes.forEach(function (e) {
               d += e.outerHTML;
-            }), "" !== h && (e.getMessages().errorMessage = c), "" !== u && (e.getMessages().welcomeMessage = d);var p = s.greetingMessage;p = p.replace("%name", e.tokenSet.name), document.getElementById("initialize-text").innerHTML = p, document.getElementById("initialize-button").innerHTML = s.connectButtonText, document.documentElement.style.setProperty("--border-color-dark", s.accentColor);var m = n(s.accentColor, 70),
-                f = n(s.accentColor, 40);if (document.documentElement.style.setProperty("--border-color-normal", m), document.documentElement.style.setProperty("--border-color-light", f), console.log("new value " + f), e.getUserInterfaceModule().changeColor("#2c78f6", s.accentColor), "" != s.startSound && (e.getMediaManager().startSound = s.startSound), "default" !== l) {
-              document.title = l;try {
-                parent.document.title = l;
+            });var m = "";M(h).childNodes.forEach(function (e) {
+              m += e.outerHTML;
+            }), "" !== c && (e.getMessages().errorMessage = d), "" !== h && (e.getMessages().welcomeMessage = m);var p = s.greetingMessage;p = p.replace("%name", e.tokenSet.name), document.getElementById("initialize-text").innerHTML = p, document.getElementById("initialize-button").innerHTML = s.connectButtonText, document.documentElement.style.setProperty("--border-color-dark", s.accentColor);var f = n(s.accentColor, 70),
+                g = n(s.accentColor, 40);if (document.documentElement.style.setProperty("--border-color-normal", f), document.documentElement.style.setProperty("--border-color-light", g), console.log("new value " + g), e.getUserInterfaceModule().changeColor("#2c78f6", s.accentColor), "" != s.startSound && (e.getMediaManager().startSound = s.startSound), "default" !== u) {
+              document.title = u;try {
+                parent.document.title = u;
               } catch (e) {}
-            }t({ host: r, background: a });
+            }t({ host: r, background: l, ambianceSound: a });
           }).catch(function (e) {
             console.log("Dead end 1"), i(e);
           });
@@ -1636,9 +1690,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     return he;
   }(X);
 
-  k.prototype.initialize = function () {
+  S.prototype.initialize = function () {
     if (!(0 < this.fromSampleRate && 0 < this.toSampleRate && 0 < this.channels)) throw new Error("Invalid settings specified for the resampler.");this.fromSampleRate == this.toSampleRate ? (this.resampler = this.bypassResampler, this.ratioWeight = 1) : (this.compileInterpolationFunction(), this.resampler = this.interpolate, this.ratioWeight = this.fromSampleRate / this.toSampleRate, this.tailExists = !1, this.lastWeight = 0, this.initializeBuffers());
-  }, k.prototype.compileInterpolationFunction = function () {
+  }, S.prototype.compileInterpolationFunction = function () {
     for (var e = "var bufferLength = Math.min(buffer.length, this.outputBufferSize);\tif ((bufferLength % " + this.channels + ") == 0) {\t\tif (bufferLength > 0) {\t\t\tvar ratioWeight = this.ratioWeight;\t\t\tvar weight = 0;", t = 0; t < this.channels; ++t) {
       e += "var output" + t + " = 0;";
     }for (e += "var actualPosition = 0;\t\t\tvar amountToNext = 0;\t\t\tvar alreadyProcessedTail = !this.tailExists;\t\t\tthis.tailExists = false;\t\t\tvar outputBuffer = this.outputBuffer;\t\t\tvar outputOffset = 0;\t\t\tvar currentPosition = 0;\t\t\tdo {\t\t\t\tif (alreadyProcessedTail) {\t\t\t\t\tweight = ratioWeight;", t = 0; t < this.channels; ++t) {
@@ -1654,9 +1708,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }for (e += "}\t\t\t\telse {\t\t\t\t\tthis.lastWeight = weight;", t = 0; t < this.channels; ++t) {
       e += "this.lastOutput[" + t + "] = output" + t + ";";
     }e += 'this.tailExists = true;\t\t\t\t\tbreak;\t\t\t\t}\t\t\t} while (actualPosition < bufferLength);\t\t\treturn this.bufferSlice(outputOffset);\t\t}\t\telse {\t\t\treturn (this.noReturn) ? 0 : [];\t\t}\t}\telse {\t\tthrow(new Error("Buffer was of incorrect sample length."));\t}', this.interpolate = Function("buffer", e);
-  }, k.prototype.bypassResampler = function (e) {
+  }, S.prototype.bypassResampler = function (e) {
     return this.noReturn ? (this.outputBuffer = e, e.length) : e;
-  }, k.prototype.bufferSlice = function (e) {
+  }, S.prototype.bufferSlice = function (e) {
     if (this.noReturn) return e;try {
       return this.outputBuffer.subarray(0, e);
     } catch (t) {
@@ -1666,37 +1720,37 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         return this.outputBuffer.slice(0, e);
       }
     }
-  }, k.prototype.initializeBuffers = function () {
+  }, S.prototype.initializeBuffers = function () {
     try {
       this.outputBuffer = new Float32Array(this.outputBufferSize), this.lastOutput = new Float32Array(this.channels);
     } catch (e) {
       this.outputBuffer = [], this.lastOutput = [];
     }
-  }, E.prototype.MOZWriteAudio = function (e) {
+  }, k.prototype.MOZWriteAudio = function (e) {
     this.MOZWriteAudioNoCallback(e), this.MOZExecuteCallback();
-  }, E.prototype.MOZWriteAudioNoCallback = function (e) {
+  }, k.prototype.MOZWriteAudioNoCallback = function (e) {
     this.writeMozAudio(e);
-  }, E.prototype.callbackBasedWriteAudio = function (e) {
+  }, k.prototype.callbackBasedWriteAudio = function (e) {
     this.callbackBasedWriteAudioNoCallback(e), this.callbackBasedExecuteCallback();
-  }, E.prototype.callbackBasedWriteAudioNoCallback = function (e) {
-    if (e) for (var t = e.length, i = 0; i < t && Se < be;) {
-      fe[Se++] = e[i++];
+  }, k.prototype.callbackBasedWriteAudioNoCallback = function (e) {
+    if (e) for (var t = e.length, i = 0; i < t && Ee < be;) {
+      fe[Ee++] = e[i++];
     }
-  }, E.prototype.writeAudio = function (e) {
-    0 == this.audioType ? this.MOZWriteAudio(e) : 1 == this.audioType ? this.callbackBasedWriteAudio(e) : 2 == this.audioType && (this.checkFlashInit() || me ? this.callbackBasedWriteAudio(e) : this.mozAudioFound && this.MOZWriteAudio(e));
-  }, E.prototype.writeAudioNoCallback = function (e) {
-    0 == this.audioType ? this.MOZWriteAudioNoCallback(e) : 1 == this.audioType ? this.callbackBasedWriteAudioNoCallback(e) : 2 == this.audioType && (this.checkFlashInit() || me ? this.callbackBasedWriteAudioNoCallback(e) : this.mozAudioFound && this.MOZWriteAudioNoCallback(e));
-  }, E.prototype.remainingBuffer = function () {
-    if (0 == this.audioType) return this.samplesAlreadyWritten - this.audioHandleMoz.mozCurrentSampleOffset();if (1 == this.audioType) return (_() * Ee.ratioWeight >> this.audioChannels - 1 << this.audioChannels - 1) + Se;if (2 == this.audioType) {
-      if (this.checkFlashInit() || me) return (_() * Ee.ratioWeight >> this.audioChannels - 1 << this.audioChannels - 1) + Se;if (this.mozAudioFound) return this.samplesAlreadyWritten - this.audioHandleMoz.mozCurrentSampleOffset();
+  }, k.prototype.writeAudio = function (e) {
+    0 == this.audioType ? this.MOZWriteAudio(e) : 1 == this.audioType ? this.callbackBasedWriteAudio(e) : 2 == this.audioType && (this.checkFlashInit() || pe ? this.callbackBasedWriteAudio(e) : this.mozAudioFound && this.MOZWriteAudio(e));
+  }, k.prototype.writeAudioNoCallback = function (e) {
+    0 == this.audioType ? this.MOZWriteAudioNoCallback(e) : 1 == this.audioType ? this.callbackBasedWriteAudioNoCallback(e) : 2 == this.audioType && (this.checkFlashInit() || pe ? this.callbackBasedWriteAudioNoCallback(e) : this.mozAudioFound && this.MOZWriteAudioNoCallback(e));
+  }, k.prototype.remainingBuffer = function () {
+    if (0 == this.audioType) return this.samplesAlreadyWritten - this.audioHandleMoz.mozCurrentSampleOffset();if (1 == this.audioType) return (_() * ke.ratioWeight >> this.audioChannels - 1 << this.audioChannels - 1) + Ee;if (2 == this.audioType) {
+      if (this.checkFlashInit() || pe) return (_() * ke.ratioWeight >> this.audioChannels - 1 << this.audioChannels - 1) + Ee;if (this.mozAudioFound) return this.samplesAlreadyWritten - this.audioHandleMoz.mozCurrentSampleOffset();
     }return 0;
-  }, E.prototype.MOZExecuteCallback = function () {
+  }, k.prototype.MOZExecuteCallback = function () {
     var e = ye - this.remainingBuffer();0 < e && this.writeMozAudio(this.underRunCallback(e));
-  }, E.prototype.callbackBasedExecuteCallback = function () {
+  }, k.prototype.callbackBasedExecuteCallback = function () {
     var e = ye - this.remainingBuffer();0 < e && this.callbackBasedWriteAudioNoCallback(this.underRunCallback(e));
-  }, E.prototype.executeCallback = function () {
-    0 == this.audioType ? this.MOZExecuteCallback() : 1 == this.audioType ? this.callbackBasedExecuteCallback() : 2 == this.audioType && (this.checkFlashInit() || me ? this.callbackBasedExecuteCallback() : this.mozAudioFound && this.MOZExecuteCallback());
-  }, E.prototype.initializeAudio = function () {
+  }, k.prototype.executeCallback = function () {
+    0 == this.audioType ? this.MOZExecuteCallback() : 1 == this.audioType ? this.callbackBasedExecuteCallback() : 2 == this.audioType && (this.checkFlashInit() || pe ? this.callbackBasedExecuteCallback() : this.mozAudioFound && this.MOZExecuteCallback());
+  }, k.prototype.initializeAudio = function () {
     try {
       if (this.preInitializeMozAudio(), "Linux i686" == navigator.platform) throw new Error("");this.initializeMozAudio();
     } catch (e) {
@@ -1710,7 +1764,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }
       }
     }
-  }, E.prototype.preInitializeMozAudio = function () {
+  }, k.prototype.preInitializeMozAudio = function () {
     this.audioHandleMoz = new Audio(), this.audioHandleMoz.mozSetup(this.audioChannels, ve), this.samplesAlreadyWritten = 0;var e = 2 == this.audioChannels ? [0, 0] : [0],
         t = 0;if ("MacIntel" != navigator.platform && "MacPPC" != navigator.platform) {
       for (; 0 == this.audioHandleMoz.mozCurrentSampleOffset();) {
@@ -1719,18 +1773,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         this.samplesAlreadyWritten += this.audioHandleMoz.mozWriteAudio(e);
       }
     }this.samplesAlreadyWritten += t, ye += this.samplesAlreadyWritten, this.mozAudioFound = !0;
-  }, E.prototype.initializeMozAudio = function () {
-    this.writeMozAudio(S(ye)), this.audioType = 0;
-  }, E.prototype.initializeWebAudio = function () {
-    if (!me) throw new Error("");T(we), this.audioType = 1;
-  }, E.prototype.initializeFlashAudio = function () {
+  }, k.prototype.initializeMozAudio = function () {
+    this.writeMozAudio(E(ye)), this.audioType = 0;
+  }, k.prototype.initializeWebAudio = function () {
+    if (!pe) throw new Error("");T(we), this.audioType = 1;
+  }, k.prototype.initializeFlashAudio = function () {
     var e = document.getElementById("XAudioJS");if (null == e) {
       var t = this,
           i = document.createElement("div");i.setAttribute("style", "position: fixed; bottom: 0px; right: 0px; margin: 0px; padding: 0px; border: none; width: 8px; height: 8px; overflow: hidden; z-index: -1000; ");var o = document.createElement("div");o.setAttribute("style", "position: static; border: none; width: 0px; height: 0px; visibility: hidden; margin: 8px; padding: 0px;"), o.setAttribute("id", "XAudioJS"), i.appendChild(o), document.getElementsByTagName("body")[0].appendChild(i), swfobject.embedSWF("XAudioJS.swf", "XAudioJS", "8", "8", "9.0.0", "", {}, { allowscriptaccess: "always" }, { style: "position: static; visibility: hidden; margin: 8px; padding: 0px; border: none" }, function (e) {
         e.success ? t.audioHandleFlash = e.ref : t.audioType = 1;
       });
     } else this.audioHandleFlash = e;this.audioType = 2;
-  }, E.prototype.writeMozAudio = function (e) {
+  }, k.prototype.writeMozAudio = function (e) {
     if (e) {
       var t = this.mozAudioTail.length;if (0 < t) {
         var i = this.audioHandleMoz.mozWriteAudio(this.mozAudioTail);this.samplesAlreadyWritten += i, this.mozAudioTail.splice(0, i);
@@ -1738,12 +1792,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         this.mozAudioTail.push(e[o++]);
       }
     }
-  }, E.prototype.checkFlashInit = function () {
-    return !this.flashInitialized && this.audioHandleFlash && this.audioHandleFlash.initialize && (this.flashInitialized = !0, this.audioHandleFlash.initialize(this.audioChannels, ke), T(44100)), this.flashInitialized;
+  }, k.prototype.checkFlashInit = function () {
+    return !this.flashInitialized && this.audioHandleFlash && this.audioHandleFlash.initialize && (this.flashInitialized = !0, this.audioHandleFlash.initialize(this.audioChannels, Se), T(44100)), this.flashInitialized;
   };var ce,
       de,
-      pe = 2048,
-      me = !1,
+      me = 2048,
+      pe = !1,
       fe = [],
       ge = [],
       ye = 15e3,
@@ -1751,13 +1805,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       we = 44100,
       ve = 0,
       Me = !1,
-      ke = 0,
-      Ee = null,
       Se = 0,
+      ke = null,
+      Ee = 0,
       Ae = 0,
       xe = 0,
       Ce = 2,
-      _e = k;!function (e) {
+      _e = S;!function (e) {
     e[e.VoIP = 2048] = "VoIP", e[e.Audio = 2049] = "Audio", e[e.RestrictedLowDelay = 2051] = "RestrictedLowDelay";
   }(ce || (ce = {})), function (e) {
     e[e.OK = 0] = "OK", e[e.BadArgument = -1] = "BadArgument", e[e.BufferTooSmall = -2] = "BufferTooSmall", e[e.InternalError = -3] = "InternalError", e[e.InvalidPacket = -4] = "InvalidPacket", e[e.Unimplemented = -5] = "Unimplemented", e[e.InvalidState = -6] = "InvalidState", e[e.AllocFail = -7] = "AllocFail";
@@ -1992,26 +2046,26 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       var t = [],
           i = !1;navigator.mediaDevices.enumerateDevices().then(function (e) {
-        var _iteratorNormalCompletion19 = true;
-        var _didIteratorError19 = false;
-        var _iteratorError19 = undefined;
+        var _iteratorNormalCompletion20 = true;
+        var _didIteratorError20 = false;
+        var _iteratorError20 = undefined;
 
         try {
-          for (var _iterator19 = e[Symbol.iterator](), _step19; !(_iteratorNormalCompletion19 = (_step19 = _iterator19.next()).done); _iteratorNormalCompletion19 = true) {
-            var _o4 = _step19.value;
+          for (var _iterator20 = e[Symbol.iterator](), _step20; !(_iteratorNormalCompletion20 = (_step20 = _iterator20.next()).done); _iteratorNormalCompletion20 = true) {
+            var _o4 = _step20.value;
             "audioinput" == _o4.kind && ("" === _o4.label ? i = !0 : t.push({ name: _o4.label, id: _o4.deviceId }));
           }
         } catch (err) {
-          _didIteratorError19 = true;
-          _iteratorError19 = err;
+          _didIteratorError20 = true;
+          _iteratorError20 = err;
         } finally {
           try {
-            if (!_iteratorNormalCompletion19 && _iterator19.return) {
-              _iterator19.return();
+            if (!_iteratorNormalCompletion20 && _iterator20.return) {
+              _iterator20.return();
             }
           } finally {
-            if (_didIteratorError19) {
-              throw _iteratorError19;
+            if (_didIteratorError20) {
+              throw _iteratorError20;
             }
           }
         }
@@ -2023,33 +2077,33 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             console.log(t), _this26.hide(), _this26.deniedMessage(), e(null);
           });
         };else {
-          null != _this26.requestBox && _this26.requestBox.hide();var _i7 = '<select id="select-mic-dropdown" class="alert-message-button">';var _iteratorNormalCompletion20 = true;
-          var _didIteratorError20 = false;
-          var _iteratorError20 = undefined;
+          null != _this26.requestBox && _this26.requestBox.hide();var _i7 = '<select id="select-mic-dropdown" class="alert-message-button">';var _iteratorNormalCompletion21 = true;
+          var _didIteratorError21 = false;
+          var _iteratorError21 = undefined;
 
           try {
-            for (var _iterator20 = t[Symbol.iterator](), _step20; !(_iteratorNormalCompletion20 = (_step20 = _iterator20.next()).done); _iteratorNormalCompletion20 = true) {
-              var _e23 = _step20.value;
-              _i7 += '<option value="' + _e23.id + '">' + _e23.name + "</option>";
+            for (var _iterator21 = t[Symbol.iterator](), _step21; !(_iteratorNormalCompletion21 = (_step21 = _iterator21.next()).done); _iteratorNormalCompletion21 = true) {
+              var _e24 = _step21.value;
+              _i7 += '<option value="' + _e24.id + '">' + _e24.name + "</option>";
             }
           } catch (err) {
-            _didIteratorError20 = true;
-            _iteratorError20 = err;
+            _didIteratorError21 = true;
+            _iteratorError21 = err;
           } finally {
             try {
-              if (!_iteratorNormalCompletion20 && _iterator20.return) {
-                _iterator20.return();
+              if (!_iteratorNormalCompletion21 && _iterator21.return) {
+                _iterator21.return();
               }
             } finally {
-              if (_didIteratorError20) {
-                throw _iteratorError20;
+              if (_didIteratorError21) {
+                throw _iteratorError21;
               }
             }
           }
 
           if (_i7 += "</select>", _this26.show('<div style="text-align: center;">What microphone would you like to use in this voicecall?<br /><small>changes can take a second or two to apply</small><br />' + _i7 + '<div id="mic-loader" style="display:none;"><h2>Switching mic input. Please wait.</h2><div class="loader"></div></div></div>'), null != Cookies.get("default-mic")) {
-            var _e22 = document.getElementById("select-mic-dropdown");for (var _t9 = 0; _t9 < _e22.options.length; _t9++) {
-              _e22.options[_t9].innerText === Cookies.get("default-mic") && (_e22.options[_t9].selected = !0);
+            var _e23 = document.getElementById("select-mic-dropdown");for (var _t9 = 0; _t9 < _e23.options.length; _t9++) {
+              _e23.options[_t9].innerText === Cookies.get("default-mic") && (_e23.options[_t9].selected = !0);
             }
           }document.getElementById("select-mic-dropdown").onchange = function (t) {
             document.getElementById("select-mic-dropdown").disabled = !0, document.getElementById("select-mic-dropdown").style.display = "none", document.getElementById("mic-loader").style.display = "", Cookies.set("default-mic", t.target.selectedOptions[0].childNodes[0].data), e(_this26.getId()), setTimeout(function () {
@@ -2075,31 +2129,31 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     return Fe;
   }(X);
 
-  var He = function (_Pe3) {
-    _inherits(He, _Pe3);
+  var Ve = function (_Pe3) {
+    _inherits(Ve, _Pe3);
 
-    function He(e, t) {
+    function Ve(e, t) {
       var _this27;
 
-      _classCallCheck(this, He);
+      _classCallCheck(this, Ve);
 
       (_this27 = _possibleConstructorReturn(this, _Pe3.call(this)), _this27), _this27.config = e, _this27.config.codec = _this27.config.codec || _this27.defaultConfig.codec, _this27.sampler = new _e(_this27.audioContext.sampleRate, _this27.config.codec.sampleRate, 1, _this27.config.codec.bufferSize), _this27.parentSocket = t, _this27.encoder = new Be(_this27.config.codec.sampleRate, _this27.config.codec.channels, _this27.config.codec.app, _this27.config.codec.frameDuration);return _this27;
     }
 
-    He.prototype._makeStream = function _makeStream(e) {
+    Ve.prototype._makeStream = function _makeStream(e) {
       var _this28 = this;
 
       new Ue({ audio: this.config.micId }, function (e) {
         _this28.stream = e, _this28.audioInput = _this28.audioContext.createMediaStreamSource(e), _this28.gainNode = _this28.audioContext.createGain(), _this28.recorder = _this28.audioContext.createScriptProcessor(_this28.config.codec.bufferSize, 1, 1), _this28.recorder.onaudioprocess = function (e) {
           var t = _this28.sampler.resampler(e.inputBuffer.getChannelData(0)),
-              i = _this28.encoder.encode_float(t);for (var _e24 = 0; _e24 < i.length; _e24++) {
-            1 === _this28.socket.readyState && _this28.socket.send(i[_e24]);
+              i = _this28.encoder.encode_float(t);for (var _e25 = 0; _e25 < i.length; _e25++) {
+            1 === _this28.socket.readyState && _this28.socket.send(i[_e25]);
           }
         }, _this28.audioInput.connect(_this28.gainNode), _this28.gainNode.connect(_this28.recorder), _this28.recorder.connect(_this28.audioContext.destination);
       }, e || this.onError);
     };
 
-    He.prototype.start = function start(e) {
+    Ve.prototype.start = function start(e) {
       var _this29 = this;
 
       if (this.socket = this.parentSocket, this.socket.binaryType = "arraybuffer", this.socket.readyState === WebSocket.OPEN) this._makeStream(e);else if (this.socket.readyState === WebSocket.CONNECTING) {
@@ -2111,36 +2165,36 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       };
     };
 
-    He.prototype.mute = function mute() {
+    Ve.prototype.mute = function mute() {
       this.gainNode.gain.value = 0, console.log("Mic muted");
     };
 
-    He.prototype.unMute = function unMute() {
+    Ve.prototype.unMute = function unMute() {
       this.gainNode.gain.value = 1, console.log("Mic unmuted");
     };
 
-    He.prototype.onError = function onError(e) {
+    Ve.prototype.onError = function onError(e) {
       var t = new Error(e.name);throw t.name = "NavigatorUserMediaError", t;
     };
 
-    He.prototype._shutdown = function _shutdown() {
+    Ve.prototype._shutdown = function _shutdown() {
       this.audioInput && (this.audioInput.disconnect(), this.audioInput = null), this.gainNode && (this.gainNode.disconnect(), this.gainNode = null), this.recorder && (this.recorder.disconnect(), this.recorder = null), null != this.stream && this.stream.getTracks().forEach(function (e) {
         e.stop();
       });
     };
 
-    He.prototype.stop = function stop() {
+    Ve.prototype.stop = function stop() {
       this._shutdown(), this.parentSocket || this.socket.close();
     };
 
-    return He;
+    return Ve;
   }(Pe);
 
-  var Ve = function () {
-    function Ve(e) {
+  var He = function () {
+    function He(e) {
       var _this30 = this;
 
-      _classCallCheck(this, Ve);
+      _classCallCheck(this, He);
 
       this.room = e, this.isRunning = !1, this.streamer = null, this.micId = !0, this.isMuted = !1, this.changeMicPopup = new Fe(function (e) {
         _this30.shutdown(), setTimeout(function () {
@@ -2149,23 +2203,23 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       });
     }
 
-    Ve.prototype.mute = function mute() {
+    He.prototype.mute = function mute() {
       this.isMuted = !0, this.streamer.mute();
     };
 
-    Ve.prototype.unMute = function unMute() {
+    He.prototype.unMute = function unMute() {
       this.isMuted = !1, this.streamer.unMute();
     };
 
-    Ve.prototype.start = function start() {
-      this.streamer = new He({ micId: this.micId }, new WebSocket(this.room.voiceServer.ws + "/stream?room=" + this.room.roomId + "&uuid=" + this.room.currentUser.uuid + "&accessToken=" + this.room.accessToken)), this.streamer.start(), this.isRunning = !0;
+    He.prototype.start = function start() {
+      this.streamer = new Ve({ micId: this.micId }, new WebSocket(this.room.voiceServer.ws + "/stream?room=" + this.room.roomId + "&uuid=" + this.room.currentUser.uuid + "&accessToken=" + this.room.accessToken)), this.streamer.start(), this.isRunning = !0;
     };
 
-    Ve.prototype.shutdown = function shutdown() {
+    He.prototype.shutdown = function shutdown() {
       null != this.streamer && this.streamer.stop(), this.isRunning = !1;
     };
 
-    return Ve;
+    return He;
   }();
 
   var We = function () {
@@ -2196,7 +2250,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     We.prototype.broadcastStream = function broadcastStream() {
-      this.voiceBroadcast = new Ve(this.room);
+      this.voiceBroadcast = new He(this.room);
     };
 
     return We;
@@ -2467,7 +2521,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       _classCallCheck(this, it);
 
-      this.id = "SPEAKER__" + t, this.openAudioMc = e, this.speakerNodes = new Map();var o = new J(this.id);o.trackable = !0, this.channel = o;var n = new $(t);this.media = n, n.openAudioMc = e, n.setOa(e), o.mixer = this.openAudioMc.getMediaManager().mixer, o.addSound(n), this.media.setVolume(0), o.setChannelVolume(0), n.startDate(i, !0), n.finalize().then(function () {
+      this.id = "SPEAKER__" + t, this.openAudioMc = e, this.speakerNodes = new Map();var o = new J(this.id);o.trackable = !0, this.channel = o;var n = new Z(t);this.media = n, n.openAudioMc = e, n.setOa(e), o.mixer = this.openAudioMc.getMediaManager().mixer, o.addSound(n), this.media.setVolume(0), o.setChannelVolume(0), n.startDate(i, !0), n.finalize().then(function () {
         e.getMediaManager().mixer.addChannel(o), o.fadeChannel(100, 100), n.setLooping(!0), o.setTag(_this38.id), o.setTag("SPECIAL"), _this38.openAudioMc.getMediaManager().mixer.updateCurrent(), n.startDate(i, !0), n.finish();
       });
     }
@@ -2528,46 +2582,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     ot.prototype.isMediaUsed = function isMediaUsed(e) {
-      var _iteratorNormalCompletion21 = true;
-      var _didIteratorError21 = false;
-      var _iteratorError21 = undefined;
-
-      try {
-        for (var _iterator21 = this.speakers.values()[Symbol.iterator](), _step21; !(_iteratorNormalCompletion21 = (_step21 = _iterator21.next()).done); _iteratorNormalCompletion21 = true) {
-          var t = _step21.value;
-          if (t.source == e) return !0;
-        }
-      } catch (err) {
-        _didIteratorError21 = true;
-        _iteratorError21 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion21 && _iterator21.return) {
-            _iterator21.return();
-          }
-        } finally {
-          if (_didIteratorError21) {
-            throw _iteratorError21;
-          }
-        }
-      }
-
-      return !1;
-    };
-
-    ot.prototype.renderAudio2D = function renderAudio2D() {
-      var _this39 = this;
-
-      var e = [];this.speakers.forEach(function (t) {
-        var i = t.getDistance(_this39, _this39.player);e.push(new $e(t.source, i, t));
-      });var t = new Map();var _iteratorNormalCompletion22 = true;
+      var _iteratorNormalCompletion22 = true;
       var _didIteratorError22 = false;
       var _iteratorError22 = undefined;
 
       try {
-        for (var _iterator22 = e[Symbol.iterator](), _step22; !(_iteratorNormalCompletion22 = (_step22 = _iterator22.next()).done); _iteratorNormalCompletion22 = true) {
-          var _i8 = _step22.value;
-          var _e26 = t.get(_i8.source);null != _e26 ? Array.isArray(_e26) ? (_e26.push(_i8), t.set(_i8.source, _e26)) : _e26.distance > _i8.distance && _i8.distance <= _i8.speaker.maxDistance && t.set(_i8.source, _i8) : _i8.speaker.type == et ? _i8.distance <= _i8.speaker.maxDistance && t.set(_i8.source, _i8) : _i8.distance <= _i8.speaker.maxDistance && t.set(_i8.source, [_i8]);
+        for (var _iterator22 = this.speakers.values()[Symbol.iterator](), _step22; !(_iteratorNormalCompletion22 = (_step22 = _iterator22.next()).done); _iteratorNormalCompletion22 = true) {
+          var t = _step22.value;
+          if (t.source == e) return !0;
         }
       } catch (err) {
         _didIteratorError22 = true;
@@ -2584,27 +2606,59 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }
       }
 
+      return !1;
+    };
+
+    ot.prototype.renderAudio2D = function renderAudio2D() {
+      var _this39 = this;
+
+      var e = [];this.speakers.forEach(function (t) {
+        var i = t.getDistance(_this39, _this39.player);e.push(new $e(t.source, i, t));
+      });var t = new Map();var _iteratorNormalCompletion23 = true;
+      var _didIteratorError23 = false;
+      var _iteratorError23 = undefined;
+
+      try {
+        for (var _iterator23 = e[Symbol.iterator](), _step23; !(_iteratorNormalCompletion23 = (_step23 = _iterator23.next()).done); _iteratorNormalCompletion23 = true) {
+          var _i8 = _step23.value;
+          var _e27 = t.get(_i8.source);null != _e27 ? Array.isArray(_e27) ? (_e27.push(_i8), t.set(_i8.source, _e27)) : _e27.distance > _i8.distance && _i8.distance <= _i8.speaker.maxDistance && t.set(_i8.source, _i8) : _i8.speaker.type == et ? _i8.distance <= _i8.speaker.maxDistance && t.set(_i8.source, _i8) : _i8.distance <= _i8.speaker.maxDistance && t.set(_i8.source, [_i8]);
+        }
+      } catch (err) {
+        _didIteratorError23 = true;
+        _iteratorError23 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion23 && _iterator23.return) {
+            _iterator23.return();
+          }
+        } finally {
+          if (_didIteratorError23) {
+            throw _iteratorError23;
+          }
+        }
+      }
+
       t.forEach(function (e) {
-        var t = Array.isArray(e) ? e : [e];var _iteratorNormalCompletion23 = true;
-        var _didIteratorError23 = false;
-        var _iteratorError23 = undefined;
+        var t = Array.isArray(e) ? e : [e];var _iteratorNormalCompletion24 = true;
+        var _didIteratorError24 = false;
+        var _iteratorError24 = undefined;
 
         try {
-          for (var _iterator23 = t[Symbol.iterator](), _step23; !(_iteratorNormalCompletion23 = (_step23 = _iterator23.next()).done); _iteratorNormalCompletion23 = true) {
-            var _e25 = _step23.value;
-            _this39.getMediaForSource(_e25.source, _e25.speaker.startInstant).updateLocation(_e25.speaker, _this39, _this39.player);
+          for (var _iterator24 = t[Symbol.iterator](), _step24; !(_iteratorNormalCompletion24 = (_step24 = _iterator24.next()).done); _iteratorNormalCompletion24 = true) {
+            var _e26 = _step24.value;
+            _this39.getMediaForSource(_e26.source, _e26.speaker.startInstant).updateLocation(_e26.speaker, _this39, _this39.player);
           }
         } catch (err) {
-          _didIteratorError23 = true;
-          _iteratorError23 = err;
+          _didIteratorError24 = true;
+          _iteratorError24 = err;
         } finally {
           try {
-            if (!_iteratorNormalCompletion23 && _iterator23.return) {
-              _iterator23.return();
+            if (!_iteratorNormalCompletion24 && _iterator24.return) {
+              _iterator24.return();
             }
           } finally {
-            if (_didIteratorError23) {
-              throw _iteratorError23;
+            if (_didIteratorError24) {
+              throw _iteratorError24;
             }
           }
         }
@@ -2627,15 +2681,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       _classCallCheck(this, nt);
 
-      if ((_this40 = _possibleConstructorReturn(this, _ref2.call(this)), _this40), _this40.canStart = !1, _this40.host = null, _this40.background = null, _this40.tokenSet = new q().fromCache(), null == _this40.tokenSet) return _ret2 = void b("bad-auth-card"), _possibleConstructorReturn(_this40, _ret2);_this40.notificationModule = new Ge(_this40), _this40.timeService = new z(), _this40.messages = new L(_this40), _this40.userInterfaceModule = new G(_this40), _this40.hueConfiguration = new le(_this40), _this40.mediaManager = new ee(_this40), _this40.boot();new ue(j.MAIN_BACKEND).route(_this40).then(function (e) {
-        _this40.canStart = !0, _this40.host = e.host, _this40.background = e.background, b("welcome-card");
+      if ((_this40 = _possibleConstructorReturn(this, _ref2.call(this)), _this40), _this40.canStart = !1, _this40.host = null, _this40.background = null, _this40.ambianceSound = "", _this40.tokenSet = new q().fromCache(), null == _this40.tokenSet) return _ret2 = void b("bad-auth-card"), _possibleConstructorReturn(_this40, _ret2);_this40.notificationModule = new Ge(_this40), _this40.timeService = new z(), _this40.messages = new L(_this40), _this40.userInterfaceModule = new G(_this40), _this40.hueConfiguration = new le(_this40), _this40.mediaManager = new ee(_this40), _this40.boot();new ue(j.MAIN_BACKEND).route(_this40).then(function (e) {
+        _this40.canStart = !0, _this40.host = e.host, _this40.background = e.background, _this40.ambianceSound = e.ambianceSound, b("welcome-card");
       }).catch(function (e) {
         console.error("Exception thrown", e.stack), _this40.userInterfaceModule.kickScreen("Your current URL appears to be invalid. Please request a new one in-game using the /audio command. If this issue if persists please contact a member of staff.");
       });return _possibleConstructorReturn(_this40);
     }
 
     nt.prototype.start = function start() {
-      this.canStart && (this.canStart = !1, Oe = new (window.AudioContext || window.webkitAudioContext)(), this.voiceModule = new Ye(this), this.world = new ot(this), this.hueModule = new K(this, Object(Xe.a)()), this.socketModule = new te(this, this.host), this.messages.apply(), new ae(this), "" !== this.background && (document.getElementById("banner-image").src = this.background), this.mediaManager.postBoot());
+      this.canStart && (this.canStart = !1, Oe = new (window.AudioContext || window.webkitAudioContext)(), this.voiceModule = new Ye(this), this.world = new ot(this), this.hueModule = new K(this, Object(Xe.a)()), this.socketModule = new te(this, this.host), this.messages.apply(), this.mediaManager.setupAmbianceSound(this.ambianceSound), this.mediaManager.postBoot(), new ae(this), "" !== this.background && (document.getElementById("banner-image").src = this.background), this.mediaManager.postBoot());
     };
 
     nt.prototype.sendError = function sendError(e) {

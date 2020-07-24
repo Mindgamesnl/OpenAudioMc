@@ -27,6 +27,7 @@ export class OpenAudioMc extends Getters {
         this.canStart = false;
         this.host = null;
         this.background = null;
+        this.ambianceSound = "";
 
         this.tokenSet = new ClientTokenSet().fromCache();
 
@@ -51,6 +52,7 @@ export class OpenAudioMc extends Getters {
                 this.canStart = true;
                 this.host = res.host;
                 this.background = res.background;
+                this.ambianceSound = res.ambianceSound;
                 strictlyShowCard("welcome-card");
             })
             .catch((error) => {
@@ -71,6 +73,10 @@ export class OpenAudioMc extends Getters {
         this.hueModule = new HueModule(this, getHueInstance());
         this.socketModule = new SocketModule(this, this.host);
         this.messages.apply();
+
+        this.mediaManager.setupAmbianceSound(this.ambianceSound);
+
+        this.mediaManager.postBoot()
 
         // setup packet handler
         new Handlers(this);
