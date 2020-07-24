@@ -50,6 +50,7 @@ export function linkBootListeners() {
             fetch(API_ENDPOINT.SERVER_STATUS + tokenSet.name).then(r => {
                 r.json().then(response => {
                     if (response.offline) {
+                        console.log("Redirecting because network error")
                         window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/network_error.html";
                     } else {
                         console.log("Server status:" + JSON.stringify(response));
@@ -59,6 +60,7 @@ export function linkBootListeners() {
         })
         .catch(error => {
             // check server status
+            console.log(error)
             window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/network_error.html";
         });
 
