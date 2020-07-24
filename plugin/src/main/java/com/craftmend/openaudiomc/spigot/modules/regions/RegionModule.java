@@ -60,6 +60,10 @@ public class RegionModule {
                 registerRegion(region, properties);
             }
         }
+
+        OpenAudioMc.getInstance().getMediaModule().getResetTriggers().add(() -> {
+            regionMediaMap.clear();
+        });
     }
 
     public void registerRegion(String id, RegionProperties propperties) {
