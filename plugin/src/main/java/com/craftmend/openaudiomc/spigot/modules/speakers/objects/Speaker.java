@@ -24,10 +24,6 @@ public class Speaker {
         this.speakerType = speakerType;
     }
 
-    public boolean isNative() {
-        return true;
-    }
-
     public SpeakerMedia getMedia() {
         return OpenAudioMcSpigot.getInstance().getSpeakerModule().getMedia(source);
     }

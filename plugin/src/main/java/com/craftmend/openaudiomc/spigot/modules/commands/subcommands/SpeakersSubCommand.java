@@ -10,6 +10,7 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
+import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.SpeakerSettings;
@@ -82,7 +83,7 @@ public class SpeakersSubCommand extends SubCommand {
                 return;
             }
 
-            String source = args[5];
+            String source = OpenAudioMc.getInstance().getMediaModule().process(args[5]);
 
             // create
             UUID id = UUID.randomUUID();
@@ -98,6 +99,7 @@ public class SpeakersSubCommand extends SubCommand {
             config.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".z", mappedLocation.getZ());
             config.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".radius", range);
             config.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".media", source);
+            config.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".type", SpeakerType.SPEAKER_2D.toString());
 
             // place block
             Location location = mappedLocation.toBukkit();
