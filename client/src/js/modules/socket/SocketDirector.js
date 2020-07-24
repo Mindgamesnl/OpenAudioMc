@@ -13,7 +13,7 @@ export class SocketDirector {
         return new Promise((accept, reject) => {
 
             // cors workaround
-            this.tokenSet = new ClientTokenSet().fromUrl(window.location.href);
+            this.tokenSet = new ClientTokenSet().fromCache();
 
             fetch(this.host + '/api/v1/client/login/' + this.tokenSet.publicServerKey )
 
@@ -52,6 +52,11 @@ export class SocketDirector {
                             response.backgroundImage = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + response.backgroundImage;
                         }
                         const background = response.backgroundImage;
+
+                        if (this.background !== "") {
+                            document.getElementById("banner-image").src = this.background;
+                        }
+
                         const title = response.title;
                         const welcomeMessage = response.clientWelcomeMessage;
                         const errorMessage = response.clientErrorMessage;
