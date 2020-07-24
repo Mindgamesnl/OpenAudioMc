@@ -4,9 +4,6 @@ export class UserInterfaceModule {
 
     constructor(oa) {
         this.openAudioMc = oa;
-
-        document.getElementById("hue-bridge-menu-button").onclick = () => this.showHue();
-        document.getElementById("show-main-button").onclick = () => this.showMain();
         // slider shit
     }
 
@@ -58,37 +55,14 @@ export class UserInterfaceModule {
         document.getElementById("status-message").innerHTML = text;
     }
 
-    showMain() {
-        document.getElementById("welcome").style.display = "none";
-        document.getElementById("hueMenu").style.display = "none";
-        document.getElementById("app").style.display = "";
-    }
-
     openApp() {
         strictlyShowCard("main-card")
         this.openAudioMc.userInterfaceModule.setMessage(this.openAudioMc.messages.welcomeMessage);
     }
 
-    showHue() {
-        document.getElementById("welcome").style.display = "none";
-        document.getElementById("hueMenu").style.display = "";
-        document.getElementById("app").style.display = "none";
-    }
-
     kickScreen(message) {
         strictlyShowCard("kicked-card")
         document.getElementById("kick-message").innerHTML = message;
-    }
-
-
-    showVolumeSlider(state) {
-        if (state) {
-            document.getElementById("volume-label").style.display = "";
-            document.getElementById("volume-disp").style.display = "";
-        } else {
-            document.getElementById("volume-disp").style.display = "none";
-            document.getElementById("volume-label").style.display = "none";
-        }
     }
 
 }

@@ -35,7 +35,9 @@
                 <div style="display: none" data-type="card" id="main-card">
                     <h2 class="header-title">Hey there <span id="in-game-name"></span> &#128075;</h2>
                     <p id="status-message">
-                        Keep this tab open in the background since it'll be used to play audio related to your in-game actions. You can manually change your volume here, or in game using <small><b>/volume (volume)</b></small>
+                        Keep this tab open in the background since it'll be used to play audio related to your in-game
+                        actions. You can manually change your volume here, or in game using <small><b>/volume
+                        (volume)</b></small>
                     </p>
                     <div style="text-align: center; margin-top: 7%;">
                         <input id="volume-slider" type="range" min="0" max="100" value="20" style="width: 80%">
@@ -44,16 +46,19 @@
                     <div id="hue-bridge-menu-button"></div>
                 </div>
 
-                <!-- hue activity card -->
-                <div style="display: none;" id="hue-card" data-type="card">
-                    <div class="hue-page">
+                <div id="hue-modal" class="modal">
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+
                         <h2 class="blurIn">Philips hue</h2>
 
                         <div class="blurIn menu" id="hue-link-menu">
                             <div class="center">
                                 <p class="small-text" id="hue-welcome-message"></p>
+                                <span class="alert-message-button"
+                                      id="hue-start-linking-button">Click here to connect</span>
                             </div>
-                            <span class="alert-message-button" id="hue-start-linking-button">Click here to connect</span>
                         </div>
 
                         <div class="blurIn menu" id="hue-linking-menu" style="display: none;">
@@ -92,7 +97,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p>You may now link up to three lights that the server will control. Usually from right to
+                                <p>You may now link up to three lights that the server will control. Usually from right
+                                    to
                                     left.</p>
                             </div>
                         </div>
@@ -102,7 +108,7 @@
                         <p class="hueFooter blurIn" id="show-main-button">Back to the player <i
                                 class="fa fa-volume-up"></i></p>
                     </div>
-                    <br class="clear"/>
+
                 </div>
 
                 <!-- welcome activity message -->
@@ -146,7 +152,8 @@
 
 <footer id="footer">
     <span class="roboto">
-        <span class="notice">&copy; <a href="https://openaudiomc.net/">OpenAudioMc 2016-2020. All Rights Reserved.</a> <V6 class="3 2"></V6></span>
+        <span class="notice">&copy; <a href="https://openaudiomc.net/">OpenAudioMc 2016-2020. All Rights Reserved.</a> <V6
+                class="3 2"></V6></span>
     </span>
 </footer>
 </body>

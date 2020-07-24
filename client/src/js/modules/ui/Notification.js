@@ -45,6 +45,10 @@ export class AlertBox {
         return this;
     };
 
+    onClick(runnable) {
+        this.alertBox.onclick = runnable;
+    }
+
     hide(alertBox) {
         this.alertBox.classList.add('hide');
         let disperseTimeout = setTimeout(() => {
