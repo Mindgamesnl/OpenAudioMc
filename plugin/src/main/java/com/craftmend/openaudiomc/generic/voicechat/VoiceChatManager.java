@@ -49,7 +49,7 @@ public class  VoiceChatManager implements VoiceManagerImplementation {
             // try to make a request
             ApiResponse response = new RestRequest(RestEndpoint.VOICE_CREATE_ROOM)
                     .setBody(new VoiceRoomRequestBody(members))
-                    .executeSync();
+                    .executeInThread();
 
             // check if response was ok
             if (!response.getErrors().isEmpty()) {

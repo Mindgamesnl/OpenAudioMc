@@ -24,7 +24,7 @@ public class GlobalConstantService {
                 () -> {
                     try {
                         projectStatus = new RestRequest(RestEndpoint.GITHUB_VERSION_CHECK)
-                                .executeSync()
+                                .executeInThread()
                                 .getResponse(ProjectStatus.class);
                     } catch (Exception e) {
                         // Failed to check

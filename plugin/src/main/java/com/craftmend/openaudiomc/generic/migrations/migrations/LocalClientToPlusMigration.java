@@ -50,7 +50,7 @@ public class LocalClientToPlusMigration extends SimpleMigration {
 
         RestRequest upload = new RestRequest(RestEndpoint.PLUS_PUSH_LEGACY_SETTINGS);
         upload.setBody(OpenAudioMc.getGson().toJson(new UploadSettingsWrapper(privateKey, clientSettingsResponse)));
-        upload.executeSync();
+        upload.executeInThread();
 
         migrateFilesFromResources();
     }

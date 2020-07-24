@@ -80,11 +80,11 @@ public class PlayerStateStreamer implements Runnable {
         RestRequest restRequest = new RestRequest(RestEndpoint.PLUS_UPDATE_PLAYERS);
         restRequest.setBody(playerUpdatePayload);
         if (sync) {
-            restRequest.executeSync();
+            restRequest.executeInThread();
             return;
         }
 
-        restRequest.execute().thenAccept(response -> {
+        restRequest.executeAsync().thenAccept(response -> {
             if (!response.getErrors().isEmpty()) {
                 OpenAudioLogger.toConsole("Warning, the server returned an error while updating player states!");
             }
