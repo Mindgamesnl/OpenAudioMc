@@ -1,4 +1,5 @@
 import * as PluginChannel from "../../helpers/protocol/PluginChannel";
+import {AlertBox} from "../ui/Notification";
 
 export class HueModule {
 
@@ -37,18 +38,49 @@ export class HueModule {
             //bridges found
             this.openAudioMc.log(this.bridges.length + " hue bridges found");
             document.getElementById("hue-bridge-menu-button").style.display = "";
+
             if (this.isSsl) {
                 document.getElementById("hue-bridge-menu-button").style.display = "none";
-                this.openAudioMc.getUserInterfaceModule().showMain();
                 return;
             }
 
             if (this.options.userid != null) {
                 this.openAudioMc.getHueModule().startSetup();
             }
+
+            this.requestBox = new AlertBox('#alert-area', {
+                persistent: true,
+                hideCloseButton: true,
+            });
+
+            this.requestBox.show(
+                '<div style="text-align: center;">We found a hue bridge in your network<br/>' +
+                '<br/><br/><a id="noti-perm-request-link" class="alert-message-button">hue settings</a></div>'
+            );
+
+            this.isModalOpen = false;
+
+            this.requestBox.onClick(this.openModal)
+
+            document.body.addEventListener("click", () => {
+                if (this.isModalOpen) {
+                    document.getElementById("hue-modal").style.display = "none";
+                    this.isModalOpen = false;
+                }
+            });
         } else {
             this.openAudioMc.log("No hue bridges found");
         }
+    }
+
+    openModal() {
+        var modal = document.getElementById("hue-modal");
+        var span = document.getElementsByClassName("close")[0];
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+        modal.style.display = "block";
+        this.isModalOpen = true;
     }
 
     startSetup() {

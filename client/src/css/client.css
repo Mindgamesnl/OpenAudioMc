@@ -277,15 +277,12 @@ footer a {
 }
 
 .center {
-    width: 100%;
+    width: 70%;
     height: 40%;
-
-    position: absolute;
     top:0;
     bottom: 0;
     left: 0;
     right: 0;
-
     margin: auto;
 }
 
@@ -341,7 +338,13 @@ footer a {
     position: relative;
     border-radius: 5px;
     transition: opacity 0.5s ease-in;
-    letter-spacing: 1px;
+}
+
+.alert-message-button {
+    border: 1px solid;
+    border-radius: 5px;
+    margin-top: 40px;
+    padding: 8px;
 }
 
 .alert-box.hide {
@@ -487,4 +490,48 @@ input[type=range]::-webkit-slider-thumb:active {
 
 input[type=range]::-moz-range-thumb:active {
     cursor: -moz-grabbing;
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    height: 50%;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.bulb {
+    display: inline-block;
+    padding: 20px;
 }
