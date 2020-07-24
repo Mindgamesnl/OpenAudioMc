@@ -514,6 +514,7 @@ input[type=range]::-moz-range-thumb:active {
     height: 50%;
     border: 1px solid #888;
     width: 80%;
+    border-radius: 30px;
 }
 
 /* The Close Button */
