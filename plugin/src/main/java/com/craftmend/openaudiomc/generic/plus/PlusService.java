@@ -46,7 +46,7 @@ public class PlusService {
         CreateLoginPayload createLoginPayload = new CreateLoginPayload(playerName, openAudioMc.getAuthenticationService().getServerKeySet().getPrivateKey().getValue());
         RestRequest keyRequest = new RestRequest(RestEndpoint.PLUS_GEN_SESSION);
         keyRequest.setBody(createLoginPayload);
-        ApiResponse response = keyRequest.executeSync();
+        ApiResponse response = keyRequest.executeInThread();
         if (!response.getErrors().isEmpty()) throw new IllegalArgumentException("Auth failed!");
 
         PlusLoginToken plusLoginToken = response.getResponse(PlusLoginToken.class);
@@ -55,7 +55,7 @@ public class PlusService {
 
     public void getPlusSettings() {
         RestRequest keyRequest = new RestRequest(RestEndpoint.PLUS_GET_SETTINGS);
-        ClientSettingsResponse response = keyRequest.executeSync().getResponse(ClientSettingsResponse.class);
+        ClientSettingsResponse response = keyRequest.executeInThread().getResponse(ClientSettingsResponse.class);
         baseUrl = response.getDomain() + "#";
         plusEnabled = response.getPlayerSync();
     }

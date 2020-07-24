@@ -55,7 +55,7 @@ public class ShowModule {
             restRequest.setBody(body);
 
             // execute here since we're already in an async thread
-            ApiResponse response = restRequest.executeSync();
+            ApiResponse response = restRequest.executeInThread();
 
             if (!response.getErrors().isEmpty()) {
                 task.fail(response.getErrors().get(0).getCode());

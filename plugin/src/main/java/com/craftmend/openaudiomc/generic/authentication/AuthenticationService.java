@@ -54,7 +54,7 @@ public class AuthenticationService {
         if (spigotConfigurationModule.getString(StorageKey.AUTH_PRIVATE_KEY).equals("not-set") || getAuthVersion() != keyVersion) {
             OpenAudioLogger.toConsole("Creating account...");
             //setup process
-            ApiResponse response = registrationProvider.executeSync();
+            ApiResponse response = registrationProvider.executeInThread();
             try {
                 if (response.getErrors().isEmpty()) {
                     RegistrationResponse registrationResponse = response.getResponse(RegistrationResponse.class);
@@ -95,7 +95,7 @@ public class AuthenticationService {
 
             ApiResponse request = new RestRequest(RestEndpoint.WORKERS_CREATE_SESSION)
                     .setBody(requestBody)
-                    .executeSync();
+                    .executeInThread();
 
             if (!request.getErrors().isEmpty()) {
                 task.fail(request.getErrors().get(0).getCode());

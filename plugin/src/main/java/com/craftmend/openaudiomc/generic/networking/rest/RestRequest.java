@@ -18,7 +18,7 @@ public class RestRequest {
 
     public static final OkHttpClient client = new OkHttpClient();
     private final String endpoint;
-    @Getter @Setter private String body = null;
+    @Getter private String body = null;
     private final Map<String, String> variables = new HashMap<>();
 
     public RestRequest(RestEndpoint endpoint) {
@@ -35,15 +35,15 @@ public class RestRequest {
         return this;
     }
 
-    public CompletableFuture<ApiResponse> execute() {
+    public CompletableFuture<ApiResponse> executeAsync() {
         CompletableFuture<ApiResponse> response = new CompletableFuture<>();
         OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
-            response.complete(executeSync());
+            response.complete(executeInThread());
         });
         return response;
     }
 
-    public ApiResponse executeSync() {
+    public ApiResponse executeInThread() {
         try {
             String url = getUrl();
             String output = readHttp(url);
@@ -61,16 +61,16 @@ public class RestRequest {
     }
 
     private String getUrl() {
-        String url = this.endpoint;
+        StringBuilder url = new StringBuilder(this.endpoint);
         if (variables.size() != 0) {
-            url+= '?';
+            url.append('?');
             for (Map.Entry<String, String> entry : variables.entrySet()) {
                 String key = entry.getKey();
                 String value = entry.getValue();
-                url = url + ("&" + key + "=" + value);
+                url.append("&").append(key).append("=").append(value);
             }
         }
-        return url;
+        return url.toString();
     }
 
     private String readHttp(String url) throws IOException {

@@ -47,7 +47,7 @@ public class SocketIoConnector {
             logoutHandler = new RestRequest(RestEndpoint.PLUS_LOGOUT);
             OpenAudioMc.getInstance().getStateService().addListener((oldState, updatedState) -> {
                 if (oldState instanceof ConnectedState) {
-                    logoutHandler.execute();
+                    logoutHandler.executeAsync();
                 }
             });
             registeredLogout = true;
@@ -87,7 +87,7 @@ public class SocketIoConnector {
 
         Instant request = Instant.now();
 
-        plusHandler.execute()
+        plusHandler.executeAsync()
                 .thenAccept(response -> {
                     if (!response.getErrors().isEmpty()) {
                         OpenAudioMc.getInstance().getStateService().setState(new IdleState("Failed to do the initial handshake. Error: " + response.getErrors().get(0).getCode()));
