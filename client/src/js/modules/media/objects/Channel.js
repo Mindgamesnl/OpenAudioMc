@@ -20,6 +20,13 @@ export class Channel {
         return this.tags.has(name);
     }
 
+    hasSoundPlaying() {
+        for (let value of this.sounds.values()) {
+            return true;
+        }
+        return false;
+    }
+
     addSound(sound) {
         this.sounds.push(sound);
         for (let value of this.sounds.values()) {

@@ -8,6 +8,24 @@ export class Mixer {
         this.mixerName = mixerName;
         this.masterVolume = 100;
         this.channels = new Map();
+        this.areSoundsPlaying = false;
+    }
+
+    _updatePlayingSounds() {
+        let foundPlayingSound = false;
+        this.channels.forEach((channel, key) => {
+            if (channel.hasSoundPlaying()) {
+                foundPlayingSound = true;
+            }
+        });
+        if (foundPlayingSound != this.areSoundsPlaying) {
+            this._playingStateChangeChanged(foundPlayingSound);
+            this.areSoundsPlaying = foundPlayingSound;
+        }
+    }
+
+    _playingStateChangeChanged(isSoundPlaying) {
+
     }
 
     updateCurrent() {
@@ -28,9 +46,12 @@ export class Mixer {
 
 
         // TODO: fix
+        // TODO: Actually do this some day, has been on TODO for al ong while now, idiot
+        // TODO: https://github.com/users/Mindgamesnl/projects/1#card-42495990
         // this.openAudioMc.socketModule.send(PluginChannel.CHANNELS_UPDATED, {
         //     "tracks": current
         // });
+        this._updatePlayingSounds();
     }
 
     setMasterVolume(masterVolume) {
@@ -52,8 +73,7 @@ export class Mixer {
             channel.destroy();
             this.channels.delete(channel.channelName);
         }
-
-        this.updateCurrent();
+        this._updatePlayingSounds();
     }
 
     getChannels() {
@@ -72,6 +92,7 @@ export class Mixer {
         } else {
             throw new Error("Argument isn't a channel");
         }
+        this._updatePlayingSounds();
     }
 
 }

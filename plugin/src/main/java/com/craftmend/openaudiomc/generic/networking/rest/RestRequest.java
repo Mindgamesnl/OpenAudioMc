@@ -6,7 +6,6 @@ import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import lombok.Getter;
-import lombok.Setter;
 import okhttp3.*;
 
 import java.io.IOException;
@@ -37,9 +36,7 @@ public class RestRequest {
 
     public CompletableFuture<ApiResponse> executeAsync() {
         CompletableFuture<ApiResponse> response = new CompletableFuture<>();
-        OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
-            response.complete(executeInThread());
-        });
+        OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> response.complete(executeInThread()));
         return response;
     }
 
