@@ -34,3 +34,5 @@ If you want to go the extra mile
 - [Redis](redis.md)
 - [Network/Server requirements](technical_requirements.md)
  
+# Other articles
+- [Meet the bots](/fun/meet_the_bots.md)
