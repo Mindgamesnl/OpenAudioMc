@@ -53,8 +53,8 @@ export class SocketDirector {
                         }
                         const background = response.backgroundImage;
 
-                        if (this.background !== "") {
-                            document.getElementById("banner-image").src = this.background;
+                        if (background !== "") {
+                            document.getElementById("banner-image").src = background;
                         }
 
                         const title = response.title;

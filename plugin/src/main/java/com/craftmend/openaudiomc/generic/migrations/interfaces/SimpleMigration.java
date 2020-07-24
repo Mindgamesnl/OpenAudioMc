@@ -74,10 +74,7 @@ public abstract class SimpleMigration {
         for (Map.Entry<StorageKey, Object> entry : oldValues.entrySet()) {
             StorageKey key = entry.getKey();
             Object value = entry.getValue();
-            if (value == null) {
-                OpenAudioLogger.toConsole("Skipping migration key " + key.name() + " because its null.");
-            } else {
-                OpenAudioLogger.toConsole("Migrating " + key.name() + " value " + value.toString() + " as part of " + getClass().getSimpleName());
+            if (value != null) {
                 config.set(key, value);
             }
         }

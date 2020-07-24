@@ -15,7 +15,7 @@ function enable() {
     }
 }
 
-export async function linkBootListeners() {
+export function linkBootListeners() {
     const isSafari = navigator.vendor && navigator.vendor.indexOf('Apple') > -1 &&
         navigator.userAgent &&
         navigator.userAgent.indexOf('CriOS') == -1 &&
@@ -26,34 +26,41 @@ export async function linkBootListeners() {
         return;
     }
 
-    let tokenSet = new ClientTokenSet().fromCache();
-    if (tokenSet == null) {
-        strictlyShowCard("bad-auth-card");
-        ReportError("A faulty login attempt was done at " + window.location.host,"Steve");
-        return;
-    }
-
-    // can we find a name? let's put it as a welcome text!
-    // makes the experience a bit more personal
-    if (tokenSet != null && tokenSet.name != null) {
-        document.getElementById("top-head").src = "https://minotar.net/avatar/" + tokenSet.name;
-        document.getElementById("in-game-name").innerText = tokenSet.name;
-        openAudioMc = new OpenAudioMc();
-        await openAudioMc.initialize();
-    }
-
-    document.body.onclick = () => enable();
-
-    // check server status
-    fetch(API_ENDPOINT.SERVER_STATUS + tokenSet.name).then(r => {
-        r.json().then(response => {
-            if (response.offline) {
-                window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/network_error.html";
-            } else {
-                console.log("Server status:" + JSON.stringify(response));
+    let sessionLoader = new ClientTokenSet();
+    sessionLoader.initialize()
+        .then(tokenSet => {
+            console.log(tokenSet)
+            if (tokenSet == null) {
+                strictlyShowCard("bad-auth-card");
+                ReportError("A faulty login attempt was done at " + window.location.host,"Steve");
+                return;
             }
+
+            // can we find a name? let's put it as a welcome text!
+            // makes the experience a bit more personal
+            if (tokenSet != null && tokenSet.name != null) {
+                document.getElementById("top-head").src = "https://minotar.net/avatar/" + tokenSet.name;
+                document.getElementById("in-game-name").innerText = tokenSet.name;
+                openAudioMc = new OpenAudioMc();
+            }
+
+            document.body.onclick = () => enable();
+
+            // check server status
+            fetch(API_ENDPOINT.SERVER_STATUS + tokenSet.name).then(r => {
+                r.json().then(response => {
+                    if (response.offline) {
+                        window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/network_error.html";
+                    } else {
+                        console.log("Server status:" + JSON.stringify(response));
+                    }
+                });
+            })
+        })
+        .catch(error => {
+            // check server status
+            window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/network_error.html";
         });
-    })
 
 }
 
