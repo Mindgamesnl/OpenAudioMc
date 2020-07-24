@@ -15,7 +15,7 @@ function enable() {
     }
 }
 
-export function linkBootListeners() {
+export async function linkBootListeners() {
     const isSafari = navigator.vendor && navigator.vendor.indexOf('Apple') > -1 &&
         navigator.userAgent &&
         navigator.userAgent.indexOf('CriOS') == -1 &&
@@ -26,23 +26,23 @@ export function linkBootListeners() {
         return;
     }
 
-    let tokenSet = new ClientTokenSet().fromUrl(window.location.href);
+    let tokenSet = new ClientTokenSet().fromCache();
     if (tokenSet == null) {
         strictlyShowCard("bad-auth-card");
         ReportError("A faulty login attempt was done at " + window.location.host,"Steve");
         return;
     }
 
-    document.body.onclick = () => enable();
-
     // can we find a name? let's put it as a welcome text!
-    // makes the experiance a bit more personal
-
+    // makes the experience a bit more personal
     if (tokenSet != null && tokenSet.name != null) {
         document.getElementById("top-head").src = "https://minotar.net/avatar/" + tokenSet.name;
         document.getElementById("in-game-name").innerText = tokenSet.name;
         openAudioMc = new OpenAudioMc();
+        await openAudioMc.initialize();
     }
+
+    document.body.onclick = () => enable();
 
     // check server status
     fetch(API_ENDPOINT.SERVER_STATUS + tokenSet.name).then(r => {

@@ -49,7 +49,7 @@ export class AudioSourceProcessor {
             }
         }
 
-        let tokenSet = new ClientTokenSet().fromUrl(window.location.href);
+        let tokenSet = new ClientTokenSet().fromCache();
 
         // append possible authentication, just good to send along
         // first one might be special
