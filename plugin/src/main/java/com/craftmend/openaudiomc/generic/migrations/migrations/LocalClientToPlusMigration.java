@@ -43,13 +43,12 @@ public class LocalClientToPlusMigration extends SimpleMigration {
             clientSettingsResponse.setTitle(settings.getTitle());
 
         // check for start sound
-        ConfigurationImplementation ConfigurationImplementation = config;
-        String startSound = ConfigurationImplementation.getString(StorageKey.SETTINGS_CLIENT_START_SOUND);
+        String startSound = config.getString(StorageKey.SETTINGS_CLIENT_START_SOUND);
         if (startSound != null && !startSound.equals("none") && !startSound.startsWith("<un"))
             clientSettingsResponse.setStartSound(startSound);
 
         RestRequest upload = new RestRequest(RestEndpoint.PLUS_PUSH_LEGACY_SETTINGS);
-        upload.setBody(OpenAudioMc.getGson().toJson(new UploadSettingsWrapper(privateKey, clientSettingsResponse)));
+        upload.setBody(new UploadSettingsWrapper(privateKey, clientSettingsResponse));
         upload.executeInThread();
 
         migrateFilesFromResources();

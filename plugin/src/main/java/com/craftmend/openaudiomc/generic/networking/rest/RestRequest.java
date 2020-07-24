@@ -30,6 +30,7 @@ public class RestRequest {
     }
 
     public RestRequest setBody(Object object) {
+        if (object instanceof String) throw new IllegalArgumentException("Objects will be serialized for you! Don't pass in raw strings.");
         this.body = OpenAudioMc.getGson().toJson(object);
         return this;
     }
