@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.generic.media;
 import com.craftmend.openaudiomc.generic.media.interfaces.ForcedUrlMutation;
 import com.craftmend.openaudiomc.generic.media.interfaces.UrlMutation;
 import com.craftmend.openaudiomc.generic.media.middleware.DropBoxMiddleware;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import java.util.Map;
 public class MediaModule {
 
     private Map<String, List<UrlMutation>> urlMutations = new HashMap<>();
+    @Getter private List<Runnable> resetTriggers = new ArrayList<>();
 
     public MediaModule() {
         // register default mutations
@@ -23,6 +25,7 @@ public class MediaModule {
         List<UrlMutation> list = urlMutations.getOrDefault(host, new ArrayList<>());
         list.add(urlMutation);
         urlMutations.put(host, list);
+        resetTriggers.forEach(Runnable::run);
     }
 
     /**

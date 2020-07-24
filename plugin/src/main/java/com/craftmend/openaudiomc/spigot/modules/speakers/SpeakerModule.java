@@ -80,6 +80,11 @@ public class SpeakerModule {
 
         // setup garbage system
         new SpeakerGarbageCollection(this);
+
+        // reset with new addon
+        OpenAudioMc.getInstance().getMediaModule().getResetTriggers().add(() -> {
+            speakerMediaMap.clear();
+        });
     }
 
     public Collection<ApplicableSpeaker> getApplicableSpeakers(Location location) {
