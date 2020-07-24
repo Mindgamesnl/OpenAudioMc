@@ -23,14 +23,12 @@ export class OpenAudioMc extends Getters {
 
     constructor() {
         super();
-    }
 
-    async initialize() {
         this.canStart = false;
         this.host = null;
         this.background = null;
 
-        this.tokenSet = await new ClientTokenSet().initialize();
+        this.tokenSet = new ClientTokenSet().fromCache();
 
         if (this.tokenSet == null) {
             strictlyShowCard("bad-auth-card");
@@ -52,6 +50,7 @@ export class OpenAudioMc extends Getters {
             .then((res) => {
                 this.canStart = true;
                 this.host = res.host;
+                this.background = res.background;
                 strictlyShowCard("welcome-card");
             })
             .catch((error) => {
@@ -75,6 +74,9 @@ export class OpenAudioMc extends Getters {
 
         // setup packet handler
         new Handlers(this);
+        if (this.background !== "") {
+            document.getElementById("banner-image").src = this.background;
+        }
 
         this.mediaManager.postBoot();
         // window.history.pushState('Logged In Openaudio Client', 'Logged In Openaudio Client', '/#connected');
