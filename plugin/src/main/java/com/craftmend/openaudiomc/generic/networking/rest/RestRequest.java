@@ -11,6 +11,7 @@ import okhttp3.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 public class RestRequest {
@@ -83,7 +84,7 @@ public class RestRequest {
 
         Call call = client.newCall(request.build());
         Response response = call.execute();
-        return response.body().string();
+        return Objects.requireNonNull(response.body()).string();
     }
 
 }
