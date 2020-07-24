@@ -40,6 +40,7 @@ export class SocketDirector {
                         // you are or the server has no ssl enabled (like a debug env)
                         // then fallback to the first entry
                         let relayHost = response.secureEndpoint;
+                        let ambianceSound = response.ambianceSound;
 
                         // indeed null? then fallback to 0
                         if (relayHost == null) relayHost = response.insecureEndpoint;
@@ -116,7 +117,8 @@ export class SocketDirector {
 
                         accept({
                             "host": relayHost,
-                            "background": background
+                            "background": background,
+                            "ambianceSound": ambianceSound
                         });
                     })
                         .catch((e => {
