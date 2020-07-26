@@ -44,7 +44,7 @@ export function linkBootListeners() {
                 openAudioMc = new OpenAudioMc();
             }
 
-            document.body.onclick = () => enable();
+            document.body.addEventListener("click", enable);
 
             // check server status
             fetch(API_ENDPOINT.SERVER_STATUS + tokenSet.name).then(r => {
