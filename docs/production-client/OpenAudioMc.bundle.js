@@ -906,7 +906,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       (_this9 = _possibleConstructorReturn(this, _ref.call(this)), _this9), e = _this9.translate(e), _this9.soundElement = new Audio(), _this9.hadError = !1, _this9.source = e, _this9.error = null, _this9.trackable = !1, _this9.soundElement.onerror = function (e) {
         _this9.hadError = !0, _this9.error = e, _this9._handleError();
-      }, _this9.soundElement.src = e, _this9.soundElement.setAttribute("preload", "auto"), _this9.soundElement.setAttribute("controls", "none"), _this9.soundElement.setAttribute("display", "none"), _this9.soundElement.preload = "auto", _this9.soundElement.abort = console.log, _this9.openAudioMc = null, _this9.onFinish = null, _this9.loop = !1, _this9.mixer = null, _this9.channel = null, _this9.finsishedInitializing = !1, _this9.gotShutDown = !1;return _this9;
+      }, _this9.soundElement.src = e, _this9.soundElement.setAttribute("preload", "auto"), _this9.soundElement.setAttribute("controls", "none"), _this9.soundElement.setAttribute("display", "none"), _this9.soundElement.preload = "auto", _this9.soundElement.abort = console.log, _this9.openAudioMc = null, _this9.onFinish = [], _this9.loop = !1, _this9.mixer = null, _this9.channel = null, _this9.finsishedInitializing = !1, _this9.gotShutDown = !1;return _this9;
     }
 
     $.prototype.setOa = function setOa(e) {
@@ -939,7 +939,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       return new Promise(function (e) {
         _this10.soundElement.onended = function () {
-          _this10.gotShutDown || !_this10.finsishedInitializing || (null != _this10.onFinish && _this10.onFinish(), _this10.loop ? (_this10.setTime(0), _this10.soundElement.play()) : (_this10.mixer.removeChannel(_this10.channel), !_this10.soundElement.paused && _this10.soundElement.pause()));
+          _this10.gotShutDown || !_this10.finsishedInitializing || (_this10.onFinish.forEach(function (e) {
+            e();
+          }), _this10.loop ? (_this10.setTime(0), _this10.soundElement.play()) : (_this10.mixer.removeChannel(_this10.channel), !_this10.soundElement.paused && _this10.soundElement.pause()));
         };var t = !1;var i = function i() {
           if (!_this10.gotShutDown) {
             if (!t) {
@@ -961,7 +963,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     $.prototype.setOnFinish = function setOnFinish(e) {
-      this.onFinish = e;
+      this.onFinish.push(e);
     };
 
     $.prototype.setVolume = function setVolume(e) {
@@ -1097,12 +1099,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       if (null != this.startSound) {
         var _e17 = new Q("startsound"),
-            t = new $(this.startSound);t.openAudioMc = this.openAudioMc, t.setOa(this.openAudioMc), t.finalize().then(function () {
+            t = new $(this.startSound);t.openAudioMc = this.openAudioMc, t.setOa(this.openAudioMc), t.setOnFinish(function () {
+          setTimeout(function () {
+            _this12.mixer._updatePlayingSounds();
+          }, 1e3);
+        }), t.finalize().then(function () {
           _this12.mixer.addChannel(_e17), _e17.addSound(t), _e17.setChannelVolume(100), _e17.updateFromMasterVolume(), t.finish();
         });
-      }setTimeout(function () {
+      } else setTimeout(function () {
         _this12.mixer._updatePlayingSounds();
-      }, 2e3);
+      }, 500);
     };
 
     te.prototype.destroySounds = function destroySounds(e, t, i) {
