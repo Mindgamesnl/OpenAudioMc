@@ -30,6 +30,11 @@ export class MediaManager {
             const createdMedia = new Sound(this.startSound);
             createdMedia.openAudioMc = this.openAudioMc;
             createdMedia.setOa(this.openAudioMc);
+            createdMedia.setOnFinish(() => {
+                setTimeout(() => {
+                    this.mixer._updatePlayingSounds();
+                }, 1000)
+            })
             createdMedia.finalize().then(() => {
                 this.mixer.addChannel(createdChannel);
                 createdChannel.addSound(createdMedia);
@@ -37,11 +42,11 @@ export class MediaManager {
                 createdChannel.updateFromMasterVolume();
                 createdMedia.finish();
             });
+        } else {
+            setTimeout(() => {
+                this.mixer._updatePlayingSounds();
+            }, 500)
         }
-
-        setTimeout(() => {
-            this.mixer._updatePlayingSounds();
-        }, 2000)
     }
 
     destroySounds(soundId, all, instantly) {

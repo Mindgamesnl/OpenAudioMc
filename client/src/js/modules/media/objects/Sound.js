@@ -48,7 +48,7 @@ export class Sound extends AudioSourceProcessor {
 
         this.openAudioMc = null;
 
-        this.onFinish = null;
+        this.onFinish = [];
         this.loop = false;
         this.mixer = null;
         this.channel = null;
@@ -129,7 +129,9 @@ export class Sound extends AudioSourceProcessor {
             this.soundElement.onended = () => {
                 if (this.gotShutDown) return;
                 if (!this.finsishedInitializing) return;
-                if (this.onFinish != null) this.onFinish();
+                this.onFinish.forEach((runnable, key) => {
+                    runnable();
+                });
                 if (this.loop) {
                     this.setTime(0);
                     this.soundElement.play();
@@ -177,7 +179,7 @@ export class Sound extends AudioSourceProcessor {
     }
 
     setOnFinish(runnable) {
-        this.onFinish = runnable;
+        this.onFinish.push(runnable);
     }
 
     setVolume(volume) {
