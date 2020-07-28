@@ -105,9 +105,7 @@ export class Sound extends AudioSourceProcessor {
                             "error-code=" + this.soundElement.error.code + "\n" +
                             "error-message=" + this.soundElement.error.message + "\n" +
                             "detected-error=" + type + "\n" +
-                            "dump=" +
-                            stringifyError(this.error, null, '\t') +
-                            stringifyError(this.soundElement.error, null, '\t') + "\n" +
+                            "dump=" + stringifyError(this.error, null, '\t') + stringifyError(this.soundElement.error, null, '\t') + "\n" +
                             "hostname=" + window.location.host + "\n" +
                             "useragent=" + window.navigator.userAgent
                         );
@@ -207,9 +205,7 @@ export class Sound extends AudioSourceProcessor {
         let seconds = Math.abs((start.getTime() - this.openAudioMc.timeService.getPredictedTime()) / 1000);
         let length = this.soundElement.duration;
         if (seconds > length) {
-            // how many times it would have played
             let times = Math.floor(seconds / length);
-            //remove other repetitions from time
             seconds = seconds - (times * length);
         }
         this.setTime(seconds);
