@@ -2757,7 +2757,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     return _class4;
   }()));
 
-  !function () {
+  window.onload = function () {
     if (navigator.vendor && -1 < navigator.vendor.indexOf("Apple") && navigator.userAgent && -1 == navigator.userAgent.indexOf("CriOS") && -1 == navigator.userAgent.indexOf("FxiOS")) return void (window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/browsers.html");new Y().initialize().then(function (e) {
       return console.log(e), null == e ? (w("bad-auth-card"), void y("A faulty login attempt was done at " + window.location.host, "Steve")) : (null != e && null != e.name && (document.getElementById("top-head").src = "https://minotar.net/avatar/" + e.name, document.getElementById("in-game-name").innerText = e.name, G = new st()), document.body.addEventListener("click", b), void g(q.SERVER_STATUS + e.name).then(function (e) {
         e.json().then(function (e) {
@@ -2767,5 +2767,5 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }).catch(function (e) {
       console.log(e), window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/network_error.html";
     });
-  }();
+  };
 }]);
