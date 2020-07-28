@@ -93,4 +93,4 @@ export class OpenAudioMc extends Getters {
     }
 }
 
-linkBootListeners();
+window.onload = linkBootListeners;
