@@ -11,6 +11,14 @@ export const AUDIO_ENDPOINTS = {
 export class AudioSourceProcessor {
 
     translate(source) {
+        // filter old
+        source = source.replace("https://api.openaudiomc.net/stream.php?u=", "");
+
+        // validate invalid urls if its the default domain
+        if (window.location.href.includes("client.openaudiomc.net") && !source.includes("http")) {
+            return null;
+        }
+
         // work around for the old google docs system, for those who didn't update yet
         if (source.includes("http://docs.google.com/uc?export=open&id=")) {
             source = source.replace("http://docs.google.com/uc?export=open&id=", AUDIO_ENDPOINTS.DRIVE);
