@@ -921,7 +921,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             var o = {};return Object.getOwnPropertyNames(_e15).forEach(function (t) {
               o[t] = _e15[t];
             }), JSON.stringify(o, t, i);
-          };this.openAudioMc.sendError("A sound failed to load.\nurl=" + this.source + "\nerror-code=" + this.soundElement.error.code + "\nerror-message=" + this.soundElement.error.message + "\ndetected-error=" + _i4 + "\ndump=" + e(this.error, null, "\t") + e(this.soundElement.error, null, "\t") + "\nhostname=" + window.location.host), this.openAudioMc.socketModule.send("media_failure", { mediaError: _i4, source: this.soundElement.src });
+          };this.openAudioMc.sendError("A sound failed to load.\nurl=" + this.source + "\nerror-code=" + this.soundElement.error.code + "\nerror-message=" + this.soundElement.error.message + "\ndetected-error=" + _i4 + "\ndump=" + e(this.error, null, "\t") + e(this.soundElement.error, null, "\t") + "\nhostname=" + window.location.host + "\nuseragent=" + window.navigator.userAgent), this.openAudioMc.socketModule.send("media_failure", { mediaError: _i4, source: this.soundElement.src });
         }
       }
     };
