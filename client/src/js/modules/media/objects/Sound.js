@@ -97,18 +97,22 @@ export class Sound extends AudioSourceProcessor {
                         });
                         return JSON.stringify(plainObject, filter, space);
                     };
-                    this.openAudioMc.sendError(
-                        "A sound failed to load.\n" +
-                        "url=" + this.source + "\n" +
-                        "error-code=" + this.soundElement.error.code + "\n" +
-                        "error-message=" + this.soundElement.error.message + "\n" +
-                        "detected-error=" + type + "\n" +
-                        "dump=" +
-                        stringifyError(this.error, null, '\t') +
-                        stringifyError(this.soundElement.error, null, '\t') + "\n" +
-                        "hostname=" + window.location.host + "\n" +
-                        "useragent=" + window.navigator.userAgent
-                    );
+
+                    if (this.source != null && this.source != "null") {
+                        this.openAudioMc.sendError(
+                            "A sound failed to load.\n" +
+                            "url=" + this.source + "\n" +
+                            "error-code=" + this.soundElement.error.code + "\n" +
+                            "error-message=" + this.soundElement.error.message + "\n" +
+                            "detected-error=" + type + "\n" +
+                            "dump=" +
+                            stringifyError(this.error, null, '\t') +
+                            stringifyError(this.soundElement.error, null, '\t') + "\n" +
+                            "hostname=" + window.location.host + "\n" +
+                            "useragent=" + window.navigator.userAgent
+                        );
+
+                    }
 
                     this.openAudioMc.socketModule.send(PluginChannel.MEDIA_FAILURE, {
                         "mediaError": type,
