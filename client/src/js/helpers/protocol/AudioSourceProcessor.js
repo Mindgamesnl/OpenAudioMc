@@ -34,7 +34,7 @@ export class AudioSourceProcessor {
         // handle youtube proxy, if peeps are interested in that but don't know how to
         // basically for those who can't or wont read documentatino lmao
         this.isYoutube = false;
-        if (source.includes("youtube") || source.includes("youtu.be")) {
+        if (source.includes("youtube.") || source.includes("youtu.be")) {
             let ytId = source.split("v=")[1];
             source = AUDIO_ENDPOINTS.YOUTUBE + ytId;
             this.isYoutube = true;
