@@ -993,9 +993,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
 
     _class2.prototype.translate = function translate(e) {
-      if (e = e.replace("https://api.openaudiomc.net/stream.php?u=", ""), window.location.href.includes("client.openaudiomc.net") && !e.includes("http")) return null;if (e.includes("http://docs.google.com/uc?export=open&id=") && (e = e.replace("http://docs.google.com/uc?export=open&id=", Z.DRIVE)), e.includes("https://docs.google.com/uc?export=open&id=") && (e = e.replace("https://docs.google.com/uc?export=open&id=", Z.DRIVE)), e.includes("https://drive.google.com/") && (e = (e = e.split("file/d/")[1]).split("/view")[0]), this.isYoutube = !1, e.includes("youtube.") || e.includes("youtu.be")) {
-        var _t5 = e.split("v=")[1];e = Z.YOUTUBE + _t5, this.isYoutube = !0;
-      }e.includes("https://weathered-dust-0281.craftmend.workers.dev/") && (e = e.replace("https://weathered-dust-0281.craftmend.workers.dev/", "")), e.includes("soundcloud.com") && (e = Z.SOUNDCLOUD + e), "https:" === location.protocol && e.includes("http") && !e.includes("https://") && (e = Z.PROXY + e);var t = new Y().fromCache();return e += e.includes("?") ? "&openAudioPlayerName=" + t.name : "?openAudioPlayerName=" + t.name, e += "&openAudioToken=" + t.token, e += "&openAudioPublicServerKey=" + t.publicServerKey;
+      try {
+        if (e = e.replace("https://api.openaudiomc.net/stream.php?u=", ""), window.location.href.includes("client.openaudiomc.net") && !e.includes("http")) return null;if (e.includes("http://docs.google.com/uc?export=open&id=") && (e = e.replace("http://docs.google.com/uc?export=open&id=", Z.DRIVE)), e.includes("https://docs.google.com/uc?export=open&id=") && (e = e.replace("https://docs.google.com/uc?export=open&id=", Z.DRIVE)), e.includes("https://drive.google.com/") && (e = (e = e.split("file/d/")[1]).split("/view")[0]), this.isYoutube = !1, e.includes("youtube.") || e.includes("youtu.be")) {
+          var _t5 = e.split("v=")[1];e = Z.YOUTUBE + _t5, this.isYoutube = !0;
+        }e.includes("https://weathered-dust-0281.craftmend.workers.dev/") && (e = e.replace("https://weathered-dust-0281.craftmend.workers.dev/", "")), e.includes("soundcloud.com") && (e = Z.SOUNDCLOUD + e), "https:" === location.protocol && e.includes("http") && !e.includes("https://") && (e = Z.PROXY + e);
+      } catch (t) {
+        console.log("Middleware error"), console.log(t);
+      }var t = new Y().fromCache();return e += e.includes("?") ? "&openAudioPlayerName=" + t.name : "?openAudioPlayerName=" + t.name, e += "&openAudioToken=" + t.token, e += "&openAudioPublicServerKey=" + t.publicServerKey;
     };
 
     return _class2;
