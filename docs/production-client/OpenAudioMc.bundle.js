@@ -993,13 +993,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
 
     _class2.prototype.translate = function translate(e) {
-      try {
-        if (e = e.replace("https://api.openaudiomc.net/stream.php?u=", ""), window.location.href.includes("client.openaudiomc.net") && !e.includes("http")) return null;if (e.includes("http://docs.google.com/uc?export=open&id=") && (e = e.replace("http://docs.google.com/uc?export=open&id=", Z.DRIVE)), e.includes("https://docs.google.com/uc?export=open&id=") && (e = e.replace("https://docs.google.com/uc?export=open&id=", Z.DRIVE)), e.includes("https://drive.google.com/") && (e = (e = e.split("file/d/")[1]).split("/view")[0]), this.isYoutube = !1, e.includes("youtube.") || e.includes("youtu.be")) {
-          var _t5 = e.split("v=")[1];e = Z.YOUTUBE + _t5, this.isYoutube = !0;
-        }e.includes("https://weathered-dust-0281.craftmend.workers.dev/") && (e = e.replace("https://weathered-dust-0281.craftmend.workers.dev/", "")), e.includes("soundcloud.com") && (e = Z.SOUNDCLOUD + e), "https:" === location.protocol && e.includes("http") && !e.includes("https://") && (e = Z.PROXY + e);
-      } catch (t) {
-        console.log("Middleware error"), console.log(t);
-      }var t = new Y().fromCache();return e += e.includes("?") ? "&openAudioPlayerName=" + t.name : "?openAudioPlayerName=" + t.name, e += "&openAudioToken=" + t.token, e += "&openAudioPublicServerKey=" + t.publicServerKey;
+      var t = e;try {
+        if (t = t.replace("https://api.openaudiomc.net/stream.php?u=", ""), window.location.href.includes("client.openaudiomc.net") && !t.includes("http")) return null;if (t.includes("http://docs.google.com/uc?export=open&id=") && (t = t.replace("http://docs.google.com/uc?export=open&id=", Z.DRIVE)), t.includes("https://docs.google.com/uc?export=open&id=") && (t = t.replace("https://docs.google.com/uc?export=open&id=", Z.DRIVE)), t.includes("https://drive.google.com/") && (t = t.split("file/d/")[1], t = t.split("/view")[0]), this.isYoutube = !1, t.includes("youtube.") || t.includes("youtu.be")) {
+          var _e16 = t.split("v=")[1];t = Z.YOUTUBE + _e16, this.isYoutube = !0;
+        }t.includes("https://weathered-dust-0281.craftmend.workers.dev/") && (t = t.replace("https://weathered-dust-0281.craftmend.workers.dev/", "")), t.includes("soundcloud.com") && (t = Z.SOUNDCLOUD + t), "https:" === location.protocol && t.includes("http") && !t.includes("https://") && (t = Z.PROXY + t);
+      } catch (i) {
+        return console.log("Middleware error"), console.log(i), e;
+      }var i = new Y().fromCache();return t += t.includes("?") ? "&openAudioPlayerName=" + i.name : "?openAudioPlayerName=" + i.name, t += "&openAudioToken=" + i.token, t += "&openAudioPublicServerKey=" + i.publicServerKey, t;
     };
 
     return _class2;
@@ -1044,8 +1044,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       try {
         for (var _iterator10 = this.channels.values()[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
-          var _e16 = _step10.value;
-          _e16.updateFromMasterVolume();
+          var _e17 = _step10.value;
+          _e17.updateFromMasterVolume();
         }
       } catch (err) {
         _didIteratorError10 = true;
@@ -1102,13 +1102,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       var _this12 = this;
 
       if (null != this.startSound) {
-        var _e17 = new Q("startsound"),
+        var _e18 = new Q("startsound"),
             t = new $(this.startSound);t.openAudioMc = this.openAudioMc, t.setOa(this.openAudioMc), t.setOnFinish(function () {
           setTimeout(function () {
             _this12.mixer._updatePlayingSounds();
           }, 1e3);
         }), t.finalize().then(function () {
-          _this12.mixer.addChannel(_e17), _e17.addSound(t), _e17.setChannelVolume(100), _e17.updateFromMasterVolume(), t.finish();
+          _this12.mixer.addChannel(_e18), _e18.addSound(t), _e18.setChannelVolume(100), _e18.updateFromMasterVolume(), t.finish();
         });
       } else setTimeout(function () {
         _this12.mixer._updatePlayingSounds();
@@ -1202,8 +1202,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         try {
           for (var _iterator12 = s[Symbol.iterator](), _step12; !(_iteratorNormalCompletion12 = (_step12 = _iterator12.next()).done); _iteratorNormalCompletion12 = true) {
-            var _e18 = _step12.value;
-            r.push(_e18.name);
+            var _e19 = _step12.value;
+            r.push(_e19.name);
           }
         } catch (err) {
           _didIteratorError12 = true;
@@ -1242,8 +1242,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   var oe = [],
       ne = { "&4": "font-weight:normal;text-decoration:none;color:#be0000", "&c": "font-weight:normal;text-decoration:none;color:#fe3f3f", "&6": "font-weight:normal;text-decoration:none;color:#d9a334", "&e": "font-weight:normal;text-decoration:none;color:#fefe3f", "&2": "font-weight:normal;text-decoration:none;color:#00be00", "&a": "font-weight:normal;text-decoration:none;color:#3ffe3f", "&b": "font-weight:normal;text-decoration:none;color:#3ffefe", "&3": "font-weight:normal;text-decoration:none;color:#00bebe", "&1": "font-weight:normal;text-decoration:none;color:#0000be", "&9": "font-weight:normal;text-decoration:none;color:#3f3ffe", "&d": "font-weight:normal;text-decoration:none;color:#fe3ffe", "&5": "font-weight:normal;text-decoration:none;color:#be00be", "&f": "font-weight:normal;text-decoration:none;color:#ffffff", "&7": "font-weight:normal;text-decoration:none;color:#bebebe", "&8": "font-weight:normal;text-decoration:none;color:#3f3f3f", "&0": "font-weight:normal;text-decoration:none;color:#000000", "&l": "font-weight:bold", "&n": "text-decoration:underline;text-decoration-skip:spaces", "&o": "font-style:italic", "&m": "text-decoration:line-through;text-decoration-skip:spaces" };String.prototype.replaceColorCodes = function () {
     return function () {
-      for (var _e19 = oe.length; _e19--;) {
-        clearInterval(oe[_e19]);
+      for (var _e20 = oe.length; _e20--;) {
+        clearInterval(oe[_e20]);
       }oe = [];
     }(), S(this + "");
   };
@@ -1261,8 +1261,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       try {
         for (var _iterator13 = e.rows[Symbol.iterator](), _step13; !(_iteratorNormalCompletion13 = (_step13 = _iterator13.next()).done); _iteratorNormalCompletion13 = true) {
-          var _t6 = _step13.value;
-          this.lines.push(this.rowToHtml(_t6));
+          var _t5 = _step13.value;
+          this.lines.push(this.rowToHtml(_t5));
         }
       } catch (err) {
         _didIteratorError13 = true;
@@ -1325,8 +1325,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       try {
         for (var _iterator15 = e.styles[Symbol.iterator](), _step15; !(_iteratorNormalCompletion15 = (_step15 = _iterator15.next()).done); _iteratorNormalCompletion15 = true) {
-          var _t7 = _step15.value;
-          "BOLD" === _t7 ? (i.push("<b>"), o.push("</b>")) : "ITALLIC" === _t7 ? (i.push("<i>"), o.push("</i>")) : "UNDERLINE" === _t7 && (i.push("<u>"), o.push("</u>"));
+          var _t6 = _step15.value;
+          "BOLD" === _t6 ? (i.push("<b>"), o.push("</b>")) : "ITALLIC" === _t6 ? (i.push("<i>"), o.push("</i>")) : "UNDERLINE" === _t6 && (i.push("<u>"), o.push("</u>"));
         }
       } catch (err) {
         _didIteratorError15 = true;
@@ -1349,8 +1349,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       try {
         for (var _iterator16 = i[Symbol.iterator](), _step16; !(_iteratorNormalCompletion16 = (_step16 = _iterator16.next()).done); _iteratorNormalCompletion16 = true) {
-          var _e20 = _step16.value;
-          t += _e20;
+          var _e21 = _step16.value;
+          t += _e21;
         }
       } catch (err) {
         _didIteratorError16 = true;
@@ -1375,8 +1375,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       try {
         for (var _iterator17 = o[Symbol.iterator](), _step17; !(_iteratorNormalCompletion17 = (_step17 = _iterator17.next()).done); _iteratorNormalCompletion17 = true) {
-          var _e21 = _step17.value;
-          t += _e21;
+          var _e22 = _step17.value;
+          t += _e22;
         }
       } catch (err) {
         _didIteratorError17 = true;
@@ -1467,7 +1467,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             l = t.distance,
             u = t.media.flag,
             h = t.maxDistance;var c = 100;null != t.media.volume && 0 != t.media.volume && (c = t.media.volume), e.getMediaManager().destroySounds(n, !1, !0);var d = new Q(n);d.trackable = !0;var m = new $(s);if (m.openAudioMc = e, m.setOa(e), e.getMediaManager().mixer.addChannel(d), d.addSound(m), d.setChannelVolume(0), m.setLooping(i), d.setTag(n), 0 !== h) {
-          var _e22 = _this15.convertDistanceToVolume(h, l);d.setTag("SPECIAL"), d.maxDistance = h, d.fadeChannel(_e22, a);
+          var _e23 = _this15.convertDistanceToVolume(h, l);d.setTag("SPECIAL"), d.maxDistance = h, d.fadeChannel(_e23, a);
         } else d.setTag("DEFAULT"), setTimeout(function () {
           0 === a ? (d.setChannelVolume(c), d.updateFromMasterVolume()) : (d.updateFromMasterVolume(), d.fadeChannel(c, a));
         }, 1);d.setTag(u), e.getMediaManager().mixer.updateCurrent(), m.finalize().then(function () {
@@ -1502,8 +1502,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         try {
           for (var _iterator18 = e.getMediaManager().mixer.getChannels()[Symbol.iterator](), _step18; !(_iteratorNormalCompletion18 = (_step18 = _iterator18.next()).done); _iteratorNormalCompletion18 = true) {
-            var _t8 = _step18.value;
-            _t8.hasTag(i) && _t8.fadeChannel(_this15.convertDistanceToVolume(_t8.maxDistance, n), o);
+            var _t7 = _step18.value;
+            _t7.hasTag(i) && _t7.fadeChannel(_this15.convertDistanceToVolume(_t7.maxDistance, n), o);
           }
         } catch (err) {
           _didIteratorError18 = true;
@@ -2095,8 +2095,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
           try {
             for (var _iterator21 = t[Symbol.iterator](), _step21; !(_iteratorNormalCompletion21 = (_step21 = _iterator21.next()).done); _iteratorNormalCompletion21 = true) {
-              var _e24 = _step21.value;
-              _i7 += '<option value="' + _e24.id + '">' + _e24.name + "</option>";
+              var _e25 = _step21.value;
+              _i7 += '<option value="' + _e25.id + '">' + _e25.name + "</option>";
             }
           } catch (err) {
             _didIteratorError21 = true;
@@ -2114,8 +2114,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           }
 
           if (_i7 += "</select>", _this26.show('<div style="text-align: center;">What microphone would you like to use in this voicecall?<br /><small>changes can take a second or two to apply</small><br />' + _i7 + '<div id="mic-loader" style="display:none;"><h2>Switching mic input. Please wait.</h2><div class="loader"></div></div></div>'), null != Cookies.get("default-mic")) {
-            var _e23 = document.getElementById("select-mic-dropdown");for (var _t9 = 0; _t9 < _e23.options.length; _t9++) {
-              _e23.options[_t9].innerText === Cookies.get("default-mic") && (_e23.options[_t9].selected = !0);
+            var _e24 = document.getElementById("select-mic-dropdown");for (var _t8 = 0; _t8 < _e24.options.length; _t8++) {
+              _e24.options[_t8].innerText === Cookies.get("default-mic") && (_e24.options[_t8].selected = !0);
             }
           }document.getElementById("select-mic-dropdown").onchange = function (t) {
             document.getElementById("select-mic-dropdown").disabled = !0, document.getElementById("select-mic-dropdown").style.display = "none", document.getElementById("mic-loader").style.display = "", Cookies.set("default-mic", t.target.selectedOptions[0].childNodes[0].data), e(_this26.getId()), setTimeout(function () {
@@ -2158,8 +2158,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       new Fe({ audio: this.config.micId }, function (e) {
         _this28.stream = e, _this28.audioInput = _this28.audioContext.createMediaStreamSource(e), _this28.gainNode = _this28.audioContext.createGain(), _this28.recorder = _this28.audioContext.createScriptProcessor(_this28.config.codec.bufferSize, 1, 1), _this28.recorder.onaudioprocess = function (e) {
           var t = _this28.sampler.resampler(e.inputBuffer.getChannelData(0)),
-              i = _this28.encoder.encode_float(t);for (var _e25 = 0; _e25 < i.length; _e25++) {
-            1 === _this28.socket.readyState && _this28.socket.send(i[_e25]);
+              i = _this28.encoder.encode_float(t);for (var _e26 = 0; _e26 < i.length; _e26++) {
+            1 === _this28.socket.readyState && _this28.socket.send(i[_e26]);
           }
         }, _this28.audioInput.connect(_this28.gainNode), _this28.gainNode.connect(_this28.recorder), _this28.recorder.connect(_this28.audioContext.destination);
       }, e || this.onError);
@@ -2625,7 +2625,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       try {
         for (var _iterator23 = e[Symbol.iterator](), _step23; !(_iteratorNormalCompletion23 = (_step23 = _iterator23.next()).done); _iteratorNormalCompletion23 = true) {
           var _i8 = _step23.value;
-          var _e27 = t.get(_i8.source);null != _e27 ? Array.isArray(_e27) ? (_e27.push(_i8), t.set(_i8.source, _e27)) : _e27.distance > _i8.distance && _i8.distance <= _i8.speaker.maxDistance && t.set(_i8.source, _i8) : _i8.speaker.type == tt ? _i8.distance <= _i8.speaker.maxDistance && t.set(_i8.source, _i8) : _i8.distance <= _i8.speaker.maxDistance && t.set(_i8.source, [_i8]);
+          var _e28 = t.get(_i8.source);null != _e28 ? Array.isArray(_e28) ? (_e28.push(_i8), t.set(_i8.source, _e28)) : _e28.distance > _i8.distance && _i8.distance <= _i8.speaker.maxDistance && t.set(_i8.source, _i8) : _i8.speaker.type == tt ? _i8.distance <= _i8.speaker.maxDistance && t.set(_i8.source, _i8) : _i8.distance <= _i8.speaker.maxDistance && t.set(_i8.source, [_i8]);
         }
       } catch (err) {
         _didIteratorError23 = true;
@@ -2649,8 +2649,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         try {
           for (var _iterator24 = t[Symbol.iterator](), _step24; !(_iteratorNormalCompletion24 = (_step24 = _iterator24.next()).done); _iteratorNormalCompletion24 = true) {
-            var _e26 = _step24.value;
-            _this39.getMediaForSource(_e26.source, _e26.speaker.startInstant).updateLocation(_e26.speaker, _this39, _this39.player);
+            var _e27 = _step24.value;
+            _this39.getMediaForSource(_e27.source, _e27.speaker.startInstant).updateLocation(_e27.speaker, _this39, _this39.player);
           }
         } catch (err) {
           _didIteratorError24 = true;

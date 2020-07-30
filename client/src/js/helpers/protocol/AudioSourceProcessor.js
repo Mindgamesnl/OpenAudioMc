@@ -10,7 +10,8 @@ export const AUDIO_ENDPOINTS = {
 
 export class AudioSourceProcessor {
 
-    translate(source) {
+    translate(sourceOg) {
+        let source = sourceOg;
         // filter old
         try {
             source = source.replace("https://api.openaudiomc.net/stream.php?u=", "");
@@ -60,6 +61,7 @@ export class AudioSourceProcessor {
         } catch (e) {
             console.log("Middleware error")
             console.log(e)
+            return sourceOg
         }
 
         let tokenSet = new ClientTokenSet().fromCache();
