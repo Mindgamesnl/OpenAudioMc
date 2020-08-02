@@ -15,11 +15,11 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ExecutorService {
 
     @Getter private Executor executor;
-    private Queue<Runnable> tickRunnables = new ConcurrentLinkedQueue<>();
-    private Queue<Runnable> secondRunnables = new ConcurrentLinkedQueue<>();
-    private Queue<Runnable> runNextTick = new ConcurrentLinkedQueue<>();
+    @Getter private Queue<Runnable> tickRunnables = new ConcurrentLinkedQueue<>();
+    @Getter private Queue<Runnable> secondRunnables = new ConcurrentLinkedQueue<>();
+    @Getter private Queue<Runnable> runNextTick = new ConcurrentLinkedQueue<>();
     private ReentrantLock lock = new ReentrantLock();
-    private Queue<Runnable> nextTickFallback = new ConcurrentLinkedQueue<>();
+    @Getter private Queue<Runnable> nextTickFallback = new ConcurrentLinkedQueue<>();
     private int tick = 0;
     @Getter private Instant lastPing = Instant.now();
 
