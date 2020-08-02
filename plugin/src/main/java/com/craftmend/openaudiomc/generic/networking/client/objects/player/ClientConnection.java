@@ -36,16 +36,14 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class ClientConnection implements Authenticatable {
 
     // ongoing sounds
     @Getter private List<Media> ongoingMedia = new ArrayList<>();
     @Getter private MixTracker mixTracker;
+    @Getter private Map<String, String> thirdPartyValues = new HashMap<>();
 
     // session info
     private Publisher sessionPublisher;
