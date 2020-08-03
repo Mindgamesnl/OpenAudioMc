@@ -6,7 +6,7 @@ import com.craftmend.openaudiomc.generic.networking.payloads.client.media.Client
 
 public class PacketClientDestroyMedia extends AbstractPacket {
 
-    public static final int DEFAULT_FADE_TIME = 250;
+    public static final int DEFAULT_FADE_TIME = 500;
 
     public PacketClientDestroyMedia(String soundId, boolean deleteSpecial, int fadeTime) {
         super(new ClientDestroyMediaPayload(soundId, deleteSpecial, fadeTime), PacketChannel.CLIENT_OUT_DESTROY_MEDIA, null);
