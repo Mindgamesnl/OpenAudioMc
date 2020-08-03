@@ -7,8 +7,10 @@ import com.craftmend.openaudiomc.bungee.modules.commands.commands.BungeeVolumeCo
 import com.craftmend.openaudiomc.bungee.modules.commands.commands.OpenAudioMcBungeeCommand;
 import com.craftmend.openaudiomc.bungee.modules.commands.subcommand.*;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
+import com.craftmend.openaudiomc.generic.commands.subcommands.AcceptSubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.HelpSubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.ReloadSubCommand;
+import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
 
 public class BungeeCommandModule {
 
@@ -30,6 +32,11 @@ public class BungeeCommandModule {
                 new BungeeShowCommand(),
                 new BungeeAliasCommand()
         );
+
+        // add accept sub command if the player is new
+        if (!OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.LEGAL_ACCEPTED_TOS_AND_PRIVACY)) {
+            commandModule.registerSubCommands(new AcceptSubCommand());
+        }
 
     }
 
