@@ -12,5 +12,6 @@ public class ClientDestroyMediaPayload extends AbstractPacketPayload {
 
     private String soundId;
     private boolean all = false;
+    private int fadeTime = 250;
 
 }

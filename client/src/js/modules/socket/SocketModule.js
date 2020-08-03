@@ -1,6 +1,5 @@
-import {strictlyShowCard} from "../../helpers/utils/StaticFunctions";
 import ClientTokenSet from "../../helpers/libs/ClientTokenSet";
-import {UiCards} from "../ui/UserInterfaceModule";
+import {strictlyShowCard, UiCards} from "../ui/UserInterfaceModule";
 
 export class SocketModule {
 

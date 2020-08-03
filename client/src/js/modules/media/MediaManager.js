@@ -49,9 +49,12 @@ export class MediaManager {
         }
     }
 
-    destroySounds(soundId, all, instantly) {
+    destroySounds(soundId, all, instantly, transition) {
         this.openAudioMc.debugPrint("starting to quit fade " + soundId)
-        let time = 100;
+        let time = transition;
+        if (time == null) {
+            time = 250;
+        }
         if (instantly) time = 0;
 
         for (let channel of this.mixer.getChannels()) {
