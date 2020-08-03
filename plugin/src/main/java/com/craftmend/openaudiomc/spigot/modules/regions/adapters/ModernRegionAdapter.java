@@ -37,18 +37,7 @@ public class ModernRegionAdapter extends AbstractRegionAdapter {
         ProtectedRegion highestRegion = null;
         Set<ProtectedRegion> regions = new HashSet<>(set.getRegions());
 
-        if (usePriority) {
-            for (ProtectedRegion region : regions) {
-                if (region.getPriority() != 0) {
-                    if (region.getPriority() > highestPriority) {
-                        highestPriority = region.getPriority();
-                        highestRegion = region;
-                    }
-                }
-            }
-        }
-
-        return new HashSet<>((highestRegion == null ? regions : Arrays.asList(highestRegion)));
+        return prioritySort(regions, highestPriority, highestRegion, usePriority);
     }
 
     @Override

@@ -4,10 +4,9 @@ import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.Region;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.Location;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public abstract class AbstractRegionAdapter {
 
@@ -32,6 +31,22 @@ public abstract class AbstractRegionAdapter {
             regions.add(new Region(r.getId(), regionModule.getRegionPropertiesMap().get(r.getId())));
         }
         return regions;
+    }
+
+    @NotNull
+    protected Set<ProtectedRegion> prioritySort(Set<ProtectedRegion> regions, int highestPriority, ProtectedRegion highestRegion, boolean usePriority) {
+        if (usePriority) {
+            for (ProtectedRegion region : regions) {
+                if (region.getPriority() != 0) {
+                    if (region.getPriority() > highestPriority) {
+                        highestPriority = region.getPriority();
+                        highestRegion = region;
+                    }
+                }
+            }
+        }
+
+        return new HashSet<>((highestRegion == null ? regions : Arrays.asList(highestRegion)));
     }
 
 }
