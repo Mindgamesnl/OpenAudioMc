@@ -9,6 +9,7 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -30,18 +31,7 @@ public class LegacyRegionAdapter extends AbstractRegionAdapter {
         int highestPriority = 0;
         ProtectedRegion highestRegion = null;
 
-        if (usePriority) {
-            for (ProtectedRegion region : regions) {
-                if (region.getPriority() != 0) {
-                    if (region.getPriority() > highestPriority) {
-                        highestPriority = region.getPriority();
-                        highestRegion = region;
-                    }
-                }
-            }
-        }
-
-        return new HashSet<>((highestRegion == null ? regions : Arrays.asList(highestRegion)));
+        return prioritySort(regions, highestPriority, highestRegion, usePriority);
     }
 
     @Override
