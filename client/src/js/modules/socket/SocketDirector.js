@@ -30,8 +30,8 @@ export class SocketDirector {
                         let response = result.response;
 
                         if (response.banned) {
-                            window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/blocked_domain.html";
                             ReportError("Declined connection due to ban " + window.location.host,"Steve");
+                            window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/blocked_domain.html";
                             return;
                         }
 
