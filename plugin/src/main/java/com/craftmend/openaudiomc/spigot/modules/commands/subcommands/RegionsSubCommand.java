@@ -105,7 +105,7 @@ public class RegionsSubCommand extends SubCommand {
             }
 
             config.setString(StorageLocation.DATA_FILE, "regions." + args[1], args[2]);
-            openAudioMcSpigot.getRegionModule().registerRegion(args[1], new RegionProperties(args[2], 100));
+            openAudioMcSpigot.getRegionModule().registerRegion(args[1], new RegionProperties(args[2], 100, 1000));
             message(sender, ChatColor.GREEN + "The WorldGuard region with the id " + args[1] + " now has the sound " + args[2]);
             openAudioMcSpigot.getRegionModule().forceUpdateRegions();
             return;

@@ -12,15 +12,15 @@ public class RegionProperties {
 
     private String source;
     private int volume;
+    private int fadeTimeMs;
 
     public void updateMedia(String regionName) {
         OpenAudioMcSpigot.getInstance().getRegionModule().removeRegionMedia(regionName, source);
         OpenAudioMcSpigot.getInstance().getRegionModule().getRegionPropertiesMap().put(regionName, this);
-
     }
 
     public Media getMedia() {
-        return OpenAudioMcSpigot.getInstance().getRegionModule().getRegionMedia(source, volume);
+        return OpenAudioMcSpigot.getInstance().getRegionModule().getRegionMedia(source, volume, fadeTimeMs);
     }
 
 }
