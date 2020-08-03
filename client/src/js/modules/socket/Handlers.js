@@ -1,5 +1,3 @@
-import {Vector3} from "../../helpers/math/Vector3";
-import {Speaker} from "../world/objects/Speaker";
 import {handleCreateMedia} from "./handlers/HandleCreateMedia";
 import {handleDestroyPanel} from "./handlers/HandleDestroyPanel";
 import {handleUpdateCard} from "./handlers/HandleUpdateCard";
@@ -17,9 +15,6 @@ import {handleSpeakerDestroy} from "./handlers/HandleSpeakerDestroy";
 export class Handlers {
 
     constructor(openAudioMc) {
-        this.openAudioMc = openAudioMc;
-
-        // util
         function registerClassHandler(channel, handlerFunction) {
             openAudioMc.socketModule.registerHandler(channel, (data) => {
                 handlerFunction(openAudioMc, data);
@@ -40,5 +35,4 @@ export class Handlers {
         registerClassHandler("ClientSpeakerCreatePayload", handleSpeakerCreation)
         registerClassHandler("ClientSpeakerDestroyPayload", handleSpeakerDestroy)
     }
-
 }
