@@ -10,6 +10,10 @@ public class PacketClientDestroyMedia extends AbstractPacket {
         super(new ClientDestroyMediaPayload(soundId, deleteSpecial, fadeTime), PacketChannel.CLIENT_OUT_DESTROY_MEDIA, null);
     }
 
+    public PacketClientDestroyMedia(String soundId, boolean deleteSpecial) {
+        super(new ClientDestroyMediaPayload(soundId, deleteSpecial, 250), PacketChannel.CLIENT_OUT_DESTROY_MEDIA, null);
+    }
+
     public PacketClientDestroyMedia(String soundId, int fadeTime) {
         super(new ClientDestroyMediaPayload(soundId, false, fadeTime), PacketChannel.CLIENT_OUT_DESTROY_MEDIA, null);
     }
