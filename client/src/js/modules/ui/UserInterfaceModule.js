@@ -1,5 +1,3 @@
-import {strictlyShowCard} from "../../helpers/utils/StaticFunctions";
-
 export class UserInterfaceModule {
 
     constructor(oa) {

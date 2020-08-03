@@ -20,8 +20,6 @@ export class SocketModule {
 
         this.state = "loading";
 
-        // fetch relay
-
         this.authHeader = "" +
             "type=client&" +
             "n=" + main.tokenSet.name + "&" +

@@ -85,7 +85,6 @@ export class OpenAudioMc extends Getters {
         }
 
         this.mediaManager.postBoot();
-        // window.history.pushState('Logged In Openaudio Client', 'Logged In Openaudio Client', '/#connected');
     }
 
     sendError(message) {
