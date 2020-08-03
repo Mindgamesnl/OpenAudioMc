@@ -6,12 +6,14 @@ import com.craftmend.openaudiomc.generic.networking.payloads.client.media.Client
 
 public class PacketClientDestroyMedia extends AbstractPacket {
 
+    public static final int DEFAULT_FADE_TIME = 250;
+
     public PacketClientDestroyMedia(String soundId, boolean deleteSpecial, int fadeTime) {
         super(new ClientDestroyMediaPayload(soundId, deleteSpecial, fadeTime), PacketChannel.CLIENT_OUT_DESTROY_MEDIA, null);
     }
 
     public PacketClientDestroyMedia(String soundId, boolean deleteSpecial) {
-        super(new ClientDestroyMediaPayload(soundId, deleteSpecial, 250), PacketChannel.CLIENT_OUT_DESTROY_MEDIA, null);
+        super(new ClientDestroyMediaPayload(soundId, deleteSpecial, DEFAULT_FADE_TIME), PacketChannel.CLIENT_OUT_DESTROY_MEDIA, null);
     }
 
     public PacketClientDestroyMedia(String soundId, int fadeTime) {
@@ -19,7 +21,7 @@ public class PacketClientDestroyMedia extends AbstractPacket {
     }
 
     public PacketClientDestroyMedia(String soundId) {
-        super(new ClientDestroyMediaPayload(soundId, false, 250), PacketChannel.CLIENT_OUT_DESTROY_MEDIA, null);
+        super(new ClientDestroyMediaPayload(soundId, false, DEFAULT_FADE_TIME), PacketChannel.CLIENT_OUT_DESTROY_MEDIA, null);
     }
 
 }
