@@ -4,6 +4,7 @@ import ClientTokenSet from "../libs/ClientTokenSet";
 import {fetch} from "../../../libs/github.fetch";
 import {ReportError} from "../protocol/ErrorReporter";
 import {API_ENDPOINT} from "../protocol/ApiEndpoints";
+import {strictlyShowCard, UiCards} from "../../modules/ui/UserInterfaceModule";
 
 let openAudioMc = null;
 
@@ -31,7 +32,7 @@ export function linkBootListeners() {
         .then(tokenSet => {
             console.log(tokenSet)
             if (tokenSet == null) {
-                strictlyShowCard("bad-auth-card");
+                strictlyShowCard(UiCards.BAD_AUTH);
                 ReportError("A faulty login attempt was done at " + window.location.host,"Steve");
                 return;
             }
@@ -64,14 +65,4 @@ export function linkBootListeners() {
             window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/network_error.html";
         });
 
-}
-
-export function strictlyShowCard(id) {
-    let elements = document.querySelectorAll('[data-type=card]');
-
-    for (let element of elements) {
-        element.style.display = "none";
-    }
-
-    document.getElementById(id).style.display = "";
 }
