@@ -53,19 +53,19 @@ export class MediaManager {
         this.openAudioMc.debugPrint("starting to quit fade " + soundId)
         let time = transition;
         if (time == null) {
-            time = 250;
+            time = 500;
         }
         if (instantly) time = 0;
 
         for (let channel of this.mixer.getChannels()) {
             if (all) {
-                channel.fadeChannel(0, time * 5, () => {
+                channel.fadeChannel(0, time, () => {
                     this.mixer.removeChannel(channel);
                 });
             } else {
                 if (soundId == null || soundId === "") {
                     if ((!channel.hasTag("SPECIAL") && !channel.hasTag("REGION") && !channel.hasTag("SPEAKER"))) {
-                        channel.fadeChannel(0, time * 5, () => {
+                        channel.fadeChannel(0, time, () => {
                             this.mixer.removeChannel(channel);
                         });
                     }

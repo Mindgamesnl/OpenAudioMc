@@ -1194,16 +1194,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     pe.prototype.destroySounds = function destroySounds(e, t, i, n) {
       var _this13 = this;
 
-      this.openAudioMc.debugPrint("starting to quit fade " + e);var o = n;null == o && (o = 250), i && (o = 0);var _iteratorNormalCompletion12 = true;
+      this.openAudioMc.debugPrint("starting to quit fade " + e);var o = n;null == o && (o = 500), i && (o = 0);var _iteratorNormalCompletion12 = true;
       var _didIteratorError12 = false;
       var _iteratorError12 = undefined;
 
       try {
         var _loop = function _loop() {
           var i = _step12.value;
-          t ? i.fadeChannel(0, 5 * o, function () {
+          t ? i.fadeChannel(0, o, function () {
             _this13.mixer.removeChannel(i);
-          }) : null == e || "" === e ? i.hasTag("SPECIAL") || i.hasTag("REGION") || i.hasTag("SPEAKER") || i.fadeChannel(0, 5 * o, function () {
+          }) : null == e || "" === e ? i.hasTag("SPECIAL") || i.hasTag("REGION") || i.hasTag("SPEAKER") || i.fadeChannel(0, o, function () {
             _this13.mixer.removeChannel(i);
           }) : i.hasTag(e) && (i.sounds.forEach(function (e) {
             e.gotShutDown = !0;
