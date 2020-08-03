@@ -45,7 +45,7 @@ public class RegionHandler implements ITickableHandler {
 
             leftRegions.forEach(exited -> {
                 if (!containsRegion(takeOverMedia, exited)) {
-                    OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(exited.getMedia().getMediaId()));
+                    OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(exited.getMedia().getMediaId(), exited.getProperties().getFadeTimeMs()));
                 }
             });
 
