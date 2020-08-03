@@ -1,6 +1,6 @@
 import {TimeService} from "./modules/socket/TimeService";
 import {Messages} from "./modules/ui/Messages";
-import {UserInterfaceModule} from "./modules/ui/UserInterfaceModule";
+import {UiCards, UserInterfaceModule} from "./modules/ui/UserInterfaceModule";
 import {HueModule} from "./modules/hue/HueModule";
 import {MediaManager} from "./modules/media/MediaManager";
 import {SocketModule} from "./modules/socket/SocketModule";
@@ -32,7 +32,7 @@ export class OpenAudioMc extends Getters {
         this.tokenSet = new ClientTokenSet().fromCache();
 
         if (this.tokenSet == null) {
-            strictlyShowCard("bad-auth-card");
+            strictlyShowCard(UiCards.BAD_AUTH);
             return;
         }
 
@@ -53,7 +53,7 @@ export class OpenAudioMc extends Getters {
                 this.host = res.host;
                 this.background = res.background;
                 this.ambianceSound = res.ambianceSound;
-                strictlyShowCard("welcome-card");
+                strictlyShowCard(UiCards.WELCOME);
             })
             .catch((error) => {
                 console.error("Exception thrown", error.stack);

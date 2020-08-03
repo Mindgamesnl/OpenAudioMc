@@ -1,5 +1,6 @@
 import {strictlyShowCard} from "../../helpers/utils/StaticFunctions";
 import ClientTokenSet from "../../helpers/libs/ClientTokenSet";
+import {UiCards} from "../ui/UserInterfaceModule";
 
 export class SocketModule {
 
@@ -13,14 +14,9 @@ export class SocketModule {
 
         if (new ClientTokenSet().fromCache() == null) {
             console.log("Empty authentication")
-            strictlyShowCard("kicked-card")
+            strictlyShowCard(UiCards.BAD_AUTH)
             return;
         }
-
-        main.debugPrint("Username: " + main.tokenSet.name);
-        main.debugPrint("Player uuid: " + main.tokenSet.uuid);
-        main.debugPrint("Server uuid: " + main.tokenSet.publicServerKey);
-        main.debugPrint("Token: " + main.tokenSet.token);
 
         this.state = "loading";
 
@@ -32,8 +28,6 @@ export class SocketModule {
             "player=" + main.tokenSet.uuid + "&" +
             "s=" + main.tokenSet.publicServerKey + "&" +
             "p=" + main.tokenSet.token;
-
-        main.debugPrint(this.authHeader);
 
         const that = this;
         this.socket = io(host, {query: that.authHeader, autoConnect: false});
@@ -62,7 +56,7 @@ export class SocketModule {
 
             main.voiceModule.handleSocketClosed();
 
-            strictlyShowCard("bad-auth-card")
+            strictlyShowCard(UiCards.BAD_AUTH)
 
             setTimeout(() => {
                 main.getMediaManager().sounds = {};

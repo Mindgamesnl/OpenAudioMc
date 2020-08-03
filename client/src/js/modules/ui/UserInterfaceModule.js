@@ -56,13 +56,30 @@ export class UserInterfaceModule {
     }
 
     openApp() {
-        strictlyShowCard("main-card")
+        strictlyShowCard(UiCards.MAIN_UI)
         this.openAudioMc.userInterfaceModule.setMessage(this.openAudioMc.messages.welcomeMessage);
     }
 
     kickScreen(message) {
-        strictlyShowCard("kicked-card")
+        strictlyShowCard(UiCards.KICKED)
         document.getElementById("kick-message").innerHTML = message;
     }
 
+}
+
+export function strictlyShowCard(id) {
+    let elements = document.querySelectorAll('[data-type=card]');
+
+    for (let element of elements) {
+        element.style.display = "none";
+    }
+
+    document.getElementById(id).style.display = "";
+}
+
+export const UiCards = {
+    BAD_AUTH: "bad-auth-card",
+    WELCOME: "welcome-card",
+    KICKED: "kicked-card",
+    MAIN_UI: "main-card",
 }
