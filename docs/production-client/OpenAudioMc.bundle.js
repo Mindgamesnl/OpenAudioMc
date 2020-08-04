@@ -2519,8 +2519,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       _classCallCheck(this, yt);
 
-      this.id = "SPEAKER__" + t, this.openAudioMc = e, this.speakerNodes = new Map();var n = new ie(this.id);n.trackable = !0, this.channel = n;var o = new de(t);this.media = o, o.openAudioMc = e, o.setOa(e), n.mixer = this.openAudioMc.getMediaManager().mixer, n.addSound(o), this.media.setVolume(0), n.setChannelVolume(0), o.startDate(i, !0), o.finalize().then(function () {
-        e.getMediaManager().mixer.addChannel(n), n.fadeChannel(100, 100), o.setLooping(!0), n.setTag(_this37.id), n.setTag("SPECIAL"), _this37.openAudioMc.getMediaManager().mixer.updateCurrent(), o.startDate(i, !0), o.finish();
+      this.id = "SPEAKER__" + t, this.openAudioMc = e, this.speakerNodes = new Map();var n = new ie(this.id);n.trackable = !0, this.channel = n;var o = new de(t);this.media = o, o.openAudioMc = e, o.setOa(e), n.mixer = this.openAudioMc.getMediaManager().mixer, n.addSound(o), n.setChannelVolume(0), o.startDate(i, !0), o.finalize().then(function () {
+        e.getMediaManager().mixer.addChannel(n), o.setLooping(!0), n.setTag(_this37.id), n.setTag("SPECIAL"), _this37.openAudioMc.getMediaManager().mixer.updateCurrent(), o.startDate(i, !0), o.finish();
       });
     }
 

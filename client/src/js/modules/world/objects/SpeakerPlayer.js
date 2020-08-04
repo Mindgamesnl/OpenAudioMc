@@ -20,13 +20,11 @@ export class SpeakerPlayer {
         createdMedia.setOa(openAudioMc);
         createdChannel.mixer = this.openAudioMc.getMediaManager().mixer;
         createdChannel.addSound(createdMedia);
-        this.media.setVolume(0);
         createdChannel.setChannelVolume(0);
         createdMedia.startDate(startInstant, true);
 
         createdMedia.finalize().then(() => {
             openAudioMc.getMediaManager().mixer.addChannel(createdChannel);
-            createdChannel.fadeChannel(100, 100);
             createdMedia.setLooping(true);
             createdChannel.setTag(this.id);
             createdChannel.setTag("SPECIAL");
