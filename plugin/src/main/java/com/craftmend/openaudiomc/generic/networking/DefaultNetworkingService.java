@@ -78,7 +78,7 @@ public class DefaultNetworkingService extends NetworkingService {
      */
     @Override
     public void connectIfDown() {
-        socketIoConnector.setupConnection();
+        OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> socketIoConnector.setupConnection());
     }
 
     /**

@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.payloads.AcknowledgeClientPayload;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
+import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.responses.LoginResponse;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.AssigningRelayState;
@@ -41,6 +42,8 @@ public class SocketIoConnector {
 
     public void setupConnection() {
         if (!OpenAudioMc.getInstance().getStateService().getCurrentState().canConnect()) return;
+        // update state
+        OpenAudioMc.getInstance().getStateService().setState(new AssigningRelayState());
 
         if (!registeredLogout) {
             plusHandler = new RestRequest(RestEndpoint.PLUS_LOGIN);
@@ -61,9 +64,6 @@ public class SocketIoConnector {
         opts.callFactory = okHttpClient;
         opts.reconnection = false;
         opts.webSocketFactory = okHttpClient;
-
-        // update state
-        OpenAudioMc.getInstance().getStateService().setState(new AssigningRelayState());
 
         // load keys
         String privateKey = OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue();
@@ -87,47 +87,46 @@ public class SocketIoConnector {
 
         Instant request = Instant.now();
 
-        plusHandler.executeAsync()
-                .thenAccept(response -> {
-                    if (!response.getErrors().isEmpty()) {
-                        OpenAudioMc.getInstance().getStateService().setState(new IdleState("Failed to do the initial handshake. Error: " + response.getErrors().get(0).getCode()));
-                        OpenAudioLogger.toConsole("Failed to get relay host.");
-                        OpenAudioLogger.toConsole(" - message: " + response.getErrors().get(0).getMessage());
-                        OpenAudioLogger.toConsole(" - code: " + response.getErrors().get(0).getCode());
-                        try {
-                            throw new IOException("Failed to get relay! see console for error information");
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        return;
-                    }
+        ApiResponse response = plusHandler.executeInThread();
 
-                    LoginResponse loginResponse = response.getResponse(LoginResponse.class);
-                    Instant finish = Instant.now();
-                    OpenAudioLogger.toConsole("Assigned relay: " + loginResponse.getAssignedOpenAudioServer().getInsecureEndpoint() + " request took " + Duration.between(request, finish).toMillis() + "MS");
+        if (!response.getErrors().isEmpty()) {
+            OpenAudioMc.getInstance().getStateService().setState(new IdleState("Failed to do the initial handshake. Error: " + response.getErrors().get(0).getCode()));
+            OpenAudioLogger.toConsole("Failed to get relay host.");
+            OpenAudioLogger.toConsole(" - message: " + response.getErrors().get(0).getMessage());
+            OpenAudioLogger.toConsole(" - code: " + response.getErrors().get(0).getCode());
+            try {
+                throw new IOException("Failed to get relay! see console for error information");
+            } catch (IOException e) {
+                e.printStackTrace(); 
+            }
+            return;
+        }
 
-                    // setup socketio connection
-                    try {
-                        socket = IO.socket(loginResponse.getAssignedOpenAudioServer().getInsecureEndpoint(), opts);
-                    } catch (URISyntaxException e) {
-                        e.printStackTrace();
-                    }
+        LoginResponse loginResponse = response.getResponse(LoginResponse.class);
+        Instant finish = Instant.now();
+        OpenAudioLogger.toConsole("Assigned relay: " + loginResponse.getAssignedOpenAudioServer().getInsecureEndpoint() + " request took " + Duration.between(request, finish).toMillis() + "MS");
 
-                    // register state to be connecting
-                    OpenAudioMc.getInstance().getStateService().setState(new ConnectingState());
+        // setup socketio connection
+        try {
+            socket = IO.socket(loginResponse.getAssignedOpenAudioServer().getInsecureEndpoint(), opts);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
 
-                    // schedule timeout check
-                    OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(() -> {
-                        if (OpenAudioMc.getInstance().getStateService().getCurrentState() instanceof ConnectingState) {
-                            OpenAudioLogger.toConsole("Connecting timed out.");
-                            OpenAudioMc.getInstance().getStateService().setState(new IdleState("Connecting to the relay timed out (socket)"));
-                        }
-                    }, 20 * 35);
+        // register state to be connecting
+        OpenAudioMc.getInstance().getStateService().setState(new ConnectingState());
 
-                    // attempt to setup
-                    registerEvents();
-                    socket.connect();
-                });
+        // schedule timeout check
+        OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(() -> {
+            if (OpenAudioMc.getInstance().getStateService().getCurrentState() instanceof ConnectingState) {
+                OpenAudioLogger.toConsole("Connecting timed out.");
+                OpenAudioMc.getInstance().getStateService().setState(new IdleState("Connecting to the relay timed out (socket)"));
+            }
+        }, 20 * 35);
+
+        // attempt to setup
+        registerEvents();
+        socket.connect();
     }
 
     private void registerEvents() {
