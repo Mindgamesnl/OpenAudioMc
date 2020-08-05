@@ -2532,7 +2532,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       if (e.type == ft) {
         var _n5 = e.getDistance(t, i),
             _o3 = this._convertDistanceToVolume(e.maxDistance, _n5);if (0 > _o3) return;this.channel.fadeChannel(_o3, 100);
-      } else this.speakerNodes.has(e.id) || this.speakerNodes.set(e.id, new gt(e, t, i, this.media));
+      } else this.speakerNodes.has(e.id) || (this.channel.fadeChannel(100, 100), this.speakerNodes.set(e.id, new gt(e, t, i, this.media)));
     };
 
     yt.prototype._convertDistanceToVolume = function _convertDistanceToVolume(e, t) {
