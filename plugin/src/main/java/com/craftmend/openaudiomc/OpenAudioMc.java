@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc;
 
-import com.craftmend.openaudiomc.api.AudioApi;
+import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.core.interfaces.OpenAudioInvoker;
