@@ -9,8 +9,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Region implements IRegion {
 
-    private String id;
-    private RegionProperties regionProperties;
+    private final String id;
+    private final RegionProperties regionProperties;
 
     @Override
     public Media getMedia() {
@@ -43,5 +43,16 @@ public class Region implements IRegion {
     public int getVolume() {
         return regionProperties.getVolume();
     }
+
+    @Override
+    public void setFadeTime(int fadeTime) {
+        regionProperties.setFadeTimeMs(fadeTime);
+    }
+
+    @Override
+    public int getFadeTime() {
+        return regionProperties.getFadeTimeMs();
+    }
+
 
 }

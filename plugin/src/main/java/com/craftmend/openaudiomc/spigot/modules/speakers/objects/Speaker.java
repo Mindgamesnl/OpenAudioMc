@@ -9,10 +9,10 @@ import java.util.UUID;
 
 public class Speaker {
 
-    @Getter private String source;
-    @Getter private UUID id;
+    @Getter private final String source;
+    @Getter private final UUID id;
     @Setter @Getter private int radius;
-    @Getter private MappedLocation location;
+    @Getter private final MappedLocation location;
     @Setter @Getter private SpeakerType speakerType;
     @Getter @Setter private boolean validated = false;
 

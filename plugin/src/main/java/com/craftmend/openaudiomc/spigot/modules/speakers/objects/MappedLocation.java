@@ -34,4 +34,8 @@ public class MappedLocation {
         return null;
     }
 
+    public static MappedLocation fromBukkit(Location location) {
+        return new MappedLocation(location.getBlockX(), location.getBlockY(), location.getBlockZ(), location.getWorld().getName());
+    }
+
 }

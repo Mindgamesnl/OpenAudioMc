@@ -1,9 +1,9 @@
 package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.interfaces.Client;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.generic.cards.objects.Card;
-import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.packets.client.card.PacketClientCreateCard;
@@ -29,24 +29,22 @@ import com.ikeirnez.pluginmessageframework.PacketPlayer;
 import lombok.Getter;
 import lombok.Setter;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 
-public class ClientConnection implements Authenticatable {
+public class ClientConnection implements Authenticatable, Client {
 
     // ongoing sounds
-    @Getter private List<Media> ongoingMedia = new ArrayList<>();
-    @Getter private MixTracker mixTracker;
-    @Getter private Map<String, String> thirdPartyValues = new HashMap<>();
+    @Getter private final List<Media> ongoingMedia = new ArrayList<>();
+    @Getter private final MixTracker mixTracker;
+    @Getter private final Map<String, String> thirdPartyValues = new HashMap<>();
+    @Getter @Setter private int apiSpeakers = 0;
 
     // session info
-    private Publisher sessionPublisher;
+    private final Publisher sessionPublisher;
     private boolean isConnected = false;
     @Getter private PlayerSession session;
     @Setter @Getter private Card card = null;
@@ -55,13 +53,12 @@ public class ClientConnection implements Authenticatable {
     @Getter @Setter private boolean hasHueLinked = false;
 
     // player implementation
-    @Getter
-    private PlayerContainer player;
+    @Getter private final PlayerContainer player;
     private Instant lastConnectPrompt = Instant.now();
 
     // on connect and disconnect handlers
-    private List<Runnable> connectHandlers = new ArrayList<>();
-    private List<Runnable> disconnectHandlers = new ArrayList<>();
+    private final List<Runnable> connectHandlers = new ArrayList<>();
+    private final List<Runnable> disconnectHandlers = new ArrayList<>();
 
     public ClientConnection(PlayerContainer playerContainer) {
         this.player = playerContainer;
@@ -78,7 +75,7 @@ public class ClientConnection implements Authenticatable {
     }
 
     public void publishUrl() {
-        sessionPublisher.publishUrl();
+        sessionPublisher.startClientSession();
     }
 
     @Override
@@ -126,6 +123,7 @@ public class ClientConnection implements Authenticatable {
     public void onDisconnect() {
         if (!isConnected) return;
         sessionUpdated = true;
+        apiSpeakers = 0;
         this.isConnected = false;
         disconnectHandlers.forEach(event -> event.run());
         OpenAudioMc.getInstance().getPlusService().getConnectionManager().removeSessionIfPresent(this);
@@ -250,7 +248,34 @@ public class ClientConnection implements Authenticatable {
         }
     }
 
+    @Override
     public boolean isConnected() {
         return getIsConnected();
+    }
+
+    @Override
+    public Publisher getPublisher() {
+        return sessionPublisher;
+    }
+
+    @Override
+    public boolean hasSmartLights() {
+        // implement other lights than hue on the client?
+        return hasHueLinked;
+    }
+
+    @Override
+    public Map<String, String> getKeyValue() {
+        return thirdPartyValues;
+    }
+
+    @Override
+    public void onConnect(Runnable runnable) {
+        addOnConnectHandler(runnable);
+    }
+
+    @Override
+    public void onDisconnect(Runnable runnable) {
+        addOnDisconnectHandler(runnable);
     }
 }

@@ -20,9 +20,9 @@ import static com.craftmend.openaudiomc.generic.platform.Platform.translateColor
 @AllArgsConstructor
 public class Publisher {
     
-    private ClientConnection clientConnection;
+    private final ClientConnection clientConnection;
 
-    public void publishUrl() {
+    public void startClientSession() {
         OpenAudioMc openAudioMc = OpenAudioMc.getInstance();
         ConfigurationImplementation config = openAudioMc.getConfiguration();
         

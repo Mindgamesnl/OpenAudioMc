@@ -57,7 +57,7 @@ public class SpeakerHandler implements ITickableHandler {
         spigotConnection.setCurrentSpeakers(applicableSpeakers);
 
         // update location if the client is listening to something
-        if (!applicableSpeakers.isEmpty()) {
+        if (!applicableSpeakers.isEmpty() || spigotConnection.getClientConnection().getApiSpeakers() > 0) {
             Location location = player.getLocation();
             ClientPlayerLocationPayload locationPayload = new ClientPlayerLocationPayload(
                     round(location.getX(), 1),
