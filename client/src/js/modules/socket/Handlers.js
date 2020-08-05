@@ -15,11 +15,7 @@ import {handleSpeakerDestroy} from "./handlers/HandleSpeakerDestroy";
 export class Handlers {
 
     constructor(openAudioMc) {
-        function registerClassHandler(channel, handlerFunction) {
-            openAudioMc.socketModule.registerHandler(channel, (data) => {
-                handlerFunction(openAudioMc, data);
-            });
-        }
+        function registerClassHandler(channel, handlerFunction) {openAudioMc.socketModule.registerHandler(channel, (data) => handlerFunction(openAudioMc, data));}
 
         registerClassHandler("ClientCreateMediaPayload", handleCreateMedia);
         registerClassHandler("ClientDestroyCardPayload", handleDestroyPanel);
