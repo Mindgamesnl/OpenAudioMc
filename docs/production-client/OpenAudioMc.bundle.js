@@ -2510,7 +2510,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   var gt = function gt(e, t, i, n) {
     _classCallCheck(this, gt);
 
-    this.pannerNode = i.audioCtx.createPanner(), this.media = n, n.addNode(i, this.pannerNode), this.pannerNode.panningModel = "HRTF", this.pannerNode.maxDistance = e.maxDistance, this.pannerNode.rolloffFactor = .9, this.pannerNode.distanceModel = "linear";var o = e.location;new dt(o).applyTo(this.pannerNode), this.gainNode = i.audioCtx.createGain(), this.gainNode.gain.value = 1.5, this.pannerNode.connect(this.gainNode), this.gainNode.connect(i.audioCtx.destination);
+    this.pannerNode = i.audioCtx.createPanner(), this.media = n, n.addNode(i, this.pannerNode), this.pannerNode.panningModel = "HRTF", this.pannerNode.maxDistance = e.maxDistance, this.pannerNode.rolloffFactor = .9, this.pannerNode.distanceModel = "linear";var o = e.location;new dt(o).applyTo(this.pannerNode), this.gainNode = i.audioCtx.createGain(), this.gainNode.gain.value = 1.2, this.pannerNode.connect(this.gainNode), this.gainNode.connect(i.audioCtx.destination);
   };
 
   var yt = function () {
