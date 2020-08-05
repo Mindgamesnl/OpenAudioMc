@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
-public class DefaultApi implements OpenAudioMcApi {
+public class DefaultApi implements AudioApi {
 
     private final OpenAudioMc pluginInstance;
     private final WorldApiImpl worldApi = new WorldApiImpl();

@@ -1,6 +1,5 @@
 package com.craftmend.openaudiomc;
 
-import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.core.interfaces.OpenAudioInvoker;
@@ -105,9 +104,6 @@ public class OpenAudioMc {
         this.networkingService = serviceImplementation.getConstructor().newInstance();
         this.commandModule = new CommandModule(this);
         this.plusService = new PlusService(this);
-
-        // initialize AudioApi
-        AudioApi.boot(this);
     }
 
     public void disable() {

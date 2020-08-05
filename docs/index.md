@@ -28,6 +28,7 @@ How to use OpenAudioMc's features (with examples)
  
 # For experts
 If you want to go the extra mile
+- [Java API](java_api.md)
 - [OpenAudioMc partners](partners.md)
 - [Voice Chat/Calls](voicechat.md)
 - [Client hosting](client.md)
