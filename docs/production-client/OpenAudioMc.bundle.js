@@ -1530,7 +1530,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     function t(t, i) {
       e.socketModule.registerHandler(t, function (t) {
-        i(e, t);
+        return i(e, t);
       });
     }t("ClientCreateMediaPayload", b), t("ClientDestroyCardPayload", w), t("ClientUpdateCardPayload", E), t("ClientCreateCardPayload", k), t("NotificationPayload", A), t("ClientVersionPayload", x), t("ClientVolumePayload", C), t("ClientDestroyMediaPayload", _), t("HueColorPayload", T), t("ClientUpdateMediaPayload", B), t("ClientPlayerLocationPayload", I), t("ClientSpeakerCreatePayload", O), t("ClientSpeakerDestroyPayload", P);
   };
