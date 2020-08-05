@@ -1,8 +1,8 @@
 {
   "versioning": {
-    "version_tag": "6.3.4",
-    "version_importance": "&arecommended",
-    "version_update_message": "This update contains propper first party youtube support and some extra utilities."
+    "version_tag": "6.3.5",
+    "version_importance": "&2Highly recommended",
+    "version_update_message": "This update contains some important bug fixes, api methods and nice extra features."
   },
 
   "announcement": {
