@@ -1,10 +1,7 @@
 package com.craftmend.openaudiomc.api.impl;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.api.interfaces.Client;
-import com.craftmend.openaudiomc.api.interfaces.MediaApi;
-import com.craftmend.openaudiomc.api.interfaces.OpenAudioMcApi;
-import com.craftmend.openaudiomc.api.interfaces.WorldApi;
+import com.craftmend.openaudiomc.api.interfaces.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,6 +12,7 @@ public class DefaultApi implements OpenAudioMcApi {
     private final OpenAudioMc pluginInstance;
     private final WorldApiImpl worldApi = new WorldApiImpl();
     private final MediaApiImpl mediaApi = new MediaApiImpl();
+    private final RegistryApiImpl registryApi = new RegistryApiImpl();
 
     public DefaultApi(OpenAudioMc booted) {
         this.pluginInstance = booted;
@@ -38,5 +36,10 @@ public class DefaultApi implements OpenAudioMcApi {
     @Override
     public MediaApi getMediaApi() {
         return mediaApi;
+    }
+
+    @Override
+    public RegistryApi getRegistryApi() {
+        return registryApi;
     }
 }
