@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.AbstractRegionAdapter;
+import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.ApiRegion;
 import com.sk89q.worldguard.bukkit.WGBukkit;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.Bukkit;
@@ -15,6 +16,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class LegacyRegionAdapter extends AbstractRegionAdapter {
 
@@ -24,14 +26,17 @@ public class LegacyRegionAdapter extends AbstractRegionAdapter {
     private boolean usePriority = OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_USE_WG_PRIORITY);
 
     @Override
-    public Set<ProtectedRegion> getRegionsAtLocation(Location location) {
+    public Set<ApiRegion> getRegionsAtLocation(Location location) {
 
-        Set<ProtectedRegion> regions = WGBukkit.getRegionManager(location.getWorld()).getApplicableRegions(location).getRegions();
+        Set<ApiRegion> regions = WGBukkit.getRegionManager(location.getWorld())
+                .getApplicableRegions(location)
+                .getRegions().stream()
+                .map(ApiRegion::wrapWorldGuard)
+                .collect(Collectors.toSet());
 
         int highestPriority = 0;
-        ProtectedRegion highestRegion = null;
 
-        return prioritySort(regions, highestPriority, highestRegion, usePriority);
+        return prioritySort(regions, highestPriority, usePriority);
     }
 
     @Override

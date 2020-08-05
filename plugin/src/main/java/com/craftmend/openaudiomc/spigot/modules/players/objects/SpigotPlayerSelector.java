@@ -74,7 +74,7 @@ public class SpigotPlayerSelector {
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         regionModule.getRegionAdapter()
                                 .getRegionsAtLocation(player.getLocation(standPoint)).forEach(region -> {
-                            if (region.getId().equalsIgnoreCase(targetRegion)) {
+                            if (region.getName().equalsIgnoreCase(targetRegion)) {
                                 players.add(player);
                             }
                         });

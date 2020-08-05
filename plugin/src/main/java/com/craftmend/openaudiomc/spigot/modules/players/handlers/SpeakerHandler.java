@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.spigot.modules.players.handlers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.api.interfaces.Client;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.packets.client.speakers.PacketClientCreateSpeaker;
 import com.craftmend.openaudiomc.generic.networking.packets.client.speakers.PacketClientRemoveSpeaker;
@@ -27,9 +29,10 @@ import java.util.List;
 @AllArgsConstructor
 public class SpeakerHandler implements ITickableHandler {
 
-    private Player player;
-    private SpigotConnection spigotConnection;
+    private final Player player;
+    private final SpigotConnection spigotConnection;
     private final List<AbstractPacket> packetQue = new ArrayList<>();
+    private final AudioApi audioApi = AudioApi.getInstance();
 
     /**
      * update speakers based on the players location
@@ -41,6 +44,7 @@ public class SpeakerHandler implements ITickableHandler {
         enteredSpeakers.removeIf(speaker -> containsSpeaker(spigotConnection.getSpeakers(), speaker));
         List<ApplicableSpeaker> leftSpeakers = new ArrayList<>(spigotConnection.getSpeakers());
         leftSpeakers.removeIf(speaker -> containsSpeaker(applicableSpeakers, speaker));
+        Client client = spigotConnection.getClientConnection();
 
         enteredSpeakers.forEach(entered -> {
             if (!isPlayingSpeaker(entered)) {
@@ -50,8 +54,7 @@ public class SpeakerHandler implements ITickableHandler {
 
         // send deletion packets
         leftSpeakers.forEach(left -> {
-            ClientSpeaker clientSpeaker = toClientSpeaker(left);
-            OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientRemoveSpeaker(new ClientSpeakerDestroyPayload(clientSpeaker)));
+            audioApi.getMediaApi().stopSpatialSound(client, left.getSpeaker().getId().toString());
         });
 
         spigotConnection.setCurrentSpeakers(applicableSpeakers);

@@ -4,6 +4,8 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.interfaces.WorldApi;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
+import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.AbstractRegionAdapter;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
@@ -13,6 +15,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 
 public class WorldApiImpl implements WorldApi {
+
+    @Override
+    public void setRegionHandler(AbstractRegionAdapter regionHandler) {
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) throw new IllegalStateException("This method is only available in a SPIGOT server.");
+        OpenAudioMcSpigot.getInstance().setRegionModule(new RegionModule(OpenAudioMcSpigot.getInstance(), regionHandler));
+    }
 
     @Override
     public Collection<IRegion> getApplicableRegions(Location location) {
