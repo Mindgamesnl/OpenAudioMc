@@ -36,4 +36,11 @@ public interface OpenAudioMcApi {
      */
     MediaApi getMediaApi();
 
+
+    /**
+     * Get the registry API instance, used to hook into openaudio
+     * on a low level
+     * @return Registry api instance
+     */
+    RegistryApi getRegistryApi();
 }
