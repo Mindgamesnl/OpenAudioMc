@@ -28,6 +28,9 @@ Go stand in one (or more) regions with sound, and execute
 ```
 This will open a GUI with all the regions on your current location, you can choose one to edit and change its volume. Volume changes get saved and stay after a restart.
 
+# Region fading
+Regions have a default cross fade time of 1 second (1000MS), you can change the fade time per region in the same menu where you can change its volume.
+
 # Temporary regions
 You can also make temporary regions, which are useful for shows etc.
 Temporary regions function just like regions, except that they disappear after a some time and synchronize based on when they were created. This is very use full for systems like shows, where you want users to join later on.
