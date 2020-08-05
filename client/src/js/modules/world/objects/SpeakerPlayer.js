@@ -52,6 +52,7 @@ export class SpeakerPlayer {
             this.channel.fadeChannel(volume, 100);
         } else {
             if (!this.speakerNodes.has(closest.id)) {
+                this.channel.fadeChannel(100, 100);
                 this.speakerNodes.set(closest.id, new SpeakerRenderNode(
                     closest, world, player, this.media
                 ));
