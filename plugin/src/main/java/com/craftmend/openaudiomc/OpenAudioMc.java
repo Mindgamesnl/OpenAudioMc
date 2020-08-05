@@ -78,7 +78,7 @@ public class OpenAudioMc {
     private boolean isDisabled = false;
     private final Class<? extends NetworkingService> serviceImplementation;
 
-    @Getter private static final OpenAudioApi api = new OpenAudioApi();
+    @Deprecated @Getter private static final OpenAudioApi api = new OpenAudioApi();
     @Getter private static OpenAudioMc instance;
     @Getter private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(AbstractPacketPayload.class, new AbstractPacketAdapter())

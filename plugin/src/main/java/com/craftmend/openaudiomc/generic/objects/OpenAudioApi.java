@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Deprecated
 public class OpenAudioApi {
 
     /**
@@ -24,6 +25,7 @@ public class OpenAudioApi {
      * @param uuid Get the client based on Mojang UUID
      * @return instance of ClientConnection
      */
+    @Deprecated
     public ClientConnection getClient(UUID uuid) {
         return OpenAudioMc.getInstance().getNetworkingService().getClient(uuid);
     }
@@ -35,6 +37,7 @@ public class OpenAudioApi {
      * @param host The starting part of an url. Example: https://soundcloud.com/
      * @param urlMutation Your UrlMutation implementation
      */
+    @Deprecated
     public void registerMutation(String host, UrlMutation urlMutation) {
         OpenAudioMc.getInstance().getMediaModule().registerMutation(host, urlMutation);
     }
@@ -44,6 +47,7 @@ public class OpenAudioApi {
      *
      * @param subCommand your sub command
      */
+    @Deprecated
     public void registerAddonCommand(SubCommand subCommand) {
         OpenAudioMc.getInstance().getCommandModule().registerSubCommand(subCommand);
     }
@@ -55,6 +59,7 @@ public class OpenAudioApi {
      * @param location the location
      * @return A list of openaudiomc regions
      */
+    @Deprecated
     public List<IRegion> getRegion(Location location) {
         if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) throw new IllegalStateException("Region modification is only for spigot plugins");
         if (OpenAudioMcSpigot.getInstance().getRegionModule() == null) return new ArrayList<>();
@@ -68,6 +73,7 @@ public class OpenAudioApi {
      * @param location the location
      * @return Speaker
      */
+    @Deprecated
     public Speaker getSpeaker(Location location) {
         if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) throw new IllegalStateException("Speaker modification is only for spigot plugins");
         return OpenAudioMcSpigot.getInstance().getSpeakerModule().getSpeaker(new MappedLocation(location));
@@ -79,6 +85,7 @@ public class OpenAudioApi {
      * @param player
      * @return the session
      */
+    @Deprecated
     public PlayerSession getSession(UUID player) {
         return getClient(player).getSession();
     }
