@@ -14,6 +14,8 @@ import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 
 import lombok.Getter;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.*;
 
 public class RegionModule {
@@ -23,15 +25,19 @@ public class RegionModule {
     private Map<String, RegionMedia> regionMediaMap = new HashMap<>();
     @Getter private AbstractRegionAdapter regionAdapter;
 
-    public RegionModule(OpenAudioMcSpigot openAudioMcSpigot) {
+    public RegionModule(OpenAudioMcSpigot openAudioMcSpigot, @Nullable AbstractRegionAdapter customAdapter) {
         OpenAudioLogger.toConsole("Turns out you have WorldGuard installed! enabling regions and the region tasks..");
 
-        if (openAudioMcSpigot.getServerService().getVersion() == ServerVersion.MODERN) {
-            OpenAudioLogger.toConsole("Enabling the newer 1.13 regions");
-            regionAdapter = new ModernRegionAdapter(this);
+        if (customAdapter == null) {
+            if (openAudioMcSpigot.getServerService().getVersion() == ServerVersion.MODERN) {
+                OpenAudioLogger.toConsole("Enabling the newer 1.13 regions");
+                regionAdapter = new ModernRegionAdapter(this);
+            } else {
+                OpenAudioLogger.toConsole("Unknown version. Falling back to the 1.8 to 1.12 region implementation.");
+                regionAdapter = new LegacyRegionAdapter(this);
+            }
         } else {
-            OpenAudioLogger.toConsole("Unknown version. Falling back to the 1.8 to 1.12 region implementation.");
-            regionAdapter = new LegacyRegionAdapter(this);
+            this.regionAdapter = customAdapter;
         }
 
         //validate detection

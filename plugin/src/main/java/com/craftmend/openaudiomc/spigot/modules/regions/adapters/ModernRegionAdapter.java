@@ -4,8 +4,10 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.AbstractRegionAdapter;
+import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.ApiRegion;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.bukkit.WGBukkit;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
@@ -19,6 +21,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ModernRegionAdapter extends AbstractRegionAdapter {
 
@@ -28,16 +31,18 @@ public class ModernRegionAdapter extends AbstractRegionAdapter {
     private boolean usePriority = OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_USE_WG_PRIORITY);
 
     @Override
-    public Set<ProtectedRegion> getRegionsAtLocation(Location location) {
+    public Set<ApiRegion> getRegionsAtLocation(Location location) {
         RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
         RegionQuery query = container.createQuery();
         ApplicableRegionSet set = query.getApplicableRegions(BukkitAdapter.adapt(location));
 
         int highestPriority = 0;
-        ProtectedRegion highestRegion = null;
-        Set<ProtectedRegion> regions = new HashSet<>(set.getRegions());
+        Set<ApiRegion> regions = set.getRegions()
+                .stream()
+                .map(ApiRegion::wrapWorldGuard)
+                .collect(Collectors.toSet());
 
-        return prioritySort(regions, highestPriority, highestRegion, usePriority);
+        return prioritySort(regions, highestPriority, usePriority);
     }
 
     @Override

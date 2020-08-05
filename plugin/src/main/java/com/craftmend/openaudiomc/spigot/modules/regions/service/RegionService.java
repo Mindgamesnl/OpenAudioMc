@@ -9,10 +9,10 @@ import org.bukkit.plugin.Plugin;
 @AllArgsConstructor
 public class RegionService implements DependencyHandler {
 
-    private OpenAudioMcSpigot spigot;
+    private final OpenAudioMcSpigot spigot;
 
     @Override
     public void onLoad(String pluginName, Plugin plugin) {
-        spigot.setRegionModule(new RegionModule(spigot));
+        spigot.setRegionModule(new RegionModule(spigot, null));
     }
 }

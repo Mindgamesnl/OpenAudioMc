@@ -16,27 +16,28 @@ public abstract class AbstractRegionAdapter {
         this.regionModule = regionModule;
     }
 
-    public abstract Set<ProtectedRegion> getRegionsAtLocation(Location location);
+    public abstract Set<ApiRegion> getRegionsAtLocation(Location location);
     public abstract boolean doesRegionExist(String name);
 
     public List<IRegion> getAudioRegions(Location location) {
         List<IRegion> regions = new ArrayList<>();
         int prio = 0;
-        for (ProtectedRegion r : getRegionsAtLocation(location)) {
-            if (regionModule.getRegionPropertiesMap().get(r.getId()) == null) continue;
+        for (ApiRegion r : getRegionsAtLocation(location)) {
+            if (regionModule.getRegionPropertiesMap().get(r.getName()) == null) continue;
             if (r.getPriority() > prio) {
                 prio = r.getPriority();
                 regions.clear();
             }
-            regions.add(new Region(r.getId(), regionModule.getRegionPropertiesMap().get(r.getId())));
+            regions.add(new Region(r.getName(), regionModule.getRegionPropertiesMap().get(r.getName())));
         }
         return regions;
     }
 
     @NotNull
-    protected Set<ProtectedRegion> prioritySort(Set<ProtectedRegion> regions, int highestPriority, ProtectedRegion highestRegion, boolean usePriority) {
+    protected Set<ApiRegion> prioritySort(Set<ApiRegion> regions, int highestPriority, boolean usePriority) {
+        ApiRegion highestRegion = null;
         if (usePriority) {
-            for (ProtectedRegion region : regions) {
+            for (ApiRegion region : regions) {
                 if (region.getPriority() != 0) {
                     if (region.getPriority() > highestPriority) {
                         highestPriority = region.getPriority();
