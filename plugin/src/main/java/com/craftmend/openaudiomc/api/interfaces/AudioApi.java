@@ -1,8 +1,7 @@
-package com.craftmend.openaudiomc.api;
+package com.craftmend.openaudiomc.api.interfaces;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.DefaultApi;
-import com.craftmend.openaudiomc.api.interfaces.OpenAudioMcApi;
 import lombok.Getter;
 
 public class AudioApi {
