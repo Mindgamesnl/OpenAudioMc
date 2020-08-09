@@ -1635,7 +1635,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       var _this18 = this;
 
       return new Promise(function (t, i) {
-        _this18.tokenSet = new he().fromCache(), y(_this18.host + "/api/v1/client/login/" + _this18.tokenSet.publicServerKey).then(function (n) {
+        _this18.tokenSet = new he().fromCache(), y("https://cloud.openaudiomc.net/api/v2/account-services/client/login/" + _this18.tokenSet.publicServerKey).then(function (n) {
           n.json().then(function (n) {
             function o(e, t) {
               var i = e.replace("#", "");return "rgba(" + parseInt(i.substring(0, 2), 16) + "," + parseInt(i.substring(2, 4), 16) + "," + parseInt(i.substring(4, 6), 16) + "," + t / 100 + ")";
