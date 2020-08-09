@@ -370,9 +370,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         o = new ve(i.id, i.source, n, i.type, i.maxDistance, i.startInstant, e);e.world.addSpeaker(i.id, o);
   }function P(e, t) {
     var i = t.clientSpeaker;e.world.removeSpeaker(i.id);
-  }function R(e, t) {
+  }function R(e, t, i) {
     y(ue.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: t, message: e }) }).then(function (e) {
-      e.json().then(function (e) {
+      null != i && i(), e.json().then(function (e) {
         console.log("Reported error. Reponse was: " + JSON.stringify(e));
       });
     }).catch(function () {
@@ -1639,8 +1639,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           n.json().then(function (n) {
             function o(e, t) {
               var i = e.replace("#", "");return "rgba(" + parseInt(i.substring(0, 2), 16) + "," + parseInt(i.substring(2, 4), 16) + "," + parseInt(i.substring(4, 6), 16) + "," + t / 100 + ")";
-            }if (null == n.errors || 0 != n.errors.length) return i(n.errors), void console.log(n.errors);var s = n.response;if (s.banned) return R("Declined connection due to ban " + window.location.host, "Steve"), void (window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/blocked_domain.html");var r = s.secureEndpoint,
-                a = s.ambianceSound;null == r && (r = s.insecureEndpoint), console.log("[OpenAudioMc] accepting and applying settings"), e.debugPrint("Updating settings..."), null != s.backgroundImage && "" != s.backgroundImage && (s.backgroundImage = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + s.backgroundImage);var l = s.backgroundImage;"" !== l && (document.getElementById("banner-image").src = l);var u = s.title,
+            }if (null == n.errors || 0 != n.errors.length) return i(n.errors), void console.log(n.errors);var s = n.response;if (s.banned) return void R("Declined connection due to ban " + window.location.host, "Steve", function () {
+              window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/blocked_domain.html";
+            });var r = s.secureEndpoint,
+                a = s.ambianceSound;null == r && (r = s.insecureEndpoint), console.log("[OpenAudioMc] accepting and applying settings"), e.debugPrint("Updating settings..."), null != s.backgroundImage && "" != s.backgroundImage && (s.backgroundImage = "https://media.openaudiomc.net/proxy?apiurl=" + s.backgroundImage);var l = s.backgroundImage;"" !== l && (document.getElementById("banner-image").src = l);var u = s.title,
                 h = s.clientWelcomeMessage,
                 c = s.clientErrorMessage;var d = "";S(c).childNodes.forEach(function (e) {
               d += e.outerHTML;
