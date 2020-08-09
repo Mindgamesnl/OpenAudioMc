@@ -30,8 +30,9 @@ export class SocketDirector {
                         let response = result.response;
 
                         if (response.banned) {
-                            ReportError("Declined connection due to ban " + window.location.host,"Steve");
-                            window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/blocked_domain.html";
+                            ReportError("Declined connection due to ban " + window.location.host,"Steve", function () {
+                                window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/blocked_domain.html";
+                            })
                             return;
                         }
 
@@ -50,7 +51,7 @@ export class SocketDirector {
 
                         openAudioMc.debugPrint("Updating settings...");
                         if (response.backgroundImage != null &&  response.backgroundImage != "") {
-                            response.backgroundImage = "https://dark-mouse-53ea.craftmend.workers.dev/corsproxy/?apiurl=" + response.backgroundImage;
+                            response.backgroundImage = "https://media.openaudiomc.net/proxy?apiurl=" + response.backgroundImage;
                         }
                         const background = response.backgroundImage;
 
