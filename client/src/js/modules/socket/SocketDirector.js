@@ -15,7 +15,7 @@ export class SocketDirector {
             // cors workaround
             this.tokenSet = new ClientTokenSet().fromCache();
 
-            fetch(this.host + '/api/v1/client/login/' + this.tokenSet.publicServerKey )
+            fetch('https://cloud.openaudiomc.net/api/v2/account-services/client/login/' + this.tokenSet.publicServerKey )
 
                 .then(function (response) {
                     response.json().then(result => {
