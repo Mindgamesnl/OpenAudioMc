@@ -7,7 +7,7 @@ public enum RestEndpoint {
 
     GITHUB_VERSION_CHECK("https://raw.githubusercontent.com/Mindgamesnl/OpenAudioMc/master/plugin/protocol/static-resources/project_status.json", false),
     PLUS_REGISTER("https://plus.openaudiomc.net/api/v1/servers/register", false),
-    PLUS_LOGIN("https://plus.openaudiomc.net/api/v1/servers/login/_private_key_", true),
+    PLUS_LOGIN("https://cloud.openaudiomc.net/api/v2/plugin/login/_private_key_", true),
     PLUS_LOGOUT("https://plus.openaudiomc.net/api/v1/servers/logout/_private_key_", true),
     PLUS_GEN_SESSION("https://plus.openaudiomc.net/api/v1/servers/createlogin", false),
     PLUS_GET_SETTINGS("https://cloud.openaudiomc.net/api/v2/account-services/settings/_public_key_", true),

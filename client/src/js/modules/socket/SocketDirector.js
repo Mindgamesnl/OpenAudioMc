@@ -43,9 +43,6 @@ export class SocketDirector {
                         let relayHost = response.secureEndpoint;
                         let ambianceSound = response.ambianceSound;
 
-                        // indeed null? then fallback to 0
-                        if (relayHost == null) relayHost = response.insecureEndpoint;
-
                         // complete the promise with the resulted url
                         console.log("[OpenAudioMc] accepting and applying settings")
 

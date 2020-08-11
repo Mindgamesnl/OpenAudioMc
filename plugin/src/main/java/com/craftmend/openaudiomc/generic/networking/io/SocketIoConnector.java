@@ -104,7 +104,8 @@ public class SocketIoConnector {
 
         LoginResponse loginResponse = response.getResponse(LoginResponse.class);
         Instant finish = Instant.now();
-        OpenAudioLogger.toConsole("Assigned relay: " + loginResponse.getAssignedOpenAudioServer().getInsecureEndpoint() + " request took " + Duration.between(request, finish).toMillis() + "MS");
+        System.out.println(OpenAudioMc.getGson().toJson(loginResponse));
+        OpenAudioLogger.toConsole("Assigned relay: " + loginResponse.getAssignedOpenAudioServer().getSecureEndpoint() + " request took " + Duration.between(request, finish).toMillis() + "MS");
 
         // setup socketio connection
         try {
