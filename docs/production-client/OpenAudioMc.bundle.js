@@ -1252,7 +1252,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       _classCallCheck(this, fe);
 
-      if (this.handlers = {}, this.openAudioMc = e, this.callbacksEnabled = !1, this.supportsYoutube = !1, this.hasConnected = !1, this.outgoingQueue = [], null == new he().fromCache()) return console.log("Empty authentication"), void n($.BAD_AUTH);this.state = "loading", this.authHeader = "type=client&n=" + e.tokenSet.name + "&player=" + e.tokenSet.uuid + "&s=" + e.tokenSet.publicServerKey + "&p=" + e.tokenSet.token;var i = this;this.socket = io(t, { query: i.authHeader, autoConnect: !1 }), this.socket.on("connect", function () {
+      if (this.handlers = {}, this.openAudioMc = e, this.callbacksEnabled = !1, this.supportsYoutube = !1, this.hasConnected = !1, this.outgoingQueue = [], null == new he().fromCache()) return console.log("Empty authentication"), void n($.BAD_AUTH);this.state = "loading", this.authHeader = "type=client&n=" + e.tokenSet.name + "&player=" + e.tokenSet.uuid + "&s=" + e.tokenSet.publicServerKey + "&p=" + e.tokenSet.token;var i = this;console.log("Using engine-io flag withCredentials:false"), this.socket = io(t, { query: i.authHeader, autoConnect: !1, withCredentials: !1 }), this.socket.on("connect", function () {
         e.userInterfaceModule.openApp(), e.socketModule.state = "ok", _this14.hasConnected = !0, _this14.outgoingQueue.forEach(function (e) {
           _this14.send(e.key, e.value);
         });
@@ -1642,7 +1642,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             }if (null == n.errors || 0 != n.errors.length) return i(n.errors), void console.log(n.errors);var s = n.response;if (s.banned) return void R("Declined connection due to ban " + window.location.host, "Steve", function () {
               window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/blocked_domain.html";
             });var r = s.secureEndpoint,
-                a = s.ambianceSound;null == r && (r = s.insecureEndpoint), console.log("[OpenAudioMc] accepting and applying settings"), e.debugPrint("Updating settings..."), null != s.backgroundImage && "" != s.backgroundImage && (s.backgroundImage = "https://media.openaudiomc.net/proxy?apiurl=" + s.backgroundImage);var l = s.backgroundImage;"" !== l && (document.getElementById("banner-image").src = l);var u = s.title,
+                a = s.ambianceSound;console.log("[OpenAudioMc] accepting and applying settings"), e.debugPrint("Updating settings..."), null != s.backgroundImage && "" != s.backgroundImage && (s.backgroundImage = "https://media.openaudiomc.net/proxy?apiurl=" + s.backgroundImage);var l = s.backgroundImage;"" !== l && (document.getElementById("banner-image").src = l);var u = s.title,
                 h = s.clientWelcomeMessage,
                 c = s.clientErrorMessage;var d = "";S(c).childNodes.forEach(function (e) {
               d += e.outerHTML;

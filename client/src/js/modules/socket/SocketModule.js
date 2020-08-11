@@ -27,7 +27,7 @@ export class SocketModule {
             "p=" + main.tokenSet.token;
 
         const that = this;
-        this.socket = io(host, {query: that.authHeader, autoConnect: false});
+        this.socket = io(host, {query: that.authHeader, autoConnect: false, withCredentials: false});
 
         this.socket.on("connect", () => {
             main.userInterfaceModule.openApp();
