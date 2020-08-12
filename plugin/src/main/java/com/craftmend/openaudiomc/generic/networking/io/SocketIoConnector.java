@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.generic.networking.io;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.networking.certificate.CertificateHelper;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
@@ -58,7 +59,7 @@ public class SocketIoConnector {
 
         ProxySelector.setDefault(new NullProxySelector());
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().proxySelector(new NullProxySelector()).build();
+        OkHttpClient okHttpClient = CertificateHelper.ignore(new OkHttpClient.Builder().proxySelector(new NullProxySelector())).build();
 
         IO.Options opts = new IO.Options();
         opts.callFactory = okHttpClient;
