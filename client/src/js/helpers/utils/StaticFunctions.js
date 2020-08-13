@@ -40,7 +40,7 @@ export function linkBootListeners() {
             // can we find a name? let's put it as a welcome text!
             // makes the experience a bit more personal
             if (tokenSet != null && tokenSet.name != null) {
-                document.getElementById("top-head").src = "https://minotar.net/avatar/" + tokenSet.name;
+                document.getElementById("top-head").src = "https://minotar.net/helm/" + tokenSet.name;
                 document.getElementById("in-game-name").innerText = tokenSet.name;
                 openAudioMc = new OpenAudioMc();
             }

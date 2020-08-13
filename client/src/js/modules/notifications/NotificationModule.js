@@ -34,7 +34,7 @@ export class NotificationModule {
     sendNotification(title, body) {
         new Notification(title, {
             body,
-            icon: "https://minotar.net/avatar/" + this.main.tokenSet.name
+            icon: "https://minotar.net/helm/" + this.main.tokenSet.name
         });
     }
 

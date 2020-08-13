@@ -14,7 +14,7 @@ export class UserCard extends AlertBox {
         this.isMuted = false;
         this.member = member;
 
-        let content = '<img class="call-box" src="https://minotar.net/avatar/' + username + '" />';
+        let content = '<img class="call-box" src="https://minotar.net/helm/' + username + '" />';
         content += '<div class="call-content" id="user-box-content-'+username+'">';
         content += '<div style="text-align: center;"><p>(loading)</p></div>';
         content += "</div>";
