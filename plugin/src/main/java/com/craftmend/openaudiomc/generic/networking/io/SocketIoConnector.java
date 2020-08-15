@@ -3,25 +3,21 @@ package com.craftmend.openaudiomc.generic.networking.io;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.certificate.CertificateHelper;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.drivers.ClientDriver;
 import com.craftmend.openaudiomc.generic.networking.drivers.SystemDriver;
+import com.craftmend.openaudiomc.generic.networking.drivers.VoiceChatDriver;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.SocketDriver;
-import com.craftmend.openaudiomc.generic.networking.payloads.AcknowledgeClientPayload;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.responses.LoginResponse;
-import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.AssigningRelayState;
 import com.craftmend.openaudiomc.generic.state.states.ConnectedState;
 import com.craftmend.openaudiomc.generic.state.states.ConnectingState;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
-import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
 
-import io.socket.client.Ack;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 
@@ -34,7 +30,6 @@ import java.net.ProxySelector;
 import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 public class SocketIoConnector {
@@ -45,8 +40,9 @@ public class SocketIoConnector {
     private boolean registeredLogout = false;
 
     private final SocketDriver[] drivers = new SocketDriver[]{
-            new ClientDriver(),
             new SystemDriver(),
+            new ClientDriver(),
+            new VoiceChatDriver(),
     };
 
     public void setupConnection() {
@@ -106,7 +102,7 @@ public class SocketIoConnector {
             try {
                 throw new IOException("Failed to get relay! see console for error information");
             } catch (IOException e) {
-                e.printStackTrace(); 
+                e.printStackTrace();
             }
             return;
         }

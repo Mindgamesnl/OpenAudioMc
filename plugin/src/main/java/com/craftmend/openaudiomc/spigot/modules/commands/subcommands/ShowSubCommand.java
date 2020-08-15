@@ -4,9 +4,8 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
-import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
-import com.craftmend.openaudiomc.generic.networking.rest.data.RestErrorType;
+import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.voicechat.api.util.Task;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -87,8 +86,8 @@ public class ShowSubCommand extends SubCommand {
             sender.sendMessage(ChatColor.GRAY + "" + ChatColor.ITALIC + "Hold on while we process your show...");
 
             Task<ShowUploadResponse> uploadTask = openAudioMcSpigot.getShowModule().uploadShow(show, connection);
-            uploadTask.setWhenFails(error -> {
-                if (error == RestErrorType.REQUEST_TOO_BIG) {
+            uploadTask.setWhenFails((error, fuckyou) -> {
+                if (error == ErrorCode.REQUEST_TOO_BIG) {
                     sender.sendMessage(ChatColor.RED + "I don't know how, but you got your showfile to be almost a gigabyte and therefor got declined by the server. Meaning that you can't open this show in the web editor. Sorry!");
                 } else {
                     sender.sendMessage(ChatColor.RED + "An unexpected error occurred, code: " + error.toString());

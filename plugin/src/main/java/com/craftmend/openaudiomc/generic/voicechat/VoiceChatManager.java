@@ -4,7 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.data.RestErrorResponse;
-import com.craftmend.openaudiomc.generic.networking.rest.data.RestErrorType;
+import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.voicechat.api.body.VoiceRoomCreatedBody;
@@ -41,7 +41,7 @@ public class  VoiceChatManager implements VoiceManagerImplementation {
         // validate room size
         int size = members.size();
         if (size <2 || size > OpenAudioMc.getInstance().getGlobalConstantService().getProjectStatus().getConfiguration().getMaxVoiceRoomSize()) {
-            task.fail(RestErrorType.BAD_REQUEST);
+            task.fail(ErrorCode.BAD_REQUEST);
             return task;
         }
 

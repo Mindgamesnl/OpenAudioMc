@@ -94,7 +94,6 @@ public class OpenAudioMc {
         this.cleanStartup = !this.invoker.hasPlayersOnline();
         this.taskProvider = invoker.getTaskProvider();
         this.configuration = invoker.getConfigurationProvider();
-        this.voiceManager = invoker.getVoiceImplementation();
         this.authenticationService.initialize();
         globalConstantService = new GlobalConstantService();
 
@@ -102,6 +101,7 @@ public class OpenAudioMc {
 
         this.redisService = new RedisService(this.configuration);
         this.networkingService = serviceImplementation.getConstructor().newInstance();
+        this.voiceManager = invoker.getVoiceImplementation();
         this.commandModule = new CommandModule(this);
         this.plusService = new PlusService(this);
     }
