@@ -1,0 +1,14 @@
+{
+  "voice": {
+    "maxRoomSize": 2,
+    "maxRoomsPerServer": 15,
+    "waitTillFirstActivity": 120,
+    "maxRoomIdleTime": 120
+  },
+
+  "messages": {
+    "outOfResources": "Action blocked because the server doesn't have the resources for another call.",
+    "roomTooBig": "Action blocked because it'll exceed the maximum room size. Learn more about room sizes at https://mindgamesnl.github.io/OpenAudioMc/voicechat.html",
+    "tooManyRooms": "Action blocked because this server already reached the room limit. Learn more about room limits at https://mindgamesnl.github.io/OpenAudioMc/voicechat.html"
+  }
+}

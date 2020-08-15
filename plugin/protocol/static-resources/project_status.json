@@ -12,8 +12,6 @@
 
   "configuration": {
     "production_backend": "https://plus.openaudiomc.net/api",
-    "development_backend": "http://localhost/api",
-    "max_voice_room_size": 4,
-    "call_timeout": 25
+    "development_backend": "http://localhost/api"
   }
 }
