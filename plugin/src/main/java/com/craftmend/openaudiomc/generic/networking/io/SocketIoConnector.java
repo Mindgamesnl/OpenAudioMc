@@ -5,7 +5,10 @@ import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.certificate.CertificateHelper;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
+import com.craftmend.openaudiomc.generic.networking.drivers.ClientDriver;
+import com.craftmend.openaudiomc.generic.networking.drivers.SystemDriver;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
+import com.craftmend.openaudiomc.generic.networking.interfaces.SocketDriver;
 import com.craftmend.openaudiomc.generic.networking.payloads.AcknowledgeClientPayload;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
@@ -40,6 +43,11 @@ public class SocketIoConnector {
     private RestRequest plusHandler;
     private RestRequest logoutHandler;
     private boolean registeredLogout = false;
+
+    private final SocketDriver[] drivers = new SocketDriver[]{
+            new ClientDriver(),
+            new SystemDriver(),
+    };
 
     public void setupConnection() {
         if (!OpenAudioMc.getInstance().getStateService().getCurrentState().canConnect()) return;
@@ -125,80 +133,12 @@ public class SocketIoConnector {
             }
         }, 20 * 35);
 
-        // attempt to setup
-        registerEvents();
+
+        // register drivers
+        for (SocketDriver driver : drivers) {
+            driver.boot(socket);
+        }
         socket.connect();
-    }
-
-    private void registerEvents() {
-        socket.on(Socket.EVENT_CONNECT, args -> {
-            // connected with success
-            OpenAudioMc.getInstance().getStateService().setState(new ConnectedState());
-        });
-
-        socket.on(Socket.EVENT_DISCONNECT, args -> {
-            // disconnected, probably with a reason or something
-            OpenAudioMc.getInstance().getStateService().setState(new IdleState("Disconnected from the socket"));
-
-            String message = Platform.translateColors(OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.MESSAGE_LINK_EXPIRED));
-            for (ClientConnection client : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
-                if (client.isWaitingToken()) {
-                    client.getPlayer().sendMessage(message);
-                    client.setWaitingToken(false);
-                }
-                if (client.isConnected()) {
-                    client.onDisconnect();
-                }
-            }
-        });
-
-        socket.on(Socket.EVENT_CONNECT_TIMEOUT, args -> {
-            // failed to connect
-            OpenAudioMc.getInstance().getStateService().setState(new IdleState("Connecting timed out, something wrong with the api, network or token?"));
-        });
-
-        socket.on("time-update", args -> {
-            String[] data = ((String) args[args.length - 1]).split(":");
-            long timeStamp = Long.parseLong(data[0]);
-            long offset = Long.parseLong(data[1]);
-            OpenAudioMc.getInstance().getTimeService().pushServerUpdate(timeStamp, offset);
-        });
-
-        socket.on("acknowledgeClient", args -> {
-            AcknowledgeClientPayload payload = (AcknowledgeClientPayload) OpenAudioMc.getGson().fromJson(
-                    args[0].toString(),
-                    AbstractPacket.class
-            ).getData();
-
-            Authenticatable authenticatable = findSession(payload.getUuid());
-
-            Ack callback = (Ack) args[1];
-
-            if (authenticatable == null) {
-                callback.call(false);
-            } else if (authenticatable.isTokenCorrect(payload.getToken())) {
-                callback.call(true);
-                authenticatable.onConnect();
-            } else {
-                callback.call(false);
-            }
-        });
-
-        socket.on("data", args -> {
-            try {
-                AbstractPacket abstractPacket = OpenAudioMc.getGson().fromJson(args[0].toString(), AbstractPacket.class);
-                OpenAudioMc.getInstance().getNetworkingService().triggerPacket(abstractPacket);
-            } catch (Exception e) {
-                OpenAudioLogger.toConsole("An incoming packet was attempted to be parsed but failed horribly and it broke. Please update your plugin, of if this is already the latest version, let me know of this exception. The received data was: " + args[0].toString());
-                e.printStackTrace();
-            }
-        });
-    }
-
-    private Authenticatable findSession(UUID id) {
-        ClientConnection clientConnection = OpenAudioMc.getInstance().getNetworkingService().getClient(id);
-        if (clientConnection != null) return clientConnection;
-        return OpenAudioMc.getInstance().getPlusService().getConnectionManager().getBySessionId(id);
     }
 
     public void disconnect() {

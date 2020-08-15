@@ -8,14 +8,17 @@ public enum RestErrorType {
     NO_AUTH,            // bad authentication, or none at all
     NO_ACCOUNT,         // account does not match specification or was empty
     FEATURE_RESTRICTED, // this account is not allowed to use this feature (yet)
-    NO_ROOM,            // room does not exist or does not match the provided api key
     BAD_REQUEST,        // other essential data was nil or empty
-    ROOM_TOO_BIG,       // mutation will overwrite room size and got declined
     INVALID_ARGUMENT,   // I just don't understand what you mean
     INVALID_DATA,       // I understand what you mean, but no
     WTF,                // I don't know what, it just happened and exploded right in your face
     SERVER_OFFLINE,     // The server you tried to interact with is not registered
     SERVER_BANNED,      // Server has been banned due to TOS, client url setting contains a URL to the ban page with details
     REQUEST_TOO_BIG,    // The request (probably post body) is too big to be handled (likely due to cloudflare caching rules)
+
+    NO_ROOM,            // room does not exist or does not match the provided api key
+    ROOM_TOO_BIG,       // mutation will overwrite room size and got declined
+    TOO_MAY_ROOMS,      // you already have your maximum limit of active rooms
+    ACCESS_DENIED,      // your account is not allowed to do this
 
 }
