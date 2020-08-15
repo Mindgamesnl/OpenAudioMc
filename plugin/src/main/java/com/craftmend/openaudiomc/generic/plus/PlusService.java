@@ -2,7 +2,6 @@ package com.craftmend.openaudiomc.generic.plus;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.plus.enums.PlusAccessLevel;
-import com.craftmend.openaudiomc.generic.plus.object.FlagSet;
 import com.craftmend.openaudiomc.generic.plus.response.ClientSettingsResponse;
 import com.craftmend.openaudiomc.generic.plus.response.PlusLoginToken;
 import com.craftmend.openaudiomc.generic.plus.socket.PlusConnectionManager;
@@ -24,11 +23,9 @@ public class PlusService {
     @Getter private boolean plusEnabled;
     @Getter private PlusAccessLevel accessLevel;
     private OpenAudioMc openAudioMc;
-    @Getter private FlagSet flagSet;
 
     public PlusService(OpenAudioMc openAudioMc) {
         this.openAudioMc = openAudioMc;
-        this.flagSet = new FlagSet();
         getPlusSettings();
         playerStateStreamer = new PlayerStateStreamer(this, openAudioMc);
         accessLevel = PlusAccessLevel.valueOf(openAudioMc.getConfiguration().getString(StorageKey.SETTINGS_PLUS_ACCESS_LEVEL));
