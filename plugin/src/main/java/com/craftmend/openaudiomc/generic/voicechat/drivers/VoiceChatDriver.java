@@ -12,13 +12,19 @@ import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.voicechat.api.util.Task;
 import io.socket.client.Ack;
 import io.socket.client.Socket;
+import lombok.Getter;
 
 import java.util.UUID;
 
 public class VoiceChatDriver implements SocketDriver {
 
     private final OpenAudioMc openAudioMc = OpenAudioMc.getInstance();
+    @Getter private final VoiceChatDriver driverInstance;
     private Socket socket;
+
+    public VoiceChatDriver() {
+        driverInstance = this;
+    }
 
     @Override
     public void boot(Socket socket) {
@@ -30,7 +36,6 @@ public class VoiceChatDriver implements SocketDriver {
         if (!openAudioMc.getStateService().getCurrentState().isConnected()) {
             task.fail(ErrorCode.SYS_IDLE, "this action cannot be fulfilled when openaudiomc is in its idle state");
         } else {
-
             socket.emit("create-room", "", (Ack) args -> {
                 ApiResponse apiResponse = OpenAudioMc.getGson().fromJson(
                         args[0].toString(),
@@ -46,8 +51,6 @@ public class VoiceChatDriver implements SocketDriver {
 
                 task.success(apiResponse.getResponse(PlainUuidPayload.class).getUuid());
             });
-
-
         }
         return task;
     }
