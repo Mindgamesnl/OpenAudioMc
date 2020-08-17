@@ -319,7 +319,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   }function A(e, t) {
     var i = t.message;e.notificationModule.sendNotification(t.title, i), new ee("#alert-area", { closeTime: 3e4, persistent: !1, hideCloseButton: !1 }).show(t.title + "<hr />" + i);
   }function x(e, t) {
-    var i = parseInt(t.protocolRevision);console.log("[OpenAudioMc] Received PROTOCOL revision update"), 2 <= i && (console.log("[OpenAudioMc] PROTO rev => 2, enabling callbacks"), e.socketModule.callbacksEnabled = !0), 3 <= i && (console.log("[OpenAudioMc] PROTO rev => 3, enabling youtube callbacks"), e.socketModule.supportsYoutube = !0), 3 > i && (this.requestBox = new ee("#alert-area", { closeTime: 6e4, persistent: !1, hideCloseButton: !0 }), this.requestBox.show('<div style="text-align: center;"><b>Warning!</b> Your installation of OpenAudioMc seems to be pretty outdated. Please download the most recent version from Spigot and install it in your server.<br/><br/><a href="https://www.spigotmc.org/resources/openaudiomc-music-speakers-regions-bungeecord.30691/" class="alert-message-button">Download page</a></div>'));
+    var i = parseInt(t.protocolRevision);if (console.log("[OpenAudioMc] Received PROTOCOL revision update"), 2 <= i && (console.log("[OpenAudioMc] PROTO rev => 2, enabling callbacks"), e.socketModule.callbacksEnabled = !0), 3 <= i && (console.log("[OpenAudioMc] PROTO rev => 3, enabling youtube callbacks"), e.socketModule.supportsYoutube = !0), 3 > i) {
+      new ee("#alert-area", { closeTime: 6e4, persistent: !1, hideCloseButton: !0 }).show('<div style="text-align: center;"><b>Warning!</b> Your installation of OpenAudioMc seems to be pretty outdated. Please download the most recent version from Spigot and install it in your server.<br/><br/><a href="https://www.spigotmc.org/resources/openaudiomc-music-speakers-regions-bungeecord.30691/" class="alert-message-button">Download page</a></div>');
+    }
   }function C(e, t) {
     var i = t.volume;e.getMediaManager().setMasterVolume(i), document.getElementById("volume-slider").value = i;
   }function _(e, t) {
@@ -1252,7 +1254,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       _classCallCheck(this, fe);
 
-      if (this.handlers = {}, this.openAudioMc = e, this.callbacksEnabled = !1, this.supportsYoutube = !1, this.hasConnected = !1, this.outgoingQueue = [], null == new he().fromCache()) return console.log("Empty authentication"), void n($.BAD_AUTH);this.state = "loading", this.authHeader = "type=client&n=" + e.tokenSet.name + "&player=" + e.tokenSet.uuid + "&s=" + e.tokenSet.publicServerKey + "&p=" + e.tokenSet.token;var i = this;console.log("Using engine-io flag withCredentials:false"), this.socket = io(t, { query: i.authHeader, autoConnect: !1, withCredentials: !1 }), this.socket.on("connect", function () {
+      if (this.handlers = {}, this.openAudioMc = e, this.callbacksEnabled = !1, this.supportsYoutube = !1, this.hasConnected = !1, this.outgoingQueue = [], null == new he().fromCache()) return console.log("Empty authentication"), void n($.BAD_AUTH);this.state = "loading", this.authHeader = "type=client&n=" + e.tokenSet.name + "&player=" + e.tokenSet.uuid + "&s=" + e.tokenSet.publicServerKey + "&p=" + e.tokenSet.token;var i = this;this.socket = io(t, { query: i.authHeader, autoConnect: !1, withCredentials: !1 }), this.socket.on("connect", function () {
         e.userInterfaceModule.openApp(), e.socketModule.state = "ok", _this14.hasConnected = !0, _this14.outgoingQueue.forEach(function (e) {
           _this14.send(e.key, e.value);
         });
@@ -1674,7 +1676,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       _classCallCheck(this, ke);
 
-      (_this19 = _possibleConstructorReturn(this, _ee.call(this, "#call-members", { closeTime: 6e4, persistent: !0, hideCloseButton: !0 })), _this19), _this19.room = e, _this19.username = t, _this19.isMuted = !1, _this19.member = i;var n = '<img class="call-box" src="https://minotar.net/avatar/' + t + '" />';n += '<div class="call-content" id="user-box-content-' + t + '">', n += '<div style="text-align: center;"><p>(loading)</p></div>', n += "</div>", _this19.show(n, !0), _this19.setUsernameAsContent(), document.getElementById("user-box-content-" + _this19.username).onmouseenter = function () {
+      (_this19 = _possibleConstructorReturn(this, _ee.call(this, "#call-members", { closeTime: 6e4, persistent: !0, hideCloseButton: !0 })), _this19), _this19.room = e, _this19.username = t, _this19.isMuted = !1, _this19.member = i;var n = '<img class="call-box" src="https://minotar.net/helm/' + t + '" />';n += '<div class="call-content" id="user-box-content-' + t + '">', n += '<div style="text-align: center;"><p>(loading)</p></div>', n += "</div>", _this19.show(n, !0), _this19.setUsernameAsContent(), document.getElementById("user-box-content-" + _this19.username).onmouseenter = function () {
         _this19.setStateAsContent();
       }, document.getElementById("user-box-content-" + _this19.username).onmouseout = function () {
         _this19.setUsernameAsContent();
@@ -2416,7 +2418,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     at.prototype.sendNotification = function sendNotification(e, t) {
-      new Notification(e, { body: t, icon: "https://minotar.net/avatar/" + this.main.tokenSet.name });
+      new Notification(e, { body: t, icon: "https://minotar.net/helm/" + this.main.tokenSet.name });
     };
 
     at.prototype.requestNotificationPermissions = function requestNotificationPermissions() {
@@ -2759,7 +2761,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
   window.onload = function () {
     if (navigator.vendor && -1 < navigator.vendor.indexOf("Apple") && navigator.userAgent && -1 == navigator.userAgent.indexOf("CriOS") && -1 == navigator.userAgent.indexOf("FxiOS")) return void (window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/browsers.html");new he().initialize().then(function (e) {
-      return console.log(e), null == e ? (n($.BAD_AUTH), void R("A faulty login attempt was done at " + window.location.host, "Steve")) : (null != e && null != e.name && (document.getElementById("top-head").src = "https://minotar.net/avatar/" + e.name, document.getElementById("in-game-name").innerText = e.name, ut = new wt()), document.body.addEventListener("click", W), void y(ue.SERVER_STATUS + e.name).then(function (e) {
+      return console.log(e), null == e ? (n($.BAD_AUTH), void R("A faulty login attempt was done at " + window.location.host, "Steve")) : (null != e && null != e.name && (document.getElementById("top-head").src = "https://minotar.net/helm/" + e.name, document.getElementById("in-game-name").innerText = e.name, ut = new wt()), document.body.addEventListener("click", W), void y(ue.SERVER_STATUS + e.name).then(function (e) {
         e.json().then(function (e) {
           e.offline ? (console.log("Redirecting because network error"), window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/network_error.html") : console.log("Server status:" + JSON.stringify(e));
         });
