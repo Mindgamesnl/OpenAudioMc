@@ -20,7 +20,7 @@
 <header>
 
     <div data-page="content-card" style="height: 100%;">
-        <nav class="header-nav container flex-container">
+        <nav class="header-nav container flex-container ">
             <img style="margin-left: 10px; border-radius: 15px" id="top-head" src="assets/logo.png"
                  class="logo">
         </nav>
@@ -29,8 +29,8 @@
         </figure>
 
         <div class="alert-area" id="alert-area"></div>
-        <div class="header-description container" style="height: 100%;">
-            <div style="text-align: center;">
+        <div class="header-description container" style="height: 100%; width: 100%;position: absolute;">
+            <div style="text-align: center; height: 100%; width: 100%; position: absolute;" class="">
                 <!-- main activity -->
                 <div style="display: none" data-type="card" id="main-card">
                     <h2 class="header-title">Hey there <span id="in-game-name"></span> &#128075;</h2>
@@ -39,7 +39,7 @@
                         actions. You can manually change your volume here, or in game using <small><b>/volume
                         (volume)</b></small>
                     </p>
-                    <div style="text-align: center; margin-top: 7%;">
+                    <div style="text-align: center;">
                         <input id="volume-slider" type="range" min="0" max="100" value="20" style="width: 80%">
                         <p id="volume-disp" style="margin-text-outline: 10px;">20%</p>
                     </div>
@@ -114,30 +114,27 @@
                 <!-- welcome activity message -->
                 <div style="display: none;" id="welcome-card" data-type="card">
                     <h4 class="header-title" id="initialize-text">Welcome to OpenAudioMc</h4>
-                    <br/>
                     <button class="button" id="initialize-button">
                         Click here to connect to the audio client
                     </button>
                 </div>
 
                 <!-- loading message -->
-                <div style="padding-top: 7%" data-type="card">
+                <div data-type="card">
                     <h4 class="header-title">Loading..</h4>
                     <p>Please wait while the web-app attempts to log you in, this won't take long.</p>
                 </div>
 
                 <!-- disconected message -->
-                <div style="padding-top: 10%; display: none;" data-type="card" id="kicked-card">
+                <div style="display: none;" data-type="card" id="kicked-card">
                     <h4 class="header-title">Lost connection</h4>
-                    <br/>
                     <p id="kick-message">The audio client is only available for players who are online in the
                         server.<br/>Use <small><b>/audio</b></small> to obtain a URL</p>
                 </div>
 
                 <!-- loading message -->
-                <div style="padding-top: 10%; display: none;" data-type="card" id="bad-auth-card">
+                <div style="display: none; " data-type="card" id="bad-auth-card">
                     <h4 class="header-title">Are you lost?</h4>
-                    <br/>
                     <p>The audio client is only available for players who are online in the server.<br/>Use
                         <small><b>/audio</b></small>
                         to obtain a URL</p>
