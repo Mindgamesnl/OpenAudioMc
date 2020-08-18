@@ -30,7 +30,7 @@ export class AudioSourceProcessor {
             }
             if (source.includes("https://drive.google.com/")) {
                 source = source.split("file/d/")[1];
-                source = source.split("/view")[0];
+                source = AUDIO_ENDPOINTS.DRIVE_PROXY + source.split("/view")[0];
             }
 
             // handle youtube proxy, if peeps are interested in that but don't know how to
