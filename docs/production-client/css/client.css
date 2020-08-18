@@ -189,6 +189,10 @@ p{
         object-position: 50% 100%;
     }
 
+    .tinytop {
+        top: 0px;
+    }
+
     /* CONTAINERS STYLES */
     .container{
         padding: 2em;
