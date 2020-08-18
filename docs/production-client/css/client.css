@@ -51,6 +51,11 @@ img{
     object-position: 50% 80%;
     width: 100%;
 }
+
+.header-nav-container {
+    position: absolute;
+}
+
 p{
     color: var(--gray-color);
     font-size: .875em;
@@ -189,8 +194,19 @@ p{
         padding: 2em;
     }
 
+    [data-type*="card"] {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .optional-grid {
+        display: grid;
+    }
+
     /* HEADER NAV */
     .header-nav{
+        position: absolute;
         flex-direction: row;
         justify-content: space-between;
         width: 11%;
@@ -218,7 +234,6 @@ p{
         width: 55vw;
     }
     .header-description{
-        margin: 6em 3em 0;
         max-width: 50vw;
     }
     .header-title{
