@@ -55,6 +55,7 @@ public class ClientConnection implements Authenticatable, Client {
     // player implementation
     @Getter private final PlayerContainer player;
     private Instant lastConnectPrompt = Instant.now();
+    private final Instant sessionCreated = Instant.now();
 
     // on connect and disconnect handlers
     private final List<Runnable> connectHandlers = new ArrayList<>();

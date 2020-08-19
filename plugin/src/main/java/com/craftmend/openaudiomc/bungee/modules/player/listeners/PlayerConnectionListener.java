@@ -33,17 +33,19 @@ public class PlayerConnectionListener implements Listener {
         ClientConnection connection = OpenAudioMc.getInstance().getNetworkingService().getClient(event.getPlayer().getUniqueId());
         OpenAudioMc.getInstance().getNetworkingService().send(connection, new PacketClientDestroyMedia(null, true));
 
-        ProxiedPlayer player = event.getPlayer();
-        PacketPlayer packetPlayer = new PacketPlayer(player);
-        if (connection.isHasHueLinked()) {
-            sendPacket(packetPlayer, new ClientSyncHueStatePacket(player.getUniqueId()));
-        }
+        OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(() -> {
+            ProxiedPlayer player = event.getPlayer();
+            PacketPlayer packetPlayer = new PacketPlayer(player);
+            if (connection.isHasHueLinked()) {
+                sendPacket(packetPlayer, new ClientSyncHueStatePacket(player.getUniqueId()));
+            }
 
-        if (connection.isConnected()) {
-            sendPacket(packetPlayer, new ClientConnectedPacket(player.getUniqueId()));
-        } else {
-            sendPacket(packetPlayer, new ClientDisconnectedPacket(player.getUniqueId()));
-        }
+            if (connection.isConnected()) {
+                sendPacket(packetPlayer, new ClientConnectedPacket(player.getUniqueId()));
+            } else {
+                sendPacket(packetPlayer, new ClientDisconnectedPacket(player.getUniqueId()));
+            }
+        }, 20 * 2);
     }
 
     private void sendPacket(PacketPlayer packetPlayer, StandardPacket packet){
