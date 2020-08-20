@@ -138,7 +138,9 @@ public class SocketIoConnector {
     }
 
     public void disconnect() {
+        logoutHandler.executeAsync();
         this.socket.disconnect();
+        OpenAudioMc.getInstance().getStateService().setState(new IdleState());
     }
 
     public void send(Authenticatable client, AbstractPacket packet) {
