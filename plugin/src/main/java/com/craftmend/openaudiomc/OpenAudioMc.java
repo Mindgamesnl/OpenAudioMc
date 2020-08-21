@@ -89,10 +89,10 @@ public class OpenAudioMc {
     public OpenAudioMc(OpenAudioInvoker invoker) throws Exception {
         instance = this;
         this.platform = invoker.getPlatform();
+        this.taskProvider = invoker.getTaskProvider();
         this.serviceImplementation = invoker.getServiceClass();
         this.invoker = invoker;
         this.cleanStartup = !this.invoker.hasPlayersOnline();
-        this.taskProvider = invoker.getTaskProvider();
         this.configuration = invoker.getConfigurationProvider();
         this.authenticationService.initialize();
         globalConstantService = new GlobalConstantService();

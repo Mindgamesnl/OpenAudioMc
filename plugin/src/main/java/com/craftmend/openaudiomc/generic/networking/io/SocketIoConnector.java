@@ -21,6 +21,7 @@ import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import okhttp3.OkHttpClient;
@@ -30,14 +31,16 @@ import java.net.ProxySelector;
 import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 public class SocketIoConnector {
 
     private Socket socket;
-    private RestRequest plusHandler;
+    @Getter private RestRequest plusHandler;
     private RestRequest logoutHandler;
     private boolean registeredLogout = false;
+    @Getter private UUID lastUsedRelay = UUID.randomUUID();
 
     private final SocketDriver[] drivers = new SocketDriver[]{
             new SystemDriver(),
@@ -110,6 +113,7 @@ public class SocketIoConnector {
         LoginResponse loginResponse = response.getResponse(LoginResponse.class);
         Instant finish = Instant.now();
         OpenAudioLogger.toConsole("Assigned relay: " + loginResponse.getAssignedOpenAudioServer().getSecureEndpoint() + " request took " + Duration.between(request, finish).toMillis() + "MS");
+        lastUsedRelay = loginResponse.getAssignedOpenAudioServer().getRelayId();
 
         // setup socketio connection
         try {
@@ -132,7 +136,7 @@ public class SocketIoConnector {
 
         // register drivers
         for (SocketDriver driver : drivers) {
-            driver.boot(socket);
+            driver.boot(socket, this);
         }
         socket.connect();
     }

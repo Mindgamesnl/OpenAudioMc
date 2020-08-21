@@ -10,6 +10,7 @@ public enum RestEndpoint {
     PLUS_LOGIN("https://cloud.openaudiomc.net/api/v2/plugin/login/_private_key_", true),
     PLUS_LOGOUT("https://plus.openaudiomc.net/api/v1/servers/logout/_private_key_", true),
     PLUS_GEN_SESSION("https://plus.openaudiomc.net/api/v1/servers/createlogin", false),
+    CHECK_ACCOUNT_HEALTH("https://cloud.openaudiomc.net/api/v2/account-services/server/check/_public_key_", true),
     PLUS_GET_SETTINGS("https://cloud.openaudiomc.net/api/v2/account-services/settings/_public_key_", true),
     PLUS_PUSH_LEGACY_SETTINGS("https://plus.openaudiomc.net/api/v1/plus/settings", false),
     PLUS_UPDATE_PLAYERS("https://plus.openaudiomc.net/api/v1/plus/players", false),

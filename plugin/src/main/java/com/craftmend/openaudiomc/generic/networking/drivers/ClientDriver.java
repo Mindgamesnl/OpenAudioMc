@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.SocketDriver;
+import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
 import com.craftmend.openaudiomc.generic.networking.payloads.AcknowledgeClientPayload;
 import io.socket.client.Ack;
 import io.socket.client.Socket;
@@ -14,7 +15,7 @@ import java.util.UUID;
 
 public class ClientDriver implements SocketDriver {
     @Override
-    public void boot(Socket socket) {
+    public void boot(Socket socket, SocketIoConnector connector) {
         socket.on("acknowledgeClient", args -> {
             AcknowledgeClientPayload payload = (AcknowledgeClientPayload) OpenAudioMc.getGson().fromJson(
                     args[0].toString(),

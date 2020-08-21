@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.SocketDriver;
+import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
 import com.craftmend.openaudiomc.generic.networking.payloads.AcknowledgeClientPayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.voice.PlainUuidPayload;
 import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
@@ -27,7 +28,7 @@ public class VoiceChatDriver implements SocketDriver {
     }
 
     @Override
-    public void boot(Socket socket) {
+    public void boot(Socket socket, SocketIoConnector connector) {
         this.socket = socket;
     }
 
