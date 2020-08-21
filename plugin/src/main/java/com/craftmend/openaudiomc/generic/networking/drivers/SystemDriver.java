@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.SocketDriver;
+import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.ConnectedState;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
@@ -11,10 +12,10 @@ import io.socket.client.Socket;
 
 public class SystemDriver implements SocketDriver {
     @Override
-    public void boot(Socket socket) {
+    public void boot(Socket socket, SocketIoConnector connector) {
         socket.on(Socket.EVENT_CONNECT, args -> {
             // connected with success
-            OpenAudioMc.getInstance().getStateService().setState(new ConnectedState());
+            OpenAudioMc.getInstance().getStateService().setState(new ConnectedState(connector.getLastUsedRelay()));
         });
 
         socket.on(Socket.EVENT_DISCONNECT, args -> {

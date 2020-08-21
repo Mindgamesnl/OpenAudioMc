@@ -35,7 +35,7 @@ public class HelpSubCommand extends SubCommand {
             }
         }
 
-            message(sender, "Welcome to the OpenAudioMc help menu! please click one of the following commands for their subcommands and ussage");
+            message(sender, "Welcome to the OpenAudioMc help menu! please click one of the following commands for their sub commands and usage");
             for (SubCommand subCommandHandler : commandModule.getSubCommandHandlers()) {
                 goldClickableMessage(sender, "/openaudiomc " + subCommandHandler.getCommand(), "oa help " + subCommandHandler.getCommand());
             }
