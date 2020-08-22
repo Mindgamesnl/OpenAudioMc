@@ -14,6 +14,7 @@ export class AudioSourceProcessor {
         let source = sourceOg;
         // filter old
         try {
+            if (source.includes("media.openaudiomc.net")) return sourceOg
             source = source.replace("https://api.openaudiomc.net/stream.php?u=", "");
 
             // validate invalid urls if its the default domain
