@@ -96,7 +96,6 @@ export class SocketDirector {
                         let light = convertHexToRGBA(response.accentColor, 40)
                         document.documentElement.style.setProperty('--border-color-normal', normal);
                         document.documentElement.style.setProperty('--border-color-light', light);
-                        console.log("new value " + light)
 
                         openAudioMc.getUserInterfaceModule().changeColor("#2c78f6", response.accentColor);
 
