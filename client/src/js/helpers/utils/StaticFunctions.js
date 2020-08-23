@@ -54,7 +54,7 @@ export function linkBootListeners() {
                         console.log("Redirecting because network error")
                         window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/network_error.html";
                     } else {
-                        console.log("Server status:" + JSON.stringify(response));
+                        console.log("[OpenAudioMc] Server status:" + JSON.stringify(response));
                     }
                 });
             })

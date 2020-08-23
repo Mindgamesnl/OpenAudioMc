@@ -26,7 +26,6 @@ export class Mixer {
     }
 
     _playingStateChangeChanged(isSoundPlaying) {
-        console.log("Updating ambiance")
         if (this.ambianceSoundMedia == null) return;
         if (!isSoundPlaying) {
             // start
