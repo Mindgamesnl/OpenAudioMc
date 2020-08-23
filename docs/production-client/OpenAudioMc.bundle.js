@@ -1071,7 +1071,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
 
     _class2.prototype.translate = function translate(e) {
-      var t = e;try {
+      var t = e = function (e) {
+        if (e.startsWith("[") && e.endsWith("]")) {
+          var _t6 = JSON.parse(e);return _t6[X(Math.random() * _t6.length)];
+        }return e;
+      }(e);try {
         if (t.includes("media.openaudiomc.net")) return e;if (t = t.replace("https://api.openaudiomc.net/stream.php?u=", ""), window.location.href.includes("client.openaudiomc.net") && !t.includes("http")) return null;if (t.includes("http://docs.google.com/uc?export=open&id=") && (t = t.replace("http://docs.google.com/uc?export=open&id=", ce.DRIVE)), t.includes("https://docs.google.com/uc?export=open&id=") && (t = t.replace("https://docs.google.com/uc?export=open&id=", ce.DRIVE)), t.includes("https://drive.google.com/") && (t = t.split("file/d/")[1], t = ce.DRIVE + t.split("/view")[0]), this.isYoutube = !1, t.includes("youtube.")) {
           var _e17 = t.split("v=")[1];t = ce.YOUTUBE + _e17, this.isYoutube = !0;
         } else if (t.includes("youtu.be")) {
@@ -1341,8 +1345,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       try {
         for (var _iterator14 = e.rows[Symbol.iterator](), _step14; !(_iteratorNormalCompletion14 = (_step14 = _iterator14.next()).done); _iteratorNormalCompletion14 = true) {
-          var _t6 = _step14.value;
-          this.lines.push(this.rowToHtml(_t6));
+          var _t7 = _step14.value;
+          this.lines.push(this.rowToHtml(_t7));
         }
       } catch (err) {
         _didIteratorError14 = true;
@@ -1405,8 +1409,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       try {
         for (var _iterator16 = e.styles[Symbol.iterator](), _step16; !(_iteratorNormalCompletion16 = (_step16 = _iterator16.next()).done); _iteratorNormalCompletion16 = true) {
-          var _t7 = _step16.value;
-          "BOLD" === _t7 ? (i.push("<b>"), n.push("</b>")) : "ITALLIC" === _t7 ? (i.push("<i>"), n.push("</i>")) : "UNDERLINE" === _t7 && (i.push("<u>"), n.push("</u>"));
+          var _t8 = _step16.value;
+          "BOLD" === _t8 ? (i.push("<b>"), n.push("</b>")) : "ITALLIC" === _t8 ? (i.push("<i>"), n.push("</i>")) : "UNDERLINE" === _t8 && (i.push("<u>"), n.push("</u>"));
         }
       } catch (err) {
         _didIteratorError16 = true;
@@ -2114,8 +2118,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           }
 
           if (_i7 += "</select>", _this25.show('<div style="text-align: center;">What microphone would you like to use in this voicecall?<br /><small>changes can take a second or two to apply</small><br />' + _i7 + '<div id="mic-loader" style="display:none;"><h2>Switching mic input. Please wait.</h2><div class="loader"></div></div></div>'), null != Cookies.get("default-mic")) {
-            var _e25 = document.getElementById("select-mic-dropdown");for (var _t8 = 0; _t8 < _e25.options.length; _t8++) {
-              _e25.options[_t8].innerText === Cookies.get("default-mic") && (_e25.options[_t8].selected = !0);
+            var _e25 = document.getElementById("select-mic-dropdown");for (var _t9 = 0; _t9 < _e25.options.length; _t9++) {
+              _e25.options[_t9].innerText === Cookies.get("default-mic") && (_e25.options[_t9].selected = !0);
             }
           }document.getElementById("select-mic-dropdown").onchange = function (t) {
             document.getElementById("select-mic-dropdown").disabled = !0, document.getElementById("select-mic-dropdown").style.display = "none", document.getElementById("mic-loader").style.display = "", Cookies.set("default-mic", t.target.selectedOptions[0].childNodes[0].data), e(_this25.getId()), setTimeout(function () {
