@@ -11,6 +11,7 @@ export const AUDIO_ENDPOINTS = {
 export class AudioSourceProcessor {
 
     translate(sourceOg) {
+        sourceOg = randomOrFallback(sourceOg)
         let source = sourceOg;
         // filter old
         try {
@@ -85,4 +86,12 @@ export class AudioSourceProcessor {
         return source;
     }
 
+}
+
+function randomOrFallback(input) {
+    if (input.startsWith("[") && input.endsWith("]")) {
+        let a = JSON.parse(input);
+        return a[Math.floor(Math.random() * a.length)];
+    }
+    return input;
 }
