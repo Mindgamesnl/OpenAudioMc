@@ -1,18 +1,18 @@
 # Help Topics
 Listed below are all the documentation topics and their articles, If you are still having problems after reading, feel free to join our [Discord](https://discord.gg/6TagKB9/) and ask for help.
 
-# Installation Articles
+### Installation Articles
 How to install OpenAudioMc
 - [Installation (bungeecord and spigot)](installation.md)
 - [Supported Browsers](browsers.md)
 
-# Configuration Articles
+### Configuration Articles
 How to make OpenAudioMc truely your own
 - [OpenAudioMc+](OpenAudioMc+.md)
 - [Configuration and Customization](configuration.md)
 - [Permissions](permissions.md)
 
-# Features
+### Features
 How to use OpenAudioMc's features (with examples)
 - [Media](media.md)
 - [Selectors](selectors.md)
@@ -26,7 +26,7 @@ How to use OpenAudioMc's features (with examples)
 - [The Notification Command](notifications.md)
 - [Philips Hue setup and commands](hue.md)
  
-# For experts
+### For experts
 If you want to go the extra mile
 - [Java API](java_api.md)
 - [OpenAudioMc partners](partners.md)
@@ -35,5 +35,5 @@ If you want to go the extra mile
 - [Redis](redis.md)
 - [Network/Server requirements](technical_requirements.md)
  
-# Other articles
+### Other articles
 - [Meet the bots](meet_the_bots.md)
