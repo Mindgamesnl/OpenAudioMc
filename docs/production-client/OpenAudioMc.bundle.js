@@ -2766,7 +2766,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   }()));
 
   window.onload = function () {
-    if (0 < document.getElementsByTagName("v6").length) return void (window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/old_client.html");if (navigator.vendor && -1 < navigator.vendor.indexOf("Apple") && navigator.userAgent && -1 == navigator.userAgent.indexOf("CriOS") && -1 == navigator.userAgent.indexOf("FxiOS")) return void (window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/browsers.html");new he().initialize().then(function (e) {
+    if (navigator.vendor && -1 < navigator.vendor.indexOf("Apple") && navigator.userAgent && -1 == navigator.userAgent.indexOf("CriOS") && -1 == navigator.userAgent.indexOf("FxiOS")) return void (window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/browsers.html");new he().initialize().then(function (e) {
       return console.log(e), null == e ? (n($.BAD_AUTH), void R("A faulty login attempt was done at " + window.location.host, "Steve")) : (null != e && null != e.name && (document.getElementById("top-head").src = "https://minotar.net/helm/" + e.name, document.getElementById("in-game-name").innerText = e.name, ut = new wt()), document.body.addEventListener("click", W), void y(ue.SERVER_STATUS + e.name).then(function (e) {
         e.json().then(function (e) {
           e.offline ? (console.log("Redirecting because network error"), window.location.href = "https://mindgamesnl.github.io/OpenAudioMc/network_error.html") : console.log("[OpenAudioMc] Server status:" + JSON.stringify(e));
