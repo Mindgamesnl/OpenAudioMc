@@ -45,7 +45,7 @@ We provide the option for Players with administrative privileges on their server
  - I do not have to disclose a reason for a ban publicly or privately.
  - I decide whether a Ban is necessary and or deserved for any reason given in this document or as stated in context of the ban.
  
- spelling errors and changes reserved,
+ Spelling errors and changes reserved,
  Mindgamesnl 16th of July
  2020
  
