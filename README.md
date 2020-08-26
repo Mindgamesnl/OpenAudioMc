@@ -11,7 +11,7 @@ OpenAudio is free to download on spigot.
 ## Useful Links
 * **Privacy and License** - <https://github.com/Mindgamesnl/OpenAudioMc/blob/master/LICENCE_and_PRIVACY.md>
 * **Website** - <http://openaudiomc.net/>
-* **Discord Community** - <https://discordapp.com/invite/mfAgdhx>
+* **Discord Community** - <https://discord.openaudiomc.net/>
 * **Javadocs** - <https://javadoc.openaudiomc.net/>
 
 
@@ -32,9 +32,7 @@ OpenAudioMc is a free spigot plugin and we'd like to keep it this way.  But to k
 * [WebPack](https://webpack.js.org/)
 * [Maven](https://maven.apache.org/)
 * [Docker](https://www.docker.com/)
-* [PHP](https://www.php.net/)
 * [Cloudflare and Cloudflare-Workers](https://www.cloudflare.com/)
-* [Openshift](https://www.openshift.com/)
 * Love (there is a lot of time in this project)
 
 [![Stargazers over time](https://starchart.cc/Mindgamesnl/openaudiomc.svg)](https://starchart.cc/Mindgamesnl/openaudiomc)
