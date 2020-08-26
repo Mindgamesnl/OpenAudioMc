@@ -34,6 +34,8 @@ public enum StorageKey {
 
     DEBUG_LOG_STATE_CHANGES(false, "debug.log-state-changes", StorageLocation.DATA_FILE),
 
+    AUTH_HOST(false, "keyset.server-ip", StorageLocation.DATA_FILE),
+    AUTH_COUNTRY(false, "keyset.server-cc", StorageLocation.DATA_FILE),
     AUTH_PRIVATE_KEY(false, "keyset.private", StorageLocation.DATA_FILE),
     AUTH_PUBLIC_KEY(false, "keyset.public", StorageLocation.DATA_FILE),
     AUTH_KEY_VERSION(false, "keyset.key-version", StorageLocation.DATA_FILE),
