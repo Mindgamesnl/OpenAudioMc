@@ -27,6 +27,8 @@ public class AuthenticationService {
     private boolean isSuccessful = false;
     private final String failureMessage = "Oh no, it looks like the initial setup of OpenAudioMc has failed. Please try to restart the server and try again, if that still does not work, please contact OpenAudioMc staff or support.";
 
+    private final int currentKeyVersion = 3;
+
     public void initialize() {
         registrationProvider = new RestRequest(RestEndpoint.PLUS_REGISTER);
         OpenAudioLogger.toConsole("Starting authentication module");
@@ -48,38 +50,37 @@ public class AuthenticationService {
      * If they dont exist, then they will be requested by the cool oa api.
      */
     private void loadData() {
-        ConfigurationImplementation spigotConfigurationModule = OpenAudioMc.getInstance().getConfiguration();
+        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
 
-        // OpenAudioMc-Plus update
-        int keyVersion = 3;
-        if (spigotConfigurationModule.getString(StorageKey.AUTH_PRIVATE_KEY).equals("not-set") || getAuthVersion() != keyVersion) {
+        // create token if new
+        if (config.getString(StorageKey.AUTH_PRIVATE_KEY).equals("not-set") || getAuthVersion() != currentKeyVersion) {
             OpenAudioLogger.toConsole("Creating account...");
             //setup process
             ApiResponse response = registrationProvider.executeInThread();
-            try {
-                if (response.getErrors().isEmpty()) {
-                    RegistrationResponse registrationResponse = response.getResponse(RegistrationResponse.class);
-                    serverKeySet.setPrivateKey(new Key(registrationResponse.getPrivateKey()));
-                    serverKeySet.setPublicKey(new Key(registrationResponse.getPublicKey()));
-                    spigotConfigurationModule.setString(StorageKey.AUTH_PRIVATE_KEY, serverKeySet.getPrivateKey().getValue());
-                    spigotConfigurationModule.setString(StorageKey.AUTH_PUBLIC_KEY, serverKeySet.getPublicKey().getValue());
-                    spigotConfigurationModule.setInt(StorageLocation.DATA_FILE, StorageKey.AUTH_KEY_VERSION.getPath(), keyVersion);
-                    spigotConfigurationModule.saveAll();
-                    isSuccessful = true;
-                } else {
-                    OpenAudioLogger.toConsole("Failed to request token. Error: " + OpenAudioMc.getGson().toJson(response.getErrors()));
-                    isSuccessful = false;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (response.getErrors().isEmpty()) {
+                initializeToken(response.getResponse(RegistrationResponse.class), config);
+                isSuccessful = true;
+            } else {
+                OpenAudioLogger.toConsole("Failed to request token. Error: " + OpenAudioMc.getGson().toJson(response.getErrors()));
+                isSuccessful = false;
             }
-
-        } else {
-            OpenAudioLogger.toConsole("This server already has an account, skipping sign up.");
-            serverKeySet.setPrivateKey(new Key(spigotConfigurationModule.getString(StorageKey.AUTH_PRIVATE_KEY)));
-            serverKeySet.setPublicKey(new Key(spigotConfigurationModule.getString(StorageKey.AUTH_PUBLIC_KEY)));
-            isSuccessful = true;
+            return;
         }
+
+        // paddle back
+        OpenAudioLogger.toConsole("This server already has an account, skipping sign up.");
+        serverKeySet.setPrivateKey(new Key(config.getString(StorageKey.AUTH_PRIVATE_KEY)));
+        serverKeySet.setPublicKey(new Key(config.getString(StorageKey.AUTH_PUBLIC_KEY)));
+        isSuccessful = true;
+    }
+
+    private void initializeToken(RegistrationResponse registrationResponse, ConfigurationImplementation config) {
+        serverKeySet.setPrivateKey(new Key(registrationResponse.getPrivateKey()));
+        serverKeySet.setPublicKey(new Key(registrationResponse.getPublicKey()));
+        config.setString(StorageKey.AUTH_PRIVATE_KEY, serverKeySet.getPrivateKey().getValue());
+        config.setString(StorageKey.AUTH_PUBLIC_KEY, serverKeySet.getPublicKey().getValue());
+        config.setInt(StorageLocation.DATA_FILE, StorageKey.AUTH_KEY_VERSION.getPath(), currentKeyVersion);
+        config.saveAll();
     }
 
     // create an async client token, the returned string is the token itself, always runs async
