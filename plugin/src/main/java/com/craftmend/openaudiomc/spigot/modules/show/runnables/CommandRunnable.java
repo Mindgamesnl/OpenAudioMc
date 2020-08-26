@@ -31,9 +31,7 @@ public class CommandRunnable extends ShowRunnable {
     @Override
     public void run() {
         if (!isExecutedFromRedis() && !command.toLowerCase().startsWith("oa show")) new ExecuteCommandPacket(command).send();
-
-        Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command));
-
+        
         if (worldName == null) {
             Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command));
         } else {
