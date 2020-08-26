@@ -103,22 +103,23 @@ public class SpeakersSubCommand extends SubCommand {
 
             // place block
             Location location = mappedLocation.toBukkit();
-            location.getBlock().setType(openAudioMcSpigot.getSpeakerModule().getPlayerSkullBlock());
+            Block block = location.getBlock();
+            block.setType(openAudioMcSpigot.getSpeakerModule().getPlayerSkullBlock());
 
-            Skull s = (Skull) location.getBlock().getState();
+            Skull s = (Skull) block.getState();
             s.setSkullType(SkullType.PLAYER);
 
             if (OpenAudioMcSpigot.getInstance().getServerService().getVersion() == ServerVersion.LEGACY) {
                 // reflection for the old map
                 try {
-                    Block.class.getMethod("setData", byte.class).invoke(location.getBlock(), (byte) 1);
+                    Block.class.getMethod("setData", byte.class).invoke(block, (byte) 1);
                 } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
                     message(sender, "Something went wrong with reflection");
                     e.printStackTrace();
                     return;
                 }
             } else {
-                location.getBlock().setBlockData(openAudioMcSpigot.getSpeakerModule().getPlayerSkullBlock().createBlockData());
+                block.setBlockData(openAudioMcSpigot.getSpeakerModule().getPlayerSkullBlock().createBlockData());
             }
 
             s.setOwner("OpenAudioMc");
