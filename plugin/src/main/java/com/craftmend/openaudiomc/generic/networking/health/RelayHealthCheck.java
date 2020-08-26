@@ -31,10 +31,8 @@ public class RelayHealthCheck implements Runnable {
         // this could have taken a bit, so re check the sate to prevent race conditions
         if (!isConnected()) return;
 
-        // perhaps check if the connection is really alive
-
-        // check if they logged in relay is equal to what I'm connected to, return if all is okay
-        if (healthResponse.getRelay().toString().equals(getCurrentRelayId().toString())) return;
+        // might just have nothing
+        if (healthResponse == null || healthResponse.getRelay() == null || healthResponse.getRelay().toString().equals(getCurrentRelayId().toString())) return;
 
         // all is not okay and you should be stressing out, force re-login
         OpenAudioLogger.toConsole("Found a relay signature miss-match for this account. Logging out and restarting network service.");
