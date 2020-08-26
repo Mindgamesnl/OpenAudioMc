@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.generic.authentication;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.authentication.requests.ClientTokenRequestBody;
 import com.craftmend.openaudiomc.generic.authentication.requests.ClientTokenResponseBody;
+import com.craftmend.openaudiomc.generic.authentication.response.HostDetailsResponse;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
@@ -105,5 +106,12 @@ public class AuthenticationService {
             task.success(request.getResponse(ClientTokenResponseBody.class).getToken());
         });
         return task;
+    }
+
+    public HostDetailsResponse getHost() {
+        RestRequest request = new RestRequest(RestEndpoint.GET_HOST_DETAILS);
+        ApiResponse response = request.executeInThread();
+        if (response.getErrors().size() > 0) throw new IllegalStateException("Could not load host details");
+        return response.getResponse(HostDetailsResponse.class);
     }
 }

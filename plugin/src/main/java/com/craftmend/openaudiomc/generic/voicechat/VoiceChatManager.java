@@ -45,6 +45,8 @@ public class  VoiceChatManager implements VoiceManagerImplementation {
             return task;
         }
 
+        // TODO: socket api
+        /*
         OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
             // try to make a request
             ApiResponse response = new RestRequest(RestEndpoint.VOICE_CREATE_ROOM)
@@ -67,6 +69,7 @@ public class  VoiceChatManager implements VoiceManagerImplementation {
             rooms.put(roomId, room);
             task.success(room);
         });
+        */
 
         return task;
     }

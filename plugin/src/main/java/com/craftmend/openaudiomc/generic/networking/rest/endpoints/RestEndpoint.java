@@ -5,18 +5,23 @@ import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
 
 public enum RestEndpoint {
 
-    GITHUB_VERSION_CHECK("https://raw.githubusercontent.com/Mindgamesnl/OpenAudioMc/master/plugin/protocol/static-resources/project_status.json", false),
-    PLUS_REGISTER("https://plus.openaudiomc.net/api/v1/servers/register", false),
+    // modern cloud API's
+    GET_HOST_DETAILS("https://cloud.openaudiomc.net/api/v2/ip", false),
     PLUS_LOGIN("https://cloud.openaudiomc.net/api/v2/plugin/login/_private_key_", true),
-    PLUS_LOGOUT("https://plus.openaudiomc.net/api/v1/servers/logout/_private_key_", true),
-    PLUS_GEN_SESSION("https://plus.openaudiomc.net/api/v1/servers/createlogin", false),
     CHECK_ACCOUNT_HEALTH("https://cloud.openaudiomc.net/api/v2/account-services/server/check/_public_key_", true),
     PLUS_GET_SETTINGS("https://cloud.openaudiomc.net/api/v2/account-services/settings/_public_key_", true),
+    WORKERS_CREATE_SESSION("https://cloud.openaudiomc.net/session", false),
+
+    // external calls
+    GITHUB_VERSION_CHECK("https://raw.githubusercontent.com/Mindgamesnl/OpenAudioMc/master/plugin/protocol/static-resources/project_status.json", false),
+
+    // plus
+    PLUS_REGISTER("https://plus.openaudiomc.net/api/v1/servers/register", false),
+    PLUS_LOGOUT("https://plus.openaudiomc.net/api/v1/servers/logout/_private_key_", true),
+    PLUS_GEN_SESSION("https://plus.openaudiomc.net/api/v1/servers/createlogin", false),
     PLUS_PUSH_LEGACY_SETTINGS("https://plus.openaudiomc.net/api/v1/plus/settings", false),
     PLUS_UPDATE_PLAYERS("https://plus.openaudiomc.net/api/v1/plus/players", false),
     WORKER_SHOWS_UPLOAD("https://plus.openaudiomc.net/worker-proxy/shows/upload", false),
-    WORKERS_CREATE_SESSION("https://plus.openaudiomc.net/session", false),
-    VOICE_CREATE_ROOM("https://plus.openaudiomc.net/api/v1/servers/create-voice/_private_key_", true),
     ;
 
     private String url;
