@@ -1,3 +1,5 @@
+import "@babel/polyfill";
+
 import {TimeService} from "./modules/socket/TimeService";
 import {Messages} from "./modules/ui/Messages";
 import {strictlyShowCard, UiCards, UserInterfaceModule} from "./modules/ui/UserInterfaceModule";

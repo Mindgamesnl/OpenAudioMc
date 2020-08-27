@@ -17,12 +17,6 @@ function enable() {
 }
 
 export function linkBootListeners() {
-  // purge old clients
-  if (document.getElementsByTagName("v6").length > 0) {
-    window.location.href = 'https://mindgamesnl.github.io/OpenAudioMc/old_client.html'
-    return
-  }
-
   const isSafari = navigator.vendor && navigator.vendor.indexOf('Apple') > -1 &&
     navigator.userAgent &&
     navigator.userAgent.indexOf('CriOS') == -1 &&
@@ -46,7 +40,6 @@ export function linkBootListeners() {
       // can we find a name? let's put it as a welcome text!
       // makes the experience a bit more personal
       if (tokenSet != null && tokenSet.name != null) {
-        document.getElementById('top-head').src = 'https://minotar.net/helm/' + tokenSet.name
         document.getElementById('in-game-name').innerText = tokenSet.name
         openAudioMc = new OpenAudioMc()
       }
