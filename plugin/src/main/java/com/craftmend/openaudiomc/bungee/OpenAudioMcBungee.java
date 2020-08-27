@@ -18,6 +18,7 @@ import com.craftmend.openaudiomc.generic.voicechat.interfaces.VoiceManagerImplem
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import lombok.Getter;
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.config.ListenerInfo;
 import net.md_5.bungee.api.plugin.Plugin;
 
 import java.time.Duration;
@@ -100,6 +101,22 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
     @Override
     public VoiceManagerImplementation getVoiceImplementation() {
         return new VoiceChatManager();
+    }
+
+    @Override
+    public int getServerPort() {
+        // find 25565
+        for (ListenerInfo listener : ProxyServer.getInstance().getConfig().getListeners()) {
+            if (listener.getHost().getPort() == 25565) {
+                return 25565;
+            }
+        }
+
+        // nothing? then the first one
+        for (ListenerInfo listener : ProxyServer.getInstance().getConfig().getListeners()) {
+            return listener.getHost().getPort();
+        }
+        return -1;
     }
 
 }

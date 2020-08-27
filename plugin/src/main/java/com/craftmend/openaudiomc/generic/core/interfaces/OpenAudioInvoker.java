@@ -14,5 +14,6 @@ public interface OpenAudioInvoker {
     ConfigurationImplementation getConfigurationProvider();
     String getPluginVersion();
     VoiceManagerImplementation getVoiceImplementation();
+    int getServerPort();
 
 }

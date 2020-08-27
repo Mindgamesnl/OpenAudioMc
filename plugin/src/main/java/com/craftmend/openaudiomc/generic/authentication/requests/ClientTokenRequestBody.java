@@ -9,5 +9,6 @@ public class ClientTokenRequestBody {
     private String playerUuid;
     private String session;
     private String publicKey;
+    private String serverIdentity;
 
 }

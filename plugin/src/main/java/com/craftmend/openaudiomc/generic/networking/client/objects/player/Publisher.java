@@ -47,7 +47,7 @@ public class Publisher {
         // sending waiting message
         clientConnection.getPlayer().sendMessage(translateColors(config.getString(StorageKey.MESSAGE_GENERATING_SESSION)));
 
-        Task<String> sessionRequest = openAudioMc.getAuthenticationService().createPlayerSession(clientConnection);
+        Task<String> sessionRequest = openAudioMc.getAuthenticationService().getDriver().createPlayerSession(clientConnection);
         sessionRequest.setWhenFails((restErrorType, fuckyou) -> {
             clientConnection.getPlayer().sendMessage(translateColors(config.getString(StorageKey.MESSAGE_SESSION_ERROR)));
         });

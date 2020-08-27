@@ -161,4 +161,9 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
         return new VoiceChatManager();
     }
 
+    @Override
+    public int getServerPort() {
+        return Bukkit.getPort();
+    }
+
 }

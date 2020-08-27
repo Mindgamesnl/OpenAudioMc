@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class ClientTokenResponseBody extends AbstractRestResponse {
+public class SimpleTokenResponse extends AbstractRestResponse {
 
     private String token;
 

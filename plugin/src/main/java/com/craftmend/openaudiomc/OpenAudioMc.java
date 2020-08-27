@@ -88,10 +88,10 @@ public class OpenAudioMc {
 
     public OpenAudioMc(OpenAudioInvoker invoker) throws Exception {
         instance = this;
+        this.invoker = invoker;
         this.platform = invoker.getPlatform();
         this.taskProvider = invoker.getTaskProvider();
         this.serviceImplementation = invoker.getServiceClass();
-        this.invoker = invoker;
         this.cleanStartup = !this.invoker.hasPlayersOnline();
         this.configuration = invoker.getConfigurationProvider();
         this.authenticationService.initialize();
@@ -104,6 +104,9 @@ public class OpenAudioMc {
         this.voiceManager = invoker.getVoiceImplementation();
         this.commandModule = new CommandModule(this);
         this.plusService = new PlusService(this);
+
+        // run later
+        taskProvider.schduleSyncDelayedTask(authenticationService::prepareId, 20 * 2);
     }
 
     public void disable() {

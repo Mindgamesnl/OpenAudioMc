@@ -18,6 +18,7 @@ public class MigrationWorker {
             new LegalAcceptanceMigration(),         // binding statements about accepting our rules
             new RemoveLoopTempRegionMigration(),    // re branding temp regions to shows
             new SessionGenerationMigration(),       // messages for generation and session errors
+            new AuthHostMigration(),                // host details as part of handshake hash
     };
 
     public void handleMigrations(OpenAudioMc main) {
