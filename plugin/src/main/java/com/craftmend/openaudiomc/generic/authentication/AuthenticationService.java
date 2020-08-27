@@ -1,11 +1,9 @@
 package com.craftmend.openaudiomc.generic.authentication;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.authentication.requests.ClientTokenRequestBody;
-import com.craftmend.openaudiomc.generic.authentication.requests.ClientTokenResponseBody;
+import com.craftmend.openaudiomc.generic.authentication.driver.AuthenticationDriver;
 import com.craftmend.openaudiomc.generic.authentication.response.HostDetailsResponse;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
-import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.responses.RegistrationResponse;
@@ -16,23 +14,31 @@ import com.craftmend.openaudiomc.generic.authentication.objects.Key;
 import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
 
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
-import com.craftmend.openaudiomc.generic.voicechat.api.util.Task;
 import lombok.Getter;
 
 @Getter
 public class AuthenticationService {
 
+    private AuthenticationDriver driver;
     private RestRequest registrationProvider;
     private final ServerKeySet serverKeySet = new ServerKeySet();
     private boolean isSuccessful = false;
     private final String failureMessage = "Oh no, it looks like the initial setup of OpenAudioMc has failed. Please try to restart the server and try again, if that still does not work, please contact OpenAudioMc staff or support.";
-
     private final int currentKeyVersion = 3;
+    private String identity = null;
+    private HostDetailsResponse host;
 
     public void initialize() {
+        driver = new AuthenticationDriver(this);
         registrationProvider = new RestRequest(RestEndpoint.PLUS_REGISTER);
         OpenAudioLogger.toConsole("Starting authentication module");
+        host = driver.getHost();
         loadData();
+    }
+
+    public void prepareId() {
+        identity = driver.createIdentityToken(host);
+        OpenAudioLogger.toConsole("New Identity = " + identity);
     }
 
     /**
@@ -77,42 +83,16 @@ public class AuthenticationService {
     private void initializeToken(RegistrationResponse registrationResponse, ConfigurationImplementation config) {
         serverKeySet.setPrivateKey(new Key(registrationResponse.getPrivateKey()));
         serverKeySet.setPublicKey(new Key(registrationResponse.getPublicKey()));
+        HostDetailsResponse host = driver.getHost();
+        if (host.getPreProxyForward() == null) {
+            config.setString(StorageKey.AUTH_HOST, host.getIpAddress());
+        } else {
+            config.setString(StorageKey.AUTH_HOST, host.getPreProxyForward());
+        }
+        config.setString(StorageKey.AUTH_COUNTRY, host.getCountryCode());
         config.setString(StorageKey.AUTH_PRIVATE_KEY, serverKeySet.getPrivateKey().getValue());
         config.setString(StorageKey.AUTH_PUBLIC_KEY, serverKeySet.getPublicKey().getValue());
         config.setInt(StorageLocation.DATA_FILE, StorageKey.AUTH_KEY_VERSION.getPath(), currentKeyVersion);
         config.saveAll();
-    }
-
-    // create an async client token, the returned string is the token itself, always runs async
-    public Task<String> createPlayerSession(Authenticatable authenticatable) {
-        Task<String> task = new Task<>();
-        OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
-            // create request
-            ClientTokenRequestBody requestBody = new ClientTokenRequestBody(
-                    authenticatable.getOwnerName(),
-                    authenticatable.getOwnerUUID().toString(),
-                    authenticatable.getSessionTokens().getKey(),
-                    serverKeySet.getPublicKey().getValue()
-            );
-
-            ApiResponse request = new RestRequest(RestEndpoint.WORKERS_CREATE_SESSION)
-                    .setBody(requestBody)
-                    .executeInThread();
-
-            if (!request.getErrors().isEmpty()) {
-                task.fail(request.getErrors().get(0).getCode());
-                return;
-            }
-
-            task.success(request.getResponse(ClientTokenResponseBody.class).getToken());
-        });
-        return task;
-    }
-
-    public HostDetailsResponse getHost() {
-        RestRequest request = new RestRequest(RestEndpoint.GET_HOST_DETAILS);
-        ApiResponse response = request.executeInThread();
-        if (response.getErrors().size() > 0) throw new IllegalStateException("Could not load host details");
-        return response.getResponse(HostDetailsResponse.class);
     }
 }
