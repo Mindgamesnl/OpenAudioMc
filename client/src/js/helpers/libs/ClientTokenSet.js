@@ -1,6 +1,8 @@
 import UrlReader from "../protocol/UrlReader";
 import {fetch} from "../../../libs/github.fetch";
 import {API_ENDPOINT} from "../protocol/ApiEndpoints";
+import { HandleServerIdentity } from '../protocol/ServerIdentityHandler'
+import { Log } from '../utils/log'
 
 export default class ClientTokenSet {
 
@@ -66,9 +68,19 @@ export default class ClientTokenSet {
                             }
                             let ses = sessionValidationResponse.response;
 
+                            if (ses.hasOwnProperty("serverIdentity") != null) {
+                                Log("Loading identity")
+                                HandleServerIdentity(ses.serverIdentity, ses.playerName).then(r => console.log).catch(e => console.log)
+                            } else {
+                                Log("No identity to fetch")
+                                document.getElementById('top-head').src = 'https://minotar.net/helm/' + ses.playerName
+                            }
+
                             const out = new ClientTokenSet(ses.publicKey, ses.playerUuid, ses.playerName, ses.session)
                             window.tokenCache = out;
                             resolve(out);
+                        }).catch(e => {
+                            console.error(e);
                         });
                     })
                     .catch(error => {
