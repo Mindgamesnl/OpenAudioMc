@@ -16,6 +16,8 @@ import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import lombok.Getter;
 
+import java.time.Instant;
+
 @Getter
 public class AuthenticationService {
 
@@ -25,6 +27,7 @@ public class AuthenticationService {
     private boolean isSuccessful = false;
     private final String failureMessage = "Oh no, it looks like the initial setup of OpenAudioMc has failed. Please try to restart the server and try again, if that still does not work, please contact OpenAudioMc staff or support.";
     private final int currentKeyVersion = 3;
+    private Instant identityCreatedAt = null;
     private String identity = null;
     private HostDetailsResponse host;
 
@@ -38,6 +41,7 @@ public class AuthenticationService {
 
     public void prepareId() {
         identity = driver.createIdentityToken(host);
+        identityCreatedAt = Instant.now();
         OpenAudioLogger.toConsole("New Identity = " + identity);
     }
 

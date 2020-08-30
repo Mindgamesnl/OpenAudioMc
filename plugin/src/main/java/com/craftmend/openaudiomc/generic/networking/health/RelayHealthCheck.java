@@ -21,6 +21,11 @@ public class RelayHealthCheck implements Runnable {
         RestRequest request = new RestRequest(RestEndpoint.CHECK_ACCOUNT_HEALTH);
         ApiResponse output = request.executeInThread();
 
+        if (output == null) {
+            // networking error, will already be logged
+            return;
+        }
+
         if (output.getErrors().size() > 0) {
             OpenAudioLogger.toConsole("Account not registered, ignoring health check.");
             return;
