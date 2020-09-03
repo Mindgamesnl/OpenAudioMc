@@ -2,6 +2,8 @@ package com.craftmend.openaudiomc.generic.networking.rest;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
+import com.craftmend.openaudiomc.generic.networking.rest.data.RestErrorResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
@@ -55,6 +57,9 @@ public class RestRequest {
         } catch (Exception e) {
             OpenAudioMc.getInstance().getStateService().setState(new IdleState("Net exception"));
             e.printStackTrace();
+            ApiResponse errorResponse = new ApiResponse();
+            errorResponse.getErrors().add(new RestErrorResponse(e.toString(), ErrorCode.BAD_REQUEST));
+            return errorResponse;
         }
         return null;
     }
