@@ -1,30 +1,43 @@
-# Help Topics
-Listed below are all the documentation topics and their articles, If you are still having problems after reading, feel free to join our [Discord](https://discord.gg/6TagKB9/) and ask for help.
+# Home
+Welcome to the OpenAudioMc documentation!
+This site contains everything you need to know about OpenAudioMc, it's core services and more.
 
-### Installation Articles
-How to install OpenAudioMc
-- [Installation (bungeecord and spigot)](installation.md)
-- [Supported Browsers](browsers.md)
+The wiki is devided into 5 core parts, these are
+ - **Installation** (which covers installation)
+ - **Terms** (which explains some important terms used in the documentation)
+ - **Features** (which explains all openaudio commands, and how they function)
+ - **Configuration** (which explains how to customize OpenAudioMc to fit your server)
+ - **Experts** (which explains some optional features for experts)
+ 
+ 
+If you are still having problems after reading, feel free to join our [Discord](https://discord.gg/6TagKB9/) and ask for help.
 
-### Configuration Articles
+### Installation
+- [How to install OpenAudioMc (bungeecord and spigot)](installation.md)
+- [What are supported browsers](browsers.md)
+
+# Terms
+- [Media](media.md)
+- [Selectors](selectors.md)
+
+### Features
+How to use OpenAudioMc's features (with examples)
+- [The Web Client](web-client.md)
+- [The Play Command](play.md)
+- [The Stop Command](stop.md)
+- [Regions](regions.md)
+- [Speakers](speakers.md)
+- [The Show Command](show.md)
+- [The Notification Command](notifications.md)
+- [Philips Hue setup and commands](hue.md)
+- [Aliases](alias.md)
+- [TrainCarts integration](traincarts.md)
+
+### Configuration
 How to make OpenAudioMc truely your own
 - [OpenAudioMc+](OpenAudioMc+.md)
 - [Configuration and Customization](configuration.md)
 - [Permissions](permissions.md)
-
-### Features
-How to use OpenAudioMc's features (with examples)
-- [Media](media.md)
-- [Selectors](selectors.md)
-- [The Play Command](play.md)
-- [Aliases](alias.md)
-- [TrainCarts integration](traincarts.md)
-- [The Stop Command](stop.md)
-- [The Show Command](show.md)
-- [Speakers](speakers.md)
-- [Regions](regions.md)
-- [The Notification Command](notifications.md)
-- [Philips Hue setup and commands](hue.md)
  
 ### For experts
 If you want to go the extra mile
