@@ -16,7 +16,7 @@ If you are still having problems after reading, feel free to join our [Discord](
 - [How to install OpenAudioMc (bungeecord and spigot)](installation.md)
 - [What are supported browsers](browsers.md)
 
-# Terms
+### Terms
 - [Media](media.md)
 - [Selectors](selectors.md)
 
