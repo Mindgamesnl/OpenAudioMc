@@ -27,7 +27,7 @@ public class RelayHealthCheck implements Runnable {
         }
 
         if (output.getErrors().size() > 0) {
-            OpenAudioLogger.toConsole("Account not registered, ignoring health check.");
+            OpenAudioLogger.toConsole("Error while running health check, " + output.getErrors().get(0).getCode() + " - " + output.getErrors().get(0).getMessage());
             return;
         }
 
