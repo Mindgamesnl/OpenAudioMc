@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.redis;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.commands.subcommands.RedisSubCommand;
 import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementation;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.redis.packets.ExecuteBulkCommandsPacket;
@@ -105,6 +106,10 @@ public class RedisService {
 
         // queue handler
         OpenAudioMc.getInstance().getTaskProvider().schduleAsyncRepeatingTask(messageQueHandler, 1, 1);
+
+        // enable command
+        OpenAudioMc.getInstance().getCommandModule().registerSubCommand(new RedisSubCommand(this));
+
         OpenAudioLogger.toConsole("Enabled redis service!");
     }
 
