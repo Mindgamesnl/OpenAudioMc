@@ -13,7 +13,6 @@ public class RedisSubCommand extends SubCommand {
     public RedisSubCommand(RedisService redisService) {
         super("redis");
         this.redisService = redisService;
-        
         registerArguments(
 
         );
