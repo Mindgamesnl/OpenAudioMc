@@ -4,7 +4,7 @@
   <groupId>com.craftmend.openaudiomc</groupId>
   <artifactId>OpenAudioMc</artifactId>
   <name>OpenAudioMc</name>
-  <version>6.3.6.4</version>
+  <version>6.3.6.5</version>
   <description>The OpenAudioMc Java plugin and Api</description>
   <url>https://craftmend.com/</url>
   <build>
