@@ -29,6 +29,6 @@ public class StateSubCommand extends SubCommand {
         message(sender, getColor("YELLOW") + "Connected Clients: " + getColor("AQUA") + "" + clients);
         message(sender, getColor("YELLOW") + "OpenAudioMc Provider: " + getColor("AQUA") + "" + OpenAudioMc.getInstance().getPlatform());
         message(sender, getColor("YELLOW") + "Time Offset: " + getColor("AQUA") + "" + OpenAudioMc.getInstance().getTimeService().getOffset());
-        message(sender, getColor("YELLOW") + "Lat time update: " + getColor("AQUA") + "" + Duration.between(OpenAudioMc.getInstance().getTimeService().getLastUpdated(), Instant.now()).getSeconds() + " seconds ago");
+        message(sender, getColor("YELLOW") + "Last time update: " + getColor("AQUA") + "" + Duration.between(OpenAudioMc.getInstance().getTimeService().getLastUpdated(), Instant.now()).getSeconds() + " seconds ago");
     }
 }

@@ -42,6 +42,6 @@ public class StateSubCommand extends SubCommand {
         message(sender, ChatColor.YELLOW + "OpenAudioMc Provider: " + ChatColor.AQUA + "" + OpenAudioMc.getInstance().getPlatform());
         message(sender, ChatColor.YELLOW + "Skull: " + ChatColor.AQUA + OpenAudioMcSpigot.getInstance().getSpeakerModule().getPlayerSkullItem());
         message(sender, ChatColor.YELLOW + "Time Offset: " + ChatColor.AQUA + "" + OpenAudioMc.getInstance().getTimeService().getOffset());
-        message(sender, ChatColor.YELLOW + "Lat time update: " + ChatColor.AQUA + "" + Duration.between(OpenAudioMc.getInstance().getTimeService().getLastUpdated(), Instant.now()).getSeconds() + " seconds ago");
+        message(sender, ChatColor.YELLOW + "Last time update: " + ChatColor.AQUA + "" + Duration.between(OpenAudioMc.getInstance().getTimeService().getLastUpdated(), Instant.now()).getSeconds() + " seconds ago");
     }
 }
