@@ -21,9 +21,9 @@ public class HeatMap<T> {
     public void bump(T value) {
         clean();
 
-        Value incrementable = data.getOrDefault(value, new Value(value));
-        incrementable.bump();
-        data.put(value, incrementable);
+        Value incremental = data.getOrDefault(value, new Value(value));
+        incremental.bump();
+        data.put(value, incremental);
     }
 
     public List<Value> getTop(int count) {

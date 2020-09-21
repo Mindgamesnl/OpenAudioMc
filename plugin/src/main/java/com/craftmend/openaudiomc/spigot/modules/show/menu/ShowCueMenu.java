@@ -1,7 +1,5 @@
 package com.craftmend.openaudiomc.spigot.modules.show.menu;
 
-import com.craftmend.openaudiomc.generic.utils.HeatMap;
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.show.objects.Show;
 import com.craftmend.openaudiomc.spigot.modules.show.objects.ShowCue;
 import com.craftmend.openaudiomc.spigot.services.clicklib.Item;
