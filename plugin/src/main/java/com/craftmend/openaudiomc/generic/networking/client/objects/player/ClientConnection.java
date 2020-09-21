@@ -14,8 +14,8 @@ import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClie
 import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
 import com.craftmend.openaudiomc.generic.player.ProxiedPlayerAdapter;
-import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.networking.client.interfaces.PlayerContainer;
 import com.craftmend.openaudiomc.generic.networking.packets.*;

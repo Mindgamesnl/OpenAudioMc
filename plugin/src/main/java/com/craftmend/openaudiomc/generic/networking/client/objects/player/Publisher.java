@@ -2,8 +2,8 @@ package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
-import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementation;
-import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.voicechat.api.util.Task;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;

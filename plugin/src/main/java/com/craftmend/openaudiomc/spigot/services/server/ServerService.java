@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.services.server;
 
-import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import lombok.Getter;
 import org.bukkit.Bukkit;

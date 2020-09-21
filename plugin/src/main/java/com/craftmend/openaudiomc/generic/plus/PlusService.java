@@ -10,7 +10,7 @@ import com.craftmend.openaudiomc.generic.plus.updates.CreateLoginPayload;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
-import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import lombok.Getter;
 
 import java.util.concurrent.CompletableFuture;

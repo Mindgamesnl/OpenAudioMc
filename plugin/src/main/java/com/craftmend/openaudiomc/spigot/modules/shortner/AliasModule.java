@@ -1,9 +1,9 @@
 package com.craftmend.openaudiomc.spigot.modules.shortner;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementation;
-import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
-import com.craftmend.openaudiomc.generic.core.storage.enums.StorageLocation;
+import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.shortner.middleware.AliasMiddleware;
 import lombok.Getter;

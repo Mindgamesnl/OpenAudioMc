@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.core.storage.enums;
+package com.craftmend.openaudiomc.generic.storage.enums;
 
 public enum StorageLocation {
 

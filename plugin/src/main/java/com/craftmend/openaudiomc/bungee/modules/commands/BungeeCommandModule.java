@@ -9,8 +9,7 @@ import com.craftmend.openaudiomc.bungee.modules.commands.subcommand.*;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.commands.subcommands.AcceptSubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.HelpSubCommand;
-import com.craftmend.openaudiomc.generic.commands.subcommands.ReloadSubCommand;
-import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 
 public class BungeeCommandModule {
 

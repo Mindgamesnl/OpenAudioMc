@@ -5,8 +5,8 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.AcceptSubCommand;
-import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementation;
-import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 
 import java.util.ArrayList;
