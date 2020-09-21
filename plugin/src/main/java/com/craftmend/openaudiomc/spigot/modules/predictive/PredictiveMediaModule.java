@@ -37,7 +37,7 @@ public class PredictiveMediaModule {
                 if (packet instanceof SourceHolder) {
                     String source = ((SourceHolder) packet).getSource();
 
-                    Player player = Bukkit.getPlayer(packet.getClient());
+                    Player player = Bukkit.getPlayer(target.getOwnerUUID());
                     if (player == null) return;
 
                     // bump the source for the players chunk chunk
@@ -48,10 +48,8 @@ public class PredictiveMediaModule {
     }
 
     public long locationToAudioChunkId(Location location) {
-        int chunkX = (int) Math.floor(location.getX()) >> 6;
-        int chunkZ = (int) Math.floor(location.getZ()) >> 6;
+        int chunkX = (int) Math.floor(location.getBlockX()) << 10;
+        int chunkZ = (int) Math.floor(location.getBlockZ()) << 10;
         return (long) chunkX & 0xffffffffL | ((long) chunkZ & 0xffffffffL) << 32;
     }
-
-
 }
