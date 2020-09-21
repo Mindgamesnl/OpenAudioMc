@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.networking.certificate;
 
-import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import okhttp3.OkHttpClient;
 
 import javax.net.ssl.*;

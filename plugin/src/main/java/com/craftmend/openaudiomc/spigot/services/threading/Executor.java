@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.services.threading;
 
-import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import lombok.Getter;
 
 import java.time.Duration;

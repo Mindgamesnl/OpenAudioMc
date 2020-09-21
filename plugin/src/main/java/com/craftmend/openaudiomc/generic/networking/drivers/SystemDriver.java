@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking.drivers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.SocketDriver;
 import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;

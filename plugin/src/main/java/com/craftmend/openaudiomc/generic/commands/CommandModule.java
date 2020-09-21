@@ -6,7 +6,7 @@ import com.craftmend.openaudiomc.generic.commands.subcommands.AcceptSubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.NotificationSubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.PlusSubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.ReloadSubCommand;
-import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import lombok.Getter;
 

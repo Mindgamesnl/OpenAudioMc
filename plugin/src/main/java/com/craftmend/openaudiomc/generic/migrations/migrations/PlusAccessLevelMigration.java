@@ -1,9 +1,9 @@
 package com.craftmend.openaudiomc.generic.migrations.migrations;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
 import com.craftmend.openaudiomc.generic.migrations.interfaces.SimpleMigration;
-import com.craftmend.openaudiomc.generic.core.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 
 public class PlusAccessLevelMigration extends SimpleMigration {
 

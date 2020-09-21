@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.core.interfaces;
+package com.craftmend.openaudiomc.generic.platform.interfaces;
 
 public interface TaskProvider {
 
