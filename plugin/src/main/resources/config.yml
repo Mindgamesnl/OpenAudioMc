@@ -69,7 +69,7 @@ options:
   notify-announcements: true
 
 # REDIS
-# More explanation about redis: https://mindgamesnl.github.io/OpenAudioMc/redis.html
+# More explanation about redis: https://help.openaudiomc.net/redis
 redis:
   # When set to true, the redis service will be enabled
   enabled: false
