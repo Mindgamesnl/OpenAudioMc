@@ -1,6 +1,5 @@
 package com.craftmend.openaudiomc.spigot.modules.players.handlers;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientPreFetch;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.utils.HeatMap;

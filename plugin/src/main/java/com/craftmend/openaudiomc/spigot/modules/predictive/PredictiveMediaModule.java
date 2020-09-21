@@ -48,8 +48,8 @@ public class PredictiveMediaModule {
     }
 
     public long locationToAudioChunkId(Location location) {
-        int chunkX = (int) Math.floor(location.getX()) >> 5;
-        int chunkZ = (int) Math.floor(location.getZ()) >> 5;
+        int chunkX = (int) Math.floor(location.getX()) >> 6;
+        int chunkZ = (int) Math.floor(location.getZ()) >> 6;
         return (long) chunkX & 0xffffffffL | ((long) chunkZ & 0xffffffffL) << 32;
     }
 

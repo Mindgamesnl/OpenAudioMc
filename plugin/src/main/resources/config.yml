@@ -68,7 +68,7 @@ options:
   # If you want to receive announcements over things like server maintenance, highly recommended, we'll never bother you if not needed
   notify-announcements: true
   # The amount of resources you want to have preloaded in the client
-  preload-resources: 15
+  preload-resources: 7
 
 # REDIS
 # More explanation about redis: https://help.openaudiomc.net/redis
