@@ -19,6 +19,7 @@ public class MigrationWorker {
             new RemoveLoopTempRegionMigration(),    // re branding temp regions to shows
             new SessionGenerationMigration(),       // messages for generation and session errors
             new AuthHostMigration(),                // host details as part of handshake hash
+            new AddPreFetchMigration(),             // add config value for how many files to prefetch
     };
 
     public void handleMigrations(OpenAudioMc main) {

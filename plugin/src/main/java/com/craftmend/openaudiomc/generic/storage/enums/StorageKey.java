@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.generic.storage.enums;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import lombok.Getter;
 
 public enum StorageKey {
@@ -31,6 +32,7 @@ public enum StorageKey {
     SETTINGS_STAFF_TIPS(false, "options.staff-tips", StorageLocation.CONFIG_FILE),
     SETTINGS_NOTIFY_UPDATES(false, "options.notify-updates", StorageLocation.CONFIG_FILE),
     SETTINGS_NOTIFY_ANNOUNCEMENTS(false, "options.notify-announcements", StorageLocation.CONFIG_FILE),
+    SETTINGS_PRELOAD_SOUNDS(false, "options.preload-resources", StorageLocation.CONFIG_FILE),
 
     DEBUG_LOG_STATE_CHANGES(false, "debug.log-state-changes", StorageLocation.DATA_FILE),
 
@@ -72,5 +74,17 @@ public enum StorageKey {
     public String getSubSection() {
         String[] elements = this.path.split("\\.");
         return elements[elements.length - 1];
+    }
+
+    public boolean getBoolean() {
+        return OpenAudioMc.getInstance().getConfiguration().getBoolean(this);
+    }
+
+    public int getInt() {
+        return OpenAudioMc.getInstance().getConfiguration().getInt(this);
+    }
+
+    public String getString() {
+        return OpenAudioMc.getInstance().getConfiguration().getString(this);
     }
 }

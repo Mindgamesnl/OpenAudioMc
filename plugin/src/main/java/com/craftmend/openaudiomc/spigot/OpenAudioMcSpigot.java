@@ -15,6 +15,7 @@ import com.craftmend.openaudiomc.generic.state.states.IdleState;
 
 import com.craftmend.openaudiomc.spigot.modules.commands.SpigotCommandModule;
 import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfigurationImplementation;
+import com.craftmend.openaudiomc.spigot.modules.predictive.PredictiveMediaModule;
 import com.craftmend.openaudiomc.spigot.modules.proxy.ProxyModule;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import com.craftmend.openaudiomc.spigot.modules.regions.service.RegionService;
@@ -42,6 +43,7 @@ import java.time.Instant;
 @Getter
 public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvoker {
 
+    private PredictiveMediaModule predictiveMediaService;
     private AliasModule aliasModule;
     private ExecutorService executorService;
     private ProxyModule proxyModule;
@@ -85,6 +87,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
             this.speakerModule = new SpeakerModule(this);
             this.commandModule = new SpigotCommandModule(this);
             this.showModule = new ShowModule(this);
+            this.predictiveMediaService = new PredictiveMediaModule();
 
             this.dependencyService
                     .ifPluginEnabled("WorldGuard", new RegionService(this))
