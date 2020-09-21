@@ -37,7 +37,7 @@ public class HeatMap<T> {
         return resultSet;
     }
 
-    private void clean() {
+    public void clean() {
         int elements = 0;
         for (Value value : sortedValues()) {
             if (value.getAge() > maxAgeInSeconds) {

@@ -15,7 +15,6 @@ public class MediaModule {
 
     private Map<String, List<UrlMutation>> urlMutations = new HashMap<>();
     @Getter private List<Runnable> resetTriggers = new ArrayList<>();
-    @Getter private final PredictiveMediaService predictiveMediaService = new PredictiveMediaService();
 
     public MediaModule() {
         // register default mutations

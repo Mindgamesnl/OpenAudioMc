@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.generic.core.interfaces.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.core.interfaces.ConfigurationImplementation;
 import com.craftmend.openaudiomc.generic.core.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.media.MediaModule;
+import com.craftmend.openaudiomc.generic.media.predictive.PredictiveMediaService;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import com.craftmend.openaudiomc.generic.migrations.MigrationWorker;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
@@ -54,6 +55,7 @@ public class OpenAudioMc {
      * - Authentication Service  []   (handle authentication for the api)
      * - Voice Room Manager      []   (keep track of ongoing voice calls)
      * - Command Module          []   (common framework to keep all commands as common-code regardless of platform)
+     * - PMM                     []   (Predictive media module attempts to predict what sounds are likely to play)
      * - Media Module            []   (keep track of media and timings)
      * - Task Provider           []   (create and register tasks regardless of platform)
      * - Redis Service           []   (provides redis to openaudio and the gang)
@@ -63,6 +65,7 @@ public class OpenAudioMc {
     private final AuthenticationService authenticationService = new AuthenticationService();
     private final StateService stateService = new StateService();
     private final TimeService timeService = new TimeService();
+    private final PredictiveMediaService predictiveMediaService = new PredictiveMediaService();
     private final MediaModule mediaModule = new MediaModule();
     private final GlobalConstantService globalConstantService;
     private final NetworkingService networkingService;
