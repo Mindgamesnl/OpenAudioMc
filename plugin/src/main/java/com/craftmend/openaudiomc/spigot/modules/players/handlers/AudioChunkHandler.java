@@ -16,7 +16,7 @@ public class AudioChunkHandler implements ITickableHandler {
     private final SpigotConnection spigotConnection;
     private boolean hasPrefetchedContent = false;
 
-    private long currentAudioChunkId = 0l;
+    private long currentAudioChunkId = 0L;
 
     public AudioChunkHandler(Player player, SpigotConnection spigotConnection) {
         this.player = player;
@@ -36,9 +36,9 @@ public class AudioChunkHandler implements ITickableHandler {
                 spigotConnection.getClientConnection().sendPacket(new PacketClientPreFetch(true));
             }
 
-            HeatMap<String, Byte> chunkContext = OpenAudioMcSpigot.getInstance().getPredictiveMediaService().getActiveRegions().get(currentAudioChunkId).getContext();
-            HeatMap.Value v = OpenAudioMcSpigot.getInstance().getPredictiveMediaService().getActiveRegions().get(currentAudioChunkId);
-            v.bump();
+            HeatMap<Long, HeatMap<String, Byte>>.Value audioChunk = OpenAudioMcSpigot.getInstance().getPredictiveMediaService().getActiveRegions().get(currentAudioChunkId);
+            HeatMap<String, Byte> chunkContext = audioChunk.getContext();
+            audioChunk.bump();
 
             // get top sounds for this chunk
             // prefetch the top X sounds, and fetch that from the config
