@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 public class HeatMap<T, S> {
 
-
     private final Map<T, Value> data = new HashMap<>();
     private final int maxAgeInSeconds;
     private final int maxElements;
