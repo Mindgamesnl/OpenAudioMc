@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.interfaces.Client;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.generic.cards.objects.Card;
+import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.packets.client.card.PacketClientCreateCard;
@@ -202,10 +203,14 @@ public class ClientConnection implements Authenticatable, Client {
             OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(() -> ongoingMedia.remove(media), (20 * media.getKeepTimeout()));
         }
         if (getIsConnected()) {
-            OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientCreateMedia(media));
+            sendPacket(new PacketClientCreateMedia(media));
         } else {
             tickClient();
         }
+    }
+
+    public void sendPacket(AbstractPacket packet) {
+        OpenAudioMc.getInstance().getNetworkingService().send(this, packet);
     }
 
     public void tickClient() {

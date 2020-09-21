@@ -7,23 +7,30 @@ import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class HeatMap<T> {
+public class HeatMap<T, S> {
 
-    private Map<T, Value> data = new HashMap<>();
-    private int maxAgeInSeconds;
-    private int maxElements;
 
-    public HeatMap(int maxAgeInSeconds, int maxElements) {
+    private final Map<T, Value> data = new HashMap<>();
+    private final int maxAgeInSeconds;
+    private final int maxElements;
+    private final ContextFactory contextFactory;
+
+    public HeatMap(int maxAgeInSeconds, int maxElements, ContextFactory contextFactory) {
         this.maxAgeInSeconds = maxAgeInSeconds;
         this.maxElements = maxElements;
+        this.contextFactory = contextFactory;
     }
 
     public void bump(T value) {
         clean();
 
-        Value incremental = data.getOrDefault(value, new Value(value));
+        Value incremental = data.getOrDefault(value, new Value(value, (S) contextFactory.buildContext()));
         incremental.bump();
         data.put(value, incremental);
+    }
+
+    public Value get(T value) {
+        return data.getOrDefault(value, new Value(value, (S) contextFactory.buildContext()));
     }
 
     public List<Value> getTop(int count) {
@@ -63,13 +70,19 @@ public class HeatMap<T> {
                 .collect(Collectors.toList());
     }
 
-    private class Value {
+    public interface ContextFactory {
+        Object buildContext();
+    }
+
+    public class Value {
+        @Getter private S context;
         @Getter private T value;
         @Getter private Instant pingedAt = Instant.now();
-        @Getter private int score = 1;
+        @Getter private Integer score = 1;
 
-        public Value(T value) {
+        public Value(T value, S context) {
             this.value = value;
+            this.context = context;
         }
 
         public void bump() {
@@ -82,4 +95,5 @@ public class HeatMap<T> {
         }
     }
 
+    public static ContextFactory BYTE_CONTEXT = () -> (byte) 0;
 }

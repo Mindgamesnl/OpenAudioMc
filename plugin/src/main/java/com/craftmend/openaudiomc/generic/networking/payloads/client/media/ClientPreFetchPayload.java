@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 public class ClientPreFetchPayload extends AbstractPacketPayload {
 
     private String source;
+    private boolean clear = false;
 
 }

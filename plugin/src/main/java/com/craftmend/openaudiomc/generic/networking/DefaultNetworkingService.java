@@ -63,8 +63,6 @@ public class DefaultNetworkingService extends NetworkingService {
                 }
             }
         });
-
-        addEventHandler(OpenAudioMc.getInstance().getPredictiveMediaService().getPacketHook());
     }
 
     private void init() {
