@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.show.menu;
 
+import com.craftmend.openaudiomc.generic.utils.HeatMap;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.show.objects.Show;
 import com.craftmend.openaudiomc.spigot.modules.show.objects.ShowCue;
@@ -8,7 +9,10 @@ import com.craftmend.openaudiomc.spigot.services.clicklib.menu.Menu;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class ShowCueMenu extends Menu {
 
@@ -26,8 +30,17 @@ public class ShowCueMenu extends Menu {
         } else {
             count = 45;
         }
+
+        List<ShowCue> showCueList = show.getCueList().stream()
+                .sorted(
+                        Comparator
+                                .comparingLong(ShowCue::getTimestamp)
+                                .reversed()
+                )
+                .collect(Collectors.toList());
+
         // copy
-        System.arraycopy(show.getCueList().toArray(), ((page - 1) * 45), cues, 0, count);
+        System.arraycopy(showCueList.toArray(), ((page - 1) * 45), cues, 0, count);
 
         int slot = 0;
         for (ShowCue cue : cues) {
