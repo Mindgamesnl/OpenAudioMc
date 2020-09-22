@@ -44,7 +44,6 @@ public class PredictiveMediaModule {
             loadFromFile();
         } catch (IOException e) {
             OpenAudioLogger.toConsole("Failed to load chunk-cache from file.");
-            e.printStackTrace();
         }
     }
 
@@ -55,6 +54,7 @@ public class PredictiveMediaModule {
                 ).toPath())),
                 SerializedAudioChunk.ChunkMap.class
         );
+        chunkMapSerializer.applyFromChunkMap(filemap, chunkTracker);
     }
 
     public void onDisable() {
