@@ -31,7 +31,7 @@ public class AudioChunkHandler implements ITickableHandler {
     @Override
     public void tick() {
         String newChunkId = OpenAudioMcSpigot.getInstance().getPredictiveMediaService().locationToAudioChunkId(player.getLocation());
-        player.sendMessage("Current chunk id: " + newChunkId);
+        
         if (!newChunkId.equals(currentAudioChunkId)) {
             currentAudioChunkId = newChunkId;
 
@@ -48,7 +48,7 @@ public class AudioChunkHandler implements ITickableHandler {
             // get top sounds for this chunk
             // prefetch the top X sounds, and fetch that from the config
             List<HeatMap<String, Byte>.Value> vls = chunkContext.getTop(StorageKey.SETTINGS_PRELOAD_SOUNDS.getInt());
-            player.sendMessage(vls.size() + " out of " + StorageKey.SETTINGS_PRELOAD_SOUNDS.getInt());
+
             hasPrefetchedContent = !vls.isEmpty();
             for (HeatMap<String, Byte>.Value value : vls) {
                 // prefetch
