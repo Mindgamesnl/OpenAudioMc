@@ -11,6 +11,7 @@ import {handleMediaUpdate} from "./handlers/HandleMediaUpdate";
 import {handlePlayerLocation} from "./handlers/HandlePlayerLocation";
 import {handleSpeakerCreation} from "./handlers/HandleSpeakerCreation";
 import {handleSpeakerDestroy} from "./handlers/HandleSpeakerDestroy";
+import { handlePrefetchPacket } from './handlers/HandlePrefetch'
 
 export class Handlers {
 
@@ -30,5 +31,6 @@ export class Handlers {
         registerClassHandler("ClientPlayerLocationPayload", handlePlayerLocation)
         registerClassHandler("ClientSpeakerCreatePayload", handleSpeakerCreation)
         registerClassHandler("ClientSpeakerDestroyPayload", handleSpeakerDestroy)
+        registerClassHandler("ClientPreFetchPayload", handlePrefetchPacket)
     }
 }
