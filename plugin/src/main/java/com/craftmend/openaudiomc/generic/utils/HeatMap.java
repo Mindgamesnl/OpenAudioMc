@@ -87,6 +87,7 @@ public class HeatMap<T, S> {
         public void bump() {
             score++;
             pingedAt = Instant.now();
+            data.put(value, this);
         }
 
         public int getAge() {

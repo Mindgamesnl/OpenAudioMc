@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.services.utils;
 
 import com.craftmend.openaudiomc.spigot.services.utils.interfaces.Feeder;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -11,7 +12,7 @@ public class DataWatcher<T> {
     private T value;
     private final int task;
     private Feeder<T> dataFeeder;
-    private Consumer<T> callback;
+    @Getter private Consumer<T> callback;
     private boolean isRunning;
     private boolean forced = false;
 
