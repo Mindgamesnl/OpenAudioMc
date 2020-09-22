@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.predictive.serialization;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.utils.HeatMap;
 
 import java.util.ArrayList;
@@ -8,7 +9,16 @@ import java.util.Map;
 
 public class ChunkMapSerializer {
 
-    public SerializedAudioChunk.ChunkMap serialize(HeatMap<String, HeatMap<String, Byte>> data) {
+    public String toJson(HeatMap<String, HeatMap<String, Byte>> data) {
+        return OpenAudioMc.getGson().toJson(serialize(data));
+    }
+
+    public void applyFromJson(String json, HeatMap<String, HeatMap<String, Byte>> currentMap) {
+        SerializedAudioChunk.ChunkMap loaded = OpenAudioMc.getGson().fromJson(json, SerializedAudioChunk.ChunkMap.class);
+        explodeInto(loaded, currentMap);
+    }
+
+    private SerializedAudioChunk.ChunkMap serialize(HeatMap<String, HeatMap<String, Byte>> data) {
         SerializedAudioChunk.ChunkMap chunkMap = new SerializedAudioChunk.ChunkMap();
 
         Map<String, HeatMap<String, HeatMap<String, Byte>>.Value> map = data.getMap();
@@ -36,7 +46,7 @@ public class ChunkMapSerializer {
         return chunkMap;
     }
 
-    public void explodeInto(SerializedAudioChunk.ChunkMap chunkMap, HeatMap<String, HeatMap<String, Byte>> curentMap) {
+    private void explodeInto(SerializedAudioChunk.ChunkMap chunkMap, HeatMap<String, HeatMap<String, Byte>> curentMap) {
         for (Map.Entry<String, SerializedAudioChunk.Chunk> entry : chunkMap.getData().entrySet()) {
             String chunkId = entry.getKey();
             SerializedAudioChunk.Chunk chunk = entry.getValue();

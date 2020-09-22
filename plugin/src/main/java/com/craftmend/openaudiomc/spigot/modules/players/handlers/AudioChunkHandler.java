@@ -40,7 +40,7 @@ public class AudioChunkHandler implements ITickableHandler {
                 spigotConnection.getClientConnection().sendPacket(new PacketClientPreFetch(true));
             }
 
-            HeatMap<String, HeatMap<String, Byte>>.Value audioChunk = OpenAudioMcSpigot.getInstance().getPredictiveMediaService().getActiveRegions().get(currentAudioChunkId);
+            HeatMap<String, HeatMap<String, Byte>>.Value audioChunk = OpenAudioMcSpigot.getInstance().getPredictiveMediaService().getChunkTracker().get(currentAudioChunkId);
             HeatMap<String, Byte> chunkContext = audioChunk.getContext();
             audioChunk.bump();
 
