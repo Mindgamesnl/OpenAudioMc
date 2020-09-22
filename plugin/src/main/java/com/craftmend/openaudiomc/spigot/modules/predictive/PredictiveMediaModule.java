@@ -27,9 +27,9 @@ import java.nio.file.Files;
 public class PredictiveMediaModule {
 
     private final ChunkMapSerializer chunkMapSerializer = new ChunkMapSerializer();
-    private int chunkAge = 60 * 60;  // chunk values are kept for an hour
-    private int maxChunkData = 50;   // keep up to 50 chunks
-    private int maxChunkCache = 15;  // keep 15 sounds per chunk
+    private int chunkAge = 60 * 60 * 10;  // chunk values are kept for 10 hours
+    private int maxChunkData = 70;       // keep up to 70 chunks
+    private int maxChunkCache = 15;      // keep 15 sounds per chunk
 
     // map "active" audio chunks of the world
     @Getter private HeatMap<String, HeatMap<String, Byte>> chunkTracker = new HeatMap<>(
