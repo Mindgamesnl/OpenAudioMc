@@ -28,8 +28,16 @@ public class HeatMap<T, S> {
         data.put(value, incremental);
     }
 
+    public Collection<Value> getValues() {
+        return data.values();
+    }
+
     public Value get(T value) {
         return data.getOrDefault(value, new Value(value, (S) contextFactory.buildContext()));
+    }
+
+    public Map<T, Value> getMap() {
+        return data;
     }
 
     public List<Value> getTop(int count) {
