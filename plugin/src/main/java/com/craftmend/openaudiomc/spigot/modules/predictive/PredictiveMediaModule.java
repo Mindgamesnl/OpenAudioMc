@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.predictive;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
+import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.interfaces.SourceHolder;
@@ -20,7 +21,7 @@ public class PredictiveMediaModule {
     private int maxChunkCache = 15;   // keep 5 sounds per chunk
 
     // map "active" audio chunks of the world
-    @Getter private final HeatMap<Long, HeatMap<String, Byte>> activeRegions = new HeatMap<>(
+    @Getter private final HeatMap<String, HeatMap<String, Byte>> activeRegions = new HeatMap<>(
             chunkAge,
             maxChunkData,
             () -> new HeatMap<String, Byte>(chunkAge, maxChunkCache, HeatMap.BYTE_CONTEXT)
@@ -34,11 +35,10 @@ public class PredictiveMediaModule {
         return new INetworkingEvents() {
             @Override
             public void onPacketSend(Authenticatable target, AbstractPacket packet) {
-                if (packet instanceof SourceHolder) {
-                    String source = ((SourceHolder) packet).getSource();
-
-                    Player player = Bukkit.getPlayer(target.getOwnerUUID());
-                    if (player == null) return;
+                if (packet.getData() instanceof SourceHolder) {
+                    String source = ((SourceHolder) packet.getData()).getSource();
+                    ClientConnection client = (ClientConnection) target;
+                    Player player = Bukkit.getPlayer(client.getPlayer().getUniqueId());
 
                     // bump the source for the players chunk chunk
                     activeRegions.get(locationToAudioChunkId(player.getLocation())).getContext().bump(source);
@@ -47,9 +47,16 @@ public class PredictiveMediaModule {
         };
     }
 
-    public long locationToAudioChunkId(Location location) {
-        int chunkX = (int) Math.floor(location.getBlockX()) << 10;
-        int chunkZ = (int) Math.floor(location.getBlockZ()) << 10;
-        return (long) chunkX & 0xffffffffL | ((long) chunkZ & 0xffffffffL) << 32;
+    private Integer step(Integer i) {
+        if (i == 0) {
+            return 0;
+        }
+        return i / 150;
+    }
+
+    public String locationToAudioChunkId(Location location) {
+        int chunkX = step(location.getBlockX());
+        int chunkZ = step(location.getBlockZ());
+        return chunkX + "@" + chunkZ;
     }
 }

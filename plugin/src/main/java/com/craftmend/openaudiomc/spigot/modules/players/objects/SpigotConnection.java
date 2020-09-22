@@ -69,12 +69,13 @@ public class SpigotConnection {
             // if the client is not connected, then dont do shit, they wont hear it anyway
             if (!this.clientConnection.getIsConnected()) return;
 
+            this.audioChunkHandler.tick();
+
             // tick the regions, if the regions are enabled
             if (this.regionHandler != null) this.regionHandler.tick();
 
             // tick the speakers to force them to update
             this.speakerHandler.tick();
-            this.audioChunkHandler.tick();
         });
 
         // the feeder, how the data watcher gets its new fed data
@@ -82,8 +83,10 @@ public class SpigotConnection {
 
         // set handlers
         clientConnection.addOnConnectHandler(() -> {
+            audioChunkHandler.reset();
             currentRegions.clear();
             currentSpeakers.clear();
+            locationDataWatcher.getCallback().accept(player.getLocation());
             Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> Bukkit.getServer().getPluginManager().callEvent(new ClientConnectEvent(player, this)));
         });
 

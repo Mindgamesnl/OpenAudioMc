@@ -16,7 +16,7 @@ public class AudioChunkHandler implements ITickableHandler {
     private final SpigotConnection spigotConnection;
     private boolean hasPrefetchedContent = false;
 
-    private long currentAudioChunkId = 0L;
+    private String currentAudioChunkId = "";
 
     public AudioChunkHandler(Player player, SpigotConnection spigotConnection) {
         this.player = player;
@@ -24,11 +24,15 @@ public class AudioChunkHandler implements ITickableHandler {
     }
 
 
+    public void reset() {
+        this.currentAudioChunkId = "";
+    }
+
     @Override
     public void tick() {
-        long newChunkId = OpenAudioMcSpigot.getInstance().getPredictiveMediaService().locationToAudioChunkId(player.getLocation());
-
-        if (newChunkId != currentAudioChunkId) {
+        String newChunkId = OpenAudioMcSpigot.getInstance().getPredictiveMediaService().locationToAudioChunkId(player.getLocation());
+        player.sendMessage("Current chunk id: " + newChunkId);
+        if (!newChunkId.equals(currentAudioChunkId)) {
             currentAudioChunkId = newChunkId;
 
             // clear old prefetches
@@ -36,13 +40,15 @@ public class AudioChunkHandler implements ITickableHandler {
                 spigotConnection.getClientConnection().sendPacket(new PacketClientPreFetch(true));
             }
 
-            HeatMap<Long, HeatMap<String, Byte>>.Value audioChunk = OpenAudioMcSpigot.getInstance().getPredictiveMediaService().getActiveRegions().get(currentAudioChunkId);
+            HeatMap<String, HeatMap<String, Byte>>.Value audioChunk = OpenAudioMcSpigot.getInstance().getPredictiveMediaService().getActiveRegions().get(currentAudioChunkId);
             HeatMap<String, Byte> chunkContext = audioChunk.getContext();
             audioChunk.bump();
+
 
             // get top sounds for this chunk
             // prefetch the top X sounds, and fetch that from the config
             List<HeatMap<String, Byte>.Value> vls = chunkContext.getTop(StorageKey.SETTINGS_PRELOAD_SOUNDS.getInt());
+            player.sendMessage(vls.size() + " out of " + StorageKey.SETTINGS_PRELOAD_SOUNDS.getInt());
             hasPrefetchedContent = !vls.isEmpty();
             for (HeatMap<String, Byte>.Value value : vls) {
                 // prefetch
