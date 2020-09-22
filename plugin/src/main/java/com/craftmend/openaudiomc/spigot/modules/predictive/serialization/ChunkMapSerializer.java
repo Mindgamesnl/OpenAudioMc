@@ -13,8 +13,7 @@ public class ChunkMapSerializer {
         return OpenAudioMc.getGson().toJson(serialize(data));
     }
 
-    public void applyFromJson(String json, HeatMap<String, HeatMap<String, Byte>> currentMap) {
-        SerializedAudioChunk.ChunkMap loaded = OpenAudioMc.getGson().fromJson(json, SerializedAudioChunk.ChunkMap.class);
+    public void applyFromChunkMap(SerializedAudioChunk.ChunkMap loaded, HeatMap<String, HeatMap<String, Byte>> currentMap) {
         explodeInto(loaded, currentMap);
     }
 
