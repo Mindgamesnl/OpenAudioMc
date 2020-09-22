@@ -31,7 +31,7 @@ public class AudioChunkHandler implements ITickableHandler {
     @Override
     public void tick() {
         String newChunkId = OpenAudioMcSpigot.getInstance().getPredictiveMediaService().locationToAudioChunkId(player.getLocation());
-        
+
         if (!newChunkId.equals(currentAudioChunkId)) {
             currentAudioChunkId = newChunkId;
 
