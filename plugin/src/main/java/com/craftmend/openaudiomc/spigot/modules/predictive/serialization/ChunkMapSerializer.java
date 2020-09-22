@@ -36,4 +36,24 @@ public class ChunkMapSerializer {
         return chunkMap;
     }
 
+    public void explodeInto(SerializedAudioChunk.ChunkMap chunkMap, HeatMap<String, HeatMap<String, Byte>> curentMap) {
+        for (Map.Entry<String, SerializedAudioChunk.Chunk> entry : chunkMap.getData().entrySet()) {
+            String chunkId = entry.getKey();
+            SerializedAudioChunk.Chunk chunk = entry.getValue();
+
+            HeatMap<String, Byte> byteHeatMap = curentMap.get(chunkId).getContext();
+
+            for (SerializedAudioChunk.ChunkResource resource : chunk.getResources()) {
+                byteHeatMap.forceValue(
+                        resource.getSource(),
+                        resource.getLastPing(),
+                        resource.getScore()
+                );
+            }
+
+            byteHeatMap.clean();
+            curentMap.get(chunkId).setContext(byteHeatMap);
+        }
+    }
+
 }

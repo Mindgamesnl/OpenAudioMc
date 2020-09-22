@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.generic.utils;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -81,9 +83,19 @@ public class HeatMap<T, S> {
         Object buildContext();
     }
 
+    public void forceValue(T value, Instant pingedAt, Integer score) {
+        data.put(value, new Value(
+                (S) contextFactory.buildContext(),
+                value,
+                pingedAt,
+                score
+        ));
+    }
+
+    @AllArgsConstructor
     public class Value {
-        @Getter private S context;
-        @Getter private T value;
+        @Setter @Getter private S context;
+        @Getter private final T value;
         @Getter private Instant pingedAt = Instant.now();
         @Getter private Integer score = 1;
 
