@@ -1,5 +1,6 @@
 import * as PluginChannel from "../../../helpers/protocol/PluginChannel";
 import {AUDIO_ENDPOINTS, AudioSourceProcessor} from "../../../helpers/protocol/AudioSourceProcessor";
+import { GetAudio } from '../../../helpers/utils/AudioFactory'
 
 if (!('toJSON' in Error.prototype))
     Object.defineProperty(Error.prototype, 'toJSON', {
@@ -22,7 +23,7 @@ export class Sound extends AudioSourceProcessor {
         super()
         source = this.translate(source);
 
-        this.soundElement = new Audio();
+        this.soundElement = GetAudio(source);
 
         this.hadError = false;
         this.source = source;
