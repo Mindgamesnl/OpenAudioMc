@@ -32,7 +32,7 @@ public class PredictiveMediaModule {
     private int maxChunkCache = 15;  // keep 15 sounds per chunk
 
     // map "active" audio chunks of the world
-    @Getter private final HeatMap<String, HeatMap<String, Byte>> chunkTracker = new HeatMap<>(
+    @Getter private HeatMap<String, HeatMap<String, Byte>> chunkTracker = new HeatMap<>(
             chunkAge,
             maxChunkData,
             () -> new HeatMap<String, Byte>(chunkAge, maxChunkCache, HeatMap.BYTE_CONTEXT)
@@ -54,7 +54,7 @@ public class PredictiveMediaModule {
                 ).toPath())),
                 SerializedAudioChunk.ChunkMap.class
         );
-        chunkMapSerializer.applyFromChunkMap(filemap, chunkTracker);
+        chunkTracker = chunkMapSerializer.applyFromChunkMap(filemap, chunkTracker);
     }
 
     public void onDisable() {

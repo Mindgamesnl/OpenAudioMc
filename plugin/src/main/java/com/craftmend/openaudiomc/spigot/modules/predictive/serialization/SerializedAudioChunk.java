@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.predictive.serialization;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,6 +22,7 @@ public class SerializedAudioChunk {
     @Setter
     @Getter
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class Chunk {
         private List<ChunkResource> resources;
     }

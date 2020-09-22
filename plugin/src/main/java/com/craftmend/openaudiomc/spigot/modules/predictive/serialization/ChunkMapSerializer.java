@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.utils.HeatMap;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,14 +14,15 @@ public class ChunkMapSerializer {
         return OpenAudioMc.getGson().toJson(serialize(data));
     }
 
-    public void applyFromChunkMap(SerializedAudioChunk.ChunkMap loaded, HeatMap<String, HeatMap<String, Byte>> currentMap) {
-        explodeInto(loaded, currentMap);
+    public HeatMap<String, HeatMap<String, Byte>> applyFromChunkMap(SerializedAudioChunk.ChunkMap loaded, HeatMap<String, HeatMap<String, Byte>> currentMap) {
+        return explodeInto(loaded, currentMap);
     }
 
     private SerializedAudioChunk.ChunkMap serialize(HeatMap<String, HeatMap<String, Byte>> data) {
         SerializedAudioChunk.ChunkMap chunkMap = new SerializedAudioChunk.ChunkMap();
 
         Map<String, HeatMap<String, HeatMap<String, Byte>>.Value> map = data.getMap();
+        Map<String, SerializedAudioChunk.Chunk> serializedMap = new HashMap<>();
 
         for (Map.Entry<String, HeatMap<String, HeatMap<String, Byte>>.Value> entry : map.entrySet()) {
             String chunkId = entry.getKey();
@@ -39,13 +41,16 @@ public class ChunkMapSerializer {
             }
 
             chunk.setResources(resourceList);
+            serializedMap.put(chunkId, new SerializedAudioChunk.Chunk(resourceList));
             map.put(chunkId, chunkContent);
         }
+
+        chunkMap.setData(serializedMap);
 
         return chunkMap;
     }
 
-    private void explodeInto(SerializedAudioChunk.ChunkMap chunkMap, HeatMap<String, HeatMap<String, Byte>> curentMap) {
+    private HeatMap<String, HeatMap<String, Byte>> explodeInto(SerializedAudioChunk.ChunkMap chunkMap, HeatMap<String, HeatMap<String, Byte>> curentMap) {
         for (Map.Entry<String, SerializedAudioChunk.Chunk> entry : chunkMap.getData().entrySet()) {
             String chunkId = entry.getKey();
             SerializedAudioChunk.Chunk chunk = entry.getValue();
@@ -63,6 +68,7 @@ public class ChunkMapSerializer {
             byteHeatMap.clean();
             curentMap.get(chunkId).setContext(byteHeatMap);
         }
+        return curentMap;
     }
 
 }
