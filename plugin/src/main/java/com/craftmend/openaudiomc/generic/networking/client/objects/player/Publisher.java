@@ -19,13 +19,13 @@ import static com.craftmend.openaudiomc.generic.platform.Platform.translateColor
 
 @AllArgsConstructor
 public class Publisher {
-    
+
     private final ClientConnection clientConnection;
 
     public void startClientSession() {
         OpenAudioMc openAudioMc = OpenAudioMc.getInstance();
         ConfigurationImplementation config = openAudioMc.getConfiguration();
-        
+
         // cancel if the player is via bungee because bungee should handle it
         if (openAudioMc.getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE)
             return;
@@ -36,32 +36,33 @@ public class Publisher {
         }
 
         if (clientConnection.isConnected()) {
-            clientConnection.getPlayer().sendMessage(translateColors(Objects.requireNonNull(
-                    config.getString(StorageKey.MESSAGE_CLIENT_ALREADY_CONNECTED)
-            )));
+            clientConnection.getPlayer().sendMessage(translateColors(
+                    StorageKey.MESSAGE_CLIENT_ALREADY_CONNECTED.getString()
+            ));
             return;
         }
-        
+
         openAudioMc.getTaskProvider().runAsync(() -> openAudioMc.getNetworkingService().connectIfDown());
 
         // sending waiting message
-        clientConnection.getPlayer().sendMessage(translateColors(config.getString(StorageKey.MESSAGE_GENERATING_SESSION)));
+        clientConnection.getPlayer().sendMessage(translateColors(StorageKey.MESSAGE_GENERATING_SESSION.getString()));
 
         Task<String> sessionRequest = openAudioMc.getAuthenticationService().getDriver().createPlayerSession(clientConnection);
         sessionRequest.setWhenFails((restErrorType, fuckyou) -> {
-            clientConnection.getPlayer().sendMessage(translateColors(config.getString(StorageKey.MESSAGE_SESSION_ERROR)));
+            clientConnection.getPlayer().sendMessage(translateColors(StorageKey.MESSAGE_SESSION_ERROR.getString()));
         });
-        
+
         sessionRequest.setWhenSuccessful(token -> {
             String url = openAudioMc.getPlusService().getBaseUrl() + token;
-            
+
             TextComponent message = new TextComponent(translateColors(Objects.requireNonNull(
-                    config.getString(StorageKey.MESSAGE_CLICK_TO_CONNECT).replace("{url}", url)
+                    StorageKey.MESSAGE_CLICK_TO_CONNECT.getString().replace("{url}", url)
             )));
-            TextComponent[] hover = new TextComponent[] {
-                    new TextComponent(translateColors(Objects.requireNonNull(
-                            config.getString(StorageKey.MESSAGE_HOVER_TO_CONNECT)
-                    )))
+
+            TextComponent[] hover = new TextComponent[]{
+                    new TextComponent(translateColors(
+                            StorageKey.MESSAGE_HOVER_TO_CONNECT.getString()
+                    ))
             };
             message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
             message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover));
@@ -70,5 +71,5 @@ public class Publisher {
             clientConnection.getPlayer().sendMessage(message);
         });
     }
-    
+
 }

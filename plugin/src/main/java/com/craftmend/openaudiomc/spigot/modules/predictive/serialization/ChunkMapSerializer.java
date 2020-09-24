@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.predictive.serialization;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.utils.HeatMap;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -60,7 +61,7 @@ public class ChunkMapSerializer {
             for (SerializedAudioChunk.ChunkResource resource : chunk.getResources()) {
                 byteHeatMap.forceValue(
                         resource.getSource(),
-                        resource.getLastPing(),
+                        Instant.now(),
                         resource.getScore()
                 );
             }
