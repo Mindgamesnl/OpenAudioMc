@@ -10,7 +10,9 @@ export function handlePrefetchPacket(openAudioMc, data) {
     let toFetch = data.source;
     console.log("[OpenAudioMc] Pre-fetching resource..");
     // fetch a file
-    PreFetch(toFetch)
+    setTimeout(function() {
+      PreFetch(toFetch)
+    }, 250)
   }
 
 }
