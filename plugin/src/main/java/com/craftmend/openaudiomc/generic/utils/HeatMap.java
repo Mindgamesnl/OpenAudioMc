@@ -104,10 +104,18 @@ public class HeatMap<T, S> {
             this.context = context;
         }
 
-        public void bump() {
+        public Value setScore(Integer score) {
+            this.score = score;
+            pingedAt = Instant.now();
+            data.put(value, this);
+            return this;
+        }
+
+        public Value bump() {
             score++;
             pingedAt = Instant.now();
             data.put(value, this);
+            return this;
         }
 
         public int getAge() {
