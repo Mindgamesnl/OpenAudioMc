@@ -46,6 +46,7 @@ public class ClientConnection implements Authenticatable, Client {
 
     // session info
     private final Publisher sessionPublisher;
+    private int volume = -1;
     private boolean isConnected = false;
     @Getter private PlayerSession session;
     @Setter @Getter private Card card = null;
@@ -74,6 +75,11 @@ public class ClientConnection implements Authenticatable, Client {
         if (!OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
             OpenAudioMc.getInstance().getGlobalConstantService().sendNotifications(player);
         }
+    }
+
+    public void updatedVolume(int newVolume) {
+        // triggers when the client changs volume
+        this.volume = newVolume;
     }
 
     public void publishUrl() {

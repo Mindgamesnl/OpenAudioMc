@@ -8,6 +8,10 @@
       "packetChannel": "SOCKET_IN_CLIENT_FAILED_MEDIA",
       "gsonClass": "in.ClientFailedMediaPayload"
     },
+    "volume_changed": {
+      "packetChannel":"SOCKET_IN_CLIENT_CHANGED_VOLUME",
+      "gsonClass":"in.ClientChangedVolumePayload"
+    },
     "current_channels": {
       "packetChannel": "SOCKET_IN_CLIENT_UPDATE_CHANNELS",
       "gsonClass": "in.ClientUpdateChannelListPayload"

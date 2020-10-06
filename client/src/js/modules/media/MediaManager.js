@@ -1,6 +1,7 @@
 import {Mixer} from "./objects/Mixer";
 import {Channel} from "./objects/Channel";
 import {Sound} from "./objects/Sound";
+import * as PluginChannel from '../../helpers/protocol/PluginChannel'
 
 export class MediaManager {
 
@@ -18,6 +19,20 @@ export class MediaManager {
         }
     }
 
+    startVolumeMonitor() {
+        let oldVolume = -1;
+        setInterval(() => {
+            if (oldVolume != this.masterVolume) {
+                oldVolume = this.masterVolume;
+
+                // do whatever your ugly heart desires
+                this.openAudioMc.socketModule.send(PluginChannel.VOLUME_CHANGED, {
+                    "volume": this.masterVolume
+                });
+            }
+        }, 300)
+    }
+
     setupAmbianceSound(source) {
         // dont do anything if its empty or whatever
         if (source == "" || source == null) return;
@@ -25,6 +40,7 @@ export class MediaManager {
     }
 
     postBoot() {
+        setTimeout(this.startVolumeMonitor, 300)
         if (this.startSound != null) {
             const createdChannel = new Channel("startsound");
             const createdMedia = new Sound(this.startSound);
