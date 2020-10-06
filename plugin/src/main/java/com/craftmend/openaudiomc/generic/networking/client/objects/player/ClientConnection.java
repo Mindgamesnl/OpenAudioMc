@@ -46,7 +46,7 @@ public class ClientConnection implements Authenticatable, Client {
 
     // session info
     private final Publisher sessionPublisher;
-    private int volume = -1;
+    @Getter private int volume = -1;
     private boolean isConnected = false;
     @Getter private PlayerSession session;
     @Setter @Getter private Card card = null;
@@ -173,7 +173,7 @@ public class ClientConnection implements Authenticatable, Client {
         if (volume < 0 || volume > 100) {
             throw new IllegalArgumentException("Volume must be between 0 and 100");
         }
-        player.sendMessage(Platform.translateColors(OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.MESSAGE_CLIENT_VOLUME_CHANGED)).replaceAll("__amount__", volume + ""));
+        player.sendMessage(Platform.translateColors(StorageKey.MESSAGE_CLIENT_VOLUME_CHANGED.getString()).replaceAll("__amount__", volume + ""));
         OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientSetVolume(volume));
     }
 

@@ -18,7 +18,7 @@ import net.md_5.bungee.api.plugin.Command;
 public class BungeeVolumeCommand extends Command {
 
     private CommandModule commandModule = OpenAudioMc.getInstance().getCommandModule();
-    private CommandMiddleware[] commandMiddleware = new CommandMiddleware[] {
+    private CommandMiddleware[] commandMiddleware = new CommandMiddleware[]{
             new CatchLegalBindingMiddleware(),
             new CatchCrashMiddleware(),
             new CleanStateCheckMiddleware()
@@ -30,7 +30,8 @@ public class BungeeVolumeCommand extends Command {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if (CommandMiddewareExecutor.shouldBeCanceled(new BungeeCommandSenderAdapter(sender), null, commandMiddleware)) return;
+        if (CommandMiddewareExecutor.shouldBeCanceled(new BungeeCommandSenderAdapter(sender), null, commandMiddleware))
+            return;
 
         if (!(sender instanceof ProxiedPlayer)) {
             sender.sendMessage("This command can only be used by players");
@@ -40,8 +41,10 @@ public class BungeeVolumeCommand extends Command {
         ClientConnection clientConnection = OpenAudioMc.getInstance().getNetworkingService().getClient(((ProxiedPlayer) sender).getUniqueId());
 
         if (!clientConnection.isConnected()) {
-            String message = Platform.translateColors(OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.MESSAGE_CLIENT_NOT_CONNECTED));
-            sender.sendMessage(message);
+            sender.sendMessage(Platform.translateColors(
+                    StorageKey.MESSAGE_CLIENT_VOLUME_CHANGED.getString())
+                    .replaceAll("__amount__", clientConnection.getVolume() + ""
+                    ));
             return;
         }
 

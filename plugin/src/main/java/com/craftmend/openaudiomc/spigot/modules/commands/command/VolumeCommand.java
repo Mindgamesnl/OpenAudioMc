@@ -35,14 +35,16 @@ public class VolumeCommand implements CommandExecutor {
             SpigotConnection spigotConnection = OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(((Player) sender).getUniqueId());
 
             if (!spigotConnection.getClientConnection().isConnected()) {
-                String message = Platform.translateColors(OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.MESSAGE_CLIENT_NOT_CONNECTED));
+                String message = Platform.translateColors(StorageKey.MESSAGE_CLIENT_NOT_CONNECTED.getString());
                 sender.sendMessage(message);
                 return true;
             }
 
             if (args.length == 0) {
-                String message = Platform.translateColors(OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.MESSAGE_CLIENT_VOLUME_INVALID));
-                sender.sendMessage(message);
+                sender.sendMessage(Platform.translateColors(
+                        StorageKey.MESSAGE_CLIENT_VOLUME_CHANGED.getString())
+                        .replaceAll("__amount__", spigotConnection.getClientConnection().getVolume() + ""
+                ));
                 return true;
             }
 
@@ -50,14 +52,14 @@ public class VolumeCommand implements CommandExecutor {
                 int volume = Integer.parseInt(args[0]);
                 //check if in range
                 if (volume < 0 || volume > 100) {
-                    String message = Platform.translateColors(OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.MESSAGE_CLIENT_VOLUME_INVALID));
+                    String message = Platform.translateColors(StorageKey.MESSAGE_CLIENT_VOLUME_INVALID.getString());
                     sender.sendMessage(message);
                     return true;
                 } else {
                     spigotConnection.getClientConnection().setVolume(volume);
                 }
             } catch (Exception e) {
-                String message = Platform.translateColors(OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.MESSAGE_CLIENT_VOLUME_INVALID));
+                String message = Platform.translateColors(StorageKey.MESSAGE_CLIENT_VOLUME_INVALID.getString());
                 sender.sendMessage(message);
                 return true;
             }

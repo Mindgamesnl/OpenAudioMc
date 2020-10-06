@@ -26,6 +26,8 @@ messages:
   client-already-connected: '&4You are already connected to the web client'
 
 
+  # Prints the client volume when /volume is ran without arguments
+  client-volume: '&6Your current volume is __amount__%&7 (TIP: use /volume 40 to set your volume to 40%)'
   # The message a client gets as confirmation for executing /volume or /vol
   client-volume-change: '&6Your volume has been changed to __amount__%'
   # The message a client gets as warning that they messed up /volume or /vol
