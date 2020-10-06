@@ -14,6 +14,7 @@ public enum StorageKey {
     MESSAGE_CLIENT_CLOSED(false, "messages.client-closed", StorageLocation.CONFIG_FILE),
     MESSAGE_CLIENT_OPENED(false, "messages.client-opened", StorageLocation.CONFIG_FILE),
     MESSAGE_CLIENT_VOLUME_CHANGED(false, "messages.client-volume-change", StorageLocation.CONFIG_FILE),
+    MESSAGE_CLIENT_VOLUME(false, "messages.client-volume", StorageLocation.CONFIG_FILE),
     MESSAGE_CLIENT_VOLUME_INVALID(false, "messages.client-volume-invalid", StorageLocation.CONFIG_FILE),
     MESSAGE_CLIENT_NOT_CONNECTED(false, "messages.client-not-connected", StorageLocation.CONFIG_FILE),
     MESSAGE_CLIENT_ALREADY_CONNECTED(false, "messages.client-already-connected", StorageLocation.CONFIG_FILE),
