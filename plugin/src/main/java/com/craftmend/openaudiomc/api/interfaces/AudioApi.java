@@ -2,7 +2,6 @@ package com.craftmend.openaudiomc.api.interfaces;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.DefaultApi;
-import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -47,7 +46,7 @@ public interface AudioApi {
      */
     RegistryApi getRegistryApi();
 
-    public static AudioApi getInstance() {
+    static AudioApi getInstance() {
         return new DefaultApi(OpenAudioMc.getInstance());
     }
 }
