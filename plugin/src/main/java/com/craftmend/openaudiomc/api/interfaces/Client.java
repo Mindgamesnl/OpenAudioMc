@@ -46,4 +46,10 @@ public interface Client {
      */
     void onDisconnect(Runnable runnable);
 
+    /**
+     * Get the client volume
+     * @return Last used client volume, or -1 if it's unknown
+     */
+    int getVolume();
+
 }

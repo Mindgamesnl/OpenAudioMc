@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.api.interfaces;
 
+import com.craftmend.openaudiomc.generic.utils.HeatMap;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.AbstractRegionAdapter;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
@@ -7,6 +8,7 @@ import org.bukkit.Location;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface WorldApi {
 
@@ -38,4 +40,18 @@ public interface WorldApi {
      * @return collection of sources that'll likely be played
      */
     Collection<String> getPredictedSources(Location location);
+
+    /**
+     * Get the prediction chunk context for predictive audio
+     * @param location Location to get
+     * @return chunk context copy
+     */
+    HeatMap<String, Byte> getChunkContext(Location location);
+
+    /**
+     * Save updated chunk context
+     * @param location Location to apply to
+     * @param context Context
+     */
+    void setChunkContext(Location location, List<HeatMap<String, Byte>.Value> context);
 }

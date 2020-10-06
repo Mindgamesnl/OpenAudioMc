@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.utils.HeatMap;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.predictive.PredictiveMediaModule;
 import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.AbstractRegionAdapter;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
@@ -14,9 +15,9 @@ import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import org.bukkit.Location;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class WorldApiImpl implements WorldApi {
 
@@ -43,19 +44,41 @@ public class WorldApiImpl implements WorldApi {
     @Override
     public Collection<String> getPredictedSources(Location location) {
         if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) throw new IllegalStateException("This method is only available in a SPIGOT server.");
-        
-        String newChunkId = OpenAudioMcSpigot.getInstance().getPredictiveMediaService().locationToAudioChunkId(location);
-        HeatMap<String, HeatMap<String, Byte>>.Value audioChunk = OpenAudioMcSpigot.getInstance().getPredictiveMediaService().getChunkTracker().get(newChunkId);
-        HeatMap<String, Byte> chunkContext = audioChunk.getContext();
 
+        HeatMap<String, Byte> chunkContext = getChunkContext(location);
         List<HeatMap<String, Byte>.Value> vls = chunkContext.getTop(StorageKey.SETTINGS_PRELOAD_SOUNDS.getInt());
 
-        List<String> sources = new ArrayList<>();
+        return vls
+                .stream()
+                .map(HeatMap.Value::getValue)
+                .collect(Collectors.toList());
+    }
 
-        for (HeatMap<String, Byte>.Value value : vls) {
-            // prefetch
-            sources.add(value.getValue());
+    @Override
+    public HeatMap<String, Byte> getChunkContext(Location location) {
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) throw new IllegalStateException("This method is only available in a SPIGOT server.");
+
+        return getPredictionModule()
+                .getChunkTracker()
+                .get(
+                        getPredictionModule().locationToAudioChunkId(location)
+                )
+                .bump()
+                .getContext();
+    }
+
+    @Override
+    public void setChunkContext(Location location, List<HeatMap<String, Byte>.Value> context) {
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) throw new IllegalStateException("This method is only available in a SPIGOT server.");
+        
+        HeatMap<String, Byte> chunk = getChunkContext(location);
+        for (HeatMap<String, Byte>.Value value : context) {
+            chunk.get(value.getValue()).setContext(value.getContext());
+            chunk.get(value.getValue()).setScore(value.getScore());
         }
-        return sources;
+    }
+
+    private PredictiveMediaModule getPredictionModule() {
+        return OpenAudioMcSpigot.getInstance().getPredictiveMediaService();
     }
 }
