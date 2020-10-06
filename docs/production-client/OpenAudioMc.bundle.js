@@ -3905,12 +3905,14 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
   }function F(t, e) {
     var n = e.clientSpeaker;t.world.removeSpeaker(n.id);
   }function N(t, e) {
-    if (e.clear) console.log("[OpenAudioMc] Clearing pre-fetched resources"), mt = {};else {
+    if (e.clear) console.log("[OpenAudioMc] Clearing pre-fetched resources"), setTimeout(function () {
+      mt = {};
+    }, 2500);else {
       var _t5 = e.source;console.log("[OpenAudioMc] Pre-fetching resource.."), setTimeout(function () {
         !function (t) {
           t = gt.translate(t);var e = new Audio();e.autoplay = !1, e.src = t, e.load(), mt[t] = e;
         }(_t5);
-      }, 250);
+      }, 2500);
     }
   }function R(t, e, n) {
     v(ht.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: e, message: t }) }).then(function (t) {
