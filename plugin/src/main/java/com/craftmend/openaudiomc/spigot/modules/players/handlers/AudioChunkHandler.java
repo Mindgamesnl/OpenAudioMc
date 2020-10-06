@@ -23,7 +23,6 @@ public class AudioChunkHandler implements ITickableHandler {
         this.spigotConnection = spigotConnection;
     }
 
-
     public void reset() {
         this.currentAudioChunkId = "";
     }

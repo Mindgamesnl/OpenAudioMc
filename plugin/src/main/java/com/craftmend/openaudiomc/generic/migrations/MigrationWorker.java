@@ -1,6 +1,5 @@
 package com.craftmend.openaudiomc.generic.migrations;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.migrations.interfaces.SimpleMigration;
 import com.craftmend.openaudiomc.generic.migrations.migrations.*;
@@ -23,7 +22,7 @@ public class MigrationWorker {
             new AddVolumeHintMigration(),           // add config value for default volume messages
     };
 
-    public void handleMigrations(OpenAudioMc main) {
+    public void handleMigrations() {
         int skipped = 0;
         for (SimpleMigration migration : migrations) {
             if (migration.shouldBeRun()) {
