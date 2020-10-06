@@ -54,4 +54,11 @@ public interface WorldApi {
      * @param context Context
      */
     void setChunkContext(Location location, List<HeatMap<String, Byte>.Value> context);
+
+    /**
+     * Convert a bukkit location to an openaudio chunk and get its ID
+     * @param location Target location
+     * @return chunk id
+     */
+    String getChunkId(Location location);
 }

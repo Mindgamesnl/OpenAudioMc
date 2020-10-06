@@ -70,12 +70,17 @@ public class WorldApiImpl implements WorldApi {
     @Override
     public void setChunkContext(Location location, List<HeatMap<String, Byte>.Value> context) {
         if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) throw new IllegalStateException("This method is only available in a SPIGOT server.");
-        
+
         HeatMap<String, Byte> chunk = getChunkContext(location);
         for (HeatMap<String, Byte>.Value value : context) {
             chunk.get(value.getValue()).setContext(value.getContext());
             chunk.get(value.getValue()).setScore(value.getScore());
         }
+    }
+
+    @Override
+    public String getChunkId(Location location) {
+        return getPredictionModule().locationToAudioChunkId(location);
     }
 
     private PredictiveMediaModule getPredictionModule() {
