@@ -32,4 +32,10 @@ public interface WorldApi {
     @Nullable
     Speaker getPhysicalSpeaker(Location location);
 
+    /**
+     * Get the predicted sources for a location
+     * @param location target location to scan
+     * @return collection of sources that'll likely be played
+     */
+    Collection<String> getPredictedSources(Location location);
 }

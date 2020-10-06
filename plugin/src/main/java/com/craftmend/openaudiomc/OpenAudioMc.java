@@ -98,7 +98,7 @@ public class OpenAudioMc {
         this.authenticationService.initialize();
         globalConstantService = new GlobalConstantService();
 
-        new MigrationWorker().handleMigrations(this);
+        new MigrationWorker().handleMigrations();
 
         this.redisService = new RedisService(this.configuration);
         this.networkingService = serviceImplementation.getConstructor().newInstance();
