@@ -25,7 +25,6 @@ public interface AudioApi {
      */
     Collection<Client> getAllClients();
 
-
     /**
      * Get the World Api (used for regions and speakers)
      * @return World API instance
@@ -37,7 +36,6 @@ public interface AudioApi {
      * @return Media API instance
      */
     MediaApi getMediaApi();
-
 
     /**
      * Get the registry API instance, used to hook into openaudio
