@@ -100,10 +100,10 @@ public class OpenAudioMc {
 
         new MigrationWorker().handleMigrations();
 
+        this.commandModule = new CommandModule(this);
         this.redisService = new RedisService(this.configuration);
         this.networkingService = serviceImplementation.getConstructor().newInstance();
         this.voiceManager = invoker.getVoiceImplementation();
-        this.commandModule = new CommandModule(this);
         this.plusService = new PlusService(this);
 
         // run later

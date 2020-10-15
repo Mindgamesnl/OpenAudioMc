@@ -73,7 +73,7 @@ public class HeatMap<T, S> {
                 .stream()
                 .sorted(
                         Comparator
-                                .comparingInt(Value::getAge)
+                                .comparingInt(Value::getScore)
                                 .reversed()
                 )
                 .collect(Collectors.toList());
