@@ -55,21 +55,28 @@ public class HeatMap<T, S> {
 
     public void clean() {
         int elements = 0;
+        List<T> removals = new ArrayList<>();
         for (Value value : sortedValues()) {
             if (value.getAge() > maxAgeInSeconds) {
-                data.remove(value.getValue());
+                removals.add(value.getValue());
                 continue;
             }
 
             elements++;
             if (elements > maxElements) {
-                data.remove(value.getValue());
+                removals.add(value.getValue());
             }
+        }
+
+        for (T removal : removals) {
+            data.remove(removal);
         }
     }
 
     private List<Value> sortedValues() {
-        return data.values()
+        if (data.isEmpty()) return new ArrayList<>();
+
+        return new ArrayList<>(data.values())
                 .stream()
                 .sorted(
                         Comparator
