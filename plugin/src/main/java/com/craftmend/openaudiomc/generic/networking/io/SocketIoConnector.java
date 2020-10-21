@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking.io;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.certificate.CertificateHelper;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
@@ -33,7 +34,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.UUID;
 
-@RequiredArgsConstructor
 public class SocketIoConnector {
 
     private Socket socket;
@@ -41,12 +41,17 @@ public class SocketIoConnector {
     private RestRequest logoutHandler;
     private boolean registeredLogout = false;
     @Getter private UUID lastUsedRelay = UUID.randomUUID();
+    private ServerKeySet keySet;
 
     private final SocketDriver[] drivers = new SocketDriver[]{
             new SystemDriver(),
             new ClientDriver(),
             new VoiceChatDriver(),
     };
+
+    public SocketIoConnector(ServerKeySet keySet) {
+        this.keySet = keySet;
+    }
 
     public void setupConnection() {
         if (!OpenAudioMc.getInstance().getStateService().getCurrentState().canConnect()) return;
@@ -73,14 +78,12 @@ public class SocketIoConnector {
         opts.reconnection = false;
         opts.webSocketFactory = okHttpClient;
 
-        // load keys
-        String privateKey = OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPrivateKey().getValue();
-        String publicKey = OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue();
-
         // authentication headers
-        opts.query = "type=server&" +
-                "private=" + privateKey +
-                "&public=" + publicKey;
+        opts.query = String.format(
+                "type=server&private=%s&public=%s",
+                keySet.getPrivateKey().getValue(),
+                keySet.getPublicKey().getValue()
+        );
 
         // request a relay server
         OpenAudioLogger.toConsole("Requesting relay..");
@@ -135,9 +138,7 @@ public class SocketIoConnector {
 
 
         // register drivers
-        for (SocketDriver driver : drivers) {
-            driver.boot(socket, this);
-        }
+        for (SocketDriver driver : drivers) driver.boot(socket, this);
         socket.connect();
     }
 
