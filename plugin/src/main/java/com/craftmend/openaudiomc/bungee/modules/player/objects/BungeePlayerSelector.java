@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.bungee.modules.player.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import lombok.AllArgsConstructor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
@@ -43,6 +44,7 @@ public class BungeePlayerSelector {
             if (proxiedPlayer != null) players.add(proxiedPlayer);
         } else {
             //you fucked it
+            OpenAudioLogger.toConsole("Invalid player query. Try something like @a, @a[server=lobby], username or other arguments.");
             commandSender.sendMessage("Invalid player query. Try something like @a, @a[server=lobby], username or other arguments.");
         }
         return players;
