@@ -67,7 +67,7 @@ public class DefaultNetworkingService extends NetworkingService {
 
     private void init() {
         try {
-            socketIoConnector = new SocketIoConnector();
+            socketIoConnector = new SocketIoConnector(OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet());
         } catch (Exception e) {
             OpenAudioLogger.toConsole("The plugin could not start because of a connection problem when requesting the initial private key. Please contact the developers of this plugin.");
             e.printStackTrace();
