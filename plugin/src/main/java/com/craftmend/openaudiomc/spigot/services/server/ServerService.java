@@ -4,7 +4,6 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 
 public class ServerService {
 

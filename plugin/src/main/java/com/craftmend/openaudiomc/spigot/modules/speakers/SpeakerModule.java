@@ -33,10 +33,12 @@ public class SpeakerModule {
     @Getter private ServerVersion version;
 
     public SpeakerModule(OpenAudioMcSpigot openAudioMcSpigot) {
-        openAudioMcSpigot.getServer().getPluginManager().registerEvents(new SpeakerSelectListener(this), openAudioMcSpigot);
-        openAudioMcSpigot.getServer().getPluginManager().registerEvents(new SpeakerCreateListener(openAudioMcSpigot, this), openAudioMcSpigot);
-        openAudioMcSpigot.getServer().getPluginManager().registerEvents(new SpeakerDestroyListener(OpenAudioMc.getInstance(), this), openAudioMcSpigot);
-        openAudioMcSpigot.getServer().getPluginManager().registerEvents(new WorldLoadListener(), openAudioMcSpigot);
+        openAudioMcSpigot.registerEvents(
+                new SpeakerSelectListener(this),
+                new SpeakerCreateListener(openAudioMcSpigot, this),
+                new SpeakerDestroyListener(OpenAudioMc.getInstance(), this),
+                new WorldLoadListener()
+        );
 
         version = openAudioMcSpigot.getServerService().getVersion();
 

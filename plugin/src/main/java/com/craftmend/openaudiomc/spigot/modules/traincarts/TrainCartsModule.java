@@ -23,7 +23,7 @@ public class TrainCartsModule {
 
     public TrainCartsModule(OpenAudioMcSpigot openAudioMcSpigot) {
         SignAction.register(new AudioSign(this));
-        openAudioMcSpigot.getServer().getPluginManager().registerEvents(new TrainListener(this), openAudioMcSpigot);
+        openAudioMcSpigot.registerEvents(new TrainListener(this));
     }
 
     public TrainMedia getMediaFromTrain(String trainName) {
