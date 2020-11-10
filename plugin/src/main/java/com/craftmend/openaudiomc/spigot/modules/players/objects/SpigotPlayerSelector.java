@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.players.objects;
 
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
 import lombok.AllArgsConstructor;
@@ -111,6 +112,7 @@ public class SpigotPlayerSelector {
         }
         else {
             //you fucked it
+            OpenAudioLogger.toConsole("Invalid player query. Try something like @a, @p, username or other arguments.");
             commandSender.sendMessage("Invalid player query. Try something like @a, @p, username or other arguments.");
         }
         return players;
