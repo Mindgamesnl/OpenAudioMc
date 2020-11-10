@@ -8,34 +8,17 @@ import org.bukkit.Material;
 
 public class ServerService {
 
-    @Getter private ServerVersion version;
+    @Getter
+    private ServerVersion version;
 
     public ServerService() {
-        String versionClassPath = Bukkit.getServer().getClass().getPackage().getName();
-        boolean isModernMinecraft = (versionClassPath.contains("1.13") || versionClassPath.contains("1.14")) || versionClassPath.contains("1.15") || versionClassPath.contains("1.16");
-        version = isModernMinecraft ? ServerVersion.MODERN : ServerVersion.LEGACY;
+        String versionString = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
+        int subVersion = Integer.parseInt(versionString.replace("1_", "").replaceAll("_R\\d", ""));
 
-        // do checks to validate
-        if (isModernMinecraft) {
-            try {
-                Material testCase = Material.PLAYER_HEAD;
-            } catch (Exception e) {
-                // modern material not found, defaulting back
-                version = ServerVersion.LEGACY;
-            }
-            try {
-                Material testCase = Material.valueOf("LEGACY_SKULL_ITEM");
-            } catch (Exception e) {
-                // modern material not found, defaulting back
-                version = ServerVersion.LEGACY;
-            }
+        if (subVersion <= 12) {
+            version = ServerVersion.LEGACY;
         } else {
-            try {
-                Material testCase = Material.valueOf("SKULL_ITEM");
-            } catch (Exception e) {
-                // modern material not found, defaulting back
-                version = ServerVersion.MODERN;
-            }
+            version = ServerVersion.MODERN;
         }
 
         OpenAudioLogger.toConsole("Detected version type: " + version);
