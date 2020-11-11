@@ -14,6 +14,7 @@ import com.craftmend.openaudiomc.spigot.modules.show.menu.ShowHomeMenu;
 import com.craftmend.openaudiomc.spigot.modules.show.networking.rest.ShowUploadResponse;
 import com.craftmend.openaudiomc.spigot.modules.show.objects.Show;
 import com.craftmend.openaudiomc.spigot.modules.show.util.TimeParser;
+
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
