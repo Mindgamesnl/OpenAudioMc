@@ -143,8 +143,12 @@ public class SocketIoConnector {
     }
 
     public void disconnect() {
-        logoutHandler.executeAsync();
-        this.socket.disconnect();
+        if (logoutHandler != null) {
+            logoutHandler.executeAsync();
+        }
+        if (this.socket != null) {
+            this.socket.disconnect();
+        }
         OpenAudioMc.getInstance().getStateService().setState(new IdleState());
     }
 

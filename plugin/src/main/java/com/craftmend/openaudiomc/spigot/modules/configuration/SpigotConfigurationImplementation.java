@@ -31,7 +31,7 @@ public class SpigotConfigurationImplementation implements ConfigurationImplement
         //save default
         openAudioMcSpigot.saveDefaultConfig();
         if (!hasDataFile()) openAudioMcSpigot.saveResource("data.yml", false);
-        openAudioMcSpigot.getServer().getPluginManager().registerEvents(this, openAudioMcSpigot);
+        openAudioMcSpigot.registerEvents(this);
 
         dataConfig = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudioMc/data.yml"));
         mainConfig = openAudioMcSpigot.getConfig();
