@@ -35,6 +35,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.time.Duration;
@@ -119,6 +120,12 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
         openAudioMc.disable();
         HandlerList.unregisterAll(this);
         OpenAudioLogger.toConsole("Stopped OpenAudioMc. Goodbye.");
+    }
+
+    public void registerEvents(Listener... listeners) {
+        for (Listener listener : listeners) {
+            getServer().getPluginManager().registerEvents(listener, this);
+        }
     }
 
     @Override

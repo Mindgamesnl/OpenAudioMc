@@ -14,12 +14,15 @@ import com.craftmend.openaudiomc.spigot.modules.show.menu.ShowHomeMenu;
 import com.craftmend.openaudiomc.spigot.modules.show.networking.rest.ShowUploadResponse;
 import com.craftmend.openaudiomc.spigot.modules.show.objects.Show;
 import com.craftmend.openaudiomc.spigot.modules.show.util.TimeParser;
+
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.apache.logging.log4j.util.Strings;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
+import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -151,12 +154,19 @@ public class ShowSubCommand extends SubCommand {
                 return;
             }
 
-            if (!(sender.getOriginal() instanceof Player)) {
+            World world = null;
+
+            if (sender.getOriginal() instanceof  Player) {
+                world = ((Player) sender.getOriginal()).getWorld();
+            } else if (sender.getOriginal() instanceof BlockCommandSender) {
+                world = ((BlockCommandSender) sender.getOriginal()).getBlock().getWorld();
+            } else {
                 sender.sendMessage(ChatColor.RED + "This command can only be executed by players");
                 return;
             }
-            Player player = (Player) sender.getOriginal();
-            ShowRunnable task = openAudioMcSpigot.getShowModule().createRunnable(args[3], data.toString(), player.getWorld());
+
+            ShowRunnable task = openAudioMcSpigot.getShowModule().createRunnable(args[3], data.toString(), world);
+
             if (task == null) {
                 sender.sendMessage(ChatColor.RED + "Could not create task. Available types are:");
                 for (String taskType : openAudioMcSpigot.getShowModule().getTaskTypes()) {
