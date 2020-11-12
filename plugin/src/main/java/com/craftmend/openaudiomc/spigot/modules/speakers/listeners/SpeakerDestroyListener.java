@@ -47,6 +47,7 @@ public class SpeakerDestroyListener implements Listener {
             openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString(), null);
 
             event.getPlayer().sendMessage(openAudioMc.getCommandModule().getCommandPrefix() + ChatColor.RED + "Speaker destroyed");
+            event.setDropItems(false);
         }
     }
 

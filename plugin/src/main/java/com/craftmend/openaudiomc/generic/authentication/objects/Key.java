@@ -2,12 +2,9 @@ package com.craftmend.openaudiomc.generic.authentication.objects;
 
 import lombok.Getter;
 
-import java.time.Instant;
-
 @Getter
 public class Key {
 
-    private Instant created = Instant.now();
     private String value;
 
     /**
