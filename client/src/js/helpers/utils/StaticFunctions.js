@@ -47,6 +47,7 @@ export function linkBootListeners() {
       document.body.addEventListener('click', enable)
 
       // check server status
+      // Disabled for the time being
       fetch(API_ENDPOINT.SERVER_STATUS + tokenSet.name).then(r => {
         r.json().then(response => {
           if (response.offline) {
