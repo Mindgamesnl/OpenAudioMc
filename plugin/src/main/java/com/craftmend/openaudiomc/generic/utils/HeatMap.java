@@ -24,7 +24,6 @@ public class HeatMap<T, S> {
 
     public void bump(T value) {
         clean();
-
         Value incremental = data.getOrDefault(value, new Value(value, (S) contextFactory.buildContext()));
         incremental.bump();
         data.put(value, incremental);

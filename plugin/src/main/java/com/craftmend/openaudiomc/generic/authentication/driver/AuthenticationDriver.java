@@ -10,17 +10,30 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
+import com.craftmend.openaudiomc.generic.utils.HeatMap;
 import com.craftmend.openaudiomc.generic.voicechat.api.util.Task;
 import lombok.AllArgsConstructor;
+
+import java.util.UUID;
 
 @AllArgsConstructor
 public class AuthenticationDriver {
 
     private AuthenticationService service;
+    private HeatMap<UUID, String> sessionCacheMap = new HeatMap<>(60, 100, () -> {
+        return "";
+    });
 
     public Task<String> createPlayerSession(Authenticatable authenticatable) {
         Task<String> task = new Task<>();
         OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
+            // check ache, since there might be a value
+            HeatMap<UUID, String>.Value entry = sessionCacheMap.get(authenticatable.getOwnerUUID());
+            if (!entry.getContext().isEmpty()) {
+                task.success(entry.getContext());
+                return;
+            }
+
             // create request
             ClientTokenRequestBody requestBody = new ClientTokenRequestBody(
                     authenticatable.getOwnerName(),
@@ -39,7 +52,14 @@ public class AuthenticationDriver {
                 return;
             }
 
-            task.success(request.getResponse(SimpleTokenResponse.class).getToken());
+            String token = request.getResponse(SimpleTokenResponse.class).getToken();
+            task.success(token);
+
+            // push to cache
+            entry.setContext(token);
+            entry.bump();
+
+            sessionCacheMap.clean();
         });
         return task;
     }
