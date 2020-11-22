@@ -1,7 +1,13 @@
 package com.craftmend.openaudiomc.generic.media.objects;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -13,6 +19,7 @@ public class MediaOptions {
     private boolean pickUp = true;
     private int fadeTime = 0;
     private int volume = 100;
+    private List<AudioNode> effectNodes = new LinkedList<>();
 
     public OptionalError validate() {
         if (volume > 100)
@@ -28,6 +35,16 @@ public class MediaOptions {
             return new OptionalError(true, "Fade time can't be negative");
 
         return new OptionalError(false, "");
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public class AudioNode {
+        // properties for the node
+        private Map<String, Float> properties = new HashMap<>();
+        // js class of the audio node
+        private String nodeType;
     }
 
 }
