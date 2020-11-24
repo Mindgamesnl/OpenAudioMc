@@ -16,7 +16,6 @@ import lombok.AllArgsConstructor;
 
 import java.util.UUID;
 
-@AllArgsConstructor
 public class AuthenticationDriver {
 
     private AuthenticationService service;
@@ -24,10 +23,15 @@ public class AuthenticationDriver {
         return "";
     });
 
+    public AuthenticationDriver(AuthenticationService service) {
+        this.service = service;
+    }
+
     public Task<String> createPlayerSession(Authenticatable authenticatable) {
         Task<String> task = new Task<>();
         OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
             // check ache, since there might be a value
+            sessionCacheMap.clean();
             HeatMap<UUID, String>.Value entry = sessionCacheMap.get(authenticatable.getOwnerUUID());
             if (!entry.getContext().isEmpty()) {
                 task.success(entry.getContext());
