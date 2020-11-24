@@ -13,3 +13,5 @@ bin
 
 out
 out/*
+
+.vscode/*
