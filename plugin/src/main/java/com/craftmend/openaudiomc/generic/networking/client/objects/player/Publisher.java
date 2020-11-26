@@ -56,7 +56,7 @@ public class Publisher {
             String url = openAudioMc.getPlusService().getBaseUrl() + token;
 
             TextComponent message = new TextComponent(translateColors(Objects.requireNonNull(
-                    StorageKey.MESSAGE_CLICK_TO_CONNECT.getString().replace("{url}", url)
+                    StorageKey.MESSAGE_CLICK_TO_CONNECT.getString().replace("{url}", url).replace("{token}", token)
             )));
 
             TextComponent[] hover = new TextComponent[]{

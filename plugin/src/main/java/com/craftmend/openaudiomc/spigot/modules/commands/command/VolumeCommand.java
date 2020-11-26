@@ -42,9 +42,8 @@ public class VolumeCommand implements CommandExecutor {
 
             if (args.length == 0) {
                 sender.sendMessage(Platform.translateColors(
-                        StorageKey.MESSAGE_CLIENT_VOLUME_CHANGED.getString())
-                        .replaceAll("__amount__", spigotConnection.getClientConnection().getVolume() + ""
-                ));
+                        StorageKey.MESSAGE_CLIENT_VOLUME_INVALID.getString())
+                );
                 return true;
             }
 

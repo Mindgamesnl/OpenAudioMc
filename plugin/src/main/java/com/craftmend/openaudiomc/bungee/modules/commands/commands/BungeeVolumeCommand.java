@@ -42,9 +42,8 @@ public class BungeeVolumeCommand extends Command {
 
         if (!clientConnection.isConnected()) {
             sender.sendMessage(Platform.translateColors(
-                    StorageKey.MESSAGE_CLIENT_VOLUME_CHANGED.getString())
-                    .replaceAll("__amount__", clientConnection.getVolume() + ""
-                    ));
+                    StorageKey.MESSAGE_CLIENT_VOLUME_INVALID.getString())
+            );
             return;
         }
 
