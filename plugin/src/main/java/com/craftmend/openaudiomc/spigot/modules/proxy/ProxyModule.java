@@ -13,11 +13,23 @@ public class ProxyModule {
     @Getter private ClientMode mode;
 
     public ProxyModule() {
-        FileConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(new File("spigot.yml"));
+        boolean proxyMode = false;
 
-        boolean bungeeMode = yamlConfiguration.getBoolean("settings.bungeecord");
+        // if paper is user, checking for velocity support
+        File paperYml = new File("paper.yml");
+        if(paperYml.exists()){
+            YamlConfiguration paperConfiguration = YamlConfiguration.loadConfiguration(paperYml);
+            proxyMode = paperConfiguration.getBoolean("settings.velocity-support.enabled");
+        }
 
-        if (bungeeMode) {
+        // if proxy mode is false, checking for legacy bungeecord support
+        // this enables bungeecord support if paper is used
+        if(!proxyMode) {
+            FileConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(new File("spigot.yml"));
+            proxyMode = yamlConfiguration.getBoolean("settings.bungeecord");
+        }
+
+        if (proxyMode) {
             OpenAudioLogger.toConsole("Starting in bungee mode");
             mode = ClientMode.NODE;
         } else {

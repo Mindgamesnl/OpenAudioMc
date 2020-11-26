@@ -19,6 +19,7 @@ public abstract class NetworkingService {
     public abstract void addEventHandler(INetworkingEvents events);
     public abstract ClientConnection register(Player player);
     public abstract ClientConnection register(ProxiedPlayer player);
+    public abstract ClientConnection register(com.velocitypowered.api.proxy.Player player);
     public abstract Set<INetworkingEvents> getEvents();
     public abstract ClientConnection getClient(UUID uuid);
     public abstract Collection<ClientConnection> getClients();

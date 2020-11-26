@@ -5,11 +5,7 @@ import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
-import com.craftmend.openaudiomc.generic.platform.Platform;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import org.bukkit.entity.Player;
+import lombok.SneakyThrows;
 
 public class HelpSubCommand extends SubCommand {
 
@@ -46,28 +42,19 @@ public class HelpSubCommand extends SubCommand {
         s.sendMessage(" " + getColor("YELLOW") + "> " + getColor("GOLD") + message);
     }
 
+    @SneakyThrows
     private void goldClickableMessage(GenericExecutor s, String message, String command) {
-        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
-            if (s.getOriginal() instanceof Player) {
-                TextComponent component = new TextComponent(" " + getColor("YELLOW") + "> " + getColor("GOLD") + message);
-                component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + command));
-                Player player = (Player) s.getOriginal();
-                player.spigot().sendMessage(component);
-                return;
-            }
+        switch (OpenAudioMc.getInstance().getPlatform()){
+            case SPIGOT:
+            case BUNGEE:
+                HelperMd5.goldClickableMessage(s,message,command);
+                break;
+            case VELOCITY:
+                HelperVelocity.goldClickableMessage(s,message,command);
+                break;
+            default:
+                s.sendMessage(" " + getColor("YELLOW") + "> " + getColor("GOLD") + message + getColor("GRAY") + ". (" + command + ")");
         }
-
-        if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) {
-            if (s.getOriginal() instanceof ProxiedPlayer) {
-                TextComponent component = new TextComponent(" " + getColor("YELLOW") + "> " + getColor("GOLD") + message);
-                component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + command));
-                ProxiedPlayer player = (ProxiedPlayer) s.getOriginal();
-                player.sendMessage(component);
-                return;
-            }
-        }
-
-        s.sendMessage(" " + getColor("YELLOW") + "> " + getColor("GOLD") + message + getColor("GRAY") + ". (" + command + ")");
     }
 
     private void grayMessage(GenericExecutor s, String message) {

@@ -12,14 +12,14 @@ import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.utils.HeatMap;
 import com.craftmend.openaudiomc.generic.voicechat.api.util.Task;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthenticationDriver {
 
-    private AuthenticationService service;
+    private final AuthenticationService service;
     private HeatMap<UUID, String> sessionCacheMap = new HeatMap<>(60, 100, () -> {
         return "";
     });

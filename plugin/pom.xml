@@ -116,6 +116,21 @@
             <id>MG-Dev Jenkins CI Maven Repository</id>
             <url>https://ci.mg-dev.eu/plugin/repository/everything</url>
         </repository>
+
+        <!-- velocity-plugin by fluse1367 start -->
+        <repository>
+            <id>velocitypowered-repo</id>
+            <url>https://repo.velocitypowered.com/releases/</url>
+        </repository>
+        <repository>
+            <id>minecraft-libraries</id>
+            <url>https://libraries.minecraft.net/</url>
+        </repository>
+        <repository>
+            <id>spongepowered-repo</id>
+            <url>https://repo.spongepowered.org/maven</url>
+        </repository>
+        <!-- velocity-plugin by fluse1367 end -->
     </repositories>
 
     <dependencies>
@@ -186,11 +201,11 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
+        <!--dependency>
             <groupId>com.github.iKeirNez</groupId>
             <artifactId>PluginMessageAPI-Plus-LEGACY</artifactId>
             <version>-38c8a016a3-1</version>
-        </dependency>
+        </dependency-->
 
         <dependency>
             <groupId>net.md-5</groupId>
@@ -219,5 +234,14 @@
             <version>1.15.2-v2-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- velocity-plugin by fluse1367 start -->
+        <dependency>
+            <groupId>com.velocitypowered</groupId>
+            <artifactId>velocity-api</artifactId>
+            <version>1.1.3-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- velocity-plugin by fluse1367 end -->
     </dependencies>
 </project>
