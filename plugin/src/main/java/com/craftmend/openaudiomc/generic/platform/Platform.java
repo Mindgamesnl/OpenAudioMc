@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.platform;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.velocity.utils.VelocityChatColor;
 
 public enum Platform {
 
@@ -16,7 +17,7 @@ public enum Platform {
             case BUNGEE:
                 return net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', input);
             case VELOCITY:
-                return com.craftmend.openaudiomc.velocity.ChatColor.translateAlternateColorCodes('&', input);
+                return VelocityChatColor.translateAlternateColorCodes('&', input);
             default:
                 return null; // unknown platform
         }
@@ -30,7 +31,7 @@ public enum Platform {
             case BUNGEE:
                 return net.md_5.bungee.api.ChatColor.valueOf(color).toString();
             case VELOCITY:
-                return com.craftmend.openaudiomc.velocity.ChatColor.valueOf(color).toString();
+                return VelocityChatColor.valueOf(color).toString();
             default:
                 return null; // unknown platform
         }

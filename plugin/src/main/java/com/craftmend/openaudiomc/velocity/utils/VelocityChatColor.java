@@ -1,10 +1,10 @@
-package com.craftmend.openaudiomc.velocity;
+package com.craftmend.openaudiomc.velocity.utils;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-public enum ChatColor {
+public enum VelocityChatColor {
     BLACK('0', "black"),
     DARK_BLUE('1', "dark_blue"),
     DARK_GREEN('2', "dark_green"),
@@ -31,14 +31,14 @@ public enum ChatColor {
     public static final char COLOR_CHAR = '§';
     public static final String ALL_CODES = "0123456789AaBbCcDdEeFfKkLlMmNnOoRr";
     public static final Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)" + String.valueOf('§') + "[0-9A-FK-OR]");
-    private static final Map<Character, ChatColor> BY_CHAR = new HashMap();
+    private static final Map<Character, VelocityChatColor> BY_CHAR = new HashMap();
 
     static {
-        ChatColor[] var0 = values();
+        VelocityChatColor[] var0 = values();
         int var1 = var0.length;
 
         for (int var2 = 0; var2 < var1; ++var2) {
-            ChatColor colour = var0[var2];
+            VelocityChatColor colour = var0[var2];
             BY_CHAR.put(colour.code, colour);
         }
 
@@ -48,7 +48,7 @@ public enum ChatColor {
     private final String toString;
     private final String name;
 
-    private ChatColor(char code, String name) {
+    private VelocityChatColor(char code, String name) {
         this.code = code;
         this.name = name;
         this.toString = new String(new char[]{'§', code});
@@ -71,7 +71,7 @@ public enum ChatColor {
         return new String(b);
     }
 
-    public static ChatColor getByChar(char code) {
+    public static VelocityChatColor getByChar(char code) {
         return BY_CHAR.get(code);
     }
 
