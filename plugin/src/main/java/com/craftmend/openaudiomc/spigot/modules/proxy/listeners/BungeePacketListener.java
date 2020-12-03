@@ -8,8 +8,8 @@ import com.craftmend.openaudiomc.generic.node.packets.ClientSyncHueStatePacket;
 import com.craftmend.openaudiomc.generic.node.packets.CommandProxyPacket;
 import com.craftmend.openaudiomc.spigot.modules.proxy.objects.FakeCommandSender;
 
-import com.ikeirnez.pluginmessageframework.PacketHandler;
-import com.ikeirnez.pluginmessageframework.PacketListener;
+import com.craftmend.openaudiomc.api.velocitypluginmessageframework.PacketHandler;
+import com.craftmend.openaudiomc.api.velocitypluginmessageframework.PacketListener;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

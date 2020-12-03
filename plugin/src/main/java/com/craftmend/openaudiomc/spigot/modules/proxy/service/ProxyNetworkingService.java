@@ -10,8 +10,8 @@ import com.craftmend.openaudiomc.generic.node.packets.ForwardSocketPacket;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.listeners.BungeePacketListener;
-import com.ikeirnez.pluginmessageframework.PacketPlayer;
-import com.ikeirnez.pluginmessageframework.implementations.BukkitPacketManager;
+import com.craftmend.openaudiomc.api.velocitypluginmessageframework.PacketPlayer;
+import com.craftmend.openaudiomc.api.velocitypluginmessageframework.implementations.BukkitPacketManager;
 import lombok.Getter;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.bukkit.entity.Player;
@@ -73,6 +73,10 @@ public class ProxyNetworkingService extends NetworkingService {
 
     @Override
     public ClientConnection register(ProxiedPlayer player) {
+        return realService.register(player);
+    }
+
+    public ClientConnection register(com.velocitypowered.api.proxy.Player player) {
         return realService.register(player);
     }
 

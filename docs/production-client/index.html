@@ -8,15 +8,323 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.slim.js"></script>
     <script src="libs/color.js"></script>
-    <!-- disable opus for now <script src="libs/libopus.js"></script> -->
     <script src="libs/js.cookie.js"></script>
 
-    <link href="https://mindgamesnl.github.io/OpenAudioMc/production-client/assets/logo.png" rel="icon"/>
-    <link href="https://mindgamesnl.github.io/OpenAudioMc/production-client/assets/logo.png" relw="image"/>
+    <link href="https://help.openaudiomc.net/production-client/assets/logo.png" rel="icon"/>
+    <link href="https://help.openaudiomc.net/production-client/assets/logo.png" relw="image"/>
+
+    <style>
+        .lightrope {
+            display:none;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            position: absolute;
+            z-index: 1;
+            margin: -15px 0 0 0;
+            padding: 0;
+            pointer-events: none;
+            width: 100%;
+        }
+        .lightrope li {
+
+            position: relative;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+            -webkit-animation-iteration-count: infinite;
+            animation-iteration-count: infinite;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: block;
+            width: 12px;
+            height: 28px;
+            border-radius: 50%;
+            margin: 20px;
+            display: inline-block;
+            background: #00f7a5;
+            box-shadow: 0px 4.6666666667px 24px 3px #00f7a5;
+            -webkit-animation-name: flash-1;
+            animation-name: flash-1;
+            -webkit-animation-duration: 0.2s;
+            animation-duration: 0.2s;
+        }
+        .lightrope li:nth-child(2n+1) {
+            background: cyan;
+            box-shadow: 0px 4.6666666667px 24px 3px rgba(0, 255, 255, 0.5);
+            -webkit-animation-name: flash-2;
+            animation-name: flash-2;
+            -webkit-animation-duration: 0.4s;
+            animation-duration: 0.4s;
+        }
+        .lightrope li:nth-child(4n+2) {
+            background: #f70094;
+            box-shadow: 0px 4.6666666667px 24px 3px #f70094;
+            -webkit-animation-name: flash-3;
+            animation-name: flash-3;
+            -webkit-animation-duration: 0.1s;
+            animation-duration: 0.1s;
+        }
+        .lightrope li:nth-child(odd) {
+            -webkit-animation-duration: 0.8s;
+            animation-duration: 0.8s;
+        }
+        .lightrope li:nth-child(3n+1) {
+            -webkit-animation-duration: 0.05s;
+            animation-duration: 0.05s;
+        }
+        .lightrope li:before {
+            content: "";
+            position: absolute;
+            background: #222;
+            width: 10px;
+            height: 9.3333333333px;
+            border-radius: 3px;
+            top: -4.6666666667px;
+            left: 1px;
+        }
+        .lightrope li:after {
+            content: "";
+            top: -14px;
+            left: 9px;
+            position: absolute;
+            width: 52px;
+            height: 18.6666666667px;
+            border-bottom: solid #222 2px;
+            border-radius: 50%;
+        }
+        .lightrope li:last-child:after {
+            content: none;
+        }
+        .lightrope li:first-child {
+            margin-left: -40px;
+        }
+
+        @-webkit-keyframes flash-1 {
+            0%, 100% {
+                background: #00f7a5;
+                box-shadow: 0px 4.6666666667px 24px 3px #00f7a5;
+            }
+            50% {
+                background: rgba(0, 247, 165, 0.4);
+                box-shadow: 0px 4.6666666667px 24px 3px rgba(0, 247, 165, 0.2);
+            }
+        }
+
+        @keyframes flash-1 {
+            0%, 100% {
+                background: #00f7a5;
+                box-shadow: 0px 4.6666666667px 24px 3px #00f7a5;
+            }
+            50% {
+                background: rgba(0, 247, 165, 0.4);
+                box-shadow: 0px 4.6666666667px 24px 3px rgba(0, 247, 165, 0.2);
+            }
+        }
+        @-webkit-keyframes flash-2 {
+            0%, 100% {
+                background: cyan;
+                box-shadow: 0px 4.6666666667px 24px 3px cyan;
+            }
+            50% {
+                background: rgba(0, 255, 255, 0.4);
+                box-shadow: 0px 4.6666666667px 24px 3px rgba(0, 255, 255, 0.2);
+            }
+        }
+        @keyframes flash-2 {
+            0%, 100% {
+                background: cyan;
+                box-shadow: 0px 4.6666666667px 24px 3px cyan;
+            }
+            50% {
+                background: rgba(0, 255, 255, 0.4);
+                box-shadow: 0px 4.6666666667px 24px 3px rgba(0, 255, 255, 0.2);
+            }
+        }
+        @-webkit-keyframes flash-3 {
+            0%, 100% {
+                background: #f70094;
+                box-shadow: 0px 4.6666666667px 24px 3px #f70094;
+            }
+            50% {
+                background: rgba(247, 0, 148, 0.4);
+                box-shadow: 0px 4.6666666667px 24px 3px rgba(247, 0, 148, 0.2);
+            }
+        }
+        @keyframes flash-3 {
+            0%, 100% {
+                background: #f70094;
+                box-shadow: 0px 4.6666666667px 24px 3px #f70094;
+            }
+            50% {
+                background: rgba(247, 0, 148, 0.4);
+                box-shadow: 0px 4.6666666667px 24px 3px rgba(247, 0, 148, 0.2);
+            }
+        }
+
+    </style>
 
     <title>OpenAudioMc</title>
 </head>
 <body class="dark-bg" id="page">
+<script>
+  (function() {
+    var snowflakes = [],
+      moveAngle = 0,
+      animationInterval;
+
+    /**
+     * Generates a random number between the min and max (inclusive).
+     * @method getRandomNumber
+     * @param {Number} min
+     * @param {Number} max
+     * @return {Number}
+     */
+    function getRandomNumber(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    /**
+     * Creates a new snowflake div and returns it.
+     * @method createSnowflake
+     * @return {HTMLElement}
+     */
+    function createSnowflake() {
+      var el = document.createElement('div'),
+        style = el.style;
+
+      style.borderRadius = '100%';
+      style.border = getRandomNumber(1, 4) + 'px solid white';
+      style.position = 'fixed';
+      style.zIndex = '999999';
+      style.boxShadow = '0 0 2px rgba(255,255,255,0.8)';
+      style.top = getRandomNumber(0, window.innerHeight) + 'px';
+      style.left = getRandomNumber(0, window.innerWidth) + 'px';
+
+      return el;
+    }
+
+    /**
+     * Calls the moveSnowflake method for each of the snowflakes in the cache.
+     * @method moveSnowflakes
+     * @return {Void}
+     */
+    function moveSnowflakes() {
+      var l = snowflakes.length,
+        i;
+
+      moveAngle += 0.01;
+
+      for (i=0; i<l; i++) {
+        moveSnowflake(snowflakes[i]);
+      }
+    }
+
+    /**
+     * Moves an individual snowflake element using some simple math.
+     * @method moveSnowflake
+     * @param {HTMLElement} el
+     * @return {Void}
+     */
+    function moveSnowflake(el) {
+      var style = el.style,
+        height = window.innerHeight,
+        radius,
+        top;
+
+      radius = parseInt(style.border, 10);
+
+      top = parseInt(style.top, 10);
+      top += Math.cos(moveAngle) + 1 + radius/2;
+
+      if (top > height) {
+        resetSnowflake(el);
+      } else {
+        style.top = top + 'px';
+      }
+    }
+
+    /**
+     * Puts the snowflake back at the top in a random horizontal start position.
+     * @method resetSnowflake
+     * @param {HTMLElement} el
+     * @return {Void}
+     */
+    function resetSnowflake(el) {
+      var style = el.style;
+
+      style.top = '0px';
+      style.left = getRandomNumber(0, window.innerWidth) + 'px';
+    }
+
+    /**
+     * The kick-off method. Asks how many snowflakes to make and then makes them!
+     * @method setup
+     * @return {Void}
+     */
+    function setup() {
+      var number = 100,
+        particle,
+        i;
+
+      // Setup snow particles
+      for (i=0; i<number; i++) {
+        particle = snowflakes[i] = createSnowflake();
+        document.body.appendChild(particle);
+      }
+
+      // Set animation intervals
+      animationInterval = setInterval(moveSnowflakes, 33);
+    }
+
+    setup();
+  }());
+  console.log("SprookjesCraft is best wel dope");
+</script>
+<ul class="lightrope" >
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+</ul>
 <header>
 
     <div data-page="content-card" style="height: 100%;">
@@ -30,10 +338,10 @@
 
         <div class="alert-area" id="alert-area"></div>
         <div class="header-description container" style="height: 100%; width: 100%;position: absolute;">
-            <div style="text-align: center; height: 100%; width: 100%; position: absolute;" class="tinytop">
+            <div style="text-align: center; height: 100%; width: 100%; position: absolute;padding-left:20%;" class="tinytop">
                 <!-- main activity -->
                 <div style="display: none" data-type="card" id="main-card">
-                    <h2 class="header-title">Hey there <span id="in-game-name"></span> &#128075;</h2>
+                    <h2 class="header-title"><span id="in-game-name"></span></h2>
                     <p id="status-message">
                         Keep this tab open in the background since it'll be used to play audio related to your in-game
                         actions. You can manually change your volume here, or in game using <small><b>/volume
@@ -145,7 +453,6 @@
     </div>
 
 </header>
-
 
 <footer id="footer">
     <span class="roboto">

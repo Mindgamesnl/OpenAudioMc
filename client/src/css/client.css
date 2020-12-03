@@ -18,7 +18,7 @@
 }
 
 body {
-
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,  var(--border-color-light) 0%, rgba(241,147,55,1) 53.4%, var(--border-color-normal) 99.5% )
 }
 
 /* GLOBAL STYLES */
@@ -57,7 +57,7 @@ img{
 }
 
 p{
-    color: var(--gray-color);
+    color: black;
     font-size: .875em;
     hyphens: auto;
     line-height: 1.5;
@@ -121,7 +121,7 @@ p{
     width: 15em;
     margin: 2em auto;
     overflow: hidden;
-    
+
     animation: fancy-fade;
     animation-duration: 5s;
     animation-iteration-count: infinite;
@@ -175,7 +175,7 @@ p{
     margin-top: 1.5em;
 }
 .type-button:after{
-    content: " ▬";
+    content: " â–¬";
     margin-left: .5em;
     vertical-align: .0715em;
 }
@@ -279,7 +279,7 @@ p{
 footer {
     padding: 10px;
     position: absolute;
-    width: 100%;
+    width: auto;
     left: 0;
     bottom: 0px;
     color: rgba(0, 0, 0, 0.65);
@@ -288,6 +288,10 @@ footer {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    background-color: var(--border-color-dark);
+    width: auto;
+    border-top-right-radius: 20px;
+    padding-right: 15px;
 }
 
 footer a {

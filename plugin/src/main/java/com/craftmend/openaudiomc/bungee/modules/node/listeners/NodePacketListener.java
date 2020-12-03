@@ -3,8 +3,8 @@ package com.craftmend.openaudiomc.bungee.modules.node.listeners;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.node.packets.ForwardSocketPacket;
-import com.ikeirnez.pluginmessageframework.PacketHandler;
-import com.ikeirnez.pluginmessageframework.PacketListener;
+import com.craftmend.openaudiomc.api.velocitypluginmessageframework.PacketHandler;
+import com.craftmend.openaudiomc.api.velocitypluginmessageframework.PacketListener;
 
 import java.util.UUID;
 

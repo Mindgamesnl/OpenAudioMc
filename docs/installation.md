@@ -6,6 +6,7 @@ Installation couldn't be simpler
 4. Enjoy
 
 Important notes:
+ - Velocity is supported but currently in beta and not completely tested
  - [By installing, you agree to our privacy policy and rules](https://github.com/Mindgamesnl/OpenAudioMc/blob/master/LICENCE_and_PRIVACY.md)
  - Be sre to also install the plugin in your bungeecord (if you have one). You might need to give yourself the 'openaudiomc.*' permission in your bungeecord.
  - Be sure to use Spigot or one of the many forks, we do not support craft bukkit.
