@@ -10,7 +10,8 @@ import java.util.Objects;
 
 import static com.craftmend.openaudiomc.generic.platform.Platform.translateColors;
 
-class HelperMd5 {
+class SpigotHelper {
+
     static void connectMsg(OpenAudioMc openAudioMc, ClientConnection clientConnection, String token) {
         String url = openAudioMc.getPlusService().getBaseUrl() + token;
 
@@ -29,4 +30,5 @@ class HelperMd5 {
         clientConnection.setWaitingToken(true);
         clientConnection.getPlayer().sendMessage(message);
     }
+
 }

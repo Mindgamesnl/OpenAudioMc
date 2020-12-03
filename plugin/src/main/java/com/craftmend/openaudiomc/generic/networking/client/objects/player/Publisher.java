@@ -10,8 +10,6 @@ import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import lombok.AllArgsConstructor;
 
-import java.util.Objects;
-
 import static com.craftmend.openaudiomc.generic.platform.Platform.translateColors;
 
 @AllArgsConstructor
@@ -54,28 +52,13 @@ public class Publisher {
             switch (openAudioMc.getPlatform()){
                 case SPIGOT:
                 case BUNGEE:
-                    HelperMd5.connectMsg(openAudioMc, clientConnection,token);
+                    SpigotHelper.connectMsg(openAudioMc, clientConnection, token);
                     break;
                 case VELOCITY:
-                    HelperVelocity.connectMsg(openAudioMc, clientConnection, token);
+                    VelocityHelper.connectMsg(openAudioMc, clientConnection, token);
             }
 
-            String url = openAudioMc.getPlusService().getBaseUrl() + token;
-
-            TextComponent message = new TextComponent(translateColors(Objects.requireNonNull(
-                    StorageKey.MESSAGE_CLICK_TO_CONNECT.getString().replace("{url}", url).replace("{token}", token)
-            )));
-
-            TextComponent[] hover = new TextComponent[]{
-                    new TextComponent(translateColors(
-                            StorageKey.MESSAGE_HOVER_TO_CONNECT.getString()
-                    ))
-            };
-            message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
-            message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover));
-
             clientConnection.setWaitingToken(true);
-            clientConnection.getPlayer().sendMessage(message);
         });
     }
 
