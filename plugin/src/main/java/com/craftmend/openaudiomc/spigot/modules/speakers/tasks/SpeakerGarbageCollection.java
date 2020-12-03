@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -19,7 +20,7 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
 
     public SpeakerGarbageCollection(SpeakerModule speakerModule) {
         this.speakerModule = speakerModule;
-        runTaskTimer(OpenAudioMcSpigot.getInstance(), 600, 600);
+        runTaskTimerAsynchronously(OpenAudioMcSpigot.getInstance(), 600, 600);
     }
 
     @Override
@@ -27,7 +28,8 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
         if (!garbageSpeakers.isEmpty()) {
             OpenAudioLogger.toConsole("Found " + garbageSpeakers.size() + " corrupted speakers with the garbage collector. Removing them from the cache.");
             for (MappedLocation garbageSpeaker : garbageSpeakers) {
-                speakerModule.getSpeakerMap().remove(garbageSpeaker);
+                Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> speakerModule.getSpeakerMap().remove(garbageSpeaker));
+
             }
         }
         garbageSpeakers.clear();

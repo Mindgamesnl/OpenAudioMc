@@ -26,7 +26,10 @@ import com.craftmend.openaudiomc.generic.hue.SerializedHueColor;
 
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
-import com.ikeirnez.pluginmessageframework.PacketPlayer;
+import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
+import com.craftmend.openaudiomc.velocity.generic.player.VelocityPlayerAdapter;
+import me.fluse1367.port.com.ikeirnez.pluginmessageframework.PacketPlayer;
+import com.velocitypowered.api.proxy.Player;
 import lombok.Getter;
 import lombok.Setter;
 import net.md_5.bungee.api.ChatColor;
@@ -115,10 +118,16 @@ public class ClientConnection implements Authenticatable, Client {
                 3
         );
 
-        // am I a bungeecord thingy? then send it to my other thingy
-        if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) {
-            ProxiedPlayer proxiedPlayer = ((ProxiedPlayerAdapter) player).getPlayer();
-            OpenAudioMcBungee.getInstance().getNodeManager().getPacketManager().sendPacket(new PacketPlayer(proxiedPlayer), new ClientConnectedPacket(player.getUniqueId()));
+        // am I a proxy thingy? then send it to my other thingy
+        switch (OpenAudioMc.getInstance().getPlatform()){
+            case BUNGEE:
+                ProxiedPlayer proxiedPlayer = ((ProxiedPlayerAdapter) player).getPlayer();
+                OpenAudioMcBungee.getInstance().getNodeManager().getPacketManager().sendPacket(new PacketPlayer(proxiedPlayer), new ClientConnectedPacket(player.getUniqueId()));
+                break;
+            case VELOCITY:
+                Player velocityPlayer = ((VelocityPlayerAdapter) player).getPlayer();
+                OpenAudioMcVelocity.getInstance().getNodeManager().getPacketManager().sendPacket(new PacketPlayer(velocityPlayer), new ClientConnectedPacket(velocityPlayer.getUniqueId()));
+                break;
         }
 
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE)
@@ -136,10 +145,16 @@ public class ClientConnection implements Authenticatable, Client {
         disconnectHandlers.forEach(event -> event.run());
         OpenAudioMc.getInstance().getPlusService().getConnectionManager().removeSessionIfPresent(this);
 
-        // am I a bungeecord thingy? then send it to my other thingy
-        if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) {
-            ProxiedPlayer proxiedPlayer = ((ProxiedPlayerAdapter) player).getPlayer();
-            OpenAudioMcBungee.getInstance().getNodeManager().getPacketManager().sendPacket(new PacketPlayer(proxiedPlayer), new ClientDisconnectedPacket(player.getUniqueId()));
+        // am I a proxy thingy? then send it to my other thingy
+        switch (OpenAudioMc.getInstance().getPlatform()){
+            case BUNGEE:
+                ProxiedPlayer proxiedPlayer = ((ProxiedPlayerAdapter) player).getPlayer();
+                OpenAudioMcBungee.getInstance().getNodeManager().getPacketManager().sendPacket(new PacketPlayer(proxiedPlayer), new ClientDisconnectedPacket(player.getUniqueId()));
+                break;
+            case VELOCITY:
+                Player velocityPlayer = ((VelocityPlayerAdapter) player).getPlayer();
+                OpenAudioMcVelocity.getInstance().getNodeManager().getPacketManager().sendPacket(new PacketPlayer(velocityPlayer), new ClientDisconnectedPacket(velocityPlayer.getUniqueId()));
+                break;
         }
 
         // Don't send if i'm spigot and a node

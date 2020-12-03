@@ -23,13 +23,13 @@ public class WorldApiImpl implements WorldApi {
 
     @Override
     public void setRegionHandler(AbstractRegionAdapter regionHandler) {
-        if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) throw new IllegalStateException("This method is only available in a SPIGOT server.");
+        if (OpenAudioMc.getInstance().getPlatform() != Platform.SPIGOT) throw new IllegalStateException("This method is only available in a SPIGOT server.");
         OpenAudioMcSpigot.getInstance().setRegionModule(new RegionModule(OpenAudioMcSpigot.getInstance(), regionHandler));
     }
 
     @Override
     public Collection<IRegion> getApplicableRegions(Location location) {
-        if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) throw new IllegalStateException("This method is only available in a SPIGOT server.");
+        if (OpenAudioMc.getInstance().getPlatform() != Platform.SPIGOT) throw new IllegalStateException("This method is only available in a SPIGOT server.");
         if (OpenAudioMcSpigot.getInstance().getRegionModule() == null ) throw new IllegalStateException("The region module is not enabled.");
         return OpenAudioMcSpigot.getInstance().getRegionModule().getRegionAdapter().getAudioRegions(location);
     }
@@ -37,13 +37,13 @@ public class WorldApiImpl implements WorldApi {
     @Nullable
     @Override
     public Speaker getPhysicalSpeaker(Location location) {
-        if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) throw new IllegalStateException("This method is only available in a SPIGOT server.");
+        if (OpenAudioMc.getInstance().getPlatform() != Platform.SPIGOT) throw new IllegalStateException("This method is only available in a SPIGOT server.");
         return OpenAudioMcSpigot.getInstance().getSpeakerModule().getSpeaker(MappedLocation.fromBukkit(location));
     }
 
     @Override
     public Collection<String> getPredictedSources(Location location) {
-        if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) throw new IllegalStateException("This method is only available in a SPIGOT server.");
+        if (OpenAudioMc.getInstance().getPlatform() != Platform.SPIGOT) throw new IllegalStateException("This method is only available in a SPIGOT server.");
 
         HeatMap<String, Byte> chunkContext = getChunkContext(location);
         List<HeatMap<String, Byte>.Value> vls = chunkContext.getTop(StorageKey.SETTINGS_PRELOAD_SOUNDS.getInt());
@@ -56,7 +56,7 @@ public class WorldApiImpl implements WorldApi {
 
     @Override
     public HeatMap<String, Byte> getChunkContext(Location location) {
-        if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) throw new IllegalStateException("This method is only available in a SPIGOT server.");
+        if (OpenAudioMc.getInstance().getPlatform() != Platform.SPIGOT) throw new IllegalStateException("This method is only available in a SPIGOT server.");
 
         return getPredictionModule()
                 .getChunkTracker()
@@ -69,7 +69,7 @@ public class WorldApiImpl implements WorldApi {
 
     @Override
     public void setChunkContext(Location location, List<HeatMap<String, Byte>.Value> context) {
-        if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) throw new IllegalStateException("This method is only available in a SPIGOT server.");
+        if (OpenAudioMc.getInstance().getPlatform() != Platform.SPIGOT) throw new IllegalStateException("This method is only available in a SPIGOT server.");
 
         HeatMap<String, Byte> chunk = getChunkContext(location);
         for (HeatMap<String, Byte>.Value value : context) {
