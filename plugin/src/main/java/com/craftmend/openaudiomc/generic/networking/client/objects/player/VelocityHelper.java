@@ -12,7 +12,8 @@ import java.util.Objects;
 
 import static com.craftmend.openaudiomc.generic.platform.Platform.translateColors;
 
-class HelperVelocity {
+class VelocityHelper {
+
     static void connectMsg(OpenAudioMc openAudioMc, ClientConnection clientConnection, String token) {
         String url = openAudioMc.getPlusService().getBaseUrl() + token;
 
@@ -28,4 +29,5 @@ class HelperVelocity {
         Player player = ((VelocityPlayerAdapter) clientConnection.getPlayer()).getPlayer();
         player.sendMessage(message);
     }
+
 }
