@@ -20,6 +20,8 @@ import com.craftmend.openaudiomc.generic.player.ProxiedPlayerAdapter;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
+import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
+import com.craftmend.openaudiomc.velocity.generic.player.VelocityPlayerAdapter;
 import lombok.Getter;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -134,17 +136,23 @@ public class DefaultNetworkingService extends NetworkingService {
             return clientMap.get(uuid);
         } else {
             // if the platform is spigot, we should do the api check, we can skip it otherwise
-            if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
-                Player player = Bukkit.getPlayer(uuid);
-                if (player == null) return null;
-                return register(player);
-            } else {
-                ProxiedPlayer player = ProxyServer.getInstance().getPlayer(uuid);
-                if (player == null) {
-                    // if the player is null or not on this server, it might be a case of redis bungee
+            switch (OpenAudioMc.getInstance().getPlatform()){
+                case SPIGOT:
+                    Player player = Bukkit.getPlayer(uuid);
+                    if (player == null) return null;
+                    return register(player);
+                case BUNGEE:
+                    ProxiedPlayer proxiedPlayer = ProxyServer.getInstance().getPlayer(uuid);
+                    if (proxiedPlayer == null) {
+                        // if the player is null or not on this server, it might be a case of redis bungee
+                        return null;
+                    }
+                    return register(proxiedPlayer);
+                case VELOCITY:
+                    Optional<com.velocitypowered.api.proxy.Player> velocityPlayer = OpenAudioMcVelocity.getInstance().getServer().getPlayer(uuid);
+                    return velocityPlayer.map(this::register).orElse(null);
+                default:
                     return null;
-                }
-                return register(player);
             }
         }
     }
@@ -186,6 +194,13 @@ public class DefaultNetworkingService extends NetworkingService {
     @Override
     public ClientConnection register(ProxiedPlayer player) {
         ClientConnection clientConnection = new ClientConnection(new ProxiedPlayerAdapter(player));
+        clientMap.put(player.getUniqueId(), clientConnection);
+        return clientConnection;
+    }
+
+    @Override
+    public ClientConnection register(com.velocitypowered.api.proxy.Player player) {
+        ClientConnection clientConnection = new ClientConnection(new VelocityPlayerAdapter(player));
         clientMap.put(player.getUniqueId(), clientConnection);
         return clientConnection;
     }

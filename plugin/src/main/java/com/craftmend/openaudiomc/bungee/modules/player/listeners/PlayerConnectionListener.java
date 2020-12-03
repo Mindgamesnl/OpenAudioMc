@@ -7,8 +7,8 @@ import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketC
 import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientSyncHueStatePacket;
-import com.ikeirnez.pluginmessageframework.PacketPlayer;
-import com.ikeirnez.pluginmessageframework.StandardPacket;
+import me.fluse1367.port.com.ikeirnez.pluginmessageframework.PacketPlayer;
+import me.fluse1367.port.com.ikeirnez.pluginmessageframework.StandardPacket;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;

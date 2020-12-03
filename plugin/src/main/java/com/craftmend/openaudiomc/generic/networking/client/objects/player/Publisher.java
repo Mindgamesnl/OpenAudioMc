@@ -9,9 +9,6 @@ import com.craftmend.openaudiomc.generic.voicechat.api.util.Task;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import lombok.AllArgsConstructor;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
 
 import java.util.Objects;
 
@@ -26,7 +23,7 @@ public class Publisher {
         OpenAudioMc openAudioMc = OpenAudioMc.getInstance();
         ConfigurationImplementation config = openAudioMc.getConfiguration();
 
-        // cancel if the player is via bungee because bungee should handle it
+        // cancel if the player is via proxy because the proxy should handle it
         if (openAudioMc.getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE)
             return;
 
@@ -53,6 +50,16 @@ public class Publisher {
         });
 
         sessionRequest.setWhenSuccessful(token -> {
+
+            switch (openAudioMc.getPlatform()){
+                case SPIGOT:
+                case BUNGEE:
+                    HelperMd5.connectMsg(openAudioMc, clientConnection,token);
+                    break;
+                case VELOCITY:
+                    HelperVelocity.connectMsg(openAudioMc, clientConnection, token);
+            }
+
             String url = openAudioMc.getPlusService().getBaseUrl() + token;
 
             TextComponent message = new TextComponent(translateColors(Objects.requireNonNull(

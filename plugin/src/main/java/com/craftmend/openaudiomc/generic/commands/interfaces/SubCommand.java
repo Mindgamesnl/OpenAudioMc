@@ -51,11 +51,7 @@ public abstract class SubCommand {
     }
 
     protected String getColor(String color) {
-        if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) {
-            return net.md_5.bungee.api.ChatColor.valueOf(color).toString();
-        } else {
-            return ChatColor.valueOf(color).toString();
-        }
+        return Platform.makeColor(color);
     }
 
     /**
