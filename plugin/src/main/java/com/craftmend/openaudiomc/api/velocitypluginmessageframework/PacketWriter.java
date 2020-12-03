@@ -1,4 +1,4 @@
-package me.fluse1367.port.com.ikeirnez.pluginmessageframework;
+package com.craftmend.openaudiomc.api.velocitypluginmessageframework;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;

@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.velocity.modules.node;
 import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
 import com.craftmend.openaudiomc.velocity.modules.node.listeners.NodePacketListener;
 import lombok.Getter;
-import me.fluse1367.port.com.ikeirnez.pluginmessageframework.implementations.VelocityPacketManager;
+import com.craftmend.openaudiomc.api.velocitypluginmessageframework.implementations.VelocityPacketManager;
 
 public class NodeManager {
 

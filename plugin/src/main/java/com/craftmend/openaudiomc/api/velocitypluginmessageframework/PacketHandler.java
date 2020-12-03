@@ -1,4 +1,4 @@
-package me.fluse1367.port.com.ikeirnez.pluginmessageframework;
+package com.craftmend.openaudiomc.api.velocitypluginmessageframework;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

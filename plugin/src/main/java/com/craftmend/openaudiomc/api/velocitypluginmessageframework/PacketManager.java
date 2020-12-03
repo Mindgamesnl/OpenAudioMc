@@ -1,6 +1,6 @@
-package me.fluse1367.port.com.ikeirnez.pluginmessageframework;
+package com.craftmend.openaudiomc.api.velocitypluginmessageframework;
 
-import me.fluse1367.port.com.ikeirnez.pluginmessageframework.bungeecord.PacketForward;
+import com.craftmend.openaudiomc.api.velocitypluginmessageframework.bungeecord.PacketForward;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;

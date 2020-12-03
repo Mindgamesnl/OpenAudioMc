@@ -1,4 +1,4 @@
-package me.fluse1367.port.com.ikeirnez.pluginmessageframework.implementations;
+package com.craftmend.openaudiomc.libs.velocitypluginmessageframework.implementations;
 
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.PluginMessageEvent;
@@ -7,8 +7,8 @@ import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.ServerConnection;
 import com.velocitypowered.api.proxy.messages.LegacyChannelIdentifier;
-import me.fluse1367.port.com.ikeirnez.pluginmessageframework.PacketManager;
-import me.fluse1367.port.com.ikeirnez.pluginmessageframework.PacketPlayer;
+import com.craftmend.openaudiomc.libs.velocitypluginmessageframework.PacketManager;
+import com.craftmend.openaudiomc.libs.velocitypluginmessageframework.PacketPlayer;
 
 /**
  * Created by iKeirNez on 24/12/13, ported to velocity and modified by fluse1367 on 11/2020.
