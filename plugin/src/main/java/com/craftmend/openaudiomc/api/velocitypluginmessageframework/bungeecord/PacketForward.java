@@ -1,8 +1,8 @@
-package me.fluse1367.port.com.ikeirnez.pluginmessageframework.bungeecord;
+package com.craftmend.openaudiomc.libs.velocitypluginmessageframework.bungeecord;
 
-import me.fluse1367.port.com.ikeirnez.pluginmessageframework.PacketWriter;
-import me.fluse1367.port.com.ikeirnez.pluginmessageframework.RawPacket;
-import me.fluse1367.port.com.ikeirnez.pluginmessageframework.StandardPacket;
+import com.craftmend.openaudiomc.libs.velocitypluginmessageframework.PacketWriter;
+import com.craftmend.openaudiomc.libs.velocitypluginmessageframework.RawPacket;
+import com.craftmend.openaudiomc.libs.velocitypluginmessageframework.StandardPacket;
 
 import java.io.IOException;
 

@@ -13,8 +13,8 @@ import com.velocitypowered.api.event.connection.PostLoginEvent;
 import com.velocitypowered.api.event.player.ServerConnectedEvent;
 import com.velocitypowered.api.proxy.Player;
 import lombok.SneakyThrows;
-import me.fluse1367.port.com.ikeirnez.pluginmessageframework.PacketPlayer;
-import me.fluse1367.port.com.ikeirnez.pluginmessageframework.StandardPacket;
+import com.craftmend.openaudiomc.api.velocitypluginmessageframework.PacketPlayer;
+import com.craftmend.openaudiomc.api.velocitypluginmessageframework.StandardPacket;
 
 public class PlayerConnectionListener {
 

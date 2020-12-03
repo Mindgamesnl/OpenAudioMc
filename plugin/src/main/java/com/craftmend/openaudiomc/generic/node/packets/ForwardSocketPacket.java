@@ -2,8 +2,8 @@ package com.craftmend.openaudiomc.generic.node.packets;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
-import me.fluse1367.port.com.ikeirnez.pluginmessageframework.PacketWriter;
-import me.fluse1367.port.com.ikeirnez.pluginmessageframework.StandardPacket;
+import com.craftmend.openaudiomc.api.velocitypluginmessageframework.PacketWriter;
+import com.craftmend.openaudiomc.api.velocitypluginmessageframework.StandardPacket;
 import lombok.AllArgsConstructor;
 
 import java.io.DataInputStream;
