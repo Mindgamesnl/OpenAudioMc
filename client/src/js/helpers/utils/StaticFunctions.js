@@ -47,17 +47,18 @@ export function linkBootListeners() {
       document.body.addEventListener('click', enable)
 
       // check server status
-      // Disabled for the time being
-      fetch(API_ENDPOINT.SERVER_STATUS + tokenSet.name).then(r => {
-        r.json().then(response => {
-          if (response.offline) {
-            console.log('Redirecting because network error')
-            window.location.href = 'https://help.openaudiomc.net/network_error.html'
-          } else {
-            console.log('[OpenAudioMc] Server status:' + JSON.stringify(response))
-          }
+      if (FiftyFifty()) {
+        fetch(API_ENDPOINT.SERVER_STATUS + tokenSet.name).then(r => {
+          r.json().then(response => {
+            if (response.offline) {
+              console.log('Redirecting because network error')
+              window.location.href = 'https://help.openaudiomc.net/network_error.html'
+            } else {
+              console.log('[OpenAudioMc] Server status:' + JSON.stringify(response))
+            }
+          })
         })
-      })
+      }
     })
     .catch(error => {
       // check server status
@@ -65,4 +66,8 @@ export function linkBootListeners() {
       window.location.href = 'https://help.openaudiomc.net/network_error.html'
     })
 
+}
+
+function FiftyFifty() {
+  return Math.random() >= 0.5
 }
