@@ -1,7 +1,7 @@
-package com.craftmend.openaudiomc.libs.velocitypluginmessageframework.implementations;
+package com.craftmend.openaudiomc.api.velocitypluginmessageframework.implementations;
 
-import com.craftmend.openaudiomc.libs.velocitypluginmessageframework.PacketManager;
-import com.craftmend.openaudiomc.libs.velocitypluginmessageframework.PacketPlayer;
+import com.craftmend.openaudiomc.api.velocitypluginmessageframework.PacketManager;
+import com.craftmend.openaudiomc.api.velocitypluginmessageframework.PacketPlayer;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.connection.Server;
