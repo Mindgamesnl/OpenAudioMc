@@ -62,10 +62,8 @@ public class OpenAudioMcVelocity implements OpenAudioInvoker {
         this.logger = logger;
         this.dataDir = dataDirPath.toFile();
 
-        if (!dataDir.exists()) {
-            if (!dataDir.mkdirs()) {
-                throw new RuntimeException("Could not create data directory (" + dataDir + ")!");
-            }
+        if (!dataDir.exists() && !dataDir.mkdirs()) {
+            throw new RuntimeException("Could not create data directory (" + dataDir + ")!");
         }
     }
 
