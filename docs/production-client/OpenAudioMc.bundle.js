@@ -6359,11 +6359,11 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
 
   window.onload = function () {
     if (navigator.vendor && -1 < navigator.vendor.indexOf("Apple") && navigator.userAgent && -1 == navigator.userAgent.indexOf("CriOS") && -1 == navigator.userAgent.indexOf("FxiOS")) return void (window.location.href = "https://help.openaudiomc.net/browsers.html");new ft().initialize().then(function (t) {
-      return console.log(t), null == t ? (i(et.BAD_AUTH), void R("A faulty login attempt was done at " + window.location.host, "Steve")) : (null != t && null != t.name && (document.getElementById("in-game-name").innerText = t.name, pe = new Me()), document.body.addEventListener("click", G), void v(ht.SERVER_STATUS + t.name).then(function (t) {
+      return console.log(t), null == t ? (i(et.BAD_AUTH), void R("A faulty login attempt was done at " + window.location.host, "Steve")) : (null != t && null != t.name && (document.getElementById("in-game-name").innerText = t.name, pe = new Me()), document.body.addEventListener("click", G), void (.5 <= Math.random() && v(ht.SERVER_STATUS + t.name).then(function (t) {
         t.json().then(function (t) {
           t.offline ? (console.log("Redirecting because network error"), window.location.href = "https://help.openaudiomc.net/network_error.html") : console.log("[OpenAudioMc] Server status:" + JSON.stringify(t));
         });
-      }));
+      })));
     }).catch(function (t) {
       console.log(t), window.location.href = "https://help.openaudiomc.net/network_error.html";
     });
