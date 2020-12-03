@@ -23,7 +23,7 @@ export function linkBootListeners() {
     navigator.userAgent.indexOf('FxiOS') == -1
 
   if (isSafari) {
-    window.location.href = 'https://mindgamesnl.github.io/OpenAudioMc/browsers.html'
+    window.location.href = 'https://help.openaudiomc.net/browsers.html'
     return
   }
 
@@ -47,22 +47,27 @@ export function linkBootListeners() {
       document.body.addEventListener('click', enable)
 
       // check server status
-      // Disabled for the time being
-      fetch(API_ENDPOINT.SERVER_STATUS + tokenSet.name).then(r => {
-        r.json().then(response => {
-          if (response.offline) {
-            console.log('Redirecting because network error')
-            window.location.href = 'https://mindgamesnl.github.io/OpenAudioMc/network_error.html'
-          } else {
-            console.log('[OpenAudioMc] Server status:' + JSON.stringify(response))
-          }
+      if (FiftyFifty()) {
+        fetch(API_ENDPOINT.SERVER_STATUS + tokenSet.name).then(r => {
+          r.json().then(response => {
+            if (response.offline) {
+              console.log('Redirecting because network error')
+              window.location.href = 'https://help.openaudiomc.net/network_error.html'
+            } else {
+              console.log('[OpenAudioMc] Server status:' + JSON.stringify(response))
+            }
+          })
         })
-      })
+      }
     })
     .catch(error => {
       // check server status
       console.log(error)
-      window.location.href = 'https://mindgamesnl.github.io/OpenAudioMc/network_error.html'
+      window.location.href = 'https://help.openaudiomc.net/network_error.html'
     })
 
+}
+
+function FiftyFifty() {
+  return Math.random() >= 0.5
 }

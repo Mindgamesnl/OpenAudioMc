@@ -61,7 +61,7 @@ public class OpenAudioApi {
      */
     @Deprecated
     public List<IRegion> getRegion(Location location) {
-        if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) throw new IllegalStateException("Region modification is only for spigot plugins");
+        if (OpenAudioMc.getInstance().getPlatform() != Platform.SPIGOT) throw new IllegalStateException("Region modification is only for spigot plugins");
         if (OpenAudioMcSpigot.getInstance().getRegionModule() == null) return new ArrayList<>();
         return OpenAudioMcSpigot.getInstance().getRegionModule().getRegionAdapter().getAudioRegions(location);
     }
@@ -75,7 +75,7 @@ public class OpenAudioApi {
      */
     @Deprecated
     public Speaker getSpeaker(Location location) {
-        if (OpenAudioMc.getInstance().getPlatform() == Platform.BUNGEE) throw new IllegalStateException("Speaker modification is only for spigot plugins");
+        if (OpenAudioMc.getInstance().getPlatform() != Platform.SPIGOT) throw new IllegalStateException("Speaker modification is only for spigot plugins");
         return OpenAudioMcSpigot.getInstance().getSpeakerModule().getSpeaker(new MappedLocation(location));
     }
 

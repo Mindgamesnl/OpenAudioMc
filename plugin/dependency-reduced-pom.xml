@@ -4,7 +4,7 @@
   <groupId>com.craftmend.openaudiomc</groupId>
   <artifactId>OpenAudioMc</artifactId>
   <name>OpenAudioMc</name>
-  <version>6.3.7.2</version>
+  <version>6.3.8</version>
   <description>The OpenAudioMc Java plugin and Api</description>
   <url>https://craftmend.com/</url>
   <build>
@@ -95,6 +95,18 @@
     <repository>
       <id>MG-Dev Jenkins CI Maven Repository</id>
       <url>https://ci.mg-dev.eu/plugin/repository/everything</url>
+    </repository>
+    <repository>
+      <id>velocitypowered-repo</id>
+      <url>https://repo.velocitypowered.com/releases/</url>
+    </repository>
+    <repository>
+      <id>minecraft-libraries</id>
+      <url>https://libraries.minecraft.net/</url>
+    </repository>
+    <repository>
+      <id>spongepowered-repo</id>
+      <url>https://repo.spongepowered.org/maven</url>
     </repository>
   </repositories>
   <dependencies>
@@ -297,6 +309,90 @@
         <exclusion>
           <artifactId>Mountiplex</artifactId>
           <groupId>com.bergerkiller.mountiplex</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.velocitypowered</groupId>
+      <artifactId>velocity-api</artifactId>
+      <version>1.1.3-SNAPSHOT</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>text-api</artifactId>
+          <groupId>net.kyori</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>text-serializer-gson</artifactId>
+          <groupId>net.kyori</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>text-serializer-legacy</artifactId>
+          <groupId>net.kyori</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>text-serializer-plain</artifactId>
+          <groupId>net.kyori</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>toml4j</artifactId>
+          <groupId>com.moandjiezana.toml</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>adventure-api</artifactId>
+          <groupId>net.kyori</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>adventure-text-serializer-gson</artifactId>
+          <groupId>net.kyori</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>adventure-text-serializer-legacy</artifactId>
+          <groupId>net.kyori</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>adventure-text-serializer-plain</artifactId>
+          <groupId>net.kyori</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>adventure-text-serializer-legacy-text3</artifactId>
+          <groupId>net.kyori</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>slf4j-api</artifactId>
+          <groupId>org.slf4j</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>guice</artifactId>
+          <groupId>com.google.inject</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>checker-qual</artifactId>
+          <groupId>org.checkerframework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>velocity-brigadier</artifactId>
+          <groupId>com.velocitypowered</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>configurate-hocon</artifactId>
+          <groupId>org.spongepowered</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>configurate-yaml</artifactId>
+          <groupId>org.spongepowered</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>configurate-gson</artifactId>
+          <groupId>org.spongepowered</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>gson</artifactId>
+          <groupId>com.google.code.gson</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>guava</artifactId>
+          <groupId>com.google.guava</groupId>
         </exclusion>
       </exclusions>
     </dependency>

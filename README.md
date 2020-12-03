@@ -1,9 +1,10 @@
 # OpenAudioMc [![Build Status](https://travis-ci.org/Mindgamesnl/OpenAudioMc.svg?branch=master)](https://travis-ci.org/Mindgamesnl/OpenAudioMc) [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FMindgamesnl%2FOpenAudioMc.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FMindgamesnl%2FOpenAudioMc?ref=badge_shield) ![commit activity](https://img.shields.io/github/commit-activity/4w/mindgamesnl/openaudiomc.svg)
 
 ![welcome](https://repository-images.githubusercontent.com/71650857/6ec80c00-cc77-11ea-9fcf-dc45a929471d)
-
-OpenAudio is free to download on spigot.
-* [Spigot Release Page](https://www.spigotmc.org/resources/openaudiomc-open-source-audio-client.30691/ "Spigot Plugin Page")
+## Supported platforms
+ - [Spigot (from 1.8.8 to latest)](https://www.spigotmc.org/resources/openaudiomc-open-source-audio-client.30691/ "Spigot Plugin Page")
+ - [BungeeCord (recent builds)](https://www.spigotmc.org/resources/openaudiomc-open-source-audio-client.30691/ "Spigot Plugin Page")
+ - [Velocity (currently still being tested)](https://www.spigotmc.org/resources/openaudiomc-open-source-audio-client.30691/ "Spigot Plugin Page")
 
 ## Useful Links
 * **Privacy and License** - <https://github.com/Mindgamesnl/OpenAudioMc/blob/master/LICENCE_and_PRIVACY.md>
