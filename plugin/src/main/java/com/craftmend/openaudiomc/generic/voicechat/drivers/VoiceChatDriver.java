@@ -1,16 +1,13 @@
 package com.craftmend.openaudiomc.generic.voicechat.drivers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
-import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.SocketDriver;
 import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
-import com.craftmend.openaudiomc.generic.networking.payloads.AcknowledgeClientPayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.voice.PlainUuidPayload;
 import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
 import com.craftmend.openaudiomc.generic.networking.rest.data.RestErrorResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
-import com.craftmend.openaudiomc.generic.voicechat.api.util.Task;
+import com.craftmend.openaudiomc.generic.networking.rest.Task;
 import io.socket.client.Ack;
 import io.socket.client.Socket;
 import lombok.Getter;

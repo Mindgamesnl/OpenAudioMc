@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.generic.voicechat;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
 import com.craftmend.openaudiomc.generic.voicechat.api.models.MinecraftAccount;
-import com.craftmend.openaudiomc.generic.voicechat.api.util.Task;
+import com.craftmend.openaudiomc.generic.networking.rest.Task;
 import com.craftmend.openaudiomc.generic.voicechat.interfaces.VoiceManagerImplementation;
 import com.craftmend.openaudiomc.generic.voicechat.room.objects.VoiceRoom;
 import lombok.NoArgsConstructor;

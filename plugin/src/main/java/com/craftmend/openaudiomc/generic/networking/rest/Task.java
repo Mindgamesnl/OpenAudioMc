@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.voicechat.api.util;
+package com.craftmend.openaudiomc.generic.networking.rest;
 
 import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
 import lombok.Getter;
