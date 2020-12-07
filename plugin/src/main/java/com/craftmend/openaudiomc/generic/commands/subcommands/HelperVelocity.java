@@ -9,13 +9,11 @@ import net.kyori.adventure.text.event.ClickEvent;
 
 class HelperVelocity {
     static void goldClickableMessage(GenericExecutor s, String message, String command) {
-        if (s.getOriginal() instanceof Player) {
-            TextComponent component = Component.text(" " + Platform.makeColor("YELLOW") + "> " + Platform.makeColor("GOLD") + message);
+        TextComponent component = Component.text(" " + Platform.makeColor("YELLOW") + "> " + Platform.makeColor("GOLD") + message);
 
-            component.clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/" + command));
+        component.clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/" + command));
 
-            Player player = (Player) s.getOriginal();
-            player.sendMessage(component);
-        }
+        Player player = (Player) s.getOriginal();
+        player.sendMessage(component);
     }
 }
