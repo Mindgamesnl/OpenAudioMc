@@ -11,7 +11,7 @@ import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.utils.HeatMap;
-import com.craftmend.openaudiomc.generic.voicechat.api.util.Task;
+import com.craftmend.openaudiomc.generic.networking.rest.Task;
 import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
