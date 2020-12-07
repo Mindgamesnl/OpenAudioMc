@@ -9,7 +9,7 @@ You can also (dis)allow specific commands, the format for this is `openaudiomc.c
 Example: you need `openaudiomc.commands.region` to use `/oa region create`.
 
 # Speakers
-Speakers have their own two commands for breaking and placing the blocks (alltough the player is still required to be in Creative mode).
+Speakers have their own two commands for breaking and placing the blocks.
 To allow all speaker interactions, you need, `openaudiomc.speakers.*`.
 
 The specific permissions are:
