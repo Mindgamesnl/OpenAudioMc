@@ -36,7 +36,7 @@ public class SpeakerHandler implements ITickableHandler {
      */
     @Override
     public void tick() {
-        List<ApplicableSpeaker> applicableSpeakers = new ArrayList<>(OpenAudioMcSpigot.getInstance().getSpeakerModule().getApplicableSpeakers(player.getLocation()));
+        List<ApplicableSpeaker> applicableSpeakers = new ArrayList<>(OpenAudioMcSpigot.getInstance().getSpeakerModule().getCollector().getApplicableSpeakers(player.getLocation()));
         List<ApplicableSpeaker> enteredSpeakers = new ArrayList<>(applicableSpeakers);
         enteredSpeakers.removeIf(speaker -> containsSpeaker(spigotConnection.getSpeakers(), speaker));
         List<ApplicableSpeaker> leftSpeakers = new ArrayList<>(spigotConnection.getSpeakers());

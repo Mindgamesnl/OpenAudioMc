@@ -15,7 +15,7 @@ public class WorldLoadListener implements Listener {
     public void onLoad(WorldLoadEvent event) {
         Set<QueuedSpeaker> queue = OpenAudioMcSpigot.getInstance().getSpeakerModule().getWaitingWorlds().getOrDefault(event.getWorld().getName(), new HashSet<>());
         for (QueuedSpeaker queuedSpeaker : queue) {
-            OpenAudioMcSpigot.getInstance().getSpeakerModule().loadFromFile(queuedSpeaker.getSpeakerId());
+            OpenAudioMcSpigot.getInstance().getSpeakerModule().getLoader().loadFromFile(queuedSpeaker.getSpeakerId());
         }
         OpenAudioMcSpigot.getInstance().getSpeakerModule().getWaitingWorlds().remove(event.getWorld().getName());
     }

@@ -44,4 +44,5 @@ public class EstimatedRayTracer implements IRayTracer {
 
         return oscillations;
     }
+
 }
