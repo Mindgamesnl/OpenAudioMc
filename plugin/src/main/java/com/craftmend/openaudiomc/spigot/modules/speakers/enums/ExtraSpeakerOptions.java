@@ -37,7 +37,7 @@ public enum ExtraSpeakerOptions {
     }
 
     public boolean isEnabledFor(Speaker speaker) {
-        return speaker.getExtraOptions().contains(this);
+        return speaker.getExtraOptions().contains(this) && isAllowedFor(speaker);
     }
 
 }
