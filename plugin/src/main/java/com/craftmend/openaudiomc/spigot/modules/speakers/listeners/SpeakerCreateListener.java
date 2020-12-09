@@ -48,7 +48,7 @@ public class SpeakerCreateListener implements Listener {
             ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
             int range = spigotConnection.getSelectedSpeakerSettings().getRadius();
 
-            SpeakerType speakerType = speakerModule.guessSpeakerType(location.toBukkit(), spigotConnection.getSelectedSpeakerSettings().getSource());
+            SpeakerType speakerType = speakerModule.getCollector().guessSpeakerType(location.toBukkit(), spigotConnection.getSelectedSpeakerSettings().getSource());
 
             speakerModule.registerSpeaker(location, spigotConnection.getSelectedSpeakerSettings().getSource(), id, range, speakerType);
 
