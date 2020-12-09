@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.speakers;
 
 import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.objects.Vector3;
 import com.craftmend.openaudiomc.generic.utils.TypeCounter;
+import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.ApplicableSpeaker;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
@@ -29,6 +30,7 @@ public class SpeakerCollector {
             speakers.add(new ApplicableSpeaker(
                     speaker,
                     speaker.getSpeakerType(),
+                    ExtraSpeakerOptions.PROCESS_OBSTRUCTIONS.matches(speaker),
                     Vector3.from(speaker.getLocation())
             ));
         });

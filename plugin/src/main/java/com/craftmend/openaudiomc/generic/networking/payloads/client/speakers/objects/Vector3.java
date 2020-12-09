@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.bukkit.Location;
+import org.bukkit.util.Vector;
 
 @Getter
 @NoArgsConstructor
@@ -21,6 +22,10 @@ public class Vector3 {
         Vector3 otherVector = (Vector3) other;
 
         return x == otherVector.getX() && y == otherVector.getY() && z == otherVector.getZ();
+    }
+
+    public Vector toBukkit() {
+        return new Vector(x, y, z);
     }
 
     public static Vector3 from(Location location) {

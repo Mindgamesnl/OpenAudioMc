@@ -14,5 +14,6 @@ public class ClientSpeaker {
     private String source;
     private int maxDistance;
     private long startInstant;
+    private int obstructions;
 
 }

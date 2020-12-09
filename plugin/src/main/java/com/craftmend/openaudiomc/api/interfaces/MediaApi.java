@@ -42,9 +42,10 @@ public interface MediaApi {
      * @param z Static Z location in the world
      * @param radius Radius that the sound can be heard in, in blocks
      * @param useSurroundSound If surround sound should be enabled
+     * @param obstructions The amount of obstructions to be processed, only available for 3d speakers, 0 to disable
      * @return The ID of the created sound, unique per client
      */
-    String playSpatialSound(Client client, String source, int x, int y, int z, int radius, boolean useSurroundSound);
+    String playSpatialSound(Client client, String source, int x, int y, int z, int radius, boolean useSurroundSound, int obstructions);
 
 
     /**
