@@ -8,10 +8,12 @@ import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.objects.Vector3;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
+import com.craftmend.openaudiomc.spigot.modules.speakers.interfaces.IRayTracer;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerSelectListener;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.WorldLoadListener;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.*;
 import com.craftmend.openaudiomc.spigot.modules.speakers.tasks.SpeakerGarbageCollection;
+import com.craftmend.openaudiomc.spigot.modules.speakers.tracing.EstimatedRayTracer;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerCreateListener;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerDestroyListener;
@@ -35,6 +37,8 @@ public class SpeakerModule {
     @Getter private Map<String, Set<QueuedSpeaker>> waitingWorlds = new HashMap<>();
     @Getter private ServerVersion version;
 
+    private EstimatedRayTracer estimatedRayTracer = new EstimatedRayTracer();
+
     public SpeakerModule(OpenAudioMcSpigot openAudioMcSpigot) {
         openAudioMcSpigot.registerEvents(
                 new SpeakerSelectListener(this),
@@ -56,6 +60,11 @@ public class SpeakerModule {
         OpenAudioMc.getInstance().getMediaModule().getResetTriggers().add(() -> {
             speakerMediaMap.clear();
         });
+    }
+
+    public IRayTracer getRayTracer() {
+        // provide a default ray tracer, just use the simple one for now
+        return estimatedRayTracer;
     }
 
     private void initializeVersion() {

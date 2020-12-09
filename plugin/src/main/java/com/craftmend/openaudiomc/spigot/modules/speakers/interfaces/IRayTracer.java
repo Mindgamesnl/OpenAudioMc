@@ -1,10 +1,11 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.interfaces;
 
+import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.objects.Vector3;
 import org.bukkit.Location;
 
 public interface IRayTracer {
 
     // count the obstructions (walls etc) between two locations
-    int obstructionsBetweenLocations(Location start, Location end);
+    int obstructionsBetweenLocations(Location start, Vector3 end);
 
 }

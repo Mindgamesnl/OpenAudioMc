@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.tracing;
 
+import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.objects.Vector3;
 import com.craftmend.openaudiomc.spigot.modules.speakers.interfaces.IRayTracer;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -17,12 +18,12 @@ import java.util.Set;
 public class EstimatedRayTracer implements IRayTracer {
 
     @Override
-    public int obstructionsBetweenLocations(Location start, Location end) {
+    public int obstructionsBetweenLocations(Location start, Vector3 end) {
         Set<Block> blockSet = new HashSet<>();
 
-        double distance = start.distance(end);
         Vector startVector = start.toVector();
-        Vector endVector = end.toVector();
+        Vector endVector = end.toBukkit();
+        double distance = startVector.distance(endVector);
         Vector vector = endVector.clone().subtract(startVector).normalize().multiply(1);
 
         for (double length = 0; length < distance; startVector.add(vector)) {

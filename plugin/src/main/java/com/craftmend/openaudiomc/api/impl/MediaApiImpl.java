@@ -46,14 +46,15 @@ public class MediaApiImpl implements MediaApi {
     }
 
     @Override
-    public String playSpatialSound(Client client, String source, int x, int y, int z, int radius, boolean useSurroundSound) {
+    public String playSpatialSound(Client client, String source, int x, int y, int z, int radius, boolean useSurroundSound, int obstructions) {
         ClientSpeaker clientSpeaker = new ClientSpeaker(
                 new Vector3(x, y, z),
                 (useSurroundSound ? SpeakerType.SPEAKER_3D : SpeakerType.SPEAKER_2D),
                 UUID.randomUUID().toString(),
                 source,
                 radius,
-                Instant.now().toEpochMilli()
+                Instant.now().toEpochMilli(),
+                obstructions
         );
         ClientConnection connection = validateClient(client);
         connection.setApiSpeakers(connection.getApiSpeakers() + 1);
@@ -68,6 +69,7 @@ public class MediaApiImpl implements MediaApi {
                 SpeakerType.SPEAKER_2D,
                 spatialSoundId,
                 null,
+                0,
                 0,
                 0
         );
