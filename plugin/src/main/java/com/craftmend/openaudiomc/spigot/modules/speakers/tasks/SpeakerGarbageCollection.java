@@ -17,10 +17,12 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
 
     private final SpeakerModule speakerModule;
     private final Set<MappedLocation> garbageSpeakers = new HashSet<>();
+    private int lastFraction = 0;
+    private final int FRACTION_GROUP_SIZE = 50;
 
     public SpeakerGarbageCollection(SpeakerModule speakerModule) {
         this.speakerModule = speakerModule;
-        runTaskTimerAsynchronously(OpenAudioMcSpigot.getInstance(), 600, 600);
+        runTaskTimer(OpenAudioMcSpigot.getInstance(), 600, 600);
     }
 
     @Override
@@ -34,8 +36,19 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
         }
         garbageSpeakers.clear();
 
+        // fraction logic to break computing into smaller parts
+        int fractionStart = lastFraction *  FRACTION_GROUP_SIZE;
+
+        int maxFractions = roundUp(this.speakerModule.getSpeakerMap().values().size(), FRACTION_GROUP_SIZE);
+        lastFraction++;
+        if (maxFractions > lastFraction) {
+            lastFraction = 0;
+        }
+
         this.speakerModule.getSpeakerMap().values().stream()
                 .filter(speaker -> !speaker.isValidated())
+                .skip(fractionStart)
+                .limit(FRACTION_GROUP_SIZE)
                 .collect(Collectors.toList())
                 .forEach(speaker -> {
                     MappedLocation mappedLocation = speaker.getLocation();
@@ -50,5 +63,10 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
                         }
                     }
                 });
+    }
+
+    public int roundUp(long num, long divisor) {
+        int sign = (num > 0 ? 1 : -1) * (divisor > 0 ? 1 : -1);
+        return (int) (sign * (Math.abs(num) + Math.abs(divisor) - 1) / Math.abs(divisor));
     }
 }
