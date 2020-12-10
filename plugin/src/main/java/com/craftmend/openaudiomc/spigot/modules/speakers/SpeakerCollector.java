@@ -30,7 +30,6 @@ public class SpeakerCollector {
             speakers.add(new ApplicableSpeaker(
                     speaker,
                     speaker.getSpeakerType(),
-                    ExtraSpeakerOptions.PROCESS_OBSTRUCTIONS.isEnabledFor(speaker),
                     Vector3.from(speaker.getLocation())
             ));
         });

@@ -17,7 +17,7 @@ public enum ExtraSpeakerOptions {
 
     PROCESS_OBSTRUCTIONS(
             "Process Obstructions",
-            "Muffles sound based on how many walls / obstructions it has (only for 3D speakers)",
+            "Muffles sound based on how many walls / obstructions it has",
             speaker -> speaker.getSpeakerType() == SpeakerType.SPEAKER_3D
     ),
     ;
@@ -32,12 +32,12 @@ public enum ExtraSpeakerOptions {
         this.predicates = requirementChecks;
     }
 
-    public boolean isAllowedFor(Speaker speaker) {
+    public boolean isCompatibleWith(Speaker speaker) {
         return Arrays.stream(this.predicates).allMatch(predicate -> predicate.test(speaker));
     }
 
     public boolean isEnabledFor(Speaker speaker) {
-        return speaker.getExtraOptions().contains(this) && isAllowedFor(speaker);
+        return speaker.getExtraOptions().contains(this) && isCompatibleWith(speaker);
     }
 
 }
