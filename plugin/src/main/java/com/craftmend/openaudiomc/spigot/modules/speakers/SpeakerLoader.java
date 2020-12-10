@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.QueuedSpeaker;
@@ -49,6 +50,15 @@ public class SpeakerLoader {
         int y = config.getIntFromPath("speakers." + id + ".y", StorageLocation.DATA_FILE);
         int z = config.getIntFromPath("speakers." + id + ".z", StorageLocation.DATA_FILE);
         int radius = config.getIntFromPath("speakers." + id + ".radius", StorageLocation.DATA_FILE);
+        Set<String> options = config.getStringSet("speakers." + id + ".options", StorageLocation.DATA_FILE);
+        Set<ExtraSpeakerOptions> extraOptions = new HashSet<>();
+
+        // are are they enabled?
+        for (String option : options) {
+            if (config.getStringFromPath("speakers." + id + ".options." + option, StorageLocation.DATA_FILE) == "true") {
+                extraOptions.add(ExtraSpeakerOptions.valueOf(option.toUpperCase()));
+            }
+        }
 
         // try to figure out what type the speaker is when loading
         // it might be none, since speakers were introduced before this update
@@ -68,7 +78,7 @@ public class SpeakerLoader {
             Block blockAt = mappedLocation.getBlock();
 
             if (blockAt != null) {
-                speakerModule.registerSpeaker(mappedLocation, media, UUID.fromString(id), radius, speakerType);
+                speakerModule.registerSpeaker(mappedLocation, media, UUID.fromString(id), radius, speakerType, extraOptions);
             } else {
                 OpenAudioLogger.toConsole("Speaker " + id + " doesn't to seem be valid anymore, so it's not getting loaded.");
             }

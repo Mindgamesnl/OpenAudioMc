@@ -1,13 +1,10 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
-import com.craftmend.openaudiomc.generic.utils.TypeCounter;
+import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
-import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.objects.Vector3;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.interfaces.IRayTracer;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerSelectListener;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.WorldLoadListener;
@@ -20,7 +17,6 @@ import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerDestro
 
 import lombok.Getter;
 import org.bukkit.*;
-import org.bukkit.block.Block;
 
 import java.util.*;
 
@@ -92,8 +88,8 @@ public class SpeakerModule {
         }
     }
 
-    public void registerSpeaker(MappedLocation mappedLocation, String source, UUID uuid, int radius, SpeakerType type) {
-        Speaker speaker = new Speaker(source, uuid, radius, mappedLocation, type);
+    public void registerSpeaker(MappedLocation mappedLocation, String source, UUID uuid, int radius, SpeakerType type, Set<ExtraSpeakerOptions> options) {
+        Speaker speaker = new Speaker(source, uuid, radius, mappedLocation, type, options);
         speakerMap.put(mappedLocation, speaker);
     }
 
