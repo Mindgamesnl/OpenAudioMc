@@ -17,10 +17,6 @@
     padding: 0;
 }
 
-body {
-    background-image: radial-gradient( circle farthest-corner at 10% 20%,  var(--border-color-light) 0%, rgba(241,147,55,1) 53.4%, var(--border-color-normal) 99.5% )
-}
-
 /* GLOBAL STYLES */
 a{
     text-decoration: none;
