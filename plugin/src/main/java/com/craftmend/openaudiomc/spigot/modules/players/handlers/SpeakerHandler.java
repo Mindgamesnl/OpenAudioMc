@@ -11,6 +11,7 @@ import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.Cli
 import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.objects.ClientSpeaker;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.objects.Vector3;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
+import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.interfaces.ITickableHandler;
@@ -51,7 +52,7 @@ public class SpeakerHandler implements ITickableHandler {
 
                 // calculate obstructions?
                 // yea, but only if enabled for this speaker
-                if (entered.isProcessObstructions()) {
+                if (ExtraSpeakerOptions.PROCESS_OBSTRUCTIONS.isEnabledFor(entered.getSpeaker())) {
                     obstructions = speakerModule.getRayTracer().obstructionsBetweenLocations(player.getLocation(), entered.getLocation());
                 }
 

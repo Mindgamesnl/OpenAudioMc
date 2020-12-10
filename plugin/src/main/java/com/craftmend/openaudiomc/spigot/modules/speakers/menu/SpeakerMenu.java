@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImpleme
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
+import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;
@@ -21,7 +22,7 @@ import java.util.Collection;
 public class SpeakerMenu extends Menu {
 
     public SpeakerMenu(Speaker speaker) {
-        super(ChatColor.BLUE + "Updating speaker", 18);
+        super(ChatColor.BLUE + "Updating speaker", 3 * 9);
 
         // show source
         setItem(3, new Item(SpeakerUtils.getSkull())
@@ -42,6 +43,36 @@ public class SpeakerMenu extends Menu {
         setItem(15, getDistanceItem(speaker, 14));
         setItem(16, getDistanceItem(speaker, 16));
         setItem(17, getDistanceItem(speaker, 18));
+
+        setItem(18, new Item(Material.COMMAND_BLOCK)
+                .setName(ChatColor.AQUA + "Extra settings")
+                .setLore(new String[]{})
+        );
+
+        // render additional buttons
+        int settingsStart = 19;
+        for (ExtraSpeakerOptions setting : ExtraSpeakerOptions.values()) {
+            Item settingItem = new Item(Material.LEVER);
+
+            if (setting.isCompatibleWith(speaker)) {
+
+                boolean isEnabled = setting.isEnabledFor(speaker);
+                settingItem.setName((isEnabled ? ChatColor.GREEN + "(enabled) " : ChatColor.RED + "(disabled) ") + setting.getTitle());
+                settingItem.setLore(new String[]{setting.getDescription()});
+
+                settingItem.onClick((clicker, what) -> {
+                    if (isEnabled) {
+                        speaker.getExtraOptions().remove(setting);
+                    } else {
+                        speaker.getExtraOptions().add(setting);
+                    }
+                    new SpeakerMenu(speaker).openFor(clicker);
+                });
+
+                setItem(settingsStart, settingItem);
+                settingsStart++;
+            }
+        }
     }
 
     private Item getTypeButton(Speaker speaker) {

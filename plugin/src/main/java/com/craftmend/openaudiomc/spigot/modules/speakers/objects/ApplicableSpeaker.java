@@ -11,7 +11,6 @@ public class ApplicableSpeaker {
 
     private Speaker speaker;
     private SpeakerType speakerType;
-    private boolean processObstructions = false;
     private Vector3 location;
 
     @Override
