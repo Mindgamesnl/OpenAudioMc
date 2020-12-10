@@ -23,6 +23,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashSet;
 import java.util.UUID;
 
 public class SpeakersSubCommand extends SubCommand {
@@ -90,7 +91,7 @@ public class SpeakersSubCommand extends SubCommand {
             ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
             int range = config.getInt(StorageKey.SETTINGS_SPEAKER_RANGE);
             SpeakerModule speakerModule = OpenAudioMcSpigot.getInstance().getSpeakerModule();
-            speakerModule.registerSpeaker(mappedLocation, source, id, range, SpeakerModule.DEFAULT_SPEAKER_TYPE);
+            speakerModule.registerSpeaker(mappedLocation, source, id, range, SpeakerModule.DEFAULT_SPEAKER_TYPE, new HashSet<>());
 
             // save
             config.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".world", mappedLocation.getWorld());

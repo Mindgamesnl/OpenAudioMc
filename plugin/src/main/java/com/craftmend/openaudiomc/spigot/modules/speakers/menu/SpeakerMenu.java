@@ -61,11 +61,15 @@ public class SpeakerMenu extends Menu {
                 settingItem.setLore(new String[]{setting.getDescription()});
 
                 settingItem.onClick((clicker, what) -> {
+                    ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
                     if (isEnabled) {
                         speaker.getExtraOptions().remove(setting);
+                        config.setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".options." + setting, "false");
                     } else {
                         speaker.getExtraOptions().add(setting);
+                        config.setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".options." + setting, "true");
                     }
+                    config.saveAll();
                     new SpeakerMenu(speaker).openFor(clicker);
                 });
 
@@ -97,7 +101,7 @@ public class SpeakerMenu extends Menu {
 
         SpeakerType nextSelectableMode = possibleModes[nextMode];
 
-        item.setLore(new String[] {
+        item.setLore(new String[]{
                 ChatColor.AQUA + speaker.getSpeakerType().getDescription(),
                 "",
                 ChatColor.AQUA + "Click to change to " + ChatColor.GRAY + nextSelectableMode.getName()

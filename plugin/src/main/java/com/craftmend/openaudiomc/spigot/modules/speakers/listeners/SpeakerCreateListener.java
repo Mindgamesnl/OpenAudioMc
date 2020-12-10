@@ -18,6 +18,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
+import java.util.HashSet;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -50,7 +51,7 @@ public class SpeakerCreateListener implements Listener {
 
             SpeakerType speakerType = speakerModule.getCollector().guessSpeakerType(location.toBukkit(), spigotConnection.getSelectedSpeakerSettings().getSource());
 
-            speakerModule.registerSpeaker(location, spigotConnection.getSelectedSpeakerSettings().getSource(), id, range, speakerType);
+            speakerModule.registerSpeaker(location, spigotConnection.getSelectedSpeakerSettings().getSource(), id, range, speakerType, new HashSet<>());
 
             //save to config
             config.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".world", location.getWorld());

@@ -21,12 +21,13 @@ public class Speaker {
     @Getter @Setter private boolean validated = false;
 
 
-    public Speaker(String source, UUID id, int radius, MappedLocation location, SpeakerType speakerType) {
+    public Speaker(String source, UUID id, int radius, MappedLocation location, SpeakerType speakerType, Set<ExtraSpeakerOptions> options) {
         this.source = source;
         this.id = id;
         this.radius = radius;
         this.location = location;
         this.speakerType = speakerType;
+        this.extraOptions = options;
     }
 
     public SpeakerMedia getMedia() {
