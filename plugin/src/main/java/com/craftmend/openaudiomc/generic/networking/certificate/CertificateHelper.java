@@ -9,9 +9,7 @@ import java.security.cert.CertificateException;
 public class CertificateHelper {
 
     public static OkHttpClient.Builder ignore(OkHttpClient.Builder builder) {
-        OpenAudioLogger.toConsole("Attempting to middleman ssl");
         try {
-
             // Create a trust manager that does not validate certificate chains
             final TrustManager[] trustAllCerts = new TrustManager[] {
                     new X509TrustManager() {
