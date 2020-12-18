@@ -45,7 +45,7 @@ export class SpeakerPlayer {
         if (closest.type == SPEAKER_2D) {
             const distance = closest.getDistance(world, player);
             const volume = this._convertDistanceToVolume(closest.maxDistance, distance);
-            if (volume < 0) {
+            if (volume <= 0) {
                 // assuming the range got updated so skipping it
                 return;
             }
