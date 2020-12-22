@@ -13,13 +13,14 @@ OpenAudioMc supports multiple file formats for your sounds, these are:
 
 # What to use when
 
-| Source 	| Pros 	| Cons 	| Example usecase 	|
-|-	|-	|-	|-	|
-| Direct MP3 	| - Fast - Reliable - Scalable - No strings attached 	| - Requires webserver 	| Best for usecases where timing and reliability is important. (like Ride, Areas, etc etc) 	|
-| Google Drive 	| - Easy to use - Easy to share - Free 	| - Not particularly fast - Links can expire 	| For quick and easy file hosting. (Event music, sound effects, etc etc) 	|
-| DropBox 	| - Fast - Easy to use - Free 	| - Url may need manual edits - Links may be blocked when used often 	| For general purpose audio hosting. (Same as Direct MP3 but on a smaller scale) 	|
-| SoundCloud 	| - Stupidly Simple 	| - Not particularly fast - Some artists prohibit the use of their songs 	| Easy music sharing and playback. (Same as Direct MP3, but on a small scale) 	|
-| YouTube 	| - Stupidly Simple - Reliable 	| - Playback isn't instant - Delay may cause timing issues 	| Simple area music, sound effects, dialogue, etc etc 	|
+| Source       | Pros                                                        | Cons                                                                      | Example usecase                                                                             |
+|--------------|-------------------------------------------------------------|---------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
+| Direct MP3   | - Fast<br>- Reliable<br>- Scalable<br>- No strings attached | - Requires webserver                                                      | Best for usecases where timing and reliability is important.<br>(like Ride, Areas, etc etc) |
+| Google Drive | - Easy to use<br>- Easy to share<br>- Free                  | - Not particularly fast<br>- Links can expire                             | For quick and easy file hosting.<br>(Event music, sound effects, etc etc)                   |
+| DropBox      | - Fast<br>- Easy to use<br>- Free                           | - Url may need manual edits<br>- Links may be blocked when used often     | For general purpose audio hosting.<br>(Same as Direct MP3 but on a smaller scale)           |
+| SoundCloud   | - Stupidly Simple                                           | - Not particularly fast<br>- Some artists prohibit the use of their songs | Easy music sharing and playback.<br>(Same as Direct MP3, but on a small scale)              |
+| YouTube      | - Stupidly Simple<br>- Reliable                             | - Playback isn't instant<br>- Delay may cause timing issues               | Simple area music, sound effects, dialogue, etc etc                                         |
+
 
 *Notes:*
  - Youtube videos need to be public and big videos might not work. It's best to upload your own.
