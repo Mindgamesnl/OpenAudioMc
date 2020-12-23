@@ -99,7 +99,7 @@ public class SpeakerHandler implements ITickableHandler {
     public void forceDeleteSpeaker(String id, SpeakerType type, String source) {
         OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientRemoveSpeaker(new ClientSpeakerDestroyPayload(
                 new ClientSpeaker(
-                        new Vector3(),
+                        Vector3.EMPTY,
                         type,
                         id,
                         source,
