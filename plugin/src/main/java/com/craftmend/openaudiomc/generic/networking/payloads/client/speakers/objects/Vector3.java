@@ -12,6 +12,8 @@ import org.bukkit.util.Vector;
 @AllArgsConstructor
 public class Vector3 {
 
+    public static final Vector3 EMPTY = new Vector3();
+
     private double x = 0;
     private double y = 0;
     private double z = 0;

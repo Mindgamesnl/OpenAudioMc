@@ -65,7 +65,7 @@ public class MediaApiImpl implements MediaApi {
     @Override
     public void stopSpatialSound(Client client, String spatialSoundId) {
         ClientSpeaker clientSpeaker = new ClientSpeaker(
-                new Vector3(0, 0, 0),
+                Vector3.EMPTY,
                 SpeakerType.SPEAKER_2D,
                 spatialSoundId,
                 null,
