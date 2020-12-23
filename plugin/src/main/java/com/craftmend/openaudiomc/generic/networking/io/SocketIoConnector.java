@@ -24,7 +24,6 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import okhttp3.OkHttpClient;
 

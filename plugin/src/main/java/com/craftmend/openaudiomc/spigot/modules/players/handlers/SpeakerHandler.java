@@ -56,6 +56,11 @@ public class SpeakerHandler implements ITickableHandler {
                     obstructions = speakerModule.getRayTracer().obstructionsBetweenLocations(player.getLocation(), entered.getLocation());
                 }
 
+                // overwrite sync flag
+                if (ExtraSpeakerOptions.IGNORE_SYNCHRONIZATION.isEnabledFor(entered.getSpeaker())) {
+                    entered.getSpeaker().getMedia().setDoPickup(false);
+                }
+
                 packetQue.add(new PacketClientCreateSpeaker(
                         new ClientSpeakerCreatePayload(toClientSpeaker(entered, obstructions)))
                 );
