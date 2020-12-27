@@ -18,8 +18,9 @@ public class MigrationWorker {
             new RemoveLoopTempRegionMigration(),    // re branding temp regions to shows
             new SessionGenerationMigration(),       // messages for generation and session errors
             new AuthHostMigration(),                // host details as part of handshake hash
-            new AddPreFetchMigration(),             // add config value for how many files to prefetch
-            new AddVolumeHintMigration(),           // add config value for default volume messages
+            new AddPreFetchMigration(),             // add a config value for how many files to prefetch
+            new AddVolumeHintMigration(),           // add a config value for default volume messages
+            new AddGcStratMigration(),              // add a config value for GC strats
     };
 
     public void handleMigrations() {
