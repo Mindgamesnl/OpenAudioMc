@@ -1,9 +1,14 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.tasks;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.storage.enums.GcStrategy;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
+import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -30,9 +35,27 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
         int maxFractions = roundUp(this.speakerModule.getSpeakerMap().values().size(), FRACTION_GROUP_SIZE);
         if (!garbageSpeakers.isEmpty()) {
             OpenAudioLogger.toConsole("Found " + garbageSpeakers.size() + " corrupted speakers with the garbage collector. Removing them from the cache until the server restarts (pass " + lastFraction + " out of " + maxFractions + "))");
-            for (MappedLocation garbageSpeaker : garbageSpeakers) {
-                Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> speakerModule.getSpeakerMap().remove(garbageSpeaker));
+            Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> {
+                for (MappedLocation garbageSpeaker : garbageSpeakers) {
+                    speakerModule.getSpeakerMap().remove(garbageSpeaker);
+                }
+            });
 
+            GcStrategy strategy = GcStrategy.valueOf(StorageKey.SETTINGS_GC_STRATIGY.getString());
+            if (strategy == GcStrategy.DELETE) {
+                OpenAudioMc openAudioMc = OpenAudioMc.getInstance();
+                for (MappedLocation garbageSpeaker : garbageSpeakers) {
+                    Speaker speaker = this.speakerModule.getSpeaker(garbageSpeaker);
+                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".type", null);
+                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".radius", null);
+                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".world", null);
+                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".x", null);
+                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".y", null);
+                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".z", null);
+                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".media", null);
+                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString(), null);
+                }
+                openAudioMc.getConfiguration().saveAll();
             }
         }
         garbageSpeakers.clear();
