@@ -7,11 +7,12 @@ import lombok.Setter;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class HeatMap<T, S> {
 
-    private final Map<T, Value> data = new HashMap<>();
+    private final Map<T, Value> data = new ConcurrentHashMap<>();
     private final int maxAgeInSeconds;
     private final int maxElements;
     private final ContextFactory contextFactory;
