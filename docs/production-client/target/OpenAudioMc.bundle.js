@@ -257,8 +257,8 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         k = n(78),
         I = n(29),
         T = n(5),
-        C = n(22),
-        O = n(49),
+        O = n(22),
+        C = n(49),
         P = n(47),
         B = n(80),
         F = n(40),
@@ -280,14 +280,14 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         J = Array[X],
         $ = u.ArrayBuffer,
         Q = u.DataView,
-        Z = C(0),
-        tt = C(2),
-        et = C(3),
-        nt = C(4),
-        rt = C(5),
-        it = C(6),
-        ot = O(!0),
-        st = O(!1),
+        Z = O(0),
+        tt = O(2),
+        et = O(3),
+        nt = O(4),
+        rt = O(5),
+        it = O(6),
+        ot = C(!0),
+        st = C(!1),
         at = B.values,
         ut = B.keys,
         ct = B.entries,
@@ -307,8 +307,8 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         Et = a.TYPED,
         Mt = a.VIEW,
         _t = "Wrong length!",
-        At = C(1, function (t, e) {
-      return Ot(P(t, t[xt]), e);
+        At = O(1, function (t, e) {
+      return Ct(P(t, t[xt]), e);
     }),
         kt = o(function () {
       return 1 === new q(new Uint16Array([1]).buffer)[0];
@@ -319,17 +319,17 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         Tt = function Tt(t, e) {
       var n = p(t);if (0 > n || n % e) throw H("Wrong offset!");return n;
     },
-        Ct = function Ct(t) {
+        Ot = function Ot(t) {
       if (x(t) && Et in t) return t;throw W(t + " is not a typed array!");
     },
-        Ot = function Ot(t, e) {
+        Ct = function Ct(t, e) {
       if (!x(t) || !(wt in t)) throw W("It is not a typed array constructor!");return new t(e);
     },
         Pt = function Pt(t, e) {
       return Bt(P(t, t[xt]), e);
     },
         Bt = function Bt(t, e) {
-      for (var n = 0, r = e.length, i = Ot(t, r); r > n;) {
+      for (var n = 0, r = e.length, i = Ct(t, r); r > n;) {
         i[n] = e[n++];
       }return i;
     },
@@ -353,12 +353,12 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         for (s = f.call(a), r = [], e = 0; !(o = s.next()).done; e++) {
           r.push(o.value);
         }a = r;
-      }for (h && 2 < u && (l = c(l, arguments[2], 2)), e = 0, n = m(a.length), i = Ot(this, n); n > e; e++) {
+      }for (h && 2 < u && (l = c(l, arguments[2], 2)), e = 0, n = m(a.length), i = Ct(this, n); n > e; e++) {
         i[e] = h ? l(a[e], e) : a[e];
       }return i;
     },
         Rt = function Rt() {
-      for (var t = 0, e = arguments.length, n = Ot(this, e); e > t;) {
+      for (var t = 0, e = arguments.length, n = Ct(this, e); e > t;) {
         n[t] = arguments[t++];
       }return n;
     },
@@ -366,54 +366,54 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       vt.call(new q(1));
     }),
         Dt = function Dt() {
-      return vt.apply(Lt ? mt.call(Ct(this)) : Ct(this), arguments);
+      return vt.apply(Lt ? mt.call(Ot(this)) : Ot(this), arguments);
     },
         jt = { copyWithin: function copyWithin(t, e) {
-        return D.call(Ct(this), t, e, 2 < arguments.length ? arguments[2] : void 0);
+        return D.call(Ot(this), t, e, 2 < arguments.length ? arguments[2] : void 0);
       }, every: function every(t) {
-        return nt(Ct(this), t, 1 < arguments.length ? arguments[1] : void 0);
+        return nt(Ot(this), t, 1 < arguments.length ? arguments[1] : void 0);
       }, fill: function fill() {
-        return L.apply(Ct(this), arguments);
+        return L.apply(Ot(this), arguments);
       }, filter: function filter(t) {
-        return Pt(this, tt(Ct(this), t, 1 < arguments.length ? arguments[1] : void 0));
+        return Pt(this, tt(Ot(this), t, 1 < arguments.length ? arguments[1] : void 0));
       }, find: function find(t) {
-        return rt(Ct(this), t, 1 < arguments.length ? arguments[1] : void 0);
+        return rt(Ot(this), t, 1 < arguments.length ? arguments[1] : void 0);
       }, findIndex: function findIndex(t) {
-        return it(Ct(this), t, 1 < arguments.length ? arguments[1] : void 0);
+        return it(Ot(this), t, 1 < arguments.length ? arguments[1] : void 0);
       }, forEach: function forEach(t) {
-        Z(Ct(this), t, 1 < arguments.length ? arguments[1] : void 0);
+        Z(Ot(this), t, 1 < arguments.length ? arguments[1] : void 0);
       }, indexOf: function indexOf(t) {
-        return st(Ct(this), t, 1 < arguments.length ? arguments[1] : void 0);
+        return st(Ot(this), t, 1 < arguments.length ? arguments[1] : void 0);
       }, includes: function includes(t) {
-        return ot(Ct(this), t, 1 < arguments.length ? arguments[1] : void 0);
+        return ot(Ot(this), t, 1 < arguments.length ? arguments[1] : void 0);
       }, join: function join() {
-        return dt.apply(Ct(this), arguments);
+        return dt.apply(Ot(this), arguments);
       }, lastIndexOf: function lastIndexOf() {
-        return lt.apply(Ct(this), arguments);
+        return lt.apply(Ot(this), arguments);
       }, map: function map(t) {
-        return At(Ct(this), t, 1 < arguments.length ? arguments[1] : void 0);
+        return At(Ot(this), t, 1 < arguments.length ? arguments[1] : void 0);
       }, reduce: function reduce() {
-        return ht.apply(Ct(this), arguments);
+        return ht.apply(Ot(this), arguments);
       }, reduceRight: function reduceRight() {
-        return ft.apply(Ct(this), arguments);
+        return ft.apply(Ot(this), arguments);
       }, reverse: function reverse() {
-        for (var t, e = this, n = Ct(e).length, r = Math.floor(n / 2), i = 0; i < r;) {
+        for (var t, e = this, n = Ot(e).length, r = Math.floor(n / 2), i = 0; i < r;) {
           t = e[i], e[i++] = e[--n], e[n] = t;
         }return e;
       }, some: function some(t) {
-        return et(Ct(this), t, 1 < arguments.length ? arguments[1] : void 0);
+        return et(Ot(this), t, 1 < arguments.length ? arguments[1] : void 0);
       }, sort: function sort(t) {
-        return pt.call(Ct(this), t);
+        return pt.call(Ot(this), t);
       }, subarray: function subarray(t, e) {
-        var n = Ct(this),
+        var n = Ot(this),
             r = n.length,
             i = v(t, r);return new (P(n, n[xt]))(n.buffer, n.byteOffset + i * n.BYTES_PER_ELEMENT, m((void 0 === e ? r : v(e, r)) - i));
       } },
         Ut = function Ut(t, e) {
-      return Pt(this, mt.call(Ct(this), t, e));
+      return Pt(this, mt.call(Ot(this), t, e));
     },
         zt = function zt(t) {
-      Ct(this);var e = Tt(arguments[1], 1),
+      Ot(this);var e = Tt(arguments[1], 1),
           n = this.length,
           r = S(t),
           i = m(r.length),
@@ -422,11 +422,11 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }
     },
         Vt = { entries: function entries() {
-        return ct.call(Ct(this));
+        return ct.call(Ot(this));
       }, keys: function keys() {
-        return ut.call(Ct(this));
+        return ut.call(Ot(this));
       }, values: function values() {
-        return at.call(Ct(this));
+        return at.call(Ot(this));
       } },
         Ht = function Ht(t, e) {
       return x(t) && t[Et] && "symbol" != (typeof e === "undefined" ? "undefined" : _typeof(e)) && e in t && +e + "" == e + "";
@@ -487,7 +487,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         t in h || f(h, t, d[t]);
       }), h[X] = b, !r && (b.constructor = h));var I = b[yt],
           T = !!I && ("values" == I.name || null == I.name),
-          C = Vt.values;f(h, wt, !0), f(b, Et, c), f(b, Mt, !0), f(b, xt, h), (u ? new h(1)[bt] != c : !(bt in b)) && z(b, bt, { get: function get() {
+          O = Vt.values;f(h, wt, !0), f(b, Et, c), f(b, Mt, !0), f(b, xt, h), (u ? new h(1)[bt] != c : !(bt in b)) && z(b, bt, { get: function get() {
           return c;
         } }), y[c] = h, s(s.G + s.W + s.F * (h != d), y), s(s.S, c, { BYTES_PER_ELEMENT: e }), s(s.S + s.F * o(function () {
         d.of.call(h, 1);
@@ -497,7 +497,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         return [1, 2].toLocaleString() != new h([1, 2]).toLocaleString();
       }) || !o(function () {
         b.toLocaleString.call([1, 2]);
-      })), c, { toLocaleString: Dt }), F[c] = T ? I : C, r || T || f(b, yt, C);
+      })), c, { toLocaleString: Dt }), F[c] = T ? I : O, r || T || f(b, yt, O);
     };
   } else t.exports = function () {};
 }, function (t, e, n) {
@@ -947,10 +947,10 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         k = t.prototype,
         I = k[h] || k["@@iterator"] || v && k[v],
         T = I || E(v),
-        C = v ? _ ? E("entries") : T : void 0,
-        O = "Array" == e && k.entries || I;if (O && (S = l(O.call(new t()))) !== Object.prototype && S.next && (c(S, M, !0), !r && "function" != typeof S[h] && s(S, h, m)), _ && I && I.name !== p && (A = !0, T = function T() {
+        O = v ? _ ? E("entries") : T : void 0,
+        C = "Array" == e && k.entries || I;if (C && (S = l(C.call(new t()))) !== Object.prototype && S.next && (c(S, M, !0), !r && "function" != typeof S[h] && s(S, h, m)), _ && I && I.name !== p && (A = !0, T = function T() {
       return I.call(this);
-    }), (!r || b) && (f || A || !k[h]) && s(k, h, T), a[e] = T, a[M] = m, v) if (w = { values: _ ? T : E(p), keys: y ? T : E(d), entries: C }, b) for (x in w) {
+    }), (!r || b) && (f || A || !k[h]) && s(k, h, T), a[e] = T, a[M] = m, v) if (w = { values: _ ? T : E(p), keys: y ? T : E(d), entries: O }, b) for (x in w) {
       x in k || o(k, x, w[x]);
     } else i(i.P + i.F * (f || A), e, w);return w;
   };
@@ -1123,7 +1123,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
   }function l(t) {
     return r(t, 23, 4);
   }function h(t, e, n) {
-    A(t[O], e, { get: function get() {
+    A(t[C], e, { get: function get() {
         return this[n];
       } });
   }function f(t, e, n, r) {
@@ -1150,11 +1150,11 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       k = n(79),
       I = n(38),
       T = "ArrayBuffer",
-      C = "DataView",
-      O = "prototype",
+      O = "DataView",
+      C = "prototype",
       P = "Wrong index!",
       _B2 = p[T],
-      _F = p[C],
+      _F = p[O],
       N = p.Math,
       R = p.RangeError,
       L = p.Infinity,
@@ -1179,11 +1179,11 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     })) {
       for (var J, $ = (_B2 = function B(t) {
         return x(this, _B2), new D(M(t));
-      })[O] = D[O], Q = _(D), Z = 0; Q.length > Z;) {
+      })[C] = D[C], Q = _(D), Z = 0; Q.length > Z;) {
         (J = Q[Z++]) in _B2 || y(_B2, J, D[J]);
       }g || ($.constructor = _B2);
     }var tt = new _F(new _B2(2)),
-        et = _F[O].setInt8;tt.setInt8(0, 2147483648), tt.setInt8(1, 2147483649), (tt.getInt8(0) || !tt.getInt8(1)) && b(_F[O], { setInt8: function setInt8(t, e) {
+        et = _F[C].setInt8;tt.setInt8(0, 2147483648), tt.setInt8(1, 2147483649), (tt.getInt8(0) || !tt.getInt8(1)) && b(_F[C], { setInt8: function setInt8(t, e) {
         et.call(this, t, e << 24 >> 24);
       }, setUint8: function setUint8(t, e) {
         et.call(this, t, e << 24 >> 24);
@@ -1191,9 +1191,9 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
   } else _B2 = function _B(t) {
     x(this, _B2, T);var e = M(t);this._b = k.call(Array(e), 0), this[K] = e;
   }, _F = function F(t, e, n) {
-    x(this, _F, C), x(t, _B2, C);var r = t[K],
+    x(this, _F, O), x(t, _B2, O);var r = t[K],
         i = S(e);if (0 > i || i > r) throw R("Wrong offset!");if (i + (n = void 0 === n ? r - i : E(n)) > r) throw R("Wrong length!");this[Y] = t, this[X] = i, this[K] = n;
-  }, m && (h(_B2, q, "_l"), h(_F, W, "_b"), h(_F, q, "_l"), h(_F, G, "_o")), b(_F[O], { getInt8: function getInt8(t) {
+  }, m && (h(_B2, q, "_l"), h(_F, W, "_b"), h(_F, q, "_l"), h(_F, G, "_o")), b(_F[C], { getInt8: function getInt8(t) {
       return f(this, 1, t)[0] << 24 >> 24;
     }, getUint8: function getUint8(t) {
       return f(this, 1, t)[0];
@@ -1225,7 +1225,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       d(this, 4, t, l, e, arguments[2]);
     }, setFloat64: function setFloat64(t, e) {
       d(this, 8, t, c, e, arguments[2]);
-    } });I(_B2, T), I(_F, C), y(_F[O], v.VIEW, !0), e[T] = _B2, e[C] = _F;
+    } });I(_B2, T), I(_F, O), y(_F[C], v.VIEW, !0), e[T] = _B2, e[O] = _F;
 }, function (t) {
   var e = t.exports = "undefined" != typeof window && window.Math == Math ? window : "undefined" != typeof self && self.Math == Math ? self : Function("return this")();"number" == typeof __g && (__g = e);
 }, function (t) {
@@ -1460,14 +1460,14 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       k = A && A.v8 || "",
       _I = u[E],
       T = "process" == l(_),
-      C = function C() {},
-      O = i = b.f,
+      O = function O() {},
+      C = i = b.f,
       P = !!function () {
     try {
       var t = _I.resolve(1),
           e = (t.constructor = {})[n(5)("species")] = function (t) {
-        t(C, C);
-      };return (T || "function" == typeof PromiseRejectionEvent) && t.then(C) instanceof e && 0 !== k.indexOf("6.6") && -1 === x.indexOf("Chrome/66");
+        t(O, O);
+      };return (T || "function" == typeof PromiseRejectionEvent) && t.then(O) instanceof e && 0 !== k.indexOf("6.6") && -1 === x.indexOf("Chrome/66");
     } catch (e) {}
   }(),
       B = function B(t) {
@@ -1540,22 +1540,22 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
   }, (r = function r() {
     this._c = [], this._a = void 0, this._s = 0, this._d = !1, this._v = void 0, this._h = 0, this._n = !1;
   }).prototype = n(43)(_I.prototype, { then: function then(t, e) {
-      var n = O(g(this, _I));return n.ok = "function" != typeof t || t, n.fail = "function" == typeof e && e, n.domain = T ? _.domain : void 0, this._c.push(n), this._a && this._a.push(n), this._s && F(this, !1), n.promise;
+      var n = C(g(this, _I));return n.ok = "function" != typeof t || t, n.fail = "function" == typeof e && e, n.domain = T ? _.domain : void 0, this._c.push(n), this._a && this._a.push(n), this._s && F(this, !1), n.promise;
     }, catch: function _catch(t) {
       return this.then(void 0, t);
     } }), o = function o() {
     var t = new r();this.promise = t, this.resolve = c(j, t, 1), this.reject = c(D, t, 1);
-  }, b.f = O = function O(t) {
+  }, b.f = C = function C(t) {
     return t === _I || t === s ? new o(t) : i(t);
   }), h(h.G + h.W + h.F * !P, { Promise: _I }), n(38)(_I, E), n(41)(E), s = n(7)[E], h(h.S + h.F * !P, E, { reject: function reject(t) {
-      var e = O(this);return (0, e.reject)(t), e.promise;
+      var e = C(this);return (0, e.reject)(t), e.promise;
     } }), h(h.S + h.F * (a || !P), E, { resolve: function resolve(t) {
       return S(a && this === s ? _I : this, t);
     } }), h(h.S + h.F * !(P && n(52)(function (t) {
-    _I.all(t).catch(C);
+    _I.all(t).catch(O);
   })), E, { all: function all(t) {
       var e = this,
-          n = O(e),
+          n = C(e),
           r = n.resolve,
           i = n.reject,
           o = w(function () {
@@ -1570,7 +1570,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       });return o.e && i(o.v), n.promise;
     }, race: function race(t) {
       var e = this,
-          n = O(e),
+          n = C(e),
           r = n.reject,
           i = w(function () {
         m(t, !1, function (t) {
@@ -1802,8 +1802,8 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
                   k = M(b),
                   I = M(w),
                   T = M(x),
-                  C = M(S),
-                  O = M(E);return { getCapabilities: a.bind(null, m), deleteUser: h(l, function (t) {
+                  O = M(S),
+                  C = M(E);return { getCapabilities: a.bind(null, m), deleteUser: h(l, function (t) {
                   return g + "/whitelist/" + t;
                 }), getConfig: a.bind(null, g), setConfig: u.bind(null, g), getFullState: a.bind(null, p), getLights: a.bind(null, v), getNewLights: a.bind(null, v + "/new"), searchForNewLights: function searchForNewLights() {
                   var t = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -1820,9 +1820,9 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
                   return T(t) + "/config";
                 }), setSensorState: h(u, function (t) {
                   return T(t) + "/state";
-                }), deleteSensor: h(l, T), getRules: a.bind(null, S), createRule: c.bind(null, S), getRule: h(a, C), setRule: h(u, C), deleteRule: h(l, C), ruleActionGenerator: function ruleActionGenerator() {
+                }), deleteSensor: h(l, T), getRules: a.bind(null, S), createRule: c.bind(null, S), getRule: h(a, O), setRule: h(u, O), deleteRule: h(l, O), ruleActionGenerator: function ruleActionGenerator() {
                   return i(f(p), e, n, r).bridge(t).user(d);
-                }, getResourceLinks: a.bind(null, E), createResourceLink: c.bind(null, E), getResourceLink: h(a, O), setResourceLink: h(u, O), deleteResourceLink: h(l, O) };
+                }, getResourceLinks: a.bind(null, E), createResourceLink: c.bind(null, E), getResourceLink: h(a, C), setResourceLink: h(u, C), deleteResourceLink: h(l, C) };
             } };
         } };
     };var o = void 0;"undefined" != typeof fetch && "undefined" != typeof Response && "undefined" != typeof JSON && "undefined" != typeof Promise && (o = i.bind(null, fetch, Response, JSON, Promise), void 0 !== t.exports && (t.exports = o));
@@ -1866,8 +1866,8 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       k = n(50),
       I = n(9),
       T = n(31),
-      C = A.f,
-      O = I.f,
+      O = A.f,
+      C = I.f,
       P = _.f,
       _B3 = r.Symbol,
       F = r.JSON,
@@ -1884,12 +1884,12 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       q = r.QObject,
       G = !q || !q[R] || !q[R].findChild,
       Y = o && c(function () {
-    return 7 != M(O({}, "a", { get: function get() {
-        return O(this, "a", { value: 7 }).a;
+    return 7 != M(C({}, "a", { get: function get() {
+        return C(this, "a", { value: 7 }).a;
       } })).a;
   }) ? function (t, e, n) {
-    var r = C(H, e);r && delete H[e], O(t, e, n), r && t !== H && O(H, e, r);
-  } : O,
+    var r = O(H, e);r && delete H[e], C(t, e, n), r && t !== H && C(H, e, r);
+  } : C,
       K = function K(t) {
     var e = z[t] = M(_B3[R]);return e._k = t, e;
   },
@@ -1899,7 +1899,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     return t instanceof _B3;
   },
       J = function J(t, e, n) {
-    return t === H && J(V, e, n), y(t), e = S(e, !0), y(n), i(z, e) ? (n.enumerable ? (i(t, L) && t[L][e] && (t[L][e] = !1), n = M(n, { enumerable: E(0, !1) })) : (!i(t, L) && O(t, L, E(1, {})), t[L][e] = !0), Y(t, e, n)) : O(t, e, n);
+    return t === H && J(V, e, n), y(t), e = S(e, !0), y(n), i(z, e) ? (n.enumerable ? (i(t, L) && t[L][e] && (t[L][e] = !1), n = M(n, { enumerable: E(0, !1) })) : (!i(t, L) && C(t, L, E(1, {})), t[L][e] = !0), Y(t, e, n)) : C(t, e, n);
   },
       $ = function $(t, e) {
     y(t);for (var n, r = g(e = x(e)), i = 0, o = r.length; o > i;) {
@@ -1911,7 +1911,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
   },
       Z = function Z(t, e) {
     if (t = x(t), e = S(e, !0), t !== H || !i(z, e) || i(V, e)) {
-      var n = C(t, e);return n && i(z, e) && !(i(t, L) && t[L][e]) && (n.enumerable = !0), n;
+      var n = O(t, e);return n && i(z, e) && !(i(t, L) && t[L][e]) && (n.enumerable = !0), n;
     }
   },
       tt = function tt(t) {
@@ -2813,8 +2813,8 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         for (var M = (b = w[E])[0] + "", _ = c(l(s(b.index), f.length), 0), A = [], k = 1; k < b.length; k++) {
           A.push(p(b[k]));
         }var I = b.groups;if (d) {
-          var T = [M].concat(A, _, f);void 0 !== I && T.push(I);var C = e.apply(void 0, T) + "";
-        } else C = g(M, f, _, A, I, e);_ >= S && (x += f.slice(S, _) + C, S = _ + M.length);
+          var T = [M].concat(A, _, f);void 0 !== I && T.push(I);var O = e.apply(void 0, T) + "";
+        } else O = g(M, f, _, A, I, e);_ >= S && (x += f.slice(S, _) + O, S = _ + M.length);
       }return x + f.slice(S);
     }];
   });
@@ -3479,10 +3479,10 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         k = {};k[b] = function () {
       return this;
     };var I = Object.getPrototypeOf,
-        T = I && I(I(p([])));T && T !== g && v.call(T, b) && (k = T);var C = s.prototype = i.prototype = Object.create(k);return o.prototype = C.constructor = s, s.constructor = o, o.displayName = e(s, x, "GeneratorFunction"), t.isGeneratorFunction = function (t) {
+        T = I && I(I(p([])));T && T !== g && v.call(T, b) && (k = T);var O = s.prototype = i.prototype = Object.create(k);return o.prototype = O.constructor = s, s.constructor = o, o.displayName = e(s, x, "GeneratorFunction"), t.isGeneratorFunction = function (t) {
       var e = "function" == typeof t && t.constructor;return !!e && (e === o || "GeneratorFunction" === (e.displayName || e.name));
     }, t.mark = function (t) {
-      return Object.setPrototypeOf ? Object.setPrototypeOf(t, s) : (_defaults(t, s), e(t, x, "GeneratorFunction")), t.prototype = Object.create(C), t;
+      return Object.setPrototypeOf ? Object.setPrototypeOf(t, s) : (_defaults(t, s), e(t, x, "GeneratorFunction")), t.prototype = Object.create(O), t;
     }, t.awrap = function (t) {
       return { __await: t };
     }, a(u.prototype), u.prototype[w] = function () {
@@ -3491,9 +3491,9 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       void 0 === s && (s = Promise);var a = new u(n(e, r, i, o), s);return t.isGeneratorFunction(r) ? a : a.next().then(function (t) {
         return t.done ? t.value : a.next();
       });
-    }, a(C), e(C, x, "Generator"), C[b] = function () {
+    }, a(O), e(O, x, "Generator"), O[b] = function () {
       return this;
-    }, C.toString = function () {
+    }, O.toString = function () {
       return "[object Generator]";
     }, t.keys = function (t) {
       var e = [];for (var n in t) {
@@ -3851,20 +3851,20 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
   }function A(t, e) {
     var n = e.message;t.notificationModule.sendNotification(e.title, n), new nt("#alert-area", { closeTime: 3e4, persistent: !1, hideCloseButton: !1 }).show(e.title + "<hr />" + n);
   }function k(t, e) {
-    var n = parseInt(e.protocolRevision);if (console.log("[OpenAudioMc] Received PROTOCOL revision update"), 2 <= n && (console.log("[OpenAudioMc] PROTO rev => 2, enabling callbacks"), t.socketModule.callbacksEnabled = !0), 3 <= n && (console.log("[OpenAudioMc] PROTO rev => 3, enabling youtube callbacks"), t.socketModule.supportsYoutube = !0), 3 > n) {
+    var n = parseInt(e.protocolRevision);if (console.log("[OpenAudioMc] Received PROTOCOL revision update"), 2 <= n && (console.log("[OpenAudioMc] PROTO rev => 2, enabling callbacks"), t.socketModule.callbacksEnabled = !0), 3 <= n && (console.log("[OpenAudioMc] PROTO rev => 3, enabling youtube callbacks"), t.socketModule.supportsYoutube = !0), 4 <= n && (console.log("[OpenAudioMc] PROTO rev => 4, enabling volume callbacks"), t.mediaManager.startVolumeWatcher(t)), 3 > n) {
       new nt("#alert-area", { closeTime: 6e4, persistent: !1, hideCloseButton: !0 }).show('<div style="text-align: center;"><b>Warning!</b> Your installation of OpenAudioMc seems to be pretty outdated. Please download the most recent version from Spigot and install it in your server.<br/><br/><a href="https://www.spigotmc.org/resources/openaudiomc-music-speakers-regions-bungeecord.30691/" class="alert-message-button">Download page</a></div>');
     }
   }function I(t, e) {
     var n = e.volume;t.getMediaManager().setMasterVolume(n), document.getElementById("volume-slider").value = n;
   }function T(t, e) {
     t.getMediaManager().destroySounds(e.soundId, e.all, !1, e.fadeTime);
-  }function C(t, e) {
+  }function O(t, e) {
     var n = e.lights,
         r = e.hueColor,
         i = "rgba(" + r.r + "," + r.g + "," + r.b + "," + function (t, e, n) {
       return (t - e[0]) * (n[1] - n[0]) / (e[1] - e[0]) + n[0];
     }(r.bir, [0, 255], [0, 1]) + ")";t.getHueModule().isLinked && t.getHueModule().setLight(n, i);
-  }function O(t, e) {
+  }function C(t, e) {
     function n(t, e) {
       return X((t - e) / t * 100);
     }var r = e.mediaOptions.target,
@@ -4762,11 +4762,11 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       };
     }
 
-    bt.prototype.startVolumeMonitor = function startVolumeMonitor() {
+    bt.prototype.startVolumeMonitor = function startVolumeMonitor(t) {
       var _this12 = this;
 
-      var t = -1;setInterval(function () {
-        t != _this12.masterVolume && (t = _this12.masterVolume, _this12.openAudioMc.socketModule.send("volume_changed", { volume: _this12.masterVolume }));
+      var e = -1;setInterval(function () {
+        e != _this12.masterVolume && (e = _this12.masterVolume, t.socketModule.send("volume_changed", { volume: _this12.masterVolume }));
       }, 300);
     };
 
@@ -4774,10 +4774,14 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       "" == t || null == t || this.mixer.setupAmbianceSound(t);
     };
 
+    bt.prototype.startVolumeWatcher = function startVolumeWatcher(t) {
+      this.startVolumeMonitor(t);
+    };
+
     bt.prototype.postBoot = function postBoot() {
       var _this13 = this;
 
-      if (setTimeout(this.startVolumeMonitor, 300), null != this.startSound) {
+      if (null != this.startSound) {
         var _t21 = new it("startsound"),
             e = new vt(this.startSound);e.openAudioMc = this.openAudioMc, e.setOa(this.openAudioMc), e.setOnFinish(function () {
           setTimeout(function () {
@@ -5132,7 +5136,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       t.socketModule.registerHandler(e, function (e) {
         return n(t, e);
       });
-    }e("ClientCreateMediaPayload", b), e("ClientDestroyCardPayload", w), e("ClientUpdateCardPayload", M), e("ClientCreateCardPayload", _), e("NotificationPayload", A), e("ClientVersionPayload", k), e("ClientVolumePayload", I), e("ClientDestroyMediaPayload", T), e("HueColorPayload", C), e("ClientUpdateMediaPayload", O), e("ClientPlayerLocationPayload", P), e("ClientSpeakerCreatePayload", B), e("ClientSpeakerDestroyPayload", F), e("ClientPreFetchPayload", N);
+    }e("ClientCreateMediaPayload", b), e("ClientDestroyCardPayload", w), e("ClientUpdateCardPayload", M), e("ClientCreateCardPayload", _), e("NotificationPayload", A), e("ClientVersionPayload", k), e("ClientVolumePayload", I), e("ClientDestroyMediaPayload", T), e("HueColorPayload", O), e("ClientUpdateMediaPayload", C), e("ClientPlayerLocationPayload", P), e("ClientSpeakerCreatePayload", B), e("ClientSpeakerDestroyPayload", F), e("ClientPreFetchPayload", N);
   };
 
   var kt = function () {
@@ -5402,8 +5406,8 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     }
   }, D.prototype.checkFlashInit = function () {
     return !this.flashInitialized && this.audioHandleFlash && this.audioHandleFlash.initialize && (this.flashInitialized = !0, this.audioHandleFlash.initialize(this.audioChannels, zt), W(44100)), this.flashInitialized;
-  };var Ct,
-      Ot,
+  };var Ot,
+      Ct,
       Pt = 2048,
       Bt = !1,
       Ft = [],
@@ -5421,9 +5425,9 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       Gt = 2,
       Yt = L;!function (t) {
     t[t.VoIP = 2048] = "VoIP", t[t.Audio = 2049] = "Audio", t[t.RestrictedLowDelay = 2051] = "RestrictedLowDelay";
-  }(Ct || (Ct = {})), function (t) {
+  }(Ot || (Ot = {})), function (t) {
     t[t.OK = 0] = "OK", t[t.BadArgument = -1] = "BadArgument", t[t.BufferTooSmall = -2] = "BufferTooSmall", t[t.InternalError = -3] = "InternalError", t[t.InvalidPacket = -4] = "InvalidPacket", t[t.Unimplemented = -5] = "Unimplemented", t[t.InvalidState = -6] = "InvalidState", t[t.AllocFail = -7] = "AllocFail";
-  }(Ot || (Ot = {}));var Kt = function () {
+  }(Ct || (Ct = {}));var Kt = function () {
     function t() {}return t.getVersion = function () {
       var t = _opus_get_version_string();return Pointer_stringify(t);
     }, t.getMaxFrameSize = function (t) {

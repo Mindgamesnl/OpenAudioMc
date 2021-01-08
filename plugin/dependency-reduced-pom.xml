@@ -41,6 +41,10 @@
                   <shadedPattern>com.craftmend.thirdparty.io</shadedPattern>
                 </relocation>
                 <relocation>
+                  <pattern>org.json.</pattern>
+                  <shadedPattern>com.craftmend.thirdparty.json</shadedPattern>
+                </relocation>
+                <relocation>
                   <pattern>reactor.</pattern>
                   <shadedPattern>com.craftmend.thirdparty.reactor</shadedPattern>
                 </relocation>

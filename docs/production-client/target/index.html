@@ -1,51 +1,130 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="css/client.css?rev=newer" rel="stylesheet" type="text/css">
-    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenAudioMc | Login</title>
+    <link href="https://help.openaudiomc.net/production-client/assets/logo.png" rel="icon">
+    <link href="https://help.openaudiomc.net/production-client/assets/logo.png" relw="image">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
 
-    <script src="libs/HackTimer.min.js"></script>
+    <!-- Facebook and Twitter integration -->
+    <meta property="og:title" content="The OpenAudioMc web login">
+    <meta property="og:image"
+          content="https://repository-images.githubusercontent.com/71650857/6ec80c00-cc77-11ea-9fcf-dc45a929471d">
+    <meta property="og:url" content="https://openaudiomc.net/">
+    <meta property="og:site_name" content="OpenAudioMc">
+    <meta property="og:description" content="The OpenAudioMc web login">
+    <meta name="twitter:title" content="ImagineFun- The most popular theme park Minecraft server in the world!">
+    <meta name="twitter:image"
+          content="https://repository-images.githubusercontent.com/71650857/6ec80c00-cc77-11ea-9fcf-dc45a929471d">
+    <meta name="twitter:url" content="https://twitter.com/Mindgamesnl">
+    <meta name="twitter:card" content="summary">
 
-    <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c3cde3317dc44cedb7360c931253c50f"}'></script><!-- End Cloudflare Web Analytics -->
+    <link rel="stylesheet" href="css/2021.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css"
+          integrity="sha512-+WF6UMXHki/uCy0vATJzyA9EmAcohIQuwpNz0qEO+5UeE5ibPejMRdFuARSrl1trs3skqie0rY/gNiolfaef5w=="
+          crossorigin="anonymous"/>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.slim.js"></script>
     <script src="libs/color.js"></script>
     <script src="libs/js.cookie.js"></script>
 
-    <link href="https://help.openaudiomc.net/production-client/assets/logo.png" rel="icon"/>
-    <link href="https://help.openaudiomc.net/production-client/assets/logo.png" relw="image"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
 
-    <title>OpenAudioMc</title>
+        .font-family-karla {
+            font-family: karla;
+        }
+    </style>
 </head>
-<body class="dark-bg" id="page">
-<header>
+<body class="flex h-screen sparkles">
+<div class="alert-area" id="alert-area"></div>
+<div class="m-auto w-full">
+    <div class="relative overflow-hidden" x-data="{ openMenu: false }">
+        <div class="max-w-screen-xl mx-auto">
+            <div class="main relative z-10 pb-8 bg-white lg:max-w-2xl lg:w-full">
+                <svg class="hidden lg:block absolute right-0 inset-y-0 h-full w-48 text-white transform translate-x-1/2"
+                     fill="currentColor" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <polygon points="50,0 100,0 50,100 0,100"/>
+                </svg>
 
-    <div data-page="content-card" style="height: 100%;">
-        <nav class="header-nav container flex-container ">
-            <img style="margin-left: 10px; border-radius: 15px" id="top-head" src="assets/logo.png"
-                 class="logo">
-        </nav>
-        <figure class="header-img">
-            <img src="assets/bg.jpg" id="banner-image">
-        </figure>
-
-        <div class="alert-area" id="alert-area"></div>
-        <div class="header-description container" style="height: 100%; width: 100%;position: absolute;">
-            <div style="text-align: center; height: 100%; width: 100%; position: absolute;padding-left:20%;" class="tinytop">
-                <!-- main activity -->
-                <div style="display: none" data-type="card" id="main-card">
-                    <h2 class="header-title"><span id="in-game-name"></span></h2>
-                    <p id="status-message">
-                        Keep this tab open in the background since it'll be used to play audio related to your in-game
-                        actions. You can manually change your volume here, or in game using <small><b>/volume
-                        (volume)</b></small>
-                    </p>
-                    <div style="text-align: center;">
-                        <input id="volume-slider" type="range" min="0" max="100" value="20" style="width: 80%">
-                        <p id="volume-disp" style="margin-text-outline: 10px;">20%</p>
+                <!-- Landing -->
+                <main class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8" data-type="card">
+                    <div class="sm:text-center lg:text-left">
+                        <h2 class="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl">
+                            Welcome!
+                        </h2>
+                        <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                            Please wait while the web-app attempts to log you in, this won't take long.
+                        </p>
                     </div>
-                    <div id="hue-bridge-menu-button"></div>
-                </div>
+                </main>
 
+                <!-- Disconnected -->
+                <main class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8" data-type="card" id="kicked-card" style="display: none;">
+                    <div class="sm:text-center lg:text-left">
+                        <h2 class="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl">
+                            Lost connection
+                        </h2>
+                        <p id="kick-message" class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                            The audio client is only available for players who are online in the
+                            server.<br/>Use <small><b>/audio</b></small> to obtain a URL
+                        </p>
+                    </div>
+                </main>
+
+                <!-- Bad login -->
+                <main class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8" data-type="card" id="bad-auth-card" style="display: none;">
+                    <div class="sm:text-center lg:text-left">
+                        <h2 class="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl">
+                            Are you lost?
+                        </h2>
+                        <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                            The audio client is only available for players who are online in the server.<br/>Use
+                            <small><b>/audio</b></small>
+                            to obtain a URL
+                        </p>
+                    </div>
+                </main>
+
+                <!-- Initial connect -->
+                <main class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8" data-type="card" style="display: none;" id="welcome-card">
+                    <div class="sm:text-center lg:text-left">
+                        <h2 class="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl">
+                            Welcome!
+                        </h2>
+                        <p id="initialize-text" class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                            Click on the button below connect to the audio client</p>
+                        <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
+                            <div class="rounded-md shadow">
+                                <a id="initialize-button" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-green-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10"> Connect </a>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+
+                <!-- Main page -->
+                <main class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8" style="display: none" data-type="card" id="main-card">
+                    <div class="sm:text-center lg:text-left">
+                        <h2 class="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl">
+                            Welcome back,
+                            <br class="xl:hidden"/>
+                            <span class="text-indigo-600" id="in-game-name">Mindgamesnl</span>
+                        </h2>
+                        <p id="status-message" class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                            Keep this tab open in the background since it'll be used to play audio related to your in-game actions. You can manually change your volume here, or in game using <b>/volume (volume)</b></p>
+                        <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
+                            <form class="w-9/12">
+                                <label class="mb-2 uppercase font-bold text-lg text-indigo-600" for="volume-slider" id="volume-disp">Volume: 50%</label>
+                                <input id="volume-slider" class="rounded-lg overflow-hidden appearance-none bg-gray-400 h-3 w-full" type="range" min="0" max="100" step="1" value="15" />
+                            </form>
+                        </div>
+                    </div>
+                </main>
+
+                <!-- Hue bullshit -->
                 <div id="hue-modal" class="modal">
                     <!-- Modal content -->
                     <div class="modal-content">
@@ -111,55 +190,39 @@
 
                 </div>
 
-                <!-- welcome activity message -->
-                <div style="display: none;" id="welcome-card" data-type="card">
-                    <h4 class="header-title" id="initialize-text">Welcome to OpenAudioMc</h4>
-                    <button class="button" id="initialize-button">
-                        Click here to connect to the audio client
-                    </button>
-                </div>
-
-                <!-- loading message -->
-                <div data-type="card">
-                    <h4 class="header-title">Loading..</h4>
-                    <p>Please wait while the web-app attempts to log you in, this won't take long.</p>
-                </div>
-
-                <!-- disconected message -->
-                <div style="display: none;" data-type="card" id="kicked-card">
-                    <h4 class="header-title">Lost connection</h4>
-                    <p id="kick-message">The audio client is only available for players who are online in the
-                        server.<br/>Use <small><b>/audio</b></small> to obtain a URL</p>
-                </div>
-
-                <!-- loading message -->
-                <div style="display: none; " data-type="card" id="bad-auth-card">
-                    <h4 class="header-title">Are you lost?</h4>
-                    <p>The audio client is only available for players who are online in the server.<br/>Use
-                        <small><b>/audio</b></small>
-                        to obtain a URL</p>
+                <div class="relative pt-6 px-4 sm:px-6 lg:px-8 mt-6 md:mt-6 lg:mt-10 sm:mt-12 xl:mt-8">
+                    <nav class="relative flex items-center justify-between sm:h-10 lg:justify-start">
+                        <div class="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
+                            <div class="flex items-center justify-between w-full md:w-auto">
+                                <a href="#" aria-label="Home">
+                                    <img class="h-8 w-auto sm:h-10"
+                                         id="top-head"
+                                         src="https://help.openaudiomc.net/production-client/assets/logo.png"
+                                         alt="Logo"/>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="hidden md:block md:ml-10 md:pr-4">
+                            <a href="login.html"
+                               class="font-medium text-red-500 hover:text-gray-900 transition duration-150 ease-in-out">Log out</a>
+                            <a href="https://openaudiomc.net/"
+                               class="ml-8 font-medium text-gray-500 hover:text-gray-900 transition duration-150 ease-in-out">© OpenAudioMc 2016-2021. All Rights Reserved.</a>
+                        </div>
+                    </nav>
                 </div>
             </div>
-
+        </div>
+        <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+            <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"  id="banner-image"
+                 src="https://client.openaudiomc.net/assets/bg.jpg"
+                 alt=""/>
         </div>
     </div>
-
-</header>
-
-<footer id="footer">
-    <span class="roboto">
-        <span class="notice">&copy; <a href="https://openaudiomc.net/">OpenAudioMc 2016-2021. All Rights Reserved.</a> <V6
-                class="3 2"></V6></span>
-    </span>
-</footer>
+</div>
 </body>
-<!--
-Want a custom js core? replace it with this
+
 <script src="OpenAudioMc.bundle.js?version=23"
         onerror="window.location.href = 'https://help.openaudiomc.net/'"></script>
 </html>
--->
 
-<script src="https://client.openaudiomc.net/OpenAudioMc.bundle.js?version=23"
-        onerror="window.location.href = 'https://help.openaudiomc.net/'"></script>
 </html>

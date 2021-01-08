@@ -19,14 +19,14 @@ export class MediaManager {
         }
     }
 
-    startVolumeMonitor() {
+    startVolumeMonitor(oaInstance) {
         let oldVolume = -1;
         setInterval(() => {
             if (oldVolume != this.masterVolume) {
                 oldVolume = this.masterVolume;
 
                 // do whatever your ugly heart desires
-                this.openAudioMc.socketModule.send(PluginChannel.VOLUME_CHANGED, {
+                oaInstance.socketModule.send(PluginChannel.VOLUME_CHANGED, {
                     "volume": this.masterVolume
                 });
             }
@@ -39,8 +39,11 @@ export class MediaManager {
         this.mixer.setupAmbianceSound(source);
     }
 
+    startVolumeWatcher(oaInstance) {
+        this.startVolumeMonitor(oaInstance)
+    }
+
     postBoot() {
-        setTimeout(this.startVolumeMonitor, 300)
         if (this.startSound != null) {
             const createdChannel = new Channel("startsound");
             const createdMedia = new Sound(this.startSound);
