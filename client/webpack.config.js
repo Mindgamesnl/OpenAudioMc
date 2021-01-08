@@ -40,8 +40,6 @@ WebpackShellPlugin.prototype.apply = function (compiler) {
 
 const preInstall = [
     "rm -rf dist",
-    "rm -rf target",
-    "mkdir target",
 ];
 
 const postInstall = [

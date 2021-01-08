@@ -1,0 +1,163 @@
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+
+    input[type="range"]::-webkit-slider-thumb {
+        width: 15px;
+        -webkit-appearance: none;
+        appearance: none;
+        height: 15px;
+        cursor: ew-resize;
+        background: #FFF;
+        box-shadow: -405px 0 0 400px rgba(59, 130, 246, 1);
+        border-radius: 50%;
+
+    }
+}
+
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    height: 50%;
+    border: 1px solid #888;
+    width: 80%;
+    border-radius: 30px;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.bulb {
+    display: inline-block;
+    padding: 20px;
+}
+
+
+
+.alert-area {
+    max-height: 100%;
+    position: fixed;
+    top: 5px;
+    left: 20px;
+    right: 20px;
+}
+
+.call-control-left {
+    z-index: 99999;
+    max-height: 95%;
+    position: absolute;
+    padding-top: 5px;
+    left: 20px;
+    max-width: 25%;
+    overflow-y: auto
+}
+
+
+.alert-area-left {
+    max-height: 80%;
+    position: absolute;
+    padding-top: 100px;
+    left: 20px;
+    max-width: 25%;
+    overflow-y: auto
+}
+
+.alert-box {
+    z-index: 99999;
+    font-size: 16px;
+    color: #1a1a1d;
+    background: #fff;
+    background-size: cover;
+    line-height: 1.3em;
+    padding: 1px 5px;
+    margin: 2.5px 5px;
+    position: relative;
+    border-radius: 5px;
+    transition: opacity 0.5s ease-in;
+}
+
+.alert-message-button {
+    border: 1px solid;
+    border-radius: 5px;
+    margin-top: 40px;
+    padding: 8px;
+}
+
+.alert-box.hide {
+    opacity: 0;
+}
+
+.alert-close {
+    background: transparent;
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.alert-close:before,
+.alert-close:after {
+    content: '';
+    width: 15px;
+    border-top: solid 2px white;
+    position: absolute;
+    top: 5px;
+    right: -1px;
+    display: block;
+}
+
+.alert-close:before {
+    transform: rotate(45deg);
+}
+
+.alert-close:after {
+    transform: rotate(135deg);
+}
+
+.alert-close:hover:before,
+.alert-close:hover:after {
+    border-top: solid 2px #d8d8d8;
+}
+
+@media (max-width: 767px) and (min-width: 481px) {
+    .alert-area {
+        left: 100px;
+        right: 100px;
+    }
+}
+
+@media (min-width: 768px) {
+    .alert-area {
+        width: 350px;
+        left: auto;
+        right: 0;
+    }
+}

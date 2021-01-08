@@ -18,11 +18,12 @@ import java.util.List;
 public class ActionBarRunnable extends ShowRunnable {
 
     private String message;
-
+    private World world;
 
     @Override
     public void prepare(String serialized, World world) {
         this.message = serialized;
+        this.world = world;
     }
 
     @Override
@@ -34,7 +35,7 @@ public class ActionBarRunnable extends ShowRunnable {
     public void run() {
         String[] args = message.split(" ");
         if (args.length < 1) return;
-        List<Player> players = new SpigotPlayerSelector(args[0]).getPlayers(new FakeCommandSender());
+        List<Player> players = new SpigotPlayerSelector(args[0]).getPlayers(new FakeCommandSender(world));
         String[] subArgs = new String[args.length - 1];
         System.arraycopy(args, 1, subArgs, 0, args.length - 1);
         String fullMessage = ChatColor.translateAlternateColorCodes('&', String.join(" ", subArgs));
