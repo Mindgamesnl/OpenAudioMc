@@ -16,6 +16,12 @@ export function handleProtocolVersion(openAudioMc, data) {
         openAudioMc.socketModule.supportsYoutube = true;
     }
 
+    if (revision >= 4) {
+        // enable volume updates
+        console.log("[OpenAudioMc] PROTO rev => 4, enabling volume callbacks");
+        openAudioMc.mediaManager.startVolumeWatcher(openAudioMc)
+    }
+
     // outdated? lets check it
     if (revision < 3) {
         let requestBox = new AlertBox('#alert-area', {

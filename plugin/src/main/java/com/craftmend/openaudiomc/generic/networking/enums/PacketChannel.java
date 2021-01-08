@@ -4,7 +4,7 @@ public enum PacketChannel {
 
     /**
      * All the channel names that are used in communication
-     *
+     * <p>
      * SOCKET_IN is what the plugin receives via the client
      * SOCKET_OUT is what is send to the socket to proxy to the client
      */
@@ -15,6 +15,7 @@ public enum PacketChannel {
     SOCKET_IN_CLIENT_ENABLED_HUE, // client connected to a hue bridge
     SOCKET_IN_CLIENT_FAILED_MEDIA, // client failed to fetch media
     SOCKET_IN_CLIENT_UPDATE_CHANNELS, // a list of current channels whenever a source started or stopped
+
 
     // socket out, so received by the socket and send from the minecraft server
     SOCKET_OUT_KICK_CLIENT,

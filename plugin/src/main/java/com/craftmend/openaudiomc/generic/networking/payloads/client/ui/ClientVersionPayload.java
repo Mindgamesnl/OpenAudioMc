@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ClientVersionPayload extends AbstractPacketPayload {
 
-    private int protocolRevision = 3;
+    private int protocolRevision = 4;
 
 }
