@@ -97,7 +97,11 @@ export class SocketDirector {
                         document.documentElement.style.setProperty('--border-color-normal', normal);
                         document.documentElement.style.setProperty('--border-color-light', light);
 
+                        // old
                         openAudioMc.getUserInterfaceModule().changeColor("#2c78f6", response.accentColor);
+
+                        // modern from tailwind
+                        openAudioMc.getUserInterfaceModule().changeColor("#4F46E5", response.accentColor);
 
                         if (response.startSound != "") {
                             openAudioMc.getMediaManager().startSound = response.startSound;
