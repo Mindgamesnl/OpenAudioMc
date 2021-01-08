@@ -3,11 +3,9 @@ package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.interfaces.Client;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
-import com.craftmend.openaudiomc.generic.cards.objects.Card;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
-import com.craftmend.openaudiomc.generic.networking.packets.client.card.PacketClientCreateCard;
 import com.craftmend.openaudiomc.generic.networking.packets.client.hue.PacketClientApplyHueColor;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientCreateMedia;
 import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClientProtocolRevisionPacket;
@@ -52,7 +50,6 @@ public class ClientConnection implements Authenticatable, Client {
     @Getter private int volume = -1;
     private boolean isConnected = false;
     @Getter private PlayerSession session;
-    @Setter @Getter private Card card = null;
     @Setter @Getter private boolean isWaitingToken = false;
     @Setter @Getter private boolean sessionUpdated = false;
     @Getter @Setter private boolean hasHueLinked = false;
@@ -60,7 +57,6 @@ public class ClientConnection implements Authenticatable, Client {
     // player implementation
     @Getter private final PlayerContainer player;
     private Instant lastConnectPrompt = Instant.now();
-    private final Instant sessionCreated = Instant.now();
 
     // on connect and disconnect handlers
     private final List<Runnable> connectHandlers = new ArrayList<>();
@@ -110,10 +106,6 @@ public class ClientConnection implements Authenticatable, Client {
                     ongoingMedia.forEach(this::sendMedia);
 
                     connectHandlers.forEach(a -> a.run());
-
-                    if (card != null) {
-                        OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientCreateCard(card));
-                    }
                 },
                 3
         );

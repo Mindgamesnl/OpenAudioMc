@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 
 @AllArgsConstructor
-public class FakeCommandSender implements GenericExecutor {
+public class FakeGenericExecutor implements GenericExecutor {
 
     private Player player;
 
