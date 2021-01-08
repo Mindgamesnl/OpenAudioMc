@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.show.interfaces;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -12,7 +13,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
+
+@AllArgsConstructor
 public class FakeCommandSender implements CommandSender {
+
+    @Getter private World world;
 
     @Override
     public void sendMessage(@NotNull String message) {

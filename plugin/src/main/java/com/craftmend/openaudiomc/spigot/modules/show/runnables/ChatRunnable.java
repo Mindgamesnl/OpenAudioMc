@@ -5,10 +5,12 @@ import com.craftmend.openaudiomc.spigot.modules.show.interfaces.FakeCommandSende
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import java.lang.ref.PhantomReference;
 import java.util.List;
 
 @AllArgsConstructor
@@ -16,11 +18,12 @@ import java.util.List;
 public class ChatRunnable extends ShowRunnable {
 
     private String message;
-
+    private World world;
 
     @Override
     public void prepare(String serialized, World world) {
         this.message = serialized;
+        this.world = world;
     }
 
     @Override
@@ -32,7 +35,7 @@ public class ChatRunnable extends ShowRunnable {
     public void run() {
         String[] args = message.split(" ");
         if (args.length < 1) return;
-        List<Player> players = new SpigotPlayerSelector(args[0]).getPlayers(new FakeCommandSender());
+        List<Player> players = new SpigotPlayerSelector(args[0]).getPlayers(new FakeCommandSender(world));
         String[] subArgs = new String[args.length - 1];
         System.arraycopy(args, 1, subArgs, 0, args.length - 1);
         String fullMessage = ChatColor.translateAlternateColorCodes('&', String.join(" ", subArgs));

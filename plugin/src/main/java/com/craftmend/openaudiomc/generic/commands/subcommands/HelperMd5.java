@@ -15,8 +15,13 @@ class HelperMd5 {
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
             TextComponent component = new TextComponent(" " + Platform.makeColor("YELLOW") + "> " + Platform.makeColor("GOLD") + message);
             component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + command));
-            Player player = (Player) s.getOriginal();
-            player.spigot().sendMessage(component);
+
+            if (s.getOriginal() instanceof Player) {
+                Player player = (Player) s.getOriginal();
+                player.spigot().sendMessage(component);
+            } else {
+                s.sendMessage(component.getText());
+            }
         } else {
             TextComponent component = new TextComponent(" " + Platform.makeColor("YELLOW") + "> " + Platform.makeColor("GOLD") + message);
             component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + command));

@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.players.objects;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
+import com.craftmend.openaudiomc.spigot.modules.show.interfaces.FakeCommandSender;
 import lombok.AllArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -131,6 +132,8 @@ public class SpigotPlayerSelector {
             initialLocation = ((Player) commandSender).getLocation();
         } else if (commandSender instanceof BlockCommandSender) {
             initialLocation = ((BlockCommandSender) commandSender).getBlock().getLocation();
+        } else if (commandSender instanceof FakeCommandSender) {
+            initialLocation = new Location(((FakeCommandSender) commandSender).getWorld(), 0, 0, 0);
         }
 
         if (!getArgument("x").equals("") && !getArgument("y").equals("") && !getArgument("z").equals("")) {

@@ -24,6 +24,8 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
     private final Set<MappedLocation> garbageSpeakers = new HashSet<>();
     private int lastFraction = 0;
     private final int FRACTION_GROUP_SIZE = 50;
+    private int logInterval = -1;
+    private int toReport = 0;
 
     public SpeakerGarbageCollection(SpeakerModule speakerModule) {
         this.speakerModule = speakerModule;
@@ -34,7 +36,15 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
     public void run() {
         int maxFractions = roundUp(this.speakerModule.getSpeakerMap().values().size(), FRACTION_GROUP_SIZE);
         if (!garbageSpeakers.isEmpty()) {
-            OpenAudioLogger.toConsole("Found " + garbageSpeakers.size() + " corrupted speakers with the garbage collector. Removing them from the cache until the server restarts (pass " + lastFraction + " out of " + maxFractions + "))");
+
+            toReport += garbageSpeakers.size();
+            logInterval++;
+            if (logInterval > 20 && toReport > 0) {
+                OpenAudioLogger.toConsole("Found " + toReport + " corrupted speakers with the garbage collector. Removing them from the cache until the server restarts (pass " + lastFraction + " out of " + maxFractions + "))");
+                toReport = 0;
+                logInterval = 0;
+            }
+            
             Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> {
                 for (MappedLocation garbageSpeaker : garbageSpeakers) {
                     speakerModule.getSpeakerMap().remove(garbageSpeaker);

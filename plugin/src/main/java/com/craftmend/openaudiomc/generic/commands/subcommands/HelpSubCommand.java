@@ -31,11 +31,11 @@ public class HelpSubCommand extends SubCommand {
             }
         }
 
-            message(sender, "Welcome to the OpenAudioMc help menu! please click one of the following commands for their sub commands and usage");
-            for (SubCommand subCommandHandler : commandModule.getSubCommandHandlers()) {
-                goldClickableMessage(sender, "/openaudiomc " + subCommandHandler.getCommand(), "oa help " + subCommandHandler.getCommand());
-            }
-            message(sender, "For more personal help or other questions, please visit https://help.openaudiomc.net/");
+        message(sender, "Welcome to the OpenAudioMc help menu! please click one of the following commands for their sub commands and usage");
+        for (SubCommand subCommandHandler : commandModule.getSubCommandHandlers()) {
+            goldClickableMessage(sender, "/openaudiomc " + subCommandHandler.getCommand(), "oa help " + subCommandHandler.getCommand());
+        }
+        message(sender, "For more personal help or other questions, please visit https://help.openaudiomc.net/");
     }
 
     private void goldMessage(GenericExecutor s, String message) {
@@ -44,13 +44,13 @@ public class HelpSubCommand extends SubCommand {
 
     @SneakyThrows
     private void goldClickableMessage(GenericExecutor s, String message, String command) {
-        switch (OpenAudioMc.getInstance().getPlatform()){
+        switch (OpenAudioMc.getInstance().getPlatform()) {
             case SPIGOT:
             case BUNGEE:
-                HelperMd5.goldClickableMessage(s,message,command);
+                HelperMd5.goldClickableMessage(s, message, command);
                 break;
             case VELOCITY:
-                HelperVelocity.goldClickableMessage(s,message,command);
+                HelperVelocity.goldClickableMessage(s, message, command);
                 break;
             default:
                 s.sendMessage(" " + getColor("YELLOW") + "> " + getColor("GOLD") + message + getColor("GRAY") + ". (" + command + ")");
