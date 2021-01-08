@@ -15,7 +15,11 @@ A time code is the amount of time from when the start command is executed. OpenA
  - **`t` resembles ticks**: 1t = 1 minecraft tick, or 50 mlliseconds
  - **`HH:mm:ss` resembles HourHour:MinuteMinute:SecondSecond**: 00:05:00 = 5 minutes
 
-Out of the box, OpenAudioMc supports one trigger type, this is command. This will execute a command as console. Other triggers can be added via addons or the API.
+Supported trigger types and their format:
+ - **command**: Executes a command though the console, all arguments will be joined to form the command, `/openaudio show add demo 0s command say Hi there!`
+ - **chat**: Sends a chat message to everyone who fits a specific player selector (read [selectors](selectors.md)), the first argument is always the select, followed by the message. Example: `/openaudio show add demo 0s chat @a[region=spawn] &7Welcome to spawn!`
+ - **actionbar**: Follows the same general format as the *chat* trigger, but displays the message in the actionbar instead of chat
+ - *your own feature*: You can also add custom java show triggers with the API
 
 For this demo, we are gonna add two cues. One cue after 0 seconds, a cue after 1 second, and a cue after 1 minute. To add these cues, use the following commands:
 ```

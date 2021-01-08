@@ -71,6 +71,8 @@ options:
   notify-announcements: true
   # The amount of resources you want to have preloaded in the client
   preload-resources: 7
+  # Garbage collection strategy, it only removes it from the cache by default but you can set it to "DELETE" to forcefully delete data entries
+  gc-strategy: INVALIDATE
 
 # REDIS
 # More explanation about redis: https://help.openaudiomc.net/redis
