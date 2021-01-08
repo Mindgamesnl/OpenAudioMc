@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.generic.networking.certificate.CertificateHelpe
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.drivers.ClientDriver;
 import com.craftmend.openaudiomc.generic.networking.drivers.SystemDriver;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.voicechat.drivers.VoiceChatDriver;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.SocketDriver;
@@ -23,7 +24,6 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import okhttp3.OkHttpClient;
 
@@ -55,6 +55,7 @@ public class SocketIoConnector {
 
     public void setupConnection() {
         if (!OpenAudioMc.getInstance().getStateService().getCurrentState().canConnect()) return;
+
         // update state
         OpenAudioMc.getInstance().getStateService().setState(new AssigningRelayState());
 
@@ -86,7 +87,9 @@ public class SocketIoConnector {
         );
 
         // request a relay server
-        OpenAudioLogger.toConsole("Requesting relay..");
+        if (StorageKey.DEBUG_LOG_STATE_CHANGES.getBoolean()) {
+            OpenAudioLogger.toConsole("Requesting relay..");
+        }
 
         // schedule timeout check
         OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(() -> {
@@ -115,7 +118,9 @@ public class SocketIoConnector {
 
         LoginResponse loginResponse = response.getResponse(LoginResponse.class);
         Instant finish = Instant.now();
-        OpenAudioLogger.toConsole("Assigned relay: " + loginResponse.getAssignedOpenAudioServer().getSecureEndpoint() + " request took " + Duration.between(request, finish).toMillis() + "MS");
+        if (StorageKey.DEBUG_LOG_STATE_CHANGES.getBoolean()) {
+            OpenAudioLogger.toConsole("Assigned relay: " + loginResponse.getAssignedOpenAudioServer().getSecureEndpoint() + " request took " + Duration.between(request, finish).toMillis() + "MS");
+        }
         lastUsedRelay = loginResponse.getAssignedOpenAudioServer().getRelayId();
 
         // setup socketio connection
@@ -127,6 +132,9 @@ public class SocketIoConnector {
 
         // register state to be connecting
         OpenAudioMc.getInstance().getStateService().setState(new ConnectingState());
+
+        // clear session cache
+        OpenAudioMc.getInstance().getAuthenticationService().getDriver().initCache();
 
         // schedule timeout check
         OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(() -> {

@@ -11,6 +11,7 @@ import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import io.socket.client.Socket;
 
 public class SystemDriver implements SocketDriver {
+
     @Override
     public void boot(Socket socket, SocketIoConnector connector) {
         socket.on(Socket.EVENT_CONNECT, args -> {

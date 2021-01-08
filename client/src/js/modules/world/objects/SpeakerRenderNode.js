@@ -20,13 +20,7 @@ export class SpeakerRenderNode {
         const position = new Position(location);
         position.applyTo(this.pannerNode);
 
-        this.gainNode = player.audioCtx.createGain();
-
-        // since panner tends to lose volume
-        this.gainNode.gain.value = 1.2;
-
-        this.pannerNode.connect(this.gainNode);
-        this.gainNode.connect(player.audioCtx.destination);
+        this.pannerNode.connect(player.audioCtx.destination);
     }
 
 }

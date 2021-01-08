@@ -6,7 +6,7 @@ import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientSyncHueStatePacket;
 import com.craftmend.openaudiomc.generic.node.packets.CommandProxyPacket;
-import com.craftmend.openaudiomc.spigot.modules.proxy.objects.FakeCommandSender;
+import com.craftmend.openaudiomc.spigot.modules.proxy.objects.FakeGenericExecutor;
 
 import com.craftmend.openaudiomc.api.velocitypluginmessageframework.PacketHandler;
 import com.craftmend.openaudiomc.api.velocitypluginmessageframework.PacketListener;
@@ -38,8 +38,8 @@ public class BungeePacketListener implements PacketListener {
     public void onCommand(CommandProxyPacket packet) {
         Player player = Bukkit.getPlayer(packet.commandProxy.getExecutor());
         if (player == null) return;
-        FakeCommandSender fakeCommandSender = new FakeCommandSender(player);
-        OpenAudioMc.getInstance().getCommandModule().getSubCommand(packet.commandProxy.getCommandProxy().toString().toLowerCase()).onExecute(fakeCommandSender, packet.commandProxy.getArgs());
+        FakeGenericExecutor fakeGenericExecutor = new FakeGenericExecutor(player);
+        OpenAudioMc.getInstance().getCommandModule().getSubCommand(packet.commandProxy.getCommandProxy().toString().toLowerCase()).onExecute(fakeGenericExecutor, packet.commandProxy.getArgs());
     }
 
 }

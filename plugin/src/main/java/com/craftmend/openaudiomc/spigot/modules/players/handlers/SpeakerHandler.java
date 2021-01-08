@@ -56,6 +56,11 @@ public class SpeakerHandler implements ITickableHandler {
                     obstructions = speakerModule.getRayTracer().obstructionsBetweenLocations(player.getLocation(), entered.getLocation());
                 }
 
+                // overwrite sync flag
+                if (ExtraSpeakerOptions.IGNORE_SYNCHRONIZATION.isEnabledFor(entered.getSpeaker())) {
+                    entered.getSpeaker().getMedia().setDoPickup(false);
+                }
+
                 packetQue.add(new PacketClientCreateSpeaker(
                         new ClientSpeakerCreatePayload(toClientSpeaker(entered, obstructions)))
                 );
@@ -94,7 +99,7 @@ public class SpeakerHandler implements ITickableHandler {
     public void forceDeleteSpeaker(String id, SpeakerType type, String source) {
         OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientRemoveSpeaker(new ClientSpeakerDestroyPayload(
                 new ClientSpeaker(
-                        new Vector3(),
+                        Vector3.EMPTY,
                         type,
                         id,
                         source,

@@ -118,10 +118,6 @@ public class OpenAudioMc {
             if (stateService.getCurrentState().isConnected()) {
                 networkingService.stop();
             }
-        } catch (NoClassDefFoundError exception) {
-            OpenAudioLogger.toConsole("Bukkit already unloaded the networking classes, can't kill socket.");
-        }
-        try {
             this.plusService.shutdown();
         } catch (NoClassDefFoundError exception) {
             OpenAudioLogger.toConsole("Bukkit already unloaded the OA+ classes, can't kill tokens.");
