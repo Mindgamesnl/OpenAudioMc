@@ -15,6 +15,7 @@ public enum PacketChannel {
     SOCKET_IN_CLIENT_ENABLED_HUE, // client connected to a hue bridge
     SOCKET_IN_CLIENT_FAILED_MEDIA, // client failed to fetch media
     SOCKET_IN_CLIENT_UPDATE_CHANNELS, // a list of current channels whenever a source started or stopped
+    SOCKET_IN_CLIENT_CHANGED_VOLUME, // client updated volume
 
 
     // socket out, so received by the socket and send from the minecraft server
