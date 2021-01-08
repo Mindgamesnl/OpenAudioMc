@@ -54,7 +54,8 @@ public class SpeakerMenu extends Menu {
         for (ExtraSpeakerOptions setting : ExtraSpeakerOptions.values()) {
             Item settingItem = new Item(Material.LEVER);
 
-            if (setting.isCompatibleWith(speaker)) {
+            // only show the option if its compatible and public
+            if (setting.isCompatibleWith(speaker) && setting.isDisplay()) {
 
                 boolean isEnabled = setting.isEnabledFor(speaker);
                 settingItem.setName((isEnabled ? ChatColor.GREEN + "(enabled) " : ChatColor.RED + "(disabled) ") + setting.getTitle());
