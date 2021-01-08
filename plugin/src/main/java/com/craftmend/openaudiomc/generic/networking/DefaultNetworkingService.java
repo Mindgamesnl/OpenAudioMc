@@ -50,6 +50,7 @@ public class DefaultNetworkingService extends NetworkingService {
         registerHandler(PacketChannel.SOCKET_IN_CLIENT_ENABLED_HUE, new ClientLinkedHueHandler());
         registerHandler(PacketChannel.SOCKET_IN_CLIENT_FAILED_MEDIA, new ClientMediaErrorHandler());
         registerHandler(PacketChannel.SOCKET_IN_CLIENT_UPDATE_CHANNELS, new ClientChannelUpdateHandler());
+        registerHandler(PacketChannel.SOCKET_IN_CLIENT_CHANGED_VOLUME, new ClientChangedVolumeHandler());
 
         init();
 
@@ -109,7 +110,7 @@ public class DefaultNetworkingService extends NetworkingService {
     @Override
     public void triggerPacket(AbstractPacket abstractPacket) {
         if (packetHandlerMap.get(abstractPacket.getPacketChannel()) == null) {
-            OpenAudioLogger.toConsole("Unknown handler for packet type " + abstractPacket.getClass().getName());
+            OpenAudioLogger.toConsole("Unknown handler for packet type " + abstractPacket.getPacketChannel().name());
             return;
         }
 

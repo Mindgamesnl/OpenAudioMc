@@ -20,7 +20,8 @@ public class RestRequest {
 
     public static final OkHttpClient client = new OkHttpClient();
     private final String endpoint;
-    @Getter private String body = null;
+    @Getter
+    private String body = null;
     private final Map<String, String> variables = new HashMap<>();
 
     public RestRequest(RestEndpoint endpoint) {
@@ -33,7 +34,8 @@ public class RestRequest {
     }
 
     public RestRequest setBody(Object object) {
-        if (object instanceof String) throw new IllegalArgumentException("Objects will be serialized for you! Don't pass in raw strings.");
+        if (object instanceof String)
+            throw new IllegalArgumentException("Objects will be serialized for you! Don't pass in raw strings.");
         this.body = OpenAudioMc.getGson().toJson(object);
         return this;
     }
@@ -48,12 +50,7 @@ public class RestRequest {
         try {
             String url = getUrl();
             String output = readHttp(url);
-            try {
-                return OpenAudioMc.getGson().fromJson(output, ApiResponse.class);
-            } catch (Exception e) {
-                OpenAudioLogger.toConsole("Failed to handle output on endpoint " + endpoint + " : " + output + ".");
-                e.printStackTrace();
-            }
+            return OpenAudioMc.getGson().fromJson(output, ApiResponse.class);
         } catch (Exception e) {
             OpenAudioMc.getInstance().getStateService().setState(new IdleState("Net exception"));
             e.printStackTrace();
@@ -61,7 +58,6 @@ public class RestRequest {
             errorResponse.getErrors().add(new RestErrorResponse(e.toString(), ErrorCode.BAD_REQUEST));
             return errorResponse;
         }
-        return null;
     }
 
     private String getUrl() {
