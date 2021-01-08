@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -18,12 +19,12 @@ import java.util.List;
 public class ActionBarRunnable extends ShowRunnable {
 
     private String message;
-    private World world;
+    private String worldName;
 
     @Override
     public void prepare(String serialized, World world) {
         this.message = serialized;
-        this.world = world;
+        this.worldName = world.getName();
     }
 
     @Override
@@ -35,7 +36,7 @@ public class ActionBarRunnable extends ShowRunnable {
     public void run() {
         String[] args = message.split(" ");
         if (args.length < 1) return;
-        List<Player> players = new SpigotPlayerSelector(args[0]).getPlayers(new FakeCommandSender(world));
+        List<Player> players = new SpigotPlayerSelector(args[0]).getPlayers(new FakeCommandSender(Bukkit.getWorld(worldName)));
         String[] subArgs = new String[args.length - 1];
         System.arraycopy(args, 1, subArgs, 0, args.length - 1);
         String fullMessage = ChatColor.translateAlternateColorCodes('&', String.join(" ", subArgs));

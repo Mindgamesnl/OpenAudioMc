@@ -18,12 +18,12 @@ import java.util.List;
 public class ChatRunnable extends ShowRunnable {
 
     private String message;
-    private World world;
+    private String worldName;
 
     @Override
     public void prepare(String serialized, World world) {
         this.message = serialized;
-        this.world = world;
+        this.worldName = world.getName();
     }
 
     @Override
@@ -35,7 +35,7 @@ public class ChatRunnable extends ShowRunnable {
     public void run() {
         String[] args = message.split(" ");
         if (args.length < 1) return;
-        List<Player> players = new SpigotPlayerSelector(args[0]).getPlayers(new FakeCommandSender(world));
+        List<Player> players = new SpigotPlayerSelector(args[0]).getPlayers(new FakeCommandSender(Bukkit.getWorld(worldName)));
         String[] subArgs = new String[args.length - 1];
         System.arraycopy(args, 1, subArgs, 0, args.length - 1);
         String fullMessage = ChatColor.translateAlternateColorCodes('&', String.join(" ", subArgs));
