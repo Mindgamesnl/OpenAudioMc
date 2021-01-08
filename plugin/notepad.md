@@ -27,4 +27,5 @@ Changes since last release:
  - Fixed visual bugs related to the `/volume` command
  - Improved the network capacity by adding servers
  - Fixed dependency clashing with other plugins
+ - The client now synchronizes the volume with the server, which adds the `Client#getVolume()` method to the api which can be used in all sorts of cool ways
  
