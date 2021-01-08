@@ -12,6 +12,8 @@ import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 import com.craftmend.openaudiomc.spigot.modules.show.networking.rest.ShowUploadBody;
 import com.craftmend.openaudiomc.spigot.modules.show.networking.rest.ShowUploadResponse;
 import com.craftmend.openaudiomc.spigot.modules.show.objects.Show;
+import com.craftmend.openaudiomc.spigot.modules.show.runnables.ActionBarRunnable;
+import com.craftmend.openaudiomc.spigot.modules.show.runnables.ChatRunnable;
 import com.craftmend.openaudiomc.spigot.modules.show.runnables.CommandRunnable;
 import org.bukkit.World;
 
@@ -30,6 +32,8 @@ public class ShowModule {
     public ShowModule(OpenAudioMcSpigot openAudioMcSpigot) {
         // register default type
         taskTypes.put("command", CommandRunnable.class);
+        taskTypes.put("chat", ChatRunnable.class);
+        taskTypes.put("actionbar", ActionBarRunnable.class);
         openAudioMc = OpenAudioMc.getInstance();
     }
 
