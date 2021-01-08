@@ -12,6 +12,7 @@ import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.utils.HeatMap;
 import com.craftmend.openaudiomc.generic.networking.rest.Task;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
@@ -20,11 +21,19 @@ import java.util.UUID;
 public class AuthenticationDriver {
 
     private final AuthenticationService service;
-    private HeatMap<UUID, String> sessionCacheMap = new HeatMap<>(60, 100, () -> {
-        return "";
-    });
+    @Getter private HeatMap<UUID, String> sessionCacheMap = null;
+
+    public void initCache() {
+        sessionCacheMap = new HeatMap<>(60, 100, () -> {
+            return "";
+        });
+    }
 
     public Task<String> createPlayerSession(Authenticatable authenticatable) {
+        if (sessionCacheMap == null) {
+            initCache();
+        }
+
         Task<String> task = new Task<>();
         OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
             // check ache, since there might be a value

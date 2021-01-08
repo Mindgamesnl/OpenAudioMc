@@ -55,6 +55,7 @@ public class SocketIoConnector {
 
     public void setupConnection() {
         if (!OpenAudioMc.getInstance().getStateService().getCurrentState().canConnect()) return;
+
         // update state
         OpenAudioMc.getInstance().getStateService().setState(new AssigningRelayState());
 
@@ -131,6 +132,9 @@ public class SocketIoConnector {
 
         // register state to be connecting
         OpenAudioMc.getInstance().getStateService().setState(new ConnectingState());
+
+        // clear session cache
+        OpenAudioMc.getInstance().getAuthenticationService().getDriver().initCache();
 
         // schedule timeout check
         OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(() -> {
