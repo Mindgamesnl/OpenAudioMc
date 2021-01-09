@@ -44,7 +44,7 @@ public class SpeakerMenu extends Menu {
         setItem(16, getDistanceItem(speaker, 16));
         setItem(17, getDistanceItem(speaker, 18));
 
-        setItem(18, new Item(Material.COMMAND_BLOCK)
+        setItem(18, new Item(Material.LEVER)
                 .setName(ChatColor.AQUA + "Extra settings")
                 .setLore(new String[]{})
         );
