@@ -16,13 +16,4 @@ export class Boot {
         this.log("Enabling the web client for " + window.navigator.userAgent);
     }
 
-    boot() {
-        //set volume
-        let presetVolume = Cookies.get("volume");
-        Cookies.set('auto-join-call', false);
-        if (presetVolume != null) {
-            this.mediaManager.changeVolume(presetVolume);
-        }
-    }
-
 }

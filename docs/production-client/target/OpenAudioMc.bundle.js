@@ -6285,8 +6285,8 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
 
       _classCallCheck(this, Me);
 
-      if ((_this40 = _possibleConstructorReturn(this, _ref2.call(this)), _this40), _this40.canStart = !1, _this40.host = null, _this40.background = null, _this40.ambianceSound = "", _this40.tokenSet = new ft().fromCache(), null == _this40.tokenSet) return _ret2 = void r(et.BAD_AUTH), _possibleConstructorReturn(_this40, _ret2);_this40.notificationModule = new fe(_this40), _this40.timeService = new Q(), _this40.messages = new Z(_this40), _this40.userInterfaceModule = new tt(_this40), _this40.hueConfiguration = new kt(_this40), _this40.mediaManager = new bt(_this40), _this40.boot();new It(ht.MAIN_BACKEND).route(_this40).then(function (t) {
-        _this40.canStart = !0, _this40.host = t.host, _this40.background = t.background, _this40.ambianceSound = t.ambianceSound, r(et.WELCOME);
+      if ((_this40 = _possibleConstructorReturn(this, _ref2.call(this)), _this40), _this40.canStart = !1, _this40.host = null, _this40.background = null, _this40.ambianceSound = "", _this40.tokenSet = new ft().fromCache(), null == _this40.tokenSet) return _ret2 = void r(et.BAD_AUTH), _possibleConstructorReturn(_this40, _ret2);_this40.notificationModule = new fe(_this40), _this40.timeService = new Q(), _this40.messages = new Z(_this40), _this40.userInterfaceModule = new tt(_this40), _this40.hueConfiguration = new kt(_this40), _this40.mediaManager = new bt(_this40);new It(ht.MAIN_BACKEND).route(_this40).then(function (t) {
+        _this40.canStart = !0, _this40.host = t.host, _this40.background = t.background, _this40.ambianceSound = t.ambianceSound, r(et.WELCOME);var e = Cookies.get("volume");null != e && _this40.mediaManager.changeVolume(e);
       }).catch(function (t) {
         console.error("Exception thrown", t.stack), _this40.userInterfaceModule.kickScreen("Your current URL appears to be invalid. Please request a new one in-game using the /audio command. If this issue if persists please contact a member of staff.");
       });return _possibleConstructorReturn(_this40);
@@ -6353,10 +6353,6 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
 
       console.log("%c Made with love. Take note! this is a bundled version of OpenAudioMc. To get the full source code, please visit https://github.com/Mindgamesnl/OpenAudioMc", "background: linear-gradient(#D33106, #571402);border: 1px solid #3E0E02;color: white;display: block;text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset, 0 5px 3px -5px rgba(0, 0, 0, 0.5), 0 -13px 5px -10px rgba(255, 255, 255, 0.4) inset;line-height: 40px;text-align: center;font-weight: bold"), this.log("Enabling the web client for " + window.navigator.userAgent);
     }
-
-    _class3.prototype.boot = function boot() {
-      var t = Cookies.get("volume");Cookies.set("auto-join-call", !1), null != t && this.mediaManager.changeVolume(t);
-    };
 
     return _class3;
   }()));
