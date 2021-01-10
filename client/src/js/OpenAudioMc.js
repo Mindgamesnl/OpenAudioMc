@@ -44,8 +44,6 @@ export class OpenAudioMc extends Getters {
         this.hueConfiguration = new HueConfigurationModule(this);
         this.mediaManager = new MediaManager(this);
 
-        this.boot();
-
         // request a socket service, then do the booting
         const director = new SocketDirector(API_ENDPOINT.MAIN_BACKEND);
         director.route(this)
@@ -55,6 +53,11 @@ export class OpenAudioMc extends Getters {
                 this.background = res.background;
                 this.ambianceSound = res.ambianceSound;
                 strictlyShowCard(UiCards.WELCOME);
+
+                let presetVolume = Cookies.get("volume");
+                if (presetVolume != null) {
+                    this.mediaManager.changeVolume(presetVolume);
+                }
             })
             .catch((error) => {
                 console.error("Exception thrown", error.stack);
