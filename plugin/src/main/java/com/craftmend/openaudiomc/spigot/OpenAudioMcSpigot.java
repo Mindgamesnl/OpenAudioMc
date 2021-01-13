@@ -8,9 +8,6 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.WorkerState;
-import com.craftmend.openaudiomc.generic.voicechat.implementations.MockVoiceImpl;
-import com.craftmend.openaudiomc.generic.voicechat.VoiceChatManager;
-import com.craftmend.openaudiomc.generic.voicechat.interfaces.VoiceManagerImplementation;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 
 import com.craftmend.openaudiomc.spigot.modules.commands.SpigotCommandModule;
@@ -161,14 +158,6 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
     @Override
     public String getPluginVersion() {
         return getDescription().getVersion();
-    }
-
-    @Override
-    public VoiceManagerImplementation getVoiceImplementation() {
-        if (isNodeServer()) {
-            return new MockVoiceImpl();
-        }
-        return new VoiceChatManager();
     }
 
     @Override
