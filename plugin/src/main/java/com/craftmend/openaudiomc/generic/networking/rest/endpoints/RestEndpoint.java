@@ -23,6 +23,9 @@ public enum RestEndpoint {
     PLUS_PUSH_LEGACY_SETTINGS("https://plus.openaudiomc.net/api/v1/plus/settings", false),
     PLUS_UPDATE_PLAYERS("https://plus.openaudiomc.net/api/v1/plus/players", false),
     WORKER_SHOWS_UPLOAD("https://plus.openaudiomc.net/worker-proxy/shows/upload", false),
+
+    // voice
+    VOICE_LOGIN("/driver/login", false)
     ;
 
     private String url;
@@ -31,6 +34,19 @@ public enum RestEndpoint {
     RestEndpoint(String url, boolean translate) {
         this.url = url;
         this.translate = translate;
+    }
+
+    public RestEndpoint setHost(String hostname) {
+        if (this.url.startsWith("/")) {
+            this.url = url.replace("/", "");
+        }
+
+        if (!hostname.endsWith("/")) {
+            hostname = hostname += "/";
+        }
+
+        this.url = hostname + this.url;
+        return this;
     }
 
     public String getURL() {

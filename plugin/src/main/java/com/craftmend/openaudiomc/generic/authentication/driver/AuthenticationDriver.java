@@ -48,7 +48,7 @@ public class AuthenticationDriver {
             ClientTokenRequestBody requestBody = new ClientTokenRequestBody(
                     authenticatable.getOwnerName(),
                     authenticatable.getOwnerUUID().toString(),
-                    authenticatable.getSessionTokens().getKey(),
+                    authenticatable.getSessionTokens().getWebSessionKey(),
                     service.getServerKeySet().getPublicKey().getValue(),
                     service.getIdentity()
             );

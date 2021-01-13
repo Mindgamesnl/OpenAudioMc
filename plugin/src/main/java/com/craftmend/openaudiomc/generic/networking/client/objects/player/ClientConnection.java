@@ -87,7 +87,7 @@ public class ClientConnection implements Authenticatable, Client {
 
     @Override
     public boolean isTokenCorrect(String token) {
-        return getSession().getKey().equals(token);
+        return getSession().getWebSessionKey().equals(token);
     }
 
     // client connected!
