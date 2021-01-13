@@ -8,7 +8,6 @@ import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.drivers.ClientDriver;
 import com.craftmend.openaudiomc.generic.networking.drivers.SystemDriver;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.voicechat.drivers.VoiceChatDriver;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.SocketDriver;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
@@ -46,7 +45,6 @@ public class SocketIoConnector {
     private final SocketDriver[] drivers = new SocketDriver[]{
             new SystemDriver(),
             new ClientDriver(),
-            new VoiceChatDriver(),
     };
 
     public SocketIoConnector(ServerKeySet keySet) {

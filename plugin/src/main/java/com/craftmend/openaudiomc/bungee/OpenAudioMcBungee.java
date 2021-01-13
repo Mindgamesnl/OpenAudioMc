@@ -13,8 +13,6 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
-import com.craftmend.openaudiomc.generic.voicechat.VoiceChatManager;
-import com.craftmend.openaudiomc.generic.voicechat.interfaces.VoiceManagerImplementation;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import lombok.Getter;
 import net.md_5.bungee.api.ProxyServer;
@@ -96,11 +94,6 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
     @Override
     public String getPluginVersion() {
         return getDescription().getVersion();
-    }
-
-    @Override
-    public VoiceManagerImplementation getVoiceImplementation() {
-        return new VoiceChatManager();
     }
 
     @Override

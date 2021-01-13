@@ -20,7 +20,6 @@ import com.craftmend.openaudiomc.generic.platform.interfaces.TaskProvider;
 import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
 import com.craftmend.openaudiomc.generic.enviroment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.state.StateService;
-import com.craftmend.openaudiomc.generic.voicechat.interfaces.VoiceManagerImplementation;
 
 import com.craftmend.openaudiomc.spigot.modules.show.adapter.RunnableTypeAdapter;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
@@ -68,7 +67,6 @@ public class OpenAudioMc {
     private final GlobalConstantService globalConstantService;
     private final NetworkingService networkingService;
     private final ConfigurationImplementation configuration;
-    private final VoiceManagerImplementation voiceManager;
     private final CommandModule commandModule;
     private final TaskProvider taskProvider;
     private final RedisService redisService;
@@ -103,7 +101,6 @@ public class OpenAudioMc {
         this.commandModule = new CommandModule(this);
         this.redisService = new RedisService(this.configuration);
         this.networkingService = serviceImplementation.getConstructor().newInstance();
-        this.voiceManager = invoker.getVoiceImplementation();
         this.plusService = new PlusService(this);
 
         // run later

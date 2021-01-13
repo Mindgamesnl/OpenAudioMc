@@ -8,8 +8,6 @@ import com.craftmend.openaudiomc.generic.platform.interfaces.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskProvider;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
-import com.craftmend.openaudiomc.generic.voicechat.VoiceChatManager;
-import com.craftmend.openaudiomc.generic.voicechat.interfaces.VoiceManagerImplementation;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import com.craftmend.openaudiomc.velocity.modules.commands.VelocityCommandModule;
 import com.craftmend.openaudiomc.velocity.modules.configuration.VelocityConfigurationImplementation;
@@ -24,7 +22,6 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import lombok.Getter;
-import org.slf4j.Logger;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -45,7 +42,6 @@ public class OpenAudioMcVelocity implements OpenAudioInvoker {
     private static OpenAudioMcVelocity instance;
     @Getter
     private final ProxyServer server;
-    private final Logger logger;
     @Getter
     private final File dataDir;
     private final Instant boot = Instant.now();
@@ -57,9 +53,8 @@ public class OpenAudioMcVelocity implements OpenAudioInvoker {
     private VelocityCommandModule commandModule;
 
     @Inject
-    public OpenAudioMcVelocity(ProxyServer server, Logger logger, @DataDirectory Path dataDirPath) {
+    public OpenAudioMcVelocity(ProxyServer server, @DataDirectory Path dataDirPath) {
         this.server = server;
-        this.logger = logger;
         this.dataDir = dataDirPath.toFile();
 
         if (!dataDir.exists() && !dataDir.mkdirs()) {
@@ -129,11 +124,6 @@ public class OpenAudioMcVelocity implements OpenAudioInvoker {
         return server.getPluginManager().getPlugin("openaudiomc").orElseThrow(
                 () -> new Error("OpenAudioMc Velcoity plugin not found!"))
                 .getDescription().getVersion().orElse("null");
-    }
-
-    @Override
-    public VoiceManagerImplementation getVoiceImplementation() {
-        return new VoiceChatManager();
     }
 
     @Override

@@ -6,7 +6,6 @@ import com.craftmend.openaudiomc.generic.networking.client.objects.player.Player
 import com.craftmend.openaudiomc.generic.networking.client.objects.plus.PlusSocketSession;
 import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
 import com.craftmend.openaudiomc.generic.networking.packets.PacketSocketKickClient;
-import com.craftmend.openaudiomc.generic.voicechat.api.models.MinecraftAccount;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.bukkit.entity.Player;
 
@@ -25,10 +24,6 @@ public interface Authenticatable {
 
     default void kickConnection() {
         OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketSocketKickClient());
-    }
-
-    default MinecraftAccount toAccount() {
-        return new MinecraftAccount(getOwnerName(), getOwnerUUID(), getSessionTokens().getKey());
     }
 
     static Authenticatable get(Player player) {
