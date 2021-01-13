@@ -8,7 +8,8 @@ import lombok.Getter;
 public class PlayerSession {
 
     private ClientConnection client;
-    private String key;
+    private String webSessionKey;
+    private String streamKey;
 
 
 }

@@ -48,7 +48,7 @@ public class PlayerStateStreamer implements Runnable {
         for (ClientConnection client : main.getNetworkingService().getClients()) {
             if (!trackedPlayers.contains(client.getPlayer().getUniqueId())) {
                 // not tracked yet!
-                playerUpdatePayload.getPlusPlayers().add(new PlusPlayer(client.getPlayer().getName(), client.getPlayer().getUniqueId(), client.getSession().getKey(), client.getIsConnected()));
+                playerUpdatePayload.getPlusPlayers().add(new PlusPlayer(client.getPlayer().getName(), client.getPlayer().getUniqueId(), client.getSession().getWebSessionKey(), client.getIsConnected()));
             }
             currentPlayers.add(client.getPlayer().getUniqueId());
 
