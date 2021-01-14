@@ -1,4 +1,4 @@
-import {CallAfterDomUpdate} from "../../helpers/domhelper";
+import {CallAfterDomUpdate} from "../../../helpers/domhelper";
 
 export class VoicePeerUi {
 

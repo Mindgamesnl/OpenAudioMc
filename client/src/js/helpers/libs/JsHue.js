@@ -182,7 +182,7 @@ var jsHueAPI = (fetch, Response, JSON, Promise) => {
                  * @return {Object} user object
                  */
                 user: username => {
-                    Cookies.set('hueid', username);
+                    Cookies.set('hueid', username, { expires: 30 });
 
                     /**
                      * @class jsHueUser

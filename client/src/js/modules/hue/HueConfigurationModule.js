@@ -36,7 +36,7 @@ export class HueConfigurationModule {
             this.state.push(this.obtainSelection(item));
         });
 
-        Cookies.set("hue-state", this.state);
+        Cookies.set("hue-state", this.state, { expires: 30 });
     }
 
     obtainSelection(item) {

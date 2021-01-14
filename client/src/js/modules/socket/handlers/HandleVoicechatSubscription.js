@@ -1,5 +1,3 @@
-import {oalog} from "../../../helpers/log";
-
 export function HandleVoiceChatSubscription(openAudioMc, data) {
-    oalog("Subscribe to someone please, here's the packet " + JSON.stringify(data))
+    openAudioMc.voiceModule.addPeer(data.targetUuid, data.targetPlayerName, data.targetStreamKey);
 }
