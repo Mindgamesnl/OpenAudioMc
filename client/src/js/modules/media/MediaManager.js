@@ -15,7 +15,7 @@ export class MediaManager {
         document.getElementById("volume-slider").oninput = () => {
             let value = document.getElementById("volume-slider").value;
             this.setMasterVolume(value);
-            Cookies.set("volume", value);
+            Cookies.set("volume", value, { expires: 30 });
         }
     }
 
@@ -112,7 +112,7 @@ export class MediaManager {
             document.getElementById("volume-disp").innerText = "Volume: " + volume + "%";
         }
 
-        Cookies.set("volume", volume);
+        Cookies.set("volume", volume, { expires: 30 });
 
         this.mixer.setMasterVolume(volume);
     }

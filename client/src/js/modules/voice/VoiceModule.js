@@ -1,11 +1,13 @@
 import {WrappedUserMedia} from "./WrappedUserMedia";
 import {OutgoingVoiceStream} from "./OutgoingVoiceStream";
+import {VoicePeer} from "./peer/VoicePeer";
 
 export class VoiceModule {
 
     constructor(openAudioMc) {
         this.openAudioMc = openAudioMc;
         this.streamer = null;
+        this.peerMap = new Map();
     }
 
     enable(server, streamKey, blocksRadius) {
@@ -19,6 +21,17 @@ export class VoiceModule {
             this.consent();
         };
         showVoiceCard("vc-onboarding")
+    }
+
+    addPeer(playerUuid, playerName, playerStreamKey) {
+        this.peerMap.set(playerStreamKey, new VoicePeer(this.openAudioMc, playerName, playerUuid, playerStreamKey));
+    }
+
+    removePeer(key) {
+        if (this.peerMap.has(key)) {
+            this.peerMap.get(key).stop();
+            this.peerMap.delete(key);
+        }
     }
 
     handleAudioPermissions(stream) {
