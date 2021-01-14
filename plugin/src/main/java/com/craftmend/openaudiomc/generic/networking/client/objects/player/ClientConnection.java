@@ -51,10 +51,12 @@ public class ClientConnection implements Authenticatable, Client {
     @Getter private int volume = -1;
     private boolean isConnected = false;
     @Getter private PlayerSession session;
+    @Getter private ClientRtcManager clientRtcManager;
     @Getter private String streamKey;
     @Setter @Getter private boolean isWaitingToken = false;
     @Setter @Getter private boolean sessionUpdated = false;
     @Getter @Setter private boolean hasHueLinked = false;
+    @Getter @Setter private boolean isConnectedToRtc = false;
 
     // player implementation
     @Getter private final PlayerContainer player;
@@ -78,6 +80,8 @@ public class ClientConnection implements Authenticatable, Client {
         if (!OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
             OpenAudioMc.getInstance().getGlobalConstantService().sendNotifications(player);
         }
+
+        clientRtcManager = new ClientRtcManager(this);
     }
 
     public void updatedVolume(int newVolume) {
@@ -138,6 +142,8 @@ public class ClientConnection implements Authenticatable, Client {
         sessionUpdated = true;
         apiSpeakers = 0;
         this.isConnected = false;
+        this.hasHueLinked = false;
+        this.isConnectedToRtc = false;
         disconnectHandlers.forEach(event -> event.run());
         OpenAudioMc.getInstance().getPlusService().getConnectionManager().removeSessionIfPresent(this);
 
@@ -301,5 +307,9 @@ public class ClientConnection implements Authenticatable, Client {
     @Override
     public void onDisconnect(Runnable runnable) {
         addOnDisconnectHandler(runnable);
+    }
+
+    public void onDestroy() {
+        this.getClientRtcManager().makePeersDrop();
     }
 }

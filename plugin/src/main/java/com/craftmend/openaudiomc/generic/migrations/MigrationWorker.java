@@ -21,6 +21,8 @@ public class MigrationWorker {
             new AddPreFetchMigration(),             // add a config value for how many files to prefetch
             new AddVolumeHintMigration(),           // add a config value for default volume messages
             new AddGcStratMigration(),              // add a config value for GC strats
+            new RemoveOldCallDataMigration(),       // remove old messages from the old voice system
+            new AddNewVoicechatMessagesMigration(), // adds new chat messages for the voice chat system
     };
 
     public void handleMigrations() {

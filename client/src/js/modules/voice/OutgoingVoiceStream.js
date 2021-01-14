@@ -1,3 +1,5 @@
+import * as PluginChannel from "../../helpers/protocol/PluginChannel";
+
 export class OutgoingVoiceStream {
 
     constructor(openAudioMc, server, streamKey, micStream) {
@@ -26,6 +28,9 @@ export class OutgoingVoiceStream {
         this.pcSender.addEventListener('connectionstatechange', event => {
             if (this.pcSender.connectionState === 'connected') {
                 whenFinished();
+
+                // enable VC mode
+                this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {});
             }
         });
 
@@ -51,6 +56,13 @@ export class OutgoingVoiceStream {
         }
 
         this.pcSender.createOffer().then(d => this.pcSender.setLocalDescription(d))
+    }
+
+    stop() {
+        this.micStream.getTracks().forEach(function (track) {
+            track.stop();
+        });
+        this.pcSender.close();
     }
 
 }

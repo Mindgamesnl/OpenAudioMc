@@ -51,6 +51,7 @@ public class DefaultNetworkingService extends NetworkingService {
         registerHandler(PacketChannel.SOCKET_IN_CLIENT_FAILED_MEDIA, new ClientMediaErrorHandler());
         registerHandler(PacketChannel.SOCKET_IN_CLIENT_UPDATE_CHANNELS, new ClientChannelUpdateHandler());
         registerHandler(PacketChannel.SOCKET_IN_CLIENT_CHANGED_VOLUME, new ClientChangedVolumeHandler());
+        registerHandler(PacketChannel.SOCKET_IN_CLIENT_INITIALIZED_RTC, new ClientInitializedRtcHandler());
 
         init();
 
@@ -182,6 +183,7 @@ public class DefaultNetworkingService extends NetworkingService {
                 client.kick();
             }
 
+            client.onDestroy();
             clientMap.remove(player);
         }
     }
