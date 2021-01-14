@@ -39,7 +39,21 @@ public class ModernRegionAdapter extends AbstractRegionAdapter {
                 .map(ApiRegion::wrapWorldGuard)
                 .collect(Collectors.toSet());
 
-        return prioritySort(regions, highestPriority, usePriority);
+        Set<ApiRegion> r = prioritySort(regions, highestPriority, usePriority);
+        if (r.isEmpty()) {
+            r.add(new ApiRegion() {
+                @Override
+                public int getPriority() {
+                    return 10;
+                }
+
+                @Override
+                public String getName() {
+                    return "__global__";
+                }
+            });
+        }
+        return r;
     }
 
     @Override

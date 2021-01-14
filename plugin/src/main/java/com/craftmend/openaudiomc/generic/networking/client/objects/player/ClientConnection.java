@@ -22,6 +22,7 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.hue.HueState;
 import com.craftmend.openaudiomc.generic.hue.SerializedHueColor;
 
+import com.craftmend.openaudiomc.generic.utils.RandomString;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
@@ -50,6 +51,7 @@ public class ClientConnection implements Authenticatable, Client {
     @Getter private int volume = -1;
     private boolean isConnected = false;
     @Getter private PlayerSession session;
+    @Getter private String streamKey;
     @Setter @Getter private boolean isWaitingToken = false;
     @Setter @Getter private boolean sessionUpdated = false;
     @Getter @Setter private boolean hasHueLinked = false;
@@ -67,6 +69,8 @@ public class ClientConnection implements Authenticatable, Client {
         this.mixTracker = new MixTracker();
         refreshSession();
         sessionPublisher = new Publisher(this);
+
+        streamKey =  new RandomString(15).nextString();
 
         if (OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_SEND_URL_ON_JOIN))
             publishUrl();

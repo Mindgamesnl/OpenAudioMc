@@ -173,6 +173,7 @@ public class DefaultNetworkingService extends NetworkingService {
     public void remove(UUID player) {
         if (clientMap.containsKey(player)) {
             ClientConnection client = clientMap.get(player);
+            removedConnectionSubscribers.forEach((id, handler) -> handler.accept(client));
 
             // are we in stand alone mode? then kick this client
             if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
@@ -189,6 +190,7 @@ public class DefaultNetworkingService extends NetworkingService {
     public ClientConnection register(Player player) {
         ClientConnection clientConnection = new ClientConnection(new SpigotPlayerAdapter(player));
         clientMap.put(player.getUniqueId(), clientConnection);
+        createdConnectionSubscribers.forEach((id, handler) -> handler.accept(clientConnection));
         return clientConnection;
     }
 
@@ -196,6 +198,7 @@ public class DefaultNetworkingService extends NetworkingService {
     public ClientConnection register(ProxiedPlayer player) {
         ClientConnection clientConnection = new ClientConnection(new ProxiedPlayerAdapter(player));
         clientMap.put(player.getUniqueId(), clientConnection);
+        createdConnectionSubscribers.forEach((id, handler) -> handler.accept(clientConnection));
         return clientConnection;
     }
 
@@ -203,6 +206,7 @@ public class DefaultNetworkingService extends NetworkingService {
     public ClientConnection register(com.velocitypowered.api.proxy.Player player) {
         ClientConnection clientConnection = new ClientConnection(new VelocityPlayerAdapter(player));
         clientMap.put(player.getUniqueId(), clientConnection);
+        createdConnectionSubscribers.forEach((id, handler) -> handler.accept(clientConnection));
         return clientConnection;
     }
 

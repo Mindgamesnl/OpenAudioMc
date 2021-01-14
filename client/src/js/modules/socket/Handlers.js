@@ -1,7 +1,5 @@
 import {handleCreateMedia} from "./handlers/HandleCreateMedia";
 import {handleDestroyPanel} from "./handlers/HandleDestroyPanel";
-import {handleUpdateCard} from "./handlers/HandleUpdateCard";
-import {handleCreateCard} from "./handlers/HandleCreateCard";
 import {handleNotification} from "./handlers/HandleNotification";
 import {handleProtocolVersion} from "./handlers/HandleProtocolVersion";
 import {handleClientVolume} from "./handlers/HandleClientVolume";
@@ -12,6 +10,7 @@ import {handlePlayerLocation} from "./handlers/HandlePlayerLocation";
 import {handleSpeakerCreation} from "./handlers/HandleSpeakerCreation";
 import {handleSpeakerDestroy} from "./handlers/HandleSpeakerDestroy";
 import { handlePrefetchPacket } from './handlers/HandlePrefetch'
+import {HandleVoiceUnlock} from "./handlers/HandleVoicechatUnlock";
 
 export class Handlers {
 
@@ -20,17 +19,16 @@ export class Handlers {
 
         registerClassHandler("ClientCreateMediaPayload", handleCreateMedia);
         registerClassHandler("ClientDestroyCardPayload", handleDestroyPanel);
-        registerClassHandler("ClientUpdateCardPayload", handleUpdateCard);
-        registerClassHandler("ClientCreateCardPayload", handleCreateCard);
         registerClassHandler("NotificationPayload", handleNotification);
-        registerClassHandler("ClientVersionPayload", handleProtocolVersion)
-        registerClassHandler("ClientVolumePayload", handleClientVolume)
-        registerClassHandler("ClientDestroyMediaPayload", handleDestroyMedia)
-        registerClassHandler("HueColorPayload", handleHuePayload)
-        registerClassHandler("ClientUpdateMediaPayload", handleMediaUpdate)
-        registerClassHandler("ClientPlayerLocationPayload", handlePlayerLocation)
-        registerClassHandler("ClientSpeakerCreatePayload", handleSpeakerCreation)
-        registerClassHandler("ClientSpeakerDestroyPayload", handleSpeakerDestroy)
-        registerClassHandler("ClientPreFetchPayload", handlePrefetchPacket)
+        registerClassHandler("ClientVersionPayload", handleProtocolVersion);
+        registerClassHandler("ClientVolumePayload", handleClientVolume);
+        registerClassHandler("ClientDestroyMediaPayload", handleDestroyMedia);
+        registerClassHandler("HueColorPayload", handleHuePayload);
+        registerClassHandler("ClientUpdateMediaPayload", handleMediaUpdate);
+        registerClassHandler("ClientPlayerLocationPayload", handlePlayerLocation);
+        registerClassHandler("ClientSpeakerCreatePayload", handleSpeakerCreation);
+        registerClassHandler("ClientSpeakerDestroyPayload", handleSpeakerDestroy);
+        registerClassHandler("ClientPreFetchPayload", handlePrefetchPacket);
+        registerClassHandler("ClientVoiceChatUnlockPayload", HandleVoiceUnlock)
     }
 }

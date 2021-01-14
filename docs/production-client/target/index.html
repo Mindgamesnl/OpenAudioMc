@@ -22,10 +22,14 @@
     <meta name="twitter:url" content="https://twitter.com/Mindgamesnl">
     <meta name="twitter:card" content="summary">
 
-    <link rel="stylesheet" href="css/2021.css" />
+    <link rel="stylesheet" href="css/2021.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css"
           integrity="sha512-+WF6UMXHki/uCy0vATJzyA9EmAcohIQuwpNz0qEO+5UeE5ibPejMRdFuARSrl1trs3skqie0rY/gNiolfaef5w=="
           crossorigin="anonymous"/>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.13.0/sweetalert2.all.js"
+            integrity="sha512-xyQB/ddHP6Oc0QtRFlyVsnBAOJhlxhLin3LXIjw3Ho9RnjppbCJOeb0OUXQ5HgIijMnzNxuCElb5FLkZLN+SSg=="
+            crossorigin="anonymous"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.slim.js"></script>
     <script src="libs/color.js"></script>
@@ -63,12 +67,14 @@
                 </main>
 
                 <!-- Disconnected -->
-                <main class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8" data-type="card" id="kicked-card" style="display: none;">
+                <main class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8" data-type="card" id="kicked-card"
+                      style="display: none;">
                     <div class="sm:text-center lg:text-left">
                         <h2 class="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl">
                             Lost connection
                         </h2>
-                        <p id="kick-message" class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                        <p id="kick-message"
+                           class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
                             The audio client is only available for players who are online in the
                             server.<br/>Use <small><b>/audio</b></small> to obtain a URL
                         </p>
@@ -76,7 +82,8 @@
                 </main>
 
                 <!-- Bad login -->
-                <main class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8" data-type="card" id="bad-auth-card" style="display: none;">
+                <main class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8" data-type="card" id="bad-auth-card"
+                      style="display: none;">
                     <div class="sm:text-center lg:text-left">
                         <h2 class="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl">
                             Are you lost?
@@ -90,35 +97,46 @@
                 </main>
 
                 <!-- Initial connect -->
-                <main class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8" data-type="card" style="display: none;" id="welcome-card">
+                <main class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8" data-type="card" style="display: none;"
+                      id="welcome-card">
                     <div class="sm:text-center lg:text-left">
                         <h2 class="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl">
                             Welcome!
                         </h2>
-                        <p id="initialize-text" class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                        <p id="initialize-text"
+                           class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
                             Click on the button below connect to the audio client</p>
                         <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                             <div class="rounded-md shadow">
-                                <a id="initialize-button" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-green-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10"> Connect </a>
+                                <a id="initialize-button"
+                                   class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-green-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10">
+                                    Connect </a>
                             </div>
                         </div>
                     </div>
                 </main>
 
                 <!-- Main page -->
-                <main class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8" style="display: none" data-type="card" id="main-card">
+                <main class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8" style="display: none" data-type="card"
+                      id="main-card">
                     <div class="sm:text-center lg:text-left">
                         <h2 class="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl">
                             Welcome back,
                             <br class="xl:hidden"/>
                             <span class="text-indigo-600" id="in-game-name">Mindgamesnl</span>
                         </h2>
-                        <p id="status-message" class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                            Keep this tab open in the background since it'll be used to play audio related to your in-game actions. You can manually change your volume here, or in game using <b>/volume (volume)</b></p>
+                        <p id="status-message"
+                           class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                            Keep this tab open in the background since it'll be used to play audio related to your
+                            in-game actions. You can manually change your volume here, or in game using <b>/volume
+                            (volume)</b></p>
                         <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                             <form class="w-9/12">
-                                <label class="mb-2 uppercase font-bold text-lg text-indigo-600" for="volume-slider" id="volume-disp">Volume: 50%</label>
-                                <input id="volume-slider" class="rounded-lg overflow-hidden appearance-none bg-gray-400 h-3 w-full" type="range" min="0" max="100" step="1" value="15" />
+                                <label class="mb-2 uppercase font-bold text-lg text-indigo-600" for="volume-slider"
+                                       id="volume-disp">Volume: 50%</label>
+                                <input id="volume-slider"
+                                       class="rounded-lg overflow-hidden appearance-none bg-gray-400 h-3 w-full"
+                                       type="range" min="0" max="100" step="1" value="50"/>
                             </form>
                         </div>
                     </div>
@@ -190,7 +208,7 @@
 
                 </div>
 
-                <div class="relative pt-6 px-4 sm:px-6 lg:px-8 mt-6 md:mt-6 lg:mt-10 sm:mt-12 xl:mt-8">
+                <div class="relative px-4 sm:px-6 lg:px-8 mt-6 md:mt-6 lg:mt-10 sm:mt-12 xl:mt-8">
                     <nav class="relative flex items-center justify-between sm:h-10 lg:justify-start">
                         <div class="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
                             <div class="flex items-center justify-between w-full md:w-auto">
@@ -204,20 +222,91 @@
                         </div>
                         <div class="hidden md:block md:ml-10 md:pr-4">
                             <a href="login.html"
-                               class="font-medium text-red-500 hover:text-gray-900 transition duration-150 ease-in-out">Log out</a>
+                               class="font-medium text-red-500 hover:text-gray-900 transition duration-150 ease-in-out">Log
+                                out</a>
                             <a href="https://openaudiomc.net/"
-                               class="ml-8 font-medium text-gray-500 hover:text-gray-900 transition duration-150 ease-in-out">© OpenAudioMc 2016-2021. All Rights Reserved.</a>
+                               class="ml-8 font-medium text-gray-500 hover:text-gray-900 transition duration-150 ease-in-out">©
+                                OpenAudioMc 2016-2021. All Rights Reserved.</a>
                         </div>
                     </nav>
                 </div>
             </div>
         </div>
         <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-            <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"  id="banner-image"
+            <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" id="banner-image"
                  src="https://client.openaudiomc.net/assets/bg.jpg"
                  alt=""/>
         </div>
     </div>
+
+    <div class="pt-5 w-full flex justify-center transition-transform" id="vc-controls" style="display: none">
+        <div class="w-3/5 relative bg-white shadow rounded-md py-5 pl-6 pr-8 sm:pr-6">
+            <!-- onboarding -->
+            <div class="h-full w-full" data-type="voice-card" id="vc-onboarding" style="display: none">
+                <h2 class="text-2xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-xl sm:leading-none md:text-3xl">
+                    <span class="text-indigo-600">Voice Chat</span>
+                    <br>
+                    Setup
+                </h2>
+                <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg md:mt-5 md:text-xl lg:mx-0">
+                    This server has support for Proximity Voice Chat, which allows you to talk with players within a <b
+                        id="vc-block-range">* block</b> radius. Would you like to enable this feature and give access to
+                    your microphone?<br/>
+                    <small>You can always mute your microphone on this page or with <i>/mic mute</i></small>
+                </p>
+                <div class="flex justify-center lg:justify-start mt-6">
+                    <a class="px-4 py-3 bg-green-400 border-indigo-600 border-2 text-gray-800 text-xs font-semibold rounded hover:bg-green-100"
+                       id="vc-concent-button">Get Started</a>
+                    <a class="mx-4 px-4 py-3 bg-gray-300 text-gray-900 text-xs font-semibold rounded hover:bg-gray-400"
+                       onclick="document.getElementById('vc-controls').style.display = 'none'">Ignore</a>
+                </div>
+            </div>
+
+            <!-- initial microphone setup -->
+            <div class="h-full w-full" data-type="voice-card" id="voice-home" style="display: none">
+                <div class="flex mb-4 w-full">
+                    <div class="w-3/5">
+                        <h2 class="text-2xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-xl sm:leading-none md:text-3xl">
+                            <span class="text-indigo-600">Voice Chat</span>
+                            <br>
+                            Settings
+                        </h2>
+
+                        <hr class="mt-2 pb-2"/>
+
+                        <div class="h-1/4">
+                            <button class="mt-3 flex-shrink-0 bg-red-500 text-white text-base font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-purple-200">
+                                Mute Microphone
+                            </button>
+                        </div>
+
+                        <div class="h-1/4">
+                            <label class="mb-2 uppercase font-bold text-lg text-indigo-600" for="vc-mic-select">Select
+                                your microphone</label>
+                            <select class="w-3/4 border bg-white rounded px-3 py-2 outline-none" id="vc-mic-select">
+                                <option class="py-1">PreSonus STUDIO 24c</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="w-2/5">
+                        <h2 class="text-2xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-xl sm:leading-none md:text-3xl">
+                            People within
+                            <br>
+                            <span class="text-indigo-600">Voice Range</span>
+                        </h2>
+                        <hr class="mt-2 pb-2"/>
+                        <div class="flex justify-center">
+                            <div class="w-full max-w-lg pt-4" id="vc-call-members">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 </body>
 

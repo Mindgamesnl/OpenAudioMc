@@ -8,6 +8,8 @@ import com.craftmend.openaudiomc.generic.platform.interfaces.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskProvider;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.voicechat.DefaultVoiceServiceImpl;
+import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import com.craftmend.openaudiomc.velocity.modules.commands.VelocityCommandModule;
 import com.craftmend.openaudiomc.velocity.modules.configuration.VelocityConfigurationImplementation;
@@ -130,4 +132,10 @@ public class OpenAudioMcVelocity implements OpenAudioInvoker {
     public int getServerPort() {
         return server.getBoundAddress().getPort();
     }
+
+    @Override
+    public VoiceService getVoiceService() {
+        return new DefaultVoiceServiceImpl();
+    }
+
 }
