@@ -18,9 +18,9 @@ public enum StorageKey {
     MESSAGE_CLIENT_VOLUME_INVALID(false, "messages.client-volume-invalid", StorageLocation.CONFIG_FILE),
     MESSAGE_CLIENT_NOT_CONNECTED(false, "messages.client-not-connected", StorageLocation.CONFIG_FILE),
     MESSAGE_CLIENT_ALREADY_CONNECTED(false, "messages.client-already-connected", StorageLocation.CONFIG_FILE),
-    MESSAGE_CALL_RINGING(false, "messages.call-ringing", StorageLocation.CONFIG_FILE),
-    MESSAGE_CALL_ENDED(false, "messages.call-left", StorageLocation.CONFIG_FILE),
-    MESSAGE_API_BOOTING(false, "messages.api-starting-up", StorageLocation.CONFIG_FILE),
+    MESSAGE_API_BOOTING(false, "messages.voicechat-enabled", StorageLocation.CONFIG_FILE),
+
+    MESSAGE_VC_SETUP(false, "messages.api-starting-up", StorageLocation.CONFIG_FILE),
 
     SETTINGS_REMIND_TO_CONNECT(false, "options.remind-to-connect", StorageLocation.CONFIG_FILE),
     SETTINGS_REMIND_TO_CONNECT_INTERVAL(false, "options.remind-to-connect-interval", StorageLocation.CONFIG_FILE),
@@ -62,6 +62,8 @@ public enum StorageKey {
     @Deprecated SETTINGS_HUE_AVAILABLE_TEXT(true, "client.hue-bridge-found", StorageLocation.CONFIG_FILE),
     @Deprecated SETTINGS_CLIENT_START_SOUND(true, "client.start-sound", StorageLocation.CONFIG_FILE),
     @Deprecated SETTINGS_LOOP_TEMP_REGIONS(true, "options.loop-temp-regions", StorageLocation.CONFIG_FILE),
+    @Deprecated MESSAGE_LEGACY_CALL_RINGING(true, "messages.call-ringing", StorageLocation.CONFIG_FILE),
+    @Deprecated MESSAGE_LEGACY_CALL_ENDED(true, "messages.call-left", StorageLocation.CONFIG_FILE),
     ;
 
     @Getter private String path;

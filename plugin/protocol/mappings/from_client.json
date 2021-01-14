@@ -15,6 +15,10 @@
     "current_channels": {
       "packetChannel": "SOCKET_IN_CLIENT_UPDATE_CHANNELS",
       "gsonClass": "in.ClientUpdateChannelListPayload"
+    },
+    "rtc_initialized": {
+      "packetChannel": "SOCKET_IN_CLIENT_INITIALIZED_RTC",
+      "gsonClass": "in.ClientOpenedRtcPayload"
     }
   }
 }

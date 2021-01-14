@@ -36,12 +36,8 @@ messages:
   client-not-connected: '&4You need to be connected to the web client to be able to do that'
 
 
-  # The message a client gets when they have a incoming call
-  call-ringing: '&2You have a pending voice call! please check your web client to answer'
-  # The message a client gets when their call has ended
-  call-left: '&4Your current voice call got ended. You can now talk to yourself in peace again.'
-  # The message a client gets when openaudio messed up internally and it's currently recovering
-  api-starting-up: '&3The connection is still setting up. Please try again in a few seconds.'
+  # Message a player receives when opting into voicechat
+  voicechat-enabled: '&7&oYour voicechat has been enabled!'
 
 options:
   # Possible values:

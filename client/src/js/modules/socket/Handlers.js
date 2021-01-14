@@ -11,6 +11,8 @@ import {handleSpeakerCreation} from "./handlers/HandleSpeakerCreation";
 import {handleSpeakerDestroy} from "./handlers/HandleSpeakerDestroy";
 import { handlePrefetchPacket } from './handlers/HandlePrefetch'
 import {HandleVoiceUnlock} from "./handlers/HandleVoicechatUnlock";
+import {HandleVoiceChatSubscription} from "./handlers/HandleVoicechatSubscription";
+import {HandleVoiceChatDrop} from "./handlers/HandleVoicechatDrop";
 
 export class Handlers {
 
@@ -30,5 +32,7 @@ export class Handlers {
         registerClassHandler("ClientSpeakerDestroyPayload", handleSpeakerDestroy);
         registerClassHandler("ClientPreFetchPayload", handlePrefetchPacket);
         registerClassHandler("ClientVoiceChatUnlockPayload", HandleVoiceUnlock)
+        registerClassHandler("ClientVoiceSubscribePayload", HandleVoiceChatSubscription)
+        registerClassHandler("ClientVoiceDropPayload", HandleVoiceChatDrop)
     }
 }

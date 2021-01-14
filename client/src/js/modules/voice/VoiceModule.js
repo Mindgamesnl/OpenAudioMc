@@ -62,7 +62,10 @@ export class VoiceModule {
     }
 
     shutDown() {
-        document.getElementById("vc-controls").style.display = "none";
+        document.getElementById("vc-controls").style.display = "none"
+        if (this.streamer != null) {
+            this.streamer.stop()
+        }
     }
 
 }

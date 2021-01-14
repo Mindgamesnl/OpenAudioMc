@@ -4,7 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
-import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientUnlockVoicechat;
+import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientUnlockVoiceChat;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceChatUnlockPayload;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
@@ -59,7 +59,7 @@ public class VoiceServerDriver {
 
                 clientConnection.onConnect(() -> {
                     // unlock capabilities
-                    clientConnection.sendPacket(new PacketClientUnlockVoicechat(new ClientVoiceChatUnlockPayload(
+                    clientConnection.sendPacket(new PacketClientUnlockVoiceChat(new ClientVoiceChatUnlockPayload(
                             clientConnection.getStreamKey(),
                             this.host,
                             blockRadius
