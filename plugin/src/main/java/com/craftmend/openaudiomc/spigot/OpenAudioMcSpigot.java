@@ -22,6 +22,7 @@ import com.craftmend.openaudiomc.spigot.modules.shortner.AliasModule;
 import com.craftmend.openaudiomc.spigot.modules.show.ShowModule;
 import com.craftmend.openaudiomc.spigot.modules.traincarts.TrainCartsModule;
 import com.craftmend.openaudiomc.spigot.modules.traincarts.service.TrainCartsService;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.SpigotVoiceChatModule;
 import com.craftmend.openaudiomc.spigot.services.dependency.DependencyService;
 import com.craftmend.openaudiomc.spigot.services.scheduling.SpigotTaskProvider;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
@@ -52,9 +53,10 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
     private SpigotCommandModule commandModule;
     private SpeakerModule speakerModule;
     private ShowModule showModule;
-    @Setter private TrainCartsModule trainCartsModule;
+    private TrainCartsModule trainCartsModule;
     private DependencyService dependencyService;
     private ServerService serverService;
+    private SpigotVoiceChatModule spigotVoicechatModule;
     private OpenAudioMc openAudioMc;
 
     /**
@@ -88,6 +90,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
             this.commandModule = new SpigotCommandModule(this);
             this.showModule = new ShowModule(this);
             this.predictiveMediaService = new PredictiveMediaModule();
+            this.spigotVoicechatModule = new SpigotVoiceChatModule(this);
 
             this.dependencyService
                     .ifPluginEnabled("WorldGuard", new RegionService(this))

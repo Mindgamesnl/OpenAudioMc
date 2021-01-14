@@ -11,4 +11,6 @@ public interface VoiceService {
 
     void shutdown();
 
+    boolean isEnabled();
+
 }
