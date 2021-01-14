@@ -21,6 +21,8 @@ public enum StorageKey {
     MESSAGE_API_BOOTING(false, "messages.voicechat-enabled", StorageLocation.CONFIG_FILE),
 
     MESSAGE_VC_SETUP(false, "messages.api-starting-up", StorageLocation.CONFIG_FILE),
+    MESSAGE_VC_USER_ADDED(false, "messages.voicechat-added-user", StorageLocation.CONFIG_FILE),
+    MESSAGE_VC_USER_LEFT(false, "messages.voicechat-removed-user", StorageLocation.CONFIG_FILE),
 
     SETTINGS_REMIND_TO_CONNECT(false, "options.remind-to-connect", StorageLocation.CONFIG_FILE),
     SETTINGS_REMIND_TO_CONNECT_INTERVAL(false, "options.remind-to-connect-interval", StorageLocation.CONFIG_FILE),

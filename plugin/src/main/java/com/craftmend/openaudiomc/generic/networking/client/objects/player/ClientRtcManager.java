@@ -6,7 +6,9 @@ import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketC
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceSubscribePayload;
 import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.players.enums.PlayerLocationFollower;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import lombok.Getter;
 
@@ -16,7 +18,8 @@ import java.util.UUID;
 
 public class ClientRtcManager {
 
-    @Getter private Set<UUID> subscriptions = new HashSet<>();
+    @Getter
+    private Set<UUID> subscriptions = new HashSet<>();
     private ClientConnection clientConnection;
 
     public ClientRtcManager(ClientConnection clientConnection) {
@@ -31,6 +34,7 @@ public class ClientRtcManager {
 
     /**
      * Makes two users listen to one another
+     *
      * @param peer Who I should become friends with
      * @return If I became friends
      */
@@ -53,17 +57,36 @@ public class ClientRtcManager {
         peer.sendPacket(new PacketClientSubscribeToVoice(ClientVoiceSubscribePayload.fromClient(clientConnection)));
         clientConnection.sendPacket(new PacketClientSubscribeToVoice(ClientVoiceSubscribePayload.fromClient(peer)));
 
+        // send a message to both users that they can now hear one another
+        peer.getPlayer().sendMessage(Platform.translateColors(
+                StorageKey.MESSAGE_VC_USER_ADDED.getString()
+                        .replace("%name", clientConnection.getOwnerName())
+        ));
+
+        clientConnection.getPlayer().sendMessage(Platform.translateColors(
+                StorageKey.MESSAGE_VC_USER_ADDED.getString()
+                        .replace("%name", peer.getOwnerName())
+        ));
+
+        updateLocationWatcher();
+
         return true;
     }
 
     public void makePeersDrop() {
-        for (ClientConnection client : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
-            if (client.getOwnerUUID() ==  clientConnection.getOwnerUUID())
+        for (ClientConnection peer : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
+            if (peer.getOwnerUUID() == clientConnection.getOwnerUUID())
                 continue;
 
-            if (client.getClientRtcManager().subscriptions.remove(clientConnection.getOwnerUUID())) {
+            if (peer.getClientRtcManager().subscriptions.remove(clientConnection.getOwnerUUID())) {
                 // send unsub packet
-                client.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(clientConnection.getStreamKey())));
+                peer.getClientRtcManager().updateLocationWatcher();
+                peer.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(clientConnection.getStreamKey())));
+                // sens a message that we left
+                peer.getPlayer().sendMessage(Platform.translateColors(
+                        StorageKey.MESSAGE_VC_USER_LEFT.getString()
+                                .replace("%name", clientConnection.getOwnerName())
+                ));
             }
         }
     }
@@ -72,7 +95,9 @@ public class ClientRtcManager {
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
             SpigotConnection spigotConnection = OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(clientConnection.getOwnerUUID());
             if (subscriptions.isEmpty()) {
-
+                spigotConnection.getLocationFollowers().remove(PlayerLocationFollower.PROXIMITY_VOICE_CHAT);
+            } else {
+                spigotConnection.getLocationFollowers().add(PlayerLocationFollower.PROXIMITY_VOICE_CHAT);
             }
         }
     }
