@@ -18,10 +18,7 @@ public enum ErrorCode {
     REQUEST_TOO_BIG,    // The request (probably post body) is too big to be handled (likely due to cloudflare caching rules)
 
     // VOICE
-    NO_ROOM,            // room does not exist or does not match the provided api key
-    ROOM_TOO_BIG,       // This room is too big to make or mutate
-    TOO_MAY_ROOMS,      // You have already met your maximum number of rooms
-    ACCESS_DENIED,      // your account is not allowed to do this
+    BAD_HANDSHAKE,      // I don't know what you are. I don't know who you are. But I want you gone.
 
     // INTERNAL
     SYS_IDLE,           // this action cannot be fulfilled when openaudiomc is in its idle state
