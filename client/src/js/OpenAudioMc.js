@@ -10,10 +10,8 @@ import {Handlers} from "./modules/socket/Handlers";
 import {HueConfigurationModule} from "./modules/hue/HueConfigurationModule";
 import {Getters} from "./helpers/utils/Getters";
 import {SocketDirector} from "./modules/socket/SocketDirector";
-import {VoiceModule} from "./modules/voice/VoiceModule";
 import {NotificationModule} from "./modules/notifications/NotificationModule";
 import ClientTokenSet from "./helpers/libs/ClientTokenSet";
-import {initAudioContext} from "./modules/voice/objects/AbstractAudio";
 import {getHueInstance} from "./helpers/libs/JsHue";
 import {linkBootListeners} from "./helpers/utils/StaticFunctions";
 import {WorldModule} from "./modules/world/WorldModule";
@@ -69,10 +67,6 @@ export class OpenAudioMc extends Getters {
         if (!this.canStart) return;
         this.canStart = false;
 
-        //initialize audio encoding
-        initAudioContext();
-
-        this.voiceModule = new VoiceModule(this);
         this.world = new WorldModule(this);
         this.hueModule = new HueModule(this, getHueInstance());
         this.socketModule = new SocketModule(this, this.host);

@@ -51,8 +51,6 @@ export class SocketModule {
             
             that.state = "closed";
 
-            main.voiceModule.handleSocketClosed();
-
             strictlyShowCard(UiCards.BAD_AUTH)
 
             setTimeout(() => {
@@ -64,34 +62,6 @@ export class SocketModule {
             let packages = data.type.split(".");
             let payloadType = packages[packages.length - 1];
             if (that.handlers[payloadType] != null) that.handlers[payloadType](data.payload);
-        });
-
-        this.socket.on('join-call', (joinCallPacket) => {
-            let roomId = joinCallPacket.room;
-            let assignedCallServer = joinCallPacket.server;
-            let callAccessToken = joinCallPacket.accessToken;
-            let callMembers = joinCallPacket.members;
-
-            let memberNames = [];
-            for (const member of callMembers) {
-                memberNames.push(member.name);
-            }
-
-            main.voiceModule.promptCall(assignedCallServer, roomId, callAccessToken, memberNames, callMembers);
-        });
-
-        this.socket.on('resub-to-player-in-call', (uuid) => {
-            const room = main.voiceModule.room;
-            if (room != null) {
-                room.resubToPlayer(uuid);
-            }
-        });
-
-        this.socket.on('member-left-call', (uuidOfLeavingClient) => {
-            const room = main.voiceModule.room;
-            if (room != null) {
-                room.handleMemberLeaving(uuidOfLeavingClient);
-            }
         });
 
         this.socket.connect();

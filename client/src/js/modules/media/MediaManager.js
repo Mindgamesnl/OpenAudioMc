@@ -115,9 +115,6 @@ export class MediaManager {
         Cookies.set("volume", volume);
 
         this.mixer.setMasterVolume(volume);
-
-        // update voice call volume, if any
-        // this.openAudioMc.voiceModule.setVolume(volume);
     }
 
     changeVolume(volume) {

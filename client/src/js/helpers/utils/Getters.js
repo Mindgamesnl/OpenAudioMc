@@ -32,8 +32,4 @@ export class Getters extends Boot {
     getUserInterfaceModule() {
         return this.userInterfaceModule;
     }
-
-    getVoiceService() {
-        return this.voiceService;
-    }
 }
