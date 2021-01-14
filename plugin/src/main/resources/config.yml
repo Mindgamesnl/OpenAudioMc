@@ -38,6 +38,11 @@ messages:
 
   # Message a player receives when opting into voicechat
   voicechat-enabled: '&7&oYour voicechat has been enabled!'
+  # Message a player receives when a player joined their voicechat range
+  voicechat-added-user: '&7&o%name appeared in voice chat range'
+  # Message a player receives when a player got out of their voice chat range
+  voicechat-removed-user: '&7&o%name left your voice chat'
+
 
 options:
   # Possible values:
