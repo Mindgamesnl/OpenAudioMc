@@ -7,15 +7,13 @@ export class IncomingVoiceStream {
         this.peerStreamKey = peerStreamKey;
     }
 
-    async start(whenFinished) {
+    start(whenFinished) {
         let endpoint = this.server + "webrtc/listener/sdp" +
             "/m/" + tokenCache.publicServerKey +
             "/pu/" + tokenCache.uuid +
             "/pn/" + tokenCache.name +
             "/tg/" + this.peerStreamKey +
             "/sk/" + this.streamKey;
-
-
 
         this.pcReceiver = new RTCPeerConnection({
             iceServers: [
@@ -24,7 +22,6 @@ export class IncomingVoiceStream {
                 }
             ]
         });
-
 
         this.pcReceiver.addEventListener('connectionstatechange', event => {
             if (this.pcReceiver.connectionState === 'connected') {
@@ -57,6 +54,14 @@ export class IncomingVoiceStream {
             receiverVideo.autoplay = true;
             receiverVideo.controls = true;
         }
+    }
+
+    setVolume(volume) {
+
+    }
+
+    stop() {
+        this.pcReceiver.close();
     }
 
 }
