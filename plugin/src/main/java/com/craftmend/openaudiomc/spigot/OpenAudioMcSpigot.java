@@ -44,16 +44,19 @@ import java.time.Instant;
 @Getter
 public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvoker {
 
+    @Setter
+    private TrainCartsModule trainCartsModule;
+    @Setter
+    private RegionModule regionModule;
+
     private PredictiveMediaModule predictiveMediaService;
     private AliasModule aliasModule;
     private ExecutorService executorService;
     private ProxyModule proxyModule;
     private PlayerModule playerModule;
-    @Setter private RegionModule regionModule;
     private SpigotCommandModule commandModule;
     private SpeakerModule speakerModule;
     private ShowModule showModule;
-    private TrainCartsModule trainCartsModule;
     private DependencyService dependencyService;
     private ServerService serverService;
     private SpigotVoiceChatModule spigotVoicechatModule;

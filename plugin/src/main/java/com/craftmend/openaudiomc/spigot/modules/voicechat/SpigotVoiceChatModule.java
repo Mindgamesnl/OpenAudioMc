@@ -41,6 +41,7 @@ public class SpigotVoiceChatModule {
             // find clients in this world, in radius and that are connected with RTC
             Set<ClientConnection> applicableClients = Bukkit.getOnlinePlayers()
                     .stream()
+                    .filter(p -> !p.getName().equals(client.getOwnerName()))
                     .filter(onlinePlayer -> onlinePlayer.getWorld().getName().equals(player.getWorld().getName()))
                     .filter(onlinePlayer -> onlinePlayer.getLocation().distance(player.getLocation()) < maxDistance)
                     .map(onlinePlayer -> OpenAudioMc.getInstance().getNetworkingService().getClient(onlinePlayer.getUniqueId()))
@@ -59,6 +60,7 @@ public class SpigotVoiceChatModule {
             // check if we have any peers that are no longer applicable
             for (UUID uuid : client.getClientRtcManager().getSubscriptions()
                     .stream()
+                    .filter(p -> p != client.getOwnerUUID())
                     .filter(uuid -> !applicableClients.stream().anyMatch(apc -> apc.getOwnerUUID() == uuid))
                     .collect(Collectors.toSet())) {
 
