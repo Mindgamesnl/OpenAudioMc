@@ -24,7 +24,7 @@ export class VoiceModule {
     }
 
     addPeer(playerUuid, playerName, playerStreamKey) {
-        this.peerMap.set(playerStreamKey, new VoicePeer(this.openAudioMc, playerName, playerUuid, playerStreamKey));
+        this.peerMap.set(playerStreamKey, new VoicePeer(this.openAudioMc, playerName, playerUuid, playerStreamKey, this.server));
     }
 
     removePeer(key) {
