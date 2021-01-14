@@ -69,6 +69,8 @@ options:
   preload-resources: 7
   # Garbage collection strategy, it only removes it from the cache by default but you can set it to "DELETE" to forcefully delete data entries
   gc-strategy: INVALIDATE
+  # Required distance for proximity voice chat. Must be between 20 and 70
+  voicechat-radius: 69
 
 # REDIS
 # More explanation about redis: https://help.openaudiomc.net/redis
