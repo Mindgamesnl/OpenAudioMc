@@ -25,7 +25,8 @@ public enum RestEndpoint {
     WORKER_SHOWS_UPLOAD("https://plus.openaudiomc.net/worker-proxy/shows/upload", false),
 
     // voice
-    VOICE_LOGIN("/driver/login", false)
+    VOICE_LOGIN("/openaudio/login", false),
+    VOICE_EVENTS("/openaudio/events", false),
     ;
 
     private String url;
