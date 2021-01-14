@@ -21,6 +21,7 @@ import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
 import com.craftmend.openaudiomc.generic.enviroment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.state.StateService;
 
+import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
 import com.craftmend.openaudiomc.spigot.modules.show.adapter.RunnableTypeAdapter;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 
@@ -59,6 +60,7 @@ public class OpenAudioMc {
      * - Redis Service           []   (provides redis to openaudio and the gang)
      * - Plus Service            []   (Manages everything OpenAudioMc-Plus related, from auth to upstream data)
      * - Update Service          []   (Checks the master branch every once in a while to compare versions)
+     * - Voice Service           []   (Service handling OpenAudioMc's voice chat routing and servers)
      */
     private final AuthenticationService authenticationService = new AuthenticationService();
     private final StateService stateService = new StateService();
@@ -71,6 +73,7 @@ public class OpenAudioMc {
     private final TaskProvider taskProvider;
     private final RedisService redisService;
     private final PlusService plusService;
+    private final VoiceService voiceService;
     private final Platform platform;
     private final OpenAudioInvoker invoker;
     private final boolean cleanStartup;
@@ -102,6 +105,7 @@ public class OpenAudioMc {
         this.redisService = new RedisService(this.configuration);
         this.networkingService = serviceImplementation.getConstructor().newInstance();
         this.plusService = new PlusService(this);
+        this.voiceService = invoker.getVoiceService();
 
         // run later
         taskProvider.schduleSyncDelayedTask(authenticationService::prepareId, 20 * 2);
@@ -110,6 +114,7 @@ public class OpenAudioMc {
     public void disable() {
         isDisabled = true;
         configuration.saveAll();
+        voiceService.shutdown();
         try {
             redisService.shutdown();
             if (stateService.getCurrentState().isConnected()) {

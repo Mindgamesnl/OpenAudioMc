@@ -38,12 +38,13 @@ public enum RestEndpoint {
     }
 
     public RestEndpoint setHost(String hostname) {
+        if (this.url.contains(hostname)) return this;
         if (this.url.startsWith("/")) {
-            this.url = url.replace("/", "");
+            this.url = url.replaceFirst("/", "");
         }
 
         if (!hostname.endsWith("/")) {
-            hostname = hostname += "/";
+            hostname += "/";
         }
 
         this.url = hostname + this.url;

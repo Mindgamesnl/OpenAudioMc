@@ -9,7 +9,6 @@ public class PlayerSession {
 
     private ClientConnection client;
     private String webSessionKey;
-    private String streamKey;
 
 
 }

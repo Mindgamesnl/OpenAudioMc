@@ -17,6 +17,7 @@ import {linkBootListeners} from "./helpers/utils/StaticFunctions";
 import {WorldModule} from "./modules/world/WorldModule";
 import {ReportError} from "./helpers/protocol/ErrorReporter";
 import {API_ENDPOINT} from "./helpers/protocol/ApiEndpoints";
+import {VoiceModule} from "./modules/voice/VoiceModule";
 
 export class OpenAudioMc extends Getters {
 
@@ -41,6 +42,7 @@ export class OpenAudioMc extends Getters {
         this.userInterfaceModule = new UserInterfaceModule(this);
         this.hueConfiguration = new HueConfigurationModule(this);
         this.mediaManager = new MediaManager(this);
+        this.voiceModule = new VoiceModule(this);
 
         // request a socket service, then do the booting
         const director = new SocketDirector(API_ENDPOINT.MAIN_BACKEND);
@@ -68,7 +70,7 @@ export class OpenAudioMc extends Getters {
         this.canStart = false;
 
         this.world = new WorldModule(this);
-        this.hueModule = new HueModule(this, getHueInstance());
+        // this.hueModule = new HueModule(this, getHueInstance());
         this.socketModule = new SocketModule(this, this.host);
         this.messages.apply();
 

@@ -56,6 +56,8 @@ export class SocketModule {
             setTimeout(() => {
                 main.getMediaManager().sounds = {};
             }, 1010);
+
+            main.voiceModule.shutDown();
         });
 
         this.socket.on("data", data => {

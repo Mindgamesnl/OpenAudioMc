@@ -10,6 +10,8 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.WorkerState;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 
+import com.craftmend.openaudiomc.generic.voicechat.DefaultVoiceServiceImpl;
+import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
 import com.craftmend.openaudiomc.spigot.modules.commands.SpigotCommandModule;
 import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfigurationImplementation;
 import com.craftmend.openaudiomc.spigot.modules.predictive.PredictiveMediaModule;
@@ -163,6 +165,11 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
     @Override
     public int getServerPort() {
         return Bukkit.getPort();
+    }
+
+    @Override
+    public VoiceService getVoiceService() {
+        return new DefaultVoiceServiceImpl();
     }
 
 }
