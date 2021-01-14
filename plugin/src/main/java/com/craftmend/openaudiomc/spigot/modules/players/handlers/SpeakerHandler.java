@@ -10,6 +10,7 @@ import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.Cli
 import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.ClientSpeakerDestroyPayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.objects.ClientSpeaker;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.objects.Vector3;
+import com.craftmend.openaudiomc.spigot.modules.players.enums.PlayerLocationFollower;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
@@ -77,16 +78,8 @@ public class SpeakerHandler implements ITickableHandler {
 
         // update location if the client is listening to something
         if (!applicableSpeakers.isEmpty() || spigotConnection.getClientConnection().getApiSpeakers() > 0) {
-            Location location = player.getLocation();
-            ClientPlayerLocationPayload locationPayload = new ClientPlayerLocationPayload(
-                    round(location.getX(), 1),
-                    round(location.getY(), 1),
-                    round(location.getZ(), 1),
-                    (int) location.getPitch(),
-                    (int) location.getYaw()
-            );
 
-            OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientUpdateLocation(locationPayload));
+            spigotConnection.getLocationFollowers().add(PlayerLocationFollower.SPEAKERS);
 
             for (AbstractPacket abstractPacket : packetQue) {
                 OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), abstractPacket);
@@ -117,14 +110,6 @@ public class SpeakerHandler implements ITickableHandler {
 
     private boolean containsSpeaker(List<ApplicableSpeaker> list, ApplicableSpeaker speaker) {
         return list.stream().anyMatch(currentSpeaker -> currentSpeaker.equals(speaker));
-    }
-
-    private double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-
-        BigDecimal bd = BigDecimal.valueOf(value);
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
-        return bd.doubleValue();
     }
 
     private ClientSpeaker toClientSpeaker(ApplicableSpeaker speaker, int obstructions) {

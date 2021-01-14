@@ -73,7 +73,6 @@ public class SpigotVoiceChatModule {
                 peer.getClientRtcManager().getSubscriptions().remove(client.getOwnerUUID());
                 client.getClientRtcManager().getSubscriptions().remove(peer.getOwnerUUID());
             }
-
         }
     }
 }

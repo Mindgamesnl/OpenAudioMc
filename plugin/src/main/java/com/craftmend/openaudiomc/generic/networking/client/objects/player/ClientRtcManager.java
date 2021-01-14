@@ -5,6 +5,9 @@ import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketC
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientSubscribeToVoice;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceSubscribePayload;
+import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import lombok.Getter;
 
 import java.util.HashSet;
@@ -61,6 +64,15 @@ public class ClientRtcManager {
             if (client.getClientRtcManager().subscriptions.remove(clientConnection.getOwnerUUID())) {
                 // send unsub packet
                 client.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(clientConnection.getStreamKey())));
+            }
+        }
+    }
+
+    public void updateLocationWatcher() {
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
+            SpigotConnection spigotConnection = OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(clientConnection.getOwnerUUID());
+            if (subscriptions.isEmpty()) {
+
             }
         }
     }

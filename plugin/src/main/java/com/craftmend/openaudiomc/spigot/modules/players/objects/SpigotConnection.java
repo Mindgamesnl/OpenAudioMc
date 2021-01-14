@@ -1,8 +1,12 @@
 package com.craftmend.openaudiomc.spigot.modules.players.objects;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.packets.client.speakers.PacketClientUpdateLocation;
+import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.ClientPlayerLocationPayload;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
+import com.craftmend.openaudiomc.spigot.modules.players.enums.PlayerLocationFollower;
 import com.craftmend.openaudiomc.spigot.modules.players.events.ClientDisconnectEvent;
 import com.craftmend.openaudiomc.spigot.modules.players.handlers.AudioChunkHandler;
 import com.craftmend.openaudiomc.spigot.modules.players.handlers.InitializeTrains;
@@ -20,6 +24,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 public class SpigotConnection {
@@ -46,6 +52,8 @@ public class SpigotConnection {
     @Getter private SpeakerHandler speakerHandler;
     @Getter private RegionHandler regionHandler;
     @Getter private AudioChunkHandler audioChunkHandler;
+    @Getter private Set<PlayerLocationFollower> locationFollowers = new HashSet<>();
+    private Player player;
 
     //plugin data
     @Setter
@@ -57,6 +65,7 @@ public class SpigotConnection {
      */
     public SpigotConnection(Player player, ClientConnection clientConnection) {
         this.clientConnection = clientConnection;
+        this.player = player;
         // if the region system is enabled, then load the handler
         if (OpenAudioMcSpigot.getInstance().getRegionModule() != null)
             this.regionHandler = new RegionHandler(player, this);
@@ -76,6 +85,9 @@ public class SpigotConnection {
 
             // tick the speakers to force them to update
             this.speakerHandler.tick();
+
+            // update location if wanted
+            tickLocationFollowers();
         });
 
         // the feeder, how the data watcher gets its new fed data
@@ -95,6 +107,21 @@ public class SpigotConnection {
         clientConnection.addOnDisconnectHandler(() -> {
             Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> Bukkit.getServer().getPluginManager().callEvent(new ClientDisconnectEvent(player)));
         });
+    }
+
+    private void tickLocationFollowers() {
+        if (!locationFollowers.isEmpty()) {
+            Location location = player.getLocation();
+            ClientPlayerLocationPayload locationPayload = new ClientPlayerLocationPayload(
+                    round(location.getX(), 1),
+                    round(location.getY(), 1),
+                    round(location.getZ(), 1),
+                    (int) location.getPitch(),
+                    (int) location.getYaw()
+            );
+
+            OpenAudioMc.getInstance().getNetworkingService().send(getClientConnection(), new PacketClientUpdateLocation(locationPayload));
+        }
     }
 
     /**
@@ -124,5 +151,13 @@ public class SpigotConnection {
      */
     public void playMedia(Media media) {
         clientConnection.sendMedia(media);
+    }
+
+    private double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }
