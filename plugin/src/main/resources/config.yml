@@ -5,25 +5,25 @@
 
 messages:
   # The message a client gets when they are not connected but a sound got triggered. this can be disabled under settings
-  suggest-connection: '&eYou are currently missing out on some sounds! connect with the audio client via /audio'
+  suggest-connection: '&7&oYou are currently missing out on some sounds! connect with the audio client via /audio'
   # The message a client receives when a URL is being prepared for them to open the web client
   preparing-session: '&7&oGenerating audio session..'
   # The message the client gets when executing /audio of joins (if send-on-join is enabled)
-  click-to-connect: '&bClick here to connect to the online audio client'
+  click-to-connect: '&bClick &e&ohere&b to connect to the online audio client!'
   # The message a player receives when a session error occurs
-  session-error: '&4an error occurred while generating your audio session. please report the problem and try again later.'
+  session-error: '&cAn error occurred while generating your audio session. please report the problem and try again later.'
   # A hover message for the click-to-connect message, only appears right before clicking when you mouse over it
   click-to-connect-hover: '&6Minecraft will prompt you to open the web client when you click this message'
 
 
   # The message the client gets when their audio link has expired
-  click-link-expired: '&3Your link to the audio client has expired. Use /audio to request a new one.'
+  click-link-expired: '&3Your link to the audio client has expired. Use &b/audio&3 to request a new one.'
   # The message a client gets when their web-client has been opened
-  client-opened: '&2You are now connected with the audio client!'
+  client-opened: '&2&oYou are now connected with the audio client!'
   # The message a client gets when their web-client has been closed
-  client-closed: '&4You closed the web client!'
+  client-closed: '&c&oYour audio session has been ended'
   # The message a client gets as warning that they are already connected
-  client-already-connected: '&4You are already connected to the web client'
+  client-already-connected: '&cYou are already connected to the web client'
 
 
   # Prints the client volume when /volume is ran without arguments
