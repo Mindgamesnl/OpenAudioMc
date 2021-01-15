@@ -1,3 +1,5 @@
+import {oalog} from "../../../helpers/log";
+
 export class IncomingVoiceStream {
 
     constructor(openAudioMc, server, streamKey, peerStreamKey) {
@@ -61,8 +63,12 @@ export class IncomingVoiceStream {
     }
 
     stop() {
+        oalog("Closing voice link with " + this.peerStreamKey);
         for (let receiver of this.pcReceiver.getReceivers()) {
             receiver.track.stop();
+        }
+        for (let transceiver of this.pcReceiver.getTransceivers()) {
+            transceiver.stop()
         }
         this.pcReceiver.close();
     }
