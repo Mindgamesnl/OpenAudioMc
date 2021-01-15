@@ -46,6 +46,9 @@ export class VoicePeer {
     stop() {
         this.active = false;
         this.ui.remove()
+        if (this.stream != null) {
+            this.stream.stop();
+        }
     }
 
 }
