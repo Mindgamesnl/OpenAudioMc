@@ -18,9 +18,8 @@ public enum StorageKey {
     MESSAGE_CLIENT_VOLUME_INVALID(false, "messages.client-volume-invalid", StorageLocation.CONFIG_FILE),
     MESSAGE_CLIENT_NOT_CONNECTED(false, "messages.client-not-connected", StorageLocation.CONFIG_FILE),
     MESSAGE_CLIENT_ALREADY_CONNECTED(false, "messages.client-already-connected", StorageLocation.CONFIG_FILE),
-    MESSAGE_API_BOOTING(false, "messages.voicechat-enabled", StorageLocation.CONFIG_FILE),
 
-    MESSAGE_VC_SETUP(false, "messages.api-starting-up", StorageLocation.CONFIG_FILE),
+    MESSAGE_VC_SETUP(false, "messages.voicechat-enabled", StorageLocation.CONFIG_FILE),
     MESSAGE_VC_USER_ADDED(false, "messages.voicechat-added-user", StorageLocation.CONFIG_FILE),
     MESSAGE_VC_USER_LEFT(false, "messages.voicechat-removed-user", StorageLocation.CONFIG_FILE),
 
@@ -36,7 +35,7 @@ public enum StorageKey {
     SETTINGS_NOTIFY_UPDATES(false, "options.notify-updates", StorageLocation.CONFIG_FILE),
     SETTINGS_NOTIFY_ANNOUNCEMENTS(false, "options.notify-announcements", StorageLocation.CONFIG_FILE),
     SETTINGS_PRELOAD_SOUNDS(false, "options.preload-resources", StorageLocation.CONFIG_FILE),
-    SETTINGS_GC_STRATIGY(false, "options.gc-strategy", StorageLocation.CONFIG_FILE),
+    SETTINGS_GC_STRATEGY(false, "options.gc-strategy", StorageLocation.CONFIG_FILE),
     SETTINGS_VC_RADIUS(false, "options.voicechat-radius", StorageLocation.CONFIG_FILE),
 
     DEBUG_LOG_STATE_CHANGES(false, "debug.log-state-changes", StorageLocation.DATA_FILE),
@@ -67,6 +66,7 @@ public enum StorageKey {
     @Deprecated SETTINGS_LOOP_TEMP_REGIONS(true, "options.loop-temp-regions", StorageLocation.CONFIG_FILE),
     @Deprecated MESSAGE_LEGACY_CALL_RINGING(true, "messages.call-ringing", StorageLocation.CONFIG_FILE),
     @Deprecated MESSAGE_LEGACY_CALL_ENDED(true, "messages.call-left", StorageLocation.CONFIG_FILE),
+    @Deprecated MESSAGE_API_BOOTING(true, "messages.voicechat-enabled", StorageLocation.CONFIG_FILE),
     ;
 
     @Getter private String path;

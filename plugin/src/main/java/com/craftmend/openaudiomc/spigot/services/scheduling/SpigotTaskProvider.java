@@ -63,4 +63,15 @@ public class SpigotTaskProvider implements TaskProvider {
 
         Bukkit.getScheduler().runTaskAsynchronously(OpenAudioMcSpigot.getInstance(), runnable);
     }
+
+    @Override
+    public void runSync(Runnable runnable) {
+        if (OpenAudioMc.getInstance().isDisabled()) {
+            OpenAudioLogger.toConsole("A async task was requested but server is already stopping, so I'm doing it now.");
+            runnable.run();
+            return;
+        }
+
+        Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), runnable);
+    }
 }

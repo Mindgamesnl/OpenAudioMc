@@ -105,7 +105,9 @@ public class SpigotConnection {
         clientConnection.addOnConnectHandler(new InitializeTrains(player));
 
         clientConnection.addOnDisconnectHandler(() -> {
-            Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> Bukkit.getServer().getPluginManager().callEvent(new ClientDisconnectEvent(player)));
+            OpenAudioMc.getInstance().getTaskProvider().runSync(() -> {
+                Bukkit.getServer().getPluginManager().callEvent(new ClientDisconnectEvent(player));
+            });
         });
     }
 

@@ -51,7 +51,7 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
                 }
             });
 
-            GcStrategy strategy = GcStrategy.valueOf(StorageKey.SETTINGS_GC_STRATIGY.getString());
+            GcStrategy strategy = GcStrategy.valueOf(StorageKey.SETTINGS_GC_STRATEGY.getString());
             if (strategy == GcStrategy.DELETE) {
                 OpenAudioMc openAudioMc = OpenAudioMc.getInstance();
                 for (MappedLocation garbageSpeaker : garbageSpeakers) {

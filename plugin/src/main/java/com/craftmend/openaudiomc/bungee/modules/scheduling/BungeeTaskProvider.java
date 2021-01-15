@@ -62,4 +62,9 @@ public class BungeeTaskProvider implements TaskProvider {
 
         OpenAudioMcBungee.getInstance().getProxy().getScheduler().runAsync(OpenAudioMcBungee.getInstance(), runnable);
     }
+
+    @Override
+    public void runSync(Runnable runnable) {
+        runnable.run();
+    }
 }
