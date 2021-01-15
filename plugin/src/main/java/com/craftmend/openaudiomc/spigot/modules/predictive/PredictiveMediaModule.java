@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.generic.networking.client.objects.player.Client
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.interfaces.SourceHolder;
+import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.generic.utils.HeatMap;
 
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -80,7 +81,7 @@ public class PredictiveMediaModule {
                 if (packet.getData() instanceof SourceHolder) {
                     String source = ((SourceHolder) packet.getData()).getSource();
                     ClientConnection client = (ClientConnection) target;
-                    Player player = Bukkit.getPlayer(client.getPlayer().getUniqueId());
+                    Player player = ((SpigotPlayerAdapter) client.getPlayer()).getPlayer();
 
                     // bump the source for the players chunk chunk
                     chunkTracker.get(locationToAudioChunkId(player.getLocation())).getContext().bump(source);

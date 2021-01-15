@@ -11,6 +11,7 @@ import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.enums.PlayerLocationFollower;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import lombok.Getter;
+import org.bukkit.Location;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,6 +22,8 @@ public class ClientRtcManager {
     @Getter
     private Set<UUID> subscriptions = new HashSet<>();
     private ClientConnection clientConnection;
+    @Getter
+    private Set<ClientRtcLocationUpdate> locationUpdateQueue = new HashSet<>();
 
     public ClientRtcManager(ClientConnection clientConnection) {
         this.clientConnection = clientConnection;
@@ -29,6 +32,7 @@ public class ClientRtcManager {
             // go over all other clients, check if we might have a relations ship and break up if thats the case
             subscriptions.clear();
             makePeersDrop();
+            locationUpdateQueue.clear();
         });
     }
 
@@ -79,14 +83,31 @@ public class ClientRtcManager {
             if (peer.getOwnerUUID() == clientConnection.getOwnerUUID())
                 continue;
 
-            if (peer.getClientRtcManager().subscriptions.remove(clientConnection.getOwnerUUID())) {
+            if (peer.getClientRtcManager().subscriptions.contains(clientConnection.getOwnerUUID())) {
                 // send unsub packet
+                peer.getClientRtcManager().subscriptions.remove(clientConnection.getOwnerUUID());
                 peer.getClientRtcManager().updateLocationWatcher();
                 peer.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(clientConnection.getStreamKey())));
                 // sens a message that we left
                 peer.getPlayer().sendMessage(Platform.translateColors(
                         StorageKey.MESSAGE_VC_USER_LEFT.getString()
                                 .replace("%name", clientConnection.getOwnerName())
+                ));
+            }
+        }
+    }
+
+    public void onLocationTick(Location location) {
+        for (ClientConnection peer : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
+            if (peer.getOwnerUUID() == clientConnection.getOwnerUUID())
+                continue;
+
+            if (peer.getClientRtcManager().subscriptions.contains(clientConnection.getOwnerUUID())) {
+                peer.getClientRtcManager().locationUpdateQueue.add(new ClientRtcLocationUpdate(
+                        clientConnection.getStreamKey(),
+                        location.getX(),
+                        location.getY(),
+                        location.getZ()
                 ));
             }
         }

@@ -3,13 +3,14 @@ import {IncomingVoiceStream} from "./IncomingVoiceStream";
 
 export class VoicePeer {
 
-    constructor(openAudioMc, playerName, playerUuid, streamKey, server) {
+    constructor(openAudioMc, playerName, playerUuid, streamKey, server, location) {
         this.openAudioMc = openAudioMc;
         this.playerName = playerName;
         this.playerUuid = playerName;
         this.streamKey = streamKey;
         this.active = true;
         this.ready = false;
+        this.location = location;
 
         this.volume = 80;
 
@@ -28,13 +29,14 @@ export class VoicePeer {
             if (this.ready) {
                 this.stream.setVolume(this.volume);
             }
-        })
+        });
 
-        this.stream = new IncomingVoiceStream(openAudioMc, server, openAudioMc.voiceModule.streamKey, streamKey);
+        this.stream = new IncomingVoiceStream(openAudioMc, server, openAudioMc.voiceModule.streamKey, streamKey, this.volume);
+        this.stream.setLocation(location.x, location.y, location.z, false);
         this.stream.start(() => {
             // am I actually too late?
             if (!this.active) {
-                this.stream.stop();
+                this.stop();
                 return
             }
 
@@ -43,9 +45,13 @@ export class VoicePeer {
         })
     }
 
+    updateLocation(x, y, z) {
+        this.stream.setLocation(x, y, z, true);
+    }
+
     stop() {
         this.active = false;
-        this.ui.remove()
+        this.ui.remove();
         if (this.stream != null) {
             this.stream.stop();
         }
