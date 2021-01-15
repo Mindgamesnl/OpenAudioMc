@@ -1,6 +1,7 @@
 import {WrappedUserMedia} from "./WrappedUserMedia";
 import {OutgoingVoiceStream} from "./OutgoingVoiceStream";
 import {VoicePeer} from "./peer/VoicePeer";
+import {oalog} from "../../helpers/log";
 
 export class VoiceModule {
 
@@ -29,8 +30,11 @@ export class VoiceModule {
 
     removePeer(key) {
         if (this.peerMap.has(key)) {
+            oalog("Removing peer " + key)
             this.peerMap.get(key).stop();
             this.peerMap.delete(key);
+        } else {
+            oalog("Couldn't remove peer " + key + " because, well, there is no such peer")
         }
     }
 

@@ -67,9 +67,6 @@ export class IncomingVoiceStream {
         for (let receiver of this.pcReceiver.getReceivers()) {
             receiver.track.stop();
         }
-        for (let transceiver of this.pcReceiver.getTransceivers()) {
-            transceiver.stop()
-        }
         this.pcReceiver.close();
     }
 
