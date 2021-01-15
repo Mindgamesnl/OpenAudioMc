@@ -6,11 +6,13 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.payloads.in.ClientOpenedRtcPayload;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import org.bukkit.Bukkit;
 
 public class ClientInitializedRtcHandler extends PayloadHandler<ClientOpenedRtcPayload> {
 
     @Override
     public void onReceive(ClientOpenedRtcPayload payload) {
+        Bukkit.broadcastMessage("Rtc handling");
         Authenticatable authenticatable = findSession(payload.getClient());
         if (authenticatable instanceof ClientConnection) {
             ClientConnection cc = ((ClientConnection) authenticatable);

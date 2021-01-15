@@ -30,7 +30,7 @@ export class OutgoingVoiceStream {
                 whenFinished();
 
                 // enable VC mode
-                this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {});
+                this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {"state": this.pcSender.connectionState});
             }
         });
 

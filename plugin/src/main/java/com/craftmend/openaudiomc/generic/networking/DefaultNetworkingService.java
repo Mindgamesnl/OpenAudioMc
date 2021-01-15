@@ -110,6 +110,7 @@ public class DefaultNetworkingService extends NetworkingService {
      */
     @Override
     public void triggerPacket(AbstractPacket abstractPacket) {
+        Bukkit.broadcastMessage(OpenAudioMc.getGson().toJson(abstractPacket));
         if (packetHandlerMap.get(abstractPacket.getPacketChannel()) == null) {
             OpenAudioLogger.toConsole("Unknown handler for packet type " + abstractPacket.getPacketChannel().name());
             return;
