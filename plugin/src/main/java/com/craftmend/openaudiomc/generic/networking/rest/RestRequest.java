@@ -52,10 +52,9 @@ public class RestRequest {
             String output = readHttp(url);
             return OpenAudioMc.getGson().fromJson(output, ApiResponse.class);
         } catch (Exception e) {
-            OpenAudioMc.getInstance().getStateService().setState(new IdleState("Net exception"));
-            e.printStackTrace();
+            OpenAudioLogger.toConsole("Net error: " + e.getMessage());
             ApiResponse errorResponse = new ApiResponse();
-            errorResponse.getErrors().add(new RestErrorResponse(e.toString(), ErrorCode.BAD_REQUEST));
+            errorResponse.getErrors().add(new RestErrorResponse(e.toString(), ErrorCode.BAD_HANDSHAKE));
             return errorResponse;
         }
     }

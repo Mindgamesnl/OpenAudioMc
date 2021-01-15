@@ -2,11 +2,14 @@ package com.craftmend.openaudiomc.generic.voicechat.driver;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
+import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientUnlockVoiceChat;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceChatUnlockPayload;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
@@ -21,6 +24,7 @@ public class VoiceServerDriver {
     private final String password;
     private VoiceService service;
     private List<UUID> subscribers = new ArrayList<>();
+    private int heartbeatTask = 0;
     @Setter private int blockRadius = -1;
 
     /**
@@ -35,59 +39,75 @@ public class VoiceServerDriver {
         this.service = service;
 
         // try to login
-        login();
+        if (!login()) {
+            return;
+        }
 
         // verify login with a heartbeat
-        pushEvent(VoiceServerEventType.HEARTBEAT, new HashMap<>(), true);
+        pushEvent(VoiceServerEventType.HEARTBEAT, new HashMap<>(), true, false, true);
 
         // schedule heartbeat every 5 seconds
-        OpenAudioMc.getInstance().getTaskProvider().scheduleAsyncRepeatingTask(() -> {
+        heartbeatTask = OpenAudioMc.getInstance().getTaskProvider().scheduleAsyncRepeatingTask(() -> {
             // send heartbeat
-            pushEvent(VoiceServerEventType.HEARTBEAT, new HashMap<>(), true);
+            pushEvent(VoiceServerEventType.HEARTBEAT, new HashMap<>(), true, true, false);
         }, 100, 100);
+
+        // might be a restart, so clean all
+        OpenAudioMc.getInstance().getNetworkingService().getClients().forEach(this::handleClientConnection);
 
         // setup events
         NetworkingService networkingService = OpenAudioMc.getInstance().getNetworkingService();
         if (networkingService instanceof DefaultNetworkingService) {
-            subscribers.add(networkingService.subscribeToConnections((clientConnection -> {
-                // client got created
-                pushEvent(VoiceServerEventType.ADD_PLAYER, new HashMap<String, String>() {{
-                    put("playerName", clientConnection.getPlayer().getName());
-                    put("playerUuid", clientConnection.getPlayer().getUniqueId().toString());
-                    put("streamKey", clientConnection.getStreamKey());
-                }}, false);
-
-                clientConnection.onConnect(() -> {
-                    // unlock capabilities
-                    clientConnection.sendPacket(new PacketClientUnlockVoiceChat(new ClientVoiceChatUnlockPayload(
-                            clientConnection.getStreamKey(),
-                            this.host,
-                            blockRadius
-                    )));
-                });
-            })));
+            // client got created
+            subscribers.add(networkingService.subscribeToConnections((this::handleClientConnection)));
 
             subscribers.add(networkingService.subscribeToDisconnections((clientConnection -> {
                 // client will be removed
                 pushEvent(VoiceServerEventType.REMOVE_PLAYER, new HashMap<String, String>() {{
                     put("streamKey", clientConnection.getStreamKey());
-                }}, false);
+                }}, false, false, false);
             })));
         } else {
             throw new IllegalStateException("Not implemented yet");
         }
+
+        OpenAudioLogger.toConsole("Successfully logged into a WebRTC server");
+    }
+
+    private void handleClientConnection(ClientConnection clientConnection) {
+        pushEvent(VoiceServerEventType.ADD_PLAYER, new HashMap<String, String>() {{
+            put("playerName", clientConnection.getPlayer().getName());
+            put("playerUuid", clientConnection.getPlayer().getUniqueId().toString());
+            put("streamKey", clientConnection.getStreamKey());
+        }}, false, true, true);
+
+        clientConnection.onConnect(() -> {
+            // unlock capabilities
+            clientConnection.sendPacket(new PacketClientUnlockVoiceChat(new ClientVoiceChatUnlockPayload(
+                    clientConnection.getStreamKey(),
+                    this.host,
+                    blockRadius
+            )));
+        });
     }
 
     public void shutdown() {
         // logout
-        pushEvent(VoiceServerEventType.LOGOUT, new HashMap<>(), true);
+        pushEvent(VoiceServerEventType.LOGOUT, new HashMap<>(), true, false, false);
         NetworkingService networkingService = OpenAudioMc.getInstance().getNetworkingService();
         for (UUID subscriber : subscribers) {
             networkingService.unsubscribeClientEventHandler(subscriber);
         }
+        // kick all clients who had rtc open
+        for (ClientConnection client : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
+            if (client.getClientRtcManager().isReady()) {
+                client.kick();
+            }
+        }
+        OpenAudioMc.getInstance().getTaskProvider().cancelRepeatingTask(heartbeatTask);
     }
 
-    private void login() {
+    private boolean login() {
         RestRequest loginRequest = new RestRequest(RestEndpoint.VOICE_LOGIN.setHost(this.host));
 
         // add query shit
@@ -98,11 +118,18 @@ public class VoiceServerDriver {
 
         ApiResponse response = loginRequest.executeInThread();
         if (!response.getErrors().isEmpty()) {
-            throw new IllegalArgumentException("The voice server is either invalid or denies your login");
+            if (response.getErrors().get(0).getCode() == ErrorCode.INVALID_LOGIN) {
+                throw new IllegalArgumentException("The voice server is either invalid or denies your login");
+            } else {
+                OpenAudioLogger.toConsole("Failed to login with the voice server because the handshake failed. Trying again in two seconds..");
+                OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(() -> this.service.requestRestart(), 20 * 2);
+                return false;
+            }
         }
+        return true;
     }
 
-    private void pushEvent(VoiceServerEventType event, Map<String, String> arguments, boolean now) {
+    private void pushEvent(VoiceServerEventType event, Map<String, String> arguments, boolean now, boolean failSafe, boolean canExplode) {
         RestRequest eventRequest = new RestRequest(RestEndpoint.VOICE_EVENTS.setHost(this.host));
 
         // add query shit
@@ -120,12 +147,26 @@ public class VoiceServerDriver {
         if (now) {
             ApiResponse response = eventRequest.executeInThread();
             if (!response.getErrors().isEmpty()) {
-                throw new IllegalArgumentException("The voice server is either invalid or denies your event");
+                if (response.getErrors().get(0).getCode() == ErrorCode.BAD_HANDSHAKE) {
+                    OpenAudioLogger.toConsole("There was an error while trying to talk with the event stream. Restarting the voice service...");
+                    if (failSafe) {
+                        this.service.requestRestart();
+                        return;
+                    }
+                }
+                if (canExplode) throw new IllegalArgumentException("The voice server is either invalid or denies your event");
             }
         } else {
             eventRequest.executeAsync().thenAccept(response -> {
                 if (!response.getErrors().isEmpty()) {
-                    throw new IllegalArgumentException("The voice server is either invalid or denies your event");
+                    if (response.getErrors().get(0).getCode() == ErrorCode.BAD_HANDSHAKE) {
+                        OpenAudioLogger.toConsole("There was an error while trying to talk with the event stream. Restarting the voice service...");
+                        if (failSafe) {
+                            this.service.requestRestart();
+                            return;
+                        }
+                    }
+                    if (canExplode) throw new IllegalArgumentException("The voice server is either invalid or denies your event");
                 }
             });
         }

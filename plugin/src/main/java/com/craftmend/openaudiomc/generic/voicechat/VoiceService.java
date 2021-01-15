@@ -9,6 +9,8 @@ public interface VoiceService {
      */
     void connect(String host, String password);
 
+    void requestRestart();
+
     void shutdown();
 
     boolean isEnabled();

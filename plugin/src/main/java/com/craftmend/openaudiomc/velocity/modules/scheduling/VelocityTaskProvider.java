@@ -78,6 +78,11 @@ public class VelocityTaskProvider implements TaskProvider {
                 .schedule();
     }
 
+    @Override
+    public void runSync(Runnable runnable) {
+        runnable.run();
+    }
+
     private int putTask(ScheduledTask task) {
         int randomId = ThreadLocalRandom.current().nextInt(Integer.MAX_VALUE);
         tasks.put(randomId, task);

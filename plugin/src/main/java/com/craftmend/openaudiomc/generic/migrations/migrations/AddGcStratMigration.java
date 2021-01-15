@@ -10,7 +10,7 @@ public class AddGcStratMigration extends SimpleMigration {
     @Override
     public boolean shouldBeRun() {
         ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
-        return !config.hasStorageKey(StorageKey.SETTINGS_GC_STRATIGY);
+        return !config.hasStorageKey(StorageKey.SETTINGS_GC_STRATEGY);
     }
 
     @Override

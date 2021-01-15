@@ -8,5 +8,6 @@ public interface TaskProvider {
     int schduleAsyncRepeatingTask(Runnable runnable, int period, int delay);
     void cancelRepeatingTask(int id);
     void runAsync(Runnable runnable);
+    void runSync(Runnable runnable);
 
 }

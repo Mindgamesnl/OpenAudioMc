@@ -9,13 +9,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 public class ApiResponse {
 
-    @Getter private List<RestErrorResponse> errors;
+    @Getter private List<RestErrorResponse> errors = new ArrayList<>();
     private LinkedTreeMap response;
 
     public <T extends AbstractRestResponse> T getResponse(Class<T> type) {

@@ -69,6 +69,7 @@ public class ClientRtcManager {
         ));
 
         updateLocationWatcher();
+        peer.getClientRtcManager().updateLocationWatcher();
 
         return true;
     }
