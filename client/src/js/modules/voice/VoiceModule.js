@@ -24,8 +24,15 @@ export class VoiceModule {
         showVoiceCard("vc-onboarding")
     }
 
-    addPeer(playerUuid, playerName, playerStreamKey) {
-        this.peerMap.set(playerStreamKey, new VoicePeer(this.openAudioMc, playerName, playerUuid, playerStreamKey, this.server));
+    addPeer(playerUuid, playerName, playerStreamKey, location) {
+        oalog("Trying to add peer " + playerName);
+        this.peerMap.set(playerStreamKey, new VoicePeer(this.openAudioMc, playerName, playerUuid, playerStreamKey, this.server, location));
+    }
+
+    peerLocationUpdate(peerStreamKey, x, y, z) {
+        if (this.peerMap.has(peerStreamKey)) {
+            this.peerMap.get(peerStreamKey).updateLocation(x, y, z);
+        }
     }
 
     removePeer(key) {
@@ -46,7 +53,7 @@ export class VoiceModule {
     }
 
     onOutoingStreamStart() {
-        console.log("Outgoing stream is online")
+
     }
 
     consent() {

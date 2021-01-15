@@ -12,6 +12,7 @@ import {handlePrefetchPacket} from './handlers/HandlePrefetch'
 import {HandleVoiceUnlock} from "./handlers/HandleVoicechatUnlock";
 import {HandleVoiceChatSubscription} from "./handlers/HandleVoicechatSubscription";
 import {HandleVoiceChatDrop} from "./handlers/HandleVoicechatDrop";
+import {HandleVoicePeerLocationUpdate} from "./handlers/HandleVoicePeerLocationUpdate";
 
 export class Handlers {
 
@@ -41,5 +42,6 @@ export class Handlers {
         registerClassHandler("ClientVoiceChatUnlockPayload", HandleVoiceUnlock)
         registerClassHandler("ClientVoiceSubscribePayload", HandleVoiceChatSubscription)
         registerClassHandler("ClientVoiceDropPayload", HandleVoiceChatDrop)
+        registerClassHandler("ClientVoiceUpdatePeerLocationsPayload", HandleVoicePeerLocationUpdate)
     }
 }

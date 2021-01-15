@@ -123,6 +123,10 @@ public class SpigotConnection {
             );
 
             OpenAudioMc.getInstance().getNetworkingService().send(getClientConnection(), new PacketClientUpdateLocation(locationPayload));
+
+            if (locationFollowers.contains(PlayerLocationFollower.PROXIMITY_VOICE_CHAT)) {
+                clientConnection.getClientRtcManager().onLocationTick(location);
+            }
         }
     }
 

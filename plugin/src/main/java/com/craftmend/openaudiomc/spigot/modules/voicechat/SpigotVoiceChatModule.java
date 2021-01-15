@@ -4,13 +4,17 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;
+import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientUpdateVoiceLocations;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
+import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceUpdatePeerLocationsPayload;
+import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -29,6 +33,21 @@ public class SpigotVoiceChatModule {
 
         // tick every second
         OpenAudioMc.getInstance().getTaskProvider().scheduleAsyncRepeatingTask(this::tickPlayers, 20, 20);
+        OpenAudioMc.getInstance().getTaskProvider().scheduleAsyncRepeatingTask(this::tickUpdateQueue, 3, 3);
+    }
+
+    private void tickUpdateQueue() {
+        // handle queue
+        for (ClientConnection client : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
+            if (!client.getClientRtcManager().getLocationUpdateQueue().isEmpty()) {
+                client.sendPacket(new PacketClientUpdateVoiceLocations(
+                        new ClientVoiceUpdatePeerLocationsPayload(
+                                new HashSet<>(client.getClientRtcManager().getLocationUpdateQueue())
+                        )
+                ));
+                client.getClientRtcManager().getLocationUpdateQueue().clear();
+            }
+        }
     }
 
     private void tickPlayers() {
@@ -72,6 +91,19 @@ public class SpigotVoiceChatModule {
 
                 peer.getClientRtcManager().getSubscriptions().remove(client.getOwnerUUID());
                 client.getClientRtcManager().getSubscriptions().remove(peer.getOwnerUUID());
+
+                peer.getPlayer().sendMessage(Platform.translateColors(
+                        StorageKey.MESSAGE_VC_USER_LEFT.getString()
+                                .replace("%name", client.getOwnerName())
+                ));
+
+                client.getPlayer().sendMessage(Platform.translateColors(
+                        StorageKey.MESSAGE_VC_USER_LEFT.getString()
+                                .replace("%name", peer.getOwnerName())
+                ));
+
+                client.getClientRtcManager().updateLocationWatcher();
+                peer.getClientRtcManager().updateLocationWatcher();
             }
         }
     }
