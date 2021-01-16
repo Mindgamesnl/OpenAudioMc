@@ -2,6 +2,12 @@ import {WrappedUserMedia} from "./WrappedUserMedia";
 import {OutgoingVoiceStream} from "./OutgoingVoiceStream";
 import {VoicePeer} from "./peer/VoicePeer";
 import {oalog} from "../../helpers/log";
+import * as PluginChannel from "../../helpers/protocol/PluginChannel";
+
+export const VoiceStatusChangeEvent = {
+    MIC_MUTE: "MICROPHONE_MUTED",
+    MIC_UNMTE: "MICROPHONE_UNMUTE"
+};
 
 export class VoiceModule {
 
@@ -9,6 +15,8 @@ export class VoiceModule {
         this.openAudioMc = openAudioMc;
         this.streamer = null;
         this.peerMap = new Map();
+        this.loadedDeviceList = false;
+        this.loadeMicPreference = Cookies.get("preferred-mic");
     }
 
     enable(server, streamKey, blocksRadius) {
@@ -19,7 +27,7 @@ export class VoiceModule {
         document.getElementById("vc-controls").style.display = "";
         document.getElementById("vc-block-range").innerText = this.blocksRadius + " block";
         document.getElementById("vc-concent-button").onclick = () => {
-            this.consent(Cookies.get("preferred-mic"));
+            this.consent(this.loadeMicPreference);
         };
         showVoiceCard("vc-onboarding")
     }
@@ -48,23 +56,26 @@ export class VoiceModule {
     handleAudioPermissions(stream) {
         showVoiceCard("voice-home");
 
-        navigator.mediaDevices.enumerateDevices()
-            .then(devices => {
-                let deviceMap = []
-                for (let i = 0; i < devices.length; i++){
-                    let device = devices[i];
-                    if (device.kind == "audiooutput") {
-                        deviceNames.push({
-                            "name": device.label,
-                            "id": device.deviceId
-                        })
+        if (!this.loadedDeviceList) {
+            navigator.mediaDevices.enumerateDevices()
+                .then(devices => {
+                    let deviceMap = []
+                    for (let i = 0; i < devices.length; i++){
+                        let device = devices[i];
+                        if (device.kind === "audioinput") {
+                            deviceMap.push({
+                                "name": device.label,
+                                "id": device.deviceId
+                            });
+                        }
                     }
-                }
-                this.loadedDevices(deviceMap)
-            })
-            .catch(function(err) {
-                console.log(err.name + ": " + err.message);
-            });
+                    this.loadedDevices(deviceMap)
+                })
+                .catch(function(err) {
+                    console.error(err)
+                });
+            this.loadedDeviceList = true;
+        }
 
         this.streamer = new OutgoingVoiceStream(this.openAudioMc, this.server, this.streamKey, stream);
         this.streamer.start(this.onOutoingStreamStart).catch(console.error)
@@ -75,16 +86,38 @@ export class VoiceModule {
         Cookies.set("preferred-mic", deviceId, { expires: 30 });
         this.streamer.setMute(false);
         this.streamer.stop();
-        // re-start
-        this.consent(deviceId);
+        this.streamer = null;
+
+        // wait
+        this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {"enabled": false});
+        let timerInterval;
+        Swal.fire({
+            title: 'Updating microphone!',
+            html: 'Please wait while voice chat gets restarted with your new microphone.. this shouldn\'t take long',
+            timer: 3500,
+            showCloseButton: false,
+            showCancelButton: false,
+            timerProgressBar: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            allowEnterKey: false,
+            didOpen: () => {
+                Swal.showLoading();
+            },
+            willClose: () => {
+                clearInterval(timerInterval)
+            }
+        }).then((result) => {
+            /* Read more about handling dismissals below */
+            if (result.dismiss === Swal.DismissReason.timer) {
+                // restart
+                this.consent(deviceId);
+            }
+        })
     }
 
     loadedDevices(deviceMap) {
-        let select = document.getElementById("vc-mic-select")
-        select.onchange = (event) => {
-            let deviceId = event.options[event.selectedIndex].dataset.deviceId;
-            this.changeInput(deviceId);
-        }
+        let select = document.getElementById("vc-mic-select");
 
         while (select.options.length > 0) {
             select.remove(0);
@@ -93,10 +126,18 @@ export class VoiceModule {
         for (let i = 0; i < deviceMap.length; i++) {
             let device = deviceMap[i]
             let option = document.createElement( 'option' );
-            option.value = device.name;
-            option.dataset.deviceId = device.id
+            option.value = device.id;
+            option.innerText = device.name;
+            option.dataset.deviceId = device.id;
             select.add(option);
         }
+
+        select.value = this.loadeMicPreference;
+
+        select.onchange = (event) => {
+            let deviceId = event.target.value;
+            this.changeInput(deviceId);
+        };
     }
 
     onOutoingStreamStart() {
@@ -117,6 +158,7 @@ export class VoiceModule {
         }.bind(this);
 
         wm.errorCallback = function (a) {
+            console.error(a)
             this.openAudioMc.voiceModule.permissionError(a)
         }.bind(this);
 
@@ -141,6 +183,12 @@ export class VoiceModule {
         document.getElementById("vc-controls").style.display = "none"
         if (this.streamer != null) {
             this.streamer.stop()
+        }
+    }
+
+    pushSocketEvent(event) {
+        if (this.streamer != null) {
+            this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {"event": event});
         }
     }
 

@@ -1,4 +1,5 @@
 import * as PluginChannel from "../../helpers/protocol/PluginChannel";
+import {VoiceStatusChangeEvent} from "./VoiceModule";
 
 export class OutgoingVoiceStream {
 
@@ -7,10 +8,11 @@ export class OutgoingVoiceStream {
         this.server = server;
         this.streamKey = streamKey;
         this.micStream = micStream;
-        this.isMuted = false
+        this.isMuted = false;
         document.getElementById("vc-mic-mute").onclick = () => {
             this.setMute(!this.isMuted)
-        }
+        };
+        this.muteCooldown = false;
     }
 
     async start(whenFinished) {
@@ -34,7 +36,7 @@ export class OutgoingVoiceStream {
                 whenFinished();
 
                 // enable VC mode
-                this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {"state": this.pcSender.connectionState});
+                this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {"enabled": true});
             }
         });
 
@@ -63,9 +65,25 @@ export class OutgoingVoiceStream {
     }
 
     setMute(state) {
+        if (this.muteCooldown) {
+            Swal.fire("Please wait a moment before doing this again")
+            return;
+        }
+
+        this.muteCooldown = true;
+        setTimeout(() => {
+            this.muteCooldown = false;
+        }, 1500);
+
         if (state == this.isMuted) return
         for (let i = 0; i < this.micStream.getAudioTracks().length; i++) {
-            this.micStream.getAudioTracks()[i].enabled = state;
+            this.micStream.getAudioTracks()[i].enabled = !state;
+        }
+
+        if (state) {
+            this.openAudioMc.voiceModule.pushSocketEvent(VoiceStatusChangeEvent.MIC_MUTE);
+        } else {
+            this.openAudioMc.voiceModule.pushSocketEvent(VoiceStatusChangeEvent.MIC_UNMTE);
         }
 
         if (state) {

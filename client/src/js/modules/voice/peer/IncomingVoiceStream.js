@@ -52,7 +52,6 @@ export class IncomingVoiceStream {
         };
 
         this.pcReceiver.ontrack = (event) => {
-            console.log("Streaming")
             const stream = event.streams[0];
             const ctx = this.openAudioMc.world.player.audioCtx;
             this.gainNode = ctx.createGain();
@@ -72,7 +71,7 @@ export class IncomingVoiceStream {
                 this.pannerNode.panningModel = 'HRTF';
                 this.pannerNode.maxDistance = this.openAudioMc.voiceModule.blocksRadius;
                 this.pannerNode.rolloffFactor = 1;
-                this.pannerNode.distanceModel = "linear";
+                this.pannerNode.distanceModel = "exponential";
 
                 this.setLocation(this.x, this.y, this.z, true);
 
