@@ -19,7 +19,7 @@ export class VoiceModule {
         document.getElementById("vc-controls").style.display = "";
         document.getElementById("vc-block-range").innerText = this.blocksRadius + " block";
         document.getElementById("vc-concent-button").onclick = () => {
-            this.consent();
+            this.consent(Cookies.get("preferred-mic"));
         };
         showVoiceCard("vc-onboarding")
     }
@@ -48,15 +48,67 @@ export class VoiceModule {
     handleAudioPermissions(stream) {
         showVoiceCard("voice-home");
 
+        navigator.mediaDevices.enumerateDevices()
+            .then(devices => {
+                let deviceMap = []
+                for (let i = 0; i < devices.length; i++){
+                    let device = devices[i];
+                    if (device.kind == "audiooutput") {
+                        deviceNames.push({
+                            "name": device.label,
+                            "id": device.deviceId
+                        })
+                    }
+                }
+                this.loadedDevices(deviceMap)
+            })
+            .catch(function(err) {
+                console.log(err.name + ": " + err.message);
+            });
+
         this.streamer = new OutgoingVoiceStream(this.openAudioMc, this.server, this.streamKey, stream);
         this.streamer.start(this.onOutoingStreamStart).catch(console.error)
+    }
+
+    changeInput(deviceId) {
+        oalog("Stopping current streamer, and restarting with a diferent user input")
+        Cookies.set("preferred-mic", deviceId, { expires: 30 });
+        this.streamer.setMute(false);
+        this.streamer.stop();
+        // re-start
+        this.consent(deviceId);
+    }
+
+    loadedDevices(deviceMap) {
+        let select = document.getElementById("vc-mic-select")
+        select.onchange = (event) => {
+            let deviceId = event.options[event.selectedIndex].dataset.deviceId;
+            this.changeInput(deviceId);
+        }
+
+        while (select.options.length > 0) {
+            select.remove(0);
+        }
+
+        for (let i = 0; i < deviceMap.length; i++) {
+            let device = deviceMap[i]
+            let option = document.createElement( 'option' );
+            option.value = device.name;
+            option.dataset.deviceId = device.id
+            select.add(option);
+        }
     }
 
     onOutoingStreamStart() {
 
     }
 
-    consent() {
+    consent(preferedDeviceId) {
+        let query = {audio: true}
+        if (preferedDeviceId) {
+            query = {audio: { deviceId: {exact: preferedDeviceId}}}
+        }
+
         // request audio permission and handle that shit
         let wm = new WrappedUserMedia();
 
@@ -68,7 +120,7 @@ export class VoiceModule {
             this.openAudioMc.voiceModule.permissionError(a)
         }.bind(this);
 
-        wm.exec({audio: true})
+        wm.getUserMedia(query)
     }
 
     permissionError() {
