@@ -10,6 +10,7 @@ export class IncomingVoiceStream {
         this.streamKey = streamKey;
         this.peerStreamKey = peerStreamKey;
         this.volume = volume;
+        this.volBooster = 1.2;
     }
 
     start(whenFinished) {
@@ -58,26 +59,29 @@ export class IncomingVoiceStream {
             const audio = new Audio();
             audio.srcObject = stream;
 
-            this.gainNode.gain.value = this.volume / 100;
+            this.gainNode.gain.value = (this.volume / 100) * this.volBooster;
 
             audio.onloadedmetadata = () => {
                 const source = ctx.createMediaStreamSource(audio.srcObject);
                 audio.play();
                 audio.muted = true;
-                const gainNode = this.gainNode;
 
-                this.pannerNode = ctx.createPanner();
-
-                this.pannerNode.panningModel = 'HRTF';
-                this.pannerNode.maxDistance = this.openAudioMc.voiceModule.blocksRadius;
-                this.pannerNode.rolloffFactor = 1;
-                this.pannerNode.distanceModel = "exponential";
-
-                this.setLocation(this.x, this.y, this.z, true);
-
-                source.connect(gainNode);
-                gainNode.connect(this.pannerNode);
-                this.pannerNode.connect(ctx.destination);
+                if (this.openAudioMc.voiceModule.useSurround) {
+                    const gainNode = this.gainNode;
+                    this.pannerNode = ctx.createPanner();
+                    this.pannerNode.panningModel = 'HRTF';
+                    this.pannerNode.maxDistance = this.openAudioMc.voiceModule.blocksRadius;
+                    this.pannerNode.rolloffFactor = 1;
+                    this.pannerNode.distanceModel = "exponential";
+                    this.setLocation(this.x, this.y, this.z, true);
+                    source.connect(gainNode);
+                    gainNode.connect(this.pannerNode);
+                    this.pannerNode.connect(ctx.destination);
+                } else {
+                    const gainNode = this.gainNode;
+                    source.connect(gainNode);
+                    gainNode.connect(ctx.destination);
+                }
             }
         }
 
@@ -89,6 +93,7 @@ export class IncomingVoiceStream {
     }
 
     setLocation(x, y, z, update) {
+        if (!this.openAudioMc.voiceModule.useSurround) return;
         if (update && this.pannerNode != null) {
             const position = new Position(new Vector3(
                 this.x,
@@ -104,7 +109,7 @@ export class IncomingVoiceStream {
 
     setVolume(volume) {
         this.volume = volume;
-        this.gainNode.gain.value = this.volume / 100;
+        this.gainNode.gain.value = (this.volume / 100) * this.volBooster;
     }
 
     stop() {

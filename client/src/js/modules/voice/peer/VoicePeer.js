@@ -24,8 +24,6 @@ export class VoicePeer {
         this.ui = new VoicePeerUi(playerName, playerUuid, this.volume, (newVolume) => {
             this.volume = newVolume;
             Cookies.set("vc-volume-of-" + playerName, newVolume, { expires: 30 });
-
-            // todo: update actual volume from the stream
             if (this.ready) {
                 this.stream.setVolume(this.volume);
             }

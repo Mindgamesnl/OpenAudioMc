@@ -252,7 +252,8 @@
                     This server has support for Proximity Voice Chat, which allows you to talk with players within a <b
                         id="vc-block-range">* block</b> radius. Would you like to enable this feature and give access to
                     your microphone?<br/>
-                    <small>You can always mute your microphone, mute other users or close the voice chat whenever you want.</small>
+                    <small>You can always mute your microphone, mute other users or close the voice chat whenever you
+                        want.</small>
                 </p>
                 <div class="flex justify-center lg:justify-start mt-6">
                     <a class="px-4 py-3 bg-green-400 border-indigo-600 border-2 text-gray-800 text-xs font-semibold rounded hover:bg-green-100"
@@ -275,12 +276,26 @@
                         <hr class="mt-2 pb-2"/>
 
                         <div class="h-1/4">
-                            <button id="vc-mic-mute" class="mt-3 flex-shrink-0 bg-green-500 text-white text-base font-semibold py-2 px-4 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-purple-200">
-                                Mute Microphone
-                            </button>
-                        </div>
+                            <div class="space-x-2 w-full">
+                                <div class="inline-block w-1/3">
+                                    <div style="text-align:center; width:100%">
+                                        <h4>Microphone</h4>
+                                        <input class="tgl tgl-skewed" id="vc-mic-mute" type="checkbox" />
+                                        <label class="tgl-btn block w-max" data-tg-off="Active" data-tg-on="Muted"
+                                               for="vc-mic-mute" id="vc-mic-mute-click" style="width: 100%"></label>
+                                    </div>
+                                </div>
+                                <div class="inline-block w-1/3">
+                                    <div style="text-align:center; width:100%">
+                                        <h4>Sound Type</h4>
+                                        <input class="tgl tgl-skewed" id="vc-use-surround" type="checkbox"/>
+                                        <label class="tgl-btn block w-max" data-tg-off="Dynamic" data-tg-on="Normal"
+                                               for="vc-use-surround" style="width: 100%"></label>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <div class="h-1/4">
+
                             <label class="mb-2 uppercase font-bold text-lg text-indigo-600" for="vc-mic-select">Select
                                 your microphone</label>
                             <select class="w-3/4 border bg-white rounded px-3 py-2 outline-none" id="vc-mic-select">

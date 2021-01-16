@@ -48,6 +48,9 @@ public enum StorageKey {
     AUTH_PUBLIC_KEY(false, "keyset.public", StorageLocation.DATA_FILE),
     AUTH_KEY_VERSION(false, "keyset.key-version", StorageLocation.DATA_FILE),
 
+    AUTH_VOICE_SERVER(false, "voice.server", StorageLocation.DATA_FILE),
+    AUTH_VOICE_PASSWORD(false, "voice.password", StorageLocation.DATA_FILE),
+
     REDIS_ENABLED(false, "redis.enabled", StorageLocation.CONFIG_FILE),
     REDIS_HOST(false, "redis.host", StorageLocation.CONFIG_FILE),
     REDIS_PORT(false, "redis.port", StorageLocation.CONFIG_FILE),
