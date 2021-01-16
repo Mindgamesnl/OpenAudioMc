@@ -10,10 +10,17 @@ public class DefaultVoiceServiceImpl implements VoiceService {
 
     private String host;
     private String password;
+    private boolean enabled = false;
 
 
     public DefaultVoiceServiceImpl() {
-        connect("http://192.168.2.150:8080/", "none");
+        this.host = StorageKey.AUTH_VOICE_SERVER.getString();
+        this.password = StorageKey.AUTH_VOICE_PASSWORD.getString();
+
+        if (this.host != null && !this.host.equals("not-a-partner")) {
+            connect(this.host, this.password);
+            this.enabled = true;
+        }
     }
 
     @Override
@@ -42,6 +49,6 @@ public class DefaultVoiceServiceImpl implements VoiceService {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 }

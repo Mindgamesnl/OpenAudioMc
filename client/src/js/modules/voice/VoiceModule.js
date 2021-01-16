@@ -17,6 +17,9 @@ export class VoiceModule {
         this.peerMap = new Map();
         this.loadedDeviceList = false;
         this.loadeMicPreference = Cookies.get("preferred-mic");
+        this.useSurround = (Cookies.get("use-surround") == null ? true : JSON.parse(Cookies.get("use-surround")));
+        document.getElementById("vc-use-surround").checked = !this.useSurround;
+        document.getElementById("vc-use-surround").onclick = () => {this.toggleSurround();};
     }
 
     enable(server, streamKey, blocksRadius) {
@@ -51,6 +54,37 @@ export class VoiceModule {
         } else {
             oalog("Couldn't remove peer " + key + " because, well, there is no such peer")
         }
+    }
+
+    toggleSurround() {
+        // wait
+        this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {"enabled": false});
+        this.useSurround = !this.useSurround;
+        Cookies.set("use-surround", this.useSurround, { expires: 30 });
+        let timerInterval;
+        Swal.fire({
+            title: 'Reloading voice system!',
+            html: 'Please wait while voice chat gets restarted to apply your new settings.. this shouldn\'t take long',
+            timer: 3500,
+            showCloseButton: false,
+            showCancelButton: false,
+            timerProgressBar: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            allowEnterKey: false,
+            didOpen: () => {
+                Swal.showLoading();
+            },
+            willClose: () => {
+                clearInterval(timerInterval)
+            }
+        }).then((result) => {
+            /* Read more about handling dismissals below */
+            if (result.dismiss === Swal.DismissReason.timer) {
+                // restart
+                this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {"enabled": true});
+            }
+        })
     }
 
     handleAudioPermissions(stream) {

@@ -9,7 +9,7 @@ export class OutgoingVoiceStream {
         this.streamKey = streamKey;
         this.micStream = micStream;
         this.isMuted = false;
-        document.getElementById("vc-mic-mute").onclick = () => {
+        document.getElementById("vc-mic-mute").onchange = () => {
             this.setMute(!this.isMuted)
         };
         this.muteCooldown = false;
@@ -66,36 +66,25 @@ export class OutgoingVoiceStream {
 
     setMute(state) {
         if (this.muteCooldown) {
-            Swal.fire("Please wait a moment before doing this again")
+            Swal.fire("Please wait a moment before doing this again");
             return;
         }
-
+        this.isMuted = state;
         this.muteCooldown = true;
+        document.getElementById("vc-mic-mute").disabled = true;
         setTimeout(() => {
             this.muteCooldown = false;
+            document.getElementById("vc-mic-mute").disabled = false;
         }, 1500);
 
-        if (state == this.isMuted) return
         for (let i = 0; i < this.micStream.getAudioTracks().length; i++) {
             this.micStream.getAudioTracks()[i].enabled = !state;
         }
-
         if (state) {
             this.openAudioMc.voiceModule.pushSocketEvent(VoiceStatusChangeEvent.MIC_MUTE);
         } else {
             this.openAudioMc.voiceModule.pushSocketEvent(VoiceStatusChangeEvent.MIC_UNMTE);
         }
-
-        if (state) {
-            document.getElementById("vc-mic-mute").classList.remove("bg-green-500");
-            document.getElementById("vc-mic-mute").classList.add("bg-red-500");
-            document.getElementById("vc-mic-mute").innerText = "Unmute Microphone"
-        } else {
-            document.getElementById("vc-mic-mute").classList.remove("bg-red-500");
-            document.getElementById("vc-mic-mute").classList.add("bg-green-500");
-            document.getElementById("vc-mic-mute").innerText = "Mute Microphone"
-        }
-        this.isMuted = state;
     }
 
     stop() {

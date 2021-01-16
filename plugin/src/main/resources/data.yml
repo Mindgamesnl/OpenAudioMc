@@ -5,6 +5,10 @@
 legal:
   accepted: false
 
+voice:
+  server: not-a-partner
+  password: not-a-partner
+
 regions:
 aliases:
 speakers:
