@@ -160,13 +160,18 @@ export class VoiceModule {
         for (let i = 0; i < deviceMap.length; i++) {
             let device = deviceMap[i]
             let option = document.createElement( 'option' );
+            if (this.loadeMicPreference == null && i == 0) {
+                option.selected = true;
+            }
             option.value = device.id;
             option.innerText = device.name;
             option.dataset.deviceId = device.id;
             select.add(option);
         }
 
-        select.value = this.loadeMicPreference;
+        if (this.loadeMicPreference != null) {
+            select.value = this.loadeMicPreference;
+        }
 
         select.onchange = (event) => {
             let deviceId = event.target.value;
