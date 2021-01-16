@@ -11,6 +11,7 @@ import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.enums.PlayerLocationFollower;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Location;
 
 import java.util.HashSet;
@@ -19,6 +20,8 @@ import java.util.UUID;
 
 public class ClientRtcManager {
 
+    @Setter
+    @Getter private boolean isMicrophoneEnabled = false;
     @Getter
     private Set<UUID> subscriptions = new HashSet<>();
     private ClientConnection clientConnection;
@@ -31,6 +34,7 @@ public class ClientRtcManager {
         this.clientConnection.onDisconnect(() -> {
             // go over all other clients, check if we might have a relations ship and break up if thats the case
             subscriptions.clear();
+            this.isMicrophoneEnabled = false;
             makePeersDrop();
             locationUpdateQueue.clear();
         });

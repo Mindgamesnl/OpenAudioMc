@@ -14,8 +14,34 @@ public class ClientInitializedRtcHandler extends PayloadHandler<ClientOpenedRtcP
         Authenticatable authenticatable = findSession(payload.getClient());
         if (authenticatable instanceof ClientConnection) {
             ClientConnection cc = ((ClientConnection) authenticatable);
-            cc.setConnectedToRtc(true);
-            cc.getPlayer().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_SETUP.getString()));
+
+            // is it an event, or general?
+            if (payload.getEvent() == null) {
+                // general status
+                if (payload.isEnabled()) {
+                    cc.setConnectedToRtc(true);
+                    cc.getClientRtcManager().setMicrophoneEnabled(true);
+                    cc.getPlayer().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_SETUP.getString()));
+                } else {
+                    cc.getClientRtcManager().setMicrophoneEnabled(false);
+                    cc.setConnectedToRtc(false);
+                }
+            } else {
+                // handle event
+                switch (payload.getEvent()) {
+                    case MICROPHONE_MUTED: {
+                        cc.getPlayer().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_MIC_MUTE.getString()));
+                        cc.getClientRtcManager().setMicrophoneEnabled(false);
+                        break;
+                    }
+
+                    case MICROPHONE_UNMUTE: {
+                        cc.getPlayer().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_MIC_UNMUTE.getString()));
+                        cc.getClientRtcManager().setMicrophoneEnabled(true);
+                        break;
+                    }
+                }
+            }
         } else {
             // you don't even have volume
             authenticatable.kickConnection();
