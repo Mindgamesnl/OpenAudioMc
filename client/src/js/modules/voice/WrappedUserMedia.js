@@ -5,7 +5,7 @@ export class WrappedUserMedia {
         this.errorCallback = alert;
     }
 
-    exec(argument) {
+    getUserMedia(argument) {
         if (navigator.getUserMedia != null) {
             navigator.getUserMedia(argument, this.successCallback, this.errorCallback);
             return;
@@ -30,5 +30,6 @@ export class WrappedUserMedia {
 
         console.error("Unknown user media platform!");
     }
+
 }
 

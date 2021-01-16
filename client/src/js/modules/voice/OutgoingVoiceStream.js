@@ -7,6 +7,10 @@ export class OutgoingVoiceStream {
         this.server = server;
         this.streamKey = streamKey;
         this.micStream = micStream;
+        this.isMuted = false
+        document.getElementById("vc-mic-mute").onclick = () => {
+            this.setMute(!this.isMuted)
+        }
     }
 
     async start(whenFinished) {
@@ -56,6 +60,24 @@ export class OutgoingVoiceStream {
         }
 
         this.pcSender.createOffer().then(d => this.pcSender.setLocalDescription(d))
+    }
+
+    setMute(state) {
+        if (state == this.isMuted) return
+        for (let i = 0; i < this.micStream.getAudioTracks().length; i++) {
+            this.micStream.getAudioTracks()[i].enabled = state;
+        }
+
+        if (state) {
+            document.getElementById("vc-mic-mute").classList.remove("bg-green-500");
+            document.getElementById("vc-mic-mute").classList.add("bg-red-500");
+            document.getElementById("vc-mic-mute").innerText = "Unmute Microphone"
+        } else {
+            document.getElementById("vc-mic-mute").classList.remove("bg-red-500");
+            document.getElementById("vc-mic-mute").classList.add("bg-green-500");
+            document.getElementById("vc-mic-mute").innerText = "Mute Microphone"
+        }
+        this.isMuted = state;
     }
 
     stop() {
