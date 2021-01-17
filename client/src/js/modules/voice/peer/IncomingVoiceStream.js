@@ -81,7 +81,7 @@ export class IncomingVoiceStream {
                     .then(response => this.pcReceiver.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(response.Sdp)))))
                     .catch((e) => {
                         console.error(e);
-                        window.location.reload();
+                        // window.location.reload();
                     })
             })
             .catch(console.error)

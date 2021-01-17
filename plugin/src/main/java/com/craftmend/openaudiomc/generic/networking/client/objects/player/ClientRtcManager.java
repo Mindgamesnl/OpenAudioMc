@@ -6,13 +6,17 @@ import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketC
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceSubscribePayload;
 import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.enums.PlayerLocationFollower;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import lombok.Getter;
 import lombok.Setter;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -66,15 +70,21 @@ public class ClientRtcManager {
         clientConnection.sendPacket(new PacketClientSubscribeToVoice(ClientVoiceSubscribePayload.fromClient(peer)));
 
         // send a message to both users that they can now hear one another
-        peer.getPlayer().sendMessage(Platform.translateColors(
+
+        /*
+        Player player = ((SpigotPlayerAdapter) peer.getPlayer()).getPlayer();
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Platform.translateColors(
                 StorageKey.MESSAGE_VC_USER_ADDED.getString()
                         .replace("%name", clientConnection.getOwnerName())
-        ));
+        )));
 
-        clientConnection.getPlayer().sendMessage(Platform.translateColors(
+        Player client = ((SpigotPlayerAdapter) clientConnection.getPlayer()).getPlayer();
+        client.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Platform.translateColors(
                 StorageKey.MESSAGE_VC_USER_ADDED.getString()
                         .replace("%name", peer.getOwnerName())
-        ));
+        )));
+
+         */
 
         updateLocationWatcher();
         peer.getClientRtcManager().updateLocationWatcher();
@@ -93,10 +103,15 @@ public class ClientRtcManager {
                 peer.getClientRtcManager().updateLocationWatcher();
                 peer.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(clientConnection.getStreamKey())));
                 // sens a message that we left
-                peer.getPlayer().sendMessage(Platform.translateColors(
+
+                /*(
+                Player client = ((SpigotPlayerAdapter) peer.getPlayer()).getPlayer();
+                client.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Platform.translateColors(
+                        Platform.translateColors(
                         StorageKey.MESSAGE_VC_USER_LEFT.getString()
                                 .replace("%name", clientConnection.getOwnerName())
-                ));
+                ))));
+                 */
             }
         }
     }

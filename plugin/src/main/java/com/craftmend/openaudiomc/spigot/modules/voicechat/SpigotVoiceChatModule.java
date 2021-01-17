@@ -92,6 +92,7 @@ public class SpigotVoiceChatModule {
                 peer.getClientRtcManager().getSubscriptions().remove(client.getOwnerUUID());
                 client.getClientRtcManager().getSubscriptions().remove(peer.getOwnerUUID());
 
+                /*
                 peer.getPlayer().sendMessage(Platform.translateColors(
                         StorageKey.MESSAGE_VC_USER_LEFT.getString()
                                 .replace("%name", client.getOwnerName())
@@ -101,6 +102,8 @@ public class SpigotVoiceChatModule {
                         StorageKey.MESSAGE_VC_USER_LEFT.getString()
                                 .replace("%name", peer.getOwnerName())
                 ));
+
+                 */
 
                 client.getClientRtcManager().updateLocationWatcher();
                 peer.getClientRtcManager().updateLocationWatcher();
