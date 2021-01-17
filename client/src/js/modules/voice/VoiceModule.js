@@ -247,6 +247,9 @@ export class VoiceModule {
         if (this.streamer != null) {
             this.streamer.stop()
         }
+        for (let [key, value] of this.peerMap) {
+            value.stop();
+        }
     }
 
     pushSocketEvent(event) {
