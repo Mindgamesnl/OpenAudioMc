@@ -109,7 +109,7 @@ export class MediaManager {
         if (volume === 0) {
             document.getElementById("volume-disp").innerHTML = "<i>(muted)</i>";
         } else {
-            document.getElementById("volume-disp").innerText = "Volume: " + volume + "%";
+            document.getElementById("volume-disp").innerText = "Audio Volume: " + volume + "%";
         }
 
         Cookies.set("volume", volume, { expires: 30 });
