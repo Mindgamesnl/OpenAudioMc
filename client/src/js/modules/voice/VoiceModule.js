@@ -88,8 +88,6 @@ export class VoiceModule {
     }
 
     handleAudioPermissions(stream) {
-        showVoiceCard("voice-home");
-
         if (!this.loadedDeviceList) {
             navigator.mediaDevices.enumerateDevices()
                 .then(devices => {
@@ -110,6 +108,20 @@ export class VoiceModule {
                 });
             this.loadedDeviceList = true;
         }
+
+        Swal.fire({
+            title: 'Logging into voice chat...',
+            html: 'Please wait while we get you setup with a voice server.. hold on tight, shits shouldn\'t take too long.<br /><small>(but please report an issue if it does take too long, it\'s still work in progress after all.</small>',
+            showCloseButton: false,
+            showCancelButton: false,
+            timerProgressBar: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            allowEnterKey: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
 
         this.streamer = new OutgoingVoiceStream(this.openAudioMc, this.server, this.streamKey, stream);
         this.streamer.start(this.onOutoingStreamStart).catch(console.error)
@@ -180,7 +192,8 @@ export class VoiceModule {
     }
 
     onOutoingStreamStart() {
-
+        showVoiceCard("voice-home");
+        Swal.close();
     }
 
     consent(preferedDeviceId) {

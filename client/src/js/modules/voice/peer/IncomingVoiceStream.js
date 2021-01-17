@@ -29,23 +29,6 @@ export class IncomingVoiceStream {
             ]
         });
 
-        this.pcReceiver.onicecandidate = event => {
-            if (event.candidate === null && this.pcReceiver.signalingState !== 'closed') {
-                fetch(endpoint, {
-                    method: "POST",
-                    body: JSON.stringify({"sdp": btoa(JSON.stringify(this.pcReceiver.localDescription))})
-                })
-                    .then(response => response.json())
-                    .then(response => this.pcReceiver.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(response.Sdp)))))
-                    .catch((e) => {
-                        console.error(e);
-                        window.location.reload();
-                    })
-            } else if (event.candidate === null) {
-                oalog("Signalisng state can't be clsoed")
-            }
-        };
-
         this.pcReceiver.onconnectionstatechange = (event) => {
             if (this.pcReceiver.connectionState === 'connected') {
                 whenFinished();
@@ -55,6 +38,7 @@ export class IncomingVoiceStream {
         this.pcReceiver.ontrack = (event) => {
             const stream = event.streams[0];
             const ctx = this.openAudioMc.world.player.audioCtx;
+            this.setVolume(this.volume)
             this.gainNode = ctx.createGain();
             const audio = new Audio();
             audio.srcObject = stream;
@@ -83,11 +67,23 @@ export class IncomingVoiceStream {
                     gainNode.connect(ctx.destination);
                 }
             }
-        }
+        };
 
         this.pcReceiver.addTransceiver('audio', {'direction': 'recvonly'})
         this.pcReceiver.createOffer()
             .then(d => this.pcReceiver.setLocalDescription(d))
+            .then(() => {
+                fetch(endpoint, {
+                    method: "POST",
+                    body: JSON.stringify({"sdp": btoa(JSON.stringify(this.pcReceiver.localDescription))})
+                })
+                    .then(response => response.json())
+                    .then(response => this.pcReceiver.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(response.Sdp)))))
+                    .catch((e) => {
+                        console.error(e);
+                        window.location.reload();
+                    })
+            })
             .catch(console.error)
 
     }
@@ -109,7 +105,9 @@ export class IncomingVoiceStream {
 
     setVolume(volume) {
         this.volume = volume;
-        this.gainNode.gain.value = (this.volume / 100) * this.volBooster;
+        if (this.gainNode != null) {
+            this.gainNode.gain.value = (this.volume / 100) * this.volBooster;
+        }
     }
 
     stop() {
