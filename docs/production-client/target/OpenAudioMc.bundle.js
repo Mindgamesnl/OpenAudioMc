@@ -5313,7 +5313,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
                   fetch(e, { method: "POST", body: JSON.stringify({ sdp: btoa(JSON.stringify(_this21.pcSender.localDescription)) }) }).then(function (t) {
                     return t.json();
                   }).then(function (t) {
-                    return _this21.pcSender.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(t.Sdp))));
+                    _this21.pcSender.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(t.Sdp))));
                   }).catch(function (t) {
                     console.error(t);
                   });
@@ -5571,7 +5571,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     };
 
     Bt.prototype.consent = function consent(t) {
-      var e = { audio: !0 };t && (e = { audio: { deviceId: { exact: t } } });var n = new Ct();n.successCallback = function (t) {
+      var e = { audio: !0 };t && (e = { audio: { deviceId: { exact: t }, noiseSuppression: !1, sampleRate: 64e3, echoCancellation: !1, autoGainControl: !1 } });var n = new Ct();n.successCallback = function (t) {
         this.openAudioMc.voiceModule.handleAudioPermissions(t);
       }.bind(this), n.errorCallback = function (t) {
         console.error(t), this.openAudioMc.voiceModule.permissionError(t);

@@ -19,7 +19,9 @@ export class VoiceModule {
         this.loadeMicPreference = Cookies.get("preferred-mic");
         this.useSurround = (Cookies.get("use-surround") == null ? true : JSON.parse(Cookies.get("use-surround")));
         document.getElementById("vc-use-surround").checked = !this.useSurround;
-        document.getElementById("vc-use-surround").onclick = () => {this.toggleSurround();};
+        document.getElementById("vc-use-surround").onclick = () => {
+            this.toggleSurround();
+        };
     }
 
     enable(server, streamKey, blocksRadius) {
@@ -60,7 +62,7 @@ export class VoiceModule {
         // wait
         this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {"enabled": false});
         this.useSurround = !this.useSurround;
-        Cookies.set("use-surround", this.useSurround, { expires: 30 });
+        Cookies.set("use-surround", this.useSurround, {expires: 30});
         let timerInterval;
         Swal.fire({
             title: 'Reloading voice system!',
@@ -92,7 +94,7 @@ export class VoiceModule {
             navigator.mediaDevices.enumerateDevices()
                 .then(devices => {
                     let deviceMap = []
-                    for (let i = 0; i < devices.length; i++){
+                    for (let i = 0; i < devices.length; i++) {
                         let device = devices[i];
                         if (device.kind === "audioinput") {
                             deviceMap.push({
@@ -103,7 +105,7 @@ export class VoiceModule {
                     }
                     this.loadedDevices(deviceMap)
                 })
-                .catch(function(err) {
+                .catch(function (err) {
                     console.error(err)
                 });
             this.loadedDeviceList = true;
@@ -129,7 +131,7 @@ export class VoiceModule {
 
     changeInput(deviceId) {
         oalog("Stopping current streamer, and restarting with a diferent user input")
-        Cookies.set("preferred-mic", deviceId, { expires: 30 });
+        Cookies.set("preferred-mic", deviceId, {expires: 30});
         this.streamer.setMute(false);
         this.streamer.stop();
         this.streamer = null;
@@ -171,7 +173,7 @@ export class VoiceModule {
 
         for (let i = 0; i < deviceMap.length; i++) {
             let device = deviceMap[i]
-            let option = document.createElement( 'option' );
+            let option = document.createElement('option');
             if (this.loadeMicPreference == null && i == 0) {
                 option.selected = true;
             }
@@ -199,7 +201,16 @@ export class VoiceModule {
     consent(preferedDeviceId) {
         let query = {audio: true}
         if (preferedDeviceId) {
-            query = {audio: { deviceId: {exact: preferedDeviceId}}}
+            query = {
+                audio:
+                    {
+                        deviceId: {exact: preferedDeviceId},
+                        noiseSuppression: false,
+                        sampleRate: 64000,
+                        echoCancellation: false,
+                        autoGainControl: false,
+                    }
+            }
         }
 
         // request audio permission and handle that shit

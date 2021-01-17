@@ -67,7 +67,9 @@ export class OutgoingVoiceStream {
                     body: JSON.stringify({"sdp": btoa(JSON.stringify(this.pcSender.localDescription))})
                 })
                     .then(response => response.json())
-                    .then(response => this.pcSender.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(response.Sdp)))))
+                    .then(response => {
+                        this.pcSender.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(response.Sdp))))
+                    })
                     .catch((e) => {
                         console.error(e);
                         // window.location.reload();
