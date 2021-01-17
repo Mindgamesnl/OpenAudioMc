@@ -5411,7 +5411,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         }).then(function (t) {
           return _this24.pcReceiver.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(t.Sdp))));
         }).catch(function (t) {
-          console.error(t), window.location.reload();
+          console.error(t);
         });
       }).catch(console.error);
     };
