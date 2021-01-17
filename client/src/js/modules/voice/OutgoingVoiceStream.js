@@ -1,5 +1,6 @@
 import * as PluginChannel from "../../helpers/protocol/PluginChannel";
 import {VoiceStatusChangeEvent} from "./VoiceModule";
+import {oalog} from "../../helpers/log";
 
 export class OutgoingVoiceStream {
 
@@ -22,6 +23,8 @@ export class OutgoingVoiceStream {
             "/pn/" + tokenCache.name +
             "/sk/" + this.streamKey;
 
+        oalog("Starting stream")
+
 
         this.pcSender = new RTCPeerConnection({
             iceServers: [
@@ -31,19 +34,34 @@ export class OutgoingVoiceStream {
             ]
         });
 
+        this.pcSender.onconnectionstatechange = (event) => {
+            oalog("State change " + this.pcSender.connectionState + " for " + this.streamKey)
+        };
+
         this.pcSender.addEventListener('connectionstatechange', event => {
             if (this.pcSender.connectionState === 'connected') {
+                oalog("Finished handshake for" + this.streamKey);
                 whenFinished();
-
                 // enable VC mode
                 this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {"enabled": true});
             }
         });
 
-        let once = false;
         this.pcSender.onicecandidate = event => {
-            if (!once) {
-                once=true;
+            oalog("Candidate event for " + this.streamKey + " nc " + (event.target == null));
+        }
+
+        this.pcSender.onnegotiationneeded = (event) => {
+            oalog("Negotiation ended for " + this.streamKey);
+        }
+
+        const tracks = this.micStream.getTracks();
+        for (let i = 0; i < tracks.length; i++) {
+            this.pcSender.addTrack(this.micStream.getTracks()[i]);
+        }
+        this.pcSender.createOffer()
+            .then(d => this.pcSender.setLocalDescription(d))
+            .then(() => {
                 fetch(endpoint, {
                     method: "POST",
                     body: JSON.stringify({"sdp": btoa(JSON.stringify(this.pcSender.localDescription))})
@@ -52,18 +70,10 @@ export class OutgoingVoiceStream {
                     .then(response => this.pcSender.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(response.Sdp)))))
                     .catch((e) => {
                         console.error(e);
-                        window.location.reload();
+                        // window.location.reload();
                     })
-            }
-        }
-
-        // gather tracks
-        var tracks = this.micStream.getTracks();
-        for (var i = 0; i < tracks.length; i++) {
-            this.pcSender.addTrack(this.micStream.getTracks()[i]);
-        }
-
-        this.pcSender.createOffer().then(d => this.pcSender.setLocalDescription(d))
+            })
+            .catch(console.error)
     }
 
     setMute(state) {
