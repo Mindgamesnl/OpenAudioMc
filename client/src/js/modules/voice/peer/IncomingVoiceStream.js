@@ -29,11 +29,18 @@ export class IncomingVoiceStream {
             ]
         });
 
-        this.pcReceiver.onconnectionstatechange = (event) => {
-            if (this.pcReceiver.connectionState === 'connected') {
+        let started = false;
+        let kickoff = (event) => {
+            if (this.pcSender.connectionState === 'connected' || event.target.iceConnectionState === 'connected') {
+                if (started) return;
+                started = true;
+                oalog("Finished handshake for" + this.streamKey);
                 whenFinished();
             }
-        };
+        }
+
+        this.pcReceiver.oniceconnectionstatechange = kickoff
+        this.pcReceiver.addEventListener('connectionstatechange', kickoff);
 
         this.pcReceiver.ontrack = (event) => {
             const stream = event.streams[0];

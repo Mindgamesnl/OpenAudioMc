@@ -35,17 +35,24 @@ export class OutgoingVoiceStream {
         });
 
         this.pcSender.onconnectionstatechange = (event) => {
+            console.log("state " + this.pcSender.connectionState)
             oalog("State change " + this.pcSender.connectionState + " for " + this.streamKey)
         };
 
-        this.pcSender.addEventListener('connectionstatechange', event => {
-            if (this.pcSender.connectionState === 'connected') {
+        let started = false;
+        let kickoff = (event) => {
+            if (this.pcSender.connectionState === 'connected' || event.target.iceConnectionState === 'connected') {
+                if (started) return;
+                started = true;
                 oalog("Finished handshake for" + this.streamKey);
                 whenFinished();
                 // enable VC mode
                 this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {"enabled": true});
             }
-        });
+        }
+
+        this.pcSender.oniceconnectionstatechange = kickoff
+        this.pcSender.addEventListener('connectionstatechange', kickoff);
 
         this.pcSender.onicecandidate = event => {
             oalog("Candidate event for " + this.streamKey + " nc " + (event.target == null));
@@ -59,6 +66,7 @@ export class OutgoingVoiceStream {
         for (let i = 0; i < tracks.length; i++) {
             this.pcSender.addTrack(this.micStream.getTracks()[i]);
         }
+
         this.pcSender.createOffer()
             .then(d => this.pcSender.setLocalDescription(d))
             .then(() => {
