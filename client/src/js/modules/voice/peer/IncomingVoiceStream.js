@@ -56,7 +56,7 @@ export class IncomingVoiceStream {
                     this.pannerNode.panningModel = 'HRTF';
                     this.pannerNode.maxDistance = this.openAudioMc.voiceModule.blocksRadius;
                     this.pannerNode.rolloffFactor = 1;
-                    this.pannerNode.distanceModel = "exponential";
+                    this.pannerNode.distanceModel = "linear";
                     this.setLocation(this.x, this.y, this.z, true);
                     source.connect(gainNode);
                     gainNode.connect(this.pannerNode);

@@ -17,7 +17,7 @@ export class VoicePeerUi {
                 </div>
                 <div><input id="vc-user-card-` + playerName + `-volume-input"
                             class="rounded-lg overflow-hidden appearance-none bg-gray-400 h-3 w-full"
-                            type="range" min="0" max="100" step="1" value="` + volume + `"/></div>
+                            type="range" min="0" max="120" step="1" value="` + volume + `"/></div>
             </div>
         </div>
         `
