@@ -40,8 +40,10 @@ export class OutgoingVoiceStream {
             }
         });
 
+        let once = false;
         this.pcSender.onicecandidate = event => {
-            if (event.candidate === null) {
+            if (!once) {
+                once=true;
                 fetch(endpoint, {
                     method: "POST",
                     body: JSON.stringify({"sdp": btoa(JSON.stringify(this.pcSender.localDescription))})
