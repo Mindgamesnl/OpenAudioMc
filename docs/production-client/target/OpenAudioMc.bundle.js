@@ -4957,23 +4957,22 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       return new Promise(function (e, n) {
         _this14.tokenSet = new it().fromCache(), g("https://cloud.openaudiomc.net/api/v2/account-services/client/login/" + _this14.tokenSet.publicServerKey).then(function (r) {
           r.json().then(function (r) {
-            function o(t, e) {
-              var n = t.replace("#", "");return "rgba(" + parseInt(n.substring(0, 2), 16) + "," + parseInt(n.substring(2, 4), 16) + "," + parseInt(n.substring(4, 6), 16) + "," + e / 100 + ")";
-            }if (null == r.errors || 0 != r.errors.length) return n(r.errors), void console.log(r.errors);var i = r.response;if (i.banned) return void D("Declined connection due to ban " + window.location.host, "Steve", function () {
+            if (null == r.errors || 0 != r.errors.length) return n(r.errors), void console.log(r.errors);var o = r.response;if (o.banned) return void D("Declined connection due to ban " + window.location.host, "Steve", function () {
               window.location.href = "https://help.openaudiomc.net/blocked_domain.html";
-            });var s = i.secureEndpoint,
-                a = i.ambianceSound;console.log("[OpenAudioMc] accepting and applying settings"), t.debugPrint("Updating settings..."), null != i.backgroundImage && "" != i.backgroundImage && (i.backgroundImage = "https://media.openaudiomc.net/proxy?apiurl=" + i.backgroundImage);var u = i.backgroundImage;"" !== u && (document.getElementById("banner-image").src = u);var c = i.title,
-                l = i.clientWelcomeMessage,
-                f = i.clientErrorMessage;var h = "";L(f).childNodes.forEach(function (t) {
+            });var i = o.secureEndpoint,
+                s = o.ambianceSound;console.log("[OpenAudioMc] accepting and applying settings"), t.debugPrint("Updating settings..."), null != o.backgroundImage && "" != o.backgroundImage && (o.backgroundImage = "https://media.openaudiomc.net/proxy?apiurl=" + o.backgroundImage);var a = o.backgroundImage;"" !== a && (document.getElementById("banner-image").src = a);var u = o.title,
+                c = o.clientWelcomeMessage,
+                l = o.clientErrorMessage;var f = "";L(l).childNodes.forEach(function (t) {
+              f += t.outerHTML;
+            });var h = "";L(c).childNodes.forEach(function (t) {
               h += t.outerHTML;
-            });var d = "";L(l).childNodes.forEach(function (t) {
-              d += t.outerHTML;
-            }), "" !== f && (t.getMessages().errorMessage = h), "" !== l && (t.getMessages().welcomeMessage = d);var p = i.greetingMessage;p = p.replace("%name", t.tokenSet.name), document.getElementById("initialize-text").innerHTML = p, document.getElementById("initialize-button").innerHTML = i.connectButtonText, document.documentElement.style.setProperty("--border-color-dark", i.accentColor);var v = o(i.accentColor, 70),
-                m = o(i.accentColor, 40);if (document.documentElement.style.setProperty("--border-color-normal", v), document.documentElement.style.setProperty("--border-color-light", m), t.getUserInterfaceModule().changeColor("#2c78f6", i.accentColor), t.getUserInterfaceModule().changeColor("#4F46E5", i.accentColor), "" != i.startSound && (t.getMediaManager().startSound = i.startSound), "default" !== c) {
-              document.title = c;try {
-                parent.document.title = c;
+            }), "" !== l && (t.getMessages().errorMessage = f), "" !== c && (t.getMessages().welcomeMessage = h);var d = o.greetingMessage;d = d.replace("%name", t.tokenSet.name), document.getElementById("initialize-text").innerHTML = d, document.getElementById("initialize-button").innerHTML = o.connectButtonText, document.documentElement.style.setProperty("--border-color-dark", o.accentColor);var p = function (t, e) {
+              var n = t.replace("#", "");return "rgba(" + parseInt(n.substring(0, 2), 16) + "," + parseInt(n.substring(2, 4), 16) + "," + parseInt(n.substring(4, 6), 16) + ",0.4)";
+            }(o.accentColor);if (document.documentElement.style.setProperty("--border-color-normal", o.accentColor), document.documentElement.style.setProperty("--border-color-light", p), t.getUserInterfaceModule().changeColor("#2c78f6", o.accentColor), t.getUserInterfaceModule().changeColor("#4F46E5", o.accentColor), "" != o.startSound && (t.getMediaManager().startSound = o.startSound), "default" !== u) {
+              document.title = u;try {
+                parent.document.title = u;
               } catch (t) {}
-            }e({ host: s, background: u, ambianceSound: a });
+            }e({ host: i, background: a, ambianceSound: s });
           }).catch(function (t) {
             console.log("Dead end 1"), n(t);
           });

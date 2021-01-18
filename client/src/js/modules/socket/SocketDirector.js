@@ -92,9 +92,9 @@ export class SocketDirector {
 
 
                         document.documentElement.style.setProperty('--border-color-dark', response.accentColor);
-                        let normal = convertHexToRGBA(response.accentColor, 70)
+                        // let normal = convertHexToRGBA(response.accentColor, 70)
                         let light = convertHexToRGBA(response.accentColor, 40)
-                        document.documentElement.style.setProperty('--border-color-normal', normal);
+                        document.documentElement.style.setProperty('--border-color-normal', response.accentColor);
                         document.documentElement.style.setProperty('--border-color-light', light);
 
                         // old
