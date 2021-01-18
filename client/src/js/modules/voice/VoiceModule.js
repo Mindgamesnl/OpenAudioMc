@@ -211,6 +211,16 @@ export class VoiceModule {
                         autoGainControl: false,
                     }
             }
+        } else {
+            query = {
+                audio:
+                    {
+                        noiseSuppression: false,
+                        sampleRate: 64000,
+                        echoCancellation: false,
+                        autoGainControl: false,
+                    }
+            }
         }
 
         // request audio permission and handle that shit
