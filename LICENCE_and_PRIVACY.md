@@ -1,4 +1,4 @@
-# OpenAudioMc Licence 2020 [![Build Status](https://travis-ci.org/Mindgamesnl/OpenAudioMc.svg?branch=master)](https://travis-ci.org/Mindgamesnl/OpenAudioMc)
+# OpenAudioMc Licence 2020-2021 [![Build Status](https://travis-ci.org/Mindgamesnl/OpenAudioMc.svg?branch=master)](https://travis-ci.org/Mindgamesnl/OpenAudioMc)
 
 ### Document introduction
 This document will go over all types of data as processed and/or stored and discloses their purpose, for how long they will be stored and who gets to see them.
