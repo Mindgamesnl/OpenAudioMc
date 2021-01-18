@@ -12,7 +12,8 @@ public class ServerService {
 
     public ServerService() {
         String versionString = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3].replace("v", "");;
-        int subVersion = Integer.parseInt(versionString.replace("1_", "").replaceAll("_R\\d", ""));
+        versionString = versionString.replace("1_", "").replaceAll("_R\\d", "").replaceAll("[^\\d.]", "");
+        int subVersion = Integer.parseInt(versionString);
 
         if (subVersion <= 12) {
             version = ServerVersion.LEGACY;
