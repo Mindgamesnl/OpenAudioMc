@@ -17,6 +17,7 @@ import org.bukkit.Location;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ClientRtcManager {
 
@@ -26,7 +27,7 @@ public class ClientRtcManager {
     private Set<UUID> subscriptions = new HashSet<>();
     private ClientConnection clientConnection;
     @Getter
-    private Set<ClientRtcLocationUpdate> locationUpdateQueue = new HashSet<>();
+    private Set<ClientRtcLocationUpdate> locationUpdateQueue = ConcurrentHashMap.newKeySet();
 
     public ClientRtcManager(ClientConnection clientConnection) {
         this.clientConnection = clientConnection;
