@@ -1,2 +1,2 @@
 cd ../docs/production-client/
-sudo php -S 192.168.2.150:81
+sudo php -S localhost:81

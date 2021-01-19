@@ -1,8 +1,9 @@
 import {WrappedUserMedia} from "./WrappedUserMedia";
-import {OutgoingVoiceStream} from "./OutgoingVoiceStream";
-import {VoicePeer} from "./peer/VoicePeer";
+import {OutgoingVoiceStream} from "./streaming/OutgoingVoiceStream";
+import {VoicePeer} from "./VoicePeer";
 import {oalog} from "../../helpers/log";
 import * as PluginChannel from "../../helpers/protocol/PluginChannel";
+import {VoiceUiSwitch} from "./ui/VoiceUiSwitch";
 
 export const VoiceStatusChangeEvent = {
     MIC_MUTE: "MICROPHONE_MUTED",
@@ -17,11 +18,13 @@ export class VoiceModule {
         this.peerMap = new Map();
         this.loadedDeviceList = false;
         this.loadeMicPreference = Cookies.get("preferred-mic");
-        this.useSurround = (Cookies.get("use-surround") == null ? true : JSON.parse(Cookies.get("use-surround")));
-        document.getElementById("vc-use-surround").checked = !this.useSurround;
-        document.getElementById("vc-use-surround").onclick = () => {
-            this.toggleSurround();
-        };
+
+        this.surroundSwitch = new VoiceUiSwitch("use-surround", "Sound Type", "Constant volume", "Surround", true, (enabled) => {
+            this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {"enabled": false});
+            this.useSurround = enabled;
+            this.onSurrroundUpdate();
+        });
+        this.useSurround = this.surroundSwitch.isOn();
     }
 
     enable(server, streamKey, blocksRadius) {
@@ -31,6 +34,7 @@ export class VoiceModule {
         // unhide
         document.getElementById("vc-controls").style.display = "";
         document.getElementById("vc-block-range").innerText = this.blocksRadius + " block";
+
         document.getElementById("vc-concent-button").onclick = () => {
             this.consent(this.loadeMicPreference);
         };
@@ -58,11 +62,9 @@ export class VoiceModule {
         }
     }
 
-    toggleSurround() {
+    onSurrroundUpdate() {
         // wait
         this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {"enabled": false});
-        this.useSurround = !this.useSurround;
-        Cookies.set("use-surround", this.useSurround, {expires: 30});
         let timerInterval;
         Swal.fire({
             title: 'Reloading voice system!',
@@ -199,7 +201,7 @@ export class VoiceModule {
     }
 
     consent(preferedDeviceId) {
-        let query = {audio: true}
+        let query
         if (preferedDeviceId) {
             query = {
                 audio:

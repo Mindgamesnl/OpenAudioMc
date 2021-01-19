@@ -1,6 +1,6 @@
-import * as PluginChannel from "../../helpers/protocol/PluginChannel";
-import {VoiceStatusChangeEvent} from "./VoiceModule";
-import {oalog} from "../../helpers/log";
+import * as PluginChannel from "../../../helpers/protocol/PluginChannel";
+import {VoiceStatusChangeEvent} from "../VoiceModule";
+import {oalog} from "../../../helpers/log";
 
 export class OutgoingVoiceStream {
 
