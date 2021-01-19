@@ -31,7 +31,7 @@ export class IncomingVoiceStream {
 
         let started = false;
         let kickoff = (event) => {
-            if (this.pcSender.connectionState === 'connected' || event.target.iceConnectionState === 'connected') {
+            if (this.pcReceiver.connectionState === 'connected' || event.target.iceConnectionState === 'connected') {
                 if (started) return;
                 started = true;
                 oalog("Finished handshake for" + this.streamKey);
