@@ -305,3 +305,39 @@ li {
 .tgl-skewed:checked + .tgl-btn:active:after {
     left: 10%;
 }
+
+
+footer {
+    padding: 10px;
+    position: absolute;
+    width: 100%;
+    left: 0; bottom: 0px;
+    color: #fff;
+    text-align: center;
+    font-size: 16px;
+}
+
+
+.sc-cover {
+    border-radius: 3px;
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    width: 75px;
+    z-index: 3;
+    border: 5px solid #242424;
+    translateY: -100%;
+}
+
+.sc-title {
+    border-radius: 3px;
+    position: absolute;
+    text-align: left;
+    left: 70px;
+    z-index: 2;
+    padding: 5px;
+    padding-left: 20px;
+    background-color: #242424;
+    bottom: 30px;
+    font-size: 18px;
+}
