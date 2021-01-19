@@ -57,7 +57,7 @@ export class IncomingVoiceStream {
                 audio.play();
                 audio.muted = true;
 
-                if (this.openAudioMc.voiceModule.useSurround) {
+                if (this.openAudioMc.voiceModule.surroundSwitch.isOn()) {
                     const gainNode = this.gainNode;
                     this.pannerNode = ctx.createPanner();
                     this.pannerNode.panningModel = 'HRTF';
