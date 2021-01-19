@@ -93,3 +93,4 @@ export class OpenAudioMc extends Getters {
 }
 
 window.onload = linkBootListeners;
+window.onhashchange = () => window.location.reload();
