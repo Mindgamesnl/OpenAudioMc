@@ -12,6 +12,7 @@ import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
+import com.craftmend.openaudiomc.generic.platform.interfaces.TaskProvider;
 import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
 import com.craftmend.openaudiomc.generic.voicechat.enums.VoiceServerEventType;
 import lombok.Setter;
@@ -26,6 +27,7 @@ public class VoiceServerDriver {
     private List<UUID> subscribers = new ArrayList<>();
     private int heartbeatTask = 0;
     @Setter private int blockRadius = -1;
+    private TaskProvider taskProvider;
 
     /**
      * Blocking method that tries to login to a server and establish a connection
@@ -37,6 +39,7 @@ public class VoiceServerDriver {
         this.host = host;
         this.password = password;
         this.service = service;
+        this.taskProvider = OpenAudioMc.getInstance().getTaskProvider();
 
         // try to login
         if (!login()) {
@@ -47,7 +50,7 @@ public class VoiceServerDriver {
         pushEvent(VoiceServerEventType.HEARTBEAT, new HashMap<>(), true, false, true);
 
         // schedule heartbeat every 5 seconds
-        heartbeatTask = OpenAudioMc.getInstance().getTaskProvider().scheduleAsyncRepeatingTask(() -> {
+        heartbeatTask = taskProvider.scheduleAsyncRepeatingTask(() -> {
             // send heartbeat
             pushEvent(VoiceServerEventType.HEARTBEAT, new HashMap<>(), true, true, false);
         }, 100, 100);
@@ -104,7 +107,7 @@ public class VoiceServerDriver {
                 client.kick();
             }
         }
-        OpenAudioMc.getInstance().getTaskProvider().cancelRepeatingTask(heartbeatTask);
+        taskProvider.cancelRepeatingTask(heartbeatTask);
     }
 
     private boolean login() {
@@ -122,7 +125,7 @@ public class VoiceServerDriver {
                 throw new IllegalArgumentException("The voice server is either invalid or denies your login");
             } else {
                 OpenAudioLogger.toConsole("Failed to login with the voice server because the handshake failed. Trying again in two seconds..");
-                OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(() -> this.service.requestRestart(), 20 * 2);
+                taskProvider.schduleSyncDelayedTask(() -> taskProvider.runAsync(() -> this.service.requestRestart()), 20 * 2);
                 return false;
             }
         }
@@ -150,6 +153,7 @@ public class VoiceServerDriver {
                 if (response.getErrors().get(0).getCode() == ErrorCode.BAD_HANDSHAKE) {
                     OpenAudioLogger.toConsole("There was an error while trying to talk with the event stream. Restarting the voice service...");
                     if (failSafe) {
+                        taskProvider.cancelRepeatingTask(heartbeatTask);
                         this.service.requestRestart();
                         return;
                     }
@@ -162,6 +166,7 @@ public class VoiceServerDriver {
                     if (response.getErrors().get(0).getCode() == ErrorCode.BAD_HANDSHAKE) {
                         OpenAudioLogger.toConsole("There was an error while trying to talk with the event stream. Restarting the voice service...");
                         if (failSafe) {
+                            taskProvider.cancelRepeatingTask(heartbeatTask);
                             this.service.requestRestart();
                             return;
                         }
