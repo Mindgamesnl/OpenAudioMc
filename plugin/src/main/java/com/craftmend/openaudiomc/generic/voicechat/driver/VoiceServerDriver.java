@@ -5,6 +5,8 @@ import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
+import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientUnlockVoiceChat;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceChatUnlockPayload;
@@ -60,19 +62,27 @@ public class VoiceServerDriver {
 
         // setup events
         NetworkingService networkingService = OpenAudioMc.getInstance().getNetworkingService();
-        if (networkingService instanceof DefaultNetworkingService) {
-            // client got created
-            subscribers.add(networkingService.subscribeToConnections((this::handleClientConnection)));
 
-            subscribers.add(networkingService.subscribeToDisconnections((clientConnection -> {
-                // client will be removed
-                pushEvent(VoiceServerEventType.REMOVE_PLAYER, new HashMap<String, String>() {{
-                    put("streamKey", clientConnection.getStreamKey());
-                }}, false, false, false);
-            })));
-        } else {
-            throw new IllegalStateException("Not implemented yet");
-        }
+        networkingService.addEventHandler(new INetworkingEvents() {
+            @Override
+            public void onClientOpen(Authenticatable target) {
+                if (target instanceof ClientConnection) {
+                    ClientConnection cc = ((ClientConnection) target);
+                    handleClientConnection(cc);
+                }
+            }
+
+            @Override
+            public void onClientClose(Authenticatable target) {
+                if (target instanceof ClientConnection) {
+                    ClientConnection cc = ((ClientConnection) target);
+                    pushEvent(VoiceServerEventType.REMOVE_PLAYER, new HashMap<String, String>() {{
+                        put("streamKey", cc.getStreamKey());
+                    }}, false, false, false);
+                }
+            }
+        });
+
 
         OpenAudioLogger.toConsole("Successfully logged into a WebRTC server");
     }
