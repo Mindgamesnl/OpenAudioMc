@@ -22,7 +22,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ClientRtcManager {
 
     @Setter
-    @Getter private boolean isMicrophoneEnabled = false;
+    @Getter
+    private boolean isMicrophoneEnabled = false;
     @Getter
     private Set<UUID> subscriptions = new HashSet<>();
     private ClientConnection clientConnection;
@@ -67,15 +68,17 @@ public class ClientRtcManager {
         clientConnection.sendPacket(new PacketClientSubscribeToVoice(ClientVoiceSubscribePayload.fromClient(peer)));
 
         // send a message to both users that they can now hear one another
-        peer.getPlayer().sendMessage(Platform.translateColors(
-                StorageKey.MESSAGE_VC_USER_ADDED.getString()
-                        .replace("%name", clientConnection.getOwnerName())
-        ));
+        if (StorageKey.SETTINGS_VC_ANNOUNCEMENTS.getBoolean()) {
+            peer.getPlayer().sendMessage(Platform.translateColors(
+                    StorageKey.MESSAGE_VC_USER_ADDED.getString()
+                            .replace("%name", clientConnection.getOwnerName())
+            ));
 
-        clientConnection.getPlayer().sendMessage(Platform.translateColors(
-                StorageKey.MESSAGE_VC_USER_ADDED.getString()
-                        .replace("%name", peer.getOwnerName())
-        ));
+            clientConnection.getPlayer().sendMessage(Platform.translateColors(
+                    StorageKey.MESSAGE_VC_USER_ADDED.getString()
+                            .replace("%name", peer.getOwnerName())
+            ));
+        }
 
         updateLocationWatcher();
         peer.getClientRtcManager().updateLocationWatcher();
@@ -93,11 +96,14 @@ public class ClientRtcManager {
                 peer.getClientRtcManager().subscriptions.remove(clientConnection.getOwnerUUID());
                 peer.getClientRtcManager().updateLocationWatcher();
                 peer.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(clientConnection.getStreamKey())));
-                // sens a message that we left
-                peer.getPlayer().sendMessage(Platform.translateColors(
-                        StorageKey.MESSAGE_VC_USER_LEFT.getString()
-                                .replace("%name", clientConnection.getOwnerName())
-                ));
+
+                if (StorageKey.SETTINGS_VC_ANNOUNCEMENTS.getBoolean()) {
+                    // sens a message that we left
+                    peer.getPlayer().sendMessage(Platform.translateColors(
+                            StorageKey.MESSAGE_VC_USER_LEFT.getString()
+                                    .replace("%name", clientConnection.getOwnerName())
+                    ));
+                }
             }
         }
     }
