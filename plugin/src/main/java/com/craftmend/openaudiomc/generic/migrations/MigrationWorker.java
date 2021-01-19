@@ -23,6 +23,7 @@ public class MigrationWorker {
             new AddGcStratMigration(),              // add a config value for GC strats
             new RemoveOldCallDataMigration(),       // remove old messages from the old voice system
             new AddNewVoicechatMessagesMigration(), // adds new chat messages for the voice chat system
+            new AddVcAnnouncementMigration(),       // adds the config option to toggle chat announcements
     };
 
     public void handleMigrations() {

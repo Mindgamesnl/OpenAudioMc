@@ -80,6 +80,8 @@ options:
   gc-strategy: INVALIDATE
   # Required distance for proximity voice chat. Must be between 20 and 70
   voicechat-radius: 30
+  # Chat announcements for players to notify them of others entering/leaving their voice chat proximity
+  voicechat-announcements: true
 
 # REDIS
 # More explanation about redis: https://help.openaudiomc.net/redis
