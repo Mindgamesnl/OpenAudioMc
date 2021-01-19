@@ -55,6 +55,18 @@ export class AudioSourceProcessor {
 
             // handle soundcloud
             if (source.includes("soundcloud.com")) {
+                // update now playing too
+                fetch("https://media.openaudiomc.net/2/soundcloud?u=" + source)
+                    .then(response => response.json())
+                    .then(body => {
+                        document.getElementById("sc-cover").style.display = "";
+                        document.getElementById("sc-title").style.display = "";
+                        document.getElementById("sc-title").innerText = body.artist + " - " + body.title;
+                        document.getElementById("sc-title").onclick = () => {
+                            window.open(body.link);
+                        };
+                        document.getElementById("sc-cover").src = body.photo;
+                    })
                 source = AUDIO_ENDPOINTS.SOUNDCLOUD + source;
             }
 
