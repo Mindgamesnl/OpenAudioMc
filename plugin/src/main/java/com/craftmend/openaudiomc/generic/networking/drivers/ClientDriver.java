@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
+import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.interfaces.SocketDriver;
 import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
 import com.craftmend.openaudiomc.generic.networking.payloads.AcknowledgeClientPayload;
@@ -31,6 +32,11 @@ public class ClientDriver implements SocketDriver {
             } else if (authenticatable.isTokenCorrect(payload.getToken())) {
                 callback.call(true);
                 authenticatable.onConnect();
+                if (authenticatable != null) {
+                    for (INetworkingEvents event : OpenAudioMc.getInstance().getNetworkingService().getEvents()) {
+                        event.onClientOpen(authenticatable);
+                    }
+                }
             } else {
                 callback.call(false);
             }
