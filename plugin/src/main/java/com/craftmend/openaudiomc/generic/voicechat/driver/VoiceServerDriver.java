@@ -55,7 +55,7 @@ public class VoiceServerDriver {
         heartbeatTask = taskProvider.scheduleAsyncRepeatingTask(() -> {
             // send heartbeat
             pushEvent(VoiceServerEventType.HEARTBEAT, new HashMap<>(), true, true, false);
-        }, 100, 100);
+        }, 1000, 1000);
 
         // might be a restart, so clean all
         OpenAudioMc.getInstance().getNetworkingService().getClients().forEach(this::handleClientConnection);
@@ -63,25 +63,19 @@ public class VoiceServerDriver {
         // setup events
         NetworkingService networkingService = OpenAudioMc.getInstance().getNetworkingService();
 
-        networkingService.addEventHandler(new INetworkingEvents() {
-            @Override
-            public void onClientOpen(Authenticatable target) {
-                if (target instanceof ClientConnection) {
-                    ClientConnection cc = ((ClientConnection) target);
-                    handleClientConnection(cc);
-                }
-            }
+        if (networkingService instanceof DefaultNetworkingService) {
+            // client got created
+            subscribers.add(networkingService.subscribeToConnections((this::handleClientConnection)));
 
-            @Override
-            public void onClientClose(Authenticatable target) {
-                if (target instanceof ClientConnection) {
-                    ClientConnection cc = ((ClientConnection) target);
-                    pushEvent(VoiceServerEventType.REMOVE_PLAYER, new HashMap<String, String>() {{
-                        put("streamKey", cc.getStreamKey());
-                    }}, false, false, false);
-                }
-            }
-        });
+            subscribers.add(networkingService.subscribeToDisconnections((clientConnection -> {
+                // client will be removed
+                pushEvent(VoiceServerEventType.REMOVE_PLAYER, new HashMap<String, String>() {{
+                    put("streamKey", clientConnection.getStreamKey());
+                }}, false, false, false);
+            })));
+        } else {
+            throw new IllegalStateException("Not implemented yet");
+        }
 
 
         OpenAudioLogger.toConsole("Successfully logged into a WebRTC server");
