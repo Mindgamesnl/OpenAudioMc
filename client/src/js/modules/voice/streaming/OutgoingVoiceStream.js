@@ -29,7 +29,7 @@ export class OutgoingVoiceStream {
         this.pcSender = new RTCPeerConnection({
             iceServers: [
                 {
-                    urls: 'stun:de2.voice.openaudiomc.net'
+                    urls: ['stun:de2.voice.openaudiomc.net', 'stun:stun.l.google.com:19302']
                 }
             ]
         });
