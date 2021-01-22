@@ -63,6 +63,7 @@ export class OutgoingVoiceStream {
         }
 
         this.pcSender.onicecandidateerror = (event) => {
+            /*
             Swal.fire({
                 title: 'Something went terribly wrong, and everything exploded',
                 html: 'Oh no, this wasn\'t supposed to happen at all! something went wrong while connecting you to the voice server.' +
@@ -78,6 +79,8 @@ export class OutgoingVoiceStream {
                 allowEscapeKey: false,
                 allowEnterKey: false,
             })
+
+             */
         }
 
         const tracks = this.micStream.getTracks();
