@@ -5307,7 +5307,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
             switch (_context2.prev = _context2.next) {
               case 0:
                 e = this.server + "webrtc/broadcaster/sdp/m/" + tokenCache.publicServerKey + "/pu/" + tokenCache.uuid + "/pn/" + tokenCache.name + "/sk/" + this.streamKey;
-                j("Starting stream"), this.pcSender = new RTCPeerConnection({ iceServers: [{ urls: "stun:de2.voice.openaudiomc.net" }] }), this.pcSender.onconnectionstatechange = function () {
+                j("Starting stream"), this.pcSender = new RTCPeerConnection({ iceServers: [{ urls: ["stun:de2.voice.openaudiomc.net", "stun:stun.l.google.com:19302"] }] }), this.pcSender.onconnectionstatechange = function () {
                   console.log("state " + _this21.pcSender.connectionState), j("State change " + _this21.pcSender.connectionState + " for " + _this21.streamKey);
                 };n = !1, r = function r(e) {
                   if ("connected" === _this21.pcSender.connectionState || "connected" === e.target.iceConnectionState) {
@@ -5404,7 +5404,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     Lt.prototype.start = function start(t) {
       var _this24 = this;
 
-      var e = this.server + "webrtc/listener/sdp/m/" + tokenCache.publicServerKey + "/pu/" + tokenCache.uuid + "/pn/" + tokenCache.name + "/tg/" + this.peerStreamKey + "/sk/" + this.streamKey;this.pcReceiver = new RTCPeerConnection({ iceServers: [{ urls: "stun:de2.voice.openaudiomc.net" }] });var n = !1,
+      var e = this.server + "webrtc/listener/sdp/m/" + tokenCache.publicServerKey + "/pu/" + tokenCache.uuid + "/pn/" + tokenCache.name + "/tg/" + this.peerStreamKey + "/sk/" + this.streamKey;this.pcReceiver = new RTCPeerConnection({ iceServers: [{ urls: ["stun:de2.voice.openaudiomc.net", "stun:stun.l.google.com:19302"] }] });var n = !1,
           r = function r(e) {
         if ("connected" === _this24.pcReceiver.connectionState || "connected" === e.target.iceConnectionState) {
           if (n) return;n = !0, j("Finished handshake for" + _this24.streamKey), t();
