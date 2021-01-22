@@ -62,6 +62,24 @@ export class OutgoingVoiceStream {
             oalog("Negotiation ended for " + this.streamKey);
         }
 
+        this.pcSender.onicecandidateerror = (event) => {
+            Swal.fire({
+                title: 'Something went terribly wrong, and everything exploded',
+                html: 'Oh no, this wasn\'t supposed to happen at all! something went wrong while connecting you to the voice server.' +
+                    'Please report this as a bug with the following details.<br /><b>Code: </b>' + event.errorCode + '' +
+                    '<br /><b>Side: </b>' + 'BROADCASTER' +
+                    '<br /><b>Context: </b>' + event.errorText +
+                    '<br /><b>RUI: </b>' + event.url +
+                    '<br /><b>HC: </b>' + event.hostCandidate,
+                showCloseButton: false,
+                showCancelButton: false,
+                timerProgressBar: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
+            })
+        }
+
         const tracks = this.micStream.getTracks();
         for (let i = 0; i < tracks.length; i++) {
             this.pcSender.addTrack(this.micStream.getTracks()[i]);
