@@ -5738,8 +5738,6 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
           t.offline ? (console.log("Redirecting because network error"), window.location.href = "https://help.openaudiomc.net/network_error.html") : console.log("[OpenAudioMc] Server status:" + JSON.stringify(t));
         });
       })));
-    }).catch(function (t) {
-      console.log(t), window.location.href = "https://help.openaudiomc.net/network_error.html";
     });
   }, window.onhashchange = function () {
     return window.location.reload();

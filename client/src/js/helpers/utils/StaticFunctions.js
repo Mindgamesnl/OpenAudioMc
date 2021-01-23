@@ -60,11 +60,6 @@ export function linkBootListeners() {
                 })
             }
         })
-        .catch(error => {
-            // check server status
-            console.log(error)
-            window.location.href = 'https://help.openaudiomc.net/network_error.html'
-        })
 
 }
 
