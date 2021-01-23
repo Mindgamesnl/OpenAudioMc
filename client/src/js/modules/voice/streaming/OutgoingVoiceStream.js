@@ -63,24 +63,23 @@ export class OutgoingVoiceStream {
         }
 
         this.pcSender.onicecandidateerror = (event) => {
-            /*
-            Swal.fire({
-                title: 'Something went terribly wrong, and everything exploded',
-                html: 'Oh no, this wasn\'t supposed to happen at all! something went wrong while connecting you to the voice server.' +
-                    'Please report this as a bug with the following details.<br /><b>Code: </b>' + event.errorCode + '' +
-                    '<br /><b>Side: </b>' + 'BROADCASTER' +
-                    '<br /><b>Context: </b>' + event.errorText +
-                    '<br /><b>RUI: </b>' + event.url +
-                    '<br /><b>HC: </b>' + event.hostCandidate,
-                showCloseButton: false,
-                showCancelButton: false,
-                timerProgressBar: false,
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                allowEnterKey: false,
-            })
 
-             */
+            this.openAudioMc.sendError('Oh no, this wasn\'t supposed to happen at all! something went wrong while connecting you to the voice server.' + "\n" +
+                'Please report this as a bug with the following details.<br /><b>Code: </b>' + event.errorCode + '' + "\n" +
+                '<br /><b>Side: </b>' + 'BROADCASTER' + "\n" +
+                '<br /><b>Context: </b>' + event.errorText + "\n" +
+                '<br /><b>RUI: </b>' + event.url + "\n" +
+                '<br /><b>HC: </b>' + event.hostCandidate + "\n" +
+                "hostname=" + window.location.host + "\n" +
+                "useragent=" + window.navigator.userAgent
+            );
+
+            console.log('Oh no, this wasn\'t supposed to happen at all! something went wrong while connecting you to the voice server.' +
+                'Please report this as a bug with the following details.<br /><b>Code: </b>' + event.errorCode + '' +
+                '<br /><b>Side: </b>' + 'BROADCASTER' +
+                '<br /><b>Context: </b>' + event.errorText +
+                '<br /><b>RUI: </b>' + event.url +
+                '<br /><b>HC: </b>' + event.hostCandidate)
         }
 
         const tracks = this.micStream.getTracks();
