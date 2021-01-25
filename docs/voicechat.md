@@ -1,22 +1,12 @@
 # Voice Chat
-### *Note: as explained later in this article, voice chat is currently only available to select partners due to cost. There are plans to roll it out eventually as a monthly plan but there's no say in release date yet.* 
 
-tarting 6.0, OpenAudioMc has a build in voice chat system.
+### State of the Voice Chat feature
+This feature is reserved for partners who specifically request it at the moment. It's still in active development and still has to face some challenges before it can be released into the wild (mainly to do with hosting, since voice servers are quite resource hungry which isn't financially feasible on the scale that OpenAudioMc is currently operating. A public release would likely be in the form of a paid plan or self hosted RTC solution, but its too early in development to say anything decisive about that.)
 
-The voice chat uses the principle of one-time private rooms with your players. The voice-chat client is build into the existing web-client, and the player doesn't need to do anything (else) than press one popup to accept the call and optionally select a microphone if they have multiple connected to their system.
+# Getting started with Proximity
+Players will be asked to enable voice chat when opening the client if voicechat is supported on the current server. They'll get a short instructional message explaining what voicechat is (explaining the configured radius, and that they can always opt-out again if they want to)
+<br /><img src="https://i.imgur.com/izW2GLE.png" height="150px" />
 
-A user will always be asked and informed if they want to join a call before anyone can hear them, where they can review a list with who is in the call to then accept or deny the invitation. In case of a minigame-like system, a Player can chose to automatically join calls and skip this process via a checkbox. (off by default)
-
-Voice chat is only available for enterprise partners, which you can read more about in the Partners section.
-
-Voice chat will work with up to 16 people and has a high quality and low latency connection
-
-The base command format is as follows
-```
-/openaudio call create <selector>...
-```
-You can use a list of names or selectors, for example
-```
-/openaudio call create Mindgamesnl @p
-```
-Will add me and whoever is nearest into a call together.
+The tutorial will disappear if they reject the invite, or get replaced with a small personal dashboard where they can mute their microphone, change their audio type (from a dynamic surround system to normal Discord-like volumes). The empty box on the left shows who are in voice range (allowing the user to see who's listening to them and to mute other individual users)
+<br /><img src="https://i.imgur.com/WyPdgov.png" height="150px" />
+<img src="https://i.imgur.com/e2aBjiK.png" height="150px" />
