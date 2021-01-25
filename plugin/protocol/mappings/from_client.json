@@ -1,0 +1,24 @@
+{
+  "channels": {
+    "hue_connected": {
+      "packetChannel": "SOCKET_IN_CLIENT_ENABLED_HUE",
+      "gsonClass": "in.ClientEnabledHuePayload"
+    },
+    "media_failure": {
+      "packetChannel": "SOCKET_IN_CLIENT_FAILED_MEDIA",
+      "gsonClass": "in.ClientFailedMediaPayload"
+    },
+    "volume_changed": {
+      "packetChannel":"SOCKET_IN_CLIENT_CHANGED_VOLUME",
+      "gsonClass":"in.ClientChangedVolumePayload"
+    },
+    "current_channels": {
+      "packetChannel": "SOCKET_IN_CLIENT_UPDATE_CHANNELS",
+      "gsonClass": "in.ClientUpdateChannelListPayload"
+    },
+    "rtc_initialized": {
+      "packetChannel": "SOCKET_IN_CLIENT_INITIALIZED_RTC",
+      "gsonClass": "in.ClientOpenedRtcPayload"
+    }
+  }
+}

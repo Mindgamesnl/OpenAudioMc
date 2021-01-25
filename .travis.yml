@@ -1,6 +1,16 @@
+after_success:
+  - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh success $WEBHOOK_URL
+after_failure:
+  - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh failure $WEBHOOK_URL
 language: java
 jdk:
-  - oraclejdk8
+  - openjdk8
 script:
+  # - chmod +x pre-start-bc.sh
+  # - ./pre-start-bc.sh ohyesfuck $WEBHOOK_URL
   - mvn clean package
-before_script: cd 'Plugin source code'
+before_script: cd 'plugin'

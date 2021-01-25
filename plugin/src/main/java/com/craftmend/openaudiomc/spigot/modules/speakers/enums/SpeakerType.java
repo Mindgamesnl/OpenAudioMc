@@ -1,0 +1,19 @@
+package com.craftmend.openaudiomc.spigot.modules.speakers.enums;
+
+import lombok.Getter;
+
+public enum SpeakerType {
+
+    SPEAKER_2D("2D", "Only bases volume on distance"),
+    SPEAKER_3D("3D", "Surround sound based on speaker");
+
+    @Getter private final String name;
+    @Getter private final String description;
+
+    SpeakerType(String a, String b) {
+        this.name = a;
+        this.description = b;
+    }
+
+
+}

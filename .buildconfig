@@ -1,0 +1,10 @@
+[default]
+name=OpenAudioMc
+runtime=host
+config-opts=
+run-opts=
+prefix=/home/mindgamesnl/.cache/gnome-builder/install/target/host
+app-id=oa-j
+postbuild=
+prebuild=
+default=true
