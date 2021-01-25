@@ -107,9 +107,9 @@ public class SpeakersSubCommand extends SubCommand {
             location.getBlock().setType(openAudioMcSpigot.getSpeakerModule().getPlayerSkullBlock());
 
             Skull s = (Skull) location.getBlock().getState();
-            s.setSkullType(SkullType.PLAYER);
 
             if (OpenAudioMcSpigot.getInstance().getServerService().getVersion() == ServerVersion.LEGACY) {
+                s.setSkullType(SkullType.PLAYER);
                 // reflection for the old map
                 try {
                     Block.class.getMethod("setData", byte.class).invoke(location.getBlock(), (byte) 1);
@@ -118,11 +118,11 @@ public class SpeakersSubCommand extends SubCommand {
                     e.printStackTrace();
                     return;
                 }
+
             } else {
                 location.getBlock().setBlockData(openAudioMcSpigot.getSpeakerModule().getPlayerSkullBlock().createBlockData());
             }
-
-            s.setOwner("OpenAudioMc");
+            s.setOwner(SpeakerUtils.speakerSkin);
             s.update();
 
             message(sender, ChatColor.GREEN + "Speaker placed");
@@ -144,12 +144,7 @@ public class SpeakersSubCommand extends SubCommand {
             speakerModule.unlistSpeaker(mappedLocation);
 
             // remove from file
-            config.setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".world", null);
-            config.setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".x", null);
-            config.setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".y", null);
-            config.setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".z", null);
-            config.setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".media", null);
-            config.setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString(), null);
+            config.setString(StorageLocation.DATA_FILE,"speakers." + speaker.getId().toString(), null);
 
             message(sender, "Removed speaker");
             mappedLocation.toBukkit().getBlock().setType(Material.AIR);
