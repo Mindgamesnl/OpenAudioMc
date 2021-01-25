@@ -107,9 +107,9 @@ public class SpeakersSubCommand extends SubCommand {
             location.getBlock().setType(openAudioMcSpigot.getSpeakerModule().getPlayerSkullBlock());
 
             Skull s = (Skull) location.getBlock().getState();
-            s.setSkullType(SkullType.PLAYER);
 
             if (OpenAudioMcSpigot.getInstance().getServerService().getVersion() == ServerVersion.LEGACY) {
+                s.setSkullType(SkullType.PLAYER);
                 // reflection for the old map
                 try {
                     Block.class.getMethod("setData", byte.class).invoke(location.getBlock(), (byte) 1);
@@ -118,11 +118,11 @@ public class SpeakersSubCommand extends SubCommand {
                     e.printStackTrace();
                     return;
                 }
+
             } else {
                 location.getBlock().setBlockData(openAudioMcSpigot.getSpeakerModule().getPlayerSkullBlock().createBlockData());
             }
-
-            s.setOwner("OpenAudioMc");
+            s.setOwner(SpeakerUtils.speakerSkin);
             s.update();
 
             message(sender, ChatColor.GREEN + "Speaker placed");

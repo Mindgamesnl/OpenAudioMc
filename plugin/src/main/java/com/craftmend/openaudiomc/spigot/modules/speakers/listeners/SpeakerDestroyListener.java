@@ -37,14 +37,7 @@ public class SpeakerDestroyListener implements Listener {
             speakerModule.unlistSpeaker(location);
 
             //save to config
-            openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".type", null);
-            openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".radius", null);
-            openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".world", null);
-            openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".x", null);
-            openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".y", null);
-            openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".z", null);
-            openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".media", null);
-            openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString(), null);
+            openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE,"speakers." + speaker.getId().toString(), null);
 
             event.getPlayer().sendMessage(openAudioMc.getCommandModule().getCommandPrefix() + ChatColor.RED + "Speaker destroyed");
             event.setDropItems(false);
