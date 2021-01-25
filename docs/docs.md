@@ -32,6 +32,7 @@ How to use OpenAudioMc's features (with examples)
 - [Philips Hue setup and commands](hue.md)
 - [Aliases](alias.md)
 - [TrainCarts integration](traincarts.md)
+- [Proximity Voice Chat](voicechat.md)
 
 ### Configuration
 How to make OpenAudioMc truely your own
@@ -42,8 +43,7 @@ How to make OpenAudioMc truely your own
 ### For experts
 If you want to go the extra mile
 - [Java API](java_api.md)
-- [OpenAudioMc partners](partners.md)
-- [Voice Chat/Calls](voicechat.md)
+- [Partnerships](partners.md)
 - [Client hosting](client.md)
 - [Redis](redis.md)
 - [Network/Server requirements](technical_requirements.md)
