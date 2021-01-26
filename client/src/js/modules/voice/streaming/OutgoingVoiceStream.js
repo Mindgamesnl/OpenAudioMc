@@ -1,6 +1,7 @@
 import * as PluginChannel from "../../../helpers/protocol/PluginChannel";
 import {VoiceStatusChangeEvent} from "../VoiceModule";
 import {oalog} from "../../../helpers/log";
+import {StripUrlComponents} from "../../../helpers/utils/LinkHelper";
 
 export class OutgoingVoiceStream {
 
@@ -29,7 +30,7 @@ export class OutgoingVoiceStream {
         this.pcSender = new RTCPeerConnection({
             iceServers: [
                 {
-                    urls: ['stun:de2.voice.openaudiomc.net', 'stun:stun.l.google.com:19302']
+                    urls: ['stun:' + StripUrlComponents(this.server), 'stun:stun.l.google.com:19302']
                 }
             ]
         });
