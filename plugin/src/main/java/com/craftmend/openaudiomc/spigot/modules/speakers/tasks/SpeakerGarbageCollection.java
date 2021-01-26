@@ -17,6 +17,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SpeakerGarbageCollection extends BukkitRunnable {
 
@@ -44,7 +45,7 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
                 toReport = 0;
                 logInterval = 0;
             }
-            
+
             Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> {
                 for (MappedLocation garbageSpeaker : garbageSpeakers) {
                     speakerModule.getSpeakerMap().remove(garbageSpeaker);
@@ -56,14 +57,14 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
                 OpenAudioMc openAudioMc = OpenAudioMc.getInstance();
                 for (MappedLocation garbageSpeaker : garbageSpeakers) {
                     Speaker speaker = this.speakerModule.getSpeaker(garbageSpeaker);
-                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".type", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".radius", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".world", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".x", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".y", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".z", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString() + ".media", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE,"speakers." + speaker.getId().toString(), null);
+                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE, "speakers." + speaker.getId().toString() + ".type", null);
+                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE, "speakers." + speaker.getId().toString() + ".radius", null);
+                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE, "speakers." + speaker.getId().toString() + ".world", null);
+                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE, "speakers." + speaker.getId().toString() + ".x", null);
+                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE, "speakers." + speaker.getId().toString() + ".y", null);
+                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE, "speakers." + speaker.getId().toString() + ".z", null);
+                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE, "speakers." + speaker.getId().toString() + ".media", null);
+                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE, "speakers." + speaker.getId().toString(), null);
                 }
                 openAudioMc.getConfiguration().saveAll();
             }
@@ -71,18 +72,19 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
         garbageSpeakers.clear();
 
         // fraction logic to break computing into smaller parts
-        int fractionStart = lastFraction *  FRACTION_GROUP_SIZE;
+        int fractionStart = lastFraction * FRACTION_GROUP_SIZE;
 
         lastFraction++;
         if (maxFractions > lastFraction) {
             lastFraction = 0;
         }
 
-        this.speakerModule.getSpeakerMap().values().stream()
-                .filter(speaker -> !speaker.isValidated())
-                .skip(fractionStart)
-                .limit(FRACTION_GROUP_SIZE)
-                .collect(Collectors.toList())
+        int setSize = this.speakerModule.getSpeakerMap().values().size();
+        possiblyFilterLimits(setSize,
+                this.speakerModule.getSpeakerMap().values().stream()
+                        .filter(speaker -> !speaker.isValidated())
+                        .skip(fractionStart)
+        ).collect(Collectors.toList())
                 .forEach(speaker -> {
                     MappedLocation mappedLocation = speaker.getLocation();
 
@@ -96,6 +98,13 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
                         }
                     }
                 });
+    }
+
+    private Stream<Speaker> possiblyFilterLimits(int size, Stream<Speaker> stream) {
+        if (size > 250) {
+            return stream.limit(FRACTION_GROUP_SIZE);
+        }
+        return stream;
     }
 
     public int roundUp(long num, long divisor) {
