@@ -8,6 +8,9 @@ NetherlandSMP is a dutch survival server started by Joost, bringing most Dutch c
 ImagineFun is one of the leading Minecraft themepark servers, working closely together with OpenAudioMc to keep up with demand and adding features to public releases that improve stability and usability for everyone on a large scale.
 ImagineFun is one of the biggest users of OpenAudioMc, utilizing most of the features and bringing the majority of the audience (with their own big events, and special guests like the *DreamSMP* who bring waves of new users)
 
+# [Pixelite/Sprookjescraft](https://sprookjescraft.nl/)
+SprookjesCraft is one of the leading Dutch themepark servers, dumping their own solution and switching to OpenAudioMc in late 2019, working closely to develop addons and extra features to fill in the gaps and providing resources to the OpenAudioMc project to keep it running for free (we still run on some of these resources to this day)
+
 # [BlockParty (1, 2 and 3)](https://twitter.com/barelyaliveus/status/1243633244714622976?lang=en)
 BlockParty was the biggest Minecraft music festival, OpenAudioMc was used to serve the web client on a large scale (serving over 2.3K clients for blockparty alone) and to run the lighting effects through the show (and later redis) feature (both got added while looking for problems that they faced).
 [You can read more about this event and the role of OpenAudioMc in this article](https://mindgamesnl.medium.com/minecraft-at-scale-what-not-to-do-cda8cf803eca)
