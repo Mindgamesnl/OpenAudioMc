@@ -6,11 +6,12 @@ import { Log } from '../utils/log'
 
 export default class ClientTokenSet {
 
-    constructor(publicServerKey, playerUUID, playerName, playerToken) {
+    constructor(publicServerKey, playerUUID, playerName, playerToken, scope) {
         this.publicServerKey = publicServerKey;
         this.uuid = playerUUID;
         this.name = playerName;
         this.token = playerToken;
+        this.scope = scope;
     }
 
     initialize() {
@@ -76,7 +77,7 @@ export default class ClientTokenSet {
                                 document.getElementById('top-head').src = 'https://minotar.net/helm/' + ses.playerName
                             }
 
-                            const out = new ClientTokenSet(ses.publicKey, ses.playerUuid, ses.playerName, ses.session)
+                            const out = new ClientTokenSet(ses.publicKey, ses.playerUuid, ses.playerName, ses.session, ses.scope)
                             window.tokenCache = out;
                             resolve(out);
                         }).catch(e => {

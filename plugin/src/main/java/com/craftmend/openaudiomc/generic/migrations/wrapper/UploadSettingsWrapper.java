@@ -1,12 +1,12 @@
 package com.craftmend.openaudiomc.generic.migrations.wrapper;
 
-import com.craftmend.openaudiomc.generic.craftmend.response.ClientSettingsResponse;
+import com.craftmend.openaudiomc.generic.craftmend.response.CraftmendAccountResponse;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class UploadSettingsWrapper {
 
     private String privateKey;
-    private ClientSettingsResponse fields;
+    private CraftmendAccountResponse fields;
 
 }

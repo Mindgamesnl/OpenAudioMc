@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ClientTokenRequestBody {
 
+    private String scope = "ACCOUNT";
     private String playerName;
     private String playerUuid;
     private String session;

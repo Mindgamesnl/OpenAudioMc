@@ -17,7 +17,7 @@ public enum RestEndpoint {
     // account
     ACCOUNT_CLAIM_SERVER("https://account.craftmend.com/api/v1/public/openaudiomc/claim/_public_key_/_private_key_", true),
     ACCOUNT_UPDATE_PLAYERS("https://account.craftmend.com/api/v1/public/openaudiomc/online-players", false),
-    GET_ACCOUNT_STATE("https://account.craftmend.com/api/v1/public/openaudiomc/settings/_public_key_", true),
+    GET_ACCOUNT_STATE("https://account.craftmend.com/api/v1/public/openaudiomc/profile/_public_key_", true),
     ACCOUNT_HANDLE_LOGOUT("https://account.craftmend.com/api/v1/public/openaudiomc/logout/_private_key_", true),
 
     // login requests a relay and registers it
