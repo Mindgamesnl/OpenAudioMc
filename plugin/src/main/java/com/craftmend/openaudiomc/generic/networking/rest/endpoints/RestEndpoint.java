@@ -7,7 +7,6 @@ public enum RestEndpoint {
 
     // modern cloud API's
     GET_HOST_DETAILS("https://cloud.openaudiomc.net/api/v2/ip", false),
-    CHECK_ACCOUNT_HEALTH("https://cloud.openaudiomc.net/api/v2/account-services/server/check/_public_key_", true),
     CREATE_SESSION_TOKEN("https://cloud.openaudiomc.net/session", false),
     CREATE_HOST_TOKEN("https://cloud.openaudiomc.net/identity", false),
 

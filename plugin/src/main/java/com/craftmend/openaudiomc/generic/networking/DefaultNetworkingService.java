@@ -8,7 +8,6 @@ import com.craftmend.openaudiomc.generic.networking.handlers.*;
 
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.abstracts.PayloadHandler;
-import com.craftmend.openaudiomc.generic.networking.health.RelayHealthCheck;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
@@ -76,10 +75,6 @@ public class DefaultNetworkingService extends NetworkingService {
             OpenAudioLogger.toConsole("The plugin could not start because of a connection problem when requesting the initial private key. Please contact the developers of this plugin.");
             e.printStackTrace();
         }
-
-        // schedule health check
-        int timeout = 20 * 10;
-        OpenAudioMc.getInstance().getTaskProvider().scheduleAsyncRepeatingTask(new RelayHealthCheck(), timeout, timeout);
     }
 
     /**
