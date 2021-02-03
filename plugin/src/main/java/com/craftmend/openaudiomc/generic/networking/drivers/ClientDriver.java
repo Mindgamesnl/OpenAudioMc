@@ -55,7 +55,6 @@ public class ClientDriver implements SocketDriver {
 
     private Authenticatable findSession(UUID id) {
         ClientConnection clientConnection = OpenAudioMc.getInstance().getNetworkingService().getClient(id);
-        if (clientConnection != null) return clientConnection;
-        return OpenAudioMc.getInstance().getPlusService().getConnectionManager().getBySessionId(id);
+        return clientConnection;
     }
 }

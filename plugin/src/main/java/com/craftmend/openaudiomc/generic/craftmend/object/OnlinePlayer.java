@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.plus.object;
+package com.craftmend.openaudiomc.generic.craftmend.object;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
-public class PlusPlayer {
+public class OnlinePlayer {
 
     private String name;
     private UUID uuid;
@@ -15,7 +15,7 @@ public class PlusPlayer {
     private boolean isConnected;
 
     // secondary state update for packet
-    public PlusPlayer(UUID uniqueId, boolean isConnected) {
+    public OnlinePlayer(UUID uniqueId, boolean isConnected) {
         this.uuid = uniqueId;
         this.isConnected = isConnected;
     }

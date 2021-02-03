@@ -13,7 +13,7 @@ import static com.craftmend.openaudiomc.generic.platform.Platform.translateColor
 class SpigotHelper {
 
     static void connectMsg(OpenAudioMc openAudioMc, ClientConnection clientConnection, String token) {
-        String url = openAudioMc.getPlusService().getBaseUrl() + token;
+        String url = openAudioMc.getCraftmendService().getBaseUrl() + token;
 
         TextComponent message = new TextComponent(translateColors(Objects.requireNonNull(
                 StorageKey.MESSAGE_CLICK_TO_CONNECT.getString()

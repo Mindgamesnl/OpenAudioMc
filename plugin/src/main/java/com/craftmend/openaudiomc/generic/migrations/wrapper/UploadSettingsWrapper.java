@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.migrations.wrapper;
 
-import com.craftmend.openaudiomc.generic.plus.response.ClientSettingsResponse;
+import com.craftmend.openaudiomc.generic.craftmend.response.ClientSettingsResponse;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor

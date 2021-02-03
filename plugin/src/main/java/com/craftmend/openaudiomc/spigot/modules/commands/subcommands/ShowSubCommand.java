@@ -58,10 +58,7 @@ public class ShowSubCommand extends SubCommand {
                         "Display info about a show"),
 
                 new Argument("list",
-                        "List all shows")// ,
-
-                // new Argument("upload <show name>",
-                //        "Upload a show to the web editor to control/change it from there")
+                        "List all shows")
         );
         this.openAudioMcSpigot = openAudioMcSpigot;
     }
@@ -70,50 +67,6 @@ public class ShowSubCommand extends SubCommand {
     public void onExecute(GenericExecutor sender, String[] args) {
         if (args.length == 0) {
             Bukkit.getServer().dispatchCommand((CommandSender) sender.getOriginal(), "oa help " + getCommand());
-            return;
-        }
-
-        if (args[0].equalsIgnoreCase("upload") && args.length == 2) {
-            Show show = openAudioMcSpigot.getShowModule().getShow(args[1]);
-            if (show == null) {
-                sender.sendMessage(ChatColor.RED + "There is no show called " + args[1]);
-                return;
-            }
-
-            ClientConnection connection = OpenAudioMc.getInstance().getNetworkingService().getClient(sender.getUuid());
-            if (connection == null) {
-                sender.sendMessage(ChatColor.RED + "Only players can use the web gui");
-                return;
-            }
-
-            sender.sendMessage(ChatColor.GRAY + "" + ChatColor.ITALIC + "Hold on while we process your show...");
-
-            Task<ShowUploadResponse> uploadTask = openAudioMcSpigot.getShowModule().uploadShow(show, connection);
-            uploadTask.setWhenFails((error, fuckyou) -> {
-                if (error == ErrorCode.REQUEST_TOO_BIG) {
-                    sender.sendMessage(ChatColor.RED + "I don't know how, but you got your showfile to be almost a gigabyte and therefor got declined by the server. Meaning that you can't open this show in the web editor. Sorry!");
-                } else {
-                    sender.sendMessage(ChatColor.RED + "An unexpected error occurred, code: " + error.toString());
-                }
-            });
-
-            uploadTask.setWhenSuccessful(response -> {
-                // yeet, now do something with it
-                TextComponent message = new TextComponent(Platform.translateColors(Objects.requireNonNull(
-                        response.getMessage()
-                )));
-
-                if (response.getRedirectUrl() != null) {
-                    message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, response.getRedirectUrl()));
-                    TextComponent[] hover = new TextComponent[] {
-                            new TextComponent(Platform.translateColors("Click here to open the")),
-                            new TextComponent(Platform.translateColors("online show editor"))
-                    };
-                    message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover));
-                }
-
-                sender.sendMessage(message);
-            });
             return;
         }
 

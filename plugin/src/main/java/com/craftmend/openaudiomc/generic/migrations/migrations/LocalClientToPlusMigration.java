@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImpleme
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.migrations.interfaces.SimpleMigration;
 import com.craftmend.openaudiomc.generic.migrations.wrapper.UploadSettingsWrapper;
-import com.craftmend.openaudiomc.generic.plus.response.ClientSettingsResponse;
+import com.craftmend.openaudiomc.generic.craftmend.response.ClientSettingsResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
