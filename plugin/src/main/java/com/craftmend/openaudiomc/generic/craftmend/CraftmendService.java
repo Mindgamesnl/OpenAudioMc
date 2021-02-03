@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.craftmend;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.craftmend.response.ClientSettingsResponse;
+import com.craftmend.openaudiomc.generic.craftmend.response.CraftmendAccountResponse;
 import com.craftmend.openaudiomc.generic.craftmend.tasks.PlayerStateStreamer;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
@@ -29,10 +29,10 @@ public class CraftmendService {
 
     public void syncAccount() {
         RestRequest keyRequest = new RestRequest(RestEndpoint.GET_ACCOUNT_STATE);
-        ClientSettingsResponse response = keyRequest.executeInThread().getResponse(ClientSettingsResponse.class);
-        baseUrl = response.getDomain() + "#";
-        banned = response.getBanned();
-        claimed = response.getClaimed();
+        CraftmendAccountResponse response = keyRequest.executeInThread().getResponse(CraftmendAccountResponse.class);
+        baseUrl = response.getSettings().getClientUrl() + "#";
+        banned = response.getSettings().isBanned();
+        claimed = response.isClaimed();
     }
 
     public void shutdown() {

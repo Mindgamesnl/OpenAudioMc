@@ -46,6 +46,7 @@ public class AuthenticationDriver {
 
             // create request
             ClientTokenRequestBody requestBody = new ClientTokenRequestBody(
+                    "ACCOUNT",
                     authenticatable.getOwnerName(),
                     authenticatable.getOwnerUUID().toString(),
                     authenticatable.getSessionTokens().getWebSessionKey(),
