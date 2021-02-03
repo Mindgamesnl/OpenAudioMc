@@ -25,6 +25,7 @@ public class AcceptSubCommand extends SubCommand {
 
         sender.sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + "Welcome to OpenAudioMc! you accepted the terms, enjoy the service!");
 
+        OpenAudioMc.getInstance().getCraftmendService().startSyncronizer();
         service.connectIfDown();
 
         for (ClientConnection client : service.getClients()) {

@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.plus.interfaces;
+package com.craftmend.openaudiomc.generic.craftmend.interfaces;
 
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 

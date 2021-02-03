@@ -1,8 +1,8 @@
-package com.craftmend.openaudiomc.generic.plus.enums;
+package com.craftmend.openaudiomc.generic.craftmend.enums;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.platform.Platform;
-import com.craftmend.openaudiomc.generic.plus.interfaces.PlusPermissionCheck;
+import com.craftmend.openaudiomc.generic.craftmend.interfaces.PlusPermissionCheck;
 import lombok.Getter;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;

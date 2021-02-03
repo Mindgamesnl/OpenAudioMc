@@ -13,7 +13,7 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.objects.OpenAudioApi;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
 import com.craftmend.openaudiomc.generic.networking.addapter.AbstractPacketAdapter;
-import com.craftmend.openaudiomc.generic.plus.PlusService;
+import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.redis.RedisService;
 import com.craftmend.openaudiomc.generic.redis.packets.adapter.RedisTypeAdapter;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskProvider;
@@ -72,7 +72,7 @@ public class OpenAudioMc {
     private final CommandModule commandModule;
     private final TaskProvider taskProvider;
     private final RedisService redisService;
-    private final PlusService plusService;
+    private final CraftmendService craftmendService;
     private final VoiceService voiceService;
     private final Platform platform;
     private final OpenAudioInvoker invoker;
@@ -104,7 +104,7 @@ public class OpenAudioMc {
         this.commandModule = new CommandModule(this);
         this.redisService = new RedisService(this.configuration);
         this.networkingService = serviceImplementation.getConstructor().newInstance();
-        this.plusService = new PlusService(this);
+        this.craftmendService = new CraftmendService(this);
         this.voiceService = invoker.getVoiceService();
 
         // run later
@@ -116,11 +116,11 @@ public class OpenAudioMc {
         configuration.saveAll();
         voiceService.shutdown();
         try {
+            this.craftmendService.shutdown();
             redisService.shutdown();
             if (stateService.getCurrentState().isConnected()) {
                 networkingService.stop();
             }
-            this.plusService.shutdown();
         } catch (NoClassDefFoundError exception) {
             OpenAudioLogger.toConsole("Bukkit already unloaded the OA+ classes, can't kill tokens.");
         }

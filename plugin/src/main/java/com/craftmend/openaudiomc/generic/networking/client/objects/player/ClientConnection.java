@@ -53,6 +53,7 @@ public class ClientConnection implements Authenticatable, Client {
     @Getter private PlayerSession session;
     @Getter private ClientRtcManager clientRtcManager;
     @Getter private String streamKey;
+
     @Setter @Getter private boolean isWaitingToken = false;
     @Setter @Getter private boolean sessionUpdated = false;
     @Getter @Setter private boolean hasHueLinked = false;
@@ -145,7 +146,6 @@ public class ClientConnection implements Authenticatable, Client {
         this.hasHueLinked = false;
         this.isConnectedToRtc = false;
         disconnectHandlers.forEach(event -> event.run());
-        OpenAudioMc.getInstance().getPlusService().getConnectionManager().removeSessionIfPresent(this);
 
         // am I a proxy thingy? then send it to my other thingy
         switch (OpenAudioMc.getInstance().getPlatform()){

@@ -4,7 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.AcceptSubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.NotificationSubCommand;
-import com.craftmend.openaudiomc.generic.commands.subcommands.PlusSubCommand;
+import com.craftmend.openaudiomc.generic.commands.subcommands.LinkSubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.ReloadSubCommand;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.platform.Platform;
@@ -24,7 +24,7 @@ public class CommandModule {
     public CommandModule(OpenAudioMc openAudioMc) {
         registerSubCommands(
                 new NotificationSubCommand(this),
-                new PlusSubCommand(),
+                new LinkSubCommand(),
                 new ReloadSubCommand()
         );
 

@@ -1,13 +1,17 @@
-package com.craftmend.openaudiomc.generic.plus.tasks;
+package com.craftmend.openaudiomc.generic.craftmend.tasks;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
-import com.craftmend.openaudiomc.generic.plus.PlusService;
-import com.craftmend.openaudiomc.generic.plus.object.PlusPlayer;
-import com.craftmend.openaudiomc.generic.plus.updates.PlayerUpdatePayload;
+import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
+import com.craftmend.openaudiomc.generic.craftmend.object.OnlinePlayer;
+import com.craftmend.openaudiomc.generic.craftmend.updates.PlayerUpdatePayload;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
+import lombok.Getter;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,15 +21,19 @@ public class PlayerStateStreamer implements Runnable {
 
     private Set<UUID> trackedPlayers = new HashSet<>();
     private OpenAudioMc main;
+    @Getter private boolean isRunning = false;
 
-    public PlayerStateStreamer(PlusService service, OpenAudioMc main) {
+    public PlayerStateStreamer(CraftmendService service, OpenAudioMc main) {
         this.main = main;
 
         // is it enabled? No? Then dont start the task
-        if (!service.isPlusEnabled()) return;
         if (main.getInvoker().isNodeServer()) return;
+        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
+        if (!config.getBoolean(StorageKey.LEGAL_ACCEPTED_TOS_AND_PRIVACY)) return;
 
         deleteAll(true);
+
+        isRunning = true;
 
         // update every 5 seconds
         int timeout = 20 * 5;
@@ -33,7 +41,8 @@ public class PlayerStateStreamer implements Runnable {
     }
 
     public void deleteAll(boolean sync) {
-        PlayerUpdatePayload playerUpdatePayload = new PlayerUpdatePayload(main.getAuthenticationService().getServerKeySet().getPrivateKey().getValue());
+        ServerKeySet set = main.getAuthenticationService().getServerKeySet();
+        PlayerUpdatePayload playerUpdatePayload = new PlayerUpdatePayload(set.getPrivateKey().getValue(), set.getPublicKey().getValue());
         if (playerUpdatePayload.getPrivateKey() == null) return;
         playerUpdatePayload.setForceClear(true);
         update(playerUpdatePayload, sync);
@@ -42,19 +51,26 @@ public class PlayerStateStreamer implements Runnable {
 
     @Override
     public void run() {
-        PlayerUpdatePayload playerUpdatePayload = new PlayerUpdatePayload(main.getAuthenticationService().getServerKeySet().getPrivateKey().getValue());
+        ServerKeySet set = main.getAuthenticationService().getServerKeySet();
+        PlayerUpdatePayload playerUpdatePayload = new PlayerUpdatePayload(set.getPrivateKey().getValue(), set.getPublicKey().getValue());
         Set<UUID> trackBackup = new HashSet<>(trackedPlayers);
         Set<UUID> currentPlayers = new HashSet<>();
+
+
         for (ClientConnection client : main.getNetworkingService().getClients()) {
             if (!trackedPlayers.contains(client.getPlayer().getUniqueId())) {
                 // not tracked yet!
-                playerUpdatePayload.getPlusPlayers().add(new PlusPlayer(client.getPlayer().getName(), client.getPlayer().getUniqueId(), client.getSession().getWebSessionKey(), client.getIsConnected()));
+                playerUpdatePayload.getJoinedPlayers().add(
+                        new OnlinePlayer(client.getPlayer().getName(), client.getPlayer().getUniqueId(), client.getSession().getWebSessionKey(), client.getIsConnected())
+                );
             }
             currentPlayers.add(client.getPlayer().getUniqueId());
 
             if (client.isSessionUpdated()) {
                 client.setSessionUpdated(false);
-                playerUpdatePayload.getStateUpdated().add(new PlusPlayer(client.getPlayer().getUniqueId(), client.getIsConnected()));
+                playerUpdatePayload.getUpdatedPlayers().add(
+                        new OnlinePlayer(client.getPlayer().getUniqueId(), client.getIsConnected())
+                );
             }
         }
 
@@ -62,22 +78,22 @@ public class PlayerStateStreamer implements Runnable {
         trackBackup.removeAll(currentPlayers);
         for (UUID uuid : trackBackup) {
             // players that should be dropped
-            playerUpdatePayload.getOfflinePlayers().add(uuid);
+            playerUpdatePayload.getDisconnectedPlayers().add(uuid);
             trackedPlayers.remove(uuid);
         }
 
         // If there's something to do then do the thing ye
-        if (!playerUpdatePayload.getStateUpdated().isEmpty() || !playerUpdatePayload.getOfflinePlayers().isEmpty() || !playerUpdatePayload.getPlusPlayers().isEmpty()) {
+        if (!playerUpdatePayload.getDisconnectedPlayers().isEmpty() || !playerUpdatePayload.getUpdatedPlayers().isEmpty() || !playerUpdatePayload.getJoinedPlayers().isEmpty()) {
             // trigger update
             update(playerUpdatePayload, false);
-            for (PlusPlayer plusPlayer : playerUpdatePayload.getPlusPlayers()) {
-                trackedPlayers.add(plusPlayer.getUuid());
+            for (OnlinePlayer onlinePlayer : playerUpdatePayload.getJoinedPlayers()) {
+                trackedPlayers.add(onlinePlayer.getUuid());
             }
         }
     }
 
     private void update(PlayerUpdatePayload playerUpdatePayload, boolean sync) {
-        RestRequest restRequest = new RestRequest(RestEndpoint.PLUS_UPDATE_PLAYERS);
+        RestRequest restRequest = new RestRequest(RestEndpoint.ACCOUNT_UPDATE_PLAYERS);
         restRequest.setBody(playerUpdatePayload);
         if (sync) {
             restRequest.executeInThread();

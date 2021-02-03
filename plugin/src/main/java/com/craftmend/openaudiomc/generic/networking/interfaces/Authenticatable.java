@@ -3,7 +3,6 @@ package com.craftmend.openaudiomc.generic.networking.interfaces;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.PlayerSession;
-import com.craftmend.openaudiomc.generic.networking.client.objects.plus.PlusSocketSession;
 import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
 import com.craftmend.openaudiomc.generic.networking.packets.PacketSocketKickClient;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -36,9 +35,7 @@ public interface Authenticatable {
 
     static Authenticatable get(UUID uuid) {
         ClientConnection clientConnection = OpenAudioMc.getInstance().getNetworkingService().getClient(uuid);
-        if (clientConnection != null) return clientConnection;
-        PlusSocketSession plusSocketSession = OpenAudioMc.getInstance().getPlusService().getConnectionManager().getBySessionId(uuid);
-        return plusSocketSession;
+        return clientConnection;
     }
 
 }
