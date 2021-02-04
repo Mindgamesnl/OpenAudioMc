@@ -5694,7 +5694,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       if ((_this33 = _possibleConstructorReturn(this, _ref3.call(this)), _this33), _this33.canStart = !1, _this33.host = null, _this33.background = null, _this33.ambianceSound = "", _this33.tokenSet = new at().fromCache(), null == _this33.tokenSet) return _ret2 = void r($.BAD_AUTH), _possibleConstructorReturn(_this33, _ret2);_this33.notificationModule = new Mt(_this33), _this33.timeService = new Y(), _this33.messages = new q(_this33), _this33.userInterfaceModule = new X(_this33), _this33.hueConfiguration = new bt(_this33), _this33.mediaManager = new pt(_this33), _this33.voiceModule = new Vt(_this33);new xt(st.MAIN_BACKEND).route(_this33).then(function (t) {
         _this33.canStart = !0, _this33.host = t.host, _this33.background = t.background, _this33.ambianceSound = t.ambianceSound, r($.WELCOME);var e = Cookies.get("volume");null != e && _this33.mediaManager.changeVolume(e);
       }).catch(function (t) {
-        console.error("Exception thrown", t.stack), _this33.userInterfaceModule.kickScreen("Your current URL appears to be invalid. Please request a new one in-game using the /audio command. If this issue if persists please contact a member of staff.");
+        console.error(t), console.error("Exception thrown", t.stack), _this33.userInterfaceModule.kickScreen("Your current URL appears to be invalid. Please request a new one in-game using the /audio command. If this issue if persists please contact a member of staff.");
       });return _possibleConstructorReturn(_this33);
     }
 
