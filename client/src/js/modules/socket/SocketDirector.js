@@ -15,7 +15,7 @@ export class SocketDirector {
             // cors workaround
             this.tokenSet = new ClientTokenSet().fromCache();
 
-            if (this.tokenSet === "ACCOUNT") {
+            if (this.tokenSet.scope === "ACCOUNT") {
                 oalog("Using account based profile system...")
                 HandleModernLogin(openAudioMc, accept, reject, this.tokenSet)
             } else {
