@@ -60,6 +60,7 @@ export class OpenAudioMc extends Getters {
                 }
             })
             .catch((error) => {
+                console.error(error);
                 console.error("Exception thrown", error.stack);
                 this.userInterfaceModule.kickScreen("Your current URL appears to be invalid. Please request a new one in-game using the /audio command. If this issue if persists please contact a member of staff.")
             });
