@@ -15,12 +15,12 @@ export class SocketDirector {
             // cors workaround
             this.tokenSet = new ClientTokenSet().fromCache();
 
-            if (this.tokenSet === "LEGACY") {
-                oalog("Using LEGACY profile system...")
-                HandleLegacyLogin(openAudioMc, accept, reject, this.tokenSet)
-            } else {
+            if (this.tokenSet === "ACCOUNT") {
                 oalog("Using account based profile system...")
                 HandleModernLogin(openAudioMc, accept, reject, this.tokenSet)
+            } else {
+                oalog("Using LEGACY profile system...")
+                HandleLegacyLogin(openAudioMc, accept, reject, this.tokenSet)
             }
         });
     }
