@@ -4961,7 +4961,31 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       var _this14 = this;
 
       return new Promise(function (e, n) {
-        _this14.tokenSet = new at().fromCache(), "LEGACY" === _this14.tokenSet ? (B("Using LEGACY profile system..."), function (t, e, n, r) {
+        _this14.tokenSet = new at().fromCache(), "ACCOUNT" === _this14.tokenSet ? (B("Using account based profile system..."), function (t, e, n, r) {
+          m("https://cloud.openaudiomc.net/api/v3/account-services/client/login/" + r.publicServerKey).then(function (r) {
+            r.json().then(function (r) {
+              if (null == r.errors || 0 != r.errors.length) return n(r.errors), void console.log(r.errors);var o = r.response;if (o.settings.banned) return void N("Declined connection due to ban " + window.location.host, "Steve", function () {
+                window.location.href = "https://help.openaudiomc.net/blocked_domain.html";
+              });var i = o.secureEndpoint;console.log("[OpenAudioMc] accepting and applying settings");var s = o.settings.ambianceSound;null != o.settings.backgroundImage && "" != o.settings.backgroundImage && (o.settings.backgroundImage = "https://media.openaudiomc.net/proxy?apiurl=" + o.settings.backgroundImage);var a = o.settings.backgroundImage;"" !== a && (document.getElementById("banner-image").src = a);var u = o.settings.title,
+                  c = o.settings.activeMessage,
+                  l = o.settings.errorMessage;var f = "";D(l).childNodes.forEach(function (t) {
+                f += t.outerHTML;
+              });var h = "";D(c).childNodes.forEach(function (t) {
+                h += t.outerHTML;
+              }), "" !== l && (t.getMessages().errorMessage = f), "" !== c && (t.getMessages().welcomeMessage = h);var d = o.settings.welcomeMessage;d = d.replace("%name", t.tokenSet.name), document.getElementById("initialize-text").innerHTML = d, document.getElementById("initialize-button").innerHTML = o.connectButtonText, document.documentElement.style.setProperty("--border-color-dark", o.settings.color);var p = function (t, e) {
+                var n = t.replace("#", "");return "rgba(" + parseInt(n.substring(0, 2), 16) + "," + parseInt(n.substring(2, 4), 16) + "," + parseInt(n.substring(4, 6), 16) + ",0.4)";
+              }(o.settings.color);if (document.documentElement.style.setProperty("--border-color-normal", o.settings.color), document.documentElement.style.setProperty("--border-color-light", p), t.getUserInterfaceModule().changeColor("#2c78f6", o.settings.color), t.getUserInterfaceModule().changeColor("#4F46E5", o.settings.color), "" != o.settings.startSound && (t.getMediaManager().startSound = o.settings.startSound), "default" !== u) {
+                document.title = u;try {
+                  parent.document.title = u;
+                } catch (t) {}
+              }B("Logging into " + o.name + " with " + o.playerCount + " online player(s)"), e({ host: i, background: a, ambianceSound: s });
+            }).catch(function (t) {
+              console.log("Dead end 1"), n(t);
+            });
+          }).catch(function (t) {
+            console.log("Dead end 2"), n(t);
+          });
+        }(t, e, n, _this14.tokenSet)) : (B("Using LEGACY profile system..."), function (t, e, n, r) {
           m("https://cloud.openaudiomc.net/api/v2/account-services/client/login/" + r.publicServerKey).then(function (r) {
             r.json().then(function (r) {
               if (null == r.errors || 0 != r.errors.length) return n(r.errors), void console.log(r.errors);var o = r.response;if (o.banned) return void N("Declined connection due to ban " + window.location.host, "Steve", function () {
@@ -4980,30 +5004,6 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
                   parent.document.title = u;
                 } catch (t) {}
               }e({ host: i, background: a, ambianceSound: s });
-            }).catch(function (t) {
-              console.log("Dead end 1"), n(t);
-            });
-          }).catch(function (t) {
-            console.log("Dead end 2"), n(t);
-          });
-        }(t, e, n, _this14.tokenSet)) : (B("Using account based profile system..."), function (t, e, n, r) {
-          m("https://cloud.openaudiomc.net/api/v3/account-services/client/login/" + r.publicServerKey).then(function (r) {
-            r.json().then(function (r) {
-              if (null == r.errors || 0 != r.errors.length) return n(r.errors), void console.log(r.errors);var o = r.response;if (o.settings.banned) return void N("Declined connection due to ban " + window.location.host, "Steve", function () {
-                window.location.href = "https://help.openaudiomc.net/blocked_domain.html";
-              });var i = o.secureEndpoint;console.log("[OpenAudioMc] accepting and applying settings");var s = o.settings.ambianceSound;null != o.settings.backgroundImage && "" != o.settings.backgroundImage && (o.settings.backgroundImage = "https://media.openaudiomc.net/proxy?apiurl=" + o.settings.backgroundImage);var a = o.settings.backgroundImage;"" !== a && (document.getElementById("banner-image").src = a);var u = o.settings.title,
-                  c = o.settings.activeMessage,
-                  l = o.settings.errorMessage;var f = "";D(l).childNodes.forEach(function (t) {
-                f += t.outerHTML;
-              });var h = "";D(c).childNodes.forEach(function (t) {
-                h += t.outerHTML;
-              }), "" !== l && (t.getMessages().errorMessage = f), "" !== c && (t.getMessages().welcomeMessage = h);var d = o.settings.welcomeMessage;d = d.replace("%name", t.tokenSet.name), document.getElementById("initialize-text").innerHTML = d, document.getElementById("initialize-button").innerHTML = o.connectButtonText, document.documentElement.style.setProperty("--border-color-dark", o.settings.color);var p = function (t, e) {
-                var n = t.replace("#", "");return "rgba(" + parseInt(n.substring(0, 2), 16) + "," + parseInt(n.substring(2, 4), 16) + "," + parseInt(n.substring(4, 6), 16) + ",0.4)";
-              }(o.settings.color);if (document.documentElement.style.setProperty("--border-color-normal", o.settings.color), document.documentElement.style.setProperty("--border-color-light", p), t.getUserInterfaceModule().changeColor("#2c78f6", o.settings.color), t.getUserInterfaceModule().changeColor("#4F46E5", o.settings.color), "" != o.settings.startSound && (t.getMediaManager().startSound = o.settings.startSound), "default" !== u) {
-                document.title = u;try {
-                  parent.document.title = u;
-                } catch (t) {}
-              }B("Logging into " + o.name + " with " + o.playerCount + " online player(s)"), e({ host: i, background: a, ambianceSound: s });
             }).catch(function (t) {
               console.log("Dead end 1"), n(t);
             });
