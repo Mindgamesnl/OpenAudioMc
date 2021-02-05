@@ -49,11 +49,6 @@ messages:
 
 
 options:
-  # Possible values:
-  #   OP_ONLY = Only players who have explicit OP
-  #   STAFF = Everyone who either has openaudiomc.command.plus permissions or OP
-  #   CONSOLE_ONLY = Only the console may receive the link
-  plus-access-level: STAFF
   # If set to true, the player automatically receives a link upon joining
   send-on-join: true
   # If set to true, the player gets reminded to connect (see messages.suggest-connection)

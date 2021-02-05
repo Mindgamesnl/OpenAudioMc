@@ -12,7 +12,6 @@ public class DefaultVoiceServiceImpl implements VoiceService {
     private String password;
     private boolean enabled = false;
 
-
     public DefaultVoiceServiceImpl() {
         this.host = StorageKey.AUTH_VOICE_SERVER.getString();
         this.password = StorageKey.AUTH_VOICE_PASSWORD.getString();
