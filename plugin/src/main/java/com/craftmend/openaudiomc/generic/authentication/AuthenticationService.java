@@ -17,6 +17,7 @@ import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import lombok.Getter;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Getter
 public class AuthenticationService {
@@ -65,6 +66,16 @@ public class AuthenticationService {
         // create token if new
         if (config.getString(StorageKey.AUTH_PRIVATE_KEY).equals("not-set") || getAuthVersion() != currentKeyVersion) {
             OpenAudioLogger.toConsole("Creating account...");
+
+            // am I a top level server? skip setup if that's the case
+            if (OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
+                OpenAudioLogger.toConsole("Skipping account setup since this isn't a master server, moving on with fake api keys.");
+                serverKeySet.setPrivateKey(new Key(UUID.randomUUID().toString()));
+                serverKeySet.setPublicKey(new Key(UUID.randomUUID().toString()));
+                isSuccessful = true;
+                return;
+            }
+
             //setup process
             ApiResponse response = registrationProvider.executeInThread();
             if (response.getErrors().isEmpty()) {

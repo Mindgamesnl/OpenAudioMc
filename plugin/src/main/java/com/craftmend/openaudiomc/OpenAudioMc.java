@@ -62,7 +62,7 @@ public class OpenAudioMc {
      * - Update Service          []   (Checks the master branch every once in a while to compare versions)
      * - Voice Service           []   (Service handling OpenAudioMc's voice chat routing and servers)
      */
-    private final AuthenticationService authenticationService = new AuthenticationService();
+    private final AuthenticationService authenticationService;
     private final StateService stateService = new StateService();
     private final TimeService timeService = new TimeService();
     private final MediaModule mediaModule = new MediaModule();
@@ -73,7 +73,6 @@ public class OpenAudioMc {
     private final TaskProvider taskProvider;
     private final RedisService redisService;
     private final CraftmendService craftmendService;
-    private final VoiceService voiceService;
     private final Platform platform;
     private final OpenAudioInvoker invoker;
     private final boolean cleanStartup;
@@ -92,6 +91,7 @@ public class OpenAudioMc {
         instance = this;
         this.invoker = invoker;
         this.platform = invoker.getPlatform();
+        this.authenticationService = new AuthenticationService();
         this.taskProvider = invoker.getTaskProvider();
         this.serviceImplementation = invoker.getServiceClass();
         this.cleanStartup = !this.invoker.hasPlayersOnline();
@@ -104,8 +104,7 @@ public class OpenAudioMc {
         this.commandModule = new CommandModule(this);
         this.redisService = new RedisService(this.configuration);
         this.networkingService = serviceImplementation.getConstructor().newInstance();
-        this.craftmendService = new CraftmendService(this);
-        this.voiceService = invoker.getVoiceService();
+        this.craftmendService = new CraftmendService(this, invoker.getVoiceService());
 
         // run later
         taskProvider.schduleSyncDelayedTask(authenticationService::prepareId, 20 * 2);
@@ -114,7 +113,6 @@ public class OpenAudioMc {
     public void disable() {
         isDisabled = true;
         configuration.saveAll();
-        voiceService.shutdown();
         try {
             this.craftmendService.shutdown();
             redisService.shutdown();
