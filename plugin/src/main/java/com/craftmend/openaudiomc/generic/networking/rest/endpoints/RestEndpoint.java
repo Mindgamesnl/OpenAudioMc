@@ -17,10 +17,12 @@ public enum RestEndpoint {
     ACCOUNT_CLAIM_SERVER("https://account.craftmend.com/api/v1/public/openaudiomc/claim/_public_key_/_private_key_", true),
     ACCOUNT_UPDATE_PLAYERS("https://account.craftmend.com/api/v1/public/openaudiomc/online-players", false),
     GET_ACCOUNT_STATE("https://account.craftmend.com/api/v1/public/openaudiomc/profile/_public_key_", true),
-    ACCOUNT_HANDLE_LOGOUT("https://account.craftmend.com/api/v1/public/openaudiomc/logout/_private_key_", true),
 
     // login requests a relay and registers it
-    PLUS_LOGIN("https://cloud.openaudiomc.net/api/v2/plugin/login/_private_key_", true),
+    START_SESSION("https://cloud.openaudiomc.net/api/v2/plugin/login/_private_key_", true),
+    END_SESSION("https://account.craftmend.com/api/v1/public/openaudiomc/logout/_private_key_", true),
+    START_VOICE_SESSION("https://account.craftmend.com/api/v1/closed/openaudiomc/voice/start-session/_private_key_/_public_key_", true),
+    END_VOICE_SESSION("https://account.craftmend.com/api/v1/closed/openaudiomc/voice/end-session/_private_key_/_public_key_", true),
 
     // plus
     PLUS_REGISTER("https://plus.openaudiomc.net/api/v1/servers/register", false),

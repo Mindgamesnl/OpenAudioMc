@@ -19,6 +19,7 @@ public enum ErrorCode {
 
     // VOICE
     BAD_HANDSHAKE,      // I don't know what you are. I don't know who you are. But I want you gone.
+    NO_RTC,             // Failed to allocate one or more RTC sessions
 
     // INTERNAL
     SYS_IDLE,           // this action cannot be fulfilled when openaudiomc is in its idle state
