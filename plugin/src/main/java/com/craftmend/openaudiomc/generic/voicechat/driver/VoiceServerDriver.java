@@ -99,6 +99,9 @@ public class VoiceServerDriver {
     }
 
     public void shutdown() {
+        // end main session
+        new RestRequest(RestEndpoint.END_VOICE_SESSION).executeInThread();
+
         // logout
         pushEvent(VoiceServerEventType.LOGOUT, new HashMap<>(), true, false, false);
         NetworkingService networkingService = OpenAudioMc.getInstance().getNetworkingService();

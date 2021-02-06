@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
+import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.craftmend.response.EmailResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
@@ -27,7 +28,7 @@ public class LinkSubCommand extends SubCommand {
             // do
             OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
 
-                if (OpenAudioMc.getInstance().getCraftmendService().isClaimed()) {
+                if (OpenAudioMc.getInstance().getCraftmendService().is(CraftmendTag.CLAIMED)) {
                     message(sender, Platform.makeColor("RED") + "WARNING! This server is already claimed by another account, this means that it'll be transferred and that the old account will lose access.");
                 }
 
