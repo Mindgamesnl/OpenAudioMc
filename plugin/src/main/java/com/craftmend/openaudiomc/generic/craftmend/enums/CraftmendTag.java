@@ -4,6 +4,7 @@ public enum CraftmendTag {
 
     VOICECHAT,
     CLAIMED,
+    ACCOUNT_ADDON,
     BANNED
 
 }
