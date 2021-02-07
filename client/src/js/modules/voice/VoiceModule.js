@@ -52,6 +52,12 @@ export class VoiceModule {
         }
     }
 
+    removeAllPeers() {
+        for (let [key, value] of this.peerMap) {
+            this.removePeer(key);
+        }
+    }
+
     removePeer(key) {
         if (this.peerMap.has(key)) {
             oalog("Removing peer " + key)
