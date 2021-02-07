@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.generic.voicechat;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.voicechat.driver.VoiceServerDriver;
@@ -11,11 +12,13 @@ public class DefaultVoiceServiceImpl implements VoiceService {
     private String host;
     private String password;
     private boolean enabled = false;
+    private int slots;
 
     @Override
-    public void connect(String host, String password) {
+    public void connect(String host, String password, int slots) {
         this.host = host;
         this.password = password;
+        this.slots = slots;
         driver = new VoiceServerDriver(host, password, this);
         driver.setBlockRadius(StorageKey.SETTINGS_VC_RADIUS.getInt());
     }
@@ -26,7 +29,7 @@ public class DefaultVoiceServiceImpl implements VoiceService {
         if (driver != null) {
             driver.shutdown();
         }
-        this.connect(this.host, this.password);
+        this.connect(this.host, this.password, this.slots);
     }
 
     @Override
@@ -39,5 +42,18 @@ public class DefaultVoiceServiceImpl implements VoiceService {
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    @Override
+    public int getAllowedSlots() {
+        return this.slots;
+    }
+
+    @Override
+    public int getUsedSlots() {
+        return (int) OpenAudioMc.getInstance().getNetworkingService().getClients()
+                .stream()
+                .filter(client -> client.getClientRtcManager().isReady())
+                .count();
     }
 }

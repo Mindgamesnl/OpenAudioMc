@@ -5,8 +5,6 @@ import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
-import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
-import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientUnlockVoiceChat;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceChatUnlockPayload;
@@ -51,11 +49,11 @@ public class VoiceServerDriver {
         // verify login with a heartbeat
         pushEvent(VoiceServerEventType.HEARTBEAT, new HashMap<>(), true, false, true);
 
-        // schedule heartbeat every 5 seconds
+        // schedule heartbeat every 10 seconds
         heartbeatTask = taskProvider.scheduleAsyncRepeatingTask(() -> {
             // send heartbeat
             pushEvent(VoiceServerEventType.HEARTBEAT, new HashMap<>(), true, true, false);
-        }, 1000, 1000);
+        }, 200, 200);
 
         // might be a restart, so clean all
         OpenAudioMc.getInstance().getNetworkingService().getClients().forEach(this::handleClientConnection);
@@ -89,6 +87,13 @@ public class VoiceServerDriver {
         }}, false, true, true);
 
         clientConnection.onConnect(() -> {
+
+            // is it allowed?
+            if (this.service.getUsedSlots() >= this.service.getAllowedSlots()) {
+                clientConnection.getPlayer().sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + "VoiceChat couldn't be enabled since this server occupied all its slots, please notify a staff member and try again later.");
+                return;
+            }
+
             // unlock capabilities
             clientConnection.sendPacket(new PacketClientUnlockVoiceChat(new ClientVoiceChatUnlockPayload(
                     clientConnection.getStreamKey(),
