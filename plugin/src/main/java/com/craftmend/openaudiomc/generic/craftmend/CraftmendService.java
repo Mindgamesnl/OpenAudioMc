@@ -21,7 +21,8 @@ import java.util.Set;
 public class CraftmendService {
 
     private PlayerStateStreamer playerStateStreamer;
-    @Getter private String baseUrl;private final OpenAudioMc openAudioMc;
+    @Getter private String baseUrl;
+    private final OpenAudioMc openAudioMc;
     @Getter private CraftmendAccountResponse accountResponse = new CraftmendAccountResponse();
     @Getter private VoiceService voiceService;
     @Getter private Set<CraftmendTag> tags = new HashSet<>();
@@ -112,7 +113,8 @@ public class CraftmendService {
                     }
 
                     VoiceSessionRequestResponse voiceResponse = response.getResponse(VoiceSessionRequestResponse.class);
-                    this.voiceService.connect(voiceResponse.getServer(), voiceResponse.getPassword());
+                    int highestPossibleLimit = accountResponse.getAddon(AddonCategory.VOICE).getLimit();
+                    this.voiceService.connect(voiceResponse.getServer(), voiceResponse.getPassword(), highestPossibleLimit);
                     addTag(CraftmendTag.VOICECHAT);
                 });
     }
