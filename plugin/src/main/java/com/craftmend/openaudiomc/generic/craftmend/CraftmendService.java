@@ -77,7 +77,7 @@ public class CraftmendService {
         return tags.contains(tag);
     }
 
-    private void addTag(CraftmendTag tag) {
+    public void addTag(CraftmendTag tag) {
         tags.add(tag);
         for (TagUpdateListener tagUpdateSubscriber : tagUpdateSubscribers) {
             tagUpdateSubscriber.onAdd(tag);

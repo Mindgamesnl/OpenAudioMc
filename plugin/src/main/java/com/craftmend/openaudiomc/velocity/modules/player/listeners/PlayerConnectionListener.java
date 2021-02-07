@@ -3,9 +3,12 @@ package com.craftmend.openaudiomc.velocity.modules.player.listeners;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
+import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;
+import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
 import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientSyncHueStatePacket;
+import com.craftmend.openaudiomc.generic.node.packets.ClientUpdateRtcStatePacket;
 import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
@@ -39,6 +42,19 @@ public class PlayerConnectionListener {
 
             if (connection.isHasHueLinked()) {
                 sendPacket(player, new ClientSyncHueStatePacket(player.getUniqueId()));
+            }
+
+            if (connection.isConnectedToRtc()) {
+                // drop all peers
+                connection.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(null)));
+
+                sendPacket(player,
+                        new ClientUpdateRtcStatePacket(
+                                player.getUniqueId(),
+                                connection.isConnectedToRtc(),
+                                connection.getClientRtcManager().isMicrophoneEnabled()
+                        )
+                );
             }
 
             if (connection.isConnected()) {
