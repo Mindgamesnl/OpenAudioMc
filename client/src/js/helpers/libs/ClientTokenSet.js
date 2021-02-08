@@ -71,7 +71,7 @@ export default class ClientTokenSet {
 
                             if (ses.hasOwnProperty("serverIdentity") != null) {
                                 Log("Loading identity")
-                                HandleServerIdentity(ses.serverIdentity, ses.playerName).then(r => console.log).catch(e => console.log)
+                                // HandleServerIdentity(ses.serverIdentity, ses.playerName).then(r => console.log).catch(e => console.log)
                             } else {
                                 Log("No identity to fetch")
                                 document.getElementById('top-head').src = 'https://minotar.net/helm/' + ses.playerName
