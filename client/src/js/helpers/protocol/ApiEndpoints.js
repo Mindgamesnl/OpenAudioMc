@@ -7,7 +7,6 @@ export const API_ENDPOINT = {
 
     // backend stuff
     ERROR_REPORTING: "https://plus.openaudiomc.net/cf-log/production",
-    SERVER_STATUS: "https://client.openaudiomc.net/status?referee=",
     MAIN_BACKEND: "https://plus.openaudiomc.net/",
     CLIENT_SESSION_SERVER: "https://plus.openaudiomc.net/session"
 }
