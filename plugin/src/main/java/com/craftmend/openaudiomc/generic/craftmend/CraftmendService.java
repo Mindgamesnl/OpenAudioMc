@@ -9,6 +9,7 @@ import com.craftmend.openaudiomc.generic.craftmend.response.VoiceSessionRequestR
 import com.craftmend.openaudiomc.generic.craftmend.tasks.PlayerStateStreamer;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
 import lombok.Getter;
@@ -33,6 +34,12 @@ public class CraftmendService {
         this.voiceService = voiceService;
         syncAccount();
         startSyncronizer();
+
+        voiceService.onShutdown(() -> {
+            // restart in 10 seconds
+            openAudioMc.getTaskProvider().schduleSyncDelayedTask(this::startVoiceHandshake, 20 * 20);
+            OpenAudioLogger.toConsole("Voicechat had to shut down. Restarting in 20 seconds.");
+        });
     }
 
     public void startSyncronizer() {
@@ -100,7 +107,7 @@ public class CraftmendService {
         }
     }
 
-    private void startVoiceHandshake() {
+    void startVoiceHandshake() {
         OpenAudioLogger.toConsole("VoiceChat seems to be enabled for this account! Requesting RTC and Password...");
         // do magic, somehow fail, or login to the voice server
         RestRequest request = new RestRequest(RestEndpoint.START_VOICE_SESSION);
@@ -108,6 +115,25 @@ public class CraftmendService {
         request.executeAsync()
                 .thenAccept(response -> {
                     if (response.getErrors().size() != 0) {
+                        ErrorCode errorCode = response.getErrors().get(0).getCode();
+
+                        if (errorCode == ErrorCode.NO_RTC) {
+                            OpenAudioLogger.toConsole("Failed to initialize voice chat. There aren't any servers that can handle your request. Trying again in 20 seconds.");
+                            openAudioMc.getTaskProvider().schduleSyncDelayedTask(this::startVoiceHandshake, 20 * 20);
+                            return;
+                        }
+
+                        if (errorCode == ErrorCode.NO_PERMISSIONS) {
+                            OpenAudioLogger.toConsole("Your account doesn't actually have permissions for voicechat, shutting down.");
+                            removeTag(CraftmendTag.VOICECHAT);
+                            return;
+                        }
+
+                        if (errorCode == ErrorCode.ALREADY_ACTIVE) {
+                            OpenAudioLogger.toConsole("This server still has a session running with voice chat, terminating and trying again in 20 seconds.");
+                            openAudioMc.getTaskProvider().schduleSyncDelayedTask(this::startVoiceHandshake, 20 * 20);
+                            return;
+                        }
                         OpenAudioLogger.toConsole("Failed to initialize voice chat. Error: " + response.getErrors().get(0).getMessage());
                         return;
                     }

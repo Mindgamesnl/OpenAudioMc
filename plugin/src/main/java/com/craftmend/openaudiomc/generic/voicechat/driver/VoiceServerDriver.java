@@ -69,7 +69,7 @@ public class VoiceServerDriver {
                 // client will be removed
                 pushEvent(VoiceServerEventType.REMOVE_PLAYER, new HashMap<String, String>() {{
                     put("streamKey", clientConnection.getStreamKey());
-                }}, false, false, false);
+                }}, false, true, false);
             })));
         } else {
             throw new IllegalStateException("Not implemented yet");
@@ -113,13 +113,17 @@ public class VoiceServerDriver {
         for (UUID subscriber : subscribers) {
             networkingService.unsubscribeClientEventHandler(subscriber);
         }
+
         // kick all clients who had rtc open
         for (ClientConnection client : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
             if (client.getClientRtcManager().isReady()) {
                 client.kick();
             }
         }
+
         taskProvider.cancelRepeatingTask(heartbeatTask);
+
+        this.service.fireShutdownEvents();
     }
 
     private boolean login() {
@@ -133,18 +137,14 @@ public class VoiceServerDriver {
 
         ApiResponse response = loginRequest.executeInThread();
         if (!response.getErrors().isEmpty()) {
-            if (response.getErrors().get(0).getCode() == ErrorCode.INVALID_LOGIN) {
-                throw new IllegalArgumentException("The voice server is either invalid or denies your login");
-            } else {
-                OpenAudioLogger.toConsole("Failed to login with the voice server because the handshake failed. Trying again in two seconds..");
-                taskProvider.schduleSyncDelayedTask(() -> taskProvider.runAsync(() -> this.service.requestRestart()), 20 * 2);
-                return false;
-            }
+            shutdown();
+            OpenAudioLogger.toConsole("Failed to login to RTC, error: " + response.getErrors().get(0).getCode());
+            return false;
         }
         return true;
     }
 
-    private void pushEvent(VoiceServerEventType event, Map<String, String> arguments, boolean now, boolean failSafe, boolean canExplode) {
+    private void pushEvent(VoiceServerEventType event, Map<String, String> arguments, boolean now, boolean stopService, boolean canExplode) {
         RestRequest eventRequest = new RestRequest(RestEndpoint.VOICE_EVENTS.setHost(this.host));
 
         // add query shit
@@ -163,11 +163,10 @@ public class VoiceServerDriver {
             ApiResponse response = eventRequest.executeInThread();
             if (!response.getErrors().isEmpty()) {
                 if (response.getErrors().get(0).getCode() == ErrorCode.BAD_HANDSHAKE) {
-                    OpenAudioLogger.toConsole("There was an error while trying to talk with the event stream. Restarting the voice service...");
-                    if (failSafe) {
+                    if (stopService) {
+                        OpenAudioLogger.toConsole("There was an error while trying to talk with the event stream. Restarting the voice service...");
                         taskProvider.cancelRepeatingTask(heartbeatTask);
-                        this.service.requestRestart();
-                        return;
+                        shutdown();
                     }
                 }
                 if (canExplode) throw new IllegalArgumentException("The voice server is either invalid or denies your event");
@@ -176,11 +175,10 @@ public class VoiceServerDriver {
             eventRequest.executeAsync().thenAccept(response -> {
                 if (!response.getErrors().isEmpty()) {
                     if (response.getErrors().get(0).getCode() == ErrorCode.BAD_HANDSHAKE) {
-                        OpenAudioLogger.toConsole("There was an error while trying to talk with the event stream. Restarting the voice service...");
-                        if (failSafe) {
+                        if (stopService) {
+                            OpenAudioLogger.toConsole("There was an error while trying to talk with the event stream. Restarting the voice service...");
                             taskProvider.cancelRepeatingTask(heartbeatTask);
-                            this.service.requestRestart();
-                            return;
+                            shutdown();
                         }
                     }
                     if (canExplode) throw new IllegalArgumentException("The voice server is either invalid or denies your event");

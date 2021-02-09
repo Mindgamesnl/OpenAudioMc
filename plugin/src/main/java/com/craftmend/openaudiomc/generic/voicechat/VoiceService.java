@@ -19,4 +19,7 @@ public interface VoiceService {
 
     int getUsedSlots();
 
+    void fireShutdownEvents();
+
+    void onShutdown(Runnable runnable);
 }
