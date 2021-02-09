@@ -242,6 +242,11 @@ export class VoiceModule {
 
         wm.errorCallback = function (a) {
             console.error(a)
+            if (a.name === "OverconstrainedError" || a instanceof OverconstrainedError) {
+                oalog("Couldn't get microphone, ignoring and trying again")
+                this.consent(null);
+                return
+            }
             this.openAudioMc.voiceModule.permissionError(a)
         }.bind(this);
 

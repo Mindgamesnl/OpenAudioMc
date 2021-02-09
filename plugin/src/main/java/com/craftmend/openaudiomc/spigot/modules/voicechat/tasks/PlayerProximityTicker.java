@@ -33,6 +33,7 @@ public class PlayerProximityTicker implements Runnable {
                     .stream()
                     .filter(p -> !p.getName().equals(client.getOwnerName()))
                     .filter(onlinePlayer -> !onlinePlayer.isDead())
+                    .filter(possiblePeer -> !player.isDead())
                     .filter(onlinePlayer -> onlinePlayer.getWorld().getName().equals(player.getWorld().getName()))
                     .filter(onlinePlayer -> onlinePlayer.getLocation().distance(player.getLocation()) < maxDistance)
                     .map(onlinePlayer -> OpenAudioMc.getInstance().getNetworkingService().getClient(onlinePlayer.getUniqueId()))
