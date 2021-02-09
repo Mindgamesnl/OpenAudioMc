@@ -5,9 +5,13 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.voicechat.driver.VoiceServerDriver;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DefaultVoiceServiceImpl implements VoiceService {
 
     private VoiceServerDriver driver;
+    private List<Runnable> onShutdown = new ArrayList<>();
 
     private String host;
     private String password;
@@ -55,5 +59,17 @@ public class DefaultVoiceServiceImpl implements VoiceService {
                 .stream()
                 .filter(client -> client.getClientRtcManager().isReady())
                 .count();
+    }
+
+    @Override
+    public void fireShutdownEvents() {
+        for (Runnable runnable : this.onShutdown) {
+            runnable.run();
+        }
+    }
+
+    @Override
+    public void onShutdown(Runnable runnable) {
+        this.onShutdown.add(runnable);
     }
 }

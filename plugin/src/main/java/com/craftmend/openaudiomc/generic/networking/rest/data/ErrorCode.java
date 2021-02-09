@@ -24,4 +24,7 @@ public enum ErrorCode {
     // INTERNAL
     SYS_IDLE,           // this action cannot be fulfilled when openaudiomc is in its idle state
 
+    NO_PERMISSIONS,     // you can't do this because of permissions
+    ALREADY_ACTIVE,     // invalid account state
+
 }
