@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.commands.subcommands.HelpSubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.ReloadSubCommand;
+import com.craftmend.openaudiomc.spigot.modules.commands.command.MicMuteCommand;
 import com.craftmend.openaudiomc.spigot.modules.commands.middleware.CommandTranslationMiddleware;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.*;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -18,6 +19,7 @@ public class SpigotCommandModule {
         openAudioMcSpigot.getCommand("openaudiomc").setExecutor(spigotMainCommand);
         openAudioMcSpigot.getCommand("openaudiomc").setTabCompleter(spigotMainCommand);
         openAudioMcSpigot.getCommand("volume").setExecutor(new VolumeCommand());
+        openAudioMcSpigot.getCommand("mutemic").setExecutor(new MicMuteCommand());
 
         CommandModule commandModule = OpenAudioMc.getInstance().getCommandModule();
 

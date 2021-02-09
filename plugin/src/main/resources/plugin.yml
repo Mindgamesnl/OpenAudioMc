@@ -13,3 +13,5 @@ commands:
     aliases: [setvolume, vol]
   openaudiomc:
     aliases: [oam, oa, openaudio]
+  mutemic:
+    aliases: [mm, micmute]
