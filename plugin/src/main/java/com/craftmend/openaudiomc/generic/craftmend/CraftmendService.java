@@ -118,6 +118,7 @@ public class CraftmendService {
                         ErrorCode errorCode = response.getErrors().get(0).getCode();
 
                         if (errorCode == ErrorCode.NO_RTC) {
+                            new RestRequest(RestEndpoint.END_VOICE_SESSION).executeInThread();
                             OpenAudioLogger.toConsole("Failed to initialize voice chat. There aren't any servers that can handle your request. Trying again in 20 seconds.");
                             openAudioMc.getTaskProvider().schduleSyncDelayedTask(this::startVoiceHandshake, 20 * 20);
                             return;
@@ -130,6 +131,7 @@ public class CraftmendService {
                         }
 
                         if (errorCode == ErrorCode.ALREADY_ACTIVE) {
+                            new RestRequest(RestEndpoint.END_VOICE_SESSION).executeInThread();
                             OpenAudioLogger.toConsole("This server still has a session running with voice chat, terminating and trying again in 20 seconds.");
                             openAudioMc.getTaskProvider().schduleSyncDelayedTask(this::startVoiceHandshake, 20 * 20);
                             return;
