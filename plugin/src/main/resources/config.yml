@@ -34,6 +34,8 @@ messages:
   client-volume-invalid: '&4You must enter a number between 0 and 100'
   # The message a client gets as warning that they aren't even connected
   client-not-connected: '&4You need to be connected to the web client to be able to do that'
+  # The message a client gets when they need to be connected to voice chat to do something
+  voice-not-connected: '&4An active Voice connection is required to execute this command'
 
 
   # Message a player receives when opting into voicechat

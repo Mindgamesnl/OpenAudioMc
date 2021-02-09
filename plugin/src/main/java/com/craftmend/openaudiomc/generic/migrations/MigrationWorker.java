@@ -23,6 +23,7 @@ public class MigrationWorker {
             new RemoveOldCallDataMigration(),       // remove old messages from the old voice system
             new AddNewVoicechatMessagesMigration(), // adds new chat messages for the voice chat system
             new AddVcAnnouncementMigration(),       // adds the config option to toggle chat announcements
+            new VoiceConnectedMessageMigration(),   // adds required messages for mic mute commands
     };
 
     public void handleMigrations() {

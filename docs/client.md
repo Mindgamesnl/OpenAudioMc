@@ -7,14 +7,15 @@ OpenAudioMc gives you the option to host your own client, however, there are som
 # Setup
 1. Clone the OpenAudioMc [repository](https://github.com/Mindgamesnl/OpenAudioMc) (or download it as a zip file) 
 2. Upload the pre-compiled client (in `docs/production-client/target/`) to your webserver.
-3. Open [OpenAudioMc+](OpenAudioMc+.md), go to the settings page and change the client url to where you uploaded yours, then save.
+3. Login to your [Account](account.md), go to your servers settings page and change the client url to where you uploaded yours, then save.
 4. Execute `/oa reload`
 5. Generate a new URL by re-joining the server.
 
 # Compiling your own JS bundle
 Requirements:
- - A system running MacOS (mojave or newer)
+ - Linux or MacOS
  - NodeJS & NPM
+ - Some prior experience maintaining web applications
  
  To compile
  1. Clone the OpenAudioMc [repository](https://github.com/Mindgamesnl/OpenAudioMc) (or download it as a zip file)
