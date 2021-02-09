@@ -217,6 +217,7 @@ export class VoiceModule {
                         // sampleRate: 64000,
                         echoCancellation: false,
                         autoGainControl: false,
+                        channelCount: 1,
                     }
             }
         } else {
@@ -227,6 +228,7 @@ export class VoiceModule {
                         // sampleRate: 64000,
                         echoCancellation: false,
                         autoGainControl: false,
+                        channelCount: 1,
                     }
             }
         }
