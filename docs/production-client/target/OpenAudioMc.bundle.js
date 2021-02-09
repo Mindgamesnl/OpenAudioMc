@@ -5631,7 +5631,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
           n = new Rt();n.successCallback = function (t) {
         this.openAudioMc.voiceModule.handleAudioPermissions(t);
       }.bind(this), n.errorCallback = function (t) {
-        console.error(t), this.openAudioMc.voiceModule.permissionError(t);
+        return console.error(t), "OverconstrainedError" === t.name || t instanceof OverconstrainedError ? (B("Couldn't get microphone, ignoring and trying again"), void this.consent(null)) : void this.openAudioMc.voiceModule.permissionError(t);
       }.bind(this), n.getUserMedia(e);
     };
 
