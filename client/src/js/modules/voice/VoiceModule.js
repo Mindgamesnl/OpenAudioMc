@@ -214,7 +214,7 @@ export class VoiceModule {
                     {
                         deviceId: {exact: preferedDeviceId},
                         noiseSuppression: false,
-                        sampleRate: 64000,
+                        // sampleRate: 64000,
                         echoCancellation: false,
                         autoGainControl: false,
                     }
@@ -224,7 +224,7 @@ export class VoiceModule {
                 audio:
                     {
                         noiseSuppression: false,
-                        sampleRate: 64000,
+                        // sampleRate: 64000,
                         echoCancellation: false,
                         autoGainControl: false,
                     }
