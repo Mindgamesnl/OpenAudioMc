@@ -5627,7 +5627,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     };
 
     Vt.prototype.consent = function consent(t) {
-      var e = t ? { audio: { deviceId: { exact: t }, noiseSuppression: !1, sampleRate: 64e3, echoCancellation: !1, autoGainControl: !1 } } : { audio: { noiseSuppression: !1, sampleRate: 64e3, echoCancellation: !1, autoGainControl: !1 } },
+      var e = t ? { audio: { deviceId: { exact: t }, noiseSuppression: !1, echoCancellation: !1, autoGainControl: !1 } } : { audio: { noiseSuppression: !1, echoCancellation: !1, autoGainControl: !1 } },
           n = new Rt();n.successCallback = function (t) {
         this.openAudioMc.voiceModule.handleAudioPermissions(t);
       }.bind(this), n.errorCallback = function (t) {
