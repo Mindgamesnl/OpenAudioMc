@@ -6,7 +6,19 @@ This feature is reserved for partners who specifically request it at the moment.
 
 You can apply/learn more about partnerships here [https://help.openaudiomc.net/partners.html](https://help.openaudiomc.net/partners.html)
 
-# Getting started with Proximity
+### Initial setup
+(proximity) Voice Chat is installed as an addon on your [craftmend account](account.md) 
+
+### How-to
+#### Commands
+Players can use
+ - /mutemic
+ - /micmute
+ - /mm
+
+to toggle their microphone mute from in-game.
+
+#### Connecting
 Players will be asked to enable voice chat when opening the client if voicechat is supported on the current server. They'll get a short instructional message explaining what voicechat is (explaining the configured radius, and that they can always opt-out again if they want to)
 <br /><img src="https://i.imgur.com/izW2GLE.png" height="150px" />
 

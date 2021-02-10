@@ -28,6 +28,7 @@ public class SpeakerMenu extends Menu {
         setItem(3, new Item(SpeakerUtils.getSkull())
                 .setName(ChatColor.YELLOW + "Playing: " + ChatColor.AQUA + speaker.getMedia().getSource())
                 .setLore(new String[]{})
+                .onClick((p,i) -> {})
         );
 
         // toggle mode
@@ -47,6 +48,7 @@ public class SpeakerMenu extends Menu {
         setItem(18, new Item(Material.LEVER)
                 .setName(ChatColor.AQUA + "Extra settings")
                 .setLore(new String[]{})
+                .onClick((p,i) -> {})
         );
 
         // render additional buttons
