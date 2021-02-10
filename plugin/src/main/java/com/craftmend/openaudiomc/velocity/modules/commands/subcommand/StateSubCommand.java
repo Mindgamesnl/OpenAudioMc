@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
+import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 
 import java.time.Duration;
@@ -26,6 +27,13 @@ public class StateSubCommand extends SubCommand {
         for (ClientConnection clientConnection : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
             if (clientConnection.isConnected()) clients++;
         }
+
+        String tags = "";
+        for (CraftmendTag tag : OpenAudioMc.getInstance().getCraftmendService().getTags()) {
+            tags += " " + tag.name() + ",";
+        }
+
+        message(sender, getColor("YELLOW") + "Connected Clients: " + getColor("AQUA") + "" + clients);
 
         message(sender, getColor("YELLOW") + "Connected Clients: " + getColor("AQUA") + "" + clients);
         message(sender, getColor("YELLOW") + "OpenAudioMc Provider: " + getColor("AQUA") + "" + OpenAudioMc.getInstance().getPlatform());
