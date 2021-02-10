@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
+import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
@@ -36,6 +37,14 @@ public class StateSubCommand extends SubCommand {
         } else {
             message(sender, ChatColor.YELLOW + "Loaded Audio Regions: " + ChatColor.AQUA + "" + OpenAudioMcSpigot.getInstance().getRegionModule().getRegionPropertiesMap().size());
         }
+
+        String tags = "";
+        for (CraftmendTag tag : OpenAudioMc.getInstance().getCraftmendService().getTags()) {
+            tags += " " + tag.name() + ",";
+        }
+
+        message(sender, getColor("YELLOW") + "Connected Clients: " + getColor("AQUA") + "" + clients);
+
         message(sender, ChatColor.YELLOW + "Loaded Speakers: " + ChatColor.AQUA + "" + OpenAudioMcSpigot.getInstance().getSpeakerModule().getSpeakerMap().size());
         message(sender, ChatColor.YELLOW + "Loaded Aliases: " + ChatColor.AQUA + "" + OpenAudioMcSpigot.getInstance().getAliasModule().getAliasMap().size());
         message(sender, ChatColor.YELLOW + "Detected Version: " + ChatColor.AQUA + "" + OpenAudioMcSpigot.getInstance().getServerService().getVersion());
