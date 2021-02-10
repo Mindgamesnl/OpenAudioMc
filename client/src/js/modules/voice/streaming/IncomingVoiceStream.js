@@ -1,6 +1,7 @@
 import {oalog} from "../../../helpers/log";
 import {Vector3} from "../../../helpers/math/Vector3";
 import {Position} from "../../../helpers/math/Position";
+import {StripUrlComponents} from "../../../helpers/utils/LinkHelper";
 
 export class IncomingVoiceStream {
 
@@ -21,13 +22,7 @@ export class IncomingVoiceStream {
             "/tg/" + this.peerStreamKey +
             "/sk/" + this.streamKey;
 
-        this.pcReceiver = new RTCPeerConnection({
-            iceServers: [
-                {
-                    urls: ['stun:de2.voice.openaudiomc.net', 'stun:stun.l.google.com:19302']
-                }
-            ]
-        });
+        this.pcReceiver = new RTCPeerConnection();
 
         let started = false;
         let kickoff = (event) => {
