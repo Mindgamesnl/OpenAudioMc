@@ -60,7 +60,7 @@ export function HandleModernLogin(openAudioMc, accept, reject, tokenSet) {
                 hello = hello.replace('%name', openAudioMc.tokenSet.name);
 
                 document.getElementById("initialize-text").innerHTML = hello;
-                document.getElementById("initialize-button").innerHTML = response.connectButtonText;
+                document.getElementById("initialize-button").innerHTML = response.settings.startButton;
 
                 // replace the default with a defined one
                 function convertHexToRGBA(hexCode, opacity) {

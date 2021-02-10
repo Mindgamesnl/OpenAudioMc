@@ -27,13 +27,7 @@ export class OutgoingVoiceStream {
         oalog("Starting stream")
 
 
-        this.pcSender = new RTCPeerConnection({
-            iceServers: [
-                {
-                    urls: ['stun:' + StripUrlComponents(this.server), 'stun:stun.l.google.com:19302']
-                }
-            ]
-        });
+        this.pcSender = new RTCPeerConnection();
 
         this.pcSender.onconnectionstatechange = (event) => {
             console.log("state " + this.pcSender.connectionState)
@@ -64,7 +58,6 @@ export class OutgoingVoiceStream {
         }
 
         this.pcSender.onicecandidateerror = (event) => {
-
             this.openAudioMc.sendError('Oh no, this wasn\'t supposed to happen at all! something went wrong while connecting you to the voice server.' + "\n" +
                 'Please report this as a bug with the following details.<br /><b>Code: </b>' + event.errorCode + '' + "\n" +
                 '<br /><b>Side: </b>' + 'BROADCASTER' + "\n" +

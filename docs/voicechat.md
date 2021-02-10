@@ -1,7 +1,8 @@
 # Voice Chat
 
 ### State of the Voice Chat feature
-This feature is reserved for partners who specifically request it at the moment. It's still in active development and still has to face some challenges before it can be released into the wild (mainly to do with hosting, since voice servers are quite resource hungry which isn't financially feasible on the scale that OpenAudioMc is currently operating. A public release would likely be in the form of a paid plan or self hosted RTC solution, but its too early in development to say anything decisive about that.)
+This feature is reserved for partners who specifically request it at the moment. It's still in active development and still has to face some challenges before it can be released into the wild (mainly to do with hosting, since voice servers are quite resource hungry which isn't financially feasible on the scale that OpenAudioMc is currently operating. A public release would likely be in the form of a paid plan, but its too early in development to say anything decisive about that.)
+**Edit, 10feb** New beta tests have now started on the new platform, we're getting close now.
 
 You can apply/learn more about partnerships here [https://help.openaudiomc.net/partners.html](https://help.openaudiomc.net/partners.html)
 
