@@ -27,11 +27,9 @@ OpenAudioMc is a free spigot plugin and we'd like to keep it this way.  But to k
 * [Maven](https://maven.apache.org/)
 * [Docker](https://www.docker.com/)
 * [Cloudflare and Cloudflare-Workers](https://www.cloudflare.com/)
+* [Ansible](https://www.ansible.com/)
+* [Symfony](https://symfony.com/)
 * Love (there is a lot of time in this project)
-
-## Contributors Hall Of Fame
-[![](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/images/0)](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/links/0)[![](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/images/1)](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/links/1)[![](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/images/2)](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/links/2)[![](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/images/3)](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/links/3)[![](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/images/4)](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/links/4)[![](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/images/5)](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/links/5)[![](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/images/6)](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/links/6)[![](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/images/7)](https://sourcerer.io/fame/Mindgamesnl/Mindgamesnl/OpenAudioMc/links/7)
-
 
 ## Requirements
 * Java 8
