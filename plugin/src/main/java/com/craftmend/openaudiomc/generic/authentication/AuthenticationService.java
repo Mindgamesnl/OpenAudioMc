@@ -27,10 +27,11 @@ public class AuthenticationService {
     private final ServerKeySet serverKeySet = new ServerKeySet();
     private boolean isSuccessful = false;
     private final String failureMessage = "Oh no, it looks like the initial setup of OpenAudioMc has failed. Please try to restart the server and try again, if that still does not work, please contact OpenAudioMc staff or support.";
-    private final int currentKeyVersion = 3;
+    private final int currentKeyVersion = 4;
     private Instant identityCreatedAt = null;
     private String identity = null;
     private HostDetailsResponse host;
+    private boolean isNewAccount = false;
 
     public void initialize() {
         driver = new AuthenticationDriver(this);
@@ -85,6 +86,7 @@ public class AuthenticationService {
                 OpenAudioLogger.toConsole("Failed to request token. Error: " + OpenAudioMc.getGson().toJson(response.getErrors()));
                 isSuccessful = false;
             }
+            isNewAccount = true;
             return;
         }
 

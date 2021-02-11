@@ -29,6 +29,17 @@ public class CraftmendService {
     public CraftmendService(OpenAudioMc openAudioMc, VoiceService voiceService) {
         this.openAudioMc = openAudioMc;
         this.voiceService = voiceService;
+        // wait after buut if its a new account
+        if (openAudioMc.getAuthenticationService().isNewAccount()) {
+            OpenAudioLogger.toConsole("Delaying account init because we're a fresh installation");
+            openAudioMc.getTaskProvider().schduleSyncDelayedTask(this::initialize, 20 * 3);
+        } else {
+            initialize();
+        }
+    }
+
+    private void initialize() {
+        OpenAudioLogger.toConsole("Initializing account details");
         syncAccount();
         startSyncronizer();
 
