@@ -14,10 +14,7 @@ import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class CraftmendService {
 
@@ -133,6 +130,13 @@ public class CraftmendService {
                         if (errorCode == ErrorCode.ALREADY_ACTIVE) {
                             new RestRequest(RestEndpoint.END_VOICE_SESSION).executeInThread();
                             OpenAudioLogger.toConsole("This server still has a session running with voice chat, terminating and trying again in 20 seconds.");
+                            openAudioMc.getTaskProvider().schduleSyncDelayedTask(this::startVoiceHandshake, 20 * 20);
+                            return;
+                        }
+
+                        if (response.getErrors().get(0).getMessage().toLowerCase().contains("path $")) {
+                            new RestRequest(RestEndpoint.END_VOICE_SESSION).executeInThread();
+                            OpenAudioLogger.toConsole("Failed to claim a voicechat session, terminating and trying again in 20 seconds.");
                             openAudioMc.getTaskProvider().schduleSyncDelayedTask(this::startVoiceHandshake, 20 * 20);
                             return;
                         }
