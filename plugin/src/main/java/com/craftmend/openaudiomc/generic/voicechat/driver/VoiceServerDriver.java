@@ -25,9 +25,10 @@ public class VoiceServerDriver {
     private final String password;
     private VoiceService service;
     private List<UUID> subscribers = new ArrayList<>();
-    private int heartbeatTask = 0;
     @Setter private int blockRadius = -1;
     private TaskProvider taskProvider;
+    private boolean taskStarted = false;
+    private boolean taskRunning = false;
 
     /**
      * Blocking method that tries to login to a server and establish a connection
@@ -50,10 +51,16 @@ public class VoiceServerDriver {
         pushEvent(VoiceServerEventType.HEARTBEAT, new HashMap<>(), true, false, true);
 
         // schedule heartbeat every 10 seconds
-        heartbeatTask = taskProvider.scheduleAsyncRepeatingTask(() -> {
-            // send heartbeat
-            pushEvent(VoiceServerEventType.HEARTBEAT, new HashMap<>(), true, true, false);
-        }, 200, 200);
+        if (!taskStarted) {
+            taskProvider.scheduleAsyncRepeatingTask(() -> {
+                if (taskRunning) {
+                    // send heartbeat
+                    pushEvent(VoiceServerEventType.HEARTBEAT, new HashMap<>(), true, true, false);
+                }
+            }, 200, 200);
+            taskStarted = true;
+        }
+        taskRunning = true;
 
         // might be a restart, so clean all
         OpenAudioMc.getInstance().getNetworkingService().getClients().forEach(this::handleClientConnection);
@@ -121,7 +128,7 @@ public class VoiceServerDriver {
             }
         }
 
-        taskProvider.cancelRepeatingTask(heartbeatTask);
+        taskRunning = false;
 
         this.service.fireShutdownEvents();
     }
@@ -165,7 +172,7 @@ public class VoiceServerDriver {
                 if (response.getErrors().get(0).getCode() == ErrorCode.BAD_HANDSHAKE) {
                     if (stopService) {
                         OpenAudioLogger.toConsole("There was an error while trying to talk with the event stream. Restarting the voice service...");
-                        taskProvider.cancelRepeatingTask(heartbeatTask);
+                        taskRunning = false;
                         shutdown();
                     }
                 }
@@ -177,7 +184,7 @@ public class VoiceServerDriver {
                     if (response.getErrors().get(0).getCode() == ErrorCode.BAD_HANDSHAKE) {
                         if (stopService) {
                             OpenAudioLogger.toConsole("There was an error while trying to talk with the event stream. Restarting the voice service...");
-                            taskProvider.cancelRepeatingTask(heartbeatTask);
+                            taskRunning = false;
                             shutdown();
                         }
                     }
