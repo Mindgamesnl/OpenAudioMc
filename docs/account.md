@@ -1,4 +1,5 @@
-# Accounts
+# **Accounts**
+## IMPORTANT! accounts are only available for versions 6.5 and up, older versions still use the old panel on `/oa plus`
 OpenAudioMc can be used fresh out of the box, but some additional features can be unlocked by linking your installation to an account.
 
 Getting things setup isn't too difficult if you follow the [account setup guide](account-setup.md).

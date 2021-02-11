@@ -1,4 +1,5 @@
 # Account Setup Guide
+## IMPORTANT! accounts are only available for versions 6.5 and up, older versions still use the old panel on `/oa plus`
 ## Step #1 - Creating  your account
 This couldn't be simpler, just navigate to [the registration page](https://account.craftmend.com/register), create your account and verify your email.
 
