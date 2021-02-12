@@ -38,6 +38,8 @@ export class HueModule {
             //bridges found
             this.openAudioMc.log(this.bridges.length + " hue bridges found");
             document.getElementById("hue-bridge-menu-button").style.display = "";
+            document.getElementById("hue-bridge-menu-button").onclick = this.openModal
+            ;
 
             if (this.isSsl) {
                 document.getElementById("hue-modal").style.display = "none";
@@ -59,29 +61,14 @@ export class HueModule {
                 '<br/><br/><a id="noti-perm-request-link" class="alert-message-button">hue settings</a></div>'
             );
 
-            this.isModalOpen = false;
-
             this.requestBox.onClick(this.openModal)
-
-            document.body.addEventListener("click", () => {
-                if (this.isModalOpen) {
-                    document.getElementById("hue-modal").style.display = "none";
-                    this.isModalOpen = false;
-                }
-            });
         } else {
             this.openAudioMc.log("No hue bridges found");
         }
     }
 
     openModal() {
-        var modal = document.getElementById("hue-modal");
-        var span = document.getElementsByClassName("close")[0];
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-        modal.style.display = "block";
-        this.isModalOpen = true;
+        document.getElementById("hue-modal-parent").style.display = '';
     }
 
     startSetup() {

@@ -71,7 +71,7 @@ export class OpenAudioMc extends Getters {
         this.canStart = false;
 
         this.world = new WorldModule(this);
-        // this.hueModule = new HueModule(this, getHueInstance());
+        this.hueModule = new HueModule(this, getHueInstance());
         this.socketModule = new SocketModule(this, this.host);
         this.messages.apply();
 

@@ -1,4 +1,5 @@
 import {AlertBox} from "../ui/Notification";
+import {CallAfterDomUpdate} from "../../helpers/domhelper";
 
 export class NotificationModule {
 
@@ -22,12 +23,12 @@ export class NotificationModule {
 
             this.requestBox.show(
                 '<div style="text-align: center;"><b>Welcome!</b> you can enable push notifications to get notified when you get a call or the server sends you a message. To get them setup, press the button below.' +
-                '<br/><br/><a id="noti-perm-request-link" class="alert-message-button">Setup</a></div>'
+                '<br/><br/><span id="noti-perm-request-link" class="alert-message-button">Setup</span></div>'
             );
 
-            document.getElementById('noti-perm-request-link').onclick = () => {
-                this.requestNotificationPermissions();
-            }
+            CallAfterDomUpdate(() => {
+                document.getElementById('noti-perm-request-link').onclick = this.requestNotificationPermissions
+            })
         }
     }
 
