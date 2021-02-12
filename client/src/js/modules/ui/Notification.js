@@ -24,6 +24,7 @@ export class AlertBox {
             this.alertClose.classList.add('alert-close');
             this.alertClose.setAttribute('href', '#');
             this.alertBox.classList.add('alert-box');
+            this.alertBox.classList.add('p-3');
             this.alertBox.classList.add('blurIn');
             if (this.option.extra != null) this.alertBox.classList.add(this.option.extra);
             this.alertBox.appendChild(this.alertContent);

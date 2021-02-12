@@ -83,6 +83,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 
 .alert-area {
+    z-index: 9999;
     max-height: 100%;
     position: fixed;
     top: 5px;
