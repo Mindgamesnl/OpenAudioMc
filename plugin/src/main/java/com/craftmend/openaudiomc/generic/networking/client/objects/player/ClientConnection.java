@@ -309,6 +309,26 @@ public class ClientConnection implements Authenticatable, Client {
         addOnDisconnectHandler(runnable);
     }
 
+    @Override
+    public void setHueState(HueState state) {
+        if (this.isConnected && this.hasHueLinked) this.setHue(state);
+    }
+
+    @Override
+    public boolean hasPhilipsHue() {
+        return this.isConnected && this.hasHueLinked;
+    }
+
+    @Override
+    public boolean hasRtc() {
+        return this.isConnected && this.getClientRtcManager().isReady();
+    }
+
+    @Override
+    public boolean isMicrophoneActive() {
+        return this.isConnected && this.getClientRtcManager().isReady() && this.getClientRtcManager().isMicrophoneEnabled();
+    }
+
     public void onDestroy() {
         this.getClientRtcManager().makePeersDrop();
     }

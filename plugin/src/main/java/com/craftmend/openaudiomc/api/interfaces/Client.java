@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.api.interfaces;
 
+import com.craftmend.openaudiomc.generic.hue.HueState;
 import com.craftmend.openaudiomc.generic.networking.client.interfaces.PlayerContainer;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.Publisher;
 
@@ -51,5 +52,28 @@ public interface Client {
      * return Last used client volume, or -1 if it's unknown
      */
     int getVolume();
+
+    /**
+     * Update a clients hue state.
+     * @param state New state
+     */
+    void setHueState(HueState state);
+
+    /**
+     * @return true if the user has their hue lights connected
+     */
+    boolean hasPhilipsHue();
+
+    /**
+     * Whether the client has their voicechat enabled
+     * @return true if voice is enabled
+     */
+    boolean hasRtc();
+
+    /**
+     * Whether the client has their microphone enabled
+     * @return true if voice is enabled and microphone isn't muted
+     */
+    boolean isMicrophoneActive();
 
 }
