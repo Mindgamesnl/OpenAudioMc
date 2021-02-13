@@ -26,6 +26,7 @@ export class HueModule {
 
         if (this.isSsl) {
             this.openAudioMc.log("Failed to initiate Philips Hue integration since this web page is served over ssl. The user will be promted to downgrade to HTTP when a user interaction is made that is related to Hue");
+            return
         }
 
         document.getElementById("hue-start-linking-button").onclick = () => {
