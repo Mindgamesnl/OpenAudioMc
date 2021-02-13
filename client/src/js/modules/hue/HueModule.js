@@ -43,7 +43,6 @@ export class HueModule {
             ;
 
             if (this.isSsl) {
-                document.getElementById("hue-modal").style.display = "none";
                 document.getElementById("hue-bridge-menu-button").style.display = "none";
                 return;
             }
