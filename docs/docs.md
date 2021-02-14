@@ -14,7 +14,7 @@ If you are still having problems after reading, feel free to join our [Discord](
 
 ### Installation
 - [How to install OpenAudioMc (bungeecord and spigot)](installation.md)
-- [Configuring your account (BETA)](account.md)
+- [Configuring your account](account.md)
 - [What are supported browsers](browsers.md)
 
 ### Terms
@@ -37,7 +37,6 @@ How to use OpenAudioMc's features (with examples)
 
 ### Configuration
 How to make OpenAudioMc truly your own
-- [OpenAudioMc+ (legacy)](OpenAudioMc+.md)
 - [Accounts](account.md)
 - [Configuration and Customization](configuration.md)
 - [Permissions](permissions.md)

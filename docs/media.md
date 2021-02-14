@@ -29,8 +29,9 @@ OpenAudioMc supports multiple file formats for your sounds, these are:
  
  It is possible to add support for other sources as well. OpenAudioMc has a java api to add support for url manipulations. This means that there are add-on plugins like [OpenAudioMc-Youtube](https://www.spigotmc.org/resources/openaudiomc-youtube-support.64584/) to expand the feature set with an alternative youtube engine.
  
-# Random media
-You might want to shake things up a little every once in a while by assigning random sounds to a region, command or whatever. You can simply do this by stringing multiple sources in a JSON array, so you'd enter something like `["https://www.youtube.com/watch?v=Oddp32TODKs","https://www.youtube.com/watch?v=QBCLsnxNd4Y"]` instead of your singular source. The client will chose a random sound from the list when the media is requested to start.
+# Random media and Playlists.
+You might want to shake things up a little every once in a while by assigning random sounds to a region, command or whatever. You can simply do this by stringing multiple sources in a JSON array, so you'd enter something like `["https://www.youtube.com/watch?v=Oddp32TODKs","https://www.youtube.com/watch?v=QBCLsnxNd4Y"]` instead of your singular source. The client will choose a random sound from the list when the media is requested to start.
+Randomized media with looping tags will reselect their source every time they loop, functioning like a playlist.
  
 # Playback Options
 

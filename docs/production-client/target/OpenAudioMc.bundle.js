@@ -4551,7 +4551,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       if (t.startsWith("[") && t.endsWith("]")) {
         var e = JSON.parse(t);if (!this.startedRandomly) {
           var _t20 = K(Math.random() * e.length);return this.lastIndex = _t20, this.startedRandomly = !0, e[_t20];
-        }return this.lastIndex++, this.lastIndex > e.length - 1 && (this.lastIndex = 0), r("Using index " + this.lastIndex), e[this.lastIndex];
+        }return this.lastIndex++, this.lastIndex > e.length - 1 && (this.lastIndex = 0), e[this.lastIndex];
       }return t;
     };
 

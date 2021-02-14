@@ -4,6 +4,7 @@ Installation couldn't be simpler
 2. Place the jar inside the `plugins` directory of your server
 3. Restart your server
 4. Enjoy
+5. (optionally) [setup your account to access extra settings](account.md)
 
 Important notes:
  - Velocity is supported but currently in beta and not completely tested
