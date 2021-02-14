@@ -1,5 +1,6 @@
 import ClientTokenSet from "../libs/ClientTokenSet";
 import {API_ENDPOINT} from "./ApiEndpoints";
+import {oalog} from "../log";
 
 export const AUDIO_ENDPOINTS = {
     PROXY: API_ENDPOINT.CONTENT_PROXY,
@@ -10,9 +11,14 @@ export const AUDIO_ENDPOINTS = {
 
 export class AudioSourceProcessor {
 
+    constructor() {
+        this.startedRandomly = false;
+        this.lastIndex = 0;
+    }
+
     translate(sourceOg) {
-        sourceOg = randomOrFallback(sourceOg)
-        let source = sourceOg;
+        let source = this.handleRandomizedPlaylist(sourceOg);
+
         // filter old
         try {
             if (source.includes("media.openaudiomc.net")) return sourceOg
@@ -40,6 +46,11 @@ export class AudioSourceProcessor {
             this.isYoutube = false;
             if (source.includes("youtube.")) {
                 let ytId = source.split("v=")[1];
+
+                if (ytId.includes("&")) {
+                    ytId = ytId.split("&")[0];
+                }
+
                 source = AUDIO_ENDPOINTS.YOUTUBE + ytId;
                 this.isYoutube = true;
             } else if (source.includes("youtu.be")) {
@@ -98,12 +109,25 @@ export class AudioSourceProcessor {
         return source;
     }
 
-}
-
-function randomOrFallback(input) {
-    if (input.startsWith("[") && input.endsWith("]")) {
-        let a = JSON.parse(input);
-        return a[Math.floor(Math.random() * a.length)];
+    handleRandomizedPlaylist(input) {
+        if (input.startsWith("[") && input.endsWith("]")) {
+            let sources = JSON.parse(input);
+            if (!this.startedRandomly) {
+                let randomIndex = Math.floor(Math.random() * sources.length);
+                this.lastIndex = randomIndex;
+                this.startedRandomly = true;
+                return sources[randomIndex];
+            } else {
+                // bump index
+                this.lastIndex++;
+                if ((this.lastIndex) > sources.length - 1) {
+                    this.lastIndex = 0;
+                }
+                return sources[this.lastIndex];
+            }
+        }
+        return input;
     }
-    return input;
+
+
 }

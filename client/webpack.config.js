@@ -1,6 +1,7 @@
 const path = require('path');
 const exec = require('child_process').exec;
 const MinifyPlugin = require("babel-minify-webpack-plugin");
+const webpack = require('webpack');
 
 function puts(error, stdout, stderr) {
     if (stdout != "") console.log(stdout);
@@ -69,6 +70,9 @@ module.exports = {
         path: path.resolve(__dirname, 'dist')
     },
     plugins: [
+        new webpack.DefinePlugin({
+            "__VERSION__": JSON.stringify(new Date().getTime() + "")
+        }),
         new MinifyPlugin(),
         new WebpackShellPlugin({
                 onBuildStart: preInstall,

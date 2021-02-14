@@ -18,11 +18,13 @@ import {WorldModule} from "./modules/world/WorldModule";
 import {ReportError} from "./helpers/protocol/ErrorReporter";
 import {API_ENDPOINT} from "./helpers/protocol/ApiEndpoints";
 import {VoiceModule} from "./modules/voice/VoiceModule";
+import {oalog} from "./helpers/log";
 
 export class OpenAudioMc extends Getters {
 
     constructor() {
         super();
+        oalog("Starting build __VERSION__")
 
         this.canStart = false;
         this.host = null;
