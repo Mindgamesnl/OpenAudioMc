@@ -1,6 +1,7 @@
 import * as PluginChannel from "../../../helpers/protocol/PluginChannel";
 import {AUDIO_ENDPOINTS, AudioSourceProcessor} from "../../../helpers/protocol/AudioSourceProcessor";
 import { GetAudio } from '../../../helpers/utils/AudioFactory'
+import {oalog} from "../../../helpers/log";
 
 if (!('toJSON' in Error.prototype))
     Object.defineProperty(Error.prototype, 'toJSON', {
@@ -21,6 +22,7 @@ export class Sound extends AudioSourceProcessor {
 
     constructor(source) {
         super()
+        this.rawSource = source;
         source = this.translate(source);
 
         this.soundElement = GetAudio(source);
@@ -133,6 +135,7 @@ export class Sound extends AudioSourceProcessor {
                     runnable();
                 });
                 if (this.loop) {
+                    this.soundElement.src = this.translate(this.rawSource);
                     this.setTime(0);
                     this.soundElement.play();
                 } else {
@@ -189,7 +192,7 @@ export class Sound extends AudioSourceProcessor {
 
     startDate(date) {
         let start = new Date(date);
-        let seconds = Math.abs((start.getTime() - this.openAudioMc.timeService.getPredictedTime()) / 1000);
+        let seconds = this.openAudioMc.timeService.localizeTime(start.getTime());
         let length = this.soundElement.duration;
         if (seconds > length) {
             let times = Math.floor(seconds / length);

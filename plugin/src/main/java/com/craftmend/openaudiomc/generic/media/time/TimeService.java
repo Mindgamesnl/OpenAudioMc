@@ -16,9 +16,9 @@ public class TimeService {
     public Instant getSyncedInstant() {
         Instant now = Instant.now();
         if (serverIsAhead) {
-            now.plus(Duration.ofSeconds(offset));
+            now.plus(Duration.ofMillis(offset));
         } else {
-            now.minus(Duration.ofSeconds(offset));
+            now.minus(Duration.ofMillis(offset));
         }
         return now;
     }
@@ -30,6 +30,7 @@ public class TimeService {
      * @param offset the server offset
      */
     public void pushServerUpdate(long timeStamp, long offset) {
+        offset = Math.abs(offset / 60);
         Instant server = Instant.ofEpochMilli(timeStamp);
         if (offset < 0) {
             server.minus(Duration.ofHours(offset));
