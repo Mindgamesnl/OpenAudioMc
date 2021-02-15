@@ -12,13 +12,13 @@ public class NodePacketListener implements PacketListener {
 
     @PacketHandler
     public void onPacket(ForwardSocketPacket packet) {
-        UUID client = packet.payload.getClient();
+        UUID client = packet.getPayload().getClient();
         ClientConnection clientConnection = OpenAudioMc.getInstance().getNetworkingService().getClient(client);
 
         if (clientConnection == null) return;
         if (!clientConnection.getIsConnected()) return;
 
-        OpenAudioMc.getInstance().getNetworkingService().send(clientConnection, packet.payload);
+        OpenAudioMc.getInstance().getNetworkingService().send(clientConnection, packet.getPayload());
     }
 
 }

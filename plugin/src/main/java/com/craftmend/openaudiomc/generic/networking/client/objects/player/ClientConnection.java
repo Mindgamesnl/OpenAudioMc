@@ -52,7 +52,7 @@ public class ClientConnection implements Authenticatable, Client {
     private boolean isConnected = false;
     @Getter private PlayerSession session;
     @Getter private ClientRtcManager clientRtcManager;
-    @Getter private String streamKey;
+    @Setter @Getter private String streamKey;
 
     @Setter @Getter private boolean isWaitingToken = false;
     @Setter @Getter private boolean sessionUpdated = false;

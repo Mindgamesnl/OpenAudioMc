@@ -5,26 +5,27 @@ import com.craftmend.openaudiomc.api.velocitypluginmessageframework.PacketWriter
 import com.craftmend.openaudiomc.api.velocitypluginmessageframework.StandardPacket;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.UUID;
 
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class ClientDisconnectedPacket extends StandardPacket {
 
-    public UUID clientUuid;
-
-    public ClientDisconnectedPacket() {}
+    private UUID clientUuid;
 
     public void handle(DataInputStream dataInputStream) throws IOException {
-        this.clientUuid = OpenAudioMc.getGson().fromJson(dataInputStream.readUTF(), UUID.class);
+        ClientDisconnectedPacket self = OpenAudioMc.getGson().fromJson(dataInputStream.readUTF(), ClientDisconnectedPacket.class);
+        this.clientUuid = self.getClientUuid();
     }
 
     public PacketWriter write() throws IOException {
         PacketWriter packetWriter = new PacketWriter(this);
-        packetWriter.writeUTF(clientUuid.toString());
+        packetWriter.writeUTF(OpenAudioMc.getGson().toJson(this));
         return packetWriter;
     }
 }

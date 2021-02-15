@@ -5,24 +5,27 @@ import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.api.velocitypluginmessageframework.PacketWriter;
 import com.craftmend.openaudiomc.api.velocitypluginmessageframework.StandardPacket;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.DataInputStream;
 import java.io.IOException;
 
+@Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class ForwardSocketPacket extends StandardPacket {
 
-    public AbstractPacket payload;
-
-    public ForwardSocketPacket() {}
+    private AbstractPacket payload;
 
     public void handle(DataInputStream dataInputStream) throws IOException {
-        this.payload = OpenAudioMc.getGson().fromJson(dataInputStream.readUTF(), AbstractPacket.class);
+        ForwardSocketPacket self = OpenAudioMc.getGson().fromJson(dataInputStream.readUTF(), ForwardSocketPacket.class);
+        this.payload = self.getPayload();
     }
 
     public PacketWriter write() throws IOException {
         PacketWriter packetWriter = new PacketWriter(this);
-        packetWriter.writeUTF(OpenAudioMc.getGson().toJson(payload));
+        packetWriter.writeUTF(OpenAudioMc.getGson().toJson(this));
         return packetWriter;
     }
 }

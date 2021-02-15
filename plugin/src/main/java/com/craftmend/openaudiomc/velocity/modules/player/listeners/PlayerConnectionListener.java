@@ -51,6 +51,7 @@ public class PlayerConnectionListener {
                 sendPacket(player,
                         new ClientUpdateRtcStatePacket(
                                 player.getUniqueId(),
+                                connection.getStreamKey(),
                                 connection.isConnectedToRtc(),
                                 connection.getClientRtcManager().isMicrophoneEnabled()
                         )

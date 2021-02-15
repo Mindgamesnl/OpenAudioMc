@@ -36,7 +36,8 @@ public class BungeePacketListener implements PacketListener {
     public void onRtc(ClientUpdateRtcStatePacket packet) {
         ClientConnection connection = OpenAudioMc.getInstance().getNetworkingService().getClient(packet.getClientUuid());
         connection.getClientRtcManager().setMicrophoneEnabled(packet.isMicrophoneEnabled());
-        connection.setConnectedToRtc(packet.enabled);
+        connection.setStreamKey(packet.getStreamId());
+        connection.setConnectedToRtc(packet.isEnabled());
 
         // enable the module if it isn't already
         if (!OpenAudioMc.getInstance().getCraftmendService().is(CraftmendTag.VOICECHAT)) {
@@ -52,10 +53,10 @@ public class BungeePacketListener implements PacketListener {
 
     @PacketHandler
     public void onCommand(CommandProxyPacket packet) {
-        Player player = Bukkit.getPlayer(packet.commandProxy.getExecutor());
+        Player player = Bukkit.getPlayer(packet.getCommandProxy().getExecutor());
         if (player == null) return;
         FakeGenericExecutor fakeGenericExecutor = new FakeGenericExecutor(player);
-        OpenAudioMc.getInstance().getCommandModule().getSubCommand(packet.commandProxy.getCommandProxy().toString().toLowerCase()).onExecute(fakeGenericExecutor, packet.commandProxy.getArgs());
+        OpenAudioMc.getInstance().getCommandModule().getSubCommand(packet.getCommandProxy().getCommandProxy().toString().toLowerCase()).onExecute(fakeGenericExecutor, packet.getCommandProxy().getArgs());
     }
 
 }

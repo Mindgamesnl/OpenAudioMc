@@ -5,28 +5,33 @@ import com.craftmend.openaudiomc.api.velocitypluginmessageframework.PacketWriter
 import com.craftmend.openaudiomc.api.velocitypluginmessageframework.StandardPacket;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.UUID;
 
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class ClientUpdateRtcStatePacket extends StandardPacket {
 
-    public UUID clientUuid;
-    public boolean enabled;
-    public boolean microphoneEnabled;
-
-    public ClientUpdateRtcStatePacket() {}
+    private UUID clientUuid;
+    private String streamId;
+    private boolean enabled;
+    private boolean microphoneEnabled;
 
     public void handle(DataInputStream dataInputStream) throws IOException {
-        this.clientUuid = OpenAudioMc.getGson().fromJson(dataInputStream.readUTF(), UUID.class);
+        ClientUpdateRtcStatePacket self = OpenAudioMc.getGson().fromJson(dataInputStream.readUTF(), ClientUpdateRtcStatePacket.class);
+        this.clientUuid = self.getClientUuid();
+        this.streamId = self.getStreamId();
+        this.enabled = self.isEnabled();
+        this.microphoneEnabled = self.isMicrophoneEnabled();
     }
 
     public PacketWriter write() throws IOException {
         PacketWriter packetWriter = new PacketWriter(this);
-        packetWriter.writeUTF(clientUuid.toString());
+        packetWriter.writeUTF(OpenAudioMc.getGson().toJson(this));
         return packetWriter;
     }
 }

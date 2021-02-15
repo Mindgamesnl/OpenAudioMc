@@ -17,3 +17,7 @@ Your account is empty by default since you don't have any servers yet. Head over
 
 ## Step #3 - Verify your server
 Your server should now appear on the [servers page](https://account.craftmend.com/account/openaudiomc/servers), and that's it! good job :)
+
+# Important notes
+ - You can only have one active fingerprint at a time, generating them in bulk is no use.
+ - Only your top-level server (so that's bungeecord, if you have a proxy) needs to be linked.
