@@ -8,7 +8,7 @@ import java.io.IOException;
  */
 public abstract class StandardPacket {
 
-    protected PacketPlayer sender;
+    protected transient PacketPlayer sender;
 
     /**
      * Gets the player this packet was received from
