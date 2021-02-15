@@ -39,6 +39,7 @@ export class HueModule {
             //bridges found
             this.openAudioMc.log(this.bridges.length + " hue bridges found");
             document.getElementById("hue-bridge-menu-button").style.display = "";
+            document.getElementById("hue-setup-box").style.display = "";
             document.getElementById("hue-bridge-menu-button").onclick = this.openModal
             ;
 
