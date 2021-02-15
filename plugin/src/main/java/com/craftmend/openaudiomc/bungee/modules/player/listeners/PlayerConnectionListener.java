@@ -51,6 +51,7 @@ public class PlayerConnectionListener implements Listener {
                 sendPacket(packetPlayer,
                         new ClientUpdateRtcStatePacket(
                                 player.getUniqueId(),
+                                connection.getStreamKey(),
                                 connection.isConnectedToRtc(),
                                 connection.getClientRtcManager().isMicrophoneEnabled()
                         )

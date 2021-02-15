@@ -43,7 +43,7 @@ public class StateSubCommand extends SubCommand {
             tags += " " + tag.name() + ",";
         }
 
-        message(sender, getColor("YELLOW") + "Connected Clients: " + getColor("AQUA") + "" + clients);
+        message(sender, getColor("YELLOW") + "Account Tags: " + getColor("AQUA") + "" + tags);
 
         message(sender, ChatColor.YELLOW + "Loaded Speakers: " + ChatColor.AQUA + "" + OpenAudioMcSpigot.getInstance().getSpeakerModule().getSpeakerMap().size());
         message(sender, ChatColor.YELLOW + "Loaded Aliases: " + ChatColor.AQUA + "" + OpenAudioMcSpigot.getInstance().getAliasModule().getAliasMap().size());

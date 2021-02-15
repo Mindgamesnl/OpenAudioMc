@@ -33,7 +33,7 @@ public class StateSubCommand extends SubCommand {
             tags += " " + tag.name() + ",";
         }
 
-        message(sender, getColor("YELLOW") + "Connected Clients: " + getColor("AQUA") + "" + clients);
+        message(sender, getColor("YELLOW") + "Account Tags: " + getColor("AQUA") + "" + tags);
 
         message(sender, getColor("YELLOW") + "Connected Clients: " + getColor("AQUA") + "" + clients);
         message(sender, getColor("YELLOW") + "OpenAudioMc Provider: " + getColor("AQUA") + "" + OpenAudioMc.getInstance().getPlatform());
