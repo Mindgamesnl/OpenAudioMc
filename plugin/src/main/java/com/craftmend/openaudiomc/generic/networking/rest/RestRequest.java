@@ -19,13 +19,26 @@ import java.util.concurrent.CompletableFuture;
 public class RestRequest {
 
     public static final OkHttpClient client = new OkHttpClient();
-    private final String endpoint;
+    private String endpoint;
     @Getter
     private String body = null;
     private final Map<String, String> variables = new HashMap<>();
 
     public RestRequest(RestEndpoint endpoint) {
         this.endpoint = endpoint.getURL();
+    }
+
+    public RestRequest(RestEndpoint endpoint, String hostReplacement) {
+        this.endpoint = endpoint.getURL();
+        if (this.endpoint.startsWith("/")) {
+            this.endpoint = this.endpoint.replaceFirst("/", "");
+        }
+
+        if (!hostReplacement.endsWith("/")) {
+            hostReplacement += "/";
+        }
+
+        this.endpoint = hostReplacement + this.endpoint;
     }
 
     public RestRequest setQuery(String key, String value) {

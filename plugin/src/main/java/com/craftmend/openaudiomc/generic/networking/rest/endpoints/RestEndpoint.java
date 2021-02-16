@@ -41,20 +41,6 @@ public enum RestEndpoint {
         this.translate = translate;
     }
 
-    public RestEndpoint setHost(String hostname) {
-        if (this.url.contains(hostname)) return this;
-        if (this.url.startsWith("/")) {
-            this.url = url.replaceFirst("/", "");
-        }
-
-        if (!hostname.endsWith("/")) {
-            hostname += "/";
-        }
-
-        this.url = hostname + this.url;
-        return this;
-    }
-
     public String getURL() {
         if (this.translate) {
             ServerKeySet keySet = OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet();

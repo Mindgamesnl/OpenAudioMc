@@ -36,6 +36,7 @@ export class OutgoingVoiceStream {
 
         let started = false;
         let kickoff = (event) => {
+            console.log(event)
             if (this.pcSender.connectionState === 'connected' || event.target.iceConnectionState === 'connected') {
                 if (started) return;
                 started = true;
