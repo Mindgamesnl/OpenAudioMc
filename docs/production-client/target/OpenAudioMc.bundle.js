@@ -5404,7 +5404,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
                 r("Starting stream"), this.pcSender = new RTCPeerConnection(), this.pcSender.onconnectionstatechange = function () {
                   console.log("state " + _this25.pcSender.connectionState), r("State change " + _this25.pcSender.connectionState + " for " + _this25.streamKey);
                 };n = !1, o = function o(e) {
-                  if ("connected" === _this25.pcSender.connectionState || "connected" === e.target.iceConnectionState) {
+                  if (console.log(e), "connected" === _this25.pcSender.connectionState || "connected" === e.target.iceConnectionState) {
                     if (n) return;n = !0, r("Finished handshake for" + _this25.streamKey), t(), _this25.openAudioMc.socketModule.send(J, { enabled: !0 });
                   }
                 };

@@ -134,7 +134,7 @@ public class VoiceServerDriver {
     }
 
     private boolean login() {
-        RestRequest loginRequest = new RestRequest(RestEndpoint.VOICE_LOGIN.setHost(this.host));
+        RestRequest loginRequest = new RestRequest(RestEndpoint.VOICE_LOGIN, this.host);
 
         // add query shit
         AuthenticationService authenticationService = OpenAudioMc.getInstance().getAuthenticationService();
@@ -152,7 +152,7 @@ public class VoiceServerDriver {
     }
 
     private void pushEvent(VoiceServerEventType event, Map<String, String> arguments, boolean now, boolean stopService, boolean canExplode) {
-        RestRequest eventRequest = new RestRequest(RestEndpoint.VOICE_EVENTS.setHost(this.host));
+        RestRequest eventRequest = new RestRequest(RestEndpoint.VOICE_EVENTS, this.host);
 
         // add query shit
         AuthenticationService authenticationService = OpenAudioMc.getInstance().getAuthenticationService();
