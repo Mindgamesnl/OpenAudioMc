@@ -24,6 +24,12 @@ public class LinkSubCommand extends SubCommand {
 
     @Override
     public void onExecute(GenericExecutor sender, String[] args) {
+
+        if (OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
+            message(sender, Platform.makeColor("RED") + "WARNING! This command can only be executed on you top-level server.");
+            return;
+        }
+
         if (args.length == 1) {
             // do
             OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
