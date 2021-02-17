@@ -56,7 +56,7 @@ public class SpigotTaskProvider implements TaskProvider {
     @Override
     public void runAsync(Runnable runnable) {
         if (OpenAudioMc.getInstance().isDisabled()) {
-            OpenAudioLogger.toConsole("A async task was requested but server is already stopping, so I'm doing it now.");
+            notifyRunner();
             runnable.run();
             return;
         }
@@ -67,7 +67,7 @@ public class SpigotTaskProvider implements TaskProvider {
     @Override
     public void runSync(Runnable runnable) {
         if (OpenAudioMc.getInstance().isDisabled()) {
-            OpenAudioLogger.toConsole("A async task was requested but server is already stopping, so I'm doing it now.");
+            notifyRunner();
             runnable.run();
             return;
         }
