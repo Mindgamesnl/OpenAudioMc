@@ -247,5 +247,13 @@
             <scope>provided</scope>
         </dependency>
         <!-- velocity-plugin by fluse1367 end -->
+
+        <dependency>
+            <groupId>com.gitlab.ruany</groupId>
+            <artifactId>LiteBansAPI</artifactId>
+            <version>0.3.4</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 </project>
