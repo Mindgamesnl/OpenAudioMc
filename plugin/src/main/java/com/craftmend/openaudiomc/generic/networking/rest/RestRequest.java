@@ -19,7 +19,7 @@ import java.util.concurrent.CompletableFuture;
 public class RestRequest {
 
     public static final OkHttpClient client = new OkHttpClient();
-    private String endpoint;
+    @Getter private String endpoint;
     @Getter
     private String body = null;
     private final Map<String, String> variables = new HashMap<>();
@@ -29,13 +29,14 @@ public class RestRequest {
     }
 
     public RestRequest(RestEndpoint endpoint, String hostReplacement) {
+        // clone
         this.endpoint = endpoint.getURL();
         if (this.endpoint.startsWith("/")) {
             this.endpoint = this.endpoint.replaceFirst("/", "");
         }
 
         if (!hostReplacement.endsWith("/")) {
-            hostReplacement += "/";
+            hostReplacement = hostReplacement + "/";
         }
 
         this.endpoint = hostReplacement + this.endpoint;
@@ -72,7 +73,7 @@ public class RestRequest {
         }
     }
 
-    private String getUrl() {
+    public String getUrl() {
         StringBuilder url = new StringBuilder(this.endpoint);
         if (variables.size() != 0) {
             url.append('?');
