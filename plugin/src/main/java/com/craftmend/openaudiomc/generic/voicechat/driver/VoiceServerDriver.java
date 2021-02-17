@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.voicechat.driver;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.impl.event.events.ClientRequestVoiceEvent;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
@@ -12,6 +13,7 @@ import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
+import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskProvider;
 import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
 import com.craftmend.openaudiomc.generic.voicechat.bus.VoiceEventBus;
@@ -123,12 +125,22 @@ public class VoiceServerDriver {
                 return;
             }
 
-            // unlock capabilities
-            clientConnection.sendPacket(new PacketClientUnlockVoiceChat(new ClientVoiceChatUnlockPayload(
-                    clientConnection.getStreamKey(),
-                    this.host,
-                    blockRadius
-            )));
+            // schedule async check
+            taskProvider.runAsync(() -> {
+                // unlock capabilities
+                // am I the spigot server?
+                if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
+                    // make an event, and invite the client if it isn't cancelled
+                    ClientRequestVoiceEvent event = OpenAudioMc.getInstance().getApiEventDriver().fire(new ClientRequestVoiceEvent(clientConnection));
+                    if (!event.isCanceled()) {
+                        clientConnection.sendPacket(new PacketClientUnlockVoiceChat(new ClientVoiceChatUnlockPayload(
+                                clientConnection.getStreamKey(),
+                                this.host,
+                                blockRadius
+                        )));
+                    }
+                }
+            });
         });
     }
 

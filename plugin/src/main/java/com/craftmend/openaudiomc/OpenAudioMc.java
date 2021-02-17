@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc;
 
+import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.platform.interfaces.OpenAudioInvoker;
@@ -46,6 +47,7 @@ public class OpenAudioMc {
      * Services used by the core to run OpenAudioMc
      *           (SERVICE)                            (PURPOSE)
      * ===========================================================================
+     * - Event Driver            []   (Cross platform event driver used in the Api and internally)
      * - State Service           []   (responsible for tracking the current state)
      * - Time Service            []   (used to synchronize time with the central OpenAudioMc-time-server)
      * - Networking Service      []   (handles connections, clients, packets etc)
@@ -61,6 +63,7 @@ public class OpenAudioMc {
      * - Update Service          []   (Checks the master branch every once in a while to compare versions)
      * - Voice Service           []   (Service handling OpenAudioMc's voice chat routing and servers)
      */
+    private final ApiEventDriver apiEventDriver = new ApiEventDriver();
     private final AuthenticationService authenticationService;
     private final StateService stateService = new StateService();
     private final TimeService timeService = new TimeService();

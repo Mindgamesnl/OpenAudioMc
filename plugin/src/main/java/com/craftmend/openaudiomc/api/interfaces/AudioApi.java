@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.api.interfaces;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.DefaultApi;
+import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -18,6 +19,12 @@ public interface AudioApi {
      */
     @Nullable
     Client getClient(UUID uuid);
+
+    /**
+     * Get the internal event driver
+     * @return Internal event driver
+     */
+    ApiEventDriver getEventDriver();
 
     /**
      * Fetch all clients that are currently known to the server

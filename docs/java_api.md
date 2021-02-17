@@ -20,6 +20,25 @@ You can then obtain your api instance with
 AudioApi api = AudioApi.getInstance();
 ```
 
+## Using events
+OpenAudioMc has an internal event driver which is used to process requests and important state changes.
+You can access an instance of the driver to catch and process events yourself (this example shows you how to cancel voice chat for certain users)
+```java
+AudioApi.getInstance().getEventDriver()
+        // subscribe to an event
+        .on(ClientRequestVoiceEvent.class)
+        // what to do?
+        .setHandler(event -> {
+            // event is a dynamic instance from the on method
+
+            // check if the name isn't Mindgamesnl
+            if (event.getRequester().getPlayer().getName() != "Mindgamesnl") {
+                // cancel the event, therefor blocking voice chat
+                event.setCanceled(true);
+            }
+        });
+```
+
 ## Getting a Client
 A client object resembles the web-connection of a given player and contains api methods (like `isConnected()`, `onConnect` etc) and is used to specify a player in other API methods.
 You can request a Client by Player-UUID on both bungeecord and spigot, but note that it'll only be available a few ticks after joining. Example for getting my own connection:
