@@ -14,6 +14,7 @@ import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskProvider;
 import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
+import com.craftmend.openaudiomc.generic.voicechat.bus.VoiceEventBus;
 import com.craftmend.openaudiomc.generic.voicechat.enums.VoiceServerEventType;
 import lombok.Setter;
 
@@ -25,16 +26,20 @@ public class VoiceServerDriver {
     private final String password;
     private VoiceService service;
     private List<UUID> subscribers = new ArrayList<>();
-    @Setter private int blockRadius = -1;
+    @Setter
+    private int blockRadius = -1;
     private TaskProvider taskProvider;
     private boolean taskStarted = false;
     private boolean taskRunning = false;
 
+    private VoiceEventBus eventBus;
+
     /**
      * Blocking method that tries to login to a server and establish a connection
-     * @param host Server full host (eg https://joostspeeltspellen.voice.openaudiomc.net/) with a trailing slash
+     *
+     * @param host     Server full host (eg https://joostspeeltspellen.voice.openaudiomc.net/) with a trailing slash
      * @param password Server password
-     * @param service Voice service to manage
+     * @param service  Voice service to manage
      */
     public VoiceServerDriver(String host, String password, VoiceService service) {
         this.host = host;
@@ -42,48 +47,65 @@ public class VoiceServerDriver {
         this.service = service;
         this.taskProvider = OpenAudioMc.getInstance().getTaskProvider();
 
+        this.eventBus = new VoiceEventBus(
+                this.host,
+                password,
+                this
+        );
+
+        this.eventBus.onError(() -> {
+            // kill the service, possibly restart, I don't know what went wrong but it ain't having it
+            OpenAudioLogger.toConsole("Running vc eventbus shutdown");
+            this.shutdown();
+        });
+
+        this.eventBus.onReady(() -> {
+            OpenAudioLogger.toConsole("Vc eb is healthy and connected");
+
+            // verify login with a heartbeat
+            pushEvent(VoiceServerEventType.HEARTBEAT, new HashMap<>());
+
+            // schedule heartbeat every 10 seconds
+            if (!taskStarted) {
+                taskProvider.scheduleAsyncRepeatingTask(() -> {
+                    if (taskRunning) {
+                        // send heartbeat
+                        pushEvent(VoiceServerEventType.HEARTBEAT, new HashMap<>());
+                    }
+                }, 200, 200);
+                taskStarted = true;
+            }
+            taskRunning = true;
+
+            // might be a restart, so clean all
+            OpenAudioMc.getInstance().getNetworkingService().getClients().forEach(this::handleClientConnection);
+
+            // setup events
+            NetworkingService networkingService = OpenAudioMc.getInstance().getNetworkingService();
+
+            if (networkingService instanceof DefaultNetworkingService) {
+                // client got created
+                subscribers.add(networkingService.subscribeToConnections((this::handleClientConnection)));
+
+                subscribers.add(networkingService.subscribeToDisconnections((clientConnection -> {
+                    // client will be removed
+                    pushEvent(VoiceServerEventType.REMOVE_PLAYER, new HashMap<String, String>() {{
+                        put("streamKey", clientConnection.getStreamKey());
+                    }});
+                })));
+            } else {
+                throw new IllegalStateException("Not implemented yet");
+            }
+
+
+            OpenAudioLogger.toConsole("Successfully logged into a WebRTC server");
+        });
+
         // try to login
-        if (!login()) {
+        if (!this.eventBus.start()) {
+            // denied
             return;
         }
-
-        // verify login with a heartbeat
-        pushEvent(VoiceServerEventType.HEARTBEAT, new HashMap<>(), true, false, true);
-
-        // schedule heartbeat every 10 seconds
-        if (!taskStarted) {
-            taskProvider.scheduleAsyncRepeatingTask(() -> {
-                if (taskRunning) {
-                    // send heartbeat
-                    pushEvent(VoiceServerEventType.HEARTBEAT, new HashMap<>(), true, true, false);
-                }
-            }, 200, 200);
-            taskStarted = true;
-        }
-        taskRunning = true;
-
-        // might be a restart, so clean all
-        OpenAudioMc.getInstance().getNetworkingService().getClients().forEach(this::handleClientConnection);
-
-        // setup events
-        NetworkingService networkingService = OpenAudioMc.getInstance().getNetworkingService();
-
-        if (networkingService instanceof DefaultNetworkingService) {
-            // client got created
-            subscribers.add(networkingService.subscribeToConnections((this::handleClientConnection)));
-
-            subscribers.add(networkingService.subscribeToDisconnections((clientConnection -> {
-                // client will be removed
-                pushEvent(VoiceServerEventType.REMOVE_PLAYER, new HashMap<String, String>() {{
-                    put("streamKey", clientConnection.getStreamKey());
-                }}, false, true, false);
-            })));
-        } else {
-            throw new IllegalStateException("Not implemented yet");
-        }
-
-
-        OpenAudioLogger.toConsole("Successfully logged into a WebRTC server");
     }
 
     private void handleClientConnection(ClientConnection clientConnection) {
@@ -91,7 +113,7 @@ public class VoiceServerDriver {
             put("playerName", clientConnection.getPlayer().getName());
             put("playerUuid", clientConnection.getPlayer().getUniqueId().toString());
             put("streamKey", clientConnection.getStreamKey());
-        }}, false, true, true);
+        }});
 
         clientConnection.onConnect(() -> {
 
@@ -115,7 +137,8 @@ public class VoiceServerDriver {
         new RestRequest(RestEndpoint.END_VOICE_SESSION).executeInThread();
 
         // logout
-        pushEvent(VoiceServerEventType.LOGOUT, new HashMap<>(), true, false, false);
+        pushEvent(VoiceServerEventType.LOGOUT, new HashMap<>());
+
         NetworkingService networkingService = OpenAudioMc.getInstance().getNetworkingService();
         for (UUID subscriber : subscribers) {
             networkingService.unsubscribeClientEventHandler(subscriber);
@@ -133,65 +156,15 @@ public class VoiceServerDriver {
         this.service.fireShutdownEvents();
     }
 
-    private boolean login() {
-        RestRequest loginRequest = new RestRequest(RestEndpoint.VOICE_LOGIN, this.host);
+    private void pushEvent(VoiceServerEventType event, Map<String, String> arguments) {
+        String eventData = event.name();
 
-        // add query shit
-        AuthenticationService authenticationService = OpenAudioMc.getInstance().getAuthenticationService();
-        loginRequest.setQuery("publicKey", authenticationService.getServerKeySet().getPublicKey().getValue());
-        loginRequest.setQuery("privateKey", authenticationService.getServerKeySet().getPrivateKey().getValue());
-        loginRequest.setQuery("password", this.password);
-
-        ApiResponse response = loginRequest.executeInThread();
-        if (!response.getErrors().isEmpty()) {
-            shutdown();
-            OpenAudioLogger.toConsole("Failed to login to RTC, error: " + response.getErrors().get(0).getCode());
-            return false;
-        }
-        return true;
-    }
-
-    private void pushEvent(VoiceServerEventType event, Map<String, String> arguments, boolean now, boolean stopService, boolean canExplode) {
-        RestRequest eventRequest = new RestRequest(RestEndpoint.VOICE_EVENTS, this.host);
-
-        // add query shit
-        AuthenticationService authenticationService = OpenAudioMc.getInstance().getAuthenticationService();
-        eventRequest.setQuery("publicKey", authenticationService.getServerKeySet().getPublicKey().getValue());
-        eventRequest.setQuery("privateKey", authenticationService.getServerKeySet().getPrivateKey().getValue());
-        eventRequest.setQuery("event", event.name());
-
+        // format it like EVENT_TYPE~key=value~key=value
         for (Map.Entry<String, String> entry : arguments.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-            eventRequest.setQuery(key, value);
+            eventData += "~" + entry.getKey() + "=" + entry.getValue();
         }
 
-        if (now) {
-            ApiResponse response = eventRequest.executeInThread();
-            if (!response.getErrors().isEmpty()) {
-                if (response.getErrors().get(0).getCode() == ErrorCode.BAD_HANDSHAKE) {
-                    if (stopService) {
-                        OpenAudioLogger.toConsole("There was an error while trying to talk with the event stream. Restarting the voice service...");
-                        taskRunning = false;
-                        shutdown();
-                    }
-                }
-                if (canExplode) throw new IllegalArgumentException("The voice server is either invalid or denies your event");
-            }
-        } else {
-            eventRequest.executeAsync().thenAccept(response -> {
-                if (!response.getErrors().isEmpty()) {
-                    if (response.getErrors().get(0).getCode() == ErrorCode.BAD_HANDSHAKE) {
-                        if (stopService) {
-                            OpenAudioLogger.toConsole("There was an error while trying to talk with the event stream. Restarting the voice service...");
-                            taskRunning = false;
-                            shutdown();
-                        }
-                    }
-                    if (canExplode) throw new IllegalArgumentException("The voice server is either invalid or denies your event");
-                }
-            });
-        }
+        this.eventBus.pushEventBody(eventData);
     }
 
 }
