@@ -17,6 +17,7 @@ import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfiguratio
 import com.craftmend.openaudiomc.spigot.modules.predictive.PredictiveMediaModule;
 import com.craftmend.openaudiomc.spigot.modules.proxy.ProxyModule;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
+import com.craftmend.openaudiomc.spigot.modules.punishments.LitebansIntegration;
 import com.craftmend.openaudiomc.spigot.modules.regions.service.RegionService;
 import com.craftmend.openaudiomc.spigot.modules.shortner.AliasModule;
 import com.craftmend.openaudiomc.spigot.modules.show.ShowModule;
@@ -96,6 +97,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
             this.spigotVoicechatModule = new SpigotVoiceChatModule(this);
 
             this.dependencyService
+                    .ifPluginEnabled("LiteBans", new LitebansIntegration())
                     .ifPluginEnabled("WorldGuard", new RegionService(this))
                     .ifPluginEnabled("Train_Carts", new TrainCartsService(this));
 
