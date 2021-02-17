@@ -69,6 +69,7 @@ public class VelocityTaskProvider implements TaskProvider {
     @Override
     public void runAsync(Runnable runnable) {
         if (OpenAudioMc.getInstance().isDisabled()) {
+            notifyRunner();
             runnable.run();
             return;
         }
