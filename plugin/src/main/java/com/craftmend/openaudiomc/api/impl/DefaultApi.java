@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.api.impl;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 import com.craftmend.openaudiomc.api.interfaces.*;
 
 import java.util.ArrayList;
@@ -21,6 +22,11 @@ public class DefaultApi implements AudioApi {
     @Override
     public Client getClient(UUID uuid) {
         return pluginInstance.getNetworkingService().getClient(uuid);
+    }
+
+    @Override
+    public ApiEventDriver getEventDriver() {
+        return OpenAudioMc.getInstance().getApiEventDriver();
     }
 
     @Override
