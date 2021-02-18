@@ -1,7 +1,6 @@
 import {oalog} from "../../../helpers/log";
 import {Vector3} from "../../../helpers/math/Vector3";
 import {Position} from "../../../helpers/math/Position";
-import {StripUrlComponents} from "../../../helpers/utils/LinkHelper";
 
 export class IncomingVoiceStream {
 
