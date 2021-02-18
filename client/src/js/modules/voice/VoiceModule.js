@@ -76,6 +76,7 @@ export class VoiceModule {
             title: 'Reloading voice system!',
             html: 'Please wait while voice chat gets restarted to apply your new settings.. this shouldn\'t take long',
             timer: 3500,
+            backdrop: '',
             showCloseButton: false,
             showCancelButton: false,
             timerProgressBar: false,
@@ -120,6 +121,7 @@ export class VoiceModule {
         }
 
         Swal.fire({
+            backdrop: '',
             title: 'Logging into voice chat...',
             html: 'Please wait while we get you setup with a voice server.. hold on tight, shits shouldn\'t take too long.<br /><small>(but please report an issue if it does take too long, it\'s still work in progress after all.</small>',
             showCloseButton: false,
@@ -148,6 +150,7 @@ export class VoiceModule {
         this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {"enabled": false});
         let timerInterval;
         Swal.fire({
+            backdrop: '',
             title: 'Updating microphone!',
             html: 'Please wait while voice chat gets restarted with your new microphone.. this shouldn\'t take long',
             timer: 3500,
@@ -256,6 +259,7 @@ export class VoiceModule {
     permissionError() {
         showVoiceCard("vc-onboarding");
         Swal.fire({
+            backdrop: '',
             showClass: {
                 popup: 'swal2-noanimation',
                 backdrop: 'swal2-noanimation'
