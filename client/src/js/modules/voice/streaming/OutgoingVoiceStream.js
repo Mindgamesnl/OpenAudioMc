@@ -14,6 +14,16 @@ export class OutgoingVoiceStream {
         document.getElementById("vc-mic-mute").onchange = () => {
             this.setMute(!this.isMuted)
         };
+        document.getElementById("mute-wrapper").addEventListener('mouseup', e => {
+            if (this.muteCooldown) {
+                Swal.fire({
+                    icon: 'warning',
+                    text: "Please wait a moment before doing this again",
+                    backdrop: '',
+                    timer: 3000,
+                });
+            }
+        });
         this.muteCooldown = false;
     }
 

@@ -10,9 +10,9 @@ export class VoiceUiSwitch {
         this.state = (Cookies.get(id) == null ? onByDefault : JSON.parse(Cookies.get(id)));
 
         let html = `
-        <div style="text-align:center; width:100%">
+        <div style="text-align:center; display:inline-block;" class="w-3/5">
             <h4>` + title + `</h4>
-            <input class="tgl tgl-skewed" id="` + this.id + `" type="checkbox"/>
+            <input class="tgl tgl-skewed text-center" id="` + this.id + `" type="checkbox"/>
             <label class="tgl-btn block w-max" data-tg-off="` + this.activeText + `" data-tg-on="` + this.inactiveText + `"
                    for="` + this.id + `" style="width: 100%"></label>
         </div>
