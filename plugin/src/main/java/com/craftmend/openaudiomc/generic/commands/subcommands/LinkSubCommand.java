@@ -30,14 +30,18 @@ public class LinkSubCommand extends SubCommand {
             return;
         }
 
-        if (args.length == 1) {
+        if (args.length != 2) {
+            if (OpenAudioMc.getInstance().getCraftmendService().is(CraftmendTag.CLAIMED) && !args[1].equalsIgnoreCase("confirm")) {
+                message(sender, Platform.makeColor("RED") + "WARNING! This server is already claimed by another account, this means that it'll be transferred and that the old account will lose access. Please use");
+                message(sender, Platform.makeColor("GOLD") + "/oa link <fingerprint> confirm");
+                message(sender, Platform.makeColor("RED") + "If you want to overwrite your existing account.");
+                return;
+            }
+        }
+
+        if (args.length > 1) {
             // do
             OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
-
-                if (OpenAudioMc.getInstance().getCraftmendService().is(CraftmendTag.CLAIMED)) {
-                    message(sender, Platform.makeColor("RED") + "WARNING! This server is already claimed by another account, this means that it'll be transferred and that the old account will lose access.");
-                }
-
                 message(sender, Platform.makeColor("GREEN") + "Attempting to link account, please wait..");
                 RestRequest linkRequest = new RestRequest(RestEndpoint.ACCOUNT_CLAIM_SERVER);
                 linkRequest.setQuery("fingerprint", args[0]);
