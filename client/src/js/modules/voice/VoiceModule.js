@@ -4,6 +4,7 @@ import {VoicePeer} from "./VoicePeer";
 import {oalog} from "../../helpers/log";
 import * as PluginChannel from "../../helpers/protocol/PluginChannel";
 import {VoiceUiSwitch} from "./ui/VoiceUiSwitch";
+import {PeerManager} from "./streaming/PeerManager";
 
 export const VoiceStatusChangeEvent = {
     MIC_MUTE: "MICROPHONE_MUTED",
@@ -137,6 +138,8 @@ export class VoiceModule {
 
         this.streamer = new OutgoingVoiceStream(this.openAudioMc, this.server, this.streamKey, stream);
         this.streamer.start(this.onOutoingStreamStart).catch(console.error)
+        this.peerManager = new PeerManager(this.openAudioMc, this.server, this.streamKey)
+        this.peerManager.setup().catch(console.error)
     }
 
     changeInput(deviceId) {
