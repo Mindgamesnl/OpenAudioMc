@@ -1,7 +1,6 @@
 import * as PluginChannel from "../../../helpers/protocol/PluginChannel";
 import {VoiceStatusChangeEvent} from "../VoiceModule";
 import {oalog} from "../../../helpers/log";
-import {StripUrlComponents} from "../../../helpers/utils/LinkHelper";
 
 export class OutgoingVoiceStream {
 
@@ -40,13 +39,11 @@ export class OutgoingVoiceStream {
         this.pcSender = new RTCPeerConnection();
 
         this.pcSender.onconnectionstatechange = (event) => {
-            console.log("state " + this.pcSender.connectionState)
             oalog("State change " + this.pcSender.connectionState + " for " + this.streamKey)
         };
 
         let started = false;
         let kickoff = (event) => {
-            console.log(event)
             if (this.pcSender.connectionState === 'connected' || event.target.iceConnectionState === 'connected') {
                 if (started) return;
                 started = true;
