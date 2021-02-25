@@ -138,8 +138,11 @@ export class VoiceModule {
 
         this.streamer = new OutgoingVoiceStream(this.openAudioMc, this.server, this.streamKey, stream);
         this.streamer.start(this.onOutoingStreamStart).catch(console.error)
-        this.peerManager = new PeerManager(this.openAudioMc, this.server, this.streamKey)
-        this.peerManager.setup().catch(console.error)
+
+        if (this.peerManager == null) {
+            this.peerManager = new PeerManager(this.openAudioMc, this.server, this.streamKey)
+            this.peerManager.setup().catch(console.error)
+        }
     }
 
     changeInput(deviceId) {
