@@ -27,15 +27,21 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
     private final int FRACTION_GROUP_SIZE = 50;
     private int logInterval = -1;
     private int toReport = 0;
+    private boolean forceRun = false;
 
     public SpeakerGarbageCollection(SpeakerModule speakerModule) {
         this.speakerModule = speakerModule;
         runTaskTimer(OpenAudioMcSpigot.getInstance(), 600, 600);
     }
 
+    public SpeakerGarbageCollection() {
+        this.forceRun = true;
+        this.speakerModule = OpenAudioMcSpigot.getInstance().getSpeakerModule();
+    }
+
     @Override
     public void run() {
-        int maxFractions = roundUp(this.speakerModule.getSpeakerMap().values().size(), FRACTION_GROUP_SIZE);
+        int maxFractions = forceRun ? 999999999 : roundUp(this.speakerModule.getSpeakerMap().values().size(), FRACTION_GROUP_SIZE);
         if (!garbageSpeakers.isEmpty()) {
 
             toReport += garbageSpeakers.size();
@@ -57,14 +63,14 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
                 OpenAudioMc openAudioMc = OpenAudioMc.getInstance();
                 for (MappedLocation garbageSpeaker : garbageSpeakers) {
                     Speaker speaker = this.speakerModule.getSpeaker(garbageSpeaker);
-                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE, "speakers." + speaker.getId().toString() + ".type", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE, "speakers." + speaker.getId().toString() + ".radius", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE, "speakers." + speaker.getId().toString() + ".world", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE, "speakers." + speaker.getId().toString() + ".x", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE, "speakers." + speaker.getId().toString() + ".y", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE, "speakers." + speaker.getId().toString() + ".z", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE, "speakers." + speaker.getId().toString() + ".media", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.CONFIG_FILE, "speakers." + speaker.getId().toString(), null);
+                    openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".type", null);
+                    openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".radius", null);
+                    openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".world", null);
+                    openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".x", null);
+                    openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".y", null);
+                    openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".z", null);
+                    openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".media", null);
+                    openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString(), null);
                 }
                 openAudioMc.getConfiguration().saveAll();
             }
