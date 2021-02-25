@@ -14,6 +14,7 @@ public class ClientErrorEvent extends AudioEvent {
 
     @Getter
     private MediaError mediaError;
+    @Getter
     private String mediaSource;
 
 }
