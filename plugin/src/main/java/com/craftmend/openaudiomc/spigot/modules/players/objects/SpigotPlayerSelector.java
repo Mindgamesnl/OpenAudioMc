@@ -70,9 +70,7 @@ public class SpigotPlayerSelector {
             if (getArgument("region").length() != 0) {
                 RegionModule regionModule = OpenAudioMcSpigot.getInstance().getRegionModule();
                 String targetRegion = getArgument("region");
-
                 if (regionModule != null) {
-
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         regionModule.getRegionAdapter()
                                 .getRegionsAtLocation(player.getLocation(standPoint)).forEach(region -> {
@@ -81,11 +79,9 @@ public class SpigotPlayerSelector {
                             }
                         });
                     }
-
                 } else {
                     commandSender.sendMessage("You dont have worldguard installed. Skipping the region argument.");
                 }
-
             } else if (getArgument("r").length() != 0) {
                 int radius = Integer.parseInt(getArgument("r"));
                 players.addAll(Bukkit.getOnlinePlayers().stream()
