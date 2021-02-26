@@ -11,7 +11,7 @@ import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientSyncHueStatePacket;
 import com.craftmend.openaudiomc.api.velocitypluginmessageframework.PacketPlayer;
 import com.craftmend.openaudiomc.api.velocitypluginmessageframework.StandardPacket;
-import com.craftmend.openaudiomc.generic.node.packets.ClientUpdateRtcStatePacket;
+import com.craftmend.openaudiomc.generic.node.packets.ClientUpdateStatePacket;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
@@ -47,16 +47,17 @@ public class PlayerConnectionListener implements Listener {
             if (connection.isConnectedToRtc()) {
                 // drop all peers
                 connection.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(null)));
-
-                sendPacket(packetPlayer,
-                        new ClientUpdateRtcStatePacket(
-                                player.getUniqueId(),
-                                connection.getStreamKey(),
-                                connection.isConnectedToRtc(),
-                                connection.getClientRtcManager().isMicrophoneEnabled()
-                        )
-                );
             }
+
+            sendPacket(packetPlayer,
+                    new ClientUpdateStatePacket(
+                            player.getUniqueId(),
+                            connection.getStreamKey(),
+                            connection.isConnectedToRtc(),
+                            connection.getClientRtcManager().isMicrophoneEnabled(),
+                            connection.getSession().getStaticToken()
+                    )
+            );
 
             if (connection.isConnected()) {
                 sendPacket(packetPlayer, new ClientConnectedPacket(player.getUniqueId()));

@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.spigot.modules.players.commands;
+package com.craftmend.openaudiomc.spigot.modules.commands.command;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.adapters.SpigotCommandSenderAdapter;
@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
+import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.state.interfaces.State;
 import com.craftmend.openaudiomc.generic.state.states.WorkerState;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
@@ -18,9 +19,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @NoArgsConstructor
-public class ConnectCommand implements CommandExecutor {
+public class SpigotAudioCommand implements CommandExecutor {
 
-    private CommandMiddleware[] commandMiddleware = new CommandMiddleware[] {
+    private CommandMiddleware[] commandMiddleware = new CommandMiddleware[]{
             new CatchLegalBindingMiddleware(),
             new CatchCrashMiddleware(),
             new CleanStateCheckMiddleware()
@@ -28,14 +29,28 @@ public class ConnectCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
+        if (CommandMiddewareExecutor.shouldBeCanceled(new SpigotCommandSenderAdapter(commandSender), null, commandMiddleware))
+            return true;
+
         State state = OpenAudioMc.getInstance().getStateService().getCurrentState();
         if (state instanceof WorkerState) {
+
+            // check if the player state is overwritten
+            if (commandSender instanceof Player) {
+                Player sender = (Player) commandSender;
+                ClientConnection clientConnection = OpenAudioMc.getInstance().getNetworkingService().getClient(sender.getUniqueId());
+                if (clientConnection.getSession().isForced()) {
+                    // the session got overwritten by the proxy, so we can safely adapt the static base64 token
+                    clientConnection.publishUrl();
+                    return true;
+                }
+            }
+
+            // its on a sub-server without an activated proxy, so completely ignore it
             commandSender.sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() +
                     state.getDescription());
             return true;
         }
-
-        if (CommandMiddewareExecutor.shouldBeCanceled(new SpigotCommandSenderAdapter(commandSender), null, commandMiddleware)) return true;
 
         if (commandSender instanceof Player) {
             Player sender = (Player) commandSender;

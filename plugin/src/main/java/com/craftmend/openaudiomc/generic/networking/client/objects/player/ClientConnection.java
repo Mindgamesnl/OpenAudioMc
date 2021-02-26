@@ -54,7 +54,7 @@ public class ClientConnection implements Authenticatable, Client {
     private final Publisher sessionPublisher;
     @Getter private int volume = -1;
     private boolean isConnected = false;
-    @Getter private PlayerSession session;
+    @Setter @Getter private PlayerSession session;
     @Getter private ClientRtcManager clientRtcManager;
     @Setter @Getter private String streamKey;
 

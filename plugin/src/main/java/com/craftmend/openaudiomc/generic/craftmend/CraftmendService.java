@@ -71,7 +71,7 @@ public class CraftmendService {
 
         tags.clear();
 
-        baseUrl = response.getSettings().getClientUrl() + "#";
+        baseUrl = response.getSettings().getClientUrl();
         if (response.getSettings().isBanned()) addTag(CraftmendTag.BANNED);
         if (response.isClaimed()) addTag(CraftmendTag.CLAIMED);
         accountResponse = response;

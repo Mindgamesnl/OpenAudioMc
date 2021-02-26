@@ -14,8 +14,14 @@ import static com.craftmend.openaudiomc.generic.platform.Platform.translateColor
 
 class VelocityHelper {
 
-    static void connectMsg(OpenAudioMc openAudioMc, ClientConnection clientConnection, String token) {
-        String url = openAudioMc.getCraftmendService().getBaseUrl() + token;
+    static void connectMsg(OpenAudioMc openAudioMc, ClientConnection clientConnection, String token, boolean isForced) {
+        String url;
+
+        if (isForced) {
+            url = openAudioMc.getCraftmendService().getBaseUrl() + "?&data=" + token;
+        } else {
+            url = openAudioMc.getCraftmendService().getBaseUrl() + "#" + token;
+        }
 
         String msgText = translateColors(StorageKey.MESSAGE_CLICK_TO_CONNECT.getString().replace("{url}", url));
         Component message = Component.text(Objects.requireNonNull(msgText));

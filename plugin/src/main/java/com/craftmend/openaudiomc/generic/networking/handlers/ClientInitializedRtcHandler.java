@@ -8,8 +8,7 @@ import com.craftmend.openaudiomc.generic.networking.client.interfaces.PlayerCont
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.payloads.in.ClientOpenedRtcPayload;
-import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
-import com.craftmend.openaudiomc.generic.node.packets.ClientUpdateRtcStatePacket;
+import com.craftmend.openaudiomc.generic.node.packets.ClientUpdateStatePacket;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.player.ProxiedPlayerAdapter;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
@@ -65,7 +64,7 @@ public class ClientInitializedRtcHandler extends PayloadHandler<ClientOpenedRtcP
 
     private void broadcastRtcUpdate(PlayerContainer player, boolean isConnected, boolean isMicOn, String streamKey) {
         // am I a proxy thingy? then send it to my other thingy
-        ClientUpdateRtcStatePacket clientUpdateRtcStatePacket = new ClientUpdateRtcStatePacket(player.getUniqueId(), streamKey, isConnected, isMicOn);
+        ClientUpdateStatePacket clientUpdateRtcStatePacket = new ClientUpdateStatePacket(player.getUniqueId(), streamKey, isConnected, isMicOn);
         switch (OpenAudioMc.getInstance().getPlatform()){
             case BUNGEE:
                 ProxiedPlayer proxiedPlayer = ((ProxiedPlayerAdapter) player).getPlayer();
