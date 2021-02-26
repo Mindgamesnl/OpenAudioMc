@@ -1,7 +1,9 @@
 package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import lombok.NoArgsConstructor;
 
+import java.util.Base64;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -16,7 +18,16 @@ class TokenFactory {
      */
     PlayerSession build(ClientConnection client) {
         String key = UUID.randomUUID().toString().subSequence(0, 3).toString();
-        return new PlayerSession(client, key);
+
+        String staticToken = client.getPlayer().getName() +
+                ":" +
+                client.getPlayer().getUniqueId().toString() +
+                ":" +
+                OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet().getPublicKey().getValue() +
+                ":" +
+                key;
+
+        return new PlayerSession(false, client, key, new String(Base64.getEncoder().encode(staticToken.getBytes())));
     }
 
 }

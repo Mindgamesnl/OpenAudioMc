@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.proxy.listeners;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.client.objects.player.PlayerSession;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.node.packets.*;
 import com.craftmend.openaudiomc.spigot.modules.proxy.objects.FakeGenericExecutor;
@@ -33,11 +34,13 @@ public class BungeePacketListener implements PacketListener {
     }
 
     @PacketHandler
-    public void onRtc(ClientUpdateRtcStatePacket packet) {
+    public void onStateSync(ClientUpdateStatePacket packet) {
         ClientConnection connection = OpenAudioMc.getInstance().getNetworkingService().getClient(packet.getClientUuid());
         connection.getClientRtcManager().setMicrophoneEnabled(packet.isMicrophoneEnabled());
         connection.setStreamKey(packet.getStreamId());
         connection.setConnectedToRtc(packet.isEnabled());
+
+        connection.setSession(new PlayerSession(true, connection, packet.getExplodedToken(), packet.getExplodedToken()));
 
         // enable the module if it isn't already
         if (!OpenAudioMc.getInstance().getCraftmendService().is(CraftmendTag.VOICECHAT)) {

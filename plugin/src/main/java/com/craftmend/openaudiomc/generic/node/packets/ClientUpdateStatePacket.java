@@ -14,19 +14,21 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClientUpdateRtcStatePacket extends StandardPacket {
+public class ClientUpdateStatePacket extends StandardPacket {
 
     private UUID clientUuid;
     private String streamId;
     private boolean enabled;
     private boolean microphoneEnabled;
+    private String explodedToken;
 
     public void handle(DataInputStream dataInputStream) throws IOException {
-        ClientUpdateRtcStatePacket self = OpenAudioMc.getGson().fromJson(dataInputStream.readUTF(), ClientUpdateRtcStatePacket.class);
+        ClientUpdateStatePacket self = OpenAudioMc.getGson().fromJson(dataInputStream.readUTF(), ClientUpdateStatePacket.class);
         this.clientUuid = self.getClientUuid();
         this.streamId = self.getStreamId();
         this.enabled = self.isEnabled();
         this.microphoneEnabled = self.isMicrophoneEnabled();
+        this.explodedToken = self.getExplodedToken();
     }
 
     public PacketWriter write() throws IOException {
