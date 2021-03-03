@@ -15,7 +15,7 @@ export class VoiceModule {
 
     constructor(openAudioMc) {
         this.openAudioMc = openAudioMc;
-        this.streamer = null;
+        this.peerManager = null;
         this.peerMap = new Map();
         this.loadedDeviceList = false;
         this.loadeMicPreference = Cookies.get("preferred-mic");
@@ -136,21 +136,16 @@ export class VoiceModule {
             }
         })
 
-        this.streamer = new OutgoingVoiceStream(this.openAudioMc, this.server, this.streamKey, stream);
-        this.streamer.start(this.onOutoingStreamStart).catch(console.error)
-
-        if (this.peerManager == null) {
-            this.peerManager = new PeerManager(this.openAudioMc, this.server, this.streamKey)
-            this.peerManager.setup().catch(console.error)
-        }
+        this.peerManager = new PeerManager(this.openAudioMc, this.server, this.streamKey, stream)
+        this.peerManager.setup(this.onOutoingStreamStart).catch(console.error)
     }
 
     changeInput(deviceId) {
         oalog("Stopping current streamer, and restarting with a diferent user input")
         Cookies.set("preferred-mic", deviceId, {expires: 30});
-        this.streamer.setMute(false);
-        this.streamer.stop();
-        this.streamer = null;
+        this.peerManager.setMute(false);
+        this.peerManager.stop();
+        this.peerManager = null;
 
         // wait
         this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {"enabled": false});
@@ -279,8 +274,8 @@ export class VoiceModule {
 
     shutDown() {
         document.getElementById("vc-controls").style.display = "none"
-        if (this.streamer != null) {
-            this.streamer.stop()
+        if (this.peerManager != null) {
+            this.peerManager.stop()
         }
         for (let [key, value] of this.peerMap) {
             value.stop();
@@ -288,7 +283,7 @@ export class VoiceModule {
     }
 
     pushSocketEvent(event) {
-        if (this.streamer != null) {
+        if (this.peerManager != null) {
             this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {"event": event});
         }
     }

@@ -33,7 +33,7 @@ export class IncomingVoiceStream {
                 oalog("Playing voice from " + this.peerStreamKey)
                 const source = ctx.createMediaStreamSource(audio.srcObject);
                 audio.play().then(console.log).catch(console.error);
-                audio.muted = true;
+                audio.muted = false;
 
                 if (this.openAudioMc.voiceModule.surroundSwitch.isOn()) {
                     const gainNode = this.gainNode;
