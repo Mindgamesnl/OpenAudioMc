@@ -2,6 +2,7 @@ import {oalog} from "../../../helpers/log";
 import {RtcPacket} from "./protocol";
 import {PromisedChannel} from "./PromisedChannel";
 import {VoiceStatusChangeEvent} from "../VoiceModule";
+import * as PluginChannel from "../../../helpers/protocol/PluginChannel";
 
 export class PeerManager {
 
@@ -33,6 +34,7 @@ export class PeerManager {
 
     onStart() {
         oalog("Confluence started")
+        this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {"enabled": true});
     }
 
     dropStream(peerKey) {
@@ -146,6 +148,11 @@ export class PeerManager {
     onInternalTrack(track, isRetry) {
         let trackid = track.id
 
+        if (!track.active) {
+            oalog("Received an inactive track! cancelling.")
+            return;
+        }
+
         if (!this.trackQueue.has(trackid)) {
             oalog("Received an unknown track called " + trackid + ". Ignoring it.")
             return
@@ -201,10 +208,12 @@ export class PeerManager {
 
         const tracks = this.micStream.getTracks();
         for (let i = 0; i < tracks.length; i++) {
+            console.log("Adding a mic track")
             this.pcReceiver.addTrack(this.micStream.getTracks()[i]);
         }
 
-        this.pcReceiver.createOffer()
+        this.pcReceiver.addTransceiver('audio')
+        this.pcReceiver.createOffer({offerToReceiveAudio:true})
             .then(d => this.pcReceiver.setLocalDescription(d))
             .then(() => {
                 fetch(endpoint, {
@@ -265,11 +274,13 @@ export class PeerManager {
         this.pcReceiver.addEventListener("track", e => {
             for (let i = 0; i < e.streams.length; i++) {
                 this.onInternalTrack(e.streams[i], false);
-                let t = e.transceiver.sender
                 e.streams[i].onremovetrack = (re) => {
-                    oalog("Handling track onremove")
+                    oalog("Handling track onremove for ")
                     re.track.stop()
-                    this.pcReceiver.removeTrack(t)
+                    this.pcReceiver.removeTrack(e.transceiver.sender)
+                    re.track.onended = () => {
+                        console.log("track ended yo, funs over")
+                    }
                 }
             }
         })

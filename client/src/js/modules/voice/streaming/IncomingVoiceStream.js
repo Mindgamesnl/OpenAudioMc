@@ -11,7 +11,6 @@ export class IncomingVoiceStream {
         this.peerStreamKey = peerStreamKey;
         this.volume = volume;
         this.volBooster = 1.2;
-        this.track = null;
     }
 
     start(whenFinished) {
@@ -24,16 +23,16 @@ export class IncomingVoiceStream {
             const ctx = this.openAudioMc.world.player.audioCtx;
             this.setVolume(this.volume)
             this.gainNode = ctx.createGain();
-            const audio = new Audio();
-            audio.srcObject = stream;
-            this.track = audio;
+            this.audio = new Audio();
+            this.audio.srcObject = stream;
+            this.track = this.audio;
             this.gainNode.gain.value = (this.volume / 100) * this.volBooster;
 
-            audio.onloadedmetadata = () => {
+            this.audio.onloadedmetadata = () => {
                 oalog("Playing voice from " + this.peerStreamKey)
-                const source = ctx.createMediaStreamSource(audio.srcObject);
-                audio.play().then(console.log).catch(console.error);
-                audio.muted = false;
+                const source = ctx.createMediaStreamSource(this.audio.srcObject);
+                this.audio.play().then(console.log).catch(console.error);
+                this.audio.muted = true;
 
                 if (this.openAudioMc.voiceModule.surroundSwitch.isOn()) {
                     const gainNode = this.gainNode;
@@ -85,6 +84,7 @@ export class IncomingVoiceStream {
 
     stop() {
         oalog("Closing voice link with " + this.peerStreamKey);
+        this.audio.srcObject = null
         if (this.track != null) {
             this.track.pause()
         }
