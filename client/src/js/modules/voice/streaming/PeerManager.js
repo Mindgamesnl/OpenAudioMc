@@ -1,16 +1,34 @@
 import {oalog} from "../../../helpers/log";
 import {RtcPacket} from "./protocol";
 import {PromisedChannel} from "./PromisedChannel";
+import {VoiceStatusChangeEvent} from "../VoiceModule";
 
 export class PeerManager {
 
-    constructor(openAudioMc, server, streamKey) {
+    constructor(openAudioMc, server, streamKey, micStream) {
         this.openAudioMc = openAudioMc;
         this.server = server;
         this.streamKey = streamKey;
         this.waitingPromises = new Map();
         this.trackQueue = new Map();
         this.updateNegotiation = true;
+        this.micStream = micStream;
+
+        this.isMuted = false;
+        document.getElementById("vc-mic-mute").onchange = () => {
+            this.setMute(!this.isMuted)
+        };
+        document.getElementById("mute-wrapper").addEventListener('mouseup', e => {
+            if (this.muteCooldown) {
+                Swal.fire({
+                    icon: 'warning',
+                    text: "Please wait a moment before doing this again",
+                    backdrop: '',
+                    timer: 3000,
+                });
+            }
+        });
+        this.muteCooldown = false;
     }
 
     onStart() {
@@ -181,7 +199,11 @@ export class PeerManager {
         this.registerDataChannel(this.dataChannel, whenSetupFinished);
         this.listenForTracks();
 
-        this.pcReceiver.addTransceiver('audio', {'direction': 'recvonly'})
+        const tracks = this.micStream.getTracks();
+        for (let i = 0; i < tracks.length; i++) {
+            this.pcReceiver.addTrack(this.micStream.getTracks()[i]);
+        }
+
         this.pcReceiver.createOffer()
             .then(d => this.pcReceiver.setLocalDescription(d))
             .then(() => {
@@ -201,6 +223,29 @@ export class PeerManager {
             .catch(console.error)
     }
 
+    setMute(state) {
+        if (this.muteCooldown) {
+            Swal.fire("Please wait a moment before doing this again");
+            return;
+        }
+        this.isMuted = state;
+        this.muteCooldown = true;
+        document.getElementById("vc-mic-mute").disabled = true;
+        setTimeout(() => {
+            this.muteCooldown = false;
+            document.getElementById("vc-mic-mute").disabled = false;
+        }, 1500);
+
+        for (let i = 0; i < this.micStream.getAudioTracks().length; i++) {
+            this.micStream.getAudioTracks()[i].enabled = !state;
+        }
+        if (state) {
+            this.openAudioMc.voiceModule.pushSocketEvent(VoiceStatusChangeEvent.MIC_MUTE);
+        } else {
+            this.openAudioMc.voiceModule.pushSocketEvent(VoiceStatusChangeEvent.MIC_UNMTE);
+        }
+    }
+
     countActiveStreams() {
         let i = 0
         for (let receiver of this.pcReceiver.getReceivers()) {
@@ -209,17 +254,25 @@ export class PeerManager {
         return i
     }
 
+    stop() {
+        this.micStream.getTracks().forEach(function (track) {
+            track.stop();
+        });
+        this.pcReceiver.close();
+    }
+
     listenForTracks() {
         this.pcReceiver.addEventListener("track", e => {
             for (let i = 0; i < e.streams.length; i++) {
                 this.onInternalTrack(e.streams[i], false);
                 let t = e.transceiver.sender
                 e.streams[i].onremovetrack = (re) => {
+                    oalog("Handling track onremove")
                     re.track.stop()
                     this.pcReceiver.removeTrack(t)
                 }
             }
-        }, false)
+        })
     }
 
 }
