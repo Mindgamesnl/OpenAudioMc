@@ -1,5 +1,4 @@
 import {WrappedUserMedia} from "./WrappedUserMedia";
-import {OutgoingVoiceStream} from "./streaming/OutgoingVoiceStream";
 import {VoicePeer} from "./VoicePeer";
 import {oalog} from "../../helpers/log";
 import * as PluginChannel from "../../helpers/protocol/PluginChannel";
