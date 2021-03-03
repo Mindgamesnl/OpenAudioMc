@@ -49,7 +49,9 @@ export class VoicePeer {
 
     stop() {
         // remove stream
-        this.openAudioMc.voiceModule.peerManager.dropStream(this.streamKey)
+        if (this.openAudioMc.voiceModule.peerManager != null) {
+            this.openAudioMc.voiceModule.peerManager.dropStream(this.streamKey)
+        }
         this.active = false;
         this.ui.remove();
         if (this.stream != null) {
