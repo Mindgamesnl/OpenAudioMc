@@ -20,8 +20,7 @@ public class RestRequest {
 
     public static final OkHttpClient client = new OkHttpClient();
     @Getter private String endpoint;
-    @Getter
-    private String body = null;
+    @Getter private String body = null;
     private final Map<String, String> variables = new HashMap<>();
 
     public RestRequest(RestEndpoint endpoint) {
@@ -87,7 +86,10 @@ public class RestRequest {
     }
 
     private String readHttp(String url) throws IOException {
-        Request.Builder request = new Request.Builder().url(url);
+        Request.Builder request = new Request
+                .Builder()
+                .url(url)
+                .header("oa-env", OpenAudioMc.getInstance().getCraftmendService().getServerEnvironment().toString());
 
         if (this.body == null) {
             request = request.get();
