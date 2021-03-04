@@ -6,7 +6,6 @@ import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
 import com.craftmend.openaudiomc.generic.networking.rest.data.RestErrorResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
-import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import lombok.Getter;
 import okhttp3.*;
 
@@ -94,8 +93,7 @@ public class RestRequest {
         if (this.body == null) {
             request = request.get();
         } else {
-            RequestBody body = RequestBody.create(MediaType.parse("application/json"), this.body);
-            request = request.post(body);
+            request = request.post(RequestBody.create(this.body, MediaType.parse("application/json")));
         }
 
         Call call = client.newCall(request.build());
