@@ -90,7 +90,7 @@ export class PeerManager {
                     let offer = JSON.parse(rtcPacket.trimmed())
                     this.pcReceiver.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(offer.sdp))))
                         .then((whatever) => {
-                            this.pcReceiver.createAnswer({offerToReceiveAudio:true})
+                            this.pcReceiver.createAnswer()
                                 .then(answer => {
                                     var packet = new RtcPacket()
                                         .setEventName("PROCESS_RESPONSE")
@@ -118,6 +118,10 @@ export class PeerManager {
                     oalog("Negotiation was ignored, server doesn't think it to be needed.")
                     break
 
+                case "ADD_TRANS":
+                    oalog("Adding a transceiver")
+                    break
+
                 case "OK":
                     // setup finished
                     if (whenSetupFinished != null) whenSetupFinished()
@@ -134,7 +138,6 @@ export class PeerManager {
                     break
 
                 case "CONFIRM_REQUEST":
-                    console.log(rtcPacket)
                     oalog("Server acknowledged a track request to " + rtcPacket.getParam("name") + "." + " Expecting " + rtcPacket.getParam("streamid"))
                     this.trackQueue.set(rtcPacket.getParam("streamid"), rtcPacket.getParam("owner"));
                     break
@@ -172,9 +175,11 @@ export class PeerManager {
             return;
         }
         oalog("Setting up stream for " + trackid)
-        console.log(track)
         promise.handleData(track)
+
+        // delete interaction cache
         this.waitingPromises.delete(owner)
+        this.trackQueue.delete(trackid)
     }
 
     async setup(whenSetupFinished) {
@@ -208,12 +213,10 @@ export class PeerManager {
 
         const tracks = this.micStream.getTracks();
         for (let i = 0; i < tracks.length; i++) {
-            console.log("Adding a mic track")
             this.pcReceiver.addTrack(this.micStream.getTracks()[i]);
         }
 
-        this.pcReceiver.addTransceiver('audio')
-        this.pcReceiver.createOffer({offerToReceiveAudio:true})
+        this.pcReceiver.createOffer()
             .then(d => this.pcReceiver.setLocalDescription(d))
             .then(() => {
                 fetch(endpoint, {
@@ -274,13 +277,12 @@ export class PeerManager {
         this.pcReceiver.addEventListener("track", e => {
             for (let i = 0; i < e.streams.length; i++) {
                 this.onInternalTrack(e.streams[i], false);
+                e.track.onended = () => {
+                    oalog("Track ended")
+                }
                 e.streams[i].onremovetrack = (re) => {
-                    oalog("Handling track onremove for ")
-                    re.track.stop()
-                    this.pcReceiver.removeTrack(e.transceiver.sender)
-                    re.track.onended = () => {
-                        console.log("track ended yo, funs over")
-                    }
+                    // this.pcReceiver.removeTrack(e.transceiver.sender)
+                    oalog("Removing track")
                 }
             }
         })
