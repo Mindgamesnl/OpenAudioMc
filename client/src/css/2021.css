@@ -81,6 +81,9 @@ input[type="range"]::-webkit-slider-thumb {
     padding: 20px;
 }
 
+.tbod {
+    transition: 1s;
+}
 
 .alert-area {
     z-index: 9999;
