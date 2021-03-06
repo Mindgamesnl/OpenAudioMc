@@ -38,7 +38,6 @@ export class PeerManager {
     }
 
     dropStream(peerKey) {
-
         if (this.dataChannel.readyState === "open") {
             this.dataChannel.send(new RtcPacket()
                 .setEventName("DROP_STREAM")
@@ -70,6 +69,36 @@ export class PeerManager {
         }
     }
 
+    initializeRenegotiation() {
+        // create a new offer
+        this.lastNegotiationRequest = performance.now()
+        this.pcReceiver.createOffer()
+            .then(d => this.pcReceiver.setLocalDescription(d))
+            .then(() => {
+                // make a compatible json body
+                let offer = JSON.stringify({"sdp": btoa(JSON.stringify(this.pcReceiver.localDescription))});
+
+                // send the offer
+                let packet = new RtcPacket()
+                    .setEventName("KICKSTART_RENEG")
+                    .serialize()
+                packet += offer
+                this.dataChannel.send(packet)
+            })
+            .catch(console.error)
+    }
+
+    handleRenagEnd() {
+        if (this.lastNegotiationRequest != null) {
+            let now = performance.now()
+            let time = Math.ceil(now - this.lastNegotiationRequest)
+            oalog("Renegotiation took " + time + " MS")
+            if (time > 100) {
+                oalog("Warning! Renegotiation took too long!")
+            }
+        }
+    }
+
     registerDataChannel(dataChannel, whenSetupFinished) {
         dataChannel.addEventListener('open', event => {
             oalog("Opened RTC event bus")
@@ -84,6 +113,23 @@ export class PeerManager {
             let rtcPacket = new RtcPacket().fromString(message)
 
             switch (rtcPacket.getEventName()) {
+
+                case "REQUEST_NEG_INIT":
+                    oalog("Server requested renag start")
+                    this.initializeRenegotiation()
+                    break
+
+                case "NEGOTIATION_RESPONSE":
+                    let response = JSON.parse(rtcPacket.trimmed())
+                    this.pcReceiver.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(response.sdp))))
+                        .then(() => {
+                            // send a confirmation
+                            this.handleRenagEnd();
+                            this.dataChannel.send(new RtcPacket()
+                                .setEventName("CLIENT_CONFIRMED_NEG")
+                                .serialize());
+                        })
+                    break
 
                 case "PROCESS_OFFER":
                     this.lastNegotiationRequest = performance.now()
@@ -104,14 +150,7 @@ export class PeerManager {
                     break
 
                 case "CONFIRM_NEGOTIATION":
-                    if (this.lastNegotiationRequest != null) {
-                        let now = performance.now()
-                        let time = Math.ceil(now - this.lastNegotiationRequest)
-                        oalog("Renegotiation took " + time + " MS")
-                        if (time > 100) {
-                            oalog("Warning! Renegotiation took too long!")
-                        }
-                    }
+                    this.handleRenagEnd();
                     break
 
                 case "NEGOTIATION_CANCELLED":
@@ -120,6 +159,7 @@ export class PeerManager {
 
                 case "ADD_TRANS":
                     oalog("Adding a transceiver")
+
                     break
 
                 case "OK":
@@ -275,6 +315,8 @@ export class PeerManager {
 
     listenForTracks() {
         this.pcReceiver.addEventListener("track", e => {
+            // TODO: Check if this is really needed
+            // console.log(this.pcReceiver.addTransceiver(e.track))
             for (let i = 0; i < e.streams.length; i++) {
                 this.onInternalTrack(e.streams[i], false);
                 e.track.onended = () => {
