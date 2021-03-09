@@ -120,7 +120,10 @@ export class PeerManager {
                     break
 
                 case "NEGOTIATION_RESPONSE":
-                    let response = JSON.parse(rtcPacket.trimmed())
+                    let raw = rtcPacket.trimmed()
+                    let response = JSON.parse(raw)
+                    oalog("response was " + raw.length)
+                    console.log(JSON.parse(atob(response.sdp)).sdp)
                     this.pcReceiver.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(response.sdp))))
                         .then(() => {
                             // send a confirmation
@@ -136,15 +139,23 @@ export class PeerManager {
                     let offer = JSON.parse(rtcPacket.trimmed())
                     this.pcReceiver.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(offer.sdp))))
                         .then((whatever) => {
-                            this.pcReceiver.createAnswer()
-                                .then(answer => {
-                                    var packet = new RtcPacket()
-                                        .setEventName("PROCESS_RESPONSE")
+                            let packet = new RtcPacket()
+                                        .setEventName("CLIENT_CONFIRMED_NEG")
                                         .serialize()
-                                    packet += btoa(JSON.stringify(answer))
-                                    this.dataChannel.send(packet);
-                                })
-                                .catch(console.error)
+                            this.dataChannel.send(packet);
+                            this.handleRenagEnd();
+
+                            // finish, don't do the rest while debugging
+
+                            // this.pcReceiver.createAnswer()
+                            //     .then(answer => {
+                            //         var packet = new RtcPacket()
+                            //             .setEventName("PROCESS_RESPONSE")
+                            //             .serialize()
+                            //         packet += btoa(JSON.stringify(answer))
+                            //         this.dataChannel.send(packet);
+                            //     })
+                            //     .catch(console.error)
                         })
                         .catch(console.error)
                     break
@@ -188,7 +199,7 @@ export class PeerManager {
         });
     }
 
-    onInternalTrack(track, isRetry) {
+    onInternalTrack(track, isRetry, mst) {
         let trackid = track.id
 
         if (!track.active) {
@@ -200,6 +211,7 @@ export class PeerManager {
             oalog("Received an unknown track called " + trackid + ". Ignoring it.")
             return
         }
+
         let owner = this.trackQueue.get(trackid)
 
         let promise = this.waitingPromises.get(owner);
@@ -209,11 +221,12 @@ export class PeerManager {
             } else {
                 oalog("Got a stream that doesn't seem to be asked for, trying again in 1s")
                 setTimeout(() => {
-                    this.onInternalTrack(track, true)
+                    this.onInternalTrack(track, true, mst)
                 }, 1000)
             }
             return;
         }
+
         oalog("Setting up stream for " + trackid)
         promise.handleData(track)
 
@@ -273,6 +286,14 @@ export class PeerManager {
                     })
             })
             .catch(console.error)
+
+        setInterval(() => {
+            console.log("a")
+            for (let i = 0; i < this.pcReceiver.getTransceivers().length; i++) {
+                var t = this.pcReceiver.getTransceivers()[i]
+                console.log(t.receiver.track.readyState)
+            }
+        }, 1000)
     }
 
     setMute(state) {
@@ -315,17 +336,13 @@ export class PeerManager {
 
     listenForTracks() {
         this.pcReceiver.addEventListener("track", e => {
-            // TODO: Check if this is really needed
-            // console.log(this.pcReceiver.addTransceiver(e.track))
             for (let i = 0; i < e.streams.length; i++) {
-                this.onInternalTrack(e.streams[i], false);
-                e.track.onended = () => {
-                    oalog("Track ended")
+                if (e.streams[i].id === "dead-mans-track") {
+                    oalog('Ignoring dmt')
+                    return
                 }
-                e.streams[i].onremovetrack = (re) => {
-                    // this.pcReceiver.removeTrack(e.transceiver.sender)
-                    oalog("Removing track")
-                }
+                this.pcReceiver.addTransceiver(e.track)
+                this.onInternalTrack(e.streams[i], false, e.track);
             }
         })
     }
