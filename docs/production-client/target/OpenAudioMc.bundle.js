@@ -260,8 +260,8 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         A = n(29),
         _ = n(5),
         T = n(22),
-        P = n(49),
-        C = n(47),
+        C = n(49),
+        P = n(47),
         R = n(80),
         N = n(40),
         F = n(52),
@@ -288,8 +288,8 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         nt = T(4),
         rt = T(5),
         it = T(6),
-        ot = P(!0),
-        st = P(!1),
+        ot = C(!0),
+        st = C(!1),
         at = R.values,
         ut = R.keys,
         ct = R.entries,
@@ -310,7 +310,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         Mt = a.VIEW,
         kt = "Wrong length!",
         Ot = T(1, function (t, e) {
-      return Pt(C(t, t[St]), e);
+      return Ct(P(t, t[St]), e);
     }),
         It = o(function () {
       return 1 === new W(new Uint16Array([1]).buffer)[0];
@@ -324,14 +324,14 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         Tt = function Tt(t) {
       if (S(t) && Et in t) return t;throw G(t + " is not a typed array!");
     },
-        Pt = function Pt(t, e) {
+        Ct = function Ct(t, e) {
       if (!S(t) || !(wt in t)) throw G("It is not a typed array constructor!");return new t(e);
     },
-        Ct = function Ct(t, e) {
-      return Rt(C(t, t[St]), e);
+        Pt = function Pt(t, e) {
+      return Rt(P(t, t[St]), e);
     },
         Rt = function Rt(t, e) {
-      for (var n = 0, r = e.length, i = Pt(t, r); r > n;) {
+      for (var n = 0, r = e.length, i = Ct(t, r); r > n;) {
         i[n] = e[n++];
       }return i;
     },
@@ -355,12 +355,12 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         for (s = f.call(a), r = [], e = 0; !(o = s.next()).done; e++) {
           r.push(o.value);
         }a = r;
-      }for (h && 2 < u && (l = c(l, arguments[2], 2)), e = 0, n = g(a.length), i = Pt(this, n); n > e; e++) {
+      }for (h && 2 < u && (l = c(l, arguments[2], 2)), e = 0, n = g(a.length), i = Ct(this, n); n > e; e++) {
         i[e] = h ? l(a[e], e) : a[e];
       }return i;
     },
         Lt = function Lt() {
-      for (var t = 0, e = arguments.length, n = Pt(this, e); e > t;) {
+      for (var t = 0, e = arguments.length, n = Ct(this, e); e > t;) {
         n[t] = arguments[t++];
       }return n;
     },
@@ -377,7 +377,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }, fill: function fill() {
         return B.apply(Tt(this), arguments);
       }, filter: function filter(t) {
-        return Ct(this, tt(Tt(this), t, 1 < arguments.length ? arguments[1] : void 0));
+        return Pt(this, tt(Tt(this), t, 1 < arguments.length ? arguments[1] : void 0));
       }, find: function find(t) {
         return rt(Tt(this), t, 1 < arguments.length ? arguments[1] : void 0);
       }, findIndex: function findIndex(t) {
@@ -409,10 +409,10 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }, subarray: function subarray(t, e) {
         var n = Tt(this),
             r = n.length,
-            i = v(t, r);return new (C(n, n[St]))(n.buffer, n.byteOffset + i * n.BYTES_PER_ELEMENT, g((void 0 === e ? r : v(e, r)) - i));
+            i = v(t, r);return new (P(n, n[St]))(n.buffer, n.byteOffset + i * n.BYTES_PER_ELEMENT, g((void 0 === e ? r : v(e, r)) - i));
       } },
         Ut = function Ut(t, e) {
-      return Ct(this, gt.call(Tt(this), t, e));
+      return Pt(this, gt.call(Tt(this), t, e));
     },
         Vt = function Vt(t) {
       Tt(this);var e = _t(arguments[1], 1),
@@ -950,7 +950,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         A = I[h] || I["@@iterator"] || v && I[v],
         _ = A || E(v),
         T = v ? k ? E("entries") : _ : void 0,
-        P = "Array" == e && I.entries || A;if (P && (x = l(P.call(new t()))) !== Object.prototype && x.next && (c(x, M, !0), !r && "function" != typeof x[h] && s(x, h, g)), k && A && A.name !== p && (O = !0, _ = function _() {
+        C = "Array" == e && I.entries || A;if (C && (x = l(C.call(new t()))) !== Object.prototype && x.next && (c(x, M, !0), !r && "function" != typeof x[h] && s(x, h, g)), k && A && A.name !== p && (O = !0, _ = function _() {
       return A.call(this);
     }), (!r || b) && (f || O || !I[h]) && s(I, h, _), a[e] = _, a[M] = g, v) if (w = { values: k ? _ : E(p), keys: y ? _ : E(d), entries: T }, b) for (S in w) {
       S in I || o(I, S, w[S]);
@@ -1125,15 +1125,15 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
   }function l(t) {
     return r(t, 23, 4);
   }function h(t, e, n) {
-    O(t[P], e, { get: function get() {
+    O(t[C], e, { get: function get() {
         return this[n];
       } });
   }function f(t, e, n, r) {
-    var i = M(+n);if (i + e > t[Y]) throw L(C);var o = t[q]._b,
+    var i = M(+n);if (i + e > t[Y]) throw L(P);var o = t[q]._b,
         s = i + t[J],
         a = o.slice(s, s + e);return r ? a : a.reverse();
   }function d(t, e, n, r, i, o) {
-    var s = M(+n);if (s + e > t[Y]) throw L(C);for (var a = t[q]._b, u = s + t[J], c = r(+i), l = 0; l < e; l++) {
+    var s = M(+n);if (s + e > t[Y]) throw L(P);for (var a = t[q]._b, u = s + t[J], c = r(+i), l = 0; l < e; l++) {
       a[u + l] = c[o ? l : e - l - 1];
     }
   }var p = n(1),
@@ -1153,8 +1153,8 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       A = n(38),
       _ = "ArrayBuffer",
       T = "DataView",
-      P = "prototype",
-      C = "Wrong index!",
+      C = "prototype",
+      P = "Wrong index!",
       _R2 = p[_],
       _N = p[T],
       F = p.Math,
@@ -1181,11 +1181,11 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     })) {
       for (var X, $ = (_R2 = function R(t) {
         return S(this, _R2), new D(M(t));
-      })[P] = D[P], Q = k(D), Z = 0; Q.length > Z;) {
+      })[C] = D[C], Q = k(D), Z = 0; Q.length > Z;) {
         (X = Q[Z++]) in _R2 || y(_R2, X, D[X]);
       }m || ($.constructor = _R2);
     }var tt = new _N(new _R2(2)),
-        et = _N[P].setInt8;tt.setInt8(0, 2147483648), tt.setInt8(1, 2147483649), (tt.getInt8(0) || !tt.getInt8(1)) && b(_N[P], { setInt8: function setInt8(t, e) {
+        et = _N[C].setInt8;tt.setInt8(0, 2147483648), tt.setInt8(1, 2147483649), (tt.getInt8(0) || !tt.getInt8(1)) && b(_N[C], { setInt8: function setInt8(t, e) {
         et.call(this, t, e << 24 >> 24);
       }, setUint8: function setUint8(t, e) {
         et.call(this, t, e << 24 >> 24);
@@ -1195,7 +1195,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
   }, _N = function N(t, e, n) {
     S(this, _N, T), S(t, _R2, T);var r = t[Y],
         i = x(e);if (0 > i || i > r) throw L("Wrong offset!");if (i + (n = void 0 === n ? r - i : E(n)) > r) throw L("Wrong length!");this[q] = t, this[J] = i, this[Y] = n;
-  }, g && (h(_R2, W, "_l"), h(_N, G, "_b"), h(_N, W, "_l"), h(_N, K, "_o")), b(_N[P], { getInt8: function getInt8(t) {
+  }, g && (h(_R2, W, "_l"), h(_N, G, "_b"), h(_N, W, "_l"), h(_N, K, "_o")), b(_N[C], { getInt8: function getInt8(t) {
       return f(this, 1, t)[0] << 24 >> 24;
     }, getUint8: function getUint8(t) {
       return f(this, 1, t)[0];
@@ -1227,7 +1227,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       d(this, 4, t, l, e, arguments[2]);
     }, setFloat64: function setFloat64(t, e) {
       d(this, 8, t, c, e, arguments[2]);
-    } });A(_R2, _), A(_N, T), y(_N[P], v.VIEW, !0), e[_] = _R2, e[T] = _N;
+    } });A(_R2, _), A(_N, T), y(_N[C], v.VIEW, !0), e[_] = _R2, e[T] = _N;
 }, function (t) {
   var e = t.exports = "undefined" != typeof window && window.Math == Math ? window : "undefined" != typeof self && self.Math == Math ? self : Function("return this")();"number" == typeof __g && (__g = e);
 }, function (t) {
@@ -1463,8 +1463,8 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       _A = u[E],
       _ = "process" == l(k),
       T = function T() {},
-      P = i = b.f,
-      C = !!function () {
+      C = i = b.f,
+      P = !!function () {
     try {
       var t = _A.resolve(1),
           e = (t.constructor = {})[n(5)("species")] = function (t) {
@@ -1533,7 +1533,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         D.call({ _w: n, _d: !1 }, e);
       }
     }
-  };C || (_A = function A(t) {
+  };P || (_A = function A(t) {
     p(this, _A, E, "_h"), d(t), r.call(this);try {
       t(c(j, this, 1), c(D, this, 1));
     } catch (t) {
@@ -1542,22 +1542,22 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
   }, (r = function r() {
     this._c = [], this._a = void 0, this._s = 0, this._d = !1, this._v = void 0, this._h = 0, this._n = !1;
   }).prototype = n(43)(_A.prototype, { then: function then(t, e) {
-      var n = P(m(this, _A));return n.ok = "function" != typeof t || t, n.fail = "function" == typeof e && e, n.domain = _ ? k.domain : void 0, this._c.push(n), this._a && this._a.push(n), this._s && N(this, !1), n.promise;
+      var n = C(m(this, _A));return n.ok = "function" != typeof t || t, n.fail = "function" == typeof e && e, n.domain = _ ? k.domain : void 0, this._c.push(n), this._a && this._a.push(n), this._s && N(this, !1), n.promise;
     }, catch: function _catch(t) {
       return this.then(void 0, t);
     } }), o = function o() {
     var t = new r();this.promise = t, this.resolve = c(j, t, 1), this.reject = c(D, t, 1);
-  }, b.f = P = function P(t) {
+  }, b.f = C = function C(t) {
     return t === _A || t === s ? new o(t) : i(t);
-  }), h(h.G + h.W + h.F * !C, { Promise: _A }), n(38)(_A, E), n(41)(E), s = n(7)[E], h(h.S + h.F * !C, E, { reject: function reject(t) {
-      var e = P(this);return (0, e.reject)(t), e.promise;
-    } }), h(h.S + h.F * (a || !C), E, { resolve: function resolve(t) {
+  }), h(h.G + h.W + h.F * !P, { Promise: _A }), n(38)(_A, E), n(41)(E), s = n(7)[E], h(h.S + h.F * !P, E, { reject: function reject(t) {
+      var e = C(this);return (0, e.reject)(t), e.promise;
+    } }), h(h.S + h.F * (a || !P), E, { resolve: function resolve(t) {
       return x(a && this === s ? _A : this, t);
-    } }), h(h.S + h.F * !(C && n(52)(function (t) {
+    } }), h(h.S + h.F * !(P && n(52)(function (t) {
     _A.all(t).catch(T);
   })), E, { all: function all(t) {
       var e = this,
-          n = P(e),
+          n = C(e),
           r = n.resolve,
           i = n.reject,
           o = w(function () {
@@ -1572,7 +1572,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       });return o.e && i(o.v), n.promise;
     }, race: function race(t) {
       var e = this,
-          n = P(e),
+          n = C(e),
           r = n.reject,
           i = w(function () {
         g(t, !1, function (t) {
@@ -1805,7 +1805,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
                   A = M(w),
                   _ = M(S),
                   T = M(x),
-                  P = M(E);return { getCapabilities: a.bind(null, g), deleteUser: h(l, function (t) {
+                  C = M(E);return { getCapabilities: a.bind(null, g), deleteUser: h(l, function (t) {
                   return m + "/whitelist/" + t;
                 }), getConfig: a.bind(null, m), setConfig: u.bind(null, m), getFullState: a.bind(null, p), getLights: a.bind(null, v), getNewLights: a.bind(null, v + "/new"), searchForNewLights: function searchForNewLights() {
                   var t = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -1824,7 +1824,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
                   return _(t) + "/state";
                 }), deleteSensor: h(l, _), getRules: a.bind(null, x), createRule: c.bind(null, x), getRule: h(a, T), setRule: h(u, T), deleteRule: h(l, T), ruleActionGenerator: function ruleActionGenerator() {
                   return i(f(p), e, n, r).bridge(t).user(d);
-                }, getResourceLinks: a.bind(null, E), createResourceLink: c.bind(null, E), getResourceLink: h(a, P), setResourceLink: h(u, P), deleteResourceLink: h(l, P) };
+                }, getResourceLinks: a.bind(null, E), createResourceLink: c.bind(null, E), getResourceLink: h(a, C), setResourceLink: h(u, C), deleteResourceLink: h(l, C) };
             } };
         } };
     };var o = void 0;"undefined" != typeof fetch && "undefined" != typeof Response && "undefined" != typeof JSON && "undefined" != typeof Promise && (o = i.bind(null, fetch, Response, JSON, Promise), void 0 !== t.exports && (t.exports = o));
@@ -1869,8 +1869,8 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       A = n(9),
       _ = n(31),
       T = O.f,
-      P = A.f,
-      C = k.f,
+      C = A.f,
+      P = k.f,
       _R3 = r.Symbol,
       N = r.JSON,
       F = N && N.stringify,
@@ -1886,12 +1886,12 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       W = r.QObject,
       K = !W || !W[L] || !W[L].findChild,
       q = o && c(function () {
-    return 7 != M(P({}, "a", { get: function get() {
-        return P(this, "a", { value: 7 }).a;
+    return 7 != M(C({}, "a", { get: function get() {
+        return C(this, "a", { value: 7 }).a;
       } })).a;
   }) ? function (t, e, n) {
-    var r = T(z, e);r && delete z[e], P(t, e, n), r && t !== z && P(z, e, r);
-  } : P,
+    var r = T(z, e);r && delete z[e], C(t, e, n), r && t !== z && C(z, e, r);
+  } : C,
       Y = function Y(t) {
     var e = V[t] = M(_R3[L]);return e._k = t, e;
   },
@@ -1901,7 +1901,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     return t instanceof _R3;
   },
       X = function X(t, e, n) {
-    return t === z && X(H, e, n), y(t), e = x(e, !0), y(n), i(V, e) ? (n.enumerable ? (i(t, B) && t[B][e] && (t[B][e] = !1), n = M(n, { enumerable: E(0, !1) })) : (!i(t, B) && P(t, B, E(1, {})), t[B][e] = !0), q(t, e, n)) : P(t, e, n);
+    return t === z && X(H, e, n), y(t), e = x(e, !0), y(n), i(V, e) ? (n.enumerable ? (i(t, B) && t[B][e] && (t[B][e] = !1), n = M(n, { enumerable: E(0, !1) })) : (!i(t, B) && C(t, B, E(1, {})), t[B][e] = !0), q(t, e, n)) : C(t, e, n);
   },
       $ = function $(t, e) {
     y(t);for (var n, r = m(e = S(e)), i = 0, o = r.length; o > i;) {
@@ -1917,12 +1917,12 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     }
   },
       tt = function tt(t) {
-    for (var e, n = C(S(t)), r = [], o = 0; n.length > o;) {
+    for (var e, n = P(S(t)), r = [], o = 0; n.length > o;) {
       i(V, e = n[o++]) || e == B || e == u || r.push(e);
     }return r;
   },
       et = function et(t) {
-    for (var e, n = t === z, r = C(n ? H : S(t)), o = [], s = 0; r.length > s;) {
+    for (var e, n = t === z, r = P(n ? H : S(t)), o = [], s = 0; r.length > s;) {
       i(V, e = r[s++]) && (!n || i(z, e)) && o.push(V[e]);
     }return o;
   };G || (a((_R3 = function R() {
@@ -3872,9 +3872,9 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         }(_t4);
       }, 2500);
     }
-  }function P(t, e) {
-    t.voiceModule.enable(e.streamServer, e.streamKey, e.radius);
   }function C(t, e) {
+    t.voiceModule.enable(e.streamServer, e.streamKey, e.radius);
+  }function P(t, e) {
     t.voiceModule.addPeer(e.targetUuid, e.targetPlayerName, e.targetStreamKey, e.location);
   }function R(t, e) {
     null == e.streamKey ? t.voiceModule.removeAllPeers() : t.voiceModule.removePeer(e.streamKey);
@@ -4922,7 +4922,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       t.socketModule.registerHandler(e, function (e) {
         return n(t, e);
       });
-    }e("ClientVersionPayload", x), e("NotificationPayload", S), e("HueColorPayload", k), e("ClientPlayerLocationPayload", I), e("ClientSpeakerCreatePayload", A), e("ClientSpeakerDestroyPayload", _), e("ClientPreFetchPayload", T), e("ClientUpdateMediaPayload", O), e("ClientCreateMediaPayload", w), e("ClientDestroyMediaPayload", M), e("ClientVolumePayload", E), e("ClientVoiceChatUnlockPayload", P), e("ClientVoiceSubscribePayload", C), e("ClientVoiceDropPayload", R), e("ClientVoiceUpdatePeerLocationsPayload", N), e("ClientVoiceChatToggleMicrophonePayload", F);
+    }e("ClientVersionPayload", x), e("NotificationPayload", S), e("HueColorPayload", k), e("ClientPlayerLocationPayload", I), e("ClientSpeakerCreatePayload", A), e("ClientSpeakerDestroyPayload", _), e("ClientPreFetchPayload", T), e("ClientUpdateMediaPayload", O), e("ClientCreateMediaPayload", w), e("ClientDestroyMediaPayload", M), e("ClientVolumePayload", E), e("ClientVoiceChatUnlockPayload", C), e("ClientVoiceSubscribePayload", P), e("ClientVoiceDropPayload", R), e("ClientVoiceUpdatePeerLocationsPayload", N), e("ClientVoiceChatToggleMicrophonePayload", F);
   };
 
   var bt = function () {
@@ -5197,9 +5197,9 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     this.source = t, this.distance = e, this.speaker = n;
   };
 
-  var Pt = "SPEAKER_2D";
-  var Ct = function Ct(t, e, n, r) {
-    _classCallCheck(this, Ct);
+  var Ct = "SPEAKER_2D";
+  var Pt = function Pt(t, e, n, r) {
+    _classCallCheck(this, Pt);
 
     this.pannerNode = n.audioCtx.createPanner(), this.media = r, r.addNode(n, this.pannerNode), this.pannerNode.panningModel = "HRTF", this.pannerNode.maxDistance = t.maxDistance, this.pannerNode.rolloffFactor = .9, this.pannerNode.distanceModel = "linear";var i = t.location;new At(i).applyTo(this.pannerNode), this.pannerNode.connect(n.audioCtx.destination);
   };
@@ -5220,10 +5220,10 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     };
 
     Rt.prototype.updateLocation = function updateLocation(t, e, n) {
-      if (t.type == Pt) {
+      if (t.type == Ct) {
         var _r5 = t.getDistance(e, n),
             _i3 = this._convertDistanceToVolume(t.maxDistance, _r5);if (0 >= _i3) return;this.channel.fadeChannel(_i3, 100);
-      } else this.speakerNodes.has(t.id) || (this.channel.fadeChannel(100, 100), this.speakerNodes.set(t.id, new Ct(t, e, n, this.media)));
+      } else this.speakerNodes.has(t.id) || (this.channel.fadeChannel(100, 100), this.speakerNodes.set(t.id, new Pt(t, e, n, this.media)));
     };
 
     Rt.prototype._convertDistanceToVolume = function _convertDistanceToVolume(t, e) {
@@ -5310,7 +5310,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       try {
         for (var _iterator16 = t[Symbol.iterator](), _step16; !(_iteratorNormalCompletion16 = (_step16 = _iterator16.next()).done); _iteratorNormalCompletion16 = true) {
           var _n6 = _step16.value;
-          var _t26 = e.get(_n6.source);null != _t26 ? Array.isArray(_t26) ? (_t26.push(_n6), e.set(_n6.source, _t26)) : _t26.distance > _n6.distance && _n6.distance <= _n6.speaker.maxDistance && e.set(_n6.source, _n6) : _n6.speaker.type == Pt ? _n6.distance <= _n6.speaker.maxDistance && e.set(_n6.source, _n6) : _n6.distance <= _n6.speaker.maxDistance && e.set(_n6.source, [_n6]);
+          var _t26 = e.get(_n6.source);null != _t26 ? Array.isArray(_t26) ? (_t26.push(_n6), e.set(_n6.source, _t26)) : _t26.distance > _n6.distance && _n6.distance <= _n6.speaker.maxDistance && e.set(_n6.source, _n6) : _n6.speaker.type == Ct ? _n6.distance <= _n6.speaker.maxDistance && e.set(_n6.source, _n6) : _n6.distance <= _n6.speaker.maxDistance && e.set(_n6.source, [_n6]);
         }
       } catch (err) {
         _didIteratorError16 = true;
@@ -5654,10 +5654,11 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }), t.addEventListener("message", function (t) {
         var n = t.data;var i = new Ut().fromString(n);switch (i.getEventName()) {case "REQUEST_NEG_INIT":
             r("Server requested renag start"), _this30.initializeRenegotiation();break;case "NEGOTIATION_RESPONSE":
-            var _t29 = JSON.parse(i.trimmed());_this30.pcReceiver.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(_t29.sdp)))).then(function () {
+            var _t29 = i.trimmed(),
+                _n10 = JSON.parse(_t29);r("response was " + _t29.length), console.log(JSON.parse(atob(_n10.sdp)).sdp), _this30.pcReceiver.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(_n10.sdp)))).then(function () {
               _this30.handleRenagEnd(), _this30.dataChannel.send(new Ut().setEventName("CLIENT_CONFIRMED_NEG").serialize());
             });break;case "PROCESS_OFFER":
-            _this30.lastNegotiationRequest = performance.now();var _n10 = JSON.parse(i.trimmed());_this30.pcReceiver.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(_n10.sdp)))).then(function () {
+            _this30.lastNegotiationRequest = performance.now();var _o5 = JSON.parse(i.trimmed());_this30.pcReceiver.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(_o5.sdp)))).then(function () {
               _this30.pcReceiver.createAnswer().then(function (t) {
                 var e = new Ut().setEventName("PROCESS_RESPONSE").serialize();e += btoa(JSON.stringify(t)), _this30.dataChannel.send(e);
               }).catch(console.error);
@@ -5666,19 +5667,19 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
             r("Negotiation was ignored, server doesn't think it to be needed.");break;case "ADD_TRANS":
             r("Adding a transceiver");break;case "OK":
             null != e && e(), r("Received Confluence channel confirmation");break;case "REJECT_REQUEST":
-            var _o5 = i.getParam("owner");r("The server rejected a stream request to " + _o5), _this30.waitingPromises.has(_o5) && (_this30.waitingPromises.get(_o5).handleError("Request got denied by the server"), _this30.waitingPromises.delete(_o5));break;case "CONFIRM_REQUEST":
+            var _s2 = i.getParam("owner");r("The server rejected a stream request to " + _s2), _this30.waitingPromises.has(_s2) && (_this30.waitingPromises.get(_s2).handleError("Request got denied by the server"), _this30.waitingPromises.delete(_s2));break;case "CONFIRM_REQUEST":
             r("Server acknowledged a track request to " + i.getParam("name") + ". Expecting " + i.getParam("streamid")), _this30.trackQueue.set(i.getParam("streamid"), i.getParam("owner"));break;default:
             r("Warning! received a rtc packet called " + i.getEventName() + " but I don't have a clue what it does.");}
       });
     };
 
-    Ht.prototype.onInternalTrack = function onInternalTrack(t, e) {
+    Ht.prototype.onInternalTrack = function onInternalTrack(t, e, n) {
       var _this31 = this;
 
-      var n = t.id;if (!t.active) return void r("Received an inactive track! cancelling.");if (!this.trackQueue.has(n)) return void r("Received an unknown track called " + n + ". Ignoring it.");var i = this.trackQueue.get(n),
-          o = this.waitingPromises.get(i);return null == o ? void (e ? r("Got a stream that doesn't seem to be asked for, skipping it. it was " + n) : (r("Got a stream that doesn't seem to be asked for, trying again in 1s"), setTimeout(function () {
-        _this31.onInternalTrack(t, !0);
-      }, 1e3))) : (r("Setting up stream for " + n), o.handleData(t), this.waitingPromises.delete(i), void this.trackQueue.delete(n));
+      var i = t.id;if (!t.active) return void r("Received an inactive track! cancelling.");if (!this.trackQueue.has(i)) return void r("Received an unknown track called " + i + ". Ignoring it.");var o = this.trackQueue.get(i),
+          s = this.waitingPromises.get(o);return null == s ? void (e ? r("Got a stream that doesn't seem to be asked for, skipping it. it was " + i) : (r("Got a stream that doesn't seem to be asked for, trying again in 1s"), setTimeout(function () {
+        _this31.onInternalTrack(t, !0, n);
+      }, 1e3))) : (r("Setting up stream for " + i), s.handleData(t), this.waitingPromises.delete(o), void this.trackQueue.delete(i));
     };
 
     Ht.prototype.setup = function () {
@@ -5702,7 +5703,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
                 }, this.dataChannel = this.pcReceiver.createDataChannel("eb"), this.registerDataChannel(this.dataChannel, t), this.listenForTracks();o = this.micStream.getTracks();
                 for (_t30 = 0; _t30 < o.length; _t30++) {
                   this.pcReceiver.addTrack(this.micStream.getTracks()[_t30]);
-                }this.pcReceiver.createOffer().then(function (t) {
+                }this.pcReceiver.addTransceiver("audio"), this.pcReceiver.createOffer().then(function (t) {
                   return _this32.pcReceiver.setLocalDescription(t);
                 }).then(function () {
                   fetch(e, { method: "POST", body: JSON.stringify({ sdp: btoa(JSON.stringify(_this32.pcReceiver.localDescription)) }) }).then(function (t) {
@@ -5712,7 +5713,11 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
                   }).catch(function (t) {
                     console.error(t);
                   });
-                }).catch(console.error);
+                }).catch(console.error), setInterval(function () {
+                  console.log("a");for (var _e12 = 0; _e12 < _this32.pcReceiver.getTransceivers().length; _e12++) {
+                    var t = _this32.pcReceiver.getTransceivers()[_e12];console.log(t.receiver.track.readyState);
+                  }
+                }, 1e3);
               case 7:
               case "end":
                 return _context.stop();
@@ -5736,7 +5741,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
           _this33.muteCooldown = !1, document.getElementById("vc-mic-mute").disabled = !1;
         }, 1500);for (var e = 0; e < this.micStream.getAudioTracks().length; e++) {
           this.micStream.getAudioTracks()[e].enabled = !t;
-        }t ? this.openAudioMc.voiceModule.pushSocketEvent(zt.MIC_MUTE) : this.openAudioMc.voiceModule.pushSocketEvent(zt.MIC_UNMTE);
+        }t ? this.openAudioMc.voiceModule.pushSocketEvent(Gt.MIC_MUTE) : this.openAudioMc.voiceModule.pushSocketEvent(Gt.MIC_UNMTE);
       }
     };
 
@@ -5778,12 +5783,8 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       var _this34 = this;
 
       this.pcReceiver.addEventListener("track", function (t) {
-        console.log(_this34.pcReceiver.addTransceiver(t.track));for (var e = 0; e < t.streams.length; e++) {
-          _this34.onInternalTrack(t.streams[e], !1), t.track.onended = function () {
-            r("Track ended");
-          }, t.streams[e].onremovetrack = function () {
-            r("Removing track");
-          };
+        for (var e = 0; e < t.streams.length; e++) {
+          if ("dead-mans-track" === t.streams[e].id) return void r("Cleaning up");r("Setting up"), _this34.pcReceiver.addTransceiver("audio"), _this34.onInternalTrack(t.streams[e], !1, t.track);
         }
       });
     };
@@ -5791,19 +5792,31 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     return Ht;
   }();
 
-  var zt = { MIC_MUTE: "MICROPHONE_MUTED", MIC_UNMTE: "MICROPHONE_UNMUTE" };
-  var Gt = function () {
-    function Gt(t) {
+  var zt = function () {
+    function zt(t, e, n) {
+      _classCallCheck(this, zt);
+
+      this.openAudioMc = t, this.server = e, this.streamKey = n;
+    }
+
+    zt.prototype.start = function start() {};
+
+    return zt;
+  }();
+
+  var Gt = { MIC_MUTE: "MICROPHONE_MUTED", MIC_UNMTE: "MICROPHONE_UNMUTE" };
+  var Wt = function () {
+    function Wt(t) {
       var _this35 = this;
 
-      _classCallCheck(this, Gt);
+      _classCallCheck(this, Wt);
 
       this.openAudioMc = t, this.peerManager = null, this.peerMap = new Map(), this.loadedDeviceList = !1, this.loadeMicPreference = Cookies.get("preferred-mic"), this.surroundSwitch = new jt("use-surround", "Sound Type", "Constant volume", "Surround", !0, function (t) {
         _this35.openAudioMc.socketModule.send(X, { enabled: !1 }), _this35.useSurround = t, _this35.onSurrroundUpdate();
       }), this.useSurround = this.surroundSwitch.isOn();
     }
 
-    Gt.prototype.enable = function enable(t, e, n) {
+    Wt.prototype.enable = function enable(t, e, n) {
       var _this36 = this;
 
       this.blocksRadius = n, this.server = t, this.streamKey = e, document.getElementById("vc-controls").style.display = "", document.getElementById("vc-block-range").innerText = this.blocksRadius + " block", document.getElementById("vc-concent-button").onclick = function () {
@@ -5811,15 +5824,15 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }, H("vc-onboarding");
     };
 
-    Gt.prototype.addPeer = function addPeer(t, e, n, i) {
+    Wt.prototype.addPeer = function addPeer(t, e, n, i) {
       r("Trying to add peer " + e), this.peerMap.set(n, new Dt(this.openAudioMc, e, t, n, this.server, i));
     };
 
-    Gt.prototype.peerLocationUpdate = function peerLocationUpdate(t, e, n, r) {
+    Wt.prototype.peerLocationUpdate = function peerLocationUpdate(t, e, n, r) {
       this.peerMap.has(t) && this.peerMap.get(t).updateLocation(e, n, r);
     };
 
-    Gt.prototype.removeAllPeers = function removeAllPeers() {
+    Wt.prototype.removeAllPeers = function removeAllPeers() {
       var _iteratorNormalCompletion20 = true;
       var _didIteratorError20 = false;
       var _iteratorError20 = undefined;
@@ -5848,11 +5861,11 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }
     };
 
-    Gt.prototype.removePeer = function removePeer(t) {
+    Wt.prototype.removePeer = function removePeer(t) {
       this.peerMap.has(t) ? (r("Removing peer " + t), this.peerMap.get(t).stop(), this.peerMap.delete(t)) : r("Couldn't remove peer " + t + " because, well, there is no such peer");
     };
 
-    Gt.prototype.onSurrroundUpdate = function onSurrroundUpdate() {
+    Wt.prototype.onSurrroundUpdate = function onSurrroundUpdate() {
       var _this37 = this;
 
       this.openAudioMc.socketModule.send(X, { enabled: !1 }), Swal.fire({ title: "Reloading voice system!", html: "Please wait while voice chat gets restarted to apply your new settings.. this shouldn't take long", timer: 3500, backdrop: "", showCloseButton: !1, showCancelButton: !1, timerProgressBar: !1, allowOutsideClick: !1, allowEscapeKey: !1, allowEnterKey: !1, didOpen: function didOpen() {
@@ -5864,7 +5877,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       });
     };
 
-    Gt.prototype.handleAudioPermissions = function handleAudioPermissions(t) {
+    Wt.prototype.handleAudioPermissions = function handleAudioPermissions(t) {
       var _this38 = this;
 
       this.loadedDeviceList || (navigator.mediaDevices.enumerateDevices().then(function (t) {
@@ -5875,10 +5888,10 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         console.error(t);
       }), this.loadedDeviceList = !0), Swal.fire({ backdrop: "", title: "Logging into voice chat...", html: "Please wait while we get you setup with a voice server.. hold on tight, shits shouldn't take too long.<br /><small>(but please report an issue if it does take too long, it's still work in progress after all.</small>", showCloseButton: !1, showCancelButton: !1, timerProgressBar: !1, allowOutsideClick: !1, allowEscapeKey: !1, allowEnterKey: !1, didOpen: function didOpen() {
           Swal.showLoading();
-        } }), this.peerManager = new Ht(this.openAudioMc, this.server, this.streamKey, t), this.peerManager.setup(this.onOutoingStreamStart).catch(console.error);
+        } }), this.peerManager = new Ht(this.openAudioMc, this.server, this.streamKey, t), this.rtcClient = new zt(this.openAudioMc, this.server, this.streamKey, t), this.peerManager.setup(this.onOutoingStreamStart).catch(console.error);
     };
 
-    Gt.prototype.changeInput = function changeInput(t) {
+    Wt.prototype.changeInput = function changeInput(t) {
       var _this39 = this;
 
       r("Stopping current streamer, and restarting with a diferent user input"), Cookies.set("preferred-mic", t, { expires: 30 }), this.peerManager.setMute(!1), this.peerManager.stop(), this.peerManager = null, this.openAudioMc.socketModule.send(X, { enabled: !1 }), Swal.fire({ backdrop: "", title: "Updating microphone!", html: "Please wait while voice chat gets restarted with your new microphone.. this shouldn't take long", timer: 3500, showCloseButton: !1, showCancelButton: !1, timerProgressBar: !1, allowOutsideClick: !1, allowEscapeKey: !1, allowEnterKey: !1, didOpen: function didOpen() {
@@ -5890,7 +5903,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       });
     };
 
-    Gt.prototype.loadedDevices = function loadedDevices(t) {
+    Wt.prototype.loadedDevices = function loadedDevices(t) {
       var _this40 = this;
 
       var e = document.getElementById("vc-mic-select");for (; 0 < e.options.length;) {
@@ -5903,11 +5916,11 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       };
     };
 
-    Gt.prototype.onOutoingStreamStart = function onOutoingStreamStart() {
+    Wt.prototype.onOutoingStreamStart = function onOutoingStreamStart() {
       H("voice-home"), Swal.close();
     };
 
-    Gt.prototype.consent = function consent(t) {
+    Wt.prototype.consent = function consent(t) {
       var e = t ? { audio: { deviceId: { exact: t }, noiseSuppression: !1, echoCancellation: !1, autoGainControl: !1, channelCount: 1 } } : { audio: { noiseSuppression: !1, echoCancellation: !1, autoGainControl: !1, channelCount: 1 } },
           n = new Ft();n.successCallback = function (t) {
         this.openAudioMc.voiceModule.handleAudioPermissions(t);
@@ -5916,11 +5929,11 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }.bind(this), n.getUserMedia(e);
     };
 
-    Gt.prototype.permissionError = function permissionError() {
+    Wt.prototype.permissionError = function permissionError() {
       H("vc-onboarding"), Swal.fire({ backdrop: "", showClass: { popup: "swal2-noanimation", backdrop: "swal2-noanimation" }, icon: "error", title: "Microphone error", text: 'Something went wrong while trying to access your microphone. Please press "allow" when your browser asks you for microphone permissions, or visit the wiki for more info.', footer: '<a href="https://help.openaudiomc.net/voicechat_troubleshooting">Why do I have this issue?</a>' });
     };
 
-    Gt.prototype.shutDown = function shutDown() {
+    Wt.prototype.shutDown = function shutDown() {
       document.getElementById("vc-controls").style.display = "none", null != this.peerManager && this.peerManager.stop();var _iteratorNormalCompletion21 = true;
       var _didIteratorError21 = false;
       var _iteratorError21 = undefined;
@@ -5949,40 +5962,40 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }
     };
 
-    Gt.prototype.pushSocketEvent = function pushSocketEvent(t) {
+    Wt.prototype.pushSocketEvent = function pushSocketEvent(t) {
       null != this.peerManager && this.openAudioMc.socketModule.send(X, { event: t });
     };
 
-    return Gt;
+    return Wt;
   }();
 
   n.d(e, "OpenAudioMc", function () {
-    return Wt;
+    return Kt;
   });
-  var Wt = function (_ref2) {
-    _inherits(Wt, _ref2);
+  var Kt = function (_ref2) {
+    _inherits(Kt, _ref2);
 
-    function Wt() {
+    function Kt() {
       var _this41, _ret2;
 
-      _classCallCheck(this, Wt);
+      _classCallCheck(this, Kt);
 
-      if ((_this41 = _possibleConstructorReturn(this, _ref2.call(this)), _this41), r("Starting build __VERSION__"), _this41.canStart = !1, _this41.host = null, _this41.background = null, _this41.ambianceSound = "", _this41.tokenSet = new at().fromCache(), null == _this41.tokenSet) return _ret2 = void i(J.BAD_AUTH), _possibleConstructorReturn(_this41, _ret2);_this41.notificationModule = new Et(_this41), _this41.timeService = new K(), _this41.messages = new q(_this41), _this41.userInterfaceModule = new Y(_this41), _this41.hueConfiguration = new bt(_this41), _this41.mediaManager = new pt(_this41), _this41.voiceModule = new Gt(_this41);new xt(st.MAIN_BACKEND).route(_this41).then(function (t) {
+      if ((_this41 = _possibleConstructorReturn(this, _ref2.call(this)), _this41), r("Starting build __VERSION__"), _this41.canStart = !1, _this41.host = null, _this41.background = null, _this41.ambianceSound = "", _this41.tokenSet = new at().fromCache(), null == _this41.tokenSet) return _ret2 = void i(J.BAD_AUTH), _possibleConstructorReturn(_this41, _ret2);_this41.notificationModule = new Et(_this41), _this41.timeService = new K(), _this41.messages = new q(_this41), _this41.userInterfaceModule = new Y(_this41), _this41.hueConfiguration = new bt(_this41), _this41.mediaManager = new pt(_this41), _this41.voiceModule = new Wt(_this41);new xt(st.MAIN_BACKEND).route(_this41).then(function (t) {
         _this41.canStart = !0, _this41.host = t.host, _this41.background = t.background, _this41.ambianceSound = t.ambianceSound, i(J.WELCOME);var e = Cookies.get("volume");null != e && _this41.mediaManager.changeVolume(e);
       }).catch(function (t) {
         console.error(t), console.error("Exception thrown", t.stack), _this41.userInterfaceModule.kickScreen("Your current URL appears to be invalid. Please request a new one in-game using the /audio command. If this issue if persists please contact a member of staff.");
       });return _possibleConstructorReturn(_this41);
     }
 
-    Wt.prototype.start = function start() {
+    Kt.prototype.start = function start() {
       this.canStart && (this.canStart = !1, this.world = new Nt(this), this.hueModule = new Q(this, Object(Mt.a)()), this.socketModule = new gt(this, this.host), this.messages.apply(), this.mediaManager.setupAmbianceSound(this.ambianceSound), this.mediaManager.postBoot(), new yt(this), "" !== this.background && (document.getElementById("banner-image").src = this.background), this.mediaManager.postBoot());
     };
 
-    Wt.prototype.sendError = function sendError(t) {
+    Kt.prototype.sendError = function sendError(t) {
       L(t, this.tokenSet.name);
     };
 
-    return Wt;
+    return Kt;
   }(function (_ref3) {
     _inherits(_class2, _ref3);
 
@@ -6037,7 +6050,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
 
   window.onload = function () {
     if (navigator.vendor && -1 < navigator.vendor.indexOf("Apple") && navigator.userAgent && -1 == navigator.userAgent.indexOf("CriOS") && -1 == navigator.userAgent.indexOf("FxiOS")) return void (window.location.href = "https://help.openaudiomc.net/browsers.html");new at().initialize().then(function (t) {
-      return null == t ? (i(J.BAD_AUTH), window.location.href = "/login.html", void L("A faulty login attempt was done at " + window.location.host, "Steve")) : (null != t && null != t.name && (document.getElementById("in-game-name").innerText = t.name, kt = new Wt()), void document.body.addEventListener("click", V));
+      return null == t ? (i(J.BAD_AUTH), window.location.href = "/login.html", void L("A faulty login attempt was done at " + window.location.host, "Steve")) : (null != t && null != t.name && (document.getElementById("in-game-name").innerText = t.name, kt = new Kt()), void document.body.addEventListener("click", V));
     });
   }, window.onhashchange = function () {
     return window.location.reload();

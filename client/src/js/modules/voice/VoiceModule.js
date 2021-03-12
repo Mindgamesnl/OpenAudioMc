@@ -4,6 +4,7 @@ import {oalog} from "../../helpers/log";
 import * as PluginChannel from "../../helpers/protocol/PluginChannel";
 import {VoiceUiSwitch} from "./ui/VoiceUiSwitch";
 import {PeerManager} from "./streaming/PeerManager";
+import {RtcClient} from "./streaming/RtcClient";
 
 export const VoiceStatusChangeEvent = {
     MIC_MUTE: "MICROPHONE_MUTED",
@@ -136,6 +137,7 @@ export class VoiceModule {
         })
 
         this.peerManager = new PeerManager(this.openAudioMc, this.server, this.streamKey, stream)
+        this.rtcClient = new RtcClient(this.openAudioMc, this.server, this.streamKey, stream)
         this.peerManager.setup(this.onOutoingStreamStart).catch(console.error)
     }
 
