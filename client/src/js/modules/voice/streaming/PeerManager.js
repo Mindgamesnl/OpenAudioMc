@@ -139,23 +139,23 @@ export class PeerManager {
                     let offer = JSON.parse(rtcPacket.trimmed())
                     this.pcReceiver.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(offer.sdp))))
                         .then((whatever) => {
-                            let packet = new RtcPacket()
-                                        .setEventName("CLIENT_CONFIRMED_NEG")
-                                        .serialize()
-                            this.dataChannel.send(packet);
-                            this.handleRenagEnd();
+                            // let packet = new RtcPacket()
+                            //             .setEventName("CLIENT_CONFIRMED_NEG")
+                            //             .serialize()
+                            // this.dataChannel.send(packet);
+                            // this.handleRenagEnd();
 
                             // finish, don't do the rest while debugging
 
-                            // this.pcReceiver.createAnswer()
-                            //     .then(answer => {
-                            //         var packet = new RtcPacket()
-                            //             .setEventName("PROCESS_RESPONSE")
-                            //             .serialize()
-                            //         packet += btoa(JSON.stringify(answer))
-                            //         this.dataChannel.send(packet);
-                            //     })
-                            //     .catch(console.error)
+                            this.pcReceiver.createAnswer()
+                                .then(answer => {
+                                    var packet = new RtcPacket()
+                                        .setEventName("PROCESS_RESPONSE")
+                                        .serialize()
+                                    packet += btoa(JSON.stringify(answer))
+                                    this.dataChannel.send(packet);
+                                })
+                                .catch(console.error)
                         })
                         .catch(console.error)
                     break
@@ -268,7 +268,7 @@ export class PeerManager {
         for (let i = 0; i < tracks.length; i++) {
             this.pcReceiver.addTrack(this.micStream.getTracks()[i]);
         }
-
+        this.pcReceiver.addTransceiver('audio');
         this.pcReceiver.createOffer()
             .then(d => this.pcReceiver.setLocalDescription(d))
             .then(() => {
@@ -338,11 +338,13 @@ export class PeerManager {
         this.pcReceiver.addEventListener("track", e => {
             for (let i = 0; i < e.streams.length; i++) {
                 if (e.streams[i].id === "dead-mans-track") {
-                    oalog('Ignoring dmt')
+                    oalog('Cleaning up')
                     return
+                } else {
+                    oalog("Setting up")
+                    this.pcReceiver.addTransceiver('audio');
+                    this.onInternalTrack(e.streams[i], false, e.track);
                 }
-                this.pcReceiver.addTransceiver(e.track)
-                this.onInternalTrack(e.streams[i], false, e.track);
             }
         })
     }
