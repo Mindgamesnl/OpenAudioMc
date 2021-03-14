@@ -3,7 +3,7 @@ The OpenAudioMc Java API is split into three parts, these are
  - **Client** All player related functions (events, hooks, etc)
  - **WorldApi** Hooks into the region and physical speaker system *(only accessible through Spigot)*
  - **MediaApi** Hooks and controls towards controls
- - **RegistryApi** Access to the OARegistry, for adding sub-commands and source middleware (also known as mutations)
+ - **RegistryApi** Access to the OARegistry, for adding sub-commands and source middleware (also known as mutations), and voicechat player filters
  
 To get started, clone the github repository and build the latest release locally through maven, then add it in your project by adding the following to your pom
 ```xml
@@ -85,7 +85,7 @@ This will start a 3D spatial sound at a given location for the player with a rad
 the `playSpatialSound` method returns a string, which is the spatial-id for that player (and unique to that player). You can remove it again with
 ```java
 api.getMediaApi().stopSpatialSound(client, spatialSoundId);
-``` 
+```
 
 ## K/V Cache
 Keeping track of all spatial ID's can be a pain, so we can keep track of it with a simple map. You can just `put` and `get` player metadata via the map we provide with the `getKeyValue` method in Client.
