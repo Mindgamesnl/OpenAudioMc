@@ -19,7 +19,6 @@ import {ReportError} from "./helpers/protocol/ErrorReporter";
 import {API_ENDPOINT} from "./helpers/protocol/ApiEndpoints";
 import {VoiceModule} from "./modules/voice/VoiceModule";
 import {oalog} from "./helpers/log";
-import {LoadLibrary} from "./helpers/libs/LibraryLoader";
 
 export class OpenAudioMc extends Getters {
 

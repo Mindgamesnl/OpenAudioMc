@@ -4,7 +4,7 @@ export function DoBetaWelcome() {
 
     let lastCallToAction = Cookies.get("vc-beta-call-to-action");
     if (lastCallToAction != null) {
-        return
+        // return
     }
 
     LoadLibrary("https://cdn.jsdelivr.net/gh/mathusummut/confetti.js/confetti.min.js", () => {

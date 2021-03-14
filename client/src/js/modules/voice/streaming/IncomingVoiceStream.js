@@ -21,8 +21,6 @@ export class IncomingVoiceStream {
         let prom = this.openAudioMc.voiceModule.peerManager.requestStream(this.peerStreamKey);
 
         prom.onFinish((stream) => {
-            oalog("Finished the promise! got " + stream)
-
             this.harkEvents = Hark(stream, {})
 
             this.harkEvents.on('speaking', () => {

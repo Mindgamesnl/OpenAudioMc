@@ -65,8 +65,9 @@ export class VoiceModule {
     removePeer(key) {
         if (this.peerMap.has(key)) {
             oalog("Removing peer " + key)
-            this.peerMap.get(key).stop();
+            let instance = this.peerMap.get(key)
             this.peerMap.delete(key);
+            instance.stop();
         } else {
             oalog("Couldn't remove peer " + key + " because, well, there is no such peer")
         }
@@ -221,7 +222,7 @@ export class VoiceModule {
                 audio:
                     {
                         deviceId: {exact: preferedDeviceId},
-                        noiseSuppression: false,
+                        noiseSuppression: true,
                         // sampleRate: 64000,
                         echoCancellation: false,
                         autoGainControl: false,
@@ -232,7 +233,7 @@ export class VoiceModule {
             query = {
                 audio:
                     {
-                        noiseSuppression: false,
+                        noiseSuppression: true,
                         // sampleRate: 64000,
                         echoCancellation: false,
                         autoGainControl: false,

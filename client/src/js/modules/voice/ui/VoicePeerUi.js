@@ -2,7 +2,8 @@ import {CallAfterDomUpdate} from "../../../helpers/domhelper";
 
 export class VoicePeerUi {
 
-    constructor(playerName, playerUuid, volume, onVolumeChange) {
+    constructor(openAudioMc, playerName, playerUuid, volume, onVolumeChange) {
+        this.openAudioMc = openAudioMc;
         this.playerName = playerName;
 
         let baseHtml = `
@@ -33,10 +34,23 @@ export class VoicePeerUi {
                 this.updateVolumeDisplay(v);
             }
         })
+
+        setTimeout(() => {
+            this.updatePlaceholder()
+        }, 10)
+    }
+
+    updatePlaceholder() {
+        if (this.openAudioMc.voiceModule.peerMap.size == 0) {
+            document.getElementById("empty-call-placeholder").style.display = "";
+        } else {
+            document.getElementById("empty-call-placeholder").style.display = "none";
+        }
     }
 
     remove() {
         document.getElementById("vc-call-members").removeChild(document.getElementById("vc-user-card-" + this.playerName))
+        this.updatePlaceholder()
     }
 
     setVisuallyTalking(state) {

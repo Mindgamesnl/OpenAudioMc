@@ -21,7 +21,7 @@ export class VoicePeer {
         }
 
         // create UI
-        this.ui = new VoicePeerUi(playerName, playerUuid, this.volume, (newVolume) => {
+        this.ui = new VoicePeerUi(this.openAudioMc, playerName, playerUuid, this.volume, (newVolume) => {
             this.volume = newVolume;
             Cookies.set("vc-volume-of-" + playerName, newVolume, { expires: 30 });
             if (this.ready) {
