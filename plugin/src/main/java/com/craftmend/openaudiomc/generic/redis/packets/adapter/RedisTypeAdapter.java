@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
+import java.util.UUID;
 
 public class RedisTypeAdapter implements JsonSerializer<OARedisPacket>, JsonDeserializer<OARedisPacket> {
 
@@ -17,6 +18,7 @@ public class RedisTypeAdapter implements JsonSerializer<OARedisPacket>, JsonDese
 
         result.add("type", new JsonPrimitive(src.getClass().getName()));
         result.add("payload", context.serialize(src, src.getClass()));
+        result.add("senderUuid", new JsonPrimitive(src.getSenderUUID().toString()));
 
         return result;
     }
@@ -25,10 +27,13 @@ public class RedisTypeAdapter implements JsonSerializer<OARedisPacket>, JsonDese
     public OARedisPacket deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
         String type = jsonObject.get("type").getAsString();
+        String senderUuid = jsonObject.get("senderUuid").getAsString();
         JsonElement element = jsonObject.get("payload");
 
         try {
-            return context.deserialize(element, Class.forName(type));
+            OARedisPacket orp = context.deserialize(element, Class.forName(type));
+            orp.setSenderUUID(UUID.fromString(senderUuid));
+            return orp;
         } catch (ClassNotFoundException cnfe) {
             throw new JsonParseException("Unknown element type: " + type, cnfe);
         }

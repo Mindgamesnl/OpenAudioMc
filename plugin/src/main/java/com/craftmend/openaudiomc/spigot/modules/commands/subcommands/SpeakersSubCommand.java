@@ -14,6 +14,7 @@ import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.SpeakerSettings;
+import com.craftmend.openaudiomc.spigot.modules.speakers.tasks.SpeakerGarbageCollection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import org.bukkit.*;
@@ -39,8 +40,11 @@ public class SpeakersSubCommand extends SubCommand {
 
                 new Argument("set <world> <x> <y> <z> <url>",
                         "Force place a speaker on a location, no interactions required"),
+
                 new Argument("remove <world> <x> <y> <z>",
-                        "Delete a speaker on a location")
+                        "Delete a speaker on a location"),
+
+                new Argument("gc", "Forcefully run a full garbage collection sweep.")
         );
         this.openAudioMcSpigot = openAudioMcSpigot;
     }
@@ -49,6 +53,16 @@ public class SpeakersSubCommand extends SubCommand {
     public void onExecute(GenericExecutor sender, String[] args) {
         if (args.length == 0) {
             Bukkit.getServer().dispatchCommand((CommandSender) sender.getOriginal(), "oa help " + getCommand());
+            return;
+        }
+
+        if (args[0].equalsIgnoreCase("gc")) {
+            message(sender, "Starting garbage collector...");
+            SpeakerGarbageCollection sgc = new SpeakerGarbageCollection();
+            // run the wrapper twice to force a cache refresh at the end
+            sgc.run();
+            sgc.run();
+            message(sender, "Full garbage collection sweep finished");
             return;
         }
 

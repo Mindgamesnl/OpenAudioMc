@@ -39,6 +39,15 @@ AudioApi.getInstance().getEventDriver()
         });
 ```
 
+OpenAudioMc has a few events build in, these are;
+ - `ClientConnectEvent`: Fires when a clients opens the web client, this is supported on all platforms.
+ - `ClientDisconnectEvent`: Fires when a clients closes the web client, this is supported on all platforms.
+ - `ClientRequestVoiceEvent`: A cancellable event that gets fired when a voicechat session is initializing. This only fires on the top-level server.
+ - `ClientErrorEvent`: Event that fires when the client encouters a media error (http failure when trying to load a media sound). This only fires on the top-level server.
+ - `StateChangeEvent`: Fires whenever the plugin changes state (idle, online, fatal error, etc). This only fires on the top-level server.
+ - `AccountAddTagEvent`: Fires whenever the server receives a new module/addon or update from the owning [Craftmend Account](account.md) (example, VOICE_CHAT)
+ - `AccountRemoveTagEvent`: Mirror opposite of the `AccountAddTagEvent`
+
 ## Getting a Client
 A client object resembles the web-connection of a given player and contains api methods (like `isConnected()`, `onConnect` etc) and is used to specify a player in other API methods.
 You can request a Client by Player-UUID on both bungeecord and spigot, but note that it'll only be available a few ticks after joining. Example for getting my own connection:

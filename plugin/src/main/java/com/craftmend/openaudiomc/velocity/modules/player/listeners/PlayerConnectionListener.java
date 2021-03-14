@@ -8,7 +8,7 @@ import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.Client
 import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientSyncHueStatePacket;
-import com.craftmend.openaudiomc.generic.node.packets.ClientUpdateRtcStatePacket;
+import com.craftmend.openaudiomc.generic.node.packets.ClientUpdateStatePacket;
 import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
@@ -47,16 +47,17 @@ public class PlayerConnectionListener {
             if (connection.isConnectedToRtc()) {
                 // drop all peers
                 connection.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(null)));
-
-                sendPacket(player,
-                        new ClientUpdateRtcStatePacket(
-                                player.getUniqueId(),
-                                connection.getStreamKey(),
-                                connection.isConnectedToRtc(),
-                                connection.getClientRtcManager().isMicrophoneEnabled()
-                        )
-                );
             }
+
+            sendPacket(player,
+                    new ClientUpdateStatePacket(
+                            player.getUniqueId(),
+                            connection.getStreamKey(),
+                            connection.isConnectedToRtc(),
+                            connection.getClientRtcManager().isMicrophoneEnabled(),
+                            connection.getSession().getStaticToken()
+                    )
+            );
 
             if (connection.isConnected()) {
                 sendPacket(player, new ClientConnectedPacket(player.getUniqueId()));

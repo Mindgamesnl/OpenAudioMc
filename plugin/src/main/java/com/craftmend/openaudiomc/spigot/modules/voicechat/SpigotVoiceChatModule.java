@@ -1,8 +1,8 @@
 package com.craftmend.openaudiomc.spigot.modules.voicechat;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
-import com.craftmend.openaudiomc.generic.craftmend.interfaces.TagUpdateListener;
+import com.craftmend.openaudiomc.api.impl.event.events.AccountAddTagEvent;
+import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.PeerFilter;
@@ -37,5 +37,6 @@ public class SpigotVoiceChatModule {
 
             }
         });
+
     }
 }
