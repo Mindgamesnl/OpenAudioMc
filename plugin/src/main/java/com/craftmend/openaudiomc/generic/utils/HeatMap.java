@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 public class HeatMap<T, S> {
 
+    public static final ContextFactory BYTE_CONTEXT = () -> (byte) 0;
     private final Map<T, Value> data = new ConcurrentHashMap<>();
     private final int maxAgeInSeconds;
     private final int maxElements;
@@ -129,6 +130,4 @@ public class HeatMap<T, S> {
             return (int) (Duration.between(pingedAt, Instant.now()).toMillis() / 1000);
         }
     }
-
-    public static ContextFactory BYTE_CONTEXT = () -> (byte) 0;
 }
