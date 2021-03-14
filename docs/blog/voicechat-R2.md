@@ -1,4 +1,4 @@
-# Voice BETA 0.2
+# Voice BETA R2
 Howdy howdy 👋<br />
 The second major revision of our voicechat platform just dropped, so we have a juicy changelog to review, and some notes to go over.<br />
 so *✨ lets get to it ✨*
