@@ -5517,24 +5517,30 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
   }();
 
   var Bt = function () {
-    function Bt(t, e, n, r) {
+    function Bt(t, e, n, r, i) {
       var _this24 = this;
 
       _classCallCheck(this, Bt);
 
-      this.playerName = t;var i = '\n        <div class="flex items-center p-2" id="vc-user-card-' + t + '">\n            <div class="w-16 h-16 rounded-full mr-3 overflow-hidden flex items-center" id="vc-user-card-' + t + '-indicator">\n                <img id="vc-user-card-' + t + '-picture" src="https://visage.surgeplay.com/bust/512/' + e + '" class="w-16">\n            </div>\n            <div class="flex-1">\n                <div class="flex items-center">\n                    <div class="font-semibold text-lg text-teal-500"><svg id="vc-user-card-' + t + '-muted" class="h-8 w-8 text-red-500" style="display: none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="1" y1="1" x2="23" y2="23" /> <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6" /> <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23" /> <line x1="12" y1="19" x2="12" y2="23" /> <line x1="8" y1="23" x2="16" y2="23" /></svg>' + t + ' <small id="vc-user-card-' + t + '-volume-disp">(' + n + '% volume)</small>\n                    </div>\n                </div>\n                <div><input id="vc-user-card-' + t + '-volume-input"\n                            class="rounded-lg overflow-hidden appearance-none bg-gray-400 h-3 w-full"\n                            type="range" min="0" max="120" step="1" value="' + n + '"/></div>\n            </div>\n        </div>\n        ';document.getElementById("vc-call-members").innerHTML += i, U(function () {
-        document.getElementById("vc-user-card-" + t + "-volume-input").oninput = function () {
-          var e = document.getElementById("vc-user-card-" + t + "-volume-input").value;r(e), _this24.updateVolumeDisplay(e);
+      this.openAudioMc = t, this.playerName = e;var o = '\n        <div class="flex items-center p-2" id="vc-user-card-' + e + '">\n            <div class="w-16 h-16 rounded-full mr-3 overflow-hidden flex items-center" id="vc-user-card-' + e + '-indicator">\n                <img id="vc-user-card-' + e + '-picture" src="https://visage.surgeplay.com/bust/512/' + n + '" class="w-16">\n            </div>\n            <div class="flex-1">\n                <div class="flex items-center">\n                    <div class="font-semibold text-lg text-teal-500"><svg id="vc-user-card-' + e + '-muted" class="h-8 w-8 text-red-500" style="display: none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="1" y1="1" x2="23" y2="23" /> <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6" /> <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23" /> <line x1="12" y1="19" x2="12" y2="23" /> <line x1="8" y1="23" x2="16" y2="23" /></svg>' + e + ' <small id="vc-user-card-' + e + '-volume-disp">(' + r + '% volume)</small>\n                    </div>\n                </div>\n                <div><input id="vc-user-card-' + e + '-volume-input"\n                            class="rounded-lg overflow-hidden appearance-none bg-gray-400 h-3 w-full"\n                            type="range" min="0" max="120" step="1" value="' + r + '"/></div>\n            </div>\n        </div>\n        ';document.getElementById("vc-call-members").innerHTML += o, U(function () {
+        document.getElementById("vc-user-card-" + e + "-volume-input").oninput = function () {
+          var t = document.getElementById("vc-user-card-" + e + "-volume-input").value;i(t), _this24.updateVolumeDisplay(t);
         };
-      });
+      }), setTimeout(function () {
+        _this24.updatePlaceholder();
+      }, 10);
     }
 
+    Bt.prototype.updatePlaceholder = function updatePlaceholder() {
+      document.getElementById("empty-call-placeholder").style.display = 0 == this.openAudioMc.voiceModule.peerMap.size ? "" : "none";
+    };
+
     Bt.prototype.remove = function remove() {
-      document.getElementById("vc-call-members").removeChild(document.getElementById("vc-user-card-" + this.playerName));
+      document.getElementById("vc-call-members").removeChild(document.getElementById("vc-user-card-" + this.playerName)), this.updatePlaceholder();
     };
 
     Bt.prototype.setVisuallyTalking = function setVisuallyTalking(t) {
-      document.getElementById("vc-user-card-" + this.playerName + "-indicator").style.boxShadow = t ? "0 0 10pt 2pt lime" : "";
+      t ? (document.getElementById("vc-user-card-" + this.playerName + "-indicator").style.backgroundColor = "lime", document.getElementById("vc-user-card-" + this.playerName + "-indicator").style.boxShadow = "0 0 10pt 2pt lime") : (document.getElementById("vc-user-card-" + this.playerName + "-indicator").style.boxShadow = "", document.getElementById("vc-user-card-" + this.playerName + "-indicator").style.backgroundColor = "");
     };
 
     Bt.prototype.setVisuallyMuted = function setVisuallyMuted(t) {
@@ -5560,7 +5566,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       var _this25 = this;
 
       var e = this.openAudioMc.voiceModule.peerManager.requestStream(this.peerStreamKey);e.onFinish(function (e) {
-        r("Finished the promise! got " + e), _this25.harkEvents = Object(Dt.a)(e, {}), _this25.harkEvents.on("speaking", function () {
+        _this25.harkEvents = Object(Dt.a)(e, {}), _this25.harkEvents.on("speaking", function () {
           _this25.uiInst.setVisuallyTalking(!0);
         }), _this25.harkEvents.on("stopped_speaking", function () {
           _this25.uiInst.setVisuallyTalking(!1);
@@ -5601,7 +5607,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
 
       _classCallCheck(this, Ut);
 
-      this.openAudioMc = t, this.playerName = e, this.playerUuid = e, this.streamKey = r, this.active = !0, this.ready = !1, this.location = o, this.volume = 80;var s = Cookies.get("vc-volume-of-" + e);null != s && (this.volume = parseInt(s)), this.ui = new Bt(e, n, this.volume, function (t) {
+      this.openAudioMc = t, this.playerName = e, this.playerUuid = e, this.streamKey = r, this.active = !0, this.ready = !1, this.location = o, this.volume = 80;var s = Cookies.get("vc-volume-of-" + e);null != s && (this.volume = parseInt(s)), this.ui = new Bt(this.openAudioMc, e, n, this.volume, function (t) {
         _this26.volume = t, Cookies.set("vc-volume-of-" + e, t, { expires: 30 }), _this26.ready && _this26.stream.setVolume(_this26.volume);
       }), this.stream = new jt(t, i, t.voiceModule.streamKey, r, this.volume, this.ui), this.stream.setLocation(o.x, o.y, o.z, !1), this.stream.start(function () {
         return _this26.active ? (_this26.stream.setVolume(_this26.volume), void (_this26.ready = !0)) : void _this26.stop();
@@ -5810,9 +5816,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
             });break;case "PROCESS_OFFER":
             _this30.lastNegotiationRequest = performance.now();var _o5 = JSON.parse(i.trimmed());_this30.pcReceiver.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(_o5.sdp)))).then(function () {
               _this30.pcReceiver.createAnswer().then(function (t) {
-                var e = new Ht().setEventName("PROCESS_RESPONSE").serialize();e += btoa(JSON.stringify(t)), _this30.dataChannel.send(e), _this30.pcReceiver.setLocalDescription(t).then(function () {
-                  r("Updated local description");
-                }).catch(console.error);
+                var e = new Ht().setEventName("PROCESS_RESPONSE").serialize();e += btoa(JSON.stringify(t)), _this30.dataChannel.send(e), _this30.pcReceiver.setLocalDescription(t).catch(console.error);
               }).catch(console.error);
             }).catch(console.error);break;case "CONFIRM_NEGOTIATION":
             _this30.handleRenagEnd();break;case "NEGOTIATION_CANCELLED":
@@ -5908,7 +5912,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
 
       this.pcReceiver.addEventListener("track", function (t) {
         for (var e = 0; e < t.streams.length; e++) {
-          if ("dead-mans-track" === t.streams[e].id) return void r("Cleaning up");r("Setting up"), t.track.onended = function () {
+          if ("dead-mans-track" === t.streams[e].id) return;t.track.onended = function () {
             _this34.dataChannel.send(new Ht().setEventName("SCHEDULE_RENAG").serialize());
           }, _this34.onInternalTrack(t.streams[e], !1, t.track);
         }
@@ -5947,9 +5951,9 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
 
       this.blocksRadius = n, this.server = t, this.streamKey = e, document.getElementById("vc-controls").style.display = "", document.getElementById("vc-block-range").innerText = this.blocksRadius + " block", document.getElementById("vc-concent-button").onclick = function () {
         _this36.consent(_this36.loadeMicPreference);
-      }, z("vc-onboarding"), null != Cookies.get("vc-beta-call-to-action") || (H("https://cdn.jsdelivr.net/gh/mathusummut/confetti.js/confetti.min.js", function () {
+      }, z("vc-onboarding"), Cookies.get("vc-beta-call-to-action"), H("https://cdn.jsdelivr.net/gh/mathusummut/confetti.js/confetti.min.js", function () {
         window.confetti.start(2500), Swal.fire({ title: "Voice BETA 0.2", html: '\n            <b>Its finally here!</b><br />\n            Your client just updated to beta 0.2, adding a bunch of new features and fixing a ton of pesky bugs.\n            <br />\n            Please check <u>our latest blog post</u> to read up on changes and new things to look out for in the future.<br />\n            Please reach out <u><a href="https://discord.openaudiomc.net/">in the OpenAudioMc Discord</a></u> if you have any questions or feedback.\n            <h1>enjoy!</h1>\n            ', imageUrl: "https://media.hearthpwn.com/attachments/96/921/tada.png", imageWidth: 200, imageHeight: 200, imageAlt: "TADAAAA", backdrop: "", allowOutsideClick: !1 });
-      }), Cookies.set("vc-beta-call-to-action", !0));
+      }), Cookies.set("vc-beta-call-to-action", !0);
     };
 
     Kt.prototype.addPeer = function addPeer(t, e, n, i) {
@@ -5990,7 +5994,9 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     };
 
     Kt.prototype.removePeer = function removePeer(t) {
-      this.peerMap.has(t) ? (r("Removing peer " + t), this.peerMap.get(t).stop(), this.peerMap.delete(t)) : r("Couldn't remove peer " + t + " because, well, there is no such peer");
+      if (this.peerMap.has(t)) {
+        r("Removing peer " + t);var e = this.peerMap.get(t);this.peerMap.delete(t), e.stop();
+      } else r("Couldn't remove peer " + t + " because, well, there is no such peer");
     };
 
     Kt.prototype.onSurrroundUpdate = function onSurrroundUpdate() {
@@ -6049,7 +6055,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     };
 
     Kt.prototype.consent = function consent(t) {
-      var e = t ? { audio: { deviceId: { exact: t }, noiseSuppression: !1, echoCancellation: !1, autoGainControl: !1, channelCount: 1 } } : { audio: { noiseSuppression: !1, echoCancellation: !1, autoGainControl: !1, channelCount: 1 } },
+      var e = t ? { audio: { deviceId: { exact: t }, noiseSuppression: !0, echoCancellation: !1, autoGainControl: !1, channelCount: 1 } } : { audio: { noiseSuppression: !0, echoCancellation: !1, autoGainControl: !1, channelCount: 1 } },
           n = new Lt();n.successCallback = function (t) {
         this.openAudioMc.voiceModule.handleAudioPermissions(t);
       }.bind(this), n.errorCallback = function (t) {
