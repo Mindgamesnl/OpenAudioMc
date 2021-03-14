@@ -34,9 +34,7 @@ public class PlayerProximityTicker implements Runnable {
 
             // find clients in this world, in radius and that are connected with RTC
             Set<ClientConnection> applicableClients = filter.wrap(
-                    Bukkit.getOnlinePlayers()
-                            .stream()
-                            .map(onlinePlayer -> OpenAudioMc.getInstance().getNetworkingService().getClient(onlinePlayer.getUniqueId())),
+                    OpenAudioMc.getInstance().getNetworkingService().getClients().stream(),
                     player
             ).collect(Collectors.toSet());
 
