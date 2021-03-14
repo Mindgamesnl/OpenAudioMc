@@ -1,6 +1,5 @@
 import {VoicePeerUi} from "./ui/VoicePeerUi";
 import {IncomingVoiceStream} from "./streaming/IncomingVoiceStream";
-import {oalog} from "../../helpers/log";
 
 export class VoicePeer {
 
@@ -30,7 +29,7 @@ export class VoicePeer {
             }
         });
 
-        this.stream = new IncomingVoiceStream(openAudioMc, server, openAudioMc.voiceModule.streamKey, streamKey, this.volume);
+        this.stream = new IncomingVoiceStream(openAudioMc, server, openAudioMc.voiceModule.streamKey, streamKey, this.volume, this.ui);
         this.stream.setLocation(location.x, location.y, location.z, false);
         this.stream.start(() => {
             // am I actually too late?

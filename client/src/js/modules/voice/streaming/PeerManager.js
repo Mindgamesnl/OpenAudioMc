@@ -123,7 +123,6 @@ export class PeerManager {
                     let raw = rtcPacket.trimmed()
                     let response = JSON.parse(raw)
                     oalog("response was " + raw.length)
-                    console.log(JSON.parse(atob(response.sdp)).sdp)
                     this.pcReceiver.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(response.sdp))))
                         .then(() => {
                             // send a confirmation
@@ -139,14 +138,6 @@ export class PeerManager {
                     let offer = JSON.parse(rtcPacket.trimmed())
                     this.pcReceiver.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(offer.sdp))))
                         .then((whatever) => {
-                            // let packet = new RtcPacket()
-                            //             .setEventName("CLIENT_CONFIRMED_NEG")
-                            //             .serialize()
-                            // this.dataChannel.send(packet);
-                            // this.handleRenagEnd();
-
-                            // finish, don't do the rest while debugging
-
                             this.pcReceiver.createAnswer()
                                 .then(answer => {
                                     var packet = new RtcPacket()
@@ -173,11 +164,6 @@ export class PeerManager {
                     oalog("Negotiation was ignored, server doesn't think it to be needed.")
                     break
 
-                case "ADD_TRANS":
-                    oalog("Adding a transceiver")
-
-                    break
-
                 case "OK":
                     // setup finished
                     if (whenSetupFinished != null) whenSetupFinished()
@@ -198,10 +184,30 @@ export class PeerManager {
                     this.trackQueue.set(rtcPacket.getParam("streamid"), rtcPacket.getParam("owner"));
                     break
 
+                case "CONTEXT_EVENT":
+                    this.contextEvent(rtcPacket)
+                    break
+
                 default:
                     oalog("Warning! received a rtc packet called " + rtcPacket.getEventName() + " but I don't have a clue what it does.")
             }
         });
+    }
+
+    contextEvent(eventPacket) {
+        let type = eventPacket.getParam("type")
+
+        switch (type) {
+            case "client-muted":
+                oalog(eventPacket.getParam("who") + " muted their microphone")
+                this.openAudioMc.voiceModule.peerMap.get(eventPacket.getParam("who")).ui.setVisuallyMuted(true);
+                break
+
+            case "client-unmuted":
+                oalog(eventPacket.getParam("who") + " unmuted their microphone")
+                this.openAudioMc.voiceModule.peerMap.get(eventPacket.getParam("who")).ui.setVisuallyMuted(false);
+                break
+        }
     }
 
     onInternalTrack(track, isRetry, mst) {
@@ -319,8 +325,16 @@ export class PeerManager {
         }
         if (state) {
             this.openAudioMc.voiceModule.pushSocketEvent(VoiceStatusChangeEvent.MIC_MUTE);
+            this.dataChannel.send(new RtcPacket()
+                .setEventName("CONTEXT_EVENT")
+                .setParam("type", "muted-stream")
+                .serialize())
         } else {
             this.openAudioMc.voiceModule.pushSocketEvent(VoiceStatusChangeEvent.MIC_UNMTE);
+            this.dataChannel.send(new RtcPacket()
+                .setEventName("CONTEXT_EVENT")
+                .setParam("type", "unmuted-stream")
+                .serialize())
         }
     }
 
@@ -348,8 +362,6 @@ export class PeerManager {
                 } else {
                     oalog("Setting up")
                     e.track.onended = (event) => {
-                        console.log(event)
-                        e.streams[i].removeTrack(e.track)
                         this.dataChannel.send(new RtcPacket()
                             .setEventName("SCHEDULE_RENAG")
                             .serialize())
