@@ -5951,9 +5951,9 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
 
       this.blocksRadius = n, this.server = t, this.streamKey = e, document.getElementById("vc-controls").style.display = "", document.getElementById("vc-block-range").innerText = this.blocksRadius + " block", document.getElementById("vc-concent-button").onclick = function () {
         _this36.consent(_this36.loadeMicPreference);
-      }, z("vc-onboarding"), Cookies.get("vc-beta-call-to-action"), H("https://cdn.jsdelivr.net/gh/mathusummut/confetti.js/confetti.min.js", function () {
-        window.confetti.start(2500), Swal.fire({ title: "Voice BETA 0.2", html: '\n            <b>Its finally here!</b><br />\n            Your client just updated to beta 0.2, adding a bunch of new features and fixing a ton of pesky bugs.\n            <br />\n            Please check <u>our latest blog post</u> to read up on changes and new things to look out for in the future.<br />\n            Please reach out <u><a href="https://discord.openaudiomc.net/">in the OpenAudioMc Discord</a></u> if you have any questions or feedback.\n            <h1>enjoy!</h1>\n            ', imageUrl: "https://media.hearthpwn.com/attachments/96/921/tada.png", imageWidth: 200, imageHeight: 200, imageAlt: "TADAAAA", backdrop: "", allowOutsideClick: !1 });
-      }), Cookies.set("vc-beta-call-to-action", !0);
+      }, z("vc-onboarding"), null != Cookies.get("vc-beta-call-to-action") || (H("https://cdn.jsdelivr.net/gh/mathusummut/confetti.js/confetti.min.js", function () {
+        window.confetti.start(2500), Swal.fire({ title: "Voice BETA 0.2", html: '\n            <b>Its finally here!</b><br />\n            Your client just updated to beta 0.2, adding a bunch of new features and fixing a ton of pesky bugs.\n            <br />\n            Please check <u><a href="https://help.openaudiomc.net/blog/voicechat-0.2">our latest blog post</a></u> to read up on changes and new things to look out for in the future.<br />\n            Please reach out <u><a href="https://discord.openaudiomc.net/">in the OpenAudioMc Discord</a></u> if you have any questions or feedback.\n            <h1>enjoy!</h1>\n            ', imageUrl: "https://media.hearthpwn.com/attachments/96/921/tada.png", imageWidth: 200, imageHeight: 200, imageAlt: "TADAAAA", backdrop: "", allowOutsideClick: !1 });
+      }), Cookies.set("vc-beta-call-to-action", !0));
     };
 
     Kt.prototype.addPeer = function addPeer(t, e, n, i) {
