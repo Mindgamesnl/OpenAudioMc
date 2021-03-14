@@ -154,6 +154,11 @@ export class PeerManager {
                                         .serialize()
                                     packet += btoa(JSON.stringify(answer))
                                     this.dataChannel.send(packet);
+                                    this.pcReceiver.setLocalDescription(answer)
+                                        .then(() => {
+                                            oalog("Updated local description")
+                                        })
+                                        .catch(console.error)
                                 })
                                 .catch(console.error)
                         })
@@ -268,7 +273,7 @@ export class PeerManager {
         for (let i = 0; i < tracks.length; i++) {
             this.pcReceiver.addTrack(this.micStream.getTracks()[i]);
         }
-        this.pcReceiver.addTransceiver('audio');
+
         this.pcReceiver.createOffer()
             .then(d => this.pcReceiver.setLocalDescription(d))
             .then(() => {
@@ -342,7 +347,13 @@ export class PeerManager {
                     return
                 } else {
                     oalog("Setting up")
-                    this.pcReceiver.addTransceiver('audio');
+                    e.track.onended = (event) => {
+                        console.log(event)
+                        e.streams[i].removeTrack(e.track)
+                        this.dataChannel.send(new RtcPacket()
+                            .setEventName("SCHEDULE_RENAG")
+                            .serialize())
+                    }
                     this.onInternalTrack(e.streams[i], false, e.track);
                 }
             }
