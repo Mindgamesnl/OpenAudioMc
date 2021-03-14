@@ -14,9 +14,9 @@ export function DoBetaWelcome() {
             title: 'Voice BETA 0.2',
             html: `
             <b>Its finally here!</b><br />
-            Your client just updated to beta 0.2, adding a bunch of new features and fixing a ton of pesky bugs.
+            Your client just updated to beta R2, adding a bunch of new features and fixing a ton of pesky bugs.
             <br />
-            Please check <u><a href="https://help.openaudiomc.net/blog/voicechat-0.2">our latest blog post</a></u> to read up on changes and new things to look out for in the future.<br />
+            Please check <u><a href="https://help.openaudiomc.net/blog/voicechat-R2">our latest blog post</a></u> to read up on changes and new things to look out for in the future.<br />
             Please reach out <u><a href="https://discord.openaudiomc.net/">in the OpenAudioMc Discord</a></u> if you have any questions or feedback.
             <h1>enjoy!</h1>
             `,
