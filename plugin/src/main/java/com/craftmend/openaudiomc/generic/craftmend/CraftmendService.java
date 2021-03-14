@@ -28,7 +28,6 @@ public class CraftmendService {
     @Getter private VoiceService voiceService;
     @Getter private Set<CraftmendTag> tags = new HashSet<>();
     @Getter private ServerEnvironment serverEnvironment = ServerEnvironment.PRODUCTION;
-    private List<TagUpdateListener> tagUpdateSubscribers = new ArrayList<>();
 
     public CraftmendService(OpenAudioMc openAudioMc, VoiceService voiceService) {
         this.openAudioMc = openAudioMc;
