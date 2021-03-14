@@ -6,6 +6,7 @@ export class RtcPacket {
     }
 
     fromString(input) {
+        this.original = input;
         let parts = input.split("~")
         for (let i = 0; i < parts.length; i++) {
             if (i === 0) {
@@ -47,4 +48,15 @@ export class RtcPacket {
         return out
     }
 
+    trimmed() {
+        let headerLength = (this.eventName).length
+        let out = ""
+        for (let i = 0; i < this.original.length; i++) {
+            let byte = this.original.charAt(i);
+            if (!(i <= headerLength)) {
+                out += byte
+            }
+        }
+        return out;
+    }
 }

@@ -11,7 +11,6 @@ public class LitebansIntegration implements DependencyHandler {
 
     @Override
     public void onLoad(String pluginName, Plugin plugin) {
-
         // enable voicechat blocking for muted players
         AudioApi.getInstance().getEventDriver()
                 .on(ClientRequestVoiceEvent.class)

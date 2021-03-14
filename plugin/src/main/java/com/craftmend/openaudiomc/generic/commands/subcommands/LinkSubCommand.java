@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.craftmend.response.EmailResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.networking.rest.data.RestErrorResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.platform.Platform;
@@ -52,7 +53,10 @@ public class LinkSubCommand extends SubCommand {
                     message(sender, Platform.makeColor("GREEN") + "This OpenAudioMc installation is now linked to " + response.getResponse(EmailResponse.class).getEmail());
                     OpenAudioMc.getInstance().getCraftmendService().syncAccount();
                 } else {
-                    message(sender, Platform.makeColor("RED") + "That fingerprint is either invalid or expired :(");
+
+                    for (RestErrorResponse error : response.getErrors()) {
+                        message(sender, Platform.makeColor("RED") + error.getMessage());
+                    }
                 }
             });
         } else {

@@ -7,7 +7,9 @@ import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.Client
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.utils.Filter;
 import lombok.AllArgsConstructor;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -19,6 +21,8 @@ import java.util.stream.Collectors;
 public class PlayerProximityTicker implements Runnable {
 
     private int maxDistance;
+    @Setter
+    private Filter<ClientConnection, Player> filter;
 
     @Override
     public void run() {
@@ -29,16 +33,10 @@ public class PlayerProximityTicker implements Runnable {
             Player player = ((SpigotPlayerAdapter) client.getPlayer()).getPlayer();
 
             // find clients in this world, in radius and that are connected with RTC
-            Set<ClientConnection> applicableClients = Bukkit.getOnlinePlayers()
-                    .stream()
-                    .filter(p -> !p.getName().equals(client.getOwnerName()))
-                    .filter(onlinePlayer -> !onlinePlayer.isDead())
-                    .filter(possiblePeer -> !player.isDead())
-                    .filter(onlinePlayer -> onlinePlayer.getWorld().getName().equals(player.getWorld().getName()))
-                    .filter(onlinePlayer -> onlinePlayer.getLocation().distance(player.getLocation()) < maxDistance)
-                    .map(onlinePlayer -> OpenAudioMc.getInstance().getNetworkingService().getClient(onlinePlayer.getUniqueId()))
-                    .filter(cc -> cc.getClientRtcManager().isReady())
-                    .collect(Collectors.toSet());
+            Set<ClientConnection> applicableClients = filter.wrap(
+                    OpenAudioMc.getInstance().getNetworkingService().getClients().stream(),
+                    player
+            ).collect(Collectors.toSet());
 
             // find players that we don't have yet
             applicableClients

@@ -1,7 +1,6 @@
 import UrlReader from "../protocol/UrlReader";
 import {fetch} from "../../../libs/github.fetch";
 import {API_ENDPOINT} from "../protocol/ApiEndpoints";
-import { HandleServerIdentity } from '../protocol/ServerIdentityHandler'
 import { Log } from '../utils/log'
 
 export default class ClientTokenSet {

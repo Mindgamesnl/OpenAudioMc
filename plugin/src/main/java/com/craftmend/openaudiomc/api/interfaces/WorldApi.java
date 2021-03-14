@@ -14,7 +14,7 @@ public interface WorldApi {
 
     /**
      * Forcefully enable the region system with your own adapter
-     * In cases where you use something custom instead of worlduard
+     * In cases where you use something custom instead of worldguard
      * @param regionHandler Region adapter
      */
     void setRegionHandler(AbstractRegionAdapter regionHandler);
