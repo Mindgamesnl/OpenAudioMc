@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="tbod">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +22,7 @@
     <meta name="twitter:url" content="https://twitter.com/Mindgamesnl">
     <meta name="twitter:card" content="summary">
 
-    <link rel="stylesheet" href="css/2021.css?update=3"/>
+    <link rel="stylesheet" href="css/2021.css?update=4"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css"
           integrity="sha512-+WF6UMXHki/uCy0vATJzyA9EmAcohIQuwpNz0qEO+5UeE5ibPejMRdFuARSrl1trs3skqie0rY/gNiolfaef5w=="
           crossorigin="anonymous"/>
@@ -43,7 +43,7 @@
         }
     </style>
 </head>
-<body class="flex h-screen sparkles">
+<body class="flex h-screen sparkles tbod">
 <div class="alert-area" id="alert-area"></div>
 <div class="m-auto w-full">
     <div class="relative overflow-hidden" x-data="{ openMenu: false }">
@@ -285,7 +285,7 @@
                         want.</small>
                 </p>
                 <div class="flex justify-center lg:justify-start mt-6">
-                    <a class="px-4 py-3 bg-green-400 border-indigo-600 border-2 text-gray-800 text-xs font-semibold rounded hover:bg-green-100"
+                    <a class="px-4 py-3 bg-green-400 border-2 text-xs font-semibold rounded hover:bg-green-100"
                        id="vc-concent-button">Get Started</a>
                     <a class="mx-4 px-4 py-3 bg-gray-300 text-gray-900 text-xs font-semibold rounded hover:bg-gray-400"
                        onclick="document.getElementById('vc-controls').style.display = 'none'">Ignore</a>
@@ -334,7 +334,9 @@
                         <hr class="mt-2 pb-2"/>
                         <div class="flex justify-center">
                             <div class="w-full max-w-lg pt-4" id="vc-call-members">
-
+                                <div style="text-align: center;" id="empty-call-placeholder">
+                                    <h1 class="text-gray-400"><i>There's no one around sadly.. not to worry though! I'll be your happy imaginary friend</i></h1>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -353,7 +355,7 @@
 </body>
 
 
-<script src="OpenAudioMc.bundle.js?version=44"
+<script src="OpenAudioMc.bundle.js?version=45"
         onerror="window.location.href = 'https://help.openaudiomc.net/'"></script>
 </html>
 </html>

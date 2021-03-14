@@ -40,8 +40,8 @@ public class SpigotPlayerSelector {
                 int radius = Integer.parseInt(getArgument("r"));
                 Player nearest = Bukkit.getOnlinePlayers().stream()
                         .filter(player -> player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
-                        .min(Comparator.comparing(player -> player.getLocation().distance(standPoint)))
-                        .filter(player -> radius > player.getLocation().distance(standPoint))
+                        .min(Comparator.comparing(player -> player.getLocation().distanceSquared(standPoint)))
+                        .filter(player -> radius > player.getLocation().distanceSquared(standPoint))
                         .get();
                 players.add(nearest);
             }
@@ -50,8 +50,8 @@ public class SpigotPlayerSelector {
                 int distance = Integer.parseInt(getArgument("distance"));
                 Player nearest = Bukkit.getOnlinePlayers().stream()
                         .filter(player -> player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
-                        .min(Comparator.comparing(player -> player.getLocation().distance(standPoint)))
-                        .filter(player -> distance > player.getLocation().distance(standPoint))
+                        .min(Comparator.comparing(player -> player.getLocation().distanceSquared(standPoint)))
+                        .filter(player -> distance > player.getLocation().distanceSquared(standPoint))
                         .get();
                 players.add(nearest);
             }
@@ -59,7 +59,7 @@ public class SpigotPlayerSelector {
             else {
                 Bukkit.getOnlinePlayers().stream()
                         .filter(player -> player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
-                        .min(Comparator.comparing(player -> player.getLocation().distance(standPoint)))
+                        .min(Comparator.comparing(player -> player.getLocation().distanceSquared(standPoint)))
                         .ifPresent(players::add);
             }
         }
@@ -70,9 +70,7 @@ public class SpigotPlayerSelector {
             if (getArgument("region").length() != 0) {
                 RegionModule regionModule = OpenAudioMcSpigot.getInstance().getRegionModule();
                 String targetRegion = getArgument("region");
-
                 if (regionModule != null) {
-
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         regionModule.getRegionAdapter()
                                 .getRegionsAtLocation(player.getLocation(standPoint)).forEach(region -> {
@@ -81,22 +79,20 @@ public class SpigotPlayerSelector {
                             }
                         });
                     }
-
                 } else {
                     commandSender.sendMessage("You dont have worldguard installed. Skipping the region argument.");
                 }
-
             } else if (getArgument("r").length() != 0) {
                 int radius = Integer.parseInt(getArgument("r"));
                 players.addAll(Bukkit.getOnlinePlayers().stream()
                         .filter(player -> player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
-                        .filter(player -> radius > player.getLocation().distance(standPoint))
+                        .filter(player -> radius > player.getLocation().distanceSquared(standPoint))
                         .collect(Collectors.toList()));
             } else if (getArgument("distance").length() != 0) {
                 int distance = Integer.parseInt(getArgument("distance"));
                 players.addAll(Bukkit.getOnlinePlayers().stream()
                         .filter(player -> player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
-                        .filter(player -> distance > player.getLocation().distance(standPoint))
+                        .filter(player -> distance > player.getLocation().distanceSquared(standPoint))
                         .collect(Collectors.toList()));
             }
 

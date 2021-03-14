@@ -31,8 +31,6 @@ public enum RestEndpoint {
     // voice
     VOICE_EVENT_BUS_PREAUTH("/eb/check", false),
     VOICE_EVENT_BUS("/eb/ws", false),
-    VOICE_LOGIN("/openaudio/login", false),
-    VOICE_EVENTS("/openaudio/events", false),
     ;
 
     private String url;

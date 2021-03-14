@@ -11,6 +11,7 @@ import com.craftmend.openaudiomc.generic.craftmend.response.VoiceSessionRequestR
 import com.craftmend.openaudiomc.generic.craftmend.tasks.PlayerStateStreamer;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.networking.rest.ServerEnvironment;
 import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
@@ -26,6 +27,7 @@ public class CraftmendService {
     @Getter private CraftmendAccountResponse accountResponse = new CraftmendAccountResponse();
     @Getter private VoiceService voiceService;
     @Getter private Set<CraftmendTag> tags = new HashSet<>();
+    @Getter private ServerEnvironment serverEnvironment = ServerEnvironment.PRODUCTION;
 
     public CraftmendService(OpenAudioMc openAudioMc, VoiceService voiceService) {
         this.openAudioMc = openAudioMc;

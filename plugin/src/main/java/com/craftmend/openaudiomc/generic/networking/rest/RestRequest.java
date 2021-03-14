@@ -6,7 +6,6 @@ import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
 import com.craftmend.openaudiomc.generic.networking.rest.data.RestErrorResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
-import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import lombok.Getter;
 import okhttp3.*;
 
@@ -20,8 +19,7 @@ public class RestRequest {
 
     public static final OkHttpClient client = new OkHttpClient();
     @Getter private String endpoint;
-    @Getter
-    private String body = null;
+    @Getter private String body = null;
     private final Map<String, String> variables = new HashMap<>();
 
     public RestRequest(RestEndpoint endpoint) {
@@ -87,13 +85,15 @@ public class RestRequest {
     }
 
     private String readHttp(String url) throws IOException {
-        Request.Builder request = new Request.Builder().url(url);
+        Request.Builder request = new Request
+                .Builder()
+                .url(url)
+                .header("oa-env", OpenAudioMc.getInstance().getCraftmendService().getServerEnvironment().toString());
 
         if (this.body == null) {
             request = request.get();
         } else {
-            RequestBody body = RequestBody.create(MediaType.parse("application/json"), this.body);
-            request = request.post(body);
+            request = request.post(RequestBody.create(this.body, MediaType.parse("application/json")));
         }
 
         Call call = client.newCall(request.build());

@@ -1,55 +1,48 @@
 import {oalog} from "../../../helpers/log";
 import {Vector3} from "../../../helpers/math/Vector3";
 import {Position} from "../../../helpers/math/Position";
+import {Hark} from "../../../helpers/libs/hark.bundle";
 
 export class IncomingVoiceStream {
 
-    constructor(openAudioMc, server, streamKey, peerStreamKey, volume) {
+    constructor(openAudioMc, server, streamKey, peerStreamKey, volume, uiInst) {
         this.openAudioMc = openAudioMc;
         this.server = server;
         this.streamKey = streamKey;
         this.peerStreamKey = peerStreamKey;
         this.volume = volume;
         this.volBooster = 1.2;
+        this.uiInst = uiInst;
+        this.harkEvents = null;
     }
 
     start(whenFinished) {
-        let endpoint = this.server + "webrtc/listener/sdp" +
-            "/m/" + tokenCache.publicServerKey +
-            "/pu/" + tokenCache.uuid +
-            "/pn/" + tokenCache.name +
-            "/tg/" + this.peerStreamKey +
-            "/sk/" + this.streamKey;
+        // request stream
+        let prom = this.openAudioMc.voiceModule.peerManager.requestStream(this.peerStreamKey);
 
-        this.pcReceiver = new RTCPeerConnection();
+        prom.onFinish((stream) => {
+            this.harkEvents = Hark(stream, {})
 
-        let started = false;
-        let kickoff = (event) => {
-            if (this.pcReceiver.connectionState === 'connected' || event.target.iceConnectionState === 'connected') {
-                if (started) return;
-                started = true;
-                oalog("Finished handshake for" + this.streamKey);
-                whenFinished();
-            }
-        }
+            this.harkEvents.on('speaking', () => {
+                this.uiInst.setVisuallyTalking(true)
+            });
 
-        this.pcReceiver.oniceconnectionstatechange = kickoff
-        this.pcReceiver.addEventListener('connectionstatechange', kickoff);
+            this.harkEvents.on('stopped_speaking', () => {
+                this.uiInst.setVisuallyTalking(false)
+            });
 
-        this.pcReceiver.ontrack = (event) => {
-            const stream = event.streams[0];
             const ctx = this.openAudioMc.world.player.audioCtx;
             this.setVolume(this.volume)
             this.gainNode = ctx.createGain();
-            const audio = new Audio();
-            audio.srcObject = stream;
-
+            this.audio = new Audio();
+            this.audio.srcObject = stream;
             this.gainNode.gain.value = (this.volume / 100) * this.volBooster;
 
-            audio.onloadedmetadata = () => {
-                const source = ctx.createMediaStreamSource(audio.srcObject);
-                audio.play();
-                audio.muted = true;
+            this.audio.onloadedmetadata = () => {
+                oalog("Playing voice from " + this.peerStreamKey)
+                const source = ctx.createMediaStreamSource(this.audio.srcObject);
+                this.audio.play();
+                this.audio.muted = true;
 
                 if (this.openAudioMc.voiceModule.surroundSwitch.isOn()) {
                     const gainNode = this.gainNode;
@@ -68,25 +61,13 @@ export class IncomingVoiceStream {
                     gainNode.connect(ctx.destination);
                 }
             }
-        };
 
-        this.pcReceiver.addTransceiver('audio', {'direction': 'recvonly'})
-        this.pcReceiver.createOffer()
-            .then(d => this.pcReceiver.setLocalDescription(d))
-            .then(() => {
-                fetch(endpoint, {
-                    method: "POST",
-                    body: JSON.stringify({"sdp": btoa(JSON.stringify(this.pcReceiver.localDescription))})
-                })
-                    .then(response => response.json())
-                    .then(response => this.pcReceiver.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(response.Sdp)))))
-                    .catch((e) => {
-                        console.error(e);
-                        // window.location.reload();
-                    })
-            })
-            .catch(console.error)
+            whenFinished();
+        });
 
+        prom.onReject((error) => {
+            oalog("Stream for " + this.peerStreamKey + " got denied: " + error)
+        })
     }
 
     setLocation(x, y, z, update) {
@@ -112,11 +93,16 @@ export class IncomingVoiceStream {
     }
 
     stop() {
-        oalog("Closing voice link with " + this.peerStreamKey);
-        for (let receiver of this.pcReceiver.getReceivers()) {
-            receiver.track.stop();
+        if (this.audio != null) {
+            oalog("Closing voice link with " + this.peerStreamKey);
+            this.audio.pause()
+            this.audio.src = null;
+            this.audio.srcObject = null;
+            this.gainNode.gain.value = 0;
         }
-        this.pcReceiver.close();
+        if (this.harkEvents != null) {
+            this.harkEvents.stop()
+        }
     }
 
 }
