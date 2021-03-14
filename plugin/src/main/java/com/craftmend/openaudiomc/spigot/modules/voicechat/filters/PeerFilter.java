@@ -43,10 +43,7 @@ public class PeerFilter extends Filter<ClientConnection, Player> {
                     if (!otherPlayer.getWorld().getName().equals(context.getWorld().getName())) return false;
 
                     // check if the players are within distance
-                    if (!(otherPlayer.getLocation().distance(context.getLocation()) < maxDistance)) return false;
-
-                    // we're compatible! allow me to match up and join the call
-                    return true;
+                    return otherPlayer.getLocation().distanceSquared(context.getLocation()) < maxDistance;
                 });
     }
 }

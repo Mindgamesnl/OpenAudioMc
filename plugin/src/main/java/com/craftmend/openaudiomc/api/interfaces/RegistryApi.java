@@ -14,7 +14,6 @@ public interface RegistryApi {
      */
     void registerSubCommand(SubCommand subCommand);
 
-
     /**
      * Register a url mutation to translate certain url's to another format before being send to the client.
      * Can be used to rewrite old domains to new ones, etc etc
