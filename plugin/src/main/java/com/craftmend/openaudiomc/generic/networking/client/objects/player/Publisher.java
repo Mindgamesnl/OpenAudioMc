@@ -39,6 +39,22 @@ public class Publisher {
 
         openAudioMc.getTaskProvider().runAsync(() -> openAudioMc.getNetworkingService().connectIfDown());
 
+        // is it a forced session? we don't need to generate a token if thats the case since
+        // it falls back to the base64 pointer
+        if (clientConnection.getSession().isForced()) {
+            switch (openAudioMc.getPlatform()){
+                case SPIGOT:
+                case BUNGEE:
+                    SpigotHelper.connectMsg(openAudioMc, clientConnection, clientConnection.getSession().getStaticToken(), true);
+                    break;
+                case VELOCITY:
+                    VelocityHelper.connectMsg(openAudioMc, clientConnection, clientConnection.getSession().getStaticToken(), true);
+            }
+
+            clientConnection.setWaitingToken(true);
+            return;
+        }
+
         // sending waiting message
         clientConnection.getPlayer().sendMessage(translateColors(StorageKey.MESSAGE_GENERATING_SESSION.getString()));
 
@@ -50,10 +66,10 @@ public class Publisher {
             switch (openAudioMc.getPlatform()){
                 case SPIGOT:
                 case BUNGEE:
-                    SpigotHelper.connectMsg(openAudioMc, clientConnection, token);
+                    SpigotHelper.connectMsg(openAudioMc, clientConnection, token, false);
                     break;
                 case VELOCITY:
-                    VelocityHelper.connectMsg(openAudioMc, clientConnection, token);
+                    VelocityHelper.connectMsg(openAudioMc, clientConnection, token, false);
             }
 
             clientConnection.setWaitingToken(true);

@@ -1,6 +1,10 @@
 package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.impl.event.events.ClientConnectEvent;
+import com.craftmend.openaudiomc.api.impl.event.events.ClientDisconnectEvent;
+import com.craftmend.openaudiomc.api.impl.event.events.ClientErrorEvent;
+import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.api.interfaces.Client;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
@@ -50,7 +54,7 @@ public class ClientConnection implements Authenticatable, Client {
     private final Publisher sessionPublisher;
     @Getter private int volume = -1;
     private boolean isConnected = false;
-    @Getter private PlayerSession session;
+    @Setter @Getter private PlayerSession session;
     @Getter private ClientRtcManager clientRtcManager;
     @Setter @Getter private String streamKey;
 
@@ -131,6 +135,8 @@ public class ClientConnection implements Authenticatable, Client {
                 break;
         }
 
+        AudioApi.getInstance().getEventDriver().fire(new ClientConnectEvent(this));
+
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE)
             return;
         String connectedMessage = ConfigurationImplementation.getString(StorageKey.MESSAGE_CLIENT_OPENED);
@@ -158,6 +164,8 @@ public class ClientConnection implements Authenticatable, Client {
                 OpenAudioMcVelocity.getInstance().getNodeManager().getPacketManager().sendPacket(new PacketPlayer(velocityPlayer), new ClientDisconnectedPacket(velocityPlayer.getUniqueId()));
                 break;
         }
+
+        AudioApi.getInstance().getEventDriver().fire(new ClientDisconnectEvent(this));
 
         // Don't send if i'm spigot and a node
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE)
@@ -269,6 +277,7 @@ public class ClientConnection implements Authenticatable, Client {
 
     @Override
     public void handleError(MediaError error, String source) {
+        AudioApi.getInstance().getEventDriver().fire(new ClientErrorEvent(this, error, source));
         if (getPlayer().isAdministrator() && OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_STAFF_TIPS)) {
             String prefix = OpenAudioMc.getInstance().getCommandModule().getCommandPrefix();
             getPlayer().sendMessage(prefix + "Something went wrong while playing a sound for you, here's what we know:");
