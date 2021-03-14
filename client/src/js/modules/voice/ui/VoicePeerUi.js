@@ -55,9 +55,11 @@ export class VoicePeerUi {
 
     setVisuallyTalking(state) {
         if (state) {
+            document.getElementById("vc-user-card-" + this.playerName + "-indicator").style.backgroundColor = "lime"
             document.getElementById("vc-user-card-" + this.playerName + "-indicator").style.boxShadow = "0 0 10pt 2pt lime"
         } else {
             document.getElementById("vc-user-card-" + this.playerName + "-indicator").style.boxShadow = ""
+            document.getElementById("vc-user-card-" + this.playerName + "-indicator").style.backgroundColor = ""
         }
     }
 
