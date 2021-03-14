@@ -1,16 +1,19 @@
 import {oalog} from "../../../helpers/log";
 import {Vector3} from "../../../helpers/math/Vector3";
 import {Position} from "../../../helpers/math/Position";
+import {Hark} from "../../../helpers/libs/hark.bundle";
 
 export class IncomingVoiceStream {
 
-    constructor(openAudioMc, server, streamKey, peerStreamKey, volume) {
+    constructor(openAudioMc, server, streamKey, peerStreamKey, volume, uiInst) {
         this.openAudioMc = openAudioMc;
         this.server = server;
         this.streamKey = streamKey;
         this.peerStreamKey = peerStreamKey;
         this.volume = volume;
         this.volBooster = 1.2;
+        this.uiInst = uiInst;
+        this.harkEvents = null;
     }
 
     start(whenFinished) {
@@ -19,6 +22,16 @@ export class IncomingVoiceStream {
 
         prom.onFinish((stream) => {
             oalog("Finished the promise! got " + stream)
+
+            this.harkEvents = Hark(stream, {})
+
+            this.harkEvents.on('speaking', () => {
+                this.uiInst.setVisuallyTalking(true)
+            });
+
+            this.harkEvents.on('stopped_speaking', () => {
+                this.uiInst.setVisuallyTalking(false)
+            });
 
             const ctx = this.openAudioMc.world.player.audioCtx;
             this.setVolume(this.volume)
@@ -88,6 +101,9 @@ export class IncomingVoiceStream {
             this.audio.src = null;
             this.audio.srcObject = null;
             this.gainNode.gain.value = 0;
+        }
+        if (this.harkEvents != null) {
+            this.harkEvents.stop()
         }
     }
 
