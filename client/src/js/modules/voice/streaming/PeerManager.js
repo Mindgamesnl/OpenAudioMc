@@ -146,9 +146,6 @@ export class PeerManager {
                                     packet += btoa(JSON.stringify(answer))
                                     this.dataChannel.send(packet);
                                     this.pcReceiver.setLocalDescription(answer)
-                                        .then(() => {
-                                            oalog("Updated local description")
-                                        })
                                         .catch(console.error)
                                 })
                                 .catch(console.error)
@@ -341,10 +338,8 @@ export class PeerManager {
         this.pcReceiver.addEventListener("track", e => {
             for (let i = 0; i < e.streams.length; i++) {
                 if (e.streams[i].id === "dead-mans-track") {
-                    oalog('Cleaning up')
                     return
                 } else {
-                    oalog("Setting up")
                     e.track.onended = (event) => {
                         this.dataChannel.send(new RtcPacket()
                             .setEventName("SCHEDULE_RENAG")
