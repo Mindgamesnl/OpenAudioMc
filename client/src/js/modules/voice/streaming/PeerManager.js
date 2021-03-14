@@ -297,14 +297,6 @@ export class PeerManager {
                     })
             })
             .catch(console.error)
-
-        setInterval(() => {
-            console.log("a")
-            for (let i = 0; i < this.pcReceiver.getTransceivers().length; i++) {
-                var t = this.pcReceiver.getTransceivers()[i]
-                console.log(t.receiver.track.readyState)
-            }
-        }, 1000)
     }
 
     setMute(state) {
@@ -336,14 +328,6 @@ export class PeerManager {
                 .setParam("type", "unmuted-stream")
                 .serialize())
         }
-    }
-
-    countActiveStreams() {
-        let i = 0
-        for (let receiver of this.pcReceiver.getReceivers()) {
-            if (receiver.track.readyState == "live") i++
-        }
-        return i
     }
 
     stop() {
