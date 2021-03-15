@@ -16,8 +16,8 @@ import com.velocitypowered.api.event.connection.PostLoginEvent;
 import com.velocitypowered.api.event.player.ServerConnectedEvent;
 import com.velocitypowered.api.proxy.Player;
 import lombok.SneakyThrows;
-import com.craftmend.openaudiomc.api.velocitypluginmessageframework.PacketPlayer;
-import com.craftmend.openaudiomc.api.velocitypluginmessageframework.StandardPacket;
+import com.craftmend.openaudiomc.velocity.messages.PacketPlayer;
+import com.craftmend.openaudiomc.velocity.messages.StandardPacket;
 
 public class PlayerConnectionListener {
 

@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking.handlers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.api.velocitypluginmessageframework.PacketPlayer;
+import com.craftmend.openaudiomc.velocity.messages.PacketPlayer;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.generic.networking.abstracts.PayloadHandler;
 import com.craftmend.openaudiomc.generic.networking.client.interfaces.PlayerContainer;

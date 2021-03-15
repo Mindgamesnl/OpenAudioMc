@@ -2,8 +2,8 @@ package com.craftmend.openaudiomc.generic.node.packets;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
-import com.craftmend.openaudiomc.api.velocitypluginmessageframework.PacketWriter;
-import com.craftmend.openaudiomc.api.velocitypluginmessageframework.StandardPacket;
+import com.craftmend.openaudiomc.velocity.messages.PacketWriter;
+import com.craftmend.openaudiomc.velocity.messages.StandardPacket;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

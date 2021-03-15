@@ -9,8 +9,8 @@ import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.Client
 import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientSyncHueStatePacket;
-import com.craftmend.openaudiomc.api.velocitypluginmessageframework.PacketPlayer;
-import com.craftmend.openaudiomc.api.velocitypluginmessageframework.StandardPacket;
+import com.craftmend.openaudiomc.velocity.messages.PacketPlayer;
+import com.craftmend.openaudiomc.velocity.messages.StandardPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientUpdateStatePacket;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;

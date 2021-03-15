@@ -8,7 +8,7 @@ import com.craftmend.openaudiomc.generic.node.packets.CommandProxyPacket;
 import com.craftmend.openaudiomc.spigot.modules.proxy.objects.CommandProxyPayload;
 import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
 import com.velocitypowered.api.proxy.Player;
-import com.craftmend.openaudiomc.api.velocitypluginmessageframework.PacketPlayer;
+import com.craftmend.openaudiomc.velocity.messages.PacketPlayer;
 
 public class VelocitySpeakerCommand extends SubCommand {
 

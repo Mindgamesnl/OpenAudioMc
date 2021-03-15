@@ -1,6 +1,6 @@
-package com.craftmend.openaudiomc.api.velocitypluginmessageframework;
+package com.craftmend.openaudiomc.velocity.messages;
 
-import com.craftmend.openaudiomc.api.velocitypluginmessageframework.bungeecord.PacketForward;
+import com.craftmend.openaudiomc.velocity.messages.bungeecord.PacketForward;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
