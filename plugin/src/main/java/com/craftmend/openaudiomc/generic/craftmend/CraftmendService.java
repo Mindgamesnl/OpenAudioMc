@@ -27,7 +27,6 @@ public class CraftmendService {
     @Getter private CraftmendAccountResponse accountResponse = new CraftmendAccountResponse();
     @Getter private VoiceService voiceService;
     @Getter private Set<CraftmendTag> tags = new HashSet<>();
-    @Getter private ServerEnvironment serverEnvironment = ServerEnvironment.PRODUCTION;
 
     public CraftmendService(OpenAudioMc openAudioMc, VoiceService voiceService) {
         this.openAudioMc = openAudioMc;

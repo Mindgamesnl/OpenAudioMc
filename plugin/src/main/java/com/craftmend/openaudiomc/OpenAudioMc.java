@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc;
 import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
+import com.craftmend.openaudiomc.generic.networking.rest.ServerEnvironment;
 import com.craftmend.openaudiomc.generic.platform.interfaces.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
@@ -82,6 +83,7 @@ public class OpenAudioMc {
     private final Class<? extends NetworkingService> serviceImplementation;
 
     @Deprecated @Getter private static final OpenAudioApi api = new OpenAudioApi();
+    @Getter private static ServerEnvironment serverEnvironment = ServerEnvironment.PRODUCTION;
     @Getter private static OpenAudioMc instance;
     @Getter private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(AbstractPacketPayload.class, new AbstractPacketAdapter())

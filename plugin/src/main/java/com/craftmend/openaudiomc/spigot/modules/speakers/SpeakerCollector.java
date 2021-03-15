@@ -24,7 +24,7 @@ public class SpeakerCollector {
         Collection<ApplicableSpeaker> speakers = new ArrayList<>();
 
         applicableSpeakers.removeIf(speaker -> !speaker.getLocation().getWorld().equals(location.getWorld().getName()));
-        applicableSpeakers.removeIf(speaker -> speaker.getLocation().toBukkit().distanceSquared(location) > speaker.getRadius());
+        applicableSpeakers.removeIf(speaker -> speaker.getLocation().toBukkit().distance(location) > speaker.getRadius());
 
         applicableSpeakers.forEach(speaker -> {
             speakers.add(new ApplicableSpeaker(
