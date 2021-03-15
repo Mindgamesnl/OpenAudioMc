@@ -65,6 +65,7 @@ public class RestRequest {
             return OpenAudioMc.getGson().fromJson(output, ApiResponse.class);
         } catch (Exception e) {
             OpenAudioLogger.toConsole("Net error: " + e.getMessage());
+            e.printStackTrace();
             ApiResponse errorResponse = new ApiResponse();
             errorResponse.getErrors().add(new RestErrorResponse(e.toString(), ErrorCode.BAD_HANDSHAKE));
             return errorResponse;
@@ -88,7 +89,7 @@ public class RestRequest {
         Request.Builder request = new Request
                 .Builder()
                 .url(url)
-                .header("oa-env", OpenAudioMc.getInstance().getCraftmendService().getServerEnvironment().toString());
+                .header("oa-env", OpenAudioMc.getServerEnvironment().toString());
 
         if (this.body == null) {
             request = request.get();
