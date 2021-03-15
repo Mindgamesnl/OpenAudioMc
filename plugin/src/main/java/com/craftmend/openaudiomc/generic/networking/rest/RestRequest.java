@@ -73,6 +73,8 @@ public class RestRequest {
     }
 
     public String getUrl() {
+        setQuery("oa-env", OpenAudioMc.SERVER_ENVIRONMENT.toString());
+
         StringBuilder url = new StringBuilder(this.endpoint);
         if (variables.size() != 0) {
             url.append('?');
@@ -89,7 +91,7 @@ public class RestRequest {
         Request.Builder request = new Request
                 .Builder()
                 .url(url)
-                .header("oa-env", OpenAudioMc.getServerEnvironment().toString());
+                .header("oa-env", OpenAudioMc.SERVER_ENVIRONMENT.toString());
 
         if (this.body == null) {
             request = request.get();

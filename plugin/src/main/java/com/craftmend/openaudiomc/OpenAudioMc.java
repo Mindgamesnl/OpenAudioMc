@@ -83,7 +83,7 @@ public class OpenAudioMc {
     private final Class<? extends NetworkingService> serviceImplementation;
 
     @Deprecated @Getter private static final OpenAudioApi api = new OpenAudioApi();
-    @Getter private static ServerEnvironment serverEnvironment = ServerEnvironment.PRODUCTION;
+    public static ServerEnvironment SERVER_ENVIRONMENT = ServerEnvironment.PRODUCTION;
     @Getter private static OpenAudioMc instance;
     @Getter private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(AbstractPacketPayload.class, new AbstractPacketAdapter())
@@ -92,6 +92,13 @@ public class OpenAudioMc {
             .create();
 
     public OpenAudioMc(OpenAudioInvoker invoker) throws Exception {
+        // very first thing we need to do, is set the environment
+        String env = System.getenv("OA_ENVIRONMENT");
+        if (env != null && env != "") {
+            SERVER_ENVIRONMENT = ServerEnvironment.valueOf(env);
+            OpenAudioLogger.toConsole("WARNING! STARTING IN " + env + " MODE!");
+        }
+
         instance = this;
         this.invoker = invoker;
         this.platform = invoker.getPlatform();
