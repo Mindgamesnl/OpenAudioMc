@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.api.velocitypluginmessageframework;
+package com.craftmend.openaudiomc.velocity.messages;
 
 import java.io.DataInputStream;
 import java.io.IOException;

@@ -31,7 +31,7 @@ import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
 import com.craftmend.openaudiomc.velocity.generic.player.VelocityPlayerAdapter;
-import com.craftmend.openaudiomc.api.velocitypluginmessageframework.PacketPlayer;
+import com.craftmend.openaudiomc.velocity.messages.PacketPlayer;
 import com.velocitypowered.api.proxy.Player;
 import lombok.Getter;
 import lombok.Setter;

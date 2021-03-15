@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.api.velocitypluginmessageframework;
+package com.craftmend.openaudiomc.velocity.messages;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

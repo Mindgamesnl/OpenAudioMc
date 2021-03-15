@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.api.velocitypluginmessageframework;
+package com.craftmend.openaudiomc.velocity.messages;
 
 import lombok.Getter;
 import net.md_5.bungee.api.connection.ProxiedPlayer;

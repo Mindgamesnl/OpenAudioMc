@@ -7,7 +7,7 @@ import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.node.enums.CommandProxy;
 import com.craftmend.openaudiomc.generic.node.packets.CommandProxyPacket;
 import com.craftmend.openaudiomc.spigot.modules.proxy.objects.CommandProxyPayload;
-import com.craftmend.openaudiomc.api.velocitypluginmessageframework.PacketPlayer;
+import com.craftmend.openaudiomc.velocity.messages.PacketPlayer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class BungeeAliasCommand extends SubCommand {

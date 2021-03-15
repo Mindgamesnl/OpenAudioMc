@@ -8,8 +8,8 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents
 import com.craftmend.openaudiomc.generic.node.packets.*;
 import com.craftmend.openaudiomc.spigot.modules.proxy.objects.FakeGenericExecutor;
 
-import com.craftmend.openaudiomc.api.velocitypluginmessageframework.PacketHandler;
-import com.craftmend.openaudiomc.api.velocitypluginmessageframework.PacketListener;
+import com.craftmend.openaudiomc.velocity.messages.PacketHandler;
+import com.craftmend.openaudiomc.velocity.messages.PacketListener;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

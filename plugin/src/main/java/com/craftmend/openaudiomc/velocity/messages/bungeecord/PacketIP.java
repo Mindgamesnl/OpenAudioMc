@@ -1,7 +1,7 @@
-package com.craftmend.openaudiomc.api.velocitypluginmessageframework.bungeecord;
+package com.craftmend.openaudiomc.velocity.messages.bungeecord;
 
-import com.craftmend.openaudiomc.api.velocitypluginmessageframework.PacketWriter;
-import com.craftmend.openaudiomc.api.velocitypluginmessageframework.RawPacket;
+import com.craftmend.openaudiomc.velocity.messages.PacketWriter;
+import com.craftmend.openaudiomc.velocity.messages.RawPacket;
 
 import java.io.IOException;
 
