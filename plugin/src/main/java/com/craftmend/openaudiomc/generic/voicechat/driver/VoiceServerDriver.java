@@ -70,10 +70,8 @@ public class VoiceServerDriver {
             // schedule heartbeat every 10 seconds
             if (!taskStarted) {
                 taskProvider.scheduleAsyncRepeatingTask(() -> {
-                    if (taskRunning) {
-                        // send heartbeat
-                        pushEvent(VoiceServerEventType.HEARTBEAT, new HashMap<>());
-                    }
+                    // send heartbeat
+                    pushEvent(VoiceServerEventType.HEARTBEAT, new HashMap<>());
                 }, 200, 200);
                 taskStarted = true;
             }
@@ -169,6 +167,7 @@ public class VoiceServerDriver {
     }
 
     private void pushEvent(VoiceServerEventType event, Map<String, String> arguments) {
+        if (this.eventBus == null) return;
         String eventData = event.name();
 
         // format it like EVENT_TYPE~key=value~key=value
