@@ -5,6 +5,7 @@ export class VoicePeerUi {
     constructor(openAudioMc, playerName, playerUuid, volume, onVolumeChange) {
         this.openAudioMc = openAudioMc;
         this.playerName = playerName;
+        this.removed = false;
 
         let baseHtml = `
         <div class="flex items-center p-2" id="vc-user-card-` + playerName + `">
@@ -28,19 +29,25 @@ export class VoicePeerUi {
 
 
         CallAfterDomUpdate(() => {
-            document.getElementById("vc-user-card-" + playerName + "-volume-input").oninput = (e) => {
-                let v = document.getElementById("vc-user-card-" + playerName + "-volume-input").value;
-                onVolumeChange(v);
-                this.updateVolumeDisplay(v);
+            let slider = document.getElementById("vc-user-card-" + playerName + "-volume-input")
+            if (slider != null) {
+                slider.oninput = (e) => {
+                    if (this.removed) return;
+                    let v = document.getElementById("vc-user-card-" + playerName + "-volume-input").value;
+                    onVolumeChange(v);
+                    this.updateVolumeDisplay(v);
+                }
             }
         })
 
         setTimeout(() => {
+            if (this.removed) return;
             this.updatePlaceholder()
         }, 10)
     }
 
     updatePlaceholder() {
+        if (this.removed) return;
         if (this.openAudioMc.voiceModule.peerMap.size == 0) {
             document.getElementById("empty-call-placeholder").style.display = "";
         } else {
@@ -49,11 +56,13 @@ export class VoicePeerUi {
     }
 
     remove() {
+        this.removed = true;
         document.getElementById("vc-call-members").removeChild(document.getElementById("vc-user-card-" + this.playerName))
         this.updatePlaceholder()
     }
 
     setVisuallyTalking(state) {
+        if (this.removed) return;
         if (state) {
             document.getElementById("vc-user-card-" + this.playerName + "-indicator").style.backgroundColor = "lime"
             document.getElementById("vc-user-card-" + this.playerName + "-indicator").style.boxShadow = "0 0 10pt 2pt lime"
@@ -64,6 +73,7 @@ export class VoicePeerUi {
     }
 
     setVisuallyMuted(state) {
+        if (this.removed) return;
         if (state) {
             document.getElementById("vc-user-card-" + this.playerName + "-picture").style.opacity = "0.2";
             document.getElementById("vc-user-card-" + this.playerName + "-muted").style.display = "inline";
@@ -74,6 +84,7 @@ export class VoicePeerUi {
     }
 
     updateVolumeDisplay(volume) {
+        if (this.removed) return;
         document.getElementById("vc-user-card-" + this.playerName + "-volume-disp").innerText = "(" + volume + "% volume)";
     }
 
