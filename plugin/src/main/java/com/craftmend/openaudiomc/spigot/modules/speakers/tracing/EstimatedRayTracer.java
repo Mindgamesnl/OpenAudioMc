@@ -23,7 +23,7 @@ public class EstimatedRayTracer implements IRayTracer {
 
         Vector startVector = start.toVector();
         Vector endVector = end.toBukkit();
-        double distance = startVector.distanceSquared(endVector);
+        double distance = startVector.distance(endVector);
         Vector vector = endVector.clone().subtract(startVector).normalize().multiply(1);
 
         for (double length = 0; length < distance; startVector.add(vector)) {

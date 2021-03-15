@@ -40,8 +40,8 @@ public class SpigotPlayerSelector {
                 int radius = Integer.parseInt(getArgument("r"));
                 Player nearest = Bukkit.getOnlinePlayers().stream()
                         .filter(player -> player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
-                        .min(Comparator.comparing(player -> player.getLocation().distanceSquared(standPoint)))
-                        .filter(player -> radius > player.getLocation().distanceSquared(standPoint))
+                        .min(Comparator.comparing(player -> player.getLocation().distance(standPoint)))
+                        .filter(player -> radius > player.getLocation().distance(standPoint))
                         .get();
                 players.add(nearest);
             }
@@ -50,8 +50,8 @@ public class SpigotPlayerSelector {
                 int distance = Integer.parseInt(getArgument("distance"));
                 Player nearest = Bukkit.getOnlinePlayers().stream()
                         .filter(player -> player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
-                        .min(Comparator.comparing(player -> player.getLocation().distanceSquared(standPoint)))
-                        .filter(player -> distance > player.getLocation().distanceSquared(standPoint))
+                        .min(Comparator.comparing(player -> player.getLocation().distance(standPoint)))
+                        .filter(player -> distance > player.getLocation().distance(standPoint))
                         .get();
                 players.add(nearest);
             }
@@ -59,7 +59,7 @@ public class SpigotPlayerSelector {
             else {
                 Bukkit.getOnlinePlayers().stream()
                         .filter(player -> player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
-                        .min(Comparator.comparing(player -> player.getLocation().distanceSquared(standPoint)))
+                        .min(Comparator.comparing(player -> player.getLocation().distance(standPoint)))
                         .ifPresent(players::add);
             }
         }
@@ -86,13 +86,13 @@ public class SpigotPlayerSelector {
                 int radius = Integer.parseInt(getArgument("r"));
                 players.addAll(Bukkit.getOnlinePlayers().stream()
                         .filter(player -> player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
-                        .filter(player -> radius > player.getLocation().distanceSquared(standPoint))
+                        .filter(player -> radius > player.getLocation().distance(standPoint))
                         .collect(Collectors.toList()));
             } else if (getArgument("distance").length() != 0) {
                 int distance = Integer.parseInt(getArgument("distance"));
                 players.addAll(Bukkit.getOnlinePlayers().stream()
                         .filter(player -> player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
-                        .filter(player -> distance > player.getLocation().distanceSquared(standPoint))
+                        .filter(player -> distance > player.getLocation().distance(standPoint))
                         .collect(Collectors.toList()));
             }
 
