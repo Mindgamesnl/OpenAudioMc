@@ -41,13 +41,11 @@ export class VoicePeerUi {
         })
 
         setTimeout(() => {
-            if (this.removed) return;
             this.updatePlaceholder()
         }, 10)
     }
 
     updatePlaceholder() {
-        if (this.removed) return;
         if (this.openAudioMc.voiceModule.peerMap.size == 0) {
             document.getElementById("empty-call-placeholder").style.display = "";
         } else {
