@@ -32,7 +32,7 @@ export function linkBootListeners() {
         .then(tokenSet => {
             if (tokenSet == null) {
                 strictlyShowCard(UiCards.BAD_AUTH);
-                window.location.href = "/login.html";
+                window.location.href = window.location.pathname + "/login.html";
                 ReportError('A faulty login attempt was done at ' + window.location.host, 'Steve')
                 return
             }
