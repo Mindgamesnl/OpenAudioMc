@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.generic.authentication.requests.ClientTokenRequ
 import com.craftmend.openaudiomc.generic.authentication.requests.SimpleTokenResponse;
 import com.craftmend.openaudiomc.generic.authentication.requests.ServerIdentityRequest;
 import com.craftmend.openaudiomc.generic.authentication.response.HostDetailsResponse;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
@@ -103,7 +104,10 @@ public class AuthenticationDriver {
     public HostDetailsResponse getHost() {
         RestRequest request = new RestRequest(RestEndpoint.GET_HOST_DETAILS);
         ApiResponse response = request.executeInThread();
-        if (response.getErrors().size() > 0) throw new IllegalStateException("Could not load host details");
+        if (response.getErrors().size() > 0) {
+            OpenAudioLogger.toConsole(OpenAudioMc.getGson().toJson(response.getErrors()));
+            throw new IllegalStateException("Could not load host details");
+        }
         return response.getResponse(HostDetailsResponse.class);
     }
 }
