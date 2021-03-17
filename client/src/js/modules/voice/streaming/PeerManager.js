@@ -295,6 +295,8 @@ export class PeerManager {
                     })
             })
             .catch(console.error)
+
+        window.rtcHook = this.pcReceiver;
     }
 
     setMute(state) {
