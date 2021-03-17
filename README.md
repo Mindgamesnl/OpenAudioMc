@@ -29,6 +29,8 @@ OpenAudioMc is a free spigot plugin and we'd like to keep it this way.  But to k
 * [Cloudflare and Cloudflare-Workers](https://www.cloudflare.com/)
 * [Ansible](https://www.ansible.com/)
 * [Symfony](https://symfony.com/)
+* [Venocix](https://venocix.de/) (not an ad), but just reliable and great hosting services
+* [WebRTC](https://webrtc.org/)
 * Love (there is a lot of time in this project)
 
 ## Requirements
