@@ -21,46 +21,57 @@ export class IncomingVoiceStream {
         let prom = this.openAudioMc.voiceModule.peerManager.requestStream(this.peerStreamKey);
 
         prom.onFinish((stream) => {
+            const ctx = this.openAudioMc.world.player.audioCtx;
+            this.setVolume(this.volume)
+            this.gainNode = ctx.createGain();
+            this.audio = new Audio();
+            this.audio.autoplay = true
+            this.audio.srcObject = stream;
+            this.gainNode.gain.value = (this.volume / 100) * this.volBooster;
+            window.debugAudio = this.audio
+            this.audio.muted = true
+            oalog("Playing voice from " + this.audio)
+            const source = ctx.createMediaStreamSource(this.audio.srcObject);
+
             this.harkEvents = Hark(stream, {})
 
             this.harkEvents.on('speaking', () => {
                 this.uiInst.setVisuallyTalking(true)
             });
 
+            this.harkEvents.on('volume_change', e => {
+                console.log("Volume changed of hark ", e+100)
+            })
+
             this.harkEvents.on('stopped_speaking', () => {
                 this.uiInst.setVisuallyTalking(false)
             });
 
-            const ctx = this.openAudioMc.world.player.audioCtx;
-            this.setVolume(this.volume)
-            this.gainNode = ctx.createGain();
-            this.audio = new Audio();
-            this.audio.srcObject = stream;
-            this.gainNode.gain.value = (this.volume / 100) * this.volBooster;
-
-            this.audio.onloadedmetadata = () => {
-                oalog("Playing voice from " + this.peerStreamKey)
-                const source = ctx.createMediaStreamSource(this.audio.srcObject);
-                this.audio.play();
-                this.audio.muted = true;
-
-                if (this.openAudioMc.voiceModule.surroundSwitch.isOn()) {
-                    const gainNode = this.gainNode;
-                    this.pannerNode = ctx.createPanner();
-                    this.pannerNode.panningModel = 'HRTF';
-                    this.pannerNode.maxDistance = this.openAudioMc.voiceModule.blocksRadius;
-                    this.pannerNode.rolloffFactor = 1;
-                    this.pannerNode.distanceModel = "linear";
-                    this.setLocation(this.x, this.y, this.z, true);
-                    source.connect(gainNode);
-                    gainNode.connect(this.pannerNode);
-                    this.pannerNode.connect(ctx.destination);
-                } else {
-                    const gainNode = this.gainNode;
-                    source.connect(gainNode);
-                    gainNode.connect(ctx.destination);
-                }
+            this.audio.muted = true;
+            if (this.openAudioMc.voiceModule.surroundSwitch.isOn()) {
+                const gainNode = this.gainNode;
+                this.pannerNode = ctx.createPanner();
+                this.pannerNode.panningModel = 'HRTF';
+                this.pannerNode.maxDistance = this.openAudioMc.voiceModule.blocksRadius;
+                this.pannerNode.rolloffFactor = 1;
+                this.pannerNode.distanceModel = "linear";
+                this.setLocation(this.x, this.y, this.z, true);
+                source.connect(gainNode);
+                gainNode.connect(this.pannerNode);
+                this.pannerNode.connect(ctx.destination);
+            } else {
+                const gainNode = this.gainNode;
+                source.connect(gainNode);
+                gainNode.connect(ctx.destination);
             }
+
+            this.audio.play()
+                .then(result => {
+                    console.log("Started from the promise", result)
+                })
+                .catch(error => {
+                    console.log("Denied from promise", error)
+                });
 
             whenFinished();
         });
@@ -79,6 +90,8 @@ export class IncomingVoiceStream {
                 this.z
             ));
             position.applyTo(this.pannerNode);
+        } else if (update) {
+            oalog("Warning, attempted to update a peer location while the panner node is nil")
         }
         this.x = x;
         this.y = y;
