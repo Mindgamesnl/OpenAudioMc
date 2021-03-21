@@ -5568,27 +5568,31 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       var _this25 = this;
 
       var e = this.openAudioMc.voiceModule.peerManager.requestStream(this.peerStreamKey);e.onFinish(function (e) {
-        _this25.harkEvents = Object(Dt.a)(e, {}), _this25.harkEvents.on("speaking", function () {
+        var n = _this25.openAudioMc.world.player.audioCtx;_this25.setVolume(_this25.volume), _this25.gainNode = n.createGain(), _this25.audio = new Audio(), _this25.audio.autoplay = !0, _this25.audio.srcObject = e, _this25.gainNode.gain.value = _this25.volume / 100 * _this25.volBooster, window.debugAudio = _this25.audio, _this25.audio.muted = !0, r("Playing voice from " + _this25.audio);var i = n.createMediaStreamSource(_this25.audio.srcObject);if (_this25.harkEvents = Object(Dt.a)(e, {}), _this25.harkEvents.on("speaking", function () {
           _this25.uiInst.setVisuallyTalking(!0);
+        }), _this25.harkEvents.on("volume_change", function (t) {
+          console.log("Volume changed of hark ", t + 100);
         }), _this25.harkEvents.on("stopped_speaking", function () {
           _this25.uiInst.setVisuallyTalking(!1);
-        });var n = _this25.openAudioMc.world.player.audioCtx;_this25.setVolume(_this25.volume), _this25.gainNode = n.createGain(), _this25.audio = new Audio(), _this25.audio.srcObject = e, _this25.gainNode.gain.value = _this25.volume / 100 * _this25.volBooster, _this25.audio.onloadedmetadata = function () {
-          r("Playing voice from " + _this25.peerStreamKey);var t = n.createMediaStreamSource(_this25.audio.srcObject);if (_this25.audio.play(), _this25.audio.muted = !0, _this25.openAudioMc.voiceModule.surroundSwitch.isOn()) {
-            var _e9 = _this25.gainNode;_this25.pannerNode = n.createPanner(), _this25.pannerNode.panningModel = "HRTF", _this25.pannerNode.maxDistance = _this25.openAudioMc.voiceModule.blocksRadius, _this25.pannerNode.rolloffFactor = 1, _this25.pannerNode.distanceModel = "linear", _this25.setLocation(_this25.x, _this25.y, _this25.z, !0), t.connect(_e9), _e9.connect(_this25.pannerNode), _this25.pannerNode.connect(n.destination);
-          } else {
-            var _e10 = _this25.gainNode;t.connect(_e10), _e10.connect(n.destination);
-          }
-        }, t();
+        }), _this25.audio.muted = !0, _this25.openAudioMc.voiceModule.surroundSwitch.isOn()) {
+          var _t28 = _this25.gainNode;_this25.pannerNode = n.createPanner(), _this25.pannerNode.panningModel = "HRTF", _this25.pannerNode.maxDistance = _this25.openAudioMc.voiceModule.blocksRadius, _this25.pannerNode.rolloffFactor = 1, _this25.pannerNode.distanceModel = "linear", _this25.setLocation(_this25.x, _this25.y, _this25.z, !0), i.connect(_t28), _t28.connect(_this25.pannerNode), _this25.pannerNode.connect(n.destination);
+        } else {
+          var _t29 = _this25.gainNode;i.connect(_t29), _t29.connect(n.destination);
+        }_this25.audio.play().then(function (t) {
+          console.log("Started from the promise", t);
+        }).catch(function (t) {
+          console.log("Denied from promise", t);
+        }), t();
       }), e.onReject(function (t) {
         r("Stream for " + _this25.peerStreamKey + " got denied: " + t);
       });
     };
 
-    jt.prototype.setLocation = function setLocation(t, e, n, r) {
+    jt.prototype.setLocation = function setLocation(t, e, n, i) {
       if (this.openAudioMc.voiceModule.useSurround) {
-        if (r && null != this.pannerNode) {
+        if (i && null != this.pannerNode) {
           new Ct(new vt(this.x, this.y, this.z)).applyTo(this.pannerNode);
-        }this.x = t, this.y = e, this.z = n;
+        } else i && r("Warning, attempted to update a peer location while the panner node is nil");this.x = t, this.y = e, this.z = n;
       }
     };
 
@@ -5659,10 +5663,10 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     }
 
     Ht.prototype.fromString = function fromString(t) {
-      this.original = t;var e = t.split("~");for (var _t28 = 0; _t28 < e.length; _t28++) {
-        if (0 === _t28) this.eventName = e[_t28];else {
-          var _n7 = e[_t28];if (-1 !== _n7.indexOf("=")) {
-            var _t29 = _n7.split("=");this.params.set(_t29[0], _t29[1]);
+      this.original = t;var e = t.split("~");for (var _t30 = 0; _t30 < e.length; _t30++) {
+        if (0 === _t30) this.eventName = e[_t30];else {
+          var _n7 = e[_t30];if (-1 !== _n7.indexOf("=")) {
+            var _t31 = _n7.split("=");this.params.set(_t31[0], _t31[1]);
           }
         }
       }return this;
@@ -5761,7 +5765,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
 
       _classCallCheck(this, Gt);
 
-      this.openAudioMc = t, this.server = e, this.streamKey = n, this.waitingPromises = new Map(), this.trackQueue = new Map(), this.updateNegotiation = !0, this.micStream = r, this.isMuted = !1, document.getElementById("vc-mic-mute").onchange = function () {
+      this.openAudioMc = t, this.server = e, this.streamKey = n, this.waitingPromises = new Map(), this.trackQueue = new Map(), this.updateNegotiation = !0, this.micStream = r, this.chromeBugWorkaround = [], this.isMuted = !1, document.getElementById("vc-mic-mute").onchange = function () {
         _this28.setMute(!_this28.isMuted);
       }, document.getElementById("mute-wrapper").addEventListener("mouseup", function () {
         _this28.muteCooldown && Swal.fire({ icon: "warning", text: "Please wait a moment before doing this again", backdrop: "", timer: 3e3 });
@@ -5780,7 +5784,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       if ("open" === this.dataChannel.readyState) {
         var e = new zt();return this.waitingPromises.set(t, e), this.dataChannel.send(new Ht().setEventName("REQUEST_STREAM").setParam("owner", t).serialize()), e;
       }{
-        r("Warning! attempted to request a stream for " + t + " but the eb is closed");var _e11 = new zt();return _e11.handleError("Connection is closed"), _e11;
+        r("Warning! attempted to request a stream for " + t + " but the eb is closed");var _e9 = new zt();return _e9.handleError("Connection is closed"), _e9;
       }
     };
 
@@ -5812,8 +5816,8 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }), t.addEventListener("message", function (t) {
         var n = t.data;var i = new Ht().fromString(n);switch (i.getEventName()) {case "REQUEST_NEG_INIT":
             r("Server requested renag start"), _this30.initializeRenegotiation();break;case "NEGOTIATION_RESPONSE":
-            var _t30 = i.trimmed(),
-                _n10 = JSON.parse(_t30);r("response was " + _t30.length), _this30.pcReceiver.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(_n10.sdp)))).then(function () {
+            var _t32 = i.trimmed(),
+                _n10 = JSON.parse(_t32);r("response was " + _t32.length), _this30.pcReceiver.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(_n10.sdp)))).then(function () {
               _this30.handleRenagEnd(), _this30.dataChannel.send(new Ht().setEventName("CLIENT_CONFIRMED_NEG").serialize());
             });break;case "PROCESS_OFFER":
             _this30.lastNegotiationRequest = performance.now();var _o5 = JSON.parse(i.trimmed());_this30.pcReceiver.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(_o5.sdp)))).then(function () {
@@ -5848,7 +5852,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(t) {
         var _this32 = this;
 
-        var e, n, i, o, _t31;
+        var e, n, i, o, _t33;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
@@ -5863,8 +5867,8 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
                 this.pcReceiver.oniceconnectionstatechange = i, this.pcReceiver.addEventListener("connectionstatechange", i), this.pcReceiver.onnegotiationneeded = function () {
                   r("Finished negotiation round");
                 }, this.dataChannel = this.pcReceiver.createDataChannel("eb"), this.registerDataChannel(this.dataChannel, t), this.listenForTracks();o = this.micStream.getTracks();
-                for (_t31 = 0; _t31 < o.length; _t31++) {
-                  this.pcReceiver.addTrack(this.micStream.getTracks()[_t31]);
+                for (_t33 = 0; _t33 < o.length; _t33++) {
+                  this.pcReceiver.addTrack(this.micStream.getTracks()[_t33]);
                 }this.pcReceiver.createOffer().then(function (t) {
                   return _this32.pcReceiver.setLocalDescription(t);
                 }).then(function () {
@@ -5875,7 +5879,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
                   }).catch(function (t) {
                     console.error(t);
                   });
-                }).catch(console.error);
+                }).catch(console.error), window.rtcHook = this.pcReceiver;
               case 7:
               case "end":
                 return _context.stop();
@@ -6186,7 +6190,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
 
   window.onload = function () {
     if (navigator.vendor && -1 < navigator.vendor.indexOf("Apple") && navigator.userAgent && -1 == navigator.userAgent.indexOf("CriOS") && -1 == navigator.userAgent.indexOf("FxiOS")) return void (window.location.href = "https://help.openaudiomc.net/browsers.html");new ut().initialize().then(function (t) {
-      return null == t ? (i(J.BAD_AUTH), window.location.href = window.location.pathname + "/login.html", void L("A faulty login attempt was done at " + window.location.host, "Steve")) : (null != t && null != t.name && (document.getElementById("in-game-name").innerText = t.name, Ot = new Yt()), void document.body.addEventListener("click", V));
+      return null == t ? (i(J.BAD_AUTH), window.location.href = window.location.host + window.location.pathname + "/login.html", void L("A faulty login attempt was done at " + window.location.host, "Steve")) : (null != t && null != t.name && (document.getElementById("in-game-name").innerText = t.name, Ot = new Yt()), void document.body.addEventListener("click", V));
     });
   }, window.onhashchange = function () {
     return window.location.reload();
