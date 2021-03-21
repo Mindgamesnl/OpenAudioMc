@@ -342,7 +342,6 @@ export class PeerManager {
         this.pcReceiver.addEventListener("track", e => {
             for (let i = 0; i < e.streams.length; i++) {
                 if (e.streams[i].id === "dead-mans-track") {
-                    oalog("Disabling the track thingy")
                     return
                 } else {
                     e.track.onended = (event) => {
