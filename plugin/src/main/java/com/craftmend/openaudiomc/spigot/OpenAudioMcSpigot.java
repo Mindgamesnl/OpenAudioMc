@@ -24,6 +24,7 @@ import com.craftmend.openaudiomc.spigot.modules.show.ShowModule;
 import com.craftmend.openaudiomc.spigot.modules.traincarts.TrainCartsModule;
 import com.craftmend.openaudiomc.spigot.modules.traincarts.service.TrainCartsService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.SpigotVoiceChatModule;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.FilterManager;
 import com.craftmend.openaudiomc.spigot.services.dependency.DependencyService;
 import com.craftmend.openaudiomc.spigot.services.scheduling.SpigotTaskProvider;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
@@ -62,6 +63,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
     private ServerService serverService;
     private SpigotVoiceChatModule spigotVoicechatModule;
     private OpenAudioMc openAudioMc;
+    private FilterManager filterManager;
 
     /**
      * Constant: main plugin instance and plugin timing
@@ -95,6 +97,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
             this.showModule = new ShowModule(this);
             this.predictiveMediaService = new PredictiveMediaModule();
             this.spigotVoicechatModule = new SpigotVoiceChatModule(this);
+            this.filterManager = new FilterManager(this);
 
             this.dependencyService
                     .ifPluginEnabled("LiteBans", new LitebansIntegration())
