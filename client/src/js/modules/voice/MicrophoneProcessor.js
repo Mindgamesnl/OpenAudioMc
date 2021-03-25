@@ -2,6 +2,17 @@ import {Hark} from "../../helpers/libs/hark.bundle";
 import {VoiceStatusChangeEvent} from "./VoiceModule";
 import {oalog} from "../../helpers/log";
 
+/*
+ * This class measures the average volume from an incoming media stream
+ * It does this by trying to detect when someone is talking, and keeping track
+ * of the average volume during silence (mic self noise, etc) and the average volume of speech
+ *
+ * it then uses those values to detect differences in speech (whispering, normal and shouting)
+ *
+ * the delta value is completely random and will need some fine tuning, but this design means that you
+ * can only stay in a SHOUTING or WHISPERING state for a few seconds before it'll reset become the new
+ * default/average volume. This can be tuned by changing the number of required samples.
+ */
 export class MicrophoneProcessor {
 
     constructor(openAudioMc, voiceModule, stream) {
@@ -10,6 +21,7 @@ export class MicrophoneProcessor {
         this.harkEvents = Hark(stream, {})
         this.loudnessHistory = []
         this.isSpeaking = false;
+        this.filledHistory = false;
         this.state = VoiceStatusChangeEvent.LEVEL_NORMAL
 
         // temp config, loudness delta to trigger shouting and whispering when
@@ -20,20 +32,24 @@ export class MicrophoneProcessor {
             this.isSpeaking = true;
         });
 
-        this.harkEvents.on('volume_change', e => {
+        this.harkEvents.on('volume_change', measurement => {
             // only process data when the user is actively speaking
             if (this.isSpeaking) {
                 // normalize DB
-                let level = e+100
+                let level = measurement + 100
 
                 // map the last 200 voice events while the user is speaking
                 if (this.loudnessHistory.length > 200) {
                     // drop first entry
                     this.loudnessHistory.shift()
+
+                    if (!this.filledHistory) {
+                        this.filledHistory = true;
+                        this.onStart();
+                    }
+                    this.onUpdate(measurement)
                 }
                 this.loudnessHistory.push(level)
-
-                this.onUpdate(e)
             }
         })
 
@@ -50,6 +66,11 @@ export class MicrophoneProcessor {
     // calculate and return the average loudness when speaking
     findAverageLoudness() {
         return arr => this.loudnessHistory.reduce((a,b) => a + b, 0) / this.loudnessHistory.length
+    }
+
+    // fired when we have enough data to start our funky buisness
+    onStart() {
+
     }
 
     onUpdate(lastMeasurement) {
