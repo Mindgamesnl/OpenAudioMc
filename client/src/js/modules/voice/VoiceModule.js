@@ -6,10 +6,15 @@ import {VoiceUiSwitch} from "./ui/VoiceUiSwitch";
 import {PeerManager} from "./streaming/PeerManager";
 import {RtcClient} from "./streaming/RtcClient";
 import {DoBetaWelcome} from "./fun/BetaWelcome";
+import {Hark} from "../../helpers/libs/hark.bundle";
+import {MicrophoneProcessor, MicrophoneStatistics} from "./MicrophoneProcessor";
 
 export const VoiceStatusChangeEvent = {
     MIC_MUTE: "MICROPHONE_MUTED",
-    MIC_UNMTE: "MICROPHONE_UNMUTE"
+    MIC_UNMTE: "MICROPHONE_UNMUTE",
+    LEVEL_WHISPERING: "LEVEL_WHISPERING",
+    LEVEL_NORMAL: "LEVEL_NORMAL",
+    LEVEL_SHOUTING: "LEVEL_SHOUTING"
 };
 
 export class VoiceModule {
@@ -20,6 +25,8 @@ export class VoiceModule {
         this.peerMap = new Map();
         this.loadedDeviceList = false;
         this.loadeMicPreference = Cookies.get("preferred-mic");
+
+        this.loudnessDetectionEnabled = false;
 
         this.surroundSwitch = new VoiceUiSwitch("use-surround", "Sound Type", "Constant volume", "Surround", true, (enabled) => {
             this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {"enabled": false});
@@ -143,6 +150,11 @@ export class VoiceModule {
         this.peerManager = new PeerManager(this.openAudioMc, this.server, this.streamKey, stream)
         this.rtcClient = new RtcClient(this.openAudioMc, this.server, this.streamKey, stream)
         this.peerManager.setup(this.onOutoingStreamStart).catch(console.error)
+
+        // initialize mic processing
+        if (this.loudnessDetectionEnabled) {
+            this.microphoneProcessing = new MicrophoneProcessor(this.openAudioMc, this, stream)
+        }
     }
 
     changeInput(deviceId) {
@@ -282,6 +294,9 @@ export class VoiceModule {
         if (this.peerManager != null) {
             this.peerManager.stop()
         }
+        if (this.microphoneProcessing != null) {
+            this.microphoneProcessing.stop()
+        }
         for (let [key, value] of this.peerMap) {
             value.stop();
         }
@@ -289,6 +304,7 @@ export class VoiceModule {
 
     pushSocketEvent(event) {
         if (this.peerManager != null) {
+            // TODO: refactor from RTC_READY to an actual event packet :)
             this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {"event": event});
         }
     }
