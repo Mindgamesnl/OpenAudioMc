@@ -10,6 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ClientVersionPayload extends AbstractPacketPayload {
 
-    private int protocolRevision = 4;
+    // 2 = enable general callbacks
+    // 3 = enable youtube callbacks
+    // 4 = enable client volume updates
+    // 5 = enable voice loudness
+    private int protocolRevision = 5;
 
 }
