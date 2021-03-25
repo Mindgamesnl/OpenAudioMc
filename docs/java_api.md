@@ -97,7 +97,4 @@ api.getMediaApi().stopSpatialSound(client, spatialSoundId);
 ```
 
 ## K/V Cache
-Keeping track of all spatial ID's can be a pain, so we can keep track of it with a simple map. You can just `put` and `get` player metadata via the map we provide with the `getKeyValue` method in Client.
-
-# The rest
-This just covers the basics but there's a lot more you can do, please look in the Javadoc for more details at https://javadoc.openaudiomc.net/
+Keeping track of all spatial ID's can be a pain, so we can keep track of it with a simple map. You can just `put` and `get` player metadata via the map we provide with the `getKeyValue` method in Client
