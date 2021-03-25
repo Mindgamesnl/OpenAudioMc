@@ -30,6 +30,8 @@ public class ClientRtcManager {
     @Getter
     private Set<ClientRtcLocationUpdate> locationUpdateQueue = ConcurrentHashMap.newKeySet();
 
+
+
     public ClientRtcManager(ClientConnection clientConnection) {
         this.clientConnection = clientConnection;
 
