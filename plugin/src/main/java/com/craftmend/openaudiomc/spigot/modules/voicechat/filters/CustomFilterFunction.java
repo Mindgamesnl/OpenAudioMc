@@ -16,6 +16,10 @@ import org.bukkit.entity.Player;
 public interface CustomFilterFunction{
 
     /**
+     * This method is in theory called for both the speaker and listener with the positions inverted (to register each other
+     * as peers). This means that if Player A is the listener and Player B is the speaker and the code should return {@code false},
+     * then when the method is called and Player A is the speaker/Player B is the listener, it should also return {@code false}.
+     *
      * @param listener The {@link Player} searching for other players to listen to
      * @param possibleSpeaker The {@link Player} who is being checked to see if they can be heard
      * @return {@code true} if the listener should be able to hear the possibleSpeaker
