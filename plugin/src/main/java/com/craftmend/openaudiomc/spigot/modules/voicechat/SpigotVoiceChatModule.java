@@ -1,9 +1,8 @@
 package com.craftmend.openaudiomc.spigot.modules.voicechat;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.api.impl.event.events.AccountAddTagEvent;
-import com.craftmend.openaudiomc.api.impl.event.events.PlayerEnterVoiceProximityEvent;
-import com.craftmend.openaudiomc.api.impl.event.events.PlayerLeaveVoiceProximityEvent;
+import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
+import com.craftmend.openaudiomc.api.impl.event.events.*;
 import com.craftmend.openaudiomc.api.impl.event.events.enums.VoiceEventCause;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
@@ -22,11 +21,10 @@ public class SpigotVoiceChatModule {
     private boolean firstRun = true;
 
     public SpigotVoiceChatModule(OpenAudioMcSpigot openAudioMcSpigot) {
+        ApiEventDriver eventDriver = AudioApi.getInstance().getEventDriver();
 
         // enable voice chat when the tag gets added
-        AudioApi.getInstance().getEventDriver()
-                .on(AccountAddTagEvent.class)
-                .setHandler(handler -> {
+        eventDriver.on(AccountAddTagEvent.class).setHandler(handler -> {
                     if (firstRun) {
                         int maxDistance = StorageKey.SETTINGS_VC_RADIUS.getInt();
 
@@ -39,9 +37,7 @@ public class SpigotVoiceChatModule {
                 });
 
         // register events to notify players when player enter, leave, and whatever
-        AudioApi.getInstance().getEventDriver()
-                .on(PlayerEnterVoiceProximityEvent.class)
-                .setHandler(event -> {
+        eventDriver.on(PlayerEnterVoiceProximityEvent.class).setHandler(event -> {
                     // skip if this is disabled in the settings
                     if (!StorageKey.SETTINGS_VC_ANNOUNCEMENTS.getBoolean()) return;
 
@@ -55,9 +51,7 @@ public class SpigotVoiceChatModule {
                     ));
                 });
 
-        AudioApi.getInstance().getEventDriver()
-                .on(PlayerLeaveVoiceProximityEvent.class)
-                .setHandler(event -> {
+        eventDriver.on(PlayerLeaveVoiceProximityEvent.class).setHandler(event -> {
                     // skip if this is disabled in the settings
                     if (!StorageKey.SETTINGS_VC_ANNOUNCEMENTS.getBoolean()) return;
 
@@ -70,6 +64,15 @@ public class SpigotVoiceChatModule {
                                     .replace("%name", event.getListener().getOwnerName())
                     ));
                 });
+
+        // mute messages
+        eventDriver.on(MicrophoneMuteEvent.class).setHandler(event -> {
+            event.getClient().getPlayer().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_MIC_MUTE.getString()));
+        });
+
+        eventDriver.on(MicrophoneUnmuteEvent.class).setHandler(event -> {
+            event.getClient().getPlayer().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_MIC_UNMUTE.getString()));
+        });
 
     }
 }
