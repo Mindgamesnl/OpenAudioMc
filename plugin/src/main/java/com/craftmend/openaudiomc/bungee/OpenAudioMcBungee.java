@@ -27,6 +27,19 @@ import java.time.Instant;
 @Getter
 public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
 
+    /**
+     * The OpenAudioMc bungeecord plugin is pretty barebones and minimal.
+     * all exciting stuff and services are still being handles on the sub servers
+     * (most features require locational awareness in some form or another, so implementing them here
+     * doesn't make any sense)
+     *
+     * The bungee plugin is really important though, its tasked with
+     *  - Synchronizing player sessions over the network
+     *  - Combining datastreams from all sub servers in one chunky event bus
+     *  - tying all services together and running it as one openaudiomc installation/account
+     *  - forwarding state data and service context
+     */
+
     @Getter private static OpenAudioMcBungee instance;
     @Getter private NodeManager nodeManager;
     @Getter private PlayerManager playerManager;

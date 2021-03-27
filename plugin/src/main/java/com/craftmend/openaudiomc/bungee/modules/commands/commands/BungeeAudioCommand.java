@@ -15,7 +15,10 @@ import net.md_5.bungee.api.plugin.Command;
 
 public class BungeeAudioCommand extends Command {
 
-    private CommandMiddleware[] commandMiddleware = new CommandMiddleware[] {
+    /**
+     * A set of middleware that to catch commands when the plugin isn't in a running state
+     */
+    private final CommandMiddleware[] commandMiddleware = new CommandMiddleware[] {
             new CatchLegalBindingMiddleware(),
             new CatchCrashMiddleware(),
             new CleanStateCheckMiddleware()

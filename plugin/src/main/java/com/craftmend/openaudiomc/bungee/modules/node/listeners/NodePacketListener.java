@@ -8,6 +8,10 @@ import com.craftmend.openaudiomc.velocity.messages.PacketListener;
 
 import java.util.UUID;
 
+/**
+ * Receive incoming packets from the underlying server and forward
+ * them to the openaudiomc sfu infrastructure, using the bungeecord socket, account and namespaces
+ */
 public class NodePacketListener implements PacketListener {
 
     @PacketHandler

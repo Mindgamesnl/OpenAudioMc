@@ -5,6 +5,10 @@ import com.craftmend.openaudiomc.generic.networking.client.objects.player.Client
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * This event gets called whenever a {@link ClientConnection} opens the web client.
+ * This event gets called on all platforms (so it runs independently on spigot, your proxy, etc)
+ */
 public class ClientConnectEvent extends AudioEvent {
 
     @Getter
