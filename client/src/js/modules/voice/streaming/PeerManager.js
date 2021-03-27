@@ -86,7 +86,9 @@ export class PeerManager {
                 packet += offer
                 this.dataChannel.send(packet)
             })
-            .catch(console.error)
+            .catch((err) => {
+                this.openAudioMc.voiceModule.handleCrash(JSON.stringify(err.toJSON()))
+            })
     }
 
     handleRenagEnd() {
@@ -147,11 +149,17 @@ export class PeerManager {
                                     packet += btoa(JSON.stringify(answer))
                                     this.dataChannel.send(packet);
                                     this.pcReceiver.setLocalDescription(answer)
-                                        .catch(console.error)
+                                        .catch((err) => {
+                                            this.openAudioMc.voiceModule.handleCrash(JSON.stringify(err.toJSON()))
+                                        })
                                 })
-                                .catch(console.error)
+                                .catch((err) => {
+                                    this.openAudioMc.voiceModule.handleCrash(JSON.stringify(err.toJSON()))
+                                })
                         })
-                        .catch(console.error)
+                        .catch((err) => {
+                            this.openAudioMc.voiceModule.handleCrash(JSON.stringify(err.toJSON()))
+                        })
                     break
 
                 case "CONFIRM_NEGOTIATION":
@@ -290,12 +298,14 @@ export class PeerManager {
                     .then(response => {
                         this.pcReceiver.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(response.Sdp))))
                     })
-                    .catch((e) => {
-                        console.error(e);
-                        // window.location.reload();
+                    .catch((err) => {
+                        console.error(err)
+                        this.openAudioMc.voiceModule.handleCrash(JSON.stringify(err.toJSON()))
                     })
             })
-            .catch(console.error)
+            .catch((err) => {
+                this.openAudioMc.voiceModule.handleCrash(JSON.stringify(err.toJSON()))
+            })
 
         window.rtcHook = this.pcReceiver;
     }

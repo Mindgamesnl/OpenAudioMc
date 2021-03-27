@@ -47,6 +47,11 @@ OpenAudioMc has a few events build in, these are;
  - `StateChangeEvent`: Fires whenever the plugin changes state (idle, online, fatal error, etc). This only fires on the top-level server.
  - `AccountAddTagEvent`: Fires whenever the server receives a new module/addon or update from the owning [Craftmend Account](account.md) (example, VOICE_CHAT)
  - `AccountRemoveTagEvent`: Mirror opposite of the `AccountAddTagEvent`
+ - `MicrophoneMuteEvent`: Fires when a player mutes their microphone
+ - `MicrophoneUnmuteEvent`: Fires when a player unmute their microphone (and when it activates for the first time)
+ - `PlayerEnterVoiceProximityEvent`: Fires when player A joins the voice range of player B
+ - `PlayerLeaveVoiceProximityEvent`: Fires when player A leaves the voice range of player B
+ - `PlayerLoudnessEvent`: Fires when a the speaking loudness of a player changes (between normal, whispering and shouting)
 
 ## Getting a Client
 A client object resembles the web-connection of a given player and contains api methods (like `isConnected()`, `onConnect` etc) and is used to specify a player in other API methods.

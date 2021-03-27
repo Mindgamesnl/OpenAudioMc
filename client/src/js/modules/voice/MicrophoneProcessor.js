@@ -18,6 +18,8 @@ export class MicrophoneProcessor {
     constructor(openAudioMc, voiceModule, stream) {
         this.openAudioMc = openAudioMc
 
+        oalog("Starting voice data collection")
+
         this.harkEvents = Hark(stream, {})
         this.loudnessHistory = []
         this.isSpeaking = false;
@@ -65,12 +67,12 @@ export class MicrophoneProcessor {
 
     // calculate and return the average loudness when speaking
     findAverageLoudness() {
-        return arr => this.loudnessHistory.reduce((a,b) => a + b, 0) / this.loudnessHistory.length
+        return ((this.loudnessHistory.reduce((a, b) => a + b, 0)) / this.loudnessHistory.length) || 0;
     }
 
-    // fired when we have enough data to start our funky buisness
+    // fired when we have enough data to start our funky stuff
     onStart() {
-
+        oalog("Starting voice loudness detection")
     }
 
     onUpdate(lastMeasurement) {
