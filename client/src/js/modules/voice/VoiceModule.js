@@ -8,6 +8,7 @@ import {RtcClient} from "./streaming/RtcClient";
 import {DoBetaWelcome} from "./fun/BetaWelcome";
 import {Hark} from "../../helpers/libs/hark.bundle";
 import {MicrophoneProcessor, MicrophoneStatistics} from "./MicrophoneProcessor";
+import {ReportError} from "../../helpers/protocol/ErrorReporter";
 
 export const VoiceStatusChangeEvent = {
     MIC_MUTE: "MICROPHONE_MUTED",
@@ -88,8 +89,8 @@ export class VoiceModule {
             title: 'Reloading voice system!',
             html: 'Please wait while voice chat gets restarted to apply your new settings.. this shouldn\'t take long',
             timer: 3500,
-            backdrop: '',
             showCloseButton: false,
+            backdrop: '',
             showCancelButton: false,
             timerProgressBar: false,
             allowOutsideClick: false,
@@ -110,6 +111,16 @@ export class VoiceModule {
         })
     }
 
+    handleCrash(error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong while starting your voice chat session. Please report this problem and try again later.',
+            backdrop: '',
+        })
+        ReportError('Something went wrong while enabling voicechat. Error: ' + error, window.tokenCache.name)
+    }
+
     handleAudioPermissions(stream) {
         if (!this.loadedDeviceList) {
             navigator.mediaDevices.enumerateDevices()
@@ -126,8 +137,9 @@ export class VoiceModule {
                     }
                     this.loadedDevices(deviceMap)
                 })
-                .catch(function (err) {
+                .catch((err) => {
                     console.error(err)
+                    this.handleCrash(JSON.stringify(err.toJSON()))
                 });
             this.loadedDeviceList = true;
         }
@@ -149,7 +161,9 @@ export class VoiceModule {
 
         this.peerManager = new PeerManager(this.openAudioMc, this.server, this.streamKey, stream)
         this.rtcClient = new RtcClient(this.openAudioMc, this.server, this.streamKey, stream)
-        this.peerManager.setup(this.onOutoingStreamStart).catch(console.error)
+        this.peerManager.setup(this.onOutoingStreamStart).catch((err) => {
+            this.handleCrash(JSON.stringify(err.toJSON()))
+        })
 
         // initialize mic processing
         if (this.loudnessDetectionEnabled) {
