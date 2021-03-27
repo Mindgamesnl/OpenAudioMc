@@ -1,16 +1,16 @@
 package com.craftmend.openaudiomc.spigot.modules.voicechat.tasks;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.impl.event.events.PlayerLeaveVoiceProximityEvent;
+import com.craftmend.openaudiomc.api.impl.event.events.enums.VoiceEventCause;
+import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
-import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
-import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.utils.Filter;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.Set;
@@ -63,17 +63,8 @@ public class PlayerProximityTicker implements Runnable {
                 peer.getClientRtcManager().getSubscriptions().remove(client.getOwnerUUID());
                 client.getClientRtcManager().getSubscriptions().remove(peer.getOwnerUUID());
 
-                if (StorageKey.SETTINGS_VC_ANNOUNCEMENTS.getBoolean()) {
-                    peer.getPlayer().sendMessage(Platform.translateColors(
-                            StorageKey.MESSAGE_VC_USER_LEFT.getString()
-                                    .replace("%name", client.getOwnerName())
-                    ));
-
-                    client.getPlayer().sendMessage(Platform.translateColors(
-                            StorageKey.MESSAGE_VC_USER_LEFT.getString()
-                                    .replace("%name", peer.getOwnerName())
-                    ));
-                }
+                AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(client, peer, VoiceEventCause.NORMAL));
+                AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(peer, client, VoiceEventCause.NORMAL));
 
                 client.getClientRtcManager().updateLocationWatcher();
                 peer.getClientRtcManager().updateLocationWatcher();
