@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.voicechat.events;
 
-public enum VoiceStatusChangeEvent {
+public enum VoiceStateChangeEvent {
 
     // pretty obvious aye
     MICROPHONE_MUTED,

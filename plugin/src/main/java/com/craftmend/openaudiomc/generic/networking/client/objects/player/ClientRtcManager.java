@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.impl.event.events.MicrophoneMuteEvent;
+import com.craftmend.openaudiomc.api.impl.event.events.MicrophoneUnmuteEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.PlayerEnterVoiceProximityEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.PlayerLeaveVoiceProximityEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.enums.VoiceEventCause;
@@ -14,7 +16,6 @@ import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.enums.PlayerLocationFollower;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Location;
 
 import java.util.HashSet;
@@ -24,7 +25,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ClientRtcManager {
 
-    @Setter
     @Getter
     private boolean isMicrophoneEnabled = false;
     @Getter
@@ -32,7 +32,6 @@ public class ClientRtcManager {
     private ClientConnection clientConnection;
     @Getter
     private Set<ClientRtcLocationUpdate> locationUpdateQueue = ConcurrentHashMap.newKeySet();
-
 
 
     public ClientRtcManager(ClientConnection clientConnection) {
@@ -127,5 +126,15 @@ public class ClientRtcManager {
 
     public boolean isReady() {
         return clientConnection.isConnected() && clientConnection.isConnectedToRtc();
+    }
+
+    public void setMicrophoneEnabled(boolean state) {
+        this.isMicrophoneEnabled = state;
+
+        if (state) {
+            AudioApi.getInstance().getEventDriver().fire(new MicrophoneUnmuteEvent(clientConnection));
+        } else {
+            AudioApi.getInstance().getEventDriver().fire(new MicrophoneMuteEvent(clientConnection));
+        }
     }
 }

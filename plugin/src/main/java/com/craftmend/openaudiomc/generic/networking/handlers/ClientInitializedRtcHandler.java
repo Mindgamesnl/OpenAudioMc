@@ -64,14 +64,12 @@ public class ClientInitializedRtcHandler extends PayloadHandler<ClientOpenedRtcP
                 break;
 
             case MICROPHONE_MUTED: {
-                cc.getPlayer().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_MIC_MUTE.getString()));
                 cc.getClientRtcManager().setMicrophoneEnabled(false);
                 broadcastRtcUpdate(cc.getPlayer(), true, false, cc.getStreamKey(), cc);
                 break;
             }
 
             case MICROPHONE_UNMUTE: {
-                cc.getPlayer().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_MIC_UNMUTE.getString()));
                 cc.getClientRtcManager().setMicrophoneEnabled(true);
                 broadcastRtcUpdate(cc.getPlayer(), true, true, cc.getStreamKey(), cc);
                 break;
