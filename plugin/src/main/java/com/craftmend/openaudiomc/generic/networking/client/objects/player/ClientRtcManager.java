@@ -1,12 +1,15 @@
 package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.impl.event.events.PlayerEnterVoiceProximityEvent;
+import com.craftmend.openaudiomc.api.impl.event.events.PlayerLeaveVoiceProximityEvent;
+import com.craftmend.openaudiomc.api.impl.event.events.enums.VoiceEventCause;
+import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientSubscribeToVoice;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceSubscribePayload;
 import com.craftmend.openaudiomc.generic.platform.Platform;
-import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.enums.PlayerLocationFollower;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
@@ -69,18 +72,9 @@ public class ClientRtcManager {
         peer.sendPacket(new PacketClientSubscribeToVoice(ClientVoiceSubscribePayload.fromClient(clientConnection)));
         clientConnection.sendPacket(new PacketClientSubscribeToVoice(ClientVoiceSubscribePayload.fromClient(peer)));
 
-        // send a message to both users that they can now hear one another
-        if (StorageKey.SETTINGS_VC_ANNOUNCEMENTS.getBoolean()) {
-            peer.getPlayer().sendMessage(Platform.translateColors(
-                    StorageKey.MESSAGE_VC_USER_ADDED.getString()
-                            .replace("%name", clientConnection.getOwnerName())
-            ));
-
-            clientConnection.getPlayer().sendMessage(Platform.translateColors(
-                    StorageKey.MESSAGE_VC_USER_ADDED.getString()
-                            .replace("%name", peer.getOwnerName())
-            ));
-        }
+        // throw events in both ways, since the two users are listening to eachother
+        AudioApi.getInstance().getEventDriver().fire(new PlayerEnterVoiceProximityEvent(clientConnection, peer, VoiceEventCause.NORMAL));
+        AudioApi.getInstance().getEventDriver().fire(new PlayerEnterVoiceProximityEvent(peer, clientConnection, VoiceEventCause.NORMAL));
 
         updateLocationWatcher();
         peer.getClientRtcManager().updateLocationWatcher();
@@ -99,13 +93,7 @@ public class ClientRtcManager {
                 peer.getClientRtcManager().updateLocationWatcher();
                 peer.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(clientConnection.getStreamKey())));
 
-                if (StorageKey.SETTINGS_VC_ANNOUNCEMENTS.getBoolean()) {
-                    // sens a message that we left
-                    peer.getPlayer().sendMessage(Platform.translateColors(
-                            StorageKey.MESSAGE_VC_USER_LEFT.getString()
-                                    .replace("%name", clientConnection.getOwnerName())
-                    ));
-                }
+                AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(clientConnection, peer, VoiceEventCause.NORMAL));
             }
         }
     }
