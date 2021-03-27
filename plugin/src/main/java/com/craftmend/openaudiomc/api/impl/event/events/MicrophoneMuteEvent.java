@@ -5,6 +5,10 @@ import com.craftmend.openaudiomc.generic.networking.client.objects.player.Client
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * This is a simple event that gets called whenever a player explicitly mutes their microphone
+ * (through a command or the web client)
+ */
 @Getter
 @AllArgsConstructor
 public class MicrophoneMuteEvent extends AudioEvent {

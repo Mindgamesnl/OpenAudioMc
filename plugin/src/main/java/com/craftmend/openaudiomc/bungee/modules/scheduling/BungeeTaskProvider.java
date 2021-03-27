@@ -6,6 +6,9 @@ import com.craftmend.openaudiomc.generic.platform.interfaces.TaskProvider;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Bungeecord implementation of the OpenAudioMc scheduler standard.
+ */
 public class BungeeTaskProvider implements TaskProvider {
 
     @Override

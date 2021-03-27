@@ -17,8 +17,10 @@ import net.md_5.bungee.api.plugin.Command;
 
 public class BungeeVolumeCommand extends Command {
 
-    private CommandModule commandModule = OpenAudioMc.getInstance().getCommandModule();
-    private CommandMiddleware[] commandMiddleware = new CommandMiddleware[]{
+    /**
+     * A set of middleware that to catch commands when the plugin isn't in a running state
+     */
+    private final CommandMiddleware[] commandMiddleware = new CommandMiddleware[]{
             new CatchLegalBindingMiddleware(),
             new CatchCrashMiddleware(),
             new CleanStateCheckMiddleware()
@@ -28,6 +30,9 @@ public class BungeeVolumeCommand extends Command {
         super("vol", null, "vol");
     }
 
+    /**
+     * Bungeecord specific implementation of the volume command
+     */
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (CommandMiddewareExecutor.shouldBeCanceled(new BungeeCommandSenderAdapter(sender), null, commandMiddleware))

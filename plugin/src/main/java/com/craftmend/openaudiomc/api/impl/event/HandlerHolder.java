@@ -13,7 +13,7 @@ public class HandlerHolder<T> {
     private Handler<T> handler;
     @Getter private T type;
 
-    public void call(Object caller) {
+    void call(Object caller) {
         handler.onEvent((T) caller);
     }
 

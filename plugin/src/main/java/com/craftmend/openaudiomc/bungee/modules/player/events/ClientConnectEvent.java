@@ -5,6 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.md_5.bungee.api.plugin.Event;
 
+@Deprecated
+/**
+ * Deprecated bungeecord event for client connections.
+ *
+ * This has been replaced with the internal event api and might be removed at some point.
+ */
+
 @Getter
 @AllArgsConstructor
 public class ClientConnectEvent extends Event {

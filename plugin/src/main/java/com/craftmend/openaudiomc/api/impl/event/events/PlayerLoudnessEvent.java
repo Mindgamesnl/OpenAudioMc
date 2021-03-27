@@ -6,6 +6,10 @@ import com.craftmend.openaudiomc.generic.voicechat.events.VoiceStateChangeEvent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * This event triggers whenever a player with an active voicechat session changes their
+ * tone or volume of voice. this can be used to differentiate between shouting, talking and whispering.
+ */
 @Getter
 @AllArgsConstructor
 public class PlayerLoudnessEvent extends AudioEvent {
