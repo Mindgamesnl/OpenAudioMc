@@ -294,9 +294,26 @@ export class PeerManager {
                     method: "POST",
                     body: JSON.stringify({"sdp": btoa(JSON.stringify(this.pcReceiver.localDescription))})
                 })
-                    .then(response => response.json())
                     .then(response => {
-                        this.pcReceiver.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(response.Sdp))))
+
+                        if (response.status != 200) {
+                            Swal.fire({
+                                backdrop: '',
+                                showClass: {
+                                    popup: 'swal2-noanimation',
+                                    backdrop: 'swal2-noanimation'
+                                },
+                                icon: 'error',
+                                title: "Connection error",
+                                text: 'Something went wrong while connecting to the OpenAudioMc voice service. Please try again in a minute or so.',
+                                footer: '<a href="https://help.openaudiomc.net/voicechat_troubleshooting">Why do I have this issue?</a>'
+                            })
+                            this.openAudioMc.voiceModule.handleCrash("RTC connection error")
+                        } else {
+                            response.json().then(jr => {
+                                this.pcReceiver.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(jr.Sdp))))
+                            })
+                        }
                     })
                     .catch((err) => {
                         console.error(err)

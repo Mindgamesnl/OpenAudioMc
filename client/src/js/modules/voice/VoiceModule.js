@@ -166,9 +166,7 @@ export class VoiceModule {
         })
 
         // initialize mic processing
-        if (this.loudnessDetectionEnabled) {
-            this.microphoneProcessing = new MicrophoneProcessor(this.openAudioMc, this, stream)
-        }
+        this.microphoneProcessing = new MicrophoneProcessor(this.openAudioMc, this, stream)
     }
 
     changeInput(deviceId) {
