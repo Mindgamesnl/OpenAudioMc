@@ -53,7 +53,6 @@ public class LinkSubCommand extends SubCommand {
                     message(sender, Platform.makeColor("GREEN") + "This OpenAudioMc installation is now linked to " + response.getResponse(EmailResponse.class).getEmail());
                     OpenAudioMc.getInstance().getCraftmendService().syncAccount();
                 } else {
-
                     for (RestErrorResponse error : response.getErrors()) {
                         message(sender, Platform.makeColor("RED") + error.getMessage());
                     }
