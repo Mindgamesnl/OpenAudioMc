@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.api.interfaces;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.media.interfaces.UrlMutation;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
-import com.craftmend.openaudiomc.generic.utils.Filter;
+import com.craftmend.openaudiomc.generic.utils.data.Filter;
 import org.bukkit.entity.Player;
 
 public interface RegistryApi {

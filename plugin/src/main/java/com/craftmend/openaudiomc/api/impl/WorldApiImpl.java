@@ -4,7 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.interfaces.WorldApi;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.utils.HeatMap;
+import com.craftmend.openaudiomc.generic.utils.data.HeatMap;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.predictive.PredictiveMediaModule;
 import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;

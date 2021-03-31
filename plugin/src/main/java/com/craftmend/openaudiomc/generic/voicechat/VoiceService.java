@@ -1,5 +1,7 @@
 package com.craftmend.openaudiomc.generic.voicechat;
 
+import com.craftmend.openaudiomc.generic.voicechat.driver.VoiceServerDriver;
+
 public interface VoiceService {
 
     /**
@@ -22,4 +24,6 @@ public interface VoiceService {
     void fireShutdownEvents();
 
     void onShutdown(Runnable runnable);
+
+    VoiceServerDriver getDriver();
 }

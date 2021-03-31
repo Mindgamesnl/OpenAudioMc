@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.predictive.serialization;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.utils.HeatMap;
+import com.craftmend.openaudiomc.generic.utils.data.HeatMap;
 
 import java.time.Instant;
 import java.util.ArrayList;

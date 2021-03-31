@@ -72,4 +72,9 @@ public class DefaultVoiceServiceImpl implements VoiceService {
     public void onShutdown(Runnable runnable) {
         this.onShutdown.add(runnable);
     }
+
+    @Override
+    public VoiceServerDriver getDriver() {
+        return driver;
+    }
 }

@@ -8,14 +8,12 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.interfaces.SourceHolder;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
-import com.craftmend.openaudiomc.generic.utils.HeatMap;
+import com.craftmend.openaudiomc.generic.utils.data.HeatMap;
 
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.predictive.serialization.ChunkMapSerializer;
 import com.craftmend.openaudiomc.spigot.modules.predictive.serialization.SerializedAudioChunk;
-import com.craftmend.openaudiomc.spigot.modules.show.objects.Show;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 

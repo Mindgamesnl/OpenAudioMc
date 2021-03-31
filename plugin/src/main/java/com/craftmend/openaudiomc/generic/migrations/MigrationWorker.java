@@ -24,6 +24,7 @@ public class MigrationWorker {
             new AddNewVoicechatMessagesMigration(), // adds new chat messages for the voice chat system
             new AddVcAnnouncementMigration(),       // adds the config option to toggle chat announcements
             new VoiceConnectedMessageMigration(),   // adds required messages for mic mute commands
+            new AddVcStabilityMessage(),            // adds messages that warn players of voicechat issues
     };
 
     public void handleMigrations() {
