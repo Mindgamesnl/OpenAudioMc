@@ -113,8 +113,6 @@ export class MicrophoneProcessor {
         // find a difference
         let diff = Math.abs(this.findAverageLoudness() - lastMeasurement)
 
-        oalog(this.findAverageState() + " = Measured " + lastMeasurement + " which had a delta of " + diff + " for the average " + this.findAverageLoudness())
-
         // enough to trigger
         if (diff > this.delta) {
             if (lastMeasurement > this.findAverageLoudness()) {
@@ -133,8 +131,8 @@ export class MicrophoneProcessor {
     onChange(updatedState) {
         if (updatedState != this.state) {
             this.state = updatedState
-            oalog("Changing special voice flair to " + this.state)
             if (this.openAudioMc.voiceModule.loudnessDetectionEnabled) {
+                oalog("Changing special voice flair to " + this.state)
                 this.openAudioMc.voiceModule.pushSocketEvent(this.state);
             }
         }
