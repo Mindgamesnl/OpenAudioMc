@@ -19,6 +19,16 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class ClientInitializedRtcHandler extends PayloadHandler<ClientOpenedRtcPayload> {
 
+    /*
+     * This entire class is just a mess and should probably be divided into two separate packets
+     * One for state switching and one for remote events
+     *
+     * Guess tomorrow me will have to do that cuz I'm honestly too lazy rn
+     *
+     * By the way, if you are reading this past 28 march, 2021
+     * then I forgot
+     */
+
     @Override
     public void onReceive(ClientOpenedRtcPayload payload) {
         Authenticatable authenticatable = findSession(payload.getClient());
@@ -27,34 +37,10 @@ public class ClientInitializedRtcHandler extends PayloadHandler<ClientOpenedRtcP
 
             // is it an event, or general?
             if (payload.getEvent() == null) {
-                // general status
-                if (payload.isEnabled()) {
-                    cc.setConnectedToRtc(true);
-                    cc.getClientRtcManager().setMicrophoneEnabled(true);
-                    cc.getPlayer().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_SETUP.getString()));
-                    broadcastRtcUpdate(cc.getPlayer(), true, true, cc.getStreamKey(), cc);
-                } else {
-                    cc.getClientRtcManager().setMicrophoneEnabled(false);
-                    cc.setConnectedToRtc(false);
-                    broadcastRtcUpdate(cc.getPlayer(), false, false, cc.getStreamKey(), cc);
-                }
+                handleState(cc, payload);
             } else {
                 // handle event
-                switch (payload.getEvent()) {
-                    case MICROPHONE_MUTED: {
-                        cc.getPlayer().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_MIC_MUTE.getString()));
-                        cc.getClientRtcManager().setMicrophoneEnabled(false);
-                        broadcastRtcUpdate(cc.getPlayer(), true, false, cc.getStreamKey(), cc);
-                        break;
-                    }
-
-                    case MICROPHONE_UNMUTE: {
-                        cc.getPlayer().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_MIC_UNMUTE.getString()));
-                        cc.getClientRtcManager().setMicrophoneEnabled(true);
-                        broadcastRtcUpdate(cc.getPlayer(), true, true, cc.getStreamKey(), cc);
-                        break;
-                    }
-                }
+                handleEvents(cc, payload);
             }
         } else {
             // you don't even have volume
@@ -62,10 +48,58 @@ public class ClientInitializedRtcHandler extends PayloadHandler<ClientOpenedRtcP
         }
     }
 
+    private void handleEvents(ClientConnection cc, ClientOpenedRtcPayload payload) {
+        switch (payload.getEvent()) {
+
+            case LEVEL_NORMAL:
+                // talking at a normal volume
+                break;
+
+            case LEVEL_WHISPERING:
+                // whispering
+                break;
+
+            case LEVEL_SHOUTING:
+                // LITERALLY SHOUTING ME LUNGS OUT MATE
+                break;
+
+            case MICROPHONE_MUTED: {
+                cc.getClientRtcManager().setMicrophoneEnabled(false);
+                broadcastRtcUpdate(cc.getPlayer(), true, false, cc.getStreamKey(), cc);
+                break;
+            }
+
+            case MICROPHONE_UNMUTE: {
+                cc.getClientRtcManager().setMicrophoneEnabled(true);
+                broadcastRtcUpdate(cc.getPlayer(), true, true, cc.getStreamKey(), cc);
+                break;
+            }
+        }
+    }
+
+    private void handleState(ClientConnection cc, ClientOpenedRtcPayload payload) {
+        // the user just enabled their voice chat
+        if (payload.isEnabled()) {
+            // update our local state to start peer finding and reset their mute state
+            cc.setConnectedToRtc(true);
+            cc.getClientRtcManager().setMicrophoneEnabled(true);
+            // send a welcome message
+            cc.getPlayer().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_SETUP.getString()));
+            // notify the proxy, if applicable
+            broadcastRtcUpdate(cc.getPlayer(), true, true, cc.getStreamKey(), cc);
+        } else {
+            // disable their stream
+            cc.getClientRtcManager().setMicrophoneEnabled(false);
+            cc.setConnectedToRtc(false);
+            // notify the proxy, if applicable
+            broadcastRtcUpdate(cc.getPlayer(), false, false, cc.getStreamKey(), cc);
+        }
+    }
+
     private void broadcastRtcUpdate(PlayerContainer player, boolean isConnected, boolean isMicOn, String streamKey, ClientConnection cc) {
         // am I a proxy thingy? then send it to my other thingy
         ClientUpdateStatePacket clientUpdateRtcStatePacket = new ClientUpdateStatePacket(player.getUniqueId(), streamKey, isConnected, isMicOn, cc.getSessionTokens().getStaticToken());
-        switch (OpenAudioMc.getInstance().getPlatform()){
+        switch (OpenAudioMc.getInstance().getPlatform()) {
             case BUNGEE:
                 ProxiedPlayer proxiedPlayer = ((ProxiedPlayerAdapter) player).getPlayer();
                 OpenAudioMcBungee.getInstance().getNodeManager().getPacketManager().sendPacket(new PacketPlayer(proxiedPlayer), clientUpdateRtcStatePacket);

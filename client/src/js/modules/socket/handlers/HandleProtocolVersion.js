@@ -22,6 +22,12 @@ export function handleProtocolVersion(openAudioMc, data) {
         openAudioMc.mediaManager.startVolumeWatcher(openAudioMc)
     }
 
+    if (revision >= 5) {
+        // enable volume loudness
+        console.log("[OpenAudioMc] PROTO rev => 5, enabling loudness callbacks");
+        openAudioMc.voiceModule.loudnessDetectionEnabled = true
+    }
+
     // outdated? lets check it
     if (revision < 3) {
         let requestBox = new AlertBox('#alert-area', {

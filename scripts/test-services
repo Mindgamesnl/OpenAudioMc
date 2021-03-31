@@ -1,0 +1,21 @@
+#!/bin/bash
+
+. smoke.sh
+
+# check i f all clients are online
+smoke_url_ok "http://client.openaudiomc.net"
+    smoke_assert_body "bundle.js"
+smoke_url_ok "http://cicd.openaudiomc.net"
+    smoke_assert_body "bundle.js"
+
+# check basic rest services
+smoke_url_ok "http://cloud.openaudiomc.net"
+    smoke_assert_body "donate"
+smoke_url_ok "https://cloud.openaudiomc.net/api/v2/account-services/settings/42bba1e3-f2ff-42a9-b1b3-ff4c783d70ee"
+    smoke_assert_body "LEGACY"
+smoke_url_ok "https://cloud.openaudiomc.net/api/v2/account-services/settings/37545e6e-32be-48c5-b037-4a18d79014ee"
+    smoke_assert_body "ACCOUNT"
+smoke_url_ok "https://plus.openaudiomc.net/session"
+    smoke_assert_body "GO_AWAY"
+
+smoke_report

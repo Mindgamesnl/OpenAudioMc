@@ -18,6 +18,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * A bungeecord implementation of the OpenAudioMc file standard
+ *
+ * This generates and maintains the data.yml and config.yml
+ */
 public class BungeeConfigurationImplementation implements ConfigurationImplementation {
 
     private Configuration mainConfig;
