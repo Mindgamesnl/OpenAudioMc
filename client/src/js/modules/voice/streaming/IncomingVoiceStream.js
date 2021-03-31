@@ -53,10 +53,10 @@ export class IncomingVoiceStream {
                 this.pannerNode = ctx.createPanner();
                 this.pannerNode.panningModel = 'HRTF';
                 this.pannerNode.maxDistance = this.openAudioMc.voiceModule.blocksRadius;
+                this.pannerNode.rolloffFactor = 1;
                 this.pannerNode.refDistance = 5;
                 this.pannerNode.distanceModel = "linear";
                 this.pannerNode.coneInnerAngle = 45;
-                this.pannerNode.coneOuterGain = 315;
                 this.setLocation(this.x, this.y, this.z, true);
                 source.connect(gainNode);
                 gainNode.connect(this.pannerNode);

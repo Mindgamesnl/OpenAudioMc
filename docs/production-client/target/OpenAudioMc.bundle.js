@@ -5576,7 +5576,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         }), _this25.harkEvents.on("stopped_speaking", function () {
           _this25.uiInst.setVisuallyTalking(!1);
         }), _this25.audio.muted = !0, _this25.openAudioMc.voiceModule.surroundSwitch.isOn()) {
-          var _t28 = _this25.gainNode;_this25.pannerNode = n.createPanner(), _this25.pannerNode.panningModel = "HRTF", _this25.pannerNode.maxDistance = _this25.openAudioMc.voiceModule.blocksRadius, _this25.pannerNode.refDistance = 5, _this25.pannerNode.distanceModel = "linear", _this25.pannerNode.coneInnerAngle = 45, _this25.pannerNode.coneOuterGain = 315, _this25.setLocation(_this25.x, _this25.y, _this25.z, !0), i.connect(_t28), _t28.connect(_this25.pannerNode), _this25.pannerNode.connect(n.destination);
+          var _t28 = _this25.gainNode;_this25.pannerNode = n.createPanner(), _this25.pannerNode.panningModel = "HRTF", _this25.pannerNode.maxDistance = _this25.openAudioMc.voiceModule.blocksRadius, _this25.pannerNode.rolloffFactor = 1, _this25.pannerNode.refDistance = 5, _this25.pannerNode.distanceModel = "linear", _this25.pannerNode.coneInnerAngle = 45, _this25.setLocation(_this25.x, _this25.y, _this25.z, !0), i.connect(_t28), _t28.connect(_this25.pannerNode), _this25.pannerNode.connect(n.destination);
         } else {
           var _t29 = _this25.gainNode;i.connect(_t29), _t29.connect(n.destination);
         }_this25.audio.play().then(function (t) {
@@ -5991,12 +5991,12 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
 
     Kt.prototype.onUpdate = function onUpdate(t) {
       if (this.isReady()) {
-        t = W(t);var e = W(this.findAverageLoudness() - t);r(this.findAverageState() + " = Measured " + t + " which had a delta of " + e + " for the average " + this.findAverageLoudness()), e > this.delta ? t > this.findAverageLoudness() ? this.onChange(Yt.LEVEL_SHOUTING) : this.onChange(Yt.LEVEL_WHISPERING) : this.onChange(Yt.LEVEL_NORMAL);
+        t = W(t), W(this.findAverageLoudness() - t) > this.delta ? t > this.findAverageLoudness() ? this.onChange(Yt.LEVEL_SHOUTING) : this.onChange(Yt.LEVEL_WHISPERING) : this.onChange(Yt.LEVEL_NORMAL);
       }
     };
 
     Kt.prototype.onChange = function onChange(t) {
-      t != this.state && (this.state = t, r("Changing special voice flair to " + this.state), this.openAudioMc.voiceModule.loudnessDetectionEnabled && this.openAudioMc.voiceModule.pushSocketEvent(this.state));
+      t != this.state && (this.state = t, this.openAudioMc.voiceModule.loudnessDetectionEnabled && (r("Changing special voice flair to " + this.state), this.openAudioMc.voiceModule.pushSocketEvent(this.state)));
     };
 
     Kt.prototype.stop = function stop() {
