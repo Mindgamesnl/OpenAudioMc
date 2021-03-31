@@ -49,7 +49,7 @@ messages:
   # Message a player receives when their microphone is unmuted
   voicechat-mic-unmute: '&7&oYour microphone is now &2&ounmuted'
   # Message a player receives when voicechat runs into a technical issue
-  voicechat-service-unstable: '&7&oWarning: we ran into one or more problems with the voice service.. please hold on while we try to recover the service.'
+  voicechat-service-unstable: '&7&oWarning: we ran into one or more problems with the voice service.. please hold on while we try to recover your beautiful voice.'
   # Message a player receives when the voicechat is back online again
   voicechat-service-recovered: '&7&oYour voicechat session got successfully recovered'
 
