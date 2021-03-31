@@ -24,7 +24,7 @@ export class OpenAudioMc extends Getters {
 
     constructor() {
         super();
-        oalog("Starting build __VERSION__")
+        oalog("Starting build __BUILD_VERSION__ by __BUILD_AUTHOR__")
 
         this.canStart = false;
         this.host = null;

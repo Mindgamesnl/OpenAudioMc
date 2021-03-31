@@ -69,7 +69,6 @@ export default class ClientTokenSet {
                             let ses = sessionValidationResponse.response;
 
                             if (ses.hasOwnProperty("serverIdentity") != null) {
-                                Log("Loading identity")
                                 // HandleServerIdentity(ses.serverIdentity, ses.playerName).then(r => console.log).catch(e => console.log)
                             } else {
                                 Log("No identity to fetch")

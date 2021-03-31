@@ -14,7 +14,7 @@
     <meta property="og:image"
           content="https://repository-images.githubusercontent.com/71650857/6ec80c00-cc77-11ea-9fcf-dc45a929471d">
     <meta property="og:url" content="https://openaudiomc.net/">
-    <meta property="og:site_name" content="OpenAudioMc - clientg">
+    <meta property="og:site_name" content="OpenAudioMc - client">
     <meta property="og:description" content="The OpenAudioMc web client">
     <meta name="twitter:title" content="OpenAudioMc, the all-in-one minecraft audio solution">
     <meta name="twitter:image"
@@ -22,7 +22,7 @@
     <meta name="twitter:url" content="https://twitter.com/Mindgamesnl">
     <meta name="twitter:card" content="summary">
 
-    <link rel="stylesheet" href="css/2021.css?update=4"/>
+    <link rel="stylesheet" href="css/2021.css?update=__BUILD_VERSION__"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css"
           integrity="sha512-+WF6UMXHki/uCy0vATJzyA9EmAcohIQuwpNz0qEO+5UeE5ibPejMRdFuARSrl1trs3skqie0rY/gNiolfaef5w=="
           crossorigin="anonymous"/>
@@ -46,6 +46,13 @@
     </style>
 </head>
 <body class="flex h-screen sparkles tbod">
+
+<!--
+    This client is based on build __BUILD_VERSION__.
+    (https://github.com/Mindgamesnl/OpenAudioMc/commit/__BUILD_COMMIT__)
+
+    This build was published by the git user: __BUILD_AUTHOR__
+-->
 <div class="alert-area" id="alert-area"></div>
 <div class="m-auto w-full">
     <div class="relative overflow-hidden" x-data="{ openMenu: false }">
@@ -357,7 +364,7 @@
 </body>
 
 
-<script src="OpenAudioMc.bundle.js?version=46"
+<script src="OpenAudioMc.bundle.js?version=__BUILD_VERSION__"
         onerror="window.location.href = 'https://help.openaudiomc.net/'"></script>
 </html>
 </html>
