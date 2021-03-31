@@ -3,15 +3,20 @@ package com.craftmend.openaudiomc.spigot.modules.voicechat.filters;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.generic.utils.Filter;
-import lombok.AllArgsConstructor;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import org.bukkit.entity.Player;
 
 import java.util.stream.Stream;
 
-@AllArgsConstructor
 public class PeerFilter extends Filter<ClientConnection, Player> {
 
-    private final int maxDistance;
+    private final int MAX_DISTANCE;
+    private final int MAX_DISTANCE_SQUARED;
+
+    public PeerFilter(int maxDistance){
+        this.MAX_DISTANCE = maxDistance;
+        this.MAX_DISTANCE_SQUARED = (int) Math.pow(MAX_DISTANCE, 2);
+    }
 
     /**
      * Filter/find applicable players for voicechat
@@ -30,7 +35,7 @@ public class PeerFilter extends Filter<ClientConnection, Player> {
                     // check if the player is even valid
                     if (!possiblePeer.getClientRtcManager().isReady()) return false;
 
-                    // get the player, we know that it's save to do so
+                    // get the player, we know that it's safe to do so
                     Player otherPlayer = ((SpigotPlayerAdapter) possiblePeer.getPlayer()).getPlayer();
 
                     // first of all, block the player if they are actually me (dork)
@@ -43,7 +48,20 @@ public class PeerFilter extends Filter<ClientConnection, Player> {
                     if (!otherPlayer.getWorld().getName().equals(context.getWorld().getName())) return false;
 
                     // check if the players are within distance
-                    return otherPlayer.getLocation().distance(context.getLocation()) < maxDistance;
+                    if(otherPlayer.getLocation().distanceSquared(context.getLocation()) > MAX_DISTANCE_SQUARED) return false;
+
+                    //Check custom filters for other plugins to hook into
+                    FilterManager filterManager = OpenAudioMcSpigot.getInstance().getFilterManager();
+
+                    boolean failedCheck = false;
+
+                    for(CustomFilterFunction customFilterFunction : filterManager.getCustomFilterFunctions()){
+                        if(!customFilterFunction.isPlayerValidListener(context, otherPlayer)){
+                            failedCheck = true;
+                            break;
+                        }
+                    }
+                    return !failedCheck;
                 });
     }
 }
