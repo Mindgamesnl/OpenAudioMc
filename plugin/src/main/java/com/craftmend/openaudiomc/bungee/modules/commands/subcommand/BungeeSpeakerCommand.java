@@ -12,6 +12,14 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class BungeeSpeakerCommand extends SubCommand {
 
+    /**
+     * A simple bungeecord command that forwards the speaker command
+     * to the underlying spigot server.
+     *
+     * This is because bungeecord doesn't actually store any server data, and the media service
+     * is running on the spigot instance anyway
+     */
+
     public BungeeSpeakerCommand() {
         super("speaker");
         registerArguments(

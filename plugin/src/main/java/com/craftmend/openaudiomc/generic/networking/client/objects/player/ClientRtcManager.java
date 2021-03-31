@@ -1,17 +1,21 @@
 package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.impl.event.events.MicrophoneMuteEvent;
+import com.craftmend.openaudiomc.api.impl.event.events.MicrophoneUnmuteEvent;
+import com.craftmend.openaudiomc.api.impl.event.events.PlayerEnterVoiceProximityEvent;
+import com.craftmend.openaudiomc.api.impl.event.events.PlayerLeaveVoiceProximityEvent;
+import com.craftmend.openaudiomc.api.impl.event.events.enums.VoiceEventCause;
+import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientSubscribeToVoice;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceSubscribePayload;
 import com.craftmend.openaudiomc.generic.platform.Platform;
-import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.enums.PlayerLocationFollower;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Location;
 
 import java.util.HashSet;
@@ -21,7 +25,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ClientRtcManager {
 
-    @Setter
     @Getter
     private boolean isMicrophoneEnabled = false;
     @Getter
@@ -29,6 +32,7 @@ public class ClientRtcManager {
     private ClientConnection clientConnection;
     @Getter
     private Set<ClientRtcLocationUpdate> locationUpdateQueue = ConcurrentHashMap.newKeySet();
+
 
     public ClientRtcManager(ClientConnection clientConnection) {
         this.clientConnection = clientConnection;
@@ -67,18 +71,9 @@ public class ClientRtcManager {
         peer.sendPacket(new PacketClientSubscribeToVoice(ClientVoiceSubscribePayload.fromClient(clientConnection)));
         clientConnection.sendPacket(new PacketClientSubscribeToVoice(ClientVoiceSubscribePayload.fromClient(peer)));
 
-        // send a message to both users that they can now hear one another
-        if (StorageKey.SETTINGS_VC_ANNOUNCEMENTS.getBoolean()) {
-            peer.getPlayer().sendMessage(Platform.translateColors(
-                    StorageKey.MESSAGE_VC_USER_ADDED.getString()
-                            .replace("%name", clientConnection.getOwnerName())
-            ));
-
-            clientConnection.getPlayer().sendMessage(Platform.translateColors(
-                    StorageKey.MESSAGE_VC_USER_ADDED.getString()
-                            .replace("%name", peer.getOwnerName())
-            ));
-        }
+        // throw events in both ways, since the two users are listening to eachother
+        AudioApi.getInstance().getEventDriver().fire(new PlayerEnterVoiceProximityEvent(clientConnection, peer, VoiceEventCause.NORMAL));
+        AudioApi.getInstance().getEventDriver().fire(new PlayerEnterVoiceProximityEvent(peer, clientConnection, VoiceEventCause.NORMAL));
 
         updateLocationWatcher();
         peer.getClientRtcManager().updateLocationWatcher();
@@ -97,13 +92,7 @@ public class ClientRtcManager {
                 peer.getClientRtcManager().updateLocationWatcher();
                 peer.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(clientConnection.getStreamKey())));
 
-                if (StorageKey.SETTINGS_VC_ANNOUNCEMENTS.getBoolean()) {
-                    // sens a message that we left
-                    peer.getPlayer().sendMessage(Platform.translateColors(
-                            StorageKey.MESSAGE_VC_USER_LEFT.getString()
-                                    .replace("%name", clientConnection.getOwnerName())
-                    ));
-                }
+                AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(clientConnection, peer, VoiceEventCause.NORMAL));
             }
         }
     }
@@ -137,5 +126,15 @@ public class ClientRtcManager {
 
     public boolean isReady() {
         return clientConnection.isConnected() && clientConnection.isConnectedToRtc();
+    }
+
+    public void setMicrophoneEnabled(boolean state) {
+        this.isMicrophoneEnabled = state;
+
+        if (state) {
+            AudioApi.getInstance().getEventDriver().fire(new MicrophoneUnmuteEvent(clientConnection));
+        } else {
+            AudioApi.getInstance().getEventDriver().fire(new MicrophoneMuteEvent(clientConnection));
+        }
     }
 }

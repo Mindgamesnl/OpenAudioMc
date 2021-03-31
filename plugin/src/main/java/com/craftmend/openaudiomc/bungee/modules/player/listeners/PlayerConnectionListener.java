@@ -19,6 +19,10 @@ import net.md_5.bungee.api.event.ServerSwitchEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
+/**
+ * This implements all player based interactions on the bungeecord network
+ * (session tracking, descriptions, packet routing and state synchronization)
+ */
 public class PlayerConnectionListener implements Listener {
 
     @EventHandler

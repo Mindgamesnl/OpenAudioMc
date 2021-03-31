@@ -16,8 +16,12 @@ import net.md_5.bungee.api.plugin.Command;
 
 public class OpenAudioMcBungeeCommand extends Command {
 
-    private CommandModule commandModule = OpenAudioMc.getInstance().getCommandModule();
-    private CommandMiddleware[] commandMiddleware = new CommandMiddleware[] {
+    private final CommandModule commandModule = OpenAudioMc.getInstance().getCommandModule();
+
+    /**
+     * A set of middleware that to catch commands when the plugin isn't in a running state
+     */
+    private final CommandMiddleware[] commandMiddleware = new CommandMiddleware[] {
             new CatchLegalBindingMiddleware(),
             new CatchCrashMiddleware(),
             new CleanStateCheckMiddleware()
@@ -27,6 +31,10 @@ public class OpenAudioMcBungeeCommand extends Command {
         super("openaudiomc", null, "oam", "oa", "openaudio");
     }
 
+    /**
+     * A bungeecord wrapper that wraps bungeecord commands to platform independent openaudiomc commands
+     * through the internal mini framework
+     */
     @Override
     public void execute(CommandSender originalSender, String[] args) {
         GenericExecutor sender = new BungeeCommandSenderAdapter(originalSender);

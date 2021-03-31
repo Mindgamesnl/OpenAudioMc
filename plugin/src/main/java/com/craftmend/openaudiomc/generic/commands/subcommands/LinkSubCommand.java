@@ -40,7 +40,7 @@ public class LinkSubCommand extends SubCommand {
             }
         }
 
-        if (args.length > 1) {
+        if (args.length >= 1) {
             // do
             OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
                 message(sender, Platform.makeColor("GREEN") + "Attempting to link account, please wait..");
