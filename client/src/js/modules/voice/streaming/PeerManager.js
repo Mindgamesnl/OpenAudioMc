@@ -338,7 +338,7 @@ export class PeerManager {
         setTimeout(() => {
             this.muteCooldown = false;
             document.getElementById("vc-mic-mute").disabled = false;
-        }, 1500);
+        }, 500);
 
         for (let i = 0; i < this.micStream.getAudioTracks().length; i++) {
             this.micStream.getAudioTracks()[i].enabled = !state;
