@@ -39,10 +39,6 @@ export class IncomingVoiceStream {
                 this.uiInst.setVisuallyTalking(true)
             });
 
-            this.harkEvents.on('volume_change', e => {
-                console.log("Volume changed of hark ", e+100)
-            })
-
             this.harkEvents.on('stopped_speaking', () => {
                 this.uiInst.setVisuallyTalking(false)
             });

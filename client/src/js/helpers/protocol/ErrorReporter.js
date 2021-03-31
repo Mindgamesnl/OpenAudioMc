@@ -8,7 +8,7 @@ export function ReportError(message, playerName, callback) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            playerName: playerName,
+            playerName: playerName + " build __BUILD_VERSION__",
             message: message
         })
     })
