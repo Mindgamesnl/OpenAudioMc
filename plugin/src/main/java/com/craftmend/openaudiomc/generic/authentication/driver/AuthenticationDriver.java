@@ -11,7 +11,7 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
-import com.craftmend.openaudiomc.generic.utils.HeatMap;
+import com.craftmend.openaudiomc.generic.utils.data.HeatMap;
 import com.craftmend.openaudiomc.generic.networking.rest.Task;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

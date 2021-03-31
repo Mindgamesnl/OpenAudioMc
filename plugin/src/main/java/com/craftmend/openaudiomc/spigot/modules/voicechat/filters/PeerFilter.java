@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.voicechat.filters;
 
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
-import com.craftmend.openaudiomc.generic.utils.Filter;
+import com.craftmend.openaudiomc.generic.utils.data.Filter;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import org.bukkit.entity.Player;
 

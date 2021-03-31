@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.api.interfaces;
 
-import com.craftmend.openaudiomc.generic.utils.HeatMap;
+import com.craftmend.openaudiomc.generic.utils.data.HeatMap;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.AbstractRegionAdapter;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;

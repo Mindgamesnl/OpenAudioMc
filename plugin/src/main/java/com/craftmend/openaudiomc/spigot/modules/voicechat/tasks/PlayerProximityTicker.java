@@ -8,7 +8,7 @@ import com.craftmend.openaudiomc.generic.networking.client.objects.player.Client
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
-import com.craftmend.openaudiomc.generic.utils.Filter;
+import com.craftmend.openaudiomc.generic.utils.data.Filter;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
 import org.bukkit.entity.Player;

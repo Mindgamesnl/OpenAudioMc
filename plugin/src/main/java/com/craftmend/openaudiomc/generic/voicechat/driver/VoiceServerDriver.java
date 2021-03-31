@@ -2,7 +2,6 @@ package com.craftmend.openaudiomc.generic.voicechat.driver;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.events.ClientRequestVoiceEvent;
-import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
@@ -10,11 +9,13 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientUnlockVoiceChat;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceChatUnlockPayload;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
-import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
-import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskProvider;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.utils.attempts.Attempt;
+import com.craftmend.openaudiomc.generic.utils.attempts.AttemptManager;
+import com.craftmend.openaudiomc.generic.utils.attempts.AttemptTask;
 import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
 import com.craftmend.openaudiomc.generic.voicechat.bus.VoiceEventBus;
 import com.craftmend.openaudiomc.generic.voicechat.enums.VoiceServerEventType;
@@ -33,7 +34,9 @@ public class VoiceServerDriver {
     private TaskProvider taskProvider;
     private boolean taskStarted = false;
     private boolean taskRunning = false;
+    private boolean isRetrying = false;
 
+    @Setter
     private VoiceEventBus eventBus;
 
     /**
@@ -49,16 +52,72 @@ public class VoiceServerDriver {
         this.service = service;
         this.taskProvider = OpenAudioMc.getInstance().getTaskProvider();
 
+        // populate event bus
         this.eventBus = new VoiceEventBus(
                 this.host,
                 password,
                 this
         );
+        this.populateEventBus();
+    }
+
+    private boolean populateEventBus() {
 
         this.eventBus.onError(() -> {
-            // kill the service, possibly restart, I don't know what went wrong but it ain't having it
-            OpenAudioLogger.toConsole("Running vc eventbus shutdown");
-            this.shutdown();
+            // we should give it five reconnect attempts before nuking the fuck out of it
+            AttemptManager<VoiceEventBus> attemptManager = new AttemptManager<>(5);
+
+            attemptManager.setOnSuccess((successfulEventBus) -> {
+                this.eventBus = successfulEventBus;
+            });
+
+            attemptManager.setOnFailure((ignored) -> {
+                // its totally fucked
+                // kill the service, possibly restart, I don't know what went wrong but it ain't having it
+                OpenAudioLogger.toConsole("Running vc eventbus shutdown after a few reconnect attempts");
+                shutdown();
+            });
+
+            attemptManager.attempt(new AttemptTask<VoiceEventBus>() {
+                @Override
+                public void run(Attempt<VoiceEventBus> attempt) {
+                    // try to connect
+                    VoiceServerDriver driver = OpenAudioMc.getInstance().getCraftmendService().getVoiceService().getDriver();
+                    VoiceEventBus madeEventBus = new VoiceEventBus(
+                            host,
+                            password,
+                            driver
+                    );
+
+                    madeEventBus.onError(attempt::onFail);
+
+                    // now, lets see if it works or not
+                    driver.setEventBus(madeEventBus);
+                    boolean ok = driver.populateEventBus();
+
+                    if (ok) {
+                        OpenAudioLogger.toConsole("Vc eventbus got recreated after a few reconnect attempts, hurray!");
+                        attempt.onSuccess(madeEventBus);
+                    } else {
+                        OpenAudioLogger.toConsole("Failed vc reconnect event... trying again shortly.");
+                        attempt.onFail();
+                    }
+                }
+            });
+
+            // don't start retrying if we're already retrying
+            if (isRetrying) {
+                // start retrying
+                attemptManager.start();
+
+                for (ClientConnection client : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
+                    if (client.getClientRtcManager().isReady()) {
+                        client.getPlayer().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_UNSTABLE.getString()));
+                    }
+                }
+
+                isRetrying = true;
+            }
         });
 
         this.eventBus.onReady(() -> {
@@ -67,15 +126,25 @@ public class VoiceServerDriver {
             // verify login with a heartbeat
             pushEvent(VoiceServerEventType.HEARTBEAT, new HashMap<>());
 
-            // schedule heartbeat every 10 seconds
+            // schedule heartbeat every few seconds
             if (!taskStarted) {
                 taskProvider.scheduleAsyncRepeatingTask(() -> {
                     // send heartbeat
                     pushEvent(VoiceServerEventType.HEARTBEAT, new HashMap<>());
-                }, 200, 200);
+                }, 80, 80);
                 taskStarted = true;
             }
             taskRunning = true;
+
+            if (isRetrying) {
+                // send a message that its back online
+                for (ClientConnection client : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
+                    if (client.getClientRtcManager().isReady()) {
+                        client.getPlayer().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_RECOVERED.getString()));
+                    }
+                }
+                isRetrying = false;
+            }
 
             // might be a restart, so clean all
             OpenAudioMc.getInstance().getNetworkingService().getClients().forEach(this::handleClientConnection);
@@ -104,8 +173,9 @@ public class VoiceServerDriver {
         // try to login
         if (!this.eventBus.start()) {
             // denied
-            return;
+            return false;
         }
+        return true;
     }
 
     private void handleClientConnection(ClientConnection clientConnection) {

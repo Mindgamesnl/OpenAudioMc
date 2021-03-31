@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.utils;
+package com.craftmend.openaudiomc.generic.utils.data;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

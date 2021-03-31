@@ -26,7 +26,7 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.hue.HueState;
 import com.craftmend.openaudiomc.generic.hue.SerializedHueColor;
 
-import com.craftmend.openaudiomc.generic.utils.RandomString;
+import com.craftmend.openaudiomc.generic.utils.data.RandomString;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
