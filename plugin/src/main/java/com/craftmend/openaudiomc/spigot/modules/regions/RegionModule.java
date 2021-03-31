@@ -38,6 +38,7 @@ public class RegionModule {
             }
         } else {
             this.regionAdapter = customAdapter;
+            this.regionAdapter.boot(this);
         }
 
         //validate detection
