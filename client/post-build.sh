@@ -5,8 +5,13 @@ set_var () {
 }
 
 replace_all () {
-  RP="grep -rl '$1' $PWD/../docs/production-client/target/ | xargs sed -i 's/$1/$2/g'"
-  eval $RP
+  if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    RP="grep -rl '$1' $PWD/../docs/production-client/target/ | xargs sed -i 's/$1/$2/g'"
+    eval $RP
+  elif [[ "$OSTYPE" == "darwin"* ]]; then
+    RP="grep -rl '$1' $PWD/../docs/production-client/target/ | xargs sed -i '' 's/$1/$2/g'"
+    eval $RP
+  fi
 }
 
 # increment build num
