@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.bungee.modules.player.listeners;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
+import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;
@@ -53,15 +54,17 @@ public class PlayerConnectionListener implements Listener {
                 connection.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(null)));
             }
 
-            sendPacket(packetPlayer,
-                    new ClientUpdateStatePacket(
-                            player.getUniqueId(),
-                            connection.getStreamKey(),
-                            connection.isConnectedToRtc(),
-                            connection.getClientRtcManager().isMicrophoneEnabled(),
-                            connection.getSession().getStaticToken()
-                    )
-            );
+            if (OpenAudioMc.getInstance().getCraftmendService().is(CraftmendTag.VOICECHAT)) {
+                sendPacket(packetPlayer,
+                        new ClientUpdateStatePacket(
+                                player.getUniqueId(),
+                                connection.getStreamKey(),
+                                connection.isConnectedToRtc(),
+                                connection.getClientRtcManager().isMicrophoneEnabled(),
+                                connection.getSession().getStaticToken()
+                        )
+                );
+            }
 
             if (connection.isConnected()) {
                 sendPacket(packetPlayer, new ClientConnectedPacket(player.getUniqueId()));
