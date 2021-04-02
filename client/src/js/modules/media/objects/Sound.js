@@ -192,12 +192,15 @@ export class Sound extends AudioSourceProcessor {
 
     startDate(date) {
         let start = new Date(date);
-        let seconds = this.openAudioMc.timeService.localizeTime(start.getTime());
+        let predictedNow = this.openAudioMc.timeService.getPredictedTime();
+        let seconds = (predictedNow - start) / 1000
+        oalog("Started " + seconds + " ago")
         let length = this.soundElement.duration;
         if (seconds > length) {
             let times = Math.floor(seconds / length);
             seconds = seconds - (times * length);
         }
+        oalog("Starting " + seconds + " in")
         this.setTime(seconds);
     }
 

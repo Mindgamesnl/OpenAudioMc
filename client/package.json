@@ -21,6 +21,7 @@
     "babel-polyfill": "6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-es2015": "^6.24.1",
-    "babel-preset-es2015-ie": "6.7.0"
+    "babel-preset-es2015-ie": "6.7.0",
+    "luxon": "^1.26.0"
   }
 }
