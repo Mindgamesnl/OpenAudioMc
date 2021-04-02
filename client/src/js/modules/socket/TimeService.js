@@ -27,10 +27,6 @@ export class TimeService {
         oalog("Server latency is " + (this.msOffset) + "ms")
     }
 
-    onPing() {
-        oalog("Current round trip time is " + this.lastRecordedPing + "MS")
-    }
-
     getPredictedTime() {
         if (!this.hasSynced) new Date().getTime();
         // calculate the time based on the offset and which is ahead
