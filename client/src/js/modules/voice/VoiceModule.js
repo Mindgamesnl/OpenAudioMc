@@ -6,7 +6,6 @@ import {VoiceUiSwitch} from "./ui/VoiceUiSwitch";
 import {PeerManager} from "./streaming/PeerManager";
 import {RtcClient} from "./streaming/RtcClient";
 import {DoBetaWelcome} from "./fun/BetaWelcome";
-import {Hark} from "../../helpers/libs/hark.bundle";
 import {MicrophoneProcessor, MicrophoneStatistics} from "./MicrophoneProcessor";
 import {ReportError} from "../../helpers/protocol/ErrorReporter";
 
