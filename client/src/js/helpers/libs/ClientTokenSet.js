@@ -12,7 +12,7 @@ export default class ClientTokenSet {
         this.name = playerName;
         this.token = playerToken;
         this.scope = scope;
-        this.requestWasPreviouslyAttempted = false;
+        this.attempts = 0;
     }
 
     initialize() {
@@ -64,13 +64,14 @@ export default class ClientTokenSet {
                         body.json().then(sessionValidationResponse => {
 
                             if (sessionValidationResponse.errors.length > 0) {
-                                if (!this.requestWasPreviouslyAttempted) {
+                                if (this.attempts < 3) {
                                     oalog("Failed to load session, trying again in a bit.")
                                     setTimeout(() => {
                                         // try again
                                         this.requestWasPreviouslyAttempted = true;
                                         this.initialize()
                                             .then(resolve)
+                                        this.attempts++;
                                     }, 1000)
                                 } else {
                                     console.log("Session error")
