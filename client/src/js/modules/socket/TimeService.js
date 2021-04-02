@@ -11,8 +11,8 @@ export class TimeService {
 
     sync(serverTime, serverLocale) {
         // sever date and time
-        this.serverLocale = serverLocale;
         let serverDate = new Date(serverTime);
+        serverDate.addHours(serverLocale)
 
         // local date and time
         let localDate = new Date();
@@ -23,14 +23,8 @@ export class TimeService {
         // relative timing for later calculation
         this.msOffset = (this.isServerAhead ? (serverDate.getTime() - localDate.getTime()) : (localDate.getTime() - serverDate.getTime()));
         this.hasSynced = true;
-    }
 
-    localizeTime(time) {
-        if (!this.hasSynced) new Date().getTime();
-        let delay = (this.getPredictedTime().getTime() - time) / 1000;
-        this.lastRecordedPing = delay * 1000;
-        this.onPing()
-        return delay;
+        oalog("Server latency is " + (this.msOffset) + "ms")
     }
 
     onPing() {
@@ -44,4 +38,9 @@ export class TimeService {
         return new Date(this.isServerAhead ? time + this.msOffset : time - this.msOffset);
     }
 
+}
+
+Date.prototype.addHours = function(h) {
+    this.setTime(this.getTime() + (h*60*60*1000));
+    return this;
 }
