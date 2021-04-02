@@ -2,6 +2,7 @@ import UrlReader from "../protocol/UrlReader";
 import {fetch} from "../../../libs/github.fetch";
 import {API_ENDPOINT} from "../protocol/ApiEndpoints";
 import { Log } from '../utils/log'
+import {oalog} from "../log";
 
 export default class ClientTokenSet {
 
@@ -11,6 +12,7 @@ export default class ClientTokenSet {
         this.name = playerName;
         this.token = playerToken;
         this.scope = scope;
+        this.requestWasPreviouslyAttempted = false;
     }
 
     initialize() {
@@ -62,8 +64,18 @@ export default class ClientTokenSet {
                         body.json().then(sessionValidationResponse => {
 
                             if (sessionValidationResponse.errors.length > 0) {
-                                console.log("Session error")
-                                resolve(null);
+                                if (!this.requestWasPreviouslyAttempted) {
+                                    oalog("Failed to load session, trying again in a bit.")
+                                    setTimeout(() => {
+                                        // try again
+                                        this.requestWasPreviouslyAttempted = true;
+                                        this.initialize()
+                                            .then(resolve)
+                                    }, 1000)
+                                } else {
+                                    console.log("Session error")
+                                    resolve(null);
+                                }
                                 return
                             }
                             let ses = sessionValidationResponse.response;
