@@ -5,6 +5,8 @@ import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.networking.rest.ServerEnvironment;
 import com.craftmend.openaudiomc.generic.platform.interfaces.OpenAudioInvoker;
+import com.craftmend.openaudiomc.generic.redis.packets.ExecuteBulkCommandsPacket;
+import com.craftmend.openaudiomc.generic.redis.packets.ExecuteCommandPacket;
 import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.media.MediaModule;
@@ -89,6 +91,7 @@ public class OpenAudioMc {
             .registerTypeAdapter(AbstractPacketPayload.class, new AbstractPacketAdapter())
             .registerTypeAdapter(ShowRunnable.class, new RunnableTypeAdapter())
             .registerTypeAdapter(OARedisPacket.class, new RedisTypeAdapter())
+            .registerTypeAdapter(ExecuteBulkCommandsPacket.class, new RedisTypeAdapter())
             .create();
 
     public OpenAudioMc(OpenAudioInvoker invoker) throws Exception {

@@ -59,7 +59,9 @@ public class RedisService {
 
         // if there are bulk packets waiting, send them
         if (commands.isEmpty()) return;
-        asyncPub.publish(ChannelKey.TRIGGER_BULK_COMMANDS.getRedisChannelName(), new ExecuteBulkCommandsPacket(commands).serialize());
+        ExecuteBulkCommandsPacket packet = new ExecuteBulkCommandsPacket(commands);
+        packet.setSenderUUID(getServiceId());
+        asyncPub.publish(ChannelKey.TRIGGER_BULK_COMMANDS.getRedisChannelName(), packet.serialize());
     };
 
     public RedisService(ConfigurationImplementation ConfigurationImplementation) {

@@ -12,6 +12,7 @@ public abstract class OARedisPacket {
     public abstract String serialize();
 
     public OARedisPacket deSerialize(String json) {
+
         return OpenAudioMc.getGson().fromJson(json, getClass());
     }
 
