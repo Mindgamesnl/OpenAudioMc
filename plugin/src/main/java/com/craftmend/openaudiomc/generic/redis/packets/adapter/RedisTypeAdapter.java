@@ -28,6 +28,7 @@ public class RedisTypeAdapter implements JsonSerializer<OARedisPacket>, JsonDese
         JsonObject jsonObject = json.getAsJsonObject();
         String type = jsonObject.get("type").getAsString();
         String senderUuid = jsonObject.get("senderUuid").getAsString();
+        //
         JsonElement element = jsonObject.get("payload");
 
         try {
