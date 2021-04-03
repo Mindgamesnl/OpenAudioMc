@@ -3,6 +3,7 @@ import {fetch} from "../../../libs/github.fetch";
 import {API_ENDPOINT} from "../protocol/ApiEndpoints";
 import { Log } from '../utils/log'
 import {oalog} from "../log";
+import {ReportError} from "../protocol/ErrorReporter";
 
 export default class ClientTokenSet {
 
@@ -96,6 +97,7 @@ export default class ClientTokenSet {
                         });
                     })
                     .catch(error => {
+                        ReportError('Something went while requesting tokens. Error: ' + error.toJSON(), window.tokenCache.name)
                         console.error(error);
                     });
             } else {
