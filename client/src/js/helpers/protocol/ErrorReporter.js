@@ -9,7 +9,7 @@ export function ReportError(message, playerName, callback) {
         },
         body: JSON.stringify({
             playerName: playerName,
-            message: + "build __BUILD_VERSION__: " + message
+            message: "build __BUILD_VERSION__: " + message
         })
     })
         .then((res) => {
