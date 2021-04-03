@@ -1,7 +1,4 @@
 # Partners
-
-# This programme is currently on hold, meaning that we're not accepting any new partners for the forseable future.
-
 OpenAudioMc partners are Servers/Communities/Creators working closely with the project, often requiring special solutions, features and implementations to help their project move forward and build upon OpenAudioMc's existing systems and infrastructure.
 Requirements, costs and commitments are hard to pin down since I usually look with individuals, and their needs to see what we can and can't do.
 
