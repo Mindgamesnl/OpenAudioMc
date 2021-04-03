@@ -67,10 +67,12 @@ public class SpigotVoiceChatModule {
 
         // mute messages
         eventDriver.on(MicrophoneMuteEvent.class).setHandler(event -> {
+            if (!event.getClient().isConnected()) return;
             event.getClient().getPlayer().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_MIC_MUTE.getString()));
         });
 
         eventDriver.on(MicrophoneUnmuteEvent.class).setHandler(event -> {
+            if (!event.getClient().isConnected()) return;
             event.getClient().getPlayer().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_MIC_UNMUTE.getString()));
         });
 
