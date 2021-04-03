@@ -97,7 +97,6 @@ export default class ClientTokenSet {
                     })
                     .catch(error => {
                         console.error(error);
-                        resolve(null);
                     });
             } else {
                 resolve(null);
