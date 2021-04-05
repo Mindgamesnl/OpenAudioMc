@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.generic.commands.interfaces;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -70,7 +71,6 @@ public abstract class SubCommand {
      */
     public abstract void onExecute(GenericExecutor sender, String[] args);
 
-
     protected boolean isInteger(String s) {
         return isInteger(s,10);
     }
@@ -85,5 +85,17 @@ public abstract class SubCommand {
             if(Character.digit(s.charAt(i),radix) < 0) return false;
         }
         return true;
+    }
+
+    @AllArgsConstructor
+    public static class CommandArguments {
+        private String[] args;
+
+        public String getSaveString(int index) {
+            if (args.length >= (index + 1)) {
+                return args[index];
+            }
+            return "";
+        }
     }
 }
