@@ -25,19 +25,18 @@ public class LinkSubCommand extends SubCommand {
 
     @Override
     public void onExecute(GenericExecutor sender, String[] args) {
+        CommandArguments arguments = new CommandArguments(args);
 
         if (OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
             message(sender, Platform.makeColor("RED") + "WARNING! This command can only be executed on you top-level server.");
             return;
         }
 
-        if (args.length != 2) {
-            if (OpenAudioMc.getInstance().getCraftmendService().is(CraftmendTag.CLAIMED) && !args[1].equalsIgnoreCase("confirm")) {
-                message(sender, Platform.makeColor("RED") + "WARNING! This server is already claimed by another account, this means that it'll be transferred and that the old account will lose access. Please use");
-                message(sender, Platform.makeColor("GOLD") + "/oa link <fingerprint> confirm");
-                message(sender, Platform.makeColor("RED") + "If you want to overwrite your existing account.");
-                return;
-            }
+        if (OpenAudioMc.getInstance().getCraftmendService().is(CraftmendTag.CLAIMED) && !arguments.getSaveString(1).equalsIgnoreCase("confirm")) {
+            message(sender, Platform.makeColor("RED") + "WARNING! This server is already claimed by another account, this means that it'll be transferred and that the old account will lose access. Please use");
+            message(sender, Platform.makeColor("GOLD") + "/oa link <fingerprint> confirm");
+            message(sender, Platform.makeColor("RED") + "If you want to overwrite your existing account.");
+            return;
         }
 
         if (args.length >= 1) {
