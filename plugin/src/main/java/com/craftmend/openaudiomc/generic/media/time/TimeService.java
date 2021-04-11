@@ -1,7 +1,10 @@
 package com.craftmend.openaudiomc.generic.media.time;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.bukkit.Bukkit;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -16,9 +19,9 @@ public class TimeService {
     public Instant getSyncedInstant() {
         Instant now = Instant.now();
         if (serverIsAhead) {
-            now.plus(Duration.ofMillis(offset));
+            now = now.plusSeconds(offset / 1000);
         } else {
-            now.minus(Duration.ofMillis(offset));
+            now = now.minusSeconds(offset / 1000);
         }
         return now;
     }
@@ -30,17 +33,22 @@ public class TimeService {
      * @param offset the server offset
      */
     public void pushServerUpdate(long timeStamp, long offset) {
-        offset = Math.abs(offset / 60);
         Instant server = Instant.ofEpochMilli(timeStamp);
-        if (offset < 0) {
-            server.minus(Duration.ofHours(offset));
-        } else {
-            server.plus(Duration.ofHours(offset));
-        }
         Instant local = Instant.now();
-        Duration diff = Duration.between(local, server);
-        serverIsAhead = !diff.isNegative();
-        this.offset = diff.toMillis();
+
+        // are we ahead?
+        if (local.isAfter(server)) {
+            // yes
+            serverIsAhead = false;
+            Duration diff = Duration.between(server, local);
+            this.offset = diff.toMillis();
+        } else {
+            // no
+            serverIsAhead = true;
+            Duration diff = Duration.between(local, server);
+            this.offset = diff.toMillis();
+        }
+
         lastUpdated = Instant.now();
     }
 
