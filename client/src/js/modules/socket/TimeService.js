@@ -12,7 +12,6 @@ export class TimeService {
     sync(serverTime, serverLocale) {
         // sever date and time
         let serverDate = new Date(serverTime);
-        serverDate.addHours(serverLocale)
 
         // local date and time
         let localDate = new Date();
@@ -21,10 +20,13 @@ export class TimeService {
         this.isServerAhead = (serverDate.getTime() > localDate.getTime());
 
         // relative timing for later calculation
-        this.msOffset = (this.isServerAhead ? (serverDate.getTime() - localDate.getTime()) : (localDate.getTime() - serverDate.getTime()));
-        this.hasSynced = true;
+        if (this.isServerAhead) {
+            this.msOffset = serverDate.getTime() - localDate.getTime();
+        } else {
+            this.msOffset = localDate.getTime() - serverDate.getTime();
+        }
 
-        oalog("Server latency is " + (this.msOffset) + "ms")
+        this.hasSynced = true;
     }
 
     getPredictedTime() {
