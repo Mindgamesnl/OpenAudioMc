@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.spigot.modules.proxy.listeners;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.impl.event.events.TimeServiceUpdateEvent;
+import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.PlayerSession;
@@ -36,6 +38,7 @@ public class BungeePacketListener implements PacketListener {
     @PacketHandler
     public void onTimeUpdate(ServerUpdateTimePacket packet) {
         OpenAudioMc.getInstance().setTimeService(packet.getTimeService());
+        AudioApi.getInstance().getEventDriver().fire(new TimeServiceUpdateEvent(packet.getTimeService()));
     }
 
     @PacketHandler
