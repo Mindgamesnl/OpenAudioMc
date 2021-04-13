@@ -1,10 +1,9 @@
 package com.craftmend.openaudiomc.generic.media.time;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.api.impl.event.events.TimeServiceUpdateEvent;
+import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.bukkit.Bukkit;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -50,6 +49,9 @@ public class TimeService {
         }
 
         lastUpdated = Instant.now();
+
+        // push to child servers
+        AudioApi.getInstance().getEventDriver().fire(new TimeServiceUpdateEvent(this));
     }
 
 }

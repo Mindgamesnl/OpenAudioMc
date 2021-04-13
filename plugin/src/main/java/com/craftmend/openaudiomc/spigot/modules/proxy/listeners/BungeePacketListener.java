@@ -34,6 +34,11 @@ public class BungeePacketListener implements PacketListener {
     }
 
     @PacketHandler
+    public void onTimeUpdate(ServerUpdateTimePacket packet) {
+        OpenAudioMc.getInstance().setTimeService(packet.getTimeService());
+    }
+
+    @PacketHandler
     public void onStateSync(ClientUpdateStatePacket packet) {
         ClientConnection connection = OpenAudioMc.getInstance().getNetworkingService().getClient(packet.getClientUuid());
         connection.getClientRtcManager().setMicrophoneEnabled(packet.isMicrophoneEnabled());
