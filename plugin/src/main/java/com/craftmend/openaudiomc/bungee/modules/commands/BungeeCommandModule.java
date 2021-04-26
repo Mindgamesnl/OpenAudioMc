@@ -22,7 +22,6 @@ public class BungeeCommandModule {
 
         commandModule.registerSubCommands(
                 new HelpSubCommand(),
-                new StateSubCommand(),
                 new BungeePlayCommand(OpenAudioMc.getInstance()),
                 new BungeeStopCommand(OpenAudioMc.getInstance()),
                 new BungeeHueCommand(),

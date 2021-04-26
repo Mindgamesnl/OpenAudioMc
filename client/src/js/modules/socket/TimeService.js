@@ -6,7 +6,6 @@ export class TimeService {
         this.isServerAhead = false;
         this.msOffset = 0;
         this.hasSynced = false;
-        this.lastRecordedPing = 0;
     }
 
     sync(serverTime, serverLocale) {

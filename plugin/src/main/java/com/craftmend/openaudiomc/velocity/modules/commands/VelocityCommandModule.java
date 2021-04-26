@@ -37,7 +37,6 @@ public class VelocityCommandModule {
 
         commandModule.registerSubCommands(
                 new HelpSubCommand(),
-                new StateSubCommand(),
                 new VelocityPlayCommand(OpenAudioMc.getInstance()),
                 new VelocityStopCommand(OpenAudioMc.getInstance()),
                 new VelocityHueCommand(),
