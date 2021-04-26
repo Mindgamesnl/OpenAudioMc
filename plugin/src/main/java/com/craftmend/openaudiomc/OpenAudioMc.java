@@ -29,6 +29,7 @@ import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 public class OpenAudioMc {
@@ -67,7 +68,7 @@ public class OpenAudioMc {
     private final ApiEventDriver apiEventDriver = new ApiEventDriver();
     private final AuthenticationService authenticationService;
     private final StateService stateService = new StateService();
-    private final TimeService timeService = new TimeService();
+    @Setter private TimeService timeService = new TimeService();
     private final MediaModule mediaModule = new MediaModule();
     private final GlobalConstantService globalConstantService;
     private final NetworkingService networkingService;
