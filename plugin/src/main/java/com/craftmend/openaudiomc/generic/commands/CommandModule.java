@@ -2,10 +2,7 @@ package com.craftmend.openaudiomc.generic.commands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
-import com.craftmend.openaudiomc.generic.commands.subcommands.AcceptSubCommand;
-import com.craftmend.openaudiomc.generic.commands.subcommands.NotificationSubCommand;
-import com.craftmend.openaudiomc.generic.commands.subcommands.LinkSubCommand;
-import com.craftmend.openaudiomc.generic.commands.subcommands.ReloadSubCommand;
+import com.craftmend.openaudiomc.generic.commands.subcommands.*;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import lombok.Getter;
@@ -25,7 +22,8 @@ public class CommandModule {
         registerSubCommands(
                 new NotificationSubCommand(this),
                 new LinkSubCommand(),
-                new ReloadSubCommand()
+                new ReloadSubCommand(),
+                new StateSubCommand()
         );
 
         // add accept sub command if the player is new

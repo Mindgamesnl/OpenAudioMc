@@ -36,7 +36,6 @@ public class SpigotCommandModule {
                 new StopSubCommand(openAudioMcSpigot),
                 new HueSubCommand(openAudioMcSpigot),
                 new ShowSubCommand(openAudioMcSpigot),
-                new StateSubCommand(),
                 new AliasSubCommand()
         );
 

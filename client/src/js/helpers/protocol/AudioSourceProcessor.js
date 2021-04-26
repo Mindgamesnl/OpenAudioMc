@@ -93,18 +93,18 @@ export class AudioSourceProcessor {
             return sourceOg
         }
 
-        let tokenSet = new ClientTokenSet().fromCache();
-
-        // append possible authentication, just good to send along
-        // first one might be special
-        if (source.includes("?")) {
-            source += "&openAudioPlayerName=" + tokenSet.name;
-        } else {
-            source += "?openAudioPlayerName=" + tokenSet.name;
-        }
-
-        source += "&openAudioToken=" + tokenSet.token;
-        source += "&openAudioPublicServerKey=" + tokenSet.publicServerKey;
+        // let tokenSet = new ClientTokenSet().fromCache();
+        //
+        // // append possible authentication, just good to send along
+        // // first one might be special
+        // if (source.includes("?")) {
+        //     source += "&openAudioPlayerName=" + tokenSet.name;
+        // } else {
+        //     source += "?openAudioPlayerName=" + tokenSet.name;
+        // }
+        //
+        // source += "&openAudioToken=" + tokenSet.token;
+        // source += "&openAudioPublicServerKey=" + tokenSet.publicServerKey;
 
         return source;
     }

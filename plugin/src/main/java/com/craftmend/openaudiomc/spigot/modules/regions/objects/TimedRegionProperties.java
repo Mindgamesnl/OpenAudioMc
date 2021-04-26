@@ -26,7 +26,7 @@ public class TimedRegionProperties extends RegionProperties {
         }, 20 * timeInSeconds);
 
         this.media = new RegionMedia(source, volume, fadeTimeMs);
-        this.media.setLoop(OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_LOOP_TEMP_REGIONS));
+        this.media.setLoop(false);
         forceUpdateClients();
     }
 
