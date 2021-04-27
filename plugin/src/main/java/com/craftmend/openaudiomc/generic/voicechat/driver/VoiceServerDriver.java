@@ -62,8 +62,8 @@ public class VoiceServerDriver {
     }
 
     private boolean populateEventBus() {
-
         this.eventBus.onError(() -> {
+            this.eventBus.stop();
             // we should give it five reconnect attempts before nuking the fuck out of it
             AttemptManager<VoiceEventBus> attemptManager = new AttemptManager<>(5);
 
@@ -173,6 +173,7 @@ public class VoiceServerDriver {
         // try to login
         if (!this.eventBus.start()) {
             // denied
+            this.eventBus.stop();
             return false;
         }
         return true;
