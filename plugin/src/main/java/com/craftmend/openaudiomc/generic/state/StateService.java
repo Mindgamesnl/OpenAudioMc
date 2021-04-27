@@ -16,7 +16,7 @@ import java.util.List;
 public class StateService {
 
     @Getter private State currentState = new BootingState();
-    @Getter private List<StateDetail> details = new ArrayList<>();
+    @Getter private final List<StateDetail> details = new ArrayList<>();
 
     public StateService() {
         // register states based on platform
@@ -25,6 +25,7 @@ public class StateService {
         registerDetail(new PlatformDetail());
         registerDetail(new TimeDetail());
         registerDetail(new PacketThroughputDetail());
+        registerDetail(new ServerEnvironmentDetail());
 
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
             // minecraft specific shit
