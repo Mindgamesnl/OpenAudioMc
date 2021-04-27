@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.proxy.service;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
@@ -23,10 +24,16 @@ public class ProxyNetworkingService extends NetworkingService {
     @Getter private final Set<INetworkingEvents> eventHandlers = new HashSet<>();
     private final DefaultNetworkingService realService = new DefaultNetworkingService();
     private final BukkitPacketManager packetManager;
+    private int packetThroughput = 0;
 
     public ProxyNetworkingService() {
         packetManager = new BukkitPacketManager(OpenAudioMcSpigot.getInstance(), "openaudiomc:node");
         packetManager.registerListener(new BungeePacketListener());
+
+        // schedule repeating task to clear the throughput
+        OpenAudioMc.getInstance().getTaskProvider().scheduleAsyncRepeatingTask(() -> {
+            packetThroughput = 0;
+        }, 20, 20);
     }
 
     @Override
@@ -44,6 +51,8 @@ public class ProxyNetworkingService extends NetworkingService {
             Player player = ((SpigotPlayerAdapter) ((ClientConnection) client).getPlayer()).getPlayer();
             packetManager.sendPacket(new PacketPlayer(player), new ForwardSocketPacket(packet));
         }
+
+        packetThroughput++;
     }
 
     @Override
@@ -59,6 +68,11 @@ public class ProxyNetworkingService extends NetworkingService {
     @Override
     public Collection<ClientConnection> getClients() {
         return realService.getClients();
+    }
+
+    @Override
+    public int getThroughputPerSecond() {
+        return packetThroughput;
     }
 
     @Override

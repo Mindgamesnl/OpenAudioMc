@@ -25,6 +25,7 @@ public abstract class NetworkingService {
     public abstract Set<INetworkingEvents> getEvents();
     public abstract ClientConnection getClient(UUID uuid);
     public abstract Collection<ClientConnection> getClients();
+    public abstract int getThroughputPerSecond();
 
     public UUID subscribeToConnections(Consumer<ClientConnection> handler) {
         UUID id = UUID.randomUUID();
