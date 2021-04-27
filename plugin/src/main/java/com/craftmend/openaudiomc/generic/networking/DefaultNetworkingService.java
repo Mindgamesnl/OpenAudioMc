@@ -36,6 +36,7 @@ public class DefaultNetworkingService extends NetworkingService {
     private final Map<UUID, ClientConnection> clientMap = new HashMap<>();
     private final Map<PacketChannel, PayloadHandler<?>> packetHandlerMap = new HashMap<>();
     private SocketIoConnector socketIoConnector;
+    private int packetThroughput = 0;
 
     /**
      * setup the plugin connection
@@ -66,6 +67,10 @@ public class DefaultNetworkingService extends NetworkingService {
                 }
             }
         });
+
+        OpenAudioMc.getInstance().getTaskProvider().scheduleAsyncRepeatingTask(() -> {
+            packetThroughput = 0;
+        }, 20, 20);
     }
 
     private void init() {
@@ -160,6 +165,11 @@ public class DefaultNetworkingService extends NetworkingService {
     @Override
     public Collection<ClientConnection> getClients() {
         return clientMap.values();
+    }
+
+    @Override
+    public int getThroughputPerSecond() {
+        return packetThroughput;
     }
 
     /**

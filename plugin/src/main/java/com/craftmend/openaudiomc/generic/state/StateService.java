@@ -24,6 +24,7 @@ public class StateService {
         registerDetail(new AccountTagDetail());
         registerDetail(new PlatformDetail());
         registerDetail(new TimeDetail());
+        registerDetail(new PacketThroughputDetail());
 
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
             // minecraft specific shit
