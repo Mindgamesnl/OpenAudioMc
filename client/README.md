@@ -9,3 +9,5 @@ Please note that
 The web client needs to be compiled. You can do this by running `./build.sh` which will dump a production ready client, or `./build.sh dev` to compile a development client, which enables unreleased features, extra loging and enables some mock data.
  
 The compiled web client will appear in `../docs/production-client/`
+
+Debugging UI: ![img](https://i.imgur.com/ASJgoNx.png)
