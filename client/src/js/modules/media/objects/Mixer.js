@@ -13,10 +13,12 @@ export class Mixer {
         this.channels = new Map();
         this.areSoundsPlaying = false;
         this.ambianceSoundMedia = null;
+        this.recentSource = "/none";
 
         // update debug
         if (!OpenAudioEnv.isProd) {
-            window.debugUi.addPanel(DebugPanel.AUDIO, () => "playingChannels=" + this.channels.size + ", prefetched=" + Object.keys(prefetchedSounds).length)
+            window.debugUi.addPanel(DebugPanel.AUDIO, () => "playingChannels=" + this.channels.size + ", prefetched=" + Object.keys(prefetchedSounds).length +
+             ", recent=" + this.recentSource.split("/")[this.recentSource.split("/").length - 1])
         }
     }
 
@@ -130,6 +132,13 @@ export class Mixer {
             }
             channel.registerMixer(this);
             this.channels.set(channelId, channel);
+
+            // wait for it to fetch before updating debug data
+            setTimeout(() => {
+                for (let x in channel.sounds) {
+                    this.recentSource = channel.sounds[x].rawSource;
+                }
+            }, 1000);
         } else {
             throw new Error("Argument isn't a channel");
         }

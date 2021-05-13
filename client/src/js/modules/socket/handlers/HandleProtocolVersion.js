@@ -1,30 +1,31 @@
 import {AlertBox} from "../../ui/Notification";
+import {oalog} from "../../../helpers/log";
 
 export function handleProtocolVersion(openAudioMc, data) {
     const revision = parseInt(data.protocolRevision);
 
-    console.log("[OpenAudioMc] Received PROTOCOL revision update");
+    oalog("Received PROTOCOL revision update");
     if (revision >= 2) {
         // enable callbacks
-        console.log("[OpenAudioMc] PROTO rev => 2, enabling callbacks");
+        oalog("PROTO rev => 2, enabling callbacks");
         openAudioMc.socketModule.callbacksEnabled = true;
     }
 
     if (revision >= 3) {
         // enable callbacks
-        console.log("[OpenAudioMc] PROTO rev => 3, enabling youtube callbacks");
+        oalog("PROTO rev => 3, enabling youtube callbacks");
         openAudioMc.socketModule.supportsYoutube = true;
     }
 
     if (revision >= 4) {
         // enable volume updates
-        console.log("[OpenAudioMc] PROTO rev => 4, enabling volume callbacks");
+        oalog("PROTO rev => 4, enabling volume callbacks");
         openAudioMc.mediaManager.startVolumeWatcher(openAudioMc)
     }
 
     if (revision >= 5) {
         // enable volume loudness
-        console.log("[OpenAudioMc] PROTO rev => 5, enabling loudness callbacks");
+        oalog("PROTO rev => 5, enabling loudness callbacks");
         openAudioMc.voiceModule.loudnessDetectionEnabled = true
     }
 

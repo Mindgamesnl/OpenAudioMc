@@ -4,4 +4,5 @@ export const DebugPanel = {
     ACCOUNT: "Account",
     AUDIO: "Mixer",
     SOCKET: "Socket",
+    LOG: "Latest Log",
 }

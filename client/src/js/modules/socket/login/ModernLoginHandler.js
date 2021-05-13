@@ -27,7 +27,7 @@ export function HandleModernLogin(openAudioMc, accept, reject, tokenSet) {
 
                 let relayHost = response.secureEndpoint;
 
-                console.log("[OpenAudioMc] accepting and applying settings")
+                oalog("accepting and applying settings")
                 let ambianceSound = response.settings.ambianceSound;
 
                 if (response.settings.backgroundImage != null &&  response.settings.backgroundImage != "") {

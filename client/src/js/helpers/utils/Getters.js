@@ -1,8 +1,9 @@
 import {Boot} from "./Boot";
+import {oalog} from "../log";
 
 export class Getters extends Boot {
     log(message) {
-        console.log("[OpenAudioMc] " + message);
+        oalog(message);
     }
 
     getMessages() {
