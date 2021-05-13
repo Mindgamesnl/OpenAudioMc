@@ -1,10 +1,13 @@
 // boot
-import {OpenAudioMc} from '../../OpenAudioMc'
+import {OpenAudioEnv, OpenAudioMc} from '../../OpenAudioMc'
 import ClientTokenSet from '../libs/ClientTokenSet'
 import {fetch} from '../../../libs/github.fetch'
 import {ReportError} from '../protocol/ErrorReporter'
 import {API_ENDPOINT} from '../protocol/ApiEndpoints'
 import {strictlyShowCard, UiCards} from '../../modules/ui/UserInterfaceModule'
+import DebugPopupLog from "debug-popup-log";
+import {CallAfterDomUpdate} from "../domhelper";
+import {DebugPanel} from "../../debug";
 
 let openAudioMc = null
 
@@ -27,6 +30,16 @@ export function linkBootListeners() {
         return
     }
 
+    // use debugging UI
+    if (!OpenAudioEnv.isProd) {
+        window.debugUi = new DebugPopupLog(document.body, {zIndex: 999999999, backgroundColor: "black"});
+        CallAfterDomUpdate(() => {
+            document.getElementById("j3-info-popup").style.zIndex = 99999999;
+            document.getElementById("j3-info-popup").style.backgroundColor = "black";
+        })
+        window.debugUi.addPanel(DebugPanel.BUILD, () => OpenAudioEnv.build + " by " + OpenAudioEnv.compiler + " with dev mode");
+    }
+
     let sessionLoader = new ClientTokenSet()
     sessionLoader.initialize()
         .then(tokenSet => {
@@ -35,6 +48,10 @@ export function linkBootListeners() {
                 window.location = location.protocol + "//" + window.location.host + window.location.pathname + "/login.html";
                 ReportError('A faulty login attempt was done at ' + window.location.host, 'Steve')
                 return
+            }
+
+            if (!OpenAudioEnv.isProd) {
+                window.debugUi.addPanel(DebugPanel.SESSION, tokenSet.name + "@" + tokenSet.publicServerKey + "/" + tokenSet.scope)
             }
 
             // can we find a name? let's put it as a welcome text!

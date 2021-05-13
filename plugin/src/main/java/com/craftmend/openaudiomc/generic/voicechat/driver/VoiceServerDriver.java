@@ -166,7 +166,6 @@ public class VoiceServerDriver {
                 throw new IllegalStateException("Not implemented yet");
             }
 
-
             OpenAudioLogger.toConsole("Successfully logged into a WebRTC server");
         });
 
@@ -239,14 +238,14 @@ public class VoiceServerDriver {
 
     private void pushEvent(VoiceServerEventType event, Map<String, String> arguments) {
         if (this.eventBus == null) return;
-        String eventData = event.name();
+        StringBuilder eventData = new StringBuilder(event.name());
 
         // format it like EVENT_TYPE~key=value~key=value
         for (Map.Entry<String, String> entry : arguments.entrySet()) {
-            eventData += "~" + entry.getKey() + "=" + entry.getValue();
+            eventData.append("~").append(entry.getKey()).append("=").append(entry.getValue());
         }
 
-        this.eventBus.pushEventBody(eventData);
+        this.eventBus.pushEventBody(eventData.toString());
     }
 
 }
