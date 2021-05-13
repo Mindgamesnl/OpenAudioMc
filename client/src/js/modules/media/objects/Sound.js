@@ -91,7 +91,7 @@ export class Sound extends AudioSourceProcessor {
 
                 if (type != null) {
                     // report back as failure
-                    console.log("[OpenAudioMc] Reporting media failure " + type);
+                    oalog("Reporting media failure " + type);
 
                     var stringifyError = function(err, filter, space) {
                         var plainObject = {};
@@ -161,7 +161,7 @@ export class Sound extends AudioSourceProcessor {
 
             const whenStarted = () => {
                 if (this.gotShutDown) {
-                    console.log("[OpenAudioMc] Canceled a sound that started to play, for some reason.");
+                    oalog("Canceled a sound that started to play, for some reason.");
                     this.soundElement.pause();
                 }
             };

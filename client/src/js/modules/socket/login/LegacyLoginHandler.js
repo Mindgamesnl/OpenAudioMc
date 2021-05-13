@@ -1,6 +1,7 @@
 import {fetch} from "../../../../libs/github.fetch";
 import {ReportError} from "../../../helpers/protocol/ErrorReporter";
 import {parseStyle} from "../../../helpers/libs/MinecraftColorCodes";
+import {oalog} from "../../../helpers/log";
 
 export function HandleLegacyLogin(openAudioMc, accept, reject, tokenSet) {
 
@@ -32,7 +33,7 @@ export function HandleLegacyLogin(openAudioMc, accept, reject, tokenSet) {
                 let ambianceSound = response.ambianceSound;
 
                 // complete the promise with the resulted url
-                console.log("[OpenAudioMc] accepting and applying settings")
+                oalog("accepting and applying settings")
 
                 openAudioMc.debugPrint("Updating settings...");
                 if (response.backgroundImage != null &&  response.backgroundImage != "") {

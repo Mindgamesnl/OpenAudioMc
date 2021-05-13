@@ -2,6 +2,7 @@ import ClientTokenSet from "../../helpers/libs/ClientTokenSet";
 import {strictlyShowCard, UiCards} from "../ui/UserInterfaceModule";
 import {OpenAudioEnv} from "../../OpenAudioMc";
 import {DebugPanel} from "../../debug";
+import {oalog} from "../../helpers/log";
 
 export class SocketModule {
 
@@ -82,10 +83,11 @@ export class SocketModule {
         this.outCount++;
         if (this.hasConnected) {
             if (this.callbacksEnabled) {
-                console.log("[OpenAudioMc] Submitting value for " + event);
+                oalog("Submitting value for " + event);
                 this.socket.emit(event, data);
             } else {
-                console.log("[OpenAudioMc] could not satisfy callback " + event + " because the protocol is outdated");
+                oalog("could not satisfy callback " + event + " because the protocol is outdated");
+                return
             }
         } else {
             this.outgoingQueue.push({
