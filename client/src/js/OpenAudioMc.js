@@ -20,11 +20,19 @@ import {API_ENDPOINT} from "./helpers/protocol/ApiEndpoints";
 import {VoiceModule} from "./modules/voice/VoiceModule";
 import {oalog} from "./helpers/log";
 
+export const OpenAudioEnv = {
+    "build": "__BUILD_VERSION__",
+    "compiler": "__BUILD_AUTHOR__",
+    "platform": "__BUILD_PLATFORM__",
+    "environment": "__BUILD_ENV_RD__",
+    "isProd": JSON.parse("__BUILD_IS_PROD__")
+}
+
 export class OpenAudioMc extends Getters {
 
     constructor() {
         super();
-        oalog("Starting build __BUILD_VERSION__ by __BUILD_AUTHOR__")
+        oalog("Starting build " + JSON.stringify(OpenAudioEnv))
 
         this.canStart = false;
         this.host = null;

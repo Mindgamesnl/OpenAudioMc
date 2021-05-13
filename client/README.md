@@ -6,13 +6,6 @@ Please note that
  - You have to keep track of updates, and update yourself
 
 # Building the web client. building ONLY works on LINUX or MacOS!
-The web client needs to be compiled. You can do this by running
- * npm install
- * npm run-script build
+The web client needs to be compiled. You can do this by running `./build.sh` which will dump a production ready client, or `./build.sh dev` to compile a development client, which enables unreleased features, extra loging and enables some mock data.
  
- The compiled web client will appear in the target folder.
-
-# Building?.. wait wahat
-Yes. You need to "compile" the web client via webpack.
-This is to run babel and minimize everything which improves code quality, browser support and maintainability for the project.
-A Windows build script may be added later, but i dont have a computer running windows.
+The compiled web client will appear in `../docs/production-client/`
