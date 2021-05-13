@@ -102,9 +102,13 @@ export function HandleModernLogin(openAudioMc, accept, reject, tokenSet) {
                 oalog("Logging into " + response.name + " with " + response.playerCount + " online player(s)")
 
                 accept({
+                    "fromCache": result.fromCache,
                     "host": relayHost,
                     "background": background,
-                    "ambianceSound": ambianceSound
+                    "ambianceSound": ambianceSound,
+                    "playerCount": result.response.playerCount,
+                    "claimed": result.response.claimed,
+                    "rtc": result.response.rtc
                 });
             })
                 .catch((e => {

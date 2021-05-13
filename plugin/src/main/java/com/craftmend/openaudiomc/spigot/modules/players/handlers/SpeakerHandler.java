@@ -87,6 +87,10 @@ public class SpeakerHandler implements ITickableHandler {
 
             packetQue.clear();
         }
+
+        if (applicableSpeakers.isEmpty()) {
+            spigotConnection.getLocationFollowers().remove(PlayerLocationFollower.SPEAKERS);
+        }
     }
 
     public void forceDeleteSpeaker(String id, SpeakerType type, String source) {

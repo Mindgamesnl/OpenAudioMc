@@ -1,5 +1,7 @@
 import ClientTokenSet from "../../helpers/libs/ClientTokenSet";
 import {strictlyShowCard, UiCards} from "../ui/UserInterfaceModule";
+import {OpenAudioEnv} from "../../OpenAudioMc";
+import {DebugPanel} from "../../debug";
 
 export class SocketModule {
 
@@ -10,6 +12,12 @@ export class SocketModule {
         this.supportsYoutube = false;
         this.hasConnected = false;
         this.outgoingQueue = [];
+        this.inCount = 0;
+        this.outCount = 0;
+
+        if (!OpenAudioEnv.isProd) {
+            window.debugUi.addPanel(DebugPanel.SOCKET, () => "in=" + this.inCount + ", out=" + this.outCount + ", ok=" + this.socket.connected)
+        }
 
         if (new ClientTokenSet().fromCache() == null) {
             console.log("Empty authentication")
@@ -64,12 +72,14 @@ export class SocketModule {
             let packages = data.type.split(".");
             let payloadType = packages[packages.length - 1];
             if (that.handlers[payloadType] != null) that.handlers[payloadType](data.payload);
+            this.inCount++;
         });
 
         this.socket.connect();
     }
 
     send(event, data) {
+        this.outCount++;
         if (this.hasConnected) {
             if (this.callbacksEnabled) {
                 console.log("[OpenAudioMc] Submitting value for " + event);

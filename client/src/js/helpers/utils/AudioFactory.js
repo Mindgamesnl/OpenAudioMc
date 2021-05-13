@@ -1,6 +1,6 @@
 import { AudioSourceProcessor } from '../protocol/AudioSourceProcessor'
 
-let prefetchedSounds = {};
+export let prefetchedSounds = {};
 let pro = new AudioSourceProcessor();
 
 export function ClearPrefetchedMedia() {

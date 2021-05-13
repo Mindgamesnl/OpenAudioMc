@@ -1,3 +1,5 @@
+import {DebugPanel} from "../../../debug";
+
 export class Channel {
 
     constructor(channelName) {
