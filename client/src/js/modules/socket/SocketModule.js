@@ -1,7 +1,7 @@
 import ClientTokenSet from "../../helpers/libs/ClientTokenSet";
 import {strictlyShowCard, UiCards} from "../ui/UserInterfaceModule";
 import {OpenAudioEnv} from "../../OpenAudioMc";
-import {DebugPanel} from "../../debug";
+import {DebugPanel, WhenDebugging} from "../../debug";
 import {oalog} from "../../helpers/log";
 
 export class SocketModule {
@@ -16,9 +16,9 @@ export class SocketModule {
         this.inCount = 0;
         this.outCount = 0;
 
-        if (!OpenAudioEnv.isProd) {
+        WhenDebugging(() => {
             window.debugUi.addPanel(DebugPanel.SOCKET, () => "in=" + this.inCount + ", out=" + this.outCount + ", ok=" + this.socket.connected)
-        }
+        })
 
         if (new ClientTokenSet().fromCache() == null) {
             console.log("Empty authentication")

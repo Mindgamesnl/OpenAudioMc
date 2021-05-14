@@ -36,10 +36,12 @@ fi
 if [[ "$1" == "dev" ]]; then
   BUILD_ENV_RD="Development"
   IS_PROD="false"
-  echo "Build in development mode"
+  ENV_ABOUT="Build with dev mode enabled"
+  echo "default-dev"
 else
   BUILD_ENV_RD="Production"
   IS_PROD="true"
+  ENV_ABOUT="default-prod"
   echo "Build is production safe"
 fi
 
@@ -53,6 +55,7 @@ replace_all "__BUILD_VERSION__" $BUILD_NUM
 replace_all "__BUILD_PLATFORM__" $BUILD_ENV_RD
 replace_all "__BUILD_ENV_RD__" $BUILD_PLATFORM
 replace_all "__BUILD_IS_PROD__" $IS_PROD
+replace_all "__ENV_ABOUT__" $ENV_ABOUT
 replace_all "__BUILD_COMMIT__" $(git rev-parse HEAD)
 replace_all "__BUILD_AUTHOR__" $(git log -1 --pretty=format:'%an')
 
