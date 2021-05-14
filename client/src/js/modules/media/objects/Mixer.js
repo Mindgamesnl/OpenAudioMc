@@ -1,6 +1,6 @@
 import {Channel} from "./Channel";
 import {Sound} from "./Sound";
-import {DebugPanel} from "../../../debug";
+import {DebugPanel, WhenDebugging} from "../../../debug";
 import {OpenAudioEnv} from "../../../OpenAudioMc";
 import {prefetchedSounds} from "../../../helpers/utils/AudioFactory";
 
@@ -16,10 +16,10 @@ export class Mixer {
         this.recentSource = "/none";
 
         // update debug
-        if (!OpenAudioEnv.isProd) {
+        WhenDebugging(() => {
             window.debugUi.addPanel(DebugPanel.AUDIO, () => "playingChannels=" + this.channels.size + ", prefetched=" + Object.keys(prefetchedSounds).length +
              ", recent=" + this.recentSource.split("/")[this.recentSource.split("/").length - 1])
-        }
+        })
     }
 
     _updatePlayingSounds() {

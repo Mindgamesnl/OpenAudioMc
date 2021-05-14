@@ -67,7 +67,7 @@ public class OpenAudioMc {
      */
     private final ApiEventDriver apiEventDriver = new ApiEventDriver();
     private final AuthenticationService authenticationService;
-    private final StateService stateService = new StateService();
+    private final StateService stateService;
     @Setter private TimeService timeService = new TimeService();
     private final MediaModule mediaModule = new MediaModule();
     private final GlobalConstantService globalConstantService;
@@ -103,6 +103,7 @@ public class OpenAudioMc {
         instance = this;
         this.invoker = invoker;
         this.platform = invoker.getPlatform();
+        this.stateService = new StateService();
         this.authenticationService = new AuthenticationService();
         this.taskProvider = invoker.getTaskProvider();
         this.serviceImplementation = invoker.getServiceClass();

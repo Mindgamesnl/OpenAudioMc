@@ -20,14 +20,15 @@ import {API_ENDPOINT} from "./helpers/protocol/ApiEndpoints";
 import {VoiceModule} from "./modules/voice/VoiceModule";
 import {oalog} from "./helpers/log";
 import DebugPopupLog from "debug-popup-log";
-import {DebugPanel} from "./debug";
+import {DebugPanel, WhenDebugging} from "./debug";
 
 export const OpenAudioEnv = {
     "build": "__BUILD_VERSION__",
     "compiler": "__BUILD_AUTHOR__",
     "platform": "__BUILD_PLATFORM__",
     "environment": "__BUILD_ENV_RD__",
-    "isProd": JSON.parse("__BUILD_IS_PROD__")
+    "isProd": JSON.parse("__BUILD_IS_PROD__"),
+    "envDescription": "__ENV_ABOUT__"
 }
 
 export class OpenAudioMc extends Getters {
@@ -66,9 +67,9 @@ export class OpenAudioMc extends Getters {
                 this.ambianceSound = res.ambianceSound;
                 strictlyShowCard(UiCards.WELCOME);
 
-                if (!OpenAudioEnv.isProd) {
+                WhenDebugging(() => {
                     window.debugUi.addPanel(DebugPanel.ACCOUNT, "cached=" + res.fromCache + ", pc=" + res.playerCount + ", claimed=" + res.claimed + ", sfu=" + res.host + ", rtc=" + res.rtc)
-                }
+                });
 
                 let presetVolume = Cookies.get("volume");
                 if (presetVolume != null) {

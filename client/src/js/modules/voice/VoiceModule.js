@@ -8,6 +8,8 @@ import {RtcClient} from "./streaming/RtcClient";
 import {DoBetaWelcome} from "./fun/BetaWelcome";
 import {MicrophoneProcessor, MicrophoneStatistics} from "./MicrophoneProcessor";
 import {ReportError} from "../../helpers/protocol/ErrorReporter";
+import {OpenAudioEnv} from "../../OpenAudioMc";
+import {DebugPanel, EnableDebugMode, WhenDebugging} from "../../debug";
 
 export const VoiceStatusChangeEvent = {
     MIC_MUTE: "MICROPHONE_MUTED",
@@ -20,7 +22,7 @@ export const VoiceStatusChangeEvent = {
 export class VoiceModule {
 
     constructor(openAudioMc) {
-        this.openAudioMc = openAudioMc;
+       this.openAudioMc = openAudioMc;
         this.peerManager = null;
         this.peerMap = new Map();
         this.loadedDeviceList = false;
@@ -159,13 +161,25 @@ export class VoiceModule {
         })
 
         this.peerManager = new PeerManager(this.openAudioMc, this.server, this.streamKey, stream)
-        this.rtcClient = new RtcClient(this.openAudioMc, this.server, this.streamKey, stream)
         this.peerManager.setup(this.onOutoingStreamStart).catch((err) => {
             this.handleCrash(JSON.stringify(err.toJSON()))
         })
 
         // initialize mic processing
         this.microphoneProcessing = new MicrophoneProcessor(this.openAudioMc, this, stream)
+
+        WhenDebugging(() => {
+            oalog("Enabling rtc debugging")
+            window.debugUi.addPanel(DebugPanel.RTC, () => {
+                return "waitingPromises=" + this.peerManager.waitingPromises.size +
+                    ", trackQueue=" + this.peerManager.trackQueue.size +
+                    ", state=" + this.peerManager.pcReceiver.connectionState +
+                    ", ice=" + this.peerManager.pcReceiver.iceConnectionState +
+                    ", isSpeaking=" + this.microphoneProcessing.isSpeaking +
+                    ", transceivers=" + this.peerManager.pcReceiver.getTransceivers().length +
+                    ", muxPolicy=" + this.peerManager.pcReceiver.getConfiguration().rtcpMuxPolicy
+            })
+        })
     }
 
     changeInput(deviceId) {

@@ -1,17 +1,15 @@
 import {OpenAudioEnv} from "../OpenAudioMc";
-import {DebugPanel} from "../debug";
+import {DebugPanel, WhenDebugging} from "../debug";
 
 let logLines = [];
-let hooked = false;
+
+export function prepareLogging() {
+    WhenDebugging(() => {
+        window.debugUi.addPanel(DebugPanel.LOG, () => logLines.join("\n"))
+    })
+}
 
 export function oalog(message) {
-    if (!hooked) {
-        if (!OpenAudioEnv.isProd) {
-            hooked = true;
-            window.debugUi.addPanel(DebugPanel.LOG, () => logLines[logLines.length - 1])
-        }
-    }
-
     console.log("[OpenAudioMc] " + message);
     logLines.push(message);
 
