@@ -4302,7 +4302,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }), s.send(void 0 === o._bodyInit ? null : o._bodyInit);
     });
   }function x(t, e, n) {
-    S(pt.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: e, message: "build 177: " + t }) }).then(function (t) {
+    S(pt.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: e, message: "build 178: " + t }) }).then(function (t) {
       null != n && n(), t.json().then(function (t) {
         console.log("Reported error. Reponse was: " + JSON.stringify(t));
       });
@@ -5455,6 +5455,9 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     return kt;
   }();
 
+  window.enableOpenAudioDebugMode = function () {
+    ee.isProd = !1, i();
+  };
   var Ot = function Ot(t) {
     _classCallCheck(this, Ot);
 
@@ -6577,7 +6580,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     return ee;
   }), n.d(e, "OpenAudioMc", function () {
     return ne;
-  });var ee = { build: "177", compiler: "Mindgamesnl", platform: "Production", environment: "Linux", isProd: JSON.parse("true"), envDescription: "default-prod" };
+  });var ee = { build: "178", compiler: "Mindgamesnl", platform: "Production", environment: "Linux", isProd: JSON.parse("true"), envDescription: "default-prod" };
   var ne = function (_ref2) {
     _inherits(ne, _ref2);
 

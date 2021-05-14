@@ -12,3 +12,8 @@ export function HandleVoiceUnlock(openAudioMc, data) {
 
     openAudioMc.voiceModule.enable(data.streamServer, data.streamKey, data.radius)
 }
+
+window.enableOpenAudioDebugMode = function () {
+    OpenAudioEnv.isProd = false;
+    EnableDebugMode()
+}
