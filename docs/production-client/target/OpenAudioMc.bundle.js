@@ -4177,7 +4177,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
   }function o(t) {
     ee.isProd || t(), Q.push(t);
   }function s(t) {
-    console.log("[OpenAudioMc] " + t), Z.push(t), 5 < Z.length && Z.shift();
+    console.log("[OpenAudioMc] " + t), Z.push(t), 7 < Z.length && Z.shift();
   }function a(t) {
     var e = document.querySelectorAll("[data-type=card]");var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
@@ -4302,7 +4302,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }), s.send(void 0 === o._bodyInit ? null : o._bodyInit);
     });
   }function x(t, e, n) {
-    S(pt.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: e, message: "build 178: " + t }) }).then(function (t) {
+    S(pt.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: e, message: "build 184: " + t }) }).then(function (t) {
       null != n && n(), t.json().then(function (t) {
         console.log("Reported error. Reponse was: " + JSON.stringify(t));
       });
@@ -6580,7 +6580,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     return ee;
   }), n.d(e, "OpenAudioMc", function () {
     return ne;
-  });var ee = { build: "178", compiler: "Mindgamesnl", platform: "Production", environment: "Linux", isProd: JSON.parse("true"), envDescription: "default-prod" };
+  });var ee = { build: "184", compiler: "Mindgamesnl", platform: "Development", environment: "Linux", isProd: JSON.parse("false"), envDescription: "Build" };
   var ne = function (_ref2) {
     _inherits(ne, _ref2);
 

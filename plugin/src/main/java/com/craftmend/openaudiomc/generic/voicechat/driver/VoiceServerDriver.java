@@ -195,18 +195,14 @@ public class VoiceServerDriver {
 
             // schedule async check
             taskProvider.runAsync(() -> {
-                // unlock capabilities
-                // am I the spigot server?
-                if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
-                    // make an event, and invite the client if it isn't cancelled
-                    ClientRequestVoiceEvent event = OpenAudioMc.getInstance().getApiEventDriver().fire(new ClientRequestVoiceEvent(clientConnection));
-                    if (!event.isCanceled()) {
-                        clientConnection.sendPacket(new PacketClientUnlockVoiceChat(new ClientVoiceChatUnlockPayload(
-                                clientConnection.getStreamKey(),
-                                this.host,
-                                blockRadius
-                        )));
-                    }
+                // make an event, and invite the client if it isn't cancelled
+                ClientRequestVoiceEvent event = OpenAudioMc.getInstance().getApiEventDriver().fire(new ClientRequestVoiceEvent(clientConnection));
+                if (!event.isCanceled()) {
+                    clientConnection.sendPacket(new PacketClientUnlockVoiceChat(new ClientVoiceChatUnlockPayload(
+                            clientConnection.getStreamKey(),
+                            this.host,
+                            blockRadius
+                    )));
                 }
             });
         });

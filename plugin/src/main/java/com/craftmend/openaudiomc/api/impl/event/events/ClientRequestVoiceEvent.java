@@ -16,7 +16,7 @@ public class ClientRequestVoiceEvent extends AudioEvent {
     @Getter
     private boolean canceled = false;
     @Getter
-    private ClientConnection requester;
+    private final ClientConnection requester;
 
     public ClientRequestVoiceEvent(ClientConnection clientConnection) {
         this.requester = clientConnection;
