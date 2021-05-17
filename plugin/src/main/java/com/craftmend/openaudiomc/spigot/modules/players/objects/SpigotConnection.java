@@ -1,11 +1,9 @@
 package com.craftmend.openaudiomc.spigot.modules.players.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.api.impl.event.events.ClientRequestVoiceEvent;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.packets.client.speakers.PacketClientUpdateLocation;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.ClientPlayerLocationPayload;
-import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.spigot.modules.players.enums.PlayerLocationFollower;
@@ -33,7 +31,7 @@ import java.util.*;
 public class SpigotConnection {
 
     @Getter
-    private ClientConnection clientConnection;
+    private final ClientConnection clientConnection;
 
     // optional regions and speakers
     @Getter
@@ -44,18 +42,18 @@ public class SpigotConnection {
 
     // data watcher that watches for changes in the location, every 2 ticks.
     @Getter
-    private DataWatcher<Location> locationDataWatcher = new DataWatcher<>(
+    private final DataWatcher<Location> locationDataWatcher = new DataWatcher<>(
             OpenAudioMcSpigot.getInstance(),
             false,
             2
     );
 
     // Speaker and region handles. Region handler can be null if the feature is disabled
-    @Getter private SpeakerHandler speakerHandler;
+    @Getter private final SpeakerHandler speakerHandler;
     @Getter private RegionHandler regionHandler;
-    @Getter private AudioChunkHandler audioChunkHandler;
-    @Getter private Set<PlayerLocationFollower> locationFollowers = new HashSet<>();
-    private Player player;
+    @Getter private final AudioChunkHandler audioChunkHandler;
+    @Getter private final Set<PlayerLocationFollower> locationFollowers = new HashSet<>();
+    private final Player player;
 
     //plugin data
     @Setter

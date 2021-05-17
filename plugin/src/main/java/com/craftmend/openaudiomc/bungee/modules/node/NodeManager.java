@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 public class NodeManager {
 
-    @Getter private PacketManager packetManager;
+    @Getter private final PacketManager packetManager;
 
     public NodeManager(OpenAudioMcBungee openAudioMcBungee) {
         packetManager = new BungeeCordPacketManager(openAudioMcBungee, "openaudiomc:node");
@@ -24,10 +24,9 @@ public class NodeManager {
 
         AudioApi.getInstance().getEventDriver()
                 .on(TimeServiceUpdateEvent.class)
-                .setHandler((service) -> {
+                .setHandler(service -> {
                     // get all servers that have online players, and forward
                     // a packet to them
-
                     HashMap<String, ProxiedPlayer> coveredServers = new HashMap<>();
                     for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
                         if (!coveredServers.containsKey(player.getServer().getInfo().getName())) {
