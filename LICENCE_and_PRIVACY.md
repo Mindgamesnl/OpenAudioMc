@@ -38,6 +38,8 @@ Purchases made through craftmend accounts (on https://account.craftmend.com/) or
 - Purchases are not eligible for a refund when the owning account has been banned, blocked, or otherwise limited for violating one or more rules or participating in other behaviour related to OpenAudioMc that may be considered unacceptable.
 - Purchases/services may be disabled by an OpenAudioMc team member without prior warning if/when the owning account (or owner of that account) violates one or more project terms/rules or participate in other behaviour related to OpenAudioMc that may be considered unacceptable.
 - Unannounced payment chargebacks will cause the product (and service) to be blocked for the entire account and may limit account functionality.
+- Purchases and payments are handled by a third party (https://www.mollie.com/en), and I am not responsible for any failures or errors on their end. Purchases and other actions related to bank transactions or payments depend on the functioning of their platform as expected.
+
 
 
 ## Other terms, Notes and Rules
@@ -54,7 +56,7 @@ Purchases made through craftmend accounts (on https://account.craftmend.com/) or
 - I do not provide any warranty and/or uptime guarantees for any of OpenAudioMc's backend services or infrastructure, but will go with my best effort. (doesn't apply for partnerships with whom I made a specific agreement)
 - I do not have to disclose a reason for a ban publicly or privately.
 - I decide whether a Ban is necessary and or deserved for any reason given in this document or as stated in the context of the ban.
-- Craftmend, OpenAudioMc and Mindgamesnl are not responsible for user content of any kind (text, external links, voice data, etc.)
+- https://craftmend.com/ (and its sub domains), https://openaudiomc.net/ (and its sub domains) and the original author of the OpenAudioMc project an are not responsible for user content of any kind (text, external links, voice data, etc.)
 
 ## Rights
 Users have the rights to get a full copy of their data and have all of their data removed through the GDPR.
