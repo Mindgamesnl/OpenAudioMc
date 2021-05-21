@@ -86,6 +86,7 @@ public class OpenAudioMc {
     @Deprecated @Getter private static final OpenAudioApi api = new OpenAudioApi();
     public static ServerEnvironment SERVER_ENVIRONMENT = ServerEnvironment.PRODUCTION;
     @Getter private static OpenAudioMc instance;
+    public static final OpenAudioMcBuild BUILD = new OpenAudioMcBuild();
     @Getter private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(AbstractPacketPayload.class, new AbstractPacketAdapter())
             .registerTypeAdapter(ShowRunnable.class, new RunnableTypeAdapter())
@@ -101,6 +102,9 @@ public class OpenAudioMc {
         }
 
         instance = this;
+
+        OpenAudioLogger.toConsole("Initializing build " + BUILD.getBuildNumber() + " by " + BUILD.getBuildAuthor());
+
         this.invoker = invoker;
         this.platform = invoker.getPlatform();
         this.stateService = new StateService();

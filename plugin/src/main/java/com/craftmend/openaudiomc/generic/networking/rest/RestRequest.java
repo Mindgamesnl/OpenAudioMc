@@ -74,6 +74,7 @@ public class RestRequest {
 
     public String getUrl() {
         setQuery("oa-env", OpenAudioMc.SERVER_ENVIRONMENT.toString());
+        setQuery("oa-plbuild", OpenAudioMc.BUILD.getBuildNumber() + "");
 
         StringBuilder url = new StringBuilder(this.endpoint);
         if (variables.size() != 0) {
