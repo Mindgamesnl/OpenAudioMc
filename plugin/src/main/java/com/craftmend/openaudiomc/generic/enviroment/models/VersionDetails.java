@@ -6,8 +6,8 @@ import lombok.Getter;
 @Getter
 public class VersionDetails {
 
-    @SerializedName("version_tag")
-    private String versionTag; // eg, 1.0.0
+    @SerializedName("build_number")
+    private int buildNumber; // 3832
 
     @SerializedName("version_importance")
     private String importance; // eg, normal
