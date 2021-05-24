@@ -29,10 +29,18 @@ public class OpenAudioMcBuild {
         try (InputStream inputStream = OpenAudioMc.class.getResourceAsStream("/version.properties")) {
             prop.load(inputStream);
 
+            // this loads the build version and details, which are placed in the resources directory by a bash script
+            // which is ran in the final stage of the maven install target. Values must be stripped of their "
+            // because they are noted in the bash variable format, and don't need double string notation
+            // since it isn't required for the properties file format.
             buildNumber = Integer.parseInt(prop.getProperty("BUILD_VERSION").replaceAll("\"", ""));
             buildAuthor = prop.getProperty("BUILD_AUTHOR").replaceAll("\"", "");
             buildCommit = prop.getProperty("BUILD_COMMIT").replaceAll("\"", "");
         } catch (IOException e) {
+            // why catch this and then throw it again? well, to ensure that the input stream closes.
+            // why not just call the close method? because that could cause NPE's and some ugly code
+            // why slip in a sneaky throw? well, you bastard, because the plugin shouldn't start if the build
+            // is that fucking broken
             throw e;
         }
 
@@ -43,18 +51,18 @@ public class OpenAudioMcBuild {
      * releases may not have following build numbers and may instead make major jumps form 233 > 458. The only given
      * is that higher numbers will represent newer builds. These build numbers may be mapped to releases.
      */
-    private int buildNumber;
+    private final int buildNumber;
 
     /**
      * This is the git commit on which the build was made. This can be used to trace back to the release
      * or specific path. Auto links will automatically assume the base url to link to the original Mindgamesnl/OpenAudioMc
      * repository, so please double check before releasing or forking.
      */
-    private String buildCommit;
+    private final String buildCommit;
 
     /**
      * The build author is the git Username of the user who last committed in the working directory.
      * This will default to me (Mindgamesnl) but will link back to contributors who patched.
      */
-    private String buildAuthor;
+    private final String buildAuthor;
 }
