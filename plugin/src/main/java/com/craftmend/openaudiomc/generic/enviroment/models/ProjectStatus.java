@@ -10,10 +10,9 @@ public class ProjectStatus extends AbstractRestResponse {
 
     private VersionDetails versioning;
     private Announcement announcement;
-    private ProjectConfiguration configuration;
 
     public boolean isLocalLatest() {
-        return OpenAudioMc.getInstance().getInvoker().getPluginVersion().equals(versioning.getVersionTag());
+        return OpenAudioMc.BUILD.getBuildNumber() >= versioning.getBuildNumber();
     }
 
     public boolean isAnnouncementAvailable() {
