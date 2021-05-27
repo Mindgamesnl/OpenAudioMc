@@ -1,3 +1,6 @@
+import {OpenAudioEnv} from "../../../OpenAudioMc";
+import {oalog} from "../../../helpers/log";
+
 export class RtcPacket {
 
     constructor() {
@@ -33,6 +36,9 @@ export class RtcPacket {
 
     setEventName(name) {
         this.eventName = name;
+        if (!OpenAudioEnv.isProd) {
+            oalog("Building bus message " + name)
+        }
         return this;
     }
 
