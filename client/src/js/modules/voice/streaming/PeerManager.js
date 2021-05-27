@@ -3,6 +3,7 @@ import {RtcPacket} from "./protocol";
 import {PromisedChannel} from "./PromisedChannel";
 import {VoiceStatusChangeEvent} from "../VoiceModule";
 import * as PluginChannel from "../../../helpers/protocol/PluginChannel";
+import {OpenAudioEnv} from "../../../OpenAudioMc";
 
 export class PeerManager {
 
@@ -114,6 +115,10 @@ export class PeerManager {
         dataChannel.addEventListener('message', event => {
             const message = event.data;
             let rtcPacket = new RtcPacket().fromString(message)
+
+            if (!OpenAudioEnv.isProd) {
+                oalog("Handling bus " + rtcPacket.getEventName())
+            }
 
             switch (rtcPacket.getEventName()) {
 
