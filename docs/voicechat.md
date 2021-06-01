@@ -1,13 +1,7 @@
 # Voice Chat
 
 ### State of the Voice Chat feature
-This feature is reserved for partners who specifically request it at the moment. It's still in active development and still has to face some challenges before it can be released into the wild (mainly to do with hosting, since voice servers are quite resource hungry which isn't financially feasible on the scale that OpenAudioMc is currently operating. A public release would likely be in the form of a paid plan, but its too early in development to say anything decisive about that.)
-
- - **Edit, 10feb** New beta tests have now started on the new platform, we're getting close now.
- - **Update from the 6.5 release**
-```
-This update contains all the required code and modules for proximity voice chat to work, but it isn't available by default. I'm slowly rolling it out (dropping invite keys in the discord every now and then) to gain insight and data on server load. It's currently unclear if it's feasible to offer this feature for free, but I'm posting frequent updates on progress in the discord. Invited users can activate the feature on their account with a button and it'll just work from there on out. Public rollout won't require another update (when it becomes available), and we'll announce that in the discord too. I hope that you understand the reasoning behind this, a voice platform like this isn't built overnight.
-```
+Voicechat is currently in closed beta and only accessible to those in the partner program or discord members who snatched a code. You can try claiming one by typing `/claim` in the `#bot-commands` channel. 
 You can apply/learn more about partnerships here [https://help.openaudiomc.net/partners.html](https://help.openaudiomc.net/partners.html)
 
 ### Initial setup
