@@ -23,6 +23,7 @@ import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
 import com.craftmend.openaudiomc.generic.enviroment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.state.StateService;
 
+import com.craftmend.openaudiomc.generic.utils.data.InstantTypeAdapter;
 import com.craftmend.openaudiomc.spigot.modules.show.adapter.RunnableTypeAdapter;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 
@@ -30,6 +31,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.Instant;
 
 @Getter
 public class OpenAudioMc {
@@ -87,10 +90,12 @@ public class OpenAudioMc {
     public static ServerEnvironment SERVER_ENVIRONMENT = ServerEnvironment.PRODUCTION;
     @Getter private static OpenAudioMc instance;
     public static final OpenAudioMcBuild BUILD = new OpenAudioMcBuild();
+
     @Getter private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(AbstractPacketPayload.class, new AbstractPacketAdapter())
             .registerTypeAdapter(ShowRunnable.class, new RunnableTypeAdapter())
             .registerTypeAdapter(OARedisPacket.class, new RedisTypeAdapter())
+            .registerTypeAdapter(Instant.class, new InstantTypeAdapter())
             .create();
 
     public OpenAudioMc(OpenAudioInvoker invoker) throws Exception {
