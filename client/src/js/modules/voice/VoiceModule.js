@@ -9,7 +9,7 @@ import {DoBetaWelcome} from "./fun/BetaWelcome";
 import {MicrophoneProcessor, MicrophoneStatistics} from "./MicrophoneProcessor";
 import {ReportError} from "../../helpers/protocol/ErrorReporter";
 import {OpenAudioEnv} from "../../OpenAudioMc";
-import {DebugPanel, EnableDebugMode, WhenDebugging} from "../../debug";
+import {DebugPanel, WhenDebugging} from "../../debug";
 
 export const VoiceStatusChangeEvent = {
     MIC_MUTE: "MICROPHONE_MUTED",
