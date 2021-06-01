@@ -3,12 +3,12 @@ import {EnableDebugMode} from "../../../debug";
 
 export function HandleVoiceUnlock(openAudioMc, data) {
 
-    // forcefully enable debug mode since this is a beta feature
-    if (OpenAudioEnv.isProd) {
-        // still enable it
-        OpenAudioEnv.isProd = false;
-        EnableDebugMode()
-    }
+    // // forcefully enable debug mode since this is a beta feature
+    // if (OpenAudioEnv.isProd) {
+    //     // still enable it
+    //     OpenAudioEnv.isProd = false;
+    //     EnableDebugMode()
+    // }
 
     openAudioMc.voiceModule.enable(data.streamServer, data.streamKey, data.radius)
 }
