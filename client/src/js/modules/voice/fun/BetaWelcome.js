@@ -11,13 +11,12 @@ export function DoBetaWelcome() {
         window.confetti.start(2500);
 
         Swal.fire({
-            title: 'Voice BETA 0.2',
+            title: 'Welcome to beta voice chat!',
             html: `
             <b>Its finally here!</b><br />
-            Your client just updated to beta R2, adding a bunch of new features and fixing a ton of pesky bugs.
+            A server administrator got their hands on the voice chat beta, so welcome to the cool kids club!
             <br />
-            Please check <u><a href="https://help.openaudiomc.net/blog/voicechat-R2">our latest blog post</a></u> to read up on changes and new things to look out for in the future.<br />
-            Please reach out <u><a href="https://discord.openaudiomc.net/">in the OpenAudioMc Discord</a></u> if you have any questions or feedback.
+            Please let us know what you think in our <u><a href="https://discord.openaudiomc.net/">Discord</a></u>, we'd love to hear your feedback, or <a href="https://donate.craftmend.com">consider donating if you want to support further development and help to keep the service free</a>
             <h1>enjoy!</h1>
             `,
             imageUrl: 'https://media.hearthpwn.com/attachments/96/921/tada.png',
