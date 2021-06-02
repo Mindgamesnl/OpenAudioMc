@@ -2,6 +2,7 @@
 Hurray! Welcome to the OpenAudioMc public voice chat beta!
 
 #### Rules and Notes
+- Leaving the discord server will automatically deactivate your license
 - Be prepared to test. Voice chat is still in development, so you have to share feedback (negative and positive) and link to issues you may encounter
 - Uptime isn't as good as it will be, voice connections die off once a day for production updates due to backend changes and updates.
 - Don't use this on a production server. Voicechat still has some work ahead, and these codes are only usable for 10 slots.
