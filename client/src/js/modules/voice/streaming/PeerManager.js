@@ -300,7 +300,6 @@ export class PeerManager {
                     body: JSON.stringify({"sdp": btoa(JSON.stringify(this.pcReceiver.localDescription))})
                 })
                     .then(response => {
-
                         if (response.status != 200) {
                             Swal.fire({
                                 backdrop: '',

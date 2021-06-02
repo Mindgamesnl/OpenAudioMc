@@ -2,11 +2,6 @@ import {LoadLibrary} from "../../../helpers/libs/LibraryLoader";
 
 export function DoBetaWelcome() {
 
-    let lastCallToAction = Cookies.get("vc-beta-call-to-action");
-    if (lastCallToAction != null) {
-        return
-    }
-
     LoadLibrary("https://cdn.jsdelivr.net/gh/mathusummut/confetti.js/confetti.min.js", () => {
         window.confetti.start(2500);
 
@@ -28,6 +23,5 @@ export function DoBetaWelcome() {
         })
     })
 
-    Cookies.set("vc-beta-call-to-action", true);
 
 }
