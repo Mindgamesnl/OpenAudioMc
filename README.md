@@ -1,4 +1,5 @@
-# OpenAudioMc [![Build Status](https://travis-ci.org/Mindgamesnl/OpenAudioMc.svg?branch=master)](https://travis-ci.org/Mindgamesnl/OpenAudioMc) [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FMindgamesnl%2FOpenAudioMc.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FMindgamesnl%2FOpenAudioMc?ref=badge_shield) ![commit activity](https://img.shields.io/github/commit-activity/4w/mindgamesnl/openaudiomc.svg)
+# OpenAudioMc [![Build Status](https://travis-ci.org/Mindgamesnl/OpenAudioMc.svg?branch=master)](https://travis-ci.org/Mindgamesnl/OpenAudioMc) [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FMindgamesnl%2FOpenAudioMc.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FMindgamesnl%2FOpenAudioMc?ref=badge_shield) ![commit activity](https://img.shields.io/github/commit-activity/4w/mindgamesnl/openaudiomc.svg) [![Lines of Code](https://img.shields.io/tokei/lines/github/Mindgamesnl/OpenAudioMc?style=for-the-badge)](https://github.com/MinecraftMediaLibrary/MinecraftMediaLibrary)
+
 
 ![welcome](https://repository-images.githubusercontent.com/71650857/6ec80c00-cc77-11ea-9fcf-dc45a929471d)
 ## Supported platforms
