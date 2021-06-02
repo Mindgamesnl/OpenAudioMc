@@ -33,7 +33,7 @@ import java.time.Instant;
 @Plugin(
         id = "openaudiomc",
         name = "OpenAudioMc Bungee Plugin Port for Velocity",
-        version = "6.5.2",
+        version = "6.5.3",
         authors = {"Mindgamesnl", "fluse1367"},
         description = "The OpenAudioMc plugin. Brings real sound and lights to your minecraft server with the help of a custom web client. Velocity plugin port by fluse1367.",
         url = "https://openaudiomc.net/"
