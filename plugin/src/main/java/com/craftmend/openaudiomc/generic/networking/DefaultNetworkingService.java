@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.generic.networking;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.impl.event.events.ClientPreAuthEvent;
+import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.enums.PacketChannel;
@@ -67,6 +69,16 @@ public class DefaultNetworkingService extends NetworkingService {
                 }
             }
         });
+
+        // default auth check middleware
+        AudioApi.getInstance().getEventDriver()
+                .on(ClientPreAuthEvent.class)
+                .setHandler((event -> {
+                    // cancel the login if the token is invalid
+                    if (!event.getRequester().isTokenCorrect(event.getToken())) {
+                        event.setCanceled(true);
+                    }
+                }));
 
         OpenAudioMc.getInstance().getTaskProvider().scheduleAsyncRepeatingTask(() -> {
             packetThroughput = 0;

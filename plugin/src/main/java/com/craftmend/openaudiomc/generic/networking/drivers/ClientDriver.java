@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.generic.networking.drivers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.impl.event.events.ClientPreAuthEvent;
+import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
@@ -15,6 +17,7 @@ import io.socket.client.Socket;
 import java.util.UUID;
 
 public class ClientDriver implements SocketDriver {
+
     @Override
     public void boot(Socket socket, SocketIoConnector connector) {
         socket.on("acknowledgeClient", args -> {
@@ -32,13 +35,23 @@ public class ClientDriver implements SocketDriver {
             } else if (authenticatable.isTokenCorrect(payload.getToken())) {
                 callback.call(true);
                 authenticatable.onConnect();
-                if (authenticatable != null) {
+                for (INetworkingEvents event : OpenAudioMc.getInstance().getNetworkingService().getEvents()) {
+                    event.onClientOpen(authenticatable);
+                }
+            } else {
+                ClientPreAuthEvent checkEvent = new ClientPreAuthEvent(authenticatable, payload.getToken());
+                AudioApi.getInstance().getEventDriver().fire(checkEvent);
+
+                if (!checkEvent.isCanceled()) {
+                    // allow
+                    callback.call(true);
+                    authenticatable.onConnect();
                     for (INetworkingEvents event : OpenAudioMc.getInstance().getNetworkingService().getEvents()) {
                         event.onClientOpen(authenticatable);
                     }
+                } else {
+                    callback.call(false);
                 }
-            } else {
-                callback.call(false);
             }
         });
 

@@ -52,6 +52,7 @@ OpenAudioMc has a few events build in, these are;
  - `PlayerEnterVoiceProximityEvent`: Fires when player A joins the voice range of player B
  - `PlayerLeaveVoiceProximityEvent`: Fires when player A leaves the voice range of player B
  - `PlayerLoudnessEvent`: Fires when a the speaking loudness of a player changes (between normal, whispering and shouting)
+ - `ClientPreAuthEvent`: A cancellable event that fires whenever a web client attempts to login. Canceling the event will block the login.
 
 ## Getting a Client
 A client object resembles the web-connection of a given player and contains api methods (like `isConnected()`, `onConnect` etc) and is used to specify a player in other API methods.
