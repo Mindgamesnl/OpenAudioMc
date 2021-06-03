@@ -74,6 +74,12 @@ public class DefaultNetworkingService extends NetworkingService {
         AudioApi.getInstance().getEventDriver()
                 .on(ClientPreAuthEvent.class)
                 .setHandler((event -> {
+                    // cancel the request if the client is already open, don't bother checking the token
+                    if (event.getRequester().getIsConnected()) {
+                        event.setCanceled(true);
+                        return;
+                    }
+
                     // cancel the login if the token is invalid
                     if (!event.getRequester().isTokenCorrect(event.getToken())) {
                         event.setCanceled(true);
