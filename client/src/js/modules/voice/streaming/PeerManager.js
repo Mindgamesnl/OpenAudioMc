@@ -300,7 +300,7 @@ export class PeerManager {
                     body: JSON.stringify({"sdp": btoa(JSON.stringify(this.pcReceiver.localDescription))})
                 })
                     .then(response => {
-                        if (response.status != 200) {
+                        if (response.status !== 200) {
                             Swal.fire({
                                 backdrop: '',
                                 showClass: {
@@ -313,7 +313,7 @@ export class PeerManager {
                                 footer: '<a href="https://help.openaudiomc.net/voicechat_troubleshooting">Why do I have this issue?</a>'
                             })
                             response.text().then(text => {
-                                this.openAudioMc.voiceModule.handleCrash("RTC connection error, received status body " + text)
+                                this.openAudioMc.voiceModule.handleCrash("RTC connection error, received status body " + text + " " + response.status)
                             })
                         } else {
                             response.json().then(jr => {

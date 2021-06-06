@@ -1,5 +1,4 @@
 import ClientTokenSet from "../../helpers/libs/ClientTokenSet";
-import {HandleLegacyLogin} from "./login/LegacyLoginHandler";
 import {HandleModernLogin} from "./login/ModernLoginHandler";
 import {oalog} from "../../helpers/log";
 
@@ -18,9 +17,6 @@ export class SocketDirector {
             if (this.tokenSet.scope === "ACCOUNT") {
                 oalog("Using account based profile system...")
                 HandleModernLogin(openAudioMc, accept, reject, this.tokenSet)
-            } else {
-                oalog("Using LEGACY profile system...")
-                HandleLegacyLogin(openAudioMc, accept, reject, this.tokenSet)
             }
         });
     }
