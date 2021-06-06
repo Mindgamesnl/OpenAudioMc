@@ -1,4 +1,6 @@
 # Account Links
+![Account](https://i.imgur.com/chwk9jg.png)
+
 Craftmend accounts can be used to automatically synchronize your profile across platforms related to the OpenAudioMc project. We currently support
  - **Linking your Craftmend Account within the community/support Discord server** to access applicable roles, participate in early beta tests, receive automated DM notifications about your account/server, enter give-aways and more.
  - **Linking your Patreon profile to Craftmend** in order to access supporter only discord channels, flex with your generous support and to unlock special features that might be included as rewards in your tiers
