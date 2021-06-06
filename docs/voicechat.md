@@ -1,7 +1,7 @@
 # Voice Chat
 
 ### State of the Voice Chat feature
-Voicechat is currently in closed beta and only accessible to those in the partner program or discord members who snatched a code. You can try claiming one by typing `/claim` in the `#bot-commands` channel. 
+Voicechat is currently in closed beta and only accessible to those in the partner program or discord members who snatched a code. You can try claiming one by typing `/claim` in the `#bot-commands` channel [(You can read more about linking Discord on this page)](account-links.md). 
 You can apply/learn more about partnerships here [https://help.openaudiomc.net/partners.html](https://help.openaudiomc.net/partners.html)
 
 ### Initial setup

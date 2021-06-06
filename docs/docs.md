@@ -38,6 +38,7 @@ How to use OpenAudioMc's features (with examples)
 ### Configuration
 How to make OpenAudioMc truly your own
 - [Accounts](account.md)
+- [Linking your Discord/Patreon](account-links.md)
 - [Configuration and Customization](configuration.md)
 - [Permissions](permissions.md)
  
