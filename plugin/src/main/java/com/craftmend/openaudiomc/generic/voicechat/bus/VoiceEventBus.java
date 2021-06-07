@@ -52,6 +52,7 @@ public class VoiceEventBus extends WebSocketListener {
                 .setQuery("privateKey", authenticationService.getServerKeySet().getPrivateKey().getValue())
                 .setQuery("password", this.password)
                 .getUrl();
+
         ebUri = ebUri.replace("http", "ws"); // https:// => wss:// and http:// => ws://
 
         Request request = new Request.Builder()
