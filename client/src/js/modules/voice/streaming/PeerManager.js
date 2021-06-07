@@ -312,8 +312,8 @@ export class PeerManager {
                                 text: 'Something went wrong while connecting to the OpenAudioMc voice service. Please try again in a minute or so.',
                                 footer: '<a href="https://help.openaudiomc.net/voicechat_troubleshooting">Why do I have this issue?</a>'
                             })
-                            response.text().then(text => {
-                                this.openAudioMc.voiceModule.handleCrash("RTC connection error, received status body " + text + " " + response.status)
+                            response.json().then(text => {
+                                this.openAudioMc.voiceModule.handleCrash("RTC connection error, received status body " + JSON.stringify(text) + " " + response.status)
                             })
                         } else {
                             response.json().then(jr => {

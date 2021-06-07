@@ -1,4 +1,7 @@
-You can specify the environment through the `OA_ENVIRONMENT` environment variable. Accepted values are:
- - `PRODUCTION` (default) production servers
- - `TESTING` prefer public beta servers
- - `DEVELOPMENT` prefer local backend servers
+Changelog since release:
+ - Updated account styling
+ - Added web based disocrd login
+ - You can now link your patreon account and shiz
+ - Updated documentation surrounding voicechat
+ - You now receive discord notifications when your old servers get removed
+ - Online players no longer get synchronised between networks when the openaudio instance isn't claimed by a craftmend account

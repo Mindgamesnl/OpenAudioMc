@@ -19,7 +19,6 @@ public class VoiceEventBus extends WebSocketListener {
 
     private final Set<Runnable> onEerror = new HashSet<>();
     private final Set<Runnable> onReady = new HashSet<>();
-    private final VoiceServerDriver driver;
     private final OkHttpClient client = new OkHttpClient.Builder().build();
     private boolean isReady = false;
     private String server;
@@ -27,7 +26,6 @@ public class VoiceEventBus extends WebSocketListener {
     private WebSocket webSocket;
 
     public VoiceEventBus(String server, String password, VoiceServerDriver driver) {
-        this.driver = driver;
         this.server = server;
         this.password = password;
     }
