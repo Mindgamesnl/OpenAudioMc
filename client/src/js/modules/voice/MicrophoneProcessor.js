@@ -133,7 +133,7 @@ export class MicrophoneProcessor {
             this.state = updatedState
             if (this.openAudioMc.voiceModule.loudnessDetectionEnabled) {
                 oalog("Changing special voice flair to " + this.state)
-                this.openAudioMc.voiceModule.pushSocketEvent(this.state);
+                // this.openAudioMc.voiceModule.pushSocketEvent(this.state);
             }
         }
     }
