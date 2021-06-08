@@ -13,7 +13,7 @@ import java.util.stream.Stream;
  */
 public class FilterManager{
 
-    private List<CustomFilterFunction> customFilterFunctions;
+    private final List<CustomFilterFunction> customFilterFunctions;
 
     public FilterManager(OpenAudioMcSpigot openAudioMcSpigot){
         customFilterFunctions = new ArrayList<>();

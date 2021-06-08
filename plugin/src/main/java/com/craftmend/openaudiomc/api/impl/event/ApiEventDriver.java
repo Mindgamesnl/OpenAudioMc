@@ -57,9 +57,7 @@ public class ApiEventDriver {
         // get handlers
         Set<HandlerHolder<? extends AudioEvent>> subscribers = getHandlersFor(event.getClass());
         for (HandlerHolder<? extends AudioEvent> subscriber : subscribers) {
-            if (subscriber.getHandler() == null) {
-                throw new IllegalStateException("There was a subscriber for " + event.getClass().getSimpleName() + " that doesn't have an executor! moving on.");
-            } else {
+            if (subscriber.getHandler() != null) {
                 try {
                     subscriber.call(event);
                 } catch (Exception e) {
