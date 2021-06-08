@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.api.impl.event.events.PlayerEnterVoiceProximity
 import com.craftmend.openaudiomc.api.impl.event.events.PlayerLeaveVoiceProximityEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.enums.VoiceEventCause;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.generic.networking.client.enums.RtcBlockReason;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientSubscribeToVoice;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
@@ -25,14 +26,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ClientRtcManager {
 
-    @Getter
-    private boolean isMicrophoneEnabled = false;
-    @Getter
-    private Set<UUID> subscriptions = new HashSet<>();
-    private ClientConnection clientConnection;
-    @Getter
-    private Set<ClientRtcLocationUpdate> locationUpdateQueue = ConcurrentHashMap.newKeySet();
-
+    @Getter private boolean isMicrophoneEnabled = false;
+    @Getter private final Set<UUID> subscriptions = new HashSet<>();
+    @Getter private final Set<ClientRtcLocationUpdate> locationUpdateQueue = ConcurrentHashMap.newKeySet();
+    @Getter private final Set<RtcBlockReason> blockReasons = new HashSet<>();
+    private final ClientConnection clientConnection;
 
     public ClientRtcManager(ClientConnection clientConnection) {
         this.clientConnection = clientConnection;

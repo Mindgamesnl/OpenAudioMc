@@ -5,3 +5,4 @@ Changelog since release:
  - Updated documentation surrounding voicechat
  - You now receive discord notifications when your old servers get removed
  - Online players no longer get synchronised between networks when the openaudio instance isn't claimed by a craftmend account
+ - You can now disable voice chat for specific worldguard regions (using /oa region edit)
