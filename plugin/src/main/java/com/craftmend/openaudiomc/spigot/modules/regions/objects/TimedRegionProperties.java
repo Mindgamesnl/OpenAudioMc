@@ -17,7 +17,7 @@ public class TimedRegionProperties extends RegionProperties {
     }
 
     public TimedRegionProperties(String source, int timeInSeconds, String id, int volume, int fadeTimeMs) {
-        super(source, volume, fadeTimeMs);
+        super(source, volume, fadeTimeMs, true);
         this.id = id;
 
         this.task = Bukkit.getScheduler().scheduleAsyncDelayedTask(OpenAudioMcSpigot.getInstance(), () -> {
