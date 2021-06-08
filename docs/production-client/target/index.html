@@ -22,16 +22,17 @@
     <meta name="twitter:url" content="https://twitter.com/Mindgamesnl">
     <meta name="twitter:card" content="summary">
 
-    <link rel="stylesheet" href="css/2021.css?update=196"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css"
-          integrity="sha512-+WF6UMXHki/uCy0vATJzyA9EmAcohIQuwpNz0qEO+5UeE5ibPejMRdFuARSrl1trs3skqie0rY/gNiolfaef5w=="
-          crossorigin="anonymous"/>
+    <link rel="stylesheet" href="css/2021.css?update=209"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.0-canary.2/tailwind.min.css"
+          integrity="sha512-3eMoKZi3N9fwmFnCXiUXmgakO+2nrIJlUlkDPMHkZ5YEmiybKaz4UctuwDhvPje9w52EZ3hYMQTwqvDqXAi7OQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.13.0/sweetalert2.all.js"
             integrity="sha512-xyQB/ddHP6Oc0QtRFlyVsnBAOJhlxhLin3LXIjw3Ho9RnjppbCJOeb0OUXQ5HgIijMnzNxuCElb5FLkZLN+SSg=="
             crossorigin="anonymous"></script>
 
-    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "44aa80ee6e6d48c8b54452fee61f2541"}'></script>
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
+            data-cf-beacon='{"token": "44aa80ee6e6d48c8b54452fee61f2541"}'></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.slim.js"></script>
     <script src="libs/color.js"></script>
@@ -48,8 +49,8 @@
 <body class="flex h-screen sparkles tbod">
 
 <!--
-    This client is based on build 196.
-    (https://github.com/Mindgamesnl/OpenAudioMc/commit/3ea8f8a7e45e9d31cba50ce20a5fbaaa380b249e)
+    This client is based on build 209.
+    (https://github.com/Mindgamesnl/OpenAudioMc/commit/9a2d8b2ad06e09a93324f5f5b8eb02526508eabb)
 
     This build was published by the git user: Mindgamesnl
 -->
@@ -166,14 +167,18 @@
                             <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
                         </div>
 
-                        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+                        <span class="hidden sm:inline-block sm:align-middle sm:h-screen"
+                              aria-hidden="true">&#8203;</span>
 
-                        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+                        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+                             role="dialog" aria-modal="true" aria-labelledby="modal-headline">
                             <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                 <div class="sm:flex sm:items-start">
                                     <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                                        <svg class="h-8 w-8 text-pink-500"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                                        <svg class="h-8 w-8 text-pink-500" fill="none" viewBox="0 0 24 24"
+                                             stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
                                         </svg>
                                     </div>
                                     <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
@@ -184,20 +189,24 @@
 
 
                                             <div class="text-sm text-gray-500" id="hue-link-menu">
-                                                    <p class="small-text" id="hue-welcome-message"></p>
-                                                    <br />
-                                                    <span class="alert-message-button m-15"
-                                                          id="hue-start-linking-button">Click here to connect to your hue bridge</span>
+                                                <p class="small-text" id="hue-welcome-message"></p>
+                                                <br/>
+                                                <span class="alert-message-button m-15"
+                                                      id="hue-start-linking-button">Click here to connect to your hue bridge</span>
                                             </div>
 
-                                            <div class="text-sm text-gray-500" id="hue-linking-menu" style="display: none;">
-                                                    <p class="small-text" id="hue-linking-message"></p>
+                                            <div class="text-sm text-gray-500" id="hue-linking-menu"
+                                                 style="display: none;">
+                                                <p class="small-text" id="hue-linking-message"></p>
                                             </div>
 
 
-                                            <div class="text-sm text-gray-500" id="hue-settings-menu" style="display: none;">
-                                                <p>You are now connected with your Hue Bridge, <span id="bridge-name">{{name}}</span>.</p>
-                                                <div class="graytext" style="display: block; text-align: -webkit-center;">
+                                            <div class="text-sm text-gray-500" id="hue-settings-menu"
+                                                 style="display: none;">
+                                                <p>You are now connected with your Hue Bridge, <span id="bridge-name">{{name}}</span>.
+                                                </p>
+                                                <div class="graytext"
+                                                     style="display: block; text-align: -webkit-center;">
                                                     <div class="bulbs">
                                                         <div class="bulb">
                                                             <h3>Light one</h3>
@@ -212,7 +221,8 @@
                                                             <h3>Light two</h3>
                                                             <i class="fa fa-3x fa-lightbulb-o"></i>
                                                             <div class="light-dropdown">
-                                                                <select class="blue-select" data-bulb="2" id='bulb-selection-2'>
+                                                                <select class="blue-select" data-bulb="2"
+                                                                        id='bulb-selection-2'>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -220,12 +230,14 @@
                                                             <h3>Light three</h3>
                                                             <i class="fa fa-3x fa-lightbulb-o"></i>
                                                             <div class="light-dropdown">
-                                                                <select class="blue-select" data-bulb="3" id='bulb-selection-3'>
+                                                                <select class="blue-select" data-bulb="3"
+                                                                        id='bulb-selection-3'>
                                                                 </select>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <p>You may now link up to three lights that the server will control. Usually from right
+                                                    <p>You may now link up to three lights that the server will control.
+                                                        Usually from right
                                                         to
                                                         left.</p>
                                                 </div>
@@ -236,7 +248,9 @@
                                 </div>
                             </div>
                             <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                                <button onclick="document.getElementById('hue-modal-parent').style.display = 'none';" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                                <button onclick="document.getElementById('hue-modal-parent').style.display = 'none';"
+                                        type="button"
+                                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                                     Close
                                 </button>
                             </div>
@@ -278,7 +292,18 @@
     </div>
 
     <div class="pt-5 w-full flex justify-center transition-transform" id="vc-controls" style="display: none">
-        <div class="w-3/5 relative bg-white shadow rounded-md py-5 pl-6 pr-8 sm:pr-6">
+        <div class="vc-overlay" id="vc-disabled-overlay" style="display: none">
+            <div class="-m-2 text-center">
+                <div class="p-2">
+                    <div class="inline-flex items-center bg-white leading-none text-purple-600 rounded-full p-2 shadow text-teal text-sm">
+                        <span class="inline-flex bg-indigo-600 text-white rounded-full h-6 px-3 justify-center items-center">Notice</span>
+                        <span class="inline-flex px-2">VoiceChat has temporarily been disabled by {{ craftmend.account.serverName }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-3/5 relative bg-white shadow rounded-md py-5 pl-6 pr-8 sm:pr-6" id="vc-content">
             <!-- onboarding -->
             <div class="h-full w-full" data-type="voice-card" id="vc-onboarding" style="display: none">
                 <h2 class="text-2xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-xl sm:leading-none md:text-3xl">
@@ -344,7 +369,8 @@
                         <div class="flex justify-center">
                             <div class="w-full max-w-lg pt-4" id="vc-call-members">
                                 <div style="text-align: center;" id="empty-call-placeholder">
-                                    <h1 class="text-gray-400"><i>There's no one around sadly.. not to worry though! I'll be your happy imaginary friend</i></h1>
+                                    <h1 class="text-gray-400"><i>There's no one around sadly.. not to worry though! I'll
+                                        be your happy imaginary friend</i></h1>
                                 </div>
                             </div>
                         </div>
@@ -364,7 +390,7 @@
 </body>
 
 
-<script src="OpenAudioMc.bundle.js?version=196"
+<script src="OpenAudioMc.bundle.js?version=209"
         onerror="window.location.href = 'https://help.openaudiomc.net/'"></script>
 </html>
 </html>

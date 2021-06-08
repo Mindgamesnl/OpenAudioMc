@@ -343,6 +343,18 @@ export class VoiceModule {
         }
     }
 
+    blurWithReason(reason) {
+        document.getElementById("vc-content").classList.add("filter")
+        document.getElementById("vc-content").classList.add("blur-md")
+        document.getElementById("vc-disabled-overlay").style.display = ""
+    }
+
+    unblur() {
+        document.getElementById("vc-content").classList.remove("filter")
+        document.getElementById("vc-content").classList.remove("blur-md")
+        document.getElementById("vc-disabled-overlay").style.display = "none"
+    }
+
 }
 
 export function showVoiceCard(id) {

@@ -14,6 +14,7 @@ import {HandleVoiceChatSubscription} from "./handlers/HandleVoicechatSubscriptio
 import {HandleVoiceChatDrop} from "./handlers/HandleVoicechatDrop";
 import {HandleVoicePeerLocationUpdate} from "./handlers/HandleVoicePeerLocationUpdate";
 import {HandleVoiceChatMicToggle} from "./handlers/HandleVoiceChatMicToggle";
+import {handleClientBlur} from "./handlers/HandleClientVoiceBlurUi";
 
 export class Handlers {
 
@@ -45,5 +46,6 @@ export class Handlers {
         registerClassHandler("ClientVoiceDropPayload", HandleVoiceChatDrop)
         registerClassHandler("ClientVoiceUpdatePeerLocationsPayload", HandleVoicePeerLocationUpdate)
         registerClassHandler("ClientVoiceChatToggleMicrophonePayload", HandleVoiceChatMicToggle)
+        registerClassHandler("ClientVoiceBlurUiPayload", handleClientBlur)
     }
 }
