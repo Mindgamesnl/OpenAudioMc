@@ -34,7 +34,5 @@ public class VoiceDetail implements StateDetail {
         } else {
             return "Disabled";
         }
-
-        return null;
     }
 }
