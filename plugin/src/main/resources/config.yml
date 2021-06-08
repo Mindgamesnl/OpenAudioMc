@@ -36,6 +36,10 @@ messages:
   client-not-connected: '&4You need to be connected to the web client to be able to do that'
   # The message a client gets when they need to be connected to voice chat to do something
   voice-not-connected: '&4An active Voice connection is required to execute this command'
+  # The message a client receives when they entered an area where voicechat is disabled
+  voice-disabled-here: '&7&oYour voice chat has been temporarily disabled in this area'
+  # The message a client receives when they entered an area where voicechat is enabled again
+  voice-reenabled-here: '&7&oYour voice chat has been re-enabled'
 
 
   # Message a player receives when opting into voicechat

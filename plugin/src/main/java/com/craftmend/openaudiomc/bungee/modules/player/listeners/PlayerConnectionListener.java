@@ -5,7 +5,9 @@ import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
+import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientBlurVoiceUi;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;
+import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceBlurUiPayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
 import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
@@ -51,6 +53,7 @@ public class PlayerConnectionListener implements Listener {
 
             if (connection.isConnectedToRtc()) {
                 // drop all peers
+                connection.sendPacket(new PacketClientBlurVoiceUi(new ClientVoiceBlurUiPayload(false)));
                 connection.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(null)));
             }
 

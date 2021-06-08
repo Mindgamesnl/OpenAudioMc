@@ -4,9 +4,9 @@ import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.enums.PacketChannel;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceBlurUiPayload;
 
-public class PacketClientBlurUi extends AbstractPacket {
+public class PacketClientBlurVoiceUi extends AbstractPacket {
 
-    public PacketClientBlurUi(ClientVoiceBlurUiPayload payload) {
+    public PacketClientBlurVoiceUi(ClientVoiceBlurUiPayload payload) {
         super(
                 payload,
                 PacketChannel.CLIENT_OUT_VOICE_BLUR,

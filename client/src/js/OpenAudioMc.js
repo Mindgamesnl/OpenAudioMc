@@ -87,7 +87,7 @@ export class OpenAudioMc extends Getters {
                 this.userInterfaceModule.kickScreen("Your current URL appears to be invalid. Please request a new one in-game using the /audio command. If this issue if persists please contact a member of staff.")
             });
     }
-w
+
     start() {
         if (!this.canStart) return;
         this.canStart = false;
