@@ -17,7 +17,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
+ @AllArgsConstructor
 public class PlayerProximityTicker implements Runnable {
 
     private int maxDistance;
@@ -37,6 +37,9 @@ public class PlayerProximityTicker implements Runnable {
                     OpenAudioMc.getInstance().getNetworkingService().getClients().stream(),
                     player
             ).collect(Collectors.toSet());
+
+            // clear the applicable players if i'm disabled myself
+            if (!client.getClientRtcManager().getBlockReasons().isEmpty()) applicableClients.clear();
 
             // find players that we don't have yet
             applicableClients
