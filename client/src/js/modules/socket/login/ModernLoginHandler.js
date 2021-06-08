@@ -108,7 +108,8 @@ export function HandleModernLogin(openAudioMc, accept, reject, tokenSet) {
                     "ambianceSound": ambianceSound,
                     "playerCount": result.response.playerCount,
                     "claimed": result.response.claimed,
-                    "rtc": result.response.rtc
+                    "rtc": result.response.rtc,
+                    "serverName": result.response.name
                 });
             })
                 .catch((e => {

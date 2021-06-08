@@ -21,6 +21,7 @@ import {VoiceModule} from "./modules/voice/VoiceModule";
 import {oalog} from "./helpers/log";
 import DebugPopupLog from "debug-popup-log";
 import {DebugPanel, WhenDebugging} from "./debug";
+import {replaceGlobalText} from "./helpers/domhelper";
 
 export const OpenAudioEnv = {
     "build": "__BUILD_VERSION__",
@@ -66,6 +67,7 @@ export class OpenAudioMc extends Getters {
                 this.background = res.background;
                 this.ambianceSound = res.ambianceSound;
                 strictlyShowCard(UiCards.WELCOME);
+                oalog("Server: " + res.serverName)
 
                 WhenDebugging(() => {
                     window.debugUi.addPanel(DebugPanel.ACCOUNT, "cached=" + res.fromCache + ", pc=" + res.playerCount + ", claimed=" + res.claimed + ", sfu=" + res.host + ", rtc=" + res.rtc)
@@ -75,6 +77,9 @@ export class OpenAudioMc extends Getters {
                 if (presetVolume != null) {
                     this.mediaManager.changeVolume(presetVolume);
                 }
+
+                // update dom
+                replaceGlobalText("{{ craftmend.account.serverName }}", res.serverName)
             })
             .catch((error) => {
                 console.error(error);

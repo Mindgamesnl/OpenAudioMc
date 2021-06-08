@@ -377,3 +377,17 @@ footer {
 .fa-user:hover {
     color: #eee;
 }
+
+
+.blur {
+    background: rgba(255, 255, 255, 0.2); // Make sure this color has an opacity of less than 1
+backdrop-filter: blur(8px); // This be the blur
+height: 100vh;
+    width: 50%;
+}
+
+.vc-overlay {
+    position: absolute;
+    z-index: 9999;
+    padding: 120px;
+}

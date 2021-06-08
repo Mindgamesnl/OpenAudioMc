@@ -12,7 +12,7 @@ export default openAudioMc
 
 function enable() {
     if (openAudioMc.canStart) {
-        openAudioMc.start()
+        openAudioMc.    start()
     }
 }
 
