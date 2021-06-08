@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.menu;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
@@ -64,7 +64,7 @@ public class SpeakerMenu extends Menu {
                 settingItem.setLore(new String[]{setting.getDescription()});
 
                 settingItem.onClick((clicker, what) -> {
-                    ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
+                    Configuration config = OpenAudioMc.getInstance().getConfiguration();
                     if (isEnabled) {
                         speaker.getExtraOptions().remove(setting);
                         config.setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".options." + setting, "false");
@@ -121,7 +121,7 @@ public class SpeakerMenu extends Menu {
             int safeRadius = speaker.getRadius() + 1;
             Collection<Entity> entities = bukkitSpeakerLocation.getWorld().getNearbyEntities(bukkitSpeakerLocation, safeRadius, safeRadius, safeRadius);
 
-            ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
+            Configuration config = OpenAudioMc.getInstance().getConfiguration();
             config.setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".type", nextSelectableMode.toString());
             config.saveAll();
 
@@ -159,7 +159,7 @@ public class SpeakerMenu extends Menu {
                 )
                 .onClick((player, item) -> {
                     if (distance == speaker.getRadius()) return;
-                    ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
+                    Configuration config = OpenAudioMc.getInstance().getConfiguration();
                     config.setInt(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".radius", distance);
                     speaker.setRadius(distance);
                     player.sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + "Updated speaker radius to " + distance);

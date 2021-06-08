@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.migrations.interfaces;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 
 import java.io.*;
@@ -16,7 +16,7 @@ public abstract class SimpleMigration {
 
     protected void migrateFilesFromResources() {
         OpenAudioMc openAudioMc = OpenAudioMc.getInstance();
-        ConfigurationImplementation config = openAudioMc.getConfiguration();
+        Configuration config = openAudioMc.getConfiguration();
 
         // settings that should be moved over
         Map<StorageKey, Object> oldValues = new HashMap<>();

@@ -1,52 +1,48 @@
-package com.craftmend.openaudiomc.spigot.modules.configuration;
+package com.craftmend.openaudiomc.bungee.modules.configuration;
 
-import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
+import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
+import net.md_5.bungee.config.ConfigurationProvider;
+import net.md_5.bungee.config.YamlConfiguration;
 import org.apache.commons.lang.Validate;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.world.WorldSaveEvent;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class SpigotConfigurationImplementation implements ConfigurationImplementation, Listener {
+/**
+ * A bungeecord implementation of the OpenAudioMc file standard
+ *
+ * This generates and maintains the data.yml and config.yml
+ */
+public class BungeeConfiguration implements Configuration {
 
-    private FileConfiguration mainConfig;
-    private FileConfiguration dataConfig;
+    private net.md_5.bungee.config.Configuration mainConfig;
+    private net.md_5.bungee.config.Configuration dataConfig;
 
     private Map<StorageKey, String> cachedConfigStrings = new HashMap<>();
 
-    public SpigotConfigurationImplementation(OpenAudioMcSpigot openAudioMcSpigot) {
+    public BungeeConfiguration() {
         //save default
-        openAudioMcSpigot.saveDefaultConfig();
-        if (!hasDataFile()) openAudioMcSpigot.saveResource("data.yml", false);
-        openAudioMcSpigot.registerEvents(this);
+        saveDefaultFile("data.yml", false);
+        saveDefaultFile("config.yml", false);
 
-        dataConfig = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudioMc/data.yml"));
-        mainConfig = openAudioMcSpigot.getConfig();
+        dataConfig = getFile("data.yml");
+        mainConfig = getFile("config.yml");
 
         OpenAudioLogger.toConsole("Starting configuration module");
         this.loadSettings();
     }
 
-    @EventHandler
-    public void onWorldSave(WorldSaveEvent event) {
-        saveAll();
-    }
-
-    public ConfigurationImplementation loadSettings() {
-        // deprecated
+    public Configuration loadSettings() {
+        // deperecated
         return this;
     }
 
@@ -62,8 +58,7 @@ public class SpigotConfigurationImplementation implements ConfigurationImplement
                 return dataConfig.getString(storageKey.getPath());
 
             case CONFIG_FILE:
-                return cachedConfigStrings.computeIfAbsent(storageKey, v ->
-                        ((mainConfig.getString(storageKey.getPath()) == null ? "<unknown openaudiomc value " + storageKey.getPath() + ">" : mainConfig.getString(storageKey.getPath()))));
+                return ((mainConfig.getString(storageKey.getPath()) == null ? "<unknown openaudiomc value " + storageKey.getPath() + ">" : mainConfig.getString(storageKey.getPath())));
 
             default:
                 return "<unknown openaudiomc value " + storageKey.getPath() + ">";
@@ -99,17 +94,17 @@ public class SpigotConfigurationImplementation implements ConfigurationImplement
     public String getStringFromPath(String path, StorageLocation storageLocation) {
         Validate.isTrue(storageLocation == StorageLocation.DATA_FILE, "Getting strings from a config file with hardcoded paths is not allowed");
         String value = dataConfig.getString(path);
-        return value == null ? "<unknown openaudiomc value " + path + ">" : value;
+        return value == null ? "" : value;
     }
 
     @Override
     public boolean isPathValid(String path, StorageLocation storageLocation) {
         switch (storageLocation) {
             case DATA_FILE:
-                return dataConfig.contains(path, true);
+                return dataConfig.contains(path);
 
             case CONFIG_FILE:
-                return mainConfig.contains(path, true);
+                return mainConfig.contains(path);
 
             default:
                 return false;
@@ -136,10 +131,7 @@ public class SpigotConfigurationImplementation implements ConfigurationImplement
      */
     @Override
     public Set<String> getStringSet(String path, StorageLocation storageLocation) {
-        Validate.isTrue(storageLocation == StorageLocation.DATA_FILE, "Getting sets from a config file with hardcoded paths is not allowed");
-        ConfigurationSection section = dataConfig.getConfigurationSection(path);
-        if (section == null) return new HashSet<>();
-        return section.getKeys(false);
+        throw new UnsupportedOperationException("Not supported in bungeecord mode");
     }
 
     /**
@@ -173,17 +165,6 @@ public class SpigotConfigurationImplementation implements ConfigurationImplement
 
             case CONFIG_FILE:
                 mainConfig.set(path, string);
-        }
-    }
-
-    @Override
-    public void setBoolean(StorageKey location, boolean value) {
-        switch (location.getStorageLocation()) {
-            case DATA_FILE:
-                dataConfig.set(location.getPath(), value);
-
-            case CONFIG_FILE:
-                mainConfig.set(location.getPath(), value);
         }
     }
 
@@ -254,8 +235,7 @@ public class SpigotConfigurationImplementation implements ConfigurationImplement
     @Override
     public void reloadConfig() {
         this.cachedConfigStrings.clear();
-        OpenAudioMcSpigot.getInstance().reloadConfig();
-        mainConfig = OpenAudioMcSpigot.getInstance().getConfig();
+        mainConfig = getFile("config.yml");
         this.loadSettings();
     }
 
@@ -265,7 +245,8 @@ public class SpigotConfigurationImplementation implements ConfigurationImplement
     @Override
     public void saveAll() {
         try {
-            dataConfig.save("plugins/OpenAudioMc/data.yml");
+            ConfigurationProvider.getProvider(YamlConfiguration.class).save(mainConfig, new File(OpenAudioMcBungee.getInstance().getDataFolder(), "config.yml"));
+            ConfigurationProvider.getProvider(YamlConfiguration.class).save(dataConfig, new File(OpenAudioMcBungee.getInstance().getDataFolder(), "data.yml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -273,21 +254,64 @@ public class SpigotConfigurationImplementation implements ConfigurationImplement
 
     @Override
     public void overwriteConfigFile() {
-        OpenAudioMcSpigot.getInstance().saveResource("config.yml", true);
+        saveDefaultFile("config.yml", true);
     }
 
     @Override
     public boolean hasDataFile() {
-        File dataFile = new File("plugins/OpenAudioMc/data.yml");
-        return dataFile.exists();
+        return true;
     }
 
     @Override
     public boolean hasStorageKey(StorageKey storageKey) {
         if (storageKey.getStorageLocation() == StorageLocation.DATA_FILE) {
-            return dataConfig.isSet(storageKey.getPath());
+            return dataConfig.contains(storageKey.getPath());
         }
-        return mainConfig.isSet(storageKey.getPath());
+        return mainConfig.contains(storageKey.getPath());
+    }
+
+    private net.md_5.bungee.config.Configuration getFile(String filename) {
+        net.md_5.bungee.config.Configuration load = null;
+        try {
+            load = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(OpenAudioMcBungee.getInstance().getDataFolder(), filename));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return load;
+    }
+
+    private void saveDefaultFile(String filename, boolean hard) {
+        if (!OpenAudioMcBungee.getInstance().getDataFolder().exists())
+            OpenAudioMcBungee.getInstance().getDataFolder().mkdir();
+
+        File file = new File(OpenAudioMcBungee.getInstance().getDataFolder(), filename);
+
+        if (hard && file.exists()) {
+            try {
+                Files.delete(file.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (!file.exists() || hard) {
+            try (InputStream in = OpenAudioMcBungee.getInstance().getResourceAsStream(filename)) {
+                Files.copy(in, file.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void setBoolean(StorageKey location, boolean value) {
+        switch (location.getStorageLocation()) {
+            case DATA_FILE:
+                dataConfig.set(location.getPath(), value);
+
+            case CONFIG_FILE:
+                mainConfig.set(location.getPath(), value);
+        }
     }
 
 }

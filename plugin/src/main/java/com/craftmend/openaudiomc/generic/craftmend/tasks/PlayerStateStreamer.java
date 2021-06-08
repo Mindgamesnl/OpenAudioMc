@@ -10,7 +10,7 @@ import com.craftmend.openaudiomc.generic.craftmend.updates.PlayerUpdatePayload;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import lombok.Getter;
 
 import java.util.HashSet;
@@ -28,7 +28,7 @@ public class PlayerStateStreamer implements Runnable {
 
         // is it enabled? No? Then dont start the task
         if (main.getInvoker().isNodeServer()) return;
-        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
+        Configuration config = OpenAudioMc.getInstance().getConfiguration();
         if (!config.getBoolean(StorageKey.LEGAL_ACCEPTED_TOS_AND_PRIVACY)) return;
 
         deleteAll(true);

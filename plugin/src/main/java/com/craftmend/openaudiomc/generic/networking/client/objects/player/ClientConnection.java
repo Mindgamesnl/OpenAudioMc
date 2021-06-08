@@ -18,7 +18,7 @@ import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
 import com.craftmend.openaudiomc.generic.player.ProxiedPlayerAdapter;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.networking.client.interfaces.PlayerContainer;
 import com.craftmend.openaudiomc.generic.networking.packets.*;
@@ -108,7 +108,7 @@ public class ClientConnection implements Authenticatable, Client {
     public void onConnect() {
         sessionUpdated = true;
         if (isConnected) return;
-        ConfigurationImplementation ConfigurationImplementation = OpenAudioMc.getInstance().getConfiguration();
+        Configuration Configuration = OpenAudioMc.getInstance().getConfiguration();
 
         this.isConnected = true;
         this.isWaitingToken = false;
@@ -139,7 +139,7 @@ public class ClientConnection implements Authenticatable, Client {
 
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE)
             return;
-        String connectedMessage = ConfigurationImplementation.getString(StorageKey.MESSAGE_CLIENT_OPENED);
+        String connectedMessage = Configuration.getString(StorageKey.MESSAGE_CLIENT_OPENED);
         player.sendMessage(Platform.translateColors(connectedMessage));
     }
 

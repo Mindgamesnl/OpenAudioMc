@@ -2,11 +2,11 @@ package com.craftmend.openaudiomc.bungee;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.modules.commands.BungeeCommandModule;
-import com.craftmend.openaudiomc.bungee.modules.configuration.BungeeConfigurationImplementation;
+import com.craftmend.openaudiomc.bungee.modules.configuration.BungeeConfiguration;
 import com.craftmend.openaudiomc.bungee.modules.node.NodeManager;
 import com.craftmend.openaudiomc.bungee.modules.player.PlayerManager;
 import com.craftmend.openaudiomc.bungee.modules.scheduling.BungeeTaskProvider;
-import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskProvider;
 import com.craftmend.openaudiomc.generic.platform.interfaces.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
@@ -102,8 +102,8 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
     }
 
     @Override
-    public ConfigurationImplementation getConfigurationProvider() {
-        return new BungeeConfigurationImplementation();
+    public Configuration getConfigurationProvider() {
+        return new BungeeConfiguration();
     }
 
     @Override

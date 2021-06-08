@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.listeners;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
@@ -46,7 +46,7 @@ public class SpeakerCreateListener implements Listener {
 
             UUID id = UUID.randomUUID();
             MappedLocation location = new MappedLocation(placed.getLocation());
-            ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
+            Configuration config = OpenAudioMc.getInstance().getConfiguration();
             int range = spigotConnection.getSelectedSpeakerSettings().getRadius();
 
             SpeakerType speakerType = speakerModule.getCollector().guessSpeakerType(location.toBukkit(), spigotConnection.getSelectedSpeakerSettings().getSource());

@@ -5,9 +5,9 @@ import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 
 import java.util.Set;
 
-public interface ConfigurationImplementation {
+public interface Configuration {
 
-    ConfigurationImplementation loadSettings();
+    Configuration loadSettings();
     String getString(StorageKey storageKey);
     int getInt(StorageKey storageKey);
     String getStringFromPath(String path, StorageLocation storageLocation);

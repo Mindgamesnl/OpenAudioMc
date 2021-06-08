@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.shortner;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -19,7 +19,7 @@ public class AliasModule {
         OpenAudioLogger.toConsole("Loading aliases...");
         OpenAudioMc.getInstance().getMediaModule().registerMutation("a:", new AliasMiddleware(this));
 
-        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
+        Configuration config = OpenAudioMc.getInstance().getConfiguration();
 
         //load config
         for (String alias : config.getStringSet("aliases", StorageLocation.DATA_FILE)) {
