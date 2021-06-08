@@ -13,6 +13,7 @@ public class RegionProperties {
     private String source;
     private int volume;
     private int fadeTimeMs;
+    private boolean allowsVoiceChat = true;
 
     public void updateMedia(String regionName) {
         OpenAudioMcSpigot.getInstance().getRegionModule().removeRegionMedia(regionName, source);

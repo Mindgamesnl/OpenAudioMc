@@ -14,28 +14,65 @@ import org.bukkit.Material;
 public class RegionEditGui extends Menu {
 
     public RegionEditGui(IRegion region) {
-        super(ChatColor.BLUE + "Updating Region", 2 * 9);
+        super(ChatColor.BLUE + "Updating Region", 3 * 9);
 
-        setItem(0, new Item(Material.ITEM_FRAME)
+        // 2, 4, 6 context / setting slots
+        setItem(2, new Item(Material.ITEM_FRAME)
                 .setName(ChatColor.YELLOW + "Playing: " + ChatColor.AQUA + region.getMedia().getSource()));
 
-        setItem(1, getVolumeItem(region, 5));
-        setItem(2, getVolumeItem(region, 10));
-        setItem(3, getVolumeItem(region, 20));
-        setItem(4, getVolumeItem(region, 30));
-        setItem(5, getVolumeItem(region, 50));
-        setItem(6, getVolumeItem(region, 70));
-        setItem(7, getVolumeItem(region, 80));
-        setItem(8, getVolumeItem(region, 100));
+        setItem(4, getVoicechatToggleItem(region));
+        
+        // something fun for slot 6? think of something mats
 
-        setItem(10, getFadeItem(region, 0));
-        setItem(11, getFadeItem(region, 500));
-        setItem(12, getFadeItem(region, 1000));
-        setItem(13, getFadeItem(region, 1500));
-        setItem(14, getFadeItem(region, 2000));
-        setItem(15, getFadeItem(region, 5000));
-        setItem(16, getFadeItem(region, 7000));
-        setItem(17, getFadeItem(region, 10000));
+        // second row, volume fuckery
+        setItem(9, getVolumeItem(region, 5));
+        setItem(10, getVolumeItem(region, 10));
+        setItem(11, getVolumeItem(region, 15));
+        setItem(12, getVolumeItem(region, 20));
+        setItem(13, getVolumeItem(region, 30));
+        setItem(14, getVolumeItem(region, 50));
+        setItem(15, getVolumeItem(region, 70));
+        setItem(16, getVolumeItem(region, 80));
+        setItem(17, getVolumeItem(region, 100));
+
+        // third row, fade shit
+        setItem(18, getFadeItem(region, 0));
+        setItem(19, getFadeItem(region, 500));
+        setItem(20, getFadeItem(region, 1000));
+        setItem(21, getFadeItem(region, 1500));
+        setItem(22, getFadeItem(region, 2000));
+        setItem(23, getFadeItem(region, 5000));
+        setItem(24, getFadeItem(region, 7000));
+        setItem(25, getFadeItem(region, 10000));
+        setItem(26, getFadeItem(region, 15000));
+    }
+
+    private Item getVoicechatToggleItem(IRegion region) {
+        Material head = OpenAudioMcSpigot.getInstance().getSpeakerModule().getPlayerSkullItem();
+
+        Item item = new Item(head)
+                .setName(ChatColor.YELLOW + "Allow voice chat: " + (
+                        region.getProperties().isAllowsVoiceChat() ? ChatColor.GREEN + "True" : ChatColor.RED + "False"
+                ))
+                .onClick((player, clickedItem) -> {
+                    // flip setting
+
+                    region.getProperties().setAllowsVoiceChat(!region.getProperties().isAllowsVoiceChat());
+                    // save the new setting
+
+                    ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
+                    config.setString(StorageLocation.DATA_FILE, "regionmeta." + region.getId().toString() + ".allow-vc", region.getProperties().isAllowsVoiceChat() + "");
+
+                    if (region.getProperties().isAllowsVoiceChat()) {
+                        player.sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + ChatColor.GREEN + "Voicechat has been enabled for this region.");
+                    } else {
+                        player.sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + ChatColor.RED + "Voicechat has been disabled for this region, meaning that players will mute/leave their call once they enter.");
+                    }
+
+                    new RegionEditGui(region).openFor(player);
+                });
+
+        return item;
     }
 
     private Item getFadeItem(IRegion region, int fadeTime) {
