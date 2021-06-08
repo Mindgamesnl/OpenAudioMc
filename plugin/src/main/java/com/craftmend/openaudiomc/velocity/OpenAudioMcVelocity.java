@@ -7,12 +7,12 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskProvider;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
-import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.voicechat.DefaultVoiceServiceImpl;
 import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import com.craftmend.openaudiomc.velocity.modules.commands.VelocityCommandModule;
-import com.craftmend.openaudiomc.velocity.modules.configuration.VelocityConfigurationImplementation;
+import com.craftmend.openaudiomc.velocity.modules.configuration.VelocityConfiguration;
 import com.craftmend.openaudiomc.velocity.modules.node.NodeManager;
 import com.craftmend.openaudiomc.velocity.modules.player.PlayerManager;
 import com.craftmend.openaudiomc.velocity.modules.scheduling.VelocityTaskProvider;
@@ -117,8 +117,8 @@ public class OpenAudioMcVelocity implements OpenAudioInvoker {
     }
 
     @Override
-    public ConfigurationImplementation getConfigurationProvider() {
-        return new VelocityConfigurationImplementation();
+    public Configuration getConfigurationProvider() {
+        return new VelocityConfiguration();
     }
 
     @Override

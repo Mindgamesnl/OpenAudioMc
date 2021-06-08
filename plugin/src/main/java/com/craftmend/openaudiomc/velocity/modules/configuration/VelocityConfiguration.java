@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.velocity.modules.configuration;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
-import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
 import com.google.common.reflect.TypeToken;
 import lombok.SneakyThrows;
@@ -19,13 +19,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class VelocityConfigurationImplementation implements ConfigurationImplementation {
+public class VelocityConfiguration implements Configuration {
 
     private final ConfigurationNode dataConfig;
     private final Map<StorageKey, String> cachedConfigStrings = new HashMap<>();
     private ConfigurationNode mainConfig;
 
-    public VelocityConfigurationImplementation() {
+    public VelocityConfiguration() {
         //save default
         saveDefaultFile("data.yml", false);
         saveDefaultFile("config.yml", false);
@@ -37,7 +37,7 @@ public class VelocityConfigurationImplementation implements ConfigurationImpleme
         this.loadSettings();
     }
 
-    public ConfigurationImplementation loadSettings() {
+    public Configuration loadSettings() {
         // deperecated
         return this;
     }

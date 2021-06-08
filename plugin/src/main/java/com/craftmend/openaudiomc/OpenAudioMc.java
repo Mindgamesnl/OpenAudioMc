@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.networking.rest.ServerEnvironment;
 import com.craftmend.openaudiomc.generic.platform.interfaces.OpenAudioInvoker;
-import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.media.MediaModule;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
@@ -75,7 +75,7 @@ public class OpenAudioMc {
     private final MediaModule mediaModule = new MediaModule();
     private final GlobalConstantService globalConstantService;
     private final NetworkingService networkingService;
-    private final ConfigurationImplementation configuration;
+    private final Configuration configuration;
     private final CommandModule commandModule;
     private final TaskProvider taskProvider;
     private final RedisService redisService;

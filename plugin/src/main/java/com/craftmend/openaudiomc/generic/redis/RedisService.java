@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.generic.redis;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.subcommands.RedisSubCommand;
-import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.redis.packets.ExecuteBulkCommandsPacket;
 import com.craftmend.openaudiomc.generic.redis.packets.ExecuteCommandPacket;
@@ -62,25 +62,25 @@ public class RedisService {
         asyncPub.publish(ChannelKey.TRIGGER_BULK_COMMANDS.getRedisChannelName(), new ExecuteBulkCommandsPacket(commands).serialize());
     };
 
-    public RedisService(ConfigurationImplementation ConfigurationImplementation) {
+    public RedisService(Configuration Configuration) {
         if (!Arrays.stream(ChannelKey.values()).anyMatch(value -> value.getTargetPlatform() == OpenAudioMc.getInstance().getPlatform())) return;
-        if (!ConfigurationImplementation.getBoolean(StorageKey.REDIS_ENABLED)) return;
+        if (!Configuration.getBoolean(StorageKey.REDIS_ENABLED)) return;
         enabled = true;
 
         OpenAudioLogger.toConsole("Enabling redis service..");
 
-        if (ConfigurationImplementation.getString(StorageKey.REDIS_PASSWORD).equals("none")) {
+        if (Configuration.getString(StorageKey.REDIS_PASSWORD).equals("none")) {
             uri = RedisURI.builder()
-                    .withHost(ConfigurationImplementation.getString(StorageKey.REDIS_HOST))
-                    .withPort(ConfigurationImplementation.getInt(StorageKey.REDIS_PORT))
-                    .withSsl(ConfigurationImplementation.getBoolean(StorageKey.REDIS_USE_SSL))
+                    .withHost(Configuration.getString(StorageKey.REDIS_HOST))
+                    .withPort(Configuration.getInt(StorageKey.REDIS_PORT))
+                    .withSsl(Configuration.getBoolean(StorageKey.REDIS_USE_SSL))
                     .build();
         } else {
             uri = RedisURI.builder()
-                    .withPassword(ConfigurationImplementation.getString(StorageKey.REDIS_PASSWORD))
-                    .withHost(ConfigurationImplementation.getString(StorageKey.REDIS_HOST))
-                    .withPort(ConfigurationImplementation.getInt(StorageKey.REDIS_PORT))
-                    .withSsl(ConfigurationImplementation.getBoolean(StorageKey.REDIS_USE_SSL))
+                    .withPassword(Configuration.getString(StorageKey.REDIS_PASSWORD))
+                    .withHost(Configuration.getString(StorageKey.REDIS_HOST))
+                    .withPort(Configuration.getInt(StorageKey.REDIS_PORT))
+                    .withSsl(Configuration.getBoolean(StorageKey.REDIS_USE_SSL))
                     .build();
         }
 

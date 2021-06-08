@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
-import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.networking.rest.Task;
@@ -19,7 +19,7 @@ public class Publisher {
 
     public void startClientSession() {
         OpenAudioMc openAudioMc = OpenAudioMc.getInstance();
-        ConfigurationImplementation config = openAudioMc.getConfiguration();
+        Configuration config = openAudioMc.getConfiguration();
 
         // cancel if the player is via proxy because the proxy should handle it
         if (openAudioMc.getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE)

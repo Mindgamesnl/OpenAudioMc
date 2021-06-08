@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.spigot;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskProvider;
 import com.craftmend.openaudiomc.generic.platform.interfaces.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
@@ -13,7 +13,7 @@ import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import com.craftmend.openaudiomc.generic.voicechat.DefaultVoiceServiceImpl;
 import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
 import com.craftmend.openaudiomc.spigot.modules.commands.SpigotCommandModule;
-import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfigurationImplementation;
+import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfiguration;
 import com.craftmend.openaudiomc.spigot.modules.predictive.PredictiveMediaModule;
 import com.craftmend.openaudiomc.spigot.modules.proxy.ProxyModule;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
@@ -164,8 +164,8 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
     }
 
     @Override
-    public ConfigurationImplementation getConfigurationProvider() {
-        return new SpigotConfigurationImplementation(OpenAudioMcSpigot.getInstance());
+    public Configuration getConfigurationProvider() {
+        return new SpigotConfiguration(OpenAudioMcSpigot.getInstance());
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.regions.gui;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
@@ -60,7 +60,7 @@ public class RegionEditGui extends Menu {
                     region.getProperties().setAllowsVoiceChat(!region.getProperties().isAllowsVoiceChat());
                     // save the new setting
 
-                    ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
+                    Configuration config = OpenAudioMc.getInstance().getConfiguration();
                     config.setString(StorageLocation.DATA_FILE, "regionmeta." + region.getId().toString() + ".allow-vc", region.getProperties().isAllowsVoiceChat() + "");
 
                     if (region.getProperties().isAllowsVoiceChat()) {
@@ -87,7 +87,7 @@ public class RegionEditGui extends Menu {
                 )
                 .onClick((player, item) -> {
                     if (fadeTime == region.getProperties().getFadeTimeMs()) return;
-                    ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
+                    Configuration config = OpenAudioMc.getInstance().getConfiguration();
                     config.setInt(StorageLocation.DATA_FILE, "regionsfadetime." + region.getId().toString(), fadeTime);
                     region.getProperties().setFadeTimeMs(fadeTime);
 
@@ -114,7 +114,7 @@ public class RegionEditGui extends Menu {
                 )
                 .onClick((player, item) -> {
                     if (volume == region.getVolume()) return;
-                    ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
+                    Configuration config = OpenAudioMc.getInstance().getConfiguration();
                     config.setInt(StorageLocation.DATA_FILE, "regionsvolume." + region.getId().toString(), volume);
                     region.setVolume(volume);
 

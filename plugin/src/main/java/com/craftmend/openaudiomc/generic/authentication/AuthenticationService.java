@@ -8,7 +8,7 @@ import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.responses.RegistrationResponse;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
-import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.authentication.objects.Key;
 import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
@@ -62,7 +62,7 @@ public class AuthenticationService {
      * If they dont exist, then they will be requested by the cool oa api.
      */
     private void loadData() {
-        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
+        Configuration config = OpenAudioMc.getInstance().getConfiguration();
 
         // create token if new
         if (config.getString(StorageKey.AUTH_PRIVATE_KEY).equals("not-set") || getAuthVersion() != currentKeyVersion) {
@@ -97,7 +97,7 @@ public class AuthenticationService {
         isSuccessful = true;
     }
 
-    private void initializeToken(RegistrationResponse registrationResponse, ConfigurationImplementation config) {
+    private void initializeToken(RegistrationResponse registrationResponse, Configuration config) {
         serverKeySet.setPrivateKey(new Key(registrationResponse.getPrivateKey()));
         serverKeySet.setPublicKey(new Key(registrationResponse.getPublicKey()));
         HostDetailsResponse host = driver.getHost();

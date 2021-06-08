@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.regions;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.storage.interfaces.ConfigurationImplementation;
+import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
@@ -51,7 +51,7 @@ public class RegionModule {
             }
         }
 
-        ConfigurationImplementation config = OpenAudioMc.getInstance().getConfiguration();
+        Configuration config = OpenAudioMc.getInstance().getConfiguration();
 
         //load config
         for (String region : config.getStringSet("regions", StorageLocation.DATA_FILE)) {
