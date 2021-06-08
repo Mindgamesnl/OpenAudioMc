@@ -15,7 +15,7 @@ import java.util.List;
 public class RegionSelectionGui extends Menu {
 
     public RegionSelectionGui(Player opener) {
-        super("Regions on your location", 9);
+        super("Regions at your location", 9);
 
         AbstractRegionAdapter regionAdapter = OpenAudioMcSpigot.getInstance().getRegionModule().getRegionAdapter();
         List<IRegion> applicableRegions = regionAdapter.getAudioRegions(opener.getLocation());
