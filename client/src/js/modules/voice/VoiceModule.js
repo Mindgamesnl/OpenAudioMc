@@ -35,6 +35,11 @@ export class VoiceModule {
             this.useSurround = enabled;
             this.onSurrroundUpdate();
         });
+
+        document.getElementById("vc-extra-settings-button-l").onmousedown = () => {
+            // open the extra settings modal for like loudness and shit
+        }
+
         this.useSurround = this.surroundSwitch.isOn();
     }
 
