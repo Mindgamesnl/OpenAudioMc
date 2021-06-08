@@ -55,7 +55,7 @@ public class ClientConnection implements Authenticatable, Client {
     @Getter private int volume = -1;
     private boolean isConnected = false;
     @Setter @Getter private PlayerSession session;
-    @Getter private ClientRtcManager clientRtcManager;
+    @Getter private final ClientRtcManager clientRtcManager;
     @Setter @Getter private String streamKey;
 
     @Setter @Getter private boolean isWaitingToken = false;

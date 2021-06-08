@@ -46,7 +46,6 @@ public class PeerFilter extends Filter<ClientConnection, Player> {
 
                     // check if any of us has disabled reasons
                     if (!possiblePeer.getClientRtcManager().getBlockReasons().isEmpty()) return false;
-                    if (!context.getRt)
 
                     // check if we exist in the same world
                     if (!otherPlayer.getWorld().getName().equals(context.getWorld().getName())) return false;

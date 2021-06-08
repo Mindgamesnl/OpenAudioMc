@@ -27,6 +27,8 @@ public enum StorageKey {
     MESSAGE_VC_NOT_CONNECTED(false, "messages.voice-not-connected", StorageLocation.CONFIG_FILE),
     MESSAGE_VC_UNSTABLE(false, "messages.voicechat-service-unstable", StorageLocation.CONFIG_FILE),
     MESSAGE_VC_RECOVERED(false, "messages.voicechat-service-recovered", StorageLocation.CONFIG_FILE),
+    SETTING_VC_ENTERED_MUTED_REGION(false, "messages.voice-disabled-here", StorageLocation.CONFIG_FILE),
+    SETTING_VC_LEFT_MUTED_REGION(false, "messages.voice-reenabled-here", StorageLocation.CONFIG_FILE),
     SETTINGS_VC_ANNOUNCEMENTS(false, "options.voicechat-announcements", StorageLocation.CONFIG_FILE),
 
     SETTINGS_REMIND_TO_CONNECT(false, "options.remind-to-connect", StorageLocation.CONFIG_FILE),
