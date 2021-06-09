@@ -1,34 +1,25 @@
 import {Hark} from "../../helpers/libs/hark.bundle";
-import {VoiceStatusChangeEvent} from "./VoiceModule";
-import {oalog} from "../../helpers/log";
-
-/*
- * This class measures the average volume from an incoming media stream
- * It does this by trying to detect when someone is talking, and keeping track
- * of the average volume during silence (mic self noise, etc) and the average volume of speech
- *
- * it then uses those values to detect differences in speech (whispering, normal and shouting)
- *
- * the delta value is completely random and will need some fine tuning, but this design means that you
- * can only stay in a SHOUTING or WHISPERING state for a few seconds before it'll reset become the new
- * default/average volume. This can be tuned by changing the number of required samples.
- */
-const AVERAGE_STATE = {
-    LEVEL_WHISPERING: -2,
-    LEVEL_NORMAL: 0,
-    LEVEL_SHOUTING: 2
-}
 
 export class MicrophoneProcessor {
 
     constructor(openAudioMc, voiceModule, stream) {
         this.openAudioMc = openAudioMc
+        this.stream = stream;
+        this.voiceModule = voiceModule;
+        this.id = "visual-speaking-indicator";
+        this.createHark(null);
+    }
 
-        this.harkEvents = Hark(stream, {})
+    createHark(vol) {
+        this.harkEvents = Hark(this.stream, {})
         this.isSpeaking = false;
 
         this.harkEvents.on('speaking', () => {
             this.isSpeaking = true;
+
+            // set talking UI
+            document.getElementById(this.id).style.backgroundColor = "#34D399"
+            document.getElementById(this.id).style.color = "#60A5FA"
         });
 
         this.harkEvents.on('volume_change', measurement => {
@@ -38,6 +29,10 @@ export class MicrophoneProcessor {
 
         this.harkEvents.on('stopped_speaking', () => {
             this.isSpeaking = false;
+
+            // set talking UI
+            document.getElementById(this.id).style.backgroundColor = ""
+            document.getElementById(this.id).style.color = ""
         });
     }
 
