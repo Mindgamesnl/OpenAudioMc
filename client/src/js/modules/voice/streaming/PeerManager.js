@@ -15,13 +15,9 @@ export class PeerManager {
         this.trackQueue = new Map();
         this.updateNegotiation = true;
         this.micStream = micStream;
-        this.chromeBugWorkaround = []
 
         this.isMuted = false;
-        document.getElementById("vc-mic-mute").onchange = () => {
-            this.setMute(!this.isMuted)
-        };
-        document.getElementById("mute-wrapper").addEventListener('mouseup', e => {
+        document.getElementById("vc-mic-mute").onmousedown = () => {
             if (this.muteCooldown) {
                 Swal.fire({
                     icon: 'warning',
@@ -29,8 +25,11 @@ export class PeerManager {
                     backdrop: '',
                     timer: 3000,
                 });
+                return
             }
-        });
+            this.setMute(!this.isMuted)
+        };
+
         this.muteCooldown = false;
     }
 
@@ -339,11 +338,10 @@ export class PeerManager {
             return;
         }
         this.isMuted = state;
+        this.setVisualMuteState(!state);
         this.muteCooldown = true;
-        document.getElementById("vc-mic-mute").disabled = true;
         setTimeout(() => {
             this.muteCooldown = false;
-            document.getElementById("vc-mic-mute").disabled = false;
         }, 500);
 
         for (let i = 0; i < this.micStream.getAudioTracks().length; i++) {
@@ -361,6 +359,16 @@ export class PeerManager {
                 .setEventName("CONTEXT_EVENT")
                 .setParam("type", "unmuted-stream")
                 .serialize())
+        }
+    }
+
+    setVisualMuteState(state) {
+        if (state) {
+            document.getElementById("vc-mic-mute").style.backgroundColor = ""
+            document.getElementById("vc-mic-mute").style.color = ""
+        } else {
+            document.getElementById("vc-mic-mute").style.backgroundColor = "#EF4444"
+            document.getElementById("vc-mic-mute").style.color = "#F3F4F6"
         }
     }
 
