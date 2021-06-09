@@ -1,3 +1,4 @@
 export function HandleVoiceChatMicToggle(openAudioMc, data) {
-    document.getElementById("vc-mic-mute").click()
+    let f =document.getElementById("vc-mic-mute").onmousedown
+    f()
 }

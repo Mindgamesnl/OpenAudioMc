@@ -30,15 +30,11 @@ export class VoiceModule {
 
         this.loudnessDetectionEnabled = false;
 
-        this.surroundSwitch = new VoiceUiSwitch("use-surround", "Sound Type", "Constant volume", "Surround", true, (enabled) => {
+        this.surroundSwitch = new VoiceUiSwitch("use-surround", true, (enabled) => {
             this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {"enabled": false});
             this.useSurround = enabled;
             this.onSurrroundUpdate();
         });
-
-        document.getElementById("vc-extra-settings-button-l").onmousedown = () => {
-            // open the extra settings modal for like loudness and shit
-        }
 
         this.useSurround = this.surroundSwitch.isOn();
     }
