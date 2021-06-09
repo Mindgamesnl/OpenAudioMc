@@ -12,9 +12,9 @@ export class SpeakerRenderNode {
         media.addNode(player, this.pannerNode);
 
         this.pannerNode.panningModel = 'HRTF';
-        this.pannerNode.maxDistance = speaker.maxDistance;
         this.pannerNode.rolloffFactor = 0.9;
         this.pannerNode.distanceModel = "linear";
+        this.pannerNode.maxDistance = speaker.maxDistance;
 
         const location = speaker.location;
         const position = new Position(location);

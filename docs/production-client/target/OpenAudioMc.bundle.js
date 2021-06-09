@@ -4302,7 +4302,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }), s.send(void 0 === o._bodyInit ? null : o._bodyInit);
     });
   }function E(t, e, n) {
-    S(pt.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: e, message: "build 284: " + t }) }).then(function (t) {
+    S(pt.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: e, message: "build 286: " + t }) }).then(function (t) {
       null != n && n(), t.json().then(function (t) {
         console.log("Reported error. Reponse was: " + JSON.stringify(t));
       });
@@ -5684,7 +5684,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     }
 
     Bt.prototype.updateLocation = function updateLocation(t, e, n) {
-      this.location = t, this.pitch = this.toRadians(e), this.yaw = this.toRadians(this.normalizeYaw(360 - n)), this.yaw += 180;var r = new Rt(this.pitch, this.yaw, 0),
+      this.location = t, this.pitch = this.toRadians(e), this.yaw = this.toRadians(this.normalizeYaw(360 - n));var r = new Rt(this.pitch, this.yaw, 0),
           i = new Lt();i.setFromEuler(r);new Ft(t, i).applyTo(this.listener), this.world.onLocationUpdate();
     };
 
@@ -5709,7 +5709,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
   var Ut = function Ut(t, e, n, r) {
     _classCallCheck(this, Ut);
 
-    this.pannerNode = n.audioCtx.createPanner(), this.media = r, r.addNode(n, this.pannerNode), this.pannerNode.panningModel = "HRTF", this.pannerNode.maxDistance = t.maxDistance, this.pannerNode.rolloffFactor = .9, this.pannerNode.distanceModel = "linear";var i = t.location;new Ft(i).applyTo(this.pannerNode), this.pannerNode.connect(n.audioCtx.destination);
+    this.pannerNode = n.audioCtx.createPanner(), this.media = r, r.addNode(n, this.pannerNode), this.pannerNode.panningModel = "HRTF", this.pannerNode.rolloffFactor = .9, this.pannerNode.distanceModel = "linear", this.pannerNode.maxDistance = t.maxDistance;var i = t.location;new Ft(i).applyTo(this.pannerNode), this.pannerNode.connect(n.audioCtx.destination);
   };
 
   var Vt = function () {
@@ -5949,7 +5949,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         }), _this28.harkEvents.on("stopped_speaking", function () {
           _this28.uiInst.setVisuallyTalking(!1);
         }), _this28.audio.muted = !0, _this28.openAudioMc.voiceModule.surroundSwitch.isOn()) {
-          var _t28 = _this28.gainNode;_this28.pannerNode = n.createPanner(), _this28.pannerNode.panningModel = "HRTF", _this28.pannerNode.maxDistance = _this28.openAudioMc.voiceModule.blocksRadius, _this28.pannerNode.rolloffFactor = 1, _this28.pannerNode.distanceModel = "linear", _this28.setLocation(_this28.x, _this28.y, _this28.z, !0), r.connect(_t28), _t28.connect(_this28.pannerNode), _this28.pannerNode.connect(n.destination);
+          var _t28 = _this28.gainNode;_this28.pannerNode = n.createPanner(), _this28.pannerNode.maxDistance = _this28.openAudioMc.voiceModule.blocksRadius, _this28.pannerNode.panningModel = "HRTF", _this28.pannerNode.rolloffFactor = .9, _this28.pannerNode.distanceModel = "linear", _this28.pannerNode.coneOuterGain = .7, _this28.pannerNode.coneInnerAngle = 120, _this28.setLocation(_this28.x, _this28.y, _this28.z, !0), r.connect(_t28), _t28.connect(_this28.pannerNode), _this28.pannerNode.connect(n.destination);
         } else {
           var _t29 = _this28.gainNode;r.connect(_t29), _t29.connect(n.destination);
         }_this28.audio.play().then(function (t) {
@@ -6564,7 +6564,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     return ne;
   }), n.d(e, "OpenAudioMc", function () {
     return re;
-  });var ne = { build: "284", compiler: "Mindgamesnl", platform: "Production", environment: "Linux", isProd: JSON.parse("true"), envDescription: "default-prod" };
+  });var ne = { build: "286", compiler: "Mindgamesnl", platform: "Production", environment: "Linux", isProd: JSON.parse("true"), envDescription: "default-prod" };
   var re = function (_ref2) {
     _inherits(re, _ref2);
 

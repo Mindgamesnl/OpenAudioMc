@@ -47,10 +47,12 @@ export class IncomingVoiceStream {
             if (this.openAudioMc.voiceModule.surroundSwitch.isOn()) {
                 const gainNode = this.gainNode;
                 this.pannerNode = ctx.createPanner();
-                this.pannerNode.panningModel = 'HRTF';
                 this.pannerNode.maxDistance = this.openAudioMc.voiceModule.blocksRadius;
-                this.pannerNode.rolloffFactor = 1;
+                this.pannerNode.panningModel = 'HRTF';
+                this.pannerNode.rolloffFactor = 0.9;
                 this.pannerNode.distanceModel = "linear";
+                this.pannerNode.coneOuterGain = 0.7;
+                this.pannerNode.coneInnerAngle = 120;
                 this.setLocation(this.x, this.y, this.z, true);
                 source.connect(gainNode);
                 gainNode.connect(this.pannerNode);
