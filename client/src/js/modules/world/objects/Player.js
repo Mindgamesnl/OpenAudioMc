@@ -16,6 +16,8 @@ export class Player {
         this.location = location;
         this.pitch = this.toRadians(pitch);
         this.yaw = this.toRadians(this.normalizeYaw(360 - yaw));
+        // rotate
+        this.yaw += 180;
 
         // location already is a Vector3
         const euler = new Euler(this.pitch, this.yaw, 0);
