@@ -24,9 +24,9 @@ export function handleProtocolVersion(openAudioMc, data) {
     }
 
     if (revision >= 5) {
-        // enable volume loudness
-        oalog("PROTO rev => 5, enabling loudness callbacks");
-        openAudioMc.voiceModule.loudnessDetectionEnabled = true
+        // enable volume loudness, but this has already been deprecated/scrapped
+        // oalog("PROTO rev => 5, enabling loudness callbacks");
+        // openAudioMc.voiceModule.loudnessDetectionEnabled = true
     }
 
     // outdated? lets check it
