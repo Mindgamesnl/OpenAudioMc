@@ -249,7 +249,6 @@ export class PeerManager {
         }
 
         oalog("Setting up stream for " + trackid)
-        console.log(track)
         promise.handleData(track)
 
         // delete interaction cache
