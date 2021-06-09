@@ -22,7 +22,7 @@
     <meta name="twitter:url" content="https://twitter.com/Mindgamesnl">
     <meta name="twitter:card" content="summary">
 
-    <link rel="stylesheet" href="css/2021.css?update=213"/>
+    <link rel="stylesheet" href="css/2021.css?update=269"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.0-canary.2/tailwind.min.css"
           integrity="sha512-3eMoKZi3N9fwmFnCXiUXmgakO+2nrIJlUlkDPMHkZ5YEmiybKaz4UctuwDhvPje9w52EZ3hYMQTwqvDqXAi7OQ=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -49,8 +49,8 @@
 <body class="flex h-screen sparkles tbod">
 
 <!--
-    This client is based on build 213.
-    (https://github.com/Mindgamesnl/OpenAudioMc/commit/d4bb73e85adbc0be0a7e8714bda599cf18c6a5f5)
+    This client is based on build 269.
+    (https://github.com/Mindgamesnl/OpenAudioMc/commit/bcb50316512ec5bf19c20902b271f637150e237c)
 
     This build was published by the git user: Mindgamesnl
 -->
@@ -337,17 +337,75 @@
                         </h2>
 
                         <hr class="mt-2 pb-2"/>
+                        <br/>
 
-                        <div class="space-x-2 w-full" id="vc-toggles-wrapper">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
 
-                            <div style="text-align:center; display:inline-block;" class="w-1/4" id="mute-wrapper">
-                                <h4>Microphone</h4>
-                                <input class="tgl tgl-skewed" id="vc-mic-mute" type="checkbox"/>
-                                <label class="tgl-btn block w-max" data-tg-off="Active" data-tg-on="Muted"
-                                       for="vc-mic-mute" id="vc-mic-mute-click" style="width: 100%"></label>
+                                <div class="group cursor-pointer relative inline-block text-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         class="w-12 h-12 rounded-2xl p-1 border border-blue-100 text-blue-400 bg-blue-50 m-1"
+                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                         id="vc-mic-mute"
+                                         stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                                        <line x1="12" y1="19" x2="12" y2="23"/>
+                                        <line x1="8" y1="23" x2="16" y2="23"/>
+                                    </svg>
+                                    <div class="opacity-0 w-28 bg-black text-white text-center text-xs rounded-lg py-2 absolute z-10 group-hover:opacity-100 bottom-full -left-1/2 px-3 pointer-events-none">
+                                        Mute/Unmute microphone
+                                        <svg class="absolute text-black h-2 w-full left-0 top-full" x="0px" y="0px"
+                                             viewBox="0 0 255 255" xml:space="preserve"><polygon class="fill-current" points="0,0 127.5,127.5 255,0"/></svg>
+                                    </div>
+                                </div>
+
+
+                                <div class="group cursor-pointer relative inline-block text-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         id="use-surround"
+                                         class="w-12 h-12 rounded-2xl p-1 border border-blue-100 text-blue-400 bg-blue-50 m-1"
+                                         viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                         stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z"/>
+                                        <path d="M21 3L14.5 21a.55 .55 0 0 1 -1 0L10 14L3 10.5a.55 .55 0 0 1 0 -1L21 3"/>
+                                    </svg>
+                                    <div class="opacity-0 w-28 bg-black text-white text-center text-xs rounded-lg py-2 absolute z-10 group-hover:opacity-100 bottom-full -left-1/2 px-3 pointer-events-none">
+                                        Spatial/Stereo audio
+                                        <svg class="absolute text-black h-2 w-full left-0 top-full" x="0px" y="0px"
+                                             viewBox="0 0 255 255" xml:space="preserve"><polygon class="fill-current" points="0,0 127.5,127.5 255,0"/></svg>
+                                    </div>
+                                </div>
+
+                                <div class="group cursor-pointer relative inline-block text-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         class="w-12 h-12 rounded-2xl p-1 border border-blue-100 text-blue-400 bg-blue-50 m-1"
+                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                         stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z"/>
+                                        <path d="M8 16v-4a4 4 0 0 1 8 0v4"/>
+                                        <path d="M3 12h1M12 3v1M20 12h1M5.6 5.6l.7 .7M18.4 5.6l-.7 .7"/>
+                                        <rect x="6" y="16" width="12" height="4" rx="1"/>
+                                    </svg>
+                                    <div class="opacity-0 w-28 bg-black text-white text-center text-xs rounded-lg py-2 absolute z-10 group-hover:opacity-100 bottom-full -left-1/2 px-3 pointer-events-none">
+                                        Speaking indicator
+                                        <svg class="absolute text-black h-2 w-full left-0 top-full" x="0px" y="0px"
+                                             viewBox="0 0 255 255" xml:space="preserve"><polygon class="fill-current" points="0,0 127.5,127.5 255,0"/></svg>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center">
+                                    <div class="flex flex-col ml-3">
+                                        <label class="mb-2 uppercase font-bold text-base text-indigo-600"
+                                               for="volume-slider">Microphone Sensitivity</label>
+                                        <input id="mic-sensitive-slider"
+                                               class="rounded-lg overflow-hidden appearance-none bg-gray-400 h-3 w-full"
+                                               type="range" min="0" max="100" step="1" value="50"/>
+                                    </div>
+                                </div>
                             </div>
-
                         </div>
+
 
                         <br/>
 
@@ -390,7 +448,7 @@
 </body>
 
 
-<script src="OpenAudioMc.bundle.js?version=213"
+<script src="OpenAudioMc.bundle.js?version=269"
         onerror="window.location.href = 'https://help.openaudiomc.net/'"></script>
 </html>
 </html>
