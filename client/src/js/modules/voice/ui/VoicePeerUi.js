@@ -10,6 +10,11 @@ window.handlePeerVolumeEvent = function (e) {
     }
 }
 
+let total = 0;
+function updateTotal() {
+    document.getElementById("voice-range-counter").innerText = "(" + total + ")";
+}
+
 export class VoicePeerUi {
 
     constructor(openAudioMc, playerName, playerUuid, volume, onVolumeChange) {
@@ -36,6 +41,8 @@ export class VoicePeerUi {
         `
         // insert html
         document.getElementById("vc-call-members").innerHTML += baseHtml;
+        total++;
+        updateTotal();
 
         handlers["vc-user-card-" + this.playerName + "-volume-input"] = function (e) {
             this.callingSliderUpdate(e)
@@ -62,6 +69,8 @@ export class VoicePeerUi {
     }
 
     remove() {
+        total--;
+        updateTotal();
         this.removed = true;
         document.getElementById("vc-call-members").removeChild(document.getElementById("vc-user-card-" + this.playerName))
         this.updatePlaceholder()
