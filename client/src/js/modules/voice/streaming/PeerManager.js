@@ -7,9 +7,10 @@ import {OpenAudioEnv} from "../../../OpenAudioMc";
 
 export class PeerManager {
 
-    constructor(openAudioMc, server, streamKey, micStream) {
+    constructor(openAudioMc, server, streamKey, micStream, micProcessor) {
         this.openAudioMc = openAudioMc;
         this.server = server;
+        this.micProcessor = micProcessor;
         this.streamKey = streamKey;
         this.waitingPromises = new Map();
         this.trackQueue = new Map();

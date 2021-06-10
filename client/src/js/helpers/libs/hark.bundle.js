@@ -64,6 +64,11 @@
 
                 harker.speaking = false;
 
+                // edit: expose threshold
+                harker.getThreshold = function () {
+                    return threshold
+                }
+
                 harker.suspend = function() {
                     return audioContext.suspend();
                 }
