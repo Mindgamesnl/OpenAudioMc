@@ -65,7 +65,7 @@ export class IncomingVoiceStream {
 
             this.audio.play()
                 .then(result => {
-                    console.log("Started from the promise", result)
+                    // console.log("Started from the promise", result)
                 })
                 .catch(error => {
                     console.log("Denied from promise", error)
@@ -105,7 +105,6 @@ export class IncomingVoiceStream {
 
     stop() {
         if (this.audio != null) {
-            oalog("Closing voice link with " + this.peerStreamKey);
             this.audio.pause()
             this.audio.src = null;
             this.audio.srcObject = null;

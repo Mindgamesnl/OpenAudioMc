@@ -96,10 +96,7 @@ export class PeerManager {
         if (this.lastNegotiationRequest != null) {
             let now = performance.now()
             let time = Math.ceil(now - this.lastNegotiationRequest)
-            oalog("Renegotiation took " + time + " MS")
-            if (time > 100) {
-                oalog("Warning! Renegotiation took too long!")
-            }
+            oalog("Renegotiation took " + time + " MS - " + (time > 500 ? "Warning! Renegotiation took too long!" : ""))
         }
     }
 
