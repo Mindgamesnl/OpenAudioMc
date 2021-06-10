@@ -105,6 +105,7 @@ public class DefaultNetworkingService extends NetworkingService {
      */
     @Override
     public void connectIfDown() {
+        OpenAudioMc.getInstance().getCraftmendService().kickstartVcHandshake();
         OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> socketIoConnector.setupConnection());
     }
 

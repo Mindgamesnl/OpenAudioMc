@@ -11,7 +11,6 @@ import com.craftmend.openaudiomc.generic.craftmend.response.VoiceSessionRequestR
 import com.craftmend.openaudiomc.generic.craftmend.tasks.PlayerStateStreamer;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
-import com.craftmend.openaudiomc.generic.networking.rest.ServerEnvironment;
 import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
@@ -27,6 +26,10 @@ public class CraftmendService {
     @Getter private CraftmendAccountResponse accountResponse = new CraftmendAccountResponse();
     @Getter private VoiceService voiceService;
     @Getter private Set<CraftmendTag> tags = new HashSet<>();
+
+    // ugly state management, I should _really_ change this at some point, just like the state service
+    @Getter private boolean isAttemptingVcConnect = false;
+    @Getter private boolean lockVcAttempt = false;
 
     public CraftmendService(OpenAudioMc openAudioMc, VoiceService voiceService) {
         this.openAudioMc = openAudioMc;
@@ -103,9 +106,18 @@ public class CraftmendService {
         AudioApi.getInstance().getEventDriver().fire(new AccountRemoveTagEvent(tag));
     }
 
+    public void kickstartVcHandshake() {
+        if (lockVcAttempt) return;
+        lockVcAttempt = true;
+        if (!this.voiceService.getDriver().isFailed()) return;
+        OpenAudioLogger.toConsole("Kickstarting eb reconnect");
+        startVoiceHandshake();
+    }
+
     void startVoiceHandshake() {
         OpenAudioLogger.toConsole("VoiceChat seems to be enabled for this account! Requesting RTC and Password...");
         // do magic, somehow fail, or login to the voice server
+        isAttemptingVcConnect = true;
         RestRequest request = new RestRequest(RestEndpoint.START_VOICE_SESSION);
 
         request.executeAsync()
@@ -123,6 +135,8 @@ public class CraftmendService {
                         if (errorCode == ErrorCode.NO_PERMISSIONS) {
                             OpenAudioLogger.toConsole("Your account doesn't actually have permissions for voicechat, shutting down.");
                             removeTag(CraftmendTag.VOICECHAT);
+                            isAttemptingVcConnect = false;
+                            lockVcAttempt = false;
                             return;
                         }
 
@@ -139,13 +153,18 @@ public class CraftmendService {
                             openAudioMc.getTaskProvider().schduleSyncDelayedTask(this::startVoiceHandshake, 20 * 20);
                             return;
                         }
+
                         OpenAudioLogger.toConsole("Failed to initialize voice chat. Error: " + response.getErrors().get(0).getMessage());
+                        isAttemptingVcConnect = false;
+                        lockVcAttempt = false;
                         return;
                     }
 
                     VoiceSessionRequestResponse voiceResponse = response.getResponse(VoiceSessionRequestResponse.class);
                     int highestPossibleLimit = accountResponse.getAddon(AddonCategory.VOICE).getLimit();
                     this.voiceService.connect(voiceResponse.getServer(), voiceResponse.getPassword(), highestPossibleLimit);
+                    isAttemptingVcConnect = false;
+                    lockVcAttempt = false;
                     addTag(CraftmendTag.VOICECHAT);
                 });
     }
