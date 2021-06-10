@@ -56,7 +56,6 @@ export class VoiceModule {
     }
 
     addPeer(playerUuid, playerName, playerStreamKey, location) {
-        oalog("Trying to add peer " + playerName);
         this.peerMap.set(playerStreamKey, new VoicePeer(this.openAudioMc, playerName, playerUuid, playerStreamKey, this.server, location));
     }
 
@@ -74,7 +73,6 @@ export class VoiceModule {
 
     removePeer(key) {
         if (this.peerMap.has(key)) {
-            oalog("Removing peer " + key)
             let instance = this.peerMap.get(key)
             this.peerMap.delete(key);
             instance.stop();

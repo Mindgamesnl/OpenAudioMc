@@ -30,7 +30,6 @@ export class IncomingVoiceStream {
             this.gainNode.gain.value = (this.volume / 100) * this.volBooster;
             window.debugAudio = this.audio
             this.audio.muted = true
-            oalog("Playing voice from " + this.audio)
             const source = ctx.createMediaStreamSource(this.audio.srcObject);
 
             this.harkEvents = Hark(stream, {})

@@ -190,7 +190,6 @@ export class PeerManager {
                     break
 
                 case "CONFIRM_REQUEST":
-                    oalog("Server acknowledged a track request to " + rtcPacket.getParam("name") + "." + " Expecting " + rtcPacket.getParam("streamid"))
                     this.trackQueue.set(rtcPacket.getParam("streamid"), rtcPacket.getParam("owner"));
                     break
 
@@ -209,12 +208,10 @@ export class PeerManager {
 
         switch (type) {
             case "client-muted":
-                oalog(eventPacket.getParam("who") + " muted their microphone")
                 this.openAudioMc.voiceModule.peerMap.get(eventPacket.getParam("who")).ui.setVisuallyMuted(true);
                 break
 
             case "client-unmuted":
-                oalog(eventPacket.getParam("who") + " unmuted their microphone")
                 this.openAudioMc.voiceModule.peerMap.get(eventPacket.getParam("who")).ui.setVisuallyMuted(false);
                 break
         }
@@ -248,7 +245,6 @@ export class PeerManager {
             return;
         }
 
-        oalog("Setting up stream for " + trackid)
         promise.handleData(track)
 
         // delete interaction cache
