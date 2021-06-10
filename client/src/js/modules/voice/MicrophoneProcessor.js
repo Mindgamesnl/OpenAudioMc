@@ -1,4 +1,5 @@
 import {Hark} from "../../helpers/libs/hark.bundle";
+import GainController from "mediastream-gain";
 
 export class MicrophoneProcessor {
 
@@ -7,19 +8,35 @@ export class MicrophoneProcessor {
         this.stream = stream;
         this.voiceModule = voiceModule;
         this.id = "visual-speaking-indicator";
-        this.createHark(null);
-    }
 
-    createHark(vol) {
         this.harkEvents = Hark(this.stream, {})
+
+        this.gainController = new GainController(stream);
+
+        let presetVolume = Cookies.get("mic-sensitivity");
+        if (presetVolume != null) {
+            presetVolume = parseInt(presetVolume)
+            this.harkEvents.setThreshold(presetVolume)
+        }
+
+        document.getElementById("mic-sensitive-slider").value = Math.abs(this.harkEvents.getThreshold())
+
         this.isSpeaking = false;
+        this.harkEvents.setInterval(5)
+
+        document.getElementById("mic-sensitive-slider").oninput = (e) => {
+            let target = -Math.abs(e.target.value)
+            this.harkEvents.setThreshold(target)
+            Cookies.set("mic-sensitivity", target + "", {expires: 30});
+        }
 
         this.harkEvents.on('speaking', () => {
             this.isSpeaking = true;
 
             // set talking UI
             document.getElementById(this.id).style.backgroundColor = "#34D399"
-            document.getElementById(this.id).style.color = "#60A5FA"
+            document.getElementById(this.id).style.color = "#EC4899"
+            this.gainController.on();
         });
 
         this.harkEvents.on('volume_change', measurement => {
@@ -33,6 +50,7 @@ export class MicrophoneProcessor {
             // set talking UI
             document.getElementById(this.id).style.backgroundColor = ""
             document.getElementById(this.id).style.color = ""
+            this.gainController.off();
         });
     }
 
