@@ -67,8 +67,6 @@ public class OpenAudioMc {
      * - Plus Service            []   (Manages everything OpenAudioMc-Plus related, from auth to upstream data)
      * - Update Service          []   (Checks the master branch every once in a while to compare versions)
      * - Voice Service           []   (Service handling OpenAudioMc's voice chat routing and servers)
-     *
-     *
      */
     private final ApiEventDriver apiEventDriver = new ApiEventDriver();
     private final AuthenticationService authenticationService;
