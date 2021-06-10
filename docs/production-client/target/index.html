@@ -22,7 +22,7 @@
     <meta name="twitter:url" content="https://twitter.com/Mindgamesnl">
     <meta name="twitter:card" content="summary">
 
-    <link rel="stylesheet" href="css/2021.css?update=290"/>
+    <link rel="stylesheet" href="css/2021.css?update=308"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.0-canary.2/tailwind.min.css"
           integrity="sha512-3eMoKZi3N9fwmFnCXiUXmgakO+2nrIJlUlkDPMHkZ5YEmiybKaz4UctuwDhvPje9w52EZ3hYMQTwqvDqXAi7OQ=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -49,8 +49,8 @@
 <body class="flex h-screen sparkles tbod">
 
 <!--
-    This client is based on build 290.
-    (https://github.com/Mindgamesnl/OpenAudioMc/commit/0f71b88f42d3e6a5244c3e394c5fcd4578eb19e9)
+    This client is based on build 308.
+    (https://github.com/Mindgamesnl/OpenAudioMc/commit/1580e3ff27604e9333a89393804b7ce5dfbe3394)
 
     This build was published by the git user: Mindgamesnl
 -->
@@ -398,10 +398,10 @@
                                 <div class="flex items-center">
                                     <div class="flex flex-col ml-3">
                                         <label class="mb-2 uppercase font-bold text-base text-indigo-600"
-                                               for="volume-slider">Microphone Sensitivity</label>
+                                               for="mic-sensitive-slider">Microphone Sensitivity</label>
                                         <input id="mic-sensitive-slider"
                                                class="rounded-lg overflow-hidden appearance-none bg-gray-400 h-3 w-full"
-                                               type="range" min="0" max="100" step="1" value="50"/>
+                                               type="range" min="20" max="100" step="1" value="70"/>
                                     </div>
                                 </div>
                             </div>
@@ -449,7 +449,7 @@
 </body>
 
 
-<script src="OpenAudioMc.bundle.js?version=290"
+<script src="OpenAudioMc.bundle.js?version=308"
         onerror="window.location.href = 'https://help.openaudiomc.net/'"></script>
 </html>
 </html>

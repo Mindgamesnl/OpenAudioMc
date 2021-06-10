@@ -33,6 +33,7 @@ export class IncomingVoiceStream {
             const source = ctx.createMediaStreamSource(this.audio.srcObject);
 
             this.harkEvents = Hark(stream, {})
+            this.harkEvents.setThreshold(-75);
 
             this.harkEvents.on('speaking', () => {
                 this.uiInst.setVisuallyTalking(true)

@@ -159,13 +159,13 @@ export class VoiceModule {
             }
         })
 
-        this.peerManager = new PeerManager(this.openAudioMc, this.server, this.streamKey, stream)
+        // initialize mic processing
+        this.microphoneProcessing = new MicrophoneProcessor(this.openAudioMc, this, stream)
+
+        this.peerManager = new PeerManager(this.openAudioMc, this.server, this.streamKey, stream, this.microphoneProcessing)
         this.peerManager.setup(this.onOutoingStreamStart).catch((err) => {
             this.handleCrash(JSON.stringify(err.toJSON()))
         })
-
-        // initialize mic processing
-        this.microphoneProcessing = new MicrophoneProcessor(this.openAudioMc, this, stream)
 
         WhenDebugging(() => {
             oalog("Enabling rtc debugging")
