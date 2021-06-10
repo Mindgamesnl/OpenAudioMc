@@ -147,7 +147,7 @@ export class VoiceModule {
         Swal.fire({
             backdrop: '',
             title: 'Logging into voice chat...',
-            html: 'Please wait while we get you setup with a voice server.. hold on tight, shits shouldn\'t take too long.<br /><small>(but please report an issue if it does take too long, it\'s still work in progress after all.</small>',
+            html: 'Please wait while we get you setup with a voice server.. hold on tight, this shouldn\'t take too long.<br /><small>(but please report an issue if it does take too long, it\'s still work in progress after all.</small>',
             showCloseButton: false,
             showCancelButton: false,
             timerProgressBar: false,
