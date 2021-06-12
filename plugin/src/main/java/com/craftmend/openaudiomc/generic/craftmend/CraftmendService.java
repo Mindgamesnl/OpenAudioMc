@@ -109,6 +109,7 @@ public class CraftmendService {
     public void kickstartVcHandshake() {
         if (lockVcAttempt) return;
         lockVcAttempt = true;
+        if (this.voiceService == null) return;
         if (!this.voiceService.getDriver().isFailed()) return;
         OpenAudioLogger.toConsole("Kickstarting eb reconnect");
         startVoiceHandshake();
