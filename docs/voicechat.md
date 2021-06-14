@@ -3,7 +3,7 @@
 ## Enabling voice chat
 Voice chat isn't enabled by default because it doesn't fit every server, and we're currently unable to offer it to everyone (even though the access group is growing rapidly). There are two ways to claim your beta key
 
-#### Free limited access through discord:
+### Free limited access through discord
 This grants you access to voicechat with limited slots for one month, after that you'll have to claim another license. Note that only you (as the server owner) needs an invitation/license, players can just click the link in their chat and continue without an account. To enable voicechat through a claimed code:
  1. Join our [Discord Server](https://discord.openaudiomc.net/)
  2. Go to the `#bot-commands` channel
@@ -12,7 +12,7 @@ This grants you access to voicechat with limited slots for one month, after that
  5. Go to your [Addons Page](https://account.craftmend.com/account/addons) and select a Minecraft server on which you'd like to use voice chat
  6. Enjoy!
 
-#### Access by supporting me on patreon
+### Access by supporting me on patreon
 Patreons can get voice chat access as a perk through some of the support tiers. These activations are valid for as long as you're a patreon, and come in various packages (for different sizes of servers). To claim your patreon license:
  1. Activate your tier on  [Patreon](https://www.patreon.com/mindgamesnl)
  2. [Link your patreon to your craftmend account](account-links.md)
