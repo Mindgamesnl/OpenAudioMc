@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.bungee;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.modules.commands.BungeeCommandModule;
 import com.craftmend.openaudiomc.bungee.modules.configuration.BungeeConfiguration;
+import com.craftmend.openaudiomc.bungee.modules.dependency.DependencyService;
 import com.craftmend.openaudiomc.bungee.modules.node.NodeManager;
 import com.craftmend.openaudiomc.bungee.modules.player.PlayerManager;
 import com.craftmend.openaudiomc.bungee.modules.scheduling.BungeeTaskProvider;
@@ -16,6 +17,7 @@ import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import com.craftmend.openaudiomc.generic.voicechat.DefaultVoiceServiceImpl;
 import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
+import com.craftmend.openaudiomc.bungee.modules.punishments.LitebansIntegration;
 import lombok.Getter;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ListenerInfo;
@@ -44,6 +46,7 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
     @Getter private NodeManager nodeManager;
     @Getter private PlayerManager playerManager;
     @Getter private BungeeCommandModule commandModule;
+    @Getter private DependencyService dependencyService;
     private final Instant boot = Instant.now();
 
     @Override
@@ -53,9 +56,13 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
         // setup core
         try {
             new OpenAudioMc(this);
+            this.dependencyService = new DependencyService(this);
             this.playerManager = new PlayerManager(this);
             this.commandModule = new BungeeCommandModule(this);
             this.nodeManager = new NodeManager(this);
+
+            this.dependencyService
+                    .ifPluginEnabled("LiteBans", new LitebansIntegration());
 
             // set state to idle, to allow connections and such
             OpenAudioMc.getInstance().getStateService().setState(new IdleState("OpenAudioMc started and awaiting command"));
