@@ -1,29 +1,21 @@
-import {LoadLibrary} from "../../../helpers/libs/LibraryLoader";
+export function DoBetaWelcome(openAudioMc) {
 
-export function DoBetaWelcome() {
-
-    // LoadLibrary("https://gist.githubusercontent.com/Mindgamesnl/09a3fb705b67763c01767300b3ae0f29/raw/4fd58c3829bd82c06f850234233bfb5bcddfa3c3/confetti.js", () => {
-    //     window.confetti.start(2500);
-    //
-    //
-    // })
-
-    Swal.fire({
-        title: 'Welcome to beta voice chat!',
-        html: `
+    if (!openAudioMc.isPatreon) {
+        Swal.fire({
+            title: 'Welcome to beta voice chat!',
+            html: `
             <b>Its finally here!</b><br />
             A server administrator got their hands on the voice chat beta, so welcome to the cool kids club!
             <br />
-            Please let us know what you think in our <u><a href="https://discord.openaudiomc.net/">Discord</a></u>, we'd love to hear your feedback, or <a href="https://donate.craftmend.com">consider donating if you want to support further development and help to keep the service free</a>
+            Please let us know what you think in our <u><a href="https://discord.openaudiomc.net/">Discord</a></u>, we'd love to hear your feedback, or unlock more slots by supporting the project on Patreon (which also removes this message)ww <a href="https://www.patreon.com/bePatron?u=536149" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
             <h1>enjoy!</h1>
             `,
-        imageUrl: 'https://media.hearthpwn.com/attachments/96/921/tada.png',
-        imageWidth: 200,
-        imageHeight: 200,
-        imageAlt: 'TADAAAA',
-        backdrop: '',
-        allowOutsideClick: false,
-    })
-
-
+            imageUrl: 'https://media.hearthpwn.com/attachments/96/921/tada.png',
+            imageWidth: 200,
+            imageHeight: 200,
+            imageAlt: 'TADAAAA',
+            backdrop: '',
+            allowOutsideClick: false,
+        })
+    }
 }

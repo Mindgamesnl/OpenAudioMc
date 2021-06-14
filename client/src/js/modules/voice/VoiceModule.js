@@ -52,7 +52,7 @@ export class VoiceModule {
         };
         showVoiceCard("vc-onboarding")
 
-        DoBetaWelcome()
+        DoBetaWelcome(this.openAudioMc)
     }
 
     addPeer(playerUuid, playerName, playerStreamKey, location) {

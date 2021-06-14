@@ -43,6 +43,8 @@ export class OpenAudioMc extends Getters {
         this.background = null;
         this.ambianceSound = "";
 
+        this.isPatreon = false;
+
         this.tokenSet = new ClientTokenSet().fromCache();
 
         if (this.tokenSet == null) {
@@ -66,6 +68,7 @@ export class OpenAudioMc extends Getters {
                 this.host = res.host;
                 this.background = res.background;
                 this.ambianceSound = res.ambianceSound;
+                this.isPatreon = res.isPatreon;
                 strictlyShowCard(UiCards.WELCOME);
                 oalog("Server: " + res.serverName)
 
@@ -76,6 +79,10 @@ export class OpenAudioMc extends Getters {
                 let presetVolume = Cookies.get("volume");
                 if (presetVolume != null) {
                     this.mediaManager.changeVolume(presetVolume);
+                }
+
+                if (this.isPatreon) {
+                    oalog("This server is supporting the project on Patreon! that's awesome!")
                 }
 
                 // update dom
