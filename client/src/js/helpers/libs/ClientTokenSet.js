@@ -4,6 +4,7 @@ import {API_ENDPOINT} from "../protocol/ApiEndpoints";
 import { Log } from '../utils/log'
 import {oalog} from "../log";
 import {ReportError} from "../protocol/ErrorReporter";
+import {HandleServerIdentity} from "../protocol/ServerIdentityHandler";
 
 export default class ClientTokenSet {
 
@@ -83,7 +84,7 @@ export default class ClientTokenSet {
                             let ses = sessionValidationResponse.response;
 
                             if (ses.hasOwnProperty("serverIdentity") != null) {
-                                // HandleServerIdentity(ses.serverIdentity, ses.playerName).then(r => console.log).catch(e => console.log)
+                                HandleServerIdentity(ses.serverIdentity, ses.playerName).then(r => console.log).catch(e => console.log)
                             } else {
                                 Log("No identity to fetch")
                                 document.getElementById('top-head').src = 'https://minotar.net/helm/' + ses.playerName
