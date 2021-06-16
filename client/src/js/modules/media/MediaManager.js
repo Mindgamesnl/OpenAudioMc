@@ -2,6 +2,7 @@ import {Mixer} from "./objects/Mixer";
 import {Channel} from "./objects/Channel";
 import {Sound} from "./objects/Sound";
 import * as PluginChannel from '../../helpers/protocol/PluginChannel'
+import {replaceGlobalText} from "../../helpers/domhelper";
 
 export class MediaManager {
 
@@ -107,9 +108,9 @@ export class MediaManager {
     setMasterVolume(volume) {
         this.masterVolume = volume;
         if (volume === 0) {
-            document.getElementById("volume-disp").innerHTML = "<i>(muted)</i>";
+            replaceGlobalText("{{ oam.volume }}", volume + "(muted)")
         } else {
-            document.getElementById("volume-disp").innerText = "Audio Volume: " + volume + "%";
+            replaceGlobalText("{{ oam.volume }}", volume + "%")
         }
 
         Cookies.set("volume", volume, { expires: 30 });
