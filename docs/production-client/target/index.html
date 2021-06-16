@@ -22,7 +22,7 @@
     <meta name="twitter:url" content="https://twitter.com/Mindgamesnl">
     <meta name="twitter:card" content="summary">
 
-    <link rel="stylesheet" href="css/2021.css?update=322"/>
+    <link rel="stylesheet" href="css/2021.css?update=343"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.0-canary.2/tailwind.min.css"
           integrity="sha512-3eMoKZi3N9fwmFnCXiUXmgakO+2nrIJlUlkDPMHkZ5YEmiybKaz4UctuwDhvPje9w52EZ3hYMQTwqvDqXAi7OQ=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -49,8 +49,8 @@
 <body class="flex h-screen sparkles tbod">
 
 <!--
-    This client is based on build 322.
-    (https://github.com/Mindgamesnl/OpenAudioMc/commit/3fe723f7f473c75b387d1fa4546452e4ac38adfd)
+    This client is based on build 343.
+    (https://github.com/Mindgamesnl/OpenAudioMc/commit/9c84874d6c246df75f68a02b89eafb3f66413688)
 
     This build was published by the git user: Mindgamesnl
 -->
@@ -307,22 +307,23 @@
             <!-- onboarding -->
             <div class="h-full w-full" data-type="voice-card" id="vc-onboarding" style="display: none">
                 <h2 class="text-2xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-xl sm:leading-none md:text-3xl">
-                    <span class="text-indigo-600">Voice Chat</span>
-                    <br>
-                    Setup
+                    Enable <span class="text-indigo-600">Voice Chat</span>?
                 </h2>
                 <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg md:mt-5 md:text-xl lg:mx-0">
                     This server has support for Proximity Voice Chat, which allows you to talk with players within a <b
                         id="vc-block-range">* block</b> radius. Would you like to enable this feature and give access to
                     your microphone?<br/>
-                    <small>You can always mute your microphone, mute other users or close the voice chat whenever you
-                        want.</small>
                 </p>
-                <div class="flex justify-center lg:justify-start mt-6 w-full">
-                    <a class="px-4 py-3 w-1/4 bg-green-400 border-2 text-xs font-semibold rounded hover:bg-green-100"
-                       id="vc-concent-button">Get Started</a>
-                    <a class="mx-4 w-1/4 px-4 py-3 bg-gray-300 text-gray-900 text-xs font-semibold rounded hover:bg-gray-400"
-                       onclick="document.getElementById('vc-controls').style.display = 'none'">Ignore</a>
+
+                <br />
+
+                <div class="inline-flex">
+                    <button class="hover:bg-green-400 text-white font-bold py-2 px-4 rounded-l bg-green-500"  id="vc-connect-button">
+                        Enable
+                    </button>
+                    <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r" onclick="document.getElementById('vc-controls').style.display = 'none'">
+                        Dismiss
+                    </button>
                 </div>
             </div>
 
@@ -401,7 +402,7 @@
                                                for="mic-sensitive-slider">Microphone Sensitivity</label>
                                         <input id="mic-sensitive-slider"
                                                class="rounded-lg overflow-hidden appearance-none bg-gray-400 h-3 w-full"
-                                               type="range" min="20" max="100" step="1" value="70"/>
+                                               type="range" min="40" max="100" step="1" value="80"/>
                                     </div>
                                 </div>
                             </div>
@@ -449,7 +450,7 @@
 </body>
 
 
-<script src="OpenAudioMc.bundle.js?version=322"
+<script src="OpenAudioMc.bundle.js?version=343"
         onerror="window.location.href = 'https://help.openaudiomc.net/'"></script>
 </html>
 </html>
