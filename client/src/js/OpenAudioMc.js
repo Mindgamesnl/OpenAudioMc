@@ -81,6 +81,8 @@ export class OpenAudioMc extends Getters {
                 let presetVolume = Cookies.get("volume");
                 if (presetVolume != null) {
                     this.mediaManager.changeVolume(presetVolume);
+                } else {
+                    this.mediaManager.changeVolume(25);
                 }
 
                 if (this.isPatreon) {

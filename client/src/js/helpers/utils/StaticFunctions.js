@@ -5,6 +5,7 @@ import {ReportError} from '../protocol/ErrorReporter'
 import {strictlyShowCard, UiCards} from '../../modules/ui/UserInterfaceModule'
 import {DebugPanel, EnableDebugMode, WhenDebugging} from "../../debug";
 import {prepareLogging} from "../log";
+import {replaceGlobalText} from "../domhelper";
 
 let openAudioMc = null
 
@@ -51,7 +52,7 @@ export function linkBootListeners() {
             // can we find a name? let's put it as a welcome text!
             // makes the experience a bit more personal
             if (tokenSet != null && tokenSet.name != null) {
-                document.getElementById('in-game-name').innerText = tokenSet.name
+                replaceGlobalText("{{ oam.player_name }}", tokenSet.name)
                 openAudioMc = new OpenAudioMc()
             }
 
@@ -59,3 +60,4 @@ export function linkBootListeners() {
         })
 
 }
+
