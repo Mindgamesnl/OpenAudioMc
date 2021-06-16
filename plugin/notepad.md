@@ -6,3 +6,6 @@ Changelog since release:
  - You now receive discord notifications when your old servers get removed
  - Online players no longer get synchronised between networks when the openaudio instance isn't claimed by a craftmend account
  - You can now disable voice chat for specific worldguard regions (using /oa region edit)
+ - Improved UI to make it easier to understand for users
+ - Added a microphone sensitivity slider and speaking indicator
+ - The microphone sensitivity now automatically adjusts itself in small increments if it detects a lot of background noise and false detections

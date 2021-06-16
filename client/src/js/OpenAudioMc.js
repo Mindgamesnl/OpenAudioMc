@@ -72,6 +72,8 @@ export class OpenAudioMc extends Getters {
                 strictlyShowCard(UiCards.WELCOME);
                 oalog("Server: " + res.serverName)
 
+                document.title = res.serverName;
+
                 WhenDebugging(() => {
                     window.debugUi.addPanel(DebugPanel.ACCOUNT, "cached=" + res.fromCache + ", pc=" + res.playerCount + ", claimed=" + res.claimed + ", sfu=" + res.host + ", rtc=" + res.rtc)
                 });
