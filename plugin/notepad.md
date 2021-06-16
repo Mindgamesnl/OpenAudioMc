@@ -14,4 +14,4 @@ Changelog since release:
  - Fixed a bug where chat links weren't clickable in some minecraft versions
  - The web client now shows your server name in the web title, and displays the server icon (if available)
  - Expired free voicechat licenses now automatically get released back to the public for someone else to use
- - 
+ - Added `/voice`, `/vc` and `/voicechat` aliases for the regular `/audio` command

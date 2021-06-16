@@ -8,7 +8,7 @@ description: The OpenAudioMc plugin. Brings real sound and lights to your minecr
 website: https://openaudiomc.net/
 commands:
   audio:
-    aliases: [sound, connect, media, muziek, geluid]
+    aliases: [sound, connect, media, muziek, geluid, voice, vc, voicechat]
   volume:
     aliases: [setvolume, vol]
   openaudiomc:
