@@ -6,11 +6,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -4193,17 +4193,17 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       window.requestAnimationFrame(t);
     });
   }function i() {
-    window.debugUi = new $.a(document.body, { zIndex: 999999999, backgroundColor: "black" }), r(function () {
+    window.debugUi = new Q.a(document.body, { zIndex: 999999999, backgroundColor: "black" }), r(function () {
       document.getElementById("j3-info-popup").style.zIndex = 99999999, document.getElementById("j3-info-popup").style.backgroundColor = "black";
-    }), window.debugUi.addPanel(Q.BUILD, function () {
-      return se.build + " by " + se.compiler + " " + se.envDescription;
-    });for (var _t2 = 0; _t2 < Z.length; _t2++) {
-      Z[_t2]();
+    }), window.debugUi.addPanel(Z.BUILD, function () {
+      return ae.build + " by " + ae.compiler + " " + ae.envDescription;
+    });for (var _t2 = 0; _t2 < tt.length; _t2++) {
+      tt[_t2]();
     }s("Enabling debug mode");
   }function o(t) {
-    se.isProd || t(), Z.push(t);
+    ae.isProd || t(), tt.push(t);
   }function s(t) {
-    console.log("[OpenAudioMc] " + t), tt.push(t), 7 < tt.length && tt.shift();
+    console.log("[OpenAudioMc] " + t), et.push(t), 7 < et.length && et.shift();
   }function a(t) {
     var e = document.querySelectorAll("[data-type=card]");var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
@@ -4237,7 +4237,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
   }function l(t) {
     var e = { next: function next() {
         var e = t.shift();return { done: void 0 === e, value: e };
-      } };return ct.iterable && (e[Symbol.iterator] = function () {
+      } };return lt.iterable && (e[Symbol.iterator] = function () {
       return e;
     }), e;
   }function h(t) {
@@ -4265,10 +4265,10 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     if (t.slice) return t.slice(0);var e = new Uint8Array(t.byteLength);return e.set(new Uint8Array(t)), e.buffer;
   }function m() {
     return this.bodyUsed = !1, this._initBody = function (t) {
-      this._bodyInit = t, t ? "string" == typeof t ? this._bodyText = t : ct.blob && Blob.prototype.isPrototypeOf(t) ? this._bodyBlob = t : ct.formData && FormData.prototype.isPrototypeOf(t) ? this._bodyFormData = t : ct.searchParams && URLSearchParams.prototype.isPrototypeOf(t) ? this._bodyText = t.toString() : ct.arrayBuffer && ct.blob && function (t) {
+      this._bodyInit = t, t ? "string" == typeof t ? this._bodyText = t : lt.blob && Blob.prototype.isPrototypeOf(t) ? this._bodyBlob = t : lt.formData && FormData.prototype.isPrototypeOf(t) ? this._bodyFormData = t : lt.searchParams && URLSearchParams.prototype.isPrototypeOf(t) ? this._bodyText = t.toString() : lt.arrayBuffer && lt.blob && function (t) {
         return t && DataView.prototype.isPrototypeOf(t);
-      }(t) ? (this._bodyArrayBuffer = g(t.buffer), this._bodyInit = new Blob([this._bodyArrayBuffer])) : ct.arrayBuffer && (ArrayBuffer.prototype.isPrototypeOf(t) || ht(t)) ? this._bodyArrayBuffer = g(t) : this._bodyText = t = Object.prototype.toString.call(t) : this._bodyText = "", this.headers.get("content-type") || ("string" == typeof t ? this.headers.set("content-type", "text/plain;charset=UTF-8") : this._bodyBlob && this._bodyBlob.type ? this.headers.set("content-type", this._bodyBlob.type) : ct.searchParams && URLSearchParams.prototype.isPrototypeOf(t) && this.headers.set("content-type", "application/x-www-form-urlencoded;charset=UTF-8"));
-    }, ct.blob && (this.blob = function () {
+      }(t) ? (this._bodyArrayBuffer = g(t.buffer), this._bodyInit = new Blob([this._bodyArrayBuffer])) : lt.arrayBuffer && (ArrayBuffer.prototype.isPrototypeOf(t) || dt(t)) ? this._bodyArrayBuffer = g(t) : this._bodyText = t = Object.prototype.toString.call(t) : this._bodyText = "", this.headers.get("content-type") || ("string" == typeof t ? this.headers.set("content-type", "text/plain;charset=UTF-8") : this._bodyBlob && this._bodyBlob.type ? this.headers.set("content-type", this._bodyBlob.type) : lt.searchParams && URLSearchParams.prototype.isPrototypeOf(t) && this.headers.set("content-type", "application/x-www-form-urlencoded;charset=UTF-8"));
+    }, lt.blob && (this.blob = function () {
       var t = d(this);if (t) return t;if (this._bodyBlob) return Promise.resolve(this._bodyBlob);if (this._bodyArrayBuffer) return Promise.resolve(new Blob([this._bodyArrayBuffer]));if (this._bodyFormData) throw new Error("could not read FormData body as blob");return Promise.resolve(new Blob([this._bodyText]));
     }, this.arrayBuffer = function () {
       return this._bodyArrayBuffer ? d(this) || Promise.resolve(this._bodyArrayBuffer) : this.blob().then(p);
@@ -4278,10 +4278,10 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
             n = f(e);return e.readAsText(t), n;
       }(this._bodyBlob);if (this._bodyArrayBuffer) return Promise.resolve(function (t) {
         for (var e = new Uint8Array(t), n = Array(e.length), r = 0; r < e.length; r++) {
-          n[r] = q(e[r]);
+          n[r] = K(e[r]);
         }return n.join("");
       }(this._bodyArrayBuffer));if (this._bodyFormData) throw new Error("could not read FormData body as text");return Promise.resolve(this._bodyText);
-    }, ct.formData && (this.formData = function () {
+    }, lt.formData && (this.formData = function () {
       return this.text().then(y);
     }), this.json = function () {
       return this.text().then(JSON.parse);
@@ -4290,7 +4290,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     var n = (e = e || {}).body;if (t instanceof v) {
       if (t.bodyUsed) throw new TypeError("Already read");this.url = t.url, this.credentials = t.credentials, e.headers || (this.headers = new h(t.headers)), this.method = t.method, this.mode = t.mode, this.signal = t.signal, n || null == t._bodyInit || (n = t._bodyInit, t.bodyUsed = !0);
     } else this.url = t + "";if (this.credentials = e.credentials || this.credentials || !e.headers && this.headers || (this.headers = new h(e.headers)), this.method = function (t) {
-      var e = t.toUpperCase();return -1 < dt.indexOf(e) ? e : t;
+      var e = t.toUpperCase();return -1 < ft.indexOf(e) ? e : t;
     }(e.method || this.method || "GET"), this.mode = e.mode || this.mode || null, this.signal = e.signal || this.signal, this.referrer = null, ("GET" === this.method || "HEAD" === this.method) && n) throw new TypeError("Body not allowed for GET or HEAD requests");this._initBody(n);
   }function y(t) {
     var e = new FormData();return t.trim().split("&").forEach(function (t) {
@@ -4313,29 +4313,31 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     return new Promise(function (n, r) {
       function i() {
         s.abort();
-      }var o = new v(t, e);if (o.signal && o.signal.aborted) return r(new pt("Aborted", "AbortError"));var s = new XMLHttpRequest();s.onload = function () {
+      }var o = new v(t, e);if (o.signal && o.signal.aborted) return r(new gt("Aborted", "AbortError"));var s = new XMLHttpRequest();s.onload = function () {
         var t = { status: s.status, statusText: s.statusText, headers: b(s.getAllResponseHeaders() || "") };t.url = "responseURL" in s ? s.responseURL : t.headers.get("X-Request-URL");var e = "response" in s ? s.response : s.responseText;n(new w(e, t));
       }, s.onerror = function () {
         r(new TypeError("Network request failed"));
       }, s.ontimeout = function () {
         r(new TypeError("Network request failed"));
       }, s.onabort = function () {
-        r(new pt("Aborted", "AbortError"));
-      }, s.open(o.method, o.url, !0), "include" === o.credentials ? s.withCredentials = !0 : "omit" === o.credentials && (s.withCredentials = !1), "responseType" in s && ct.blob && (s.responseType = "blob"), o.headers.forEach(function (t, e) {
+        r(new gt("Aborted", "AbortError"));
+      }, s.open(o.method, o.url, !0), "include" === o.credentials ? s.withCredentials = !0 : "omit" === o.credentials && (s.withCredentials = !1), "responseType" in s && lt.blob && (s.responseType = "blob"), o.headers.forEach(function (t, e) {
         s.setRequestHeader(e, t);
       }), o.signal && (o.signal.addEventListener("abort", i), s.onreadystatechange = function () {
         4 === s.readyState && o.signal.removeEventListener("abort", i);
       }), s.send(void 0 === o._bodyInit ? null : o._bodyInit);
     });
-  }function x(t, e, n) {
-    S(gt.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: e, message: "build 344: " + t }) }).then(function (t) {
+  }function x(t) {
+    s(t);
+  }function E(t, e, n) {
+    S(mt.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: e, message: "build 345: " + t }) }).then(function (t) {
       null != n && n(), t.json().then(function (t) {
         console.log("Reported error. Reponse was: " + JSON.stringify(t));
       });
     }).catch(function () {
       console.log("An error occoured while reporting another error. Weird.");
     });
-  }function E(t, e) {
+  }function M(t, e) {
     var n = e.media.loop,
         r = e.media.startInstant,
         i = e.media.mediaId,
@@ -4344,32 +4346,32 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         a = e.media.fadeTime,
         u = e.distance,
         c = e.media.flag,
-        l = e.maxDistance;var h = 100;null != e.media.volume && 0 != e.media.volume && (h = e.media.volume), t.getMediaManager().destroySounds(i, !1, !0);var d = new ut(i);d.trackable = !0;var f = new St(o);if (f.openAudioMc = t, f.setOa(t), t.getMediaManager().mixer.addChannel(d), d.addSound(f), d.setChannelVolume(0), f.setLooping(n), d.setTag(i), 0 !== l) {
+        l = e.maxDistance;var h = 100;null != e.media.volume && 0 != e.media.volume && (h = e.media.volume), t.getMediaManager().destroySounds(i, !1, !0);var d = new ct(i);d.trackable = !0;var f = new xt(o);if (f.openAudioMc = t, f.setOa(t), t.getMediaManager().mixer.addChannel(d), d.addSound(f), d.setChannelVolume(0), f.setLooping(n), d.setTag(i), 0 !== l) {
       var _t4 = this.convertDistanceToVolume(l, u);d.setTag("SPECIAL"), d.maxDistance = l, d.fadeChannel(_t4, a);
     } else d.setTag("DEFAULT"), setTimeout(function () {
       0 === a ? (d.setChannelVolume(h), d.updateFromMasterVolume()) : (d.updateFromMasterVolume(), d.fadeChannel(h, a));
     }, 1);d.setTag(c), t.getMediaManager().mixer.updateCurrent(), f.finalize().then(function () {
       s && f.startDate(r, !0), f.finish();
     });
-  }function M(t, e) {
-    var n = e.message;t.notificationModule.sendNotification(e.title, n), new st("#alert-area", { closeTime: 3e4, persistent: !1, hideCloseButton: !1 }).show(e.title + "<hr />" + n);
   }function k(t, e) {
-    var n = parseInt(e.protocolRevision);if (s("Received PROTOCOL revision update"), 2 <= n && (s("PROTO rev => 2, enabling callbacks"), t.socketModule.callbacksEnabled = !0), 3 <= n && (s("PROTO rev => 3, enabling youtube callbacks"), t.socketModule.supportsYoutube = !0), 4 <= n && (s("PROTO rev => 4, enabling volume callbacks"), t.mediaManager.startVolumeWatcher(t)), 3 > n) {
-      new st("#alert-area", { closeTime: 6e4, persistent: !1, hideCloseButton: !0 }).show('<div style="text-align: center;"><b>Warning!</b> Your installation of OpenAudioMc seems to be pretty outdated. Please download the most recent version from Spigot and install it in your server.<br/><br/><a href="https://www.spigotmc.org/resources/openaudiomc-music-speakers-regions-bungeecord.30691/" class="alert-message-button">Download page</a></div>');
-    }
+    var n = e.message;t.notificationModule.sendNotification(e.title, n), new at("#alert-area", { closeTime: 3e4, persistent: !1, hideCloseButton: !1 }).show(e.title + "<hr />" + n);
   }function C(t, e) {
-    var n = e.volume;t.getMediaManager().setMasterVolume(n), document.getElementById("volume-slider").value = n;
+    var n = parseInt(e.protocolRevision);if (s("Received PROTOCOL revision update"), 2 <= n && (s("PROTO rev => 2, enabling callbacks"), t.socketModule.callbacksEnabled = !0), 3 <= n && (s("PROTO rev => 3, enabling youtube callbacks"), t.socketModule.supportsYoutube = !0), 4 <= n && (s("PROTO rev => 4, enabling volume callbacks"), t.mediaManager.startVolumeWatcher(t)), 3 > n) {
+      new at("#alert-area", { closeTime: 6e4, persistent: !1, hideCloseButton: !0 }).show('<div style="text-align: center;"><b>Warning!</b> Your installation of OpenAudioMc seems to be pretty outdated. Please download the most recent version from Spigot and install it in your server.<br/><br/><a href="https://www.spigotmc.org/resources/openaudiomc-music-speakers-regions-bungeecord.30691/" class="alert-message-button">Download page</a></div>');
+    }
   }function O(t, e) {
-    t.getMediaManager().destroySounds(e.soundId, e.all, !1, e.fadeTime);
+    var n = e.volume;t.getMediaManager().setMasterVolume(n), document.getElementById("volume-slider").value = n;
   }function T(t, e) {
+    t.getMediaManager().destroySounds(e.soundId, e.all, !1, e.fadeTime);
+  }function I(t, e) {
     var n = e.lights,
         r = e.hueColor,
         i = "rgba(" + r.r + "," + r.g + "," + r.b + "," + function (t, e, n) {
       return (t - e[0]) * (n[1] - n[0]) / (e[1] - e[0]) + n[0];
     }(r.bir, [0, 255], [0, 1]) + ")";t.getHueModule().isLinked && t.getHueModule().setLight(n, i);
-  }function I(t, e) {
+  }function _(t, e) {
     function n(t, e) {
-      return J((t - e) / t * 100);
+      return Y((t - e) / t * 100);
     }var r = e.mediaOptions.target,
         i = e.mediaOptions.fadeTime,
         o = e.mediaOptions.distance;var _iteratorNormalCompletion2 = true;
@@ -4395,52 +4397,52 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         }
       }
     }
-  }function _(t, e) {
+  }function P(t, e) {
     var n = e.x,
         r = e.y,
         i = e.z,
         o = e.pitch,
-        s = e.yaw;t.world.player.updateLocation(new kt(n, r, i), o, s);
-  }function P(t, e) {
-    var n = e.clientSpeaker,
-        r = new kt(n.location.x, n.location.y, n.location.z).add(.5, .5, .5),
-        i = new Ct(n.id, n.source, r, n.type, n.maxDistance, n.startInstant, t);t.world.addSpeaker(n.id, i);
+        s = e.yaw;t.world.player.updateLocation(new Ct(n, r, i), o, s);
   }function A(t, e) {
-    var n = e.clientSpeaker;t.world.removeSpeaker(n.id);
+    var n = e.clientSpeaker,
+        r = new Ct(n.location.x, n.location.y, n.location.z).add(.5, .5, .5),
+        i = new Ot(n.id, n.source, r, n.type, n.maxDistance, n.startInstant, t);t.world.addSpeaker(n.id, i);
   }function N(t, e) {
+    var n = e.clientSpeaker;t.world.removeSpeaker(n.id);
+  }function R(t, e) {
     if (e.clear) s("Clearing pre-fetched resources"), setTimeout(function () {
-      bt = {};
+      wt = {};
     }, 2500);else {
       var _t5 = e.source;s("Pre-fetching resource.."), setTimeout(function () {
         !function (t) {
-          t = wt.translate(t);var e = new Audio();e.autoplay = !1, e.src = t, e.load(), bt[t] = e;
+          t = St.translate(t);var e = new Audio();e.autoplay = !1, e.src = t, e.load(), wt[t] = e;
         }(_t5);
       }, 2500);
     }
-  }function R(t, e) {
-    return null == RTCPeerConnection ? void Swal.fire({ backdrop: "", showClass: { popup: "swal2-noanimation", backdrop: "swal2-noanimation" }, icon: "error", title: "WebRTC is disabled!", text: "Your browser doesn't  support WebRTC, or it could be that a plugin or manual setting disabled it. OpenAudioMc promises only to use WebRTC for its intended purposes (serve media). Please check your browser settings and plugins, and then try again once you enabled it." }) : void t.voiceModule.enable(e.streamServer, e.streamKey, e.radius);
   }function L(t, e) {
-    t.voiceModule.addPeer(e.targetUuid, e.targetPlayerName, e.targetStreamKey, e.location);
+    return null == RTCPeerConnection ? void Swal.fire({ backdrop: "", showClass: { popup: "swal2-noanimation", backdrop: "swal2-noanimation" }, icon: "error", title: "WebRTC is disabled!", text: "Your browser doesn't  support WebRTC, or it could be that a plugin or manual setting disabled it. OpenAudioMc promises only to use WebRTC for its intended purposes (serve media). Please check your browser settings and plugins, and then try again once you enabled it." }) : void t.voiceModule.enable(e.streamServer, e.streamKey, e.radius);
   }function F(t, e) {
-    null == e.streamKey ? t.voiceModule.removeAllPeers() : t.voiceModule.removePeer(e.streamKey);
+    t.voiceModule.addPeer(e.targetUuid, e.targetPlayerName, e.targetStreamKey, e.location);
   }function B(t, e) {
+    null == e.streamKey ? t.voiceModule.removeAllPeers() : t.voiceModule.removePeer(e.streamKey);
+  }function D(t, e) {
     for (var _n, _r = 0; _r < e.updateSet.length; _r++) {
       _n = e.updateSet[_r], t.voiceModule.peerLocationUpdate(_n.streamKey, _n.x, _n.y, _n.z);
     }
-  }function D() {
+  }function j() {
     (0, document.getElementById("vc-mic-mute").onmousedown)();
-  }function j(t, e) {
-    e.blurred ? t.voiceModule.blurWithReason() : t.voiceModule.unblur();
   }function U(t, e) {
+    e.blurred ? t.voiceModule.blurWithReason() : t.voiceModule.unblur();
+  }function V(t, e) {
     function n(t, e) {
       var n = 0,
           i = e || t.innerHTML,
-          o = i.length;It.push(window.setInterval(function () {
+          o = i.length;_t.push(window.setInterval(function () {
         n >= o && (n = 0), i = r(i, n), t.innerHTML = i, n++;
       }, 0));
     }function r(t, e) {
-      var n = q(function (t, e) {
-        return Y(Math.random() * (e - t + 1)) + t;
+      var n = K(function (t, e) {
+        return X(Math.random() * (e - t + 1)) + t;
       }(64, 90));return t.substr(0, e) + n + t.substr(e + 1, t.length);
     }var i = void 0,
         o = void 0,
@@ -4449,13 +4451,13 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         o = e.childNodes[_t6], 3 === o.nodeType && (i = document.createElement("span"), i.innerHTML = o.nodeValue, e.replaceChild(i, o), n(i));
       }
     } else n(e, t);
-  }function V(t, e) {
+  }function H(t, e) {
     var n = e.length,
         r = document.createElement("span"),
         i = !1;for (var _o2 = 0; _o2 < n; _o2++) {
-      r.style.cssText += _t[e[_o2]] + ";", "§k" === e[_o2] && (U(t, r), i = !0);
+      r.style.cssText += Pt[e[_o2]] + ";", "§k" === e[_o2] && (V(t, r), i = !0);
     }return i || (r.innerHTML = t), r;
-  }function H(t) {
+  }function z(t) {
     var e,
         n,
         r = t.match(/&.{1}/g) || [],
@@ -4464,18 +4466,18 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         s = document.createDocumentFragment(),
         a = r.length;t = t.replace(/\n|\\n/g, "<br>");for (var _e5 = 0; _e5 < a; _e5++) {
       i.push(t.indexOf(r[_e5])), t = t.replace(r[_e5], "\0\0");
-    }0 !== i[0] && s.appendChild(V(t.substring(0, i[0]), []));for (var _u = 0; _u < a; _u++) {
+    }0 !== i[0] && s.appendChild(H(t.substring(0, i[0]), []));for (var _u = 0; _u < a; _u++) {
       if (2 === (n = i[_u + 1] - i[_u])) {
         for (; 2 == n;) {
           o.push(r[_u]), _u++, n = i[_u + 1] - i[_u];
         }o.push(r[_u]);
-      } else o.push(r[_u]);-1 < o.lastIndexOf("§r") && (o = o.slice(o.lastIndexOf("§r") + 1)), e = t.substring(i[_u], i[_u + 1]), s.appendChild(V(e, o));
+      } else o.push(r[_u]);-1 < o.lastIndexOf("§r") && (o = o.slice(o.lastIndexOf("§r") + 1)), e = t.substring(i[_u], i[_u + 1]), s.appendChild(H(e, o));
     }return s;
-  }function z() {
-    Rt.canStart && Rt.start();
   }function G() {
-    document.getElementById("voice-range-counter").innerText = "(" + qt + ")";
-  }function W(t) {
+    Lt.canStart && Lt.start();
+  }function W() {
+    document.getElementById("voice-range-counter").innerText = "(" + Kt + ")";
+  }function q(t) {
     var e = document.querySelectorAll("[data-type=voice-card]");var _iteratorNormalCompletion3 = true;
     var _didIteratorError3 = false;
     var _iteratorError3 = undefined;
@@ -4501,56 +4503,56 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     }
 
     document.getElementById(t).style.display = "";
-  }var q = String.fromCharCode,
-      K = Math.abs,
-      J = Math.round,
-      Y = Math.floor;n.r(e);n(134);var X = n(89),
-      $ = n.n(X);var Q = { BUILD: "Build", SESSION: "Session", ACCOUNT: "Account", AUDIO: "Mixer", SOCKET: "Socket", LOG: "Latest Log", RTC: "Streaming" };var Z = [],
-      tt = [];
-  var et = function () {
-    function et() {
-      _classCallCheck(this, et);
+  }var K = String.fromCharCode,
+      J = Math.abs,
+      Y = Math.round,
+      X = Math.floor;n.r(e);n(134);var $ = n(89),
+      Q = n.n($);var Z = { BUILD: "Build", SESSION: "Session", ACCOUNT: "Account", AUDIO: "Mixer", SOCKET: "Socket", LOG: "Latest Log", RTC: "Streaming" };var tt = [],
+      et = [];
+  var nt = function () {
+    function nt() {
+      _classCallCheck(this, nt);
 
       this.isServerAhead = !1, this.msOffset = 0, this.hasSynced = !1;
     }
 
-    et.prototype.sync = function sync(t) {
+    nt.prototype.sync = function sync(t) {
       var e = new Date(t),
           n = new Date();this.isServerAhead = e.getTime() > n.getTime(), this.msOffset = this.isServerAhead ? e.getTime() - n.getTime() : n.getTime() - e.getTime(), this.hasSynced = !0;
     };
 
-    et.prototype.getPredictedTime = function getPredictedTime() {
+    nt.prototype.getPredictedTime = function getPredictedTime() {
       this.hasSynced || new Date().getTime();var t = new Date().getTime();return new Date(this.isServerAhead ? t + this.msOffset : t - this.msOffset);
-    };
-
-    return et;
-  }();
-
-  Date.prototype.addHours = function (t) {
-    return this.setTime(this.getTime() + 60 * t * 60 * 1e3), this;
-  };
-  var nt = function () {
-    function nt(t) {
-      _classCallCheck(this, nt);
-
-      this.fallback = "No message provided in oa+", this.main = t, this.hueConnected = 'You are now connected with your Philips Hue Lights! Please select your group (you can always change this later) and click "player" in the left bottem corner to return to the home menu.', this.hueLinking = "Press the link button on your hue bridge within %sec% seconds to connect.", this.hueWelcome = "We've detected a Philips Hue Bridge! You can connect it to OpenAudioMc and link your in-game session to your lights. This allows your current server to add real-time lighting effects. You can unlink at any time and manually select your lights.", this.welcomeMessage = this.fallback, this.errorMessage = this.fallback;
-    }
-
-    nt.prototype.apply = function apply() {
-      null != document.getElementById("hue-welcome-message") && (document.getElementById("hue-welcome-message").innerHTML = this.hueWelcome), "ok" === this.main.socketModule.state && (document.getElementById("status-message").innerHTML = this.welcomeMessage);
     };
 
     return nt;
   }();
 
+  Date.prototype.addHours = function (t) {
+    return this.setTime(this.getTime() + 60 * t * 60 * 1e3), this;
+  };
   var rt = function () {
     function rt(t) {
       _classCallCheck(this, rt);
 
+      this.fallback = "No message provided in oa+", this.main = t, this.hueConnected = 'You are now connected with your Philips Hue Lights! Please select your group (you can always change this later) and click "player" in the left bottem corner to return to the home menu.', this.hueLinking = "Press the link button on your hue bridge within %sec% seconds to connect.", this.hueWelcome = "We've detected a Philips Hue Bridge! You can connect it to OpenAudioMc and link your in-game session to your lights. This allows your current server to add real-time lighting effects. You can unlink at any time and manually select your lights.", this.welcomeMessage = this.fallback, this.errorMessage = this.fallback;
+    }
+
+    rt.prototype.apply = function apply() {
+      null != document.getElementById("hue-welcome-message") && (document.getElementById("hue-welcome-message").innerHTML = this.hueWelcome), "ok" === this.main.socketModule.state && (document.getElementById("status-message").innerHTML = this.welcomeMessage);
+    };
+
+    return rt;
+  }();
+
+  var it = function () {
+    function it(t) {
+      _classCallCheck(this, it);
+
       this.openAudioMc = t;
     }
 
-    rt.prototype.changeColor = function changeColor(t, e) {
+    it.prototype.changeColor = function changeColor(t, e) {
       var n = function (t) {
         return t = t.replace("#", ""), "rgb(" + parseInt(t.substring(0, 2), 16) + ", " + parseInt(t.substring(2, 4), 16) + ", " + parseInt(t.substring(4, 6), 16) + ")";
       }(t);document.querySelectorAll("*").forEach(function (t) {
@@ -4563,31 +4565,31 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       });
     };
 
-    rt.prototype.setMessage = function setMessage(t) {
+    it.prototype.setMessage = function setMessage(t) {
       document.getElementById("status-message").innerHTML = t;
     };
 
-    rt.prototype.openApp = function openApp() {
-      a(it.MAIN_UI), this.openAudioMc.userInterfaceModule.setMessage(this.openAudioMc.messages.welcomeMessage);
+    it.prototype.openApp = function openApp() {
+      a(ot.MAIN_UI), this.openAudioMc.userInterfaceModule.setMessage(this.openAudioMc.messages.welcomeMessage);
     };
 
-    rt.prototype.kickScreen = function kickScreen(t) {
-      a(it.KICKED), document.getElementById("kick-message").innerHTML = t;
+    it.prototype.kickScreen = function kickScreen(t) {
+      a(ot.KICKED), document.getElementById("kick-message").innerHTML = t;
     };
 
-    return rt;
+    return it;
   }();
 
-  var it = { BAD_AUTH: "bad-auth-card", WELCOME: "welcome-card", KICKED: "kicked-card", MAIN_UI: "main-card" },
-      ot = "rtc_initialized";
-  var st = function () {
-    function st(t, e) {
-      _classCallCheck(this, st);
+  var ot = { BAD_AUTH: "bad-auth-card", WELCOME: "welcome-card", KICKED: "kicked-card", MAIN_UI: "main-card" },
+      st = "rtc_initialized";
+  var at = function () {
+    function at(t, e) {
+      _classCallCheck(this, at);
 
       this.id = t, this.option = e, this.onTimeout = null;
     }
 
-    st.prototype.show = function show(t) {
+    at.prototype.show = function show(t) {
       var _this = this;
 
       var e = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : !1;
@@ -4600,11 +4602,11 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }return this;
     };
 
-    st.prototype.onClick = function onClick(t) {
+    at.prototype.onClick = function onClick(t) {
       this.alertBox.onclick = t;
     };
 
-    st.prototype.hide = function hide() {
+    at.prototype.hide = function hide() {
       var _this2 = this;
 
       this.alertBox.classList.add("hide");var t = setTimeout(function () {
@@ -4612,14 +4614,14 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }, 500);
     };
 
-    return st;
+    return at;
   }();
 
-  var at = function () {
-    function at(t, e) {
+  var ut = function () {
+    function ut(t, e) {
       var _this3 = this;
 
-      _classCallCheck(this, at);
+      _classCallCheck(this, ut);
 
       return this.hue = e, this.bridges = [], this.isSsl = document.location.href.startsWith("https://"), this.isLinked = !1, this.currentBridge = null, this.currentUser = null, this.color = net.brehaut.Color, this.options = { userid: Cookies.get("hueid") }, this.openAudioMc = t, this.isSsl ? void this.openAudioMc.log("Failed to initiate Philips Hue integration since this web page is served over ssl. The user will be promted to downgrade to HTTP when a user interaction is made that is related to Hue") : (this.hue.discover().then(function (t) {
         t.forEach(function (t) {
@@ -4632,23 +4634,23 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }));
     }
 
-    at.prototype.onDiscover = function onDiscover() {
+    ut.prototype.onDiscover = function onDiscover() {
       if (0 !== this.bridges.length) {
-        if (this.openAudioMc.log(this.bridges.length + " hue bridges found"), document.getElementById("hue-bridge-menu-button").style.display = "", document.getElementById("hue-setup-box").style.display = "", document.getElementById("hue-bridge-menu-button").onclick = this.openModal, this.isSsl) return void (document.getElementById("hue-bridge-menu-button").style.display = "none");null != this.options.userid && this.openAudioMc.getHueModule().startSetup(), this.requestBox = new st("#alert-area", { persistent: !0, hideCloseButton: !0 }), this.requestBox.show('<div style="text-align: center;">We found a hue bridge in your network<br/><br/><br/><a id="noti-perm-request-link" class="alert-message-button">hue settings</a></div>'), this.requestBox.onClick(this.openModal);
+        if (this.openAudioMc.log(this.bridges.length + " hue bridges found"), document.getElementById("hue-bridge-menu-button").style.display = "", document.getElementById("hue-setup-box").style.display = "", document.getElementById("hue-bridge-menu-button").onclick = this.openModal, this.isSsl) return void (document.getElementById("hue-bridge-menu-button").style.display = "none");null != this.options.userid && this.openAudioMc.getHueModule().startSetup(), this.requestBox = new at("#alert-area", { persistent: !0, hideCloseButton: !0 }), this.requestBox.show('<div style="text-align: center;">We found a hue bridge in your network<br/><br/><br/><a id="noti-perm-request-link" class="alert-message-button">hue settings</a></div>'), this.requestBox.onClick(this.openModal);
       } else this.openAudioMc.log("No hue bridges found");
     };
 
-    at.prototype.openModal = function openModal() {
+    ut.prototype.openModal = function openModal() {
       document.getElementById("hue-modal-parent").style.display = "";
     };
 
-    at.prototype.startSetup = function startSetup() {
+    ut.prototype.startSetup = function startSetup() {
       var t = this;document.getElementById("hue-link-menu").style.display = "none", document.getElementById("hue-linking-menu").style.display = "", this.bridges.forEach(function (e) {
         t.linkBridge(e.internalipaddress);
       });
     };
 
-    at.prototype.onConnect = function onConnect() {
+    ut.prototype.onConnect = function onConnect() {
       var _this4 = this;
 
       this.currentUser.getConfig().then(function (t) {
@@ -4660,17 +4662,17 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       });
     };
 
-    at.prototype.updateSelector = function updateSelector(t) {
+    ut.prototype.updateSelector = function updateSelector(t) {
       setTimeout(function () {
         document.getElementById("default-group").selected = !1, document.getElementById("input-bridge-select").value = t;
       }, 200);
     };
 
-    at.prototype.colorToHueHsv = function colorToHueHsv(t) {
-      var e = this.color(t).toHSV();return { on: 0 != 2 * e.alpha * 127.5, hue: Y(65535 * e.hue / 360), sat: Y(255 * e.saturation), bri: J(2 * e.alpha * 127.5) };
+    ut.prototype.colorToHueHsv = function colorToHueHsv(t) {
+      var e = this.color(t).toHSV();return { on: 0 != 2 * e.alpha * 127.5, hue: X(65535 * e.hue / 360), sat: X(255 * e.saturation), bri: Y(2 * e.alpha * 127.5) };
     };
 
-    at.prototype.setLight = function setLight(t, e) {
+    ut.prototype.setLight = function setLight(t, e) {
       var _this5 = this;
 
       var n = [];if ("number" == typeof t) {
@@ -4684,7 +4686,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       });
     };
 
-    at.prototype.linkBridge = function linkBridge(t, e) {
+    ut.prototype.linkBridge = function linkBridge(t, e) {
       var _this6 = this;
 
       if (document.getElementById("hue-linking-message").innerHTML = "<p>Preparing setup..</p>", null == e && null != this.options.userid) return document.getElementById("hue-linking-message").innerHTML = "<p>Logging in..</p>", this.currentUser = this.hue.bridge(t).user(this.options.userid), void this.currentUser.getGroups().then(function (e) {
@@ -4701,25 +4703,25 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }, 1e3);
     };
 
-    return at;
+    return ut;
   }();
 
-  var ut = function () {
-    function ut(t) {
-      _classCallCheck(this, ut);
+  var ct = function () {
+    function ct(t) {
+      _classCallCheck(this, ct);
 
       this.channelName = t, this.channelVolume = 100, this.sounds = [], this.mixer = null, this.targetAfterFade = 0, this.isFading = !1, this.fadeTimer = [], this.tags = new Map(), this.trackable = !1;
     }
 
-    ut.prototype.setTag = function setTag(t) {
+    ct.prototype.setTag = function setTag(t) {
       this.tags.set(t, !0);
     };
 
-    ut.prototype.hasTag = function hasTag(t) {
+    ct.prototype.hasTag = function hasTag(t) {
       return this.tags.has(t);
     };
 
-    ut.prototype.hasSoundPlaying = function hasSoundPlaying() {
+    ct.prototype.hasSoundPlaying = function hasSoundPlaying() {
       var _iteratorNormalCompletion4 = true;
       var _didIteratorError4 = false;
       var _iteratorError4 = undefined;
@@ -4747,7 +4749,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       return !1;
     };
 
-    ut.prototype.addSound = function addSound(t) {
+    ct.prototype.addSound = function addSound(t) {
       this.sounds.push(t);var _iteratorNormalCompletion5 = true;
       var _didIteratorError5 = false;
       var _iteratorError5 = undefined;
@@ -4775,11 +4777,11 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       this._updateVolume();
     };
 
-    ut.prototype.setChannelVolume = function setChannelVolume(t) {
+    ct.prototype.setChannelVolume = function setChannelVolume(t) {
       this.channelVolume = t, this._updateVolume();
     };
 
-    ut.prototype.registerMixer = function registerMixer(t) {
+    ct.prototype.registerMixer = function registerMixer(t) {
       this.mixer = t;var _iteratorNormalCompletion6 = true;
       var _didIteratorError6 = false;
       var _iteratorError6 = undefined;
@@ -4805,12 +4807,12 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }
     };
 
-    ut.prototype.fadeChannel = function fadeChannel(t, e, n) {
+    ct.prototype.fadeChannel = function fadeChannel(t, e, n) {
       var _this7 = this;
 
       this.interruptFade(), null == n && (n = function n() {}), this.targetAfterFade = t, this.isFading = !0, function (t, e, r, i) {
         e = e || 1e3, r = r || 0, i = i;var o = _this7.channelVolume,
-            s = e / K(o - r),
+            s = e / J(o - r),
             a = setInterval(function () {
           o = o > r ? o - 1 : o + 1;var t = _this7.mixer.masterVolume,
               e = o / 100 * t;var _iteratorNormalCompletion7 = true;
@@ -4844,7 +4846,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }(0, e, t, n);
     };
 
-    ut.prototype.interruptFade = function interruptFade() {
+    ct.prototype.interruptFade = function interruptFade() {
       if (this.isFading) {
         this.isFading = !1, this.setChannelVolume(this.targetAfterFade);var _iteratorNormalCompletion8 = true;
         var _didIteratorError8 = false;
@@ -4872,7 +4874,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }
     };
 
-    ut.prototype._updateVolume = function _updateVolume() {
+    ct.prototype._updateVolume = function _updateVolume() {
       this.interruptFade();var t = this.mixer.masterVolume,
           e = this.channelVolume / 100 * t;var _iteratorNormalCompletion9 = true;
       var _didIteratorError9 = false;
@@ -4899,7 +4901,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }
     };
 
-    ut.prototype.updateFromMasterVolume = function updateFromMasterVolume() {
+    ct.prototype.updateFromMasterVolume = function updateFromMasterVolume() {
       var t = this.mixer.masterVolume,
           e = this.channelVolume / 100 * t;var _iteratorNormalCompletion10 = true;
       var _didIteratorError10 = false;
@@ -4926,7 +4928,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }
     };
 
-    ut.prototype.destroy = function destroy() {
+    ct.prototype.destroy = function destroy() {
       this.interruptFade();var _iteratorNormalCompletion11 = true;
       var _didIteratorError11 = false;
       var _iteratorError11 = undefined;
@@ -4952,18 +4954,18 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }
     };
 
-    return ut;
+    return ct;
   }();
 
-  var ct = { searchParams: "URLSearchParams" in self, iterable: "Symbol" in self && "iterator" in Symbol, blob: "FileReader" in self && "Blob" in self && function () {
+  var lt = { searchParams: "URLSearchParams" in self, iterable: "Symbol" in self && "iterator" in Symbol, blob: "FileReader" in self && "Blob" in self && function () {
       try {
         return new Blob(), !0;
       } catch (t) {
         return !1;
       }
-    }(), formData: "FormData" in self, arrayBuffer: "ArrayBuffer" in self };if (ct.arrayBuffer) var lt = ["[object Int8Array]", "[object Uint8Array]", "[object Uint8ClampedArray]", "[object Int16Array]", "[object Uint16Array]", "[object Int32Array]", "[object Uint32Array]", "[object Float32Array]", "[object Float64Array]"],
-      ht = ArrayBuffer.isView || function (t) {
-    return t && -1 < lt.indexOf(Object.prototype.toString.call(t));
+    }(), formData: "FormData" in self, arrayBuffer: "ArrayBuffer" in self };if (lt.arrayBuffer) var ht = ["[object Int8Array]", "[object Uint8Array]", "[object Uint8ClampedArray]", "[object Int16Array]", "[object Uint16Array]", "[object Int32Array]", "[object Uint32Array]", "[object Float32Array]", "[object Float64Array]"],
+      dt = ArrayBuffer.isView || function (t) {
+    return t && -1 < ht.indexOf(Object.prototype.toString.call(t));
   };h.prototype.append = function (t, e) {
     t = u(t), e = c(e);var n = this.map[t];this.map[t] = n ? n + ", " + e : e;
   }, h.prototype.delete = function (t) {
@@ -4990,29 +4992,29 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     var t = [];return this.forEach(function (e, n) {
       t.push([n, e]);
     }), l(t);
-  }, ct.iterable && (h.prototype[Symbol.iterator] = h.prototype.entries);var dt = ["DELETE", "GET", "HEAD", "OPTIONS", "POST", "PUT"];v.prototype.clone = function () {
+  }, lt.iterable && (h.prototype[Symbol.iterator] = h.prototype.entries);var ft = ["DELETE", "GET", "HEAD", "OPTIONS", "POST", "PUT"];v.prototype.clone = function () {
     return new v(this, { body: this._bodyInit });
   }, m.call(v.prototype), m.call(w.prototype), w.prototype.clone = function () {
     return new w(this._bodyInit, { status: this.status, statusText: this.statusText, headers: new h(this.headers), url: this.url });
   }, w.error = function () {
     var t = new w(null, { status: 0, statusText: "" });return t.type = "error", t;
-  };var ft = [301, 302, 303, 307, 308];w.redirect = function (t, e) {
-    if (-1 === ft.indexOf(e)) throw new RangeError("Invalid status code");return new w(null, { status: e, headers: { location: t } });
-  };var pt = self.DOMException;try {
-    new pt();
+  };var pt = [301, 302, 303, 307, 308];w.redirect = function (t, e) {
+    if (-1 === pt.indexOf(e)) throw new RangeError("Invalid status code");return new w(null, { status: e, headers: { location: t } });
+  };var gt = self.DOMException;try {
+    new gt();
   } catch (e) {
-    (pt = function pt(t, e) {
+    (gt = function gt(t, e) {
       this.message = t, this.name = e;var n = Error(t);this.stack = n.stack;
-    }).prototype = Object.create(Error.prototype), pt.prototype.constructor = pt;
-  }S.polyfill = !0, self.fetch || (self.fetch = S, self.Headers = h, self.Request = v, self.Response = w);var gt = { CONTENT_PROXY: "https://media.openaudiomc.net/proxy?apiurl=", YOUTUBE_PROXY: "https://media.openaudiomc.net/youtube?id=", SOUNDCLOUD_PROXY: "https://media.openaudiomc.net/soundcloud?u=", DRIVE_PROXY: "https://media.openaudiomc.net/googledrive?id=", ERROR_REPORTING: "https://plus.openaudiomc.net/cf-log/production", MAIN_BACKEND: "https://plus.openaudiomc.net/", CLIENT_SESSION_SERVER: "https://plus.openaudiomc.net/session" };
-  var mt = function () {
-    function mt(t, e, n, r, i) {
-      _classCallCheck(this, mt);
+    }).prototype = Object.create(Error.prototype), gt.prototype.constructor = gt;
+  }S.polyfill = !0, self.fetch || (self.fetch = S, self.Headers = h, self.Request = v, self.Response = w);var mt = { CONTENT_PROXY: "https://media.openaudiomc.net/proxy?apiurl=", YOUTUBE_PROXY: "https://media.openaudiomc.net/youtube?id=", SOUNDCLOUD_PROXY: "https://media.openaudiomc.net/soundcloud?u=", DRIVE_PROXY: "https://media.openaudiomc.net/googledrive?id=", ERROR_REPORTING: "https://plus.openaudiomc.net/cf-log/production", MAIN_BACKEND: "https://plus.openaudiomc.net/", CLIENT_SESSION_SERVER: "https://plus.openaudiomc.net/session" };
+  var vt = function () {
+    function vt(t, e, n, r, i) {
+      _classCallCheck(this, vt);
 
       this.publicServerKey = t, this.uuid = e, this.name = n, this.token = r, this.scope = i, this.attempts = 0;
     }
 
-    mt.prototype.initialize = function initialize() {
+    vt.prototype.initialize = function initialize() {
       var _this8 = this;
 
       return new Promise(function (t) {
@@ -5035,111 +5037,143 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
             }().getParametersFromUrl(e.split("?")[1]);if (null == _n3.data) return void t(null);var _r3 = atob(_n3.data).split(":");if (4 !== _r3.length) return t(null), null;var _i = _r3[0],
                 _o3 = _r3[1],
                 _s = _r3[2],
-                _a = _r3[3];null != _i && 16 >= _i.length && null != _o3 && 40 >= _o3.length && null != _s && 40 >= _s.length && null != _a && 5 >= _a.length || t(null);var _u2 = new mt(_s, _o3, _i, _a);window.tokenCache = _u2, t(_u2);
+                _a = _r3[3];null != _i && 16 >= _i.length && null != _o3 && 40 >= _o3.length && null != _s && 40 >= _s.length && null != _a && 5 >= _a.length || t(null);var _u2 = new vt(_s, _o3, _i, _a);window.tokenCache = _u2, t(_u2);
           } else if (2 <= e.split("#").length) {
-            var _n4 = e.split("#")[1];S(gt.CLIENT_SESSION_SERVER + "?token=" + _n4).then(function (e) {
+            var _n4 = e.split("#")[1];S(mt.CLIENT_SESSION_SERVER + "?token=" + _n4).then(function (e) {
               e.json().then(function (e) {
                 if (0 < e.errors.length) return void (3 > _this8.attempts ? (s("Failed to load session, trying again in a bit."), setTimeout(function () {
                   _this8.requestWasPreviouslyAttempted = !0, _this8.initialize().then(t), _this8.attempts++;
-                }, 1e3)) : (console.log("Session error"), t(null)));var n = e.response;null != n.hasOwnProperty("serverIdentity") || (function (t) {
-                  oalog(t);
-                }("No identity to fetch"), document.getElementById("top-head").src = "https://minotar.net/helm/" + n.playerName);var r = new mt(n.publicKey, n.playerUuid, n.playerName, n.session, n.scope);window.tokenCache = r, t(r);
+                }, 1e3)) : (console.log("Session error"), t(null)));var n = e.response;null == n.hasOwnProperty("serverIdentity") ? (x("No identity to fetch"), document.getElementById("top-head").src = "https://minotar.net/helm/" + n.playerName) : function () {
+                  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(t, e) {
+                    var n, r;
+                    return regeneratorRuntime.wrap(function _callee$(_context) {
+                      while (1) {
+                        switch (_context.prev = _context.next) {
+                          case 0:
+                            x("Fetching identity..");_context.next = 3;
+                            return S("https://cloud.openaudiomc.net/identity?token=" + t);
+
+                          case 3:
+                            n = _context.sent;
+                            _context.next = 6;
+                            return n.json();
+
+                          case 6:
+                            r = _context.sent;
+                            return _context.abrupt("return", 0 < r.errors.length ? void console.error("Could not load identity " + t) : (document.querySelector("link[rel*='icon']").href = r.response.icon + "&name=" + e, document.getElementById("top-head").src = r.response.icon + "&name=" + e, x("Native minecraft version: " + r.response.version), void x("Minecraft motd: " + r.response.motd)));
+
+                          case 8:
+                          case "end":
+                            return _context.stop();
+                        }
+                      }
+                    }, _callee, this);
+                  }));
+
+                  return function (_x3, _x4) {
+                    return _ref.apply(this, arguments);
+                  };
+                }()(n.serverIdentity, n.playerName).then(function () {
+                  return console.log;
+                }).catch(function () {
+                  return console.log;
+                });var r = new vt(n.publicKey, n.playerUuid, n.playerName, n.session, n.scope);window.tokenCache = r, t(r);
               }).catch(function (t) {
                 console.error(t);
               });
             }).catch(function (t) {
-              x("Something went while requesting tokens. Error: " + t.toJSON(), window.tokenCache.name), console.error(t);
+              E("Something went while requesting tokens. Error: " + t.toJSON(), window.tokenCache.name), console.error(t);
             });
           } else t(null);
         } else t(null);
       });
     };
 
-    mt.prototype.fromCache = function fromCache() {
+    vt.prototype.fromCache = function fromCache() {
       if (null != window.tokenCache) return window.tokenCache;throw new Error("No token cache in window.");
     };
 
-    return mt;
+    return vt;
   }();
 
-  var vt = { PROXY: gt.CONTENT_PROXY, YOUTUBE: gt.YOUTUBE_PROXY, SOUNDCLOUD: gt.SOUNDCLOUD_PROXY, DRIVE: gt.DRIVE_PROXY };
-  var yt = function () {
-    function yt() {
-      _classCallCheck(this, yt);
+  var yt = { PROXY: mt.CONTENT_PROXY, YOUTUBE: mt.YOUTUBE_PROXY, SOUNDCLOUD: mt.SOUNDCLOUD_PROXY, DRIVE: mt.DRIVE_PROXY };
+  var bt = function () {
+    function bt() {
+      _classCallCheck(this, bt);
 
       this.startedRandomly = !1, this.lastIndex = 0;
     }
 
-    yt.prototype.translate = function translate(t) {
+    bt.prototype.translate = function translate(t) {
       var e = this.handleRandomizedPlaylist(t);try {
-        if (e.includes("media.openaudiomc.net")) return t;if (e = e.replace("https://api.openaudiomc.net/stream.php?u=", ""), window.location.href.includes("client.openaudiomc.net") && !e.includes("http")) return null;if (e.includes("http://docs.google.com/uc?export=open&id=") && (e = e.replace("http://docs.google.com/uc?export=open&id=", vt.DRIVE)), e.includes("https://docs.google.com/uc?export=open&id=") && (e = e.replace("https://docs.google.com/uc?export=open&id=", vt.DRIVE)), e.includes("https://drive.google.com/") && (e = e.split("file/d/")[1], e = vt.DRIVE + e.split("/view")[0]), this.isYoutube = !1, e.includes("youtube.")) {
-          var _t19 = e.split("v=")[1];_t19.includes("&") && (_t19 = _t19.split("&")[0]), e = vt.YOUTUBE + _t19, this.isYoutube = !0;
+        if (e.includes("media.openaudiomc.net")) return t;if (e = e.replace("https://api.openaudiomc.net/stream.php?u=", ""), window.location.href.includes("client.openaudiomc.net") && !e.includes("http")) return null;if (e.includes("http://docs.google.com/uc?export=open&id=") && (e = e.replace("http://docs.google.com/uc?export=open&id=", yt.DRIVE)), e.includes("https://docs.google.com/uc?export=open&id=") && (e = e.replace("https://docs.google.com/uc?export=open&id=", yt.DRIVE)), e.includes("https://drive.google.com/") && (e = e.split("file/d/")[1], e = yt.DRIVE + e.split("/view")[0]), this.isYoutube = !1, e.includes("youtube.")) {
+          var _t19 = e.split("v=")[1];_t19.includes("&") && (_t19 = _t19.split("&")[0]), e = yt.YOUTUBE + _t19, this.isYoutube = !0;
         } else if (e.includes("youtu.be")) {
-          var _t20 = e.split(".be/")[1];e = vt.YOUTUBE + _t20, this.isYoutube = !0;
+          var _t20 = e.split(".be/")[1];e = yt.YOUTUBE + _t20, this.isYoutube = !0;
         }e.includes("https://weathered-dust-0281.craftmend.workers.dev/") && (e = e.replace("https://weathered-dust-0281.craftmend.workers.dev/", "")), e.includes("soundcloud.com") && (fetch("https://media.openaudiomc.net/2/soundcloud?u=" + e).then(function (t) {
           return t.json();
         }).then(function (t) {
           document.getElementById("sc-cover").style.display = "", document.getElementById("sc-title").style.display = "", document.getElementById("sc-title").innerText = t.artist + " - " + t.title, document.getElementById("sc-title").onclick = function () {
             window.open(t.link);
           }, document.getElementById("sc-cover").src = t.photo;
-        }), e = vt.SOUNDCLOUD + e), "https:" === location.protocol && e.includes("http") && !e.includes("https://") && (e = vt.PROXY + e);
+        }), e = yt.SOUNDCLOUD + e), "https:" === location.protocol && e.includes("http") && !e.includes("https://") && (e = yt.PROXY + e);
       } catch (e) {
         return console.log("Middleware error"), console.log(e), t;
       }return e;
     };
 
-    yt.prototype.handleRandomizedPlaylist = function handleRandomizedPlaylist(t) {
+    bt.prototype.handleRandomizedPlaylist = function handleRandomizedPlaylist(t) {
       if (t.startsWith("[") && t.endsWith("]")) {
         var e = JSON.parse(t);if (!this.startedRandomly) {
-          var _t21 = Y(Math.random() * e.length);return this.lastIndex = _t21, this.startedRandomly = !0, e[_t21];
+          var _t21 = X(Math.random() * e.length);return this.lastIndex = _t21, this.startedRandomly = !0, e[_t21];
         }return this.lastIndex++, this.lastIndex > e.length - 1 && (this.lastIndex = 0), e[this.lastIndex];
       }return t;
     };
 
-    return yt;
+    return bt;
   }();
 
-  var bt = {},
-      wt = new yt();"toJSON" in Error.prototype || Object.defineProperty(Error.prototype, "toJSON", { value: function value() {
+  var wt = {},
+      St = new bt();"toJSON" in Error.prototype || Object.defineProperty(Error.prototype, "toJSON", { value: function value() {
       var t = {};return Object.getOwnPropertyNames(this).forEach(function (e) {
         t[e] = this[e];
       }, this), t;
     }, configurable: !0, writable: !0 });
-  var St = function (_yt) {
-    _inherits(St, _yt);
+  var xt = function (_bt) {
+    _inherits(xt, _bt);
 
-    function St(t) {
+    function xt(t) {
       var _this9;
 
-      _classCallCheck(this, St);
+      _classCallCheck(this, xt);
 
-      (_this9 = _possibleConstructorReturn(this, _yt.call(this)), _this9), _this9.rawSource = t, t = _this9.translate(t), _this9.soundElement = function (t) {
-        t = wt.translate(t);var e = bt[t];return null == e ? new Audio() : e;
+      (_this9 = _possibleConstructorReturn(this, _bt.call(this)), _this9), _this9.rawSource = t, t = _this9.translate(t), _this9.soundElement = function (t) {
+        t = St.translate(t);var e = wt[t];return null == e ? new Audio() : e;
       }(t), _this9.hadError = !1, _this9.source = t, _this9.error = null, _this9.trackable = !1, _this9.soundElement.onerror = function (t) {
         _this9.hadError = !0, _this9.error = t, _this9._handleError();
       }, _this9.soundElement.src = t, _this9.soundElement.setAttribute("preload", "auto"), _this9.soundElement.setAttribute("controls", "none"), _this9.soundElement.setAttribute("display", "none"), _this9.soundElement.preload = "auto", _this9.soundElement.abort = console.log, _this9.openAudioMc = null, _this9.onFinish = [], _this9.loop = !1, _this9.mixer = null, _this9.channel = null, _this9.finsishedInitializing = !1, _this9.gotShutDown = !1;return _this9;
     }
 
-    St.prototype.setOa = function setOa(t) {
+    xt.prototype.setOa = function setOa(t) {
       this.openAudioMc = t, this._handleError();
     };
 
-    St.prototype._handleError = function _handleError() {
+    xt.prototype._handleError = function _handleError() {
       if (this.hadError && null != this.openAudioMc && "error" == this.error.type) {
         var _t22 = this.soundElement.error.code,
             e = null;this.isYoutube ? e = this.openAudioMc.socketModule.supportsYoutube ? "YOUTUBE_ERR" : "MEDIA_ERR_SRC_NOT_SUPPORTED" : 1 === _t22 ? e = "MEDIA_ERR_ABORTED" : 2 === _t22 ? e = "MEDIA_ERR_NETWORK" : 3 === _t22 ? e = "MEDIA_ERR_DECODE" : 4 === _t22 && (e = "MEDIA_ERR_SRC_NOT_SUPPORTED"), null != e && (s("Reporting media failure " + e), this.openAudioMc.socketModule.send("media_failure", { mediaError: e, source: this.soundElement.src }));
       }
     };
 
-    St.prototype.addNode = function addNode(t, e) {
-      null == this.controller && (this.soundElement.crossOrigin = "anonymous", !this.soundElement.src.includes("openaudiomc.net") && (this.soundElement.src = vt.PROXY + this.soundElement.src), this.controller = t.audioCtx.createMediaElementSource(this.soundElement)), this.controller.connect(e);
+    xt.prototype.addNode = function addNode(t, e) {
+      null == this.controller && (this.soundElement.crossOrigin = "anonymous", !this.soundElement.src.includes("openaudiomc.net") && (this.soundElement.src = yt.PROXY + this.soundElement.src), this.controller = t.audioCtx.createMediaElementSource(this.soundElement)), this.controller.connect(e);
     };
 
-    St.prototype.registerMixer = function registerMixer(t, e) {
+    xt.prototype.registerMixer = function registerMixer(t, e) {
       this.mixer = t, this.channel = e;
     };
 
-    St.prototype.finalize = function finalize() {
+    xt.prototype.finalize = function finalize() {
       var _this10 = this;
 
       return new Promise(function (t) {
@@ -5159,71 +5193,71 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       });
     };
 
-    St.prototype.setLooping = function setLooping(t) {
+    xt.prototype.setLooping = function setLooping(t) {
       this.loop = t;
     };
 
-    St.prototype.finish = function finish() {
+    xt.prototype.finish = function finish() {
       this.finsishedInitializing = !0;
     };
 
-    St.prototype.setOnFinish = function setOnFinish(t) {
+    xt.prototype.setOnFinish = function setOnFinish(t) {
       this.onFinish.push(t);
     };
 
-    St.prototype.setVolume = function setVolume(t) {
+    xt.prototype.setVolume = function setVolume(t) {
       100 < t && (t = 100), this.soundElement.volume = t / 100;
     };
 
-    St.prototype.startDate = function startDate(t) {
+    xt.prototype.startDate = function startDate(t) {
       var e = new Date(t),
           n = (this.openAudioMc.timeService.getPredictedTime() - e) / 1e3;s("Started " + n + " ago");var r = this.soundElement.duration;if (n > r) {
-        n -= Y(n / r) * r;
+        n -= X(n / r) * r;
       }s("Starting " + n + " in"), this.setTime(n);
     };
 
-    St.prototype.setTime = function setTime(t) {
+    xt.prototype.setTime = function setTime(t) {
       this.soundElement.currentTime = t;
     };
 
-    St.prototype.destroy = function destroy() {
+    xt.prototype.destroy = function destroy() {
       this.gotShutDown = !0, this.setLooping(!1), this.soundElement.pause(), this.soundElement.remove();
     };
 
-    return St;
-  }(yt);
+    return xt;
+  }(bt);
 
-  var xt = function () {
-    function xt(t, e) {
+  var Et = function () {
+    function Et(t, e) {
       var _this11 = this;
 
-      _classCallCheck(this, xt);
+      _classCallCheck(this, Et);
 
       this.openAudioMc = e, this.mixerName = t, this.masterVolume = 100, this.channels = new Map(), this.areSoundsPlaying = !1, this.ambianceSoundMedia = null, this.recentSource = "/none", o(function () {
-        window.debugUi.addPanel(Q.AUDIO, function () {
-          return "playingChannels=" + _this11.channels.size + ", prefetched=" + Object.keys(bt).length + ", recent=" + _this11.recentSource.split("/")[_this11.recentSource.split("/").length - 1];
+        window.debugUi.addPanel(Z.AUDIO, function () {
+          return "playingChannels=" + _this11.channels.size + ", prefetched=" + Object.keys(wt).length + ", recent=" + _this11.recentSource.split("/")[_this11.recentSource.split("/").length - 1];
         });
       });
     }
 
-    xt.prototype._updatePlayingSounds = function _updatePlayingSounds() {
+    Et.prototype._updatePlayingSounds = function _updatePlayingSounds() {
       var t = !1;this.channels.forEach(function (e) {
         e.hasSoundPlaying() && (t = !0);
       }), t != this.areSoundsPlaying && (this._playingStateChangeChanged(t), this.areSoundsPlaying = t);
     };
 
-    xt.prototype._playingStateChangeChanged = function _playingStateChangeChanged(t) {
+    Et.prototype._playingStateChangeChanged = function _playingStateChangeChanged(t) {
       null == this.ambianceSoundMedia || (t ? (console.log("Stopping ambiance sound"), this.ambianceSoundMedia.fadeChannel(0, 800, function () {})) : (console.log("Starting ambiance sound"), this.ambianceSoundMedia.fadeChannel(this.masterVolume, 800, function () {})));
     };
 
-    xt.prototype.setupAmbianceSound = function setupAmbianceSound(t) {
-      var e = new ut("ambiance-lol-dics"),
-          n = new St(t);n.setLooping(!0), n.setVolume(0), n.finalize().then(function () {
+    Et.prototype.setupAmbianceSound = function setupAmbianceSound(t) {
+      var e = new ct("ambiance-lol-dics"),
+          n = new xt(t);n.setLooping(!0), n.setVolume(0), n.finalize().then(function () {
         n.finish();
       }), e.mixer = { masterVolume: this.masterVolume }, e.addSound(n), this.ambianceSoundMedia = e, this.ambianceSoundMedia.mixer = { masterVolume: this.masterVolume }, this.ambianceSoundMedia.setChannelVolume(0), this.ambianceSoundMedia.updateFromMasterVolume(this.masterVolume), this._updatePlayingSounds();
     };
 
-    xt.prototype.updateCurrent = function updateCurrent() {
+    Et.prototype.updateCurrent = function updateCurrent() {
       var t = [];this.channels.forEach(function (e, n) {
         var r = [];e.tags.forEach(function (t, e) {
           r.push(e);
@@ -5231,7 +5265,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }), this._updatePlayingSounds();
     };
 
-    xt.prototype.setMasterVolume = function setMasterVolume(t) {
+    Et.prototype.setMasterVolume = function setMasterVolume(t) {
       this.masterVolume = t;var _iteratorNormalCompletion12 = true;
       var _didIteratorError12 = false;
       var _iteratorError12 = undefined;
@@ -5259,18 +5293,18 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       null != this.ambianceSoundMedia && (this.ambianceSoundMedia.mixer = { masterVolume: this.masterVolume }, this.ambianceSoundMedia.updateFromMasterVolume(t));
     };
 
-    xt.prototype.removeChannel = function removeChannel(t) {
-      var e = void 0;e = t instanceof ut ? t : this.channels.get(t), null != e && (e.destroy(), this.channels.delete(e.channelName)), this._updatePlayingSounds();
+    Et.prototype.removeChannel = function removeChannel(t) {
+      var e = void 0;e = t instanceof ct ? t : this.channels.get(t), null != e && (e.destroy(), this.channels.delete(e.channelName)), this._updatePlayingSounds();
     };
 
-    xt.prototype.getChannels = function getChannels() {
+    Et.prototype.getChannels = function getChannels() {
       return this.channels.values();
     };
 
-    xt.prototype.addChannel = function addChannel(t) {
+    Et.prototype.addChannel = function addChannel(t) {
       var _this12 = this;
 
-      if (!(t instanceof ut)) throw new Error("Argument isn't a channel");{
+      if (!(t instanceof ct)) throw new Error("Argument isn't a channel");{
         var e = t.channelName,
             _n5 = this.channels.get(e);null != _n5 && _n5.destroy(), t.registerMixer(this), this.channels.set(e, t), setTimeout(function () {
           for (var _e9 in t.sounds) {
@@ -5280,21 +5314,21 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }this._updatePlayingSounds();
     };
 
-    return xt;
+    return Et;
   }();
 
-  var Et = function () {
-    function Et(t) {
+  var Mt = function () {
+    function Mt(t) {
       var _this13 = this;
 
-      _classCallCheck(this, Et);
+      _classCallCheck(this, Mt);
 
-      this.sounds = {}, this.masterVolume = 80, this.openAudioMc = t, this.startSound = null, this.mixer = new xt(null, t), document.getElementById("volume-slider").oninput = function () {
+      this.sounds = {}, this.masterVolume = 80, this.openAudioMc = t, this.startSound = null, this.mixer = new Et(null, t), document.getElementById("volume-slider").oninput = function () {
         var t = document.getElementById("volume-slider").value;_this13.setMasterVolume(t), Cookies.set("volume", t, { expires: 30 });
       };
     }
 
-    Et.prototype.startVolumeMonitor = function startVolumeMonitor(t) {
+    Mt.prototype.startVolumeMonitor = function startVolumeMonitor(t) {
       var _this14 = this;
 
       var e = -1;setInterval(function () {
@@ -5302,20 +5336,20 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }, 300);
     };
 
-    Et.prototype.setupAmbianceSound = function setupAmbianceSound(t) {
+    Mt.prototype.setupAmbianceSound = function setupAmbianceSound(t) {
       "" == t || null == t || this.mixer.setupAmbianceSound(t);
     };
 
-    Et.prototype.startVolumeWatcher = function startVolumeWatcher(t) {
+    Mt.prototype.startVolumeWatcher = function startVolumeWatcher(t) {
       this.startVolumeMonitor(t);
     };
 
-    Et.prototype.postBoot = function postBoot() {
+    Mt.prototype.postBoot = function postBoot() {
       var _this15 = this;
 
       if (null != this.startSound) {
-        var _t24 = new ut("startsound"),
-            e = new St(this.startSound);e.openAudioMc = this.openAudioMc, e.setOa(this.openAudioMc), e.setOnFinish(function () {
+        var _t24 = new ct("startsound"),
+            e = new xt(this.startSound);e.openAudioMc = this.openAudioMc, e.setOa(this.openAudioMc), e.setOnFinish(function () {
           setTimeout(function () {
             _this15.mixer._updatePlayingSounds();
           }, 1e3);
@@ -5327,7 +5361,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }, 500);
     };
 
-    Et.prototype.destroySounds = function destroySounds(t, e, n, r) {
+    Mt.prototype.destroySounds = function destroySounds(t, e, n, r) {
       var _this16 = this;
 
       var i = r;null == i && (i = 500), n && (i = 0);var _iteratorNormalCompletion13 = true;
@@ -5367,32 +5401,32 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }
     };
 
-    Et.prototype.setMasterVolume = function setMasterVolume(t) {
+    Mt.prototype.setMasterVolume = function setMasterVolume(t) {
       this.masterVolume = t, 0 === t ? document.getElementById("volume-disp").innerHTML = "<i>(muted)</i>" : document.getElementById("volume-disp").innerText = "Audio Volume: " + t + "%", Cookies.set("volume", t, { expires: 30 }), this.mixer.setMasterVolume(t);
     };
 
-    Et.prototype.changeVolume = function changeVolume(t) {
+    Mt.prototype.changeVolume = function changeVolume(t) {
       document.getElementById("volume-slider").value = t, this.setMasterVolume(t);
     };
 
-    Et.prototype.getMasterVolume = function getMasterVolume() {
+    Mt.prototype.getMasterVolume = function getMasterVolume() {
       return this.masterVolume;
     };
 
-    return Et;
+    return Mt;
   }();
 
-  var Mt = function () {
-    function Mt(t, e) {
+  var kt = function () {
+    function kt(t, e) {
       var _this17 = this;
 
-      _classCallCheck(this, Mt);
+      _classCallCheck(this, kt);
 
       if (this.handlers = {}, this.openAudioMc = t, this.callbacksEnabled = !1, this.supportsYoutube = !1, this.hasConnected = !1, this.outgoingQueue = [], this.inCount = 0, this.outCount = 0, o(function () {
-        window.debugUi.addPanel(Q.SOCKET, function () {
+        window.debugUi.addPanel(Z.SOCKET, function () {
           return "in=" + _this17.inCount + ", out=" + _this17.outCount + ", ok=" + _this17.socket.connected;
         });
-      }), null == new mt().fromCache()) return console.log("Empty authentication"), void a(it.BAD_AUTH);this.state = "loading", this.authHeader = "type=client&n=" + t.tokenSet.name + "&player=" + t.tokenSet.uuid + "&s=" + t.tokenSet.publicServerKey + "&p=" + t.tokenSet.token;var n = this;this.socket = io(e, { query: n.authHeader, autoConnect: !1, withCredentials: !1 }), this.socket.on("connect", function () {
+      }), null == new vt().fromCache()) return console.log("Empty authentication"), void a(ot.BAD_AUTH);this.state = "loading", this.authHeader = "type=client&n=" + t.tokenSet.name + "&player=" + t.tokenSet.uuid + "&s=" + t.tokenSet.publicServerKey + "&p=" + t.tokenSet.token;var n = this;this.socket = io(e, { query: n.authHeader, autoConnect: !1, withCredentials: !1 }), this.socket.on("connect", function () {
         t.userInterfaceModule.openApp(), t.socketModule.state = "ok", _this17.hasConnected = !0, _this17.outgoingQueue.forEach(function (t) {
           _this17.send(t.key, t.value);
         });
@@ -5401,7 +5435,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
             n = parseInt(e[1]),
             r = parseInt(e[0]);_this17.openAudioMc.getTimeService().sync(r, n);
       }), this.socket.on("disconnect", function () {
-        t.debugPrint("closed"), t.getMediaManager().destroySounds(null, !0), n.state = "closed", a(it.BAD_AUTH), setTimeout(function () {
+        t.debugPrint("closed"), t.getMediaManager().destroySounds(null, !0), n.state = "closed", a(ot.BAD_AUTH), setTimeout(function () {
           t.getMediaManager().sounds = {};
         }, 1010), t.voiceModule.shutDown();
       }), this.socket.on("data", function (t) {
@@ -5410,31 +5444,31 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }), this.socket.connect();
     }
 
-    Mt.prototype.send = function send(t, e) {
+    kt.prototype.send = function send(t, e) {
       if (this.outCount++, this.hasConnected) {
         if (!this.callbacksEnabled) return void s("could not satisfy callback " + t + " because the protocol is outdated");s("Submitting value for " + t), this.socket.emit(t, e);
       } else this.outgoingQueue.push({ key: t, value: e });
     };
 
-    Mt.prototype.registerHandler = function registerHandler(t, e) {
+    kt.prototype.registerHandler = function registerHandler(t, e) {
       this.handlers[t] = e;
     };
 
-    return Mt;
+    return kt;
   }();
 
-  var kt = function () {
-    function kt(t, e, n) {
-      _classCallCheck(this, kt);
+  var Ct = function () {
+    function Ct(t, e, n) {
+      _classCallCheck(this, Ct);
 
       this.x = t || 0, this.y = e || 0, this.z = n || 0;
     }
 
-    kt.prototype.add = function add(t, e, n) {
+    Ct.prototype.add = function add(t, e, n) {
       return this.x += t, this.y += e, this.z += n, this;
     };
 
-    kt.prototype.applyQuaternion = function applyQuaternion(t) {
+    Ct.prototype.applyQuaternion = function applyQuaternion(t) {
       var e = this.x,
           n = this.y,
           r = this.z,
@@ -5448,49 +5482,49 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
           h = -i * e - o * n - s * r;return this.x = u * a + h * -i + c * -s - l * -o, this.y = c * a + h * -o + l * -i - u * -s, this.z = l * a + h * -s + u * -o - c * -i, this;
     };
 
-    kt.prototype.square = function square(t) {
+    Ct.prototype.square = function square(t) {
       return t * t;
     };
 
-    kt.prototype.distance = function distance(t) {
+    Ct.prototype.distance = function distance(t) {
       var e = this.square(this.x - t.x) + this.square(this.y - t.y) + this.square(this.z - t.z);return Math.sqrt(e);
-    };
-
-    return kt;
-  }();
-
-  var Ct = function () {
-    function Ct(t, e, n, r, i, o, s) {
-      _classCallCheck(this, Ct);
-
-      this.id = t, this.source = e, this.location = n, this.type = r, this.maxDistance = i, this.startInstant = o, this.openAudioMc = s, this.channel = null;
-    }
-
-    Ct.prototype.getDistance = function getDistance(t, e) {
-      return e.location.distance(this.location);
     };
 
     return Ct;
   }();
 
+  var Ot = function () {
+    function Ot(t, e, n, r, i, o, s) {
+      _classCallCheck(this, Ot);
+
+      this.id = t, this.source = e, this.location = n, this.type = r, this.maxDistance = i, this.startInstant = o, this.openAudioMc = s, this.channel = null;
+    }
+
+    Ot.prototype.getDistance = function getDistance(t, e) {
+      return e.location.distance(this.location);
+    };
+
+    return Ot;
+  }();
+
   window.enableOpenAudioDebugMode = function () {
-    se.isProd = !1, i();
+    ae.isProd = !1, i();
   };
-  var Ot = function Ot(t) {
-    _classCallCheck(this, Ot);
+  var Tt = function Tt(t) {
+    _classCallCheck(this, Tt);
 
     function e(e, n) {
       t.socketModule.registerHandler(e, function (e) {
         return n(t, e);
       });
-    }e("ClientVersionPayload", k), e("NotificationPayload", M), e("HueColorPayload", T), e("ClientPlayerLocationPayload", _), e("ClientSpeakerCreatePayload", P), e("ClientSpeakerDestroyPayload", A), e("ClientPreFetchPayload", N), e("ClientUpdateMediaPayload", I), e("ClientCreateMediaPayload", E), e("ClientDestroyMediaPayload", O), e("ClientVolumePayload", C), e("ClientVoiceChatUnlockPayload", R), e("ClientVoiceSubscribePayload", L), e("ClientVoiceDropPayload", F), e("ClientVoiceUpdatePeerLocationsPayload", B), e("ClientVoiceChatToggleMicrophonePayload", D), e("ClientVoiceBlurUiPayload", j);
+    }e("ClientVersionPayload", C), e("NotificationPayload", k), e("HueColorPayload", I), e("ClientPlayerLocationPayload", P), e("ClientSpeakerCreatePayload", A), e("ClientSpeakerDestroyPayload", N), e("ClientPreFetchPayload", R), e("ClientUpdateMediaPayload", _), e("ClientCreateMediaPayload", M), e("ClientDestroyMediaPayload", T), e("ClientVolumePayload", O), e("ClientVoiceChatUnlockPayload", L), e("ClientVoiceSubscribePayload", F), e("ClientVoiceDropPayload", B), e("ClientVoiceUpdatePeerLocationsPayload", D), e("ClientVoiceChatToggleMicrophonePayload", j), e("ClientVoiceBlurUiPayload", U);
   };
 
-  var Tt = function () {
-    function Tt() {
+  var It = function () {
+    function It() {
       var _this18 = this;
 
-      _classCallCheck(this, Tt);
+      _classCallCheck(this, It);
 
       this.dropdowns = [], this.state = [], this.dropdowns.push(document.getElementById("bulb-selection-1")), this.dropdowns.push(document.getElementById("bulb-selection-2")), this.dropdowns.push(document.getElementById("bulb-selection-3")), this.dropdowns.forEach(function (t) {
         t.onchange = function () {
@@ -5499,15 +5533,15 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       });
     }
 
-    Tt.prototype.setBridgeName = function setBridgeName(t) {
+    It.prototype.setBridgeName = function setBridgeName(t) {
       document.getElementById("bridge-name").innerText = t;
     };
 
-    Tt.prototype.select = function select() {
+    It.prototype.select = function select() {
       this.updateState();
     };
 
-    Tt.prototype.applyState = function applyState() {
+    It.prototype.applyState = function applyState() {
       var _this19 = this;
 
       this.state.forEach(function (t) {
@@ -5515,7 +5549,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       });
     };
 
-    Tt.prototype.updateState = function updateState() {
+    It.prototype.updateState = function updateState() {
       var _this20 = this;
 
       this.state = [], this.dropdowns.forEach(function (t) {
@@ -5523,18 +5557,18 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }), Cookies.set("hue-state", this.state, { expires: 30 });
     };
 
-    Tt.prototype.obtainSelection = function obtainSelection(t) {
+    It.prototype.obtainSelection = function obtainSelection(t) {
       var e = t.dataset.bulb,
           n = t.options[t.selectedIndex].dataset.light;return { selectedIndex: t.selectedIndex, bulb: e, value: n };
     };
 
-    Tt.prototype.getBulbStateById = function getBulbStateById(t) {
+    It.prototype.getBulbStateById = function getBulbStateById(t) {
       return this.state.forEach(function (e) {
         if (e.id == t) return e;
       }), -1;
     };
 
-    Tt.prototype.getInputById = function getInputById(t) {
+    It.prototype.getInputById = function getInputById(t) {
       var _iteratorNormalCompletion14 = true;
       var _didIteratorError14 = false;
       var _iteratorError14 = undefined;
@@ -5560,11 +5594,11 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }
     };
 
-    Tt.prototype.getHueIdFromId = function getHueIdFromId(t) {
+    It.prototype.getHueIdFromId = function getHueIdFromId(t) {
       return this.state[parseInt(t)].value;
     };
 
-    Tt.prototype.setLightNamesAndIds = function setLightNamesAndIds(t) {
+    It.prototype.setLightNamesAndIds = function setLightNamesAndIds(t) {
       var e = "";t.forEach(function (t) {
         e += "<option data-light='" + t.id + "'>" + t.name + "</option>";
       }), this.dropdowns.forEach(function (t) {
@@ -5572,38 +5606,38 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       });
     };
 
-    return Tt;
+    return It;
   }();
 
-  var It = [],
-      _t = { "&4": "font-weight:normal;text-decoration:none;color:#be0000", "&c": "font-weight:normal;text-decoration:none;color:#fe3f3f", "&6": "font-weight:normal;text-decoration:none;color:#d9a334", "&e": "font-weight:normal;text-decoration:none;color:#fefe3f", "&2": "font-weight:normal;text-decoration:none;color:#00be00", "&a": "font-weight:normal;text-decoration:none;color:#3ffe3f", "&b": "font-weight:normal;text-decoration:none;color:#3ffefe", "&3": "font-weight:normal;text-decoration:none;color:#00bebe", "&1": "font-weight:normal;text-decoration:none;color:#0000be", "&9": "font-weight:normal;text-decoration:none;color:#3f3ffe", "&d": "font-weight:normal;text-decoration:none;color:#fe3ffe", "&5": "font-weight:normal;text-decoration:none;color:#be00be", "&f": "font-weight:normal;text-decoration:none;color:#ffffff", "&7": "font-weight:normal;text-decoration:none;color:#bebebe", "&8": "font-weight:normal;text-decoration:none;color:#3f3f3f", "&0": "font-weight:normal;text-decoration:none;color:#000000", "&l": "font-weight:bold", "&n": "text-decoration:underline;text-decoration-skip:spaces", "&o": "font-style:italic", "&m": "text-decoration:line-through;text-decoration-skip:spaces" };String.prototype.replaceColorCodes = function () {
+  var _t = [],
+      Pt = { "&4": "font-weight:normal;text-decoration:none;color:#be0000", "&c": "font-weight:normal;text-decoration:none;color:#fe3f3f", "&6": "font-weight:normal;text-decoration:none;color:#d9a334", "&e": "font-weight:normal;text-decoration:none;color:#fefe3f", "&2": "font-weight:normal;text-decoration:none;color:#00be00", "&a": "font-weight:normal;text-decoration:none;color:#3ffe3f", "&b": "font-weight:normal;text-decoration:none;color:#3ffefe", "&3": "font-weight:normal;text-decoration:none;color:#00bebe", "&1": "font-weight:normal;text-decoration:none;color:#0000be", "&9": "font-weight:normal;text-decoration:none;color:#3f3ffe", "&d": "font-weight:normal;text-decoration:none;color:#fe3ffe", "&5": "font-weight:normal;text-decoration:none;color:#be00be", "&f": "font-weight:normal;text-decoration:none;color:#ffffff", "&7": "font-weight:normal;text-decoration:none;color:#bebebe", "&8": "font-weight:normal;text-decoration:none;color:#3f3f3f", "&0": "font-weight:normal;text-decoration:none;color:#000000", "&l": "font-weight:bold", "&n": "text-decoration:underline;text-decoration-skip:spaces", "&o": "font-style:italic", "&m": "text-decoration:line-through;text-decoration-skip:spaces" };String.prototype.replaceColorCodes = function () {
     return function () {
-      for (var _t25 = It.length; _t25--;) {
-        clearInterval(It[_t25]);
-      }It = [];
-    }(), H(this + "");
+      for (var _t25 = _t.length; _t25--;) {
+        clearInterval(_t[_t25]);
+      }_t = [];
+    }(), z(this + "");
   };
-  var Pt = function () {
-    function Pt(t) {
-      _classCallCheck(this, Pt);
+  var At = function () {
+    function At(t) {
+      _classCallCheck(this, At);
 
       this.host = t;
     }
 
-    Pt.prototype.route = function route(t) {
+    At.prototype.route = function route(t) {
       var _this21 = this;
 
       return new Promise(function (e, n) {
-        _this21.tokenSet = new mt().fromCache(), "ACCOUNT" === _this21.tokenSet.scope && (s("Using account based profile system..."), function (t, e, n, r) {
+        _this21.tokenSet = new vt().fromCache(), "ACCOUNT" === _this21.tokenSet.scope && (s("Using account based profile system..."), function (t, e, n, r) {
           S("https://cloud.openaudiomc.net/api/v3/account-services/client/login/" + r.publicServerKey).then(function (r) {
             r.json().then(function (r) {
-              if (null == r.errors || 0 != r.errors.length) return n(r.errors), void console.log(r.errors);var i = r.response;if (i.settings.banned) return void x("Declined connection due to ban " + window.location.host, "Steve", function () {
+              if (null == r.errors || 0 != r.errors.length) return n(r.errors), void console.log(r.errors);var i = r.response;if (i.settings.banned) return void E("Declined connection due to ban " + window.location.host, "Steve", function () {
                 window.location.href = "https://help.openaudiomc.net/blocked_domain.html";
               });var o = i.secureEndpoint;s("accepting and applying settings");var a = i.settings.ambianceSound;null != i.settings.backgroundImage && "" != i.settings.backgroundImage && (i.settings.backgroundImage = "https://media.openaudiomc.net/proxy?apiurl=" + i.settings.backgroundImage);var u = i.settings.backgroundImage;"" !== u && (document.getElementById("banner-image").src = u);var c = i.settings.title,
                   l = i.settings.activeMessage,
-                  h = i.settings.errorMessage;var d = "";H(h).childNodes.forEach(function (t) {
+                  h = i.settings.errorMessage;var d = "";z(h).childNodes.forEach(function (t) {
                 d += t.outerHTML;
-              });var f = "";H(l).childNodes.forEach(function (t) {
+              });var f = "";z(l).childNodes.forEach(function (t) {
                 f += t.outerHTML;
               }), "" !== h && (t.getMessages().errorMessage = d), "" !== l && (t.getMessages().welcomeMessage = f);var p = i.settings.welcomeMessage;p = p.replace("%name", t.tokenSet.name), document.getElementById("initialize-text").innerHTML = p, document.getElementById("initialize-button").innerHTML = i.settings.startButton, document.documentElement.style.setProperty("--border-color-dark", i.settings.color);var g = function (t, e) {
                 var n = t.replace("#", "");return "rgba(" + parseInt(n.substring(0, 2), 16) + "," + parseInt(n.substring(2, 4), 16) + "," + parseInt(n.substring(4, 6), 16) + ",0.4)";
@@ -5622,54 +5656,54 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       });
     };
 
-    return Pt;
+    return At;
   }();
 
-  var At = function () {
-    function At(t) {
-      _classCallCheck(this, At);
+  var Nt = function () {
+    function Nt(t) {
+      _classCallCheck(this, Nt);
 
       this.main = t, this.requestBox = null, "Notification" in window && this.setupPermissions();
     }
 
-    At.prototype.setupPermissions = function setupPermissions() {
+    Nt.prototype.setupPermissions = function setupPermissions() {
       var _this22 = this;
 
-      "granted" === Notification.permission || "denied" !== Notification.permission && (this.requestBox = new st("#alert-area", { closeTime: 6e4, persistent: !1, hideCloseButton: !0 }), this.requestBox.show('<div style="text-align: center;"><b>Welcome!</b> you can enable push notifications to get notified when you get a call or the server sends you a message. To get them setup, press the button below.<br/><br/><span id="noti-perm-request-link" class="alert-message-button">Setup</span></div>'), r(function () {
+      "granted" === Notification.permission || "denied" !== Notification.permission && (this.requestBox = new at("#alert-area", { closeTime: 6e4, persistent: !1, hideCloseButton: !0 }), this.requestBox.show('<div style="text-align: center;"><b>Welcome!</b> you can enable push notifications to get notified when you get a call or the server sends you a message. To get them setup, press the button below.<br/><br/><span id="noti-perm-request-link" class="alert-message-button">Setup</span></div>'), r(function () {
         document.getElementById("noti-perm-request-link").onclick = _this22.requestNotificationPermissions;
       }));
     };
 
-    At.prototype.sendNotification = function sendNotification(t, e) {
+    Nt.prototype.sendNotification = function sendNotification(t, e) {
       new Notification(t, { body: e, icon: "https://minotar.net/helm/" + this.main.tokenSet.name });
     };
 
-    At.prototype.requestNotificationPermissions = function requestNotificationPermissions() {
+    Nt.prototype.requestNotificationPermissions = function requestNotificationPermissions() {
       var _this23 = this;
 
       Notification.requestPermission().then(function (t) {
-        "granted" === t && (_this23.requestBox.hide(), new st("#alert-area", { closeTime: 1500, persistent: !1, hideCloseButton: !0 }).show("Hurray! you'll now receive notifications"), _this23.sendNotification("Testing testing 123", "It worked! you have configured Notifications correctly!"));
+        "granted" === t && (_this23.requestBox.hide(), new at("#alert-area", { closeTime: 1500, persistent: !1, hideCloseButton: !0 }).show("Hurray! you'll now receive notifications"), _this23.sendNotification("Testing testing 123", "It worked! you have configured Notifications correctly!"));
       });
     };
 
-    return At;
+    return Nt;
   }();
 
-  var Nt = n(132);var Rt = null;
-  var Lt = function Lt(t, e, n) {
-    _classCallCheck(this, Lt);
+  var Rt = n(132);var Lt = null;
+  var Ft = function Ft(t, e, n) {
+    _classCallCheck(this, Ft);
 
     this.x = t || 0, this.y = e || 0, this.z = n || 0;
   };
 
-  var Ft = function () {
-    function Ft(t, e, n, r) {
-      _classCallCheck(this, Ft);
+  var Bt = function () {
+    function Bt(t, e, n, r) {
+      _classCallCheck(this, Bt);
 
       this.x = t || 0, this.y = e || 0, this.z = n || 0, this.w = void 0 === r ? 1 : r;
     }
 
-    Ft.prototype.setFromEuler = function setFromEuler(t) {
+    Bt.prototype.setFromEuler = function setFromEuler(t) {
       var e = Math.sin,
           n = Math.cos;var r = t.x,
           i = t.y,
@@ -5682,131 +5716,131 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
           h = e(o / 2);return this.x = c * a * u + s * l * h, this.y = s * l * u - c * a * h, this.z = s * a * h + c * l * u, this.w = s * a * u - c * l * h, this;
     };
 
-    return Ft;
-  }();
-
-  var Bt = function () {
-    function Bt() {
-      var t = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new kt();
-      var e = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new Ft();
-
-      _classCallCheck(this, Bt);
-
-      this.position = t, this.rotation = e;
-    }
-
-    Bt.prototype.applyTo = function applyTo(t) {
-      var e = this.position,
-          n = new kt(0, 0, 1).applyQuaternion(this.rotation),
-          r = new kt(0, 1, 0).applyQuaternion(this.rotation);t.positionX ? (t.positionX.value = e.x, t.positionY.value = e.y, t.positionZ.value = e.z) : t.setPosition(e.x, e.y, e.z), t instanceof PannerNode ? t.orientationX ? (t.orientationX.value = n.x, t.orientationY.value = n.y, t.orientationZ.value = n.z) : t.setOrientation(n.x, n.y, n.z) : t.forwardX ? (t.forwardX.value = n.x, t.forwardY.value = n.y, t.forwardZ.value = n.z, t.upX.value = r.x, t.upY.value = r.y, t.upZ.value = r.z) : t.setOrientation(n.x, n.y, n.z, r.x, r.y, r.z);
-    };
-
     return Bt;
   }();
 
   var Dt = function () {
-    function Dt(t, e, n, r) {
+    function Dt() {
+      var t = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Ct();
+      var e = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new Bt();
+
       _classCallCheck(this, Dt);
 
-      this.world = t, this.audioCtx = new AudioContext(), this.listener = this.audioCtx.listener, this.updateLocation(e, n, r);
+      this.position = t, this.rotation = e;
     }
 
-    Dt.prototype.updateLocation = function updateLocation(t, e, n) {
-      this.location = t, this.pitch = this.toRadians(e), this.yaw = this.toRadians(this.normalizeYaw(360 - n));var r = new Lt(this.pitch, this.yaw, 0),
-          i = new Ft();i.setFromEuler(r);new Bt(t, i).applyTo(this.listener), this.world.onLocationUpdate();
-    };
-
-    Dt.prototype.toRadians = function toRadians(t) {
-      return t * (Math.PI / 180);
-    };
-
-    Dt.prototype.normalizeYaw = function normalizeYaw(t) {
-      return 0 > (t %= 360) && (t += 360), t;
+    Dt.prototype.applyTo = function applyTo(t) {
+      var e = this.position,
+          n = new Ct(0, 0, 1).applyQuaternion(this.rotation),
+          r = new Ct(0, 1, 0).applyQuaternion(this.rotation);t.positionX ? (t.positionX.value = e.x, t.positionY.value = e.y, t.positionZ.value = e.z) : t.setPosition(e.x, e.y, e.z), t instanceof PannerNode ? t.orientationX ? (t.orientationX.value = n.x, t.orientationY.value = n.y, t.orientationZ.value = n.z) : t.setOrientation(n.x, n.y, n.z) : t.forwardX ? (t.forwardX.value = n.x, t.forwardY.value = n.y, t.forwardZ.value = n.z, t.upX.value = r.x, t.upY.value = r.y, t.upZ.value = r.z) : t.setOrientation(n.x, n.y, n.z, r.x, r.y, r.z);
     };
 
     return Dt;
   }();
 
-  var jt = function jt(t, e, n) {
-    _classCallCheck(this, jt);
+  var jt = function () {
+    function jt(t, e, n, r) {
+      _classCallCheck(this, jt);
+
+      this.world = t, this.audioCtx = new AudioContext(), this.listener = this.audioCtx.listener, this.updateLocation(e, n, r);
+    }
+
+    jt.prototype.updateLocation = function updateLocation(t, e, n) {
+      this.location = t, this.pitch = this.toRadians(e), this.yaw = this.toRadians(this.normalizeYaw(360 - n));var r = new Ft(this.pitch, this.yaw, 0),
+          i = new Bt();i.setFromEuler(r);new Dt(t, i).applyTo(this.listener), this.world.onLocationUpdate();
+    };
+
+    jt.prototype.toRadians = function toRadians(t) {
+      return t * (Math.PI / 180);
+    };
+
+    jt.prototype.normalizeYaw = function normalizeYaw(t) {
+      return 0 > (t %= 360) && (t += 360), t;
+    };
+
+    return jt;
+  }();
+
+  var Ut = function Ut(t, e, n) {
+    _classCallCheck(this, Ut);
 
     this.source = t, this.distance = e, this.speaker = n;
   };
 
-  var Ut = "SPEAKER_2D";
-  var Vt = function Vt(t, e, n, r) {
-    _classCallCheck(this, Vt);
+  var Vt = "SPEAKER_2D";
+  var Ht = function Ht(t, e, n, r) {
+    _classCallCheck(this, Ht);
 
-    this.pannerNode = n.audioCtx.createPanner(), this.media = r, r.addNode(n, this.pannerNode), this.pannerNode.panningModel = "HRTF", this.pannerNode.rolloffFactor = .9, this.pannerNode.distanceModel = "linear", this.pannerNode.maxDistance = t.maxDistance;var i = t.location;new Bt(i).applyTo(this.pannerNode), this.pannerNode.connect(n.audioCtx.destination);
+    this.pannerNode = n.audioCtx.createPanner(), this.media = r, r.addNode(n, this.pannerNode), this.pannerNode.panningModel = "HRTF", this.pannerNode.rolloffFactor = .9, this.pannerNode.distanceModel = "linear", this.pannerNode.maxDistance = t.maxDistance;var i = t.location;new Dt(i).applyTo(this.pannerNode), this.pannerNode.connect(n.audioCtx.destination);
   };
 
-  var Ht = function () {
-    function Ht(t, e, n) {
+  var zt = function () {
+    function zt(t, e, n) {
       var _this24 = this;
 
-      _classCallCheck(this, Ht);
+      _classCallCheck(this, zt);
 
-      this.id = "SPEAKER__" + e, this.openAudioMc = t, this.speakerNodes = new Map();var r = new ut(this.id);r.trackable = !0, this.channel = r;var i = new St(e);this.media = i, i.openAudioMc = t, i.setOa(t), r.mixer = this.openAudioMc.getMediaManager().mixer, r.addSound(i), r.setChannelVolume(0), i.startDate(n, !0), i.finalize().then(function () {
+      this.id = "SPEAKER__" + e, this.openAudioMc = t, this.speakerNodes = new Map();var r = new ct(this.id);r.trackable = !0, this.channel = r;var i = new xt(e);this.media = i, i.openAudioMc = t, i.setOa(t), r.mixer = this.openAudioMc.getMediaManager().mixer, r.addSound(i), r.setChannelVolume(0), i.startDate(n, !0), i.finalize().then(function () {
         t.getMediaManager().mixer.addChannel(r), i.setLooping(!0), r.setTag(_this24.id), r.setTag("SPECIAL"), _this24.openAudioMc.getMediaManager().mixer.updateCurrent(), i.startDate(n, !0), i.finish();
       });
     }
 
-    Ht.prototype.removeSpeakerLocation = function removeSpeakerLocation(t) {
+    zt.prototype.removeSpeakerLocation = function removeSpeakerLocation(t) {
       null != this.speakerNodes.get(t) && this.speakerNodes.delete(t);
     };
 
-    Ht.prototype.updateLocation = function updateLocation(t, e, n) {
-      if (t.type == Ut) {
+    zt.prototype.updateLocation = function updateLocation(t, e, n) {
+      if (t.type == Vt) {
         var _r5 = t.getDistance(e, n),
             _i3 = this._convertDistanceToVolume(t.maxDistance, _r5);if (0 >= _i3) return;this.channel.fadeChannel(_i3, 100);
-      } else this.speakerNodes.has(t.id) || (this.channel.fadeChannel(100, 100), this.speakerNodes.set(t.id, new Vt(t, e, n, this.media)));
+      } else this.speakerNodes.has(t.id) || (this.channel.fadeChannel(100, 100), this.speakerNodes.set(t.id, new Ht(t, e, n, this.media)));
     };
 
-    Ht.prototype._convertDistanceToVolume = function _convertDistanceToVolume(t, e) {
-      return J((t - e) / t * 100);
+    zt.prototype._convertDistanceToVolume = function _convertDistanceToVolume(t, e) {
+      return Y((t - e) / t * 100);
     };
 
-    Ht.prototype.remove = function remove() {
+    zt.prototype.remove = function remove() {
       this.openAudioMc.getMediaManager().destroySounds(this.id, !1);
     };
 
-    return Ht;
+    return zt;
   }();
 
-  var zt = function () {
-    function zt(t) {
-      _classCallCheck(this, zt);
+  var Gt = function () {
+    function Gt(t) {
+      _classCallCheck(this, Gt);
 
-      this.openAudioMc = t, this.speakers = new Map(), this.audioMap = new Map(), this.player = new Dt(this, new kt(0, 0, 0), 0, 0);
+      this.openAudioMc = t, this.speakers = new Map(), this.audioMap = new Map(), this.player = new jt(this, new Ct(0, 0, 0), 0, 0);
     }
 
-    zt.prototype.getSpeakerById = function getSpeakerById(t) {
+    Gt.prototype.getSpeakerById = function getSpeakerById(t) {
       return this.speakers.get(t);
     };
 
-    zt.prototype.addSpeaker = function addSpeaker(t, e) {
+    Gt.prototype.addSpeaker = function addSpeaker(t, e) {
       this.speakers.set(t, e), this.renderAudio2D();
     };
 
-    zt.prototype.removeSpeaker = function removeSpeaker(t) {
+    Gt.prototype.removeSpeaker = function removeSpeaker(t) {
       this.speakers.delete(t), this.audioMap.forEach(function (t, e) {
         t.removeSpeakerLocation(e);
       }), this.renderAudio2D();
     };
 
-    zt.prototype.getMediaForSource = function getMediaForSource(t, e) {
-      var n = this.audioMap.get(t);if (null != n) return n;if (null == e) return null;var r = new Ht(this.openAudioMc, t, e);return this.audioMap.set(t, r), r;
+    Gt.prototype.getMediaForSource = function getMediaForSource(t, e) {
+      var n = this.audioMap.get(t);if (null != n) return n;if (null == e) return null;var r = new zt(this.openAudioMc, t, e);return this.audioMap.set(t, r), r;
     };
 
-    zt.prototype.removeMediaFromSource = function removeMediaFromSource(t) {
+    Gt.prototype.removeMediaFromSource = function removeMediaFromSource(t) {
       var e = this.getMediaForSource(t);null == e || (e.remove(), this.audioMap.delete(t));
     };
 
-    zt.prototype.onLocationUpdate = function onLocationUpdate() {
+    Gt.prototype.onLocationUpdate = function onLocationUpdate() {
       this.renderAudio2D();
     };
 
-    zt.prototype.isMediaUsed = function isMediaUsed(t) {
+    Gt.prototype.isMediaUsed = function isMediaUsed(t) {
       var _iteratorNormalCompletion15 = true;
       var _didIteratorError15 = false;
       var _iteratorError15 = undefined;
@@ -5834,11 +5868,11 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       return !1;
     };
 
-    zt.prototype.renderAudio2D = function renderAudio2D() {
+    Gt.prototype.renderAudio2D = function renderAudio2D() {
       var _this25 = this;
 
       var t = [];this.speakers.forEach(function (e) {
-        var n = e.getDistance(_this25, _this25.player);t.push(new jt(e.source, n, e));
+        var n = e.getDistance(_this25, _this25.player);t.push(new Ut(e.source, n, e));
       });var e = new Map();var _iteratorNormalCompletion16 = true;
       var _didIteratorError16 = false;
       var _iteratorError16 = undefined;
@@ -5846,7 +5880,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       try {
         for (var _iterator16 = t[Symbol.iterator](), _step16; !(_iteratorNormalCompletion16 = (_step16 = _iterator16.next()).done); _iteratorNormalCompletion16 = true) {
           var _n6 = _step16.value;
-          var _t27 = e.get(_n6.source);null != _t27 ? Array.isArray(_t27) ? (_t27.push(_n6), e.set(_n6.source, _t27)) : _t27.distance > _n6.distance && _n6.distance <= _n6.speaker.maxDistance && e.set(_n6.source, _n6) : _n6.speaker.type == Ut ? _n6.distance <= _n6.speaker.maxDistance && e.set(_n6.source, _n6) : _n6.distance <= _n6.speaker.maxDistance && e.set(_n6.source, [_n6]);
+          var _t27 = e.get(_n6.source);null != _t27 ? Array.isArray(_t27) ? (_t27.push(_n6), e.set(_n6.source, _t27)) : _t27.distance > _n6.distance && _n6.distance <= _n6.speaker.maxDistance && e.set(_n6.source, _n6) : _n6.speaker.type == Vt ? _n6.distance <= _n6.speaker.maxDistance && e.set(_n6.source, _n6) : _n6.distance <= _n6.speaker.maxDistance && e.set(_n6.source, [_n6]);
         }
       } catch (err) {
         _didIteratorError16 = true;
@@ -5892,17 +5926,17 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       });
     };
 
-    return zt;
+    return Gt;
   }();
 
-  var Gt = function () {
-    function Gt() {
-      _classCallCheck(this, Gt);
+  var Wt = function () {
+    function Wt() {
+      _classCallCheck(this, Wt);
 
       this.successCallback = alert, this.errorCallback = alert;
     }
 
-    Gt.prototype.getUserMedia = function getUserMedia(t) {
+    Wt.prototype.getUserMedia = function getUserMedia(t) {
       var _this26 = this;
 
       return null == navigator.getUserMedia ? null == navigator.webkitGetUserMedia ? null == navigator.mediaDevices.getUserMedia ? null == navigator.msGetUserMedia ? void console.error("Unknown user media platform!") : void nnavigator.msGetUserMedia(t, this.successCallback, this.errorCallback) : void navigator.mediaDevices.getUserMedia(t).then(function (t) {
@@ -5912,67 +5946,67 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }) : void navigator.webkitGetUserMedia(t, this.successCallback, this.errorCallback) : void navigator.getUserMedia(t, this.successCallback, this.errorCallback);
     };
 
-    return Gt;
+    return Wt;
   }();
 
-  var Wt = {};window.handlePeerVolumeEvent = function (t) {
-    var e = Wt[t.id];null != e && e(t);
-  };var qt = 0;
-  var Kt = function () {
-    function Kt(t, e, n, r, i) {
+  var qt = {};window.handlePeerVolumeEvent = function (t) {
+    var e = qt[t.id];null != e && e(t);
+  };var Kt = 0;
+  var Jt = function () {
+    function Jt(t, e, n, r, i) {
       var _this27 = this;
 
-      _classCallCheck(this, Kt);
+      _classCallCheck(this, Jt);
 
-      this.openAudioMc = t, this.playerName = e, this.onVolumeChange = i, this.removed = !1;var o = '\n        <div class="flex items-center p-2" id="vc-user-card-' + e + '">\n            <div class="w-12 h-12 rounded-full mr-3 overflow-hidden flex items-center" id="vc-user-card-' + e + '-indicator">\n                <img id="vc-user-card-' + e + '-picture" src="https://visage.surgeplay.com/bust/512/' + n + '" class="w-16">\n            </div>\n            <div class="flex-1">\n                <div class="flex items-center">\n                    <div class="font-semibold text-normal text-teal-500"><svg id="vc-user-card-' + e + '-muted" class="h-8 w-8 text-red-500" style="display: none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="1" y1="1" x2="23" y2="23" /> <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6" /> <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23" /> <line x1="12" y1="19" x2="12" y2="23" /> <line x1="8" y1="23" x2="16" y2="23" /></svg>' + e + ' <small id="vc-user-card-' + e + '-volume-disp">(' + r + '% volume)</small>\n                    </div>\n                </div>\n                <div><input id="vc-user-card-' + e + '-volume-input" oninput="handlePeerVolumeEvent(this)"\n                            class="rounded-lg overflow-hidden appearance-none bg-gray-400 h-3 w-full"\n                            type="range" min="0" max="120" step="1" value="' + r + '"/></div>\n            </div>\n        </div>\n        ';document.getElementById("vc-call-members").innerHTML += o, qt++, G(), Wt["vc-user-card-" + this.playerName + "-volume-input"] = function (t) {
+      this.openAudioMc = t, this.playerName = e, this.onVolumeChange = i, this.removed = !1;var o = '\n        <div class="flex items-center p-2" id="vc-user-card-' + e + '">\n            <div class="w-12 h-12 rounded-full mr-3 overflow-hidden flex items-center" id="vc-user-card-' + e + '-indicator">\n                <img id="vc-user-card-' + e + '-picture" src="https://visage.surgeplay.com/bust/512/' + n + '" class="w-16">\n            </div>\n            <div class="flex-1">\n                <div class="flex items-center">\n                    <div class="font-semibold text-normal text-teal-500"><svg id="vc-user-card-' + e + '-muted" class="h-8 w-8 text-red-500" style="display: none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="1" y1="1" x2="23" y2="23" /> <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6" /> <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23" /> <line x1="12" y1="19" x2="12" y2="23" /> <line x1="8" y1="23" x2="16" y2="23" /></svg>' + e + ' <small id="vc-user-card-' + e + '-volume-disp">(' + r + '% volume)</small>\n                    </div>\n                </div>\n                <div><input id="vc-user-card-' + e + '-volume-input" oninput="handlePeerVolumeEvent(this)"\n                            class="rounded-lg overflow-hidden appearance-none bg-gray-400 h-3 w-full"\n                            type="range" min="0" max="120" step="1" value="' + r + '"/></div>\n            </div>\n        </div>\n        ';document.getElementById("vc-call-members").innerHTML += o, Kt++, W(), qt["vc-user-card-" + this.playerName + "-volume-input"] = function (t) {
         this.callingSliderUpdate(t);
       }.bind(this), setTimeout(function () {
         _this27.updatePlaceholder();
       }, 10);
     }
 
-    Kt.prototype.callingSliderUpdate = function callingSliderUpdate() {
+    Jt.prototype.callingSliderUpdate = function callingSliderUpdate() {
       if (!this.removed) {
         var t = document.getElementById("vc-user-card-" + this.playerName + "-volume-input").value;this.onVolumeChange(t), this.updateVolumeDisplay(t);
       }
     };
 
-    Kt.prototype.updatePlaceholder = function updatePlaceholder() {
+    Jt.prototype.updatePlaceholder = function updatePlaceholder() {
       document.getElementById("empty-call-placeholder").style.display = 0 == this.openAudioMc.voiceModule.peerMap.size ? "" : "none";
     };
 
-    Kt.prototype.remove = function remove() {
-      qt--, G(), this.removed = !0, document.getElementById("vc-call-members").removeChild(document.getElementById("vc-user-card-" + this.playerName)), this.updatePlaceholder(), delete Wt["vc-user-card-" + this.playerName + "-volume-input"];
+    Jt.prototype.remove = function remove() {
+      Kt--, W(), this.removed = !0, document.getElementById("vc-call-members").removeChild(document.getElementById("vc-user-card-" + this.playerName)), this.updatePlaceholder(), delete qt["vc-user-card-" + this.playerName + "-volume-input"];
     };
 
-    Kt.prototype.setVisuallyTalking = function setVisuallyTalking(t) {
+    Jt.prototype.setVisuallyTalking = function setVisuallyTalking(t) {
       this.removed || (t ? (document.getElementById("vc-user-card-" + this.playerName + "-indicator").style.backgroundColor = "lime", document.getElementById("vc-user-card-" + this.playerName + "-indicator").style.boxShadow = "0 0 10pt 2pt lime") : (document.getElementById("vc-user-card-" + this.playerName + "-indicator").style.boxShadow = "", document.getElementById("vc-user-card-" + this.playerName + "-indicator").style.backgroundColor = ""));
     };
 
-    Kt.prototype.setVisuallyMuted = function setVisuallyMuted(t) {
+    Jt.prototype.setVisuallyMuted = function setVisuallyMuted(t) {
       this.removed || (t ? (document.getElementById("vc-user-card-" + this.playerName + "-picture").style.opacity = "0.2", document.getElementById("vc-user-card-" + this.playerName + "-muted").style.display = "inline") : (document.getElementById("vc-user-card-" + this.playerName + "-picture").style.opacity = "1", document.getElementById("vc-user-card-" + this.playerName + "-muted").style.display = "none"));
     };
 
-    Kt.prototype.updateVolumeDisplay = function updateVolumeDisplay(t) {
+    Jt.prototype.updateVolumeDisplay = function updateVolumeDisplay(t) {
       this.removed || (document.getElementById("vc-user-card-" + this.playerName + "-volume-disp").innerText = "(" + t + "% volume)");
     };
 
-    return Kt;
+    return Jt;
   }();
 
-  var Jt = n(60);
-  var Yt = function () {
-    function Yt(t, e, n, r, i, o) {
-      _classCallCheck(this, Yt);
+  var Yt = n(60);
+  var Xt = function () {
+    function Xt(t, e, n, r, i, o) {
+      _classCallCheck(this, Xt);
 
       this.openAudioMc = t, this.server = e, this.streamKey = n, this.peerStreamKey = r, this.volume = i, this.volBooster = 1.2, this.uiInst = o, this.harkEvents = null;
     }
 
-    Yt.prototype.start = function start(t) {
+    Xt.prototype.start = function start(t) {
       var _this28 = this;
 
       var e = this.openAudioMc.voiceModule.peerManager.requestStream(this.peerStreamKey);e.onFinish(function (e) {
-        var n = _this28.openAudioMc.world.player.audioCtx;_this28.setVolume(_this28.volume), _this28.gainNode = n.createGain(), _this28.audio = new Audio(), _this28.audio.autoplay = !0, _this28.audio.srcObject = e, _this28.gainNode.gain.value = _this28.volume / 100 * _this28.volBooster, window.debugAudio = _this28.audio, _this28.audio.muted = !0;var r = n.createMediaStreamSource(_this28.audio.srcObject);if (_this28.harkEvents = Object(Jt.a)(e, {}), _this28.harkEvents.setThreshold(-75), _this28.harkEvents.on("speaking", function () {
+        var n = _this28.openAudioMc.world.player.audioCtx;_this28.setVolume(_this28.volume), _this28.gainNode = n.createGain(), _this28.audio = new Audio(), _this28.audio.autoplay = !0, _this28.audio.srcObject = e, _this28.gainNode.gain.value = _this28.volume / 100 * _this28.volBooster, window.debugAudio = _this28.audio, _this28.audio.muted = !0;var r = n.createMediaStreamSource(_this28.audio.srcObject);if (_this28.harkEvents = Object(Yt.a)(e, {}), _this28.harkEvents.setThreshold(-75), _this28.harkEvents.on("speaking", function () {
           _this28.uiInst.setVisuallyTalking(!0);
         }), _this28.harkEvents.on("stopped_speaking", function () {
           _this28.uiInst.setVisuallyTalking(!1);
@@ -5988,54 +6022,54 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       });
     };
 
-    Yt.prototype.setLocation = function setLocation(t, e, n, r) {
+    Xt.prototype.setLocation = function setLocation(t, e, n, r) {
       if (this.openAudioMc.voiceModule.useSurround) {
         if (r && null != this.pannerNode) {
-          new Bt(new kt(this.x, this.y, this.z)).applyTo(this.pannerNode);
+          new Dt(new Ct(this.x, this.y, this.z)).applyTo(this.pannerNode);
         } else r && s("Warning, attempted to update a peer location while the panner node is nil");this.x = t, this.y = e, this.z = n;
       }
     };
 
-    Yt.prototype.setVolume = function setVolume(t) {
+    Xt.prototype.setVolume = function setVolume(t) {
       this.volume = t, null != this.gainNode && (this.gainNode.gain.value = this.volume / 100 * this.volBooster);
     };
 
-    Yt.prototype.stop = function stop() {
-      null != this.audio && (this.audio.pause(), this.audio.src = null, this.audio.srcObject = null, this.gainNode.gain.value = 0), null != this.harkEvents && this.harkEvents.stop();
-    };
-
-    return Yt;
-  }();
-
-  var Xt = function () {
-    function Xt(t, e, n, r, i, o) {
-      var _this29 = this;
-
-      _classCallCheck(this, Xt);
-
-      this.openAudioMc = t, this.playerName = e, this.playerUuid = e, this.streamKey = r, this.active = !0, this.ready = !1, this.location = o, this.volume = 80;var s = Cookies.get("vc-volume-of-" + e);null != s && (this.volume = parseInt(s)), this.ui = new Kt(this.openAudioMc, e, n, this.volume, function (t) {
-        _this29.volume = t, Cookies.set("vc-volume-of-" + e, t, { expires: 30 }), _this29.ready && _this29.stream.setVolume(_this29.volume);
-      }), this.stream = new Yt(t, i, t.voiceModule.streamKey, r, this.volume, this.ui), this.stream.setLocation(o.x, o.y, o.z, !1), this.stream.start(function () {
-        return _this29.active ? (_this29.stream.setVolume(_this29.volume), void (_this29.ready = !0)) : void _this29.stop();
-      });
-    }
-
-    Xt.prototype.updateLocation = function updateLocation(t, e, n) {
-      this.stream.setLocation(t, e, n, !0);
-    };
-
     Xt.prototype.stop = function stop() {
-      null != this.openAudioMc.voiceModule.peerManager && this.openAudioMc.voiceModule.peerManager.dropStream(this.streamKey), this.active = !1, this.ui.remove(), null != this.stream && this.stream.stop();
+      null != this.audio && (this.audio.pause(), this.audio.src = null, this.audio.srcObject = null, this.gainNode.gain.value = 0), null != this.harkEvents && this.harkEvents.stop();
     };
 
     return Xt;
   }();
 
   var $t = function () {
-    function $t(t, e, n) {
-      var _this30 = this;
+    function $t(t, e, n, r, i, o) {
+      var _this29 = this;
 
       _classCallCheck(this, $t);
+
+      this.openAudioMc = t, this.playerName = e, this.playerUuid = e, this.streamKey = r, this.active = !0, this.ready = !1, this.location = o, this.volume = 80;var s = Cookies.get("vc-volume-of-" + e);null != s && (this.volume = parseInt(s)), this.ui = new Jt(this.openAudioMc, e, n, this.volume, function (t) {
+        _this29.volume = t, Cookies.set("vc-volume-of-" + e, t, { expires: 30 }), _this29.ready && _this29.stream.setVolume(_this29.volume);
+      }), this.stream = new Xt(t, i, t.voiceModule.streamKey, r, this.volume, this.ui), this.stream.setLocation(o.x, o.y, o.z, !1), this.stream.start(function () {
+        return _this29.active ? (_this29.stream.setVolume(_this29.volume), void (_this29.ready = !0)) : void _this29.stop();
+      });
+    }
+
+    $t.prototype.updateLocation = function updateLocation(t, e, n) {
+      this.stream.setLocation(t, e, n, !0);
+    };
+
+    $t.prototype.stop = function stop() {
+      null != this.openAudioMc.voiceModule.peerManager && this.openAudioMc.voiceModule.peerManager.dropStream(this.streamKey), this.active = !1, this.ui.remove(), null != this.stream && this.stream.stop();
+    };
+
+    return $t;
+  }();
+
+  var Qt = function () {
+    function Qt(t, e, n) {
+      var _this30 = this;
+
+      _classCallCheck(this, Qt);
 
       this.id = t, this.onToggle = n, this.state = null == Cookies.get(t) ? e : JSON.parse(Cookies.get(t)), this.setVisuallyActive(this.state), r(function () {
         document.getElementById(_this30.id).checked = !_this30.state, document.getElementById(_this30.id).onclick = function () {
@@ -6044,29 +6078,29 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       });
     }
 
-    $t.prototype.setVisuallyActive = function setVisuallyActive(t) {
+    Qt.prototype.setVisuallyActive = function setVisuallyActive(t) {
       t ? (document.getElementById(this.id).style.backgroundColor = "", document.getElementById(this.id).style.color = "") : (document.getElementById(this.id).style.backgroundColor = "#EF4444", document.getElementById(this.id).style.color = "#F3F4F6");
     };
 
-    $t.prototype.getState = function getState() {
+    Qt.prototype.getState = function getState() {
       return this.state;
     };
 
-    $t.prototype.isOn = function isOn() {
+    Qt.prototype.isOn = function isOn() {
       return this.state;
     };
 
-    return $t;
+    return Qt;
   }();
 
-  var Qt = function () {
-    function Qt() {
-      _classCallCheck(this, Qt);
+  var Zt = function () {
+    function Zt() {
+      _classCallCheck(this, Zt);
 
       this.eventName = "", this.params = new Map();
     }
 
-    Qt.prototype.fromString = function fromString(t) {
+    Zt.prototype.fromString = function fromString(t) {
       this.original = t;var e = t.split("~");for (var _t30 = 0; _t30 < e.length; _t30++) {
         if (0 === _t30) this.eventName = e[_t30];else {
           var _n7 = e[_t30];if (-1 !== _n7.indexOf("=")) {
@@ -6076,23 +6110,23 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }return this;
     };
 
-    Qt.prototype.setParam = function setParam(t, e) {
+    Zt.prototype.setParam = function setParam(t, e) {
       return this.params.set(t, e), this;
     };
 
-    Qt.prototype.getParam = function getParam(t) {
+    Zt.prototype.getParam = function getParam(t) {
       return this.params.get(t);
     };
 
-    Qt.prototype.setEventName = function setEventName(t) {
-      return this.eventName = t, se.isProd || s("Building bus message " + t), this;
+    Zt.prototype.setEventName = function setEventName(t) {
+      return this.eventName = t, ae.isProd || s("Building bus message " + t), this;
     };
 
-    Qt.prototype.getEventName = function getEventName() {
+    Zt.prototype.getEventName = function getEventName() {
       return this.eventName;
     };
 
-    Qt.prototype.serialize = function serialize() {
+    Zt.prototype.serialize = function serialize() {
       var t = this.eventName + "~";var _iteratorNormalCompletion18 = true;
       var _didIteratorError18 = false;
       var _iteratorError18 = undefined;
@@ -6123,19 +6157,19 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       return t;
     };
 
-    Qt.prototype.trimmed = function trimmed() {
+    Zt.prototype.trimmed = function trimmed() {
       var t = this.eventName.length,
           e = "";for (var _n9, _r6 = 0; _r6 < this.original.length; _r6++) {
         _n9 = this.original.charAt(_r6), _r6 <= t || (e += _n9);
       }return e;
     };
 
-    return Qt;
+    return Zt;
   }();
 
-  var Zt = function () {
-    function Zt() {
-      _classCallCheck(this, Zt);
+  var te = function () {
+    function te() {
+      _classCallCheck(this, te);
 
       this.whenFinished = function () {
         s("A promised channel got finished before it got used");
@@ -6144,73 +6178,73 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }, this.error = null, this.payload = null;
     }
 
-    Zt.prototype.onFinish = function onFinish(t) {
+    te.prototype.onFinish = function onFinish(t) {
       return null == this.payload ? void (this.whenFinished = t) : void t(this.payload);
     };
 
-    Zt.prototype.onReject = function onReject(t) {
+    te.prototype.onReject = function onReject(t) {
       return null == this.error ? void (this.whenRejected = t) : void t(this.error);
     };
 
-    Zt.prototype.handleData = function handleData(t) {
+    te.prototype.handleData = function handleData(t) {
       this.payload = t, this.whenFinished(t);
     };
 
-    Zt.prototype.handleError = function handleError(t) {
+    te.prototype.handleError = function handleError(t) {
       this.error = t, this.whenRejected(t);
     };
 
-    return Zt;
+    return te;
   }();
 
-  var te = function () {
-    function te(t, e, n, r, i) {
+  var ee = function () {
+    function ee(t, e, n, r, i) {
       var _this31 = this;
 
-      _classCallCheck(this, te);
+      _classCallCheck(this, ee);
 
       this.openAudioMc = t, this.server = e, this.micProcessor = i, this.streamKey = n, this.waitingPromises = new Map(), this.trackQueue = new Map(), this.updateNegotiation = !0, this.micStream = r, this.isMuted = !1, document.getElementById("vc-mic-mute").onmousedown = function () {
         return _this31.muteCooldown ? void Swal.fire({ icon: "warning", text: "Please wait a moment before doing this again", backdrop: "", timer: 3e3 }) : void _this31.setMute(!_this31.isMuted);
       }, this.muteCooldown = !1;
     }
 
-    te.prototype.onStart = function onStart() {
-      s("Confluence started"), this.openAudioMc.socketModule.send(ot, { enabled: !0 });
+    ee.prototype.onStart = function onStart() {
+      s("Confluence started"), this.openAudioMc.socketModule.send(st, { enabled: !0 });
     };
 
-    te.prototype.dropStream = function dropStream(t) {
-      "open" === this.dataChannel.readyState ? this.dataChannel.send(new Qt().setEventName("DROP_STREAM").setParam("owner", t).serialize()) : s("Warning! can't drop a stream because the connection is closed");
+    ee.prototype.dropStream = function dropStream(t) {
+      "open" === this.dataChannel.readyState ? this.dataChannel.send(new Zt().setEventName("DROP_STREAM").setParam("owner", t).serialize()) : s("Warning! can't drop a stream because the connection is closed");
     };
 
-    te.prototype.requestStream = function requestStream(t) {
+    ee.prototype.requestStream = function requestStream(t) {
       if ("open" === this.dataChannel.readyState) {
-        var e = new Zt();return this.waitingPromises.set(t, e), this.dataChannel.send(new Qt().setEventName("REQUEST_STREAM").setParam("owner", t).serialize()), e;
+        var e = new te();return this.waitingPromises.set(t, e), this.dataChannel.send(new Zt().setEventName("REQUEST_STREAM").setParam("owner", t).serialize()), e;
       }{
-        s("Warning! attempted to request a stream for " + t + " but the eb is closed");var _e10 = new Zt();return _e10.handleError("Connection is closed"), _e10;
+        s("Warning! attempted to request a stream for " + t + " but the eb is closed");var _e10 = new te();return _e10.handleError("Connection is closed"), _e10;
       }
     };
 
-    te.prototype.initializeRenegotiation = function initializeRenegotiation() {
+    ee.prototype.initializeRenegotiation = function initializeRenegotiation() {
       var _this32 = this;
 
       this.lastNegotiationRequest = performance.now(), this.pcReceiver.createOffer().then(function (t) {
         return _this32.pcReceiver.setLocalDescription(t);
       }).then(function () {
         var t = JSON.stringify({ sdp: btoa(JSON.stringify(_this32.pcReceiver.localDescription)) }),
-            e = new Qt().setEventName("KICKSTART_RENEG").serialize();e += t, _this32.dataChannel.send(e);
+            e = new Zt().setEventName("KICKSTART_RENEG").serialize();e += t, _this32.dataChannel.send(e);
       }).catch(function (t) {
         _this32.openAudioMc.voiceModule.handleCrash(JSON.stringify(t.toJSON()));
       });
     };
 
-    te.prototype.handleRenagEnd = function handleRenagEnd() {
+    ee.prototype.handleRenagEnd = function handleRenagEnd() {
       if (null != this.lastNegotiationRequest) {
         var t = performance.now(),
             e = Math.ceil(t - this.lastNegotiationRequest);s("Renegotiation took " + e + " MS - " + (500 < e ? "Warning! Renegotiation took too long!" : ""));
       }
     };
 
-    te.prototype.registerDataChannel = function registerDataChannel(t, e) {
+    ee.prototype.registerDataChannel = function registerDataChannel(t, e) {
       var _this33 = this;
 
       t.addEventListener("open", function () {
@@ -6218,15 +6252,15 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }), t.addEventListener("close", function () {
         s("Closed RTC event bus");
       }), t.addEventListener("message", function (t) {
-        var n = t.data;var r = new Qt().fromString(n);switch (se.isProd || s("Handling bus " + r.getEventName()), r.getEventName()) {case "REQUEST_NEG_INIT":
+        var n = t.data;var r = new Zt().fromString(n);switch (ae.isProd || s("Handling bus " + r.getEventName()), r.getEventName()) {case "REQUEST_NEG_INIT":
             s("Server requested renag start"), _this33.initializeRenegotiation();break;case "NEGOTIATION_RESPONSE":
             var _t32 = r.trimmed(),
                 _n10 = JSON.parse(_t32);s("response was " + _t32.length), _this33.pcReceiver.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(_n10.sdp)))).then(function () {
-              _this33.handleRenagEnd(), _this33.dataChannel.send(new Qt().setEventName("CLIENT_CONFIRMED_NEG").serialize());
+              _this33.handleRenagEnd(), _this33.dataChannel.send(new Zt().setEventName("CLIENT_CONFIRMED_NEG").serialize());
             });break;case "PROCESS_OFFER":
             _this33.lastNegotiationRequest = performance.now();var _i4 = JSON.parse(r.trimmed());_this33.pcReceiver.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(_i4.sdp)))).then(function () {
               _this33.pcReceiver.createAnswer().then(function (t) {
-                var e = new Qt().setEventName("PROCESS_RESPONSE").serialize();e += btoa(JSON.stringify(t)), _this33.dataChannel.send(e), _this33.pcReceiver.setLocalDescription(t).catch(function (t) {
+                var e = new Zt().setEventName("PROCESS_RESPONSE").serialize();e += btoa(JSON.stringify(t)), _this33.dataChannel.send(e), _this33.pcReceiver.setLocalDescription(t).catch(function (t) {
                   _this33.openAudioMc.voiceModule.handleCrash(JSON.stringify(t.toJSON()));
                 });
               }).catch(function (t) {
@@ -6245,11 +6279,11 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       });
     };
 
-    te.prototype.contextEvent = function contextEvent(t) {
+    ee.prototype.contextEvent = function contextEvent(t) {
       var e = t.getParam("type");"client-muted" === e ? this.openAudioMc.voiceModule.peerMap.get(t.getParam("who")).ui.setVisuallyMuted(!0) : "client-unmuted" === e && this.openAudioMc.voiceModule.peerMap.get(t.getParam("who")).ui.setVisuallyMuted(!1);
     };
 
-    te.prototype.onInternalTrack = function onInternalTrack(t, e, n) {
+    ee.prototype.onInternalTrack = function onInternalTrack(t, e, n) {
       var _this34 = this;
 
       var r = t.id;if (!t.active) return void s("Received an inactive track! cancelling.");if (!this.trackQueue.has(r)) return void s("Received an unknown track called " + r + ". Ignoring it.");var i = this.trackQueue.get(r),
@@ -6258,15 +6292,15 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }, 1e3))) : (o.handleData(t), this.waitingPromises.delete(i), void this.trackQueue.delete(r));
     };
 
-    te.prototype.setup = function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(t) {
+    ee.prototype.setup = function () {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(t) {
         var _this35 = this;
 
         var e, n, r, i, _t33;
 
-        return regeneratorRuntime.wrap(function _callee$(_context) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 e = this.server + "webrtc/confluence/sdp/m/" + tokenCache.publicServerKey + "/pu/" + tokenCache.uuid + "/pn/" + tokenCache.name + "/sk/" + this.streamKey;
                 this.pcReceiver = new RTCPeerConnection();n = !1, r = function r(t) {
@@ -6296,20 +6330,20 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
                 }), window.rtcHook = this.pcReceiver;
               case 7:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee, this);
+        }, _callee2, this);
       }));
 
-      function setup(_x5) {
-        return _ref.apply(this, arguments);
+      function setup(_x7) {
+        return _ref2.apply(this, arguments);
       }
 
       return setup;
     }();
 
-    te.prototype.setMute = function setMute(t) {
+    ee.prototype.setMute = function setMute(t) {
       var _this36 = this;
 
       if (this.muteCooldown) Swal.fire("Please wait a moment before doing this again");else {
@@ -6317,49 +6351,49 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
           _this36.muteCooldown = !1;
         }, 500);for (var e = 0; e < this.micStream.getAudioTracks().length; e++) {
           this.micStream.getAudioTracks()[e].enabled = !t;
-        }t ? (this.openAudioMc.voiceModule.pushSocketEvent(ie.MIC_MUTE), this.dataChannel.send(new Qt().setEventName("CONTEXT_EVENT").setParam("type", "muted-stream").serialize())) : (this.openAudioMc.voiceModule.pushSocketEvent(ie.MIC_UNMTE), this.dataChannel.send(new Qt().setEventName("CONTEXT_EVENT").setParam("type", "unmuted-stream").serialize()));
+        }t ? (this.openAudioMc.voiceModule.pushSocketEvent(oe.MIC_MUTE), this.dataChannel.send(new Zt().setEventName("CONTEXT_EVENT").setParam("type", "muted-stream").serialize())) : (this.openAudioMc.voiceModule.pushSocketEvent(oe.MIC_UNMTE), this.dataChannel.send(new Zt().setEventName("CONTEXT_EVENT").setParam("type", "unmuted-stream").serialize()));
       }
     };
 
-    te.prototype.setVisualMuteState = function setVisualMuteState(t) {
+    ee.prototype.setVisualMuteState = function setVisualMuteState(t) {
       t ? (document.getElementById("vc-mic-mute").style.backgroundColor = "", document.getElementById("vc-mic-mute").style.color = "") : (document.getElementById("vc-mic-mute").style.backgroundColor = "#EF4444", document.getElementById("vc-mic-mute").style.color = "#F3F4F6");
     };
 
-    te.prototype.stop = function stop() {
+    ee.prototype.stop = function stop() {
       this.micStream.getTracks().forEach(function (t) {
         t.stop();
       }), this.pcReceiver.close();
     };
 
-    te.prototype.listenForTracks = function listenForTracks() {
+    ee.prototype.listenForTracks = function listenForTracks() {
       var _this37 = this;
 
       this.pcReceiver.addEventListener("track", function (t) {
         for (var e = 0; e < t.streams.length; e++) {
           if ("dead-mans-track" === t.streams[e].id) return;t.track.onended = function () {
-            _this37.dataChannel.send(new Qt().setEventName("SCHEDULE_RENAG").serialize());
+            _this37.dataChannel.send(new Zt().setEventName("SCHEDULE_RENAG").serialize());
           }, _this37.onInternalTrack(t.streams[e], !1, t.track);
         }
       });
     };
 
-    return te;
+    return ee;
   }();
 
-  var ee = n(133),
-      ne = n.n(ee);
-  var re = function () {
-    function re(t, e, n) {
+  var ne = n(133),
+      re = n.n(ne);
+  var ie = function () {
+    function ie(t, e, n) {
       var _this38 = this;
 
-      _classCallCheck(this, re);
+      _classCallCheck(this, ie);
 
-      this.openAudioMc = t, this.stream = n, this.voiceModule = e, this.id = "visual-speaking-indicator", this.startedTalking = null, this.shortTriggers = 0, this.harkEvents = Object(Jt.a)(this.stream, {}), this.gainController = new ne.a(n);var r = Cookies.get("mic-sensitivity");null != r && (r = parseInt(r), this.harkEvents.setThreshold(r)), document.getElementById("mic-sensitive-slider").value = K(this.harkEvents.getThreshold()), this.currentThreshold = this.harkEvents.getThreshold(), this.isSpeaking = !1, this.harkEvents.setInterval(5), document.getElementById("mic-sensitive-slider").oninput = function (t) {
+      this.openAudioMc = t, this.stream = n, this.voiceModule = e, this.id = "visual-speaking-indicator", this.startedTalking = null, this.shortTriggers = 0, this.harkEvents = Object(Yt.a)(this.stream, {}), this.gainController = new re.a(n);var r = Cookies.get("mic-sensitivity");null != r && (r = parseInt(r), this.harkEvents.setThreshold(r)), document.getElementById("mic-sensitive-slider").value = J(this.harkEvents.getThreshold()), this.currentThreshold = this.harkEvents.getThreshold(), this.isSpeaking = !1, this.harkEvents.setInterval(5), document.getElementById("mic-sensitive-slider").oninput = function (t) {
         _this38.updateSensitivity(t.target.value);
       }, this.harkEvents.on("speaking", function () {
         _this38.isSpeaking = !0, _this38.startedTalking = new Date().getTime(), document.getElementById(_this38.id).style.backgroundColor = "#34D399", document.getElementById(_this38.id).style.color = "#EC4899", _this38.gainController.on();
       }), this.harkEvents.on("volume_change", function (t) {
-        K(t);
+        J(t);
       }), this.harkEvents.on("stopped_speaking", function () {
         _this38.isSpeaking = !1, document.getElementById(_this38.id).style.backgroundColor = "", document.getElementById(_this38.id).style.color = "", _this38.gainController.off(), 1.5 > (new Date().getTime() - _this38.startedTalking) / 1e3 ? (_this38.shortTriggers++, 25 < _this38.shortTriggers && (_this38.decreaseSensitivity(), _this38.shortTriggers = 0)) : _this38.shortTriggers = 0;
       }), this.longSessions = 0, setInterval(function () {
@@ -6369,50 +6403,50 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }, 500);
     }
 
-    re.prototype.updateSensitivity = function updateSensitivity(t) {
-      var e = -K(t);this.harkEvents.setThreshold(e), Cookies.set("mic-sensitivity", e + "", { expires: 30 }), this.currentThreshold = this.harkEvents.getThreshold();
+    ie.prototype.updateSensitivity = function updateSensitivity(t) {
+      var e = -J(t);this.harkEvents.setThreshold(e), Cookies.set("mic-sensitivity", e + "", { expires: 30 }), this.currentThreshold = this.harkEvents.getThreshold();
     };
 
-    re.prototype.decreaseSensitivity = function decreaseSensitivity() {
-      var t = K(this.currentThreshold);t -= 5, this.updateSensitivity(t), document.getElementById("mic-sensitive-slider").value = t;
+    ie.prototype.decreaseSensitivity = function decreaseSensitivity() {
+      var t = J(this.currentThreshold);t -= 5, this.updateSensitivity(t), document.getElementById("mic-sensitive-slider").value = t;
     };
 
-    re.prototype.stop = function stop() {
+    ie.prototype.stop = function stop() {
       this.harkEvents.stop();
     };
 
-    return re;
+    return ie;
   }();
 
-  var ie = { MIC_MUTE: "MICROPHONE_MUTED", MIC_UNMTE: "MICROPHONE_UNMUTE", LEVEL_WHISPERING: "LEVEL_WHISPERING", LEVEL_NORMAL: "LEVEL_NORMAL", LEVEL_SHOUTING: "LEVEL_SHOUTING" };
-  var oe = function () {
-    function oe(t) {
+  var oe = { MIC_MUTE: "MICROPHONE_MUTED", MIC_UNMTE: "MICROPHONE_UNMUTE", LEVEL_WHISPERING: "LEVEL_WHISPERING", LEVEL_NORMAL: "LEVEL_NORMAL", LEVEL_SHOUTING: "LEVEL_SHOUTING" };
+  var se = function () {
+    function se(t) {
       var _this39 = this;
 
-      _classCallCheck(this, oe);
+      _classCallCheck(this, se);
 
-      this.openAudioMc = t, this.peerManager = null, this.peerMap = new Map(), this.loadedDeviceList = !1, this.loadeMicPreference = Cookies.get("preferred-mic"), this.loudnessDetectionEnabled = !1, this.surroundSwitch = new $t("use-surround", !0, function (t) {
-        _this39.openAudioMc.socketModule.send(ot, { enabled: !1 }), _this39.useSurround = t, _this39.onSurrroundUpdate();
+      this.openAudioMc = t, this.peerManager = null, this.peerMap = new Map(), this.loadedDeviceList = !1, this.loadeMicPreference = Cookies.get("preferred-mic"), this.loudnessDetectionEnabled = !1, this.surroundSwitch = new Qt("use-surround", !0, function (t) {
+        _this39.openAudioMc.socketModule.send(st, { enabled: !1 }), _this39.useSurround = t, _this39.onSurrroundUpdate();
       }), this.useSurround = this.surroundSwitch.isOn();
     }
 
-    oe.prototype.enable = function enable(t, e, n) {
+    se.prototype.enable = function enable(t, e, n) {
       var _this40 = this;
 
       this.blocksRadius = n, this.server = t, this.streamKey = e, document.getElementById("vc-controls").style.display = "", document.getElementById("vc-block-range").innerText = this.blocksRadius + " block", document.getElementById("vc-connect-button").onclick = function () {
         _this40.consent(_this40.loadeMicPreference);
-      }, W("vc-onboarding");
+      }, q("vc-onboarding");
     };
 
-    oe.prototype.addPeer = function addPeer(t, e, n, r) {
-      this.peerMap.set(n, new Xt(this.openAudioMc, e, t, n, this.server, r));
+    se.prototype.addPeer = function addPeer(t, e, n, r) {
+      this.peerMap.set(n, new $t(this.openAudioMc, e, t, n, this.server, r));
     };
 
-    oe.prototype.peerLocationUpdate = function peerLocationUpdate(t, e, n, r) {
+    se.prototype.peerLocationUpdate = function peerLocationUpdate(t, e, n, r) {
       this.peerMap.has(t) && this.peerMap.get(t).updateLocation(e, n, r);
     };
 
-    oe.prototype.removeAllPeers = function removeAllPeers() {
+    se.prototype.removeAllPeers = function removeAllPeers() {
       var _iteratorNormalCompletion19 = true;
       var _didIteratorError19 = false;
       var _iteratorError19 = undefined;
@@ -6441,29 +6475,29 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }
     };
 
-    oe.prototype.removePeer = function removePeer(t) {
+    se.prototype.removePeer = function removePeer(t) {
       if (this.peerMap.has(t)) {
         var e = this.peerMap.get(t);this.peerMap.delete(t), e.stop();
       } else s("Couldn't remove peer " + t + " because, well, there is no such peer");
     };
 
-    oe.prototype.onSurrroundUpdate = function onSurrroundUpdate() {
+    se.prototype.onSurrroundUpdate = function onSurrroundUpdate() {
       var _this41 = this;
 
-      this.openAudioMc.socketModule.send(ot, { enabled: !1 }), Swal.fire({ title: "Reloading voice system!", html: "Please wait while voice chat gets restarted to apply your new settings.. this shouldn't take long", timer: 3500, showCloseButton: !1, backdrop: "", showCancelButton: !1, timerProgressBar: !1, allowOutsideClick: !1, allowEscapeKey: !1, allowEnterKey: !1, didOpen: function didOpen() {
+      this.openAudioMc.socketModule.send(st, { enabled: !1 }), Swal.fire({ title: "Reloading voice system!", html: "Please wait while voice chat gets restarted to apply your new settings.. this shouldn't take long", timer: 3500, showCloseButton: !1, backdrop: "", showCancelButton: !1, timerProgressBar: !1, allowOutsideClick: !1, allowEscapeKey: !1, allowEnterKey: !1, didOpen: function didOpen() {
           Swal.showLoading();
         }, willClose: function willClose() {
           clearInterval(void 0);
         } }).then(function (t) {
-        t.dismiss === Swal.DismissReason.timer && _this41.openAudioMc.socketModule.send(ot, { enabled: !0 });
+        t.dismiss === Swal.DismissReason.timer && _this41.openAudioMc.socketModule.send(st, { enabled: !0 });
       });
     };
 
-    oe.prototype.handleCrash = function handleCrash(t) {
-      Swal.fire({ icon: "error", title: "Oops...", text: "Something went wrong while starting your voice chat session. Please report this problem and try again later.", backdrop: "" }), x("Something went wrong while enabling voicechat. Error: " + t, window.tokenCache.name);
+    se.prototype.handleCrash = function handleCrash(t) {
+      Swal.fire({ icon: "error", title: "Oops...", text: "Something went wrong while starting your voice chat session. Please report this problem and try again later.", backdrop: "" }), E("Something went wrong while enabling voicechat. Error: " + t, window.tokenCache.name);
     };
 
-    oe.prototype.handleAudioPermissions = function handleAudioPermissions(t) {
+    se.prototype.handleAudioPermissions = function handleAudioPermissions(t) {
       var _this42 = this;
 
       this.loadedDeviceList || (navigator.mediaDevices.enumerateDevices().then(function (t) {
@@ -6474,19 +6508,19 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         console.error(t), _this42.handleCrash(JSON.stringify(t.toJSON()));
       }), this.loadedDeviceList = !0), Swal.fire({ backdrop: "", title: "Logging into voice chat...", html: "Please wait while we get you setup with a voice server.. hold on tight, this shouldn't take too long.<br /><small>(but please report an issue if it does take too long, it's still work in progress after all.</small>", showCloseButton: !1, showCancelButton: !1, timerProgressBar: !1, allowOutsideClick: !1, allowEscapeKey: !1, allowEnterKey: !1, didOpen: function didOpen() {
           Swal.showLoading();
-        } }), this.microphoneProcessing = new re(this.openAudioMc, this, t), this.peerManager = new te(this.openAudioMc, this.server, this.streamKey, t, this.microphoneProcessing), this.peerManager.setup(this.onOutoingStreamStart).catch(function (t) {
+        } }), this.microphoneProcessing = new ie(this.openAudioMc, this, t), this.peerManager = new ee(this.openAudioMc, this.server, this.streamKey, t, this.microphoneProcessing), this.peerManager.setup(this.onOutoingStreamStart).catch(function (t) {
         _this42.handleCrash(JSON.stringify(t.toJSON()));
       }), o(function () {
-        s("Enabling rtc debugging"), window.debugUi.addPanel(Q.RTC, function () {
+        s("Enabling rtc debugging"), window.debugUi.addPanel(Z.RTC, function () {
           return "waitingPromises=" + _this42.peerManager.waitingPromises.size + ", trackQueue=" + _this42.peerManager.trackQueue.size + ", state=" + _this42.peerManager.pcReceiver.connectionState + ", ice=" + _this42.peerManager.pcReceiver.iceConnectionState + ", isSpeaking=" + _this42.microphoneProcessing.isSpeaking + ", transceivers=" + _this42.peerManager.pcReceiver.getTransceivers().length + ", muxPolicy=" + _this42.peerManager.pcReceiver.getConfiguration().rtcpMuxPolicy;
         });
       });
     };
 
-    oe.prototype.changeInput = function changeInput(t) {
+    se.prototype.changeInput = function changeInput(t) {
       var _this43 = this;
 
-      s("Stopping current streamer, and restarting with a diferent user input"), Cookies.set("preferred-mic", t, { expires: 30 }), this.peerManager.setMute(!1), this.peerManager.stop(), this.peerManager = null, this.openAudioMc.socketModule.send(ot, { enabled: !1 }), Swal.fire({ backdrop: "", title: "Updating microphone!", html: "Please wait while voice chat gets restarted with your new microphone.. this shouldn't take long", timer: 3500, showCloseButton: !1, showCancelButton: !1, timerProgressBar: !1, allowOutsideClick: !1, allowEscapeKey: !1, allowEnterKey: !1, didOpen: function didOpen() {
+      s("Stopping current streamer, and restarting with a diferent user input"), Cookies.set("preferred-mic", t, { expires: 30 }), this.peerManager.setMute(!1), this.peerManager.stop(), this.peerManager = null, this.openAudioMc.socketModule.send(st, { enabled: !1 }), Swal.fire({ backdrop: "", title: "Updating microphone!", html: "Please wait while voice chat gets restarted with your new microphone.. this shouldn't take long", timer: 3500, showCloseButton: !1, showCancelButton: !1, timerProgressBar: !1, allowOutsideClick: !1, allowEscapeKey: !1, allowEnterKey: !1, didOpen: function didOpen() {
           Swal.showLoading();
         }, willClose: function willClose() {
           clearInterval(void 0);
@@ -6495,7 +6529,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       });
     };
 
-    oe.prototype.loadedDevices = function loadedDevices(t) {
+    se.prototype.loadedDevices = function loadedDevices(t) {
       var _this44 = this;
 
       var e = document.getElementById("vc-mic-select");for (; 0 < e.options.length;) {
@@ -6508,24 +6542,24 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       };
     };
 
-    oe.prototype.onOutoingStreamStart = function onOutoingStreamStart() {
-      W("voice-home"), Swal.close();
+    se.prototype.onOutoingStreamStart = function onOutoingStreamStart() {
+      q("voice-home"), Swal.close();
     };
 
-    oe.prototype.consent = function consent(t) {
+    se.prototype.consent = function consent(t) {
       var e = t ? { audio: { deviceId: { exact: t }, noiseSuppression: !0, echoCancellation: !1, autoGainControl: !1, channelCount: 1 } } : { audio: { noiseSuppression: !0, echoCancellation: !1, autoGainControl: !1, channelCount: 1 } },
-          n = new Gt();n.successCallback = function (t) {
+          n = new Wt();n.successCallback = function (t) {
         this.openAudioMc.voiceModule.handleAudioPermissions(t);
       }.bind(this), n.errorCallback = function (e) {
         return null == t ? (console.error(e), "OverconstrainedError" === e.name || e instanceof OverconstrainedError ? (s("Couldn't get microphone, ignoring and trying again"), void this.consent(null)) : void this.openAudioMc.voiceModule.permissionError(e)) : (Cookies.remove("preferred-mic"), void this.consent(null));
       }.bind(this), n.getUserMedia(e);
     };
 
-    oe.prototype.permissionError = function permissionError() {
-      W("vc-onboarding"), Swal.fire({ backdrop: "", showClass: { popup: "swal2-noanimation", backdrop: "swal2-noanimation" }, icon: "error", title: "Microphone error", text: 'Something went wrong while trying to access your microphone. Please press "allow" when your browser asks you for microphone permissions, or visit the wiki for more info.', footer: '<a href="https://help.openaudiomc.net/voicechat_troubleshooting">Why do I have this issue?</a>' });
+    se.prototype.permissionError = function permissionError() {
+      q("vc-onboarding"), Swal.fire({ backdrop: "", showClass: { popup: "swal2-noanimation", backdrop: "swal2-noanimation" }, icon: "error", title: "Microphone error", text: 'Something went wrong while trying to access your microphone. Please press "allow" when your browser asks you for microphone permissions, or visit the wiki for more info.', footer: '<a href="https://help.openaudiomc.net/voicechat_troubleshooting">Why do I have this issue?</a>' });
     };
 
-    oe.prototype.shutDown = function shutDown() {
+    se.prototype.shutDown = function shutDown() {
       document.getElementById("vc-controls").style.display = "none", null != this.peerManager && this.peerManager.stop(), null != this.microphoneProcessing && this.microphoneProcessing.stop();var _iteratorNormalCompletion20 = true;
       var _didIteratorError20 = false;
       var _iteratorError20 = undefined;
@@ -6554,37 +6588,37 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }
     };
 
-    oe.prototype.pushSocketEvent = function pushSocketEvent(t) {
-      null != this.peerManager && this.openAudioMc.socketModule.send(ot, { event: t });
+    se.prototype.pushSocketEvent = function pushSocketEvent(t) {
+      null != this.peerManager && this.openAudioMc.socketModule.send(st, { event: t });
     };
 
-    oe.prototype.blurWithReason = function blurWithReason() {
+    se.prototype.blurWithReason = function blurWithReason() {
       document.getElementById("vc-content").classList.add("filter"), document.getElementById("vc-content").classList.add("blur-md"), document.getElementById("vc-disabled-overlay").style.display = "";
     };
 
-    oe.prototype.unblur = function unblur() {
+    se.prototype.unblur = function unblur() {
       document.getElementById("vc-content").classList.remove("filter"), document.getElementById("vc-content").classList.remove("blur-md"), document.getElementById("vc-disabled-overlay").style.display = "none";
     };
 
-    return oe;
+    return se;
   }();
 
   n.d(e, "OpenAudioEnv", function () {
-    return se;
-  }), n.d(e, "OpenAudioMc", function () {
     return ae;
-  });var se = { build: "344", compiler: "Mindgamesnl", platform: "Production", environment: "Linux", isProd: JSON.parse("true"), envDescription: "default-prod" };
-  var ae = function (_ref2) {
-    _inherits(ae, _ref2);
+  }), n.d(e, "OpenAudioMc", function () {
+    return ue;
+  });var ae = { build: "345", compiler: "Mindgamesnl", platform: "Production", environment: "Linux", isProd: JSON.parse("true"), envDescription: "default-prod" };
+  var ue = function (_ref3) {
+    _inherits(ue, _ref3);
 
-    function ae() {
+    function ue() {
       var _this45, _ret2;
 
-      _classCallCheck(this, ae);
+      _classCallCheck(this, ue);
 
-      if ((_this45 = _possibleConstructorReturn(this, _ref2.call(this)), _this45), s("Starting build " + JSON.stringify(se)), _this45.canStart = !1, _this45.host = null, _this45.background = null, _this45.ambianceSound = "", _this45.isPatreon = !1, _this45.tokenSet = new mt().fromCache(), null == _this45.tokenSet) return _ret2 = void a(it.BAD_AUTH), _possibleConstructorReturn(_this45, _ret2);_this45.notificationModule = new At(_this45), _this45.timeService = new et(), _this45.messages = new nt(_this45), _this45.userInterfaceModule = new rt(_this45), _this45.hueConfiguration = new Tt(_this45), _this45.mediaManager = new Et(_this45), _this45.voiceModule = new oe(_this45);new Pt(gt.MAIN_BACKEND).route(_this45).then(function (t) {
-        _this45.canStart = !0, _this45.host = t.host, _this45.background = t.background, _this45.ambianceSound = t.ambianceSound, _this45.isPatreon = t.isPatreon, a(it.WELCOME), s("Server: " + t.serverName), document.title = t.serverName, o(function () {
-          window.debugUi.addPanel(Q.ACCOUNT, "cached=" + t.fromCache + ", pc=" + t.playerCount + ", claimed=" + t.claimed + ", sfu=" + t.host + ", rtc=" + t.rtc);
+      if ((_this45 = _possibleConstructorReturn(this, _ref3.call(this)), _this45), s("Starting build " + JSON.stringify(ae)), _this45.canStart = !1, _this45.host = null, _this45.background = null, _this45.ambianceSound = "", _this45.isPatreon = !1, _this45.tokenSet = new vt().fromCache(), null == _this45.tokenSet) return _ret2 = void a(ot.BAD_AUTH), _possibleConstructorReturn(_this45, _ret2);_this45.notificationModule = new Nt(_this45), _this45.timeService = new nt(), _this45.messages = new rt(_this45), _this45.userInterfaceModule = new it(_this45), _this45.hueConfiguration = new It(_this45), _this45.mediaManager = new Mt(_this45), _this45.voiceModule = new se(_this45);new At(mt.MAIN_BACKEND).route(_this45).then(function (t) {
+        _this45.canStart = !0, _this45.host = t.host, _this45.background = t.background, _this45.ambianceSound = t.ambianceSound, _this45.isPatreon = t.isPatreon, a(ot.WELCOME), s("Server: " + t.serverName), document.title = t.serverName, o(function () {
+          window.debugUi.addPanel(Z.ACCOUNT, "cached=" + t.fromCache + ", pc=" + t.playerCount + ", claimed=" + t.claimed + ", sfu=" + t.host + ", rtc=" + t.rtc);
         });var e = Cookies.get("volume");null != e && _this45.mediaManager.changeVolume(e), _this45.isPatreon && s("This server is supporting the project on Patreon! that's awesome!"), function (t, e) {
           (function () {
             var t = [];return function e(n) {
@@ -6603,22 +6637,22 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       });return _possibleConstructorReturn(_this45);
     }
 
-    ae.prototype.start = function start() {
-      this.canStart && (this.canStart = !1, this.world = new zt(this), this.hueModule = new at(this, Object(Nt.a)()), this.socketModule = new Mt(this, this.host), this.messages.apply(), this.mediaManager.setupAmbianceSound(this.ambianceSound), this.mediaManager.postBoot(), new Ot(this), "" !== this.background && (document.getElementById("banner-image").src = this.background), this.mediaManager.postBoot());
+    ue.prototype.start = function start() {
+      this.canStart && (this.canStart = !1, this.world = new Gt(this), this.hueModule = new ut(this, Object(Rt.a)()), this.socketModule = new kt(this, this.host), this.messages.apply(), this.mediaManager.setupAmbianceSound(this.ambianceSound), this.mediaManager.postBoot(), new Tt(this), "" !== this.background && (document.getElementById("banner-image").src = this.background), this.mediaManager.postBoot());
     };
 
-    ae.prototype.sendError = function sendError(t) {
-      x(t, this.tokenSet.name);
+    ue.prototype.sendError = function sendError(t) {
+      E(t, this.tokenSet.name);
     };
 
-    return ae;
-  }(function (_ref3) {
-    _inherits(_class2, _ref3);
+    return ue;
+  }(function (_ref4) {
+    _inherits(_class2, _ref4);
 
     function _class2() {
       _classCallCheck(this, _class2);
 
-      return _possibleConstructorReturn(this, _ref3.apply(this, arguments));
+      return _possibleConstructorReturn(this, _ref4.apply(this, arguments));
     }
 
     _class2.prototype.log = function log(t) {
@@ -6665,14 +6699,14 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
   }()));
 
   window.onload = function () {
-    se.isProd || i(), o(function () {
-      window.debugUi.addPanel(Q.LOG, function () {
-        return tt.join("\n");
+    ae.isProd || i(), o(function () {
+      window.debugUi.addPanel(Z.LOG, function () {
+        return et.join("\n");
       });
-    });if (navigator.vendor && -1 < navigator.vendor.indexOf("Apple") && navigator.userAgent && -1 == navigator.userAgent.indexOf("CriOS") && -1 == navigator.userAgent.indexOf("FxiOS")) return void (window.location.href = "https://help.openaudiomc.net/browsers.html");new mt().initialize().then(function (t) {
-      return null == t ? (a(it.BAD_AUTH), window.location = location.protocol + "//" + window.location.host + window.location.pathname + "/login.html", void x("A faulty login attempt was done at " + window.location.host, "Steve")) : (o(function () {
-        window.debugUi.addPanel(Q.SESSION, t.name + "@" + t.publicServerKey + "/" + t.scope);
-      }), null != t && null != t.name && (document.getElementById("in-game-name").innerText = t.name, Rt = new ae()), void document.body.addEventListener("click", z));
+    });if (navigator.vendor && -1 < navigator.vendor.indexOf("Apple") && navigator.userAgent && -1 == navigator.userAgent.indexOf("CriOS") && -1 == navigator.userAgent.indexOf("FxiOS")) return void (window.location.href = "https://help.openaudiomc.net/browsers.html");new vt().initialize().then(function (t) {
+      return null == t ? (a(ot.BAD_AUTH), window.location = location.protocol + "//" + window.location.host + window.location.pathname + "/login.html", void E("A faulty login attempt was done at " + window.location.host, "Steve")) : (o(function () {
+        window.debugUi.addPanel(Z.SESSION, t.name + "@" + t.publicServerKey + "/" + t.scope);
+      }), null != t && null != t.name && (document.getElementById("in-game-name").innerText = t.name, Lt = new ue()), void document.body.addEventListener("click", G));
     });
   }, window.onhashchange = function () {
     return window.location.reload();
