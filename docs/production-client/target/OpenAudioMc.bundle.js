@@ -4328,7 +4328,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       }), s.send(void 0 === o._bodyInit ? null : o._bodyInit);
     });
   }function x(t, e, n) {
-    S(gt.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: e, message: "build 343: " + t }) }).then(function (t) {
+    S(gt.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: e, message: "build 344: " + t }) }).then(function (t) {
       null != n && n(), t.json().then(function (t) {
         console.log("Reported error. Reponse was: " + JSON.stringify(t));
       });
@@ -6573,7 +6573,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     return se;
   }), n.d(e, "OpenAudioMc", function () {
     return ae;
-  });var se = { build: "343", compiler: "Mindgamesnl", platform: "Production", environment: "Linux", isProd: JSON.parse("true"), envDescription: "default-prod" };
+  });var se = { build: "344", compiler: "Mindgamesnl", platform: "Production", environment: "Linux", isProd: JSON.parse("true"), envDescription: "default-prod" };
   var ae = function (_ref2) {
     _inherits(ae, _ref2);
 
@@ -6583,7 +6583,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
       _classCallCheck(this, ae);
 
       if ((_this45 = _possibleConstructorReturn(this, _ref2.call(this)), _this45), s("Starting build " + JSON.stringify(se)), _this45.canStart = !1, _this45.host = null, _this45.background = null, _this45.ambianceSound = "", _this45.isPatreon = !1, _this45.tokenSet = new mt().fromCache(), null == _this45.tokenSet) return _ret2 = void a(it.BAD_AUTH), _possibleConstructorReturn(_this45, _ret2);_this45.notificationModule = new At(_this45), _this45.timeService = new et(), _this45.messages = new nt(_this45), _this45.userInterfaceModule = new rt(_this45), _this45.hueConfiguration = new Tt(_this45), _this45.mediaManager = new Et(_this45), _this45.voiceModule = new oe(_this45);new Pt(gt.MAIN_BACKEND).route(_this45).then(function (t) {
-        _this45.canStart = !0, _this45.host = t.host, _this45.background = t.background, _this45.ambianceSound = t.ambianceSound, _this45.isPatreon = t.isPatreon, a(it.WELCOME), s("Server: " + t.serverName), o(function () {
+        _this45.canStart = !0, _this45.host = t.host, _this45.background = t.background, _this45.ambianceSound = t.ambianceSound, _this45.isPatreon = t.isPatreon, a(it.WELCOME), s("Server: " + t.serverName), document.title = t.serverName, o(function () {
           window.debugUi.addPanel(Q.ACCOUNT, "cached=" + t.fromCache + ", pc=" + t.playerCount + ", claimed=" + t.claimed + ", sfu=" + t.host + ", rtc=" + t.rtc);
         });var e = Cookies.get("volume");null != e && _this45.mediaManager.changeVolume(e), _this45.isPatreon && s("This server is supporting the project on Patreon! that's awesome!"), function (t, e) {
           (function () {
