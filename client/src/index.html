@@ -315,13 +315,15 @@
                     your microphone?<br/>
                 </p>
 
-                <br />
+                <br/>
 
                 <div class="inline-flex">
-                    <button class="hover:bg-green-400 text-white font-bold py-2 px-4 rounded-l bg-green-500"  id="vc-connect-button">
+                    <button class="hover:bg-green-400 text-white font-bold py-2 px-4 rounded-l bg-green-500"
+                            id="vc-connect-button">
                         Enable
                     </button>
-                    <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r" onclick="document.getElementById('vc-controls').style.display = 'none'">
+                    <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"
+                            onclick="document.getElementById('vc-controls').style.display = 'none'">
                         Dismiss
                     </button>
                 </div>
@@ -403,6 +405,10 @@
                                         <input id="mic-sensitive-slider"
                                                class="rounded-lg overflow-hidden appearance-none bg-gray-400 h-3 w-full"
                                                type="range" min="40" max="100" step="1" value="80"/>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="form-checkbox" id="enable-auto-adjustments">
+                                            <span class="ml-2">Automatic adjustments</span>
+                                        </label>
                                     </div>
                                 </div>
                             </div>

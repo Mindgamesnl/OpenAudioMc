@@ -1,6 +1,6 @@
 Changelog since release:
  - Updated account styling
- - Added web based disocrd login
+ - Added web based discord login
  - You can now link your patreon account and shiz
  - Updated documentation surrounding voicechat
  - You now receive discord notifications when your old servers get removed
@@ -9,3 +9,9 @@ Changelog since release:
  - Improved UI to make it easier to understand for users
  - Added a microphone sensitivity slider and speaking indicator
  - The microphone sensitivity now automatically adjusts itself in small increments if it detects a lot of background noise and false detections
+ - Fixed voicechat auto reconnect, along with dozens of other stability and performance improvements
+ - Fixed a couple of smaller bugs
+ - Fixed a bug where chat links weren't clickable in some minecraft versions
+ - The web client now shows your server name in the web title, and displays the server icon (if available)
+ - Expired free voicechat licenses now automatically get released back to the public for someone else to use
+ - 
