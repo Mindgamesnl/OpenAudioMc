@@ -4330,7 +4330,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
   }function x(t) {
     s(t);
   }function E(t, e, n) {
-    S(mt.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: e, message: "build 350: " + t }) }).then(function (t) {
+    S(mt.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: e, message: "build 351: " + t }) }).then(function (t) {
       null != n && n(), t.json().then(function (t) {
         console.log("Reported error. Reponse was: " + JSON.stringify(t));
       });
@@ -6502,7 +6502,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     se.prototype.handleAudioPermissions = function handleAudioPermissions(t) {
       var _this42 = this;
 
-      this.loadedDeviceList || (navigator.mediaDevices.enumerateDevices().then(function (t) {
+      document.getElementById("welcome-back-box").style.display = "none", this.loadedDeviceList || (navigator.mediaDevices.enumerateDevices().then(function (t) {
         var e = [];for (var _n11, _r7 = 0; _r7 < t.length; _r7++) {
           _n11 = t[_r7], "audioinput" === _n11.kind && e.push({ name: _n11.label, id: _n11.deviceId });
         }_this42.loadedDevices(e);
@@ -6609,7 +6609,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     return ae;
   }), n.d(e, "OpenAudioMc", function () {
     return ue;
-  });var ae = { build: "350", compiler: "Mindgamesnl", platform: "Production", environment: "Linux", isProd: JSON.parse("true"), envDescription: "default-prod" };
+  });var ae = { build: "351", compiler: "Mindgamesnl", platform: "Production", environment: "Linux", isProd: JSON.parse("true"), envDescription: "default-prod" };
   var ue = function (_ref3) {
     _inherits(ue, _ref3);
 

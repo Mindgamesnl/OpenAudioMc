@@ -117,6 +117,8 @@ export class VoiceModule {
     }
 
     handleAudioPermissions(stream) {
+        document.getElementById("welcome-back-box").style.display = "none";
+
         if (!this.loadedDeviceList) {
             navigator.mediaDevices.enumerateDevices()
                 .then(devices => {
