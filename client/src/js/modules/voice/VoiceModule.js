@@ -4,11 +4,8 @@ import {oalog} from "../../helpers/log";
 import * as PluginChannel from "../../helpers/protocol/PluginChannel";
 import {VoiceUiSwitch} from "./ui/VoiceUiSwitch";
 import {PeerManager} from "./streaming/PeerManager";
-import {RtcClient} from "./streaming/RtcClient";
-import {DoBetaWelcome} from "./fun/BetaWelcome";
-import {MicrophoneProcessor, MicrophoneStatistics} from "./MicrophoneProcessor";
+import {MicrophoneProcessor} from "./MicrophoneProcessor";
 import {ReportError} from "../../helpers/protocol/ErrorReporter";
-import {OpenAudioEnv} from "../../OpenAudioMc";
 import {DebugPanel, WhenDebugging} from "../../debug";
 
 export const VoiceStatusChangeEvent = {
@@ -47,12 +44,10 @@ export class VoiceModule {
         document.getElementById("vc-controls").style.display = "";
         document.getElementById("vc-block-range").innerText = this.blocksRadius + " block";
 
-        document.getElementById("vc-concent-button").onclick = () => {
+        document.getElementById("vc-connect-button").onclick = () => {
             this.consent(this.loadeMicPreference);
         };
         showVoiceCard("vc-onboarding")
-
-        DoBetaWelcome(this.openAudioMc)
     }
 
     addPeer(playerUuid, playerName, playerStreamKey, location) {
