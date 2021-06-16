@@ -14,6 +14,20 @@ export class MicrophoneProcessor {
 
         this.harkEvents = Hark(this.stream, {})
 
+        this.enabledAutoAdjustments = (Cookies.get("mic-sensitivity-bot") === "enabled")
+
+        document.getElementById("enable-auto-adjustments").checked = this.enabledAutoAdjustments;
+
+        document.getElementById("enable-auto-adjustments").onchange = (e) => {
+            if (e.target.checked) {
+                this.enabledAutoAdjustments = true;
+                Cookies.set("enable-auto-adjustments", "enabled", {expires: 30});
+            } else {
+                this.enabledAutoAdjustments = false;
+                Cookies.set("enable-auto-adjustments", "disabled", {expires: 30});
+            }
+        }
+
         this.gainController = new GainController(stream);
 
         let presetVolume = Cookies.get("mic-sensitivity");
@@ -99,6 +113,7 @@ export class MicrophoneProcessor {
     }
 
     decreaseSensitivity() {
+        if (!this.enabledAutoAdjustments) return;
         let current = Math.abs(this.currentThreshold);
         current -= 5;
         this.updateSensitivity(current)
