@@ -129,6 +129,7 @@ export class OpenAudioMc extends Getters {
         if (this.background !== "") {
             // update placeholder again
             replaceProperty("{{ oam.side_image }}", this.background)
+            replaceProperty("{{ oam.bg_image_map }}", "--bg-map:url('" + this.background + "');")
         }
 
         this.mediaManager.postBoot();
