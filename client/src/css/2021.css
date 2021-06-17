@@ -13,6 +13,19 @@
     padding-top: 30px;
 }
 
+.bg-image {
+    background-image: var(--bg-map);
+
+    filter: blur(40px);
+    -webkit-filter: blur(40px);
+
+    height: 100%;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 input[type=range]::-moz-range-thumb {
     width: 15px;
     -webkit-appearance: none;

@@ -69,6 +69,7 @@ function prepareUiDefaults() {
     // side background image and rename the property name
     replaceProperty("{{ oam.side_image }}", "assets/bg.jpg", "src")
     replaceProperty("{{ oam.logo_image }}", "assets/logo.png", "src")
+    replaceProperty("{{ oam.bg_image_map }}", "--bg-map:url('../assets/bg.jpg');", "style")
     replaceGlobalText("{{ oam.hue_bridge_name }}", "No bridge")
 }
 

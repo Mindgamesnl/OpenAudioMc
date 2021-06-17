@@ -39,6 +39,7 @@ export function HandleModernLogin(openAudioMc, accept, reject, tokenSet) {
                 if (background !== "") {
                     // update background dom
                     replaceProperty("{{ oam.side_image }}", background)
+                    replaceProperty("{{ oam.bg_image_map }}", "--bg-map:url('" + background + "');")
                 }
 
                 const title = response.settings.title;
