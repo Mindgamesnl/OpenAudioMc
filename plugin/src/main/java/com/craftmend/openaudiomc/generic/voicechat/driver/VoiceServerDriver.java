@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.events.ClientRequestVoiceEvent;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
+import com.craftmend.openaudiomc.generic.networking.client.enums.RtcStateFlag;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientUnlockVoiceChat;
@@ -127,6 +128,20 @@ public class VoiceServerDriver {
         return true;
     }
 
+    public void forceMute(ClientConnection clientConnection) {
+        pushEvent(VoiceServerEventType.FORCE_MUTE_PLAYER, new HashMap<String, String>() {{
+            put("streamKey", clientConnection.getStreamKey());
+        }});
+        clientConnection.getClientRtcManager().getStateFlags().add(RtcStateFlag.FORCE_MUTED);
+    }
+
+    public void forceUnmute(ClientConnection clientConnection) {
+        pushEvent(VoiceServerEventType.FORCE_UNMUTE_PLAYER, new HashMap<String, String>() {{
+            put("streamKey", clientConnection.getStreamKey());
+        }});
+        clientConnection.getClientRtcManager().getStateFlags().remove(RtcStateFlag.FORCE_MUTED);
+    }
+
     private void handleClientConnection(ClientConnection clientConnection) {
         pushEvent(VoiceServerEventType.ADD_PLAYER, new HashMap<String, String>() {{
             put("playerName", clientConnection.getPlayer().getName());
@@ -140,6 +155,11 @@ public class VoiceServerDriver {
             if (this.service.getUsedSlots() >= this.service.getAllowedSlots()) {
                 clientConnection.getPlayer().sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + "VoiceChat couldn't be enabled since this server occupied all its slots, please notify a staff member and try again later.");
                 return;
+            }
+
+            // update state
+            if (clientConnection.getClientRtcManager().getStateFlags().contains(RtcStateFlag.FORCE_MUTED)) {
+                forceMute(clientConnection);
             }
 
             // schedule async check
