@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.api.impl.event.events.PlayerLeaveVoiceProximity
 import com.craftmend.openaudiomc.api.impl.event.events.enums.VoiceEventCause;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.networking.client.enums.RtcBlockReason;
+import com.craftmend.openaudiomc.generic.networking.client.enums.RtcStateFlag;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientSubscribeToVoice;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
@@ -30,6 +31,7 @@ public class ClientRtcManager {
     @Getter private final Set<UUID> subscriptions = new HashSet<>();
     @Getter private final Set<ClientRtcLocationUpdate> locationUpdateQueue = ConcurrentHashMap.newKeySet();
     @Getter private final Set<RtcBlockReason> blockReasons = new HashSet<>();
+    @Getter private final Set<RtcStateFlag> stateFlags = new HashSet<>();
     private final ClientConnection clientConnection;
 
     public ClientRtcManager(ClientConnection clientConnection) {
