@@ -1,3 +1,5 @@
+import {replaceGlobalText} from "../../../helpers/domhelper";
+
 let handlers = {}
 
 window.handlePeerVolumeEvent = function (e) {
@@ -10,8 +12,10 @@ window.handlePeerVolumeEvent = function (e) {
 
 let total = 0;
 function updateTotal() {
-    document.getElementById("voice-range-counter").innerText = "(" + total + ")";
+    replaceGlobalText("{{ oam.rtc_peer_count }}", "(" + total + ")")
 }
+
+updateTotal();
 
 export class VoicePeerUi {
 

@@ -1,5 +1,6 @@
 import { Log } from '../utils/log'
 import { fetch } from '../../../libs/github.fetch'
+import {replaceProperty} from "../domhelper";
 
 export async function HandleServerIdentity(id, playerName) {
   // safe async
@@ -14,7 +15,10 @@ export async function HandleServerIdentity(id, playerName) {
 
   // update favicon
   document.querySelector("link[rel*='icon']").href = out.response.icon + "&name=" + playerName;
-  document.getElementById('top-head').src = out.response.icon  + "&name=" + playerName;
+
+  // replace logo
+  replaceProperty("{{ oam.logo_image }}", out.response.icon  + "&name=" + playerName)
+
   Log("Native minecraft version: " + out.response.version)
   Log("Minecraft motd: " + out.response.motd)
 }

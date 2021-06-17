@@ -2,6 +2,7 @@ import {fetch} from "../../../../libs/github.fetch";
 import {ReportError} from "../../../helpers/protocol/ErrorReporter";
 import {parseStyle} from "../../../helpers/libs/MinecraftColorCodes";
 import {oalog} from "../../../helpers/log";
+import {replaceProperty} from "../../../helpers/domhelper";
 
 export function HandleModernLogin(openAudioMc, accept, reject, tokenSet) {
 
@@ -36,7 +37,8 @@ export function HandleModernLogin(openAudioMc, accept, reject, tokenSet) {
                 const background = response.settings.backgroundImage;
 
                 if (background !== "") {
-                    document.getElementById("banner-image").src = background;
+                    // update background dom
+                    replaceProperty("{{ oam.side_image }}", background)
                 }
 
                 const title = response.settings.title;

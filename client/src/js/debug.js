@@ -5,6 +5,7 @@ import {oalog} from "./helpers/log";
 
 export const DebugPanel = {
     BUILD: "Build",
+    UI: "Ui Templating",
     SESSION: "Session",
     ACCOUNT: "Account",
     AUDIO: "Mixer",
@@ -12,6 +13,9 @@ export const DebugPanel = {
     LOG: "Latest Log",
     RTC: "Streaming",
 }
+
+let reallyInitialized = false;
+let preInit = [];
 
 export function EnableDebugMode() {
     window.debugUi = new DebugPopupLog(document.body, {zIndex: 999999999, backgroundColor: "black"});
@@ -24,12 +28,25 @@ export function EnableDebugMode() {
     for (let i = 0; i < handlers.length; i++) {
         handlers[i]()
     }
+
+    if (!reallyInitialized) {
+        reallyInitialized = true;
+        for (let i = 0; i < preInit.length; i++) {
+            preInit[i]()
+        }
+    }
+
     oalog("Enabling debug mode")
 }
 
 let handlers = [];
 
 export function WhenDebugging(call) {
+    if (!reallyInitialized) {
+        preInit.push(call)
+        return
+    }
+
     if (!OpenAudioEnv.isProd) {
         call();
     }
