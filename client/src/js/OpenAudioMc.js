@@ -13,15 +13,14 @@ import {SocketDirector} from "./modules/socket/SocketDirector";
 import {NotificationModule} from "./modules/notifications/NotificationModule";
 import ClientTokenSet from "./helpers/libs/ClientTokenSet";
 import {getHueInstance} from "./helpers/libs/JsHue";
-import {linkBootListeners} from "./helpers/utils/StaticFunctions";
+import {linkBootListeners, setLoaderText} from "./helpers/utils/StaticFunctions";
 import {WorldModule} from "./modules/world/WorldModule";
 import {ReportError} from "./helpers/protocol/ErrorReporter";
 import {API_ENDPOINT} from "./helpers/protocol/ApiEndpoints";
 import {VoiceModule} from "./modules/voice/VoiceModule";
 import {oalog} from "./helpers/log";
-import DebugPopupLog from "debug-popup-log";
 import {DebugPanel, WhenDebugging} from "./debug";
-import {replaceGlobalText} from "./helpers/domhelper";
+import {propertyValueCache, replaceGlobalText, replaceProperty, textElementCache} from "./helpers/domhelper";
 
 export const OpenAudioEnv = {
     "build": "__BUILD_VERSION__",
@@ -31,6 +30,12 @@ export const OpenAudioEnv = {
     "isProd": JSON.parse("__BUILD_IS_PROD__"),
     "envDescription": "__ENV_ABOUT__"
 }
+
+// debug registry to check for components
+WhenDebugging(() => {
+    // add debug panel for UI components
+    window.debugUi.addPanel(DebugPanel.UI, () => "componentElementCache=" + Object.keys(textElementCache).length + ", propertyCache=" + Object.keys(propertyValueCache).length)
+})
 
 export class OpenAudioMc extends Getters {
 
@@ -59,6 +64,8 @@ export class OpenAudioMc extends Getters {
         this.hueConfiguration = new HueConfigurationModule(this);
         this.mediaManager = new MediaManager(this);
         this.voiceModule = new VoiceModule(this);
+
+        setLoaderText("preparing session, welcome " + this.tokenSet.name)
 
         // request a socket service, then do the booting
         const director = new SocketDirector(API_ENDPOINT.MAIN_BACKEND);
@@ -91,6 +98,11 @@ export class OpenAudioMc extends Getters {
 
                 // update dom
                 replaceGlobalText("{{ craftmend.account.serverName }}", res.serverName)
+
+                // wat a tiny bit, then show
+                setTimeout(() => {
+                    replaceProperty("{{ oam.loader_style }}", "display: none;", "style")
+                }, 250)
             })
             .catch((error) => {
                 console.error(error);
@@ -115,7 +127,8 @@ export class OpenAudioMc extends Getters {
         // setup packet handler
         new Handlers(this);
         if (this.background !== "") {
-            document.getElementById("banner-image").src = this.background;
+            // update placeholder again
+            replaceProperty("{{ oam.side_image }}", this.background)
         }
 
         this.mediaManager.postBoot();
@@ -126,6 +139,7 @@ export class OpenAudioMc extends Getters {
     }
 }
 
+setLoaderText("loading the client...")
 window.onload = linkBootListeners;
 window.onhashchange = () => window.location.reload();
 

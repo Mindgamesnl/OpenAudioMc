@@ -5,7 +5,7 @@ import {ReportError} from '../protocol/ErrorReporter'
 import {strictlyShowCard, UiCards} from '../../modules/ui/UserInterfaceModule'
 import {DebugPanel, EnableDebugMode, WhenDebugging} from "../../debug";
 import {prepareLogging} from "../log";
-import {replaceGlobalText} from "../domhelper";
+import {replaceGlobalText, replaceProperty} from "../domhelper";
 
 let openAudioMc = null
 
@@ -13,11 +13,13 @@ export default openAudioMc
 
 function enable() {
     if (openAudioMc.canStart) {
-        openAudioMc.    start()
+        openAudioMc.start()
     }
 }
 
 export function linkBootListeners() {
+    setLoaderText("loading assets...")
+
     // use debugging UI
     if (!OpenAudioEnv.isProd) {
         EnableDebugMode()
@@ -35,6 +37,9 @@ export function linkBootListeners() {
         return
     }
 
+    prepareUiDefaults()
+
+    setLoaderText("logging in...")
     let sessionLoader = new ClientTokenSet()
     sessionLoader.initialize()
         .then(tokenSet => {
@@ -58,6 +63,17 @@ export function linkBootListeners() {
 
             document.body.addEventListener('click', enable)
         })
-
 }
 
+function prepareUiDefaults() {
+    // side background image and rename the property name
+    replaceProperty("{{ oam.side_image }}", "assets/bg.jpg", "src")
+    replaceProperty("{{ oam.logo_image }}", "assets/logo.png", "src")
+    replaceGlobalText("{{ oam.hue_bridge_name }}", "No bridge")
+}
+
+export function setLoaderText(message) {
+    // show tagline
+    replaceProperty("{{ oam.loading_tagline_style }}", "", "style")
+    replaceGlobalText("{{ oam.loading_tagline_text }}", message)
+}

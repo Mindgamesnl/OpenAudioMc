@@ -1,6 +1,7 @@
 import ClientTokenSet from "../libs/ClientTokenSet";
 import {API_ENDPOINT} from "./ApiEndpoints";
 import {oalog} from "../log";
+import {replaceGlobalText} from "../domhelper";
 
 export const AUDIO_ENDPOINTS = {
     PROXY: API_ENDPOINT.CONTENT_PROXY,
@@ -72,7 +73,7 @@ export class AudioSourceProcessor {
                     .then(body => {
                         document.getElementById("sc-cover").style.display = "";
                         document.getElementById("sc-title").style.display = "";
-                        document.getElementById("sc-title").innerText = body.artist + " - " + body.title;
+                        replaceGlobalText("{{ oam.soundcloud_title }}", body.artist + " - " + body.title)
                         document.getElementById("sc-title").onclick = () => {
                             window.open(body.link);
                         };

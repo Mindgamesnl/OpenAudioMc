@@ -1,3 +1,5 @@
+import {replaceGlobalText} from "../../helpers/domhelper";
+
 export class HueConfigurationModule {
 
     constructor() {
@@ -17,7 +19,7 @@ export class HueConfigurationModule {
     }
 
     setBridgeName(name) {
-        document.getElementById("bridge-name").innerText = name;
+        replaceGlobalText("{{ oam.hue_bridge_name }}", name)
     }
 
     select() {

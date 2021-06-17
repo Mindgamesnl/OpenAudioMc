@@ -5,6 +5,7 @@ import { Log } from '../utils/log'
 import {oalog} from "../log";
 import {ReportError} from "../protocol/ErrorReporter";
 import {HandleServerIdentity} from "../protocol/ServerIdentityHandler";
+import {replaceProperty} from "../domhelper";
 
 export default class ClientTokenSet {
 
@@ -87,7 +88,7 @@ export default class ClientTokenSet {
                                 HandleServerIdentity(ses.serverIdentity, ses.playerName).then(r => console.log).catch(e => console.log)
                             } else {
                                 Log("No identity to fetch")
-                                document.getElementById('top-head').src = 'https://minotar.net/helm/' + ses.playerName
+                                replaceProperty("{{ oam.logo_image }}", 'https://minotar.net/helm/' + ses.playerName)
                             }
 
                             const out = new ClientTokenSet(ses.publicKey, ses.playerUuid, ses.playerName, ses.session, ses.scope)

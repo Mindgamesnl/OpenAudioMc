@@ -7,6 +7,7 @@ import {PeerManager} from "./streaming/PeerManager";
 import {MicrophoneProcessor} from "./MicrophoneProcessor";
 import {ReportError} from "../../helpers/protocol/ErrorReporter";
 import {DebugPanel, WhenDebugging} from "../../debug";
+import {replaceGlobalText} from "../../helpers/domhelper";
 
 export const VoiceStatusChangeEvent = {
     MIC_MUTE: "MICROPHONE_MUTED",
@@ -42,8 +43,7 @@ export class VoiceModule {
         this.streamKey = streamKey;
         // unhide
         document.getElementById("vc-controls").style.display = "";
-        document.getElementById("vc-block-range").innerText = this.blocksRadius + " block";
-
+        replaceGlobalText("{{ oam.block_range }}", this.blocksRadius + " blocks")
         document.getElementById("vc-connect-button").onclick = () => {
             this.consent(this.loadeMicPreference);
         };
