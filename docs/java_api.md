@@ -94,9 +94,9 @@ api.getMediaApi().stopMedia(client, "example");
 ## Spatial Audio
 Explosions are cool, but explosions that spook the living ghost out of someone are even cooler. OpenAudioMc supports spatial audio, and we can simply create it like this
 ```java
-String spatialSoundId = api.getMediaApi().playSpatialSound(client, "https://example.com/a.mp3", x, y, z, 10, true);
+String spatialSoundId = api.getMediaApi().playSpatialSound(client, "https://example.com/a.mp3", x, y, z, 10, true, 15);
 ```
-This will start a 3D spatial sound at a given location for the player with a radius of 10 blocks. You can also just make a simple sound (so one that just does volume instead of 3D orientation by setting the mode to false, which is the last argument).
+This will start a 3D spatial sound at a given location for the player with a radius of 10 blocks, and will ignore 15 obstructions. You can also just make a simple sound (so one that just does volume instead of 3D orientation by setting the mode to false, which is the last argument).
 the `playSpatialSound` method returns a string, which is the spatial-id for that player (and unique to that player). You can remove it again with
 ```java
 api.getMediaApi().stopSpatialSound(client, spatialSoundId);
