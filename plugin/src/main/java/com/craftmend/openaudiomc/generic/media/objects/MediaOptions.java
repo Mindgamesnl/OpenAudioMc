@@ -13,15 +13,23 @@ import java.util.Map;
 @NoArgsConstructor
 public class MediaOptions {
 
-    private boolean loop = false;
-    private String id;
-    private int expirationTimeout = -1;
-    private boolean pickUp = true;
-    private int fadeTime = 0;
-    private int volume = 100;
-    private List<AudioNode> effectNodes = new LinkedList<>();
+	private boolean loop = false;
+	private String id;
+	private int expirationTimeout = -1;
+	private boolean pickUp = true;
+	private int fadeTime = 0;
+	private int volume = 100;
+	private List<AudioNode> effectNodes = new LinkedList<>();
 
-    public String getId() {
+	public boolean isLoop() {
+		return loop;
+	}
+
+	public void setLoop(boolean loop) {
+		this.loop = loop;
+	}
+
+	public String getId() {
 		return id;
 	}
 
@@ -70,29 +78,29 @@ public class MediaOptions {
 	}
 
 	public OptionalError validate() {
-        if (volume > 100)
-            return new OptionalError(true, "Volume may not be over 100");
+		if (volume > 100)
+			return new OptionalError(true, "Volume may not be over 100");
 
-        if (volume < 0)
-            return new OptionalError(true, "Volume may not be lower than 0");
+		if (volume < 0)
+			return new OptionalError(true, "Volume may not be lower than 0");
 
-        if (volume == 0)
-            return new OptionalError(true, "You shouldn't even play it if the volume is 0");
+		if (volume == 0)
+			return new OptionalError(true, "You shouldn't even play it if the volume is 0");
 
-        if (fadeTime < 0)
-            return new OptionalError(true, "Fade time can't be negative");
+		if (fadeTime < 0)
+			return new OptionalError(true, "Fade time can't be negative");
 
-        return new OptionalError(false, "");
-    }
+		return new OptionalError(false, "");
+	}
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public class AudioNode {
-        // properties for the node
-        private Map<String, Float> properties = new HashMap<>();
-        // js class of the audio node
-        private String nodeType;
-    }
+	@Data
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public class AudioNode {
+		// properties for the node
+		private Map<String, Float> properties = new HashMap<>();
+		// js class of the audio node
+		private String nodeType;
+	}
 
 }
