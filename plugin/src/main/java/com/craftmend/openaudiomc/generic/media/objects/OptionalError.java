@@ -7,7 +7,14 @@ import lombok.Getter;
 @AllArgsConstructor
 public class OptionalError {
 
-    private boolean error;
+	private boolean error;
     private String message;
+	
+    public OptionalError(boolean error, String message) {
+		
+    	this.error = error;
+    	this.message = message;
+    	
+	}
 
 }

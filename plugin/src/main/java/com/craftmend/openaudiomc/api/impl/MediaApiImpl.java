@@ -61,6 +61,13 @@ public class MediaApiImpl implements MediaApi {
         OpenAudioMc.getInstance().getNetworkingService().send(connection, new PacketClientCreateSpeaker(new ClientSpeakerCreatePayload(clientSpeaker)));
         return clientSpeaker.getId();
     }
+    
+    @Override
+    public String playSpatialSound(Client client, String source, int x, int y, int z, int radius, boolean useSurroundSound, int obstructions, MediaOptions mediaOptions) {
+    	//TODO: apply media options and then play spatial sound with speaker
+    	
+    	return null;
+    }
 
     @Override
     public void stopSpatialSound(Client client, String spatialSoundId) {

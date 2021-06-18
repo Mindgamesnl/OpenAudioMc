@@ -21,7 +21,55 @@ public class MediaOptions {
     private int volume = 100;
     private List<AudioNode> effectNodes = new LinkedList<>();
 
-    public OptionalError validate() {
+    public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public int getExpirationTimeout() {
+		return expirationTimeout;
+	}
+
+	public void setExpirationTimeout(int expirationTimeout) {
+		this.expirationTimeout = expirationTimeout;
+	}
+
+	public boolean isPickUp() {
+		return pickUp;
+	}
+
+	public void setPickUp(boolean pickUp) {
+		this.pickUp = pickUp;
+	}
+
+	public int getFadeTime() {
+		return fadeTime;
+	}
+
+	public void setFadeTime(int fadeTime) {
+		this.fadeTime = fadeTime;
+	}
+
+	public int getVolume() {
+		return volume;
+	}
+
+	public void setVolume(int volume) {
+		this.volume = volume;
+	}
+
+	public List<AudioNode> getEffectNodes() {
+		return effectNodes;
+	}
+
+	public void setEffectNodes(List<AudioNode> effectNodes) {
+		this.effectNodes = effectNodes;
+	}
+
+	public OptionalError validate() {
         if (volume > 100)
             return new OptionalError(true, "Volume may not be over 100");
 
