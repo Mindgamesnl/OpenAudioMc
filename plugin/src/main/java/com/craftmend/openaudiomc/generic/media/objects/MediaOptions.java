@@ -21,7 +21,15 @@ public class MediaOptions {
     private int volume = 100;
     private List<AudioNode> effectNodes = new LinkedList<>();
 
-    public String getId() {
+    public boolean isLoop() {
+		return loop;
+	}
+
+	public void setLoop(boolean loop) {
+		this.loop = loop;
+	}
+
+	public String getId() {
 		return id;
 	}
 

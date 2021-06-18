@@ -8,13 +8,13 @@ import lombok.Getter;
 public class OptionalError {
 
 	private boolean error;
-    private String message;
-	
-    public OptionalError(boolean error, String message) {
-		
-    	this.error = error;
-    	this.message = message;
-    	
+	private String message;
+
+	public OptionalError(boolean error, String message) {
+
+		this.error = error;
+		this.message = message;
+
 	}
 
 }
