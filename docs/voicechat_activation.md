@@ -2,6 +2,8 @@
 Hurray! Welcome to the OpenAudioMc public voice chat beta!
 
 #### Rules and Notes
+- Free licenses (that aren't obtained through patreon) expire after 1 month, after which they'll be dropped back into the discord channel or online panel for others to claim. You'll receive an automated Discord DM notifying you when this happens, so you can claim a new one.
+- Free licenses that have been claimed but haven't been activated within 1 week are also dropped back into the public pool.
 - Leaving the discord server will automatically deactivate your license
 - Be prepared to test. Voice chat is still in development, so you have to share feedback (negative and positive) and link to issues you may encounter
 - Uptime isn't as good as it will be, voice connections die off once a day for production updates due to backend changes and updates.
