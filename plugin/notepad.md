@@ -15,3 +15,5 @@ Changelog since release:
  - The web client now shows your server name in the web title, and displays the server icon (if available)
  - Expired free voicechat licenses now automatically get released back to the public for someone else to use
  - Added `/voice`, `/vc` and `/voicechat` aliases for the regular `/audio` command
+ - Free keys now expire after 1 month, or 1 week if they haven't been activated. Expired keys get autimatically dropped back into the pool for others to claim online or in discord.
+ - Users can now claim keys online through https://account.craftmend.com/account/addons ![img](https://i.imgur.com/WHAGfQZ.png)
