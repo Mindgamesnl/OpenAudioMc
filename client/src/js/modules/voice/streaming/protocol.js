@@ -51,7 +51,6 @@ export class RtcPacket {
         for (let [key, value] of this.params) {
             out += key + "=" + value + "~"
         }
-        oalog("Sending " + out)
         return out
     }
 
