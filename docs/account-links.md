@@ -13,7 +13,7 @@ That all sounds great doesn't it?! best yet, it's all as easy as can be.
  3. Get a [fingerprint from your account](https://account.craftmend.com/account/fingerprint) (just like you did when linking your server)
  4. Type `/setup <your fingerprint>` where you obviously replace `<your fingerprint>` with the one you just copied
 
-Leaving the discord automatically unlinks your discord profile from your craftmend account and will revoke perks that you claimed through beta invites or give-aways.
+Leaving the discord automatically unlinks your discord profile from your craftmend account and will revoke perks that you claimed through invites or give-aways.
 
 ## Linking your Patreon account
  1. Go to the [account links page](https://account.craftmend.com/account/links)

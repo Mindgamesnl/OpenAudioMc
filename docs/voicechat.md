@@ -1,7 +1,7 @@
 # Voice Chat
 
 ## Enabling voice chat
-Voice chat isn't enabled by default because it doesn't fit every server, and we're currently unable to offer it to everyone (even though the access group is growing rapidly). There are three ways to claim your beta key
+Voice chat isn't enabled by default because it doesn't fit every server, and we're currently unable to offer it to everyone (even though the access group is growing rapidly). There are three ways to claim your key
 
 
 (Don't like reading? here's a scuffed video version)
