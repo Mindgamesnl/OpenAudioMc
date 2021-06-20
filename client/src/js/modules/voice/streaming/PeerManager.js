@@ -330,6 +330,7 @@ export class PeerManager {
             Swal.fire("Please wait a moment before doing this again");
             return;
         }
+
         this.isMuted = state;
         this.setVisualMuteState(!state);
         this.muteCooldown = true;
@@ -341,12 +342,14 @@ export class PeerManager {
             this.micStream.getAudioTracks()[i].enabled = !state;
         }
         if (state) {
+            this.openAudioMc.voiceModule.microphoneProcessing.onMute()
             this.openAudioMc.voiceModule.pushSocketEvent(VoiceStatusChangeEvent.MIC_MUTE);
             this.dataChannel.send(new RtcPacket()
                 .setEventName("CONTEXT_EVENT")
                 .setParam("type", "muted-stream")
                 .serialize())
         } else {
+            this.openAudioMc.voiceModule.microphoneProcessing.onUnmute()
             this.openAudioMc.voiceModule.pushSocketEvent(VoiceStatusChangeEvent.MIC_UNMTE);
             this.dataChannel.send(new RtcPacket()
                 .setEventName("CONTEXT_EVENT")

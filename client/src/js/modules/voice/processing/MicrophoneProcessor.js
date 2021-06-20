@@ -1,6 +1,6 @@
-import {Hark} from "../../helpers/libs/hark.bundle";
+import {Hark} from "../../../helpers/libs/hark.bundle";
 import GainController from "mediastream-gain";
-import {oalog} from "../../helpers/log";
+import {oalog} from "../../../helpers/log";
 
 export class MicrophoneProcessor {
 
@@ -11,13 +11,67 @@ export class MicrophoneProcessor {
         this.id = "visual-speaking-indicator";
         this.startedTalking = null;
         this.shortTriggers = 0;
+        this.isMuted = false;
 
         this.harkEvents = Hark(this.stream, {})
+        this.gainController = new GainController(stream);
 
+        this.loadDefaults();
+
+        this.longSessions = 0;
+
+        // automatically check through a task how long the current speech is
+        setInterval(() => {
+            if (!this.isSpeaking) return;
+            let timeActive = new Date().getTime() - this.startedTalking;
+            let secondsTalked = (timeActive / 1000);
+
+            if (secondsTalked > 10) {
+                this.longSessions++;
+                this.startedTalking = new Date().getTime();
+            }
+
+            if (this.longSessions > 1) {
+                this.decreaseSensitivity()
+                this.longSessions = 0;
+                this.startedTalking = new Date().getTime();
+            }
+
+        }, 500);
+
+        this.hookListeners();
+    }
+
+    updateSensitivity(toPositive) {
+        let target = -Math.abs(toPositive)
+        this.harkEvents.setThreshold(target)
+        Cookies.set("mic-sensitivity", target + "", {expires: 30});
+        this.currentThreshold = this.harkEvents.getThreshold();
+    }
+
+    decreaseSensitivity() {
+        if (!this.enabledAutoAdjustments) return;
+        let current = Math.abs(this.currentThreshold);
+        current -= 5;
+        this.updateSensitivity(current)
+        document.getElementById("mic-sensitive-slider").value = current;
+    }
+
+    onMute() {
+        this.isMuted = true;
+    }
+
+    onUnmute() {
+        this.isMuted = false;
+    }
+
+    stop() {
+        this.harkEvents.stop()
+    }
+
+    loadDefaults() {
         this.enabledAutoAdjustments = (Cookies.get("mic-sensitivity-bot") === "enabled")
-
         document.getElementById("enable-auto-adjustments").checked = this.enabledAutoAdjustments;
-
         document.getElementById("enable-auto-adjustments").onchange = (e) => {
             if (e.target.checked) {
                 this.enabledAutoAdjustments = true;
@@ -27,8 +81,6 @@ export class MicrophoneProcessor {
                 Cookies.set("enable-auto-adjustments", "disabled", {expires: 30});
             }
         }
-
-        this.gainController = new GainController(stream);
 
         let presetVolume = Cookies.get("mic-sensitivity");
         if (presetVolume != null) {
@@ -45,7 +97,9 @@ export class MicrophoneProcessor {
         document.getElementById("mic-sensitive-slider").oninput = (e) => {
             this.updateSensitivity(e.target.value)
         }
+    }
 
+    hookListeners() {
         this.harkEvents.on('speaking', () => {
             this.isSpeaking = true;
             this.startedTalking = new Date().getTime();
@@ -55,11 +109,6 @@ export class MicrophoneProcessor {
             document.getElementById(this.id).style.color = "#EC4899"
             this.gainController.on();
         });
-
-        this.harkEvents.on('volume_change', measurement => {
-            // only process data when the user is actively speaking
-            let level = Math.abs(measurement)
-        })
 
         this.harkEvents.on('stopped_speaking', () => {
             this.isSpeaking = false;
@@ -82,46 +131,6 @@ export class MicrophoneProcessor {
                 this.shortTriggers = 0;
             }
         });
-
-        this.longSessions = 0;
-
-        // automatically check through a task how long the current speech is
-        setInterval(() => {
-            if (!this.isSpeaking) return;
-            let timeActive = new Date().getTime() - this.startedTalking;
-            let secondsTalked = (timeActive / 1000);
-
-            if (secondsTalked > 10) {
-                this.longSessions++;
-                this.startedTalking = new Date().getTime();
-            }
-
-            if (this.longSessions > 1) {
-                this.decreaseSensitivity()
-                this.longSessions = 0;
-                this.startedTalking = new Date().getTime();
-            }
-
-        }, 500);
-    }
-
-    updateSensitivity(toPositive) {
-        let target = -Math.abs(toPositive)
-        this.harkEvents.setThreshold(target)
-        Cookies.set("mic-sensitivity", target + "", {expires: 30});
-        this.currentThreshold = this.harkEvents.getThreshold();
-    }
-
-    decreaseSensitivity() {
-        if (!this.enabledAutoAdjustments) return;
-        let current = Math.abs(this.currentThreshold);
-        current -= 5;
-        this.updateSensitivity(current)
-        document.getElementById("mic-sensitive-slider").value = current;
-    }
-
-    stop() {
-        this.harkEvents.stop()
     }
 
 }
