@@ -1,5 +1,5 @@
-import {VoicePeerUi} from "./ui/VoicePeerUi";
-import {IncomingVoiceStream} from "./streaming/IncomingVoiceStream";
+import {VoicePeerUi} from "../ui/VoicePeerUi";
+import {IncomingVoiceStream} from "./IncomingVoiceStream";
 
 export class VoicePeer {
 

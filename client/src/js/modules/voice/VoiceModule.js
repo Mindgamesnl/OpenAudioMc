@@ -1,10 +1,10 @@
-import {WrappedUserMedia} from "./WrappedUserMedia";
-import {VoicePeer} from "./VoicePeer";
+import {WrappedUserMedia} from "./util/WrappedUserMedia";
+import {VoicePeer} from "./streaming/VoicePeer";
 import {oalog} from "../../helpers/log";
 import * as PluginChannel from "../../helpers/protocol/PluginChannel";
 import {VoiceUiSwitch} from "./ui/VoiceUiSwitch";
 import {PeerManager} from "./streaming/PeerManager";
-import {MicrophoneProcessor} from "./MicrophoneProcessor";
+import {MicrophoneProcessor} from "./processing/MicrophoneProcessor";
 import {ReportError} from "../../helpers/protocol/ErrorReporter";
 import {DebugPanel, WhenDebugging} from "../../debug";
 import {replaceGlobalText} from "../../helpers/domhelper";
