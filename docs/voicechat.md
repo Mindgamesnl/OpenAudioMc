@@ -3,6 +3,10 @@
 ## Enabling voice chat
 Voice chat isn't enabled by default because it doesn't fit every server, and we're currently unable to offer it to everyone (even though the access group is growing rapidly). There are three ways to claim your beta key
 
+
+(Don't like reading? here's a scuffed video version)
+[![Video version](https://i.imgur.com/UZcZqF0.png)](https://www.youtube.com/watch?v=S29cQz094Bw)
+
 ### Free limited access through discord
 This grants you access to voicechat with limited slots for one month, after that you'll have to claim another license. Note that only you (as the server owner) needs an invitation/license, players can just click the link in their chat and continue without an account. To enable voicechat through a claimed code:
  1. Join our [Discord Server](https://discord.openaudiomc.net/)
