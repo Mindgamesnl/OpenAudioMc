@@ -195,6 +195,17 @@ export class PeerManager {
                     this.contextEvent(rtcPacket)
                     break
 
+                case "IDENTIFY_SELF":
+                    this.dataChannel.send(
+                        new RtcPacket()
+                            .setEventName("VERSION")
+                            .setParam("build", OpenAudioEnv.build + "")
+                            .setParam("author", OpenAudioEnv.compiler)
+                            .setParam("isProd", OpenAudioEnv.isProd + "")
+                            .serialize()
+                    )
+                    break
+
                 default:
                     oalog("Warning! received a rtc packet called " + rtcPacket.getEventName() + " but I don't have a clue what it does.")
             }

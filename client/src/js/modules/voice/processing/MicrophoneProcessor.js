@@ -1,6 +1,6 @@
 import {Hark} from "../../../helpers/libs/hark.bundle";
 import GainController from "mediastream-gain";
-import {oalog} from "../../../helpers/log";
+import {RtcPacket} from "../streaming/protocol";
 
 export class MicrophoneProcessor {
 
@@ -11,10 +11,12 @@ export class MicrophoneProcessor {
         this.id = "visual-speaking-indicator";
         this.startedTalking = null;
         this.shortTriggers = 0;
+        this.isStreaming = false;
         this.isMuted = false;
 
         this.harkEvents = Hark(this.stream, {})
         this.gainController = new GainController(stream);
+        this.gainController.off();
 
         this.loadDefaults();
 
@@ -59,14 +61,65 @@ export class MicrophoneProcessor {
 
     onMute() {
         this.isMuted = true;
+        if (this.isSpeaking) {
+            this.shouldStream(false);
+        }
     }
 
     onUnmute() {
         this.isMuted = false;
+        if (this.isSpeaking) {
+            this.shouldStream(true);
+        }
+    }
+
+    onSpeakStart() {
+        if (this.isMuted) return;
+        this.shouldStream(true);
+    }
+
+    onSpeakEnd() {
+        if (this.isMuted) return;
+        this.shouldStream(false);
     }
 
     stop() {
         this.harkEvents.stop()
+    }
+
+    shouldStream(state) {
+        if (state) {
+            // create start rtc notification
+            if (!this.isStreaming) {
+                this.isStreaming = true;
+                if (this.openAudioMc.voiceModule.peerManager.dataChannel.readyState === "open") {
+                    this.openAudioMc.voiceModule.peerManager.dataChannel.send(
+                        new RtcPacket()
+                            .setEventName("DISTRIBUTE_RTP")
+                            .serialize()
+                    )
+                }
+            }
+            document.getElementById(this.id).style.backgroundColor = "#34D399"
+            document.getElementById(this.id).style.color = "#EC4899"
+            clearTimeout(this.haltRtpTask);
+            this.gainController.on();
+        } else {
+            this.haltRtpTask = setTimeout(() => {
+                if (this.openAudioMc.voiceModule.peerManager.dataChannel.readyState === "open") {
+                    this.isStreaming = false;
+                    this.openAudioMc.voiceModule.peerManager.dataChannel.send(
+                        new RtcPacket()
+                            .setEventName("HALT_RTP")
+                            .serialize()
+                    )
+                }
+            }, 500);
+
+            document.getElementById(this.id).style.backgroundColor = ""
+            document.getElementById(this.id).style.color = ""
+            this.gainController.off();
+        }
     }
 
     loadDefaults() {
@@ -105,18 +158,14 @@ export class MicrophoneProcessor {
             this.startedTalking = new Date().getTime();
 
             // set talking UI
-            document.getElementById(this.id).style.backgroundColor = "#34D399"
-            document.getElementById(this.id).style.color = "#EC4899"
-            this.gainController.on();
+            this.onSpeakStart()
         });
 
         this.harkEvents.on('stopped_speaking', () => {
             this.isSpeaking = false;
 
             // set talking UI
-            document.getElementById(this.id).style.backgroundColor = ""
-            document.getElementById(this.id).style.color = ""
-            this.gainController.off();
+            this.onSpeakEnd()
 
             // how long did I talk for?
             let timeActive = new Date().getTime() - this.startedTalking;
