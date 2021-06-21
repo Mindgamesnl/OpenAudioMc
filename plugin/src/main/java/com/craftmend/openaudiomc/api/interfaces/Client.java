@@ -76,4 +76,11 @@ public interface Client {
      */
     boolean isMicrophoneActive();
 
+    /**
+     * This completely prevents the client microphone from working (client side and in the sfu),
+     * this can be used as a safe method to mute clients for moderation or other features.
+     * @param disabled If the mic should be disabled
+     */
+    void forcefullyDisableMicrophone(boolean disabled);
+
 }
