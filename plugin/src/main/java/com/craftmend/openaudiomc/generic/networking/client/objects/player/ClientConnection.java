@@ -338,6 +338,11 @@ public class ClientConnection implements Authenticatable, Client {
         return this.isConnected && this.getClientRtcManager().isReady() && this.getClientRtcManager().isMicrophoneEnabled();
     }
 
+    @Override
+    public void forcefullyDisableMicrophone(boolean disabled) {
+        this.getClientRtcManager().allowSpeaking(!disabled);
+    }
+
     public void onDestroy() {
         this.getClientRtcManager().makePeersDrop();
     }
