@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.velocity.messages;
 
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.velocity.messages.bungeecord.PacketForward;
 
 import java.io.ByteArrayInputStream;
@@ -184,7 +185,7 @@ public abstract class PacketManager {
                                     try {
                                         method.invoke(packetListener, packet);
                                     } catch (InvocationTargetException e) {
-                                        System.out.println("Error whilst passing packet to listener " + packetListener.getClass() + "#" + method.getName());
+                                        OpenAudioLogger.toConsole("Error whilst passing packet to listener " + packetListener.getClass() + "#" + method.getName());
                                         e.printStackTrace();
                                     }
                                 }
@@ -195,7 +196,7 @@ public abstract class PacketManager {
             }
         } catch (ClassNotFoundException ignored){ // silently ignore packets we don't know about
         } catch (Throwable e){
-            System.out.println("Error whilst receiving packet " + packetName);
+            OpenAudioLogger.toConsole("Error whilst receiving packet " + packetName);
             e.printStackTrace();
         }
     }
@@ -271,7 +272,7 @@ public abstract class PacketManager {
                 sendPluginMessage(packetPlayer, figureChannel(packet), packet.write().toByteArray());
             }
         } catch (IOException e) {
-            System.out.println("Error whilst writing packet " + getClass().getSimpleName());
+            OpenAudioLogger.toConsole("Error whilst writing packet " + getClass().getSimpleName());
             e.printStackTrace();
         }
     }
