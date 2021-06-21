@@ -12,6 +12,7 @@ import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.listeners.BungeePacketListener;
 import com.craftmend.openaudiomc.velocity.messages.PacketPlayer;
+import com.craftmend.openaudiomc.velocity.messages.StandardPacket;
 import com.craftmend.openaudiomc.velocity.messages.implementations.BukkitPacketManager;
 import lombok.Getter;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -39,6 +40,10 @@ public class ProxyNetworkingService extends NetworkingService {
     @Override
     public void connectIfDown() {
         // unused in fake system
+    }
+
+    public void sendToProxy(Player player, StandardPacket packet) {
+        packetManager.sendPacket(new PacketPlayer(player), packet);
     }
 
     @Override

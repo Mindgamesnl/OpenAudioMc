@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.bungee.modules.node.listeners;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.node.packets.ForceMuteMicrophonePacket;
 import com.craftmend.openaudiomc.generic.node.packets.ForwardSocketPacket;
 import com.craftmend.openaudiomc.velocity.messages.PacketHandler;
 import com.craftmend.openaudiomc.velocity.messages.PacketListener;
@@ -13,6 +14,11 @@ import java.util.UUID;
  * them to the openaudiomc sfu infrastructure, using the bungeecord socket, account and namespaces
  */
 public class NodePacketListener implements PacketListener {
+
+    @PacketHandler
+    public void onMicDisable(ForceMuteMicrophonePacket packet) {
+        OpenAudioMc.getInstance().getNetworkingService().getClient(packet.getClient()).getClientRtcManager().allowSpeaking(packet.isCanSpeak());
+    }
 
     @PacketHandler
     public void onPacket(ForwardSocketPacket packet) {
