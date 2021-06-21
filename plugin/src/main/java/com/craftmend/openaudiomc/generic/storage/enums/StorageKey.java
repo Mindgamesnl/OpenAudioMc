@@ -77,9 +77,13 @@ public enum StorageKey {
     @Deprecated MESSAGE_API_BOOTING(true, "messages.voicechat-enabled", StorageLocation.CONFIG_FILE),
     ;
 
-    @Getter private String path;
-    @Getter private StorageLocation storageLocation;
-    @Getter private boolean isDeprecated;
+    @Getter
+    private final String path;
+    @Getter
+    private final StorageLocation storageLocation;
+    @Getter
+    private final boolean isDeprecated;
+
     StorageKey(boolean isDeprecated, String path, StorageLocation storageLocation) {
         this.isDeprecated = isDeprecated;
         this.path = path;

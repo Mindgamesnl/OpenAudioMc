@@ -36,7 +36,7 @@ public class Executor {
                         try {
                             task.run();
                         } catch (Exception e) {
-                            System.out.println(getClass().getName() + " failed");
+                            OpenAudioLogger.toConsole(getClass().getName() + " failed");
                             OpenAudioLogger.toConsole(e.toString());
                         }
                     }
