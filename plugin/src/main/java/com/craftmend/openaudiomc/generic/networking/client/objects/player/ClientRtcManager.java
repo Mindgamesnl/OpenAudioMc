@@ -13,10 +13,14 @@ import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketC
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientSubscribeToVoice;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceSubscribePayload;
+import com.craftmend.openaudiomc.generic.node.packets.ForceMuteMicrophonePacket;
 import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
+import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.enums.PlayerLocationFollower;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
+import com.craftmend.openaudiomc.spigot.modules.proxy.service.ProxyNetworkingService;
 import lombok.Getter;
 import org.bukkit.Location;
 
@@ -79,6 +83,33 @@ public class ClientRtcManager {
         peer.getClientRtcManager().updateLocationWatcher();
 
         return true;
+    }
+
+    /**
+     * Completely block/unblock speaking for a client.
+     * This will forcefully block their microphone on the client and server side making them unable to speak
+     * no matter what their microphone settings are
+     *
+     * @param allow If speaking is allowed
+     */
+    public void allowSpeaking(boolean allow) {
+        // platform dependant
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
+            // forward to proxy
+            ProxyNetworkingService proxyNetworkingService = (ProxyNetworkingService) OpenAudioMc.getInstance().getNetworkingService();
+            SpigotPlayerAdapter spigotPlayerAdapter = (SpigotPlayerAdapter) clientConnection.getPlayer();
+            proxyNetworkingService.sendToProxy(spigotPlayerAdapter.getPlayer(), new ForceMuteMicrophonePacket(clientConnection.getOwnerUUID(), allow));
+            return;
+        }
+        VoiceService voiceService = OpenAudioMc.getInstance().getCraftmendService().getVoiceService();
+
+        if (voiceService == null || voiceService.getDriver() == null) return;
+
+        if (allow) {
+            voiceService.getDriver().forceMute(clientConnection);
+        } else {
+            voiceService.getDriver().forceUnmute(clientConnection);
+        }
     }
 
     public void makePeersDrop() {
