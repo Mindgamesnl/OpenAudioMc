@@ -9,18 +9,15 @@ import lombok.NoArgsConstructor;
 public class MigrationWorker {
 
     private final SimpleMigration[] migrations = new SimpleMigration[] {
-            new PlusAccessLevelMigration(),         // adds config values for the permissions patch
             new MouseHoverMessageMigration(),       // adds a config field for the hover-to-connect message
             new TipsSettingMigration(),             // adds a config field for the staff-tips option
             new UpdateSettingMigration(),           // adds config fields for update and announcement preferences,
             new LegalAcceptanceMigration(),         // binding statements about accepting our rules
-            new RemoveLoopTempRegionMigration(),    // re branding temp regions to shows
             new SessionGenerationMigration(),       // messages for generation and session errors
             new AuthHostMigration(),                // host details as part of handshake hash
             new AddPreFetchMigration(),             // add a config value for how many files to prefetch
             new AddVolumeHintMigration(),           // add a config value for default volume messages
             new AddGcStratMigration(),              // add a config value for GC strats
-            new RemoveOldCallDataMigration(),       // remove old messages from the old voice system
             new AddNewVoicechatMessagesMigration(), // adds new chat messages for the voice chat system
             new AddVcAnnouncementMigration(),       // adds the config option to toggle chat announcements
             new VoiceConnectedMessageMigration(),   // adds required messages for mic mute commands
