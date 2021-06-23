@@ -112,9 +112,10 @@ public class RegionsSubCommand extends SubCommand {
         }
 
         if (args[0].equalsIgnoreCase("delete") && args.length == 2) {
-            config.setString(StorageLocation.DATA_FILE, "regions." + args[1], null);
-            openAudioMcSpigot.getRegionModule().removeRegion(args[1]);
-            message(sender, ChatColor.RED + "The WorldGuard region with the id " + args[1] + " no longer has a sound linked to it.");
+            String targetRegion = args[1].toLowerCase();
+            config.setString(StorageLocation.DATA_FILE, "regions." + targetRegion, null);
+            openAudioMcSpigot.getRegionModule().removeRegion(targetRegion);
+            message(sender, ChatColor.RED + "The WorldGuard region with the id " + targetRegion + " no longer has a sound linked to it.");
             openAudioMcSpigot.getRegionModule().forceUpdateRegions();
             return;
         }
