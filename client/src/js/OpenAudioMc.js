@@ -31,6 +31,8 @@ export const OpenAudioEnv = {
     "envDescription": "__ENV_ABOUT__"
 }
 
+window.debugHooks = {};
+
 // debug registry to check for components
 WhenDebugging(() => {
     // add debug panel for UI components
