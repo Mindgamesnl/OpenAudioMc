@@ -16,7 +16,7 @@ export class MicrophoneProcessor {
 
         this.harkEvents = Hark(this.stream, {})
         this.gainController = new GainController(stream);
-        this.gainController.off();
+        this.gainController.on();
 
         this.loadDefaults();
 
