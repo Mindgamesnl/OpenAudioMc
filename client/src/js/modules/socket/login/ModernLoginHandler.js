@@ -4,6 +4,8 @@ import {parseStyle} from "../../../helpers/libs/MinecraftColorCodes";
 import {oalog} from "../../../helpers/log";
 import {replaceProperty} from "../../../helpers/domhelper";
 
+let oldColors = ["#2c78f6", "#4F46E5"]
+
 export function HandleModernLogin(openAudioMc, accept, reject, tokenSet) {
 
     fetch('https://cloud.openaudiomc.net/api/v3/account-services/client/login/' + tokenSet.publicServerKey )
@@ -36,10 +38,16 @@ export function HandleModernLogin(openAudioMc, accept, reject, tokenSet) {
                 }
                 const background = response.settings.backgroundImage;
 
+                function setBgImage(bg) {
+                    replaceProperty("{{ oam.side_image }}", bg)
+                    replaceProperty("{{ oam.bg_image_map }}", "--bg-map:url('" + bg + "');")
+                }
+
+                window.debugHooks.setBgImage = setBgImage;
+
                 if (background !== "") {
                     // update background dom
-                    replaceProperty("{{ oam.side_image }}", background)
-                    replaceProperty("{{ oam.bg_image_map }}", "--bg-map:url('" + background + "');")
+                    setBgImage(background)
                 }
 
                 const title = response.settings.title;
@@ -75,19 +83,24 @@ export function HandleModernLogin(openAudioMc, accept, reject, tokenSet) {
                     return `rgba(${r},${g},${b},${opacity / 100})`;
                 };
 
+                function setBgColor(col) {
+                    document.documentElement.style.setProperty('--border-color-dark', col);
+                    // let normal = convertHexToRGBA(response.accentColor, 70)
+                    let light = convertHexToRGBA(col, 40)
+                    document.documentElement.style.setProperty('--border-color-normal', col);
+                    document.documentElement.style.setProperty('--border-color-light', light);
+                    // old
 
+                    for (let i = 0; i < oldColors.length; i++) {
+                        openAudioMc.getUserInterfaceModule().changeColor(oldColors[i], col);
+                    }
 
-                document.documentElement.style.setProperty('--border-color-dark', response.settings.color);
-                // let normal = convertHexToRGBA(response.accentColor, 70)
-                let light = convertHexToRGBA(response.settings.color, 40)
-                document.documentElement.style.setProperty('--border-color-normal', response.settings.color);
-                document.documentElement.style.setProperty('--border-color-light', light);
+                    oldColors = [col]
+                }
 
-                // old
-                openAudioMc.getUserInterfaceModule().changeColor("#2c78f6", response.settings.color);
+                setBgColor(response.settings.color)
 
-                // modern from tailwind
-                openAudioMc.getUserInterfaceModule().changeColor("#4F46E5", response.settings.color);
+                window.debugHooks.setBgColor = setBgColor
 
                 if (response.settings.startSound != "") {
                     openAudioMc.getMediaManager().startSound = response.settings.startSound;
