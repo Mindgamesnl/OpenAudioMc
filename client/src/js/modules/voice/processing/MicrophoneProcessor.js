@@ -16,7 +16,7 @@ export class MicrophoneProcessor {
 
         this.harkEvents = Hark(this.stream, {})
         this.gainController = new GainController(stream);
-        this.gainController.off();
+        this.gainController.on();
 
         this.loadDefaults();
 
@@ -103,7 +103,7 @@ export class MicrophoneProcessor {
             document.getElementById(this.id).style.backgroundColor = "#34D399"
             document.getElementById(this.id).style.color = "#EC4899"
             clearTimeout(this.haltRtpTask);
-            this.gainController.on();
+            // this.gainController.on();
         } else {
             this.haltRtpTask = setTimeout(() => {
                 if (this.openAudioMc.voiceModule.peerManager.dataChannel.readyState === "open") {
@@ -118,7 +118,7 @@ export class MicrophoneProcessor {
 
             document.getElementById(this.id).style.backgroundColor = ""
             document.getElementById(this.id).style.color = ""
-            this.gainController.off();
+            // this.gainController.off();
         }
     }
 
