@@ -36,6 +36,7 @@ public class ClientRtcManager {
     @Getter private final Set<ClientRtcLocationUpdate> locationUpdateQueue = ConcurrentHashMap.newKeySet();
     @Getter private final Set<RtcBlockReason> blockReasons = new HashSet<>();
     @Getter private final Set<RtcStateFlag> stateFlags = new HashSet<>();
+    private Location lastPassedLocation = null;
     private final ClientConnection clientConnection;
 
     public ClientRtcManager(ClientConnection clientConnection) {
@@ -129,6 +130,14 @@ public class ClientRtcManager {
     }
 
     public void onLocationTick(Location location) {
+        if (this.isReady() && this.isMicrophoneEnabled() && this.blockReasons.isEmpty()) {
+            this.forceUpdateLocation(location);
+        } else {
+            lastPassedLocation = location;
+        }
+    }
+
+    public void forceUpdateLocation(Location location) {
         for (ClientConnection peer : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
             if (peer.getOwnerUUID() == clientConnection.getOwnerUUID())
                 continue;
@@ -160,6 +169,13 @@ public class ClientRtcManager {
     }
 
     public void setMicrophoneEnabled(boolean state) {
+
+        if (!this.isMicrophoneEnabled && state) {
+            if (this.lastPassedLocation != null) {
+                forceUpdateLocation(lastPassedLocation);
+            }
+        }
+
         this.isMicrophoneEnabled = state;
 
         if (state) {
