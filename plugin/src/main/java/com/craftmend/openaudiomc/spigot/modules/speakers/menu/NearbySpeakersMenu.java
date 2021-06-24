@@ -28,7 +28,7 @@ public class NearbySpeakersMenu extends Menu {
             if (slot == maxSlots - 1) break;
 
             // place item
-            setItem(0, new Item(OpenAudioMcSpigot.getInstance().getSpeakerModule().getPlayerSkullItem())
+            setItem(slot, new Item(OpenAudioMcSpigot.getInstance().getSpeakerModule().getPlayerSkullItem())
                     .setName(ChatColor.AQUA + "Nearby speaker #" + slot)
                     .setLore(new String[]{"Click here to open options", "for this speaker."})
                     .onClick((clicker, item) -> {
