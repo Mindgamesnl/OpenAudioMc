@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 public class SelectedSpeakerMenu extends Menu {
 
     public SelectedSpeakerMenu(Player player, ApplicableSpeaker speaker) {
-        super(ChatColor.BLUE + "Editing speaker " + speaker.getSpeaker().getId().toString(), 9);
+        super(ChatColor.BLUE + "Editing speaker " + speaker.getSpeaker().getId().toString().split("-")[0], 9);
 
         /**
          * Options:
