@@ -10,7 +10,7 @@ import java.io.File;
 
 public class ProxyModule {
 
-    @Getter private ClientMode mode;
+    @Getter private final ClientMode mode;
 
     public ProxyModule() {
         boolean proxyMode = false;
