@@ -16,6 +16,8 @@ public class CommandModule {
 
     private final Map<String, SubCommand> subCommands = new HashMap<>();
     @Getter private final List<String> aliases = new ArrayList<>();
+
+    // TODO: This should be a constant
     @Getter private final String commandPrefix = Platform.translateColors("&3[&bOA&3] &7");
 
     public CommandModule(OpenAudioMc openAudioMc) {

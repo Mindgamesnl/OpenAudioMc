@@ -11,6 +11,7 @@ import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
+import com.craftmend.openaudiomc.spigot.modules.speakers.menu.NearbySpeakersMenu;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.SpeakerSettings;
@@ -34,6 +35,9 @@ public class SpeakersSubCommand extends SubCommand {
     public SpeakersSubCommand(OpenAudioMcSpigot openAudioMcSpigot) {
         super("speaker");
         registerArguments(
+                new Argument("menu",
+                        "Opens a GUI with nearby speakers, allowing you to teleport and update them easily."),
+
                 new Argument("<source> [radius]",
                         "Gives you a speaker block which you can place anywhere in the world. " +
                                 "The speaker will play the sound you entered in the argument. Optional radius as number."),
@@ -53,6 +57,12 @@ public class SpeakersSubCommand extends SubCommand {
     public void onExecute(GenericExecutor sender, String[] args) {
         if (args.length == 0) {
             Bukkit.getServer().dispatchCommand((CommandSender) sender.getOriginal(), "oa help " + getCommand());
+            return;
+        }
+
+        if (args[0].equalsIgnoreCase("menu")) {
+            Player player = (Player) sender.getOriginal();
+            new NearbySpeakersMenu(player);
             return;
         }
 
