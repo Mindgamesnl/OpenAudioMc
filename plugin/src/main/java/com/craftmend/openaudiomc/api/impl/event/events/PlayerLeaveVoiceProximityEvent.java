@@ -1,10 +1,12 @@
 package com.craftmend.openaudiomc.api.impl.event.events;
 
 import com.craftmend.openaudiomc.api.impl.event.AudioEvent;
-import com.craftmend.openaudiomc.api.impl.event.events.enums.VoiceEventCause;
+import com.craftmend.openaudiomc.api.impl.event.enums.EventSupport;
+import com.craftmend.openaudiomc.api.impl.event.enums.VoiceEventCause;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * This event gets called whenever a player leaves the proximity from another player and breaks the link
@@ -16,6 +18,7 @@ import lombok.Getter;
  * what caused a specific event instance, so you can just ignore the ones that you dont want)
  */
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class PlayerLeaveVoiceProximityEvent extends AudioEvent {
 
@@ -23,4 +26,8 @@ public class PlayerLeaveVoiceProximityEvent extends AudioEvent {
     private ClientConnection listener;
     private VoiceEventCause cause;
 
+    @Override
+    public EventSupport getSupport() {
+        return EventSupport.SPIGOT_ONLY;
+    }
 }

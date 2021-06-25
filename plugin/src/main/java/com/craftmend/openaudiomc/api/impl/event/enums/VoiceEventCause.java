@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.api.impl.event.events.enums;
+package com.craftmend.openaudiomc.api.impl.event.enums;
 
 /**
  * This enum represents the cause of a specific event, used to provide more context

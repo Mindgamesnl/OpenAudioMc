@@ -1,9 +1,11 @@
 package com.craftmend.openaudiomc.api.impl.event;
 
+import com.craftmend.openaudiomc.api.impl.event.enums.EventSupport;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -16,6 +18,11 @@ import java.util.Set;
 public class ApiEventDriver {
 
     /**
+     * Cache for reflected event support lookups
+     */
+    private Map<Class<? extends AudioEvent>, EventSupport> eventSupportCache = new HashMap<>();
+
+    /**
      * This maps raw event implementation classes to a set of handler holders of the same type
      * note that this isn't a concurrent hashmap, which shouldn't really be a problem since I don't
      * expect that there'll be events registered during normal application flow, but is important
@@ -23,6 +30,13 @@ public class ApiEventDriver {
      */
     private HashMap<Class<? extends AudioEvent>, Set<HandlerHolder<? extends AudioEvent>>> handlers = new HashMap<>();
 
+    public EventSupport getEventSupportFor(Class<? extends AudioEvent> event) throws InstantiationException, IllegalAccessException {
+        if (eventSupportCache.containsKey(event)) return eventSupportCache.get(event);
+        AudioEvent eventInstance = event.newInstance();
+        EventSupport s = eventInstance.getSupport();
+        eventSupportCache.put(event, s);
+        return s;
+    }
 
     /**
      * Internal method to find listeners for a specific event.

@@ -1,9 +1,11 @@
 package com.craftmend.openaudiomc.api.impl.event.events;
 
 import com.craftmend.openaudiomc.api.impl.event.AudioEvent;
+import com.craftmend.openaudiomc.api.impl.event.enums.EventSupport;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * This event gets called whenever a new {@link CraftmendTag} gets activated for this
@@ -11,9 +13,16 @@ import lombok.Getter;
  * if it can disable specific features (like voicechat)
  */
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class AccountRemoveTagEvent extends AudioEvent {
 
     private CraftmendTag removedTag;
+
+    @Override
+    public EventSupport getSupport() {
+        // only the top level server handles craftmend accounts
+        return EventSupport.ONLY_PROXY_IF_AVAILABLE;
+    }
 
 }
