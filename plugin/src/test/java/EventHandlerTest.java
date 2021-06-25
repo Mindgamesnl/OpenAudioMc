@@ -1,5 +1,6 @@
 import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 import com.craftmend.openaudiomc.api.impl.event.enums.EventSupport;
+import com.craftmend.openaudiomc.generic.platform.Platform;
 import lombok.SneakyThrows;
 
 import org.junit.Assert;
@@ -30,6 +31,24 @@ public class EventHandlerTest {
             EventSupport support = eventDriver.getEventSupportFor(event);
             Assert.assertNotEquals(EventSupport.UNKNOWN.toString(), support.toString());
         }
+    }
+
+    @SneakyThrows
+    @Test
+    public void testEventTypes() {
+        ApiEventDriver eventDriver = new ApiEventDriver();
+
+        // spigot only test
+        Assert.assertTrue(eventDriver.isSupported(EventSupport.SPIGOT_ONLY, Platform.SPIGOT, false));
+        Assert.assertFalse(eventDriver.isSupported(EventSupport.SPIGOT_ONLY, Platform.BUNGEE, false));
+
+        // only prox if avi
+        Assert.assertFalse(eventDriver.isSupported(EventSupport.ONLY_PROXY_IF_AVAILABLE, Platform.SPIGOT, true));
+        Assert.assertTrue(eventDriver.isSupported(EventSupport.ONLY_PROXY_IF_AVAILABLE, Platform.SPIGOT, false));
+
+        // only prox
+        Assert.assertTrue(eventDriver.isSupported(EventSupport.PROXY_ONLY, Platform.BUNGEE, false));
+        Assert.assertFalse(eventDriver.isSupported(EventSupport.PROXY_ONLY, Platform.SPIGOT, false));
     }
 
     /**
