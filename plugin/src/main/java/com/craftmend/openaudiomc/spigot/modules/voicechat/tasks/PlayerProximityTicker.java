@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.voicechat.tasks;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.events.PlayerLeaveVoiceProximityEvent;
-import com.craftmend.openaudiomc.api.impl.event.events.enums.VoiceEventCause;
+import com.craftmend.openaudiomc.api.impl.event.enums.VoiceEventCause;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;

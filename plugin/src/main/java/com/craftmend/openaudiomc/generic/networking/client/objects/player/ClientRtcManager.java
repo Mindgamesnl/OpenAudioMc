@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.api.impl.event.events.MicrophoneMuteEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.MicrophoneUnmuteEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.PlayerEnterVoiceProximityEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.PlayerLeaveVoiceProximityEvent;
-import com.craftmend.openaudiomc.api.impl.event.events.enums.VoiceEventCause;
+import com.craftmend.openaudiomc.api.impl.event.enums.VoiceEventCause;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.networking.client.enums.RtcBlockReason;
 import com.craftmend.openaudiomc.generic.networking.client.enums.RtcStateFlag;

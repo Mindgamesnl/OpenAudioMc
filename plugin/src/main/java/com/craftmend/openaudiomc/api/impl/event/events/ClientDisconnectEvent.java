@@ -1,8 +1,10 @@
 package com.craftmend.openaudiomc.api.impl.event.events;
 
 import com.craftmend.openaudiomc.api.impl.event.AudioEvent;
+import com.craftmend.openaudiomc.api.impl.event.enums.EventSupport;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * This event gets called whenever a {@link ClientConnection} opens the web client.
@@ -11,6 +13,7 @@ import lombok.Getter;
  * This could happen after leaving the server, so be careful interacting or trying to query for the player
  * since they might be offline already.
  */
+@NoArgsConstructor
 public class ClientDisconnectEvent extends AudioEvent {
 
     @Getter
@@ -18,5 +21,10 @@ public class ClientDisconnectEvent extends AudioEvent {
 
     public ClientDisconnectEvent(ClientConnection clientConnection) {
         this.client = clientConnection;
+    }
+
+    @Override
+    public EventSupport getSupport() {
+        return EventSupport.EVERYWHERE;
     }
 }

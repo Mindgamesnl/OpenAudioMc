@@ -30,7 +30,7 @@ import java.util.UUID;
 
 public class SpeakersSubCommand extends SubCommand {
 
-    private OpenAudioMcSpigot openAudioMcSpigot;
+    private final OpenAudioMcSpigot openAudioMcSpigot;
 
     public SpeakersSubCommand(OpenAudioMcSpigot openAudioMcSpigot) {
         super("speaker");

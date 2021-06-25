@@ -6,7 +6,6 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 
@@ -33,24 +32,6 @@ public class AliasSubCommand extends SubCommand {
         }
 
         Bukkit.getServer().dispatchCommand((CommandSender) sender.getOriginal(), "oa help " + getCommand());
-    }
-
-    private MappedLocation locationFromArguments(String[] args) {
-        try {
-            MappedLocation mappedLocation = new MappedLocation(
-                    Integer.parseInt(args[2]), // x
-                    Integer.parseInt(args[3]), // y
-                    Integer.parseInt(args[4]), // z
-                    args[1]                    // world
-            );
-
-            // try to parse it as bukkit
-            mappedLocation.toBukkit();
-            return mappedLocation;
-        } catch (Exception e) {
-            // failed to parse location
-            return null;
-        }
     }
 
 }

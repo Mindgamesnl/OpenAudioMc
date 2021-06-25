@@ -1,9 +1,11 @@
 package com.craftmend.openaudiomc.api.impl.event.events;
 
 import com.craftmend.openaudiomc.api.impl.event.AudioEvent;
+import com.craftmend.openaudiomc.api.impl.event.enums.EventSupport;
 import com.craftmend.openaudiomc.generic.state.interfaces.State;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * This even gets called whenever OpenAudioMc changes its internal networking state
@@ -16,10 +18,15 @@ import lombok.Getter;
  * clients.
  */
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class StateChangeEvent extends AudioEvent {
 
     private State oldState;
     private State newState;
 
+    @Override
+    public EventSupport getSupport() {
+        return EventSupport.ONLY_PROXY_IF_AVAILABLE;
+    }
 }
