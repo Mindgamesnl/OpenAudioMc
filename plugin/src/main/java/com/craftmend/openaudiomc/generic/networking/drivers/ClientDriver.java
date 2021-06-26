@@ -50,6 +50,7 @@ public class ClientDriver implements SocketDriver {
                         event.onClientOpen(authenticatable);
                     }
                 } else {
+                    OpenAudioLogger.toConsole("Closing login attempt for " + authenticatable.getOwnerName() + " because they are already connected.");
                     callback.call(false);
                 }
             }

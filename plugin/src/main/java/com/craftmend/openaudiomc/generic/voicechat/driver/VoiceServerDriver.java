@@ -66,9 +66,11 @@ public class VoiceServerDriver {
             this.eventBus.stop();
 
             // oi its fucked
-            for (ClientConnection client : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
-                if (client.getClientRtcManager().isReady()) {
-                    client.getPlayer().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_UNSTABLE.getString()));
+            if (!failed) {
+                for (ClientConnection client : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
+                    if (client.getClientRtcManager().isReady()) {
+                        client.getPlayer().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_UNSTABLE.getString()));
+                    }
                 }
             }
 
