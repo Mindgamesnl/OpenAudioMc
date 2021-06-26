@@ -9,9 +9,13 @@ website: https://openaudiomc.net/
 commands:
   audio:
     aliases: [sound, connect, media, muziek, geluid, voice, vc, voicechat]
+    description: Generate a link to the audio web client
   volume:
     aliases: [setvolume, vol]
+    description: Change the volume of the audio web client
   openaudiomc:
     aliases: [oam, oa, openaudio]
+    description: The command that does all of the magic
   mutemic:
     aliases: [mm, micmute]
+    description: Mute your microphone when using the voice chat system
