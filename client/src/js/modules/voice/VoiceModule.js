@@ -12,9 +12,6 @@ import {replaceGlobalText} from "../../helpers/domhelper";
 export const VoiceStatusChangeEvent = {
     MIC_MUTE: "MICROPHONE_MUTED",
     MIC_UNMTE: "MICROPHONE_UNMUTE",
-    LEVEL_WHISPERING: "LEVEL_WHISPERING",
-    LEVEL_NORMAL: "LEVEL_NORMAL",
-    LEVEL_SHOUTING: "LEVEL_SHOUTING"
 };
 
 export class VoiceModule {

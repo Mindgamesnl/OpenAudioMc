@@ -51,18 +51,6 @@ public class ClientInitializedRtcHandler extends PayloadHandler<ClientOpenedRtcP
     private void handleEvents(ClientConnection cc, ClientOpenedRtcPayload payload) {
         switch (payload.getEvent()) {
 
-            case LEVEL_NORMAL:
-                // talking at a normal volume
-                break;
-
-            case LEVEL_WHISPERING:
-                // whispering
-                break;
-
-            case LEVEL_SHOUTING:
-                // LITERALLY SHOUTING ME LUNGS OUT MATE
-                break;
-
             case MICROPHONE_MUTED: {
                 cc.getClientRtcManager().setMicrophoneEnabled(false);
                 broadcastRtcUpdate(cc.getPlayer(), true, false, cc.getStreamKey(), cc);
