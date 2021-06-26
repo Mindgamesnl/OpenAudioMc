@@ -44,6 +44,9 @@ public class ApiEventDriver {
         if (eventSupportCache.containsKey(event)) return eventSupportCache.get(event);
         AudioEvent eventInstance = event.newInstance();
         EventSupport s = eventInstance.getSupport();
+        if (s == null) {
+            s = EventSupport.UNKNOWN;
+        }
         eventSupportCache.put(event, s);
         return s;
     }
