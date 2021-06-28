@@ -23,7 +23,8 @@ public class SpigotVoiceChatModule {
         ApiEventDriver eventDriver = AudioApi.getInstance().getEventDriver();
 
         // enable voice chat when the tag gets added
-        eventDriver.on(AccountAddTagEvent.class).setHandler(handler -> {
+        eventDriver.on(AccountAddTagEvent.class)
+                .setHandler(handler -> {
                     if (firstRun) {
                         int maxDistance = StorageKey.SETTINGS_VC_RADIUS.getInt();
 

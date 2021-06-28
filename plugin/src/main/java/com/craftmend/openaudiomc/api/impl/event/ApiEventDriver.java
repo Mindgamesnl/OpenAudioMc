@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.api.impl.event;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.enums.EventSupport;
+import com.craftmend.openaudiomc.api.impl.event.events.ClientPreAuthEvent;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import lombok.SneakyThrows;
@@ -131,4 +132,11 @@ public class ApiEventDriver {
         return false;
     }
 
+    public boolean isSupported(Class<? extends AudioEvent> af) {
+        try {
+            return isSupported(getEventSupportFor(af), OpenAudioMc.getInstance().getPlatform(), OpenAudioMc.getInstance().getInvoker().isNodeServer());
+        } catch (InstantiationException | IllegalAccessException e) {
+            return false;
+        }
+    }
 }

@@ -1,5 +1,7 @@
 package com.craftmend.openaudiomc.bungee.modules.node;
 
+import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
+import com.craftmend.openaudiomc.api.impl.event.events.ClientPreAuthEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.TimeServiceUpdateEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
@@ -22,24 +24,26 @@ public class NodeManager {
         packetManager = new BungeeCordPacketManager(openAudioMcBungee, "openaudiomc:node");
         packetManager.registerListener(new NodePacketListener());
 
-        AudioApi.getInstance().getEventDriver()
-                .on(TimeServiceUpdateEvent.class)
-                .setHandler(service -> {
-                    // get all servers that have online players, and forward
-                    // a packet to them
-                    HashMap<String, ProxiedPlayer> coveredServers = new HashMap<>();
-                    for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                        if (!coveredServers.containsKey(player.getServer().getInfo().getName())) {
-                            coveredServers.put(player.getServer().getInfo().getName(), player);
+        ApiEventDriver driver = AudioApi.getInstance().getEventDriver();
+        if (driver.isSupported(TimeServiceUpdateEvent.class)) {
+            driver.on(TimeServiceUpdateEvent.class)
+                    .setHandler(service -> {
+                        // get all servers that have online players, and forward
+                        // a packet to them
+                        HashMap<String, ProxiedPlayer> coveredServers = new HashMap<>();
+                        for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+                            if (!coveredServers.containsKey(player.getServer().getInfo().getName())) {
+                                coveredServers.put(player.getServer().getInfo().getName(), player);
+                            }
                         }
-                    }
 
-                    ServerUpdateTimePacket packet = new ServerUpdateTimePacket(service.getTimeService());
+                        ServerUpdateTimePacket packet = new ServerUpdateTimePacket(service.getTimeService());
 
-                    coveredServers.forEach((server, player) -> {
-                        OpenAudioMcBungee.getInstance().getNodeManager().getPacketManager().sendPacket(new PacketPlayer(player), packet);
+                        coveredServers.forEach((server, player) -> {
+                            OpenAudioMcBungee.getInstance().getNodeManager().getPacketManager().sendPacket(new PacketPlayer(player), packet);
+                        });
                     });
-                });
+        }
     }
 
 }
