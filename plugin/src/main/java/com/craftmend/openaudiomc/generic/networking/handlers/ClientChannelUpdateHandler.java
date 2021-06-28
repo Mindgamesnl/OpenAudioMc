@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.generic.networking.handlers;
 
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.abstracts.PayloadHandler;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
@@ -18,6 +19,7 @@ public class ClientChannelUpdateHandler extends PayloadHandler<ClientUpdateChann
                 client.getMixTracker().submitChannels(payload.getTracks());
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
+                OpenAudioLogger.handleException(e);
                 authenticatable.kickConnection();
             }
         }

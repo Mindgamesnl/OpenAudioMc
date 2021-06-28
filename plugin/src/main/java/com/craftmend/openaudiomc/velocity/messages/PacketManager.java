@@ -272,6 +272,7 @@ public abstract class PacketManager {
                 sendPluginMessage(packetPlayer, figureChannel(packet), packet.write().toByteArray());
             }
         } catch (IOException e) {
+            OpenAudioLogger.handleException(e);
             OpenAudioLogger.toConsole("Error whilst writing packet " + getClass().getSimpleName());
             e.printStackTrace();
         }

@@ -64,6 +64,7 @@ public class RestRequest {
             String output = readHttp(url);
             return OpenAudioMc.getGson().fromJson(output, ApiResponse.class);
         } catch (Exception e) {
+            OpenAudioLogger.handleException(e);
             OpenAudioLogger.toConsole("Net error: " + e.getMessage());
             e.printStackTrace();
             ApiResponse errorResponse = new ApiResponse();

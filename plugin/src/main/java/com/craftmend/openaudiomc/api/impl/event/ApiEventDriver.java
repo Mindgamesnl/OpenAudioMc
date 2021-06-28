@@ -98,6 +98,7 @@ public class ApiEventDriver {
                 try {
                     subscriber.call(event);
                 } catch (Exception e) {
+                    OpenAudioLogger.handleException(e);
                     OpenAudioLogger.toConsole("Failed to handle an event handler");
                     e.printStackTrace();
                 }

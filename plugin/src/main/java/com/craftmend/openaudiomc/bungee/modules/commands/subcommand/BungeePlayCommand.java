@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.modules.player.objects.BungeePlayerSelector;
 
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.media.objects.OptionalError;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
@@ -66,6 +67,7 @@ public class BungeePlayCommand extends SubCommand {
                 }
                 message(sender, ChatColor.GREEN + "Media (with arguments) created and requested to be played.");
             } catch (Exception e) {
+                OpenAudioLogger.handleException(e);
                 message(sender, ChatColor.RED + "Error. Invalid options. Please refer to the command guide.");
             }
             return;

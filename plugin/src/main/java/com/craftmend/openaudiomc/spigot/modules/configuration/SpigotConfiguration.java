@@ -267,6 +267,7 @@ public class SpigotConfiguration implements Configuration, Listener {
         try {
             dataConfig.save("plugins/OpenAudioMc/data.yml");
         } catch (IOException e) {
+            OpenAudioLogger.handleException(e);
             e.printStackTrace();
         }
     }

@@ -2,7 +2,6 @@ package com.craftmend.openaudiomc.spigot.services.scheduling;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskProvider;
-import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import org.bukkit.Bukkit;
 

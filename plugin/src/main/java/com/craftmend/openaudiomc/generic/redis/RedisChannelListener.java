@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.generic.redis;
 
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.redis.packets.channels.ChannelKey;
 import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
 import io.lettuce.core.pubsub.RedisPubSubAdapter;
@@ -19,6 +20,7 @@ public class RedisChannelListener extends RedisPubSubAdapter<String, String> {
                 sacreficcialPlayerPackets.put(value, value.getPacketClass().getConstructor().newInstance());
                 channelNameMap.put(value.getRedisChannelName(), value);
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                OpenAudioLogger.handleException(e);
                 e.printStackTrace();
             }
         }

@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.generic.networking.addapter;
 
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
 import com.google.gson.*;
 import java.lang.reflect.Type;
@@ -33,6 +34,7 @@ public class AbstractPacketAdapter implements JsonSerializer<AbstractPacketPaylo
 
             return context.deserialize(element, Class.forName("com.craftmend.openaudiomc.generic.networking.payloads." + type));
         } catch (ClassNotFoundException cnfe) {
+            OpenAudioLogger.handleException(cnfe);
             throw new JsonParseException("Unknown element type: " + type, cnfe);
         }
     }

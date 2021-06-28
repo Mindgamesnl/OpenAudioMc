@@ -71,6 +71,7 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
             Instant finish = Instant.now();
             OpenAudioLogger.toConsole("Starting and loading took " + Duration.between(boot, finish).toMillis() + "MS");
         } catch (Exception e) {
+            OpenAudioLogger.handleException(e);
             e.printStackTrace();
         }
     }
