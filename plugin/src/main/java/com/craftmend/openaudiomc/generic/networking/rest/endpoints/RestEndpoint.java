@@ -26,11 +26,12 @@ public enum RestEndpoint {
 
     // plus
     PLUS_REGISTER("https://plus.openaudiomc.net/api/v1/servers/register", false),
-    PLUS_PUSH_LEGACY_SETTINGS("https://plus.openaudiomc.net/api/v1/plus/settings", false),
 
     // voice
     VOICE_EVENT_BUS_PREAUTH("/eb/check", false),
     VOICE_EVENT_BUS("/eb/ws", false),
+
+    TEST_ENDPOINT_GOOGLE("https://google.com/", false),
     ;
 
     private String url;
