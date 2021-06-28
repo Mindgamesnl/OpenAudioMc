@@ -1,18 +1,21 @@
 {
-  "versioning": {
-    "version_tag": "6.5.4",
-    "build_number": 201,
-    "version_importance": "&2Highly recommended",
-    "version_update_message": "This update contains some important bug fixes, api methods and nice extra features."
-  },
+  "response": {
+    "versioning": {
+      "version_tag": "6.5.4",
+      "build_number": 201,
+      "version_importance": "&2Highly recommended",
+      "version_update_message": "This update contains some important bug fixes, api methods and nice extra features."
+    },
 
-  "announcement": {
-    "is_announcement": false,
-    "announcement_message": "&eEpic announcement test"
-  },
+    "announcement": {
+      "is_announcement": false,
+      "announcement_message": "&eEpic announcement test"
+    },
 
-  "configuration": {
-    "production_backend": "https://plus.openaudiomc.net/api",
-    "development_backend": "http://localhost/api"
-  }
+    "configuration": {
+      "production_backend": "https://plus.openaudiomc.net/api",
+      "development_backend": "http://localhost/api"
+    }
+  },
+  "errors": []
 }
