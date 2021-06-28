@@ -1,7 +1,7 @@
 {
   "versioning": {
-    "version_tag": "6.5.2",
-    "build_number": 240,
+    "version_tag": "6.5.4",
+    "build_number": 201,
     "version_importance": "&2Highly recommended",
     "version_update_message": "This update contains some important bug fixes, api methods and nice extra features."
   },
