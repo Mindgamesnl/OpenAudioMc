@@ -60,7 +60,7 @@ public class SpeakersSubCommand extends SubCommand {
             return;
         }
 
-        if (args[0].equalsIgnoreCase("menu")) {
+        if (args[0].equalsIgnoreCase("menu") || args[0].equalsIgnoreCase("gui")) {
             Player player = (Player) sender.getOriginal();
             new NearbySpeakersMenu(player);
             return;
