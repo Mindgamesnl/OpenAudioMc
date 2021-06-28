@@ -73,8 +73,11 @@ public class ApiEventDriver {
     public <T extends AudioEvent> HandlerHolder<T> on(Class<T> eventType) {
         // check if this event is supported here
         EventSupport support = getEventSupportFor(eventType);
-        if (!isSupported(support, OpenAudioMc.getInstance().getPlatform(), OpenAudioMc.getInstance().getInvoker().isNodeServer())) {
-            throw new IllegalStateException(support.getErrorMessage());
+        // is the plugin real?
+        if (OpenAudioMc.getInstance() != null) {
+            if (!isSupported(support, OpenAudioMc.getInstance().getPlatform(), OpenAudioMc.getInstance().getInvoker().isNodeServer())) {
+                throw new IllegalStateException(support.getErrorMessage());
+            }
         }
 
         HandlerHolder<T> holder = new HandlerHolder(eventType);
