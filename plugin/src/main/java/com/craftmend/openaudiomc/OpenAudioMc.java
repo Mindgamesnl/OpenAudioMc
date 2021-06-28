@@ -13,26 +13,17 @@ import com.craftmend.openaudiomc.generic.migrations.MigrationWorker;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.objects.OpenAudioApi;
-import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
-import com.craftmend.openaudiomc.generic.networking.addapter.AbstractPacketAdapter;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.redis.RedisService;
-import com.craftmend.openaudiomc.generic.redis.packets.adapter.RedisTypeAdapter;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskProvider;
-import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
 import com.craftmend.openaudiomc.generic.enviroment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.state.StateService;
 
-import com.craftmend.openaudiomc.generic.utils.data.InstantTypeAdapter;
-import com.craftmend.openaudiomc.spigot.modules.show.adapter.RunnableTypeAdapter;
-import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
+import com.craftmend.openaudiomc.generic.utils.data.GsonFactory;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.Instant;
 
 @Getter
 public class OpenAudioMc {
@@ -91,12 +82,7 @@ public class OpenAudioMc {
     @Getter private static OpenAudioMc instance;
     public static final OpenAudioMcBuild BUILD = new OpenAudioMcBuild();
 
-    @Getter private static final Gson gson = new GsonBuilder()
-            .registerTypeAdapter(AbstractPacketPayload.class, new AbstractPacketAdapter())
-            .registerTypeAdapter(ShowRunnable.class, new RunnableTypeAdapter())
-            .registerTypeAdapter(OARedisPacket.class, new RedisTypeAdapter())
-            .registerTypeAdapter(Instant.class, new InstantTypeAdapter())
-            .create();
+    @Getter private static final Gson gson = GsonFactory.create();
 
     public OpenAudioMc(OpenAudioInvoker invoker) throws Exception {
         // very first thing we need to do, is set the environment

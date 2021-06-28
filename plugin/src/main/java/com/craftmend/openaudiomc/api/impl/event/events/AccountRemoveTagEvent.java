@@ -22,7 +22,7 @@ public class AccountRemoveTagEvent extends AudioEvent {
     @Override
     public EventSupport getSupport() {
         // only the top level server handles craftmend accounts
-        return EventSupport.ONLY_PROXY_IF_AVAILABLE;
+        return EventSupport.EVERYWHERE;
     }
 
 }

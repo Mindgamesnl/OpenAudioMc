@@ -92,6 +92,9 @@
                         <version>4.12.0-M4</version>
                     </dependency>
                 </dependencies>
+                <configuration>
+                    <trimStackTrace>false</trimStackTrace>
+                </configuration>
             </plugin>
 
             <plugin>
