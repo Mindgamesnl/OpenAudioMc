@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.generic.networking.io;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
+import com.craftmend.openaudiomc.api.impl.event.events.ClientRequestVoiceEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.StateChangeEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
@@ -64,13 +66,15 @@ public class SocketIoConnector {
             logoutHandler = new RestRequest(RestEndpoint.END_SESSION);
 
             // listen for state events
-            AudioApi.getInstance().getEventDriver()
-                    .on(StateChangeEvent.class)
-                    .setHandler(event -> {
-                        if (event.getOldState() instanceof ConnectedState) {
-                            logoutHandler.executeAsync();
-                        }
-                    });
+            ApiEventDriver driver = AudioApi.getInstance().getEventDriver();
+            if (driver.isSupported(StateChangeEvent.class)) {
+                driver.on(StateChangeEvent.class)
+                        .setHandler(event -> {
+                            if (event.getOldState() instanceof ConnectedState) {
+                                logoutHandler.executeAsync();
+                            }
+                        });
+            }
 
             registeredLogout = true;
         }

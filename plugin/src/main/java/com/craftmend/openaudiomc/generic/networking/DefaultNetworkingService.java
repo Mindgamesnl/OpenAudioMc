@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 import com.craftmend.openaudiomc.api.impl.event.events.ClientPreAuthEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
@@ -71,20 +72,23 @@ public class DefaultNetworkingService extends NetworkingService {
         });
 
         // default auth check middleware
-        AudioApi.getInstance().getEventDriver()
-                .on(ClientPreAuthEvent.class)
-                .setHandler((event -> {
-                    // cancel the request if the client is already open, don't bother checking the token
-                    if (event.getRequester().getIsConnected()) {
-                        event.setCanceled(true);
-                        return;
-                    }
+        ApiEventDriver driver = AudioApi.getInstance().getEventDriver();
+        if (driver.isSupported(ClientPreAuthEvent.class)) {
+            AudioApi.getInstance().getEventDriver()
+                    .on(ClientPreAuthEvent.class)
+                    .setHandler((event -> {
+                        // cancel the request if the client is already open, don't bother checking the token
+                        if (event.getRequester().getIsConnected()) {
+                            event.setCanceled(true);
+                            return;
+                        }
 
-                    // cancel the login if the token is invalid
-                    if (!event.getRequester().isTokenCorrect(event.getToken())) {
-                        event.setCanceled(true);
-                    }
-                }));
+                        // cancel the login if the token is invalid
+                        if (!event.getRequester().isTokenCorrect(event.getToken())) {
+                            event.setCanceled(true);
+                        }
+                    }));
+        }
 
         OpenAudioMc.getInstance().getTaskProvider().scheduleAsyncRepeatingTask(() -> {
             packetThroughput = 0;
