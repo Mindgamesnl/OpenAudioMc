@@ -24,10 +24,18 @@ public class AbstractPacketAdapter implements JsonSerializer<AbstractPacketPaylo
     @Override
     public AbstractPacketPayload deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
-        String type = jsonObject.get("type").getAsString();
+        String type = null;
+        JsonElement typeElement = jsonObject.get("type");
+        if (typeElement != null) {
+            type = typeElement.getAsString();
+        }
         JsonElement element = jsonObject.get("payload");
 
         try {
+            if (type == null) {
+                return new AbstractPacketPayload();
+            }
+
             if (type.contains("com.craftmend.openaudiomc")) {
                 return context.deserialize(element, Class.forName(type));
             }
