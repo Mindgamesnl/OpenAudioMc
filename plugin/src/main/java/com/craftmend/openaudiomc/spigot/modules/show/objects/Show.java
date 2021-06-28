@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.show.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 import lombok.Getter;
@@ -136,6 +137,7 @@ public class Show {
             writer.flush();
             writer.close();
         } catch (IOException x) {
+            OpenAudioLogger.handleException(x);
             System.err.format("IOException: %s%n", x);
         }
         return this;

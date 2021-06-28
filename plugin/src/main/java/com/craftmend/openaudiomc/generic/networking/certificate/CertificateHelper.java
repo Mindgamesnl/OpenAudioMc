@@ -44,6 +44,7 @@ public class CertificateHelper {
                 }
             });
         } catch (Exception e) {
+            OpenAudioLogger.handleException(e);
             OpenAudioLogger.toConsole("Failed to middleman ssl, should probably be fine");
         }
         return builder;

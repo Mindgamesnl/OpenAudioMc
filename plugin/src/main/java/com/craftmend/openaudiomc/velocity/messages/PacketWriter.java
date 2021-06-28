@@ -1,5 +1,7 @@
 package com.craftmend.openaudiomc.velocity.messages;
 
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -25,6 +27,7 @@ public class PacketWriter {
             try {
                 dataOutputStream.writeUTF(packet.getClass().getName());
             } catch (IOException e) {
+                OpenAudioLogger.handleException(e);
                 e.printStackTrace();
             }
         }

@@ -248,6 +248,7 @@ public class BungeeConfiguration implements Configuration {
             ConfigurationProvider.getProvider(YamlConfiguration.class).save(mainConfig, new File(OpenAudioMcBungee.getInstance().getDataFolder(), "config.yml"));
             ConfigurationProvider.getProvider(YamlConfiguration.class).save(dataConfig, new File(OpenAudioMcBungee.getInstance().getDataFolder(), "data.yml"));
         } catch (IOException e) {
+            OpenAudioLogger.handleException(e);
             e.printStackTrace();
         }
     }
@@ -275,6 +276,7 @@ public class BungeeConfiguration implements Configuration {
         try {
             load = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(OpenAudioMcBungee.getInstance().getDataFolder(), filename));
         } catch (IOException e) {
+            OpenAudioLogger.handleException(e);
             e.printStackTrace();
         }
         return load;
@@ -290,6 +292,7 @@ public class BungeeConfiguration implements Configuration {
             try {
                 Files.delete(file.toPath());
             } catch (IOException e) {
+                OpenAudioLogger.handleException(e);
                 e.printStackTrace();
             }
         }
@@ -298,6 +301,7 @@ public class BungeeConfiguration implements Configuration {
             try (InputStream in = OpenAudioMcBungee.getInstance().getResourceAsStream(filename)) {
                 Files.copy(in, file.toPath());
             } catch (IOException e) {
+                OpenAudioLogger.handleException(e);
                 e.printStackTrace();
             }
         }

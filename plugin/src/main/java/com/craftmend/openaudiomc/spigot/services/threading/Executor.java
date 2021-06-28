@@ -61,6 +61,7 @@ public class Executor {
                     try {
                         Thread.sleep(delayTime);
                     } catch (InterruptedException e) {
+                        OpenAudioLogger.handleException(e);
                         OpenAudioLogger.toConsole(e.getMessage());
                     }
                 }

@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.generic.redis.packets.adapter;
 
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
 import com.google.gson.*;
 
@@ -35,6 +36,7 @@ public class RedisTypeAdapter implements JsonSerializer<OARedisPacket>, JsonDese
             orp.setSenderUUID(UUID.fromString(senderUuid));
             return orp;
         } catch (ClassNotFoundException cnfe) {
+            OpenAudioLogger.handleException(cnfe);
             throw new JsonParseException("Unknown element type: " + type, cnfe);
         }
     }

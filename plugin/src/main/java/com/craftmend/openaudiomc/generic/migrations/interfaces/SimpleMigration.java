@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.migrations.interfaces;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 
@@ -66,6 +67,7 @@ public abstract class SimpleMigration {
                 writer.write(oldContent.toString());
             }
         } catch (IOException e) {
+            OpenAudioLogger.handleException(e);
             e.printStackTrace();
         }
 

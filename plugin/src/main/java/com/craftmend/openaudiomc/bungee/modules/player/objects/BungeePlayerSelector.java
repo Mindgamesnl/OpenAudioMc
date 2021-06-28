@@ -1,6 +1,5 @@
 package com.craftmend.openaudiomc.bungee.modules.player.objects;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import lombok.AllArgsConstructor;
 import net.md_5.bungee.api.CommandSender;

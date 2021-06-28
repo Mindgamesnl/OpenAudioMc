@@ -9,6 +9,7 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
 import com.craftmend.openaudiomc.velocity.generic.commands.adapters.VelocityCommandSenderAdapter;
 import com.velocitypowered.api.command.SimpleCommand;
@@ -53,6 +54,7 @@ public class OpenAudioMcVelocityCommand implements SimpleCommand {
                      * It's more dead inside then i am
                      */
                     e.printStackTrace();
+                    OpenAudioLogger.handleException(e);
                     sender.sendMessage(commandModule.getCommandPrefix() + "An error occurred while executing the command. Please check your command.");
                 }
                 return;

@@ -116,6 +116,7 @@ public class SocketIoConnector {
             try {
                 throw new IOException("Failed to get relay! see console for error information");
             } catch (IOException e) {
+                OpenAudioLogger.handleException(e);
                 e.printStackTrace();
             }
             return;
@@ -132,6 +133,7 @@ public class SocketIoConnector {
         try {
             socket = IO.socket(loginResponse.getAssignedOpenAudioServer().getInsecureEndpoint(), opts);
         } catch (URISyntaxException e) {
+            OpenAudioLogger.handleException(e);
             e.printStackTrace();
         }
 
