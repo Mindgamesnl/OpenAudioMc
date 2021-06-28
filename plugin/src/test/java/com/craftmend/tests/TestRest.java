@@ -23,7 +23,7 @@ public class TestRest {
 
         ProjectStatus status = response.getResponse(ProjectStatus.class);
 
-        Assert.assertNull(status);
+        Assert.assertNotNull(status);
         Assert.assertTrue(status.isLocalLatest());
     }
 
