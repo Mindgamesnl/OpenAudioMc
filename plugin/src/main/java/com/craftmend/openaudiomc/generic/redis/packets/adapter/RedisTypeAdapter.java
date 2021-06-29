@@ -27,12 +27,30 @@ public class RedisTypeAdapter implements JsonSerializer<OARedisPacket>, JsonDese
     @Override
     public OARedisPacket deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
-        String type = jsonObject.get("type").getAsString();
-        String senderUuid = jsonObject.get("senderUuid").getAsString();
-        JsonElement element = jsonObject.get("payload");
+
+        JsonElement typeElement = jsonObject.get("type");
+        JsonElement senderElement = jsonObject.get("senderUuid");
+        JsonElement payloadElement = jsonObject.get("payload");
+
+        if (typeElement == null || senderElement == null || payloadElement == null) {
+            return new OARedisPacket() {
+                @Override
+                public String serialize() {
+                    return "{}";
+                }
+
+                @Override
+                public void handle(OARedisPacket received) {
+
+                }
+            };
+        }
+
+        String type = typeElement.getAsString();
+        String senderUuid = senderElement.getAsString();
 
         try {
-            OARedisPacket orp = context.deserialize(element, Class.forName(type));
+            OARedisPacket orp = context.deserialize(payloadElement, Class.forName(type));
             orp.setSenderUUID(UUID.fromString(senderUuid));
             return orp;
         } catch (ClassNotFoundException cnfe) {
