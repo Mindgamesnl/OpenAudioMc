@@ -7,10 +7,12 @@ import lombok.NoArgsConstructor;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
+import java.io.Serializable;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Vector3 {
+public class Vector3 implements Serializable {
 
     public static final Vector3 EMPTY = new Vector3();
 

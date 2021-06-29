@@ -4,9 +4,11 @@ import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
 @AllArgsConstructor
-public class ClientSpeaker {
+public class ClientSpeaker implements Serializable {
 
     private Vector3 location;
     private SpeakerType type;
