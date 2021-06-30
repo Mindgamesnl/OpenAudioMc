@@ -52,18 +52,6 @@ export class HueModule {
             if (this.options.userid != null) {
                 this.openAudioMc.getHueModule().startSetup();
             }
-
-            this.requestBox = new AlertBox('#alert-area', {
-                persistent: true,
-                hideCloseButton: true,
-            });
-
-            this.requestBox.show(
-                '<div style="text-align: center;">We found a hue bridge in your network<br/>' +
-                '<br/><br/><a id="noti-perm-request-link" class="alert-message-button">hue settings</a></div>'
-            );
-
-            this.requestBox.onClick(this.openModal)
         } else {
             this.openAudioMc.log("No hue bridges found");
         }
