@@ -64,14 +64,11 @@ export function HandleModernLogin(openAudioMc, accept, reject, tokenSet) {
                     welcomeHtml += node.outerHTML;
                 });
 
-                if (errorMessage !== "") openAudioMc.getMessages().errorMessage = errorHtml;
-                if (welcomeMessage !== "") openAudioMc.getMessages().welcomeMessage = welcomeHtml;
-
                 let hello = response.settings.welcomeMessage;
                 hello = hello.replace('%name', openAudioMc.tokenSet.name);
 
-                document.getElementById("initialize-text").innerHTML = hello;
-                document.getElementById("initialize-button").innerHTML = response.settings.startButton;
+                //document.getElementById("initialize-text").innerHTML = hello;
+                //document.getElementById("initialize-button").innerHTML = response.settings.startButton;
 
                 // replace the default with a defined one
                 function convertHexToRGBA(hexCode, opacity) {

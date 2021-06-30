@@ -1,7 +1,6 @@
 import "@babel/polyfill";
 
 import {TimeService} from "./modules/socket/TimeService";
-import {Messages} from "./modules/ui/Messages";
 import {strictlyShowCard, UiCards, UserInterfaceModule} from "./modules/ui/UserInterfaceModule";
 import {HueModule} from "./modules/hue/HueModule";
 import {MediaManager} from "./modules/media/MediaManager";
@@ -21,6 +20,7 @@ import {VoiceModule} from "./modules/voice/VoiceModule";
 import {oalog} from "./helpers/log";
 import {DebugPanel, WhenDebugging} from "./debug";
 import {propertyValueCache, replaceGlobalText, replaceProperty, textElementCache} from "./helpers/domhelper";
+import {MessageModule} from "./modules/messages/MessageModule";
 
 export const OpenAudioEnv = {
     "build": "__BUILD_VERSION__",
@@ -45,6 +45,8 @@ export class OpenAudioMc extends Getters {
         super();
         oalog("Starting build " + JSON.stringify(OpenAudioEnv))
 
+        this.messageModule = new MessageModule();
+
         this.canStart = false;
         this.host = null;
         this.background = null;
@@ -61,7 +63,6 @@ export class OpenAudioMc extends Getters {
 
         this.notificationModule = new NotificationModule(this);
         this.timeService = new TimeService();
-        this.messages = new Messages(this);
         this.userInterfaceModule = new UserInterfaceModule(this);
         this.hueConfiguration = new HueConfigurationModule(this);
         this.mediaManager = new MediaManager(this);
@@ -72,7 +73,20 @@ export class OpenAudioMc extends Getters {
         // request a socket service, then do the booting
         const director = new SocketDirector(API_ENDPOINT.MAIN_BACKEND);
         director.route(this)
-            .then((res) => {
+            .then(async (res) => {
+
+                // load default language
+                setLoaderText("Loading language, welcome " + this.tokenSet.name)
+
+                // load message file
+                await this.messageModule.load("en.lang");
+                // set static shit
+                this.messageModule.seedStatic([
+                    ["%player", this.tokenSet.name],
+                    ["%server", res.serverName]
+                ]);
+
+                this.serverName = res.serverName;
                 this.canStart = true;
                 this.host = res.host;
                 this.background = res.background;
@@ -120,7 +134,6 @@ export class OpenAudioMc extends Getters {
         this.world = new WorldModule(this);
         this.hueModule = new HueModule(this, getHueInstance());
         this.socketModule = new SocketModule(this, this.host);
-        this.messages.apply();
 
         this.mediaManager.setupAmbianceSound(this.ambianceSound);
 

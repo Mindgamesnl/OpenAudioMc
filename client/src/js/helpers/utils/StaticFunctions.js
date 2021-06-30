@@ -59,6 +59,7 @@ export function linkBootListeners() {
             if (tokenSet != null && tokenSet.name != null) {
                 replaceGlobalText("{{ oam.player_name }}", tokenSet.name)
                 openAudioMc = new OpenAudioMc()
+                window.openAudioMc = openAudioMc;
             }
 
             document.body.addEventListener('click', enable)

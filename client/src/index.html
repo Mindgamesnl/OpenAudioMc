@@ -73,10 +73,12 @@
 </head>
 <body>
 
-<div hs="{{ oam.loader_style }}" class="fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-50 overflow-hidden bg-gray-700 flex flex-col items-center justify-center">
+<div hs="{{ oam.loader_style }}"
+     class="fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-50 overflow-hidden bg-gray-700 flex flex-col items-center justify-center">
     <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
-    <h2 class="text-center text-white text-xl font-semibold">Loading...</h2>
-    <p style="display: none;" hs="{{ oam.loading_tagline_style }}" class="w-1/3 text-center text-white">{{ oam.loading_tagline_text }}</p>
+    <h2 class="text-center text-white text-xl font-semibold">{% ui.loading %}</h2>
+    <p style="display: none;" hs="{{ oam.loading_tagline_style }}" class="w-1/3 text-center text-white">
+        {{ oam.loading_tagline_text }}</p>
 </div>
 
 <div class="bg-image h-screen w-screen absolute" ts="{{ oam.bg_image_map }}"></div>
@@ -99,18 +101,6 @@
                          fill="currentColor" viewBox="0 0 100 100" preserveAspectRatio="none">
                         <polygon points="50,0 100,0 50,100 0,100"/>
                     </svg>
-
-                    <!-- Landing -->
-                    <main class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8" data-type="card">
-                        <div class="sm:text-center lg:text-left">
-                            <h2 class="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl">
-                                Welcome!
-                            </h2>
-                            <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                                Please wait while the web-app attempts to log you in, this won't take long.
-                            </p>
-                        </div>
-                    </main>
 
                     <!-- Disconnected -->
                     <main class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8" data-type="card" id="kicked-card"
@@ -147,16 +137,15 @@
                           id="welcome-card">
                         <div class="sm:text-center lg:text-left">
                             <h2 class="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl">
-                                Welcome!
+                                {% landing.title %}
                             </h2>
-                            <p id="initialize-text"
-                               class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                                Click on the button below connect to the audio client</p>
+                            <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                                {% landing.clickBelow %}
+                            </p>
                             <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                                 <div class="rounded-md shadow">
-                                    <a id="initialize-button"
-                                       class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-green-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10">
-                                        Connect </a>
+                                    <a class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-green-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10">
+                                        {% landing.connectButton %} </a>
                                 </div>
                             </div>
                         </div>
@@ -168,19 +157,18 @@
                         <div class="sm:text-center lg:text-left">
                             <h2 class="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl"
                                 id="welcome-back-box">
-                                Welcome back,
+                                {% main.title %}
                                 <br class="xl:hidden"/>
                                 <span class="text-indigo-600">{{ oam.player_name }}</span>
                             </h2>
-                            <p id="status-message"
-                               class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                                Keep this tab open in the background since it'll be used to play audio related to your
-                                in-game actions. You can manually change your volume here, or in game using <b>/volume
-                                (volume)</b></p>
+                            <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                                <raw>{% main.content %}</raw>
+                            </p>
                             <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                                 <form class="w-9/12">
-                                    <label class="mb-2 uppercase font-bold text-lg text-indigo-600"
-                                           for="volume-slider">Audio Volume:
+                                    <label class="mb-2 uppercase font-bold text-lg text-indigo-600" for="volume-slider">
+                                        <placeholder>{% main.volume %}</placeholder>
+                                        :
                                         <placeholder>{{ oam.volume }}</placeholder>
                                     </label>
                                     <input id="volume-slider"
@@ -193,8 +181,9 @@
                                 <button type="submit"
                                         id="hue-bridge-menu-button"
                                         style="display: none;"
-                                        class="w-full block tracking-widest uppercase text-center shadow bg-green-600 hover:bg-green-700 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded">
-                                    open Philips Hue configuration
+                                        class="w-full block tracking-widest uppercase text-center shadow bg-green-600 hover:bg-green-700 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded"
+                                >
+                                    {% main.openHue %}
                                 </button>
                             </div>
                         </div>
@@ -222,40 +211,39 @@
                                         </div>
                                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                             <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
-                                                Philips Hue
+                                                {% hue.hue %}
                                             </h3>
                                             <div class="mt-2">
                                                 <div class="text-sm text-gray-500" id="hue-link-menu">
                                                     <p class="small-text" id="hue-welcome-message"></p>
                                                     <br/>
                                                     <span class="alert-message-button m-15"
-                                                          id="hue-start-linking-button">Click here to connect to your hue bridge</span>
+                                                          id="hue-start-linking-button">{% hue.link %}</span>
                                                 </div>
 
                                                 <div class="text-sm text-gray-500" id="hue-linking-menu"
                                                      style="display: none;">
-                                                    <p class="small-text" id="hue-linking-message"></p>
+                                                    <p class="small-text">{{ hue.linkingUpdate }}</p>
                                                 </div>
 
 
                                                 <div class="text-sm text-gray-500" id="hue-settings-menu"
                                                      style="display: none;">
-                                                    <p>You are now connected with your Hue Bridge, <span>{{ oam.hue_bridge_name }}</span>.
-                                                    </p>
+                                                    <p><placeholder>{% hue.connectedTo %}</placeholder> <span>{{ oam.hue_bridge_name }}</span>.</p>
                                                     <div class="graytext"
                                                          style="display: block; text-align: -webkit-center;">
                                                         <div class="bulbs">
                                                             <div class="bulb">
-                                                                <h3>Light one</h3>
+                                                                <h3>{% hue.light1 %}</h3>
                                                                 <i class="fa fa-3x fa-lightbulb-o"></i>
                                                                 <div class="light-dropdown">
-                                                                    <select :( class="blue-select" data-bulb="1"
+                                                                    <select class="blue-select" data-bulb="1"
                                                                             id='bulb-selection-1'>
                                                                     </select>
                                                                 </div>
                                                             </div>
                                                             <div class="bulb">
-                                                                <h3>Light two</h3>
+                                                                <h3>{% hue.light2 %}</h3>
                                                                 <i class="fa fa-3x fa-lightbulb-o"></i>
                                                                 <div class="light-dropdown">
                                                                     <select class="blue-select" data-bulb="2"
@@ -264,7 +252,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="bulb">
-                                                                <h3>Light three</h3>
+                                                                <h3>{% hue.light3 %}</h3>
                                                                 <i class="fa fa-3x fa-lightbulb-o"></i>
                                                                 <div class="light-dropdown">
                                                                     <select class="blue-select" data-bulb="3"
@@ -273,11 +261,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <p>You may now link up to three lights that the server will
-                                                            control.
-                                                            Usually from right
-                                                            to
-                                                            left.</p>
+                                                        <p>{% hue.connected %}</p>
                                                     </div>
                                                 </div>
 
@@ -289,7 +273,7 @@
                                     <button onclick="document.getElementById('hue-modal-parent').style.display = 'none';"
                                             type="button"
                                             class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                                        Close
+                                        {% hue.close %}
                                     </button>
                                 </div>
                             </div>
@@ -309,8 +293,8 @@
                             </div>
                             <div class="hidden md:block md:ml-10 md:pr-4">
                                 <a href="login.html"
-                                   class="font-medium text-red-500 hover:text-gray-900 transition duration-150 ease-in-out">Log
-                                    out</a>
+                                   class="font-medium text-red-500 hover:text-gray-900 transition duration-150 ease-in-out"
+                                >{% ui.logout %}</a>
 
                                 <!-- Modifying anything related to the copyright notice is against TOS, be warned -->
                                 <a href="https://openaudiomc.net/"
@@ -322,7 +306,8 @@
                 </div>
             </div>
             <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-                <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" tmpsrc="{{ oam.side_image }}"/>
+                <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"
+                     tmpsrc="{{ oam.side_image }}"/>
             </div>
         </div>
 
@@ -331,8 +316,8 @@
                 <div class="-m-2 text-center">
                     <div class="p-2">
                         <div class="inline-flex items-center bg-white leading-none text-purple-600 rounded-full p-2 shadow text-teal text-sm">
-                            <span class="inline-flex bg-indigo-600 text-white rounded-full h-6 px-3 justify-center items-center">Notice</span>
-                            <span class="inline-flex px-2">VoiceChat has temporarily been disabled by {{ craftmend.account.serverName }}</span>
+                            <span class="inline-flex bg-indigo-600 text-white rounded-full h-6 px-3 justify-center items-center">{% vc.notice %}</span>
+                            <span class="inline-flex px-2">{{ oam.vc.disabled }}</span>
                         </div>
                     </div>
                 </div>
@@ -342,25 +327,23 @@
                 <!-- onboarding -->
                 <div class="h-full w-full" data-type="voice-card" id="vc-onboarding" style="display: none">
                     <h2 class="text-2xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-xl sm:leading-none md:text-3xl">
-                        Enable <span class="text-indigo-600">Voice Chat</span>?
+                        <placeholder>{% vc.enable %}</placeholder> <span class="text-indigo-600">{% vc.vc %}</span>?
                     </h2>
                     <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg md:mt-5 md:text-xl lg:mx-0">
-                        This server has support for Proximity Voice Chat, which allows you to talk with players within a
-                        <placeholder>{{ oam.block_range }}</placeholder> radius. Would you like to enable this feature and give
-                        access to
-                        your microphone?<br/>
+                        {{ vc.onboarding.panel }}
                     </p>
 
+                    <br/>
                     <br/>
 
                     <div class="inline-flex">
                         <button class="hover:bg-green-400 text-white font-bold py-2 px-4 rounded-l bg-green-500"
                                 id="vc-connect-button">
-                            Enable
+                            {% vc.enable %}
                         </button>
                         <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"
                                 onclick="document.getElementById('vc-controls').style.display = 'none'">
-                            Dismiss
+                            {% vc.dismiss %}
                         </button>
                     </div>
                 </div>
@@ -370,9 +353,9 @@
                     <div class="flex mb-4 w-full">
                         <div class="w-2/5">
                             <h2 class="text-2xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-xl sm:leading-none md:text-3xl">
-                                <span class="text-indigo-600">Voice Chat</span>
+                                <span class="text-indigo-600">{% vc.vc %}</span>
                                 <br>
-                                Settings
+                                <placeholder>{% vc.settings %}</placeholder>
                             </h2>
 
                             <hr class="mt-2 pb-2"/>
@@ -393,7 +376,7 @@
                                             <line x1="8" y1="23" x2="16" y2="23"/>
                                         </svg>
                                         <div class="opacity-0 w-28 bg-black text-white text-center text-xs rounded-lg py-2 absolute z-10 group-hover:opacity-100 bottom-full -left-1/2 px-3 pointer-events-none">
-                                            Mute/Unmute microphone
+                                            <placeholder>{% vc.muteUnmute }</placeholder>
                                             <svg class="absolute text-black h-2 w-full left-0 top-full" x="0px" y="0px"
                                                  viewBox="0 0 255 255" xml:space="preserve"><polygon class="fill-current" points="0,0 127.5,127.5 255,0"/></svg>
                                         </div>
@@ -410,7 +393,7 @@
                                             <path d="M21 3L14.5 21a.55 .55 0 0 1 -1 0L10 14L3 10.5a.55 .55 0 0 1 0 -1L21 3"/>
                                         </svg>
                                         <div class="opacity-0 w-28 bg-black text-white text-center text-xs rounded-lg py-2 absolute z-10 group-hover:opacity-100 bottom-full -left-1/2 px-3 pointer-events-none">
-                                            Spatial/Stereo audio
+                                            <placeholder>{% vc.spatialStereo }</placeholder>
                                             <svg class="absolute text-black h-2 w-full left-0 top-full" x="0px" y="0px"
                                                  viewBox="0 0 255 255" xml:space="preserve"><polygon class="fill-current" points="0,0 127.5,127.5 255,0"/></svg>
                                         </div>
@@ -428,7 +411,7 @@
                                             <rect x="6" y="16" width="12" height="4" rx="1"/>
                                         </svg>
                                         <div class="opacity-0 w-28 bg-black text-white text-center text-xs rounded-lg py-2 absolute z-10 group-hover:opacity-100 bottom-full -left-1/2 px-3 pointer-events-none">
-                                            Speaking indicator
+                                            <placeholder>{% vc.speaking }</placeholder>
                                             <svg class="absolute text-black h-2 w-full left-0 top-full" x="0px" y="0px"
                                                  viewBox="0 0 255 255" xml:space="preserve"><polygon class="fill-current" points="0,0 127.5,127.5 255,0"/></svg>
                                         </div>
@@ -437,14 +420,14 @@
                                     <div class="flex items-center">
                                         <div class="flex flex-col ml-3">
                                             <label class="mb-2 uppercase font-bold text-base text-indigo-600"
-                                                   for="mic-sensitive-slider">Microphone Sensitivity</label>
+                                                   for="mic-sensitive-slider">{% vc.sensitivity %}</label>
                                             <input id="mic-sensitive-slider"
                                                    class="rounded-lg overflow-hidden appearance-none bg-gray-400 h-3 w-full"
                                                    type="range" min="40" max="100" step="1" value="80"/>
                                             <label class="flex items-center">
                                                 <input type="checkbox" class="form-checkbox"
                                                        id="enable-auto-adjustments">
-                                                <span class="ml-2">Automatic adjustments</span>
+                                                <span class="ml-2">{% vc.auto %}</span>
                                             </label>
                                         </div>
                                     </div>
@@ -455,8 +438,7 @@
                             <br/>
 
 
-                            <label class="mb-2 uppercase font-bold text-lg text-indigo-600" for="vc-mic-select">Select
-                                your microphone</label>
+                            <label class="mb-2 uppercase font-bold text-lg text-indigo-600" for="vc-mic-select">{% vc.selectMic %}</label>
                             <select class="w-3/4 border bg-white rounded px-3 py-2 outline-none" id="vc-mic-select">
                                 <option class="py-1">PreSonus STUDIO 24c</option>
                             </select>
@@ -464,17 +446,15 @@
 
                         <div class="w-3/5">
                             <h2 class="text-2xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-xl sm:leading-none md:text-3xl">
-                                People within
+                                <placeholder>{% vc.people %}</placeholder>
                                 <br>
-                                <span class="text-indigo-600">Voice Range <placeholder>{{ oam.rtc_peer_count }}</placeholder></span>
+                                <span class="text-indigo-600"><placeholder>{% vc.voiceRange %}</placeholder> <placeholder>{{ oam.rtc_peer_count }}</placeholder></span>
                             </h2>
                             <hr class="mt-2 pb-2"/>
                             <div class="flex justify-center">
                                 <div class="w-full max-w-lg pt-4" id="vc-call-members">
                                     <div style="text-align: center;" id="empty-call-placeholder">
-                                        <h1 class="text-gray-400"><i>There's no one around sadly.. not to worry though!
-                                            I'll
-                                            be your happy imaginary friend</i></h1>
+                                        <h1 class="text-gray-400"><i>{% vc.empty %}</i></h1>
                                     </div>
                                 </div>
                             </div>
