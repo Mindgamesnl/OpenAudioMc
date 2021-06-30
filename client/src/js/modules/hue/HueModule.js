@@ -1,5 +1,6 @@
 import * as PluginChannel from "../../helpers/protocol/PluginChannel";
 import {AlertBox} from "../ui/Notification";
+import {replaceGlobalText} from "../../helpers/domhelper";
 
 export class HueModule {
 
@@ -156,10 +157,12 @@ export class HueModule {
     }
 
     linkBridge(bridgeIp, precheck) {
-        document.getElementById("hue-linking-message").innerHTML = "<p>Preparing setup..</p>";
+        replaceGlobalText("{{ hue.linkingUpdate }}", window.getMessageString("hue.preparing"))
 
         if (precheck == null && this.options.userid != null) {
-            document.getElementById("hue-linking-message").innerHTML = "<p>Logging in..</p>";
+
+            replaceGlobalText("{{ hue.linkingUpdate }}", window.getMessageString("hue.loggingIn"))
+
             this.currentUser = this.hue.bridge(bridgeIp).user(this.options.userid);
             this.currentUser.getGroups().then(data => {
                 //check result
@@ -193,14 +196,15 @@ export class HueModule {
             linkAttempts++;
             if (linkAttempts > 60) {
                 cancel();
-                document.getElementById("hue-linking-message").innerHTML = "<p>Could not connect to your hue bridge after 60 seconds, did you press the link button?</p><span class=\"button\" id='restart-hue-linking'>Click here to try again</span>";
-                document.getElementById("restart-hue-linking").onclick = () => this.startSetup();
+                this.startSetup();
                 this.openAudioMc.log("Failed to authenticate with bridge in 60 seconds.");
                 return;
             }
 
             let sec = (60 - linkAttempts);
-            document.getElementById("hue-linking-message").innerText = this.openAudioMc.getMessages().hueLinking.replace("%sec%", sec);
+
+            // update message with time
+            replaceGlobalText("{{ hue.linkingUpdate }}", window.getMessageString("hue.linking"), [["%sec", sec]])
 
             that.currentBridge.createUser("OpenAudioMc#WebClient")
                 .then(data => {

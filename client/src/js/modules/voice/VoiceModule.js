@@ -39,8 +39,11 @@ export class VoiceModule {
         this.server = server;
         this.streamKey = streamKey;
         // unhide
+
         document.getElementById("vc-controls").style.display = "";
-        replaceGlobalText("{{ oam.block_range }}", this.blocksRadius + " blocks")
+
+        replaceGlobalText("{{ vc.onboarding.panel }}", window.getMessageString("vc.onboarding", [["%range", this.blocksRadius + " blocks"]]))
+
         document.getElementById("vc-connect-button").onclick = () => {
             this.consent(this.loadeMicPreference);
         };
@@ -78,8 +81,8 @@ export class VoiceModule {
         this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {"enabled": false});
         let timerInterval;
         Swal.fire({
-            title: 'Reloading voice system!',
-            html: 'Please wait while voice chat gets restarted to apply your new settings.. this shouldn\'t take long',
+            title: window.getMessageString("vc.reloadingPopupTitle"),
+            html: window.getMessageString("vc.reloadingPopup"),
             timer: 3500,
             showCloseButton: false,
             backdrop: '',
@@ -140,8 +143,8 @@ export class VoiceModule {
 
         Swal.fire({
             backdrop: '',
-            title: 'Logging into voice chat...',
-            html: 'Please wait while we get you setup with a voice server.. hold on tight, this shouldn\'t take too long.<br /><small>(but please report an issue if it does take too long, it\'s still work in progress after all.</small>',
+            title: window.getMessageString("vc.startingPopupTitle"),
+            html: window.getMessageString("vc.startingPopup"),
             showCloseButton: false,
             showCancelButton: false,
             timerProgressBar: false,
@@ -187,8 +190,8 @@ export class VoiceModule {
         let timerInterval;
         Swal.fire({
             backdrop: '',
-            title: 'Updating microphone!',
-            html: 'Please wait while voice chat gets restarted with your new microphone.. this shouldn\'t take long',
+            title: window.getMessageString("vc.updatingMicPopupTitle"),
+            html: window.getMessageString("vc.updatingMicPopup"),
             timer: 3500,
             showCloseButton: false,
             showCancelButton: false,
@@ -310,8 +313,8 @@ export class VoiceModule {
                 backdrop: 'swal2-noanimation'
             },
             icon: 'error',
-            title: "Microphone error",
-            text: 'Something went wrong while trying to access your microphone. Please press "allow" when your browser asks you for microphone permissions, or visit the wiki for more info.',
+            title: window.getMessageString("vc.micErrorPopupTitle"),
+            text: window.getMessageString("vc.micErrorPopup"),
             footer: '<a href="https://help.openaudiomc.net/voicechat_troubleshooting">Why do I have this issue?</a>'
         })
     }
@@ -340,6 +343,8 @@ export class VoiceModule {
         document.getElementById("vc-content").classList.add("filter")
         document.getElementById("vc-content").classList.add("blur-md")
         document.getElementById("vc-disabled-overlay").style.display = ""
+        // set message with server name
+        replaceGlobalText("{{ oam.vc.disabled }}", window.getMessageString("vc.disabled"), [["%server", this.openAudioMc.serverName]])
     }
 
     unblur() {

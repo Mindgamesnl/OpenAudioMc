@@ -63,12 +63,24 @@ export function replaceProperty(from, to, newPropName) {
  *
  * @param from
  * @param to
+ * @param asHtml
  */
-export function replaceGlobalText(from, to) {
+export function replaceGlobalText(from, to, asHtml= false) {
     // do we have cache?
     if (from in textElementCache) {
         for (let i = 0; i < textElementCache[from].length; i++) {
-            textElementCache[from][i].nodeValue = to;
+            if (asHtml && textElementCache[from][i].parentElement.tagName === "RAW") {
+                let parent = textElementCache[from][i].parentElement;
+                while (parent.hasChildNodes()) {
+                    parent.removeChild(parent.childNodes[0]);
+                }
+                let nds = htmlToElements(to)
+                for (let q = 0; q < nds.length; q++) {
+                    parent.appendChild(nds[q])
+                }
+            } else {
+                textElementCache[from][i].nodeValue = to
+            }
         }
     } else {
         oalog("Building element cache for " + from)
@@ -80,8 +92,21 @@ export function replaceGlobalText(from, to) {
                 if (m == null) {
                     m = []
                 }
+
+                if (asHtml && node.parentElement.tagName === "RAW") {
+                    let parent = node.parentElement;
+                    while (parent.hasChildNodes()) {
+                        parent.removeChild(parent.childNodes[0]);
+                    }
+                    let nds = htmlToElements(node.nodeValue.replace(new RegExp(quote(from), 'g'), to))
+                    for (let i = 0; i < nds.length; i++) {
+                        parent.appendChild(nds[i])
+                    }
+                } else {
+                    node.nodeValue = node.nodeValue.replace(new RegExp(quote(from), 'g'), to)
+                }
+
                 m.push(node)
-                node.nodeValue = node.nodeValue.replace(new RegExp(quote(from), 'g'), to);
                 textElementCache[from] = m
             }
         });
@@ -104,6 +129,46 @@ export function replaceGlobalText(from, to) {
     function quote(str) {
         return (str + '').replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
     }
+}
+
+function htmlToElements(html) {
+    var template = document.createElement('template');
+    template.innerHTML = html;
+    return template.content.childNodes;
+}
+
+/**
+ * Deep scan DOM for all text nodes starting with a specific sequence
+ * used to find localization keys in static html
+ *
+ * WATCH OUT!!! THIS METHOD IS EXPENSIVE AS FUCK
+ *
+ * @param needle
+ */
+export function deepScanStartingWith(needle) {
+    let matches = [];
+
+    for (let i = 0; i < getAllTextNodes().length; i++) {
+        let node = getAllTextNodes()[i];
+        // does this node contain the thing?
+        if (node.nodeValue.indexOf(needle) !== -1) {
+            matches.push(node.nodeValue)
+        }
+    }
+
+    function getAllTextNodes() {
+        var result = [];
+
+        (function scanSubTree(node) {
+            if (node.childNodes.length)
+                for (var i = 0; i < node.childNodes.length; i++)
+                    scanSubTree(node.childNodes[i]);
+            else if (node.nodeType === Node.TEXT_NODE)
+                result.push(node);
+        })(document);
+        return result;
+    }
+    return matches;
 }
 
 export function CallAfterDomUpdate(fn) {

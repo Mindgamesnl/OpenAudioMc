@@ -49,13 +49,8 @@ export class UserInterfaceModule {
         });
     }
 
-    setMessage(text) {
-        document.getElementById("status-message").innerHTML = text;
-    }
-
     openApp() {
         strictlyShowCard(UiCards.MAIN_UI)
-        this.openAudioMc.userInterfaceModule.setMessage(this.openAudioMc.messages.welcomeMessage);
     }
 
     kickScreen(message) {
