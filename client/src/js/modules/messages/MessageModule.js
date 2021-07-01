@@ -7,9 +7,55 @@ export class MessageModule {
         this.messages = {};
         this.seeded = false;
         this.seededValues = [];
+        this.currentLangFile = "";
+        this.forcedValues = {};
+
+        this.languageMappings = {
+            "gb": "en.lang",
+            "us": "en.lang",
+            "nl": "nl.lang",
+            "be": "nl.lang",
+            "fr": "fr.lang",
+        }
 
         window.getMessageString = this.getString;
         window.debugHooks.loadLanguage = this.load
+    }
+
+    setKey(key, value) {
+        this.forcedValues[key] = value;
+    }
+
+    async handleCountry(countryCode) {
+        countryCode = countryCode.toLowerCase();
+        let bestLangFile = this.languageMappings[countryCode]
+        if (bestLangFile != null) {
+            oalog("Switching to " + countryCode + " > " + bestLangFile)
+            await this.load(bestLangFile)
+        }
+    }
+
+    updateBanner() {
+        if (Cookies.get("preferred-lang") === this.currentLangFile) {
+            document.getElementById("lang-change-banner").style.display = "none";
+            return
+        }
+
+        let placeholders =[["%langName", getMessageString("lang.name")]]
+        replaceGlobalText("{{ ui.lang.detectedAs }}", getMessageString("lang.detectedAs", placeholders))
+        replaceGlobalText("{{ ui.lang.toEn }}", getMessageString("lang.toEn", placeholders))
+        replaceGlobalText("{{ ui.lang.keep }}", getMessageString("lang.keep", placeholders))
+
+
+        document.getElementById("lang-back-to-en").onclick = async () => {
+            await this.load("en.lang")
+            document.getElementById("lang-change-banner").style.display = "none";
+        }
+        document.getElementById("lang-keep").onclick = () => {
+            Cookies.set("preferred-lang", this.currentLangFile, {expires: 30});
+            document.getElementById("lang-change-banner").style.display = "none";
+        };
+        document.getElementById("lang-change-banner").style.display = "";
     }
 
     getString(key, variables = []) {
@@ -28,6 +74,12 @@ export class MessageModule {
 
     renderKeyToDom(domKey, messageKey, variables = []) {
         let message = this.getString(messageKey, variables);
+
+        let forced = this.forcedValues[domKey]
+        if (forced != null) {
+            message = forced;
+        }
+
         replaceGlobalText(domKey, message, true)
     }
 
@@ -65,6 +117,8 @@ export class MessageModule {
     }
 
     async load(file) {
+        if (this.currentLangFile === file) return
+
         // fetch
         let request = await fetch(window.location.pathname + window.location.search + file);
         let body = await request.text();
@@ -98,13 +152,14 @@ export class MessageModule {
             }
         }
 
+        this.currentLangFile = file;
         if (window.openAudioMc.messageModule.seeded) {
             // reload
             for (let i = 0; i < window.openAudioMc.messageModule.seededValues.length; i++) {
                 let sv = window.openAudioMc.messageModule.seededValues[i];
                 window.openAudioMc.messageModule.renderKeyToDom(sv.key, sv.value, sv.placeholders)
             }
+            window.openAudioMc.messageModule.updateBanner()
         }
     }
-
 }

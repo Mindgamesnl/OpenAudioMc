@@ -64,10 +64,11 @@ export function replaceProperty(from, to, newPropName) {
  * @param from
  * @param to
  * @param asHtml
+ * @param skipCache
  */
-export function replaceGlobalText(from, to, asHtml= false) {
+export function replaceGlobalText(from, to, asHtml= false, skipCache = false) {
     // do we have cache?
-    if (from in textElementCache) {
+    if (from in textElementCache && !skipCache) {
         for (let i = 0; i < textElementCache[from].length; i++) {
             if (asHtml && textElementCache[from][i].parentElement.tagName === "RAW") {
                 let parent = textElementCache[from][i].parentElement;
