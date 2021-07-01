@@ -1,0 +1,49 @@
+ui.loading=Laden...
+ui.logout=Log uit
+
+landing.title=Welkom!
+landing.clickBelow=Welkom %player! Klik ergens op deze pagina om jou sessie te activeren.
+landing.connectButton=Klik ergens om te verbinden
+
+main.title=Welkom terug,
+main.content=<div>Houd deze pagina open in de achtergond omdat het gebruikt gaat worden om de audio af te spelen gerelateerd aan de acties die je in de game uitvoert. Je kan zelf het volume hier aanpassen, of in de game door <b>/volume(volume)</b> te gebruiken</div>
+main.volume=Muziek volume
+main.openHue=open Philips Hue configuratie
+
+vc.notice=Merk op
+vc.startingPopupTitle=Inloggen op VoiceChat...
+vc.startingPopup=Wacht even tot we een verbinding opgezet hebben met een Voice server, dit zou niet te lang moeten duren<br /><small>(maar meld een probleem als het te lang duurt, het is tenslotte nog steeds werk in uitvoering.</small>
+vc.reloadingPopupTitle=herladen Voice Systeem
+vc.reloadingPopup=Een ogenblik geduld terwijl de VoiceChat opnieuw wordt gestart om uw nieuwe instellingen toe te passen.. dit zou niet te lang moeten duren
+vc.updatingMicPopupTitle=Microfoon updaten
+vc.updatingMicPopup=Even geduld a.u.b. VoiceChat wordt herstart met je nieuwe microfoon.. dit zou niet te lang moeten duren
+vc.micErrorPopupTitle=Microfoon error
+vc.micErrorPopup=Er is iets misgegaan bij het proberen toegang te krijgen tot je microfoon. Druk op "toestaan" wanneer uw browser u om microfoonrechten vraagt, of bezoek de wiki voor meer informatie.
+vc.disabled=VoiceChat is tijdelijk uitgeschakeld door %serverName
+vc.enable=Inschakelen
+vc.vc=Voice Chat
+vc.onboarding=Deze server heeft ondersteuning voor Proximity Voice Chat, waarmee je met spelers kunt praten binnen een %range radius. Wil je deze functie inschakelen en toegang geven tot je microfoon?
+vc.enable=Enable
+vc.dismiss=Afwijzen
+vc.settings=Instellingen
+vc.muteUnmute=Microfoon dempen/dempen opheffen
+vc.spatialStereo=Ruimtelijke/Stereo-audio
+vc.speaking=Spraak indicator
+vc.sensitivity=Microfoongevoeligheid
+vc.auto=Automatische aanpassingen
+vc.selectMic=Selecteer je microfoon
+vc.people=Mensen binnen
+vc.voiceRange=Spraakbereik
+vc.empty=Er is helaas niemand in de buurt.. Maar maak je geen zorgen! Ik zal je gezellige denkbeeldige vriend zijn
+
+hue.hue=Philips Hue
+hue.link=Klik hier om verbinding te maken met je hue bridge
+hue.preparing=Installatie voorbereiden...
+hue.loggingIn=Inloggen..
+hue.linking=Druk binnen %sec seconden op de link-knop op je Hue bBridge om verbinding te maken.
+hue.connectedTo=Je bent nu verbonden met je Hue Bridge:
+hue.light1=Licht een
+hue.light2=Licht twee
+hue.light3=Licht drie
+hue.connected=U kunt nu maximaal drie lampen koppelen die de server zal aansturen. Meestal van rechts naar links.
+hue.close=Sluit
