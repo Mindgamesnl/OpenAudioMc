@@ -1,3 +1,9 @@
+lang.name=English
+
+lang.detectedAs=We changed your language to %langName, do you want to keep it like this?
+lang.keep=Keep %langName
+lang.toEn=Switch to English
+
 ui.loading=Loading...
 ui.logout=Log out
 

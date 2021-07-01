@@ -1,3 +1,5 @@
+lang.name=Dutch
+
 ui.loading=Laden...
 ui.logout=Log uit
 
@@ -21,7 +23,7 @@ vc.micErrorPopupTitle=Microfoon error
 vc.micErrorPopup=Er is iets misgegaan bij het proberen toegang te krijgen tot je microfoon. Druk op "toestaan" wanneer uw browser u om microfoonrechten vraagt, of bezoek de wiki voor meer informatie.
 vc.disabled=VoiceChat is tijdelijk uitgeschakeld door %serverName
 vc.enable=Inschakelen
-vc.enableThe=Gebruik
+vc.enableThe=Praten met
 vc.vc=Voice Chat
 vc.onboarding=Deze server heeft ondersteuning voor Proximity Voice Chat, waarmee je met spelers kunt praten binnen een %range radius. Wil je deze functie inschakelen en toegang geven tot je microfoon?
 vc.dismiss=Afwijzen
@@ -30,7 +32,7 @@ vc.muteUnmute=Microfoon dempen/dempen opheffen
 vc.spatialStereo=Ruimtelijke/Stereo-audio
 vc.speaking=Spraak indicator
 vc.sensitivity=Microfoongevoeligheid
-vc.auto=Automatische bijstellen
+vc.auto=Automatisch bijstellen
 vc.selectMic=Selecteer je microfoon
 vc.people=Mensen binnen
 vc.voiceRange=Spraakbereik
@@ -42,8 +44,8 @@ hue.preparing=Installatie voorbereiden...
 hue.loggingIn=Inloggen..
 hue.linking=Druk binnen %sec seconden op de link-knop op je Hue bBridge om verbinding te maken.
 hue.connectedTo=Je bent nu verbonden met je Hue Bridge:
-hue.light1=Licht een
-hue.light2=Licht twee
-hue.light3=Licht drie
+hue.light1=Lamp een
+hue.light2=Lamp twee
+hue.light3=Lamp drie
 hue.connected=U kunt nu maximaal drie lampen koppelen die de server zal aansturen. Meestal van rechts naar links.
 hue.close=Sluit

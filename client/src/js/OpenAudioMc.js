@@ -86,6 +86,11 @@ export class OpenAudioMc extends Getters {
                     ["%server", res.serverName]
                 ]);
 
+                if (res.useTranslations) {
+                    oalog("Enabling automatic translations")
+                    await this.messageModule.handleCountry(res.countryCode)
+                }
+
                 this.serverName = res.serverName;
                 this.canStart = true;
                 this.host = res.host;
@@ -94,8 +99,6 @@ export class OpenAudioMc extends Getters {
                 this.isPatreon = res.isPatreon;
                 strictlyShowCard(UiCards.WELCOME);
                 oalog("Server: " + res.serverName)
-
-                document.title = res.serverName;
 
                 WhenDebugging(() => {
                     window.debugUi.addPanel(DebugPanel.ACCOUNT, "cached=" + res.fromCache + ", pc=" + res.playerCount + ", claimed=" + res.claimed + ", sfu=" + res.host + ", rtc=" + res.rtc)

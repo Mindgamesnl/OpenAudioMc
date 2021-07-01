@@ -52,23 +52,16 @@ export function HandleModernLogin(openAudioMc, accept, reject, tokenSet) {
 
                 const title = response.settings.title;
                 const welcomeMessage = response.settings.activeMessage;
-                const errorMessage = response.settings.errorMessage;
 
-                let errorHtml = "";
-                parseStyle(errorMessage).childNodes.forEach(node => {
-                    errorHtml += node.outerHTML;
-                });
-
-                let welcomeHtml = "";
-                parseStyle(welcomeMessage).childNodes.forEach(node => {
-                    welcomeHtml += node.outerHTML;
-                });
 
                 let hello = response.settings.welcomeMessage;
                 hello = hello.replace('%name', openAudioMc.tokenSet.name);
 
-                //document.getElementById("initialize-text").innerHTML = hello;
-                //document.getElementById("initialize-button").innerHTML = response.settings.startButton;
+                if (!result.response.settings.useTranslations) {
+                    openAudioMc.messageModule.setKey("landing.clickBelow", hello)
+                    openAudioMc.messageModule.setKey("landing.connectButton", response.settings.startButton)
+                    openAudioMc.messageModule.setKey("main.content", welcomeMessage)
+                }
 
                 // replace the default with a defined one
                 function convertHexToRGBA(hexCode, opacity) {
@@ -124,6 +117,8 @@ export function HandleModernLogin(openAudioMc, accept, reject, tokenSet) {
                     "rtc": result.response.rtc,
                     "serverName": result.response.name,
                     "isPatreon": result.response.isPatreon,
+                    "countryCode": result.response.countryCode,
+                    "useTranslations": result.response.settings.useTranslations
                 });
             })
                 .catch((e => {
