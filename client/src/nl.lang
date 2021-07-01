@@ -10,10 +10,10 @@ main.content=<div>Houd deze pagina open in de achtergond omdat het gebruikt gaat
 main.volume=Muziek volume
 main.openHue=open Philips Hue configuratie
 
-vc.notice=Merk op
-vc.startingPopupTitle=Inloggen op VoiceChat...
-vc.startingPopup=Wacht even tot we een verbinding opgezet hebben met een Voice server, dit zou niet te lang moeten duren<br /><small>(maar meld een probleem als het te lang duurt, het is tenslotte nog steeds werk in uitvoering.</small>
-vc.reloadingPopupTitle=herladen Voice Systeem
+vc.notice=Let op!
+vc.startingPopupTitle=VoiceChat is aan het starten
+vc.startingPopup=Wacht even tot we een verbinding opgezet hebben met een Voice server, dit zou niet te lang moeten duren
+vc.reloadingPopupTitle=VoiceChat is aan her updaten
 vc.reloadingPopup=Een ogenblik geduld terwijl de VoiceChat opnieuw wordt gestart om uw nieuwe instellingen toe te passen.. dit zou niet te lang moeten duren
 vc.updatingMicPopupTitle=Microfoon updaten
 vc.updatingMicPopup=Even geduld a.u.b. VoiceChat wordt herstart met je nieuwe microfoon.. dit zou niet te lang moeten duren
