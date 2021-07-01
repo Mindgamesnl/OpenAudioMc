@@ -21,6 +21,7 @@ vc.micErrorPopupTitle=Microphone error
 vc.micErrorPopup=Something went wrong while trying to access your microphone. Please press "allow" when your browser asks you for microphone permissions, or visit the wiki for more info.
 vc.disabled=VoiceChat has temporarily been disabled by %serverName
 vc.enable=Enable
+vc.enableThe=Enable
 vc.vc=Voice Chat
 vc.onboarding=This server has support for Proximity Voice Chat, which allows you to talk with players within a %range radius. Would you like to enable this feature and give access to your microphone?
 vc.dismiss=Dismiss

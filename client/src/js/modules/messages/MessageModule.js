@@ -5,8 +5,11 @@ export class MessageModule {
 
     constructor(openAudioMc) {
         this.messages = {};
+        this.seeded = false;
+        this.seededValues = [];
 
         window.getMessageString = this.getString;
+        window.debugHooks.loadLanguage = this.load
     }
 
     getString(key, variables = []) {
@@ -50,8 +53,15 @@ export class MessageModule {
         }
 
         for (let translationsKey in translations) {
+            this.seededValues.push({
+                "key": translationsKey,
+                "value": translations[translationsKey],
+                "placeholders": staticPlaceholders
+            })
             this.renderKeyToDom(translationsKey, translations[translationsKey], staticPlaceholders)
         }
+
+        this.seeded = true;
     }
 
     async load(file) {
@@ -84,7 +94,15 @@ export class MessageModule {
 
             if (value !== "") {
                 // complete set
-                this.messages[key] = value;
+                window.openAudioMc.messageModule.messages[key] = value;
+            }
+        }
+
+        if (window.openAudioMc.messageModule.seeded) {
+            // reload
+            for (let i = 0; i < window.openAudioMc.messageModule.seededValues.length; i++) {
+                let sv = window.openAudioMc.messageModule.seededValues[i];
+                window.openAudioMc.messageModule.renderKeyToDom(sv.key, sv.value, sv.placeholders)
             }
         }
     }

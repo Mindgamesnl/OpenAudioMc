@@ -77,6 +77,7 @@ export function replaceGlobalText(from, to, asHtml= false) {
                 let nds = htmlToElements(to)
                 for (let q = 0; q < nds.length; q++) {
                     parent.appendChild(nds[q])
+                    textElementCache[from][i]=parent.childNodes[0]
                 }
             } else {
                 textElementCache[from][i].nodeValue = to
@@ -101,6 +102,7 @@ export function replaceGlobalText(from, to, asHtml= false) {
                     let nds = htmlToElements(node.nodeValue.replace(new RegExp(quote(from), 'g'), to))
                     for (let i = 0; i < nds.length; i++) {
                         parent.appendChild(nds[i])
+                        node = parent.childNodes[0]
                     }
                 } else {
                     node.nodeValue = node.nodeValue.replace(new RegExp(quote(from), 'g'), to)
