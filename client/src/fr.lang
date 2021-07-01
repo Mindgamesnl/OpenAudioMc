@@ -1,0 +1,49 @@
+ui.loading=Chargement...
+ui.logout=Déconnexion
+
+landing.title=Bienvenue!
+landing.clickBelow=Bienvenue %player! Clique n'importe où pour activer ta session 
+landing.connectButton=Clique n'importe où pour te connecter
+
+main.title=Bon retour,
+main.content=<div>Gardez cet onglet ouvert en arrière-plan car il sera utilisé pour diffuser l'audio lié à vos actions en jeu. Vous pouvez modifier manuellement votre volume ici, ou dans le jeu en utilisant <b>/volume(volume)</b></div>
+main.volume=Volume de la Musique
+main.openHue=ouvrir la configuration de Philips Hue
+
+vc.notice=Notice
+vc.startingPopupTitle=Connexion au chat vocal...
+vc.startingPopup=Veuillez patienter pendant que nous vous installons sur un serveur vocal... tenez bon, cela ne devrait pas prendre trop de temps.
+vc.reloadingPopupTitle=Rechargement du système de voix!
+vc.reloadingPopup=Veuillez patienter pendant que le chat vocal redémarre pour appliquer vos nouveaux paramètres... cela ne devrait pas prendre longtemps
+vc.updatingMicPopupTitle=Mise à jour du microphone!
+vc.updatingMicPopup=Veuillez patienter pendant que le chat vocal redémarre avec votre nouveau microphone... cela ne devrait pas prendre longtemps
+vc.micErrorPopupTitle=Erreur Microphone
+vc.micErrorPopup=Un problème est survenu lors de la tentative d'accès à votre microphone. Veuillez appuyer sur "autoriser" lorsque votre navigateur vous demande l'accès au microphone, ou visitez le wiki pour plus d'informations.
+vc.disabled=Le Chat Vocal est temporairement désactivé par %serverName
+vc.enable=Activer
+vc.vc=Chat Vocal
+vc.onboarding=Ce serveur prend en charge le chat vocal de proximité, qui vous permet de parler avec les joueurs dans un rayon de %range. Voulez-vous activer cette fonctionnalité et donner accès à votre microphone ?
+vc.enable=Activer le
+vc.dismiss=Rejeter
+vc.settings=Paramètres
+vc.muteUnmute=Muter/Démuter microphone
+vc.spatialStereo=Spatial/Stereo audio
+vc.speaking=Indicateur de parole
+vc.sensitivity=Sensibilité du Microphone
+vc.auto=Ajustements automatique
+vc.selectMic=Sélectionner un microphone
+vc.people=Personnes à
+vc.voiceRange=Portée de Voix
+vc.empty=Il n'y a personne autour malheureusement... mais ne t'inquiète pas ! Je serai ton ami imaginaire
+
+hue.hue=Philips Hue
+hue.link=Cliquez ici pour vous connecter à votre pont hue bridge
+hue.preparing=Préparation de l'installation...
+hue.loggingIn=Connexion..
+hue.linking=Appuyez sur le bouton de liaison de votre pont hue dans les %sec secondes pour vous connecter.
+hue.connectedTo=Vous êtes maintenant connecté avec votre pont hue bridge :
+hue.light1=Lumière une
+hue.light2=Lumière deux
+hue.light3=Lumière trois
+hue.connected=Vous pouvez maintenant relier jusqu'à trois lumières que le serveur contrôlera. En général, de droite à gauche.
+hue.close=Fermer
