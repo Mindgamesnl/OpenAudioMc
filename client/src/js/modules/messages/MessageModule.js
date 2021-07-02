@@ -17,6 +17,8 @@ export class MessageModule {
             "be": "nl.lang",
             "fr": "fr.lang",
             "ru": "ru.lang",
+            "hk": "chi.lang",
+            "cn": "chi.lang",
         }
 
         window.getMessageString = this.getString;
@@ -64,6 +66,11 @@ export class MessageModule {
         if (v == null) {
             oalog("Couldn't find message key " + key)
             return "?? " + key + " ??"
+        }
+
+        let forced = this.forcedValues[key]
+        if (forced != null) {
+            v = forced;
         }
 
         for (let i = 0; i < variables.length; i++) {
