@@ -23,6 +23,7 @@ export class MessageModule {
             "md": "ru.lang",
             "hk": "chi.lang",
             "cn": "chi.lang",
+            "ro": "ro.lang",
         }
 
         window.getMessageString = this.getString;
