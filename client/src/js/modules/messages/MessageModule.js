@@ -68,7 +68,7 @@ export class MessageModule {
             return "?? " + key + " ??"
         }
 
-        let forced = this.forcedValues[key]
+        let forced = window.openAudioMc.messageModule.forcedValues[key]
         if (forced != null) {
             v = forced;
         }
@@ -83,7 +83,7 @@ export class MessageModule {
     renderKeyToDom(domKey, messageKey, variables = []) {
         let message = this.getString(messageKey, variables);
 
-        let forced = this.forcedValues[domKey]
+        let forced = window.openAudioMc.messageModule.forcedValues[domKey]
         if (forced != null) {
             message = forced;
         }
