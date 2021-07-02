@@ -1,0 +1,55 @@
+lang.name=Chinese (TW)
+
+lang.detectedAs=我們將您的語言更改為 %langName，您要保持這樣嗎?
+lang.keep=Keep %langName
+lang.toEn=切換到中文
+
+ui.loading=載入中...
+ui.logout=登出
+
+landing.title=歡迎 OwO!
+landing.clickBelow=歡迎%player! 單擊按鈕來連結!
+landing.connectButton=點擊我來連線!
+
+main.title= 歡迎回來!
+main.content=<div>保持此選項將後台保持打開，因為您的音樂和音效將通過此網頁流式傳輸。您可以隨時回來更改音量，但您也可以在遊戲中通過 <b>/volume</b> 來調整</div>
+main.volume=Music Volume
+main.openHue=打開 Hue 配置
+
+vc.notice=注意
+vc.startingPopupTitle=登錄語音聊天...
+vc.startingPopup=我們正在為您設置語音服務器，請稍候……就等一下，這應該不會花太長時間。
+vc.reloadingPopupTitle=重裝語音系統!
+vc.reloadingPopup=請等待語音聊天重新啟動以應用您的新設置.. 這應該不會花很長時間
+vc.updatingMicPopupTitle=更新麥克風!
+vc.updatingMicPopup=請稍候，正在使用您的新麥克風重新啟動語音聊天。這應該不會花很長時間
+vc.micErrorPopupTitle=你的麥克風好像出問題了!
+vc.micErrorPopup=嘗試使用您的麥克風時出現了問題。 瀏覽器很需要您的麥克風，這樣才能傳輸你優美的聲音，需要你的同意，要選“允許”喔~，如果出現了超大的問題，可以看 wiki 了解更多信息喔。
+vc.disabled=VoiceChat 已被暫時禁用了QAQ %serverName
+vc.enable=啟用
+vc.enableThe=啟用
+vc.vc=Voice Chat
+vc.onboarding=我們服務器支持 Proximity Voice Chat，您可以在 %range 半徑內的玩家交談喔。 您想和其他玩家一起來聊天和歡樂嗎，如果你想一起來，記得點允許喔!
+vc.dismiss=解散
+vc.settings=設置
+vc.muteUnmute=靜音/取消靜音 麥克風
+vc.spatialStereo=空間/立體 聲音頻
+vc.speaking=說話偵測
+vc.sensitivity=麥克風 靈敏度
+vc.auto=自動調整
+vc.selectMic=選擇您的麥克風
+vc.people=附近的人
+vc.voiceRange=音域
+vc.empty=你周圍好像沒有人......不過不用擔心！ 我會成為你想像中快樂的朋友的OwO
+
+hue.hue=飛利浦色相
+hue.link=單擊此處連接到您的色調
+hue.preparing=正在準備設置...
+hue.loggingIn=登錄中..
+hue.linking=在 %sec 秒內按下 hue bridge 的鏈接按鈕進行連接。
+hue.connectedTo=您現在已與 Hue Bridge 連接:
+hue.light1=Light 1
+hue.light2=Light 2
+hue.light3=Light 3
+hue.connected=您現在最多可以鏈接服務器將控制的三個Light。 通常從右到左。
+hue.close=關閉
