@@ -18,7 +18,6 @@ export class MessageModule {
             "fr": "fr.lang",
             "ru": "ru.lang",
             "ua": "ru.lang",
-            "be": "ru.lang",
             "kz": "ru.lang",
             "md": "ru.lang",
             "hk": "chi.lang",
