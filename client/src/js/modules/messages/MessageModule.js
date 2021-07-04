@@ -133,7 +133,7 @@ export class MessageModule {
         let request = await fetch(prefix + file);
         if (request.status !== 200 && !isFailover) {
             oalog("Using fetch fail over for lang")
-            return await window.openAudioMc.messageModule.fetcWithFialover(file, isFailover)
+            return await window.openAudioMc.messageModule.fetcWithFialover(file, true)
         }
         let body = await request.text();
         return body.split("\n");
