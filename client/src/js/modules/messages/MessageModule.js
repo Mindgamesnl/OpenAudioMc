@@ -1,5 +1,6 @@
 import {oalog} from "../../helpers/log";
 import {deepScanStartingWith, replaceGlobalText} from "../../helpers/domhelper";
+import {API_ENDPOINT} from "../../helpers/protocol/ApiEndpoints";
 
 export class MessageModule {
 
@@ -129,7 +130,7 @@ export class MessageModule {
     }
 
     async fetcWithFialover(file, isFailover = false) {
-        let prefix = (isFailover ? "https://client.openaudiomc.net/" : window.location.pathname + window.location.search)
+        let prefix = (isFailover ? API_ENDPOINT.CONTENT_PROXY + "https://client.openaudiomc.net/" : window.location.pathname + window.location.search)
         let request = await fetch(prefix + file);
         if (request.status !== 200 && !isFailover) {
             oalog("Using fetch fail over for lang")
