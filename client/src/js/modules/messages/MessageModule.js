@@ -48,7 +48,7 @@ export class MessageModule {
             return
         }
 
-        let placeholders =[["%langName", getMessageString("lang.name")]]
+        let placeholders = [["%langName", getMessageString("lang.name")]]
         replaceGlobalText("{{ ui.lang.detectedAs }}", getMessageString("lang.detectedAs", placeholders))
         replaceGlobalText("{{ ui.lang.toEn }}", getMessageString("lang.toEn", placeholders))
         replaceGlobalText("{{ ui.lang.keep }}", getMessageString("lang.keep", placeholders))
@@ -103,7 +103,7 @@ export class MessageModule {
             var a = staticVariables[i];
             let temp = "";
             let fs = false
-            for(let t of a)
+            for (let t of a)
                 if (fs) {
                     temp += t;
                 } else {
@@ -128,13 +128,23 @@ export class MessageModule {
         this.seeded = true;
     }
 
+    async fetcWithFialover(file, isFailover = false) {
+        let prefix = (isFailover ? "https://client.openaudiomc.net/" : window.location.pathname + window.location.search)
+        let request = await fetch(prefix + file);
+        if (request.status !== 200 && !isFailover) {
+            oalog("Using fetch fail over for lang")
+            return await window.openAudioMc.messageModule.fetcWithFialover(file, isFailover)
+        }
+        let body = await request.text();
+        return body.split("\n");
+    }
+
     async load(file) {
         if (this.currentLangFile === file) return
+        let lines = []
 
         // fetch
-        let request = await fetch(window.location.pathname + window.location.search + file);
-        let body = await request.text();
-        let lines = body.split("\n");
+        lines = await window.openAudioMc.messageModule.fetcWithFialover(file)
 
         // parse format:
         // # comment
