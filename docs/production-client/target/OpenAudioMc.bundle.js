@@ -4378,7 +4378,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
   }function k(t) {
     c(t);
   }function C(t, e, n) {
-    M(Et.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: e, message: "build 578: " + t }) }).then(function (t) {
+    M(Et.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: e, message: "build 580: " + t }) }).then(function (t) {
       null != n && n(), t.json().then(function (t) {
         console.log("Reported error. Reponse was: " + JSON.stringify(t));
       });
@@ -6046,7 +6046,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         }), _this28.harkEvents.on("stopped_speaking", function () {
           _this28.uiInst.setVisuallyTalking(!1);
         }), _this28.audio.muted = !0, _this28.openAudioMc.voiceModule.surroundSwitch.isOn()) {
-          var _t30 = _this28.gainNode;_this28.pannerNode = n.createPanner(), _this28.pannerNode.maxDistance = _this28.openAudioMc.voiceModule.blocksRadius, _this28.pannerNode.panningModel = "HRTF", _this28.pannerNode.rolloffFactor = .65, _this28.pannerNode.distanceModel = "linear", _this28.pannerNode.coneOuterGain = .7, _this28.pannerNode.coneInnerAngle = 120, _this28.setLocation(_this28.x, _this28.y, _this28.z, !0), r.connect(_t30), _t30.connect(_this28.pannerNode), _this28.pannerNode.connect(n.destination);
+          var _t30 = _this28.gainNode;_this28.pannerNode = n.createPanner(), _this28.pannerNode.maxDistance = _this28.openAudioMc.voiceModule.blocksRadius, _this28.pannerNode.panningModel = "HRTF", _this28.pannerNode.rolloffFactor = .9, _this28.pannerNode.distanceModel = "linear", _this28.pannerNode.coneOuterGain = .7, _this28.pannerNode.coneInnerAngle = 120, _this28.setLocation(_this28.x, _this28.y, _this28.z, !0), r.connect(_t30), _t30.connect(_this28.pannerNode), _this28.pannerNode.connect(n.destination);
         } else {
           var _t31 = _this28.gainNode;r.connect(_t31), _t31.connect(n.destination);
         }_this28.audio.play().then(function () {}).catch(function (t) {
@@ -6932,7 +6932,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     return me;
   }), n.d(e, "OpenAudioMc", function () {
     return ve;
-  });var me = { build: "578", compiler: "Mindgamesnl", platform: "Production", environment: "Linux", isProd: JSON.parse("true"), envDescription: "default-prod" };window.debugHooks = {}, u(function () {
+  });var me = { build: "580", compiler: "Mindgamesnl", platform: "Production", environment: "Linux", isProd: JSON.parse("true"), envDescription: "default-prod" };window.debugHooks = {}, u(function () {
     window.debugUi.addPanel(ot.UI, function () {
       return "componentElementCache=" + Object.keys(rt).length + ", propertyCache=" + Object.keys(it).length;
     });
