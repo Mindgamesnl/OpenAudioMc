@@ -84,7 +84,7 @@ options:
   # Garbage collection strategy, it only removes it from the cache by default but you can set it to "DELETE" to forcefully delete data entries
   gc-strategy: INVALIDATE
   # Required distance for proximity voice chat. Must be between 20 and 70
-  voicechat-radius: 30
+  voicechat-radius: 45
   # Chat announcements for players to notify them of others entering/leaving their voice chat proximity
   voicechat-announcements: true
 
