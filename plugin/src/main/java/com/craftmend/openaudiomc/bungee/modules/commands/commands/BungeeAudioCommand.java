@@ -25,7 +25,7 @@ public class BungeeAudioCommand extends Command {
     };
 
     public BungeeAudioCommand() {
-        super("audio", null, "sound", "connect", "muziek", "mcaudio", "mcconnect", "mconnect", "geluid", "voice", "voicechat");
+        super("audio", null, "sound", "connect", "muziek", "mcaudio", "mcconnect", "mconnect", "geluid", "voice", "voicechat", "media");
     }
 
     @Override
