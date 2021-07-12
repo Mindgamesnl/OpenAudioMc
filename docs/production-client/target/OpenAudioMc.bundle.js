@@ -4378,7 +4378,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
   }function k(e) {
     c(e);
   }function C(e, t, n) {
-    M(Ee.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: t, message: "build 591: " + e }) }).then(function (e) {
+    M(Ee.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: t, message: "build 594: " + e }) }).then(function (e) {
       null != n && n(), e.json().then(function (e) {
         console.log("Reported error. Reponse was: " + JSON.stringify(e));
       });
@@ -5166,7 +5166,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     };
 
     Ce.prototype.handleRandomizedPlaylist = function handleRandomizedPlaylist(e) {
-      if (null == e) return "";if (e.startsWith("[") && e.endsWith("]")) {
+      if (e.startsWith("[") && e.endsWith("]")) {
         var t = JSON.parse(e);if (!this.startedRandomly) {
           var _e23 = ee(Math.random() * t.length);return this.lastIndex = _e23, this.startedRandomly = !0, t[_e23];
         }return this.lastIndex++, this.lastIndex > t.length - 1 && (this.lastIndex = 0), t[this.lastIndex];
@@ -5190,13 +5190,14 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
 
       _classCallCheck(this, Te);
 
-      (_this9 = _possibleConstructorReturn(this, _Ce.call(this)), _this9), _this9.rawSource = e;try {
+      (_this9 = _possibleConstructorReturn(this, _Ce.call(this)), _this9), c("Debugging source: " + e), _this9.rawSource = e;try {
         e = _this9.translate(e);
       } catch (t) {
         c("Failed to translate source: " + e);
       }_this9.soundElement = function (e) {
-        e = Ae.translate(e);var t = Oe[e];return null == t ? new Audio() : t;
-      }(e), _this9.hadError = !1, _this9.source = e, _this9.error = null, _this9.trackable = !1, _this9.soundElement.onerror = function (e) {
+        var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : !1;
+        t || (e = Ae.translate(e));var n = Oe[e];return null == n ? new Audio() : n;
+      }(e, !0), _this9.hadError = !1, _this9.source = e, _this9.error = null, _this9.trackable = !1, _this9.soundElement.onerror = function (e) {
         _this9.hadError = !0, _this9.error = e, _this9._handleError();
       }, _this9.soundElement.src = e, _this9.soundElement.setAttribute("preload", "auto"), _this9.soundElement.setAttribute("controls", "none"), _this9.soundElement.setAttribute("display", "none"), _this9.soundElement.preload = "auto", _this9.soundElement.abort = console.log, _this9.openAudioMc = null, _this9.onFinish = [], _this9.loop = !1, _this9.mixer = null, _this9.channel = null, _this9.finsishedInitializing = !1, _this9.gotShutDown = !1;return _this9;
     }
@@ -6382,7 +6383,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         }, _callee2, this);
       }));
 
-      function setup(_x9) {
+      function setup(_x10) {
         return _ref2.apply(this, arguments);
       }
 
@@ -6601,7 +6602,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         console.error(e), _this46.handleCrash(JSON.stringify(e.toJSON()));
       }), this.loadedDeviceList = !0), Swal.fire({ backdrop: "", title: window.getMessageString("vc.startingPopupTitle"), html: window.getMessageString("vc.startingPopup"), showCloseButton: !1, showCancelButton: !1, timerProgressBar: !1, allowOutsideClick: !1, allowEscapeKey: !1, allowEnterKey: !1, didOpen: function didOpen() {
           Swal.showLoading();
-        } }), this.microphoneProcessing = new dt(this.openAudioMc, this, e), this.peerManager = new ct(this.openAudioMc, this.server, this.streamKey, e, this.microphoneProcessing), this.peerManager.setup(this.onOutoingStreamStart.bind(this)).catch(function (e) {
+        } }), this.microphoneProcessing = new dt(this.openAudioMc, this, e), this.peerManager = new ct(this.openAudioMc, this.server, this.streamKey, e, this.microphoneProcessing), this.peerManager.setup(this.onOutoingStreamStart).catch(function (e) {
         _this46.handleCrash(JSON.stringify(e.toJSON()));
       }), u(function () {
         c("Enabling rtc debugging"), window.debugUi.addPanel(oe.RTC, function () {
@@ -6734,7 +6735,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         }, _callee3, this);
       }));
 
-      function handleCountry(_x10) {
+      function handleCountry(_x11) {
         return _ref3.apply(this, arguments);
       }
 
@@ -6870,7 +6871,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         }, _callee5, this);
       }));
 
-      function fetchWithFailover(_x14) {
+      function fetchWithFailover(_x15) {
         return _ref5.apply(this, arguments);
       }
 
@@ -6939,7 +6940,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         }, _callee6, this);
       }));
 
-      function load(_x15) {
+      function load(_x16) {
         return _ref6.apply(this, arguments);
       }
 
@@ -6953,7 +6954,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     return mt;
   }), n.d(t, "OpenAudioMc", function () {
     return vt;
-  });var mt = { build: "591", compiler: "Mindgamesnl", platform: "Production", environment: "Linux", isProd: JSON.parse("true"), envDescription: "default-prod" };window.debugHooks = {}, u(function () {
+  });var mt = { build: "594", compiler: "Mindgamesnl", platform: "Production", environment: "Linux", isProd: JSON.parse("true"), envDescription: "default-prod" };window.debugHooks = {}, u(function () {
     window.debugUi.addPanel(oe.UI, function () {
       return "componentElementCache=" + Object.keys(re).length + ", propertyCache=" + Object.keys(ie).length;
     });
@@ -7017,7 +7018,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
           }, _callee7, _this51);
         }));
 
-        return function (_x16) {
+        return function (_x17) {
           return _ref8.apply(this, arguments);
         };
       }()).catch(function (e) {

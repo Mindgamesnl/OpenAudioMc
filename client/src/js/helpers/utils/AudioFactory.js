@@ -17,8 +17,10 @@ export function PreFetch(source) {
   return soundElement;
 }
 
-export function GetAudio(source) {
-  source = pro.translate(source)
+export function GetAudio(source, isTranslated = false) {
+  if (!isTranslated) {
+    source = pro.translate(source)
+  }
   let loaded = prefetchedSounds[source];
   if (loaded != null) {
     return loaded;

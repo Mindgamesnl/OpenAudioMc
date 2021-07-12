@@ -111,7 +111,6 @@ export class AudioSourceProcessor {
     }
 
     handleRandomizedPlaylist(input) {
-        if (input == null) return ""
         if (input.startsWith("[") && input.endsWith("]")) {
             let sources = JSON.parse(input);
             if (!this.startedRandomly) {
