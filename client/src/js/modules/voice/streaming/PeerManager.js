@@ -178,6 +178,7 @@ export class PeerManager {
                 case "OK":
                     // setup finished
                     if (whenSetupFinished != null) whenSetupFinished()
+                    this.openAudioMc.voiceModule.peerManager.playInternalSound("assets/unmute.mp3")
                     oalog("Received Confluence channel confirmation")
                     break
 
