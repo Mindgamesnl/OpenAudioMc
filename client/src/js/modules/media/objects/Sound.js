@@ -23,7 +23,12 @@ export class Sound extends AudioSourceProcessor {
     constructor(source) {
         super()
         this.rawSource = source;
-        source = this.translate(source);
+
+        try {
+            source = this.translate(source);
+        } catch (e) {
+            oalog("Failed to translate source: " + source)
+        }
 
         this.soundElement = GetAudio(source);
 
