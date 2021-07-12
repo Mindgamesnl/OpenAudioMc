@@ -4378,7 +4378,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
   }function k(e) {
     c(e);
   }function C(e, t, n) {
-    M(Ee.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: t, message: "build 587: " + e }) }).then(function (e) {
+    M(Ee.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: t, message: "build 588: " + e }) }).then(function (e) {
       null != n && n(), e.json().then(function (e) {
         console.log("Reported error. Reponse was: " + JSON.stringify(e));
       });
@@ -6392,15 +6392,11 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     ct.prototype.playInternalSound = function playInternalSound(e) {
       var _this36 = this;
 
-      c("Playing internal sound " + e);var t = function (e) {
-        for (var t = "", n = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", r = n.length, i = 0; i < e; i++) {
-          t += n.charAt(ee(Math.random() * r));
-        }return t;
-      }(5);var n = new me(t),
-          r = new Te(e);r.openAudioMc = this.openAudioMc, r.setOa(this.openAudioMc), r.setOnFinish(function () {
-        _this36.openAudioMc.mediaManager.mixer._updatePlayingSounds(), _this36.openAudioMc.mediaManager.mixer.removeChannel(t);
-      }), r.finalize().then(function () {
-        _this36.openAudioMc.mediaManager.mixer.addChannel(n), n.addSound(r), n.setChannelVolume(100), n.updateFromMasterVolume(), r.finish();
+      c("Playing internal sound " + e);var t = new me(e),
+          n = new Te(e);n.openAudioMc = this.openAudioMc, n.setOa(this.openAudioMc), n.setOnFinish(function () {
+        _this36.openAudioMc.mediaManager.mixer._updatePlayingSounds(), _this36.openAudioMc.mediaManager.mixer.removeChannel(e);
+      }), n.finalize().then(function () {
+        _this36.openAudioMc.mediaManager.mixer.addChannel(t), t.addSound(n), t.setChannelVolume(100), t.updateFromMasterVolume(), n.finish();
       });
     };
 
@@ -6957,7 +6953,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     return mt;
   }), n.d(t, "OpenAudioMc", function () {
     return vt;
-  });var mt = { build: "587", compiler: "Mindgamesnl", platform: "Production", environment: "Linux", isProd: JSON.parse("true"), envDescription: "default-prod" };window.debugHooks = {}, u(function () {
+  });var mt = { build: "588", compiler: "Mindgamesnl", platform: "Production", environment: "Linux", isProd: JSON.parse("true"), envDescription: "default-prod" };window.debugHooks = {}, u(function () {
     window.debugUi.addPanel(oe.UI, function () {
       return "componentElementCache=" + Object.keys(re).length + ", propertyCache=" + Object.keys(ie).length;
     });
