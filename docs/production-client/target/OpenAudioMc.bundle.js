@@ -4378,7 +4378,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
   }function k(e) {
     c(e);
   }function C(e, t, n) {
-    M(Ee.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: t, message: "build 586: " + e }) }).then(function (e) {
+    M(Ee.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: t, message: "build 587: " + e }) }).then(function (e) {
       null != n && n(), e.json().then(function (e) {
         console.log("Reported error. Reponse was: " + JSON.stringify(e));
       });
@@ -5190,7 +5190,11 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
 
       _classCallCheck(this, Te);
 
-      (_this9 = _possibleConstructorReturn(this, _Ce.call(this)), _this9), _this9.rawSource = e, e = _this9.translate(e), _this9.soundElement = function (e) {
+      (_this9 = _possibleConstructorReturn(this, _Ce.call(this)), _this9), _this9.rawSource = e;try {
+        e = _this9.translate(e);
+      } catch (t) {
+        c("Failed to translate source: " + e);
+      }_this9.soundElement = function (e) {
         e = Ae.translate(e);var t = Oe[e];return null == t ? new Audio() : t;
       }(e), _this9.hadError = !1, _this9.source = e, _this9.error = null, _this9.trackable = !1, _this9.soundElement.onerror = function (e) {
         _this9.hadError = !0, _this9.error = e, _this9._handleError();
@@ -6953,7 +6957,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     return mt;
   }), n.d(t, "OpenAudioMc", function () {
     return vt;
-  });var mt = { build: "586", compiler: "Mindgamesnl", platform: "Production", environment: "Linux", isProd: JSON.parse("true"), envDescription: "default-prod" };window.debugHooks = {}, u(function () {
+  });var mt = { build: "587", compiler: "Mindgamesnl", platform: "Production", environment: "Linux", isProd: JSON.parse("true"), envDescription: "default-prod" };window.debugHooks = {}, u(function () {
     window.debugUi.addPanel(oe.UI, function () {
       return "componentElementCache=" + Object.keys(re).length + ", propertyCache=" + Object.keys(ie).length;
     });
