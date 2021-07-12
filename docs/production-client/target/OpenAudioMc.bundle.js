@@ -4378,7 +4378,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
   }function k(e) {
     c(e);
   }function C(e, t, n) {
-    M(Ee.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: t, message: "build 594: " + e }) }).then(function (e) {
+    M(Ee.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: t, message: "build 595: " + e }) }).then(function (e) {
       null != n && n(), e.json().then(function (e) {
         console.log("Reported error. Reponse was: " + JSON.stringify(e));
       });
@@ -5148,7 +5148,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     }
 
     Ce.prototype.translate = function translate(e) {
-      var t = this.handleRandomizedPlaylist(e);try {
+      c("Before handling playlist: " + e);var t = this.handleRandomizedPlaylist(e);c("After handling playlist: " + t);try {
         if (t.includes("media.openaudiomc.net")) return e;if (t = t.replace("https://api.openaudiomc.net/stream.php?u=", ""), window.location.href.includes("client.openaudiomc.net") && !t.includes("http")) return null;if (t.includes("http://docs.google.com/uc?export=open&id=") && (t = t.replace("http://docs.google.com/uc?export=open&id=", ke.DRIVE)), t.includes("https://docs.google.com/uc?export=open&id=") && (t = t.replace("https://docs.google.com/uc?export=open&id=", ke.DRIVE)), t.includes("https://drive.google.com/") && (t = t.split("file/d/")[1], t = ke.DRIVE + t.split("/view")[0]), this.isYoutube = !1, t.includes("youtube.")) {
           var _e21 = t.split("v=")[1];_e21.includes("&") && (_e21 = _e21.split("&")[0]), t = ke.YOUTUBE + _e21, this.isYoutube = !0;
         } else if (t.includes("youtu.be")) {
@@ -5194,7 +5194,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
         e = _this9.translate(e);
       } catch (t) {
         c("Failed to translate source: " + e);
-      }_this9.soundElement = function (e) {
+      }c("Source after translation: " + e), _this9.soundElement = function (e) {
         var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : !1;
         t || (e = Ae.translate(e));var n = Oe[e];return null == n ? new Audio() : n;
       }(e, !0), _this9.hadError = !1, _this9.source = e, _this9.error = null, _this9.trackable = !1, _this9.soundElement.onerror = function (e) {
@@ -6954,7 +6954,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     return mt;
   }), n.d(t, "OpenAudioMc", function () {
     return vt;
-  });var mt = { build: "594", compiler: "Mindgamesnl", platform: "Production", environment: "Linux", isProd: JSON.parse("true"), envDescription: "default-prod" };window.debugHooks = {}, u(function () {
+  });var mt = { build: "595", compiler: "Mindgamesnl", platform: "Production", environment: "Linux", isProd: JSON.parse("true"), envDescription: "default-prod" };window.debugHooks = {}, u(function () {
     window.debugUi.addPanel(oe.UI, function () {
       return "componentElementCache=" + Object.keys(re).length + ", propertyCache=" + Object.keys(ie).length;
     });

@@ -30,6 +30,7 @@ export class Sound extends AudioSourceProcessor {
         } catch (e) {
             oalog("Failed to translate source: " + source)
         }
+        oalog("Source after translation: " + source)
 
         this.soundElement = GetAudio(source, true);
 

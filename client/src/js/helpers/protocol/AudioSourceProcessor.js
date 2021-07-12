@@ -18,7 +18,9 @@ export class AudioSourceProcessor {
     }
 
     translate(sourceOg) {
+        oalog("Before handling playlist: " + sourceOg)
         let source = this.handleRandomizedPlaylist(sourceOg);
+        oalog("After handling playlist: " + source)
 
         // filter old
         try {
