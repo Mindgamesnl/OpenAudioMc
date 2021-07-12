@@ -22,15 +22,9 @@ export class Sound extends AudioSourceProcessor {
 
     constructor(source) {
         super()
-        oalog("Debugging source: " + source)
         this.rawSource = source;
 
-        try {
-            source = this.translate(source);
-        } catch (e) {
-            oalog("Failed to translate source: " + source)
-        }
-        oalog("Source after translation: " + source)
+        source = this.translate(source);
 
         this.soundElement = GetAudio(source, true);
 

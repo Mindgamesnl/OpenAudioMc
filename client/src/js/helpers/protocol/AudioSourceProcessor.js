@@ -18,19 +18,12 @@ export class AudioSourceProcessor {
     }
 
     translate(sourceOg) {
-        oalog("Before handling playlist: " + sourceOg)
         let source = this.handleRandomizedPlaylist(sourceOg);
-        oalog("After handling playlist: " + source)
 
         // filter old
         try {
             if (source.includes("media.openaudiomc.net")) return sourceOg
             source = source.replace("https://api.openaudiomc.net/stream.php?u=", "");
-
-            // validate invalid urls if its the default domain
-            if (window.location.href.includes("client.openaudiomc.net") && !source.includes("http")) {
-                return null;
-            }
 
             // work around for the old google docs system, for those who didn't update yet
             if (source.includes("http://docs.google.com/uc?export=open&id=")) {
