@@ -160,7 +160,7 @@ export class VoiceModule {
         this.microphoneProcessing = new MicrophoneProcessor(this.openAudioMc, this, stream)
 
         this.peerManager = new PeerManager(this.openAudioMc, this.server, this.streamKey, stream, this.microphoneProcessing)
-        this.peerManager.setup(this.onOutoingStreamStart).catch((err) => {
+        this.peerManager.setup(this.onOutoingStreamStart.bind(this)).catch((err) => {
             this.handleCrash(JSON.stringify(err.toJSON()))
         })
 
@@ -244,6 +244,7 @@ export class VoiceModule {
     }
 
     onOutoingStreamStart() {
+        this.peerManager.playInternalSound("assets/unmute.mp3")
         showVoiceCard("voice-home");
         Swal.close();
     }

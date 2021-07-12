@@ -4,6 +4,9 @@ import {PromisedChannel} from "./PromisedChannel";
 import {VoiceStatusChangeEvent} from "../VoiceModule";
 import * as PluginChannel from "../../../helpers/protocol/PluginChannel";
 import {OpenAudioEnv} from "../../../OpenAudioMc";
+import {Channel} from "../../media/objects/Channel";
+import {Sound} from "../../media/objects/Sound";
+import {makeid} from "../../../helpers/libs/random";
 
 export class PeerManager {
 
@@ -336,10 +339,36 @@ export class PeerManager {
         window.rtcHook = this.pcReceiver;
     }
 
+    playInternalSound(src) {
+        oalog("Playing internal sound " + src)
+        let id = makeid(5)
+        const createdChannel = new Channel(id);
+        const createdMedia = new Sound(src);
+        createdMedia.openAudioMc = this.openAudioMc;
+        createdMedia.setOa(this.openAudioMc);
+        createdMedia.setOnFinish(() => {
+                this.openAudioMc.mediaManager.mixer._updatePlayingSounds();
+                this.openAudioMc.mediaManager.mixer.removeChannel(id)
+        })
+        createdMedia.finalize().then(() => {
+            this.openAudioMc.mediaManager.mixer.addChannel(createdChannel);
+            createdChannel.addSound(createdMedia);
+            createdChannel.setChannelVolume(100);
+            createdChannel.updateFromMasterVolume();
+            createdMedia.finish();
+        });
+    }
+
     setMute(state) {
         if (this.muteCooldown) {
             Swal.fire("Please wait a moment before doing this again");
             return;
+        }
+
+        if (state) {
+            this.playInternalSound("assets/mute.mp3")
+        } else {
+            this.playInternalSound("assets/unmute.mp3")
         }
 
         this.isMuted = state;
