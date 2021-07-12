@@ -129,12 +129,12 @@ export class MessageModule {
         this.seeded = true;
     }
 
-    async fetcWithFialover(file, isFailover = false) {
+    async fetchWithFailover(file, isFailover = false) {
         let prefix = (isFailover ? API_ENDPOINT.CONTENT_PROXY + "https://client.openaudiomc.net/" : window.location.pathname + window.location.search)
         let request = await fetch(prefix + file);
         if (request.status !== 200 && !isFailover) {
             oalog("Using fetch fail over for lang")
-            return await window.openAudioMc.messageModule.fetcWithFialover(file, true)
+            return await window.openAudioMc.messageModule.fetchWithFailover(file, true)
         }
         let body = await request.text();
         return body.split("\n");
@@ -145,7 +145,7 @@ export class MessageModule {
         let lines = []
 
         // fetch
-        lines = await window.openAudioMc.messageModule.fetcWithFialover(file)
+        lines = await window.openAudioMc.messageModule.fetchWithFailover(file)
 
         // parse format:
         // # comment
