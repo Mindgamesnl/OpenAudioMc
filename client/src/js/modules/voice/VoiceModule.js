@@ -244,7 +244,6 @@ export class VoiceModule {
     }
 
     onOutoingStreamStart() {
-        this.peerManager.playInternalSound("assets/unmute.mp3")
         showVoiceCard("voice-home");
         Swal.close();
     }

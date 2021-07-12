@@ -4378,7 +4378,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
   }function k(e) {
     c(e);
   }function C(e, t, n) {
-    M(Ee.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: t, message: "build 588: " + e }) }).then(function (e) {
+    M(Ee.ERROR_REPORTING, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerName: t, message: "build 589: " + e }) }).then(function (e) {
       null != n && n(), e.json().then(function (e) {
         console.log("Reported error. Reponse was: " + JSON.stringify(e));
       });
@@ -6316,7 +6316,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
             });break;case "CONFIRM_NEGOTIATION":
             _this33.handleRenagEnd();break;case "NEGOTIATION_CANCELLED":
             c("Negotiation was ignored, server doesn't think it to be needed.");break;case "OK":
-            null != t && t(), c("Received Confluence channel confirmation");break;case "REJECT_REQUEST":
+            null != t && t(), _this33.openAudioMc.voiceModule.peerManager.playInternalSound("assets/unmute.mp3"), c("Received Confluence channel confirmation");break;case "REJECT_REQUEST":
             var _o6 = r.getParam("owner");c("The server rejected a stream request to " + _o6), _this33.waitingPromises.has(_o6) && (_this33.waitingPromises.get(_o6).handleError("Request got denied by the server"), _this33.waitingPromises.delete(_o6));break;case "CONFIRM_REQUEST":
             _this33.trackQueue.set(r.getParam("streamid"), r.getParam("owner"));break;case "CONTEXT_EVENT":
             _this33.contextEvent(r);break;case "IDENTIFY_SELF":
@@ -6636,7 +6636,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     };
 
     pt.prototype.onOutoingStreamStart = function onOutoingStreamStart() {
-      this.peerManager.playInternalSound("assets/unmute.mp3"), X("voice-home"), Swal.close();
+      X("voice-home"), Swal.close();
     };
 
     pt.prototype.consent = function consent(e) {
@@ -6953,7 +6953,7 @@ function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaul
     return mt;
   }), n.d(t, "OpenAudioMc", function () {
     return vt;
-  });var mt = { build: "588", compiler: "Mindgamesnl", platform: "Production", environment: "Linux", isProd: JSON.parse("true"), envDescription: "default-prod" };window.debugHooks = {}, u(function () {
+  });var mt = { build: "589", compiler: "Mindgamesnl", platform: "Production", environment: "Linux", isProd: JSON.parse("true"), envDescription: "default-prod" };window.debugHooks = {}, u(function () {
     window.debugUi.addPanel(oe.UI, function () {
       return "componentElementCache=" + Object.keys(re).length + ", propertyCache=" + Object.keys(ie).length;
     });
