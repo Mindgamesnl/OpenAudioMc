@@ -341,14 +341,13 @@ export class PeerManager {
 
     playInternalSound(src) {
         oalog("Playing internal sound " + src)
-        let id = makeid(5)
-        const createdChannel = new Channel(id);
+        const createdChannel = new Channel(src);
         const createdMedia = new Sound(src);
         createdMedia.openAudioMc = this.openAudioMc;
         createdMedia.setOa(this.openAudioMc);
         createdMedia.setOnFinish(() => {
                 this.openAudioMc.mediaManager.mixer._updatePlayingSounds();
-                this.openAudioMc.mediaManager.mixer.removeChannel(id)
+                this.openAudioMc.mediaManager.mixer.removeChannel(src)
         })
         createdMedia.finalize().then(() => {
             this.openAudioMc.mediaManager.mixer.addChannel(createdChannel);
