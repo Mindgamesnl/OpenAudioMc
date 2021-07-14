@@ -36,6 +36,8 @@ public class ClientRtcManager {
     @Getter private final Set<ClientRtcLocationUpdate> locationUpdateQueue = ConcurrentHashMap.newKeySet();
     @Getter private final Set<RtcBlockReason> blockReasons = new HashSet<>();
     @Getter private final Set<RtcStateFlag> stateFlags = new HashSet<>();
+    @Getter private final Set<UUID> recentPeerAdditions = new HashSet<>();
+    @Getter private final Set<UUID> recentPeerRemovals = new HashSet<>();
     private Location lastPassedLocation = null;
     private final ClientConnection clientConnection;
 
