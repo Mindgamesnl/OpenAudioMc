@@ -44,10 +44,12 @@ messages:
 
   # Message a player receives when opting into voicechat
   voicechat-enabled: '&7&oYour voicechat has been enabled!'
-  # Message a player receives when a player joined their voicechat range
+  # Messages a player receives when a player joined their voicechat range
   voicechat-added-user: '&7&o%name appeared in voice chat range'
-  # Message a player receives when a player got out of their voice chat range
+  foicechat-added-users: '&7&o%name and %count others appeared in voice chat range'
+  # Messages a player receives when a player got out of their voice chat range
   voicechat-removed-user: '&7&o%name left your voice chat'
+  voicechat-removed-users: '&7&o%name and %count others left your voice chat'
   # Message a player receives when their microphone is muted
   voicechat-mic-mute: '&7&oYour microphone is now &c&omuted'
   # Message a player receives when their microphone is unmuted
