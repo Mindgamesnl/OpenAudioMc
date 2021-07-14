@@ -14,8 +14,10 @@ import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.PeerFilter;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.PlayerProximityTicker;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.TickVoicePacketQueue;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Set;
 import java.util.UUID;
 
 public class SpigotVoiceChatModule {
@@ -91,7 +93,14 @@ public class SpigotVoiceChatModule {
                         }
                     } else {
                         // do multiple
+                        MultiNameReference mnr = new MultiNameReference(manager.getRecentPeerAdditions());
+                        client.getPlayer().sendMessage(Platform.translateColors(
+                                StorageKey.MESSAGE_VC_USERS_ADDED.getString()
+                                        .replace("%count", mnr.getOtherCount() + "")
+                                        .replace("%name", mnr.getFirstName()))
+                        );
                     }
+                    manager.getRecentPeerAdditions().clear();
                 }
 
                 if (!manager.getRecentPeerRemovals().isEmpty()) {
@@ -107,9 +116,15 @@ public class SpigotVoiceChatModule {
                         }
                     } else {
                         // do multiple
+                        MultiNameReference mnr = new MultiNameReference(manager.getRecentPeerRemovals());
+                        client.getPlayer().sendMessage(Platform.translateColors(
+                                StorageKey.MESSAGE_VC_USERS_LEFT.getString()
+                                        .replace("%count", mnr.getOtherCount() + "")
+                                        .replace("%name", mnr.getFirstName()))
+                        );
                     }
+                    manager.getRecentPeerRemovals().clear();
                 }
-
             }
         });
 
@@ -123,6 +138,27 @@ public class SpigotVoiceChatModule {
             if (!event.getClient().isConnected()) return;
             event.getClient().getPlayer().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_MIC_UNMUTE.getString()));
         });
+    }
+
+    @Getter
+    @AllArgsConstructor
+    private class MultiNameReference {
+
+        private String firstName;
+        private int otherCount = -1;
+
+        public MultiNameReference(Set<UUID> others) {
+            for (UUID other : others) {
+                ClientConnection c = clientFromId(other);
+                if (c != null) {
+                    if (otherCount == -1) {
+                        firstName = c.getOwnerName();
+                    }
+                    otherCount++;
+                }
+            }
+        }
+
     }
 
     private ClientConnection clientFromId(UUID id) {

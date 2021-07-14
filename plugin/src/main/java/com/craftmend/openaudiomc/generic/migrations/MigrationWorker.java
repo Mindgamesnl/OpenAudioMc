@@ -23,6 +23,7 @@ public class MigrationWorker {
             new VoiceConnectedMessageMigration(),   // adds required messages for mic mute commands
             new AddVcStabilityMessage(),            // adds messages that warn players of voicechat issues
             new AddVcRegionMigration(),             // adds messages for muted voicechat areas
+            new AddMultiUserMigration(),            // adds messages for multi user vc shit
     };
 
     public void handleMigrations() {
