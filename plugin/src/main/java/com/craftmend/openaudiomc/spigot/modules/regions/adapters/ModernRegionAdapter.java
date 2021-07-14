@@ -22,10 +22,11 @@ import java.util.stream.Collectors;
 
 public class ModernRegionAdapter extends AbstractRegionAdapter {
 
+    private boolean usePriority = OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_USE_WG_PRIORITY);
+
     public ModernRegionAdapter(RegionModule regionModule) {
         super(regionModule);
     }
-    private boolean usePriority = OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_USE_WG_PRIORITY);
 
     @Override
     public Set<ApiRegion> getRegionsAtLocation(Location location) {

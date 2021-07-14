@@ -84,6 +84,9 @@
             <version>4.12.0-M4</version>
           </dependency>
         </dependencies>
+        <configuration>
+          <trimStackTrace>false</trimStackTrace>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -182,7 +185,7 @@
     <dependency>
       <groupId>com.sk89q</groupId>
       <artifactId>worldguard</artifactId>
-      <version>LATEST</version>
+      <version>6.1</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -210,7 +213,7 @@
     <dependency>
       <groupId>com.sk89q.worldguard</groupId>
       <artifactId>worldguard-core</artifactId>
-      <version>LATEST</version>
+      <version>7.0.5</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>

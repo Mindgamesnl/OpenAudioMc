@@ -21,6 +21,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 public class PredictiveMediaModule {
@@ -58,15 +59,13 @@ public class PredictiveMediaModule {
 
     public void onDisable() {
         // save
-        Charset charset = Charset.forName("UTF-8");
-        try  {
-            BufferedWriter writer = Files.newBufferedWriter(new File(
-                    OpenAudioMcSpigot.getInstance().getDataFolder(), "cache.json"
-            ).toPath(), charset);
+        Charset charset = Charset.forName(StandardCharsets.UTF_8.name());
+        try (BufferedWriter writer = Files.newBufferedWriter(new File(
+                OpenAudioMcSpigot.getInstance().getDataFolder(), "cache.json"
+        ).toPath(), charset)) {
             String input = chunkMapSerializer.toJson(chunkTracker);
             writer.write(input);
             writer.flush();
-            writer.close();
         } catch (IOException x) {
             System.err.format("IOException: %s%n", x);
         }
