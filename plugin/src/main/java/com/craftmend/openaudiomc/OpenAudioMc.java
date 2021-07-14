@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.networking.rest.ServerEnvironment;
 import com.craftmend.openaudiomc.generic.platform.interfaces.OpenAudioInvoker;
+import com.craftmend.openaudiomc.generic.resources.ResourceManager;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.media.MediaModule;
@@ -60,6 +61,7 @@ public class OpenAudioMc {
      * - Voice Service           []   (Service handling OpenAudioMc's voice chat routing and servers)
      */
     private final ApiEventDriver apiEventDriver = new ApiEventDriver();
+    private final ResourceManager resourceManager;
     private final AuthenticationService authenticationService;
     private final StateService stateService;
     @Setter private TimeService timeService = new TimeService();
@@ -98,6 +100,7 @@ public class OpenAudioMc {
 
         this.invoker = invoker;
         this.platform = invoker.getPlatform();
+        this.resourceManager = new ResourceManager();
         this.stateService = new StateService();
         this.authenticationService = new AuthenticationService();
         this.taskProvider = invoker.getTaskProvider();
@@ -121,6 +124,7 @@ public class OpenAudioMc {
     public void disable() {
         isDisabled = true;
         configuration.saveAll();
+        this.resourceManager.saveData();
         try {
             this.craftmendService.shutdown();
             redisService.shutdown();
