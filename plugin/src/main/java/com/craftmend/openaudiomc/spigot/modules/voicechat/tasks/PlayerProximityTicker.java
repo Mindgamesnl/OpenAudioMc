@@ -1,8 +1,10 @@
 package com.craftmend.openaudiomc.spigot.modules.voicechat.tasks;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.impl.event.enums.TickEventType;
 import com.craftmend.openaudiomc.api.impl.event.events.PlayerLeaveVoiceProximityEvent;
 import com.craftmend.openaudiomc.api.impl.event.enums.VoiceEventCause;
+import com.craftmend.openaudiomc.api.impl.event.events.VoiceChatPeerTickEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;
@@ -26,6 +28,9 @@ public class PlayerProximityTicker implements Runnable {
 
     @Override
     public void run() {
+        // pre tick
+        AudioApi.getInstance().getEventDriver().fire(new VoiceChatPeerTickEvent(TickEventType.BEFORE_TICK));
+
         for (ClientConnection client : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
             // am I valid? no? do nothing.
             if (!client.getClientRtcManager().isReady()) continue;
@@ -73,5 +78,7 @@ public class PlayerProximityTicker implements Runnable {
                 peer.getClientRtcManager().updateLocationWatcher();
             }
         }
+
+        AudioApi.getInstance().getEventDriver().fire(new VoiceChatPeerTickEvent(TickEventType.AFTER_TICK));
     }
 }
