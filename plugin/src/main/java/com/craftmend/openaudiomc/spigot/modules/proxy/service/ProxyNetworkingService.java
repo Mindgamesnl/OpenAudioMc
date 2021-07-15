@@ -24,7 +24,7 @@ public class ProxyNetworkingService extends NetworkingService {
 
     @Getter private final Set<INetworkingEvents> eventHandlers = new HashSet<>();
     private final DefaultNetworkingService realService = new DefaultNetworkingService();
-    private final BukkitPacketManager packetManager;
+    @Getter private final BukkitPacketManager packetManager;
     private int packetThroughput = 0;
 
     public ProxyNetworkingService() {
