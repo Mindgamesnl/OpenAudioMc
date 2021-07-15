@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.generic.resources.storage;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
 @Getter
+@Setter
 public class SavedRoot {
 
     // cached version of the latest config, used to store bungee cache or restore in case of a corrupted file
