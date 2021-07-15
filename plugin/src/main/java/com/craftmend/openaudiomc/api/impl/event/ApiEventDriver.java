@@ -2,23 +2,15 @@ package com.craftmend.openaudiomc.api.impl.event;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.enums.EventSupport;
-import com.craftmend.openaudiomc.api.impl.event.events.ClientPreAuthEvent;
+import com.craftmend.openaudiomc.api.interfaces.EventSupportFlag;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
-import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.NetworkedEventPacket;
 import com.craftmend.openaudiomc.generic.platform.Platform;
-import com.craftmend.openaudiomc.generic.player.ProxiedPlayerAdapter;
 import com.craftmend.openaudiomc.spigot.modules.proxy.service.ProxyNetworkingService;
 import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
-import com.craftmend.openaudiomc.velocity.generic.player.VelocityPlayerAdapter;
-import com.craftmend.openaudiomc.velocity.messages.PacketPlayer;
-import com.velocitypowered.api.proxy.Player;
 import lombok.SneakyThrows;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedType;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -55,8 +47,14 @@ public class ApiEventDriver {
      */
     public EventSupport getEventSupportFor(Class<? extends AudioEvent> event) throws InstantiationException, IllegalAccessException {
         if (eventSupportCache.containsKey(event)) return eventSupportCache.get(event);
-        AudioEvent eventInstance = event.newInstance();
-        EventSupport s = eventInstance.getSupport();
+        EventSupport s = null;
+        // attempt to get it from an annotation
+        if (event.isAnnotationPresent(EventSupportFlag.class)) {
+            s = event.getAnnotation(EventSupportFlag.class).support();
+        } else {
+            AudioEvent eventInstance = event.newInstance();
+            s = eventInstance.getSupport();
+        }
         if (s == null) {
             s = EventSupport.UNKNOWN;
         }
@@ -121,7 +119,7 @@ public class ApiEventDriver {
             }
         }
 
-        if (event instanceof AudioEvent.NetworkedAudioEvent) {
+        if (event instanceof NetworkedAudioEvent) {
             if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
                 if (!OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
                     // don't broadcast
@@ -130,7 +128,7 @@ public class ApiEventDriver {
             }
 
             // synchronize
-            AudioEvent.NetworkedAudioEvent ne = (AudioEvent.NetworkedAudioEvent) event;
+            NetworkedAudioEvent ne = (NetworkedAudioEvent) event;
             if (ne.wasReceived) {
                 // don't broadcast it again
                 return event;

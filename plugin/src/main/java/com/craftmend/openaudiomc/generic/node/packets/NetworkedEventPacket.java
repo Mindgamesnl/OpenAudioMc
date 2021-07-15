@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.node.packets;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.api.impl.event.AudioEvent;
+import com.craftmend.openaudiomc.api.impl.event.NetworkedAudioEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.velocity.messages.PacketWriter;
 import com.craftmend.openaudiomc.velocity.messages.StandardPacket;
@@ -11,13 +11,12 @@ import lombok.NoArgsConstructor;
 
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
 public class NetworkedEventPacket extends StandardPacket {
 
-    @Getter private AudioEvent.NetworkedAudioEvent networkedAudioEvent;
+    @Getter private NetworkedAudioEvent networkedAudioEvent;
 
     public void handle(DataInputStream dataInputStream) throws IOException {
         NetworkedEventPacket mirror = OpenAudioMc.getGson().fromJson(dataInputStream.readUTF(), NetworkedEventPacket.class);

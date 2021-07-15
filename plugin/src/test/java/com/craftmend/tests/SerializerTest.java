@@ -27,7 +27,6 @@ public class SerializerTest {
                 AbstractPacketPayload.class,
                 OARedisPacket.class,
                 Serializable.class
-
         };
 
         Gson gson = GsonFactory.create();
