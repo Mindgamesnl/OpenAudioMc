@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.configuration;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -14,7 +15,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldSaveEvent;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -29,15 +35,39 @@ public class SpigotConfiguration implements Configuration, Listener {
 
     public SpigotConfiguration(OpenAudioMcSpigot openAudioMcSpigot) {
         //save default
-        openAudioMcSpigot.saveDefaultConfig();
         if (!hasDataFile()) openAudioMcSpigot.saveResource("data.yml", false);
         openAudioMcSpigot.registerEvents(this);
 
         dataConfig = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudioMc/data.yml"));
-        mainConfig = openAudioMcSpigot.getConfig();
+
+        loadConfig(openAudioMcSpigot);
 
         OpenAudioLogger.toConsole("Starting configuration module");
         this.loadSettings();
+    }
+
+    public void loadConfig(OpenAudioMcSpigot openAudioMcSpigot) {
+        if (OpenAudioMc.getInstance().getResourceManager().getSavedRoot().isUseConfigFile()) {
+            OpenAudioLogger.toConsole("Using the main config file..");
+            openAudioMcSpigot.saveDefaultConfig();
+            mainConfig = openAudioMcSpigot.getConfig();
+        } else {
+            // load the config from the data cache
+            OpenAudioLogger.toConsole("Using config cache and waiting for data..");
+            mainConfig = YamlConfiguration.loadConfiguration(new StringReader(OpenAudioMc.getInstance().getResourceManager().getSavedRoot().getLastConfigContent()));
+            // delete the existing file
+            File f = new File(OpenAudioMcSpigot.getInstance().getDataFolder(), "config.yml");
+            if (f.exists() && !f.isDirectory()) {
+                f.delete();
+            }
+            String content = "# This file isn't used, please check the config.yml from the proxy plugin.";
+            try (FileWriter myWriter = new FileWriter(f)) {
+                f.createNewFile();
+                myWriter.write(content);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @EventHandler

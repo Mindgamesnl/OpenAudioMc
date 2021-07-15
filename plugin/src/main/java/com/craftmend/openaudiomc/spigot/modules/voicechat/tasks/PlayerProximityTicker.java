@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.enums.TickEventType;
 import com.craftmend.openaudiomc.api.impl.event.events.PlayerLeaveVoiceProximityEvent;
 import com.craftmend.openaudiomc.api.impl.event.enums.VoiceEventCause;
+import com.craftmend.openaudiomc.api.impl.event.events.SystemReloadEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.VoiceChatPeerTickEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
@@ -11,6 +12,7 @@ import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketC
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.generic.utils.data.Filter;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.PeerFilter;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
 import org.bukkit.entity.Player;
@@ -19,12 +21,20 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
- @AllArgsConstructor
 public class PlayerProximityTicker implements Runnable {
 
-    private int maxDistance;
     @Setter
     private Filter<ClientConnection, Player> filter;
+
+    public PlayerProximityTicker(int maxDistance, PeerFilter peerFilter) {
+        this.filter = peerFilter;
+        this.filter.updateProperty("d", maxDistance);
+
+        AudioApi.getInstance().getEventDriver().on(SystemReloadEvent.class).setHandler(e -> {
+            this.filter.updateProperty("d", maxDistance);
+        });
+    }
+
 
     @Override
     public void run() {
