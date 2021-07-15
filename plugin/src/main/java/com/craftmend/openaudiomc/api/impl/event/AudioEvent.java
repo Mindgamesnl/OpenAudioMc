@@ -11,25 +11,4 @@ public abstract class AudioEvent {
 
     public abstract EventSupport getSupport();
 
-    public abstract class NetworkedAudioEvent extends AudioEvent {
-
-        @Getter
-        protected transient PacketPlayer networkedPlayer;
-        @Getter
-        @Setter
-        protected boolean wasReceived = false;
-
-        public NetworkedAudioEvent(Player player) {
-            this.networkedPlayer = new PacketPlayer(player);
-        }
-
-        public NetworkedAudioEvent(com.velocitypowered.api.proxy.Player player) {
-            this.networkedPlayer = new PacketPlayer(player);
-        }
-
-        public NetworkedAudioEvent(ProxiedPlayer player) {
-            this.networkedPlayer = new PacketPlayer(player);
-        }
-    }
-
 }
