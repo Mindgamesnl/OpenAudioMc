@@ -37,7 +37,7 @@ public class SpigotVoiceChatModule {
                         int maxDistance = StorageKey.SETTINGS_VC_RADIUS.getInt();
 
                         // tick every second
-                        proximityTicker = new PlayerProximityTicker(maxDistance, new PeerFilter(maxDistance));
+                        proximityTicker = new PlayerProximityTicker(maxDistance, new PeerFilter());
                         OpenAudioMc.getInstance().getTaskProvider().scheduleAsyncRepeatingTask(proximityTicker, 20, 20);
                         OpenAudioMc.getInstance().getTaskProvider().scheduleAsyncRepeatingTask(new TickVoicePacketQueue(), 3, 3);
                     }

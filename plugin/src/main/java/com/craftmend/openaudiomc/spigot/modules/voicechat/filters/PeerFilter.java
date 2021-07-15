@@ -4,18 +4,27 @@ import com.craftmend.openaudiomc.generic.networking.client.objects.player.Client
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.generic.utils.data.Filter;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import lombok.NoArgsConstructor;
 import org.bukkit.entity.Player;
 
 import java.util.stream.Stream;
 
+@NoArgsConstructor
 public class PeerFilter extends Filter<ClientConnection, Player> {
 
-    private final int MAX_DISTANCE;
-    private final int MAX_DISTANCE_SQUARED;
+    private int MAX_DISTANCE;
+    private int MAX_DISTANCE_SQUARED;
 
-    public PeerFilter(int maxDistance){
+    public void setMaxDistance(int maxDistance){
         this.MAX_DISTANCE = maxDistance;
         this.MAX_DISTANCE_SQUARED = (int) Math.pow(MAX_DISTANCE, 2);
+    }
+
+    @Override
+    public void updateProperty(String name, int value) {
+        if (name.equals("d")) {
+            this.setMaxDistance(value);
+        }
     }
 
     /**

@@ -29,6 +29,7 @@ public class ResourceManager {
                         new String(Files.readAllBytes(f.toPath())),
                         SavedRoot.class
                 );
+                return;
             } catch (IOException e) {
                 e.printStackTrace();
                 createNew();
