@@ -23,7 +23,7 @@ export class MicrophoneProcessor {
         this.longSessions = 0;
 
         // automatically check through a task how long the current speech is
-        setInterval(() => {
+        this.checkLoop = setInterval(() => {
             if (!this.isSpeaking) return;
             let timeActive = new Date().getTime() - this.startedTalking;
             let secondsTalked = (timeActive / 1000);
@@ -85,6 +85,7 @@ export class MicrophoneProcessor {
 
     stop() {
         this.harkEvents.stop()
+        clearInterval(this.checkLoop)
     }
 
     shouldStream(state) {
