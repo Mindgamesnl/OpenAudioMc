@@ -183,6 +183,7 @@ export class VoiceModule {
         Cookies.set("preferred-mic", deviceId, {expires: 30});
         this.peerManager.setMute(false);
         this.peerManager.stop();
+        this.microphoneProcessing.stop()
         this.peerManager = null;
 
         // wait
