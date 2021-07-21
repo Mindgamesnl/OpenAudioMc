@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 import com.craftmend.openaudiomc.api.impl.event.AudioEvent;
 import com.craftmend.openaudiomc.api.impl.event.enums.EventSupport;
 import com.craftmend.openaudiomc.api.impl.event.events.ClientConnectEvent;
+import com.craftmend.openaudiomc.api.interfaces.EventSupportFlag;
 import lombok.SneakyThrows;
 import org.junit.Assert;
 import org.junit.Test;
@@ -36,12 +37,9 @@ public class EventListenerTest {
         Assert.assertFalse(badTriggered.get());
     }
 
+    @EventSupportFlag(support = EventSupport.EVERYWHERE)
     public static class TestEvent extends AudioEvent {
-
-        @Override
-        public EventSupport getSupport() {
-            return EventSupport.EVERYWHERE;
-        }
+        // no data
     }
 
 }

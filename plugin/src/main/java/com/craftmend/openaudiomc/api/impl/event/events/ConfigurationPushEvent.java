@@ -16,8 +16,4 @@ public class ConfigurationPushEvent extends NetworkedAudioEvent {
         this.fileContent = fileContent;
     }
 
-    @Override
-    public EventSupport getSupport() {
-        return EventSupport.EVERYWHERE;
-    }
 }

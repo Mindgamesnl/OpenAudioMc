@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.api.impl.event.events;
 
 import com.craftmend.openaudiomc.api.impl.event.AudioEvent;
 import com.craftmend.openaudiomc.api.impl.event.enums.EventSupport;
+import com.craftmend.openaudiomc.api.interfaces.EventSupportFlag;
 import com.craftmend.openaudiomc.generic.state.interfaces.State;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,13 +21,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@EventSupportFlag(support = EventSupport.ONLY_PROXY_IF_AVAILABLE)
 public class StateChangeEvent extends AudioEvent {
 
     private State oldState;
     private State newState;
 
-    @Override
-    public EventSupport getSupport() {
-        return EventSupport.ONLY_PROXY_IF_AVAILABLE;
-    }
 }

@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.api.impl.event.events;
 
 import com.craftmend.openaudiomc.api.impl.event.AudioEvent;
 import com.craftmend.openaudiomc.api.impl.event.enums.EventSupport;
+import com.craftmend.openaudiomc.api.interfaces.EventSupportFlag;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
  * since they might be offline already.
  */
 @NoArgsConstructor
+@EventSupportFlag(support = EventSupport.EVERYWHERE)
 public class ClientDisconnectEvent extends AudioEvent {
 
     @Getter
@@ -23,8 +25,4 @@ public class ClientDisconnectEvent extends AudioEvent {
         this.client = clientConnection;
     }
 
-    @Override
-    public EventSupport getSupport() {
-        return EventSupport.EVERYWHERE;
-    }
 }

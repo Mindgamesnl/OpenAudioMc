@@ -51,9 +51,6 @@ public class ApiEventDriver {
         // attempt to get it from an annotation
         if (event.isAnnotationPresent(EventSupportFlag.class)) {
             s = event.getAnnotation(EventSupportFlag.class).support();
-        } else {
-            AudioEvent eventInstance = event.newInstance();
-            s = eventInstance.getSupport();
         }
         if (s == null) {
             s = EventSupport.UNKNOWN;

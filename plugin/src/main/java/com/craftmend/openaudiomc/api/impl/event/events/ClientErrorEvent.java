@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.api.impl.event.events;
 
 import com.craftmend.openaudiomc.api.impl.event.AudioEvent;
 import com.craftmend.openaudiomc.api.impl.event.enums.EventSupport;
+import com.craftmend.openaudiomc.api.interfaces.EventSupportFlag;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 @AllArgsConstructor
+@EventSupportFlag(support = EventSupport.ONLY_PROXY_IF_AVAILABLE)
 public class ClientErrorEvent extends AudioEvent {
 
     @Getter
@@ -27,8 +29,4 @@ public class ClientErrorEvent extends AudioEvent {
     @Getter
     private String mediaSource;
 
-    @Override
-    public EventSupport getSupport() {
-        return EventSupport.ONLY_PROXY_IF_AVAILABLE;
-    }
 }
