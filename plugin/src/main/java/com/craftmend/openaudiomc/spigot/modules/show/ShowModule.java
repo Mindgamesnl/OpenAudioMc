@@ -17,8 +17,8 @@ import java.util.*;
 
 public class ShowModule {
 
-    private Map<String, Class<?>> taskTypes = new HashMap<>();
-    private Map<String, Show> showCache = new HashMap<>();
+    private final Map<String, Class<?>> taskTypes = new HashMap<>();
+    private final Map<String, Show> showCache = new HashMap<>();
 
     public ShowModule(OpenAudioMcSpigot openAudioMcSpigot) {
         // register default type
@@ -86,6 +86,13 @@ public class ShowModule {
                 showNames.add(name);
             }
         }
+
+        // exclude internal json files
+        showNames.removeAll(Arrays.asList(
+                "persistent",
+                "cache"
+        ));
+
         return showNames;
     }
 
