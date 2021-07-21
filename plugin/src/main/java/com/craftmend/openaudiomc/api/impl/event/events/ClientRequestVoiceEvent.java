@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.api.impl.event.events;
 
 import com.craftmend.openaudiomc.api.impl.event.AudioEvent;
 import com.craftmend.openaudiomc.api.impl.event.enums.EventSupport;
+import com.craftmend.openaudiomc.api.interfaces.EventSupportFlag;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import lombok.Setter;
  * which could be used for moderation purposes or to lock people out of voicechat.
  */
 @NoArgsConstructor
+@EventSupportFlag(support = EventSupport.ONLY_PROXY_IF_AVAILABLE)
 public class ClientRequestVoiceEvent extends AudioEvent {
 
     @Setter
@@ -25,8 +27,4 @@ public class ClientRequestVoiceEvent extends AudioEvent {
         this.requester = clientConnection;
     }
 
-    @Override
-    public EventSupport getSupport() {
-        return EventSupport.ONLY_PROXY_IF_AVAILABLE;
-    }
 }

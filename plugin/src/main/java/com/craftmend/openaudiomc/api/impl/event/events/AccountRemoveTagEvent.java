@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.api.impl.event.events;
 
 import com.craftmend.openaudiomc.api.impl.event.AudioEvent;
 import com.craftmend.openaudiomc.api.impl.event.enums.EventSupport;
+import com.craftmend.openaudiomc.api.interfaces.EventSupportFlag;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,14 +16,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@EventSupportFlag(support = EventSupport.EVERYWHERE)
 public class AccountRemoveTagEvent extends AudioEvent {
 
     private CraftmendTag removedTag;
-
-    @Override
-    public EventSupport getSupport() {
-        // only the top level server handles craftmend accounts
-        return EventSupport.EVERYWHERE;
-    }
 
 }
