@@ -4,8 +4,11 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import lombok.SneakyThrows;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,8 +38,22 @@ public class ServiceManager {
             return serviceMap.get(target);
         }
 
+        Service i = null;
         // require an empty constructor, or this will go fucking boom
-        Service i = target.getConstructor().newInstance();
+        for (Constructor<?> declaredConstructor : target.getDeclaredConstructors()) {
+            if (declaredConstructor.isAnnotationPresent(Inject.class)) {
+                // try to fulfill this constructor
+                List<Object> arguments = new ArrayList<>();
+                for (Class<?> parameterType : declaredConstructor.getParameterTypes()) {
+                    arguments.add(resolve(parameterType));
+                }
+                i = (Service) declaredConstructor.newInstance(arguments.stream().toArray());
+                break;
+            }
+        }
+        if (i == null) {
+            i = target.getConstructor().newInstance();
+        }
 
         // find annotated injections
         for (Field field : target.getDeclaredFields()) {
