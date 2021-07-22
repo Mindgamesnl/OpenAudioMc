@@ -1,11 +1,10 @@
 package com.craftmend.tests;
 
-import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.service.ServiceManager;
+import com.craftmend.service.ConstructorInjectionTest;
 import com.craftmend.service.FirstTestService;
 import com.craftmend.service.TestIntImpl;
 import com.craftmend.service.TestInterface;
-import com.craftmend.utils.ClassScanner;
 import lombok.SneakyThrows;
 import org.junit.Assert;
 import org.junit.Test;
@@ -24,6 +23,13 @@ public class TestServiceInjections {
         Assert.assertNotNull(serviceManager.getService(FirstTestService.class).secondTestService);
         Assert.assertNotNull(serviceManager.getService(FirstTestService.class).secondTestService.testInterface);
         serviceManager.getService(FirstTestService.class).secondTestService.testInterface.ba();
+
+        // now try to do it through insertions
+        ConstructorInjectionTest t = serviceManager.getService(ConstructorInjectionTest.class);
+        Assert.assertNotNull(t.firstTestService);
+        Assert.assertNotNull(t.secondTestService);
+        Assert.assertNotNull(t.testInterface);
+        t.testInterface.ba();
     }
 
     private boolean hasParameterlessPublicConstructor(Class<?> clazz) {
