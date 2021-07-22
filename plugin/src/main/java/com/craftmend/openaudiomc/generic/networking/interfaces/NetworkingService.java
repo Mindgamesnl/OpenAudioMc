@@ -14,6 +14,13 @@ public abstract class NetworkingService extends Service {
     protected Map<UUID, Consumer<ClientConnection>> createdConnectionSubscribers = new HashMap<>();
     protected Map<UUID, Consumer<ClientConnection>> removedConnectionSubscribers = new HashMap<>();
 
+    public abstract void onModuleLoad();
+
+    @Override
+    public void onEnable() {
+        this.onModuleLoad();
+    }
+
     public abstract void connectIfDown();
     public abstract void send(Authenticatable client, AbstractPacket packet);
     public abstract void triggerPacket(AbstractPacket abstractPacket);

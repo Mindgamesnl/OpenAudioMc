@@ -36,7 +36,6 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 
-@NoArgsConstructor
 public class DefaultNetworkingService extends NetworkingService {
 
     @Getter
@@ -46,11 +45,15 @@ public class DefaultNetworkingService extends NetworkingService {
     private SocketIoConnector socketIoConnector;
     private int packetThroughput = 0;
 
+    public DefaultNetworkingService() {
+        this.onModuleLoad();
+    }
+
     /**
      * setup the plugin connection
      */
     @Override
-    public void onEnable() {
+    public void onModuleLoad() {
         // register socket handlers
         registerHandler(PacketChannel.SOCKET_IN_REGISTER_CLIENT, new ClientConnectHandler());
         registerHandler(PacketChannel.SOCKET_IN_UNREGISTER_CLIENT, new ClientDisconnectHandler());
@@ -102,6 +105,7 @@ public class DefaultNetworkingService extends NetworkingService {
     }
 
     private void init() {
+        OpenAudioLogger.toConsole("Initializing socket connector");
         try {
             socketIoConnector = new SocketIoConnector(OpenAudioMc.getService(AuthenticationService.class).getServerKeySet());
         } catch (Exception e) {

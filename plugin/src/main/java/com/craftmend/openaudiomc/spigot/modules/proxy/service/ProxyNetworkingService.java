@@ -23,16 +23,21 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 
-@NoArgsConstructor
 public class ProxyNetworkingService extends NetworkingService {
 
-    @Getter private final Set<INetworkingEvents> eventHandlers = new HashSet<>();
+    @Getter
+    private final Set<INetworkingEvents> eventHandlers = new HashSet<>();
     private final DefaultNetworkingService realService = new DefaultNetworkingService();
-    @Getter private BukkitPacketManager packetManager;
+    @Getter
+    private BukkitPacketManager packetManager;
     private int packetThroughput = 0;
 
+    public ProxyNetworkingService() {
+        this.onModuleLoad();
+    }
+
     @Override
-    public void onEnable() {
+    public void onModuleLoad() {
         packetManager = new BukkitPacketManager(OpenAudioMcSpigot.getInstance(), "openaudiomc:node");
         packetManager.registerListener(new BungeePacketListener());
         new ModernPacketListener();
@@ -56,7 +61,8 @@ public class ProxyNetworkingService extends NetworkingService {
     public void send(Authenticatable client, AbstractPacket packet) {
         // handle packet if it should be passed to bungee
         // forward every packet starting with PacketClient
-        if (!(client instanceof ClientConnection)) throw new UnsupportedOperationException("The bungee adapter for the networking service only supports client connections");
+        if (!(client instanceof ClientConnection))
+            throw new UnsupportedOperationException("The bungee adapter for the networking service only supports client connections");
         if (packet.getClass().getSimpleName().startsWith("PacketClient")) {
             packet.setClient(client.getOwnerUUID());
             Player player = ((SpigotPlayerAdapter) ((ClientConnection) client).getPlayer()).getPlayer();
