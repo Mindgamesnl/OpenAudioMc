@@ -21,7 +21,16 @@ public class AliasService extends Service {
 
     @Getter private Map<String, String> aliasMap = new HashMap<>();
 
-    public AliasService() {
+    public String translate(String name) {
+        String target = aliasMap.get(name.toLowerCase());
+        if (target == null) {
+            OpenAudioLogger.toConsole("Warning! The alias '" + name + "' was used but doesn't have a source attached to it");
+        }
+        return target;
+    }
+
+    @Override
+    public void onEnable() {
         OpenAudioLogger.toConsole("Loading aliases...");
         OpenAudioMc.getService(MediaService.class).registerMutation("a:", new AliasMiddleware(this));
 
@@ -35,13 +44,4 @@ public class AliasService extends Service {
 
         OpenAudioLogger.toConsole("Loaded " + aliasMap.size() + " aliases");
     }
-
-    public String translate(String name) {
-        String target = aliasMap.get(name.toLowerCase());
-        if (target == null) {
-            OpenAudioLogger.toConsole("Warning! The alias '" + name + "' was used but doesn't have a source attached to it");
-        }
-        return target;
-    }
-
 }

@@ -27,7 +27,7 @@ public class PlayerStateStreamer implements Runnable {
     @Getter private boolean isRunning = false;
 
     public PlayerStateStreamer(CraftmendService service) {
-        this.main = main;
+        this.main = OpenAudioMc.getInstance();
 
         // is it enabled? No? Then dont start the task
         if (main.getInvoker().isNodeServer()) return;

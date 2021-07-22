@@ -17,19 +17,22 @@ import com.craftmend.openaudiomc.velocity.messages.PacketPlayer;
 import com.craftmend.openaudiomc.velocity.messages.StandardPacket;
 import com.craftmend.openaudiomc.velocity.messages.implementations.BukkitPacketManager;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.*;
 
+@NoArgsConstructor
 public class ProxyNetworkingService extends NetworkingService {
 
     @Getter private final Set<INetworkingEvents> eventHandlers = new HashSet<>();
     private final DefaultNetworkingService realService = new DefaultNetworkingService();
-    @Getter private final BukkitPacketManager packetManager;
+    @Getter private BukkitPacketManager packetManager;
     private int packetThroughput = 0;
 
-    public ProxyNetworkingService() {
+    @Override
+    public void onEnable() {
         packetManager = new BukkitPacketManager(OpenAudioMcSpigot.getInstance(), "openaudiomc:node");
         packetManager.registerListener(new BungeePacketListener());
         new ModernPacketListener();

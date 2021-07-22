@@ -20,10 +20,12 @@ import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.PlayerProximityT
 import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.TickVoicePacketQueue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 import java.util.UUID;
 
+@NoArgsConstructor
 public class SpigotVoiceChatService extends Service {
 
     @Inject
@@ -36,7 +38,8 @@ public class SpigotVoiceChatService extends Service {
     private boolean firstRun = true;
     private int broadcastTickLoop = 0;
 
-    public SpigotVoiceChatService() {
+    @Override
+    public void onEnable() {
         ApiEventDriver eventDriver = AudioApi.getInstance().getEventDriver();
 
         // enable voice chat when the tag gets added

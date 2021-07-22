@@ -85,6 +85,10 @@
           </dependency>
         </dependencies>
         <configuration>
+          <classpathDependencyExcludes>
+            <classpathDependencyExclude>com.bergerkiller.bukkit:TrainCarts</classpathDependencyExclude>
+            <classpathDependencyExclude>com.bergerkiller.bukkit:BKCommonLib</classpathDependencyExclude>
+          </classpathDependencyExcludes>
           <trimStackTrace>false</trimStackTrace>
         </configuration>
       </plugin>

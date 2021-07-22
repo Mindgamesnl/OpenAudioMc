@@ -9,6 +9,7 @@ import com.craftmend.openaudiomc.spigot.modules.show.objects.Show;
 import com.craftmend.openaudiomc.spigot.modules.show.runnables.ActionBarRunnable;
 import com.craftmend.openaudiomc.spigot.modules.show.runnables.ChatRunnable;
 import com.craftmend.openaudiomc.spigot.modules.show.runnables.CommandRunnable;
+import lombok.NoArgsConstructor;
 import org.bukkit.World;
 
 import java.io.File;
@@ -17,6 +18,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.util.*;
 
+@NoArgsConstructor
 public class ShowService extends Service {
 
     @Inject
@@ -25,7 +27,8 @@ public class ShowService extends Service {
     private final Map<String, Class<?>> taskTypes = new HashMap<>();
     private final Map<String, Show> showCache = new HashMap<>();
 
-    public ShowService() {
+    @Override
+    public void onEnable() {
         // register default type
         taskTypes.put("command", CommandRunnable.class);
         taskTypes.put("chat", ChatRunnable.class);

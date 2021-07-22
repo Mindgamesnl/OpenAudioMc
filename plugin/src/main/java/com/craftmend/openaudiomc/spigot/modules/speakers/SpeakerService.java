@@ -20,10 +20,12 @@ import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerCreate
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerDestroyListener;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.bukkit.*;
 
 import java.util.*;
 
+@NoArgsConstructor
 public class SpeakerService extends Service {
 
     @Inject
@@ -42,7 +44,8 @@ public class SpeakerService extends Service {
 
     private EstimatedRayTracer estimatedRayTracer = new EstimatedRayTracer();
 
-    public SpeakerService() {
+    @Override
+    public void onEnable() {
         openAudioMcSpigot.registerEvents(
                 new SpeakerSelectListener(this),
                 new SpeakerCreateListener(openAudioMcSpigot, this),
@@ -114,5 +117,4 @@ public class SpeakerService extends Service {
     public void unlistSpeaker(MappedLocation location) {
         speakerMap.remove(location);
     }
-
 }

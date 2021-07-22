@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.generic.resources.storage.SavedRoot;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -13,12 +14,14 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
+@NoArgsConstructor
 public class ResourceService extends Service {
 
     @Getter
     private SavedRoot savedRoot;
 
-    public ResourceService() {
+    @Override
+    public void onEnable() {
         loadData();
     }
 

@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.voicechat.filters;
 
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import lombok.NoArgsConstructor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -12,11 +13,13 @@ import java.util.stream.Stream;
  * This class functions to store {@link CustomFilterFunction}s that other plugins can create to modify how players will be checked
  * in terms of "audibility" when it comes to {@link PeerFilter#wrap(Stream, Player)}.
  */
+@NoArgsConstructor
 public class FilterService extends Service {
 
-    private final List<CustomFilterFunction> customFilterFunctions;
+    private List<CustomFilterFunction> customFilterFunctions;
 
-    public FilterService(){
+    @Override
+    public void onEnable() {
         customFilterFunctions = new ArrayList<>();
     }
 

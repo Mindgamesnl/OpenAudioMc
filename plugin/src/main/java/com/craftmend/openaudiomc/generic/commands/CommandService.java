@@ -32,7 +32,10 @@ public class CommandService extends Service {
                 new ReloadSubCommand(),
                 new StateSubCommand()
         );
+    }
 
+    @Override
+    public void onEnable() {
         // add accept sub command if the player is new
         if (!configuration.getBoolean(StorageKey.LEGAL_ACCEPTED_TOS_AND_PRIVACY)) {
             registerSubCommands(new AcceptSubCommand());

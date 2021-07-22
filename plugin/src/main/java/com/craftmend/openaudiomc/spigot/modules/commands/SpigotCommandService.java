@@ -14,7 +14,9 @@ import com.craftmend.openaudiomc.spigot.modules.commands.command.SpigotMainComma
 import com.craftmend.openaudiomc.spigot.modules.commands.command.VolumeCommand;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class SpigotCommandService extends Service {
 
     @Inject
@@ -22,7 +24,8 @@ public class SpigotCommandService extends Service {
     @Inject
     private OpenAudioMcSpigot openAudioMcSpigot;
 
-    public SpigotCommandService() {
+    @Override
+    public void onEnable() {
         SpigotMainCommand spigotMainCommand = new SpigotMainCommand(openAudioMcSpigot);
         openAudioMcSpigot.getCommand("audio").setExecutor(new SpigotAudioCommand());
         openAudioMcSpigot.getCommand("openaudiomc").setExecutor(spigotMainCommand);

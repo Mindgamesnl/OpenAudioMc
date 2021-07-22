@@ -16,6 +16,7 @@ import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.predictive.serialization.ChunkMapSerializer;
 import com.craftmend.openaudiomc.spigot.modules.predictive.serialization.SerializedAudioChunk;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -26,6 +27,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
+@NoArgsConstructor
 public class PredictiveMediaService extends Service {
 
     private final ChunkMapSerializer chunkMapSerializer = new ChunkMapSerializer();
@@ -40,7 +42,8 @@ public class PredictiveMediaService extends Service {
             () -> new HeatMap<String, Byte>(chunkAge, maxChunkCache, HeatMap.BYTE_CONTEXT)
     );
 
-    public PredictiveMediaService() {
+    @Override
+    public void onEnable() {
         OpenAudioMc.getService(NetworkingService.class).addEventHandler(getPacketHook());
         try {
             loadFromFile();

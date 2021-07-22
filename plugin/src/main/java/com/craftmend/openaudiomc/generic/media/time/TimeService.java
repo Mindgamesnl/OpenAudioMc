@@ -55,4 +55,8 @@ public class TimeService extends Service {
         AudioApi.getInstance().getEventDriver().fire(new TimeServiceUpdateEvent(this));
     }
 
+    @Override
+    public void onEnable() {
+
+    }
 }

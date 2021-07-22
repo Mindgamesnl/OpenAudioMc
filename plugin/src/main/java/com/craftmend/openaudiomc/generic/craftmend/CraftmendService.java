@@ -19,13 +19,15 @@ import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.*;
 
+@NoArgsConstructor
 public class CraftmendService extends Service {
 
     @Inject private OpenAudioMc openAudioMc;
-    @Getter  @Inject private VoiceService voiceService;
+    @Getter @Inject private VoiceService voiceService;
 
     private PlayerStateStreamer playerStateStreamer;
     @Getter private String baseUrl;
@@ -36,7 +38,8 @@ public class CraftmendService extends Service {
     @Getter private boolean isAttemptingVcConnect = false;
     @Getter private boolean lockVcAttempt = false;
 
-    public CraftmendService() {
+    @Override
+    public void onEnable() {
         // wait after buut if its a new account
         if (OpenAudioMc.getService(AuthenticationService.class).isNewAccount()) {
             OpenAudioLogger.toConsole("Delaying account init because we're a fresh installation");
