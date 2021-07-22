@@ -8,7 +8,11 @@ import com.craftmend.openaudiomc.api.impl.event.enums.VoiceEventCause;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientRtcManager;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
+import com.craftmend.openaudiomc.generic.service.Inject;
+import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.PeerFilter;
@@ -20,14 +24,19 @@ import lombok.Getter;
 import java.util.Set;
 import java.util.UUID;
 
-public class SpigotVoiceChatModule {
+public class SpigotVoiceChatService extends Service {
+
+    @Inject
+    private TaskService taskService;
+    @Inject
+    private NetworkingService networkingService;
 
     @Getter
     private PlayerProximityTicker proximityTicker;
     private boolean firstRun = true;
     private int broadcastTickLoop = 0;
 
-    public SpigotVoiceChatModule(OpenAudioMcSpigot openAudioMcSpigot) {
+    public SpigotVoiceChatService() {
         ApiEventDriver eventDriver = AudioApi.getInstance().getEventDriver();
 
         // enable voice chat when the tag gets added
@@ -38,8 +47,8 @@ public class SpigotVoiceChatModule {
 
                         // tick every second
                         proximityTicker = new PlayerProximityTicker(maxDistance, new PeerFilter());
-                        OpenAudioMc.getInstance().getTaskProvider().scheduleAsyncRepeatingTask(proximityTicker, 20, 20);
-                        OpenAudioMc.getInstance().getTaskProvider().scheduleAsyncRepeatingTask(new TickVoicePacketQueue(), 3, 3);
+                        taskService.scheduleAsyncRepeatingTask(proximityTicker, 20, 20);
+                        taskService.scheduleAsyncRepeatingTask(new TickVoicePacketQueue(), 3, 3);
                     }
                     firstRun = false;
                 });
@@ -77,7 +86,7 @@ public class SpigotVoiceChatModule {
             broadcastTickLoop++;
 
             // go over every player and handle their message queue
-            for (ClientConnection client : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
+            for (ClientConnection client : networkingService.getClients()) {
                 ClientRtcManager manager = client.getClientRtcManager();
                 // handle their join messages, if any
                 if (!manager.getRecentPeerAdditions().isEmpty()) {
@@ -162,6 +171,6 @@ public class SpigotVoiceChatModule {
     }
 
     private ClientConnection clientFromId(UUID id) {
-        return OpenAudioMc.getInstance().getNetworkingService().getClient(id);
+        return networkingService.getClient(id);
     }
 }

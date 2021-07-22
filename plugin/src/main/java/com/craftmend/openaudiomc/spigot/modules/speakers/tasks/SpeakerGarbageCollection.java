@@ -6,7 +6,7 @@ import com.craftmend.openaudiomc.generic.storage.enums.GcStrategy;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
+import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;
@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 
 public class SpeakerGarbageCollection extends BukkitRunnable {
 
-    private final SpeakerModule speakerModule;
+    private final SpeakerService speakerService;
     private final Set<MappedLocation> garbageSpeakers = new HashSet<>();
     private int lastFraction = 0;
     private final int FRACTION_GROUP_SIZE = 50;
@@ -29,19 +29,19 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
     private int toReport = 0;
     private boolean forceRun = false;
 
-    public SpeakerGarbageCollection(SpeakerModule speakerModule) {
-        this.speakerModule = speakerModule;
+    public SpeakerGarbageCollection(SpeakerService speakerService) {
+        this.speakerService = speakerService;
         runTaskTimer(OpenAudioMcSpigot.getInstance(), 600, 600);
     }
 
     public SpeakerGarbageCollection() {
         this.forceRun = true;
-        this.speakerModule = OpenAudioMcSpigot.getInstance().getSpeakerModule();
+        this.speakerService = OpenAudioMc.getService(SpeakerService.class);
     }
 
     @Override
     public void run() {
-        int maxFractions = forceRun ? 999999999 : roundUp(this.speakerModule.getSpeakerMap().values().size(), FRACTION_GROUP_SIZE);
+        int maxFractions = forceRun ? 999999999 : roundUp(this.speakerService.getSpeakerMap().values().size(), FRACTION_GROUP_SIZE);
         if (!garbageSpeakers.isEmpty()) {
 
             toReport += garbageSpeakers.size();
@@ -54,7 +54,7 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
 
             Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> {
                 for (MappedLocation garbageSpeaker : garbageSpeakers) {
-                    speakerModule.getSpeakerMap().remove(garbageSpeaker);
+                    speakerService.getSpeakerMap().remove(garbageSpeaker);
                 }
             });
 
@@ -62,7 +62,7 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
             if (strategy == GcStrategy.DELETE) {
                 OpenAudioMc openAudioMc = OpenAudioMc.getInstance();
                 for (MappedLocation garbageSpeaker : garbageSpeakers) {
-                    Speaker speaker = this.speakerModule.getSpeaker(garbageSpeaker);
+                    Speaker speaker = this.speakerService.getSpeaker(garbageSpeaker);
                     openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".type", null);
                     openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".radius", null);
                     openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".world", null);
@@ -85,9 +85,9 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
             lastFraction = 0;
         }
 
-        int setSize = this.speakerModule.getSpeakerMap().values().size();
+        int setSize = this.speakerService.getSpeakerMap().values().size();
         possiblyFilterLimits(setSize,
-                this.speakerModule.getSpeakerMap().values().stream()
+                this.speakerService.getSpeakerMap().values().stream()
                         .filter(speaker -> !speaker.isValidated())
                         .skip(fractionStart)
         ).collect(Collectors.toList())

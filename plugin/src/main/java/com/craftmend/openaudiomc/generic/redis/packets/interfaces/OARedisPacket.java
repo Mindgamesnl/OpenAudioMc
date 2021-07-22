@@ -16,7 +16,7 @@ public abstract class OARedisPacket {
     }
 
     public void receive(OARedisPacket received) {
-        if (OpenAudioMc.getInstance().getRedisService().getServiceId().equals(getSenderUUID())) return;
+        if (OpenAudioMc.getService(RedisService.class).getServiceId().equals(getSenderUUID())) return;
         handle(received);
     }
 

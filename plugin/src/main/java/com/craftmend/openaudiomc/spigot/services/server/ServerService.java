@@ -1,11 +1,12 @@
 package com.craftmend.openaudiomc.spigot.services.server;
 
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 
-public class ServerService {
+public class ServerService extends Service {
 
     @Getter
     private ServerVersion version;

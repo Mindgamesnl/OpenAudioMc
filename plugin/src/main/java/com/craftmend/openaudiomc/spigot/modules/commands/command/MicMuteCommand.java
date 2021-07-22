@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.command;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.adapters.SpigotCommandSenderAdapter;
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
@@ -11,6 +12,7 @@ import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.Client
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.players.PlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import lombok.NoArgsConstructor;
 import org.bukkit.command.Command;
@@ -32,7 +34,7 @@ public class MicMuteCommand implements CommandExecutor {
         if (CommandMiddewareExecutor.shouldBeCanceled(new SpigotCommandSenderAdapter(sender), null, commandMiddleware)) return true;
 
         if (sender instanceof Player) {
-            SpigotConnection spigotConnection = OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(((Player) sender).getUniqueId());
+            SpigotConnection spigotConnection = OpenAudioMc.getService(PlayerService.class).getClient(((Player) sender).getUniqueId());
 
             if (!spigotConnection.getClientConnection().isConnectedToRtc()) {
                 String message = Platform.translateColors(StorageKey.MESSAGE_VC_NOT_CONNECTED.getString());

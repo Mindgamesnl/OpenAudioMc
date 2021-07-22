@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -16,9 +17,9 @@ class SpigotHelper {
         String url;
 
         if (isForced) {
-            url = openAudioMc.getCraftmendService().getBaseUrl() + "?&data=" + token;
+            url = OpenAudioMc.getService(CraftmendService.class).getBaseUrl() + "?&data=" + token;
         } else {
-            url = openAudioMc.getCraftmendService().getBaseUrl() + "#" + token;
+            url = OpenAudioMc.getService(CraftmendService.class).getBaseUrl() + "#" + token;
         }
 
         TextComponent message = new TextComponent(translateColors(Objects.requireNonNull(

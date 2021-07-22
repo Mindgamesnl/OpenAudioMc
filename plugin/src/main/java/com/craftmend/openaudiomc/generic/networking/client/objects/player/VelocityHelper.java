@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.velocity.generic.player.VelocityPlayerAdapter;
 import com.velocitypowered.api.proxy.Player;
@@ -18,9 +19,9 @@ class VelocityHelper {
         String url;
 
         if (isForced) {
-            url = openAudioMc.getCraftmendService().getBaseUrl() + "?&data=" + token;
+            url = OpenAudioMc.getService(CraftmendService.class).getBaseUrl() + "?&data=" + token;
         } else {
-            url = openAudioMc.getCraftmendService().getBaseUrl() + "#" + token;
+            url = OpenAudioMc.getService(CraftmendService.class).getBaseUrl() + "#" + token;
         }
 
         String msgText = translateColors(StorageKey.MESSAGE_CLICK_TO_CONNECT.getString().replace("{url}", url));

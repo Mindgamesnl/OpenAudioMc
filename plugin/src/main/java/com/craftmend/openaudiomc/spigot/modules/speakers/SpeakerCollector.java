@@ -16,10 +16,10 @@ import java.util.List;
 @AllArgsConstructor
 public class SpeakerCollector {
 
-    private SpeakerModule speakerModule;
+    private SpeakerService speakerService;
 
     public Collection<ApplicableSpeaker> getApplicableSpeakers(Location location) {
-        List<Speaker> applicableSpeakers = new ArrayList<>(speakerModule.getSpeakerMap().values());
+        List<Speaker> applicableSpeakers = new ArrayList<>(speakerService.getSpeakerMap().values());
         Collection<ApplicableSpeaker> speakers = new ArrayList<>();
 
         applicableSpeakers.removeIf(speaker -> !speaker.getLocation().getWorld().equals(location.getWorld().getName()));
@@ -46,7 +46,7 @@ public class SpeakerCollector {
         }
 
         SpeakerType highest = typeCounter.getHighest();
-        return highest == null ? SpeakerModule.DEFAULT_SPEAKER_TYPE : highest;
+        return highest == null ? SpeakerService.DEFAULT_SPEAKER_TYPE : highest;
     }
 
 }

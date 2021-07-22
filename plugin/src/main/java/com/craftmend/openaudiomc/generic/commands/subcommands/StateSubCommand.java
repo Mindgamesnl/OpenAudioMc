@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
+import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.state.interfaces.StateDetail;
 
 public class StateSubCommand extends SubCommand {
@@ -16,7 +17,7 @@ public class StateSubCommand extends SubCommand {
     @Override
     public void onExecute(GenericExecutor sender, String[] args) {
         message(sender, "Details (name and value)");
-        for (StateDetail detail : OpenAudioMc.getInstance().getStateService().getDetails()) {
+        for (StateDetail detail : OpenAudioMc.getService(StateService.class).getDetails()) {
             message(sender, getColor("BLUE") + detail.title() + getColor("WHITE") + ": " + getColor("GOLD") + detail.value());
         }
     }

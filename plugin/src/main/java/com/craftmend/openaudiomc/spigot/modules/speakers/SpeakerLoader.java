@@ -20,7 +20,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class SpeakerLoader {
 
-    private SpeakerModule speakerModule;
+    private SpeakerService speakerService;
 
     public void loadFiles() {
         Configuration config = OpenAudioMc.getInstance().getConfiguration();
@@ -31,9 +31,9 @@ public class SpeakerLoader {
             String world = config.getStringFromPath("speakers." + id + ".world", StorageLocation.DATA_FILE);
             World bukkitWorld = Bukkit.getWorld(world);
             if (bukkitWorld == null) {
-                Set<QueuedSpeaker> queue = speakerModule.getWaitingWorlds().getOrDefault(world, new HashSet<>());
+                Set<QueuedSpeaker> queue = speakerService.getWaitingWorlds().getOrDefault(world, new HashSet<>());
                 queue.add(new QueuedSpeaker(world, id));
-                speakerModule.getWaitingWorlds().put(world, queue);
+                speakerService.getWaitingWorlds().put(world, queue);
             } else {
                 loadFromFile(id);
             }
@@ -69,7 +69,7 @@ public class SpeakerLoader {
             speakerType = SpeakerType.valueOf(typeName);
         } else {
             // like i said, falling back on 2D, but might fallback to 3D later
-            speakerType = SpeakerModule.DEFAULT_SPEAKER_TYPE;
+            speakerType = SpeakerService.DEFAULT_SPEAKER_TYPE;
         }
 
 
@@ -78,7 +78,7 @@ public class SpeakerLoader {
             Block blockAt = mappedLocation.getBlock();
 
             if (blockAt != null) {
-                speakerModule.registerSpeaker(mappedLocation, media, UUID.fromString(id), radius, speakerType, extraOptions);
+                speakerService.registerSpeaker(mappedLocation, media, UUID.fromString(id), radius, speakerType, extraOptions);
             } else {
                 OpenAudioLogger.toConsole("Speaker " + id + " doesn't to seem be valid anymore, so it's not getting loaded.");
             }

@@ -11,6 +11,7 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
+import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.utils.data.HeatMap;
 import com.craftmend.openaudiomc.generic.networking.rest.Task;
 import lombok.Getter;
@@ -36,7 +37,7 @@ public class AuthenticationDriver {
         }
 
         Task<String> task = new Task<>();
-        OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
+        OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> {
             // check ache, since there might be a value
             sessionCacheMap.clean();
             HeatMap<UUID, String>.Value entry = sessionCacheMap.get(authenticatable.getOwnerUUID());

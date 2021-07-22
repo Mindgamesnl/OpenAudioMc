@@ -10,6 +10,7 @@ import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMidd
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.players.PlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 
 import lombok.NoArgsConstructor;
@@ -32,7 +33,7 @@ public class VolumeCommand implements CommandExecutor {
         if (CommandMiddewareExecutor.shouldBeCanceled(new SpigotCommandSenderAdapter(sender), null, commandMiddleware)) return true;
 
         if (sender instanceof Player) {
-            SpigotConnection spigotConnection = OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(((Player) sender).getUniqueId());
+            SpigotConnection spigotConnection = OpenAudioMc.getService(PlayerService.class).getClient(((Player) sender).getUniqueId());
 
             if (!spigotConnection.getClientConnection().isConnected()) {
                 String message = Platform.translateColors(StorageKey.MESSAGE_CLIENT_NOT_CONNECTED.getString());

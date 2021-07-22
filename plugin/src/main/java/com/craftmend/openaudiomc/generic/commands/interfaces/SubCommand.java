@@ -1,12 +1,12 @@
 package com.craftmend.openaudiomc.generic.commands.interfaces;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.permissions.Permission;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public abstract class SubCommand {
      * @param message Your message
      */
     protected void message(GenericExecutor sender, String message) {
-        sender.sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + message);
+        sender.sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + message);
     }
 
     /**

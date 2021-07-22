@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.SocketDriver;
 import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
 import com.craftmend.openaudiomc.generic.networking.payloads.AcknowledgeClientPayload;
@@ -35,7 +36,7 @@ public class ClientDriver implements SocketDriver {
             } else if (authenticatable.isTokenCorrect(payload.getToken())) {
                 callback.call(true);
                 authenticatable.onConnect();
-                for (INetworkingEvents event : OpenAudioMc.getInstance().getNetworkingService().getEvents()) {
+                for (INetworkingEvents event : OpenAudioMc.getService(NetworkingService.class).getEvents()) {
                     event.onClientOpen(authenticatable);
                 }
             } else {
@@ -46,7 +47,7 @@ public class ClientDriver implements SocketDriver {
                     // allow
                     callback.call(true);
                     authenticatable.onConnect();
-                    for (INetworkingEvents event : OpenAudioMc.getInstance().getNetworkingService().getEvents()) {
+                    for (INetworkingEvents event : OpenAudioMc.getService(NetworkingService.class).getEvents()) {
                         event.onClientOpen(authenticatable);
                     }
                 } else {
@@ -59,7 +60,7 @@ public class ClientDriver implements SocketDriver {
         socket.on("data", args -> {
             try {
                 AbstractPacket abstractPacket = OpenAudioMc.getGson().fromJson(args[0].toString(), AbstractPacket.class);
-                OpenAudioMc.getInstance().getNetworkingService().triggerPacket(abstractPacket);
+                OpenAudioMc.getService(NetworkingService.class).triggerPacket(abstractPacket);
             } catch (Exception e) {
                 OpenAudioLogger.handleException(e);
                 OpenAudioLogger.toConsole("An incoming packet was attempted to be parsed but failed horribly and it broke. Please update your plugin, of if this is already the latest version, let me know of this exception. The received data was: " + args[0].toString());
@@ -69,7 +70,7 @@ public class ClientDriver implements SocketDriver {
     }
 
     private Authenticatable findSession(UUID id) {
-        ClientConnection clientConnection = OpenAudioMc.getInstance().getNetworkingService().getClient(id);
+        ClientConnection clientConnection = OpenAudioMc.getService(NetworkingService.class).getClient(id);
         return clientConnection;
     }
 }

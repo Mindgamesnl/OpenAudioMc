@@ -11,7 +11,7 @@ public interface OpenAudioInvoker {
     boolean isNodeServer();
     Platform getPlatform();
     Class<? extends NetworkingService> getServiceClass();
-    TaskProvider getTaskProvider();
+    TaskService getTaskProvider();
     Configuration getConfigurationProvider();
     String getPluginVersion();
     int getServerPort();

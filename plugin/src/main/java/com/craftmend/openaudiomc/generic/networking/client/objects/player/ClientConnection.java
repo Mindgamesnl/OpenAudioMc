@@ -7,15 +7,19 @@ import com.craftmend.openaudiomc.api.impl.event.events.ClientErrorEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.api.interfaces.Client;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
+import com.craftmend.openaudiomc.generic.commands.CommandService;
+import com.craftmend.openaudiomc.generic.enviroment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.hue.PacketClientApplyHueColor;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientCreateMedia;
 import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClientProtocolRevisionPacket;
 import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClientSetVolume;
 import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
+import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.player.ProxiedPlayerAdapter;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
@@ -83,7 +87,7 @@ public class ClientConnection implements Authenticatable, Client {
             publishUrl();
 
         if (!OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
-            OpenAudioMc.getInstance().getGlobalConstantService().sendNotifications(player);
+            OpenAudioMc.getService(GlobalConstantService.class).sendNotifications(player);
         }
 
         clientRtcManager = new ClientRtcManager(this);
@@ -113,8 +117,8 @@ public class ClientConnection implements Authenticatable, Client {
         this.isConnected = true;
         this.isWaitingToken = false;
 
-        OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(() -> {
-                    OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientProtocolRevisionPacket());
+        OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
+                    OpenAudioMc.getService(NetworkingService.class).send(this, new PacketClientProtocolRevisionPacket());
 
                     ongoingMedia.forEach(this::sendMedia);
 
@@ -199,7 +203,7 @@ public class ClientConnection implements Authenticatable, Client {
             throw new IllegalArgumentException("Volume must be between 0 and 100");
         }
         player.sendMessage(Platform.translateColors(StorageKey.MESSAGE_CLIENT_VOLUME_CHANGED.getString()).replaceAll("__amount__", volume + ""));
-        OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientSetVolume(volume));
+        OpenAudioMc.getService(NetworkingService.class).send(this, new PacketClientSetVolume(volume));
     }
 
     /**
@@ -210,7 +214,7 @@ public class ClientConnection implements Authenticatable, Client {
     public void setHue(HueState hueState) {
         hueState.getColorMap().forEach((light, color) -> {
             SerializedHueColor serializedHueColor = new SerializedHueColor(color.getRed(), color.getGreen(), color.getGreen(), color.getBrightness());
-            OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketClientApplyHueColor(serializedHueColor, "[" + light + "]"));
+            OpenAudioMc.getService(NetworkingService.class).send(this, new PacketClientApplyHueColor(serializedHueColor, "[" + light + "]"));
         });
     }
 
@@ -218,7 +222,7 @@ public class ClientConnection implements Authenticatable, Client {
      * Close the clients web client
      */
     public void kick() {
-        OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketSocketKickClient());
+        OpenAudioMc.getService(NetworkingService.class).send(this, new PacketSocketKickClient());
     }
 
     /**
@@ -231,7 +235,7 @@ public class ClientConnection implements Authenticatable, Client {
             ongoingMedia.add(media);
 
             // stop after x seconds
-            OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(() -> ongoingMedia.remove(media), (20 * media.getKeepTimeout()));
+            OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> ongoingMedia.remove(media), (20 * media.getKeepTimeout()));
         }
         if (getIsConnected()) {
             sendPacket(new PacketClientCreateMedia(media));
@@ -241,7 +245,7 @@ public class ClientConnection implements Authenticatable, Client {
     }
 
     public void sendPacket(AbstractPacket packet) {
-        OpenAudioMc.getInstance().getNetworkingService().send(this, packet);
+        OpenAudioMc.getService(NetworkingService.class).send(this, packet);
     }
 
     public void tickClient() {
@@ -279,7 +283,7 @@ public class ClientConnection implements Authenticatable, Client {
     public void handleError(MediaError error, String source) {
         AudioApi.getInstance().getEventDriver().fire(new ClientErrorEvent(this, error, source));
         if (getPlayer().isAdministrator() && OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_STAFF_TIPS)) {
-            String prefix = OpenAudioMc.getInstance().getCommandModule().getCommandPrefix();
+            String prefix = OpenAudioMc.getService(CommandService.class).getCommandPrefix();
             getPlayer().sendMessage(prefix + "Something went wrong while playing a sound for you, here's what we know:");
             getPlayer().sendMessage(prefix + "what happened: " + error.getExplanation());
             getPlayer().sendMessage(prefix + "where: " + source);

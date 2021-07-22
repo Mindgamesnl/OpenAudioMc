@@ -7,6 +7,8 @@ import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.bungee.modules.node.listeners.NodePacketListener;
 import com.craftmend.openaudiomc.generic.node.packets.ServerUpdateTimePacket;
+import com.craftmend.openaudiomc.generic.service.Inject;
+import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.velocity.messages.PacketManager;
 import com.craftmend.openaudiomc.velocity.messages.PacketPlayer;
 import com.craftmend.openaudiomc.velocity.messages.implementations.BungeeCordPacketManager;
@@ -16,11 +18,14 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.HashMap;
 
-public class NodeManager {
+public class NodeManager extends Service {
 
     @Getter private final PacketManager packetManager;
 
-    public NodeManager(OpenAudioMcBungee openAudioMcBungee) {
+    @Inject
+    private OpenAudioMcBungee openAudioMcBungee;
+
+    public NodeManager() {
         packetManager = new BungeeCordPacketManager(openAudioMcBungee, "openaudiomc:node");
         packetManager.registerListener(new NodePacketListener());
 

@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.listeners;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.QueuedSpeaker;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,11 +15,11 @@ public class WorldLoadListener implements Listener {
 
     @EventHandler
     public void onLoad(WorldLoadEvent event) {
-        Set<QueuedSpeaker> queue = OpenAudioMcSpigot.getInstance().getSpeakerModule().getWaitingWorlds().getOrDefault(event.getWorld().getName(), new HashSet<>());
+        Set<QueuedSpeaker> queue = OpenAudioMc.getService(SpeakerService.class).getWaitingWorlds().getOrDefault(event.getWorld().getName(), new HashSet<>());
         for (QueuedSpeaker queuedSpeaker : queue) {
-            OpenAudioMcSpigot.getInstance().getSpeakerModule().getLoader().loadFromFile(queuedSpeaker.getSpeakerId());
+            OpenAudioMc.getService(SpeakerService.class).getLoader().loadFromFile(queuedSpeaker.getSpeakerId());
         }
-        OpenAudioMcSpigot.getInstance().getSpeakerModule().getWaitingWorlds().remove(event.getWorld().getName());
+        OpenAudioMc.getService(SpeakerService.class).getWaitingWorlds().remove(event.getWorld().getName());
     }
 
 }

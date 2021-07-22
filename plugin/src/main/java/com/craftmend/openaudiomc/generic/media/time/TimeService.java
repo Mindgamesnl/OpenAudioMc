@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.generic.media.time;
 
 import com.craftmend.openaudiomc.api.impl.event.events.TimeServiceUpdateEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.generic.service.Service;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +10,7 @@ import java.time.Duration;
 import java.time.Instant;
 
 @NoArgsConstructor
-public class TimeService {
+public class TimeService extends Service {
 
     @Getter private long offset = 0;
     private boolean serverIsAhead = false;

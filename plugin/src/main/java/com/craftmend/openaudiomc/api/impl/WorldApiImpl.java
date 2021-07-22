@@ -6,10 +6,11 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.utils.data.HeatMap;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.predictive.PredictiveMediaModule;
+import com.craftmend.openaudiomc.spigot.modules.predictive.PredictiveMediaService;
 import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.AbstractRegionAdapter;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
+import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import org.bukkit.Location;
@@ -24,7 +25,7 @@ public class WorldApiImpl implements WorldApi {
     @Override
     public void setRegionHandler(AbstractRegionAdapter regionHandler) {
         if (OpenAudioMc.getInstance().getPlatform() != Platform.SPIGOT) throw new IllegalStateException("This method is only available in a SPIGOT server.");
-        OpenAudioMcSpigot.getInstance().setRegionModule(new RegionModule(OpenAudioMcSpigot.getInstance(), regionHandler));
+        OpenAudioMcSpigot.getInstance().setRegionModule(new RegionModule(regionHandler));
     }
 
     @Override
@@ -38,7 +39,7 @@ public class WorldApiImpl implements WorldApi {
     @Override
     public Speaker getPhysicalSpeaker(Location location) {
         if (OpenAudioMc.getInstance().getPlatform() != Platform.SPIGOT) throw new IllegalStateException("This method is only available in a SPIGOT server.");
-        return OpenAudioMcSpigot.getInstance().getSpeakerModule().getSpeaker(MappedLocation.fromBukkit(location));
+        return OpenAudioMc.getService(SpeakerService.class).getSpeaker(MappedLocation.fromBukkit(location));
     }
 
     @Override
@@ -83,7 +84,7 @@ public class WorldApiImpl implements WorldApi {
         return getPredictionModule().locationToAudioChunkId(location);
     }
 
-    private PredictiveMediaModule getPredictionModule() {
-        return OpenAudioMcSpigot.getInstance().getPredictiveMediaService();
+    private PredictiveMediaService getPredictionModule() {
+        return OpenAudioMc.getService(PredictiveMediaService.class);
     }
 }

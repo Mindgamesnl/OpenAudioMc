@@ -1,12 +1,16 @@
 package com.craftmend.openaudiomc.generic.objects;
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.commands.CommandService;
+import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.media.interfaces.UrlMutation;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.PlayerSession;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
+import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import org.bukkit.Location;
@@ -27,7 +31,7 @@ public class OpenAudioApi {
      */
     @Deprecated
     public ClientConnection getClient(UUID uuid) {
-        return OpenAudioMc.getInstance().getNetworkingService().getClient(uuid);
+        return OpenAudioMc.getService(NetworkingService.class).getClient(uuid);
     }
 
     /**
@@ -39,7 +43,7 @@ public class OpenAudioApi {
      */
     @Deprecated
     public void registerMutation(String host, UrlMutation urlMutation) {
-        OpenAudioMc.getInstance().getMediaModule().registerMutation(host, urlMutation);
+        OpenAudioMc.getService(MediaService.class).registerMutation(host, urlMutation);
     }
 
     /**
@@ -49,7 +53,7 @@ public class OpenAudioApi {
      */
     @Deprecated
     public void registerAddonCommand(SubCommand subCommand) {
-        OpenAudioMc.getInstance().getCommandModule().registerSubCommand(subCommand);
+        OpenAudioMc.getService(CommandService.class).registerSubCommand(subCommand);
     }
 
     /**
@@ -76,7 +80,7 @@ public class OpenAudioApi {
     @Deprecated
     public Speaker getSpeaker(Location location) {
         if (OpenAudioMc.getInstance().getPlatform() != Platform.SPIGOT) throw new IllegalStateException("Speaker modification is only for spigot plugins");
-        return OpenAudioMcSpigot.getInstance().getSpeakerModule().getSpeaker(new MappedLocation(location));
+        return OpenAudioMc.getService(SpeakerService.class).getSpeaker(new MappedLocation(location));
     }
 
     /**

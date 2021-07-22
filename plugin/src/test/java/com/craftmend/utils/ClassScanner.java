@@ -63,8 +63,8 @@ public class ClassScanner {
                         if (!match) return classes;
                     }
                     classes.add(Class.forName(name));
-                } catch (NullPointerException | ClassNotFoundException | ExceptionInInitializerError npe) {
-                    System.out.println("Skipping " + packageName + "." + file.getName() + "Because it couldn't init");
+                } catch (NullPointerException | ClassNotFoundException | NoClassDefFoundError | ExceptionInInitializerError npe) {
+                    // System.out.println("Skipping " + packageName + "." + file.getName() + "Because it couldn't init");
                 }
             }
         }

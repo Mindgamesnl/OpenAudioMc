@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.generic.voicechat;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.voicechat.driver.VoiceServerDriver;
 
@@ -55,7 +56,7 @@ public class DefaultVoiceServiceImpl implements VoiceService {
 
     @Override
     public int getUsedSlots() {
-        return (int) OpenAudioMc.getInstance().getNetworkingService().getClients()
+        return (int) OpenAudioMc.getService(NetworkingService.class).getClients()
                 .stream()
                 .filter(client -> client.getClientRtcManager().isReady())
                 .count();

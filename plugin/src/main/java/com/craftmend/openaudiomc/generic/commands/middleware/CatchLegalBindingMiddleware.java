@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.commands.middleware;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
@@ -35,7 +36,7 @@ public class CatchLegalBindingMiddleware implements CommandMiddleware {
             lines.add(Platform.translateColors("&2To accept, type &6/oa accept"));
 
             for (String line : lines) {
-                genericExecutor.sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + line);
+                genericExecutor.sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + line);
             }
             return false;
         }

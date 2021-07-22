@@ -1,7 +1,10 @@
 package com.craftmend.openaudiomc.generic.enviroment;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
+import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.networking.client.interfaces.PlayerContainer;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
@@ -10,7 +13,7 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.enviroment.models.ProjectStatus;
 import lombok.Getter;
 
-public class GlobalConstantService {
+public class GlobalConstantService extends Service {
 
     // project status
     @Getter
@@ -21,7 +24,7 @@ public class GlobalConstantService {
     }
 
     private void scheduleStatusUpdate() {
-        OpenAudioMc.getInstance().getTaskProvider().runAsync(
+        OpenAudioMc.resolveDependency(TaskService.class).runAsync(
                 () -> {
                     try {
                         projectStatus = new RestRequest(RestEndpoint.GITHUB_VERSION_CHECK)
@@ -54,7 +57,7 @@ public class GlobalConstantService {
         boolean notifyUpdates = OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_NOTIFY_UPDATES);
         boolean notifyAnnouncements = OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_NOTIFY_ANNOUNCEMENTS);
 
-        String prefix = OpenAudioMc.getInstance().getCommandModule().getCommandPrefix();
+        String prefix = OpenAudioMc.getService(CommandService.class).getCommandPrefix();
 
         if (notifyUpdates && isUpdateAvailable()) {
             player.sendMessage(prefix + Platform.translateColors(projectStatus.getVersioning().getImportance()) + " update available!");

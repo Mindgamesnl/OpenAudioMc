@@ -2,6 +2,8 @@ package com.craftmend.openaudiomc.generic.voicechat.driver;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.events.ClientRequestVoiceEvent;
+import com.craftmend.openaudiomc.generic.commands.CommandService;
+import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
 import com.craftmend.openaudiomc.generic.networking.client.enums.RtcStateFlag;
@@ -12,7 +14,7 @@ import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.Client
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.platform.Platform;
-import com.craftmend.openaudiomc.generic.platform.interfaces.TaskProvider;
+import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
 import com.craftmend.openaudiomc.generic.voicechat.bus.VoiceEventBus;
@@ -30,7 +32,7 @@ public class VoiceServerDriver {
     private List<UUID> subscribers = new ArrayList<>();
     @Setter
     private int blockRadius = -1;
-    private TaskProvider taskProvider;
+    private TaskService taskService;
     private List<Integer> tasks = new ArrayList<>();
     private boolean taskStarted = false;
     private boolean taskRunning = false;
@@ -50,7 +52,7 @@ public class VoiceServerDriver {
         this.host = host;
         this.password = password;
         this.service = service;
-        this.taskProvider = OpenAudioMc.getInstance().getTaskProvider();
+        this.taskService = OpenAudioMc.resolveDependency(TaskService.class);
 
         // populate event bus
         this.eventBus = new VoiceEventBus(
@@ -67,7 +69,7 @@ public class VoiceServerDriver {
 
             // oi its fucked
             if (!failed) {
-                for (ClientConnection client : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
+                for (ClientConnection client : OpenAudioMc.getService(NetworkingService.class).getClients()) {
                     if (client.getClientRtcManager().isReady()) {
                         client.getPlayer().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_UNSTABLE.getString()));
                     }
@@ -76,7 +78,7 @@ public class VoiceServerDriver {
 
             failed = true;
             shutdown();
-            taskProvider.schduleSyncDelayedTask(() -> taskProvider.runAsync(() -> OpenAudioMc.getInstance().getCraftmendService().kickstartVcHandshake()), 40);
+            taskService.schduleSyncDelayedTask(() -> taskService.runAsync(() -> OpenAudioMc.getService(CraftmendService.class).kickstartVcHandshake()), 40);
         });
 
         this.eventBus.onReady(() -> {
@@ -88,7 +90,7 @@ public class VoiceServerDriver {
 
             // schedule heartbeat every few seconds
             if (!taskStarted) {
-                tasks.add(taskProvider.scheduleAsyncRepeatingTask(() -> {
+                tasks.add(taskService.scheduleAsyncRepeatingTask(() -> {
                     // send heartbeat
                     if (taskRunning) {
                         pushEvent(VoiceServerEventType.HEARTBEAT, new HashMap<>());
@@ -99,10 +101,10 @@ public class VoiceServerDriver {
             taskRunning = true;
 
             // might be a restart, so clean all
-            OpenAudioMc.getInstance().getNetworkingService().getClients().forEach(this::handleClientConnection);
+            OpenAudioMc.getService(NetworkingService.class).getClients().forEach(this::handleClientConnection);
 
             // setup events
-            NetworkingService networkingService = OpenAudioMc.getInstance().getNetworkingService();
+            NetworkingService networkingService = OpenAudioMc.getService(NetworkingService.class);
 
             if (networkingService instanceof DefaultNetworkingService) {
                 // client got created
@@ -155,7 +157,7 @@ public class VoiceServerDriver {
 
             // is it allowed?
             if (this.service.getUsedSlots() >= this.service.getAllowedSlots()) {
-                clientConnection.getPlayer().sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + "VoiceChat couldn't be enabled since this server occupied all its slots, please notify a staff member and try again later.");
+                clientConnection.getPlayer().sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + "VoiceChat couldn't be enabled since this server occupied all its slots, please notify a staff member and try again later.");
                 return;
             }
 
@@ -165,7 +167,7 @@ public class VoiceServerDriver {
             }
 
             // schedule async check
-            taskProvider.runAsync(() -> {
+            taskService.runAsync(() -> {
                 // make an event, and invite the client if it isn't cancelled
                 ClientRequestVoiceEvent event = OpenAudioMc.getInstance().getApiEventDriver().fire(new ClientRequestVoiceEvent(clientConnection));
                 if (!event.isCanceled()) {
@@ -184,19 +186,19 @@ public class VoiceServerDriver {
         new RestRequest(RestEndpoint.END_VOICE_SESSION).executeInThread();
 
         for (Integer task : tasks) {
-            taskProvider.cancelRepeatingTask(task);
+            taskService.cancelRepeatingTask(task);
         }
 
         // logout
         pushEvent(VoiceServerEventType.LOGOUT, new HashMap<>());
 
-        NetworkingService networkingService = OpenAudioMc.getInstance().getNetworkingService();
+        NetworkingService networkingService = OpenAudioMc.getService(NetworkingService.class);
         for (UUID subscriber : subscribers) {
             networkingService.unsubscribeClientEventHandler(subscriber);
         }
 
         // kick all clients who had rtc open
-        for (ClientConnection client : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
+        for (ClientConnection client : OpenAudioMc.getService(NetworkingService.class).getClients()) {
             if (client.getClientRtcManager().isReady()) {
                 client.kick();
             }

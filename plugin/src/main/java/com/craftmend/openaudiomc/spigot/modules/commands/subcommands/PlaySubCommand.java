@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.media.objects.MediaOptions;
+import com.craftmend.openaudiomc.spigot.modules.players.PlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
 import org.bukkit.Bukkit;
@@ -41,7 +42,7 @@ public class PlaySubCommand extends SubCommand {
             Media media = new Media(args[1]);
             int affected = 0;
             for (Player player : new SpigotPlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal())) {
-                SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(player);
+                SpigotConnection spigotConnection = OpenAudioMc.getService(PlayerService.class).getClient(player);
                 if (spigotConnection.getClientConnection().isConnected()) affected++;
                 spigotConnection.getClientConnection().sendMedia(media);
             }
@@ -61,7 +62,7 @@ public class PlaySubCommand extends SubCommand {
 
                 Media media = new Media(args[1]).applySettings(mediaOptions);
                 for (Player player : new SpigotPlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal())) {
-                    SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(player);
+                    SpigotConnection spigotConnection = OpenAudioMc.getService(PlayerService.class).getClient(player);
                     spigotConnection.getClientConnection().sendMedia(media);
                 }
                 message(sender, ChatColor.GREEN + "Media (with arguments) created and requested to be played.");

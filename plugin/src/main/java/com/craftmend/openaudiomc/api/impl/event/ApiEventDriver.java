@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.api.impl.event.enums.EventSupport;
 import com.craftmend.openaudiomc.api.interfaces.EventSupportFlag;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.node.packets.NetworkedEventPacket;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.modules.proxy.service.ProxyNetworkingService;
@@ -139,7 +140,7 @@ public class ApiEventDriver {
                     break;
 
                 case SPIGOT:
-                    ProxyNetworkingService proxyNetworkingService = (ProxyNetworkingService) OpenAudioMc.getInstance().getNetworkingService();
+                    ProxyNetworkingService proxyNetworkingService = (ProxyNetworkingService) OpenAudioMc.getService(NetworkingService.class);
                     proxyNetworkingService.getPacketManager().sendPacket(ne.networkedPlayer, new NetworkedEventPacket(ne));
                     break;
             }

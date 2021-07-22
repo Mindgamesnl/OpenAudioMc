@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.objects;
 
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import lombok.Getter;
@@ -31,7 +32,7 @@ public class Speaker {
     }
 
     public SpeakerMedia getMedia() {
-        return OpenAudioMcSpigot.getInstance().getSpeakerModule().getMedia(source);
+        return OpenAudioMc.getService(SpeakerService.class).getMedia(source);
     }
 
 }

@@ -1,7 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.command;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.adapters.BungeeCommandSenderAdapter;
 import com.craftmend.openaudiomc.generic.commands.adapters.SpigotCommandSenderAdapter;
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
@@ -10,7 +9,7 @@ import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddlewar
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.generic.commands.CommandModule;
+import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import org.bukkit.command.Command;
@@ -24,7 +23,7 @@ import java.util.List;
 public class SpigotMainCommand implements CommandExecutor, TabCompleter {
 
     private OpenAudioMcSpigot openAudioMcSpigot;
-    private CommandModule commandModule = OpenAudioMc.getInstance().getCommandModule();
+    private CommandService commandService = OpenAudioMc.getService(CommandService.class);
     private CommandMiddleware[] commandMiddleware = new CommandMiddleware[] {
             new CatchLegalBindingMiddleware(),
             new CatchCrashMiddleware(),
@@ -40,11 +39,11 @@ public class SpigotMainCommand implements CommandExecutor, TabCompleter {
         GenericExecutor sender = new SpigotCommandSenderAdapter(originalSender);
 
         if (args.length == 0) {
-            sender.sendMessage(commandModule.getCommandPrefix() + "OpenAudioMc version " + openAudioMcSpigot.getDescription().getVersion() + ". For help, please use /openaudio help");
+            sender.sendMessage(commandService.getCommandPrefix() + "OpenAudioMc version " + openAudioMcSpigot.getDescription().getVersion() + ". For help, please use /openaudio help");
             return true;
         }
 
-        SubCommand subCommand = commandModule.getSubCommand(args[0].toLowerCase());
+        SubCommand subCommand = commandService.getSubCommand(args[0].toLowerCase());
 
         if (CommandMiddewareExecutor.shouldBeCanceled(sender, subCommand, commandMiddleware)) return true;
 
@@ -65,16 +64,16 @@ public class SpigotMainCommand implements CommandExecutor, TabCompleter {
                      * It's more dead inside then i am
                      */
                     e.printStackTrace();
-                    sender.sendMessage(commandModule.getCommandPrefix() + "An error occurred while executing the command. Please check your command. Type: " + e.getClass().getSimpleName());
+                    sender.sendMessage(commandService.getCommandPrefix() + "An error occurred while executing the command. Please check your command. Type: " + e.getClass().getSimpleName());
                 }
                 return true;
             } else {
-                sender.sendMessage(commandModule.getCommandPrefix() + "You dont have the permissions to do this, sorry!");
+                sender.sendMessage(commandService.getCommandPrefix() + "You dont have the permissions to do this, sorry!");
                 return true;
             }
         } else {
-            sender.sendMessage(commandModule.getCommandPrefix() + "Unknown sub command: " + args[0].toLowerCase());
-            commandModule.getSubCommand("help").onExecute(sender, args);
+            sender.sendMessage(commandService.getCommandPrefix() + "Unknown sub command: " + args[0].toLowerCase());
+            commandService.getSubCommand("help").onExecute(sender, args);
             return true;
         }
     }
@@ -82,11 +81,11 @@ public class SpigotMainCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] args) {
         List<String> completions = new ArrayList<>();
-        for (String subCommand : commandModule.getSubCommands()) {
+        for (String subCommand : commandService.getSubCommands()) {
             if (args.length <= 1 && subCommand.startsWith(args[0])) completions.add(subCommand);
         }
         if (args.length == 2) {
-            SubCommand subCommand = commandModule.getSubCommand(args[0].toLowerCase());
+            SubCommand subCommand = commandService.getSubCommand(args[0].toLowerCase());
             if (subCommand == null) return new ArrayList<>();
             for (Argument argument : subCommand.getArguments()) {
                 if (argument.getSyntax().startsWith(args[1].toLowerCase())) {

@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.bungee.modules.node.listeners;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.node.packets.ForceMuteMicrophonePacket;
 import com.craftmend.openaudiomc.generic.node.packets.ForwardSocketPacket;
 import com.craftmend.openaudiomc.velocity.messages.PacketHandler;
@@ -17,18 +18,18 @@ public class NodePacketListener implements PacketListener {
 
     @PacketHandler
     public void onMicDisable(ForceMuteMicrophonePacket packet) {
-        OpenAudioMc.getInstance().getNetworkingService().getClient(packet.getClient()).getClientRtcManager().allowSpeaking(packet.isCanSpeak());
+        OpenAudioMc.getService(NetworkingService.class).getClient(packet.getClient()).getClientRtcManager().allowSpeaking(packet.isCanSpeak());
     }
 
     @PacketHandler
     public void onPacket(ForwardSocketPacket packet) {
         UUID client = packet.getPayload().getClient();
-        ClientConnection clientConnection = OpenAudioMc.getInstance().getNetworkingService().getClient(client);
+        ClientConnection clientConnection = OpenAudioMc.getService(NetworkingService.class).getClient(client);
 
         if (clientConnection == null) return;
         if (!clientConnection.getIsConnected()) return;
 
-        OpenAudioMc.getInstance().getNetworkingService().send(clientConnection, packet.getPayload());
+        OpenAudioMc.getService(NetworkingService.class).send(clientConnection, packet.getPayload());
     }
 
 }

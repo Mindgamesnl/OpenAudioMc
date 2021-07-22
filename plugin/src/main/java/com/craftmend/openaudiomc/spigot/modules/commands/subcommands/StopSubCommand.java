@@ -2,10 +2,12 @@ package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
+import com.craftmend.openaudiomc.spigot.modules.players.PlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
 import org.bukkit.Bukkit;
@@ -38,10 +40,10 @@ public class StopSubCommand extends SubCommand {
         if (args.length == 1) {
             int affected = 0;
             for (Player player : new SpigotPlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal())) {
-                SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(player);
+                SpigotConnection spigotConnection = OpenAudioMc.getService(PlayerService.class).getClient(player);
                 if (spigotConnection.getClientConnection().isConnected()) affected++;
                 spigotConnection.getClientConnection().getOngoingMedia().clear();
-                OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(null));
+                OpenAudioMc.getService(NetworkingService.class).send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(null));
             }
             message(sender, ChatColor.GREEN + "Destroyed all normal sounds for " + affected + " clients");
             return;
@@ -50,9 +52,9 @@ public class StopSubCommand extends SubCommand {
         if (args.length == 2) {
             int affected = 0;
             for (Player player : new SpigotPlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal())) {
-                SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(player);
+                SpigotConnection spigotConnection = OpenAudioMc.getService(PlayerService.class).getClient(player);
                 if (spigotConnection.getClientConnection().isConnected()) affected++;
-                OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(args[1]));
+                OpenAudioMc.getService(NetworkingService.class).send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(args[1]));
             }
             message(sender, net.md_5.bungee.api.ChatColor.GREEN + "Destroyed the sound" + args[1] + " for " + affected + " clients");
             return;

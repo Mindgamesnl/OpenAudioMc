@@ -2,13 +2,14 @@ package com.craftmend.openaudiomc.generic.networking.interfaces;
 
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.service.Service;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.*;
 import java.util.function.Consumer;
 
-public abstract class NetworkingService {
+public abstract class NetworkingService extends Service {
 
     protected Map<UUID, Consumer<ClientConnection>> createdConnectionSubscribers = new HashMap<>();
     protected Map<UUID, Consumer<ClientConnection>> removedConnectionSubscribers = new HashMap<>();

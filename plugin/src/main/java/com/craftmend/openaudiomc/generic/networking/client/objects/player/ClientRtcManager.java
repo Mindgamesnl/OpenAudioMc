@@ -7,8 +7,10 @@ import com.craftmend.openaudiomc.api.impl.event.events.PlayerEnterVoiceProximity
 import com.craftmend.openaudiomc.api.impl.event.events.PlayerLeaveVoiceProximityEvent;
 import com.craftmend.openaudiomc.api.impl.event.enums.VoiceEventCause;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.networking.client.enums.RtcBlockReason;
 import com.craftmend.openaudiomc.generic.networking.client.enums.RtcStateFlag;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientSubscribeToVoice;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
@@ -18,6 +20,7 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.players.PlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.enums.PlayerLocationFollower;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.proxy.service.ProxyNetworkingService;
@@ -99,12 +102,12 @@ public class ClientRtcManager {
         // platform dependant
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
             // forward to proxy
-            ProxyNetworkingService proxyNetworkingService = (ProxyNetworkingService) OpenAudioMc.getInstance().getNetworkingService();
+            ProxyNetworkingService proxyNetworkingService = (ProxyNetworkingService) OpenAudioMc.getService(NetworkingService.class);
             SpigotPlayerAdapter spigotPlayerAdapter = (SpigotPlayerAdapter) clientConnection.getPlayer();
             proxyNetworkingService.sendToProxy(spigotPlayerAdapter.getPlayer(), new ForceMuteMicrophonePacket(clientConnection.getOwnerUUID(), allow));
             return;
         }
-        VoiceService voiceService = OpenAudioMc.getInstance().getCraftmendService().getVoiceService();
+        VoiceService voiceService = OpenAudioMc.getService(CraftmendService.class).getVoiceService();
 
         if (voiceService == null || voiceService.getDriver() == null) return;
 
@@ -116,7 +119,7 @@ public class ClientRtcManager {
     }
 
     public void makePeersDrop() {
-        for (ClientConnection peer : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
+        for (ClientConnection peer : OpenAudioMc.getService(NetworkingService.class).getClients()) {
             if (peer.getOwnerUUID() == clientConnection.getOwnerUUID())
                 continue;
 
@@ -140,7 +143,7 @@ public class ClientRtcManager {
     }
 
     public void forceUpdateLocation(Location location) {
-        for (ClientConnection peer : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
+        for (ClientConnection peer : OpenAudioMc.getService(NetworkingService.class).getClients()) {
             if (peer.getOwnerUUID() == clientConnection.getOwnerUUID())
                 continue;
 
@@ -157,7 +160,7 @@ public class ClientRtcManager {
 
     public void updateLocationWatcher() {
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
-            SpigotConnection spigotConnection = OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(clientConnection.getOwnerUUID());
+            SpigotConnection spigotConnection = OpenAudioMc.getService(PlayerService.class).getClient(clientConnection.getOwnerUUID());
             if (subscriptions.isEmpty()) {
                 spigotConnection.getLocationFollowers().remove(PlayerLocationFollower.PROXIMITY_VOICE_CHAT);
             } else {

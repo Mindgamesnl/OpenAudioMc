@@ -1,7 +1,9 @@
 package com.craftmend.openaudiomc.generic.state.collectors;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.state.interfaces.StateDetail;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.shortner.AliasService;
 
 public class SpigotAliasDetail implements StateDetail {
 
@@ -12,7 +14,7 @@ public class SpigotAliasDetail implements StateDetail {
 
     @Override
     public String value() {
-        return OpenAudioMcSpigot.getInstance().getAliasModule().getAliasMap().size() + "";
+        return OpenAudioMc.getService(AliasService.class).getAliasMap().size() + "";
     }
 
 }

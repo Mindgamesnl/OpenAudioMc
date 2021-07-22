@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.generic.platform.interfaces;
 
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 
-public interface TaskProvider {
+public interface TaskService {
 
     int scheduleAsyncRepeatingTask(Runnable runnable, int period, int delay);
     int scheduleSyncRepeatingTask(Runnable runnable, int period, int delay);

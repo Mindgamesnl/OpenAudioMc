@@ -1,14 +1,17 @@
 package com.craftmend.openaudiomc.generic.craftmend.tasks;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.craftmend.object.OnlinePlayer;
 import com.craftmend.openaudiomc.generic.craftmend.updates.PlayerUpdatePayload;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
+import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import lombok.Getter;
@@ -23,7 +26,7 @@ public class PlayerStateStreamer implements Runnable {
     private OpenAudioMc main;
     @Getter private boolean isRunning = false;
 
-    public PlayerStateStreamer(CraftmendService service, OpenAudioMc main) {
+    public PlayerStateStreamer(CraftmendService service) {
         this.main = main;
 
         // is it enabled? No? Then dont start the task
@@ -37,11 +40,11 @@ public class PlayerStateStreamer implements Runnable {
 
         // update every 5 seconds
         int timeout = 20 * 5;
-        main.getTaskProvider().scheduleAsyncRepeatingTask(this, timeout, timeout);
+        OpenAudioMc.resolveDependency(TaskService.class).scheduleAsyncRepeatingTask(this, timeout, timeout);
     }
 
     public void deleteAll(boolean sync) {
-        ServerKeySet set = main.getAuthenticationService().getServerKeySet();
+        ServerKeySet set = OpenAudioMc.getService(AuthenticationService.class).getServerKeySet();
         PlayerUpdatePayload playerUpdatePayload = new PlayerUpdatePayload(set.getPrivateKey().getValue(), set.getPublicKey().getValue());
         if (playerUpdatePayload.getPrivateKey() == null) return;
         playerUpdatePayload.setForceClear(true);
@@ -51,13 +54,13 @@ public class PlayerStateStreamer implements Runnable {
 
     @Override
     public void run() {
-        ServerKeySet set = main.getAuthenticationService().getServerKeySet();
+        ServerKeySet set = OpenAudioMc.getService(AuthenticationService.class).getServerKeySet();
         PlayerUpdatePayload playerUpdatePayload = new PlayerUpdatePayload(set.getPrivateKey().getValue(), set.getPublicKey().getValue());
         Set<UUID> trackBackup = new HashSet<>(trackedPlayers);
         Set<UUID> currentPlayers = new HashSet<>();
 
 
-        for (ClientConnection client : main.getNetworkingService().getClients()) {
+        for (ClientConnection client : OpenAudioMc.getService(NetworkingService.class).getClients()) {
             if (!trackedPlayers.contains(client.getPlayer().getUniqueId())) {
                 // not tracked yet!
                 playerUpdatePayload.getJoinedPlayers().add(

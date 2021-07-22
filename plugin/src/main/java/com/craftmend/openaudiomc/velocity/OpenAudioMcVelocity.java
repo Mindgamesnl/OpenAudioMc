@@ -5,7 +5,8 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.OpenAudioInvoker;
-import com.craftmend.openaudiomc.generic.platform.interfaces.TaskProvider;
+import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
+import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.voicechat.DefaultVoiceServiceImpl;
@@ -15,7 +16,7 @@ import com.craftmend.openaudiomc.velocity.modules.commands.VelocityCommandModule
 import com.craftmend.openaudiomc.velocity.modules.configuration.VelocityConfiguration;
 import com.craftmend.openaudiomc.velocity.modules.node.NodeManager;
 import com.craftmend.openaudiomc.velocity.modules.player.PlayerManager;
-import com.craftmend.openaudiomc.velocity.modules.scheduling.VelocityTaskProvider;
+import com.craftmend.openaudiomc.velocity.modules.scheduling.VelocityTaskService;
 import com.google.inject.Inject;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
@@ -76,7 +77,7 @@ public class OpenAudioMcVelocity implements OpenAudioInvoker {
             this.nodeManager = new NodeManager(this);
 
             // set state to idle, to allow connections and such
-            OpenAudioMc.getInstance().getStateService().setState(new IdleState("OpenAudioMc started and awaiting command"));
+            OpenAudioMc.getService(StateService.class).setState(new IdleState("OpenAudioMc started and awaiting command"));
 
             // timing end and calc
             Instant finish = Instant.now();
@@ -112,8 +113,8 @@ public class OpenAudioMcVelocity implements OpenAudioInvoker {
     }
 
     @Override
-    public TaskProvider getTaskProvider() {
-        return new VelocityTaskProvider();
+    public TaskService getTaskProvider() {
+        return new VelocityTaskService();
     }
 
     @Override

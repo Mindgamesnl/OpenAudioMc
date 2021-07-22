@@ -6,21 +6,27 @@ import com.craftmend.openaudiomc.bungee.modules.commands.commands.BungeeAudioCom
 import com.craftmend.openaudiomc.bungee.modules.commands.commands.BungeeVolumeCommand;
 import com.craftmend.openaudiomc.bungee.modules.commands.commands.OpenAudioMcBungeeCommand;
 import com.craftmend.openaudiomc.bungee.modules.commands.subcommand.*;
-import com.craftmend.openaudiomc.generic.commands.CommandModule;
+import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.subcommands.AcceptSubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.HelpSubCommand;
+import com.craftmend.openaudiomc.generic.service.Inject;
+import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 
-public class BungeeCommandModule {
+public class BungeeCommandModule extends Service {
 
-    public BungeeCommandModule(OpenAudioMcBungee openAudioMcBungee) {
+    @Inject
+    private OpenAudioMcBungee openAudioMcBungee;
+
+    @Inject
+    private CommandService commandService;
+
+    public BungeeCommandModule() {
         openAudioMcBungee.getProxy().getPluginManager().registerCommand(openAudioMcBungee, new OpenAudioMcBungeeCommand());
         openAudioMcBungee.getProxy().getPluginManager().registerCommand(openAudioMcBungee, new BungeeVolumeCommand());
         openAudioMcBungee.getProxy().getPluginManager().registerCommand(openAudioMcBungee, new BungeeAudioCommand());
 
-        CommandModule commandModule = OpenAudioMc.getInstance().getCommandModule();
-
-        commandModule.registerSubCommands(
+        commandService.registerSubCommands(
                 new HelpSubCommand(),
                 new BungeePlayCommand(OpenAudioMc.getInstance()),
                 new BungeeStopCommand(OpenAudioMc.getInstance()),
@@ -33,7 +39,7 @@ public class BungeeCommandModule {
 
         // add accept sub command if the player is new
         if (!OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.LEGAL_ACCEPTED_TOS_AND_PRIVACY)) {
-            commandModule.registerSubCommands(new AcceptSubCommand());
+            commandService.registerSubCommands(new AcceptSubCommand());
         }
 
     }
