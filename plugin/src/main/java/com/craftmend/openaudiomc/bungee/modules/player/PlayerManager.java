@@ -10,9 +10,11 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
+import lombok.NoArgsConstructor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 
+@NoArgsConstructor
 public class PlayerManager extends Service {
 
     @Inject
@@ -21,7 +23,8 @@ public class PlayerManager extends Service {
     @Inject
     private NetworkingService networkingService;
 
-    public PlayerManager() {
+    @Override
+    public void onEnable() {
         plugin.getProxy().getPluginManager().registerListener(plugin, new PlayerConnectionListener());
 
         networkingService.addEventHandler(new INetworkingEvents() {
@@ -36,5 +39,4 @@ public class PlayerManager extends Service {
             }
         });
     }
-
 }

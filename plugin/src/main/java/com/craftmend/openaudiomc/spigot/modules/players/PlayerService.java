@@ -10,11 +10,13 @@ import com.craftmend.openaudiomc.spigot.modules.players.listeners.PlayerConnecti
 import com.craftmend.openaudiomc.spigot.modules.players.listeners.PlayerTeleportationListener;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 
+import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.*;
 
+@NoArgsConstructor
 public class PlayerService extends Service {
 
     @Inject
@@ -22,7 +24,8 @@ public class PlayerService extends Service {
 
     private Map<UUID, SpigotConnection> spigotConnectionMap = new HashMap<>();
 
-    public PlayerService() {
+    @Override
+    public void onEnable() {
         openAudioMcSpigot.getServer().getPluginManager().registerEvents(new PlayerConnectionListener(), openAudioMcSpigot);
         openAudioMcSpigot.getServer().getPluginManager().registerEvents(new PlayerTeleportationListener(), openAudioMcSpigot);
     }

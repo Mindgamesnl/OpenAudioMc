@@ -71,6 +71,11 @@ public class RedisService extends Service {
     };
 
     public RedisService() {
+
+    }
+
+    @Override
+    public void onEnable() {
         if (!Arrays.stream(ChannelKey.values()).anyMatch(value -> value.getTargetPlatform() == OpenAudioMc.getInstance().getPlatform())) return;
         if (!Configuration.getBoolean(StorageKey.REDIS_ENABLED)) return;
         enabled = true;

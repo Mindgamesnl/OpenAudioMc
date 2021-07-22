@@ -4,9 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 
 public abstract class Service {
 
-    public void onEnable() {
-        // unused, but can be overwritten
-    }
+    public abstract void onEnable();
 
     public void onDisable() {
         // unused, but can be overwritten

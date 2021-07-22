@@ -13,19 +13,24 @@ import com.craftmend.openaudiomc.velocity.messages.PacketManager;
 import com.craftmend.openaudiomc.velocity.messages.PacketPlayer;
 import com.craftmend.openaudiomc.velocity.messages.implementations.BungeeCordPacketManager;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.HashMap;
 
+@NoArgsConstructor
 public class NodeManager extends Service {
 
-    @Getter private final PacketManager packetManager;
+    @Getter
+    private PacketManager packetManager;
 
     @Inject
     private OpenAudioMcBungee openAudioMcBungee;
 
-    public NodeManager() {
+
+    @Override
+    public void onEnable() {
         packetManager = new BungeeCordPacketManager(openAudioMcBungee, "openaudiomc:node");
         packetManager.registerListener(new NodePacketListener());
 
@@ -50,5 +55,4 @@ public class NodeManager extends Service {
                     });
         }
     }
-
 }

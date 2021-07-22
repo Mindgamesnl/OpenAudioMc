@@ -28,6 +28,7 @@ import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
 import com.craftmend.openaudiomc.velocity.generic.player.VelocityPlayerAdapter;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.bukkit.Bukkit;
@@ -35,6 +36,7 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 
+@NoArgsConstructor
 public class DefaultNetworkingService extends NetworkingService {
 
     @Getter
@@ -47,7 +49,8 @@ public class DefaultNetworkingService extends NetworkingService {
     /**
      * setup the plugin connection
      */
-    public DefaultNetworkingService() {
+    @Override
+    public void onEnable() {
         // register socket handlers
         registerHandler(PacketChannel.SOCKET_IN_REGISTER_CLIENT, new ClientConnectHandler());
         registerHandler(PacketChannel.SOCKET_IN_UNREGISTER_CLIENT, new ClientDisconnectHandler());

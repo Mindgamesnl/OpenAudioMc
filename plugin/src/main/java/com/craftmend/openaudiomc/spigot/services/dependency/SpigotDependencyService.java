@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.spigot.services.dependency;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@NoArgsConstructor
 public class SpigotDependencyService extends Service implements Listener {
 
     @Inject
@@ -20,7 +22,8 @@ public class SpigotDependencyService extends Service implements Listener {
 
     private final Map<String, List<DependencyHandler>> handlerMap = new HashMap<>();
 
-    public SpigotDependencyService() {
+    @Override
+    public void onEnable() {
         spigot.getServer().getPluginManager().registerEvents(this, spigot);
     }
 

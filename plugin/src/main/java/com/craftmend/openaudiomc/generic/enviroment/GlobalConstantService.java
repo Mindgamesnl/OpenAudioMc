@@ -12,14 +12,17 @@ import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.enviroment.models.ProjectStatus;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class GlobalConstantService extends Service {
 
     // project status
     @Getter
     private ProjectStatus projectStatus = null;
 
-    public GlobalConstantService() {
+    @Override
+    public void onEnable() {
         scheduleStatusUpdate();
     }
 

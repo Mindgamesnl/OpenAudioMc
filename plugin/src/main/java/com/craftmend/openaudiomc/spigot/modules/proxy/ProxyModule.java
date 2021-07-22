@@ -39,4 +39,8 @@ public class ProxyModule extends Service {
         }
     }
 
+    @Override
+    public void onEnable() {
+
+    }
 }

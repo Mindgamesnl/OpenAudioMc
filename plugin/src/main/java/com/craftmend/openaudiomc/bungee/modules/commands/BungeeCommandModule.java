@@ -12,7 +12,9 @@ import com.craftmend.openaudiomc.generic.commands.subcommands.HelpSubCommand;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class BungeeCommandModule extends Service {
 
     @Inject
@@ -21,7 +23,8 @@ public class BungeeCommandModule extends Service {
     @Inject
     private CommandService commandService;
 
-    public BungeeCommandModule() {
+    @Override
+    public void onEnable() {
         openAudioMcBungee.getProxy().getPluginManager().registerCommand(openAudioMcBungee, new OpenAudioMcBungeeCommand());
         openAudioMcBungee.getProxy().getPluginManager().registerCommand(openAudioMcBungee, new BungeeVolumeCommand());
         openAudioMcBungee.getProxy().getPluginManager().registerCommand(openAudioMcBungee, new BungeeAudioCommand());
@@ -41,7 +44,5 @@ public class BungeeCommandModule extends Service {
         if (!OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.LEGAL_ACCEPTED_TOS_AND_PRIVACY)) {
             commandService.registerSubCommands(new AcceptSubCommand());
         }
-
     }
-
 }

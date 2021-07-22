@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.service;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import lombok.SneakyThrows;
 
 import java.lang.reflect.Constructor;
@@ -10,16 +11,16 @@ import java.util.Map;
 
 /**
  * The ServiceManager was made in an effort to make the general openaudiomc codebase less shit/spaghetti/spaghetti with shit sauce
- *
+ * <p>
  * The old system had main Classes (OpenAudioMc, OpenAudioMcSpigot and OpenAudioMcBungee) loading modules, which are
  * just defined as private fields with getters/setters per "invoker" which makes for a messy codebase, where services have circular dependencies
  * and makes refactoring impossible.
- *
+ * <p>
  * The new approach is based on "Services" (much like those in Symfony), where you only need to request them during runtime (or manually start them
  * on boot) and can then request instances (statically) or through an annotated field
  * This means that there'll be one boot class per platform starting a subset of services, which can then just do their thing, instead of
  * constantly pointing back to one of the three old invokers.
- *
+ * <p>
  * This can and probably will break some other plugins that depend on openaudiomc, but the currently existing AudioApi interface
  * and ease of use of the new system makes up for it.
  */
@@ -39,21 +40,21 @@ public class ServiceManager {
         Service i = target.getConstructor().newInstance();
 
         // find annotated injections
-        for (Field field : target.getFields()) {
-            if (field.isAnnotationPresent(Inject.class)) {
+        for (Field field : target.getDeclaredFields()) {
+            boolean hasAnnotation = field.isAnnotationPresent(Inject.class);
+            if (hasAnnotation) {
                 Object v = resolve(field.getType());
-
                 if (v != null) {
-                    if (Service.class.isAssignableFrom(field.getType())) {
-                        field.setAccessible(true);
-                        field.set(i, v);
-                    }
+                    field.setAccessible(true);
+                    field.set(i, v);
+                } else {
+                    OpenAudioLogger.toConsole("WARNING! field " + field.getName() + " in " + target.getSimpleName() + " doesn't have the inject annotation, but it was resolved as " + v.getClass().getName());
                 }
             }
         }
 
-        i.onEnable();
         serviceMap.put(target, i);
+        i.onEnable();
         return i;
     }
 
@@ -68,15 +69,18 @@ public class ServiceManager {
         } else if (type == OpenAudioMc.class) {
             return OpenAudioMc.getInstance();
         } else {
-            if (type.isInterface()) {
+            if (otherInjectables.containsKey(type)) {
+                return otherInjectables.get(type);
+            } else if (type.isInterface()) {
                 // dont check the value
-                for (Class<?> anInterface : type.getInterfaces()) {
-                    if (otherInjectables.containsKey(anInterface)) {
-                        return otherInjectables.get(anInterface);
+                for (Map.Entry<Class<?>, Object> entry : otherInjectables.entrySet()) {
+                    Class<?> ci = entry.getKey();
+                    Object vi = entry.getValue();
+
+                    if (type.isAssignableFrom(ci)) {
+                        return vi;
                     }
                 }
-            } else if (otherInjectables.containsKey(type)) {
-                return otherInjectables.get(type);
             } else {
                 // last option, it extends, somewhere
                 for (Map.Entry<Class<?>, Object> entry : otherInjectables.entrySet()) {
@@ -118,6 +122,7 @@ public class ServiceManager {
 
     /**
      * Returns true if the service is loaded
+     *
      * @param s Service
      * @return State
      */

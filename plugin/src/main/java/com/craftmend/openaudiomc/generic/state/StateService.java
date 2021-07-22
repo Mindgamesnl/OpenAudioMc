@@ -10,16 +10,19 @@ import com.craftmend.openaudiomc.generic.state.interfaces.State;
 import com.craftmend.openaudiomc.generic.state.interfaces.StateDetail;
 import com.craftmend.openaudiomc.generic.state.states.BootingState;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@NoArgsConstructor
 public class StateService extends Service {
 
     @Getter private State currentState = new BootingState();
     @Getter private final List<StateDetail> details = new ArrayList<>();
 
-    public StateService() {
+    @Override
+    public void onEnable() {
         // register states based on platform
         registerDetail(new GeneralStateDetail());
         registerDetail(new AccountTagDetail());
