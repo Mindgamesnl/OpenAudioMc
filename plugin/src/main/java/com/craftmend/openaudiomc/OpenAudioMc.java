@@ -31,8 +31,20 @@ import lombok.Getter;
 @Getter
 public class OpenAudioMc {
 
-    private ServiceManager serviceManager = new ServiceManager();
+    private final ServiceManager serviceManager = new ServiceManager();
 
+    /**
+     * Alright, so.
+     * The main class is pretty empty, it doesn't do too much actually.
+     * OpenAudioMc is divided into "services", with additional classes being loaded depending
+     * on the runtime environment and available libraries (like spigot, bungee, velocity, worldguard, etc etc)
+     *
+     * The only thing this "main" class really does is collect some information about the operating
+     * environment and initialize the "core" services one by one. These services are injected into others, or can
+     * be requested through the instance getter.
+     *
+     * These are some core variables we need to keep track of, regardless of service
+     */
     private final ApiEventDriver apiEventDriver = new ApiEventDriver();
     private final Configuration configuration;
     private final Platform platform;
@@ -40,6 +52,9 @@ public class OpenAudioMc {
     private final boolean cleanStartup;
     private boolean isDisabled = false;
 
+    /**
+     * Legacy and static instances (API, ENV, instance, build number and gson along with its type adapters)
+     */
     @Deprecated @Getter private static final OpenAudioApi api = new OpenAudioApi();
     public static ServerEnvironment SERVER_ENVIRONMENT = ServerEnvironment.PRODUCTION;
     @Getter private static OpenAudioMc instance;
@@ -47,56 +62,58 @@ public class OpenAudioMc {
 
     @Getter private static final Gson gson = GsonFactory.create();
 
+    /**
+     * Alright, lets get this show on the road.
+     *
+     * @param invoker Invoker environment description
+     * @throws Exception Everything went boom
+     */
     public OpenAudioMc(OpenAudioInvoker invoker) throws Exception {
-        // very first thing we need to do, is set the environment
+        // very first thing we need to do, is set the environment, since we might want to log extra data
+        // on development servers, and disable debugging commands on production.
         String env = System.getenv("OA_ENVIRONMENT");
-        if (env != null && env != "") {
+        if (env != null && !env.equals("")) {
             SERVER_ENVIRONMENT = ServerEnvironment.valueOf(env);
             OpenAudioLogger.toConsole("WARNING! STARTING IN " + env + " MODE!");
         }
 
+        // random bullshit, go!
         instance = this;
-
         OpenAudioLogger.toConsole("Initializing build " + BUILD.getBuildNumber() + " by " + BUILD.getBuildAuthor());
-
         this.invoker = invoker;
-        this.platform = invoker.getPlatform();
+        this.platform = invoker.getPlatform();// constants
+        this.cleanStartup = !this.invoker.hasPlayersOnline();
+        this.configuration = invoker.getConfigurationProvider();
 
         // register providers
+        // these are classes that might not be services (interfaces, or abstract) but
+        // we want to use through dependency injection anyway
         serviceManager.registerDependency(Configuration.class, invoker.getConfigurationProvider());
         serviceManager.registerDependency(VoiceService.class, invoker.getVoiceService());
         serviceManager.registerDependency(TaskService.class, invoker.getTaskProvider());
 
-        // constants
-        this.cleanStartup = !this.invoker.hasPlayersOnline();
-        this.configuration = invoker.getConfigurationProvider();
+        // migrate old config and data files between versions
         new MigrationWorker().handleMigrations();
 
-        // load networking service
+        // load networking service, its a variable class (between platform) that we want to inject and
+        // identify based on its abstract class name, meaning that injected code can be re-used regardless of platform
         serviceManager.registerDependency(NetworkingService.class, invoker.getServiceClass().getConstructor().newInstance());
 
-        // load services
+        // load core services in order
         serviceManager.loadServices(
-                MediaService.class,
-                TimeService.class,
-                ResourceService.class,
-                StateService.class,
-                AuthenticationService.class,
-                GlobalConstantService.class,
-                CommandService.class,
-                RedisService.class,
-                CraftmendService.class
+                MediaService.class, // processes outgoing URL's
+                TimeService.class,  // processes remote or network timecodes and translates them for the client
+                ResourceService.class, // handles internal file storage/caching
+                StateService.class,     // handles internal state tracking/monitoring
+                AuthenticationService.class,    // handles server key sets with the OpenAudioMc backend infrastructure
+                GlobalConstantService.class,    // keeps track of remote project constants (like release versions, etc)
+                CommandService.class,           // standardized command processor regardless of platform
+                RedisService.class,             // redis hook/service implementation
+                CraftmendService.class          // craftmend specific features, like voice chat
         );
     }
 
-    public static <T extends Service> T getService(Class<T> service) {
-        return service.cast(OpenAudioMc.getInstance().getServiceManager().loadService(service));
-    }
-
-    public static <T> T resolveDependency(Class<T> d) {
-        return d.cast(OpenAudioMc.getInstance().getServiceManager().resolve(d));
-    }
-
+    // simple shutdown logic
     public void disable() {
         isDisabled = true;
         configuration.saveAll();
@@ -112,5 +129,14 @@ public class OpenAudioMc {
         } catch (NoClassDefFoundError exception) {
             OpenAudioLogger.toConsole("Bukkit already unloaded the OA+ classes, can't kill tokens.");
         }
+    }
+
+    // easy shorthand getters
+    public static <T extends Service> T getService(Class<T> service) {
+        return service.cast(OpenAudioMc.getInstance().getServiceManager().loadService(service));
+    }
+
+    public static <T> T resolveDependency(Class<T> d) {
+        return d.cast(OpenAudioMc.getInstance().getServiceManager().resolve(d));
     }
 }

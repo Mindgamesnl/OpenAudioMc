@@ -4,7 +4,6 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import lombok.SneakyThrows;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,8 +25,8 @@ import java.util.Map;
  */
 public class ServiceManager {
 
-    private Map<Class<?>, Object> otherInjectables = new HashMap<>();
-    private Map<Class<? extends Service>, Service> serviceMap = new HashMap<>();
+    private final Map<Class<?>, Object> otherInjectables = new HashMap<>();
+    private final Map<Class<? extends Service>, Service> serviceMap = new HashMap<>();
 
     @SneakyThrows
     public Service loadService(Class<? extends Service> target) {
