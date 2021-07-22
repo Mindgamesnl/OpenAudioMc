@@ -2,6 +2,9 @@ package com.craftmend.openaudiomc.spigot.modules.speakers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.media.MediaService;
+import com.craftmend.openaudiomc.generic.service.Inject;
+import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -11,6 +14,7 @@ import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.WorldLoadList
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.*;
 import com.craftmend.openaudiomc.spigot.modules.speakers.tasks.SpeakerGarbageCollection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.tracing.EstimatedRayTracer;
+import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerCreateListener;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerDestroyListener;
@@ -20,7 +24,10 @@ import org.bukkit.*;
 
 import java.util.*;
 
-public class SpeakerModule {
+public class SpeakerService extends Service {
+
+    @Inject
+    private OpenAudioMcSpigot openAudioMcSpigot;
 
     @Getter private SpeakerLoader loader;
     @Getter private SpeakerCollector collector;
@@ -35,7 +42,7 @@ public class SpeakerModule {
 
     private EstimatedRayTracer estimatedRayTracer = new EstimatedRayTracer();
 
-    public SpeakerModule(OpenAudioMcSpigot openAudioMcSpigot) {
+    public SpeakerService() {
         openAudioMcSpigot.registerEvents(
                 new SpeakerSelectListener(this),
                 new SpeakerCreateListener(openAudioMcSpigot, this),
@@ -53,7 +60,7 @@ public class SpeakerModule {
         new SpeakerGarbageCollection(this);
 
         // reset with new addon
-        OpenAudioMc.getInstance().getMediaModule().getResetTriggers().add(() -> {
+        OpenAudioMc.getService(MediaService.class).getResetTriggers().add(() -> {
             speakerMediaMap.clear();
         });
     }
@@ -64,7 +71,7 @@ public class SpeakerModule {
     }
 
     private void initializeVersion() {
-        version = OpenAudioMcSpigot.getInstance().getServerService().getVersion();
+        version = OpenAudioMc.getService(ServerService.class).getVersion();
 
         if (version == ServerVersion.MODERN) {
             OpenAudioLogger.toConsole("Enabling the 1.13 speaker system");

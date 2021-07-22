@@ -3,12 +3,13 @@ package com.craftmend.openaudiomc.bungee;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.modules.commands.BungeeCommandModule;
 import com.craftmend.openaudiomc.bungee.modules.configuration.BungeeConfiguration;
-import com.craftmend.openaudiomc.bungee.modules.dependency.DependencyService;
+import com.craftmend.openaudiomc.bungee.modules.dependency.BungeeDependencyService;
 import com.craftmend.openaudiomc.bungee.modules.node.NodeManager;
 import com.craftmend.openaudiomc.bungee.modules.player.PlayerManager;
-import com.craftmend.openaudiomc.bungee.modules.scheduling.BungeeTaskProvider;
+import com.craftmend.openaudiomc.bungee.modules.scheduling.BungeeTaskService;
+import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
-import com.craftmend.openaudiomc.generic.platform.interfaces.TaskProvider;
+import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.platform.interfaces.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
@@ -46,7 +47,6 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
     @Getter private NodeManager nodeManager;
     @Getter private PlayerManager playerManager;
     @Getter private BungeeCommandModule commandModule;
-    @Getter private DependencyService dependencyService;
     private final Instant boot = Instant.now();
 
     @Override
@@ -55,17 +55,21 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
 
         // setup core
         try {
-            new OpenAudioMc(this);
-            this.dependencyService = new DependencyService(this);
-            this.playerManager = new PlayerManager(this);
-            this.commandModule = new BungeeCommandModule(this);
-            this.nodeManager = new NodeManager(this);
+            OpenAudioMc openAudioMc = new OpenAudioMc(this);
+            openAudioMc.getServiceManager().registerDependency(OpenAudioMcBungee.class, this);
 
-            this.dependencyService
+            openAudioMc.getServiceManager().loadServices(
+                    BungeeDependencyService.class,
+                    PlayerManager.class,
+                    BungeeCommandModule.class,
+                    NodeManager.class
+            );
+
+            openAudioMc.getServiceManager().getService(BungeeDependencyService.class)
                     .ifPluginEnabled("LiteBans", new LitebansIntegration());
 
             // set state to idle, to allow connections and such
-            OpenAudioMc.getInstance().getStateService().setState(new IdleState("OpenAudioMc started and awaiting command"));
+            OpenAudioMc.getService(StateService.class).setState(new IdleState("OpenAudioMc started and awaiting command"));
 
             // timing end and calc
             Instant finish = Instant.now();
@@ -105,8 +109,8 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
     }
 
     @Override
-    public TaskProvider getTaskProvider() {
-        return new BungeeTaskProvider();
+    public TaskService getTaskProvider() {
+        return new BungeeTaskService();
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.api.interfaces.MediaApi;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.media.objects.MediaOptions;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
 import com.craftmend.openaudiomc.generic.networking.packets.client.speakers.PacketClientCreateSpeaker;
 import com.craftmend.openaudiomc.generic.networking.packets.client.speakers.PacketClientRemoveSpeaker;
@@ -37,12 +38,12 @@ public class MediaApiImpl implements MediaApi {
 
     @Override
     public void stopMedia(Client client) {
-        OpenAudioMc.getInstance().getNetworkingService().send(validateClient(client), new PacketClientDestroyMedia(null));
+        OpenAudioMc.getService(NetworkingService.class).send(validateClient(client), new PacketClientDestroyMedia(null));
     }
 
     @Override
     public void stopMedia(Client client, String id) {
-        OpenAudioMc.getInstance().getNetworkingService().send(validateClient(client), new PacketClientDestroyMedia(id));
+        OpenAudioMc.getService(NetworkingService.class).send(validateClient(client), new PacketClientDestroyMedia(id));
     }
 
     @Override
@@ -58,7 +59,7 @@ public class MediaApiImpl implements MediaApi {
         );
         ClientConnection connection = validateClient(client);
         connection.setApiSpeakers(connection.getApiSpeakers() + 1);
-        OpenAudioMc.getInstance().getNetworkingService().send(connection, new PacketClientCreateSpeaker(new ClientSpeakerCreatePayload(clientSpeaker)));
+        OpenAudioMc.getService(NetworkingService.class).send(connection, new PacketClientCreateSpeaker(new ClientSpeakerCreatePayload(clientSpeaker)));
         return clientSpeaker.getId();
     }
 
@@ -75,6 +76,6 @@ public class MediaApiImpl implements MediaApi {
         );
         ClientConnection connection = validateClient(client);
         connection.setApiSpeakers(connection.getApiSpeakers() - 1);
-        OpenAudioMc.getInstance().getNetworkingService().send(connection, new PacketClientRemoveSpeaker(new ClientSpeakerDestroyPayload(clientSpeaker)));
+        OpenAudioMc.getService(NetworkingService.class).send(connection, new PacketClientRemoveSpeaker(new ClientSpeakerDestroyPayload(clientSpeaker)));
     }
 }

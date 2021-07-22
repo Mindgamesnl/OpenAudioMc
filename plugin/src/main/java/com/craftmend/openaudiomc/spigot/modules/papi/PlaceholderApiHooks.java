@@ -1,8 +1,8 @@
 package com.craftmend.openaudiomc.spigot.modules.papi;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.players.PlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
@@ -43,7 +43,7 @@ public class PlaceholderApiHooks extends PlaceholderExpansion {
             return "";
         }
 
-        SpigotConnection connection = OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(player);
+        SpigotConnection connection = OpenAudioMc.getService(PlayerService.class).getClient(player);
 
         switch (identifier) {
             case "token":

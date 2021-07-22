@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.generic.resources;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.resources.storage.SavedRoot;
+import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import lombok.Getter;
 
@@ -12,12 +13,12 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
-public class ResourceManager {
+public class ResourceService extends Service {
 
     @Getter
     private SavedRoot savedRoot;
 
-    public ResourceManager() {
+    public ResourceService() {
         loadData();
     }
 

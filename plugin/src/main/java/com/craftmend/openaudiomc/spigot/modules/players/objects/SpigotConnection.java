@@ -2,8 +2,10 @@ package com.craftmend.openaudiomc.spigot.modules.players.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.speakers.PacketClientUpdateLocation;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.ClientPlayerLocationPayload;
+import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.spigot.modules.players.enums.PlayerLocationFollower;
@@ -105,7 +107,7 @@ public class SpigotConnection {
         clientConnection.addOnConnectHandler(new InitializeTrains(player));
 
         clientConnection.addOnDisconnectHandler(() -> {
-            OpenAudioMc.getInstance().getTaskProvider().runSync(() -> {
+            OpenAudioMc.resolveDependency(TaskService.class).runSync(() -> {
                 Bukkit.getServer().getPluginManager().callEvent(new ClientDisconnectEvent(player));
             });
         });
@@ -122,7 +124,7 @@ public class SpigotConnection {
                     (int) location.getYaw()
             );
 
-            OpenAudioMc.getInstance().getNetworkingService().send(getClientConnection(), new PacketClientUpdateLocation(locationPayload));
+            OpenAudioMc.getService(NetworkingService.class).send(getClientConnection(), new PacketClientUpdateLocation(locationPayload));
 
             if (locationFollowers.contains(PlayerLocationFollower.PROXIMITY_VOICE_CHAT)) {
                 clientConnection.getClientRtcManager().onLocationTick(location);

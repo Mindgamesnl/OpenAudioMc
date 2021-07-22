@@ -1,13 +1,14 @@
 package com.craftmend.openaudiomc.velocity.modules.commands.commands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.CommandModule;
+import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.velocity.generic.commands.adapters.VelocityCommandSenderAdapter;
@@ -17,7 +18,7 @@ import com.velocitypowered.api.proxy.Player;
 
 public class VelocityVolumeCommand implements SimpleCommand {
 
-    private final CommandModule commandModule = OpenAudioMc.getInstance().getCommandModule();
+    private final CommandService commandService = OpenAudioMc.getService(CommandService.class);
     private final CommandMiddleware[] commandMiddleware = new CommandMiddleware[]{
             new CatchLegalBindingMiddleware(),
             new CatchCrashMiddleware(),
@@ -36,7 +37,7 @@ public class VelocityVolumeCommand implements SimpleCommand {
             return;
         }
 
-        ClientConnection clientConnection = OpenAudioMc.getInstance().getNetworkingService().getClient(sender.getUuid());
+        ClientConnection clientConnection = OpenAudioMc.getService(NetworkingService.class).getClient(sender.getUuid());
 
         if (!clientConnection.isConnected()) {
             sender.sendMessage(Platform.translateColors(

@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.voicechat.filters;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.generic.utils.data.Filter;
@@ -63,11 +64,11 @@ public class PeerFilter extends Filter<ClientConnection, Player> {
                     if(otherPlayer.getLocation().distanceSquared(context.getLocation()) > MAX_DISTANCE_SQUARED) return false;
 
                     //Check custom filters for other plugins to hook into
-                    FilterManager filterManager = OpenAudioMcSpigot.getInstance().getFilterManager();
+                    FilterService filterService = OpenAudioMc.getService(FilterService.class);
 
                     boolean failedCheck = false;
 
-                    for(CustomFilterFunction customFilterFunction : filterManager.getCustomFilterFunctions()){
+                    for(CustomFilterFunction customFilterFunction : filterService.getCustomFilterFunctions()){
                         if(!customFilterFunction.isPlayerValidListener(context, otherPlayer)){
                             failedCheck = true;
                             break;

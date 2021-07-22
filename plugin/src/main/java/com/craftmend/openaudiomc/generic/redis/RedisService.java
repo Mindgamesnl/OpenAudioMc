@@ -1,7 +1,11 @@
 package com.craftmend.openaudiomc.generic.redis;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.subcommands.RedisSubCommand;
+import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
+import com.craftmend.openaudiomc.generic.service.Inject;
+import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.redis.packets.ExecuteBulkCommandsPacket;
@@ -23,7 +27,11 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class RedisService {
+public class RedisService extends Service {
+
+    // dependencies
+    @Inject
+    private Configuration Configuration;
 
     private RedisClient redisPub;
     private RedisClient redisSub;
@@ -62,7 +70,7 @@ public class RedisService {
         asyncPub.publish(ChannelKey.TRIGGER_BULK_COMMANDS.getRedisChannelName(), new ExecuteBulkCommandsPacket(commands).serialize());
     };
 
-    public RedisService(Configuration Configuration) {
+    public RedisService() {
         if (!Arrays.stream(ChannelKey.values()).anyMatch(value -> value.getTargetPlatform() == OpenAudioMc.getInstance().getPlatform())) return;
         if (!Configuration.getBoolean(StorageKey.REDIS_ENABLED)) return;
         enabled = true;
@@ -102,10 +110,10 @@ public class RedisService {
         asyncPub = redisPubConnection.async();
 
         // queue handler
-        OpenAudioMc.getInstance().getTaskProvider().schduleAsyncRepeatingTask(messageQueHandler, 1, 1);
+        OpenAudioMc.resolveDependency(TaskService.class).schduleAsyncRepeatingTask(messageQueHandler, 1, 1);
 
         // enable command
-        OpenAudioMc.getInstance().getCommandModule().registerSubCommand(new RedisSubCommand(this));
+        OpenAudioMc.getService(CommandService.class).registerSubCommand(new RedisSubCommand(this));
 
         OpenAudioLogger.toConsole("Enabled redis service!");
     }

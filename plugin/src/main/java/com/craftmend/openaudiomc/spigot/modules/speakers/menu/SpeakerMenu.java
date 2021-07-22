@@ -1,9 +1,11 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.menu;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.players.PlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
@@ -130,7 +132,7 @@ public class SpeakerMenu extends Menu {
                 if (!(entity instanceof Player)) continue;
 
                 Player nearbyPlayer = (Player) entity;
-                SpigotConnection spigotConnection = OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(nearbyPlayer);
+                SpigotConnection spigotConnection = OpenAudioMc.getService(PlayerService.class).getClient(nearbyPlayer);
 
                 spigotConnection.getSpeakerHandler().forceDeleteSpeaker(
                         speaker.getId().toString(),
@@ -162,7 +164,7 @@ public class SpeakerMenu extends Menu {
                     Configuration config = OpenAudioMc.getInstance().getConfiguration();
                     config.setInt(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".radius", distance);
                     speaker.setRadius(distance);
-                    player.sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + "Updated speaker radius to " + distance);
+                    player.sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + "Updated speaker radius to " + distance);
                     new SpeakerMenu(speaker).openFor(player);
                 });
     }

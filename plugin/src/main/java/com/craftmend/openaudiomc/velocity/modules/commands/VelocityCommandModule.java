@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.velocity.modules.commands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.CommandModule;
+import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.subcommands.AcceptSubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.HelpSubCommand;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
@@ -33,9 +33,9 @@ public class VelocityCommandModule {
         );
 
 
-        CommandModule commandModule = OpenAudioMc.getInstance().getCommandModule();
+        CommandService commandService = OpenAudioMc.getService(CommandService.class);
 
-        commandModule.registerSubCommands(
+        commandService.registerSubCommands(
                 new HelpSubCommand(),
                 new VelocityPlayCommand(OpenAudioMc.getInstance()),
                 new VelocityStopCommand(OpenAudioMc.getInstance()),
@@ -48,7 +48,7 @@ public class VelocityCommandModule {
 
         // add accept sub command if the player is new
         if (!OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.LEGAL_ACCEPTED_TOS_AND_PRIVACY)) {
-            commandModule.registerSubCommands(new AcceptSubCommand());
+            commandService.registerSubCommands(new AcceptSubCommand());
         }
 
     }

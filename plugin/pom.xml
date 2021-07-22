@@ -226,6 +226,11 @@
                     </dependency>
                 </dependencies>
                 <configuration>
+                    <!-- BK can fuck right off with their mountiplex during tests, don't want them to load classes for me -->
+                    <classpathDependencyExcludes>
+                        <classpathDependencyExclude>com.bergerkiller.bukkit:TrainCarts</classpathDependencyExclude>
+                        <classpathDependencyExclude>com.bergerkiller.bukkit:BKCommonLib</classpathDependencyExclude>
+                    </classpathDependencyExcludes>
                     <trimStackTrace>false</trimStackTrace>
                 </configuration>
             </plugin>

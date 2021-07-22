@@ -4,8 +4,10 @@ import com.bergerkiller.bukkit.tc.controller.MinecartMember;
 import com.bergerkiller.bukkit.tc.controller.MinecartMemberStore;
 import com.bergerkiller.bukkit.tc.events.GroupRemoveEvent;
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.players.PlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.traincarts.TrainCartsModule;
 import com.craftmend.openaudiomc.spigot.modules.traincarts.models.TrainMedia;
@@ -40,7 +42,7 @@ public class TrainListener implements Listener {
             TrainMedia media = trainCartsModule.getMediaFromTrain(trainName);
             if (media == null) return;
 
-            SpigotConnection spigotConnection = OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(player);
+            SpigotConnection spigotConnection = OpenAudioMc.getService(PlayerService.class).getClient(player);
             spigotConnection.getClientConnection().sendMedia(media.toMedia());
         }
     }
@@ -58,8 +60,8 @@ public class TrainListener implements Listener {
             TrainMedia media = trainCartsModule.getMediaFromTrain(trainName);
             if (media == null) return;
 
-            SpigotConnection spigotConnection = OpenAudioMcSpigot.getInstance().getPlayerModule().getClient(player);
-            OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(media.getMediaId().toString()));
+            SpigotConnection spigotConnection = OpenAudioMc.getService(PlayerService.class).getClient(player);
+            OpenAudioMc.getService(NetworkingService.class).send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(media.getMediaId().toString()));
         }
     }
 

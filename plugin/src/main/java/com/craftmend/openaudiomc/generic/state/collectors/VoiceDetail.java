@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.state.collectors;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.state.interfaces.StateDetail;
 import com.craftmend.openaudiomc.generic.voicechat.DefaultVoiceServiceImpl;
 import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
@@ -14,11 +15,11 @@ public class VoiceDetail implements StateDetail {
     @Override
     public String value() {
         // is it even loaded
-        if (OpenAudioMc.getInstance().getCraftmendService().getVoiceService() == null) {
+        if (OpenAudioMc.getService(CraftmendService.class).getVoiceService() == null) {
             return "No service";
         }
 
-        VoiceService voiceService = OpenAudioMc.getInstance().getCraftmendService().getVoiceService();
+        VoiceService voiceService = OpenAudioMc.getService(CraftmendService.class).getVoiceService();
 
         if (voiceService.isEnabled()) {
             if (voiceService.getDriver() == null) {

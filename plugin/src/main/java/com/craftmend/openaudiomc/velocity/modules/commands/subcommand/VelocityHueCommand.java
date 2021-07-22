@@ -1,11 +1,13 @@
 package com.craftmend.openaudiomc.velocity.modules.commands.subcommand;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.hue.SerializedHueColor;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.hue.PacketClientApplyHueColor;
 import com.craftmend.openaudiomc.velocity.modules.player.objects.VelocityPlayerSelector;
 import com.velocitypowered.api.command.CommandSource;
@@ -31,8 +33,8 @@ public class VelocityHueCommand extends SubCommand {
         if (args.length == 7 && args[0].equals("set")) {
             SerializedHueColor serializedHueColor = new SerializedHueColor(Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]), Integer.parseInt(args[6]));
             for (Player player : new VelocityPlayerSelector(args[1]).getPlayers((CommandSource) sender.getOriginal())) {
-                ClientConnection clientConnection = OpenAudioMc.getInstance().getNetworkingService().getClient(player.getUniqueId());
-                OpenAudioMc.getInstance().getNetworkingService().send(clientConnection, new PacketClientApplyHueColor(serializedHueColor, args[2]));
+                ClientConnection clientConnection = OpenAudioMc.getService(NetworkingService.class).getClient(player.getUniqueId());
+                OpenAudioMc.getService(NetworkingService.class).send(clientConnection, new PacketClientApplyHueColor(serializedHueColor, args[2]));
             }
             message(sender, "updated hue state for " + args[1]);
             return;
@@ -42,7 +44,7 @@ public class VelocityHueCommand extends SubCommand {
     }
 
     private void sendHelp(GenericExecutor genericExecutor) {
-        OpenAudioMc.getInstance().getCommandModule().getSubCommand("help").onExecute(genericExecutor, new String[]{
+        OpenAudioMc.getService(CommandService.class).getSubCommand("help").onExecute(genericExecutor, new String[]{
                 getCommand()
         });
     }

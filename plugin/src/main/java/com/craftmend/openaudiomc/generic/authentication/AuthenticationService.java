@@ -7,6 +7,9 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.responses.RegistrationResponse;
+import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
+import com.craftmend.openaudiomc.generic.service.Inject;
+import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
@@ -20,7 +23,10 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Getter
-public class AuthenticationService {
+public class AuthenticationService extends Service {
+
+    @Inject
+    private TaskService taskService;
 
     private AuthenticationDriver driver;
     private RestRequest registrationProvider;
@@ -32,6 +38,13 @@ public class AuthenticationService {
     private String identity = null;
     private HostDetailsResponse host;
     private boolean isNewAccount = false;
+
+    @Override
+    public void onEnable() {
+        initialize();
+
+        taskService.schduleSyncDelayedTask(this::prepareId, 20 * 2);
+    }
 
     public void initialize() {
         driver = new AuthenticationDriver(this);

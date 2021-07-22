@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.configuration;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.resources.ResourceService;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -47,14 +48,14 @@ public class SpigotConfiguration implements Configuration, Listener {
     }
 
     public void loadConfig(OpenAudioMcSpigot openAudioMcSpigot) {
-        if (OpenAudioMc.getInstance().getResourceManager().getSavedRoot().isUseConfigFile()) {
+        if (OpenAudioMc.getService(ResourceService.class).getSavedRoot().isUseConfigFile()) {
             OpenAudioLogger.toConsole("Using the main config file..");
             openAudioMcSpigot.saveDefaultConfig();
             mainConfig = openAudioMcSpigot.getConfig();
         } else {
             // load the config from the data cache
             OpenAudioLogger.toConsole("Using config cache and waiting for data..");
-            mainConfig = YamlConfiguration.loadConfiguration(new StringReader(OpenAudioMc.getInstance().getResourceManager().getSavedRoot().getLastConfigContent()));
+            mainConfig = YamlConfiguration.loadConfiguration(new StringReader(OpenAudioMc.getService(ResourceService.class).getSavedRoot().getLastConfigContent()));
             // delete the existing file
             File f = new File(OpenAudioMcSpigot.getInstance().getDataFolder(), "config.yml");
             if (f.exists() && !f.isDirectory()) {

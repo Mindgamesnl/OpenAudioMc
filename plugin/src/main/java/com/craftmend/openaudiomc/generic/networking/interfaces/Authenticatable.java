@@ -22,7 +22,7 @@ public interface Authenticatable {
     void handleError(MediaError error, String source);
 
     default void kickConnection() {
-        OpenAudioMc.getInstance().getNetworkingService().send(this, new PacketSocketKickClient());
+        OpenAudioMc.getService(NetworkingService.class).send(this, new PacketSocketKickClient());
     }
 
     static Authenticatable get(Player player) {
@@ -34,7 +34,7 @@ public interface Authenticatable {
     }
 
     static Authenticatable get(UUID uuid) {
-        ClientConnection clientConnection = OpenAudioMc.getInstance().getNetworkingService().getClient(uuid);
+        ClientConnection clientConnection = OpenAudioMc.getService(NetworkingService.class).getClient(uuid);
         return clientConnection;
     }
 

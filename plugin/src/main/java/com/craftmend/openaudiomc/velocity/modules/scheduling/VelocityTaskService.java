@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.velocity.modules.scheduling;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.platform.interfaces.TaskProvider;
+import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
 import com.velocitypowered.api.scheduler.ScheduledTask;
 
@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-public class VelocityTaskProvider implements TaskProvider {
+public class VelocityTaskService implements TaskService {
     private final ConcurrentMap<Integer, ScheduledTask> tasks = new ConcurrentHashMap<>();
 
     @Override

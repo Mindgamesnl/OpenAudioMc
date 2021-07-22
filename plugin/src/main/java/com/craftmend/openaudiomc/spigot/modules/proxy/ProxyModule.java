@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.proxy;
 
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -8,7 +9,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 
-public class ProxyModule {
+public class ProxyModule extends Service {
 
     @Getter private final ClientMode mode;
 

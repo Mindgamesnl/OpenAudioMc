@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.players.handlers;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.client.enums.RtcBlockReason;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientRtcManager;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientBlurVoiceUi;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceBlurUiPayload;
 import com.craftmend.openaudiomc.generic.platform.Platform;
@@ -51,7 +52,7 @@ public class RegionHandler implements ITickableHandler {
 
             leftRegions.forEach(exited -> {
                 if (!containsRegion(takeOverMedia, exited)) {
-                    OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(exited.getMedia().getMediaId(), exited.getProperties().getFadeTimeMs()));
+                    OpenAudioMc.getService(NetworkingService.class).send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(exited.getMedia().getMediaId(), exited.getProperties().getFadeTimeMs()));
                 }
             });
 
@@ -70,14 +71,14 @@ public class RegionHandler implements ITickableHandler {
                 if (hasVcMuted) {
                     if (!manager.getBlockReasons().contains(RtcBlockReason.IN_DISABLED_REGION)) {
                         // send message
-                        OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientBlurVoiceUi(new ClientVoiceBlurUiPayload(true)));
+                        OpenAudioMc.getService(NetworkingService.class).send(spigotConnection.getClientConnection(), new PacketClientBlurVoiceUi(new ClientVoiceBlurUiPayload(true)));
                         spigotConnection.getClientConnection().getClientRtcManager().getBlockReasons().add(RtcBlockReason.IN_DISABLED_REGION);
                         spigotConnection.getClientConnection().getPlayer().sendMessage(Platform.translateColors(OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.SETTING_VC_ENTERED_MUTED_REGION)));
                     }
                 } else {
                     if (manager.getBlockReasons().contains(RtcBlockReason.IN_DISABLED_REGION)) {
                         // send message
-                        OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientBlurVoiceUi(new ClientVoiceBlurUiPayload(false)));
+                        OpenAudioMc.getService(NetworkingService.class).send(spigotConnection.getClientConnection(), new PacketClientBlurVoiceUi(new ClientVoiceBlurUiPayload(false)));
                         spigotConnection.getClientConnection().getPlayer().sendMessage(Platform.translateColors(OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.SETTING_VC_LEFT_MUTED_REGION)));
                         spigotConnection.getClientConnection().getClientRtcManager().getBlockReasons().remove(RtcBlockReason.IN_DISABLED_REGION);
                     }
@@ -91,7 +92,7 @@ public class RegionHandler implements ITickableHandler {
     @Override
     public void reset() {
         for (IRegion currentRegions : spigotConnection.getCurrentRegions()) {
-            OpenAudioMc.getInstance().getNetworkingService().send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(currentRegions.getMedia().getMediaId()));
+            OpenAudioMc.getService(NetworkingService.class).send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(currentRegions.getMedia().getMediaId()));
         }
 
         spigotConnection.getClientConnection().getClientRtcManager().getBlockReasons().remove(RtcBlockReason.IN_DISABLED_REGION);

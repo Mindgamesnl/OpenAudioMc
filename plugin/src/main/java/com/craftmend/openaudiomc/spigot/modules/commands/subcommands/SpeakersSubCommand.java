@@ -2,14 +2,16 @@ package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
+import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
+import com.craftmend.openaudiomc.spigot.modules.players.PlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
-import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
+import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import com.craftmend.openaudiomc.spigot.modules.speakers.menu.NearbySpeakersMenu;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
@@ -17,6 +19,7 @@ import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.SpeakerSettings;
 import com.craftmend.openaudiomc.spigot.modules.speakers.tasks.SpeakerGarbageCollection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;
+import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -88,10 +91,10 @@ public class SpeakersSubCommand extends SubCommand {
             }
 
             Player player = (Player) sender.getOriginal();
-            SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(((Player) sender.getOriginal()));
+            SpigotConnection spigotConnection = OpenAudioMc.getService(PlayerService.class).getClient(((Player) sender.getOriginal()));
             spigotConnection.setSelectedSpeakerSettings(
                     new SpeakerSettings(
-                            OpenAudioMc.getInstance().getMediaModule().process(args[0]),
+                            OpenAudioMc.getService(MediaService.class).process(args[0]),
                             radius
                     )
             );
@@ -108,14 +111,14 @@ public class SpeakersSubCommand extends SubCommand {
                 return;
             }
 
-            String source = OpenAudioMc.getInstance().getMediaModule().process(args[5]);
+            String source = OpenAudioMc.getService(MediaService.class).process(args[5]);
 
             // create
             UUID id = UUID.randomUUID();
             Configuration config = OpenAudioMc.getInstance().getConfiguration();
             int range = config.getInt(StorageKey.SETTINGS_SPEAKER_RANGE);
-            SpeakerModule speakerModule = OpenAudioMcSpigot.getInstance().getSpeakerModule();
-            speakerModule.registerSpeaker(mappedLocation, source, id, range, SpeakerModule.DEFAULT_SPEAKER_TYPE, new HashSet<>());
+            SpeakerService speakerService = OpenAudioMc.getService(SpeakerService.class);
+            speakerService.registerSpeaker(mappedLocation, source, id, range, SpeakerService.DEFAULT_SPEAKER_TYPE, new HashSet<>());
 
             // save
             config.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".world", mappedLocation.getWorld());
@@ -128,11 +131,11 @@ public class SpeakersSubCommand extends SubCommand {
 
             // place block
             Location location = mappedLocation.toBukkit();
-            location.getBlock().setType(openAudioMcSpigot.getSpeakerModule().getPlayerSkullBlock());
+            location.getBlock().setType(OpenAudioMc.getService(SpeakerService.class).getPlayerSkullBlock());
 
             Skull s = (Skull) location.getBlock().getState();
 
-            if (OpenAudioMcSpigot.getInstance().getServerService().getVersion() == ServerVersion.LEGACY) {
+            if (OpenAudioMc.getService(ServerService.class).getVersion() == ServerVersion.LEGACY) {
                 s.setSkullType(SkullType.PLAYER);
                 // reflection for the old map
                 try {
@@ -144,7 +147,7 @@ public class SpeakersSubCommand extends SubCommand {
                 }
 
             } else {
-                location.getBlock().setBlockData(openAudioMcSpigot.getSpeakerModule().getPlayerSkullBlock().createBlockData());
+                location.getBlock().setBlockData(OpenAudioMc.getService(SpeakerService.class).getPlayerSkullBlock().createBlockData());
             }
             s.setOwner(SpeakerUtils.speakerSkin);
             s.update();
@@ -163,9 +166,9 @@ public class SpeakersSubCommand extends SubCommand {
 
             // remove from cache
             Configuration config = OpenAudioMc.getInstance().getConfiguration();
-            SpeakerModule speakerModule = OpenAudioMcSpigot.getInstance().getSpeakerModule();
-            Speaker speaker = speakerModule.getSpeaker(mappedLocation);
-            speakerModule.unlistSpeaker(mappedLocation);
+            SpeakerService speakerService = OpenAudioMc.getService(SpeakerService.class);
+            Speaker speaker = speakerService.getSpeaker(mappedLocation);
+            speakerService.unlistSpeaker(mappedLocation);
 
             // remove from file
             config.setString(StorageLocation.DATA_FILE,"speakers." + speaker.getId().toString(), null);

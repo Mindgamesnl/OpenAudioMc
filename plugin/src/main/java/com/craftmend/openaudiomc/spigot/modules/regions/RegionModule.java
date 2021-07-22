@@ -1,16 +1,19 @@
 package com.craftmend.openaudiomc.spigot.modules.regions;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
+import com.craftmend.openaudiomc.spigot.modules.players.PlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.regions.adapters.LegacyRegionAdapter;
 import com.craftmend.openaudiomc.spigot.modules.regions.adapters.ModernRegionAdapter;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.AbstractRegionAdapter;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionMedia;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
+import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 
 import lombok.Getter;
@@ -25,11 +28,11 @@ public class RegionModule {
     private Map<String, RegionMedia> regionMediaMap = new HashMap<>();
     @Getter private AbstractRegionAdapter regionAdapter;
 
-    public RegionModule(OpenAudioMcSpigot openAudioMcSpigot, @Nullable AbstractRegionAdapter customAdapter) {
+    public RegionModule(@Nullable AbstractRegionAdapter customAdapter) {
         OpenAudioLogger.toConsole("Turns out you have WorldGuard installed! enabling regions and the region tasks..");
 
         if (customAdapter == null) {
-            if (openAudioMcSpigot.getServerService().getVersion() == ServerVersion.MODERN) {
+            if (OpenAudioMc.getService(ServerService.class).getVersion() == ServerVersion.MODERN) {
                 OpenAudioLogger.toConsole("Enabling the newer 1.13 regions");
                 regionAdapter = new ModernRegionAdapter(this);
             } else {
@@ -42,7 +45,7 @@ public class RegionModule {
         }
 
         //validate detection
-        if (openAudioMcSpigot.getServerService().getVersion() == ServerVersion.LEGACY) {
+        if (OpenAudioMc.getService(ServerService.class).getVersion() == ServerVersion.LEGACY) {
             try {
                 Class.forName("com.sk89q.worldguard.bukkit.WGBukkit");
             } catch (ClassNotFoundException e) {
@@ -80,7 +83,7 @@ public class RegionModule {
             }
         }
 
-        OpenAudioMc.getInstance().getMediaModule().getResetTriggers().add(() -> {
+        OpenAudioMc.getService(MediaService.class).getResetTriggers().add(() -> {
             regionMediaMap.clear();
         });
     }
@@ -94,7 +97,7 @@ public class RegionModule {
     }
 
     public void forceUpdateRegions() {
-        for (SpigotConnection client : OpenAudioMcSpigot.getInstance().getPlayerModule().getClients()) {
+        for (SpigotConnection client : OpenAudioMc.getService(PlayerService.class).getClients()) {
             if (client.getRegionHandler() != null) client.getRegionHandler().tick();
         }
     }

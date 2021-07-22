@@ -2,6 +2,9 @@ package com.craftmend.openaudiomc.spigot.modules.players;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
+import com.craftmend.openaudiomc.generic.service.Inject;
+import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.listeners.PlayerConnectionListener;
 import com.craftmend.openaudiomc.spigot.modules.players.listeners.PlayerTeleportationListener;
@@ -12,11 +15,14 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 
-public class PlayerModule {
+public class PlayerService extends Service {
+
+    @Inject
+    private OpenAudioMcSpigot openAudioMcSpigot;
 
     private Map<UUID, SpigotConnection> spigotConnectionMap = new HashMap<>();
 
-    public PlayerModule(OpenAudioMcSpigot openAudioMcSpigot) {
+    public PlayerService() {
         openAudioMcSpigot.getServer().getPluginManager().registerEvents(new PlayerConnectionListener(), openAudioMcSpigot);
         openAudioMcSpigot.getServer().getPluginManager().registerEvents(new PlayerTeleportationListener(), openAudioMcSpigot);
     }
@@ -25,7 +31,7 @@ public class PlayerModule {
      * @param player registers the player
      */
     public void register(Player player) {
-        ClientConnection clientConnection = OpenAudioMc.getInstance().getNetworkingService().register(player);
+        ClientConnection clientConnection = OpenAudioMc.getService(NetworkingService.class).register(player);
         spigotConnectionMap.put(player.getUniqueId(), new SpigotConnection(player, clientConnection));
     }
 
@@ -73,6 +79,6 @@ public class PlayerModule {
             spigotConnectionMap.remove(player.getUniqueId());
         }
 
-        OpenAudioMc.getInstance().getNetworkingService().remove(player.getUniqueId());
+        OpenAudioMc.getService(NetworkingService.class).remove(player.getUniqueId());
     }
 }

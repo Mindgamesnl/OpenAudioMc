@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.events.AccountAddTagEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.AccountRemoveTagEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.craftmend.enums.AddonCategory;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.craftmend.response.CraftmendAccountResponse;
@@ -13,31 +14,33 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
+import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
+import com.craftmend.openaudiomc.generic.service.Inject;
+import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
 import lombok.Getter;
 
 import java.util.*;
 
-public class CraftmendService {
+public class CraftmendService extends Service {
+
+    @Inject private OpenAudioMc openAudioMc;
+    @Getter  @Inject private VoiceService voiceService;
 
     private PlayerStateStreamer playerStateStreamer;
     @Getter private String baseUrl;
-    private final OpenAudioMc openAudioMc;
     @Getter private CraftmendAccountResponse accountResponse = new CraftmendAccountResponse();
-    @Getter private VoiceService voiceService;
     @Getter private Set<CraftmendTag> tags = new HashSet<>();
 
     // ugly state management, I should _really_ change this at some point, just like the state service
     @Getter private boolean isAttemptingVcConnect = false;
     @Getter private boolean lockVcAttempt = false;
 
-    public CraftmendService(OpenAudioMc openAudioMc, VoiceService voiceService) {
-        this.openAudioMc = openAudioMc;
-        this.voiceService = voiceService;
+    public CraftmendService() {
         // wait after buut if its a new account
-        if (openAudioMc.getAuthenticationService().isNewAccount()) {
+        if (OpenAudioMc.getService(AuthenticationService.class).isNewAccount()) {
             OpenAudioLogger.toConsole("Delaying account init because we're a fresh installation");
-            openAudioMc.getTaskProvider().schduleSyncDelayedTask(this::initialize, 20 * 3);
+            OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(this::initialize, 20 * 3);
         } else {
             initialize();
         }
@@ -50,7 +53,7 @@ public class CraftmendService {
 
         voiceService.onShutdown(() -> {
             // restart in 10 seconds
-            openAudioMc.getTaskProvider().schduleSyncDelayedTask(this::startVoiceHandshake, 20 * 20);
+            OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(this::startVoiceHandshake, 20 * 20);
             OpenAudioLogger.toConsole("Voicechat had to shut down. Restarting in 20 seconds.");
         });
     }
@@ -58,7 +61,7 @@ public class CraftmendService {
     public void startSyncronizer() {
         if (OpenAudioMc.getInstance().getInvoker().isNodeServer()) return;
         if (playerStateStreamer == null || !playerStateStreamer.isRunning()) {
-            playerStateStreamer = new PlayerStateStreamer(this, openAudioMc);
+            playerStateStreamer = new PlayerStateStreamer(this);
         }
     }
 
@@ -130,7 +133,7 @@ public class CraftmendService {
                         if (errorCode == ErrorCode.NO_RTC) {
                             new RestRequest(RestEndpoint.END_VOICE_SESSION).executeInThread();
                             OpenAudioLogger.toConsole("Failed to initialize voice chat. There aren't any servers that can handle your request. Trying again in 20 seconds.");
-                            openAudioMc.getTaskProvider().schduleSyncDelayedTask(this::startVoiceHandshake, 20 * 20);
+                            OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(this::startVoiceHandshake, 20 * 20);
                             return;
                         }
 
@@ -145,14 +148,14 @@ public class CraftmendService {
                         if (errorCode == ErrorCode.ALREADY_ACTIVE) {
                             new RestRequest(RestEndpoint.END_VOICE_SESSION).executeInThread();
                             OpenAudioLogger.toConsole("This server still has a session running with voice chat, terminating and trying again in 20 seconds.");
-                            openAudioMc.getTaskProvider().schduleSyncDelayedTask(this::startVoiceHandshake, 20 * 20);
+                            OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(this::startVoiceHandshake, 20 * 20);
                             return;
                         }
 
                         if (response.getErrors().get(0).getMessage().toLowerCase().contains("path $")) {
                             new RestRequest(RestEndpoint.END_VOICE_SESSION).executeInThread();
                             OpenAudioLogger.toConsole("Failed to claim a voicechat session, terminating and trying again in 20 seconds.");
-                            openAudioMc.getTaskProvider().schduleSyncDelayedTask(this::startVoiceHandshake, 20 * 20);
+                            OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(this::startVoiceHandshake, 20 * 20);
                             return;
                         }
 

@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.spigot.modules.show;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.service.Inject;
+import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 import com.craftmend.openaudiomc.spigot.modules.show.objects.Show;
@@ -15,12 +17,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.util.*;
 
-public class ShowModule {
+public class ShowService extends Service {
+
+    @Inject
+    private OpenAudioMcSpigot openAudioMcSpigot;
 
     private final Map<String, Class<?>> taskTypes = new HashMap<>();
     private final Map<String, Show> showCache = new HashMap<>();
 
-    public ShowModule(OpenAudioMcSpigot openAudioMcSpigot) {
+    public ShowService() {
         // register default type
         taskTypes.put("command", CommandRunnable.class);
         taskTypes.put("chat", ChatRunnable.class);

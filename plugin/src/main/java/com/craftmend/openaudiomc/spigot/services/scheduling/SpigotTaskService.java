@@ -1,15 +1,11 @@
-package com.craftmend.openaudiomc.bungee.modules.scheduling;
+package com.craftmend.openaudiomc.spigot.services.scheduling;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
-import com.craftmend.openaudiomc.generic.platform.interfaces.TaskProvider;
+import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import org.bukkit.Bukkit;
 
-import java.util.concurrent.TimeUnit;
-
-/**
- * Bungeecord implementation of the OpenAudioMc scheduler standard.
- */
-public class BungeeTaskProvider implements TaskProvider {
+public class SpigotTaskService implements TaskService {
 
     @Override
     public int scheduleAsyncRepeatingTask(Runnable runnable, int period, int delay) {
@@ -18,7 +14,7 @@ public class BungeeTaskProvider implements TaskProvider {
             return -1;
         }
 
-        return scheduleSyncRepeatingTask(runnable, period, delay);
+        return Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(OpenAudioMcSpigot.getInstance(), runnable, period, delay);
     }
 
     @Override
@@ -28,7 +24,7 @@ public class BungeeTaskProvider implements TaskProvider {
             return -1;
         }
 
-        return OpenAudioMcBungee.getInstance().getProxy().getScheduler().schedule(OpenAudioMcBungee.getInstance(), runnable, (period / 20), (delay / 20), TimeUnit.SECONDS).getId();
+        return Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(OpenAudioMcSpigot.getInstance(), runnable, period, delay);
     }
 
     @Override
@@ -38,7 +34,7 @@ public class BungeeTaskProvider implements TaskProvider {
             return -1;
         }
 
-        return OpenAudioMcBungee.getInstance().getProxy().getScheduler().schedule(OpenAudioMcBungee.getInstance(), runnable, (delay / 20), TimeUnit.SECONDS).getId();
+        return Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(OpenAudioMcSpigot.getInstance(), runnable, delay);
     }
 
     @Override
@@ -48,12 +44,12 @@ public class BungeeTaskProvider implements TaskProvider {
             return -1;
         }
 
-        return OpenAudioMcBungee.getInstance().getProxy().getScheduler().schedule(OpenAudioMcBungee.getInstance(), runnable, (period / 20), (delay / 20), TimeUnit.SECONDS).getId();
+        return Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(OpenAudioMcSpigot.getInstance(), runnable, period, delay);
     }
 
     @Override
     public void cancelRepeatingTask(int id) {
-        OpenAudioMcBungee.getInstance().getProxy().getScheduler().cancel(id);
+        Bukkit.getScheduler().cancelTask(id);
     }
 
     @Override
@@ -64,11 +60,17 @@ public class BungeeTaskProvider implements TaskProvider {
             return;
         }
 
-        OpenAudioMcBungee.getInstance().getProxy().getScheduler().runAsync(OpenAudioMcBungee.getInstance(), runnable);
+        Bukkit.getScheduler().runTaskAsynchronously(OpenAudioMcSpigot.getInstance(), runnable);
     }
 
     @Override
     public void runSync(Runnable runnable) {
-        runnable.run();
+        if (OpenAudioMc.getInstance().isDisabled()) {
+            notifyRunner();
+            runnable.run();
+            return;
+        }
+
+        Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), runnable);
     }
 }

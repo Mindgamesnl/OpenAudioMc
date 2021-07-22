@@ -2,8 +2,10 @@ package com.craftmend.openaudiomc.bungee.modules.player.listeners;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
+import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientBlurVoiceUi;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;
@@ -12,6 +14,7 @@ import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.Client
 import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientSyncHueStatePacket;
+import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.velocity.messages.PacketPlayer;
 import com.craftmend.openaudiomc.velocity.messages.StandardPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientUpdateStatePacket;
@@ -30,20 +33,20 @@ public class PlayerConnectionListener implements Listener {
 
     @EventHandler
     public void onPostLogin(PostLoginEvent event) {
-        OpenAudioMc.getInstance().getNetworkingService().register(event.getPlayer());
+        OpenAudioMc.getService(NetworkingService.class).register(event.getPlayer());
     }
 
     @EventHandler
     public void onLogout(PlayerDisconnectEvent event) {
-        OpenAudioMc.getInstance().getNetworkingService().remove(event.getPlayer().getUniqueId());
+        OpenAudioMc.getService(NetworkingService.class).remove(event.getPlayer().getUniqueId());
     }
 
     @EventHandler
     public void onSwitch(ServerSwitchEvent event) {
-        ClientConnection connection = OpenAudioMc.getInstance().getNetworkingService().getClient(event.getPlayer().getUniqueId());
-        OpenAudioMc.getInstance().getNetworkingService().send(connection, new PacketClientDestroyMedia(null, true));
+        ClientConnection connection = OpenAudioMc.getService(NetworkingService.class).getClient(event.getPlayer().getUniqueId());
+        OpenAudioMc.getService(NetworkingService.class).send(connection, new PacketClientDestroyMedia(null, true));
 
-        OpenAudioMc.getInstance().getTaskProvider().schduleSyncDelayedTask(() -> {
+        OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
             ProxiedPlayer player = event.getPlayer();
             PacketPlayer packetPlayer = new PacketPlayer(player);
 
@@ -57,7 +60,7 @@ public class PlayerConnectionListener implements Listener {
                 connection.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(null)));
             }
 
-            if (OpenAudioMc.getInstance().getCraftmendService().is(CraftmendTag.VOICECHAT)) {
+            if (OpenAudioMc.getService(CraftmendService.class).is(CraftmendTag.VOICECHAT)) {
                 sendPacket(packetPlayer,
                         new ClientUpdateStatePacket(
                                 player.getUniqueId(),

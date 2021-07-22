@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.abstracts.PayloadHandler;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.payloads.ClientDisconnectPayload;
 
 public class ClientDisconnectHandler extends PayloadHandler<ClientDisconnectPayload> {
@@ -13,7 +14,7 @@ public class ClientDisconnectHandler extends PayloadHandler<ClientDisconnectPayl
         Authenticatable authenticatable = findSession(payload.getClient());
         if (authenticatable != null) {
             authenticatable.onDisconnect();
-            for (INetworkingEvents event : OpenAudioMc.getInstance().getNetworkingService().getEvents()) {
+            for (INetworkingEvents event : OpenAudioMc.getService(NetworkingService.class).getEvents()) {
                 event.onClientClose(authenticatable);
             }
         }

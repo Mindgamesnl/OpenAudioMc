@@ -19,7 +19,7 @@ public class AuthHostMigration extends SimpleMigration {
     public void execute() {
         migrateFilesFromResources();
 
-        AuthenticationService authenticationService = OpenAudioMc.getInstance().getAuthenticationService();
+        AuthenticationService authenticationService = OpenAudioMc.getService(AuthenticationService.class);
         Configuration config = OpenAudioMc.getInstance().getConfiguration();
         HostDetailsResponse host = authenticationService.getDriver().getHost();
         if (host.getPreProxyForward() == null) {

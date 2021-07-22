@@ -1,7 +1,9 @@
 package com.craftmend.openaudiomc.generic.state.collectors;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.state.interfaces.StateDetail;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 
 public class SpigotSpeakerDetail implements StateDetail {
     @Override
@@ -11,6 +13,6 @@ public class SpigotSpeakerDetail implements StateDetail {
 
     @Override
     public String value() {
-        return OpenAudioMcSpigot.getInstance().getSpeakerModule().getSpeakerMap().size() + "";
+        return OpenAudioMc.getService(SpeakerService.class).getSpeakerMap().size() + "";
     }
 }

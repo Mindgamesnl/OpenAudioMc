@@ -4,20 +4,13 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
-import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
-import com.craftmend.openaudiomc.generic.platform.Platform;
-import com.craftmend.openaudiomc.generic.networking.rest.Task;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.show.ShowService;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 import com.craftmend.openaudiomc.spigot.modules.show.menu.ShowHomeMenu;
-import com.craftmend.openaudiomc.spigot.modules.show.networking.rest.ShowUploadResponse;
 import com.craftmend.openaudiomc.spigot.modules.show.objects.Show;
 import com.craftmend.openaudiomc.spigot.modules.show.util.TimeParser;
 
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.apache.logging.log4j.util.Strings;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -25,8 +18,6 @@ import org.bukkit.World;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.Objects;
 
 public class ShowSubCommand extends SubCommand {
 
@@ -71,7 +62,7 @@ public class ShowSubCommand extends SubCommand {
         }
 
         if (args[0].equalsIgnoreCase("create") && args.length == 2) {
-            if (openAudioMcSpigot.getShowModule().createShow(args[1]) == null) {
+            if (OpenAudioMc.getService(ShowService.class).createShow(args[1]) == null) {
                 sender.sendMessage(ChatColor.RED + "Show can't be created. Is that name already in use?");
             } else {
                 sender.sendMessage(ChatColor.GOLD + "Show created!");
@@ -80,7 +71,7 @@ public class ShowSubCommand extends SubCommand {
         }
 
         if (args[0].equalsIgnoreCase("add") && args.length >= 4) {
-            Show show = openAudioMcSpigot.getShowModule().getShow(args[1]);
+            Show show = OpenAudioMc.getService(ShowService.class).getShow(args[1]);
             if (show == null) {
                 sender.sendMessage(ChatColor.RED + "There is no show called " + args[1]);
                 return;
@@ -118,11 +109,11 @@ public class ShowSubCommand extends SubCommand {
                 return;
             }
 
-            ShowRunnable task = openAudioMcSpigot.getShowModule().createRunnable(args[3], data.toString(), world);
+            ShowRunnable task = OpenAudioMc.getService(ShowService.class).createRunnable(args[3], data.toString(), world);
 
             if (task == null) {
                 sender.sendMessage(ChatColor.RED + "Could not create task. Available types are:");
-                for (String taskType : openAudioMcSpigot.getShowModule().getTaskTypes()) {
+                for (String taskType : OpenAudioMc.getService(ShowService.class).getTaskTypes()) {
                     sender.sendMessage(ChatColor.RED + " - " + ChatColor.BOLD + taskType);
                 }
                 sender.sendMessage(ChatColor.RED + "You can download extra types via addons or create your own using the API.");
@@ -135,7 +126,7 @@ public class ShowSubCommand extends SubCommand {
         }
 
         if (args[0].equalsIgnoreCase("info") && args.length == 2) {
-            Show show = openAudioMcSpigot.getShowModule().getShow(args[1]);
+            Show show = OpenAudioMc.getService(ShowService.class).getShow(args[1]);
             if (show == null) {
                 sender.sendMessage(ChatColor.RED + "There is no show called " + args[1]);
                 return;
@@ -149,7 +140,7 @@ public class ShowSubCommand extends SubCommand {
         }
 
         if (args[0].equalsIgnoreCase("gui") && args.length == 2) {
-            Show show = openAudioMcSpigot.getShowModule().getShow(args[1]);
+            Show show = OpenAudioMc.getService(ShowService.class).getShow(args[1]);
             if (show == null) {
                 sender.sendMessage(ChatColor.RED + "There is no show called " + args[1]);
                 return;
@@ -159,14 +150,14 @@ public class ShowSubCommand extends SubCommand {
         }
 
         if (args[0].equalsIgnoreCase("list")) {
-            String names = Strings.join(openAudioMcSpigot.getShowModule().getAllShows(), ',');
+            String names = Strings.join(OpenAudioMc.getService(ShowService.class).getAllShows(), ',');
             names = ChatColor.AQUA + names.replaceAll(",", ChatColor.GRAY + ", " + ChatColor.AQUA + "");
             message(sender, "All local shows: " + names);
             return;
         }
 
         if (args[0].equalsIgnoreCase("start") && args.length == 2) {
-            Show show = openAudioMcSpigot.getShowModule().getShow(args[1]);
+            Show show = OpenAudioMc.getService(ShowService.class).getShow(args[1]);
             if (show == null) {
                 sender.sendMessage(ChatColor.RED + "There is no show called " + args[1]);
                 return;
@@ -181,7 +172,7 @@ public class ShowSubCommand extends SubCommand {
         }
 
         if (args[0].equalsIgnoreCase("loop") && args.length == 2) {
-            Show show = openAudioMcSpigot.getShowModule().getShow(args[1]);
+            Show show = OpenAudioMc.getService(ShowService.class).getShow(args[1]);
             if (show == null) {
                 sender.sendMessage(ChatColor.RED + "There is no show called " + args[1]);
                 return;
@@ -196,7 +187,7 @@ public class ShowSubCommand extends SubCommand {
         }
 
         if (args[0].equalsIgnoreCase("cancel") && args.length == 2) {
-            Show show = openAudioMcSpigot.getShowModule().getShow(args[1]);
+            Show show = OpenAudioMc.getService(ShowService.class).getShow(args[1]);
 
             if (show == null) {
                 sender.sendMessage(ChatColor.RED + "There is no show called " + args[1]);

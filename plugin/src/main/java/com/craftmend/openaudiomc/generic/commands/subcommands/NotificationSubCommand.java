@@ -2,12 +2,13 @@ package com.craftmend.openaudiomc.generic.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.modules.player.objects.BungeePlayerSelector;
-import com.craftmend.openaudiomc.generic.commands.CommandModule;
+import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.Notification;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
 import com.craftmend.openaudiomc.velocity.modules.player.objects.VelocityPlayerSelector;
 import com.velocitypowered.api.command.CommandSource;
@@ -20,15 +21,15 @@ import java.util.List;
 
 public class NotificationSubCommand extends SubCommand {
 
-    private CommandModule commandModule;
+    private CommandService commandService;
 
-    public NotificationSubCommand(CommandModule commandModule) {
+    public NotificationSubCommand(CommandService commandService) {
         super("notification");
         registerArguments(
                 new Argument("<selector> <message>",
                         "Push a notification to a group of players")
         );
-        this.commandModule = commandModule;
+        this.commandService = commandService;
     }
 
     @Override
@@ -49,18 +50,18 @@ public class NotificationSubCommand extends SubCommand {
                 case SPIGOT:
                     List<Player> spigotPlayers = new SpigotPlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal());
                     for (Player spigotPlayer : spigotPlayers) {
-                        players.add(OpenAudioMc.getInstance().getNetworkingService().getClient(spigotPlayer.getUniqueId()));
+                        players.add(OpenAudioMc.getService(NetworkingService.class).getClient(spigotPlayer.getUniqueId()));
                     }
                     break;
                 case BUNGEE:
                     List<ProxiedPlayer> proxiedPlayers = new BungeePlayerSelector(args[0]).getPlayers((net.md_5.bungee.api.CommandSender) sender.getOriginal());
                     for (ProxiedPlayer proxiedPlayer : proxiedPlayers) {
-                        players.add(OpenAudioMc.getInstance().getNetworkingService().getClient(proxiedPlayer.getUniqueId()));
+                        players.add(OpenAudioMc.getService(NetworkingService.class).getClient(proxiedPlayer.getUniqueId()));
                     }
                     break;
                 case VELOCITY:
                     for (com.velocitypowered.api.proxy.Player player : new VelocityPlayerSelector(args[0]).getPlayers((CommandSource) sender.getOriginal())) {
-                        players.add(OpenAudioMc.getInstance().getNetworkingService().getClient(player.getUniqueId()));
+                        players.add(OpenAudioMc.getService(NetworkingService.class).getClient(player.getUniqueId()));
                     }
                     break;
             }
@@ -76,12 +77,12 @@ public class NotificationSubCommand extends SubCommand {
                     .setMessage(message.toString());
             players.forEach(notification::send);
 
-            sender.sendMessage(commandModule.getCommandPrefix() + "Message send");
+            sender.sendMessage(commandService.getCommandPrefix() + "Message send");
         }
     }
 
     private void sendHelp(GenericExecutor genericExecutor) {
-        OpenAudioMc.getInstance().getCommandModule().getSubCommand("help").onExecute(genericExecutor, new String[]{
+        OpenAudioMc.getService(CommandService.class).getSubCommand("help").onExecute(genericExecutor, new String[]{
                 getCommand()
         });
     }

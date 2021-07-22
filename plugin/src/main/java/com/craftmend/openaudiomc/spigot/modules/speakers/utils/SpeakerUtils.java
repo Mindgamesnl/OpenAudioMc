@@ -1,7 +1,8 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.utils;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
+import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -17,7 +18,7 @@ public class SpeakerUtils {
 
     public static final String speakerSkin = "OpenAudioMC";
     public static final UUID speakerUUID = UUID.fromString("c0db149e-d498-4a16-8e35-93d57577589f");
-    private static final SpeakerModule speakerModule = OpenAudioMcSpigot.getInstance().getSpeakerModule();
+    private static final SpeakerService SPEAKER_SERVICE = OpenAudioMc.getService(SpeakerService.class);
 
     static {
         //Initialize the offline player one time before using it in the plugin. This caches the skin if it's not present
@@ -28,7 +29,7 @@ public class SpeakerUtils {
     public static boolean isSpeakerSkull(Block block) {
         if (block.getState() instanceof Skull) {
             Skull skull = (Skull) block.getState();
-            if (speakerModule.getVersion() == ServerVersion.MODERN) {
+            if (SPEAKER_SERVICE.getVersion() == ServerVersion.MODERN) {
                 if(skull.getOwningPlayer() == null) {
                     if (skull.getOwner() == null) return false;
 
@@ -50,11 +51,11 @@ public class SpeakerUtils {
     }
 
     public static ItemStack getSkull() {
-        ItemStack skull = new ItemStack(speakerModule.getPlayerSkullItem());
+        ItemStack skull = new ItemStack(SPEAKER_SERVICE.getPlayerSkullItem());
         skull.setDurability((short) 3);
         SkullMeta sm = (SkullMeta) skull.getItemMeta();
         if(sm != null) {
-            if(speakerModule.getVersion() == ServerVersion.MODERN) {
+            if(SPEAKER_SERVICE.getVersion() == ServerVersion.MODERN) {
                 sm.setOwningPlayer(Bukkit.getOfflinePlayer(speakerUUID));
             } else {
                 sm.setOwner(speakerSkin);

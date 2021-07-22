@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.shortner.AliasService;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 
@@ -25,7 +26,7 @@ public class AliasSubCommand extends SubCommand {
         if (args.length == 2) {
             String aliasName = args[0].toLowerCase();
             String aliasSource = args[1];
-            OpenAudioMcSpigot.getInstance().getAliasModule().getAliasMap().put(aliasName, aliasSource);
+            OpenAudioMc.getService(AliasService.class).getAliasMap().put(aliasName, aliasSource);
             OpenAudioMc.getInstance().getConfiguration().setString(StorageLocation.DATA_FILE, "aliases." + aliasName, aliasSource);
             message(sender, ChatColor.GREEN + "Success! the alias " + ChatColor.YELLOW + "a:" + aliasName.toLowerCase() + ChatColor.GRAY + " will be read as " + ChatColor.YELLOW + aliasSource);
             return;

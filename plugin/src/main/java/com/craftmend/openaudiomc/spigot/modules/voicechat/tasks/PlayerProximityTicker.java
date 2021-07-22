@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.api.impl.event.events.SystemReloadEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.VoiceChatPeerTickEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
@@ -41,7 +42,7 @@ public class PlayerProximityTicker implements Runnable {
         // pre tick
         AudioApi.getInstance().getEventDriver().fire(new VoiceChatPeerTickEvent(TickEventType.BEFORE_TICK));
 
-        for (ClientConnection client : OpenAudioMc.getInstance().getNetworkingService().getClients()) {
+        for (ClientConnection client : OpenAudioMc.getService(NetworkingService.class).getClients()) {
             // am I valid? no? do nothing.
             if (!client.getClientRtcManager().isReady()) continue;
 
@@ -49,7 +50,7 @@ public class PlayerProximityTicker implements Runnable {
 
             // find clients in this world, in radius and that are connected with RTC
             Set<ClientConnection> applicableClients = filter.wrap(
-                    OpenAudioMc.getInstance().getNetworkingService().getClients().stream(),
+                    OpenAudioMc.getService(NetworkingService.class).getClients().stream(),
                     player
             ).collect(Collectors.toSet());
 
@@ -73,7 +74,7 @@ public class PlayerProximityTicker implements Runnable {
                     .collect(Collectors.toSet())) {
 
                 // unsubscribe these
-                ClientConnection peer = OpenAudioMc.getInstance().getNetworkingService().getClient(uuid);
+                ClientConnection peer = OpenAudioMc.getService(NetworkingService.class).getClient(uuid);
 
                 client.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(peer.getStreamKey())));
                 peer.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(client.getStreamKey())));

@@ -1,9 +1,10 @@
 package com.craftmend.openaudiomc.spigot.modules.commands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.CommandModule;
+import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.subcommands.HelpSubCommand;
-import com.craftmend.openaudiomc.generic.commands.subcommands.ReloadSubCommand;
+import com.craftmend.openaudiomc.generic.service.Inject;
+import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.spigot.modules.commands.command.MicMuteCommand;
 import com.craftmend.openaudiomc.spigot.modules.commands.command.SpigotAudioCommand;
 import com.craftmend.openaudiomc.spigot.modules.commands.middleware.CommandTranslationMiddleware;
@@ -11,11 +12,17 @@ import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.*;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.commands.command.SpigotMainCommand;
 import com.craftmend.openaudiomc.spigot.modules.commands.command.VolumeCommand;
+import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 
-public class SpigotCommandModule {
+public class SpigotCommandService extends Service {
 
-    public SpigotCommandModule(OpenAudioMcSpigot openAudioMcSpigot) {
+    @Inject
+    private CommandService commandService;
+    @Inject
+    private OpenAudioMcSpigot openAudioMcSpigot;
+
+    public SpigotCommandService() {
         SpigotMainCommand spigotMainCommand = new SpigotMainCommand(openAudioMcSpigot);
         openAudioMcSpigot.getCommand("audio").setExecutor(new SpigotAudioCommand());
         openAudioMcSpigot.getCommand("openaudiomc").setExecutor(spigotMainCommand);
@@ -23,12 +30,10 @@ public class SpigotCommandModule {
         openAudioMcSpigot.getCommand("volume").setExecutor(new VolumeCommand());
         openAudioMcSpigot.getCommand("mutemic").setExecutor(new MicMuteCommand());
 
-        CommandModule commandModule = OpenAudioMc.getInstance().getCommandModule();
+        commandService.getAliases().addAll(openAudioMcSpigot.getCommand("openaudiomc").getAliases());
+        commandService.getAliases().add("openaudiomc");
 
-        commandModule.getAliases().addAll(openAudioMcSpigot.getCommand("openaudiomc").getAliases());
-        commandModule.getAliases().add("openaudiomc");
-
-        commandModule.registerSubCommands(
+        commandService.registerSubCommands(
                 new HelpSubCommand(),
                 new RegionsSubCommand(openAudioMcSpigot),
                 new PlaySubCommand(openAudioMcSpigot),
@@ -40,7 +45,7 @@ public class SpigotCommandModule {
         );
 
         // if it is a older version, register the middleware
-        if (openAudioMcSpigot.getServerService().getVersion().getRevision() > ServerVersion.LEGACY.getRevision()) {
+        if (OpenAudioMc.getService(ServerService.class).getVersion().getRevision() > ServerVersion.LEGACY.getRevision()) {
             openAudioMcSpigot.getServer().getPluginManager().registerEvents(
                     new CommandTranslationMiddleware(),
                     openAudioMcSpigot

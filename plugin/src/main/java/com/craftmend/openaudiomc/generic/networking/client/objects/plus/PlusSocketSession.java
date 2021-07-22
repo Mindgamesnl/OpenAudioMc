@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.generic.networking.client.objects.player.Client
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.PlayerSession;
 import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import lombok.Getter;
 
 import java.util.UUID;
@@ -25,7 +26,7 @@ public class PlusSocketSession implements Authenticatable {
 
     public void sendPacket(AbstractPacket packet) {
         // only send the packet if the client is online, valid and the plugin is connected
-        OpenAudioMc.getInstance().getNetworkingService().send(this, packet);
+        OpenAudioMc.getService(NetworkingService.class).send(this, packet);
     }
 
     @Override

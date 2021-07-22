@@ -2,10 +2,12 @@ package com.craftmend.openaudiomc.bungee.modules.commands.subcommand;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.modules.player.objects.BungeePlayerSelector;
+import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
 
 import net.md_5.bungee.api.ChatColor;
@@ -37,10 +39,10 @@ public class BungeeStopCommand extends SubCommand {
         if (args.length == 1) {
             int affected = 0;
             for (ProxiedPlayer player : new BungeePlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal())) {
-                ClientConnection clientConnection = openAudioMc.getNetworkingService().getClient(player.getUniqueId());
+                ClientConnection clientConnection = OpenAudioMc.getService(NetworkingService.class).getClient(player.getUniqueId());
                 if (clientConnection.isConnected()) affected++;
                 clientConnection.getOngoingMedia().clear();
-                OpenAudioMc.getInstance().getNetworkingService().send(clientConnection, new PacketClientDestroyMedia(null));
+                OpenAudioMc.getService(NetworkingService.class).send(clientConnection, new PacketClientDestroyMedia(null));
             }
             message(sender, ChatColor.GREEN + "Destroyed all normal sounds for " + affected + " clients");
             return;
@@ -49,9 +51,9 @@ public class BungeeStopCommand extends SubCommand {
         if (args.length == 2) {
             int affected = 0;
             for (ProxiedPlayer player : new BungeePlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal())) {
-                ClientConnection clientConnection = openAudioMc.getNetworkingService().getClient(player.getUniqueId());
+                ClientConnection clientConnection = OpenAudioMc.getService(NetworkingService.class).getClient(player.getUniqueId());
                 if (clientConnection.isConnected()) affected++;
-                OpenAudioMc.getInstance().getNetworkingService().send(clientConnection, new PacketClientDestroyMedia(args[1]));
+                OpenAudioMc.getService(NetworkingService.class).send(clientConnection, new PacketClientDestroyMedia(args[1]));
             }
             message(sender, ChatColor.GREEN + "Destroyed the sound" + args[1] + " for " + affected + " clients");
             return;
@@ -61,7 +63,7 @@ public class BungeeStopCommand extends SubCommand {
     }
 
     private void sendHelp(GenericExecutor genericExecutor) {
-        OpenAudioMc.getInstance().getCommandModule().getSubCommand("help").onExecute(genericExecutor, new String[] {
+        OpenAudioMc.getService(CommandService.class).getSubCommand("help").onExecute(genericExecutor, new String[] {
                 getCommand()
         });;
     }

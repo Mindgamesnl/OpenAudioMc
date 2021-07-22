@@ -1,6 +1,9 @@
 package com.craftmend.openaudiomc.spigot.modules.shortner;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.media.MediaService;
+import com.craftmend.openaudiomc.generic.service.Inject;
+import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
@@ -11,13 +14,16 @@ import lombok.Getter;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AliasModule {
+public class AliasService extends Service {
+
+    @Inject
+    private OpenAudioMcSpigot spigot;
 
     @Getter private Map<String, String> aliasMap = new HashMap<>();
 
-    public AliasModule(OpenAudioMcSpigot openAudioMcSpigot) {
+    public AliasService() {
         OpenAudioLogger.toConsole("Loading aliases...");
-        OpenAudioMc.getInstance().getMediaModule().registerMutation("a:", new AliasMiddleware(this));
+        OpenAudioMc.getService(MediaService.class).registerMutation("a:", new AliasMiddleware(this));
 
         Configuration config = OpenAudioMc.getInstance().getConfiguration();
 

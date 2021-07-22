@@ -1,7 +1,10 @@
 package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
+import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.platform.Platform;
@@ -37,7 +40,7 @@ public class Publisher {
             return;
         }
 
-        openAudioMc.getTaskProvider().runAsync(() -> openAudioMc.getNetworkingService().connectIfDown());
+        OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> OpenAudioMc.getService(NetworkingService.class).connectIfDown());
 
         // is it a forced session? we don't need to generate a token if thats the case since
         // it falls back to the base64 pointer
@@ -58,7 +61,7 @@ public class Publisher {
         // sending waiting message
         clientConnection.getPlayer().sendMessage(translateColors(StorageKey.MESSAGE_GENERATING_SESSION.getString()));
 
-        Task<String> sessionRequest = openAudioMc.getAuthenticationService().getDriver().createPlayerSession(clientConnection);
+        Task<String> sessionRequest = OpenAudioMc.getService(AuthenticationService.class).getDriver().createPlayerSession(clientConnection);
         sessionRequest.setWhenFails((restErrorType, fuckyou) -> clientConnection.getPlayer().sendMessage(translateColors(StorageKey.MESSAGE_SESSION_ERROR.getString())));
 
         sessionRequest.setWhenSuccessful(token -> {

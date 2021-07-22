@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.events.StateChangeEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.state.collectors.*;
 import com.craftmend.openaudiomc.generic.state.interfaces.State;
 import com.craftmend.openaudiomc.generic.state.interfaces.StateDetail;
@@ -13,7 +14,7 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StateService {
+public class StateService extends Service {
 
     @Getter private State currentState = new BootingState();
     @Getter private final List<StateDetail> details = new ArrayList<>();

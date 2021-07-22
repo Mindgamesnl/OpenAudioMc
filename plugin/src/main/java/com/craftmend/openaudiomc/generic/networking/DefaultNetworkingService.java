@@ -4,6 +4,8 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 import com.craftmend.openaudiomc.api.impl.event.events.ClientPreAuthEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
+import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.enums.PacketChannel;
@@ -18,6 +20,7 @@ import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientCreateMedia;
 import com.craftmend.openaudiomc.generic.networking.packets.client.speakers.PacketClientCreateSpeaker;
 import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.player.ProxiedPlayerAdapter;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -90,14 +93,14 @@ public class DefaultNetworkingService extends NetworkingService {
                     }));
         }
 
-        OpenAudioMc.getInstance().getTaskProvider().scheduleAsyncRepeatingTask(() -> {
+        OpenAudioMc.resolveDependency(TaskService.class).scheduleAsyncRepeatingTask(() -> {
             packetThroughput = 0;
         }, 20, 20);
     }
 
     private void init() {
         try {
-            socketIoConnector = new SocketIoConnector(OpenAudioMc.getInstance().getAuthenticationService().getServerKeySet());
+            socketIoConnector = new SocketIoConnector(OpenAudioMc.getService(AuthenticationService.class).getServerKeySet());
         } catch (Exception e) {
             OpenAudioLogger.handleException(e);
             OpenAudioLogger.toConsole("The plugin could not start because of a connection problem when requesting the initial private key. Please contact the developers of this plugin.");
@@ -110,8 +113,8 @@ public class DefaultNetworkingService extends NetworkingService {
      */
     @Override
     public void connectIfDown() {
-        OpenAudioMc.getInstance().getCraftmendService().kickstartVcHandshake();
-        OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> socketIoConnector.setupConnection());
+        OpenAudioMc.getService(CraftmendService.class).kickstartVcHandshake();
+        OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> socketIoConnector.setupConnection());
     }
 
     /**

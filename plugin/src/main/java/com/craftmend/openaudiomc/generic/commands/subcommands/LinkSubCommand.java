@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
+import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.craftmend.response.EmailResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
@@ -11,6 +12,7 @@ import com.craftmend.openaudiomc.generic.networking.rest.data.RestErrorResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 
 public class LinkSubCommand extends SubCommand {
 
@@ -32,7 +34,7 @@ public class LinkSubCommand extends SubCommand {
             return;
         }
 
-        if (OpenAudioMc.getInstance().getCraftmendService().is(CraftmendTag.CLAIMED) && !arguments.getSaveString(1).equalsIgnoreCase("confirm")) {
+        if (OpenAudioMc.getService(CraftmendService.class).is(CraftmendTag.CLAIMED) && !arguments.getSaveString(1).equalsIgnoreCase("confirm")) {
             message(sender, Platform.makeColor("RED") + "WARNING! This server is already claimed by another account, this means that it'll be transferred and that the old account will lose access. Please use");
             message(sender, Platform.makeColor("GOLD") + "/oa link <fingerprint> confirm");
             message(sender, Platform.makeColor("RED") + "If you want to overwrite your existing account.");
@@ -41,7 +43,7 @@ public class LinkSubCommand extends SubCommand {
 
         if (args.length >= 1) {
             // do
-            OpenAudioMc.getInstance().getTaskProvider().runAsync(() -> {
+            OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> {
                 message(sender, Platform.makeColor("GREEN") + "Attempting to link account, please wait..");
                 RestRequest linkRequest = new RestRequest(RestEndpoint.ACCOUNT_CLAIM_SERVER);
                 linkRequest.setQuery("fingerprint", args[0]);
@@ -50,7 +52,7 @@ public class LinkSubCommand extends SubCommand {
 
                 if (response.getErrors().isEmpty()) {
                     message(sender, Platform.makeColor("GREEN") + "This OpenAudioMc installation is now linked to " + response.getResponse(EmailResponse.class).getEmail());
-                    OpenAudioMc.getInstance().getCraftmendService().syncAccount();
+                    OpenAudioMc.getService(CraftmendService.class).syncAccount();
                 } else {
                     for (RestErrorResponse error : response.getErrors()) {
                         message(sender, Platform.makeColor("RED") + error.getMessage());

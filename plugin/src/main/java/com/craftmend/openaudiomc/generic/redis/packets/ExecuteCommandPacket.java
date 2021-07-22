@@ -31,6 +31,6 @@ public class ExecuteCommandPacket extends OARedisPacket {
     }
 
     public void send() {
-        OpenAudioMc.getInstance().getRedisService().sendMessage(ChannelKey.TRIGGER_COMMAND, this);
+        OpenAudioMc.getService(RedisService.class).sendMessage(ChannelKey.TRIGGER_COMMAND, this);
     }
 }

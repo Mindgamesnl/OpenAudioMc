@@ -33,7 +33,7 @@ public class VoiceEventBus extends WebSocketListener {
     public boolean start() {
         // check if connections are allowed
         RestRequest preAuthCheck = new RestRequest(RestEndpoint.VOICE_EVENT_BUS_PREAUTH, this.server);
-        AuthenticationService authenticationService = OpenAudioMc.getInstance().getAuthenticationService();
+        AuthenticationService authenticationService = OpenAudioMc.getService(AuthenticationService.class);
         preAuthCheck.setQuery("publicKey", authenticationService.getServerKeySet().getPublicKey().getValue());
         preAuthCheck.setQuery("privateKey", authenticationService.getServerKeySet().getPrivateKey().getValue());
         preAuthCheck.setQuery("password", this.password);

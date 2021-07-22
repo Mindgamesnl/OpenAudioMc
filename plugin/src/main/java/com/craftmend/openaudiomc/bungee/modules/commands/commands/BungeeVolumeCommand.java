@@ -1,13 +1,13 @@
 package com.craftmend.openaudiomc.bungee.modules.commands.commands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.CommandModule;
 import com.craftmend.openaudiomc.generic.commands.adapters.BungeeCommandSenderAdapter;
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.platform.Platform;
@@ -43,7 +43,7 @@ public class BungeeVolumeCommand extends Command {
             return;
         }
 
-        ClientConnection clientConnection = OpenAudioMc.getInstance().getNetworkingService().getClient(((ProxiedPlayer) sender).getUniqueId());
+        ClientConnection clientConnection = OpenAudioMc.getService(NetworkingService.class).getClient(((ProxiedPlayer) sender).getUniqueId());
 
         if (!clientConnection.isConnected()) {
             sender.sendMessage(Platform.translateColors(

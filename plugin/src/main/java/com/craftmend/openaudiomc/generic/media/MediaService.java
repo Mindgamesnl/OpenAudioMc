@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.generic.media;
 import com.craftmend.openaudiomc.generic.media.interfaces.ForcedUrlMutation;
 import com.craftmend.openaudiomc.generic.media.interfaces.UrlMutation;
 import com.craftmend.openaudiomc.generic.media.middleware.DropBoxMiddleware;
+import com.craftmend.openaudiomc.generic.service.Service;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -10,12 +11,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MediaModule {
+public class MediaService extends Service {
 
     private Map<String, List<UrlMutation>> urlMutations = new HashMap<>();
     @Getter private List<Runnable> resetTriggers = new ArrayList<>();
 
-    public MediaModule() {
+    public MediaService() {
         // register default mutations
         registerMutation("https://www.dropbox.com", new DropBoxMiddleware());
         // note that google drive, soundcloud, ssl-proxy and youtube are handled client side

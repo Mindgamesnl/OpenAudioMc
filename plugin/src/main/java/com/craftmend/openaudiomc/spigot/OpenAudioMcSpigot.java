@@ -1,8 +1,9 @@
 package com.craftmend.openaudiomc.spigot;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
-import com.craftmend.openaudiomc.generic.platform.interfaces.TaskProvider;
+import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.platform.interfaces.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
@@ -12,25 +13,25 @@ import com.craftmend.openaudiomc.generic.state.states.IdleState;
 
 import com.craftmend.openaudiomc.generic.voicechat.DefaultVoiceServiceImpl;
 import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
-import com.craftmend.openaudiomc.spigot.modules.commands.SpigotCommandModule;
+import com.craftmend.openaudiomc.spigot.modules.commands.SpigotCommandService;
 import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfiguration;
-import com.craftmend.openaudiomc.spigot.modules.predictive.PredictiveMediaModule;
+import com.craftmend.openaudiomc.spigot.modules.predictive.PredictiveMediaService;
 import com.craftmend.openaudiomc.spigot.modules.proxy.ProxyModule;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import com.craftmend.openaudiomc.spigot.modules.punishments.LitebansIntegration;
 import com.craftmend.openaudiomc.spigot.modules.regions.service.RegionService;
-import com.craftmend.openaudiomc.spigot.modules.shortner.AliasModule;
-import com.craftmend.openaudiomc.spigot.modules.show.ShowModule;
+import com.craftmend.openaudiomc.spigot.modules.shortner.AliasService;
+import com.craftmend.openaudiomc.spigot.modules.show.ShowService;
 import com.craftmend.openaudiomc.spigot.modules.traincarts.TrainCartsModule;
 import com.craftmend.openaudiomc.spigot.modules.traincarts.service.TrainCartsService;
-import com.craftmend.openaudiomc.spigot.modules.voicechat.SpigotVoiceChatModule;
-import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.FilterManager;
-import com.craftmend.openaudiomc.spigot.services.dependency.DependencyService;
-import com.craftmend.openaudiomc.spigot.services.scheduling.SpigotTaskProvider;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.SpigotVoiceChatService;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.FilterService;
+import com.craftmend.openaudiomc.spigot.services.dependency.SpigotDependencyService;
+import com.craftmend.openaudiomc.spigot.services.scheduling.SpigotTaskService;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
-import com.craftmend.openaudiomc.spigot.modules.players.PlayerModule;
+import com.craftmend.openaudiomc.spigot.modules.players.PlayerService;
 import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
-import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
+import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.services.threading.ExecutorService;
 
 import lombok.Getter;
@@ -51,19 +52,9 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
     @Setter
     private RegionModule regionModule;
 
-    private PredictiveMediaModule predictiveMediaService;
-    private AliasModule aliasModule;
-    private ExecutorService executorService;
-    private ProxyModule proxyModule;
-    private PlayerModule playerModule;
-    private SpigotCommandModule commandModule;
-    private SpeakerModule speakerModule;
-    private ShowModule showModule;
-    private DependencyService dependencyService;
-    private ServerService serverService;
-    private SpigotVoiceChatModule spigotVoicechatModule;
     private OpenAudioMc openAudioMc;
-    private FilterManager filterManager;
+
+    private ProxyModule proxyModule;
 
     /**
      * Constant: main plugin instance and plugin timing
@@ -80,35 +71,38 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
         // Plugin startup logic
         instance = this;
 
-        // setup loader
-        this.proxyModule = new ProxyModule();
+        proxyModule = new ProxyModule();
 
         // setup core
         try {
             openAudioMc = new OpenAudioMc(this);
-            // startup modules and services
-            this.dependencyService = new DependencyService(this);
-            this.aliasModule = new AliasModule(this);
-            this.executorService = new ExecutorService(this);
-            this.serverService = new ServerService();
-            this.playerModule = new PlayerModule(this);
-            this.speakerModule = new SpeakerModule(this);
-            this.commandModule = new SpigotCommandModule(this);
-            this.showModule = new ShowModule(this);
-            this.predictiveMediaService = new PredictiveMediaModule();
-            this.spigotVoicechatModule = new SpigotVoiceChatModule(this);
-            this.filterManager = new FilterManager(this);
+            openAudioMc.getServiceManager().registerDependency(ProxyModule.class, proxyModule);
+            openAudioMc.getServiceManager().registerDependency(OpenAudioMcSpigot.class, this);
 
-            this.dependencyService
+            openAudioMc.getServiceManager().loadServices(
+                    SpigotDependencyService.class,
+                    AliasService.class,
+                    ExecutorService.class,
+                    ServerService.class,
+                    PlayerService.class,
+                    SpeakerService.class,
+                    SpigotCommandService.class,
+                    ShowService.class,
+                    PredictiveMediaService.class,
+                    SpigotVoiceChatService.class,
+                    FilterService.class
+            );
+
+            OpenAudioMc.getService(SpigotDependencyService.class)
                     .ifPluginEnabled("LiteBans", new LitebansIntegration())
                     .ifPluginEnabled("WorldGuard", new RegionService(this))
                     .ifPluginEnabled("Train_Carts", new TrainCartsService(this));
 
             // set state to idle, to allow connections and such, but only if not a node
-            if (proxyModule.getMode() == ClientMode.NODE) {
-                OpenAudioMc.getInstance().getStateService().setState(new WorkerState());
+            if (OpenAudioMc.getService(ProxyModule.class).getMode() == ClientMode.NODE) {
+                OpenAudioMc.getService(StateService.class).setState(new WorkerState());
             } else {
-                OpenAudioMc.getInstance().getStateService().setState(new IdleState("OpenAudioMc started and awaiting command"));
+                OpenAudioMc.getService(StateService.class).setState(new IdleState("OpenAudioMc started and awaiting command"));
             }
 
             // timing end and calc
@@ -127,7 +121,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
     @Override
     public void onDisable() {
         OpenAudioLogger.toConsole("Shutting down");
-        predictiveMediaService.onDisable();
+        OpenAudioMc.getService(PredictiveMediaService.class).onDisable();
         openAudioMc.disable();
         HandlerList.unregisterAll(this);
         OpenAudioLogger.toConsole("Stopped OpenAudioMc. Goodbye.");
@@ -146,7 +140,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
 
     @Override
     public boolean isNodeServer() {
-        return getProxyModule().getMode() != ClientMode.STAND_ALONE;
+        return proxyModule.getMode() != ClientMode.STAND_ALONE;
     }
 
     @Override
@@ -160,8 +154,8 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
     }
 
     @Override
-    public TaskProvider getTaskProvider() {
-        return new SpigotTaskProvider();
+    public TaskService getTaskProvider() {
+        return new SpigotTaskService();
     }
 
     @Override

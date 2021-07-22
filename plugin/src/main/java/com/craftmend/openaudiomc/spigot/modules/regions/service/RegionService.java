@@ -13,6 +13,6 @@ public class RegionService implements DependencyHandler {
 
     @Override
     public void onLoad(String pluginName, Plugin plugin) {
-        spigot.setRegionModule(new RegionModule(spigot, null));
+        spigot.setRegionModule(new RegionModule(null));
     }
 }

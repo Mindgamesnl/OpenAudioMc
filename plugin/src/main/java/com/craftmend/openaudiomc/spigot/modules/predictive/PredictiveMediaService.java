@@ -6,8 +6,10 @@ import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.interfaces.SourceHolder;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
+import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.utils.data.HeatMap;
 
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -24,7 +26,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
-public class PredictiveMediaModule {
+public class PredictiveMediaService extends Service {
 
     private final ChunkMapSerializer chunkMapSerializer = new ChunkMapSerializer();
     private int chunkAge = 60 * 60 * 10;  // chunk values are kept for 10 hours
@@ -38,8 +40,8 @@ public class PredictiveMediaModule {
             () -> new HeatMap<String, Byte>(chunkAge, maxChunkCache, HeatMap.BYTE_CONTEXT)
     );
 
-    public PredictiveMediaModule() {
-        OpenAudioMc.getInstance().getNetworkingService().addEventHandler(getPacketHook());
+    public PredictiveMediaService() {
+        OpenAudioMc.getService(NetworkingService.class).addEventHandler(getPacketHook());
         try {
             loadFromFile();
         } catch (IOException e) {

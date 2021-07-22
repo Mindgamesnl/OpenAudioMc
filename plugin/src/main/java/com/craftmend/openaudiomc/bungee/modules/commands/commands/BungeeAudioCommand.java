@@ -3,12 +3,14 @@ package com.craftmend.openaudiomc.bungee.modules.commands.commands;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.modules.player.objects.BungeePlayerSelector;
 
+import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.adapters.BungeeCommandSenderAdapter;
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
@@ -34,15 +36,15 @@ public class BungeeAudioCommand extends Command {
 
         if (sender instanceof ProxiedPlayer) {
             ProxiedPlayer player = (ProxiedPlayer) sender;
-            OpenAudioMc.getInstance().getNetworkingService().getClient(player.getUniqueId()).publishUrl();
+            OpenAudioMc.getService(NetworkingService.class).getClient(player.getUniqueId()).publishUrl();
         } else {
             if (args.length == 0) {
-                sender.sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + "You must provide a player name OR selector to send trigger the URL");
+                sender.sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + "You must provide a player name OR selector to send trigger the URL");
                 return;
             }
 
             for (ProxiedPlayer player : new BungeePlayerSelector(args[0]).getPlayers(sender)) {
-                OpenAudioMc.getInstance().getNetworkingService().getClient(player.getUniqueId()).publishUrl();
+                OpenAudioMc.getService(NetworkingService.class).getClient(player.getUniqueId()).publishUrl();
             }
         }
     }

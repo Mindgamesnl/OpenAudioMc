@@ -1,11 +1,13 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.listeners;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
+import com.craftmend.openaudiomc.spigot.modules.players.PlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
-import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerModule;
+import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 
@@ -25,21 +27,21 @@ import java.util.UUID;
 public class SpeakerCreateListener implements Listener {
 
     private OpenAudioMcSpigot openAudioMcSpigot;
-    private SpeakerModule speakerModule;
+    private SpeakerService speakerService;
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         Block placed = event.getBlockPlaced();
         if (SpeakerUtils.isSpeakerSkull(placed)) {
             if (!isAllowed(event.getPlayer())) {
-                event.getPlayer().sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + "You are not allowed to place OpenAudioMc speakers, please ask the server administrator for more information.");
+                event.getPlayer().sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + "You are not allowed to place OpenAudioMc speakers, please ask the server administrator for more information.");
                 event.setCancelled(true);
                 return;
             }
 
-            SpigotConnection spigotConnection = openAudioMcSpigot.getPlayerModule().getClient(event.getPlayer());
+            SpigotConnection spigotConnection = OpenAudioMc.getService(PlayerService.class).getClient(event.getPlayer());
             if (spigotConnection.getSelectedSpeakerSettings() == null) {
-                event.getPlayer().sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + "You cant place OpenAudioMc speakers without using the command first. I dont know what sound you would like to add.");
+                event.getPlayer().sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + "You cant place OpenAudioMc speakers without using the command first. I dont know what sound you would like to add.");
                 event.setCancelled(true);
                 return;
             }
@@ -49,9 +51,9 @@ public class SpeakerCreateListener implements Listener {
             Configuration config = OpenAudioMc.getInstance().getConfiguration();
             int range = spigotConnection.getSelectedSpeakerSettings().getRadius();
 
-            SpeakerType speakerType = speakerModule.getCollector().guessSpeakerType(location.toBukkit(), spigotConnection.getSelectedSpeakerSettings().getSource());
+            SpeakerType speakerType = speakerService.getCollector().guessSpeakerType(location.toBukkit(), spigotConnection.getSelectedSpeakerSettings().getSource());
 
-            speakerModule.registerSpeaker(location, spigotConnection.getSelectedSpeakerSettings().getSource(), id, range, speakerType, new HashSet<>());
+            speakerService.registerSpeaker(location, spigotConnection.getSelectedSpeakerSettings().getSource(), id, range, speakerType, new HashSet<>());
 
             //save to config
             config.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".world", location.getWorld());
@@ -62,7 +64,7 @@ public class SpeakerCreateListener implements Listener {
             config.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".media", spigotConnection.getSelectedSpeakerSettings().getSource());
             config.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".type", speakerType.toString());
 
-            event.getPlayer().sendMessage(OpenAudioMc.getInstance().getCommandModule().getCommandPrefix() + ChatColor.GREEN + "Placed a " + speakerType.getName() + " speaker" + ChatColor.GRAY + " (guessed bases on other nearby speakers, click placed speaker to edit)");
+            event.getPlayer().sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + ChatColor.GREEN + "Placed a " + speakerType.getName() + " speaker" + ChatColor.GRAY + " (guessed bases on other nearby speakers, click placed speaker to edit)");
         }
     }
 

@@ -1,5 +1,8 @@
 package com.craftmend.openaudiomc.spigot.services.threading;
 
+import com.craftmend.openaudiomc.generic.service.Inject;
+import com.craftmend.openaudiomc.generic.service.Service;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -12,7 +15,10 @@ import java.util.concurrent.locks.ReentrantLock;
 
 // TODO: Implement the show system to use _this_ instead of regular java timers.
 
-public class ExecutorService {
+public class ExecutorService extends Service {
+
+    @Inject
+    private OpenAudioMcSpigot plugin;
 
     @Getter private Executor executor;
     @Getter private Queue<Runnable> tickRunnables = new ConcurrentLinkedQueue<>();
@@ -23,7 +29,7 @@ public class ExecutorService {
     private int tick = 0;
     @Getter private Instant lastPing = Instant.now();
 
-    public ExecutorService(JavaPlugin plugin) {
+    public ExecutorService() {
         boot();
 
         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, executor::tickSync, 1, 1);
