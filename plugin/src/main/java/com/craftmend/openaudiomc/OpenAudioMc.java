@@ -66,7 +66,11 @@ public class OpenAudioMc {
      * Alright, lets get this show on the road.
      *
      * @param invoker Invoker environment description
-     * @throws Exception Everything went boom
+     * @throws Exception Yes, when you dropped me, and I hit the floor, I caught the sads.
+     *                   Which in turn, has made me sad.
+     *                   These stacktraces you see, are my tears..
+     *                   For I am sad...
+     *                   I will never forgive you, for everything you've done.
      */
     public OpenAudioMc(OpenAudioInvoker invoker) throws Exception {
         // very first thing we need to do, is set the environment, since we might want to log extra data
@@ -101,10 +105,10 @@ public class OpenAudioMc {
 
         // load core services in order
         serviceManager.loadServices(
-                MediaService.class, // processes outgoing URL's
-                TimeService.class,  // processes remote or network timecodes and translates them for the client
-                ResourceService.class, // handles internal file storage/caching
-                StateService.class,     // handles internal state tracking/monitoring
+                MediaService.class,             // processes outgoing URL's
+                TimeService.class,              // processes remote or network timecodes and translates them for the client
+                ResourceService.class,          // handles internal file storage/caching
+                StateService.class,             // handles internal state tracking/monitoring
                 AuthenticationService.class,    // handles server key sets with the OpenAudioMc backend infrastructure
                 GlobalConstantService.class,    // keeps track of remote project constants (like release versions, etc)
                 CommandService.class,           // standardized command processor regardless of platform
