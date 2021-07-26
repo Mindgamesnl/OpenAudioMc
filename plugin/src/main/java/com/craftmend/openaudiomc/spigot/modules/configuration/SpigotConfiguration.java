@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.configuration;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.generic.resources.ResourceService;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
@@ -39,7 +40,7 @@ public class SpigotConfiguration implements Configuration, Listener {
         if (!hasDataFile()) openAudioMcSpigot.saveResource("data.yml", false);
         openAudioMcSpigot.registerEvents(this);
 
-        dataConfig = YamlConfiguration.loadConfiguration(new File("plugins/OpenAudioMc/data.yml"));
+        dataConfig = YamlConfiguration.loadConfiguration(new File(OpenAudioMcSpigot.getInstance().getDataFolder(), "data.yml"));
 
         loadConfig(openAudioMcSpigot);
 
