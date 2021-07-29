@@ -76,7 +76,18 @@ export class SpeakerPlayer {
     }
 
     remove() {
-        this.openAudioMc.getMediaManager().destroySounds(this.id, false);
+        if (!this.media.loaded) {
+            oadebuglog("WARNING! wanted to stop " + this.id + " but it isn't loaded yet")
+        }
+        this.openAudioMc.getMediaManager().destroySounds(this.id, false, false, 500, () => {
+            // check if it actually cleared, and if not, we should do it ourself
+            if (!this.media.destroyed) {
+                oadebuglog("Failed to destroy a world sound, so I had to do it again.")
+                this.media.destroy();
+            } else {
+                oadebuglog("It got destroyed successfully")
+            }
+        });
     }
 
 }

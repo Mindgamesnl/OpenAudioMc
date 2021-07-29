@@ -74,7 +74,7 @@ export class MediaManager {
         }
     }
 
-    destroySounds(soundId, all, instantly, transition) {
+    destroySounds(soundId, all, instantly, transition, atTheEnd = function () {}) {
         let time = transition;
         if (time == null) {
             time = 500;
@@ -101,6 +101,7 @@ export class MediaManager {
 
                         let callback = () => {
                             this.mixer.removeChannel(channel);
+                            atTheEnd();
                         };
 
                         channel.fadeChannel(0, time, callback);
