@@ -6,7 +6,6 @@ import {replaceGlobalText} from "../domhelper";
 export const AUDIO_ENDPOINTS = {
     PROXY: API_ENDPOINT.CONTENT_PROXY,
     YOUTUBE: API_ENDPOINT.YOUTUBE_PROXY,
-    SOUNDCLOUD: API_ENDPOINT.SOUNDCLOUD_PROXY,
     DRIVE: API_ENDPOINT.DRIVE_PROXY
 };
 
@@ -63,18 +62,18 @@ export class AudioSourceProcessor {
             // handle soundcloud
             if (source.includes("soundcloud.com")) {
                 // update now playing too
-                fetch("https://media.openaudiomc.net/2/soundcloud?u=" + source)
-                    .then(response => response.json())
-                    .then(body => {
-                        document.getElementById("sc-cover").style.display = "";
-                        document.getElementById("sc-title").style.display = "";
-                        replaceGlobalText("{{ oam.soundcloud_title }}", body.artist + " - " + body.title)
-                        document.getElementById("sc-title").onclick = () => {
-                            window.open(body.link);
-                        };
-                        document.getElementById("sc-cover").src = body.photo;
-                    })
-                source = AUDIO_ENDPOINTS.SOUNDCLOUD + source;
+                let scRequest = await fetch("https://media.openaudiomc.net/2/soundcloud?u=" + source);
+                let jsonBody = await scRequest.json();
+                if (jsonBody.hasOwnProperty("stream")) {
+                    document.getElementById("sc-cover").style.display = "";
+                    document.getElementById("sc-title").style.display = "";
+                    replaceGlobalText("{{ oam.soundcloud_title }}", jsonBody.artist + " - " + jsonBody.title)
+                    document.getElementById("sc-title").onclick = () => {
+                        window.open(jsonBody.link);
+                    };
+                    document.getElementById("sc-cover").src = jsonBody.photo;
+                    return jsonBody.stream;
+                }
             }
 
             // if the page is SSL, but source is http, then proxy it, but only if it is http at all
