@@ -10,31 +10,33 @@ export class SpeakerPlayer {
         this.openAudioMc = openAudioMc;
 
         this.speakerNodes = new Map();
+        this.source = source;
+        this.startInstant = startInstant;
+    }
 
+    async initialize() {
         const createdChannel = new Channel(this.id);
         createdChannel.trackable = true;
         this.channel = createdChannel;
-        const createdMedia = new Sound(source);
+        const createdMedia = new Sound(this.source);
         this.media = createdMedia;
         createdMedia.openAudioMc = openAudioMc;
         createdMedia.setOa(openAudioMc);
         createdChannel.mixer = this.openAudioMc.getMediaManager().mixer;
 
-        createdMedia.load(source)
-            .then(() => {
-                createdChannel.addSound(createdMedia);
-                createdChannel.setChannelVolume(0);
-                createdMedia.startDate(startInstant, true);
-            })
-            .then(() => createdMedia.finalize().then(() => {
-            openAudioMc.getMediaManager().mixer.addChannel(createdChannel);
-            createdMedia.setLooping(true);
-            createdChannel.setTag(this.id);
-            createdChannel.setTag("SPECIAL");
-            this.openAudioMc.getMediaManager().mixer.updateCurrent();
-            createdMedia.startDate(startInstant, true);
-            createdMedia.finish();
-        }));
+        await createdMedia.load(this.source)
+
+        createdChannel.addSound(createdMedia);
+        createdChannel.setChannelVolume(0);
+        createdMedia.startDate(this.startInstant, true);
+        await createdMedia.finalize()
+        openAudioMc.getMediaManager().mixer.addChannel(createdChannel);
+        createdMedia.setLooping(true);
+        createdChannel.setTag(this.id);
+        createdChannel.setTag("SPECIAL");
+        this.openAudioMc.getMediaManager().mixer.updateCurrent();
+        createdMedia.startDate(this.startInstant, true);
+        createdMedia.finish();
     }
 
     removeSpeakerLocation(id) {
