@@ -2,6 +2,7 @@ import {Channel} from "../../media/objects/Channel";
 import {Sound} from "../../media/objects/Sound";
 import {SPEAKER_2D} from "../constants/SpeakerType";
 import {SpeakerRenderNode} from "./SpeakerRenderNode";
+import {oadebuglog} from "../../../helpers/log";
 
 export class SpeakerPlayer {
 
@@ -71,10 +72,13 @@ export class SpeakerPlayer {
             this.channel.fadeChannel(volume, 100);
         } else {
             if (!this.speakerNodes.has(closest.id)) {
-                this.channel.fadeChannel(100, 100);
-                this.speakerNodes.set(closest.id, new SpeakerRenderNode(
-                    closest, world, player, this.media
-                ));
+                if (this.media.loaded) {
+                    oadebuglog("Media isn't loaded yet, skipping location update.")
+                    this.channel.fadeChannel(100, 100);
+                    this.speakerNodes.set(closest.id, new SpeakerRenderNode(
+                        closest, world, player, this.media
+                    ));
+                }
             }
         }
     }

@@ -9,11 +9,15 @@ export class SpeakerRenderNode {
         this.pannerNode = player.audioCtx.createPanner();
         this.media = media;
 
+
+
         media.addNode(player, this.pannerNode);
 
         this.pannerNode.panningModel = 'HRTF';
         this.pannerNode.rolloffFactor = 0.9;
         this.pannerNode.distanceModel = "linear";
+        this.pannerNode.coneOuterGain = 0.7;
+        this.pannerNode.coneInnerAngle = 120;
         this.pannerNode.maxDistance = speaker.maxDistance;
 
         const location = speaker.location;
