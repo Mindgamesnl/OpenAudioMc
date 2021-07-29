@@ -19,10 +19,10 @@ export class SpeakerPlayer {
         createdMedia.openAudioMc = openAudioMc;
         createdMedia.setOa(openAudioMc);
         createdChannel.mixer = this.openAudioMc.getMediaManager().mixer;
-        createdChannel.addSound(createdMedia);
 
         createdMedia.load(source)
             .then(() => {
+                createdChannel.addSound(createdMedia);
                 createdChannel.setChannelVolume(0);
                 createdMedia.startDate(startInstant, true);
             })
