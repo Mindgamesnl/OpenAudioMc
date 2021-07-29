@@ -27,8 +27,8 @@ export async function handleCreateMedia(openAudioMc, data) {
     createdMedia.openAudioMc = openAudioMc;
     createdMedia.setOa(openAudioMc);
     await createdMedia.load(source);
-    createdChannel.addSound(createdMedia);
     openAudioMc.getMediaManager().mixer.addChannel(createdChannel);
+    createdChannel.addSound(createdMedia);
     createdChannel.setChannelVolume(0);
     createdMedia.setLooping(looping);
     createdChannel.setTag(id);
