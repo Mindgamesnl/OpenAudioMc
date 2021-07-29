@@ -35,6 +35,7 @@ export class Sound extends AudioSourceProcessor {
         this.gotShutDown = false;
         this.loaded = false;
         this.initCallbacks = []
+        this.startedLoading = false;
     }
 
     whenInitialized(f) {
@@ -46,6 +47,8 @@ export class Sound extends AudioSourceProcessor {
     }
 
     async load(source, allowCaching = true) {
+        if (this.startedLoading) return;
+        this.startedLoading = true;
         this.rawSource = source;
 
         source = await this.translate(source);

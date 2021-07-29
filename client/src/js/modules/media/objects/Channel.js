@@ -113,7 +113,9 @@ export class Channel {
         let result = (this.channelVolume / 100) * effectiveVolume;
 
         for (let sound of this.sounds) {
-            sound.setVolume(result);
+            if (sound.loaded) {
+                sound.setVolume(result);
+            }
         }
     }
 
