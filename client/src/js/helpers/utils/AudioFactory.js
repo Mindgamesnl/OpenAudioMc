@@ -7,8 +7,8 @@ export function ClearPrefetchedMedia() {
   prefetchedSounds = {};
 }
 
-export function PreFetch(source) {
-  source = pro.translate(source)
+export async function PreFetch(source) {
+  source = await pro.translate(source)
   let soundElement = new Audio();
   soundElement.autoplay = false;
   soundElement.src = source;
@@ -17,9 +17,9 @@ export function PreFetch(source) {
   return soundElement;
 }
 
-export function GetAudio(source, isTranslated = false) {
+export async function GetAudio(source, isTranslated = false) {
   if (!isTranslated) {
-    source = pro.translate(source)
+    source = await pro.translate(source)
   }
   let loaded = prefetchedSounds[source];
   if (loaded != null) {

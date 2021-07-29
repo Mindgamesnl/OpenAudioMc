@@ -130,7 +130,7 @@ export class OpenAudioMc extends Getters {
             });
     }
 
-    start() {
+    async start() {
         if (!this.canStart) return;
         this.canStart = false;
 
@@ -138,7 +138,7 @@ export class OpenAudioMc extends Getters {
         this.hueModule = new HueModule(this, getHueInstance());
         this.socketModule = new SocketModule(this, this.host);
 
-        this.mediaManager.setupAmbianceSound(this.ambianceSound);
+        await this.mediaManager.setupAmbianceSound(this.ambianceSound);
 
         this.mediaManager.postBoot()
 

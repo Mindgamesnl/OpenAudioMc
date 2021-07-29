@@ -340,12 +340,13 @@ export class PeerManager {
         window.rtcHook = this.pcReceiver;
     }
 
-    playInternalSound(src) {
+    async playInternalSound(src) {
         oalog("Playing internal sound " + src)
         const createdChannel = new Channel(src);
-        const createdMedia = new Sound(src);
+        const createdMedia = new Sound();
         createdMedia.openAudioMc = this.openAudioMc;
         createdMedia.setOa(this.openAudioMc);
+        await createdMedia.load(src);
         createdMedia.setOnFinish(() => {
                 this.openAudioMc.mediaManager.mixer._updatePlayingSounds();
                 this.openAudioMc.mediaManager.mixer.removeChannel(src)

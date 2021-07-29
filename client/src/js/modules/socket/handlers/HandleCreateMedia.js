@@ -1,7 +1,7 @@
 import {Channel} from "../../media/objects/Channel";
 import {Sound} from "../../media/objects/Sound";
 
-export function handleCreateMedia(openAudioMc, data) {
+export async function handleCreateMedia(openAudioMc, data) {
     const looping = data.media.loop;
     const startInstant = data.media.startInstant;
     const id = data.media.mediaId;
@@ -23,11 +23,12 @@ export function handleCreateMedia(openAudioMc, data) {
 
     const createdChannel = new Channel(id);
     createdChannel.trackable = true;
-    const createdMedia = new Sound(source);
+    const createdMedia = new Sound();
     createdMedia.openAudioMc = openAudioMc;
     createdMedia.setOa(openAudioMc);
-    openAudioMc.getMediaManager().mixer.addChannel(createdChannel);
     createdChannel.addSound(createdMedia);
+    await createdMedia.load(source);
+    openAudioMc.getMediaManager().mixer.addChannel(createdChannel);
     createdChannel.setChannelVolume(0);
     createdMedia.setLooping(looping);
     createdChannel.setTag(id);

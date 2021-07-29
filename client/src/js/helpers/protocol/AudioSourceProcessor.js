@@ -17,7 +17,7 @@ export class AudioSourceProcessor {
         this.lastIndex = 0;
     }
 
-    translate(sourceOg) {
+    async translate(sourceOg) {
         let source = this.handleRandomizedPlaylist(sourceOg);
 
         // filter old

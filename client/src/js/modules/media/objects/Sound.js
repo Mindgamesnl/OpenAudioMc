@@ -20,13 +20,16 @@ if (!('toJSON' in Error.prototype))
 
 export class Sound extends AudioSourceProcessor {
 
-    constructor(source) {
+    constructor() {
         super()
+    }
+
+    async load(source) {
         this.rawSource = source;
 
-        source = this.translate(source);
+        source = await this.translate(source);
 
-        this.soundElement = GetAudio(source, true);
+        this.soundElement = await GetAudio(source, true);
 
         this.hadError = false;
         this.source = source;
@@ -142,14 +145,14 @@ export class Sound extends AudioSourceProcessor {
 
     finalize() {
         return new Promise((resolve => {
-            this.soundElement.onended = () => {
+            this.soundElement.onended = async () => {
                 if (this.gotShutDown) return;
                 if (!this.finsishedInitializing) return;
                 this.onFinish.forEach((runnable, key) => {
                     runnable();
                 });
                 if (this.loop) {
-                    this.soundElement.src = this.translate(this.rawSource);
+                    this.soundElement.src = await this.translate(this.rawSource);
                     this.setTime(0);
                     this.soundElement.play();
                 } else {

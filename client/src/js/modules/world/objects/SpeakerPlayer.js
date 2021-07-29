@@ -20,10 +20,13 @@ export class SpeakerPlayer {
         createdMedia.setOa(openAudioMc);
         createdChannel.mixer = this.openAudioMc.getMediaManager().mixer;
         createdChannel.addSound(createdMedia);
-        createdChannel.setChannelVolume(0);
-        createdMedia.startDate(startInstant, true);
 
-        createdMedia.finalize().then(() => {
+        createdMedia.load(source)
+            .then(() => {
+                createdChannel.setChannelVolume(0);
+                createdMedia.startDate(startInstant, true);
+            })
+            .then(() => createdMedia.finalize().then(() => {
             openAudioMc.getMediaManager().mixer.addChannel(createdChannel);
             createdMedia.setLooping(true);
             createdChannel.setTag(this.id);
@@ -31,7 +34,7 @@ export class SpeakerPlayer {
             this.openAudioMc.getMediaManager().mixer.updateCurrent();
             createdMedia.startDate(startInstant, true);
             createdMedia.finish();
-        });
+        }));
     }
 
     removeSpeakerLocation(id) {

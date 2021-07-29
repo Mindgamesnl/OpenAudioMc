@@ -48,17 +48,18 @@ export class Mixer {
         }
     }
 
-    setupAmbianceSound(source) {
+    async setupAmbianceSound(source) {
         // create media
         let channel = new Channel("ambiance-lol-dics");
-        let ambianceMedia = new Sound(source);
+        let ambianceMedia = new Sound();
+        channel.addSound(ambianceMedia);
+        await ambianceMedia.load(source)
         ambianceMedia.setLooping(true);
         ambianceMedia.setVolume(0);
         ambianceMedia.finalize().then(() => {
             ambianceMedia.finish();
         });
         channel.mixer = {masterVolume: this.masterVolume};
-        channel.addSound(ambianceMedia);
         this.ambianceSoundMedia = channel;
         this.ambianceSoundMedia.mixer = {masterVolume: this.masterVolume};
         this.ambianceSoundMedia.setChannelVolume(0);
