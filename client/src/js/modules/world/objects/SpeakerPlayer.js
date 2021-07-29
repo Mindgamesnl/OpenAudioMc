@@ -61,13 +61,9 @@ export class SpeakerPlayer {
             this.channel.fadeChannel(volume, 100);
         } else {
             if (!this.speakerNodes.has(closest.id)) {
-                if (this.media.loaded) {
-                    oadebuglog("Media isn't loaded yet, skipping location update.")
-                    this.channel.fadeChannel(100, 100);
                     this.speakerNodes.set(closest.id, new SpeakerRenderNode(
-                        closest, world, player, this.media, this.source
+                        closest, world, player, this.media, this.source, this.channel
                     ));
-                }
             }
         }
     }
