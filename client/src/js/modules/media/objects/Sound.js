@@ -33,6 +33,7 @@ export class Sound extends AudioSourceProcessor {
         this.channel = null;
         this.finsishedInitializing = false;
         this.gotShutDown = false;
+        this.loaded = false;
     }
 
     async load(source, allowCaching = true) {
@@ -60,6 +61,7 @@ export class Sound extends AudioSourceProcessor {
         this.soundElement.setAttribute("display", "none");
         this.soundElement.preload = "auto";
         this.soundElement.abort = console.log;
+        this.loaded = true;
     }
 
     setOa(oa) {
