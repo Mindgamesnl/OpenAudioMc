@@ -34,6 +34,15 @@ export class Sound extends AudioSourceProcessor {
         this.finsishedInitializing = false;
         this.gotShutDown = false;
         this.loaded = false;
+        this.whenInitialized = []
+    }
+
+    whenInitialized(f) {
+        if (this.loaded) {
+            f();
+        } else {
+            this.whenInitialized.push(f);
+        }
     }
 
     async load(source, allowCaching = true) {
@@ -42,7 +51,6 @@ export class Sound extends AudioSourceProcessor {
         source = await this.translate(source);
 
         this.soundElement = await GetAudio(source, true, allowCaching);
-        this.soundElement.crossOrigin = "anonymous";
 
         // error handling
         this.soundElement.onerror = (error) => {
@@ -62,6 +70,10 @@ export class Sound extends AudioSourceProcessor {
         this.soundElement.preload = "auto";
         this.soundElement.abort = console.log;
         this.loaded = true;
+
+        for (let i = 0; i < this.whenInitialized.length; i++) {
+            this.whenInitialized[i]()
+        }
     }
 
     setOa(oa) {
@@ -130,6 +142,7 @@ export class Sound extends AudioSourceProcessor {
 
     addNode(player, node) {
         if (this.controller == null) {
+            this.soundElement.crossOrigin = "anonymous";
             if (!this.soundElement.src.includes("openaudiomc.net")) {
                 this.soundElement.src = AUDIO_ENDPOINTS.PROXY + this.soundElement.src;
             }
