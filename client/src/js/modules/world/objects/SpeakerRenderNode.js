@@ -2,7 +2,7 @@ import {Position} from "../../../helpers/math/Position";
 
 export class SpeakerRenderNode {
 
-    constructor(speaker, world, player, media, source) {
+    constructor(speaker, world, player, media, source, channel) {
         // audio pipeline
         // Sound object > Panner Node > Gain Node > Audio Device
 
@@ -12,6 +12,7 @@ export class SpeakerRenderNode {
 
         media.load(source, false)
             .then(() => {
+                channel.fadeChannel(100, 100);
                 media.addNode(player, this.pannerNode);
 
                 this.pannerNode.panningModel = 'HRTF';
