@@ -27,12 +27,13 @@ export class SpeakerPlayer {
         createdMedia.setOa(openAudioMc);
         createdChannel.mixer = this.openAudioMc.getMediaManager().mixer;
 
+        createdChannel.addSound(createdMedia);
+        openAudioMc.getMediaManager().mixer.addChannel(createdChannel);
+
         createdMedia.whenInitialized(async () => {
-            createdChannel.addSound(createdMedia);
             createdChannel.setChannelVolume(0);
             createdMedia.startDate(this.startInstant, true);
             await createdMedia.finalize()
-            openAudioMc.getMediaManager().mixer.addChannel(createdChannel);
             createdMedia.setLooping(true);
             createdChannel.setTag(this.id);
             createdChannel.setTag("SPECIAL");
@@ -40,6 +41,7 @@ export class SpeakerPlayer {
             createdMedia.startDate(this.startInstant, true);
             createdMedia.finish();
         })
+
         this.initialized = true;
     }
 
@@ -52,6 +54,7 @@ export class SpeakerPlayer {
 
     updateLocation(closest, world, player) {
         if (closest.type == SPEAKER_2D) {
+            this.media.load(this.source, true)
             const distance = closest.getDistance(world, player);
             const volume = this._convertDistanceToVolume(closest.maxDistance, distance);
             if (volume <= 0) {
@@ -61,9 +64,9 @@ export class SpeakerPlayer {
             this.channel.fadeChannel(volume, 100);
         } else {
             if (!this.speakerNodes.has(closest.id)) {
-                    this.speakerNodes.set(closest.id, new SpeakerRenderNode(
-                        closest, world, player, this.media, this.source, this.channel
-                    ));
+                this.speakerNodes.set(closest.id, new SpeakerRenderNode(
+                    closest, world, player, this.media, this.source, this.channel
+                ));
             }
         }
     }
