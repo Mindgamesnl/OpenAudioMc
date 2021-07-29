@@ -22,6 +22,18 @@ export class Sound extends AudioSourceProcessor {
 
     constructor() {
         super()
+        this.hadError = false;
+        this.source = source;
+        this.error = null;
+        this.trackable = false;
+
+
+        this.onFinish = [];
+        this.loop = false;
+        this.mixer = null;
+        this.channel = null;
+        this.finsishedInitializing = false;
+        this.gotShutDown = false;
     }
 
     async load(source) {
@@ -31,10 +43,6 @@ export class Sound extends AudioSourceProcessor {
 
         this.soundElement = await GetAudio(source, true);
 
-        this.hadError = false;
-        this.source = source;
-        this.error = null;
-        this.trackable = false;
 
         // error handling
         this.soundElement.onerror = (error) => {
@@ -52,15 +60,6 @@ export class Sound extends AudioSourceProcessor {
         this.soundElement.setAttribute("display", "none");
         this.soundElement.preload = "auto";
         this.soundElement.abort = console.log;
-
-        this.openAudioMc = null;
-
-        this.onFinish = [];
-        this.loop = false;
-        this.mixer = null;
-        this.channel = null;
-        this.finsishedInitializing = false;
-        this.gotShutDown = false;
     }
 
     setOa(oa) {
