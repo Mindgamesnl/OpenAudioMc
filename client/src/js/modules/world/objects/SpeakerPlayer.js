@@ -27,31 +27,20 @@ export class SpeakerPlayer {
         createdMedia.setOa(openAudioMc);
         createdChannel.mixer = this.openAudioMc.getMediaManager().mixer;
 
-        await createdMedia.load(this.source, false)
-
-        createdChannel.addSound(createdMedia);
-        createdChannel.setChannelVolume(0);
-        createdMedia.startDate(this.startInstant, true);
-        await createdMedia.finalize()
-        openAudioMc.getMediaManager().mixer.addChannel(createdChannel);
-        createdMedia.setLooping(true);
-        createdChannel.setTag(this.id);
-        createdChannel.setTag("SPECIAL");
-        this.openAudioMc.getMediaManager().mixer.updateCurrent();
-        createdMedia.startDate(this.startInstant, true);
-        createdMedia.finish();
+        createdMedia.whenInitialized(async () => {
+            createdChannel.addSound(createdMedia);
+            createdChannel.setChannelVolume(0);
+            createdMedia.startDate(this.startInstant, true);
+            await createdMedia.finalize()
+            openAudioMc.getMediaManager().mixer.addChannel(createdChannel);
+            createdMedia.setLooping(true);
+            createdChannel.setTag(this.id);
+            createdChannel.setTag("SPECIAL");
+            this.openAudioMc.getMediaManager().mixer.updateCurrent();
+            createdMedia.startDate(this.startInstant, true);
+            createdMedia.finish();
+        })
         this.initialized = true;
-        for (let i = 0; i < this.whenInitialized.length; i++) {
-            this.whenInitialized[i]()
-        }
-    }
-
-    _whenInitialized(f) {
-        if (this.initialized) {
-            f();
-        } else {
-            this.whenInitialized.push(f);
-        }
     }
 
     removeSpeakerLocation(id) {
@@ -76,7 +65,7 @@ export class SpeakerPlayer {
                     oadebuglog("Media isn't loaded yet, skipping location update.")
                     this.channel.fadeChannel(100, 100);
                     this.speakerNodes.set(closest.id, new SpeakerRenderNode(
-                        closest, world, player, this.media
+                        closest, world, player, this.media, this.source
                     ));
                 }
             }
