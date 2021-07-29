@@ -23,7 +23,6 @@ export class Sound extends AudioSourceProcessor {
     constructor() {
         super()
         this.hadError = false;
-        this.source = source;
         this.error = null;
         this.trackable = false;
 
@@ -53,6 +52,7 @@ export class Sound extends AudioSourceProcessor {
 
         //set source
         this.soundElement.src = source;
+        this.source = source;
 
         //set attributes
         this.soundElement.setAttribute("preload", "auto");
