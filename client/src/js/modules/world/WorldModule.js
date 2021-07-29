@@ -43,8 +43,8 @@ export class WorldModule {
         }
 
         const created = new SpeakerPlayer(this.openAudioMc, source, startInstant);
-        await created.initialize();
         this.audioMap.set(source, created);
+        await created.initialize();
         return created;
     }
 
