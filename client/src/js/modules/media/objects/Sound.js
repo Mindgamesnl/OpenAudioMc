@@ -34,14 +34,14 @@ export class Sound extends AudioSourceProcessor {
         this.finsishedInitializing = false;
         this.gotShutDown = false;
         this.loaded = false;
-        this.whenInitialized = []
+        this.initCallbacks = []
     }
 
     whenInitialized(f) {
         if (this.loaded) {
             f();
         } else {
-            this.whenInitialized.push(f);
+            this.initCallbacks.push(f);
         }
     }
 
@@ -71,8 +71,8 @@ export class Sound extends AudioSourceProcessor {
         this.soundElement.abort = console.log;
         this.loaded = true;
 
-        for (let i = 0; i < this.whenInitialized.length; i++) {
-            this.whenInitialized[i]()
+        for (let i = 0; i < this.initCallbacks.length; i++) {
+            this.initCallbacks[i]()
         }
     }
 
