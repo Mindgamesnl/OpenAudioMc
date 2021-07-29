@@ -9,6 +9,12 @@ export function prepareLogging() {
     })
 }
 
+export function oadebuglog(message) {
+    if (!OpenAudioEnv.isProd) {
+        oalog(message)
+    }
+}
+
 export function oalog(message) {
     console.log("[OpenAudioMc] " + message);
     logLines.push(message);
