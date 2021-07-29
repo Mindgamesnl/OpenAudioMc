@@ -42,7 +42,6 @@ export class Sound extends AudioSourceProcessor {
         source = await this.translate(source);
 
         this.soundElement = await GetAudio(source, true, allowCaching);
-        this.soundElement.crossOrigin = "anonymous";
 
         // error handling
         this.soundElement.onerror = (error) => {
