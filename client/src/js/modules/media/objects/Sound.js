@@ -3,21 +3,6 @@ import {AUDIO_ENDPOINTS, AudioSourceProcessor} from "../../../helpers/protocol/A
 import { GetAudio } from '../../../helpers/utils/AudioFactory'
 import {oalog} from "../../../helpers/log";
 
-if (!('toJSON' in Error.prototype))
-    Object.defineProperty(Error.prototype, 'toJSON', {
-        value: function () {
-            var alt = {};
-
-            Object.getOwnPropertyNames(this).forEach(function (key) {
-                alt[key] = this[key];
-            }, this);
-
-            return alt;
-        },
-        configurable: true,
-        writable: true
-    });
-
 export class Sound extends AudioSourceProcessor {
 
     constructor() {
@@ -36,6 +21,7 @@ export class Sound extends AudioSourceProcessor {
         this.loaded = false;
         this.initCallbacks = []
         this.startedLoading = false;
+        this.destroyed = false;
     }
 
     whenInitialized(f) {
@@ -219,22 +205,26 @@ export class Sound extends AudioSourceProcessor {
     }
 
     setVolume(volume) {
-        if (volume > 100) volume = 100;
-        this.soundElement.volume = volume / 100;
+        this.whenInitialized(() => {
+            if (volume > 100) volume = 100;
+            this.soundElement.volume = volume / 100;
+        })
     }
 
     startDate(date) {
-        let start = new Date(date);
-        let predictedNow = this.openAudioMc.timeService.getPredictedTime();
-        let seconds = (predictedNow - start) / 1000
-        oalog("Started " + seconds + " ago")
-        let length = this.soundElement.duration;
-        if (seconds > length) {
-            let times = Math.floor(seconds / length);
-            seconds = seconds - (times * length);
-        }
-        oalog("Starting " + seconds + " in")
-        this.setTime(seconds);
+        this.whenInitialized(() => {
+            let start = new Date(date);
+            let predictedNow = this.openAudioMc.timeService.getPredictedTime();
+            let seconds = (predictedNow - start) / 1000
+            oalog("Started " + seconds + " ago")
+            let length = this.soundElement.duration;
+            if (seconds > length) {
+                let times = Math.floor(seconds / length);
+                seconds = seconds - (times * length);
+            }
+            oalog("Starting " + seconds + " in")
+            this.setTime(seconds);
+        })
     }
 
     setTime(target) {
@@ -242,10 +232,28 @@ export class Sound extends AudioSourceProcessor {
     }
 
     destroy() {
-        this.gotShutDown = true;
-        this.setLooping(false);
-        this.soundElement.pause();
-        this.soundElement.remove();
+        this.whenInitialized(() => {
+            this.destroyed = true;
+            this.gotShutDown = true;
+            this.setLooping(false);
+            this.soundElement.pause();
+            this.soundElement.remove();
+        })
     }
 
 }
+
+if (!('toJSON' in Error.prototype))
+    Object.defineProperty(Error.prototype, 'toJSON', {
+        value: function () {
+            var alt = {};
+
+            Object.getOwnPropertyNames(this).forEach(function (key) {
+                alt[key] = this[key];
+            }, this);
+
+            return alt;
+        },
+        configurable: true,
+        writable: true
+    });

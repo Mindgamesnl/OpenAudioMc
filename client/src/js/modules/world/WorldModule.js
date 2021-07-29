@@ -3,6 +3,7 @@ import {Vector3} from "../../helpers/math/Vector3";
 import {SpeakerRenderFrame} from "./objects/SpeakerRenderFrame";
 import {SpeakerPlayer} from "./objects/SpeakerPlayer";
 import {SPEAKER_2D} from "./constants/SpeakerType";
+import {oadebuglog} from "../../helpers/log";
 
 export class WorldModule {
 
@@ -27,10 +28,14 @@ export class WorldModule {
 
         // remove render nodes
         this.audioMap.forEach((speakerPlayer, id) => {
+            // remove it from all speaker players
             speakerPlayer.removeSpeakerLocation(id);
         });
 
-        this.renderAudio2D();
+        // wait a bit before running cleanup
+        setTimeout(() => {
+            this.renderAudio2D();
+        }, 600)
     }
 
     async getMediaForSource(source, startInstant) {
@@ -50,9 +55,14 @@ export class WorldModule {
 
     async removeMediaFromSource(source) {
         const found = await this.getMediaForSource(source);
-        if (found == null) return;
+        if (found == null) {
+            oadebuglog("Couldn't stop world media for " + source + " because it didn't exist")
+            return;
+        }
 
         found.remove();
+
+        oadebuglog("Cleared world media " + source)
         this.audioMap.delete(source);
     }
 
