@@ -26,8 +26,8 @@ export async function handleCreateMedia(openAudioMc, data) {
     const createdMedia = new Sound();
     createdMedia.openAudioMc = openAudioMc;
     createdMedia.setOa(openAudioMc);
-    createdChannel.addSound(createdMedia);
     await createdMedia.load(source);
+    createdChannel.addSound(createdMedia);
     openAudioMc.getMediaManager().mixer.addChannel(createdChannel);
     createdChannel.setChannelVolume(0);
     createdMedia.setLooping(looping);

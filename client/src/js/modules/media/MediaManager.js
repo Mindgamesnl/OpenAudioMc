@@ -51,10 +51,10 @@ export class MediaManager {
 
             createdMedia.openAudioMc = this.openAudioMc;
             createdMedia.setOa(this.openAudioMc);
-            createdChannel.addSound(createdMedia);
 
             createdMedia.load(this.startSound)
                 .then(() => {
+                    createdChannel.addSound(createdMedia);
                     createdMedia.setOnFinish(() => {
                         setTimeout(() => {
                             this.mixer._updatePlayingSounds();
