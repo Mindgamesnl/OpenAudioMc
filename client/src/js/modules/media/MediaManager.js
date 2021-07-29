@@ -34,10 +34,10 @@ export class MediaManager {
         }, 300)
     }
 
-    setupAmbianceSound(source) {
+    async setupAmbianceSound(source) {
         // dont do anything if its empty or whatever
         if (source == "" || source == null) return;
-        this.mixer.setupAmbianceSound(source);
+        await this.mixer.setupAmbianceSound(source);
     }
 
     startVolumeWatcher(oaInstance) {
@@ -47,21 +47,26 @@ export class MediaManager {
     postBoot() {
         if (this.startSound != null) {
             const createdChannel = new Channel("startsound");
-            const createdMedia = new Sound(this.startSound);
+            const createdMedia = new Sound();
+
             createdMedia.openAudioMc = this.openAudioMc;
             createdMedia.setOa(this.openAudioMc);
-            createdMedia.setOnFinish(() => {
-                setTimeout(() => {
-                    this.mixer._updatePlayingSounds();
-                }, 1000)
-            })
-            createdMedia.finalize().then(() => {
-                this.mixer.addChannel(createdChannel);
-                createdChannel.addSound(createdMedia);
-                createdChannel.setChannelVolume(100);
-                createdChannel.updateFromMasterVolume();
-                createdMedia.finish();
-            });
+            createdChannel.addSound(createdMedia);
+
+            createdMedia.load(this.startSound)
+                .then(() => {
+                    createdMedia.setOnFinish(() => {
+                        setTimeout(() => {
+                            this.mixer._updatePlayingSounds();
+                        }, 1000)
+                    })
+                    createdMedia.finalize().then(() => {
+                        this.mixer.addChannel(createdChannel);
+                        createdChannel.setChannelVolume(100);
+                        createdChannel.updateFromMasterVolume();
+                        createdMedia.finish();
+                    });
+                })
         } else {
             setTimeout(() => {
                 this.mixer._updatePlayingSounds();
