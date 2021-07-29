@@ -12,6 +12,8 @@ export class SpeakerPlayer {
         this.speakerNodes = new Map();
         this.source = source;
         this.startInstant = startInstant;
+        this.initialized = false;
+        this.whenInitialized = [];
     }
 
     async initialize() {
@@ -24,7 +26,7 @@ export class SpeakerPlayer {
         createdMedia.setOa(openAudioMc);
         createdChannel.mixer = this.openAudioMc.getMediaManager().mixer;
 
-        await createdMedia.load(this.source)
+        await createdMedia.load(this.source, false)
 
         createdChannel.addSound(createdMedia);
         createdChannel.setChannelVolume(0);
@@ -37,6 +39,18 @@ export class SpeakerPlayer {
         this.openAudioMc.getMediaManager().mixer.updateCurrent();
         createdMedia.startDate(this.startInstant, true);
         createdMedia.finish();
+        this.initialized = true;
+        for (let i = 0; i < this.whenInitialized.length; i++) {
+            this.whenInitialized[i]()
+        }
+    }
+
+    _whenInitialized(f) {
+        if (this.initialized) {
+            f();
+        } else {
+            this.whenInitialized.push(f);
+        }
     }
 
     removeSpeakerLocation(id) {
