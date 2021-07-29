@@ -33,7 +33,7 @@ export class WorldModule {
         this.renderAudio2D();
     }
 
-    getMediaForSource(source, startInstant) {
+    async getMediaForSource(source, startInstant) {
         const loaded = this.audioMap.get(source);
         if (loaded != null) return loaded;
 
@@ -43,12 +43,13 @@ export class WorldModule {
         }
 
         const created = new SpeakerPlayer(this.openAudioMc, source, startInstant);
+        await created.initialize();
         this.audioMap.set(source, created);
         return created;
     }
 
-    removeMediaFromSource(source) {
-        const found = this.getMediaForSource(source);
+    async removeMediaFromSource(source) {
+        const found = await this.getMediaForSource(source);
         if (found == null) return;
 
         found.remove();
@@ -66,7 +67,7 @@ export class WorldModule {
         return false;
     }
 
-    renderAudio2D() {
+    async renderAudio2D() {
         let frames = [];
 
         // render all speakers and their frame
@@ -100,7 +101,7 @@ export class WorldModule {
         }
 
         // update closest
-        closestForSources.forEach((result, id) => {
+        for (let [id, result] of closestForSources) {
             let doFor;
             if (!Array.isArray(result)) {
                 doFor = [result];
@@ -109,17 +110,17 @@ export class WorldModule {
             }
 
             for (let element of doFor) {
-                const media = this.getMediaForSource(element.source, element.speaker.startInstant);
+                const media = await this.getMediaForSource(element.source, element.speaker.startInstant);
                 media.updateLocation(element.speaker, this, this.player)
             }
-        });
+        }
 
         // check for media that's unused by every speaker
-        this.audioMap.forEach((audio, source) => {
+        for (let [source, audio] of this.audioMap) {
             if (!this.isMediaUsed(source)) {
-                this.removeMediaFromSource(source);
+                await this.removeMediaFromSource(source);
             }
-        })
+        }
     }
 
 }
