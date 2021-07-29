@@ -41,7 +41,7 @@ export class Sound extends AudioSourceProcessor {
         source = await this.translate(source);
 
         this.soundElement = await GetAudio(source, true);
-
+        this.soundElement.crossOrigin = "anonymous";
 
         // error handling
         this.soundElement.onerror = (error) => {
@@ -128,7 +128,6 @@ export class Sound extends AudioSourceProcessor {
 
     addNode(player, node) {
         if (this.controller == null) {
-            this.soundElement.crossOrigin = "anonymous";
             if (!this.soundElement.src.includes("openaudiomc.net")) {
                 this.soundElement.src = AUDIO_ENDPOINTS.PROXY + this.soundElement.src;
             }
