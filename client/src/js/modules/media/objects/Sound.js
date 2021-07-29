@@ -35,12 +35,12 @@ export class Sound extends AudioSourceProcessor {
         this.gotShutDown = false;
     }
 
-    async load(source) {
+    async load(source, allowCaching = true) {
         this.rawSource = source;
 
         source = await this.translate(source);
 
-        this.soundElement = await GetAudio(source, true);
+        this.soundElement = await GetAudio(source, true, allowCaching);
         this.soundElement.crossOrigin = "anonymous";
 
         // error handling
