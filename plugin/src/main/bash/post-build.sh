@@ -9,14 +9,14 @@ set_var () {
 }
 
 save_var () {
-  echo ''$1'''="'"$2"'"' >> ./src/main/resources/version.properties
+  echo ''$1'''="'"$2"'"' >> ./src/main/resources/openaudiomc-build.properties
 }
 
 # increment build num
 BUILD_NUM="$((BUILD_NUM + 1))"
 
 rm ./src/main/bash/data.bin
-rm ./src/main/resources/version.properties
+rm ./src/main/resources/openaudiomc-build.properties
 
 echo "Current build is" $BUILD_NUM
 

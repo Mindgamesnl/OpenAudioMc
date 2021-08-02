@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.api.impl.event;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.OpenAudioMcBuild;
 import com.craftmend.openaudiomc.api.impl.event.enums.EventSupport;
 import com.craftmend.openaudiomc.api.interfaces.EventSupportFlag;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
@@ -82,9 +83,11 @@ public class ApiEventDriver {
         // check if this event is supported here
         EventSupport support = getEventSupportFor(eventType);
         // is the plugin real?
-        if (OpenAudioMc.getInstance() != null) {
-            if (!isSupported(support, OpenAudioMc.getInstance().getPlatform(), OpenAudioMc.getInstance().getInvoker().isNodeServer())) {
-                throw new IllegalStateException(support.getErrorMessage());
+        if (!OpenAudioMcBuild.IS_TESTING) {
+            if (OpenAudioMc.getInstance() != null) {
+                if (!isSupported(support, OpenAudioMc.getInstance().getPlatform(), OpenAudioMc.getInstance().getInvoker().isNodeServer())) {
+                    throw new IllegalStateException(support.getErrorMessage());
+                }
             }
         }
 

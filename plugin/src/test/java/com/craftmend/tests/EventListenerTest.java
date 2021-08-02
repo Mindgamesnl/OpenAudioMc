@@ -1,5 +1,6 @@
 package com.craftmend.tests;
 
+import com.craftmend.openaudiomc.OpenAudioMcBuild;
 import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 import com.craftmend.openaudiomc.api.impl.event.AudioEvent;
 import com.craftmend.openaudiomc.api.impl.event.enums.EventSupport;
@@ -16,6 +17,7 @@ public class EventListenerTest {
     @SneakyThrows
     @Test
     public void testEvents() {
+        OpenAudioMcBuild.IS_TESTING = true;
         AtomicBoolean goodTriggered = new AtomicBoolean(false);
         AtomicBoolean badTriggered = new AtomicBoolean(false);
 

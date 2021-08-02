@@ -26,7 +26,7 @@ public class OpenAudioMcBuild {
     @SneakyThrows
     public OpenAudioMcBuild() {
         Properties prop = new Properties();
-        try (InputStream inputStream = OpenAudioMc.class.getResourceAsStream("/version.properties")) {
+        try (InputStream inputStream = OpenAudioMc.class.getResourceAsStream("/openaudiomc-build.properties")) {
             prop.load(inputStream);
 
             // this loads the build version and details, which are placed in the resources directory by a bash script
@@ -65,4 +65,6 @@ public class OpenAudioMcBuild {
      * This will default to me (Mindgamesnl) but will link back to contributors who patched.
      */
     private final String buildAuthor;
+
+    public static boolean IS_TESTING = false;
 }
