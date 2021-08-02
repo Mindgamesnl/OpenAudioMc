@@ -49,7 +49,7 @@ export class MediaManager {
             const createdChannel = new Channel("startsound");
             const createdMedia = new Sound();
 
-            createdMedia.mixer = this.openAudioMc.getMediaManager().mixer;
+            createdChannel.mixer = this.openAudioMc.getMediaManager().mixer;
 
             createdMedia.openAudioMc = this.openAudioMc;
             createdMedia.setOa(this.openAudioMc);
