@@ -53,6 +53,7 @@ export class Mixer {
         let channel = new Channel("ambiance-lol-dics");
         let ambianceMedia = new Sound();
         ambianceMedia.setOa(this.openAudioMc)
+        channel.mixer = openAudioMc.getMediaManager().mixer;
         await ambianceMedia.load(source)
         channel.addSound(ambianceMedia);
         ambianceMedia.setLooping(true);
