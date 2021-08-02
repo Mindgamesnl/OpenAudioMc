@@ -46,7 +46,7 @@ messages:
   voicechat-enabled: '&7&oYour voicechat has been enabled!'
   # Messages a player receives when a player joined their voicechat range
   voicechat-added-user: '&7&o%name appeared in voice chat range'
-  foicechat-added-users: '&7&o%name and %count others appeared in voice chat range'
+  voicechat-added-users: '&7&o%name and %count others appeared in voice chat range'
   # Messages a player receives when a player got out of their voice chat range
   voicechat-removed-user: '&7&o%name left your voice chat'
   voicechat-removed-users: '&7&o%name and %count others left your voice chat'
