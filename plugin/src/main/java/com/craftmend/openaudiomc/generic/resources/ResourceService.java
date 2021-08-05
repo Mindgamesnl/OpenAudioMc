@@ -26,7 +26,7 @@ public class ResourceService extends Service {
     }
 
     private void loadData() {
-        File f = new File(OpenAudioMcSpigot.getInstance().getDataFolder(), "persistent.json");
+        File f = new File("plugins" + File.separator  + "OpenAudioMc" + File.separator + "persistent.json");
         if (f.exists() && !f.isDirectory()) {
             try {
                 savedRoot = OpenAudioMc.getGson().fromJson(
@@ -51,9 +51,7 @@ public class ResourceService extends Service {
 
     public void saveData() {
         Charset charset = Charset.forName(StandardCharsets.UTF_8.name());
-        try (BufferedWriter writer = Files.newBufferedWriter(new File(
-                OpenAudioMcSpigot.getInstance().getDataFolder(), "persistent.json"
-        ).toPath(), charset)) {
+        try (BufferedWriter writer = Files.newBufferedWriter(new File("plugins" + File.separator  + "OpenAudioMc" + File.separator + "persistent.json").toPath(), charset)) {
             String input = OpenAudioMc.getGson().toJson(savedRoot);
             writer.write(input);
             writer.flush();

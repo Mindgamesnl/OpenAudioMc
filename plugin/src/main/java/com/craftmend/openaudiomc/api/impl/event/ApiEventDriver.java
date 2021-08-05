@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.OpenAudioMcBuild;
 import com.craftmend.openaudiomc.api.impl.event.enums.EventSupport;
 import com.craftmend.openaudiomc.api.interfaces.EventSupportFlag;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
+import com.craftmend.openaudiomc.bungee.modules.node.NodeManager;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.node.packets.NetworkedEventPacket;
@@ -136,7 +137,7 @@ public class ApiEventDriver {
             }
             switch (OpenAudioMc.getInstance().getPlatform()) {
                 case BUNGEE:
-                    OpenAudioMcBungee.getInstance().getNodeManager().getPacketManager().sendPacket(ne.networkedPlayer, new NetworkedEventPacket(ne));
+                    OpenAudioMc.getService(NodeManager.class).getPacketManager().sendPacket(ne.networkedPlayer, new NetworkedEventPacket(ne));
                     break;
                 case VELOCITY:
                     OpenAudioMcVelocity.getInstance().getNodeManager().getPacketManager().sendPacket(ne.networkedPlayer, new NetworkedEventPacket(ne));

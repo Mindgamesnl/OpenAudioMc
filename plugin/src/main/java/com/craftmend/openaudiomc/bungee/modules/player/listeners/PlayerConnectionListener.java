@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.bungee.modules.player.listeners;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
+import com.craftmend.openaudiomc.bungee.modules.node.NodeManager;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
@@ -81,7 +82,7 @@ public class PlayerConnectionListener implements Listener {
     }
 
     private void sendPacket(PacketPlayer packetPlayer, StandardPacket packet){
-        OpenAudioMcBungee.getInstance().getNodeManager().getPacketManager().sendPacket(packetPlayer, packet);
+        OpenAudioMc.getService(NodeManager.class).getPacketManager().sendPacket(packetPlayer, packet);
     }
 
 }

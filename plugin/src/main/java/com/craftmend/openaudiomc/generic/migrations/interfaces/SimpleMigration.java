@@ -34,7 +34,7 @@ public abstract class SimpleMigration {
         config = openAudioMc.getConfiguration();
 
         // file handling is super SUPER weird, we need to manually update some fields
-        File mainConfig = new File("plugins/OpenAudioMc/config.yml");
+        File mainConfig = new File("plugins" + File.separator  + "OpenAudioMc" + File.separator + "config.yml");
         StringBuilder oldContent = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(mainConfig))) {
             String line = reader.readLine();

@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.bungee.modules.node;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 import com.craftmend.openaudiomc.api.impl.event.events.ClientPreAuthEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.TimeServiceUpdateEvent;
@@ -49,8 +50,13 @@ public class NodeManager extends Service {
 
                         ServerUpdateTimePacket packet = new ServerUpdateTimePacket(service.getTimeService());
 
+                        NodeManager nodeManager = OpenAudioMc.getService(NodeManager.class);
+                        if (nodeManager == null) {
+                            return;
+                        }
+
                         coveredServers.forEach((server, player) -> {
-                            OpenAudioMcBungee.getInstance().getNodeManager().getPacketManager().sendPacket(new PacketPlayer(player), packet);
+                            nodeManager.getPacketManager().sendPacket(new PacketPlayer(player), packet);
                         });
                     });
         }
