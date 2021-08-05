@@ -21,7 +21,7 @@ public class PlaySubCommand extends SubCommand {
     private final OpenAudioMcSpigot openAudioMcSpigot;
 
     public PlaySubCommand(OpenAudioMcSpigot openAudioMcSpigot) {
-        super("play");
+        super("play", "p");
         registerArguments(
                 new Argument("<selector> <source>",
                         "Plays a sound for all the players in a selection"),

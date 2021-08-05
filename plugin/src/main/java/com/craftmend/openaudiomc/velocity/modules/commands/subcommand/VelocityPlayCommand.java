@@ -19,7 +19,7 @@ public class VelocityPlayCommand extends SubCommand {
     private final OpenAudioMc openAudioMc;
 
     public VelocityPlayCommand(OpenAudioMc openAudioMc) {
-        super("play");
+        super("play", "p");
         registerArguments(
                 new Argument("<selector> <source>",
                         "Plays a sound for all the players in a selection"),
