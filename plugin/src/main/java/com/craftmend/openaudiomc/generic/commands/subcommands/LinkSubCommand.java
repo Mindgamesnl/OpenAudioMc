@@ -18,7 +18,7 @@ public class LinkSubCommand extends SubCommand {
 
 
     public LinkSubCommand() {
-        super("link");
+        super("link", "setup");
         registerArguments(
                 new Argument("<fingerprint>",
                         "Link your Craftmend account")
