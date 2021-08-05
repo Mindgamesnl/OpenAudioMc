@@ -52,8 +52,8 @@ public class CommandService extends Service {
     /**
      * @return All sub command handlers
      */
-    public List<SubCommand> getSubCommandHandlers() {
-        return new ArrayList<>(subCommands.values());
+    public Map<String, SubCommand> getSubCommandHandlers() {
+        return subCommands;
     }
 
     /**
@@ -66,6 +66,10 @@ public class CommandService extends Service {
     public void registerSubCommands(SubCommand... commandList) {
         for (SubCommand subCommand : commandList) {
             subCommands.put(subCommand.getCommand(), subCommand);
+
+            for (String alias : subCommand.getAliases()) {
+
+            }
         }
     }
 

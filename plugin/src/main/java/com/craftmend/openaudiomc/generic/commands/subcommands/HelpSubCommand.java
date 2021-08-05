@@ -7,6 +7,8 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import lombok.SneakyThrows;
 
+import java.util.Map;
+
 public class HelpSubCommand extends SubCommand {
 
     private CommandService commandService;
@@ -32,9 +34,17 @@ public class HelpSubCommand extends SubCommand {
         }
 
         message(sender, "Welcome to the OpenAudioMc help menu! please click one of the following commands for their sub commands and usage");
-        for (SubCommand subCommandHandler : commandService.getSubCommandHandlers()) {
-            goldClickableMessage(sender, "/openaudiomc " + subCommandHandler.getCommand(), "oa help " + subCommandHandler.getCommand());
+
+        for (Map.Entry<String, SubCommand> entry : commandService.getSubCommandHandlers().entrySet()) {
+            String command = entry.getKey();
+            SubCommand handler = entry.getValue();
+
+            // only render aliases
+            if (command.equals(handler.getCommand())) {
+                goldClickableMessage(sender, "/openaudiomc " + handler.getCommand(), "oa help " + handler.getCommand());
+            }
         }
+
         message(sender, "For more personal help or other questions, please visit https://help.openaudiomc.net/");
     }
 

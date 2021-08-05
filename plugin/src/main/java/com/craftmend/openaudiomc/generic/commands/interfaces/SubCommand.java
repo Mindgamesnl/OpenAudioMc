@@ -16,6 +16,7 @@ import java.util.List;
 public abstract class SubCommand {
 
     @Getter private String command;
+    @Getter private List<String> aliases = new ArrayList<>();
     @Getter private List<Argument> arguments = new ArrayList<>();
 
     /**
@@ -26,6 +27,11 @@ public abstract class SubCommand {
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
             Bukkit.getPluginManager().addPermission(new Permission("openaudiomc.commands." + command));
         }
+    }
+
+    public SubCommand(String argument, String... aliases) {
+        this(argument);
+        this.aliases = Arrays.asList(aliases);
     }
 
     /**
