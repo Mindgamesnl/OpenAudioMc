@@ -23,7 +23,7 @@ public class BungeePlayCommand extends SubCommand {
     private OpenAudioMc openAudioMc;
 
     public BungeePlayCommand(OpenAudioMc openAudioMc) {
-        super("play");
+        super("play", "p");
         registerArguments(
                 new Argument("<selector> <source>",
                         "Plays a sound for all the players in a selection"),

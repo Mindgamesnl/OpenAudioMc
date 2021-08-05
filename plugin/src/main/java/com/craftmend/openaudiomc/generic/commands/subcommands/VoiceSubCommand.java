@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
 
 import java.util.Set;
 
@@ -13,6 +14,8 @@ public class VoiceSubCommand extends SubCommand {
 
     public VoiceSubCommand() {
         super("voice", "vc", "voicechat", "proximity", "pv");
+
+
     }
 
     @Override
@@ -39,5 +42,11 @@ public class VoiceSubCommand extends SubCommand {
             return;
         }
 
+        if (args.length == 0) {
+            VoiceService voiceService = OpenAudioMc.getService(CraftmendService.class).getVoiceService();
+            message(sender, Platform.makeColor("GREEN") + "VoiceChat is enabled and ready to go");
+            message(sender, Platform.makeColor("GREEN") + "  -> Slots: " + voiceService.getUsedSlots() + "/" + voiceService.getAllowedSlots());
+            return;
+        }
     }
 }
