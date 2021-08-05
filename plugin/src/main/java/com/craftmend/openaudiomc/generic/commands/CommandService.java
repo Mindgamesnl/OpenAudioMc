@@ -30,7 +30,8 @@ public class CommandService extends Service {
                 new NotificationSubCommand(this),
                 new LinkSubCommand(),
                 new ReloadSubCommand(),
-                new StateSubCommand()
+                new StateSubCommand(),
+                new VoiceSubCommand()
         );
     }
 
@@ -68,7 +69,7 @@ public class CommandService extends Service {
             subCommands.put(subCommand.getCommand(), subCommand);
 
             for (String alias : subCommand.getAliases()) {
-
+                subCommands.put(alias, subCommand);
             }
         }
     }
