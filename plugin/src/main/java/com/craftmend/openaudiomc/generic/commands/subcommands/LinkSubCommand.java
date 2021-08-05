@@ -16,6 +16,7 @@ import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 
 public class LinkSubCommand extends SubCommand {
 
+    private boolean isPending = false;
 
     public LinkSubCommand() {
         super("link", "setup");
@@ -28,6 +29,10 @@ public class LinkSubCommand extends SubCommand {
     @Override
     public void onExecute(GenericExecutor sender, String[] args) {
         CommandArguments arguments = new CommandArguments(args);
+
+        if (isPending) {
+            message(sender, Platform.makeColor("RED") + "This action is already running...");
+        }
 
         if (OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
             message(sender, Platform.makeColor("RED") + "WARNING! This command can only be executed on you top-level server.");
@@ -43,6 +48,7 @@ public class LinkSubCommand extends SubCommand {
 
         if (args.length >= 1) {
             // do
+            isPending = true;
             OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> {
                 message(sender, Platform.makeColor("GREEN") + "Attempting to link account, please wait..");
                 RestRequest linkRequest = new RestRequest(RestEndpoint.ACCOUNT_CLAIM_SERVER);
@@ -58,6 +64,7 @@ public class LinkSubCommand extends SubCommand {
                         message(sender, Platform.makeColor("RED") + error.getMessage());
                     }
                 }
+                isPending = false;
             });
         } else {
             message(sender, Platform.makeColor("RED") + "You need a fingerprint to use this command. You can get one on this page https://account.craftmend.com/account/fingerprint");
