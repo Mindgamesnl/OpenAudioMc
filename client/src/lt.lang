@@ -1,0 +1,55 @@
+lang.name=Lietuvių
+
+lang.detectedAs=Mes pakeitėme jūsų kalbą į %langName. Ar norite ją palikti?
+lang.keep=Palikti %langName
+lang.toEn=Grįžti į Anglų
+
+ui.loading=Įkeliama...
+ui.logout=Atsijungti
+
+landing.title=Sveiki!
+landing.clickBelow=Labas %player! spustelėkite bet kurioje šio puslapio vietoje, kad suaktyvintumėte sesiją
+landing.connectButton=Spustelėkite bet kur, kad prisijungtumėte
+
+main.title=Labas,
+main.content=<div>Palikite šį skirtuką atidarytą fone, nes muzika ir garso efektai bus transliuojami per šį langą. Galite bet kada grįžti ir pakeisti garsumą, tačiau tai galite padaryti ir žaidimo metu <b>/volume</b></div>
+main.volume=Muzikos garsumas
+main.openHue=Atidarykite Philips Hue konfigūraciją
+
+vc.notice=Pranešimas
+vc.startingPopupTitle=Jungiamasi į voice chat...
+vc.startingPopup=Palaukite, kol sukonfigūruosime voice chat serverį.. Tai neturėtų trukti ilgai.
+vc.reloadingPopupTitle=Perkraunama voice chat sistema!
+vc.reloadingPopup=Palaukite, kol voice chat pokalbis bus paleistas iš naujo, kad pritaikytumėte naujus nustatymus.. Tai neturėtų trukti ilgai.
+vc.updatingMicPopupTitle=Atnaujinamas mikrofonas!
+vc.updatingMicPopup=Palaukite, kol voice chat pokalbis bus atnaujintas naudojant naują mikrofoną.. Tai neturėtų trukti ilgai.
+vc.micErrorPopupTitle=Mikrofono klaida
+vc.micErrorPopup=Bandant pasiekti mikrofoną įvyko klaida. Paspauskite „leisti“, kai jūsų naršyklė prašo mikrofono leidimų..
+vc.disabled=Voice Chat laikinai išjungtas: %serverName
+vc.enable=Įgalinti
+vc.enableThe=Įgalinti
+vc.vc=Voice Chat
+vc.onboarding=Šis serveris palaiko „Proximity Voice Chat“, kuris leidžia kalbėtis su žaidėjais %range spinduliu. Ar norite įjungti šią funkciją ir suteikti prieigą prie mikrofono?
+vc.dismiss=Atsisakyti
+vc.settings=Nustatymai
+vc.muteUnmute=Nutildyti/įjungti mikrofoną
+vc.spatialStereo=Erdvinis/stereo garsas
+vc.speaking=Kalbėjimo indikatorius
+vc.sensitivity=Mikrofono jautrumas
+vc.auto=Automatinis reguliavimas
+vc.selectMic=Pasirinkite savo mikrofoną
+vc.people=Žmonės esantys
+vc.voiceRange=Balso diapazone
+vc.empty=Šiuo metu aplinkui jus nieko nėra..
+
+hue.hue=Philips Hue
+hue.link=Spustelėkite čia, kad prisijungtumėte prie savo hue bridge
+hue.preparing=Paruošimas sąrankai...
+hue.loggingIn=Prisijungiama..
+hue.linking=Norėdami prisijungti, paspauskite savo atspalvio tilto nuorodos mygtuką per %sec sekundes.
+hue.connectedTo=Dabar esate prisijungę prie savo Hue Bridge:
+hue.light1=Šviesa 1
+hue.light2=Šviesa 2
+hue.light3=Šviesa 3
+hue.connected=Dabar galite susieti iki trijų lempučių, kurias valdys serveris. Paprastai iš dešinės į kairę.
+hue.close=Užverti
