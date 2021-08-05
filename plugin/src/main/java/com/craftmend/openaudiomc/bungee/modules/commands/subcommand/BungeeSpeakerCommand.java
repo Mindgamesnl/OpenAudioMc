@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.bungee.modules.commands.subcommand;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
+import com.craftmend.openaudiomc.bungee.modules.node.NodeManager;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
@@ -45,7 +47,7 @@ public class BungeeSpeakerCommand extends SubCommand {
             payload.setArgs(args);
             payload.setCommandProxy(CommandProxy.SPEAKER);
 
-            OpenAudioMcBungee.getInstance().getNodeManager().getPacketManager().sendPacket(new PacketPlayer(player), new CommandProxyPacket(payload));
+            OpenAudioMc.getService(NodeManager.class).getPacketManager().sendPacket(new PacketPlayer(player), new CommandProxyPacket(payload));
         }
     }
 }

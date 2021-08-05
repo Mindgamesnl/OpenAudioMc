@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.api.impl.event.events.ClientErrorEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.api.interfaces.Client;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
+import com.craftmend.openaudiomc.bungee.modules.node.NodeManager;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.enviroment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
@@ -39,7 +40,6 @@ import com.craftmend.openaudiomc.velocity.messages.PacketPlayer;
 import com.velocitypowered.api.proxy.Player;
 import lombok.Getter;
 import lombok.Setter;
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.time.Duration;
@@ -131,7 +131,7 @@ public class ClientConnection implements Authenticatable, Client {
         switch (OpenAudioMc.getInstance().getPlatform()){
             case BUNGEE:
                 ProxiedPlayer proxiedPlayer = ((ProxiedPlayerAdapter) player).getPlayer();
-                OpenAudioMcBungee.getInstance().getNodeManager().getPacketManager().sendPacket(new PacketPlayer(proxiedPlayer), new ClientConnectedPacket(player.getUniqueId()));
+                OpenAudioMc.getService(NodeManager.class).getPacketManager().sendPacket(new PacketPlayer(proxiedPlayer), new ClientConnectedPacket(player.getUniqueId()));
                 break;
             case VELOCITY:
                 Player velocityPlayer = ((VelocityPlayerAdapter) player).getPlayer();
@@ -161,7 +161,7 @@ public class ClientConnection implements Authenticatable, Client {
         switch (OpenAudioMc.getInstance().getPlatform()){
             case BUNGEE:
                 ProxiedPlayer proxiedPlayer = ((ProxiedPlayerAdapter) player).getPlayer();
-                OpenAudioMcBungee.getInstance().getNodeManager().getPacketManager().sendPacket(new PacketPlayer(proxiedPlayer), new ClientDisconnectedPacket(player.getUniqueId()));
+                OpenAudioMc.getService(NodeManager.class).getPacketManager().sendPacket(new PacketPlayer(proxiedPlayer), new ClientDisconnectedPacket(player.getUniqueId()));
                 break;
             case VELOCITY:
                 Player velocityPlayer = ((VelocityPlayerAdapter) player).getPlayer();
@@ -287,7 +287,7 @@ public class ClientConnection implements Authenticatable, Client {
             getPlayer().sendMessage(prefix + "Something went wrong while playing a sound for you, here's what we know:");
             getPlayer().sendMessage(prefix + "what happened: " + error.getExplanation());
             getPlayer().sendMessage(prefix + "where: " + source);
-            getPlayer().sendMessage(prefix + ChatColor.YELLOW + "Players do NOT receive this warning, only staff does. You can disable it in the config.");
+            getPlayer().sendMessage(prefix + Platform.translateColors("YELLOW") + "Players do NOT receive this warning, only staff does. You can disable it in the config.");
         }
     }
 

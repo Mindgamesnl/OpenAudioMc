@@ -44,9 +44,6 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
      */
 
     @Getter private static OpenAudioMcBungee instance;
-    @Getter private NodeManager nodeManager;
-    @Getter private PlayerManager playerManager;
-    @Getter private BungeeCommandModule commandModule;
     private final Instant boot = Instant.now();
 
     @Override

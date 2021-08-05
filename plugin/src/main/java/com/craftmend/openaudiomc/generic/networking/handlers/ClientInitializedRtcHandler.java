@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking.handlers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.bungee.modules.node.NodeManager;
 import com.craftmend.openaudiomc.velocity.messages.PacketPlayer;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.generic.networking.abstracts.PayloadHandler;
@@ -90,7 +91,7 @@ public class ClientInitializedRtcHandler extends PayloadHandler<ClientOpenedRtcP
         switch (OpenAudioMc.getInstance().getPlatform()) {
             case BUNGEE:
                 ProxiedPlayer proxiedPlayer = ((ProxiedPlayerAdapter) player).getPlayer();
-                OpenAudioMcBungee.getInstance().getNodeManager().getPacketManager().sendPacket(new PacketPlayer(proxiedPlayer), clientUpdateRtcStatePacket);
+                OpenAudioMc.getService(NodeManager.class).getPacketManager().sendPacket(new PacketPlayer(proxiedPlayer), clientUpdateRtcStatePacket);
                 break;
             case VELOCITY:
                 Player velocityPlayer = ((VelocityPlayerAdapter) player).getPlayer();
