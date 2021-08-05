@@ -15,6 +15,7 @@ export class MessageModule {
             "gb": "en.lang",
             "us": "en.lang",
             "nl": "nl.lang",
+            "lt": "lt.lang",
             "be": "nl.lang",
             "fr": "fr.lang",
             "ru": "ru.lang",
