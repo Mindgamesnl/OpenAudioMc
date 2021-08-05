@@ -7,21 +7,32 @@ Voice chat isn't enabled by default because it doesn't fit every server, and we'
 (Don't like reading? here's a scuffed video version)
 [![Video version](https://i.imgur.com/UZcZqF0.png)](https://www.youtube.com/watch?v=S29cQz094Bw)
 
-### Free limited access through discord
-This grants you access to voicechat with limited slots for one month, after that you'll have to claim another license. Note that only you (as the server owner) needs an invitation/license, players can just click the link in their chat and continue without an account. To enable voicechat through a claimed code:
+
+### METHOD 1: Free limited access through discord
+This grants you access to voicechat with limited slots for one month, after that you'll have to claim another license.
  1. Join our [Discord Server](https://discord.openaudiomc.net/)
  2. Go to the `#bot-commands` channel
  3. Link your [Minecraft server](account-setup.md) and [Discord account](account-links.md) to your craftmend account.
  4. Type `/claim`
  5. Go to your [Addons Page](https://account.craftmend.com/account/addons) and select a Minecraft server on which you'd like to use voice chat
- 6. Enjoy!
 
-### Access by supporting me on patreon
+### METHOD 2: Claiming a one-day license from in-game
+You can easily get started with voicecaht by requesting a license in game using `/oa voice claim`. This license is identical to those of method 1 and 3, but will expire after one day if no account is linked.
+1. Run `/oa voice claim`
+2. Decide if you like it
+3. Finish by linking your [Minecraft server](account-setup.md)
+
+### METHOD 3: Free limited access through accounts
+This grants you access to voicechat with limited slots for one month, after that you'll have to claim another license.
+1. Link your [Minecraft server](account-setup.md)
+2. Go to your [Addons Page](https://account.craftmend.com/account/addons) and click the big green claim button
+4. Finish the online setup and restart your server
+
+### METHOD 4: Access by supporting me on patreon
 Patreons can get voice chat access as a perk through some of the support tiers. These activations are valid for as long as you're a patreon, and come in various packages (for different sizes of servers). To claim your patreon license:
  1. Activate your tier on  [Patreon](https://www.patreon.com/mindgamesnl)
  2. [Link your patreon to your craftmend account](account-links.md)
  3. Go to your [Addons Page](https://account.craftmend.com/account/addons) and select a Minecraft server on which you'd like to use voice chat
- 4. Enjoy!
 
 Patreons aren't required to link their discord, but it's higly recommended since they'll get access to patreon only channels and will receive automatic DM notifications about their server.
 
