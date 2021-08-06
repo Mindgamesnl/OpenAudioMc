@@ -1,10 +1,10 @@
 {
   "response": {
     "versioning": {
-      "version_tag": "6.5.4",
-      "build_number": 201,
+      "version_tag": "6.5.5",
+      "build_number": 249,
       "version_importance": "&2Highly recommended",
-      "version_update_message": "This update contains some important bug fixes, api methods and nice extra features."
+      "version_update_message": "This update contains improvements to media serving, voice chat changes, and some bug fixes"
     },
 
     "announcement": {
