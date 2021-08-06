@@ -2,7 +2,7 @@
   "response": {
     "versioning": {
       "version_tag": "6.5.5",
-      "build_number": 249,
+      "build_number": 248,
       "version_importance": "&2Highly recommended",
       "version_update_message": "This update contains improvements to media serving, voice chat changes, and some bug fixes"
     },
