@@ -5,7 +5,6 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
-import com.craftmend.openaudiomc.generic.craftmend.response.EmailResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.data.RestErrorResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
@@ -83,5 +82,7 @@ public class VoiceSubCommand extends SubCommand {
             message(sender, Platform.makeColor("GREEN") + "  -> Slots: " + voiceService.getUsedSlots() + "/" + voiceService.getAllowedSlots());
             return;
         }
+
+
     }
 }

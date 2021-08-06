@@ -14,7 +14,7 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 public class ReloadSubCommand extends SubCommand {
 
     public ReloadSubCommand() {
-        super("reload");
+        super("reload", "restart");
         registerArguments(new Argument("", "Reloads the config.yml and connection system"));
     }
 
