@@ -53,6 +53,9 @@ OpenAudioMc has a few events build in, these are;
  - `PlayerLeaveVoiceProximityEvent`: Fires when player A leaves the voice range of player B
  - `PlayerLoudnessEvent`: Fires when a the speaking loudness of a player changes (between normal, whispering and shouting)
  - `ClientPreAuthEvent`: A cancellable event that fires whenever a web client attempts to login. Canceling the event will block the login.
+ - `VoiceChatPeerTickEvent`: This event fires before **AND** after voicechat peer updates (it has a variable letting you know if it was pre-or post)
+ - `SystemReloadEvent`: Called whenever the plugin reloads completely or updates state
+ - `ConfigurationPushEvent`: Fires whenever a new version of the config.yml is loaded through networking, migrations or perhaps redis. It contains the (supposedly) yaml file content as a string.
 
 ## Getting a Client
 A client object resembles the web-connection of a given player and contains api methods (like `isConnected()`, `onConnect` etc) and is used to specify a player in other API methods.
@@ -101,6 +104,66 @@ the `playSpatialSound` method returns a string, which is the spatial-id for that
 ```java
 api.getMediaApi().stopSpatialSound(client, spatialSoundId);
 ```
+
+## Hooking into internal services and using dependency injection
+Most of the internal codebase was re-written and refactored during the 6.5.5 update, where we migrated to a custom service manager with support for annotation based dependency injection, service abstraction and to provide pointer safety during reloads.
+The service manager is registered in the main `OpenAudioMc` class and is accessible through all platforms. The entire ecosystem consists of two main registration types types
+
+- **Services** are static code implementations that can be injected, requested and manipulated after loading (or being requested, in which case they'll be loaded if they weren't already. So calling `OpenAudioMc.getService(NotLoadedByDefault.class).something()` will delay the execution of the `something()` call, while it's preparing the `NotLoadedByDefault` service and it's dependencies). Services like this can be registered through
+  ```java
+       serviceManager.loadServices(
+            FirstService.class,
+            SecondService.class
+       );
+    ```
+- **Mapped Values** Some services might have different implementations based on the platform, but are accessed by a shared source (example, having a `INetworkingService` interface, being implemented as `FirstnetworkingImpl` and `SecondNetworkingImpl`) in which case you can register the interface with a value, so you can use dependency injection through the interface, and receive the appropriate implementation class. Example registration
+    ```java
+        OpenAudioMc.getInstance().getServiceManager().registerDependency(TaskService.class, invoker.getTaskProvider());
+    ```
+    This also means that you can register custom variables (identified by classes or interfaces) and have them injected with a default value or implementation.
+
+There are a few ways to receive services, simplest one being the most common one, which is by just requesting the service manually. You can do this at any time through
+```java
+// Get the current MyService instance, or initialize it if it isn't mapped yet
+MyService myService = OpenAudioMc.getService(MyService.class);
+```
+
+Or you can alternatively use dependency injection using the `@Inject` annotation. This supports values and constructors.
+
+Field example:
+```java
+public class TestService extends Service {
+    
+    // inject the main openaudio instance
+    @Inject
+    private OpenAudioMc openAudioMc;
+    
+    public TestService() {
+        // this module is being loaded
+    }
+    
+    @Override
+    public void onEnable() {
+        // the injections have been done, so we can safely call this.openAudioMc
+    }
+    
+}
+```
+
+or through the constructor, like so
+```java
+public class TestService extends Service {
+
+    @Inject
+    public TestService(OpenAudioMc openAudioMc, NetworkingService networkingService) {
+        // both the 'openAudioMc' and 'networkingService' parameters will be injected during init
+    }
+    
+}
+```
+
+**NOTE THAT DEPENDENCY INJECTION ONLY WORKS WHEN YOUR OWN CLASS IS BEING LOADED AS A SERVICE**
+
 
 ## K/V Cache
 Keeping track of all spatial ID's can be a pain, so we can keep track of it with a simple map. You can just `put` and `get` player metadata via the map we provide with the `getKeyValue` method in Client

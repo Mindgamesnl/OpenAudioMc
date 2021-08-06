@@ -10,7 +10,7 @@ import com.craftmend.openaudiomc.generic.state.interfaces.StateDetail;
 public class StateSubCommand extends SubCommand {
 
     public StateSubCommand() {
-        super("state");
+        super("state", "debug");
         registerArguments(new Argument("", "Display debug details for OpenAudioMc"));
     }
 
