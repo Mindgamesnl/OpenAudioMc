@@ -94,7 +94,7 @@ public class SpigotVoiceChatService extends Service {
                 // handle their join messages, if any
                 if (!manager.getRecentPeerAdditions().isEmpty()) {
                     // do these
-                    if (manager.getRecentPeerRemovals().size() == 1) {
+                    if (manager.getRecentPeerAdditions().size() == 1) {
                         // do single
                         ClientConnection other = clientFromId(manager.getRecentPeerAdditions().stream().findFirst().get());
                         if (other != null) {
