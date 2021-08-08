@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.bungee;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.impl.RegistryApiImpl;
+import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.bungee.modules.commands.BungeeCommandModule;
 import com.craftmend.openaudiomc.bungee.modules.configuration.BungeeConfiguration;
 import com.craftmend.openaudiomc.bungee.modules.dependency.BungeeDependencyService;
@@ -102,6 +104,11 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
 
     @Override
     public Class<? extends NetworkingService> getServiceClass() {
+        Class<? extends NetworkingService> forced = ((RegistryApiImpl) AudioApi.getInstance().getRegistryApi()).getForcedService();
+        if (forced != null) {
+            return forced;
+        }
+
         return ClientMode.STAND_ALONE.getServiceClass();
     }
 
