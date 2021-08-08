@@ -1,3 +1,5 @@
+import {replaceGlobalText} from "../../helpers/domhelper";
+
 export class UserInterfaceModule {
 
     constructor(oa) {
@@ -55,7 +57,7 @@ export class UserInterfaceModule {
 
     kickScreen(message) {
         strictlyShowCard(UiCards.KICKED)
-        document.getElementById("kick-message").innerHTML = message;
+        replaceGlobalText("{{ kicked.message }}", message)
     }
 
 }

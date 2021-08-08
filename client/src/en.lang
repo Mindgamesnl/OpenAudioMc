@@ -16,6 +16,12 @@ main.content=<div>Keep this tab open in the background since your music and soun
 main.volume=Music Volume
 main.openHue=Open Philips Hue configuration
 
+kicked.title=Lost connection
+kicked.message=The audio client is only available for players who are online in the server.<br/>Use <small><b>/audio</b></small> to obtain a URL
+
+badlogin.title=Are you lost?
+badlogin.content=The audio client is only available for players who are online in the server.<br/>Use <small><b>/audio</b></small> to obtain a URL
+
 vc.notice=Notice
 vc.startingPopupTitle=Logging into voice chat...
 vc.startingPopup=Please wait while we get you setup with a voice server.. hold on tight, this shouldn't take too long.

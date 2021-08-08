@@ -107,12 +107,10 @@
                           style="display: none;">
                         <div class="sm:text-center lg:text-left">
                             <h2 class="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl">
-                                Lost connection
+                                {{ kicked.title }}
                             </h2>
-                            <p id="kick-message"
-                               class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                                The audio client is only available for players who are online in the
-                                server.<br/>Use <small><b>/audio</b></small> to obtain a URL
+                            <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                                <raw>{{ kicked.message }}</raw>
                             </p>
                         </div>
                     </main>
@@ -122,12 +120,10 @@
                           style="display: none;">
                         <div class="sm:text-center lg:text-left">
                             <h2 class="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl">
-                                Are you lost?
+                                {{ badlogin.title }}
                             </h2>
                             <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                                The audio client is only available for players who are online in the server.<br/>Use
-                                <small><b>/audio</b></small>
-                                to obtain a URL
+                                <raw>{{ badlogin.content }}</raw>
                             </p>
                         </div>
                     </main>
