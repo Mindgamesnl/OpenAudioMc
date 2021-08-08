@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.spigot;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.impl.RegistryApiImpl;
+import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
@@ -150,6 +152,13 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
 
     @Override
     public Class<? extends NetworkingService> getServiceClass() {
+
+        // check if there's a forced service
+        Class<? extends NetworkingService> forced = ((RegistryApiImpl) AudioApi.getInstance().getRegistryApi()).getForcedService();
+        if (forced != null) {
+            return forced;
+        }
+
         return proxyModule.getMode().getServiceClass();
     }
 

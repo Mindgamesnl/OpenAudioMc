@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.api.interfaces;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.media.interfaces.UrlMutation;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.utils.data.Filter;
 import org.bukkit.entity.Player;
 
@@ -30,5 +31,11 @@ public interface RegistryApi {
      * @param filter Filter implementation
      */
     void setProximityFilter(Filter<ClientConnection, Player> filter);
+
+    /**
+     * Force preselect a networking interface
+     * @param service Class
+     */
+    void forceNetworkingInterface(Class<? extends NetworkingService> service);
 
 }
