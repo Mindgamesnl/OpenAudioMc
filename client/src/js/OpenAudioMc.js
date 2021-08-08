@@ -130,6 +130,11 @@ export class OpenAudioMc extends Getters {
             });
     }
 
+    showLoginScreen() {
+        replaceProperty("{{ oam.loader_style }}", "display: -;", "style")
+        replaceProperty("{{ oam.login_style }}", "display: -;", "style")
+    }
+
     async start() {
         if (!this.canStart) return;
         this.canStart = false;

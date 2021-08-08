@@ -44,8 +44,9 @@ export function linkBootListeners() {
     sessionLoader.initialize()
         .then(tokenSet => {
             if (tokenSet == null) {
-                strictlyShowCard(UiCards.BAD_AUTH);
-                window.location = location.protocol + "//" + window.location.host + window.location.pathname + "/login.html";
+                replaceProperty("{{ oam.loader_style }}", "display: -;", "style")
+                replaceProperty("{{ oam.login_style }}", "display: -;", "style")
+                replaceProperty("{{ oam.loader_status }}", "display: none;", "style")
                 ReportError('A faulty login attempt was done at ' + window.location.host, 'Steve')
                 return
             }

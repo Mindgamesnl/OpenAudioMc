@@ -22,7 +22,7 @@
     <meta name="twitter:url" content="https://twitter.com/Mindgamesnl">
     <meta name="twitter:card" content="summary">
 
-    <link rel="stylesheet" href="css/2021.css?update=644"/>
+    <link rel="stylesheet" href="css/2021.css?update=688"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.0-canary.2/tailwind.min.css"
           integrity="sha512-3eMoKZi3N9fwmFnCXiUXmgakO+2nrIJlUlkDPMHkZ5YEmiybKaz4UctuwDhvPje9w52EZ3hYMQTwqvDqXAi7OQ=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -47,7 +47,8 @@
 
         /* loader */
         .loader {
-            border-top-color: #3498db;
+            border-color: rgba(0,0,0,0);
+            border-top-color: #8ed2ff;
             -webkit-animation: spinner 1.5s linear infinite;
             animation: spinner 1.5s linear infinite;
         }
@@ -75,10 +76,66 @@
 
 <div hs="{{ oam.loader_style }}"
      class="fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-50 overflow-hidden bg-gray-700 flex flex-col items-center justify-center">
-    <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+
+    <div class="flex flex-col space-y-4 min-w-screen h-screen animated fadeIn faster fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-gray-900">
+        <div hs="{{ oam.loader_status }}" class="flex flex-col p-8 bg-gray-800 shadow-md hover:shodow-lg rounded-2xl">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
+                    <div class="flex flex-col ml-3">
+                        <div class="font-medium leading-none text-gray-100">Loading OpenAudioMc...</div>
+                        <p style="display: none;" hs="{{ oam.loading_tagline_style }}" class="text-sm text-gray-300 leading-none mt-1">
+                            {{ oam.loading_tagline_text }}</p> <small class="text-gray-500" style="display: inline;">Build 688</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: none;" hs="{{ oam.login_style }}" class="py-12 px-12 bg-gray-800 rounded-2xl shadow-xl z-20 text-white">
+            <div>
+                <h1 class="text-3xl font-bold text-center mb-4 cursor-pointer font-family-karla">OpenAudioMc - Login</h1>
+                <p class="w-80 text-center text-sm mb-8 text-white tracking-wide cursor-pointer">
+                    We use OpenAudioMc to add in-game audio and voice chat. Please login by requesting your personal link in-game using <b>/audio</b>, or by entering your token manually.
+                </p>
+            </div>
+            <div class="space-y-4">
+                <input type="text" id="login-token" placeholder="Token" class="block text-sm py-3 px-4 rounded-lg w-full border outline-none bg-gray-800" />
+                <style>
+                    .minecraft-btn {
+                        margin-top: 20px;
+                        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMQAAAAPCAAAAACe4j/AAAAEuElEQVRIx1WWS5Ibuw5EtddrdRRJJE4iSKrb4c2/AUuy30iK+jEBHCTwAICMCgAKiGhKVQUwKzJHQo4mQGBy7AIvk1E2AQKhFt6bUGD1gILy0DkD4dmzACkGyzCScgFgQmLZr4LpQpC56QB2wgSYE8i1fd6xd1yPHIAKwAs14Undx2LIHK0X6vdFbzTa6CNBLQE8Y5rapn7oAl3KSDKC6cLfL6sLnIVG7ffnyUgvQ6rwLjUZdIVqWz0iEXXCZ+TJsV8feUdoPHDk+a/IeAbq0ldLT59jtHweHwmKS6gFSUYCqKcVsPami1pEnqolkCMBiAS87FXTICp03geYUr8TV8un3KuyC0BfTUzihOCdwjUya1bkT9VWe+AaFOoJzHdtERXRe/eulyEDhC6pjYwr+JQuIDU9/0wQBnJEAkd+9i6IRTJrV7YWnGfwLA6ESphkBoCu88M0YH1CTTOiRUpDdwpGkkP5yL9phhwn+QVxDarAXq513y9bLKgxBGR/CjDyMl4ECd6lO82CaMLbEHGHp1R8ePDERj392ssaCOigNjJ+dXXl6OLUFfVx6dA1BFJLlHpkUHPam095C3QJLIjn6OLIOB3xe0JS85Zd+govg1/z/UhtG3RdVW98yxNp5I0Vtf/U+6y/dJ/yHtSK4q7G9ARscC3/Df/kXTwiT3d6ovjEISLJIVEvBwWeCXlALZTbpy85xqWuf3sNiBBUmYjI+BqN6aNQqDWpipSYf3W1nOV/WALoykjIiCPreSn97UigsjZdPA5s3AmCDIxaVO0Fa1fV/qkaiijPPz/bEeRyLSBDI8K8j37TO8aH7vmOqUUQ1DboYhvqd+FlFGEo+2T75MbLGnjvPeu7Pl521Ap14dcR3h7p75qv4xieqnNDoyCPLt/yKkf5gOUXl+6S3d9Syq/982fz+fhpsm28C5EhJcxsWWQke6KoPMA7tqm7kKcrn6FLhWcoqCNCxDPyQ8wEKR73nIlEX8GpARSJX7/rzeNtWPD/Dl2IwtOYMwV7osGsHYJanzeU7KqIZVCTcrT0IEbyD4d1e1dkBtW2qLhLXK7a1ogDqsjI1DR4PY7nHEqfF9tn8HUJL+eQ/lGOXdwI1++57CqgmDaReM9CZYLAk4D4ymqti4KZI9Htz9OnrcuOhCQEqJfXaxHPAFG/l/ee1GFJPXmPryYUiUGPutnRGXkagmnjHk5RNpm7xxiclm6CjJEQ4+MD4xPmuT9Ef4b3YT3B51a7d4Np76PF0cavuC+SoaH6PlilipEakoJBJETWT3k7Hf+1REPj2fIx95t5ct6u9S5v3KM2fv2Ve29ax9yC98zT2IZot61MHyYtdPF92nguZ29xfcVxSu9Nj5Gl8G3wcVoW8n1Q/f6BHFEAyy5R2aRIdYH8XfV4453vHKcnqarXPD6mdrD0rlVV5xBPF2xuJM5Oo0SdaaqGMjJva7ii6bYv74IzPMo5pGebpu72ghypwTR+WWDuhQOkFijGyAzF3GXh11lEH0hkPINZivpTqLEtVm2j1hVcn/S0//q0es5dbyxOErxKivQ+bHotvzcT3/XztPf20XqG6fJZMePT2X6ts+nlm9LoSYHMiHuJjGXniB7v2fo/5qT4nuxYg6AAAAAASUVORK5CYII=);
+                        font-family: 'MinecraftiaRegular';
+                        border-color: #AAA #565656 #565656 #AAA;
+                        text-shadow: 3px 3px #4C4C4C;
+                        outline: 2px solid #000;
+                        width: 100%;
+                    }
+
+                    .minecraft-btn:hover {
+                        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMQAAAAPCAMAAACMV5AuAAAAVFBMVEVtd7ZteLZverdwerdwe7hxfLhyfbl0frl1f7p2gLt4grx6hLx7hb18hr5+iL+AisCBi8GCjMGEjsKGkMOHkcSIksSKk8WLlMWLlcaMlcaNlsePmMdwBHmVAAAEjElEQVRIx1WW27YbKw5F3Ul2GYTWFAJX+pyd///PfgDsTg0/mSqQ1k08AEAeDkAA7kXyDAeyu2QCWREgCGSvAAbIE/D9U2m8Ji4Drw0CEhP7EMiqBFxmDMBEkHvd5AziDsjoCKQXddUl1nuZgMZrf0PMdj1kgNY+Ay+CJPg8kj1rR3X/GS9kxaoJVFaB6QkxIX5TBX65mpAZGQH3HaoCFMj6/GxuYgDyTsyup1hfxwxVN+F08ANGANyf8jqAPaBpranJvhxV+VV08JGPVScmcL8W4EIuAFWFHMZrUkUfNC3WtIsEaFogMWJRl839MES61w1cjMUsI1fb7GKaoENMOdFNykzXPz2mlwekkXjV4ioO9b15rZWZd4AaCL9cxdSutl8buIOUkd8JTgAy01IKoFoFPhAZr65SbDHgxFIGKi5IpLaKdlafAHxaVWDt2SSZ24LQhEx6aLGyj7RtELDLiA7EiD72ehBiQJo5oPq1nOQMYGAIYoY2AwIrImaA+25P8vZRa0KgqrjnQIaACiom/1G9Sla3GUHVLl/mMl/mxeUPGT0T5seAeeAQtF9WV2F7cX4niJ4DYmBd12oh7jymyRkBuq6M81mQuExHVv313beo9VH3ojfM2zZ8AkTG8X7EeDs6OZw+mrY7E5l/gqQJmZx+YySQAi1/dqQZy0as4FL1d7nrcfd1kjWTX1ZIYESTUCnuPZE7+anrqcxlz3diUX2HowHCf15S3AvxrnhRxeMwtQACGYGKZ7wGjNl7vH73MHdP8s/vSXM0FiRqMnPowfbjRsfe6n7nZ/FGIyfgF6+A/t1XTrcWB3Q42AxkMOfMfuJotRPgqGqFMfB8KO6eN+BEpO8F2eLZ18YO0GUdmEDcXMcNey+XuOfvP5P35guSVxAzWRYUpIoSuZiJrJ/p4zPouw0pwX+6XwpIcyNWEcJ/uf5Svuyx+ncTfhmotEhIBPe/8f961F/jI5aQfSs3WFOwChnZZxPk+HQjZu/WBuDFVwobZnoLISBOdkmNLFPE9iadiImsgTcdTDKA8dj1qBT518Xcg6+6L0Yl/nqCLeH+b46InkCSETTBzEQBRoPEwS9lKVUkpEx426M3oIMHYQLhK/B6jHvgXw6if4+YM4mlJdWDpLw4MhHgjwBZgIt+ZJdAVENOEkiv6mY4yy5nFPjnQmGfGVy0IqP+cmbsWF7Se/rT+5ZBzHPdKfajHW2ouWldPJaoTDJ3GUYTNMV/IyaiPYqQuX0VPXK+ra3Mc8c5Wlkp4D/e5S5htjXU3HnPPJsBXraRM/rSpOMX99zMoVradRl9AMxJdVPIYgf8Rhu0DvLM739A5rmjJ51QcW9SFXjcvR85oYOhSKTsd65pqdKWIV59ZO/7kKTDJLbvYw9XVRIyTXKJdfm4rOjE18yT8IHM/euZa0Z0fLvBSIh7h925QLoXR80WNfnqOHHP7Qk5aj+dTLX4E3hhIkafoGd15/IDT/lPTVSVr233dy6OkJtiLm0yBu+byeE2Yc59pVrDdKyPjxgD4h6r6vcFwpYNHMxVBaE2ApmfyTTjf5jQnWRymG7iAAAAAElFTkSuQmCC);
+                        border-color: #BDC6FF #59639A #59639A #BDC6FF;
+                    }
+                </style>
+                <script>
+                    function goTo() {
+                        let name = document.getElementById("login-token").value
+
+                        if (name.length > 3) {
+                            window.location = '#' + name;
+                            window.location.reload();
+                        }
+                    }
+                </script>
+                <button onclick="goTo()" class="minecraft-btn mx-auto text-center text-white truncate p-1 border-2 border-b-4 hover:text-yellow-200">
+                    Login
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+
     <h2 class="text-center text-white text-xl font-semibold">please wait</h2>
-    <p style="display: none;" hs="{{ oam.loading_tagline_style }}" class="w-1/3 text-center text-white">
-        {{ oam.loading_tagline_text }}</p>
 </div>
 
 <div class="bg-image h-screen w-screen absolute" ts="{{ oam.bg_image_map }}"></div>
@@ -86,8 +143,8 @@
 <div class="flex h-screen sparkles tbod">
 
     <!--
-        This client is based on build 644.
-        (https://github.com/Mindgamesnl/OpenAudioMc/commit/eee31d35efb9eaffc2b43444d79a428245c86a46)
+        This client is based on build 688.
+        (https://github.com/Mindgamesnl/OpenAudioMc/commit/9e294e15a08b0691bd9cef59f27012ac7838736b)
 
         This build was published by the git user: Mindgamesnl
     -->
@@ -107,12 +164,10 @@
                           style="display: none;">
                         <div class="sm:text-center lg:text-left">
                             <h2 class="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl">
-                                Lost connection
+                                {{ kicked.title }}
                             </h2>
-                            <p id="kick-message"
-                               class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                                The audio client is only available for players who are online in the
-                                server.<br/>Use <small><b>/audio</b></small> to obtain a URL
+                            <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                                <raw>{{ kicked.message }}</raw>
                             </p>
                         </div>
                     </main>
@@ -122,12 +177,10 @@
                           style="display: none;">
                         <div class="sm:text-center lg:text-left">
                             <h2 class="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl">
-                                Are you lost?
+                                {{ badlogin.title }}
                             </h2>
                             <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                                The audio client is only available for players who are online in the server.<br/>Use
-                                <small><b>/audio</b></small>
-                                to obtain a URL
+                                <raw>{{ badlogin.content }}</raw>
                             </p>
                         </div>
                     </main>
@@ -292,10 +345,6 @@
                                 </div>
                             </div>
                             <div class="hidden md:block md:ml-4">
-                                <a href="login.html"
-                                   class="font-medium text-red-500 hover:text-gray-900 transition duration-150 ease-in-out"
-                                >{% ui.logout %}</a>
-
                                 <!-- Modifying anything related to the copyright notice is against TOS, be warned -->
                                 <a href="https://openaudiomc.net/"
                                    class="ml-4 font-medium text-gray-500 hover:text-gray-900 transition duration-150 ease-in-out">©
@@ -486,7 +535,7 @@
 </body>
 
 
-<script src="OpenAudioMc.bundle.js?version=644"
+<script src="OpenAudioMc.bundle.js?version=688"
         onerror="window.location.href = 'https://help.openaudiomc.net/'"></script>
 </html>
 </html>

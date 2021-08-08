@@ -3,6 +3,7 @@ import {strictlyShowCard, UiCards} from "../ui/UserInterfaceModule";
 import {OpenAudioEnv} from "../../OpenAudioMc";
 import {DebugPanel, WhenDebugging} from "../../debug";
 import {oalog} from "../../helpers/log";
+import {replaceProperty} from "../../helpers/domhelper";
 
 export class SocketModule {
 
@@ -60,7 +61,9 @@ export class SocketModule {
             
             that.state = "closed";
 
-            strictlyShowCard(UiCards.BAD_AUTH)
+            replaceProperty("{{ oam.loader_style }}", "display: -;", "style")
+            replaceProperty("{{ oam.login_style }}", "display: -;", "style")
+            replaceProperty("{{ oam.loader_status }}", "display: none;", "style")
 
             setTimeout(() => {
                 main.getMediaManager().sounds = {};
