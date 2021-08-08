@@ -53,7 +53,6 @@ const postInstall = [
     "cp -R ./src/assets ./target/assets/",
     "cp ./src/index.html ./target/index.html",
     "cp ./src/*.lang ./target/",
-    "cp ./src/login.html ./target/login.html",
     "echo finished post commands",
 ];
 
