@@ -52,6 +52,6 @@ public interface AudioApi {
     RegistryApi getRegistryApi();
 
     static AudioApi getInstance() {
-        return new DefaultApi(OpenAudioMc.getInstance());
+        return new DefaultApi();
     }
 }

@@ -4,21 +4,18 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 import com.craftmend.openaudiomc.api.interfaces.*;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
+@NoArgsConstructor
 public class DefaultApi implements AudioApi {
 
-    private final OpenAudioMc pluginInstance;
     private final WorldApiImpl worldApi = new WorldApiImpl();
     private final MediaApiImpl mediaApi = new MediaApiImpl();
     private final RegistryApiImpl registryApi = new RegistryApiImpl();
-
-    public DefaultApi(OpenAudioMc booted) {
-        this.pluginInstance = booted;
-    }
 
     @Override
     public Client getClient(UUID uuid) {
