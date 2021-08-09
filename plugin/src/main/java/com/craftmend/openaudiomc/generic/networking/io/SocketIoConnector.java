@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.api.impl.event.events.StateChangeEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
+import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.certificate.CertificateHelper;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
@@ -171,6 +172,7 @@ public class SocketIoConnector {
             this.socket.disconnect();
         }
         OpenAudioMc.getService(StateService.class).setState(new IdleState());
+        OpenAudioMc.getService(CraftmendService.class).stopVoiceChat();
     }
 
     public void send(Authenticatable client, AbstractPacket packet) {
