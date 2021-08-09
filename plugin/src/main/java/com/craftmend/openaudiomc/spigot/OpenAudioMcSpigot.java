@@ -54,6 +54,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
     @Setter private RegionModule regionModule;
     private OpenAudioMc openAudioMc;
     private ProxyModule proxyModule;
+    private boolean bound = false;
 
     /**
      * Constant: main plugin instance and plugin timing
@@ -67,24 +68,14 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
      */
     @Override
     public void onEnable() {
-        // should we mind late? or now
-        if (System.getenv("OA_LATE_BIND") != null) {
-            getLogger().log(Level.INFO, "Using late bind! not doing anything for now...");
-            return;
-        }
-        lateBoot();
-    }
-
-    /**
-     * Used to possibly boot late, which is extremely useful for addons
-     */
-    public void lateBoot() {
-        if (instance != null) {
-            return;
-        }
-
         // Plugin startup logic
         instance = this;
+
+        if (System.getenv("OA_LATE_BIND") != null && !bound) {
+            getLogger().log(Level.INFO, "Using late bind! not doing anything for now...");
+            bound = true;
+            return;
+        }
 
         proxyModule = new ProxyModule();
 
