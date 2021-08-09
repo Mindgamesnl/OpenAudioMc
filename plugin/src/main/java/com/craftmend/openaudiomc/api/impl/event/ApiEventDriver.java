@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.api.impl.event;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.OpenAudioMcBuild;
 import com.craftmend.openaudiomc.api.impl.event.enums.EventSupport;
+import com.craftmend.openaudiomc.api.impl.event.events.StandaloneEventBroadcastEvent;
 import com.craftmend.openaudiomc.api.interfaces.EventSupportFlag;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.bungee.modules.node.NodeManager;
@@ -142,7 +143,9 @@ public class ApiEventDriver {
                 case VELOCITY:
                     OpenAudioMcVelocity.getInstance().getNodeManager().getPacketManager().sendPacket(ne.networkedPlayer, new NetworkedEventPacket(ne));
                     break;
-
+                case STANDALONE:
+                    fire(new StandaloneEventBroadcastEvent(ne));
+                    break;
                 case SPIGOT:
                     ProxyNetworkingService proxyNetworkingService = (ProxyNetworkingService) OpenAudioMc.getService(NetworkingService.class);
                     proxyNetworkingService.getPacketManager().sendPacket(ne.networkedPlayer, new NetworkedEventPacket(ne));
@@ -162,13 +165,13 @@ public class ApiEventDriver {
                 return true;
 
             case PROXY_ONLY:
-                return platform == Platform.BUNGEE || platform == Platform.VELOCITY;
+                return platform == Platform.BUNGEE || platform == Platform.VELOCITY || platform == Platform.STANDALONE;
 
             case SPIGOT_ONLY:
-                return platform == Platform.SPIGOT;
+                return platform == Platform.SPIGOT || platform == Platform.STANDALONE;
 
             case ONLY_PROXY_IF_AVAILABLE:
-                if (platform == Platform.SPIGOT && !isNode) {
+                if ((platform == Platform.SPIGOT && !isNode) || platform == Platform.STANDALONE) {
                     return true;
                 }
 
