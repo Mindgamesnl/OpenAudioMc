@@ -59,7 +59,7 @@ public class ClientConnection implements Authenticatable, Client {
     @Getter private int volume = -1;
     private boolean isConnected = false;
     @Setter @Getter private PlayerSession session;
-    @Getter private final ClientRtcManager clientRtcManager;
+    @Getter private ClientRtcManager clientRtcManager;
     @Setter @Getter private String streamKey;
 
     @Setter @Getter private boolean isWaitingToken = false;
@@ -76,12 +76,25 @@ public class ClientConnection implements Authenticatable, Client {
     private final List<Runnable> disconnectHandlers = new ArrayList<>();
 
     public ClientConnection(PlayerContainer playerContainer) {
+        this(playerContainer, null);
+    }
+
+    public ClientConnection(PlayerContainer playerContainer, SerializableClient fromSerialized) {
         this.player = playerContainer;
         this.mixTracker = new MixTracker();
         refreshSession();
         sessionPublisher = new Publisher(this);
-
         streamKey =  new RandomString(15).nextString();
+
+        if (fromSerialized != null) {
+            volume = fromSerialized.getVolume();
+            isConnected = fromSerialized.isConnected();
+            clientRtcManager = fromSerialized.getClientRtcManager();
+            streamKey = fromSerialized.getStreamKey();
+            isConnectedToRtc = fromSerialized.isConnectedToRtc();
+            hasHueLinked = fromSerialized.isHasHueLinked();
+            sessionUpdated = fromSerialized.isSessionUpdated();
+        }
 
         if (OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_SEND_URL_ON_JOIN))
             publishUrl();
@@ -345,6 +358,19 @@ public class ClientConnection implements Authenticatable, Client {
     @Override
     public void forcefullyDisableMicrophone(boolean disabled) {
         this.getClientRtcManager().allowSpeaking(!disabled);
+    }
+
+    @Override
+    public SerializableClient asSerializableCopy() {
+        return SerializableClient.builder()
+                .volume(volume)
+                .isConnected(isConnected)
+                .clientRtcManager(clientRtcManager)
+                .streamKey(streamKey)
+                .isConnectedToRtc(isConnectedToRtc)
+                .hasHueLinked(hasHueLinked)
+                .sessionUpdated(sessionUpdated)
+                .build();
     }
 
     public void onDestroy() {

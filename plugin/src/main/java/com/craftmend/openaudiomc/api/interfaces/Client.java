@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.api.interfaces;
 import com.craftmend.openaudiomc.generic.hue.HueState;
 import com.craftmend.openaudiomc.generic.networking.client.interfaces.PlayerContainer;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.Publisher;
+import com.craftmend.openaudiomc.generic.networking.client.objects.player.SerializableClient;
 
 import java.util.Map;
 
@@ -82,5 +83,11 @@ public interface Client {
      * @param disabled If the mic should be disabled
      */
     void forcefullyDisableMicrophone(boolean disabled);
+
+    /**
+     * Get a copy object with values that are save to be serialized
+     * @return Save copy
+     */
+    SerializableClient asSerializableCopy();
 
 }

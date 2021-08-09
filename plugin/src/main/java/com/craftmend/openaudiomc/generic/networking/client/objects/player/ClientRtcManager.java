@@ -27,20 +27,21 @@ import com.craftmend.openaudiomc.spigot.modules.proxy.service.ProxyNetworkingSer
 import lombok.Getter;
 import org.bukkit.Location;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ClientRtcManager {
+public class ClientRtcManager implements Serializable {
 
     @Getter private boolean isMicrophoneEnabled = false;
-    @Getter private final Set<UUID> subscriptions = new HashSet<>();
-    @Getter private final Set<ClientRtcLocationUpdate> locationUpdateQueue = ConcurrentHashMap.newKeySet();
-    @Getter private final Set<RtcBlockReason> blockReasons = new HashSet<>();
-    @Getter private final Set<RtcStateFlag> stateFlags = new HashSet<>();
-    @Getter private final Set<UUID> recentPeerAdditions = new HashSet<>();
-    @Getter private final Set<UUID> recentPeerRemovals = new HashSet<>();
+    @Getter private final transient Set<UUID> subscriptions = new HashSet<>();
+    @Getter private final transient Set<ClientRtcLocationUpdate> locationUpdateQueue = ConcurrentHashMap.newKeySet();
+    @Getter private final transient Set<RtcBlockReason> blockReasons = new HashSet<>();
+    @Getter private final transient Set<RtcStateFlag> stateFlags = new HashSet<>();
+    @Getter private final transient Set<UUID> recentPeerAdditions = new HashSet<>();
+    @Getter private final transient Set<UUID> recentPeerRemovals = new HashSet<>();
     private Location lastPassedLocation = null;
     private final ClientConnection clientConnection;
 
