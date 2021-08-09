@@ -69,6 +69,7 @@ public class Publisher {
             switch (openAudioMc.getPlatform()){
                 case SPIGOT:
                 case BUNGEE:
+                case STANDALONE:
                     SpigotHelper.connectMsg(openAudioMc, clientConnection, token, false);
                     break;
                 case VELOCITY:

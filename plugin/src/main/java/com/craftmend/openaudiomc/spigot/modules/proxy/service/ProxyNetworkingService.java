@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.proxy.service;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
+import com.craftmend.openaudiomc.generic.networking.client.interfaces.PlayerContainer;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
@@ -99,6 +100,11 @@ public class ProxyNetworkingService extends NetworkingService {
 
     @Override
     public ClientConnection register(Player player) {
+        return realService.register(player);
+    }
+
+    @Override
+    public ClientConnection register(PlayerContainer player) {
         return realService.register(player);
     }
 
