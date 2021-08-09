@@ -8,6 +8,7 @@ public enum Platform {
     SPIGOT,
     BUNGEE,
     VELOCITY,
+    STANDALONE,
     ;
 
     public static String translateColors(String input) {
