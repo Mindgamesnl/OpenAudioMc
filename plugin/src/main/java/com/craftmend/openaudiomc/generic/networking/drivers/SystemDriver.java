@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking.drivers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.state.StateService;
@@ -36,6 +37,7 @@ public class SystemDriver implements SocketDriver {
                     client.onDisconnect();
                 }
             }
+            OpenAudioMc.getService(CraftmendService.class).stopVoiceChat();
         });
 
         socket.on(Socket.EVENT_CONNECT_TIMEOUT, args -> {

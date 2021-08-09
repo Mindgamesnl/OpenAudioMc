@@ -122,6 +122,13 @@ public class CraftmendService extends Service {
         startVoiceHandshake();
     }
 
+    public void stopVoiceChat() {
+        if (this.voiceService != null) {
+            this.voiceService.shutdown();
+        }
+        lockVcAttempt = false;
+    }
+
     void startVoiceHandshake() {
         OpenAudioLogger.toConsole("VoiceChat seems to be enabled for this account! Requesting RTC and Password...");
         // do magic, somehow fail, or login to the voice server
