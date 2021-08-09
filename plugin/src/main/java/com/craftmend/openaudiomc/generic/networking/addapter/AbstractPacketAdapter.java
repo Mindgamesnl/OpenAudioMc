@@ -36,7 +36,7 @@ public class AbstractPacketAdapter implements JsonSerializer<AbstractPacketPaylo
                 return new AbstractPacketPayload();
             }
 
-            if (countChar(type, '.') > 3) {
+            if (type.contains("openaudiomc")) {
                 return context.deserialize(element, Class.forName(type));
             }
 
