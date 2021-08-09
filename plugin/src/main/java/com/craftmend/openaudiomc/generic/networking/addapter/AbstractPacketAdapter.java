@@ -36,7 +36,7 @@ public class AbstractPacketAdapter implements JsonSerializer<AbstractPacketPaylo
                 return new AbstractPacketPayload();
             }
 
-            if (type.contains(".")) {
+            if (countChar(type, '.') > 3) {
                 return context.deserialize(element, Class.forName(type));
             }
 
@@ -45,5 +45,17 @@ public class AbstractPacketAdapter implements JsonSerializer<AbstractPacketPaylo
             OpenAudioLogger.handleException(cnfe);
             throw new JsonParseException("Unknown element type: " + type, cnfe);
         }
+    }
+
+    private int countChar(String str, char c)
+    {
+        int count = 0;
+
+        for(int i=0; i < str.length(); i++)
+        {    if(str.charAt(i) == c)
+            count++;
+        }
+
+        return count;
     }
 }
