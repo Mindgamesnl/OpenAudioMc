@@ -45,17 +45,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.logging.Level;
 
 @Getter
 public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvoker {
 
-    @Setter
-    private TrainCartsModule trainCartsModule;
-    @Setter
-    private RegionModule regionModule;
-
+    @Setter private TrainCartsModule trainCartsModule;
+    @Setter private RegionModule regionModule;
     private OpenAudioMc openAudioMc;
-
     private ProxyModule proxyModule;
 
     /**
@@ -70,6 +67,22 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
      */
     @Override
     public void onEnable() {
+        // should we mind late? or now
+        if (System.getenv("OA_LATE_BIND") != null) {
+            getLogger().log(Level.INFO, "Using late bind! not doing anything for now...");
+            return;
+        }
+        lateBoot();
+    }
+
+    /**
+     * Used to possibly boot late, which is extremely useful for addons
+     */
+    public void lateBoot() {
+        if (instance != null) {
+            return;
+        }
+
         // Plugin startup logic
         instance = this;
 

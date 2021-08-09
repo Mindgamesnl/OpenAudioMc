@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.networking.client.interfaces.PlayerContainer;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.enums.PacketChannel;
 import com.craftmend.openaudiomc.generic.networking.handlers.*;
@@ -246,6 +247,14 @@ public class DefaultNetworkingService extends NetworkingService {
     @Override
     public ClientConnection register(com.velocitypowered.api.proxy.Player player) {
         ClientConnection clientConnection = new ClientConnection(new VelocityPlayerAdapter(player));
+        clientMap.put(player.getUniqueId(), clientConnection);
+        createdConnectionSubscribers.forEach((id, handler) -> handler.accept(clientConnection));
+        return clientConnection;
+    }
+
+    @Override
+    public ClientConnection register(PlayerContainer player) {
+        ClientConnection clientConnection = new ClientConnection(player);
         clientMap.put(player.getUniqueId(), clientConnection);
         createdConnectionSubscribers.forEach((id, handler) -> handler.accept(clientConnection));
         return clientConnection;
