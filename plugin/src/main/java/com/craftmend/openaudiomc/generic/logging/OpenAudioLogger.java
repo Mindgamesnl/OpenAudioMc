@@ -2,6 +2,9 @@ package com.craftmend.openaudiomc.generic.logging;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.rest.ServerEnvironment;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+
+import java.util.logging.Level;
 
 public class OpenAudioLogger {
 
