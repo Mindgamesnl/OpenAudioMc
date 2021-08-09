@@ -20,7 +20,7 @@ public enum Platform {
             case VELOCITY:
                 return VelocityChatColor.translateAlternateColorCodes('&', input);
             default:
-                return null; // unknown platform
+                return input; // unknown platform
         }
 
     }
@@ -34,7 +34,7 @@ public enum Platform {
             case VELOCITY:
                 return VelocityChatColor.valueOf(color).toString();
             default:
-                return null; // unknown platform
+                return ""; // unknown platform
         }
     }
 
