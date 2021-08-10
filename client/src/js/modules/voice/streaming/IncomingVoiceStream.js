@@ -51,7 +51,7 @@ export class IncomingVoiceStream {
                 this.pannerNode.panningModel = 'HRTF';
                 this.pannerNode.rolloffFactor = 0.95;
                 this.pannerNode.distanceModel = "linear";
-                this.pannerNode.coneOuterGain = 0.9;
+                this.pannerNode.coneOuterGain = 1;
                 this.pannerNode.coneInnerAngle = 120;
                 this.setLocation(this.x, this.y, this.z, true);
                 source.connect(gainNode);
