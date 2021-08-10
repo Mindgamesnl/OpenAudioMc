@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.client.interfaces.PlayerContainer;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.client.objects.player.SerializableClient;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
@@ -18,9 +19,9 @@ import com.craftmend.openaudiomc.velocity.messages.PacketPlayer;
 import com.craftmend.openaudiomc.velocity.messages.StandardPacket;
 import com.craftmend.openaudiomc.velocity.messages.implementations.BukkitPacketManager;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -99,22 +100,22 @@ public class ProxyNetworkingService extends NetworkingService {
     }
 
     @Override
-    public ClientConnection register(Player player) {
-        return realService.register(player);
+    public ClientConnection register(Player player, @Nullable SerializableClient importData) {
+        return realService.register(player, importData);
     }
 
     @Override
-    public ClientConnection register(PlayerContainer player) {
-        return realService.register(player);
+    public ClientConnection register(PlayerContainer player, @Nullable SerializableClient importData) {
+        return realService.register(player, importData);
     }
 
     @Override
-    public ClientConnection register(ProxiedPlayer player) {
-        return realService.register(player);
+    public ClientConnection register(ProxiedPlayer player, @Nullable SerializableClient importData) {
+        return realService.register(player, importData);
     }
 
-    public ClientConnection register(com.velocitypowered.api.proxy.Player player) {
-        return realService.register(player);
+    public ClientConnection register(com.velocitypowered.api.proxy.Player player, @Nullable SerializableClient importData) {
+        return realService.register(player, importData);
     }
 
     @Override

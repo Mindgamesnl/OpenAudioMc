@@ -28,7 +28,7 @@ public class PlayerConnectionListener {
     @SneakyThrows
     @Subscribe
     public void onPostLogin(PostLoginEvent e) {
-        OpenAudioMc.getService(NetworkingService.class).register(e.getPlayer());
+        OpenAudioMc.getService(NetworkingService.class).register(e.getPlayer(), null);
     }
 
     @Subscribe

@@ -9,6 +9,7 @@ import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.client.interfaces.PlayerContainer;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.client.objects.player.SerializableClient;
 import com.craftmend.openaudiomc.generic.networking.enums.PacketChannel;
 import com.craftmend.openaudiomc.generic.networking.handlers.*;
 
@@ -34,6 +35,7 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -177,17 +179,17 @@ public class DefaultNetworkingService extends NetworkingService {
                 case SPIGOT:
                     Player player = Bukkit.getPlayer(uuid);
                     if (player == null) return null;
-                    return register(player);
+                    return register(player, null);
                 case BUNGEE:
                     ProxiedPlayer proxiedPlayer = ProxyServer.getInstance().getPlayer(uuid);
                     if (proxiedPlayer == null) {
                         // if the player is null or not on this server, it might be a case of redis bungee
                         return null;
                     }
-                    return register(proxiedPlayer);
+                    return register(proxiedPlayer, null);
                 case VELOCITY:
                     Optional<com.velocitypowered.api.proxy.Player> velocityPlayer = OpenAudioMcVelocity.getInstance().getServer().getPlayer(uuid);
-                    return velocityPlayer.map(this::register).orElse(null);
+                    return velocityPlayer.map(p -> register(p, null)).orElse(null);
                 default:
                     return null;
             }
@@ -229,31 +231,31 @@ public class DefaultNetworkingService extends NetworkingService {
     }
 
     @Override
-    public ClientConnection register(Player player) {
-        ClientConnection clientConnection = new ClientConnection(new SpigotPlayerAdapter(player));
+    public ClientConnection register(Player player, @Nullable SerializableClient importData) {
+        ClientConnection clientConnection = new ClientConnection(new SpigotPlayerAdapter(player), importData);
         clientMap.put(player.getUniqueId(), clientConnection);
         createdConnectionSubscribers.forEach((id, handler) -> handler.accept(clientConnection));
         return clientConnection;
     }
 
     @Override
-    public ClientConnection register(ProxiedPlayer player) {
-        ClientConnection clientConnection = new ClientConnection(new ProxiedPlayerAdapter(player));
+    public ClientConnection register(ProxiedPlayer player, @Nullable SerializableClient importData) {
+        ClientConnection clientConnection = new ClientConnection(new ProxiedPlayerAdapter(player), importData);
         clientMap.put(player.getUniqueId(), clientConnection);
         createdConnectionSubscribers.forEach((id, handler) -> handler.accept(clientConnection));
         return clientConnection;
     }
 
     @Override
-    public ClientConnection register(com.velocitypowered.api.proxy.Player player) {
-        ClientConnection clientConnection = new ClientConnection(new VelocityPlayerAdapter(player));
+    public ClientConnection register(com.velocitypowered.api.proxy.Player player, @Nullable SerializableClient importData) {
+        ClientConnection clientConnection = new ClientConnection(new VelocityPlayerAdapter(player), importData);
         clientMap.put(player.getUniqueId(), clientConnection);
         createdConnectionSubscribers.forEach((id, handler) -> handler.accept(clientConnection));
         return clientConnection;
     }
 
     @Override
-    public ClientConnection register(PlayerContainer player) {
+    public ClientConnection register(PlayerContainer player, @Nullable SerializableClient importData) {
         ClientConnection clientConnection = new ClientConnection(player);
         clientMap.put(player.getUniqueId(), clientConnection);
         createdConnectionSubscribers.forEach((id, handler) -> handler.accept(clientConnection));
