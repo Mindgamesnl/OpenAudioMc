@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.api.impl.event.events;
 
 import com.craftmend.openaudiomc.api.impl.event.AudioEvent;
+import com.craftmend.openaudiomc.api.impl.event.ClientEvent;
 import com.craftmend.openaudiomc.api.impl.event.enums.EventSupport;
 import com.craftmend.openaudiomc.api.interfaces.EventSupportFlag;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
@@ -16,7 +17,7 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 @EventSupportFlag(support = EventSupport.EVERYWHERE)
-public class ClientDisconnectEvent extends AudioEvent {
+public class ClientDisconnectEvent extends AudioEvent implements ClientEvent {
 
     @Getter
     private ClientConnection client;
