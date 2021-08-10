@@ -18,7 +18,7 @@ export class SpeakerRenderNode {
                 this.pannerNode.panningModel = 'HRTF';
                 this.pannerNode.rolloffFactor = 0.9;
                 this.pannerNode.distanceModel = "linear";
-                this.pannerNode.coneOuterGain = 0.7;
+                this.pannerNode.coneOuterGain = 1;
                 this.pannerNode.coneInnerAngle = 120;
                 this.pannerNode.maxDistance = speaker.maxDistance;
 
