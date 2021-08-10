@@ -34,7 +34,7 @@ public class PlayerConnectionListener implements Listener {
 
     @EventHandler
     public void onPostLogin(PostLoginEvent event) {
-        OpenAudioMc.getService(NetworkingService.class).register(event.getPlayer());
+        OpenAudioMc.getService(NetworkingService.class).register(event.getPlayer(), null);
     }
 
     @EventHandler
