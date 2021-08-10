@@ -232,6 +232,10 @@ public class DefaultNetworkingService extends NetworkingService {
 
     @Override
     public ClientConnection register(Player player, @Nullable SerializableClient importData) {
+        if (clientMap.containsKey(player.getUniqueId())) {
+            OpenAudioLogger.toConsole("Player " + player.getName() + " is already registered, re-using instance.");
+            return clientMap.get(player.getUniqueId());
+        }
         ClientConnection clientConnection = new ClientConnection(new SpigotPlayerAdapter(player), importData);
         clientMap.put(player.getUniqueId(), clientConnection);
         createdConnectionSubscribers.forEach((id, handler) -> handler.accept(clientConnection));
@@ -279,4 +283,9 @@ public class DefaultNetworkingService extends NetworkingService {
     public void addEventHandler(INetworkingEvents events) {
         eventHandlers.add(events);
     }
+
+    public boolean hasClient(UUID uuid) {
+        return clientMap.containsKey(uuid);
+    }
+
 }

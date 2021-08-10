@@ -89,5 +89,6 @@ public interface Client {
      * @return Save copy
      */
     SerializableClient asSerializableCopy();
+    void applySerializedSession(SerializableClient sc);
 
 }

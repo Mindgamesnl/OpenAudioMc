@@ -13,9 +13,16 @@ import java.util.UUID;
 @NoArgsConstructor
 public class DefaultApi implements AudioApi {
 
+    private static DefaultApi instance;
     private final WorldApiImpl worldApi = new WorldApiImpl();
     private final MediaApiImpl mediaApi = new MediaApiImpl();
     private final RegistryApiImpl registryApi = new RegistryApiImpl();
+
+    public static AudioApi i() {
+        if (instance != null) return instance;
+        instance = new DefaultApi();
+        return instance;
+    }
 
     @Override
     public Client getClient(UUID uuid) {

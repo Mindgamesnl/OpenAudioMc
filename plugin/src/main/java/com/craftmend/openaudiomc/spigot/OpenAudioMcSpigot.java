@@ -156,10 +156,10 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
 
     @Override
     public Class<? extends NetworkingService> getServiceClass() {
-
         // check if there's a forced service
         Class<? extends NetworkingService> forced = ((RegistryApiImpl) AudioApi.getInstance().getRegistryApi()).getForcedService();
         if (forced != null) {
+            OpenAudioLogger.toConsole("Using forced networking class " + forced.getName());
             return forced;
         }
 

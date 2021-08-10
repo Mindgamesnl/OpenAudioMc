@@ -30,7 +30,7 @@ public class AuthenticationService extends Service {
 
     private AuthenticationDriver driver;
     private RestRequest registrationProvider;
-    private final ServerKeySet serverKeySet = new ServerKeySet();
+    @Getter private ServerKeySet serverKeySet = new ServerKeySet();
     private boolean isSuccessful = false;
     private final String failureMessage = "Oh no, it looks like the initial setup of OpenAudioMc has failed. Please try to restart the server and try again, if that still does not work, please contact OpenAudioMc staff or support.";
     private final int currentKeyVersion = 4;
