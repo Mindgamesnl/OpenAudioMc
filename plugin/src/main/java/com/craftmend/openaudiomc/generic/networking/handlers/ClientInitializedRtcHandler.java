@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.generic.networking.handlers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.impl.event.events.PlayerConnectVoicechatEvent;
+import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.bungee.modules.node.NodeManager;
 import com.craftmend.openaudiomc.velocity.messages.PacketPlayer;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
@@ -73,6 +75,7 @@ public class ClientInitializedRtcHandler extends PayloadHandler<ClientOpenedRtcP
             cc.setConnectedToRtc(true);
             cc.getClientRtcManager().setMicrophoneEnabled(true);
             // send a welcome message
+            AudioApi.getInstance().getEventDriver().fire(new PlayerConnectVoicechatEvent(cc));
             cc.getPlayer().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_SETUP.getString()));
             // notify the proxy, if applicable
             broadcastRtcUpdate(cc.getPlayer(), true, true, cc.getStreamKey(), cc);

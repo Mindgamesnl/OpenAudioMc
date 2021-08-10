@@ -46,16 +46,4 @@ public class AbstractPacketAdapter implements JsonSerializer<AbstractPacketPaylo
             throw new JsonParseException("Unknown element type: " + type, cnfe);
         }
     }
-
-    private int countChar(String str, char c)
-    {
-        int count = 0;
-
-        for(int i=0; i < str.length(); i++)
-        {    if(str.charAt(i) == c)
-            count++;
-        }
-
-        return count;
-    }
 }
