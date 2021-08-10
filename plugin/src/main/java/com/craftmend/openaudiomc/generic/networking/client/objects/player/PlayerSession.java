@@ -4,13 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @AllArgsConstructor
-public class PlayerSession {
+public class PlayerSession implements Serializable {
 
-    @Setter private boolean isForced = false;
-
-    private ClientConnection client;
+    private boolean isForced = false;
+    @Setter private transient ClientConnection client;
     private String webSessionKey;
     private String staticToken;
 

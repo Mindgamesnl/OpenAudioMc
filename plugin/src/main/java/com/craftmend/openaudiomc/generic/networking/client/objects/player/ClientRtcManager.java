@@ -42,8 +42,8 @@ public class ClientRtcManager implements Serializable {
     @Getter private final transient Set<RtcStateFlag> stateFlags = new HashSet<>();
     @Getter private final transient Set<UUID> recentPeerAdditions = new HashSet<>();
     @Getter private final transient Set<UUID> recentPeerRemovals = new HashSet<>();
-    private Location lastPassedLocation = null;
-    private final ClientConnection clientConnection;
+    private transient Location lastPassedLocation = null;
+    private final transient ClientConnection clientConnection;
 
     public ClientRtcManager(ClientConnection clientConnection) {
         this.clientConnection = clientConnection;

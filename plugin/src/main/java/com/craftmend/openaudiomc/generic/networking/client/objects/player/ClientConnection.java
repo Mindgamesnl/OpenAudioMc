@@ -85,15 +85,10 @@ public class ClientConnection implements Authenticatable, Client {
         refreshSession();
         sessionPublisher = new Publisher(this);
         streamKey =  new RandomString(15).nextString();
+        clientRtcManager = new ClientRtcManager(this);
 
         if (fromSerialized != null) {
-            volume = fromSerialized.getVolume();
-            isConnected = fromSerialized.isConnected();
-            clientRtcManager = fromSerialized.getClientRtcManager();
-            streamKey = fromSerialized.getStreamKey();
-            isConnectedToRtc = fromSerialized.isConnectedToRtc();
-            hasHueLinked = fromSerialized.isHasHueLinked();
-            sessionUpdated = fromSerialized.isSessionUpdated();
+            this.applySerializedSession(fromSerialized);
         }
 
         if (OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_SEND_URL_ON_JOIN))
@@ -102,8 +97,6 @@ public class ClientConnection implements Authenticatable, Client {
         if (!OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
             OpenAudioMc.getService(GlobalConstantService.class).sendNotifications(player);
         }
-
-        clientRtcManager = new ClientRtcManager(this);
     }
 
     public void updatedVolume(int newVolume) {
@@ -370,7 +363,21 @@ public class ClientConnection implements Authenticatable, Client {
                 .isConnectedToRtc(isConnectedToRtc)
                 .hasHueLinked(hasHueLinked)
                 .sessionUpdated(sessionUpdated)
+                .session(session)
                 .build();
+    }
+
+    @Override
+    public void applySerializedSession(SerializableClient sc) {
+        this.volume = sc.getVolume();
+        this.isConnected = sc.isConnected();
+        this.clientRtcManager.setMicrophoneEnabled(sc.getClientRtcManager().isMicrophoneEnabled());
+        this.streamKey = sc.getStreamKey();
+        this.isConnectedToRtc = sc.isConnectedToRtc();
+        this.hasHueLinked = sc.isHasHueLinked();
+        this.sessionUpdated = sc.isSessionUpdated();
+        this.session = sc.getSession();
+        this.session.setClient(this);
     }
 
     public void onDestroy() {

@@ -16,5 +16,6 @@ public class SerializableClient {
     private boolean isConnectedToRtc = false;
     private boolean hasHueLinked = false;
     private boolean sessionUpdated = false;
+    private PlayerSession session;
 
 }

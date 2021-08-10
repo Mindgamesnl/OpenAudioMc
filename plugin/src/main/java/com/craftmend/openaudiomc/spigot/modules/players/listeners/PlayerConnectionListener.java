@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.players.listeners;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientToggleMicrophone;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceChatToggleMicrophonePayload;
 import com.craftmend.openaudiomc.generic.platform.Platform;
