@@ -175,7 +175,6 @@ public class ClientRtcManager implements Serializable {
     }
 
     public void setMicrophoneEnabled(boolean state) {
-
         if (!this.isMicrophoneEnabled && state) {
             if (this.lastPassedLocation != null) {
                 forceUpdateLocation(lastPassedLocation);
@@ -183,6 +182,8 @@ public class ClientRtcManager implements Serializable {
         }
 
         this.isMicrophoneEnabled = state;
+
+        if (!this.isReady()) return;
 
         if (state) {
             AudioApi.getInstance().getEventDriver().fire(new MicrophoneUnmuteEvent(clientConnection));

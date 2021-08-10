@@ -9,6 +9,8 @@ import com.craftmend.openaudiomc.api.interfaces.Client;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.bungee.modules.node.NodeManager;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
+import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
+import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.enviroment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
@@ -41,6 +43,7 @@ import com.velocitypowered.api.proxy.Player;
 import lombok.Getter;
 import lombok.Setter;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import org.bukkit.Bukkit;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -149,6 +152,8 @@ public class ClientConnection implements Authenticatable, Client {
 
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE)
             return;
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.STANDALONE)
+            return;
         String connectedMessage = Configuration.getString(StorageKey.MESSAGE_CLIENT_OPENED);
         player.sendMessage(Platform.translateColors(connectedMessage));
     }
@@ -179,6 +184,8 @@ public class ClientConnection implements Authenticatable, Client {
 
         // Don't send if i'm spigot and a node
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE)
+            return;
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.STANDALONE)
             return;
         String message = OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.MESSAGE_CLIENT_CLOSED);
         player.sendMessage(Platform.translateColors(message));
@@ -370,7 +377,6 @@ public class ClientConnection implements Authenticatable, Client {
     @Override
     public void applySerializedSession(SerializableClient sc) {
         this.volume = sc.getVolume();
-        this.isConnected = sc.isConnected();
         this.clientRtcManager.setMicrophoneEnabled(sc.getClientRtcManager().isMicrophoneEnabled());
         this.streamKey = sc.getStreamKey();
         this.isConnectedToRtc = sc.isConnectedToRtc();
@@ -378,6 +384,21 @@ public class ClientConnection implements Authenticatable, Client {
         this.sessionUpdated = sc.isSessionUpdated();
         this.session = sc.getSession();
         this.session.setClient(this);
+
+        // compare the two, and fire events
+        if (isConnected != sc.isConnected()) {
+            if (sc.isConnected()) {
+                onConnect();
+            } else {
+                onDisconnect();
+            }
+        }
+
+        if (isConnectedToRtc) {
+            if (!OpenAudioMc.getService(CraftmendService.class).is(CraftmendTag.VOICECHAT)) {
+                OpenAudioMc.getService(CraftmendService.class).addTag(CraftmendTag.VOICECHAT);
+            }
+        }
     }
 
     public void onDestroy() {
