@@ -132,7 +132,8 @@ export class MessageModule {
     }
 
     async fetchWithFailover(file, isFailover = false) {
-        let prefix = (isFailover ? API_ENDPOINT.CONTENT_PROXY + "https://client.openaudiomc.net/" : window.location.pathname + window.location.search)
+        let link = (window.location.pathname + window.location.search).split("?")[0]
+        let prefix = (isFailover ? API_ENDPOINT.CONTENT_PROXY + "https://client.openaudiomc.net/" : link)
         let request = await fetch(prefix + file);
         if (request.status !== 200 && !isFailover) {
             oalog("Using fetch fail over for lang")
