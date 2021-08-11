@@ -25,7 +25,12 @@ public abstract class SubCommand {
     public SubCommand(String argument) {
         this.command = argument;
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
-            Bukkit.getPluginManager().addPermission(new Permission("openaudiomc.commands." + command));
+            // try, could already be registered
+            try {
+                Bukkit.getPluginManager().addPermission(new Permission("openaudiomc.commands." + command));
+            } catch (IllegalArgumentException e) {
+                // ignored
+            }
         }
     }
 
