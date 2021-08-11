@@ -300,7 +300,7 @@ public class ClientConnection implements Authenticatable, Client {
             getPlayer().sendMessage(prefix + "Something went wrong while playing a sound for you, here's what we know:");
             getPlayer().sendMessage(prefix + "what happened: " + error.getExplanation());
             getPlayer().sendMessage(prefix + "where: " + source);
-            getPlayer().sendMessage(prefix + Platform.translateColors("YELLOW") + "Players do NOT receive this warning, only staff does. You can disable it in the config.");
+            getPlayer().sendMessage(prefix + Platform.makeColor("YELLOW") + "Players do NOT receive this warning, only staff does. You can disable it in the config.");
         }
     }
 
