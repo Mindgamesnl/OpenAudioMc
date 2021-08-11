@@ -23,8 +23,6 @@ export class VoiceModule {
         this.loadedDeviceList = false;
         this.loadeMicPreference = Cookies.get("preferred-mic");
 
-        this.loudnessDetectionEnabled = false;
-
         this.surroundSwitch = new VoiceUiSwitch("use-surround", true, (enabled) => {
             this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {"enabled": false});
             this.useSurround = enabled;
@@ -32,6 +30,7 @@ export class VoiceModule {
         });
 
         this.useSurround = this.surroundSwitch.isOn();
+        oalog("Booted voice module")
     }
 
     enable(server, streamKey, blocksRadius) {

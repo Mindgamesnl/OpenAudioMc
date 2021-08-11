@@ -53,13 +53,14 @@ export class OpenAudioMc extends Getters {
         this.ambianceSound = "";
 
         this.isPatreon = false;
-
         this.tokenSet = new ClientTokenSet().fromCache();
-
         if (this.tokenSet == null) {
+            oalog("Stopping with bad auth")
             strictlyShowCard(UiCards.BAD_AUTH);
             return;
         }
+
+        oalog("Resuming boot")
 
         this.notificationModule = new NotificationModule(this);
         this.timeService = new TimeService();
@@ -71,7 +72,9 @@ export class OpenAudioMc extends Getters {
         setLoaderText("preparing session, welcome " + this.tokenSet.name)
 
         // request a socket service, then do the booting
+        oalog("Setting direcot")
         const director = new SocketDirector(API_ENDPOINT.MAIN_BACKEND);
+        oalog("Calling route")
         director.route(this)
             .then(async (res) => {
 

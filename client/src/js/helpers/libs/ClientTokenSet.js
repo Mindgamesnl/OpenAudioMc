@@ -39,6 +39,7 @@ export default class ClientTokenSet {
 
                 // validate all data
                 if (query.length !== 4) {
+                    console.log("Invalid query length")
                     resolve(null);
                     return null;
                 } // must be 4 arguments
@@ -52,12 +53,14 @@ export default class ClientTokenSet {
                     playerUuid != null && playerUuid.length <= 40 &&   // player uuid cant be null or less than 40 char
                     serverUuid != null && serverUuid.length <= 40 &&   // server uuid cant be null or less than 40 char
                     playerToken != null && playerToken.length <= 5)) { // player token cant be null or less than 5 char
+                    console.log("Failed parsing the token")
                     resolve(null);
                 }
 
                 // all appears to be okay! thats good! give a session
                 const out = new ClientTokenSet(serverUuid, playerUuid, playerName, playerToken)
                 window.tokenCache = out;
+                console.log("Resolving legacy token")
                 resolve(out);
             } else if (url.split('#').length >= 2) {
                 // try to load via fetch

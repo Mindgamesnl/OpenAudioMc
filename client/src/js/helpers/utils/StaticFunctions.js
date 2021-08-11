@@ -65,6 +65,7 @@ export function linkBootListeners() {
 
             document.body.addEventListener('click', enable)
         })
+        .catch(console.error)
 }
 
 function prepareUiDefaults() {
