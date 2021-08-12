@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.spigot;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.RegistryApiImpl;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.generic.logging.platform.SpigotLogger;
 import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
@@ -71,8 +72,11 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
         // Plugin startup logic
         instance = this;
 
+        // set logger
+        OpenAudioLogger.setLogger(new SpigotLogger(this));
+
         if (System.getenv("OA_LATE_BIND") != null && !bound) {
-            getLogger().log(Level.INFO, "Using late bind! not doing anything for now...");
+            OpenAudioLogger.toConsole("Using late bind! not doing anything for now...");
             bound = true;
             return;
         }

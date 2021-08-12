@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.generic.logging;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.rest.ServerEnvironment;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import lombok.Setter;
 
 import java.util.logging.Level;
 
@@ -10,8 +11,21 @@ public class OpenAudioLogger {
 
     private static final String LOG_PREFIX = "[OpenAudioMc] ";
 
+    @Setter private static Logger logger = new Logger() {
+
+        @Override
+        public void error(String s) {
+            System.err.println(s);
+        }
+
+        @Override
+        public void info(String s) {
+            System.out.println(s);
+        }
+    };
+
     public static void toConsole(String message) {
-        System.out.println(LOG_PREFIX + message);
+        logger.info(LOG_PREFIX + message);
     }
 
     public static void handleException(Throwable throwable) {
@@ -24,7 +38,7 @@ public class OpenAudioLogger {
 
         String methodThatFuckedUp = e.getMethodName();
 
-        toConsole("Encountered an exception in " + methodThatFuckedUp);
+        logger.error("Encountered an exception in " + methodThatFuckedUp);
         throwable.printStackTrace();
     }
 
