@@ -86,6 +86,8 @@ public class RegionModule {
         OpenAudioMc.getService(MediaService.class).getResetTriggers().add(() -> {
             regionMediaMap.clear();
         });
+
+        this.regionAdapter.postLoad();
     }
 
     public void registerRegion(String id, RegionProperties propperties) {
