@@ -5,6 +5,8 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.voicechat.driver.VoiceServerDriver;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -17,9 +19,9 @@ public class DefaultVoiceServiceImpl implements VoiceService {
     private List<Runnable> onShutdown = new ArrayList<>();
     private Instant lastCleanShutdownRequest = Instant.now();
 
-    private String host;
+    @Getter private String host;
     private String password;
-    private boolean enabled = false;
+    @Setter private boolean enabled = false;
     private int slots;
 
     @Override

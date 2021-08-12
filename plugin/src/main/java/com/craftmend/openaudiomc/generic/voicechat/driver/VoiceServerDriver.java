@@ -79,8 +79,8 @@ public class VoiceServerDriver {
             if (service.secondsSinceLastLogout() > 3) {
                 failed = true;
                 shutdown();
-                taskService.schduleSyncDelayedTask(() -> taskService.runAsync(() -> OpenAudioMc.getService(CraftmendService.class).kickstartVcHandshake()), 40);
             } else {
+                failed = false;
                 OpenAudioLogger.toConsole("Expected voicechat logout, ignoring.");
             }
         });
@@ -126,6 +126,7 @@ public class VoiceServerDriver {
             }
 
             OpenAudioLogger.toConsole("Successfully logged into a WebRTC server");
+            service.setEnabled(true);
         });
 
         // try to login

@@ -30,4 +30,6 @@ public interface VoiceService {
     void requestCleanShutdown();
 
     int secondsSinceLastLogout();
+
+    void setEnabled(boolean b);
 }

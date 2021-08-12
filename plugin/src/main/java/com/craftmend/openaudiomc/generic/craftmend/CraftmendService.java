@@ -118,12 +118,23 @@ public class CraftmendService extends Service {
     }
 
     public void kickstartVcHandshake() {
-        if (!is(CraftmendTag.VOICECHAT)) return;
-        if (lockVcAttempt) return;
+        if (lockVcAttempt) {
+            OpenAudioLogger.toConsole("Canceling voice handshake because the service is locked");
+            return;
+        }
         lockVcAttempt = true;
-        if (this.voiceService == null) return;
-        if (this.voiceService.getDriver() == null) return;
-        if (!this.voiceService.getDriver().isFailed()) return;
+        if (this.voiceService == null) {
+            OpenAudioLogger.toConsole("Canceling voice handshake because the voice service is null");
+            return;
+        }
+        if (this.voiceService.getDriver() == null) {
+            OpenAudioLogger.toConsole("Canceling voice handshake because the driver is null");
+            return;
+        }
+        if (this.voiceService.getDriver().isFailed()) {
+            OpenAudioLogger.toConsole("Canceling voice handshake because the last attempt failed");
+            return;
+        }
         OpenAudioLogger.toConsole("Kickstarting eb reconnect");
         startVoiceHandshake();
     }
