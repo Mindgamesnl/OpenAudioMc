@@ -27,7 +27,9 @@ public class VoiceDetail implements StateDetail {
             } else {
                 if (voiceService instanceof DefaultVoiceServiceImpl) {
                     DefaultVoiceServiceImpl i = (DefaultVoiceServiceImpl) voiceService;
-                    return "Using " + i.getUsedSlots() + " out of " + i.getAllowedSlots() + " slots.";
+                    // parse service name
+                    String host = i.getHost().split("\\.")[0].split("//")[1];
+                    return "Using " + i.getUsedSlots() + " out of " + i.getAllowedSlots() + " slots @ " + host;
                 } else {
                     return "Unknown service type";
                 }
