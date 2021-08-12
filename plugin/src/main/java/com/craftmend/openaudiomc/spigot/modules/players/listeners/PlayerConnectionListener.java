@@ -28,7 +28,7 @@ public class PlayerConnectionListener implements Listener {
 
     @EventHandler
     public void onShort(PlayerSwapHandItemsEvent event) {
-        if (event.getPlayer().isSneaking() && OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_VC_TOGGLE_MIC_SWAP);) {
+        if (event.getPlayer().isSneaking() && StorageKey.SETTINGS_VC_TOGGLE_MIC_SWAP.getBoolean()) {
             SpigotConnection spigotConnection = OpenAudioMc.getService(PlayerService.class).getClient(event.getPlayer().getUniqueId());
 
             if (!spigotConnection.getClientConnection().isConnectedToRtc()) {
