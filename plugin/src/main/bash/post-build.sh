@@ -12,13 +12,13 @@ save_var () {
   echo ''$1'''="'"$2"'"' >> ./src/main/resources/openaudiomc-build.properties
 }
 
+echo "Current build is" $BUILD_NUM
+
 # increment build num
 BUILD_NUM="$((BUILD_NUM + 1))"
 
 rm ./src/main/bash/data.bin
 rm ./src/main/resources/openaudiomc-build.properties
-
-echo "Current build is" $BUILD_NUM
 
 # replace in target
 save_var "BUILD_VERSION" $BUILD_NUM
@@ -31,3 +31,6 @@ chmod +x ./src/main/bash/data.bin
 
 # copy into the main
 cp ./src/main/bash/data.bin ./src/main/resources/data.bin
+
+# copy jar
+cp target/OpenAudioMc-* ./../docs/builds/OpenAudioMc-latest.jar
