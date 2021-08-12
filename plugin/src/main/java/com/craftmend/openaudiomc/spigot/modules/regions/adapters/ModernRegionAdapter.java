@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 
 public class ModernRegionAdapter extends AbstractRegionAdapter {
 
+    private boolean booted = false;
     private boolean usePriority = OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_USE_WG_PRIORITY);
 
     public ModernRegionAdapter(RegionModule regionModule) {
@@ -59,6 +60,7 @@ public class ModernRegionAdapter extends AbstractRegionAdapter {
 
     @Override
     public boolean doesRegionExist(String name) {
+        if (!booted) return true;
         RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
         for (World world : Bukkit.getWorlds()) {
             RegionManager manager = container.get(BukkitAdapter.adapt(world));
@@ -70,5 +72,10 @@ public class ModernRegionAdapter extends AbstractRegionAdapter {
             }
         }
         return false;
+    }
+
+    @Override
+    public void postLoad() {
+        booted = true;
     }
 }

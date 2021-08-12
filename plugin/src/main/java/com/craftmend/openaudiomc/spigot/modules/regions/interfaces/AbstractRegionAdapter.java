@@ -58,4 +58,6 @@ public abstract class AbstractRegionAdapter extends RegionAdapterBase {
     public void boot(RegionModule regionModule) {
         this.regionModule = regionModule;
     }
+
+    public abstract void postLoad();
 }
