@@ -21,6 +21,7 @@ public class SystemDriver implements SocketDriver {
         socket.on(Socket.EVENT_CONNECT, args -> {
             // connected with success
             OpenAudioMc.getService(StateService.class).setState(new ConnectedState(connector.getLastUsedRelay()));
+            OpenAudioMc.getService(CraftmendService.class).kickstartVcHandshake();
         });
 
         socket.on(Socket.EVENT_DISCONNECT, args -> {

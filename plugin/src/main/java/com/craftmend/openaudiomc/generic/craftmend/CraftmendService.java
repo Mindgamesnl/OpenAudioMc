@@ -56,8 +56,13 @@ public class CraftmendService extends Service {
 
         voiceService.onShutdown(() -> {
             // restart in 10 seconds
-            OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(this::startVoiceHandshake, 20 * 20);
-            OpenAudioLogger.toConsole("Voicechat had to shut down. Restarting in 20 seconds.");
+            // ignore if it was manual
+            if (voiceService.secondsSinceLastLogout() > 3) {
+                OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(this::startVoiceHandshake, 20 * 20);
+                OpenAudioLogger.toConsole("Voicechat had to shut down. Restarting in 20 seconds.");
+            } else {
+                OpenAudioLogger.toConsole("Voicechat shutdown was intentional, not restarting...");
+            }
         });
     }
 
@@ -113,6 +118,7 @@ public class CraftmendService extends Service {
     }
 
     public void kickstartVcHandshake() {
+        if (!is(CraftmendTag.VOICECHAT)) return;
         if (lockVcAttempt) return;
         lockVcAttempt = true;
         if (this.voiceService == null) return;
@@ -124,7 +130,7 @@ public class CraftmendService extends Service {
 
     public void stopVoiceChat() {
         if (this.voiceService != null) {
-            this.voiceService.shutdown();
+            this.voiceService.requestCleanShutdown();
         }
         lockVcAttempt = false;
     }

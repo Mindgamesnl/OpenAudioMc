@@ -23,6 +23,7 @@ public class VoiceEventBus extends WebSocketListener {
     private boolean isReady = false;
     private String server;
     private String password;
+    private boolean closed;
     private WebSocket webSocket;
 
     public VoiceEventBus(String server, String password, VoiceServerDriver driver) {
@@ -65,6 +66,8 @@ public class VoiceEventBus extends WebSocketListener {
     }
 
     public void stop() {
+        closed = true;
+        OpenAudioLogger.toConsole("Killing event bus");
         client.dispatcher().executorService().shutdown();
         this.isReady = false;
     }
@@ -76,16 +79,19 @@ public class VoiceEventBus extends WebSocketListener {
 
     @Override
     public void onClosed(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
+        OpenAudioLogger.toConsole("Voicechat ws closed: " + reason + " - " + code);
         handleError();
     }
 
     @Override
     public void onClosing(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
+        OpenAudioLogger.toConsole("Voicechat ws closing: " + reason + " - " + code);
         handleError();
     }
 
     @Override
     public void onFailure(@NotNull WebSocket webSocket, @NotNull Throwable t, @Nullable Response response) {
+        OpenAudioLogger.toConsole("Voicechat ws error: " + t.getMessage() + " - " + response.message());
         handleError();
     }
 
@@ -118,6 +124,7 @@ public class VoiceEventBus extends WebSocketListener {
 
     private void handleError() {
         if (!this.isReady) return;
+        if (closed) return;
         this.isReady = false;
         for (Runnable runnable : this.onEerror) {
             runnable.run();

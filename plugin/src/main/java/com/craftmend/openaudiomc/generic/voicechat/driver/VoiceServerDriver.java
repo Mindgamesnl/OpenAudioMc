@@ -76,9 +76,13 @@ public class VoiceServerDriver {
                 }
             }
 
-            failed = true;
-            shutdown();
-            taskService.schduleSyncDelayedTask(() -> taskService.runAsync(() -> OpenAudioMc.getService(CraftmendService.class).kickstartVcHandshake()), 40);
+            if (service.secondsSinceLastLogout() > 3) {
+                failed = true;
+                shutdown();
+                taskService.schduleSyncDelayedTask(() -> taskService.runAsync(() -> OpenAudioMc.getService(CraftmendService.class).kickstartVcHandshake()), 40);
+            } else {
+                OpenAudioLogger.toConsole("Expected voicechat logout, ignoring.");
+            }
         });
 
         this.eventBus.onReady(() -> {
@@ -90,12 +94,13 @@ public class VoiceServerDriver {
 
             // schedule heartbeat every few seconds
             if (!taskStarted) {
-                tasks.add(taskService.scheduleAsyncRepeatingTask(() -> {
+                int id = taskService.scheduleAsyncRepeatingTask(() -> {
                     // send heartbeat
                     if (taskRunning) {
                         pushEvent(VoiceServerEventType.HEARTBEAT, new HashMap<>());
                     }
-                }, 80, 80));
+                }, 80, 80);
+                tasks.add(id);
                 taskStarted = true;
             }
             taskRunning = true;
