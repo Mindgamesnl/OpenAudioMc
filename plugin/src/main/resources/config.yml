@@ -89,6 +89,8 @@ options:
   voicechat-radius: 45
   # Chat announcements for players to notify them of others entering/leaving their voice chat proximity
   voicechat-announcements: true
+  # Changes whether to toggle your microphone while sneaking and pressing swap.
+  voicechat-toggle-mic-on-swap-and-sneak: true
 
 # REDIS
 # More explanation about redis: https://help.openaudiomc.net/redis
