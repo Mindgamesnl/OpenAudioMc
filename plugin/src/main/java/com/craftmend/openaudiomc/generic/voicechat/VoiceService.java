@@ -26,4 +26,8 @@ public interface VoiceService {
     void onShutdown(Runnable runnable);
 
     VoiceServerDriver getDriver();
+
+    void requestCleanShutdown();
+
+    int secondsSinceLastLogout();
 }

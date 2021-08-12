@@ -6,6 +6,8 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.voicechat.driver.VoiceServerDriver;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +15,7 @@ public class DefaultVoiceServiceImpl implements VoiceService {
 
     private VoiceServerDriver driver;
     private List<Runnable> onShutdown = new ArrayList<>();
+    private Instant lastCleanShutdownRequest = Instant.now();
 
     private String host;
     private String password;
@@ -77,5 +80,17 @@ public class DefaultVoiceServiceImpl implements VoiceService {
     @Override
     public VoiceServerDriver getDriver() {
         return driver;
+    }
+
+    @Override
+    public void requestCleanShutdown() {
+        OpenAudioLogger.toConsole("Logging out of voicechat");
+        lastCleanShutdownRequest = Instant.now();
+        this.shutdown();
+    }
+
+    @Override
+    public int secondsSinceLastLogout() {
+        return (int) Math.abs(Duration.between(lastCleanShutdownRequest, Instant.now()).getSeconds());
     }
 }
