@@ -117,6 +117,7 @@ This document overrides the license as used before May 20th, 2020 at 7 PM (UTC+2
 - The right to use OpenAudioMc may – without any notification - be terminated if you breach one or more of the Terms of Services. If this is the case Craftmend/OpenaudioMc does not have to reimburse the fee (in whole or in part) paid by you.
 - Since we are not a professional software development team, Mindgamesnl/Mats cannot warrant that the OpenAudioMc (i) does not infringe the intellectual property rights of third parties; (ii) shall perform in all respects in accordance with the software specifications; (iii) shall not contain any virus, worm, virus macro, Trojan horse, or other component designed to permit unauthorized access, disable, erase, corrupt or otherwise harm the software; (iv) is fit for the purpose.
 - The total liability of Craftmend/OpenAudioMc/Mindgamesnl shall not exceed the amount of the total fee paid by you. Craftmend/OpenAudioMc/Mindgamesnl shall under no circumstances whatsoever be liable to you for any loss of profit, or any indirect or consequential loss arising under or in connection with the use of Craftmend/OpenAudioMc.
+- Derivatives, forks and other copies/modifications of OpenAudioMc must follow this license and include it in their copy.
 
 
 ## Rights
