@@ -4,11 +4,11 @@ ui.loading=Laden...
 ui.logout=Log uit
 
 landing.title=Welkom!
-landing.clickBelow=Welkom %player! Klik ergens op deze pagina om jou sessie te activeren.
+landing.clickBelow=Welkom %player! Klik ergens op deze pagina om jouw sessie te activeren.
 landing.connectButton=Klik ergens om te verbinden
 
 main.title=Welkom terug,
-main.content=<div>Houd deze pagina open in de achtergond omdat het gebruikt gaat worden om de audio af te spelen gerelateerd aan de acties die je in de game uitvoert. Je kan zelf het volume hier aanpassen, of in de game door <b>/volume(volume)</b> te gebruiken</div>
+main.content=<div>Houd deze pagina open in de achtergond omdat het gebruikt gaat worden om de audio af te spelen gerelateerd aan de acties die je in de game uitvoert. Je kan zelf het volume hier aanpassen, of in de game door <b>/volume (volume)</b> te gebruiken</div>
 main.volume=Muziek volume
 main.openHue=open Philips Hue configuratie
 
@@ -39,10 +39,10 @@ vc.voiceRange=Spraakbereik
 vc.empty=Er is helaas niemand in de buurt.. Maar maak je geen zorgen! Ik zal je gezellige denkbeeldige vriend zijn
 
 hue.hue=Philips Hue
-hue.link=Klik hier om verbinding te maken met je hue bridge
+hue.link=Klik hier om verbinding te maken met je Hue Bridge
 hue.preparing=Installatie voorbereiden...
 hue.loggingIn=Inloggen..
-hue.linking=Druk binnen %sec seconden op de link-knop op je Hue bBridge om verbinding te maken.
+hue.linking=Druk binnen %sec seconden op de link-knop op je Hue Bridge om verbinding te maken.
 hue.connectedTo=Je bent nu verbonden met je Hue Bridge:
 hue.light1=Lamp een
 hue.light2=Lamp twee
