@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.proxy;
 
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.service.Service;
+import com.craftmend.openaudiomc.generic.utils.data.EnvironmentHelper;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -28,6 +29,13 @@ public class ProxyModule extends Service {
         if(!proxyMode) {
             FileConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(new File("spigot.yml"));
             proxyMode = yamlConfiguration.getBoolean("settings.bungeecord");
+        }
+
+        // is it minehut? then force if
+        if (EnvironmentHelper.contains("minehut")) {
+            OpenAudioLogger.toConsole("Starting in standalone mode due to minehut");
+            mode = ClientMode.STAND_ALONE;
+            return;
         }
 
         if (proxyMode) {
