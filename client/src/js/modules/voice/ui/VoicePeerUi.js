@@ -27,12 +27,12 @@ export class VoicePeerUi {
 
         let baseHtml = `
         <div class="flex items-center p-2" id="vc-user-card-` + playerName + `">
-            <div class="w-12 h-12 rounded-full mr-3 overflow-hidden flex items-center" id="vc-user-card-` + playerName + `-indicator">
+            <div class="w-12 h-12 rounded-full mr-3 overflow-hidden flex items-center text-black" id="vc-user-card-` + playerName + `-indicator">
                 <img id="vc-user-card-` + playerName + `-picture" src="https://visage.surgeplay.com/bust/512/` + playerUuid + `" class="w-16">
             </div>
             <div class="flex-1">
                 <div class="flex items-center">
-                    <div class="font-semibold text-normal text-teal-500"><svg id="vc-user-card-` + playerName + `-muted" class="h-8 w-8 text-red-500" style="display: none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="1" y1="1" x2="23" y2="23" /> <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6" /> <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23" /> <line x1="12" y1="19" x2="12" y2="23" /> <line x1="8" y1="23" x2="16" y2="23" /></svg>` + playerName + ` <small id="vc-user-card-` + playerName + `-volume-disp">(` + volume + `% volume)</small>
+                    <div class="font-semibold text-normal text-black"><svg id="vc-user-card-` + playerName + `-muted" class="h-8 w-8 text-red-500" style="display: none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="1" y1="1" x2="23" y2="23" /> <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6" /> <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23" /> <line x1="12" y1="19" x2="12" y2="23" /> <line x1="8" y1="23" x2="16" y2="23" /></svg>` + playerName + ` <small id="vc-user-card-` + playerName + `-volume-disp" class="text-black">(` + volume + `% volume)</small>
                     </div>
                 </div>
                 <div><input id="vc-user-card-` + playerName + `-volume-input" oninput="handlePeerVolumeEvent(this)"
