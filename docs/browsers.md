@@ -1,3 +1,7 @@
+[//]: # (TITLE:Supported web browsers)
+[//]: # (DESCRIPTION:Full browser support list for the web client)
+[//]: # (TAGS:client,safari,webclient,web,client)
+
 # Supported browsers
 These browsers are fully supported in the latest OpenAudioMc release.
 - [Google Chrome](https://www.google.com/chrome/) (Mac, Windows and Linux)

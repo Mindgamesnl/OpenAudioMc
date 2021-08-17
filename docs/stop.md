@@ -1,3 +1,7 @@
+[//]: # (TITLE:Stop)
+[//]: # (DESCRIPTION:Using the stop sub command)
+[//]: # (TAGS:stop,subcommand,command,stop,music,audio)
+
 # Stop Media
 The play command is used to stop [Media](media.md) it is playing. When executed, all media will be stopped for a player (with exception for Regions and Speakers).
 

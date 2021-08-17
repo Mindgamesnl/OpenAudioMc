@@ -1,3 +1,7 @@
+[//]: # (TITLE:Proximity Voice Chat)
+[//]: # (DESCRIPTION:Using proximity voicechat)
+[//]: # (TAGS:voice,voicechat,proximity,accounts,talking,calling,calls)
+
 # Voice Chat
 
 ## Enabling voice chat

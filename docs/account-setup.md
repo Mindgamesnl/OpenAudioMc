@@ -1,3 +1,7 @@
+[//]: # (TITLE:Linking your account)
+[//]: # (DESCRIPTION:Link your Minecraft server to your Craftmend account)
+[//]: # (TAGS:accounts,linking,craftmend,setup,minecraft,plugin,link)
+
 # Account Setup Guide
 ## IMPORTANT! accounts are only available for versions 6.5 and up, older versions still use the old panel on `/oa plus`
 ## Step #1 - Creating  your account

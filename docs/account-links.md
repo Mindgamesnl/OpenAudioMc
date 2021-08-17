@@ -1,3 +1,7 @@
+[//]: # (TITLE:Account Links)
+[//]: # (DESCRIPTION:Linking your Craftmend Account with external services (like Patron and Discord))
+[//]: # (TAGS:accounts,linking,craftmend,patreon,discord,links)
+
 # Account Links
 ![Account](https://i.imgur.com/chwk9jg.png)
 

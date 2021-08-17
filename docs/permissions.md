@@ -1,3 +1,7 @@
+[//]: # (TITLE:Permissions)
+[//]: # (DESCRIPTION:Plugin permissions)
+[//]: # (TAGS:permissions,permission)
+
 # Permissions
 OpenAudioMc has permissions for everything and is fully configurable.
 If you don't want to bother with permissions, you can give yourself OP (or `openaudiomc.*` on bungeecord) and be done with it, or dive into the specifics.

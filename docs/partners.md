@@ -1,3 +1,7 @@
+[//]: # (TITLE:Partners)
+[//]: # (DESCRIPTION:Partnerships and collaberations)
+[//]: # (TAGS:youtubuers,big,servers,youtube,streamer,twitch,extra,more)
+
 # Partners
 OpenAudioMc partners are Servers/Communities/Creators working closely with the project, often requiring special solutions, features and implementations to help their project move forward and build upon OpenAudioMc's existing systems and infrastructure.
 Requirements, costs and commitments are hard to pin down since I usually look with individuals, and their needs to see what we can and can't do.

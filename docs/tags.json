@@ -1,0 +1,352 @@
+[
+ {
+  "Title": "Account Links",
+  "Description": "Linking your Craftmend Account with external services (like Patron and Discord)",
+  "Path": "account-links.md",
+  "Tags": [
+   "accounts",
+   "linking",
+   "craftmend",
+   "patreon",
+   "discord",
+   "links"
+  ]
+ },
+ {
+  "Title": "Linking your account",
+  "Description": "Link your Minecraft server to your Craftmend account",
+  "Path": "account-setup.md",
+  "Tags": [
+   "accounts",
+   "linking",
+   "craftmend",
+   "setup",
+   "minecraft",
+   "plugin",
+   "link"
+  ]
+ },
+ {
+  "Title": "Craftmend Accounts",
+  "Description": "What are Craftmend Accounts",
+  "Path": "account.md",
+  "Tags": [
+   "accounts",
+   "craftmend",
+   "email",
+   "addons",
+   "installation",
+   "install"
+  ]
+ },
+ {
+  "Title": "Alias Command",
+  "Description": "Using the Alias command to make shortcuts for media",
+  "Path": "alias.md",
+  "Tags": [
+   "commands",
+   "command",
+   "alias",
+   "aliases",
+   "aliasses",
+   "a"
+  ]
+ },
+ {
+  "Title": "",
+  "Description": "",
+  "Path": "blocked_domain.md",
+  "Tags": null
+ },
+ {
+  "Title": "",
+  "Description": "",
+  "Path": "voicechat-R2.md",
+  "Tags": null
+ },
+ {
+  "Title": "Supported web browsers",
+  "Description": "Full browser support list for the web client",
+  "Path": "browsers.md",
+  "Tags": [
+   "client",
+   "safari",
+   "webclient",
+   "web",
+   "client"
+  ]
+ },
+ {
+  "Title": "Web Client",
+  "Description": "Customizing, hosting and compiling the web client",
+  "Path": "client.md",
+  "Tags": [
+   "html",
+   "js",
+   "javascript",
+   "webclient",
+   "client",
+   "hosting",
+   "host"
+  ]
+ },
+ {
+  "Title": "Configuration",
+  "Description": "Using the various configuration files",
+  "Path": "configuration.md",
+  "Tags": [
+   "configuration",
+   "config",
+   "data",
+   "yml"
+  ]
+ },
+ {
+  "Title": "",
+  "Description": "",
+  "Path": "docs.md",
+  "Tags": null
+ },
+ {
+  "Title": "Philips Hue",
+  "Description": "Using the Philips Hue integration",
+  "Path": "hue.md",
+  "Tags": [
+   "hue",
+   "lights",
+   "iot",
+   "philips",
+   "lamps"
+  ]
+ },
+ {
+  "Title": "Installation",
+  "Description": "Installing OpenAudioMc",
+  "Path": "installation.md",
+  "Tags": [
+   "installation",
+   "install",
+   "bungeecord",
+   "setup",
+   "download"
+  ]
+ },
+ {
+  "Title": "Java API",
+  "Description": "Using the java API to build awesome shit",
+  "Path": "java_api.md",
+  "Tags": [
+   "java",
+   "api",
+   "documentation",
+   "events",
+   "packets",
+   "maven",
+   "gradle",
+   "nerds"
+  ]
+ },
+ {
+  "Title": "Media",
+  "Description": "Using and understanding media sources and playback options",
+  "Path": "media.md",
+  "Tags": [
+   "youtube",
+   "media",
+   "options",
+   "looping",
+   "ids",
+   "id's",
+   "soundcloud",
+   "mp3",
+   "mp4"
+  ]
+ },
+ {
+  "Title": "",
+  "Description": "",
+  "Path": "network_error.md",
+  "Tags": null
+ },
+ {
+  "Title": "Notifications",
+  "Description": "Using the notification sub command",
+  "Path": "notifications.md",
+  "Tags": [
+   "notifications",
+   "notification",
+   "subcommand"
+  ]
+ },
+ {
+  "Title": "",
+  "Description": "",
+  "Path": "old_client.md",
+  "Tags": null
+ },
+ {
+  "Title": "",
+  "Description": "",
+  "Path": "partner_projects.md",
+  "Tags": null
+ },
+ {
+  "Title": "Partners",
+  "Description": "Partnerships and collaberations",
+  "Path": "partners.md",
+  "Tags": [
+   "youtubuers",
+   "big",
+   "servers",
+   "youtube",
+   "streamer",
+   "twitch",
+   "extra",
+   "more"
+  ]
+ },
+ {
+  "Title": "Permissions",
+  "Description": "Plugin permissions",
+  "Path": "permissions.md",
+  "Tags": [
+   "permissions",
+   "permission"
+  ]
+ },
+ {
+  "Title": "Play",
+  "Description": "Using the play command",
+  "Path": "play.md",
+  "Tags": [
+   "play",
+   "command",
+   "subcommand",
+   "sound",
+   "start"
+  ]
+ },
+ {
+  "Title": "Redis",
+  "Description": "Using a Redis server for shows and networking",
+  "Path": "redis.md",
+  "Tags": [
+   "redis",
+   "shows"
+  ]
+ },
+ {
+  "Title": "Regions",
+  "Description": "Using worldguard regions",
+  "Path": "regions.md",
+  "Tags": [
+   "regions",
+   "areas",
+   "worldguard",
+   "world",
+   "region"
+  ]
+ },
+ {
+  "Title": "Selectors",
+  "Description": "Using selectors",
+  "Path": "selectors.md",
+  "Tags": [
+   "@a",
+   "@p",
+   "playername",
+   "selector",
+   "selectors",
+   "target",
+   "targets"
+  ]
+ },
+ {
+  "Title": "Shows",
+  "Description": "Using show commands to schedule and make shows",
+  "Path": "show.md",
+  "Tags": [
+   "shows",
+   "timers",
+   "timer",
+   "show"
+  ]
+ },
+ {
+  "Title": "Speakers",
+  "Description": "Using speakers in-game to place music",
+  "Path": "speakers.md",
+  "Tags": [
+   "spatial",
+   "speaker",
+   "speakers",
+   "music",
+   "media",
+   "region",
+   "audio"
+  ]
+ },
+ {
+  "Title": "Stop",
+  "Description": "Using the stop sub command",
+  "Path": "stop.md",
+  "Tags": [
+   "stop",
+   "subcommand",
+   "command",
+   "stop",
+   "music",
+   "audio"
+  ]
+ },
+ {
+  "Title": "",
+  "Description": "",
+  "Path": "technical_requirements.md",
+  "Tags": null
+ },
+ {
+  "Title": "Traincarts",
+  "Description": "Using traincarts signs to play music in rides",
+  "Path": "traincarts.md",
+  "Tags": [
+   "traincarts",
+   "train",
+   "music",
+   "sign",
+   "signs"
+  ]
+ },
+ {
+  "Title": "Proximity Voice Chat",
+  "Description": "Using proximity voicechat",
+  "Path": "voicechat.md",
+  "Tags": [
+   "voice",
+   "voicechat",
+   "proximity",
+   "accounts",
+   "talking",
+   "calling",
+   "calls"
+  ]
+ },
+ {
+  "Title": "",
+  "Description": "",
+  "Path": "voicechat_activation.md",
+  "Tags": null
+ },
+ {
+  "Title": "",
+  "Description": "",
+  "Path": "voicechat_troubleshooting.md",
+  "Tags": null
+ },
+ {
+  "Title": "",
+  "Description": "",
+  "Path": "web-client.md",
+  "Tags": null
+ }
+]

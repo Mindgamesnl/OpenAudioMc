@@ -1,3 +1,7 @@
+[//]: # (TITLE:Regions)
+[//]: # (DESCRIPTION:Using worldguard regions)
+[//]: # (TAGS:regions,areas,worldguard,world,region)
+
 # WorldGuard Regions
 ### Note: You need the WorldGuard plugin to use regions
 OpenAudioMc has an integration for WorldGuard (both 1.8 to 1.12.2, and the 1.13/1.14 update).

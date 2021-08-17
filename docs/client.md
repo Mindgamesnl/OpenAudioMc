@@ -1,3 +1,7 @@
+[//]: # (TITLE:Web Client)
+[//]: # (DESCRIPTION:Customizing, hosting and compiling the web client)
+[//]: # (TAGS:html,js,javascript,webclient,client,hosting,host)
+
 # Hosted Client
 OpenAudioMc gives you the option to host your own client, however, there are some caveats
 - You will become responsible for frequent updates, meaning that you have to update your webclient regularly.

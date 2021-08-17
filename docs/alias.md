@@ -1,3 +1,7 @@
+[//]: # (TITLE:Alias Command)
+[//]: # (DESCRIPTION:Using the Alias command to make shortcuts for media)
+[//]: # (TAGS:commands,command,alias,aliases,aliasses,a)
+
 ### Media Aliases
 Source URL'S can get pretty long and may need replacement. Luckily, you can shorten them into aliases. This is like a shortcut for any given source.
 

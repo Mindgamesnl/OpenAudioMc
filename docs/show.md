@@ -1,3 +1,7 @@
+[//]: # (TITLE:Shows)
+[//]: # (DESCRIPTION:Using show commands to schedule and make shows)
+[//]: # (TAGS:shows,timers,timer,show)
+
 # Shows
 With shows, you can make time coded shows. Our definition of a show is a list of cues, or scheduled events.
 

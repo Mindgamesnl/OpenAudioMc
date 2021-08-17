@@ -1,3 +1,7 @@
+[//]: # (TITLE:Configuration)
+[//]: # (DESCRIPTION:Using the various configuration files)
+[//]: # (TAGS:configuration,config,data,yml)
+
 ### Configuration
 OpenAudioMc makes a subdirectory named after the plugin (`plugins/openaudiomc`) and makes two files, a `config.yml` and `data.yml`.
 

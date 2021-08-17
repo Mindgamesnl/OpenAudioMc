@@ -1,3 +1,7 @@
+[//]: # (TITLE:Installation)
+[//]: # (DESCRIPTION:Installing OpenAudioMc)
+[//]: # (TAGS:installation,install,bungeecord,setup,download)
+
 # Installation
 Installation couldn't be simpler
 1. Download the most recent jar from https://openaudiomc.net/

@@ -1,3 +1,7 @@
+[//]: # (TITLE:Notifications)
+[//]: # (DESCRIPTION:Using the notification sub command)
+[//]: # (TAGS:notifications,notification,subcommand)
+
 # Notifications
 The Notification command can be used to send a push Notification to a client. If the client does not have Push Notifications enabled then they'll see it as a badge on the web client.
 

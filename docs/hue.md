@@ -1,3 +1,6 @@
+[//]: # (TITLE:Philips Hue)
+[//]: # (DESCRIPTION:Using the Philips Hue integration)
+[//]: # (TAGS:hue,lights,iot,philips,lamps)
 # Philips Hue
 # Linking your Philips Hue Bridge
 ### *Note: Due to limitations in the Philips API, you'll need to load your page through `http://`instead of `https://`*

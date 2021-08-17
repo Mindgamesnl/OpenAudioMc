@@ -1,3 +1,7 @@
+[//]: # (TITLE:Java API)
+[//]: # (DESCRIPTION:Using the java API to build awesome shit)
+[//]: # (TAGS:java,api,documentation,events,packets,maven,gradle,nerds)
+
 # Java API
 The OpenAudioMc Java API is split into three parts, these are
  - **Client** All player related functions (events, hooks, etc)

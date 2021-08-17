@@ -1,3 +1,7 @@
+[//]: # (TITLE:Speakers)
+[//]: # (DESCRIPTION:Using speakers in-game to place music)
+[//]: # (TAGS:spatial,speaker,speakers,music,media,region,audio)
+
 # Speakers
 Speakers are little blocks you can place in your Minecraft world. Just like real speakers in a themapark, all of them play synchronized and can be hidden. The thing that makes them special is that they share some properties just like real audio sources, You can't hear them from too far away, and the volume depends on your location relative to a speaker.
 
