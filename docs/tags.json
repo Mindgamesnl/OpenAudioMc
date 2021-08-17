@@ -1,9 +1,9 @@
 [
  {
-  "Title": "Account Links",
-  "Description": "Linking your Craftmend Account with external services (like Patron and Discord)",
-  "Path": "account-links.md",
-  "Tags": [
+  "title": "Account Links",
+  "description": "Linking your Craftmend Account with external services (like Patron and Discord)",
+  "path": "account-links.md",
+  "tags": [
    "accounts",
    "linking",
    "craftmend",
@@ -13,10 +13,10 @@
   ]
  },
  {
-  "Title": "Linking your account",
-  "Description": "Link your Minecraft server to your Craftmend account",
-  "Path": "account-setup.md",
-  "Tags": [
+  "title": "Linking your account",
+  "description": "Link your Minecraft server to your Craftmend account",
+  "path": "account-setup.md",
+  "tags": [
    "accounts",
    "linking",
    "craftmend",
@@ -27,10 +27,10 @@
   ]
  },
  {
-  "Title": "Craftmend Accounts",
-  "Description": "What are Craftmend Accounts",
-  "Path": "account.md",
-  "Tags": [
+  "title": "Craftmend Accounts",
+  "description": "What are Craftmend Accounts",
+  "path": "account.md",
+  "tags": [
    "accounts",
    "craftmend",
    "email",
@@ -40,10 +40,10 @@
   ]
  },
  {
-  "Title": "Alias Command",
-  "Description": "Using the Alias command to make shortcuts for media",
-  "Path": "alias.md",
-  "Tags": [
+  "title": "Alias Command",
+  "description": "Using the Alias command to make shortcuts for media",
+  "path": "alias.md",
+  "tags": [
    "commands",
    "command",
    "alias",
@@ -53,22 +53,22 @@
   ]
  },
  {
-  "Title": "",
-  "Description": "",
-  "Path": "blocked_domain.md",
-  "Tags": null
+  "title": "",
+  "description": "",
+  "path": "blocked_domain.md",
+  "tags": null
  },
  {
-  "Title": "",
-  "Description": "",
-  "Path": "voicechat-R2.md",
-  "Tags": null
+  "title": "",
+  "description": "",
+  "path": "voicechat-R2.md",
+  "tags": null
  },
  {
-  "Title": "Supported web browsers",
-  "Description": "Full browser support list for the web client",
-  "Path": "browsers.md",
-  "Tags": [
+  "title": "Supported web browsers",
+  "description": "Full browser support list for the web client",
+  "path": "browsers.md",
+  "tags": [
    "client",
    "safari",
    "webclient",
@@ -77,10 +77,10 @@
   ]
  },
  {
-  "Title": "Web Client",
-  "Description": "Customizing, hosting and compiling the web client",
-  "Path": "client.md",
-  "Tags": [
+  "title": "Web Client",
+  "description": "Customizing, hosting and compiling the web client",
+  "path": "client.md",
+  "tags": [
    "html",
    "js",
    "javascript",
@@ -91,10 +91,10 @@
   ]
  },
  {
-  "Title": "Configuration",
-  "Description": "Using the various configuration files",
-  "Path": "configuration.md",
-  "Tags": [
+  "title": "Configuration",
+  "description": "Using the various configuration files",
+  "path": "configuration.md",
+  "tags": [
    "configuration",
    "config",
    "data",
@@ -102,16 +102,16 @@
   ]
  },
  {
-  "Title": "",
-  "Description": "",
-  "Path": "docs.md",
-  "Tags": null
+  "title": "",
+  "description": "",
+  "path": "docs.md",
+  "tags": null
  },
  {
-  "Title": "Philips Hue",
-  "Description": "Using the Philips Hue integration",
-  "Path": "hue.md",
-  "Tags": [
+  "title": "Philips Hue",
+  "description": "Using the Philips Hue integration",
+  "path": "hue.md",
+  "tags": [
    "hue",
    "lights",
    "iot",
@@ -120,10 +120,10 @@
   ]
  },
  {
-  "Title": "Installation",
-  "Description": "Installing OpenAudioMc",
-  "Path": "installation.md",
-  "Tags": [
+  "title": "Installation",
+  "description": "Installing OpenAudioMc",
+  "path": "installation.md",
+  "tags": [
    "installation",
    "install",
    "bungeecord",
@@ -132,10 +132,10 @@
   ]
  },
  {
-  "Title": "Java API",
-  "Description": "Using the java API to build awesome shit",
-  "Path": "java_api.md",
-  "Tags": [
+  "title": "Java API",
+  "description": "Using the java API to build awesome shit",
+  "path": "java_api.md",
+  "tags": [
    "java",
    "api",
    "documentation",
@@ -147,10 +147,10 @@
   ]
  },
  {
-  "Title": "Media",
-  "Description": "Using and understanding media sources and playback options",
-  "Path": "media.md",
-  "Tags": [
+  "title": "Media",
+  "description": "Using and understanding media sources and playback options",
+  "path": "media.md",
+  "tags": [
    "youtube",
    "media",
    "options",
@@ -163,38 +163,38 @@
   ]
  },
  {
-  "Title": "",
-  "Description": "",
-  "Path": "network_error.md",
-  "Tags": null
+  "title": "",
+  "description": "",
+  "path": "network_error.md",
+  "tags": null
  },
  {
-  "Title": "Notifications",
-  "Description": "Using the notification sub command",
-  "Path": "notifications.md",
-  "Tags": [
+  "title": "Notifications",
+  "description": "Using the notification sub command",
+  "path": "notifications.md",
+  "tags": [
    "notifications",
    "notification",
    "subcommand"
   ]
  },
  {
-  "Title": "",
-  "Description": "",
-  "Path": "old_client.md",
-  "Tags": null
+  "title": "",
+  "description": "",
+  "path": "old_client.md",
+  "tags": null
  },
  {
-  "Title": "",
-  "Description": "",
-  "Path": "partner_projects.md",
-  "Tags": null
+  "title": "",
+  "description": "",
+  "path": "partner_projects.md",
+  "tags": null
  },
  {
-  "Title": "Partners",
-  "Description": "Partnerships and collaberations",
-  "Path": "partners.md",
-  "Tags": [
+  "title": "Partners",
+  "description": "Partnerships and collaberations",
+  "path": "partners.md",
+  "tags": [
    "youtubuers",
    "big",
    "servers",
@@ -206,19 +206,19 @@
   ]
  },
  {
-  "Title": "Permissions",
-  "Description": "Plugin permissions",
-  "Path": "permissions.md",
-  "Tags": [
+  "title": "Permissions",
+  "description": "Plugin permissions",
+  "path": "permissions.md",
+  "tags": [
    "permissions",
    "permission"
   ]
  },
  {
-  "Title": "Play",
-  "Description": "Using the play command",
-  "Path": "play.md",
-  "Tags": [
+  "title": "Play",
+  "description": "Using the play command",
+  "path": "play.md",
+  "tags": [
    "play",
    "command",
    "subcommand",
@@ -227,19 +227,19 @@
   ]
  },
  {
-  "Title": "Redis",
-  "Description": "Using a Redis server for shows and networking",
-  "Path": "redis.md",
-  "Tags": [
+  "title": "Redis",
+  "description": "Using a Redis server for shows and networking",
+  "path": "redis.md",
+  "tags": [
    "redis",
    "shows"
   ]
  },
  {
-  "Title": "Regions",
-  "Description": "Using worldguard regions",
-  "Path": "regions.md",
-  "Tags": [
+  "title": "Regions",
+  "description": "Using worldguard regions",
+  "path": "regions.md",
+  "tags": [
    "regions",
    "areas",
    "worldguard",
@@ -248,10 +248,10 @@
   ]
  },
  {
-  "Title": "Selectors",
-  "Description": "Using selectors",
-  "Path": "selectors.md",
-  "Tags": [
+  "title": "Selectors",
+  "description": "Using selectors",
+  "path": "selectors.md",
+  "tags": [
    "@a",
    "@p",
    "playername",
@@ -262,10 +262,10 @@
   ]
  },
  {
-  "Title": "Shows",
-  "Description": "Using show commands to schedule and make shows",
-  "Path": "show.md",
-  "Tags": [
+  "title": "Shows",
+  "description": "Using show commands to schedule and make shows",
+  "path": "show.md",
+  "tags": [
    "shows",
    "timers",
    "timer",
@@ -273,10 +273,10 @@
   ]
  },
  {
-  "Title": "Speakers",
-  "Description": "Using speakers in-game to place music",
-  "Path": "speakers.md",
-  "Tags": [
+  "title": "Speakers",
+  "description": "Using speakers in-game to place music",
+  "path": "speakers.md",
+  "tags": [
    "spatial",
    "speaker",
    "speakers",
@@ -287,10 +287,10 @@
   ]
  },
  {
-  "Title": "Stop",
-  "Description": "Using the stop sub command",
-  "Path": "stop.md",
-  "Tags": [
+  "title": "Stop",
+  "description": "Using the stop sub command",
+  "path": "stop.md",
+  "tags": [
    "stop",
    "subcommand",
    "command",
@@ -300,16 +300,16 @@
   ]
  },
  {
-  "Title": "",
-  "Description": "",
-  "Path": "technical_requirements.md",
-  "Tags": null
+  "title": "",
+  "description": "",
+  "path": "technical_requirements.md",
+  "tags": null
  },
  {
-  "Title": "Traincarts",
-  "Description": "Using traincarts signs to play music in rides",
-  "Path": "traincarts.md",
-  "Tags": [
+  "title": "Traincarts",
+  "description": "Using traincarts signs to play music in rides",
+  "path": "traincarts.md",
+  "tags": [
    "traincarts",
    "train",
    "music",
@@ -318,10 +318,10 @@
   ]
  },
  {
-  "Title": "Proximity Voice Chat",
-  "Description": "Using proximity voicechat",
-  "Path": "voicechat.md",
-  "Tags": [
+  "title": "Proximity Voice Chat",
+  "description": "Using proximity voicechat",
+  "path": "voicechat.md",
+  "tags": [
    "voice",
    "voicechat",
    "proximity",
@@ -332,21 +332,21 @@
   ]
  },
  {
-  "Title": "",
-  "Description": "",
-  "Path": "voicechat_activation.md",
-  "Tags": null
+  "title": "",
+  "description": "",
+  "path": "voicechat_activation.md",
+  "tags": null
  },
  {
-  "Title": "",
-  "Description": "",
-  "Path": "voicechat_troubleshooting.md",
-  "Tags": null
+  "title": "",
+  "description": "",
+  "path": "voicechat_troubleshooting.md",
+  "tags": null
  },
  {
-  "Title": "",
-  "Description": "",
-  "Path": "web-client.md",
-  "Tags": null
+  "title": "",
+  "description": "",
+  "path": "web-client.md",
+  "tags": null
  }
 ]
