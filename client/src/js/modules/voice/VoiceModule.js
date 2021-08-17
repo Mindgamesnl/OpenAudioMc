@@ -79,6 +79,9 @@ export class VoiceModule {
         // wait
         this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {"enabled": false});
         let timerInterval;
+
+
+
         Swal.fire({
             title: window.getMessageString("vc.reloadingPopupTitle"),
             html: window.getMessageString("vc.reloadingPopup"),
