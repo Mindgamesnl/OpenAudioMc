@@ -414,7 +414,6 @@ export class PeerManager {
             track.stop();
         });
         this.pcReceiver.close();
-        this.micStream.stop()
     }
 
     listenForTracks() {
