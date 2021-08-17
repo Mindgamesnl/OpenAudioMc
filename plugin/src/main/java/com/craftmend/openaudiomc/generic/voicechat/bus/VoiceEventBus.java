@@ -91,7 +91,9 @@ public class VoiceEventBus extends WebSocketListener {
 
     @Override
     public void onFailure(@NotNull WebSocket webSocket, @NotNull Throwable t, @Nullable Response response) {
-        OpenAudioLogger.toConsole("Voicechat ws error: " + t.getMessage() + " - " + response.message());
+        String nullableMessage = "";
+        if (response != null) nullableMessage = response.message();
+        OpenAudioLogger.toConsole("Voicechat ws error: " + t.getMessage() + " - " + nullableMessage);
         handleError();
     }
 
