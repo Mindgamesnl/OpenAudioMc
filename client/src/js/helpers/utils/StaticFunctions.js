@@ -58,6 +58,7 @@ export function linkBootListeners() {
             // can we find a name? let's put it as a welcome text!
             // makes the experience a bit more personal
             if (tokenSet != null && tokenSet.name != null) {
+                replaceProperty("{{ oam.player_head }}", "https://crafatar.com/avatars/" + tokenSet.uuid, "src")
                 replaceGlobalText("{{ oam.player_name }}", tokenSet.name)
                 openAudioMc = new OpenAudioMc()
                 window.openAudioMc = openAudioMc;
