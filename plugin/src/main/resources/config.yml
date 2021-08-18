@@ -1,8 +1,3 @@
-# OPENAUDIOMC+
-# Most settings have been moved to OpenAudioMc-Plus!
-# You can login by typing /openaudiomc plus
-# Old legacy client settings have been migrated and ware now in there, along with your old settings!
-
 messages:
   # The message a client gets when they are not connected but a sound got triggered. this can be disabled under settings
   suggest-connection: '&7&oYou are currently missing out on some sounds! connect with the audio client via /audio'
