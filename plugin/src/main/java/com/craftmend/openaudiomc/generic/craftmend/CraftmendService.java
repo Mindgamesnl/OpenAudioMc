@@ -11,6 +11,7 @@ import com.craftmend.openaudiomc.generic.craftmend.response.CraftmendAccountResp
 import com.craftmend.openaudiomc.generic.craftmend.response.VoiceSessionRequestResponse;
 import com.craftmend.openaudiomc.generic.craftmend.tasks.PlayerStateStreamer;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
@@ -109,9 +110,10 @@ public class CraftmendService extends Service {
 
     public void startVoiceHandshake() {
         if (voiceApiConnection.getStatus() != VoiceApiStatus.IDLE) {
-            OpenAudioLogger.toConsole("VoiceChat is currently " + voiceApiConnection.getStatus() + " so we're not booting again.");
             return;
         }
+        // is there anyone online?
+        if (OpenAudioMc.getService(NetworkingService.class).getClients().isEmpty()) return;
         OpenAudioLogger.toConsole("VoiceChat seems to be enabled for this account! Requesting RTC and Password...");
         // do magic, somehow fail, or login to the voice server
         isAttemptingVcConnect = true;
