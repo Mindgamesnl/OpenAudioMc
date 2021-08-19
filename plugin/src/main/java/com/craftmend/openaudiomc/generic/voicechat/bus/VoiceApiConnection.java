@@ -46,7 +46,36 @@ public class VoiceApiConnection {
         // only register if this is the default handler
         if (networkingService instanceof DefaultNetworkingService) {
             // client got created
-            networkingService.subscribeToConnections(this::handleClientConnection);
+            networkingService.subscribeToConnections(clientConnection -> {
+                handleClientConnection(clientConnection);
+
+                clientConnection.onConnect(() -> {
+                    if (status != VoiceApiStatus.CONNECTED) return;
+                    // is it allowed?
+                    if (getUsedSlots() >= maxSlots) {
+                        clientConnection.getPlayer().sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + "VoiceChat couldn't be enabled since this server occupied all its slots, please notify a staff member and try again later.");
+                        return;
+                    }
+
+                    // update state
+                    if (clientConnection.getClientRtcManager().getStateFlags().contains(RtcStateFlag.FORCE_MUTED)) {
+                        forceMute(clientConnection);
+                    }
+
+                    // schedule async check
+                    taskService.runAsync(() -> {
+                        // make an event, and invite the client if it isn't cancelled
+                        ClientRequestVoiceEvent event = OpenAudioMc.getInstance().getApiEventDriver().fire(new ClientRequestVoiceEvent(clientConnection));
+                        if (!event.isCanceled()) {
+                            clientConnection.sendPacket(new PacketClientUnlockVoiceChat(new ClientVoiceChatUnlockPayload(
+                                    clientConnection.getStreamKey(),
+                                    this.host,
+                                    StorageKey.SETTINGS_VC_RADIUS.getInt()
+                            )));
+                        }
+                    });
+                });
+            });
 
             networkingService.subscribeToDisconnections((clientConnection ->{
                 // client will be removed
@@ -72,8 +101,7 @@ public class VoiceApiConnection {
             // start?
             boolean success = voiceWebsocket.start();
             if (success) {
-                OpenAudioLogger.toConsole("Connected to voice events");
-                status = VoiceApiStatus.CONNECTED;
+                OpenAudioLogger.toConsole("Attempting to login to voice chat...");
             } else {
                 OpenAudioLogger.toConsole("Failed to initialize voice events.");
                 status = VoiceApiStatus.IDLE;
@@ -105,8 +133,11 @@ public class VoiceApiConnection {
 
     private void onWsOpen() {
         if (status == VoiceApiStatus.CONNECTED) return;
+        OpenAudioLogger.toConsole("Connected to voicechat!");
         status = VoiceApiStatus.CONNECTED;
         // seed online players
+        pushEvent(VoiceServerEventType.HEARTBEAT, EMPTY_PAYLOAD);
+        pushEvent(VoiceServerEventType.HEARTBEAT, EMPTY_PAYLOAD);
         OpenAudioMc.getService(NetworkingService.class).getClients().forEach(this::handleClientConnection);
     }
 
@@ -116,41 +147,11 @@ public class VoiceApiConnection {
      */
     private void handleClientConnection(ClientConnection clientConnection) {
         // nothing to register if we aren't connected
-        if (status != VoiceApiStatus.CONNECTED) return;
-
         pushEvent(VoiceServerEventType.ADD_PLAYER, new HashMap<String, String>() {{
             put("playerName", clientConnection.getPlayer().getName());
             put("playerUuid", clientConnection.getPlayer().getUniqueId().toString());
             put("streamKey", clientConnection.getStreamKey());
         }});
-
-        // run voice logic when they connect, if it's enabled
-        clientConnection.onConnect(() -> {
-            if (status != VoiceApiStatus.CONNECTED) return;
-            // is it allowed?
-            if (getUsedSlots() >= maxSlots) {
-                clientConnection.getPlayer().sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + "VoiceChat couldn't be enabled since this server occupied all its slots, please notify a staff member and try again later.");
-                return;
-            }
-
-            // update state
-            if (clientConnection.getClientRtcManager().getStateFlags().contains(RtcStateFlag.FORCE_MUTED)) {
-                forceMute(clientConnection);
-            }
-
-            // schedule async check
-            taskService.runAsync(() -> {
-                // make an event, and invite the client if it isn't cancelled
-                ClientRequestVoiceEvent event = OpenAudioMc.getInstance().getApiEventDriver().fire(new ClientRequestVoiceEvent(clientConnection));
-                if (!event.isCanceled()) {
-                    clientConnection.sendPacket(new PacketClientUnlockVoiceChat(new ClientVoiceChatUnlockPayload(
-                            clientConnection.getStreamKey(),
-                            this.host,
-                            StorageKey.SETTINGS_VC_RADIUS.getInt()
-                    )));
-                }
-            });
-        });
     }
 
     /**
