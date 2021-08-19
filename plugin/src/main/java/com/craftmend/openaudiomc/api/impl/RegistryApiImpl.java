@@ -10,6 +10,7 @@ import com.craftmend.openaudiomc.generic.networking.client.objects.player.Client
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.utils.data.Filter;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.shortner.AliasService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.SpigotVoiceChatService;
 import lombok.Getter;
 import org.bukkit.entity.Player;
@@ -26,6 +27,11 @@ public class RegistryApiImpl implements RegistryApi {
     @Override
     public void registerMutation(String pattern, UrlMutation urlMutation) {
         OpenAudioMc.getService(MediaService.class).registerMutation(pattern, urlMutation);
+    }
+
+    @Override
+    public void registerAlias(String aliasName, String value) {
+        OpenAudioMc.getService(AliasService.class).getAliasMap().put(aliasName, value);
     }
 
     @Override
