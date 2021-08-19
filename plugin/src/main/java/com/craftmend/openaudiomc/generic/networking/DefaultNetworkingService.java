@@ -213,6 +213,7 @@ public class DefaultNetworkingService extends NetworkingService {
      */
     @Override
     public void remove(UUID player) {
+        OpenAudioMc.getService(AuthenticationService.class).getDriver().removePlayerFromCache(player);
         if (clientMap.containsKey(player)) {
             ClientConnection client = clientMap.get(player);
             removedConnectionSubscribers.forEach((id, handler) -> handler.accept(client));

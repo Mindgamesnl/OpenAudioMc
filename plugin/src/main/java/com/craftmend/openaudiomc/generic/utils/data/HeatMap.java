@@ -31,6 +31,10 @@ public class HeatMap<T, S> {
         data.put(value, incremental);
     }
 
+    public void delete(T key)  {
+        data.remove(key);
+    }
+
     public Collection<Value> getValues() {
         return data.values();
     }
