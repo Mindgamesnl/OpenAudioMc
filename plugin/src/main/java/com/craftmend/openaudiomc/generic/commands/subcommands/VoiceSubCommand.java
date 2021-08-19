@@ -11,7 +11,7 @@ import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
-import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
+import com.craftmend.openaudiomc.generic.voicechat.bus.VoiceApiConnection;
 
 import java.util.Set;
 
@@ -77,9 +77,9 @@ public class VoiceSubCommand extends SubCommand {
         }
 
         if (args.length == 0) {
-            VoiceService voiceService = OpenAudioMc.getService(CraftmendService.class).getVoiceService();
+            VoiceApiConnection voiceService = OpenAudioMc.getService(CraftmendService.class).getVoiceApiConnection();
             message(sender, Platform.makeColor("GREEN") + "VoiceChat is enabled and ready to go");
-            message(sender, Platform.makeColor("GREEN") + "  -> Slots: " + voiceService.getUsedSlots() + "/" + voiceService.getAllowedSlots());
+            message(sender, Platform.makeColor("GREEN") + "  -> Slots: " + voiceService.getUsedSlots() + "/" + voiceService.getMaxSlots());
             return;
         }
 

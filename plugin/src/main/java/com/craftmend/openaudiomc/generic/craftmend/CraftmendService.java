@@ -17,7 +17,8 @@ import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
-import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
+import com.craftmend.openaudiomc.generic.voicechat.bus.VoiceApiConnection;
+import com.craftmend.openaudiomc.generic.voicechat.enums.VoiceApiStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,7 +28,7 @@ import java.util.*;
 public class CraftmendService extends Service {
 
     @Inject private OpenAudioMc openAudioMc;
-    @Getter @Inject private VoiceService voiceService;
+    @Getter private VoiceApiConnection voiceApiConnection = new VoiceApiConnection();
 
     private PlayerStateStreamer playerStateStreamer;
     @Getter private String baseUrl;
@@ -53,17 +54,6 @@ public class CraftmendService extends Service {
         OpenAudioLogger.toConsole("Initializing account details");
         syncAccount();
         startSyncronizer();
-
-        voiceService.onShutdown(() -> {
-            // restart in 10 seconds
-            // ignore if it was manual
-            if (voiceService.secondsSinceLastLogout() > 3) {
-                OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(this::startVoiceHandshake, 20 * 20);
-                OpenAudioLogger.toConsole("Voicechat had to shut down. Restarting in 20 seconds.");
-            } else {
-                OpenAudioLogger.toConsole("Voicechat shutdown was intentional, not restarting...");
-            }
-        });
     }
 
     public void startSyncronizer() {
@@ -76,7 +66,7 @@ public class CraftmendService extends Service {
     public void syncAccount() {
         if (OpenAudioMc.getInstance().getInvoker().isNodeServer()) return;
         // stop the voice service
-        this.voiceService.shutdown();
+        this.voiceApiConnection.stop();
         RestRequest keyRequest = new RestRequest(RestEndpoint.GET_ACCOUNT_STATE);
         CraftmendAccountResponse response = keyRequest.executeInThread().getResponse(CraftmendAccountResponse.class);
 
@@ -99,7 +89,7 @@ public class CraftmendService extends Service {
 
     public void shutdown() {
         if (OpenAudioMc.getInstance().getInvoker().isNodeServer()) return;
-        this.voiceService.shutdown();
+        this.voiceApiConnection.stop();
         playerStateStreamer.deleteAll(true);
     }
 
@@ -117,36 +107,11 @@ public class CraftmendService extends Service {
         AudioApi.getInstance().getEventDriver().fire(new AccountRemoveTagEvent(tag));
     }
 
-    public void kickstartVcHandshake() {
-        if (lockVcAttempt) {
-            OpenAudioLogger.toConsole("Canceling voice handshake because the service is locked");
+    public void startVoiceHandshake() {
+        if (voiceApiConnection.getStatus() != VoiceApiStatus.IDLE) {
+            OpenAudioLogger.toConsole("VoiceChat is currently " + voiceApiConnection.getStatus() + " so we're not booting again.");
             return;
         }
-        lockVcAttempt = true;
-        if (this.voiceService == null) {
-            OpenAudioLogger.toConsole("Canceling voice handshake because the voice service is null");
-            return;
-        }
-        if (this.voiceService.getDriver() == null) {
-            OpenAudioLogger.toConsole("Canceling voice handshake because the driver is null");
-            return;
-        }
-        if (this.voiceService.getDriver().isFailed()) {
-            OpenAudioLogger.toConsole("Canceling voice handshake because the last attempt failed");
-            return;
-        }
-        OpenAudioLogger.toConsole("Kickstarting eb reconnect");
-        startVoiceHandshake();
-    }
-
-    public void stopVoiceChat() {
-        if (this.voiceService != null) {
-            this.voiceService.requestCleanShutdown();
-        }
-        lockVcAttempt = false;
-    }
-
-    void startVoiceHandshake() {
         OpenAudioLogger.toConsole("VoiceChat seems to be enabled for this account! Requesting RTC and Password...");
         // do magic, somehow fail, or login to the voice server
         isAttemptingVcConnect = true;
@@ -194,7 +159,7 @@ public class CraftmendService extends Service {
 
                     VoiceSessionRequestResponse voiceResponse = response.getResponse(VoiceSessionRequestResponse.class);
                     int highestPossibleLimit = accountResponse.getAddon(AddonCategory.VOICE).getLimit();
-                    this.voiceService.connect(voiceResponse.getServer(), voiceResponse.getPassword(), highestPossibleLimit);
+                    this.voiceApiConnection.start(voiceResponse.getServer(), voiceResponse.getPassword(), highestPossibleLimit);
                     isAttemptingVcConnect = false;
                     lockVcAttempt = false;
                     addTag(CraftmendTag.VOICECHAT);

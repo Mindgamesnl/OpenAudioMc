@@ -172,7 +172,7 @@ public class SocketIoConnector {
             this.socket.disconnect();
         }
         OpenAudioMc.getService(StateService.class).setState(new IdleState());
-        OpenAudioMc.getService(CraftmendService.class).stopVoiceChat();
+        OpenAudioMc.getService(CraftmendService.class).getVoiceApiConnection().stop();
     }
 
     public void send(Authenticatable client, AbstractPacket packet) {

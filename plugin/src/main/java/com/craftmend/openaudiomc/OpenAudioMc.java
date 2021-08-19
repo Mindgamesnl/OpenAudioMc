@@ -24,7 +24,6 @@ import com.craftmend.openaudiomc.generic.state.StateService;
 
 import com.craftmend.openaudiomc.generic.utils.data.GsonFactory;
 
-import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
 import com.google.gson.Gson;
 import lombok.Getter;
 
@@ -93,7 +92,6 @@ public class OpenAudioMc {
         // these are classes that might not be services (interfaces, or abstract) but
         // we want to use through dependency injection anyway
         serviceManager.registerDependency(Configuration.class, invoker.getConfigurationProvider());
-        serviceManager.registerDependency(VoiceService.class, invoker.getVoiceService());
         serviceManager.registerDependency(TaskService.class, invoker.getTaskProvider());
 
         // migrate old config and data files between versions

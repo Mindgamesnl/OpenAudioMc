@@ -21,7 +21,7 @@ public class SystemDriver implements SocketDriver {
         socket.on(Socket.EVENT_CONNECT, args -> {
             // connected with success
             OpenAudioMc.getService(StateService.class).setState(new ConnectedState(connector.getLastUsedRelay()));
-            OpenAudioMc.getService(CraftmendService.class).kickstartVcHandshake();
+            OpenAudioMc.getService(CraftmendService.class).startVoiceHandshake();
         });
 
         socket.on(Socket.EVENT_DISCONNECT, args -> {
@@ -38,7 +38,7 @@ public class SystemDriver implements SocketDriver {
                     client.onDisconnect();
                 }
             }
-            OpenAudioMc.getService(CraftmendService.class).stopVoiceChat();
+            OpenAudioMc.getService(CraftmendService.class).getVoiceApiConnection().stop();
         });
 
         socket.on(Socket.EVENT_CONNECT_TIMEOUT, args -> {
