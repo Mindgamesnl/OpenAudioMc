@@ -19,8 +19,9 @@ public class NotificationDriver implements SocketDriver {
 
     private static final Map<String, NotificationHandler> handlers = new HashMap<String, NotificationHandler>(){{
 
-        // Handlers for notifications, by event name
+            // Handlers for notifications, by event name
             put("admin-message", new AdminNotification());
+
     }};
 
     @Override
