@@ -24,6 +24,13 @@ public interface RegistryApi {
     void registerMutation(String pattern, UrlMutation urlMutation);
 
     /**
+     * Register an alias through code
+     * @param aliasName The alias key, with out a:
+     * @param value The alias value
+     */
+    void registerAlias(String aliasName, String value);
+
+    /**
      * Allows you to overwrite the default filtering behaviour, which is used to decide which players group
      * up in proximity voice chat session. Can be used to implement Team/Party/Friend systems or to customize
      * moderation rules

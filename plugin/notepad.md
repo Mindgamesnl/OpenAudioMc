@@ -1,19 +1,4 @@
 Changelog since release:
- - Updated account styling
- - Added web based discord login
- - You can now link your patreon account and shiz
- - Updated documentation surrounding voicechat
- - You now receive discord notifications when your old servers get removed
- - Online players no longer get synchronised between networks when the openaudio instance isn't claimed by a craftmend account
- - You can now disable voice chat for specific worldguard regions (using /oa region edit)
- - Improved UI to make it easier to understand for users
- - Added a microphone sensitivity slider and speaking indicator
- - The microphone sensitivity now automatically adjusts itself in small increments if it detects a lot of background noise and false detections
- - Fixed voicechat auto reconnect, along with dozens of other stability and performance improvements
- - Fixed a couple of smaller bugs
- - Fixed a bug where chat links weren't clickable in some minecraft versions
- - The web client now shows your server name in the web title, and displays the server icon (if available)
- - Expired free voicechat licenses now automatically get released back to the public for someone else to use
- - Added `/voice`, `/vc` and `/voicechat` aliases for the regular `/audio` command
- - Free keys now expire after 1 month, or 1 week if they haven't been activated. Expired keys get autimatically dropped back into the pool for others to claim online or in discord.
- - Users can now claim keys online through https://account.craftmend.com/account/addons ![img](https://i.imgur.com/WHAGfQZ.png)
+ - Fixed webrtc
+ - You can now transfer addons
+ - Added aliases in the registry api
