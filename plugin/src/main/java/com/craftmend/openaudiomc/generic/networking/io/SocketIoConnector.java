@@ -11,6 +11,7 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.certificate.CertificateHelper;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.drivers.ClientDriver;
+import com.craftmend.openaudiomc.generic.networking.drivers.EventDiver;
 import com.craftmend.openaudiomc.generic.networking.drivers.SystemDriver;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.state.StateService;
@@ -50,6 +51,7 @@ public class SocketIoConnector {
     private ServerKeySet keySet;
 
     private final SocketDriver[] drivers = new SocketDriver[]{
+            new EventDiver(),
             new SystemDriver(),
             new ClientDriver(),
     };
