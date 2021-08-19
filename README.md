@@ -6,6 +6,23 @@ OpenAudioMc is the free Minecraft audio solution, adding unique and impressing f
 
 Please visit the [Documentation](https://help.openaudiomc.net/docs) for a full getting started/setup guide as well as full feature breakdowns.
 
+## Features
+ - Proximity Voice Chat (with spatial and normal audio)
+ - Music and sound effects without resource pack
+ - Native Worldguard integration to asign music to regions and query for key locations
+ - Speaker blocks you can place throughout your world to add audio in special places
+ - Built-in TrainCarts hook to assing on-board music for rides
+ - LiteBans support to syncronize mutes with voice chat
+ - Feature rich java API
+ - Easy to use web clients (players receive their own personal link, no downloads or accounts required)
+ - Automatic client translation in 8 languages
+ - Automatic CDN infrastructure to speed up file delivery without any configuration
+ - Out of the box support for Youtube, Soundcloud, Google Drive and Dropbox
+ - Amazing documentation
+ - Fully configurable
+ - Stupidly simple to use
+ - Active support and community
+
 ## Supported platforms
  - [Spigot (from 1.8.8 to latest)](https://www.spigotmc.org/resources/openaudiomc-open-source-audio-client.30691/ "Spigot Plugin Page")
  - [BungeeCord (recent builds)](https://www.spigotmc.org/resources/openaudiomc-open-source-audio-client.30691/ "Spigot Plugin Page")
