@@ -5,7 +5,9 @@ import lombok.Getter;
 import java.io.Serializable;
 import java.util.Set;
 
-public class NetworkUpdatePayload implements Serializable {
+public class BackendNotification implements Serializable {
+
+    @Getter private String notificationType;
 
     /**
      * Required CraftmendTag's for this event to be executed.
