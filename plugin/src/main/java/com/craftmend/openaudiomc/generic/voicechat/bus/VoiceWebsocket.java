@@ -6,7 +6,6 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
-import com.craftmend.openaudiomc.generic.voicechat.driver.VoiceServerDriver;
 import okhttp3.*;
 import okio.ByteString;
 import org.jetbrains.annotations.NotNull;
@@ -15,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class VoiceEventBus extends WebSocketListener {
+public class VoiceWebsocket extends WebSocketListener {
 
     private final Set<Runnable> onEerror = new HashSet<>();
     private final Set<Runnable> onReady = new HashSet<>();
@@ -26,7 +25,7 @@ public class VoiceEventBus extends WebSocketListener {
     private boolean closed;
     private WebSocket webSocket;
 
-    public VoiceEventBus(String server, String password, VoiceServerDriver driver) {
+    public VoiceWebsocket(String server, String password) {
         this.server = server;
         this.password = password;
     }
@@ -67,7 +66,6 @@ public class VoiceEventBus extends WebSocketListener {
 
     public void stop() {
         closed = true;
-        OpenAudioLogger.toConsole("Killing event bus");
         client.dispatcher().executorService().shutdown();
         this.isReady = false;
     }

@@ -30,7 +30,6 @@ import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
 import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
 import com.craftmend.openaudiomc.velocity.generic.player.VelocityPlayerAdapter;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.bukkit.Bukkit;
@@ -123,7 +122,7 @@ public class DefaultNetworkingService extends NetworkingService {
      */
     @Override
     public void connectIfDown() {
-        OpenAudioMc.getService(CraftmendService.class).kickstartVcHandshake();
+        OpenAudioMc.getService(CraftmendService.class).startVoiceHandshake();
         OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> socketIoConnector.setupConnection());
     }
 

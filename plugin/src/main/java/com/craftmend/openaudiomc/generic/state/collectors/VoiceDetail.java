@@ -3,8 +3,8 @@ package com.craftmend.openaudiomc.generic.state.collectors;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.state.interfaces.StateDetail;
-import com.craftmend.openaudiomc.generic.voicechat.DefaultVoiceServiceImpl;
-import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
+import com.craftmend.openaudiomc.generic.voicechat.bus.VoiceApiConnection;
+import com.craftmend.openaudiomc.generic.voicechat.enums.VoiceApiStatus;
 
 public class VoiceDetail implements StateDetail {
     @Override
@@ -14,28 +14,14 @@ public class VoiceDetail implements StateDetail {
 
     @Override
     public String value() {
-        // is it even loaded
-        if (OpenAudioMc.getService(CraftmendService.class).getVoiceService() == null) {
-            return "No service";
+        VoiceApiConnection apiConnection = OpenAudioMc.getService(CraftmendService.class).getVoiceApiConnection();
+
+        if (apiConnection.getStatus() != VoiceApiStatus.CONNECTED) {
+            return apiConnection.getStatus().name();
         }
 
-        VoiceService voiceService = OpenAudioMc.getService(CraftmendService.class).getVoiceService();
-
-        if (voiceService.isEnabled()) {
-            if (voiceService.getDriver() == null) {
-                return "No driver";
-            } else {
-                if (voiceService instanceof DefaultVoiceServiceImpl) {
-                    DefaultVoiceServiceImpl i = (DefaultVoiceServiceImpl) voiceService;
-                    // parse service name
-                    String host = i.getHost().split("\\.")[0].split("//")[1];
-                    return "Using " + i.getUsedSlots() + " out of " + i.getAllowedSlots() + " slots @ " + host;
-                } else {
-                    return "Unknown service type";
-                }
-            }
-        } else {
-            return "Disabled";
-        }
+        // parse service name
+        String host = apiConnection.getHost().split("\\.")[0].split("//")[1];
+        return "Using " + apiConnection.getUsedSlots() + " out of " + apiConnection.getMaxSlots() + " slots @ " + host;
     }
 }

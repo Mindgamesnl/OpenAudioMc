@@ -14,8 +14,6 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.WorkerState;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 
-import com.craftmend.openaudiomc.generic.voicechat.DefaultVoiceServiceImpl;
-import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
 import com.craftmend.openaudiomc.spigot.modules.commands.SpigotCommandService;
 import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfiguration;
 import com.craftmend.openaudiomc.spigot.modules.predictive.PredictiveMediaService;
@@ -46,7 +44,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.logging.Level;
 
 @Getter
 public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvoker {
@@ -188,11 +185,6 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
     @Override
     public int getServerPort() {
         return Bukkit.getPort();
-    }
-
-    @Override
-    public VoiceService getVoiceService() {
-        return new DefaultVoiceServiceImpl();
     }
 
 }

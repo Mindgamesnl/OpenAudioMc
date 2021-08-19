@@ -18,8 +18,7 @@ import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.Client
 import com.craftmend.openaudiomc.generic.node.packets.ForceMuteMicrophonePacket;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
-import com.craftmend.openaudiomc.generic.voicechat.VoiceService;
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.generic.voicechat.bus.VoiceApiConnection;
 import com.craftmend.openaudiomc.spigot.modules.players.PlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.enums.PlayerLocationFollower;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
@@ -108,14 +107,12 @@ public class ClientRtcManager implements Serializable {
             proxyNetworkingService.sendToProxy(spigotPlayerAdapter.getPlayer(), new ForceMuteMicrophonePacket(clientConnection.getOwnerUUID(), allow));
             return;
         }
-        VoiceService voiceService = OpenAudioMc.getService(CraftmendService.class).getVoiceService();
-
-        if (voiceService == null || voiceService.getDriver() == null) return;
+        VoiceApiConnection voiceService = OpenAudioMc.getService(CraftmendService.class).getVoiceApiConnection();
 
         if (allow) {
-            voiceService.getDriver().forceMute(clientConnection);
+            voiceService.forceMute(clientConnection);
         } else {
-            voiceService.getDriver().forceUnmute(clientConnection);
+            voiceService.forceUnmute(clientConnection);
         }
     }
 
