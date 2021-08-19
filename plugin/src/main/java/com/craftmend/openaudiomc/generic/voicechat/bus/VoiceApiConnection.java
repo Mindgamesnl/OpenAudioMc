@@ -82,6 +82,7 @@ public class VoiceApiConnection {
     }
 
     public void stop() {
+        if (voiceWebsocket == null) return;
         this.voiceWebsocket.stop();
         this.onWsClose();
     }
