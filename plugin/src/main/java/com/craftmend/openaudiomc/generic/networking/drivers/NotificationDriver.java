@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.networking.drivers.handler.AccountUpdateNotification;
 import com.craftmend.openaudiomc.generic.networking.drivers.handler.AdminNotification;
 import com.craftmend.openaudiomc.generic.networking.drivers.interfaces.NotificationHandler;
 import com.craftmend.openaudiomc.generic.networking.drivers.models.BackendNotification;
@@ -21,6 +22,8 @@ public class NotificationDriver implements SocketDriver {
 
             // Handlers for notifications, by event name
             put("admin-message", new AdminNotification());
+            // Handlers for craftmend accounts
+            put("craftmend-update", new AccountUpdateNotification());
 
     }};
 
