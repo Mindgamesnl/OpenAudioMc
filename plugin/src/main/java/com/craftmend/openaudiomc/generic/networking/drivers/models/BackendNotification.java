@@ -5,9 +5,11 @@ import lombok.Getter;
 import java.io.Serializable;
 import java.util.Set;
 
+@Getter
 public class BackendNotification implements Serializable {
 
-    @Getter private String notificationType;
+    private String notificationType;
+    private String message;
 
     /**
      * Required CraftmendTag's for this event to be executed.
@@ -16,6 +18,6 @@ public class BackendNotification implements Serializable {
      * that might not support future tags. Running valueOf checks with those
      * would throw weird exceptions and possibly cause funky behaviour
      */
-    @Getter private Set<String> requiredTags;
+    private Set<String> requiredTags;
 
 }
