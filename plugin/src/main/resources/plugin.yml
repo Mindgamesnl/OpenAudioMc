@@ -1,6 +1,6 @@
 name: OpenAudioMc
 version: 6.5.5
-softdepend: [WorldGuard, Train_Carts, LiteBans]
+softdepend: [WorldGuard, Train_Carts, LiteBans, Essentials]
 main: com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot
 api-version: 1.13
 authors: [Mindgamesnl]
