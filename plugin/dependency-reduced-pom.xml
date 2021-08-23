@@ -152,6 +152,10 @@
       <id>spongepowered-repo</id>
       <url>https://repo.spongepowered.org/maven</url>
     </repository>
+    <repository>
+      <id>essentials-snapshots</id>
+      <url>https://repo.essentialsx.net/snapshots/</url>
+    </repository>
   </repositories>
   <dependencies>
     <dependency>
@@ -455,6 +459,46 @@
         <exclusion>
           <artifactId>hamcrest-core</artifactId>
           <groupId>org.hamcrest</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>net.essentialsx</groupId>
+      <artifactId>EssentialsX</artifactId>
+      <version>2.19.0-SNAPSHOT</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>BaseProviders</artifactId>
+          <groupId>net.essentialsx</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>PaperProvider</artifactId>
+          <groupId>net.essentialsx</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>NMSReflectionProvider</artifactId>
+          <groupId>net.essentialsx</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>1_8Provider</artifactId>
+          <groupId>net.essentialsx</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>paperlib</artifactId>
+          <groupId>io.papermc</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>configurate-yaml</artifactId>
+          <groupId>org.spongepowered</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>checker-qual</artifactId>
+          <groupId>org.checkerframework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>bstats-bukkit</artifactId>
+          <groupId>org.bstats</groupId>
         </exclusion>
       </exclusions>
     </dependency>

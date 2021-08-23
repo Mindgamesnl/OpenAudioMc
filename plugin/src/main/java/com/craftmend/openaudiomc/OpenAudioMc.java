@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc;
 
 import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
+
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.networking.rest.ServerEnvironment;
@@ -21,7 +22,6 @@ import com.craftmend.openaudiomc.generic.redis.RedisService;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.enviroment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.state.StateService;
-
 import com.craftmend.openaudiomc.generic.utils.data.GsonFactory;
 
 import com.google.gson.Gson;
