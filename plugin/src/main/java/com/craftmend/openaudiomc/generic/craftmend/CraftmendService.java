@@ -84,7 +84,8 @@ public class CraftmendService extends Service {
 
         // is voice enabled with the new system?
         if (accountResponse.hasAddon(AddonCategory.VOICE)) {
-            startVoiceHandshake();
+            addTag(CraftmendTag.VOICECHAT);
+            startVoiceHandshake(true);
         }
     }
 
@@ -109,12 +110,20 @@ public class CraftmendService extends Service {
     }
 
     public void startVoiceHandshake() {
+        startVoiceHandshake(false);
+    }
+
+    public void startVoiceHandshake(boolean ignoreLocal) {
         if (voiceApiConnection.getStatus() != VoiceApiStatus.IDLE) {
             return;
         }
-        if (!is(CraftmendTag.VOICECHAT)) return;
-        // is there anyone online?
-        if (OpenAudioMc.getService(NetworkingService.class).getClients().isEmpty()) return;
+        if (!ignoreLocal && !is(CraftmendTag.VOICECHAT)) return;
+
+        if (!ignoreLocal) {
+            // check anyway
+            if (OpenAudioMc.getService(NetworkingService.class).getClients().isEmpty()) return;
+        }
+
         OpenAudioLogger.toConsole("VoiceChat seems to be enabled for this account! Requesting RTC and Password...");
         // do magic, somehow fail, or login to the voice server
         isAttemptingVcConnect = true;
@@ -128,7 +137,9 @@ public class CraftmendService extends Service {
                         if (errorCode == ErrorCode.NO_RTC) {
                             new RestRequest(RestEndpoint.END_VOICE_SESSION).executeInThread();
                             OpenAudioLogger.toConsole("Failed to initialize voice chat. There aren't any servers that can handle your request. Trying again in 20 seconds.");
-                            OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(this::startVoiceHandshake, 20 * 20);
+                            OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
+                                startVoiceHandshake(true);
+                            }, 20 * 20);
                             return;
                         }
 
@@ -143,14 +154,18 @@ public class CraftmendService extends Service {
                         if (errorCode == ErrorCode.ALREADY_ACTIVE) {
                             new RestRequest(RestEndpoint.END_VOICE_SESSION).executeInThread();
                             OpenAudioLogger.toConsole("This server still has a session running with voice chat, terminating and trying again in 20 seconds.");
-                            OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(this::startVoiceHandshake, 20 * 20);
+                            OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
+                                startVoiceHandshake(true);
+                            }, 20 * 20);
                             return;
                         }
 
                         if (response.getErrors().get(0).getMessage().toLowerCase().contains("path $")) {
                             new RestRequest(RestEndpoint.END_VOICE_SESSION).executeInThread();
                             OpenAudioLogger.toConsole("Failed to claim a voicechat session, terminating and trying again in 20 seconds.");
-                            OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(this::startVoiceHandshake, 20 * 20);
+                            OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
+                                startVoiceHandshake(true);
+                            }, 20 * 20);
                             return;
                         }
 
