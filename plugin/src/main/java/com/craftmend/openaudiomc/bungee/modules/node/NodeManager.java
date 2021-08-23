@@ -43,6 +43,9 @@ public class NodeManager extends Service {
                         // a packet to them
                         HashMap<String, ProxiedPlayer> coveredServers = new HashMap<>();
                         for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+                            if (player.getServer() == null) {
+                                continue;
+                            }
                             if (!coveredServers.containsKey(player.getServer().getInfo().getName())) {
                                 coveredServers.put(player.getServer().getInfo().getName(), player);
                             }
