@@ -26,6 +26,9 @@ public class AuthenticationDriver {
     @Getter private HeatMap<UUID, String> sessionCacheMap = null;
 
     public void removePlayerFromCache(UUID uuid) {
+        if (sessionCacheMap == null) {
+            initCache();
+        }
         sessionCacheMap.delete(uuid);
     }
 
