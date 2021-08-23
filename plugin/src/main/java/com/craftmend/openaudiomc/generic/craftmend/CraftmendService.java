@@ -112,6 +112,7 @@ public class CraftmendService extends Service {
         if (voiceApiConnection.getStatus() != VoiceApiStatus.IDLE) {
             return;
         }
+        if (!is(CraftmendTag.VOICECHAT)) return;
         // is there anyone online?
         if (OpenAudioMc.getService(NetworkingService.class).getClients().isEmpty()) return;
         OpenAudioLogger.toConsole("VoiceChat seems to be enabled for this account! Requesting RTC and Password...");
