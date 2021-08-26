@@ -1,0 +1,61 @@
+lang.name=日本語
+
+lang.detectedAs=言語を%langNameに変更しましたが、このままにしますか？
+lang.keep=%langNameを保持します
+lang.toEn=日本語に切り替え
+
+ui.loading=読込中...
+ui.logout=ログアウト
+
+landing.title=ようこそ!
+landing.clickBelow=ようこそ%player！このページの任意の場所をクリックして、セッションをアクティブにします
+landing.connectButton=どこかをクリックして接続
+
+main.title=お帰りなさい、
+main.content=<div>音楽と効果音はこのウィンドウからストリーミングされるため、このタブをバックグラウンドで開いたままにしてください。いつでも、このタブで音量を変更できますが、ゲーム内で<b>/volume</b>を使用して変更することもできます。</div>
+main.volume=音楽ボリューム
+main.openHue=PhilipsHue設定を開く
+
+kicked.title=接続が切れました
+kicked.message=オーディオクライアントは、サーバーでオンラインになっているプレーヤーのみが使用できます。<br/><small><b>/audio</b></small>を使用してURLを取得します。
+
+badlogin.title=あなたは迷子になっていますか？
+badlogin.content=オーディオクライアントは、サーバーでオンラインになっているプレーヤーのみが利用できます。<br/><small><b>/audio</b></small>を使用してURLを取得します
+
+vc.notice=お知らせ
+vc.startingPopupTitle=ボイスチャットにログインしています...
+vc.startingPopup=音声サーバーのセットアップが完了するまでお待ちください。しっかりとお待ちください。それほど長くはかからないはずです。
+vc.reloadingPopupTitle=音声システムをリロード！
+vc.reloadingPopup=ボイスチャットが再開されるまで待って、新しい設定を適用してください。これは長くはかからないはずです。
+vc.updatingMicPopupTitle=マイクを更新しています！
+vc.updatingMicPopup=新しいマイクでボイスチャットが再開されるまでお待ちください。これは長くはかからないはずです。
+vc.micErrorPopupTitle=マイクエラー
+vc.micErrorPopup=マイクにアクセスしようとしたときに問題が発生しました。ブラウザがマイクの許可を求めてきたら「許可」を押すか、詳細についてはwikiにアクセスしてください。
+vc.disabled=ボイスチャットは%serverNameによって一時的に無効にされています
+vc.enable=有効
+vc.enableThe=有効
+vc.vc=ボイスチャット
+vc.onboarding=このサーバーはプロキシミティボイスチャットをサポートしており、半径%range以内のプレーヤーと会話できます。この機能を有効にして、マイクへのアクセスを許可しますか？
+vc.dismiss=退出させる
+vc.settings=設定
+vc.muteUnmute=マイクのミュート/ミュート解除
+vc.spatialStereo=空間/ステレオオーディオ
+vc.speaking=スピーキングインジケーター
+vc.sensitivity=マイク感度
+vc.auto=自動調整
+vc.selectMic=マイクを選択してください
+vc.people=参加者
+vc.voiceRange=声域
+vc.empty=悲しいことに周りには誰もいません。でも心配しないでください！私はあなたの幸せな架空の友達になります
+
+hue.hue=Philips Hue
+hue.link=HueBridgeに接続するには、ここをクリックしてください
+hue.preparing=セットアップ準備中...
+hue.loggingIn=ログイン
+hue.linking=%sec秒以内にHueBridgeのリンクボタンを押して接続します。
+hue.connectedTo=これで、HueBridgeに接続しました：
+hue.light1=Light one
+hue.light2=Light two
+hue.light3=Light three
+hue.connected=You may now link up to three lights that the server will control. Usually from right to left.
+hue.close=閉じる
