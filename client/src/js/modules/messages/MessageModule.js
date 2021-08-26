@@ -25,7 +25,8 @@ export class MessageModule {
             "hk": "chi.lang",
             "cn": "chi.lang",
             "ro": "ro.lang",
-            "de": "de.lang"
+            "de": "de.lang",
+            "jp": "jp.lang"
         }
 
         window.getMessageString = this.getString;
