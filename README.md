@@ -1,4 +1,11 @@
-# OpenAudioMc [![Build Status](https://travis-ci.org/Mindgamesnl/OpenAudioMc.svg?branch=master)](https://travis-ci.org/Mindgamesnl/OpenAudioMc) [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FMindgamesnl%2FOpenAudioMc.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FMindgamesnl%2FOpenAudioMc?ref=badge_shield) ![commit activity](https://img.shields.io/github/commit-activity/4w/mindgamesnl/openaudiomc.svg) [![Lines of Code](https://img.shields.io/tokei/lines/github/Mindgamesnl/OpenAudioMc?style=for-the-badge)](https://github.com/Mindgamesnl/OpenAudioMc)
+# OpenAudioMc
+[![Build Status](https://travis-ci.org/Mindgamesnl/OpenAudioMc.svg?branch=master)](https://travis-ci.org/Mindgamesnl/OpenAudioMc)
+![commit activity](https://img.shields.io/github/commit-activity/4w/mindgamesnl/openaudiomc.svg)
+[![Lines of Code](https://img.shields.io/tokei/lines/github/Mindgamesnl/OpenAudioMc)](https://github.com/Mindgamesnl/OpenAudioMc)
+[![](https://img.shields.io/github/stars/Mindgamesnl/OpenAudioMc.svg?label=Stars&logo=github)](https://github.com/Mindgamesnl/OpenAudioMc/stargazers)
+[![](https://img.shields.io/badge/Paper-1.17.1-brightgreen.svg?colorB=DC3340)](https://papermc.io/downloads)
+[![](https://img.shields.io/discord/245497740589662209.svg?color=%237289da&label=Discord&logo=discord&logoColor=%237289da)](https://discord.gg/C4ZZ6u2)
+[![](https://img.shields.io/badge/Patreon-Support-orange.svg?logo=Patreon)](https://www.patreon.com/mindgamesnl)
 
 ![welcome](https://i.imgur.com/NP6QgnV.png)
 

@@ -22,8 +22,8 @@ public class MigrationWorker {
                 new AddNewVoicechatMessagesMigration(), // adds new chat messages for the voice chat system
                 new AddVcAnnouncementMigration(),       // adds the config option to toggle chat announcements
                 new VoiceConnectedMessageMigration(),   // adds required messages for mic mute commands
-                new AddVcStabilityMessage(),            // adds messages that warn players of voicechat issues
-                new AddVcRegionMigration(),             // adds messages for muted voicechat areas
+                new AddVcStabilityMessage(),            // Add messages that warn players of voicechat issues
+                new AddVcRegionMigration(),             // Add messages for muted voicechat areas
                 new AddMultiUserMigration(),            // adds messages for multi user vc shit
                 new VoicechatHotkeyConfigMigration(),   // adds the config option to disable mute/unmute hokeys
                 new VoicechatChatMessageLocation(),     // new setting for message location
