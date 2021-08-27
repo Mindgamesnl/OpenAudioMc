@@ -15,6 +15,10 @@ public class ProjectStatus extends AbstractRestResponse {
         return OpenAudioMc.BUILD.getBuildNumber() >= versioning.getBuildNumber();
     }
 
+    public int getLatestBuildNumber() {
+        return versioning.getBuildNumber();
+    }
+
     public boolean isAnnouncementAvailable() {
         return announcement.getHasAnnouncement();
     }
