@@ -20,7 +20,6 @@ public class AdminNotification implements NotificationHandler {
 
     @Override
     public void handle(BackendNotification notificationData) {
-
         String message = OpenAudioMc.getService(CommandService.class).getCommandPrefix();
         message += Platform.makeColor("RED") + "ADMIN NOTIFICATION: " + Platform.makeColor("YELLOW") + Platform.translateColors(notificationData.getMessage());
 

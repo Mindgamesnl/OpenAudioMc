@@ -26,6 +26,7 @@ public class MigrationWorker {
                 new AddVcRegionMigration(),             // adds messages for muted voicechat areas
                 new AddMultiUserMigration(),            // adds messages for multi user vc shit
                 new VoicechatHotkeyConfigMigration(),   // adds the config option to disable mute/unmute hokeys
+                new VoicechatChatMessageLocation(),     // new setting for message location
         };
 
         int skipped = 0;
