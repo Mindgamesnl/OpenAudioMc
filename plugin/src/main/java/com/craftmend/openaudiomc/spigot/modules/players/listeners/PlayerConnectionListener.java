@@ -40,7 +40,7 @@ public class PlayerConnectionListener implements Listener {
     public void onShort(PlayerSwapHandItemsEvent event) {
         if (event.getPlayer().isSneaking() && StorageKey.SETTINGS_VC_TOGGLE_MIC_SWAP.getBoolean()) {
 
-            if (Math.abs(Duration.between(playerMuteTimeout.getOrDefault(event.getPlayer().getUniqueId(), BOOT), Instant.now()).toMillis() / 1000) < 1.5) {
+            if (Math.abs(Duration.between(playerMuteTimeout.getOrDefault(event.getPlayer().getUniqueId(), BOOT), Instant.now()).toMillis() / 1000) < 0.8) {
                 // disable
                 return;
             }
