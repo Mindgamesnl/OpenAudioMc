@@ -19,6 +19,7 @@ import com.craftmend.openaudiomc.generic.voicechat.enums.VoiceApiStatus;
 import com.craftmend.openaudiomc.generic.voicechat.enums.VoiceServerEventType;
 import lombok.Getter;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -138,7 +139,13 @@ public class VoiceApiConnection {
         // seed online players
         pushEvent(VoiceServerEventType.HEARTBEAT, EMPTY_PAYLOAD);
         pushEvent(VoiceServerEventType.HEARTBEAT, EMPTY_PAYLOAD);
-        OpenAudioMc.getService(NetworkingService.class).getClients().forEach(this::handleClientConnection);
+        Collection<ClientConnection> clients = OpenAudioMc.getService(NetworkingService.class).getClients();
+        clients.forEach(this::handleClientConnection);
+
+        // is there no one online? then just close
+        if (OpenAudioMc.getService(NetworkingService.class).getClients().isEmpty()) {
+            stop();
+        }
     }
 
     /**
