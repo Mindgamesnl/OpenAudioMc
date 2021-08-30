@@ -1,10 +1,10 @@
 {
   "response": {
     "versioning": {
-      "version_tag": "6.5.5",
-      "build_number": 248,
-      "version_importance": "&2Highly recommended",
-      "version_update_message": "This update contains improvements to media serving, voice chat changes, and some bug fixes"
+      "version_tag": "6.5.6",
+      "build_number": 350,
+      "version_importance": "&dRecommended",
+      "version_update_message": "This update contains some bug fixes for voicechat, and extra features to make the life of admins a bit easier"
     },
 
     "announcement": {
