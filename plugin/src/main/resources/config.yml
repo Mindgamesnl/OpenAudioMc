@@ -86,7 +86,7 @@ options:
   voicechat-announcements: true
   # Changes whether to toggle your microphone while sneaking and pressing swap.
   voicechat-toggle-mic-on-swap-and-sneak: true
-  # Decides if voicechat messages should go in the hotbar or chat. Setting this to fale will default ot chat
+  # Decides if voicechat messages should go in the hotbar or chat. Setting this to false will default to chat
   voicechat-send-messages-in-hotbar: true
 
 # REDIS
