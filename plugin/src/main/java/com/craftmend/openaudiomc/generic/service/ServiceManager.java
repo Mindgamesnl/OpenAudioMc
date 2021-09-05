@@ -146,5 +146,14 @@ public class ServiceManager {
     public boolean isServiceEnabled(Class<? extends Service> s) {
         return serviceMap.containsKey(s);
     }
+    
+    /**
+     * Get a collection of all loaded services, but they may not be enabled!
+     *
+     * @return instances
+     */
+    public Collection<Service> allServices() {
+        return serviceMap.values();
+    }
 
 }
