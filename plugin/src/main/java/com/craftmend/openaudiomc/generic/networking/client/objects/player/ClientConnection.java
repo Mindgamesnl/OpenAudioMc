@@ -1,13 +1,15 @@
 package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+
 import com.craftmend.openaudiomc.api.impl.event.events.ClientConnectEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.ClientDisconnectEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.ClientErrorEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.api.interfaces.Client;
-import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
+
 import com.craftmend.openaudiomc.bungee.modules.node.NodeManager;
+
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
@@ -32,18 +34,20 @@ import com.craftmend.openaudiomc.generic.networking.packets.*;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.hue.HueState;
 import com.craftmend.openaudiomc.generic.hue.SerializedHueColor;
-
 import com.craftmend.openaudiomc.generic.utils.data.RandomString;
+
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
+
 import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
 import com.craftmend.openaudiomc.velocity.generic.player.VelocityPlayerAdapter;
 import com.craftmend.openaudiomc.velocity.messages.PacketPlayer;
+
 import com.velocitypowered.api.proxy.Player;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
+
 import lombok.Getter;
 import lombok.Setter;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import org.bukkit.Bukkit;
 
 import java.time.Duration;
 import java.time.Instant;
