@@ -30,6 +30,11 @@ public class DefaultApi implements AudioApi {
     }
 
     @Override
+    public boolean isClientConnected(UUID uuid) {
+        return getClient(uuid).isConnected();
+    }
+
+    @Override
     public ApiEventDriver getEventDriver() {
         return OpenAudioMc.getInstance().getApiEventDriver();
     }
