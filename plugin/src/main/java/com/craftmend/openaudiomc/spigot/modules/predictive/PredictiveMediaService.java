@@ -10,7 +10,7 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService
 import com.craftmend.openaudiomc.generic.networking.payloads.client.interfaces.SourceHolder;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.generic.service.Service;
-import com.craftmend.openaudiomc.generic.utils.data.HeatMap;
+import com.craftmend.openaudiomc.generic.utils.data.ConcurrentHeatMap;
 
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.predictive.serialization.ChunkMapSerializer;
@@ -36,10 +36,10 @@ public class PredictiveMediaService extends Service {
     private int maxChunkCache = 15;      // keep 15 sounds per chunk
 
     // map "active" audio chunks of the world
-    @Getter private HeatMap<String, HeatMap<String, Byte>> chunkTracker = new HeatMap<>(
+    @Getter private ConcurrentHeatMap<String, ConcurrentHeatMap<String, Byte>> chunkTracker = new ConcurrentHeatMap<>(
             chunkAge,
             maxChunkData,
-            () -> new HeatMap<String, Byte>(chunkAge, maxChunkCache, HeatMap.BYTE_CONTEXT)
+            () -> new ConcurrentHeatMap<String, Byte>(chunkAge, maxChunkCache, ConcurrentHeatMap.BYTE_CONTEXT)
     );
 
     @Override

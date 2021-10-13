@@ -209,13 +209,13 @@ public class DefaultNetworkingService extends NetworkingService {
     }
 
     /**
-     * @param player the player to unregister
+     * @param playerId the player to unregister
      */
     @Override
-    public void remove(UUID player) {
-        OpenAudioMc.getService(AuthenticationService.class).getDriver().removePlayerFromCache(player);
-        if (clientMap.containsKey(player)) {
-            ClientConnection client = clientMap.get(player);
+    public void remove(UUID playerId) {
+        OpenAudioMc.getService(AuthenticationService.class).getDriver().removePlayerFromCache(playerId);
+        ClientConnection client = clientMap.get(playerId);
+        if (client != null) {
             removedConnectionSubscribers.forEach((id, handler) -> handler.accept(client));
 
             // are we in stand alone mode? then kick this client
@@ -226,8 +226,9 @@ public class DefaultNetworkingService extends NetworkingService {
             }
 
             client.onDestroy();
-            clientMap.remove(player);
         }
+
+        clientMap.remove(playerId);
     }
 
     @Override

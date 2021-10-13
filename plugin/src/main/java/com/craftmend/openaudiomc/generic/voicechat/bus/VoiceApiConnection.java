@@ -80,9 +80,11 @@ public class VoiceApiConnection {
 
             networkingService.subscribeToDisconnections((clientConnection ->{
                 // client will be removed
-                pushEvent(VoiceServerEventType.REMOVE_PLAYER, new HashMap<String, String>() {{
-                    put("streamKey", clientConnection.getStreamKey());
-                }});
+                OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> {
+                    pushEvent(VoiceServerEventType.REMOVE_PLAYER, new HashMap<String, String>() {{
+                        put("streamKey", clientConnection.getStreamKey());
+                    }});
+                });
             }));
         }
     }
