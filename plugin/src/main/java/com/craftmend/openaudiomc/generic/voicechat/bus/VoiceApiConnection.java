@@ -48,8 +48,6 @@ public class VoiceApiConnection {
         if (networkingService instanceof DefaultNetworkingService) {
             // client got created
             networkingService.subscribeToConnections(clientConnection -> {
-                handleClientConnection(clientConnection);
-
                 clientConnection.onConnect(() -> {
                     if (status != VoiceApiStatus.CONNECTED) return;
                     // is it allowed?
@@ -65,6 +63,8 @@ public class VoiceApiConnection {
 
                     // schedule async check
                     taskService.runAsync(() -> {
+                        handleClientConnection(clientConnection);
+
                         // make an event, and invite the client if it isn't cancelled
                         ClientRequestVoiceEvent event = OpenAudioMc.getInstance().getApiEventDriver().fire(new ClientRequestVoiceEvent(clientConnection));
                         if (!event.isCanceled()) {
