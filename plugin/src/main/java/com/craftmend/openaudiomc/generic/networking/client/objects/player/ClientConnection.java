@@ -14,6 +14,7 @@ import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.enviroment.GlobalConstantService;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
@@ -239,7 +240,9 @@ public class ClientConnection implements Authenticatable, Client {
      * Close the clients web client
      */
     public void kick() {
-        OpenAudioMc.getService(NetworkingService.class).send(this, new PacketSocketKickClient());
+        OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> {
+            OpenAudioMc.getService(NetworkingService.class).send(this, new PacketSocketKickClient());
+        });
     }
 
     /**
