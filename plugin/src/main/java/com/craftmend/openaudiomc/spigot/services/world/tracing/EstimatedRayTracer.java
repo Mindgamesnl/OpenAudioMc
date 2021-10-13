@@ -1,7 +1,7 @@
-package com.craftmend.openaudiomc.spigot.modules.speakers.tracing;
+package com.craftmend.openaudiomc.spigot.services.world.tracing;
 
 import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.objects.Vector3;
-import com.craftmend.openaudiomc.spigot.modules.speakers.interfaces.IRayTracer;
+import com.craftmend.openaudiomc.spigot.services.world.interfaces.IRayTracer;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.util.Vector;
