@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 
-import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.objects.Vector3;
+import com.craftmend.openaudiomc.spigot.services.world.Vector3;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.services.world.interfaces.IRayTracer;
