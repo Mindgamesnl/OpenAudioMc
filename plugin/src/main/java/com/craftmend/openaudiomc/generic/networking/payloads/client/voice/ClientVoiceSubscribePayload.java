@@ -3,10 +3,9 @@ package com.craftmend.openaudiomc.generic.networking.payloads.client.voice;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientRtcLocationUpdate;
-import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
+import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.objects.Vector3;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
@@ -19,18 +18,12 @@ public class ClientVoiceSubscribePayload extends AbstractPacketPayload {
     private UUID targetUuid;
     private ClientRtcLocationUpdate location;
 
-    public static ClientVoiceSubscribePayload fromClient(ClientConnection clientConnection) {
-        Player player = ((SpigotPlayerAdapter) clientConnection.getPlayer()).getPlayer();
+    public static ClientVoiceSubscribePayload fromClient(ClientConnection clientConnection, Vector3 targetLocation) {
         return new ClientVoiceSubscribePayload(
                 clientConnection.getStreamKey(),
                 clientConnection.getOwnerName(),
                 clientConnection.getOwnerUUID(),
-                new ClientRtcLocationUpdate(
-                        clientConnection.getStreamKey(),
-                        player.getLocation().getX(),
-                        player.getLocation().getY(),
-                        player.getLocation().getZ()
-                )
+                ClientRtcLocationUpdate.fromClient(clientConnection, targetLocation)
         );
     }
 
