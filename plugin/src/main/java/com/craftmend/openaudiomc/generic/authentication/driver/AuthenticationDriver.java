@@ -12,7 +12,7 @@ import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
-import com.craftmend.openaudiomc.generic.utils.data.HeatMap;
+import com.craftmend.openaudiomc.generic.utils.data.ConcurrentHeatMap;
 import com.craftmend.openaudiomc.generic.networking.rest.Task;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ import java.util.UUID;
 public class AuthenticationDriver {
 
     private final AuthenticationService service;
-    @Getter private HeatMap<UUID, String> sessionCacheMap = null;
+    @Getter private ConcurrentHeatMap<UUID, String> sessionCacheMap = null;
 
     public void removePlayerFromCache(UUID uuid) {
         if (sessionCacheMap == null) {
@@ -33,7 +33,7 @@ public class AuthenticationDriver {
     }
 
     public void initCache() {
-        sessionCacheMap = new HeatMap<>(60, 100, () -> {
+        sessionCacheMap = new ConcurrentHeatMap<>(60, 100, () -> {
             return "";
         });
     }
@@ -47,7 +47,7 @@ public class AuthenticationDriver {
         OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> {
             // check ache, since there might be a value
             sessionCacheMap.clean();
-            HeatMap<UUID, String>.Value entry = sessionCacheMap.get(authenticatable.getOwnerUUID());
+            ConcurrentHeatMap<UUID, String>.Value entry = sessionCacheMap.get(authenticatable.getOwnerUUID());
             if (!entry.getContext().isEmpty()) {
                 task.success(entry.getContext());
                 return;
