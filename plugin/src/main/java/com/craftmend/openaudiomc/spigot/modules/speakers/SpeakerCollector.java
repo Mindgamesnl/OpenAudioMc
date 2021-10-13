@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers;
 
 
-import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.objects.Vector3;
+import com.craftmend.openaudiomc.spigot.services.world.Vector3;
 import com.craftmend.openaudiomc.generic.utils.data.TypeCounter;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.ApplicableSpeaker;

@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.objects;
+package com.craftmend.openaudiomc.spigot.services.world;
 
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;

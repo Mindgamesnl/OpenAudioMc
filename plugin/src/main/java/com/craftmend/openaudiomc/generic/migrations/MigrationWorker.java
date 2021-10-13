@@ -27,6 +27,7 @@ public class MigrationWorker {
                 new AddMultiUserMigration(),            // adds messages for multi user vc shit
                 new VoicechatHotkeyConfigMigration(),   // adds the config option to disable mute/unmute hokeys
                 new VoicechatChatMessageLocation(),     // new setting for message location
+                new AddVoiceTracingMigration(),         // add voicechat raytracing toggle
         };
 
         int skipped = 0;
