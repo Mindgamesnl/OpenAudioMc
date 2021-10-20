@@ -1,7 +1,9 @@
 package com.craftmend.openaudiomc.generic.authentication;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.interfaces.IAccountProvider;
 import com.craftmend.openaudiomc.generic.authentication.driver.AuthenticationDriver;
+import com.craftmend.openaudiomc.generic.authentication.driver.CraftmendTokenProvider;
 import com.craftmend.openaudiomc.generic.authentication.response.HostDetailsResponse;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
@@ -18,6 +20,7 @@ import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
 
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -25,19 +28,21 @@ import java.util.UUID;
 @Getter
 public class AuthenticationService extends Service {
 
+    public static IAccountProvider TOKEN_PROVIDER = new CraftmendTokenProvider();
+
     @Inject
     private TaskService taskService;
 
     private AuthenticationDriver driver;
     private RestRequest registrationProvider;
     @Getter private ServerKeySet serverKeySet = new ServerKeySet();
-    private boolean isSuccessful = false;
+    @Setter private boolean isSuccessful = false;
     private final String failureMessage = "Oh no, it looks like the initial setup of OpenAudioMc has failed. Please try to restart the server and try again, if that still does not work, please contact OpenAudioMc staff or support.";
-    private final int currentKeyVersion = 4;
+    @Getter private final int currentKeyVersion = 4;
     private Instant identityCreatedAt = null;
     private String identity = null;
     private HostDetailsResponse host;
-    private boolean isNewAccount = false;
+    @Setter private boolean isNewAccount = false;
 
     @Override
     public void onEnable() {
@@ -75,42 +80,10 @@ public class AuthenticationService extends Service {
      * If they dont exist, then they will be requested by the cool oa api.
      */
     private void loadData() {
-        Configuration config = OpenAudioMc.getInstance().getConfiguration();
-
-        // create token if new
-        if (config.getString(StorageKey.AUTH_PRIVATE_KEY).equals("not-set") || getAuthVersion() != currentKeyVersion) {
-            OpenAudioLogger.toConsole("Creating account...");
-
-            // am I a top level server? skip setup if that's the case
-            if (OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
-                OpenAudioLogger.toConsole("Skipping account setup since this isn't a master server, moving on with fake api keys.");
-                serverKeySet.setPrivateKey(new Key(UUID.randomUUID().toString()));
-                serverKeySet.setPublicKey(new Key(UUID.randomUUID().toString()));
-                isSuccessful = true;
-                return;
-            }
-
-            //setup process
-            ApiResponse response = registrationProvider.executeInThread();
-            if (response.getErrors().isEmpty()) {
-                initializeToken(response.getResponse(RegistrationResponse.class), config);
-                isSuccessful = true;
-            } else {
-                OpenAudioLogger.toConsole("Failed to request token. Error: " + OpenAudioMc.getGson().toJson(response.getErrors()));
-                isSuccessful = false;
-            }
-            isNewAccount = true;
-            return;
-        }
-
-        // paddle back
-        OpenAudioLogger.toConsole("This server already has an account, skipping sign up.");
-        serverKeySet.setPrivateKey(new Key(config.getString(StorageKey.AUTH_PRIVATE_KEY)));
-        serverKeySet.setPublicKey(new Key(config.getString(StorageKey.AUTH_PUBLIC_KEY)));
-        isSuccessful = true;
+        TOKEN_PROVIDER.inject(taskService, this);
     }
 
-    private void initializeToken(RegistrationResponse registrationResponse, Configuration config) {
+    public void initializeToken(RegistrationResponse registrationResponse, Configuration config) {
         serverKeySet.setPrivateKey(new Key(registrationResponse.getPrivateKey()));
         serverKeySet.setPublicKey(new Key(registrationResponse.getPublicKey()));
         HostDetailsResponse host = driver.getHost();
