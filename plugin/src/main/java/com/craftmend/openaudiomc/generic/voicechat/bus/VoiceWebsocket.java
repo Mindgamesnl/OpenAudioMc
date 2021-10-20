@@ -67,6 +67,7 @@ public class VoiceWebsocket extends WebSocketListener {
     public void stop() {
         closed = true;
         client.dispatcher().executorService().shutdown();
+        webSocket.close(1005, "");
         this.isReady = false;
     }
 

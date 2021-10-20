@@ -6,10 +6,7 @@ import lombok.SneakyThrows;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * The ServiceManager was made in an effort to make the general openaudiomc codebase less shit/spaghetti/spaghetti with shit sauce
