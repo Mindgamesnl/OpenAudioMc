@@ -13,6 +13,7 @@ import com.craftmend.openaudiomc.generic.networking.client.enums.RtcStateFlag;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientSubscribeToVoice;
+import com.craftmend.openaudiomc.spigot.services.world.Vector3;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceSubscribePayload;
 import com.craftmend.openaudiomc.generic.node.packets.ForceMuteMicrophonePacket;
@@ -78,8 +79,8 @@ public class ClientRtcManager implements Serializable {
         peer.getClientRtcManager().getSubscriptions().add(clientConnection.getOwnerUUID());
         subscriptions.add(peer.getOwnerUUID());
 
-        peer.sendPacket(new PacketClientSubscribeToVoice(ClientVoiceSubscribePayload.fromClient(clientConnection)));
-        clientConnection.sendPacket(new PacketClientSubscribeToVoice(ClientVoiceSubscribePayload.fromClient(peer)));
+        peer.sendPacket(new PacketClientSubscribeToVoice(ClientVoiceSubscribePayload.fromClient(clientConnection, Vector3.from(peer))));
+        clientConnection.sendPacket(new PacketClientSubscribeToVoice(ClientVoiceSubscribePayload.fromClient(peer, Vector3.from(clientConnection))));
 
         // throw events in both ways, since the two users are listening to eachother
         AudioApi.getInstance().getEventDriver().fire(new PlayerEnterVoiceProximityEvent(clientConnection, peer, VoiceEventCause.NORMAL));
@@ -146,12 +147,10 @@ public class ClientRtcManager implements Serializable {
                 continue;
 
             if (peer.getClientRtcManager().subscriptions.contains(clientConnection.getOwnerUUID())) {
-                peer.getClientRtcManager().locationUpdateQueue.add(new ClientRtcLocationUpdate(
-                        clientConnection.getStreamKey(),
-                        location.getX(),
-                        location.getY(),
-                        location.getZ()
-                ));
+                peer.getClientRtcManager().locationUpdateQueue.add(
+                        ClientRtcLocationUpdate
+                                .fromClientWithLocation(clientConnection, location, Vector3.from(peer))
+                );
             }
         }
     }

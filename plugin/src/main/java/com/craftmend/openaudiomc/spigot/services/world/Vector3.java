@@ -1,10 +1,13 @@
-package com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.objects;
+package com.craftmend.openaudiomc.spigot.services.world;
 
+import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.io.Serializable;
@@ -19,6 +22,11 @@ public class Vector3 implements Serializable {
     private double x = 0;
     private double y = 0;
     private double z = 0;
+
+    public static Vector3 from(ClientConnection peer) {
+        Player player = ((SpigotPlayerAdapter) peer.getPlayer()).getPlayer();
+        return from(player.getLocation());
+    }
 
     @Override
     public boolean equals(Object other) {
