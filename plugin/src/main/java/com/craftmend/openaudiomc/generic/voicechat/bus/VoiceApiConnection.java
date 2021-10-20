@@ -52,7 +52,9 @@ public class VoiceApiConnection {
                     if (status != VoiceApiStatus.CONNECTED) return;
                     // is it allowed?
                     if (getUsedSlots() >= maxSlots) {
-                        clientConnection.getPlayer().sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + "VoiceChat couldn't be enabled since this server occupied all its slots, please notify a staff member and try again later.");
+                        if (System.getenv("OA_LATE_BIND") == null) {
+                            clientConnection.getPlayer().sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + "VoiceChat couldn't be enabled since this server occupied all its slots, please notify a staff member and try again later.");
+                        }
                         return;
                     }
 
