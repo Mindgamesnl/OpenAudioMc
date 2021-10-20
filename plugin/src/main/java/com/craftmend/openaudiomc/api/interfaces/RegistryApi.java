@@ -45,4 +45,11 @@ public interface RegistryApi {
      */
     void forceNetworkingInterface(Class<? extends NetworkingService> service);
 
+
+    /**
+     * Register a new default account provider
+     * @param provider Provider
+     */
+    void registerTokenProvider(IAccountProvider provider);
+
 }

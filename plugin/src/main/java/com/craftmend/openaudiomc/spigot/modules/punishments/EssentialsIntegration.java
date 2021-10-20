@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.spigot.services.dependency.DependencyHandler;
 import com.earth2me.essentials.Essentials;
+import com.earth2me.essentials.User;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
@@ -20,8 +21,9 @@ public class EssentialsIntegration implements DependencyHandler {
             driver.on(ClientRequestVoiceEvent.class)
                     .setHandler(event -> {
 
-                        if (ess.getUser(event.getRequester().getOwnerUUID()) == null) return;
-                        boolean isMuted = ess.getUser(event.getRequester().getOwnerUUID()).isMuted();
+                        User usr = ess.getUser(event.getRequester().getOwnerUUID());
+                        if (usr == null) return;
+                        boolean isMuted = usr.isMuted();
 
                         if (isMuted) {
                             OpenAudioLogger.toConsole("Blocking voicechat for " + event.getRequester().getPlayer().getName() + " because they are muted on Essentials");

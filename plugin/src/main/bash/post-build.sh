@@ -28,8 +28,7 @@ save_var "BUILD_AUTHOR" $(git log -1 --pretty=format:'%an')
 # delete old file, than save it
 set_var "BUILD_NUM" $BUILD_NUM
 chmod +x ./src/main/bash/data.bin
-
-# copy into the main
+echo "Fuckk"
 cp ./src/main/bash/data.bin ./src/main/resources/data.bin
 
 # copy jar

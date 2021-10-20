@@ -1,7 +1,9 @@
 package com.craftmend.openaudiomc.api.impl;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.interfaces.IAccountProvider;
 import com.craftmend.openaudiomc.api.interfaces.RegistryApi;
+import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.media.MediaService;
@@ -42,5 +44,10 @@ public class RegistryApiImpl implements RegistryApi {
     @Override
     public void forceNetworkingInterface(Class<? extends NetworkingService> service) {
         forcedService = service;
+    }
+
+    @Override
+    public void registerTokenProvider(IAccountProvider provider) {
+        AuthenticationService.TOKEN_PROVIDER = provider;
     }
 }
