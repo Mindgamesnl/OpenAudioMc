@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.api.interfaces;
 
-import com.craftmend.openaudiomc.generic.utils.data.HeatMap;
+import com.craftmend.openaudiomc.generic.utils.data.ConcurrentHeatMap;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.AbstractRegionAdapter;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
@@ -46,14 +46,14 @@ public interface WorldApi {
      * @param location Location to get
      * @return chunk context copy
      */
-    HeatMap<String, Byte> getChunkContext(Location location);
+    ConcurrentHeatMap<String, Byte> getChunkContext(Location location);
 
     /**
      * Save updated chunk context
      * @param location Location to apply to
      * @param context Context
      */
-    void setChunkContext(Location location, List<HeatMap<String, Byte>.Value> context);
+    void setChunkContext(Location location, List<ConcurrentHeatMap<String, Byte>.Value> context);
 
     /**
      * Convert a bukkit location to an openaudio chunk and get its ID

@@ -1,7 +1,7 @@
-package com.craftmend.openaudiomc.spigot.modules.speakers.tracing;
+package com.craftmend.openaudiomc.spigot.services.world.tracing;
 
-import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.objects.Vector3;
-import com.craftmend.openaudiomc.spigot.modules.speakers.interfaces.IRayTracer;
+import com.craftmend.openaudiomc.spigot.services.world.Vector3;
+import com.craftmend.openaudiomc.spigot.services.world.interfaces.IRayTracer;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.util.Vector;
@@ -23,7 +23,7 @@ public class EstimatedRayTracer implements IRayTracer {
 
         Vector startVector = start.toVector();
         Vector endVector = end.toBukkit();
-        double distance = startVector.distance(endVector);
+        double distance = Math.abs(startVector.distanceSquared(endVector));
         Vector vector = endVector.clone().subtract(startVector).normalize().multiply(1);
 
         for (double length = 0; length < distance; startVector.add(vector)) {

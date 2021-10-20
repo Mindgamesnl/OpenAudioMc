@@ -20,6 +20,17 @@ public interface AudioApi {
     Client getClient(UUID uuid);
 
     /**
+     * A direct method to check connection state without directly
+     * invoking the ClientConnection class. Some platforms *cough* nashorn *cough* may attempt
+     * to load fields that aren't loaded during runtime and blow stuff up, so adding this one
+     * layer of wrapping should work around that.
+     *
+     * @param uuid Player UUID to check
+     * @return If the client is connected or not
+     */
+    boolean isClientConnected(UUID uuid);
+
+    /**
      * Get the internal event driver
      * @return Internal event driver
      */

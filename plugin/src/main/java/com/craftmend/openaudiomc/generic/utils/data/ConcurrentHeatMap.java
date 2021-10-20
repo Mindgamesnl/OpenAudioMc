@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-public class HeatMap<T, S> {
+public class ConcurrentHeatMap<T, S> {
 
     public static final ContextFactory BYTE_CONTEXT = () -> (byte) 0;
     private final Map<T, Value> data = new ConcurrentHashMap<>();
@@ -18,7 +18,7 @@ public class HeatMap<T, S> {
     private final int maxElements;
     private final ContextFactory contextFactory;
 
-    public HeatMap(int maxAgeInSeconds, int maxElements, ContextFactory contextFactory) {
+    public ConcurrentHeatMap(int maxAgeInSeconds, int maxElements, ContextFactory contextFactory) {
         this.maxAgeInSeconds = maxAgeInSeconds;
         this.maxElements = maxElements;
         this.contextFactory = contextFactory;

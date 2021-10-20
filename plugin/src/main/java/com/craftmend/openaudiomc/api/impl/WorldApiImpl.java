@@ -4,7 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.interfaces.WorldApi;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.utils.data.HeatMap;
+import com.craftmend.openaudiomc.generic.utils.data.ConcurrentHeatMap;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.predictive.PredictiveMediaService;
 import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
@@ -46,17 +46,17 @@ public class WorldApiImpl implements WorldApi {
     public Collection<String> getPredictedSources(Location location) {
         if (OpenAudioMc.getInstance().getPlatform() != Platform.SPIGOT) throw new IllegalStateException("This method is only available in a SPIGOT server.");
 
-        HeatMap<String, Byte> chunkContext = getChunkContext(location);
-        List<HeatMap<String, Byte>.Value> vls = chunkContext.getTop(StorageKey.SETTINGS_PRELOAD_SOUNDS.getInt());
+        ConcurrentHeatMap<String, Byte> chunkContext = getChunkContext(location);
+        List<ConcurrentHeatMap<String, Byte>.Value> vls = chunkContext.getTop(StorageKey.SETTINGS_PRELOAD_SOUNDS.getInt());
 
         return vls
                 .stream()
-                .map(HeatMap.Value::getValue)
+                .map(ConcurrentHeatMap.Value::getValue)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public HeatMap<String, Byte> getChunkContext(Location location) {
+    public ConcurrentHeatMap<String, Byte> getChunkContext(Location location) {
         if (OpenAudioMc.getInstance().getPlatform() != Platform.SPIGOT) throw new IllegalStateException("This method is only available in a SPIGOT server.");
 
         return getPredictionModule()
@@ -69,11 +69,11 @@ public class WorldApiImpl implements WorldApi {
     }
 
     @Override
-    public void setChunkContext(Location location, List<HeatMap<String, Byte>.Value> context) {
+    public void setChunkContext(Location location, List<ConcurrentHeatMap<String, Byte>.Value> context) {
         if (OpenAudioMc.getInstance().getPlatform() != Platform.SPIGOT) throw new IllegalStateException("This method is only available in a SPIGOT server.");
 
-        HeatMap<String, Byte> chunk = getChunkContext(location);
-        for (HeatMap<String, Byte>.Value value : context) {
+        ConcurrentHeatMap<String, Byte> chunk = getChunkContext(location);
+        for (ConcurrentHeatMap<String, Byte>.Value value : context) {
             chunk.get(value.getValue()).setContext(value.getContext());
             chunk.get(value.getValue()).setScore(value.getScore());
         }

@@ -209,14 +209,21 @@ public class DefaultNetworkingService extends NetworkingService {
     }
 
     /**
-     * @param player the player to unregister
+     * @param playerId the player to unregister
      */
     @Override
-    public void remove(UUID player) {
-        OpenAudioMc.getService(AuthenticationService.class).getDriver().removePlayerFromCache(player);
-        if (clientMap.containsKey(player)) {
-            ClientConnection client = clientMap.get(player);
-            removedConnectionSubscribers.forEach((id, handler) -> handler.accept(client));
+    public void remove(UUID playerId) {
+        OpenAudioMc.getService(AuthenticationService.class).getDriver().removePlayerFromCache(playerId);
+        ClientConnection client = clientMap.get(playerId);
+        if (client != null) {
+            removedConnectionSubscribers.forEach((id, handler) -> {
+                try {
+                    handler.accept(client);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    OpenAudioLogger.toConsole("Failed to handle destroy listener " + id + " for " + client.getOwnerName());
+                }
+            });
 
             // are we in stand alone mode? then kick this client
             if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
@@ -226,8 +233,9 @@ public class DefaultNetworkingService extends NetworkingService {
             }
 
             client.onDestroy();
-            clientMap.remove(player);
         }
+
+        clientMap.remove(playerId);
     }
 
     @Override
