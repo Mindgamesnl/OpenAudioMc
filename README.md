@@ -22,13 +22,15 @@ Please visit the [Documentation](https://help.openaudiomc.net/docs) for a full g
  - LiteBans support to syncronize mutes with voice chat
  - Feature rich java API
  - Easy to use web clients (players receive their own personal link, no downloads or accounts required)
- - Automatic client translation in 8 languages
+ - Automatic client translation in 9 languages
  - Automatic CDN infrastructure to speed up file delivery without any configuration
  - Out of the box support for Youtube, Soundcloud, Google Drive and Dropbox
  - Amazing documentation
  - Fully configurable
  - Stupidly simple to use
  - Active support and community
+ - Smart pre-loading/buffering based on a location learning algorithm
+ - Moderation utilities and hooks for voicechat
 
 ## Supported platforms
  - [Spigot (from 1.8.8 to latest)](https://www.spigotmc.org/resources/openaudiomc-open-source-audio-client.30691/ "Spigot Plugin Page")
