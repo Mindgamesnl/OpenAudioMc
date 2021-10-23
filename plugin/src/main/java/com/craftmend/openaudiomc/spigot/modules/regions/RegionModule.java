@@ -74,8 +74,12 @@ public class RegionModule {
 
                 // is voicechat enabled? but we'll need to check if the region even has this data, since it might be considered legacy
                 boolean isVcEnabled = true;
-                if (config.isPathValid("regionmeta." + region + "allow-vc", StorageLocation.DATA_FILE)) {
-                    isVcEnabled = Boolean.valueOf(config.getStringFromPath("regionmeta." + region + "allow-vc", StorageLocation.DATA_FILE));
+
+                // only check paths on modern servers, 1.8 doesn't support contains lookups
+                if (OpenAudioMc.getService(ServerService.class).getVersion() == ServerVersion.MODERN) {
+                    if (config.isPathValid("regionmeta." + region + "allow-vc", StorageLocation.DATA_FILE)) {
+                        isVcEnabled = Boolean.valueOf(config.getStringFromPath("regionmeta." + region + "allow-vc", StorageLocation.DATA_FILE));
+                    }
                 }
 
                 RegionProperties properties = new RegionProperties(source, volume, fadeTimeMs, isVcEnabled);
