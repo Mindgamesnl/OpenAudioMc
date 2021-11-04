@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.generic.commands;
 
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.*;
+import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
@@ -22,10 +23,11 @@ public class CommandService extends Service {
     private final Map<String, SubCommand> subCommands = new HashMap<>();
     @Getter private final List<String> aliases = new ArrayList<>();
 
-    // TODO: This should be a constant
-    @Getter private final String commandPrefix = Platform.translateColors("&3[&bOA&3] &7");
-
     public CommandService() {
+
+        // initialize default
+        MagicValue.overWrite(MagicValue.COMMAND_PREFIX, Platform.translateColors("&3[&bOA&3] &7"));
+
         registerSubCommands(
                 new NotificationSubCommand(this),
                 new LinkSubCommand(),

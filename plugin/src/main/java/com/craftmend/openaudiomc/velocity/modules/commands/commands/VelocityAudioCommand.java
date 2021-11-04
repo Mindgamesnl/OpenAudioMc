@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
+import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.velocity.generic.commands.adapters.VelocityCommandSenderAdapter;
 import com.craftmend.openaudiomc.velocity.modules.player.objects.VelocityPlayerSelector;
@@ -36,7 +37,7 @@ public class VelocityAudioCommand implements SimpleCommand {
             String[] args = invocation.arguments();
 
             if (args.length == 0) {
-                sender.sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + "You must provide a player name OR selector to send trigger the URL");
+                sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "You must provide a player name OR selector to send trigger the URL");
                 return;
             }
 

@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.speakers.menu;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
+import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.ApplicableSpeaker;
@@ -20,7 +21,7 @@ public class NearbySpeakersMenu extends Menu {
         // get speakers
         Collection<ApplicableSpeaker> speakers = OpenAudioMc.getService(SpeakerService.class).getCollector().getApplicableSpeakers(player.getLocation());
         if (speakers.isEmpty()) {
-            player.sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + ChatColor.RED + "There aren't any speaker within your radius to show.");
+            player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class)  + ChatColor.RED + "There aren't any speaker within your radius to show.");
             return;
         }
 

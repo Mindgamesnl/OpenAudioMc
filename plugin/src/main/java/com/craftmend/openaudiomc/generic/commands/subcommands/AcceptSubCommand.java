@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
+import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
@@ -25,7 +26,7 @@ public class AcceptSubCommand extends SubCommand {
         config.setBoolean(StorageKey.LEGAL_ACCEPTED_TOS_AND_PRIVACY, true);
         config.saveAll();
 
-        sender.sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + "Welcome to OpenAudioMc! you accepted the terms, enjoy the service!");
+        sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Welcome to OpenAudioMc! you accepted the terms, enjoy the service!");
 
         OpenAudioMc.getService(CraftmendService.class).startSyncronizer();
         service.connectIfDown();

@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.generic.voicechat.bus;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.events.ClientRequestVoiceEvent;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
+import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
 import com.craftmend.openaudiomc.generic.networking.client.enums.RtcStateFlag;
@@ -52,8 +53,8 @@ public class VoiceApiConnection {
                     if (status != VoiceApiStatus.CONNECTED) return;
                     // is it allowed?
                     if (getUsedSlots() >= maxSlots) {
-                        if (System.getenv("OA_LATE_BIND") == null) {
-                            clientConnection.getPlayer().sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + "VoiceChat couldn't be enabled since this server occupied all its slots, please notify a staff member and try again later.");
+                        if (MagicValue.NOTIFY_VOICECHAT_SLOT_DEPLETION.get(Boolean.class)) {
+                            clientConnection.getPlayer().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "VoiceChat couldn't be enabled since this server occupied all its slots, please notify a staff member and try again later.");
                         }
                         return;
                     }

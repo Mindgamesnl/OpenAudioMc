@@ -10,6 +10,7 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
+import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -39,7 +40,7 @@ public class BungeeAudioCommand extends Command {
             OpenAudioMc.getService(NetworkingService.class).getClient(player.getUniqueId()).publishUrl();
         } else {
             if (args.length == 0) {
-                sender.sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + "You must provide a player name OR selector to send trigger the URL");
+                sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "You must provide a player name OR selector to send trigger the URL");
                 return;
             }
 

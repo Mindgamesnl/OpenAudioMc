@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.speakers.listeners;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
+import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
@@ -26,7 +27,7 @@ public class SpeakerDestroyListener implements Listener {
         Block broken = event.getBlock();
         if (SpeakerUtils.isSpeakerSkull(broken)) {
             if (!isAllowed(event.getPlayer())) {
-                event.getPlayer().sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + "You are not allowed to break OpenAudioMc speakers, please ask the server administrator for more information.");
+                event.getPlayer().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "You are not allowed to break OpenAudioMc speakers, please ask the server administrator for more information.");
                 event.setCancelled(true);
                 return;
             }
@@ -40,7 +41,7 @@ public class SpeakerDestroyListener implements Listener {
             //save to config
             openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE,"speakers." + speaker.getId().toString(), null);
 
-            event.getPlayer().sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + ChatColor.RED + "Speaker destroyed");
+            event.getPlayer().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.RED + "Speaker destroyed");
             try {
                 event.setDropItems(false);
             } catch (Exception e) {

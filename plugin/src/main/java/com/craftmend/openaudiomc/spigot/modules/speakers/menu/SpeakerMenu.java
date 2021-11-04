@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.speakers.menu;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
+import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -164,7 +165,7 @@ public class SpeakerMenu extends Menu {
                     Configuration config = OpenAudioMc.getInstance().getConfiguration();
                     config.setInt(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".radius", distance);
                     speaker.setRadius(distance);
-                    player.sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + "Updated speaker radius to " + distance);
+                    player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Updated speaker radius to " + distance);
                     new SpeakerMenu(speaker).openFor(player);
                 });
     }

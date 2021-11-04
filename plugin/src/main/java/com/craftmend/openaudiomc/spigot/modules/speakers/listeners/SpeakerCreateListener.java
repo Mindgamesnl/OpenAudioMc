@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.speakers.listeners;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
+import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
@@ -34,14 +35,14 @@ public class SpeakerCreateListener implements Listener {
         Block placed = event.getBlockPlaced();
         if (SpeakerUtils.isSpeakerSkull(placed)) {
             if (!isAllowed(event.getPlayer())) {
-                event.getPlayer().sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + "You are not allowed to place OpenAudioMc speakers, please ask the server administrator for more information.");
+                event.getPlayer().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "You are not allowed to place OpenAudioMc speakers, please ask the server administrator for more information.");
                 event.setCancelled(true);
                 return;
             }
 
             SpigotConnection spigotConnection = OpenAudioMc.getService(PlayerService.class).getClient(event.getPlayer());
             if (spigotConnection.getSelectedSpeakerSettings() == null) {
-                event.getPlayer().sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + "You cant place OpenAudioMc speakers without using the command first. I dont know what sound you would like to add.");
+                event.getPlayer().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "You cant place OpenAudioMc speakers without using the command first. I dont know what sound you would like to add.");
                 event.setCancelled(true);
                 return;
             }
@@ -64,7 +65,7 @@ public class SpeakerCreateListener implements Listener {
             config.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".media", spigotConnection.getSelectedSpeakerSettings().getSource());
             config.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".type", speakerType.toString());
 
-            event.getPlayer().sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + ChatColor.GREEN + "Placed a " + speakerType.getName() + " speaker" + ChatColor.GRAY + " (guessed bases on other nearby speakers, click placed speaker to edit)");
+            event.getPlayer().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.GREEN + "Placed a " + speakerType.getName() + " speaker" + ChatColor.GRAY + " (guessed bases on other nearby speakers, click placed speaker to edit)");
         }
     }
 

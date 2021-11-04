@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.regions.gui;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
+import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -67,9 +68,9 @@ public class RegionEditGui extends Menu {
                     config.setString(StorageLocation.DATA_FILE, "regionmeta." + region.getId().toString() + ".allow-vc", region.getProperties().isAllowsVoiceChat() + "");
 
                     if (region.getProperties().isAllowsVoiceChat()) {
-                        player.sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + ChatColor.GREEN + "Voicechat has been enabled for this region.");
+                        player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.GREEN + "Voicechat has been enabled for this region.");
                     } else {
-                        player.sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + ChatColor.RED + "Voicechat has been disabled for this region, meaning that players will mute/leave their call once they enter.");
+                        player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.RED + "Voicechat has been disabled for this region, meaning that players will mute/leave their call once they enter.");
                     }
 
                     new RegionEditGui(region).openFor(player);
@@ -94,7 +95,7 @@ public class RegionEditGui extends Menu {
                     config.setInt(StorageLocation.DATA_FILE, "regionsfadetime." + region.getId().toString(), fadeTime);
                     region.getProperties().setFadeTimeMs(fadeTime);
 
-                    player.sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + ChatColor.GREEN + "Updated region fadetime to " + fadeTime);
+                    player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.GREEN + "Updated region fadetime to " + fadeTime);
 
                     SpigotConnection spigotClient = OpenAudioMc.getService(PlayerService.class).getClient(player.getUniqueId());
                     spigotClient.getRegionHandler().reset();
@@ -121,7 +122,7 @@ public class RegionEditGui extends Menu {
                     config.setInt(StorageLocation.DATA_FILE, "regionsvolume." + region.getId().toString(), volume);
                     region.setVolume(volume);
 
-                    player.sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + ChatColor.GREEN + "Updated region volume to " + volume);
+                    player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.GREEN + "Updated region volume to " + volume);
 
                     SpigotConnection spigotClient = OpenAudioMc.getService(PlayerService.class).getClient(player.getUniqueId());
                     spigotClient.getRegionHandler().reset();
