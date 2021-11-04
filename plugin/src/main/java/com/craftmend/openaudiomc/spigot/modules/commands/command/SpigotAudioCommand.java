@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
+import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.state.StateService;
@@ -50,7 +51,7 @@ public class SpigotAudioCommand implements CommandExecutor {
             }
 
             // its on a sub-server without an activated proxy, so completely ignore it
-            commandSender.sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() +
+            commandSender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) +
                     state.getDescription());
             return true;
         }
@@ -60,7 +61,7 @@ public class SpigotAudioCommand implements CommandExecutor {
             OpenAudioMc.getService(NetworkingService.class).getClient(sender.getUniqueId()).publishUrl();
         } else {
             if (args.length == 0) {
-                commandSender.sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + ChatColor.RED + "You must provide a player name OR selector to send trigger the URL");
+                commandSender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.RED + "You must provide a player name OR selector to send trigger the URL");
                 return true;
             }
 

@@ -60,7 +60,7 @@ public class GlobalConstantService extends Service {
         boolean notifyUpdates = OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_NOTIFY_UPDATES);
         boolean notifyAnnouncements = OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_NOTIFY_ANNOUNCEMENTS);
 
-        String prefix = OpenAudioMc.getService(CommandService.class).getCommandPrefix();
+        String prefix = MagicValue.COMMAND_PREFIX.get(String.class);
 
         if (notifyUpdates && isUpdateAvailable()) {
             player.sendMessage(prefix + Platform.translateColors(projectStatus.getVersioning().getImportance()) + " update available!");

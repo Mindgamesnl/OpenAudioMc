@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
+import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.Notification;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
@@ -77,7 +78,7 @@ public class NotificationSubCommand extends SubCommand {
                     .setMessage(message.toString());
             players.forEach(notification::send);
 
-            sender.sendMessage(commandService.getCommandPrefix() + "Message send");
+            sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Message send");
         }
     }
 

@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.regions.gui;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
+import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.AbstractRegionAdapter;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
@@ -23,7 +24,7 @@ public class RegionSelectionGui extends Menu {
 
         // don't do shit
         if (applicableRegions.isEmpty()) {
-            opener.sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + ChatColor.RED + "There are no OpenAudioMc regions registered on your current location, so there's nothing to display in the GUI.");
+            opener.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.RED + "There are no OpenAudioMc regions registered on your current location, so there's nothing to display in the GUI.");
             return;
         }
 

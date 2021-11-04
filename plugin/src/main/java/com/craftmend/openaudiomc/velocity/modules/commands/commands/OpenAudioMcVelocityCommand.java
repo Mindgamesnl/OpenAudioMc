@@ -9,6 +9,7 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
+import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
 import com.craftmend.openaudiomc.velocity.generic.commands.adapters.VelocityCommandSenderAdapter;
@@ -29,7 +30,7 @@ public class OpenAudioMcVelocityCommand implements SimpleCommand {
         String[] args = invocation.arguments();
 
         if (args.length == 0) {
-            sender.sendMessage(commandService.getCommandPrefix() + "OpenAudioMc version " + OpenAudioMcVelocity.getInstance().getPluginVersion() + ". For help, please use /openaudio help");
+            sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "OpenAudioMc version " + OpenAudioMcVelocity.getInstance().getPluginVersion() + ". For help, please use /openaudio help");
             return;
         }
 
@@ -55,15 +56,15 @@ public class OpenAudioMcVelocityCommand implements SimpleCommand {
                      */
                     e.printStackTrace();
                     OpenAudioLogger.handleException(e);
-                    sender.sendMessage(commandService.getCommandPrefix() + "An error occurred while executing the command. Please check your command.");
+                    sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "An error occurred while executing the command. Please check your command.");
                 }
                 return;
             } else {
-                sender.sendMessage(commandService.getCommandPrefix() + "You dont have the permissions to do this, sorry!");
+                sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "You dont have the permissions to do this, sorry!");
                 return;
             }
         } else {
-            sender.sendMessage(commandService.getCommandPrefix() + "Unknown sub command: " + args[0].toLowerCase());
+            sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Unknown sub command: " + args[0].toLowerCase());
             commandService.getSubCommand("help").onExecute(sender, args);
             return;
         }

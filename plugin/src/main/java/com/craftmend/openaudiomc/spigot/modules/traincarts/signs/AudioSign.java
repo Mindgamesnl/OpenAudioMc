@@ -6,6 +6,7 @@ import com.bergerkiller.bukkit.tc.signactions.SignAction;
 import com.bergerkiller.bukkit.tc.signactions.SignActionType;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
+import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.spigot.modules.traincarts.TrainCartsModule;
 
 public class AudioSign extends SignAction {
@@ -45,7 +46,7 @@ public class AudioSign extends SignAction {
         if (event.isCartSign())
             return false;
         if (event.isTrainSign()) {
-            event.getPlayer().sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + "You've successfully created a OpenAudioMc sign!");
+            event.getPlayer().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "You've successfully created a OpenAudioMc sign!");
             return true;
         }
         return false;

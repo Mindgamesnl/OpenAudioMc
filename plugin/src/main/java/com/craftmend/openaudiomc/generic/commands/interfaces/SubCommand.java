@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.generic.commands.interfaces;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
+import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import lombok.AllArgsConstructor;
@@ -46,7 +47,7 @@ public abstract class SubCommand {
      * @param message Your message
      */
     protected void message(GenericExecutor sender, String message) {
-        sender.sendMessage(OpenAudioMc.getService(CommandService.class).getCommandPrefix() + message);
+        sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + message);
     }
 
     /**

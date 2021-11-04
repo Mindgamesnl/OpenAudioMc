@@ -14,6 +14,7 @@ import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.enviroment.GlobalConstantService;
+import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
@@ -303,7 +304,7 @@ public class ClientConnection implements Authenticatable, Client {
     public void handleError(MediaError error, String source) {
         AudioApi.getInstance().getEventDriver().fire(new ClientErrorEvent(this, error, source));
         if (getPlayer().isAdministrator() && OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_STAFF_TIPS)) {
-            String prefix = OpenAudioMc.getService(CommandService.class).getCommandPrefix();
+            String prefix = MagicValue.COMMAND_PREFIX.get(String.class);
             getPlayer().sendMessage(prefix + "Something went wrong while playing a sound for you, here's what we know:");
             getPlayer().sendMessage(prefix + "what happened: " + error.getExplanation());
             getPlayer().sendMessage(prefix + "where: " + source);
