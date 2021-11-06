@@ -84,7 +84,7 @@ public class OpenAudioMc {
         instance = this;
         OpenAudioLogger.toConsole("Initializing build " + BUILD.getBuildNumber() + " by " + BUILD.getBuildAuthor());
         this.invoker = invoker;
-        this.platform = invoker.getPlatform();// constants
+        this.platform = invoker.getPlatform(); // constants
         this.cleanStartup = !this.invoker.hasPlayersOnline();
         this.configuration = invoker.getConfigurationProvider();
 

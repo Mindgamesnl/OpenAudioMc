@@ -44,6 +44,7 @@ public class AuthenticationDriver {
         }
 
         Task<String> task = new Task<>();
+
         OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> {
             // check ache, since there might be a value
             sessionCacheMap.clean();
