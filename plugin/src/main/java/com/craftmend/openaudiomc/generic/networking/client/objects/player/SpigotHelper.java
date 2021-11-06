@@ -36,7 +36,6 @@ class SpigotHelper {
         message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
         message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover));
 
-        clientConnection.setWaitingToken(true);
         clientConnection.getPlayer().sendMessage(message);
     }
 

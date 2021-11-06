@@ -63,7 +63,6 @@ public class Publisher {
 
         Task<String> sessionRequest = OpenAudioMc.getService(AuthenticationService.class).getDriver().createPlayerSession(clientConnection);
         sessionRequest.setWhenFails((restErrorType, fuckyou) -> clientConnection.getPlayer().sendMessage(translateColors(StorageKey.MESSAGE_SESSION_ERROR.getString())));
-
         sessionRequest.setWhenSuccessful(token -> {
 
             switch (openAudioMc.getPlatform()){

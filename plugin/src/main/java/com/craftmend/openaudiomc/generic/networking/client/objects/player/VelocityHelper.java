@@ -32,7 +32,6 @@ class VelocityHelper {
         String hoverText = translateColors(StorageKey.MESSAGE_HOVER_TO_CONNECT.getString());
         message = message.hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text(Objects.requireNonNull(hoverText))));
 
-        clientConnection.setWaitingToken(true);
         Player player = ((VelocityPlayerAdapter) clientConnection.getPlayer()).getPlayer();
         player.sendMessage(message);
     }
