@@ -70,8 +70,8 @@ export function HandleModernLogin(openAudioMc, accept, reject, tokenSet) {
 
                 if (!result.response.settings.useTranslations) {
                     openAudioMc.messageModule.setKey("home.welcome", hello)
-                    openAudioMc.messageModule.setKey("landing.connectButton", response.settings.startButton)
-                    openAudioMc.messageModule.setKey("main.content", welcomeMessage)
+                    openAudioMc.messageModule.setKey("home.activateText", response.settings.startButton)
+                    openAudioMc.messageModule.setKey("home.header", welcomeMessage)
                 }
 
                 // replace the default with a defined one
