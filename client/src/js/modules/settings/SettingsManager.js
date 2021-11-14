@@ -20,6 +20,15 @@ export class SettingsManager {
 
     constructor(openAudioMc) {
         this.settings = {}
+        this.setup()
+    }
+
+    reload() {
+        document.getElementById("settings-content").innerHTML = "";
+        this.setup();
+    }
+
+    setup() {
 
         window.handleSettingsClick = (e, id) => {
             this.settings[id].isEnabled = !this.settings[id].isEnabled;

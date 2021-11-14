@@ -13,7 +13,9 @@ export class MessageModule {
 
         this.languageMappings = {
             "gb": "en.lang",
-            "us": "en.lang"
+            "us": "en.lang",
+            "nl": "nl.lang",
+            "be": "nl.lang"
         }
 
         window.getMessageString = this.getString;
@@ -177,6 +179,10 @@ export class MessageModule {
                 window.openAudioMc.messageModule.renderKeyToDom(sv.key, sv.value, sv.placeholders)
             }
             window.openAudioMc.messageModule.updateBanner()
+        }
+
+        if (window.openAudioMc.settingsManager) {
+            window.openAudioMc.settingsManager.reload();
         }
     }
 }
