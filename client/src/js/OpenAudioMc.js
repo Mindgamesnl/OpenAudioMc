@@ -84,6 +84,10 @@ export class OpenAudioMc extends Getters {
                 // load message file
                 await this.messageModule.load("en.lang");
 
+                if ("Notification" in window) {
+                    this.notificationModule.setupPermissions();
+                }
+
                 this.settingsManager = new SettingsManager(this);
                 // set static shit
                 this.messageModule.seedStatic([
