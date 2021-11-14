@@ -51,30 +51,4 @@ export class UserInterfaceModule {
         });
     }
 
-    openApp() {
-        strictlyShowCard(UiCards.MAIN_UI)
-    }
-
-    kickScreen(message) {
-        strictlyShowCard(UiCards.KICKED)
-        replaceGlobalText("{{ kicked.message }}", message)
-    }
-
-}
-
-export function strictlyShowCard(id) {
-    let elements = document.querySelectorAll('[data-type=card]');
-
-    for (let element of elements) {
-        element.style.display = "none";
-    }
-
-    document.getElementById(id).style.display = "";
-}
-
-export const UiCards = {
-    BAD_AUTH: "bad-auth-card",
-    WELCOME: "welcome-card",
-    KICKED: "kicked-card",
-    MAIN_UI: "main-card",
 }

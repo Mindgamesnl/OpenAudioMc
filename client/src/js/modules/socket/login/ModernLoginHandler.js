@@ -15,6 +15,18 @@ export function HandleModernLogin(openAudioMc, accept, reject, tokenSet) {
                 if (result.errors == null || result.errors.length != 0) {
                     reject(result.errors);
                     console.log(result.errors)
+                    Swal.fire({
+                        title: "error",
+                        html: "Something went terribly wrong while opening the OpenAudioMc web client. Please request a new link with /audio and try again",
+                        showCloseButton: false,
+                        backdrop: '',
+                        showCancelButton: false,
+                        timerProgressBar: false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false,
+
+                    })
                     return;
                 }
 
@@ -39,8 +51,7 @@ export function HandleModernLogin(openAudioMc, accept, reject, tokenSet) {
                 const background = response.settings.backgroundImage;
 
                 function setBgImage(bg) {
-                    replaceProperty("{{ oam.side_image }}", bg)
-                    replaceProperty("{{ oam.bg_image_map }}", "--bg-map:url('" + bg + "');")
+                    document.documentElement.style.setProperty('--background-image', `url("`+bg+`")`);
                 }
 
                 window.debugHooks.setBgImage = setBgImage;
@@ -58,7 +69,7 @@ export function HandleModernLogin(openAudioMc, accept, reject, tokenSet) {
                 hello = hello.replace('%name', openAudioMc.tokenSet.name);
 
                 if (!result.response.settings.useTranslations) {
-                    openAudioMc.messageModule.setKey("landing.clickBelow", hello)
+                    openAudioMc.messageModule.setKey("home.welcome", hello)
                     openAudioMc.messageModule.setKey("landing.connectButton", response.settings.startButton)
                     openAudioMc.messageModule.setKey("main.content", welcomeMessage)
                 }
@@ -74,11 +85,9 @@ export function HandleModernLogin(openAudioMc, accept, reject, tokenSet) {
                 };
 
                 function setBgColor(col) {
-                    document.documentElement.style.setProperty('--border-color-dark', col);
                     // let normal = convertHexToRGBA(response.accentColor, 70)
                     let light = convertHexToRGBA(col, 40)
-                    document.documentElement.style.setProperty('--border-color-normal', col);
-                    document.documentElement.style.setProperty('--border-color-light', light);
+                    document.documentElement.style.setProperty('--primary-accent', col);
                     // old
 
                     for (let i = 0; i < oldColors.length; i++) {

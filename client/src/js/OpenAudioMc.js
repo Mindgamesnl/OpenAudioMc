@@ -1,7 +1,7 @@
 import "@babel/polyfill";
 
 import {TimeService} from "./modules/socket/TimeService";
-import {strictlyShowCard, UiCards, UserInterfaceModule} from "./modules/ui/UserInterfaceModule";
+import {UserInterfaceModule} from "./modules/ui/UserInterfaceModule";
 import {HueModule} from "./modules/hue/HueModule";
 import {MediaManager} from "./modules/media/MediaManager";
 import {SocketModule} from "./modules/socket/SocketModule";
@@ -21,6 +21,7 @@ import {oalog} from "./helpers/log";
 import {DebugPanel, WhenDebugging} from "./debug";
 import {propertyValueCache, replaceGlobalText, replaceProperty, textElementCache} from "./helpers/domhelper";
 import {MessageModule} from "./modules/messages/MessageModule";
+import {SettingsManager} from "./modules/settings/SettingsManager";
 
 export const OpenAudioEnv = {
     "build": "__BUILD_VERSION__",
@@ -56,7 +57,6 @@ export class OpenAudioMc extends Getters {
         this.tokenSet = new ClientTokenSet().fromCache();
         if (this.tokenSet == null) {
             oalog("Stopping with bad auth")
-            strictlyShowCard(UiCards.BAD_AUTH);
             return;
         }
 
@@ -83,6 +83,8 @@ export class OpenAudioMc extends Getters {
 
                 // load message file
                 await this.messageModule.load("en.lang");
+
+                this.settingsManager = new SettingsManager(this);
                 // set static shit
                 this.messageModule.seedStatic([
                     ["%player", this.tokenSet.name],
@@ -91,7 +93,7 @@ export class OpenAudioMc extends Getters {
 
                 if (res.useTranslations) {
                     oalog("Enabling automatic translations")
-                    await this.messageModule.handleCountry(res.countryCode)
+                    await this.messageModule.handleCountry(new Intl.Locale(navigator.language).region)
                 }
 
                 this.serverName = res.serverName;
@@ -100,7 +102,6 @@ export class OpenAudioMc extends Getters {
                 this.background = res.background;
                 this.ambianceSound = res.ambianceSound;
                 this.isPatreon = res.isPatreon;
-                strictlyShowCard(UiCards.WELCOME);
                 oalog("Server: " + res.serverName)
 
                 WhenDebugging(() => {
@@ -116,6 +117,9 @@ export class OpenAudioMc extends Getters {
 
                 if (this.isPatreon) {
                     oalog("This server is supporting the project on Patreon! that's awesome!")
+                    document.getElementById("premium-pill").style.display = "";
+                } else {
+                    document.getElementById("free-pill").style.display = "";
                 }
 
                 // update dom

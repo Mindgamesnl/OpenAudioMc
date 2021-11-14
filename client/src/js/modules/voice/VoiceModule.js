@@ -7,7 +7,7 @@ import {PeerManager} from "./streaming/PeerManager";
 import {MicrophoneProcessor} from "./processing/MicrophoneProcessor";
 import {ReportError} from "../../helpers/protocol/ErrorReporter";
 import {DebugPanel, WhenDebugging} from "../../debug";
-import {replaceGlobalText} from "../../helpers/domhelper";
+import {replaceGlobalText, replaceProperty} from "../../helpers/domhelper";
 
 export const VoiceStatusChangeEvent = {
     MIC_MUTE: "MICROPHONE_MUTED",
@@ -39,14 +39,12 @@ export class VoiceModule {
         this.streamKey = streamKey;
         // unhide
 
-        document.getElementById("vc-controls").style.display = "";
-
-        replaceGlobalText("{{ vc.onboarding.panel }}", window.getMessageString("vc.onboarding", [["%range", this.blocksRadius + " blocks"]]))
+        replaceProperty("{{ navbar.vc_button }}", "", "style")
+        replaceGlobalText("{{ vc.onboarding.panel }}", window.getMessageString("home.notificationsTitleVoiceChat", [["%range", this.blocksRadius]]))
 
         document.getElementById("vc-connect-button").onclick = () => {
             this.consent(this.loadeMicPreference);
         };
-        showVoiceCard("vc-onboarding")
     }
 
     addPeer(playerUuid, playerName, playerStreamKey, location) {
@@ -119,7 +117,7 @@ export class VoiceModule {
     }
 
     handleAudioPermissions(stream) {
-        document.getElementById("welcome-back-box").style.display = "none";
+        document.getElementById("voice-settings-container").style.display = "";
 
         if (!this.loadedDeviceList) {
             navigator.mediaDevices.enumerateDevices()
@@ -247,11 +245,12 @@ export class VoiceModule {
     }
 
     onOutoingStreamStart() {
-        showVoiceCard("voice-home");
         Swal.close();
     }
 
     consent(preferedDeviceId) {
+        document.getElementById("voicechat-onboarding").style.display = "none";
+
         let query
         if (preferedDeviceId) {
             query = {
@@ -308,7 +307,8 @@ export class VoiceModule {
     }
 
     permissionError() {
-        showVoiceCard("vc-onboarding");
+        replaceProperty("{{ navbar.vc_button }}", "displey: none;", "style")
+        document.getElementById("tab1").click();
         Swal.fire({
             backdrop: '',
             showClass: {
@@ -323,7 +323,6 @@ export class VoiceModule {
     }
 
     shutDown() {
-        document.getElementById("vc-controls").style.display = "none"
         if (this.peerManager != null) {
             this.peerManager.stop()
         }
@@ -343,27 +342,12 @@ export class VoiceModule {
     }
 
     blurWithReason(reason) {
-        document.getElementById("vc-content").classList.add("filter")
-        document.getElementById("vc-content").classList.add("blur-md")
-        document.getElementById("vc-disabled-overlay").style.display = ""
         // set message with server name
         replaceGlobalText("{{ oam.vc.disabled }}", window.getMessageString("vc.disabled"), [["%server", this.openAudioMc.serverName]])
     }
 
     unblur() {
-        document.getElementById("vc-content").classList.remove("filter")
-        document.getElementById("vc-content").classList.remove("blur-md")
-        document.getElementById("vc-disabled-overlay").style.display = "none"
+        // todo?
     }
 
-}
-
-export function showVoiceCard(id) {
-    let elements = document.querySelectorAll('[data-type=voice-card]');
-
-    for (let element of elements) {
-        element.style.display = "none";
-    }
-
-    document.getElementById(id).style.display = "";
 }

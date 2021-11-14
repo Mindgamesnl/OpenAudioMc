@@ -13,20 +13,7 @@ export class MessageModule {
 
         this.languageMappings = {
             "gb": "en.lang",
-            "us": "en.lang",
-            "nl": "nl.lang",
-            "lt": "lt.lang",
-            "be": "nl.lang",
-            "fr": "fr.lang",
-            "ru": "ru.lang",
-            "ua": "ru.lang",
-            "kz": "ru.lang",
-            "md": "ru.lang",
-            "hk": "chi.lang",
-            "cn": "chi.lang",
-            "ro": "ro.lang",
-            "de": "de.lang",
-            "jp": "jp.lang"
+            "us": "en.lang"
         }
 
         window.getMessageString = this.getString;
@@ -134,6 +121,9 @@ export class MessageModule {
 
     async fetchWithFailover(file, isFailover = false) {
         let link = (window.location.pathname + window.location.search).split("?")[0]
+        if (link.indexOf(".html") !== -1) {
+            link = link.substring(0, link.lastIndexOf("/") + 1);
+        }
         let prefix = (isFailover ? API_ENDPOINT.CONTENT_PROXY + "https://client.openaudiomc.net/" : link)
         let request = await fetch(prefix + file);
         if (request.status !== 200 && !isFailover) {

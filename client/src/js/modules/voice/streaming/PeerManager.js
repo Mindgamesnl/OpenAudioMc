@@ -7,6 +7,8 @@ import {OpenAudioEnv} from "../../../OpenAudioMc";
 import {Channel} from "../../media/objects/Channel";
 import {Sound} from "../../media/objects/Sound";
 import {makeid} from "../../../helpers/libs/random";
+import {CallAfterDomUpdate} from "../../../helpers/domhelper";
+import {isSettingEnabled, SETTING_STATES} from "../../settings/SettingsManager";
 
 export class PeerManager {
 
@@ -21,18 +23,19 @@ export class PeerManager {
         this.micStream = micStream;
 
         this.isMuted = false;
-        document.getElementById("vc-mic-mute").onmousedown = () => {
-            if (this.muteCooldown) {
-                Swal.fire({
-                    icon: 'warning',
-                    text: "Please wait a moment before doing this again",
-                    backdrop: '',
-                    timer: 3000,
-                });
-                return
-            }
-            this.setMute(!this.isMuted)
-        };
+
+            window.onMicMutePress = () => {
+                if (this.muteCooldown) {
+                    Swal.fire({
+                        icon: 'warning',
+                        text: "Please wait a moment before doing this again",
+                        backdrop: '',
+                        timer: 3000,
+                    });
+                    return
+                }
+                this.setMute(!this.isMuted)
+            };
 
         this.muteCooldown = false;
     }
@@ -341,6 +344,11 @@ export class PeerManager {
     }
 
     async playInternalSound(src) {
+        if (!isSettingEnabled("useChimes")) {
+            oalog("Chimes are disabled")
+            return
+        }
+
         oalog("Playing internal sound " + src)
         const createdChannel = new Channel(src);
         const createdMedia = new Sound();
