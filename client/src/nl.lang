@@ -6,8 +6,8 @@ ui.logout=Log out
 navbar.audio=Audio
 navbar.vc=VoiceChat
 navbar.settings=Instellingen
-navbar.free=free
-navbar.premium=premium
+navbar.free=gratis
+navbar.premium=patreon
 
 home.activate=Sessie starten
 home.activateText=Klik ergens op deze pagina om je sessie te activeren en de audio te starten.
