@@ -7,20 +7,21 @@ lang.toEn=Switch to English
 ui.loading=Loading...
 ui.logout=Log out
 
-landing.title=Welcome!
-landing.clickBelow=Welcome %player! click anywhere on this page to activate your session
-landing.connectButton=Click anywhere to connect
+navbar.audio=Audio
+navbar.vc=VoiceChat
+navbar.settings=Settings
+navbar.free=free
+navbar.premium=premium
 
-main.title=Welcome back,
-main.content=<div>Keep this tab open in the background since your music and sound effects will be streamed through this window. You can come back any time to change your volume, but you can also do this in game through <b>/volume</b></div>
-main.volume=Music Volume
-main.openHue=Open Philips Hue configuration
-
-kicked.title=Lost connection
-kicked.message=The audio client is only available for players who are online in the server.<br/>Use <small><b>/audio</b></small> to obtain a URL
-
-badlogin.title=Are you lost?
-badlogin.content=The audio client is only available for players who are online in the server.<br/>Use <small><b>/audio</b></small> to obtain a URL
+home.activate=Activate session
+home.activateText=Please click anywhere on this page to confirm your session and login to OpenAudioMc.
+home.loginButton=Start OpenAudioMc
+home.welcome=Welcome, %player!
+home.header=Welcome to our audio client! keep this page open to experience our in-game music and effects. You can get back here any time during your session to change your volume and settings.
+home.volumeContext=This slider controls the volume of in-game music and effects. You can also use <pre>/volume &lt;volume&gt;</pre> to change your volume from in game at any time, or just set it to 0 to mute it momentarily.
+home.audioControls=Audio controls
+home.notificationsTitle=Notifications
+home.notificationsEmpty=You don't have any notifications at the moment
 
 vc.notice=Notice
 vc.startingPopupTitle=Logging into voice chat...
@@ -32,21 +33,26 @@ vc.updatingMicPopup=Please wait while voice chat gets restarted with your new mi
 vc.micErrorPopupTitle=Microphone error
 vc.micErrorPopup=Something went wrong while trying to access your microphone. Please press "allow" when your browser asks you for microphone permissions, or visit the wiki for more information.
 vc.disabled=VoiceChat has temporarily been disabled by %serverName
-vc.enable=Enable
-vc.enableThe=Enable
-vc.vc=Voice Chat
-vc.onboarding=This server has support for Proximity Voice Chat, which allows you to talk with players within a %range radius. Would you like to enable this feature and give access to your microphone?
-vc.dismiss=Dismiss
-vc.settings=Settings
-vc.muteUnmute=Mute/Unmute microphone
-vc.spatialStereo=Spatial/Stereo audio
-vc.speaking=Speaking indicator
+vc.title=Proximity Voice Chat
+vc.boardingTitle=VoiceChat onboarding
+vc.onboarding=This server has support for Proximity Voice Chat, which allows you to talk with players within a %range block radius. Would you like to enable this feature and give access to your microphone?\
+vc.settings=VoiceChat settings
+vc.input=Input Device
+vc.aboutInput=Select the microphone you want to use, changing this will cause your session to restart.
+vc.positionalAudio=Positional Audio
+vc.aboutPositionalAudio=Render a 360 degree soundscape, allowing positional awareness with voices. Disabling this makes it less cool, but improves audio quality.
+vc.settingsDisable=Disable
+vc.settingsEnableSurround=Use Positional Audio
+vc.automaticAdjustments=Adjust automatically
 vc.sensitivity=Microphone Sensitivity
-vc.auto=Automatic adjustments
-vc.selectMic=Select your microphone
-vc.people=People within
-vc.voiceRange=Voice Range
-vc.empty=There is no one around sadly.. Not to worry though! I'll be your happy imaginary friend
+vc.aboutSensitivity=Configure a noise gate, cutting out your background hiss and noise and only activating your microphone when speaking.
+vc.peerTable=People within voice range
+vc.toggleMicrophone=Toggle Microphone
+vc.you=you
+vc.safetyTitle=For your safety
+vc.safetyDisclaimer=You'll receive in-game messages when people appear and leave your voice chat range, and you'll be able to view a list of people who you can hear (and can hear you in turn), and mute them if desired. OpenAudioMc relies on your server to handle moderation and handle reports of abuse when necessary. Please contact a member of staff if you have any questions or concerns.
+vc.safetyFooter=<b>Want some privacy? you can mute your microphone at any time by running <pre style="display: inline;">/mm</pre> or holding <pre style="display: inline;">shift + F</pre> in game, or alternatively by pressing the button on this web page.</b>
+vc.join=Join Voice Chat
 
 hue.hue=Philips Hue
 hue.link=Click here to connect to your hue bridge
@@ -59,3 +65,23 @@ hue.light2=Light two
 hue.light3=Light three
 hue.connected=You may now link up to three lights that the server will control. Usually from right to left.
 hue.close=Close
+
+notification.setup=<div style="text-align: center;"><b>Welcome!</b> you can enable push notifications to get notified when you get a call or the server sends you a message. To get them setup, press the button below.<br/><br/><span id="noti-perm-request-link" class="alert-message-button">Setup</span><br/><br/></div>
+notification.success=Hurray! you'll now receive notifications
+notification.test.title=Testing testing 123
+notification.test.body=It worked! you have configured Notifications correctly!
+notification.info.voicechat=<div style="text-align: center;" class="medium-text">This server supports <b>Proximity Voice Chat</b>! go to the <b>VoiceChat</b> tab to hop in and talk to others.</div>
+notification.voicechat.peeradd.title=New voicechat peer
+notification.voicechat.peeradd.body=%name apeared in your voice chat radius
+notification.voicechat.peerdop.title=Player left voicechat
+notification.voicechat.peerdop.body=%name left your voice chat radius
+
+settings.voicechat.chimes.title=VoiceChat Chimes
+settings.voicechat.chimes.body=Chimes are the little sounds that play whenever you mute/unmute your microphone. Content creators may want to turn this off.
+settings.voicechat.chimes.button=use chimes
+settings.theme.title=Dark mode
+settings.theme.body=Use the (default) dark mode of this web client
+settings.theme.button=dark mode
+settings.voicechat.peer.title=Peer Notifications
+settings.voicechat.peer.body=Receive desktop notifications whenever someone enters or leaves your voice chat range
+settings.voicechat.peer.button=enable notifications
