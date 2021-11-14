@@ -101,8 +101,10 @@ export class MicrophoneProcessor {
                     )
                 }
             }
-            document.getElementById(this.id).style.backgroundColor = "#34D399"
-            document.getElementById(this.id).style.color = "#EC4899"
+
+            document.getElementById(this.id).style.backgroundColor = "lime"
+            document.getElementById(this.id).style.boxShadow = "0 0 10pt 2pt lime"
+
             clearTimeout(this.haltRtpTask);
             // this.gainController.on();
         } else {
@@ -117,8 +119,8 @@ export class MicrophoneProcessor {
                 }
             }, 500);
 
+            document.getElementById(this.id).style.boxShadow = ""
             document.getElementById(this.id).style.backgroundColor = ""
-            document.getElementById(this.id).style.color = ""
             // this.gainController.off();
         }
     }

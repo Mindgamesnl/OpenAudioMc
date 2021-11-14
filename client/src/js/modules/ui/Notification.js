@@ -24,8 +24,6 @@ export class AlertBox {
             this.alertClose.classList.add('alert-close');
             this.alertClose.setAttribute('href', '#');
             this.alertBox.classList.add('alert-box');
-            this.alertBox.classList.add('p-3');
-            this.alertBox.classList.add('blurIn');
             if (this.option.extra != null) this.alertBox.classList.add(this.option.extra);
             this.alertBox.appendChild(this.alertContent);
             if (!this.option.hideCloseButton || typeof this.option.hideCloseButton === 'undefined') {
@@ -42,6 +40,7 @@ export class AlertBox {
                     clearTimeout(alertTimeout);
                 }, this.option.closeTime);
             }
+            document.getElementById("notifications-empty").style.display = "none";
         }
         return this;
     };
@@ -56,6 +55,10 @@ export class AlertBox {
             this.alertBox.parentNode.removeChild(this.alertBox);
             clearTimeout(disperseTimeout);
             if (this.onTimeout != null) this.onTimeout();
+
+            if (document.getElementById("alert-area").children.length === 1) {
+                document.getElementById("notifications-empty").style.display = "";
+            }
         }, 500);
     };
 };

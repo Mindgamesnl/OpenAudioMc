@@ -22,21 +22,31 @@ export class NotificationModule {
             });
 
             this.requestBox.show(
-                '<div style="text-align: center;"><b>Welcome!</b> you can enable push notifications to get notified when you get a call or the server sends you a message. To get them setup, press the button below.' +
-                '<br/><br/><span id="noti-perm-request-link" class="alert-message-button">Setup</span></div>'
+                getMessageString("notification.setup")
             );
 
             CallAfterDomUpdate(() => {
-                document.getElementById('noti-perm-request-link').onclick = this.requestNotificationPermissions
+                document.getElementById('noti-perm-request-link').onclick = () => {
+                    this.requestNotificationPermissions();
+                }
             })
         }
     }
 
-    sendNotification(title, body) {
+    sendNotification(title, body, playerId = null) {
+        if (playerId == null) {
+            playerId = this.main.tokenSet.uuid
+        }
         new Notification(title, {
             body,
-            icon: "https://minotar.net/helm/" + this.main.tokenSet.name
+            icon: "https://minotar.net/helm/" + playerId
         });
+
+        new AlertBox('#alert-area', {
+            closeTime: 60000,
+            persistent: false,
+            hideCloseButton: true,
+        }).show('<div style="text-align: center;" class="medium-text">' + body + '</div>');
     }
 
     requestNotificationPermissions() {
@@ -49,9 +59,9 @@ export class NotificationModule {
                     persistent: false,
                     hideCloseButton: true,
                 }).show(
-                    "Hurray! you'll now receive notifications"
+                    getMessageString("notification.success")
                 );
-                this.sendNotification("Testing testing 123", "It worked! you have configured Notifications correctly!");
+                this.sendNotification(getMessageString("notification.test.title"), getMessageString("notification.test.body"));
             }
         });
     }

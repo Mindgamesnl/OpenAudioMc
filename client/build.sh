@@ -6,13 +6,16 @@ set_var () {
 }
 
 replace_all () {
-  if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    RP="grep -rl '$1' $PWD/../docs/production-client/target/ | xargs sed -i 's/$1/$2/g'"
-    eval $RP
-  elif [[ "$OSTYPE" == "darwin"* ]]; then
-    RP="grep -rl '$1' $PWD/../docs/production-client/target/ | xargs sed -i '' 's/$1/$2/g'"
-    eval $RP
-  fi
+  for f in $PWD/../docs/production-client/target/*.*
+  do
+    # shellcheck disable=SC2082
+    if [[ $1 != *"assets"* ]];then
+      echo "Processing $f"
+      sed -i "s/$1/$2/g" "$f"
+    fi
+
+   # do something on $f
+  done
 }
 
 # Run webpack build, depending on the platform
@@ -20,6 +23,7 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
   npm run-script build
   echo "Processing the build (linux)"
   sleep 2
+  cp dist/OpenAudioMc.bundle.js target/
   cp -R target/ ../docs/production-client/
   rm -rf target/
   BUILD_PLATFORM="Linux"

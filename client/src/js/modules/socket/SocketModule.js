@@ -1,5 +1,4 @@
 import ClientTokenSet from "../../helpers/libs/ClientTokenSet";
-import {strictlyShowCard, UiCards} from "../ui/UserInterfaceModule";
 import {OpenAudioEnv} from "../../OpenAudioMc";
 import {DebugPanel, WhenDebugging} from "../../debug";
 import {oalog} from "../../helpers/log";
@@ -23,7 +22,7 @@ export class SocketModule {
 
         if (new ClientTokenSet().fromCache() == null) {
             console.log("Empty authentication")
-            strictlyShowCard(UiCards.BAD_AUTH)
+            console.log("Bad auth todo")
             return;
         }
 
@@ -40,7 +39,6 @@ export class SocketModule {
         this.socket = io(host, {query: that.authHeader, autoConnect: false, withCredentials: false});
 
         this.socket.on("connect", () => {
-            main.userInterfaceModule.openApp();
             main.socketModule.state = "ok";
             this.hasConnected = true;
             this.outgoingQueue.forEach((waiting) => {

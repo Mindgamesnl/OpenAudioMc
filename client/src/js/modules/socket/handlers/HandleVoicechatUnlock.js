@@ -1,6 +1,7 @@
 import {OpenAudioEnv} from "../../../OpenAudioMc";
 import {EnableDebugMode} from "../../../debug";
 import {OpenModal} from "../../../helpers/modal";
+import {AlertBox} from "../../ui/Notification";
 
 export function HandleVoiceUnlock(openAudioMc, data) {
 
@@ -21,6 +22,12 @@ export function HandleVoiceUnlock(openAudioMc, data) {
     // }
 
     openAudioMc.voiceModule.enable(data.streamServer, data.streamKey, data.radius)
+
+    new AlertBox('#alert-area', {
+        closeTime: 60000,
+        persistent: false,
+        hideCloseButton: true,
+    }).show(getMessageString("notification.info.voicechat"));
 }
 
 window.enableOpenAudioDebugMode = function () {

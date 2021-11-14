@@ -34,9 +34,10 @@ export class HueConfigurationModule {
 
     updateState() {
         this.state = [];
-        this.dropdowns.forEach(item => {
-            this.state.push(this.obtainSelection(item));
-        });
+        for (let i = 0; i < this.dropdowns.length; i++){
+            const item = this.dropdowns[i];
+            this.state.push(this.obtainSelection(document.getElementById(item.id)));
+        }
 
         Cookies.set("hue-state", this.state, { expires: 30 });
     }
@@ -71,13 +72,15 @@ export class HueConfigurationModule {
     setLightNamesAndIds(items) {
         let options = "";
 
-        items.forEach(item => {
+        for (let i = 0; i < items.length; i++){
+            const item = items[i];
             options += "<option data-light='" + item.id + "'>" + item.name + "</option>";
-        });
+        }
 
-        this.dropdowns.forEach(item => {
-            item.innerHTML = options;
-        });
+        for (let i = 0; i < this.dropdowns.length; i++){
+            const item = this.dropdowns[i];
+            document.getElementById(item.id).innerHTML += "<div>" + options + "</div>";
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 import * as PluginChannel from "../../helpers/protocol/PluginChannel";
 import {AlertBox} from "../ui/Notification";
 import {replaceGlobalText} from "../../helpers/domhelper";
+import {oalog} from "../../helpers/log";
 
 export class HueModule {
 
@@ -20,6 +21,7 @@ export class HueModule {
 
         if (this.isSsl) {
             this.openAudioMc.log("Failed to initiate Philips Hue integration since this web page is served over ssl. The user will be promted to downgrade to HTTP when a user interaction is made that is related to Hue");
+            document.getElementById("hue-box-ssl").style.display = "none";
             return
         }
 
@@ -39,13 +41,8 @@ export class HueModule {
         if (this.bridges.length !== 0) {
             //bridges found
             this.openAudioMc.log(this.bridges.length + " hue bridges found");
-            document.getElementById("hue-bridge-menu-button").style.display = "";
-            document.getElementById("hue-setup-box").style.display = "";
-            document.getElementById("hue-bridge-menu-button").onclick = this.openModal
-            ;
 
             if (this.isSsl) {
-                document.getElementById("hue-bridge-menu-button").style.display = "none";
                 return;
             }
 
@@ -80,6 +77,7 @@ export class HueModule {
             this.openAudioMc.getHueConfiguration().setBridgeName(data.name);
 
             this.currentUser.getLights().then(data => {
+                oalog("Registering lights")
                 let settingsLights = [];
                 for (let property in data) {
                     if (data.hasOwnProperty(property)) {
@@ -89,6 +87,7 @@ export class HueModule {
                         });
                     }
                 }
+
                 this.openAudioMc.getHueConfiguration().setLightNamesAndIds(settingsLights);
                 // load state, or default
                 const oldState = Cookies.get("hue-state");
@@ -98,6 +97,8 @@ export class HueModule {
 
                 this.openAudioMc.getHueConfiguration().applyState();
                 this.openAudioMc.getHueConfiguration().updateState();
+            }).catch(e => {
+                console.error(e)
             });
 
             // let the server know that I am, in fact, connected

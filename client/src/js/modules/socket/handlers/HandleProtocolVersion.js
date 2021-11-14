@@ -1,4 +1,4 @@
-import {AlertBox} from "../../ui/Notification";
+
 import {oalog} from "../../../helpers/log";
 
 export function handleProtocolVersion(openAudioMc, data) {
@@ -27,19 +27,5 @@ export function handleProtocolVersion(openAudioMc, data) {
         // enable volume loudness, but this has already been deprecated/scrapped
         // oalog("PROTO rev => 5, enabling loudness callbacks");
         // openAudioMc.voiceModule.loudnessDetectionEnabled = true
-    }
-
-    // outdated? lets check it
-    if (revision < 3) {
-        let requestBox = new AlertBox('#alert-area', {
-            closeTime: 60000,
-            persistent: false,
-            hideCloseButton: true,
-        });
-
-        requestBox.show(
-            '<div style="text-align: center;"><b>Warning!</b> Your installation of OpenAudioMc seems to be pretty outdated. Please download the most recent version from Spigot and install it in your server.' +
-            '<br/><br/><a href="https://www.spigotmc.org/resources/openaudiomc-music-speakers-regions-bungeecord.30691/" class="alert-message-button">Download page</a></div>'
-        );
     }
 }

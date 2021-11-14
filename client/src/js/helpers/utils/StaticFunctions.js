@@ -2,7 +2,6 @@
 import {OpenAudioEnv, OpenAudioMc} from '../../OpenAudioMc'
 import ClientTokenSet from '../libs/ClientTokenSet'
 import {ReportError} from '../protocol/ErrorReporter'
-import {strictlyShowCard, UiCards} from '../../modules/ui/UserInterfaceModule'
 import {DebugPanel, EnableDebugMode, WhenDebugging} from "../../debug";
 import {prepareLogging} from "../log";
 import {replaceGlobalText, replaceProperty} from "../domhelper";
@@ -13,6 +12,8 @@ export default openAudioMc
 
 function enable() {
     if (openAudioMc.canStart) {
+        replaceProperty("{{ oam.click_request_style }}", "display: none;", "style")
+        replaceProperty("{{ oam.hidden_until_started }}", "", "style")
         openAudioMc.start()
     }
 }
@@ -58,7 +59,7 @@ export function linkBootListeners() {
             // can we find a name? let's put it as a welcome text!
             // makes the experience a bit more personal
             if (tokenSet != null && tokenSet.name != null) {
-                replaceProperty("{{ oam.player_head }}", "https://crafatar.com/avatars/" + tokenSet.uuid + "?overlay", "src")
+                replaceProperty("{{ oam.player_head }}", "https://visage.surgeplay.com/bust/" + tokenSet.uuid + "?overlay", "src")
                 replaceGlobalText("{{ oam.player_name }}", tokenSet.name)
                 openAudioMc = new OpenAudioMc()
                 window.openAudioMc = openAudioMc;
