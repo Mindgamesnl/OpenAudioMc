@@ -6,9 +6,6 @@ export class NotificationModule {
     constructor(main) {
         this.main = main;
         this.requestBox = null;
-        if ("Notification" in window) {
-            this.setupPermissions();
-        }
     }
 
     setupPermissions() {
