@@ -97,7 +97,11 @@ export class OpenAudioMc extends Getters {
 
                 if (res.useTranslations) {
                     oalog("Enabling automatic translations")
-                    await this.messageModule.handleCountry(new Intl.Locale(navigator.language).region)
+                    try {
+                        await this.messageModule.handleCountry(new Intl.Locale(navigator.language).region)
+                    } catch (e) {
+                        console.error("Failed to load translations ", e)
+                    }
                 }
 
                 this.serverName = res.serverName;
