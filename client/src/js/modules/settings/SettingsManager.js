@@ -24,8 +24,10 @@ export class SettingsManager {
     }
 
     reload() {
+        let hue = document.getElementById("hue-box-ssl");
         document.getElementById("settings-content").innerHTML = "";
         this.setup();
+        document.getElementById("settings-content").appendChild(hue);
     }
 
     setup() {
