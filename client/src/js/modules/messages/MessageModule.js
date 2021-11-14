@@ -127,7 +127,7 @@ export class MessageModule {
             link = link.substring(0, link.lastIndexOf("/") + 1);
         }
         let prefix = (isFailover ? API_ENDPOINT.CONTENT_PROXY + "https://client.openaudiomc.net/" : link)
-        let request = await fetch(prefix + file);
+        let request = await fetch(prefix + file + "?v=__BUILD_VERSION__");
         if (request.status !== 200 && !isFailover) {
             oalog("Using fetch fail over for lang")
             return await window.openAudioMc.messageModule.fetchWithFailover(file, true)
