@@ -88,6 +88,8 @@ export class OpenAudioMc extends Getters {
                     this.notificationModule.setupPermissions();
                 }
 
+                this.hueModule = new HueModule(this, getHueInstance());
+
                 this.settingsManager = new SettingsManager(this);
                 // set static shit
                 this.messageModule.seedStatic([
@@ -155,7 +157,6 @@ export class OpenAudioMc extends Getters {
         this.canStart = false;
 
         this.world = new WorldModule(this);
-        this.hueModule = new HueModule(this, getHueInstance());
         this.socketModule = new SocketModule(this, this.host);
 
         await this.mediaManager.setupAmbianceSound(this.ambianceSound);
