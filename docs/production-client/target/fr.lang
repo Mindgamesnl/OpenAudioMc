@@ -47,7 +47,7 @@ vc.automaticAdjustments=Ajustement automatique
 vc.sensitivity=Sensibilité du microphone
 vc.aboutSensitivity=Configurez une barrière de bruit (noise gate), en coupant le sifflement et le bruit de fond et en activant votre microphone uniquement lorsque vous parlez.
 vc.peerTable=Personnes à portée de voix
-vc.toggleMicrophone=Toggle Microphone
+vc.toggleMicrophone=Basculer le microphone
 vc.you=vous
 vc.safetyTitle=Pour votre sécurité
 vc.safetyDisclaimer=Vous recevrez des messages en jeu lorsque des personnes apparaîtront et quitteront votre zone de discussion vocale, et vous pourrez afficher une liste des personnes que vous pouvez entendre (et qui peuvent vous entendre à leur tour), et les mettre en sourdine si vous le souhaitez. OpenAudioMc s'appuie sur votre serveur pour gérer la modération et traiter les rapports d'abus si nécessaire. Veuillez contacter un membre du personnel si vous avez des questions ou des préoccupations.
@@ -71,7 +71,7 @@ notification.setup=<div style="text-align : center ;"><b>Bienvenue!</b> vous pou
 notification.success=Hourra ! Vous recevrez désormais des notifications
 notification.test.title=Test test 123
 notification.test.body=Cela a fonctionné ! Vous avez configuré les notifications correctement !
-notification.info.voicechat=<div style="text-align: center;" class="medium-text">Ce serveur prend en charge <b>Le chat vocal de proximité /b>! Allez dans l'onglet <b>Chat Vocal</b> pour y accéder et parler aux autres.</div>
+notification.info.voicechat=<div style="text-align: center;" class="medium-text">Ce serveur prend en charge <b>Le chat vocal de proximité </b>! Allez dans l'onglet <b>Chat Vocal</b> pour y accéder et parler aux autres.</div>
 notification.voicechat.peeradd.title=Nouvelle personne connecté au chat vocal
 notification.voicechat.peeradd.body=%name est apparu dans votre rayon de chat vocal
 notification.voicechat.peerdop.title=Un joueur a quitté le chat vocal
