@@ -9,7 +9,7 @@ ui.logout=Déconnexion
 
 navbar.audio=Audio
 navbar.vc=Chat vocal
-navbar.settings=paramètres
+navbar.settings=Paramètres
 navbar.free=gratuit
 navbar.premium=premium
 
@@ -79,10 +79,10 @@ notification.voicechat.peerdop.body=%name a quitté votre rayon de chat vocal
 
 settings.voicechat.chimes.title=Carillons de chat vocal
 settings.voicechat.chimes.body=Les carillons sont les petits sons qui retentissent lorsque vous coupez ou rétablissez le son de votre microphone. Les créateurs de contenu peuvent souhaiter de désactiver cette fonction.
-settings.voicechat.chimes.button=utiliser les carillons
+settings.voicechat.chimes.button=Utiliser les carillons
 settings.theme.title=Mode sombre
 settings.theme.body=Utiliser le mode sombre (par défaut) de ce client web
 settings.theme.button=Mode sombre
 settings.voicechat.peer.title=Notifications de bureau
 settings.voicechat.peer.body=Recevez des notifications sur votre bureau dès que quelqu'un entre ou sort de votre zone de chat vocal
-settings.voicechat.peer.button=activer les notifications
+settings.voicechat.peer.button=Activer les notifications
