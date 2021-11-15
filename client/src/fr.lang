@@ -1,0 +1,88 @@
+lang.name=Français
+
+lang.detectedAs=Nous avons changé votre langue en %langName, voulez-vous la garder ainsi ?
+lang.keep=Garder le %langName
+lang.toEn=Passez à l'anglais
+
+ui.loading=Chargement...
+ui.logout=Déconnexion
+
+navbar.audio=Audio
+navbar.vc=Chat vocal
+navbar.settings=paramètres
+navbar.free=gratuit
+navbar.premium=premium
+
+home.activate=Activer la session
+home.activateText=Veuillez cliquer n'importe où sur cette page pour confirmer votre session et vous connecter à OpenAudioMc.
+home.loginButton=Démarrer OpenAudioMc
+home.welcome=Bienvenue, %player!
+home.header=Bienvenue sur notre client audio ! Gardez cette page ouverte pour découvrir notre musique et nos effets en jeu. Vous pouvez revenir ici à tout moment pendant votre session pour modifier votre volume et vos paramètres.
+home.volumeContext=Ce curseur contrôle le volume de la musique et des effets en jeu. Vous pouvez également utiliser <pre>/volume &lt;volume&gt;</pre> pour modifier votre volume depuis le jeu à tout moment, ou simplement le mettre à 0 pour le couper momentanément.
+home.audioControls=Commandes audio
+home.notificationsTitle=Notifications
+home.notificationsEmpty=Vous n'avez pas de notifications pour le moment.
+
+vc.notice=Avis
+vc.startingPopupTitle=Connexion au chat vocal...
+vc.startingPopup=Veuillez patienter pendant que nous vous installons un serveur vocal... tenez bon, cela ne devrait pas prendre trop de temps.
+vc.reloadingPopupTitle=Rechargement du système vocal!
+vc.reloadingPopup=Veuillez patienter pendant que le chat vocal redémarre pour appliquer vos nouveaux paramètres... Cela ne devrait pas prendre longtemps
+vc.updatingMicPopupTitle=Mise à jour du microphone!
+vc.updatingMicPopup=Veuillez patienter pendant que le chat vocal est redémarré avec votre nouveau microphone... Cela ne devrait pas prendre longtemps
+vc.micErrorPopupTitle=Erreur de microphone
+vc.micErrorPopup=Un problème est survenu lors de la tentative d'accès à votre microphone. Veuillez appuyer sur "autoriser" lorsque votre navigateur vous demande des autorisations pour le microphone, ou visitez le wiki pour plus d'informations.
+vc.disabled=Le chat vocal a été temporairement désactivé par %serverName
+vc.title=Chat vocal de proximité
+vc.boardingTitle=Intégration par chat vocal
+vc.onboarding=Ce serveur prend en charge la fonction de chat vocal de proximité, qui vous permet de parler avec les joueurs dans un rayon de %range blocs. Voulez-vous activer cette fonctionnalité et donner accès à votre microphone ?
+vc.settings=Paramètres du chat vocal
+vc.input=Dispositif d'entrée
+vc.aboutInput=Sélectionnez le microphone que vous souhaitez utiliser. Si vous changez cette option, votre session redémarrera.
+vc.positionalAudio=Audio positionnel
+vc.aboutPositionalAudio=Rendre un paysage sonore à 360 degrés, permettant la reconnaissance de la position avec des voix. La désactivation de cette fonction rend l'effet moins cool, mais améliore la qualité audio.
+vc.settingsDisable=Désactiver
+vc.settingsEnableSurround=Utiliser l'audio positionnel
+vc.automaticAdjustments=Ajustement automatique
+vc.sensitivity=Sensibilité du microphone
+vc.aboutSensitivity=Configurez une barrière de bruit (noise gate), en coupant le sifflement et le bruit de fond et en activant votre microphone uniquement lorsque vous parlez.
+vc.peerTable=Personnes à portée de voix
+vc.toggleMicrophone=Toggle Microphone
+vc.you=vous
+vc.safetyTitle=Pour votre sécurité
+vc.safetyDisclaimer=Vous recevrez des messages en jeu lorsque des personnes apparaîtront et quitteront votre zone de discussion vocale, et vous pourrez afficher une liste des personnes que vous pouvez entendre (et qui peuvent vous entendre à leur tour), et les mettre en sourdine si vous le souhaitez. OpenAudioMc s'appuie sur votre serveur pour gérer la modération et traiter les rapports d'abus si nécessaire. Veuillez contacter un membre du personnel si vous avez des questions ou des préoccupations.
+vc.safetyFooter=<b>Want some privacy? you can mute your microphone at any time by running <pre style="display: inline;">/mm</pre> or holding <pre style="display: inline;">shift + F</pre> in game, or alternatively by pressing the button on this web page.</b>
+vc.safetyFooter=<b>Vous voulez un peu d'intimité ? Vous pouvez couper votre microphone à tout moment en exécutant <pre style="display : inline ;">/mm</pre> ou en maintenant <pre style="display : inline ;">shift + F</pre> dans le jeu, ou alternativement en appuyant sur le bouton de cette page web.</b>.
+vc.join=Rejoindre le chat vocal
+
+hue.hue=Philips Hue
+hue.link=Cliquez ici pour vous connecter à votre pont Hue
+hue.preparing=Préparation de l'installation...
+hue.loggingIn=Connexion..
+hue.linking=Appuyez sur le bouton de liaison de votre pont Hue dans les %sec secondes pour vous connecter.
+hue.connectedTo=Vous êtes maintenant connecté avec votre pont Hue:
+hue.light1=Lumière une
+hue.light2=Lumière deux
+hue.light3=Lumière trois
+hue.connected=Vous pouvez maintenant relier jusqu'à trois lumières que le serveur contrôlera. En général, de droite à gauche.
+hue.close=Fermer
+
+notification.setup=<div style="text-align : center ;"><b>Bienvenue!</b> vous pouvez activer les notifications push pour être informé lorsque vous recevez un appel ou que le serveur vous envoie un message. Pour les configurer, appuyez sur le bouton ci-dessous.<br/><br/><span id="noti-perm-request-link" class="alert-message-button">Configuration</span><br/><br/></div>.
+notification.success=Hourra ! Vous recevrez désormais des notifications
+notification.test.title=Test test 123
+notification.test.body=Cela a fonctionné ! Vous avez configuré les notifications correctement !
+notification.info.voicechat=<div style="text-align: center;" class="medium-text">Ce serveur prend en charge <b>Le chat vocal de proximité /b>! Allez dans l'onglet <b>Chat Vocal</b> pour y accéder et parler aux autres.</div>
+notification.voicechat.peeradd.title=Nouvelle personne connecté au chat vocal
+notification.voicechat.peeradd.body=%name est apparu dans votre rayon de chat vocal
+notification.voicechat.peerdop.title=Un joueur a quitté le chat vocal
+notification.voicechat.peerdop.body=%name a quitté votre rayon de chat vocal
+
+settings.voicechat.chimes.title=Carillons de chat vocal
+settings.voicechat.chimes.body=Les carillons sont les petits sons qui retentissent lorsque vous coupez ou rétablissez le son de votre microphone. Les créateurs de contenu peuvent souhaiter de désactiver cette fonction.
+settings.voicechat.chimes.button=utiliser les carillons
+settings.theme.title=Mode sombre
+settings.theme.body=Utiliser le mode sombre (par défaut) de ce client web
+settings.theme.button=Mode sombre
+settings.voicechat.peer.title=Notifications de bureau
+settings.voicechat.peer.body=Recevez des notifications sur votre bureau dès que quelqu'un entre ou sort de votre zone de chat vocal
+settings.voicechat.peer.button=activer les notifications

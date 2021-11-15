@@ -17,7 +17,8 @@ export class MessageModule {
             "nl": "nl.lang",
             "be": "nl.lang",
             "sp": "es.lang",
-            "es": "es.lang"
+            "es": "es.lang",
+            "fr": "fr.lang"
         }
 
         window.getMessageString = this.getString;
