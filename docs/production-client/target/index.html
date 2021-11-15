@@ -23,9 +23,9 @@
     <meta name="twitter:card" content="summary">
 
     <!-- Includes -->
-    <link rel="stylesheet" href="css/winter.css?Enable=842"/>
+    <link rel="stylesheet" href="css/winter.css?Enable=846"/>
     <script src="libs/sweetalert2.all.js"></script>
-    <link rel="stylesheet" href="css/reactive-sweetalert.css?Enable=842"/>
+    <link rel="stylesheet" href="css/reactive-sweetalert.css?Enable=846"/>
     <link rel="stylesheet" href="css/tailwind.min.css"/>
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
             data-cf-beacon='{"token": "44aa80ee6e6d48c8b54452fee61f2541"}'></script>
@@ -82,7 +82,7 @@
                         <p style="display: none;" hs="{{ oam.loading_tagline_style }}"
                            class="text-sm text-gray-300 leading-none mt-1">
                             {{ oam.loading_tagline_text }}</p> <small class="text-gray-500" style="display: inline;">Build
-                        842</small>
+                        846</small>
                     </div>
                 </div>
             </div>
@@ -141,11 +141,11 @@
     </div>
 </div>
 
-<!--<div class="video-bg">-->
-<!--    <video width="320" height="240" autoplay loop muted>-->
-<!--        <source src="https://imaginefun.net/video/intro.mp4" type="video/mp4">-->
-<!--    </video>-->
-<!--</div>-->
+<div class="video-bg" id="video-bg-wrapper" style="display: none;">
+    <video width="320" height="240" autoplay loop muted id="video-element">
+
+    </video>
+</div>
 
 <div class="app">
     <div class="wrapper">
@@ -489,6 +489,6 @@
     </div>
 </div>
 
-<script src="OpenAudioMc.bundle.js?version=842"></script>
+<script src="OpenAudioMc.bundle.js?version=846"></script>
 </body>
 </html>

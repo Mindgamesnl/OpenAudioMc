@@ -51,7 +51,17 @@ export function HandleModernLogin(openAudioMc, accept, reject, tokenSet) {
                 const background = response.settings.backgroundImage;
 
                 function setBgImage(bg) {
-                    document.documentElement.style.setProperty('--background-image', `url("`+bg+`")`);
+                    if (bg.endsWith("mp4") && result.response.isPatreon) {
+                        // use mp4
+                        document.getElementById("video-bg-wrapper").style.display = "";
+                        document.getElementById("video-element").innerHTML +=  `<source src="` + bg + `" id="video-bg-src" type="video/mp4">`
+                        setTimeout(() => {
+                            document.getElementById("video-element").play()
+                        }, 300);
+                    } else {
+                        // use bg image
+                        document.documentElement.style.setProperty('--background-image', `url("`+bg+`")`);
+                    }
                 }
 
                 window.debugHooks.setBgImage = setBgImage;
