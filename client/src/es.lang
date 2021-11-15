@@ -1,0 +1,87 @@
+lang.name=Español
+
+lang.detectedAs=Hemos cambiado tu idioma a %langName, ¿quieres mantenerlo así?
+lang.keep=Mantener %langName
+lang.toEn=Cambiar a inglés
+
+ui.loading=Cargando...
+ui.logout=Cerrar sesión
+
+navbar.audio=Audio
+navbar.vc=Chat de Voz
+navbar.settings=Ajustes
+navbar.free=gratis
+navbar.premium=premium
+
+home.activate=Activar sesión
+home.activateText=Por favor haga click en cualquier lugar de esta página para confirmar su sesión e iniciar sesión en OpenAudioMc.
+home.loginButton=Iniciar OpenAudioMc
+home.welcome=Bienvenido, %player!
+home.header=¡Bienvenido a nuestro cliente de audio! mantén esta página abierta para experimentar la música y los efectos del juego. Puede volver aquí en cualquier momento durante su sesión para cambiar el volumen y la configuración.
+home.volumeContext=Este control deslizante controla el volumen de la música y los efectos del juego. También puedes usar <pre>/volume &lt;volume&gt;</pre> para cambiar el volumen del juego en cualquier momento, o simplemente ajústelo a 0 para silenciarlo momentáneamente.
+home.audioControls=Controles de audio
+home.notificationsTitle=Notificaciones
+home.notificationsEmpty=No tienes notificaciones en este momento
+
+vc.notice=Aviso
+vc.startingPopupTitle=Iniciando sesión en el chat de voz...
+vc.startingPopup=Espere mientras lo configuramos con un servidor de voz... agárrese fuerte, esto no debería tomar mucho tiempo.
+vc.reloadingPopupTitle=¡Recargando el sistema de voz!
+vc.reloadingPopup=Espere mientras se reinicia el chat de voz para aplicar su nueva configuración. Esto no debería tomar mucho tiempo.
+vc.updatingMicPopupTitle=Actualizando micrófono!
+vc.updatingMicPopup=Espere mientras se reinicia el chat de voz con su nuevo micrófono. Esto no debería tardar mucho.
+vc.micErrorPopupTitle=Error de micrófono
+vc.micErrorPopup=Se produjo un error al intentar acceder a su micrófono. Presione "permitir" cuando su navegador le solicite permisos de micrófono, o visite la wiki para obtener más información.
+vc.disabled=El chat de voz ha sido desactivado temporalmente por %serverName
+vc.title=Chat de Voz de Proximidad
+vc.boardingTitle=Incorporación de chat de voz
+vc.onboarding=Este servidor es compatible con el chat de voz de proximidad, que le permite hablar con los jugadores dentro de un radio de bloque de rango porcentual. ¿Le gustaría habilitar esta función y dar acceso a su micrófono?\
+vc.settings=Configuración del chat de voz
+vc.input=Dispositivo de entrada
+vc.aboutInput=Seleccione el micrófono que desea usar, cambiarlo hará que su sesión se reinicie.
+vc.positionalAudio=Audio Posicional
+vc.aboutPositionalAudio=Genera un paisaje sonoro de 360 grados, lo que permite la conciencia posicional con voces. Desactivar esto lo hace menos genial, pero mejora la calidad del audio.
+vc.settingsDisable=Desactivar
+vc.settingsEnableSurround=Usar Audio Posicional
+vc.automaticAdjustments=Ajustar automáticamente
+vc.sensitivity=Sensibilidad del Micrófono
+vc.aboutSensitivity=Configure una puerta de ruido, eliminando el silbido y el ruido de fondo y activando solo el micrófono al hablar.
+vc.peerTable=Personas dentro del rango de voz
+vc.toggleMicrophone=Alternar micrófono
+vc.you=tú
+vc.safetyTitle=Por tu seguridad
+vc.safetyDisclaimer=Recibirás mensajes en el juego cuando las personas aparezcan y abandonen tu rango de chat de voz, y podrás ver una lista de personas a las que puedes escuchar (y pueden escucharte a ti a su vez) y silenciarlas si lo deseas. OpenAudioMc confía en su servidor para manejar la moderación y manejar los informes de abuso cuando sea necesario. Comuníquese con un miembro del personal si tiene alguna pregunta o inquietud.
+vc.safetyFooter=<b>¿Quieres un poco de privacidad? puedes silenciar tu micrófono en cualquier momento ejecutando <pre style="display: inline;">/mm</pre> o manteniendo presionado <pre style="display: inline;">shift + F</pre> en el juego, o alternativamente presionando el botón en esta página web.</b>
+vc.join=Unirse al Chat de Voz
+
+hue.hue=Philips Hue
+hue.link=Haga clic aquí para conectarse a su puente de Hue
+hue.preparing=Preparando la instalación...
+hue.loggingIn=Iniciando sesión..
+hue.linking=Presione el botón de enlace en su puente de Hue dentro %sec segundos para conectar.
+hue.connectedTo=Ahora estás conectado con tu puente de Hue:
+hue.light1=Luz uno
+hue.light2=Luz dos
+hue.light3=Luz tres
+hue.connected=Ahora puede vincular hasta tres luces que controlará el servidor. Generalmente de derecha a izquierda.
+hue.close=Cerrar
+
+notification.setup=<div style="text-align: center;"><b>Bienvenido!</b> puede habilitar las notificaciones automáticas para recibir notificaciones cuando reciba una llamada o el servidor le envíe un mensaje. Para configurarlos, presione el botón de abajo.<br/><br/><span id="noti-perm-request-link" class="alert-message-button">Configuración</span><br/><br/></div>
+notification.success=¡Viva! ahora recibirás notificaciones
+notification.test.title=Probando probando 123
+notification.test.body=¡Funcionó! ha configurado las Notificaciones correctamente!
+notification.info.voicechat=<div style="text-align: center;" class="medium-text">Este servidor admite <b>Chat de Voz de Proximidad</b>! vaya a la pestaña <b>Chat de voz</b> para entrar y hablar con otros.</div>
+notification.voicechat.peeradd.title=Nuevo compañero de chat de voz
+notification.voicechat.peeradd.body=%name apareció en el radio de tu chat de voz
+notification.voicechat.peerdop.title=El jugador salió del chat de voz
+notification.voicechat.peerdop.body=%name dejó el radio de su chat de voz
+
+settings.voicechat.chimes.title=Campanas de Chat de Voz
+settings.voicechat.chimes.body=Las campanillas son los pequeños sonidos que se reproducen cada vez que silencia o activa el micrófono. Es posible que los creadores de contenido quieran desactivar esta opción.
+settings.voicechat.chimes.button=usar campanas
+settings.theme.title=Modo oscuro
+settings.theme.body=Utilice el modo oscuro (predeterminado) de este cliente web
+settings.theme.button=modo oscuro
+settings.voicechat.peer.title=Notificaciones de Compañeros
+settings.voicechat.peer.body=Reciba notificaciones de escritorio cada vez que alguien ingrese o salga de su rango de chat de voz
+settings.voicechat.peer.button=permitir notificaciones
