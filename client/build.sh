@@ -19,8 +19,6 @@ replace_all () {
         gsed -i "s/$1/$2/g" "$f"
       fi
     fi
-
-   # do something on $f
   done
 }
 

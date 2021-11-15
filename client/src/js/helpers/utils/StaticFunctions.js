@@ -28,16 +28,6 @@ export function linkBootListeners() {
 
     prepareLogging()
 
-    const isSafari = navigator.vendor && navigator.vendor.indexOf('Apple') > -1 &&
-        navigator.userAgent &&
-        navigator.userAgent.indexOf('CriOS') == -1 &&
-        navigator.userAgent.indexOf('FxiOS') == -1
-
-    if (isSafari) {
-        window.location.href = 'https://help.openaudiomc.net/browsers.html'
-        return
-    }
-
     prepareUiDefaults()
 
     setLoaderText("logging in...")
