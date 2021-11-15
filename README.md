@@ -31,6 +31,8 @@ Please visit the [Documentation](https://help.openaudiomc.net/docs) for a full g
  - Active support and community
  - Smart pre-loading/buffering based on a location learning algorithm
  - Moderation utilities and hooks for voicechat
+ - User preferences and client settings
+ - Video background support
 
 ## Supported platforms
  - [Spigot (from 1.8.8 to latest)](https://www.spigotmc.org/resources/openaudiomc-open-source-audio-client.30691/ "Spigot Plugin Page")
