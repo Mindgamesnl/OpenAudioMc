@@ -10,8 +10,14 @@ replace_all () {
   do
     # shellcheck disable=SC2082
     if [[ $1 != *"assets"* ]];then
-      echo "Processing $f"
-      sed -i "s/$1/$2/g" "$f"
+      if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        echo "Processing $f as linux"
+        sed -i "s/$1/$2/g" "$f"
+      elif [[ "$OSTYPE" == "darwin"* ]]; then
+        echo "Processing $f as mac"
+        # INSTALL with: brew install gnu-sed
+        gsed -i "s/$1/$2/g" "$f"
+      fi
     fi
 
    # do something on $f
