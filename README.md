@@ -7,7 +7,7 @@
 [![](https://img.shields.io/discord/245497740589662209.svg?color=%237289da&label=Discord&logo=discord&logoColor=%237289da)](https://discord.gg/C4ZZ6u2)
 [![](https://img.shields.io/badge/Patreon-Support-orange.svg?logo=Patreon)](https://www.patreon.com/mindgamesnl)
 
-![welcome](https://i.imgur.com/NP6QgnV.png)
+![welcome](https://i.imgur.com/OEvbUQb_d.png?maxwidth=1920&fidelity=grand)
 
 OpenAudioMc is the free Minecraft audio solution, adding unique and impressing features to your server (like music, sound effects, proximity voice chat and more) without any setup on the user side. They just join your server, click one link and are good to go!
 
