@@ -49,8 +49,8 @@ export class MessageModule {
         replaceGlobalText("{{ ui.lang.keep }}", getMessageString("lang.keep", placeholders))
 
 
-        document.getElementById("lang-back-to-en").onclick = async () => {
-            await this.load("en.lang")
+        document.getElementById("lang-back-to-en").onclick = () => {
+            this.load("en.lang").then(r => console.log)
             document.getElementById("lang-change-banner").style.display = "none";
         }
         document.getElementById("lang-keep").onclick = () => {

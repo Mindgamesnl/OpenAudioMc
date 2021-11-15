@@ -40,7 +40,7 @@ export class VoiceModule {
         // unhide
 
         replaceProperty("{{ navbar.vc_button }}", "", "style")
-        replaceGlobalText("{{ vc.onboarding.panel }}", window.getMessageString("home.notificationsTitleVoiceChat", [["%range", this.blocksRadius]]))
+        replaceGlobalText("{{ vc.onboarding }}", window.getMessageString("vc.onboarding", [["%range", this.blocksRadius + ""]]))
 
         document.getElementById("vc-connect-button").onclick = () => {
             this.consent(this.loadeMicPreference);
