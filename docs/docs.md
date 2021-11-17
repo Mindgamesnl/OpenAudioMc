@@ -16,6 +16,7 @@ If you are still having problems after reading, feel free to join our [Discord](
 - [How to install OpenAudioMc (bungeecord and spigot)](installation.md)
 - [Configuring your account](account.md)
 - [What are supported browsers](browsers.md)
+- [Setting up GyserMC](gyser.md)
 
 ### Terms
 - [Media](media.md)
