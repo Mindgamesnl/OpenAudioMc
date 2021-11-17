@@ -114,8 +114,20 @@ public class RegionsSubCommand extends SubCommand {
         if (args[0].equalsIgnoreCase("delete") && args.length == 2) {
             String targetRegion = args[1].toLowerCase();
             config.setString(StorageLocation.DATA_FILE, "regions." + targetRegion, null);
-            openAudioMcSpigot.getRegionModule().removeRegion(targetRegion);
-            message(sender, ChatColor.RED + "The WorldGuard region with the id " + targetRegion + " no longer has a sound linked to it.");
+
+            // check if it was valid in the first place
+            RegionProperties rp = openAudioMcSpigot.getRegionModule().getRegionPropertiesMap().get(targetRegion);
+            if (rp != null) {
+
+                if (rp instanceof TimedRegionProperties) {
+                    ((TimedRegionProperties) rp).destroy();
+                }
+
+                openAudioMcSpigot.getRegionModule().removeRegion(targetRegion);
+                message(sender, ChatColor.RED + "The WorldGuard region with the id " + targetRegion + " no longer has a sound linked to it.");
+            } else {
+                message(sender, ChatColor.RED + "There's no worldguard region by the name " + targetRegion);
+            }
             openAudioMcSpigot.getRegionModule().forceUpdateRegions();
             return;
         }
