@@ -1,4 +1,5 @@
 import {DebugPanel} from "../../../debug";
+import {SETTING_STATES} from "../../settings/SettingsManager";
 
 export class Channel {
 
@@ -53,6 +54,10 @@ export class Channel {
         this.interruptFade();
         if (extraCallback == null) {
             extraCallback = () => {};
+        }
+
+        if (!SETTING_STATES.audioFading) {
+            time = 2
         }
 
         this.targetAfterFade = targetVolume;

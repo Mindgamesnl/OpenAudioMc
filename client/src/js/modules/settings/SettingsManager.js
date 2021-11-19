@@ -3,13 +3,17 @@ import {makeid} from "../../helpers/libs/random";
 const icons = {
     CHIME: `<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>`,
     DARK_MODE: `<svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>`,
-    NOTIFICATION: `<svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />  <circle cx="16" cy="8" r="3" /></svg>`
+    NOTIFICATION: `<svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />  <circle cx="16" cy="8" r="3" /></svg>`,
+    MIX_AND_FADE: `<svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg>`,
+    PRELOAD: `<svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M16 8v-4h-12v12.01h4" stroke-dasharray=".001 4" />  <rect x="8" y="8" width="12" height="12" rx="2" /></svg>`
 }
 
 export var SETTING_STATES = {
     "useChimes": true,
     "darkMode": true,
-    "vcNotifications": false
+    "vcNotifications": false,
+    "audioFading": true,
+    "preloadAudio": true
 }
 
 export function isSettingEnabled(name) {
@@ -68,6 +72,24 @@ export class SettingsManager {
                 getMessageString("settings.voicechat.peer.body"),
                 getMessageString("settings.voicechat.peer.button"),
                 false
+            )
+        )
+
+        this.registerSetting(new Setting("audioFading",
+                icons.MIX_AND_FADE,
+                getMessageString("settings.mix-and-fade.title"),
+                getMessageString("settings.mix-and-fade.body"),
+                getMessageString("settings.mix-and-fade.button"),
+                true
+            )
+        )
+
+        this.registerSetting(new Setting("preloadAudio",
+                icons.PRELOAD,
+                getMessageString("settings.preload.title"),
+                getMessageString("settings.preload.body"),
+                getMessageString("settings.preload.button"),
+                true
             )
         )
     }

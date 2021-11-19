@@ -1,5 +1,6 @@
 import { ClearPrefetchedMedia, PreFetch } from '../../../helpers/utils/AudioFactory'
 import {oalog} from "../../../helpers/log";
+import {SETTING_STATES} from "../../settings/SettingsManager";
 
 export function handlePrefetchPacket(openAudioMc, data) {
 
@@ -10,6 +11,9 @@ export function handlePrefetchPacket(openAudioMc, data) {
       ClearPrefetchedMedia()
     }, 2500)
   } else {
+    if (!SETTING_STATES.preloadAudio) {
+
+    }
     let toFetch = data.source
     oalog('Pre-fetching resource..')
     // fetch a file
