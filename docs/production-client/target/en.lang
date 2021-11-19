@@ -85,3 +85,10 @@ settings.theme.button=dark mode
 settings.voicechat.peer.title=Peer Notifications
 settings.voicechat.peer.body=Receive desktop notifications whenever someone enters or leaves your voice chat range
 settings.voicechat.peer.button=enable notifications
+settings.mix-and-fade.title=Automatic music mixing
+settings.mix-and-fade.body=Automatically cross-fade and mix audio sources
+settings.mix-and-fade.button=Enable mixing
+settings.preload.title=Automatically preload audio files
+settings.preload.body=With this enabled, OpenAudioMc will automatically preload files that are often used around your in-game location. This will make audio more responsive, but uses more data.
+settings.preload.button=Enable preloading
+
