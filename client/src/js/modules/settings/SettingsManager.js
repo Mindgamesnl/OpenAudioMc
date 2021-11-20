@@ -37,11 +37,16 @@ export class SettingsManager {
     setup() {
 
         window.handleSettingsClick = (e, id) => {
-            this.settings[id].isEnabled = !this.settings[id].isEnabled;
-            this.settings[id].onChange(this.settings[id].isEnabled);
+            if (this.settings[id] instanceof CheckboxSetting) {
+                this.settings[id].isEnabled = !this.settings[id].isEnabled;
+                this.settings[id].onChange(this.settings[id].isEnabled);
+            } else {
+                this.settings[id].value = !this.settings[id].value;
+                this.settings[id].onChange(this.settings[id].value);
+            }
         }
 
-        this.registerSetting(new Setting("useChimes",
+        this.registerSetting(new CheckboxSetting("useChimes",
                 icons.CHIME,
                 getMessageString("settings.voicechat.chimes.title"),
                 getMessageString("settings.voicechat.chimes.body"),
@@ -50,7 +55,7 @@ export class SettingsManager {
             )
         )
 
-        this.registerSetting(new Setting("darkMode",
+        this.registerSetting(new CheckboxSetting("darkMode",
                 icons.DARK_MODE,
                 getMessageString("settings.theme.title"),
                 getMessageString("settings.theme.body"),
@@ -66,7 +71,7 @@ export class SettingsManager {
             )
         )
 
-        this.registerSetting(new Setting("vcNotifications",
+        this.registerSetting(new CheckboxSetting("vcNotifications",
                 icons.NOTIFICATION,
                 getMessageString("settings.voicechat.peer.title"),
                 getMessageString("settings.voicechat.peer.body"),
@@ -75,7 +80,7 @@ export class SettingsManager {
             )
         )
 
-        this.registerSetting(new Setting("audioFading",
+        this.registerSetting(new CheckboxSetting("audioFading",
                 icons.MIX_AND_FADE,
                 getMessageString("settings.mix-and-fade.title"),
                 getMessageString("settings.mix-and-fade.body"),
@@ -84,7 +89,7 @@ export class SettingsManager {
             )
         )
 
-        this.registerSetting(new Setting("preloadAudio",
+        this.registerSetting(new CheckboxSetting("preloadAudio",
                 icons.PRELOAD,
                 getMessageString("settings.preload.title"),
                 getMessageString("settings.preload.body"),
@@ -100,7 +105,54 @@ export class SettingsManager {
 
 }
 
-class Setting {
+class DropdownOption {
+    constructor(value, readableValue) {
+        this.value = value;
+        this.readableValue = readableValue;
+    }
+}
+
+class DropdownSetting {
+    constructor(id, icon, name, body, options, defaultValue, onChange = () => {
+    }) {
+        this.htmlId = makeid(5);
+        this.id = id;
+        this.onChange = (state) => {
+            Cookies.set("settings-" + id, state)
+            SETTING_STATES[id] = state
+            onChange(state)
+        };
+
+        this.value = (Cookies.get("settings-" + id) !== undefined ? Cookies.get("settings-" + id) : defaultValue);
+
+        let optionsHtml = "";
+        for (let i = 0; i < options.length; i++) {
+            let op = options[i];
+            let opName = op.readableValue;
+            let opValue = op.value;
+            optionsHtml += `<option value="` + opValue + `" ` + (this.value === opValue ? "selected" : "") + `>` + opName + `</option>`
+        }
+
+        this.html = `
+        <div class="content-card settings-card">
+           <span>
+            ` + icon + `
+            ` + name + `
+            </span>
+            <div class="content-card-content content-card-content-border-bottom">
+                ` + body + `
+            </div>
+            <label for="vc-mic-select" style="display: none;"></label>
+            <select class="full soft-tex content-pill" id="` + this.htmlId + `" onchange="handleSettingsClick(this, '` + this.id + `')">
+                ` + optionsHtml + `
+            </select>
+            </div>
+        </div>
+        `
+    }
+}
+
+class CheckboxSetting {
     constructor(id, icon, name, body, toggleText, defaultState, onChange = () => {
     }) {
         this.htmlId = makeid(5);

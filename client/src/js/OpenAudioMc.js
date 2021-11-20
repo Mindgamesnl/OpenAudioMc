@@ -91,6 +91,7 @@ export class OpenAudioMc extends Getters {
                 this.hueModule = new HueModule(this, getHueInstance());
 
                 this.settingsManager = new SettingsManager(this);
+
                 // set static shit
                 this.messageModule.seedStatic([
                     ["%player", this.tokenSet.name],
