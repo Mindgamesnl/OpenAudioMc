@@ -30,6 +30,6 @@ set_var "BUILD_NUM" $BUILD_NUM
 chmod +x ./src/main/bash/data.bin
 echo "Fuckk"
 cp ./src/main/bash/data.bin ./src/main/resources/data.bin
-
+echo "Exporting jar"
 # copy jar
 cp target/OpenAudioMc-* ./../docs/builds/OpenAudioMc-latest.jar
