@@ -92,3 +92,7 @@ settings.preload.title=Automatically preload audio files
 settings.preload.body=With this enabled, OpenAudioMc will automatically preload files that are often used around your in-game location. This will make audio more responsive, but uses more data.
 settings.preload.button=Enable preloading
 
+settings.spatial.title=Spatial rendering engine
+settings.spatial.body=Select what rendering engine you'd like to use. The modern engine is of higher quality and a bit faster, but is still in active development
+settings.spatial.modern=Accurate
+settings.spatial.legacy=Legacy (old system)

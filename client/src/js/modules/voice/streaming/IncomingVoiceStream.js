@@ -2,6 +2,7 @@ import {oalog} from "../../../helpers/log";
 import {Vector3} from "../../../helpers/math/Vector3";
 import {Position} from "../../../helpers/math/Position";
 import {Hark} from "../../../helpers/libs/hark.bundle";
+import {applyPannerSettings, untrackPanner} from "../../settings/SettingsManager";
 
 export class IncomingVoiceStream {
 
@@ -14,6 +15,7 @@ export class IncomingVoiceStream {
         this.volBooster = 1.2;
         this.uiInst = uiInst;
         this.harkEvents = null;
+        this.pannerId = null;
     }
 
     start(whenFinished) {
@@ -47,12 +49,11 @@ export class IncomingVoiceStream {
             if (this.openAudioMc.voiceModule.surroundSwitch.isOn()) {
                 const gainNode = this.gainNode;
                 this.pannerNode = ctx.createPanner();
-                this.pannerNode.maxDistance = this.openAudioMc.voiceModule.blocksRadius;
-                this.pannerNode.panningModel = 'HRTF';
-                this.pannerNode.rolloffFactor = 0.95;
-                this.pannerNode.distanceModel = "linear";
-                this.pannerNode.coneOuterGain = 1;
-                this.pannerNode.coneInnerAngle = 120;
+
+                this.pannerId = applyPannerSettings(this.pannerNode, this.openAudioMc.voiceModule.blocksRadius)
+
+
+
                 this.setLocation(this.x, this.y, this.z, true);
                 source.connect(gainNode);
                 gainNode.connect(this.pannerNode);
@@ -104,6 +105,9 @@ export class IncomingVoiceStream {
     }
 
     stop() {
+        if (this.pannerId != null) {
+            untrackPanner(this.pannerId)
+        }
         if (this.audio != null) {
             this.audio.pause()
             this.audio.src = null;
