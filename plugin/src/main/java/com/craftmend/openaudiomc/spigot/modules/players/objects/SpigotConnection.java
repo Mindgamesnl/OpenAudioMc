@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.players.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.speakers.PacketClientUpdateLocation;
@@ -47,7 +48,7 @@ public class SpigotConnection {
     private final DataWatcher<Location> locationDataWatcher = new DataWatcher<>(
             OpenAudioMcSpigot.getInstance(),
             false,
-            2
+            MagicValue.LOCATION_TRACK_INTERVAL.get(Integer.class)
     );
 
     // Speaker and region handles. Region handler can be null if the feature is disabled
