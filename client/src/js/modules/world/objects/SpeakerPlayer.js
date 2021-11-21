@@ -48,6 +48,7 @@ export class SpeakerPlayer {
     removeSpeakerLocation(id) {
         const node = this.speakerNodes.get(id);
         if (node != null) {
+            node.preDelete();
             this.speakerNodes.delete(id);
         }
     }

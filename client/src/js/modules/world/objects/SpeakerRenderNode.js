@@ -1,4 +1,5 @@
 import {Position} from "../../../helpers/math/Position";
+import {applyPannerSettings, untrackPanner} from "../../settings/SettingsManager";
 
 export class SpeakerRenderNode {
 
@@ -8,19 +9,14 @@ export class SpeakerRenderNode {
 
         this.pannerNode = player.audioCtx.createPanner();
         this.media = media;
-
+        this.pannerId = null;
 
         media.load(source, false)
             .then(() => {
                 channel.fadeChannel(100, 100);
                 media.addNode(player, this.pannerNode);
 
-                this.pannerNode.panningModel = 'HRTF';
-                this.pannerNode.rolloffFactor = 0.9;
-                this.pannerNode.distanceModel = "linear";
-                this.pannerNode.coneOuterGain = 1;
-                this.pannerNode.coneInnerAngle = 120;
-                this.pannerNode.maxDistance = speaker.maxDistance;
+                this.pannerId = applyPannerSettings(this.pannerNode, speaker.maxDistance);
 
                 const location = speaker.location;
                 const position = new Position(location);
@@ -28,6 +24,10 @@ export class SpeakerRenderNode {
 
                 this.pannerNode.connect(player.audioCtx.destination);
             })
+    }
+
+    preDelete() {
+        untrackPanner(this.pannerId)
     }
 
 }

@@ -29,7 +29,7 @@ export class WorldModule {
         // remove render nodes
         this.audioMap.forEach((speakerPlayer, id) => {
             // remove it from all speaker players
-            speakerPlayer.removeSpeakerLocation(id);
+            speakerPlayer.removeSpeakerLocation(speakerPlayer);
         });
 
         // wait a bit before running cleanup
