@@ -9,6 +9,7 @@ import java.util.EnumMap;
 public enum MagicValue {
 
     NOTIFY_VOICECHAT_SLOT_DEPLETION(true),
+    LOCATION_TRACK_INTERVAL(2),
     COMMAND_PREFIX("[OpenAudioMc - Magic]");
 
     private static EnumMap<MagicValue, Object> tempValues = new EnumMap<>(MagicValue.class);
