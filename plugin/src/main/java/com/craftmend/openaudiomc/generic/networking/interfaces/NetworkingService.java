@@ -52,4 +52,6 @@ public abstract class NetworkingService extends Service {
         createdConnectionSubscribers.remove(uuid);
     }
 
+    public abstract boolean isReal();
+
 }

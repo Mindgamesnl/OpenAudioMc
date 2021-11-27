@@ -86,6 +86,11 @@ public class ProxyNetworkingService extends NetworkingService {
     }
 
     @Override
+    public boolean isReal() {
+        return false;
+    }
+
+    @Override
     public void remove(UUID player) {
         realService.remove(player);
     }

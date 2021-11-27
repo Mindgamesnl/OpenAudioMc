@@ -18,6 +18,7 @@ import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.voicechat.bus.VoiceApiConnection;
 import com.craftmend.openaudiomc.generic.voicechat.enums.VoiceApiStatus;
 import com.craftmend.openaudiomc.generic.voicechat.services.VoiceLicenseService;
@@ -29,33 +30,59 @@ import java.util.*;
 @NoArgsConstructor
 public class CraftmendService extends Service {
 
-    @Inject private OpenAudioMc openAudioMc;
-    @Getter private VoiceApiConnection voiceApiConnection = new VoiceApiConnection();
+    @Inject
+    private OpenAudioMc openAudioMc;
+    @Getter
+    private VoiceApiConnection voiceApiConnection = new VoiceApiConnection();
 
     private PlayerStateStreamer playerStateStreamer;
-    @Getter private String baseUrl;
-    @Getter private CraftmendAccountResponse accountResponse = new CraftmendAccountResponse();
-    @Getter private Set<CraftmendTag> tags = new HashSet<>();
+    @Getter
+    private String baseUrl;
+    @Getter
+    private CraftmendAccountResponse accountResponse = new CraftmendAccountResponse();
+    @Getter
+    private Set<CraftmendTag> tags = new HashSet<>();
 
     // ugly state management, I should _really_ change this at some point, just like the state service
-    @Getter private boolean isAttemptingVcConnect = false;
-    @Getter private boolean lockVcAttempt = false;
+    @Getter
+    private boolean isAttemptingVcConnect = false;
+    @Getter
+    private boolean lockVcAttempt = false;
+    private boolean initialized = false;
+    private boolean delayedInit = false;
 
     @Override
     public void onEnable() {
         // wait after buut if its a new account
         if (OpenAudioMc.getService(AuthenticationService.class).isNewAccount()) {
+            delayedInit = true;
             OpenAudioLogger.toConsole("Delaying account init because we're a fresh installation");
             OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(this::initialize, 20 * 3);
         } else {
+            delayedInit = false;
             initialize();
         }
+    }
+
+    public void postBoot() {
+        // only allow registration after initialization
+        if (!initialized) return;
+
+        // are automatic licenses enabled?
+        getService(VoiceLicenseService.class).requestAutomaticLicense();
     }
 
     private void initialize() {
         OpenAudioLogger.toConsole("Initializing account details");
         syncAccount();
         startSyncronizer();
+        initialized = true;
+
+        if (delayedInit) {
+            // we skipped the original boot, so run it now
+            postBoot();
+            delayedInit = false;
+        }
     }
 
     public void startSyncronizer() {
@@ -184,5 +211,4 @@ public class CraftmendService extends Service {
                     addTag(CraftmendTag.VOICECHAT);
                 });
     }
-
 }
