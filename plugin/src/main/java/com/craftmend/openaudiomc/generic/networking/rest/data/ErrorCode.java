@@ -27,4 +27,6 @@ public enum ErrorCode {
     NO_PERMISSIONS,     // you can't do this because of permissions
     ALREADY_ACTIVE,     // invalid account state
 
+    PLACEHOLDER, // default
+
 }
