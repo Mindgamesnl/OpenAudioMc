@@ -12,9 +12,9 @@ import com.craftmend.openaudiomc.generic.networking.client.objects.player.Player
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.node.packets.*;
-import com.craftmend.openaudiomc.generic.player.User;
-import com.craftmend.openaudiomc.generic.player.PlayerService;
+import com.craftmend.openaudiomc.generic.user.User;
 
+import com.craftmend.openaudiomc.generic.user.UserService;
 import com.craftmend.openaudiomc.velocity.messages.PacketHandler;
 import com.craftmend.openaudiomc.velocity.messages.PacketListener;
 
@@ -66,7 +66,7 @@ public class BungeePacketListener implements PacketListener {
 
     @PacketHandler
     public void onCommand(CommandProxyPacket packet) {
-        User player = OpenAudioMc.resolveDependency(PlayerService.class).getPlayerByUUID(packet.getCommandProxy().getExecutor());
+        User player = OpenAudioMc.resolveDependency(UserService.class).byUuid(packet.getCommandProxy().getExecutor());
         if (player == null) return;
         OpenAudioMc.getService(CommandService.class)
                 .getSubCommand(packet.getCommandProxy().getCommandProxy().toString().toLowerCase())

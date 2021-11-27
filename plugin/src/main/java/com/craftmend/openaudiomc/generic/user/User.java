@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.player;
+package com.craftmend.openaudiomc.generic.user;
 
 import net.md_5.bungee.api.chat.TextComponent;
 

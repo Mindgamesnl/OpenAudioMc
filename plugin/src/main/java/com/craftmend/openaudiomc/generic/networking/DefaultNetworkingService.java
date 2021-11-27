@@ -22,9 +22,9 @@ import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketC
 import com.craftmend.openaudiomc.generic.networking.packets.client.speakers.PacketClientCreateSpeaker;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
-import com.craftmend.openaudiomc.generic.player.User;
-import com.craftmend.openaudiomc.generic.player.PlayerService;
+import com.craftmend.openaudiomc.generic.user.User;
 
+import com.craftmend.openaudiomc.generic.user.UserService;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.OAClientMode;
 import lombok.Getter;
@@ -167,7 +167,7 @@ public class DefaultNetworkingService extends NetworkingService {
         if (clientMap.containsKey(uuid)) {
             return clientMap.get(uuid);
         } else {
-            User oap = getService(PlayerService.class).getPlayerByUUID(uuid);
+            User oap = getService(UserService.class).byUuid(uuid);
             if (oap == null) return null;
             return register(oap, null);
         }

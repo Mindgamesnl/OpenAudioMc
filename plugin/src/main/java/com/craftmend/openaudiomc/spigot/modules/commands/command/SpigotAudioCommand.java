@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMi
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
+import com.craftmend.openaudiomc.generic.user.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.state.interfaces.State;
 import com.craftmend.openaudiomc.generic.state.states.WorkerState;
@@ -30,7 +31,7 @@ public class SpigotAudioCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
-        if (CommandMiddewareExecutor.shouldBeCanceled(commandSender, null, commandMiddleware))
+        if (CommandMiddewareExecutor.shouldBeCanceled(new SpigotUserAdapter(commandSender), null, commandMiddleware))
             return true;
 
         State state = OpenAudioMc.getService(StateService.class).getCurrentState();

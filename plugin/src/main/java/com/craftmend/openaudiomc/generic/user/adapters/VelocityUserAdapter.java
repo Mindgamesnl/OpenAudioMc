@@ -1,10 +1,9 @@
-package com.craftmend.openaudiomc.generic.player.adapters;
+package com.craftmend.openaudiomc.generic.user.adapters;
 
-import com.craftmend.openaudiomc.generic.player.User;
+import com.craftmend.openaudiomc.generic.user.User;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.chat.TextComponent;
 

@@ -7,7 +7,7 @@ import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddlewar
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
-import com.craftmend.openaudiomc.generic.player.adapters.BungeeUserAdapter;
+import com.craftmend.openaudiomc.generic.user.adapters.BungeeUserAdapter;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.platform.Platform;

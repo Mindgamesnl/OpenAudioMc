@@ -13,20 +13,17 @@ import com.craftmend.openaudiomc.generic.networking.client.enums.RtcStateFlag;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientSubscribeToVoice;
-import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
-import com.craftmend.openaudiomc.generic.player.User;
-import com.craftmend.openaudiomc.generic.proxy.ProxyClient;
+import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.generic.proxy.ProxyClientService;
 import com.craftmend.openaudiomc.spigot.services.world.Vector3;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceSubscribePayload;
 import com.craftmend.openaudiomc.generic.node.packets.ForceMuteMicrophonePacket;
 import com.craftmend.openaudiomc.generic.platform.Platform;
-import com.craftmend.openaudiomc.generic.player.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.generic.voicechat.bus.VoiceApiConnection;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.enums.PlayerLocationFollower;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
-import com.craftmend.openaudiomc.spigot.modules.proxy.service.ProxyNetworkingService;
 import lombok.Getter;
 import org.bukkit.Location;
 
@@ -107,7 +104,7 @@ public class ClientRtcManager implements Serializable {
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
             // forward to proxy
             User user = clientConnection.getUser();
-            OpenAudioMc.resolveDependency(ProxyClient.class).sendPacket(user, new ForceMuteMicrophonePacket(clientConnection.getOwnerUUID(), allow));
+            OpenAudioMc.resolveDependency(ProxyClientService.class).sendPacket(user, new ForceMuteMicrophonePacket(clientConnection.getOwnerUUID(), allow));
             return;
         }
         VoiceApiConnection voiceService = OpenAudioMc.getService(CraftmendService.class).getVoiceApiConnection();
