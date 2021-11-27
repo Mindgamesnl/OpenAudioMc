@@ -10,13 +10,12 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.node.packets.ForwardSocketPacket;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
+import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.user.User;
-import com.craftmend.openaudiomc.generic.proxy.ProxyClientService;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.listeners.BungeePacketListener;
-import com.craftmend.openaudiomc.spigot.modules.proxy.listeners.ModernPacketListener;
 
-import com.craftmend.openaudiomc.velocity.messages.implementations.BukkitPacketManager;
+import com.craftmend.openaudiomc.generic.proxy.messages.implementations.BukkitPacketManager;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
@@ -39,7 +38,6 @@ public class ProxyNetworkingService extends NetworkingService {
     public void onModuleLoad() {
         packetManager = new BukkitPacketManager(OpenAudioMcSpigot.getInstance(), "openaudiomc:node");
         packetManager.registerListener(new BungeePacketListener());
-        new ModernPacketListener();
 
         // schedule repeating task to clear the throughput
         OpenAudioMc.resolveDependency(TaskService.class).scheduleAsyncRepeatingTask(() -> {
@@ -60,7 +58,7 @@ public class ProxyNetworkingService extends NetworkingService {
             throw new UnsupportedOperationException("The bungee adapter for the networking service only supports client connections");
         if (packet.getClass().getSimpleName().startsWith("PacketClient")) {
             packet.setClient(client.getOwnerUUID());
-            OpenAudioMc.resolveDependency(ProxyClientService.class).sendPacket(((ClientConnection) client).getUser(),
+            OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(((ClientConnection) client).getUser(),
                     new ForwardSocketPacket(packet));
         }
 

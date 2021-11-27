@@ -6,6 +6,8 @@ import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.networking.rest.ServerEnvironment;
 import com.craftmend.openaudiomc.generic.platform.interfaces.OpenAudioInvoker;
+import com.craftmend.openaudiomc.generic.proxy.ProxyHostService;
+import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.resources.ResourceService;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.service.ServiceManager;
@@ -93,6 +95,7 @@ public class OpenAudioMc {
         // we want to use through dependency injection anyway
         serviceManager.registerDependency(Configuration.class, invoker.getConfigurationProvider());
         serviceManager.registerDependency(TaskService.class, invoker.getTaskProvider());
+        serviceManager.registerDependency(UserHooks.class, invoker.getUserHooks());
 
         // migrate old config and data files between versions
         new MigrationWorker().handleMigrations();
@@ -103,6 +106,7 @@ public class OpenAudioMc {
 
         // load core services in order
         serviceManager.loadServices(
+                ProxyHostService.class,
                 MediaService.class,             // processes outgoing URL's
                 TimeService.class,              // processes remote or network timecodes and translates them for the client
                 ResourceService.class,          // handles internal file storage/caching
