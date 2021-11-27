@@ -4,9 +4,8 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
-import com.craftmend.openaudiomc.spigot.modules.players.PlayerService;
+import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.regions.adapters.LegacyRegionAdapter;
 import com.craftmend.openaudiomc.spigot.modules.regions.adapters.ModernRegionAdapter;
@@ -103,7 +102,7 @@ public class RegionModule {
     }
 
     public void forceUpdateRegions() {
-        for (SpigotConnection client : OpenAudioMc.getService(PlayerService.class).getClients()) {
+        for (SpigotConnection client : OpenAudioMc.getService(SpigotPlayerService.class).getClients()) {
             if (client.getRegionHandler() != null) client.getRegionHandler().tick();
         }
     }

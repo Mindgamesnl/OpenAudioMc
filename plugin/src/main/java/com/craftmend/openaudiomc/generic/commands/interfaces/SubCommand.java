@@ -1,10 +1,10 @@
 package com.craftmend.openaudiomc.generic.commands.interfaces;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
+import com.craftmend.openaudiomc.generic.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -46,7 +46,7 @@ public abstract class SubCommand {
      * @param sender Command sender
      * @param message Your message
      */
-    protected void message(GenericExecutor sender, String message) {
+    protected void message(User sender, String message) {
         sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + message);
     }
 
@@ -57,7 +57,7 @@ public abstract class SubCommand {
      * @param commandSender Command sender
      * @return true if the player is allowed to execute a command
      */
-    public boolean isAllowed(GenericExecutor commandSender) {
+    public boolean isAllowed(User commandSender) {
         return commandSender.hasPermission("openaudiomc.commands." + command)
                 || commandSender.hasPermission("openaudiomc.commands.*")
                 || commandSender.hasPermission("openaudiomc.*");
@@ -81,7 +81,7 @@ public abstract class SubCommand {
      * @param sender the sender that executed the commands
      * @param args the arguments after your command, starting at index 0
      */
-    public abstract void onExecute(GenericExecutor sender, String[] args);
+    public abstract void onExecute(User sender, String[] args);
 
     protected boolean isInteger(String s) {
         return isInteger(s,10);

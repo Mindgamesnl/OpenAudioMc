@@ -49,7 +49,17 @@ The Java plugin/implementation comes bundled with maven unit tests. All tests *m
 * **Discord Community** - <https://discord.openaudiomc.net/>
 * **Documentation** - <http://help.openaudiomc.net/docs>
 
-## Help OpenAudioMc!
+# Help OpenAudioMc!
 OpenAudioMc is a free spigot plugin and we'd like to keep it this way.  But to keep OpenAudioMc up and running, we need to host multiple servers (SocketIO, Web servers and more...) and this is expensive. This is why I've made a [donation page](http://donate.craftmend.com/), everything goes to the hosting for OpenAudioMc. You can also make continues donations on [Patreon](https://patreon.com/mindgamesnl) which also comes with a few extra bonuses.
 
+# Platform setup
+The core of OpenAudioMc is written to be independent of platforms, this makes it easier to maintain feature parity and compatibility across multiple platforms (bungeecord, velocity, spigot, etc). This means that some common api's need to be abstracted for internal use, here are a few terms and interfaces you need to know about
+### `User` *interface*
+A user refers to an actor that interacts with OpenAudioMc. This could be a player, proxy player, commandblock, or whatever. Code should be written so that it doesn't really matter *what* a user is, but you can get the original platform object in edge cases where you need to interact with native API's.
+### `Client` *interface*
+A `Client` is an interface that exposes some API methods of the `ClientConnection`, a client connection represents the socket API gateway to a web client, and maintains its status, authentication and manages packet throughput.
+### `UserHooks` *interface*
+A UserHook provider is an interface that should supply `User` instances based on the current environment state or from a query. It's generally used to get a collection of online Users, or get Users by UUID regardless of the platform. UserHooks should also adapt proxy management, and announce local nodes (if any).
+
+### Metrics
 [![Stargazers over time](https://starchart.cc/Mindgamesnl/openaudiomc.svg)](https://starchart.cc/Mindgamesnl/openaudiomc)

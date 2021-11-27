@@ -11,10 +11,8 @@ import com.craftmend.openaudiomc.generic.networking.client.objects.player.Client
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
-import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.generic.utils.data.Filter;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.PeerFilter;
-import lombok.AllArgsConstructor;
 import lombok.Setter;
 import org.bukkit.entity.Player;
 
@@ -46,7 +44,7 @@ public class PlayerProximityTicker implements Runnable {
             // am I valid? no? do nothing.
             if (!client.getClientRtcManager().isReady()) continue;
 
-            Player player = ((SpigotPlayerAdapter) client.getPlayer()).getPlayer();
+            Player player = (Player) client.getUser().getOriginal();
 
             // find clients in this world, in radius and that are connected with RTC
             Set<ClientConnection> applicableClients = filter.wrap(

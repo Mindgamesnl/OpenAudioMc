@@ -1,13 +1,13 @@
 package com.craftmend.openaudiomc.bungee.modules.commands.commands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.adapters.BungeeCommandSenderAdapter;
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
+import com.craftmend.openaudiomc.generic.user.adapters.BungeeUserAdapter;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.platform.Platform;
@@ -35,7 +35,7 @@ public class BungeeVolumeCommand extends Command {
      */
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if (CommandMiddewareExecutor.shouldBeCanceled(new BungeeCommandSenderAdapter(sender), null, commandMiddleware))
+        if (CommandMiddewareExecutor.shouldBeCanceled(new BungeeUserAdapter(sender), null, commandMiddleware))
             return;
 
         if (!(sender instanceof ProxiedPlayer)) {

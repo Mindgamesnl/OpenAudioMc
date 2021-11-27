@@ -37,13 +37,13 @@ public class PlusSocketSession implements Authenticatable {
     @Override
     public void onConnect() {
         this.isConnected = true;
-        OpenAudioLogger.toConsole(owner.getPlayer().getName() + " opened a real time OpenAudioMc+ session.");
+        OpenAudioLogger.toConsole(owner.getUser().getName() + " opened a real time OpenAudioMc+ session.");
     }
 
     @Override
     public void onDisconnect() {
         this.isConnected = false;
-        OpenAudioLogger.toConsole(owner.getPlayer().getName() + " closed a real time OpenAudioMc+ session.");
+        OpenAudioLogger.toConsole(owner.getUser().getName() + " closed a real time OpenAudioMc+ session.");
     }
 
     @Override

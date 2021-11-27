@@ -13,6 +13,31 @@ export class Vector3 {
         return this;
     }
 
+    clone() {
+        return new Vector3(this.x, this.y, this.z)
+    }
+
+    sub(v) {
+        this.x = this.x - v.x;
+        this.y = this.y - v.y;
+        this.z = this.z - v.z;
+        return this;
+    }
+
+    plus(v) {
+        this.x = this.x + v.x;
+        this.y = this.y + v.y;
+        this.z = this.z + v.z;
+        return this;
+    }
+
+    divide(by) {
+        this.x /= by;
+        this.y /= by;
+        this.z /= by;
+        return this;
+    }
+
     applyQuaternion(q) {
         let x = this.x, y = this.y, z = this.z;
         let qx = q.x, qy = q.y, qz = q.z, qw = q.w;
