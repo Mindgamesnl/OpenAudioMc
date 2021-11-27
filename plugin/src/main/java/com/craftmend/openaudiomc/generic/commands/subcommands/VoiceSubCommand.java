@@ -5,6 +5,8 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
+import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.data.RestErrorResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
@@ -12,6 +14,9 @@ import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.platform.OaColor;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
+import com.craftmend.openaudiomc.generic.state.StateService;
+import com.craftmend.openaudiomc.generic.state.interfaces.State;
+import com.craftmend.openaudiomc.generic.state.states.WorkerState;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.voicechat.bus.VoiceApiConnection;
 import com.craftmend.openaudiomc.generic.voicechat.services.VoiceLicenseService;
@@ -29,6 +34,12 @@ public class VoiceSubCommand extends SubCommand {
 
     @Override
     public void onExecute(User sender, String[] args) {
+        NetworkingService ns = OpenAudioMc.getService(NetworkingService.class);
+        if (!ns.isReal()) {
+            // its on a sub-server without an activated proxy, so completely ignore it
+            message(sender, OaColor.RED + "This command can only be executed on your top level server");
+            return;
+        }
 
         // does this server have voice chat?
         Set<CraftmendTag> tags = OpenAudioMc.getService(CraftmendService.class).getTags();

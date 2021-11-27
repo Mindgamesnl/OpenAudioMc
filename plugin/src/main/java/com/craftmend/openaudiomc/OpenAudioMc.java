@@ -119,6 +119,10 @@ public class OpenAudioMc {
         );
     }
 
+    public void postBoot() {
+        getService(CraftmendService.class).postBoot();
+    }
+
     // simple shutdown logic
     public void disable() {
         isDisabled = true;

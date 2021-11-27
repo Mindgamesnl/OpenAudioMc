@@ -25,6 +25,7 @@ import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.user.User;
 
+import com.craftmend.openaudiomc.generic.voicechat.services.VoiceLicenseService;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.OAClientMode;
 import lombok.Getter;
@@ -186,6 +187,11 @@ public class DefaultNetworkingService extends NetworkingService {
         return packetThroughput;
     }
 
+    @Override
+    public boolean isReal() {
+        return true;
+    }
+
     /**
      * @param playerId the player to unregister
      */
@@ -221,6 +227,10 @@ public class DefaultNetworkingService extends NetworkingService {
         ClientConnection clientConnection = new ClientConnection(player, importData);
         clientMap.put(player.getUniqueId(), clientConnection);
         createdConnectionSubscribers.forEach((id, handler) -> handler.accept(clientConnection));
+
+        // schedule automatic license check, no worries though, this doesn't do anything if it isn't enabled
+        getService(VoiceLicenseService.class).requestAutomaticLicense();
+
         return clientConnection;
     }
 

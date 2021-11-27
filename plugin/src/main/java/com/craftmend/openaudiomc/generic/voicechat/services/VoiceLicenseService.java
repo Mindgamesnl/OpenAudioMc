@@ -3,13 +3,17 @@ package com.craftmend.openaudiomc.generic.voicechat.services;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.Task;
+import com.craftmend.openaudiomc.generic.networking.rest.data.RestErrorResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.voicechat.services.enums.LicenseRequestResponse;
 
 public class VoiceLicenseService extends Service {
@@ -18,6 +22,29 @@ public class VoiceLicenseService extends Service {
     @Inject private TaskService taskService;
 
     private boolean isRunning = false;
+    
+    public void requestAutomaticLicense() {
+        NetworkingService ns = OpenAudioMc.getService(NetworkingService.class);
+        if (!ns.isReal()) {
+            // only run on the real implementation layer
+            return;
+        }
+
+        if (StorageKey.SETTINGS_VC_AUTOCLAIM.getBoolean() && !craftmendService.is(CraftmendTag.CLAIMED) && !craftmendService.is(CraftmendTag.VOICECHAT)) {
+            OpenAudioLogger.toConsole("Requesting automatic license");
+            requestLicense().setWhenFinished(r -> {
+                if (r.getCode() == LicenseRequestResponse.Code.GRANTED) {
+                    OpenAudioLogger.toConsole("Successfully accepted a temporary license. Please make an account on account.craftmend.com and link your server to keep access to this license for a month, or upgrade to get more slots.");
+                    return;
+                }
+
+                OpenAudioLogger.toConsole("Failed to get an automatic license, response: ");
+                for (RestErrorResponse error : r.getErrors()) {
+                    OpenAudioLogger.toConsole(" - " + error.getMessage());
+                }
+            });
+        }
+    }
 
     public Task<LicenseRequestResponse> requestLicense() {
         Task<LicenseRequestResponse> t = new Task<>();
