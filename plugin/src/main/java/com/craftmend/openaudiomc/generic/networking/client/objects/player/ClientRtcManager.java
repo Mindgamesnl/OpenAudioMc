@@ -13,8 +13,8 @@ import com.craftmend.openaudiomc.generic.networking.client.enums.RtcStateFlag;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientSubscribeToVoice;
+import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.user.User;
-import com.craftmend.openaudiomc.generic.proxy.ProxyClientService;
 import com.craftmend.openaudiomc.spigot.services.world.Vector3;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceSubscribePayload;
@@ -104,7 +104,7 @@ public class ClientRtcManager implements Serializable {
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
             // forward to proxy
             User user = clientConnection.getUser();
-            OpenAudioMc.resolveDependency(ProxyClientService.class).sendPacket(user, new ForceMuteMicrophonePacket(clientConnection.getOwnerUUID(), allow));
+            OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(user, new ForceMuteMicrophonePacket(clientConnection.getOwnerUUID(), allow));
             return;
         }
         VoiceApiConnection voiceService = OpenAudioMc.getService(CraftmendService.class).getVoiceApiConnection();

@@ -4,6 +4,8 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.RegistryApiImpl;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.logging.platform.SpigotLogger;
+import com.craftmend.openaudiomc.generic.proxy.SpigotUserHooks;
+import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
@@ -187,6 +189,11 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
     @Override
     public int getServerPort() {
         return Bukkit.getPort();
+    }
+
+    @Override
+    public UserHooks getUserHooks() {
+        return new SpigotUserHooks();
     }
 
 }
