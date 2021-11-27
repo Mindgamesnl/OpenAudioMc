@@ -20,6 +20,7 @@ import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.voicechat.bus.VoiceApiConnection;
 import com.craftmend.openaudiomc.generic.voicechat.enums.VoiceApiStatus;
+import com.craftmend.openaudiomc.generic.voicechat.licenses.VoiceLicenseManager;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,6 +31,7 @@ public class CraftmendService extends Service {
 
     @Inject private OpenAudioMc openAudioMc;
     @Getter private VoiceApiConnection voiceApiConnection = new VoiceApiConnection();
+    @Getter private VoiceLicenseManager licenseManager = new VoiceLicenseManager(this);
 
     private PlayerStateStreamer playerStateStreamer;
     @Getter private String baseUrl;
