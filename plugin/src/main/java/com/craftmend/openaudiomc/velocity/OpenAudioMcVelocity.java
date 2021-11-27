@@ -75,10 +75,6 @@ public class OpenAudioMcVelocity implements OpenAudioInvoker {
             this.commandModule = new VelocityCommandModule(this);
             this.messageReceiver = new VelocityPacketManager(this, getServer(),"openaudiomc:node");
 
-            OpenAudioMc.getInstance().getServiceManager().loadServices(
-                    ProxyHostService.class
-            );
-
             // set state to idle, to allow connections and such
             OpenAudioMc.getService(StateService.class).setState(new IdleState("OpenAudioMc started and awaiting command"));
 

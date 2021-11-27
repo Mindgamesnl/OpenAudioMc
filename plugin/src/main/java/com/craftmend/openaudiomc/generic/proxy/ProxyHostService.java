@@ -76,6 +76,7 @@ public class ProxyHostService extends Service {
         }, 20 * 2);
     }
 
+    // received packets from spigot
     public void onPacketReceive(User from, StandardPacket packet) {
         if (packet instanceof ForwardSocketPacket) {
             ForwardSocketPacket p = (ForwardSocketPacket) packet;
