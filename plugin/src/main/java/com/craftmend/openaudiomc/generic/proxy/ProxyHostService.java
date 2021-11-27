@@ -21,7 +21,9 @@ import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.proxy.messages.StandardPacket;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class ProxyHostService extends Service {
 
     private UserHooks userHooks;
