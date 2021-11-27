@@ -684,7 +684,7 @@ input[type='range'] {
 .tab-content {
     display: none;
     background-color: var(--theme-bg-color);
-    height: 100%;
+    height: 93%;
 }
 
 .tabbed [type="radio"] {

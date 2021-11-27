@@ -1,5 +1,7 @@
 import {VoicePeerUi} from "../ui/VoicePeerUi";
 import {IncomingVoiceStream} from "./IncomingVoiceStream";
+import {Interpolator, MAGIC_SCHEDULE_VALUES} from "../../../helpers/math/Interpolator";
+import {Vector3} from "../../../helpers/math/Vector3";
 
 export class VoicePeer {
 
@@ -8,6 +10,7 @@ export class VoicePeer {
         this.playerName = playerName;
         this.playerUuid = playerName;
         this.streamKey = streamKey;
+        this.interpolator = new Interpolator();
         this.active = true;
         this.ready = false;
         this.location = location;
@@ -44,7 +47,10 @@ export class VoicePeer {
     }
 
     updateLocation(x, y, z) {
-        this.stream.setLocation(x, y, z, true);
+        this.interpolator.onMove = (l, p, y) => {
+            this.stream.setLocation(l.x, l.y, l.z, true);
+        }
+        this.interpolator.interpolate(new Vector3(x, y, z), 90, 90, MAGIC_SCHEDULE_VALUES.VC_LOCATION_UPDATES);
     }
 
     stop() {
