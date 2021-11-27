@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.players;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
+import com.craftmend.openaudiomc.generic.player.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -18,7 +19,7 @@ import org.bukkit.entity.Player;
 import java.util.*;
 
 @NoArgsConstructor
-public class PlayerService extends Service {
+public class SpigotPlayerService extends Service {
 
     @Inject
     private OpenAudioMcSpigot openAudioMcSpigot;
@@ -37,7 +38,7 @@ public class PlayerService extends Service {
      * @param player registers the player
      */
     public void register(Player player) {
-        ClientConnection clientConnection = OpenAudioMc.getService(NetworkingService.class).register(player, null);
+        ClientConnection clientConnection = OpenAudioMc.getService(NetworkingService.class).register(new SpigotUserAdapter(player), null);
         spigotConnectionMap.put(player.getUniqueId(), new SpigotConnection(player, clientConnection));
     }
 

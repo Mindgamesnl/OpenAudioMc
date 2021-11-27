@@ -4,7 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.modules.player.objects.BungeePlayerSelector;
 
 import com.craftmend.openaudiomc.generic.commands.CommandService;
-import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
+
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.media.objects.OptionalError;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
@@ -14,6 +14,7 @@ import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.media.objects.MediaOptions;
 
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
+import com.craftmend.openaudiomc.generic.player.User;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -34,7 +35,7 @@ public class BungeePlayCommand extends SubCommand {
     }
 
     @Override
-    public void onExecute(GenericExecutor sender, String[] args) {
+    public void onExecute(User sender, String[] args) {
         if (args.length == 0) {
             sendHelp(sender);
             return;
@@ -77,7 +78,7 @@ public class BungeePlayCommand extends SubCommand {
         sendHelp(sender);
     }
 
-    private void sendHelp(GenericExecutor genericExecutor) {
+    private void sendHelp(User genericExecutor) {
         OpenAudioMc.getService(CommandService.class).getSubCommand("help").onExecute(genericExecutor, new String[] {
                 getCommand()
         });

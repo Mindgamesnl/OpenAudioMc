@@ -4,13 +4,14 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
-import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
+
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
-import com.craftmend.openaudiomc.velocity.generic.commands.adapters.VelocityCommandSenderAdapter;
+import com.craftmend.openaudiomc.generic.player.User;
+import com.craftmend.openaudiomc.generic.player.adapters.VelocityUserAdapter;
 import com.craftmend.openaudiomc.velocity.modules.player.objects.VelocityPlayerSelector;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
@@ -27,8 +28,8 @@ public class VelocityAudioCommand implements SimpleCommand {
     @Override
     public void execute(Invocation invocation) {
         CommandSource source = invocation.source();
-        GenericExecutor sender = new VelocityCommandSenderAdapter(source);
-        if (CommandMiddewareExecutor.shouldBeCanceled(sender, null, commandMiddleware)) return;
+        User user = new VelocityUserAdapter(source);
+        if (CommandMiddewareExecutor.shouldBeCanceled(user, null, commandMiddleware)) return;
 
         if (source instanceof Player) {
             Player player = (Player) source;
@@ -37,7 +38,7 @@ public class VelocityAudioCommand implements SimpleCommand {
             String[] args = invocation.arguments();
 
             if (args.length == 0) {
-                sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "You must provide a player name OR selector to send trigger the URL");
+                user.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "You must provide a player name OR selector to send trigger the URL");
                 return;
             }
 

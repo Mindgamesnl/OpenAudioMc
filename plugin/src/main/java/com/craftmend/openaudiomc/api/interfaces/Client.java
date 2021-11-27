@@ -1,9 +1,9 @@
 package com.craftmend.openaudiomc.api.interfaces;
 
 import com.craftmend.openaudiomc.generic.hue.HueState;
-import com.craftmend.openaudiomc.generic.networking.client.interfaces.PlayerContainer;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.Publisher;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.SerializableClient;
+import com.craftmend.openaudiomc.generic.player.User;
 
 import java.util.Map;
 
@@ -17,7 +17,7 @@ public interface Client {
     /**
      * @return Gets the basic player wrapper, wraps Bungeecord and Spigot
      */
-    PlayerContainer getPlayer();
+    User getUser();
 
     /**
      * @return Get the publisher, used to send session URL's to the client

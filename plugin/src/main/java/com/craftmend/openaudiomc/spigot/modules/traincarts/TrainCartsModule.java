@@ -8,7 +8,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.players.PlayerService;
+import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.traincarts.listeners.TrainListener;
 import com.craftmend.openaudiomc.spigot.modules.traincarts.models.TrainMedia;
@@ -44,7 +44,7 @@ public class TrainCartsModule {
             MinecartGroup member = event.getGroup();
             for (MinecartMember<?> minecartMember : member) {
                 for (Player playerPassenger : minecartMember.getEntity().getPlayerPassengers()) {
-                    SpigotConnection spigotConnection = OpenAudioMc.getService(PlayerService.class).getClient(playerPassenger);
+                    SpigotConnection spigotConnection = OpenAudioMc.getService(SpigotPlayerService.class).getClient(playerPassenger);
                     OpenAudioMc.getService(NetworkingService.class).send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(media.getMediaId().toString()));
                 }
             }
@@ -66,7 +66,7 @@ public class TrainCartsModule {
             MinecartGroup member = event.getGroup();
             for (MinecartMember<?> minecartMember : member) {
                 for (Player playerPassenger : minecartMember.getEntity().getPlayerPassengers()) {
-                    SpigotConnection spigotConnection = OpenAudioMc.getService(PlayerService.class).getClient(playerPassenger);
+                    SpigotConnection spigotConnection = OpenAudioMc.getService(SpigotPlayerService.class).getClient(playerPassenger);
                     spigotConnection.getClientConnection().sendMedia(media.toMedia());
                 }
             }

@@ -61,18 +61,18 @@ public class PlayerStateStreamer implements Runnable {
 
 
         for (ClientConnection client : OpenAudioMc.getService(NetworkingService.class).getClients()) {
-            if (!trackedPlayers.contains(client.getPlayer().getUniqueId())) {
+            if (!trackedPlayers.contains(client.getUser().getUniqueId())) {
                 // not tracked yet!
                 playerUpdatePayload.getJoinedPlayers().add(
-                        new OnlinePlayer(client.getPlayer().getName(), client.getPlayer().getUniqueId(), client.getSession().getWebSessionKey(), client.getIsConnected())
+                        new OnlinePlayer(client.getUser().getName(), client.getUser().getUniqueId(), client.getSession().getWebSessionKey(), client.getIsConnected())
                 );
             }
-            currentPlayers.add(client.getPlayer().getUniqueId());
+            currentPlayers.add(client.getUser().getUniqueId());
 
             if (client.isSessionUpdated()) {
                 client.setSessionUpdated(false);
                 playerUpdatePayload.getUpdatedPlayers().add(
-                        new OnlinePlayer(client.getPlayer().getUniqueId(), client.getIsConnected())
+                        new OnlinePlayer(client.getUser().getUniqueId(), client.getIsConnected())
                 );
             }
         }

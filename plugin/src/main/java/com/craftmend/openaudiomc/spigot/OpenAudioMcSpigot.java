@@ -18,7 +18,7 @@ import com.craftmend.openaudiomc.spigot.modules.commands.SpigotCommandService;
 import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfiguration;
 import com.craftmend.openaudiomc.spigot.modules.predictive.PredictiveMediaService;
 import com.craftmend.openaudiomc.spigot.modules.proxy.ProxyModule;
-import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
+import com.craftmend.openaudiomc.spigot.modules.proxy.enums.OAClientMode;
 import com.craftmend.openaudiomc.spigot.modules.punishments.EssentialsIntegration;
 import com.craftmend.openaudiomc.spigot.modules.punishments.LitebansIntegration;
 import com.craftmend.openaudiomc.spigot.modules.regions.service.RegionService;
@@ -31,7 +31,7 @@ import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.FilterService;
 import com.craftmend.openaudiomc.spigot.services.dependency.SpigotDependencyService;
 import com.craftmend.openaudiomc.spigot.services.scheduling.SpigotTaskService;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
-import com.craftmend.openaudiomc.spigot.modules.players.PlayerService;
+import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.services.threading.ExecutorService;
@@ -92,7 +92,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
                     AliasService.class,
                     ExecutorService.class,
                     ServerService.class,
-                    PlayerService.class,
+                    SpigotPlayerService.class,
                     SpeakerService.class,
                     SpigotCommandService.class,
                     ShowService.class,
@@ -108,7 +108,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
                     .ifPluginEnabled("Train_Carts", new TrainCartsService(this));
 
             // set state to idle, to allow connections and such, but only if not a node
-            if (OpenAudioMc.getService(ProxyModule.class).getMode() == ClientMode.NODE) {
+            if (OpenAudioMc.getService(ProxyModule.class).getMode() == OAClientMode.NODE) {
                 OpenAudioMc.getService(StateService.class).setState(new WorkerState());
             } else {
                 OpenAudioMc.getService(StateService.class).setState(new IdleState("OpenAudioMc started and awaiting command"));
@@ -149,7 +149,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
 
     @Override
     public boolean isNodeServer() {
-        return proxyModule.getMode() != ClientMode.STAND_ALONE;
+        return proxyModule.getMode() != OAClientMode.STAND_ALONE;
     }
 
     @Override

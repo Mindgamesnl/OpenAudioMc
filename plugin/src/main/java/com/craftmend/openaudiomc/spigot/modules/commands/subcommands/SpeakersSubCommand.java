@@ -1,15 +1,16 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
+
 import com.craftmend.openaudiomc.generic.media.MediaService;
+import com.craftmend.openaudiomc.generic.player.User;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
-import com.craftmend.openaudiomc.spigot.modules.players.PlayerService;
+import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
@@ -24,7 +25,6 @@ import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Skull;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
@@ -57,9 +57,9 @@ public class SpeakersSubCommand extends SubCommand {
     }
 
     @Override
-    public void onExecute(GenericExecutor sender, String[] args) {
+    public void onExecute(User sender, String[] args) {
         if (args.length == 0) {
-            Bukkit.getServer().dispatchCommand((CommandSender) sender.getOriginal(), "oa help " + getCommand());
+            sender.makeExecuteCommand("oa help " + getCommand());
             return;
         }
 
@@ -91,7 +91,7 @@ public class SpeakersSubCommand extends SubCommand {
             }
 
             Player player = (Player) sender.getOriginal();
-            SpigotConnection spigotConnection = OpenAudioMc.getService(PlayerService.class).getClient(((Player) sender.getOriginal()));
+            SpigotConnection spigotConnection = OpenAudioMc.getService(SpigotPlayerService.class).getClient(((Player) sender.getOriginal()));
             spigotConnection.setSelectedSpeakerSettings(
                     new SpeakerSettings(
                             OpenAudioMc.getService(MediaService.class).process(args[0]),
@@ -178,7 +178,7 @@ public class SpeakersSubCommand extends SubCommand {
             return;
         }
 
-        Bukkit.getServer().dispatchCommand((CommandSender) sender.getOriginal(), "oa help " + getCommand());
+        sender.makeExecuteCommand("oa help " + getCommand());
     }
 
     private MappedLocation locationFromArguments(String[] args) {

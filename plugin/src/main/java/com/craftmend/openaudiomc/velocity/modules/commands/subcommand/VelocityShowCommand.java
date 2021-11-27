@@ -1,10 +1,11 @@
 package com.craftmend.openaudiomc.velocity.modules.commands.subcommand;
 
-import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
+
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.node.enums.CommandProxy;
 import com.craftmend.openaudiomc.generic.node.packets.CommandProxyPacket;
+import com.craftmend.openaudiomc.generic.player.User;
 import com.craftmend.openaudiomc.spigot.modules.proxy.objects.CommandProxyPayload;
 import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
 import com.velocitypowered.api.proxy.Player;
@@ -40,7 +41,7 @@ public class VelocityShowCommand extends SubCommand {
     }
 
     @Override
-    public void onExecute(GenericExecutor sender, String[] args) {
+    public void onExecute(User sender, String[] args) {
         // pass on to the spigot server
         if (sender.getOriginal() instanceof Player) {
             Player player = (Player) sender.getOriginal();

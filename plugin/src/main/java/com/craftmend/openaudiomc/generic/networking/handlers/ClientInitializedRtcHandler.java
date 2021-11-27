@@ -4,19 +4,16 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.events.PlayerConnectVoicechatEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.bungee.modules.node.NodeManager;
+import com.craftmend.openaudiomc.generic.player.User;
 import com.craftmend.openaudiomc.velocity.messages.PacketPlayer;
-import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.generic.networking.abstracts.PayloadHandler;
-import com.craftmend.openaudiomc.generic.networking.client.interfaces.PlayerContainer;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.payloads.in.ClientOpenedRtcPayload;
 import com.craftmend.openaudiomc.generic.node.packets.ClientUpdateStatePacket;
 import com.craftmend.openaudiomc.generic.platform.Platform;
-import com.craftmend.openaudiomc.generic.player.ProxiedPlayerAdapter;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
-import com.craftmend.openaudiomc.velocity.generic.player.VelocityPlayerAdapter;
 import com.velocitypowered.api.proxy.Player;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
@@ -56,13 +53,13 @@ public class ClientInitializedRtcHandler extends PayloadHandler<ClientOpenedRtcP
 
             case MICROPHONE_MUTED: {
                 cc.getClientRtcManager().setMicrophoneEnabled(false);
-                broadcastRtcUpdate(cc.getPlayer(), true, false, cc.getStreamKey(), cc);
+                broadcastRtcUpdate(cc.getUser(), true, false, cc.getStreamKey(), cc);
                 break;
             }
 
             case MICROPHONE_UNMUTE: {
                 cc.getClientRtcManager().setMicrophoneEnabled(true);
-                broadcastRtcUpdate(cc.getPlayer(), true, true, cc.getStreamKey(), cc);
+                broadcastRtcUpdate(cc.getUser(), true, true, cc.getStreamKey(), cc);
                 break;
             }
         }
@@ -76,28 +73,28 @@ public class ClientInitializedRtcHandler extends PayloadHandler<ClientOpenedRtcP
             cc.getClientRtcManager().setMicrophoneEnabled(true);
             // send a welcome message
             AudioApi.getInstance().getEventDriver().fire(new PlayerConnectVoicechatEvent(cc));
-            cc.getPlayer().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_SETUP.getString()));
+            cc.getUser().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_SETUP.getString()));
             // notify the proxy, if applicable
-            broadcastRtcUpdate(cc.getPlayer(), true, true, cc.getStreamKey(), cc);
+            broadcastRtcUpdate(cc.getUser(), true, true, cc.getStreamKey(), cc);
         } else {
             // disable their stream
             cc.getClientRtcManager().setMicrophoneEnabled(false);
             cc.setConnectedToRtc(false);
             // notify the proxy, if applicable
-            broadcastRtcUpdate(cc.getPlayer(), false, false, cc.getStreamKey(), cc);
+            broadcastRtcUpdate(cc.getUser(), false, false, cc.getStreamKey(), cc);
         }
     }
 
-    private void broadcastRtcUpdate(PlayerContainer player, boolean isConnected, boolean isMicOn, String streamKey, ClientConnection cc) {
+    private void broadcastRtcUpdate(User player, boolean isConnected, boolean isMicOn, String streamKey, ClientConnection cc) {
         // am I a proxy thingy? then send it to my other thingy
         ClientUpdateStatePacket clientUpdateRtcStatePacket = new ClientUpdateStatePacket(player.getUniqueId(), streamKey, isConnected, isMicOn, cc.getSessionTokens().getStaticToken());
         switch (OpenAudioMc.getInstance().getPlatform()) {
             case BUNGEE:
-                ProxiedPlayer proxiedPlayer = ((ProxiedPlayerAdapter) player).getPlayer();
+                ProxiedPlayer proxiedPlayer = (ProxiedPlayer) player.getOriginal();
                 OpenAudioMc.getService(NodeManager.class).getPacketManager().sendPacket(new PacketPlayer(proxiedPlayer), clientUpdateRtcStatePacket);
                 break;
             case VELOCITY:
-                Player velocityPlayer = ((VelocityPlayerAdapter) player).getPlayer();
+                Player velocityPlayer = (Player) player.getOriginal();
                 OpenAudioMcVelocity.getInstance().getNodeManager().getPacketManager().sendPacket(new PacketPlayer(velocityPlayer), clientUpdateRtcStatePacket);
                 break;
         }

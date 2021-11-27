@@ -10,7 +10,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class PlayerSession implements Serializable {
 
-    private boolean isForced = false;
     @Setter private transient ClientConnection client;
     private String webSessionKey;
     private String staticToken;

@@ -17,7 +17,7 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
-import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
+import com.craftmend.openaudiomc.spigot.modules.proxy.enums.OAClientMode;
 import com.craftmend.openaudiomc.bungee.modules.punishments.LitebansIntegration;
 import lombok.Getter;
 import net.md_5.bungee.api.ProxyServer;
@@ -107,7 +107,7 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
             return forced;
         }
 
-        return ClientMode.STAND_ALONE.getServiceClass();
+        return OAClientMode.STAND_ALONE.getServiceClass();
     }
 
     @Override

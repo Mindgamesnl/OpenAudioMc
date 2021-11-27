@@ -10,8 +10,9 @@ import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMidd
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.generic.player.User;
+import com.craftmend.openaudiomc.generic.player.adapters.VelocityUserAdapter;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.velocity.generic.commands.adapters.VelocityCommandSenderAdapter;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
@@ -28,19 +29,19 @@ public class VelocityVolumeCommand implements SimpleCommand {
     @Override
     public void execute(Invocation invocation) {
         CommandSource source = invocation.source();
-        VelocityCommandSenderAdapter sender = new VelocityCommandSenderAdapter(source);
-        if (CommandMiddewareExecutor.shouldBeCanceled(sender, null, commandMiddleware))
+        User user = new VelocityUserAdapter(source);
+        if (CommandMiddewareExecutor.shouldBeCanceled(user, null, commandMiddleware))
             return;
 
         if (!(source instanceof Player)) {
-            sender.sendMessage("This command can only be used by players");
+            user.sendMessage("This command can only be used by players");
             return;
         }
 
-        ClientConnection clientConnection = OpenAudioMc.getService(NetworkingService.class).getClient(sender.getUuid());
+        ClientConnection clientConnection = OpenAudioMc.getService(NetworkingService.class).getClient(user.getUniqueId());
 
         if (!clientConnection.isConnected()) {
-            sender.sendMessage(Platform.translateColors(
+            user.sendMessage(Platform.translateColors(
                     StorageKey.MESSAGE_CLIENT_VOLUME_CHANGED.getString())
                     .replaceAll("__amount__", clientConnection.getVolume() + ""
                     ));
@@ -51,7 +52,7 @@ public class VelocityVolumeCommand implements SimpleCommand {
 
         if (args.length == 0) {
             String message = Platform.translateColors(OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.MESSAGE_CLIENT_VOLUME_INVALID));
-            sender.sendMessage(message);
+            user.sendMessage(message);
             return;
         }
 
@@ -60,14 +61,14 @@ public class VelocityVolumeCommand implements SimpleCommand {
             //check if in range
             if (volume < 0 || volume > 100) {
                 String message = Platform.translateColors(OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.MESSAGE_CLIENT_VOLUME_INVALID));
-                sender.sendMessage(message);
+                user.sendMessage(message);
                 return;
             } else {
                 clientConnection.setVolume(volume);
             }
         } catch (Exception e) {
             String message = Platform.translateColors(OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.MESSAGE_CLIENT_VOLUME_INVALID));
-            sender.sendMessage(message);
+            user.sendMessage(message);
             return;
         }
 
