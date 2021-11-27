@@ -1,7 +1,6 @@
 package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 
 import com.craftmend.openaudiomc.spigot.services.world.Vector3;
-import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.services.world.interfaces.IRayTracer;
 import com.craftmend.openaudiomc.spigot.services.world.tracing.EstimatedRayTracer;
@@ -41,7 +40,7 @@ public class ClientRtcLocationUpdate {
     }
 
     public static ClientRtcLocationUpdate fromClient(ClientConnection clientConnection, Vector3 targetLocation) {
-        Player player = ((SpigotPlayerAdapter) clientConnection.getPlayer()).getPlayer();
+        Player player = (Player) clientConnection.getUser().getOriginal();
 
         int obstructions = 0;
 

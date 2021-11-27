@@ -12,18 +12,15 @@ import com.craftmend.openaudiomc.generic.networking.client.objects.player.Player
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.node.packets.*;
-import com.craftmend.openaudiomc.spigot.modules.proxy.objects.FakeGenericExecutor;
-
-import com.craftmend.openaudiomc.velocity.messages.PacketHandler;
-import com.craftmend.openaudiomc.velocity.messages.PacketListener;
-
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
+import com.craftmend.openaudiomc.generic.proxy.messages.ProxyPacketHandler;
+import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.generic.proxy.messages.PacketListener;
 
 public class BungeePacketListener implements PacketListener {
 
-    @PacketHandler
-    public void onConnect(ClientConnectedPacket packet) {
+    @ProxyPacketHandler
+    public void onConnect(User user, ClientConnectedPacket packet) {
         ClientConnection connection = OpenAudioMc.getService(NetworkingService.class).getClient(packet.getClientUuid());
         if (connection != null) {
             connection.onConnect();
@@ -33,26 +30,26 @@ public class BungeePacketListener implements PacketListener {
         }
     }
 
-    @PacketHandler
-    public void onDisconnect(ClientDisconnectedPacket packet) {
+    @ProxyPacketHandler
+    public void onDisconnect(User user, ClientDisconnectedPacket packet) {
         ClientConnection connection = OpenAudioMc.getService(NetworkingService.class).getClient(packet.getClientUuid());
         if (connection != null) connection.onDisconnect();
     }
 
-    @PacketHandler
-    public void onTimeUpdate(ServerUpdateTimePacket packet) {
+    @ProxyPacketHandler
+    public void onTimeUpdate(User user, ServerUpdateTimePacket packet) {
         OpenAudioMc.getInstance().getServiceManager().replaceService(TimeService.class, packet.getTimeService());
         AudioApi.getInstance().getEventDriver().fire(new TimeServiceUpdateEvent(packet.getTimeService()));
     }
 
-    @PacketHandler
-    public void onStateSync(ClientUpdateStatePacket packet) {
+    @ProxyPacketHandler
+    public void onStateSync(User user, ClientUpdateStatePacket packet) {
         ClientConnection connection = OpenAudioMc.getService(NetworkingService.class).getClient(packet.getClientUuid());
         connection.getClientRtcManager().setMicrophoneEnabled(packet.isMicrophoneEnabled());
         connection.setStreamKey(packet.getStreamId());
         connection.setConnectedToRtc(packet.isEnabled());
 
-        connection.setSession(new PlayerSession(true, connection, packet.getExplodedToken(), packet.getExplodedToken()));
+        connection.setSession(new PlayerSession(connection, packet.getExplodedToken(), packet.getExplodedToken()));
 
         // enable the module if it isn't already
         if (!OpenAudioMc.getService(CraftmendService.class).is(CraftmendTag.VOICECHAT)) {
@@ -60,18 +57,19 @@ public class BungeePacketListener implements PacketListener {
         }
     }
 
-    @PacketHandler
-    public void onHue(ClientSyncHueStatePacket packet) {
+    @ProxyPacketHandler
+    public void onHue(User user, ClientSyncHueStatePacket packet) {
         ClientConnection connection = OpenAudioMc.getService(NetworkingService.class).getClient(packet.getClientUuid());
         connection.setHasHueLinked(true);
     }
 
-    @PacketHandler
-    public void onCommand(CommandProxyPacket packet) {
-        Player player = Bukkit.getPlayer(packet.getCommandProxy().getExecutor());
+    @ProxyPacketHandler
+    public void onCommand(User user, CommandProxyPacket packet) {
+        User player = OpenAudioMc.resolveDependency(UserHooks.class).byUuid(packet.getCommandProxy().getExecutor());
         if (player == null) return;
-        FakeGenericExecutor fakeGenericExecutor = new FakeGenericExecutor(player);
-        OpenAudioMc.getService(CommandService.class).getSubCommand(packet.getCommandProxy().getCommandProxy().toString().toLowerCase()).onExecute(fakeGenericExecutor, packet.getCommandProxy().getArgs());
+        OpenAudioMc.getService(CommandService.class)
+                .getSubCommand(packet.getCommandProxy().getCommandProxy().toString().toLowerCase())
+                .onExecute(player, packet.getCommandProxy().getArgs());
     }
 
 }

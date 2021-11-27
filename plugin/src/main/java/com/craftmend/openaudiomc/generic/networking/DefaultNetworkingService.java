@@ -7,7 +7,6 @@ import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
-import com.craftmend.openaudiomc.generic.networking.client.interfaces.PlayerContainer;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.SerializableClient;
 import com.craftmend.openaudiomc.generic.networking.enums.PacketChannel;
@@ -23,17 +22,12 @@ import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketC
 import com.craftmend.openaudiomc.generic.networking.packets.client.speakers.PacketClientCreateSpeaker;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
-import com.craftmend.openaudiomc.generic.player.ProxiedPlayerAdapter;
-import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
+import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
+import com.craftmend.openaudiomc.generic.user.User;
+
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
-import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
-import com.craftmend.openaudiomc.velocity.generic.player.VelocityPlayerAdapter;
+import com.craftmend.openaudiomc.spigot.modules.proxy.enums.OAClientMode;
 import lombok.Getter;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -173,25 +167,9 @@ public class DefaultNetworkingService extends NetworkingService {
         if (clientMap.containsKey(uuid)) {
             return clientMap.get(uuid);
         } else {
-            // if the platform is spigot, we should do the api check, we can skip it otherwise
-            switch (OpenAudioMc.getInstance().getPlatform()){
-                case SPIGOT:
-                    Player player = Bukkit.getPlayer(uuid);
-                    if (player == null) return null;
-                    return register(player, null);
-                case BUNGEE:
-                    ProxiedPlayer proxiedPlayer = ProxyServer.getInstance().getPlayer(uuid);
-                    if (proxiedPlayer == null) {
-                        // if the player is null or not on this server, it might be a case of redis bungee
-                        return null;
-                    }
-                    return register(proxiedPlayer, null);
-                case VELOCITY:
-                    Optional<com.velocitypowered.api.proxy.Player> velocityPlayer = OpenAudioMcVelocity.getInstance().getServer().getPlayer(uuid);
-                    return velocityPlayer.map(p -> register(p, null)).orElse(null);
-                default:
-                    return null;
-            }
+            User oap = getService(UserHooks.class).byUuid(uuid);
+            if (oap == null) return null;
+            return register(oap, null);
         }
     }
 
@@ -227,7 +205,7 @@ public class DefaultNetworkingService extends NetworkingService {
 
             // are we in stand alone mode? then kick this client
             if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
-                if (OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.STAND_ALONE) client.kick();
+                if (OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == OAClientMode.STAND_ALONE) client.kick();
             } else {
                 client.kick();
             }
@@ -239,36 +217,8 @@ public class DefaultNetworkingService extends NetworkingService {
     }
 
     @Override
-    public ClientConnection register(Player player, @Nullable SerializableClient importData) {
-        if (clientMap.containsKey(player.getUniqueId())) {
-            OpenAudioLogger.toConsole("Player " + player.getName() + " is already registered, re-using instance.");
-            return clientMap.get(player.getUniqueId());
-        }
-        ClientConnection clientConnection = new ClientConnection(new SpigotPlayerAdapter(player), importData);
-        clientMap.put(player.getUniqueId(), clientConnection);
-        createdConnectionSubscribers.forEach((id, handler) -> handler.accept(clientConnection));
-        return clientConnection;
-    }
-
-    @Override
-    public ClientConnection register(ProxiedPlayer player, @Nullable SerializableClient importData) {
-        ClientConnection clientConnection = new ClientConnection(new ProxiedPlayerAdapter(player), importData);
-        clientMap.put(player.getUniqueId(), clientConnection);
-        createdConnectionSubscribers.forEach((id, handler) -> handler.accept(clientConnection));
-        return clientConnection;
-    }
-
-    @Override
-    public ClientConnection register(com.velocitypowered.api.proxy.Player player, @Nullable SerializableClient importData) {
-        ClientConnection clientConnection = new ClientConnection(new VelocityPlayerAdapter(player), importData);
-        clientMap.put(player.getUniqueId(), clientConnection);
-        createdConnectionSubscribers.forEach((id, handler) -> handler.accept(clientConnection));
-        return clientConnection;
-    }
-
-    @Override
-    public ClientConnection register(PlayerContainer player, @Nullable SerializableClient importData) {
-        ClientConnection clientConnection = new ClientConnection(player);
+    public ClientConnection register(User player, @Nullable SerializableClient importData) {
+        ClientConnection clientConnection = new ClientConnection(player, importData);
         clientMap.put(player.getUniqueId(), clientConnection);
         createdConnectionSubscribers.forEach((id, handler) -> handler.accept(clientConnection));
         return clientConnection;

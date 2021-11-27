@@ -3,16 +3,9 @@ package com.craftmend.openaudiomc.api.impl.event;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.OpenAudioMcBuild;
 import com.craftmend.openaudiomc.api.impl.event.enums.EventSupport;
-import com.craftmend.openaudiomc.api.impl.event.events.StandaloneEventBroadcastEvent;
 import com.craftmend.openaudiomc.api.interfaces.EventSupportFlag;
-import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
-import com.craftmend.openaudiomc.bungee.modules.node.NodeManager;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
-import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
-import com.craftmend.openaudiomc.generic.node.packets.NetworkedEventPacket;
 import com.craftmend.openaudiomc.generic.platform.Platform;
-import com.craftmend.openaudiomc.spigot.modules.proxy.service.ProxyNetworkingService;
-import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
 import lombok.SneakyThrows;
 
 import java.util.HashMap;
@@ -119,37 +112,6 @@ public class ApiEventDriver {
                     OpenAudioLogger.toConsole("Failed to handle an event handler");
                     e.printStackTrace();
                 }
-            }
-        }
-
-        if (event instanceof NetworkedAudioEvent) {
-            if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
-                if (!OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
-                    // don't broadcast
-                    return event;
-                }
-            }
-
-            // synchronize
-            NetworkedAudioEvent ne = (NetworkedAudioEvent) event;
-            if (ne.wasReceived) {
-                // don't broadcast it again
-                return event;
-            }
-            switch (OpenAudioMc.getInstance().getPlatform()) {
-                case BUNGEE:
-                    OpenAudioMc.getService(NodeManager.class).getPacketManager().sendPacket(ne.networkedPlayer, new NetworkedEventPacket(ne));
-                    break;
-                case VELOCITY:
-                    OpenAudioMcVelocity.getInstance().getNodeManager().getPacketManager().sendPacket(ne.networkedPlayer, new NetworkedEventPacket(ne));
-                    break;
-                case STANDALONE:
-                    fire(new StandaloneEventBroadcastEvent(ne));
-                    break;
-                case SPIGOT:
-                    ProxyNetworkingService proxyNetworkingService = (ProxyNetworkingService) OpenAudioMc.getService(NetworkingService.class);
-                    proxyNetworkingService.getPacketManager().sendPacket(ne.networkedPlayer, new NetworkedEventPacket(ne));
-                    break;
             }
         }
 

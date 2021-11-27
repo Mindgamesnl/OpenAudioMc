@@ -1,14 +1,15 @@
 package com.craftmend.openaudiomc.velocity.modules.commands.subcommand;
 
-import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
+
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.node.enums.CommandProxy;
 import com.craftmend.openaudiomc.generic.node.packets.CommandProxyPacket;
+import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
+import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.proxy.objects.CommandProxyPayload;
-import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
 import com.velocitypowered.api.proxy.Player;
-import com.craftmend.openaudiomc.velocity.messages.PacketPlayer;
 
 public class VelocitySpeakerCommand extends SubCommand {
 
@@ -27,7 +28,7 @@ public class VelocitySpeakerCommand extends SubCommand {
     }
 
     @Override
-    public void onExecute(GenericExecutor sender, String[] args) {
+    public void onExecute(User sender, String[] args) {
         // pass on to the spigot server
         if (sender.getOriginal() instanceof Player) {
             Player player = (Player) sender.getOriginal();
@@ -37,8 +38,7 @@ public class VelocitySpeakerCommand extends SubCommand {
             payload.setArgs(args);
             payload.setCommandProxy(CommandProxy.SPEAKER);
 
-            OpenAudioMcVelocity.getInstance().getNodeManager().getPacketManager()
-                    .sendPacket(new PacketPlayer(player), new CommandProxyPacket(payload));
+            OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(sender, new CommandProxyPacket(payload));
         }
     }
 }

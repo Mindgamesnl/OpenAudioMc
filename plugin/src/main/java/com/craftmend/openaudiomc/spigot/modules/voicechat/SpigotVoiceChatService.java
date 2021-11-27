@@ -1,31 +1,25 @@
 package com.craftmend.openaudiomc.spigot.modules.voicechat;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 import com.craftmend.openaudiomc.api.impl.event.enums.TickEventType;
 import com.craftmend.openaudiomc.api.impl.event.events.*;
 import com.craftmend.openaudiomc.api.impl.event.enums.VoiceEventCause;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
-import com.craftmend.openaudiomc.generic.networking.client.interfaces.PlayerContainer;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientRtcManager;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
-import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
+import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.PeerFilter;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.PlayerProximityTicker;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.TickVoicePacketQueue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.entity.Player;
 
 import java.util.Set;
 import java.util.UUID;
@@ -103,7 +97,7 @@ public class SpigotVoiceChatService extends Service {
                         // do single
                         ClientConnection other = clientFromId(manager.getRecentPeerAdditions().stream().findFirst().get());
                         if (other != null) {
-                            sendMessage(client.getPlayer(), Platform.translateColors(
+                            sendMessage(client.getUser(), Platform.translateColors(
                                     StorageKey.MESSAGE_VC_USER_ADDED.getString()
                                             .replace("%name", other.getOwnerName())
                             ));
@@ -111,7 +105,7 @@ public class SpigotVoiceChatService extends Service {
                     } else {
                         // do multiple
                         MultiNameReference mnr = new MultiNameReference(manager.getRecentPeerAdditions());
-                        sendMessage(client.getPlayer(), Platform.translateColors(
+                        sendMessage(client.getUser(), Platform.translateColors(
                                 StorageKey.MESSAGE_VC_USERS_ADDED.getString()
                                         .replace("%count", mnr.getOtherCount() + "")
                                         .replace("%name", mnr.getFirstName()))
@@ -126,7 +120,7 @@ public class SpigotVoiceChatService extends Service {
                         // do single
                         ClientConnection other = clientFromId(manager.getRecentPeerRemovals().stream().findFirst().get());
                         if (other != null) {
-                            sendMessage(client.getPlayer(), Platform.translateColors(
+                            sendMessage(client.getUser(), Platform.translateColors(
                                     StorageKey.MESSAGE_VC_USER_LEFT.getString()
                                             .replace("%name", other.getOwnerName())
                             ));
@@ -134,7 +128,7 @@ public class SpigotVoiceChatService extends Service {
                     } else {
                         // do multiple
                         MultiNameReference mnr = new MultiNameReference(manager.getRecentPeerRemovals());
-                        sendMessage(client.getPlayer(), Platform.translateColors(
+                        sendMessage(client.getUser(), Platform.translateColors(
                                 StorageKey.MESSAGE_VC_USERS_LEFT.getString()
                                         .replace("%count", mnr.getOtherCount() + "")
                                         .replace("%name", mnr.getFirstName()))
@@ -148,20 +142,19 @@ public class SpigotVoiceChatService extends Service {
         // mute messages
         eventDriver.on(MicrophoneMuteEvent.class).setHandler(event -> {
             if (!event.getClient().isConnected()) return;
-            sendMessage(event.getClient().getPlayer(), Platform.translateColors(StorageKey.MESSAGE_VC_MIC_MUTE.getString()));
+            sendMessage(event.getClient().getUser(), Platform.translateColors(StorageKey.MESSAGE_VC_MIC_MUTE.getString()));
         });
 
         eventDriver.on(MicrophoneUnmuteEvent.class).setHandler(event -> {
             if (!event.getClient().isConnected()) return;
-            sendMessage(event.getClient().getPlayer(), Platform.translateColors(StorageKey.MESSAGE_VC_MIC_UNMUTE.getString()));
+            sendMessage(event.getClient().getUser(), Platform.translateColors(StorageKey.MESSAGE_VC_MIC_UNMUTE.getString()));
         });
     }
 
-    private void sendMessage(PlayerContainer player, String message) {
+    private void sendMessage(User player, String message) {
         if (StorageKey.SETTINGS_VC_USE_HOTBAR.getBoolean()) {
             // use hotbar
-            Player sp = ((SpigotPlayerAdapter) player).getPlayer();
-            sp.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
+            player.sendActionbarMessage(message);
         } else {
             // normal
             player.sendMessage(message);

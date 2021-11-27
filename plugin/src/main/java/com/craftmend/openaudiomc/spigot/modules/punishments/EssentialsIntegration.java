@@ -26,7 +26,7 @@ public class EssentialsIntegration implements DependencyHandler {
                         boolean isMuted = usr.isMuted();
 
                         if (isMuted) {
-                            OpenAudioLogger.toConsole("Blocking voicechat for " + event.getRequester().getPlayer().getName() + " because they are muted on Essentials");
+                            OpenAudioLogger.toConsole("Blocking voicechat for " + event.getRequester().getUser().getName() + " because they are muted on Essentials");
                             event.setCanceled(true);
                         }
                     });

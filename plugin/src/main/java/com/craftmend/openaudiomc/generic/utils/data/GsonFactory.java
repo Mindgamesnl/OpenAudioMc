@@ -1,9 +1,7 @@
 package com.craftmend.openaudiomc.generic.utils.data;
 
-import com.craftmend.openaudiomc.api.impl.event.NetworkedAudioEvent;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
 import com.craftmend.openaudiomc.generic.networking.addapter.AbstractPacketAdapter;
-import com.craftmend.openaudiomc.generic.networking.addapter.NetworkedAudioEventAdapter;
 import com.craftmend.openaudiomc.generic.redis.packets.adapter.RedisTypeAdapter;
 import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
 import com.craftmend.openaudiomc.spigot.modules.show.adapter.RunnableTypeAdapter;
@@ -17,7 +15,6 @@ public class GsonFactory {
 
     public static Gson create() {
         return new GsonBuilder()
-                .registerTypeAdapter(NetworkedAudioEvent.class, new NetworkedAudioEventAdapter())
                 .registerTypeAdapter(AbstractPacketPayload.class, new AbstractPacketAdapter())
                 .registerTypeAdapter(ShowRunnable.class, new RunnableTypeAdapter())
                 .registerTypeAdapter(OARedisPacket.class, new RedisTypeAdapter())

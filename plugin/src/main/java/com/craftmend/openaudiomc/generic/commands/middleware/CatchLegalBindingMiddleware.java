@@ -1,12 +1,12 @@
 package com.craftmend.openaudiomc.generic.commands.middleware;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
-import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
+
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.AcceptSubCommand;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
+import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.platform.Platform;
@@ -16,7 +16,7 @@ import java.util.List;
 
 public class CatchLegalBindingMiddleware implements CommandMiddleware {
     @Override
-    public boolean continueCommand(GenericExecutor genericExecutor, SubCommand subCommand) {
+    public boolean continueCommand(User genericExecutor, SubCommand subCommand) {
         Configuration config = OpenAudioMc.getInstance().getConfiguration();
 
         // skip if its a node
