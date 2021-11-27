@@ -24,8 +24,8 @@ import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.enviroment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.utils.data.GsonFactory;
-
 import com.craftmend.openaudiomc.generic.voicechat.services.VoiceLicenseService;
+
 import com.google.gson.Gson;
 import lombok.Getter;
 

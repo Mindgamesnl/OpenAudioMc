@@ -4,7 +4,6 @@ Changelog since release:
  - Make all Player/Console interactions generic
  - Implement "User" and rewrite player handlers (to this new api)
  - Dropped the old "OpenAudioApi"
- - Drop old API
  - The plugin now tries to automatically manage free licenses when it isn't linked to an account (can be disabled)
  - The client now interpolates movement packets, can be disabled in the personal settings
  - Drop broken and deprecated events
