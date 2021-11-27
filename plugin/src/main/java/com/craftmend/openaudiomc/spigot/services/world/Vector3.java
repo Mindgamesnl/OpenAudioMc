@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.spigot.services.world;
 
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
-import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
+import com.craftmend.openaudiomc.generic.player.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,7 +24,7 @@ public class Vector3 implements Serializable {
     private double z = 0;
 
     public static Vector3 from(ClientConnection peer) {
-        Player player = ((SpigotPlayerAdapter) peer.getPlayer()).getPlayer();
+        Player player = (Player) peer.getUser().getOriginal();
         return from(player.getLocation());
     }
 

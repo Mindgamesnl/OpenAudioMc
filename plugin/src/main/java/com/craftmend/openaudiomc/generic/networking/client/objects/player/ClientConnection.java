@@ -8,14 +8,10 @@ import com.craftmend.openaudiomc.api.impl.event.events.ClientErrorEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.api.interfaces.Client;
 
-import com.craftmend.openaudiomc.bungee.modules.node.NodeManager;
-
-import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.enviroment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
-import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
@@ -27,11 +23,11 @@ import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClie
 import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
-import com.craftmend.openaudiomc.generic.player.ProxiedPlayerAdapter;
+import com.craftmend.openaudiomc.generic.player.User;
+import com.craftmend.openaudiomc.generic.proxy.ProxyClient;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
-import com.craftmend.openaudiomc.generic.networking.client.interfaces.PlayerContainer;
 import com.craftmend.openaudiomc.generic.networking.packets.*;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.hue.HueState;
@@ -39,14 +35,7 @@ import com.craftmend.openaudiomc.generic.hue.SerializedHueColor;
 import com.craftmend.openaudiomc.generic.utils.data.RandomString;
 
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
-
-import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
-import com.craftmend.openaudiomc.velocity.generic.player.VelocityPlayerAdapter;
-import com.craftmend.openaudiomc.velocity.messages.PacketPlayer;
-
-import com.velocitypowered.api.proxy.Player;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
+import com.craftmend.openaudiomc.spigot.modules.proxy.enums.OAClientMode;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -77,19 +66,19 @@ public class ClientConnection implements Authenticatable, Client {
     @Getter @Setter private boolean isConnectedToRtc = false;
 
     // player implementation
-    @Getter private final PlayerContainer player;
+    @Getter private final User user;
     private Instant lastConnectPrompt = Instant.now();
 
     // on connect and disconnect handlers
     private final List<Runnable> connectHandlers = new ArrayList<>();
     private final List<Runnable> disconnectHandlers = new ArrayList<>();
 
-    public ClientConnection(PlayerContainer playerContainer) {
+    public ClientConnection(User playerContainer) {
         this(playerContainer, null);
     }
 
-    public ClientConnection(PlayerContainer playerContainer, SerializableClient fromSerialized) {
-        this.player = playerContainer;
+    public ClientConnection(User playerContainer, SerializableClient fromSerialized) {
+        this.user = playerContainer;
         this.mixTracker = new MixTracker();
         refreshSession();
         sessionPublisher = new Publisher(this);
@@ -104,7 +93,7 @@ public class ClientConnection implements Authenticatable, Client {
             publishUrl();
 
         if (!OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
-            OpenAudioMc.getService(GlobalConstantService.class).sendNotifications(player);
+            OpenAudioMc.getService(GlobalConstantService.class).sendNotifications(user);
         }
     }
 
@@ -143,25 +132,16 @@ public class ClientConnection implements Authenticatable, Client {
         );
 
         // am I a proxy thingy? then send it to my other thingy
-        switch (OpenAudioMc.getInstance().getPlatform()){
-            case BUNGEE:
-                ProxiedPlayer proxiedPlayer = ((ProxiedPlayerAdapter) player).getPlayer();
-                OpenAudioMc.getService(NodeManager.class).getPacketManager().sendPacket(new PacketPlayer(proxiedPlayer), new ClientConnectedPacket(player.getUniqueId()));
-                break;
-            case VELOCITY:
-                Player velocityPlayer = ((VelocityPlayerAdapter) player).getPlayer();
-                OpenAudioMcVelocity.getInstance().getNodeManager().getPacketManager().sendPacket(new PacketPlayer(velocityPlayer), new ClientConnectedPacket(velocityPlayer.getUniqueId()));
-                break;
-        }
+        OpenAudioMc.resolveDependency(ProxyClient.class).sendPacket(user, new ClientConnectedPacket(user.getUniqueId()));
 
         AudioApi.getInstance().getEventDriver().fire(new ClientConnectEvent(this));
 
-        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE)
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == OAClientMode.NODE)
             return;
         if (OpenAudioMc.getInstance().getPlatform() == Platform.STANDALONE)
             return;
         String connectedMessage = Configuration.getString(StorageKey.MESSAGE_CLIENT_OPENED);
-        player.sendMessage(Platform.translateColors(connectedMessage));
+        user.sendMessage(Platform.translateColors(connectedMessage));
     }
 
     @Override
@@ -175,26 +155,17 @@ public class ClientConnection implements Authenticatable, Client {
         disconnectHandlers.forEach(event -> event.run());
 
         // am I a proxy thingy? then send it to my other thingy
-        switch (OpenAudioMc.getInstance().getPlatform()){
-            case BUNGEE:
-                ProxiedPlayer proxiedPlayer = ((ProxiedPlayerAdapter) player).getPlayer();
-                OpenAudioMc.getService(NodeManager.class).getPacketManager().sendPacket(new PacketPlayer(proxiedPlayer), new ClientDisconnectedPacket(player.getUniqueId()));
-                break;
-            case VELOCITY:
-                Player velocityPlayer = ((VelocityPlayerAdapter) player).getPlayer();
-                OpenAudioMcVelocity.getInstance().getNodeManager().getPacketManager().sendPacket(new PacketPlayer(velocityPlayer), new ClientDisconnectedPacket(velocityPlayer.getUniqueId()));
-                break;
-        }
+        OpenAudioMc.resolveDependency(ProxyClient.class).sendPacket(user, new ClientDisconnectedPacket(user.getUniqueId()));
 
         AudioApi.getInstance().getEventDriver().fire(new ClientDisconnectEvent(this));
 
         // Don't send if i'm spigot and a node
-        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE)
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == OAClientMode.NODE)
             return;
         if (OpenAudioMc.getInstance().getPlatform() == Platform.STANDALONE)
             return;
         String message = OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.MESSAGE_CLIENT_CLOSED);
-        player.sendMessage(Platform.translateColors(message));
+        user.sendMessage(Platform.translateColors(message));
         this.mixTracker.clear();
     }
 
@@ -221,7 +192,7 @@ public class ClientConnection implements Authenticatable, Client {
         if (volume < 0 || volume > 100) {
             throw new IllegalArgumentException("Volume must be between 0 and 100");
         }
-        player.sendMessage(Platform.translateColors(StorageKey.MESSAGE_CLIENT_VOLUME_CHANGED.getString()).replaceAll("__amount__", volume + ""));
+        user.sendMessage(Platform.translateColors(StorageKey.MESSAGE_CLIENT_VOLUME_CHANGED.getString()).replaceAll("__amount__", volume + ""));
         OpenAudioMc.getService(NetworkingService.class).send(this, new PacketClientSetVolume(volume));
     }
 
@@ -275,7 +246,7 @@ public class ClientConnection implements Authenticatable, Client {
         if (remindToConnect) {
             int reminderInterval = OpenAudioMc.getInstance().getConfiguration().getInt(StorageKey.SETTINGS_REMIND_TO_CONNECT_INTERVAL);
             if (!getIsConnected() && (Duration.between(lastConnectPrompt, Instant.now()).toMillis() * 1000) > reminderInterval) {
-                player.sendMessage(Platform.translateColors(OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.MESSAGE_PROMPT_TO_CONNECT)));
+                user.sendMessage(Platform.translateColors(OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.MESSAGE_PROMPT_TO_CONNECT)));
                 lastConnectPrompt = Instant.now();
             }
         }
@@ -287,12 +258,12 @@ public class ClientConnection implements Authenticatable, Client {
 
     @Override
     public String getOwnerName() {
-        return getPlayer().getName();
+        return this.getUser().getName();
     }
 
     @Override
     public UUID getOwnerUUID() {
-        return player.getUniqueId();
+        return user.getUniqueId();
     }
 
     @Override
@@ -303,12 +274,12 @@ public class ClientConnection implements Authenticatable, Client {
     @Override
     public void handleError(MediaError error, String source) {
         AudioApi.getInstance().getEventDriver().fire(new ClientErrorEvent(this, error, source));
-        if (getPlayer().isAdministrator() && OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_STAFF_TIPS)) {
+        if (this.getUser().isAdministrator() && OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_STAFF_TIPS)) {
             String prefix = MagicValue.COMMAND_PREFIX.get(String.class);
-            getPlayer().sendMessage(prefix + "Something went wrong while playing a sound for you, here's what we know:");
-            getPlayer().sendMessage(prefix + "what happened: " + error.getExplanation());
-            getPlayer().sendMessage(prefix + "where: " + source);
-            getPlayer().sendMessage(prefix + Platform.makeColor("YELLOW") + "Players do NOT receive this warning, only staff does. You can disable it in the config.");
+            this.getUser().sendMessage(prefix + "Something went wrong while playing a sound for you, here's what we know:");
+            this.getUser().sendMessage(prefix + "what happened: " + error.getExplanation());
+            this.getUser().sendMessage(prefix + "where: " + source);
+            this.getUser().sendMessage(prefix + Platform.makeColor("YELLOW") + "Players do NOT receive this warning, only staff does. You can disable it in the config.");
         }
     }
 

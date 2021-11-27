@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.proxy;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.utils.data.EnvironmentHelper;
-import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
+import com.craftmend.openaudiomc.spigot.modules.proxy.enums.OAClientMode;
 import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -12,7 +12,7 @@ import java.io.File;
 
 public class ProxyModule extends Service {
 
-    @Getter private final ClientMode mode;
+    @Getter private final OAClientMode mode;
 
     public ProxyModule() {
         boolean proxyMode = false;
@@ -34,16 +34,16 @@ public class ProxyModule extends Service {
         // is it minehut? then force if
         if (EnvironmentHelper.contains("minehut")) {
             OpenAudioLogger.toConsole("Starting in standalone mode due to minehut");
-            mode = ClientMode.STAND_ALONE;
+            mode = OAClientMode.STAND_ALONE;
             return;
         }
 
         if (proxyMode) {
             OpenAudioLogger.toConsole("Starting in bungee mode");
-            mode = ClientMode.NODE;
+            mode = OAClientMode.NODE;
         } else {
             OpenAudioLogger.toConsole("Starting in socket mode");
-            mode = ClientMode.STAND_ALONE;
+            mode = OAClientMode.STAND_ALONE;
         }
     }
 

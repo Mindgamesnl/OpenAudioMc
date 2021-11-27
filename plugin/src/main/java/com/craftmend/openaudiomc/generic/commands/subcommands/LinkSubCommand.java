@@ -1,7 +1,6 @@
 package com.craftmend.openaudiomc.generic.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
@@ -13,6 +12,7 @@ import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
+import com.craftmend.openaudiomc.generic.player.User;
 
 public class LinkSubCommand extends SubCommand {
 
@@ -27,7 +27,7 @@ public class LinkSubCommand extends SubCommand {
     }
 
     @Override
-    public void onExecute(GenericExecutor sender, String[] args) {
+    public void onExecute(User sender, String[] args) {
         CommandArguments arguments = new CommandArguments(args);
 
         if (isPending) {

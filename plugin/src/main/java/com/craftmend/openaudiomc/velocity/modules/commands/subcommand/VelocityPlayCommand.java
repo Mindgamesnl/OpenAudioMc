@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.velocity.modules.commands.subcommand;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
-import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
+
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
@@ -10,6 +10,7 @@ import com.craftmend.openaudiomc.generic.media.objects.MediaOptions;
 import com.craftmend.openaudiomc.generic.media.objects.OptionalError;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
+import com.craftmend.openaudiomc.generic.player.User;
 import com.craftmend.openaudiomc.velocity.modules.player.objects.VelocityPlayerSelector;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
@@ -30,7 +31,7 @@ public class VelocityPlayCommand extends SubCommand {
     }
 
     @Override
-    public void onExecute(GenericExecutor sender, String[] args) {
+    public void onExecute(User sender, String[] args) {
         if (args.length == 0) {
             sendHelp(sender);
             return;
@@ -72,7 +73,7 @@ public class VelocityPlayCommand extends SubCommand {
         sendHelp(sender);
     }
 
-    private void sendHelp(GenericExecutor genericExecutor) {
+    private void sendHelp(User genericExecutor) {
         OpenAudioMc.getService(CommandService.class).getSubCommand("help").onExecute(genericExecutor, new String[]{
                 getCommand()
         });

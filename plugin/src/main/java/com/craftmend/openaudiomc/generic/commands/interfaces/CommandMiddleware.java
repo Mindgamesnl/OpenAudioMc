@@ -1,7 +1,9 @@
 package com.craftmend.openaudiomc.generic.commands.interfaces;
 
+import com.craftmend.openaudiomc.generic.player.User;
+
 public interface CommandMiddleware {
 
-    boolean continueCommand(GenericExecutor genericExecutor, SubCommand subCommand);
+    boolean continueCommand(User genericExecutor, SubCommand subCommand);
 
 }

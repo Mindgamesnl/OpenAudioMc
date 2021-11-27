@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.regions.objects;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.players.PlayerService;
+import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import org.bukkit.Bukkit;
 
 public class TimedRegionProperties extends RegionProperties {
@@ -31,7 +31,7 @@ public class TimedRegionProperties extends RegionProperties {
     }
 
     private void forceUpdateClients() {
-        OpenAudioMc.getService(PlayerService.class).getClients()
+        OpenAudioMc.getService(SpigotPlayerService.class).getClients()
                 .stream()
                 .filter(client -> client.getRegions().stream().anyMatch(region -> region.getId().equals(id)))
                 .forEach(client -> client.getLocationDataWatcher().forceTicK());

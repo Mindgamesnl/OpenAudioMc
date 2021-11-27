@@ -1,12 +1,10 @@
 package com.craftmend.openaudiomc.spigot.modules.regions.gui;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.players.PlayerService;
+import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
@@ -97,7 +95,7 @@ public class RegionEditGui extends Menu {
 
                     player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.GREEN + "Updated region fadetime to " + fadeTime);
 
-                    SpigotConnection spigotClient = OpenAudioMc.getService(PlayerService.class).getClient(player.getUniqueId());
+                    SpigotConnection spigotClient = OpenAudioMc.getService(SpigotPlayerService.class).getClient(player.getUniqueId());
                     spigotClient.getRegionHandler().reset();
 
                     spigotClient.getRegionHandler().tick();
@@ -124,7 +122,7 @@ public class RegionEditGui extends Menu {
 
                     player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.GREEN + "Updated region volume to " + volume);
 
-                    SpigotConnection spigotClient = OpenAudioMc.getService(PlayerService.class).getClient(player.getUniqueId());
+                    SpigotConnection spigotClient = OpenAudioMc.getService(SpigotPlayerService.class).getClient(player.getUniqueId());
                     spigotClient.getRegionHandler().reset();
 
                     spigotClient.getRegionHandler().tick();

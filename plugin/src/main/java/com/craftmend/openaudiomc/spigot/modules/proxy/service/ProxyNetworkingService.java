@@ -3,23 +3,25 @@ package com.craftmend.openaudiomc.spigot.modules.proxy.service;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
-import com.craftmend.openaudiomc.generic.networking.client.interfaces.PlayerContainer;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.SerializableClient;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
+import com.craftmend.openaudiomc.generic.node.packets.ForceMuteMicrophonePacket;
 import com.craftmend.openaudiomc.generic.node.packets.ForwardSocketPacket;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
-import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
+import com.craftmend.openaudiomc.generic.player.User;
+import com.craftmend.openaudiomc.generic.player.adapters.SpigotUserAdapter;
+import com.craftmend.openaudiomc.generic.proxy.ProxyClient;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.listeners.BungeePacketListener;
 import com.craftmend.openaudiomc.spigot.modules.proxy.listeners.ModernPacketListener;
+
 import com.craftmend.openaudiomc.velocity.messages.PacketPlayer;
 import com.craftmend.openaudiomc.velocity.messages.StandardPacket;
 import com.craftmend.openaudiomc.velocity.messages.implementations.BukkitPacketManager;
 import lombok.Getter;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
@@ -55,10 +57,6 @@ public class ProxyNetworkingService extends NetworkingService {
         // unused in fake system
     }
 
-    public void sendToProxy(Player player, StandardPacket packet) {
-        packetManager.sendPacket(new PacketPlayer(player), packet);
-    }
-
     @Override
     public void send(Authenticatable client, AbstractPacket packet) {
         // handle packet if it should be passed to bungee
@@ -67,8 +65,8 @@ public class ProxyNetworkingService extends NetworkingService {
             throw new UnsupportedOperationException("The bungee adapter for the networking service only supports client connections");
         if (packet.getClass().getSimpleName().startsWith("PacketClient")) {
             packet.setClient(client.getOwnerUUID());
-            Player player = ((SpigotPlayerAdapter) ((ClientConnection) client).getPlayer()).getPlayer();
-            packetManager.sendPacket(new PacketPlayer(player), new ForwardSocketPacket(packet));
+            OpenAudioMc.resolveDependency(ProxyClient.class).sendPacket(((ClientConnection) client).getUser(),
+                    new ForwardSocketPacket(packet));
         }
 
         packetThroughput++;
@@ -100,25 +98,6 @@ public class ProxyNetworkingService extends NetworkingService {
     }
 
     @Override
-    public ClientConnection register(Player player, @Nullable SerializableClient importData) {
-        return realService.register(player, importData);
-    }
-
-    @Override
-    public ClientConnection register(PlayerContainer player, @Nullable SerializableClient importData) {
-        return realService.register(player, importData);
-    }
-
-    @Override
-    public ClientConnection register(ProxiedPlayer player, @Nullable SerializableClient importData) {
-        return realService.register(player, importData);
-    }
-
-    public ClientConnection register(com.velocitypowered.api.proxy.Player player, @Nullable SerializableClient importData) {
-        return realService.register(player, importData);
-    }
-
-    @Override
     public void stop() {
         // unused in fake system
     }
@@ -131,5 +110,10 @@ public class ProxyNetworkingService extends NetworkingService {
     @Override
     public void addEventHandler(INetworkingEvents events) {
         eventHandlers.add(events);
+    }
+
+    @Override
+    public ClientConnection register(User player, @Nullable SerializableClient importData) {
+        return realService.register(player, importData);
     }
 }

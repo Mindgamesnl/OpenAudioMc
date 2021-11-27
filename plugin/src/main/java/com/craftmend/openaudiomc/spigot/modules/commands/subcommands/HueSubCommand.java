@@ -1,17 +1,17 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
+
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
+import com.craftmend.openaudiomc.generic.player.User;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.hue.SerializedHueColor;
 import com.craftmend.openaudiomc.generic.networking.packets.client.hue.PacketClientApplyHueColor;
-import com.craftmend.openaudiomc.spigot.modules.players.PlayerService;
+import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -29,16 +29,16 @@ public class HueSubCommand extends SubCommand {
     }
 
     @Override
-    public void onExecute(GenericExecutor sender, String[] args) {
+    public void onExecute(User sender, String[] args) {
         if (args.length == 0) {
-            Bukkit.getServer().dispatchCommand((CommandSender) sender.getOriginal(), "oa help " + getCommand());
+            sender.makeExecuteCommand("oa help " + getCommand());
             return;
         }
 
         if (args.length == 7 && args[0].equals("set")) {
             SerializedHueColor serializedHueColor = new SerializedHueColor(Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]), Integer.parseInt(args[6]));
             for (Player player : new SpigotPlayerSelector(args[1]).getPlayers((CommandSender) sender.getOriginal())) {
-                SpigotConnection spigotConnection = OpenAudioMc.getService(PlayerService.class).getClient(player);
+                SpigotConnection spigotConnection = OpenAudioMc.getService(SpigotPlayerService.class).getClient(player);
                 if (spigotConnection.getClientConnection().isHasHueLinked()) {
                     OpenAudioMc.getService(NetworkingService.class).send(spigotConnection.getClientConnection(), new PacketClientApplyHueColor(serializedHueColor, args[2]));
                 }
@@ -47,6 +47,6 @@ public class HueSubCommand extends SubCommand {
             return;
         }
 
-        Bukkit.getServer().dispatchCommand((CommandSender) sender.getOriginal(), "oa help " + getCommand());
+        sender.makeExecuteCommand("oa help " + getCommand());
     }
 }

@@ -16,6 +16,7 @@ import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientSyncHueStatePacket;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
+import com.craftmend.openaudiomc.generic.player.adapters.BungeeUserAdapter;
 import com.craftmend.openaudiomc.velocity.messages.PacketPlayer;
 import com.craftmend.openaudiomc.velocity.messages.StandardPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientUpdateStatePacket;
@@ -34,7 +35,7 @@ public class PlayerConnectionListener implements Listener {
 
     @EventHandler
     public void onPostLogin(PostLoginEvent event) {
-        OpenAudioMc.getService(NetworkingService.class).register(event.getPlayer(), null);
+        OpenAudioMc.getService(NetworkingService.class).register(new BungeeUserAdapter(event.getPlayer()), null);
     }
 
     @EventHandler

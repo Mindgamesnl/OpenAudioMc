@@ -1,7 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.command;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.adapters.SpigotCommandSenderAdapter;
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
@@ -9,8 +8,7 @@ import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMi
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.platform.Platform;
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.players.PlayerService;
+import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 
 import lombok.NoArgsConstructor;
@@ -30,10 +28,10 @@ public class VolumeCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        if (CommandMiddewareExecutor.shouldBeCanceled(new SpigotCommandSenderAdapter(sender), null, commandMiddleware)) return true;
+        if (CommandMiddewareExecutor.shouldBeCanceled(sender, null, commandMiddleware)) return true;
 
         if (sender instanceof Player) {
-            SpigotConnection spigotConnection = OpenAudioMc.getService(PlayerService.class).getClient(((Player) sender).getUniqueId());
+            SpigotConnection spigotConnection = OpenAudioMc.getService(SpigotPlayerService.class).getClient(((Player) sender).getUniqueId());
 
             if (!spigotConnection.getClientConnection().isConnected()) {
                 String message = Platform.translateColors(StorageKey.MESSAGE_CLIENT_NOT_CONNECTED.getString());

@@ -1,14 +1,13 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
+
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
+import com.craftmend.openaudiomc.generic.player.User;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.shortner.AliasService;
 import org.bukkit.*;
-import org.bukkit.command.CommandSender;
 
 public class AliasSubCommand extends SubCommand {
 
@@ -22,7 +21,7 @@ public class AliasSubCommand extends SubCommand {
     }
 
     @Override
-    public void onExecute(GenericExecutor sender, String[] args) {
+    public void onExecute(User sender, String[] args) {
         if (args.length == 2) {
             String aliasName = args[0].toLowerCase();
             String aliasSource = args[1];
@@ -32,7 +31,7 @@ public class AliasSubCommand extends SubCommand {
             return;
         }
 
-        Bukkit.getServer().dispatchCommand((CommandSender) sender.getOriginal(), "oa help " + getCommand());
+        sender.makeExecuteCommand("oa help " + getCommand());
     }
 
 }

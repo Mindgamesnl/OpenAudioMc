@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
+
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
@@ -11,6 +11,7 @@ import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
+import com.craftmend.openaudiomc.generic.player.User;
 import com.craftmend.openaudiomc.generic.voicechat.bus.VoiceApiConnection;
 
 import java.util.Set;
@@ -24,7 +25,7 @@ public class VoiceSubCommand extends SubCommand {
     }
 
     @Override
-    public void onExecute(GenericExecutor sender, String[] args) {
+    public void onExecute(User sender, String[] args) {
 
         // does this server have voice chat?
         Set<CraftmendTag> tags = OpenAudioMc.getService(CraftmendService.class).getTags();
