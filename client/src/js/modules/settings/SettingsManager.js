@@ -16,7 +16,8 @@ export var SETTING_STATES = {
     "vcNotifications": false,
     "audioFading": true,
     "preloadAudio": true,
-    "spatialAudioRendering": "accurate"
+    "spatialAudioRendering": "accurate",
+    "interpolation": true
 }
 
 export function isSettingEnabled(name) {
@@ -98,6 +99,15 @@ export class SettingsManager {
                 getMessageString("settings.preload.title"),
                 getMessageString("settings.preload.body"),
                 getMessageString("settings.preload.button"),
+                true
+            )
+        )
+
+        this.registerSetting(new CheckboxSetting("interpolation",
+                icons.RENDER,
+                getMessageString("settings.interpolation.title"),
+                getMessageString("settings.interpolation.body"),
+                getMessageString("settings.interpolation.button"),
                 true
             )
         )
