@@ -46,6 +46,7 @@ public class VoiceSubCommand extends SubCommand {
                         message(sender, Platform.makeColor("RED") + "This command is still running...");
                         return;
                     }
+
                     isRunning = true;
 
                     OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> {

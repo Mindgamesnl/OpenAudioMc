@@ -25,6 +25,7 @@ import com.craftmend.openaudiomc.generic.enviroment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.utils.data.GsonFactory;
 
+import com.craftmend.openaudiomc.generic.voicechat.licenses.VoiceLicenseManager;
 import com.google.gson.Gson;
 import lombok.Getter;
 
