@@ -6,15 +6,18 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
+import com.craftmend.openaudiomc.generic.proxy.ProxyHostService;
+import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
-import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
+import com.craftmend.openaudiomc.spigot.modules.proxy.enums.OAClientMode;
+import com.craftmend.openaudiomc.generic.proxy.messages.implementations.VelocityPacketManager;
 import com.craftmend.openaudiomc.velocity.modules.commands.VelocityCommandModule;
 import com.craftmend.openaudiomc.velocity.modules.configuration.VelocityConfiguration;
-import com.craftmend.openaudiomc.velocity.modules.node.NodeManager;
-import com.craftmend.openaudiomc.velocity.modules.player.PlayerManager;
+import com.craftmend.openaudiomc.velocity.modules.player.listeners.PlayerConnectionListener;
 import com.craftmend.openaudiomc.velocity.modules.scheduling.VelocityTaskService;
+import com.craftmend.openaudiomc.velocity.platform.VelocityUserHooks;
 import com.google.inject.Inject;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
@@ -32,7 +35,7 @@ import java.time.Instant;
 @Plugin(
         id = "openaudiomc",
         name = "OpenAudioMc Bungee Plugin Port for Velocity",
-        version = "6.5.7.2",
+        version = "6.5.8",
         authors = {"Mindgamesnl", "fluse1367"},
         description = "The OpenAudioMc plugin. Brings real sound and lights to your minecraft server with the help of a custom web client. Velocity plugin port by fluse1367.",
         url = "https://openaudiomc.net/"
@@ -47,11 +50,9 @@ public class OpenAudioMcVelocity implements OpenAudioInvoker {
     private final File dataDir;
     private final Instant boot = Instant.now();
     @Getter
-    private NodeManager nodeManager;
-    @Getter
-    private PlayerManager playerManager;
-    @Getter
     private VelocityCommandModule commandModule;
+    @Getter
+    private VelocityPacketManager messageReceiver;
 
     @Inject
     public OpenAudioMcVelocity(ProxyServer server, @DataDirectory Path dataDirPath) {
@@ -70,9 +71,13 @@ public class OpenAudioMcVelocity implements OpenAudioInvoker {
         // setup core
         try {
             new OpenAudioMc(this);
-            this.playerManager = new PlayerManager(this);
+            getServer().getEventManager().register(this, new PlayerConnectionListener());
             this.commandModule = new VelocityCommandModule(this);
-            this.nodeManager = new NodeManager(this);
+            this.messageReceiver = new VelocityPacketManager(this, getServer(),"openaudiomc:node");
+
+            OpenAudioMc.getInstance().getServiceManager().loadServices(
+                    ProxyHostService.class
+            );
 
             // set state to idle, to allow connections and such
             OpenAudioMc.getService(StateService.class).setState(new IdleState("OpenAudioMc started and awaiting command"));
@@ -107,7 +112,7 @@ public class OpenAudioMcVelocity implements OpenAudioInvoker {
 
     @Override
     public Class<? extends NetworkingService> getServiceClass() {
-        return ClientMode.STAND_ALONE.getServiceClass();
+        return OAClientMode.STAND_ALONE.getServiceClass();
     }
 
     @Override
@@ -130,6 +135,11 @@ public class OpenAudioMcVelocity implements OpenAudioInvoker {
     @Override
     public int getServerPort() {
         return server.getBoundAddress().getPort();
+    }
+
+    @Override
+    public UserHooks getUserHooks() {
+        return new VelocityUserHooks(this);
     }
 
 }

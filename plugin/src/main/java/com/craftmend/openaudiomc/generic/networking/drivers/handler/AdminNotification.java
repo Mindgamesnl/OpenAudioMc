@@ -1,7 +1,6 @@
 package com.craftmend.openaudiomc.generic.networking.drivers.handler;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.drivers.interfaces.NotificationHandler;
@@ -25,8 +24,8 @@ public class AdminNotification implements NotificationHandler {
         message += Platform.makeColor("RED") + "ADMIN NOTIFICATION: " + Platform.makeColor("YELLOW") + Platform.translateColors(notificationData.getMessage());
 
         for (ClientConnection client : OpenAudioMc.getService(NetworkingService.class).getClients()) {
-            if (client.getPlayer().isAdministrator()) {
-                client.getPlayer().sendMessage(message);
+            if (client.getUser().isAdministrator()) {
+                client.getUser().sendMessage(message);
             }
         }
 
@@ -36,10 +35,10 @@ public class AdminNotification implements NotificationHandler {
         // schedule a temporary listener to handle notifications post join
         String finalMessage = message;
         UUID subscriber = ns.subscribeToConnections((cc) -> {
-            if (cc.getPlayer().isAdministrator()) {
+            if (cc.getUser().isAdministrator()) {
                 ts.schduleSyncDelayedTask(() -> {
                     // send the message
-                    cc.getPlayer().sendMessage(finalMessage);
+                    cc.getUser().sendMessage(finalMessage);
                 }, 25);
             }
         });

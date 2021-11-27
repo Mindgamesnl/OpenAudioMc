@@ -1,12 +1,11 @@
 package com.craftmend.openaudiomc.spigot.modules.players.listeners;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientToggleMicrophone;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceChatToggleMicrophonePayload;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.spigot.modules.players.PlayerService;
+import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,12 +26,12 @@ public class PlayerConnectionListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        OpenAudioMc.getService(PlayerService.class).register(event.getPlayer());
+        OpenAudioMc.getService(SpigotPlayerService.class).register(event.getPlayer());
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        OpenAudioMc.getService(PlayerService.class).remove(event.getPlayer());
+        OpenAudioMc.getService(SpigotPlayerService.class).remove(event.getPlayer());
         playerMuteTimeout.remove(event.getPlayer().getUniqueId());
     }
 
@@ -46,7 +45,7 @@ public class PlayerConnectionListener implements Listener {
             }
 
             playerMuteTimeout.put(event.getPlayer().getUniqueId(), Instant.now());
-            SpigotConnection spigotConnection = OpenAudioMc.getService(PlayerService.class).getClient(event.getPlayer().getUniqueId());
+            SpigotConnection spigotConnection = OpenAudioMc.getService(SpigotPlayerService.class).getClient(event.getPlayer().getUniqueId());
 
             if (!spigotConnection.getClientConnection().isConnectedToRtc()) {
                 String message = Platform.translateColors(StorageKey.MESSAGE_VC_NOT_CONNECTED.getString());

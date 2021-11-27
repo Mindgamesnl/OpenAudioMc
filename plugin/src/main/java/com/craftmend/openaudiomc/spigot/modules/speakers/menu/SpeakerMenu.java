@@ -1,12 +1,10 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.menu;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.players.PlayerService;
+import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
@@ -133,7 +131,7 @@ public class SpeakerMenu extends Menu {
                 if (!(entity instanceof Player)) continue;
 
                 Player nearbyPlayer = (Player) entity;
-                SpigotConnection spigotConnection = OpenAudioMc.getService(PlayerService.class).getClient(nearbyPlayer);
+                SpigotConnection spigotConnection = OpenAudioMc.getService(SpigotPlayerService.class).getClient(nearbyPlayer);
 
                 spigotConnection.getSpeakerHandler().forceDeleteSpeaker(
                         speaker.getId().toString(),

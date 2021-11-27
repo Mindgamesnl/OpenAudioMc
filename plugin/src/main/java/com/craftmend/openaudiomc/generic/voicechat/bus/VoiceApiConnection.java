@@ -2,7 +2,6 @@ package com.craftmend.openaudiomc.generic.voicechat.bus;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.events.ClientRequestVoiceEvent;
-import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
@@ -54,7 +53,7 @@ public class VoiceApiConnection {
                     // is it allowed?
                     if (getUsedSlots() >= maxSlots) {
                         if (MagicValue.NOTIFY_VOICECHAT_SLOT_DEPLETION.get(Boolean.class)) {
-                            clientConnection.getPlayer().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "VoiceChat couldn't be enabled since this server occupied all its slots, please notify a staff member and try again later.");
+                            clientConnection.getUser().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "VoiceChat couldn't be enabled since this server occupied all its slots, please notify a staff member and try again later.");
                         }
                         return;
                     }
@@ -130,7 +129,7 @@ public class VoiceApiConnection {
         new RestRequest(RestEndpoint.END_VOICE_SESSION).executeInThread();
         for (ClientConnection client : OpenAudioMc.getService(NetworkingService.class).getClients()) {
             if (client.getClientRtcManager().isReady()) {
-                client.getPlayer().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_UNSTABLE.getString()));
+                client.getUser().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_UNSTABLE.getString()));
                 client.kick();
             }
         }
@@ -160,8 +159,8 @@ public class VoiceApiConnection {
     private void handleClientConnection(ClientConnection clientConnection) {
         // nothing to register if we aren't connected
         pushEvent(VoiceServerEventType.ADD_PLAYER, new HashMap<String, String>() {{
-            put("playerName", clientConnection.getPlayer().getName());
-            put("playerUuid", clientConnection.getPlayer().getUniqueId().toString());
+            put("playerName", clientConnection.getUser().getName());
+            put("playerUuid", clientConnection.getUser().getUniqueId().toString());
             put("streamKey", clientConnection.getStreamKey());
         }});
     }
