@@ -104,7 +104,7 @@ public class OpenAudioMc {
 
         // load core services in order
         serviceManager.loadServices(
-                ProxyHostService.class,
+                ProxyHostService.class,         // register handlers for proxy events
                 MediaService.class,             // processes outgoing URL's
                 TimeService.class,              // processes remote or network timecodes and translates them for the client
                 ResourceService.class,          // handles internal file storage/caching

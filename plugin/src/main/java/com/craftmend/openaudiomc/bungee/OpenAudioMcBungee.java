@@ -63,8 +63,7 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
 
             openAudioMc.getServiceManager().loadServices(
                     BungeeDependencyService.class,
-                    BungeeCommandModule.class,
-                    ProxyHostService.class
+                    BungeeCommandModule.class
             );
 
             openAudioMc.getServiceManager().getService(BungeeDependencyService.class)
