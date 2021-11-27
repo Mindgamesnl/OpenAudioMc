@@ -138,6 +138,7 @@ public class VoiceApiConnection {
 
     private void onWsOpen() {
         if (status == VoiceApiStatus.CONNECTED) return;
+        Thread.currentThread().setName("OaVoiceAPI");
         OpenAudioLogger.toConsole("Connected to voicechat!");
         status = VoiceApiStatus.CONNECTED;
         // seed online players

@@ -16,6 +16,7 @@ import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
+import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
@@ -150,6 +151,11 @@ public class CraftmendService extends Service {
         if (!ignoreLocal) {
             // check anyway
             if (OpenAudioMc.getService(NetworkingService.class).getClients().isEmpty()) return;
+        }
+
+        if (OpenAudioMc.resolveDependency(UserHooks.class).getOnlineUsers().isEmpty()) {
+            OpenAudioLogger.toConsole("The server is empty! ignoring voice chat.");
+            return;
         }
 
         OpenAudioLogger.toConsole("VoiceChat seems to be enabled for this account! Requesting RTC and Password...");
