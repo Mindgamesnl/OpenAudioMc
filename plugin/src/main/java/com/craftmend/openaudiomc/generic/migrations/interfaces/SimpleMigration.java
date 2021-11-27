@@ -23,7 +23,11 @@ public abstract class SimpleMigration {
         // settings that should be moved over
         Map<StorageKey, Object> oldValues = new HashMap<>();
         for (StorageKey value : StorageKey.values()) {
-            if (!value.isDeprecated() && config.hasStorageKey(value)) oldValues.put(value, config.get(value));
+            if (forceOverwrittenValues.containsKey(value.getSubSection())) {
+                oldValues.put(value, forceOverwrittenValues.get(value.getSubSection()));
+            } else {
+                if (!value.isDeprecated() && config.hasStorageKey(value)) oldValues.put(value, config.get(value));
+            }
         }
 
         // overwrite files
