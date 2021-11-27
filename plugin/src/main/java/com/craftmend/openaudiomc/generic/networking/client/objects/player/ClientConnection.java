@@ -23,8 +23,8 @@ import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClie
 import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
-import com.craftmend.openaudiomc.generic.player.User;
-import com.craftmend.openaudiomc.generic.proxy.ProxyClient;
+import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.generic.proxy.ProxyClientService;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
@@ -132,7 +132,7 @@ public class ClientConnection implements Authenticatable, Client {
         );
 
         // am I a proxy thingy? then send it to my other thingy
-        OpenAudioMc.resolveDependency(ProxyClient.class).sendPacket(user, new ClientConnectedPacket(user.getUniqueId()));
+        OpenAudioMc.resolveDependency(ProxyClientService.class).sendPacket(user, new ClientConnectedPacket(user.getUniqueId()));
 
         AudioApi.getInstance().getEventDriver().fire(new ClientConnectEvent(this));
 
@@ -155,7 +155,7 @@ public class ClientConnection implements Authenticatable, Client {
         disconnectHandlers.forEach(event -> event.run());
 
         // am I a proxy thingy? then send it to my other thingy
-        OpenAudioMc.resolveDependency(ProxyClient.class).sendPacket(user, new ClientDisconnectedPacket(user.getUniqueId()));
+        OpenAudioMc.resolveDependency(ProxyClientService.class).sendPacket(user, new ClientDisconnectedPacket(user.getUniqueId()));
 
         AudioApi.getInstance().getEventDriver().fire(new ClientDisconnectEvent(this));
 

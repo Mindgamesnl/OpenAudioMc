@@ -8,7 +8,6 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.interfaces.SourceHolder;
-import com.craftmend.openaudiomc.generic.player.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.utils.data.ConcurrentHeatMap;
 

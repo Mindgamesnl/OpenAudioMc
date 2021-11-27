@@ -8,21 +8,16 @@ import com.craftmend.openaudiomc.generic.networking.client.objects.player.Serial
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
-import com.craftmend.openaudiomc.generic.node.packets.ForceMuteMicrophonePacket;
 import com.craftmend.openaudiomc.generic.node.packets.ForwardSocketPacket;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
-import com.craftmend.openaudiomc.generic.player.User;
-import com.craftmend.openaudiomc.generic.player.adapters.SpigotUserAdapter;
-import com.craftmend.openaudiomc.generic.proxy.ProxyClient;
+import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.generic.proxy.ProxyClientService;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.listeners.BungeePacketListener;
 import com.craftmend.openaudiomc.spigot.modules.proxy.listeners.ModernPacketListener;
 
-import com.craftmend.openaudiomc.velocity.messages.PacketPlayer;
-import com.craftmend.openaudiomc.velocity.messages.StandardPacket;
 import com.craftmend.openaudiomc.velocity.messages.implementations.BukkitPacketManager;
 import lombok.Getter;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -65,7 +60,7 @@ public class ProxyNetworkingService extends NetworkingService {
             throw new UnsupportedOperationException("The bungee adapter for the networking service only supports client connections");
         if (packet.getClass().getSimpleName().startsWith("PacketClient")) {
             packet.setClient(client.getOwnerUUID());
-            OpenAudioMc.resolveDependency(ProxyClient.class).sendPacket(((ClientConnection) client).getUser(),
+            OpenAudioMc.resolveDependency(ProxyClientService.class).sendPacket(((ClientConnection) client).getUser(),
                     new ForwardSocketPacket(packet));
         }
 

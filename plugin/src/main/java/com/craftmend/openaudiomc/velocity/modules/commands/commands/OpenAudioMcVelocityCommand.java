@@ -11,8 +11,8 @@ import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMi
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
-import com.craftmend.openaudiomc.generic.player.User;
-import com.craftmend.openaudiomc.generic.player.adapters.VelocityUserAdapter;
+import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.generic.user.adapters.VelocityUserAdapter;
 import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
 import com.velocitypowered.api.command.SimpleCommand;
 

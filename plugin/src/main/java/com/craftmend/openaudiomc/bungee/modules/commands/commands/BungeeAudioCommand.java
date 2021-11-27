@@ -10,7 +10,7 @@ import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMi
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
-import com.craftmend.openaudiomc.generic.player.adapters.BungeeUserAdapter;
+import com.craftmend.openaudiomc.generic.user.adapters.BungeeUserAdapter;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;

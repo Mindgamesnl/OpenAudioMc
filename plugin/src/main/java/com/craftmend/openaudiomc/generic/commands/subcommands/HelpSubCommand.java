@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.generic.commands.CommandService;
 
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
-import com.craftmend.openaudiomc.generic.player.User;
+import com.craftmend.openaudiomc.generic.user.User;
 import lombok.SneakyThrows;
 
 import java.util.Map;

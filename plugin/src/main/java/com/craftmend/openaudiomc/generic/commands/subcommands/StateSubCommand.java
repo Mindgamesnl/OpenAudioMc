@@ -4,7 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
-import com.craftmend.openaudiomc.generic.player.User;
+import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.state.interfaces.StateDetail;
 

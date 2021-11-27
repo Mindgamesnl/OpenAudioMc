@@ -9,6 +9,7 @@ import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMidd
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientToggleMicrophone;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceChatToggleMicrophonePayload;
 import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.generic.user.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
@@ -29,7 +30,7 @@ public class MicMuteCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        if (CommandMiddewareExecutor.shouldBeCanceled(sender, null, commandMiddleware)) return true;
+        if (CommandMiddewareExecutor.shouldBeCanceled(new SpigotUserAdapter(sender), null, commandMiddleware)) return true;
 
         if (sender instanceof Player) {
             SpigotConnection spigotConnection = OpenAudioMc.getService(SpigotPlayerService.class).getClient(((Player) sender).getUniqueId());
