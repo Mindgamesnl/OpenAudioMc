@@ -50,7 +50,7 @@ public class AuthenticationDriver {
             sessionCacheMap.clean();
             ConcurrentHeatMap<UUID, String>.Value entry = sessionCacheMap.get(authenticatable.getOwnerUUID());
             if (!entry.getContext().isEmpty()) {
-                task.success(entry.getContext());
+                task.finish(entry.getContext());
                 return;
             }
 
@@ -74,7 +74,7 @@ public class AuthenticationDriver {
             }
 
             String token = request.getResponse(SimpleTokenResponse.class).getToken();
-            task.success(token);
+            task.finish(token);
 
             // push to cache
             entry.setContext(token);

@@ -10,25 +10,26 @@ import java.util.function.Consumer;
 @Getter
 public class Task<T> {
 
-    @Setter private BiConsumer<ErrorCode, String> whenFails;
-    @Setter private Consumer<T> whenSuccessful;
-    private boolean accepted = false;
+    @Setter private BiConsumer<ErrorCode, String> whenFailed;
+    @Setter private Consumer<T> whenFinished;
+    private boolean finished = false;
 
-    public void success(T data) {
-        if (accepted) return;
-        if (whenSuccessful != null) whenSuccessful.accept(data);
-        accepted = true;
+    public void finish(T data) {
+        if (finished) return;
+        if (whenFinished != null) whenFinished.accept(data);
+        finished = true;
     }
 
     public void fail(ErrorCode data) {
-        if (accepted) return;
-        if (whenFails != null) whenFails.accept(data, "No message provided");
-        accepted = true;
+        if (finished) return;
+        if (whenFailed != null) whenFailed.accept(data, "No message provided");
+        finished = true;
     }
+
     public void fail(ErrorCode data, String message) {
-        if (accepted) return;
-        if (whenFails != null) whenFails.accept(data, message);
-        accepted = true;
+        if (finished) return;
+        if (whenFailed != null) whenFailed.accept(data, message);
+        finished = true;
     }
 
 }

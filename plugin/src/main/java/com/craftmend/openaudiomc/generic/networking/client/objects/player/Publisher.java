@@ -47,9 +47,9 @@ public class Publisher {
         clientConnection.getUser().sendMessage(translateColors(StorageKey.MESSAGE_GENERATING_SESSION.getString()));
 
         Task<String> sessionRequest = OpenAudioMc.getService(AuthenticationService.class).getDriver().createPlayerSession(clientConnection);
-        sessionRequest.setWhenFails((restErrorType, fuckyou) -> clientConnection.getUser().sendMessage(translateColors(StorageKey.MESSAGE_SESSION_ERROR.getString())));
+        sessionRequest.setWhenFailed((restErrorType, fuckyou) -> clientConnection.getUser().sendMessage(translateColors(StorageKey.MESSAGE_SESSION_ERROR.getString())));
 
-        sessionRequest.setWhenSuccessful(token -> {
+        sessionRequest.setWhenFinished(token -> {
             String url = OpenAudioMc.getService(CraftmendService.class).getBaseUrl() + "#" + token;
             String msgText = translateColors(StorageKey.MESSAGE_CLICK_TO_CONNECT.getString().replace("{url}", url));
             clientConnection.getUser().sendClickableUrlMessage(msgText, StorageKey.MESSAGE_HOVER_TO_CONNECT.getString(), url);
