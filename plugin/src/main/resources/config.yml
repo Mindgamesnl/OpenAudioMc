@@ -1,56 +1,72 @@
 messages:
   # The message a client gets when they are not connected but a sound got triggered. this can be disabled under settings
   suggest-connection: '&7&oYou are currently missing out on some sounds! connect with the audio client via /audio'
+
   # The message a client receives when a URL is being prepared for them to open the web client
   preparing-session: '&7&oGenerating audio session..'
+
   # The message the client gets when executing /audio of joins (if send-on-join is enabled)
   click-to-connect: '&bClick &e&ohere&b to connect to the online audio client!'
+
   # The message a player receives when a session error occurs
   session-error: '&cAn error occurred while generating your audio session. please report the problem and try again later.'
+
   # A hover message for the click-to-connect message, only appears right before clicking when you mouse over it
   click-to-connect-hover: '&6Minecraft will prompt you to open the web client when you click this message'
 
-
   # The message the client gets when their audio link has expired
   click-link-expired: '&3Your link to the audio client has expired. Use &b/audio&3 to request a new one.'
+
   # The message a client gets when their web-client has been opened
   client-opened: '&2&oYou are now connected with the audio client!'
+
   # The message a client gets when their web-client has been closed
   client-closed: '&c&oYour audio session has been ended'
+
   # The message a client gets as warning that they are already connected
   client-already-connected: '&cYou are already connected to the web client'
 
-
   # Prints the client volume when /volume is ran without arguments
   client-volume: '&6Your current volume is __amount__%&7 (TIP: use /volume 40 to set your volume to 40%)'
+
   # The message a client gets as confirmation for executing /volume or /vol
   client-volume-change: '&6Your volume has been changed to __amount__%'
+
   # The message a client gets as warning that they messed up /volume or /vol
   client-volume-invalid: '&4You must enter a number between 0 and 100'
+
   # The message a client gets as warning that they aren't even connected
   client-not-connected: '&4You need to be connected to the web client to be able to do that'
+
   # The message a client gets when they need to be connected to voice chat to do something
   voice-not-connected: '&4An active Voice connection is required to execute this command'
+
   # The message a client receives when they entered an area where voicechat is disabled
   voice-disabled-here: '&7&oVoice chat has been temporarily disabled in this area'
+
   # The message a client receives when they entered an area where voicechat is enabled again
   voice-reenabled-here: '&7&oYour voice chat has been re-enabled'
 
-
   # Message a player receives when opting into voicechat
   voicechat-enabled: '&7&oYour voicechat has been enabled!'
+
   # Messages a player receives when a player joined their voicechat range
   voicechat-added-user: '&7&o%name appeared in voice chat range'
   voicechat-added-users: '&7&o%name and %count others appeared in voice chat range'
+
   # Messages a player receives when a player got out of their voice chat range
   voicechat-removed-user: '&7&o%name left your voice chat'
   voicechat-removed-users: '&7&o%name and %count others left your voice chat'
+
   # Message a player receives when their microphone is muted
   voicechat-mic-mute: '&7&oYour microphone is now &c&omuted'
+
   # Message a player receives when their microphone is unmuted
   voicechat-mic-unmute: '&7&oYour microphone is now &2&ounmuted'
+
   # Message a player receives when voicechat runs into a technical issue
   voicechat-service-unstable: '&7&oWarning: we ran into one or more problems with the voice service.. please hold on while we try to recover your beautiful voice.'
+
   # Message a player receives when the voicechat is back online again
   voicechat-service-recovered: '&7&oYour voicechat session got successfully recovered'
 
@@ -58,39 +74,59 @@ messages:
 options:
   # If set to true, the player automatically receives a link upon joining
   send-on-join: true
+
   # If set to true, the player gets reminded to connect (see messages.suggest-connection)
   remind-to-connect: true
+
   # If delay in seconds between reminding to connect
   remind-to-connect-interval: 30
+
   # If default radius for speakers (in blocks)
   speaker-radius: 10
+
   # If set to true, speakers will sync their timecodes
   sync-speakers: true
+
   # If set to true, regions will sync their timecodes
   sync-regions: true
+
   # If set to true, regions will use priorities. If this causes problems, just set it to false.
   use-region-priority: false
+
   # Staff will receive helpful tips and error messages when something went wrong while playing a file
   staff-tips: true
+
   # If you want to receive update notifications, recommended to leave it on, but turn it off if you have to for some weird reason
   notify-updates: true
+
   # If you want to receive announcements over things like server maintenance, highly recommended, we'll never bother you if not needed
   notify-announcements: true
+
   # The amount of resources you want to have preloaded in the client
   preload-resources: 7
+
   # Garbage collection strategy, it only removes it from the cache by default but you can set it to "DELETE" to forcefully delete data entries
   gc-strategy: INVALIDATE
+
   # Required distance for proximity voice chat. Must be between 20 and 70
   voicechat-radius: 45
+
   # Chat announcements for players to notify them of others entering/leaving their voice chat proximity
   voicechat-announcements: true
+
   # Changes whether to toggle your microphone while sneaking and pressing swap.
   voicechat-toggle-mic-on-swap-and-sneak: true
+
   # Decides if voicechat messages should go in the hotbar or chat. Setting this to false will default to chat
   voicechat-send-messages-in-hotbar: true
+
   # Toggles voicechat obstruction detection. This can get quite resource intensive so it's off by default, but this muffles voices when
   # One or more blocks are blocking the players line-of-sight
   voicechat-obstructions: false
+
+  # Automatically request a free voicechat license when the server starts
+  voicechat-autoclaim-on-start: true
+
 
 # REDIS
 # More explanation about redis: https://help.openaudiomc.net/redis

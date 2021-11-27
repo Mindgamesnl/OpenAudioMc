@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.generic.migrations.interfaces;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.migrations.MigrationWorker;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 
@@ -11,9 +12,9 @@ import java.util.Map;
 
 public abstract class SimpleMigration {
 
-    public abstract boolean shouldBeRun();
-
-    public abstract void execute();
+    public abstract boolean shouldBeRun(MigrationWorker migrationWorker);
+    public abstract void execute(MigrationWorker migrationWorker);
+    protected static Map<String, Object> forceOverwrittenValues = new HashMap<>();
 
     protected void migrateFilesFromResources() {
         OpenAudioMc openAudioMc = OpenAudioMc.getInstance();
@@ -22,7 +23,11 @@ public abstract class SimpleMigration {
         // settings that should be moved over
         Map<StorageKey, Object> oldValues = new HashMap<>();
         for (StorageKey value : StorageKey.values()) {
-            if (!value.isDeprecated() && config.hasStorageKey(value)) oldValues.put(value, config.get(value));
+            if (forceOverwrittenValues.containsKey(value.getSubSection())) {
+                oldValues.put(value, forceOverwrittenValues.get(value.getSubSection()));
+            } else {
+                if (!value.isDeprecated() && config.hasStorageKey(value)) oldValues.put(value, config.get(value));
+            }
         }
 
         // overwrite files
@@ -48,6 +53,10 @@ public abstract class SimpleMigration {
                         String subSection = key.getSubSection();
                         if (line.contains(" " + subSection + ": ")) {
                             String[] lineElements = line.split(subSection);
+
+                            if (forceOverwrittenValues.containsKey(subSection)) {
+                                value = forceOverwrittenValues.get(subSection);
+                            }
 
                             // actual line
                             if (value instanceof String) {

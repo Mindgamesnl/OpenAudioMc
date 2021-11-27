@@ -6,9 +6,11 @@ import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.bungee.modules.commands.BungeeCommandModule;
 import com.craftmend.openaudiomc.bungee.modules.configuration.BungeeConfiguration;
 import com.craftmend.openaudiomc.bungee.modules.dependency.BungeeDependencyService;
-import com.craftmend.openaudiomc.bungee.modules.node.NodeManager;
-import com.craftmend.openaudiomc.bungee.modules.player.PlayerManager;
+import com.craftmend.openaudiomc.bungee.modules.platform.BungeeUserHooks;
+import com.craftmend.openaudiomc.bungee.modules.player.listeners.PlayerConnectionListener;
 import com.craftmend.openaudiomc.bungee.modules.scheduling.BungeeTaskService;
+import com.craftmend.openaudiomc.generic.proxy.ProxyHostService;
+import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
@@ -17,8 +19,9 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
-import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
+import com.craftmend.openaudiomc.spigot.modules.proxy.enums.OAClientMode;
 import com.craftmend.openaudiomc.bungee.modules.punishments.LitebansIntegration;
+import com.craftmend.openaudiomc.generic.proxy.messages.implementations.BungeeCordPacketManager;
 import lombok.Getter;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ListenerInfo;
@@ -45,21 +48,22 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
 
     @Getter private static OpenAudioMcBungee instance;
     private final Instant boot = Instant.now();
+    @Getter private BungeeCordPacketManager messageHandler;
 
     @Override
     public void onEnable() {
         instance = this;
+        getProxy().getPluginManager().registerListener(this, new PlayerConnectionListener());
 
         // setup core
         try {
             OpenAudioMc openAudioMc = new OpenAudioMc(this);
             openAudioMc.getServiceManager().registerDependency(OpenAudioMcBungee.class, this);
+            this.messageHandler = new BungeeCordPacketManager(this, "openaudiomc:node");
 
             openAudioMc.getServiceManager().loadServices(
                     BungeeDependencyService.class,
-                    PlayerManager.class,
-                    BungeeCommandModule.class,
-                    NodeManager.class
+                    BungeeCommandModule.class
             );
 
             openAudioMc.getServiceManager().getService(BungeeDependencyService.class)
@@ -71,6 +75,7 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
             // timing end and calc
             Instant finish = Instant.now();
             OpenAudioLogger.toConsole("Starting and loading took " + Duration.between(boot, finish).toMillis() + "MS");
+            OpenAudioMc.getInstance().postBoot();
         } catch (Exception e) {
             OpenAudioLogger.handleException(e);
             e.printStackTrace();
@@ -107,7 +112,7 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
             return forced;
         }
 
-        return ClientMode.STAND_ALONE.getServiceClass();
+        return OAClientMode.STAND_ALONE.getServiceClass();
     }
 
     @Override
@@ -139,6 +144,11 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
             return listener.getHost().getPort();
         }
         return -1;
+    }
+
+    @Override
+    public UserHooks getUserHooks() {
+        return new BungeeUserHooks();
     }
 
 }

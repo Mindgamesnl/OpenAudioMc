@@ -13,17 +13,17 @@ import com.craftmend.openaudiomc.generic.networking.client.enums.RtcStateFlag;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientSubscribeToVoice;
+import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
+import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.services.world.Vector3;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceSubscribePayload;
 import com.craftmend.openaudiomc.generic.node.packets.ForceMuteMicrophonePacket;
 import com.craftmend.openaudiomc.generic.platform.Platform;
-import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.generic.voicechat.bus.VoiceApiConnection;
-import com.craftmend.openaudiomc.spigot.modules.players.PlayerService;
+import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.enums.PlayerLocationFollower;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
-import com.craftmend.openaudiomc.spigot.modules.proxy.service.ProxyNetworkingService;
 import lombok.Getter;
 import org.bukkit.Location;
 
@@ -103,9 +103,8 @@ public class ClientRtcManager implements Serializable {
         // platform dependant
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
             // forward to proxy
-            ProxyNetworkingService proxyNetworkingService = (ProxyNetworkingService) OpenAudioMc.getService(NetworkingService.class);
-            SpigotPlayerAdapter spigotPlayerAdapter = (SpigotPlayerAdapter) clientConnection.getPlayer();
-            proxyNetworkingService.sendToProxy(spigotPlayerAdapter.getPlayer(), new ForceMuteMicrophonePacket(clientConnection.getOwnerUUID(), allow));
+            User user = clientConnection.getUser();
+            OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(user, new ForceMuteMicrophonePacket(clientConnection.getOwnerUUID(), allow));
             return;
         }
         VoiceApiConnection voiceService = OpenAudioMc.getService(CraftmendService.class).getVoiceApiConnection();
@@ -157,7 +156,7 @@ public class ClientRtcManager implements Serializable {
 
     public void updateLocationWatcher() {
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
-            SpigotConnection spigotConnection = OpenAudioMc.getService(PlayerService.class).getClient(clientConnection.getOwnerUUID());
+            SpigotConnection spigotConnection = OpenAudioMc.getService(SpigotPlayerService.class).getClient(clientConnection.getOwnerUUID());
             if (subscriptions.isEmpty()) {
                 spigotConnection.getLocationFollowers().remove(PlayerLocationFollower.PROXIMITY_VOICE_CHAT);
             } else {

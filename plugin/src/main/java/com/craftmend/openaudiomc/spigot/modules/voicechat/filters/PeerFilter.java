@@ -2,9 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.voicechat.filters;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
-import com.craftmend.openaudiomc.generic.player.SpigotPlayerAdapter;
 import com.craftmend.openaudiomc.generic.utils.data.Filter;
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import lombok.NoArgsConstructor;
 import org.bukkit.entity.Player;
 
@@ -46,7 +44,7 @@ public class PeerFilter extends Filter<ClientConnection, Player> {
                     if (!possiblePeer.getClientRtcManager().isReady()) return false;
 
                     // get the player, we know that it's safe to do so
-                    Player otherPlayer = ((SpigotPlayerAdapter) possiblePeer.getPlayer()).getPlayer();
+                    Player otherPlayer = (Player) possiblePeer.getUser().getOriginal();
 
                     // first of all, block the player if they are actually me (dork)
                     if (otherPlayer.getName().equals(context.getName())) return false;

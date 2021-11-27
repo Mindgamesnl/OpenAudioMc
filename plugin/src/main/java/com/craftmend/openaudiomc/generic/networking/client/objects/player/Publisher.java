@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.generic.networking.client.objects.player;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
+import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
@@ -10,7 +11,7 @@ import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.networking.rest.Task;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.proxy.enums.ClientMode;
+import com.craftmend.openaudiomc.spigot.modules.proxy.enums.OAClientMode;
 import lombok.AllArgsConstructor;
 
 import static com.craftmend.openaudiomc.generic.platform.Platform.translateColors;
@@ -25,16 +26,16 @@ public class Publisher {
         Configuration config = openAudioMc.getConfiguration();
 
         // cancel if the player is via proxy because the proxy should handle it
-        if (openAudioMc.getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == ClientMode.NODE)
+        if (openAudioMc.getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == OAClientMode.NODE)
             return;
 
         if (!config.getBoolean(StorageKey.LEGAL_ACCEPTED_TOS_AND_PRIVACY)) {
-            new CatchLegalBindingMiddleware().continueCommand(clientConnection.getPlayer().asExecutor(), null);
+            new CatchLegalBindingMiddleware().continueCommand(clientConnection.getUser(), null);
             return;
         }
 
         if (clientConnection.isConnected()) {
-            clientConnection.getPlayer().sendMessage(translateColors(
+            clientConnection.getUser().sendMessage(translateColors(
                     StorageKey.MESSAGE_CLIENT_ALREADY_CONNECTED.getString()
             ));
             return;
@@ -42,39 +43,16 @@ public class Publisher {
 
         OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> OpenAudioMc.getService(NetworkingService.class).connectIfDown());
 
-        // is it a forced session? we don't need to generate a token if thats the case since
-        // it falls back to the base64 pointer
-        if (clientConnection.getSession().isForced()) {
-            switch (openAudioMc.getPlatform()){
-                case SPIGOT:
-                case BUNGEE:
-                    SpigotHelper.connectMsg(openAudioMc, clientConnection, clientConnection.getSession().getStaticToken(), true);
-                    break;
-                case VELOCITY:
-                    VelocityHelper.connectMsg(openAudioMc, clientConnection, clientConnection.getSession().getStaticToken(), true);
-            }
-
-            clientConnection.setWaitingToken(true);
-            return;
-        }
-
         // sending waiting message
-        clientConnection.getPlayer().sendMessage(translateColors(StorageKey.MESSAGE_GENERATING_SESSION.getString()));
+        clientConnection.getUser().sendMessage(translateColors(StorageKey.MESSAGE_GENERATING_SESSION.getString()));
 
         Task<String> sessionRequest = OpenAudioMc.getService(AuthenticationService.class).getDriver().createPlayerSession(clientConnection);
-        sessionRequest.setWhenFails((restErrorType, fuckyou) -> clientConnection.getPlayer().sendMessage(translateColors(StorageKey.MESSAGE_SESSION_ERROR.getString())));
-        sessionRequest.setWhenSuccessful(token -> {
+        sessionRequest.setWhenFailed((restErrorType, fuckyou) -> clientConnection.getUser().sendMessage(translateColors(StorageKey.MESSAGE_SESSION_ERROR.getString())));
 
-            switch (openAudioMc.getPlatform()){
-                case SPIGOT:
-                case BUNGEE:
-                case STANDALONE:
-                    SpigotHelper.connectMsg(openAudioMc, clientConnection, token, false);
-                    break;
-                case VELOCITY:
-                    VelocityHelper.connectMsg(openAudioMc, clientConnection, token, false);
-            }
-
+        sessionRequest.setWhenFinished(token -> {
+            String url = OpenAudioMc.getService(CraftmendService.class).getBaseUrl() + "#" + token;
+            String msgText = translateColors(StorageKey.MESSAGE_CLICK_TO_CONNECT.getString().replace("{url}", url));
+            clientConnection.getUser().sendClickableUrlMessage(msgText, StorageKey.MESSAGE_HOVER_TO_CONNECT.getString(), url);
             clientConnection.setWaitingToken(true);
         });
     }

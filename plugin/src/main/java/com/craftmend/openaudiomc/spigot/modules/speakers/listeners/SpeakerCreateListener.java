@@ -1,12 +1,11 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.listeners;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
-import com.craftmend.openaudiomc.spigot.modules.players.PlayerService;
+import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
@@ -40,7 +39,7 @@ public class SpeakerCreateListener implements Listener {
                 return;
             }
 
-            SpigotConnection spigotConnection = OpenAudioMc.getService(PlayerService.class).getClient(event.getPlayer());
+            SpigotConnection spigotConnection = OpenAudioMc.getService(SpigotPlayerService.class).getClient(event.getPlayer());
             if (spigotConnection.getSelectedSpeakerSettings() == null) {
                 event.getPlayer().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "You cant place OpenAudioMc speakers without using the command first. I dont know what sound you would like to add.");
                 event.setCancelled(true);

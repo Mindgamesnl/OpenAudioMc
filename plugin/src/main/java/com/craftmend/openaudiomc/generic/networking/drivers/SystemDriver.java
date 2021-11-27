@@ -31,7 +31,7 @@ public class SystemDriver implements SocketDriver {
             String message = Platform.translateColors(OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.MESSAGE_LINK_EXPIRED));
             for (ClientConnection client : OpenAudioMc.getService(NetworkingService.class).getClients()) {
                 if (client.isWaitingToken()) {
-                    client.getPlayer().sendMessage(message);
+                    client.getUser().sendMessage(message);
                     client.setWaitingToken(false);
                 }
                 if (client.isConnected()) {

@@ -20,15 +20,15 @@ class TokenFactory {
     PlayerSession build(ClientConnection client) {
         String key = UUID.randomUUID().toString().subSequence(0, 3).toString();
 
-        String staticToken = client.getPlayer().getName() +
+        String staticToken = client.getUser().getName() +
                 ":" +
-                client.getPlayer().getUniqueId().toString() +
+                client.getUser().getUniqueId().toString() +
                 ":" +
                 OpenAudioMc.getService(AuthenticationService.class).getServerKeySet().getPublicKey().getValue() +
                 ":" +
                 key;
 
-        return new PlayerSession(false, client, key, new String(Base64.getEncoder().encode(staticToken.getBytes())));
+        return new PlayerSession(client, key, new String(Base64.getEncoder().encode(staticToken.getBytes())));
     }
 
 }

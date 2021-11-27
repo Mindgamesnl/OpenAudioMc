@@ -1,12 +1,11 @@
 package com.craftmend.openaudiomc.generic.enviroment;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
+import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.networking.client.interfaces.PlayerContainer;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.platform.Platform;
@@ -52,7 +51,7 @@ public class GlobalConstantService extends Service {
         return notifyAnnouncements || notifyUpdates;
     }
 
-    public void sendNotifications(PlayerContainer player) {
+    public void sendNotifications(User player) {
         if (!player.isAdministrator()) return;
         if (!allowChecks()) return;
         scheduleStatusUpdate();

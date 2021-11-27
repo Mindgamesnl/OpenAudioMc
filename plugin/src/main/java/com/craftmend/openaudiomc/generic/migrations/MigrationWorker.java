@@ -3,10 +3,14 @@ package com.craftmend.openaudiomc.generic.migrations;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.migrations.interfaces.SimpleMigration;
 import com.craftmend.openaudiomc.generic.migrations.migrations.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class MigrationWorker {
+
+    @Getter private int migrationsFinished = 0;
+    @Getter private int migrationsSkipped = 0;
 
     public void handleMigrations() {
         final SimpleMigration[] migrations = new SimpleMigration[] {
@@ -28,19 +32,20 @@ public class MigrationWorker {
                 new VoicechatHotkeyConfigMigration(),   // adds the config option to disable mute/unmute hokeys
                 new VoicechatChatMessageLocation(),     // new setting for message location
                 new AddVoiceTracingMigration(),         // add voicechat raytracing toggle
+                new AddAutoClaimMigration(),            // add a config value to configure automatic claiming hooks
         };
 
-        int skipped = 0;
         for (SimpleMigration migration : migrations) {
-            if (migration.shouldBeRun()) {
+            if (migration.shouldBeRun(this)) {
                 OpenAudioLogger.toConsole("Migration Service: Running migration " + migration.getClass().getSimpleName());
-                migration.execute();
+                migration.execute(this);
                 OpenAudioLogger.toConsole("Migration Service: Finished migrating " + migration.getClass().getSimpleName());
+                migrationsFinished++;
             } else {
-                skipped++;
+                migrationsSkipped++;
             }
         }
-        OpenAudioLogger.toConsole("Skipped " + skipped + "/" + migrations.length + " migrations.");
+        OpenAudioLogger.toConsole("Skipped " + migrationsSkipped + "/" + migrations.length + " migrations.");
     }
 
 }

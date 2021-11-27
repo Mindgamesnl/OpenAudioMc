@@ -1,8 +1,12 @@
 Changelog since release:
- - Fixed webrtc
- - You can now transfer addons
- - Added aliases in the registry api
- - Fixed voice issues
- - Added admin notifications
- - Automatic client checks
- - 
+ - Rewrite proxy platforms
+ - Rewrite command handlers
+ - Make all Player/Console interactions generic
+ - Implement "User" and rewrite player handlers (to this new api)
+ - Dropped the old "OpenAudioApi"
+ - The plugin now tries to automatically manage free licenses when it isn't linked to an account (can be disabled)
+ - The client now interpolates movement packets, can be disabled in the personal settings
+ - Drop broken and deprecated events
+ - Voicechat drivers now only activate with real networking services
+ - Bungeecord and Velocity now have feature parity, fixing a ton of bugs for Velocity users and making it compatible with Voice Chat
+ - Voicechat logging is less spammy

@@ -1,14 +1,15 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.command;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.adapters.SpigotCommandSenderAdapter;
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
-import com.craftmend.openaudiomc.generic.commands.interfaces.GenericExecutor;
+
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
+import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.generic.user.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
@@ -37,7 +38,7 @@ public class SpigotMainCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender originalSender, Command command, String label, String[] args) {
-        GenericExecutor sender = new SpigotCommandSenderAdapter(originalSender);
+        User sender = new SpigotUserAdapter(originalSender);
 
         if (args.length == 0) {
             sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "OpenAudioMc version " + openAudioMcSpigot.getDescription().getVersion() + ". For help, please use /openaudio help");
