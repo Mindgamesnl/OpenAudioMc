@@ -14,6 +14,7 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
+import com.craftmend.openaudiomc.generic.networking.rest.data.RestErrorResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
@@ -171,6 +172,9 @@ public class CraftmendService extends Service {
                         if (errorCode == ErrorCode.NO_RTC) {
                             new RestRequest(RestEndpoint.END_VOICE_SESSION).executeInThread();
                             OpenAudioLogger.toConsole("Failed to initialize voice chat. There aren't any servers that can handle your request. Trying again in 20 seconds.");
+                            for (RestErrorResponse error : response.getErrors()) {
+                                OpenAudioLogger.toConsole(" - " + error.getMessage());
+                            }
                             OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
                                 startVoiceHandshake(true);
                             }, 20 * 20);
