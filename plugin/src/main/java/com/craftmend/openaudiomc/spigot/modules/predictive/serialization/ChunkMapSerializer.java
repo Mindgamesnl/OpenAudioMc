@@ -19,7 +19,7 @@ public class ChunkMapSerializer {
         return explodeInto(loaded, currentMap);
     }
 
-    private SerializedAudioChunk.ChunkMap serialize(ConcurrentHeatMap<String, ConcurrentHeatMap<String, Byte>> data) {
+    public SerializedAudioChunk.ChunkMap serialize(ConcurrentHeatMap<String, ConcurrentHeatMap<String, Byte>> data) {
         SerializedAudioChunk.ChunkMap chunkMap = new SerializedAudioChunk.ChunkMap();
 
         Map<String, ConcurrentHeatMap<String, ConcurrentHeatMap<String, Byte>>.Value> map = data.getMap();

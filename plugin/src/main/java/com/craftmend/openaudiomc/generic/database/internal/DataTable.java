@@ -1,6 +1,7 @@
-package com.craftmend.openaudiomc.generic.database;
+package com.craftmend.openaudiomc.generic.database.internal;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.google.gson.reflect.TypeToken;
 import org.mapdb.DB;
 import org.mapdb.Serializer;
@@ -13,7 +14,7 @@ public class DataTable<T> {
     private ConcurrentMap<String, String> dataMap;
     private Class<? extends StoredData> type;
 
-    void onCreate(DatabaseService databaseService, DB database, Class<? extends StoredData> dataClass) {
+    public void onCreate(DatabaseService databaseService, DB database, Class<? extends StoredData> dataClass) {
         this.databaseService = databaseService;
         this.type = dataClass;
         this.dataMap = database
