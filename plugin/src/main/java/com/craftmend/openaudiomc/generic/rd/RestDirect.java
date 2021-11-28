@@ -30,6 +30,7 @@ public class RestDirect extends Service {
     @Getter private File audioDirectory;
     @Getter private String password = new RandomString(20).nextString();
     private String baseUrl = "";
+    @Getter private boolean isRunning = false;
 
     private int[] checkable_ports = new int[]{
             StorageKey.CDN_PREFERRED_PORT.getInt(),
@@ -91,6 +92,7 @@ public class RestDirect extends Service {
                         return null;
                     }
 
+                    isRunning = true;
                     return fileServer;
                 }
             } catch (IOException e) {
