@@ -1,13 +1,13 @@
 package com.craftmend.openaudiomc.spigot.modules.shortner;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
-import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
-import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.shortner.data.Alias;
 import com.craftmend.openaudiomc.spigot.modules.shortner.middleware.AliasMiddleware;
 import lombok.Getter;
 
@@ -19,14 +19,18 @@ public class AliasService extends Service {
     @Inject
     private OpenAudioMcSpigot spigot;
 
-    @Getter private Map<String, String> aliasMap = new HashMap<>();
+    @Inject
+    private DatabaseService databaseService;
+
+    @Getter private Map<String, Alias> aliasMap = new HashMap<>();
 
     public String translate(String name) {
-        String target = aliasMap.get(name.toLowerCase());
+        Alias target = aliasMap.get(name.toLowerCase());
         if (target == null) {
             OpenAudioLogger.toConsole("Warning! The alias '" + name + "' was used but doesn't have a source attached to it");
+            return name;
         }
-        return target;
+        return target.getTarget();
     }
 
     @Override
@@ -34,12 +38,9 @@ public class AliasService extends Service {
         OpenAudioLogger.toConsole("Loading aliases...");
         OpenAudioMc.getService(MediaService.class).registerMutation("a:", new AliasMiddleware(this));
 
-        Configuration config = OpenAudioMc.getInstance().getConfiguration();
-
         //load config
-        for (String alias : config.getStringSet("aliases", StorageLocation.DATA_FILE)) {
-            // before we actually add it, we should check if the WG region still exists, to lesser load
-            aliasMap.put(alias, config.getStringFromPath("aliases." + alias, StorageLocation.DATA_FILE));
+        for (Alias alias : databaseService.getTable(Alias.class).values()) {
+            aliasMap.put(alias.getName(), alias);
         }
 
         OpenAudioLogger.toConsole("Loaded " + aliasMap.size() + " aliases");
