@@ -1,13 +1,13 @@
 package com.craftmend.openaudiomc.velocity;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.rd.RestDirect;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
-import com.craftmend.openaudiomc.generic.proxy.ProxyHostService;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
@@ -71,6 +71,8 @@ public class OpenAudioMcVelocity implements OpenAudioInvoker {
             getServer().getEventManager().register(this, new PlayerConnectionListener());
             this.commandModule = new VelocityCommandModule(this);
             this.messageReceiver = new VelocityPacketManager(this, getServer(),"openaudiomc:node");
+
+            OpenAudioMc.getService(RestDirect.class).boot();
 
             // set state to idle, to allow connections and such
             OpenAudioMc.getService(StateService.class).setState(new IdleState("OpenAudioMc started and awaiting command"));

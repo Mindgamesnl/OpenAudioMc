@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc;
 import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
+import com.craftmend.openaudiomc.generic.rd.RestDirect;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.networking.rest.ServerEnvironment;
@@ -115,7 +116,8 @@ public class OpenAudioMc {
                 CommandService.class,           // standardized command processor regardless of platform
                 RedisService.class,             // redis hook/service implementation
                 CraftmendService.class,         // craftmend specific features, like voice chat
-                VoiceLicenseService.class      // service to interact with the voice license request api
+                VoiceLicenseService.class,      // service to interact with the voice license request api
+                RestDirect.class
         );
     }
 

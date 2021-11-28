@@ -149,6 +149,12 @@
             <artifactId>OpenAudioMc-jutils</artifactId>
             <version>1.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.nanohttpd</groupId> <!-- <groupId>com.nanohttpd</groupId> for 2.1.0 and earlier -->
+            <artifactId>nanohttpd</artifactId>
+            <version>2.2.0</version>
+        </dependency>
     </dependencies>
 
     <build>
