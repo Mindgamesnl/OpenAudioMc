@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.regions;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
@@ -53,37 +54,8 @@ public class RegionModule {
             }
         }
 
-        Configuration config = OpenAudioMc.getInstance().getConfiguration();
-
-        //load config
-        for (String region : config.getStringSet("regions", StorageLocation.DATA_FILE)) {
-            // before we actually add it, we should check if the WG region still exists, to lesser load
-            if (regionAdapter.doesRegionExist(region.toLowerCase())) {
-                String source = config.getStringFromPath("regions." + region, StorageLocation.DATA_FILE);
-
-                int volume = config.getIntFromPath("regionsvolume." + region, StorageLocation.DATA_FILE);
-                if (volume < 5) {
-                    volume = 100;
-                }
-
-                int fadeTimeMs = config.getIntFromPath("regionsfadetime." + region, StorageLocation.DATA_FILE);
-                if (fadeTimeMs == 0) {
-                    fadeTimeMs = 1000;
-                }
-
-                // is voicechat enabled? but we'll need to check if the region even has this data, since it might be considered legacy
-                boolean isVcEnabled = true;
-
-                // only check paths on modern servers, 1.8 doesn't support contains lookups
-                if (OpenAudioMc.getService(ServerService.class).getVersion() == ServerVersion.MODERN) {
-                    if (config.isPathValid("regionmeta." + region + "allow-vc", StorageLocation.DATA_FILE)) {
-                        isVcEnabled = Boolean.valueOf(config.getStringFromPath("regionmeta." + region + "allow-vc", StorageLocation.DATA_FILE));
-                    }
-                }
-
-                RegionProperties properties = new RegionProperties(source, volume, fadeTimeMs, isVcEnabled);
-                registerRegion(region, properties);
-            }
+        for (RegionProperties region : OpenAudioMc.getService(DatabaseService.class).getTable(RegionProperties.class).values()) {
+            registerRegion(region.getRegionName(), region);
         }
 
         OpenAudioMc.getService(MediaService.class).getResetTriggers().add(() -> {

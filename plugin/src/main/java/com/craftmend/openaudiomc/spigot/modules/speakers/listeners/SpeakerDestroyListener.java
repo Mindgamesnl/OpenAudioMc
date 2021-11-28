@@ -1,9 +1,8 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.listeners;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.CommandService;
+import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
-import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
@@ -39,7 +38,7 @@ public class SpeakerDestroyListener implements Listener {
             speakerService.unlistSpeaker(location);
 
             //save to config
-            openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE,"speakers." + speaker.getId().toString(), null);
+            OpenAudioMc.getService(DatabaseService.class).getTable(Speaker.class).delete(speaker.getId().toString());
 
             event.getPlayer().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.RED + "Speaker destroyed");
             try {

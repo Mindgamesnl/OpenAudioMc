@@ -2,12 +2,11 @@ package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 
+import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.user.User;
-import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
-import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.modules.regions.gui.RegionSelectionGui;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.TimedRegionProperties;
@@ -93,7 +92,6 @@ public class RegionsSubCommand extends SubCommand {
             return;
         }
 
-        Configuration config = OpenAudioMc.getInstance().getConfiguration();
         if (args[0].equalsIgnoreCase("create") && args.length == 3) {
             args[1] = args[1].toLowerCase();
 
@@ -103,8 +101,12 @@ public class RegionsSubCommand extends SubCommand {
                 return;
             }
 
-            config.setString(StorageLocation.DATA_FILE, "regions." + args[1], args[2]);
-            openAudioMcSpigot.getRegionModule().registerRegion(args[1], new RegionProperties(args[2], 100, 1000, true));
+            RegionProperties rp = new RegionProperties(args[2], 100, 1000, true, args[1]);
+            OpenAudioMc.getService(DatabaseService.class).getTable(RegionProperties.class)
+                    .save(rp.getRegionName(), rp);
+
+            openAudioMcSpigot.getRegionModule().registerRegion(rp.getRegionName(), rp);
+
             message(sender, ChatColor.GREEN + "The WorldGuard region with the id " + args[1] + " now has the sound " + args[2]);
             openAudioMcSpigot.getRegionModule().forceUpdateRegions();
             return;
@@ -112,11 +114,12 @@ public class RegionsSubCommand extends SubCommand {
 
         if (args[0].equalsIgnoreCase("delete") && args.length == 2) {
             String targetRegion = args[1].toLowerCase();
-            config.setString(StorageLocation.DATA_FILE, "regions." + targetRegion, null);
 
             // check if it was valid in the first place
             RegionProperties rp = openAudioMcSpigot.getRegionModule().getRegionPropertiesMap().get(targetRegion);
             if (rp != null) {
+                OpenAudioMc.getService(DatabaseService.class).getTable(RegionProperties.class)
+                        .delete(targetRegion);
 
                 if (rp instanceof TimedRegionProperties) {
                     ((TimedRegionProperties) rp).destroy();
