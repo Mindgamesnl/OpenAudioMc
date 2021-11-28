@@ -1,10 +1,14 @@
 package com.craftmend.openaudiomc.generic.proxy;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
+import com.craftmend.openaudiomc.generic.proxy.messages.PacketPlayer;
 import com.craftmend.openaudiomc.generic.proxy.messages.StandardPacket;
 import com.craftmend.openaudiomc.generic.proxy.models.ProxyNode;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.user.adapters.SpigotUserAdapter;
+import com.craftmend.openaudiomc.spigot.modules.proxy.service.ProxyNetworkingService;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -32,6 +36,13 @@ public class SpigotUserHooks implements UserHooks {
     @Override
     public void sendPacket(User user, StandardPacket packet) {
         // do nothing
+        NetworkingService ns = OpenAudioMc.getService(NetworkingService.class);
+        if (ns instanceof ProxyNetworkingService) {
+            ((ProxyNetworkingService) ns).getPacketManager().sendPacket(new PacketPlayer(
+                    (Player) user.getOriginal()),
+                    packet
+            );
+        }
     }
 
     @Override

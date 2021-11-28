@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.generic.commands.CommandService;
 
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
+import com.craftmend.openaudiomc.generic.platform.OaColor;
 import com.craftmend.openaudiomc.generic.user.User;
 import lombok.SneakyThrows;
 
@@ -55,7 +56,7 @@ public class HelpSubCommand extends SubCommand {
 
     @SneakyThrows
     private void goldClickableMessage(User s, String message, String command) {
-        s.sendClickableCommandMessage(message, "Click here to run " + command, command);
+        s.sendClickableCommandMessage(OaColor.GOLD + " > " + message, "Click here to run " + command, command);
     }
 
     private void grayMessage(User s, String message) {
