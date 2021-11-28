@@ -61,5 +61,11 @@ A `Client` is an interface that exposes some API methods of the `ClientConnectio
 ### `UserHooks` *interface*
 A UserHook provider is an interface that should supply `User` instances based on the current environment state or from a query. It's generally used to get a collection of online Users, or get Users by UUID regardless of the platform. UserHooks should also adapt proxy management, and announce local nodes (if any).
 
+# Project structure
+ - `client/` contains the source code, build scripts and assets of the production web client
+ - `documentation/` contains the documentation as MD and is compiled to web sources through github pages. The web client and documentation are directly served from master.
+ - `jutils/` contains java utilities and wraps dependencies that would otherwise collide
+ - `plugin/` contains the plugin and framework source code
+
 ### Metrics
 [![Stargazers over time](https://starchart.cc/Mindgamesnl/openaudiomc.svg)](https://starchart.cc/Mindgamesnl/openaudiomc)

@@ -34,7 +34,6 @@
               <goal>shade</goal>
             </goals>
             <configuration>
-              <minimizeJar>true</minimizeJar>
               <relocations>
                 <relocation>
                   <pattern>io.</pattern>
@@ -59,6 +58,10 @@
                 <relocation>
                   <pattern>org.projectlombok</pattern>
                   <shadedPattern>com.craftmend.thirdparty.org</shadedPattern>
+                </relocation>
+                <relocation>
+                  <pattern>org.mapdb</pattern>
+                  <shadedPattern>com.craftmend.thirdparty.mapdb</shadedPattern>
                 </relocation>
                 <relocation>
                   <pattern>kotlin</pattern>
@@ -155,6 +158,10 @@
     <repository>
       <id>essentials-snapshots</id>
       <url>https://repo.essentialsx.net/snapshots/</url>
+    </repository>
+    <repository>
+      <id>sonatype-snapshots</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </repository>
   </repositories>
   <dependencies>
