@@ -9,8 +9,8 @@ import com.craftmend.openaudiomc.bungee.modules.dependency.BungeeDependencyServi
 import com.craftmend.openaudiomc.bungee.modules.platform.BungeeUserHooks;
 import com.craftmend.openaudiomc.bungee.modules.player.listeners.PlayerConnectionListener;
 import com.craftmend.openaudiomc.bungee.modules.scheduling.BungeeTaskService;
+import com.craftmend.openaudiomc.generic.rd.RestDirect;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
-import com.craftmend.openaudiomc.generic.proxy.ProxyHostService;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
@@ -71,6 +71,8 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
 
             openAudioMc.getServiceManager().getService(BungeeDependencyService.class)
                     .ifPluginEnabled("LiteBans", new LitebansIntegration());
+
+            OpenAudioMc.getService(RestDirect.class).boot();
 
             // set state to idle, to allow connections and such
             OpenAudioMc.getService(StateService.class).setState(new IdleState("OpenAudioMc started and awaiting command"));
