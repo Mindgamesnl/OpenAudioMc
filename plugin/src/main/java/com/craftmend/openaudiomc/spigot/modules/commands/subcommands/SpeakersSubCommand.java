@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 
+import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
@@ -117,17 +118,16 @@ public class SpeakersSubCommand extends SubCommand {
             UUID id = UUID.randomUUID();
             Configuration config = OpenAudioMc.getInstance().getConfiguration();
             int range = config.getInt(StorageKey.SETTINGS_SPEAKER_RANGE);
-            SpeakerService speakerService = OpenAudioMc.getService(SpeakerService.class);
-            speakerService.registerSpeaker(mappedLocation, source, id, range, SpeakerService.DEFAULT_SPEAKER_TYPE, new HashSet<>());
 
+            SpeakerService speakerService = OpenAudioMc.getService(SpeakerService.class);
+
+            // register
+            Speaker speaker = new Speaker(source, id, range, mappedLocation, SpeakerService.DEFAULT_SPEAKER_TYPE, new HashSet<>());
+            speakerService.registerSpeaker(speaker);
             // save
-            config.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".world", mappedLocation.getWorld());
-            config.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".x", mappedLocation.getX());
-            config.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".y", mappedLocation.getY());
-            config.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".z", mappedLocation.getZ());
-            config.setInt(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".radius", range);
-            config.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".media", source);
-            config.setString(StorageLocation.DATA_FILE, "speakers." + id.toString() + ".type", SpeakerType.SPEAKER_2D.toString());
+            OpenAudioMc.getService(DatabaseService.class)
+                    .getTable(Speaker.class)
+                    .save(speaker.getId().toString(), speaker);
 
             // place block
             Location location = mappedLocation.toBukkit();
@@ -171,7 +171,11 @@ public class SpeakersSubCommand extends SubCommand {
             speakerService.unlistSpeaker(mappedLocation);
 
             // remove from file
-            config.setString(StorageLocation.DATA_FILE,"speakers." + speaker.getId().toString(), null);
+            speakerService.registerSpeaker(speaker);
+            // save
+            OpenAudioMc.getService(DatabaseService.class)
+                    .getTable(Speaker.class)
+                    .delete(speaker.getId().toString());
 
             message(sender, "Removed speaker");
             mappedLocation.toBukkit().getBlock().setType(Material.AIR);

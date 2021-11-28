@@ -9,7 +9,6 @@ import com.craftmend.openaudiomc.generic.networking.rest.ServerEnvironment;
 import com.craftmend.openaudiomc.generic.platform.interfaces.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.proxy.ProxyHostService;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
-import com.craftmend.openaudiomc.generic.resources.ResourceService;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.service.ServiceManager;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
@@ -110,7 +109,6 @@ public class OpenAudioMc {
                 ProxyHostService.class,         // register handlers for proxy events
                 MediaService.class,             // processes outgoing URL's
                 TimeService.class,              // processes remote or network timecodes and translates them for the client
-                ResourceService.class,          // handles internal file storage/caching
                 StateService.class,             // handles internal state tracking/monitoring
                 AuthenticationService.class,    // handles server key sets with the OpenAudioMc backend infrastructure
                 GlobalConstantService.class,    // keeps track of remote project constants (like release versions, etc)
@@ -130,7 +128,6 @@ public class OpenAudioMc {
         isDisabled = true;
         configuration.saveAll();
 
-        serviceManager.getService(ResourceService.class).saveData();
         serviceManager.getService(DatabaseService.class).shutdown();
 
         try {

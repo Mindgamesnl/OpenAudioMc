@@ -1,10 +1,12 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.menu;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.ApplicableSpeaker;
+import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import com.craftmend.openaudiomc.spigot.services.clicklib.Item;
 import com.craftmend.openaudiomc.spigot.services.clicklib.menu.Menu;
 import org.bukkit.ChatColor;
@@ -45,7 +47,9 @@ public class SelectedSpeakerMenu extends Menu {
                 .onClick((clicker, item) -> {
                     speaker.getSpeaker().getLocation().toBukkit().getBlock().setType(Material.AIR);
                     OpenAudioMc.getService(SpeakerService.class).unlistSpeaker(speaker.getSpeaker().getLocation());
-                    OpenAudioMc.getInstance().getConfiguration().setString(StorageLocation.DATA_FILE,"speakers." + speaker.getSpeaker().getId().toString(), null);
+                    OpenAudioMc.getService(DatabaseService.class)
+                            .getTable(Speaker.class)
+                            .delete(speaker.getSpeaker().getId().toString());
                     player.closeInventory();
                 })
         );
