@@ -32,4 +32,10 @@ echo "Fuckk"
 cp ./src/main/bash/data.bin ./src/main/resources/data.bin
 echo "Exporting jar"
 # copy jar
-cp target/OpenAudioMc-* ./../docs/builds/OpenAudioMc-latest.jar
+for f in target/*.jar
+do
+  echo "Processing $f file..."
+  # Automatically fix signed dependencies
+  zip -d $f META-INF/*.RSA META-INF/*.DSA META-INF/*.SF
+  cp target/OpenAudioMc-* ./../docs/builds/OpenAudioMc-latest.jar
+done

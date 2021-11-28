@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.generic.enviroment;
 
+import java.io.File;
 import java.util.EnumMap;
 
 /**
@@ -10,6 +11,7 @@ public enum MagicValue {
 
     NOTIFY_VOICECHAT_SLOT_DEPLETION(true),
     LOCATION_TRACK_INTERVAL(2),
+    STORAGE_DIRECTORY(new File("./")),
     COMMAND_PREFIX("[OpenAudioMc - Magic]");
 
     private static EnumMap<MagicValue, Object> tempValues = new EnumMap<>(MagicValue.class);
