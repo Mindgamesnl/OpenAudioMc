@@ -94,9 +94,8 @@ public abstract class PacketManager {
         for (Method method : packetListener.getClass().getMethods()){
             Class<?>[] parameters = method.getParameterTypes();
 
-            if (parameters.length == 1 && StandardPacket.class.isAssignableFrom(parameters[0])){
-                Class<? extends StandardPacket> parameter = (Class<? extends StandardPacket>) parameters[0];
-
+            if (parameters.length == 2 && StandardPacket.class.isAssignableFrom(parameters[1])){
+                Class<? extends StandardPacket> parameter = (Class<? extends StandardPacket>) parameters[1];
                 if (!packetListeners.containsKey(parameter)){
                     packetListeners.put(parameter, new ArrayList<PacketListener>(){
                         {
