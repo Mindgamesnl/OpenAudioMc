@@ -1,12 +1,12 @@
 package com.craftmend.openaudiomc.bungee.modules.platform;
 
+import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.proxy.messages.PacketPlayer;
 import com.craftmend.openaudiomc.generic.proxy.messages.StandardPacket;
 import com.craftmend.openaudiomc.generic.proxy.models.ProxyNode;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.user.adapters.BungeeUserAdapter;
-import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -39,7 +39,7 @@ public class BungeeUserHooks implements UserHooks {
 
     @Override
     public void sendPacket(User user, StandardPacket packet) {
-        OpenAudioMcVelocity.getInstance().getMessageReceiver().sendPacket(new PacketPlayer(
+        OpenAudioMcBungee.getInstance().getMessageHandler().sendPacket(new PacketPlayer(
                 (ProxiedPlayer) user.getOriginal()
         ), packet);
     }

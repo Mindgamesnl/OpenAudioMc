@@ -5,9 +5,14 @@ import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
 import lombok.AllArgsConstructor;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
+import java.util.Objects;
 import java.util.UUID;
+
+import static com.craftmend.openaudiomc.generic.platform.Platform.translateColors;
 
 @AllArgsConstructor
 public class VelocityUserAdapter implements User {
@@ -25,13 +30,29 @@ public class VelocityUserAdapter implements User {
     }
 
     @Override
-    public void sendClickableCommandMessage(String message, String hoverMessage, String command) {
-        sender.sendMessage(Component.text(message));
+    public void sendClickableCommandMessage(String t, String hoverMessage, String command) {
+        String msgText = translateColors(t);
+        Component message = Component.text(Objects.requireNonNull(msgText));
+
+        message = message.clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/" + command));
+
+        String hoverText = translateColors(hoverMessage);
+        message = message.hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text(Objects.requireNonNull(hoverText))));
+
+        sender.sendMessage(message);
     }
 
     @Override
-    public void sendClickableUrlMessage(String message, String hoverMessage, String url) {
-        sender.sendMessage(Component.text(message));
+    public void sendClickableUrlMessage(String t, String hoverMessage, String url) {
+        String msgText = translateColors(t);
+        Component message = Component.text(Objects.requireNonNull(msgText));
+
+        message = message.clickEvent(ClickEvent.clickEvent(ClickEvent.Action.OPEN_URL, url));
+
+        String hoverText = translateColors(hoverMessage);
+        message = message.hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text(Objects.requireNonNull(hoverText))));
+
+        sender.sendMessage(message);
     }
 
     @Override

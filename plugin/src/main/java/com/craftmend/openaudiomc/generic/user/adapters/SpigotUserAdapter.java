@@ -31,8 +31,20 @@ public class SpigotUserAdapter implements User {
     }
 
     @Override
-    public void sendClickableCommandMessage(String message, String hoverMessage, String command) {
+    public void sendClickableCommandMessage(String msgText, String hoverMessage, String command) {
+        TextComponent message = new TextComponent(translateColors(Objects.requireNonNull(
+                msgText
+        )));
 
+        TextComponent[] hover = new TextComponent[]{
+                new TextComponent(translateColors(
+                        hoverMessage
+                ))
+        };
+        message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + command));
+        message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover));
+
+        sendMessage(message);
     }
 
     @Override

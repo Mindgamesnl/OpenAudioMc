@@ -3,10 +3,15 @@ package com.craftmend.openaudiomc.generic.user.adapters;
 import com.craftmend.openaudiomc.generic.user.User;
 import lombok.AllArgsConstructor;
 import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
+import java.util.Objects;
 import java.util.UUID;
+
+import static com.craftmend.openaudiomc.generic.platform.Platform.translateColors;
 
 @AllArgsConstructor
 public class BungeeUserAdapter implements User {
@@ -24,13 +29,37 @@ public class BungeeUserAdapter implements User {
     }
 
     @Override
-    public void sendClickableCommandMessage(String message, String hoverMessage, String command) {
+    public void sendClickableCommandMessage(String msgText, String hoverMessage, String command) {
+        TextComponent message = new TextComponent(translateColors(Objects.requireNonNull(
+                msgText
+        )));
 
+        TextComponent[] hover = new TextComponent[]{
+                new TextComponent(translateColors(
+                        hoverMessage
+                ))
+        };
+        message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + command));
+        message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover));
+
+        sendMessage(message);
     }
 
     @Override
-    public void sendClickableUrlMessage(String message, String hoverMessage, String url) {
+    public void sendClickableUrlMessage(String msgText, String hoverMessage, String url) {
+        TextComponent message = new TextComponent(translateColors(Objects.requireNonNull(
+                msgText
+        )));
 
+        TextComponent[] hover = new TextComponent[]{
+                new TextComponent(translateColors(
+                        hoverMessage
+                ))
+        };
+        message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
+        message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover));
+
+        sendMessage(message);
     }
 
     @Override
