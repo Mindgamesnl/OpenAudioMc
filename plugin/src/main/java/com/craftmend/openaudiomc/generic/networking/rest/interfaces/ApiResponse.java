@@ -18,6 +18,21 @@ public class ApiResponse {
 
     @Getter private List<RestErrorResponse> errors = new ArrayList<>();
     private LinkedTreeMap response;
+    private String justBody = null;
+    @Getter private boolean isJson = true;
+
+    public ApiResponse(String body) {
+        this.justBody = body;
+        isJson = false;
+    }
+
+    public String responseAsString() {
+        if (justBody != null) {
+            return justBody;
+        }
+        Gson gson = OpenAudioMc.getGson();
+        return gson.toJson(this);
+    }
 
     public <T extends AbstractRestResponse> T getResponse(Class<T> type) {
         Gson gson = OpenAudioMc.getGson();

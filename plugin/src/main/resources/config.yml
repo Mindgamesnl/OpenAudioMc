@@ -128,6 +128,12 @@ options:
   voicechat-autoclaim-on-start: true
 
 
+# CDN
+# Configuration for the Patreon CDN
+cdn:
+  preferred-bridge-port: 8050
+
+
 # REDIS
 # More explanation about redis: https://help.openaudiomc.net/redis
 redis:
