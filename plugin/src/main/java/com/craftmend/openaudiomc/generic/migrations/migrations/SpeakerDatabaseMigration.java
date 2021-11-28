@@ -1,14 +1,20 @@
-package com.craftmend.openaudiomc.spigot.modules.speakers;
+package com.craftmend.openaudiomc.generic.migrations.migrations;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.migrations.MigrationWorker;
+import com.craftmend.openaudiomc.generic.migrations.interfaces.SimpleMigration;
+import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
+import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.QueuedSpeaker;
-import lombok.AllArgsConstructor;
+import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -17,31 +23,34 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-@AllArgsConstructor
-public class SpeakerLoader {
+public class SpeakerDatabaseMigration extends SimpleMigration {
 
-    private SpeakerService speakerService;
+    @Override
+    public boolean shouldBeRun(MigrationWorker migrationWorker) {
+        if (OpenAudioMc.getInstance().getPlatform() != Platform.SPIGOT) return false;
 
-    public void loadFiles() {
         Configuration config = OpenAudioMc.getInstance().getConfiguration();
-
-        //load speakers
-        for (String id : config.getStringSet("speakers", StorageLocation.DATA_FILE)) {
-            // check if said world is loaded
-            String world = config.getStringFromPath("speakers." + id + ".world", StorageLocation.DATA_FILE);
-            World bukkitWorld = Bukkit.getWorld(world);
-            if (bukkitWorld == null) {
-                Set<QueuedSpeaker> queue = speakerService.getWaitingWorlds().getOrDefault(world, new HashSet<>());
-                queue.add(new QueuedSpeaker(world, id));
-                speakerService.getWaitingWorlds().put(world, queue);
-            } else {
-                loadFromFile(id);
-            }
-        }
-
+        return !config.getStringSet("speakers", StorageLocation.DATA_FILE).isEmpty();
     }
 
-    public void loadFromFile(String id) {
+    @Override
+    public void execute(MigrationWorker migrationWorker) {
+        OpenAudioLogger.toConsole("Migrating speakers from the data.yml");
+        Configuration config = OpenAudioMc.getInstance().getConfiguration();
+        DatabaseService service = OpenAudioMc.getService(DatabaseService.class);
+
+        for (String id : config.getStringSet("speakers", StorageLocation.DATA_FILE)) {
+            // check if said world is loaded
+            OpenAudioLogger.toConsole("Migrating speaker " + id);
+            Speaker speaker = loadFromFile(id);
+            service.getTable(Speaker.class)
+                    .save(speaker.getId().toString(), speaker);
+            config.setString(StorageLocation.DATA_FILE, "speakers." + id, null);
+            config.saveAll();
+        }
+    }
+
+    public Speaker loadFromFile(String id) {
         Configuration config = OpenAudioMc.getInstance().getConfiguration();
 
         String world = config.getStringFromPath("speakers." + id + ".world", StorageLocation.DATA_FILE);
@@ -72,17 +81,9 @@ public class SpeakerLoader {
             speakerType = SpeakerService.DEFAULT_SPEAKER_TYPE;
         }
 
-
-        if (world != null) {
-            MappedLocation mappedLocation = new MappedLocation(x, y, z, world);
-            Block blockAt = mappedLocation.getBlock();
-
-            if (blockAt != null) {
-                speakerService.registerSpeaker(mappedLocation, media, UUID.fromString(id), radius, speakerType, extraOptions);
-            } else {
-                OpenAudioLogger.toConsole("Speaker " + id + " doesn't to seem be valid anymore, so it's not getting loaded.");
-            }
-        }
+        MappedLocation mappedLocation = new MappedLocation(x, y, z, world);
+        Speaker speaker = new Speaker(media, UUID.fromString(id), radius, mappedLocation, speakerType, extraOptions);
+        return speaker;
     }
 
 }

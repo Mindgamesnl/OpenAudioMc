@@ -1,16 +1,15 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
-import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.services.world.interfaces.IRayTracer;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerSelectListener;
-import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.WorldLoadListener;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.*;
 import com.craftmend.openaudiomc.spigot.modules.speakers.tasks.SpeakerGarbageCollection;
 import com.craftmend.openaudiomc.spigot.services.world.tracing.EstimatedRayTracer;
@@ -31,7 +30,9 @@ public class SpeakerService extends Service {
     @Inject
     private OpenAudioMcSpigot openAudioMcSpigot;
 
-    @Getter private SpeakerLoader loader;
+    @Inject
+    private DatabaseService databaseService;
+
     @Getter private SpeakerCollector collector;
 
     public static final SpeakerType DEFAULT_SPEAKER_TYPE = SpeakerType.SPEAKER_2D;
@@ -49,15 +50,19 @@ public class SpeakerService extends Service {
         openAudioMcSpigot.registerEvents(
                 new SpeakerSelectListener(this),
                 new SpeakerCreateListener(openAudioMcSpigot, this),
-                new SpeakerDestroyListener(OpenAudioMc.getInstance(), this),
-                new WorldLoadListener()
+                new SpeakerDestroyListener(OpenAudioMc.getInstance(), this)
         );
 
         collector = new SpeakerCollector(this);
-        loader = new SpeakerLoader(this);
 
         initializeVersion();
-        loader.loadFiles();
+
+        OpenAudioLogger.toConsole("There are " + OpenAudioMc.getService(DatabaseService.class).getTable(Speaker.class).size() + " speakers in the new database");
+
+        // load all apeakers
+        for (Speaker speaker : databaseService.getTable(Speaker.class).values()) {
+            registerSpeaker(speaker);
+        }
 
         // setup garbage system
         new SpeakerGarbageCollection(this);
@@ -98,9 +103,9 @@ public class SpeakerService extends Service {
         }
     }
 
-    public void registerSpeaker(MappedLocation mappedLocation, String source, UUID uuid, int radius, SpeakerType type, Set<ExtraSpeakerOptions> options) {
-        Speaker speaker = new Speaker(source, uuid, radius, mappedLocation, type, options);
-        speakerMap.put(mappedLocation, speaker);
+    public Speaker registerSpeaker(Speaker speaker) {
+        speakerMap.put(speaker.getLocation(), speaker);
+        return speaker;
     }
 
     public Speaker getSpeaker(MappedLocation location) {

@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.tasks;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.storage.enums.GcStrategy;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
@@ -63,14 +64,9 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
                 OpenAudioMc openAudioMc = OpenAudioMc.getInstance();
                 for (MappedLocation garbageSpeaker : garbageSpeakers) {
                     Speaker speaker = this.speakerService.getSpeaker(garbageSpeaker);
-                    openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".type", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".radius", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".world", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".x", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".y", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".z", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".media", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString(), null);
+                    OpenAudioMc.getService(DatabaseService.class)
+                            .getTable(Speaker.class)
+                            .delete(speaker.getId().toString());
                 }
                 openAudioMc.getConfiguration().saveAll();
             }

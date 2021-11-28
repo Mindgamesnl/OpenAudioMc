@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.menu;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
@@ -65,15 +66,15 @@ public class SpeakerMenu extends Menu {
                 settingItem.setLore(new String[]{setting.getDescription()});
 
                 settingItem.onClick((clicker, what) -> {
-                    Configuration config = OpenAudioMc.getInstance().getConfiguration();
                     if (isEnabled) {
                         speaker.getExtraOptions().remove(setting);
-                        config.setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".options." + setting, "false");
                     } else {
                         speaker.getExtraOptions().add(setting);
-                        config.setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".options." + setting, "true");
                     }
-                    config.saveAll();
+
+                    OpenAudioMc.getService(DatabaseService.class)
+                            .getTable(Speaker.class)
+                            .save(speaker.getId().toString(), speaker);
                     new SpeakerMenu(speaker).openFor(clicker);
                 });
 
@@ -122,9 +123,9 @@ public class SpeakerMenu extends Menu {
             int safeRadius = speaker.getRadius() + 1;
             Collection<Entity> entities = bukkitSpeakerLocation.getWorld().getNearbyEntities(bukkitSpeakerLocation, safeRadius, safeRadius, safeRadius);
 
-            Configuration config = OpenAudioMc.getInstance().getConfiguration();
-            config.setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".type", nextSelectableMode.toString());
-            config.saveAll();
+            OpenAudioMc.getService(DatabaseService.class)
+                    .getTable(Speaker.class)
+                    .save(speaker.getId().toString(), speaker);
 
             for (Entity entity : entities) {
                 // skip non-players
@@ -160,9 +161,10 @@ public class SpeakerMenu extends Menu {
                 )
                 .onClick((player, item) -> {
                     if (distance == speaker.getRadius()) return;
-                    Configuration config = OpenAudioMc.getInstance().getConfiguration();
-                    config.setInt(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".radius", distance);
                     speaker.setRadius(distance);
+                    OpenAudioMc.getService(DatabaseService.class)
+                            .getTable(Speaker.class)
+                            .save(speaker.getId().toString(), speaker);
                     player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Updated speaker radius to " + distance);
                     new SpeakerMenu(speaker).openFor(player);
                 });

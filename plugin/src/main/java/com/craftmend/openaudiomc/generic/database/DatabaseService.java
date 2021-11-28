@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.generic.database.internal.StoredData;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.service.Service;
+import lombok.Getter;
 import org.mapdb.DB;
 import org.mapdb.thirdparty.com.craftmend.openaudiomc.jutils.JUtils;
 
@@ -15,7 +16,7 @@ import java.util.Map;
 public class DatabaseService extends Service {
 
     private Map<Class<? extends StoredData>, DataTable<? extends StoredData>> databaseMap = new HashMap<>();
-    private DB database;
+    @Getter private DB database;
 
     public DatabaseService() {
         File storageDir = MagicValue.STORAGE_DIRECTORY.get(File.class);
@@ -24,11 +25,14 @@ public class DatabaseService extends Service {
                 .fileDB(new File(storageDir, "database.db"))
                 .fileLockDisable()
                 .fileMmapEnable()
+                .checksumHeaderBypass()
+                .transactionEnable()
                 .make();
     }
 
     public void shutdown() {
         OpenAudioLogger.toConsole("Closing database");
+        database.commit();
         database.close();
         databaseMap.clear();
 
@@ -40,7 +44,7 @@ public class DatabaseService extends Service {
         }
 
         // create database
-        OpenAudioLogger.toConsole("Creating storage table for " + dataClass.getSimpleName());
+        OpenAudioLogger.toConsole("Registering storage table for " + dataClass.getSimpleName());
         DataTable<T> createdTable = new DataTable<>();
         createdTable.onCreate(this, this.database, dataClass);
         databaseMap.put(dataClass, createdTable);
