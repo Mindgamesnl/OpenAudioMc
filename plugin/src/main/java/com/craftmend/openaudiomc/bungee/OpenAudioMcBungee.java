@@ -9,6 +9,7 @@ import com.craftmend.openaudiomc.bungee.modules.dependency.BungeeDependencyServi
 import com.craftmend.openaudiomc.bungee.modules.platform.BungeeUserHooks;
 import com.craftmend.openaudiomc.bungee.modules.player.listeners.PlayerConnectionListener;
 import com.craftmend.openaudiomc.bungee.modules.scheduling.BungeeTaskService;
+import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.proxy.ProxyHostService;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.state.StateService;
@@ -53,6 +54,8 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
     @Override
     public void onEnable() {
         instance = this;
+        MagicValue.overWrite(MagicValue.STORAGE_DIRECTORY, getDataFolder());
+
         getProxy().getPluginManager().registerListener(this, new PlayerConnectionListener());
 
         // setup core

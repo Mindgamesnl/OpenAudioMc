@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.velocity;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
@@ -42,17 +43,12 @@ import java.time.Instant;
 )
 public class OpenAudioMcVelocity implements OpenAudioInvoker {
 
-    @Getter
-    private static OpenAudioMcVelocity instance;
-    @Getter
-    private final ProxyServer server;
-    @Getter
-    private final File dataDir;
+    @Getter private static OpenAudioMcVelocity instance;
+    @Getter private final ProxyServer server;
+    @Getter private final File dataDir;
     private final Instant boot = Instant.now();
-    @Getter
-    private VelocityCommandModule commandModule;
-    @Getter
-    private VelocityPacketManager messageReceiver;
+    @Getter private VelocityCommandModule commandModule;
+    @Getter private VelocityPacketManager messageReceiver;
 
     @Inject
     public OpenAudioMcVelocity(ProxyServer server, @DataDirectory Path dataDirPath) {
@@ -67,6 +63,7 @@ public class OpenAudioMcVelocity implements OpenAudioInvoker {
     @Subscribe
     public void onProxyInit(ProxyInitializeEvent e) {
         instance = this;
+        MagicValue.overWrite(MagicValue.STORAGE_DIRECTORY, this.dataDir);
 
         // setup core
         try {
