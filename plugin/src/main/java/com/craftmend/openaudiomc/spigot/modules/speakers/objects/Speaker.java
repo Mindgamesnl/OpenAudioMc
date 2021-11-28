@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.database.internal.StoredData;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
@@ -11,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class Speaker {
+public class Speaker extends StoredData {
 
     @Getter private final String source;
     @Getter private final UUID id;

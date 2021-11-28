@@ -1,8 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.configuration;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
-import com.craftmend.openaudiomc.generic.resources.ResourceService;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -17,12 +15,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldSaveEvent;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -49,27 +42,9 @@ public class SpigotConfiguration implements Configuration, Listener {
     }
 
     public void loadConfig(OpenAudioMcSpigot openAudioMcSpigot) {
-        if (OpenAudioMc.getService(ResourceService.class).getSavedRoot().isUseConfigFile()) {
-            OpenAudioLogger.toConsole("Using the main config file..");
-            openAudioMcSpigot.saveDefaultConfig();
-            mainConfig = openAudioMcSpigot.getConfig();
-        } else {
-            // load the config from the data cache
-            OpenAudioLogger.toConsole("Using config cache and waiting for data..");
-            mainConfig = YamlConfiguration.loadConfiguration(new StringReader(OpenAudioMc.getService(ResourceService.class).getSavedRoot().getLastConfigContent()));
-            // delete the existing file
-            File f = new File(OpenAudioMcSpigot.getInstance().getDataFolder(), "config.yml");
-            if (f.exists() && !f.isDirectory()) {
-                f.delete();
-            }
-            String content = "# This file isn't used, please check the config.yml from the proxy plugin.";
-            try (FileWriter myWriter = new FileWriter(f)) {
-                f.createNewFile();
-                myWriter.write(content);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        OpenAudioLogger.toConsole("Using the main config file..");
+        openAudioMcSpigot.saveDefaultConfig();
+        mainConfig = openAudioMcSpigot.getConfig();
     }
 
     @EventHandler

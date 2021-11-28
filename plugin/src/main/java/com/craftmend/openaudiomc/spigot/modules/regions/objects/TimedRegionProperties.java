@@ -13,11 +13,11 @@ public class TimedRegionProperties extends RegionProperties {
     private Media media;
 
     public TimedRegionProperties(String source, int timeInSeconds, String id) {
-        this(source, timeInSeconds, id, 100, 1000);
+        this(source, timeInSeconds, id, 100, 1000, id);
     }
 
-    public TimedRegionProperties(String source, int timeInSeconds, String id, int volume, int fadeTimeMs) {
-        super(source, volume, fadeTimeMs, true);
+    public TimedRegionProperties(String source, int timeInSeconds, String id, int volume, int fadeTimeMs, String regionName) {
+        super(source, volume, fadeTimeMs, true, regionName);
         this.id = id;
 
         this.task = Bukkit.getScheduler().scheduleAsyncDelayedTask(OpenAudioMcSpigot.getInstance(), () -> {

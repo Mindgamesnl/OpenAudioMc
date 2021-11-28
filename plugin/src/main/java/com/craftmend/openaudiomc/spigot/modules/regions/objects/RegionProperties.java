@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.regions.objects;
 
+import com.craftmend.openaudiomc.generic.database.internal.StoredData;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 
@@ -8,12 +9,13 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class RegionProperties {
+public class RegionProperties extends StoredData {
 
     private String source;
     private int volume;
     private int fadeTimeMs;
     private boolean allowsVoiceChat = true;
+    private String regionName;
 
     public void updateMedia(String regionName) {
         OpenAudioMcSpigot.getInstance().getRegionModule().removeRegionMedia(regionName, source);

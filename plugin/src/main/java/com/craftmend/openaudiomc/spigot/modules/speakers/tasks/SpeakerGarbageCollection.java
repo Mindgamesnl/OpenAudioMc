@@ -1,10 +1,10 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.tasks;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.storage.enums.GcStrategy;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
@@ -60,19 +60,12 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
 
             GcStrategy strategy = GcStrategy.valueOf(StorageKey.SETTINGS_GC_STRATEGY.getString());
             if (strategy == GcStrategy.DELETE) {
-                OpenAudioMc openAudioMc = OpenAudioMc.getInstance();
                 for (MappedLocation garbageSpeaker : garbageSpeakers) {
                     Speaker speaker = this.speakerService.getSpeaker(garbageSpeaker);
-                    openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".type", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".radius", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".world", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".x", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".y", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".z", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString() + ".media", null);
-                    openAudioMc.getConfiguration().setString(StorageLocation.DATA_FILE, "speakers." + speaker.getId().toString(), null);
+                    OpenAudioMc.getService(DatabaseService.class)
+                            .getTable(Speaker.class)
+                            .delete(speaker.getId().toString());
                 }
-                openAudioMc.getConfiguration().saveAll();
             }
         }
         garbageSpeakers.clear();
@@ -96,6 +89,13 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
 
                     // check if the chunk is loaded, if not, don't do shit lmao
                     Location bukkitLocation = mappedLocation.toBukkit();
+
+                    if (bukkitLocation == null || bukkitLocation.getWorld() == null || bukkitLocation.getChunk() == null) {
+                        OpenAudioLogger.toConsole("Can't find world " + mappedLocation.getWorld() + " so speaker " + speaker.getId() + " is being deleted");
+                        garbageSpeakers.add(mappedLocation);
+                        return;
+                    }
+
                     if (bukkitLocation.getChunk().isLoaded()) {
                         if (!SpeakerUtils.isSpeakerSkull(speaker.getLocation().getBlock())) {
                             garbageSpeakers.add(mappedLocation);
