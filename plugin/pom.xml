@@ -50,7 +50,7 @@
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
-            <version>4.7.0</version>
+            <version>4.9.3</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.google.android</groupId>
@@ -85,12 +85,6 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
-
-        <!--dependency>
-            <groupId>com.github.iKeirNez</groupId>
-            <artifactId>PluginMessageAPI-Plus-LEGACY</artifactId>
-            <version>-38c8a016a3-1</version>
-        </dependency-->
 
         <dependency>
             <groupId>net.md-5</groupId>
@@ -151,10 +145,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.mapdb</groupId>
-            <artifactId>mapdb</artifactId>
-            <version>3.0.8</version>
-            <scope>compile</scope>
+            <groupId>com.craftmend.openaudiomc</groupId>
+            <artifactId>OpenAudioMc-jutils</artifactId>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 
@@ -181,7 +174,6 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <minimizeJar>true</minimizeJar>
                             <relocations>
                                 <relocation>
                                     <pattern>io.</pattern>
@@ -206,6 +198,10 @@
                                 <relocation>
                                     <pattern>org.projectlombok</pattern>
                                     <shadedPattern>com.craftmend.thirdparty.org</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.mapdb</pattern>
+                                    <shadedPattern>com.craftmend.thirdparty.mapdb</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>kotlin</pattern>
@@ -241,7 +237,6 @@
                     <trimStackTrace>false</trimStackTrace>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>

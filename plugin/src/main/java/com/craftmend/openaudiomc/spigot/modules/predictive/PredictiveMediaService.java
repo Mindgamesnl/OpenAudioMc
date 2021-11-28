@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.predictive;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
@@ -8,26 +9,26 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.interfaces.SourceHolder;
+import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.utils.data.ConcurrentHeatMap;
 
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.predictive.serialization.ChunkMapSerializer;
 import com.craftmend.openaudiomc.spigot.modules.predictive.serialization.SerializedAudioChunk;
+import com.craftmend.openaudiomc.spigot.modules.predictive.sorage.StoredChunkMap;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 
 @NoArgsConstructor
 public class PredictiveMediaService extends Service {
+
+    @Inject
+    private DatabaseService databaseService;
+    private final String storageName = "predictive_media_cache";
 
     private final ChunkMapSerializer chunkMapSerializer = new ChunkMapSerializer();
     private int chunkAge = 60 * 60 * 10;  // chunk values are kept for 10 hours
@@ -52,27 +53,20 @@ public class PredictiveMediaService extends Service {
     }
 
     public void loadFromFile() throws IOException {
-        SerializedAudioChunk.ChunkMap filemap = OpenAudioMc.getGson().fromJson(
-                new String(Files.readAllBytes(new File(
-                        OpenAudioMcSpigot.getInstance().getDataFolder(), "cache.json"
-                ).toPath())),
-                SerializedAudioChunk.ChunkMap.class
-        );
-        chunkTracker = chunkMapSerializer.applyFromChunkMap(filemap, chunkTracker);
+        // load SerializedAudioChunk.ChunkMap.class
+        StoredChunkMap scm = databaseService.getTable(StoredChunkMap.class).get(storageName);
+        if (scm == null) {
+            scm = new StoredChunkMap(new SerializedAudioChunk.ChunkMap());
+            OpenAudioLogger.toConsole("Seeding default empty chunk map");
+        } else {
+            OpenAudioLogger.toConsole("Loaded chunk cache from storage");
+        }
+        chunkTracker = chunkMapSerializer.applyFromChunkMap(scm.getChunkMap(), chunkTracker);
     }
 
     public void onDisable() {
         // save
-        Charset charset = Charset.forName(StandardCharsets.UTF_8.name());
-        try (BufferedWriter writer = Files.newBufferedWriter(new File(
-                OpenAudioMcSpigot.getInstance().getDataFolder(), "cache.json"
-        ).toPath(), charset)) {
-            String input = chunkMapSerializer.toJson(chunkTracker);
-            writer.write(input);
-            writer.flush();
-        } catch (IOException x) {
-            System.err.format("IOException: %s%n", x);
-        }
+        databaseService.getTable(StoredChunkMap.class).save(storageName, new StoredChunkMap(chunkMapSerializer.serialize(chunkTracker)));
     }
 
     private INetworkingEvents getPacketHook() {
