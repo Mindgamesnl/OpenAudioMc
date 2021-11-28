@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
-public class DataTable<T> {
+public class Repository<T> {
 
     private DatabaseService databaseService;
     private ConcurrentMap<String, String> dataMap;

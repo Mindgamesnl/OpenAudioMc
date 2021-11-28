@@ -17,6 +17,7 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.WorkerState;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 
+import com.craftmend.openaudiomc.generic.cdn.CdnService;
 import com.craftmend.openaudiomc.spigot.modules.commands.SpigotCommandService;
 import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfiguration;
 import com.craftmend.openaudiomc.spigot.modules.predictive.PredictiveMediaService;

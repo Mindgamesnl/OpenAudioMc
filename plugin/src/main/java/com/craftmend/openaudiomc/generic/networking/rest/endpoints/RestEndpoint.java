@@ -10,6 +10,7 @@ public enum RestEndpoint {
     GET_HOST_DETAILS("https://cloud.openaudiomc.net/api/v2/ip", false),
     CREATE_SESSION_TOKEN("https://cloud.openaudiomc.net/session", false),
     CREATE_HOST_TOKEN("https://cloud.openaudiomc.net/identity", false),
+    DIRECT_REST("https://cloud.openaudiomc.net/direct-rest", false),
 
     // external calls
     GITHUB_VERSION_CHECK("https://raw.githubusercontent.com/Mindgamesnl/OpenAudioMc/master/plugin/protocol/static-resources/project_status.json", false),
@@ -32,6 +33,9 @@ public enum RestEndpoint {
     // voice
     VOICE_EVENT_BUS_PREAUTH("/eb/check", false),
     VOICE_EVENT_BUS("/eb/ws", false),
+
+    // cdn
+    CDN_CHECK("/api/validate", false),
 
     TEST_ENDPOINT_GOOGLE("https://google.com/", false),
     ;

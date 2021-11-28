@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import lombok.Getter;
+import lombok.Setter;
 import okhttp3.*;
 
 import java.io.IOException;
@@ -15,13 +16,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 public class RestRequest {
 
     public static final OkHttpClient client = new OkHttpClient();
     @Getter private String endpoint;
     @Getter private String body = null;
+    @Setter private boolean verbose = true;
     private final Map<String, String> variables = new HashMap<>();
+    @Setter private int timeout = -1;
 
     public RestRequest(RestEndpoint endpoint) {
         this.endpoint = endpoint.getURL();
@@ -63,11 +67,17 @@ public class RestRequest {
         try {
             String url = getUrl();
             String output = readHttp(url);
-            return OpenAudioMc.getGson().fromJson(output, ApiResponse.class);
+            if (output.startsWith("{")) {
+                return OpenAudioMc.getGson().fromJson(output, ApiResponse.class);
+            } else {
+                return new ApiResponse(output);
+            }
         } catch (Exception e) {
-            OpenAudioLogger.handleException(e);
-            OpenAudioLogger.toConsole("Net error: " + e.getMessage());
-            e.printStackTrace();
+            if (this.verbose) {
+                OpenAudioLogger.handleException(e);
+                OpenAudioLogger.toConsole("Net error: " + e.getMessage());
+                e.printStackTrace();
+            }
             ApiResponse errorResponse = new ApiResponse();
             errorResponse.getErrors().add(new RestErrorResponse(e.toString(), ErrorCode.BAD_HANDSHAKE));
             return errorResponse;
@@ -102,9 +112,19 @@ public class RestRequest {
             request = request.post(RequestBody.create(this.body, MediaType.parse("application/json")));
         }
 
-        Call call = client.newCall(request.build());
-        Response response = call.execute();
-        return Objects.requireNonNull(response.body()).string();
+        if (timeout == -1) {
+            Call call = client.newCall(request.build());
+            Response response = call.execute();
+            return Objects.requireNonNull(response.body()).string();
+        } else {
+            OkHttpClient extendedTimeoutClient = client.newBuilder()
+                    .readTimeout(this.timeout, TimeUnit.SECONDS)
+                    .connectTimeout(this.timeout, TimeUnit.SECONDS)
+                    .build();
+            Call call = extendedTimeoutClient.newCall(request.build());
+            Response response = call.execute();
+            return Objects.requireNonNull(response.body()).string();
+        }
     }
 
 }

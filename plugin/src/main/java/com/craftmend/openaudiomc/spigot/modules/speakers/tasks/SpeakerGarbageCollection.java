@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 public class SpeakerGarbageCollection extends BukkitRunnable {
 
     private final SpeakerService speakerService;
-    private final Set<MappedLocation> garbageSpeakers = new HashSet<>();
+    private final Set<Speaker> garbageSpeakers = new HashSet<Speaker>();
     private int lastFraction = 0;
     private final int FRACTION_GROUP_SIZE = 50;
     private int logInterval = -1;
@@ -53,18 +53,18 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
             }
 
             Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> {
-                for (MappedLocation garbageSpeaker : garbageSpeakers) {
+                for (Speaker garbageSpeaker : garbageSpeakers) {
                     speakerService.getSpeakerMap().remove(garbageSpeaker);
                 }
             });
 
             GcStrategy strategy = GcStrategy.valueOf(StorageKey.SETTINGS_GC_STRATEGY.getString());
             if (strategy == GcStrategy.DELETE) {
-                for (MappedLocation garbageSpeaker : garbageSpeakers) {
-                    Speaker speaker = this.speakerService.getSpeaker(garbageSpeaker);
+                for (Speaker garbageSpeaker : garbageSpeakers) {
                     OpenAudioMc.getService(DatabaseService.class)
                             .getTable(Speaker.class)
-                            .delete(speaker.getId().toString());
+                            .delete(garbageSpeaker.getId().toString());
+                    this.speakerService.getSpeakerMap().remove(garbageSpeaker.getId());
                 }
             }
         }
@@ -92,13 +92,10 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
 
                     if (bukkitLocation == null || bukkitLocation.getWorld() == null || bukkitLocation.getChunk() == null) {
                         OpenAudioLogger.toConsole("Can't find world " + mappedLocation.getWorld() + " so speaker " + speaker.getId() + " is being deleted");
-                        garbageSpeakers.add(mappedLocation);
-                        return;
-                    }
-
-                    if (bukkitLocation.getChunk().isLoaded()) {
+                        garbageSpeakers.add(speaker);
+                    } else if (bukkitLocation.getChunk().isLoaded()) {
                         if (!SpeakerUtils.isSpeakerSkull(speaker.getLocation().getBlock())) {
-                            garbageSpeakers.add(mappedLocation);
+                            garbageSpeakers.add(speaker);
                         } else {
                             speaker.setValidated(true);
                         }
