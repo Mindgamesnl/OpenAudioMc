@@ -17,7 +17,7 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.WorkerState;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 
-import com.craftmend.openaudiomc.generic.cdn.CdnService;
+import com.craftmend.openaudiomc.generic.rd.RestDirect;
 import com.craftmend.openaudiomc.spigot.modules.commands.SpigotCommandService;
 import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfiguration;
 import com.craftmend.openaudiomc.spigot.modules.predictive.PredictiveMediaService;
@@ -116,6 +116,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
             if (OpenAudioMc.getService(ProxyModule.class).getMode() == OAClientMode.NODE) {
                 OpenAudioMc.getService(StateService.class).setState(new WorkerState());
             } else {
+                OpenAudioMc.getService(RestDirect.class).boot();
                 OpenAudioMc.getService(StateService.class).setState(new IdleState("OpenAudioMc started and awaiting command"));
             }
 

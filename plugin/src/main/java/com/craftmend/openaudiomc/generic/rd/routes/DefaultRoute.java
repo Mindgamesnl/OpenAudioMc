@@ -1,9 +1,9 @@
-package com.craftmend.openaudiomc.generic.cdn.routes;
+package com.craftmend.openaudiomc.generic.rd.routes;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.cdn.CdnService;
-import com.craftmend.openaudiomc.generic.cdn.http.HttpResponse;
-import com.craftmend.openaudiomc.generic.cdn.http.Route;
+import com.craftmend.openaudiomc.generic.rd.RestDirect;
+import com.craftmend.openaudiomc.generic.rd.http.HttpResponse;
+import com.craftmend.openaudiomc.generic.rd.http.Route;
 import com.craftmend.openaudiomc.generic.service.Service;
 import fi.iki.elonen.NanoHTTPD;
 
@@ -27,7 +27,7 @@ public class DefaultRoute extends Route {
         r.put("services", services);
 
         List<String> files = new ArrayList<>();
-        for (File file : OpenAudioMc.getService(CdnService.class).getAudioDirectory().listFiles()) {
+        for (File file : OpenAudioMc.getService(RestDirect.class).getAudioDirectory().listFiles()) {
             files.add(file.getName());
         }
 

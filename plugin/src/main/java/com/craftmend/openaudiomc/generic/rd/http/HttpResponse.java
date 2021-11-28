@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.cdn.http;
+package com.craftmend.openaudiomc.generic.rd.http;
 
 import fi.iki.elonen.NanoHTTPD;
 import lombok.AllArgsConstructor;

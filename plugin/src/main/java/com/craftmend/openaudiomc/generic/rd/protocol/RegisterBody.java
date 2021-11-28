@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.cdn.protocol;
+package com.craftmend.openaudiomc.generic.rd.protocol;
 
 import lombok.AllArgsConstructor;
 

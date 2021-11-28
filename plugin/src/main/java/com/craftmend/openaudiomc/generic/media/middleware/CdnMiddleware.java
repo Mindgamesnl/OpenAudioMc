@@ -1,7 +1,6 @@
 package com.craftmend.openaudiomc.generic.media.middleware;
 
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
-import com.craftmend.openaudiomc.generic.cdn.CdnService;
 import com.craftmend.openaudiomc.generic.media.interfaces.ForcedUrlMutation;
 import lombok.AllArgsConstructor;
 

@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.cdn.ports;
+package com.craftmend.openaudiomc.generic.rd.ports;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;

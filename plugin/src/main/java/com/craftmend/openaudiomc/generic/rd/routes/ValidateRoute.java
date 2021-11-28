@@ -1,7 +1,7 @@
-package com.craftmend.openaudiomc.generic.cdn.routes;
+package com.craftmend.openaudiomc.generic.rd.routes;
 
-import com.craftmend.openaudiomc.generic.cdn.http.HttpResponse;
-import com.craftmend.openaudiomc.generic.cdn.http.Route;
+import com.craftmend.openaudiomc.generic.rd.http.HttpResponse;
+import com.craftmend.openaudiomc.generic.rd.http.Route;
 import fi.iki.elonen.NanoHTTPD;
 import lombok.AllArgsConstructor;
 

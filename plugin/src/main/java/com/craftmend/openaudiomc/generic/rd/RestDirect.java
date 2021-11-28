@@ -1,11 +1,11 @@
-package com.craftmend.openaudiomc.generic.cdn;
+package com.craftmend.openaudiomc.generic.rd;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
-import com.craftmend.openaudiomc.generic.cdn.http.FileServer;
-import com.craftmend.openaudiomc.generic.cdn.ports.PortCheckResponse;
-import com.craftmend.openaudiomc.generic.cdn.ports.PortChecker;
-import com.craftmend.openaudiomc.generic.cdn.protocol.RegisterBody;
+import com.craftmend.openaudiomc.generic.rd.http.FileServer;
+import com.craftmend.openaudiomc.generic.rd.ports.PortCheckResponse;
+import com.craftmend.openaudiomc.generic.rd.ports.PortChecker;
+import com.craftmend.openaudiomc.generic.rd.protocol.RegisterBody;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class CdnService extends Service {
+public class RestDirect extends Service {
 
     @Getter
     private AuthenticationService authenticationService;
@@ -41,11 +41,11 @@ public class CdnService extends Service {
     };
 
     @Inject
-    public CdnService(AuthenticationService authenticationService) {
-        // TODO: disable on node server
-
+    public RestDirect(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
+    }
 
+    public void boot() {
         // fix directory
         audioDirectory = new File(MagicValue.STORAGE_DIRECTORY.get(File.class), "/audio");
         if (!audioDirectory.exists()) {
