@@ -4,9 +4,11 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
+import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.modules.shortner.AliasService;
+import com.craftmend.openaudiomc.spigot.modules.shortner.data.Alias;
 import org.bukkit.*;
 
 public class AliasSubCommand extends SubCommand {
@@ -25,8 +27,12 @@ public class AliasSubCommand extends SubCommand {
         if (args.length == 2) {
             String aliasName = args[0].toLowerCase();
             String aliasSource = args[1];
-            OpenAudioMc.getService(AliasService.class).getAliasMap().put(aliasName, aliasSource);
-            OpenAudioMc.getInstance().getConfiguration().setString(StorageLocation.DATA_FILE, "aliases." + aliasName, aliasSource);
+            Alias alias = new Alias(aliasName, aliasSource);
+            OpenAudioMc.getService(AliasService.class).getAliasMap().put(aliasName, alias);
+
+            OpenAudioMc.getService(DatabaseService.class).getTable(Alias.class)
+                    .save(alias.getName(), alias);
+
             message(sender, ChatColor.GREEN + "Success! the alias " + ChatColor.YELLOW + "a:" + aliasName.toLowerCase() + ChatColor.GRAY + " will be read as " + ChatColor.YELLOW + aliasSource);
             return;
         }
