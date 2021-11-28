@@ -27,6 +27,7 @@ public class DatabaseService extends Service {
                 .fileMmapEnable()
                 .checksumHeaderBypass()
                 .transactionEnable()
+                .closeOnJvmShutdown()
                 .make();
     }
 

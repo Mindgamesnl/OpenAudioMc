@@ -67,6 +67,9 @@ public class RegionDatabaseMigration extends SimpleMigration {
                     .save(id, properties);
 
             config.setString(StorageLocation.DATA_FILE, "regions." + id, null);
+            config.setString(StorageLocation.DATA_FILE, "regionmeta." + id, null);
+            config.setString(StorageLocation.DATA_FILE, "regionsfadetime." + id, null);
+            config.setString(StorageLocation.DATA_FILE, "regionsvolume." + id, null);
         }
     }
 }

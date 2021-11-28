@@ -10,3 +10,6 @@ Changelog since release:
  - Voicechat drivers now only activate with real networking services
  - Bungeecord and Velocity now have feature parity, fixing a ton of bugs for Velocity users and making it compatible with Voice Chat
  - Voicechat logging is less spammy
+ - Implemented database
+ - Migrated speakers, regions and aliasses
+ - 
