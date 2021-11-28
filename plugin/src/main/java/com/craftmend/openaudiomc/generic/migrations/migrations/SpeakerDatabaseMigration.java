@@ -42,12 +42,27 @@ public class SpeakerDatabaseMigration extends SimpleMigration {
         for (String id : config.getStringSet("speakers", StorageLocation.DATA_FILE)) {
             // check if said world is loaded
             OpenAudioLogger.toConsole("Migrating speaker " + id);
+
+            if (id.equals("none") || !isUuid(id)) {
+                config.setString(StorageLocation.DATA_FILE, "speakers." + id, null);
+                continue;
+            }
+
             Speaker speaker = loadFromFile(id);
             service.getTable(Speaker.class)
                     .save(speaker.getId().toString(), speaker);
             config.setString(StorageLocation.DATA_FILE, "speakers." + id, null);
             config.saveAll();
         }
+    }
+
+    private boolean isUuid(String input) {
+        try {
+            UUID.fromString(input);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
     public Speaker loadFromFile(String id) {
