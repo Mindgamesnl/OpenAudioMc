@@ -15,3 +15,4 @@ Changelog since release:
  - Implement http://help.openaudiomc.net/restdirect
  - Implement local audio storage in `plugins/OpenAudioMc/audio/`
  - Implement the alias for local files (`local:` like `local:test.mp3`)
+ - Automatic backups before migrations
