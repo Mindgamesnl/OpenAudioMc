@@ -17,12 +17,14 @@ import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.utils.data.RandomString;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
+@NoArgsConstructor
 public class RestDirectService extends Service {
 
     @Getter
