@@ -6,4 +6,8 @@ public interface State {
     boolean isConnected();
     boolean canConnect();
 
+    default String asString() {
+        return getClass().getSimpleName() + ": " + getDescription();
+    }
+
 }
