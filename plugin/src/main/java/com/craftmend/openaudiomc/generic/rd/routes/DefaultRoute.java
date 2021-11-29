@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.rd.routes;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.rd.RestDirect;
+import com.craftmend.openaudiomc.generic.rd.RestDirectService;
 import com.craftmend.openaudiomc.generic.rd.http.HttpResponse;
 import com.craftmend.openaudiomc.generic.rd.http.Route;
 import com.craftmend.openaudiomc.generic.service.Service;
@@ -27,7 +27,7 @@ public class DefaultRoute extends Route {
         r.put("services", services);
 
         List<String> files = new ArrayList<>();
-        for (File file : OpenAudioMc.getService(RestDirect.class).getAudioDirectory().listFiles()) {
+        for (File file : OpenAudioMc.getService(RestDirectService.class).getAudioDirectory().listFiles()) {
             files.add(file.getName());
         }
 

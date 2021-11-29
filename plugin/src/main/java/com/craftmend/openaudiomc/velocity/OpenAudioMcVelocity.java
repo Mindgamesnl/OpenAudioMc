@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.velocity;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.rd.RestDirect;
+import com.craftmend.openaudiomc.generic.rd.RestDirectService;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
@@ -72,7 +72,7 @@ public class OpenAudioMcVelocity implements OpenAudioInvoker {
             this.commandModule = new VelocityCommandModule(this);
             this.messageReceiver = new VelocityPacketManager(this, getServer(),"openaudiomc:node");
 
-            OpenAudioMc.getService(RestDirect.class).boot();
+            OpenAudioMc.getService(RestDirectService.class).boot();
 
             // set state to idle, to allow connections and such
             OpenAudioMc.getService(StateService.class).setState(new IdleState("OpenAudioMc started and awaiting command"));

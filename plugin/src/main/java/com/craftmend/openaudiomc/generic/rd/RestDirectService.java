@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class RestDirect extends Service {
+public class RestDirectService extends Service {
 
     @Getter
     private AuthenticationService authenticationService;
@@ -42,7 +42,7 @@ public class RestDirect extends Service {
     };
 
     @Inject
-    public RestDirect(AuthenticationService authenticationService) {
+    public RestDirectService(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
 
