@@ -8,6 +8,8 @@ OpenAudioMc supports multiple file formats for your sounds, these are:
 - Direct file links (mp3, ogg, wav, etc)
 - SoundCloud
 - YouTube
+
+
 # Local Audio
 Patreon's are able to play audio files through stored in their plugins folder. File names can't include spaces, but you use subdirectories. Simply prefix your source in a command with `local:` and we'll automatically convert, optimize and upload the sources for you. Make sure that your server is compatible with [RestDirect](restdirect.md)!
 
