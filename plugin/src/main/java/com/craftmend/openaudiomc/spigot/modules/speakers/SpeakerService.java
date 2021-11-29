@@ -35,7 +35,7 @@ public class SpeakerService extends Service {
 
     @Getter private SpeakerCollector collector;
 
-    public static final SpeakerType DEFAULT_SPEAKER_TYPE = SpeakerType.SPEAKER_2D;
+    public static final SpeakerType DEFAULT_SPEAKER_TYPE = SpeakerType.SPEAKER_3D;
     @Getter private Map<MappedLocation, Speaker> speakerMap = new HashMap<>();
     private Map<String, SpeakerMedia> speakerMediaMap = new HashMap<>();
     @Getter private Material playerSkullItem;

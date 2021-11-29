@@ -40,11 +40,12 @@ import com.craftmend.openaudiomc.spigot.modules.proxy.enums.OAClientMode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 
-public class ClientConnection implements Authenticatable, Client {
+public class ClientConnection implements Authenticatable, Client, Serializable {
 
     // ongoing sounds
     @Getter private final List<Media> ongoingMedia = new ArrayList<>();
@@ -53,7 +54,7 @@ public class ClientConnection implements Authenticatable, Client {
     @Getter @Setter private int apiSpeakers = 0;
 
     // session info
-    private final Publisher sessionPublisher;
+    private transient final Publisher sessionPublisher;
     @Getter private int volume = -1;
     private boolean isConnected = false;
     @Setter @Getter private PlayerSession session;
@@ -66,12 +67,12 @@ public class ClientConnection implements Authenticatable, Client {
     @Getter @Setter private boolean isConnectedToRtc = false;
 
     // player implementation
-    @Getter private final User user;
+    @Getter private transient final User user;
     private Instant lastConnectPrompt = Instant.now();
 
     // on connect and disconnect handlers
-    private final List<Runnable> connectHandlers = new ArrayList<>();
-    private final List<Runnable> disconnectHandlers = new ArrayList<>();
+    private transient final List<Runnable> connectHandlers = new ArrayList<>();
+    private transient final List<Runnable> disconnectHandlers = new ArrayList<>();
 
     public ClientConnection(User playerContainer) {
         this(playerContainer, null);
