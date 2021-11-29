@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.rd.http;
 
-import com.craftmend.openaudiomc.generic.rd.RestDirect;
+import com.craftmend.openaudiomc.generic.rd.RestDirectService;
 import com.craftmend.openaudiomc.generic.rd.routes.AudioFileRoute;
 import com.craftmend.openaudiomc.generic.rd.routes.DefaultRoute;
 import com.craftmend.openaudiomc.generic.rd.routes.ValidateRoute;
@@ -19,7 +19,7 @@ public class FileServer extends NanoHTTPD {
     private String verificationString;
     private int port;
 
-    public FileServer(int port, String verificationString, RestDirect restDirect) throws IOException {
+    public FileServer(int port, String verificationString, RestDirectService restDirectService) throws IOException {
         super(port);
         this.port = port;
         this.verificationString = verificationString;
@@ -29,7 +29,7 @@ public class FileServer extends NanoHTTPD {
 
         // register routes
         routes.put("/api/validate", new ValidateRoute(verificationString));
-        routes.put("/api/audio", new AudioFileRoute(restDirect));
+        routes.put("/api/audio", new AudioFileRoute(restDirectService));
     }
 
     @Override
