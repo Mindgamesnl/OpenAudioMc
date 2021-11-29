@@ -22,9 +22,8 @@ public class AudioFileRoute extends Route {
 
     @Override
     public HttpResponse onRequest(NanoHTTPD.IHTTPSession session) {
-
         if (session.getParms() == null) {
-            return HttpResponse.text("Bad request");
+            return HttpResponse.text("Bad request", NanoHTTPD.Response.Status.BAD_REQUEST);
         }
 
         String fileName = session.getParms().get("filename");

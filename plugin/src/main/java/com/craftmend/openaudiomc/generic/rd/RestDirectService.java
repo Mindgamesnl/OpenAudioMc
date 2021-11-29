@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.generic.rd;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
-import com.craftmend.openaudiomc.generic.rd.http.FileServer;
+import com.craftmend.openaudiomc.generic.rd.http.RestDirectServer;
 import com.craftmend.openaudiomc.generic.rd.ports.PortCheckResponse;
 import com.craftmend.openaudiomc.generic.rd.ports.PortChecker;
 import com.craftmend.openaudiomc.generic.rd.protocol.RegisterBody;
@@ -56,7 +56,7 @@ public class RestDirectService extends Service {
         attemptServerBoot();
     }
 
-    public FileServer attemptServerBoot() {
+    public RestDirectServer attemptServerBoot() {
         String ip = authenticationService.getDriver().getHost().getIpAddress();
         if (OpenAudioMc.SERVER_ENVIRONMENT == ServerEnvironment.DEVELOPMENT) {
             ip = "localhost";
@@ -67,7 +67,7 @@ public class RestDirectService extends Service {
             String verificationString = UUID.randomUUID().toString();
             try {
                 OpenAudioLogger.toConsole("Attempting to start a cdn injector at port " + port);
-                FileServer fileServer = new FileServer(port, verificationString, this);
+                RestDirectServer restDirectServer = new RestDirectServer(port, verificationString, this);
                 // it booted! wow, that's, surprising actually
                 // now verify it
                 PortChecker portChecker = new PortChecker(ip, port);
@@ -87,13 +87,13 @@ public class RestDirectService extends Service {
                             .executeInThread();
 
                     if (!request.getErrors().isEmpty()) {
-                        fileServer.stop();
+                        restDirectServer.stop();
                         OpenAudioLogger.toConsole("The direct rest registration failed");
                         return null;
                     }
 
                     isRunning = true;
-                    return fileServer;
+                    return restDirectServer;
                 }
             } catch (IOException e) {
                 // next attempt

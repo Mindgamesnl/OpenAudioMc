@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.generic.rd.http;
 import com.craftmend.openaudiomc.generic.rd.RestDirectService;
 import com.craftmend.openaudiomc.generic.rd.routes.AudioFileRoute;
 import com.craftmend.openaudiomc.generic.rd.routes.DefaultRoute;
+import com.craftmend.openaudiomc.generic.rd.routes.StateRoute;
 import com.craftmend.openaudiomc.generic.rd.routes.ValidateRoute;
 import fi.iki.elonen.NanoHTTPD;
 
@@ -12,14 +13,14 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class FileServer extends NanoHTTPD {
+public class RestDirectServer extends NanoHTTPD {
 
     private Map<String, Route> routes = new HashMap<>();
 
     private String verificationString;
     private int port;
 
-    public FileServer(int port, String verificationString, RestDirectService restDirectService) throws IOException {
+    public RestDirectServer(int port, String verificationString, RestDirectService restDirectService) throws IOException {
         super(port);
         this.port = port;
         this.verificationString = verificationString;
@@ -30,6 +31,7 @@ public class FileServer extends NanoHTTPD {
         // register routes
         routes.put("/api/validate", new ValidateRoute(verificationString));
         routes.put("/api/audio", new AudioFileRoute(restDirectService));
+        routes.put("/api/state", new StateRoute(restDirectService));
     }
 
     @Override
