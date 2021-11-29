@@ -23,13 +23,14 @@ import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class RestDirect extends Service {
+public class RestDirectService extends Service {
 
     @Getter
     private AuthenticationService authenticationService;
     @Getter private File audioDirectory;
     @Getter private String password = new RandomString(20).nextString();
     private String baseUrl = "";
+    @Getter private boolean isRunning = false;
 
     private int[] checkable_ports = new int[]{
             StorageKey.CDN_PREFERRED_PORT.getInt(),
@@ -41,7 +42,7 @@ public class RestDirect extends Service {
     };
 
     @Inject
-    public RestDirect(AuthenticationService authenticationService) {
+    public RestDirectService(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
 
@@ -91,6 +92,7 @@ public class RestDirect extends Service {
                         return null;
                     }
 
+                    isRunning = true;
                     return fileServer;
                 }
             } catch (IOException e) {
