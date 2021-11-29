@@ -25,8 +25,6 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
     private final Set<Speaker> garbageSpeakers = new HashSet<Speaker>();
     private int lastFraction = 0;
     private final int FRACTION_GROUP_SIZE = 50;
-    private int logInterval = -1;
-    private int toReport = 0;
     private boolean forceRun = false;
 
     public SpeakerGarbageCollection(SpeakerService speakerService) {
@@ -42,33 +40,6 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
     @Override
     public void run() {
         int maxFractions = forceRun ? 999999999 : roundUp(this.speakerService.getSpeakerMap().values().size(), FRACTION_GROUP_SIZE);
-        if (!garbageSpeakers.isEmpty()) {
-
-            toReport += garbageSpeakers.size();
-            logInterval++;
-            if (logInterval > 20 && toReport > 0) {
-                OpenAudioLogger.toConsole("Found " + toReport + " corrupted speakers with the garbage collector. Removing them from the cache until the server restarts (pass " + lastFraction + " out of " + maxFractions + "))");
-                toReport = 0;
-                logInterval = 0;
-            }
-
-            Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> {
-                for (Speaker garbageSpeaker : garbageSpeakers) {
-                    speakerService.getSpeakerMap().remove(garbageSpeaker);
-                }
-            });
-
-            GcStrategy strategy = GcStrategy.valueOf(StorageKey.SETTINGS_GC_STRATEGY.getString());
-            if (strategy == GcStrategy.DELETE) {
-                for (Speaker garbageSpeaker : garbageSpeakers) {
-                    OpenAudioMc.getService(DatabaseService.class)
-                            .getTable(Speaker.class)
-                            .delete(garbageSpeaker.getId().toString());
-                    this.speakerService.getSpeakerMap().remove(garbageSpeaker.getId());
-                }
-            }
-        }
-        garbageSpeakers.clear();
 
         // fraction logic to break computing into smaller parts
         int fractionStart = lastFraction * FRACTION_GROUP_SIZE;
@@ -101,6 +72,27 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
                         }
                     }
                 });
+
+        if (!garbageSpeakers.isEmpty()) {
+            Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> {
+                for (Speaker garbageSpeaker : garbageSpeakers) {
+                    speakerService.getSpeakerMap().remove(garbageSpeaker);
+                }
+            });
+
+            GcStrategy strategy = GcStrategy.valueOf(StorageKey.SETTINGS_GC_STRATEGY.getString());
+            if (strategy == GcStrategy.DELETE) {
+                for (Speaker garbageSpeaker : garbageSpeakers) {
+                    OpenAudioMc.getService(DatabaseService.class)
+                            .getTable(Speaker.class)
+                            .delete(garbageSpeaker.getId().toString());
+                    this.speakerService.getSpeakerMap().remove(garbageSpeaker.getLocation());
+                }
+            }
+
+            OpenAudioLogger.toConsole("Found " + garbageSpeakers.size() + " corrupted speakers with the garbage collector.");
+        }
+        garbageSpeakers.clear();
     }
 
     private Stream<Speaker> possiblyFilterLimits(int size, Stream<Speaker> stream) {
