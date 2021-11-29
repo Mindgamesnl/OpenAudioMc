@@ -12,4 +12,6 @@ Changelog since release:
  - Voicechat logging is less spammy
  - Implemented database
  - Migrated speakers, regions and aliasses
- - 
+ - Implement http://help.openaudiomc.net/restdirect
+ - Implement local audio storage in `plugins/OpenAudioMc/audio/`
+ - Implement the alias for local files (`local:` like `local:test.mp3`)

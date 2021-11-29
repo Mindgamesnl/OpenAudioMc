@@ -34,6 +34,7 @@ public class StateService extends Service {
         registerDetail(new ServerEnvironmentDetail());
         registerDetail(new VoiceDetail());
         registerDetail(new BuildDetail());
+        registerDetail(new RestDirectDetail());
 
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
             // minecraft specific shit

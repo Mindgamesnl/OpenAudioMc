@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.rd.routes;
 
-import com.craftmend.openaudiomc.generic.rd.RestDirect;
+import com.craftmend.openaudiomc.generic.rd.RestDirectService;
 import com.craftmend.openaudiomc.generic.rd.http.ExposedResponse;
 import com.craftmend.openaudiomc.generic.rd.http.HttpResponse;
 import com.craftmend.openaudiomc.generic.rd.http.Route;
@@ -18,7 +18,7 @@ import java.util.Map;
 public class AudioFileRoute extends Route {
 
 
-    private RestDirect restDirect;
+    private RestDirectService restDirectService;
 
     @Override
     public HttpResponse onRequest(NanoHTTPD.IHTTPSession session) {
@@ -29,7 +29,7 @@ public class AudioFileRoute extends Route {
 
         String fileName = session.getParms().get("filename");
         String password = session.getParms().get("password");
-        if (fileName == null || password == null || !password.equals(restDirect.getPassword())) {
+        if (fileName == null || password == null || !password.equals(restDirectService.getPassword())) {
             return HttpResponse.text("Bad request", NanoHTTPD.Response.Status.BAD_REQUEST);
         }
 
@@ -37,7 +37,7 @@ public class AudioFileRoute extends Route {
             return HttpResponse.text("You can't use .. in your file path");
         }
 
-        File audioFile = new File(restDirect.getAudioDirectory(), fileName);
+        File audioFile = new File(restDirectService.getAudioDirectory(), fileName);
 
         if (!audioFile.exists()) {
             return HttpResponse.text(fileName + " is not a valid audio file", NanoHTTPD.Response.Status.BAD_REQUEST);
