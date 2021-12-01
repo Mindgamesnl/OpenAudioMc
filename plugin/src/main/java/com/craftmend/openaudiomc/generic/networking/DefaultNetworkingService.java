@@ -241,8 +241,4 @@ public class DefaultNetworkingService extends NetworkingService {
         eventHandlers.add(events);
     }
 
-    public boolean hasClient(UUID uuid) {
-        return clientMap.containsKey(uuid);
-    }
-
 }

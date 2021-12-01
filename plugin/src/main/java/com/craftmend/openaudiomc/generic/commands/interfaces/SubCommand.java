@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
+import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -63,6 +64,17 @@ public abstract class SubCommand {
                 || commandSender.hasPermission("openaudiomc.*");
     }
 
+    /**
+     * @param subCommand Another sub command to use, like a sub sub command!
+     * @param user User
+     * @param args Arguments
+     */
+    protected void delegateTo(SubCommand subCommand, User user, String[] args) {
+        String[] subArgs = new String[args.length - 1];
+        if (args.length != 1) System.arraycopy(args, 1, subArgs, 0, args.length - 1);
+        subCommand.onExecute(user, args);
+    }
+
     protected String getColor(String color) {
         return Platform.makeColor(color);
     }
@@ -109,5 +121,9 @@ public abstract class SubCommand {
             }
             return "";
         }
+    }
+
+    protected <T extends Service> T getService(Class<T> service) {
+        return service.cast(OpenAudioMc.getInstance().getServiceManager().loadService(service));
     }
 }
