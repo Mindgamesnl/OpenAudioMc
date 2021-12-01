@@ -44,7 +44,7 @@ public class SpigotAudioCommand implements CommandExecutor {
 
         if (commandSender instanceof Player) {
             Player sender = (Player) commandSender;
-            OpenAudioMc.getService(NetworkingService.class).getClient(sender.getUniqueId()).publishUrl();
+            OpenAudioMc.getService(NetworkingService.class).getClient(sender.getUniqueId()).getAuth().publishSessionUrl();
         } else {
             if (args.length == 0) {
                 commandSender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.RED + "You must provide a player name OR selector to send trigger the URL");
@@ -52,7 +52,7 @@ public class SpigotAudioCommand implements CommandExecutor {
             }
 
             for (Player player : new SpigotPlayerSelector(args[0]).getPlayers(commandSender)) {
-                OpenAudioMc.getService(NetworkingService.class).getClient(player.getUniqueId()).publishUrl();
+                OpenAudioMc.getService(NetworkingService.class).getClient(player.getUniqueId()).getAuth().publishSessionUrl();
             }
         }
         return true;

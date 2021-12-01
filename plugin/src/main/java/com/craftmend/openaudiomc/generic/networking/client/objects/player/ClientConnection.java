@@ -8,11 +8,10 @@ import com.craftmend.openaudiomc.api.impl.event.events.ClientErrorEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.api.interfaces.Client;
 
-import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
-import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.enviroment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
+import com.craftmend.openaudiomc.generic.networking.client.utils.TokenFactory;
 import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
@@ -32,7 +31,6 @@ import com.craftmend.openaudiomc.generic.networking.packets.*;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.hue.HueState;
 import com.craftmend.openaudiomc.generic.hue.SerializedHueColor;
-import com.craftmend.openaudiomc.generic.utils.data.RandomString;
 
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.OAClientMode;
@@ -41,91 +39,50 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.*;
 
 public class ClientConnection implements Authenticatable, Client, Serializable {
 
-    // ongoing sounds
-    @Getter private final List<Media> ongoingMedia = new ArrayList<>();
-    @Getter private final MixTracker mixTracker;
-    @Getter private final Map<String, String> thirdPartyValues = new HashMap<>();
-    @Getter @Setter private int apiSpeakers = 0;
-
-    // session info
-    private transient final Publisher sessionPublisher;
-    @Getter private int volume = -1;
-    private boolean isConnected = false;
-    @Setter @Getter private PlayerSession session;
-    @Getter private ClientRtcManager clientRtcManager;
-    @Setter @Getter private String streamKey;
-
-    @Setter @Getter private boolean isWaitingToken = false;
-    @Setter @Getter private boolean sessionUpdated = false;
-    @Getter @Setter private boolean hasHueLinked = false;
-    @Getter @Setter private boolean isConnectedToRtc = false;
-
-    // player implementation
     @Getter private transient final User user;
-    private Instant lastConnectPrompt = Instant.now();
 
-    // on connect and disconnect handlers
+    @Getter private SessionData session;
+    @Setter @Getter private ClientAuth auth;
+    @Getter private RtcSessionManager rtcSessionManager;
     private transient final List<Runnable> connectHandlers = new ArrayList<>();
     private transient final List<Runnable> disconnectHandlers = new ArrayList<>();
 
-    public ClientConnection(User playerContainer) {
-        this(playerContainer, null);
-    }
-
     public ClientConnection(User playerContainer, SerializableClient fromSerialized) {
         this.user = playerContainer;
-        this.mixTracker = new MixTracker();
-        refreshSession();
-        sessionPublisher = new Publisher(this);
-        streamKey =  new RandomString(15).nextString();
-        clientRtcManager = new ClientRtcManager(this);
+        this.auth = new TokenFactory().build(this);
+        rtcSessionManager = new RtcSessionManager(this);
+        session = new SessionData(this);
 
         if (fromSerialized != null) {
-            this.applySerializedSession(fromSerialized);
+            this.session.applySerializedSession(fromSerialized);
         }
 
         if (OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_SEND_URL_ON_JOIN))
-            publishUrl();
+            this.getAuth().publishSessionUrl();
 
         if (!OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
             OpenAudioMc.getService(GlobalConstantService.class).sendNotifications(user);
         }
     }
 
-    public void updatedVolume(int newVolume) {
-        // triggers when the client changs volume
-        this.volume = newVolume;
-    }
-
-    public void publishUrl() {
-        sessionPublisher.startClientSession();
-    }
-
-    @Override
-    public boolean isTokenCorrect(String token) {
-        return getSession().getWebSessionKey().equals(token);
-    }
-
     // client connected!
     @Override
     public void onConnect() {
-        sessionUpdated = true;
-        if (isConnected) return;
+        session.setSessionUpdated(true);
+        if (isConnected()) return;
         Configuration Configuration = OpenAudioMc.getInstance().getConfiguration();
 
-        this.isConnected = true;
-        this.isWaitingToken = false;
+        session.setConnected(true);
+        session.setWaitingToken(false);
 
         OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
                     OpenAudioMc.getService(NetworkingService.class).send(this, new PacketClientProtocolRevisionPacket());
 
-                    ongoingMedia.forEach(this::sendMedia);
+                    session.getOngoingMedia().forEach(this::sendMedia);
 
                     connectHandlers.forEach(a -> a.run());
                 },
@@ -147,12 +104,12 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
 
     @Override
     public void onDisconnect() {
-        if (!isConnected) return;
-        sessionUpdated = true;
-        apiSpeakers = 0;
-        this.isConnected = false;
-        this.hasHueLinked = false;
-        this.isConnectedToRtc = false;
+        if (!isConnected()) return;
+        session.setSessionUpdated(true);
+        session.setApiSpeakers(0);
+        session.setConnectedToRtc(false);
+        session.setHasHueLinked(false);
+        session.setConnected(false);
         disconnectHandlers.forEach(event -> event.run());
 
         // am I a proxy thingy? then send it to my other thingy
@@ -167,11 +124,6 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
             return;
         String message = OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.MESSAGE_CLIENT_CLOSED);
         user.sendMessage(Platform.translateColors(message));
-        this.mixTracker.clear();
-    }
-
-    public void refreshSession() {
-        this.session = new TokenFactory().build(this);
     }
 
     public ClientConnection addOnConnectHandler(Runnable runnable) {
@@ -224,16 +176,16 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
      * @param media media to be send
      */
     public void sendMedia(Media media) {
-        if (media.getKeepTimeout() != -1 && !ongoingMedia.contains(media)) {
-            ongoingMedia.add(media);
+        if (media.getKeepTimeout() != -1 && !session.getOngoingMedia().contains(media)) {
+            session.getOngoingMedia().add(media);
 
             // stop after x seconds
-            OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> ongoingMedia.remove(media), (20 * media.getKeepTimeout()));
+            OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> session.getOngoingMedia().remove(media), (20 * media.getKeepTimeout()));
         }
-        if (getIsConnected()) {
+        if (isConnected()) {
             sendPacket(new PacketClientCreateMedia(media));
         } else {
-            tickClient();
+            session.tickClient();
         }
     }
 
@@ -241,35 +193,14 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
         OpenAudioMc.getService(NetworkingService.class).send(this, packet);
     }
 
-    public void tickClient() {
-        boolean remindToConnect = OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_REMIND_TO_CONNECT);
-
-        if (remindToConnect) {
-            int reminderInterval = OpenAudioMc.getInstance().getConfiguration().getInt(StorageKey.SETTINGS_REMIND_TO_CONNECT_INTERVAL);
-            if (!getIsConnected() && (Duration.between(lastConnectPrompt, Instant.now()).toMillis() * 1000) > reminderInterval) {
-                user.sendMessage(Platform.translateColors(OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.MESSAGE_PROMPT_TO_CONNECT)));
-                lastConnectPrompt = Instant.now();
-            }
-        }
-    }
-
-    public boolean getIsConnected() {
-        return this.isConnected;
+    @Override
+    public User getOwner() {
+        return this.getUser();
     }
 
     @Override
-    public String getOwnerName() {
-        return this.getUser().getName();
-    }
-
-    @Override
-    public UUID getOwnerUUID() {
-        return user.getUniqueId();
-    }
-
-    @Override
-    public PlayerSession getSessionTokens() {
-        return session;
+    public ClientAuth getAuth() {
+        return auth;
     }
 
     @Override
@@ -286,23 +217,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
 
     @Override
     public boolean isConnected() {
-        return getIsConnected();
-    }
-
-    @Override
-    public Publisher getPublisher() {
-        return sessionPublisher;
-    }
-
-    @Override
-    public boolean hasSmartLights() {
-        // implement other lights than hue on the client?
-        return hasHueLinked;
-    }
-
-    @Override
-    public Map<String, String> getKeyValue() {
-        return thirdPartyValues;
+        return this.session.isConnected();
     }
 
     @Override
@@ -316,72 +231,31 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
     }
 
     @Override
+    public int getVolume() {
+        return session.getVolume();
+    }
+
+    @Override
     public void setHueState(HueState state) {
-        if (this.isConnected && this.hasHueLinked) this.setHue(state);
+        if (this.session.isConnected() && this.session.isHasHueLinked()) this.setHue(state);
     }
 
     @Override
     public boolean hasPhilipsHue() {
-        return this.isConnected && this.hasHueLinked;
-    }
-
-    @Override
-    public boolean hasRtc() {
-        return this.isConnected && this.getClientRtcManager().isReady();
+        return this.isConnected() && this.session.isHasHueLinked();
     }
 
     @Override
     public boolean isMicrophoneActive() {
-        return this.isConnected && this.getClientRtcManager().isReady() && this.getClientRtcManager().isMicrophoneEnabled();
+        return this.isConnected() && this.getRtcSessionManager().isReady() && this.getRtcSessionManager().isMicrophoneEnabled();
     }
 
     @Override
     public void forcefullyDisableMicrophone(boolean disabled) {
-        this.getClientRtcManager().allowSpeaking(!disabled);
-    }
-
-    @Override
-    public SerializableClient asSerializableCopy() {
-        return SerializableClient.builder()
-                .volume(volume)
-                .isConnected(isConnected)
-                .clientRtcManager(clientRtcManager)
-                .streamKey(streamKey)
-                .isConnectedToRtc(isConnectedToRtc)
-                .hasHueLinked(hasHueLinked)
-                .sessionUpdated(sessionUpdated)
-                .session(session)
-                .build();
-    }
-
-    @Override
-    public void applySerializedSession(SerializableClient sc) {
-        this.volume = sc.getVolume();
-        this.clientRtcManager.setMicrophoneEnabled(sc.getClientRtcManager().isMicrophoneEnabled());
-        this.streamKey = sc.getStreamKey();
-        this.isConnectedToRtc = sc.isConnectedToRtc();
-        this.hasHueLinked = sc.isHasHueLinked();
-        this.sessionUpdated = sc.isSessionUpdated();
-        this.session = sc.getSession();
-        this.session.setClient(this);
-
-        // compare the two, and fire events
-        if (isConnected != sc.isConnected()) {
-            if (sc.isConnected()) {
-                onConnect();
-            } else {
-                onDisconnect();
-            }
-        }
-
-        if (isConnectedToRtc) {
-            if (!OpenAudioMc.getService(CraftmendService.class).is(CraftmendTag.VOICECHAT)) {
-                OpenAudioMc.getService(CraftmendService.class).addTag(CraftmendTag.VOICECHAT);
-            }
-        }
+        this.getRtcSessionManager().allowSpeaking(!disabled);
     }
 
     public void onDestroy() {
-        this.getClientRtcManager().makePeersDrop();
+        this.getRtcSessionManager().makePeersDrop();
     }
 }

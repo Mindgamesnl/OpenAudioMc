@@ -37,7 +37,7 @@ public class VelocityStopCommand extends SubCommand {
             for (Player player : new VelocityPlayerSelector(args[0]).getPlayers((CommandSource) sender.getOriginal())) {
                 ClientConnection clientConnection = OpenAudioMc.getService(NetworkingService.class).getClient(player.getUniqueId());
                 if (clientConnection.isConnected()) affected++;
-                clientConnection.getOngoingMedia().clear();
+                clientConnection.getSession().getOngoingMedia().clear();
                 OpenAudioMc.getService(NetworkingService.class).send(clientConnection, new PacketClientDestroyMedia(null));
             }
             message(sender, "§aDestroyed all normal sounds for " + affected + " clients");

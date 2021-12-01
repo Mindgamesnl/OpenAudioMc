@@ -6,7 +6,7 @@ import com.craftmend.openaudiomc.api.impl.event.events.*;
 import com.craftmend.openaudiomc.api.impl.event.enums.VoiceEventCause;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientRtcManager;
+import com.craftmend.openaudiomc.generic.networking.client.objects.player.RtcSessionManager;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
@@ -63,8 +63,8 @@ public class SpigotVoiceChatService extends Service {
             // only notify normal events, we don't really care about special things
             if (event.getCause() != VoiceEventCause.NORMAL) return;
 
-            event.getSpeaker().getClientRtcManager().getRecentPeerAdditions().add(event.getListener().getOwnerUUID());
-            event.getSpeaker().getClientRtcManager().getRecentPeerRemovals().remove(event.getListener().getOwnerUUID());
+            event.getSpeaker().getRtcSessionManager().getRecentPeerAdditions().add(event.getListener().getOwner().getUniqueId());
+            event.getSpeaker().getRtcSessionManager().getRecentPeerRemovals().remove(event.getListener().getOwner().getUniqueId());
         });
 
         eventDriver.on(PlayerLeaveVoiceProximityEvent.class).setHandler(event -> {
@@ -74,8 +74,8 @@ public class SpigotVoiceChatService extends Service {
             // only notify normal events, we don't really care about special things
             if (event.getCause() != VoiceEventCause.NORMAL) return;
 
-            event.getSpeaker().getClientRtcManager().getRecentPeerRemovals().add(event.getListener().getOwnerUUID());
-            event.getSpeaker().getClientRtcManager().getRecentPeerAdditions().remove(event.getListener().getOwnerUUID());
+            event.getSpeaker().getRtcSessionManager().getRecentPeerRemovals().add(event.getListener().getOwner().getUniqueId());
+            event.getSpeaker().getRtcSessionManager().getRecentPeerAdditions().remove(event.getListener().getOwner().getUniqueId());
         });
 
         // do vc tick loop
@@ -89,7 +89,7 @@ public class SpigotVoiceChatService extends Service {
 
             // go over every player and handle their message queue
             for (ClientConnection client : networkingService.getClients()) {
-                ClientRtcManager manager = client.getClientRtcManager();
+                RtcSessionManager manager = client.getRtcSessionManager();
                 // handle their join messages, if any
                 if (!manager.getRecentPeerAdditions().isEmpty()) {
                     // do these
@@ -99,7 +99,7 @@ public class SpigotVoiceChatService extends Service {
                         if (other != null) {
                             sendMessage(client.getUser(), Platform.translateColors(
                                     StorageKey.MESSAGE_VC_USER_ADDED.getString()
-                                            .replace("%name", other.getOwnerName())
+                                            .replace("%name", other.getOwner().getName())
                             ));
                         }
                     } else {
@@ -122,7 +122,7 @@ public class SpigotVoiceChatService extends Service {
                         if (other != null) {
                             sendMessage(client.getUser(), Platform.translateColors(
                                     StorageKey.MESSAGE_VC_USER_LEFT.getString()
-                                            .replace("%name", other.getOwnerName())
+                                            .replace("%name", other.getOwner().getName())
                             ));
                         }
                     } else {
@@ -173,7 +173,7 @@ public class SpigotVoiceChatService extends Service {
                 ClientConnection c = clientFromId(other);
                 if (c != null) {
                     if (otherCount == -1) {
-                        firstName = c.getOwnerName();
+                        firstName = c.getOwner().getName();
                     }
                     otherCount++;
                 }

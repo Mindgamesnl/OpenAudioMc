@@ -12,7 +12,7 @@ public class ClientLinkedHueHandler extends PayloadHandler<ClientEnabledHuePaylo
         // they enabled hue!
         Authenticatable authenticatable = findSession(payload.getClient());
         if (authenticatable instanceof ClientConnection) {
-            ((ClientConnection) authenticatable).setHasHueLinked(true);
+            ((ClientConnection) authenticatable).getSession().setHasHueLinked(true);
         } else {
             authenticatable.kickConnection();
         }

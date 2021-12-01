@@ -20,9 +20,9 @@ public class ClientVoiceSubscribePayload extends AbstractPacketPayload {
 
     public static ClientVoiceSubscribePayload fromClient(ClientConnection clientConnection, Vector3 targetLocation) {
         return new ClientVoiceSubscribePayload(
-                clientConnection.getStreamKey(),
-                clientConnection.getOwnerName(),
-                clientConnection.getOwnerUUID(),
+                clientConnection.getRtcSessionManager().getStreamKey(),
+                clientConnection.getOwner().getName(),
+                clientConnection.getOwner().getUniqueId(),
                 ClientRtcLocationUpdate.fromClient(clientConnection, targetLocation)
         );
     }

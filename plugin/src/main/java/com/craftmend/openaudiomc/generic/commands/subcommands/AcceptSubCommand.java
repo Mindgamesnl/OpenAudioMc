@@ -32,7 +32,7 @@ public class AcceptSubCommand extends SubCommand {
         service.connectIfDown();
 
         for (ClientConnection client : service.getClients()) {
-            client.publishUrl();
+            client.getAuth().publishSessionUrl();
         }
     }
 }

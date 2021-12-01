@@ -13,13 +13,13 @@ public class TickVoicePacketQueue implements Runnable {
     @Override
     public void run() {
         for (ClientConnection client : OpenAudioMc.getService(NetworkingService.class).getClients()) {
-            if (!client.getClientRtcManager().getLocationUpdateQueue().isEmpty()) {
+            if (!client.getRtcSessionManager().getLocationUpdateQueue().isEmpty()) {
                 client.sendPacket(new PacketClientUpdateVoiceLocations(
                         new ClientVoiceUpdatePeerLocationsPayload(
-                                new HashSet<>(client.getClientRtcManager().getLocationUpdateQueue())
+                                new HashSet<>(client.getRtcSessionManager().getLocationUpdateQueue())
                         )
                 ));
-                client.getClientRtcManager().getLocationUpdateQueue().clear();
+                client.getRtcSessionManager().getLocationUpdateQueue().clear();
             }
         }
     }

@@ -9,17 +9,6 @@ public class ClientMediaErrorHandler extends PayloadHandler<ClientFailedMediaPay
 
     @Override
     public void onReceive(ClientFailedMediaPayload payload) {
-        Authenticatable authenticatable = findSession(payload.getClient());
-        if (payload.getMediaError() == null) {
-            authenticatable.kickConnection();
-            return;
-        }
-
-        authenticatable.handleError(payload.getMediaError(), payload.getSource());
-
-        if (authenticatable instanceof ClientConnection) {
-            ClientConnection client = (ClientConnection) authenticatable;
-            client.getMixTracker().stealExpectedTrack();
-        }
+        // deprecated
     }
 }

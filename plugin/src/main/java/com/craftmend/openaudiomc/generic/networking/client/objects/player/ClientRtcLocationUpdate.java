@@ -31,7 +31,7 @@ public class ClientRtcLocationUpdate {
         }
 
         return new ClientRtcLocationUpdate(
-                clientConnection.getStreamKey(),
+                clientConnection.getRtcSessionManager().getStreamKey(),
                 source.getX(),
                 source.getY(),
                 source.getZ(),
@@ -54,7 +54,7 @@ public class ClientRtcLocationUpdate {
         }
 
         return new ClientRtcLocationUpdate(
-                clientConnection.getStreamKey(),
+                clientConnection.getRtcSessionManager().getStreamKey(),
                 player.getLocation().getX(),
                 player.getLocation().getY(),
                 player.getLocation().getZ(),

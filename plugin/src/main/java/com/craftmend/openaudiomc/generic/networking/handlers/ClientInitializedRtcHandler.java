@@ -48,14 +48,14 @@ public class ClientInitializedRtcHandler extends PayloadHandler<ClientOpenedRtcP
         switch (payload.getEvent()) {
 
             case MICROPHONE_MUTED: {
-                cc.getClientRtcManager().setMicrophoneEnabled(false);
-                broadcastRtcUpdate(cc.getUser(), true, false, cc.getStreamKey(), cc);
+                cc.getRtcSessionManager().setMicrophoneEnabled(false);
+                broadcastRtcUpdate(cc.getUser(), true, false, cc.getRtcSessionManager().getStreamKey(), cc);
                 break;
             }
 
             case MICROPHONE_UNMUTE: {
-                cc.getClientRtcManager().setMicrophoneEnabled(true);
-                broadcastRtcUpdate(cc.getUser(), true, true, cc.getStreamKey(), cc);
+                cc.getRtcSessionManager().setMicrophoneEnabled(true);
+                broadcastRtcUpdate(cc.getUser(), true, true, cc.getRtcSessionManager().getStreamKey(), cc);
                 break;
             }
         }
@@ -65,25 +65,25 @@ public class ClientInitializedRtcHandler extends PayloadHandler<ClientOpenedRtcP
         // the user just enabled their voice chat
         if (payload.isEnabled()) {
             // update our local state to start peer finding and reset their mute state
-            cc.setConnectedToRtc(true);
-            cc.getClientRtcManager().setMicrophoneEnabled(true);
+            cc.getSession().setConnectedToRtc(true);
+            cc.getRtcSessionManager().setMicrophoneEnabled(true);
             // send a welcome message
             AudioApi.getInstance().getEventDriver().fire(new PlayerConnectVoicechatEvent(cc));
             cc.getUser().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_SETUP.getString()));
             // notify the proxy, if applicable
-            broadcastRtcUpdate(cc.getUser(), true, true, cc.getStreamKey(), cc);
+            broadcastRtcUpdate(cc.getUser(), true, true, cc.getRtcSessionManager().getStreamKey(), cc);
         } else {
             // disable their stream
-            cc.getClientRtcManager().setMicrophoneEnabled(false);
-            cc.setConnectedToRtc(false);
+            cc.getRtcSessionManager().setMicrophoneEnabled(false);
+            cc.getSession().setConnectedToRtc(false);
             // notify the proxy, if applicable
-            broadcastRtcUpdate(cc.getUser(), false, false, cc.getStreamKey(), cc);
+            broadcastRtcUpdate(cc.getUser(), false, false, cc.getRtcSessionManager().getStreamKey(), cc);
         }
     }
 
     private void broadcastRtcUpdate(User player, boolean isConnected, boolean isMicOn, String streamKey, ClientConnection cc) {
         // am I a proxy thingy? then send it to my other thingy
-        ClientUpdateStatePacket clientUpdateRtcStatePacket = new ClientUpdateStatePacket(player.getUniqueId(), streamKey, isConnected, isMicOn, cc.getSessionTokens().getStaticToken());
+        ClientUpdateStatePacket clientUpdateRtcStatePacket = new ClientUpdateStatePacket(player.getUniqueId(), streamKey, isConnected, isMicOn, cc.getAuth().getStaticToken());
         // sends an update to the server, or nothing if its just spigot
         OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(player, clientUpdateRtcStatePacket);
     }

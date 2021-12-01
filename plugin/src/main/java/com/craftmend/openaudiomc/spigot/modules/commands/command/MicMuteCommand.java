@@ -35,7 +35,7 @@ public class MicMuteCommand implements CommandExecutor {
         if (sender instanceof Player) {
             SpigotConnection spigotConnection = OpenAudioMc.getService(SpigotPlayerService.class).getClient(((Player) sender).getUniqueId());
 
-            if (!spigotConnection.getClientConnection().isConnectedToRtc()) {
+            if (!spigotConnection.getClientConnection().getSession().isConnectedToRtc()) {
                 String message = Platform.translateColors(StorageKey.MESSAGE_VC_NOT_CONNECTED.getString());
                 sender.sendMessage(message);
                 return true;

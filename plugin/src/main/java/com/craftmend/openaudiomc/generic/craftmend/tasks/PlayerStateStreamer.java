@@ -39,7 +39,7 @@ public class PlayerStateStreamer implements Runnable {
         isRunning = true;
 
         // update every 5 seconds
-        int timeout = 20 * 5;
+        int timeout = 20 * 30;
         OpenAudioMc.resolveDependency(TaskService.class).scheduleAsyncRepeatingTask(this, timeout, timeout);
     }
 
@@ -64,15 +64,15 @@ public class PlayerStateStreamer implements Runnable {
             if (!trackedPlayers.contains(client.getUser().getUniqueId())) {
                 // not tracked yet!
                 playerUpdatePayload.getJoinedPlayers().add(
-                        new OnlinePlayer(client.getUser().getName(), client.getUser().getUniqueId(), client.getSession().getWebSessionKey(), client.getIsConnected())
+                        new OnlinePlayer(client.getUser().getName(), client.getUser().getUniqueId(), client.getAuth().getWebSessionKey(), client.isConnected())
                 );
             }
             currentPlayers.add(client.getUser().getUniqueId());
 
-            if (client.isSessionUpdated()) {
-                client.setSessionUpdated(false);
+            if (client.getSession().isSessionUpdated()) {
+                client.getSession().setSessionUpdated(false);
                 playerUpdatePayload.getUpdatedPlayers().add(
-                        new OnlinePlayer(client.getUser().getUniqueId(), client.getIsConnected())
+                        new OnlinePlayer(client.getUser().getUniqueId(), client.isConnected())
                 );
             }
         }

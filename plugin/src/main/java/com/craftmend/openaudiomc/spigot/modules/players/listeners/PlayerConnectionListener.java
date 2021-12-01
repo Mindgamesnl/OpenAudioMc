@@ -47,7 +47,7 @@ public class PlayerConnectionListener implements Listener {
             playerMuteTimeout.put(event.getPlayer().getUniqueId(), Instant.now());
             SpigotConnection spigotConnection = OpenAudioMc.getService(SpigotPlayerService.class).getClient(event.getPlayer().getUniqueId());
 
-            if (!spigotConnection.getClientConnection().isConnectedToRtc()) {
+            if (!spigotConnection.getClientConnection().getSession().isConnectedToRtc()) {
                 String message = Platform.translateColors(StorageKey.MESSAGE_VC_NOT_CONNECTED.getString());
                 event.getPlayer().sendMessage(message);
             }

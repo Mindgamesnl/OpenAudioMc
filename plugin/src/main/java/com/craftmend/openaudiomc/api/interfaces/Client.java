@@ -1,7 +1,6 @@
 package com.craftmend.openaudiomc.api.interfaces;
 
 import com.craftmend.openaudiomc.generic.hue.HueState;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.Publisher;
 import com.craftmend.openaudiomc.generic.networking.client.objects.player.SerializableClient;
 import com.craftmend.openaudiomc.generic.user.User;
 
@@ -18,21 +17,6 @@ public interface Client {
      * @return Gets the basic player wrapper, wraps Bungeecord and Spigot
      */
     User getUser();
-
-    /**
-     * @return Get the publisher, used to send session URL's to the client
-     */
-    Publisher getPublisher();
-
-    /**
-     * @return Whether the client has smart-lights (like Philips Hue) linked
-     */
-    boolean hasSmartLights();
-
-    /**
-     * @return Key value instance used by addons to store connection metadata
-     */
-    Map<String, String> getKeyValue();
 
     /**
      * Add a on connect handler, which fires when the client gets opened for the player
@@ -66,12 +50,6 @@ public interface Client {
     boolean hasPhilipsHue();
 
     /**
-     * Whether the client has their voicechat enabled
-     * @return true if voice is enabled
-     */
-    boolean hasRtc();
-
-    /**
      * Whether the client has their microphone enabled
      * @return true if voice is enabled and microphone isn't muted
      */
@@ -83,12 +61,5 @@ public interface Client {
      * @param disabled If the mic should be disabled
      */
     void forcefullyDisableMicrophone(boolean disabled);
-
-    /**
-     * Get a copy object with values that are save to be serialized
-     * @return Save copy
-     */
-    SerializableClient asSerializableCopy();
-    void applySerializedSession(SerializableClient sc);
 
 }

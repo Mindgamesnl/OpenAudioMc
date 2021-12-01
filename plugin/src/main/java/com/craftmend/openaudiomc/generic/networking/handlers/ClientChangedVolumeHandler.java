@@ -11,7 +11,7 @@ public class ClientChangedVolumeHandler extends PayloadHandler<ClientChangedVolu
     public void onReceive(ClientChangedVolumePayload payload) {
         Authenticatable authenticatable = findSession(payload.getClient());
         if (authenticatable instanceof ClientConnection) {
-            ((ClientConnection) authenticatable).updatedVolume(payload.getVolume());
+            ((ClientConnection) authenticatable).setVolume(payload.getVolume());
         } else {
             // you don't even have volume
             authenticatable.kickConnection();

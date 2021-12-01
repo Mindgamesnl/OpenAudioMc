@@ -57,7 +57,7 @@ public class ProxyNetworkingService extends NetworkingService {
         if (!(client instanceof ClientConnection))
             throw new UnsupportedOperationException("The bungee adapter for the networking service only supports client connections");
         if (packet.getClass().getSimpleName().startsWith("PacketClient")) {
-            packet.setClient(client.getOwnerUUID());
+            packet.setClient(client.getOwner().getUniqueId());
             OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(((ClientConnection) client).getUser(),
                     new ForwardSocketPacket(packet));
         }
