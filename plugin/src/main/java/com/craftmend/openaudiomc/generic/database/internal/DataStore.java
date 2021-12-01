@@ -1,5 +1,5 @@
 package com.craftmend.openaudiomc.generic.database.internal;
 
-public abstract class StoredData {
+public abstract class DataStore {
 
 }

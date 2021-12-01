@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.generic.client.helpers;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.client.session.ClientAuth;
-import com.craftmend.openaudiomc.generic.client.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import lombok.NoArgsConstructor;
 
 import java.util.Base64;

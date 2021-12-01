@@ -57,10 +57,10 @@ public class SpeakerService extends Service {
 
         initializeVersion();
 
-        OpenAudioLogger.toConsole("There are " + OpenAudioMc.getService(DatabaseService.class).getTable(Speaker.class).size() + " speakers in the new database");
+        OpenAudioLogger.toConsole("There are " + OpenAudioMc.getService(DatabaseService.class).getRepository(Speaker.class).size() + " speakers in the new database");
 
         // load all apeakers
-        for (Speaker speaker : databaseService.getTable(Speaker.class).values()) {
+        for (Speaker speaker : databaseService.getRepository(Speaker.class).values()) {
             registerSpeaker(speaker);
         }
 

@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.database;
 
 import com.craftmend.openaudiomc.generic.database.internal.Repository;
-import com.craftmend.openaudiomc.generic.database.internal.StoredData;
+import com.craftmend.openaudiomc.generic.database.internal.DataStore;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.service.Service;
@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class DatabaseService extends Service {
 
-    private Map<Class<? extends StoredData>, Repository<? extends StoredData>> databaseMap = new HashMap<>();
+    private Map<Class<? extends DataStore>, Repository<? extends DataStore>> databaseMap = new HashMap<>();
     @Getter private DB database;
 
     public DatabaseService() {
@@ -39,7 +39,7 @@ public class DatabaseService extends Service {
 
     }
 
-    public <T extends StoredData> Repository<T> getTable(Class<T> dataClass) {
+    public <T extends DataStore> Repository<T> getRepository(Class<T> dataClass) {
         if (databaseMap.containsKey(dataClass)) {
             return (Repository<T>) databaseMap.get(dataClass);
         }

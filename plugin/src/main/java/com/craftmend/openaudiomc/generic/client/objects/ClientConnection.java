@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.client;
+package com.craftmend.openaudiomc.generic.client.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 
@@ -8,6 +8,8 @@ import com.craftmend.openaudiomc.api.impl.event.events.ClientErrorEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.api.interfaces.Client;
 
+import com.craftmend.openaudiomc.generic.client.ClientDataService;
+import com.craftmend.openaudiomc.generic.client.store.ClientDataStore;
 import com.craftmend.openaudiomc.generic.enviroment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
@@ -23,6 +25,7 @@ import com.craftmend.openaudiomc.generic.networking.packets.client.hue.PacketCli
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientCreateMedia;
 import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClientProtocolRevisionPacket;
 import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClientSetVolume;
+import com.craftmend.openaudiomc.generic.networking.rest.Task;
 import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
@@ -130,6 +133,10 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
         user.sendMessage(Platform.translateColors(message));
     }
 
+    public Task<ClientDataStore> getDataStore() {
+        return OpenAudioMc.getService(ClientDataService.class).getClientData(user.getUniqueId(), true);
+    }
+
     public ClientConnection addOnConnectHandler(Runnable runnable) {
         this.connectHandlers.add(runnable);
         return this;
@@ -197,6 +204,11 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
         OpenAudioMc.getService(NetworkingService.class).send(this, packet);
     }
 
+    public void onDestroy() {
+        this.getRtcSessionManager().makePeersDrop();
+        OpenAudioMc.getService(ClientDataService.class).dropFromCache(user.getUniqueId());
+    }
+
     @Override
     public User getOwner() {
         return this.getUser();
@@ -257,9 +269,5 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
     @Override
     public void forcefullyDisableMicrophone(boolean disabled) {
         this.getRtcSessionManager().allowSpeaking(!disabled);
-    }
-
-    public void onDestroy() {
-        this.getRtcSessionManager().makePeersDrop();
     }
 }

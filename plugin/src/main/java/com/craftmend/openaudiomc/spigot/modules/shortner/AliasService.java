@@ -39,7 +39,7 @@ public class AliasService extends Service {
         OpenAudioMc.getService(MediaService.class).registerMutation("a:", new AliasMiddleware(this));
 
         //load config
-        for (Alias alias : databaseService.getTable(Alias.class).values()) {
+        for (Alias alias : databaseService.getRepository(Alias.class).values()) {
             aliasMap.put(alias.getName(), alias);
         }
 

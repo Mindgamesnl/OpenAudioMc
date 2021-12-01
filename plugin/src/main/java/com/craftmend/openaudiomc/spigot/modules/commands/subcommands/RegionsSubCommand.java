@@ -102,7 +102,7 @@ public class RegionsSubCommand extends SubCommand {
             }
 
             RegionProperties rp = new RegionProperties(args[2], 100, 1000, true, args[1]);
-            OpenAudioMc.getService(DatabaseService.class).getTable(RegionProperties.class)
+            OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class)
                     .save(rp.getRegionName(), rp);
 
             openAudioMcSpigot.getRegionModule().registerRegion(rp.getRegionName(), rp);
@@ -118,7 +118,7 @@ public class RegionsSubCommand extends SubCommand {
             // check if it was valid in the first place
             RegionProperties rp = openAudioMcSpigot.getRegionModule().getRegionPropertiesMap().get(targetRegion);
             if (rp != null) {
-                OpenAudioMc.getService(DatabaseService.class).getTable(RegionProperties.class)
+                OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class)
                         .delete(targetRegion);
 
                 if (rp instanceof TimedRegionProperties) {

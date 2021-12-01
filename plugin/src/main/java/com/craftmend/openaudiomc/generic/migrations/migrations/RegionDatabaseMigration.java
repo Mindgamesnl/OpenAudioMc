@@ -9,17 +9,8 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
-import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
-import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
-import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
-import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
-import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
-
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
 
 public class RegionDatabaseMigration extends SimpleMigration {
 
@@ -63,7 +54,7 @@ public class RegionDatabaseMigration extends SimpleMigration {
             }
 
             RegionProperties properties = new RegionProperties(source, volume, fadeTimeMs, isVcEnabled, id);
-            service.getTable(RegionProperties.class)
+            service.getRepository(RegionProperties.class)
                     .save(id, properties);
 
             config.setString(StorageLocation.DATA_FILE, "regions." + id, null);
