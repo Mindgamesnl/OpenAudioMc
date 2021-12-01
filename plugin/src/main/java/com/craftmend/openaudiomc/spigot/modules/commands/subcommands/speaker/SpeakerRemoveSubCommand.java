@@ -36,7 +36,7 @@ public class SpeakerRemoveSubCommand extends SubCommand {
 
     @Override
     public void onExecute(User sender, String[] args) {
-        MappedLocation mappedLocation = locationFromArguments(args);
+        MappedLocation mappedLocation = speakersSubCommand.locationFromArguments(args);
         if (mappedLocation == null) {
             // failed to parse location
             message(sender, "Invalid location (xyz) or world");

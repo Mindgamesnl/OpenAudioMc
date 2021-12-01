@@ -7,6 +7,9 @@ import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
+import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.region.RegionCreateSubCommand;
+import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.region.RegionDeleteSubCommand;
+import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.region.RegionTempSubCommand;
 import com.craftmend.openaudiomc.spigot.modules.regions.gui.RegionSelectionGui;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.TimedRegionProperties;
@@ -19,6 +22,13 @@ public class RegionsSubCommand extends SubCommand {
 
     public RegionsSubCommand(OpenAudioMcSpigot openAudioMcSpigot) {
         super("region");
+
+        registerSubCommands(
+                new RegionCreateSubCommand(openAudioMcSpigot),
+                new RegionDeleteSubCommand(openAudioMcSpigot),
+                new RegionTempSubCommand(openAudioMcSpigot)
+        );
+
         registerArguments(
                 new Argument("create <WG-region> <source>",
                         "Assigns a sound to a WorldGuard region by name"),
@@ -54,83 +64,17 @@ public class RegionsSubCommand extends SubCommand {
         }
 
         if (args[0].equalsIgnoreCase("temp") && args.length == 4) {
-            if (!isInteger(args[3])) {
-                message(sender, ChatColor.RED + "You must have a duration in seconds, like 60");
-                return;
-            }
-
-            args[1] = args[1].toLowerCase();
-
-            // check if this region already is defined
-            RegionProperties regionProperties = OpenAudioMcSpigot.getInstance().getRegionModule().getRegionPropertiesMap().get(args[1]);
-            if (regionProperties != null) {
-                if (regionProperties instanceof TimedRegionProperties) {
-                    // reset it, because fuck it
-                    TimedRegionProperties timedRegion = (TimedRegionProperties) regionProperties;
-                    openAudioMcSpigot.getRegionModule().removeRegion(args[1]);
-                    timedRegion.destroy();
-                } else {
-                    // message, fail
-                    message(sender, ChatColor.RED + "ERROR! The region '" + args[1]
-                            + "' already has a static media assigned to it.");
-                    return;
-                }
-            }
-
-            int duration = Integer.parseInt(args[3]);
-
-            if (!openAudioMcSpigot.getRegionModule().getRegionAdapter().doesRegionExist(args[1])) {
-                message(sender, ChatColor.RED + "ERROR! There is no WorldGuard region called '" + args[1]
-                        + "'. Please make the WorldGuard region before you register it in OpenAudioMc.");
-                return;
-            }
-
-            openAudioMcSpigot.getRegionModule().registerRegion(args[1], new TimedRegionProperties(args[2], duration, args[1]));
-            message(sender, ChatColor.GREEN + "The WorldGuard region with the id " + args[1] + " now has the sound " + args[2]);
-
-            openAudioMcSpigot.getRegionModule().forceUpdateRegions();
+            delegateTo("temp", sender, args);
             return;
         }
 
         if (args[0].equalsIgnoreCase("create") && args.length == 3) {
-            args[1] = args[1].toLowerCase();
-
-            if (!openAudioMcSpigot.getRegionModule().getRegionAdapter().doesRegionExist(args[1])) {
-                message(sender, ChatColor.RED + "ERROR! There is no WorldGuard region called '" + args[1]
-                        + "'. Please make the WorldGuard region before you register it in OpenAudioMc.");
-                return;
-            }
-
-            RegionProperties rp = new RegionProperties(args[2], 100, 1000, true, args[1]);
-            OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class)
-                    .save(rp.getRegionName(), rp);
-
-            openAudioMcSpigot.getRegionModule().registerRegion(rp.getRegionName(), rp);
-
-            message(sender, ChatColor.GREEN + "The WorldGuard region with the id " + args[1] + " now has the sound " + args[2]);
-            openAudioMcSpigot.getRegionModule().forceUpdateRegions();
+            delegateTo("create", sender, args);
             return;
         }
 
         if (args[0].equalsIgnoreCase("delete") && args.length == 2) {
-            String targetRegion = args[1].toLowerCase();
-
-            // check if it was valid in the first place
-            RegionProperties rp = openAudioMcSpigot.getRegionModule().getRegionPropertiesMap().get(targetRegion);
-            if (rp != null) {
-                OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class)
-                        .delete(targetRegion);
-
-                if (rp instanceof TimedRegionProperties) {
-                    ((TimedRegionProperties) rp).destroy();
-                }
-
-                openAudioMcSpigot.getRegionModule().removeRegion(targetRegion);
-                message(sender, ChatColor.RED + "The WorldGuard region with the id " + targetRegion + " no longer has a sound linked to it.");
-            } else {
-                message(sender, ChatColor.RED + "There's no worldguard region by the name " + targetRegion);
-            }
-            openAudioMcSpigot.getRegionModule().forceUpdateRegions();
+            delegateTo("delete", sender, args);
             return;
         }
 
