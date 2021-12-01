@@ -21,7 +21,7 @@ public class EssentialsIntegration implements DependencyHandler {
             driver.on(ClientRequestVoiceEvent.class)
                     .setHandler(event -> {
 
-                        User usr = ess.getUser(event.getRequester().getOwnerUUID());
+                        User usr = ess.getUser(event.getRequester().getOwner().getUniqueId());
                         if (usr == null) return;
                         boolean isMuted = usr.isMuted();
 

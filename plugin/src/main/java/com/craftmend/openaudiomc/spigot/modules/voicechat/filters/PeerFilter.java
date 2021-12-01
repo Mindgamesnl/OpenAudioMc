@@ -41,7 +41,7 @@ public class PeerFilter extends Filter<ClientConnection, Player> {
         return existingStream
                 .filter(possiblePeer -> {
                     // check if the player is even valid
-                    if (!possiblePeer.getClientRtcManager().isReady()) return false;
+                    if (!possiblePeer.getRtcSessionManager().isReady()) return false;
 
                     // get the player, we know that it's safe to do so
                     Player otherPlayer = (Player) possiblePeer.getUser().getOriginal();
@@ -53,7 +53,7 @@ public class PeerFilter extends Filter<ClientConnection, Player> {
                     if (otherPlayer.isDead() || context.isDead()) return false;
 
                     // check if any of us has disabled reasons
-                    if (!possiblePeer.getClientRtcManager().getBlockReasons().isEmpty()) return false;
+                    if (!possiblePeer.getRtcSessionManager().getBlockReasons().isEmpty()) return false;
 
                     // check if we exist in the same world
                     if (!otherPlayer.getWorld().getName().equals(context.getWorld().getName())) return false;

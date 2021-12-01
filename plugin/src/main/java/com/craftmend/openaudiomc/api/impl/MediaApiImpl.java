@@ -58,7 +58,7 @@ public class MediaApiImpl implements MediaApi {
                 obstructions
         );
         ClientConnection connection = validateClient(client);
-        connection.setApiSpeakers(connection.getApiSpeakers() + 1);
+        connection.getSession().setApiSpeakers(connection.getSession().getApiSpeakers() + 1);
         OpenAudioMc.getService(NetworkingService.class).send(connection, new PacketClientCreateSpeaker(new ClientSpeakerCreatePayload(clientSpeaker)));
         return clientSpeaker.getId();
     }
@@ -75,7 +75,7 @@ public class MediaApiImpl implements MediaApi {
                 0
         );
         ClientConnection connection = validateClient(client);
-        connection.setApiSpeakers(connection.getApiSpeakers() - 1);
+        connection.getSession().setApiSpeakers(connection.getSession().getApiSpeakers() - 1);
         OpenAudioMc.getService(NetworkingService.class).send(connection, new PacketClientRemoveSpeaker(new ClientSpeakerDestroyPayload(clientSpeaker)));
     }
 }

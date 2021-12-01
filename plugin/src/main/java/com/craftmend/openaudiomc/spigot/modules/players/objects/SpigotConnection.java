@@ -79,7 +79,7 @@ public class SpigotConnection {
         // code that fires when the location has been changed
         locationDataWatcher.setTask(updatedLocation -> {
             // if the client is not connected, then dont do shit, they wont hear it anyway
-            if (!this.clientConnection.getIsConnected()) return;
+            if (!this.clientConnection.isConnected()) return;
 
             this.audioChunkHandler.tick();
 
@@ -128,7 +128,7 @@ public class SpigotConnection {
             OpenAudioMc.getService(NetworkingService.class).send(getClientConnection(), new PacketClientUpdateLocation(locationPayload));
 
             if (locationFollowers.contains(PlayerLocationFollower.PROXIMITY_VOICE_CHAT)) {
-                clientConnection.getClientRtcManager().onLocationTick(location);
+                clientConnection.getRtcSessionManager().onLocationTick(location);
             }
         }
     }

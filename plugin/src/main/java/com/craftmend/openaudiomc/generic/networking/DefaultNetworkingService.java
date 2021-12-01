@@ -64,19 +64,6 @@ public class DefaultNetworkingService extends NetworkingService {
 
         init();
 
-        // middleware
-        addEventHandler(new INetworkingEvents() {
-            @Override
-            public void onPacketSend(Authenticatable target, AbstractPacket packet) {
-                if (target instanceof ClientConnection && (
-                        packet instanceof PacketClientCreateMedia || packet instanceof PacketClientCreateSpeaker
-                )) {
-                    ClientConnection client = (ClientConnection) target;
-                    client.getMixTracker().triggerExpectedTrack();
-                }
-            }
-        });
-
         // default auth check middleware
         ApiEventDriver driver = AudioApi.getInstance().getEventDriver();
         if (driver.isSupported(ClientPreAuthEvent.class)) {
@@ -84,13 +71,13 @@ public class DefaultNetworkingService extends NetworkingService {
                     .on(ClientPreAuthEvent.class)
                     .setHandler((event -> {
                         // cancel the request if the client is already open, don't bother checking the token
-                        if (event.getRequester().getIsConnected()) {
+                        if (event.getRequester().isConnected()) {
                             event.setCanceled(true);
                             return;
                         }
 
                         // cancel the login if the token is invalid
-                        if (!event.getRequester().isTokenCorrect(event.getToken())) {
+                        if (!event.getRequester().getAuth().isKeyCorrect(event.getToken())) {
                             event.setCanceled(true);
                         }
                     }));
@@ -205,7 +192,7 @@ public class DefaultNetworkingService extends NetworkingService {
                     handler.accept(client);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    OpenAudioLogger.toConsole("Failed to handle destroy listener " + id + " for " + client.getOwnerName());
+                    OpenAudioLogger.toConsole("Failed to handle destroy listener " + id + " for " + client.getOwner().getName());
                 }
             });
 

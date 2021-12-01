@@ -10,18 +10,6 @@ public class ClientChannelUpdateHandler extends PayloadHandler<ClientUpdateChann
 
     @Override
     public void onReceive(ClientUpdateChannelListPayload payload) {
-        Authenticatable authenticatable = findSession(payload.getClient());
-
-        if (authenticatable instanceof ClientConnection) {
-            ClientConnection client = (ClientConnection) authenticatable;
-
-            try {
-                client.getMixTracker().submitChannels(payload.getTracks());
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-                OpenAudioLogger.handleException(e);
-                authenticatable.kickConnection();
-            }
-        }
+       // deprecated
     }
 }

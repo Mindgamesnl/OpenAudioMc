@@ -33,7 +33,7 @@ public class ClientDriver implements SocketDriver {
 
             if (authenticatable == null) {
                 callback.call(false);
-            } else if (authenticatable.isTokenCorrect(payload.getToken())) {
+            } else if (authenticatable.getAuth().isKeyCorrect(payload.getToken())) {
                 callback.call(true);
                 authenticatable.onConnect();
                 for (INetworkingEvents event : OpenAudioMc.getService(NetworkingService.class).getEvents()) {
@@ -51,7 +51,7 @@ public class ClientDriver implements SocketDriver {
                         event.onClientOpen(authenticatable);
                     }
                 } else {
-                    OpenAudioLogger.toConsole("Closing login attempt for " + authenticatable.getOwnerName() + " because they are already connected.");
+                    OpenAudioLogger.toConsole("Closing login attempt for " + authenticatable.getOwner().getName() + " because they are already connected.");
                     callback.call(false);
                 }
             }

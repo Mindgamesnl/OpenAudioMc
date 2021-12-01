@@ -11,11 +11,11 @@ public class SerializableClient {
 
     private int volume = -1;
     private boolean isConnected = false;
-    private ClientRtcManager clientRtcManager;
+    private RtcSessionManager rtcSessionManager;
     private String streamKey;
     private boolean isConnectedToRtc = false;
     private boolean hasHueLinked = false;
     private boolean sessionUpdated = false;
-    private PlayerSession session;
+    private ClientAuth auth;
 
 }
