@@ -11,15 +11,15 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.permissions.Permission;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public abstract class SubCommand {
 
     @Getter private String command;
     @Getter private List<String> aliases = new ArrayList<>();
     @Getter private List<Argument> arguments = new ArrayList<>();
+    private Map<String, SubCommand> moreSubCommands = new HashMap<>();
+    protected boolean trimArguments = false;
 
     /**
      * @param argument Your command name. For example "select"
@@ -64,15 +64,25 @@ public abstract class SubCommand {
                 || commandSender.hasPermission("openaudiomc.*");
     }
 
+    protected void registerSubCommands(SubCommand... commands) {
+        for (SubCommand subCommand : commands) {
+            moreSubCommands.put(subCommand.getCommand(), subCommand);
+        }
+    }
+
     /**
      * @param subCommand Another sub command to use, like a sub sub command!
      * @param user User
      * @param args Arguments
      */
-    protected void delegateTo(SubCommand subCommand, User user, String[] args) {
-        String[] subArgs = new String[args.length - 1];
-        if (args.length != 1) System.arraycopy(args, 1, subArgs, 0, args.length - 1);
-        subCommand.onExecute(user, args);
+    protected void delegateTo(String subCommand, User user, String[] args) {
+        if (trimArguments) {
+            String[] subArgs = new String[args.length - 1];
+            if (args.length != 1) System.arraycopy(args, 1, subArgs, 0, args.length - 1);
+            moreSubCommands.get(subCommand).onExecute(user, subArgs);
+        } else {
+            moreSubCommands.get(subCommand).onExecute(user, args);
+        }
     }
 
     protected String getColor(String color) {

@@ -21,13 +21,16 @@ import org.bukkit.entity.Player;
 
 public class SpeakersSubCommand extends SubCommand {
 
-    private SpeakerSetSubCommand setSubCommand = new SpeakerSetSubCommand(this);
-    private SpeakerRemoveSubCommand speakerRemoveSubCommand = new SpeakerRemoveSubCommand(this);
-    private SpeakerGiveSubCommand giveSubCommand = new SpeakerGiveSubCommand(this);
-    private final OpenAudioMcSpigot openAudioMcSpigot;
-
     public SpeakersSubCommand(OpenAudioMcSpigot openAudioMcSpigot) {
         super("speaker");
+
+        registerSubCommands(
+                new SpeakerSetSubCommand(this),
+                new SpeakerRemoveSubCommand(this),
+                new SpeakerGiveSubCommand(this)
+
+        );
+
         registerArguments(
                 new Argument("menu",
                         "Opens a GUI with nearby speakers, allowing you to teleport and update them easily."),
@@ -44,7 +47,6 @@ public class SpeakersSubCommand extends SubCommand {
 
                 new Argument("gc", "Forcefully run a full garbage collection sweep.")
         );
-        this.openAudioMcSpigot = openAudioMcSpigot;
     }
 
     @Override
@@ -71,17 +73,17 @@ public class SpeakersSubCommand extends SubCommand {
         }
 
         if (args.length == 1 || args.length == 2) {
-            delegateTo(giveSubCommand, sender, args);
+            delegateTo("give", sender, args);
             return;
         }
 
         if (args[0].equalsIgnoreCase("set") && args.length == 6) {
-            delegateTo(setSubCommand, sender, args);
+            delegateTo("set", sender, args);
             return;
         }
 
         if (args[0].equalsIgnoreCase("remove") && args.length == 5) {
-            delegateTo(speakerRemoveSubCommand, sender, args);
+            delegateTo("remove", sender, args);
             return;
         }
 
