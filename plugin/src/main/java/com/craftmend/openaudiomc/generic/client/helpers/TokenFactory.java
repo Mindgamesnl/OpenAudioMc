@@ -1,9 +1,9 @@
-package com.craftmend.openaudiomc.generic.networking.client.utils;
+package com.craftmend.openaudiomc.generic.client.helpers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientAuth;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.session.ClientAuth;
+import com.craftmend.openaudiomc.generic.client.ClientConnection;
 import lombok.NoArgsConstructor;
 
 import java.util.Base64;

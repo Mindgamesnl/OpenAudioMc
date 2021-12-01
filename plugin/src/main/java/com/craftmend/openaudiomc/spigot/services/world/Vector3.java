@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.services.world;
 
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.ClientConnection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

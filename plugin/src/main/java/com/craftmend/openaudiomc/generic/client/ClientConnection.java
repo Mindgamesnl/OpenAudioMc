@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.networking.client.objects.player;
+package com.craftmend.openaudiomc.generic.client;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 
@@ -11,7 +11,11 @@ import com.craftmend.openaudiomc.api.interfaces.Client;
 import com.craftmend.openaudiomc.generic.enviroment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
-import com.craftmend.openaudiomc.generic.networking.client.utils.TokenFactory;
+import com.craftmend.openaudiomc.generic.client.session.ClientAuth;
+import com.craftmend.openaudiomc.generic.client.session.RtcSessionManager;
+import com.craftmend.openaudiomc.generic.client.helpers.SerializableClient;
+import com.craftmend.openaudiomc.generic.client.session.SessionData;
+import com.craftmend.openaudiomc.generic.client.helpers.TokenFactory;
 import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;

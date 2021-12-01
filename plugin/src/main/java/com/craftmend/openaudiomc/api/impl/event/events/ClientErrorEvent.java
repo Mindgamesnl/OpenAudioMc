@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.api.impl.event.events;
 import com.craftmend.openaudiomc.api.impl.event.AudioEvent;
 import com.craftmend.openaudiomc.api.impl.event.enums.EventSupport;
 import com.craftmend.openaudiomc.api.interfaces.EventSupportFlag;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
