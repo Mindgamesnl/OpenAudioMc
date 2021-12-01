@@ -7,7 +7,9 @@ import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.user.User;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class MojangLookupService extends Service {
 
     @Inject

@@ -6,11 +6,13 @@ import com.craftmend.openaudiomc.generic.networking.rest.Task;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
+import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@NoArgsConstructor
 public class ClientDataService extends Service {
 
     @Inject
@@ -19,10 +21,6 @@ public class ClientDataService extends Service {
     private TaskService taskService;
 
     private Map<UUID, ClientDataStore> storeCache = new HashMap<>();
-
-    public ClientDataService() {
-
-    }
 
     public Task<ClientDataStore> getClientData(UUID owner, boolean store) {
         Task<ClientDataStore> task = new Task<>();

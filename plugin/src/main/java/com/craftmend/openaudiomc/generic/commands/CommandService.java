@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
+import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.VoiceSubCommand;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -32,8 +33,7 @@ public class CommandService extends Service {
                 new NotificationSubCommand(this),
                 new LinkSubCommand(),
                 new ReloadSubCommand(),
-                new StateSubCommand(),
-                new VoiceSubCommand()
+                new StateSubCommand()
         );
     }
 
