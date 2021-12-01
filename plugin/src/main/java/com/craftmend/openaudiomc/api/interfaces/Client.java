@@ -1,10 +1,7 @@
 package com.craftmend.openaudiomc.api.interfaces;
 
 import com.craftmend.openaudiomc.generic.hue.HueState;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.SerializableClient;
 import com.craftmend.openaudiomc.generic.user.User;
-
-import java.util.Map;
 
 public interface Client {
 

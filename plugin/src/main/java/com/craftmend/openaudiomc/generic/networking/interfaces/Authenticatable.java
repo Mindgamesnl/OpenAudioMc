@@ -1,8 +1,8 @@
 package com.craftmend.openaudiomc.generic.networking.interfaces;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientAuth;
+import com.craftmend.openaudiomc.generic.client.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.session.ClientAuth;
 import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
 import com.craftmend.openaudiomc.generic.networking.packets.PacketSocketKickClient;
 import com.craftmend.openaudiomc.generic.user.User;

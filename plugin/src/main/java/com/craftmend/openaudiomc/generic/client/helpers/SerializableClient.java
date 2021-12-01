@@ -1,5 +1,7 @@
-package com.craftmend.openaudiomc.generic.networking.client.objects.player;
+package com.craftmend.openaudiomc.generic.client.helpers;
 
+import com.craftmend.openaudiomc.generic.client.session.ClientAuth;
+import com.craftmend.openaudiomc.generic.client.session.RtcSessionManager;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

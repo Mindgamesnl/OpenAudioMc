@@ -6,7 +6,7 @@ import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.SocketDriver;
 import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
 import com.craftmend.openaudiomc.generic.platform.Platform;

@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.api.impl.event;
 
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.ClientConnection;
 
 public interface ClientEvent {
 

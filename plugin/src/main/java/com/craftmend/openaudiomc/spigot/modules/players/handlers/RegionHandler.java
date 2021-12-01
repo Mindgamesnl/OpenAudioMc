@@ -1,8 +1,8 @@
 package com.craftmend.openaudiomc.spigot.modules.players.handlers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.networking.client.enums.RtcBlockReason;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.RtcSessionManager;
+import com.craftmend.openaudiomc.generic.client.enums.RtcBlockReason;
+import com.craftmend.openaudiomc.generic.client.session.RtcSessionManager;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientBlurVoiceUi;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceBlurUiPayload;
