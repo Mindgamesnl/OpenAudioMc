@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.client.helpers;
 
-import com.craftmend.openaudiomc.generic.client.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.spigot.services.world.Vector3;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.services.world.interfaces.IRayTracer;

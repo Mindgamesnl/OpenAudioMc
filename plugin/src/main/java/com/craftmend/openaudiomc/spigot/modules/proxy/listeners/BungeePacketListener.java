@@ -7,7 +7,7 @@ import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
-import com.craftmend.openaudiomc.generic.client.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.client.session.ClientAuth;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;

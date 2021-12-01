@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.client.session;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.client.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.media.objects.Media;

@@ -2,8 +2,6 @@ package com.craftmend.openaudiomc.spigot.modules.speakers.menu;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
-import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.ApplicableSpeaker;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
@@ -48,7 +46,7 @@ public class SelectedSpeakerMenu extends Menu {
                     speaker.getSpeaker().getLocation().toBukkit().getBlock().setType(Material.AIR);
                     OpenAudioMc.getService(SpeakerService.class).unlistSpeaker(speaker.getSpeaker().getLocation());
                     OpenAudioMc.getService(DatabaseService.class)
-                            .getTable(Speaker.class)
+                            .getRepository(Speaker.class)
                             .delete(speaker.getSpeaker().getId().toString());
                     player.closeInventory();
                 })

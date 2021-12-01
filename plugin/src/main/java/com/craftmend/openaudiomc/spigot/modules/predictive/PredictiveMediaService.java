@@ -4,7 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
-import com.craftmend.openaudiomc.generic.client.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
@@ -54,7 +54,7 @@ public class PredictiveMediaService extends Service {
 
     public void loadFromFile() throws IOException {
         // load SerializedAudioChunk.ChunkMap.class
-        StoredChunkMap scm = databaseService.getTable(StoredChunkMap.class).get(storageName);
+        StoredChunkMap scm = databaseService.getRepository(StoredChunkMap.class).get(storageName);
         if (scm == null) {
             scm = new StoredChunkMap(new SerializedAudioChunk.ChunkMap());
             OpenAudioLogger.toConsole("Seeding default empty chunk map");
@@ -66,7 +66,7 @@ public class PredictiveMediaService extends Service {
 
     public void onDisable() {
         // save
-        databaseService.getTable(StoredChunkMap.class).save(storageName, new StoredChunkMap(chunkMapSerializer.serialize(chunkTracker)));
+        databaseService.getRepository(StoredChunkMap.class).save(storageName, new StoredChunkMap(chunkMapSerializer.serialize(chunkTracker)));
     }
 
     private INetworkingEvents getPacketHook() {

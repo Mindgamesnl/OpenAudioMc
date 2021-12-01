@@ -7,14 +7,12 @@ import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
-import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import com.craftmend.openaudiomc.spigot.modules.speakers.menu.NearbySpeakersMenu;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
@@ -126,7 +124,7 @@ public class SpeakersSubCommand extends SubCommand {
             speakerService.registerSpeaker(speaker);
             // save
             OpenAudioMc.getService(DatabaseService.class)
-                    .getTable(Speaker.class)
+                    .getRepository(Speaker.class)
                     .save(speaker.getId().toString(), speaker);
 
             // place block
@@ -174,7 +172,7 @@ public class SpeakersSubCommand extends SubCommand {
             speakerService.registerSpeaker(speaker);
             // save
             OpenAudioMc.getService(DatabaseService.class)
-                    .getTable(Speaker.class)
+                    .getRepository(Speaker.class)
                     .delete(speaker.getId().toString());
 
             message(sender, "Removed speaker");

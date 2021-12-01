@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking.payloads.client.voice;
 
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
-import com.craftmend.openaudiomc.generic.client.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.client.helpers.ClientRtcLocationUpdate;
 import com.craftmend.openaudiomc.spigot.services.world.Vector3;
 import lombok.AllArgsConstructor;

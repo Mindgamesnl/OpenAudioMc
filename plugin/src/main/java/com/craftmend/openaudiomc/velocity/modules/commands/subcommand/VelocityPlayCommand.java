@@ -8,7 +8,7 @@ import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.media.objects.MediaOptions;
 import com.craftmend.openaudiomc.generic.media.objects.OptionalError;
-import com.craftmend.openaudiomc.generic.client.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.velocity.modules.player.objects.VelocityPlayerSelector;

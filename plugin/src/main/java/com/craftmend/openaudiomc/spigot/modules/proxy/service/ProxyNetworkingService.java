@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.proxy.service;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
-import com.craftmend.openaudiomc.generic.client.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.client.helpers.SerializableClient;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;

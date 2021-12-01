@@ -6,18 +6,13 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.migrations.MigrationWorker;
 import com.craftmend.openaudiomc.generic.migrations.interfaces.SimpleMigration;
 import com.craftmend.openaudiomc.generic.platform.Platform;
-import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
-import com.craftmend.openaudiomc.spigot.modules.speakers.objects.QueuedSpeaker;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.block.Block;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -49,7 +44,7 @@ public class SpeakerDatabaseMigration extends SimpleMigration {
             }
 
             Speaker speaker = loadFromFile(id);
-            service.getTable(Speaker.class)
+            service.getRepository(Speaker.class)
                     .save(speaker.getId().toString(), speaker);
             config.setString(StorageLocation.DATA_FILE, "speakers." + id, null);
             config.saveAll();
