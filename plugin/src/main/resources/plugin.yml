@@ -7,6 +7,9 @@ authors: [Mindgamesnl]
 description: The OpenAudioMc plugin. Brings real sound and lights to your minecraft server with the help of a custom web client.
 website: https://openaudiomc.net/
 commands:
+  audiosettings:
+    aliases: [ settings, vs, voicesettings, block, voicemod, audioprofile ]
+    description: Open your personal audio client settings
   audio:
     aliases: [sound, connect, media, muziek, geluid, voice, vc, voicechat]
     description: Generate a link to the audio web client

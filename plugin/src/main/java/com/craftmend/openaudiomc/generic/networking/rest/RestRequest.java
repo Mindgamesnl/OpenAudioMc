@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 public class RestRequest {
 
-    public static final OkHttpClient client = new OkHttpClient();
+    public static OkHttpClient client = new OkHttpClient();
     @Getter private String endpoint;
     @Getter private String body = null;
     @Setter private boolean verbose = true;

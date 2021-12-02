@@ -13,6 +13,7 @@ public class DurationFormatter {
             TimeUnit.HOURS.toMillis(1),
             TimeUnit.MINUTES.toMillis(1),
             TimeUnit.SECONDS.toMillis(1));
+
     public static final List<String> timesString = Arrays.asList("year", "month", "day", "hour", "minute", "second");
 
     public static String formatDuration(Duration duration) {

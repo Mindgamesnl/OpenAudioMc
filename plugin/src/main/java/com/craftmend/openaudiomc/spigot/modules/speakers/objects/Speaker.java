@@ -14,10 +14,10 @@ import java.util.UUID;
 
 public class Speaker extends DataStore {
 
-    @Getter private final String source;
-    @Getter private final UUID id;
+    @Getter private String source;
+    @Getter private UUID id;
     @Setter @Getter private int radius;
-    @Getter private final MappedLocation location;
+    @Getter private MappedLocation location;
     @Setter @Getter private SpeakerType speakerType;
     @Getter private Set<ExtraSpeakerOptions> extraOptions = new HashSet<>();
     @Getter @Setter private boolean validated = false;

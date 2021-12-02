@@ -56,6 +56,16 @@ public class Repository<T> {
         databaseService.getDatabase().commit();
     }
 
+    public void saveString(String key, String data) {
+        dataMap.put(key, data);
+        databaseService.getDatabase().commit();
+    }
+
+    public void saveOnWholeNetwork(String key, T data) {
+        save(key, data);
+
+    }
+
     public boolean containsKey(String key) {
         return dataMap.containsKey(key);
     }

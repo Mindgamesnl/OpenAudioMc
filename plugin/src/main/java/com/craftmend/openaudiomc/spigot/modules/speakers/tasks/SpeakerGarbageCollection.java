@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 
 public class SpeakerGarbageCollection extends BukkitRunnable {
 
-    private final SpeakerService speakerService;
+    private SpeakerService speakerService;
     private final Set<Speaker> garbageSpeakers = new HashSet<Speaker>();
     private int lastFraction = 0;
     private final int FRACTION_GROUP_SIZE = 50;

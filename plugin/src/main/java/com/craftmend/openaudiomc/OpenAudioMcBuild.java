@@ -51,20 +51,20 @@ public class OpenAudioMcBuild {
      * releases may not have following build numbers and may instead make major jumps form 233 > 458. The only given
      * is that higher numbers will represent newer builds. These build numbers may be mapped to releases.
      */
-    private final int buildNumber;
+    private int buildNumber;
 
     /**
      * This is the git commit on which the build was made. This can be used to trace back to the release
      * or specific path. Auto links will automatically assume the base url to link to the original Mindgamesnl/OpenAudioMc
      * repository, so please double check before releasing or forking.
      */
-    private final String buildCommit;
+    private String buildCommit;
 
     /**
      * The build author is the git Username of the user who last committed in the working directory.
      * This will default to me (Mindgamesnl) but will link back to contributors who patched.
      */
-    private final String buildAuthor;
+    private String buildAuthor;
 
     public static boolean IS_TESTING = false;
 }

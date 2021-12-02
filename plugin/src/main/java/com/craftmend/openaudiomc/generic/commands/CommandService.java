@@ -3,12 +3,11 @@ package com.craftmend.openaudiomc.generic.commands;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.*;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
+import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
-import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.VoiceSubCommand;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ public class CommandService extends Service {
     @Inject
     private Configuration configuration;
 
-    private final Map<String, SubCommand> subCommands = new HashMap<>();
+    private Map<String, SubCommand> subCommands = new HashMap<>();
     @Getter private final List<String> aliases = new ArrayList<>();
 
     public CommandService() {

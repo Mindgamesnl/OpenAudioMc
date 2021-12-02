@@ -43,6 +43,7 @@ public class MigrationWorker {
                 new SpeakerDatabaseMigration(),         // Migrate speakers from data.yml to the database
                 new RegionDatabaseMigration(),          // migrate speakers, just like regions
                 new AliasDatabaseMigration(),           // migrate aliases
+                new PredictiveCacheMigration(),         // migrate audio smart cache
         };
 
         for (SimpleMigration migration : migrations) {

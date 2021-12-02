@@ -16,8 +16,8 @@ public class PlayerUpdatePayload {
         this.publicKey = publicKey;
     }
 
-    private final String publicKey;
-    private final String privateKey;
+    private String publicKey;
+    private String privateKey;
     private final List<OnlinePlayer> joinedPlayers = new ArrayList<>();
     private final List<OnlinePlayer> updatedPlayers = new ArrayList<>();
     private final List<UUID> disconnectedPlayers = new ArrayList<>();
