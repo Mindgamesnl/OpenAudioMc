@@ -9,8 +9,8 @@ import org.bukkit.Bukkit;
 public class TimedRegionProperties extends RegionProperties {
 
     private int task = -1;
-    private String id;
-    private Media media;
+    private final String id;
+    private final Media media;
 
     public TimedRegionProperties(String source, int timeInSeconds, String id) {
         this(source, timeInSeconds, id, 100, 1000, id);

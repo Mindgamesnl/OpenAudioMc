@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.players;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.user.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.generic.service.Inject;
@@ -24,7 +24,7 @@ public class SpigotPlayerService extends Service {
     @Inject
     private OpenAudioMcSpigot openAudioMcSpigot;
 
-    private Map<UUID, SpigotConnection> spigotConnectionMap = new HashMap<>();
+    private final Map<UUID, SpigotConnection> spigotConnectionMap = new HashMap<>();
     @Getter private PlayerConnectionListener playerConnectionListener;
 
     @Override

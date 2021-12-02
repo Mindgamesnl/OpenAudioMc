@@ -36,14 +36,14 @@ public class SpeakerService extends Service {
     @Getter private SpeakerCollector collector;
 
     public static final SpeakerType DEFAULT_SPEAKER_TYPE = SpeakerType.SPEAKER_3D;
-    @Getter private Map<MappedLocation, Speaker> speakerMap = new HashMap<>();
-    private Map<String, SpeakerMedia> speakerMediaMap = new HashMap<>();
+    @Getter private final Map<MappedLocation, Speaker> speakerMap = new HashMap<>();
+    private final Map<String, SpeakerMedia> speakerMediaMap = new HashMap<>();
     @Getter private Material playerSkullItem;
     @Getter private Material playerSkullBlock;
-    @Getter private Map<String, Set<QueuedSpeaker>> waitingWorlds = new HashMap<>();
+    @Getter private final Map<String, Set<QueuedSpeaker>> waitingWorlds = new HashMap<>();
     @Getter private ServerVersion version;
 
-    private EstimatedRayTracer estimatedRayTracer = new EstimatedRayTracer();
+    private final EstimatedRayTracer estimatedRayTracer = new EstimatedRayTracer();
 
     @Override
     public void onEnable() {
@@ -57,10 +57,10 @@ public class SpeakerService extends Service {
 
         initializeVersion();
 
-        OpenAudioLogger.toConsole("There are " + OpenAudioMc.getService(DatabaseService.class).getTable(Speaker.class).size() + " speakers in the new database");
+        OpenAudioLogger.toConsole("There are " + OpenAudioMc.getService(DatabaseService.class).getRepository(Speaker.class).size() + " speakers in the new database");
 
         // load all apeakers
-        for (Speaker speaker : databaseService.getTable(Speaker.class).values()) {
+        for (Speaker speaker : databaseService.getRepository(Speaker.class).values()) {
             registerSpeaker(speaker);
         }
 

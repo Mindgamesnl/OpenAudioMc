@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
 
 public class StopSubCommand extends SubCommand {
 
-    private OpenAudioMcSpigot openAudioMcSpigot;
+    private final OpenAudioMcSpigot openAudioMcSpigot;
 
     public StopSubCommand(OpenAudioMcSpigot openAudioMcSpigot) {
         super("stop");
@@ -42,7 +42,7 @@ public class StopSubCommand extends SubCommand {
             for (Player player : new SpigotPlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal())) {
                 SpigotConnection spigotConnection = OpenAudioMc.getService(SpigotPlayerService.class).getClient(player);
                 if (spigotConnection.getClientConnection().isConnected()) affected++;
-                spigotConnection.getClientConnection().getOngoingMedia().clear();
+                spigotConnection.getClientConnection().getSession().getOngoingMedia().clear();
                 OpenAudioMc.getService(NetworkingService.class).send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(null));
             }
             message(sender, ChatColor.GREEN + "Destroyed all normal sounds for " + affected + " clients");

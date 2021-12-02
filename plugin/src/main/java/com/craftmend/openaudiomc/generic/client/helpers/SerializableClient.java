@@ -1,5 +1,7 @@
-package com.craftmend.openaudiomc.generic.networking.client.objects.player;
+package com.craftmend.openaudiomc.generic.client.helpers;
 
+import com.craftmend.openaudiomc.generic.client.session.ClientAuth;
+import com.craftmend.openaudiomc.generic.client.session.RtcSessionManager;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,11 +13,11 @@ public class SerializableClient {
 
     private int volume = -1;
     private boolean isConnected = false;
-    private ClientRtcManager clientRtcManager;
+    private RtcSessionManager rtcSessionManager;
     private String streamKey;
     private boolean isConnectedToRtc = false;
     private boolean hasHueLinked = false;
     private boolean sessionUpdated = false;
-    private PlayerSession session;
+    private ClientAuth auth;
 
 }

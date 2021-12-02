@@ -8,7 +8,7 @@ import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 
 public class AcceptSubCommand extends SubCommand {
@@ -32,7 +32,7 @@ public class AcceptSubCommand extends SubCommand {
         service.connectIfDown();
 
         for (ClientConnection client : service.getClients()) {
-            client.publishUrl();
+            client.getAuth().publishSessionUrl();
         }
     }
 }

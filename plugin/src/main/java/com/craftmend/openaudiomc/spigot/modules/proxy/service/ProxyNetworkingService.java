@@ -3,8 +3,8 @@ package com.craftmend.openaudiomc.spigot.modules.proxy.service;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.SerializableClient;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.helpers.SerializableClient;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
@@ -57,7 +57,7 @@ public class ProxyNetworkingService extends NetworkingService {
         if (!(client instanceof ClientConnection))
             throw new UnsupportedOperationException("The bungee adapter for the networking service only supports client connections");
         if (packet.getClass().getSimpleName().startsWith("PacketClient")) {
-            packet.setClient(client.getOwnerUUID());
+            packet.setClient(client.getOwner().getUniqueId());
             OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(((ClientConnection) client).getUser(),
                     new ForwardSocketPacket(packet));
         }

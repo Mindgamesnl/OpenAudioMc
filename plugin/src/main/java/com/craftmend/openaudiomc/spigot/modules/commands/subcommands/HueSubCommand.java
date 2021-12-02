@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
 
 public class HueSubCommand extends SubCommand {
 
-    private OpenAudioMcSpigot openAudioMcSpigot;
+    private final OpenAudioMcSpigot openAudioMcSpigot;
 
     public HueSubCommand(OpenAudioMcSpigot openAudioMcSpigot) {
         super("hue");
@@ -39,7 +39,7 @@ public class HueSubCommand extends SubCommand {
             SerializedHueColor serializedHueColor = new SerializedHueColor(Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]), Integer.parseInt(args[6]));
             for (Player player : new SpigotPlayerSelector(args[1]).getPlayers((CommandSender) sender.getOriginal())) {
                 SpigotConnection spigotConnection = OpenAudioMc.getService(SpigotPlayerService.class).getClient(player);
-                if (spigotConnection.getClientConnection().isHasHueLinked()) {
+                if (spigotConnection.getClientConnection().getSession().isHasHueLinked()) {
                     OpenAudioMc.getService(NetworkingService.class).send(spigotConnection.getClientConnection(), new PacketClientApplyHueColor(serializedHueColor, args[2]));
                 }
             }

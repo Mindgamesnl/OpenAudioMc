@@ -22,7 +22,7 @@ public class AliasService extends Service {
     @Inject
     private DatabaseService databaseService;
 
-    @Getter private Map<String, Alias> aliasMap = new HashMap<>();
+    @Getter private final Map<String, Alias> aliasMap = new HashMap<>();
 
     public String translate(String name) {
         Alias target = aliasMap.get(name.toLowerCase());
@@ -39,7 +39,7 @@ public class AliasService extends Service {
         OpenAudioMc.getService(MediaService.class).registerMutation("a:", new AliasMiddleware(this));
 
         //load config
-        for (Alias alias : databaseService.getTable(Alias.class).values()) {
+        for (Alias alias : databaseService.getRepository(Alias.class).values()) {
             aliasMap.put(alias.getName(), alias);
         }
 

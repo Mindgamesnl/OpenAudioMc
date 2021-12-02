@@ -28,7 +28,7 @@ public class AliasDatabaseMigration extends SimpleMigration {
 
         for (String id : config.getStringSet("aliases", StorageLocation.DATA_FILE)) {
             OpenAudioLogger.toConsole("Migrating alias " + id);
-            service.getTable(Alias.class)
+            service.getRepository(Alias.class)
                     .save(id, new Alias(id, config.getStringFromPath("aliases." + id, StorageLocation.DATA_FILE)));
             config.setString(StorageLocation.DATA_FILE, "aliases." + id, null);
         }

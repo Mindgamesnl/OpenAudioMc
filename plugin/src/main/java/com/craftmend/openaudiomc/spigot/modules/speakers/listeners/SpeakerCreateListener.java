@@ -57,7 +57,7 @@ public class SpeakerCreateListener implements Listener {
 
             // save
             OpenAudioMc.getService(DatabaseService.class)
-                    .getTable(Speaker.class)
+                    .getRepository(Speaker.class)
                     .save(speaker.getId().toString(), speaker);
 
             event.getPlayer().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.GREEN + "Placed a " + speakerType.getName() + " speaker" + ChatColor.GRAY + " (guessed bases on other nearby speakers, click placed speaker to edit)");

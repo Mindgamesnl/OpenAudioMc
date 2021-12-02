@@ -48,7 +48,7 @@ public class AuthenticationDriver {
         OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> {
             // check ache, since there might be a value
             sessionCacheMap.clean();
-            ConcurrentHeatMap<UUID, String>.Value entry = sessionCacheMap.get(authenticatable.getOwnerUUID());
+            ConcurrentHeatMap<UUID, String>.Value entry = sessionCacheMap.get(authenticatable.getOwner().getUniqueId());
             if (!entry.getContext().isEmpty()) {
                 task.finish(entry.getContext());
                 return;
@@ -57,9 +57,9 @@ public class AuthenticationDriver {
             // create request
             ClientTokenRequestBody requestBody = new ClientTokenRequestBody(
                     "ACCOUNT",
-                    authenticatable.getOwnerName(),
-                    authenticatable.getOwnerUUID().toString(),
-                    authenticatable.getSessionTokens().getWebSessionKey(),
+                    authenticatable.getOwner().getName(),
+                    authenticatable.getOwner().getUniqueId().toString(),
+                    authenticatable.getAuth().getWebSessionKey(),
                     service.getServerKeySet().getPublicKey().getValue(),
                     service.getIdentity()
             );

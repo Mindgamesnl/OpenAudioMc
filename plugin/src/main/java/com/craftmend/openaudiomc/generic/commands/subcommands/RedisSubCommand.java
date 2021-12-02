@@ -7,7 +7,7 @@ import com.craftmend.openaudiomc.generic.redis.RedisService;
 
 public class RedisSubCommand extends SubCommand {
 
-    private RedisService redisService;
+    private final RedisService redisService;
 
     public RedisSubCommand(RedisService redisService) {
         super("redis");

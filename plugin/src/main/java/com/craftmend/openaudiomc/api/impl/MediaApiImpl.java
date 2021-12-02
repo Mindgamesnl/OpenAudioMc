@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.api.interfaces.Client;
 import com.craftmend.openaudiomc.api.interfaces.MediaApi;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.media.objects.MediaOptions;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
 import com.craftmend.openaudiomc.generic.networking.packets.client.speakers.PacketClientCreateSpeaker;
@@ -58,7 +58,7 @@ public class MediaApiImpl implements MediaApi {
                 obstructions
         );
         ClientConnection connection = validateClient(client);
-        connection.setApiSpeakers(connection.getApiSpeakers() + 1);
+        connection.getSession().setApiSpeakers(connection.getSession().getApiSpeakers() + 1);
         OpenAudioMc.getService(NetworkingService.class).send(connection, new PacketClientCreateSpeaker(new ClientSpeakerCreatePayload(clientSpeaker)));
         return clientSpeaker.getId();
     }
@@ -75,7 +75,7 @@ public class MediaApiImpl implements MediaApi {
                 0
         );
         ClientConnection connection = validateClient(client);
-        connection.setApiSpeakers(connection.getApiSpeakers() - 1);
+        connection.getSession().setApiSpeakers(connection.getSession().getApiSpeakers() - 1);
         OpenAudioMc.getService(NetworkingService.class).send(connection, new PacketClientRemoveSpeaker(new ClientSpeakerDestroyPayload(clientSpeaker)));
     }
 }

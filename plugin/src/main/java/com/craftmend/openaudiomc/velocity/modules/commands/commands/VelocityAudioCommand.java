@@ -32,7 +32,7 @@ public class VelocityAudioCommand implements SimpleCommand {
 
         if (source instanceof Player) {
             Player player = (Player) source;
-            OpenAudioMc.getService(NetworkingService.class).getClient(player.getUniqueId()).publishUrl();
+            OpenAudioMc.getService(NetworkingService.class).getClient(player.getUniqueId()).getAuth().publishSessionUrl();
         } else {
             String[] args = invocation.arguments();
 
@@ -42,7 +42,7 @@ public class VelocityAudioCommand implements SimpleCommand {
             }
 
             for (Player player : new VelocityPlayerSelector(args[0]).getPlayers(source)) {
-                OpenAudioMc.getService(NetworkingService.class).getClient(player.getUniqueId()).publishUrl();
+                OpenAudioMc.getService(NetworkingService.class).getClient(player.getUniqueId()).getAuth().publishSessionUrl();
             }
         }
     }

@@ -24,9 +24,9 @@ import java.util.List;
 
 public class SpigotMainCommand implements CommandExecutor, TabCompleter {
 
-    private OpenAudioMcSpigot openAudioMcSpigot;
-    private CommandService commandService = OpenAudioMc.getService(CommandService.class);
-    private CommandMiddleware[] commandMiddleware = new CommandMiddleware[] {
+    private final OpenAudioMcSpigot openAudioMcSpigot;
+    private final CommandService commandService = OpenAudioMc.getService(CommandService.class);
+    private final CommandMiddleware[] commandMiddleware = new CommandMiddleware[] {
             new CatchLegalBindingMiddleware(),
             new CatchCrashMiddleware(),
             new CleanStateCheckMiddleware()

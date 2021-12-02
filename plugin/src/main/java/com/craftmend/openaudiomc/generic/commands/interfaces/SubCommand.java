@@ -4,21 +4,22 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
+import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.permissions.Permission;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public abstract class SubCommand {
 
-    @Getter private String command;
+    @Getter private final String command;
     @Getter private List<String> aliases = new ArrayList<>();
-    @Getter private List<Argument> arguments = new ArrayList<>();
+    @Getter private final List<Argument> arguments = new ArrayList<>();
+    private final Map<String, SubCommand> moreSubCommands = new HashMap<>();
+    protected boolean trimArguments = false;
 
     /**
      * @param argument Your command name. For example "select"
@@ -61,6 +62,28 @@ public abstract class SubCommand {
         return commandSender.hasPermission("openaudiomc.commands." + command)
                 || commandSender.hasPermission("openaudiomc.commands.*")
                 || commandSender.hasPermission("openaudiomc.*");
+    }
+
+    protected void registerSubCommands(SubCommand... commands) {
+        for (SubCommand subCommand : commands) {
+            moreSubCommands.put(subCommand.getCommand(), subCommand);
+        }
+    }
+
+    /**
+     * @param subCommand Another sub command to use, like a sub sub command!
+     * @param user User
+     * @param args Arguments
+     */
+    protected void delegateTo(String subCommand, User user, String[] args) {
+        SubCommand sci = moreSubCommands.get(subCommand);
+        if (sci.trimArguments) {
+            String[] subArgs = new String[args.length - 1];
+            if (args.length != 1) System.arraycopy(args, 1, subArgs, 0, args.length - 1);
+            sci.onExecute(user, subArgs);
+        } else {
+            sci.onExecute(user, args);
+        }
     }
 
     protected String getColor(String color) {
@@ -109,5 +132,13 @@ public abstract class SubCommand {
             }
             return "";
         }
+    }
+
+    public <T> T resolveDependency(Class<T> d) {
+        return d.cast(OpenAudioMc.getInstance().getServiceManager().resolve(d));
+    }
+
+    protected <T extends Service> T getService(Class<T> service) {
+        return service.cast(OpenAudioMc.getInstance().getServiceManager().loadService(service));
     }
 }

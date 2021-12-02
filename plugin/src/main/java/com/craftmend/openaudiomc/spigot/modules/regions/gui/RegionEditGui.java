@@ -63,7 +63,7 @@ public class RegionEditGui extends Menu {
                     // save the new setting
 
                     Configuration config = OpenAudioMc.getInstance().getConfiguration();
-                    config.setString(StorageLocation.DATA_FILE, "regionmeta." + region.getId().toString() + ".allow-vc", region.getProperties().isAllowsVoiceChat() + "");
+                    config.setString(StorageLocation.DATA_FILE, "regionmeta." + region.getId() + ".allow-vc", region.getProperties().isAllowsVoiceChat() + "");
 
                     if (region.getProperties().isAllowsVoiceChat()) {
                         player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.GREEN + "Voicechat has been enabled for this region.");
@@ -90,7 +90,7 @@ public class RegionEditGui extends Menu {
                 .onClick((player, item) -> {
                     if (fadeTime == region.getProperties().getFadeTimeMs()) return;
                     Configuration config = OpenAudioMc.getInstance().getConfiguration();
-                    config.setInt(StorageLocation.DATA_FILE, "regionsfadetime." + region.getId().toString(), fadeTime);
+                    config.setInt(StorageLocation.DATA_FILE, "regionsfadetime." + region.getId(), fadeTime);
                     region.getProperties().setFadeTimeMs(fadeTime);
 
                     player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.GREEN + "Updated region fadetime to " + fadeTime);
@@ -117,7 +117,7 @@ public class RegionEditGui extends Menu {
                 .onClick((player, item) -> {
                     if (volume == region.getVolume()) return;
                     Configuration config = OpenAudioMc.getInstance().getConfiguration();
-                    config.setInt(StorageLocation.DATA_FILE, "regionsvolume." + region.getId().toString(), volume);
+                    config.setInt(StorageLocation.DATA_FILE, "regionsvolume." + region.getId(), volume);
                     region.setVolume(volume);
 
                     player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.GREEN + "Updated region volume to " + volume);

@@ -23,11 +23,11 @@ public class ExecutorService extends Service {
     private OpenAudioMcSpigot plugin;
 
     @Getter private Executor executor;
-    @Getter private Queue<Runnable> tickRunnables = new ConcurrentLinkedQueue<>();
-    @Getter private Queue<Runnable> secondRunnables = new ConcurrentLinkedQueue<>();
+    @Getter private final Queue<Runnable> tickRunnables = new ConcurrentLinkedQueue<>();
+    @Getter private final Queue<Runnable> secondRunnables = new ConcurrentLinkedQueue<>();
     @Getter private Queue<Runnable> runNextTick = new ConcurrentLinkedQueue<>();
-    private ReentrantLock lock = new ReentrantLock();
-    @Getter private Queue<Runnable> nextTickFallback = new ConcurrentLinkedQueue<>();
+    private final ReentrantLock lock = new ReentrantLock();
+    @Getter private final Queue<Runnable> nextTickFallback = new ConcurrentLinkedQueue<>();
     private int tick = 0;
     @Getter private Instant lastPing = Instant.now();
 

@@ -25,7 +25,7 @@ public class ApiEventDriver {
     /**
      * Cache for reflected event support lookups
      */
-    private Map<Class<? extends AudioEvent>, EventSupport> eventSupportCache = new HashMap<>();
+    private final Map<Class<? extends AudioEvent>, EventSupport> eventSupportCache = new HashMap<>();
 
     /**
      * This maps raw event implementation classes to a set of handler holders of the same type
@@ -33,7 +33,7 @@ public class ApiEventDriver {
      * expect that there'll be events registered during normal application flow, but is important
      * since most (if not all) events are async for networking and platform reasons.
      */
-    private HashMap<Class<? extends AudioEvent>, Set<HandlerHolder<? extends AudioEvent>>> handlers = new HashMap<>();
+    private final HashMap<Class<? extends AudioEvent>, Set<HandlerHolder<? extends AudioEvent>>> handlers = new HashMap<>();
 
     /**
      * This attempts to fetch the event type from a class, but this requires the class to have a public constructor

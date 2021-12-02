@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class Key {
 
-    private String value;
+    private final String value;
 
     /**
      * A auth key holder

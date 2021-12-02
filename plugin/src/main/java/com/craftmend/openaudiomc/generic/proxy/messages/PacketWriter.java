@@ -13,8 +13,8 @@ public class PacketWriter {
 
     private final StandardPacket packet;
 
-    private ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-    private DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
+    private final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+    private final DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
 
     /**
      * Creates a new instance of this class
@@ -43,7 +43,7 @@ public class PacketWriter {
         dataOutputStream.write(v);
     }
 
-    public void write(byte b[], int off, int len) throws IOException {
+    public void write(byte[] b, int off, int len) throws IOException {
         dataOutputStream.write(b, off, len);
     }
 

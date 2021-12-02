@@ -9,7 +9,7 @@ import java.util.Map;
 @NoArgsConstructor
 public class TypeCounter<T> {
 
-    @Getter private Map<T,  Integer> values = new HashMap<>();
+    @Getter private final Map<T,  Integer> values = new HashMap<>();
 
     public Integer getCount(T type) {
         return values.getOrDefault(type, 0);

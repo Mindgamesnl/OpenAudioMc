@@ -3,8 +3,6 @@ package com.craftmend.openaudiomc.spigot.modules.speakers.menu;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
-import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
-import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
@@ -73,7 +71,7 @@ public class SpeakerMenu extends Menu {
                     }
 
                     OpenAudioMc.getService(DatabaseService.class)
-                            .getTable(Speaker.class)
+                            .getRepository(Speaker.class)
                             .save(speaker.getId().toString(), speaker);
                     new SpeakerMenu(speaker).openFor(clicker);
                 });
@@ -124,7 +122,7 @@ public class SpeakerMenu extends Menu {
             Collection<Entity> entities = bukkitSpeakerLocation.getWorld().getNearbyEntities(bukkitSpeakerLocation, safeRadius, safeRadius, safeRadius);
 
             OpenAudioMc.getService(DatabaseService.class)
-                    .getTable(Speaker.class)
+                    .getRepository(Speaker.class)
                     .save(speaker.getId().toString(), speaker);
 
             for (Entity entity : entities) {
@@ -163,7 +161,7 @@ public class SpeakerMenu extends Menu {
                     if (distance == speaker.getRadius()) return;
                     speaker.setRadius(distance);
                     OpenAudioMc.getService(DatabaseService.class)
-                            .getTable(Speaker.class)
+                            .getRepository(Speaker.class)
                             .save(speaker.getId().toString(), speaker);
                     player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Updated speaker radius to " + distance);
                     new SpeakerMenu(speaker).openFor(player);

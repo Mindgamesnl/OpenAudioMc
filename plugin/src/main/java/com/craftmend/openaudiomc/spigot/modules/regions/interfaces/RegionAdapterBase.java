@@ -9,7 +9,7 @@ import java.util.*;
 
 public abstract class RegionAdapterBase {
 
-    private RegionModule regionModule;
+    private final RegionModule regionModule;
     private AbstractRegionAdapter selfInjected;
 
     protected RegionAdapterBase(RegionModule regionModule) {

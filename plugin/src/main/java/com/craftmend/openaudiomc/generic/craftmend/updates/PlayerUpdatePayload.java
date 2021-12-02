@@ -16,11 +16,11 @@ public class PlayerUpdatePayload {
         this.publicKey = publicKey;
     }
 
-    private String publicKey;
-    private String privateKey;
-    private List<OnlinePlayer> joinedPlayers = new ArrayList<>();
-    private List<OnlinePlayer> updatedPlayers = new ArrayList<>();
-    private List<UUID> disconnectedPlayers = new ArrayList<>();
+    private final String publicKey;
+    private final String privateKey;
+    private final List<OnlinePlayer> joinedPlayers = new ArrayList<>();
+    private final List<OnlinePlayer> updatedPlayers = new ArrayList<>();
+    private final List<UUID> disconnectedPlayers = new ArrayList<>();
     @Setter private boolean forceClear = false;
 
 }

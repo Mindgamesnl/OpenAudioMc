@@ -21,7 +21,7 @@ public class LegacyRegionAdapter extends AbstractRegionAdapter {
         super(regionModule);
     }
     private boolean booted = false;
-    private boolean usePriority = OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_USE_WG_PRIORITY);
+    private final boolean usePriority = OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_USE_WG_PRIORITY);
 
     @Override
     public Set<ApiRegion> getRegionsAtLocation(Location location) {

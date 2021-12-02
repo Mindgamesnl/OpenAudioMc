@@ -6,7 +6,7 @@ import com.craftmend.openaudiomc.api.impl.event.events.TimeServiceUpdateEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientBlurVoiceUi;
@@ -48,11 +48,11 @@ public class ProxyHostService extends Service {
         OpenAudioMc.getService(NetworkingService.class).send(connection, new PacketClientDestroyMedia(null, true));
 
         OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
-            if (connection.isHasHueLinked()) {
+            if (connection.getSession().isHasHueLinked()) {
                 this.userHooks.sendPacket(user, new ClientSyncHueStatePacket(user.getUniqueId()));
             }
 
-            if (connection.isConnectedToRtc()) {
+            if (connection.getSession().isConnectedToRtc()) {
                 // drop all peers
                 connection.sendPacket(new PacketClientBlurVoiceUi(new ClientVoiceBlurUiPayload(false)));
                 connection.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(null)));
@@ -62,10 +62,10 @@ public class ProxyHostService extends Service {
                 this.userHooks.sendPacket(user,
                         new ClientUpdateStatePacket(
                                 user.getUniqueId(),
-                                connection.getStreamKey(),
-                                connection.isConnectedToRtc(),
-                                connection.getClientRtcManager().isMicrophoneEnabled(),
-                                connection.getSession().getStaticToken()
+                                connection.getRtcSessionManager().getStreamKey(),
+                                connection.getSession().isConnectedToRtc(),
+                                connection.getRtcSessionManager().isMicrophoneEnabled(),
+                                connection.getAuth().getStaticToken()
                         )
                 );
             }
@@ -84,7 +84,7 @@ public class ProxyHostService extends Service {
             ForwardSocketPacket p = (ForwardSocketPacket) packet;
             ClientConnection clientConnection = OpenAudioMc.getService(NetworkingService.class).getClient(from.getUniqueId());
             if (clientConnection == null) return;
-            if (!clientConnection.getIsConnected()) return;
+            if (!clientConnection.isConnected()) return;
 
             OpenAudioMc.getService(NetworkingService.class).send(clientConnection, p.getPayload());
             return;
@@ -92,7 +92,7 @@ public class ProxyHostService extends Service {
 
         if (packet instanceof ForceMuteMicrophonePacket) {
             ForceMuteMicrophonePacket p = (ForceMuteMicrophonePacket) packet;
-            OpenAudioMc.getService(NetworkingService.class).getClient(from.getUniqueId()).getClientRtcManager().allowSpeaking(p.isCanSpeak());
+            OpenAudioMc.getService(NetworkingService.class).getClient(from.getUniqueId()).getRtcSessionManager().allowSpeaking(p.isCanSpeak());
             return;
         }
     }

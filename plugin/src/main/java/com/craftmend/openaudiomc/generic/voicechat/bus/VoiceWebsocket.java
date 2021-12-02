@@ -20,8 +20,8 @@ public class VoiceWebsocket extends WebSocketListener {
     private final Set<Runnable> onReady = new HashSet<>();
     private final OkHttpClient client = new OkHttpClient.Builder().build();
     private boolean isReady = false;
-    private String server;
-    private String password;
+    private final String server;
+    private final String password;
     private boolean closed;
     private WebSocket webSocket;
 

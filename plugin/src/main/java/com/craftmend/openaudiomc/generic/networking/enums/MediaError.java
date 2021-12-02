@@ -10,7 +10,7 @@ public enum MediaError {
     MEDIA_ERR_DECODE("This media file could not be loaded due to a decoding error. Is your url correct and supported? please check https://help.openaudiomc.net/#media for more information."),
     MEDIA_ERR_SRC_NOT_SUPPORTED("This media file could not be loaded due to a compatibility error. Is your url correct and supported? please check https://help.openaudiomc.net/#media for more information.");
 
-    @Getter private String explanation;
+    @Getter private final String explanation;
     MediaError(String details) {
         this.explanation = details;
     }

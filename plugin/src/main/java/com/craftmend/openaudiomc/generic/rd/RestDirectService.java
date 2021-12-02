@@ -30,11 +30,11 @@ public class RestDirectService extends Service {
     @Getter
     private AuthenticationService authenticationService;
     @Getter private File audioDirectory;
-    @Getter private String password = new RandomString(20).nextString();
+    @Getter private final String password = new RandomString(20).nextString();
     private String baseUrl = "";
     @Getter private boolean isRunning = false;
 
-    private int[] checkable_ports = new int[]{
+    private final int[] checkable_ports = new int[]{
             StorageKey.CDN_PREFERRED_PORT.getInt(),
             80,
             8080,

@@ -7,8 +7,8 @@ import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.PlayerSession;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.session.ClientAuth;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.node.packets.*;
@@ -45,11 +45,11 @@ public class BungeePacketListener implements PacketListener {
     @ProxyPacketHandler
     public void onStateSync(User user, ClientUpdateStatePacket packet) {
         ClientConnection connection = OpenAudioMc.getService(NetworkingService.class).getClient(packet.getClientUuid());
-        connection.getClientRtcManager().setMicrophoneEnabled(packet.isMicrophoneEnabled());
-        connection.setStreamKey(packet.getStreamId());
-        connection.setConnectedToRtc(packet.isEnabled());
+        connection.getRtcSessionManager().setMicrophoneEnabled(packet.isMicrophoneEnabled());
+        connection.getRtcSessionManager().setStreamKey(packet.getStreamId());
+        connection.getSession().setConnectedToRtc(packet.isEnabled());
 
-        connection.setSession(new PlayerSession(connection, packet.getExplodedToken(), packet.getExplodedToken()));
+        connection.setAuth(new ClientAuth(connection, packet.getExplodedToken(), packet.getExplodedToken()));
 
         // enable the module if it isn't already
         if (!OpenAudioMc.getService(CraftmendService.class).is(CraftmendTag.VOICECHAT)) {
@@ -60,7 +60,7 @@ public class BungeePacketListener implements PacketListener {
     @ProxyPacketHandler
     public void onHue(User user, ClientSyncHueStatePacket packet) {
         ClientConnection connection = OpenAudioMc.getService(NetworkingService.class).getClient(packet.getClientUuid());
-        connection.setHasHueLinked(true);
+        connection.getSession().setHasHueLinked(true);
     }
 
     @ProxyPacketHandler

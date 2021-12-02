@@ -4,7 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.craftmend.object.OnlinePlayer;
 import com.craftmend.openaudiomc.generic.craftmend.updates.PlayerUpdatePayload;
@@ -22,8 +22,8 @@ import java.util.UUID;
 
 public class PlayerStateStreamer implements Runnable {
 
-    private Set<UUID> trackedPlayers = new HashSet<>();
-    private OpenAudioMc main;
+    private final Set<UUID> trackedPlayers = new HashSet<>();
+    private final OpenAudioMc main;
     @Getter private boolean isRunning = false;
 
     public PlayerStateStreamer(CraftmendService service) {
@@ -39,7 +39,7 @@ public class PlayerStateStreamer implements Runnable {
         isRunning = true;
 
         // update every 5 seconds
-        int timeout = 20 * 5;
+        int timeout = 20 * 30;
         OpenAudioMc.resolveDependency(TaskService.class).scheduleAsyncRepeatingTask(this, timeout, timeout);
     }
 
@@ -64,15 +64,15 @@ public class PlayerStateStreamer implements Runnable {
             if (!trackedPlayers.contains(client.getUser().getUniqueId())) {
                 // not tracked yet!
                 playerUpdatePayload.getJoinedPlayers().add(
-                        new OnlinePlayer(client.getUser().getName(), client.getUser().getUniqueId(), client.getSession().getWebSessionKey(), client.getIsConnected())
+                        new OnlinePlayer(client.getUser().getName(), client.getUser().getUniqueId(), client.getAuth().getWebSessionKey(), client.isConnected())
                 );
             }
             currentPlayers.add(client.getUser().getUniqueId());
 
-            if (client.isSessionUpdated()) {
-                client.setSessionUpdated(false);
+            if (client.getSession().isSessionUpdated()) {
+                client.getSession().setSessionUpdated(false);
                 playerUpdatePayload.getUpdatedPlayers().add(
-                        new OnlinePlayer(client.getUser().getUniqueId(), client.getIsConnected())
+                        new OnlinePlayer(client.getUser().getUniqueId(), client.isConnected())
                 );
             }
         }
