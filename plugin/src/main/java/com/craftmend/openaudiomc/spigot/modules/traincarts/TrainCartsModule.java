@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class TrainCartsModule {
 
-    @Getter private Map<String, TrainMedia> trainMediaMap = new HashMap<>();
+    @Getter private final Map<String, TrainMedia> trainMediaMap = new HashMap<>();
 
     public TrainCartsModule(OpenAudioMcSpigot openAudioMcSpigot) {
         SignAction.register(new AudioSign(this));

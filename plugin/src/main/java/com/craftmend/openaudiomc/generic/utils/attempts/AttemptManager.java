@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 
 public class AttemptManager<T> {
 
-    private int maxAttempts;
+    private final int maxAttempts;
     private int currentAttempt = 0;
     private int timeoutInSeconds;
     private AttemptTask<T> task;

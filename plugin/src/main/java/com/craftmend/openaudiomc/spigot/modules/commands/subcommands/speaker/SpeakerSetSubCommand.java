@@ -26,7 +26,7 @@ import java.util.UUID;
 
 public class SpeakerSetSubCommand extends SubCommand {
 
-    private SpeakersSubCommand speakersSubCommand;
+    private final SpeakersSubCommand speakersSubCommand;
 
     public SpeakerSetSubCommand(SpeakersSubCommand parent) {
         super("set");

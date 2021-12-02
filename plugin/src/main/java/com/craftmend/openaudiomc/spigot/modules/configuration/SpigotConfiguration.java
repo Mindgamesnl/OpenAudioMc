@@ -1,11 +1,10 @@
 package com.craftmend.openaudiomc.spigot.modules.configuration;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
+import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import org.apache.commons.lang.Validate;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -24,9 +23,9 @@ import java.util.Set;
 public class SpigotConfiguration implements Configuration, Listener {
 
     private FileConfiguration mainConfig;
-    private FileConfiguration dataConfig;
+    private final FileConfiguration dataConfig;
 
-    private Map<StorageKey, String> cachedConfigStrings = new HashMap<>();
+    private final Map<StorageKey, String> cachedConfigStrings = new HashMap<>();
 
     public SpigotConfiguration(OpenAudioMcSpigot openAudioMcSpigot) {
         //save default

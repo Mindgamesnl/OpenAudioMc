@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
 
 public class HueSubCommand extends SubCommand {
 
-    private OpenAudioMcSpigot openAudioMcSpigot;
+    private final OpenAudioMcSpigot openAudioMcSpigot;
 
     public HueSubCommand(OpenAudioMcSpigot openAudioMcSpigot) {
         super("hue");

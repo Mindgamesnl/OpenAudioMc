@@ -30,7 +30,7 @@ public enum VelocityChatColor {
 
     public static final char COLOR_CHAR = '§';
     public static final String ALL_CODES = "0123456789AaBbCcDdEeFfKkLlMmNnOoRr";
-    public static final Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)" + String.valueOf('§') + "[0-9A-FK-OR]");
+    public static final Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)" + '§' + "[0-9A-FK-OR]");
     private static final Map<Character, VelocityChatColor> BY_CHAR = new HashMap();
 
     static {
@@ -48,7 +48,7 @@ public enum VelocityChatColor {
     private final String toString;
     private final String name;
 
-    private VelocityChatColor(char code, String name) {
+    VelocityChatColor(char code, String name) {
         this.code = code;
         this.name = name;
         this.toString = new String(new char[]{'§', code});

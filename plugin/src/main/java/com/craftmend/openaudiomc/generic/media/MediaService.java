@@ -19,8 +19,8 @@ import java.util.Map;
 @NoArgsConstructor
 public class MediaService extends Service {
 
-    private Map<String, List<UrlMutation>> urlMutations = new HashMap<>();
-    @Getter private List<Runnable> resetTriggers = new ArrayList<>();
+    private final Map<String, List<UrlMutation>> urlMutations = new HashMap<>();
+    @Getter private final List<Runnable> resetTriggers = new ArrayList<>();
 
     @Inject
     private AuthenticationService authenticationService;

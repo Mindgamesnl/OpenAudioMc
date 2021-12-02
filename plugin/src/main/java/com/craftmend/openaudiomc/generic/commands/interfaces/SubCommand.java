@@ -15,10 +15,10 @@ import java.util.*;
 
 public abstract class SubCommand {
 
-    @Getter private String command;
+    @Getter private final String command;
     @Getter private List<String> aliases = new ArrayList<>();
-    @Getter private List<Argument> arguments = new ArrayList<>();
-    private Map<String, SubCommand> moreSubCommands = new HashMap<>();
+    @Getter private final List<Argument> arguments = new ArrayList<>();
+    private final Map<String, SubCommand> moreSubCommands = new HashMap<>();
     protected boolean trimArguments = false;
 
     /**
@@ -76,12 +76,13 @@ public abstract class SubCommand {
      * @param args Arguments
      */
     protected void delegateTo(String subCommand, User user, String[] args) {
-        if (trimArguments) {
+        SubCommand sci = moreSubCommands.get(subCommand);
+        if (sci.trimArguments) {
             String[] subArgs = new String[args.length - 1];
             if (args.length != 1) System.arraycopy(args, 1, subArgs, 0, args.length - 1);
-            moreSubCommands.get(subCommand).onExecute(user, subArgs);
+            sci.onExecute(user, subArgs);
         } else {
-            moreSubCommands.get(subCommand).onExecute(user, args);
+            sci.onExecute(user, args);
         }
     }
 
@@ -131,6 +132,10 @@ public abstract class SubCommand {
             }
             return "";
         }
+    }
+
+    public <T> T resolveDependency(Class<T> d) {
+        return d.cast(OpenAudioMc.getInstance().getServiceManager().resolve(d));
     }
 
     protected <T extends Service> T getService(Class<T> service) {

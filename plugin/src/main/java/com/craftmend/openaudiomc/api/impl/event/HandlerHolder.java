@@ -11,7 +11,7 @@ public class HandlerHolder<T> {
 
     @Getter @Setter
     private Handler<T> handler;
-    @Getter private T type;
+    @Getter private final T type;
 
     void call(Object caller) {
         handler.onEvent((T) caller);

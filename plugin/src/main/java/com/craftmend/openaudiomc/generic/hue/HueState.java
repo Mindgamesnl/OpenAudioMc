@@ -9,7 +9,7 @@ import java.util.Map;
 @NoArgsConstructor
 public class HueState {
 
-    @Getter private Map<Byte, HueColor> colorMap = new HashMap<>();
+    @Getter private final Map<Byte, HueColor> colorMap = new HashMap<>();
 
     /**
      * add a color to this set, more like a scene

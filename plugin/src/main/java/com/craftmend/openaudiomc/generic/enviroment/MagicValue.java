@@ -14,8 +14,8 @@ public enum MagicValue {
     STORAGE_DIRECTORY(new File("./")),
     COMMAND_PREFIX("[OpenAudioMc - Magic]");
 
-    private static EnumMap<MagicValue, Object> tempValues = new EnumMap<>(MagicValue.class);
-    private Object value;
+    private static final EnumMap<MagicValue, Object> tempValues = new EnumMap<>(MagicValue.class);
+    private final Object value;
 
     <T> MagicValue(Object value) {
         this.value = value;

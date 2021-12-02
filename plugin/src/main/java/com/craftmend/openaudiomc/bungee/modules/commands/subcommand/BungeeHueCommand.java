@@ -47,6 +47,6 @@ public class BungeeHueCommand extends SubCommand {
     private void sendHelp(User genericExecutor) {
         OpenAudioMc.getService(CommandService.class).getSubCommand("help").onExecute(genericExecutor, new String[] {
                 getCommand()
-        });;
+        });
     }
 }

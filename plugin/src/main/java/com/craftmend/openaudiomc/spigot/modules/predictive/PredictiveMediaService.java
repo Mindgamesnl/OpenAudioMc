@@ -31,9 +31,9 @@ public class PredictiveMediaService extends Service {
     private final String storageName = "predictive_media_cache";
 
     private final ChunkMapSerializer chunkMapSerializer = new ChunkMapSerializer();
-    private int chunkAge = 60 * 60 * 10;  // chunk values are kept for 10 hours
-    private int maxChunkData = 70;       // keep up to 70 chunks
-    private int maxChunkCache = 15;      // keep 15 sounds per chunk
+    private final int chunkAge = 60 * 60 * 10;  // chunk values are kept for 10 hours
+    private final int maxChunkData = 70;       // keep up to 70 chunks
+    private final int maxChunkCache = 15;      // keep 15 sounds per chunk
 
     // map "active" audio chunks of the world
     @Getter private ConcurrentHeatMap<String, ConcurrentHeatMap<String, Byte>> chunkTracker = new ConcurrentHeatMap<>(

@@ -16,7 +16,7 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
  */
 public class BukkitPacketManager extends PacketManager implements PluginMessageListener, Listener {
 
-    private JavaPlugin bukkitPlugin;
+    private final JavaPlugin bukkitPlugin;
 
     public BukkitPacketManager(JavaPlugin bukkitPlugin, String channel){
         super(channel);

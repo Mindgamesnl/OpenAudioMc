@@ -41,8 +41,8 @@ public class RedisService extends Service {
     @Getter private RedisPubSubAsyncCommands<String, String> asyncSub;
     private RedisPubSubAsyncCommands<String, String> asyncPub;
     private boolean enabled = false;
-    @Getter private UUID serviceId = UUID.randomUUID();
-    private ConcurrentLinkedQueue<WaitingPacket> packetQue = new ConcurrentLinkedQueue<>();
+    @Getter private final UUID serviceId = UUID.randomUUID();
+    private final ConcurrentLinkedQueue<WaitingPacket> packetQue = new ConcurrentLinkedQueue<>();
 
     private final Runnable messageQueHandler = () -> {
         // combine all the commands

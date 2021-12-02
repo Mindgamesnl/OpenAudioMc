@@ -11,7 +11,7 @@ import org.bukkit.ChatColor;
 
 public class RegionDeleteSubCommand extends SubCommand {
 
-    private OpenAudioMcSpigot openAudioMcSpigot;
+    private final OpenAudioMcSpigot openAudioMcSpigot;
 
     public RegionDeleteSubCommand(OpenAudioMcSpigot openAudioMcSpigot) {
         super("delete");

@@ -15,7 +15,7 @@ public class ServerService extends Service {
 
     @Override
     public void onEnable() {
-        String versionString = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3].replace("v", "");;
+        String versionString = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3].replace("v", "");
         versionString = versionString.replace("1_", "").replaceAll("_R\\d", "").replaceAll("[^\\d.]", "");
         int subVersion = Integer.parseInt(versionString);
 

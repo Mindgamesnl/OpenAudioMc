@@ -24,8 +24,8 @@ public abstract class PacketManager {
 
     private final String channel, forwardChannel;
 
-    private HashMap<Class<? extends StandardPacket>, List<PacketListener>> packetListeners = new HashMap<>();
-    private List<StandardPacket> sendQueue = new ArrayList<>();
+    private final HashMap<Class<? extends StandardPacket>, List<PacketListener>> packetListeners = new HashMap<>();
+    private final List<StandardPacket> sendQueue = new ArrayList<>();
 
     public PacketManager(String channel){
         this.channel = channel;

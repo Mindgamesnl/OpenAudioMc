@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
 
 public class StopSubCommand extends SubCommand {
 
-    private OpenAudioMcSpigot openAudioMcSpigot;
+    private final OpenAudioMcSpigot openAudioMcSpigot;
 
     public StopSubCommand(OpenAudioMcSpigot openAudioMcSpigot) {
         super("stop");

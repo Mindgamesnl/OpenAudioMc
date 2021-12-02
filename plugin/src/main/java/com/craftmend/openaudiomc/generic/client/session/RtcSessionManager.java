@@ -95,6 +95,9 @@ public class RtcSessionManager implements Serializable {
         updateLocationWatcher();
         peer.getRtcSessionManager().updateLocationWatcher();
 
+        if (peer.getDataCache() != null) peer.getDataCache().pushPeerName(clientConnection.getOwner().getName());
+        if (clientConnection.getDataCache() != null) clientConnection.getDataCache().pushPeerName(peer.getOwner().getName());
+
         return true;
     }
 
@@ -172,6 +175,10 @@ public class RtcSessionManager implements Serializable {
     }
 
     public boolean isReady() {
+        if (clientConnection.getDataCache() != null && clientConnection.getDataCache().isVoiceBlocked()) {
+            return false;
+        }
+
         return clientConnection.isConnected() && clientConnection.getSession().isConnectedToRtc();
     }
 

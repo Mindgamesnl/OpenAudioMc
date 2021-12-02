@@ -11,9 +11,9 @@ public enum ChannelKey {
     TRIGGER_BULK_COMMANDS(Platform.SPIGOT, "oa-show-bulk", ExecuteBulkCommandsPacket.class),
     TRIGGER_COMMAND(Platform.SPIGOT,"oa-show-trigger", ExecuteCommandPacket.class);
 
-    @Getter private Platform targetPlatform;
-    @Getter private String redisChannelName;
-    @Getter private Class<? extends OARedisPacket> packetClass;
+    @Getter private final Platform targetPlatform;
+    @Getter private final String redisChannelName;
+    @Getter private final Class<? extends OARedisPacket> packetClass;
 
     ChannelKey(Platform targetPlatform, String channel, Class<? extends OARedisPacket> packetClass) {
         this.targetPlatform = targetPlatform;

@@ -13,8 +13,8 @@ import java.util.UUID;
 @Getter
 public class PacketPlayer {
 
-    private String name;
-    private UUID uuid;
+    private final String name;
+    private final UUID uuid;
     private ProxiedPlayer bungeePlayer = null;
     private Player bukkitPlayer = null;
     private com.velocitypowered.api.proxy.Player velocityPlayer = null;

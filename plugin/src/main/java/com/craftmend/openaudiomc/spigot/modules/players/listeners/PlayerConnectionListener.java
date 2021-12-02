@@ -21,7 +21,7 @@ import java.util.UUID;
 
 public class PlayerConnectionListener implements Listener {
 
-    private Map<UUID, Instant> playerMuteTimeout = new HashMap<>();
+    private final Map<UUID, Instant> playerMuteTimeout = new HashMap<>();
     private final Instant BOOT = Instant.now();
 
     @EventHandler

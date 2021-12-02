@@ -21,7 +21,7 @@ import org.bukkit.entity.Player;
 @NoArgsConstructor
 public class VolumeCommand implements CommandExecutor {
 
-    private CommandMiddleware[] commandMiddleware = new CommandMiddleware[] {
+    private final CommandMiddleware[] commandMiddleware = new CommandMiddleware[] {
             new CatchLegalBindingMiddleware(),
             new CatchCrashMiddleware(),
             new CleanStateCheckMiddleware()

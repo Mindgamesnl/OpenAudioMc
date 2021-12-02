@@ -22,7 +22,7 @@ import java.util.List;
 
 public class NotificationSubCommand extends SubCommand {
 
-    private CommandService commandService;
+    private final CommandService commandService;
 
     public NotificationSubCommand(CommandService commandService) {
         super("notification");

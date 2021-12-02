@@ -22,8 +22,8 @@ import java.util.*;
 public class RegionModule {
 
     @Getter
-    private Map<String, RegionProperties> regionPropertiesMap = new HashMap<>();
-    private Map<String, RegionMedia> regionMediaMap = new HashMap<>();
+    private final Map<String, RegionProperties> regionPropertiesMap = new HashMap<>();
+    private final Map<String, RegionMedia> regionMediaMap = new HashMap<>();
     @Getter private AbstractRegionAdapter regionAdapter;
 
     public RegionModule(@Nullable AbstractRegionAdapter customAdapter) {
