@@ -35,7 +35,7 @@ public class CraftmendService extends Service {
     @Inject
     private OpenAudioMc openAudioMc;
     @Getter
-    private VoiceApiConnection voiceApiConnection = new VoiceApiConnection();
+    private final VoiceApiConnection voiceApiConnection = new VoiceApiConnection();
 
     private PlayerStateStreamer playerStateStreamer;
     @Getter
@@ -43,7 +43,7 @@ public class CraftmendService extends Service {
     @Getter
     private CraftmendAccountResponse accountResponse = new CraftmendAccountResponse();
     @Getter
-    private Set<CraftmendTag> tags = new HashSet<>();
+    private final Set<CraftmendTag> tags = new HashSet<>();
 
     // ugly state management, I should _really_ change this at some point, just like the state service
     @Getter

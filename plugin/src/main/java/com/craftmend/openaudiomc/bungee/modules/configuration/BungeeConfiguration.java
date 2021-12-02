@@ -25,9 +25,9 @@ import java.util.Set;
 public class BungeeConfiguration implements Configuration {
 
     private net.md_5.bungee.config.Configuration mainConfig;
-    private net.md_5.bungee.config.Configuration dataConfig;
+    private final net.md_5.bungee.config.Configuration dataConfig;
 
-    private Map<StorageKey, String> cachedConfigStrings = new HashMap<>();
+    private final Map<StorageKey, String> cachedConfigStrings = new HashMap<>();
 
     public BungeeConfiguration() {
         //save default

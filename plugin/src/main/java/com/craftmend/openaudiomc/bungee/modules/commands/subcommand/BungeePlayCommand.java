@@ -21,7 +21,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class BungeePlayCommand extends SubCommand {
 
-    private OpenAudioMc openAudioMc;
+    private final OpenAudioMc openAudioMc;
 
     public BungeePlayCommand(OpenAudioMc openAudioMc) {
         super("play", "p");

@@ -42,24 +42,24 @@ public class CraftmendAccountResponse extends AbstractRestResponse {
 
     @Getter
     public static class OpenAudioSettingsResponse {
-        private String clientUrl = "";
-        private String startSound = "";
-        private String startButton = "";
-        private String backgroundImage = "";
-        private String activeMessage = "";
-        private String errorMessage = "";
-        private String title = "";
-        private String color = "";
-        private String ambianceSound = "";
-        private boolean banned = false;
+        private final String clientUrl = "";
+        private final String startSound = "";
+        private final String startButton = "";
+        private final String backgroundImage = "";
+        private final String activeMessage = "";
+        private final String errorMessage = "";
+        private final String title = "";
+        private final String color = "";
+        private final String ambianceSound = "";
+        private final boolean banned = false;
     }
 
     @Getter
     public static class OpenAudioAddonResponse {
         private AddonCategory category;
-        private String type = "";
-        private String title = "";
-        private String description = "";
-        private int limit = 0;
+        private final String type = "";
+        private final String title = "";
+        private final String description = "";
+        private final int limit = 0;
     }
 }

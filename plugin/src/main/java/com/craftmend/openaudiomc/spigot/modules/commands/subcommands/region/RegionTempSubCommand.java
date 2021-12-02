@@ -9,7 +9,7 @@ import org.bukkit.ChatColor;
 
 public class RegionTempSubCommand extends SubCommand {
 
-    private OpenAudioMcSpigot openAudioMcSpigot;
+    private final OpenAudioMcSpigot openAudioMcSpigot;
 
     public RegionTempSubCommand(OpenAudioMcSpigot openAudioMcSpigot) {
         super("temp");

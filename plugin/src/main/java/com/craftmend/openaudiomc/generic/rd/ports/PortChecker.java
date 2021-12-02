@@ -9,8 +9,8 @@ import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 
 public class PortChecker {
 
-    private String ip;
-    private int port;
+    private final String ip;
+    private final int port;
 
     public PortChecker(String ip, int port) {
         this.ip = ip;

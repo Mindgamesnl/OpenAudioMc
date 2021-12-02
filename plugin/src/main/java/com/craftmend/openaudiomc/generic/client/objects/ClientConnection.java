@@ -46,17 +46,19 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.*;
 
 public class ClientConnection implements Authenticatable, Client, Serializable {
 
     @Getter private transient final User user;
 
-    @Getter private SessionData session;
+    @Getter private final SessionData session;
     @Setter @Getter private ClientAuth auth;
-    @Getter private RtcSessionManager rtcSessionManager;
+    @Getter private final RtcSessionManager rtcSessionManager;
     private transient final List<Runnable> connectHandlers = new ArrayList<>();
     private transient final List<Runnable> disconnectHandlers = new ArrayList<>();
+    @Getter private ClientDataStore dataCache;
 
     public ClientConnection(User playerContainer, SerializableClient fromSerialized) {
         this.user = playerContainer;
@@ -74,6 +76,11 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
         if (!OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
             OpenAudioMc.getService(GlobalConstantService.class).sendNotifications(user);
         }
+
+        getDataStore().setWhenFinished(dataStore -> {
+            this.dataCache = dataStore;
+            dataCache.setLastSeen(Instant.now());
+        });
     }
 
     // client connected!
@@ -134,7 +141,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
     }
 
     public Task<ClientDataStore> getDataStore() {
-        return OpenAudioMc.getService(ClientDataService.class).getClientData(user.getUniqueId(), true);
+        return OpenAudioMc.getService(ClientDataService.class).getClientData(user.getUniqueId(), true, true);
     }
 
     public ClientConnection addOnConnectHandler(Runnable runnable) {

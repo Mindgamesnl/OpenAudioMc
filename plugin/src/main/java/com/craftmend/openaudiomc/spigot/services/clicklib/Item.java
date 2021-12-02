@@ -17,7 +17,7 @@ import java.util.function.BiConsumer;
 public class Item {
 
     @Getter
-    private ItemStack item;
+    private final ItemStack item;
     @Getter
     private BiConsumer<Player, Item> onClick = (a, b) -> {};
 

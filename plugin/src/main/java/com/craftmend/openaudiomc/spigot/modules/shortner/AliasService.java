@@ -22,7 +22,7 @@ public class AliasService extends Service {
     @Inject
     private DatabaseService databaseService;
 
-    @Getter private Map<String, Alias> aliasMap = new HashMap<>();
+    @Getter private final Map<String, Alias> aliasMap = new HashMap<>();
 
     public String translate(String name) {
         Alias target = aliasMap.get(name.toLowerCase());

@@ -22,8 +22,8 @@ import java.util.UUID;
 
 public class PlayerStateStreamer implements Runnable {
 
-    private Set<UUID> trackedPlayers = new HashSet<>();
-    private OpenAudioMc main;
+    private final Set<UUID> trackedPlayers = new HashSet<>();
+    private final OpenAudioMc main;
     @Getter private boolean isRunning = false;
 
     public PlayerStateStreamer(CraftmendService service) {

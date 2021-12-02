@@ -17,7 +17,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class BungeeStopCommand extends SubCommand {
 
-    private OpenAudioMc openAudioMc;
+    private final OpenAudioMc openAudioMc;
 
     public BungeeStopCommand(OpenAudioMc openAudioMc) {
         super("stop");
@@ -66,6 +66,6 @@ public class BungeeStopCommand extends SubCommand {
     private void sendHelp(User genericExecutor) {
         OpenAudioMc.getService(CommandService.class).getSubCommand("help").onExecute(genericExecutor, new String[] {
                 getCommand()
-        });;
+        });
     }
 }

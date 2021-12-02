@@ -1,27 +1,21 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.show.*;
 import com.craftmend.openaudiomc.spigot.modules.show.ShowService;
-import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 import com.craftmend.openaudiomc.spigot.modules.show.menu.ShowHomeMenu;
 import com.craftmend.openaudiomc.spigot.modules.show.objects.Show;
-import com.craftmend.openaudiomc.spigot.modules.show.util.TimeParser;
-
 import org.apache.logging.log4j.util.Strings;
 import org.bukkit.ChatColor;
-import org.bukkit.World;
-import org.bukkit.command.BlockCommandSender;
 import org.bukkit.entity.Player;
 
 public class ShowSubCommand extends SubCommand {
 
-    private OpenAudioMcSpigot openAudioMcSpigot;
+    private final OpenAudioMcSpigot openAudioMcSpigot;
 
     public ShowSubCommand(OpenAudioMcSpigot openAudioMcSpigot) {
         super("show");

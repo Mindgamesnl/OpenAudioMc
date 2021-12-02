@@ -15,10 +15,10 @@ import java.util.logging.Logger;
 
 public class RestDirectServer extends NanoHTTPD {
 
-    private Map<String, Route> routes = new HashMap<>();
+    private final Map<String, Route> routes = new HashMap<>();
 
-    private String verificationString;
-    private int port;
+    private final String verificationString;
+    private final int port;
 
     public RestDirectServer(int port, String verificationString, RestDirectService restDirectService) throws IOException {
         super(port);

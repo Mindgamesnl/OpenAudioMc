@@ -27,7 +27,7 @@ import java.util.UUID;
 
 public class SpeakerRemoveSubCommand extends SubCommand {
 
-    private SpeakersSubCommand speakersSubCommand;
+    private final SpeakersSubCommand speakersSubCommand;
 
     public SpeakerRemoveSubCommand(SpeakersSubCommand parent) {
         super("remove");

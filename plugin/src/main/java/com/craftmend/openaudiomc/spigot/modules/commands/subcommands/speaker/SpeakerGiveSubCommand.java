@@ -19,7 +19,7 @@ import org.bukkit.entity.Player;
 
 public class SpeakerGiveSubCommand extends SubCommand {
 
-    private SpeakersSubCommand speakersSubCommand;
+    private final SpeakersSubCommand speakersSubCommand;
 
     public SpeakerGiveSubCommand(SpeakersSubCommand parent) {
         super("give");

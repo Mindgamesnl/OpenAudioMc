@@ -11,7 +11,7 @@ public enum EventSupport {
     EVERYWHERE("This error should never appear, since this event is supported everywhere");
 
     @Getter
-    private String errorMessage;
+    private final String errorMessage;
 
     EventSupport(String message) {
         this.errorMessage = message;

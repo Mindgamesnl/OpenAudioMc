@@ -28,7 +28,7 @@ public class VoiceApiConnection {
     private static final Map<String, String> EMPTY_PAYLOAD = new HashMap<>();
     @Getter private VoiceApiStatus status = VoiceApiStatus.IDLE;
     private VoiceWebsocket voiceWebsocket;
-    private TaskService taskService;
+    private final TaskService taskService;
 
     @Getter private int maxSlots = 0;
     @Getter private String host = "none";

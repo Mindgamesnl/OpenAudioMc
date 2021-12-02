@@ -7,7 +7,7 @@ public interface ApiRegion {
     int getPriority();
     String getName();
 
-    public static ApiRegion wrapWorldGuard(ProtectedRegion protectedRegion) {
+    static ApiRegion wrapWorldGuard(ProtectedRegion protectedRegion) {
         return new ApiRegion() {
             @Override
             public int getPriority() {
