@@ -20,14 +20,14 @@ import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
-import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.voicechat.bus.VoiceApiConnection;
 import com.craftmend.openaudiomc.generic.voicechat.enums.VoiceApiStatus;
 import com.craftmend.openaudiomc.generic.voicechat.services.VoiceLicenseService;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 public class CraftmendService extends Service {
@@ -39,11 +39,9 @@ public class CraftmendService extends Service {
 
     private PlayerStateStreamer playerStateStreamer;
     @Getter
-    private String baseUrl;
-    @Getter
     private CraftmendAccountResponse accountResponse = new CraftmendAccountResponse();
     @Getter
-    private final Set<CraftmendTag> tags = new HashSet<>();
+    private Set<CraftmendTag> tags = new HashSet<>();
 
     // ugly state management, I should _really_ change this at some point, just like the state service
     @Getter
@@ -107,7 +105,7 @@ public class CraftmendService extends Service {
 
         tags.clear();
 
-        baseUrl = response.getSettings().getClientUrl();
+        OpenAudioLogger.toConsole(response.getSettings().getClientUrl());
         if (response.getSettings().isBanned()) addTag(CraftmendTag.BANNED);
         if (response.isClaimed()) addTag(CraftmendTag.CLAIMED);
         accountResponse = response;

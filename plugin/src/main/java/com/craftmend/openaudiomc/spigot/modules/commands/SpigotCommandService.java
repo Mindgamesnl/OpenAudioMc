@@ -5,13 +5,10 @@ import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.subcommands.HelpSubCommand;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
-import com.craftmend.openaudiomc.spigot.modules.commands.command.MicMuteCommand;
-import com.craftmend.openaudiomc.spigot.modules.commands.command.SpigotAudioCommand;
+import com.craftmend.openaudiomc.spigot.modules.commands.command.*;
 import com.craftmend.openaudiomc.spigot.modules.commands.middleware.CommandTranslationMiddleware;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.*;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.commands.command.SpigotMainCommand;
-import com.craftmend.openaudiomc.spigot.modules.commands.command.VolumeCommand;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import lombok.NoArgsConstructor;
@@ -32,6 +29,7 @@ public class SpigotCommandService extends Service {
         openAudioMcSpigot.getCommand("openaudiomc").setTabCompleter(spigotMainCommand);
         openAudioMcSpigot.getCommand("volume").setExecutor(new VolumeCommand());
         openAudioMcSpigot.getCommand("mutemic").setExecutor(new MicMuteCommand());
+        openAudioMcSpigot.getCommand("audiosettings").setExecutor(new AudioSettingsCommand());
 
         commandService.getAliases().addAll(openAudioMcSpigot.getCommand("openaudiomc").getAliases());
         commandService.getAliases().add("openaudiomc");

@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.predictive;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
+import com.craftmend.openaudiomc.generic.database.internal.Repository;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
@@ -15,20 +16,20 @@ import com.craftmend.openaudiomc.generic.utils.data.ConcurrentHeatMap;
 
 import com.craftmend.openaudiomc.spigot.modules.predictive.serialization.ChunkMapSerializer;
 import com.craftmend.openaudiomc.spigot.modules.predictive.serialization.SerializedAudioChunk;
-import com.craftmend.openaudiomc.spigot.modules.predictive.sorage.StoredChunkMap;
+import com.craftmend.openaudiomc.spigot.modules.predictive.sorage.StoredWorldChunk;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
+import java.util.Map;
 
 @NoArgsConstructor
 public class PredictiveMediaService extends Service {
 
     @Inject
     private DatabaseService databaseService;
-    private final String storageName = "predictive_media_cache";
 
     private final ChunkMapSerializer chunkMapSerializer = new ChunkMapSerializer();
     private final int chunkAge = 60 * 60 * 10;  // chunk values are kept for 10 hours
@@ -54,19 +55,27 @@ public class PredictiveMediaService extends Service {
 
     public void loadFromFile() throws IOException {
         // load SerializedAudioChunk.ChunkMap.class
-        StoredChunkMap scm = databaseService.getRepository(StoredChunkMap.class).get(storageName);
-        if (scm == null) {
-            scm = new StoredChunkMap(new SerializedAudioChunk.ChunkMap());
-            OpenAudioLogger.toConsole("Seeding default empty chunk map");
-        } else {
-            OpenAudioLogger.toConsole("Loaded chunk cache from storage");
+        Repository<StoredWorldChunk> scm = databaseService.getRepository(StoredWorldChunk.class);
+
+        SerializedAudioChunk.ChunkMap cm = new SerializedAudioChunk.ChunkMap();
+
+        for (StoredWorldChunk value : scm.values()) {
+            cm.getData().put(value.getChunkName(), value.getAudioChunk());
         }
-        chunkTracker = chunkMapSerializer.applyFromChunkMap(scm.getChunkMap(), chunkTracker);
+
+        chunkTracker = chunkMapSerializer.applyFromChunkMap(cm, chunkTracker);
     }
 
     public void onDisable() {
         // save
-        databaseService.getRepository(StoredChunkMap.class).save(storageName, new StoredChunkMap(chunkMapSerializer.serialize(chunkTracker)));
+        OpenAudioLogger.toConsole("Saving world cache...");
+        Repository<StoredWorldChunk> repo = databaseService.getRepository(StoredWorldChunk.class);
+        for (Map.Entry<String, SerializedAudioChunk.Chunk> entry : chunkMapSerializer.serialize(chunkTracker).getData().entrySet()) {
+            String name = entry.getKey();
+            SerializedAudioChunk.Chunk chunk = entry.getValue();
+            StoredWorldChunk swc = new StoredWorldChunk(name, chunk);
+            repo.save(swc.getChunkName(), swc);
+        }
     }
 
     private INetworkingEvents getPacketHook() {

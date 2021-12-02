@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.rest.Task;
 import com.craftmend.openaudiomc.generic.platform.Platform;
@@ -36,6 +37,7 @@ public class ClientAuth implements Serializable {
     public void publishSessionUrl() {
         OpenAudioMc openAudioMc = OpenAudioMc.getInstance();
         Configuration config = openAudioMc.getConfiguration();
+        String baseUrl = OpenAudioMc.getService(CraftmendService.class).getAccountResponse().getSettings().getClientUrl();
 
         // cancel if the player is via proxy because the proxy should handle it
         if (openAudioMc.getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == OAClientMode.NODE)
@@ -62,8 +64,9 @@ public class ClientAuth implements Serializable {
         sessionRequest.setWhenFailed((restErrorType, fuckyou) -> client.getUser().sendMessage(translateColors(StorageKey.MESSAGE_SESSION_ERROR.getString())));
 
         sessionRequest.setWhenFinished(token -> {
-            String url = OpenAudioMc.getService(CraftmendService.class).getBaseUrl() + "#" + token;
+            String url = baseUrl + "#" + token;
             String msgText = translateColors(StorageKey.MESSAGE_CLICK_TO_CONNECT.getString().replace("{url}", url));
+            OpenAudioLogger.toConsole("url is " + url);
             client.getUser().sendClickableUrlMessage(msgText, StorageKey.MESSAGE_HOVER_TO_CONNECT.getString(), url);
             client.getSession().setWaitingToken(true);
         });

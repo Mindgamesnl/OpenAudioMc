@@ -7,6 +7,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ClientSpeakerDestroyPayload extends AbstractPacketPayload {
 
-    private final ClientSpeaker clientSpeaker;
+    private ClientSpeaker clientSpeaker;
 
 }

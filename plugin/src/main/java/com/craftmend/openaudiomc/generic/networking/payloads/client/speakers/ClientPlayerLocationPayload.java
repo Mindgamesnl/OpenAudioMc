@@ -6,10 +6,10 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ClientPlayerLocationPayload extends AbstractPacketPayload {
 
-    private final double x;
-    private final double y;
-    private final double z;
-    private final int pitch;
-    private final int yaw;
+    private double x;
+    private double y;
+    private double z;
+    private int pitch;
+    private int yaw;
 
 }

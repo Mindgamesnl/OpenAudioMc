@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ClientSpeakerCreatePayload extends AbstractPacketPayload implements SourceHolder {
 
-    private final ClientSpeaker clientSpeaker;
+    private ClientSpeaker clientSpeaker;
 
     @Override
     public String getSource() {

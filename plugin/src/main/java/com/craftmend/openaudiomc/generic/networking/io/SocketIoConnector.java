@@ -48,7 +48,7 @@ public class SocketIoConnector {
     private RestRequest logoutHandler;
     private boolean registeredLogout = false;
     @Getter private UUID lastUsedRelay = UUID.randomUUID();
-    private final ServerKeySet keySet;
+    private ServerKeySet keySet;
 
     private final SocketDriver[] drivers = new SocketDriver[]{
             new NotificationDriver(),
