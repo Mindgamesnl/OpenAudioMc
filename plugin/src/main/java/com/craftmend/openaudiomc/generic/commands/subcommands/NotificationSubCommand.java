@@ -6,8 +6,8 @@ import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.Notification;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.helpers.Notification;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
@@ -22,7 +22,7 @@ import java.util.List;
 
 public class NotificationSubCommand extends SubCommand {
 
-    private CommandService commandService;
+    private final CommandService commandService;
 
     public NotificationSubCommand(CommandService commandService) {
         super("notification");

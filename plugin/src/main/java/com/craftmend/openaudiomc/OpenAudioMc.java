@@ -3,6 +3,8 @@ package com.craftmend.openaudiomc;
 import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
+import com.craftmend.openaudiomc.generic.client.ClientDataService;
+import com.craftmend.openaudiomc.generic.mojang.MojangLookupService;
 import com.craftmend.openaudiomc.generic.rd.RestDirectService;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
@@ -107,6 +109,7 @@ public class OpenAudioMc {
         // load core services in order
         serviceManager.loadServices(
                 DatabaseService.class,          // player and profile storage
+                MojangLookupService.class,      // handles caching of uuid's > names
                 ProxyHostService.class,         // register handlers for proxy events
                 MediaService.class,             // processes outgoing URL's
                 TimeService.class,              // processes remote or network timecodes and translates them for the client
@@ -117,7 +120,8 @@ public class OpenAudioMc {
                 RedisService.class,             // redis hook/service implementation
                 CraftmendService.class,         // craftmend specific features, like voice chat
                 VoiceLicenseService.class,      // service to interact with the voice license request api
-                RestDirectService.class
+                RestDirectService.class,        // manage rest direct
+                ClientDataService.class         // manage player profiles
         );
     }
 

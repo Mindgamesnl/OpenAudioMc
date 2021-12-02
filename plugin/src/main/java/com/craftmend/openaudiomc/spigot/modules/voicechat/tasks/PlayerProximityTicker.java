@@ -7,7 +7,7 @@ import com.craftmend.openaudiomc.api.impl.event.enums.VoiceEventCause;
 import com.craftmend.openaudiomc.api.impl.event.events.SystemReloadEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.VoiceChatPeerTickEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
@@ -42,7 +42,7 @@ public class PlayerProximityTicker implements Runnable {
 
         for (ClientConnection client : OpenAudioMc.getService(NetworkingService.class).getClients()) {
             // am I valid? no? do nothing.
-            if (!client.getClientRtcManager().isReady()) continue;
+            if (!client.getRtcSessionManager().isReady()) continue;
 
             Player player = (Player) client.getUser().getOriginal();
 
@@ -53,38 +53,38 @@ public class PlayerProximityTicker implements Runnable {
             ).collect(Collectors.toSet());
 
             // clear the applicable players if i'm disabled myself
-            if (!client.getClientRtcManager().getBlockReasons().isEmpty()) applicableClients.clear();
+            if (!client.getRtcSessionManager().getBlockReasons().isEmpty()) applicableClients.clear();
 
             // find players that we don't have yet
             applicableClients
                     .stream()
-                    .filter(peer -> !client.getClientRtcManager().getSubscriptions().contains(peer.getOwnerUUID()))
+                    .filter(peer -> !client.getRtcSessionManager().getSubscriptions().contains(peer.getOwner().getUniqueId()))
                     .forEach(peer -> {
                         // connect with these
-                        client.getClientRtcManager().linkTo(peer);
+                        client.getRtcSessionManager().linkTo(peer);
                     });
 
             // check if we have any peers that are no longer applicable
-            for (UUID uuid : client.getClientRtcManager().getSubscriptions()
+            for (UUID uuid : client.getRtcSessionManager().getSubscriptions()
                     .stream()
-                    .filter(p -> p != client.getOwnerUUID())
-                    .filter(uuid -> !applicableClients.stream().anyMatch(apc -> apc.getOwnerUUID() == uuid))
+                    .filter(p -> p != client.getOwner().getUniqueId())
+                    .filter(uuid -> !applicableClients.stream().anyMatch(apc -> apc.getOwner().getUniqueId() == uuid))
                     .collect(Collectors.toSet())) {
 
                 // unsubscribe these
                 ClientConnection peer = OpenAudioMc.getService(NetworkingService.class).getClient(uuid);
 
-                client.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(peer.getStreamKey())));
-                peer.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(client.getStreamKey())));
+                client.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(peer.getRtcSessionManager().getStreamKey())));
+                peer.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(client.getRtcSessionManager().getStreamKey())));
 
-                peer.getClientRtcManager().getSubscriptions().remove(client.getOwnerUUID());
-                client.getClientRtcManager().getSubscriptions().remove(peer.getOwnerUUID());
+                peer.getRtcSessionManager().getSubscriptions().remove(client.getOwner().getUniqueId());
+                client.getRtcSessionManager().getSubscriptions().remove(peer.getOwner().getUniqueId());
 
                 AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(client, peer, VoiceEventCause.NORMAL));
                 AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(peer, client, VoiceEventCause.NORMAL));
 
-                client.getClientRtcManager().updateLocationWatcher();
-                peer.getClientRtcManager().updateLocationWatcher();
+                client.getRtcSessionManager().updateLocationWatcher();
+                peer.getRtcSessionManager().updateLocationWatcher();
             }
         }
 

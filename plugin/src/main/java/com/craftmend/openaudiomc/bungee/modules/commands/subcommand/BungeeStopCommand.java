@@ -6,7 +6,7 @@ import com.craftmend.openaudiomc.generic.commands.CommandService;
 
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
 
@@ -17,7 +17,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class BungeeStopCommand extends SubCommand {
 
-    private OpenAudioMc openAudioMc;
+    private final OpenAudioMc openAudioMc;
 
     public BungeeStopCommand(OpenAudioMc openAudioMc) {
         super("stop");
@@ -42,7 +42,7 @@ public class BungeeStopCommand extends SubCommand {
             for (ProxiedPlayer player : new BungeePlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal())) {
                 ClientConnection clientConnection = OpenAudioMc.getService(NetworkingService.class).getClient(player.getUniqueId());
                 if (clientConnection.isConnected()) affected++;
-                clientConnection.getOngoingMedia().clear();
+                clientConnection.getSession().getOngoingMedia().clear();
                 OpenAudioMc.getService(NetworkingService.class).send(clientConnection, new PacketClientDestroyMedia(null));
             }
             message(sender, ChatColor.GREEN + "Destroyed all normal sounds for " + affected + " clients");
@@ -66,6 +66,6 @@ public class BungeeStopCommand extends SubCommand {
     private void sendHelp(User genericExecutor) {
         OpenAudioMc.getService(CommandService.class).getSubCommand("help").onExecute(genericExecutor, new String[] {
                 getCommand()
-        });;
+        });
     }
 }

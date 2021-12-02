@@ -16,6 +16,7 @@ public enum ErrorCode {
     SERVER_OFFLINE,     // The server you tried to interact with is not registered
     SERVER_BANNED,      // Server has been banned due to TOS, client url setting contains a URL to the ban page with details
     REQUEST_TOO_BIG,    // The request (probably post body) is too big to be handled (likely due to cloudflare caching rules)
+    NOT_FOUND,
 
     // VOICE
     BAD_HANDSHAKE,      // I don't know what you are. I don't know who you are. But I want you gone.

@@ -1,5 +1,6 @@
-package com.craftmend.openaudiomc.generic.networking.client.objects.player;
+package com.craftmend.openaudiomc.generic.client.helpers;
 
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.spigot.services.world.Vector3;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.services.world.interfaces.IRayTracer;
@@ -31,7 +32,7 @@ public class ClientRtcLocationUpdate {
         }
 
         return new ClientRtcLocationUpdate(
-                clientConnection.getStreamKey(),
+                clientConnection.getRtcSessionManager().getStreamKey(),
                 source.getX(),
                 source.getY(),
                 source.getZ(),
@@ -54,7 +55,7 @@ public class ClientRtcLocationUpdate {
         }
 
         return new ClientRtcLocationUpdate(
-                clientConnection.getStreamKey(),
+                clientConnection.getRtcSessionManager().getStreamKey(),
                 player.getLocation().getX(),
                 player.getLocation().getY(),
                 player.getLocation().getZ(),

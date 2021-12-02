@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.generic.commands.CommandService;
 
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
 import com.craftmend.openaudiomc.generic.user.User;
@@ -37,7 +37,7 @@ public class VelocityStopCommand extends SubCommand {
             for (Player player : new VelocityPlayerSelector(args[0]).getPlayers((CommandSource) sender.getOriginal())) {
                 ClientConnection clientConnection = OpenAudioMc.getService(NetworkingService.class).getClient(player.getUniqueId());
                 if (clientConnection.isConnected()) affected++;
-                clientConnection.getOngoingMedia().clear();
+                clientConnection.getSession().getOngoingMedia().clear();
                 OpenAudioMc.getService(NetworkingService.class).send(clientConnection, new PacketClientDestroyMedia(null));
             }
             message(sender, "§aDestroyed all normal sounds for " + affected + " clients");

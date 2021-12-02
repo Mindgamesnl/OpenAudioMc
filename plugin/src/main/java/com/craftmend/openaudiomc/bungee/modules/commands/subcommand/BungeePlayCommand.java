@@ -7,7 +7,7 @@ import com.craftmend.openaudiomc.generic.commands.CommandService;
 
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.media.objects.OptionalError;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
@@ -21,7 +21,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class BungeePlayCommand extends SubCommand {
 
-    private OpenAudioMc openAudioMc;
+    private final OpenAudioMc openAudioMc;
 
     public BungeePlayCommand(OpenAudioMc openAudioMc) {
         super("play", "p");

@@ -38,7 +38,7 @@ public class SpeakerDestroyListener implements Listener {
             speakerService.unlistSpeaker(location);
 
             //save to config
-            OpenAudioMc.getService(DatabaseService.class).getTable(Speaker.class).delete(speaker.getId().toString());
+            OpenAudioMc.getService(DatabaseService.class).getRepository(Speaker.class).delete(speaker.getId().toString());
 
             event.getPlayer().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.RED + "Speaker destroyed");
             try {

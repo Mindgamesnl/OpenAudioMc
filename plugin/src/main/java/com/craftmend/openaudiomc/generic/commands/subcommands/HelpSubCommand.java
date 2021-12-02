@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class HelpSubCommand extends SubCommand {
 
-    private CommandService commandService;
+    private final CommandService commandService;
 
     public HelpSubCommand() {
         super("help");

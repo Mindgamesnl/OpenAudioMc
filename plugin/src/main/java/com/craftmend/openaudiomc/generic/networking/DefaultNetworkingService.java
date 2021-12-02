@@ -7,8 +7,9 @@ import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.SerializableClient;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.helpers.SerializableClient;
+import com.craftmend.openaudiomc.generic.mojang.MojangLookupService;
 import com.craftmend.openaudiomc.generic.networking.enums.PacketChannel;
 import com.craftmend.openaudiomc.generic.networking.handlers.*;
 
@@ -18,8 +19,6 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
-import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientCreateMedia;
-import com.craftmend.openaudiomc.generic.networking.packets.client.speakers.PacketClientCreateSpeaker;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
@@ -64,19 +63,6 @@ public class DefaultNetworkingService extends NetworkingService {
 
         init();
 
-        // middleware
-        addEventHandler(new INetworkingEvents() {
-            @Override
-            public void onPacketSend(Authenticatable target, AbstractPacket packet) {
-                if (target instanceof ClientConnection && (
-                        packet instanceof PacketClientCreateMedia || packet instanceof PacketClientCreateSpeaker
-                )) {
-                    ClientConnection client = (ClientConnection) target;
-                    client.getMixTracker().triggerExpectedTrack();
-                }
-            }
-        });
-
         // default auth check middleware
         ApiEventDriver driver = AudioApi.getInstance().getEventDriver();
         if (driver.isSupported(ClientPreAuthEvent.class)) {
@@ -84,13 +70,13 @@ public class DefaultNetworkingService extends NetworkingService {
                     .on(ClientPreAuthEvent.class)
                     .setHandler((event -> {
                         // cancel the request if the client is already open, don't bother checking the token
-                        if (event.getRequester().getIsConnected()) {
+                        if (event.getRequester().isConnected()) {
                             event.setCanceled(true);
                             return;
                         }
 
                         // cancel the login if the token is invalid
-                        if (!event.getRequester().isTokenCorrect(event.getToken())) {
+                        if (!event.getRequester().getAuth().isKeyCorrect(event.getToken())) {
                             event.setCanceled(true);
                         }
                     }));
@@ -205,7 +191,7 @@ public class DefaultNetworkingService extends NetworkingService {
                     handler.accept(client);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    OpenAudioLogger.toConsole("Failed to handle destroy listener " + id + " for " + client.getOwnerName());
+                    OpenAudioLogger.toConsole("Failed to handle destroy listener " + id + " for " + client.getOwner().getName());
                 }
             });
 
@@ -224,6 +210,9 @@ public class DefaultNetworkingService extends NetworkingService {
 
     @Override
     public ClientConnection register(User player, @Nullable SerializableClient importData) {
+        // register the player async to cache later
+        getService(MojangLookupService.class).save(player);
+
         ClientConnection clientConnection = new ClientConnection(player, importData);
         clientMap.put(player.getUniqueId(), clientConnection);
         createdConnectionSubscribers.forEach((id, handler) -> handler.accept(clientConnection));
@@ -250,10 +239,6 @@ public class DefaultNetworkingService extends NetworkingService {
     @Override
     public void addEventHandler(INetworkingEvents events) {
         eventHandlers.add(events);
-    }
-
-    public boolean hasClient(UUID uuid) {
-        return clientMap.containsKey(uuid);
     }
 
 }

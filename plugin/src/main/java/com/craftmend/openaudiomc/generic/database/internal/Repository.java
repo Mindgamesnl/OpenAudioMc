@@ -15,9 +15,9 @@ public class Repository<T> {
 
     private DatabaseService databaseService;
     private ConcurrentMap<String, String> dataMap;
-    private Class<? extends StoredData> type;
+    private Class<? extends DataStore> type;
 
-    public void onCreate(DatabaseService databaseService, DB database, Class<? extends StoredData> dataClass) {
+    public void onCreate(DatabaseService databaseService, DB database, Class<? extends DataStore> dataClass) {
         this.databaseService = databaseService;
         this.type = dataClass;
         this.dataMap = database
@@ -42,9 +42,13 @@ public class Repository<T> {
     }
 
     public T get(String key) {
-        String data = this.dataMap.get(key);
-        if (data == null) return null;
-        return deserialize(data);
+        try {
+            String data = this.dataMap.get(key);
+            if (data == null) return null;
+            return deserialize(data);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public void save(String key, T data) {

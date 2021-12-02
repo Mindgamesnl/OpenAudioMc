@@ -4,7 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
@@ -31,9 +31,9 @@ public class PredictiveMediaService extends Service {
     private final String storageName = "predictive_media_cache";
 
     private final ChunkMapSerializer chunkMapSerializer = new ChunkMapSerializer();
-    private int chunkAge = 60 * 60 * 10;  // chunk values are kept for 10 hours
-    private int maxChunkData = 70;       // keep up to 70 chunks
-    private int maxChunkCache = 15;      // keep 15 sounds per chunk
+    private final int chunkAge = 60 * 60 * 10;  // chunk values are kept for 10 hours
+    private final int maxChunkData = 70;       // keep up to 70 chunks
+    private final int maxChunkCache = 15;      // keep 15 sounds per chunk
 
     // map "active" audio chunks of the world
     @Getter private ConcurrentHeatMap<String, ConcurrentHeatMap<String, Byte>> chunkTracker = new ConcurrentHeatMap<>(
@@ -54,7 +54,7 @@ public class PredictiveMediaService extends Service {
 
     public void loadFromFile() throws IOException {
         // load SerializedAudioChunk.ChunkMap.class
-        StoredChunkMap scm = databaseService.getTable(StoredChunkMap.class).get(storageName);
+        StoredChunkMap scm = databaseService.getRepository(StoredChunkMap.class).get(storageName);
         if (scm == null) {
             scm = new StoredChunkMap(new SerializedAudioChunk.ChunkMap());
             OpenAudioLogger.toConsole("Seeding default empty chunk map");
@@ -66,7 +66,7 @@ public class PredictiveMediaService extends Service {
 
     public void onDisable() {
         // save
-        databaseService.getTable(StoredChunkMap.class).save(storageName, new StoredChunkMap(chunkMapSerializer.serialize(chunkTracker)));
+        databaseService.getRepository(StoredChunkMap.class).save(storageName, new StoredChunkMap(chunkMapSerializer.serialize(chunkTracker)));
     }
 
     private INetworkingEvents getPacketHook() {

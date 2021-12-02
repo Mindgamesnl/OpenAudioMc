@@ -1,12 +1,13 @@
 package com.craftmend.openaudiomc.generic.database;
 
 import com.craftmend.openaudiomc.generic.database.internal.Repository;
-import com.craftmend.openaudiomc.generic.database.internal.StoredData;
+import com.craftmend.openaudiomc.generic.database.internal.DataStore;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.service.Service;
 import lombok.Getter;
 import org.mapdb.DB;
+import org.mapdb.DBMaker;
 import org.mapdb.thirdparty.com.craftmend.openaudiomc.jutils.JUtils;
 
 import java.io.File;
@@ -15,13 +16,13 @@ import java.util.Map;
 
 public class DatabaseService extends Service {
 
-    private Map<Class<? extends StoredData>, Repository<? extends StoredData>> databaseMap = new HashMap<>();
-    @Getter private DB database;
+    private final Map<Class<? extends DataStore>, Repository<? extends DataStore>> databaseMap = new HashMap<>();
+    @Getter private final DB database;
 
     public DatabaseService() {
         File storageDir = MagicValue.STORAGE_DIRECTORY.get(File.class);
 
-        database = JUtils.getDbMaker()
+        database = DBMaker
                 .fileDB(new File(storageDir, "database.db"))
                 .fileLockDisable()
                 .fileMmapEnable()
@@ -39,7 +40,7 @@ public class DatabaseService extends Service {
 
     }
 
-    public <T extends StoredData> Repository<T> getTable(Class<T> dataClass) {
+    public <T extends DataStore> Repository<T> getRepository(Class<T> dataClass) {
         if (databaseMap.containsKey(dataClass)) {
             return (Repository<T>) databaseMap.get(dataClass);
         }

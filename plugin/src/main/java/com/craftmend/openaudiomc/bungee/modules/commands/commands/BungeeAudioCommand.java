@@ -36,7 +36,7 @@ public class BungeeAudioCommand extends Command {
 
         if (sender instanceof ProxiedPlayer) {
             ProxiedPlayer player = (ProxiedPlayer) sender;
-            OpenAudioMc.getService(NetworkingService.class).getClient(player.getUniqueId()).publishUrl();
+            OpenAudioMc.getService(NetworkingService.class).getClient(player.getUniqueId()).getAuth().publishSessionUrl();
         } else {
             if (args.length == 0) {
                 sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "You must provide a player name OR selector to send trigger the URL");
@@ -44,7 +44,7 @@ public class BungeeAudioCommand extends Command {
             }
 
             for (ProxiedPlayer player : new BungeePlayerSelector(args[0]).getPlayers(sender)) {
-                OpenAudioMc.getService(NetworkingService.class).getClient(player.getUniqueId()).publishUrl();
+                OpenAudioMc.getService(NetworkingService.class).getClient(player.getUniqueId()).getAuth().publishSessionUrl();
             }
         }
     }

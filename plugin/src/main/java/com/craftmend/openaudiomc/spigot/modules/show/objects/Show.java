@@ -10,6 +10,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.time.Duration;
 import java.time.Instant;
@@ -21,8 +22,8 @@ import java.util.stream.IntStream;
 
 public class Show {
 
-    @Getter private String showName;
-    @Getter private Set<ShowCue> cueList = new HashSet<>();
+    @Getter private final String showName;
+    @Getter private final Set<ShowCue> cueList = new HashSet<>();
     private transient ScheduledExecutorService showTimer = null;
     private transient Instant startedAt = null;
     @Getter private transient boolean isLooping = false;
@@ -129,7 +130,7 @@ public class Show {
     }
 
     public Show save() {
-        Charset charset = Charset.forName("UTF-8");
+        Charset charset = StandardCharsets.UTF_8;
         try  {
             BufferedWriter writer = Files.newBufferedWriter(new File(OpenAudioMcSpigot.getInstance().getDataFolder(), showName.toLowerCase() + ".json").toPath(), charset);
             String input = toString();

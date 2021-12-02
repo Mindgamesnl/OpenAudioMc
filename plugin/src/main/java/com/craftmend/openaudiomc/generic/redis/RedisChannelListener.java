@@ -11,8 +11,8 @@ import java.util.Map;
 
 public class RedisChannelListener extends RedisPubSubAdapter<String, String> {
 
-    private Map<ChannelKey, OARedisPacket> sacreficcialPlayerPackets = new HashMap<>();
-    private Map<String, ChannelKey> channelNameMap = new HashMap<>();
+    private final Map<ChannelKey, OARedisPacket> sacreficcialPlayerPackets = new HashMap<>();
+    private final Map<String, ChannelKey> channelNameMap = new HashMap<>();
 
     public RedisChannelListener() {
         for (ChannelKey value : ChannelKey.values()) {

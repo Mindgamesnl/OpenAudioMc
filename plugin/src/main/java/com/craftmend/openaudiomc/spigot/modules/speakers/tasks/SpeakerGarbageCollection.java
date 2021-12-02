@@ -84,7 +84,7 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
             if (strategy == GcStrategy.DELETE) {
                 for (Speaker garbageSpeaker : garbageSpeakers) {
                     OpenAudioMc.getService(DatabaseService.class)
-                            .getTable(Speaker.class)
+                            .getRepository(Speaker.class)
                             .delete(garbageSpeaker.getId().toString());
                     this.speakerService.getSpeakerMap().remove(garbageSpeaker.getLocation());
                 }

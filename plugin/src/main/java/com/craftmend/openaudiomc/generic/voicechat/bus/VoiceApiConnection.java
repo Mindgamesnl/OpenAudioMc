@@ -5,8 +5,8 @@ import com.craftmend.openaudiomc.api.impl.event.events.ClientRequestVoiceEvent;
 import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
-import com.craftmend.openaudiomc.generic.networking.client.enums.RtcStateFlag;
-import com.craftmend.openaudiomc.generic.networking.client.objects.player.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.enums.RtcStateFlag;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientUnlockVoiceChat;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceChatUnlockPayload;
@@ -28,7 +28,7 @@ public class VoiceApiConnection {
     private static final Map<String, String> EMPTY_PAYLOAD = new HashMap<>();
     @Getter private VoiceApiStatus status = VoiceApiStatus.IDLE;
     private VoiceWebsocket voiceWebsocket;
-    private TaskService taskService;
+    private final TaskService taskService;
 
     @Getter private int maxSlots = 0;
     @Getter private String host = "none";
@@ -59,7 +59,7 @@ public class VoiceApiConnection {
                     }
 
                     // update state
-                    if (clientConnection.getClientRtcManager().getStateFlags().contains(RtcStateFlag.FORCE_MUTED)) {
+                    if (clientConnection.getRtcSessionManager().getStateFlags().contains(RtcStateFlag.FORCE_MUTED)) {
                         forceMute(clientConnection);
                     }
 
@@ -71,7 +71,7 @@ public class VoiceApiConnection {
                         ClientRequestVoiceEvent event = OpenAudioMc.getInstance().getApiEventDriver().fire(new ClientRequestVoiceEvent(clientConnection));
                         if (!event.isCanceled()) {
                             clientConnection.sendPacket(new PacketClientUnlockVoiceChat(new ClientVoiceChatUnlockPayload(
-                                    clientConnection.getStreamKey(),
+                                    clientConnection.getRtcSessionManager().getStreamKey(),
                                     this.host,
                                     StorageKey.SETTINGS_VC_RADIUS.getInt()
                             )));
@@ -84,7 +84,7 @@ public class VoiceApiConnection {
                 // client will be removed
                 OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> {
                     pushEvent(VoiceServerEventType.REMOVE_PLAYER, new HashMap<String, String>() {{
-                        put("streamKey", clientConnection.getStreamKey());
+                        put("streamKey", clientConnection.getRtcSessionManager().getStreamKey());
                     }});
                 });
             }));
@@ -128,7 +128,7 @@ public class VoiceApiConnection {
         // logout, since we're not using this session anymore
         new RestRequest(RestEndpoint.END_VOICE_SESSION).executeInThread();
         for (ClientConnection client : OpenAudioMc.getService(NetworkingService.class).getClients()) {
-            if (client.getClientRtcManager().isReady()) {
+            if (client.getRtcSessionManager().isReady()) {
                 client.getUser().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_UNSTABLE.getString()));
                 client.kick();
             }
@@ -162,7 +162,7 @@ public class VoiceApiConnection {
         pushEvent(VoiceServerEventType.ADD_PLAYER, new HashMap<String, String>() {{
             put("playerName", clientConnection.getUser().getName());
             put("playerUuid", clientConnection.getUser().getUniqueId().toString());
-            put("streamKey", clientConnection.getStreamKey());
+            put("streamKey", clientConnection.getRtcSessionManager().getStreamKey());
         }});
     }
 
@@ -172,9 +172,9 @@ public class VoiceApiConnection {
      */
     public void forceMute(ClientConnection clientConnection) {
         pushEvent(VoiceServerEventType.FORCE_MUTE_PLAYER, new HashMap<String, String>() {{
-            put("streamKey", clientConnection.getStreamKey());
+            put("streamKey", clientConnection.getRtcSessionManager().getStreamKey());
         }});
-        clientConnection.getClientRtcManager().getStateFlags().add(RtcStateFlag.FORCE_MUTED);
+        clientConnection.getRtcSessionManager().getStateFlags().add(RtcStateFlag.FORCE_MUTED);
     }
 
     /**
@@ -183,9 +183,9 @@ public class VoiceApiConnection {
      */
     public void forceUnmute(ClientConnection clientConnection) {
         pushEvent(VoiceServerEventType.FORCE_UNMUTE_PLAYER, new HashMap<String, String>() {{
-            put("streamKey", clientConnection.getStreamKey());
+            put("streamKey", clientConnection.getRtcSessionManager().getStreamKey());
         }});
-        clientConnection.getClientRtcManager().getStateFlags().remove(RtcStateFlag.FORCE_MUTED);
+        clientConnection.getRtcSessionManager().getStateFlags().remove(RtcStateFlag.FORCE_MUTED);
     }
 
 
@@ -196,7 +196,7 @@ public class VoiceApiConnection {
     public int getUsedSlots() {
         return (int) OpenAudioMc.getService(NetworkingService.class).getClients()
                 .stream()
-                .filter(client -> client.getClientRtcManager().isReady())
+                .filter(client -> client.getRtcSessionManager().isReady())
                 .count();
     }
 

@@ -48,7 +48,7 @@ public class SocketIoConnector {
     private RestRequest logoutHandler;
     private boolean registeredLogout = false;
     @Getter private UUID lastUsedRelay = UUID.randomUUID();
-    private ServerKeySet keySet;
+    private final ServerKeySet keySet;
 
     private final SocketDriver[] drivers = new SocketDriver[]{
             new NotificationDriver(),
@@ -179,8 +179,8 @@ public class SocketIoConnector {
 
     public void send(Authenticatable client, AbstractPacket packet) {
         // only send the packet if the client is online, valid and the plugin is connected
-        if (client.getIsConnected() && OpenAudioMc.getService(StateService.class).getCurrentState().isConnected()) {
-            packet.setClient(client.getOwnerUUID());
+        if (client.isConnected() && OpenAudioMc.getService(StateService.class).getCurrentState().isConnected()) {
+            packet.setClient(client.getOwner().getUniqueId());
             socket.emit("data", OpenAudioMc.getGson().toJson(packet));
         }
     }
