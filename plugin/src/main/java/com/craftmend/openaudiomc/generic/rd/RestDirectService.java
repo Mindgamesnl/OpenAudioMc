@@ -65,6 +65,8 @@ public class RestDirectService extends Service {
             ip = "localhost";
         }
 
+        OpenAudioLogger.toConsole("Using ip: " + ip);
+
         for (int port : checkable_ports) {
             // try to open a server
             String verificationString = UUID.randomUUID().toString();
@@ -101,7 +103,6 @@ public class RestDirectService extends Service {
             } catch (IOException e) {
                 // next attempt
             }
-            OpenAudioLogger.toConsole("Failed to hook a cdn listener to " + port);
         }
         OpenAudioLogger.toConsole("None of the listed ports were accessible or available. Please contact support, your server/host might not be compatible!");
         return null;

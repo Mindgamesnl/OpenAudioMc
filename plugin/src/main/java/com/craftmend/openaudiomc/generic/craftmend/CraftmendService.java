@@ -13,6 +13,7 @@ import com.craftmend.openaudiomc.generic.craftmend.tasks.PlayerStateStreamer;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.networking.rest.ServerEnvironment;
 import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
 import com.craftmend.openaudiomc.generic.networking.rest.data.RestErrorResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
@@ -156,7 +157,9 @@ public class CraftmendService extends Service {
             return;
         }
 
-        OpenAudioLogger.toConsole("VoiceChat seems to be enabled for this account! Requesting RTC and Password...");
+        if (OpenAudioMc.SERVER_ENVIRONMENT == ServerEnvironment.PRODUCTION) {
+            OpenAudioLogger.toConsole("VoiceChat seems to be enabled for this account! Requesting RTC and Password...");
+        }
         // do magic, somehow fail, or login to the voice server
         isAttemptingVcConnect = true;
         RestRequest request = new RestRequest(RestEndpoint.START_VOICE_SESSION);
@@ -168,9 +171,11 @@ public class CraftmendService extends Service {
 
                         if (errorCode == ErrorCode.NO_RTC) {
                             new RestRequest(RestEndpoint.END_VOICE_SESSION).executeInThread();
-                            OpenAudioLogger.toConsole("Failed to initialize voice chat. There aren't any servers that can handle your request. Trying again in 20 seconds.");
-                            for (RestErrorResponse error : response.getErrors()) {
-                                OpenAudioLogger.toConsole(" - " + error.getMessage());
+                            if (OpenAudioMc.SERVER_ENVIRONMENT == ServerEnvironment.PRODUCTION) {
+                                OpenAudioLogger.toConsole("Failed to initialize voice chat. There aren't any servers that can handle your request. Trying again in 20 seconds.");
+                                for (RestErrorResponse error : response.getErrors()) {
+                                    OpenAudioLogger.toConsole(" - " + error.getMessage());
+                                }
                             }
                             OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
                                 startVoiceHandshake(true);
