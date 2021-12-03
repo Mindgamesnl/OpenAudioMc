@@ -37,7 +37,9 @@ public class BungeeCommandModule extends Service {
                 new BungeeRegionCommand(),
                 new BungeeSpeakerCommand(),
                 new BungeeShowCommand(),
-                new BungeeAliasCommand()
+                new BungeeAliasCommand(),
+                new BungeeVoiceCommand(),
+                new BungeePersonalsettingsCommand()
         );
 
         // add accept sub command if the player is new

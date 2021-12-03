@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.velocity.modules.commands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.bungee.modules.commands.subcommand.BungeePersonalsettingsCommand;
+import com.craftmend.openaudiomc.bungee.modules.commands.subcommand.BungeeVoiceCommand;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.subcommands.AcceptSubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.HelpSubCommand;
@@ -43,7 +45,9 @@ public class VelocityCommandModule {
                 new VelocityRegionCommand(),
                 new VelocitySpeakerCommand(),
                 new VelocityShowCommand(),
-                new VelocityAliasCommand()
+                new VelocityAliasCommand(),
+                new BungeeVoiceCommand(),
+                new BungeePersonalsettingsCommand()
         );
 
         // add accept sub command if the player is new

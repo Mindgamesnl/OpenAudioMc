@@ -33,12 +33,6 @@ public class ClientDriver implements SocketDriver {
 
             if (authenticatable == null) {
                 callback.call(false);
-            } else if (authenticatable.getAuth().isKeyCorrect(payload.getToken())) {
-                callback.call(true);
-                authenticatable.onConnect();
-                for (INetworkingEvents event : OpenAudioMc.getService(NetworkingService.class).getEvents()) {
-                    event.onClientOpen(authenticatable);
-                }
             } else {
                 ClientPreAuthEvent checkEvent = new ClientPreAuthEvent(authenticatable, payload.getToken());
                 AudioApi.getInstance().getEventDriver().fire(checkEvent);

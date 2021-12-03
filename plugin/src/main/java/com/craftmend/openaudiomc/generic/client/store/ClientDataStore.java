@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.generic.client.store;
 
+import com.craftmend.openaudiomc.generic.client.enums.DataStoreVersion;
 import com.craftmend.openaudiomc.generic.database.internal.DataStore;
 import lombok.Data;
 
@@ -12,6 +13,7 @@ import java.util.UUID;
 @Data
 public class ClientDataStore extends DataStore {
 
+    private DataStoreVersion dataStoreVersion = DataStoreVersion.WINTER_UPDATE;
     private Instant lastSeen = Instant.MIN;;
     private Instant lastVoiceConnection = Instant.MIN;
     private boolean isVoiceBlocked = false;

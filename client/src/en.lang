@@ -100,3 +100,7 @@ settings.spatial.legacy=Legacy (old system)
 settings.interpolation.title=Location smoothing
 settings.interpolation.body=Automatically smooth movements to minimize speaker/voicechat stuttering while walking. This adds extra movement delay, but sounds better.
 settings.interpolation.button=Enable smoothing
+
+settings.streamermode.title=Stramer Mode
+settings.streamermode.body=Automatically disable your session tokens after single use. This means that your client URL's are safe to show on stream without worrying that a viewer impersonates you. Just be sure to open your link as soon as you get it.
+settings.streamermode.button=Enable streamer mode

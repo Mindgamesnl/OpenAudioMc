@@ -24,10 +24,10 @@ public enum ExtraSpeakerOptions {
     ),
     ;
 
-    @Getter private final boolean display;
-    @Getter private final String title;
-    @Getter private final String description;
-    private final Predicate<Speaker>[] predicates;
+    @Getter private boolean display;
+    @Getter private String title;
+    @Getter private String description;
+    private Predicate<Speaker>[] predicates;
 
     ExtraSpeakerOptions(boolean display, String title, String description, Predicate<Speaker>... requirementChecks) {
         this.display = display;

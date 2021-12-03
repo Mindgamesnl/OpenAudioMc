@@ -163,6 +163,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
         if (volume < 0 || volume > 100) {
             throw new IllegalArgumentException("Volume must be between 0 and 100");
         }
+        session.setVolume(volume);
         user.sendMessage(Platform.translateColors(StorageKey.MESSAGE_CLIENT_VOLUME_CHANGED.getString()).replaceAll("__amount__", volume + ""));
         OpenAudioMc.getService(NetworkingService.class).send(this, new PacketClientSetVolume(volume));
     }

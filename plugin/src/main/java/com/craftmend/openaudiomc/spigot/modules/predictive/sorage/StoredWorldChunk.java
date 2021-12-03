@@ -7,8 +7,9 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class StoredChunkMap extends DataStore {
+public class StoredWorldChunk extends DataStore {
 
-    private SerializedAudioChunk.ChunkMap chunkMap;
+    private String chunkName;
+    private SerializedAudioChunk.Chunk audioChunk;
 
 }

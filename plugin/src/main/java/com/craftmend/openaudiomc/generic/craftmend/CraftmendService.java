@@ -13,6 +13,7 @@ import com.craftmend.openaudiomc.generic.craftmend.tasks.PlayerStateStreamer;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.networking.rest.ServerEnvironment;
 import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
 import com.craftmend.openaudiomc.generic.networking.rest.data.RestErrorResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
@@ -20,14 +21,14 @@ import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
-import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.voicechat.bus.VoiceApiConnection;
 import com.craftmend.openaudiomc.generic.voicechat.enums.VoiceApiStatus;
 import com.craftmend.openaudiomc.generic.voicechat.services.VoiceLicenseService;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 public class CraftmendService extends Service {
@@ -39,11 +40,9 @@ public class CraftmendService extends Service {
 
     private PlayerStateStreamer playerStateStreamer;
     @Getter
-    private String baseUrl;
-    @Getter
     private CraftmendAccountResponse accountResponse = new CraftmendAccountResponse();
     @Getter
-    private final Set<CraftmendTag> tags = new HashSet<>();
+    private Set<CraftmendTag> tags = new HashSet<>();
 
     // ugly state management, I should _really_ change this at some point, just like the state service
     @Getter
@@ -107,7 +106,6 @@ public class CraftmendService extends Service {
 
         tags.clear();
 
-        baseUrl = response.getSettings().getClientUrl();
         if (response.getSettings().isBanned()) addTag(CraftmendTag.BANNED);
         if (response.isClaimed()) addTag(CraftmendTag.CLAIMED);
         accountResponse = response;
@@ -159,7 +157,9 @@ public class CraftmendService extends Service {
             return;
         }
 
-        OpenAudioLogger.toConsole("VoiceChat seems to be enabled for this account! Requesting RTC and Password...");
+        if (OpenAudioMc.SERVER_ENVIRONMENT == ServerEnvironment.PRODUCTION) {
+            OpenAudioLogger.toConsole("VoiceChat seems to be enabled for this account! Requesting RTC and Password...");
+        }
         // do magic, somehow fail, or login to the voice server
         isAttemptingVcConnect = true;
         RestRequest request = new RestRequest(RestEndpoint.START_VOICE_SESSION);
@@ -171,9 +171,11 @@ public class CraftmendService extends Service {
 
                         if (errorCode == ErrorCode.NO_RTC) {
                             new RestRequest(RestEndpoint.END_VOICE_SESSION).executeInThread();
-                            OpenAudioLogger.toConsole("Failed to initialize voice chat. There aren't any servers that can handle your request. Trying again in 20 seconds.");
-                            for (RestErrorResponse error : response.getErrors()) {
-                                OpenAudioLogger.toConsole(" - " + error.getMessage());
+                            if (OpenAudioMc.SERVER_ENVIRONMENT == ServerEnvironment.PRODUCTION) {
+                                OpenAudioLogger.toConsole("Failed to initialize voice chat. There aren't any servers that can handle your request. Trying again in 20 seconds.");
+                                for (RestErrorResponse error : response.getErrors()) {
+                                    OpenAudioLogger.toConsole(" - " + error.getMessage());
+                                }
                             }
                             OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
                                 startVoiceHandshake(true);

@@ -17,6 +17,7 @@ public class HelpSubCommand extends SubCommand {
 
     public HelpSubCommand() {
         super("help");
+        ignorePermissions = true;
         this.commandService = OpenAudioMc.getService(CommandService.class);
     }
 

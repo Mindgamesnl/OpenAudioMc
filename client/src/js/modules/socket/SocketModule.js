@@ -1,8 +1,20 @@
 import ClientTokenSet from "../../helpers/libs/ClientTokenSet";
-import {OpenAudioEnv} from "../../OpenAudioMc";
 import {DebugPanel, WhenDebugging} from "../../debug";
 import {oalog} from "../../helpers/log";
 import {replaceProperty} from "../../helpers/domhelper";
+import {OpenAudioEnv} from "../../OpenAudioMc";
+
+let whenConnectHandler = [];
+let whenConnectConnected = false;
+
+export function WhenConnected(call) {
+    if (!whenConnectConnected) {
+        whenConnectHandler.push(call)
+        return
+    }
+    call();
+}
+
 
 export class SocketModule {
 
@@ -44,6 +56,10 @@ export class SocketModule {
             this.outgoingQueue.forEach((waiting) => {
                 this.send(waiting.key, waiting.value);
             });
+            for (let i = 0; i < whenConnectHandler.length; i++) {
+                whenConnectHandler[i]()
+            }
+            whenConnectConnected = true;
         });
 
         this.socket.on("time-update", (time) => {

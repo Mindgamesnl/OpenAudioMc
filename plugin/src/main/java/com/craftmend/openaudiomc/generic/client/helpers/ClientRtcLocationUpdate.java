@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 public class ClientRtcLocationUpdate {
 
     private static final boolean PROCESS_OBSTRUCTIONS = StorageKey.SETTINGS_VC_PROCESS_OBSTRUCTIONS.getBoolean();
-    private static final IRayTracer rayTracer = new EstimatedRayTracer();
+    private static IRayTracer rayTracer = new EstimatedRayTracer();
 
     private String streamKey;
     private double x, y, z;
