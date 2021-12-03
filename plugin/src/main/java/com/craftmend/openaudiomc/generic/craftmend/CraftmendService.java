@@ -105,7 +105,6 @@ public class CraftmendService extends Service {
 
         tags.clear();
 
-        OpenAudioLogger.toConsole(response.getSettings().getClientUrl());
         if (response.getSettings().isBanned()) addTag(CraftmendTag.BANNED);
         if (response.isClaimed()) addTag(CraftmendTag.CLAIMED);
         accountResponse = response;

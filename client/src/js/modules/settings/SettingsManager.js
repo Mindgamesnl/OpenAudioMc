@@ -1,5 +1,7 @@
 import {makeid} from "../../helpers/libs/random";
 import {oalog} from "../../helpers/log";
+import {API_ENDPOINT} from "../../helpers/protocol/ApiEndpoints";
+import {AlertBox} from "../ui/Notification";
 
 const icons = {
     CHIME: `<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>`,
@@ -7,7 +9,8 @@ const icons = {
     NOTIFICATION: `<svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />  <circle cx="16" cy="8" r="3" /></svg>`,
     MIX_AND_FADE: `<svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg>`,
     PRELOAD: `<svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M16 8v-4h-12v12.01h4" stroke-dasharray=".001 4" />  <rect x="8" y="8" width="12" height="12" rx="2" /></svg>`,
-    RENDER: `<svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <polyline points="5 9 2 12 5 15" />  <polyline points="9 5 12 2 15 5" />  <polyline points="15 19 12 22 9 19" />  <polyline points="19 9 22 12 19 15" />  <line x1="2" y1="12" x2="22" y2="12" />  <line x1="12" y1="2" x2="12" y2="22" /></svg>`
+    RENDER: `<svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <polyline points="5 9 2 12 5 15" />  <polyline points="9 5 12 2 15 5" />  <polyline points="15 19 12 22 9 19" />  <polyline points="19 9 22 12 19 15" />  <line x1="2" y1="12" x2="22" y2="12" />  <line x1="12" y1="2" x2="12" y2="22" /></svg>`,
+    STREAM_ICON: `<svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />  <circle cx="12" cy="13" r="4" /></svg>`
 }
 
 export var SETTING_STATES = {
@@ -111,6 +114,41 @@ export class SettingsManager {
                 true
             )
         )
+
+        this.registerSetting(new CheckboxSetting("streamermode",
+                icons.RENDER,
+                getMessageString("settings.streamermode.title"),
+                getMessageString("settings.streamermode.body"),
+                getMessageString("settings.streamermode.button"),
+                false,
+            (state) => {
+                    if (state) {
+                        // destroy session, it's been toggled or loaded as true
+                        let c = async () => {
+                            let r = await fetch(API_ENDPOINT.STREAMER_MODE + window.location.hash.replace("#", ""));
+                            let b = await r.json();
+                            if (b.error == null) {
+                                // ok
+                                let msg = b.ok;
+                                new AlertBox('#alert-area', {
+                                    closeTime: 60000,
+                                    persistent: false,
+                                    hideCloseButton: true,
+                                }).show('<div style="text-align: center;" class="medium-text">Streamer mode:' + msg + '</div>');
+                            } else {
+                                // fuckup
+                                let msg = b.error;
+                                new AlertBox('#alert-area', {
+                                    closeTime: 60000,
+                                    persistent: false,
+                                    hideCloseButton: true,
+                                }).show('<div style="text-align: center;" class="medium-text">Streamer mode:' + msg + '</div>');
+                            }
+                        };
+                        c();
+                    }
+                }
+        ))
 
         this.registerSetting(new DropdownSetting("spatialAudioRendering",
                 icons.RENDER,
