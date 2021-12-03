@@ -1,6 +1,9 @@
 package com.craftmend.openaudiomc.generic.rd.routes;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.client.helpers.SerializableClient;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.rd.RestDirectService;
 import com.craftmend.openaudiomc.generic.rd.http.HttpResponse;
 import com.craftmend.openaudiomc.generic.rd.http.Route;
@@ -40,7 +43,15 @@ public class StateRoute extends Route {
             services.add(allService.getClass().getName());
         }
         r.put("services", services);
+        r.put("state", OpenAudioMc.getService(StateService.class).getCurrentState().asString());
 
+        // list clients
+        List<SerializableClient> clients = new ArrayList<>();
+        for (ClientConnection c : OpenAudioMc.getService(NetworkingService.class).getClients()) {
+            clients.add(c.getSession().asSerializableCopy());
+        }
+        r.put("services", services);
+        r.put("clients", clients);
         r.put("state", OpenAudioMc.getService(StateService.class).getCurrentState().asString());
 
         return HttpResponse.json(OpenAudioMc.getGson().toJson(r));

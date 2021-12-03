@@ -38,6 +38,7 @@ public class RestDirectService extends Service {
             StorageKey.CDN_PREFERRED_PORT.getInt(),
             80,
             8080,
+            37861,
             ThreadLocalRandom.current().nextInt(5050, 9090),
             ThreadLocalRandom.current().nextInt(5050, 9090),
             ThreadLocalRandom.current().nextInt(5050, 9090)
@@ -63,6 +64,8 @@ public class RestDirectService extends Service {
         if (OpenAudioMc.SERVER_ENVIRONMENT == ServerEnvironment.DEVELOPMENT) {
             ip = "localhost";
         }
+
+        OpenAudioLogger.toConsole("Using ip: " + ip);
 
         for (int port : checkable_ports) {
             // try to open a server
@@ -100,7 +103,6 @@ public class RestDirectService extends Service {
             } catch (IOException e) {
                 // next attempt
             }
-            OpenAudioLogger.toConsole("Failed to hook a cdn listener to " + port);
         }
         OpenAudioLogger.toConsole("None of the listed ports were accessible or available. Please contact support, your server/host might not be compatible!");
         return null;

@@ -4,13 +4,11 @@ import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
 import lombok.AllArgsConstructor;
 
-import java.util.UUID;
-
 @AllArgsConstructor
 public class Region implements IRegion {
 
-    private final String id;
-    private final RegionProperties regionProperties;
+    private String id;
+    private RegionProperties regionProperties;
 
     @Override
     public Media getMedia() {

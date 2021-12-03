@@ -6,6 +6,8 @@ public enum CommandProxy {
     SPEAKER,
     REDIS,
     SHOW,
-    ALIAS
+    ALIAS,
+    VOICE,
+    PERSONALSETTINGS
 
 }

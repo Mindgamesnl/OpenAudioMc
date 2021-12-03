@@ -34,7 +34,7 @@ public class PortChecker {
 
         RestRequest r = new RestRequest(RestEndpoint.CDN_CHECK, url());
         r.setVerbose(false);
-        r.setTimeout(3); // wait max 3 seconds, or just fail
+        r.setTimeout(20);
         ApiResponse response = r.executeInThread();
         if (response.getErrors().isEmpty()) {
             if (response.responseAsString().equals(expectedResponse)) {
