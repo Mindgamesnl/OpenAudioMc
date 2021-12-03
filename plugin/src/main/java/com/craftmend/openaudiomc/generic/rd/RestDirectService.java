@@ -38,6 +38,7 @@ public class RestDirectService extends Service {
             StorageKey.CDN_PREFERRED_PORT.getInt(),
             80,
             8080,
+            37861,
             ThreadLocalRandom.current().nextInt(5050, 9090),
             ThreadLocalRandom.current().nextInt(5050, 9090),
             ThreadLocalRandom.current().nextInt(5050, 9090)

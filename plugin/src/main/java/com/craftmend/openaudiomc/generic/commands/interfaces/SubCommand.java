@@ -20,6 +20,7 @@ public abstract class SubCommand {
     @Getter private final List<Argument> arguments = new ArrayList<>();
     private final Map<String, SubCommand> moreSubCommands = new HashMap<>();
     protected boolean trimArguments = false;
+    protected boolean ignorePermissions = false;
 
     /**
      * @param argument Your command name. For example "select"
@@ -59,6 +60,7 @@ public abstract class SubCommand {
      * @return true if the player is allowed to execute a command
      */
     public boolean isAllowed(User commandSender) {
+        if (ignorePermissions) return true;
         return commandSender.hasPermission("openaudiomc.commands." + command)
                 || commandSender.hasPermission("openaudiomc.commands.*")
                 || commandSender.hasPermission("openaudiomc.*");

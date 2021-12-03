@@ -43,7 +43,8 @@ public class SpigotCommandService extends Service {
                 new HueSubCommand(openAudioMcSpigot),
                 new ShowSubCommand(openAudioMcSpigot),
                 new AliasSubCommand(),
-                new VoiceSubCommand()
+                new VoiceSubCommand(),
+                new PersonalSettingsSubCommand()
         );
 
         // if it is a older version, register the middleware
