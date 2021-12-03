@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.client.helpers.TokenFactory;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.rd.RestDirectService;
 import com.craftmend.openaudiomc.generic.rd.http.HttpResponse;
@@ -38,10 +39,9 @@ public class TokenInvalidateRoute extends Route {
         }
 
         // ready save to do the thing
-        if (cc.isConnected()) {
-            OpenAudioMc.getService(AuthenticationService.class).getDriver().removePlayerFromCache(clientUuid);
-            cc.setAuth(new TokenFactory().build(cc));
-        }
+        OpenAudioLogger.toConsole(cc.getUser().getName() + " activated a streamer mode reset");
+        OpenAudioMc.getService(AuthenticationService.class).getDriver().removePlayerFromCache(clientUuid);
+        cc.setAuth(new TokenFactory().build(cc));
 
         return HttpResponse.json(OpenAudioMc.getGson().toJson(cc.getAuth()));
     }

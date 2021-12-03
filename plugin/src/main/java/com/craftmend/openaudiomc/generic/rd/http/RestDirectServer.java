@@ -1,10 +1,7 @@
 package com.craftmend.openaudiomc.generic.rd.http;
 
 import com.craftmend.openaudiomc.generic.rd.RestDirectService;
-import com.craftmend.openaudiomc.generic.rd.routes.AudioFileRoute;
-import com.craftmend.openaudiomc.generic.rd.routes.DefaultRoute;
-import com.craftmend.openaudiomc.generic.rd.routes.StateRoute;
-import com.craftmend.openaudiomc.generic.rd.routes.ValidateRoute;
+import com.craftmend.openaudiomc.generic.rd.routes.*;
 import fi.iki.elonen.NanoHTTPD;
 
 import java.io.IOException;
@@ -32,6 +29,7 @@ public class RestDirectServer extends NanoHTTPD {
         routes.put("/api/validate", new ValidateRoute(verificationString));
         routes.put("/api/audio", new AudioFileRoute(restDirectService));
         routes.put("/api/state", new StateRoute(restDirectService));
+        routes.put("/api/streamermode", new TokenInvalidateRoute(restDirectService));
     }
 
     @Override
