@@ -48,13 +48,13 @@ export class VoicePeerUi {
                             <line x1="8" y1="23" x2="16" y2="23"/>
                         </svg>
                         ` + playerName + ` <small id="vc-user-card-` + playerName + `-volume-disp"
-                                           class="soft-text">(35% volume)</small>
+                                           class="soft-text">(100% volume)</small>
                                    </h1>
                 </div>
                 <div><input id="vc-user-card-` + playerName + `-volume-input"
                             oninput="handlePeerVolumeEvent(this)"
                             class="volume-slider"
-                            type="range" min="0" max="120" step="1" value="35"/></div>
+                            type="range" min="0" max="120" step="1" value="100"/></div>
             </div>
         </li>
         `
