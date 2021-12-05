@@ -187,8 +187,8 @@ export function untrackPanner(id) {
 function applyPannerProperties(pannerNode, maxDistance) {
     if (SETTING_STATES.spatialAudioRendering === "accurate") {
         pannerNode.panningModel = 'equalpower';
-        pannerNode.rolloffFactor = 0.9;
-        pannerNode.distanceModel = "exponential";
+        pannerNode.rolloffFactor = 0.8;
+        pannerNode.distanceModel = "linear";
         pannerNode.coneOuterGain = 1;
         pannerNode.coneInnerAngle = 90;
         pannerNode.maxDistance = maxDistance;
