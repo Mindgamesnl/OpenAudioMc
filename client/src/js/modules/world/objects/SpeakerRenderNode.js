@@ -1,5 +1,6 @@
 import {Position} from "../../../helpers/math/Position";
 import {applyPannerSettings, untrackPanner} from "../../settings/SettingsManager";
+import {oalog} from "../../../helpers/log";
 
 export class SpeakerRenderNode {
 
@@ -27,6 +28,7 @@ export class SpeakerRenderNode {
     }
 
     preDelete() {
+        oalog("Untracking " + this.pannerId)
         untrackPanner(this.pannerId)
     }
 
