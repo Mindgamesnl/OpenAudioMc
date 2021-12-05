@@ -79,7 +79,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
 
         getDataStore().setWhenFinished(dataStore -> {
             this.dataCache = dataStore;
-            dataCache.setLastSeen(Instant.now());
+            this.dataCache.setLastSeen(Instant.now());
         });
     }
 
