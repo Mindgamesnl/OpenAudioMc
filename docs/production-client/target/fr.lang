@@ -51,7 +51,6 @@ vc.toggleMicrophone=Basculer le microphone
 vc.you=vous
 vc.safetyTitle=Pour votre sécurité
 vc.safetyDisclaimer=Vous recevrez des messages en jeu lorsque des personnes apparaîtront et quitteront votre zone de discussion vocale, et vous pourrez afficher une liste des personnes que vous pouvez entendre (et qui peuvent vous entendre à leur tour), et les mettre en sourdine si vous le souhaitez. OpenAudioMc s'appuie sur votre serveur pour gérer la modération et traiter les rapports d'abus si nécessaire. Veuillez contacter un membre du personnel si vous avez des questions ou des préoccupations.
-vc.safetyFooter=<b>Want some privacy? you can mute your microphone at any time by running <pre style="display: inline;">/mm</pre> or holding <pre style="display: inline;">shift + F</pre> in game, or alternatively by pressing the button on this web page.</b>
 vc.safetyFooter=<b>Vous voulez un peu d'intimité ? Vous pouvez couper votre microphone à tout moment en exécutant <pre style="display : inline ;">/mm</pre> ou en maintenant <pre style="display : inline ;">shift + F</pre> dans le jeu, ou alternativement en appuyant sur le bouton de cette page web.</b>.
 vc.join=Rejoindre le chat vocal
 
@@ -86,3 +85,22 @@ settings.theme.button=Mode sombre
 settings.voicechat.peer.title=Notifications de bureau
 settings.voicechat.peer.body=Recevez des notifications sur votre bureau dès que quelqu'un entre ou sort de votre zone de chat vocal
 settings.voicechat.peer.button=Activer les notifications
+settings.mix-and-fade.title=Mixage automatique de la musique
+settings.mix-and-fade.body=Mélange et fondu enchaîné automatique des sources audio
+settings.mix-and-fade.button=Activer le mélange
+settings.preload.title=Préchargement automatique des fichiers audio
+settings.preload.body=Avec cette option activée, OpenAudioMc préchargera automatiquement les fichiers qui sont souvent utilisés autour de votre emplacement dans le jeu. Cela rend l'audio plus réactif, mais utilise plus de données.
+settings.preload.button=Activer le préchargement
+
+settings.spatial.title=Moteur de rendu spatial
+settings.spatial.body=Sélectionnez le moteur de rendu que vous souhaitez utiliser. Le moteur moderne est de meilleure qualité et un peu plus rapide, mais il est toujours en cours de développement.
+settings.spatial.modern=Moderne
+settings.spatial.legacy=Legacy (ancien système)
+
+settings.interpolation.title=Lissage de l'emplacement
+settings.interpolation.body=Lissage automatique des mouvements pour minimiser le bégaiement du haut-parleur/de la voix pendant la marche. Cela ajoute un délai supplémentaire pour les mouvements, mais le son est meilleur.
+settings.interpolation.button=Activer le lissage
+
+settings.streamermode.title=Mode Streamer
+settings.streamermode.body=Désactivez automatiquement vos jetons de session après une seule utilisation. Cela signifie que les URL de vos clients peuvent être affichées en toute sécurité sur un stream sans craindre qu'un spectateur se fasse passer pour vous. Assurez-vous simplement d'ouvrir votre lien dès que vous le recevez.
+settings.streamermode.button=Activer le mode streamer
