@@ -11,8 +11,10 @@ public class PortChecker {
 
     private final String ip;
     private final int port;
+    private final int timeout;
 
-    public PortChecker(String ip, int port) {
+    public PortChecker(String ip, int port, int timeout) {
+        this.timeout = timeout;
         this.ip = ip;
         this.port = port;
     }
@@ -34,7 +36,7 @@ public class PortChecker {
 
         RestRequest r = new RestRequest(RestEndpoint.CDN_CHECK, url());
         r.setVerbose(false);
-        r.setTimeout(20);
+        r.setTimeout(timeout);
         ApiResponse response = r.executeInThread();
         if (response.getErrors().isEmpty()) {
             if (response.responseAsString().equals(expectedResponse)) {
