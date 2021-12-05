@@ -24,14 +24,11 @@ export class WorldModule {
     }
 
     removeSpeaker(id) {
+        for (let [_, player] of this.audioMap) {
+            player.removeSpeakerLocation(id);
+        }
+
         this.speakers.delete(id);
-
-        // remove render nodes
-        this.audioMap.forEach((speakerPlayer, id) => {
-            // remove it from all speaker players
-            speakerPlayer.removeSpeakerLocation(speakerPlayer);
-        });
-
         // wait a bit before running cleanup
         setTimeout(() => {
             this.renderAudio2D();
