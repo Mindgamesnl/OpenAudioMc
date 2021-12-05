@@ -139,6 +139,7 @@ public class SpigotConnection {
     public void onDestroy() {
         // shutdown the data watcher
         this.locationDataWatcher.stop();
+
     }
 
     /**

@@ -29,7 +29,7 @@ public class SpigotCommandService extends Service {
         openAudioMcSpigot.getCommand("openaudiomc").setTabCompleter(spigotMainCommand);
         openAudioMcSpigot.getCommand("volume").setExecutor(new VolumeCommand());
         openAudioMcSpigot.getCommand("mutemic").setExecutor(new MicMuteCommand());
-        openAudioMcSpigot.getCommand("audiosettings").setExecutor(new AudioSettingsCommand());
+        //openAudioMcSpigot.getCommand("audiosettings").setExecutor(new AudioSettingsCommand());
 
         commandService.getAliases().addAll(openAudioMcSpigot.getCommand("openaudiomc").getAliases());
         commandService.getAliases().add("openaudiomc");
