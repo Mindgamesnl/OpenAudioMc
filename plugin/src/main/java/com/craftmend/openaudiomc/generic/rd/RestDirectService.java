@@ -36,12 +36,7 @@ public class RestDirectService extends Service {
 
     private final int[] checkable_ports = new int[]{
             StorageKey.CDN_PREFERRED_PORT.getInt(),
-            80,
-            8080,
-            37861,
             ThreadLocalRandom.current().nextInt(5050, 9090),
-            ThreadLocalRandom.current().nextInt(5050, 9090),
-            ThreadLocalRandom.current().nextInt(5050, 9090)
     };
 
     @Inject
@@ -71,11 +66,12 @@ public class RestDirectService extends Service {
             // try to open a server
             String verificationString = UUID.randomUUID().toString();
             try {
-                OpenAudioLogger.toConsole("Attempting to start a cdn injector at port " + port);
+                int timeout = StorageKey.CDN_TIMEOUT.getInt();
+                OpenAudioLogger.toConsole("Attempting to start a cdn injector at port " + port + ". Timeout=" + timeout+"-seconds");
                 RestDirectServer restDirectServer = new RestDirectServer(port, verificationString, this);
                 // it booted! wow, that's, surprising actually
                 // now verify it
-                PortChecker portChecker = new PortChecker(ip, port);
+                PortChecker portChecker = new PortChecker(ip, port, timeout);
                 if (portChecker.test(verificationString) == PortCheckResponse.MATCH) {
                     // we have a winner!!
                     this.baseUrl = portChecker.url();
@@ -104,7 +100,7 @@ public class RestDirectService extends Service {
                 // next attempt
             }
         }
-        OpenAudioLogger.toConsole("None of the listed ports were accessible or available. Please contact support, your server/host might not be compatible!");
+        OpenAudioLogger.toConsole("Continuing without the RestDirect feature! None of the listed ports were accessible or available. Please contact support, your server/host might not be compatible!");
         return null;
     }
 

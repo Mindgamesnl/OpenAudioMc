@@ -132,6 +132,7 @@ options:
 # Configuration for the Patreon CDN
 cdn:
   preferred-bridge-port: 8050
+  timeout-seconds: 20
 
 
 # REDIS

@@ -44,6 +44,7 @@ public class MigrationWorker {
                 new RegionDatabaseMigration(),          // migrate speakers, just like regions
                 new AliasDatabaseMigration(),           // migrate aliases
                 new PredictiveCacheMigration(),         // migrate audio smart cache
+                new AddRDTimeoutMigration(),            // configurable timeout
         };
 
         for (SimpleMigration migration : migrations) {
