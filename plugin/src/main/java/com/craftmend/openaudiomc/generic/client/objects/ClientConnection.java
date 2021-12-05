@@ -79,7 +79,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
 
         getDataStore().setWhenFinished(dataStore -> {
             this.dataCache = dataStore;
-            dataCache.setLastSeen(Instant.now());
+            this.dataCache.setLastSeen(Instant.now());
         });
     }
 
@@ -214,6 +214,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
 
     public void onDestroy() {
         this.getRtcSessionManager().makePeersDrop();
+        OpenAudioMc.getService(ClientDataService.class).save(dataCache, user.getUniqueId());
         OpenAudioMc.getService(ClientDataService.class).dropFromCache(user.getUniqueId());
     }
 
