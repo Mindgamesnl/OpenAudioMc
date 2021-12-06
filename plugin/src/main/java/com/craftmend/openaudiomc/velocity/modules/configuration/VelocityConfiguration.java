@@ -18,11 +18,12 @@ import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class VelocityConfiguration implements Configuration {
 
     private final ConfigurationNode dataConfig;
-    private final Map<StorageKey, String> cachedConfigStrings = new HashMap<>();
+    private final Map<StorageKey, String> cachedConfigStrings = new ConcurrentHashMap<>();
     private ConfigurationNode mainConfig;
 
     public VelocityConfiguration() {
