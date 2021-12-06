@@ -13,9 +13,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A bungeecord implementation of the OpenAudioMc file standard
@@ -27,7 +27,7 @@ public class BungeeConfiguration implements Configuration {
     private net.md_5.bungee.config.Configuration mainConfig;
     private final net.md_5.bungee.config.Configuration dataConfig;
 
-    private final Map<StorageKey, String> cachedConfigStrings = new HashMap<>();
+    private final Map<StorageKey, String> cachedConfigStrings = new ConcurrentHashMap<>();
 
     public BungeeConfiguration() {
         //save default
