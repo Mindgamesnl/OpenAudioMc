@@ -22,6 +22,9 @@ export class PeerManager {
         this.updateNegotiation = true;
         this.micStream = micStream;
 
+        // hacky default
+        document.getElementById("vc-mic-mute").innerText = getMessageString("vc.muteMicrophone")
+
         this.isMuted = false;
 
             window.onMicMutePress = () => {
@@ -376,8 +379,12 @@ export class PeerManager {
 
         if (state) {
             this.playInternalSound("assets/mute.mp3")
+            document.getElementById("visual-speaking-indicator").style.opacity = "0.2";
+            document.getElementById("vc-mic-mute").innerText = getMessageString("vc.unmuteMicrophone")
         } else {
+            document.getElementById("visual-speaking-indicator").style.opacity = "1";
             this.playInternalSound("assets/unmute.mp3")
+            document.getElementById("vc-mic-mute").innerText = getMessageString("vc.muteMicrophone")
         }
 
         this.isMuted = state;
