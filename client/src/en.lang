@@ -40,9 +40,10 @@ vc.settings=VoiceChat settings
 vc.input=Input Device
 vc.aboutInput=Select the microphone you want to use, changing this will cause your session to restart.
 vc.positionalAudio=Positional Audio
-vc.aboutPositionalAudio=Render a 360 degree soundscape, allowing positional awareness with voices. Disabling this makes it less cool, but improves audio quality.
+vc.aboutPositionalAudio=Render a 360 degree soundscape, allowing positional awareness with voices.
 vc.settingsDisable=Disable
-vc.settingsEnableSurround=Use Positional Audio
+vc.settingsEnablePositionalAudio=Enable Positional Audio
+vc.settingsDisablePositionalAudio=Disable Positional Audio
 vc.automaticAdjustments=Adjust automatically
 vc.sensitivity=Microphone Sensitivity
 vc.aboutSensitivity=Configure a noise gate, cutting out your background hiss and noise and only activating your microphone when speaking.
@@ -53,6 +54,10 @@ vc.safetyTitle=For your safety
 vc.safetyDisclaimer=You'll receive in-game messages when people appear and leave your voice chat range, and you'll be able to view a list of people who you can hear (and can hear you in turn), and mute them if desired. OpenAudioMc relies on your server to handle moderation and handle reports of abuse when necessary. Please contact a member of staff if you have any questions or concerns.
 vc.safetyFooter=<b>Want some privacy? you can mute your microphone at any time by running <pre style="display: inline;">/mm</pre> or holding <pre style="display: inline;">shift + F</pre> in game, or alternatively by pressing the button on this web page.</b>
 vc.join=Join Voice Chat
+vc.muteMicrophone=Mute
+vc.unmuteMicrophone=Unmute
+vc.myStatus=Your own microphone status
+vc.statusTitle=My status
 
 hue.hue=Philips Hue
 hue.link=Click here to connect to your hue bridge

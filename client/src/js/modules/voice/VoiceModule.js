@@ -22,28 +22,31 @@ export class VoiceModule {
         this.peerMap = new Map();
         this.loadedDeviceList = false;
         this.loadeMicPreference = Cookies.get("preferred-mic");
-
-        this.surroundSwitch = new VoiceUiSwitch("use-surround", true, (enabled) => {
-            this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {"enabled": false});
-            this.useSurround = enabled;
-            this.onSurrroundUpdate();
-        });
-
-        this.useSurround = this.surroundSwitch.isOn();
         oalog("Booted voice module")
     }
 
     enable(server, streamKey, blocksRadius) {
+        this.surroundSwitch = new VoiceUiSwitch("use-surround", true, (enabled) => {
+                this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {"enabled": false});
+                this.useSurround = enabled;
+                this.onSurrroundUpdate();
+            },
+            getMessageString("vc.settingsDisablePositionalAudio"),
+            getMessageString("vc.settingsEnablePositionalAudio"));
+
+        this.useSurround = this.surroundSwitch.isOn();
+
         this.blocksRadius = blocksRadius;
         this.server = server;
         this.streamKey = streamKey;
         // unhide
 
-        replaceProperty("{{ navbar.vc_button }}", "", "style")
         replaceGlobalText("{{ vc.onboarding }}", window.getMessageString("vc.onboarding", [["%range", this.blocksRadius + ""]]))
 
         document.getElementById("vc-connect-button").onclick = () => {
+            replaceProperty("{{ navbar.vc_button }}", "", "style")
             this.consent(this.loadeMicPreference);
+            document.getElementById("open-voice-tab").click();
         };
     }
 

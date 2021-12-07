@@ -159,9 +159,9 @@
                         id="premium-pill" style="display: none;" class="small-pill premium">{% navbar.premium %}</span></span>
                 <div class="header-menu tabbed tabs" style="display: none;" hs="{{ oam.hidden_until_started }}">
                     <span class="tab"><label for="tab1" class="main-header-link">{% navbar.audio %}</label></span>
-                    <span class="notification tab" style="display: none;" hs="{{ navbar.vc_button }}">
+                    <span class="notification tab shockwave" style="display: none;" hs="{{ navbar.vc_button }}">
                         <span class="notification-number">{{ oam.rtc_peer_count }}</span>
-                        <label for="tab2" class="main-header-link">{% navbar.vc %}</label>
+                        <label for="tab2" id="open-voice-tab" class="main-header-link">{% navbar.vc %}</label>
                     </span>
                     <span class="tab"><label class="main-header-link" for="tab3">{% navbar.settings %}</label></span>
                 </div>
@@ -219,24 +219,9 @@
                             <h1 class="volume-pill"><label for="volume-slider">{{ oam.volume }}</label></h1>
                         </div>
                     </div>
-                    <div class="content-section" style="display: none;" hs="{{ oam.hidden_until_started }}">
-                        <div class="content-section-title">{% home.notificationsTitle %}</div>
-                        <div class="content-wrapper-box audio-content full">
-                            <div class="content-wrapper-context full">
-                                <div class="content-text full" id="alert-area">
-                                    <div style="text-align: center;" id="notifications-empty">
-                                        <p class="soft-text">{% home.notificationsEmpty %}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="tab-content">
-                <div class="content-wrapper">
-                    <div class="content-section" id="voicechat-onboarding">
+                    <div class="content-section shockwave" id="voicechat-onboarding" style="display: none;"
+                         hs="{{ oam.hidden_until_started }}">
                         <div class="content-section-title">{% vc.boardingTitle %}</div>
                         <div class="content-card-collection">
                             <div class="content-card">
@@ -250,8 +235,8 @@
                                 <div class="content-card-content content-card-content-border-bottom">
                                     {{ vc.onboarding }}
                                 </div>
-                                <div class="content-card-buttons">
-                                    <button class="content-pill status-button green" id="vc-connect-button">
+                                <div class="content-card-buttons w-full">
+                                    <button class="content-pill status-button green w-full" id="vc-connect-button">
                                         {% vc.join %}
                                     </button>
                                 </div>
@@ -275,10 +260,27 @@
                         </div>
                     </div>
 
+                    <div class="content-section" style="display: none;" hs="{{ oam.hidden_until_started }}">
+                        <div class="content-section-title">{% home.notificationsTitle %}</div>
+                        <div class="content-wrapper-box audio-content full">
+                            <div class="content-wrapper-context full">
+                                <div class="content-text full" id="alert-area">
+                                    <div style="text-align: center;" id="notifications-empty">
+                                        <p class="soft-text">{% home.notificationsEmpty %}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content">
+                <div class="content-wrapper">
                     <div class="content-section voice-section" style="display: none;" id="voice-settings-container">
                         <div class="content-section-title">{% vc.settings %}</div>
                         <div class="content-card-collection">
-                            <div class="content-card">
+                            <div class="content-card small-card">
                                <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                           stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                           stroke-linejoin="round"><path
@@ -297,7 +299,23 @@
                                     id="vc-mic-select">
                             </select>
                             </div>
-                            <div class="content-card">
+                            <div class="content-card small-card">
+                               <span>
+                                <img id="visual-speaking-indicator" arc="{{ oam.player_head }}" class="avatar"
+                                     alt="Avatar">
+                                {% vc.statusTitle %}
+                               </span>
+                                <div class="content-card-content content-card-content-border-bottom">
+                                    {% vc.myStatus %}
+                                </div>
+                                <div class="content-card-buttons w-full">
+                                    <button class="content-pill status-button green w-full" id="vc-mic-mute"
+                                            onclick="onMicMutePress()">
+                                        {% vc.toggleMicrophone %}
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="content-card small-card">
                                <span>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                      stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
@@ -354,40 +372,6 @@
                     <div class="content-section">
                         <div class="content-section-title">{% vc.peerTable %}</div>
                         <ul id="vc-call-members">
-                            <li>
-                                <div>
-                                    <img id="visual-speaking-indicator" arc="{{ oam.player_head }}" class="avatar"
-                                         alt="Avatar">
-                                </div>
-                                <div class="flex-1">
-                                    <div class="flex items-center">
-                                        <h1 style="margin-bottom: 10px">
-                                            <svg id="vc-user-card-` + playerName + `-muted" class="red"
-                                                 style="display: none;"
-                                                 viewBox="0 0 24 24" fill="none"
-                                                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                 stroke-linejoin="round">
-                                                <line x1="1" y1="1" x2="23" y2="23"/>
-                                                <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"/>
-                                                <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"/>
-                                                <line x1="12" y1="19" x2="12" y2="23"/>
-                                                <line x1="8" y1="23" x2="16" y2="23"/>
-                                            </svg>
-                                            <placeholder>{{ oam.player_name }}</placeholder>
-                                            <small>(
-                                                <placeholder>{% vc.you %}</placeholder>
-                                                )</small>
-                                        </h1>
-                                    </div>
-                                    <div>
-                                        <button class="content-pill status-button green" id="vc-mic-mute"
-                                                onclick="onMicMutePress()">
-                                            {% vc.toggleMicrophone %}
-                                        </button>
-                                    </div>
-                                </div>
-
-                            </li>
                             <!-- other peers will render here -->
                         </ul>
                     </div>
@@ -401,7 +385,8 @@
                         <div class="content-card-collection" id="settings-content">
                             <div class="content-card" id="hue-box-ssl">
                                <span><svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
-  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
 </svg>
 
                                 Philips Hue Support
@@ -412,7 +397,8 @@
                                             <div id="hue-settings-menu"
                                                  style="display: none;">
                                                 <p style="display: inline">
-                                                    <placeholder>{% hue.connectedTo %}</placeholder> <span style="display: inline">{{ oam.hue_bridge_name }}</span>.
+                                                    <placeholder>{% hue.connectedTo %}</placeholder>
+                                                    <span style="display: inline">{{ oam.hue_bridge_name }}</span>.
                                                 </p>
                                                 <div class="graytext"
                                                      style="display: block; text-align: -webkit-center;">
@@ -451,7 +437,8 @@
                                 </div>
                                 <div class="content-card-buttons">
                                     <div id="hue-link-menu">
-                                        <span class="content-pill green" id="hue-start-linking-button">{% hue.link %}</span>
+                                        <span class="content-pill green"
+                                              id="hue-start-linking-button">{% hue.link %}</span>
                                     </div>
                                     <div id="hue-linking-menu"
                                          style="display: none;">
