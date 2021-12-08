@@ -22,6 +22,8 @@ import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
+import com.craftmend.openaudiomc.generic.state.StateService;
+import com.craftmend.openaudiomc.generic.state.states.AssigningRelayState;
 import com.craftmend.openaudiomc.generic.user.User;
 
 import com.craftmend.openaudiomc.generic.voicechat.services.VoiceLicenseService;
@@ -103,6 +105,10 @@ public class DefaultNetworkingService extends NetworkingService {
      */
     @Override
     public void connectIfDown() {
+        if (!OpenAudioMc.getService(StateService.class).getCurrentState().canConnect()) return;
+        // update state
+        OpenAudioMc.getService(StateService.class).setState(new AssigningRelayState());
+
         OpenAudioMc.getService(CraftmendService.class).startVoiceHandshake();
         OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> socketIoConnector.setupConnection());
     }

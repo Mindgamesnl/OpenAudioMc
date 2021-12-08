@@ -43,6 +43,7 @@ public class CraftmendService extends Service {
     private CraftmendAccountResponse accountResponse = new CraftmendAccountResponse();
     @Getter
     private Set<CraftmendTag> tags = new HashSet<>();
+    private boolean isVcLocked = false;
 
     // ugly state management, I should _really_ change this at some point, just like the state service
     @Getter
@@ -142,6 +143,7 @@ public class CraftmendService extends Service {
     }
 
     public void startVoiceHandshake(boolean ignoreLocal) {
+        if (isVcLocked) return;
         if (voiceApiConnection.getStatus() != VoiceApiStatus.IDLE) {
             return;
         }
@@ -164,6 +166,7 @@ public class CraftmendService extends Service {
         isAttemptingVcConnect = true;
         RestRequest request = new RestRequest(RestEndpoint.START_VOICE_SESSION);
 
+        isVcLocked = true;
         request.executeAsync()
                 .thenAccept(response -> {
                     if (response.getErrors().size() != 0) {
@@ -180,6 +183,7 @@ public class CraftmendService extends Service {
                             OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
                                 startVoiceHandshake(true);
                             }, 20 * 20);
+                            isVcLocked = false;
                             return;
                         }
 
@@ -188,6 +192,7 @@ public class CraftmendService extends Service {
                             removeTag(CraftmendTag.VOICECHAT);
                             isAttemptingVcConnect = false;
                             lockVcAttempt = false;
+                            isVcLocked = false;
                             return;
                         }
 
@@ -197,6 +202,7 @@ public class CraftmendService extends Service {
                             OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
                                 startVoiceHandshake(true);
                             }, 20 * 20);
+                            isVcLocked = false;
                             return;
                         }
 
@@ -206,12 +212,14 @@ public class CraftmendService extends Service {
                             OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
                                 startVoiceHandshake(true);
                             }, 20 * 20);
+                            isVcLocked = false;
                             return;
                         }
 
                         OpenAudioLogger.toConsole("Failed to initialize voice chat. Error: " + response.getErrors().get(0).getMessage());
                         isAttemptingVcConnect = false;
                         lockVcAttempt = false;
+                        isVcLocked = false;
                         return;
                     }
 
@@ -221,6 +229,7 @@ public class CraftmendService extends Service {
                     isAttemptingVcConnect = false;
                     lockVcAttempt = false;
                     addTag(CraftmendTag.VOICECHAT);
+                    isVcLocked = false;
                 });
     }
 }
