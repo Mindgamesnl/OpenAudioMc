@@ -3,6 +3,7 @@ import {Vector3} from "../../../helpers/math/Vector3";
 import {Position} from "../../../helpers/math/Position";
 import {Hark} from "../../../helpers/libs/hark.bundle";
 import {applyPannerSettings, untrackPanner} from "../../settings/SettingsManager";
+import {trackGainNode, untrackGainNode} from "../VoiceModule";
 
 export class IncomingVoiceStream {
 
@@ -16,6 +17,7 @@ export class IncomingVoiceStream {
         this.uiInst = uiInst;
         this.harkEvents = null;
         this.pannerId = null;
+        this.globalVolumeNodeId = null;
     }
 
     start(whenFinished) {
@@ -46,23 +48,27 @@ export class IncomingVoiceStream {
             });
 
             this.audio.muted = true;
+            let outNode = null;
             if (this.openAudioMc.voiceModule.surroundSwitch.isOn()) {
                 const gainNode = this.gainNode;
                 this.pannerNode = ctx.createPanner();
-
                 this.pannerId = applyPannerSettings(this.pannerNode, this.openAudioMc.voiceModule.blocksRadius)
-
-
-
                 this.setLocation(this.x, this.y, this.z, true);
                 source.connect(gainNode);
                 gainNode.connect(this.pannerNode);
-                this.pannerNode.connect(ctx.destination);
+                outNode = this.pannerNode;
             } else {
                 const gainNode = this.gainNode;
                 source.connect(gainNode);
-                gainNode.connect(ctx.destination);
+                outNode = gainNode;
             }
+
+            let globalVolumeGain = ctx.createGain();
+            outNode.connect(globalVolumeGain);
+
+            this.globalVolumeNodeId = trackGainNode(globalVolumeGain);
+
+            globalVolumeGain.connect(ctx.destination);
 
             this.audio.play()
                 .then(result => {
@@ -107,6 +113,7 @@ export class IncomingVoiceStream {
     stop() {
         if (this.pannerId != null) {
             untrackPanner(this.pannerId)
+            untrackGainNode(this.globalVolumeNodeId)
         }
         if (this.audio != null) {
             this.audio.pause()

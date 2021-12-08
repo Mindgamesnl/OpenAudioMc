@@ -8,11 +8,36 @@ import {MicrophoneProcessor} from "./processing/MicrophoneProcessor";
 import {ReportError} from "../../helpers/protocol/ErrorReporter";
 import {DebugPanel, WhenDebugging} from "../../debug";
 import {replaceGlobalText, replaceProperty} from "../../helpers/domhelper";
+import {VoicePeerUi} from "./ui/VoicePeerUi";
+import {makeid} from "../../helpers/libs/random";
+import {SETTING_STATES} from "../settings/SettingsManager";
 
 export const VoiceStatusChangeEvent = {
     MIC_MUTE: "MICROPHONE_MUTED",
     MIC_UNMTE: "MICROPHONE_UNMUTE",
 };
+
+export let VOICECHAT_VOLUME = 0;
+
+var gainTrackers = {}
+
+export function untrackGainNode(id) {
+    oalog("Untracking gain " + id)
+    delete gainTrackers[id];
+}
+
+function updateGain(gainNode) {
+    // update node property from VOICECHAT_VOLUME
+    gainNode.gain.value = VOICECHAT_VOLUME / 100;
+}
+
+export function trackGainNode(gainNode) {
+    updateGain(gainNode)
+    let id = makeid(5);
+    gainTrackers[id] = gainNode
+    return id;
+}
+
 
 export class VoiceModule {
 
@@ -22,6 +47,20 @@ export class VoiceModule {
         this.peerMap = new Map();
         this.loadedDeviceList = false;
         this.loadeMicPreference = Cookies.get("preferred-mic");
+        VOICECHAT_VOLUME = (Cookies.get("vc-volume") != null ? Cookies.get("vc-volume") : 100);
+
+        this.volumeSlider = document.getElementById("vc-volume-slider");
+        this.volumeSlider.value = VOICECHAT_VOLUME;
+        this.volumeSlider.oninput = (e) => {
+            VOICECHAT_VOLUME = e.target.value;
+            replaceGlobalText("{{ oam.vc.volume }}", VOICECHAT_VOLUME + "%")
+            for (let pannerTrackersKey in gainTrackers) {
+                updateGain(gainTrackers[pannerTrackersKey])
+            }
+            Cookies.set("vc-volume", VOICECHAT_VOLUME)
+        }
+        replaceGlobalText("{{ oam.vc.volume }}", VOICECHAT_VOLUME + "%")
+
         oalog("Booted voice module")
     }
 
