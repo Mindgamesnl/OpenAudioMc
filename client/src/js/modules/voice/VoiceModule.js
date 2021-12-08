@@ -41,6 +41,7 @@ export class VoiceModule {
         this.streamKey = streamKey;
         // unhide
 
+        document.getElementById("voicechat-onboarding").classList.remove("super-hidden")
         replaceGlobalText("{{ vc.onboarding }}", window.getMessageString("vc.onboarding", [["%range", this.blocksRadius + ""]]))
 
         document.getElementById("vc-connect-button").onclick = () => {
