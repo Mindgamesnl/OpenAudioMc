@@ -3,6 +3,8 @@ import {isSettingEnabled, SETTING_STATES} from "../../settings/SettingsManager";
 
 let handlers = {}
 
+let lists = []
+
 window.handlePeerVolumeEvent = function (e) {
     // attempt to get the handler
     let handler = handlers[e.id]
@@ -22,6 +24,14 @@ updateTotal();
 export class VoicePeerUi {
 
     constructor(openAudioMc, playerName, playerUuid, volume, onVolumeChange) {
+        
+        if (lists.length === 0) {
+            lists = [
+                document.getElementById("vc-call-members-left"),
+                document.getElementById("vc-call-members-right"),
+            ]
+        }
+        
         this.openAudioMc = openAudioMc;
         this.playerName = playerName;
         this.onVolumeChange = onVolumeChange;
@@ -31,7 +41,7 @@ export class VoicePeerUi {
         <li id="vc-user-card-` + playerName + `">
             <div>
                 <img src="https://visage.surgeplay.com/bust/512/` + playerUuid + `" id="vc-user-card-` + playerName + `-indicator"
-                     class="avatar" alt="Avatar">
+                     class="avatar mid-avatar" alt="Avatar">
             </div>
             <div class="flex-1">
                 <div class="flex items-center">
@@ -53,13 +63,25 @@ export class VoicePeerUi {
                 </div>
                 <div><input id="vc-user-card-` + playerName + `-volume-input"
                             oninput="handlePeerVolumeEvent(this)"
-                            class="volume-slider"
+                            class="volume-slider tiny-slider"
                             type="range" min="0" max="140" step="1" value="` + volume + `"/></div>
             </div>
         </li>
         `
         // insert html
-        document.getElementById("vc-call-members").innerHTML += baseHtml;
+        
+        let lowest = null;
+        for (let i = 0; i < lists.length; i++) {
+            if (lowest === null) {
+                lowest = lists[i];
+                continue;
+            }
+            if (lowest.childNodes.length > lists[i].childNodes.length) {
+                lowest = lists[i];
+            }
+        }
+
+        lowest.innerHTML += baseHtml;
         total++;
         updateTotal();
 
@@ -99,7 +121,11 @@ export class VoicePeerUi {
         total--;
         updateTotal();
         this.removed = true;
-        document.getElementById("vc-call-members").removeChild(document.getElementById("vc-user-card-" + this.playerName))
+        for (let i = 0; i < lists.length; i++) {
+            try {
+                lists[i].removeChild(document.getElementById("vc-user-card-" + this.playerName))
+            } catch (e) {}
+        }
         this.updatePlaceholder()
         delete handlers["vc-user-card-" + this.playerName + "-volume-input"]
 
