@@ -58,6 +58,10 @@ vc.muteMicrophone=Mute
 vc.unmuteMicrophone=Unmute
 vc.myStatus=Your own microphone status
 vc.statusTitle=My status
+vc.settings.globalVolumeTitle=General VoiceChat volume
+vc.settings.globalVolumeAbout=Change the master volume of all your VoiceChat peers
+vc.settings.toggleMenuTitle=VoiceChat settings
+vc.settings.toggleMenu=Toggle Menu
 
 hue.hue=Philips Hue
 hue.link=Click here to connect to your hue bridge

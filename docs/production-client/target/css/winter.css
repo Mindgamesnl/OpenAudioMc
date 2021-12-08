@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
 * {
     outline: none;
     box-sizing: border-box;
@@ -72,6 +73,7 @@ body {
     width: 100%;
     height: 100%;
 }
+
 .video-bg video {
     width: 100%;
     height: 100%;
@@ -94,6 +96,7 @@ img {
     z-index: 3;
     cursor: pointer;
 }
+
 .dark-light svg {
     width: 24px;
     flex-shrink: 0;
@@ -106,12 +109,15 @@ img {
     fill: transparent;
     stroke: var(--theme-color);
 }
+
 .light-mode .content-section ul {
     background-color: var(--theme-bg-color);
 }
+
 .light-mode .pop-up__title {
     border-color: var(--theme-color);
 }
+
 .light-mode .dropdown.is-active ul {
     background-color: rgba(255, 255, 255, 0.94);
 }
@@ -155,15 +161,18 @@ body.light-mode .video-bg:before {
     padding: 0 30px;
     white-space: nowrap;
 }
+
 @media screen and (max-width: 480px) {
     .header {
         padding: 0 16px;
     }
 }
+
 .header-menu {
     display: flex;
     align-items: center;
 }
+
 .header-menu a, .header-menu label {
     padding: 20px 30px;
     text-decoration: none;
@@ -171,11 +180,13 @@ body.light-mode .video-bg:before {
     border-bottom: 2px solid transparent;
     transition: 0.3s;
 }
+
 @media screen and (max-width: 610px) {
     .header-menu a:not(.main-header-link) {
         display: none;
     }
 }
+
 .header-menu a.is-active, .header-menu a:hover, .header-menu label.is-active, .header-menu label:hover {
     color: var(--theme-color);
     border-bottom: 2px solid var(--theme-color);
@@ -184,6 +195,7 @@ body.light-mode .video-bg:before {
 .notify {
     position: relative;
 }
+
 .notify:before {
     content: "";
     position: absolute;
@@ -194,6 +206,7 @@ body.light-mode .video-bg:before {
     right: 20px;
     top: 16px;
 }
+
 @media screen and (max-width: 1055px) {
     .notify {
         display: none;
@@ -209,6 +222,7 @@ body.light-mode .video-bg:before {
     margin-right: 195px;
     flex-shrink: 0;
 }
+
 @media screen and (max-width: 900px) {
     .menu-circle {
         display: none;
@@ -222,6 +236,7 @@ body.light-mode .video-bg:before {
     margin-left: auto;
     flex-shrink: 0;
 }
+
 .header-notice svg {
     width: 22px;
     color: #f9fafb;
@@ -231,6 +246,7 @@ body.light-mode .video-bg:before {
 .notification {
     position: relative;
 }
+
 .notification-number {
     position: absolute;
     background-color: var(--primary-accent);
@@ -245,9 +261,11 @@ body.light-mode .video-bg:before {
     right: 7px;
     top: -6px;
 }
+
 .notification + svg {
     margin-left: 22px;
 }
+
 @media screen and (max-width: 945px) {
     .notification + svg {
         display: none;
@@ -267,6 +285,7 @@ body.light-mode .video-bg:before {
 .wide .header-notice {
     display: none;
 }
+
 .wide .menu-circle {
     margin-right: 0;
 }
@@ -284,14 +303,17 @@ body.light-mode .video-bg:before {
     height: 58px;
     flex-shrink: 0;
 }
+
 .main-header .header-menu {
     margin-left: 150px;
 }
+
 @media screen and (max-width: 1055px) {
     .main-header .header-menu {
         margin: auto;
     }
 }
+
 .main-header .header-menu a {
     padding: 16px 24px;
 }
@@ -362,6 +384,7 @@ body.light-mode .video-bg:before {
         padding: 20px;
     }
 }
+
 .content-wrapper.overlay {
     pointer-events: none;
     transition: 0.3s;
@@ -380,6 +403,7 @@ body.light-mode .video-bg:before {
     visibility: hidden;
     transition: 0.3s;
 }
+
 .overlay-app.is-active {
     visibility: visible;
     opacity: 1;
@@ -474,6 +498,7 @@ body.light-mode .video-bg:before {
     color: var(--content-title-color);
     margin-bottom: 14px;
 }
+
 .content-section ul {
     display: flex;
     flex-direction: column;
@@ -487,6 +512,7 @@ body.light-mode .video-bg:before {
     border: 1px solid var(--theme-bg-color);
     cursor: pointer;
 }
+
 .content-section ul li {
     list-style: none;
     padding: 10px 18px;
@@ -498,18 +524,23 @@ body.light-mode .video-bg:before {
     white-space: nowrap;
     transition: 0.3s;
 }
+
 .content-section ul li:hover {
     background-color: var(--theme-bg-color);
 }
+
 .content-section ul li:hover:first-child {
     border-radius: 13px 13px 0 0;
 }
+
 .content-section ul li:hover:last-child {
     border-radius: 0 0 13px 13px;
 }
+
 .content-section ul li + li {
     border-top: 1px solid var(--border-color);
 }
+
 .content-section ul svg {
     width: 28px;
     border-radius: 6px;
@@ -521,11 +552,13 @@ body.light-mode .video-bg:before {
     background-color: #3bf083;
     color: var(--popup-bg);
 }
+
 .status-button {
     font-size: 15px;
     margin-top: 0;
     padding: 6px 24px;
 }
+
 @media screen and (max-width: 390px) {
     .status-button {
         padding: 6px 14px;
@@ -562,7 +595,43 @@ body.light-mode .video-bg:before {
 }
 
 .small-card {
-    width: calc(17.65% - 20px);
+    width: calc(24.65% - 15px);
+}
+
+.sensitivty-card {
+    width: calc(49.65% - 20px);
+}
+
+.vc-volume-card {
+    width: calc(60.65% - 15px);
+}
+
+.small-avatar {
+    width: 30px !important;
+}
+
+.mid-avatar {
+    width: 66px;
+}
+
+.tiny-slider {
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+}
+
+.vc-volume-label {
+    font-size: x-large;
+}
+
+.vc-settings-box {
+    background-color: rgba(0, 0, 0, .6);
+    padding: 20px;
+    border-radius: 20px;
+    transition: 1s;
+}
+
+.vc-settings-toggle-card {
+    width: calc(13.65% - 15px);
 }
 
 .bigger-card {
@@ -591,10 +660,12 @@ body.light-mode .video-bg:before {
 .content-card + .content-card {
     margin-left: 20px;
 }
+
 .content-card span {
     display: flex;
     align-items: center;
 }
+
 .content-card-content {
     font-size: 14px;
     font-weight: 400;
@@ -613,20 +684,24 @@ body.light-mode .video-bg:before {
     margin-left: auto;
     margin-top: 16px;
 }
+
 @media screen and (max-width: 1110px) {
     .content-card {
         width: calc(50% - 20px);
     }
+
     .content-card:last-child {
         margin-top: 20px;
         margin-left: 0px;
     }
 }
+
 @media screen and (max-width: 565px) {
     .content-card {
         width: calc(100% - 20px);
         margin-top: 20px;
     }
+
     .content-card + .content-card {
         margin-left: 0;
     }
@@ -737,7 +812,7 @@ input[type='range'] {
 }
 
 .red {
-    color: rgb(239,68,68);
+    color: rgb(239, 68, 68);
 }
 
 .overlay {
@@ -869,7 +944,8 @@ footer {
     padding: 10px;
     position: absolute;
     width: 100%;
-    left: 0; bottom: 0px;
+    left: 0;
+    bottom: 0px;
     color: #fff;
     text-align: center;
     font-size: 16px;
@@ -975,4 +1051,11 @@ footer {
 
 .super-hidden {
     display: none;
+}
+
+.voicechat-player-card {
+    width: calc(50% - 20px);
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 0;
+    border: none;
 }

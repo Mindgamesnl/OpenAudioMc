@@ -281,6 +281,57 @@
                         <div class="content-section-title">{% vc.settings %}</div>
                         <div class="content-card-collection">
                             <div class="content-card small-card">
+                               <span>
+                                <img id="visual-speaking-indicator" arc="{{ oam.player_head }}" class="avatar small-avatar"
+                                     alt="Avatar">
+                                {% vc.statusTitle %}
+                               </span>
+                                <div class="content-card-content content-card-content-border-bottom">
+                                    {% vc.myStatus %}
+                                </div>
+                                <div class="content-card-buttons w-full">
+                                    <button class="content-pill status-button green w-full" id="vc-mic-mute"
+                                            onclick="onMicMutePress()">
+                                        {% vc.toggleMicrophone %}
+                                    </button>
+                                </div>
+                            </div>
+
+
+                            <div class="content-card vc-volume-card">
+                               <span>
+                                {% vc.settings.globalVolumeTitle %}
+                               </span>
+                                <div class="content-card-content content-card-content-border-bottom">
+                                    {% vc.settings.globalVolumeAbout %}
+                                </div>
+                                <div class="content-card-buttons w-full">
+                                    <input id="vc-volume-slider"
+                                           class="volume-slider w-full"
+                                           type="range" min="0" max="120" step="1" value="100"/>
+                                    <h1>{{ oam.vc.volume }}</h1>
+                                </div>
+                            </div>
+
+                            <div class="content-card vc-settings-toggle-card">
+                               <span>
+                                {% vc.settings.toggleMenuTitle %}
+                               </span>
+                                <div class="content-card-buttons w-full">
+                                    <button class="content-pill status-button green w-full" id="dvc-mic-mute"
+                                            onclick="document.getElementById('extra-vc-settings').classList.toggle('super-hidden')">
+                                        {% vc.settings.toggleMenu %}
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="content-section super-hidden vc-settings-box" id="extra-vc-settings">
+                        <div class="content-section-title">Voicechat Settings</div>
+                        <div class="content-card-collection">
+                            <div class="content-card small-card">
                                <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                           stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                           stroke-linejoin="round"><path
@@ -301,22 +352,6 @@
                             </div>
                             <div class="content-card small-card">
                                <span>
-                                <img id="visual-speaking-indicator" arc="{{ oam.player_head }}" class="avatar"
-                                     alt="Avatar">
-                                {% vc.statusTitle %}
-                               </span>
-                                <div class="content-card-content content-card-content-border-bottom">
-                                    {% vc.myStatus %}
-                                </div>
-                                <div class="content-card-buttons w-full">
-                                    <button class="content-pill status-button green w-full" id="vc-mic-mute"
-                                            onclick="onMicMutePress()">
-                                        {% vc.toggleMicrophone %}
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="content-card small-card">
-                               <span>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                      stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                      stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"></path><path
@@ -332,7 +367,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="content-card">
+                            <div class="content-card sensitivty-card">
                                <span>
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                      stroke-linecap="round" stroke-linejoin="round">  <line x1="4" y1="21" x2="4"
@@ -371,19 +406,32 @@
 
                     <div class="content-section">
                         <div class="content-section-title">{% vc.peerTable %}</div>
-                        <ul id="vc-call-members">
-                            <!-- other peers will render here -->
-                        </ul>
+                        <div class="content-card-collection">
+
+                            <div class="content-card voicechat-player-card">
+                                <ul id="vc-call-members-left">
+                                    <!-- other peers will render here -->
+                                </ul>
+                            </div>
+
+                            <div class="content-card voicechat-player-card">
+                                <ul id="vc-call-members-right">
+                                    <!-- other peers will render here -->
+                                </ul>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="tab-content">
-                <div class="content-wrapper">
-                    <div class="content-section">
-                        <div class="content-section-title">Settings</div>
-                        <div class="content-card-collection" id="settings-content">
-                            <div class="content-card" id="hue-box-ssl">
+        <div class="tab-content">
+            <div class="content-wrapper">
+                <div class="content-section">
+                    <div class="content-section-title">Settings</div>
+                    <div class="content-card-collection" id="settings-content">
+                        <div class="content-card" id="hue-box-ssl">
                                <span><svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
         d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
@@ -391,76 +439,76 @@
 
                                 Philips Hue Support
                                </span>
-                                <div class="content-card-content">
-                                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                        <div class="mt-2">
-                                            <div id="hue-settings-menu"
-                                                 style="display: none;">
-                                                <p style="display: inline">
-                                                    <placeholder>{% hue.connectedTo %}</placeholder>
-                                                    <span style="display: inline">{{ oam.hue_bridge_name }}</span>.
-                                                </p>
-                                                <div class="graytext"
-                                                     style="display: block; text-align: -webkit-center;">
-                                                    <div class="bulbs">
-                                                        <div class="bulb">
-                                                            <h3>{% hue.light1 %}</h3>
-                                                            <div class="light-dropdown">
-                                                                <select class="soft-tex content-pill" data-bulb="1"
-                                                                        id='bulb-selection-1'>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="bulb">
-                                                            <h3>{% hue.light2 %}</h3>
-                                                            <div class="light-dropdown">
-                                                                <select class="soft-tex content-pill" data-bulb="2"
-                                                                        id='bulb-selection-2'>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="bulb">
-                                                            <h3>{% hue.light3 %}</h3>
-                                                            <div class="light-dropdown">
-                                                                <select class="soft-tex content-pill" data-bulb="3"
-                                                                        id='bulb-selection-3'>
-                                                                </select>
-                                                            </div>
+                            <div class="content-card-content">
+                                <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                    <div class="mt-2">
+                                        <div id="hue-settings-menu"
+                                             style="display: none;">
+                                            <p style="display: inline">
+                                                <placeholder>{% hue.connectedTo %}</placeholder>
+                                                <span style="display: inline">{{ oam.hue_bridge_name }}</span>.
+                                            </p>
+                                            <div class="graytext"
+                                                 style="display: block; text-align: -webkit-center;">
+                                                <div class="bulbs">
+                                                    <div class="bulb">
+                                                        <h3>{% hue.light1 %}</h3>
+                                                        <div class="light-dropdown">
+                                                            <select class="soft-tex content-pill" data-bulb="1"
+                                                                    id='bulb-selection-1'>
+                                                            </select>
                                                         </div>
                                                     </div>
-                                                    <p>{% hue.connected %}</p>
+                                                    <div class="bulb">
+                                                        <h3>{% hue.light2 %}</h3>
+                                                        <div class="light-dropdown">
+                                                            <select class="soft-tex content-pill" data-bulb="2"
+                                                                    id='bulb-selection-2'>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="bulb">
+                                                        <h3>{% hue.light3 %}</h3>
+                                                        <div class="light-dropdown">
+                                                            <select class="soft-tex content-pill" data-bulb="3"
+                                                                    id='bulb-selection-3'>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                                <p>{% hue.connected %}</p>
                                             </div>
-
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="content-card-buttons">
-                                    <div id="hue-link-menu">
-                                        <span class="content-pill green"
-                                              id="hue-start-linking-button">{% hue.link %}</span>
-                                    </div>
-                                    <div id="hue-linking-menu"
-                                         style="display: none;">
-                                        <p class="small-text">{{ hue.linkingUpdate }}</p>
+
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- settings will be rendered here -->
+                            <div class="content-card-buttons">
+                                <div id="hue-link-menu">
+                                        <span class="content-pill green"
+                                              id="hue-start-linking-button">{% hue.link %}</span>
+                                </div>
+                                <div id="hue-linking-menu"
+                                     style="display: none;">
+                                    <p class="small-text">{{ hue.linkingUpdate }}</p>
+                                </div>
+                            </div>
                         </div>
+
+                        <!-- settings will be rendered here -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <footer id="footer">
-        <img id="sc-cover" style="display: none;" class="sc-cover"
-             src="https://i1.sndcdn.com/artworks-NWsyJg2rpTy2imze-4ttQKA-t500x500.jpg"/>
-        <p id="sc-title" style="display: none;" class="sc-title">{{ oam.soundcloud_title }}</p>
-    </footer>
-    <div class="overlay-app">
-    </div>
+</div>
+<footer id="footer">
+    <img id="sc-cover" style="display: none;" class="sc-cover"
+         src="https://i1.sndcdn.com/artworks-NWsyJg2rpTy2imze-4ttQKA-t500x500.jpg"/>
+    <p id="sc-title" style="display: none;" class="sc-title">{{ oam.soundcloud_title }}</p>
+</footer>
+<div class="overlay-app">
+</div>
 </div>
 <div class="bg-gray-100 flex flex-col justify-center" style="display:none;" id="lang-change-banner">
     <div class="max-w-screen-lg mx-auto fixed bg-white inset-x-5 p-5 bottom-5 rounded-lg drop-shadow-2xl flex gap-4 flex-wrap md:flex-nowrap text-center md:text-left items-center justify-center md:justify-between">
