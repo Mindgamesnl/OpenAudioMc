@@ -972,3 +972,7 @@ footer {
         transform: scale(1);
     }
 }
+
+.super-hidden {
+    display: none;
+}
