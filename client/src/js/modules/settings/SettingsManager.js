@@ -184,6 +184,7 @@ export function untrackPanner(id) {
     delete pannerTrackers[id];
 }
 
+
 function applyPannerProperties(pannerNode, maxDistance) {
     if (SETTING_STATES.spatialAudioRendering === "accurate") {
         pannerNode.panningModel = 'equalpower';
