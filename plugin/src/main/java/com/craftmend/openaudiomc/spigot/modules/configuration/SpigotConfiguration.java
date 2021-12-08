@@ -15,17 +15,17 @@ import org.bukkit.event.world.WorldSaveEvent;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class SpigotConfiguration implements Configuration, Listener {
 
     private FileConfiguration mainConfig;
     private final FileConfiguration dataConfig;
 
-    private final Map<StorageKey, String> cachedConfigStrings = new HashMap<>();
+    private final Map<StorageKey, String> cachedConfigStrings = new ConcurrentHashMap<>();
 
     public SpigotConfiguration(OpenAudioMcSpigot openAudioMcSpigot) {
         //save default
