@@ -183,9 +183,10 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
     /**
      * Close the clients web client
      */
-    public void kick() {
+    public void kick(Runnable callback) {
         OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> {
             OpenAudioMc.getService(NetworkingService.class).send(this, new PacketSocketKickClient());
+            callback.run();
         });
     }
 

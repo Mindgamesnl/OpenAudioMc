@@ -85,7 +85,7 @@ public class VoiceModGui extends Menu {
         if (targetData.isVoiceBlocked()) {
             ClientConnection cc = OpenAudioMc.getService(NetworkingService.class).getClient(targetId);
             if (cc != null) {
-                cc.kick();
+                cc.kick(() -> {});
             }
         }
         OpenAudioMc.getService(ClientDataService.class).save(targetData, targetId);

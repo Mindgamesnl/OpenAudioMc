@@ -130,7 +130,7 @@ public class VoiceApiConnection {
         for (ClientConnection client : OpenAudioMc.getService(NetworkingService.class).getClients()) {
             if (client.getRtcSessionManager().isReady()) {
                 client.getUser().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_UNSTABLE.getString()));
-                client.kick();
+                client.kick(() -> {});
             }
         }
         OpenAudioLogger.toConsole("Expected voicechat shut down.");

@@ -27,7 +27,7 @@ public class ReloadSubCommand extends SubCommand {
         message(sender, Platform.makeColor("RED") + "Shutting down network service and logging out...");
 
         for (ClientConnection client : OpenAudioMc.getService(NetworkingService.class).getClients()) {
-            client.kick();
+            client.kick(() -> {});
         }
 
         OpenAudioMc.getService(NetworkingService.class).stop();
