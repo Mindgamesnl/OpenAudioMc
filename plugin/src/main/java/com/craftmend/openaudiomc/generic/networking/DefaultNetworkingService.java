@@ -5,16 +5,15 @@ import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 import com.craftmend.openaudiomc.api.impl.event.events.ClientPreAuthEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
+import com.craftmend.openaudiomc.generic.client.helpers.SerializableClient;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
-import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
-import com.craftmend.openaudiomc.generic.client.helpers.SerializableClient;
 import com.craftmend.openaudiomc.generic.mojang.MojangLookupService;
-import com.craftmend.openaudiomc.generic.networking.enums.PacketChannel;
-import com.craftmend.openaudiomc.generic.networking.handlers.*;
-
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.abstracts.PayloadHandler;
+import com.craftmend.openaudiomc.generic.networking.enums.PacketChannel;
+import com.craftmend.openaudiomc.generic.networking.handlers.*;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
@@ -23,9 +22,7 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.state.StateService;
-import com.craftmend.openaudiomc.generic.state.states.AssigningRelayState;
 import com.craftmend.openaudiomc.generic.user.User;
-
 import com.craftmend.openaudiomc.generic.voicechat.services.VoiceLicenseService;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.OAClientMode;
@@ -107,8 +104,6 @@ public class DefaultNetworkingService extends NetworkingService {
     public void connectIfDown() {
         if (!OpenAudioMc.getService(StateService.class).getCurrentState().canConnect()) return;
         // update state
-        OpenAudioMc.getService(StateService.class).setState(new AssigningRelayState());
-
         OpenAudioMc.getService(CraftmendService.class).startVoiceHandshake();
         OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> socketIoConnector.setupConnection());
     }
