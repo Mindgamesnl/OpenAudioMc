@@ -201,17 +201,19 @@ public class DefaultNetworkingService extends NetworkingService {
                 }
             });
 
+            Runnable removeCallback = () -> {
+                clientMap.remove(playerId);
+            };
+
             // are we in stand alone mode? then kick this client
             if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
-                if (OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == OAClientMode.STAND_ALONE) client.kick();
+                if (OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == OAClientMode.STAND_ALONE) client.kick(removeCallback);
             } else {
-                client.kick();
+                client.kick(removeCallback);
             }
 
             client.onDestroy();
         }
-
-        clientMap.remove(playerId);
     }
 
     @Override
