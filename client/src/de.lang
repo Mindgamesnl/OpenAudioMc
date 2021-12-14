@@ -58,6 +58,10 @@ vc.muteMicrophone=Stummschalten
 vc.unmuteMicrophone=Stummschaltung aufheben
 vc.myStatus=Eigener Mikrofonstatus
 vc.statusTitle=Mein Status
+vc.settings.globalVolumeTitle=Allgemeine Sprachchat-Lautstärke
+vc.settings.globalVolumeAbout=Ändere die Lautstärke aller Sprachchat-Teilnehmer
+vc.settings.toggleMenuTitle=Sprachchat-Eingabeeinstellungen
+vc.settings.toggleMenu=Menü umschalten
 
 hue.hue=Philips Hue
 hue.link=Klicke hier um dich mit deiner Hue-Bridge zu verbinden
