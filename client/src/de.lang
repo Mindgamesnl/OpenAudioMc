@@ -52,7 +52,9 @@ vc.toggleMicrophone=Mikrofon umschalten
 vc.you=du
 vc.safetyTitle=Für deine Sicherheit
 vc.safetyDisclaimer=Du wirst Benachrichtigungen im Spiel erhalten, wenn andere Personen deine Sprachreichweite betreten oder verlassen. Außerdem wirst du die Möglichkeit haben, eine Liste von Personen zu sehen, die du hören kannst (die dich natürlich auch hören können) und die du, wenn gewünscht, auch stummschalten kannst. OpenAudioMc verlässt sich darauf, dass dein Server die Moderation übernimmt und bei Bedarf Meldungen über Missbrauch bearbeitet. Bitte kontaktiere ein Teammitglied, wenn du Fragen oder Bedenken hast.
-vc.safetyFooter=<b>Privatsphäre gefällig? Du kannst dein Mikrofon jederzeit mit dem Befehl <pre style="display: inline;">/mm</pre> stummschalten, oder wenn du <pre style="display: inline;">Shift + F</pre> im Spiel drückst. Du kannst natürlich auch die Schaltfläche auf dieser Webseite nutzen.</b>
+vc.safetyFooter=<b>Privatsphäre gefällig? Du kannst dein Mikrofon jederzeit mit dem Befehl <pre style="display: inline;">/mm</pre> stummschalten, oder wenn du <pre style="display: inline;">Shift + F</pre> im Spiel drückst. Du kannst natürlich auch die Schaltfläche auf dieser 
+
+site nutzen.</b>
 vc.join=Sprachchat betreten
 vc.muteMicrophone=Stummschalten
 vc.unmuteMicrophone=Stummschaltung aufheben
