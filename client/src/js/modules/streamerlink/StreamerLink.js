@@ -6,6 +6,10 @@ export class StreamerLink {
         this.openAudioMc = openAudioMc;
         this.isEnabled = false;
         this.isOpen = false;
+
+        setInterval(() => {
+            this._pushWs("ping", "ping")
+        }, 1000)
     }
 
     enable() {
@@ -36,10 +40,6 @@ export class StreamerLink {
 
             this._pushWs("connect", "connect")
         }
-
-        setInterval(() => {
-            this._pushWs("ping", "ping")
-        }, 1000)
     }
 
     announceVoicePeerJoin(peer) {
