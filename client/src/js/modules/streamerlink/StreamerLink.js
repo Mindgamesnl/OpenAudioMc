@@ -33,6 +33,8 @@ export class StreamerLink {
                     this.announceVoicePeerJoin(peer);
                 })
             }
+
+            this._pushWs("connect", "connect")
         }
 
         setTimeout(() => {
