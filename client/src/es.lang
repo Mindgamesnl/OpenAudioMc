@@ -42,7 +42,8 @@ vc.aboutInput=Seleccione el micrófono que desea usar, cambiarlo hará que su se
 vc.positionalAudio=Audio Posicional
 vc.aboutPositionalAudio=Genera un paisaje sonoro de 360 grados, lo que permite la conciencia posicional con voces. Desactivar esto lo hace menos genial, pero mejora la calidad del audio.
 vc.settingsDisable=Desactivar
-vc.settingsEnableSurround=Usar Audio Posicional
+vc.settingsEnablePositionalAudio=Habilitar Audio Posicional
+vc.settingsDisablePositionalAudio=Desabilitar Audio Posicional
 vc.automaticAdjustments=Ajustar automáticamente
 vc.sensitivity=Sensibilidad del Micrófono
 vc.aboutSensitivity=Configure una puerta de ruido, eliminando el silbido y el ruido de fondo y activando solo el micrófono al hablar.
@@ -53,6 +54,14 @@ vc.safetyTitle=Por tu seguridad
 vc.safetyDisclaimer=Recibirás mensajes en el juego cuando las personas aparezcan y abandonen tu rango de chat de voz, y podrás ver una lista de personas a las que puedes escuchar (y pueden escucharte a ti a su vez) y silenciarlas si lo deseas. OpenAudioMc confía en su servidor para manejar la moderación y manejar los informes de abuso cuando sea necesario. Comuníquese con un miembro del personal si tiene alguna pregunta o inquietud.
 vc.safetyFooter=<b>¿Quieres un poco de privacidad? puedes silenciar tu micrófono en cualquier momento ejecutando <pre style="display: inline;">/mm</pre> o manteniendo presionado <pre style="display: inline;">shift + F</pre> en el juego, o alternativamente presionando el botón en esta página web.</b>
 vc.join=Unirse al Chat de Voz
+vc.muteMicrophone=Silenciar
+vc.unmuteMicrophone=Desilenciar
+vc.myStatus=Tu estado de micrófono
+vc.statusTitle=Mi estado
+vc.settings.globalVolumeTitle=Volumen general del Chat de Voz
+vc.settings.globalVolumeAbout=Cambiar el volumen principal de todos sus compañeros de Chat de Voz
+vc.settings.toggleMenuTitle=Configuración de entrada de Chat de Voz
+vc.settings.toggleMenu=Alternar Menú
 
 hue.hue=Philips Hue
 hue.link=Haga clic aquí para conectarse a su puente de Hue
@@ -78,10 +87,29 @@ notification.voicechat.peerdop.body=%name dejó el radio de su chat de voz
 
 settings.voicechat.chimes.title=Campanas de Chat de Voz
 settings.voicechat.chimes.body=Las campanillas son los pequeños sonidos que se reproducen cada vez que silencia o activa el micrófono. Es posible que los creadores de contenido quieran desactivar esta opción.
-settings.voicechat.chimes.button=usar campanas
+settings.voicechat.chimes.button=Usar campanas
 settings.theme.title=Modo oscuro
 settings.theme.body=Utilice el modo oscuro (predeterminado) de este cliente web
-settings.theme.button=modo oscuro
+settings.theme.button=Modo oscuro
 settings.voicechat.peer.title=Notificaciones de Compañeros
 settings.voicechat.peer.body=Reciba notificaciones de escritorio cada vez que alguien ingrese o salga de su rango de chat de voz
-settings.voicechat.peer.button=permitir notificaciones
+settings.voicechat.peer.button=Permitir notificaciones
+settings.mix-and-fade.title=Mezcla automática de música
+settings.mix-and-fade.body=Fundir y mezclar automáticamente fuentes de audio
+settings.mix-and-fade.button=Habilitar la mezcla
+settings.preload.title=Precargar automáticamente archivos de audio
+settings.preload.body=Con esto habilitado, OpenAudioMc precargará automáticamente los archivos que se usan a menudo en tu ubicación en el juego. Esto hará que el audio responda mejor, pero utiliza más datos.
+settings.preload.button=Habilitar la precarga
+
+settings.spatial.title=Motor de renderizado espacial
+settings.spatial.body=Seleccione el motor de renderizado que le gustaría utilizar. El motor moderno es de mayor calidad y un poco más rápido, pero aún está en desarrollo activo.
+settings.spatial.modern=Preciso
+settings.spatial.legacy=Legacy (sistema antiguo)
+
+settings.interpolation.title=Suavizado de ubicación
+settings.interpolation.body=Movimientos suaves automáticamente para minimizar el tartamudeo del hablante/chat de voz mientras camina. Esto agrega un retraso de movimiento adicional, pero suena mejor.
+settings.interpolation.button=Habilitar suavizado
+
+settings.streamermode.title=Modo Streamer
+settings.streamermode.body=Desactive automáticamente sus tokens de sesión después de un solo uso. Esto significa que las URL de su cliente son seguras para mostrarse en la transmisión sin preocuparse de que un espectador se haga pasar por usted. Solo asegúrese de abrir su enlace tan pronto como lo obtenga.
+settings.streamermode.button=Habilitar el modo streamer
