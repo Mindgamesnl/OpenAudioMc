@@ -22,6 +22,7 @@ import {DebugPanel, WhenDebugging} from "./debug";
 import {propertyValueCache, replaceGlobalText, replaceProperty, textElementCache} from "./helpers/domhelper";
 import {MessageModule} from "./modules/messages/MessageModule";
 import {SettingsManager} from "./modules/settings/SettingsManager";
+import {StreamerLink} from "./modules/streamerlink/StreamerLink";
 
 export const OpenAudioEnv = {
     "build": "__BUILD_VERSION__",
@@ -68,6 +69,7 @@ export class OpenAudioMc extends Getters {
         this.hueConfiguration = new HueConfigurationModule(this);
         this.mediaManager = new MediaManager(this);
         this.voiceModule = new VoiceModule(this);
+        this.streamerLink = new StreamerLink(this);
 
         setLoaderText("preparing session, welcome " + this.tokenSet.name)
 
