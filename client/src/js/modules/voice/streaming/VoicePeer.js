@@ -48,6 +48,13 @@ export class VoicePeer {
         this.openAudioMc.streamerLink.announceVoicePeerJoin(this)
     }
 
+    asSimpleJson() {
+        return {
+            "name": this.playerName,
+            "uuid": this.playerUuid,
+        }
+    }
+
     updateLocation(x, y, z) {
         this.interpolator.onMove = (l, p, y) => {
             this.stream.setLocation(l.x, l.y, l.z, true);

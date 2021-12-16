@@ -30,7 +30,7 @@ export class StreamerLink {
 
             if (this.openAudioMc.voiceModule != null) {
                 this.openAudioMc.voiceModule.peerMap.forEach((peer, key) => {
-                    this.announceVoicePeerJoin(peer);
+                    this.announceVoicePeerJoin(peer.asSimpleJson());
                 })
             }
 
@@ -43,19 +43,19 @@ export class StreamerLink {
     }
 
     announceVoicePeerJoin(peer) {
-        this._pushWs("peer_join", peer)
+        this._pushWs("peer_join", peer.asSimpleJson())
     }
 
     announceVoicePeerTalkingStart(peer) {
-        this._pushWs("peer_start_talking", peer)
+        this._pushWs("peer_start_talking", peer.asSimpleJson())
     }
 
     announceVoicePeerTalkingStop(peer) {
-        this._pushWs("peer_stop_talking", peer)
+        this._pushWs("peer_stop_talking", peer.asSimpleJson())
     }
 
     announceVoicePeerLeave(peer) {
-        this._pushWs("peer_leave", peer)
+        this._pushWs("peer_leave", peer.asSimpleJson())
     }
 
     _pushWs(type, data) {
