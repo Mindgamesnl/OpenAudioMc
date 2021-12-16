@@ -79,8 +79,7 @@ notification.setup=<div style="text-align: center;"><b>Willkommen!</b> Du kannst
 notification.success=Hurra! Du wirst nun Benachrichtigungen erhalten
 notification.test.title=Test Test 123
 notification.test.body=Es hat funktioniert! Du hast die Benachrichtigungen richtig konfiguriert!
-notification.info.voicechat=<div style="text-align: center;" class="medium-text">Dieser Server unterstützt <b>
-s-Sprachchat</b>! Gehe zum Reiter <b>Sprachchat</b> um ihn zu starten und mit anderen zu sprechen.</div>
+notification.info.voicechat=<div style="text-align: center;" class="medium-text">Dieser Server unterstützt <b>Umbegungs-Sprachchat</b>! Gehe zum Reiter <b>Sprachchat</b> um ihn zu starten und mit anderen zu sprechen.</div>
 notification.voicechat.peeradd.title=Neuer Sprachchat-Teilnehmer
 notification.voicechat.peeradd.body=%name ist in deiner Sprachreichweite aufgetaucht
 notification.voicechat.peerdop.title=Spieler hat den Sprachchat verlassen
