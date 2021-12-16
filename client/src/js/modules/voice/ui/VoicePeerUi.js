@@ -23,8 +23,8 @@ updateTotal();
 
 export class VoicePeerUi {
 
-    constructor(openAudioMc, playerName, playerUuid, volume, onVolumeChange) {
-        
+    constructor(openAudioMc, playerName, playerUuid, volume, onVolumeChange, parentPeer) {
+        this.parentPeer = parentPeer;
         if (lists.length === 0) {
             lists = [
                 document.getElementById("vc-call-members-left"),
@@ -140,6 +140,11 @@ export class VoicePeerUi {
 
     setVisuallyTalking(state) {
         if (this.removed) return;
+        if (state) {
+            this.openAudioMc.streamerLink.announceVoicePeerTalkingStart(this.parentPeer)
+        } else {
+            this.openAudioMc.streamerLink.announceVoicePeerTalkingStop(this.parentPeer)
+        }
         if (state) {
             document.getElementById("vc-user-card-" + this.playerName + "-indicator").style.backgroundColor = "lime"
             document.getElementById("vc-user-card-" + this.playerName + "-indicator").style.boxShadow = "0 0 10pt 2pt lime"

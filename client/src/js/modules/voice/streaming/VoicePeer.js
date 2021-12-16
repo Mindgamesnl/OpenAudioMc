@@ -30,7 +30,7 @@ export class VoicePeer {
             if (this.ready) {
                 this.stream.setVolume(this.volume);
             }
-        });
+        }, this);
 
         this.stream = new IncomingVoiceStream(openAudioMc, server, openAudioMc.voiceModule.streamKey, streamKey, this.volume, this.ui);
         this.stream.setLocation(location.x, location.y, location.z, false);
@@ -44,6 +44,8 @@ export class VoicePeer {
             this.stream.setVolume(this.volume);
             this.ready = true;
         })
+
+        this.openAudioMc.streamerLink.announceVoicePeerJoin(this)
     }
 
     updateLocation(x, y, z) {
@@ -55,6 +57,7 @@ export class VoicePeer {
 
     stop() {
         // remove stream
+        this.openAudioMc.streamerLink.announceVoicePeerLeave(this)
         if (this.openAudioMc.voiceModule.peerManager != null) {
             this.openAudioMc.voiceModule.peerManager.dropStream(this.streamKey)
         }

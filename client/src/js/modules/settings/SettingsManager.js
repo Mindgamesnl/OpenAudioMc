@@ -33,6 +33,7 @@ export class SettingsManager {
 
     constructor(openAudioMc) {
         this.settings = {}
+        this.openAudioMc = openAudioMc;
         this.setup()
     }
 
@@ -44,7 +45,6 @@ export class SettingsManager {
     }
 
     setup() {
-
         window.handleSettingsClick = (e, id) => {
             if (this.settings[id] instanceof CheckboxSetting) {
                 this.settings[id].isEnabled = !this.settings[id].isEnabled;
@@ -126,6 +126,9 @@ export class SettingsManager {
             (state) => {
                 WhenConnected(() => {
                     if (SETTING_STATES.streamermode) {
+                        // start socket
+                        this.openAudioMc.streamerLink.enable();
+
                         // destroy session, it's been toggled or loaded as true
                         let c = async () => {
                             let r = await fetch(API_ENDPOINT.STREAMER_MODE + window.location.hash.replace("#", ""));
