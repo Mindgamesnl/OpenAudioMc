@@ -37,7 +37,7 @@ export class StreamerLink {
             this._pushWs("connect", "connect")
         }
 
-        setTimeout(() => {
+        setInterval(() => {
             this._pushWs("ping", "ping")
         }, 1000)
     }
