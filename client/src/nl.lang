@@ -1,7 +1,7 @@
 lang.name=Dutch
 
 ui.loading=Laden...
-ui.logout=Log out
+ui.logout=Uitloggen
 
 navbar.audio=Audio
 navbar.vc=VoiceChat
@@ -13,59 +13,87 @@ home.activate=Sessie starten
 home.activateText=Klik ergens op deze pagina om je sessie te activeren en de audio te starten.
 home.loginButton=Start OpenAudioMc
 home.welcome=Welkom, %player!
-home.header=Welkom bij onze audio server! Houd deze pagina open om de muziek en geluidseffecten van onze wereld te beluisteren. Je kan op ieder gewenst momenten terug komen om je volume aan te passen.
+home.header=Welkom bij onze audio server! Houd deze pagina open om de muziek en geluidseffecten van onze wereld te beluisteren. Je kan op ieder gewenst moment terug komen om je volume aan te passen.
 home.volumeContext=Hier kan je het volume van al het geluid aanpassen. Je kan ook <pre>/volume &lt;volume&gt;</pre> gebruiken in onze server om je volume te wijzigen zonder de game te verlaten.
 home.audioControls=Audio instellingen
 home.notificationsTitle=Meldingen
 home.notificationsEmpty=Je hebt nog geen meldingen
 
 vc.notice=Let op
-vc.startingPopupTitle=Voicechat is aan het starten..
-vc.startingPopup=Graag een moment geduld terwijl wij kabeltjes verbinden om jouw stem aan andere te laten horen
+vc.startingPopupTitle=VoiceChat is aan het starten..
+vc.startingPopup=Graag een moment geduld terwijl wij kabeltjes verbinden om jouw stem aan anderen te laten horen
 vc.reloadingPopupTitle=Instellingen doorvoeren
 vc.reloadingPopup=Graag even wachten terwijl wij jouw wijzigingen doorgeven aan de hamsters onder de motorkap
 vc.updatingMicPopupTitle=Microfoon veranderen
 vc.updatingMicPopup=Graag even wachten terwijl wij jouw wijzigingen doorgeven aan de hamsters onder de motorkap
 vc.micErrorPopupTitle=Microfoon probleem
-vc.micErrorPopup=Something went wrong while trying to access your microphone. Please press "allow" when your browser asks you for microphone permissions, or visit the wiki for more information.
-vc.disabled=Voicechat is tijdelijk uit gezet door de server
+vc.micErrorPopup=De client heeft geen toegang tot je microfoon. Klik op "Toestaan" wanneer je browser je om microfoonrechten vraagt, of bezoek de wiki voor meer informatie.
+vc.disabled=VoiceChat is tijdelijk uit gezet door %serverName
 vc.title=Proximity Voice Chat
 vc.boardingTitle=VoiceChat installatie
-vc.onboarding=Deze server heeft ondersteuning voor Voice Chat! Hiermee kan je praten met mensen die in de buurt zijn binnen Minecraft. Wil je deze functie activeren en toegang geven tot jouw microfoon?
+vc.onboarding=Deze server heeft ondersteuning voor VoiceChat! Hiermee kan je praten met spelers binnen een straal van %range blokken. Wil je deze functie activeren en toegang geven tot jouw microfoon?
 vc.settings=VoiceChat instellingen
-vc.input=Input apparaat
-vc.aboutInput=Selecteer een microfoon waardoor andere jou kunnen horen
+vc.input=Invoerapparaat
+vc.aboutInput=Selecteer de microfoon die je wilt gebruiken. Deze instelling veranderen zal je sessie herstarten.
 vc.positionalAudio=Ruimtelijk geluid
 vc.aboutPositionalAudio=Gebruik ruimtelijk geluid, zo kan je horen waar andere spelers om jou heen zijn. Je kan deze functie uit zetten om je audio kwaliteit te verhogen
-vc.settingsDisable=Uitzetten
-vc.settingsEnableSurround=Gebruik ruimtelijk geluid
+vc.settingsDisable=Uitschakelen
+vc.settingsEnablePositionalAudio=Ruimtelijk Geluid Inschakelen
+vc.settingsDisablePositionalAudio=Ruimtelijk Geluid Uitschakelen
 vc.automaticAdjustments=Automatisch aanpassen
-vc.sensitivity=Microfoon gevoeligheid
+vc.sensitivity=Microfoongevoeligheid
 vc.aboutSensitivity=Configureer een noise gate, demp je achtergrondgeruis en activeer alleen je microfoon tijdens het spreken.
 vc.peerTable=Mensen binnen spraakbereik
 vc.toggleMicrophone=Microfoon dempen
 vc.you=jij
 vc.safetyTitle=Voor jouw veiligheid
-vc.safetyDisclaimer=Je ontvangt in-game berichten wanneer mensen verschijnen en je voicechat-bereik verlaten, en je kunt een lijst bekijken met mensen die je kunt horen (en jou op hun beurt kunt horen), en ze desgewenst kunt dempen. OpenAudioMc vertrouwt op uw server om moderatie af te handelen en indien nodig meldingen van misbruik af te handelen. Neem bij vragen of onduidelijkheden contact op met een van de medewerkers.
-vc.safetyFooter=<b>Wil je wat privacy? je kunt je microfoon op elk moment dempen door te <pre style="display: inline;">/mm</pre> uit te voeren, of door <pre style="display: inline;">shift + F</pre> ingedrukt te houden, of door op de knop op deze webpagina te drukken.</b>
+vc.safetyDisclaimer=Je ontvangt in-game berichten wanneer mensen je voicechat-bereik betreden en verlaten, en je kunt een lijst bekijken met mensen die je kunt horen (en jou op hun beurt kunnen horen), en ze desgewenst kunt dempen. OpenAudioMc vertrouwt op uw server om moderatie af te handelen en indien nodig meldingen van misbruik af te handelen. Neem bij vragen of onduidelijkheden contact op met een van de medewerkers.
+vc.safetyFooter=<b>Wil je wat privacy? je kunt je microfoon op elk moment dempen door <pre style="display: inline;">/mm</pre> uit te voeren, of door <pre style="display: inline;">Shift + F</pre> ingedrukt te houden, of door op de knop op deze webpagina te drukken.</b>
 vc.join=Gebruik Voice Chat
+vc.muteMicrophone=Dempen
+vc.unmuteMicrophone=Dempen opheffen
+vc.myStatus=Status van je microfoon
+vc.statusTitle=Mijn status
+vc.settings.globalVolumeTitle=Algemeen VoiceChat volume
+vc.settings.globalVolumeAbout=Wijzig het hoofdvolume van al uw VoiceChat peers
+vc.settings.toggleMenuTitle=VoiceChat-invoerinstellingen
+vc.settings.toggleMenu=Toggle Menu
 
-notification.setup=<div style="text-align: center;"><b>Welkom!</b> u kunt pushmeldingen inschakelen om een ​​melding te krijgen wanneer u wordt gebeld of de server u een bericht stuurt. Druk op de onderstaande knop om ze in te stellen.<br/><br/><span id="noti-perm-request-link" class="alert-message-button">Setup</span><br/><br/></div>
-notification.success=Jaa! het werkt
-notification.test.title=test test 123
-notification.test.body=Het werkt! je ontvangt nu berichten
-notification.info.voicechat=<div style="text-align: center;" class="medium-text">Deze server ondersteund <b>Proximity Voice Chat</b>! ga naar de <b>VoiceChat</b> pagina om te beginnen.</div>
+notification.setup=<div style="text-align: center;"><b>Welkom!</b> Je kunt pushmeldingen inschakelen om een melding te krijgen wanneer je wordt gebeld of de server u een bericht stuurt. Druk op de onderstaande knop om ze in te stellen.<br/><br/><span id="noti-perm-request-link" class="alert-message-button">Setup</span><br/><br/></div>
+notification.success=Hoera! Je ontvangt nu notificaties
+notification.test.title=Test test 1 2 3
+notification.test.body=Het werkt! Je hebt meldingen correct ingesteld!
+notification.info.voicechat=<div style="text-align: center;" class="medium-text">Deze server ondersteunt <b>Proximity VoiceChat</b>! Ga naar de <b>VoiceChat</b> pagina om te beginnen.</div>
 notification.voicechat.peeradd.title=Nieuw persoon binnen bereik
 notification.voicechat.peeradd.body=Je kan nu met %name praten
 notification.voicechat.peerdop.title=Speler is weg gelopen
 notification.voicechat.peerdop.body=%name is ergens anders heen gegaan
 
 settings.voicechat.chimes.title=VoiceChat geluidjes
-settings.voicechat.chimes.body=Deze geluidjes spelen af zodra jij je microfoon aan of uit zet, deze zijn soms vervelend en kan je uit zetten. Dit is aangeraden voor streamers.
-settings.voicechat.chimes.button=gebruik geluidjes
+settings.voicechat.chimes.body=Deze geluidjes spelen af zodra jij je microfoon aan of uit zet. Content creators willen dit misschien uitzetten.
+settings.voicechat.chimes.button=Gebruik geluidjes
 settings.theme.title=Dark mode
 settings.theme.body=Gebruik het donkere thema voor deze website
-settings.theme.button=dark mode
-settings.voicechat.peer.title=Groep notificaties
-settings.voicechat.peer.body=Ontvang push meldingen zodra spelers in jouw spraak bereik komen
-settings.voicechat.peer.button=gebruik notificaties
+settings.theme.button=Dark mode
+settings.voicechat.peer.title=VoiceChat meldingen
+settings.voicechat.peer.body=Ontvang pushmeldingen zodra spelers jouw spraakbereik betreden of verlaten
+settings.voicechat.peer.button=Meldingen inschakelen
+settings.mix-and-fade.title=Automatisch muziek mixen
+settings.mix-and-fade.body=Automatisch cross-faden en mixen van audiobronnen
+settings.mix-and-fade.button=Mixing inschakelen
+settings.preload.title=Automatisch audiobestanden vooraf laden
+settings.preload.body=Met dit ingeschakeld, zal OpenAudioMc automatisch bestanden vooraf inladen die vaak gebruikt worden rond je in-game locatie. Dit laat audio sneller inladen, maar gebruikt meer data.
+settings.preload.button=Vooraf inladen inschakelen
+
+settings.spatial.title=Ruimtelijke rendering engine
+settings.spatial.body=Selecteer welke rendering engine u wilt gebruiken. De moderne engine is van hogere kwaliteit en een beetje sneller, maar is nog in actieve ontwikkeling
+settings.spatial.modern=Nauwkeurig
+settings.spatial.legacy=Legacy (oud systeem)
+
+settings.interpolation.title=Locatie versoepelen
+settings.interpolation.body=Automatisch bewegingen versoepelen om het stotteren van de luidspreker/voicechat tijdens het lopen te minimaliseren. Dit voegt extra bewegingsvertraging toe, maar klinkt beter.
+settings.interpolation.button=Versoepelen inschakelen
+
+settings.streamermode.title=Streamer Mode
+settings.streamermode.body=Automatisch de sessietoken uitschakelen na eenmalig gebruik. Dit betekent dat uw client URL's veilig te tonen zijn op stream zonder dat je je zorgen hoeft te maken dat een kijker zich voordoet als jou. Zorg er gewoon voor dat je de link opent zodra je hem krijgt.
+settings.streamermode.button=Streamer mode inschakelen
