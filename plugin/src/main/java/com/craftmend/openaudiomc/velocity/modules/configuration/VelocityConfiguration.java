@@ -159,10 +159,12 @@ public class VelocityConfiguration implements Configuration {
         switch (location.getStorageLocation()) {
             case DATA_FILE:
                 dataConfig.getNode(path).setValue(token, string);
+                break;
 
             case CONFIG_FILE:
                 mainConfig.getNode(path).setValue(token, string);
                 cachedConfigStrings.put(location, string);
+                break;
         }
     }
 
@@ -181,9 +183,11 @@ public class VelocityConfiguration implements Configuration {
         switch (storageLocation) {
             case DATA_FILE:
                 dataConfig.getNode(pathArr).setValue(token, string);
+                break;
 
             case CONFIG_FILE:
                 mainConfig.getNode(pathArr).setValue(token, string);
+                break;
         }
     }
 
@@ -200,9 +204,11 @@ public class VelocityConfiguration implements Configuration {
         switch (storageLocation) {
             case DATA_FILE:
                 dataConfig.getNode(pathArr).setValue(value);
+                break;
 
             case CONFIG_FILE:
                 mainConfig.getNode(pathArr).setValue(value);
+                break;
         }
     }
 
@@ -251,9 +257,11 @@ public class VelocityConfiguration implements Configuration {
         switch (location.getStorageLocation()) {
             case DATA_FILE:
                 dataConfig.getNode(path).setValue(token, value);
+                break;
 
             case CONFIG_FILE:
                 mainConfig.getNode(path).setValue(token, value);
+                break;
         }
     }
 
@@ -353,9 +361,11 @@ public class VelocityConfiguration implements Configuration {
         switch (location.getStorageLocation()) {
             case DATA_FILE:
                 dataConfig.getNode(path).setValue(value);
+                break;
 
             case CONFIG_FILE:
                 mainConfig.getNode(path).setValue(value);
+                break;
         }
     }
 
