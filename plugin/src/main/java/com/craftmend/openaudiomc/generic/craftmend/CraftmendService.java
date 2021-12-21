@@ -97,7 +97,9 @@ public class CraftmendService extends Service {
     public void syncAccount() {
         if (OpenAudioMc.getInstance().getInvoker().isNodeServer()) return;
         // stop the voice service
-        this.voiceApiConnection.stop();
+        if (this.voiceApiConnection != null) {
+            this.voiceApiConnection.stop();
+        }
         RestRequest keyRequest = new RestRequest(RestEndpoint.GET_ACCOUNT_STATE);
         CraftmendAccountResponse response = keyRequest.executeInThread().getResponse(CraftmendAccountResponse.class);
 
