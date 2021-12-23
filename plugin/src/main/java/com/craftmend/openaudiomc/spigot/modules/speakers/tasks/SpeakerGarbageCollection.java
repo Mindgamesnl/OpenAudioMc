@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.speakers.tasks;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.storage.enums.GcStrategy;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -14,15 +15,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class SpeakerGarbageCollection extends BukkitRunnable {
 
     private SpeakerService speakerService;
-    private final Set<Speaker> garbageSpeakers = new HashSet<Speaker>();
+    private static int PROCESSED_SPEAKERS = 0;
     private int lastFraction = 0;
     private final int FRACTION_GROUP_SIZE = 50;
     private boolean forceRun = false;
@@ -30,6 +29,12 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
     public SpeakerGarbageCollection(SpeakerService speakerService) {
         this.speakerService = speakerService;
         runTaskTimer(OpenAudioMcSpigot.getInstance(), 600, 600);
+        OpenAudioMc.resolveDependency(TaskService.class).scheduleAsyncRepeatingTask(() -> {
+            if (PROCESSED_SPEAKERS != 0) {
+                OpenAudioLogger.toConsole("The garbage collector found and processed " + PROCESSED_SPEAKERS + " broken speakers");
+                PROCESSED_SPEAKERS = 0;
+            }
+        }, 20 * 30, 20 * 30);
     }
 
     public SpeakerGarbageCollection() {
@@ -50,49 +55,50 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
         }
 
         int setSize = this.speakerService.getSpeakerMap().values().size();
-        possiblyFilterLimits(setSize,
-                this.speakerService.getSpeakerMap().values().stream()
+        possiblyFilterLimits(setSize, this.speakerService
+                .getSpeakerMap()
+                .values().stream()
                         .filter(speaker -> !speaker.isValidated())
                         .skip(fractionStart)
         ).collect(Collectors.toList())
                 .forEach(speaker -> {
                     MappedLocation mappedLocation = speaker.getLocation();
-
                     // check if the chunk is loaded, if not, don't do shit lmao
                     Location bukkitLocation = mappedLocation.toBukkit();
-
-                    if (bukkitLocation == null || bukkitLocation.getWorld() == null || bukkitLocation.getChunk() == null) {
+                    if (bukkitLocation == null || bukkitLocation.getWorld() == null) {
                         OpenAudioLogger.toConsole("Can't find world " + mappedLocation.getWorld() + " so speaker " + speaker.getId() + " is being deleted");
-                        garbageSpeakers.add(speaker);
-                    } else if (bukkitLocation.getChunk().isLoaded()) {
+                        remove(speaker);
+                    } else if (bukkitLocation.getChunk().isLoaded() || forceRun) {
+
+                        if (forceRun) {
+                            OpenAudioLogger.toConsole("Attempting to load chunk " + bukkitLocation.getChunk().toString() + " for a forced speaker check...");
+                            bukkitLocation.getChunk().load();
+                            if (!bukkitLocation.getChunk().isLoaded()) {
+                                OpenAudioLogger.toConsole("Failed to load chunk! please try again later...");
+                            }
+                            return;
+                        }
+
                         if (!SpeakerUtils.isSpeakerSkull(speaker.getLocation().getBlock())) {
-                            garbageSpeakers.add(speaker);
+                            remove(speaker);
                         } else {
                             speaker.setValidated(true);
                         }
                     }
                 });
+    }
 
-        if (!garbageSpeakers.isEmpty()) {
-            Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> {
-                for (Speaker garbageSpeaker : garbageSpeakers) {
-                    speakerService.getSpeakerMap().remove(garbageSpeaker);
-                }
-            });
-
-            GcStrategy strategy = GcStrategy.valueOf(StorageKey.SETTINGS_GC_STRATEGY.getString());
-            if (strategy == GcStrategy.DELETE) {
-                for (Speaker garbageSpeaker : garbageSpeakers) {
-                    OpenAudioMc.getService(DatabaseService.class)
-                            .getRepository(Speaker.class)
-                            .delete(garbageSpeaker.getId().toString());
-                    this.speakerService.getSpeakerMap().remove(garbageSpeaker.getLocation());
-                }
-            }
-
-            OpenAudioLogger.toConsole("Found " + garbageSpeakers.size() + " corrupted speakers with the garbage collector.");
+    private void remove(Speaker speaker) {
+        GcStrategy strategy = GcStrategy.valueOf(StorageKey.SETTINGS_GC_STRATEGY.getString());
+        if (strategy == GcStrategy.DELETE) {
+            OpenAudioMc.getService(DatabaseService.class)
+                    .getRepository(Speaker.class)
+                    .delete(speaker.getId().toString());
         }
-        garbageSpeakers.clear();
+        OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> {
+            speakerService.getSpeakerMap().remove(speaker);
+        });
+        PROCESSED_SPEAKERS++;
     }
 
     private Stream<Speaker> possiblyFilterLimits(int size, Stream<Speaker> stream) {

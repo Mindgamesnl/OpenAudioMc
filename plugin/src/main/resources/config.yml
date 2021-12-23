@@ -105,8 +105,8 @@ options:
   # The amount of resources you want to have preloaded in the client
   preload-resources: 7
 
-  # Garbage collection strategy, it only removes it from the cache by default but you can set it to "DELETE" to forcefully delete data entries
-  gc-strategy: INVALIDATE
+  # Garbage collection strategy, it only removes it from the cache by default but you can set it to "INVALIDATE" to keep values until reboot
+  gc-strategy: DELETE
 
   # Required distance for proximity voice chat. Must be between 20 and 70
   voicechat-radius: 45

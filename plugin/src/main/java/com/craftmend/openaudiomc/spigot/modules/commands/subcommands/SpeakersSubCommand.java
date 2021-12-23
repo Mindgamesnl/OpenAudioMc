@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
+import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.speaker.SpeakerGcSubCommand;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.speaker.SpeakerGiveSubCommand;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.speaker.SpeakerRemoveSubCommand;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.speaker.SpeakerSetSubCommand;
@@ -27,7 +28,8 @@ public class SpeakersSubCommand extends SubCommand {
         registerSubCommands(
                 new SpeakerSetSubCommand(this),
                 new SpeakerRemoveSubCommand(this),
-                new SpeakerGiveSubCommand(this)
+                new SpeakerGiveSubCommand(this),
+                new SpeakerGcSubCommand(this)
 
         );
 
@@ -63,12 +65,7 @@ public class SpeakersSubCommand extends SubCommand {
         }
 
         if (args[0].equalsIgnoreCase("gc")) {
-            message(sender, "Starting garbage collector...");
-            SpeakerGarbageCollection sgc = new SpeakerGarbageCollection();
-            // run the wrapper twice to force a cache refresh at the end
-            sgc.run();
-            sgc.run();
-            message(sender, "Full garbage collection sweep finished");
+            delegateTo("gc", sender, args);
             return;
         }
 
