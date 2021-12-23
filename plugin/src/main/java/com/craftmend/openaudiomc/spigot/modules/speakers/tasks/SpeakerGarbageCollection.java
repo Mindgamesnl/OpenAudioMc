@@ -69,7 +69,7 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
                         remove(speaker);
                     } else if (bukkitLocation.getChunk().isLoaded() || forceRun) {
 
-                        if (forceRun) {
+                        if (forceRun && !bukkitLocation.getChunk().isLoaded()) {
                             OpenAudioLogger.toConsole("Attempting to load chunk " + bukkitLocation.getChunk().toString() + " for a forced speaker check...");
                             bukkitLocation.getChunk().load();
                             if (!bukkitLocation.getChunk().isLoaded()) {
