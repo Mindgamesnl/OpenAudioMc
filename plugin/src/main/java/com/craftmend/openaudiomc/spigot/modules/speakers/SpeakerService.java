@@ -40,9 +40,7 @@ public class SpeakerService extends Service {
     private final Map<String, SpeakerMedia> speakerMediaMap = new HashMap<>();
     @Getter private Material playerSkullItem;
     @Getter private Material playerSkullBlock;
-    @Getter private final Map<String, Set<QueuedSpeaker>> waitingWorlds = new HashMap<>();
     @Getter private ServerVersion version;
-
     private final EstimatedRayTracer estimatedRayTracer = new EstimatedRayTracer();
 
     @Override
