@@ -19,7 +19,7 @@ public class SpeakerGcSubCommand extends SubCommand {
     @Override
     public void onExecute(User sender, String[] args) {
 
-        if (args.length == 0 && !args[0].equalsIgnoreCase("confirm")) {
+        if (args.length == 0 || !args[0].equalsIgnoreCase("confirm")) {
             message(sender, OaColor.RED + "WARNING! THIS COMMAND WILL LOAD AN INSANE AMOUNT OF CHUNKS IF YOU USE SPEAKERS THROUGHOUT YOUR SERVER. RUN " + OaColor.YELLOW + "/oa speaker gc confirm" + OaColor.RED + " IF YOU ARE 100% SURE THAT YOU WANT TO CONTINUE" );
             return;
         }

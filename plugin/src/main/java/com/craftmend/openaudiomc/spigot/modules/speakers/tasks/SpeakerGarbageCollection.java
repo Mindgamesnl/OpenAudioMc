@@ -11,7 +11,6 @@ import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -96,7 +95,7 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
                     .delete(speaker.getId().toString());
         }
         OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> {
-            speakerService.getSpeakerMap().remove(speaker);
+            speakerService.getSpeakerMap().remove(speaker.getLocation());
         });
         PROCESSED_SPEAKERS++;
     }
