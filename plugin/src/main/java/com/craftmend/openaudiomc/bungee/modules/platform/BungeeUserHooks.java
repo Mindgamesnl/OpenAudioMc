@@ -8,7 +8,6 @@ import com.craftmend.openaudiomc.generic.proxy.models.ProxyNode;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.user.adapters.BungeeUserAdapter;
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.*;
@@ -17,13 +16,15 @@ public class BungeeUserHooks implements UserHooks {
 
     @Override
     public Collection<ProxyNode> getNodes() {
-        List<ProxyNode> remotes = new ArrayList<>();
-
-        for (Map.Entry<String, ServerInfo> entry : ProxyServer.getInstance().getServers().entrySet()) {
-            remotes.add(new BungeeProxyNode(entry.getValue()));
+        Map<String, ProxyNode> nodes = new HashMap<>();
+        for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+            if (player.getServer() != null) {
+                if (!nodes.containsKey(player.getServer().getInfo().getName())) {
+                    nodes.put(player.getServer().getInfo().getName(), new BungeeProxyNode(player.getServer().getInfo()));
+                }
+            }
         }
-
-        return remotes;
+        return nodes.values();
     }
 
     @Override
