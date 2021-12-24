@@ -1,0 +1,6 @@
+name: MediaKickstart
+version: '${project.version}'
+main: nl.toetmats.openaudiomc.mediakickstart.MediaKickstart
+depend: [ OpenAudioMc ]
+authors: [ Mindgamesnl ]
+description: A small plugin that loads region media after boot
