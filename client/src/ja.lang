@@ -1,0 +1,115 @@
+lang.name=日本語
+
+lang.detectedAs=言語を%langNameに変更しましたが、このままにしておきますか？
+lang.keep=%langName を保持します。
+lang.toEn=英語に切り替える
+
+ui.loading=読み込み中...
+ui.logout=ログアウト
+
+navbar.audio=オーディオ
+navbar.vc=ボイスチャンネル
+navbar.settings=設定
+navbar.free=フリー
+navbar.premium=プレミアム
+
+home.activate=セッションを有効にする
+home.activateText=このページのどこかをクリックして、セッションを確認し、OpenAudioMcにログインしてください。
+home.loginButton=OpenAudioMcの起動
+home.welcome=ようこそ、%player!
+home.header=オーディオクライアントへようこそ！このページを開いたまま、ゲーム内の音楽とエフェクトを体験してください。セッション中はいつでもこのページに戻り、音量や設定を変更することができます。
+home.volumeContext=このスライダーは、ゲーム内の音楽やエフェクトの音量を調節します。<pre>/volume &lt;volume&gt;</pre> を使って、いつでもゲーム内から音量を変更したり、0に設定して一時的にミュートにすることもできます。
+home.audioControls=オーディオコントロール
+home.notificationsTitle=お知らせ
+home.notificationsEmpty=現在、通知されるものはありません
+
+vc.notice=お知らせ
+vc.startingPopupTitle=ボイスチャットにログイン中...
+vc.startingPopup=ボイスサーバーのセットアップをしますので、しばらくお待ちください。
+vc.reloadingPopupTitle=ボイスシステムを再読み込み中!
+vc.reloadingPopup=新しい設定を適用するため、ボイスチャットが再起動するまでお待ちください... 長くはかかりません。
+vc.updatingMicPopupTitle=マイクを更新中!
+vc.updatingMicPopup=新しいマイクでボイスチャットが再開されるまで、しばらくお待ちください。長くはかかりません。
+vc.micErrorPopupTitle=マイクロホンエラー
+vc.micErrorPopup=マイクにアクセスしようとしたときに何か問題が発生しました。ブラウザでマイクの許可を求められたら「許可」を押すか、wikiで詳細を確認してください。
+vc.disabled=ボイスチャット は %serverName によって一時的に無効化されました。
+vc.title=近接ボイスチャット
+vc.boardingTitle=ボイスチャットオンボーディング
+vc.onboarding=このサーバーでは、半径%範囲内のプレイヤーと会話できる近接ボイスチャットがサポートされています。この機能を有効にし、マイクにアクセスできるようにしたいですか？
+vc.settings=ボイスチャットの設定
+vc.input=入力デバイス
+vc.aboutInput=使用するマイクを選択します。これを変更すると、セッションが再開されます。
+vc.positionalAudio=ポジショナルオーディオ
+vc.aboutPositionalAudio=360度のサウンドスケープをレンダリングし、音声による位置認識を可能にします。
+vc.settingsDisable=無効化
+vc.settingsEnablePositionalAudio=ポジショナルオーディオを有効にする
+vc.settingsDisablePositionalAudio=ポジショナルオーディオを無効にする
+vc.automaticAdjustments=自動調整
+vc.sensitivity=マイク感度
+vc.aboutSensitivity=ノイズゲートを設定し、背景のヒスやノイズをカットし、話すときだけマイクを起動させます。
+vc.peerTable=声の届く範囲にいる人
+vc.toggleMicrophone=トグルマイクロフォン
+vc.you=あなた
+vc.safetyTitle=安心してご利用いただくために
+vc.safetyDisclaimer=ボイスチャットの範囲に人が現れたり離れたりすると、ゲーム内のメッセージが表示されます。また、聞こえている人（順番に聞こえている人）のリストを表示し、必要に応じてミュートにすることができます。OpenAudioMcは、必要に応じてモデレーションを処理し、不正使用の報告を処理するために、あなたのサーバーを頼りにしています。ご質問やご不明な点がありましたら、スタッフまでお問い合わせください。
+vc.safetyFooter=<b>プライバシーを守りたい場合は、<pre style="display: inline;">/mm</pre> を実行するか、ゲーム内で <pre style="display: inline;">shift + F</pre> を押すか、このWebページのボタンを押すと、いつでもマイクをミュートすることができます</b>。
+vc.join=ボイスチャットに参加する
+vc.muteMicrophone=ミュート
+vc.unmuteMicrophone=アンミュート
+vc.myStatus=自分のマイクの状態
+vc.statusTitle=私のステータス
+vc.settings.globalVolumeTitle=一般的なボイスチャットの音量
+vc.settings.globalVolumeAbout=すべてのボイスチャット相手のマスターボリュームを変更する
+vc.settings.toggleMenuTitle=ボイスチャットの入力設定
+vc.settings.toggleMenu=トグルメニュー
+
+hue.hue=Philips Hue
+hue.link=Hue Bridgeとの接続はこちら
+hue.preparing=セットアップ準備中...
+hue.loggingIn=ログイン中...
+hue.linking=%sec 以内にHue Bridgeのリンクボタンを押すと、接続されます。
+hue.connectedTo=これで、Hue Bridgeとの接続が完了しました。
+hue.light1=Light one
+hue.light2=Light two
+hue.light3=Light three
+hue.connected=これで、サーバーが制御する照明を最大3つまでリンクさせることができます。通常は右から左へ。
+hue.close=閉じる
+
+notification.setup=<div style="text-align: center;"><b>ようこそ！</b>プッシュ通知を有効にすると、電話がかかってきたときやサーバーからメッセージが届いたときに通知されるようになります。設定を行うには、以下のボタンを押してください。<br/><br/><span id="noti-perm-request-link" class="alert-message-button">セットアップ</span><br/><br/></div>
+notification.success=万歳！通知を受け取ることができるようになりました。
+notification.test.title=テストテスト 123
+notification.test.body=うまくいきました！Notificationが正しく設定されていますね。
+notification.info.voicechat=<div style="text-align: center;" class="medium-text">このサーバーは<b>近接ボイスチャット</b>をサポートしています！<b>ボイスチャット</b>タブで他の人と話してみてください。</div>
+notification.voicechat.peeradd.title=新しいボイスチャット仲間
+notification.voicechat.peeradd.body=ボイスチャット半径に %name が現れた
+notification.voicechat.peerdop.title=プレイヤーがボイスチャットを退出
+notification.voicechat.peerdop.body=ボイスチャット半径から %name が離れた
+
+settings.voicechat.chimes.title=ボイスチャットチャイム
+settings.voicechat.chimes.body=チャイムは、マイクをミュート/アンミュートするたびに鳴る小さな音です。コンテンツ制作者は、これをオフにするとよいでしょう。
+settings.voicechat.chimes.button=鳴らす
+settings.theme.title=ダークモード
+settings.theme.body=このWebクライアントの（デフォルトの）ダークモードを使用する
+settings.theme.button=ダークモード
+settings.voicechat.peer.title=ボイスチャット通知
+settings.voicechat.peer.body=ボイスチャットの範囲に誰かが入ったり出たりすると、デスクトップで通知を受けることができます。
+settings.voicechat.peer.button=通知を有効にする
+settings.mix-and-fade.title=自動音楽ミキシング
+settings.mix-and-fade.body=オーディオソースの自動クロスフェード、ミックス
+settings.mix-and-fade.button=ミキシングを有効にする
+settings.preload.title=オーディオファイルの自動プリロード
+settings.preload.body=この機能を有効にすると、OpenAudioMcは、ゲーム内の場所でよく使われるファイルを自動的にプリロードします。これにより、オーディオの応答性が向上しますが、より多くのデータを使用することになります。
+settings.preload.button=プリロードを有効にする
+
+settings.spatial.title=空間レンダリングエンジン
+settings.spatial.body=使用するレンダリングエンジンを選択します。最新のエンジンは、より高品質で少し速いですが、まだ活発に開発中です。
+settings.spatial.modern=アキュレイト
+settings.spatial.legacy=レガシー(旧システム)
+
+settings.interpolation.title=位置情報スムージング
+settings.interpolation.body=歩行中のスピーカーやボイスチャットのもたつきを抑えるために、自動的に動きを滑らかにします。この場合、動作の遅延が追加されますが、音は良くなります。
+settings.interpolation.button=スムージングを有効にする
+
+settings.streamermode.title=ストリーマモード
+settings.streamermode.body=セッション・トークンを1回使用したら、自動的に無効にします。これにより、視聴者になりすまされる心配なく、クライアントのURLを安全にストリームで表示できます。ただ、リンクを取得したらすぐに開くようにしてください。
+settings.streamermode.button=ストリーマモードを有効にする
