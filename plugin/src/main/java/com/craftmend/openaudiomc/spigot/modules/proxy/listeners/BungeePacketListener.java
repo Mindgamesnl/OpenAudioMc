@@ -45,6 +45,9 @@ public class BungeePacketListener implements PacketListener {
     @ProxyPacketHandler
     public void onStateSync(User user, ClientUpdateStatePacket packet) {
         ClientConnection connection = OpenAudioMc.getService(NetworkingService.class).getClient(packet.getClientUuid());
+        if (connection == null) {
+            return;
+        }
         connection.getRtcSessionManager().setMicrophoneEnabled(packet.isMicrophoneEnabled());
         connection.getRtcSessionManager().setStreamKey(packet.getStreamId());
         connection.getSession().setConnectedToRtc(packet.isEnabled());
