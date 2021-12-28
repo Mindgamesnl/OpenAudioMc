@@ -55,7 +55,7 @@ public class RestDirectService extends Service {
     }
 
     public RestDirectServer attemptServerBoot() {
-        String ip = authenticationService.getDriver().getHost().getIpAddress();
+        String ip = StorageKey.AUTH_HOST.getString();
         if (OpenAudioMc.SERVER_ENVIRONMENT == ServerEnvironment.DEVELOPMENT) {
             ip = "localhost";
         }
