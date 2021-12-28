@@ -8,7 +8,6 @@ import com.craftmend.openaudiomc.generic.node.packets.CommandProxyPacket;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.proxy.objects.CommandProxyPayload;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class BungeeVoiceCommand extends SubCommand {
 
@@ -30,15 +29,11 @@ public class BungeeVoiceCommand extends SubCommand {
     @Override
     public void onExecute(User sender, String[] args) {
         // pass on to the spigot server
-        if (sender.getOriginal() instanceof ProxiedPlayer) {
-            ProxiedPlayer player = (ProxiedPlayer) sender.getOriginal();
+         CommandProxyPayload payload = new CommandProxyPayload();
+        payload.setExecutor(sender.getUniqueId());
+        payload.setArgs(args);
+        payload.setCommandProxy(CommandProxy.ALIAS);
 
-            CommandProxyPayload payload = new CommandProxyPayload();
-            payload.setExecutor(player.getUniqueId());
-            payload.setArgs(args);
-            payload.setCommandProxy(CommandProxy.ALIAS);
-
-            OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(sender, new CommandProxyPacket(payload));
-        }
+        OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(sender, new CommandProxyPacket(payload));
     }
 }
