@@ -166,6 +166,10 @@ public class RtcSessionManager implements Serializable {
     public void updateLocationWatcher() {
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
             SpigotConnection spigotConnection = OpenAudioMc.getService(SpigotPlayerService.class).getClient(clientConnection.getOwner().getUniqueId());
+            if (spigotConnection == null) {
+                // player logged out, ignoring
+                return;
+            }
             if (subscriptions.isEmpty()) {
                 spigotConnection.getLocationFollowers().remove(PlayerLocationFollower.PROXIMITY_VOICE_CHAT);
             } else {
