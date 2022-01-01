@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.velocity;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.rd.RestDirectService;
-import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;

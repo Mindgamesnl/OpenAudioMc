@@ -1,8 +1,7 @@
-package com.craftmend.openaudiomc.generic.enviroment.models;
+package com.craftmend.openaudiomc.generic.environment.models;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.AbstractRestResponse;
-import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 
 @Getter

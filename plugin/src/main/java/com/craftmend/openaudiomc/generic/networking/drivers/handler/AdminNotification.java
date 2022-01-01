@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking.drivers.handler;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.drivers.interfaces.NotificationHandler;
 import com.craftmend.openaudiomc.generic.networking.drivers.models.BackendNotification;

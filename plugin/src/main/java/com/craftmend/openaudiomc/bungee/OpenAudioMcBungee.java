@@ -10,7 +10,7 @@ import com.craftmend.openaudiomc.bungee.modules.platform.BungeeUserHooks;
 import com.craftmend.openaudiomc.bungee.modules.player.listeners.PlayerConnectionListener;
 import com.craftmend.openaudiomc.bungee.modules.scheduling.BungeeTaskService;
 import com.craftmend.openaudiomc.generic.rd.RestDirectService;
-import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;

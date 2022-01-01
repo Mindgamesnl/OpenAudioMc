@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.speakers.menu;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
-import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;

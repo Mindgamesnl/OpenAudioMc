@@ -6,7 +6,7 @@ import com.craftmend.openaudiomc.generic.rd.http.RestDirectServer;
 import com.craftmend.openaudiomc.generic.rd.ports.PortCheckResponse;
 import com.craftmend.openaudiomc.generic.rd.ports.PortChecker;
 import com.craftmend.openaudiomc.generic.rd.protocol.RegisterBody;
-import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.ServerEnvironment;

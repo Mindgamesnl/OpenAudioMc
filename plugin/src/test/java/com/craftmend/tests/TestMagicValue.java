@@ -1,6 +1,6 @@
 package com.craftmend.tests;
 
-import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import lombok.SneakyThrows;
 import org.junit.Assert;
 import org.junit.Test;

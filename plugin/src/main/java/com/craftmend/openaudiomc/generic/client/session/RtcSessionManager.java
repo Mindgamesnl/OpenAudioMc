@@ -32,6 +32,7 @@ import lombok.Setter;
 import org.bukkit.Location;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -40,7 +41,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RtcSessionManager implements Serializable {
 
     @Getter private boolean isMicrophoneEnabled = false;
-    @Getter private final transient Set<UUID> subscriptions = new HashSet<>();
+    @Getter private final transient Set<UUID> subscriptions = ConcurrentHashMap.newKeySet();
     @Getter private final transient Set<ClientRtcLocationUpdate> locationUpdateQueue = ConcurrentHashMap.newKeySet();
     @Getter private final transient Set<RtcBlockReason> blockReasons = new HashSet<>();
     @Getter private final transient Set<RtcStateFlag> stateFlags = new HashSet<>();

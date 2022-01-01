@@ -8,7 +8,7 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
-import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.user.adapters.BungeeUserAdapter;
 import net.md_5.bungee.api.CommandSender;

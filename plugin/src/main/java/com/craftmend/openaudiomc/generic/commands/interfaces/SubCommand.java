@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.commands.interfaces;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.service.Service;

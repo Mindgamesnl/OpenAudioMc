@@ -10,8 +10,8 @@ import com.craftmend.openaudiomc.api.interfaces.Client;
 
 import com.craftmend.openaudiomc.generic.client.ClientDataService;
 import com.craftmend.openaudiomc.generic.client.store.ClientDataStore;
-import com.craftmend.openaudiomc.generic.enviroment.GlobalConstantService;
-import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
+import com.craftmend.openaudiomc.generic.environment.GlobalConstantService;
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.client.session.ClientAuth;
 import com.craftmend.openaudiomc.generic.client.session.RtcSessionManager;

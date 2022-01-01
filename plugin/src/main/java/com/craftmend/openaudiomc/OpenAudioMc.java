@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.client.ClientDataService;
+import com.craftmend.openaudiomc.generic.environment.EnvironmentService;
 import com.craftmend.openaudiomc.generic.mojang.MojangLookupService;
 import com.craftmend.openaudiomc.generic.rd.RestDirectService;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
@@ -24,7 +25,7 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.redis.RedisService;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
-import com.craftmend.openaudiomc.generic.enviroment.GlobalConstantService;
+import com.craftmend.openaudiomc.generic.environment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.utils.data.GsonFactory;
 import com.craftmend.openaudiomc.generic.voicechat.services.VoiceLicenseService;
@@ -109,6 +110,7 @@ public class OpenAudioMc {
         // load core services in order
         serviceManager.loadServices(
                 DatabaseService.class,          // player and profile storage
+                EnvironmentService.class,       // env loader
                 MojangLookupService.class,      // handles caching of uuid's > names
                 ProxyHostService.class,         // register handlers for proxy events
                 MediaService.class,             // processes outgoing URL's

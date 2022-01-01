@@ -1,8 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.regions.gui;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.CommandService;
-import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.AbstractRegionAdapter;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;

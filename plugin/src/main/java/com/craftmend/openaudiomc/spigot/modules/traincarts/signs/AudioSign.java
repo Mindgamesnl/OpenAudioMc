@@ -4,9 +4,7 @@ import com.bergerkiller.bukkit.tc.events.SignActionEvent;
 import com.bergerkiller.bukkit.tc.events.SignChangeActionEvent;
 import com.bergerkiller.bukkit.tc.signactions.SignAction;
 import com.bergerkiller.bukkit.tc.signactions.SignActionType;
-import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.CommandService;
-import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.spigot.modules.traincarts.TrainCartsModule;
 
 public class AudioSign extends SignAction {

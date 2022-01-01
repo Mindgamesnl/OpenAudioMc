@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
-import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.user.User;
 
 public class CatchCrashMiddleware implements CommandMiddleware {

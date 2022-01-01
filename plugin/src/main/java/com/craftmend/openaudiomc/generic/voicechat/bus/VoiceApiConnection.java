@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.generic.voicechat.bus;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.events.ClientRequestVoiceEvent;
-import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
 import com.craftmend.openaudiomc.generic.client.enums.RtcStateFlag;

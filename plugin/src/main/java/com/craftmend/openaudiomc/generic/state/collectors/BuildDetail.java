@@ -1,10 +1,9 @@
 package com.craftmend.openaudiomc.generic.state.collectors;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.enviroment.GlobalConstantService;
-import com.craftmend.openaudiomc.generic.enviroment.models.ProjectStatus;
+import com.craftmend.openaudiomc.generic.environment.GlobalConstantService;
+import com.craftmend.openaudiomc.generic.environment.models.ProjectStatus;
 import com.craftmend.openaudiomc.generic.state.interfaces.StateDetail;
-import com.craftmend.openaudiomc.spigot.modules.shortner.AliasService;
 
 public class BuildDetail implements StateDetail {
 
