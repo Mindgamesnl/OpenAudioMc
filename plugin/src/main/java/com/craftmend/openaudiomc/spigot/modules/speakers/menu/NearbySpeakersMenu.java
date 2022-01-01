@@ -1,9 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.menu;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.CommandService;
-import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.ApplicableSpeaker;
 import com.craftmend.openaudiomc.spigot.services.clicklib.Item;
@@ -19,7 +17,7 @@ public class NearbySpeakersMenu extends Menu {
         super(ChatColor.BLUE + "Nearby speakers", 3 * 9);
 
         // get speakers
-        Collection<ApplicableSpeaker> speakers = OpenAudioMc.getService(SpeakerService.class).getCollector().getApplicableSpeakers(player.getLocation());
+        Collection<ApplicableSpeaker> speakers = OpenAudioMc.getService(SpeakerService.class).getCollector().getApplicableSpeakers(player.getLocation(), true);
         if (speakers.isEmpty()) {
             player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class)  + ChatColor.RED + "There aren't any speaker within your radius to show.");
             return;

@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.enviroment;
+package com.craftmend.openaudiomc.generic.environment;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
@@ -9,7 +9,7 @@ import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.platform.Platform;
-import com.craftmend.openaudiomc.generic.enviroment.models.ProjectStatus;
+import com.craftmend.openaudiomc.generic.environment.models.ProjectStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

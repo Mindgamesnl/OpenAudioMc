@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.bungee.modules.player.objects.BungeePlayerSelec
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
-import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.client.helpers.Notification;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;

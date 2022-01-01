@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.spigot;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.RegistryApiImpl;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
-import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.platform.SpigotLogger;
 import com.craftmend.openaudiomc.generic.proxy.SpigotUserHooks;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;

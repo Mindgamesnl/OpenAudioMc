@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.enviroment;
+package com.craftmend.openaudiomc.generic.environment;
 
 import java.io.File;
 import java.util.EnumMap;

@@ -18,12 +18,16 @@ public class SpeakerCollector {
 
     private SpeakerService speakerService;
 
-    public Collection<ApplicableSpeaker> getApplicableSpeakers(Location location) {
+    public Collection<ApplicableSpeaker> getApplicableSpeakers(Location location, boolean safe) {
         List<Speaker> applicableSpeakers = new ArrayList<>(speakerService.getSpeakerMap().values());
         Collection<ApplicableSpeaker> speakers = new ArrayList<>();
 
-        applicableSpeakers.removeIf(speaker -> !speaker.getLocation().getWorld().equals(location.getWorld().getName()));
-        applicableSpeakers.removeIf(speaker -> speaker.getLocation().toBukkit().distance(location) > speaker.getRadius());
+        applicableSpeakers.removeIf(speaker -> {
+            if (speaker.getLocation() == null && !safe) return true;
+            if (!speaker.getLocation().getWorld().equals(location.getWorld().getName())) return true;
+            if (speaker.getLocation().toBukkit().distance(location) > speaker.getRadius()) return true;
+            return false;
+        });
 
         applicableSpeakers.forEach(speaker -> {
             speakers.add(new ApplicableSpeaker(
@@ -37,7 +41,7 @@ public class SpeakerCollector {
     }
 
     public SpeakerType guessSpeakerType(Location location, String source) {
-        Collection<ApplicableSpeaker> speakers = getApplicableSpeakers(location);
+        Collection<ApplicableSpeaker> speakers = getApplicableSpeakers(location, true);
         speakers.removeIf(other -> !other.getSpeaker().getMedia().getSource().equals(source));
         TypeCounter<SpeakerType> typeCounter = new TypeCounter<>();
 

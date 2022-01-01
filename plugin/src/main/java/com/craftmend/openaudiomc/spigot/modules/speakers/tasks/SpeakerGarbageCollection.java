@@ -62,13 +62,18 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
         ).collect(Collectors.toList())
                 .forEach(speaker -> {
                     MappedLocation mappedLocation = speaker.getLocation();
+                    if (mappedLocation == null) {
+                        OpenAudioLogger.toConsole("A speaker doesn't have a location, terminating");
+                        remove(speaker);
+                        return;
+                    }
+
                     // check if the chunk is loaded, if not, don't do shit lmao
                     Location bukkitLocation = mappedLocation.toBukkit();
                     if (bukkitLocation == null || bukkitLocation.getWorld() == null) {
                         OpenAudioLogger.toConsole("Can't find world " + mappedLocation.getWorld() + " so speaker " + speaker.getId() + " is being deleted");
                         remove(speaker);
                     } else if (bukkitLocation.getChunk().isLoaded() || forceRun) {
-
                         if (forceRun && !bukkitLocation.getChunk().isLoaded()) {
                             OpenAudioLogger.toConsole("Attempting to load chunk " + bukkitLocation.getChunk().toString() + " for a forced speaker check...");
                             bukkitLocation.getChunk().load();

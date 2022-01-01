@@ -35,7 +35,7 @@ public class SpeakerHandler implements ITickableHandler {
      */
     @Override
     public void tick() {
-        List<ApplicableSpeaker> applicableSpeakers = new ArrayList<>(speakerService.getCollector().getApplicableSpeakers(player.getLocation()));
+        List<ApplicableSpeaker> applicableSpeakers = new ArrayList<>(speakerService.getCollector().getApplicableSpeakers(player.getLocation(), true));
         List<ApplicableSpeaker> enteredSpeakers = new ArrayList<>(applicableSpeakers);
         enteredSpeakers.removeIf(speaker -> containsSpeaker(spigotConnection.getSpeakers(), speaker));
         List<ApplicableSpeaker> leftSpeakers = new ArrayList<>(spigotConnection.getSpeakers());

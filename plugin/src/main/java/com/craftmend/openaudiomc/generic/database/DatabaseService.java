@@ -2,13 +2,12 @@ package com.craftmend.openaudiomc.generic.database;
 
 import com.craftmend.openaudiomc.generic.database.internal.Repository;
 import com.craftmend.openaudiomc.generic.database.internal.DataStore;
-import com.craftmend.openaudiomc.generic.enviroment.MagicValue;
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.service.Service;
 import lombok.Getter;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
-import org.mapdb.thirdparty.com.craftmend.openaudiomc.jutils.JUtils;
 
 import java.io.File;
 import java.util.HashMap;

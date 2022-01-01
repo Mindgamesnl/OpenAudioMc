@@ -1,6 +1,6 @@
 package com.craftmend.tests;
 
-import com.craftmend.openaudiomc.generic.enviroment.models.ProjectStatus;
+import com.craftmend.openaudiomc.generic.environment.models.ProjectStatus;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
