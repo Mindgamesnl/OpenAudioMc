@@ -23,6 +23,7 @@ public class SpeakerCollector {
         Collection<ApplicableSpeaker> speakers = new ArrayList<>();
 
         applicableSpeakers.removeIf(speaker -> {
+            if (speaker == null) return true;
             if (speaker.getLocation() == null && !safe) return true;
             if (!speaker.getLocation().getWorld().equals(location.getWorld().getName())) return true;
             if (speaker.getLocation().toBukkit().distance(location) > speaker.getRadius()) return true;
