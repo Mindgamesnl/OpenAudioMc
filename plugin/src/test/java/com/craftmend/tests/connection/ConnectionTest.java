@@ -28,6 +28,25 @@ import org.junit.Test;
 import java.util.Collection;
 import java.util.UUID;
 
+/**
+ * This unit test serves as the main "catch all giant fuckups" solution for the OpenAudioMc project.
+ *
+ * It does some main and common computations with the generic OpenAudioMc platform against the production backend
+ * It currently covers the following mechanisms:
+ *      - Plugin init from scratch and previous installations
+ *      - Migrations
+ *      - Database handling
+ *      - Account and license management
+ *      - (fake) Player registration and memory leaks
+ *      - Player token generation
+ *      - Socket connections and connection state
+ *      - Voicechat transactions
+ *      - Basic player messages
+ *      - Mojang UUID caching
+ *      - Plugin restarting
+ *      - Core file interactions
+ *      - Basic spamming/concurrency
+ */
 public class ConnectionTest implements OpenAudioInvoker {
 
     public static AssertionGroup assertionGroup = new AssertionGroup();
