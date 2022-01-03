@@ -20,7 +20,7 @@ public class CraftmendTokenProvider implements IAccountProvider {
         Configuration config = OpenAudioMc.getInstance().getConfiguration();
 
         // create token if new
-        if (config.getString(StorageKey.AUTH_PRIVATE_KEY).equals("not-set") || as.getAuthVersion() != as.getCurrentKeyVersion()) {
+      if (config.getString(StorageKey.AUTH_PRIVATE_KEY) == null || config.getString(StorageKey.AUTH_PRIVATE_KEY).equals("not-set") || as.getAuthVersion() != as.getCurrentKeyVersion()) {
             OpenAudioLogger.toConsole("Creating account...");
 
             // am I a top level server? skip setup if that's the case
