@@ -23,7 +23,6 @@ public class EventHandlerTest {
         ApiEventDriver eventDriver = new ApiEventDriver();
 
         for (Class event : events) {
-            System.out.println("Parsing " + event.getSimpleName());
             EventSupport support = eventDriver.getEventSupportFor(event);
             Assert.assertNotEquals(EventSupport.UNKNOWN.toString(), support.toString());
         }

@@ -25,7 +25,6 @@ public class TestServiceConstructor {
         for (Class potentialService : events) {
             if (Service.class.isAssignableFrom(potentialService)) {
                 Assert.assertTrue("The class " + potentialService.getName() + " needs to have a no-args constructor.", hasParameterlessPublicConstructor(potentialService));
-                System.out.println("Validated " + potentialService.getSimpleName());
             }
         }
     }

@@ -50,6 +50,7 @@ public class CraftmendService extends Service {
     private boolean isAttemptingVcConnect = false;
     @Getter
     private boolean lockVcAttempt = false;
+    @Getter
     private boolean initialized = false;
     private boolean delayedInit = false;
 

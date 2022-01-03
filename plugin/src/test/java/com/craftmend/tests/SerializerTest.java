@@ -51,8 +51,6 @@ public class SerializerTest {
             }
 
             if (isSubType) {
-                System.out.println("Testing serializable component " + oaClass.getName());
-
                 Object result = gson.fromJson("{}", oaClass);
                 Assert.assertNotNull("The packet can't be null", result);
 

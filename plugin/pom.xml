@@ -19,6 +19,14 @@
     <url>https://craftmend.com/</url>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.coreoz</groupId>
+            <artifactId>wisp</artifactId>
+            <version>2.2.1</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
