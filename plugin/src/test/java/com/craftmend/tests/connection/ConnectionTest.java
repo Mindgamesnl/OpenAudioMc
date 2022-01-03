@@ -46,6 +46,10 @@ import java.util.UUID;
  *      - Plugin restarting
  *      - Core file interactions
  *      - Basic spamming/concurrency
+ *
+ * This class also serves as the main invoker, and is technically re-used between plugin inits;
+ * just mentioning that because I know that future me *will* fuck up at some point because of it.
+ * So, dear future Mats, **I TOLD YOU SO, FUCKER**
  */
 public class ConnectionTest implements OpenAudioInvoker {
 
