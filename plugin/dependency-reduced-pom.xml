@@ -175,6 +175,18 @@
   </repositories>
   <dependencies>
     <dependency>
+      <groupId>com.coreoz</groupId>
+      <artifactId>wisp</artifactId>
+      <version>2.2.1</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>slf4j-api</artifactId>
+          <groupId>org.slf4j</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
       <version>1.13.2-R0.1-SNAPSHOT</version>
@@ -423,10 +435,6 @@
           <groupId>net.kyori</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>slf4j-api</artifactId>
-          <groupId>org.slf4j</groupId>
-        </exclusion>
-        <exclusion>
           <artifactId>guice</artifactId>
           <groupId>com.google.inject</groupId>
         </exclusion>
@@ -453,6 +461,10 @@
         <exclusion>
           <artifactId>gson</artifactId>
           <groupId>com.google.code.gson</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>slf4j-api</artifactId>
+          <groupId>org.slf4j</groupId>
         </exclusion>
         <exclusion>
           <artifactId>guava</artifactId>

@@ -11,6 +11,7 @@ import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.user.User;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.Duration;
@@ -21,7 +22,7 @@ public class MojangLookupService extends Service {
 
     @Inject
     private TaskService taskService;
-    private Repository<MojangProfile> profileRepository;
+    @Getter private Repository<MojangProfile> profileRepository;
 
     @Inject
     public MojangLookupService(DatabaseService databaseService, TaskService ts, OpenAudioMc openAudioMc) {
