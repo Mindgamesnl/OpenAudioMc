@@ -30,12 +30,13 @@ import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class DefaultNetworkingService extends NetworkingService {
 
     @Getter
     private final Set<INetworkingEvents> eventHandlers = new HashSet<>();
-    private final Map<UUID, ClientConnection> clientMap = new HashMap<>();
+    private final Map<UUID, ClientConnection> clientMap = new ConcurrentHashMap<>();
     private final Map<PacketChannel, PayloadHandler<?>> packetHandlerMap = new HashMap<>();
     private SocketIoConnector socketIoConnector;
     private int packetThroughput = 0;
