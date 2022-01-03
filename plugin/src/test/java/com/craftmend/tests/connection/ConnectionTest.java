@@ -74,6 +74,8 @@ public class ConnectionTest implements OpenAudioInvoker {
         TestUserHooks.createFakeUser(UUID.randomUUID(), "Cam");
         TestUserHooks.createFakeUser(UUID.randomUUID(), "DeEktePudding");
         TestUserHooks.createFakeUser(UUID.randomUUID(), "_ben1098_");
+        TestUserHooks.createFakeUser(UUID.randomUUID(), "Floor");
+        TestUserHooks.createFakeUser(UUID.randomUUID(), "Nika");
 
         // register fake OpenAudioMc
         final OpenAudioMc firstInstance = createTestInstance();
