@@ -49,8 +49,6 @@ public class SpeakerRemoveSubCommand extends SubCommand {
         Speaker speaker = speakerService.getSpeaker(mappedLocation);
         speakerService.unlistSpeaker(mappedLocation);
 
-        // remove from file
-        speakerService.registerSpeaker(speaker);
         // save
         OpenAudioMc.getService(DatabaseService.class)
                 .getRepository(Speaker.class)

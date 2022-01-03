@@ -102,6 +102,9 @@ public class SpeakerService extends Service {
     }
 
     public Speaker registerSpeaker(Speaker speaker) {
+        if (speaker.getLocation() == null) {
+            OpenAudioLogger.toConsole("WARNING! Registering speaker with nil location " + speaker.getId());
+        }
         speakerMap.put(speaker.getLocation(), speaker);
         return speaker;
     }
