@@ -1,35 +1,34 @@
 package com.craftmend.openaudiomc;
 
 import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
-
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.client.ClientDataService;
-import com.craftmend.openaudiomc.generic.environment.EnvironmentService;
-import com.craftmend.openaudiomc.generic.mojang.MojangLookupService;
-import com.craftmend.openaudiomc.generic.rd.RestDirectService;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
+import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
-import com.craftmend.openaudiomc.generic.networking.rest.ServerEnvironment;
-import com.craftmend.openaudiomc.generic.platform.interfaces.OpenAudioInvoker;
-import com.craftmend.openaudiomc.generic.proxy.ProxyHostService;
-import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
-import com.craftmend.openaudiomc.generic.service.Service;
-import com.craftmend.openaudiomc.generic.service.ServiceManager;
-import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
+import com.craftmend.openaudiomc.generic.environment.EnvironmentService;
+import com.craftmend.openaudiomc.generic.environment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import com.craftmend.openaudiomc.generic.migrations.MigrationWorker;
+import com.craftmend.openaudiomc.generic.mojang.MojangLookupService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
+import com.craftmend.openaudiomc.generic.networking.rest.ServerEnvironment;
 import com.craftmend.openaudiomc.generic.platform.Platform;
-import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
-import com.craftmend.openaudiomc.generic.redis.RedisService;
+import com.craftmend.openaudiomc.generic.platform.interfaces.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
-import com.craftmend.openaudiomc.generic.environment.GlobalConstantService;
+import com.craftmend.openaudiomc.generic.proxy.ProxyHostService;
+import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
+import com.craftmend.openaudiomc.generic.rd.RestDirectService;
+import com.craftmend.openaudiomc.generic.redis.RedisService;
+import com.craftmend.openaudiomc.generic.resources.RuntimeDependencyService;
+import com.craftmend.openaudiomc.generic.service.Service;
+import com.craftmend.openaudiomc.generic.service.ServiceManager;
 import com.craftmend.openaudiomc.generic.state.StateService;
+import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.utils.data.GsonFactory;
 import com.craftmend.openaudiomc.generic.voicechat.services.VoiceLicenseService;
-
 import com.google.gson.Gson;
 import lombok.Getter;
 
@@ -88,6 +87,11 @@ public class OpenAudioMc {
         // random bullshit, go!
         instance = this;
         OpenAudioLogger.toConsole("Initializing build " + BUILD.getBuildNumber() + " by " + BUILD.getBuildAuthor());
+
+        // load runtime shit
+        serviceManager.loadService(RuntimeDependencyService.class);
+
+        // setup
         this.invoker = invoker;
         this.platform = invoker.getPlatform(); // constants
         this.cleanStartup = !this.invoker.hasPlayersOnline();
