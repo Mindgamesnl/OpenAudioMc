@@ -2,7 +2,6 @@ package com.craftmend.tests.connection;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
-import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.mojang.MojangLookupService;
 import com.craftmend.openaudiomc.generic.mojang.store.MojangProfile;
 import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
@@ -25,6 +24,7 @@ import lombok.SneakyThrows;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -61,6 +61,13 @@ public class ConnectionTest implements OpenAudioInvoker {
     public void testPluginCore() {
         // setup the testing utils
         SystemConfiguration.BASE_PATH = SystemConfiguration.BASE_PATH + "/../test-storage";
+
+        // ensure that the folder exists
+        File temp = new File(SystemConfiguration.BASE_PATH);
+        if (!temp.exists()) {
+            testLog("Creating base path");
+            temp.mkdir();
+        }
 
         // setup fake users
         TestUserHooks.createFakeUser(UUID.randomUUID(), "ToetMats");

@@ -35,7 +35,9 @@ public class FileUtil {
             throw ex;
         } finally {
             stream.close();
-            resStreamOut.close();
+            if (resStreamOut != null) {
+                resStreamOut.close();
+            }
         }
         return jarFolder + resourceName;
     }
