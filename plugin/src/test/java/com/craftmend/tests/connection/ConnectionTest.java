@@ -2,6 +2,7 @@ package com.craftmend.tests.connection;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.mojang.MojangLookupService;
 import com.craftmend.openaudiomc.generic.mojang.store.MojangProfile;
 import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
@@ -61,6 +62,7 @@ public class ConnectionTest implements OpenAudioInvoker {
     public void testPluginCore() {
         // setup the testing utils
         SystemConfiguration.BASE_PATH = SystemConfiguration.BASE_PATH + "/../test-storage";
+        MagicValue.overWrite(MagicValue.STORAGE_DIRECTORY, new File(SystemConfiguration.BASE_PATH));
 
         // ensure that the folder exists
         File temp = new File(SystemConfiguration.BASE_PATH);
