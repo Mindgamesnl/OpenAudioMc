@@ -24,6 +24,7 @@ public class SpigotPlayerService extends Service {
     @Inject
     private OpenAudioMcSpigot openAudioMcSpigot;
 
+    @Getter
     private final Map<UUID, SpigotConnection> spigotConnectionMap = new HashMap<>();
     @Getter private PlayerConnectionListener playerConnectionListener;
 
