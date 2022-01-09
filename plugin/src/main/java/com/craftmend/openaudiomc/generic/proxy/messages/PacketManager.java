@@ -184,30 +184,34 @@ public abstract class PacketManager {
                         packet
                 );
 
-                List<PacketListener> listeners = packetListeners.get(packetClazz);
-                if (listeners != null){
-                    for (PacketListener packetListener : listeners){
-                        for (Method method : packetListener.getClass().getMethods()){
-                            if (method.isAnnotationPresent(ProxyPacketHandler.class)){
-                                Class<?>[] parameters = method.getParameterTypes();
-
-                                if (parameters.length == 2 && parameters[1].equals(packetClazz)){
-                                    try {
-                                        method.invoke(packetListener, user, packet);
-                                    } catch (InvocationTargetException e) {
-                                        OpenAudioLogger.toConsole("Error whilst passing packet to listener " + packetListener.getClass() + "#" + method.getName());
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                dispatchReceivedPacket(packetClazz, user, packet);
             }
         } catch (ClassNotFoundException ignored){ // silently ignore packets we don't know about
         } catch (Throwable e){
             OpenAudioLogger.toConsole("Error whilst receiving packet " + packetName);
             e.printStackTrace();
+        }
+    }
+
+    public void dispatchReceivedPacket(Class<? extends StandardPacket> packetClazz, User user, StandardPacket packet) throws IllegalAccessException {
+        List<PacketListener> listeners = packetListeners.get(packetClazz);
+        if (listeners != null){
+            for (PacketListener packetListener : listeners){
+                for (Method method : packetListener.getClass().getMethods()){
+                    if (method.isAnnotationPresent(ProxyPacketHandler.class)){
+                        Class<?>[] parameters = method.getParameterTypes();
+
+                        if (parameters.length == 2 && parameters[1].equals(packetClazz)){
+                            try {
+                                method.invoke(packetListener, user, packet);
+                            } catch (InvocationTargetException e) {
+                                OpenAudioLogger.toConsole("Error whilst passing packet to listener " + packetListener.getClass() + "#" + method.getName());
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
