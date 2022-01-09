@@ -8,6 +8,7 @@ import lombok.Getter;
 public class JarSource {
 
     private String resourceName;
+    private String downloadUrl;
     private String fileName;
     private String purpose;
 

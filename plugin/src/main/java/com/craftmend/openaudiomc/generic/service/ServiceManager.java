@@ -74,6 +74,7 @@ public class ServiceManager {
 
     public void replaceService(Class<? extends Service> target, Service i) {
         serviceMap.put(target, i);
+        serviceMap.put(i.getClass(), i);
     }
 
     public Object resolve(Class<?> type) {
@@ -113,6 +114,7 @@ public class ServiceManager {
             serviceMap.put((Class<? extends Service>) key, (Service) value);
         }
         otherInjectables.put(key, value);
+        otherInjectables.put(value.getClass(), value);
     }
 
     /**

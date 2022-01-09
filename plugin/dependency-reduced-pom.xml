@@ -113,8 +113,8 @@
                   <goal>exec</goal>
                 </goals>
                 <configuration>
-                  <executable>/mnt/ssd-projects/github/OpenAudioMc/OpenAudioMc/plugin/src/main/bash/post-build.sh</executable>
-                  <workingDirectory>/mnt/ssd-projects/github/OpenAudioMc/OpenAudioMc/plugin</workingDirectory>
+                  <executable>/Users/mindgamesnl/Documents/workspaces/craftmend/OpenAudioMc/plugin/src/main/bash/post-build.sh</executable>
+                  <workingDirectory>/Users/mindgamesnl/Documents/workspaces/craftmend/OpenAudioMc/plugin</workingDirectory>
                 </configuration>
               </execution>
             </executions>
