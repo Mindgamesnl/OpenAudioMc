@@ -20,13 +20,13 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.7.0</version>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
+          <source>11</source>
+          <target>11</target>
         </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.1.0</version>
+        <version>3.2.4</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -35,6 +35,10 @@
             </goals>
             <configuration>
               <relocations>
+                <relocation>
+                  <pattern>de.tr7zw.changeme.nbtapi</pattern>
+                  <shadedPattern>com.craftmend.thirdparty.nbt</shadedPattern>
+                </relocation>
                 <relocation>
                   <pattern>io.</pattern>
                   <shadedPattern>com.craftmend.thirdparty.io</shadedPattern>
@@ -105,7 +109,7 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
-            <version>1.5.0</version>
+            <version>3.0.0</version>
             <executions>
               <execution>
                 <phase>install</phase>
@@ -113,8 +117,8 @@
                   <goal>exec</goal>
                 </goals>
                 <configuration>
-                  <executable>/Users/mindgamesnl/Documents/workspaces/craftmend/OpenAudioMc/plugin/src/main/bash/post-build.sh</executable>
-                  <workingDirectory>/Users/mindgamesnl/Documents/workspaces/craftmend/OpenAudioMc/plugin</workingDirectory>
+                  <executable>/home/thomas/IdeaProjects/OpenAudioMc/plugin/plugin/src/main/bash/post-build.sh</executable>
+                  <workingDirectory>/home/thomas/IdeaProjects/OpenAudioMc/plugin/plugin</workingDirectory>
                 </configuration>
               </execution>
             </executions>
@@ -142,7 +146,7 @@
     </repository>
     <repository>
       <id>sk89q-repo</id>
-      <url>https://maven.sk89q.com/repo/</url>
+      <url>https://maven.enginehub.org/repo/</url>
     </repository>
     <repository>
       <id>jitpack.io</id>
@@ -177,107 +181,31 @@
     <dependency>
       <groupId>com.coreoz</groupId>
       <artifactId>wisp</artifactId>
-      <version>2.2.1</version>
+      <version>2.2.2</version>
       <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>slf4j-api</artifactId>
-          <groupId>org.slf4j</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
       <version>1.13.2-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>commons-lang</artifactId>
-          <groupId>commons-lang</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>json-simple</artifactId>
-          <groupId>com.googlecode.json-simple</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>guava</artifactId>
-          <groupId>com.google.guava</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>gson</artifactId>
-          <groupId>com.google.code.gson</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bungeecord-chat</artifactId>
-          <groupId>net.md-5</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>snakeyaml</artifactId>
-          <groupId>org.yaml</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.sk89q</groupId>
       <artifactId>worldguard</artifactId>
       <version>6.1</version>
       <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>worldedit</artifactId>
-          <groupId>com.sk89q</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bukkit-classloader-check</artifactId>
-          <groupId>com.sk89q.spigot</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bukkit</artifactId>
-          <groupId>org.bukkit</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>commandbook</artifactId>
-          <groupId>com.sk89q</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>jsr305</artifactId>
-          <groupId>com.google.code.findbugs</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.sk89q.worldguard</groupId>
       <artifactId>worldguard-core</artifactId>
       <version>7.0.5</version>
       <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>core</artifactId>
-          <groupId>com.sk89q.worldguard.worldguard-libs</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>worldedit-core</artifactId>
-          <groupId>com.sk89q.worldedit</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>flyway-core</artifactId>
-          <groupId>org.flywaydb</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>snakeyaml</artifactId>
-          <groupId>org.yaml</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>guava</artifactId>
-          <groupId>com.google.guava</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok-maven</artifactId>
-      <version>1.18.4.0</version>
+      <version>1.18.20.0</version>
       <type>pom</type>
       <scope>compile</scope>
     </dependency>
@@ -286,60 +214,12 @@
       <artifactId>worldedit-bukkit</artifactId>
       <version>7.0.0-SNAPSHOT</version>
       <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>bukkit</artifactId>
-          <groupId>com.sk89q.worldedit.worldedit-libs</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>paperlib</artifactId>
-          <groupId>io.papermc</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>log4j-slf4j-impl</artifactId>
-          <groupId>org.apache.logging.log4j</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bstats-bukkit</artifactId>
-          <groupId>org.bstats</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>worldedit-core</artifactId>
-          <groupId>com.sk89q.worldedit</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bukkit</artifactId>
-          <groupId>org.bukkit</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>net.md-5</groupId>
       <artifactId>bungeecord-api</artifactId>
       <version>1.12-SNAPSHOT</version>
       <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>bungeecord-config</artifactId>
-          <groupId>net.md-5</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bungeecord-event</artifactId>
-          <groupId>net.md-5</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bungeecord-protocol</artifactId>
-          <groupId>net.md-5</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bungeecord-chat</artifactId>
-          <groupId>net.md-5</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>guava</artifactId>
-          <groupId>com.google.guava</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>net.md-5</groupId>
@@ -347,28 +227,6 @@
       <version>1.12-SNAPSHOT</version>
       <type>javadoc</type>
       <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>bungeecord-config</artifactId>
-          <groupId>net.md-5</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bungeecord-event</artifactId>
-          <groupId>net.md-5</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bungeecord-protocol</artifactId>
-          <groupId>net.md-5</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bungeecord-chat</artifactId>
-          <groupId>net.md-5</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>guava</artifactId>
-          <groupId>com.google.guava</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.bergerkiller.bukkit</groupId>
@@ -381,96 +239,12 @@
       <artifactId>BKCommonLib</artifactId>
       <version>1.15.2-v2-SNAPSHOT</version>
       <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>Mountiplex</artifactId>
-          <groupId>com.bergerkiller.mountiplex</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.velocitypowered</groupId>
       <artifactId>velocity-api</artifactId>
-      <version>1.1.3-SNAPSHOT</version>
+      <version>3.0.1</version>
       <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>text-api</artifactId>
-          <groupId>net.kyori</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>text-serializer-gson</artifactId>
-          <groupId>net.kyori</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>text-serializer-legacy</artifactId>
-          <groupId>net.kyori</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>text-serializer-plain</artifactId>
-          <groupId>net.kyori</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>toml4j</artifactId>
-          <groupId>com.moandjiezana.toml</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>adventure-api</artifactId>
-          <groupId>net.kyori</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>adventure-text-serializer-gson</artifactId>
-          <groupId>net.kyori</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>adventure-text-serializer-legacy</artifactId>
-          <groupId>net.kyori</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>adventure-text-serializer-plain</artifactId>
-          <groupId>net.kyori</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>adventure-text-serializer-legacy-text3</artifactId>
-          <groupId>net.kyori</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>guice</artifactId>
-          <groupId>com.google.inject</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>checker-qual</artifactId>
-          <groupId>org.checkerframework</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>velocity-brigadier</artifactId>
-          <groupId>com.velocitypowered</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>configurate-hocon</artifactId>
-          <groupId>org.spongepowered</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>configurate-yaml</artifactId>
-          <groupId>org.spongepowered</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>configurate-gson</artifactId>
-          <groupId>org.spongepowered</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>gson</artifactId>
-          <groupId>com.google.code.gson</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>slf4j-api</artifactId>
-          <groupId>org.slf4j</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>guava</artifactId>
-          <groupId>com.google.guava</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.gitlab.ruany</groupId>
@@ -481,7 +255,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.13.1</version>
+      <version>4.13.2</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -495,44 +269,9 @@
       <artifactId>EssentialsX</artifactId>
       <version>2.19.0-SNAPSHOT</version>
       <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>BaseProviders</artifactId>
-          <groupId>net.essentialsx</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>PaperProvider</artifactId>
-          <groupId>net.essentialsx</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>NMSReflectionProvider</artifactId>
-          <groupId>net.essentialsx</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>1_8Provider</artifactId>
-          <groupId>net.essentialsx</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>paperlib</artifactId>
-          <groupId>io.papermc</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>configurate-yaml</artifactId>
-          <groupId>org.spongepowered</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>checker-qual</artifactId>
-          <groupId>org.checkerframework</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bstats-bukkit</artifactId>
-          <groupId>org.bstats</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
   </dependencies>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 </project>
-
