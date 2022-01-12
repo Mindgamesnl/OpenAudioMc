@@ -30,7 +30,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.13.2-R0.1-SNAPSHOT</version>
+            <version>1.14.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
@@ -189,6 +189,10 @@
                         </goals>
                         <configuration>
                             <relocations>
+                                <relocation>
+                                    <pattern>de.tr7zw.changeme.nbtapi</pattern>
+                                    <shadedPattern>com.craftmend.thirdparty.nbt</shadedPattern>
+                                </relocation>
                                 <relocation>
                                     <pattern>io.</pattern>
                                     <shadedPattern>com.craftmend.thirdparty.io</shadedPattern>
