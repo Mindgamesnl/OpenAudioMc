@@ -3,20 +3,25 @@ package com.craftmend.openaudiomc.spigot.modules.players;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
-import com.craftmend.openaudiomc.generic.user.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
+import com.craftmend.openaudiomc.generic.user.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.listeners.PlayerConnectionListener;
+import com.craftmend.openaudiomc.spigot.modules.players.listeners.PlayerItemListener;
 import com.craftmend.openaudiomc.spigot.modules.players.listeners.PlayerTeleportationListener;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
-
+import com.craftmend.openaudiomc.spigot.services.server.ServerService;
+import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 @NoArgsConstructor
 public class SpigotPlayerService extends Service {
@@ -33,6 +38,10 @@ public class SpigotPlayerService extends Service {
         playerConnectionListener = new PlayerConnectionListener();
         openAudioMcSpigot.getServer().getPluginManager().registerEvents(playerConnectionListener, openAudioMcSpigot);
         openAudioMcSpigot.getServer().getPluginManager().registerEvents(new PlayerTeleportationListener(), openAudioMcSpigot);
+
+        if (getService(ServerService.class).getVersion() == ServerVersion.MODERN) {
+            openAudioMcSpigot.getServer().getPluginManager().registerEvents(new PlayerItemListener(), openAudioMcSpigot);
+        }
     }
 
     /**
