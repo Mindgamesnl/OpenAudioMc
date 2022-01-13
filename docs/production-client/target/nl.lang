@@ -14,7 +14,7 @@ home.activateText=Klik ergens op deze pagina om je sessie te activeren en de aud
 home.loginButton=Start OpenAudioMc
 home.welcome=Welkom, %player!
 home.header=Welkom bij onze audio server! Houd deze pagina open om de muziek en geluidseffecten van onze wereld te beluisteren. Je kan op ieder gewenst moment terug komen om je volume aan te passen.
-home.volumeContext=Hier kan je het volume van al het geluid aanpassen. Je kan ook <pre>/volume &lt;volume&gt;</pre> gebruiken in onze server om je volume te wijzigen zonder de game te verlaten.
+home.volumeContext=Hier kan je het volume van alle geluiden aanpassen. Je kan ook <pre>/volume &lt;volume&gt;</pre> gebruiken in onze server om je volume te wijzigen zonder de game te verlaten.
 home.audioControls=Audio instellingen
 home.notificationsTitle=Meldingen
 home.notificationsEmpty=Je hebt nog geen meldingen
@@ -55,11 +55,11 @@ vc.unmuteMicrophone=Dempen opheffen
 vc.myStatus=Status van je microfoon
 vc.statusTitle=Mijn status
 vc.settings.globalVolumeTitle=Algemeen VoiceChat volume
-vc.settings.globalVolumeAbout=Wijzig het hoofdvolume van al uw VoiceChat peers
+vc.settings.globalVolumeAbout=Wijzig het hoofdvolume van alle personen in VoiceChat 
 vc.settings.toggleMenuTitle=VoiceChat-invoerinstellingen
 vc.settings.toggleMenu=Toggle Menu
 
-notification.setup=<div style="text-align: center;"><b>Welkom!</b> Je kunt pushmeldingen inschakelen om een melding te krijgen wanneer je wordt gebeld of de server u een bericht stuurt. Druk op de onderstaande knop om ze in te stellen.<br/><br/><span id="noti-perm-request-link" class="alert-message-button">Setup</span><br/><br/></div>
+notification.setup=<div style="text-align: center;"><b>Welkom!</b> Je kunt pushmeldingen inschakelen om een melding te krijgen wanneer je wordt gebeld of de server je een bericht stuurt. Druk op de onderstaande knop om ze in te stellen.<br/><br/><span id="noti-perm-request-link" class="alert-message-button">Setup</span><br/><br/></div>
 notification.success=Hoera! Je ontvangt nu notificaties
 notification.test.title=Test test 1 2 3
 notification.test.body=Het werkt! Je hebt meldingen correct ingesteld!
@@ -72,9 +72,9 @@ notification.voicechat.peerdop.body=%name is ergens anders heen gegaan
 settings.voicechat.chimes.title=VoiceChat geluidjes
 settings.voicechat.chimes.body=Deze geluidjes spelen af zodra jij je microfoon aan of uit zet. Content creators willen dit misschien uitzetten.
 settings.voicechat.chimes.button=Gebruik geluidjes
-settings.theme.title=Dark mode
+settings.theme.title=Donkere modus
 settings.theme.body=Gebruik het donkere thema voor deze website
-settings.theme.button=Dark mode
+settings.theme.button=Donkere modus
 settings.voicechat.peer.title=VoiceChat meldingen
 settings.voicechat.peer.body=Ontvang pushmeldingen zodra spelers jouw spraakbereik betreden of verlaten
 settings.voicechat.peer.button=Meldingen inschakelen

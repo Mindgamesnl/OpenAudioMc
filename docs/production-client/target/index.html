@@ -23,9 +23,9 @@
     <meta name="twitter:card" content="summary">
 
     <!-- Includes -->
-    <link rel="stylesheet" href="css/winter.css?Enable=1034"/>
+    <link rel="stylesheet" href="css/winter.css?Enable=1053"/>
     <script src="libs/sweetalert2.all.js"></script>
-    <link rel="stylesheet" href="css/reactive-sweetalert.css?Enable=1034"/>
+    <link rel="stylesheet" href="css/reactive-sweetalert.css?Enable=1053"/>
     <link rel="stylesheet" href="css/tailwind.min.css"/>
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
             data-cf-beacon='{"token": "44aa80ee6e6d48c8b54452fee61f2541"}'></script>
@@ -70,6 +70,7 @@
 </head>
 <body>
 
+
 <div hs="{{ oam.loader_style }}">
 
     <div class="flex flex-col space-y-4 min-w-screen h-screen animated fadeIn faster fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-gray-900">
@@ -82,7 +83,7 @@
                         <p style="display: none;" hs="{{ oam.loading_tagline_style }}"
                            class="text-sm text-gray-300 leading-none mt-1">
                             {{ oam.loading_tagline_text }}</p> <small class="text-gray-500" style="display: inline;">Build
-                        1034</small>
+                        1053</small>
                     </div>
                 </div>
             </div>
@@ -173,7 +174,7 @@
             </div>
             <div class="tab-content">
                 <div class="content-wrapper">
-                    <div class="content-wrapper-box content-wrapper-header">
+                    <div class="content-wrapper-box content-wrapper-header" style="display: none;" hs="{{ oam.hidden_until_started }}">
                         <div class="content-wrapper-context">
                             <h3 class="img-content">
                                 {% home.welcome %}
@@ -185,24 +186,26 @@
                         <img class="bust-image" arc="{{ oam.player_head }}"
                              alt="">
                     </div>
-                    <div class="content-wrapper-box audio-content" style="margin-top: 20px"
+                    <div class="content-wrapper-box landing-thing"
                          hs="{{ oam.click_request_style }}">
-                        <div class="content-wrapper-context full">
-                            <h1 class="big-text">{% home.activate %}</h1>
-                            <div class="content-text" style="padding-right: 50px">
-                                {% home.activateText %}
+
+                        <div class="flex flex-wrap">
+                            <div class="w-full sm:w-8/12 mb-10">
+                                <div class="container mx-auto h-full sm:p-10">
+                                    <header class="container px-4 lg:flex mt-10 items-center h-full lg:mt-0">
+                                        <div class="w-full">
+                                            <h1 class="text-4xl lg:text-6xl font-bold">{% home.welcome %}</h1>
+                                            <div class="w-20 h-2 my-4"></div>
+                                            <p class="text-xl mb-10">{% home.activateText %}</p>
+                                            <button class="bg-green-500 text-white text-2xl font-medium px-4 py-2 rounded shadow">{% home.activate %}</button>
+                                        </div>
+                                    </header>
+                                </div>
                             </div>
-                            <br/>
-                            <button class="content-pill status-button">{% home.loginButton %}</button>
+                            <img src="assets/logo.png" class="h-full">
                         </div>
-                        <h1 class="volume-pill">
-                            <svg class="red full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                 stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"/>
-                                <line x1="12" y1="8" x2="12" y2="12"/>
-                                <line x1="12" y1="16" x2="12.01" y2="16"/>
-                            </svg>
-                        </h1>
+
+
                     </div>
                     <div class="content-section" style="display: none;" hs="{{ oam.hidden_until_started }}">
                         <div class="content-section-title">{% home.audioControls %}</div>
@@ -558,6 +561,6 @@
     </div>
 </div>
 
-<script src="OpenAudioMc.bundle.js?version=1034"></script>
+<script src="OpenAudioMc.bundle.js?version=1053"></script>
 </body>
 </html>
