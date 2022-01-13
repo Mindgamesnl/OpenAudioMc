@@ -1,3 +1,4 @@
+#!/bin/bash
 # Utility functions and recent build date
 . ./build/data.bin
 
