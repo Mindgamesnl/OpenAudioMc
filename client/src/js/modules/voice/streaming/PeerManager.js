@@ -300,6 +300,7 @@ export class PeerManager {
         this.registerDataChannel(this.dataChannel, whenSetupFinished);
         this.listenForTracks();
 
+        console.log(this.micStream)
         const tracks = this.micStream.getTracks();
         for (let i = 0; i < tracks.length; i++) {
             this.pcReceiver.addTrack(this.micStream.getTracks()[i]);

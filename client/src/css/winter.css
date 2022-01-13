@@ -606,6 +606,11 @@ body.light-mode .video-bg:before {
     width: calc(60.65% - 15px);
 }
 
+.vc-monitoring-card {
+    margin-top: 20px;
+    margin-left: 0px !important;
+}
+
 .small-avatar {
     width: 30px !important;
 }
