@@ -1067,3 +1067,9 @@ footer {
 .reversedRange {
     direction: rtl
 }
+
+.landing-thing {
+    border-radius: 14px;
+    height: 100%;
+    width: 100%;
+}

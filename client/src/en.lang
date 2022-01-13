@@ -14,8 +14,8 @@ navbar.free=free
 navbar.premium=premium
 
 home.activate=Activate session
-home.activateText=Please click anywhere on this page to confirm your session and login to OpenAudioMc.
-home.loginButton=Start OpenAudioMc
+home.activateText=This is personal webpage will be used to play your audio and voice throughout your visit, please click the button below to get started
+home.activateHeader=Welcome to our audio client
 home.welcome=Welcome, %player!
 home.header=Welcome to our audio client! keep this page open to experience our in-game music and effects. You can get back here any time during your session to change your volume and settings.
 home.volumeContext=This slider controls the volume of in-game music and effects. You can also use <pre>/volume &lt;volume&gt;</pre> to change your volume from in game at any time, or just set it to 0 to mute it momentarily.
