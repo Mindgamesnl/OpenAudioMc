@@ -62,6 +62,9 @@ vc.settings.globalVolumeTitle=General VoiceChat volume
 vc.settings.globalVolumeAbout=Change the master volume of all your VoiceChat peers
 vc.settings.toggleMenuTitle=VoiceChat input settings
 vc.settings.toggleMenu=Toggle Menu
+vc.settings.monitoring.title=Microphone Monitoring
+vc.settings.monitoring.about=Monitoring plays your own voice back for yourself like how others hear you, useful to test your microphone and sensitivity settings.
+vc.settings.monitoring.toggle=Enable monitoring
 
 hue.hue=Philips Hue
 hue.link=Click here to connect to your hue bridge

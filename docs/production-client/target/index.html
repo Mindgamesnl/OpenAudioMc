@@ -23,9 +23,9 @@
     <meta name="twitter:card" content="summary">
 
     <!-- Includes -->
-    <link rel="stylesheet" href="css/winter.css?Enable=973"/>
+    <link rel="stylesheet" href="css/winter.css?Enable=1034"/>
     <script src="libs/sweetalert2.all.js"></script>
-    <link rel="stylesheet" href="css/reactive-sweetalert.css?Enable=973"/>
+    <link rel="stylesheet" href="css/reactive-sweetalert.css?Enable=1034"/>
     <link rel="stylesheet" href="css/tailwind.min.css"/>
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
             data-cf-beacon='{"token": "44aa80ee6e6d48c8b54452fee61f2541"}'></script>
@@ -82,7 +82,7 @@
                         <p style="display: none;" hs="{{ oam.loading_tagline_style }}"
                            class="text-sm text-gray-300 leading-none mt-1">
                             {{ oam.loading_tagline_text }}</p> <small class="text-gray-500" style="display: inline;">Build
-                        973</small>
+                        1034</small>
                     </div>
                 </div>
             </div>
@@ -367,6 +367,7 @@
                                     </button>
                                 </div>
                             </div>
+
                             <div class="content-card sensitivty-card">
                                <span>
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -401,6 +402,40 @@
                                     </label>
                                 </div>
                             </div>
+
+
+                            <div class="content-card vc-monitoring-card">
+                               <span>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                     stroke-linecap="round" stroke-linejoin="round">  <line x1="4" y1="21" x2="4"
+                                                                                            y2="14"/>  <line x1="4"
+                                                                                                             y1="10"
+                                                                                                             x2="4"
+                                                                                                             y2="3"/>  <line
+                                        x1="12" y1="21" x2="12" y2="12"/>  <line x1="12" y1="8" x2="12" y2="3"/>  <line
+                                        x1="20" y1="21" x2="20"
+                                        y2="16"/>  <line x1="20"
+                                                         y1="12"
+                                                         x2="20"
+                                                         y2="3"/>  <line
+                                        x1="1" y1="14" x2="7" y2="14"/>  <line x1="9" y1="8" x2="15" y2="8"/>  <line
+                                        x1="17" y1="16" x2="23"
+                                        y2="16"/></svg>
+                                {% vc.settings.monitoring.title %}
+
+                               </span>
+                                <div class="content-card-content content-card-content-border-bottom">
+                                    {% vc.settings.monitoring.about %}
+                                </div>
+                                <div class="content-card-buttons">
+                                    <label class="content-pill status-button">
+                                        <input type="checkbox"
+                                               id="enable-input-monitoring">
+                                        <span style="display: inline;">{% vc.settings.monitoring.toggle %}</span>
+                                    </label>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
@@ -523,6 +558,6 @@
     </div>
 </div>
 
-<script src="OpenAudioMc.bundle.js?version=973"></script>
+<script src="OpenAudioMc.bundle.js?version=1034"></script>
 </body>
 </html>

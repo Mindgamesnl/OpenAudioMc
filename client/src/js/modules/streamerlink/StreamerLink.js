@@ -59,8 +59,8 @@ export class StreamerLink {
     }
 
     _pushWs(type, data) {
-        oalog("Writing streamer event:" + type)
         if (this.isOpen) {
+            oalog("Writing streamer event:" + type)
             this.ws.send(JSON.stringify({
                 "openaudiomc": {
                     "type": type,

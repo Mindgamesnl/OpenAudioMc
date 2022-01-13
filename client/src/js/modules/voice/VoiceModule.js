@@ -202,7 +202,7 @@ export class VoiceModule {
         // initialize mic processing
         this.microphoneProcessing = new MicrophoneProcessor(this.openAudioMc, this, stream)
 
-        this.peerManager = new PeerManager(this.openAudioMc, this.server, this.streamKey, stream, this.microphoneProcessing)
+        this.peerManager = new PeerManager(this.openAudioMc, this.server, this.streamKey, this.microphoneProcessing.output.stream, this.microphoneProcessing)
         this.peerManager.setup(this.onOutoingStreamStart).catch((err) => {
             this.handleCrash(JSON.stringify(err.toJSON()))
         })

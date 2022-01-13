@@ -25,6 +25,7 @@
     "debug-popup-log": "^1.0.1",
     "luxon": "^1.26.0",
     "mediastream-gain": "^1.0.1",
-    "micromatch": "^3.1.10"
+    "micromatch": "^3.1.10",
+    "soundtouchjs": "^0.1.29"
   }
 }
