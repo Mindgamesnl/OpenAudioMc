@@ -1059,3 +1059,6 @@ footer {
     border-radius: 0;
     border: none;
 }
+.reversedRange {
+    direction: rtl
+}

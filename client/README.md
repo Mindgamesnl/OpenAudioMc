@@ -22,7 +22,7 @@ Please note that
  - You have to keep track of updates, and update yourself
 
 # Building the web client. building ONLY works on LINUX or MacOS!
-The web client needs to be compiled. You can do this by running `./build.sh` which will dump a production ready client, or `./build.sh dev` to compile a development client, which enables unreleased features, extra loging and enables some mock data.
+The web client needs to be compiled. You can do this by running `./build.sh` which will dump a production ready client, or `./build.sh dev` to compile a development client, which enables unreleased features, extra logging and enables some mock data.
  
 The compiled web client will appear in `../docs/production-client/`
 
