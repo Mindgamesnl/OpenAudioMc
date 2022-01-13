@@ -1,6 +1,11 @@
 import {Hark} from "../../../helpers/libs/hark.bundle";
 import GainController from "mediastream-gain";
 import {RtcPacket} from "../streaming/protocol";
+import {Checkbox} from "../../../helpers/utils/Checkbox";
+import {oalog} from "../../../helpers/log";
+import {PitchShifter} from "./PitchShifter";
+import {PitchShiftMicMiddleware} from "./PitchShiftMicMiddleware";
+import {AudioCableMiddleware} from "./AudioCableMiddleware";
 
 export class MicrophoneProcessor {
 
@@ -19,8 +24,25 @@ export class MicrophoneProcessor {
         this.gainController.on();
 
         this.loadDefaults();
-
+        this.monitoringVolume = 0;
         this.longSessions = 0;
+
+        this.inputStreamSource = stream;
+
+        this.autoAdjustCheckbox = new Checkbox("enable-auto-adjustments")
+            .useCookie("auto-adjust-mic")
+            .onChange(isEnabled => {
+                oalog("Auto mic adjustments: " + isEnabled)
+                this.enabledAutoAdjustments = isEnabled;
+            })
+
+        this.enableMonitoringCheckbox = new Checkbox("enable-input-monitoring")
+            .useCookie("mic-monitoring")
+            .onChange(isEnabled => {
+                oalog("Monitoring: " + isEnabled)
+            })
+
+        this.setupTrackProcessing(stream)
 
         // automatically check through a task how long the current speech is
         this.checkLoop = setInterval(() => {
@@ -126,18 +148,6 @@ export class MicrophoneProcessor {
     }
 
     loadDefaults() {
-        this.enabledAutoAdjustments = (Cookies.get("mic-sensitivity-bot") === "enabled")
-        document.getElementById("enable-auto-adjustments").checked = this.enabledAutoAdjustments;
-        document.getElementById("enable-auto-adjustments").onchange = (e) => {
-            if (e.target.checked) {
-                this.enabledAutoAdjustments = true;
-                Cookies.set("enable-auto-adjustments", "enabled", {expires: 30});
-            } else {
-                this.enabledAutoAdjustments = false;
-                Cookies.set("enable-auto-adjustments", "disabled", {expires: 30});
-            }
-        }
-
         let presetVolume = Cookies.get("mic-sensitivity");
         if (presetVolume != null) {
             presetVolume = parseInt(presetVolume)
@@ -159,6 +169,7 @@ export class MicrophoneProcessor {
         this.harkEvents.on('speaking', () => {
             this.isSpeaking = true;
             this.startedTalking = new Date().getTime();
+            this.setMonitoringVolume(this.monitoringVolume)
 
             // set talking UI
             this.onSpeakStart()
@@ -169,6 +180,7 @@ export class MicrophoneProcessor {
 
             // set talking UI
             this.onSpeakEnd()
+            this.monitoringGainnode.gain.value = 0;
 
             // how long did I talk for?
             let timeActive = new Date().getTime() - this.startedTalking;
@@ -183,6 +195,41 @@ export class MicrophoneProcessor {
                 this.shortTriggers = 0;
             }
         });
+    }
+
+    setMonitoringVolume(vol) {
+        this.monitoringVolume = vol;
+        this.monitoringGainnode.gain.value = (vol / 100);
+    }
+
+    setupTrackProcessing(stream) {
+        const ctx = this.openAudioMc.world.player.audioCtx;
+        this.monitoringAudio = new Audio();
+        this.monitoringAudio.muted = true;
+        this.monitoringAudio.autoplay = true
+        this.monitoringAudio.volume = 1
+        this.output = ctx.createMediaStreamDestination()
+
+        this.monitoringAudio.srcObject = this.output.stream;
+        this.monitoringGainnode = ctx.createGain();
+
+        this.enableMonitoringCheckbox
+            .onChange((allow) => {
+                if (allow) {
+                    this.monitoringAudio.muted = false;
+                    console.log()
+                } else {
+                    this.monitoringAudio.muted = true;
+                    console.log(this.monitoringAudio)
+                }
+            })
+
+        let src = ctx.createMediaStreamSource(this.inputStreamSource)
+
+        let shiftMiddleware = new AudioCableMiddleware()
+        shiftMiddleware.link(ctx, src, this.output)
+        this.monitoringAudio.play()
+
     }
 
 }
