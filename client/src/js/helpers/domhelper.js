@@ -29,7 +29,6 @@ export function replaceProperty(from, to, newPropName) {
             mapped.element.setAttribute(mapped.att, to)
         }
     } else {
-        oalog("Building property cache for " + from)
         let result = [];
         (function scanSubTree(node) {
             if (node.children.length) {
@@ -85,7 +84,6 @@ export function replaceGlobalText(from, to, asHtml= false, skipCache = false) {
             }
         }
     } else {
-        oalog("Building element cache for " + from)
         getAllTextNodes().forEach(function (node) {
             // does this node contain the thing?
             if (node.nodeValue.indexOf(from) !== -1) {
