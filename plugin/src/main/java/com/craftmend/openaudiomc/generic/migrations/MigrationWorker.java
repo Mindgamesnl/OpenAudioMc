@@ -45,6 +45,7 @@ public class MigrationWorker {
                 new AliasDatabaseMigration(),           // migrate aliases
                 new PredictiveCacheMigration(),         // migrate audio smart cache
                 new AddRDTimeoutMigration(),            // configurable timeout
+                new AddPapiMigration(),                 // add placeholder api values
         };
 
         for (SimpleMigration migration : migrations) {
