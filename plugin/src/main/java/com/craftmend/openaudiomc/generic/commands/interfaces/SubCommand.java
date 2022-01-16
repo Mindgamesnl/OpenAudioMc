@@ -16,6 +16,7 @@ import java.util.*;
 public abstract class SubCommand {
 
     @Getter private final String command;
+    @Getter protected boolean listed = true;
     @Getter private List<String> aliases = new ArrayList<>();
     @Getter private final List<Argument> arguments = new ArrayList<>();
     private final Map<String, SubCommand> moreSubCommands = new HashMap<>();
