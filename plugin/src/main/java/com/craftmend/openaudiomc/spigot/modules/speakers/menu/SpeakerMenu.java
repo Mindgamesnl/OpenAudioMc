@@ -25,7 +25,7 @@ public class SpeakerMenu extends Menu {
         super(ChatColor.BLUE + "Updating speaker", 3 * 9);
 
         // show source
-        setItem(3, new Item(SpeakerUtils.getSkull())
+        setItem(3, new Item(SpeakerUtils.getSkull(speaker.getSource(), 10))
                 .setName(ChatColor.YELLOW + "Playing: " + ChatColor.AQUA + speaker.getMedia().getSource())
                 .setLore(new String[]{})
                 .onClick((p,i) -> {})
