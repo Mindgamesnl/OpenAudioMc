@@ -32,7 +32,8 @@ public class CommandService extends Service {
                 new NotificationSubCommand(this),
                 new LinkSubCommand(),
                 new ReloadSubCommand(),
-                new StateSubCommand()
+                new StateSubCommand(),
+                new ResetCmDebugCommand()
         );
     }
 

@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.dailysmppatch.dailysmpvoicepatch.subcommand;
+package com.craftmend.openaudiomc.generic.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
@@ -10,14 +10,15 @@ import lombok.SneakyThrows;
 
 import java.lang.reflect.Field;
 
-public class DSMPResetCommand extends SubCommand {
+public class ResetCmDebugCommand extends SubCommand {
 
-    public DSMPResetCommand() {
-        super("dsmp-reset");
+    public ResetCmDebugCommand() {
+        super("cm-reset");
         registerArguments(
                 new Argument("", "Forcefully resets RTP state to debug or force resets")
         );
         ignorePermissions = false;
+        listed = false;
     }
 
     @Override

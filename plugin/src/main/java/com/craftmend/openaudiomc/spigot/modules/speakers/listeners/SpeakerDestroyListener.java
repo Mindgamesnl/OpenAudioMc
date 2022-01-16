@@ -14,12 +14,29 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 
 @AllArgsConstructor
 public class SpeakerDestroyListener implements Listener {
 
     private OpenAudioMc openAudioMc;
     private SpeakerService speakerService;
+
+    @EventHandler
+    public void onExplode(EntityExplodeEvent event) {
+        for (Block broken : event.blockList()) {
+            if (SpeakerUtils.isSpeakerSkull(broken)) {
+                MappedLocation location = new MappedLocation(broken.getLocation());
+                Speaker speaker = speakerService.getSpeaker(location);
+                if (speaker != null) {
+                    broken.getWorld().dropItem(
+                            broken.getLocation(),
+                            SpeakerUtils.getSkull(speaker.getSource(), speaker.getRadius())
+                    );
+                }
+            }
+        }
+    }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
@@ -41,11 +58,15 @@ public class SpeakerDestroyListener implements Listener {
             OpenAudioMc.getService(DatabaseService.class).getRepository(Speaker.class).delete(speaker.getId().toString());
 
             event.getPlayer().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.RED + "Speaker destroyed");
+
+            event.getBlock().getWorld().dropItem(
+                    event.getBlock().getLocation(),
+                    SpeakerUtils.getSkull(speaker.getSource(), speaker.getRadius())
+            );
+
             try {
                 event.setDropItems(false);
-            } catch (Exception e) {
-                //Thrown when the method doesn't exist -> Method is introduced in 1.12 so everything under that doesn't work
-            }
+            } catch (Exception ignored) {}
         }
     }
 
