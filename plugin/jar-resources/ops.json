@@ -1,0 +1,20 @@
+[
+  {
+    "uuid": "88243ba3-382f-4eb0-874f-c5831eb3c0a6",
+    "name": "ToetMats",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "f0c8657b-f384-4df6-9d66-e9f36c36ce8a",
+    "name": "Mindgamesnl",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "c94772ec-cb54-44f2-987e-9b0a54b8b2a7",
+    "name": "Nouxy",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  }
+]

@@ -3,6 +3,9 @@ echo "Building new OpenAudioMc jar without unit tests.."
 mvn clean install -Dmaven.test.skip=true -q
 rm test-server/plugins/OpenAudioMc-*
 cp target/OpenAudioMc-* test-server/plugins/
+cp jar-resources/VoidGen* test-server/plugins/
+cp jar-resources/bukkit.yml test-server/
+cp jar-resources/ops.json test-server/
 
 cd test-server
 echo "Cleaning server..."
