@@ -20,8 +20,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.7.0</version>
         <configuration>
-          <source>11</source>
-          <target>11</target>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>
       <plugin>
@@ -117,8 +117,8 @@
                   <goal>exec</goal>
                 </goals>
                 <configuration>
-                  <executable>/home/thomas/IdeaProjects/OpenAudioMc/plugin/plugin/src/main/bash/post-build.sh</executable>
-                  <workingDirectory>/home/thomas/IdeaProjects/OpenAudioMc/plugin/plugin</workingDirectory>
+                  <executable>${project.basedir}/src/main/bash/post-build.sh</executable>
+                  <workingDirectory>${project.basedir}</workingDirectory>
                 </configuration>
               </execution>
             </executions>
@@ -131,6 +131,10 @@
     <repository>
       <id>bungeecord-repo</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </repository>
+    <repository>
+      <id>codemc-repo</id>
+      <url>https://repo.codemc.org/repository/maven-public/</url>
     </repository>
     <repository>
       <id>sonatype</id>

@@ -43,7 +43,7 @@ public class HelpSubCommand extends SubCommand {
             SubCommand handler = entry.getValue();
 
             // only render aliases
-            if (command.equals(handler.getCommand())) {
+            if (command.equals(handler.getCommand()) && handler.isListed()) {
                 goldClickableMessage(sender, "/openaudiomc " + handler.getCommand(), "oa help " + handler.getCommand());
             }
         }
