@@ -12,6 +12,7 @@ import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.AllArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
@@ -39,20 +40,20 @@ public class SpeakerCreateListener implements Listener {
                 return;
             }
 
-            SpigotConnection spigotConnection = OpenAudioMc.getService(SpigotPlayerService.class).getClient(event.getPlayer());
-            if (spigotConnection.getSelectedSpeakerSettings() == null) {
-                event.getPlayer().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "You cant place OpenAudioMc speakers without using the command first. I dont know what sound you would like to add.");
-                event.setCancelled(true);
+            NBTItem nbti = new NBTItem(event.getItemInHand());
+            String src = nbti.getString("oa-src");
+            Integer radius = nbti.getInteger("oa-radius");
+
+            if (src == null) {
+                event.getPlayer().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "This speaker seems to be invalid. Please spawn a new one.");
                 return;
             }
 
             UUID id = UUID.randomUUID();
             MappedLocation location = new MappedLocation(placed.getLocation());
-            int range = spigotConnection.getSelectedSpeakerSettings().getRadius();
 
-            SpeakerType speakerType = speakerService.getCollector().guessSpeakerType(location.toBukkit(), spigotConnection.getSelectedSpeakerSettings().getSource());
-
-            Speaker speaker = new Speaker(spigotConnection.getSelectedSpeakerSettings().getSource(), id, range, location, speakerType, new HashSet<>());
+            SpeakerType speakerType = speakerService.getCollector().guessSpeakerType(location.toBukkit(), src);
+            Speaker speaker = new Speaker(src, id, radius, location, speakerType, new HashSet<>());
             speakerService.registerSpeaker(speaker);
 
             // save

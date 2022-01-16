@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
@@ -50,7 +51,7 @@ public class SpeakerUtils {
         return false;
     }
 
-    public static ItemStack getSkull() {
+    public static ItemStack getSkull(String source, int radius) {
         ItemStack skull = new ItemStack(SPEAKER_SERVICE.getPlayerSkullItem());
         skull.setDurability((short) 3);
         SkullMeta sm = (SkullMeta) skull.getItemMeta();
@@ -62,14 +63,23 @@ public class SpeakerUtils {
             }
             sm.setOwner(speakerSkin);
             sm.setDisplayName(ChatColor.AQUA + "OpenAudioMc Speaker");
-            sm.setLore(Arrays.asList("",
-                    ChatColor.AQUA + "Place me anywhere",
-                    ChatColor.AQUA + "in the world to place",
-                    ChatColor.AQUA + "a speaker for that area",
-                    ""));
+            sm.setLore(Arrays.asList(
+                    ChatColor.AQUA + "I'm a super cool speaker!",
+                    ChatColor.AQUA + "Simply place me in your world",
+                    ChatColor.AQUA + "and I'll play your customized music",
+                    "",
+                    ChatColor.AQUA + "SRC: " + ChatColor.GREEN + source,
+                    ChatColor.AQUA + "Radius: " + ChatColor.GREEN + radius
+                    ));
             skull.setItemMeta(sm);
         }
-        return skull;
+
+        NBTItem nbti = new NBTItem(skull);
+        nbti.setString("oa-src", source);
+        nbti.setInteger("oa-radius", radius);
+        nbti.applyNBT(skull);
+
+        return nbti.getItem();
     }
 
 
