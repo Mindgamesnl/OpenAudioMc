@@ -191,6 +191,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
      *
      * @param media media to be send
      */
+    @Override
     public void sendMedia(Media media) {
         if (media.getKeepTimeout() != -1 && !session.getOngoingMedia().contains(media)) {
             session.getOngoingMedia().add(media);
