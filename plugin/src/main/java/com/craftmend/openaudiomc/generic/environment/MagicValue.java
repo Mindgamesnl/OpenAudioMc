@@ -10,8 +10,11 @@ import java.util.EnumMap;
 public enum MagicValue {
 
     NOTIFY_VOICECHAT_SLOT_DEPLETION(true),
+    FORCE_SERVER_NODE(true),
     LOCATION_TRACK_INTERVAL(2),
     STORAGE_DIRECTORY(new File("./")),
+    FORCED_HOOK_INJECTION(null),
+    DYNAMIC_REGISTRATIONS(false),
     COMMAND_PREFIX("[OpenAudioMc - Magic]");
 
     private static final EnumMap<MagicValue, Object> tempValues = new EnumMap<>(MagicValue.class);
@@ -25,6 +28,13 @@ public enum MagicValue {
         // check if we have a temporary value
         if (tempValues.containsKey(this)) return as.cast(tempValues.get(this));
         return as.cast(value);
+    }
+
+    public boolean isNull() {
+        if (tempValues.get(this) != null) {
+            return false;
+        }
+        return value == null;
     }
 
     public static void overWrite(MagicValue key, Object value) {

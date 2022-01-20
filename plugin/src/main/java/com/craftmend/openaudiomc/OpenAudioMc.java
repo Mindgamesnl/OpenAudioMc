@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.environment.EnvironmentService;
 import com.craftmend.openaudiomc.generic.environment.GlobalConstantService;
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
@@ -102,7 +103,13 @@ public class OpenAudioMc {
         // we want to use through dependency injection anyway
         serviceManager.registerDependency(Configuration.class, invoker.getConfigurationProvider());
         serviceManager.registerDependency(TaskService.class, invoker.getTaskProvider());
-        serviceManager.registerDependency(UserHooks.class, invoker.getUserHooks());
+
+        // check if its overwritten by the api
+        if (!MagicValue.FORCED_HOOK_INJECTION.isNull()) {
+            serviceManager.registerDependency(UserHooks.class, MagicValue.FORCED_HOOK_INJECTION.get(UserHooks.class));
+        } else {
+            serviceManager.registerDependency(UserHooks.class, invoker.getUserHooks());
+        }
 
         // migrate old config and data files between versions
         new MigrationWorker().handleMigrations();
