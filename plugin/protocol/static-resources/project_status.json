@@ -1,10 +1,10 @@
 {
   "response": {
     "versioning": {
-      "version_tag": "6.6.2",
+      "version_tag": "6.6.3",
       "build_number": 483,
       "version_importance": "&dRecommended",
-      "version_update_message": "6.6.2 is the big winter update, with tons of great new features and improvements"
+      "version_update_message": "6.6.3 is the big winter update, with tons of great new features and improvements"
     },
 
     "announcement": {

@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.client.helpers.SerializableClient;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.mojang.MojangLookupService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
@@ -155,11 +156,12 @@ public class DefaultNetworkingService extends NetworkingService {
     public ClientConnection getClient(UUID uuid) {
         if (clientMap.containsKey(uuid)) {
             return clientMap.get(uuid);
-        } else {
+        } else if (MagicValue.DYNAMIC_REGISTRATIONS.get(Boolean.class)) {
             User oap = getService(UserHooks.class).byUuid(uuid);
             if (oap == null) return null;
             return register(oap, null);
         }
+        return null;
     }
 
     /**
