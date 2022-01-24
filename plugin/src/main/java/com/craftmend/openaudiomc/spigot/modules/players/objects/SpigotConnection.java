@@ -80,6 +80,7 @@ public class SpigotConnection {
         locationDataWatcher.setTask(updatedLocation -> {
             // if the client is not connected, then dont do shit, they wont hear it anyway
             if (!this.clientConnection.isConnected()) return;
+            if (!player.isOnline()) return; // how?.. what?..
 
             this.audioChunkHandler.tick();
 
@@ -101,8 +102,11 @@ public class SpigotConnection {
             audioChunkHandler.reset();
             currentRegions.clear();
             currentSpeakers.clear();
-            locationDataWatcher.getCallback().accept(player.getLocation());
-            Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> Bukkit.getServer().getPluginManager().callEvent(new ClientConnectEvent(player, this)));
+
+            if (player.isOnline()) {
+                locationDataWatcher.getCallback().accept(player.getLocation());
+                Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> Bukkit.getServer().getPluginManager().callEvent(new ClientConnectEvent(player, this)));
+            }
         });
 
         clientConnection.addOnConnectHandler(new InitializeTrains(player));
@@ -139,6 +143,8 @@ public class SpigotConnection {
     public void onDestroy() {
         // shutdown the data watcher
         this.locationDataWatcher.stop();
+        this.currentSpeakers.clear();
+        this.currentRegions.clear();
     }
 
     /**
