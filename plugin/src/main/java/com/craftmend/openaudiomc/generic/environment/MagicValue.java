@@ -10,7 +10,7 @@ import java.util.EnumMap;
 public enum MagicValue {
 
     NOTIFY_VOICECHAT_SLOT_DEPLETION(true),
-    FORCE_SERVER_NODE(true),
+    FORCE_SERVER_NODE(false),
     LOCATION_TRACK_INTERVAL(2),
     STORAGE_DIRECTORY(new File("./")),
     FORCED_HOOK_INJECTION(null),
