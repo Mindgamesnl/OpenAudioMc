@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.velocity.utils.VelocityChatColor;
 
 public enum Platform {
 
+    UNKNOWN,
     SPIGOT,
     BUNGEE,
     VELOCITY,

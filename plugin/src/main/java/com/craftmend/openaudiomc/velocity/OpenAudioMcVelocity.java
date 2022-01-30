@@ -18,6 +18,7 @@ import com.craftmend.openaudiomc.velocity.modules.commands.VelocityCommandModule
 import com.craftmend.openaudiomc.velocity.modules.configuration.VelocityConfiguration;
 import com.craftmend.openaudiomc.velocity.modules.player.listeners.PlayerConnectionListener;
 import com.craftmend.openaudiomc.velocity.modules.scheduling.VelocityTaskService;
+import com.craftmend.openaudiomc.velocity.platform.CommandPacketListener;
 import com.craftmend.openaudiomc.velocity.platform.VelocityUserHooks;
 import com.google.inject.Inject;
 import com.velocitypowered.api.event.Subscribe;
@@ -80,6 +81,8 @@ public class OpenAudioMcVelocity implements OpenAudioInvoker {
             // timing end and calc
             Instant finish = Instant.now();
             OpenAudioLogger.toConsole("Starting and loading took " + Duration.between(boot, finish).toMillis() + "MS");
+
+            this.messageReceiver.registerListener(new CommandPacketListener());
 
             OpenAudioMc.getInstance().postBoot();
         } catch (Exception ex) {

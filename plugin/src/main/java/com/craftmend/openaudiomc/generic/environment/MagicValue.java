@@ -1,5 +1,7 @@
 package com.craftmend.openaudiomc.generic.environment;
 
+import com.craftmend.openaudiomc.generic.platform.Platform;
+
 import java.io.File;
 import java.util.EnumMap;
 
@@ -15,6 +17,7 @@ public enum MagicValue {
     STORAGE_DIRECTORY(new File("./")),
     FORCED_HOOK_INJECTION(null),
     DYNAMIC_REGISTRATIONS(false),
+    PARENT_PLATFORM(Platform.UNKNOWN),
     COMMAND_PREFIX("[OpenAudioMc - Magic]");
 
     private static final EnumMap<MagicValue, Object> tempValues = new EnumMap<>(MagicValue.class);
