@@ -171,8 +171,19 @@ body.light-mode .video-bg:before {
 .header-menu {
     display: flex;
     align-items: center;
+    
+    width: 50%;
 }
-
+@media screen and (max-width: 700px) {
+    .header-menu {
+        margin-left: 0px !important;
+    }
+}
+@media screen and (min-width: 700px) {
+    .header-menu {
+        margin-left: 23% !important;
+    }
+}
 .header-menu a, .header-menu label {
     padding: 20px 30px;
     text-decoration: none;
@@ -227,6 +238,7 @@ body.light-mode .video-bg:before {
     .menu-circle {
         display: none;
     }
+    
 }
 
 .header-notice {
@@ -234,6 +246,7 @@ body.light-mode .video-bg:before {
     align-items: center;
     padding: 0 16px 0 40px;
     margin-left: auto;
+    width: 25%;
     flex-shrink: 0;
 }
 
@@ -305,7 +318,7 @@ body.light-mode .video-bg:before {
 }
 
 .main-header .header-menu {
-    margin-left: 150px;
+    margin-left: 0px;;
 }
 
 @media screen and (max-width: 1055px) {
@@ -316,6 +329,8 @@ body.light-mode .video-bg:before {
 
 .main-header .header-menu a {
     padding: 16px 24px;
+      margin: auto;
+        width: 20%;
 }
 
 .main-container {
@@ -331,6 +346,8 @@ body.light-mode .video-bg:before {
 
 .link-menu-padding {
     padding: 0 30px;
+    width: 25%;
+    
 }
 
 @media screen and (max-width: 1055px) {
@@ -485,7 +502,7 @@ body.light-mode .video-bg:before {
 }
 
 .content-section {
-    margin-top: 30px;
+    margin-top: 0px;
     display: flex;
     flex-direction: column;
 }
@@ -595,20 +612,65 @@ body.light-mode .video-bg:before {
 }
 
 .small-card {
-    width: calc(24.65% - 15px);
+    width: calc(25.65% - 15px);
 }
+@media screen and (min-width: 1510px) {
+    .small-vc-card {
+    
+        width: calc(25% - 15px) !important;
+}
+        .sensitivty-card {
+            margin-left: 0px !important;
+            width: calc(99.65% - 15px) !important;
+}
+}
+@media screen and (max-width: 1510px) {
+    .small-vc-card {
+    width: calc(49% - 15px) ;
+}
+        .small-card {
+     margin-top: 20px !important;
+}
+    .vc-monitoring-card {
+    width: calc(50% - 15px);
+    margin-top: 20px;
+    margin-left: 0px !important;
+}
+    .sensitivty-card {
+    margin-left: 20px !important;
+}
+    .vc-monitoring-card {
+    width: calc(50% - 15px);
+}
+        .vc-volume-card {
+    width: calc(99.65% - 15px) !important;
+    margin-left: 0px !important;
+    margin-top: 20px !important;
+}
+    .vc-settings-toggle-card{
+        margin-left: 20px !important;
+        margin-top: 20px !important; 
+    }
+}
+@media screen and (max-width: 1100px) {
+    .sensitivty-card, .vc-monitoring-card,.small-vc-card {
+    width: calc(100% - 15px) !important;
+    margin-left: 0px !important;
+    margin-top: 10px !important;
+    }
 
-.sensitivty-card {
-    width: calc(49.65% - 20px);
+}
+.vc-monitoring-card {
+    width: calc(49% - 15px);
 }
 
 .vc-volume-card {
-    width: calc(60.65% - 15px);
+    width: calc(50.65% - 15px);
 }
 
-.vc-monitoring-card {
+.sensitivty-card {
     margin-top: 20px;
-    margin-left: 0px !important;
+    width: calc(49% - 15px);
 }
 
 .small-avatar {
@@ -636,7 +698,7 @@ body.light-mode .video-bg:before {
 }
 
 .vc-settings-toggle-card {
-    width: calc(13.65% - 15px);
+    width: calc(22.65% - 15px);
 }
 
 .bigger-card {
@@ -649,6 +711,7 @@ body.light-mode .video-bg:before {
 
 .settings-card {
     margin-top: 20px;
+    margin-left: 20px;
 }
 
 .content-card:hover {
@@ -682,15 +745,19 @@ body.light-mode .video-bg:before {
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 20px;
 }
-
+#extra-vc-settings{
+    margin-top:20px;
+}
 .content-card-buttons {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     margin-left: auto;
     margin-top: 16px;
+    height: 100%;
+
 }
 
-@media screen and (max-width: 1110px) {
+@media screen and (max-width: 1510px) {
     .content-card {
         width: calc(50% - 20px);
     }
@@ -699,17 +766,26 @@ body.light-mode .video-bg:before {
         margin-top: 20px;
         margin-left: 0px;
     }
+    #hue-box-ssl{
+    margin-left: 20px;
+    width: 100%;
+}
 }
 
-@media screen and (max-width: 565px) {
+@media screen and (max-width: 795px) {
     .content-card {
         width: calc(100% - 20px);
         margin-top: 20px;
     }
-
-    .content-card + .content-card {
-        margin-left: 0;
+    .settings-card {
+    margin-left: 0px !important;
     }
+    .content-card + .content-card {
+        margin-left: 0 !important;
+    }
+    #hue-box-ssl{
+        width: 97%;
+   }
 }
 
 ::-webkit-scrollbar {
