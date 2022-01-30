@@ -10,10 +10,14 @@ import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMi
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
-import com.craftmend.openaudiomc.generic.user.adapters.SpigotUserAdapter;
+import com.craftmend.openaudiomc.generic.node.packets.ClientRunAudioPacket;
+import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.state.interfaces.State;
 import com.craftmend.openaudiomc.generic.state.states.WorkerState;
+import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.generic.user.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
 import lombok.NoArgsConstructor;
 import org.bukkit.ChatColor;
@@ -42,10 +46,19 @@ public class SpigotAudioCommand implements CommandExecutor {
             return true;
 
         State state = OpenAudioMc.getService(StateService.class).getCurrentState();
+
         if (state instanceof WorkerState) {
-            // its on a sub-server without an activated proxy, so completely ignore it
-            commandSender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) +
-                    state.getDescription());
+            // velocity work around
+            if (commandSender instanceof Player && MagicValue.PARENT_PLATFORM.get(Platform.class) == Platform.VELOCITY) {
+                UserHooks hooks = OpenAudioMc.resolveDependency(UserHooks.class);
+                Player sender = (Player) commandSender;
+                User user = hooks.byUuid(sender.getUniqueId());
+                OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(user, new ClientRunAudioPacket(user.getUniqueId()));
+            } else {
+                // its on a sub-server without an activated proxy, so completely ignore it
+                commandSender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) +
+                        state.getDescription());
+            }
             return true;
         }
 

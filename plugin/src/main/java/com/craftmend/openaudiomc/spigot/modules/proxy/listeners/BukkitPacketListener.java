@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.client.session.ClientAuth;
@@ -17,7 +18,12 @@ import com.craftmend.openaudiomc.generic.proxy.messages.ProxyPacketHandler;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.proxy.messages.PacketListener;
 
-public class BungeePacketListener implements PacketListener {
+public class BukkitPacketListener implements PacketListener {
+
+    @ProxyPacketHandler
+    public void onParentUpdate(User user, AnnouncePlatformPacket packet) {
+        MagicValue.overWrite(MagicValue.PARENT_PLATFORM, packet.getPlatform());
+    }
 
     @ProxyPacketHandler
     public void onConnect(User user, ClientConnectedPacket packet) {
