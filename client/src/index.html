@@ -226,7 +226,7 @@
                     <div class="content-section shockwave super-hidden" id="voicechat-onboarding" style="display: none;"
                          hs="{{ oam.hidden_until_started }}">
                         <div class="content-section-title">{% vc.boardingTitle %}</div>
-                        <div class="content-card-collection">
+                        <div class="content-card-collection items-stretch 2xl:mt-0 2xl:mr-0 xl:mt-5 xl:mr-5 lg:mt-5 lg:mr-5 md:mt-5 md:mr-5 sm:mt-5 sm:mr-5">
                             <div class="content-card">
                                <span><svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
                                           stroke="currentColor" fill="none" stroke-linecap="round"
@@ -282,8 +282,8 @@
                 <div class="content-wrapper">
                     <div class="content-section voice-section" style="display: none;" id="voice-settings-container">
                         <div class="content-section-title">{% vc.settings %}</div>
-                        <div class="content-card-collection">
-                            <div class="content-card small-card">
+                        <div class="content-card-collection items-stretch">
+                            <div class="content-card small-card order-2 2xl:order-1">
                                <span>
                                 <img id="visual-speaking-indicator" arc="{{ oam.player_head }}" class="avatar small-avatar"
                                      alt="Avatar">
@@ -301,7 +301,7 @@
                             </div>
 
 
-                            <div class="content-card vc-volume-card">
+                            <div class="content-card vc-volume-card order-1 2xl:order-2">
                                <span>
                                 {% vc.settings.globalVolumeTitle %}
                                </span>
@@ -316,10 +316,13 @@
                                 </div>
                             </div>
 
-                            <div class="content-card vc-settings-toggle-card">
+                            <div class="content-card vc-settings-toggle-card order-3">
                                <span>
                                 {% vc.settings.toggleMenuTitle %}
                                </span>
+                               <div class="content-card-content content-card-content-border-bottom ">
+                                Settings
+                            </div>
                                 <div class="content-card-buttons w-full">
                                     <button class="content-pill status-button green w-full" id="dvc-mic-mute"
                                             onclick="document.getElementById('extra-vc-settings').classList.toggle('super-hidden')">
@@ -333,8 +336,8 @@
 
                     <div class="content-section super-hidden vc-settings-box" id="extra-vc-settings">
                         <div class="content-section-title">Voicechat Settings</div>
-                        <div class="content-card-collection">
-                            <div class="content-card small-card">
+                        <div class="content-card-collection items-stretch">
+                            <div class="content-card small-vc-card">
                                <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                           stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                           stroke-linejoin="round"><path
@@ -353,7 +356,7 @@
                                     id="vc-mic-select">
                             </select>
                             </div>
-                            <div class="content-card small-card">
+                            <div class="content-card small-vc-card">
                                <span>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                      stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
@@ -370,7 +373,37 @@
                                     </button>
                                 </div>
                             </div>
-
+                            <div class="content-card vc-monitoring-card">
+                                <span>
+                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                      stroke-linecap="round" stroke-linejoin="round">  <line x1="4" y1="21" x2="4"
+                                                                                             y2="14"/>  <line x1="4"
+                                                                                                              y1="10"
+                                                                                                              x2="4"
+                                                                                                              y2="3"/>  <line
+                                         x1="12" y1="21" x2="12" y2="12"/>  <line x1="12" y1="8" x2="12" y2="3"/>  <line
+                                         x1="20" y1="21" x2="20"
+                                         y2="16"/>  <line x1="20"
+                                                          y1="12"
+                                                          x2="20"
+                                                          y2="3"/>  <line
+                                         x1="1" y1="14" x2="7" y2="14"/>  <line x1="9" y1="8" x2="15" y2="8"/>  <line
+                                         x1="17" y1="16" x2="23"
+                                         y2="16"/></svg>
+                                 {% vc.settings.monitoring.title %}
+ 
+                                </span>
+                                 <div class="content-card-content content-card-content-border-bottom">
+                                     {% vc.settings.monitoring.about %}
+                                 </div>
+                                 <div class="content-card-buttons">
+                                     <label class="content-pill status-button">
+                                         <input type="checkbox"
+                                                id="enable-input-monitoring">
+                                         <span style="display: inline;">{% vc.settings.monitoring.toggle %}</span>
+                                     </label>
+                                 </div>
+                             </div>
                             <div class="content-card sensitivty-card">
                                <span>
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -393,7 +426,7 @@
                                 <div class="content-card-content content-card-content-border-bottom">
                                     {% vc.aboutSensitivity %}
                                 </div>
-                                <div class="content-card-buttons">
+                                <div class="content-card-buttons w-full">
                                     <label for="mic-sensitive-slider" style="display: none;"></label><input
                                         id="mic-sensitive-slider"
                                         class="volume-slider reversedRange" style="display: inline;"
@@ -407,37 +440,7 @@
                             </div>
 
 
-                            <div class="content-card vc-monitoring-card">
-                               <span>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                     stroke-linecap="round" stroke-linejoin="round">  <line x1="4" y1="21" x2="4"
-                                                                                            y2="14"/>  <line x1="4"
-                                                                                                             y1="10"
-                                                                                                             x2="4"
-                                                                                                             y2="3"/>  <line
-                                        x1="12" y1="21" x2="12" y2="12"/>  <line x1="12" y1="8" x2="12" y2="3"/>  <line
-                                        x1="20" y1="21" x2="20"
-                                        y2="16"/>  <line x1="20"
-                                                         y1="12"
-                                                         x2="20"
-                                                         y2="3"/>  <line
-                                        x1="1" y1="14" x2="7" y2="14"/>  <line x1="9" y1="8" x2="15" y2="8"/>  <line
-                                        x1="17" y1="16" x2="23"
-                                        y2="16"/></svg>
-                                {% vc.settings.monitoring.title %}
 
-                               </span>
-                                <div class="content-card-content content-card-content-border-bottom">
-                                    {% vc.settings.monitoring.about %}
-                                </div>
-                                <div class="content-card-buttons">
-                                    <label class="content-pill status-button">
-                                        <input type="checkbox"
-                                               id="enable-input-monitoring">
-                                        <span style="display: inline;">{% vc.settings.monitoring.toggle %}</span>
-                                    </label>
-                                </div>
-                            </div>
 
                         </div>
                     </div>
@@ -467,8 +470,8 @@
             <div class="content-wrapper">
                 <div class="content-section">
                     <div class="content-section-title">Settings</div>
-                    <div class="content-card-collection" id="settings-content">
-                        <div class="content-card" id="hue-box-ssl">
+                    <div class="content-card-collection items-stretch" id="settings-content">
+                        <div class="content-card mt-5" id="hue-box-ssl">
                                <span><svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
         d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
