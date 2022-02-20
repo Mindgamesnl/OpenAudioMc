@@ -80,6 +80,7 @@ public class OpenAudioMc {
         // very first thing we need to do, is set the environment, since we might want to log extra data
         // on development servers, and disable debugging commands on production.
         String env = System.getenv("OA_ENVIRONMENT");
+        MagicValue.loadArguments();
         if (env != null && !env.equals("")) {
             SERVER_ENVIRONMENT = ServerEnvironment.valueOf(env);
             OpenAudioLogger.toConsole("WARNING! STARTING IN " + env + " MODE!");
