@@ -75,6 +75,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
         // Plugin startup logic
         instance = this;
         MagicValue.overWrite(MagicValue.STORAGE_DIRECTORY, getDataFolder());
+        MagicValue.loadArguments();
 
         // set logger
         OpenAudioLogger.setLogger(new SpigotLogger(this));
