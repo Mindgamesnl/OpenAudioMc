@@ -34,15 +34,12 @@ public enum MagicValue {
         return as.cast(value);
     }
 
-    private Object type() {
-        return value;
-    }
-
     public static void loadArguments() {
         for (MagicValue value : values()) {
-            if (value.type() instanceof Boolean) {
+            if (value.value instanceof Boolean) {
                 String argV = System.getProperty("OA_" + value.name());
                 if (argV != null && argV.length() > 1) {
+                    System.out.println("Overwriting value " + value + " from sys args to " + Boolean.valueOf(argV));
                     overWrite(value, Boolean.valueOf(argV));
                 }
             }
