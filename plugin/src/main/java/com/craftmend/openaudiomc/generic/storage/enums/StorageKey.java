@@ -53,6 +53,11 @@ public enum StorageKey {
     SETTINGS_VC_USE_HOTBAR(false, "options.voicechat-send-messages-in-hotbar", StorageLocation.CONFIG_FILE),
     SETTINGS_VC_AUTOCLAIM(false, "options.voicechat-autoclaim-on-start", StorageLocation.CONFIG_FILE),
 
+    SETTINGS_PAPI_CLIENT_CONNECTED(false, "papi.client-connected", StorageLocation.CONFIG_FILE),
+    SETTINGS_PAPI_CLIENT_DISCONNECTED(false, "papi.client-disconnected", StorageLocation.CONFIG_FILE),
+    SETTINGS_PAPI_VC_CONNECTED(false, "papi.voicechat-connected", StorageLocation.CONFIG_FILE),
+    SETTINGS_PAPI_VC_DISCONNECTED(false, "papi.voicechat-disconnected", StorageLocation.CONFIG_FILE),
+
     DEBUG_LOG_STATE_CHANGES(false, "debug.log-state-changes", StorageLocation.DATA_FILE),
 
     AUTH_HOST(false, "keyset.server-ip", StorageLocation.DATA_FILE),
