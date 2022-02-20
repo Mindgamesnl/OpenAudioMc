@@ -1,5 +1,5 @@
 name: OpenAudioMc
-version: 6.6.2
+version: 6.6.4-RC1
 main: com.craftmend.openaudiomc.bungee.OpenAudioMcBungee
 author: Mindgamesnl
 authors: [Mindgamesnl]

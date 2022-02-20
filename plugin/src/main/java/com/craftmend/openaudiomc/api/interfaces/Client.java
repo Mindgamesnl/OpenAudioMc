@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.api.interfaces;
 
 import com.craftmend.openaudiomc.generic.hue.HueState;
+import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.user.User;
 
 public interface Client {
@@ -21,6 +22,13 @@ public interface Client {
      * @param runnable Handler
      */
     void onConnect(Runnable runnable);
+
+    /**
+     * send media to the client to play
+     *
+     * @param media media to be send
+     */
+    void sendMedia(Media media);
 
     /**
      * Add a on connect handler, which fires when the client gets closed for by player

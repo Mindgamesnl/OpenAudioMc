@@ -13,7 +13,7 @@ import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.proxy.listeners.BungeePacketListener;
+import com.craftmend.openaudiomc.spigot.modules.proxy.listeners.BukkitPacketListener;
 
 import com.craftmend.openaudiomc.generic.proxy.messages.implementations.BukkitPacketManager;
 import lombok.Getter;
@@ -37,7 +37,7 @@ public class ProxyNetworkingService extends NetworkingService {
     @Override
     public void onModuleLoad() {
         packetManager = new BukkitPacketManager(OpenAudioMcSpigot.getInstance(), "openaudiomc:node");
-        packetManager.registerListener(new BungeePacketListener());
+        packetManager.registerListener(new BukkitPacketListener());
 
         // schedule repeating task to clear the throughput
         OpenAudioMc.resolveDependency(TaskService.class).scheduleAsyncRepeatingTask(() -> {
