@@ -13,6 +13,7 @@ public enum MagicValue {
 
     NOTIFY_VOICECHAT_SLOT_DEPLETION(true),
     FORCE_SERVER_NODE(false),
+    FORCE_SERVER_STANDALONE(false),
     LOCATION_TRACK_INTERVAL(2),
     STORAGE_DIRECTORY(new File("./")),
     FORCED_HOOK_INJECTION(null),
@@ -31,6 +32,21 @@ public enum MagicValue {
         // check if we have a temporary value
         if (tempValues.containsKey(this)) return as.cast(tempValues.get(this));
         return as.cast(value);
+    }
+
+    private Object type() {
+        return value;
+    }
+
+    public static void loadArguments() {
+        for (MagicValue value : values()) {
+            if (value.type() instanceof Boolean) {
+                String argV = System.getProperty("OA_" + value.name());
+                if (argV != null && argV.length() > 1) {
+                    overWrite(value, Boolean.valueOf(argV));
+                }
+            }
+        }
     }
 
     public boolean isNull() {

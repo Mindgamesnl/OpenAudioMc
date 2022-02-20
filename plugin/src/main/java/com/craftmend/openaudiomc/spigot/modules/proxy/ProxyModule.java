@@ -33,8 +33,8 @@ public class ProxyModule extends Service {
         }
 
         // is it minehut? then force if
-        if (EnvironmentHelper.contains("minehut")) {
-            OpenAudioLogger.toConsole("Starting in standalone mode due to minehut");
+        if (EnvironmentHelper.contains("minehut") || MagicValue.FORCE_SERVER_STANDALONE.get(Boolean.class)) {
+            OpenAudioLogger.toConsole("Starting in standalone mode due to minehut containers or it being forced");
             mode = OAClientMode.STAND_ALONE;
             return;
         }
