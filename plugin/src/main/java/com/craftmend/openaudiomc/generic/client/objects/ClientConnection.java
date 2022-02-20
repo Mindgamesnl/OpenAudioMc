@@ -110,8 +110,6 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
 
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == OAClientMode.NODE)
             return;
-        if (OpenAudioMc.getInstance().getPlatform() == Platform.STANDALONE)
-            return;
         String connectedMessage = Configuration.getString(StorageKey.MESSAGE_CLIENT_OPENED);
         user.sendMessage(Platform.translateColors(connectedMessage));
     }
@@ -133,8 +131,6 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
 
         // Don't send if i'm spigot and a node
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == OAClientMode.NODE)
-            return;
-        if (OpenAudioMc.getInstance().getPlatform() == Platform.STANDALONE)
             return;
         String message = OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.MESSAGE_CLIENT_CLOSED);
         user.sendMessage(Platform.translateColors(message));
@@ -195,6 +191,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
      *
      * @param media media to be send
      */
+    @Override
     public void sendMedia(Media media) {
         if (media.getKeepTimeout() != -1 && !session.getOngoingMedia().contains(media)) {
             session.getOngoingMedia().add(media);

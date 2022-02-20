@@ -18,6 +18,7 @@ import com.craftmend.openaudiomc.velocity.modules.commands.VelocityCommandModule
 import com.craftmend.openaudiomc.velocity.modules.configuration.VelocityConfiguration;
 import com.craftmend.openaudiomc.velocity.modules.player.listeners.PlayerConnectionListener;
 import com.craftmend.openaudiomc.velocity.modules.scheduling.VelocityTaskService;
+import com.craftmend.openaudiomc.velocity.platform.CommandPacketListener;
 import com.craftmend.openaudiomc.velocity.platform.VelocityUserHooks;
 import com.google.inject.Inject;
 import com.velocitypowered.api.event.Subscribe;
@@ -36,7 +37,7 @@ import java.time.Instant;
 @Plugin(
         id = "openaudiomc",
         name = "OpenAudioMc Bungee Plugin Port for Velocity",
-        version = "6.6.2",
+        version = "6.6.4-RC1",
         authors = {"Mindgamesnl", "fluse1367"},
         description = "The OpenAudioMc plugin. Brings real sound and lights to your minecraft server with the help of a custom web client. Velocity plugin port by fluse1367.",
         url = "https://openaudiomc.net/"
@@ -80,6 +81,8 @@ public class OpenAudioMcVelocity implements OpenAudioInvoker {
             // timing end and calc
             Instant finish = Instant.now();
             OpenAudioLogger.toConsole("Starting and loading took " + Duration.between(boot, finish).toMillis() + "MS");
+
+            this.messageReceiver.registerListener(new CommandPacketListener());
 
             OpenAudioMc.getInstance().postBoot();
         } catch (Exception ex) {

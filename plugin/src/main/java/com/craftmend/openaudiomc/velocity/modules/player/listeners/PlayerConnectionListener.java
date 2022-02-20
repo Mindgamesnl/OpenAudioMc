@@ -2,6 +2,8 @@ package com.craftmend.openaudiomc.velocity.modules.player.listeners;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
+import com.craftmend.openaudiomc.generic.node.packets.AnnouncePlatformPacket;
+import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.proxy.ProxyHostService;
 import com.craftmend.openaudiomc.generic.user.adapters.VelocityUserAdapter;
 import com.craftmend.openaudiomc.velocity.platform.VelocityProxyNode;
@@ -31,6 +33,8 @@ public class PlayerConnectionListener {
         if (event.getPreviousServer().isPresent()) {
             from = new VelocityProxyNode(event.getPreviousServer().get());
         }
+
+        new VelocityProxyNode(event.getServer()).sendPacket(new AnnouncePlatformPacket(Platform.VELOCITY));
 
         OpenAudioMc.getService(ProxyHostService.class).onServerSwitch(
                 new VelocityUserAdapter(event.getPlayer()),

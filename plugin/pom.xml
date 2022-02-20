@@ -6,7 +6,7 @@
 
     <groupId>com.craftmend.openaudiomc</groupId>
     <artifactId>OpenAudioMc</artifactId>
-    <version>6.6.2</version>
+    <version>6.6.4-RC1</version>
     <packaging>jar</packaging>
 
     <name>OpenAudioMc</name>
@@ -276,6 +276,9 @@
                         <classpathDependencyExclude>com.bergerkiller.bukkit:BKCommonLib</classpathDependencyExclude>
                     </classpathDependencyExcludes>
                     <trimStackTrace>false</trimStackTrace>
+                    <additionalClasspathElements>
+                        <additionalClasspathElement>${project.basedir}/target/classes</additionalClasspathElement>
+                    </additionalClasspathElements>
                 </configuration>
             </plugin>
         </plugins>

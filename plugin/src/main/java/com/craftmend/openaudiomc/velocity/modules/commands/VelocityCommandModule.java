@@ -28,6 +28,7 @@ public class VelocityCommandModule {
                         .build(),
                 new VelocityVolumeCommand()
         );
+
         man.register(man.metaBuilder("audio")
                         .aliases("sound", "connect", "muziek", "mcaudio", "mcconnect", "mconnect", "geluid")
                         .build(),

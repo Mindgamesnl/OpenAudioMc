@@ -4,7 +4,7 @@
   <groupId>com.craftmend.openaudiomc</groupId>
   <artifactId>OpenAudioMc</artifactId>
   <name>OpenAudioMc</name>
-  <version>6.6.2</version>
+  <version>6.6.4-RC1</version>
   <description>The OpenAudioMc Java plugin and Api</description>
   <url>https://craftmend.com/</url>
   <build>
@@ -97,6 +97,9 @@
             <classpathDependencyExclude>com.bergerkiller.bukkit:BKCommonLib</classpathDependencyExclude>
           </classpathDependencyExcludes>
           <trimStackTrace>false</trimStackTrace>
+          <additionalClasspathElements>
+            <additionalClasspathElement>${project.basedir}/target/classes</additionalClasspathElement>
+          </additionalClasspathElements>
         </configuration>
       </plugin>
     </plugins>
@@ -117,8 +120,8 @@
                   <goal>exec</goal>
                 </goals>
                 <configuration>
-                  <executable>${project.basedir}/src/main/bash/post-build.sh</executable>
-                  <workingDirectory>${project.basedir}</workingDirectory>
+                  <executable>/Users/mindgamesnl/Documents/workspaces/craftmend/OpenAudioMc/plugin/src/main/bash/post-build.sh</executable>
+                  <workingDirectory>/Users/mindgamesnl/Documents/workspaces/craftmend/OpenAudioMc/plugin</workingDirectory>
                 </configuration>
               </execution>
             </executions>

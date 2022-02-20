@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.proxy;
 
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.utils.data.EnvironmentHelper;
@@ -32,9 +33,15 @@ public class ProxyModule extends Service {
         }
 
         // is it minehut? then force if
-        if (EnvironmentHelper.contains("minehut")) {
-            OpenAudioLogger.toConsole("Starting in standalone mode due to minehut");
+        if (EnvironmentHelper.contains("minehut") || MagicValue.FORCE_SERVER_STANDALONE.get(Boolean.class)) {
+            OpenAudioLogger.toConsole("Starting in standalone mode due to minehut containers or it being forced");
             mode = OAClientMode.STAND_ALONE;
+            return;
+        }
+
+        if (MagicValue.FORCE_SERVER_NODE.get(Boolean.class)) {
+            OpenAudioLogger.toConsole("Forcing node mode from magic value");
+            mode = OAClientMode.NODE;
             return;
         }
 
