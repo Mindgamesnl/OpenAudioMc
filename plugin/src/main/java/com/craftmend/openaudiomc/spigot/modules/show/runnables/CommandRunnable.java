@@ -7,11 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.entity.Entity;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommandRunnable extends ShowRunnable {
+    public class CommandRunnable extends ShowRunnable {
 
     private String command;
     private String worldName;
