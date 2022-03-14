@@ -1,5 +1,9 @@
 lang.name=Dutch
 
+lang.detectedAs=De taal is veranderd naar %langName, wil je dit behouden?
+lang.keep=%langName behouden
+lang.toEn=Veranderen naar Engels
+
 ui.loading=Laden...
 ui.logout=Uitloggen
 
@@ -11,7 +15,7 @@ navbar.premium=patreon
 
 home.activate=Sessie starten
 home.activateText=Klik ergens op deze pagina om je sessie te activeren en de audio te starten.
-home.loginButton=Start OpenAudioMc
+home.activateHeader=Welkom op de audio client
 home.welcome=Welkom, %player!
 home.header=Welkom bij onze audio server! Houd deze pagina open om de muziek en geluidseffecten van onze wereld te beluisteren. Je kan op ieder gewenst moment terug komen om je volume aan te passen.
 home.volumeContext=Hier kan je het volume van alle geluiden aanpassen. Je kan ook <pre>/volume &lt;volume&gt;</pre> gebruiken in onze server om je volume te wijzigen zonder de game te verlaten.
@@ -58,6 +62,21 @@ vc.settings.globalVolumeTitle=Algemeen VoiceChat volume
 vc.settings.globalVolumeAbout=Wijzig het hoofdvolume van alle personen in VoiceChat 
 vc.settings.toggleMenuTitle=VoiceChat-invoerinstellingen
 vc.settings.toggleMenu=Toggle Menu
+vc.settings.monitoring.title=Microfoon Monitoren
+vc.settings.monitoring.about=Monitoring speelt je eigen stem voor je af zoals anderen je horen, handig om je microfoon- en gevoeligheidsinstellingen te testen.
+vc.settings.monitoring.toggle=Monitoren inschakelen
+
+hue.hue=Philips Hue
+hue.link=Klik hier om je Hue Bridge te verbinden
+hue.preparing=Setup voorbereiden...
+hue.loggingIn=Inloggen...
+hue.linking=Druk op de link knop op uw Hue Bridge binnen %sec seconden om verbinding te maken.
+hue.connectedTo=Je bent nu verbonden met je Hue Bridge:
+hue.light1=Licht één
+hue.light2=Licht twee
+hue.light3=Licht drie
+hue.connected=Je kunt nu maximaal drie lampen koppelen die de server zal bedienen. Gewoonlijk van rechts naar links.
+hue.close=Sluiten
 
 notification.setup=<div style="text-align: center;"><b>Welkom!</b> Je kunt pushmeldingen inschakelen om een melding te krijgen wanneer je wordt gebeld of de server je een bericht stuurt. Druk op de onderstaande knop om ze in te stellen.<br/><br/><span id="noti-perm-request-link" class="alert-message-button">Setup</span><br/><br/></div>
 notification.success=Hoera! Je ontvangt nu notificaties
