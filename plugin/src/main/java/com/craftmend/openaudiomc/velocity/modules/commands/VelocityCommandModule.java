@@ -25,12 +25,13 @@ public class VelocityCommandModule {
                 new OpenAudioMcVelocityCommand()
         );
         man.register(man.metaBuilder("vol")
+                        .aliases("volume", "setvol")
                         .build(),
                 new VelocityVolumeCommand()
         );
 
         man.register(man.metaBuilder("audio")
-                        .aliases("sound", "connect", "muziek", "mcaudio", "mcconnect", "mconnect", "geluid")
+                        .aliases("sound", "connect", "media", "muziek", "geluid", "voice", "vc", "voicechat")
                         .build(),
                 new VelocityAudioCommand()
         );

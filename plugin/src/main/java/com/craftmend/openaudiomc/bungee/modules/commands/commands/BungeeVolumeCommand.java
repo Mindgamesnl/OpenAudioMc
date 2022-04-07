@@ -27,7 +27,7 @@ public class BungeeVolumeCommand extends Command {
     };
 
     public BungeeVolumeCommand() {
-        super("vol", null, "vol");
+        super("volume", null, "setvolume", "vol");
     }
 
     /**
