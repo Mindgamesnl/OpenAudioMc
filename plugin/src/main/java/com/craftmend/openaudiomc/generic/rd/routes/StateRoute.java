@@ -9,6 +9,7 @@ import com.craftmend.openaudiomc.generic.rd.http.HttpResponse;
 import com.craftmend.openaudiomc.generic.rd.http.Route;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.state.StateService;
+import com.craftmend.openaudiomc.generic.state.interfaces.StateDetail;
 import fi.iki.elonen.NanoHTTPD;
 import lombok.AllArgsConstructor;
 
@@ -44,6 +45,14 @@ public class StateRoute extends Route {
         }
         r.put("services", services);
         r.put("state", OpenAudioMc.getService(StateService.class).getCurrentState().asString());
+
+        Map<String, String> readableState = new HashMap<>();
+
+        for (StateDetail detail : OpenAudioMc.getService(StateService.class).getDetails()) {
+            readableState.put(detail.title(), detail.value());
+        }
+
+        r.put("readableState", readableState);
 
         // list clients
         List<SerializableClient> clients = new ArrayList<>();
