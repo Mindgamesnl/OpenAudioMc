@@ -2,7 +2,10 @@ package com.craftmend.openaudiomc.bungee.modules.player.listeners;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.modules.platform.BungeeProxyNode;
+import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
+import com.craftmend.openaudiomc.generic.node.packets.AnnouncePlatformPacket;
+import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.proxy.ProxyHostService;
 import com.craftmend.openaudiomc.generic.user.adapters.BungeeUserAdapter;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
@@ -29,6 +32,11 @@ public class PlayerConnectionListener implements Listener {
 
     @EventHandler
     public void onSwitch(ServerSwitchEvent event) {
+        new BungeeProxyNode(event.getPlayer().getServer().getInfo()).sendPacket(new AnnouncePlatformPacket(
+                OpenAudioMc.getService(AuthenticationService.class).getServerKeySet().getPublicKey().getValue(),
+                Platform.BUNGEE
+        ));
+
         OpenAudioMc.getService(ProxyHostService.class).onServerSwitch(
                 new BungeeUserAdapter(event.getPlayer()),
                 null,
