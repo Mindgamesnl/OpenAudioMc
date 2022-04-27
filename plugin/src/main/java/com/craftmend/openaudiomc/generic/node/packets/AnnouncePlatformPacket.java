@@ -16,11 +16,13 @@ import java.io.IOException;
 @AllArgsConstructor
 public class AnnouncePlatformPacket extends StandardPacket {
 
+    private String parentPublicKey;
     private Platform platform;
 
     public void handle(DataInputStream dataInputStream) throws IOException {
         AnnouncePlatformPacket self = OpenAudioMc.getGson().fromJson(dataInputStream.readUTF(), AnnouncePlatformPacket.class);
         this.platform = self.getPlatform();
+        this.parentPublicKey = self.getParentPublicKey();
     }
 
     public PacketWriter write() throws IOException {

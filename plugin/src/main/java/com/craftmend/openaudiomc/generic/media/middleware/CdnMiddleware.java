@@ -12,7 +12,12 @@ public class CdnMiddleware implements ForcedUrlMutation {
     @Override
     public String onRequest(String original) {
         String name = original.replace("local:", "");
-        String publicKey = authenticationService.getServerKeySet().getPublicKey().getValue();
+        String publicKey;
+        if (authenticationService.getExplicitParentPublicKey() != null) {
+            publicKey = authenticationService.getExplicitParentPublicKey().getValue();
+        } else {
+            publicKey = authenticationService.getServerKeySet().getPublicKey().getValue();
+        }
         return "https://media.openaudiomc.net/direct/" + publicKey + "?fileName=" + name;
     }
 

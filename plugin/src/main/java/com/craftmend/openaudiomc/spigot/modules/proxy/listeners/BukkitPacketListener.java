@@ -3,6 +3,8 @@ package com.craftmend.openaudiomc.spigot.modules.proxy.listeners;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.events.TimeServiceUpdateEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
+import com.craftmend.openaudiomc.generic.authentication.objects.Key;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
@@ -22,6 +24,7 @@ public class BukkitPacketListener implements PacketListener {
 
     @ProxyPacketHandler
     public void onParentUpdate(User user, AnnouncePlatformPacket packet) {
+        OpenAudioMc.getService(AuthenticationService.class).setExplicitParentPublicKey(new Key(packet.getParentPublicKey()));
         MagicValue.overWrite(MagicValue.PARENT_PLATFORM, packet.getPlatform());
     }
 

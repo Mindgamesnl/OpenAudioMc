@@ -4,26 +4,23 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.interfaces.IAccountProvider;
 import com.craftmend.openaudiomc.generic.authentication.driver.AuthenticationDriver;
 import com.craftmend.openaudiomc.generic.authentication.driver.CraftmendTokenProvider;
+import com.craftmend.openaudiomc.generic.authentication.objects.Key;
+import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
 import com.craftmend.openaudiomc.generic.authentication.response.HostDetailsResponse;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
-import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.responses.RegistrationResponse;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
-import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.authentication.objects.Key;
-import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
-
-import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
-import java.util.UUID;
 
 @Getter
 public class AuthenticationService extends Service {
@@ -35,6 +32,7 @@ public class AuthenticationService extends Service {
 
     private AuthenticationDriver driver;
     private RestRequest registrationProvider;
+    @Getter @Setter private Key explicitParentPublicKey;
     @Getter private final ServerKeySet serverKeySet = new ServerKeySet();
     @Setter private boolean isSuccessful = false;
     private final String failureMessage = "Oh no, it looks like the initial setup of OpenAudioMc has failed. Please try to restart the server and try again, if that still does not work, please contact OpenAudioMc staff or support.";
@@ -57,6 +55,7 @@ public class AuthenticationService extends Service {
         OpenAudioLogger.toConsole("Starting authentication module");
         host = driver.getHost();
         loadData();
+        explicitParentPublicKey = serverKeySet.getPublicKey();
     }
 
     public void prepareId() {

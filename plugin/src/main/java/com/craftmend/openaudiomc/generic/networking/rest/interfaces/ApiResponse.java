@@ -36,7 +36,13 @@ public class ApiResponse {
 
     public <T extends AbstractRestResponse> T getResponse(Class<T> type) {
         Gson gson = OpenAudioMc.getGson();
-        JsonObject jsonObject = gson.toJsonTree(response).getAsJsonObject();
+        JsonObject jsonObject;
+        try {
+            jsonObject = gson.toJsonTree(response).getAsJsonObject();
+        } catch (Exception e) {
+            System.out.println("output: " + response);
+            throw e;
+        }
         return gson.fromJson(gson.toJson(jsonObject), type);
     }
 }
