@@ -21,7 +21,17 @@ export class AudioSourceProcessor {
 
         // filter old
         try {
-            if (source.includes("media.openaudiomc.net")) return sourceOg
+
+            // translate direct media CDN to always use the current session server, and ignore whatever the server used
+            // it could be wrong due to bungee or perhaps even fraud
+            if (source.includes("media.openaudiomc.net/direct")) {
+                // replace the UUID
+                let uuidRegex = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
+                oalog("Replacing rest direct to use my own server")
+                return source.replace(uuidRegex, window.tokenCache.publicServerKey)
+            }
+
+            if (source.includes("media.openaudiomc.net")) return sourceOg;
             source = source.replace("https://api.openaudiomc.net/stream.php?u=", "");
 
             // work around for the old google docs system, for those who didn't update yet
