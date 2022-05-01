@@ -14,8 +14,8 @@ navbar.free=kostenlos
 navbar.premium=premium
 
 home.activate=Sitzung starten
-home.activateText=Bitte klicke irgendwo auf diese Seite um deine Sitzung zu bestätigen und dich bei OpenAudioMc anzumelden.
-home.loginButton=Starte OpenAudioMc
+home.activateText=Diese Webseite wird verwendet, um deinen Ton und deine Stimme während deines Besuchs abzuspielen. Bitte klicke auf die Schaltfläche unten, um zu beginnen.
+home.activateHeader=Willkommen zu unserem Audio-Client!
 home.welcome=Willkommen, %player!
 home.header=Willkommen zu unserem Audio-Client! Halte diesen Tab im Hintergrund geöffnet um die passenden Musik und Effekte zu erleben. Du kannst während deiner Sitzung jederzeit zurückkehren um deine Lautstärke und Einstellungen anzupassen.
 home.volumeContext=Dieser Regler kontrolliert die Lautstärke deiner Musik und Effekte. Du kannst auch <pre>/volume &lt;Lautstärke&gt;</pre> nutzen, um deine Lautstärke jederzeit vom Spiel aus zu ändern. Du kannst sie auch auf 0 setzen um alle Sounds stummzuschalten.
@@ -25,7 +25,7 @@ home.notificationsEmpty=Du hast zurzeit keine Benachrichtigungen
 
 vc.notice=Hinweis
 vc.startingPopupTitle=Anmeldung in den Sprachchat...
-vc.startingPopup=Bitte warte, bis wir den Sprachserver für dich eingerichtet haben. Dies sollte nicht lange dauern....
+vc.startingPopup=Bitte warte, bis wir den Sprachserver für dich eingerichtet haben. Dies sollte nicht lange dauern...
 vc.reloadingPopupTitle=Das Sprachchat-System wird neu geladen!
 vc.reloadingPopup=Bitte warte, bis der Sprachchat neugestartet wurde um neue Einstellungen festzulegen... Dies sollte nicht lange dauern.
 vc.updatingMicPopupTitle=Das Mikrofon wird aktualisiert!
@@ -62,6 +62,9 @@ vc.settings.globalVolumeTitle=Allgemeine Sprachchat-Lautstärke
 vc.settings.globalVolumeAbout=Ändere die Lautstärke aller Sprachchat-Teilnehmer
 vc.settings.toggleMenuTitle=Sprachchat-Eingabeeinstellungen
 vc.settings.toggleMenu=Menü umschalten
+vc.settings.monitoring.title=Mikrofon-Kontrolle
+vc.settings.monitoring.about=Gib deine eigene Stimme so wieder, wie andere sie hören. Dies ist nützlich, um deine Mikrofon- und Empfindlichkeitseinstellungen zu testen.
+vc.settings.monitoring.toggle=Aktiviere Mikrofon-Kontrolle
 
 hue.hue=Philips Hue
 hue.link=Klicke hier um dich mit deiner Hue-Bridge zu verbinden
@@ -87,7 +90,7 @@ notification.voicechat.peerdop.body=%name hat deine Sprachreichweite verlassen
 
 settings.voicechat.chimes.title=Sprachchat-Läuten
 settings.voicechat.chimes.body=Das Läuten ist ein kleiner Sound, der abgespielt wird, wenn du die Stummschaltung deines Mikrofons de-/aktivierst. Content-Creator möchten dies möglicherweise deaktivieren.
-settings.voicechat.chimes.button=Nutze Sprachchat-Läuten
+settings.voicechat.chimes.button=Aktiviere Sprachchat-Läuten
 settings.theme.title=Dunkelmodus
 settings.theme.body=Nutze den (Standard-)Dunkelmodus des Webclients
 settings.theme.button=Dunkelmodus
@@ -96,7 +99,7 @@ settings.voicechat.peer.body=Erhalte Desktop-Benachrichtigungen, wenn jemand dei
 settings.voicechat.peer.button=Aktiviere Benachrichtigungen
 settings.mix-and-fade.title=Automatische Musikabmischung
 settings.mix-and-fade.body=Automatisches Überblenden und Mischen von Audioquellen.
-settings.mix-and-fade.button=Mischen aktivieren
+settings.mix-and-fade.button=Aktiviere das Mischen
 settings.preload.title=Automatisches Vorladen von Audiodateien
 settings.preload.body=Wenn diese Option aktiviert ist, lädt OpenAudioMc automatisch Dateien vor, die in der Umgebung deines Spielstandorts häufig verwendet werden. Dies macht Audio reaktionsschneller, verbraucht aber mehr Daten.
 settings.preload.button=Aktiviere Vorladen
@@ -108,7 +111,7 @@ settings.spatial.legacy=Legacy (altes System)
 
 settings.interpolation.title=Standortglättung
 settings.interpolation.body=Bewegungen werden automatisch geglättet um das Stottern des Sprechers/Voicechats beim Gehen zu minimieren. Dies führt zu einer zusätzlichen Bewegungsverzögerung, klingt aber besser.
-settings.interpolation.button=Glättung einschalten
+settings.interpolation.button=Aktiviere Standortglättung
 
 settings.streamermode.title=Streamer-Modus
 settings.streamermode.body=Deaktiviere deinen Sitzungs-Token automatisch nach einmaliger Verwendung. Dies bedeutet, dass deine Client-URLs sicher im Stream gezeigt werden können, ohne dass du befürchten musst, dass sich ein Zuschauer für dich ausgeben kann. Stelle einfach sicher, dass du den Link öffnest, sobald du ihn erhältst.
