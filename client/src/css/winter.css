@@ -55,7 +55,6 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding: 2em;
     width: 100%;
     height: 100vh;
 }
@@ -137,14 +136,13 @@ body.light-mode .video-bg:before {
 
 .app {
     background-color: var(--theme-bg-color);
-    max-width: 90%;
-    max-height: 90%;
-    height: 90vh;
+    max-width: 100%;
+    max-height: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     width: 100%;
-    border-radius: 14px;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     font-size: 15px;
@@ -315,6 +313,9 @@ body.light-mode .video-bg:before {
     border-bottom: 1px solid var(--border-color);
     height: 58px;
     flex-shrink: 0;
+    background: rgb(2,0,36);
+    background: linear-gradient(
+            348deg, rgba(2,0,36,1) 0%, var(--primary-accent) 102%);
 }
 
 .main-header .header-menu {
@@ -389,7 +390,7 @@ body.light-mode .video-bg:before {
 }
 
 .content-wrapper-header {
-    background-image: url("../assets/cubes.png"), linear-gradient(to right top, var(--primary-accent), var(--theme-bg-color));
+    background-image: url(../assets/cubes.png), linear-gradient(to right top, var(--primary-accent), var(--theme-bg-color) 40%);
 }
 
 .voicechat-header {
@@ -514,6 +515,7 @@ body.light-mode .video-bg:before {
 .content-section-title {
     color: var(--content-title-color);
     margin-bottom: 14px;
+    padding-top: 30px;
 }
 
 .content-section ul {
@@ -848,7 +850,7 @@ input[type='range'] {
 .tab-content {
     display: none;
     background-color: var(--theme-bg-color);
-    height: 93%;
+    height: 95%;
 }
 
 .tabbed [type="radio"] {
@@ -1148,4 +1150,16 @@ footer {
     border-radius: 14px;
     height: 100%;
     width: 100%;
+}
+
+.themed-text {
+    color: var(--primary-accent)
+}
+
+.login-image {
+    background-image: var(--background-image);
+    width: 100%;
+    height: 270%;
+    display: table;
+    background-position: center;
 }
