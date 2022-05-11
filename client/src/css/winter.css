@@ -315,7 +315,7 @@ body.light-mode .video-bg:before {
     flex-shrink: 0;
     background: rgb(2,0,36);
     background: linear-gradient(
-            348deg, rgba(2,0,36,1) 0%, var(--primary-accent) 102%);
+            348deg, rgba(2,0,36,1) 0%, var(--primary-accent) 150%)
 }
 
 .main-header .header-menu {
