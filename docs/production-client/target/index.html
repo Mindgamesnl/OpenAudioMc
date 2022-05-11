@@ -23,9 +23,9 @@
     <meta name="twitter:card" content="summary">
 
     <!-- Includes -->
-    <link rel="stylesheet" href="css/winter.css?Enable=1055"/>
+    <link rel="stylesheet" href="css/winter.css?Enable=1093"/>
     <script src="libs/sweetalert2.all.js"></script>
-    <link rel="stylesheet" href="css/reactive-sweetalert.css?Enable=1055"/>
+    <link rel="stylesheet" href="css/reactive-sweetalert.css?Enable=1093"/>
     <link rel="stylesheet" href="css/tailwind.min.css"/>
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
             data-cf-beacon='{"token": "44aa80ee6e6d48c8b54452fee61f2541"}'></script>
@@ -83,7 +83,7 @@
                         <p style="display: none;" hs="{{ oam.loading_tagline_style }}"
                            class="text-sm text-gray-300 leading-none mt-1">
                             {{ oam.loading_tagline_text }}</p> <small class="text-gray-500" style="display: inline;">Build
-                        1055</small>
+                        1093</small>
                     </div>
                 </div>
             </div>
@@ -174,7 +174,8 @@
             </div>
             <div class="tab-content">
                 <div class="content-wrapper">
-                    <div class="content-wrapper-box content-wrapper-header" style="display: none;" hs="{{ oam.hidden_until_started }}">
+                    <div class="content-wrapper-box content-wrapper-header" style="display: none;"
+                         hs="{{ oam.hidden_until_started }}">
                         <div class="content-wrapper-context">
                             <h3 class="img-content">
                                 {% home.welcome %}
@@ -189,21 +190,39 @@
                     <div class="content-wrapper-box landing-thing"
                          hs="{{ oam.click_request_style }}">
 
-                        <div class="flex flex-wrap w-full">
-                            <div class="w-full sm:w-12/12 lg:w-8/12 mb-10">
-                                <div class="container mx-auto h-full sm:p-10">
-                                    <header class="container px-4 lg:flex mt-10 items-center h-full lg:mt-0">
-                                        <div class="w-full">
-                                            <h1 class="text-4xl lg:text-6xl font-bold">{% home.welcome %}</h1>
-                                            <div class="w-20 h-2 my-4"></div>
-                                            <p class="text-xl mb-10">{% home.activateText %}</p>
-                                            <button class="bg-green-500 text-white text-2xl font-medium px-4 py-2 rounded shadow">{% home.activate %}</button>
+                        <section class="mb-32 text-gray-800 text-center lg:text-left w-full">
+                            <style>
+                                @media (min-width: 992px) {
+                                    .rotate-lg-6 {
+                                        transform: rotate(6deg);
+                                    }
+                                }
+
+                                /* These are the KEY styles - you can add them directly to any object you want in your project */
+                                .fancy-border-radius {
+                                    border-radius: 53% 47% 52% 48% / 36% 41% 59% 64%;
+                                }
+                            </style>
+
+                            <!-- Jumbotron -->
+                            <div class="container mx-auto xl:px-32 text-center lg:text-left">
+                                <div class="grid lg:grid-cols-2 flex items-center">
+                                    <div class="mb-12 lg:mb-0 md:mt-10">
+                                        <div class="relative block rounded-lg shadow-lg px-6 py-12 md:px-12 lg:-mr-14 themed-text" style="background: var(--theme-bg-color); backdrop-filter: blur(30px); z-index: 1">
+                                            <h2 class="text-5xl font-bold mb-4 display-5 themed-text">{% home.activateHeader %}</h2>
+                                            <p class="text-gray-200 mb-6 mt-6">
+                                                <raw>{% home.activateText %}</raw>
+                                            </p>
                                         </div>
-                                    </header>
+                                    </div>
+
+
+                                    <div class="shadow-lg fancy-border-radius rotate-lg-6 lg:visible invisible w-full login-image"></div>
+
                                 </div>
                             </div>
-                            <img src="assets/logo.png" class="h-full lg:w-4/12">
-                        </div>
+                            <!-- Jumbotron -->
+                        </section>
 
 
                     </div>
@@ -285,7 +304,8 @@
                         <div class="content-card-collection items-stretch">
                             <div class="content-card small-card order-2 2xl:order-1">
                                <span>
-                                <img id="visual-speaking-indicator" arc="{{ oam.player_head }}" class="avatar small-avatar"
+                                <img id="visual-speaking-indicator" arc="{{ oam.player_head }}"
+                                     class="avatar small-avatar"
                                      alt="Avatar">
                                 {% vc.statusTitle %}
                                </span>
@@ -320,9 +340,9 @@
                                <span>
                                 {% vc.settings.toggleMenuTitle %}
                                </span>
-                               <div class="content-card-content content-card-content-border-bottom ">
-                                Settings
-                            </div>
+                                <div class="content-card-content content-card-content-border-bottom ">
+                                    Settings
+                                </div>
                                 <div class="content-card-buttons w-full">
                                     <button class="content-pill status-button green w-full" id="dvc-mic-mute"
                                             onclick="document.getElementById('extra-vc-settings').classList.toggle('super-hidden')">
@@ -393,17 +413,17 @@
                                  {% vc.settings.monitoring.title %}
  
                                 </span>
-                                 <div class="content-card-content content-card-content-border-bottom">
-                                     {% vc.settings.monitoring.about %}
-                                 </div>
-                                 <div class="content-card-buttons">
-                                     <label class="content-pill status-button">
-                                         <input type="checkbox"
-                                                id="enable-input-monitoring">
-                                         <span style="display: inline;">{% vc.settings.monitoring.toggle %}</span>
-                                     </label>
-                                 </div>
-                             </div>
+                                <div class="content-card-content content-card-content-border-bottom">
+                                    {% vc.settings.monitoring.about %}
+                                </div>
+                                <div class="content-card-buttons">
+                                    <label class="content-pill status-button">
+                                        <input type="checkbox"
+                                               id="enable-input-monitoring">
+                                        <span style="display: inline;">{% vc.settings.monitoring.toggle %}</span>
+                                    </label>
+                                </div>
+                            </div>
                             <div class="content-card sensitivty-card">
                                <span>
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -440,8 +460,6 @@
                             </div>
 
 
-
-
                         </div>
                     </div>
 
@@ -466,12 +484,12 @@
                 </div>
             </div>
 
-        <div class="tab-content">
-            <div class="content-wrapper">
-                <div class="content-section">
-                    <div class="content-section-title">Settings</div>
-                    <div class="content-card-collection items-stretch" id="settings-content">
-                        <div class="content-card mt-5" id="hue-box-ssl">
+            <div class="tab-content">
+                <div class="content-wrapper">
+                    <div class="content-section">
+                        <div class="content-section-title">Settings</div>
+                        <div class="content-card-collection items-stretch" id="settings-content">
+                            <div class="content-card mt-5" id="hue-box-ssl">
                                <span><svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
         d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
@@ -479,76 +497,76 @@
 
                                 Philips Hue Support
                                </span>
-                            <div class="content-card-content">
-                                <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                    <div class="mt-2">
-                                        <div id="hue-settings-menu"
-                                             style="display: none;">
-                                            <p style="display: inline">
-                                                <placeholder>{% hue.connectedTo %}</placeholder>
-                                                <span style="display: inline">{{ oam.hue_bridge_name }}</span>.
-                                            </p>
-                                            <div class="graytext"
-                                                 style="display: block; text-align: -webkit-center;">
-                                                <div class="bulbs">
-                                                    <div class="bulb">
-                                                        <h3>{% hue.light1 %}</h3>
-                                                        <div class="light-dropdown">
-                                                            <select class="soft-tex content-pill" data-bulb="1"
-                                                                    id='bulb-selection-1'>
-                                                            </select>
+                                <div class="content-card-content">
+                                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                        <div class="mt-2">
+                                            <div id="hue-settings-menu"
+                                                 style="display: none;">
+                                                <p style="display: inline">
+                                                    <placeholder>{% hue.connectedTo %}</placeholder>
+                                                    <span style="display: inline">{{ oam.hue_bridge_name }}</span>.
+                                                </p>
+                                                <div class="graytext"
+                                                     style="display: block; text-align: -webkit-center;">
+                                                    <div class="bulbs">
+                                                        <div class="bulb">
+                                                            <h3>{% hue.light1 %}</h3>
+                                                            <div class="light-dropdown">
+                                                                <select class="soft-tex content-pill" data-bulb="1"
+                                                                        id='bulb-selection-1'>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="bulb">
+                                                            <h3>{% hue.light2 %}</h3>
+                                                            <div class="light-dropdown">
+                                                                <select class="soft-tex content-pill" data-bulb="2"
+                                                                        id='bulb-selection-2'>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="bulb">
+                                                            <h3>{% hue.light3 %}</h3>
+                                                            <div class="light-dropdown">
+                                                                <select class="soft-tex content-pill" data-bulb="3"
+                                                                        id='bulb-selection-3'>
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="bulb">
-                                                        <h3>{% hue.light2 %}</h3>
-                                                        <div class="light-dropdown">
-                                                            <select class="soft-tex content-pill" data-bulb="2"
-                                                                    id='bulb-selection-2'>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="bulb">
-                                                        <h3>{% hue.light3 %}</h3>
-                                                        <div class="light-dropdown">
-                                                            <select class="soft-tex content-pill" data-bulb="3"
-                                                                    id='bulb-selection-3'>
-                                                            </select>
-                                                        </div>
-                                                    </div>
+                                                    <p>{% hue.connected %}</p>
                                                 </div>
-                                                <p>{% hue.connected %}</p>
                                             </div>
-                                        </div>
 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="content-card-buttons">
+                                    <div id="hue-link-menu">
+                                        <span class="content-pill green"
+                                              id="hue-start-linking-button">{% hue.link %}</span>
+                                    </div>
+                                    <div id="hue-linking-menu"
+                                         style="display: none;">
+                                        <p class="small-text">{{ hue.linkingUpdate }}</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="content-card-buttons">
-                                <div id="hue-link-menu">
-                                        <span class="content-pill green"
-                                              id="hue-start-linking-button">{% hue.link %}</span>
-                                </div>
-                                <div id="hue-linking-menu"
-                                     style="display: none;">
-                                    <p class="small-text">{{ hue.linkingUpdate }}</p>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- settings will be rendered here -->
+                            <!-- settings will be rendered here -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<footer id="footer">
-    <img id="sc-cover" style="display: none;" class="sc-cover"
-         src="https://i1.sndcdn.com/artworks-NWsyJg2rpTy2imze-4ttQKA-t500x500.jpg"/>
-    <p id="sc-title" style="display: none;" class="sc-title">{{ oam.soundcloud_title }}</p>
-</footer>
-<div class="overlay-app">
-</div>
+    <footer id="footer">
+        <img id="sc-cover" style="display: none;" class="sc-cover"
+             src="https://i1.sndcdn.com/artworks-NWsyJg2rpTy2imze-4ttQKA-t500x500.jpg"/>
+        <p id="sc-title" style="display: none;" class="sc-title">{{ oam.soundcloud_title }}</p>
+    </footer>
+    <div class="overlay-app">
+    </div>
 </div>
 <div class="bg-gray-100 flex flex-col justify-center" style="display:none;" id="lang-change-banner">
     <div class="max-w-screen-lg mx-auto fixed bg-white inset-x-5 p-5 bottom-5 rounded-lg drop-shadow-2xl flex gap-4 flex-wrap md:flex-nowrap text-center md:text-left items-center justify-center md:justify-between">
@@ -564,6 +582,6 @@
     </div>
 </div>
 
-<script src="OpenAudioMc.bundle.js?version=1055"></script>
+<script src="OpenAudioMc.bundle.js?version=1093"></script>
 </body>
 </html>
