@@ -22,6 +22,11 @@ export class AudioSourceProcessor {
         // filter old
         try {
 
+            if (source.startsWith("local:")) {
+                // it's somehow local and unprocessed, could be because its a playlist
+                source = "https://media.openaudiomc.net/direct/" + window.tokenCache.publicServerKey + "?fileName=" + source.replace("local:", "");
+            }
+
             // translate direct media CDN to always use the current session server, and ignore whatever the server used
             // it could be wrong due to bungee or perhaps even fraud
             if (source.includes("media.openaudiomc.net/direct")) {
