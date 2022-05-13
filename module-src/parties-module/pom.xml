@@ -145,11 +145,5 @@
             <version>1.17.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-
-        <dependency>
-            <groupId>com.craftmend.openaudiomc</groupId>
-            <artifactId>OpenAudioMc-jutils</artifactId>
-            <version>1.0</version>
-        </dependency>
     </dependencies>
 </project>
