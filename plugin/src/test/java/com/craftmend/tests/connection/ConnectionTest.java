@@ -138,9 +138,11 @@ public class ConnectionTest implements OpenAudioInvoker {
             Assert.assertEquals("UUID's match", mojangProfile.getUuid(), TestUserHooks.fakeUsers.get(mojangProfile.getUuid()).getUniqueId());
         }
 
+        Waiter.waitSeconds(5);
+
         testLog("Counting data to make sure that migrations didn't trigger twice");
         Assert.assertEquals(
-                1840,
+                920,
                 secondInstance.getServiceManager().getService(DatabaseService.class).getRepository(Speaker.class)
                         .values().size()
         );
@@ -152,7 +154,7 @@ public class ConnectionTest implements OpenAudioInvoker {
         );
 
         Assert.assertEquals(
-                138,
+                69,
                 secondInstance.getServiceManager().getService(DatabaseService.class).getRepository(Alias.class)
                         .values().size()
         );
