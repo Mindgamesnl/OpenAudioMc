@@ -8,9 +8,16 @@ import com.craftmend.openaudiomc.api.enums.ModuleEvent;
 import com.craftmend.openaudiomc.api.interfaces.ExternalModule;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.database.internal.Repository;
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import lombok.SneakyThrows;
 
+import java.io.File;
 import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,6 +67,7 @@ public final class OaMapmigrator extends ExternalModule {
 
     }
 
+    @SneakyThrows
     private void migrateAll() {
         models.forEach((old, modern) -> {
             log("Migrating " + old.getSimpleName());
@@ -79,6 +87,12 @@ public final class OaMapmigrator extends ExternalModule {
             }
         });
         mapDBService.shutdown();
+        File backups = new File(MagicValue.STORAGE_DIRECTORY.get(File.class), "/backups");
+        backups.mkdirs();
+        Path copied = new File(backups, "database.db").toPath();
+        Path originalPath = Paths.get(new File(MagicValue.STORAGE_DIRECTORY.get(File.class), "database.db").getPath());
+        Files.copy(originalPath, copied, StandardCopyOption.REPLACE_EXISTING);
+        new File(MagicValue.STORAGE_DIRECTORY.get(File.class), "database.db").delete();
     }
 
     private void log(String s) {
