@@ -4,7 +4,9 @@ import com.craftmend.openaudiomc.generic.client.enums.DataStoreVersion;
 import com.craftmend.openaudiomc.generic.database.internal.DataStore;
 import com.craftmend.storm.api.markers.Column;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.Instant;
 import java.util.HashSet;
@@ -12,7 +14,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class ClientDataStore extends DataStore {
 
