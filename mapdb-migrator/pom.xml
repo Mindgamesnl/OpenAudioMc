@@ -18,7 +18,7 @@
     </properties>
 
     <build>
-        <finalName>map-to-storm</finalName>
+        <finalName>migrate.map-to-storm</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
