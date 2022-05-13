@@ -4,12 +4,17 @@ import com.craftmend.openaudiomc.api.enums.ModuleEvent;
 import com.craftmend.openaudiomc.api.interfaces.ExternalModule;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.service.Service;
+import lombok.SneakyThrows;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -20,16 +25,24 @@ public class ModuleLoaderService extends Service {
 
     private List<ExternalModule> modules = new ArrayList<>();
 
+    @SneakyThrows
     public ModuleLoaderService() {
         File modulesDir = new File(MagicValue.STORAGE_DIRECTORY.get(File.class), "/modules");
+        modulesDir.mkdirs();
+
+        // download default modules
+        if (!new File(modulesDir, "migrate.map-to-storm.jar").exists()) {
+            log("Downloading default migration module");
+            InputStream in = new URL("https://github.com/Mindgamesnl/OpenAudioMc/raw/master/modules/migrate.map-to-storm.jar").openStream();
+            Files.copy(in, Paths.get(new File(modulesDir, "migrate.map-to-storm.jar").getPath()), StandardCopyOption.REPLACE_EXISTING);
+        }
+
+
         if (modulesDir.isDirectory()) {
             log("Loading modules from " + modulesDir.getAbsolutePath());
             for (File file : modulesDir.listFiles()) {
-
                 // skip files that are intended for migrations
                 if (file.getName().contains("migrate.")) continue;
-
-
                 loadModFromFile(file);
             }
         }

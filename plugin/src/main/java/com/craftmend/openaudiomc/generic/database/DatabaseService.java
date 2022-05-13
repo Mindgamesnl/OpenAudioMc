@@ -57,7 +57,6 @@ public class DatabaseService extends Service implements StormLogger {
     public void shutdown() {
         OpenAudioLogger.toConsole("Closing database");
         databaseMap.clear();
-
     }
 
     public <T extends DataStore> Repository<T> getRepository(Class<T> dataClass) {

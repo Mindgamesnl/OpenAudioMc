@@ -12,7 +12,7 @@
         <directory>src/main/resources</directory>
       </resource>
     </resources>
-    <finalName>map-to-storm</finalName>
+    <finalName>migrate.map-to-storm</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
