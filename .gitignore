@@ -15,3 +15,5 @@ out
 out/*
 
 .vscode/*
+
+test-server/
