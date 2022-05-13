@@ -55,8 +55,6 @@ public class SpeakerService extends Service {
 
         initializeVersion();
 
-        OpenAudioLogger.toConsole("There are " + OpenAudioMc.getService(DatabaseService.class).getRepository(Speaker.class).size() + " speakers in the new database");
-
         // load all apeakers
         for (Speaker speaker : databaseService.getRepository(Speaker.class).values()) {
             registerSpeaker(speaker);
@@ -103,7 +101,7 @@ public class SpeakerService extends Service {
 
     public Speaker registerSpeaker(Speaker speaker) {
         if (speaker.getLocation() == null) {
-            OpenAudioLogger.toConsole("WARNING! Registering speaker with nil location " + speaker.getId());
+            OpenAudioLogger.toConsole("WARNING! Registering speaker with nil location " + speaker.getSpeakerId());
         }
         speakerMap.put(speaker.getLocation(), speaker);
         return speaker;

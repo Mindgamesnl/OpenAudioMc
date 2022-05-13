@@ -55,7 +55,7 @@ public class RegionDatabaseMigration extends SimpleMigration {
 
             RegionProperties properties = new RegionProperties(source, volume, fadeTimeMs, isVcEnabled, id);
             service.getRepository(RegionProperties.class)
-                    .save(id, properties);
+                    .save(properties);
 
             config.setString(StorageLocation.DATA_FILE, "regions." + id, null);
             config.setString(StorageLocation.DATA_FILE, "regionmeta." + id, null);

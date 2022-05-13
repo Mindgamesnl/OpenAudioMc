@@ -1,7 +1,7 @@
-package com.craftmend.openaudiomc.generic.database.internal;
+package com.craftmend.oamapmigrator.database.internal;
 
+import com.craftmend.oamapmigrator.database.MapDBService;
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.proxy.messages.PacketWriter;
 import com.craftmend.openaudiomc.generic.proxy.messages.StandardPacket;
@@ -35,9 +35,9 @@ public class NetworkedRepositoryCommit extends StandardPacket {
     }
 
     public void commit() {
-        DatabaseService dbs = OpenAudioMc.getService(DatabaseService.class);
+        MapDBService dbs = OpenAudioMc.getService(MapDBService.class);
         try {
-            Class<? extends DataStore> dataStore = (Class<? extends DataStore>) Class.forName(repositoryTypeClass);
+            Class<? extends LegacyStore> dataStore = (Class<? extends LegacyStore>) Class.forName(repositoryTypeClass);
             dbs.getRepository(dataStore).saveString(key, dataString);
         } catch (ClassNotFoundException e) {
             OpenAudioLogger.toConsole("Couldn't commit " + repositoryTypeClass + " because the class type is unknown");

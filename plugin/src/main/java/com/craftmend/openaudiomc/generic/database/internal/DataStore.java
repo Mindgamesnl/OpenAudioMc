@@ -1,5 +1,7 @@
 package com.craftmend.openaudiomc.generic.database.internal;
 
-public abstract class DataStore {
+import com.craftmend.storm.api.StormModel;
+
+public abstract class DataStore extends StormModel {
 
 }

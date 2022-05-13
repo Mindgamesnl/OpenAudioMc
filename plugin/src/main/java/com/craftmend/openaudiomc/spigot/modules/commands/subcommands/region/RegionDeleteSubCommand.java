@@ -26,7 +26,7 @@ public class RegionDeleteSubCommand extends SubCommand {
         RegionProperties rp = openAudioMcSpigot.getRegionModule().getRegionPropertiesMap().get(targetRegion);
         if (rp != null) {
             OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class)
-                    .delete(targetRegion);
+                    .delete(rp);
 
             if (rp instanceof TimedRegionProperties) {
                 ((TimedRegionProperties) rp).destroy();

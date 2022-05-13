@@ -112,7 +112,7 @@ public class SpeakerHandler implements ITickableHandler {
     }
 
     private ClientSpeaker toClientSpeaker(ApplicableSpeaker speaker, int obstructions) {
-        String id = speaker.getSpeaker().getId().toString();
+        String id = speaker.getSpeaker().getSpeakerId().toString();
 
         return new ClientSpeaker(
                 speaker.getLocation(),

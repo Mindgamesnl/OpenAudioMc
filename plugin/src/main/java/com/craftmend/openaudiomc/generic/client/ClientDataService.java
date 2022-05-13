@@ -26,14 +26,15 @@ public class ClientDataService extends Service {
     public Task<ClientDataStore> getClientData(UUID owner, boolean store, boolean createEmpty) {
         Task<ClientDataStore> task = new Task<>();
         taskService.runAsync(() -> {
-            ClientDataStore cds = db.getRepository(ClientDataStore.class).get(owner.toString());
+            ClientDataStore cds = db.getRepository(ClientDataStore.class).getWhere("owner", owner);
             if (cds == null && !createEmpty) {
                 task.fail(ErrorCode.NOT_FOUND);
                 return;
             } else if (cds == null) {
                 cds = new ClientDataStore();
+                cds.setOwner(owner);
                 if (store == true) {
-                    db.getRepository(ClientDataStore.class).save(owner.toString(), cds);
+                    db.getRepository(ClientDataStore.class).save(cds);
                 }
             }
             if (store) {
@@ -49,6 +50,8 @@ public class ClientDataService extends Service {
     }
 
     public void save(ClientDataStore data, UUID id) {
-        db.getRepository(ClientDataStore.class).save(id.toString(), data);
+        if (data == null || id == null) return;
+        data.setOwner(id);
+        db.getRepository(ClientDataStore.class).save(data);
     }
 }

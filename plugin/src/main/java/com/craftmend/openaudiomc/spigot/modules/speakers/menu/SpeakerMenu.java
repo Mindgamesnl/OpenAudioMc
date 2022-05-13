@@ -72,7 +72,7 @@ public class SpeakerMenu extends Menu {
 
                     OpenAudioMc.getService(DatabaseService.class)
                             .getRepository(Speaker.class)
-                            .save(speaker.getId().toString(), speaker);
+                            .save(speaker);
                     new SpeakerMenu(speaker).openFor(clicker);
                 });
 
@@ -123,7 +123,7 @@ public class SpeakerMenu extends Menu {
 
             OpenAudioMc.getService(DatabaseService.class)
                     .getRepository(Speaker.class)
-                    .save(speaker.getId().toString(), speaker);
+                    .save(speaker);
 
             for (Entity entity : entities) {
                 // skip non-players
@@ -133,7 +133,7 @@ public class SpeakerMenu extends Menu {
                 SpigotConnection spigotConnection = OpenAudioMc.getService(SpigotPlayerService.class).getClient(nearbyPlayer);
 
                 spigotConnection.getSpeakerHandler().forceDeleteSpeaker(
-                        speaker.getId().toString(),
+                        speaker.getSpeakerId().toString(),
                         mode,
                         speaker.getMedia().getSource()
                 );
@@ -162,7 +162,7 @@ public class SpeakerMenu extends Menu {
                     speaker.setRadius(distance);
                     OpenAudioMc.getService(DatabaseService.class)
                             .getRepository(Speaker.class)
-                            .save(speaker.getId().toString(), speaker);
+                            .save(speaker);
                     player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Updated speaker radius to " + distance);
                     new SpeakerMenu(speaker).openFor(player);
                 });

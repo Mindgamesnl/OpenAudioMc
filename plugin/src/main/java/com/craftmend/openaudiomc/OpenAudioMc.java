@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc;
 
+import com.craftmend.openaudiomc.api.enums.ModuleEvent;
 import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.client.ClientDataService;
@@ -13,6 +14,7 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import com.craftmend.openaudiomc.generic.migrations.MigrationWorker;
+import com.craftmend.openaudiomc.generic.modules.ModuleLoaderService;
 import com.craftmend.openaudiomc.generic.mojang.MojangLookupService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.rest.ServerEnvironment;
@@ -40,7 +42,7 @@ public class OpenAudioMc {
 
     /**
      * Alright, so.
-     * The main class is pretty empty, it doesn't do too much actually.
+     * The main class is pretty empty, it doesn't do too much, actually.
      * OpenAudioMc is divided into "services", with additional classes being loaded depending
      * on the runtime environment and available libraries (like spigot, bungee, velocity, worldguard, etc etc)
      *
@@ -121,6 +123,7 @@ public class OpenAudioMc {
 
         // load core services in order
         serviceManager.loadServices(
+                ModuleLoaderService.class,      // download, save and use external jar modules
                 DatabaseService.class,          // player and profile storage
                 EnvironmentService.class,       // env loader
                 MojangLookupService.class,      // handles caching of uuid's > names
@@ -137,10 +140,13 @@ public class OpenAudioMc {
                 RestDirectService.class,        // manage rest direct
                 ClientDataService.class         // manage player profiles
         );
+
+        getService(ModuleLoaderService.class).fire(ModuleEvent.SERVICES_LOADED);
     }
 
     public void postBoot() {
         getService(CraftmendService.class).postBoot();
+        getService(ModuleLoaderService.class).fire(ModuleEvent.PLATFORM_LOADED);
     }
 
     // simple shutdown logic
@@ -148,7 +154,7 @@ public class OpenAudioMc {
         isDisabled = true;
         configuration.saveAll();
 
-        serviceManager.getService(DatabaseService.class).shutdown();
+        serviceManager.getService(ModuleLoaderService.class).fire(ModuleEvent.SHUTDOWN);
 
         try {
             serviceManager.getService(CraftmendService.class).shutdown();
