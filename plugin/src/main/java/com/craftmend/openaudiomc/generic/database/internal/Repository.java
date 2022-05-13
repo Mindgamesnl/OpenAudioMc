@@ -1,77 +1,55 @@
 package com.craftmend.openaudiomc.generic.database.internal;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
-import com.google.gson.reflect.TypeToken;
-import org.mapdb.DB;
-import org.mapdb.Serializer;
+import com.craftmend.storm.Storm;
+import com.craftmend.storm.api.StormModel;
+import com.craftmend.storm.api.enums.Where;
+import lombok.SneakyThrows;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.concurrent.ConcurrentMap;
 
-public class Repository<T> {
+public class Repository<T extends DataStore> {
 
-    private DatabaseService databaseService;
-    private ConcurrentMap<String, String> dataMap;
+    private Storm storm;
     private Class<? extends DataStore> type;
 
-    public void onCreate(DatabaseService databaseService, DB database, Class<? extends DataStore> dataClass) {
-        this.databaseService = databaseService;
+    @SneakyThrows
+    public void onCreate(DatabaseService databaseService, Storm storm, Class<? extends DataStore> dataClass) {
+        this.storm = storm;
         this.type = dataClass;
-        this.dataMap = database
-                .hashMap(dataClass.getSimpleName(), Serializer.STRING, Serializer.STRING)
-                .createOrOpen();
+        storm.registerModel(dataClass.getConstructor().newInstance());
+        storm.runMigrations();
     }
 
-    private T deserialize(String input) {
-        return OpenAudioMc.getGson().fromJson(input, TypeToken.get(this.type).getType());
-    }
-
+    @SneakyThrows
     public Collection<T> values() {
-        List<T> values = new ArrayList<>();
-        for (String value : dataMap.values()) {
-            values.add(deserialize(value));
-        }
-        return values;
+        return (Collection<T>) storm.buildQuery(type).execute().join();
     }
 
-    public int size() {
-        return dataMap.size();
-    }
-
-    public T get(String key) {
+    public T getWhere(String row, Object value) {
         try {
-            String data = this.dataMap.get(key);
-            if (data == null) return null;
-            return deserialize(data);
+            return (T) storm.buildQuery(type).where(row, Where.EQUAL, value).execute().join().stream().findFirst().orElse(null);
         } catch (Exception e) {
             return null;
         }
     }
 
-    public void save(String key, T data) {
-        dataMap.put(key, OpenAudioMc.getGson().toJson(data));
-        databaseService.getDatabase().commit();
+    public T castToCompatible(Object o) {
+        return (T) o;
     }
 
-    public void saveString(String key, String data) {
-        dataMap.put(key, data);
-        databaseService.getDatabase().commit();
+    @SneakyThrows
+    public void save(T data) {
+        storm.save(data);
     }
 
-    public void saveOnWholeNetwork(String key, T data) {
-        save(key, data);
-
+    @SneakyThrows
+    public void saveUnsafe(Object data) {
+        storm.save((StormModel) data);
     }
 
-    public boolean containsKey(String key) {
-        return dataMap.containsKey(key);
-    }
-
-    public void delete(String key) {
-        dataMap.remove(key);
-        databaseService.getDatabase().commit();
+    @SneakyThrows
+    public void delete(StormModel key) {
+        storm.delete(key);
     }
 }

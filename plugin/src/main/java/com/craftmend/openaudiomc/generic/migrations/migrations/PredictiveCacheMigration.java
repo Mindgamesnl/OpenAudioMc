@@ -46,7 +46,7 @@ public class PredictiveCacheMigration extends SimpleMigration {
                 OpenAudioLogger.toConsole("Migrating world section " + name);
 
                 StoredWorldChunk swc = new StoredWorldChunk(name, chunk);
-                repo.save(swc.getChunkName(), swc);
+                repo.save(swc);
             }
 
             new File(

@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 public class SelectedSpeakerMenu extends Menu {
 
     public SelectedSpeakerMenu(Player player, ApplicableSpeaker speaker) {
-        super(ChatColor.BLUE + "Editing speaker " + speaker.getSpeaker().getId().toString().split("-")[0], 9);
+        super(ChatColor.BLUE + "Editing speaker " + speaker.getSpeaker().getSpeakerId().toString().split("-")[0], 9);
 
         /**
          * Options:
@@ -47,7 +47,7 @@ public class SelectedSpeakerMenu extends Menu {
                     OpenAudioMc.getService(SpeakerService.class).unlistSpeaker(speaker.getSpeaker().getLocation());
                     OpenAudioMc.getService(DatabaseService.class)
                             .getRepository(Speaker.class)
-                            .delete(speaker.getSpeaker().getId().toString());
+                            .delete(speaker.getSpeaker());
                     player.closeInventory();
                 })
         );

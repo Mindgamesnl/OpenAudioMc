@@ -1,38 +1,37 @@
 package com.craftmend.openaudiomc.generic.client.session;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.impl.event.enums.VoiceEventCause;
 import com.craftmend.openaudiomc.api.impl.event.events.MicrophoneMuteEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.MicrophoneUnmuteEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.PlayerEnterVoiceProximityEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.PlayerLeaveVoiceProximityEvent;
-import com.craftmend.openaudiomc.api.impl.event.enums.VoiceEventCause;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
-import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
-import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.client.enums.RtcBlockReason;
 import com.craftmend.openaudiomc.generic.client.enums.RtcStateFlag;
 import com.craftmend.openaudiomc.generic.client.helpers.ClientRtcLocationUpdate;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
+import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientSubscribeToVoice;
-import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
-import com.craftmend.openaudiomc.generic.user.User;
-import com.craftmend.openaudiomc.generic.utils.data.RandomString;
-import com.craftmend.openaudiomc.spigot.services.world.Vector3;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceSubscribePayload;
 import com.craftmend.openaudiomc.generic.node.packets.ForceMuteMicrophonePacket;
 import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
+import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.generic.utils.data.RandomString;
 import com.craftmend.openaudiomc.generic.voicechat.bus.VoiceApiConnection;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.enums.PlayerLocationFollower;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
+import com.craftmend.openaudiomc.spigot.services.world.Vector3;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -95,9 +94,6 @@ public class RtcSessionManager implements Serializable {
 
         updateLocationWatcher();
         peer.getRtcSessionManager().updateLocationWatcher();
-
-        if (peer.getDataCache() != null) peer.getDataCache().pushPeerName(clientConnection.getOwner().getName());
-        if (clientConnection.getDataCache() != null) clientConnection.getDataCache().pushPeerName(peer.getOwner().getName());
 
         return true;
     }
@@ -180,7 +176,7 @@ public class RtcSessionManager implements Serializable {
     }
 
     public boolean isReady() {
-        if (clientConnection.getDataCache() != null && clientConnection.getDataCache().isVoiceBlocked()) {
+        if (clientConnection.getDataCache() != null && clientConnection.getDataCache().getIsVoiceBlocked()) {
             return false;
         }
 
