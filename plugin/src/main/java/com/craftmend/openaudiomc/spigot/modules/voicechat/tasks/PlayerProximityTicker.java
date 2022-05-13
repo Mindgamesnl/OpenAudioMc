@@ -34,6 +34,9 @@ public class PlayerProximityTicker implements Runnable {
         });
     }
 
+    public void addFilter(Filter<ClientConnection, Player> extraFilter) {
+        this.filter.addChild(extraFilter);
+    }
 
     @Override
     public void run() {

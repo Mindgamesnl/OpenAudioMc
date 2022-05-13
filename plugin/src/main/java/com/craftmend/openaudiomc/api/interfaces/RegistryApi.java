@@ -40,6 +40,14 @@ public interface RegistryApi {
     void setProximityFilter(Filter<ClientConnection, Player> filter);
 
     /**
+     * Similar behaviour to the setProximityFilter method, but this one adds another filter instead of
+     * replacing the current one
+     *
+     * @param filter filter
+     */
+    void addProximityFilter(Filter<ClientConnection, Player> filter);
+
+    /**
      * Force preselect a networking interface
      * @param service Class
      */

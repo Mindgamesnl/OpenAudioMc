@@ -42,6 +42,11 @@ public class RegistryApiImpl implements RegistryApi {
     }
 
     @Override
+    public void addProximityFilter(Filter<ClientConnection, Player> filter) {
+        OpenAudioMc.getService(SpigotVoiceChatService.class).getProximityTicker().addFilter(filter);
+    }
+
+    @Override
     public void forceNetworkingInterface(Class<? extends NetworkingService> service) {
         forcedService = service;
     }
