@@ -5,6 +5,23 @@ export class UserInterfaceModule {
     constructor(oa) {
         this.openAudioMc = oa;
         // slider shit
+
+
+
+        let otherElements = [
+            document.getElementById("nav"),
+            document.getElementById("nav-icon4"),
+            document.getElementById("nav-info"),
+            document.getElementById("off-toggle"),
+        ]
+        let menus = [document.getElementById("off-toggle"), document.getElementById("nav-icon4")];
+        for (let i = 0; i < menus.length; i++) {
+            menus[i].onclick = () => {
+                for (let j = 0; j < otherElements.length; j++) {
+                    otherElements[j].classList.toggle("open")
+                }
+            }
+        }
     }
 
     changeColor(findHexColor, replaceWith) {

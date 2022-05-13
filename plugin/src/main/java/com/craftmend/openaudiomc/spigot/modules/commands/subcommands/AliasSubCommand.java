@@ -30,7 +30,7 @@ public class AliasSubCommand extends SubCommand {
             OpenAudioMc.getService(AliasService.class).getAliasMap().put(aliasName, alias);
 
             OpenAudioMc.getService(DatabaseService.class).getRepository(Alias.class)
-                    .save(alias.getName(), alias);
+                    .save(alias);
 
             message(sender, ChatColor.GREEN + "Success! the alias " + ChatColor.YELLOW + "a:" + aliasName.toLowerCase() + ChatColor.GRAY + " will be read as " + ChatColor.YELLOW + aliasSource);
             return;

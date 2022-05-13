@@ -4,12 +4,10 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
-import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
+import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
-
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;
 import de.tr7zw.changeme.nbtapi.NBTItem;
@@ -21,7 +19,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
-import java.util.HashSet;
+import java.util.EnumSet;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -53,13 +51,13 @@ public class SpeakerCreateListener implements Listener {
             MappedLocation location = new MappedLocation(placed.getLocation());
 
             SpeakerType speakerType = speakerService.getCollector().guessSpeakerType(location.toBukkit(), src);
-            Speaker speaker = new Speaker(src, id, radius, location, speakerType, new HashSet<>());
+            Speaker speaker = new Speaker(src, id, radius, location, speakerType, EnumSet.noneOf(ExtraSpeakerOptions.class));
             speakerService.registerSpeaker(speaker);
 
             // save
             OpenAudioMc.getService(DatabaseService.class)
                     .getRepository(Speaker.class)
-                    .save(speaker.getId().toString(), speaker);
+                    .save(speaker);
 
             event.getPlayer().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.GREEN + "Placed a " + speakerType.getName() + " speaker" + ChatColor.GRAY + " (guessed bases on other nearby speakers, click placed speaker to edit)");
         }

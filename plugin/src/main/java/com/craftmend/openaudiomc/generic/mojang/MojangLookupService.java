@@ -28,11 +28,14 @@ public class MojangLookupService extends Service {
     public MojangLookupService(DatabaseService databaseService, TaskService ts, OpenAudioMc openAudioMc) {
         profileRepository = databaseService.getRepository(MojangProfile.class);
         ts.scheduleAsyncRepeatingTask(() -> {
+            OpenAudioLogger.toConsole("Starting mojang cleanup, this can take a while...");
             // check every hour if the server is empty
             if (openAudioMc.getInvoker().getUserHooks().getOnlineUsers().isEmpty()) {
                 cleanup();
             }
-        }, 3600 * 20, 3600 * 20);
+            OpenAudioLogger.toConsole("Finished cleanup");
+        }, 36000 * 20, 36000 * 20);
+        // once every 10 bloody hours
     }
 
     private void cleanup() {
@@ -41,7 +44,7 @@ public class MojangLookupService extends Service {
         for (MojangProfile value : profileRepository.values()) {
             if (value.getLastSeen() == null || Duration.between(value.getLastSeen(), Instant.now()).getSeconds() > 604800) {
                 removed++;
-                profileRepository.delete(value.getName().toLowerCase());
+                profileRepository.delete(value);
             }
         }
         OpenAudioLogger.toConsole("Removed the profile of " + removed + " players");
@@ -49,16 +52,21 @@ public class MojangLookupService extends Service {
 
     public void save(User user) {
         taskService.runAsync(() -> {
-            profileRepository.save(user.getName().toLowerCase(),
-                    new MojangProfile(user.getName(), user.getUniqueId(), Instant.now())
-            );
+            MojangProfile previous = profileRepository.getWhere("uuid", user.getUniqueId());
+            if (previous == null) {
+                profileRepository.save(new MojangProfile(user.getName(), user.getUniqueId(), Instant.now()));
+                return;
+            }
+            previous.setName(user.getName());
+            previous.setLastSeen(Instant.now());
+            profileRepository.save(previous);
         });
     }
 
     public Task<MojangProfile> getByName(String name) {
         Task<MojangProfile> task = new Task<>();
         taskService.runAsync(() -> {
-            MojangProfile mojangProfile = profileRepository.get(name.toLowerCase());
+            MojangProfile mojangProfile = profileRepository.getWhere("name", name.toLowerCase());
             if (mojangProfile == null) {
                 task.fail(ErrorCode.NOT_FOUND);
                 return;

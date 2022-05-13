@@ -57,7 +57,7 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
         possiblyFilterLimits(setSize, this.speakerService
                 .getSpeakerMap()
                 .values().stream()
-                        .filter(speaker -> !speaker.isValidated())
+                        .filter(speaker -> !speaker.getValidated())
                         .skip(fractionStart)
         ).collect(Collectors.toList())
                 .forEach(speaker -> {
@@ -71,7 +71,7 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
                     // check if the chunk is loaded, if not, don't do shit lmao
                     Location bukkitLocation = mappedLocation.toBukkit();
                     if (bukkitLocation == null || bukkitLocation.getWorld() == null) {
-                        OpenAudioLogger.toConsole("Can't find world " + mappedLocation.getWorld() + " so speaker " + speaker.getId() + " is being deleted");
+                        OpenAudioLogger.toConsole("Can't find world " + mappedLocation.getWorld() + " so speaker " + speaker.getSpeakerId() + " is being deleted");
                         remove(speaker);
                     } else if (bukkitLocation.getChunk().isLoaded() || forceRun) {
                         if (forceRun && !bukkitLocation.getChunk().isLoaded()) {
@@ -97,7 +97,7 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
         if (strategy == GcStrategy.DELETE) {
             OpenAudioMc.getService(DatabaseService.class)
                     .getRepository(Speaker.class)
-                    .delete(speaker.getId().toString());
+                    .delete(speaker);
         }
         OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> {
             speakerService.getSpeakerMap().remove(speaker.getLocation());

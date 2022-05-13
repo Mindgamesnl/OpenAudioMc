@@ -14,7 +14,7 @@ import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 
-import java.util.HashSet;
+import java.util.EnumSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -45,7 +45,7 @@ public class SpeakerDatabaseMigration extends SimpleMigration {
 
             Speaker speaker = loadFromFile(id);
             service.getRepository(Speaker.class)
-                    .save(speaker.getId().toString(), speaker);
+                    .save(speaker);
             config.setString(StorageLocation.DATA_FILE, "speakers." + id, null);
             config.saveAll();
         }
@@ -70,7 +70,7 @@ public class SpeakerDatabaseMigration extends SimpleMigration {
         int z = config.getIntFromPath("speakers." + id + ".z", StorageLocation.DATA_FILE);
         int radius = config.getIntFromPath("speakers." + id + ".radius", StorageLocation.DATA_FILE);
         Set<String> options = config.getStringSet("speakers." + id + ".options", StorageLocation.DATA_FILE);
-        Set<ExtraSpeakerOptions> extraOptions = new HashSet<>();
+        EnumSet<ExtraSpeakerOptions> extraOptions = EnumSet.noneOf(ExtraSpeakerOptions.class);
 
         // are are they enabled?
         for (String option : options) {

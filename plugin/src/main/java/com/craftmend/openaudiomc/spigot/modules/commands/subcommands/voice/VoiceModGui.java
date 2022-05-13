@@ -42,7 +42,7 @@ public class VoiceModGui extends Menu {
         setItem(4, new Item(Material.IRON_BARS)
                 .setName(ChatColor.RED + "VoiceChat ban")
                 .setLore(
-                        (targetData.isVoiceBlocked() ? new String[] {
+                        (targetData.getIsVoiceBlocked() ? new String[] {
                                 ChatColor.RED + targetName + " is currently banned from using voicechat.",
                                 ChatColor.RED + "They are still able to listen to music",
                                 ChatColor.RED + "through OpenAudioMc, but aren't allowed",
@@ -81,8 +81,8 @@ public class VoiceModGui extends Menu {
     }
 
     private void toggleBan(Player moderator, ClientDataStore targetData, UUID targetId, String targetName) {
-        targetData.setVoiceBlocked(!targetData.isVoiceBlocked());
-        if (targetData.isVoiceBlocked()) {
+        targetData.setIsVoiceBlocked(!targetData.getIsVoiceBlocked());
+        if (targetData.getIsVoiceBlocked()) {
             ClientConnection cc = OpenAudioMc.getService(NetworkingService.class).getClient(targetId);
             if (cc != null) {
                 cc.kick(() -> {});
