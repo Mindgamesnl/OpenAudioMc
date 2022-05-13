@@ -6,7 +6,7 @@
 
     <groupId>com.craftmend.openaudiomc</groupId>
     <artifactId>OpenAudioMc-Parent</artifactId>
-    <version>6.6.3</version>
+    <version>1.1</version>
     <packaging>pom</packaging>
 
     <name>OpenAudioMc-Parent</name>
@@ -14,13 +14,16 @@
     <description>The OpenAudioMc Java plugin and Api</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <oa.version>6.7</oa.version>
     </properties>
 
     <url>https://craftmend.com/</url>
 
     <modules>
-        <module>jutils</module>
+        <module>module-src/jutils</module>
         <module>plugin</module>
+        <module>module-src/mapdb-migrator</module>
+        <module>module-src/parties-module</module>
     </modules>
 
 </project>

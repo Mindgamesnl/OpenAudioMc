@@ -38,8 +38,7 @@ public class PeerFilter extends Filter<ClientConnection, Player> {
      */
     @Override
     public Stream<ClientConnection> wrap(Stream<ClientConnection> existingStream, Player context) {
-        return existingStream
-                .filter(possiblePeer -> {
+        Stream<ClientConnection> s = existingStream.filter(possiblePeer -> {
                     // check if the player is even valid
                     if (!possiblePeer.getRtcSessionManager().isReady()) return false;
 
@@ -74,5 +73,10 @@ public class PeerFilter extends Filter<ClientConnection, Player> {
                     }
                     return !failedCheck;
                 });
+
+        if (child != null) {
+            s = child.wrap(s, context);
+        }
+        return s;
     }
 }

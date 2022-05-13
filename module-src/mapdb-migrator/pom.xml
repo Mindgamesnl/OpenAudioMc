@@ -9,8 +9,13 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Oa Mapmigrator</name>
+    <name>OpenAudioMc-StormMap</name>
 
+    <parent>
+        <groupId>com.craftmend.openaudiomc</groupId>
+        <artifactId>OpenAudioMc-Parent</artifactId>
+        <version>1.1</version>
+    </parent>
 
     <properties>
         <java.version>1.8</java.version>
@@ -119,14 +124,14 @@
         <dependency>
             <groupId>com.craftmend.openaudiomc</groupId>
             <artifactId>OpenAudioMc</artifactId>
-            <version>6.6.4-RC2</version>
+            <version>${oa.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.13.2-R0.1-SNAPSHOT</version>
+            <version>1.17.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
