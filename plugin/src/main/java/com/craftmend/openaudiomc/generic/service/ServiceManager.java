@@ -31,45 +31,50 @@ public class ServiceManager {
 
     @SneakyThrows
     public Service loadService(Class<? extends Service> target) {
-        // first, check if its already enabled, if so, just re-use that one
-        if (isServiceEnabled(target)) {
-            return serviceMap.get(target);
-        }
-
-        Service i = null;
-        // require an empty constructor, or this will go fucking boom
-        for (Constructor<?> declaredConstructor : target.getDeclaredConstructors()) {
-            if (declaredConstructor.isAnnotationPresent(Inject.class)) {
-                // try to fulfill this constructor
-                List<Object> arguments = new ArrayList<>();
-                for (Class<?> parameterType : declaredConstructor.getParameterTypes()) {
-                    arguments.add(resolve(parameterType));
-                }
-                i = (Service) declaredConstructor.newInstance(arguments.stream().toArray());
-                break;
+        try {
+            // first, check if its already enabled, if so, just re-use that one
+            if (isServiceEnabled(target)) {
+                return serviceMap.get(target);
             }
-        }
-        if (i == null) {
-            i = target.getConstructor().newInstance();
-        }
 
-        // find annotated injections
-        for (Field field : target.getDeclaredFields()) {
-            boolean hasAnnotation = field.isAnnotationPresent(Inject.class);
-            if (hasAnnotation) {
-                Object v = resolve(field.getType());
-                if (v != null) {
-                    field.setAccessible(true);
-                    field.set(i, v);
-                } else {
-                    OpenAudioLogger.toConsole("WARNING! field " + field.getName() + " in " + target.getSimpleName() + " doesn't have the inject annotation, but it was resolved as " + v.getClass().getName());
+            Service i = null;
+            // require an empty constructor, or this will go fucking boom
+            for (Constructor<?> declaredConstructor : target.getDeclaredConstructors()) {
+                if (declaredConstructor.isAnnotationPresent(Inject.class)) {
+                    // try to fulfill this constructor
+                    List<Object> arguments = new ArrayList<>();
+                    for (Class<?> parameterType : declaredConstructor.getParameterTypes()) {
+                        arguments.add(resolve(parameterType));
+                    }
+                    i = (Service) declaredConstructor.newInstance(arguments.stream().toArray());
+                    break;
                 }
             }
-        }
+            if (i == null) {
+                i = target.getConstructor().newInstance();
+            }
 
-        serviceMap.put(target, i);
-        i.onEnable();
-        return i;
+            // find annotated injections
+            for (Field field : target.getDeclaredFields()) {
+                boolean hasAnnotation = field.isAnnotationPresent(Inject.class);
+                if (hasAnnotation) {
+                    Object v = resolve(field.getType());
+                    if (v != null) {
+                        field.setAccessible(true);
+                        field.set(i, v);
+                    } else {
+                        OpenAudioLogger.toConsole("WARNING! field " + field.getName() + " in " + target.getSimpleName() + " doesn't have the inject annotation, but it was resolved as " + v.getClass().getName());
+                    }
+                }
+            }
+
+            serviceMap.put(target, i);
+            i.onEnable();
+            return i;
+        } catch (Exception e) {
+            OpenAudioLogger.toConsole("Failed to load service: " + target.getName());
+            throw e;
+        }
     }
 
     public void replaceService(Class<? extends Service> target, Service i) {

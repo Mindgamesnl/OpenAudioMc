@@ -29,7 +29,7 @@ public class RegionCreateSubCommand extends SubCommand {
 
         RegionProperties rp = new RegionProperties(args[2], 100, 1000, true, args[1]);
         OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class)
-                .save(rp.getRegionName(), rp);
+                .save(rp);
 
         openAudioMcSpigot.getRegionModule().registerRegion(rp.getRegionName(), rp);
 

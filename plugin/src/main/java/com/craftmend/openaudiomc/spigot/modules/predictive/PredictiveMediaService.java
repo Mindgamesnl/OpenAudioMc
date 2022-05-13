@@ -74,7 +74,7 @@ public class PredictiveMediaService extends Service {
             String name = entry.getKey();
             SerializedAudioChunk.Chunk chunk = entry.getValue();
             StoredWorldChunk swc = new StoredWorldChunk(name, chunk);
-            repo.save(swc.getChunkName(), swc);
+            repo.save(swc);
         }
     }
 

@@ -60,7 +60,7 @@ public class RegionHandler implements ITickableHandler {
                 // check if the current regions include one or more muted regions
                 boolean hasVcMuted = false;
                 for (IRegion detectedRegion : detectedRegions) {
-                    if (!detectedRegion.getProperties().isAllowsVoiceChat()) {
+                    if (!detectedRegion.getProperties().getAllowsVoiceChat()) {
                         hasVcMuted = true;
                         break;
                     }

@@ -3,27 +3,13 @@ package com.craftmend.openaudiomc.spigot.modules.commands.subcommands.speaker;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
-import com.craftmend.openaudiomc.generic.media.MediaService;
-import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.SpeakersSubCommand;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
-import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;
-import com.craftmend.openaudiomc.spigot.services.server.ServerService;
-import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.SkullType;
-import org.bukkit.block.Block;
-import org.bukkit.block.Skull;
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
-import java.util.UUID;
 
 public class SpeakerRemoveSubCommand extends SubCommand {
 
@@ -52,7 +38,7 @@ public class SpeakerRemoveSubCommand extends SubCommand {
         // save
         OpenAudioMc.getService(DatabaseService.class)
                 .getRepository(Speaker.class)
-                .delete(speaker.getId().toString());
+                .delete(speaker);
 
         message(sender, "Removed speaker");
         mappedLocation.toBukkit().getBlock().setType(Material.AIR);

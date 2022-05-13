@@ -9,6 +9,7 @@ import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.SpeakersSubCommand;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
+import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;
@@ -21,7 +22,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Skull;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
+import java.util.EnumSet;
 import java.util.UUID;
 
 public class SpeakerSetSubCommand extends SubCommand {
@@ -52,12 +53,12 @@ public class SpeakerSetSubCommand extends SubCommand {
         SpeakerService speakerService = OpenAudioMc.getService(SpeakerService.class);
 
         // register
-        Speaker speaker = new Speaker(source, id, range, mappedLocation, SpeakerService.DEFAULT_SPEAKER_TYPE, new HashSet<>());
+        Speaker speaker = new Speaker(source, id, range, mappedLocation, SpeakerService.DEFAULT_SPEAKER_TYPE, EnumSet.noneOf(ExtraSpeakerOptions.class));
         speakerService.registerSpeaker(speaker);
         // save
         OpenAudioMc.getService(DatabaseService.class)
                 .getRepository(Speaker.class)
-                .save(speaker.getId().toString(), speaker);
+                .save(speaker);
 
         // place block
         Location location = mappedLocation.toBukkit();

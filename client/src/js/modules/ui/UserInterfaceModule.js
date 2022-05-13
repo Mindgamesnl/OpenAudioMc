@@ -4,7 +4,6 @@ export class UserInterfaceModule {
 
     constructor(oa) {
         this.openAudioMc = oa;
-        // slider shit
     }
 
     changeColor(findHexColor, replaceWith) {

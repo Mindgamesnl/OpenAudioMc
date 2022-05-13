@@ -163,15 +163,21 @@
         </dependency>
 
         <dependency>
-            <groupId>com.craftmend.openaudiomc</groupId>
-            <artifactId>OpenAudioMc-jutils</artifactId>
-            <version>1.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.nanohttpd</groupId> <!-- <groupId>com.nanohttpd</groupId> for 2.1.0 and earlier -->
             <artifactId>nanohttpd</artifactId>
             <version>2.3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.craftmend</groupId>
+            <artifactId>storm</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.36.0.3</version>
         </dependency>
 
         <dependency>
