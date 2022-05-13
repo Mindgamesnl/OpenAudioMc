@@ -51,26 +51,41 @@ public class SerializerTest {
             }
 
             if (isSubType) {
-                Object result = gson.fromJson("{}", oaClass);
-                Assert.assertNotNull("The packet can't be null", result);
+                try {
+                    boolean isOne = false;
 
-                if (result instanceof OARedisPacket) {
-                    OARedisPacket packet = (OARedisPacket) result;
-                    String reSerialized = packet.serialize();
-                    Assert.assertNotNull(reSerialized);
-                    Assert.assertEquals("{}", reSerialized);
-                }
+                    for (Class aClass : relatedTo) {
+                        if (oaClass.isAssignableFrom(aClass)) {
+                            isOne = true;
+                        }
+                    }
 
-                if (result instanceof AbstractPacketPayload) {
-                    // re-serialize
-                    String json = gson.toJson(result);
-                    Assert.assertNotNull(json);
-                }
+                    if (!isOne) continue;
+                    Object result = gson.fromJson("{}", oaClass);
+                    Assert.assertNotNull("The packet can't be null", result);
 
-                if (result instanceof AbstractPacket) {
-                    // re-serialize
-                    String json = gson.toJson(result);
-                    Assert.assertNotNull(json);
+                    if (result instanceof OARedisPacket) {
+                        OARedisPacket packet = (OARedisPacket) result;
+                        String reSerialized = packet.serialize();
+                        Assert.assertNotNull(reSerialized);
+                        Assert.assertEquals("{}", reSerialized);
+                    }
+
+                    if (result instanceof AbstractPacketPayload) {
+                        // re-serialize
+                        String json = gson.toJson(result);
+                        Assert.assertNotNull(json);
+                    }
+
+                    if (result instanceof AbstractPacket) {
+                        // re-serialize
+                        String json = gson.toJson(result);
+                        Assert.assertNotNull(json);
+                    }
+                } catch (Exception e) {
+                    System.out.println("Failed class " + oaClass.getName());
+                    e.printStackTrace();
+                    throw e;
                 }
             }
         }
