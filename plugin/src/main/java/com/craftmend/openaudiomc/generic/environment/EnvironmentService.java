@@ -8,6 +8,4 @@ public class EnvironmentService extends Service {
 
     @Inject private DatabaseService databaseService;
 
-    
-
 }

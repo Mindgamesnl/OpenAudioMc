@@ -1,18 +1,9 @@
 Changelog since release:
- - Rewrite proxy platforms
- - Rewrite command handlers
- - Make all Player/Console interactions generic
- - Implement "User" and rewrite player handlers (to this new api)
- - Dropped the old "OpenAudioApi"
- - The plugin now tries to automatically manage free licenses when it isn't linked to an account (can be disabled)
- - The client now interpolates movement packets, can be disabled in the personal settings
- - Drop broken and deprecated events
- - Voicechat drivers now only activate with real networking services
- - Bungeecord and Velocity now have feature parity, fixing a ton of bugs for Velocity users and making it compatible with Voice Chat
- - Voicechat logging is less spammy
- - Implemented database
- - Migrated speakers, regions and aliasses
- - Implement http://help.openaudiomc.net/restdirect
- - Implement local audio storage in `plugins/OpenAudioMc/audio/`
- - Implement the alias for local files (`local:` like `local:test.mp3`)
- - Automatic backups before migrations
+ - Dropped MapDB and migrated to Sqlite (Storm)
+ - Implemented dynamic modules for extra features and runtime migrations
+ - Client UI changes
+ - Added PlaceholderAPI support natively
+ - Performance improvements
+ - Fixed local media storage for bungeecord servers
+ - Fixed local media storage in playlists and random media
+ - 

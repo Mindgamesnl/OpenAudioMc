@@ -4,12 +4,12 @@
     <artifactId>OpenAudioMc-Parent</artifactId>
     <groupId>com.craftmend.openaudiomc</groupId>
     <version>1.1</version>
-    <relativePath>../../pom.xml</relativePath>
+    <relativePath>../pom.xml/pom.xml</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.craftmend</groupId>
-  <artifactId>oa-mapmigrator</artifactId>
-  <name>OpenAudioMc-migrate.map-to-storm</name>
+  <artifactId>openaudiomc-parties</artifactId>
+  <name>OpenAudioMc-parties</name>
   <version>${oa.version}</version>
   <build>
     <resources>
@@ -18,7 +18,7 @@
         <directory>src/main/resources</directory>
       </resource>
     </resources>
-    <finalName>migrate.map-to-storm</finalName>
+    <finalName>parties-hook</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -103,12 +103,22 @@
       <id>sonatype</id>
       <url>https://oss.sonatype.org/content/groups/public/</url>
     </repository>
+    <repository>
+      <id>alessiodp-repo</id>
+      <url>https://repo.alessiodp.com/releases/</url>
+    </repository>
   </repositories>
   <dependencies>
     <dependency>
       <groupId>com.craftmend.openaudiomc</groupId>
       <artifactId>OpenAudioMc</artifactId>
       <version>6.7</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.alessiodp.parties</groupId>
+      <artifactId>parties-api</artifactId>
+      <version>3.2.5</version>
       <scope>provided</scope>
     </dependency>
     <dependency>

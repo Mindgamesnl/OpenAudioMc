@@ -5,11 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.craftmend</groupId>
-    <artifactId>oa-mapmigrator</artifactId>
+    <artifactId>openaudiomc-skywars</artifactId>
     <version>${oa.version}</version>
     <packaging>jar</packaging>
-
-    <name>OpenAudioMc-migrate.map-to-storm</name>
 
     <parent>
         <groupId>com.craftmend.openaudiomc</groupId>
@@ -18,13 +16,15 @@
         <version>1.1</version>
     </parent>
 
+    <name>OpenAudioMc-skywars</name>
+
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <build>
-        <finalName>migrate.map-to-storm</finalName>
+        <finalName>skywars-hook</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -119,6 +119,10 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>gcnt</id>
+            <url>https://nexuslite.gcnt.net/repos/gcnt</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -130,16 +134,17 @@
         </dependency>
 
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.17.1-R0.1-SNAPSHOT</version>
+            <groupId>net.gcnt</groupId>
+            <artifactId>skywarsreloaded</artifactId>
+            <version>5.6.1</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>com.craftmend.openaudiomc</groupId>
-            <artifactId>OpenAudioMc-jutils</artifactId>
-            <version>${oa.version}</version>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.17.1-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

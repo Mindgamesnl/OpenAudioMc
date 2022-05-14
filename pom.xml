@@ -24,6 +24,7 @@
         <module>plugin</module>
         <module>module-src/mapdb-migrator</module>
         <module>module-src/parties-module</module>
+        <module>module-src/skywars-module</module>
     </modules>
 
 </project>
