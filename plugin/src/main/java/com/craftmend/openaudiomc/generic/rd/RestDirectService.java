@@ -98,6 +98,7 @@ public class RestDirectService extends Service {
                 }
             } catch (IOException e) {
                 // next attempt
+                e.printStackTrace();
             }
         }
         OpenAudioLogger.toConsole("Continuing without the RestDirect feature! None of the listed ports were accessible or available. Please contact support, your server/host might not be compatible!");
