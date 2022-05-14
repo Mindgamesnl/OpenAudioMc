@@ -56,7 +56,7 @@ public class SpigotConnection {
     @Getter private RegionHandler regionHandler;
     @Getter private final AudioChunkHandler audioChunkHandler;
     @Getter private final Set<PlayerLocationFollower> locationFollowers = new HashSet<>();
-    private final Player player;
+    @Getter private final Player bukkitPlayer;
 
     //plugin data
     @Setter
@@ -68,7 +68,7 @@ public class SpigotConnection {
      */
     public SpigotConnection(Player player, ClientConnection clientConnection) {
         this.clientConnection = clientConnection;
-        this.player = player;
+        this.bukkitPlayer = player;
         // if the region system is enabled, then load the handler
         if (OpenAudioMcSpigot.getInstance().getRegionModule() != null)
             this.regionHandler = new RegionHandler(player, this);
@@ -120,7 +120,7 @@ public class SpigotConnection {
 
     private void tickLocationFollowers() {
         if (!locationFollowers.isEmpty()) {
-            Location location = player.getLocation();
+            Location location = bukkitPlayer.getLocation();
             ClientPlayerLocationPayload locationPayload = new ClientPlayerLocationPayload(
                     round(location.getX(), 1),
                     round(location.getY(), 1),

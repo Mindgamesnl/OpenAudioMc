@@ -4,7 +4,10 @@ import com.craftmend.openaudiomc.api.enums.ModuleEvent;
 import com.craftmend.openaudiomc.api.interfaces.ExternalModule;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.service.Service;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import lombok.SneakyThrows;
+import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,6 +27,10 @@ import java.util.jar.JarFile;
 public class ModuleLoaderService extends Service {
 
     private List<ExternalModule> modules = new ArrayList<>();
+
+    public void registerSpigotEvents(Listener listener, ExternalModule module) {
+        Bukkit.getPluginManager().registerEvents(listener, OpenAudioMcSpigot.getInstance());
+    }
 
     @SneakyThrows
     public ModuleLoaderService() {
