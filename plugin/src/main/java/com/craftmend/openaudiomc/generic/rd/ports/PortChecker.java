@@ -24,6 +24,12 @@ public class PortChecker {
         if (pwr != null && !pwr.equals("")) {
             return pwr;
         }
+
+        String awr = System.getProperty("oaForcedIp");
+        if (awr != null && !awr.equals("")) {
+            return awr;
+        }
+
         return "http://" + this.ip + ":" + this.port;
     }
 
