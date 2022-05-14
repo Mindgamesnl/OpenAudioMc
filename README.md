@@ -61,11 +61,21 @@ A `Client` is an interface that exposes some API methods of the `ClientConnectio
 ### `UserHooks` *interface*
 A UserHook provider is an interface that should supply `User` instances based on the current environment state or from a query. It's generally used to get a collection of online Users, or get Users by UUID regardless of the platform. UserHooks should also adapt proxy management, and announce local nodes (if any).
 
+# Codebase core terminology
+ - **Platform**: refers to the server environment where OpenAudioMc is running, like Bungeecord, Spigot, Velocity and Standalone
+ - **Service**: Most of the internal codebase was re-written and refactored during the 6.5.5 update, where we migrated to a custom service manager with support for annotation based dependency injection, service abstraction and to provide pointer safety during reloads.
+   The service manager is registered in the main OpenAudioMc class and is accessible through all platforms. The entire ecosystem consists of two main registration types. Services are static code implementations that can be injected, requested and manipulated after loading (or being requested, in which case they’ll be loaded if they weren’t already)
+ - **Module**: Modules are jar files with extra content, features or scripts that modify default OpenAudioMc behaviour. Usually used to integrate with third party plugins. 
+
+
 # Project structure
+ - `plugin/` contains the plugin and framework source code
  - `client/` contains the source code, build scripts and assets of the production web client
  - `documentation/` contains the documentation as MD and is compiled to web sources through github pages. The web client and documentation are directly served from master. (Moved to seperate [repo](https://github.com/OpenAudioMc/documentation))
- - `jutils/` contains java utilities and wraps dependencies that would otherwise collide
- - `plugin/` contains the plugin and framework source code
+ - `module-src/jutils` contains legacy java libraries that are only used during migrations
+ - `module-src/migrator` contains the migrator that converts legacy MapDB database stores to Sqlite through Storm
+ - `module-src/parties` contains the module integrating with the official [Parties](https://www.spigotmc.org/resources/parties-an-advanced-parties-manager.3709/) plugin
+ - `module-src/skywars` contains the module integrating with native Skywars game states ([Skywars Reloaded](https://github.com/lukasvdgaag/SkyWarsReloaded))
 
 ### Metrics
 [![Stargazers over time](https://starchart.cc/Mindgamesnl/openaudiomc.svg)](https://starchart.cc/Mindgamesnl/openaudiomc)
