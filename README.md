@@ -35,7 +35,7 @@ Please visit the [Documentation](https://help.openaudiomc.net/docs) for a full g
  - Video background support
 
 ## Supported platforms
- - [Spigot (from 1.8.8 to latest)](https://www.spigotmc.org/resources/openaudiomc-open-source-audio-client.30691/ "Spigot Plugin Page")
+ - [Spigot (1.12 and up, with primitive support for lower versions)](https://www.spigotmc.org/resources/openaudiomc-open-source-audio-client.30691/ "Spigot Plugin Page")
  - [BungeeCord (recent builds)](https://www.spigotmc.org/resources/openaudiomc-open-source-audio-client.30691/ "Spigot Plugin Page")
  - [Velocity (currently still being tested)](https://www.spigotmc.org/resources/openaudiomc-open-source-audio-client.30691/ "Spigot Plugin Page")
 
