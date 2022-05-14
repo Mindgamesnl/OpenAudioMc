@@ -9,7 +9,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.craftmend.openaudiomc</groupId>
   <artifactId>OpenAudioMc-jutils</artifactId>
-  <version>1.0</version>
+  <version>${oa.version}</version>
   <build>
     <plugins>
       <plugin>

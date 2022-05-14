@@ -6,10 +6,10 @@
 
     <groupId>com.craftmend</groupId>
     <artifactId>oa-mapmigrator</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>${oa.version}</version>
     <packaging>jar</packaging>
 
-    <name>OpenAudioMc-StormMap</name>
+    <name>OpenAudioMc-migrate.map-to-storm</name>
 
     <parent>
         <groupId>com.craftmend.openaudiomc</groupId>
@@ -139,7 +139,7 @@
         <dependency>
             <groupId>com.craftmend.openaudiomc</groupId>
             <artifactId>OpenAudioMc-jutils</artifactId>
-            <version>1.0</version>
+            <version>${oa.version}</version>
         </dependency>
     </dependencies>
 </project>

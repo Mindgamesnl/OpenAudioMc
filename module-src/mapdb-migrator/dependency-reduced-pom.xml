@@ -9,8 +9,8 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.craftmend</groupId>
   <artifactId>oa-mapmigrator</artifactId>
-  <name>OpenAudioMc-StormMap</name>
-  <version>1.0-SNAPSHOT</version>
+  <name>OpenAudioMc-migrate.map-to-storm</name>
+  <version>${oa.version}</version>
   <build>
     <resources>
       <resource>
