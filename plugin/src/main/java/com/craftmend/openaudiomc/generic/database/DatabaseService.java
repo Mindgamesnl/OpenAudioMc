@@ -1,11 +1,17 @@
 package com.craftmend.openaudiomc.generic.database;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.database.internal.DataStore;
 import com.craftmend.openaudiomc.generic.database.internal.Repository;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.modules.ModuleLoaderService;
 import com.craftmend.openaudiomc.generic.service.Service;
+import com.craftmend.openaudiomc.spigot.modules.rules.adapter.RuleTestTypeAdapter;
+import com.craftmend.openaudiomc.spigot.modules.rules.adapter.RuleTypeAdapter;
+import com.craftmend.openaudiomc.spigot.modules.rules.data.Rule;
+import com.craftmend.openaudiomc.spigot.modules.rules.data.RuleTest;
+import com.craftmend.openaudiomc.spigot.modules.rules.storage.MediaRule;
 import com.craftmend.storm.Storm;
 import com.craftmend.storm.StormOptions;
 import com.craftmend.storm.connection.sqlite.SqliteFileDriver;
@@ -31,8 +37,11 @@ public class DatabaseService extends Service implements StormLogger {
 
         StormOptions options = new StormOptions();
         options.setLogger(this);
+        options.getTypeAdapters().put(Rule.class, new RuleTypeAdapter());
+        options.getTypeAdapters().put(RuleTest.class, new RuleTestTypeAdapter());
 
         storm = new Storm(options, new SqliteFileDriver(new File(storageDir, "storm.db")));
+        storm.setGson(OpenAudioMc.getGson());
 
         // warmup tables
         List<Class<? extends DataStore>> tables = new ArrayList<>();
@@ -42,6 +51,7 @@ public class DatabaseService extends Service implements StormLogger {
         tables.add(com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties.class);
         tables.add(com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker.class);
         tables.add(com.craftmend.openaudiomc.spigot.modules.predictive.sorage.StoredWorldChunk.class);
+        tables.add(MediaRule.class);
 
         for (Class<? extends DataStore> table : tables) {
             getRepository(table);

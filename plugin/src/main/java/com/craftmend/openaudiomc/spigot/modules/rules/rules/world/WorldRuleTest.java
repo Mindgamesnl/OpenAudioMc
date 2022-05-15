@@ -28,4 +28,9 @@ public class WorldRuleTest extends RuleTest {
     public String getId() {
         return "world-" + worldName;
     }
+
+    @Override
+    public String getParentRuleId() {
+        return "world";
+    }
 }

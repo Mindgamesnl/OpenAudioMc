@@ -8,5 +8,6 @@ public abstract class RuleTest {
     public abstract String getDescription();
     public abstract boolean testPlayer(SpigotConnection player);
     public abstract String getId();
+    public abstract String getParentRuleId();
 
 }

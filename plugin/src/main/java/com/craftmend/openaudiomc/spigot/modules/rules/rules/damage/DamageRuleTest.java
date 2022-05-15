@@ -29,4 +29,9 @@ public class DamageRuleTest extends RuleTest {
     public String getId() {
         return "damagereceived-" + timeFrame;
     }
+
+    @Override
+    public String getParentRuleId() {
+        return "damagereceived";
+    }
 }

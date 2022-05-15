@@ -33,4 +33,9 @@ public class WorldTimeRuleTest extends RuleTest {
     public String getId() {
         return "world-time-" + hoursStart + "-" + hoursEnd;
     }
+
+    @Override
+    public String getParentRuleId() {
+        return "world-time";
+    }
 }
