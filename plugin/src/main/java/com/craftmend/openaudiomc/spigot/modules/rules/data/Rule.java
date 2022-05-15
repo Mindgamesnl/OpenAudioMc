@@ -12,4 +12,11 @@ public abstract class Rule<T extends RuleTest> {
     public abstract String getId();
     public abstract Material getIcon();
 
+    public T getTestById(String id) {
+        for (T test : getTests()) {
+            if (test.getId().equals(id)) return test;
+        }
+        return null;
+    }
+
 }

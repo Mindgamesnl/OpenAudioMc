@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.rules.rules.biome;
 
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
+import com.craftmend.openaudiomc.spigot.modules.rules.data.Rule;
 import com.craftmend.openaudiomc.spigot.modules.rules.data.RuleTest;
 import lombok.AllArgsConstructor;
 
@@ -27,5 +28,10 @@ public class BiomeRuleTest extends RuleTest {
     @Override
     public String getId() {
         return "biome-" + biomeName;
+    }
+
+    @Override
+    public String getParentRuleId() {
+        return "biome";
     }
 }
