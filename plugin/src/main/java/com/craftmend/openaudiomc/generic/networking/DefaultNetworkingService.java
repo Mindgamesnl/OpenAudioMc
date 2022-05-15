@@ -104,7 +104,11 @@ public class DefaultNetworkingService extends NetworkingService {
      */
     @Override
     public void connectIfDown() {
-        if (!OpenAudioMc.getService(StateService.class).getCurrentState().canConnect()) return;
+        if (!OpenAudioMc.getService(StateService.class).getCurrentState().canConnect()) {
+            // health check for voice
+            OpenAudioMc.getService(CraftmendService.class).startVoiceHandshake();
+            return;
+        }
         // update state
         OpenAudioMc.getService(CraftmendService.class).startVoiceHandshake();
         OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> socketIoConnector.setupConnection());
