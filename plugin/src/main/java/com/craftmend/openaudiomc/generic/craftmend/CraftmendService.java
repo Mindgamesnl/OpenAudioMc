@@ -142,7 +142,9 @@ public class CraftmendService extends Service {
     }
 
     public void startVoiceHandshake() {
-        startVoiceHandshake(false);
+        if (voiceApiConnection.getStatus() == VoiceApiStatus.IDLE && !isAttemptingVcConnect) {
+            startVoiceHandshake(false);
+        }
     }
 
     public void startVoiceHandshake(boolean ignoreLocal) {
