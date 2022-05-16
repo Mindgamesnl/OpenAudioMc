@@ -2,6 +2,7 @@ package com.craftmend.rinaorc.implementation;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
+import com.craftmend.openaudiomc.generic.proxy.SpigotUserHooks;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.proxy.messages.PacketPlayer;
 import com.craftmend.openaudiomc.generic.proxy.messages.StandardPacket;
@@ -20,6 +21,8 @@ import java.util.UUID;
 @Deprecated
 public class LegacySpigotUserHooks implements UserHooks {
 
+    private SpigotUserHooks modernHooks = new SpigotUserHooks();
+
     @Override
     public Collection<ProxyNode> getNodes() {
         return new ArrayList<>();
@@ -36,14 +39,7 @@ public class LegacySpigotUserHooks implements UserHooks {
 
     @Override
     public void sendPacket(User user, StandardPacket packet) {
-        // do nothing
-        NetworkingService ns = OpenAudioMc.getService(NetworkingService.class);
-        if (ns instanceof ProxyNetworkingService) {
-            ((ProxyNetworkingService) ns).getPacketManager().sendPacket(new PacketPlayer(
-                    (Player) user.getOriginal()),
-                    packet
-            );
-        }
+        modernHooks.sendPacket(user, packet);
     }
 
     @Override
