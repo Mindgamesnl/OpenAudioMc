@@ -6,6 +6,8 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
+import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
+import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.user.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.platform.Platform;
@@ -29,7 +31,9 @@ public class VolumeCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        if (CommandMiddewareExecutor.shouldBeCanceled(new SpigotUserAdapter(sender), null, commandMiddleware)) return true;
+        Player p = (Player) sender;
+        User sua = OpenAudioMc.resolveDependency(UserHooks.class).byUuid(p.getUniqueId());
+        if (CommandMiddewareExecutor.shouldBeCanceled(sua, null, commandMiddleware)) return true;
 
         if (sender instanceof Player) {
             SpigotConnection spigotConnection = OpenAudioMc.getService(SpigotPlayerService.class).getClient(((Player) sender).getUniqueId());
