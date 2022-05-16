@@ -23,7 +23,7 @@
     </properties>
 
     <build>
-        <finalName>parties-hook</finalName>
+        <finalName>rinaorc-legacy-users</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
