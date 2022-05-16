@@ -41,7 +41,7 @@ public class DatabaseService extends Service implements StormLogger {
         options.getTypeAdapters().put(RuleTest.class, new RuleTestTypeAdapter());
 
         storm = new Storm(options, new SqliteFileDriver(new File(storageDir, "storm.db")));
-        storm.setGson(OpenAudioMc.getGson());
+        //storm.setGson(OpenAudioMc.getGson());
 
         // warmup tables
         List<Class<? extends DataStore>> tables = new ArrayList<>();

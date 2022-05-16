@@ -22,6 +22,7 @@
     <modules>
         <module>module-src/jutils</module>
         <module>plugin</module>
+        <module>module-src/rinaorc-legacy</module>
         <module>module-src/mapdb-migrator</module>
         <module>module-src/parties-module</module>
         <module>module-src/skywars-module</module>
