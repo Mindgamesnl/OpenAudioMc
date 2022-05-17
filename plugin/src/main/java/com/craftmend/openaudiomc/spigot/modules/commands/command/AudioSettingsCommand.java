@@ -28,9 +28,8 @@ public class AudioSettingsCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        Player p = (Player) sender;
-
-        User sua = OpenAudioMc.resolveDependency(UserHooks.class).byUuid(p.getUniqueId());
+        User sua = OpenAudioMc.resolveDependency(UserHooks.class).fromCommandSender(sender);
+        
         if (CommandMiddewareExecutor.shouldBeCanceled(sua, null, commandMiddleware)) return true;
 
         if (sender instanceof Player) {
