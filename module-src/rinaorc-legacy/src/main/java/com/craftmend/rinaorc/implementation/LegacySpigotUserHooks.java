@@ -8,9 +8,11 @@ import com.craftmend.openaudiomc.generic.proxy.messages.PacketPlayer;
 import com.craftmend.openaudiomc.generic.proxy.messages.StandardPacket;
 import com.craftmend.openaudiomc.generic.proxy.models.ProxyNode;
 import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.generic.user.adapters.CommandSenderUserAdapter;
 import com.craftmend.openaudiomc.generic.user.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.spigot.modules.proxy.service.ProxyNetworkingService;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -47,5 +49,13 @@ public class LegacySpigotUserHooks implements UserHooks {
         Player player = Bukkit.getPlayer(uuid);
         if (player == null) return null;
         return new LegacySpigotUserAdapter(player);
+    }
+
+    @Override
+    public User fromCommandSender(CommandSender commandSender) {
+        if (commandSender instanceof Player) {
+            return byUuid(((Player) commandSender).getUniqueId());
+        }
+        return new CommandSenderUserAdapter(commandSender);
     }
 }

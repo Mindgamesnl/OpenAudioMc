@@ -40,8 +40,7 @@ public class SpigotMainCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender originalSender, Command command, String label, String[] args) {
-        Player p = (Player) originalSender;
-        User sender = OpenAudioMc.resolveDependency(UserHooks.class).byUuid(p.getUniqueId());
+        User sender = OpenAudioMc.resolveDependency(UserHooks.class).fromCommandSender(originalSender);
 
         if (args.length == 0) {
             sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "OpenAudioMc version " + openAudioMcSpigot.getDescription().getVersion() + ". For help, please use /openaudio help");
