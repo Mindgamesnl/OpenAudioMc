@@ -10,6 +10,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -110,18 +112,33 @@ public class LegacySpigotUserAdapter implements User {
     }
 
     private void sendActionbar(TextComponent tc) {
+        String nmsver = getServerVersion();
         try {
-            Player player = (Player) sender;
-            Class<?> clsIChatBaseComponent = ServerPackage.MINECRAFT.getClass("IChatBaseComponent");
-            Class<?> clsChatMessageType = ServerPackage.MINECRAFT.getClass("ChatMessageType");
-            Object entityPlayer = player.getClass().getMethod("getHandle").invoke(player);
-            Object playerConnection = entityPlayer.getClass().getField("playerConnection").get(entityPlayer);
-            Object chatBaseComponent = ServerPackage.MINECRAFT.getClass("IChatBaseComponent$ChatSerializer").getMethod("a", String.class).invoke(null, tc.toLegacyText());
-            Object chatMessageType = clsChatMessageType.getMethod("valueOf", String.class).invoke(null, "GAME_INFO");
-            Object packetPlayOutChat = ServerPackage.MINECRAFT.getClass("PacketPlayOutChat").getConstructor(clsIChatBaseComponent, clsChatMessageType).newInstance(chatBaseComponent, chatMessageType);
-            playerConnection.getClass().getMethod("sendPacket", ServerPackage.MINECRAFT.getClass("Packet")).invoke(playerConnection, packetPlayOutChat);
-        } catch (Throwable e) {
-            throw new RuntimeException(e);
+            Class<?> craftPlayerClass = Class.forName("org.bukkit.craftbukkit." + nmsver + ".entity.CraftPlayer");
+            Object craftPlayer = craftPlayerClass.cast(sender);
+            Object ppoc;
+            Class<?> c4 = Class.forName("net.minecraft.server." + nmsver + ".PacketPlayOutChat");
+            Class<?> c5 = Class.forName("net.minecraft.server." + nmsver + ".Packet");
+            Class<?> c2 = Class.forName("net.minecraft.server." + nmsver + ".ChatComponentText");
+            Class<?> c3 = Class.forName("net.minecraft.server." + nmsver + ".IChatBaseComponent");
+            Object o = c2.getConstructor(new Class<?>[]{String.class}).newInstance(tc.getText());
+            ppoc = c4.getConstructor(new Class<?>[]{c3, byte.class}).newInstance(o, (byte) 2);
+            Method m1 = craftPlayerClass.getDeclaredMethod("getHandle");
+            Object h = m1.invoke(craftPlayer);
+            Field f1 = h.getClass().getDeclaredField("playerConnection");
+            Object pc = f1.get(h);
+            Method m5 = pc.getClass().getDeclaredMethod("sendPacket", c5);
+            m5.invoke(pc, ppoc);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    public static String getServerVersion() {
+        try {
+            return Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
+        } catch (ArrayIndexOutOfBoundsException whatVersionAreYouUsingException) {
+            return null;
         }
     }
 
