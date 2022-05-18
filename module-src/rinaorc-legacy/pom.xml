@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.craftmend.openaudiomc</groupId>
-    <artifactId>rinaorc-legacy</artifactId>
+    <artifactId>OpenAudioMc-rinaorc-legacy</artifactId>
     <version>${oa.version}</version>
 
     <name>OpenAudioMc-rinaorc-legacy</name>
