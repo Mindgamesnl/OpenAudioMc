@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.craftmend.openaudiomc</groupId>
-    <artifactId>OpenAudioMc-vistas</artifactId>
+    <artifactId>OpenAudioMc-vistas-server</artifactId>
     <version>${oa.version}</version>
 
-    <name>OpenAudioMc-vistas</name>
+    <name>OpenAudioMc-vistas-server</name>
 
     <parent>
         <groupId>com.craftmend.openaudiomc</groupId>
@@ -23,8 +23,25 @@
     </properties>
 
     <build>
-        <finalName>vistas</finalName>
+        <finalName>vistas-server</finalName>
         <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>libs/</classpathPrefix>
+                            <mainClass>
+                                com.craftmend.vistas.server.VistasBoot
+                            </mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -129,15 +146,36 @@
             <groupId>com.craftmend.openaudiomc</groupId>
             <artifactId>OpenAudioMc</artifactId>
             <version>${oa.version}</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.8.8-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
+            <groupId>com.craftmend.openaudiomc</groupId>
+            <artifactId>OpenAudioMc-vistas-client</artifactId>
+            <version>${oa.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.coreoz</groupId>
+            <artifactId>wisp</artifactId>
+            <version>2.2.1</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.29</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.9</version>
+            <scope>compile</scope>
+        </dependency>
+
     </dependencies>
 
 </project>
