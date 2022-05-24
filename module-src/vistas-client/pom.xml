@@ -122,6 +122,10 @@
             <id>alessiodp-repo</id>
             <url>https://repo.alessiodp.com/releases/</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -137,6 +141,12 @@
             <artifactId>spigot-api</artifactId>
             <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.Karan-Gandhi</groupId>
+            <artifactId>Java-Networking-Library</artifactId>
+            <version>v1.1</version>
         </dependency>
     </dependencies>
 
