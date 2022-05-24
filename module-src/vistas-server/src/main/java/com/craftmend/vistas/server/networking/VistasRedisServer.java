@@ -23,13 +23,13 @@ import com.craftmend.vistas.server.users.ServerUserHooks;
 
 import java.util.UUID;
 
-public class ProxyRedisAdapter extends Service {
+public class VistasRedisServer extends Service {
 
     private IRedisHandler packetEvents;
     private SimpleRedisClient redis;
 
     @Inject
-    public ProxyRedisAdapter(Configuration configuration) {
+    public VistasRedisServer(Configuration configuration) {
         // setup handler
         packetEvents = new DefaultPacketHandler();
         OpenAudioLogger.toConsole("Connecting to redis server: " + configuration.getString(StorageKey.REDIS_HOST));

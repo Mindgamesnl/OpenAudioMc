@@ -9,8 +9,6 @@ import com.craftmend.openaudiomc.generic.proxy.messages.StandardPacket;
 import com.craftmend.openaudiomc.generic.proxy.models.ProxyNode;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.user.adapters.CommandSenderUserAdapter;
-import com.karangandhi.networking.TCP.Connection;
-import com.karangandhi.networking.TCP.TCPServer;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 
@@ -91,8 +89,19 @@ public class ServerUserHooks implements UserHooks {
         return du;
     }
 
-    public void registerServer(Connection<TCPServer> server) {
-        remoteInstallation.put(server.getId(), new MinecraftServer("remote-" + server.getId(), server.getId(), server));
+    public void registerServer(UUID serverId) {
+        remoteInstallation.put(serverId, new MinecraftServer("remote-" + serverId, serverId));
+    }
+
+    public MinecraftServer registerServerIfNew(UUID serverId) {
+        if (serverId == null) {
+            return null;
+        }
+        if (remoteInstallation.containsKey(serverId)) {
+            return remoteInstallation.get(serverId);
+        }
+        registerServer(serverId);
+        return registerServerIfNew(serverId);
     }
     
     public void unregisterServer(UUID serverId) {

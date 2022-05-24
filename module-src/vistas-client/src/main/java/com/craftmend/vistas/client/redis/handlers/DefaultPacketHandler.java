@@ -1,9 +1,9 @@
-package gg.hangouts.deputy.shared.redis.handlers;
+package com.craftmend.vistas.client.redis.handlers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
-import gg.hangouts.deputy.shared.redis.interfaces.IRedisHandler;
-import gg.hangouts.deputy.shared.redis.packets.openaudiomc.InternalPacketWrapper;
+import com.craftmend.vistas.client.redis.interfaces.IRedisHandler;
+import com.craftmend.vistas.client.redis.packets.InternalPacketWrapper;
 import lombok.Setter;
 
 import java.util.HashMap;

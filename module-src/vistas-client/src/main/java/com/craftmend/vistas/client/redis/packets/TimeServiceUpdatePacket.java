@@ -1,4 +1,4 @@
-package gg.hangouts.deputy.shared.redis.packets.openaudiomc;
+package com.craftmend.vistas.client.redis.packets;
 
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;

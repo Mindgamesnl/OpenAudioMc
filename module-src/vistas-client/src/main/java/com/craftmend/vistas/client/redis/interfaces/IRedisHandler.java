@@ -1,7 +1,7 @@
-package gg.hangouts.deputy.shared.redis.interfaces;
+package com.craftmend.vistas.client.redis.interfaces;
 
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
-import gg.hangouts.deputy.shared.redis.handlers.RedisPacketEvent;
+import com.craftmend.vistas.client.redis.handlers.RedisPacketEvent;
 
 public interface IRedisHandler {
 

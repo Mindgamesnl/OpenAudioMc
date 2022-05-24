@@ -1,4 +1,4 @@
-package gg.hangouts.deputy.shared.redis.handlers;
+package com.craftmend.vistas.client.redis.handlers;
 
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
 import lombok.Getter;

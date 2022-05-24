@@ -7,8 +7,6 @@ import com.craftmend.openaudiomc.generic.proxy.models.ProxyNode;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.vistas.client.packets.WrappedProxyPacket;
 import com.craftmend.vistas.server.networking.VistasNetworkServer;
-import com.karangandhi.networking.TCP.Connection;
-import com.karangandhi.networking.TCP.TCPServer;
 import lombok.AllArgsConstructor;
 
 import java.util.Collection;
@@ -21,7 +19,6 @@ public class MinecraftServer implements ProxyNode {
 
     private String name;
     private UUID uuid;
-    private Connection<TCPServer> connection;
 
     @Override
     public String getName() {
