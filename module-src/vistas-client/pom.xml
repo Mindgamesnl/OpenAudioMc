@@ -142,12 +142,6 @@
             <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-
-        <dependency>
-            <groupId>com.github.Karan-Gandhi</groupId>
-            <artifactId>Java-Networking-Library</artifactId>
-            <version>v1.1</version>
-        </dependency>
     </dependencies>
 
 </project>

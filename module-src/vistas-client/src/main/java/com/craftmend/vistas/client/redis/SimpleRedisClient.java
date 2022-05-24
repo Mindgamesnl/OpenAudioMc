@@ -1,9 +1,9 @@
-package gg.hangouts.deputy.shared.redis;
+package com.craftmend.vistas.client.redis;
 
-import com.craftmend.thirdparty.iolettuce.core.pubsub.RedisPubSubAdapter;
-import gg.hangouts.deputy.shared.redis.interfaces.IRedisHandler;
+import com.craftmend.vistas.client.redis.interfaces.IRedisHandler;
+import io.lettuce.core.pubsub.RedisPubSubAdapter;
 
-public class SimpleRedisClient extends RedisPubSubAdapter<String, String>{
+public class SimpleRedisClient extends RedisPubSubAdapter<String, String> {
 
     private IRedisHandler handler;
     private RedisConnection senderConnection;

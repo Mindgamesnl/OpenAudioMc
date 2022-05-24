@@ -16,7 +16,7 @@ import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.vistas.server.base.VistasConfiguration;
 import com.craftmend.vistas.server.base.VistasScheduler;
-import com.craftmend.vistas.server.networking.VistasNetworkServer;
+import com.craftmend.vistas.server.networking.VistasRedisServer;
 import com.craftmend.vistas.server.users.ServerUserHooks;
 import com.craftmend.vistas.server.util.Waiter;
 import lombok.Getter;
@@ -44,7 +44,7 @@ public final class VistasServer implements OpenAudioInvoker {
         openAudioMc.postBoot();
 
         // register network shit
-        openAudioMc.getServiceManager().loadServices(VistasNetworkServer.class);
+        openAudioMc.getServiceManager().loadServices(VistasRedisServer.class);
 
         // inject server bullshit
         OpenAudioMc.getService(StateService.class).setState(new IdleState("OpenAudioMc started and awaiting command"));

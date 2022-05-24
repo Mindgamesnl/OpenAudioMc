@@ -1,7 +1,6 @@
-package gg.hangouts.deputy.shared.redis.packets.openaudiomc;
+package com.craftmend.vistas.client.redis.packets;
 
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
-import gg.hangouts.deputy.shared.reflection.SerializedCall;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

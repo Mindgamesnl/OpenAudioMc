@@ -1,11 +1,11 @@
-package gg.hangouts.deputy.shared.redis;
+package com.craftmend.vistas.client.redis;
 
-import com.craftmend.thirdparty.iolettuce.core.ClientOptions;
-import com.craftmend.thirdparty.iolettuce.core.RedisClient;
-import com.craftmend.thirdparty.iolettuce.core.RedisURI;
-import com.craftmend.thirdparty.iolettuce.core.pubsub.RedisPubSubAdapter;
-import com.craftmend.thirdparty.iolettuce.core.pubsub.StatefulRedisPubSubConnection;
-import com.craftmend.thirdparty.iolettuce.core.pubsub.api.async.RedisPubSubAsyncCommands;
+import io.lettuce.core.ClientOptions;
+import io.lettuce.core.RedisClient;
+import io.lettuce.core.RedisURI;
+import io.lettuce.core.pubsub.RedisPubSubAdapter;
+import io.lettuce.core.pubsub.StatefulRedisPubSubConnection;
+import io.lettuce.core.pubsub.api.async.RedisPubSubAsyncCommands;
 import lombok.Getter;
 
 public class RedisConnection {
