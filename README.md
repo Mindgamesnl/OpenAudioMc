@@ -77,6 +77,8 @@ A UserHook provider is an interface that should supply `User` instances based on
  - `module-src/parties` contains the module integrating with the official [Parties](https://www.spigotmc.org/resources/parties-an-advanced-parties-manager.3709/) plugin
  - `module-src/skywars` contains the module integrating with native Skywars game states ([Skywars Reloaded](https://github.com/lukasvdgaag/SkyWarsReloaded))
  - `module-src/rinoarc-legacy` contains the commisioned module from Rinoard for legacy 1.8 support
+ - `module-src/vistas-server` a standalone OpenAudioMc installation that links over redis, for enterprise deployments with multiple bungee or lilypad proxies
+ - `module-src/vistas-client` a plugin runtime implementation for vistas, to hook into a redis based mesh network
 
 ### Metrics
 [![Stargazers over time](https://starchart.cc/Mindgamesnl/openaudiomc.svg)](https://starchart.cc/Mindgamesnl/openaudiomc)
