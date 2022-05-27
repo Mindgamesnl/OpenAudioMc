@@ -48,6 +48,7 @@ public class TestServer extends TestCase {
     @Override
     public void tearDown() throws Exception {
         System.out.println("Running: tearDown");
+        VistasServer.getInstance().getOpenAudioMc().disable();
         redisServer.stop();
     }
 
@@ -140,6 +141,7 @@ public class TestServer extends TestCase {
         Waiter.waitSeconds(10);
         assertEquals(0, OpenAudioMc.resolveDependency(ServerUserHooks.class).getRemoteUsers().size());
         assertEquals(0, OpenAudioMc.resolveDependency(ServerUserHooks.class).getRemoteUsers().size());
+
     }
 
     @Getter
