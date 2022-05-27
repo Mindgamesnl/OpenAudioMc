@@ -21,6 +21,8 @@ import java.util.UUID;
 
 public class ClientUserHooks implements UserHooks {
 
+    private UserHooks originalHooks = OpenAudioMc.resolveDependency(UserHooks.class);
+
     @Override
     public Collection<ProxyNode> getNodes() {
         return new ArrayList<>();
@@ -61,6 +63,6 @@ public class ClientUserHooks implements UserHooks {
     }
 
     private VistasUser playerToUser(Player player) {
-        return new VistasUser(player.getName(), player.getUniqueId(), player);
+        return new VistasUser(player.getName(), player.getUniqueId(), originalHooks.byUuid(player.getUniqueId()));
     }
 }

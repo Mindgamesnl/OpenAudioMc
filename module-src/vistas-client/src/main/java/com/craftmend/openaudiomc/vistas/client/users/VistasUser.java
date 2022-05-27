@@ -40,11 +40,11 @@ public class VistasUser implements User {
         this.uuid = uuid;
     }
 
-    public VistasUser(String name, UUID uuid, Player player) {
+    public VistasUser(String name, UUID uuid, User player) {
         this.name = name;
         this.uuid = uuid;
         this.isSpigot = true;
-        this.original = new SpigotUserAdapter(player);
+        this.original = player;
     }
 
     public void registerInServer(UUID s) {

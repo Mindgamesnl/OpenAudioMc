@@ -6,11 +6,14 @@ import com.craftmend.openaudiomc.api.interfaces.ExternalModule;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
+import com.craftmend.openaudiomc.generic.state.StateService;
+import com.craftmend.openaudiomc.generic.state.states.WorkerState;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.vistas.client.client.ClientUserHooks;
 import com.craftmend.openaudiomc.vistas.client.client.VistasRedisClient;
 import com.craftmend.openaudiomc.vistas.client.commands.VistasEvalCommand;
 import com.craftmend.openaudiomc.vistas.client.listeners.PlayerListener;
+import com.craftmend.openaudiomc.vistas.client.redis.packets.ServerClosePacket;
 import com.craftmend.openaudiomc.vistas.client.redis.packets.ServerRegisterPacket;
 import com.craftmend.openaudiomc.vistas.client.redis.packets.UserJoinPacket;
 import lombok.Getter;
@@ -48,6 +51,7 @@ public final class Vistas extends ExternalModule implements Listener {
 
     @Override
     public void on(ModuleEvent event) {
+        OpenAudioMc.getService(StateService.class).setState(new VistasNodeState());
         if (event == ModuleEvent.PLATFORM_LOADED) {
             // finished startup
             OpenAudioMc.getService(CommandService.class).registerSubCommand(new VistasEvalCommand());
@@ -59,6 +63,15 @@ public final class Vistas extends ExternalModule implements Listener {
             OpenAudioMc.getInstance().getServiceManager().registerDependency(UserHooks.class, new ClientUserHooks());
             OpenAudioMcSpigot s = OpenAudioMcSpigot.getInstance();
             s.getServer().getPluginManager().registerEvents(new PlayerListener(this), s);
+
+            // register self after a bit
+            Bukkit.getScheduler().runTaskLater(OpenAudioMcSpigot.getInstance(), () -> {
+                registerSelf();
+            }, 80); // 4 seconds
+        }
+
+        if (event == ModuleEvent.SHUTDOWN) {
+            OpenAudioMc.getService(VistasRedisClient.class).sendPacket(new ServerClosePacket(serverId));
         }
     }
 
