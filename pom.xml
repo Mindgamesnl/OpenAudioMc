@@ -21,6 +21,7 @@
 
     <modules>
         <module>module-src/jutils</module>
+        <module>module-src/packets-common</module>
         <module>plugin</module>
         <module>module-src/vistas-client</module>
         <module>module-src/vistas-server</module>

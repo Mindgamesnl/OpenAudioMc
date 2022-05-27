@@ -1,0 +1,17 @@
+.classpath
+.project
+.settings
+eclipse
+.idea
+*.iml
+*.ipr
+*.iws
+.DS_Store
+bin
+
+.idea/*
+
+out
+out/*
+
+.vscode/*

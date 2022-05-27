@@ -13,7 +13,7 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.mojang.MojangLookupService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.abstracts.PayloadHandler;
-import com.craftmend.openaudiomc.generic.networking.enums.PacketChannel;
+import com.craftmend.openaudiomc.generic.networking.abstracts.PacketChannel;
 import com.craftmend.openaudiomc.generic.networking.handlers.*;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;

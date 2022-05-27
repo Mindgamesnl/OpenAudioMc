@@ -1,6 +1,5 @@
 package com.craftmend.openaudiomc.generic.networking.abstracts;
 
-import com.craftmend.openaudiomc.generic.networking.enums.PacketChannel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
