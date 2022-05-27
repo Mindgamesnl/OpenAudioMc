@@ -1,6 +1,7 @@
 package vistas.test;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.vistas.client.redis.packets.ServerRegisterPacket;
 import com.craftmend.vistas.client.redis.packets.UserJoinPacket;
@@ -19,7 +20,7 @@ import vistas.test.utils.Waiter;
 
 import java.util.UUID;
 
-public class VistasTestStack extends TestCase {
+public class TestServer extends TestCase {
 
     private TempUser mats = new TempUser("Mats", UUID.randomUUID());
     private TempUser anouk = new TempUser("Anouk", UUID.randomUUID());
@@ -114,6 +115,31 @@ public class VistasTestStack extends TestCase {
         // players should now be in the other server
         assertEquals(0, OpenAudioMc.resolveDependency(ServerUserHooks.class).getRemoteInstallation().get(fakeServer1).getOnlineUsers().size());
         assertEquals(2, OpenAudioMc.resolveDependency(ServerUserHooks.class).getRemoteInstallation().get(fakeServer2).getOnlineUsers().size());
+
+        System.out.println("Waiting for boot so the gc tasks are running");
+        Waiter.waitUntil(unused -> OpenAudioMc.getService(CraftmendService.class).isInitialized(), 20);
+
+        // test for memory leaks by leaving the server entirely, then waiting and killing it
+        OpenAudioMc.getService(VistasRedisServer.class).getPacketEvents().handlePacket(null, new UserLeavePacket(
+                mats.getName(),
+                mats.getUuid(),
+                fakeServer2
+        ));
+
+        OpenAudioMc.getService(VistasRedisServer.class).getPacketEvents().handlePacket(null, new UserLeavePacket(
+                anouk.getName(),
+                anouk.getUuid(),
+                fakeServer2
+        ));
+
+        assertEquals(0, OpenAudioMc.resolveDependency(ServerUserHooks.class).getRemoteInstallation().get(fakeServer1).getOnlineUsers().size());
+        assertEquals(0, OpenAudioMc.resolveDependency(ServerUserHooks.class).getRemoteInstallation().get(fakeServer2).getOnlineUsers().size());
+        assertEquals(2, OpenAudioMc.resolveDependency(ServerUserHooks.class).getRemoteUsers().size());
+
+        System.out.println("Waiting 10 seconds for gc to do its thing");
+        Waiter.waitSeconds(10);
+        assertEquals(0, OpenAudioMc.resolveDependency(ServerUserHooks.class).getRemoteUsers().size());
+        assertEquals(0, OpenAudioMc.resolveDependency(ServerUserHooks.class).getRemoteUsers().size());
     }
 
     @Getter
