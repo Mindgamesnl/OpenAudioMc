@@ -42,7 +42,9 @@ public class SpigotAudioCommand implements CommandExecutor {
             return true;
         }
 
-        if (CommandMiddewareExecutor.shouldBeCanceled(new SpigotUserAdapter(commandSender), null, commandMiddleware))
+        User sua = OpenAudioMc.resolveDependency(UserHooks.class).fromCommandSender(commandSender);
+
+        if (CommandMiddewareExecutor.shouldBeCanceled(sua, null, commandMiddleware))
             return true;
 
         State state = OpenAudioMc.getService(StateService.class).getCurrentState();

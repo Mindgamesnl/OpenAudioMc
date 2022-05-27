@@ -10,6 +10,7 @@ import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import lombok.AllArgsConstructor;
+import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,6 +51,14 @@ public class VelocityUserHooks implements UserHooks {
     public User byUuid(UUID uuid) {
         if (velocity.getServer().getPlayer(uuid).isPresent()) {
             return new VelocityUserAdapter(velocity.getServer().getPlayer(uuid).get());
+        }
+        return null;
+    }
+
+    @Override
+    public User fromCommandSender(CommandSender commandSender) {
+        if (commandSender instanceof Player) {
+            return byUuid(((Player) commandSender).getUniqueId());
         }
         return null;
     }

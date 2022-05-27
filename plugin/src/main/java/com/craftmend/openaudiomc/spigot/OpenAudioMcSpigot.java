@@ -81,16 +81,16 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
         // set logger
         OpenAudioLogger.setLogger(new SpigotLogger(this));
 
-        if (System.getenv("OA_LATE_BIND") != null && !bound) {
+        if (MagicValue.PLATFORM_FORCE_LATE_FIND.get(Boolean.class) != null && MagicValue.PLATFORM_FORCE_LATE_FIND.get(Boolean.class) && !bound) {
             OpenAudioLogger.toConsole("Using late bind! not doing anything for now...");
             bound = true;
             return;
         }
 
-        proxyModule = new ProxyModule();
 
         // setup core
         try {
+            proxyModule = new ProxyModule();
             openAudioMc = new OpenAudioMc(this);
             openAudioMc.getServiceManager().registerDependency(ProxyModule.class, proxyModule);
             openAudioMc.getServiceManager().registerDependency(OpenAudioMcSpigot.class, this);

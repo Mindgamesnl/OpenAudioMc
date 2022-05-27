@@ -95,10 +95,6 @@ public final class OaMapmigrator extends ExternalModule {
         new File(MagicValue.STORAGE_DIRECTORY.get(File.class), "database.db").delete();
     }
 
-    private void log(String s) {
-        OpenAudioLogger.toConsole("mapdbmigrate.jar: " + s);
-    }
-
     public Object copyOnto(Class original, Object source, Object target) throws Exception {
         for (Field declaredField : original.getDeclaredFields()) {
             declaredField.setAccessible(true);

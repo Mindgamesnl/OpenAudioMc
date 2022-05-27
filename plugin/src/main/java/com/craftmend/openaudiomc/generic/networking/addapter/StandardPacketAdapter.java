@@ -2,12 +2,9 @@ package com.craftmend.openaudiomc.generic.networking.addapter;
 
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
-import com.craftmend.openaudiomc.generic.proxy.messages.PacketWriter;
 import com.craftmend.openaudiomc.generic.proxy.messages.StandardPacket;
 import com.google.gson.*;
 
-import java.io.DataInputStream;
-import java.io.IOException;
 import java.lang.reflect.Type;
 
 public class StandardPacketAdapter implements JsonSerializer<StandardPacket>, JsonDeserializer<StandardPacket> {

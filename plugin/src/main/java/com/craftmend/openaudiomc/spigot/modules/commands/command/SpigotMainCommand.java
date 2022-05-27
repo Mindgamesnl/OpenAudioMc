@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddlewar
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
+import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.user.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -18,6 +19,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +40,7 @@ public class SpigotMainCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender originalSender, Command command, String label, String[] args) {
-        User sender = new SpigotUserAdapter(originalSender);
+        User sender = OpenAudioMc.resolveDependency(UserHooks.class).fromCommandSender(originalSender);
 
         if (args.length == 0) {
             sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "OpenAudioMc version " + openAudioMcSpigot.getDescription().getVersion() + ". For help, please use /openaudio help");

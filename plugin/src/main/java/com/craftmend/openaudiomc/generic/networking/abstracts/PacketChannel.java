@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.networking.enums;
+package com.craftmend.openaudiomc.generic.networking.abstracts;
 
 public enum PacketChannel {
 

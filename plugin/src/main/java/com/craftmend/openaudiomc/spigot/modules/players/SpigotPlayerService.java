@@ -3,8 +3,10 @@ package com.craftmend.openaudiomc.spigot.modules.players;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
+import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
+import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.user.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.listeners.PlayerConnectionListener;
@@ -48,7 +50,8 @@ public class SpigotPlayerService extends Service {
      * @param player registers the player
      */
     public void register(Player player) {
-        ClientConnection clientConnection = OpenAudioMc.getService(NetworkingService.class).register(new SpigotUserAdapter(player), null);
+        User sua = OpenAudioMc.resolveDependency(UserHooks.class).byUuid(player.getUniqueId());
+        ClientConnection clientConnection = OpenAudioMc.getService(NetworkingService.class).register(sua, null);
         spigotConnectionMap.put(player.getUniqueId(), new SpigotConnection(player, clientConnection));
     }
 

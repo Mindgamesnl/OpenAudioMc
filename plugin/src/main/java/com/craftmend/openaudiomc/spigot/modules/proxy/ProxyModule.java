@@ -13,9 +13,7 @@ import java.io.File;
 
 public class ProxyModule extends Service {
 
-    @Getter private final OAClientMode mode;
-
-    public ProxyModule() {
+    public OAClientMode getMode() {
         boolean proxyMode = false;
 
         // if paper is user, checking for velocity support
@@ -35,22 +33,19 @@ public class ProxyModule extends Service {
         // is it minehut? then force if
         if (EnvironmentHelper.contains("minehut") || MagicValue.FORCE_SERVER_STANDALONE.get(Boolean.class)) {
             OpenAudioLogger.toConsole("Starting in standalone mode due to minehut containers or it being forced");
-            mode = OAClientMode.STAND_ALONE;
-            return;
+            return OAClientMode.STAND_ALONE;
         }
 
         if (MagicValue.FORCE_SERVER_NODE.get(Boolean.class)) {
-            OpenAudioLogger.toConsole("Forcing node mode from magic value");
-            mode = OAClientMode.NODE;
-            return;
+            return OAClientMode.NODE;
         }
 
         if (proxyMode) {
             OpenAudioLogger.toConsole("Starting in bungee mode");
-            mode = OAClientMode.NODE;
+            return OAClientMode.NODE;
         } else {
             OpenAudioLogger.toConsole("Starting in socket mode");
-            mode = OAClientMode.STAND_ALONE;
+            return OAClientMode.STAND_ALONE;
         }
     }
 
