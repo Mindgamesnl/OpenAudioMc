@@ -173,9 +173,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.craftmend</groupId>
+            <groupId>com.github.mindgamesnl</groupId>
             <artifactId>storm</artifactId>
-            <version>1.2</version>
+            <version>ef78d7f64e</version>
         </dependency>
 
         <dependency>
