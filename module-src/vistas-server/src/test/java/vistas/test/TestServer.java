@@ -42,11 +42,8 @@ public class TestServer extends TestCase {
 
         Waiter.waitUntil(s -> redisServer.isActive(), 10);
 
-        while (true) {
-            Thread.sleep(Integer.MAX_VALUE);
-        }
-
-
+        System.out.println("Starting test resources");
+        testVistasServer = new TestVistasServer();
     }
 
     @Override
