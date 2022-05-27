@@ -10,7 +10,7 @@ import org.bukkit.event.Listener;
 public final class RinoarcLegacy extends ExternalModule implements Listener {
 
     public RinoarcLegacy() {
-
+        OpenAudioMc.getInstance().getServiceManager().registerDependency(UserHooks.class, new LegacySpigotUserHooks());
     }
 
     @Override
@@ -30,7 +30,6 @@ public final class RinoarcLegacy extends ExternalModule implements Listener {
 
     @Override
     public void on(ModuleEvent event) {
-        OpenAudioMc.getInstance().getServiceManager().registerDependency(UserHooks.class, new LegacySpigotUserHooks());
     }
 
 }
