@@ -1,5 +1,6 @@
 package com.craftmend.rinaorc.implementation;
 
+import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.user.User;
 import lombok.AllArgsConstructor;
 import net.md_5.bungee.api.ChatMessageType;
@@ -25,7 +26,7 @@ public class LegacySpigotUserAdapter implements User {
 
     @Override
     public void sendMessage(String string) {
-        sender.sendMessage(string);
+        sender.sendMessage(Platform.translateColors(string));
     }
 
     @Override
@@ -34,7 +35,7 @@ public class LegacySpigotUserAdapter implements User {
             Player p = (Player) sender;
             p.spigot().sendMessage(textComponent);
         } else {
-            sender.sendMessage(textComponent.getText());
+            sender.sendMessage(Platform.translateColors(textComponent.getText()));
         }
     }
 

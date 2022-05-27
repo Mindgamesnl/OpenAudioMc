@@ -117,13 +117,17 @@ public class OpenAudioMc {
         // migrate old config and data files between versions
         new MigrationWorker().handleMigrations();
 
+        // handle modules
+        serviceManager.loadService(
+                ModuleLoaderService.class      // download, save and use external jar modules
+        );
+
         // load networking service, its a variable class (between platform) that we want to inject and
         // identify based on its abstract class name, meaning that injected code can be re-used regardless of platform
         serviceManager.registerDependency(NetworkingService.class, invoker.getServiceClass().getConstructor().newInstance());
 
         // load core services in order
         serviceManager.loadServices(
-                ModuleLoaderService.class,      // download, save and use external jar modules
                 DatabaseService.class,          // player and profile storage
                 EnvironmentService.class,       // env loader
                 MojangLookupService.class,      // handles caching of uuid's > names

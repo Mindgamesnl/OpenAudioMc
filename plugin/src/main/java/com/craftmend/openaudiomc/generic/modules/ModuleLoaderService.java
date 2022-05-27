@@ -52,6 +52,8 @@ public class ModuleLoaderService extends Service {
                 loadModFromFile(file);
             }
         }
+
+        fire(ModuleEvent.MODULES_LOADED);
     }
 
     public void loadModFromFile(File file) {
