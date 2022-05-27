@@ -81,7 +81,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
         // set logger
         OpenAudioLogger.setLogger(new SpigotLogger(this));
 
-        if (MagicValue.PLATFORM_FORCE_LATE_FIND.get(Boolean.class) != null && !bound) {
+        if (MagicValue.PLATFORM_FORCE_LATE_FIND.get(Boolean.class) != null && MagicValue.PLATFORM_FORCE_LATE_FIND.get(Boolean.class) && !bound) {
             OpenAudioLogger.toConsole("Using late bind! not doing anything for now...");
             bound = true;
             return;

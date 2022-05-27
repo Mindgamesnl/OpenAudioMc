@@ -11,7 +11,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.Serializable;
-import java.lang.reflect.Modifier;
 
 public class SerializerTest {
 

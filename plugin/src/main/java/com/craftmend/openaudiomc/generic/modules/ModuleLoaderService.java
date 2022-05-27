@@ -1,10 +1,13 @@
 package com.craftmend.openaudiomc.generic.modules;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.enums.ModuleEvent;
 import com.craftmend.openaudiomc.api.interfaces.ExternalModule;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
+import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -26,11 +29,7 @@ import java.util.jar.JarFile;
 
 public class ModuleLoaderService extends Service {
 
-    private List<ExternalModule> modules = new ArrayList<>();
-
-    public void registerSpigotEvents(Listener listener, ExternalModule module) {
-        Bukkit.getPluginManager().registerEvents(listener, OpenAudioMcSpigot.getInstance());
-    }
+    @Getter private List<ExternalModule> modules = new ArrayList<>();
 
     @SneakyThrows
     public ModuleLoaderService() {
@@ -84,6 +83,7 @@ public class ModuleLoaderService extends Service {
 
                 log("Loading module " + file.getName() + " as " + mod.getName());
                 mod.onInitialize();
+                mod.setLoader(loader);
                 modules.add(mod);
             } else {
                 log("FATAL! Failed to load module " + file.getAbsolutePath() + " because it doesn't have a valid main class");

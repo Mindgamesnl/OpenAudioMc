@@ -1,6 +1,9 @@
 package com.craftmend.openaudiomc.generic.networking.addapter;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.interfaces.ExternalModule;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.modules.ModuleLoaderService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
 import com.google.gson.*;
 import java.lang.reflect.Type;
@@ -37,13 +40,28 @@ public class AbstractPacketAdapter implements JsonSerializer<AbstractPacketPaylo
             }
 
             if (type.contains("openaudiomc")) {
-                return context.deserialize(element, Class.forName(type));
+                return context.deserialize(element, loadClassModuleFallback(type));
             }
 
-            return context.deserialize(element, Class.forName("com.craftmend.openaudiomc.generic.networking.payloads." + type));
+            return context.deserialize(element, loadClassModuleFallback("com.craftmend.openaudiomc.generic.networking.payloads." + type));
         } catch (ClassNotFoundException cnfe) {
             OpenAudioLogger.handleException(cnfe);
             throw new JsonParseException("Unknown element type: " + type, cnfe);
+        }
+    }
+
+    private Class loadClassModuleFallback(String classname) throws ClassNotFoundException {
+        try {
+            return Class.forName(classname);
+        } catch (ClassNotFoundException e) {
+            for (ExternalModule module : OpenAudioMc.getService(ModuleLoaderService.class).getModules()) {
+                try {
+                    return Class.forName(classname, true, module.getLoader());
+                } catch (ClassNotFoundException ignored) {
+
+                }
+            }
+            throw e;
         }
     }
 }
