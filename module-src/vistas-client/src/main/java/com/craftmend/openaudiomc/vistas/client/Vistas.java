@@ -57,17 +57,18 @@ public final class Vistas extends ExternalModule implements Listener {
             OpenAudioMc.getService(CommandService.class).registerSubCommand(new VistasEvalCommand());
         }
 
+        if (event == ModuleEvent.MODULES_LOADED) {
+            OpenAudioMc.getInstance().getServiceManager().registerDependency(UserHooks.class, new ClientUserHooks());
+        }
+
         if (event == ModuleEvent.SERVICES_LOADED) {
             // mid boot
             OpenAudioMc.getInstance().getServiceManager().loadServices(VistasRedisClient.class);
-            OpenAudioMc.getInstance().getServiceManager().registerDependency(UserHooks.class, new ClientUserHooks());
             OpenAudioMcSpigot s = OpenAudioMcSpigot.getInstance();
             s.getServer().getPluginManager().registerEvents(new PlayerListener(this), s);
 
             // register self after a bit
-            Bukkit.getScheduler().runTaskLater(OpenAudioMcSpigot.getInstance(), () -> {
-                registerSelf();
-            }, 80); // 4 seconds
+            Bukkit.getScheduler().runTaskLater(OpenAudioMcSpigot.getInstance(), this::registerSelf, 80); // 4 seconds
         }
 
         if (event == ModuleEvent.SHUTDOWN) {

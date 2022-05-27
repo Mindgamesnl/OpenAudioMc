@@ -14,6 +14,7 @@ import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
+import com.craftmend.openaudiomc.vistas.client.redis.packets.AnnounceSelfRequest;
 import com.craftmend.vistas.server.base.VistasConfiguration;
 import com.craftmend.vistas.server.base.VistasScheduler;
 import com.craftmend.openaudiomc.vistas.client.server.networking.VistasRedisServer;
@@ -58,6 +59,8 @@ public final class VistasServer implements OpenAudioInvoker {
         MagicValue.overWrite(MagicValue.NOTIFY_VOICECHAT_SLOT_DEPLETION, false);
 
         OpenAudioMc.resolveDependency(ServerUserHooks.class).startGc();
+
+        openAudioMc.getServiceManager().getService(VistasRedisServer.class).sendPacket(new AnnounceSelfRequest(), null);
     }
 
     @Override

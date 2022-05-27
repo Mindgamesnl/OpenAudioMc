@@ -87,10 +87,10 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
             return;
         }
 
-        proxyModule = new ProxyModule();
 
         // setup core
         try {
+            proxyModule = new ProxyModule();
             openAudioMc = new OpenAudioMc(this);
             openAudioMc.getServiceManager().registerDependency(ProxyModule.class, proxyModule);
             openAudioMc.getServiceManager().registerDependency(OpenAudioMcSpigot.class, this);
