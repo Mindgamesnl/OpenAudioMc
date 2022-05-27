@@ -14,10 +14,11 @@ import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
+import com.craftmend.vistas.client.client.ClientUserHooks;
 import com.craftmend.vistas.server.base.VistasConfiguration;
 import com.craftmend.vistas.server.base.VistasScheduler;
-import com.craftmend.vistas.server.networking.VistasRedisServer;
-import com.craftmend.vistas.server.users.ServerUserHooks;
+import com.craftmend.vistas.client.server.networking.VistasRedisServer;
+import com.craftmend.vistas.client.users.ServerUserHooks;
 import com.craftmend.vistas.server.util.Waiter;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -54,6 +55,8 @@ public final class VistasServer implements OpenAudioInvoker {
 
         // we're setup!
         MagicValue.overWrite(MagicValue.NOTIFY_VOICECHAT_SLOT_DEPLETION, false);
+
+        OpenAudioMc.resolveDependency(ServerUserHooks.class).startGc();
     }
 
     @Override
