@@ -20,12 +20,13 @@ import com.craftmend.vistas.client.redis.interfaces.IRedisHandler;
 import com.craftmend.vistas.client.redis.packets.*;
 import com.craftmend.vistas.client.users.MinecraftServer;
 import com.craftmend.vistas.client.users.ServerUserHooks;
+import lombok.Getter;
 
 import java.util.UUID;
 
 public class VistasRedisServer extends Service {
 
-    private IRedisHandler packetEvents;
+    @Getter private IRedisHandler packetEvents;
     private SimpleRedisClient redis;
 
     @Inject
