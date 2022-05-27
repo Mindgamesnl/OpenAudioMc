@@ -9,6 +9,7 @@ import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.user.adapters.BungeeUserAdapter;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import org.bukkit.command.CommandSender;
 
 import java.util.*;
 
@@ -50,5 +51,13 @@ public class BungeeUserHooks implements UserHooks {
         ProxiedPlayer p = ProxyServer.getInstance().getPlayer(uuid);
         if (p == null) return null;
         return new BungeeUserAdapter(p);
+    }
+
+    @Override
+    public User fromCommandSender(CommandSender commandSender) {
+        if (commandSender instanceof ProxiedPlayer) {
+            return byUuid(((ProxiedPlayer) commandSender).getUniqueId());
+        }
+        return null;
     }
 }
