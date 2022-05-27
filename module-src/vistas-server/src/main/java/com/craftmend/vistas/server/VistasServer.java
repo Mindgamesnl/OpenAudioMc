@@ -30,8 +30,10 @@ public final class VistasServer implements OpenAudioInvoker {
 
     @Getter static VistasServer instance;
     @Getter private final UUID sessionId = UUID.randomUUID();
+    @Getter private OpenAudioMc openAudioMc;
 
     public VistasServer() {
+        instance = this;
         File temp = new File(VistasConfiguration.BASE_PATH);
         if (!temp.exists()) {
             OpenAudioLogger.toConsole("Creating base path");
@@ -41,7 +43,7 @@ public final class VistasServer implements OpenAudioInvoker {
 
     @SneakyThrows
     public void onEnable() {
-        OpenAudioMc openAudioMc = new OpenAudioMc(this);
+        openAudioMc = new OpenAudioMc(this);
         openAudioMc.postBoot();
 
         // register network shit

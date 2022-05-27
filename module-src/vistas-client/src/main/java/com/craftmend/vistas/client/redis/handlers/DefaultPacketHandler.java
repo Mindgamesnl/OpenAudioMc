@@ -27,8 +27,13 @@ public class DefaultPacketHandler implements IRedisHandler {
         // parse packet
         InternalPacketWrapper ipw = OpenAudioMc.getGson().fromJson(message, InternalPacketWrapper.class);
         AbstractPacketPayload packet = ipw.getWrapped();
+        handlePacket(ipw, packet);
+    }
+
+    @Override
+    public void handlePacket(InternalPacketWrapper ipw, AbstractPacketPayload packet) {
         RedisPacketEvent<?> handler = eventMap.get(packet.getClass());
-        if (selfId != null && ipw.getDestinedForServerId() != null) {
+        if (ipw != null && selfId != null && ipw.getDestinedForServerId() != null) {
             if (!ipw.getDestinedForServerId().equals(selfId)) {
                 return;
             }
