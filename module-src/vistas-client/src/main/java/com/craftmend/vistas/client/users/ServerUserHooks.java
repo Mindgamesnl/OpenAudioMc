@@ -1,4 +1,4 @@
-package com.craftmend.vistas.server.users;
+package com.craftmend.vistas.client.users;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
@@ -21,15 +21,15 @@ import java.util.stream.Collectors;
 @Getter
 public class ServerUserHooks implements UserHooks {
 
-    private Map<UUID, VistasServerUser> remoteUsers = new ConcurrentHashMap<>();
+    private Map<UUID, VistasUser> remoteUsers = new ConcurrentHashMap<>();
     private Map<UUID, MinecraftServer> remoteInstallation = new ConcurrentHashMap<>();
 
     public void startGc() {
         OpenAudioMc.resolveDependency(TaskService.class).scheduleSyncRepeatingTask(() -> {
-            Set<VistasServerUser> removeMe = new HashSet<>();
-            for (Map.Entry<UUID, VistasServerUser> entry : remoteUsers.entrySet()) {
+            Set<VistasUser> removeMe = new HashSet<>();
+            for (Map.Entry<UUID, VistasUser> entry : remoteUsers.entrySet()) {
                 UUID n = entry.getKey();
-                VistasServerUser u = entry.getValue();
+                VistasUser u = entry.getValue();
                 if (u.getLastSeenServer() == null) {
                     if (Duration.between(u.getOfflineSince(), Instant.now()).getSeconds() > 2) {
                         removeMe.add(u);
@@ -37,7 +37,7 @@ public class ServerUserHooks implements UserHooks {
                 }
             }
 
-            for (VistasServerUser deputyUser : removeMe) {
+            for (VistasUser deputyUser : removeMe) {
                 OpenAudioLogger.toConsole("Kicking garbage connection for " + deputyUser.getName());
                 deputyUser.handleDefiniteDisconnect();
                 OpenAudioMc.getService(NetworkingService.class).remove(deputyUser.getUniqueId());
@@ -58,7 +58,7 @@ public class ServerUserHooks implements UserHooks {
 
     @Override
     public void sendPacket(User user, StandardPacket standardPacket) {
-        VistasServerUser du = (VistasServerUser) user;
+        VistasUser du = (VistasUser) user;
         ProxyNode remote = remoteInstallation.get(du.getLastSeenServer());
         if (remote != null) {
             MinecraftServer pl = (MinecraftServer) remote;
@@ -79,11 +79,11 @@ public class ServerUserHooks implements UserHooks {
         return new CommandSenderUserAdapter(commandSender);
     }
 
-    public VistasServerUser registerUserIfNew(UUID playerId, String name) {
+    public VistasUser registerUserIfNew(UUID playerId, String name) {
         if (remoteUsers.containsKey(playerId)) {
             return remoteUsers.get(playerId);
         }
-        VistasServerUser du = new VistasServerUser(name, playerId);
+        VistasUser du = new VistasUser(name, playerId);
         remoteUsers.put(playerId, du);
         OpenAudioMc.getService(NetworkingService.class).register(du, null);
         return du;
@@ -105,7 +105,7 @@ public class ServerUserHooks implements UserHooks {
     }
     
     public void unregisterServer(UUID serverId) {
-        for (VistasServerUser value : remoteUsers.values()) {
+        for (VistasUser value : remoteUsers.values()) {
             if (value.getLastSeenServer() != null && value.getLastSeenServer().equals(serverId)) {
                 value.setLastSeenServer(null);
             }
@@ -115,14 +115,14 @@ public class ServerUserHooks implements UserHooks {
 
     public void onUserJoin(String playerName, UUID playerUuid, UUID serverId) {
         MinecraftServer dpi = remoteInstallation.get(serverId);
-        VistasServerUser du = registerUserIfNew(playerUuid, playerName);
+        VistasUser du = registerUserIfNew(playerUuid, playerName);
         du.registerInServer(serverId);
         OpenAudioLogger.toConsole(playerName + " got claimed by server " + serverId.toString());
     }
 
     public void onUserLeave(String playerName, UUID playerUuid, UUID serverId) {
         MinecraftServer dpi = remoteInstallation.get(serverId);
-        VistasServerUser du = registerUserIfNew(playerUuid, playerName);
+        VistasUser du = registerUserIfNew(playerUuid, playerName);
         du.removeServer(serverId);
         OpenAudioLogger.toConsole(playerName + " left server " + serverId.toString());
     }

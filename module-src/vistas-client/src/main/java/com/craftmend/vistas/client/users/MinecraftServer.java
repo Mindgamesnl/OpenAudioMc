@@ -1,12 +1,12 @@
-package com.craftmend.vistas.server.users;
+package com.craftmend.vistas.client.users;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.proxy.messages.StandardPacket;
 import com.craftmend.openaudiomc.generic.proxy.models.ProxyNode;
 import com.craftmend.openaudiomc.generic.user.User;
-import com.craftmend.vistas.client.packets.WrappedProxyPacket;
-import com.craftmend.vistas.server.networking.VistasNetworkServer;
+import com.craftmend.vistas.client.redis.packets.WrappedProxyPacket;
+import com.craftmend.vistas.client.server.networking.VistasRedisServer;
 import lombok.AllArgsConstructor;
 
 import java.util.Collection;
@@ -29,8 +29,8 @@ public class MinecraftServer implements ProxyNode {
     public Collection<User> getOnlineUsers() {
         Set<User> users = new HashSet<>();
         for (User onlineUser : OpenAudioMc.resolveDependency(UserHooks.class).getOnlineUsers()) {
-            if (onlineUser instanceof VistasServerUser) {
-                VistasServerUser du = (VistasServerUser) onlineUser;
+            if (onlineUser instanceof VistasUser) {
+                VistasUser du = (VistasUser) onlineUser;
                 if (du.getLastSeenServer() != null && du.getLastSeenServer().equals(uuid)) users.add(du);
             }
         }
@@ -38,7 +38,7 @@ public class MinecraftServer implements ProxyNode {
     }
 
     public void sendPacket(User user, StandardPacket standardPacket) {
-        OpenAudioMc.getService(VistasNetworkServer.class).sendPacket(new WrappedProxyPacket(
+        OpenAudioMc.getService(VistasRedisServer.class).sendPacket(new WrappedProxyPacket(
                 standardPacket,
                 uuid,
                 user.getUniqueId()
@@ -47,7 +47,7 @@ public class MinecraftServer implements ProxyNode {
 
     @Override
     public void sendPacket(StandardPacket standardPacket) {
-        OpenAudioMc.getService(VistasNetworkServer.class).sendPacket(new WrappedProxyPacket(
+        OpenAudioMc.getService(VistasRedisServer.class).sendPacket(new WrappedProxyPacket(
                 standardPacket,
                 uuid,
                 null

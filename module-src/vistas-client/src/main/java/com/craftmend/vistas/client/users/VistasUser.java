@@ -1,4 +1,4 @@
-package com.craftmend.vistas.server.users;
+package com.craftmend.vistas.client.users;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.client.helpers.SerializableClient;
@@ -7,20 +7,23 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.proxy.ProxyHostService;
 import com.craftmend.openaudiomc.generic.user.User;
-import com.craftmend.vistas.client.packets.InvokeUserPacket;
+import com.craftmend.openaudiomc.generic.user.adapters.SpigotUserAdapter;
+import com.craftmend.vistas.client.client.VistasRedisClient;
+import com.craftmend.vistas.client.redis.packets.InvokeUserPacket;
 import com.craftmend.vistas.client.reflection.SerializedCall;
 import com.craftmend.vistas.client.reflection.SerializedParameter;
-import com.craftmend.vistas.server.networking.VistasNetworkServer;
+import com.craftmend.vistas.client.server.networking.VistasRedisServer;
 import lombok.Getter;
 import lombok.Setter;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.entity.Player;
 
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class VistasServerUser implements User {
+public class VistasUser implements User {
 
     private String name;
     private UUID uuid;
@@ -33,9 +36,16 @@ public class VistasServerUser implements User {
     private boolean isSpigot = false;
     private User original = null;
 
-    public VistasServerUser(String name, UUID uuid) {
+    public VistasUser(String name, UUID uuid) {
         this.name = name;
         this.uuid = uuid;
+    }
+
+    public VistasUser(String name, UUID uuid, Player player) {
+        this.name = name;
+        this.uuid = uuid;
+        this.isSpigot = true;
+        this.original = new SpigotUserAdapter(player);
     }
 
     public void registerInServer(UUID s) {
@@ -135,7 +145,7 @@ public class VistasServerUser implements User {
         ).addParam(SerializedParameter.toParam(String.class, s));
 
         if (lastSeenServer != null) {
-            OpenAudioMc.getService(VistasNetworkServer.class).sendPacket(
+            OpenAudioMc.getService(VistasRedisClient.class).sendPacket(
                     new InvokeUserPacket(c, uuid),
                     lastSeenServer
             );
@@ -154,7 +164,7 @@ public class VistasServerUser implements User {
         ).addParam(SerializedParameter.toParam(TextComponent.class, textComponent));
 
         if (lastSeenServer != null) {
-            OpenAudioMc.getService(VistasNetworkServer.class).sendPacket(
+            OpenAudioMc.getService(VistasRedisServer.class).sendPacket(
                     new InvokeUserPacket(c, uuid),
                     lastSeenServer
             );
@@ -180,7 +190,7 @@ public class VistasServerUser implements User {
                 .addParam(SerializedParameter.toParam(String.class, s2));
 
         if (lastSeenServer != null) {
-            OpenAudioMc.getService(VistasNetworkServer.class).sendPacket(
+            OpenAudioMc.getService(VistasRedisServer.class).sendPacket(
                     new InvokeUserPacket(c, uuid),
                     lastSeenServer
             );
@@ -202,7 +212,7 @@ public class VistasServerUser implements User {
                 .addParam(SerializedParameter.toParam(String.class, s));
 
         if (lastSeenServer != null) {
-            OpenAudioMc.getService(VistasNetworkServer.class).sendPacket(
+            OpenAudioMc.getService(VistasRedisServer.class).sendPacket(
                     new InvokeUserPacket(c, uuid),
                     lastSeenServer
             );

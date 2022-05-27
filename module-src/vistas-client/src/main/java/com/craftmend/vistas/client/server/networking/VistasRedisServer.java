@@ -1,4 +1,4 @@
-package com.craftmend.vistas.server.networking;
+package com.craftmend.vistas.client.server.networking;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
@@ -18,8 +18,8 @@ import com.craftmend.vistas.client.redis.SimpleRedisClient;
 import com.craftmend.vistas.client.redis.handlers.DefaultPacketHandler;
 import com.craftmend.vistas.client.redis.interfaces.IRedisHandler;
 import com.craftmend.vistas.client.redis.packets.*;
-import com.craftmend.vistas.server.users.MinecraftServer;
-import com.craftmend.vistas.server.users.ServerUserHooks;
+import com.craftmend.vistas.client.users.MinecraftServer;
+import com.craftmend.vistas.client.users.ServerUserHooks;
 
 import java.util.UUID;
 

@@ -8,8 +8,8 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.craftmend.openaudiomc</groupId>
-  <artifactId>OpenAudioMc-vistas-server</artifactId>
-  <name>OpenAudioMc-vistas-server</name>
+  <artifactId>OpenAudioMc-vistas-client</artifactId>
+  <name>OpenAudioMc-vistas-client</name>
   <version>${oa.version}</version>
   <build>
     <resources>
@@ -18,20 +18,8 @@
         <directory>src/main/resources</directory>
       </resource>
     </resources>
-    <finalName>vistas-server</finalName>
+    <finalName>vistas-client</finalName>
     <plugins>
-      <plugin>
-        <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-              <classpathPrefix>libs/</classpathPrefix>
-              <mainClass>com.craftmend.vistas.server.VistasBoot</mainClass>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
@@ -119,12 +107,22 @@
       <id>alessiodp-repo</id>
       <url>https://repo.alessiodp.com/releases/</url>
     </repository>
+    <repository>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
+    </repository>
   </repositories>
   <dependencies>
     <dependency>
+      <groupId>com.craftmend.openaudiomc</groupId>
+      <artifactId>OpenAudioMc</artifactId>
+      <version>6.7</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
-      <version>1.17.1-R0.1-SNAPSHOT</version>
+      <version>1.8.8-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
