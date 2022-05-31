@@ -1,16 +1,12 @@
 package com.craftmend.openaudiomc.generic.modules;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.enums.ModuleEvent;
 import com.craftmend.openaudiomc.api.interfaces.ExternalModule;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
-import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.service.Service;
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+
 import lombok.Getter;
 import lombok.SneakyThrows;
-import org.bukkit.Bukkit;
-import org.bukkit.event.Listener;
 
 import java.io.BufferedReader;
 import java.io.File;
