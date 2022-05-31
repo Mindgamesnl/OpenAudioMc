@@ -14,6 +14,8 @@ public class AbstractPacketAdapter implements JsonSerializer<AbstractPacketPaylo
      * a type adapter for the using of the packet framework
      */
 
+     private boolean walkedClassLoader = false;
+
     @Override
     public JsonElement serialize(AbstractPacketPayload src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();
@@ -56,6 +58,10 @@ public class AbstractPacketAdapter implements JsonSerializer<AbstractPacketPaylo
         } catch (ClassNotFoundException e) {
             for (ExternalModule module : OpenAudioMc.getService(ModuleLoaderService.class).getModules()) {
                 try {
+                    if (!walkedClassLoader) {
+                        OpenAudioLogger.toConsole("Handling a packet type that isn't in the native class loader, searching modules for the first time instead.");
+                        walkedClassLoader = true;
+                    }
                     return Class.forName(classname, true, module.getLoader());
                 } catch (ClassNotFoundException ignored) {
 
