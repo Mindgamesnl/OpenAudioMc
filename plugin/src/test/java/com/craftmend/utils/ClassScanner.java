@@ -3,9 +3,11 @@ package com.craftmend.utils;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class ClassScanner {
 
@@ -26,7 +28,8 @@ public class ClassScanner {
         List<File> dirs = new ArrayList<File>();
         while (resources.hasMoreElements()) {
             URL resource = resources.nextElement();
-            dirs.add(new File(resource.getFile()));
+            // workaround for windows
+            dirs.add(new File(java.net.URLDecoder.decode(resource.getFile(), StandardCharsets.UTF_8.name())));
         }
         ArrayList<Class> classes = new ArrayList<Class>();
         for (File directory : dirs) {
@@ -64,6 +67,7 @@ public class ClassScanner {
                     }
                     classes.add(Class.forName(name));
                 } catch (NullPointerException | ClassNotFoundException | NoClassDefFoundError | ExceptionInInitializerError npe) {
+                    npe.printStackTrace();
                     // System.out.println("Skipping " + packageName + "." + file.getName() + "Because it couldn't init");
                 }
             }
