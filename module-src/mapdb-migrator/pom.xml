@@ -49,7 +49,7 @@
                         <configuration>
                             <excludeScope>system</excludeScope>
                             <excludes>META-INF/*.SF,META-INF/*.DSA,META-INF/*.RSA</excludes>
-                            <excludeGroupIds>junit,org.mockito,org.hamcrest</excludeGroupIds>
+                            <excludeGroupIds>junit,org.mockito,org.hamcrest,org.projectlombok</excludeGroupIds>
                             <outputDirectory>${project.build.directory}/classes</outputDirectory>
                         </configuration>
                     </execution>
