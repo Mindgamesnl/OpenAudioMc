@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class ClassScanner {
 
     private static String[] ignoredClasses = new String[] {
-            "bergenkiller"
+            "bergerkiller"
     };
 
     /**
