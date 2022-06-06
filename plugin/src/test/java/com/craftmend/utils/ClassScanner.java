@@ -11,6 +11,10 @@ import java.util.regex.Pattern;
 
 public class ClassScanner {
 
+    private static String[] ignoredClasses = new String[] {
+            "bergenkiller"
+    };
+
     /**
      * Scans all classes accessible from the context class loader which belong to the given package and subpackages.
      *
@@ -65,7 +69,15 @@ public class ClassScanner {
                         }
                         if (!match) return classes;
                     }
-                    classes.add(Class.forName(name));
+                    boolean ignored = false;
+                    for (String ignoredClass : ignoredClasses) {
+                        if (name.contains(ignoredClass)) {
+                            ignored = true;
+                        }
+                    }
+                    if (!ignored) {
+                        classes.add(Class.forName(name));
+                    }
                 } catch (NullPointerException | ClassNotFoundException | NoClassDefFoundError | ExceptionInInitializerError npe) {
                     npe.printStackTrace();
                     // System.out.println("Skipping " + packageName + "." + file.getName() + "Because it couldn't init");
