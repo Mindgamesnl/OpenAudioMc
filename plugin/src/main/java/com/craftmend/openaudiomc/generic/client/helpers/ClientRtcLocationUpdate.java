@@ -6,9 +6,11 @@ import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.services.world.interfaces.IRayTracer;
 import com.craftmend.openaudiomc.spigot.services.world.tracing.EstimatedRayTracer;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+@NoArgsConstructor
 @AllArgsConstructor
 public class ClientRtcLocationUpdate {
 
