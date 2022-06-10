@@ -40,7 +40,7 @@ Please visit the [Documentation](https://help.openaudiomc.net/docs) for a full g
  - [Velocity (currently still being tested)](https://www.spigotmc.org/resources/openaudiomc-open-source-audio-client.30691/ "Spigot Plugin Page")
 
 ## Notes on testing
-The Java plugin/implementation and vistas platforms come bundled with maven unit tests. All tests *must* pass before the plugin can be used or before pull requests can definitively be reviewed.
+The Java plugin/implementation and vistas platforms come bundled with maven unit tests. All tests *must* pass before pull requests can definitively be reviewed.
 Please note that the test for `vistas-server` use an embedded Redis server that will be installed on your system. This is known to use up to 20 gigs of storage in Windows and sometimes leaves trailing background processes, so please keep an eye on that if you only wish to build a jar once and don't care about keeping development software on your machine. Tests aren't required to build a functional target, so  you can disable them all together if you want to.
 
 ## Useful Links
