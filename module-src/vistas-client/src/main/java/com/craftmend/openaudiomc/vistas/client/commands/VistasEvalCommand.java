@@ -16,7 +16,7 @@ public class VistasEvalCommand extends SubCommand {
 
     @Override
     public void onExecute(User user, String[] strings) {
-        user.sendMessage("Sending command to deputy..");
+        user.sendMessage("Sending command to vistas..");
         OpenAudioMc.getService(VistasRedisClient.class).sendPacket(new EvalCommandPacket(user.getUniqueId(), strings));
     }
 }
