@@ -859,6 +859,8 @@ input[type='range'] {
     display: none;
     background-color: var(--theme-bg-color);
     height: 95%;
+    width: 80%;
+    margin-left: 10%;
 }
 
 .tabbed [type="radio"] {
