@@ -183,7 +183,11 @@ body.light-mode .video-bg:before {
     }
 }
 .header-menu a, .header-menu label {
-    padding: 20px 30px;
+    padding: 4px 12px;
+    margin: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: var(--hover-menu-bg);
     text-decoration: none;
     color: var(--inactive-color);
     border-bottom: 2px solid transparent;
@@ -198,7 +202,7 @@ body.light-mode .video-bg:before {
 
 .header-menu a.is-active, .header-menu a:hover, .header-menu label.is-active, .header-menu label:hover {
     color: var(--theme-color);
-    border-bottom: 2px solid var(--theme-color);
+    border-bottom: 6px solid var(--theme-color);
 }
 
 .notify {
@@ -311,11 +315,9 @@ body.light-mode .video-bg:before {
     display: flex;
     align-items: center;
     border-bottom: 1px solid var(--border-color);
-    height: 58px;
+    height: 67px;
     flex-shrink: 0;
-    background: rgb(2,0,36);
-    background: linear-gradient(
-            348deg, rgba(2,0,36,1) 0%, var(--primary-accent) 150%)
+    background: var(--content-bg);
 }
 
 .main-header .header-menu {
@@ -390,11 +392,8 @@ body.light-mode .video-bg:before {
 }
 
 .content-wrapper-header {
-    background-image: url(../assets/cubes.png), linear-gradient(to right top, var(--primary-accent), var(--theme-bg-color) 40%);
-}
-
-.voicechat-header {
-    background-image: url("../assets/cubes.png"), linear-gradient(to right top, var(--primary-accent), var(--theme-bg-color));
+    background-image: linear-gradient(196deg, rgba(0,0,0, 0.2) 23%,var(--primary-accent)), var(--background-image);
+    background-position: center;
 }
 
 @media screen and (max-width: 415px) {
@@ -487,7 +486,13 @@ body.light-mode .video-bg:before {
 }
 
 .volume-pill {
-    font-size: 100px;
+    font-size: 50px;
+    padding: 4px 12px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: var(--hover-menu-bg);
+    width: fit-content;
+    margin-top: -6px;
 }
 
 .bust-image {
@@ -643,8 +648,7 @@ body.light-mode .video-bg:before {
 }
     .vc-monitoring-card {
     width: calc(50% - 15px);
-}
-        .vc-volume-card {
+}  .vc-volume-card {
     width: calc(99.65% - 15px) !important;
     margin-left: 0px !important;
     margin-top: 20px !important;
@@ -668,6 +672,10 @@ body.light-mode .video-bg:before {
 
 .vc-volume-card {
     width: calc(50.65% - 15px);
+}
+
+.main-volume-card {
+    width: calc(73.65% - 15px);
 }
 
 .sensitivty-card {
@@ -864,7 +872,7 @@ input[type='range'] {
 [type="radio"]:nth-of-type(4):checked ~ .main-header .tabs .tab:nth-of-type(4) label,
 [type="radio"]:nth-of-type(5):checked ~ .main-header .tabs .tab:nth-of-type(5) label {
     color: var(--theme-color);
-    border-bottom: 2px solid var(--theme-color);
+    border-bottom: 4px solid var(--theme-color);
 }
 
 [type="radio"]:nth-of-type(1):checked ~ .tab-content:nth-of-type(2),
@@ -1166,4 +1174,8 @@ footer {
 
 span.tab {
     font-size: large;
+}
+
+.jumbo-text {
+    font-size: 100px;
 }

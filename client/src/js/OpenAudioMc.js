@@ -43,16 +43,18 @@ WhenDebugging(() => {
 
 export class OpenAudioMc extends Getters {
 
-    constructor() {
+    constructor(testingMode = false) {
         super();
         oalog("Starting build " + JSON.stringify(OpenAudioEnv))
 
         this.messageModule = new MessageModule();
+        this.isTesting = testingMode;
 
         this.canStart = false;
         this.host = null;
         this.background = null;
         this.ambianceSound = "";
+        this.directorFinished = false;
 
         this.isPatreon = false;
         this.tokenSet = new ClientTokenSet().fromCache();
@@ -75,9 +77,9 @@ export class OpenAudioMc extends Getters {
 
         // request a socket service, then do the booting
         oalog("Setting direcot")
-        const director = new SocketDirector(API_ENDPOINT.MAIN_BACKEND);
+        this.director = new SocketDirector(API_ENDPOINT.MAIN_BACKEND);
         oalog("Calling route")
-        director.route(this)
+        this.director.route(this)
             .then(async (res) => {
 
                 // load default language
@@ -142,11 +144,14 @@ export class OpenAudioMc extends Getters {
                 setTimeout(() => {
                     replaceProperty("{{ oam.loader_style }}", "display: none;", "style")
                 }, 250)
+                this.directorFinished = true;
             })
             .catch((error) => {
                 console.error(error);
-                console.error("Exception thrown", error.stack);
-                this.userInterfaceModule.kickScreen("Your current URL appears to be invalid. Please request a new one in-game using the /audio command. If this issue if persists please contact a member of staff.")
+                if (!this.isTesting) {
+                    this.userInterfaceModule.kickScreen("Your current URL appears to be invalid. Please request a new one in-game using the /audio command. If this issue if persists please contact a member of staff.")
+                }
+                this.directorFinished = true;
             });
     }
 
@@ -156,7 +161,7 @@ export class OpenAudioMc extends Getters {
     }
 
     async start() {
-        if (!this.canStart) return;
+        if (!this.canStart && !this.isTesting) return;
         this.canStart = false;
 
         this.world = new WorldModule(this);
