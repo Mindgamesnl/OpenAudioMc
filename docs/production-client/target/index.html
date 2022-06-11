@@ -23,9 +23,9 @@
     <meta name="twitter:card" content="summary">
 
     <!-- Includes -->
-    <link rel="stylesheet" href="css/winter.css?Enable=1105"/>
+    <link rel="stylesheet" href="css/winter.css?Enable=1193"/>
     <script src="libs/sweetalert2.all.js"></script>
-    <link rel="stylesheet" href="css/reactive-sweetalert.css?Enable=1105"/>
+    <link rel="stylesheet" href="css/reactive-sweetalert.css?Enable=1193"/>
     <link rel="stylesheet" href="css/tailwind.min.css"/>
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
             data-cf-beacon='{"token": "44aa80ee6e6d48c8b54452fee61f2541"}'></script>
@@ -83,7 +83,7 @@
                         <p style="display: none;" hs="{{ oam.loading_tagline_style }}"
                            class="text-sm text-gray-300 leading-none mt-1">
                             {{ oam.loading_tagline_text }}</p> <small class="text-gray-500" style="display: inline;">Build
-                        1105</small>
+                        1193</small>
                     </div>
                 </div>
             </div>
@@ -176,16 +176,9 @@
                 <div class="content-wrapper">
                     <div class="content-wrapper-box content-wrapper-header" style="display: none;"
                          hs="{{ oam.hidden_until_started }}">
-                        <div class="content-wrapper-context">
-                            <h3 class="img-content">
-                                {% home.welcome %}
-                            </h3>
-                            <div class="content-text">
-                                <raw>{% home.header %}</raw>
-                            </div>
+                        <div class="content-wrapper-context w-full">
+                            <h1 class="jumbo-text">{{ craftmend.account.serverName }}</h1>
                         </div>
-                        <img class="bust-image" arc="{{ oam.player_head }}"
-                             alt="">
                     </div>
                     <div class="content-wrapper-box landing-thing"
                          hs="{{ oam.click_request_style }}">
@@ -226,20 +219,39 @@
 
 
                     </div>
-                    
+
                     <div class="content-section" style="display: none;" hs="{{ oam.hidden_until_started }}">
                         <div class="content-section-title">{% home.audioControls %}</div>
-                        <div class="content-wrapper-box audio-content">
-                            <div class="content-wrapper-context full">
-                                <div class="content-text full soft-text" style="padding-right: 50px">
-                                    <raw>{% home.volumeContext %}</raw>
+                    </div>
+
+
+
+                    <div class="content-section voice-section" style="display: none;" hs="{{ oam.hidden_until_started }}">
+                        <div class="content-card-collection items-stretch">
+                            <div class="content-card small-card order-2 2xl:order-1">
+                               <span>
+                                {% home.welcome %}
+                               </span>
+                                <div class="content-card-content">
+                                    <raw>{% home.header %}</raw>
                                 </div>
-                                <br/>
-                                <input id="volume-slider"
-                                       class="volume-slider"
-                                       type="range" min="0" max="100" step="1" value="32"/>
                             </div>
-                            <h1 class="volume-pill"><label for="volume-slider">{{ oam.volume }}</label></h1>
+
+
+                            <div class="content-card main-volume-card order-1 2xl:order-2">
+                                <div class="content-wrapper-context full">
+                                    <div class="content-text full soft-text" style="padding-right: 50px">
+                                        <raw>{% home.volumeContext %}</raw>
+                                    </div>
+                                    <br/>
+                                    <input id="volume-slider"
+                                           class="volume-slider"
+                                           type="range" min="0" max="100" step="1" value="32"/>
+                                </div>
+                                <center>
+                                    <h1 class="volume-pill"><label for="volume-slider">{{ oam.volume }}</label></h1>
+                                </center>
+                            </div>
                         </div>
                     </div>
 
@@ -583,6 +595,6 @@
     </div>
 </div>
 
-<script src="OpenAudioMc.bundle.js?version=1105"></script>
+<script src="OpenAudioMc.bundle.js?version=1193"></script>
 </body>
 </html>

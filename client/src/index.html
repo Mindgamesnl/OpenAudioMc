@@ -176,16 +176,9 @@
                 <div class="content-wrapper">
                     <div class="content-wrapper-box content-wrapper-header" style="display: none;"
                          hs="{{ oam.hidden_until_started }}">
-                        <div class="content-wrapper-context">
-                            <h3 class="img-content">
-                                {% home.welcome %}
-                            </h3>
-                            <div class="content-text">
-                                <raw>{% home.header %}</raw>
-                            </div>
+                        <div class="content-wrapper-context w-full">
+                            <h1 class="jumbo-text">{{ craftmend.account.serverName }}</h1>
                         </div>
-                        <img class="bust-image" arc="{{ oam.player_head }}"
-                             alt="">
                     </div>
                     <div class="content-wrapper-box landing-thing"
                          hs="{{ oam.click_request_style }}">
@@ -226,20 +219,39 @@
 
 
                     </div>
-                    
+
                     <div class="content-section" style="display: none;" hs="{{ oam.hidden_until_started }}">
                         <div class="content-section-title">{% home.audioControls %}</div>
-                        <div class="content-wrapper-box audio-content">
-                            <div class="content-wrapper-context full">
-                                <div class="content-text full soft-text" style="padding-right: 50px">
-                                    <raw>{% home.volumeContext %}</raw>
+                    </div>
+
+
+
+                    <div class="content-section voice-section" style="display: none;" hs="{{ oam.hidden_until_started }}">
+                        <div class="content-card-collection items-stretch">
+                            <div class="content-card small-card order-2 2xl:order-1">
+                               <span>
+                                {% home.welcome %}
+                               </span>
+                                <div class="content-card-content">
+                                    <raw>{% home.header %}</raw>
                                 </div>
-                                <br/>
-                                <input id="volume-slider"
-                                       class="volume-slider"
-                                       type="range" min="0" max="100" step="1" value="32"/>
                             </div>
-                            <h1 class="volume-pill"><label for="volume-slider">{{ oam.volume }}</label></h1>
+
+
+                            <div class="content-card main-volume-card order-1 2xl:order-2">
+                                <div class="content-wrapper-context full">
+                                    <div class="content-text full soft-text" style="padding-right: 50px">
+                                        <raw>{% home.volumeContext %}</raw>
+                                    </div>
+                                    <br/>
+                                    <input id="volume-slider"
+                                           class="volume-slider"
+                                           type="range" min="0" max="100" step="1" value="32"/>
+                                </div>
+                                <center>
+                                    <h1 class="volume-pill"><label for="volume-slider">{{ oam.volume }}</label></h1>
+                                </center>
+                            </div>
                         </div>
                     </div>
 
