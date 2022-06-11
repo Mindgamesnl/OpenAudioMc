@@ -1,7 +1,7 @@
 [ ! -d "plugin/" ] && echo "Execute this script from the repo root" && exit 1
 
 # Build everything
-mvn clean install
+mvn clean install -Dmaven.test.skip=true
 
 # copy modules
 cp module-src/vistas-server/target/vistas-server.jar modules/vistas-server.jar
