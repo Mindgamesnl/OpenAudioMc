@@ -1,10 +1,13 @@
 package com.craftmend.openaudiomc.api.interfaces;
 
+import com.craftmend.openaudiomc.api.exceptions.RegionException;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.media.interfaces.UrlMutation;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.utils.data.Filter;
+import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
+import com.craftmend.openaudiomc.spigot.modules.regions.objects.TimedRegionProperties;
 import org.bukkit.entity.Player;
 
 public interface RegistryApi {
@@ -59,5 +62,29 @@ public interface RegistryApi {
      * @param provider Provider
      */
     void registerTokenProvider(IAccountProvider provider);
+
+    /**
+     * Unregister region media
+     *
+     * @param regionName Name of the region
+     * @throws RegionException Thrown if the region doesn't exist (in worldguard) or if there is no registered region provider
+     */
+    void removeRegion(String regionName) throws RegionException;
+
+    /**
+     * Register a temp region, like it's done with /oa region temp
+     *
+     * @param regionProperties Region properties with timing metadata
+     * @throws RegionException Thrown if the region doesn't exist (in worldguard) or if there is no registered region provider
+     */
+    void registerTempRegion(TimedRegionProperties regionProperties) throws RegionException;
+
+    /**
+     * Register a region, like it's done with /oa region create
+     *
+     * @param regionProperties Region metadata
+     * @throws RegionException Thrown if the region doesn't exist (in worldguard) or if there is no registered region provider
+     */
+    void registerRegion(RegionProperties regionProperties) throws RegionException;
 
 }
