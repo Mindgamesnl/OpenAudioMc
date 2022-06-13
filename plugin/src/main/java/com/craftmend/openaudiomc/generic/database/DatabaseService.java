@@ -1,6 +1,5 @@
 package com.craftmend.openaudiomc.generic.database;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.database.internal.DataStore;
 import com.craftmend.openaudiomc.generic.database.internal.Repository;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
