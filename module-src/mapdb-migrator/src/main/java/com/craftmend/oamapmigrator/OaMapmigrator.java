@@ -9,7 +9,6 @@ import com.craftmend.openaudiomc.api.interfaces.ExternalModule;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.database.internal.Repository;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
-import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import lombok.SneakyThrows;
 
 import java.io.File;
