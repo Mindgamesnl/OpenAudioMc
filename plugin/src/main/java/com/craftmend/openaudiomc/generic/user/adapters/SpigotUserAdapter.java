@@ -66,7 +66,7 @@ public class SpigotUserAdapter implements User {
 
     @Override
     public boolean isAdministrator() {
-        return player.isOp() || player.hasPermission("openaudiomc.tips");
+        return player.isOp() || player.hasPermission("openaudiomc.*") || player.hasPermission("openaudiomc.tips");
     }
 
     @Override
