@@ -75,7 +75,7 @@ public class LegacySpigotUserAdapter implements User {
 
     @Override
     public boolean isAdministrator() {
-        return sender.isOp() || sender.hasPermission("openaudiomc.tips");
+        return sender.isOp() || sender.hasPermission("openaudiomc.*") || sender.hasPermission("openaudiomc.tips");
     }
 
     @Override
