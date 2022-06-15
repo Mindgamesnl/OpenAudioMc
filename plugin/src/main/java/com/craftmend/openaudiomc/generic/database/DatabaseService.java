@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.modules.ModuleLoaderService;
 import com.craftmend.openaudiomc.generic.service.Service;
+import com.craftmend.openaudiomc.spigot.modules.regions.objects.TimedRegionProperties;
 import com.craftmend.openaudiomc.spigot.modules.rules.adapter.RuleTestTypeAdapter;
 import com.craftmend.openaudiomc.spigot.modules.rules.adapter.RuleTypeAdapter;
 import com.craftmend.openaudiomc.spigot.modules.rules.data.Rule;
@@ -51,6 +52,7 @@ public class DatabaseService extends Service implements StormLogger {
         tables.add(com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties.class);
         tables.add(com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker.class);
         tables.add(com.craftmend.openaudiomc.spigot.modules.predictive.sorage.StoredWorldChunk.class);
+        tables.add(TimedRegionProperties.class);
         tables.add(MediaRule.class);
 
         for (Class<? extends DataStore> table : tables) {

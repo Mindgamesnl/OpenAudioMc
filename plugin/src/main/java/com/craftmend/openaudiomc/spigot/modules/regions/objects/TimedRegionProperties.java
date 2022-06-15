@@ -4,36 +4,38 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
+import com.craftmend.storm.api.markers.Column;
+import com.craftmend.storm.api.markers.Table;
 import org.bukkit.Bukkit;
 
+@Table(name = "timed_region_properties")
 public class TimedRegionProperties extends RegionProperties {
 
     private int task = -1;
-    private String id;
+    @Column
+    private String regionId;
     private Media media;
 
-    public TimedRegionProperties(String source, int timeInSeconds, String id) {
-        this(source, timeInSeconds, id, 100, 1000, id);
+    public TimedRegionProperties(String source, int timeInSeconds, String regionId) {
+        this(source, timeInSeconds, regionId, 100, 1000, regionId);
     }
 
-    public TimedRegionProperties(String source, int timeInSeconds, String id, int volume, int fadeTimeMs, String regionName) {
+    public TimedRegionProperties(String source, int timeInSeconds, String regionId, int volume, int fadeTimeMs, String regionName) {
         super(source, volume, fadeTimeMs, true, regionName);
-        this.id = id;
+        this.regionId = regionId;
 
         this.task = Bukkit.getScheduler().scheduleAsyncDelayedTask(OpenAudioMcSpigot.getInstance(), () -> {
-            OpenAudioMcSpigot.getInstance().getRegionModule().removeRegion(this.id);
+            OpenAudioMcSpigot.getInstance().getRegionModule().removeRegion(this.regionId);
             forceUpdateClients();
         }, 20 * timeInSeconds);
 
-        this.media = new RegionMedia(source, volume, fadeTimeMs);
-        this.media.setLoop(false);
         forceUpdateClients();
     }
 
     private void forceUpdateClients() {
         OpenAudioMc.getService(SpigotPlayerService.class).getClients()
                 .stream()
-                .filter(client -> client.getRegions().stream().anyMatch(region -> region.getId().equals(id)))
+                .filter(client -> client.getRegions().stream().anyMatch(region -> region.getId().equals(regionId)))
                 .forEach(client -> client.getLocationDataWatcher().forceTicK());
     }
 
@@ -44,6 +46,12 @@ public class TimedRegionProperties extends RegionProperties {
 
     @Override
     public Media getMedia() {
+
+        if (media == null) {
+            this.media = new RegionMedia(getSource(), getVolume(), getFadeTimeMs());
+            this.media.setLoop(false);
+        }
+
         return this.media;
     }
 
