@@ -2,12 +2,15 @@ package com.craftmend.openaudiomc.spigot.modules.regions.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
+import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.storm.api.markers.Column;
 import com.craftmend.storm.api.markers.Table;
+import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
 
+@NoArgsConstructor
 @Table(name = "timed_region_properties")
 public class TimedRegionProperties extends RegionProperties {
 
@@ -24,12 +27,14 @@ public class TimedRegionProperties extends RegionProperties {
         super(source, volume, fadeTimeMs, true, regionName);
         this.regionId = regionId;
 
-        this.task = Bukkit.getScheduler().scheduleAsyncDelayedTask(OpenAudioMcSpigot.getInstance(), () -> {
-            OpenAudioMcSpigot.getInstance().getRegionModule().removeRegion(this.regionId);
-            forceUpdateClients();
-        }, 20 * timeInSeconds);
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
+            this.task = Bukkit.getScheduler().scheduleAsyncDelayedTask(OpenAudioMcSpigot.getInstance(), () -> {
+                OpenAudioMcSpigot.getInstance().getRegionModule().removeRegion(this.regionId);
+                forceUpdateClients();
+            }, 20 * timeInSeconds);
 
-        forceUpdateClients();
+            forceUpdateClients();
+        }
     }
 
     private void forceUpdateClients() {
