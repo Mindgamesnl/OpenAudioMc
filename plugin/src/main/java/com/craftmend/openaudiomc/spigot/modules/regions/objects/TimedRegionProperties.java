@@ -7,10 +7,9 @@ import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.storm.api.markers.Column;
 import com.craftmend.storm.api.markers.Table;
-import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
 
-@NoArgsConstructor
+
 @Table(name = "timed_region_properties")
 public class TimedRegionProperties extends RegionProperties {
 
@@ -18,6 +17,10 @@ public class TimedRegionProperties extends RegionProperties {
     @Column
     private String regionId;
     private Media media;
+
+    public TimedRegionProperties() {
+
+    }
 
     public TimedRegionProperties(String source, int timeInSeconds, String regionId) {
         this(source, timeInSeconds, regionId, 100, 1000, regionId);
@@ -32,7 +35,6 @@ public class TimedRegionProperties extends RegionProperties {
                 OpenAudioMcSpigot.getInstance().getRegionModule().removeRegion(this.regionId);
                 forceUpdateClients();
             }, 20 * timeInSeconds);
-
             forceUpdateClients();
         }
     }

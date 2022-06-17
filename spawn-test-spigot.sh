@@ -1,16 +1,16 @@
 export JAVA_HOME=`/usr/libexec/java_home -v 11`
-mkdir -p test-server/plugins/
-mkdir -p test-server/plugins/OpenAudioMc/
+mkdir -p test-server-spigot/plugins/
+mkdir -p test-server-spigot/plugins/OpenAudioMc/
 echo "Building new OpenAudioMc jar without unit tests.."
 
 mvn clean install -Dmaven.test.skip=true
 
-rm test-server/plugins/OpenAudioMc-*
-cp plugin/target/OpenAudioMc-* test-server/plugins/
-cp dev-resources/bukkit.yml test-server/
-cp dev-resources/ops.json test-server/
+rm test-server-spigot/plugins/OpenAudioMc-*
+cp plugin/target/OpenAudioMc-* test-server-spigot/plugins/
+cp dev-resources/bukkit.yml test-server-spigot/
+cp dev-resources/ops.json test-server-spigot/
 
-cd test-server
+cd test-server-spigot
 echo "Cleaning server..."
 if [ ! -f ./spigot-1.12.2.jar ]; then
     wget https://cdn.getbukkit.org/spigot/spigot-1.12.2.jar
