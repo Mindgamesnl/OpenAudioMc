@@ -41,10 +41,8 @@ public class ProxyModule extends Service {
         }
 
         if (proxyMode) {
-            OpenAudioLogger.toConsole("Starting in bungee mode");
             return OAClientMode.NODE;
         } else {
-            OpenAudioLogger.toConsole("Starting in socket mode");
             return OAClientMode.STAND_ALONE;
         }
     }
