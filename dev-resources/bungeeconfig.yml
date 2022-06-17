@@ -1,0 +1,54 @@
+server_connect_timeout: 5000
+enforce_secure_profile: false
+remote_ping_cache: -1
+forge_support: false
+player_limit: -1
+permissions:
+  default:
+  - bungeecord.command.server
+  - bungeecord.command.list
+  admin:
+  - openaudiomc.*
+  - bungeecord.command.alert
+  - bungeecord.command.end
+  - bungeecord.command.ip
+  - bungeecord.command.reload
+timeout: 30000
+log_commands: false
+network_compression_threshold: 256
+online_mode: true
+disabled_commands:
+- disabledcommandhere
+servers:
+  lobby:
+    motd: '&1Just another BungeeCord - Forced Host'
+    address: localhost:25566
+    restricted: false
+listeners:
+- query_port: 35644
+  motd: '&1Another Bungee server'
+  tab_list: GLOBAL_PING
+  query_enabled: false
+  proxy_protocol: false
+  forced_hosts:
+    pvp.md-5.net: pvp
+  ping_passthrough: false
+  priorities:
+  - lobby
+  bind_local_address: true
+  host: 0.0.0.0:25565
+  max_players: 1
+  tab_size: 60
+  force_default_server: false
+ip_forward: true
+remote_ping_timeout: 5000
+prevent_proxy_connections: false
+groups:
+  Mindgamesnl:
+    - admin
+  ToetMats:
+    - admin
+connection_throttle: 4000
+stats: 7ab03ab5-c6fa-4f0d-9803-b78e16049715
+connection_throttle_limit: 3
+log_pings: true

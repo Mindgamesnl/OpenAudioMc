@@ -16,4 +16,5 @@ out/*
 
 .vscode/*
 
-test-server/
+test-server-spigot/
+test-server-bungee/

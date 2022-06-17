@@ -1,10 +1,12 @@
 package com.craftmend.openaudiomc.generic.database;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.database.internal.DataStore;
 import com.craftmend.openaudiomc.generic.database.internal.Repository;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.modules.ModuleLoaderService;
+import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.TimedRegionProperties;
 import com.craftmend.openaudiomc.spigot.modules.rules.adapter.RuleTestTypeAdapter;
@@ -52,8 +54,13 @@ public class DatabaseService extends Service implements StormLogger {
         tables.add(com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties.class);
         tables.add(com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker.class);
         tables.add(com.craftmend.openaudiomc.spigot.modules.predictive.sorage.StoredWorldChunk.class);
-        tables.add(TimedRegionProperties.class);
-        tables.add(MediaRule.class);
+
+        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
+            log("Adding spigot tables");
+            tables.add(TimedRegionProperties.class);
+            tables.add(MediaRule.class);
+        }
+
 
         for (Class<? extends DataStore> table : tables) {
             getRepository(table);

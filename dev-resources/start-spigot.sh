@@ -1,0 +1,1 @@
+java -Xms3G -Xmx3G -jar spigot-1.12.2.jar nogui
