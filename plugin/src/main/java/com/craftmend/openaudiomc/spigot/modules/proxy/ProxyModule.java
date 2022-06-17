@@ -30,6 +30,16 @@ public class ProxyModule extends Service {
             proxyMode = yamlConfiguration.getBoolean("settings.bungeecord");
         }
 
+        // new bullshit 1.19 paper config
+        File paperConfigFile = new File("config/paper-global.yml");
+        if (!proxyMode && paperConfigFile.exists()) {
+            FileConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(paperConfigFile);
+            proxyMode = yamlConfiguration.getBoolean("proxies.velocity.enabled");
+            if (!proxyMode) {
+                proxyMode = yamlConfiguration.getBoolean("proxies.bungee-cord.enabled");
+            }
+        }
+
         // is it minehut? then force if
         if (EnvironmentHelper.contains("minehut") || MagicValue.FORCE_SERVER_STANDALONE.get(Boolean.class)) {
             OpenAudioLogger.toConsole("Starting in standalone mode due to minehut containers or it being forced");
