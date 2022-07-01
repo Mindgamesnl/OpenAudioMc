@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.craftmend.openaudiomc</groupId>
-    <artifactId>OpenAudioMc</artifactId>
+    <artifactId>openaudiomc</artifactId>
     <version>${oa.version}</version>
     <packaging>jar</packaging>
 
@@ -15,7 +15,7 @@
         <version>1.1</version>
     </parent>
 
-    <name>OpenAudioMc</name>
+    <name>openaudiomc</name>
 
     <description>The OpenAudioMc Java plugin and Api</description>
     <properties>

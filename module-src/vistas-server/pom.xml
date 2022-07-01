@@ -178,7 +178,7 @@
 
         <dependency>
             <groupId>com.craftmend.openaudiomc</groupId>
-            <artifactId>OpenAudioMc</artifactId>
+            <artifactId>openaudiomc</artifactId>
             <version>${oa.version}</version>
         </dependency>
 

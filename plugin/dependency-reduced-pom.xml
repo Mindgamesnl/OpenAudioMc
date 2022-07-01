@@ -7,8 +7,8 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.craftmend.openaudiomc</groupId>
-  <artifactId>OpenAudioMc-Plugin</artifactId>
-  <name>OpenAudioMc</name>
+  <artifactId>openaudiomc</artifactId>
+  <name>openaudiomc</name>
   <version>${oa.version}</version>
   <description>The OpenAudioMc Java plugin and Api</description>
   <url>https://craftmend.com/</url>
