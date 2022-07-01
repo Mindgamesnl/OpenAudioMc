@@ -1,0 +1,345 @@
+[15:50:38] [Server thread/INFO]: Loading properties
+[15:50:38] [Server thread/WARN]: resource-pack-hash is deprecated and found along side resource-pack-sha1. resource-pack-hash will be ignored.
+[15:50:38] [Server thread/INFO]: Default game type: SURVIVAL
+[15:50:38] [Server thread/INFO]: This server is running CraftBukkit version git-Spigot-79a30d7-f4830a1 (MC: 1.12.2) (Implementing API version 1.12.2-R0.1-SNAPSHOT)
+[15:50:38] [Server thread/INFO]: Debug logging is disabled
+[15:50:38] [Server thread/INFO]: Server Ping Player Sample Count: 12
+
+[15:50:38] [Server thread/INFO]: Using 4 threads for Netty based IO
+[15:50:38] [Server thread/INFO]: Generating keypair
+[15:50:38] [Server thread/INFO]: Starting Minecraft server on *:25565
+[15:50:38] [Server thread/INFO]: Using epoll channel type
+[15:50:38] [Server thread/INFO]: Set PluginClassLoader as parallel capable
+[15:50:38] [Server thread/INFO]: [OpenAudioMc] Loading OpenAudioMc v6.7
+[15:50:38] [Server thread/INFO]: **** Beginning UUID conversion, this may take A LONG time ****
+[15:50:38] [Server thread/INFO]: Preparing level "world"
+[15:50:38] [Server thread/ERROR]: Could not set generator for default world 'world': Plugin 'VoidGen' does not exist
+[15:50:38] [Server thread/INFO]: -------- World Settings For [world] --------
+[15:50:38] [Server thread/INFO]: Cactus Growth Modifier: 100%
+[15:50:38] [Server thread/INFO]: Cane Growth Modifier: 100%
+[15:50:38] [Server thread/INFO]: Melon Growth Modifier: 100%
+[15:50:38] [Server thread/INFO]: Mushroom Growth Modifier: 100%
+[15:50:38] [Server thread/INFO]: Pumpkin Growth Modifier: 100%
+[15:50:38] [Server thread/INFO]: Sapling Growth Modifier: 100%
+[15:50:38] [Server thread/INFO]: Wheat Growth Modifier: 100%
+[15:50:38] [Server thread/INFO]: NetherWart Growth Modifier: 100%
+[15:50:38] [Server thread/INFO]: Vine Growth Modifier: 100%
+[15:50:38] [Server thread/INFO]: Cocoa Growth Modifier: 100%
+[15:50:38] [Server thread/INFO]: Entity Activation Range: An 32 / Mo 32 / Mi 16 / Tiv true
+[15:50:38] [Server thread/INFO]: Entity Tracking Range: Pl 48 / An 48 / Mo 48 / Mi 32 / Other 64
+[15:50:38] [Server thread/INFO]: Mob Spawn Range: 4
+[15:50:38] [Server thread/INFO]: Hopper Transfer: 8 Hopper Check: 1 Hopper Amount: 1
+[15:50:38] [Server thread/INFO]: Random Lighting Updates: false
+[15:50:38] [Server thread/INFO]: Structure Info Saving: true
+[15:50:38] [Server thread/INFO]: Custom Map Seeds:  Village: 10387312 Feature: 14357617 Monument: 10387313 Slime: 987234911
+[15:50:38] [Server thread/INFO]: Max TNT Explosions: 100
+[15:50:38] [Server thread/INFO]: Tile Max Tick Time: 50ms Entity max Tick Time: 50ms
+[15:50:38] [Server thread/INFO]: View Distance: 10
+[15:50:38] [Server thread/INFO]: Item Despawn Rate: 6000
+[15:50:38] [Server thread/INFO]: Item Merge Radius: 2.5
+[15:50:38] [Server thread/INFO]: Arrow Despawn Rate: 1200
+[15:50:38] [Server thread/INFO]: Allow Zombie Pigmen to spawn from portal blocks: true
+[15:50:38] [Server thread/INFO]: Experience Merge Radius: 3.0
+[15:50:38] [Server thread/INFO]: Zombie Aggressive Towards Villager: true
+[15:50:38] [Server thread/INFO]: Nerfing mobs spawned from spawners: false
+[15:50:39] [Server thread/ERROR]: Could not set generator for default world 'world_nether': Plugin 'VoidGen' does not exist
+[15:50:39] [Server thread/INFO]: -------- World Settings For [world_nether] --------
+[15:50:39] [Server thread/INFO]: Cactus Growth Modifier: 100%
+[15:50:39] [Server thread/INFO]: Cane Growth Modifier: 100%
+[15:50:39] [Server thread/INFO]: Melon Growth Modifier: 100%
+[15:50:39] [Server thread/INFO]: Mushroom Growth Modifier: 100%
+[15:50:39] [Server thread/INFO]: Pumpkin Growth Modifier: 100%
+[15:50:39] [Server thread/INFO]: Sapling Growth Modifier: 100%
+[15:50:39] [Server thread/INFO]: Wheat Growth Modifier: 100%
+[15:50:39] [Server thread/INFO]: NetherWart Growth Modifier: 100%
+[15:50:39] [Server thread/INFO]: Vine Growth Modifier: 100%
+[15:50:39] [Server thread/INFO]: Cocoa Growth Modifier: 100%
+[15:50:39] [Server thread/INFO]: Entity Activation Range: An 32 / Mo 32 / Mi 16 / Tiv true
+[15:50:39] [Server thread/INFO]: Entity Tracking Range: Pl 48 / An 48 / Mo 48 / Mi 32 / Other 64
+[15:50:39] [Server thread/INFO]: Mob Spawn Range: 4
+[15:50:39] [Server thread/INFO]: Hopper Transfer: 8 Hopper Check: 1 Hopper Amount: 1
+[15:50:39] [Server thread/INFO]: Random Lighting Updates: false
+[15:50:39] [Server thread/INFO]: Structure Info Saving: true
+[15:50:39] [Server thread/INFO]: Custom Map Seeds:  Village: 10387312 Feature: 14357617 Monument: 10387313 Slime: 987234911
+[15:50:39] [Server thread/INFO]: Max TNT Explosions: 100
+[15:50:39] [Server thread/INFO]: Tile Max Tick Time: 50ms Entity max Tick Time: 50ms
+[15:50:39] [Server thread/INFO]: View Distance: 10
+[15:50:39] [Server thread/INFO]: Item Despawn Rate: 6000
+[15:50:39] [Server thread/INFO]: Item Merge Radius: 2.5
+[15:50:39] [Server thread/INFO]: Arrow Despawn Rate: 1200
+[15:50:39] [Server thread/INFO]: Allow Zombie Pigmen to spawn from portal blocks: true
+[15:50:39] [Server thread/INFO]: Experience Merge Radius: 3.0
+[15:50:39] [Server thread/INFO]: Zombie Aggressive Towards Villager: true
+[15:50:39] [Server thread/INFO]: Nerfing mobs spawned from spawners: false
+[15:50:39] [Server thread/ERROR]: Could not set generator for default world 'world_the_end': Plugin 'VoidGen' does not exist
+[15:50:39] [Server thread/INFO]: -------- World Settings For [world_the_end] --------
+[15:50:39] [Server thread/INFO]: Cactus Growth Modifier: 100%
+[15:50:39] [Server thread/INFO]: Cane Growth Modifier: 100%
+[15:50:39] [Server thread/INFO]: Melon Growth Modifier: 100%
+[15:50:39] [Server thread/INFO]: Mushroom Growth Modifier: 100%
+[15:50:39] [Server thread/INFO]: Pumpkin Growth Modifier: 100%
+[15:50:39] [Server thread/INFO]: Sapling Growth Modifier: 100%
+[15:50:39] [Server thread/INFO]: Wheat Growth Modifier: 100%
+[15:50:39] [Server thread/INFO]: NetherWart Growth Modifier: 100%
+[15:50:39] [Server thread/INFO]: Vine Growth Modifier: 100%
+[15:50:39] [Server thread/INFO]: Cocoa Growth Modifier: 100%
+[15:50:39] [Server thread/INFO]: Entity Activation Range: An 32 / Mo 32 / Mi 16 / Tiv true
+[15:50:39] [Server thread/INFO]: Entity Tracking Range: Pl 48 / An 48 / Mo 48 / Mi 32 / Other 64
+[15:50:39] [Server thread/INFO]: Mob Spawn Range: 4
+[15:50:39] [Server thread/INFO]: Hopper Transfer: 8 Hopper Check: 1 Hopper Amount: 1
+[15:50:39] [Server thread/INFO]: Random Lighting Updates: false
+[15:50:39] [Server thread/INFO]: Structure Info Saving: true
+[15:50:39] [Server thread/INFO]: Custom Map Seeds:  Village: 10387312 Feature: 14357617 Monument: 10387313 Slime: 987234911
+[15:50:39] [Server thread/INFO]: Max TNT Explosions: 100
+[15:50:39] [Server thread/INFO]: Tile Max Tick Time: 50ms Entity max Tick Time: 50ms
+[15:50:39] [Server thread/INFO]: View Distance: 10
+[15:50:39] [Server thread/INFO]: Item Despawn Rate: 6000
+[15:50:39] [Server thread/INFO]: Item Merge Radius: 2.5
+[15:50:39] [Server thread/INFO]: Arrow Despawn Rate: 1200
+[15:50:39] [Server thread/INFO]: Allow Zombie Pigmen to spawn from portal blocks: true
+[15:50:39] [Server thread/INFO]: Experience Merge Radius: 3.0
+[15:50:39] [Server thread/INFO]: Zombie Aggressive Towards Villager: true
+[15:50:39] [Server thread/INFO]: Nerfing mobs spawned from spawners: false
+[15:50:39] [Server thread/INFO]: Preparing start region for level 0 (Seed: -5642397379410565574)
+[15:50:39] [Server thread/INFO]: Preparing start region for level 1 (Seed: -5642397379410565574)
+[15:50:40] [Server thread/INFO]: Preparing start region for level 2 (Seed: -5642397379410565574)
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] Enabling OpenAudioMc v6.7
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Initializing build 573 by Mats
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Using the main config file..
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Starting configuration module
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Using the main config file..
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Starting configuration module
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Skipped 25/25 migrations.
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] ModuleLoaderService: Loading modules from /mnt/ssd-projects/github/OpenAudioMc/test-server/plugins/OpenAudioMc/modules
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] ModuleLoaderService: Loading module vistas-client.jar
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] ModuleLoaderService: Loading module vistas-client.jar as Vistas-Client
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] [module-Vistas-Client] Injecting Vista networking modules
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] ModuleLoaderService: Loading module rinaorc-legacy-users.jar
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] ModuleLoaderService: Loading module rinaorc-legacy-users.jar as Rinaorc-legacy
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] [module-Rinaorc-legacy] Injecting legacy spigot modules
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Initializing socket connector
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Starting authentication module
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] This server already has an account, skipping sign up.
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Registering storage table for Alias
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] DatabaseService: Registering class <-> table (alias<->Alias.java)
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Registering storage table for ClientDataStore
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] DatabaseService: Registering class <-> table (client_data_store<->ClientDataStore.java)
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Registering storage table for MojangProfile
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] DatabaseService: Registering class <-> table (mojang_profile<->MojangProfile.java)
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Registering storage table for RegionProperties
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] DatabaseService: Registering class <-> table (region_properties<->RegionProperties.java)
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Registering storage table for Speaker
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] DatabaseService: Registering class <-> table (speaker<->Speaker.java)
+[15:50:40] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Registering storage table for StoredWorldChunk
+[15:50:41] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] DatabaseService: Registering class <-> table (stored_world_chunk<->StoredWorldChunk.java)
+[15:50:41] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Registering storage table for MediaRule
+[15:50:41] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] DatabaseService: Registering class <-> table (media_rule<->MediaRule.java)
+[15:50:41] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Initializing account details
+[15:50:41] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Connecting to redis server: localhost
+[15:50:41] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Failed to load service: com.craftmend.openaudiomc.vistas.client.client.VistasRedisClient
+[15:50:41] [Server thread/WARN]: java.lang.reflect.InvocationTargetException
+
+[15:50:41] [Server thread/WARN]: 	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+
+[15:50:41] [Server thread/WARN]: 	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:78)
+
+[15:50:41] [Server thread/WARN]: 	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+
+[15:50:41] [Server thread/WARN]: 	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+
+[15:50:41] [Server thread/WARN]: 	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+
+[15:50:41] [Server thread/WARN]: 	at com.craftmend.openaudiomc.generic.service.ServiceManager.loadService(ServiceManager.java:49)
+
+[15:50:41] [Server thread/WARN]: 	at com.craftmend.openaudiomc.generic.service.ServiceManager.loadServices(ServiceManager.java:140)
+
+[15:50:41] [Server thread/WARN]: 	at com.craftmend.openaudiomc.vistas.client.Vistas.on(Vistas.java:66)
+
+[15:50:41] [Server thread/WARN]: 	at com.craftmend.openaudiomc.generic.modules.ModuleLoaderService.fire(ModuleLoaderService.java:102)
+
+[15:50:41] [Server thread/WARN]: 	at com.craftmend.openaudiomc.OpenAudioMc.<init>(OpenAudioMc.java:148)
+
+[15:50:41] [Server thread/WARN]: 	at com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot.onEnable(OpenAudioMcSpigot.java:94)
+
+[15:50:41] [Server thread/WARN]: 	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:264)
+
+[15:50:41] [Server thread/WARN]: 	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:337)
+
+[15:50:41] [Server thread/WARN]: 	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:403)
+
+[15:50:41] [Server thread/WARN]: 	at org.bukkit.craftbukkit.v1_12_R1.CraftServer.enablePlugin(CraftServer.java:381)
+
+[15:50:41] [Server thread/WARN]: 	at org.bukkit.craftbukkit.v1_12_R1.CraftServer.enablePlugins(CraftServer.java:330)
+
+[15:50:41] [Server thread/WARN]: 	at net.minecraft.server.v1_12_R1.MinecraftServer.t(MinecraftServer.java:422)
+
+[15:50:41] [Server thread/WARN]: 	at net.minecraft.server.v1_12_R1.MinecraftServer.l(MinecraftServer.java:383)
+
+[15:50:41] [Server thread/WARN]: 	at net.minecraft.server.v1_12_R1.MinecraftServer.a(MinecraftServer.java:338)
+
+[15:50:41] [Server thread/WARN]: 	at net.minecraft.server.v1_12_R1.DedicatedServer.init(DedicatedServer.java:272)
+
+[15:50:41] [Server thread/WARN]: 	at net.minecraft.server.v1_12_R1.MinecraftServer.run(MinecraftServer.java:545)
+
+[15:50:41] [Server thread/WARN]: 	at java.base/java.lang.Thread.run(Thread.java:831)
+
+[15:50:41] [Server thread/WARN]: Caused by: com.craftmend.thirdparty.iolettuce.core.RedisConnectionException: Unable to connect to localhost/<unresolved>:6379
+
+[15:50:41] [Server thread/WARN]: 	at com.craftmend.thirdparty.iolettuce.core.RedisConnectionException.create(RedisConnectionException.java:78)
+
+[15:50:41] [Server thread/WARN]: 	at com.craftmend.thirdparty.iolettuce.core.RedisConnectionException.create(RedisConnectionException.java:56)
+
+[15:50:41] [Server thread/WARN]: 	at com.craftmend.thirdparty.iolettuce.core.AbstractRedisClient.getConnection(AbstractRedisClient.java:330)
+
+[15:50:41] [Server thread/WARN]: 	at com.craftmend.thirdparty.iolettuce.core.RedisClient.connectPubSub(RedisClient.java:336)
+
+[15:50:41] [Server thread/WARN]: 	at com.craftmend.openaudiomc.vistas.client.redis.RedisConnection.connectPubSub(RedisConnection.java:30)
+
+[15:50:41] [Server thread/WARN]: 	at com.craftmend.openaudiomc.vistas.client.redis.SimpleRedisClient.<init>(SimpleRedisClient.java:15)
+
+[15:50:41] [Server thread/WARN]: 	at com.craftmend.openaudiomc.vistas.client.client.VistasRedisClient.<init>(VistasRedisClient.java:37)
+
+[15:50:41] [Server thread/WARN]: 	... 22 more
+
+[15:50:41] [Server thread/WARN]: Caused by: com.craftmend.thirdparty.ionetty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: localhost/127.0.0.1:6379
+
+[15:50:41] [Server thread/WARN]: Caused by: java.net.ConnectException: Connection refused
+
+[15:50:41] [Server thread/WARN]: 	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+
+[15:50:41] [Server thread/WARN]: 	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:669)
+
+[15:50:41] [Server thread/WARN]: 	at java.base/sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:944)
+
+[15:50:41] [Server thread/WARN]: 	at com.craftmend.thirdparty.ionetty.channel.socket.nio.NioSocketChannel.doFinishConnect(NioSocketChannel.java:330)
+
+[15:50:41] [Server thread/WARN]: 	at com.craftmend.thirdparty.ionetty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.finishConnect(AbstractNioChannel.java:334)
+
+[15:50:41] [Server thread/WARN]: 	at com.craftmend.thirdparty.ionetty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:707)
+
+[15:50:41] [Server thread/WARN]: 	at com.craftmend.thirdparty.ionetty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:655)
+
+[15:50:41] [Server thread/WARN]: 	at com.craftmend.thirdparty.ionetty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:581)
+
+[15:50:41] [Server thread/WARN]: 	at com.craftmend.thirdparty.ionetty.channel.nio.NioEventLoop.run(NioEventLoop.java:493)
+
+[15:50:41] [Server thread/WARN]: 	at com.craftmend.thirdparty.ionetty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:986)
+
+[15:50:41] [Server thread/WARN]: 	at com.craftmend.thirdparty.ionetty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+
+[15:50:41] [Server thread/WARN]: 	at com.craftmend.thirdparty.ionetty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+
+[15:50:41] [Server thread/WARN]: 	at java.base/java.lang.Thread.run(Thread.java:831)
+
+[15:50:41] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] ModuleLoaderService: Couldn't pass SERVICES_LOADED to Vistas-Client
+[15:50:41] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Loading aliases...
+[15:50:41] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Loaded 0 aliases
+[15:50:41] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Detected version type: LEGACY
+[15:50:41] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Enabling the 1.12 speaker system
+[15:50:41] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Hooking speakers attempt 1..
+[15:50:41] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Starting and loading took 2541MS
+[15:50:41] [Server thread/INFO]: Server permissions file permissions.yml is empty, ignoring it
+[15:50:41] [Server thread/INFO]: Done (2.556s)! For help, type "help" or "?"
+[15:50:43] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] New Identity = -U1LRNOssmmP3r9SRNX9hyj3_
+[15:50:46] [Server thread/INFO]: Stopping the server
+[15:50:46] [Server thread/INFO]: Stopping server
+[15:50:46] [Server thread/INFO]: [OpenAudioMc] Disabling OpenAudioMc v6.7
+[15:50:46] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Shutting down
+[15:50:46] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Saving world cache...
+[15:50:46] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Connecting to redis server: localhost
+[15:50:46] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Failed to load service: com.craftmend.openaudiomc.vistas.client.client.VistasRedisClient
+[15:50:46] [Server thread/WARN]: java.lang.reflect.InvocationTargetException
+
+[15:50:46] [Server thread/WARN]: 	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+
+[15:50:46] [Server thread/WARN]: 	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:78)
+
+[15:50:46] [Server thread/WARN]: 	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+
+[15:50:46] [Server thread/WARN]: 	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+
+[15:50:46] [Server thread/WARN]: 	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+
+[15:50:46] [Server thread/WARN]: 	at com.craftmend.openaudiomc.generic.service.ServiceManager.loadService(ServiceManager.java:49)
+
+[15:50:46] [Server thread/WARN]: 	at com.craftmend.openaudiomc.OpenAudioMc.getService(OpenAudioMc.java:176)
+
+[15:50:46] [Server thread/WARN]: 	at com.craftmend.openaudiomc.vistas.client.Vistas.on(Vistas.java:75)
+
+[15:50:46] [Server thread/WARN]: 	at com.craftmend.openaudiomc.generic.modules.ModuleLoaderService.fire(ModuleLoaderService.java:102)
+
+[15:50:46] [Server thread/WARN]: 	at com.craftmend.openaudiomc.OpenAudioMc.disable(OpenAudioMc.java:161)
+
+[15:50:46] [Server thread/WARN]: 	at com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot.onDisable(OpenAudioMcSpigot.java:147)
+
+[15:50:46] [Server thread/WARN]: 	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:266)
+
+[15:50:46] [Server thread/WARN]: 	at org.bukkit.plugin.java.JavaPluginLoader.disablePlugin(JavaPluginLoader.java:361)
+
+[15:50:46] [Server thread/WARN]: 	at org.bukkit.plugin.SimplePluginManager.disablePlugin(SimplePluginManager.java:422)
+
+[15:50:46] [Server thread/WARN]: 	at org.bukkit.plugin.SimplePluginManager.disablePlugins(SimplePluginManager.java:415)
+
+[15:50:46] [Server thread/WARN]: 	at org.bukkit.craftbukkit.v1_12_R1.CraftServer.disablePlugins(CraftServer.java:349)
+
+[15:50:46] [Server thread/WARN]: 	at net.minecraft.server.v1_12_R1.MinecraftServer.stop(MinecraftServer.java:465)
+
+[15:50:46] [Server thread/WARN]: 	at net.minecraft.server.v1_12_R1.MinecraftServer.run(MinecraftServer.java:613)
+
+[15:50:46] [Server thread/WARN]: 	at java.base/java.lang.Thread.run(Thread.java:831)
+
+[15:50:46] [Server thread/WARN]: Caused by: com.craftmend.thirdparty.iolettuce.core.RedisConnectionException: Unable to connect to localhost/<unresolved>:6379
+
+[15:50:46] [Server thread/WARN]: 	at com.craftmend.thirdparty.iolettuce.core.RedisConnectionException.create(RedisConnectionException.java:78)
+
+[15:50:46] [Server thread/WARN]: 	at com.craftmend.thirdparty.iolettuce.core.RedisConnectionException.create(RedisConnectionException.java:56)
+
+[15:50:46] [Server thread/WARN]: 	at com.craftmend.thirdparty.iolettuce.core.AbstractRedisClient.getConnection(AbstractRedisClient.java:330)
+
+[15:50:46] [Server thread/WARN]: 	at com.craftmend.thirdparty.iolettuce.core.RedisClient.connectPubSub(RedisClient.java:336)
+
+[15:50:46] [Server thread/WARN]: 	at com.craftmend.openaudiomc.vistas.client.redis.RedisConnection.connectPubSub(RedisConnection.java:30)
+
+[15:50:46] [Server thread/WARN]: 	at com.craftmend.openaudiomc.vistas.client.redis.SimpleRedisClient.<init>(SimpleRedisClient.java:15)
+
+[15:50:46] [Server thread/WARN]: 	at com.craftmend.openaudiomc.vistas.client.client.VistasRedisClient.<init>(VistasRedisClient.java:37)
+
+[15:50:46] [Server thread/WARN]: 	... 19 more
+
+[15:50:46] [Server thread/WARN]: Caused by: com.craftmend.thirdparty.ionetty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: localhost/127.0.0.1:6379
+
+[15:50:46] [Server thread/WARN]: Caused by: java.net.ConnectException: Connection refused
+
+[15:50:46] [Server thread/WARN]: 	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+
+[15:50:46] [Server thread/WARN]: 	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:669)
+
+[15:50:46] [Server thread/WARN]: 	at java.base/sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:944)
+
+[15:50:46] [Server thread/WARN]: 	at com.craftmend.thirdparty.ionetty.channel.socket.nio.NioSocketChannel.doFinishConnect(NioSocketChannel.java:330)
+
+[15:50:46] [Server thread/WARN]: 	at com.craftmend.thirdparty.ionetty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.finishConnect(AbstractNioChannel.java:334)
+
+[15:50:46] [Server thread/WARN]: 	at com.craftmend.thirdparty.ionetty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:707)
+
+[15:50:46] [Server thread/WARN]: 	at com.craftmend.thirdparty.ionetty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:655)
+
+[15:50:46] [Server thread/WARN]: 	at com.craftmend.thirdparty.ionetty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:581)
+
+[15:50:46] [Server thread/WARN]: 	at com.craftmend.thirdparty.ionetty.channel.nio.NioEventLoop.run(NioEventLoop.java:493)
+
+[15:50:46] [Server thread/WARN]: 	at com.craftmend.thirdparty.ionetty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:986)
+
+[15:50:46] [Server thread/WARN]: 	at com.craftmend.thirdparty.ionetty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+
+[15:50:46] [Server thread/WARN]: 	at com.craftmend.thirdparty.ionetty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+
+[15:50:46] [Server thread/WARN]: 	at java.base/java.lang.Thread.run(Thread.java:831)
+
+[15:50:46] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] ModuleLoaderService: Couldn't pass SHUTDOWN to Vistas-Client
+[15:50:46] [Server thread/INFO]: [OpenAudioMc] [OpenAudioMc] Stopped OpenAudioMc. Goodbye.
+[15:50:46] [Server thread/INFO]: Saving players
+[15:50:46] [Server thread/INFO]: Saving worlds
+[15:50:46] [Server thread/INFO]: Saving chunks for level 'world'/overworld
+[15:50:47] [Server thread/INFO]: Saving chunks for level 'world_nether'/the_nether
+[15:50:47] [Server thread/INFO]: Saving chunks for level 'world_the_end'/the_end
