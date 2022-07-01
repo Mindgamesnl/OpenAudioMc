@@ -7,7 +7,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.craftmend.openaudiomc</groupId>
-  <artifactId>OpenAudioMc</artifactId>
+  <artifactId>OpenAudioMc-Plugin</artifactId>
   <name>OpenAudioMc</name>
   <version>${oa.version}</version>
   <description>The OpenAudioMc Java plugin and Api</description>
@@ -293,6 +293,13 @@
       <scope>provided</scope>
     </dependency>
   </dependencies>
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub Mindgamesnl Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/Mindgamesnl/OpenAudioMc</url>
+    </repository>
+  </distributionManagement>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>

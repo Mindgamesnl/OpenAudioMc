@@ -24,6 +24,14 @@
 
     <url>https://craftmend.com/</url>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Mindgamesnl Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/Mindgamesnl/OpenAudioMc</url>
+        </repository>
+    </distributionManagement>
+
     <repositories>
         <repository>
             <id>bungeecord-repo</id>
