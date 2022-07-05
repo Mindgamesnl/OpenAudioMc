@@ -30,9 +30,10 @@ public class RegionDeleteSubCommand extends SubCommand {
 
             if (rp instanceof TimedRegionProperties) {
                 ((TimedRegionProperties) rp).destroy();
+            } else {
+                openAudioMcSpigot.getRegionModule().removeRegion(targetRegion);
             }
 
-            openAudioMcSpigot.getRegionModule().removeRegion(targetRegion);
             message(sender, ChatColor.RED + "The WorldGuard region with the id " + targetRegion + " no longer has a sound linked to it.");
         } else {
             message(sender, ChatColor.RED + "There's no worldguard region by the name " + targetRegion);
