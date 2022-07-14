@@ -23,6 +23,7 @@ import lombok.NoArgsConstructor;
 import org.bukkit.*;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @NoArgsConstructor
 public class SpeakerService extends Service {
@@ -36,8 +37,8 @@ public class SpeakerService extends Service {
     @Getter private SpeakerCollector collector;
 
     public static final SpeakerType DEFAULT_SPEAKER_TYPE = SpeakerType.SPEAKER_3D;
-    @Getter private final Map<MappedLocation, Speaker> speakerMap = new HashMap<>();
-    private final Map<String, SpeakerMedia> speakerMediaMap = new HashMap<>();
+    @Getter private final Map<MappedLocation, Speaker> speakerMap = new ConcurrentHashMap<>();
+    private final Map<String, SpeakerMedia> speakerMediaMap = new ConcurrentHashMap<>();
     @Getter private Material playerSkullItem;
     @Getter private Material playerSkullBlock;
     @Getter private ServerVersion version;

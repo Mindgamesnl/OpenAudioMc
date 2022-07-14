@@ -36,6 +36,7 @@ public class TimedRegionProperties extends RegionProperties {
                 forceUpdateClients();
             }, 20 * timeInSeconds);
             forceUpdateClients();
+            getMedia();
         }
     }
 
