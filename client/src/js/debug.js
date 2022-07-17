@@ -92,11 +92,11 @@ async function enterUiTestMode() {
     // set static shit
     openAudioMc.messageModule.seedStatic([
         ["%player", tokenSet.name],
-        ["%server", "TstSrv"]
+        ["%server", "Class Community"]
     ]);
 
     replaceGlobalText("{{ oam.volume }}", 24 + "%")
-    replaceGlobalText("{{ craftmend.account.serverName }}", "TestClient")
+    replaceGlobalText("{{ craftmend.account.serverName }}", "Community")
     // wat a tiny bit, then show
     setTimeout(() => {
         replaceProperty("{{ oam.loader_style }}", "display: none;", "style")
