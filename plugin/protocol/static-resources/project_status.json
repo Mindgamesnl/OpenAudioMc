@@ -1,10 +1,10 @@
 {
   "response": {
     "versioning": {
-      "version_tag": "6.7.2",
+      "version_tag": "6.7.3",
       "build_number": 582,
       "version_importance": "&dRecommended",
-      "version_update_message": "6.7.2 Added support for 1.19, implements a new database type and more."
+      "version_update_message": "6.7.3 Added support for 1.19, implements a new database type and more."
     },
 
     "announcement": {
