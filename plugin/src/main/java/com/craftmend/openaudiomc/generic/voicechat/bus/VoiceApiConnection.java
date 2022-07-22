@@ -121,7 +121,9 @@ public class VoiceApiConnection {
     }
 
     private void onWsClose() {
-        if (status != VoiceApiStatus.CONNECTED) return;
+        if (!(status == VoiceApiStatus.CONNECTED || status == VoiceApiStatus.CONNECTING)) {
+            return;
+        }
         pushEvent(VoiceServerEventType.LOGOUT, new HashMap<>());
         status = VoiceApiStatus.IDLE;
         // we disconnected! only fires once
