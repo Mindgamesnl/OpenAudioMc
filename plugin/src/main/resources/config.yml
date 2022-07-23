@@ -147,6 +147,8 @@ papi:
 cdn:
   preferred-bridge-port: 8050
   timeout-seconds: 5
+  # This is the IP that'll be used for port validation, please don't touch this unless you've been instructed to by our support team
+  ip-overwrite: none
 
 
 # REDIS

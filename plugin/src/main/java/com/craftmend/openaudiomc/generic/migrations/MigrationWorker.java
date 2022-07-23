@@ -46,6 +46,7 @@ public class MigrationWorker {
                 new PredictiveCacheMigration(),         // migrate audio smart cache
                 new AddRDTimeoutMigration(),            // configurable timeout
                 new AddPapiMigration(),                 // add placeholder api values
+                new AddRDIpMigration(),                 // add rd ip config
         };
 
         for (SimpleMigration migration : migrations) {
