@@ -144,10 +144,12 @@ public class BungeeConfiguration implements Configuration {
         switch (storageKey.getStorageLocation()) {
             case DATA_FILE:
                 dataConfig.set(storageKey.getPath(), string);
+                return;
 
             case CONFIG_FILE:
                 mainConfig.set(storageKey.getPath(), string);
                 cachedConfigStrings.put(storageKey, string);
+                return;
         }
     }
 
@@ -162,9 +164,11 @@ public class BungeeConfiguration implements Configuration {
         switch (storageLocation) {
             case DATA_FILE:
                 dataConfig.set(path, string);
+                return;
 
             case CONFIG_FILE:
                 mainConfig.set(path, string);
+                return;
         }
     }
 
@@ -179,9 +183,11 @@ public class BungeeConfiguration implements Configuration {
         switch (storageLocation) {
             case DATA_FILE:
                 dataConfig.set(path, value);
+                return;
 
             case CONFIG_FILE:
                 mainConfig.set(path, value);
+                return;
         }
     }
 
@@ -223,9 +229,11 @@ public class BungeeConfiguration implements Configuration {
         switch (storageKey.getStorageLocation()) {
             case DATA_FILE:
                 dataConfig.set(storageKey.getPath(), value);
+                return;
 
             case CONFIG_FILE:
                 mainConfig.set(storageKey.getPath(), value);
+                return;
         }
     }
 
@@ -312,9 +320,11 @@ public class BungeeConfiguration implements Configuration {
         switch (location.getStorageLocation()) {
             case DATA_FILE:
                 dataConfig.set(location.getPath(), value);
+                return;
 
             case CONFIG_FILE:
                 mainConfig.set(location.getPath(), value);
+                return;
         }
     }
 

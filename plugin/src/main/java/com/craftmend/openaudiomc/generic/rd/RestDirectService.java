@@ -60,6 +60,10 @@ public class RestDirectService extends Service {
             ip = "localhost";
         }
 
+        if (StorageKey.CDN_IP_OVERWRITE.getString() != null && !StorageKey.CDN_IP_OVERWRITE.getString().equals("none")) {
+            ip = StorageKey.CDN_IP_OVERWRITE.getString();
+        }
+
         OpenAudioLogger.toConsole("Using ip: " + ip);
 
         for (int port : checkable_ports) {
