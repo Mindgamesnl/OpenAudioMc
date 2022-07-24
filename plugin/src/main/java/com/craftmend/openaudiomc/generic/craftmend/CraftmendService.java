@@ -185,6 +185,7 @@ public class CraftmendService extends Service {
                                     OpenAudioLogger.toConsole(" - " + error.getMessage());
                                 }
                             }
+                            voiceApiConnection.setStatus(VoiceApiStatus.IDLE);
                             OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
                                 startVoiceHandshake(true);
                             }, 20 * 20);
@@ -222,6 +223,7 @@ public class CraftmendService extends Service {
                         }
 
                         OpenAudioLogger.toConsole("Failed to initialize voice chat. Error: " + response.getErrors().get(0).getMessage());
+                        voiceApiConnection.setStatus(VoiceApiStatus.IDLE);
                         isAttemptingVcConnect = false;
                         lockVcAttempt = false;
                         isVcLocked = false;
