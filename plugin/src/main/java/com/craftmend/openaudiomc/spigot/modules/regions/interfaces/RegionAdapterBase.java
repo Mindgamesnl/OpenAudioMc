@@ -29,7 +29,10 @@ public abstract class RegionAdapterBase {
                 prio = r.getPriority();
                 regions.clear();
             }
-            regions.add(new Region(r.getName(), regionModule.getRegionPropertiesMap().get(r.getName())));
+
+            if (r.getPriority() >= prio) {
+                regions.add(new Region(r.getName(), regionModule.getRegionPropertiesMap().get(r.getName())));
+            }
         }
         return regions;
     }
@@ -48,7 +51,7 @@ public abstract class RegionAdapterBase {
             }
         }
 
-        return new HashSet<>((highestRegion == null ? regions : Arrays.asList(highestRegion)));
+        return new HashSet<>((highestRegion == null ? regions : Collections.singletonList(highestRegion)));
     }
 
 }
