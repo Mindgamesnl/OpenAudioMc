@@ -45,6 +45,10 @@ public class ProxyHostService extends Service {
 
     public void onServerSwitch(User user, ProxyNode from, ProxyNode to) {
         ClientConnection connection = OpenAudioMc.getService(NetworkingService.class).getClient(user.getUniqueId());
+
+        // bungeecord might fire this before player join, as they are technically connecting still, so we need to ignore it
+        if (connection == null) return;
+
         OpenAudioMc.getService(NetworkingService.class).send(connection, new PacketClientDestroyMedia(null, true));
 
         OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {

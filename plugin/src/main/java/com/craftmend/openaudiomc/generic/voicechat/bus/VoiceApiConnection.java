@@ -18,6 +18,7 @@ import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.voicechat.enums.VoiceApiStatus;
 import com.craftmend.openaudiomc.generic.voicechat.enums.VoiceServerEventType;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ import java.util.Map;
 public class VoiceApiConnection {
 
     private static final Map<String, String> EMPTY_PAYLOAD = new HashMap<>();
-    @Getter private VoiceApiStatus status = VoiceApiStatus.IDLE;
+    @Setter @Getter private VoiceApiStatus status = VoiceApiStatus.IDLE;
     private VoiceWebsocket voiceWebsocket;
     private final TaskService taskService;
 
