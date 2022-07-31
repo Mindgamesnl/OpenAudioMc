@@ -18,7 +18,7 @@ Please visit the [Documentation](https://help.openaudiomc.net/docs) for a full g
  - Music and sound effects without resource pack
  - Native Worldguard integration to asign music to regions and query for key locations
  - Speaker blocks you can place throughout your world to add audio in special places
- - Built-in TrainCarts hook to assing on-board music for rides
+ - Built-in TrainCarts hook to adding on-board music for rides
  - LiteBans support to syncronize mutes with voice chat
  - Feature rich java API
  - Easy to use web clients (players receive their own personal link, no downloads or accounts required)
@@ -37,7 +37,7 @@ Please visit the [Documentation](https://help.openaudiomc.net/docs) for a full g
 ## Supported platforms
  - [Spigot (1.12 and up, with primitive support for lower versions)](https://www.spigotmc.org/resources/openaudiomc-open-source-audio-client.30691/ "Spigot Plugin Page")
  - [BungeeCord (recent builds)](https://www.spigotmc.org/resources/openaudiomc-open-source-audio-client.30691/ "Spigot Plugin Page")
- - [Velocity (currently still being tested)](https://www.spigotmc.org/resources/openaudiomc-open-source-audio-client.30691/ "Spigot Plugin Page")
+ - [Velocity](https://www.spigotmc.org/resources/openaudiomc-open-source-audio-client.30691/ "Spigot Plugin Page")
 
 ## Notes on testing
 The Java plugin/implementation and vistas platforms come bundled with maven unit tests. All tests *must* pass before pull requests can definitively be reviewed.
