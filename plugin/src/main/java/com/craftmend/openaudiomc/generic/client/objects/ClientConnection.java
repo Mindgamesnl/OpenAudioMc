@@ -212,7 +212,9 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
 
     public void onDestroy() {
         this.getRtcSessionManager().makePeersDrop();
-        OpenAudioMc.getService(ClientDataService.class).save(dataCache, user.getUniqueId());
+        OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> {
+            OpenAudioMc.getService(ClientDataService.class).save(dataCache, user.getUniqueId());
+        });
         OpenAudioMc.getService(ClientDataService.class).dropFromCache(user.getUniqueId());
     }
 

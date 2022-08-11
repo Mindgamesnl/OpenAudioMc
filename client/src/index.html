@@ -174,15 +174,26 @@
             </div>
             <div class="tab-content">
                 <div class="content-wrapper">
-                    <div class="content-wrapper-box content-wrapper-header" style="display: none;"
+                    <div class="" style="display: none;"
                          hs="{{ oam.hidden_until_started }}">
-                        <div class="content-wrapper-context w-full">
-                            <h1 class="jumbo-text">{{ craftmend.account.serverName }}</h1>
+
+
+                        <div class="relative">
+                            <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
+                                <div class="relative max-w-2xl sm:mx-auto sm:max-w-xl md:max-w-2xl sm:text-center">
+                                    <h2 class="mb-6 font-sans text-3xl font-bold tracking-tight text-white sm:text-4xl sm:leading-none">
+                                        {% home.welcome %}
+                                    </h2>
+                                    <p class="mb-6 text-base text-indigo-100 md:text-lg">
+                                        <raw>{% home.header %}</raw>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="content-wrapper-box landing-thing"
                          hs="{{ oam.click_request_style }}">
-
+                        <!-- starting page -->
                         <section class="mb-32 text-gray-800 text-center lg:text-left w-full">
                             <style>
                                 @media (min-width: 992px) {
@@ -196,64 +207,25 @@
                                     border-radius: 53% 47% 52% 48% / 36% 41% 59% 64%;
                                 }
                             </style>
-
                             <!-- Jumbotron -->
                             <div class="container mx-auto xl:px-32 text-center lg:text-left">
                                 <div class="grid lg:grid-cols-2 flex items-center">
                                     <div class="mb-12 lg:mb-0 md:mt-10">
-                                        <div class="relative block rounded-lg shadow-lg px-6 py-12 md:px-12 lg:-mr-14 themed-text" style="background: var(--theme-bg-color); backdrop-filter: blur(30px); z-index: 1">
+                                        <div class="relative block rounded-lg shadow-lg px-6 py-12 md:px-12 lg:-mr-14 themed-text"
+                                             style="background: var(--theme-bg-color); backdrop-filter: blur(30px); z-index: 1">
                                             <h2 class="text-5xl font-bold mb-4 display-5 themed-text">{% home.activateHeader %}</h2>
                                             <p class="text-gray-200 mb-6 mt-6">
                                                 <raw>{% home.activateText %}</raw>
                                             </p>
                                         </div>
                                     </div>
-
-
                                     <div class="shadow-lg fancy-border-radius rotate-lg-6 lg:visible invisible w-full login-image"></div>
-
                                 </div>
                             </div>
                             <!-- Jumbotron -->
                         </section>
-
-
                     </div>
 
-                    <div class="content-section" style="display: none;" hs="{{ oam.hidden_until_started }}">
-                        <div class="content-section-title">{% home.audioControls %}</div>
-                    </div>
-
-
-
-                    <div class="content-section voice-section" style="display: none;" hs="{{ oam.hidden_until_started }}">
-                        <div class="content-card-collection items-stretch">
-                            <div class="content-card small-card order-2 2xl:order-1">
-                               <span>
-                                {% home.welcome %}
-                               </span>
-                                <div class="content-card-content">
-                                    <raw>{% home.header %}</raw>
-                                </div>
-                            </div>
-
-
-                            <div class="content-card main-volume-card order-1 2xl:order-2">
-                                <div class="content-wrapper-context full">
-                                    <div class="content-text full soft-text" style="padding-right: 50px">
-                                        <raw>{% home.volumeContext %}</raw>
-                                    </div>
-                                    <br/>
-                                    <input id="volume-slider"
-                                           class="volume-slider"
-                                           type="range" min="0" max="100" step="1" value="32"/>
-                                </div>
-                                <center>
-                                    <h1 class="volume-pill"><label for="volume-slider">{{ oam.volume }}</label></h1>
-                                </center>
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="content-section shockwave super-hidden" id="voicechat-onboarding" style="display: none;"
                          hs="{{ oam.hidden_until_started }}">
@@ -294,6 +266,34 @@
                             </div>
                         </div>
                     </div>
+
+
+
+
+                    <div class="content-section" style="display: none;" hs="{{ oam.hidden_until_started }}">
+                        <div class="content-section-title">{% home.audioControls %}</div>
+                    </div>
+                    <div class="content-section" style="display: none;"
+                         hs="{{ oam.hidden_until_started }}">
+                        <div class="content-card-collection items-stretch">
+                            <div class="2xl:order-2">
+                                <div class="content-wrapper-context full">
+                                    <div class="content-text full soft-text" style="padding-right: 50px">
+                                        <raw>{% home.volumeContext %}</raw>
+                                    </div>
+                                    <br/>
+                                    <input id="volume-slider"
+                                           class="volume-slider"
+                                           type="range" min="0" max="100" step="1" value="32"/>
+                                </div>
+                                <center>
+                                    <h1 class="volume-pill"><label for="volume-slider">{{ oam.volume }}</label></h1>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+
+
 
                     <div class="content-section" style="display: none;" hs="{{ oam.hidden_until_started }}">
                         <div class="content-section-title">{% home.notificationsTitle %}</div>

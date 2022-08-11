@@ -1,19 +1,25 @@
 package com.craftmend.openaudiomc.generic.database;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.client.store.ClientDataStore;
 import com.craftmend.openaudiomc.generic.database.internal.DataStore;
 import com.craftmend.openaudiomc.generic.database.internal.Repository;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.modules.ModuleLoaderService;
+import com.craftmend.openaudiomc.generic.mojang.store.MojangProfile;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.service.Service;
+import com.craftmend.openaudiomc.spigot.modules.predictive.sorage.StoredWorldChunk;
+import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.TimedRegionProperties;
 import com.craftmend.openaudiomc.spigot.modules.rules.adapter.RuleTestTypeAdapter;
 import com.craftmend.openaudiomc.spigot.modules.rules.adapter.RuleTypeAdapter;
 import com.craftmend.openaudiomc.spigot.modules.rules.data.Rule;
 import com.craftmend.openaudiomc.spigot.modules.rules.data.RuleTest;
 import com.craftmend.openaudiomc.spigot.modules.rules.storage.MediaRule;
+import com.craftmend.openaudiomc.spigot.modules.shortner.data.Alias;
+import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import com.craftmend.storm.Storm;
 import com.craftmend.storm.StormOptions;
 import com.craftmend.storm.connection.sqlite.SqliteFileDriver;
@@ -48,12 +54,12 @@ public class DatabaseService extends Service implements StormLogger {
 
         // warmup tables
         List<Class<? extends DataStore>> tables = new ArrayList<>();
-        tables.add(com.craftmend.openaudiomc.spigot.modules.shortner.data.Alias.class);
-        tables.add(com.craftmend.openaudiomc.generic.client.store.ClientDataStore.class);
-        tables.add(com.craftmend.openaudiomc.generic.mojang.store.MojangProfile.class);
-        tables.add(com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties.class);
-        tables.add(com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker.class);
-        tables.add(com.craftmend.openaudiomc.spigot.modules.predictive.sorage.StoredWorldChunk.class);
+        tables.add(Alias.class);
+        tables.add(ClientDataStore.class);
+        tables.add(MojangProfile.class);
+        tables.add(RegionProperties.class);
+        tables.add(Speaker.class);
+        tables.add(StoredWorldChunk.class);
 
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
             log("Adding spigot tables");

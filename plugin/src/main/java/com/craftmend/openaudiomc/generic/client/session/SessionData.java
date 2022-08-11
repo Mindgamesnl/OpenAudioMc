@@ -28,7 +28,7 @@ public class SessionData {
     private boolean hasHueLinked = false;
     private boolean isConnectedToRtc = false;
 
-    // ongoing sounds
+    // ongoing sounds - used for media-sources with the expiration timeout configured
     private final List<Media> ongoingMedia = new ArrayList<>();
     private int apiSpeakers = 0;
 
