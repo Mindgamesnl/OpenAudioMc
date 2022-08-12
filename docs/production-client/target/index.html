@@ -23,9 +23,9 @@
     <meta name="twitter:card" content="summary">
 
     <!-- Includes -->
-    <link rel="stylesheet" href="css/winter.css?Enable=1252"/>
+    <link rel="stylesheet" href="css/winter.css?Enable=1272"/>
     <script src="libs/sweetalert2.all.js"></script>
-    <link rel="stylesheet" href="css/reactive-sweetalert.css?Enable=1252"/>
+    <link rel="stylesheet" href="css/reactive-sweetalert.css?Enable=1272"/>
     <link rel="stylesheet" href="css/tailwind.min.css"/>
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
             data-cf-beacon='{"token": "44aa80ee6e6d48c8b54452fee61f2541"}'></script>
@@ -83,7 +83,7 @@
                         <p style="display: none;" hs="{{ oam.loading_tagline_style }}"
                            class="text-sm text-gray-300 leading-none mt-1">
                             {{ oam.loading_tagline_text }}</p> <small class="text-gray-500" style="display: inline;">Build
-                        1252</small>
+                        1272</small>
                     </div>
                 </div>
             </div>
@@ -276,7 +276,7 @@
                     <div class="content-section" style="display: none;"
                          hs="{{ oam.hidden_until_started }}">
                         <div class="content-card-collection items-stretch">
-                            <div class="2xl:order-2">
+                            <div class="content-wrapper-box audio-content m-5 2xl:order-2">
                                 <div class="content-wrapper-context full">
                                     <div class="content-text full soft-text" style="padding-right: 50px">
                                         <raw>{% home.volumeContext %}</raw>
@@ -286,9 +286,9 @@
                                            class="volume-slider"
                                            type="range" min="0" max="100" step="1" value="32"/>
                                 </div>
-                                <center>
+                                <div style="text-align: center;">
                                     <h1 class="volume-pill"><label for="volume-slider">{{ oam.volume }}</label></h1>
-                                </center>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -595,6 +595,6 @@
     </div>
 </div>
 
-<script src="OpenAudioMc.bundle.js?version=1252"></script>
+<script src="OpenAudioMc.bundle.js?version=1272"></script>
 </body>
 </html>
