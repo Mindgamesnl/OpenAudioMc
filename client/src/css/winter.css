@@ -482,8 +482,7 @@ body.light-mode .video-bg:before {
 .volume-pill {
     font-size: 50px;
     padding: 4px 12px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    border-radius: 5px;
     background-color: var(--hover-menu-bg);
     width: fit-content;
     margin-top: -6px;
