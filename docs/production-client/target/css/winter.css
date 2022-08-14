@@ -317,7 +317,7 @@ body.light-mode .video-bg:before {
     height: 60px;
     flex-shrink: 0;
     background-color: rgb(30, 30, 33);
-    border-bottom: 2px solid #304FFE;
+    border-bottom: 2px solid var(--primary-accent);
 }
 
 .main-header .header-menu {
