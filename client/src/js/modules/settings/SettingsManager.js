@@ -22,7 +22,8 @@ export var SETTING_STATES = {
     "preloadAudio": true,
     "spatialAudioRendering": "accurate",
     "interpolation": true,
-    "streamermode": true
+    "streamermode": true,
+    "rollOffFactor": 1,
 }
 
 export function isSettingEnabled(name) {
@@ -173,6 +174,28 @@ export class SettingsManager {
                 }
             )
         )
+
+        this.registerSetting(new DropdownSetting("rollOffFactor",
+                icons.RENDER,
+                getMessageString("settings.rolloff.title"),
+                getMessageString("settings.rolloff.body"),
+                [
+                    new DropdownOption("0.1", getMessageString("settings.rolloff.01")),
+                    new DropdownOption("0.5", getMessageString("settings.rolloff.5")),
+                    new DropdownOption("0.8", getMessageString("settings.rolloff.8")),
+                    new DropdownOption("1", getMessageString("settings.rolloff.1")),
+                    new DropdownOption("1.2", getMessageString("settings.rolloff.12")),
+                    new DropdownOption("1.5", getMessageString("settings.rolloff.15")),
+                ],
+                "1",
+                (value) => {
+                    oalog("Updating " + Object.size(pannerTrackers) + " panners to use the " + value + " rolloff")
+                    for (let pannerTrackersKey in pannerTrackers) {
+                        applyPannerProperties(pannerTrackers[pannerTrackersKey], pannerTrackers[pannerTrackersKey].maxDistance)
+                    }
+                }
+            )
+        )
     }
 
     registerSetting(setting) {
@@ -189,17 +212,22 @@ export function untrackPanner(id) {
 
 
 function applyPannerProperties(pannerNode, maxDistance) {
+
+    if (SETTING_STATES.rollOffFactor > 0.4) {
+        pannerNode.rolloffFactor = parseFloat(SETTING_STATES.rollOffFactor);
+        pannerNode.distanceModel = "exponential";
+    } else {
+        pannerNode.rolloffFactor = parseFloat(SETTING_STATES.rollOffFactor);
+        pannerNode.distanceModel = "linear";
+    }
+
     if (SETTING_STATES.spatialAudioRendering === "accurate") {
         pannerNode.panningModel = 'equalpower';
-        pannerNode.rolloffFactor = 0.8;
-        pannerNode.distanceModel = "linear";
         pannerNode.coneOuterGain = 1;
         pannerNode.coneInnerAngle = 90;
         pannerNode.maxDistance = maxDistance;
     } else {
         pannerNode.panningModel = 'HRTF';
-        pannerNode.rolloffFactor = 0.9;
-        pannerNode.distanceModel = "linear";
         pannerNode.coneOuterGain = 1;
         pannerNode.coneInnerAngle = 120;
         pannerNode.maxDistance = maxDistance;
