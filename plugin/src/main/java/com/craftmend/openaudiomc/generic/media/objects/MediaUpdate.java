@@ -12,6 +12,8 @@ public class MediaUpdate {
     private int distance = 100;
     private int maxDistance = 100;
     private int fadeTime = 0;
+    private int volume = 0;
+    private boolean reApplyVolume = false;
     private String target = "";
 
 }
