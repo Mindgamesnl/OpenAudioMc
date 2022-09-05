@@ -65,6 +65,10 @@ public class PlayerProximityTicker implements Runnable {
                     .forEach(peer -> {
                         // connect with these
                         client.getRtcSessionManager().linkTo(peer);
+                        // add them as a recent if we already have its data cached
+                        if (client.getDataCache() != null) {
+                            client.getDataCache().pushPeerName(peer.getOwner().getName());
+                        }
                     });
 
             // check if we have any peers that are no longer applicable

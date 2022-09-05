@@ -33,7 +33,7 @@ public class ClientDataService extends Service {
             } else if (cds == null) {
                 cds = new ClientDataStore();
                 cds.setOwner(owner);
-                if (store == true) {
+                if (store) {
                     db.getRepository(ClientDataStore.class).save(cds);
                 }
             }

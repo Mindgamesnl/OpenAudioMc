@@ -51,7 +51,12 @@ public class RegionHandler implements ITickableHandler {
                     takeOverMedia.add(entered);
                     // send an update packet for the newly entered region, as the volume might have changed
                     MediaUpdate mediaUpdate = new MediaUpdate(
-                            100, 100, entered.getFadeTime(), entered.getVolume(), true, entered.getMedia().getMediaId()
+                            100,
+                            100,
+                            entered.getFadeTime(),
+                            entered.getVolume(),
+                            true,
+                            entered.getMedia().getMediaId()
                     );
                     // send the updated packet
                     spigotConnection.getClientConnection().sendPacket(new PacketClientUpdateMedia(mediaUpdate));

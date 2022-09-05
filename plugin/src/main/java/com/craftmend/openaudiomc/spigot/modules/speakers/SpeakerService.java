@@ -12,6 +12,7 @@ import com.craftmend.openaudiomc.spigot.services.world.interfaces.IRayTracer;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerSelectListener;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.*;
 import com.craftmend.openaudiomc.spigot.modules.speakers.tasks.SpeakerGarbageCollection;
+import com.craftmend.openaudiomc.spigot.services.world.tracing.DummyTracer;
 import com.craftmend.openaudiomc.spigot.services.world.tracing.EstimatedRayTracer;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
@@ -42,7 +43,7 @@ public class SpeakerService extends Service {
     @Getter private Material playerSkullItem;
     @Getter private Material playerSkullBlock;
     @Getter private ServerVersion version;
-    private final EstimatedRayTracer estimatedRayTracer = new EstimatedRayTracer();
+    private final IRayTracer estimatedRayTracer = new DummyTracer();
 
     @Override
     public void onEnable() {
