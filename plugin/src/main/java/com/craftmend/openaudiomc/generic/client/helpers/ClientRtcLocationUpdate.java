@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.spigot.services.world.Vector3;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.services.world.interfaces.IRayTracer;
+import com.craftmend.openaudiomc.spigot.services.world.tracing.DummyTracer;
 import com.craftmend.openaudiomc.spigot.services.world.tracing.EstimatedRayTracer;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import org.bukkit.entity.Player;
 public class ClientRtcLocationUpdate {
 
     private static final boolean PROCESS_OBSTRUCTIONS = StorageKey.SETTINGS_VC_PROCESS_OBSTRUCTIONS.getBoolean();
-    private static IRayTracer rayTracer = new EstimatedRayTracer();
+    private static IRayTracer rayTracer = new DummyTracer();
 
     private String streamKey;
     private double x, y, z;
