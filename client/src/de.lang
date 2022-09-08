@@ -14,8 +14,9 @@ navbar.free=kostenlos
 navbar.premium=premium
 
 home.activate=Sitzung starten
-home.activateText=Diese Webseite wird verwendet, um deinen Ton und deine Stimme während deines Besuchs abzuspielen. Bitte klicke auf die Schaltfläche unten, um zu beginnen.
-home.activateHeader=Willkommen zu unserem Audio-Client!
+home.activateText=Diese persönliche Webseite wird dazu verwendet, deinen Ton und deine Stimme während deines Besuchs abzuspielen. Bitte klicke auf eine beliebige Stelle auf dieser Seite, um zu beginnen.
+home.clickAnywhere=Klicke auf eine beliebige Stelle, um zu beginnen.
+home.activateHeader=Klicke hier um dich zu verbinden!
 home.welcome=Willkommen, %player!
 home.header=Willkommen zu unserem Audio-Client! Halte diesen Tab im Hintergrund geöffnet um die passenden Musik und Effekte zu erleben. Du kannst während deiner Sitzung jederzeit zurückkehren um deine Lautstärke und Einstellungen anzupassen.
 home.volumeContext=Dieser Regler kontrolliert die Lautstärke deiner Musik und Effekte. Du kannst auch <pre>/volume &lt;Lautstärke&gt;</pre> nutzen, um deine Lautstärke jederzeit vom Spiel aus zu ändern. Du kannst sie auch auf 0 setzen um alle Sounds stummzuschalten.
@@ -103,6 +104,15 @@ settings.mix-and-fade.button=Aktiviere das Mischen
 settings.preload.title=Automatisches Vorladen von Audiodateien
 settings.preload.body=Wenn diese Option aktiviert ist, lädt OpenAudioMc automatisch Dateien vor, die in der Umgebung deines Spielstandorts häufig verwendet werden. Dies macht Audio reaktionsschneller, verbraucht aber mehr Daten.
 settings.preload.button=Aktiviere Vorladen
+settings.rolloff.title=3D-Audio-Wiedergabe
+settings.rolloff.body=Dies steuert die Menge der Dämpfung, die auf 3D-Audio angewendet wird, basierend auf der Entfernung. 0% bedeutet keine Dämpfung, 100% bedeutet volle Dämpfung. Dies gilt sowohl für die Lautsprecher als auch für den Voice-Chat.
+settings.rolloff.01=1% (minimal)
+settings.rolloff.5=50%
+settings.rolloff.8=80%
+settings.rolloff.1=100% (normal)
+settings.rolloff.12=120%
+settings.rolloff.15=150% (extrem)
+
 
 settings.spatial.title=Räumliche Rendering-Engine
 settings.spatial.body=Wähle aus, welche Rendering-Engine du verwenden möchtest. Die moderne Engine ist von höherer Qualität und etwas schneller, befindet sich jedoch noch in aktiver Entwicklung.
