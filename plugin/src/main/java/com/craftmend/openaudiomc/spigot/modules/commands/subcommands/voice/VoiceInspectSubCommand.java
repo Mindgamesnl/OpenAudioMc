@@ -13,10 +13,10 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class VoiceModSubCommand extends SubCommand {
+public class VoiceInspectSubCommand extends SubCommand {
 
-    public VoiceModSubCommand() {
-        super("mod");
+    public VoiceInspectSubCommand() {
+        super("inspect");
         this.trimArguments = true;
     }
 
