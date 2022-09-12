@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class VoiceModGui extends Menu {
+public class VoiceInspectGui extends Menu {
 
-    public VoiceModGui(Player moderator, ClientDataStore targetData, UUID targetId, String targetName) {
+    public VoiceInspectGui(Player moderator, ClientDataStore targetData, UUID targetId, String targetName) {
         super(OaColor.GOLD + targetName + "'s voice profile", 9);
 
         // three items
@@ -89,7 +89,7 @@ public class VoiceModGui extends Menu {
             }
         }
         OpenAudioMc.getService(ClientDataService.class).save(targetData, targetId);
-        new VoiceModGui(moderator, targetData, targetId, targetName);
+        new VoiceInspectGui(moderator, targetData, targetId, targetName);
     }
 
 }

@@ -49,15 +49,15 @@ public class VoiceInspectSubCommand extends SubCommand {
             }));
 
             clientDataRequest.setWhenFinished(clientDataStore -> {
-                handleMod(sender, args, clientDataStore, mojangProfile.getUuid(), mojangProfile.getName());
+                handleInspect(sender, args, clientDataStore, mojangProfile.getUuid(), mojangProfile.getName());
             });
         });
     }
 
-    public void handleMod(User sender, String[] args, ClientDataStore target, UUID targetId, String targetName) {
+    public void handleInspect(User sender, String[] args, ClientDataStore target, UUID targetId, String targetName) {
         message(sender, OaColor.GREEN + "Opening profile");
         resolveDependency(TaskService.class).runSync(() -> {
-            new VoiceModGui((Player) sender.getOriginal(), target, targetId, targetName);
+            new VoiceInspectGui((Player) sender.getOriginal(), target, targetId, targetName);
         });
     }
 
