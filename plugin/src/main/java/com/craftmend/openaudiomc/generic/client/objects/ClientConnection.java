@@ -95,9 +95,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
 
         OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
                     OpenAudioMc.getService(NetworkingService.class).send(this, new PacketClientProtocolRevisionPacket());
-
                     session.getOngoingMedia().forEach(this::sendMedia);
-
                     connectHandlers.forEach(a -> a.run());
                 },
                 3
