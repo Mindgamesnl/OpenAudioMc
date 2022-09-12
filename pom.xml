@@ -22,7 +22,6 @@
     <modules>
         <module>module-src/jutils</module>
         <module>plugin</module>
-        <module>module-src/require-module</module>
         <module>module-src/vistas-client</module>
         <module>module-src/vistas-server</module>
         <module>module-src/rinaorc-legacy</module>
