@@ -3,18 +3,18 @@ package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.user.User;
-import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.voice.VoiceModSubCommand;
+import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.voice.VoiceInspectSubCommand;
 
 public class VoiceSubCommand extends SubCommand {
 
     public VoiceSubCommand() {
         super("voice", "vc", "voicechat", "proximity", "pv");
         registerSubCommands(
-                new VoiceModSubCommand()
+                new VoiceInspectSubCommand()
         );
 
         registerArguments(
-                new Argument("mod <username>", "Open the moderation menu to view the status of a player or ban them")
+                new Argument("inspect <username>", "Open the moderation menu to view the status of a player or ban them")
         );
     }
 
