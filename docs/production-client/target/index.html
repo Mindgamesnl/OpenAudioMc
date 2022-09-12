@@ -23,9 +23,9 @@
     <meta name="twitter:card" content="summary">
 
     <!-- Includes -->
-    <link rel="stylesheet" href="css/winter.css?Enable=1217"/>
+    <link rel="stylesheet" href="css/winter.css?Enable=1226"/>
     <script src="libs/sweetalert2.all.js"></script>
-    <link rel="stylesheet" href="css/reactive-sweetalert.css?Enable=1217"/>
+    <link rel="stylesheet" href="css/reactive-sweetalert.css?Enable=1226"/>
     <link rel="stylesheet" href="css/tailwind.min.css"/>
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
             data-cf-beacon='{"token": "44aa80ee6e6d48c8b54452fee61f2541"}'></script>
@@ -83,7 +83,7 @@
                         <p style="display: none;" hs="{{ oam.loading_tagline_style }}"
                            class="text-sm text-gray-300 leading-none mt-1">
                             {{ oam.loading_tagline_text }}</p> <small class="text-gray-500" style="display: inline;">Build
-                        1217</small>
+                        1226</small>
                     </div>
                 </div>
             </div>
@@ -313,6 +313,19 @@
             <div class="tab-content">
                 <div class="content-wrapper">
                     <div class="content-section voice-section" style="display: none;" id="voice-settings-container">
+
+                        <div class="content-section" style="display: none;" hs="{{ oam.hidden_unless_vc_mod }}">
+                            <div class="content-wrapper-box audio-content full bg-red-800">
+                                <div class="content-wrapper-context full">
+                                    <div class="content-text full">
+                                        <div style="text-align: center;">
+                                            <p class="soft-text">{% vc.voiceModerationEnabled %}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="content-section-title">{% vc.settings %}</div>
                         <div class="content-card-collection items-stretch">
                             <div class="content-card small-card order-2 2xl:order-1">
@@ -595,6 +608,6 @@
     </div>
 </div>
 
-<script src="OpenAudioMc.bundle.js?version=1217"></script>
+<script src="OpenAudioMc.bundle.js?version=1226"></script>
 </body>
 </html>
