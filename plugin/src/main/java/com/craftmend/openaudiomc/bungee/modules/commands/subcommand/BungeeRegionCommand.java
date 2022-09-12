@@ -4,7 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
-import com.craftmend.openaudiomc.generic.node.enums.CommandProxy;
+import com.craftmend.openaudiomc.generic.node.enums.ProxiedCommand;
 import com.craftmend.openaudiomc.generic.node.packets.CommandProxyPacket;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.user.User;
@@ -41,7 +41,7 @@ public class BungeeRegionCommand extends SubCommand {
             CommandProxyPayload payload = new CommandProxyPayload();
             payload.setExecutor(player.getUniqueId());
             payload.setArgs(args);
-            payload.setCommandProxy(CommandProxy.REGION);
+            payload.setProxiedCommand(ProxiedCommand.REGION);
 
             OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(sender, new CommandProxyPacket(payload));
         }

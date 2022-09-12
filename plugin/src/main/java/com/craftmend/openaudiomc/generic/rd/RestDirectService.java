@@ -61,6 +61,7 @@ public class RestDirectService extends Service {
         }
 
         if (StorageKey.CDN_IP_OVERWRITE.getString() != null && !StorageKey.CDN_IP_OVERWRITE.getString().equals("none")) {
+            OpenAudioLogger.toConsole("Attempting to use IP overwrite with " + StorageKey.CDN_IP_OVERWRITE.getString());
             ip = StorageKey.CDN_IP_OVERWRITE.getString();
         }
 
