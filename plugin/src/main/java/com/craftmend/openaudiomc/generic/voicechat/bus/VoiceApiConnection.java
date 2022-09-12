@@ -76,7 +76,8 @@ public class VoiceApiConnection {
                             clientConnection.sendPacket(new PacketClientUnlockVoiceChat(new ClientVoiceChatUnlockPayload(
                                     clientConnection.getRtcSessionManager().getStreamKey(),
                                     this.host,
-                                    StorageKey.SETTINGS_VC_RADIUS.getInt()
+                                    StorageKey.SETTINGS_VC_RADIUS.getInt(),
+                                    StorageKey.SETTINGS_VC_MOD_ENABLED.getBoolean()
                             )));
                         }
                     });
