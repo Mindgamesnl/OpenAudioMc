@@ -80,7 +80,7 @@ public class BukkitPacketListener implements PacketListener {
         User player = OpenAudioMc.resolveDependency(UserHooks.class).byUuid(packet.getCommandProxy().getExecutor());
         if (player == null) return;
         OpenAudioMc.getService(CommandService.class)
-                .getSubCommand(packet.getCommandProxy().getCommandProxy().toString().toLowerCase())
+                .getSubCommand(packet.getCommandProxy().getProxiedCommand().toString().toLowerCase())
                 .onExecute(player, packet.getCommandProxy().getArgs());
     }
 
