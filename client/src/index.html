@@ -313,6 +313,19 @@
             <div class="tab-content">
                 <div class="content-wrapper">
                     <div class="content-section voice-section" style="display: none;" id="voice-settings-container">
+
+                        <div class="content-section" style="display: none;" hs="{{ oam.hidden_unless_vc_mod }}">
+                            <div class="content-wrapper-box audio-content full bg-red-800">
+                                <div class="content-wrapper-context full">
+                                    <div class="content-text full">
+                                        <div style="text-align: center;">
+                                            <p class="soft-text">{% vc.voiceModerationEnabled %}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="content-section-title">{% vc.settings %}</div>
                         <div class="content-card-collection items-stretch">
                             <div class="content-card small-card order-2 2xl:order-1">
