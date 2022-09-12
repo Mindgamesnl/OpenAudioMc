@@ -58,6 +58,11 @@ public class PlayerProximityTicker implements Runnable {
             // clear the applicable players if i'm disabled myself
             if (!client.getRtcSessionManager().getBlockReasons().isEmpty()) applicableClients.clear();
 
+            // remove moderators, if I'm not moderating myself
+            if (!client.getSession().isModerating()) {
+                applicableClients.removeIf(other -> other.getSession().isModerating());
+            }
+
             // find players that we don't have yet
             applicableClients
                     .stream()
