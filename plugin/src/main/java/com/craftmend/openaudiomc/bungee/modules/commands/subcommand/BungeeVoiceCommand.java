@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.bungee.modules.commands.subcommand;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
-import com.craftmend.openaudiomc.generic.node.enums.CommandProxy;
+import com.craftmend.openaudiomc.generic.node.enums.ProxiedCommand;
 import com.craftmend.openaudiomc.generic.node.packets.CommandProxyPacket;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.user.User;
@@ -22,7 +22,8 @@ public class BungeeVoiceCommand extends SubCommand {
     public BungeeVoiceCommand() {
         super("voice");
         registerArguments(
-                new Argument("mod <username>", "Open the moderation menu to view the status of a player or ban them")
+                new Argument("mod", "Toggle moderation mode for voicechat"),
+                new Argument("inspect <username>", "Open the moderation menu to view the status of a player or ban them")
         );
     }
 
@@ -32,7 +33,7 @@ public class BungeeVoiceCommand extends SubCommand {
          CommandProxyPayload payload = new CommandProxyPayload();
         payload.setExecutor(sender.getUniqueId());
         payload.setArgs(args);
-        payload.setCommandProxy(CommandProxy.ALIAS);
+        payload.setProxiedCommand(ProxiedCommand.VOICE);
 
         OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(sender, new CommandProxyPacket(payload));
     }

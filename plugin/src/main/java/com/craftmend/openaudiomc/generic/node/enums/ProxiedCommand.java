@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.node.enums;
 
-public enum CommandProxy {
+public enum ProxiedCommand {
 
     REGION,
     SPEAKER,

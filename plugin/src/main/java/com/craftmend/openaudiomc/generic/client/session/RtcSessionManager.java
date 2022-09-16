@@ -82,14 +82,23 @@ public class RtcSessionManager implements Serializable {
         if (peer.getRtcSessionManager().subscriptions.contains(clientConnection.getOwner().getUniqueId()))
             return false;
 
-        peer.getRtcSessionManager().getSubscriptions().add(clientConnection.getOwner().getUniqueId());
+        boolean skipPeer = false;
+
+        // are we moderating? if so, and the other user isn't, we should force a one-sided subscription
+        if (clientConnection.getSession().isModerating() && !peer.getSession().isModerating()) {
+            skipPeer = true;
+        }
+
         subscriptions.add(peer.getOwner().getUniqueId());
 
-        peer.sendPacket(new PacketClientSubscribeToVoice(ClientVoiceSubscribePayload.fromClient(clientConnection, Vector3.from(peer))));
+        if (!skipPeer) {
+            peer.getRtcSessionManager().getSubscriptions().add(clientConnection.getOwner().getUniqueId());
+            peer.sendPacket(new PacketClientSubscribeToVoice(ClientVoiceSubscribePayload.fromClient(clientConnection, Vector3.from(peer))));
+            AudioApi.getInstance().getEventDriver().fire(new PlayerEnterVoiceProximityEvent(clientConnection, peer, VoiceEventCause.NORMAL));
+        }
+
         clientConnection.sendPacket(new PacketClientSubscribeToVoice(ClientVoiceSubscribePayload.fromClient(peer, Vector3.from(clientConnection))));
 
-        // throw events in both ways, since the two users are listening to eachother
-        AudioApi.getInstance().getEventDriver().fire(new PlayerEnterVoiceProximityEvent(clientConnection, peer, VoiceEventCause.NORMAL));
         AudioApi.getInstance().getEventDriver().fire(new PlayerEnterVoiceProximityEvent(peer, clientConnection, VoiceEventCause.NORMAL));
 
         updateLocationWatcher();

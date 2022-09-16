@@ -11,5 +11,6 @@ public class ClientVoiceChatUnlockPayload extends AbstractPacketPayload {
     private String streamKey;
     private String streamServer;
     private int radius;
+    private boolean hasModeration;
 
 }

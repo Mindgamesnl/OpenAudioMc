@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.voice.VoiceInspectSubCommand;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.voice.VoiceModSubCommand;
 
 public class VoiceSubCommand extends SubCommand {
@@ -10,11 +11,13 @@ public class VoiceSubCommand extends SubCommand {
     public VoiceSubCommand() {
         super("voice", "vc", "voicechat", "proximity", "pv");
         registerSubCommands(
-                new VoiceModSubCommand()
+                new VoiceModSubCommand(),
+                new VoiceInspectSubCommand()
         );
 
         registerArguments(
-                new Argument("mod <username>", "Open the moderation menu to view the status of a player or ban them")
+                new Argument("mod", "Toggle moderation mode for voicechat"),
+                new Argument("inspect <username>", "Open the moderation menu to view the status of a player or ban them")
         );
     }
 
@@ -26,8 +29,13 @@ public class VoiceSubCommand extends SubCommand {
             return;
         }
 
-        if (args[0].equalsIgnoreCase("mod") && args.length == 2) {
+        if (args[0].equalsIgnoreCase("mod")) {
             delegateTo("mod", sender, args);
+            return;
+        }
+
+        if (args[0].equalsIgnoreCase("inspect")) {
+            delegateTo("inspect", sender, args);
             return;
         }
 
