@@ -5,8 +5,8 @@ echo "Building new OpenAudioMc jar without unit tests.."
 
 mvn clean install -Dmaven.test.skip=true
 
-rm test-server-spigot/plugins/OpenAudioMc-*
-cp plugin/target/OpenAudioMc-* test-server-spigot/plugins/
+rm test-server-spigot/plugins/openaudiomc-*
+cp plugin/target/openaudiomc-* test-server-spigot/plugins/
 cp dev-resources/bukkit.yml test-server-spigot/
 cp dev-resources/ops.json test-server-spigot/
 

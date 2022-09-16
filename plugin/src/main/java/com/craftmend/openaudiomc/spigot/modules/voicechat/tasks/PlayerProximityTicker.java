@@ -67,6 +67,7 @@ public class PlayerProximityTicker implements Runnable {
             applicableClients
                     .stream()
                     .filter(peer -> !client.getRtcSessionManager().getSubscriptions().contains(peer.getOwner().getUniqueId()))
+                    .filter(peer -> !client.getSession().isResetVc()) // we might need to drop everything
                     .forEach(peer -> {
                         // connect with these
                         client.getRtcSessionManager().linkTo(peer);
@@ -80,7 +81,7 @@ public class PlayerProximityTicker implements Runnable {
             for (UUID uuid : client.getRtcSessionManager().getSubscriptions()
                     .stream()
                     .filter(p -> p != client.getOwner().getUniqueId())
-                    .filter(uuid -> !applicableClients.stream().anyMatch(apc -> apc.getOwner().getUniqueId() == uuid))
+                    .filter(uuid -> client.getSession().isResetVc() || !applicableClients.stream().anyMatch(apc -> apc.getOwner().getUniqueId() == uuid))
                     .collect(Collectors.toSet())) {
 
                 // unsubscribe these
@@ -97,6 +98,10 @@ public class PlayerProximityTicker implements Runnable {
 
                 client.getRtcSessionManager().updateLocationWatcher();
                 peer.getRtcSessionManager().updateLocationWatcher();
+            }
+
+            if (client.getSession().isResetVc()) {
+                client.getSession().setResetVc(false);
             }
         }
 
