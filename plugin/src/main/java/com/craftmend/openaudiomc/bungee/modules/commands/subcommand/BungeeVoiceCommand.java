@@ -22,7 +22,8 @@ public class BungeeVoiceCommand extends SubCommand {
     public BungeeVoiceCommand() {
         super("voice");
         registerArguments(
-                new Argument("mod <username>", "Open the moderation menu to view the status of a player or ban them")
+                new Argument("mod", "Toggle moderation mode for voicechat"),
+                new Argument("inspect <username>", "Open the moderation menu to view the status of a player or ban them")
         );
     }
 
