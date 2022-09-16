@@ -23,6 +23,8 @@ public class SessionData {
 
     private final transient ClientConnection client;
 
+    private boolean resetVc = true;
+    private boolean isModerating = false;
     private boolean isWaitingToken = false;
     private boolean sessionUpdated = false;
     private boolean hasHueLinked = false;

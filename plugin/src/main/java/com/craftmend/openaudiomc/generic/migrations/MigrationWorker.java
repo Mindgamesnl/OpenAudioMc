@@ -47,6 +47,7 @@ public class MigrationWorker {
                 new AddRDTimeoutMigration(),            // configurable timeout
                 new AddPapiMigration(),                 // add placeholder api values
                 new AddRDIpMigration(),                 // add rd ip config
+                new AddVcModConfigMigration(),          // adds the option to enable/disable moderation support
         };
 
         for (SimpleMigration migration : migrations) {

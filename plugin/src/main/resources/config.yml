@@ -127,6 +127,10 @@ options:
   # Automatically request a free voicechat license when the server starts
   voicechat-autoclaim-on-start: true
 
+  # Enable/disable voicechat moderation. Disabled by default to prevent abuse. Setting this value to true will enable the
+  # "/oa voice mod" command
+  voicechat-moderation-support: false
+
 
 # PlaceholderAPI
 papi:

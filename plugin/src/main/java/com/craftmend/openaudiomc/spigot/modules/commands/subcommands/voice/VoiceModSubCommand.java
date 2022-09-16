@@ -1,17 +1,12 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.subcommands.voice;
 
-import com.craftmend.openaudiomc.generic.client.ClientDataService;
-import com.craftmend.openaudiomc.generic.client.store.ClientDataStore;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
-import com.craftmend.openaudiomc.generic.mojang.MojangLookupService;
-import com.craftmend.openaudiomc.generic.mojang.store.MojangProfile;
-import com.craftmend.openaudiomc.generic.networking.rest.Task;
-import com.craftmend.openaudiomc.generic.platform.OaColor;
-import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
 import org.bukkit.entity.Player;
-
-import java.util.UUID;
 
 public class VoiceModSubCommand extends SubCommand {
 
@@ -27,38 +22,32 @@ public class VoiceModSubCommand extends SubCommand {
             return;
         }
 
-        if (args.length == 0) {
-            message(sender, "Please specify the name of the player you want to inspect");
+        if (!StorageKey.SETTINGS_VC_MOD_ENABLED.getBoolean()) {
+            message(sender, "Moderation is disabled in the config for security");
             return;
         }
 
-        message(sender, "Fetching cached profile...");
-        Task<MojangProfile> mojangFetch = getService(MojangLookupService.class).getByName(args[0]);
+        // toggle mod status
+        ClientConnection client = (ClientConnection) sender.findClient().get();
+        client.getSession().setModerating(!client.getSession().isModerating());
 
-        mojangFetch.setWhenFailed(((errorCode, s) -> {
-            message(sender, OaColor.RED + "There's no record of that player ever joining this server");
-        }));
-
-        mojangFetch.setWhenFinished(mojangProfile -> {
-            message(sender, OaColor.GRAY + "Loading client data from " + mojangProfile.getUuid().toString() + "...");
-            Task<ClientDataStore> clientDataRequest = getService(ClientDataService.class)
-                    .getClientData(mojangProfile.getUuid(), false, false);
-
-            clientDataRequest.setWhenFailed(((errorCode, s) -> {
-                message(sender, OaColor.RED + "Failed to load profile data...");
-            }));
-
-            clientDataRequest.setWhenFinished(clientDataStore -> {
-                handleMod(sender, args, clientDataStore, mojangProfile.getUuid(), mojangProfile.getName());
-            });
-        });
+        if (client.getSession().isModerating()) {
+            client.getSession().setResetVc(true);
+            OpenAudioLogger.toConsole(sender.getName() + " started moderating");
+            bcToStaff(sender.getName() + " started moderating");
+        } else {
+            client.getSession().setResetVc(true);
+            OpenAudioLogger.toConsole(sender.getName() + " stopped moderating");
+            bcToStaff(sender.getName() + " stopped moderating");
+        }
     }
 
-    public void handleMod(User sender, String[] args, ClientDataStore target, UUID targetId, String targetName) {
-        message(sender, OaColor.GREEN + "Opening profile");
-        resolveDependency(TaskService.class).runSync(() -> {
-            new VoiceModGui((Player) sender.getOriginal(), target, targetId, targetName);
-        });
+    private void bcToStaff(String string) {
+        for (ClientConnection client : getService(NetworkingService.class).getClients()) {
+            if (isAllowed(client.getUser())) {
+                message(client.getUser(), string);
+            }
+        }
     }
 
 }
