@@ -33,7 +33,7 @@ public class BungeeVoiceCommand extends SubCommand {
          CommandProxyPayload payload = new CommandProxyPayload();
         payload.setExecutor(sender.getUniqueId());
         payload.setArgs(args);
-        payload.setProxiedCommand(ProxiedCommand.ALIAS);
+        payload.setProxiedCommand(ProxiedCommand.VOICE);
 
         OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(sender, new CommandProxyPacket(payload));
     }
