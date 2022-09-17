@@ -13,5 +13,8 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
+    - name: Run Discord Webhook
+      uses: baked-libs/discord-webhook@main
+      with:
+        id: ${{ secrets.DISCORD_WEBHOOK_ID }}
+        token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
