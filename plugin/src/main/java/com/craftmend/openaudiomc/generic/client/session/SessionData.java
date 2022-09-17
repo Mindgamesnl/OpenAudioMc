@@ -8,7 +8,6 @@ import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.client.helpers.SerializableClient;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,6 +22,7 @@ public class SessionData {
 
     private final transient ClientConnection client;
 
+    private int moderationTimeRemaining = 0;
     private boolean resetVc = true;
     private boolean isModerating = false;
     private boolean isWaitingToken = false;
@@ -43,7 +43,7 @@ public class SessionData {
         this.client = client;
     }
 
-    public void tickClient() {
+    public void tickConnectReminder() {
         boolean remindToConnect = OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_REMIND_TO_CONNECT);
 
         if (remindToConnect) {

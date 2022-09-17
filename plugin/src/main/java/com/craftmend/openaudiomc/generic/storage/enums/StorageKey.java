@@ -34,7 +34,6 @@ public enum StorageKey {
     SETTING_VC_LEFT_MUTED_REGION(false, "messages.voice-reenabled-here", StorageLocation.CONFIG_FILE),
     SETTINGS_VC_ANNOUNCEMENTS(false, "options.voicechat-announcements", StorageLocation.CONFIG_FILE),
     SETTINGS_VC_PROCESS_OBSTRUCTIONS(false, "options.voicechat-obstructions", StorageLocation.CONFIG_FILE),
-    SETTINGS_VC_MOD_ENABLED(false, "options.voicechat-moderation-support", StorageLocation.CONFIG_FILE),
 
     SETTINGS_REMIND_TO_CONNECT(false, "options.remind-to-connect", StorageLocation.CONFIG_FILE),
     SETTINGS_REMIND_TO_CONNECT_INTERVAL(false, "options.remind-to-connect-interval", StorageLocation.CONFIG_FILE),
@@ -53,6 +52,8 @@ public enum StorageKey {
     SETTINGS_VC_TOGGLE_MIC_SWAP(false, "options.voicechat-toggle-mic-on-swap-and-sneak", StorageLocation.CONFIG_FILE),
     SETTINGS_VC_USE_HOTBAR(false, "options.voicechat-send-messages-in-hotbar", StorageLocation.CONFIG_FILE),
     SETTINGS_VC_AUTOCLAIM(false, "options.voicechat-autoclaim-on-start", StorageLocation.CONFIG_FILE),
+    SETTINGS_VC_MOD_ENABLED(false, "options.voicechat-moderation-support", StorageLocation.CONFIG_FILE),
+    SETTINGS_MODERATION_TIMER(false, "options.voicechat-moderation-duration", StorageLocation.CONFIG_FILE);
 
     SETTINGS_PAPI_CLIENT_CONNECTED(false, "papi.client-connected", StorageLocation.CONFIG_FILE),
     SETTINGS_PAPI_CLIENT_DISCONNECTED(false, "papi.client-disconnected", StorageLocation.CONFIG_FILE),
@@ -79,7 +80,6 @@ public enum StorageKey {
     CDN_IP_OVERWRITE(false, "cdn.ip-overwrite", StorageLocation.CONFIG_FILE),
 
     LEGAL_ACCEPTED_TOS_AND_PRIVACY(false, "legal.accepted", StorageLocation.DATA_FILE),
-    ;
 
     @Getter
     private final String path;

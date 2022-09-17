@@ -185,6 +185,24 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
     }
 
     /**
+     * This method enables/disables moderation mode.
+     * It also handles switching logic for the client, and manages the timer state.
+     *
+     * @param state the new state
+     */
+    public void setModerating(boolean state) {
+        if (state) {
+            session.setModerating(true);
+            session.setModerationTimeRemaining(OpenAudioMc.getInstance().getConfiguration().getInt(StorageKey.SETTINGS_MODERATION_TIMER));
+            session.setResetVc(true);
+        } else {
+            session.setModerating(false);
+            session.setModerationTimeRemaining(0);
+            session.setResetVc(true);
+        }
+    }
+
+    /**
      * send media to the client to play
      *
      * @param media media to be send
@@ -200,7 +218,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
         if (isConnected()) {
             sendPacket(new PacketClientCreateMedia(media));
         } else {
-            session.tickClient();
+            session.tickConnectReminder();
         }
     }
 
@@ -276,5 +294,10 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
     @Override
     public void forcefullyDisableMicrophone(boolean disabled) {
         this.getRtcSessionManager().allowSpeaking(!disabled);
+    }
+
+    @Override
+    public boolean isModerating() {
+        return session.isModerating();
     }
 }
