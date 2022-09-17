@@ -36,7 +36,7 @@ public class VoiceInspectSubCommand extends SubCommand {
         Task<MojangProfile> mojangFetch = getService(MojangLookupService.class).getByName(args[0]);
 
         mojangFetch.setWhenFailed(((errorCode, s) -> {
-            message(sender, OaColor.RED + "There's no record of that player ever joining this server");
+            message(sender, OaColor.RED + "There's no record of that player ever joining this server (" + s + ")");
         }));
 
         mojangFetch.setWhenFinished(mojangProfile -> {
