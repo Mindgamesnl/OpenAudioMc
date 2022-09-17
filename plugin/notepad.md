@@ -16,7 +16,7 @@ Full changelog:
 - Added improved support for the (now publicly available) require addon (https://www.spigotmc.org/resources/require-openaudiomc.105168/)
 - Fixed some SQLite related issues while embedding Storm
 - Added a moderation banner to the client
-- Updaged german client translations (by Ceddix)
+- Updated german client translations (by Ceddix)
 - Fixed a bug where players woulnd't be logged in the recent peer list.
 - Extended worldguard regions (two regions with the same source next to each other) will now update volume (according to settings) if the player moves from one to the other.
 - Implemented better logging and retries for some models
