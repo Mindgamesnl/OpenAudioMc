@@ -9,6 +9,7 @@ import com.craftmend.openaudiomc.vistas.client.redis.packets.UserLeavePacket;
 import com.craftmend.openaudiomc.vistas.client.server.networking.VistasRedisServer;
 import com.craftmend.openaudiomc.vistas.client.users.ServerUserHooks;
 import com.craftmend.vistas.server.VistasServer;
+import com.craftmend.vistas.server.base.VistasConfiguration;
 import junit.framework.TestCase;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -43,6 +44,10 @@ public class TestServer extends TestCase {
         Waiter.waitUntil(s -> redisServer.isActive(), 10);
 
         System.out.println("Starting test resources");
+
+        // re-use other unit test dir
+        VistasConfiguration.BASE_PATH = VistasConfiguration.BASE_PATH + "/../test-storage";
+
         testVistasServer = new TestVistasServer();
     }
 
