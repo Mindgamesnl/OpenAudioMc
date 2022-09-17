@@ -82,13 +82,17 @@ public class VoiceWebsocket extends WebSocketListener {
 
     @Override
     public void onClosed(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
-        OpenAudioLogger.toConsole("Voicechat ws closed: " + reason + " - " + code);
+        if (code != 1000) {
+            OpenAudioLogger.toConsole("RTC connection closed with code " + code + " and reason " + reason);
+        }
         handleError();
     }
 
     @Override
     public void onClosing(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
-        OpenAudioLogger.toConsole("Voicechat ws closing: " + reason + " - " + code);
+        if (code != 1000) {
+            OpenAudioLogger.toConsole("Voicechat ws closing: " + reason + " - " + code);
+        }
         handleError();
     }
 

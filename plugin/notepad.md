@@ -1,3 +1,1 @@
-- added a config value for CDN override
-- fixed an issue with voice timeouts
-- fixed a bug where data.yml values would appear in the config, and vise versa
+- add voice command to velocity

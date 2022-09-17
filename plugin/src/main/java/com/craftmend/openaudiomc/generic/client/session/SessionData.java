@@ -4,11 +4,11 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.client.helpers.SerializableClient;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,6 +23,7 @@ public class SessionData {
 
     private final transient ClientConnection client;
 
+    private int moderationTimeRemaining = 0;
     private boolean resetVc = true;
     private boolean isModerating = false;
     private boolean isWaitingToken = false;
@@ -43,7 +44,22 @@ public class SessionData {
         this.client = client;
     }
 
-    public void tickClient() {
+    public void tick() {
+        if (isModerating && moderationTimeRemaining < 15) {
+            client.getUser().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) +
+                    Platform.makeColor("RED") + Platform.makeColor("BOLD") + "Warning! Your moderation mode will disable in " + moderationTimeRemaining + " seconds! run " + Platform.makeColor("AQUA") + "/oa voice extend" + Platform.makeColor("RED") + Platform.makeColor("BOLD") + " to stay in moderation mode!");
+
+            if (moderationTimeRemaining == 0) {
+                client.setModerating(false);
+            }
+        }
+
+        if (isModerating && moderationTimeRemaining >= 0) {
+            moderationTimeRemaining--;
+        }
+    }
+
+    public void bumpConnectReminder() {
         boolean remindToConnect = OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_REMIND_TO_CONNECT);
 
         if (remindToConnect) {

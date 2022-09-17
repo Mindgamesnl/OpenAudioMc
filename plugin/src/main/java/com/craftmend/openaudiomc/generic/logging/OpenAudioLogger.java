@@ -19,10 +19,15 @@ public class OpenAudioLogger {
         public void info(String s) {
             System.out.println(s);
         }
+
+        @Override
+        public boolean includePrefix() {
+            return true;
+        }
     };
 
     public static void toConsole(String message) {
-        logger.info(LOG_PREFIX + message);
+        logger.info((logger.includePrefix() ? LOG_PREFIX : "") + message);
     }
 
     public static void handleException(Throwable throwable) {

@@ -54,7 +54,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
     @Getter private transient final User user;
 
     @Getter private final SessionData session;
-    @Setter @Getter private ClientAuth auth;
+    @Setter private ClientAuth auth;
     @Getter private final RtcSessionManager rtcSessionManager;
     private transient final List<Runnable> connectHandlers = new ArrayList<>();
     private transient final List<Runnable> disconnectHandlers = new ArrayList<>();
@@ -96,7 +96,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
         OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
                     OpenAudioMc.getService(NetworkingService.class).send(this, new PacketClientProtocolRevisionPacket());
                     session.getOngoingMedia().forEach(this::sendMedia);
-                    connectHandlers.forEach(a -> a.run());
+                    connectHandlers.forEach(Runnable::run);
                 },
                 3
         );
@@ -120,7 +120,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
         session.setConnectedToRtc(false);
         session.setHasHueLinked(false);
         session.setConnected(false);
-        disconnectHandlers.forEach(event -> event.run());
+        disconnectHandlers.forEach(Runnable::run);
 
         // am I a proxy thingy? then send it to my other thingy
         OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(user, new ClientDisconnectedPacket(user.getUniqueId()));
@@ -185,6 +185,24 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
     }
 
     /**
+     * This method enables/disables moderation mode.
+     * It also handles switching logic for the client, and manages the timer state.
+     *
+     * @param state the new state
+     */
+    public void setModerating(boolean state) {
+        if (state) {
+            session.setModerating(true);
+            session.setModerationTimeRemaining(OpenAudioMc.getInstance().getConfiguration().getInt(StorageKey.SETTINGS_MODERATION_TIMER));
+            session.setResetVc(true);
+        } else {
+            session.setModerating(false);
+            session.setModerationTimeRemaining(0);
+            session.setResetVc(true);
+        }
+    }
+
+    /**
      * send media to the client to play
      *
      * @param media media to be send
@@ -200,7 +218,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
         if (isConnected()) {
             sendPacket(new PacketClientCreateMedia(media));
         } else {
-            session.tickClient();
+            session.bumpConnectReminder();
         }
     }
 
@@ -210,9 +228,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
 
     public void onDestroy() {
         this.getRtcSessionManager().makePeersDrop();
-        OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> {
-            OpenAudioMc.getService(ClientDataService.class).save(dataCache, user.getUniqueId());
-        });
+        OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> OpenAudioMc.getService(ClientDataService.class).save(dataCache, user.getUniqueId()));
         OpenAudioMc.getService(ClientDataService.class).dropFromCache(user.getUniqueId());
     }
 
@@ -276,5 +292,10 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
     @Override
     public void forcefullyDisableMicrophone(boolean disabled) {
         this.getRtcSessionManager().allowSpeaking(!disabled);
+    }
+
+    @Override
+    public boolean isModerating() {
+        return session.isModerating();
     }
 }
