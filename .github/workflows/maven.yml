@@ -14,7 +14,7 @@ jobs:
       with:
         java-version: 1.8
     - name: Run Discord Webhook
-      uses: Mindgamesnl/openaudio-maven-discord-integration@1.4
+      uses: Mindgamesnl/openaudio-maven-discord-integration@1.5
       with:
         id: ${{ secrets.DISCORD_WEBHOOK_ID }}
         token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
