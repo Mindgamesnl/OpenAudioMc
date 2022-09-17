@@ -29,7 +29,6 @@ public class VoiceModSubCommand extends SubCommand {
 
         // toggle mod status
         ClientConnection client = (ClientConnection) sender.findClient().get();
-        client.getSession().setModerating(!client.getSession().isModerating());
 
         if (!client.getSession().isModerating()) {
            client.setModerating(true);
