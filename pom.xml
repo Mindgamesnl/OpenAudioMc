@@ -14,7 +14,7 @@
     <description>The OpenAudioMc Java plugin and Api</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <oa.version>6.7.4</oa.version>
+        <oa.version>6.7.5</oa.version>
     </properties>
 
     <url>https://craftmend.com/</url>
@@ -30,5 +30,30 @@
         <module>module-src/skywars-module</module>
         <module>module-src/survival-audio-rules-module</module>
     </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.8</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <!-- attached to Maven test phase -->
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
