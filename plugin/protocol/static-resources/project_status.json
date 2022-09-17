@@ -1,7 +1,7 @@
 {
   "response": {
     "versioning": {
-      "version_tag": "6.7.4",
+      "version_tag": "6.7.5-RC1",
       "build_number": 582,
       "version_importance": "&dRecommended",
       "version_update_message": "6.7.4 Added support for 1.19, implements a new database type and more."
