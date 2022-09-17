@@ -54,7 +54,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
     @Getter private transient final User user;
 
     @Getter private final SessionData session;
-    @Setter @Getter private ClientAuth auth;
+    @Setter private ClientAuth auth;
     @Getter private final RtcSessionManager rtcSessionManager;
     private transient final List<Runnable> connectHandlers = new ArrayList<>();
     private transient final List<Runnable> disconnectHandlers = new ArrayList<>();
@@ -96,7 +96,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
         OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
                     OpenAudioMc.getService(NetworkingService.class).send(this, new PacketClientProtocolRevisionPacket());
                     session.getOngoingMedia().forEach(this::sendMedia);
-                    connectHandlers.forEach(a -> a.run());
+                    connectHandlers.forEach(Runnable::run);
                 },
                 3
         );
@@ -120,7 +120,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
         session.setConnectedToRtc(false);
         session.setHasHueLinked(false);
         session.setConnected(false);
-        disconnectHandlers.forEach(event -> event.run());
+        disconnectHandlers.forEach(Runnable::run);
 
         // am I a proxy thingy? then send it to my other thingy
         OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(user, new ClientDisconnectedPacket(user.getUniqueId()));
@@ -228,9 +228,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
 
     public void onDestroy() {
         this.getRtcSessionManager().makePeersDrop();
-        OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> {
-            OpenAudioMc.getService(ClientDataService.class).save(dataCache, user.getUniqueId());
-        });
+        OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> OpenAudioMc.getService(ClientDataService.class).save(dataCache, user.getUniqueId()));
         OpenAudioMc.getService(ClientDataService.class).dropFromCache(user.getUniqueId());
     }
 
