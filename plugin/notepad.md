@@ -6,7 +6,6 @@ We ended up with a system that allows select moderators to listen in on voice ch
 Moderation is disabled by default (to prevent abuse from admins who don't read changelogs and just update everything), and can be enabled in the config file.
 Once enabled, players will see a new banner in their voice chat tab, letting them know that moderation is enabled on their current server. This isn't too useful for end servers, but acts as some additional transparency as its different than what existing users might expect from OpenAudioMc.
 
-
 Full changelog:
 - The [CODE]/oa voice[/CODE] sub commands now work on velocity servers
 - Fixed a bug where the inspect menu wouldn't detect some usernames
@@ -20,6 +19,7 @@ Full changelog:
 - Fixed a bug where players woulnd't be logged in the recent peer list.
 - Extended worldguard regions (two regions with the same source next to each other) will now update volume (according to settings) if the player moves from one to the other.
 - Implemented better logging and retries for some models
+- Fixed a bug where the ip overwride value would be ignored on some hardware configurations
 
 Looking ahead:
  - I'm currently working on non-proximity or spatial audio based voice chat. This would allow normal group calls, implementation of in-game phones, etc.
