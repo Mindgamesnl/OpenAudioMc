@@ -67,7 +67,7 @@ public class PlayerProximityTicker implements Runnable {
             applicableClients
                     .stream()
                     .filter(peer -> !client.getRtcSessionManager().getListeningTo().contains(peer.getOwner().getUniqueId()))
-                    .filter(peer -> !client.getSession().isResetVc()) // we might need to drop everything
+                    .filter(peer -> !peer.getSession().isResetVc()) // they are already resetting, give it a sec
                     .filter(peer -> (client.isModerating() || !peer.isModerating())) // ignore moderators
 
                     .forEach(peer -> {
@@ -103,10 +103,10 @@ public class PlayerProximityTicker implements Runnable {
                 AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(peer, client, VoiceEventCause.NORMAL));
                 peer.getRtcSessionManager().updateLocationWatcher();
             }
+        }
 
-            if (client.getSession().isResetVc()) {
-                client.getSession().setResetVc(false);
-            }
+        for (ClientConnection client : OpenAudioMc.getService(NetworkingService.class).getClients()) {
+            client.getSession().setResetVc(false);
         }
 
         AudioApi.getInstance().getEventDriver().fire(new VoiceChatPeerTickEvent(TickEventType.AFTER_TICK));
