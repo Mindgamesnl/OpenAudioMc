@@ -2,18 +2,18 @@ package com.craftmend.openaudiomc.spigot.modules.voicechat;
 
 import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 import com.craftmend.openaudiomc.api.impl.event.enums.TickEventType;
-import com.craftmend.openaudiomc.api.impl.event.events.*;
 import com.craftmend.openaudiomc.api.impl.event.enums.VoiceEventCause;
+import com.craftmend.openaudiomc.api.impl.event.events.*;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.client.session.RtcSessionManager;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
-import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.PeerFilter;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.PlayerProximityTicker;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.TickVoicePacketQueue;
@@ -63,6 +63,10 @@ public class SpigotVoiceChatService extends Service {
             // only notify normal events, we don't really care about special things
             if (event.getCause() != VoiceEventCause.NORMAL) return;
 
+            if (event.getListener().isModerating() && !event.getSpeaker().isModerating()) {
+                return;
+            }
+
             event.getSpeaker().getRtcSessionManager().getRecentPeerAdditions().add(event.getListener().getOwner().getUniqueId());
             event.getSpeaker().getRtcSessionManager().getRecentPeerRemovals().remove(event.getListener().getOwner().getUniqueId());
         });
@@ -73,6 +77,10 @@ public class SpigotVoiceChatService extends Service {
 
             // only notify normal events, we don't really care about special things
             if (event.getCause() != VoiceEventCause.NORMAL) return;
+
+            if (event.getListener().isModerating() && !event.getSpeaker().isModerating()) {
+                return;
+            }
 
             event.getSpeaker().getRtcSessionManager().getRecentPeerRemovals().add(event.getListener().getOwner().getUniqueId());
             event.getSpeaker().getRtcSessionManager().getRecentPeerAdditions().remove(event.getListener().getOwner().getUniqueId());

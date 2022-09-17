@@ -66,8 +66,10 @@ public class PlayerProximityTicker implements Runnable {
             // find players that we don't have yet
             applicableClients
                     .stream()
-                    .filter(peer -> !client.getRtcSessionManager().getSubscriptions().contains(peer.getOwner().getUniqueId()))
+                    .filter(peer -> !client.getRtcSessionManager().getListeningTo().contains(peer.getOwner().getUniqueId()))
                     .filter(peer -> !client.getSession().isResetVc()) // we might need to drop everything
+                    .filter(peer -> (client.isModerating() || !peer.isModerating())) // ignore moderators
+
                     .forEach(peer -> {
                         // connect with these
                         client.getRtcSessionManager().linkTo(peer);
@@ -78,25 +80,27 @@ public class PlayerProximityTicker implements Runnable {
                     });
 
             // check if we have any peers that are no longer applicable
-            for (UUID uuid : client.getRtcSessionManager().getSubscriptions()
+            for (UUID uuid : client.getRtcSessionManager().getListeningTo()
                     .stream()
                     .filter(p -> p != client.getOwner().getUniqueId())
-                    .filter(uuid -> client.getSession().isResetVc() || !applicableClients.stream().anyMatch(apc -> apc.getOwner().getUniqueId() == uuid))
+                    .filter(uuid -> (client.getSession().isResetVc() || applicableClients.stream().noneMatch(apc -> apc.getOwner().getUniqueId() == uuid)))
                     .collect(Collectors.toSet())) {
 
                 // unsubscribe these
                 ClientConnection peer = OpenAudioMc.getService(NetworkingService.class).getClient(uuid);
 
                 client.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(peer.getRtcSessionManager().getStreamKey())));
-                peer.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(client.getRtcSessionManager().getStreamKey())));
-
-                peer.getRtcSessionManager().getSubscriptions().remove(client.getOwner().getUniqueId());
-                client.getRtcSessionManager().getSubscriptions().remove(peer.getOwner().getUniqueId());
-
                 AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(client, peer, VoiceEventCause.NORMAL));
-                AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(peer, client, VoiceEventCause.NORMAL));
-
                 client.getRtcSessionManager().updateLocationWatcher();
+                client.getRtcSessionManager().getListeningTo().remove(peer.getOwner().getUniqueId());
+
+                if (peer.isModerating()) {
+                    continue;
+                }
+
+                peer.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(client.getRtcSessionManager().getStreamKey())));
+                peer.getRtcSessionManager().getListeningTo().remove(client.getOwner().getUniqueId());
+                AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(peer, client, VoiceEventCause.NORMAL));
                 peer.getRtcSessionManager().updateLocationWatcher();
             }
 
