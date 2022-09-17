@@ -67,4 +67,9 @@ public interface Client {
      */
     void forcefullyDisableMicrophone(boolean disabled);
 
+    /**
+     * @return Whether or not the client is currently moderating
+     */
+    boolean isModerating();
+
 }

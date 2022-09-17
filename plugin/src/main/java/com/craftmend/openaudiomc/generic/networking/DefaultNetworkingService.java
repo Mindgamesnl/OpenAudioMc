@@ -12,8 +12,8 @@ import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.mojang.MojangLookupService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
-import com.craftmend.openaudiomc.generic.networking.abstracts.PayloadHandler;
 import com.craftmend.openaudiomc.generic.networking.abstracts.PacketChannel;
+import com.craftmend.openaudiomc.generic.networking.abstracts.PayloadHandler;
 import com.craftmend.openaudiomc.generic.networking.handlers.*;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
@@ -90,6 +90,14 @@ public class DefaultNetworkingService extends NetworkingService {
 
     private void init() {
         OpenAudioLogger.toConsole("Initializing socket connector");
+
+        // set tick tack
+        OpenAudioMc.resolveDependency(TaskService.class)
+                .scheduleSyncRepeatingTask(() -> clientMap
+                                .values()
+                                .forEach(clientConnection -> clientConnection.getSession().tick()),
+                        20, 20);
+
         try {
             socketIoConnector = new SocketIoConnector(OpenAudioMc.getService(AuthenticationService.class).getServerKeySet());
         } catch (Exception e) {
@@ -209,7 +217,8 @@ public class DefaultNetworkingService extends NetworkingService {
 
             // are we in stand alone mode? then kick this client
             if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
-                if (OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == OAClientMode.STAND_ALONE) client.kick(removeCallback);
+                if (OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == OAClientMode.STAND_ALONE)
+                    client.kick(removeCallback);
             } else {
                 client.kick(removeCallback);
             }

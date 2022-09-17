@@ -131,6 +131,9 @@ options:
   # "/oa voice mod" command
   voicechat-moderation-support: false
 
+  # This is the default timeout whereafter moderation mode disables itself. (in seconds)
+  voicechat-moderation-duration: 120
+
 
 # PlaceholderAPI
 papi:

@@ -23,20 +23,19 @@ public class VoiceModSubCommand extends SubCommand {
         }
 
         if (!StorageKey.SETTINGS_VC_MOD_ENABLED.getBoolean()) {
-            message(sender, "Moderation is disabled in the config for security");
+            message(sender, "Moderation is disabled in the config for security. Please ask your server admin to enable it.");
             return;
         }
 
         // toggle mod status
         ClientConnection client = (ClientConnection) sender.findClient().get();
-        client.getSession().setModerating(!client.getSession().isModerating());
 
-        if (client.getSession().isModerating()) {
-            client.getSession().setResetVc(true);
+        if (!client.getSession().isModerating()) {
+           client.setModerating(true);
             OpenAudioLogger.toConsole(sender.getName() + " started moderating");
             bcToStaff(sender.getName() + " started moderating");
         } else {
-            client.getSession().setResetVc(true);
+            client.setModerating(false);
             OpenAudioLogger.toConsole(sender.getName() + " stopped moderating");
             bcToStaff(sender.getName() + " stopped moderating");
         }
