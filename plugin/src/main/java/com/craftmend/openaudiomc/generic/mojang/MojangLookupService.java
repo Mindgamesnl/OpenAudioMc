@@ -54,10 +54,10 @@ public class MojangLookupService extends Service {
         taskService.runAsync(() -> {
             MojangProfile previous = profileRepository.getWhere("uuid", user.getUniqueId());
             if (previous == null) {
-                profileRepository.save(new MojangProfile(user.getName(), user.getUniqueId(), Instant.now()));
+                profileRepository.save(new MojangProfile(user.getName().toLowerCase(), user.getUniqueId(), Instant.now()));
                 return;
             }
-            previous.setName(user.getName());
+            previous.setName(user.getName().toLowerCase());
             previous.setLastSeen(Instant.now());
             profileRepository.save(previous);
         });
