@@ -25,3 +25,12 @@ Looking ahead:
  - I'm currently working on non-proximity or spatial audio based voice chat. This would allow normal group calls, implementation of in-game phones, etc.
  - Some parts of the backend will be overhauled this winter. This won't result in any changes for end users, but will make it easier to add new features in the future as well as resolving some technical debt.
  - The account system/platform is due for a major upgrade, addressing some common complaints. (better email support, cleared up addon page, improved rest api, and more)
+
+Closing notes
+It's becoming kind of a ritual now, but I truly mean it everytime I say it.
+Thank YOU, and especially my Patreons who keep this project alive. I'm very grateful for your support, and I hope you'll continue to enjoy OpenAudioMc for a long time to come.
+
+OpenAudioMc is turning 6 years old soon, and I'm very proud of what we've accomplished together.
+More on that later, but for now, enjoy this update!
+
+- Mats
