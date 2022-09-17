@@ -218,7 +218,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
         if (isConnected()) {
             sendPacket(new PacketClientCreateMedia(media));
         } else {
-            session.tickConnectReminder();
+            session.bumpConnectReminder();
         }
     }
 

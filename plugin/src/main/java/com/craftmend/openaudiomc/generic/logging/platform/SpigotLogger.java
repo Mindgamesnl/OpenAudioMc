@@ -19,4 +19,9 @@ public class SpigotLogger implements Logger {
     public void info(String s) {
         plugin.getLogger().log(Level.INFO, s);
     }
+
+    @Override
+    public boolean includePrefix() {
+        return false;
+    }
 }

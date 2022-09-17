@@ -1,4 +1,5 @@
-package com.craftmend.openaudiomc.bungee.modules.commands.subcommand;
+package com.craftmend.openaudiomc.velocity.modules.commands.subcommand;
+
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
@@ -8,18 +9,11 @@ import com.craftmend.openaudiomc.generic.node.packets.CommandProxyPacket;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.proxy.objects.CommandProxyPayload;
+import com.velocitypowered.api.proxy.Player;
 
-public class BungeeVoiceCommand extends SubCommand {
+public class VelocityVoiceCommand extends SubCommand {
 
-    /**
-     * A simple bungeecord command that forwards the alias command
-     * to the underlying spigot server.
-     *
-     * This is because bungeecord doesn't actually store any server data, and the media service
-     * is running on the spigot instance anyway
-     */
-
-    public BungeeVoiceCommand() {
+    public VelocityVoiceCommand() {
         super("voice");
         registerArguments(
                 new Argument("extend", "Renew your moderation lease"),
@@ -31,11 +25,14 @@ public class BungeeVoiceCommand extends SubCommand {
     @Override
     public void onExecute(User sender, String[] args) {
         // pass on to the spigot server
-         CommandProxyPayload payload = new CommandProxyPayload();
-        payload.setExecutor(sender.getUniqueId());
-        payload.setArgs(args);
-        payload.setProxiedCommand(ProxiedCommand.VOICE);
+        if (sender.getOriginal() instanceof Player) {
 
-        OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(sender, new CommandProxyPacket(payload));
+            CommandProxyPayload payload = new CommandProxyPayload();
+            payload.setExecutor(sender.getUniqueId());
+            payload.setArgs(args);
+            payload.setProxiedCommand(ProxiedCommand.VOICE);
+
+            OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(sender,  new CommandProxyPacket(payload));
+        }
     }
 }

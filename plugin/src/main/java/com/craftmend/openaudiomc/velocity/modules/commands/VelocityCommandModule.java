@@ -49,7 +49,8 @@ public class VelocityCommandModule {
                 new VelocityShowCommand(),
                 new VelocityAliasCommand(),
                 new BungeeVoiceCommand(),
-                new BungeePersonalsettingsCommand()
+                new BungeePersonalsettingsCommand(),
+                new VelocityVoiceCommand()
         );
 
         // add accept sub command if the player is new
