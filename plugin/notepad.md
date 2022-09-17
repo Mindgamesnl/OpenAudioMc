@@ -19,8 +19,9 @@ Full changelog:
 - Updaged german client translations (by Ceddix)
 - Fixed a bug where players woulnd't be logged in the recent peer list.
 - Extended worldguard regions (two regions with the same source next to each other) will now update volume (according to settings) if the player moves from one to the other.
+- Implemented better logging and retries for some models
 
 Looking ahead:
  - I'm currently working on non-proximity or spatial audio based voice chat. This would allow normal group calls, implementation of in-game phones, etc.
  - Some parts of the backend will be overhauled this winter. This won't result in any changes for end users, but will make it easier to add new features in the future as well as resolving some technical debt.
- - 
+ - The account system/platform is due for a major upgrade, addressing some common complaints. (better email support, cleared up addon page, improved rest api, and more)
