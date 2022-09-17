@@ -33,6 +33,8 @@ This document overrides the license as used before May 20th, 2020 at 7 PM (UTC+2
   services
 - I use the term **Stream ID** to reference a Player-bound unique ID that directly points to their voice stream (if
   enabled)
+- I use the term **Mod** or **Moderator** to reference a Player who has been granted the permission to moderate a
+  Server. 
 
 ## Processed and Stored Data
 
@@ -57,7 +59,7 @@ This document overrides the license as used before May 20th, 2020 at 7 PM (UTC+2
   this data, but the distribution of the key is up to you and your own responsibility)
 - **Voice Chat**: VoiceChat uses data from your Craftmend Account and Online Players to provide its service. Audio
   streams **do not** get recorded, but the most recent second of audio will get saved in memory for functional reasons (
-  buffering).
+  buffering). In certain conditions, the audio stream will be shared with Moderators who do not appear in your list of voice-chat peers.
 - **Dead Servers**: OpenAudioMc installations that haven't been active for over a month **and** aren't linked to a
   craftmend account will automatically be deleted, rendering the installation dead. OpenAudioMc installations *with*
   linked craftmend accounts are allowed two months of inactivity (unless they have addons installed, in which case they
@@ -118,6 +120,7 @@ This document overrides the license as used before May 20th, 2020 at 7 PM (UTC+2
 - Since we are not a professional software development team, Mindgamesnl/Mats cannot warrant that the OpenAudioMc (i) does not infringe the intellectual property rights of third parties; (ii) shall perform in all respects in accordance with the software specifications; (iii) shall not contain any virus, worm, virus macro, Trojan horse, or other component designed to permit unauthorized access, disable, erase, corrupt or otherwise harm the software; (iv) is fit for the purpose.
 - The total liability of Craftmend/OpenAudioMc/Mindgamesnl shall not exceed the amount of the total fee paid by you. Craftmend/OpenAudioMc/Mindgamesnl shall under no circumstances whatsoever be liable to you for any loss of profit, or any indirect or consequential loss arising under or in connection with the use of Craftmend/OpenAudioMc.
 - Derivatives, forks and other copies/modifications of OpenAudioMc must follow this license and include it in their copy.
+- We are not responsible for who a server/community assigns to be a Moderator, neither are we responsible for any actions taken by a Moderators. Complaints should be handled by management/higher-ups of said community. 
 
 
 ## Rights
