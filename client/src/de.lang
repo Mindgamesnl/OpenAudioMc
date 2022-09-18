@@ -24,6 +24,7 @@ home.audioControls=Audio-Steuerungen
 home.notificationsTitle=Benachrichtigungen
 home.notificationsEmpty=Du hast zurzeit keine Benachrichtigungen
 
+vc.voiceModerationEnabled=Auf diesem Server ist Moderation aktiviert. Ausgewählte Teammitglieder können mithören, während dein Mikrofon aktiv ist.
 vc.notice=Hinweis
 vc.startingPopupTitle=Anmeldung in den Sprachchat...
 vc.startingPopup=Bitte warte, bis wir den Sprachserver für dich eingerichtet haben. Dies sollte nicht lange dauern...
