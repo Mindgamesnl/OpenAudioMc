@@ -254,9 +254,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.mindgamesnl</groupId>
+            <groupId>com.github.Mindgamesnl</groupId>
             <artifactId>storm</artifactId>
-            <version>ef78d7f64e</version>
+            <version>2438525998</version>
         </dependency>
 
         <dependency>
@@ -371,6 +371,30 @@
                         <additionalClasspathElement>${project.basedir}/target/classes</additionalClasspathElement>
                     </additionalClasspathElements>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.8</version>
+                <configuration>
+                    <destfile>${basedir}/target/coverage-reports/jacoco-unit.exec</destfile>
+                    <datafile>${basedir}/target/coverage-reports/jacoco-unit.exec</datafile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <!-- attached to Maven test phase -->
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
         <resources>

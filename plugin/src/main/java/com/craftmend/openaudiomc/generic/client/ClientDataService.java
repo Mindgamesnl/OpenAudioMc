@@ -53,5 +53,10 @@ public class ClientDataService extends Service {
         if (data == null || id == null) return;
         data.setOwner(id);
         db.getRepository(ClientDataStore.class).save(data);
+
+        // update cache
+        if (storeCache.containsKey(id)) {
+            storeCache.put(id, data);
+        }
     }
 }

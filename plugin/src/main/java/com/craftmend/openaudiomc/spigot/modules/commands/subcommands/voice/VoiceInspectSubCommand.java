@@ -42,7 +42,7 @@ public class VoiceInspectSubCommand extends SubCommand {
         mojangFetch.setWhenFinished(mojangProfile -> {
             message(sender, OaColor.GRAY + "Loading client data from " + mojangProfile.getUuid().toString() + "...");
             Task<ClientDataStore> clientDataRequest = getService(ClientDataService.class)
-                    .getClientData(mojangProfile.getUuid(), false, false);
+                    .getClientData(mojangProfile.getUuid(), true, false);
 
             clientDataRequest.setWhenFailed(((errorCode, s) -> {
                 message(sender, OaColor.RED + "Failed to load profile data...");
