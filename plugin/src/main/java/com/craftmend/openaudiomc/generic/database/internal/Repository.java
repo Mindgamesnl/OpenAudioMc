@@ -1,6 +1,9 @@
 package com.craftmend.openaudiomc.generic.database.internal;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.storm.Storm;
 import com.craftmend.storm.api.StormModel;
 import com.craftmend.storm.api.enums.Where;
@@ -40,7 +43,22 @@ public class Repository<T extends DataStore> {
 
     @SneakyThrows
     public void save(T data) {
-        storm.save(data);
+        // try to save it first
+        try {
+            storm.save(data);
+        } catch (Exception e) {
+            // try again in a second, if it failed again, log it as an error
+            TaskService ts = OpenAudioMc.resolveDependency(TaskService.class);
+            ts.schduleSyncDelayedTask(() -> {
+                ts.runAsync(() -> {
+                    try {
+                        storm.save(data);
+                    } catch (Exception e1) {
+                        OpenAudioLogger.toConsole("Error: Failed to update storm model " + data.getClass().getSimpleName());
+                    }
+                });
+            }, 20 * 5);
+        }
     }
 
     @SneakyThrows

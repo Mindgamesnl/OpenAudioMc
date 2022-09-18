@@ -58,7 +58,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
     @Getter private final RtcSessionManager rtcSessionManager;
     private transient final List<Runnable> connectHandlers = new ArrayList<>();
     private transient final List<Runnable> disconnectHandlers = new ArrayList<>();
-    @Getter private ClientDataStore dataCache;
+    @Setter @Getter private ClientDataStore dataCache;
 
     public ClientConnection(User playerContainer, SerializableClient fromSerialized) {
         this.user = playerContainer;

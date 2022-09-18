@@ -70,6 +70,11 @@ public class VoiceApiConnection {
                     taskService.runAsync(() -> {
                         handleClientConnection(clientConnection);
 
+                        // ignore voice if we're banned
+                        if (clientConnection.getDataCache().getIsVoiceBlocked()) {
+                            return;
+                        }
+
                         // make an event, and invite the client if it isn't cancelled
                         ClientRequestVoiceEvent event = OpenAudioMc.getInstance().getApiEventDriver().fire(new ClientRequestVoiceEvent(clientConnection));
                         if (!event.isCanceled()) {
