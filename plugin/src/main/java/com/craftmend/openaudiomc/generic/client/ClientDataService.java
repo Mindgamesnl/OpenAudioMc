@@ -1,7 +1,9 @@
 package com.craftmend.openaudiomc.generic.client;
 
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.client.store.ClientDataStore;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.rest.Task;
 import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
@@ -25,6 +27,15 @@ public class ClientDataService extends Service {
 
     public Task<ClientDataStore> getClientData(UUID owner, boolean store, boolean createEmpty) {
         Task<ClientDataStore> task = new Task<>();
+
+        // is the client online? then use it
+        ClientConnection onlineClient = getService(NetworkingService.class).getClient(owner);
+
+        if (onlineClient != null) {
+            taskService.runAsync(() -> task.finish(onlineClient.getDataCache()));
+            return task;
+        }
+
         taskService.runAsync(() -> {
             ClientDataStore cds = db.getRepository(ClientDataStore.class).getWhere("owner", owner);
             if (cds == null && !createEmpty) {
@@ -57,6 +68,13 @@ public class ClientDataService extends Service {
         // update cache
         if (storeCache.containsKey(id)) {
             storeCache.put(id, data);
+        }
+
+        // is the client online? then use it
+        ClientConnection onlineClient = getService(NetworkingService.class).getClient(id);
+
+        if (onlineClient != null) {
+            onlineClient.setDataCache(data);
         }
     }
 }
