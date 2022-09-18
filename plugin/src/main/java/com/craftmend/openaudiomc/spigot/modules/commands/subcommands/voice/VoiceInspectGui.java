@@ -22,7 +22,7 @@ import java.util.UUID;
 public class VoiceInspectGui extends Menu {
 
     public VoiceInspectGui(Player moderator, ClientDataStore targetData, UUID targetId, String targetName) {
-        super(OaColor.GOLD + targetName + "'s voice profile", 9);
+        super(OaColor.BLACK + targetName + "'s voice profile", 9);
 
         // three items
         // name: show name, status, last seen, etc
@@ -32,14 +32,13 @@ public class VoiceInspectGui extends Menu {
         setItem(2, new Item(Material.NAME_TAG)
                 .setName(OaColor.AQUA + "About " + targetName)
                 .setLore(new String[]{
-                        OaColor.BLUE + "Last seen: " + OaColor.DARK_BLUE + DurationFormatter.formatDuration(Duration.between(targetData.getLastSeen(), Instant.now())),
-                        OaColor.BLUE + "Last VC connection: " + OaColor.DARK_BLUE + DurationFormatter.formatDuration(Duration.between(targetData.getLastSeen(), Instant.now())),
-
+                        OaColor.BLUE + "Last seen: " + OaColor.AQUA + DurationFormatter.formatDuration(Duration.between(targetData.getLastSeen(), Instant.now())),
+                        OaColor.BLUE + "Last VC connection: " + OaColor.AQUA + DurationFormatter.formatDuration(Duration.between(targetData.getLastSeen(), Instant.now())),
                 })
                 .onClick((player, item) -> {})
         );
 
-        setItem(4, new Item(Material.IRON_BARS)
+        setItem(4, new Item(Material.TNT)
                 .setName(ChatColor.RED + "VoiceChat ban")
                 .setLore(
                         (targetData.getIsVoiceBlocked() ? new String[] {

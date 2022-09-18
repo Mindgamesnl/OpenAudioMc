@@ -24,7 +24,7 @@ public class SessionData {
     private final transient ClientConnection client;
 
     private int moderationTimeRemaining = 0;
-    private boolean resetVc = true;
+    private boolean resetVc = false;
     private boolean isModerating = false;
     private boolean isWaitingToken = false;
     private boolean sessionUpdated = false;

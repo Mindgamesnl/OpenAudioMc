@@ -15,6 +15,7 @@ Please visit the [Documentation](https://help.openaudiomc.net/docs) for a full g
 
 ## Features
  - Proximity Voice Chat (with spatial and normal audio)
+ - Full built-in moderation support
  - Music and sound effects without resource pack
  - Native Worldguard integration to asign music to regions and query for key locations
  - Speaker blocks you can place throughout your world to add audio in special places

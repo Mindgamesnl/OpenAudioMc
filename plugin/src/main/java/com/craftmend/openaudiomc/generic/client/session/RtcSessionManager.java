@@ -40,7 +40,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RtcSessionManager implements Serializable {
 
     @Getter private boolean isMicrophoneEnabled = false;
-    @Getter private final transient Set<UUID> subscriptions = ConcurrentHashMap.newKeySet();
+    @Getter private final transient Set<UUID> listeningTo = ConcurrentHashMap.newKeySet();
     @Getter private final transient Set<ClientRtcLocationUpdate> locationUpdateQueue = ConcurrentHashMap.newKeySet();
     @Getter private final transient Set<RtcBlockReason> blockReasons = new HashSet<>();
     @Getter private final transient Set<RtcStateFlag> stateFlags = new HashSet<>();
@@ -56,7 +56,7 @@ public class RtcSessionManager implements Serializable {
 
         this.clientConnection.onDisconnect(() -> {
             // go over all other clients, check if we might have a relations ship and break up if thats the case
-            subscriptions.clear();
+            listeningTo.clear();
             this.isMicrophoneEnabled = false;
             makePeersDrop();
             locationUpdateQueue.clear();
@@ -76,10 +76,10 @@ public class RtcSessionManager implements Serializable {
         if (!peer.getRtcSessionManager().isReady())
             return false;
 
-        if (subscriptions.contains(peer.getOwner().getUniqueId()))
+        if (listeningTo.contains(peer.getOwner().getUniqueId()))
             return false;
 
-        if (peer.getRtcSessionManager().subscriptions.contains(clientConnection.getOwner().getUniqueId()))
+        if (peer.getRtcSessionManager().listeningTo.contains(clientConnection.getOwner().getUniqueId()))
             return false;
 
         boolean skipPeer = false;
@@ -89,16 +89,14 @@ public class RtcSessionManager implements Serializable {
             skipPeer = true;
         }
 
-        subscriptions.add(peer.getOwner().getUniqueId());
-
         if (!skipPeer) {
-            peer.getRtcSessionManager().getSubscriptions().add(clientConnection.getOwner().getUniqueId());
+            peer.getRtcSessionManager().getListeningTo().add(clientConnection.getOwner().getUniqueId());
             peer.sendPacket(new PacketClientSubscribeToVoice(ClientVoiceSubscribePayload.fromClient(clientConnection, Vector3.from(peer))));
             AudioApi.getInstance().getEventDriver().fire(new PlayerEnterVoiceProximityEvent(clientConnection, peer, VoiceEventCause.NORMAL));
         }
 
+        listeningTo.add(peer.getOwner().getUniqueId());
         clientConnection.sendPacket(new PacketClientSubscribeToVoice(ClientVoiceSubscribePayload.fromClient(peer, Vector3.from(clientConnection))));
-
         AudioApi.getInstance().getEventDriver().fire(new PlayerEnterVoiceProximityEvent(peer, clientConnection, VoiceEventCause.NORMAL));
 
         updateLocationWatcher();
@@ -136,9 +134,9 @@ public class RtcSessionManager implements Serializable {
             if (peer.getOwner().getUniqueId() == clientConnection.getOwner().getUniqueId())
                 continue;
 
-            if (peer.getRtcSessionManager().subscriptions.contains(clientConnection.getOwner().getUniqueId())) {
+            if (peer.getRtcSessionManager().listeningTo.contains(clientConnection.getOwner().getUniqueId())) {
                 // send unsub packet
-                peer.getRtcSessionManager().subscriptions.remove(clientConnection.getOwner().getUniqueId());
+                peer.getRtcSessionManager().listeningTo.remove(clientConnection.getOwner().getUniqueId());
                 peer.getRtcSessionManager().updateLocationWatcher();
                 peer.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(streamKey)));
 
@@ -160,7 +158,7 @@ public class RtcSessionManager implements Serializable {
             if (peer.getOwner().getUniqueId() == clientConnection.getOwner().getUniqueId())
                 continue;
 
-            if (peer.getRtcSessionManager().subscriptions.contains(clientConnection.getOwner().getUniqueId())) {
+            if (peer.getRtcSessionManager().listeningTo.contains(clientConnection.getOwner().getUniqueId())) {
                 peer.getRtcSessionManager().locationUpdateQueue.add(
                         ClientRtcLocationUpdate
                                 .fromClientWithLocation(clientConnection, location, Vector3.from(peer))
@@ -176,7 +174,7 @@ public class RtcSessionManager implements Serializable {
                 // player logged out, ignoring
                 return;
             }
-            if (subscriptions.isEmpty()) {
+            if (listeningTo.isEmpty()) {
                 spigotConnection.getLocationFollowers().remove(PlayerLocationFollower.PROXIMITY_VOICE_CHAT);
             } else {
                 spigotConnection.getLocationFollowers().add(PlayerLocationFollower.PROXIMITY_VOICE_CHAT);

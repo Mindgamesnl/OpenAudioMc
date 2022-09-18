@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.database.internal.Repository;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.mojang.store.MojangProfile;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.rest.Task;
 import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
@@ -54,10 +55,10 @@ public class MojangLookupService extends Service {
         taskService.runAsync(() -> {
             MojangProfile previous = profileRepository.getWhere("uuid", user.getUniqueId());
             if (previous == null) {
-                profileRepository.save(new MojangProfile(user.getName(), user.getUniqueId(), Instant.now()));
+                profileRepository.save(new MojangProfile(user.getName().toLowerCase(), user.getUniqueId(), Instant.now()));
                 return;
             }
-            previous.setName(user.getName());
+            previous.setName(user.getName().toLowerCase());
             previous.setLastSeen(Instant.now());
             profileRepository.save(previous);
         });
