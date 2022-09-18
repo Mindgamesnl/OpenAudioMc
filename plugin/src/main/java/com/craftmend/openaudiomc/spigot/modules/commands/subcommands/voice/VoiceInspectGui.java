@@ -34,7 +34,6 @@ public class VoiceInspectGui extends Menu {
                 .setLore(new String[]{
                         OaColor.BLUE + "Last seen: " + OaColor.AQUA + DurationFormatter.formatDuration(Duration.between(targetData.getLastSeen(), Instant.now())),
                         OaColor.BLUE + "Last VC connection: " + OaColor.AQUA + DurationFormatter.formatDuration(Duration.between(targetData.getLastSeen(), Instant.now())),
-
                 })
                 .onClick((player, item) -> {})
         );
