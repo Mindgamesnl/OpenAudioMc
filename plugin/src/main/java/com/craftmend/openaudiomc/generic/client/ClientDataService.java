@@ -32,7 +32,7 @@ public class ClientDataService extends Service {
         ClientConnection onlineClient = getService(NetworkingService.class).getClient(owner);
 
         // before we run off with it, we need to check if this isn't just the instance that requested it
-        if (onlineClient != null && onlineClient.getDataStore() != null) {
+        if (onlineClient != null && onlineClient.getDataCache() != null) {
             taskService.runAsync(() -> task.finish(onlineClient.getDataCache()));
             return task;
         }
