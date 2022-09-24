@@ -31,7 +31,8 @@ public class ClientDataService extends Service {
         // is the client online? then use it
         ClientConnection onlineClient = getService(NetworkingService.class).getClient(owner);
 
-        if (onlineClient != null) {
+        // before we run off with it, we need to check if this isn't just the instance that requested it
+        if (onlineClient != null && onlineClient.getDataStore() != null) {
             taskService.runAsync(() -> task.finish(onlineClient.getDataCache()));
             return task;
         }
