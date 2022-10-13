@@ -113,7 +113,6 @@ public class ConnectionTest extends TestHelper {
         }
 
 
-        testLog("Registering fake regions");
         String[] names = new String[]{"imreal", "alsoreal", "cute"};
 
         // seed a few times
@@ -169,42 +168,33 @@ public class ConnectionTest extends TestHelper {
         // attempt to connect
         Waiter.waitSeconds(5);
         OpenAudioMc.getService(NetworkingService.class).connectIfDown();
-        testLog("Waiting for connection...");
         Waiter.waitUntil(unused -> OpenAudioMc.getService(StateService.class).getCurrentState().isConnected(), 20);
 
-        testLog("Connected! Preforming tests with fake users...");
         whenConnected(firstInstance);
 
-        testLog("Waiting for stuff to finish and to allow shutdowns");
         Waiter.waitUntil(unused -> canShutdown, 9999999);
         OpenAudioLogger.mute();
         firstInstance.disable();
         OpenAudioLogger.unmute();
         Waiter.waitUntil(unused -> firstInstance.isDisabled(), 5);
-        testLog("Waiting 2 seconds before starting a new instance");
         Waiter.waitSeconds(2);
 
         // =============================
         // SECOND BOOT
         // =============================
 
-        testLog("OpenAudioMc shut down normally! now I'm gonna start it AGAIN to see if all transactions were saved");
         OpenAudioLogger.mute();
         final OpenAudioMc secondInstance = createTestInstance();
         OpenAudioLogger.unmute();
-        testLog("Testing UUID cache");
         Collection<MojangProfile> mojangProfiles = OpenAudioMc.getService(MojangLookupService.class).getProfileRepository().values();
         Assert.assertEquals("All UUID's are cached", TestUserHooks.fakeUsers.size(), mojangProfiles.size());
-        testLog("Checking if the recent data was valid");
         for (MojangProfile mojangProfile : mojangProfiles) {
             Assert.assertEquals("UUID's match", mojangProfile.getUuid(), TestUserHooks.fakeUsers.get(mojangProfile.getUuid()).getUniqueId());
         }
 
         Waiter.waitSeconds(5);
 
-        if (SystemUtils.IS_OS_LINUX) {
-            System.out.println("WARNING!!!! SKIPPING DATABASE CHECKS BECAUSE THEY CAN'T BE DONE RELIABLY ON WINDOWS!!!");
-            testLog("Counting data to make sure that migrations didn't trigger twice");
+        if (!SystemUtils.IS_OS_LINUX || !SystemUtils.IS_OS_MAC) {
             Assert.assertEquals(
                     920,
                     secondInstance.getServiceManager().getService(DatabaseService.class).getRepository(Speaker.class)
@@ -223,9 +213,10 @@ public class ConnectionTest extends TestHelper {
                             .values().size()
             );
 
+        } else {
+            System.out.println("WARNING!!!! SKIPPING DATABASE CHECKS BECAUSE THEY CAN'T BE DONE RELIABLY ON WINDOWS!!!");
         }
 
-        testLog("Shutting down, again!");
         OpenAudioLogger.mute();
         secondInstance.disable();
         OpenAudioLogger.unmute();
@@ -237,7 +228,6 @@ public class ConnectionTest extends TestHelper {
             OpenAudioMc.getService(NetworkingService.class).register(onlineUser, null);
         }
 
-        testLog("Waiting untill all players are registered");
         Waiter.waitUntil(f -> OpenAudioMc.getService(NetworkingService.class).getClients().size() == TestUserHooks.fakeUsers.size(), 5);
 
         // give it another few seconds to do its things, then test everything
