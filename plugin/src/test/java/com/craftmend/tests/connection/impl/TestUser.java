@@ -51,8 +51,6 @@ public class TestUser implements User {
 
     @Override
     public void sendMessage(String message) {
-        ConnectionTest.testLog("Sending message to fake user " + name + ": " + message);
-
         if (!gotPreparingSession) {
             gotPreparingSession = true;
             ConnectionTest.assertionGroup.run(new FutureAssertion("User got a preparing session message", shit -> StorageKey.MESSAGE_GENERATING_SESSION.getString().equals(message)));
@@ -71,7 +69,6 @@ public class TestUser implements User {
 
     @Override
     public void sendClickableUrlMessage(String message, String hoverMessage, String url) {
-        ConnectionTest.testLog("Sending url component to fake user " + name + ": " + message + " url=" + url);
         ConnectionTest.assertionGroup.run(new FutureAssertion("User link has a token", shit -> url.split("#")[1].length() > 2));
     }
 }

@@ -15,7 +15,6 @@ public class AssertionGroup {
 
     public void runAll() {
         for (FutureAssertion test : tests) {
-            System.out.println("Asserting that " + test.getAbout() + " is true");
             Assert.assertTrue(test.getAbout(), test.getTest().test(null));
         }
         tests.clear();

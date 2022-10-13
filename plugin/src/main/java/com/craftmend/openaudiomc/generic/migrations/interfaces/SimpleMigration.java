@@ -41,6 +41,16 @@ public abstract class SimpleMigration {
         // file handling is super SUPER weird, we need to manually update some fields
         File mainConfig = new File("plugins" + File.separator  + "OpenAudioMc" + File.separator + "config.yml");
         StringBuilder oldContent = new StringBuilder();
+
+        if (!mainConfig.exists()) {
+            OpenAudioLogger.toConsole("Failed to migrate old config, file not found");
+            // soft save to reflect the old values and write them to the new file
+            config.saveAll();
+            // force oa to reload
+            OpenAudioMc.getInstance().getInvoker().getConfigurationProvider().reloadConfig();
+            return;
+        }
+
         try (BufferedReader reader = new BufferedReader(new FileReader(mainConfig))) {
             String line = reader.readLine();
 

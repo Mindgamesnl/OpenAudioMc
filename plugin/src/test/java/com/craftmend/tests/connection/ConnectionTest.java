@@ -1,35 +1,23 @@
 package com.craftmend.tests.connection;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
-import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.mojang.MojangLookupService;
 import com.craftmend.openaudiomc.generic.mojang.store.MojangProfile;
-import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
-import com.craftmend.openaudiomc.generic.platform.Platform;
-import com.craftmend.openaudiomc.generic.platform.interfaces.OpenAudioInvoker;
-import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
-import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.state.StateService;
-import com.craftmend.openaudiomc.generic.state.states.IdleState;
-import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
 import com.craftmend.openaudiomc.spigot.modules.shortner.AliasService;
 import com.craftmend.openaudiomc.spigot.modules.shortner.data.Alias;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
-import com.craftmend.tests.connection.impl.StandAloneTaskService;
-import com.craftmend.tests.connection.impl.SystemConfiguration;
 import com.craftmend.tests.connection.impl.TestRegionProvider;
 import com.craftmend.tests.connection.impl.TestUserHooks;
+import com.craftmend.tests.helpers.TestHelper;
 import com.craftmend.utils.AssertionGroup;
 import com.craftmend.utils.Waiter;
-import lombok.Data;
 import lombok.SneakyThrows;
 import org.apache.commons.lang.SystemUtils;
 import org.junit.AfterClass;
@@ -37,11 +25,6 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -69,7 +52,7 @@ import java.util.UUID;
  * just mentioning that because I know that future me *will* fuck up at some point because of it.
  * So, dear future Mats, **I TOLD YOU SO, FUCKER**
  */
-public class ConnectionTest implements OpenAudioInvoker {
+public class ConnectionTest extends TestHelper {
 
     public static AssertionGroup assertionGroup = new AssertionGroup();
     private boolean canShutdown = false;
@@ -77,25 +60,7 @@ public class ConnectionTest implements OpenAudioInvoker {
     @SneakyThrows
     @BeforeClass
     public static void doYourOneTimeSetup() {
-        // setup the testing utils
-        SystemConfiguration.BASE_PATH = SystemConfiguration.BASE_PATH + "/../test-storage";
-        MagicValue.overWrite(MagicValue.STORAGE_DIRECTORY, new File(SystemConfiguration.BASE_PATH));
-
-        // delete data
-        new File(SystemConfiguration.BASE_PATH, "storm.db").delete();
-        new File(SystemConfiguration.BASE_PATH, "database.db").delete();
-
-        // ensure that the folder exists
-        File temp = new File(SystemConfiguration.BASE_PATH);
-        if (!temp.exists()) {
-            testLog("Creating base path");
-            temp.mkdir();
-        }
-
-        // seed old data to test migrations
-        Path copied = new File(SystemConfiguration.BASE_PATH, "database.db").toPath();
-        Path originalPath = Paths.get(new File(SystemConfiguration.BASE_PATH, "/../test-resources/database.db").getPath());
-        Files.copy(originalPath, copied, StandardCopyOption.REPLACE_EXISTING);
+        prepTests();
     }
 
     @AfterClass
@@ -197,7 +162,9 @@ public class ConnectionTest implements OpenAudioInvoker {
         TestUserHooks.createFakeUser(UUID.fromString("a1897ee4-5b32-41e0-a849-b803ba7740bd"), "Davadro");
 
         // register fake OpenAudioMc
+        OpenAudioLogger.mute();
         final OpenAudioMc firstInstance = createTestInstance();
+        OpenAudioLogger.unmute();
 
         // attempt to connect
         Waiter.waitSeconds(5);
@@ -210,7 +177,9 @@ public class ConnectionTest implements OpenAudioInvoker {
 
         testLog("Waiting for stuff to finish and to allow shutdowns");
         Waiter.waitUntil(unused -> canShutdown, 9999999);
+        OpenAudioLogger.mute();
         firstInstance.disable();
+        OpenAudioLogger.unmute();
         Waiter.waitUntil(unused -> firstInstance.isDisabled(), 5);
         testLog("Waiting 2 seconds before starting a new instance");
         Waiter.waitSeconds(2);
@@ -220,7 +189,9 @@ public class ConnectionTest implements OpenAudioInvoker {
         // =============================
 
         testLog("OpenAudioMc shut down normally! now I'm gonna start it AGAIN to see if all transactions were saved");
+        OpenAudioLogger.mute();
         final OpenAudioMc secondInstance = createTestInstance();
+        OpenAudioLogger.unmute();
         testLog("Testing UUID cache");
         Collection<MojangProfile> mojangProfiles = OpenAudioMc.getService(MojangLookupService.class).getProfileRepository().values();
         Assert.assertEquals("All UUID's are cached", TestUserHooks.fakeUsers.size(), mojangProfiles.size());
@@ -256,17 +227,14 @@ public class ConnectionTest implements OpenAudioInvoker {
         }
 
         testLog("Shutting down, again!");
+        OpenAudioLogger.mute();
         secondInstance.disable();
-    }
-
-    public static void testLog(String... messages) {
-        System.out.println("TESTLOG: " + String.join(" ", messages));
+        OpenAudioLogger.unmute();
     }
 
     private void whenConnected(OpenAudioMc openAudioMc) {
         // trigger fake player joins
         for (User onlineUser : getUserHooks().getOnlineUsers()) {
-            testLog("Handling fake user join", onlineUser.getName());
             OpenAudioMc.getService(NetworkingService.class).register(onlineUser, null);
         }
 
@@ -279,7 +247,6 @@ public class ConnectionTest implements OpenAudioInvoker {
 
         // simulate players leaving
         for (User onlineUser : getUserHooks().getOnlineUsers()) {
-            testLog("Handling fake user leave", onlineUser.getName());
             OpenAudioMc.getService(NetworkingService.class).remove(onlineUser.getUniqueId());
         }
 
@@ -288,65 +255,5 @@ public class ConnectionTest implements OpenAudioInvoker {
         // there shouldn't be any online players now
         Assert.assertEquals("All players are removed", 0, OpenAudioMc.getService(NetworkingService.class).getClients().size());
         canShutdown = true;
-    }
-
-    @SneakyThrows
-    private OpenAudioMc createTestInstance() {
-        OpenAudioMc openAudioMc = new OpenAudioMc(this);
-        openAudioMc.postBoot();
-        OpenAudioMc.getService(StateService.class).setState(new IdleState("OpenAudioMc started and awaiting command"));
-
-        // openaudiomc is starting.. now wait for a predicate
-        testLog("Waiting for boot...");
-        Waiter.waitUntil(unused -> OpenAudioMc.getService(CraftmendService.class).isInitialized(), 20);
-        return openAudioMc;
-    }
-
-    @Override
-    public boolean hasPlayersOnline() {
-        return false;
-    }
-
-    @Override
-    public boolean isNodeServer() {
-        return false;
-    }
-
-    @Override
-    public Platform getPlatform() {
-        return Platform.STANDALONE;
-    }
-
-    @Override
-    public Class<? extends NetworkingService> getServiceClass() {
-        return DefaultNetworkingService.class;
-    }
-
-    @Override
-    public TaskService getTaskProvider() {
-        return new StandAloneTaskService();
-    }
-
-    @Override
-    public Configuration getConfigurationProvider() {
-        Configuration configuration = new SystemConfiguration();
-        configuration.setBoolean(StorageKey.LEGAL_ACCEPTED_TOS_AND_PRIVACY, true);
-        configuration.setBoolean(StorageKey.DEBUG_LOG_STATE_CHANGES, true);
-        return configuration;
-    }
-
-    @Override
-    public String getPluginVersion() {
-        return "test";
-    }
-
-    @Override
-    public int getServerPort() {
-        return 25565;
-    }
-
-    @Override
-    public UserHooks getUserHooks() {
-        return new TestUserHooks();
     }
 }

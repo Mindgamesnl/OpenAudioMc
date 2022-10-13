@@ -66,7 +66,6 @@ public class AliasService extends Service {
         }
 
         for (Alias removeable : deletable) {
-            OpenAudioLogger.toConsole("Deleting stale alias " + removeable.getName() + " with id " + removeable.getId());
             OpenAudioMc.getService(DatabaseService.class).getRepository(Alias.class).delete(removeable);
         }
 
