@@ -47,6 +47,7 @@ public class Repository<T extends DataStore> {
         try {
             storm.save(data);
         } catch (Exception e) {
+            OpenAudioLogger.toConsole("Failed to save a model. Trying again later (" + data.getClass().getSimpleName() + ")");
             // try again in a second, if it failed again, log it as an error
             TaskService ts = OpenAudioMc.resolveDependency(TaskService.class);
             ts.schduleSyncDelayedTask(() -> {

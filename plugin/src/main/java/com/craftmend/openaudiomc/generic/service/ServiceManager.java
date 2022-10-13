@@ -63,7 +63,11 @@ public class ServiceManager {
                         field.setAccessible(true);
                         field.set(i, v);
                     } else {
-                        OpenAudioLogger.toConsole("WARNING! field " + field.getName() + " in " + target.getSimpleName() + " doesn't have the inject annotation, but it was resolved as " + v.getClass().getName());
+                        if (v == null) {
+                            OpenAudioLogger.toConsole("Field " + field.getName() + " in " + target.getSimpleName() + " is null, this is probably a bug");
+                        } else {
+                            OpenAudioLogger.toConsole("WARNING! field " + field.getName() + " in " + target.getSimpleName() + " doesn't have the inject annotation, but it was resolved as " + v.getClass().getName());
+                        }
                     }
                 }
             }
