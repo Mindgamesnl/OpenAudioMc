@@ -3,6 +3,7 @@ package com.craftmend.tests.helpers;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
@@ -28,11 +29,10 @@ import java.nio.file.StandardCopyOption;
 
 public class TestHelper implements OpenAudioInvoker {
 
-    protected OpenAudioMc openAudioMc;
+    protected static OpenAudioMc openAudioMc;
 
     @SneakyThrows
-    @BeforeClass
-    public static void prepTests() {
+    public static void prepTests(boolean start) {
         // setup the testing utils
         SystemConfiguration.BASE_PATH = SystemConfiguration.BASE_PATH + "/../test-storage";
         MagicValue.overWrite(MagicValue.STORAGE_DIRECTORY, new File(SystemConfiguration.BASE_PATH));
@@ -52,6 +52,18 @@ public class TestHelper implements OpenAudioInvoker {
         Path copied = new File(SystemConfiguration.BASE_PATH, "database.db").toPath();
         Path originalPath = Paths.get(new File(SystemConfiguration.BASE_PATH, "/../test-resources/database.db").getPath());
         Files.copy(originalPath, copied, StandardCopyOption.REPLACE_EXISTING);
+
+        if (start) {
+            OpenAudioLogger.mute();
+            openAudioMc = new OpenAudioMc(new TestHelper());
+            OpenAudioLogger.unmute();
+        }
+    }
+
+    protected void shutdown() {
+        OpenAudioLogger.mute();
+        openAudioMc.disable();
+        OpenAudioLogger.unmute();
     }
 
     public static void testLog(String... messages) {

@@ -60,7 +60,7 @@ public class ConnectionTest extends TestHelper {
     @SneakyThrows
     @BeforeClass
     public static void doYourOneTimeSetup() {
-        prepTests();
+        prepTests(false);
     }
 
     @AfterClass
@@ -197,7 +197,6 @@ public class ConnectionTest extends TestHelper {
         Assert.assertEquals("All UUID's are cached", TestUserHooks.fakeUsers.size(), mojangProfiles.size());
         testLog("Checking if the recent data was valid");
         for (MojangProfile mojangProfile : mojangProfiles) {
-            testLog("Comparing", mojangProfile.getName(), "to", TestUserHooks.fakeUsers.get(mojangProfile.getUuid()).getName());
             Assert.assertEquals("UUID's match", mojangProfile.getUuid(), TestUserHooks.fakeUsers.get(mojangProfile.getUuid()).getUniqueId());
         }
 
