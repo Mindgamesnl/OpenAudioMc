@@ -23,7 +23,11 @@ public class ChatRunnable extends ShowRunnable {
     @Override
     public void prepare(String serialized, World world) {
         this.message = serialized;
-        this.worldName = world.getName();
+        if (world != null) {
+            this.worldName = world.getName();
+        } else {
+            this.worldName = "world";
+        }
     }
 
     @Override

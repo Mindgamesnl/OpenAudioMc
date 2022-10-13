@@ -63,9 +63,13 @@ public class ShowService extends Service {
         return show;
     }
 
+    public Show fromJson(String json) {
+        return OpenAudioMc.getGson().fromJson(json, Show.class);
+    }
+
     public Show fromFile(String name) {
         try {
-            return OpenAudioMc.getGson().fromJson(new String(Files.readAllBytes(new File(OpenAudioMcSpigot.getInstance().getDataFolder(), name.toLowerCase() + ".json").toPath())), Show.class);
+            return fromJson(new String(Files.readAllBytes(new File(OpenAudioMcSpigot.getInstance().getDataFolder(), name.toLowerCase() + ".json").toPath())));
         } catch (IOException e) {
             // ignored
         }

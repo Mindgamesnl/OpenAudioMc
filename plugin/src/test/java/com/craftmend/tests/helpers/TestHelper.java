@@ -60,6 +60,13 @@ public class TestHelper implements OpenAudioInvoker {
         }
     }
 
+    @SneakyThrows
+    public void startQuietly() {
+        OpenAudioLogger.mute();
+        openAudioMc = new OpenAudioMc(new TestHelper());
+        OpenAudioLogger.unmute();
+    }
+
     protected void shutdown() {
         OpenAudioLogger.mute();
         openAudioMc.disable();
