@@ -79,7 +79,9 @@ public class ClassScanner {
                         classes.add(Class.forName(name));
                     }
                 } catch (NullPointerException | ClassNotFoundException | NoClassDefFoundError | ExceptionInInitializerError npe) {
-                    npe.printStackTrace();
+                    if (!(npe instanceof java.lang.NoClassDefFoundError)) {
+                        npe.printStackTrace();
+                    }
                     // System.out.println("Skipping " + packageName + "." + file.getName() + "Because it couldn't init");
                 }
             }

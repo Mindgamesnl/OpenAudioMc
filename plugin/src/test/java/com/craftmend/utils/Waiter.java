@@ -14,14 +14,14 @@ public class Waiter {
     }
 
     @SneakyThrows
-    public static void waitUntil(Predicate<Void> test, int timeoutSeconds) {
-        Instant start = Instant.now();
-        while (!test.test(null)) {
-            if (Duration.between(start, Instant.now()).getSeconds() > timeoutSeconds) {
-                throw new IllegalStateException("Predicate took too long! Waiter over " + timeoutSeconds + " secondss.");
+        public static void waitUntil(Predicate<Void> test, int timeoutSeconds) {
+            Instant start = Instant.now();
+            while (!test.test(null)) {
+                if (Duration.between(start, Instant.now()).getSeconds() > timeoutSeconds) {
+                    throw new IllegalStateException("Predicate took too long! Waiter over " + timeoutSeconds + " secondss.");
+                }
+               Thread.sleep(500);
             }
-           Thread.sleep(500);
         }
-    }
 
 }
