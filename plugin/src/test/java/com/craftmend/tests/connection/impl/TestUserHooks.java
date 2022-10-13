@@ -17,7 +17,6 @@ public class TestUserHooks implements UserHooks {
     public static Map<UUID, User> fakeUsers = new HashMap<>();
 
     public static void createFakeUser(UUID uuid, String name) {
-        ConnectionTest.testLog("Registering fake user " + name);
         fakeUsers.put(uuid, new TestUser(false, uuid, name));
     }
 

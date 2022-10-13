@@ -2,6 +2,7 @@ package vistas.test;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.vistas.client.redis.packets.ServerRegisterPacket;
 import com.craftmend.openaudiomc.vistas.client.redis.packets.UserJoinPacket;
@@ -48,7 +49,9 @@ public class TestServer extends TestCase {
         // re-use other unit test dir
         VistasConfiguration.BASE_PATH = VistasConfiguration.BASE_PATH + "/../test-storage";
 
+        OpenAudioLogger.mute();
         testVistasServer = new TestVistasServer();
+        OpenAudioLogger.unmute();
     }
 
     @Override

@@ -83,7 +83,6 @@ public class RegionModule {
         }
 
         for (RegionProperties regionProperties : deletable) {
-            OpenAudioLogger.toConsole("Deleting stale region " + regionProperties.getRegionName() + " with id " + regionProperties.getId());
             OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class).delete(regionProperties);
         }
 
