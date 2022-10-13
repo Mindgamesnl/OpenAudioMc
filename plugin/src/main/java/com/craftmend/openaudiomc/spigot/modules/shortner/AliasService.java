@@ -7,11 +7,14 @@ import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
 import com.craftmend.openaudiomc.spigot.modules.shortner.data.Alias;
 import com.craftmend.openaudiomc.spigot.modules.shortner.middleware.AliasMiddleware;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AliasService extends Service {
@@ -39,8 +42,32 @@ public class AliasService extends Service {
         OpenAudioMc.getService(MediaService.class).registerMutation("a:", new AliasMiddleware(this));
 
         //load config
-        for (Alias alias : databaseService.getRepository(Alias.class).values()) {
-            aliasMap.put(alias.getName(), alias);
+        Map<String, Alias> aliasWeight = new HashMap<>();
+        List<Alias> deletable = new ArrayList<>();
+        for (Alias dbAlias : OpenAudioMc.getService(DatabaseService.class).getRepository(Alias.class).values()) {
+
+            // check if we already have this region
+            if (aliasMap.containsKey(dbAlias.getName()) && aliasWeight.containsKey(dbAlias.getName())) {
+                Alias other = aliasWeight.get(dbAlias.getName());
+                if (other.getId() < dbAlias.getId()) {
+                    deletable.add(other);
+                }
+
+                // i may be older as well, could also be
+                if (other.getId() > dbAlias.getId()) {
+                    deletable.add(dbAlias);
+                    continue;
+                }
+            }
+
+
+            aliasWeight.put(dbAlias.getName(), dbAlias);
+            aliasMap.put(dbAlias.getName(), dbAlias);
+        }
+
+        for (Alias removeable : deletable) {
+            OpenAudioLogger.toConsole("Deleting stale alias " + removeable.getName() + " with id " + removeable.getId());
+            OpenAudioMc.getService(DatabaseService.class).getRepository(Alias.class).delete(removeable);
         }
 
         OpenAudioLogger.toConsole("Loaded " + aliasMap.size() + " aliases");

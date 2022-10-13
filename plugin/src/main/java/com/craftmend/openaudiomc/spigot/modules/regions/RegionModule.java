@@ -43,7 +43,7 @@ public class RegionModule {
         }
 
         //validate detection
-        if (OpenAudioMc.getService(ServerService.class).getVersion() == ServerVersion.LEGACY) {
+        if (customAdapter == null && OpenAudioMc.getService(ServerService.class).getVersion() == ServerVersion.LEGACY) {
             try {
                 Class.forName("com.sk89q.worldguard.bukkit.WGBukkit");
             } catch (ClassNotFoundException e) {
@@ -52,8 +52,39 @@ public class RegionModule {
             }
         }
 
+        Map<String, RegionProperties> regionWeight = new HashMap<>();
+        List<RegionProperties> deletable = new ArrayList<>();
         for (RegionProperties region : OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class).values()) {
+
+            // check if we already have this region
+            if (regionPropertiesMap.containsKey(region.getRegionName()) && regionWeight.containsKey(region.getRegionName())) {
+                RegionProperties other = regionWeight.get(region.getRegionName());
+                if (other.getId() < region.getId()) {
+                    deletable.add(other);
+                }
+
+                // i may be older as well, could also be
+                if (other.getId() > region.getId()) {
+                    deletable.add(region);
+                    continue;
+                }
+            }
+
+
+            regionWeight.put(region.getRegionName(), region);
+
+            // check if the region is valid
+            if (!regionAdapter.doesRegionExist(region.getRegionName())) {
+                OpenAudioLogger.toConsole("Region " + region.getRegionName() + " is not valid, so we're skipping mem registry.");
+                continue;
+            }
+
             registerRegion(region.getRegionName(), region);
+        }
+
+        for (RegionProperties regionProperties : deletable) {
+            OpenAudioLogger.toConsole("Deleting stale region " + regionProperties.getRegionName() + " with id " + regionProperties.getId());
+            OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class).delete(regionProperties);
         }
 
         OpenAudioMc.getService(MediaService.class).getResetTriggers().add(() -> {

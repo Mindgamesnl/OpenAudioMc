@@ -7,6 +7,7 @@ import lombok.Setter;
 public class OpenAudioLogger {
 
     private static final String LOG_PREFIX = "[OpenAudioMc] ";
+    private static boolean muted = false;
 
     @Setter private static Logger logger = new Logger() {
 
@@ -27,7 +28,16 @@ public class OpenAudioLogger {
     };
 
     public static void toConsole(String message) {
+        if (muted) return;
         logger.info((logger.includePrefix() ? LOG_PREFIX : "") + message);
+    }
+
+    public static void mute() {
+        muted = true;
+    }
+
+    public static void unmute() {
+        muted = false;
     }
 
     public static void handleException(Throwable throwable) {

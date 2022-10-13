@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.mojang.MojangLookupService;
 import com.craftmend.openaudiomc.generic.mojang.store.MojangProfile;
 import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
@@ -17,17 +18,23 @@ import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
+import com.craftmend.openaudiomc.spigot.modules.shortner.AliasService;
 import com.craftmend.openaudiomc.spigot.modules.shortner.data.Alias;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import com.craftmend.tests.connection.impl.StandAloneTaskService;
 import com.craftmend.tests.connection.impl.SystemConfiguration;
+import com.craftmend.tests.connection.impl.TestRegionProvider;
 import com.craftmend.tests.connection.impl.TestUserHooks;
 import com.craftmend.utils.AssertionGroup;
 import com.craftmend.utils.Waiter;
+import lombok.Data;
 import lombok.SneakyThrows;
 import org.apache.commons.lang.SystemUtils;
+import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
@@ -40,23 +47,24 @@ import java.util.UUID;
 
 /**
  * This unit test serves as the main "catch all giant fuckups" solution for the OpenAudioMc project.
- *
+ * <p>
  * It does some main and common computations with the generic OpenAudioMc platform against the production backend
  * It currently covers the following mechanisms:
- *      - Plugin init from scratch and previous installations
- *      - Migrations
- *      - Database handling
- *      - Account and license management
- *      - (fake) Player registration and memory leaks
- *      - Player token generation
- *      - Socket connections and connection state
- *      - Voicechat transactions
- *      - Basic player messages
- *      - Mojang UUID caching
- *      - Plugin restarting
- *      - Core file interactions
- *      - Basic spamming/concurrency
- *
+ * - Plugin init from scratch and previous installations
+ * - Migrations
+ * - Database handling
+ * - Account and license management
+ * - (fake) Player registration and memory leaks
+ * - Player token generation
+ * - Socket connections and connection state
+ * - Voicechat transactions
+ * - Basic player messages
+ * - Mojang UUID caching
+ * - Plugin restarting
+ * - Core file interactions
+ * - Basic spamming/concurrency
+ * <p>
+ * <p>
  * This class also serves as the main invoker, and is technically re-used between plugin inits;
  * just mentioning that because I know that future me *will* fuck up at some point because of it.
  * So, dear future Mats, **I TOLD YOU SO, FUCKER**
@@ -67,8 +75,8 @@ public class ConnectionTest implements OpenAudioInvoker {
     private boolean canShutdown = false;
 
     @SneakyThrows
-    @Test
-    public void testPluginCore() {
+    @BeforeClass
+    public static void doYourOneTimeSetup() {
         // setup the testing utils
         SystemConfiguration.BASE_PATH = SystemConfiguration.BASE_PATH + "/../test-storage";
         MagicValue.overWrite(MagicValue.STORAGE_DIRECTORY, new File(SystemConfiguration.BASE_PATH));
@@ -88,7 +96,90 @@ public class ConnectionTest implements OpenAudioInvoker {
         Path copied = new File(SystemConfiguration.BASE_PATH, "database.db").toPath();
         Path originalPath = Paths.get(new File(SystemConfiguration.BASE_PATH, "/../test-resources/database.db").getPath());
         Files.copy(originalPath, copied, StandardCopyOption.REPLACE_EXISTING);
+    }
 
+    @AfterClass
+    public static void testRegionCleaning() {
+
+    }
+
+    @Test
+    public void testAliasregistry() {
+        OpenAudioLogger.mute();
+        final OpenAudioMc openAudioMc = createTestInstance();
+        OpenAudioLogger.unmute();
+
+        // dump all regions from the current store
+        for (Alias value : OpenAudioMc.getService(DatabaseService.class).getRepository(Alias.class).values()) {
+            OpenAudioMc.getService(DatabaseService.class).getRepository(Alias.class).delete(value);
+        }
+
+
+        String[] names = new String[]{"imreal", "alsoreal", "cute", "superreal", "supercute"};
+
+        // seed a few times
+        for (int i = 0; i < 5; i++) {
+            for (String name : names) {
+                OpenAudioMc.getService(DatabaseService.class).getRepository(Alias.class)
+                        .save(new Alias(name, UUID.randomUUID().toString()));
+            }
+        }
+
+        Assert.assertEquals(5 * names.length, OpenAudioMc.getService(DatabaseService.class).getRepository(Alias.class).values().size());
+
+        // start module
+        OpenAudioMc.getService(AliasService.class).onEnable();
+
+        // they should now have been cleared, with only a few more in the database
+        Assert.assertEquals(names.length, OpenAudioMc.getService(DatabaseService.class).getRepository(Alias.class).values().size());
+
+        openAudioMc.disable();
+    }
+
+    @Test
+    public void testRegionRegistry() {
+        OpenAudioLogger.mute();
+        final OpenAudioMc openAudioMc = createTestInstance();
+        OpenAudioLogger.unmute();
+
+        // dump all regions from the current store
+        for (RegionProperties value : OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class).values()) {
+            OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class).delete(value);
+        }
+
+
+        testLog("Registering fake regions");
+        String[] names = new String[]{"imreal", "alsoreal", "cute"};
+
+        // seed a few times
+        for (int i = 0; i < 5; i++) {
+            for (String name : names) {
+                RegionProperties regionProperties = new RegionProperties(UUID.randomUUID().toString(), 100, 200, true, name);
+                OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class)
+                        .save(regionProperties);
+            }
+        }
+
+        // intentionally add a broken one
+        RegionProperties regionProperties = new RegionProperties("ikea.com", 200, 200, true, "fakearea");
+        OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class)
+                .save(regionProperties);
+
+        // they should all be saved
+        Assert.assertEquals(5 * names.length + 1, OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class).values().size());
+
+        RegionModule fakeRegionModule = new RegionModule(new TestRegionProvider(names));
+
+        // they should now have been cleared, with only a few more in the database
+        Assert.assertEquals(names.length + 1, OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class).values().size());
+        Assert.assertEquals(names.length, fakeRegionModule.getRegionPropertiesMap().size());
+
+        openAudioMc.disable();
+    }
+
+    @SneakyThrows
+    @Test
+    public void testPluginCore() {
         // setup fake users, UUID's need to be valid every time to test for memory leaks, they should
         // never be allowed to duplicate
         TestUserHooks.createFakeUser(UUID.fromString("6cd694fc-3ca0-4255-a751-b638a47dfb0b"), "ToetMats");
