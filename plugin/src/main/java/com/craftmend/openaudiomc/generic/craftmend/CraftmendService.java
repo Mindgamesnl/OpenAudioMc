@@ -124,7 +124,9 @@ public class CraftmendService extends Service {
     public void shutdown() {
         if (OpenAudioMc.getInstance().getInvoker().isNodeServer()) return;
         this.voiceApiConnection.stop();
-        playerStateStreamer.deleteAll(true);
+        if (playerStateStreamer != null) {
+            playerStateStreamer.deleteAll(true);
+        }
     }
 
     public boolean is(CraftmendTag tag) {
