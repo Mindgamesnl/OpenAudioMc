@@ -18,10 +18,6 @@ export class NotificationModule {
                 hideCloseButton: true,
             });
 
-            this.requestBox.show(
-                getMessageString("notification.setup")
-            );
-
             CallAfterDomUpdate(() => {
                 document.getElementById('noti-perm-request-link').onclick = () => {
                     this.requestNotificationPermissions();
