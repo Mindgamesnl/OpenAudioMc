@@ -80,7 +80,6 @@ hue.light3=Light three
 hue.connected=You may now link up to three lights that the server will control. Usually from right to left.
 hue.close=Close
 
-notification.setup=<div style="text-align: center;"><b>Welcome!</b> you can enable push notifications to get notified when you get a call or the server sends you a message. To get them setup, press the button below.<br/><br/><span id="noti-perm-request-link" class="alert-message-button">Setup</span><br/><br/></div>
 notification.success=Hurray! you'll now receive notifications
 notification.test.title=Testing testing 123
 notification.test.body=It worked! you have configured Notifications correctly!
