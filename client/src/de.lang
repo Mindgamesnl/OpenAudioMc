@@ -80,7 +80,6 @@ hue.light3=Licht drei
 hue.connected=Du kannst nun bis zu drei Lichter miteinander verbinden, die der Server steuern soll. Meistens von rechts nach links.
 hue.close=Schließen
 
-notification.setup=<div style="text-align: center;"><b>Willkommen!</b> Du kannst Push-Benachrichtigungen aktivieren, um benachrichtigt zu werden, wenn du einen Anruf erhältst oder der Server dir eine Nachricht sendet. Um sie einzurichten, klicke auf die Schaltfläche unten.<br/><br/><span id="noti-perm-request-link" class="alert-message-button">Einrichtung</span><br/><br/></div>
 notification.success=Hurra! Du wirst nun Benachrichtigungen erhalten
 notification.test.title=Test Test 123
 notification.test.body=Es hat funktioniert! Du hast die Benachrichtigungen richtig konfiguriert!
