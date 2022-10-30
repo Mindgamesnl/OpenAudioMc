@@ -75,7 +75,6 @@ hue.light3=Luz tres
 hue.connected=Ahora puede vincular hasta tres luces que controlará el servidor. Generalmente de derecha a izquierda.
 hue.close=Cerrar
 
-notification.setup=<div style="text-align: center;"><b>Bienvenido!</b> puede habilitar las notificaciones automáticas para recibir notificaciones cuando reciba una llamada o el servidor le envíe un mensaje. Para configurarlos, presione el botón de abajo.<br/><br/><span id="noti-perm-request-link" class="alert-message-button">Configuración</span><br/><br/></div>
 notification.success=¡Viva! ahora recibirás notificaciones
 notification.test.title=Probando probando 123
 notification.test.body=¡Funcionó! ha configurado las Notificaciones correctamente!

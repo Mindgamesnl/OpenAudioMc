@@ -78,7 +78,6 @@ hue.light3=Licht drie
 hue.connected=Je kunt nu maximaal drie lampen koppelen die de server zal bedienen. Gewoonlijk van rechts naar links.
 hue.close=Sluiten
 
-notification.setup=<div style="text-align: center;"><b>Welkom!</b> Je kunt pushmeldingen inschakelen om een melding te krijgen wanneer je wordt gebeld of de server je een bericht stuurt. Druk op de onderstaande knop om ze in te stellen.<br/><br/><span id="noti-perm-request-link" class="alert-message-button">Setup</span><br/><br/></div>
 notification.success=Hoera! Je ontvangt nu notificaties
 notification.test.title=Test test 1 2 3
 notification.test.body=Het werkt! Je hebt meldingen correct ingesteld!

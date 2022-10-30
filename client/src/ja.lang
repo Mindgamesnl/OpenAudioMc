@@ -75,7 +75,6 @@ hue.light3=Light three
 hue.connected=これで、サーバーが制御する照明を最大3つまでリンクさせることができます。通常は右から左へ。
 hue.close=閉じる
 
-notification.setup=<div style="text-align: center;"><b>ようこそ！</b>プッシュ通知を有効にすると、電話がかかってきたときやサーバーからメッセージが届いたときに通知されるようになります。設定を行うには、以下のボタンを押してください。<br/><br/><span id="noti-perm-request-link" class="alert-message-button">セットアップ</span><br/><br/></div>
 notification.success=万歳！通知を受け取ることができるようになりました。
 notification.test.title=テストテスト 123
 notification.test.body=うまくいきました！Notificationが正しく設定されていますね。
