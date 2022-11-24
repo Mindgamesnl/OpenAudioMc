@@ -15,6 +15,7 @@ navbar.premium=patreon
 
 home.activate=Sessie starten
 home.activateText=Klik ergens op deze pagina om je sessie te activeren en de audio te starten.
+home.clickAnywhere=Klik ergens om te beginnen
 home.activateHeader=Welkom op de audio client
 home.welcome=Welkom, %player!
 home.header=Welkom bij onze audio server! Houd deze pagina open om de muziek en geluidseffecten van onze wereld te beluisteren. Je kan op ieder gewenst moment terug komen om je volume aan te passen.
@@ -23,6 +24,7 @@ home.audioControls=Audio instellingen
 home.notificationsTitle=Meldingen
 home.notificationsEmpty=Je hebt nog geen meldingen
 
+vc.voiceModerationEnabled=Moderatie is actief op deze server. Er luisteren mogelijk stafleden mee terwijl je microfoon actief is.
 vc.notice=Let op
 vc.startingPopupTitle=VoiceChat is aan het starten..
 vc.startingPopup=Graag een ogenblik geduld terwijl wij wat kabeltjes verbinden om jouw stem aan anderen te laten horen
@@ -102,6 +104,15 @@ settings.mix-and-fade.button=Mixing inschakelen
 settings.preload.title=Automatisch audiobestanden vooraf laden
 settings.preload.body=Met dit ingeschakeld, zal OpenAudioMc automatisch bestanden vooraf inladen die vaak gebruikt worden rond je in-game locatie. Dit laat audio sneller inladen, maar gebruikt meer data.
 settings.preload.button=Vooraf inladen inschakelen
+settings.rolloff.title=3D Audio Rolloff
+settings.rolloff.body=Dit beheert de mate van demping die wordt toegepast op 3D audio op basis van afstand. Gebruik 0% voor geen demping, en 100% voor volledige demping. Dit geldt voor zowel luidsprekers als voicechat.
+settings.rolloff.01=1% (minimaal)
+settings.rolloff.5=50%
+settings.rolloff.8=80%
+settings.rolloff.1=100% (normaal)
+settings.rolloff.12=120%
+settings.rolloff.15=150% (extreem)
+
 
 settings.spatial.title=Ruimtelijke rendering engine
 settings.spatial.body=Selecteer welke rendering engine u wilt gebruiken. De moderne engine is van hogere kwaliteit en een beetje sneller, maar is nog in actieve ontwikkeling
@@ -109,9 +120,9 @@ settings.spatial.modern=Nauwkeurig
 settings.spatial.legacy=Legacy (oud systeem)
 
 settings.interpolation.title=Locatie versoepelen
-settings.interpolation.body=Automatisch bewegingen versoepelen om het stotteren van de luidspreker/voicechat tijdens het lopen te minimaliseren. Dit voegt extra bewegingsvertraging toe, maar klinkt beter.
+settings.interpolation.body=Automatisch bewegingen versoepelen om het stotteren van de luidsprekers/voicechat tijdens het lopen te minimaliseren. Dit voegt extra bewegingsvertraging toe, maar klinkt beter.
 settings.interpolation.button=Versoepelen inschakelen
 
 settings.streamermode.title=Streamer Mode
-settings.streamermode.body=Automatisch de sessietoken uitschakelen na eenmalig gebruik. Dit betekent dat uw client URL's veilig te tonen zijn op stream zonder dat je je zorgen hoeft te maken dat een kijker zich voordoet als jou. Zorg er wel voor dat je de link opent zodra je hem krijgt.
+settings.streamermode.body=Automatisch de sessietoken uitschakelen na eenmalig gebruik. Dit betekent dat de URL's van je client veilig te tonen zijn op stream zonder dat je je zorgen hoeft te maken dat een kijker zich voordoet als jou. Zorg er wel voor dat je de link opent zodra je hem krijgt.
 settings.streamermode.button=Streamer mode inschakelen
