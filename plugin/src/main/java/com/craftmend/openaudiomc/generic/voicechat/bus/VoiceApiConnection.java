@@ -70,7 +70,7 @@ public class VoiceApiConnection {
                         handleClientConnection(clientConnection);
 
                         // ignore voice if we're banned
-                        if (clientConnection.getDataCache() == null) {
+                        if (clientConnection.getDataCache() == null && !StorageKey.SETTINGS_VC_ALLOW_JOIN_DURING_LOAD.getBoolean()) {
                             // error: still loading
                             clientConnection.getUser().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "We couldn't enable your voicechat as your profile is still loading, please try again in a few seconds or report this to a staff member if it keeps happening.");
                             return;
