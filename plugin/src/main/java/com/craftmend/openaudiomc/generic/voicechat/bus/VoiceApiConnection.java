@@ -76,7 +76,7 @@ public class VoiceApiConnection {
                             return;
                         }
 
-                        if (clientConnection.getDataCache().getIsVoiceBlocked()) {
+                        if (clientConnection.getDataCache() != null && clientConnection.getDataCache().getIsVoiceBlocked()) {
                             return;
                         }
 
