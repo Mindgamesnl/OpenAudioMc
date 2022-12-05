@@ -134,6 +134,11 @@ options:
   # This is the default timeout whereafter moderation mode disables itself. (in seconds)
   voicechat-moderation-duration: 120
 
+  # Allow users to join voicechat while data is loading, but force kick them if they turn out to be banned.
+  # This prevents issues on servers with low TPS, but can be disabled if you want to prevent users from joining voicechat while banned.
+  # (banned users will get kicked after the data has loaded)
+  voicechat-allow-joining-while-loading: true
+
 
 # PlaceholderAPI
 papi:

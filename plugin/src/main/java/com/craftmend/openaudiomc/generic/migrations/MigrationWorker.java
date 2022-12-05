@@ -48,6 +48,7 @@ public class MigrationWorker {
                 new AddPapiMigration(),                 // add placeholder api values
                 new AddRDIpMigration(),                 // add rd ip config
                 new AddVcModConfigMigration(),          // adds the option to enable/disable moderation support
+                new AddVcJoinLoadMigration(),           // adds the option to enable/disable vc join during load
         };
 
         for (SimpleMigration migration : migrations) {
