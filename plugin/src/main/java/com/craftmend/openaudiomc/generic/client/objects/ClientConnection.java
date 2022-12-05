@@ -80,6 +80,12 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
         getDataStore().setWhenFinished(dataStore -> {
             this.dataCache = dataStore;
             this.dataCache.setLastSeen(Instant.now());
+
+            if (this.dataCache.getIsVoiceBlocked() && this.session.isConnected()) {
+                this.kick(() -> {
+                    this.user.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Your connection has been terminated as you have been blocked from voice chat.");
+                });
+            }
         });
     }
 
