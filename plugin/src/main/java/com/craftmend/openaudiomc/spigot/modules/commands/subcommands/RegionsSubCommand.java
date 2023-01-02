@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.region.RegionCreateSubCommand;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.region.RegionDeleteSubCommand;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.region.RegionTempSubCommand;
+import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.region.RegionVolumeSubCommand;
 import com.craftmend.openaudiomc.spigot.modules.regions.gui.RegionSelectionGui;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -21,7 +22,8 @@ public class RegionsSubCommand extends SubCommand {
         registerSubCommands(
                 new RegionCreateSubCommand(openAudioMcSpigot),
                 new RegionDeleteSubCommand(openAudioMcSpigot),
-                new RegionTempSubCommand(openAudioMcSpigot)
+                new RegionTempSubCommand(openAudioMcSpigot),
+                new RegionVolumeSubCommand(openAudioMcSpigot)
         );
 
         registerArguments(
@@ -35,7 +37,9 @@ public class RegionsSubCommand extends SubCommand {
                         "Unlink the sound from a WorldGuard specific region by name"),
 
                 new Argument("edit",
-                        "Opens the region editor GUI")
+                        "Opens the region editor GUI"),
+
+                new Argument("volume", "Set the volume of a region")
         );
         this.openAudioMcSpigot = openAudioMcSpigot;
     }
@@ -60,6 +64,11 @@ public class RegionsSubCommand extends SubCommand {
 
         if (args[0].equalsIgnoreCase("temp") && args.length == 4) {
             delegateTo("temp", sender, args);
+            return;
+        }
+
+        if (args[0].equalsIgnoreCase("volume") && args.length == 3) {
+            delegateTo("volume", sender, args);
             return;
         }
 
