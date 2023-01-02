@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.commands.interfaces;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
@@ -8,6 +9,7 @@ import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.permissions.Permission;
 
@@ -143,5 +145,14 @@ public abstract class SubCommand {
 
     protected <T extends Service> T getService(Class<T> service) {
         return service.cast(OpenAudioMc.getInstance().getServiceManager().loadService(service));
+    }
+
+    @SneakyThrows
+    public int catchInt(String data) {
+        try {
+            return Integer.parseInt(data);
+        } catch (NumberFormatException e) {
+            throw new CommandError("Please provide an integer");
+        }
     }
 }
