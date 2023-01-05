@@ -30,7 +30,7 @@ public class CommandService extends Service {
 
         registerSubCommands(
                 new NotificationSubCommand(this),
-                // TODO: Migrate account linking to the new system
+                new LinkSubCommand(),
                 new ReloadSubCommand(),
                 new StateSubCommand(),
                 new ResetCmDebugCommand()
