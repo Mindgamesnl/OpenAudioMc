@@ -68,6 +68,7 @@ public class SocketIoConnector {
 
         if (!registeredLogout) {
             relayLoginRequest = new RestRequest(RelayLoginResponse.class, Endpoint.RELAY_LOGIN);
+            relayLoginRequest.setQuery("oa-version", OpenAudioMc.BUILD.getBuildNumber() + "");
             relayLogoutRequest = new RestRequest(NoResponse.class, Endpoint.RELAY_LOGOUT);
 
             // listen for state events

@@ -3,7 +3,7 @@ mkdir -p test-server-spigot/plugins/
 mkdir -p test-server-spigot/plugins/OpenAudioMc/
 echo "Building new OpenAudioMc jar without unit tests.."
 
-#mvn clean install -Dmaven.test.skip=true
+mvn clean install -Dmaven.test.skip=true
 
 rm test-server-spigot/plugins/openaudiomc-*
 cp plugin/target/openaudiomc-* test-server-spigot/plugins/
