@@ -6,7 +6,6 @@ import com.craftmend.openaudiomc.generic.authentication.driver.AuthenticationDri
 import com.craftmend.openaudiomc.generic.authentication.driver.CraftmendTokenProvider;
 import com.craftmend.openaudiomc.generic.authentication.objects.Key;
 import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
-import com.craftmend.openaudiomc.generic.authentication.response.HostDetailsResponse;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
@@ -37,31 +36,19 @@ public class AuthenticationService extends Service {
     @Setter private boolean isSuccessful = false;
     private final String failureMessage = "Oh no, it looks like the initial setup of OpenAudioMc has failed. Please try to restart the server and try again, if that still does not work, please contact OpenAudioMc staff or support.";
     @Getter private final int currentKeyVersion = 4;
-    private Instant identityCreatedAt = null;
-    private String identity = null;
-    private HostDetailsResponse host;
     @Setter private boolean isNewAccount = false;
 
     @Override
     public void onEnable() {
         initialize();
-
-        taskService.schduleSyncDelayedTask(this::prepareId, 20 * 2);
     }
 
     public void initialize() {
         driver = new AuthenticationDriver(this);
-        registrationProvider = new RestRequest(RestEndpoint.PLUS_REGISTER);
+        registrationProvider = new RestRequest(RestEndpoint.REGISTER);
         OpenAudioLogger.toConsole("Starting authentication module");
-        host = driver.getHost();
         loadData();
         explicitParentPublicKey = serverKeySet.getPublicKey();
-    }
-
-    public void prepareId() {
-        identity = driver.createIdentityToken(host);
-        identityCreatedAt = Instant.now();
-        OpenAudioLogger.toConsole("New Identity = " + identity);
     }
 
     /**
@@ -85,13 +72,6 @@ public class AuthenticationService extends Service {
     public void initializeToken(RegistrationResponse registrationResponse, Configuration config) {
         serverKeySet.setPrivateKey(new Key(registrationResponse.getPrivateKey()));
         serverKeySet.setPublicKey(new Key(registrationResponse.getPublicKey()));
-        HostDetailsResponse host = driver.getHost();
-        if (host.getPreProxyForward() == null) {
-            config.setString(StorageKey.AUTH_HOST, host.getIpAddress());
-        } else {
-            config.setString(StorageKey.AUTH_HOST, host.getPreProxyForward());
-        }
-        config.setString(StorageKey.AUTH_COUNTRY, host.getCountryCode());
         config.setString(StorageKey.AUTH_PRIVATE_KEY, serverKeySet.getPrivateKey().getValue());
         config.setString(StorageKey.AUTH_PUBLIC_KEY, serverKeySet.getPublicKey().getValue());
         config.setInt(StorageLocation.DATA_FILE, StorageKey.AUTH_KEY_VERSION.getPath(), currentKeyVersion);

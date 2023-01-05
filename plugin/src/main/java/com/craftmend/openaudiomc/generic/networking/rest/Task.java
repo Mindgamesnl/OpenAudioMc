@@ -1,20 +1,18 @@
 package com.craftmend.openaudiomc.generic.networking.rest;
 
-import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 @Getter
 public class Task<T> {
 
-    @Setter private BiConsumer<ErrorCode, String> whenFailed;
+    @Setter private Consumer<String> whenFailed;
     @Setter private Consumer<T> whenFinished;
     private T result;
     private String stringError = null;
@@ -27,16 +25,9 @@ public class Task<T> {
         finished = true;
     }
 
-    public void fail(ErrorCode data) {
+    public void fail(String error) {
         if (finished) return;
-        if (whenFailed != null) whenFailed.accept(data, "No message provided");
-        finished = true;
-    }
-
-    public void fail(ErrorCode data, String message) {
-        if (finished) return;
-        if (whenFailed != null) whenFailed.accept(data, message);
-        stringError = data.name() + ": " + message;
+        if (whenFailed != null) whenFailed.accept(error);
         finished = true;
     }
 

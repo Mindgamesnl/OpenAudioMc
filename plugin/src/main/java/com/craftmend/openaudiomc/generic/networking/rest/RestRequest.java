@@ -2,8 +2,6 @@ package com.craftmend.openaudiomc.generic.networking.rest;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
-import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
-import com.craftmend.openaudiomc.generic.networking.rest.data.RestErrorResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
@@ -66,11 +64,11 @@ public class RestRequest {
     public ApiResponse executeInThread() {
         try {
             String url = getUrl();
-            String output = readHttp(url);
-            if (output.startsWith("{")) {
-                return OpenAudioMc.getGson().fromJson(output, ApiResponse.class);
+            HttpRes output = readHttp(url);
+            if (output.code != 500 && output.body.startsWith("{")) {
+                return ApiResponse.fromJson(output.code, output.body);
             } else {
-                return new ApiResponse(output);
+                return ApiResponse.strictBody(output.body, output.code);
             }
         } catch (Exception e) {
             if (this.verbose) {
@@ -79,7 +77,7 @@ public class RestRequest {
                 e.printStackTrace();
             }
             ApiResponse errorResponse = new ApiResponse();
-            errorResponse.getErrors().add(new RestErrorResponse(e.toString(), ErrorCode.BAD_HANDSHAKE));
+            errorResponse.setStatusCode(408); // timeout
             return errorResponse;
         }
     }
@@ -100,7 +98,7 @@ public class RestRequest {
         return url.toString();
     }
 
-    private String readHttp(String url) throws IOException {
+    private HttpRes readHttp(String url) throws IOException {
         Request.Builder request = new Request
                 .Builder()
                 .url(url)
@@ -115,7 +113,7 @@ public class RestRequest {
         if (timeout == -1) {
             Call call = client.newCall(request.build());
             Response response = call.execute();
-            return Objects.requireNonNull(response.body()).string();
+            return new HttpRes(response.code(), Objects.requireNonNull(response.body()).string());
         } else {
             OkHttpClient extendedTimeoutClient = client.newBuilder()
                     .readTimeout(this.timeout, TimeUnit.SECONDS)
@@ -123,7 +121,18 @@ public class RestRequest {
                     .build();
             Call call = extendedTimeoutClient.newCall(request.build());
             Response response = call.execute();
-            return Objects.requireNonNull(response.body()).string();
+            return new HttpRes(response.code(), Objects.requireNonNull(response.body()).string());
+        }
+    }
+
+    @Getter
+    static class HttpRes {
+        private final int code;
+        private final String body;
+
+        public HttpRes(int code, String body) {
+            this.code = code;
+            this.body = body;
         }
     }
 

@@ -9,7 +9,6 @@ public enum RestEndpoint {
     // modern cloud API's
     GET_HOST_DETAILS("https://cloud.openaudiomc.net/api/v2/ip", false),
     CREATE_SESSION_TOKEN("https://cloud.openaudiomc.net/session", false),
-    CREATE_HOST_TOKEN("https://cloud.openaudiomc.net/identity", false),
     DIRECT_REST("https://cloud.openaudiomc.net/direct-rest", false),
 
     // external calls
@@ -17,9 +16,8 @@ public enum RestEndpoint {
 
     // account
     ACCOUNT_CLAIM_SERVER("https://account.craftmend.com/api/v1/public/openaudiomc/claim/_public_key_/_private_key_", true),
-    ACCOUNT_UPDATE_PLAYERS("https://account.craftmend.com/api/v1/public/openaudiomc/online-players", false),
-    GET_ACCOUNT_STATE("https://account.craftmend.com/api/v1/public/openaudiomc/profile/_public_key_", true),
-    ACCOUNT_REQUEST_TEMP_VOICE("https://account.craftmend.com/api/v1/public/openaudiomc/request-voice/_public_key_/_private_key_", true),
+
+    GET_ACCOUNT_SETTINGS("https://account.openaudiomc.net/api/v1/installation/settings/_public_key_", true),
 
     // login requests a relay and registers it
     START_SESSION("https://cloud.openaudiomc.net/api/v2/plugin/login/_private_key_", true),
@@ -28,7 +26,7 @@ public enum RestEndpoint {
     END_VOICE_SESSION("https://account.craftmend.com/api/v1/closed/openaudiomc/voice/end-session/_private_key_/_public_key_", true),
 
     // plus
-    PLUS_REGISTER("https://plus.openaudiomc.net/api/v1/servers/register", false),
+    REGISTER("https://account.openaudiomc.net/api/v1/installation/register", false),
 
     // voice
     VOICE_EVENT_BUS_PREAUTH("/eb/check", false),

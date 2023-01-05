@@ -34,11 +34,12 @@ public class CraftmendTokenProvider implements IAccountProvider {
 
             //setup process
             ApiResponse response = as.getRegistrationProvider().executeInThread();
-            if (response.getErrors().isEmpty()) {
+
+            if (response.getStatusCode() == 200) {
                 as.initializeToken(response.getResponse(RegistrationResponse.class), config);
                 as.setSuccessful(true);
             } else {
-                OpenAudioLogger.toConsole("Failed to request token. Error: " + OpenAudioMc.getGson().toJson(response.getErrors()));
+                OpenAudioLogger.toConsole("Failed to request token. Error: " + response.getStatusCode());
                 as.setSuccessful(false);
             }
             as.setNewAccount(true);
