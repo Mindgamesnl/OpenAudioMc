@@ -17,7 +17,7 @@ import com.craftmend.openaudiomc.generic.migrations.MigrationWorker;
 import com.craftmend.openaudiomc.generic.modules.ModuleLoaderService;
 import com.craftmend.openaudiomc.generic.mojang.MojangLookupService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
-import com.craftmend.openaudiomc.generic.networking.rest.ServerEnvironment;
+import com.craftmend.openaudiomc.generic.rest.ServerEnvironment;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;

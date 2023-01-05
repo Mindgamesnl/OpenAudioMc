@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.database.internal.Repository;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.mojang.store.MojangProfile;
-import com.craftmend.openaudiomc.generic.networking.rest.Task;
+import com.craftmend.openaudiomc.generic.rest.Task;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;

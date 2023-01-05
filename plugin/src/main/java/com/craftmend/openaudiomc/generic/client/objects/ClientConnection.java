@@ -25,7 +25,7 @@ import com.craftmend.openaudiomc.generic.networking.packets.client.hue.PacketCli
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientCreateMedia;
 import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClientProtocolRevisionPacket;
 import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClientSetVolume;
-import com.craftmend.openaudiomc.generic.networking.rest.Task;
+import com.craftmend.openaudiomc.generic.rest.Task;
 import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;

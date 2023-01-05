@@ -11,6 +11,8 @@ public enum SectionError {
     TIMEOUT("The transport layer failed to connect to the server"),
     SERVER_ERROR("The server returned a 500 error"),
     NOT_FOUND("The server returned a 404 error"),
+    UNAUTHORIZED("The server returned a 401 error"),
+    ;
 
     @Getter private String message;
     SectionError(String message) {
