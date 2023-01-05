@@ -7,10 +7,10 @@ import com.craftmend.openaudiomc.generic.authentication.driver.CraftmendTokenPro
 import com.craftmend.openaudiomc.generic.authentication.objects.Key;
 import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
-import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
-import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
-import com.craftmend.openaudiomc.generic.networking.rest.responses.RegistrationResponse;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
+import com.craftmend.openaudiomc.generic.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.rest.target.Endpoint;
+import com.craftmend.openaudiomc.generic.rest.types.RegistrationResponse;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
@@ -18,8 +18,6 @@ import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.Instant;
 
 @Getter
 public class AuthenticationService extends Service {
@@ -45,7 +43,7 @@ public class AuthenticationService extends Service {
 
     public void initialize() {
         driver = new AuthenticationDriver(this);
-        registrationProvider = new RestRequest(RestEndpoint.REGISTER);
+        registrationProvider = new RestRequest(RegistrationResponse.class, Endpoint.REGISTER);
         OpenAudioLogger.toConsole("Starting authentication module");
         loadData();
         explicitParentPublicKey = serverKeySet.getPublicKey();

@@ -14,14 +14,14 @@ import com.craftmend.openaudiomc.generic.networking.drivers.ClientDriver;
 import com.craftmend.openaudiomc.generic.networking.drivers.NotificationDriver;
 import com.craftmend.openaudiomc.generic.networking.drivers.SystemDriver;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
+import com.craftmend.openaudiomc.generic.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.rest.response.NoResponse;
+import com.craftmend.openaudiomc.generic.rest.target.Endpoint;
+import com.craftmend.openaudiomc.generic.rest.types.RelayLoginResponse;
 import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.SocketDriver;
-import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
-import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
-import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
-import com.craftmend.openaudiomc.generic.networking.rest.responses.LoginResponse;
 import com.craftmend.openaudiomc.generic.state.states.AssigningRelayState;
 import com.craftmend.openaudiomc.generic.state.states.ConnectedState;
 import com.craftmend.openaudiomc.generic.state.states.ConnectingState;
@@ -44,10 +44,10 @@ import java.util.UUID;
 public class SocketIoConnector {
 
     private Socket socket;
-    @Getter private RestRequest plusHandler;
-    private RestRequest logoutHandler;
+    @Getter private RestRequest<RelayLoginResponse> relayLoginRequest;
+    private RestRequest<NoResponse> relayLogoutRequest;
     private boolean registeredLogout = false;
-    @Getter private UUID lastUsedRelay = UUID.randomUUID();
+    @Getter private String lastUsedRelay = "none";
     private ServerKeySet keySet;
 
     private final SocketDriver[] drivers = new SocketDriver[]{
@@ -67,8 +67,8 @@ public class SocketIoConnector {
         OpenAudioMc.getService(StateService.class).setState(new AssigningRelayState());
 
         if (!registeredLogout) {
-            plusHandler = new RestRequest(RestEndpoint.START_SESSION);
-            logoutHandler = new RestRequest(RestEndpoint.END_SESSION);
+            relayLoginRequest = new RestRequest(RelayLoginResponse.class, Endpoint.RELAY_LOGIN);
+            relayLogoutRequest = new RestRequest(NoResponse.class, Endpoint.RELAY_LOGOUT);
 
             // listen for state events
             ApiEventDriver driver = AudioApi.getInstance().getEventDriver();
@@ -76,7 +76,7 @@ public class SocketIoConnector {
                 driver.on(StateChangeEvent.class)
                         .setHandler(event -> {
                             if (event.getOldState() instanceof ConnectedState) {
-                                logoutHandler.executeAsync();
+                                relayLogoutRequest.run();
                             }
                         });
             }
@@ -115,13 +115,11 @@ public class SocketIoConnector {
 
         Instant request = Instant.now();
 
-        ApiResponse response = plusHandler.executeInThread();
+        relayLoginRequest.run();
 
-        if (!response.getErrors().isEmpty()) {
-            OpenAudioMc.getService(StateService.class).setState(new IdleState("Failed to do the initial handshake. Error: " + response.getErrors().get(0).getCode()));
-            OpenAudioLogger.toConsole("Failed to get relay host.");
-            OpenAudioLogger.toConsole(" - message: " + response.getErrors().get(0).getMessage());
-            OpenAudioLogger.toConsole(" - code: " + response.getErrors().get(0).getCode());
+        if (relayLoginRequest.hasError()) {
+            OpenAudioMc.getService(StateService.class).setState(new IdleState("Failed to do the initial handshake. Error: " + relayLoginRequest.getError()));
+            OpenAudioLogger.toConsole("Failed to get relay host: " + relayLoginRequest.getError().getMessage());
             try {
                 throw new IOException("Failed to get relay! see console for error information");
             } catch (IOException e) {
@@ -131,16 +129,18 @@ public class SocketIoConnector {
             return;
         }
 
-        LoginResponse loginResponse = response.getResponse(LoginResponse.class);
+        RelayLoginResponse loginResponse = relayLoginRequest.getResponse();
         Instant finish = Instant.now();
         if (StorageKey.DEBUG_LOG_STATE_CHANGES.getBoolean()) {
-            OpenAudioLogger.toConsole("Assigned relay: " + loginResponse.getAssignedOpenAudioServer().getSecureEndpoint() + " request took " + Duration.between(request, finish).toMillis() + "MS");
+            OpenAudioLogger.toConsole("Assigned relay: " + loginResponse.getRelay() + " request took " + Duration.between(request, finish).toMillis() + "MS");
         }
-        lastUsedRelay = loginResponse.getAssignedOpenAudioServer().getRelayId();
+        lastUsedRelay = loginResponse.getRelay();
 
         // setup socketio connection
         try {
-            socket = IO.socket(loginResponse.getAssignedOpenAudioServer().getInsecureEndpoint(), opts);
+            String endpoint = loginResponse.getRelayEndpoint();
+            endpoint = endpoint.replace("https", "http");
+            socket = IO.socket(endpoint, opts);
         } catch (URISyntaxException e) {
             OpenAudioLogger.handleException(e);
             e.printStackTrace();
@@ -167,8 +167,8 @@ public class SocketIoConnector {
     }
 
     public void disconnect() {
-        if (logoutHandler != null) {
-            logoutHandler.executeAsync();
+        if (relayLogoutRequest != null) {
+            relayLogoutRequest.run();
         }
         if (this.socket != null) {
             this.socket.disconnect();

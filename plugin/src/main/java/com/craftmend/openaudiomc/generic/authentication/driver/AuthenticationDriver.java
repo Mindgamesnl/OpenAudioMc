@@ -5,10 +5,9 @@ import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.authentication.requests.ClientTokenRequestBody;
 import com.craftmend.openaudiomc.generic.authentication.requests.SimpleTokenResponse;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
-import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
-import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
-import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
+import com.craftmend.openaudiomc.generic.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.rest.target.Endpoint;
 import com.craftmend.openaudiomc.generic.utils.data.ConcurrentHeatMap;
 import com.craftmend.openaudiomc.generic.rest.Task;
 import lombok.Getter;
@@ -57,20 +56,18 @@ public class AuthenticationDriver {
                     authenticatable.getOwner().getName(),
                     authenticatable.getOwner().getUniqueId().toString(),
                     authenticatable.getAuth().getWebSessionKey(),
-                    service.getServerKeySet().getPublicKey().getValue(),
-                    service.getIdentity()
+                    service.getServerKeySet().getPublicKey().getValue()
             );
 
-            ApiResponse request = new RestRequest(RestEndpoint.CREATE_SESSION_TOKEN)
-                    .setBody(requestBody)
-                    .executeInThread();
+            RestRequest<SimpleTokenResponse> request = new RestRequest(SimpleTokenResponse.class, Endpoint.CREATE_SESSION_TOKEN);
 
-            if (request.getStatusCode() != 200) {
-                task.fail("Status code " + request.getStatusCode() + " is not 200");
+
+            if (request.hasError()) {
+                task.fail(request.getError());
                 return;
             }
 
-            String token = request.getResponse(SimpleTokenResponse.class).getToken();
+            String token = request.getResponse().getToken();
             task.finish(token);
 
             // push to cache
