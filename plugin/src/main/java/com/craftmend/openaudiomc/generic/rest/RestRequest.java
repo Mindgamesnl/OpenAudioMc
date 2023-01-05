@@ -54,6 +54,10 @@ public class RestRequest<T extends AbstractRestResponse> {
 
     public RestRequest<T> setBaseUrl(String baseUrl) {
         this.baseUrl = baseUrl;
+        // remove trailing slash, if any
+        if (this.baseUrl.endsWith("/")) {
+            this.baseUrl = this.baseUrl.substring(0, this.baseUrl.length() - 1);
+        }
         return this;
     }
 
@@ -68,25 +72,25 @@ public class RestRequest<T extends AbstractRestResponse> {
         return this;
     }
 
-    public void run() {
+    public RestRequest<T> run() {
         HttpRes res = this.preformRequest();
 
         // catch timeout
         if (res.code == 408) {
             sectionError = SectionError.TIMEOUT;
-            return;
+            return this;
         }
 
         // is it a 500?
         if (res.code == 500) {
             sectionError = SectionError.SERVER_ERROR;
-            return;
+            return this;
         }
 
         // is it a 404?
         if (res.code == 404) {
             sectionError = SectionError.NOT_FOUND;
-            return;
+            return this;
         }
 
         // ok, now parse it
@@ -95,6 +99,7 @@ public class RestRequest<T extends AbstractRestResponse> {
         // copy over the error and response
         sectionError = intermediateResponse.getError();
         response = intermediateResponse.getResponse(typeClass);
+        return this;
     }
 
     public CompletableFuture<ShorthandResponse<T>> runAsync() {
@@ -110,11 +115,7 @@ public class RestRequest<T extends AbstractRestResponse> {
         return future;
     }
 
-    private HttpRes preformRequest() {
-        // reset state
-        sectionError = SectionError.NONE;
-        response = null;
-
+    public String buildURL() {
         String url = endpoint.getURL(this.baseUrl); // uses the default baseurl if null
 
         // add query params
@@ -125,10 +126,17 @@ public class RestRequest<T extends AbstractRestResponse> {
             }
             url = url.substring(0, url.length() - 1);
         }
+        return url;
+    }
+
+    private HttpRes preformRequest() {
+        // reset state
+        sectionError = SectionError.NONE;
+        response = null;
 
         // create request
         Request.Builder requestBuilder = new Request.Builder()
-                .url(url)
+                .url(buildURL())
                 .header("oa-env", OpenAudioMc.SERVER_ENVIRONMENT.toString());
 
         if (method == Method.POST) {

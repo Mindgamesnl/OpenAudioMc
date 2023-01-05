@@ -11,11 +11,11 @@ import com.craftmend.openaudiomc.generic.craftmend.response.OpenaudioSettingsRes
 import com.craftmend.openaudiomc.generic.craftmend.response.VoiceSessionRequestResponse;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
-import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.rest.ServerEnvironment;
-import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
+import com.craftmend.openaudiomc.generic.rest.target.Endpoint;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.voicechat.bus.VoiceApiConnection;
@@ -85,8 +85,8 @@ public class CraftmendService extends Service {
         if (this.voiceApiConnection != null) {
             this.voiceApiConnection.stop();
         }
-        RestRequest settingsRequest = new RestRequest(RestEndpoint.GET_ACCOUNT_SETTINGS);
-        OpenaudioSettingsResponse response = settingsRequest.executeInThread().getResponse(OpenaudioSettingsResponse.class);
+        RestRequest<OpenaudioSettingsResponse> settingsRequest = new RestRequest<>(OpenaudioSettingsResponse.class, Endpoint.class.GET_ACCOUNT_SETTINGS);
+        settingsRequest.run();
 
         for (CraftmendTag tag : tags) {
             AudioApi.getInstance().getEventDriver().fire(new AccountRemoveTagEvent(tag));
@@ -94,9 +94,9 @@ public class CraftmendService extends Service {
 
         tags.clear();
 
-        if (response.getSettings().isBanned()) addTag(CraftmendTag.BANNED);
-        if (response.isClaimed()) addTag(CraftmendTag.CLAIMED);
-        accountResponse = response;
+        if (settingsRequest.getResponse().getSettings().isBanned()) addTag(CraftmendTag.BANNED);
+        if (settingsRequest.getResponse().isClaimed()) addTag(CraftmendTag.CLAIMED);
+        accountResponse = settingsRequest.getResponse();
 
         // is voice enabled with the new system?
         if (accountResponse.hasAddon(AddonCategory.VOICE)) {
