@@ -13,11 +13,11 @@ public class ConnectedState implements State {
 
     private String description = "Connected and authenticated to the OpenAudioMc API server";
 
-    public ConnectedState(UUID usedRelay) {
+    public ConnectedState(String usedRelay) {
         this.usedRelay = usedRelay;
     }
 
-    @Getter private UUID usedRelay;
+    @Getter private String usedRelay;
 
     @Override
     public String getDescription() {

@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.mojang.store.MojangProfile;
 import com.craftmend.openaudiomc.generic.rest.Task;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
+import com.craftmend.openaudiomc.generic.rest.response.SectionError;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.user.User;
@@ -67,7 +68,7 @@ public class MojangLookupService extends Service {
         taskService.runAsync(() -> {
             MojangProfile mojangProfile = profileRepository.getWhere("name", name.toLowerCase());
             if (mojangProfile == null) {
-                task.fail("No profile found");
+                task.fail(SectionError.NOT_FOUND);
                 return;
             }
             task.finish(mojangProfile);

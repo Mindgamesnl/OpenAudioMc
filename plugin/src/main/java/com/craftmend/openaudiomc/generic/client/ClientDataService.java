@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.rest.Task;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
+import com.craftmend.openaudiomc.generic.rest.response.SectionError;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import lombok.NoArgsConstructor;
@@ -39,7 +40,7 @@ public class ClientDataService extends Service {
         taskService.runAsync(() -> {
             ClientDataStore cds = db.getRepository(ClientDataStore.class).getWhere("owner", owner);
             if (cds == null && !createEmpty) {
-                task.fail("Client data not found");
+                task.fail(SectionError.NOT_FOUND);
                 return;
             } else if (cds == null) {
                 cds = new ClientDataStore();
