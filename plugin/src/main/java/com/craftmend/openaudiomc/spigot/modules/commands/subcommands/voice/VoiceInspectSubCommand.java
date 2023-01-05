@@ -35,18 +35,18 @@ public class VoiceInspectSubCommand extends SubCommand {
         message(sender, "Fetching cached profile...");
         Task<MojangProfile> mojangFetch = getService(MojangLookupService.class).getByName(args[0]);
 
-        mojangFetch.setWhenFailed(((errorCode, s) -> {
-            message(sender, OaColor.RED + "There's no record of that player ever joining this server (" + s + ")");
-        }));
+        mojangFetch.setWhenFailed((error) -> {
+            message(sender, OaColor.RED + "There's no record of that player ever joining this server (" + error + ")");
+        });
 
         mojangFetch.setWhenFinished(mojangProfile -> {
             message(sender, OaColor.GRAY + "Loading client data from " + mojangProfile.getUuid().toString() + "...");
             Task<ClientDataStore> clientDataRequest = getService(ClientDataService.class)
                     .getClientData(mojangProfile.getUuid(), true, false);
 
-            clientDataRequest.setWhenFailed(((errorCode, s) -> {
+            clientDataRequest.setWhenFailed((error) -> {
                 message(sender, OaColor.RED + "Failed to load profile data...");
-            }));
+            });
 
             clientDataRequest.setWhenFinished(clientDataStore -> {
                 handleInspect(sender, args, clientDataStore, mojangProfile.getUuid(), mojangProfile.getName());

@@ -3,11 +3,11 @@ package com.craftmend.openaudiomc.generic.environment;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
+import com.craftmend.openaudiomc.generic.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.rest.target.Endpoint;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
-import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.environment.models.ProjectStatus;
 import lombok.Getter;
@@ -29,9 +29,9 @@ public class GlobalConstantService extends Service {
         OpenAudioMc.resolveDependency(TaskService.class).runAsync(
                 () -> {
                     try {
-                        projectStatus = new RestRequest(RestEndpoint.GITHUB_VERSION_CHECK)
-                                .executeInThread()
-                                .getResponse(ProjectStatus.class);
+                        projectStatus = new RestRequest<ProjectStatus>(ProjectStatus.class, Endpoint.GITHUB_VERSION_CHECK)
+                                .run()
+                                .getResponse();
                     } catch (Exception e) {
                         OpenAudioLogger.handleException(e);
                         // Failed to check

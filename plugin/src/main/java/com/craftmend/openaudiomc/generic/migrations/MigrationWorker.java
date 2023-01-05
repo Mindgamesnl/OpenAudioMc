@@ -26,7 +26,6 @@ public class MigrationWorker {
                 new UpdateSettingMigration(),           // adds config fields for update and announcement preferences,
                 new LegalAcceptanceMigration(),         // binding statements about accepting our rules
                 new SessionGenerationMigration(),       // messages for generation and session errors
-                new AuthHostMigration(),                // host details as part of handshake hash
                 new AddPreFetchMigration(),             // add a config value for how many files to prefetch
                 new AddVolumeHintMigration(),           // add a config value for default volume messages
                 new AddGcStratMigration(),              // add a config value for GC strats

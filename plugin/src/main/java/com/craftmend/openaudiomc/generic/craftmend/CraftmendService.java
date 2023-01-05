@@ -15,6 +15,8 @@ import com.craftmend.openaudiomc.generic.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.rest.ServerEnvironment;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
+import com.craftmend.openaudiomc.generic.rest.response.NoResponse;
+import com.craftmend.openaudiomc.generic.rest.response.SectionError;
 import com.craftmend.openaudiomc.generic.rest.target.Endpoint;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
@@ -85,7 +87,7 @@ public class CraftmendService extends Service {
         if (this.voiceApiConnection != null) {
             this.voiceApiConnection.stop();
         }
-        RestRequest<OpenaudioSettingsResponse> settingsRequest = new RestRequest<>(OpenaudioSettingsResponse.class, Endpoint.class.GET_ACCOUNT_SETTINGS);
+        RestRequest<OpenaudioSettingsResponse> settingsRequest = new RestRequest<>(OpenaudioSettingsResponse.class, Endpoint.GET_ACCOUNT_SETTINGS);
         settingsRequest.run();
 
         for (CraftmendTag tag : tags) {
@@ -152,31 +154,16 @@ public class CraftmendService extends Service {
         }
         // do magic, somehow fail, or login to the voice server
         isAttemptingVcConnect = true;
-        RestRequest request = new RestRequest(RestEndpoint.START_VOICE_SESSION);
+        RestRequest<VoiceSessionRequestResponse> voiceLoginRequest = new RestRequest<>(VoiceSessionRequestResponse.class, Endpoint.VOICE_REQUEST_PASSWORD);
 
         isVcLocked = true;
-        request.executeAsync()
+        voiceLoginRequest.runAsync()
                 .thenAccept(response -> {
-                    if (response.getStatusCode() != 200) {
-                        ErrorCode errorCode = response.getErrors().get(0).getCode();
+                    VoiceSessionRequestResponse r = voiceLoginRequest.getResponse();
+                    if (voiceLoginRequest.hasError()) {
+                        SectionError errorCode = voiceLoginRequest.getError();
 
-                        if (errorCode == ErrorCode.NO_RTC) {
-                            new RestRequest(RestEndpoint.END_VOICE_SESSION).executeInThread();
-                            if (OpenAudioMc.SERVER_ENVIRONMENT == ServerEnvironment.PRODUCTION) {
-                                OpenAudioLogger.toConsole("Failed to initialize voice chat. There aren't any servers that can handle your request. Trying again in 20 seconds.");
-                                for (RestErrorResponse error : response.getErrors()) {
-                                    OpenAudioLogger.toConsole(" - " + error.getMessage());
-                                }
-                            }
-                            voiceApiConnection.setStatus(VoiceApiStatus.IDLE);
-                            OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
-                                startVoiceHandshake(true);
-                            }, 20 * 20);
-                            isVcLocked = false;
-                            return;
-                        }
-
-                        if (errorCode == ErrorCode.NO_PERMISSIONS) {
+                        if (errorCode == SectionError.VOICECHAT_DISABLED) {
                             OpenAudioLogger.toConsole("Your account doesn't actually have permissions for voicechat, shutting down.");
                             removeTag(CraftmendTag.VOICECHAT);
                             isAttemptingVcConnect = false;
@@ -185,8 +172,8 @@ public class CraftmendService extends Service {
                             return;
                         }
 
-                        if (errorCode == ErrorCode.ALREADY_ACTIVE) {
-                            new RestRequest(RestEndpoint.END_VOICE_SESSION).executeInThread();
+                        if (errorCode == SectionError.VOICECHAT_ALREADY_CONNECTED) {
+                            new RestRequest(NoResponse.class, Endpoint.VOICE_INVALIDATE_PASSWORD).run();
                             OpenAudioLogger.toConsole("This server still has a session running with voice chat, terminating and trying again in 20 seconds.");
                             OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
                                 startVoiceHandshake(true);
@@ -195,8 +182,8 @@ public class CraftmendService extends Service {
                             return;
                         }
 
-                        if (response.getErrors().get(0).getMessage().toLowerCase().contains("path $")) {
-                            new RestRequest(RestEndpoint.END_VOICE_SESSION).executeInThread();
+                        if (errorCode == SectionError.SERVER_ERROR) {
+                            new RestRequest(NoResponse.class, Endpoint.VOICE_INVALIDATE_PASSWORD).run();
                             OpenAudioLogger.toConsole("Failed to claim a voicechat session, terminating and trying again in 20 seconds.");
                             OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
                                 startVoiceHandshake(true);
@@ -205,7 +192,7 @@ public class CraftmendService extends Service {
                             return;
                         }
 
-                        OpenAudioLogger.toConsole("Failed to initialize voice chat. Error: " + response.getErrors().get(0).getMessage());
+                        OpenAudioLogger.toConsole("Failed to initialize voice chat. Error: " + errorCode.getMessage());
                         voiceApiConnection.setStatus(VoiceApiStatus.IDLE);
                         isAttemptingVcConnect = false;
                         lockVcAttempt = false;
@@ -213,7 +200,7 @@ public class CraftmendService extends Service {
                         return;
                     }
 
-                    VoiceSessionRequestResponse voiceResponse = response.getResponse(VoiceSessionRequestResponse.class);
+                    VoiceSessionRequestResponse voiceResponse = response.getResponse();
                     int highestPossibleLimit = accountResponse.getAddon(AddonCategory.VOICE).getLimit();
                     this.voiceApiConnection.start(voiceResponse.getServer(), voiceResponse.getPassword(), highestPossibleLimit);
                     isAttemptingVcConnect = false;

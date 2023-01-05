@@ -60,7 +60,7 @@ public class ClientAuth implements Serializable {
         client.getUser().sendMessage(translateColors(StorageKey.MESSAGE_GENERATING_SESSION.getString()));
 
         Task<String> sessionRequest = OpenAudioMc.getService(AuthenticationService.class).getDriver().createPlayerSession(client);
-        sessionRequest.setWhenFailed((restErrorType, fuckyou) -> client.getUser().sendMessage(translateColors(StorageKey.MESSAGE_SESSION_ERROR.getString())));
+        sessionRequest.setWhenFailed((error) -> client.getUser().sendMessage(translateColors(StorageKey.MESSAGE_SESSION_ERROR.getString())));
 
         sessionRequest.setWhenFinished(token -> {
             String url = baseUrl + "#" + token;

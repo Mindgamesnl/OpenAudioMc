@@ -28,7 +28,9 @@ public class RestRequest<T extends AbstractRestResponse> {
     private RequestBody postBody = null;
     private Method method = Method.GET;
     private int timeout = -1;
+    private boolean parseResponse = true;
     private Class<T> typeClass;
+    private String rawResponse = null;
 
     public RestRequest(Class<T> typeClass, Endpoint endpoint) {
         this.endpoint = endpoint;
@@ -45,6 +47,15 @@ public class RestRequest<T extends AbstractRestResponse> {
 
     public RestRequest<T> setQuery(String key, String value) {
         queryParameters.put(key, value);
+        return this;
+    }
+
+    public String getRawResponse() {
+        return rawResponse;
+    }
+
+    public RestRequest<T> dontParseResponse() {
+        this.parseResponse = false;
         return this;
     }
 
@@ -94,7 +105,8 @@ public class RestRequest<T extends AbstractRestResponse> {
         }
 
         // ok, now parse it
-        IntermediateResponse<T> intermediateResponse = IntermediateResponse.fromJson(typeClass, res.body);
+        rawResponse = res.body;
+        IntermediateResponse<T> intermediateResponse = IntermediateResponse.fromJson(typeClass, res.body, parseResponse);
 
         // copy over the error and response
         sectionError = intermediateResponse.getError();
@@ -133,6 +145,7 @@ public class RestRequest<T extends AbstractRestResponse> {
         // reset state
         sectionError = SectionError.NONE;
         response = null;
+        rawResponse = null;
 
         // create request
         Request.Builder requestBuilder = new Request.Builder()
