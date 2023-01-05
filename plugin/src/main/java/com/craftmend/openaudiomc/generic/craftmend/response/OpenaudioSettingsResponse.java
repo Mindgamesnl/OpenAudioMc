@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.craftmend.response;
 
 import com.craftmend.openaudiomc.generic.craftmend.enums.AddonCategory;
-import com.craftmend.openaudiomc.generic.networking.rest.interfaces.AbstractRestResponse;
+import com.craftmend.openaudiomc.generic.rest.response.AbstractRestResponse;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class CraftmendAccountResponse extends AbstractRestResponse {
+public class OpenaudioSettingsResponse extends AbstractRestResponse {
 
     private OpenAudioAddonResponse[] addons = new OpenAudioAddonResponse[]{};
     private OpenAudioSettingsResponse settings = new OpenAudioSettingsResponse();
@@ -42,7 +42,10 @@ public class CraftmendAccountResponse extends AbstractRestResponse {
 
     @Getter
     public static class OpenAudioSettingsResponse {
-        private String clientUrl = "not-loaded";
+        private int voicechatSlots = 0;
+        private boolean claimed = false;
+        private boolean banned = false;
+        private String clientUrl = "";
         private String startSound = "";
         private String startButton = "";
         private String backgroundImage = "";
@@ -51,7 +54,10 @@ public class CraftmendAccountResponse extends AbstractRestResponse {
         private String title = "";
         private String color = "";
         private String ambianceSound = "";
-        private boolean banned = false;
+        private String welcomeMessage = "";
+        private boolean useTranslations = false;
+        private String displayName = "";
+        private boolean isVoicechatEnabled = false;
     }
 
     @Getter

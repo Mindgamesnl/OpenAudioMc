@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.networking.health;
 
-import com.craftmend.openaudiomc.generic.networking.rest.interfaces.AbstractRestResponse;
+import com.craftmend.openaudiomc.generic.rest.response.AbstractRestResponse;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;

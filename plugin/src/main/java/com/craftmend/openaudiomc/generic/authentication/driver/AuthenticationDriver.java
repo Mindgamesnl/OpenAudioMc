@@ -4,9 +4,6 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.authentication.requests.ClientTokenRequestBody;
 import com.craftmend.openaudiomc.generic.authentication.requests.SimpleTokenResponse;
-import com.craftmend.openaudiomc.generic.authentication.requests.ServerIdentityRequest;
-import com.craftmend.openaudiomc.generic.authentication.response.HostDetailsResponse;
-import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
@@ -68,8 +65,8 @@ public class AuthenticationDriver {
                     .setBody(requestBody)
                     .executeInThread();
 
-            if (!request.getErrors().isEmpty()) {
-                task.fail(request.getErrors().get(0).getCode());
+            if (request.getStatusCode() != 200) {
+                task.fail("Status code " + request.getStatusCode() + " is not 200");
                 return;
             }
 
@@ -83,40 +80,5 @@ public class AuthenticationDriver {
             sessionCacheMap.clean();
         });
         return task;
-    }
-
-    public String createIdentityToken(HostDetailsResponse host) {
-        String ip;
-        if (host.getPreProxyForward() == null) {
-            ip = host.getIpAddress();
-        } else {
-            ip = host.getPreProxyForward();
-        }
-
-        ServerIdentityRequest requestBody = new ServerIdentityRequest(
-                ip,
-                host.getCountryCode(),
-                OpenAudioMc.getInstance().getInvoker().getServerPort()
-        );
-
-        ApiResponse request = new RestRequest(RestEndpoint.CREATE_HOST_TOKEN)
-                .setBody(requestBody)
-                .executeInThread();
-
-        if (!request.getErrors().isEmpty()) {
-            return request.getErrors().get(0).getCode().name();
-        }
-
-        return request.getResponse(SimpleTokenResponse.class).getToken();
-    }
-
-    public HostDetailsResponse getHost() {
-        RestRequest request = new RestRequest(RestEndpoint.GET_HOST_DETAILS);
-        ApiResponse response = request.executeInThread();
-        if (response.getErrors().size() > 0) {
-            OpenAudioLogger.toConsole(OpenAudioMc.getGson().toJson(response.getErrors()));
-            throw new IllegalStateException("Could not load host details");
-        }
-        return response.getResponse(HostDetailsResponse.class);
     }
 }

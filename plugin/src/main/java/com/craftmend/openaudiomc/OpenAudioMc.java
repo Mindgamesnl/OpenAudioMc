@@ -31,7 +31,6 @@ import com.craftmend.openaudiomc.generic.service.ServiceManager;
 import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.utils.data.GsonFactory;
-import com.craftmend.openaudiomc.generic.voicechat.services.VoiceLicenseService;
 import com.google.gson.Gson;
 import lombok.Getter;
 
@@ -140,7 +139,6 @@ public class OpenAudioMc {
                 CommandService.class,           // standardized command processor regardless of platform
                 RedisService.class,             // redis hook/service implementation
                 CraftmendService.class,         // craftmend specific features, like voice chat
-                VoiceLicenseService.class,      // service to interact with the voice license request api
                 RestDirectService.class,        // manage rest direct
                 ClientDataService.class         // manage player profiles
         );

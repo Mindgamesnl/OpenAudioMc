@@ -7,15 +7,12 @@ import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.craftmend.enums.AddonCategory;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
-import com.craftmend.openaudiomc.generic.craftmend.response.CraftmendAccountResponse;
+import com.craftmend.openaudiomc.generic.craftmend.response.OpenaudioSettingsResponse;
 import com.craftmend.openaudiomc.generic.craftmend.response.VoiceSessionRequestResponse;
-import com.craftmend.openaudiomc.generic.craftmend.tasks.PlayerStateStreamer;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.networking.rest.ServerEnvironment;
-import com.craftmend.openaudiomc.generic.networking.rest.data.ErrorCode;
-import com.craftmend.openaudiomc.generic.networking.rest.data.RestErrorResponse;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
@@ -23,7 +20,6 @@ import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.voicechat.bus.VoiceApiConnection;
 import com.craftmend.openaudiomc.generic.voicechat.enums.VoiceApiStatus;
-import com.craftmend.openaudiomc.generic.voicechat.services.VoiceLicenseService;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -38,9 +34,8 @@ public class CraftmendService extends Service {
     @Getter
     private final VoiceApiConnection voiceApiConnection = new VoiceApiConnection();
 
-    private PlayerStateStreamer playerStateStreamer;
     @Getter
-    private CraftmendAccountResponse accountResponse = new CraftmendAccountResponse();
+    private OpenaudioSettingsResponse accountResponse = new OpenaudioSettingsResponse();
     @Getter
     private Set<CraftmendTag> tags = new HashSet<>();
     private boolean isVcLocked = false;
@@ -70,15 +65,11 @@ public class CraftmendService extends Service {
     public void postBoot() {
         // only allow registration after initialization
         if (!initialized) return;
-
-        // are automatic licenses enabled?
-        getService(VoiceLicenseService.class).requestAutomaticLicense();
     }
 
     private void initialize() {
         OpenAudioLogger.toConsole("Initializing account details");
         syncAccount();
-        startSyncronizer();
         initialized = true;
 
         if (delayedInit) {
@@ -88,21 +79,14 @@ public class CraftmendService extends Service {
         }
     }
 
-    public void startSyncronizer() {
-        if (OpenAudioMc.getInstance().getInvoker().isNodeServer()) return;
-        if (playerStateStreamer == null || !playerStateStreamer.isRunning()) {
-            playerStateStreamer = new PlayerStateStreamer(this);
-        }
-    }
-
     public void syncAccount() {
         if (OpenAudioMc.getInstance().getInvoker().isNodeServer()) return;
         // stop the voice service
         if (this.voiceApiConnection != null) {
             this.voiceApiConnection.stop();
         }
-        RestRequest keyRequest = new RestRequest(RestEndpoint.GET_ACCOUNT_STATE);
-        CraftmendAccountResponse response = keyRequest.executeInThread().getResponse(CraftmendAccountResponse.class);
+        RestRequest settingsRequest = new RestRequest(RestEndpoint.GET_ACCOUNT_SETTINGS);
+        OpenaudioSettingsResponse response = settingsRequest.executeInThread().getResponse(OpenaudioSettingsResponse.class);
 
         for (CraftmendTag tag : tags) {
             AudioApi.getInstance().getEventDriver().fire(new AccountRemoveTagEvent(tag));
@@ -124,9 +108,6 @@ public class CraftmendService extends Service {
     public void shutdown() {
         if (OpenAudioMc.getInstance().getInvoker().isNodeServer()) return;
         this.voiceApiConnection.stop();
-        if (playerStateStreamer != null) {
-            playerStateStreamer.deleteAll(true);
-        }
     }
 
     public boolean is(CraftmendTag tag) {
@@ -176,7 +157,7 @@ public class CraftmendService extends Service {
         isVcLocked = true;
         request.executeAsync()
                 .thenAccept(response -> {
-                    if (response.getErrors().size() != 0) {
+                    if (response.getStatusCode() != 200) {
                         ErrorCode errorCode = response.getErrors().get(0).getCode();
 
                         if (errorCode == ErrorCode.NO_RTC) {
