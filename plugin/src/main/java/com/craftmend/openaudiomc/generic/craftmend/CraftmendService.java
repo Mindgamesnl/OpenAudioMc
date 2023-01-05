@@ -12,7 +12,7 @@ import com.craftmend.openaudiomc.generic.craftmend.response.VoiceSessionRequestR
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
-import com.craftmend.openaudiomc.generic.networking.rest.ServerEnvironment;
+import com.craftmend.openaudiomc.generic.rest.ServerEnvironment;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;

@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.generic.client.store.ClientDataStore;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.mojang.MojangLookupService;
 import com.craftmend.openaudiomc.generic.mojang.store.MojangProfile;
-import com.craftmend.openaudiomc.generic.networking.rest.Task;
+import com.craftmend.openaudiomc.generic.rest.Task;
 import com.craftmend.openaudiomc.generic.platform.OaColor;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.user.User;

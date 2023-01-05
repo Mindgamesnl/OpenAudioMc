@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.networking.rest;
+package com.craftmend.openaudiomc.generic.rest;
 
 public enum ServerEnvironment {
 

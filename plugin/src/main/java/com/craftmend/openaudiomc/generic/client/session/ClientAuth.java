@@ -6,7 +6,7 @@ import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
-import com.craftmend.openaudiomc.generic.networking.rest.Task;
+import com.craftmend.openaudiomc.generic.rest.Task;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;

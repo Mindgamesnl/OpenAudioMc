@@ -1,5 +1,6 @@
-package com.craftmend.openaudiomc.generic.networking.rest;
+package com.craftmend.openaudiomc.generic.rest;
 
+import com.craftmend.openaudiomc.generic.rest.response.SectionError;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -12,7 +13,7 @@ import java.util.function.Predicate;
 @Getter
 public class Task<T> {
 
-    @Setter private Consumer<String> whenFailed;
+    @Setter private Consumer<SectionError> whenFailed;
     @Setter private Consumer<T> whenFinished;
     private T result;
     private String stringError = null;
@@ -25,7 +26,7 @@ public class Task<T> {
         finished = true;
     }
 
-    public void fail(String error) {
+    public void fail(SectionError error) {
         if (finished) return;
         if (whenFailed != null) whenFailed.accept(error);
         finished = true;

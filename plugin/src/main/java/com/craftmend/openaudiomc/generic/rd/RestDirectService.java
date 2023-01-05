@@ -9,7 +9,7 @@ import com.craftmend.openaudiomc.generic.rd.protocol.RegisterBody;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
-import com.craftmend.openaudiomc.generic.networking.rest.ServerEnvironment;
+import com.craftmend.openaudiomc.generic.rest.ServerEnvironment;
 import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.service.Inject;
