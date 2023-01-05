@@ -5,9 +5,9 @@ import com.craftmend.openaudiomc.api.interfaces.IAccountProvider;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.authentication.objects.Key;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
-import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
-import com.craftmend.openaudiomc.generic.networking.rest.responses.RegistrationResponse;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
+import com.craftmend.openaudiomc.generic.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.rest.types.RegistrationResponse;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 
@@ -33,13 +33,13 @@ public class CraftmendTokenProvider implements IAccountProvider {
             }
 
             //setup process
-            ApiResponse response = as.getRegistrationProvider().executeInThread();
+            RestRequest<RegistrationResponse> response = as.getRegistrationProvider().run();
 
-            if (response.getStatusCode() == 200) {
-                as.initializeToken(response.getResponse(RegistrationResponse.class), config);
+            if (!response.hasError()) {
+                as.initializeToken(response.getResponse(), config);
                 as.setSuccessful(true);
             } else {
-                OpenAudioLogger.toConsole("Failed to request token. Error: " + response.getStatusCode());
+                OpenAudioLogger.toConsole("Failed to request token. Error: " + response.getError().getMessage());
                 as.setSuccessful(false);
             }
             as.setNewAccount(true);

@@ -3,9 +3,9 @@ package com.craftmend.openaudiomc.generic.voicechat.bus;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
-import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
-import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
-import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
+import com.craftmend.openaudiomc.generic.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.rest.response.NoResponse;
+import com.craftmend.openaudiomc.generic.rest.target.Endpoint;
 import okhttp3.*;
 import okio.ByteString;
 import org.jetbrains.annotations.NotNull;
@@ -32,26 +32,27 @@ public class VoiceWebsocket extends WebSocketListener {
 
     public boolean start() {
         // check if connections are allowed
-        RestRequest preAuthCheck = new RestRequest(RestEndpoint.VOICE_EVENT_BUS_PREAUTH, this.server);
+        RestRequest preAuthCheck = new RestRequest(NoResponse.class, Endpoint.VOICE_PREFLIGHT_CHECK);
         AuthenticationService authenticationService = OpenAudioMc.getService(AuthenticationService.class);
         preAuthCheck.setQuery("publicKey", authenticationService.getServerKeySet().getPublicKey().getValue());
         preAuthCheck.setQuery("privateKey", authenticationService.getServerKeySet().getPrivateKey().getValue());
         preAuthCheck.setQuery("password", this.password);
-
-        ApiResponse preAuthResponse = preAuthCheck.executeInThread();
+        preAuthCheck.setBaseUrl(this.server);
+        preAuthCheck.run();
 
         // denied
-        if (preAuthResponse.getErrors().size() != 0) {
-            OpenAudioLogger.toConsole("Failed to login to RTC, error: " + preAuthResponse.getErrors().get(0).getCode() + "(" + preAuthResponse.getErrors().get(0).getMessage() + ")");
+        if (preAuthCheck.hasError()) {
+            OpenAudioLogger.toConsole("Failed to login to RTC, error: " + preAuthCheck.getError().getMessage());
             return false;
         }
 
         // translate url to websocket
-        String ebUri = new RestRequest(RestEndpoint.VOICE_EVENT_BUS, this.server)
+        String ebUri = new RestRequest<>(NoResponse.class, Endpoint.VOICE_BUS)
                 .setQuery("publicKey", authenticationService.getServerKeySet().getPublicKey().getValue())
                 .setQuery("privateKey", authenticationService.getServerKeySet().getPrivateKey().getValue())
                 .setQuery("password", this.password)
-                .getUrl();
+                .setBaseUrl(this.server)
+                .buildURL();
 
         ebUri = ebUri.replace("http", "ws"); // https:// => wss:// and http:// => ws://
 
