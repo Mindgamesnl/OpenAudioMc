@@ -8,10 +8,10 @@ import com.craftmend.openaudiomc.generic.rd.ports.PortChecker;
 import com.craftmend.openaudiomc.generic.rd.protocol.RegisterBody;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
-import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.rest.ServerEnvironment;
-import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
-import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
+import com.craftmend.openaudiomc.generic.rest.response.NoResponse;
+import com.craftmend.openaudiomc.generic.rest.target.Endpoint;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
@@ -88,11 +88,12 @@ public class RestDirectService extends Service {
                             authenticationService.getServerKeySet().getPrivateKey().getValue()
                     );
 
-                    ApiResponse request = new RestRequest(RestEndpoint.DIRECT_REST)
-                            .setBody(registerBody)
-                            .executeInThread();
+                    RestRequest request = new RestRequest(NoResponse.class, Endpoint.DIRECT_REST);
+                    request.withPostJsonObject(registerBody);
+                    request.run();
 
-                    if (!request.getErrors().isEmpty()) {
+
+                    if (request.hasError()) {
                         restDirectServer.stop();
                         OpenAudioLogger.toConsole("The direct rest registration failed");
                         return null;

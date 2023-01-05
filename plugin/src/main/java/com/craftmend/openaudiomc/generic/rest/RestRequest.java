@@ -23,7 +23,7 @@ public class RestRequest<T extends AbstractRestResponse> {
     private SectionError sectionError = SectionError.NONE;
     private Endpoint endpoint;
     private Map<String, String> queryParameters = new HashMap<>();
-    public T response;
+    private T response;
     private String baseUrl = null;
     private RequestBody postBody = null;
     private Method method = Method.GET;
@@ -39,9 +39,17 @@ public class RestRequest<T extends AbstractRestResponse> {
         return sectionError != SectionError.NONE;
     }
 
+    public SectionError getError() {
+        return sectionError;
+    }
+
     public RestRequest<T> setQuery(String key, String value) {
         queryParameters.put(key, value);
         return this;
+    }
+
+    public T getResponse() {
+        return response;
     }
 
     public RestRequest<T> setBaseUrl(String baseUrl) {
