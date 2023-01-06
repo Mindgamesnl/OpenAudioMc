@@ -1,0 +1,15 @@
+@media (min-width: 992px) {
+    .rotate-lg-6 {
+        transform: rotate(6deg);
+    }
+}
+
+/* These are the KEY styles - you can add them directly to any object you want in your project */
+.fancy-border-radius {
+    border-radius: 53% 47% 52% 48% / 36% 41% 59% 64%;
+}
+
+.clickprompt-box {
+    background: var(--theme-bg-color);
+    backdrop-filter: blur(30px); z-index: 1
+}
