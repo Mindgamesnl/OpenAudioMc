@@ -55,8 +55,6 @@ export default class ClientTokenSet {
 
                 // all appears to be okay! thats good! give a session
                 const out = new ClientTokenSet(serverUuid, playerUuid, playerName, playerToken)
-                window.tokenCache = out;
-                console.log("Resolving legacy token")
                 resolve(out);
             } else if (url.split('#').length >= 2) {
                 // try to load via fetch
@@ -84,7 +82,6 @@ export default class ClientTokenSet {
                             let ses = sessionValidationResponse.response;
 
                             const out = new ClientTokenSet(ses.publicKey, ses.playerUuid, ses.playerName, ses.session, ses.scope)
-                            window.tokenCache = out;
                             resolve(out);
                         }).catch(e => {
                             console.error(e);
@@ -98,13 +95,6 @@ export default class ClientTokenSet {
                 resolve(null);
             }
         }));
-    }
-
-    fromCache() {
-        if (window.tokenCache != null) {
-            return window.tokenCache;
-        }
-        throw new Error("No token cache in window.");
     }
 
 }
