@@ -26,6 +26,7 @@
     "luxon": "^1.26.0",
     "mediastream-gain": "^1.0.1",
     "micromatch": "^3.1.10",
+    "properties-to-json": "^0.2.1",
     "soundtouchjs": "^0.1.29"
   }
 }
