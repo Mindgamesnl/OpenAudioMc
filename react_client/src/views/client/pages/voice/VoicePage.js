@@ -1,7 +1,8 @@
 import {OAC} from "../../../../client/OpenAudioAppContainer";
 import React from "react";
 import {ModerationWarning} from "../../../../components/voice/ModerationWarning";
-import {VoiceSettings} from "../../../../components/voice/VoiceSettings";
+import VoiceSettings from "../../../../components/voice/VoiceSettings";
+import {VoicePeerBox} from "../../../../components/voice/VoicePeerBox";
 
 export class VoicePage extends React.Component {
     static contextType = OAC;
@@ -11,6 +12,7 @@ export class VoicePage extends React.Component {
             <div className="content-section voice-section">
                 <ModerationWarning />
                 <VoiceSettings />
+                <VoicePeerBox />
             </div>
         )
     }
