@@ -1,4 +1,4 @@
-import {OAC} from "../../client/OpenAudioAppContainer";
+import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
 import React from "react";
 import {getGlobalState, setGlobalState, store} from "../../state/store";
 import {connect} from "react-redux";
@@ -18,17 +18,18 @@ class AudioVolume extends React.Component {
     }
 
     render() {
+        let c = this.context;
         return (
             <div>
                 <div className="content-section">
-                    <div className="content-section-title">Audio Controls</div>
+                    <div className="content-section-title">{getTranslation(c, "home.audioControls")}</div>
                 </div>
                 <div className="content-section">
                     <div className="content-card-collection items-stretch">
                         <div className="content-wrapper-box audio-content 2xl:order-2">
                             <div className="content-wrapper-context full">
                                 <div className="content-text full soft-text pr-5">
-                                    Volume control
+                                    <div className={"inline"} dangerouslySetInnerHTML={{ __html: getTranslation(c, "home.volumeContext") }} />
                                 </div>
                                 <br/>
                                 <input onChange={this.onInput}
