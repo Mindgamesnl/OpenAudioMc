@@ -1,4 +1,4 @@
-import ClientTokenSet from "../../helpers/libs/ClientTokenSet";
+import ClientTokenSet from "../../../client/login/ClientTokenSet";
 import {HandleModernLogin} from "./login/ModernLoginHandler";
 import {oalog} from "../../helpers/log";
 

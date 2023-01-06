@@ -5,7 +5,7 @@ import * as PluginChannel from "../../helpers/protocol/PluginChannel";
 import {VoiceUiSwitch} from "./ui/VoiceUiSwitch";
 import {PeerManager} from "./streaming/PeerManager";
 import {MicrophoneProcessor} from "./processing/MicrophoneProcessor";
-import {ReportError} from "../../helpers/protocol/ErrorReporter";
+import {ReportError} from "../../../client/util/ErrorReporter";
 import {DebugPanel, WhenDebugging} from "../../debug";
 import {replaceGlobalText, replaceProperty} from "../../helpers/domhelper";
 import {VoicePeerUi} from "./ui/VoicePeerUi";

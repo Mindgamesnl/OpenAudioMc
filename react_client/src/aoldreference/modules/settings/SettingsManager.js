@@ -1,6 +1,6 @@
 import {makeid} from "../../helpers/libs/random";
 import {oalog} from "../../helpers/log";
-import {API_ENDPOINT} from "../../helpers/protocol/ApiEndpoints";
+import {API_ENDPOINT} from "../../../client/config/ApiEndpoints";
 import {AlertBox} from "../ui/Notification";
 import {WhenConnected} from "../socket/SocketModule";
 

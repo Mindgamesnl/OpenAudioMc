@@ -3,8 +3,8 @@ import React from "react";
 
 import {setGlobalState, store} from "../state/store";
 import {connect} from "react-redux";
-import {ReportError} from "./helpers/protocol/ErrorReporter";
-import ClientTokenSet from "./helpers/libs/ClientTokenSet";
+import {ReportError} from "./util/ErrorReporter";
+import ClientTokenSet from "./login/ClientTokenSet";
 
 export const OAC = createContext({});
 
@@ -55,6 +55,7 @@ class OpenAudioAppContainer extends React.Component {
     handleGlobalClick() {
         if (!this.state.didUnlock) {
             // initialize OpenAudio
+
         }
 
         if (this.state.allowedToUnlock) {

@@ -1,6 +1,7 @@
-import UrlReader from "../protocol/UrlReader";
-import {API_ENDPOINT} from "../protocol/ApiEndpoints";
-import {ReportError} from "../protocol/ErrorReporter";
+import UrlReader from "../util/UrlReader";
+import {API_ENDPOINT} from "../config/ApiEndpoints";
+import {ReportError} from "../util/ErrorReporter";
+import {setGlobalState} from "../../state/store";
 
 export default class ClientTokenSet {
 
@@ -72,6 +73,7 @@ export default class ClientTokenSet {
                                         this.initialize()
                                             .then(resolve)
                                         this.attempts++;
+                                        setGlobalState({loadingState: "Logging in failed, attempt " + this.attempts + " of 3."})
                                     }, 1000)
                                 } else {
                                     console.log("Session error")

@@ -1,4 +1,4 @@
-import {API_ENDPOINT} from "./ApiEndpoints";
+import {API_ENDPOINT} from "../config/ApiEndpoints";
 
 export function ReportError(message, playerName, callback) {
     fetch(API_ENDPOINT.ERROR_REPORTING, {

@@ -3,7 +3,7 @@ import {RtcPacket} from "./protocol";
 import {PromisedChannel} from "./PromisedChannel";
 import {VoiceStatusChangeEvent} from "../VoiceModule";
 import * as PluginChannel from "../../../helpers/protocol/PluginChannel";
-import {OpenAudioEnv} from "../../../OpenAudioMc";
+import {OpenAudioEnv} from "../../../../client/OpenAudioMc";
 import {Channel} from "../../media/objects/Channel";
 import {Sound} from "../../media/objects/Sound";
 import {makeid} from "../../../helpers/libs/random";
