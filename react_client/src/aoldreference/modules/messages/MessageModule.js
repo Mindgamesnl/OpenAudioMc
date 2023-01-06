@@ -1,6 +1,6 @@
 import {oalog} from "../../helpers/log";
 import {deepScanStartingWith, replaceGlobalText} from "../../helpers/domhelper";
-import {API_ENDPOINT} from "../../helpers/protocol/ApiEndpoints";
+import {API_ENDPOINT} from "../../../client/config/ApiEndpoints";
 
 export class MessageModule {
 

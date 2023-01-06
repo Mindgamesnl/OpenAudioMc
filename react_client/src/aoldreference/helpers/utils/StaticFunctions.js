@@ -1,7 +1,7 @@
 // boot
-import {OpenAudioEnv, OpenAudioMc} from '../../OpenAudioMc'
-import ClientTokenSet from '../libs/ClientTokenSet'
-import {ReportError} from '../protocol/ErrorReporter'
+import {OpenAudioEnv, OpenAudioMc} from '../../../client/OpenAudioMc'
+import ClientTokenSet from '../../../client/login/ClientTokenSet'
+import {ReportError} from '../../../client/util/ErrorReporter'
 import {DebugPanel, EnableDebugMode, WhenDebugging} from "../../debug";
 import {prepareLogging} from "../log";
 import {replaceGlobalText, replaceProperty} from "../domhelper";

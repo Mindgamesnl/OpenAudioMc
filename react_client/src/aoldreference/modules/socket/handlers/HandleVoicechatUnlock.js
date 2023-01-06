@@ -1,4 +1,4 @@
-import {OpenAudioEnv} from "../../../OpenAudioMc";
+import {OpenAudioEnv} from "../../../../client/OpenAudioMc";
 import {EnableDebugMode} from "../../../debug";
 import {OpenModal} from "../../../helpers/modal";
 import {AlertBox} from "../../ui/Notification";

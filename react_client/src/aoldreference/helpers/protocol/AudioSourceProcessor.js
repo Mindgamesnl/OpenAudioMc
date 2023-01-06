@@ -1,5 +1,5 @@
-import ClientTokenSet from "../libs/ClientTokenSet";
-import {API_ENDPOINT} from "./ApiEndpoints";
+import ClientTokenSet from "../../../client/login/ClientTokenSet";
+import {API_ENDPOINT} from "../../../client/config/ApiEndpoints";
 import {oalog} from "../log";
 import {replaceGlobalText} from "../domhelper";
 

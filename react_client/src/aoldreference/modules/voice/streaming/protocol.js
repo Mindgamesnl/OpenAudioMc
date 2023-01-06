@@ -1,4 +1,4 @@
-import {OpenAudioEnv} from "../../../OpenAudioMc";
+import {OpenAudioEnv} from "../../../../client/OpenAudioMc";
 import {oalog} from "../../../helpers/log";
 
 export class RtcPacket {

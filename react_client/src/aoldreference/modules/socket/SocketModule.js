@@ -1,8 +1,8 @@
-import ClientTokenSet from "../../helpers/libs/ClientTokenSet";
+import ClientTokenSet from "../../../client/login/ClientTokenSet";
 import {DebugPanel, WhenDebugging} from "../../debug";
 import {oalog} from "../../helpers/log";
 import {replaceProperty} from "../../helpers/domhelper";
-import {OpenAudioEnv} from "../../OpenAudioMc";
+import {OpenAudioEnv} from "../../../client/OpenAudioMc";
 
 let whenConnectHandler = [];
 let whenConnectConnected = false;

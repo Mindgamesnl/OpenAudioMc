@@ -1,5 +1,5 @@
 import {fetch} from "../../../../libs/github.fetch";
-import {ReportError} from "../../../helpers/protocol/ErrorReporter";
+import {ReportError} from "../../../../client/util/ErrorReporter";
 import {parseStyle} from "../../../helpers/libs/MinecraftColorCodes";
 import {oalog} from "../../../helpers/log";
 import {replaceProperty} from "../../../helpers/domhelper";

@@ -1,28 +1,28 @@
 import "@babel/polyfill";
 
-import {TimeService} from "./modules/socket/TimeService";
-import {UserInterfaceModule} from "./modules/ui/UserInterfaceModule";
-import {HueModule} from "./modules/hue/HueModule";
-import {MediaManager} from "./modules/media/MediaManager";
-import {SocketModule} from "./modules/socket/SocketModule";
-import {Handlers} from "./modules/socket/Handlers";
-import {HueConfigurationModule} from "./modules/hue/HueConfigurationModule";
-import {Getters} from "./helpers/utils/Getters";
-import {SocketDirector} from "./modules/socket/SocketDirector";
-import {NotificationModule} from "./modules/notifications/NotificationModule";
-import ClientTokenSet from "./helpers/libs/ClientTokenSet";
-import {getHueInstance} from "./helpers/libs/JsHue";
-import {linkBootListeners, setLoaderText} from "./helpers/utils/StaticFunctions";
-import {WorldModule} from "./modules/world/WorldModule";
-import {ReportError} from "./helpers/protocol/ErrorReporter";
-import {API_ENDPOINT} from "./helpers/protocol/ApiEndpoints";
-import {VoiceModule} from "./modules/voice/VoiceModule";
-import {oalog} from "./helpers/log";
+import {TimeService} from "../aoldreference/modules/socket/TimeService";
+import {UserInterfaceModule} from "../aoldreference/modules/ui/UserInterfaceModule";
+import {HueModule} from "../aoldreference/modules/hue/HueModule";
+import {MediaManager} from "../aoldreference/modules/media/MediaManager";
+import {SocketModule} from "../aoldreference/modules/socket/SocketModule";
+import {Handlers} from "../aoldreference/modules/socket/Handlers";
+import {HueConfigurationModule} from "../aoldreference/modules/hue/HueConfigurationModule";
+import {Getters} from "../aoldreference/helpers/utils/Getters";
+import {SocketDirector} from "../aoldreference/modules/socket/SocketDirector";
+import {NotificationModule} from "../aoldreference/modules/notifications/NotificationModule";
+import ClientTokenSet from "./login/ClientTokenSet";
+import {getHueInstance} from "../aoldreference/helpers/libs/JsHue";
+import {linkBootListeners, setLoaderText} from "../aoldreference/helpers/utils/StaticFunctions";
+import {WorldModule} from "../aoldreference/modules/world/WorldModule";
+import {ReportError} from "./util/ErrorReporter";
+import {API_ENDPOINT} from "./config/ApiEndpoints";
+import {VoiceModule} from "../aoldreference/modules/voice/VoiceModule";
+import {oalog} from "../aoldreference/helpers/log";
 import {DebugPanel, WhenDebugging} from "./debug";
-import {propertyValueCache, replaceGlobalText, replaceProperty, textElementCache} from "./helpers/domhelper";
-import {MessageModule} from "./modules/messages/MessageModule";
-import {SettingsManager} from "./modules/settings/SettingsManager";
-import {StreamerLink} from "./modules/streamerlink/StreamerLink";
+import {propertyValueCache, replaceGlobalText, replaceProperty, textElementCache} from "../aoldreference/helpers/domhelper";
+import {MessageModule} from "../aoldreference/modules/messages/MessageModule";
+import {SettingsManager} from "../aoldreference/modules/settings/SettingsManager";
+import {StreamerLink} from "../aoldreference/modules/streamerlink/StreamerLink";
 
 export const OpenAudioEnv = {
     "build": "__BUILD_VERSION__",

@@ -1,7 +1,7 @@
 import {Channel} from "./Channel";
 import {Sound} from "./Sound";
 import {DebugPanel, WhenDebugging} from "../../../debug";
-import {OpenAudioEnv} from "../../../OpenAudioMc";
+import {OpenAudioEnv} from "../../../../client/OpenAudioMc";
 import {prefetchedSounds} from "../../../helpers/utils/AudioFactory";
 
 export class Mixer {
