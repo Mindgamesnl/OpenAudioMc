@@ -13,8 +13,6 @@ export class TabWindow extends Component {
             name: child.props.name,
             content: child.props.content
         }));
-        console.log(pages);
-
 
         return (
             <div className="main-container tabbed">
@@ -42,7 +40,6 @@ export class TabWindow extends Component {
                         <a className="menu-link-main soft-text" href="https://openaudiomc.net/">&copy; OpenAudioMc 2016-2022. All Rights Reserved.</a>
                     </div>
                 </div>
-
                 <div className="tab-content">
                     <div className="content-wrapper">
                         {pages[this.state.activePage].content}
@@ -55,7 +52,6 @@ export class TabWindow extends Component {
 
 export class TabPage extends Component {
     render() {
-        console.log(this.props);
         return this.props.children;
     }
 }

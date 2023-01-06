@@ -682,7 +682,7 @@ body.light-mode .video-bg:before {
 }
 
 .wide-card {
-    width: calc(66.6% - 20px);
+    width: calc(66.6%);
 }
 
 .settings-card {
@@ -822,7 +822,6 @@ input[type='range'] {
 
 
 .tab-content {
-    display: none;
     background-color: var(--theme-bg-color);
     height: 95%;
     width: 80%;
@@ -1081,10 +1080,6 @@ footer {
     100% {
         transform: scale(1);
     }
-}
-
-.super-hidden {
-    display: none;
 }
 
 .voicechat-player-card {
