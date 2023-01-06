@@ -3,7 +3,7 @@ import {OpenAudioMcReact} from "../client/OpenAudioMcReact";
 
 const initialState = {
     // app instance
-
+    app: new OpenAudioMcReact(),
 
     // state - null for the login screen
     currentUser: {
@@ -23,6 +23,7 @@ const initialState = {
 
     voiceState: {
         isSpeaking: false,
+        serverHasModeration: false,
     },
 
     // click lock
