@@ -39,5 +39,15 @@ function mapStateToProps(state) {
 }
 
 export function getTranslation(context, message) {
-    return context.lang[message];
+    let m = context.lang[message];
+
+    if (m === undefined) {
+        console.error("Missing translation for: " + message);
+        return "<????>";
+    }
+
+    if (context.currentUser) {
+        m = m.replace("%player", context.currentUser.userName);
+    }
+    return m;
 }
