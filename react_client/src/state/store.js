@@ -7,7 +7,7 @@ const initialState = {
 
     // state - null for the login screen
     currentUser: {
-        'name': 'Toetje',
+        'userName': 'Toetje',
         'uuid': "2fb3a3e2-64ca-433d-8692-ff9d35bc6f92"
     },
 
