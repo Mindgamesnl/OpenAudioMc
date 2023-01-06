@@ -78,7 +78,7 @@ class AdvancedVoiceSettings extends React.Component {
                         <div className="content-card small-vc-card">
                                <span>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                     stroke-width="2" stroke="currentColor" fill="none" strokeLinecap="round"
+                                     strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round"
                                      strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z"></path><path
                                     d="M21 3L14.5 21a.55 .55 0 0 1 -1 0L10 14L3 10.5a.55 .55 0 0 1 0 -1L21 3"></path></svg>
                                    {getTranslation(c, "vc.positionalAudio")}
@@ -94,7 +94,7 @@ class AdvancedVoiceSettings extends React.Component {
                         </div>
                         <div className="content-card vc-monitoring-card">
                                 <span>
-                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
                                       strokeLinecap="round" strokeLinejoin="round">  <line x1="4" y1="21" x2="4"
                                                                                            y2="14"/>  <line x1="4"
                                                                                                             y1="10"
@@ -124,7 +124,7 @@ class AdvancedVoiceSettings extends React.Component {
                         </div>
                         <div className="content-card sensitivty-card">
                                <span>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
                                      strokeLinecap="round" strokeLinejoin="round">  <line x1="4" y1="21" x2="4"
                                                                                           y2="14"/>  <line x1="4"
                                                                                                            y1="10"
