@@ -12,11 +12,11 @@ cp dev-resources/ops.json test-server-spigot/
 
 cd test-server-spigot
 echo "Cleaning server..."
-if [ ! -f ./spigot-1.19.3.jar ]; then
-    wget https://download.getbukkit.org/spigot/spigot-1.19.3.jar
+if [ ! -f ./spigot-1.19.2.jar ]; then
+    wget https://download.getbukkit.org/spigot/spigot-1.19.2.jar
     echo "eula=true" > eula.txt
     chmod +x spigot-1.12.2.jar
 fi
 
 echo "Starting server.."
-java -Xms3G -Xmx3G -jar spigot-1.19.3.jar nogui
+java -Xms3G -Xmx3G -jar spigot-1.19.2.jar nogui

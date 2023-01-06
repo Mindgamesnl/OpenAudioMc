@@ -18,9 +18,13 @@ import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.utils.data.RandomString;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -55,7 +59,7 @@ public class RestDirectService extends Service {
     }
 
     public RestDirectServer attemptServerBoot() {
-        String ip = StorageKey.AUTH_HOST.getString();
+        String ip = guessIp();
         if (OpenAudioMc.SERVER_ENVIRONMENT == ServerEnvironment.DEVELOPMENT) {
             ip = "localhost";
         }
@@ -64,8 +68,6 @@ public class RestDirectService extends Service {
             OpenAudioLogger.toConsole("Attempting to use IP overwrite with " + StorageKey.CDN_IP_OVERWRITE.getString());
             ip = StorageKey.CDN_IP_OVERWRITE.getString();
         }
-
-        OpenAudioLogger.toConsole("Using ip: " + ip);
 
         for (int port : checkable_ports) {
             // try to open a server
@@ -109,6 +111,16 @@ public class RestDirectService extends Service {
         }
         OpenAudioLogger.toConsole("Continuing without the RestDirect feature! None of the listed ports were accessible or available. Please contact support, your server/host might not be compatible!");
         return null;
+    }
+
+    @SneakyThrows
+    private String guessIp() {
+        URL whatismyip = new URL("http://checkip.amazonaws.com");
+        BufferedReader in = new BufferedReader(new InputStreamReader(
+                whatismyip.openStream()));
+
+        String ip = in.readLine(); //you get the IP as a String
+        return ip;
     }
 
 }

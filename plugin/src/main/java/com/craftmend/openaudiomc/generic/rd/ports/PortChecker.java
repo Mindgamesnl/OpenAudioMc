@@ -42,6 +42,7 @@ public class PortChecker {
 
         RestRequest<NoResponse> r = new RestRequest<>(NoResponse.class, Endpoint.LOOPBACK_CHECK);
         r.setTimeout(timeout);
+        r.setBaseUrl(url());
         r.run();
         if (!r.hasError()) {
             if (r.getRawResponse().equals(expectedResponse)) {
