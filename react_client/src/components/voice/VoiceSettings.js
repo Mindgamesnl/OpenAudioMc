@@ -40,6 +40,8 @@ class VoiceSettings extends React.Component {
             micButton = <button className="content-pill status-button red w-full" onClick={this.toggleMicMute}>{getTranslation(c, "vc.unmuteMic")}</button>
         }
 
+        let uuid = store.getState().currentUser.uuid;
+
         return (
             <div>
                 <div className="content-section-title">{getTranslation(c, "vc.settings")}</div>
@@ -47,7 +49,7 @@ class VoiceSettings extends React.Component {
                     <div className="content-card small-card order-2 2xl:order-1">
                                <span>
                                 <img className={"avatar small-avatar" + (this.props.voiceState.isSpeaking ? " speaking" : "")}
-                                     src={"https://cdn.discordapp.com/avatars/123456789012345678/123456789012345678.png?size=128"}/>
+                                     src={"https://visage.surgeplay.com/bust/512/" + uuid}/>
                                    {getTranslation(c, "vc.statusTitle")}
                                </span>
                         <div className="content-card-content content-card-content-border-bottom">

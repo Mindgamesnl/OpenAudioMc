@@ -14,7 +14,6 @@ export class OpenAudioController extends React.Component {
     render() {
         let currentView = <div>?</div>;
         let oa = this.context;
-        console.log(oa)
 
         if (oa.isLoading) {
             currentView = <LoadingView />;

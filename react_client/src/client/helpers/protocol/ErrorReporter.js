@@ -1,4 +1,3 @@
-import {fetch} from "../../../libs/github.fetch";
 import {API_ENDPOINT} from "./ApiEndpoints";
 
 export function ReportError(message, playerName, callback) {
