@@ -3,6 +3,8 @@ import React from "react";
 
 import {setGlobalState, store} from "../state/store";
 import {connect} from "react-redux";
+import {ReportError} from "./helpers/protocol/ErrorReporter";
+import ClientTokenSet from "./helpers/libs/ClientTokenSet";
 
 export const OAC = createContext({});
 
@@ -10,10 +12,55 @@ class OpenAudioAppContainer extends React.Component {
     constructor(props) {
         super(props);
         this.handleGlobalClick = this.handleGlobalClick.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
+        this.state = {
+            didUnlock: false,
+            allowedToUnlock: false
+        }
+    }
+
+    componentDidMount() {
+        let sessionLoader = new ClientTokenSet()
+        sessionLoader.initialize()
+            .then(tokenSet => {
+                if (tokenSet == null) {
+                    ReportError('A faulty login attempt was done at ' + window.location.host, 'Steve')
+                    setGlobalState({
+                        isLoading: false,
+                        currentUser: null,
+                    })
+                    return
+                }
+
+                // can we find a name? let's put it as a welcome text!
+                // makes the experience a bit more personal
+                if (tokenSet.name != null) {
+                    setGlobalState({
+                        currentUser: {
+                            userName: tokenSet.name,
+                            uuid: tokenSet.uuid,
+                            token: tokenSet.token,
+                            publicServerKey: tokenSet.publicServerKey,
+                            scope: tokenSet.scope
+                        }
+                    });
+
+                    // initialize OA here
+                    this.setState({allowedToUnlock: true});
+                }
+            })
+            .catch(console.error)
     }
 
     handleGlobalClick() {
-        setGlobalState({clickLock: false});
+        if (!this.state.didUnlock) {
+            // initialize OpenAudio
+        }
+
+        if (this.state.allowedToUnlock) {
+            setGlobalState({clickLock: false});
+            this.setState({didUnlock: true});
+        }
     }
 
     render() {

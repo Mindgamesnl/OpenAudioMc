@@ -1,9 +1,8 @@
 import { createStore } from 'redux';
-import {OpenAudioMcReact} from "../client/OpenAudioMcReact";
 
 const initialState = {
     // app instance
-    app: new OpenAudioMcReact(),
+    app: null,
 
     // state - null for the login screen
     currentUser: {
@@ -30,7 +29,7 @@ const initialState = {
     clickLock: true,
 
     // view states
-    isLoading: false,
+    isLoading: true,
     loadingState: 'Preparing to load OpenAudioMc',
 
     lang: {
