@@ -14,6 +14,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
+import java.net.SocketTimeoutException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -106,6 +107,7 @@ public class RestRequest<T extends AbstractRestResponse> {
 
         // ok, now parse it
         rawResponse = res.body;
+        System.out.println("Raw response: " + rawResponse);
         IntermediateResponse<T> intermediateResponse = IntermediateResponse.fromJson(typeClass, res.body, parseResponse);
 
         // copy over the error and response
@@ -168,7 +170,8 @@ public class RestRequest<T extends AbstractRestResponse> {
             okhttp3.Response response = clientBuilder.build().newCall(requestBuilder.build()).execute();
             return new HttpRes(response.code(), response.body().string());
         } catch (Exception e) {
-            e.printStackTrace();
+            if (!(e instanceof SocketTimeoutException))
+                e.printStackTrace();
             return new HttpRes(408, "Request timed out");
         }
     }
