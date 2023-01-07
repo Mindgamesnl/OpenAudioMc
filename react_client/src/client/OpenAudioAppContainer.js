@@ -206,6 +206,9 @@ function fatalToast(message) {
 }
 
 export function getTranslation(context, message) {
+    if (context == null) {
+        context = getGlobalState();
+    }
     let m = context.lang[message];
 
     if (m === undefined) {

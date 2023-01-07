@@ -2,7 +2,7 @@ import React, {useContext} from "react";
 import LoadingView from "../views/loading/LoadingView";
 import {OAC} from "../client/OpenAudioAppContainer";
 import {LoginView} from "../views/login/LoginView";
-import {ClientView} from "../views/client/ClientView";
+import ClientView from "../views/client/ClientView";
 import 'react-toastify/dist/ReactToastify.css';
 import {ToastContainer} from "react-toastify";
 

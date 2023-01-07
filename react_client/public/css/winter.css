@@ -568,7 +568,7 @@ body.light-mode .video-bg:before {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    width: calc(100% + 20px);
+    width: 100%;
 }
 
 .content-card {
@@ -705,7 +705,7 @@ body.light-mode .video-bg:before {
     margin-left: 20px;
 }
 
-.content-card span {
+.content-card>span {
     display: flex;
     align-items: center;
 }

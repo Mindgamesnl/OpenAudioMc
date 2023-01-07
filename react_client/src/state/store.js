@@ -1,14 +1,8 @@
 import { createStore } from 'redux';
 
 const initialState = {
-    // app instance
-    app: null,
-
     // state - null for the login screen
-    currentUser: {
-        'userName': 'Toetje',
-        'uuid': "2fb3a3e2-64ca-433d-8692-ff9d35bc6f92"
-    },
+    currentUser: null,
 
     relay: {
         endpoint: null,
@@ -26,6 +20,19 @@ const initialState = {
         microphoneSensitivity: 0,
         automaticSensitivity: true,
         fadeAudio: true,
+
+        voicechatChimesEnabled: true,
+        interpolationEnabled: true,
+        streamermodeEnabled: false,
+        spatialRenderingMode: 'new',
+        rolloffFactor: 0.5,
+    },
+
+    loadingOverlay: {
+        visible: false,
+        title: null,
+        message: null,
+        footer: null,
     },
 
     soundcloud: {
@@ -36,8 +43,12 @@ const initialState = {
     },
 
     voiceState: {
+        enabled: false,
         isSpeaking: false,
         serverHasModeration: false,
+        streamServer: null,
+        streamKey: null,
+        radius: null,
     },
 
     // click lock
