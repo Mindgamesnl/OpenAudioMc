@@ -8,9 +8,14 @@ import ClientTokenSet from "./login/ClientTokenSet";
 import {MessageModule} from "./translations/MessageModule";
 import {API_ENDPOINT} from "./config/ApiEndpoints";
 import {changeColor} from "./util/colors";
+import toast from "react-hot-toast";
 
 export const OAC = createContext({});
 let oldColors = ["#2c78f6", "#4F46E5"]
+
+function ToastContainer() {
+    return null;
+}
 
 class OpenAudioAppContainer extends React.Component {
     constructor(props) {
@@ -72,6 +77,7 @@ class OpenAudioAppContainer extends React.Component {
                         isLoading: false,
                         currentUser: null,
                     })
+                    fatalToast("Failed to get server details from " + publicServerKey);
                     throw new Error("Failed to get server details from " + publicServerKey);
                 }
                 let serverData = await serverDataRaw.json();
@@ -81,6 +87,7 @@ class OpenAudioAppContainer extends React.Component {
                         isLoading: false,
                         currentUser: null,
                     })
+                    fatalToast("Failed to get server details from " + publicServerKey + "! Please try again later or contact support.");
                     throw new Error("Failed to get server details from " + publicServerKey);
                 }
 
@@ -94,6 +101,7 @@ class OpenAudioAppContainer extends React.Component {
                         "home.welcome": serverData.welcomeMessage,
                         "home.activateText": serverData.startButton,
                         "home.header": serverData.activeMessage,
+                        "serverName": serverData.displayName,
                     }
                 });
 
@@ -108,6 +116,17 @@ class OpenAudioAppContainer extends React.Component {
                     setBgImage(serverData.backgroundImage)
                 }
 
+                // is the server offline? cancel now
+                if (serverData.relayEndpoint == null) {
+                    ReportError('Server ' + publicServerKey + ' is offline at ' + window.location.host, tokenSet.name)
+                    setGlobalState({
+                        isLoading: false,
+                        currentUser: null,
+                    })
+                    fatalToast("Server " + publicServerKey + " is offline! Please try a new link from /audio");
+                    throw new Error("Server " + publicServerKey + " is offline");
+                }
+
             })
 
             // finished! show home page :)
@@ -115,17 +134,21 @@ class OpenAudioAppContainer extends React.Component {
                 setGlobalState({isLoading: false});
                 this.setState({allowedToUnlock: true});
             })
-            .catch(console.error);
+            .catch(e => {
+                console.error(e);
+                setGlobalState({isLoading: false});
+                fatalToast('Your current link has expired. Please run /audio again to get a new link.');
+            });
 
     }
 
     handleGlobalClick() {
-        if (!this.state.didUnlock) {
-            // initialize OpenAudio
-
-        }
 
         if (this.state.allowedToUnlock) {
+            if (!this.state.didUnlock) {
+                // initialize OpenAudio
+
+            }
             setGlobalState({clickLock: false});
             this.setState({didUnlock: true});
         }
@@ -154,6 +177,10 @@ function mapStateToProps(state) {
     };
 }
 
+function fatalToast(message) {
+    toast.error(message);
+}
+
 export function getTranslation(context, message) {
     let m = context.lang[message];
 
@@ -179,6 +206,7 @@ function convertHexToRGBA(hexCode, opacity) {
 }
 
 function setBgColor(col) {
+    if (col === "#000000") return;
     // let normal = convertHexToRGBA(response.accentColor, 70)
     let light = convertHexToRGBA(col, 40)
     document.documentElement.style.setProperty('--primary-accent', col);

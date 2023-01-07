@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
+import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
 
 export class TabWindow extends Component {
+    static contextType = OAC;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -9,6 +12,8 @@ export class TabWindow extends Component {
     }
 
     render() {
+        let c = this.context;
+
         const pages = React.Children.map(this.props.children, child => ({
             name: child.props.name,
             content: child.props.content
@@ -18,7 +23,7 @@ export class TabWindow extends Component {
             <div className="main-container tabbed">
                 <div className="main-header flex justify-start">
                     <span className="theme-color-text p-10 w-1/3">
-                        serverName
+                        { getTranslation(c, "serverName")}
                         <span className="small-pill free">Free</span>
                         <span className="small-pill premium">Premium</span>
                     </span>
