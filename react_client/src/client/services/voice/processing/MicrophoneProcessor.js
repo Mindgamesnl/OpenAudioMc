@@ -4,6 +4,7 @@ import {getGlobalState, setGlobalState, store} from "../../../../state/store";
 import {WorldModule} from "../../world/WorldModule";
 import {VoiceModule} from "../VoiceModule";
 import Hark from "hark";
+import {RtcPacket} from "../peers/protocol";
 
 export class MicrophoneProcessor {
 

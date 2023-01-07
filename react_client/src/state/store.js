@@ -55,6 +55,12 @@ const initialState = {
         mics: [], // cached list of microphones
     },
 
+    build: {
+        build: 2002,
+        compiler: 'Mats',
+        isProd: true
+    },
+
     // click lock
     clickLock: true,
 
