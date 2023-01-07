@@ -69,7 +69,7 @@ export class Channel {
                 i    = setInterval(() => {
                     k = k > toVol ? k - 1 : k + 1;
 
-                    let effectiveVolume = this.mixer.masterVolume;
+                    let effectiveVolume = getGlobalState().settings.normalVolume;
 
                     // handle channel volume
                     let result = (k / 100) * effectiveVolume;
