@@ -43,6 +43,11 @@ export class MessageModule {
     }
 
     updateBanner() {
+        if (this.currentLangFile === "en.lang") {
+            setGlobalState({translationBanner: null})
+            return
+        }
+
         let reset = function () {
             this.load("en.lang").then(r => console.log)
         }.bind(this);
