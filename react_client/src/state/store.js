@@ -34,9 +34,7 @@ const initialState = {
 
 
     translationBanner: null, // null or {detectedAs: 'en', toEn: 'to en', keep: 'keep', reset: function() {}}
-    lang: {
-        emptyDefault: 'emptyDefault',
-    }
+    lang: {} // gets loaded from the lang file, changes cause a full UI re-render
 };
 
 export function setGlobalState(stateUpdates) {
@@ -89,4 +87,4 @@ function mergeObjects(obj1, obj2) {
     }};
 }
 
-export const store = createStore(appReducer);
+export const store = createStore(appReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());

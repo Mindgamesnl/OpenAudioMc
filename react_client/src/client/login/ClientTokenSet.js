@@ -16,6 +16,23 @@ export default class ClientTokenSet {
 
     initialize() {
         return new Promise((resolve => {
+
+            // mock login
+            // mock login
+            setGlobalState({
+                loadingState: "Attempting login (mock)",
+            })
+            resolve(
+                new ClientTokenSet(
+                    '62633a8f-530b-4350-97eb-c6730fd17876',
+                    '2fb3a3e2-64ca-433d-8692-ff9d35bc6f92',
+                    'Toetje',
+                    'token',
+                    'mock'
+                )
+            );
+            return null;
+
             let url = window.location.href;
             if (url == null) {
                 console.error("No URL found");
