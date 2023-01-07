@@ -15,8 +15,7 @@ export class Header extends React.Component {
                             <h2 className="mb-6 font-sans text-3xl font-bold tracking-tight text-white sm:text-4xl sm:leading-none">
                                 {getTranslation(c, "home.welcome")}
                             </h2>
-                            <p className="mb-6 text-base text-indigo-100 md:text-lg">
-                                {getTranslation(c, "home.header")}
+                            <p className="mb-6 text-base text-indigo-100 md:text-lg" dangerouslySetInnerHTML={{ __html: getTranslation(c, "home.header") }}>
                             </p>
                         </div>
                     </div>

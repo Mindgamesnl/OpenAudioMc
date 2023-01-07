@@ -9,12 +9,12 @@ class ResetLanguageBanner extends React.Component {
     }
 
     render() {
-        if (this.props.translationBanner === null) {
-            return null;
+        if (this.props.translationBanner == null) {
+            return <div></div>;
         }
 
         return (
-            <div className="bg-gray-100 flex flex-col justify-center" style="display:none;" id="lang-change-banner">
+            <div className="bg-gray-100 flex flex-col justify-center">
                 <div
                     className="max-w-screen-lg mx-auto fixed bg-white inset-x-5 p-5 bottom-5 rounded-lg drop-shadow-2xl flex gap-4 flex-wrap md:flex-nowrap text-center md:text-left items-center justify-center md:justify-between">
                     <div className="w-full text-black">{this.props.translationBanner.detectedAs}</div>

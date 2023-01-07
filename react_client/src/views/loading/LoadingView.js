@@ -34,7 +34,6 @@ class LoadingView extends React.Component {
 }
 export default connect(mapStateToProps)(LoadingView);
 function mapStateToProps(state) {
-    console.log(state)
     return {
         loading: state.loadingState,
     };
