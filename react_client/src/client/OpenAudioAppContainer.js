@@ -9,13 +9,10 @@ import {MessageModule} from "./translations/MessageModule";
 import {API_ENDPOINT} from "./config/ApiEndpoints";
 import {changeColor} from "./util/colors";
 import toast from "react-hot-toast";
+import {MediaManager} from "./services/media/MediaManager";
 
 export const OAC = createContext({});
 let oldColors = ["#2c78f6", "#4F46E5"]
-
-function ToastContainer() {
-    return null;
-}
 
 class OpenAudioAppContainer extends React.Component {
     constructor(props) {
@@ -93,26 +90,29 @@ class OpenAudioAppContainer extends React.Component {
 
                 serverData = serverData.response;
 
-                setGlobalState({
-                    currentServer: serverData,
-
-                    // overwrite some messages
-                    lang: {
-                        "home.welcome": serverData.welcomeMessage,
-                        "home.activateText": serverData.startButton,
-                        "home.header": serverData.activeMessage,
-                        "serverName": serverData.displayName,
-                    }
-                });
+                if (serverData.useTranslations) {
+                    await this.messageModule.handleCountry(serverData.countryCode)
+                } else {
+                    setGlobalState({
+                        currentServer: serverData,
+                        // overwrite some messages
+                        lang: {
+                            "home.welcome": serverData.welcomeMessage,
+                            "home.activateText": serverData.startButton,
+                            "home.header": serverData.activeMessage,
+                        }
+                    });
+                }
+                setGlobalState({lang: {"serverName": serverData.displayName}});
 
                 setBgColor(serverData.color)
                 document.title = serverData.title;
 
-                if (serverData.startSound != "") {
-                    // TODO: play start sound
+                if (serverData.startSound !== "") {
+                    MediaManager.startSound = serverData.startSound
                 }
 
-                if (serverData.backgroundImage != "") {
+                if (serverData.backgroundImage !== "") {
                     setBgImage(serverData.backgroundImage)
                 }
 
@@ -147,7 +147,7 @@ class OpenAudioAppContainer extends React.Component {
         if (this.state.allowedToUnlock) {
             if (!this.state.didUnlock) {
                 // initialize OpenAudio
-
+                MediaManager.postBoot();
             }
             setGlobalState({clickLock: false});
             this.setState({didUnlock: true});
@@ -196,19 +196,9 @@ export function getTranslation(context, message) {
     return m;
 }
 
-function convertHexToRGBA(hexCode, opacity) {
-    const tempHex = hexCode.replace('#', '');
-    const r = parseInt(tempHex.substring(0, 2), 16);
-    const g = parseInt(tempHex.substring(2, 4), 16);
-    const b = parseInt(tempHex.substring(4, 6), 16);
-
-    return `rgba(${r},${g},${b},${opacity / 100})`;
-}
-
 function setBgColor(col) {
     if (col === "#000000") return;
     // let normal = convertHexToRGBA(response.accentColor, 70)
-    let light = convertHexToRGBA(col, 40)
     document.documentElement.style.setProperty('--primary-accent', col);
     // old
 

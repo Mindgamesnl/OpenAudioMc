@@ -4,6 +4,7 @@ import {ClickPrompt} from "../../../../components/clicktoconnect/ClickPrompt";
 import {OAC} from "../../../../client/OpenAudioAppContainer";
 import {VcOnboarding} from "../../../../components/onboarding/VcOnboarding";
 import AudioVolume from "../../../../components/audio/AudioVolume";
+import SoundCloudPlayer from "../../../../components/soundcloud/SoundCloudPlayer";
 
 export class AudioPage extends React.Component {
     static contextType = OAC;
@@ -18,6 +19,7 @@ export class AudioPage extends React.Component {
                 <Header />
                 <VcOnboarding />
                 <AudioVolume />
+                <SoundCloudPlayer />
             </div>
         );
     }
