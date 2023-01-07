@@ -18,6 +18,14 @@ const initialState = {
         voicechatMonitoringEnabled: false,
         microphoneSensitivity: 0,
         automaticSensitivity: true,
+        fadeAudio: true,
+    },
+
+    soundcloud: {
+        visible: false,
+        title: 'Cool song song',
+        image: 'https://i1.sndcdn.com/artworks-NWsyJg2rpTy2imze-4ttQKA-t500x500.jpg',
+        link: 'https://soundcloud.com/cool-songs/cool-song-song',
     },
 
     voiceState: {
