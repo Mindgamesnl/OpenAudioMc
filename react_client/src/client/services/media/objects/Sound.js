@@ -1,6 +1,8 @@
 import {GetAudio} from "../../../util/AudioFactory";
 import {AUDIO_ENDPOINTS, AudioSourceProcessor} from "../../../util/AudioSourceProcessor";
 import {TimeService} from "../../time/TimeService";
+import {SocketManager} from "../../socket/SocketModule";
+import * as PluginChannel from "../../../util/PluginChannel";
 
 export class Sound extends AudioSourceProcessor {
 
@@ -111,12 +113,10 @@ export class Sound extends AudioSourceProcessor {
                     // }
 
 
-                    // TODO: SEND PACKET
-                    console.log("TODO SEND MEDIA ERROR")
-                    // this.openAudioMc.socketModule.send(PluginChannel.MEDIA_FAILURE, {
-                    //     "mediaError": type,
-                    //     "source": this.soundElement.src
-                    // });
+                    SocketManager.send(PluginChannel.MEDIA_FAILURE, {
+                        "mediaError": type,
+                        "source": this.soundElement.src
+                    });
                 }
             }
         }
@@ -235,21 +235,43 @@ export class Sound extends AudioSourceProcessor {
     }
 
 }
+
 /* eslint-disable */
+
 // here be dragons
-if (!('toJSON' in Error.prototype)) {
-    Object.defineProperty(Error.prototype, 'toJSON', {
-        value: function () {
-            var alt = {};
+if (
 
-            Object.getOwnPropertyNames(this).forEach(function (key) {
-                alt[key] = this[key];
-            }, this);
+    !(
+        'toJSON'
+        in
+        Error
+            .prototype
+    )) {
+    Object
+        .defineProperty(Error
 
-            return alt;
-        },
-        configurable: true,
-        writable: true
-    });
+                .prototype
+            ,
+            'toJSON'
+            , {
+                value:
+
+                    function () {
+                        var alt = {};
+
+                        Object.getOwnPropertyNames(this).forEach(function (key) {
+                            alt[key] = this[key];
+                        }, this);
+
+                        return alt;
+                    }
+
+                ,
+                configurable: true
+                ,
+                writable: true
+            }
+        )
+    ;
 }
 /* eslint-enable */

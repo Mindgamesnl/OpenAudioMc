@@ -2,6 +2,8 @@ import {Mixer} from "./objects/Mixer";
 import {Channel} from "./objects/Channel";
 import {Sound} from "./objects/Sound";
 import {getGlobalState, store} from "../../../state/store";
+import {SocketManager} from "../socket/SocketModule";
+import * as PluginChannel from "../../util/PluginChannel";
 
 export const MediaManager = new class IMediaManager {
 
@@ -29,10 +31,9 @@ export const MediaManager = new class IMediaManager {
             let currentVolume = getGlobalState().settings.normalVolume;
             if (oldVolume !== currentVolume) {
                 oldVolume = currentVolume;
-
-                // do whatever your ugly heart desires
-                console.log("TODO SEND VOLUME")
-                // TODO: SEND VOLUME
+                SocketManager.send(PluginChannel.VOLUME_CHANGED, {
+                    "volume": currentVolume
+                })
             }
         }, 1000)
     }

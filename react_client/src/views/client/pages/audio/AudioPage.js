@@ -5,8 +5,9 @@ import {OAC} from "../../../../client/OpenAudioAppContainer";
 import {VcOnboarding} from "../../../../components/onboarding/VcOnboarding";
 import AudioVolume from "../../../../components/audio/AudioVolume";
 import SoundCloudPlayer from "../../../../components/soundcloud/SoundCloudPlayer";
+import {connect} from "react-redux";
 
-export class AudioPage extends React.Component {
+class AudioPage extends React.Component {
     static contextType = OAC;
 
     render() {
@@ -17,10 +18,17 @@ export class AudioPage extends React.Component {
         return (
             <div>
                 <Header />
-                <VcOnboarding />
+                {this.props.voiceState.enabled && <VcOnboarding />}
                 <AudioVolume />
                 <SoundCloudPlayer />
             </div>
         );
     }
+}
+
+export default connect(mapStateToProps)(AudioPage);
+function mapStateToProps(state) {
+    return {
+        voiceState: state.voiceState,
+    };
 }

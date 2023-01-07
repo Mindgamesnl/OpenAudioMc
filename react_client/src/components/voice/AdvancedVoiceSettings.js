@@ -118,7 +118,7 @@ class AdvancedVoiceSettings extends React.Component {
                                 <label className="content-pill status-button">
                                     <input type="checkbox" onChange={this.monitoringInput}>
                                     </input>
-                                    <span className={"inline"}>{getTranslation(c, "vc.settings.monitoring.toggle")}</span>
+                                    <span className={"!inline !block"}>{getTranslation(c, "vc.settings.monitoring.toggle")}</span>
                                 </label>
                             </div>
                         </div>
