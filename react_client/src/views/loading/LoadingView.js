@@ -2,8 +2,9 @@ import {BlackoutPage} from "../../components/layout/BlackoutPage";
 import React from "react";
 import "./loading.css";
 import {OAC} from "../../client/OpenAudioAppContainer";
+import {connect} from "react-redux";
 
-export class LoadingView extends React.Component {
+class LoadingView extends React.Component {
 
     static contextType = OAC;
 
@@ -21,7 +22,7 @@ export class LoadingView extends React.Component {
                             <div className="flex flex-col ml-3">
                                 <div className="font-medium leading-none text-gray-100">Loading OpenAudioMc...</div>
                                 <p className="text-sm text-gray-300 leading-none mt-1">
-                                    {this.context.loadingState}
+                                    {this.props.loading}
                                 </p> <small className="text-gray-500 inline">Build thingy</small>
                             </div>
                         </div>
@@ -30,4 +31,11 @@ export class LoadingView extends React.Component {
             </BlackoutPage>
         );
     }
+}
+export default connect(mapStateToProps)(LoadingView);
+function mapStateToProps(state) {
+    console.log(state)
+    return {
+        loading: state.loadingState,
+    };
 }

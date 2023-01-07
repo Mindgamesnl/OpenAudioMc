@@ -18,6 +18,7 @@ export default class ClientTokenSet {
         return new Promise((resolve => {
             let url = window.location.href;
             if (url == null) {
+                console.error("No URL found");
                 resolve(null);
                 return
             }
@@ -27,6 +28,7 @@ export default class ClientTokenSet {
                 // if the params does not contain shit, dont return shit either
                 // fuck off
                 if (params.data == null) {
+                    console.error("No data found in URL");
                     resolve(null);
                     return
                 }
@@ -62,16 +64,15 @@ export default class ClientTokenSet {
                 fetch(API_ENDPOINT.CLIENT_SESSION_SERVER + "?token=" + token)
                     .then(body => {
                         body.json().then(sessionValidationResponse => {
-
                             if (sessionValidationResponse.errors.length > 0) {
                                 if (this.attempts < 3) {
+                                    setGlobalState({loadingState: "Logging in failed, attempt " + (this.attempts + 1) + " of 3."})
+
                                     setTimeout(() => {
-                                        // try again
                                         this.requestWasPreviouslyAttempted = true;
                                         this.initialize()
                                             .then(resolve)
                                         this.attempts++;
-                                        setGlobalState({loadingState: "Logging in failed, attempt " + this.attempts + " of 3."})
                                     }, 1000)
                                 } else {
                                     console.log("Session error")

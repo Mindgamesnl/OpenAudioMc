@@ -20,7 +20,7 @@ import {VoiceModule} from "../aoldreference/modules/voice/VoiceModule";
 import {oalog} from "../aoldreference/helpers/log";
 import {DebugPanel, WhenDebugging} from "./debug";
 import {propertyValueCache, replaceGlobalText, replaceProperty, textElementCache} from "../aoldreference/helpers/domhelper";
-import {MessageModule} from "../aoldreference/modules/messages/MessageModule";
+import {MessageModule} from "./translations/MessageModule";
 import {SettingsManager} from "../aoldreference/modules/settings/SettingsManager";
 import {StreamerLink} from "../aoldreference/modules/streamerlink/StreamerLink";
 
