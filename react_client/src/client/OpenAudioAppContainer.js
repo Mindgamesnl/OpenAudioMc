@@ -1,15 +1,16 @@
 import {createContext} from "react";
 import React from "react";
 
-import {setGlobalState, store} from "../state/store";
+import {getGlobalState, setGlobalState, store} from "../state/store";
 import {connect} from "react-redux";
 import {ReportError} from "./util/ErrorReporter";
 import ClientTokenSet from "./login/ClientTokenSet";
 import {MessageModule} from "./translations/MessageModule";
 import {API_ENDPOINT} from "./config/ApiEndpoints";
 import {changeColor} from "./util/colors";
-import toast from "react-hot-toast";
 import {MediaManager} from "./services/media/MediaManager";
+import {SocketManager} from "./services/socket/SocketModule";
+import {toast} from "react-toastify";
 
 export const OAC = createContext({});
 let oldColors = ["#2c78f6", "#4F46E5"]
@@ -46,6 +47,7 @@ class OpenAudioAppContainer extends React.Component {
                         isLoading: false,
                         currentUser: null,
                     })
+                    fatalToast('Your current link has expired. Please run /audio again to get a new link.');
                     return
                 }
                 setGlobalState({
@@ -63,6 +65,7 @@ class OpenAudioAppContainer extends React.Component {
 
             // load server
             .then(async tokenSet => {
+                if (tokenSet == null) return;
                 let publicServerKey = tokenSet.publicServerKey;
 
                 // fetch server data
@@ -112,6 +115,10 @@ class OpenAudioAppContainer extends React.Component {
                     MediaManager.startSound = serverData.startSound
                 }
 
+                if (serverData.ambianceSound !== "") {
+                    await MediaManager.setupAmbianceSound(serverData.ambianceSound);
+                }
+
                 if (serverData.backgroundImage !== "") {
                     setBgImage(serverData.backgroundImage)
                 }
@@ -125,6 +132,12 @@ class OpenAudioAppContainer extends React.Component {
                     })
                     fatalToast("Server " + publicServerKey + " is offline! Please try a new link from /audio");
                     throw new Error("Server " + publicServerKey + " is offline");
+                } else {
+                    setGlobalState({
+                        relay: {
+                            endpoint: serverData.relayEndpoint,
+                        }
+                    });
                 }
 
             })
@@ -148,6 +161,7 @@ class OpenAudioAppContainer extends React.Component {
             if (!this.state.didUnlock) {
                 // initialize OpenAudio
                 MediaManager.postBoot();
+                SocketManager.connectToServer(getGlobalState().relay.endpoint);
             }
             setGlobalState({clickLock: false});
             this.setState({didUnlock: true});
@@ -178,7 +192,17 @@ function mapStateToProps(state) {
 }
 
 function fatalToast(message) {
-    toast.error(message);
+    console.log(message);
+    toast.error(message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+    });
 }
 
 export function getTranslation(context, message) {

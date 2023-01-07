@@ -10,6 +10,12 @@ const initialState = {
         'uuid': "2fb3a3e2-64ca-433d-8692-ff9d35bc6f92"
     },
 
+    relay: {
+        endpoint: null,
+        connected: false,
+        connecting: false,
+    },
+
     settings: {
         normalVolume: 35,
         voicechatVolume: 100,

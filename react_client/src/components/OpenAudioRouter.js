@@ -3,7 +3,8 @@ import LoadingView from "../views/loading/LoadingView";
 import {OAC} from "../client/OpenAudioAppContainer";
 import {LoginView} from "../views/login/LoginView";
 import {ClientView} from "../views/client/ClientView";
-import {Toaster} from "react-hot-toast";
+import 'react-toastify/dist/ReactToastify.css';
+import {ToastContainer} from "react-toastify";
 
 export class OpenAudioController extends React.Component {
     static contextType = OAC;
@@ -26,11 +27,8 @@ export class OpenAudioController extends React.Component {
 
         return (
             <div className={"h-full w-full"}>
-                <Toaster toastOptions={{duration: 15000, error: {
-                        style: {
-                            background: 'red',
-                        },
-                    }}}/>
+
+                <ToastContainer />
                 {currentView}
             </div>
         );

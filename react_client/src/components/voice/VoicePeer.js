@@ -43,7 +43,7 @@ export class VoicePeer extends React.Component {
             <li>
                 <div>
                     <img src={"https://visage.surgeplay.com/bust/512/" + uuid} alt={name}
-                         className={avatarClass} alt="Avatar"/>
+                         className={avatarClass} alt={"Avatar for " + name}/>
                 </div>
                 <div className="flex-1">
                     <div className="flex items-center">

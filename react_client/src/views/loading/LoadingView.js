@@ -6,11 +6,7 @@ import {connect} from "react-redux";
 
 class LoadingView extends React.Component {
 
-    static contextType = OAC;
-
-    constructor(props) {
-        super(props);
-    }
+    static contextType = OAC;ßß
 
     render() {
         return (

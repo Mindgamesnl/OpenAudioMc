@@ -48,7 +48,7 @@ class VoiceSettings extends React.Component {
                 <div className="content-card-collection items-stretch">
                     <div className="content-card small-card order-2 2xl:order-1">
                                <span>
-                                <img className={"avatar small-avatar" + (this.props.voiceState.isSpeaking ? " speaking" : "")}
+                                <img alt={"Speaking indictor"} className={"avatar small-avatar" + (this.props.voiceState.isSpeaking ? " speaking" : "")}
                                      src={"https://visage.surgeplay.com/bust/512/" + uuid}/>
                                    {getTranslation(c, "vc.statusTitle")}
                                </span>
