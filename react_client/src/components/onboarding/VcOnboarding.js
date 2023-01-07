@@ -1,9 +1,25 @@
 import React from "react";
 import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
+import {VoiceModule} from "../../client/services/voice/VoiceModule";
 
 export class VcOnboarding extends React.Component {
 
     static contextType = OAC;
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            clicked: false,
+        }
+
+        this.onClick = this.onClick.bind(this);
+    }
+
+    onClick() {
+        if (this.state.clicked) return;
+        this.setState({clicked: true});
+        VoiceModule.startVoiceChat();
+    }
 
     render() {
         let c = this.context;
@@ -30,7 +46,7 @@ export class VcOnboarding extends React.Component {
                             {getTranslation(c, "vc.onboarding")}
                         </div>
                         <div className="content-card-buttons w-full">
-                            <button className="content-pill status-button green w-full" id="vc-connect-button">
+                            <button onClick={this.onClick} className="content-pill status-button green w-full" id="vc-connect-button">
                                 {getTranslation(c, "vc.join")}
                             </button>
                         </div>

@@ -26,6 +26,8 @@ const initialState = {
         streamermodeEnabled: false,
         spatialRenderingMode: 'new',
         rolloffFactor: 0.5,
+
+        preferredMicId: null,
     },
 
     loadingOverlay: {
@@ -44,11 +46,13 @@ const initialState = {
 
     voiceState: {
         enabled: false,
+        ready: false,
         isSpeaking: false,
         serverHasModeration: false,
         streamServer: null,
         streamKey: null,
         radius: null,
+        mics: [], // cached list of microphones
     },
 
     // click lock
