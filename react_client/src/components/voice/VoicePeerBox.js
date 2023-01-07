@@ -1,6 +1,5 @@
 import React from "react";
 import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
-import {VoicePeer} from "./VoicePeer";
 
 export class VoicePeerBox extends React.Component {
     static contextType = OAC;

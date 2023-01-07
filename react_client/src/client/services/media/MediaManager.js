@@ -20,9 +20,10 @@ export const MediaManager = new class IMediaManager {
         });
 
         this.postBoot = this.postBoot.bind(this);
+        this.startVolumeMonitor();
     }
 
-    startVolumeMonitor(oaInstance) {
+    startVolumeMonitor() {
         let oldVolume = -1;
         setInterval(() => {
             let currentVolume = getGlobalState().settings.normalVolume;
@@ -40,10 +41,6 @@ export const MediaManager = new class IMediaManager {
         // dont do anything if its empty or whatever
         if (source === "" || source == null) return;
         await this.mixer.setupAmbianceSound(source);
-    }
-
-    startVolumeWatcher(oaInstance) {
-        this.startVolumeMonitor(oaInstance)
     }
 
     postBoot() {
