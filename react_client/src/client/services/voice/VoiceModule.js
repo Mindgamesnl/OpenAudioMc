@@ -5,6 +5,8 @@ import {getTranslation} from "../../OpenAudioAppContainer";
 import {WrappedUserMedia} from "./util/WrappedUserMedia";
 import {toast} from "react-toastify";
 import {MicrophoneProcessor} from "./processing/MicrophoneProcessor";
+import {SocketManager} from "../socket/SocketModule";
+import * as PluginChannel from "../../util/PluginChannel";
 
 var gainTrackers = {}
 
@@ -116,4 +118,15 @@ export const VoiceModule = new class IVoiceModule {
         })
     }
 
+    pushSocketEvent(event) {
+        if (this.peerManager != null) {
+            SocketManager.send(PluginChannel.RTC_READY, {"event": event});
+        }
+    }
+
 }()
+
+export const VoiceStatusChangeEvent = {
+    MIC_MUTE: "MICROPHONE_MUTED",
+    MIC_UNMTE: "MICROPHONE_UNMUTE",
+};
