@@ -5,14 +5,18 @@ import {setGlobalState, store} from "../state/store";
 import {connect} from "react-redux";
 import {ReportError} from "./util/ErrorReporter";
 import ClientTokenSet from "./login/ClientTokenSet";
+import {MessageModule} from "./translations/MessageModule";
 
 export const OAC = createContext({});
 
 class OpenAudioAppContainer extends React.Component {
     constructor(props) {
         super(props);
+
         this.handleGlobalClick = this.handleGlobalClick.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
+        this.messageModule = new MessageModule()
+
         this.state = {
             didUnlock: false,
             allowedToUnlock: false
@@ -20,36 +24,44 @@ class OpenAudioAppContainer extends React.Component {
     }
 
     componentDidMount() {
+        setGlobalState({loadingState: "Loading language files..."});
         let sessionLoader = new ClientTokenSet()
-        sessionLoader.initialize()
-            .then(tokenSet => {
-                if (tokenSet == null) {
-                    ReportError('A faulty login attempt was done at ' + window.location.host, 'Steve')
-                    setGlobalState({
-                        isLoading: false,
-                        currentUser: null,
-                    })
-                    return
-                }
 
-                // can we find a name? let's put it as a welcome text!
-                // makes the experience a bit more personal
-                if (tokenSet.name != null) {
-                    setGlobalState({
-                        currentUser: {
-                            userName: tokenSet.name,
-                            uuid: tokenSet.uuid,
-                            token: tokenSet.token,
-                            publicServerKey: tokenSet.publicServerKey,
-                            scope: tokenSet.scope
-                        }
-                    });
-
-                    // initialize OA here
-                    this.setState({allowedToUnlock: true});
-                }
+        this.messageModule.loadDefault()
+            .then(() => {
+                setGlobalState({loadingState: "Attempting login"});
             })
-            .catch(console.error)
+            .then(() => {
+                sessionLoader.initialize().then(tokenSet => {
+                    if (tokenSet == null) {
+                        ReportError('A faulty login attempt was done at ' + window.location.host, 'Steve')
+                        setGlobalState({
+                            isLoading: false,
+                            currentUser: null,
+                        })
+                        return
+                    }
+
+                    // can we find a name? let's put it as a welcome text!
+                    // makes the experience a bit more personal
+                    if (tokenSet.name != null) {
+                        setGlobalState({
+                            currentUser: {
+                                userName: tokenSet.name,
+                                uuid: tokenSet.uuid,
+                                token: tokenSet.token,
+                                publicServerKey: tokenSet.publicServerKey,
+                                scope: tokenSet.scope
+                            }
+                        });
+
+                        // initialize OA here
+                        this.setState({allowedToUnlock: true});
+                    }
+                })
+                    .catch(console.error);
+            })
+            .catch(console.error);
     }
 
     handleGlobalClick() {
@@ -76,6 +88,7 @@ class OpenAudioAppContainer extends React.Component {
 }
 
 export default connect(mapStateToProps)(OpenAudioAppContainer);
+
 function mapStateToProps(state) {
     return {
         currentUser: state.currentUser,

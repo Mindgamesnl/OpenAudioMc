@@ -2,6 +2,7 @@ import React from "react";
 import {TabPage, TabWindow} from "../../components/tabwindow/TabWindow";
 import {AudioPage} from "./pages/audio/AudioPage";
 import {VoicePage} from "./pages/voice/VoicePage";
+import ResetLanguageBanner from "../../components/language/ResetLanguageBanner";
 
 export class ClientView extends React.Component {
   render() {
@@ -14,6 +15,8 @@ export class ClientView extends React.Component {
                     <TabPage name="Contact" content={<div>Contact</div>}/>
                 </TabWindow>
             </div>
+
+            <ResetLanguageBanner />
         </div>
     );
   }
