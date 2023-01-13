@@ -42,7 +42,7 @@ export class TabWindow extends Component {
                         ))}
                     </div>
                     <div className="header-notice w-1/3 flex justify-end">
-                        <a className="menu-link-main soft-text" href="https://openaudiomc.net/">&copy; OpenAudioMc 2016-2022. All Rights Reserved.</a>
+                        <a className="menu-link-main soft-text" href="https://openaudiomc.net/">&copy; OpenAudioMc 2016-2023. All Rights Reserved.</a>
                     </div>
                 </div>
                 <div className="tab-content">
