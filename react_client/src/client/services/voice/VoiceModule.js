@@ -32,7 +32,7 @@ export const VoiceModule = new class IVoiceModule {
         this.peerManager = new PeerManager();
         this.peerMap = new Map();
         this.loadedDeviceList = false;
-        this.microphoneProcessor = null;
+        this.microphoneProcessing = null;
     }
 
     startVoiceChat() {
@@ -64,10 +64,11 @@ export const VoiceModule = new class IVoiceModule {
                 });
 
             // set the stream
-            this.microphoneProcessing = new MicrophoneProcessor(this, stream)
+            this.microphoneProcessing = new MicrophoneProcessor(stream)
 
             let startCallback = () => {
-
+                // remove the loading popup
+                setGlobalState({loadingOverlay: {visible: false}});
             }
 
             this.peerManager.connectRtc(startCallback, stream);
@@ -102,6 +103,7 @@ export const VoiceModule = new class IVoiceModule {
             }
         })
         toast.error("Voice chat has crashed, please reload the page to try again. Feel free to contact support if this keeps happening, as you might have a permission issue.", {autoClose: false});
+        console.error(new Error("niet cool"))
     }
 
     isReady() {

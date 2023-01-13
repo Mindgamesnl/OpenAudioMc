@@ -42,7 +42,7 @@ export class PeerManager {
         let endpoint = globalState.voiceState.streamServer + "webrtc/confluence/sdp" +
             "/m/" + currentUser.publicServerKey +
             "/pu/" + currentUser.uuid +
-            "/pn/" + currentUser.name +
+            "/pn/" + currentUser.userName +
             "/sk/" + globalState.voiceState.streamKey;
 
         this.peerConnection = new RTCPeerConnection();
@@ -58,6 +58,7 @@ export class PeerManager {
         }
         this.peerConnection.oniceconnectionstatechange = kickoff
         this.peerConnection.addEventListener('connectionstatechange', kickoff);
+        this.peerConnection.onnegotiationneeded = console.log
 
         this.dataChannel = this.peerConnection.createDataChannel("eb");
         this.registerDataChannel(this.dataChannel, onConfirm);
@@ -71,16 +72,22 @@ export class PeerManager {
 
         // walk through rtc negotiation
         this.peerConnection.createOffer()
-            .then(d => this.peerConnection.setLocalDescription(d))
-            .then(() => fetch(endpoint, {
-                method: "POST",
-                body: JSON.stringify({"sdp": btoa(JSON.stringify(this.peerConnection.localDescription))})
-            }))
+            .then(async (d) => {
+                return await this.peerConnection.setLocalDescription(d)
+            })
+            .then(() => {
+                return fetch(endpoint, {
+                    method: "POST",
+                    body: JSON.stringify({"sdp": btoa(JSON.stringify(this.peerConnection.localDescription))})
+                })
+            })
             .then(response => {
                 if (response.status !== 200) {
                     // server denied our negotiation/local description
+                    console.error("Server denied our negotiation/local description " + response.status)
                     VoiceModule.panic();
                 }
+                return response;
             })
             .then((response) => response.json())
             .then(jr => this.peerConnection.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(jr.Sdp)))))

@@ -8,9 +8,8 @@ import {RtcPacket} from "../peers/protocol";
 
 export class MicrophoneProcessor {
 
-    constructor(voiceModule, stream) {
+    constructor(stream) {
         this.stream = stream;
-        this.voiceModule = voiceModule;
         this.startedTalking = null;
         this.shortTriggers = 0;
         this.isStreaming = false;
@@ -32,7 +31,7 @@ export class MicrophoneProcessor {
         this.enableMonitoringCheckbox = () => {};
 
         store.subscribe(() => {
-            let {settings, voiceState} = store.getState();
+            let {settings} = store.getState();
             if (settings.voicechatMonitoringEnabled !== lastMonitoringState) {
                 lastMonitoringState = settings.voicechatMonitoringEnabled;
                 this.enableMonitoringCheckbox(lastMonitoringState);
@@ -80,7 +79,7 @@ export class MicrophoneProcessor {
     updateSensitivity(toPositive) {
         let target = -Math.abs(toPositive)
         this.harkEvents.setThreshold(target)
-        this.currentThreshold = this.harkEvents.getThreshold();
+        this.currentThreshold = this.harkEvents.threshold;
     }
 
     decreaseSensitivity() {
@@ -161,7 +160,7 @@ export class MicrophoneProcessor {
             presetVolume = parseInt(presetVolume)
             this.harkEvents.setThreshold(presetVolume)
         }
-        this.currentThreshold = this.harkEvents.getThreshold();
+        this.currentThreshold = this.harkEvents.threshold;
         this.isSpeaking = false;
         this.harkEvents.setInterval(5)
     }
@@ -214,8 +213,7 @@ export class MicrophoneProcessor {
         this.monitoringAudio.srcObject = this.output.stream;
         this.monitoringGainnode = ctx.createGain();
 
-        this.enableMonitoringCheckbox
-            .onChange((allow) => {
+        this.enableMonitoringCheckbox((allow) => {
                 if (allow) {
                     this.monitoringAudio.muted = false;
                 } else {
