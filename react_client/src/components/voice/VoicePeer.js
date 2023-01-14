@@ -17,7 +17,6 @@ export class VoicePeer extends React.Component {
     static propTypes = {
         name: PropTypes.string,
         uuid: PropTypes.string,
-        volume: PropTypes.number,
         muted: PropTypes.bool,
         speaking: PropTypes.bool
     }
@@ -27,7 +26,8 @@ export class VoicePeer extends React.Component {
     }
 
     onVolumeInput(e) {
-        this.setState({volume: e.target.value});
+        this.setState({volume: e.target.value})
+        // todo: send notification to voice module
     }
 
     render() {
@@ -42,8 +42,7 @@ export class VoicePeer extends React.Component {
         return (
             <li>
                 <div>
-                    <img src={"https://visage.surgeplay.com/bust/512/" + uuid} alt={name}
-                         className={avatarClass} alt={"Avatar for " + name}/>
+                    <img src={"https://visage.surgeplay.com/bust/512/" + uuid} className={avatarClass} alt={"Avatar for " + name}/>
                 </div>
                 <div className="flex-1">
                     <div className="flex items-center">

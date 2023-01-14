@@ -157,7 +157,8 @@ function applyPannerProperties(pannerNode, maxDistance) {
     }
 }
 
-export function applyPannerSettings(pannerNode, maxDistance) {
+export function applyPannerSettings(pannerNode) {
+    let maxDistance = getGlobalState().voiceState.radius
     applyPannerProperties(pannerNode, maxDistance)
     let id = makeid(5);
     pannerTrackers[id] = pannerNode
