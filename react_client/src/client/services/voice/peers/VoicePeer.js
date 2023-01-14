@@ -75,7 +75,7 @@ export class VoicePeer {
     }
 }
 
-function getVolumeForPeer(uuid) {
+export function getVolumeForPeer(uuid) {
     // default to 100, use cookies next time
     let vol = Cookies.get('voice-volume-' + uuid);
     if (vol === null || vol === undefined) {
