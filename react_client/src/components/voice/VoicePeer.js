@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import "./voicecard.css"
 import {VoiceModule} from "../../client/services/voice/VoiceModule";
 import Cookies from "js-cookie";
+import {getVolumeForPeer} from "../../client/services/voice/peers/VoicePeer";
 
 export class VoicePeer extends React.Component {
 
@@ -10,7 +11,7 @@ export class VoicePeer extends React.Component {
         super(props);
 
         this.state = {
-            volume: 100,
+            volume: getVolumeForPeer(this.props.uuid)
         }
 
         this.onVolumeInput = this.onVolumeInput.bind(this);
