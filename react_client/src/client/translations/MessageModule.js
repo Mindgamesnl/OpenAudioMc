@@ -1,5 +1,6 @@
 import {API_ENDPOINT} from "../config/ApiEndpoints";
 import {setGlobalState, store} from "../../state/store";
+import Cookies from "js-cookie";
 
 export class MessageModule {
 
@@ -46,6 +47,11 @@ export class MessageModule {
         if (this.currentLangFile === "en.lang") {
             setGlobalState({translationBanner: null})
             return
+        }
+
+        // is this language the preferred language? keep it!
+        if (this.currentLangFile === Cookies.get('lang')) {
+            return;
         }
 
         let reset = function () {
@@ -95,6 +101,10 @@ export class MessageModule {
 
     async load(file) {
         if (this.currentLangFile === file) return
+        // is this language the preferred language? keep it!
+        if (this.currentLangFile === Cookies.get('lang')) {
+            return;
+        }
         let lines = []
 
         // fetch
@@ -134,6 +144,7 @@ export class MessageModule {
         }
 
         this.currentLangFile = file;
+        setGlobalState({langFile: file})
         this.updateBanner()
     }
 }

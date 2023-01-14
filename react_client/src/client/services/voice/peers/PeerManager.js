@@ -2,8 +2,6 @@ import {getGlobalState, setGlobalState, store} from "../../../../state/store";
 import {VoiceModule, VoiceStatusChangeEvent} from "../VoiceModule";
 import {RtcPacket} from "./protocol";
 import {playInternalEffect} from "../../media/util";
-import {SocketManager} from "../../socket/SocketModule";
-import * as PluginChannel from "../../../util/PluginChannel";
 import {PromisedChannel} from "../data/PromisedChannel";
 
 export class PeerManager {
