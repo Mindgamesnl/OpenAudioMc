@@ -20,6 +20,12 @@ function updateVoiceGain(gainNode) {
     gainNode.gain.value = getGlobalState().settings.voicechatVolume / 100;
 }
 
+export function reRenderAllGainNodes() {
+    Object.values(gainTrackers).forEach(gainNode => {
+        updateVoiceGain(gainNode);
+    });
+}
+
 export function trackVoiceGainNode(gainNode) {
     updateVoiceGain(gainNode)
     let id = makeid(5);
@@ -95,6 +101,8 @@ export const VoiceModule = new class IVoiceModule {
                     loadingOverlay: {visible: false},
                     voiceState: {ready: true}
                 });
+
+                SocketManager.send(PluginChannel.RTC_READY, {"enabled": true});
             }
 
             this.peerManager.connectRtc(startCallback, stream);

@@ -1,4 +1,4 @@
-import {setGlobalState} from "../../../../state/store";
+import {getGlobalState, setGlobalState} from "../../../../state/store";
 import {Interpolator, MAGIC_SCHEDULE_VALUES} from "../../../util/math/Interpolator";
 import {PeerStream} from "./PeerStream";
 import {Vector3} from "../../../util/math/Vector3";
@@ -12,7 +12,7 @@ export class VoicePeer {
         setGlobalState({
             voiceState: {
                 peers: {
-                    [peerUuid]: {
+                    [peerStreamKey]: {
                         name: peerName,
                         uuid: peerUuid,
                         streamKey: peerStreamKey,
@@ -46,7 +46,7 @@ export class VoicePeer {
                 }
 
                 // remove loading state
-                setGlobalState({voiceState: {peers: {[this.peerUuid]: {loading: false}}}});
+                setGlobalState({voiceState: {peers: {[this.peerStreamKey]: {loading: false}}}});
             }
         })
     }
@@ -60,18 +60,18 @@ export class VoicePeer {
 
     stop() {
         this.killed = true;
+        if (this.stream !== null) {
+            this.stream.stop();
+        }
 
         // drop the stream
         VoiceModule.peerManager.dropStream(this.peerStreamKey);
 
         // remove myself from the global state
-        setGlobalState({voiceState: {peers: {[this.peerUuid]: undefined}}});
-
-        if (this.stream) {
-            this.stream.stop();
-        }
+        let globalPeers = getGlobalState().voiceState.peers;
+        delete globalPeers[this.peerStreamKey];
+        setGlobalState({voiceState: {peers: globalPeers}});
     }
-
 }
 
 function getVolumeForPeer(uuid) {

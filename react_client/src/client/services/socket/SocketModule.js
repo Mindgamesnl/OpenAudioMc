@@ -41,7 +41,8 @@ export const SocketManager = new class ISocketManager {
             setGlobalState({relay: {connected: true, connecting: false}});
             this.outgoingQueue.forEach((waiting) => {
                 this.send(waiting.key, waiting.value);
-            });
+            })
+            this.hasConnected = true;
         });
 
         this.socket.on("time-update", (time) => {
@@ -84,13 +85,14 @@ export const SocketManager = new class ISocketManager {
         this.outCount++;
         if (this.hasConnected) {
             if (this.callbacksEnabled) {
-                console.error("Submitting value for " + event);
+                console.log("Submitting value for " + event);
                 this.socket.emit(event, data);
             } else {
                 console.error("could not satisfy callback " + event + " because the protocol is outdated");
                 return
             }
         } else {
+            console.log("Queueing value for " + event);
             this.outgoingQueue.push({
                 key: event,
                 value: data

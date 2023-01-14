@@ -1,10 +1,10 @@
 import {trackVoiceGainNode, untrackVoiceGainNode, VoiceModule} from "../VoiceModule";
 import {WorldModule} from "../../world/WorldModule";
-import Hark from "hark";
 import {getGlobalState, setGlobalState} from "../../../../state/store";
 import {applyPannerSettings, untrackPanner} from "../../../../views/client/pages/settings/SettingsPage";
 import {Position} from "../../../util/math/Position";
 import {Vector3} from "../../../util/math/Vector3";
+import {Hark} from "../../../util/hark";
 
 export class PeerStream {
 
@@ -21,6 +21,8 @@ export class PeerStream {
         this.x = 0;
         this.y = 0;
         this.z = 0;
+
+        this.masterOutputNode = null;
     }
 
     // callback has a boolean attached to it, true if the stream loaded, or false if it got rejected
@@ -34,8 +36,8 @@ export class PeerStream {
         streamRequest.onFinish(stream => {
             // player context
             const ctx = WorldModule.player.audioCtx;
-            this.setVolume(this.volume);
             this.gainNode = ctx.createGain();
+            this.setVolume(this.volume);
             this.audio = new Audio();
             this.audio.autoplay = true;
             this.audio.srcObject = stream;
@@ -62,7 +64,8 @@ export class PeerStream {
                 this.pannerNode = ctx.createPanner();
                 this.pannerId = applyPannerSettings(this.pannerNode);
                 this.setLocation(this.x, this.y, this.z, true);
-                source.connect(this.pannerNode);
+                source.connect(this.gainNode);
+                this.gainNode.connect(this.pannerNode);
                 outputNode = this.pannerNode;
             } else {
                 // just do gain
@@ -74,7 +77,11 @@ export class PeerStream {
             outputNode.connect(globalVolumeGainNode);
 
             this.globalVolumeNodeId = trackVoiceGainNode(globalVolumeGainNode);
+
+            this.masterOutputNode = globalVolumeGainNode;
+
             globalVolumeGainNode.connect(ctx.destination);
+            console.log("Destination has ? channels", ctx.destination.numberOfInputs);
 
             // start stream
             this.audio.play()
@@ -119,6 +126,12 @@ export class PeerStream {
         if (this.pannerId !== null) {
             untrackPanner(this.pannerId);
             untrackVoiceGainNode(this.globalVolumeNodeId);
+        }
+
+        if (this.masterOutputNode !== null) {
+            const ctx = WorldModule.player.audioCtx;
+            console.log("Disconnecting master output node");
+            this.masterOutputNode.disconnect(ctx.destination);
         }
 
         if (this.audio !== null) {

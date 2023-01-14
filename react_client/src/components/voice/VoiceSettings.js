@@ -3,6 +3,7 @@ import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
 import AdvancedVoiceSettings from "./AdvancedVoiceSettings";
 import {setGlobalState, store} from "../../state/store";
 import {connect} from "react-redux";
+import {reRenderAllGainNodes} from "../../client/services/voice/VoiceModule";
 
 class VoiceSettings extends React.Component {
     static contextType = OAC;
@@ -21,6 +22,7 @@ class VoiceSettings extends React.Component {
 
     onVolumeChange(e) {
         setGlobalState({settings: {voicechatVolume: e.target.value}});
+        reRenderAllGainNodes();
     }
 
     toggleAdvancedSettings() {

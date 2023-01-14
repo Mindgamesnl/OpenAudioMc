@@ -3,8 +3,8 @@ import {AudioCableMiddleware} from "./AudioCableMiddleware";
 import {getGlobalState, setGlobalState, store} from "../../../../state/store";
 import {WorldModule} from "../../world/WorldModule";
 import {VoiceModule} from "../VoiceModule";
-import Hark from "hark";
 import {RtcPacket} from "../peers/protocol";
+import {Hark} from "../../../util/hark";
 
 export class MicrophoneProcessor {
 
@@ -15,7 +15,7 @@ export class MicrophoneProcessor {
         this.isStreaming = false;
         this.isMuted = false;
 
-        this.harkEvents = Hark(this.stream)
+        this.harkEvents = new Hark(this.stream)
         this.gainController = new GainController(stream);
         this.gainController.on();
 
@@ -26,9 +26,10 @@ export class MicrophoneProcessor {
         this.inputStreamSource = stream;
 
         let lastMonitoringState = false;
-        let lastAutoAdjustmentsState = false;
+        this.lastAutoAdjustmentsState = false;
         let lastStateMuted = false;
         this.enableMonitoringCheckbox = () => {
+            throw new Error("Not implemented")
         };
 
         console.log("Microphone processor created")
@@ -38,13 +39,13 @@ export class MicrophoneProcessor {
             if (settings.voicechatMonitoringEnabled !== lastMonitoringState) {
                 lastMonitoringState = settings.voicechatMonitoringEnabled;
                 this.enableMonitoringCheckbox(lastMonitoringState);
-                console.log("Monitoring state changed", lastMonitoringState)
+                console.log("Monitoring state changed", lastMonitoringState, this.enableMonitoringCheckbox)
             }
 
-            if (settings.microphoneSensitivity !== lastAutoAdjustmentsState) {
-                lastAutoAdjustmentsState = settings.microphoneSensitivity;
-                this.updateSensitivity(lastAutoAdjustmentsState);
-                console.log("Auto adjustments state changed", lastAutoAdjustmentsState)
+            if (settings.microphoneSensitivity !== this.lastAutoAdjustmentsState) {
+                this.lastAutoAdjustmentsState = settings.microphoneSensitivity;
+                this.updateSensitivity(this.lastAutoAdjustmentsState);
+                console.log("Auto adjustments state changed", this.lastAutoAdjustmentsState)
             }
 
             if (settings.voicechatMuted !== lastStateMuted) {
@@ -87,7 +88,12 @@ export class MicrophoneProcessor {
         let target = -Math.abs(toPositive)
         console.log("Updating sensitivity to", target)
         this.harkEvents.setThreshold(target)
-        this.currentThreshold = this.harkEvents.threshold;
+        this.currentThreshold = this.harkEvents.getThreshold();
+
+        // update global state, but first update self to prevent infinite loop
+        this.lastAutoAdjustmentsState = toPositive;
+        setGlobalState({settings: {microphoneSensitivity: toPositive}})
+
     }
 
     decreaseSensitivity() {
@@ -127,7 +133,6 @@ export class MicrophoneProcessor {
     }
 
     shouldStream(state) {
-        console.log("Should stream?", state)
         if (state) {
             // create start rtc notification
             if (!this.isStreaming) {
@@ -169,14 +174,13 @@ export class MicrophoneProcessor {
             console.log("Preset volume", presetVolume)
             this.harkEvents.setThreshold(presetVolume)
         }
-        this.currentThreshold = this.harkEvents.threshold;
+        this.currentThreshold = this.harkEvents.getThreshold();
         this.isSpeaking = false;
         this.harkEvents.setInterval(5)
     }
 
     hookListeners() {
         this.harkEvents.on('speaking', () => {
-            console.log("Speaking")
             this.isSpeaking = true;
             this.startedTalking = new Date().getTime();
             this.setMonitoringVolume(this.monitoringVolume)
@@ -186,7 +190,6 @@ export class MicrophoneProcessor {
         });
 
         this.harkEvents.on('stopped_speaking', () => {
-            console.log("Stopped speaking")
             this.isSpeaking = false;
 
             // set talking UI
@@ -216,6 +219,7 @@ export class MicrophoneProcessor {
     }
 
     setupTrackProcessing(stream) {
+        console.log("Setting up track processing", stream)
         const ctx = WorldModule.player.audioCtx;
         this.monitoringAudio = new Audio();
         this.monitoringAudio.muted = true;
@@ -241,6 +245,12 @@ export class MicrophoneProcessor {
         let shiftMiddleware = new AudioCableMiddleware()
         shiftMiddleware.link(ctx, src, this.output)
         this.monitoringAudio.play()
+            .then(() => {
+                console.log("Playing monitoring audio")
+            })
+            .catch((e) => {
+                console.log("Error playing monitoring audio", e)
+            });
 
     }
 
