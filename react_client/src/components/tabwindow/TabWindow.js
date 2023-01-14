@@ -14,10 +14,14 @@ export class TabWindow extends Component {
     render() {
         let c = this.context;
 
-        const pages = React.Children.map(this.props.children, child => ({
+        let pages = React.Children.map(this.props.children, child => ({
             name: child.props.name,
-            content: child.props.content
+            content: child.props.content,
+            hidden: child.props.hidden
         }));
+
+        // remove hidden pages
+        pages = pages.filter(page => !page.hidden);
 
         let pill = <span className="small-pill free">Free</span>;
         if (c.isPremium) pill = <span className="small-pill premium">Premium</span>;

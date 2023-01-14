@@ -17,7 +17,7 @@ class ClientView extends React.Component {
                 <div className="wrapper">
                     <TabWindow>
                         <TabPage name="Audio" content={<AudioPage/>}/>
-                        <TabPage name="VoiceChat" content={<VoicePage/>}/>
+                        <TabPage hidden={!this.props.voiceState.ready} name="VoiceChat" content={<VoicePage/>}/>
                         <TabPage name="Settings" content={<SettingsPage/>}/>
                     </TabWindow>
                 </div>
@@ -39,6 +39,7 @@ export default connect(mapStateToProps)(ClientView);
 
 function mapStateToProps(state) {
     return {
-        loadingOverlay: state.loadingOverlay
+        loadingOverlay: state.loadingOverlay,
+        voiceState: state.voiceState
     };
 }
