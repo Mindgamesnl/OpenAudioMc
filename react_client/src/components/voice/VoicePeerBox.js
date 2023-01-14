@@ -1,7 +1,7 @@
 import React from "react";
 import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
 import {connect} from "react-redux";
-import {VoicePeer} from "./VoicePeer";
+import {VoicePeerRow} from "./VoicePeerRow";
 
 class VoicePeerBox extends React.Component {
     static contextType = OAC;
@@ -10,7 +10,7 @@ class VoicePeerBox extends React.Component {
         let c = this.context;
 
         let peers = Object.values(this.props.voicePeers).map((peer) => {
-            return <VoicePeer name={peer.name} key={peer.uuid} streamKey={peer.streamKey} uuid={peer.uuid} speaking={peer.speaking} muted={peer.muted}/>
+            return <VoicePeerRow name={peer.name} key={peer.uuid} streamKey={peer.streamKey} uuid={peer.uuid} speaking={peer.speaking} muted={peer.muted}/>
         });
 
         // split array in two

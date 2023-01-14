@@ -19,13 +19,15 @@ export class TabWindow extends Component {
             content: child.props.content
         }));
 
+        let pill = <span className="small-pill free">Free</span>;
+        if (c.isPremium) pill = <span className="small-pill premium">Premium</span>;
+
         return (
             <div className="main-container tabbed">
                 <div className="main-header flex justify-start">
                     <span className="theme-color-text p-10 w-1/3">
                         { getTranslation(c, "serverName")}
-                        <span className="small-pill free">Free</span>
-                        <span className="small-pill premium">Premium</span>
+                        {pill}
                     </span>
 
                     <div className="header-menu w-1/3 center flex justify-center">

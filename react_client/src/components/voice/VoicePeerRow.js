@@ -5,7 +5,7 @@ import {VoiceModule} from "../../client/services/voice/VoiceModule";
 import Cookies from "js-cookie";
 import {getVolumeForPeer} from "../../client/services/voice/peers/VoicePeer";
 
-export class VoicePeer extends React.Component {
+export class VoicePeerRow extends React.Component {
 
     constructor(props) {
         super(props);
@@ -27,8 +27,6 @@ export class VoicePeer extends React.Component {
 
     onVolumeInput(e) {
         this.setState({volume: e.target.value})
-        // todo: send notification to voice module
-
         // attempt to find the peer
         let peer = VoiceModule.peerMap.get(this.props.streamKey);
         if (peer) {

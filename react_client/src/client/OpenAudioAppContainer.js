@@ -97,7 +97,6 @@ class OpenAudioAppContainer extends React.Component {
                     await this.messageModule.handleCountry(serverData.countryCode)
                 } else {
                     setGlobalState({
-                        currentServer: serverData,
                         // overwrite some messages
                         lang: {
                             "home.welcome": serverData.welcomeMessage,
@@ -106,7 +105,10 @@ class OpenAudioAppContainer extends React.Component {
                         }
                     });
                 }
-                setGlobalState({lang: {"serverName": serverData.displayName}});
+                setGlobalState({
+                    lang: {"serverName": serverData.displayName},
+                    isPremium: serverData.isPatreon || serverData.voicechatSlots > 10,
+                });
 
                 setBgColor(serverData.color)
                 document.title = serverData.title;
@@ -245,7 +247,7 @@ function setBgImage(bg) {
     //         document.getElementById("video-element").play()
     //     }, 300);
     // } else {
-        // use bg image
-        document.documentElement.style.setProperty('--background-image', `url("`+bg+`")`);
+    // use bg image
+    document.documentElement.style.setProperty('--background-image', `url("` + bg + `")`);
     //}
 }
