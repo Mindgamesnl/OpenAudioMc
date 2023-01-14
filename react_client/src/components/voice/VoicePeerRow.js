@@ -38,7 +38,7 @@ export class VoicePeerRow extends React.Component {
 
     render() {
         // get props
-        const {name, volume, muted, speaking, uuid} = this.props;
+        const {name, muted, speaking, uuid} = this.props;
 
         let avatarClass = "avatar mid-avatar";
         if (speaking) {

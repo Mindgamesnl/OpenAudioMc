@@ -74,6 +74,7 @@ const initialState = {
 
 
     translationBanner: null, // null or {detectedAs: 'en', toEn: 'to en', keep: 'keep', reset: function() {}}
+    langFile: null, // current lang file
     lang: {} // gets loaded from the lang file, changes cause a full UI re-render
 };
 

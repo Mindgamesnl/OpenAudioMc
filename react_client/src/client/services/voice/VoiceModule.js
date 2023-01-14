@@ -229,7 +229,7 @@ export const VoiceModule = new class IVoiceModule {
     }
 
     removeAllPeers() {
-        for (let [key, value] of this.peerMap) {
+        for (let [key] of this.peerMap) {
             this.removePeer(key);
         }
     }
