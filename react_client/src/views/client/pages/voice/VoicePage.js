@@ -2,7 +2,7 @@ import {OAC} from "../../../../client/OpenAudioAppContainer";
 import React from "react";
 import {ModerationWarning} from "../../../../components/voice/ModerationWarning";
 import VoiceSettings from "../../../../components/voice/VoiceSettings";
-import {VoicePeerBox} from "../../../../components/voice/VoicePeerBox";
+import VoicePeerBox from "../../../../components/voice/VoicePeerBox";
 import {store} from "../../../../state/store";
 
 export class VoicePage extends React.Component {

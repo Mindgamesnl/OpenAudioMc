@@ -51,9 +51,9 @@ const initialState = {
         serverHasModeration: false,
         streamServer: null,
         streamKey: null,
-        radius: null,
+        radius: 25,
         mics: [], // cached list of microphones
-        peers: [], // list of peers, {name, uuid, volume, isSpeaking, isMuted}
+        peers: {}, // set of peers, mapped by stream key, {name, uuid, speaking, muted, loading}
     },
 
     build: {

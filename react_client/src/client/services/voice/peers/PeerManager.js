@@ -223,6 +223,7 @@ export class PeerManager {
         let type = eventPacket.getParam("type")
 
         // check if we have the required peer
+        // mapped by stream key
         let peer = getGlobalState().voiceState.peers[eventPacket.getParam("who")];
 
         if (peer == null) {
