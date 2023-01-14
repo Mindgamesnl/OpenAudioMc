@@ -11,6 +11,8 @@ import {HandleVoiceDrop} from "./handlers/voice/HandleVoiceDrop";
 import {HandleVoicePeerMovement} from "./handlers/voice/HandleVoicePeerMovement";
 import {HandleMicToggleRequest} from "./handlers/voice/HandleMicToggleRequest";
 import {HandleVoiceBlur} from "./handlers/voice/HandleVoiceBlur";
+import {handleSpeakerCreate} from "./handlers/speakers/HandleSpeakerCreate";
+import {HandleSpeakerDestroy} from "./handlers/speakers/HandleSpeakerDestroy";
 
 export class HandlerRegistry {
 
@@ -29,6 +31,10 @@ export class HandlerRegistry {
         registerClassHandler("ClientCreateMediaPayload", handleCreateMedia);
         registerClassHandler("ClientDestroyMediaPayload", handleDestroyMedia);
         registerClassHandler("ClientVolumePayload", handleClientVolume);
+
+        // speaker
+        registerClassHandler("ClientSpeakerCreatePayload", handleSpeakerCreate);
+        registerClassHandler("ClientSpeakerDestroyPayload", HandleSpeakerDestroy);
 
         // voice
         registerClassHandler("ClientVoiceChatUnlockPayload", HandleVoiceUnlock)
