@@ -149,7 +149,7 @@ export class Sound extends AudioSourceProcessor {
                 if (this.loop) {
                     this.soundElement.src = await this.translate(this.rawSource);
                     this.setTime(0);
-                    this.soundElement.play();
+                    this.soundElement.play().catch(console.error);
                 } else {
                     this.mixer.removeChannel(this.channel);
                     if (!this.soundElement.paused) this.soundElement.pause();
