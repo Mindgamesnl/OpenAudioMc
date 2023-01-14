@@ -1,6 +1,7 @@
 import React from "react";
 import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
 import {VoiceModule} from "../../client/services/voice/VoiceModule";
+import {getGlobalState} from "../../state/store";
 
 export class VcOnboarding extends React.Component {
 
@@ -43,7 +44,7 @@ export class VcOnboarding extends React.Component {
                         </svg>
                         {getTranslation(c, "vc.title")}
                         <div className="content-card-content content-card-content-border-bottom">
-                            {getTranslation(c, "vc.onboarding")}
+                            {getTranslation(c, "vc.onboarding").replace("%range", getGlobalState().voiceState.radius)}
                         </div>
                         <div className="content-card-buttons w-full">
                             <button onClick={this.onClick} className="content-pill status-button green w-full" id="vc-connect-button">

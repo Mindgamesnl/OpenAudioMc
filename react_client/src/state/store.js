@@ -10,6 +10,8 @@ const initialState = {
         connecting: false,
     },
 
+    isPremium: false,
+
     settings: {
         prefetchMedia: true,
         normalVolume: 35,
