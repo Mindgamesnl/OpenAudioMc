@@ -164,6 +164,12 @@ class OpenAudioAppContainer extends React.Component {
                     });
                 }
 
+                // destroy our token, if we're in streamer mode
+                if (getGlobalState().settings.streamermodeEnabled) {
+                    //eslint-disable-next-line
+                    handleStreamerMode();
+                }
+
             })
 
             // finished! show home page :)
@@ -272,4 +278,17 @@ function setBgImage(bg) {
     // use bg image
     document.documentElement.style.setProperty('--background-image', `url("` + bg + `")`);
     //}
+}
+
+export async function handleStreamerMode() {
+    let r = await fetch(API_ENDPOINT.STREAMER_MODE + window.location.hash.replace("#", ""));
+    let b = await r.json();
+    if (b.error == null) {
+        // ok
+        let msg = b.ok;
+        toast("Streamer mode: " + msg);
+    } else {
+        // fuckup
+        fatalToast("Streamer mode: " + b.error);
+    }
 }
