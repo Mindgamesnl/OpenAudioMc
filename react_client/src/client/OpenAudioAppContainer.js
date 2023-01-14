@@ -11,6 +11,7 @@ import {changeColor} from "./util/colors";
 import {MediaManager} from "./services/media/MediaManager";
 import {SocketManager} from "./services/socket/SocketModule";
 import {toast} from "react-toastify";
+import Cookies from "js-cookie";
 
 export const OAC = createContext({});
 let oldColors = ["#2c78f6", "#4F46E5"]
@@ -26,6 +27,27 @@ class OpenAudioAppContainer extends React.Component {
         this.state = {
             didUnlock: false,
             allowedToUnlock: false
+        }
+    }
+
+    componentWillMount() {
+        // check settings from cookies
+        let settings = getGlobalState().settings;
+        // loop over all object keys
+        for (let key in settings) {
+            // get cookie value
+            let cookieValue = Cookies.get("setting_" + key);
+            if (cookieValue == null) continue;
+            let parsed = cookieValue;
+            if (typeof settings[key] === "number") {
+                parsed = parseFloat(cookieValue);
+            }
+
+            setGlobalState({
+                settings: {
+                    [key]: parsed
+                }
+            })
         }
     }
 
