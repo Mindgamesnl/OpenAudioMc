@@ -1,7 +1,7 @@
 import React from "react";
 import {CheckboxSetting} from "../../../../components/settings/CheckboxSetting";
 import {DropdownSetting} from "../../../../components/settings/DropdownSetting";
-import {getTranslation} from "../../../../client/OpenAudioAppContainer";
+import {getTranslation, handleStreamerMode} from "../../../../client/OpenAudioAppContainer";
 import {getGlobalState, setGlobalState} from "../../../../state/store";
 import {connect} from "react-redux";
 import {makeid} from "../../../../client/util/random";
@@ -41,6 +41,11 @@ class SettingsPage extends React.Component {
 
     render() {
         let c = null;
+
+        if (this.props.settings.streamermodeEnabled) {
+            handleStreamerMode();
+        }
+
         return (
             <div className="content-section">
                 <div className="content-section-title">Settings</div>
