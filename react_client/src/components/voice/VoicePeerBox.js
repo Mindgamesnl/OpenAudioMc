@@ -10,7 +10,7 @@ class VoicePeerBox extends React.Component {
         let c = this.context;
 
         let peers = Object.values(this.props.voicePeers).map((peer) => {
-            return <VoicePeer name={peer.name} key={peer.uuid} uuid={peer.uuid} speaking={peer.speaking} muted={peer.muted}/>
+            return <VoicePeer name={peer.name} key={peer.uuid} streamKey={peer.streamKey} uuid={peer.uuid} speaking={peer.speaking} muted={peer.muted}/>
         });
 
         // split array in two

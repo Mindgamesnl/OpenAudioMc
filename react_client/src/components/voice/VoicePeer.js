@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import "./voicecard.css"
+import {VoiceModule} from "../../client/services/voice/VoiceModule";
+import Cookies from "js-cookie";
 
 export class VoicePeer extends React.Component {
 
@@ -15,6 +17,7 @@ export class VoicePeer extends React.Component {
     }
 
     static propTypes = {
+        streamKey: PropTypes.string.isRequired,
         name: PropTypes.string,
         uuid: PropTypes.string,
         muted: PropTypes.bool,
@@ -24,6 +27,14 @@ export class VoicePeer extends React.Component {
     onVolumeInput(e) {
         this.setState({volume: e.target.value})
         // todo: send notification to voice module
+
+        // attempt to find the peer
+        let peer = VoiceModule.peerMap.get(this.props.streamKey);
+        if (peer) {
+            peer.stream.setVolume(e.target.value);
+            // save to cookie
+            Cookies.set('voice-volume-' + this.props.uuid, e.target.value, {expires: 365});
+        }
     }
 
     render() {
