@@ -3,6 +3,7 @@ import {Interpolator, MAGIC_SCHEDULE_VALUES} from "../../../util/math/Interpolat
 import {PeerStream} from "./PeerStream";
 import {Vector3} from "../../../util/math/Vector3";
 import {VoiceModule} from "../VoiceModule";
+import Cookies from 'js-cookie'
 
 export class VoicePeer {
 
@@ -76,5 +77,9 @@ export class VoicePeer {
 
 function getVolumeForPeer(uuid) {
     // default to 100, use cookies next time
-    return 100;
+    let vol = Cookies.get('voice-volume-' + uuid);
+    if (vol === null || vol === undefined) {
+        return 100;
+    }
+    return parseInt(vol);
 }

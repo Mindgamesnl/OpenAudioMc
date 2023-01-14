@@ -230,8 +230,6 @@ export class PeerManager {
             return
         }
 
-        console.log("Handling context event " + type + " from " + peer)
-
         switch (type) {
             case "client-muted":
                 setGlobalState({voiceState: {peers: {[peer]: {muted: true}}}})
