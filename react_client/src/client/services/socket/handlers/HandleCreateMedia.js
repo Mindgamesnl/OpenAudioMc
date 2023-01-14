@@ -20,7 +20,7 @@ export async function handleCreateMedia(data) {
     let volume = 100;
 
     // only if its a new version and provided, then use that volume
-    if (data.media.volume != null && data.media.volume != 0) {
+    if (data.media.volume != null && data.media.volume !== 0) {
         volume = data.media.volume;
     }
 

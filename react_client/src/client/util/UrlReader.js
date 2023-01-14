@@ -1,11 +1,7 @@
 export default class UrlReader {
 
-    constructor() {
-
-    }
-
     static getParametersFromUrl(url) {
-        if (url.indexOf('&') == -1) return {};var lets = url.split("&");
+        if (url.indexOf('&') === -1) return {};var lets = url.split("&");
         let query_string = {};
         for (let i = 0; i < lets.length; i++) {
             let pair = lets[i].split("=");

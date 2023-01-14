@@ -1,7 +1,7 @@
 import React from "react";
 import {CheckboxSetting} from "../../../../components/settings/CheckboxSetting";
 import {DropdownSetting} from "../../../../components/settings/DropdownSetting";
-import {getTranslation, OAC} from "../../../../client/OpenAudioAppContainer";
+import {getTranslation} from "../../../../client/OpenAudioAppContainer";
 import {getGlobalState, setGlobalState} from "../../../../state/store";
 import {connect} from "react-redux";
 import {makeid} from "../../../../client/util/random";

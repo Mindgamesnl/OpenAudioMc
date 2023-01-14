@@ -5,7 +5,6 @@ import {playInternalEffect} from "../../media/util";
 import {SocketManager} from "../../socket/SocketModule";
 import * as PluginChannel from "../../../util/PluginChannel";
 import {PromisedChannel} from "../data/PromisedChannel";
-import {toast} from "react-toastify";
 
 export class PeerManager {
 
@@ -15,14 +14,16 @@ export class PeerManager {
         this.lastNegotiationRequest = null;
         this.trackQueue = new Map();
         this.waitingPromises = new Map();
+        this.micStream = null;
 
         this.connectRtc = this.connectRtc.bind(this);
         this.sendMetaData = this.sendMetaData.bind(this);
+        this.setMute = this.setMute.bind(this);
 
         let lastStateMuted = false;
         this.enableMonitoringCheckbox = () => {};
 
-        store.subscribe(() => {
+        this.unsub = store.subscribe(() => {
             let {settings} = store.getState();
             if (settings.voicechatMuted !== lastStateMuted) {
                 lastStateMuted = settings.voicechatMuted;
@@ -39,6 +40,10 @@ export class PeerManager {
         // setup rtc
         let globalState = getGlobalState();
         let currentUser = globalState.currentUser;
+        this.micStream = micStream;
+
+        console.log("Mic stream is ", micStream.getAudioTracks())
+
         let endpoint = globalState.voiceState.streamServer + "webrtc/confluence/sdp" +
             "/m/" + currentUser.publicServerKey +
             "/pu/" + currentUser.uuid +
@@ -203,6 +208,11 @@ export class PeerManager {
                     )
                     break
 
+                case "CONFIRM_BOOT":
+                case "MIC_STREAM_ENABLED":
+                    // legacy stuff
+                    break
+
                 default:
                     console.error("Warning! received a rtc packet called " + rtcPacket.getEventName() + " but I don't have a clue what it does.")
             }
@@ -212,14 +222,25 @@ export class PeerManager {
     contextEvent(eventPacket) {
         let type = eventPacket.getParam("type")
 
+        // check if we have the required peer
+        let peer = getGlobalState().voiceState.peers[eventPacket.getParam("who")];
+
+        if (peer == null) {
+            console.error("Received a context event from a peer that doesn't exist")
+            return
+        }
+
         switch (type) {
             case "client-muted":
-                let mutedUser = eventPacket.getParam("who")
+                setGlobalState({voiceState: {peers: {[peer.id]: {muted: true}}}})
                 break
 
             case "client-unmuted":
-                let unmutedUser = eventPacket.getParam("who")
+                setGlobalState({voiceState: {peers: {[peer.id]: {muted: false}}}})
                 break
+
+            default:
+                console.error("Received a context event of type " + type + " but I don't know what to do with it.")
         }
     }
 
@@ -350,8 +371,8 @@ export class PeerManager {
             }
         }
 
-        for (let i = 0; i < this.peerConnection.getAudioTracks().length; i++) {
-            this.peerConnection.getAudioTracks()[i].enabled = !state;
+        for (let i = 0; i < this.micStream.getAudioTracks().length; i++) {
+            this.micStream.getAudioTracks()[i].enabled = !state;
         }
 
         if (state) {
@@ -367,5 +388,13 @@ export class PeerManager {
                 .setParam("type", "unmuted-stream")
                 .serialize())
         }
+    }
+
+    stop() {
+        this.micStream.getTracks().forEach(function (track) {
+            track.stop();
+        });
+        this.peerConnection.close();
+        this.unsub();
     }
 }

@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 export class DropdownSetting extends React.Component {
     render() {
         let ops = this.props.options.map((option) => {
-            let selected = option.key === this.props.selected;
             return <option key={option.key} value={option.key}>{option.value}</option>;
         });
 

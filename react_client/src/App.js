@@ -5,10 +5,6 @@ import {OpenAudioController} from "./components/OpenAudioRouter";
 import {Provider} from "react-redux";
 import {store} from "./state/store";
 
-function ToastContainer() {
-    return null;
-}
-
 function App() {
     return (
         <Provider store={store}>

@@ -18,7 +18,7 @@ class AudioPage extends React.Component {
         return (
             <div>
                 <Header />
-                {this.props.voiceState.enabled && <VcOnboarding />}
+                {this.props.voiceState.enabled && !this.props.voiceState.ready && <VcOnboarding />}
                 <AudioVolume />
                 <SoundCloudPlayer />
             </div>

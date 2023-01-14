@@ -22,6 +22,7 @@ export const WorldModule = new class IWorldModule {
     }
 
     removeSpeaker(id) {
+        //eslint-disable-next-line no-unused-vars
         for (let [_, player] of this.audioMap) {
             player.removeSpeakerLocation(id);
         }
@@ -106,6 +107,7 @@ export const WorldModule = new class IWorldModule {
         }
 
         // update closest
+        //eslint-disable-next-line no-unused-vars
         for (let [id, result] of closestForSources) {
             let doFor;
             if (!Array.isArray(result)) {
@@ -121,7 +123,7 @@ export const WorldModule = new class IWorldModule {
         }
 
         // check for media that's unused by every speaker
-        for (let [source, audio] of this.audioMap) {
+        for (let [source] of this.audioMap) {
             if (!this.isMediaUsed(source)) {
                 await this.removeMediaFromSource(source);
             }

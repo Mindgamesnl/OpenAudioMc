@@ -15,7 +15,7 @@ export class MicrophoneProcessor {
         this.isStreaming = false;
         this.isMuted = false;
 
-        this.harkEvents = Hark(this.stream, {})
+        this.harkEvents = Hark(this.stream)
         this.gainController = new GainController(stream);
         this.gainController.on();
 
@@ -28,18 +28,23 @@ export class MicrophoneProcessor {
         let lastMonitoringState = false;
         let lastAutoAdjustmentsState = false;
         let lastStateMuted = false;
-        this.enableMonitoringCheckbox = () => {};
+        this.enableMonitoringCheckbox = () => {
+        };
 
-        store.subscribe(() => {
+        console.log("Microphone processor created")
+
+        let onSettingsChange = () => {
             let {settings} = store.getState();
             if (settings.voicechatMonitoringEnabled !== lastMonitoringState) {
                 lastMonitoringState = settings.voicechatMonitoringEnabled;
                 this.enableMonitoringCheckbox(lastMonitoringState);
+                console.log("Monitoring state changed", lastMonitoringState)
             }
 
-            if (settings.automaticSensitivity !== lastAutoAdjustmentsState) {
-                lastAutoAdjustmentsState = settings.automaticSensitivity;
+            if (settings.microphoneSensitivity !== lastAutoAdjustmentsState) {
+                lastAutoAdjustmentsState = settings.microphoneSensitivity;
                 this.updateSensitivity(lastAutoAdjustmentsState);
+                console.log("Auto adjustments state changed", lastAutoAdjustmentsState)
             }
 
             if (settings.voicechatMuted !== lastStateMuted) {
@@ -50,7 +55,9 @@ export class MicrophoneProcessor {
                     this.onUnmute();
                 }
             }
-        })
+        }
+        onSettingsChange = onSettingsChange.bind(this);
+        store.subscribe(onSettingsChange)
 
         this.setupTrackProcessing(stream)
 
@@ -78,6 +85,7 @@ export class MicrophoneProcessor {
 
     updateSensitivity(toPositive) {
         let target = -Math.abs(toPositive)
+        console.log("Updating sensitivity to", target)
         this.harkEvents.setThreshold(target)
         this.currentThreshold = this.harkEvents.threshold;
     }
@@ -87,7 +95,6 @@ export class MicrophoneProcessor {
         let current = Math.abs(this.currentThreshold);
         current -= 5;
         this.updateSensitivity(current)
-        document.getElementById("mic-sensitive-slider").value = current;
     }
 
     onMute() {
@@ -120,6 +127,7 @@ export class MicrophoneProcessor {
     }
 
     shouldStream(state) {
+        console.log("Should stream?", state)
         if (state) {
             // create start rtc notification
             if (!this.isStreaming) {
@@ -158,6 +166,7 @@ export class MicrophoneProcessor {
         let presetVolume = getGlobalState().settings.microphoneSensitivity;
         if (presetVolume != null) {
             presetVolume = parseInt(presetVolume)
+            console.log("Preset volume", presetVolume)
             this.harkEvents.setThreshold(presetVolume)
         }
         this.currentThreshold = this.harkEvents.threshold;
@@ -167,6 +176,7 @@ export class MicrophoneProcessor {
 
     hookListeners() {
         this.harkEvents.on('speaking', () => {
+            console.log("Speaking")
             this.isSpeaking = true;
             this.startedTalking = new Date().getTime();
             this.setMonitoringVolume(this.monitoringVolume)
@@ -176,6 +186,7 @@ export class MicrophoneProcessor {
         });
 
         this.harkEvents.on('stopped_speaking', () => {
+            console.log("Stopped speaking")
             this.isSpeaking = false;
 
             // set talking UI
@@ -195,6 +206,8 @@ export class MicrophoneProcessor {
                 this.shortTriggers = 0;
             }
         });
+
+        console.log("Hark events", this.harkEvents)
     }
 
     setMonitoringVolume(vol) {
@@ -213,13 +226,15 @@ export class MicrophoneProcessor {
         this.monitoringAudio.srcObject = this.output.stream;
         this.monitoringGainnode = ctx.createGain();
 
-        this.enableMonitoringCheckbox((allow) => {
-                if (allow) {
-                    this.monitoringAudio.muted = false;
-                } else {
-                    this.monitoringAudio.muted = true;
-                }
-            })
+        this.enableMonitoringCheckbox = (allow) => {
+            console.log("Allow monitoring?", allow)
+            if (allow) {
+                this.monitoringAudio.muted = false;
+            } else {
+                this.monitoringAudio.muted = true;
+            }
+        }
+        this.enableMonitoringCheckbox = this.enableMonitoringCheckbox.bind(this);
 
         let src = ctx.createMediaStreamSource(this.inputStreamSource)
 
