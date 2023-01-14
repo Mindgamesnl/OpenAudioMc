@@ -21,7 +21,6 @@ export class PeerManager {
         this.setMute = this.setMute.bind(this);
 
         let lastStateMuted = false;
-        this.enableMonitoringCheckbox = () => {};
 
         this.unsub = store.subscribe(() => {
             let {settings} = store.getState();
@@ -104,7 +103,7 @@ export class PeerManager {
 
     onStart() {
         // start everything! (this is called when the connection is established)
-        SocketManager.send(PluginChannel.RTC_READY, {"enabled": true});
+
     }
 
     registerDataChannel(dataChannel, onConfirm) {
@@ -224,20 +223,22 @@ export class PeerManager {
 
         // check if we have the required peer
         // mapped by stream key
-        let peer = getGlobalState().voiceState.peers[eventPacket.getParam("who")];
+        let peer = eventPacket.getParam("who");
 
         if (peer == null) {
             console.error("Received a context event from a peer that doesn't exist")
             return
         }
 
+        console.log("Handling context event " + type + " from " + peer)
+
         switch (type) {
             case "client-muted":
-                setGlobalState({voiceState: {peers: {[peer.id]: {muted: true}}}})
+                setGlobalState({voiceState: {peers: {[peer]: {muted: true}}}})
                 break
 
             case "client-unmuted":
-                setGlobalState({voiceState: {peers: {[peer.id]: {muted: false}}}})
+                setGlobalState({voiceState: {peers: {[peer]: {muted: false}}}})
                 break
 
             default:

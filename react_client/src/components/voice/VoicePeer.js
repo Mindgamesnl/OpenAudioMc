@@ -21,10 +21,6 @@ export class VoicePeer extends React.Component {
         speaking: PropTypes.bool
     }
 
-    componentDidMount() {
-        this.setState({volume: this.props.volume});
-    }
-
     onVolumeInput(e) {
         this.setState({volume: e.target.value})
         // todo: send notification to voice module
@@ -49,7 +45,7 @@ export class VoicePeer extends React.Component {
                         <h1 className={"mb-2"}>
                             {muted && <svg className="red inline"
                                            viewBox="0 0 24 24" fill="none"
-                                           stroke="currentColor" stroke-width="2" strokeLinecap="round"
+                                           stroke="currentColor" strokeWidth="2" strokeLinecap="round"
                                            strokeLinejoin="round">
                                 <line x1="1" y1="1" x2="23" y2="23"/>
                                 <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"/>

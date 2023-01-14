@@ -6,7 +6,6 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "hark": "^1.2.3",
     "immer": "^9.0.17",
     "mediastream-gain": "^1.0.1",
     "prop-types": "^15.8.1",
@@ -22,6 +21,7 @@
     "sweetalert2": "^11.6.15",
     "sweetalert2-react-content": "^5.0.7",
     "web-vitals": "^2.1.4",
+    "wildemitter": "^1.2.1",
     "zustand": "^4.2.0"
   },
   "scripts": {
