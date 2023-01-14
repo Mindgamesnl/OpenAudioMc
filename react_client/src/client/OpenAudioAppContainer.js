@@ -43,6 +43,10 @@ class OpenAudioAppContainer extends React.Component {
                 parsed = parseFloat(cookieValue);
             }
 
+            if (typeof settings[key] === "boolean") {
+                parsed = cookieValue === "true";
+            }
+
             setGlobalState({
                 settings: {
                     [key]: parsed
