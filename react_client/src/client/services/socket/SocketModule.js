@@ -5,6 +5,7 @@ import {TimeService} from "../time/TimeService";
 import {MediaManager} from "../media/MediaManager";
 import {toast} from "react-toastify";
 import {HandlerRegistry} from "./HandlerRegistry";
+import {VoiceModule} from "../voice/VoiceModule";
 
 export const SocketManager = new class ISocketManager {
 
@@ -66,8 +67,7 @@ export const SocketManager = new class ISocketManager {
 
             setGlobalState({relay: {connected: false, connecting: false}, currentUser: null, isLoading: false});
 
-            // main.voiceModule.shutDown();
-            // TODO: shutdown voicechat
+            VoiceModule.shutdown();
         });
 
         this.socket.on("data", data => {

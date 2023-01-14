@@ -1,22 +1,26 @@
-import {OAC} from "../../../../client/OpenAudioAppContainer";
 import React from "react";
 import {ModerationWarning} from "../../../../components/voice/ModerationWarning";
 import VoiceSettings from "../../../../components/voice/VoiceSettings";
 import VoicePeerBox from "../../../../components/voice/VoicePeerBox";
-import {store} from "../../../../state/store";
+import {DisabledRegionBanner} from "../../../../components/voice/DisabledRegionBanner";
+import {connect} from "react-redux";
 
-export class VoicePage extends React.Component {
-    static contextType = OAC;
-
+class VoicePage extends React.Component {
     render() {
-        let serverHasModeration = store.getState().voiceState.serverHasModeration;
-
         return (
             <div className="content-section voice-section">
-                {serverHasModeration && <ModerationWarning />}
+                {this.props.voiceState.serverHasModeration && <ModerationWarning />}
                 <VoiceSettings />
+                {this.props.voiceState.isTemporarilyDisabled && <DisabledRegionBanner />}
                 <VoicePeerBox />
             </div>
         )
     }
+}
+
+export default connect(mapStateToProps)(VoicePage);
+function mapStateToProps(state) {
+    return {
+        voiceState: state.voiceState
+    };
 }

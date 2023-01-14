@@ -1,4 +1,4 @@
-import {setGlobalState} from "../../../../state/store";
+import {setGlobalState} from "../../../../../state/store";
 import {toast} from "react-toastify";
 
 export function HandleVoiceUnlock(data) {
