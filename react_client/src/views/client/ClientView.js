@@ -1,7 +1,7 @@
 import React from "react";
 import {TabPage, TabWindow} from "../../components/tabwindow/TabWindow";
 import AudioPage from "./pages/audio/AudioPage";
-import {VoicePage} from "./pages/voice/VoicePage";
+import VoicePage from "./pages/voice/VoicePage";
 import ResetLanguageBanner from "../../components/language/ResetLanguageBanner";
 import SettingsPage from "./pages/settings/SettingsPage";
 import {LoadingSpinnerBox} from "../../components/loading/LoadingSpinnerBox";

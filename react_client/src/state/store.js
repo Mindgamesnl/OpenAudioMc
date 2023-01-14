@@ -45,6 +45,7 @@ const initialState = {
     },
 
     voiceState: {
+        isTemporarilyDisabled: false,
         enabled: false,
         ready: false,
         isSpeaking: false,

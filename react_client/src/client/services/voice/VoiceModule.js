@@ -226,6 +226,17 @@ export const VoiceModule = new class IVoiceModule {
         }
     }
 
+    shutdown() {
+        if (this.peerManager) {
+            this.peerManager.stop();
+        }
+
+        if (this.microphoneProcessing) {
+            this.microphoneProcessing.stop();
+        }
+
+        this.removeAllPeers();
+    }
 }()
 
 export const VoiceStatusChangeEvent = {
