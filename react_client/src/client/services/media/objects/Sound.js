@@ -182,6 +182,7 @@ export class Sound extends AudioSourceProcessor {
             this.soundElement.onprogress = attemptToPlay;
             this.soundElement.oncanplay = attemptToPlay;
             this.soundElement.oncanplaythrough = attemptToPlay;
+            attemptToPlay();
         }));
     }
 
