@@ -39,7 +39,6 @@ class SettingsPage extends React.Component {
         }
     }
 
-
     render() {
         let c = null;
         return (

@@ -1,4 +1,5 @@
 import { createStore } from 'redux';
+import Cookies from "js-cookie";
 
 const initialState = {
     // state - null for the login screen
@@ -80,6 +81,16 @@ const initialState = {
 
 export function setGlobalState(stateUpdates) {
     store.dispatch({ type: 'SET_STATE', stateUpdates });
+
+    // save to cookies
+    if (stateUpdates.hasOwnProperty("settings")) {
+        const settings = stateUpdates.settings;
+        for (let key in settings) {
+            if (settings.hasOwnProperty(key)) {
+                Cookies.set("setting_" + key, settings[key], { expires: 365 });
+            }
+        }
+    }
 }
 
 export function getGlobalState() {
