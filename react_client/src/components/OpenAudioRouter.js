@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React from "react";
 import LoadingView from "../views/loading/LoadingView";
 import {OAC} from "../client/OpenAudioAppContainer";
 import {LoginView} from "../views/login/LoginView";
@@ -8,10 +8,6 @@ import {ToastContainer} from "react-toastify";
 
 export class OpenAudioController extends React.Component {
     static contextType = OAC;
-
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         let currentView = <div>?</div>;

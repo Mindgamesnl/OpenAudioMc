@@ -1,5 +1,5 @@
 import {PeerManager} from "./peers/PeerManager";
-import {getGlobalState, setGlobalState} from "../../../state/store";
+import {getGlobalState, setGlobalState, store} from "../../../state/store";
 import {makeid} from "../../util/random";
 import {getTranslation} from "../../OpenAudioAppContainer";
 import {WrappedUserMedia} from "./util/WrappedUserMedia";
@@ -33,6 +33,20 @@ export const VoiceModule = new class IVoiceModule {
         this.peerMap = new Map();
         this.loadedDeviceList = false;
         this.microphoneProcessing = null;
+        this.isUpdatingMic = false;
+
+        let lastPreferredMic = getGlobalState().settings.preferredMicId;
+        let onSettingsChange = () => {
+            let state = getGlobalState().settings;
+            if (lastPreferredMic !== state.preferredMicId) {
+                lastPreferredMic = state.preferredMicId;
+                if (!this.isUpdatingMic && this.isReady()) {
+                    this.changeInput(lastPreferredMic);
+                }
+            }
+        }
+        onSettingsChange = onSettingsChange.bind(this);
+        store.subscribe(onSettingsChange)
     }
 
     startVoiceChat() {
@@ -68,7 +82,10 @@ export const VoiceModule = new class IVoiceModule {
 
             let startCallback = () => {
                 // remove the loading popup
-                setGlobalState({loadingOverlay: {visible: false}});
+                setGlobalState({
+                    loadingOverlay: {visible: false},
+                    voiceState: {ready: true}
+                });
             }
 
             this.peerManager.connectRtc(startCallback, stream);
@@ -124,6 +141,31 @@ export const VoiceModule = new class IVoiceModule {
         if (this.peerManager != null) {
             SocketManager.send(PluginChannel.RTC_READY, {"event": event});
         }
+    }
+
+    changeInput(deviceId) {
+        this.peerManager.setMute(false);
+        this.peerManager.stop();
+        this.microphoneProcessing.stop();
+        SocketManager.send(PluginChannel.RTC_READY, {"enabled": false});
+
+        setGlobalState({
+            loadingOverlay: {
+                visible: true,
+                title: getTranslation(null, "vc.updatingMicPopupTitle"),
+                message: getTranslation(null, "vc.updatingMicPopup")
+            },
+            voiceState: {
+                peers: []
+            }
+        })
+
+        this.isUpdatingMic = true;
+        this.peerManager = new PeerManager();
+        setTimeout(() => {
+            this.isUpdatingMic = false;
+            this.startVoiceChat();
+        }, 3500);
     }
 
 }()

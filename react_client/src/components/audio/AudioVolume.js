@@ -1,6 +1,6 @@
 import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
 import React from "react";
-import {getGlobalState, setGlobalState, store} from "../../state/store";
+import {setGlobalState} from "../../state/store";
 import {connect} from "react-redux";
 
 class AudioVolume extends React.Component {

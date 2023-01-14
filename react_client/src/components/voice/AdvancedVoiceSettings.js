@@ -1,6 +1,6 @@
 import React from "react";
 import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
-import {setGlobalState, store} from "../../state/store";
+import {getGlobalState, setGlobalState, store} from "../../state/store";
 import {connect} from "react-redux";
 
 class AdvancedVoiceSettings extends React.Component {
@@ -12,7 +12,6 @@ class AdvancedVoiceSettings extends React.Component {
         let currentSettings = store.getState().settings;
 
         this.state = {
-            microphoneDevices: [],
             surroundSound: currentSettings.voicechatSurroundSound,
             monitoringEnabled: currentSettings.voicechatMonitoringEnabled,
             autoMicSensitivity: currentSettings.automaticSensitivity
@@ -22,11 +21,12 @@ class AdvancedVoiceSettings extends React.Component {
         this.monitoringInput = this.monitoringInput.bind(this);
         this.micSensitiveInput = this.micSensitiveInput.bind(this);
         this.micAutoSensitivityInput = this.micAutoSensitivityInput.bind(this);
+        this.selectMic = this.selectMic.bind(this);
     }
 
     micAutoSensitivityInput(e) {
         this.setState({autoMicSensitivity: e.target.checked});
-        setGlobalState({settings: {autoMicSensitivity: e.target.checked}});
+        setGlobalState({settings: {automaticSensitivity: e.target.checked}});
     }
 
     micSensitiveInput(e) {
@@ -43,8 +43,14 @@ class AdvancedVoiceSettings extends React.Component {
         setGlobalState({settings: {voicechatSurroundSound: !this.state.surroundSound}});
     }
 
+    selectMic(e) {
+        setGlobalState({settings: {preferredMicId: e.target.value}});
+    }
+
     render() {
         let c = this.context;
+        let mics = Object.values(this.props.voiceState.mics)
+        let currentMic = getGlobalState().settings.preferredMicId;
 
         let surroundText = !this.state.surroundSound ? getTranslation(c, "vc.settings.surround.enable") : getTranslation(c, "vc.settings.surround.disable");
 
@@ -68,10 +74,9 @@ class AdvancedVoiceSettings extends React.Component {
                                 {getTranslation(c, "vc.aboutInput")}
                             </div>
                             <label htmlFor="vc-mic-select"></label>
-                            <select className="full soft-tex content-pill">
-                                <option value="default">Default</option>
-                                {this.state.microphoneDevices.map((device) => (
-                                    <option value={device}>{device}</option>
+                            <select className="full soft-tex content-pill" value={currentMic} onChange={this.selectMic}>
+                                {mics.map((device) => (
+                                    <option key={device.id} value={device.id}>{device.name}</option>
                                 ))}
                             </select>
                         </div>
@@ -166,6 +171,7 @@ class AdvancedVoiceSettings extends React.Component {
 export default connect(mapStateToProps)(AdvancedVoiceSettings);
 function mapStateToProps(state) {
     return {
-        microphoneSensitivity: state.settings.microphoneSensitivity
+        microphoneSensitivity: state.settings.microphoneSensitivity,
+        voiceState: state.voiceState,
     };
 }

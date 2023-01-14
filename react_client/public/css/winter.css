@@ -1117,3 +1117,8 @@ span.tab {
 .jumbo-text {
     font-size: 100px;
 }
+
+.speaking {
+    background-color: lime;
+    box-shadow: 0 0 10pt 2pt lime;
+}

@@ -17,7 +17,7 @@ const initialState = {
         voicechatMuted: false,
         voicechatSurroundSound: true,
         voicechatMonitoringEnabled: false,
-        microphoneSensitivity: 0,
+        microphoneSensitivity: 69,
         automaticSensitivity: true,
         fadeAudio: true,
 
@@ -27,7 +27,7 @@ const initialState = {
         spatialRenderingMode: 'new',
         rolloffFactor: 0.5,
 
-        preferredMicId: null,
+        preferredMicId: "default",
     },
 
     loadingOverlay: {
@@ -53,6 +53,7 @@ const initialState = {
         streamKey: null,
         radius: null,
         mics: [], // cached list of microphones
+        peers: [], // list of peers, {name, uuid, volume, isSpeaking, isMuted}
     },
 
     build: {
