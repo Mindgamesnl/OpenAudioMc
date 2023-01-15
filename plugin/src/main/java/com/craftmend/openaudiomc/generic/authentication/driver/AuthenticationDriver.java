@@ -60,6 +60,7 @@ public class AuthenticationDriver {
             );
 
             RestRequest<SimpleTokenResponse> request = new RestRequest(SimpleTokenResponse.class, Endpoint.CREATE_SESSION_TOKEN);
+            request.run();
 
 
             if (request.hasError()) {

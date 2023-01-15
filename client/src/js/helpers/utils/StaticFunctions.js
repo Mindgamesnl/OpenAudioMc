@@ -18,7 +18,7 @@ function enable() {
     }
 }
 
-export function linkBootListeners() {
+export function linkBootListeners() {w
     setLoaderText("loading assets...")
 
     // use debugging UI
