@@ -24,28 +24,28 @@ export class Handlers {
         }
 
         // general protocol
-        registerClassHandler("ClientVersionPayload", handleProtocolVersion);
+        //registerClassHandler("ClientVersionPayload", handleProtocolVersion);
         registerClassHandler("NotificationPayload", handleNotification);
         registerClassHandler("HueColorPayload", handleHuePayload);
-        registerClassHandler("ClientPlayerLocationPayload", handlePlayerLocation);
+        //registerClassHandler("ClientPlayerLocationPayload", handlePlayerLocation);
 
         // speakers
-        registerClassHandler("ClientSpeakerCreatePayload", handleSpeakerCreation);
-        registerClassHandler("ClientSpeakerDestroyPayload", handleSpeakerDestroy);
+        //registerClassHandler("ClientSpeakerCreatePayload", handleSpeakerCreation);
+        //registerClassHandler("ClientSpeakerDestroyPayload", handleSpeakerDestroy);
 
         // media
-        registerClassHandler("ClientPreFetchPayload", handlePrefetchPacket);
-        registerClassHandler("ClientUpdateMediaPayload", handleMediaUpdate);
-        registerClassHandler("ClientCreateMediaPayload", handleCreateMedia);
-        registerClassHandler("ClientDestroyMediaPayload", handleDestroyMedia);
-        registerClassHandler("ClientVolumePayload", handleClientVolume);
+        //registerClassHandler("ClientPreFetchPayload", handlePrefetchPacket);
+        //registerClassHandler("ClientUpdateMediaPayload", handleMediaUpdate);
+        //registerClassHandler("ClientCreateMediaPayload", handleCreateMedia);
+        //registerClassHandler("ClientDestroyMediaPayload", handleDestroyMedia);
+        //registerClassHandler("ClientVolumePayload", handleClientVolume);
 
         // voice
-        registerClassHandler("ClientVoiceChatUnlockPayload", HandleVoiceUnlock)
-        registerClassHandler("ClientVoiceSubscribePayload", HandleVoiceChatSubscription)
-        registerClassHandler("ClientVoiceDropPayload", HandleVoiceChatDrop)
-        registerClassHandler("ClientVoiceUpdatePeerLocationsPayload", HandleVoicePeerLocationUpdate)
-        registerClassHandler("ClientVoiceChatToggleMicrophonePayload", HandleVoiceChatMicToggle)
-        registerClassHandler("ClientVoiceBlurUiPayload", handleClientBlur)
+        //registerClassHandler("ClientVoiceChatUnlockPayload", HandleVoiceUnlock)
+        //registerClassHandler("ClientVoiceSubscribePayload", HandleVoiceChatSubscription)
+        //registerClassHandler("ClientVoiceDropPayload", HandleVoiceChatDrop)
+        //registerClassHandler("ClientVoiceUpdatePeerLocationsPayload", HandleVoicePeerLocationUpdate)
+        //registerClassHandler("ClientVoiceChatToggleMicrophonePayload", HandleVoiceChatMicToggle)
+        //registerClassHandler("ClientVoiceBlurUiPayload", handleClientBlur)
     }
 }

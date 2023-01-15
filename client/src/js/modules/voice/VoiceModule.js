@@ -71,9 +71,11 @@ export class VoiceModule {
                 this.onSurrroundUpdate();
             },
             getMessageString("vc.settingsDisablePositionalAudio"),
-            getMessageString("vc.settingsEnablePositionalAudio"));
-
+            getMessageString("vc.settingsEnablePositionalAudio")
+        );
         this.useSurround = this.surroundSwitch.isOn();
+
+
 
         this.blocksRadius = blocksRadius;
         this.server = server;
@@ -120,8 +122,6 @@ export class VoiceModule {
         // wait
         this.openAudioMc.socketModule.send(PluginChannel.RTC_READY, {"enabled": false});
         let timerInterval;
-
-
 
         Swal.fire({
             title: window.getMessageString("vc.reloadingPopupTitle"),
@@ -328,7 +328,6 @@ export class VoiceModule {
         }.bind(this);
 
         wm.errorCallback = function (a) {
-
             // if there is a preference, try again without one
             if (preferedDeviceId != null) {
                 Cookies.remove("preferred-mic")
@@ -342,7 +341,6 @@ export class VoiceModule {
                 this.consent(null);
                 return
             }
-
             this.openAudioMc.voiceModule.permissionError(a)
         }.bind(this);
 
