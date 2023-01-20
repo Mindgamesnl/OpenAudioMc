@@ -12,13 +12,23 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginEnableEvent;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 
 public final class OaPartiesModule extends ExternalModule implements Listener {
 
     private int loadedComponents = 0;
+    private static final String PERMISSION = "openaudiomc.voicechat.filter.parties";
 
     public OaPartiesModule() {
-
+        // attempt to register perm
+        try {
+            Permission perm = new Permission(PERMISSION);
+            perm.setDefault(PermissionDefault.TRUE);
+            Bukkit.getPluginManager().addPermission(perm);
+        } catch (IllegalArgumentException e) {
+            // ignored
+        }
     }
 
     @Override
@@ -59,9 +69,27 @@ public final class OaPartiesModule extends ExternalModule implements Listener {
         OpenAudioMc.getService(FilterService.class).addFilterFunction(new CustomFilterFunction() {
             @Override
             public boolean isPlayerValidListener(Player listener, Player possibleSpeaker) {
-                return haveCommonParty(listener, possibleSpeaker);
+                boolean listenerHasPerm = hasPerm(listener);
+                boolean speakerHasPerm = hasPerm(possibleSpeaker);
+
+                // do we both have the perm?
+                if (listenerHasPerm && speakerHasPerm) {
+                    return haveCommonParty(listener, possibleSpeaker);
+                }
+
+                // do we both not have the perm?
+                if (!listenerHasPerm && !speakerHasPerm) {
+                    return true;
+                }
+
+                // one of us has the perm, the other doesn't, so it should be disabled
+                return false;
             }
         });
+    }
+
+    private boolean hasPerm(Player player) {
+        return player.hasPermission(PERMISSION);
     }
 
     private boolean haveCommonParty(Player p1, Player p2) {
