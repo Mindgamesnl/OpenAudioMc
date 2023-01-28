@@ -38,13 +38,21 @@ public enum MagicValue {
     public static void loadArguments() {
         for (MagicValue value : values()) {
             if (value.value instanceof Boolean) {
-                String argV = System.getProperty("OA_" + value.name());
+                String argV = readEnv("OA_" + value.name());
                 if (argV != null && argV.length() > 1) {
                     System.out.println("Overwriting value " + value + " from sys args to " + Boolean.valueOf(argV));
                     overWrite(value, Boolean.valueOf(argV));
                 }
             }
         }
+    }
+
+    private static String readEnv(String e) {
+        String data = System.getenv(e);
+        if (data == null || data.length() < 1) {
+            data = System.getProperty(e);
+        }
+        return data;
     }
 
     public boolean isNull() {
