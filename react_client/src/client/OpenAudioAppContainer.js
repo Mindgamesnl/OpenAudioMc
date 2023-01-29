@@ -28,10 +28,7 @@ class OpenAudioAppContainer extends React.Component {
             didUnlock: false,
             allowedToUnlock: false
         }
-    }
 
-    componentWillMount() {
-        // check settings from cookies
         let settings = getGlobalState().settings;
         // loop over all object keys
         for (let key in settings) {

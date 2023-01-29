@@ -172,7 +172,7 @@ body.light-mode .video-bg:before {
 .header-menu {
     display: flex;
     align-items: center;
-    
+
     width: 100%;
 }
 
@@ -234,7 +234,7 @@ body.light-mode .video-bg:before {
     .menu-circle {
         display: none;
     }
-    
+
 }
 
 .header-notice {
@@ -315,8 +315,8 @@ body.light-mode .video-bg:before {
 
 .main-header .header-menu a {
     padding: 16px 24px;
-      margin: auto;
-        width: 20%;
+    margin: auto;
+    width: 20%;
 }
 
 .main-container {
@@ -365,7 +365,7 @@ body.light-mode .video-bg:before {
 }
 
 .content-wrapper-header {
-    background-image: linear-gradient(196deg, rgba(0,0,0, 0.2) 23%,var(--primary-accent)), var(--background-image);
+    background-image: linear-gradient(196deg, rgba(0, 0, 0, 0.2) 23%, var(--primary-accent)), var(--background-image);
     background-position: center;
 }
 
@@ -587,57 +587,69 @@ body.light-mode .video-bg:before {
 .small-card {
     width: calc(25.65% - 15px);
 }
+
 @media screen and (min-width: 1510px) {
     .small-vc-card {
-    
+
         width: calc(25% - 15px) !important;
-}
-        .sensitivty-card {
-            margin-left: 0px !important;
-            width: calc(99.65% - 15px) !important;
-}
-}
-@media screen and (max-width: 1510px) {
-    .small-vc-card {
-    width: calc(49% - 15px) ;
-}
-        .small-card {
-     margin-top: 20px !important;
-}
-    .vc-monitoring-card {
-    width: calc(50% - 15px);
-    margin-top: 20px;
-    margin-left: 0px !important;
-}
+    }
+
     .sensitivty-card {
-    margin-left: 20px !important;
-}
-    .vc-monitoring-card {
-    width: calc(50% - 15px);
-}  .vc-volume-card {
-    width: calc(99.65% - 15px) !important;
-    margin-left: 0px !important;
-    margin-top: 20px !important;
-}
-    .vc-settings-toggle-card{
-        margin-left: 20px !important;
-        margin-top: 20px !important; 
+        margin-left: 0px !important;
+        width: calc(99.65% - 15px) !important;
     }
 }
+
+@media screen and (max-width: 1510px) {
+    .small-vc-card {
+        width: calc(49% - 15px);
+    }
+
+    .small-card {
+        margin-top: 20px !important;
+    }
+
+    .vc-monitoring-card {
+        width: calc(50% - 15px);
+        margin-top: 20px;
+        margin-left: 0px !important;
+    }
+
+    .sensitivty-card {
+        margin-left: 20px !important;
+    }
+
+    .vc-monitoring-card {
+        width: calc(50% - 15px);
+    }
+
+    .vc-volume-card {
+        width: calc(99.65% - 15px) !important;
+        margin-left: 0px !important;
+        margin-top: 20px !important;
+    }
+
+    .vc-settings-toggle-card {
+        margin-left: 20px !important;
+        margin-top: 20px !important;
+    }
+}
+
 @media screen and (max-width: 1100px) {
-    .sensitivty-card, .vc-monitoring-card,.small-vc-card {
-    width: calc(100% - 15px) !important;
-    margin-left: 0px !important;
-    margin-top: 10px !important;
+    .sensitivty-card, .vc-monitoring-card, .small-vc-card {
+        width: calc(100% - 15px) !important;
+        margin-left: 0px !important;
+        margin-top: 10px !important;
     }
 
 }
+
 .vc-monitoring-card {
     width: calc(49% - 15px);
 }
 
 .vc-volume-card {
-    width: calc(50.65% - 15px);
+    width: 73.65%;
 }
 
 .main-volume-card {
@@ -705,7 +717,7 @@ body.light-mode .video-bg:before {
     margin-left: 20px;
 }
 
-.content-card>span {
+.content-card > span {
     display: flex;
     align-items: center;
 }
@@ -721,9 +733,11 @@ body.light-mode .video-bg:before {
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 20px;
 }
-#extra-vc-settings{
-    margin-top:20px;
+
+#extra-vc-settings {
+    margin-top: 20px;
 }
+
 .content-card-buttons {
     display: flex;
     align-items: flex-end;
@@ -742,10 +756,11 @@ body.light-mode .video-bg:before {
         margin-top: 20px;
         margin-left: 0px;
     }
-    #hue-box-ssl{
-    margin-left: 20px;
-    width: 100%;
-}
+
+    #hue-box-ssl {
+        margin-left: 20px;
+        width: 100%;
+    }
 }
 
 @media screen and (max-width: 795px) {
@@ -753,15 +768,18 @@ body.light-mode .video-bg:before {
         width: calc(100% - 20px);
         margin-top: 20px;
     }
+
     .settings-card {
-    margin-left: 0px !important;
+        margin-left: 0px !important;
     }
+
     .content-card + .content-card {
         margin-left: 0 !important;
     }
-    #hue-box-ssl{
+
+    #hue-box-ssl {
         width: 97%;
-   }
+    }
 }
 
 ::-webkit-scrollbar {
@@ -1088,6 +1106,7 @@ footer {
     border-radius: 0;
     border: none;
 }
+
 .reversedRange {
     direction: rtl
 }
@@ -1121,4 +1140,9 @@ span.tab {
 .speaking {
     background-color: lime;
     box-shadow: 0 0 10pt 2pt lime;
+}
+
+.muted-self {
+    /* grayscale and blur */
+    filter: grayscale(100%) blur(2px);
 }

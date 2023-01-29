@@ -8,7 +8,7 @@ import {connect} from "react-redux";
 class VoicePage extends React.Component {
     render() {
         return (
-            <div className="content-section voice-section">
+            <div className="w-full">
                 {this.props.voiceState.serverHasModeration && <ModerationWarning />}
                 <VoiceSettings />
                 {this.props.voiceState.isTemporarilyDisabled && <DisabledRegionBanner />}
