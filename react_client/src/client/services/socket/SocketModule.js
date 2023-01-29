@@ -37,7 +37,6 @@ export const SocketManager = new class ISocketManager {
         this.socket = io(endpoint, {query: authHeader, autoConnect: false, withCredentials: false});
 
         this.socket.on("connect", () => {
-            toast("Connected to the server!", {icon: "🎉"});
             setGlobalState({relay: {connected: true, connecting: false}});
             this.outgoingQueue.forEach((waiting) => {
                 this.send(waiting.key, waiting.value);

@@ -27,6 +27,4 @@ export function HandleVoiceUnlock(data) {
             serverHasModeration: data.hasModeration
         }
     })
-
-    toast("Unlocked VoiceChat", {icon: "🎉"});
 }
