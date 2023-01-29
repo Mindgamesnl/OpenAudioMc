@@ -32,20 +32,16 @@ export class MicrophoneProcessor {
             throw new Error("Not implemented")
         };
 
-        console.log("Microphone processor created")
-
         let onSettingsChange = () => {
             let {settings} = store.getState();
             if (settings.voicechatMonitoringEnabled !== lastMonitoringState) {
                 lastMonitoringState = settings.voicechatMonitoringEnabled;
                 this.enableMonitoringCheckbox(lastMonitoringState);
-                console.log("Monitoring state changed", lastMonitoringState, this.enableMonitoringCheckbox)
             }
 
             if (settings.microphoneSensitivity !== this.lastAutoAdjustmentsState) {
                 this.lastAutoAdjustmentsState = settings.microphoneSensitivity;
                 this.updateSensitivity(this.lastAutoAdjustmentsState);
-                console.log("Auto adjustments state changed", this.lastAutoAdjustmentsState)
             }
 
             if (settings.voicechatMuted !== lastStateMuted) {
@@ -171,7 +167,6 @@ export class MicrophoneProcessor {
         let presetVolume = getGlobalState().settings.microphoneSensitivity;
         if (presetVolume != null) {
             presetVolume = parseInt(presetVolume)
-            console.log("Preset volume", presetVolume)
             this.harkEvents.setThreshold(presetVolume)
         }
         this.currentThreshold = this.harkEvents.getThreshold();
@@ -209,8 +204,6 @@ export class MicrophoneProcessor {
                 this.shortTriggers = 0;
             }
         });
-
-        console.log("Hark events", this.harkEvents)
     }
 
     setMonitoringVolume(vol) {
@@ -219,7 +212,6 @@ export class MicrophoneProcessor {
     }
 
     setupTrackProcessing(stream) {
-        console.log("Setting up track processing", stream)
         const ctx = WorldModule.player.audioCtx;
         this.monitoringAudio = new Audio();
         this.monitoringAudio.muted = true;

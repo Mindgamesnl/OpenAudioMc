@@ -39,8 +39,6 @@ export class PeerManager {
         let currentUser = globalState.currentUser;
         this.micStream = micStream;
 
-        console.log("Mic stream is ", micStream.getAudioTracks())
-
         let endpoint = globalState.voiceState.streamServer + "webrtc/confluence/sdp" +
             "/m/" + currentUser.publicServerKey +
             "/pu/" + currentUser.uuid +
@@ -60,7 +58,6 @@ export class PeerManager {
         }
         this.peerConnection.oniceconnectionstatechange = kickoff
         this.peerConnection.addEventListener('connectionstatechange', kickoff);
-        this.peerConnection.onnegotiationneeded = console.log
 
         this.dataChannel = this.peerConnection.createDataChannel("eb");
         this.registerDataChannel(this.dataChannel, onConfirm);
@@ -122,14 +119,12 @@ export class PeerManager {
             switch (rtcPacket.getEventName()) {
 
                 case "REQUEST_NEG_INIT":
-                    console.log("Server requested renag start")
                     this.initializeRenegotiation();
                     break
 
                 case "NEGOTIATION_RESPONSE":
                     let raw = rtcPacket.trimmed()
                     let response = JSON.parse(raw)
-                    console.log("response was " + raw.length)
                     this.peerConnection.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(response.sdp))))
                         .then(() => {
                             this.handleRenagEnd();
