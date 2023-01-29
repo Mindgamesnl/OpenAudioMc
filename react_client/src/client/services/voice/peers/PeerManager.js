@@ -354,6 +354,8 @@ export class PeerManager {
     // DON'T DO STATE CHANGES HERE
     // AND DON'T DO STATE CHANGES IF THIS RETURNS FALSE
     setMute(state) {
+        if (!this.micStream) return;
+
         if (state) {
             if (getGlobalState().settings.voicechatChimesEnabled) {
                 playInternalEffect("assets/mute.mp3")
@@ -384,9 +386,11 @@ export class PeerManager {
     }
 
     stop() {
-        this.micStream.getTracks().forEach(function (track) {
-            track.stop();
-        });
+        if (this.micStream) {
+            this.micStream.getTracks().forEach(function (track) {
+                track.stop();
+            });
+        }
         this.peerConnection.close();
         this.unsub();
     }
