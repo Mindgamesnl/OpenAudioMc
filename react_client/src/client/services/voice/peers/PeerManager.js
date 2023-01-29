@@ -391,7 +391,9 @@ export class PeerManager {
                 track.stop();
             });
         }
-        this.peerConnection.close();
+        if (this.peerConnection) {
+            this.peerConnection.close();
+        }
         this.unsub();
     }
 }

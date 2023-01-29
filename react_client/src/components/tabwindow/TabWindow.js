@@ -30,7 +30,7 @@ export class TabWindow extends Component {
             <div className="main-container tabbed">
                 <div className="main-header flex justify-start">
                     <span className="theme-color-text p-10 w-1/3">
-                        { getTranslation(c, "serverName")}
+                        {getTranslation(c, "serverName")}
                         {pill}
                     </span>
 
@@ -40,7 +40,7 @@ export class TabWindow extends Component {
                                 <label
                                     href="#"
                                     className={index === this.state.activePage ? "active main-header-link" : "main-header-link"}
-                                    onClick={() => this.setState({ activePage: index })}
+                                    onClick={() => this.setState({activePage: index})}
                                 >
                                     {page.name}
                                 </label>
@@ -48,7 +48,8 @@ export class TabWindow extends Component {
                         ))}
                     </div>
                     <div className="header-notice w-1/3 flex justify-end">
-                        <a className="menu-link-main soft-text" href="https://openaudiomc.net/">&copy; OpenAudioMc 2016-2023. All Rights Reserved.</a>
+                        <a className="menu-link-main soft-text" href="https://openaudiomc.net/">&copy; OpenAudioMc
+                            2016-2023. All Rights Reserved.</a>
                     </div>
                 </div>
                 <div className="tab-content">

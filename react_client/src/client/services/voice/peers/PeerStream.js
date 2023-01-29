@@ -81,7 +81,6 @@ export class PeerStream {
             this.masterOutputNode = globalVolumeGainNode;
 
             globalVolumeGainNode.connect(ctx.destination);
-            console.log("Destination has ? channels", ctx.destination.numberOfInputs);
 
             // start stream
             this.audio.play()
@@ -130,7 +129,6 @@ export class PeerStream {
 
         if (this.masterOutputNode !== null) {
             const ctx = WorldModule.player.audioCtx;
-            console.log("Disconnecting master output node");
             this.masterOutputNode.disconnect(ctx.destination);
         }
 
