@@ -121,6 +121,14 @@ class OpenAudioAppContainer extends React.Component {
 
                 serverData = serverData.response;
 
+                // is the server banned or locked out?
+                if (serverData.banned) {
+                    reportVital('metrics:accountlocked')
+                    setGlobalState({
+                        isBlocked: true,
+                    });
+                }
+
                 if (serverData.useTranslations) {
                     await this.messageModule.handleCountry(serverData.countryCode)
                 } else {
