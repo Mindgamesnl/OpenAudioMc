@@ -1,6 +1,7 @@
 import {API_ENDPOINT} from "../config/ApiEndpoints";
 import {setGlobalState, store} from "../../state/store";
 import Cookies from "js-cookie";
+import {VERSION} from "../../index";
 
 export class MessageModule {
 
@@ -90,7 +91,7 @@ export class MessageModule {
             link = link.substring(0, link.lastIndexOf("/") + 1);
         }
         let prefix = (isFailover ? API_ENDPOINT.CONTENT_PROXY + "https://client.openaudiomc.net/" : link)
-        let request = await fetch(prefix + file + "?v=__BUILD_VERSION__");
+        let request = await fetch(prefix + file + "?v=" + VERSION.revision);
         if (request.status !== 200 && !isFailover) {
             console.error("Using fetch fail over for lang")
             return await this.fetchWithFailover(file, true)

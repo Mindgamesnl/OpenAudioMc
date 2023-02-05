@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "fs": "^0.0.1-security",
     "immer": "^9.0.17",
     "js-cookie": "^3.0.1",
     "mediastream-gain": "^1.0.1",
@@ -22,8 +23,8 @@
     "wildemitter": "^1.2.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "node generate-buildno.js && react-scripts start",
+    "build": "node generate-buildno.js && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

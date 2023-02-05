@@ -4,6 +4,7 @@ import "./loading.css";
 import {OAC} from "../../client/OpenAudioAppContainer";
 import {connect} from "react-redux";
 import {LoadingSpinnerBox} from "../../components/loading/LoadingSpinnerBox";
+import {VERSION} from "../../index";
 
 class LoadingView extends React.Component {
 
@@ -15,7 +16,7 @@ class LoadingView extends React.Component {
                 <LoadingSpinnerBox
                     title={"Loading OpenAudioMc"}
                     message={this.props.loading}
-                    footer={"Hold on, we're loading your stuff!"}
+                    footer={"Version " + VERSION.revision + ", line " + VERSION.tag + ""}
                 />
             </BlackoutPage>
         );
