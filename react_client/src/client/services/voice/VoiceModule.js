@@ -185,9 +185,9 @@ export const VoiceModule = new class IVoiceModule {
     }
 
     changeInput(deviceId) {
-        this.peerManager.setMute(false);
-        this.peerManager.stop();
-        this.microphoneProcessing.stop();
+        if (this.peerManager) this.peerManager.setMute(false);
+        if (this.peerManager) this.peerManager.stop();
+        if (this.microphoneProcessing) this.microphoneProcessing.stop();
         SocketManager.send(PluginChannel.RTC_READY, {"enabled": false});
 
         setGlobalState({
