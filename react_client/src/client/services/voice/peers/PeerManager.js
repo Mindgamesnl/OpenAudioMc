@@ -3,6 +3,7 @@ import {VoiceModule, VoiceStatusChangeEvent} from "../VoiceModule";
 import {RtcPacket} from "./protocol";
 import {playInternalEffect} from "../../media/util";
 import {PromisedChannel} from "../data/PromisedChannel";
+import {reportVital} from "../../../util/vitalreporter";
 
 export class PeerManager {
 
@@ -32,6 +33,11 @@ export class PeerManager {
     sendMetaData(data) {
         if (!this.dataChannel) {
             console.error("Tried to send data before data channel was ready")
+            return;
+        }
+
+        if (this.dataChannel.readyState !== "open") {
+            reportVital("error: tried to send data before data channel was ready, current state: " + this.dataChannel.readyState)
             return;
         }
 

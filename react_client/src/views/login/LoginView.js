@@ -2,6 +2,8 @@ import {BlackoutPage} from "../../components/layout/BlackoutPage";
 import React from "react";
 import {OAC} from "../../client/OpenAudioAppContainer";
 import "./login.css"
+import {StaticFooter} from "../../components/footer/StaticFooter";
+import {VERSION} from "../../index";
 
 export class LoginView extends React.Component {
 
@@ -54,6 +56,11 @@ export class LoginView extends React.Component {
                         </div>
                     </div>
                 </div>
+                <StaticFooter>
+                    Release Candidate - build {VERSION.build}
+                    <br />
+                    (<small>{VERSION.date}</small>)
+                </StaticFooter>
             </BlackoutPage>
         );
     }

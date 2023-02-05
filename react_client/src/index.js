@@ -15,7 +15,9 @@ export const VERSION = {
     revision: meta.buildRevision,
     major: meta.buildMajor,
     minor: meta.buildMinor,
-    tag: meta.buildTag
+    tag: meta.buildTag,
+    date: meta.buildDate,
+    build: meta.build,
 };
 
 window.onerror = function(errorMessage, fileName, lineNumber, columnNumber, error) {
