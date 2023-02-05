@@ -132,7 +132,7 @@ export class PeerStream {
             this.masterOutputNode.disconnect(ctx.destination);
         }
 
-        if (this.audio !== null) {
+        if (this.audio) {
             this.audio.pause();
             this.audio.srcObject = null;
             this.gainNode.gain.value = 0;

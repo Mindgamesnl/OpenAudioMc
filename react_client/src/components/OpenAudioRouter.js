@@ -23,7 +23,6 @@ export class OpenAudioController extends React.Component {
 
         return (
             <div className={"h-full w-full"}>
-
                 <ToastContainer />
                 {currentView}
             </div>
