@@ -339,6 +339,11 @@ export class PeerManager {
                     return
                 } else {
                     e.track.onended = (event) => {
+                        if (this.dataChannel.readyState !== "open") {
+                            console.error("Warning! can't drop a stream because the connection is closed")
+                            return
+                        }
+
                         this.dataChannel.send(new RtcPacket()
                             .setEventName("SCHEDULE_RENAG")
                             .serialize())
