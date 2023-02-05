@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
 
+export let setTab = (tab) => {
+    console.warn("TAB HANDLER IS NOT SET YET");
+}
+
 export class TabWindow extends Component {
     static contextType = OAC;
 
@@ -8,6 +12,18 @@ export class TabWindow extends Component {
         super(props);
         this.state = {
             activePage: 0
+        }
+    }
+
+    componentDidMount() {
+        setTab = (tab) => {
+            this.setState({activePage: tab});
+        }
+    }
+
+    componentWillUnmount() {
+        setTab = (tab) => {
+            console.warn("TAB HANDLER IS NOT SET YET");
         }
     }
 
