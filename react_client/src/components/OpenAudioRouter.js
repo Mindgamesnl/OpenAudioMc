@@ -5,6 +5,7 @@ import {LoginView} from "../views/login/LoginView";
 import ClientView from "../views/client/ClientView";
 import 'react-toastify/dist/ReactToastify.css';
 import {ToastContainer} from "react-toastify";
+import {BlockedLoginView} from "../views/login/BlockedLoginView";
 
 export class OpenAudioController extends React.Component {
     static contextType = OAC;
@@ -15,6 +16,8 @@ export class OpenAudioController extends React.Component {
 
         if (oa.isLoading) {
             currentView = <LoadingView/>;
+        } else if (oa.isBlocked) {
+            currentView = <BlockedLoginView/>;
         } else if (!oa.currentUser) {
             currentView = <LoginView/>;
         } else {

@@ -71,6 +71,7 @@ const initialState = {
 
     // view states
     isLoading: true,
+    isBlocked: false,
     loadingState: 'Preparing to load OpenAudioMc',
 
 
