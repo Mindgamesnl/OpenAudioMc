@@ -73,6 +73,7 @@ const initialState = {
     isLoading: true,
     isBlocked: false,
     loadingState: 'Preparing to load OpenAudioMc',
+    fixedFooter: 'Public beta of our new client. Please report any bugs you find.',
 
 
     translationBanner: null, // null or {detectedAs: 'en', toEn: 'to en', keep: 'keep', reset: function() {}}
