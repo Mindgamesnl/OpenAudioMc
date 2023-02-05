@@ -33,6 +33,9 @@ class OpenAudioAppContainer extends React.Component {
         let settings = getGlobalState().settings;
         // loop over all object keys
         for (let key in settings) {
+
+            if (key === "voicechatMuted") continue; // don't use this saved store
+
             // get cookie value
             let cookieValue = Cookies.get("setting_" + key);
             if (cookieValue == null) continue;
