@@ -30,6 +30,11 @@ export class PeerManager {
     }
 
     sendMetaData(data) {
+        if (!this.dataChannel) {
+            console.error("Tried to send data before data channel was ready")
+            return;
+        }
+
         this.dataChannel.send(data);
     }
 
@@ -101,7 +106,7 @@ export class PeerManager {
 
     }
 
-    registerDataChannel(dataChannel, onConfirm) {
+        registerDataChannel(dataChannel, onConfirm) {
         // register listeners for this data channel once we're done
         // onConfirm is a callback all the way up to voicemodule, to confim that everything loaded and is ready for use
         dataChannel.addEventListener('open', event => {

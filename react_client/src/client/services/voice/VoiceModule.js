@@ -93,7 +93,7 @@ export const VoiceModule = new class IVoiceModule {
                 });
 
             // set the stream
-            this.microphoneProcessing = new MicrophoneProcessor(stream)
+
 
             let startCallback = () => {
                 // remove the loading popup
@@ -103,7 +103,10 @@ export const VoiceModule = new class IVoiceModule {
                 });
 
                 SocketManager.send(PluginChannel.RTC_READY, {"enabled": true});
+                this.microphoneProcessing = new MicrophoneProcessor(stream);
             }
+
+            startCallback.bind(this);
 
             this.peerManager.connectRtc(startCallback, stream);
         }
