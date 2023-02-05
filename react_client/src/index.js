@@ -21,6 +21,7 @@ export const VERSION = {
 window.onerror = function(errorMessage, fileName, lineNumber, columnNumber, error) {
     console.error("An error occurred: ", errorMessage, " in file: ", fileName, " at line: ", lineNumber, " column: ", columnNumber, " stack: ", error && error.stack);
     let message = "An error occurred: " + errorMessage + " in file: " + fileName + " at line: " + lineNumber + " column: " + columnNumber + " stack: " + (error && error.stack);
+
     reportVital('error:' + message)
 };
 

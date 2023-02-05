@@ -3,6 +3,10 @@ import {setGlobalState, store} from "../../state/store";
 import Cookies from "js-cookie";
 import {VERSION} from "../../index";
 
+
+// due to eslint local bug
+const metadata = {}
+
 export class MessageModule {
 
     constructor() {
