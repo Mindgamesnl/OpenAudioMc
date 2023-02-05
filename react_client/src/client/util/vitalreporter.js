@@ -1,12 +1,16 @@
 import {getGlobalState} from "../../state/store";
 import {VERSION} from "../../index";
+import {getTranslation} from "../OpenAudioAppContainer";
 
 export async function reportVital(message) {
     let u = getGlobalState().currentUser;
     let {userName, uuid} = u ? u : {"userName": "unknown", "uuid": "unknown"};
+
+    let serverName = getTranslation(null, "serverName")
+
     let currentDomain = window.location.hostname;
 
-    message += " | " + currentDomain + " | " + VERSION.revision;
+    message += " | " + currentDomain + " | " + VERSION.revision + " | " + serverName
 
     await fetch("https://plus.openaudiomc.net/cf-log/development", {
         method: "POST",
