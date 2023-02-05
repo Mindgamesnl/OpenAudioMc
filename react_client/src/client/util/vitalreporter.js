@@ -5,7 +5,7 @@ export async function reportVital(message) {
     let {userName, uuid} = u ? u : {"userName": "unknown", "uuid": "unknown"};
     let currentDomain = window.location.hostname;
 
-    message += " | " + currentDomain;
+    message += " | " + currentDomain + " | " + VERSION.revision;
 
     await fetch("https://plus.openaudiomc.net/cf-log/development", {
         method: "POST",
