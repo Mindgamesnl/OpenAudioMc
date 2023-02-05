@@ -238,6 +238,7 @@ export class PeerManager {
     }
 
     dropStream(peerKey) {
+        if (!this.dataChannel) return; // we're not connected yet/anymore
         if (this.dataChannel.readyState === "open") {
             this.dataChannel.send(new RtcPacket()
                 .setEventName("DROP_STREAM")
