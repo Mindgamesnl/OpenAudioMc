@@ -78,6 +78,7 @@ export class MicrophoneProcessor {
         }, 500);
 
         this.hookListeners();
+        onSettingsChange(); // init self
     }
 
     updateSensitivity(toPositive) {
