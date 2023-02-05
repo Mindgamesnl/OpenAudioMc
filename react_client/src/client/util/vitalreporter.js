@@ -1,4 +1,5 @@
 import {getGlobalState} from "../../state/store";
+import {VERSION} from "../../index";
 
 export async function reportVital(message) {
     let u = getGlobalState().currentUser;
