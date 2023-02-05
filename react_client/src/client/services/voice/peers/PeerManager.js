@@ -37,6 +37,7 @@ export class PeerManager {
         }
 
         if (this.dataChannel.readyState !== "open") {
+            console.error("Tried to send data before data channel was open")
             return;
         }
 
