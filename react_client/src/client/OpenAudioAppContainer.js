@@ -12,6 +12,7 @@ import {MediaManager} from "./services/media/MediaManager";
 import {SocketManager} from "./services/socket/SocketModule";
 import {toast} from "react-toastify";
 import Cookies from "js-cookie";
+import {reportVital} from "./util/vitalreporter";
 
 export const OAC = createContext({});
 let oldColors = ["#2c78f6", "#4F46E5"]
@@ -73,6 +74,7 @@ class OpenAudioAppContainer extends React.Component {
                     fatalToast('Your current link has expired. Please run /audio again to get a new link.');
                     return
                 }
+
                 setGlobalState({
                     currentUser: {
                         userName: tokenSet.name,
@@ -83,6 +85,9 @@ class OpenAudioAppContainer extends React.Component {
                     },
                     loadingState: "Welcome " + tokenSet.name + "! Loading your data...",
                 });
+
+                reportVital('metrics:betalogin')
+
                 return tokenSet;
             })
 

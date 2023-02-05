@@ -60,9 +60,6 @@ class VoiceSettings extends React.Component {
 
         return (
             <div>
-                <div className="content-section-title">
-                    <div className="content-section-title">{getTranslation(c, "vc.settings")}</div>
-                </div>
                 <div className="content-section flex justify-center">
                     <div className="content-card-collection items-stretch">
 
@@ -91,10 +88,10 @@ class VoiceSettings extends React.Component {
                             </div>
 
                             <div className="content-card-buttons w-full">
-                                <div className="w-full content-pill status-button bg-gray-400 text-center inline">
+                                <div className="w-full content-pill status-button green text-center inline">
                                     <div className="flex justify-center w-full">
 
-                                        <svg className="h-8 text-white" fill="none" viewBox="0 0 24 24"
+                                        <svg className="h-8 text-gray-900" fill="none" viewBox="0 0 24 24"
                                              stroke="currentColor"
                                              strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                             <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
