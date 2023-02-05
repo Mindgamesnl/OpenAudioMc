@@ -9,7 +9,7 @@ export class StaticFooter extends React.Component {
 
     render() {
         return (
-            <div className={"staticFooter"}>
+            <div {...this.props} className={"staticFooter"}>
                 {this.props.children}
             </div>
         );

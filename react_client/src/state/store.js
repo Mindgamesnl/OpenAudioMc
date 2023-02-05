@@ -13,6 +13,13 @@ const initialState = {
 
     isPremium: false,
 
+    inputModal: {
+        visible: false,
+        title: '',
+        message: '',
+        callback: null,
+    },
+
     settings: {
         prefetchMedia: true,
         normalVolume: 35,
@@ -73,7 +80,7 @@ const initialState = {
     isLoading: true,
     isBlocked: false,
     loadingState: 'Preparing to load OpenAudioMc',
-    fixedFooter: 'Public beta of our new client. Please report any bugs you find.',
+    fixedFooter: null,
 
 
     translationBanner: null, // null or {detectedAs: 'en', toEn: 'to en', keep: 'keep', reset: function() {}}
