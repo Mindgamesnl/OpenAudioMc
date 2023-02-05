@@ -7,6 +7,7 @@ import SettingsPage from "./pages/settings/SettingsPage";
 import {LoadingSpinnerBox} from "../../components/loading/LoadingSpinnerBox";
 import {GrayoutPage} from "../../components/layout/GrayoutPage";
 import {connect} from "react-redux";
+import {StaticFooter} from "../../components/footer/StaticFooter";
 
 class ClientView extends React.Component {
     render() {
@@ -30,6 +31,7 @@ class ClientView extends React.Component {
                     />
                 </GrayoutPage>}
                 <ResetLanguageBanner/>
+                {this.props.fixedFooter && <StaticFooter>{this.props.fixedFooter}</StaticFooter>}
             </div>
         );
     }
@@ -39,6 +41,7 @@ export default connect(mapStateToProps)(ClientView);
 
 function mapStateToProps(state) {
     return {
+        fixedFooter: state.fixedFooter,
         loadingOverlay: state.loadingOverlay,
         voiceState: state.voiceState
     };
