@@ -37,7 +37,6 @@ export class PeerManager {
         }
 
         if (this.dataChannel.readyState !== "open") {
-            reportVital("error: tried to send data before data channel was ready, current state: " + this.dataChannel.readyState)
             return;
         }
 
