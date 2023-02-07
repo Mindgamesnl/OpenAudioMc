@@ -4,6 +4,8 @@ import {RtcPacket} from "./protocol";
 import {playInternalEffect} from "../../media/util";
 import {PromisedChannel} from "../data/PromisedChannel";
 import {reportVital} from "../../../util/vitalreporter";
+import {SocketManager} from "../../socket/SocketModule";
+import * as PluginChannel from "../../../util/PluginChannel";
 
 export class PeerManager {
 
@@ -44,7 +46,7 @@ export class PeerManager {
         this.dataChannel.send(data);
     }
 
-    connectRtc(onConfirm, micStream) {
+    connectRtc(micStream) {
         // setup rtc
         let globalState = getGlobalState();
         let currentUser = globalState.currentUser;
@@ -71,7 +73,7 @@ export class PeerManager {
         this.peerConnection.addEventListener('connectionstatechange', kickoff);
 
         this.dataChannel = this.peerConnection.createDataChannel("eb");
-        this.registerDataChannel(this.dataChannel, onConfirm);
+        this.registerDataChannel(this.dataChannel);
         this.listenForTracks();
 
         // add local track
@@ -109,10 +111,15 @@ export class PeerManager {
 
     onStart() {
         // start everything! (this is called when the connection is established)
+        setGlobalState({
+            loadingOverlay: {visible: false},
+            voiceState: {ready: true}
+        });
 
+        SocketManager.send(PluginChannel.RTC_READY, {"enabled": true});
     }
 
-        registerDataChannel(dataChannel, onConfirm) {
+    registerDataChannel(dataChannel) {
         // register listeners for this data channel once we're done
         // onConfirm is a callback all the way up to voicemodule, to confim that everything loaded and is ready for use
         dataChannel.addEventListener('open', event => {
@@ -177,7 +184,6 @@ export class PeerManager {
 
                 case "OK":
                     // setup finished
-                    if (onConfirm != null) onConfirm()
                     if (getGlobalState().settings.voicechatChimesEnabled) {
                         playInternalEffect("assets/unmute.mp3")
                     }
