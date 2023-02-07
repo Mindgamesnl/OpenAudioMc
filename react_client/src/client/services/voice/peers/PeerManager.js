@@ -222,6 +222,16 @@ export class PeerManager {
         });
     }
 
+    gatherDebugState() {
+        return {
+            "peerConnection": this.peerConnection ? this.peerConnection.connectionState : "(null)",
+            "dataChannel": this.dataChannel ? this.dataChannel.connectionState : "(null)",
+            "peers:": VoiceModule.peerMap.size,
+            "trackQueue": this.trackQueue.size,
+            "voiceState": getGlobalState().voiceState,
+        }
+    }
+
     contextEvent(eventPacket) {
         let type = eventPacket.getParam("type")
 
