@@ -27,7 +27,25 @@ class OpenAudioAppContainer extends React.Component {
 
         this.state = {
             didUnlock: false,
-            allowedToUnlock: false
+            allowedToUnlock: false,
+            testMode: false,
+        }
+
+        // check if the current url has testMode as a variable
+        let url = new URL(window.location.href);
+        let testMode = url.searchParams.get("testMode");
+        if (testMode != null) {
+            this.state.testMode = true;
+            // set the global state to test mode
+            setGlobalState({
+                isLoading: false,
+                currentUser: {
+                    userName: "Test User",
+                    uuid: "test",
+                    token: "test",
+                    publicServerKey: "test",
+                }
+            })
         }
 
         let settings = getGlobalState().settings;
@@ -57,6 +75,8 @@ class OpenAudioAppContainer extends React.Component {
     }
 
     componentDidMount() {
+        if (this.state.testMode) return;
+
         setGlobalState({loadingState: "Loading language files..."});
         let sessionLoader = new ClientTokenSet()
 
