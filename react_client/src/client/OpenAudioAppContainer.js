@@ -153,7 +153,9 @@ class OpenAudioAppContainer extends React.Component {
                 }
 
                 if (serverData.useTranslations) {
-                    await this.messageModule.handleCountry(serverData.countryCode)
+                    let localLanguage = navigator.language || navigator.userLanguage;
+                    let language = localLanguage.split("-")[0];
+                    await this.messageModule.handleCountry(language)
                 } else {
                     setGlobalState({
                         // overwrite some messages
