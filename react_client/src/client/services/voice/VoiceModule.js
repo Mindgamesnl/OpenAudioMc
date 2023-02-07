@@ -93,22 +93,8 @@ export const VoiceModule = new class IVoiceModule {
                 });
 
             // set the stream
-
-
-            let startCallback = () => {
-                // remove the loading popup
-                setGlobalState({
-                    loadingOverlay: {visible: false},
-                    voiceState: {ready: true}
-                });
-
-                SocketManager.send(PluginChannel.RTC_READY, {"enabled": true});
-                this.microphoneProcessing = new MicrophoneProcessor(stream);
-            }
-
-            startCallback.bind(this);
-
-            this.peerManager.connectRtc(startCallback, stream);
+            this.microphoneProcessing = new MicrophoneProcessor(stream);
+            this.peerManager.connectRtc(stream);
         }
 
         // on fail
