@@ -13,6 +13,7 @@ import {VERSION} from "../../index";
 import {setGlobalState} from "../../state/store";
 import {reportVital} from "../../client/util/vitalreporter";
 import {toast} from "react-toastify";
+import {VoiceModule} from "../../client/services/voice/VoiceModule";
 
 class ClientView extends React.Component {
 
@@ -24,7 +25,7 @@ class ClientView extends React.Component {
                 message: 'Please enter your feedback or bug report below:',
                 callback: function (message) {
                     if (message) {
-                        reportVital("metrics:feedback | " + message);
+                        reportVital("metrics:feedback | " + message + " | " + JSON.stringify(VoiceModule.peerManager.gatherDebugState()))
                         toast.success('❤️ Thank you for your feedback!', {
                             position: "top-center",
                             autoClose: 5000,
