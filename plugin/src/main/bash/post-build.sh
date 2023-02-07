@@ -36,6 +36,5 @@ for f in target/*.jar
 do
   echo "Processing $f file..."
   # Automatically fix signed dependencies
-  zip -d $f META-INF/*.RSA META-INF/*.DSA META-INF/*.SF
-  cp target/OpenAudioMc-* ./../docs/builds/OpenAudioMc-latest.jar
+  zip -d $f META-INF/*.RSA META-INF/*.DSA META-INF/*.SF || echo "zip exited with $?" >&2
 done

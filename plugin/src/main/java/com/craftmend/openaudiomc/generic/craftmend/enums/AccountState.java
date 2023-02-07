@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.craftmend.enums;
 
-public enum AddonCategory {
+public enum AccountState {
 
     VOICE,
     ACCOUNT

@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.api.impl.event.events.AccountAddTagEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.AccountRemoveTagEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
-import com.craftmend.openaudiomc.generic.craftmend.enums.AddonCategory;
+import com.craftmend.openaudiomc.generic.craftmend.enums.AccountState;
 import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.craftmend.response.OpenaudioSettingsResponse;
 import com.craftmend.openaudiomc.generic.craftmend.response.VoiceSessionRequestResponse;
@@ -97,11 +97,11 @@ public class CraftmendService extends Service {
         tags.clear();
 
         if (settingsRequest.getResponse().getSettings().isBanned()) addTag(CraftmendTag.BANNED);
-        if (settingsRequest.getResponse().isClaimed()) addTag(CraftmendTag.CLAIMED);
+        if (settingsRequest.getResponse().getSettings().isClaimed()) addTag(CraftmendTag.CLAIMED);
         accountResponse = settingsRequest.getResponse();
 
         // is voice enabled with the new system?
-        if (accountResponse.hasAddon(AddonCategory.VOICE)) {
+        if (accountResponse.hasState(AccountState.VOICE)) {
             addTag(CraftmendTag.VOICECHAT);
             startVoiceHandshake(true);
         }
@@ -201,7 +201,7 @@ public class CraftmendService extends Service {
                     }
 
                     VoiceSessionRequestResponse voiceResponse = response.getResponse();
-                    int highestPossibleLimit = accountResponse.getAddon(AddonCategory.VOICE).getLimit();
+                    int highestPossibleLimit = accountResponse.getSettings().getVoicechatSlots();
                     this.voiceApiConnection.start(voiceResponse.getServer(), voiceResponse.getPassword(), highestPossibleLimit);
                     isAttemptingVcConnect = false;
                     lockVcAttempt = false;
