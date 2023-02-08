@@ -31,8 +31,6 @@ export class PeerStream {
         let streamRequest = VoiceModule.peerManager.requestStream(this.peerStreamKey);
 
         // when the stream is ready, we can start it
-
-        // TODO: Rewrite research, can we drop the audio tag?
         streamRequest.onFinish(stream => {
             // player context
             const ctx = WorldModule.player.audioCtx;
@@ -75,11 +73,8 @@ export class PeerStream {
 
             let globalVolumeGainNode = ctx.createGain();
             outputNode.connect(globalVolumeGainNode);
-
             this.globalVolumeNodeId = trackVoiceGainNode(globalVolumeGainNode);
-
             this.masterOutputNode = globalVolumeGainNode;
-
             globalVolumeGainNode.connect(ctx.destination);
 
             // start stream
@@ -89,7 +84,7 @@ export class PeerStream {
                     callback(true);
                 })
                 .catch((e) => {
-                    callback(false);
+                    callback(false, e);
                     console.error(e);
                 });
         })

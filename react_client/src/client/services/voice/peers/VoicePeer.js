@@ -4,6 +4,7 @@ import {PeerStream} from "./PeerStream";
 import {Vector3} from "../../../util/math/Vector3";
 import {VoiceModule} from "../VoiceModule";
 import Cookies from 'js-cookie'
+import {reportVital} from "../../../util/vitalreporter";
 
 export class VoicePeer {
 
@@ -38,7 +39,7 @@ export class VoicePeer {
         this.stream.setLocation(location.x, location.y, location.z);
 
         // start, and handle when it's ready
-        this.stream.startStream((succeeded) => {
+        this.stream.startStream((succeeded, e) => {
             if (succeeded) {
                 // am i dead?
                 if (this.killed) {
@@ -48,6 +49,9 @@ export class VoicePeer {
 
                 // remove loading state
                 setGlobalState({voiceState: {peers: {[this.peerStreamKey]: {loading: false}}}});
+            } else {
+                reportVital("metrics:voice:peer:failed " + this.peerName + " " + this.peerUuid + " " + this.peerStreamKey);
+                throw e;
             }
         })
     }
