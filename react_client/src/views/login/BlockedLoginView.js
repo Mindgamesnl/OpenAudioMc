@@ -1,15 +1,8 @@
 import {BlackoutPage} from "../../components/layout/BlackoutPage";
 import React from "react";
-import {OAC} from "../../client/OpenAudioAppContainer";
 import "./login.css"
 
 export class BlockedLoginView extends React.Component {
-
-    static contextType = OAC;
-
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         return (

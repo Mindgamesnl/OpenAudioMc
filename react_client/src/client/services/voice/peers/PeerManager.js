@@ -3,7 +3,6 @@ import {VoiceModule, VoiceStatusChangeEvent} from "../VoiceModule";
 import {RtcPacket} from "./protocol";
 import {playInternalEffect} from "../../media/util";
 import {PromisedChannel} from "../data/PromisedChannel";
-import {reportVital} from "../../../util/vitalreporter";
 import {SocketManager} from "../../socket/SocketModule";
 import * as PluginChannel from "../../../util/PluginChannel";
 
@@ -292,7 +291,7 @@ export class PeerManager {
         } else {
             console.error("Warning! attempted to request a stream for " + peerKey + " but the eb is closed")
             let promise = new PromisedChannel();
-            promise.handleError("Connection is closed")
+            promise.handleError("Connection is " + this.dataChannel.readyState)
             return promise;
         }
     }
