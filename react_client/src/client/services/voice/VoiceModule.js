@@ -62,6 +62,8 @@ export const VoiceModule = new class IVoiceModule {
         }
         onSettingsChange = onSettingsChange.bind(this);
         store.subscribe(onSettingsChange)
+
+        window.debugVoiceModule = this;
     }
 
     startVoiceChat() {
