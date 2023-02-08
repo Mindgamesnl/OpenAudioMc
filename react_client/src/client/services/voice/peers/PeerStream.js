@@ -128,6 +128,10 @@ export class PeerStream {
             this.gainNode.gain.value = 0;
         }
 
+        if (this.audio_elem) {
+            this.audio_elem.pause();
+        }
+
         if (this.harkEvents !== null) {
             this.harkEvents.stop();
         }
