@@ -23,6 +23,7 @@
     "wildemitter": "^1.2.1"
   },
   "scripts": {
+    "lint": "node_modules/.bin/eslint src/",
     "start": "node generate-buildno.js && react-scripts start",
     "build": "node generate-buildno.js && GENERATE_SOURCEMAP=true react-scripts build",
     "test": "react-scripts test",

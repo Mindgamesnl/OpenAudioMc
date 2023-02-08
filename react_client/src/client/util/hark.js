@@ -1,3 +1,4 @@
+/* eslint-disable */
 /*
  * This is a fork of hark.js, which is licensed under the MIT license.
  * The original source code can be found at https://github.com/latentflip/hark

@@ -1,7 +1,7 @@
 import React from "react";
 import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
 import AdvancedVoiceSettings from "./AdvancedVoiceSettings";
-import {getGlobalState, setGlobalState, store} from "../../state/store";
+import {setGlobalState, store} from "../../state/store";
 import {connect} from "react-redux";
 import {reRenderAllGainNodes} from "../../client/services/voice/VoiceModule";
 

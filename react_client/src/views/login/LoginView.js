@@ -4,7 +4,6 @@ import {OAC} from "../../client/OpenAudioAppContainer";
 import "./login.css"
 import {StaticFooter} from "../../components/footer/StaticFooter";
 import {VERSION} from "../../index";
-import {InputModal} from "../../components/modal/InputModal";
 
 export class LoginView extends React.Component {
 

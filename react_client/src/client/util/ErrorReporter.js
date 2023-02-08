@@ -1,4 +1,5 @@
 import {API_ENDPOINT} from "../config/ApiEndpoints";
+import {VERSION} from "../../index";
 
 export function ReportError(message, playerName, callback) {
     fetch(API_ENDPOINT.ERROR_REPORTING, {
@@ -8,7 +9,7 @@ export function ReportError(message, playerName, callback) {
         },
         body: JSON.stringify({
             playerName: playerName,
-            message: "build __BUILD_VERSION__: " + message
+            message: "build " + VERSION.build + ": " + message
         })
     })
         .then((res) => {

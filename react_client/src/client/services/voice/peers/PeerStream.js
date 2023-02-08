@@ -5,7 +5,6 @@ import {applyPannerSettings, untrackPanner} from "../../../../views/client/pages
 import {Position} from "../../../util/math/Position";
 import {Vector3} from "../../../util/math/Vector3";
 import {Hark} from "../../../util/hark";
-import {reportVital} from "../../../util/vitalreporter";
 
 export class PeerStream {
 

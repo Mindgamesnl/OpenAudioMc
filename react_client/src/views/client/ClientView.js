@@ -9,7 +9,6 @@ import {GrayoutPage} from "../../components/layout/GrayoutPage";
 import {connect} from "react-redux";
 import {StaticFooter} from "../../components/footer/StaticFooter";
 import {InputModal} from "../../components/modal/InputModal";
-import {VERSION} from "../../index";
 import {setGlobalState} from "../../state/store";
 import {reportVital} from "../../client/util/vitalreporter";
 import {toast} from "react-toastify";
@@ -70,7 +69,6 @@ class ClientView extends React.Component {
                     </p>
                 </StaticFooter>
 
-                // config footer
                 {this.props.fixedFooter && <StaticFooter>{this.props.fixedFooter}</StaticFooter>}
                 {this.props.inputModal.visible && <InputModal />}
             </div>
