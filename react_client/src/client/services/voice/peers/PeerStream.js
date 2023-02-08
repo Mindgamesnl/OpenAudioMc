@@ -38,52 +38,53 @@ export class PeerStream {
             this.gainNode = ctx.createGain();
             this.setVolume(this.volume);
             this.audio = new Audio();
-            this.audio.autoplay = true;
             this.audio.srcObject = stream;
+            this.audio.autoplay = true;
             this.gainNode.gain.value = (this.volume / 100) * this.volBooster;
             this.audio.muted = true; // mute the audio element, we don't want to hear it, gain node already does that
 
             this.audio.onerror = reportVital;
             this.audio.onabort = reportVital;
 
+            let source = ctx.createMediaStreamSource(this.audio.srcObject);
+
+            // speaking indicator
+            this.harkEvents = new Hark(stream);
+            this.harkEvents.setThreshold(-75);
+            this.harkEvents.on('speaking', () => {
+                setGlobalState({voiceState: {peers: {[this.peerStreamKey]: {speaking: true}}}});
+            });
+
+            this.harkEvents.on('stopped_speaking', () => {
+                setGlobalState({voiceState: {peers: {[this.peerStreamKey]: {speaking: false}}}});
+            });
+
+            // spatial audio handling, depends on the settings
+            let outputNode = null;
+
+            if (this.useSpatialAudio) {
+                this.pannerNode = ctx.createPanner();
+                this.pannerId = applyPannerSettings(this.pannerNode);
+                this.setLocation(this.x, this.y, this.z, true);
+                source.connect(this.gainNode);
+                this.gainNode.connect(this.pannerNode);
+                outputNode = this.pannerNode;
+            } else {
+                // just do gain
+                source.connect(this.gainNode);
+                outputNode = this.gainNode;
+            }
+
+            let globalVolumeGainNode = ctx.createGain();
+            outputNode.connect(globalVolumeGainNode);
+            this.globalVolumeNodeId = trackVoiceGainNode(globalVolumeGainNode);
+            this.masterOutputNode = globalVolumeGainNode;
+            globalVolumeGainNode.connect(ctx.destination);
+
+
             // start stream
             this.audio.play()
                 .then(() => {
-                    let source = ctx.createMediaStreamSource(stream);
-
-                    // speaking indicator
-                    this.harkEvents = new Hark(stream);
-                    this.harkEvents.setThreshold(-75);
-                    this.harkEvents.on('speaking', () => {
-                        setGlobalState({voiceState: {peers: {[this.peerStreamKey]: {speaking: true}}}});
-                    });
-
-                    this.harkEvents.on('stopped_speaking', () => {
-                        setGlobalState({voiceState: {peers: {[this.peerStreamKey]: {speaking: false}}}});
-                    });
-
-                    // spatial audio handling, depends on the settings
-                    let outputNode = null;
-
-                    if (this.useSpatialAudio) {
-                        this.pannerNode = ctx.createPanner();
-                        this.pannerId = applyPannerSettings(this.pannerNode);
-                        this.setLocation(this.x, this.y, this.z, true);
-                        source.connect(this.gainNode);
-                        this.gainNode.connect(this.pannerNode);
-                        outputNode = this.pannerNode;
-                    } else {
-                        // just do gain
-                        source.connect(this.gainNode);
-                        outputNode = this.gainNode;
-                    }
-
-                    let globalVolumeGainNode = ctx.createGain();
-                    outputNode.connect(globalVolumeGainNode);
-                    this.globalVolumeNodeId = trackVoiceGainNode(globalVolumeGainNode);
-                    this.masterOutputNode = globalVolumeGainNode;
-                    globalVolumeGainNode.connect(ctx.destination);
-
                     this.setVolume(this.volume);
                     callback(true);
                 })
