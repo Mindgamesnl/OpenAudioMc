@@ -24,6 +24,7 @@ home.audioControls=Audio controls
 home.notificationsTitle=Notifications
 home.notificationsEmpty=You don't have any notifications at the moment
 
+vc.notCompatible=Your browser does not support voice chat. Please use a modern (desktop) browser like Chrome, Safari, etc.
 vc.voiceModerationEnabled=This server has moderation enabled. Select staff may be listening in while your mic is active.
 vc.notice=Notice
 vc.startingPopupTitle=Logging into voice chat...
