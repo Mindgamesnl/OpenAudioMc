@@ -49,6 +49,11 @@ class OpenAudioAppContainer extends React.Component {
             })
         }
 
+        // initialize capabilities
+        setGlobalState({
+            browserSupportsVoiceChat: isVoicechatCompatible()
+        })
+
         let settings = getGlobalState().settings;
         // loop over all object keys
         for (let key in settings) {
@@ -332,4 +337,8 @@ export async function handleStreamerMode() {
         // fuckup
         fatalToast("Streamer mode: " + b.error);
     }
+}
+
+function isVoicechatCompatible() {
+    return ((RTCPeerConnection != null));
 }

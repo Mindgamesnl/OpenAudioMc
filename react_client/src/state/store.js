@@ -12,6 +12,7 @@ const initialState = {
     },
 
     isPremium: false,
+    browserSupportsVoiceChat: false,
 
     inputModal: {
         visible: false,
