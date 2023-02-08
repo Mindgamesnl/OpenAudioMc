@@ -13,6 +13,7 @@ import {SocketManager} from "./services/socket/SocketModule";
 import {toast} from "react-toastify";
 import Cookies from "js-cookie";
 import {reportVital} from "./util/vitalreporter";
+import {WorldModule} from "./services/world/WorldModule";
 
 export const OAC = createContext({});
 let oldColors = ["#2c78f6", "#4F46E5"]
@@ -230,6 +231,7 @@ class OpenAudioAppContainer extends React.Component {
             if (!this.state.didUnlock) {
                 // initialize OpenAudio
                 MediaManager.postBoot();
+                WorldModule.initPlayer();
                 SocketManager.connectToServer(getGlobalState().relay.endpoint);
                 setGlobalState({clickLock: false});
                 this.setState({didUnlock: true});

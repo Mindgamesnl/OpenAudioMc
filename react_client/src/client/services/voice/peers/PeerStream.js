@@ -32,21 +32,24 @@ export class PeerStream {
         let streamRequest = VoiceModule.peerManager.requestStream(this.peerStreamKey);
 
         // when the stream is ready, we can start it
-        streamRequest.onFinish(stream => {
+        streamRequest.onFinish(async (stream) => {
+            this.audio_elem = new Audio();
+            this.audio_elem.autoplay = true;
+            this.audio_elem.muted = true;
+            this.audio_elem.srcObject = stream;
+
             // player context
             const ctx = WorldModule.player.audioCtx;
             this.gainNode = ctx.createGain();
             this.setVolume(this.volume);
-            this.audio = new Audio();
-            this.audio.srcObject = stream;
-            this.audio.autoplay = true;
             this.gainNode.gain.value = (this.volume / 100) * this.volBooster;
-            this.audio.muted = true; // mute the audio element, we don't want to hear it, gain node already does that
 
-            this.audio.onerror = reportVital;
-            this.audio.onabort = reportVital;
+            // Workaround for the Chrome bug
+            await this.audio_elem.play();
+            let source = ctx.createMediaStreamSource(stream);
 
-            let source = ctx.createMediaStreamSource(this.audio.srcObject);
+            // connect to destination as early debug?
+            source.connect(ctx.destination);
 
             // speaking indicator
             this.harkEvents = new Hark(stream);
@@ -80,18 +83,7 @@ export class PeerStream {
             this.globalVolumeNodeId = trackVoiceGainNode(globalVolumeGainNode);
             this.masterOutputNode = globalVolumeGainNode;
             globalVolumeGainNode.connect(ctx.destination);
-
-
-            // start stream
-            this.audio.play()
-                .then(() => {
-                    this.setVolume(this.volume);
-                    callback(true);
-                })
-                .catch((e) => {
-                    callback(false, e);
-                    console.error(e);
-                });
+            callback(true);
         })
 
         streamRequest.onReject((e) => {
@@ -132,9 +124,7 @@ export class PeerStream {
             this.masterOutputNode.disconnect(ctx.destination);
         }
 
-        if (this.audio) {
-            this.audio.pause();
-            this.audio.srcObject = null;
+        if (this.gainNode) {
             this.gainNode.gain.value = 0;
         }
 

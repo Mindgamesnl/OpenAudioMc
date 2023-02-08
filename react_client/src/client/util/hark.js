@@ -45,20 +45,30 @@ export function Hark(stream, options) {
 
     var sourceNode, fftBins, analyser;
 
+    if (options.source) {
+        sourceNode = options.source;
+    }
+
     analyser = audioContext.createAnalyser();
     analyser.fftSize = 512;
     analyser.smoothingTimeConstant = smoothing;
     fftBins = new Float32Array(analyser.frequencyBinCount);
 
     if (stream.jquery) stream = stream[0];
-    if (stream instanceof HTMLAudioElement || stream instanceof HTMLVideoElement) {
-        //Audio Tag
-        sourceNode = audioContext.createMediaElementSource(stream);
-        if (typeof play === 'undefined') play = true;
-        threshold = threshold || -50;
+    if (!sourceNode) {
+        console.log('Hark: making stream')
+        if (stream instanceof HTMLAudioElement || stream instanceof HTMLVideoElement) {
+            //Audio Tag
+            sourceNode = audioContext.createMediaElementSource(stream);
+            if (typeof play === 'undefined') play = true;
+            threshold = threshold || -50;
+        } else {
+            //WebRTC Stream
+            sourceNode = audioContext.createMediaStreamSource(stream);
+            threshold = threshold || -50;
+        }
     } else {
-        //WebRTC Stream
-        sourceNode = audioContext.createMediaStreamSource(stream);
+        console.log('Hark: using given stream')
         threshold = threshold || -50;
     }
 
@@ -66,6 +76,9 @@ export function Hark(stream, options) {
     if (play) analyser.connect(audioContext.destination);
 
     harker.speaking = false;
+
+    harker.ctx = audioContext;
+    harker.source = sourceNode;
 
     harker.suspend = function() {
         return audioContext.suspend();
