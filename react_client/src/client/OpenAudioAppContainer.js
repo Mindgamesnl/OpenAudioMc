@@ -340,5 +340,8 @@ export async function handleStreamerMode() {
 }
 
 function isVoicechatCompatible() {
-    return ((RTCPeerConnection != null));
+    if (typeof RTCPeerConnection === 'undefined') {
+        return false;
+    }
+    return true;
 }
