@@ -14,6 +14,7 @@ export class PeerManager {
         this.lastNegotiationRequest = null;
         this.trackQueue = new Map();
         this.waitingPromises = new Map();
+        this.subscribeWhenConnected = [];
         this.micStream = null;
 
         this.connectRtc = this.connectRtc.bind(this);
@@ -65,7 +66,6 @@ export class PeerManager {
             if (this.peerConnection.connectionState === 'connected' || event.target.iceConnectionState === 'connected') {
                 if (started) return;
                 started = true;
-                this.onStart();
             }
         }
         this.peerConnection.oniceconnectionstatechange = kickoff
@@ -183,6 +183,7 @@ export class PeerManager {
 
                 case "OK":
                     // setup finished
+                    this.onStart();
                     if (getGlobalState().settings.voicechatChimesEnabled) {
                         playInternalEffect("assets/unmute.mp3")
                     }
