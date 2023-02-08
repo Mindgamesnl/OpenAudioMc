@@ -9,6 +9,10 @@ export const WorldModule = new class IWorldModule {
     constructor() {
         this.speakers = new Map();
         this.audioMap = new Map();
+        this.player = null;
+    }
+
+    initPlayer() {
         this.player = new Player(this, new Vector3(0, 0, 0), 0, 0);
     }
 
