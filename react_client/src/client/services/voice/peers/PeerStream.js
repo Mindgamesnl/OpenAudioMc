@@ -89,8 +89,8 @@ export class PeerStream {
                 });
         })
 
-        streamRequest.onReject(() => {
-            callback(false);
+        streamRequest.onReject((e) => {
+            callback(false, new Error(e));
         });
     }
 
