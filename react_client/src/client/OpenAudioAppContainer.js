@@ -235,8 +235,8 @@ class OpenAudioAppContainer extends React.Component {
         if (this.state.allowedToUnlock) {
             if (!this.state.didUnlock) {
                 // initialize OpenAudio
-                MediaManager.postBoot();
                 WorldModule.initPlayer();
+                MediaManager.postBoot();
                 SocketManager.connectToServer(getGlobalState().relay.endpoint);
                 setGlobalState({clickLock: false});
                 this.setState({didUnlock: true});
