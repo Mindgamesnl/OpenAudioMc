@@ -3,6 +3,7 @@ import {VERSION} from "../../index";
 import {getTranslation} from "../OpenAudioAppContainer";
 
 export async function reportVital(message) {
+    console.log("Reporting vital: ", message);
     let u = getGlobalState().currentUser;
     let {userName, uuid} = u ? u : {"userName": "unknown", "uuid": "unknown"};
 
