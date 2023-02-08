@@ -5,6 +5,7 @@ import {applyPannerSettings, untrackPanner} from "../../../../views/client/pages
 import {Position} from "../../../util/math/Position";
 import {Vector3} from "../../../util/math/Vector3";
 import {Hark} from "../../../util/hark";
+import {reportVital} from "../../../util/vitalreporter";
 
 export class PeerStream {
 
@@ -42,10 +43,13 @@ export class PeerStream {
             this.gainNode.gain.value = (this.volume / 100) * this.volBooster;
             this.audio.muted = true; // mute the audio element, we don't want to hear it, gain node already does that
 
+            this.audio.onerror = reportVital;
+            this.audio.onabort = reportVital;
+
             // start stream
             this.audio.play()
                 .then(() => {
-                    let source = ctx.createMediaStreamSource(this.audio.srcObject);
+                    let source = ctx.createMediaStreamSource(stream);
 
                     // speaking indicator
                     this.harkEvents = new Hark(stream);
