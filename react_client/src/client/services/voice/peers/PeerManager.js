@@ -235,6 +235,7 @@ export class PeerManager {
             "peers:": VoiceModule.peerMap.size,
             "trackQueue": this.trackQueue.size,
             "voiceState": getGlobalState().voiceState,
+            'settings': getGlobalState().settings,
         }
     }
 
