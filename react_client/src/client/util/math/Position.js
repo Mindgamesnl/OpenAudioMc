@@ -13,6 +13,7 @@ export class Position {
         const pos = this.position;
         const forward = new Vector3(0, 0, 1).applyQuaternion(this.rotation);
         const up = new Vector3(0, 1, 0).applyQuaternion(this.rotation);
+
         if (target.positionX) {
             target.positionX.value = pos.x;
             target.positionY.value = pos.y;
