@@ -51,7 +51,9 @@ export class VoicePeer {
                 setGlobalState({voiceState: {peers: {[this.peerStreamKey]: {loading: false}}}});
             } else {
                 reportVital("metrics:voice:peer:failed " + this.peerName + " " + this.peerUuid + " " + this.peerStreamKey);
-                throw e;
+                if (e) {
+                    throw e;
+                }
             }
         })
     }
