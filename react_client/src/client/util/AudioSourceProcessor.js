@@ -16,7 +16,7 @@ export class AudioSourceProcessor {
 
     async translate(sourceOg) {
         let source = this.handleRandomizedPlaylist(sourceOg);
-        let publicServerKey = getGlobalState().settings.publicServerKey;
+        let publicServerKey = getGlobalState().currentUser.publicServerKey;
 
         // filter old
         try {
