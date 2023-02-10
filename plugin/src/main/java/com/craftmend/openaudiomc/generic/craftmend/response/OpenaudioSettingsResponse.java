@@ -22,7 +22,7 @@ public class OpenaudioSettingsResponse extends AbstractRestResponse {
             case ACCOUNT:
                 return settings.claimed;
             case VOICE:
-                return settings.voicechatSlots > 0;
+                return settings.voicechatSlots > 0 && settings.isVoicechatEnabled;
         }
         return false;
     }
