@@ -57,9 +57,7 @@ export class LoginView extends React.Component {
                     </div>
                 </div>
                 <StaticFooter>
-                    Release Candidate - build {VERSION.build}
-                    <br />
-                    (<small>{VERSION.date}</small>)
+                    build {VERSION.build}
                 </StaticFooter>
             </BlackoutPage>
         );
