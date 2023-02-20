@@ -14,7 +14,6 @@ export class PeerManager {
         this.lastNegotiationRequest = null;
         this.trackQueue = new Map();
         this.waitingPromises = new Map();
-        this.subscribeWhenConnected = [];
         this.micStream = null;
 
         this.connectRtc = this.connectRtc.bind(this);

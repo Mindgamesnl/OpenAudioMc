@@ -3,7 +3,7 @@ mkdir -p test-server-spigot/plugins/
 mkdir -p test-server-spigot/plugins/OpenAudioMc/
 echo "Building new OpenAudioMc jar without unit tests.."
 
-mvn clean install -Dmaven.test.skip=true
+/usr/local/Cellar/mvnd/0.9.0/bin/mvnd clean install -Dmaven.test.skip=true
 
 rm test-server-spigot/plugins/openaudiomc-*
 cp plugin/target/openaudiomc-* test-server-spigot/plugins/
@@ -17,6 +17,9 @@ if [ ! -f ./spigot-1.19.2.jar ]; then
     echo "eula=true" > eula.txt
     chmod +x spigot-1.12.2.jar
 fi
+
+export OA_ENVIRONMENT="DEVELOPMENT"
+export OA_DEBUG_URL="http://localhost:8000"
 
 echo "Starting server.."
 java -Xms3G -Xmx3G -jar spigot-1.19.2.jar nogui

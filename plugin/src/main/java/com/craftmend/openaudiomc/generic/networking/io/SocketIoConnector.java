@@ -86,7 +86,6 @@ public class SocketIoConnector {
         }
 
         ProxySelector.setDefault(new NullProxySelector());
-
         OkHttpClient okHttpClient = CertificateHelper.ignore(new OkHttpClient.Builder().proxySelector(new NullProxySelector())).build();
 
         IO.Options opts = new IO.Options();
