@@ -55,7 +55,12 @@ public class RestDirectService extends Service {
             audioDirectory.mkdir();
         }
 
-        attemptServerBoot();
+        try {
+            attemptServerBoot();
+        } catch (Exception e) {
+            OpenAudioLogger.toConsole("Failed to start a cdn injector, falling back to http");
+            OpenAudioLogger.toConsole("Error: " + e.getMessage());
+        }
     }
 
     public RestDirectServer attemptServerBoot() {

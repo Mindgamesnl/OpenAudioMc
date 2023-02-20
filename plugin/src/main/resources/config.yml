@@ -75,6 +75,9 @@ options:
   # If set to true, the player automatically receives a link upon joining
   send-on-join: true
 
+  # Delay in seconds before sending the link to the player
+  send-on-join-delay: 5
+
   # If set to true, the player gets reminded to connect (see messages.suggest-connection)
   remind-to-connect: true
 

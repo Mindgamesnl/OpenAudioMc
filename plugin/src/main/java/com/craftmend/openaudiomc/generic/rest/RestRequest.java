@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.rest;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.rest.response.AbstractRestResponse;
 import com.craftmend.openaudiomc.generic.rest.response.IntermediateResponse;
@@ -14,10 +15,14 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
+import javax.net.ssl.*;
 import java.net.SocketTimeoutException;
+import java.security.cert.CertificateException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+
+import static com.craftmend.openaudiomc.generic.networking.certificate.CertificateHelper.ignore;
 
 public class RestRequest<T extends AbstractRestResponse> {
 
@@ -160,14 +165,22 @@ public class RestRequest<T extends AbstractRestResponse> {
             requestBuilder = requestBuilder.get();
         }
 
-        OkHttpClient.Builder clientBuilder = new OkHttpClient().newBuilder();
+        OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+        OkHttpClient client = null;
+
         if (timeout != -1) {
-            clientBuilder = clientBuilder.readTimeout(timeout, java.util.concurrent.TimeUnit.SECONDS);
-            clientBuilder = clientBuilder.connectTimeout(timeout, java.util.concurrent.TimeUnit.SECONDS);
+            clientBuilder.readTimeout(timeout, java.util.concurrent.TimeUnit.SECONDS);
+            clientBuilder.connectTimeout(timeout, java.util.concurrent.TimeUnit.SECONDS);
         }
 
+        if (OpenAudioMc.SERVER_ENVIRONMENT == ServerEnvironment.DEVELOPMENT) {
+            OpenAudioLogger.toConsole("Running in development mode, disabling SSL verification");
+            clientBuilder = ignore(clientBuilder);
+        }
+        client = clientBuilder.build();
+
         try {
-            okhttp3.Response response = clientBuilder.build().newCall(requestBuilder.build()).execute();
+            okhttp3.Response response = client.newCall(requestBuilder.build()).execute();
             return new HttpRes(response.code(), response.body().string());
         } catch (Exception e) {
             if (!(e instanceof SocketTimeoutException))

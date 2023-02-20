@@ -47,7 +47,7 @@ public enum MagicValue {
         }
     }
 
-    private static String readEnv(String e) {
+    public static String readEnv(String e) {
         String data = System.getenv(e);
         if (data == null || data.length() < 1) {
             data = System.getProperty(e);
