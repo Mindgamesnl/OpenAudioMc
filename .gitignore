@@ -1,3 +1,4 @@
+# Intellij
 .classpath
 .project
 .settings
@@ -9,13 +10,16 @@ eclipse
 .DS_Store
 bin
 
+# Out
 .idea/*
-
 out
 out/*
 
+# Sublime text
 .vscode/*
 
+# Custom
 test-server-spigot/
 test-server-bungee/
 test-server/
+.buildconfig
