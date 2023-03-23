@@ -11,40 +11,32 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OpenaudioSettingsResponse extends AbstractRestResponse {
 
-    private OpenAudioSettingsResponse settings = new OpenAudioSettingsResponse();
-    private String relay = "";
-    private String name = "";
-    @SerializedName("rtc")
-    private String rtcHash = "";
+    private int voicechatSlots = 0;
+    private boolean claimed = false;
+    private boolean banned = false;
+    private String clientUrl = "";
+    private String startSound = "";
+    private String startButton = "";
+    private String backgroundImage = "";
+    private String activeMessage = "";
+    private String errorMessage = "";
+    private String title = "";
+    private String color = "";
+    private String ambianceSound = "";
+    private String welcomeMessage = "";
+    private boolean useTranslations = false;
+    private String displayName = "";
+    private boolean isVoicechatEnabled = false;
+    private boolean isPatreon = false;
 
     public boolean hasState(AccountState addonCategory) {
         switch (addonCategory) {
             case ACCOUNT:
-                return settings.claimed;
+                return claimed;
             case VOICE:
-                return settings.voicechatSlots > 0 && settings.isVoicechatEnabled;
+                return voicechatSlots > 0 && isVoicechatEnabled;
         }
         return false;
-    }
-
-    @Getter
-    public static class OpenAudioSettingsResponse {
-        private int voicechatSlots = 0;
-        private boolean claimed = false;
-        private boolean banned = false;
-        private String clientUrl = "";
-        private String startSound = "";
-        private String startButton = "";
-        private String backgroundImage = "";
-        private String activeMessage = "";
-        private String errorMessage = "";
-        private String title = "";
-        private String color = "";
-        private String ambianceSound = "";
-        private String welcomeMessage = "";
-        private boolean useTranslations = false;
-        private String displayName = "";
-        private boolean isVoicechatEnabled = false;
     }
 
 }

@@ -96,9 +96,10 @@ public class CraftmendService extends Service {
 
         tags.clear();
 
-        if (settingsRequest.getResponse().getSettings().isBanned()) addTag(CraftmendTag.BANNED);
-        if (settingsRequest.getResponse().getSettings().isClaimed()) addTag(CraftmendTag.CLAIMED);
+        if (settingsRequest.getResponse().isBanned()) addTag(CraftmendTag.BANNED);
+        if (settingsRequest.getResponse().isClaimed()) addTag(CraftmendTag.CLAIMED);
         accountResponse = settingsRequest.getResponse();
+        System.out.println("Account response: " + accountResponse);
 
         // is voice enabled with the new system?
         if (accountResponse.hasState(AccountState.VOICE)) {
@@ -201,7 +202,7 @@ public class CraftmendService extends Service {
                     }
 
                     VoiceSessionRequestResponse voiceResponse = response.getResponse();
-                    int highestPossibleLimit = accountResponse.getSettings().getVoicechatSlots();
+                    int highestPossibleLimit = accountResponse.getVoicechatSlots();
                     this.voiceApiConnection.start(voiceResponse.getServer(), voiceResponse.getPassword(), highestPossibleLimit);
                     isAttemptingVcConnect = false;
                     lockVcAttempt = false;
