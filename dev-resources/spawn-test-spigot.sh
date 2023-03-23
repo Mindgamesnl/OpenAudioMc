@@ -18,8 +18,8 @@ if [ ! -f ./spigot-1.19.2.jar ]; then
     chmod +x spigot-1.12.2.jar
 fi
 
-export OA_ENVIRONMENT="DEVELOPMENT"
-export OA_DEBUG_URL="http://localhost:8000"
+#export OA_ENVIRONMENT="DEVELOPMENT"
+#export OA_DEBUG_URL="http://localhost:8000"
 
 echo "Starting server.."
 java -Xms3G -Xmx3G -jar spigot-1.19.2.jar nogui
