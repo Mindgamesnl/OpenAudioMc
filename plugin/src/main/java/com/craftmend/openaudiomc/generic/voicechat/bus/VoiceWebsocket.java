@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.rest.response.NoResponse;
-import com.craftmend.openaudiomc.generic.rest.target.Endpoint;
+import com.craftmend.openaudiomc.generic.rest.routes.Endpoint;
 import okhttp3.*;
 import okio.ByteString;
 import org.jetbrains.annotations.NotNull;

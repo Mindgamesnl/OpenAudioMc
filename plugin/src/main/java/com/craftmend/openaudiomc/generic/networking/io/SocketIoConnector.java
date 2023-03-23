@@ -16,7 +16,7 @@ import com.craftmend.openaudiomc.generic.networking.drivers.SystemDriver;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.rest.response.NoResponse;
-import com.craftmend.openaudiomc.generic.rest.target.Endpoint;
+import com.craftmend.openaudiomc.generic.rest.routes.Endpoint;
 import com.craftmend.openaudiomc.generic.rest.types.RelayLoginResponse;
 import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
@@ -39,7 +39,6 @@ import java.net.ProxySelector;
 import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.UUID;
 
 public class SocketIoConnector {
 

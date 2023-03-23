@@ -1,14 +1,12 @@
 package com.craftmend.openaudiomc.generic.commands.subcommands;
 
-import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.platform.OaColor;
 import com.craftmend.openaudiomc.generic.rest.RestRequest;
-import com.craftmend.openaudiomc.generic.rest.target.Endpoint;
+import com.craftmend.openaudiomc.generic.rest.routes.Endpoint;
 import com.craftmend.openaudiomc.generic.rest.types.ClaimCodeResponse;
 import com.craftmend.openaudiomc.generic.user.User;
-import org.bukkit.ChatColor;
 
 public class LinkSubCommand extends SubCommand {
 
