@@ -30,12 +30,14 @@ import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 
+import io.socket.client.Url;
 import lombok.Getter;
 
 import okhttp3.OkHttpClient;
 
 import java.io.IOException;
 import java.net.ProxySelector;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
@@ -139,6 +141,7 @@ public class SocketIoConnector {
         try {
             String endpoint = loginResponse.getRelayEndpoint();
             endpoint = endpoint.replace("https", "http");
+            System.out.println(Url.parse(new URI(endpoint)));
             socket = IO.socket(endpoint, opts);
         } catch (URISyntaxException e) {
             OpenAudioLogger.handleException(e);

@@ -14,6 +14,7 @@ import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.OAClientMode;
+import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,7 +38,7 @@ public class ClientAuth implements Serializable {
     public void publishSessionUrl() {
         OpenAudioMc openAudioMc = OpenAudioMc.getInstance();
         Configuration config = openAudioMc.getConfiguration();
-        String baseUrl = OpenAudioMc.getService(CraftmendService.class).getAccountResponse().getSettings().getClientUrl();
+        String baseUrl = OpenAudioMc.getService(CraftmendService.class).getAccountResponse().getClientUrl();
 
         // cancel if the player is via proxy because the proxy should handle it
         if (openAudioMc.getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == OAClientMode.NODE)
