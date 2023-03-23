@@ -11,7 +11,7 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.rest.ServerEnvironment;
 import com.craftmend.openaudiomc.generic.rest.response.NoResponse;
-import com.craftmend.openaudiomc.generic.rest.target.Endpoint;
+import com.craftmend.openaudiomc.generic.rest.routes.Endpoint;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;

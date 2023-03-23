@@ -3,7 +3,7 @@ package com.craftmend.tests;
 import com.craftmend.openaudiomc.generic.environment.models.ProjectStatus;
 import com.craftmend.openaudiomc.generic.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.rest.response.SectionError;
-import com.craftmend.openaudiomc.generic.rest.target.Endpoint;
+import com.craftmend.openaudiomc.generic.rest.routes.Endpoint;
 import org.junit.Assert;
 import org.junit.Test;
 

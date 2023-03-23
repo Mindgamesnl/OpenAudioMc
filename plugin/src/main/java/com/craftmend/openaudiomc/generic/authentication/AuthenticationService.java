@@ -9,7 +9,7 @@ import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.rest.RestRequest;
-import com.craftmend.openaudiomc.generic.rest.target.Endpoint;
+import com.craftmend.openaudiomc.generic.rest.routes.Endpoint;
 import com.craftmend.openaudiomc.generic.rest.types.RegistrationResponse;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
