@@ -77,7 +77,7 @@
         <!-- velocity-plugin by fluse1367 start -->
         <repository>
             <id>velocitypowered-repo</id>
-            <url>https://repo.velocitypowered.com/releases/</url>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
         <repository>
             <id>minecraft-libraries</id>

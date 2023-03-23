@@ -109,7 +109,7 @@ public class VistasUser implements User {
         if (isSpigot) {
             return original.isAdministrator();
         }
-        return true;
+        return false;
     }
 
     @Override

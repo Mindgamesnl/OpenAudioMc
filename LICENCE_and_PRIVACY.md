@@ -1,18 +1,18 @@
-# OpenAudioMc Licence and Terms of Service 2020-2021 [![Build Status](https://travis-ci.org/Mindgamesnl/OpenAudioMc.svg?branch=master)](https://travis-ci.org/Mindgamesnl/OpenAudioMc)
+# OpenAudioMc Licence and Terms of Service 2020-2023
 
 By activating the software as made available on this website or through the plugin build you acknowledge that you have
 carefully read and fully understood the Terms of Services as described in this document/website and that you will comply
 with these Terms of Services.
 
-The Terms of Services as described in this document are also applicable to purchases made through craftmend accounts (
-on https://account.craftmend.com/) or other services/sites owned/endorsed by the openaudiomc project or Mindgamesnl
+The Terms of Services as described in this document are also applicable to purchases made through OpenAudioMc accounts (
+on https://account.openaudiomc.net/) or other services/sites owned/endorsed by the openaudiomc project or Mindgamesnl
 
 This document overrides the license as used before May 20th, 2020 at 7 PM (UTC+2)
 
 ## Definitions
 
 - The author of this document uses the term **I** and **me** to reference me, Mindgamesnl, as the author of OpenAudioMc.
-- I use the term **Craftmend Account** to reference personal accounts made on https://account.craftmend.com/
+- I use the term **OpenAudioMc Account** to reference personal accounts made on https://account.openaudiomc.net/
 - I use the term **Client** to reference any user using the website to listen to music or have it idle in the
   background.
 - I use the term **Player** to reference any Minecraft-Player who **is** online on your server.
@@ -24,7 +24,7 @@ This document overrides the license as used before May 20th, 2020 at 7 PM (UTC+2
   when used in the context of one.
 - I use the term **Player UUID** to reference a unique identifier to a Minecraft account owned by the Player, as
   provided by Mojang and/or Microsoft.
-- I use the term **Client settings** to reference settings accessed through Craftmend Accounts.
+- I use the term **Client settings** to reference settings accessed through OpenAudioMc Accounts.
 - I use the term **Server-Authentication** or **Account** to describe a set of two UUID's to authenticate and
   acknowledge your server and be used as Tokens.
 - I use the term **Ban** to describe the issue of a statement to deny service to a specific Server based on their Server
@@ -46,24 +46,21 @@ This document overrides the license as used before May 20th, 2020 at 7 PM (UTC+2
   check whether the specific client installation complies with the Terms (as described below). This is a semi-automatic
   process, where it only notifies Me when it changed, I then review the page manually and decide to issue a ban or
   not. (These terms are listed at the end of this document)
-- **Online Players**: The Server Authentication stores a list of the Player Names, Session tokens, Connection state and
-  Player UUID's for everyone online on a Minecraft server that has OpenAudioMc installed. This data will be linked to a
-  Craftmend Account if one is linked to the server (these sessions get cleared every time your server restarts or player
-  disconnects)
 - **Fatal client errors**: Fatal client errors get logged in a private Discord channel where OpenAudioMc staff can look
   to assist in the help channel. This channel gets cleared every week. Logged data contains The player name whose client
   ran into a problem, the exact js error message and code, and the source that caused the issue (if applicable). This
   information will not be shared with third parties.
-- **Craftmend Accounts**: Craftmend accounts store and process provided information (email, password, addon activation
-  codes etc) for functional purposes and aren't shared with third parties by me. (API keys can be used to expose some of
-  this data, but the distribution of the key is up to you and your own responsibility)
-- **Voice Chat**: VoiceChat uses data from your Craftmend Account and Online Players to provide its service. Audio
+- **OpenAudioMc Accounts**: OpenAudioMc accounts store and process provided information (email, password, addon activation
+  codes etc) for functional purposes and aren't shared with third parties by me.
+- **Voice Chat**: VoiceChat uses data from your OpenAudioMc Account to provide its service. Audio
   streams **do not** get recorded, but the most recent second of audio will get saved in memory for functional reasons (
   buffering). In certain conditions, the audio stream will be shared with Moderators who do not appear in your list of voice-chat peers.
 - **Dead Servers**: OpenAudioMc installations that haven't been active for over a month **and** aren't linked to a
-  craftmend account will automatically be deleted, rendering the installation dead. OpenAudioMc installations *with*
-  linked craftmend accounts are allowed two months of inactivity (unless they have addons installed, in which case they
+  OpenAudioMc account will automatically be deleted, rendering the installation dead. OpenAudioMc installations *with*
+  linked OpenAudioMc accounts are allowed two months of inactivity (unless they have addons installed, in which case they
   will never be deleted)
+- **Uploaded Files**: OpenAudioMc is not responsible for uploaded/entered files. This includes but is not limited to
+  music files, images, and other files. OpenAudioMc is not responsible for any damage caused by uploaded files. We reserve the right to completely remove uploaded files without notice if we deem it necessary.
 
 ## Purchases
 
@@ -78,7 +75,7 @@ This document overrides the license as used before May 20th, 2020 at 7 PM (UTC+2
   Services or by participating in other behaviour related to OpenAudioMc that may be considered unacceptable, your
   purchase will not be eligible for a refund.
 - Unannounced payment chargebacks will cause the product (and service) to be blocked for the entire account and may
-  limit account functionality. Please note that OpenAudioMc/Craftmend is not responsible for any payment chargebacks (
+  limit account functionality. Please note that OpenAudioMc is not responsible for any payment chargebacks (
   this is handled by https://www.mollie.com/en)
 - Only products/services which do not meet the specifications as set out in the documentation are eligible for a refund.
 
@@ -96,7 +93,7 @@ This document overrides the license as used before May 20th, 2020 at 7 PM (UTC+2
        current/previous public release/beta build)
 - The Java plugin may be altered for as long as it does not harm Players or any other OpenAudioMc related services.
 - Disobeying one or more rules, terms or notes may result in the termination or a "Ban" of your OpenAudioMc installation
-  or complete craftmend account.
+  or complete OpenAudioMc account.
 - The use of OpenAudioMc's backend servers always follows the rules and privacy statement as in the latest version of
   this document, no matter the released version use of the individual. Mocking these servers is not allowed except for
   Development purposes.
@@ -105,7 +102,7 @@ This document overrides the license as used before May 20th, 2020 at 7 PM (UTC+2
 - I do not have to disclose a reason for a ban publicly or privately.
 - I decide whether a Ban is necessary and or deserved for any reason given in this document or as stated in the context
   of the ban.
-- https://craftmend.com/ (and its sub domains), https://openaudiomc.net/ (and its sub domains) and the original author
+- https://openaudiomc.net/ (and its sub domains) and the original author
   of the OpenAudioMc project an are not responsible for user content of any kind (text, external links, voice data,
   etc.)
 - hereby gives you (i) the non-exclusive right to use the executable (object) code of OpenAudioMc as made available on
@@ -114,11 +111,11 @@ This document overrides the license as used before May 20th, 2020 at 7 PM (UTC+2
 - You are not allowed to (i) use the software
   other than for the purpose of extending your Minecraft (or related) server; (ii) sell the OpenAudioMc client, services, or usage there off; (ii)
   give others the right to use OpenAudioMc.
-- OpenAudioMc/Craftmend contributors and maintainers are not obligated to provide support and maintenance.
+- OpenAudioMc contributors and maintainers are not obligated to provide support and maintenance.
 - You shall not obliterate, alter or remove any proprietary or intellectual property rights notices from the documentation or OpenAudioMc.
-- The right to use OpenAudioMc may – without any notification - be terminated if you breach one or more of the Terms of Services. If this is the case Craftmend/OpenaudioMc does not have to reimburse the fee (in whole or in part) paid by you.
+- The right to use OpenAudioMc may – without any notification - be terminated if you breach one or more of the Terms of Services. If this is the case OpenaudioMc does not have to reimburse the fee (in whole or in part) paid by you.
 - Since we are not a professional software development team, Mindgamesnl/Mats cannot warrant that the OpenAudioMc (i) does not infringe the intellectual property rights of third parties; (ii) shall perform in all respects in accordance with the software specifications; (iii) shall not contain any virus, worm, virus macro, Trojan horse, or other component designed to permit unauthorized access, disable, erase, corrupt or otherwise harm the software; (iv) is fit for the purpose.
-- The total liability of Craftmend/OpenAudioMc/Mindgamesnl shall not exceed the amount of the total fee paid by you. Craftmend/OpenAudioMc/Mindgamesnl shall under no circumstances whatsoever be liable to you for any loss of profit, or any indirect or consequential loss arising under or in connection with the use of Craftmend/OpenAudioMc.
+- The total liability of OpenAudioMc/Mindgamesnl shall not exceed the amount of the total fee paid by you. OpenAudioMc/Mindgamesnl shall under no circumstances whatsoever be liable to you for any loss of profit, or any indirect or consequential loss arising under or in connection with the use of OpenAudioMc.
 - Derivatives, forks and other copies/modifications of OpenAudioMc must follow this license and include it in their copy.
 - We are not responsible for who a server/community assigns to be a Moderator, neither are we responsible for any actions taken by a Moderators. Complaints should be handled by management/higher-ups of said community. 
 
