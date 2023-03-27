@@ -141,7 +141,6 @@ public class SocketIoConnector {
         try {
             String endpoint = loginResponse.getRelayEndpoint();
             endpoint = endpoint.replace("https", "http");
-            System.out.println(Url.parse(new URI(endpoint)));
             socket = IO.socket(endpoint, opts);
         } catch (URISyntaxException e) {
             OpenAudioLogger.handleException(e);

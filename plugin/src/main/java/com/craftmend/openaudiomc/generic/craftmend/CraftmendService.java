@@ -99,7 +99,6 @@ public class CraftmendService extends Service {
         if (settingsRequest.getResponse().isBanned()) addTag(CraftmendTag.BANNED);
         if (settingsRequest.getResponse().isClaimed()) addTag(CraftmendTag.CLAIMED);
         accountResponse = settingsRequest.getResponse();
-        System.out.println("Account response: " + accountResponse);
 
         // is voice enabled with the new system?
         if (accountResponse.hasState(AccountState.VOICE)) {
