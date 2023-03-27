@@ -110,7 +110,6 @@ public class RestRequest<T extends AbstractRestResponse> {
 
         // ok, now parse it
         rawResponse = res.body;
-        System.out.println("Raw response: " + rawResponse);
         IntermediateResponse<T> intermediateResponse = IntermediateResponse.fromJson(typeClass, res.body, parseResponse);
 
         // copy over the error and response

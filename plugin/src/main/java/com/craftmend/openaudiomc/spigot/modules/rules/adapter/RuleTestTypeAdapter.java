@@ -12,7 +12,6 @@ public class RuleTestTypeAdapter implements JsonSerializer<RuleTest>, JsonDeseri
     @Override
     public JsonElement serialize(RuleTest src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();
-        System.out.println("Its serializing");
         result.add("ruleTestId", new JsonPrimitive(src.getId()));
         result.add("ruleId", new JsonPrimitive(src.getParentRuleId()));
         return result;
