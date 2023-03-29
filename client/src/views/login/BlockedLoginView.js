@@ -1,6 +1,6 @@
 import {BlackoutPage} from "../../components/layout/BlackoutPage";
 import React from "react";
-import "./login.css"
+import "../../components/loginform/login.css"
 
 export class BlockedLoginView extends React.Component {
 
