@@ -13,6 +13,10 @@ navbar.settings=Instellingen
 navbar.free=gratis
 navbar.premium=patreon
 
+home.confirmLoginHeader=Welkom terug!
+home.confirmLoginBody=Probeer je in te loggen als <i>%player</i>?<br />Sluit deze pagina als dit niet klopt.
+home.confirmLoginButton=Jawel! Dat ben ik!
+
 home.activate=Sessie starten
 home.activateText=Via deze persoonlijke webpagina zal audio en voicechat worden afgespeeld tijdens je bezoek. Klik ergens op de pagina om te beginnen.
 home.clickAnywhere=Klik ergens om te beginnen
