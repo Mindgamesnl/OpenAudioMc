@@ -1,11 +1,6 @@
-import {BlackoutPage} from "../../components/layout/BlackoutPage";
 import React from "react";
-import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
+import {OAC} from "../../client/OpenAudioAppContainer";
 import "./login.css"
-import {StaticFooter} from "../../components/footer/StaticFooter";
-import {VERSION} from "../../index";
-import {toast} from "react-toastify";
-import {OaStyleCard} from "../../components/card/OaStyleCard";
 
 export class LoginForm extends React.Component {
 
