@@ -1,9 +1,10 @@
 import {BlackoutPage} from "../../components/layout/BlackoutPage";
 import React from "react";
-import {OAC} from "../../client/OpenAudioAppContainer";
+import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
 import "./login.css"
 import {StaticFooter} from "../../components/footer/StaticFooter";
 import {VERSION} from "../../index";
+import {toast} from "react-toastify";
 
 export class LoginView extends React.Component {
 

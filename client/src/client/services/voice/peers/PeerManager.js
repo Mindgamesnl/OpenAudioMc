@@ -5,6 +5,8 @@ import {playInternalEffect} from "../../media/util";
 import {PromisedChannel} from "../data/PromisedChannel";
 import {SocketManager} from "../../socket/SocketModule";
 import * as PluginChannel from "../../../util/PluginChannel";
+import {toast} from "react-toastify";
+import {getTranslation} from "../../../OpenAudioAppContainer";
 
 export class PeerManager {
 
@@ -15,6 +17,7 @@ export class PeerManager {
         this.trackQueue = new Map();
         this.waitingPromises = new Map();
         this.micStream = null;
+        this.connectedOnce = false;
 
         this.connectRtc = this.connectRtc.bind(this);
         this.sendMetaData = this.sendMetaData.bind(this);
@@ -105,6 +108,19 @@ export class PeerManager {
                 console.error(err)
                 VoiceModule.panic()
             })
+
+        // Configure a timeout for 10 seconds, if we aren't connected by then, we're probably not going to be
+        setTimeout(() => {
+            if (this.connectedOnce) return; // never-mind, we good
+            //eslint-disable-next-line
+            if (window.opera && opera.toString() === "[object Opera]") {
+                toast.error(getTranslation(null, "vc.operaWarning"), {
+                    position: "top-center",
+                    autoClose: 50000,
+                    theme: "dark",
+                });
+            }
+        }, 10000);
     }
 
     onStart() {
@@ -115,6 +131,7 @@ export class PeerManager {
         });
 
         SocketManager.send(PluginChannel.RTC_READY, {"enabled": true});
+        this.connectedOnce = true;
     }
 
     registerDataChannel(dataChannel) {
