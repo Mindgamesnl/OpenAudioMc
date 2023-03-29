@@ -101,4 +101,8 @@ public class SpigotPlayerService extends Service {
 
         OpenAudioMc.getService(NetworkingService.class).remove(player.getUniqueId());
     }
+
+    public boolean hasClient(Player player) {
+        return spigotConnectionMap.containsKey(player.getUniqueId());
+    }
 }
