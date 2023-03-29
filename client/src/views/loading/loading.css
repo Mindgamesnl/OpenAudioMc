@@ -7,7 +7,7 @@
 /* loader */
 .loader {
     border-color: rgba(0, 0, 0, 0);
-    border-top-color: #8ed2ff;
+    border-top-color: #002edc;
     -webkit-animation: spinner 1.5s linear infinite;
     animation: spinner 1.5s linear infinite;
 }
