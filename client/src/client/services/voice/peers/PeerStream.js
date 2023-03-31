@@ -23,6 +23,7 @@ export class PeerStream {
         this.z = 0;
 
         this.masterOutputNode = null;
+        this.mediaStream = null;
     }
 
     // callback has a boolean attached to it, true if the stream loaded, or false if it got rejected
@@ -46,9 +47,7 @@ export class PeerStream {
             // Workaround for the Chrome bug
             await this.audio_elem.play();
             let source = ctx.createMediaStreamSource(stream);
-
-            // connect to destination as early debug?
-            source.connect(ctx.destination);
+            this.mediaStream = stream;
 
             // speaking indicator
             this.harkEvents = new Hark(stream);
