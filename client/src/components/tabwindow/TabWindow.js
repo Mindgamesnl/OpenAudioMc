@@ -14,7 +14,6 @@ export class TabWindow extends Component {
             activePage: 0
         }
     }
-
     componentDidMount() {
         setTab = (tab) => {
             this.setState({activePage: tab});
@@ -38,6 +37,12 @@ export class TabWindow extends Component {
 
         // remove hidden pages
         pages = pages.filter(page => !page.hidden);
+        let pageIndex = this.state.activePage;
+
+        // move active page back if it's out of bounds
+        if (pageIndex >= pages.length) {
+            pageIndex = pages.length - 1;
+        }
 
         let pill = <span className="small-pill free">Free</span>;
         if (c.isPremium) pill = <span className="small-pill premium">Premium</span>;
@@ -69,7 +74,7 @@ export class TabWindow extends Component {
                 </div>
                 <div className="tab-content">
                     <div className="content-wrapper">
-                        {pages[this.state.activePage].content}
+                        {pages[pageIndex].content}
                     </div>
                 </div>
             </div>

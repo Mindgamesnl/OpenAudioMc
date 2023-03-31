@@ -45,7 +45,7 @@ export class OaStyleCard extends React.Component {
 
 OaStyleCard.propTypes = {
     title: PropTypes.string.isRequired,
-    body: PropTypes.element.isRequired,
+    body: PropTypes.element,
     isDanger: PropTypes.bool,
     width: PropTypes.string,
     alertBody: PropTypes.string,

@@ -1,6 +1,8 @@
 import {Channel} from "./Channel";
 import {Sound} from "./Sound";
 import {getGlobalState} from "../../../../state/store";
+import {feedDebugValue} from "../../debugging/DebugService";
+import {DebugStatistic} from "../../debugging/DebugStatistic";
 
 export class Mixer {
 
@@ -23,6 +25,8 @@ export class Mixer {
             this._playingStateChangeChanged(foundPlayingSound);
             this.areSoundsPlaying = foundPlayingSound;
         }
+
+        feedDebugValue(DebugStatistic.MIXER_CHANNELS, this.channels.size);
     }
 
     _playingStateChangeChanged(isSoundPlaying) {

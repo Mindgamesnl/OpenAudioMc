@@ -8,6 +8,8 @@ import {MicrophoneProcessor} from "./processing/MicrophoneProcessor";
 import {SocketManager} from "../socket/SocketModule";
 import * as PluginChannel from "../../util/PluginChannel";
 import {VoicePeer} from "./peers/VoicePeer";
+import {feedDebugValue} from "../debugging/DebugService";
+import {DebugStatistic} from "../debugging/DebugStatistic";
 
 var gainTrackers = {}
 
@@ -201,6 +203,7 @@ export const VoiceModule = new class IVoiceModule {
         this.peerMap.set(playerStreamKey, new VoicePeer(
             playerName, playerUuid, playerStreamKey, location
         ))
+        feedDebugValue(DebugStatistic.VOICE_PEERS, this.peerMap.size)
     }
 
     peerLocationUpdate(playerStreamKey, x, y, z) {
@@ -217,6 +220,7 @@ export const VoiceModule = new class IVoiceModule {
         } else {
             console.error("Peer not found: " + playerStreamKey);
         }
+        feedDebugValue(DebugStatistic.VOICE_PEERS, this.peerMap.size)
     }
 
     removeAllPeers() {

@@ -9,6 +9,7 @@ import {GrayoutPage} from "../../components/layout/GrayoutPage";
 import {connect} from "react-redux";
 import {StaticFooter} from "../../components/footer/StaticFooter";
 import {InputModal} from "../../components/modal/InputModal";
+import DebugPage from "./pages/debug/DebugPage";
 
 class ClientView extends React.Component {
     render() {
@@ -21,6 +22,7 @@ class ClientView extends React.Component {
                         <TabPage name="Audio" content={<AudioPage/>}/>
                         <TabPage hidden={!this.props.voiceState.ready} name="VoiceChat" content={<VoicePage/>}/>
                         <TabPage name="Settings" content={<SettingsPage/>}/>
+                        <TabPage hidden={!this.props.debugMode} name="Debug" content={<DebugPage />} />
                     </TabWindow>
                 </div>
 
@@ -44,6 +46,7 @@ export default connect(mapStateToProps)(ClientView);
 
 function mapStateToProps(state) {
     return {
+        debugMode: state.debug,
         inputModal: state.inputModal,
         fixedFooter: state.fixedFooter,
         loadingOverlay: state.loadingOverlay,
