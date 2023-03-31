@@ -24,7 +24,7 @@ export class OaStyleCard extends React.Component {
                     <div className={heading}>
                         <h1>{this.props.title}</h1>
                     </div>
-                    <div className="panel-body">
+                    <div className={"panel-body" + (this.props.dark ? " panel-body-dark" : "")}>
                         { hasAlert && (
                             <div
                                 className="bg-green-200 border-t border-b border-green-500 text-green-700 px-4 my-3 pt-2 pb-2 mb-5"
@@ -35,6 +35,7 @@ export class OaStyleCard extends React.Component {
                         )}
 
                         {this.props.body}
+                        {this.props.children}
                     </div>
                 </div>
             </div>
@@ -50,4 +51,5 @@ OaStyleCard.propTypes = {
     alertBody: PropTypes.string,
     alertTitle: PropTypes.string,
     fullWidth: PropTypes.bool,
+    dark: PropTypes.bool,
 }

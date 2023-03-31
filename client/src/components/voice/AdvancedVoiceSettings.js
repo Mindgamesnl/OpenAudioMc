@@ -6,6 +6,7 @@ import {
     addMicVolumeListener,
     removeMicVolumeListener
 } from "../../client/services/voice/processing/MicrophoneProcessor";
+import {OaStyleCard} from "../card/OaStyleCard";
 
 class AdvancedVoiceSettings extends React.Component {
     static contextType = OAC;
@@ -77,9 +78,8 @@ class AdvancedVoiceSettings extends React.Component {
         let surroundText = !this.state.surroundSound ? getTranslation(c, "vc.settings.surround.enable") : getTranslation(c, "vc.settings.surround.disable");
 
         return (
-            <div>
-                <div className="content-section vc-settings-box">
-                    <div className="content-section-title">Voicechat Settings</div>
+            <div className={"p-8"}>
+                <OaStyleCard fullWidth={true} dark={true}>
                     <div className="content-card-collection items-stretch">
                         <div className="content-card small-vc-card">
                                <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
@@ -191,7 +191,7 @@ class AdvancedVoiceSettings extends React.Component {
                             </div>
                         </div>
                     </div>
-                </div>
+                </OaStyleCard>
             </div>
         );
     }

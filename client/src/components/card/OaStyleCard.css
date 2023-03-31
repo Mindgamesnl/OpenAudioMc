@@ -67,3 +67,8 @@ a {
     padding: 15px;
     box-shadow: inset 0px 0px 10px rgba(0,0,0,0.2);
 }
+
+.panel-body-dark {
+    background-color: var(--accentColorSecondaryNavbar);
+    color: white;
+}
