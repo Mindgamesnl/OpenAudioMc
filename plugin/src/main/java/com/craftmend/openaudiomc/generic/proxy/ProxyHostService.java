@@ -52,10 +52,6 @@ public class ProxyHostService extends Service {
         OpenAudioMc.getService(NetworkingService.class).send(connection, new PacketClientDestroyMedia(null, true));
 
         OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
-            if (connection.getSession().isHasHueLinked()) {
-                this.userHooks.sendPacket(user, new ClientSyncHueStatePacket(user.getUniqueId()));
-            }
-
             if (connection.getSession().isConnectedToRtc()) {
                 // drop all peers
                 connection.sendPacket(new PacketClientBlurVoiceUi(new ClientVoiceBlurUiPayload(false)));

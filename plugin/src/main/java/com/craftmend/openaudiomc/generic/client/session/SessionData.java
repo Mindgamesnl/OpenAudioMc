@@ -28,7 +28,6 @@ public class SessionData {
     private boolean isModerating = false;
     private boolean isWaitingToken = false;
     private boolean sessionUpdated = false;
-    private boolean hasHueLinked = false;
     private boolean isConnectedToRtc = false;
 
     // ongoing sounds - used for media-sources with the expiration timeout configured
@@ -78,7 +77,6 @@ public class SessionData {
                 .rtcSessionManager(client.getRtcSessionManager())
                 .streamKey(client.getRtcSessionManager().getStreamKey())
                 .isConnectedToRtc(isConnectedToRtc)
-                .hasHueLinked(hasHueLinked)
                 .sessionUpdated(sessionUpdated)
                 .auth(client.getAuth())
                 .build();
@@ -89,7 +87,6 @@ public class SessionData {
         client.getRtcSessionManager().setMicrophoneEnabled(sc.getRtcSessionManager().isMicrophoneEnabled());
         client.getRtcSessionManager().setStreamKey(sc.getStreamKey());
         this.isConnectedToRtc = sc.isConnectedToRtc();
-        this.hasHueLinked = sc.isHasHueLinked();
         this.sessionUpdated = sc.isSessionUpdated();
         client.setAuth(sc.getAuth());
         client.getAuth().setClient(client);
