@@ -70,12 +70,6 @@ public class BukkitPacketListener implements PacketListener {
     }
 
     @ProxyPacketHandler
-    public void onHue(User user, ClientSyncHueStatePacket packet) {
-        ClientConnection connection = OpenAudioMc.getService(NetworkingService.class).getClient(packet.getClientUuid());
-        connection.getSession().setHasHueLinked(true);
-    }
-
-    @ProxyPacketHandler
     public void onCommand(User user, CommandProxyPacket packet) {
         User player = OpenAudioMc.resolveDependency(UserHooks.class).byUuid(packet.getCommandProxy().getExecutor());
         if (player == null) return;

@@ -1,6 +1,5 @@
 package com.craftmend.openaudiomc.api.interfaces;
 
-import com.craftmend.openaudiomc.generic.hue.HueState;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.user.User;
 
@@ -42,17 +41,6 @@ public interface Client {
      * return Last used client volume, or -1 if it's unknown
      */
     int getVolume();
-
-    /**
-     * Update a clients hue state.
-     * @param state New state
-     */
-    void setHueState(HueState state);
-
-    /**
-     * @return true if the user has their hue lights connected
-     */
-    boolean hasPhilipsHue();
 
     /**
      * Whether the client has their microphone enabled

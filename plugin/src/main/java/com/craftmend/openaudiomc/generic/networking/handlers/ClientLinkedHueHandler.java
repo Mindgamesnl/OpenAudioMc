@@ -9,12 +9,6 @@ public class ClientLinkedHueHandler extends PayloadHandler<ClientEnabledHuePaylo
 
     @Override
     public void onReceive(ClientEnabledHuePayload payload) {
-        // they enabled hue!
-        Authenticatable authenticatable = findSession(payload.getClient());
-        if (authenticatable instanceof ClientConnection) {
-            ((ClientConnection) authenticatable).getSession().setHasHueLinked(true);
-        } else {
-            authenticatable.kickConnection();
-        }
+        // deprecated
     }
 }
