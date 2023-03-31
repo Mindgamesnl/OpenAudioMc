@@ -1,7 +1,7 @@
 import {createContext} from "react";
 import React from "react";
 
-import {getGlobalState, setGlobalState, store} from "../state/store";
+import {getGlobalState, setGlobalState, shouldSettingSave, store} from "../state/store";
 import {connect} from "react-redux";
 import {ReportError} from "./util/ErrorReporter";
 import ClientTokenSet from "./login/ClientTokenSet";
@@ -58,7 +58,7 @@ class OpenAudioAppContainer extends React.Component {
         // loop over all object keys
         for (let key in settings) {
 
-            if (key === "voicechatMuted") continue; // don't use this saved store
+            if (!shouldSettingSave(key)) continue;
 
             // get cookie value
             let cookieValue = Cookies.get("setting_" + key);

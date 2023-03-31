@@ -1,6 +1,12 @@
 import { createStore } from 'redux';
 import Cookies from "js-cookie";
 
+// some settings shouldn't be saved persistently
+export const UNSAVED_SETTINGS = [
+    "voicechatMonitoringEnabled",
+    "voicechatMuted"
+]
+
 const initialState = {
     // state - null for the login screen
     currentUser: null,
@@ -89,6 +95,14 @@ const initialState = {
     lang: {} // gets loaded from the lang file, changes cause a full UI re-render
 };
 
+export function shouldSettingSave(name) {
+    for (let i = 0; i < UNSAVED_SETTINGS.length; i++) {
+        let s = UNSAVED_SETTINGS[i];
+        if (s.toLowerCase() === name.toLowerCase()) return false;
+    }
+    return true;
+}
+
 export function setGlobalState(stateUpdates) {
     store.dispatch({ type: 'SET_STATE', stateUpdates });
 
@@ -96,7 +110,7 @@ export function setGlobalState(stateUpdates) {
     if (stateUpdates.hasOwnProperty("settings")) {
         const settings = stateUpdates.settings;
         for (let key in settings) {
-            if (settings.hasOwnProperty(key)) {
+            if (settings.hasOwnProperty(key) && shouldSettingSave(key)) {
                 Cookies.set("setting_" + key, settings[key], { expires: 365 });
             }
         }
