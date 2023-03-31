@@ -11,6 +11,8 @@ const initialState = {
     // state - null for the login screen
     currentUser: null,
 
+    debug: false,
+
     relay: {
         endpoint: null,
         connected: false,
@@ -162,5 +164,12 @@ function mergeObjects(obj1, obj2) {
         }, {}),
     }};
 }
+
+// toggle debug mode when the D key is pressed
+document.addEventListener('keydown', function (e) {
+    if (e.key === "d") {
+        setGlobalState({ debug: !getGlobalState().debug });
+    }
+});
 
 export const store = createStore(appReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());

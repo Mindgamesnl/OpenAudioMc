@@ -6,6 +6,8 @@ import {VoiceModule} from "../VoiceModule";
 import {RtcPacket} from "../peers/protocol";
 import {Hark} from "../../../util/hark";
 import {makeid} from "../../../util/random";
+import {feedDebugValue} from "../../debugging/DebugService";
+import {DebugStatistic} from "../../debugging/DebugStatistic";
 
 let micVolumeListeners = {};
 
@@ -102,11 +104,18 @@ export class MicrophoneProcessor {
         this.harkEvents.on('volume_change', (volume, threshold) => {
             volumeChangeI++;
             if (volumeChangeI % 5 !== 0) return;
-            volumeChangeI = 0;
+
             if (volume < lowestVolume && lowestVolume > -Infinity && volume > -Infinity) {
                 lowestVolume = volume;
             }
             let output = Math.abs(volume - lowestVolume);
+            // only once every 500 times
+            if (volumeChangeI > 250) {
+                console.log("Volume change", output, volume, lowestVolume, threshold)
+                feedDebugValue(DebugStatistic.MICROPHONE_LOUDNESS, output);
+                volumeChangeI = 0;
+            }
+
             invokeMicVolumeListeners(output, volume >= threshold)
         })
 

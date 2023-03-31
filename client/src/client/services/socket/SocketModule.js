@@ -6,6 +6,8 @@ import {MediaManager} from "../media/MediaManager";
 import {toast} from "react-toastify";
 import {HandlerRegistry} from "./HandlerRegistry";
 import {VoiceModule} from "../voice/VoiceModule";
+import {incrementDebugValue} from "../debugging/DebugService";
+import {DebugStatistic} from "../debugging/DebugStatistic";
 
 export const SocketManager = new class ISocketManager {
 
@@ -75,6 +77,7 @@ export const SocketManager = new class ISocketManager {
             let payloadType = packages[packages.length - 1];
             if (this.handlers[payloadType] != null) this.handlers[payloadType](data.payload);
             this.inCount++;
+            incrementDebugValue(DebugStatistic.PACKETS_RECEIVED);
         });
 
         this.socket.connect();
@@ -82,6 +85,7 @@ export const SocketManager = new class ISocketManager {
 
     send(event, data) {
         this.outCount++;
+        incrementDebugValue(DebugStatistic.PACKETS_SENT);
         if (this.hasConnected) {
             if (this.callbacksEnabled) {
                 console.log("Submitting value for " + event);

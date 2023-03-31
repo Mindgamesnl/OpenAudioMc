@@ -1,3 +1,6 @@
+import {feedDebugValue} from "../debugging/DebugService";
+import {DebugStatistic} from "../debugging/DebugStatistic";
+
 export const TimeService = new class ITimeService {
 
     constructor() {
@@ -22,6 +25,8 @@ export const TimeService = new class ITimeService {
         } else {
             this.msOffset = localDate.getTime() - serverDate.getTime();
         }
+
+        feedDebugValue(DebugStatistic.TIME_OFFSET_SECONDS, this.msOffset / 1000)
 
         this.hasSynced = true;
     }
