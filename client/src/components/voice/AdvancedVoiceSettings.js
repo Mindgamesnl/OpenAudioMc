@@ -2,6 +2,10 @@ import React from "react";
 import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
 import {getGlobalState, setGlobalState, store} from "../../state/store";
 import {connect} from "react-redux";
+import {
+    addMicVolumeListener,
+    removeMicVolumeListener
+} from "../../client/services/voice/processing/MicrophoneProcessor";
 
 class AdvancedVoiceSettings extends React.Component {
     static contextType = OAC;
@@ -14,7 +18,10 @@ class AdvancedVoiceSettings extends React.Component {
         this.state = {
             surroundSound: currentSettings.voicechatSurroundSound,
             monitoringEnabled: currentSettings.voicechatMonitoringEnabled,
-            autoMicSensitivity: currentSettings.automaticSensitivity
+            autoMicSensitivity: currentSettings.automaticSensitivity,
+            listenerId: null,
+            isAboveThreshold: false,
+            currentMicVolume: 0,
         }
 
         this.toggleSurroundSound = this.toggleSurroundSound.bind(this);
@@ -22,6 +29,21 @@ class AdvancedVoiceSettings extends React.Component {
         this.micSensitiveInput = this.micSensitiveInput.bind(this);
         this.micAutoSensitivityInput = this.micAutoSensitivityInput.bind(this);
         this.selectMic = this.selectMic.bind(this);
+    }
+
+    componentWillUnmount() {
+        if (this.state.listenerId) {
+            removeMicVolumeListener(this.state.listenerId);
+        }
+    }
+
+    componentDidMount() {
+        if (!this.state.listenerId) {
+            let id = addMicVolumeListener((volume, isActive) => {
+                this.setState({currentMicVolume: volume, isAboveThreshold: isActive});
+            });
+            this.setState({listenerId: id});
+        }
     }
 
     micAutoSensitivityInput(e) {
@@ -123,7 +145,8 @@ class AdvancedVoiceSettings extends React.Component {
                                 <label className="content-pill status-button">
                                     <input type="checkbox" onChange={this.monitoringInput}>
                                     </input>
-                                    <span className={"!inline !block"}>{getTranslation(c, "vc.settings.monitoring.toggle")}</span>
+                                    <span
+                                        className={"!inline !block"}>{getTranslation(c, "vc.settings.monitoring.toggle")}</span>
                                 </label>
                             </div>
                         </div>
@@ -151,10 +174,16 @@ class AdvancedVoiceSettings extends React.Component {
                             </div>
                             <div className="content-card-buttons w-full">
                                 <label htmlFor="mic-sensitive-slider"></label>
-                                <input
-                                    className="volume-slider reversedRange inline" onInput={this.micSensitiveInput}
-                                    type="range" min="0" max="100" step="1" value={this.props.microphoneSensitivity} />
-                                <label className="content-pill status-button">
+                                <div className={"w-full"}>
+                                    <div className={"volume-slider p-0 bg-gray-700 rounded-full h-2.5 mb-4 dark:bg-gray-700"}>
+                                        <div className={"h-2.5 rounded-full"  + (this.state.isAboveThreshold ? " bg-green-500" : " bg-blue-400")} style={{width: `${this.state.currentMicVolume}%`}}></div>
+                                    </div>
+                                    <input
+                                        className="volume-slider reversedRange inline" onInput={this.micSensitiveInput}
+                                        type="range" min="0" max="100" step="1"
+                                        value={this.props.microphoneSensitivity}/>
+                                </div>
+                                <label className="content-pill status-button mb-5">
                                     <input type="checkbox" onChange={this.micAutoSensitivityInput}>
                                     </input>
                                     <span className={"inline"}>{getTranslation(c, "vc.automaticAdjustments")}</span>
@@ -169,6 +198,7 @@ class AdvancedVoiceSettings extends React.Component {
 }
 
 export default connect(mapStateToProps)(AdvancedVoiceSettings);
+
 function mapStateToProps(state) {
     return {
         microphoneSensitivity: state.settings.microphoneSensitivity,

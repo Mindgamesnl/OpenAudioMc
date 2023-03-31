@@ -5,6 +5,25 @@ import {WorldModule} from "../../world/WorldModule";
 import {VoiceModule} from "../VoiceModule";
 import {RtcPacket} from "../peers/protocol";
 import {Hark} from "../../../util/hark";
+import {makeid} from "../../../util/random";
+
+let micVolumeListeners = {};
+
+export function addMicVolumeListener(callback) {
+    let id = makeid(10);
+    micVolumeListeners[id] = callback;
+    return id;
+}
+
+export function removeMicVolumeListener(id) {
+    delete micVolumeListeners[id];
+}
+
+function invokeMicVolumeListeners(volume, isActive) {
+    for (let id in micVolumeListeners) {
+        micVolumeListeners[id](volume, isActive);
+    }
+}
 
 export class MicrophoneProcessor {
 
@@ -76,6 +95,20 @@ export class MicrophoneProcessor {
             }
 
         }, 500);
+
+
+        let lowestVolume = 0;
+        let volumeChangeI = 0;
+        this.harkEvents.on('volume_change', (volume, threshold) => {
+            volumeChangeI++;
+            if (volumeChangeI % 5 !== 0) return;
+            volumeChangeI = 0;
+            if (volume < lowestVolume && lowestVolume > -Infinity && volume > -Infinity) {
+                lowestVolume = volume;
+            }
+            let output = Math.abs(volume - lowestVolume);
+            invokeMicVolumeListeners(output, volume >= threshold)
+        })
 
         this.hookListeners();
         onSettingsChange(); // init self
