@@ -58,7 +58,7 @@ export default class DebugPage extends React.Component {
             <div className={"w-full h-full flex flex-col"}>
                 <div className="flex flex-wrap">
                     <OaStyleCard title={"whoami"} isDanger={true} dark={true}>
-                        <p className={"text-white"}>Welcome to the debugging page. You can toggle this tab by pressing <i className={"text-blue-100"}>b</i></p>
+                        <p className={"text-white"}>Welcome to the debugging page. You can toggle this tab by pressing <i className={"text-blue-100"}>d</i></p>
                         <hr />
                         <p className={"text-white"}><b>Build:</b> <i className={"text-blue-200"}>{VERSION.build}</i></p>
                         <p className={"text-white"}><b>Build date:</b> <i className={"text-blue-200"}>{VERSION.date}</i></p>
