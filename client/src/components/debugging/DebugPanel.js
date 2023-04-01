@@ -10,21 +10,17 @@ export default class DebugPanel extends React.Component {
 
         let highest = null;
         let lowest = null;
-        let total = 0;
-        let average = 0;
         for (let i = 0; i < data.length; i++) {
             let value = data[i];
             if  (highest == null) highest = value;
             if (lowest == null) lowest = value;
             if (value > highest) highest = value;
             if (value < lowest) lowest = value;
-            total += value;
-            average = total / data.length;
         }
 
         return (
             <OaStyleCard title={this.props.title}>
-                <Graph color={"purple"} catchLine={this.props.catchLine} data={data} />
+                <Graph color={this.props.color} catchLine={this.props.title} data={data} fill={this.props.fill} />
                 <table className="w-full text-black">
                     <tbody>
                     <tr>
@@ -46,5 +42,7 @@ export default class DebugPanel extends React.Component {
 DebugPanel.propTypes = {
     title: PropTypes.string.isRequired,
     data: PropTypes.array.isRequired,
-    catchLine: PropTypes.string
+    catchLine: PropTypes.string,
+    color: PropTypes.string,
+    fill: PropTypes.bool,
 }

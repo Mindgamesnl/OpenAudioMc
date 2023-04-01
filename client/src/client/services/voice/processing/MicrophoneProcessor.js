@@ -110,7 +110,7 @@ export class MicrophoneProcessor {
             }
             let output = Math.abs(volume - lowestVolume);
             // only once every 500 times
-            if (volumeChangeI > 250) {
+            if (volumeChangeI > 100) {
                 feedDebugValue(DebugStatistic.MICROPHONE_LOUDNESS, output);
                 volumeChangeI = 0;
             }

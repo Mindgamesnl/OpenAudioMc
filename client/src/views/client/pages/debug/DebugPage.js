@@ -9,6 +9,17 @@ export default class DebugPage extends React.Component {
 
         this.state = {
             task: null,
+            clearColors: [
+                "Crimson",
+                "Navy",
+                "blue",
+                "red",
+                "purple",
+                "brown",
+                "green",
+                "grey",
+                "magenta",
+            ]
         }
     }
 
@@ -26,12 +37,18 @@ export default class DebugPage extends React.Component {
     render() {
         let panels = []
         let values = getDebugValues();
-        for (let debugValuesKey in values) {
+        let ci = 0;
+        for (let debugValueName in values) {
             // feed latest value to increment time
-            let latest = getLatestDebugValue(debugValuesKey);
+            let stat = values[debugValueName];
+            let latest = getLatestDebugValue(stat);
             if (latest == null) latest = 0;
-            panels.push(<DebugPanel title={debugValuesKey} data={values[debugValuesKey]} catchLine={"Latest:" + latest} key={debugValuesKey}/>)
-            feedDebugValue(debugValuesKey, latest)
+            panels.push(<DebugPanel title={debugValueName} color={this.state.clearColors[ci]} fill={stat.fill} data={stat.values} catchLine={"Latest:" + latest} key={debugValueName}/>)
+            if (!stat.advancesItself) {
+                feedDebugValue(stat, latest); // advance time
+            }
+            ci++;
+            if (ci >= this.state.clearColors.length) ci = 0;
         }
 
         return (
