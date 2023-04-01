@@ -43,12 +43,20 @@ export class Graph extends React.Component {
                 maxDataValue = data[i];
             }
         }
-        minDataValue = minDataValue - 1;
-        maxDataValue = maxDataValue + 1;
+
+        let hasBigValues = minDataValue < -1 || maxDataValue > 1;
+
+        if (hasBigValues) {
+            minDataValue = minDataValue - .2;
+            maxDataValue = maxDataValue + .2;
+        } else {
+            minDataValue = minDataValue - .001;
+            maxDataValue = maxDataValue + .001;
+        }
 
         // Scale graph to fit available space
-        const width = canvas.offsetWidth;
-        const height = canvas.offsetHeight;
+        const width = canvas.width;
+        const height = canvas.height;
         const yScale = height / (maxDataValue - minDataValue);
         const xScale = width / data.length;
 
@@ -72,21 +80,41 @@ export class Graph extends React.Component {
             const currentValue = data[i];
             const currentY = height - (currentValue - minDataValue) * yScale;
 
-            if (currentValue === data[i - 1] && i !== data.length - 1) {
-                // continue to next iteration of loop
-                if (!skipped) {
-                    xBeforeSkip = x1;
-                    yBeforeSkip = prevY;
-                }
-                skipped = true;
-                continue;
-            } else if (skipped) {
-                // draw a line from the previous value to the current value
-                this.drawLine(ctx, xBeforeSkip, yBeforeSkip, x2, currentY, color);
-                skipped = false;
+            // fill the area under the line
+            if (this.props.fill) {
+                ctx.fillStyle = color;
+                // change opacity based on the value
+                ctx.fillRect(x1, currentY, xScale * 2, height - currentY);
             } else {
-                this.drawLine(ctx, x1, prevY, x2, currentY, color);
+                if (currentValue === data[i - 1] && i !== data.length - 1) {
+                    // continue to next iteration of loop
+                    if (!skipped) {
+                        xBeforeSkip = x1;
+                        yBeforeSkip = prevY;
+                    }
+                    skipped = true;
+                    continue;
+                } else if (skipped) {
+                    // draw a line from the previous value to the current value
+                    this.drawLine(ctx, xBeforeSkip, yBeforeSkip, x2, currentY, color);
+                    skipped = false;
+                } else {
+                    this.drawLine(ctx, x1, prevY, x2, currentY, color);
+                }
+
+                // is this the last value?
+                if (i === data.length - 1) {
+                    // draw current value
+                    // estimate the lenght of the text in pixels
+                    let textWidth = currentValue.toString().length * 8;
+
+                    // cap the text width to 50px
+                    if (textWidth > 50) textWidth = 50;
+
+                    ctx.fillText(currentValue, x2 - textWidth, currentY - 5);
+                }
             }
+
             prevY = currentY;
         }
     };
