@@ -3,6 +3,8 @@ import {AUDIO_ENDPOINTS, AudioSourceProcessor} from "../../../util/AudioSourcePr
 import {TimeService} from "../../time/TimeService";
 import {SocketManager} from "../../socket/SocketModule";
 import * as PluginChannel from "../../../util/PluginChannel";
+import {ReportError} from "../../../util/ErrorReporter";
+import {getGlobalState} from "../../../../state/store";
 
 export class Sound extends AudioSourceProcessor {
 
@@ -91,26 +93,27 @@ export class Sound extends AudioSourceProcessor {
                     // report back as failure
                     console.log("Reporting media failure " + type);
 
-                    // var stringifyError = function(err, filter, space) {
-                    //     var plainObject = {};
-                    //     Object.getOwnPropertyNames(err).forEach(function(key) {
-                    //         plainObject[key] = err[key];
-                    //     });
-                    //     return JSON.stringify(plainObject, filter, space);
-                    // };
+                    var stringifyError = function(err, filter, space) {
+                        var plainObject = {};
+                        Object.getOwnPropertyNames(err).forEach(function(key) {
+                            plainObject[key] = err[key];
+                        });
+                        return JSON.stringify(plainObject, filter, space);
+                    };
 
-                    // if (this.source != null && this.source != "null") {
-                    //     this.openAudioMc.sendError(
-                    //         "A sound failed to load.\n" +
-                    //         "url=" + this.source + "\n" +
-                    //         "error-code=" + this.soundElement.error.code + "\n" +
-                    //         "error-message=" + this.soundElement.error.message + "\n" +
-                    //         "detected-error=" + type + "\n" +
-                    //         "dump=" + stringifyError(this.error, null, '\t') + stringifyError(this.soundElement.error, null, '\t') + "\n" +
-                    //         "hostname=" + window.location.host + "\n" +
-                    //         "useragent=" + window.navigator.userAgent
-                    //     );
-                    // }
+                    if (this.source != null && this.source != "null") {
+                        ReportError(
+                            "A sound failed to load.\n" +
+                            "url=" + this.source + "\n" +
+                            "error-code=" + this.soundElement.error.code + "\n" +
+                            "error-message=" + this.soundElement.error.message + "\n" +
+                            "detected-error=" + type + "\n" +
+                            "dump=" + stringifyError(this.error, null, '\t') + stringifyError(this.soundElement.error, null, '\t') + "\n" +
+                            "hostname=" + window.location.host + "\n" +
+                            "useragent=" + window.navigator.userAgent,
+                            getGlobalState().currentUser.userName
+                        );
+                    }
 
 
                     SocketManager.send(PluginChannel.MEDIA_FAILURE, {
