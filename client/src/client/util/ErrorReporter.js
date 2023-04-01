@@ -1,7 +1,7 @@
 import {API_ENDPOINT} from "../config/ApiEndpoints";
 import {VERSION} from "../../index";
 
-export function ReportError(message, playerName, callback) {
+export function ReportError(message, playerName, callback = () => {}) {
     fetch(API_ENDPOINT.ERROR_REPORTING, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         headers: {
