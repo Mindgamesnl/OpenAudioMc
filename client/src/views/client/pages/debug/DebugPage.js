@@ -1,6 +1,8 @@
 import React from "react";
 import DebugPanel from "../../../../components/debugging/DebugPanel";
 import {feedDebugValue, getDebugValues, getLatestDebugValue} from "../../../../client/services/debugging/DebugService";
+import {OaStyleCard} from "../../../../components/card/OaStyleCard";
+import {VERSION} from "../../../../index";
 
 export default class DebugPage extends React.Component {
 
@@ -52,8 +54,17 @@ export default class DebugPage extends React.Component {
         }
 
         return (
-            <div className="flex flex-wrap">
-                {panels}
+            <div className={"w-full h-full flex flex-col"}>
+                <div className="flex flex-wrap">
+                    <OaStyleCard title={"Debugging"} isDanger={true} dark={true}>
+                        <p className={"text-white"}>Welcome to the debugging page. This page contains a number of debugging tools meant for support and development purposes.</p>
+                        <hr />
+                        <p className={"text-white"}><b>Build:</b> <i className={"text-blue-200"}>{VERSION.build}</i></p>
+                        <p className={"text-white"}><b>Build date:</b> <i className={"text-blue-200"}>{VERSION.date}</i></p>
+                        <p className={"text-white"}><b>Build tag:</b> <i className={"text-blue-200"}>{VERSION.tag}</i></p>
+                    </OaStyleCard>
+                    {panels}
+                </div>
             </div>
         );
     }
