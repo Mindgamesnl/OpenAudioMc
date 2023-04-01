@@ -24,20 +24,16 @@ export default class DebugPanel extends React.Component {
 
         return (
             <OaStyleCard title={this.props.title}>
-                <Graph catchLine={this.props.catchLine} data={data} />
+                <Graph color={"purple"} catchLine={this.props.catchLine} data={data} />
                 <table className="w-full text-black">
                     <tbody>
                     <tr>
                         <td className="text-left">Highest</td>
                         <td className="text-right">{highest}</td>
                     </tr>
-                    {lowest !== 0 && <tr>
+                    <tr>
                         <td className="text-left">Lowest</td>
                         <td className="text-right">{lowest}</td>
-                    </tr>}
-                    <tr>
-                        <td className="text-left">Average</td>
-                        <td className="text-right">{average}</td>
                     </tr>
                     </tbody>
                 </table>

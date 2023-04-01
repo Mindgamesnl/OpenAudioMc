@@ -43,6 +43,8 @@ export class Graph extends React.Component {
                 maxDataValue = data[i];
             }
         }
+        minDataValue = minDataValue - 1;
+        maxDataValue = maxDataValue + 1;
 
         // Scale graph to fit available space
         const width = canvas.offsetWidth;
@@ -95,6 +97,7 @@ export class Graph extends React.Component {
             <canvas
                 style={{ width: "100%", height: "100%" }}
                 ref={this.canvasRef}
+                className={"border-double border-2 border-blue-900"}
             />
         );
     }

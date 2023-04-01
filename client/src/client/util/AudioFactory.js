@@ -1,10 +1,13 @@
 import {AudioSourceProcessor} from "./AudioSourceProcessor";
+import {feedDebugValue} from "../services/debugging/DebugService";
+import {DebugStatistic} from "../services/debugging/DebugStatistic";
 
 export let prefetchedSounds = {};
 let pro = new AudioSourceProcessor();
 
 export function ClearPrefetchedMedia() {
     prefetchedSounds = {};
+    feedDebugValue(DebugStatistic.PRELOADED_SOUNDS, 0);
 }
 
 export async function PreFetch(source) {
@@ -14,6 +17,7 @@ export async function PreFetch(source) {
     soundElement.src = source;
     soundElement.load();
     prefetchedSounds[source] = soundElement;
+    feedDebugValue(DebugStatistic.PRELOADED_SOUNDS, Object.keys(prefetchedSounds).length);
     return soundElement;
 }
 
