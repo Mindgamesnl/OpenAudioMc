@@ -7,6 +7,8 @@ import {SocketManager} from "../../socket/SocketModule";
 import * as PluginChannel from "../../../util/PluginChannel";
 import {toast} from "react-toastify";
 import {getTranslation} from "../../../OpenAudioAppContainer";
+import {feedDebugValue, incrementDebugValue} from "../../debugging/DebugService";
+import {DebugStatistic} from "../../debugging/DebugStatistic";
 
 export class PeerManager {
 
@@ -148,6 +150,7 @@ export class PeerManager {
         dataChannel.addEventListener('message', event => {
             const message = event.data;
             let rtcPacket = new RtcPacket().fromString(message)
+            incrementDebugValue(DebugStatistic.VB_EVENTS)
 
             switch (rtcPacket.getEventName()) {
 
@@ -335,6 +338,7 @@ export class PeerManager {
     // once we get a new track from negotiation, we need to add it to the audio context
     onInternalTrack(track, isRetry, mst) {
         let trackid = track.id
+        feedDebugValue(DebugStatistic.CACHED_STREAMS, this.peerConnection.getReceivers().length)
 
         if (!track.active) {
             console.error("Received an inactive track! cancelling.")
