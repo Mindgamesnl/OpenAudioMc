@@ -4,6 +4,9 @@ import {feedDebugValue, getDebugValues, getLatestDebugValue} from "../../../../c
 import {OaStyleCard} from "../../../../components/card/OaStyleCard";
 import {VERSION} from "../../../../index";
 import {getGlobalState} from "../../../../state/store";
+import {Radar} from "../../../../components/graph/Radar";
+import {WorldModule} from "../../../../client/services/world/WorldModule";
+import {VoiceModule} from "../../../../client/services/voice/VoiceModule";
 
 export default class DebugPage extends React.Component {
 
@@ -22,15 +25,24 @@ export default class DebugPage extends React.Component {
                 "green",
                 "grey",
                 "magenta",
-            ]
+            ],
+            playerLocation: {},
+            peers: [],
         }
     }
 
     componentDidMount() {
         this.setState({
             task: setInterval(() => {
-                this.forceUpdate();
-            }, 500)
+                this.setState({
+                    playerLocation: {x: WorldModule.player.location.x,
+                        y: WorldModule.player.location.y,
+                        z: WorldModule.player.location.z,
+                        yaw: WorldModule.player.yaw,
+                    },
+                    peers: VoiceModule.getPeerLocations()
+                })
+            }, 50)
         })
     }
 
@@ -76,6 +88,11 @@ export default class DebugPage extends React.Component {
                         <p className={"text-white"}><b>Player:</b> <i className={"text-blue-200"}>{getGlobalState().currentUser.userName}</i></p>
                     </OaStyleCard>
                     {panels}
+
+
+                    <OaStyleCard title={"Radar"}>
+                        <Radar player={this.state.playerLocation} entities={this.state.peers} />/>
+                    </OaStyleCard>
                 </div>
             </div>
         );
