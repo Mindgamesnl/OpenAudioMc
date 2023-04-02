@@ -40,6 +40,16 @@ export default class DebugPage extends React.Component {
     render() {
         let panels = []
         let values = getDebugValues();
+
+        // sort values by name
+        let keys = Object.keys(values);
+        keys.sort();
+        let sortedValues = {};
+        for (let key of keys) {
+            sortedValues[key] = values[key];
+        }
+        values = sortedValues;
+
         let ci = 0;
         for (let debugValueName in values) {
             // feed latest value to increment time
