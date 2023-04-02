@@ -56,7 +56,12 @@ export class PeerManager {
         let currentUser = globalState.currentUser;
         this.micStream = micStream;
 
-        let endpoint = globalState.voiceState.streamServer + "webrtc/confluence/sdp" +
+        let endpoint = globalState.voiceState.streamServer;
+        if (!globalState.voiceState.streamServer.endsWith("/")) {
+            endpoint += "/";
+        }
+
+        endpoint += "webrtc/confluence/sdp" +
             "/m/" + currentUser.publicServerKey +
             "/pu/" + currentUser.uuid +
             "/pn/" + currentUser.userName +
