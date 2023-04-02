@@ -101,7 +101,7 @@ export class Sound extends AudioSourceProcessor {
                         return JSON.stringify(plainObject, filter, space);
                     };
 
-                    if (this.source != null && this.source != "null") {
+                    if (this.source != null && this.source !== "null") {
                         ReportError(
                             "A sound failed to load.\n" +
                             "url=" + this.source + "\n" +
