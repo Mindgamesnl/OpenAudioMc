@@ -212,6 +212,20 @@ export const VoiceModule = new class IVoiceModule {
             peer.updateLocation(x, y, z)
     }
 
+    getPeerLocations() {
+        let locations = [];
+        for (let [key, peer] of this.peerMap) {
+            if (peer.stream) {
+                locations.push({
+                    x: peer.stream.x,
+                    y: peer.stream.y,
+                    z: peer.stream.z,
+                });
+            }
+        }
+        return locations;
+    }
+
     removePeer(playerStreamKey) {
         let peer = this.peerMap.get(playerStreamKey);
         if (peer) {

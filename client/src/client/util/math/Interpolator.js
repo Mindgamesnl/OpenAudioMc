@@ -2,8 +2,8 @@ import {Vector3} from "./Vector3";
 import {getGlobalState} from "../../../state/store";
 
 export const MAGIC_SCHEDULE_VALUES = {
-    VC_LOCATION_UPDATES: 3 * 45,
-    SELF_LOCATION_UPDATES: 2 * 45
+    VC_LOCATION_UPDATES: 3 * 50,
+    SELF_LOCATION_UPDATES: 2 * 50
 }
 
 export class Interpolator {
