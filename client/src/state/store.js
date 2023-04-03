@@ -44,7 +44,7 @@ const initialState = {
         interpolationEnabled: true,
         streamermodeEnabled: false,
         spatialRenderingMode: 'new',
-        rolloffFactor: .8,
+        rolloffFactor: .5,
 
         preferredMicId: "default",
     },
