@@ -38,6 +38,14 @@ export const WorldModule = new class IWorldModule {
         }, 600)
     }
 
+    getSpeakerLocations() {
+        let locations = [];
+        this.speakers.forEach((speaker, id) => {
+            locations.push(speaker.location);
+        })
+        return locations;
+    }
+
     async getMediaForSource(source, startInstant) {
         const loaded = this.audioMap.get(source);
         if (loaded != null) return loaded;

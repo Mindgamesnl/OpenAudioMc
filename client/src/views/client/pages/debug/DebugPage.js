@@ -7,6 +7,7 @@ import {getGlobalState} from "../../../../state/store";
 import {Radar} from "../../../../components/graph/Radar";
 import {WorldModule} from "../../../../client/services/world/WorldModule";
 import {VoiceModule} from "../../../../client/services/voice/VoiceModule";
+import {Graph} from "../../../../components/graph/Graph";
 
 export default class DebugPage extends React.Component {
 
@@ -28,6 +29,7 @@ export default class DebugPage extends React.Component {
                 "magenta",
             ],
             playerLocation: {},
+            speakers: [],
             peers: [],
             panels: []
         }
@@ -42,7 +44,8 @@ export default class DebugPage extends React.Component {
                         z: WorldModule.player.location.z,
                         yaw: WorldModule.player.yaw,
                     },
-                    peers: VoiceModule.getPeerLocations()
+                    peers: VoiceModule.getPeerLocations(),
+                    speakers: WorldModule.getSpeakerLocations(),
                 })
             }, 50),
             graphTask: setInterval(() => {
@@ -83,6 +86,7 @@ export default class DebugPage extends React.Component {
         clearInterval(this.state.radarTask);
         clearInterval(this.state.graphTask);
     }
+
     render() {
         return (
             <div className={"w-full h-full flex flex-col"}>
@@ -98,10 +102,13 @@ export default class DebugPage extends React.Component {
                     {this.state.panels}
 
 
-                    <OaStyleCard title={"Radar"}>
-                        <Radar player={this.state.playerLocation} entities={this.state.peers} />/>
+                    <OaStyleCard title={"Spatial Rendering"}>
+                        <Radar player={this.state.playerLocation} entities={this.state.peers} speakers={this.state.speakers} />/>
+                        <p className={"text-black"}>My location X:{this.state.playerLocation.x} Y:{this.state.playerLocation.y} Z:{this.state.playerLocation.z}</p>
                     </OaStyleCard>
                 </div>
+                <OaStyleCard title={"Panner Locations"} fullWidth={true}>
+                </OaStyleCard>
             </div>
         );
     }
