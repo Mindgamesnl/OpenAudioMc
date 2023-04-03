@@ -49,7 +49,22 @@ export class Radar extends Component {
     };
 
     componentDidMount() {
-        this.renderCanvas()
+        window.addEventListener('resize', this.handleResize);
+        this.renderCanvas();
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.handleResize);
+    }
+
+    handleResize = () => {
+        const canvas = this.canvasRef.current;
+        const rect = canvas.getBoundingClientRect();
+
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+
+        this.renderCanvas();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -88,13 +103,11 @@ export class Radar extends Component {
 
     render() {
         return (
-
-                <canvas
-                    style={{width: "100%", height: "100%"}}
-                    width={242}
-                    height={242}
-                    ref={this.canvasRef}
-                />
+            <canvas
+                style={{width: "100%", height: "100%"}}
+                ref={this.canvasRef}
+                className="m-0 p-0"
+            />
 
         );
     }
