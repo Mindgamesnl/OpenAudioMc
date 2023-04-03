@@ -107,8 +107,6 @@ export default class DebugPage extends React.Component {
                         <p className={"text-black"}>My location X:{this.state.playerLocation.x} Y:{this.state.playerLocation.y} Z:{this.state.playerLocation.z}</p>
                     </OaStyleCard>
                 </div>
-                <OaStyleCard title={"Panner Locations"} fullWidth={true}>
-                </OaStyleCard>
             </div>
         );
     }
