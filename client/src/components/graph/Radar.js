@@ -10,13 +10,12 @@ export class Radar extends Component {
         this.canvasRef = React.createRef();
     }
 
-    drawBlips = (ctx, entities, pyaw, blipColor) => {
+    drawBlips = (ctx, entities, pyaw, blipColor, radius) => {
         const player = this.props.player;
         const canvas = this.canvasRef.current;
 
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
-        const radius = Math.min(centerX, centerY) * 0.8;
 
         for (const entity of entities) {
             const dotX = Math.round(entity.x - player.x);
@@ -27,9 +26,9 @@ export class Radar extends Component {
 
             // Map the rotated entity location to the radar canvas
             const radarX = Math.round(rotatedX / radius * centerX) + centerX;
-            const radarY = Math.round(rotatedY / radius * centerY) + centerY;
+            let radarY = Math.round(rotatedY / radius * centerX) + centerY;
 
-            if (radarX < 0 || radarX >= this.canvasRef.current.width || radarY < 0 || radarY >= this.canvasRef.current.height) {
+            if (radarX < 0 || radarX >= canvas.width || radarY < 0 || radarY >= canvas.height) {
                 continue;
             }
 
@@ -85,7 +84,9 @@ export class Radar extends Component {
 
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
-        const radius = Math.min(centerX, centerY) * 0.8;
+        const aspectRatio = canvas.width / canvas.height;
+        const maxDistance = Math.sqrt(Math.pow(canvas.width / 2, 2) + Math.pow(canvas.height / 2, 2));
+        const radius = maxDistance * 1.7 / (2 * aspectRatio > 1 ? 2 * aspectRatio : 1);
 
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
@@ -95,8 +96,9 @@ export class Radar extends Component {
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        const yaw = (this.toDegrees(this.props.player.yaw) + 180) % 360;
-        this.drawBlips(ctx, this.props.entities, this.toRadians(yaw), "BLUE");
+        const yaw = (this.toDegrees(this.props.player.yaw) + 180);
+        this.drawBlips(ctx, this.props.entities, this.toRadians(yaw), "BLUE", radius);
+        this.drawBlips(ctx, this.props.speakers, this.toRadians(yaw), "RED", radius);
 
         this.drawDot(ctx, centerX, centerY, "BLACK");
     }
@@ -116,4 +118,5 @@ export class Radar extends Component {
 Radar.defaultProps = {
     player: PropTypes.object.isRequired,
     entities: PropTypes.array.isRequired,
+    speakers: PropTypes.array.isRequired,
 }

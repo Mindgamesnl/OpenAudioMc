@@ -33,7 +33,7 @@ export class Player {
     }
 
     normalizeYaw(yaw) {
-        yaw = yaw % 360;
+        // yaw = yaw % 360;
         if (yaw < 0) yaw += 360.0;
         return yaw;
     }
