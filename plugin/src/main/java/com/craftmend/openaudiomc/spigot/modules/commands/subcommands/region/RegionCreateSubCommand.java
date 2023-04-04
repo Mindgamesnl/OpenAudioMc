@@ -27,7 +27,7 @@ public class RegionCreateSubCommand extends SubCommand {
             return;
         }
 
-        RegionProperties rp = new RegionProperties(args[2], 100, 1000, true, args[1]);
+        RegionProperties rp = new RegionProperties(args[2], 100, 1000, true, args[1], sender.getWorldName());
         OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class)
                 .save(rp);
 

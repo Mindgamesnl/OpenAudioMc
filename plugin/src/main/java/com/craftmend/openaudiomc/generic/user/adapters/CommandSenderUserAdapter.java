@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -30,6 +32,15 @@ public class CommandSenderUserAdapter implements User {
     @Override
     public void sendClickableUrlMessage(String t, String hoverMessage, String url) {
         sender.sendMessage(t);
+    }
+
+    @Nullable
+    @Override
+    public String getWorldName() {
+        if (sender instanceof org.bukkit.entity.Player) {
+            return ((org.bukkit.entity.Player) sender).getWorld().getName();
+        }
+        return null;
     }
 
     @Override

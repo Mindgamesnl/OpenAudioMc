@@ -49,7 +49,7 @@ public class RegionTempSubCommand extends SubCommand {
             return;
         }
 
-        openAudioMcSpigot.getRegionModule().registerRegion(args[1], new TimedRegionProperties(args[2], duration, args[1]));
+        openAudioMcSpigot.getRegionModule().registerRegion(args[1], new TimedRegionProperties(args[2], duration, args[1], sender.getWorldName()));
         message(sender, ChatColor.GREEN + "The WorldGuard region with the id " + args[1] + " now has the sound " + args[2]);
 
         openAudioMcSpigot.getRegionModule().forceUpdateRegions();

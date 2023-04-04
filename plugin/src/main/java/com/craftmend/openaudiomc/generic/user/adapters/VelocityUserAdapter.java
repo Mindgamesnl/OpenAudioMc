@@ -8,6 +8,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -53,6 +54,12 @@ public class VelocityUserAdapter implements User {
         message = message.hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text(Objects.requireNonNull(hoverText))));
 
         sender.sendMessage(message);
+    }
+
+    @Nullable
+    @Override
+    public String getWorldName() {
+        return null;
     }
 
     @Override

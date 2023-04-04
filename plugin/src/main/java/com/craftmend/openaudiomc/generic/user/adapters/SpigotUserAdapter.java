@@ -9,6 +9,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -63,6 +64,15 @@ public class SpigotUserAdapter implements User {
         message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover));
 
         sendMessage(message);
+    }
+
+    @Nullable
+    @Override
+    public String getWorldName() {
+        if (player instanceof Player) {
+            return ((Player) player).getWorld().getName();
+        }
+        return null;
     }
 
     @Override
