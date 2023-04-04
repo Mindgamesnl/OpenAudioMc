@@ -214,4 +214,9 @@ public class VistasUser implements User {
             );
         }
     }
+
+    @Override
+    public String getWorldName() {
+        return null;
+    }
 }

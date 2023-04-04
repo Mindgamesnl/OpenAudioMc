@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.api.interfaces.Client;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import net.md_5.bungee.api.chat.TextComponent;
 
+import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,6 +25,7 @@ public interface User {
     void sendMessage(TextComponent textComponent);
     void sendClickableCommandMessage(String message, String hoverMessage, String command);
     void sendClickableUrlMessage(String message, String hoverMessage, String url);
+    @Nullable String getWorldName();
     default void sendActionbarMessage(String message) {
         sendMessage(message);
     }

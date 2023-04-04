@@ -22,12 +22,12 @@ public class TimedRegionProperties extends RegionProperties {
 
     }
 
-    public TimedRegionProperties(String source, int timeInSeconds, String regionId) {
-        this(source, timeInSeconds, regionId, 100, 1000, regionId);
+    public TimedRegionProperties(String source, int timeInSeconds, String regionId, String... worldName) {
+        this(source, timeInSeconds, regionId, 100, 1000, regionId, worldName);
     }
 
-    public TimedRegionProperties(String source, int timeInSeconds, String regionId, int volume, int fadeTimeMs, String regionName) {
-        super(source, volume, fadeTimeMs, true, regionName);
+    public TimedRegionProperties(String source, int timeInSeconds, String regionId, int volume, int fadeTimeMs, String regionName, String... worldName) {
+        super(source, volume, fadeTimeMs, true, regionName, worldName);
         this.regionId = regionId;
 
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {

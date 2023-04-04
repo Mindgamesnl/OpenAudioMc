@@ -7,6 +7,7 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -60,6 +61,12 @@ public class BungeeUserAdapter implements User {
         message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover));
 
         sendMessage(message);
+    }
+
+    @Nullable
+    @Override
+    public String getWorldName() {
+        return null;
     }
 
     @Override

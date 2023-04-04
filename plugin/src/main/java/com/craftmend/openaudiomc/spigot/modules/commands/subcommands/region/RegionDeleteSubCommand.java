@@ -25,16 +25,16 @@ public class RegionDeleteSubCommand extends SubCommand {
         // check if it was valid in the first place
         RegionProperties rp = openAudioMcSpigot.getRegionModule().getRegionPropertiesMap().get(targetRegion);
         if (rp != null) {
-            if (rp.getId() != null) {
+            if (rp.getId() != null && !(rp instanceof TimedRegionProperties)) {
                 OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class)
                         .delete(rp);
             }
 
             if (rp instanceof TimedRegionProperties) {
                 ((TimedRegionProperties) rp).destroy();
-            } else {
-                openAudioMcSpigot.getRegionModule().removeRegion(targetRegion);
             }
+
+            openAudioMcSpigot.getRegionModule().removeRegion(targetRegion);
 
             message(sender, ChatColor.RED + "The WorldGuard region with the id " + targetRegion + " no longer has a sound linked to it.");
         } else {

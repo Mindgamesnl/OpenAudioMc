@@ -74,6 +74,14 @@ public class LegacySpigotUserAdapter implements User {
     }
 
     @Override
+    public String getWorldName() {
+        if (sender instanceof Player) {
+            return ((Player) sender).getWorld().getName();
+        }
+        return null;
+    }
+
+    @Override
     public boolean isAdministrator() {
         return sender.isOp() || sender.hasPermission("openaudiomc.*") || sender.hasPermission("openaudiomc.tips");
     }
