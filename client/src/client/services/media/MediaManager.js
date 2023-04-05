@@ -14,7 +14,7 @@ export const MediaManager = new class IMediaManager {
 
         var lastVolume = 0;
         store.subscribe((e) => {
-            if (!store.getState().settings.normalVolume) return;
+            if (store.getState().settings.normalVolume === null) return;
             if (lastVolume !== store.getState().settings.normalVolume) {
                 lastVolume = store.getState().settings.normalVolume;
                 this.setMasterVolume(store.getState().settings.normalVolume);

@@ -7,7 +7,6 @@ import {getGlobalState} from "../../../../state/store";
 import {Radar} from "../../../../components/graph/Radar";
 import {WorldModule} from "../../../../client/services/world/WorldModule";
 import {VoiceModule} from "../../../../client/services/voice/VoiceModule";
-import {Graph} from "../../../../components/graph/Graph";
 
 export default class DebugPage extends React.Component {
 
