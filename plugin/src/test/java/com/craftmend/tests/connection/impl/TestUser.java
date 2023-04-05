@@ -8,6 +8,7 @@ import com.craftmend.tests.connection.ConnectionTest;
 import com.craftmend.utils.FutureAssertion;
 import lombok.AllArgsConstructor;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -70,5 +71,11 @@ public class TestUser implements User {
     @Override
     public void sendClickableUrlMessage(String message, String hoverMessage, String url) {
         ConnectionTest.assertionGroup.run(new FutureAssertion("User link has a token", shit -> url.split("#")[1].length() > 2));
+    }
+
+    @Nullable
+    @Override
+    public String getWorldName() {
+        return null;
     }
 }

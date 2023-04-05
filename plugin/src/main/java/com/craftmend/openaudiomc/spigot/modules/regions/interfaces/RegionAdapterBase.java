@@ -50,9 +50,6 @@ public abstract class RegionAdapterBase {
                 regions.add(new Region(r.getName(), rp));
             }
         }
-
-        //
-
         return regions;
     }
 

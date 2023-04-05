@@ -22,6 +22,7 @@
     <modules>
         <module>modules/jutils</module>
         <module>plugin</module>
+        <module>modules/gamemode-voice-filter-module</module>
         <module>modules/vistas-client</module>
         <module>modules/vistas-server</module>
         <module>modules/rinaorc-legacy</module>
