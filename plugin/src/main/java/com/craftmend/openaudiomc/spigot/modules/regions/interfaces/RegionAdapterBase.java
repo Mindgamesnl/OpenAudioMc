@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.regions.interfaces;
 
 import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.Region;
+import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,16 +25,34 @@ public abstract class RegionAdapterBase {
         List<IRegion> regions = new ArrayList<>();
         int prio = 0;
         for (ApiRegion r : selfInjected.getRegionsAtLocation(location)) {
-            if (regionModule.getRegionPropertiesMap().get(r.getName()) == null) continue;
+
+            RegionProperties rp = regionModule.getRegionPropertiesMap().get(r.getName());
+            if (rp == null) continue;
+
+            if (rp.getHasWorlds()) {
+                // is our world in the array?
+                boolean hasWorld = false;
+                for (String world : rp.getWorlds()) {
+                    if (world.equalsIgnoreCase(location.getWorld().getName())) {
+                        hasWorld = true;
+                        break;
+                    }
+                }
+                if (!hasWorld) continue;
+            }
+
             if (r.getPriority() > prio) {
                 prio = r.getPriority();
                 regions.clear();
             }
 
             if (r.getPriority() >= prio) {
-                regions.add(new Region(r.getName(), regionModule.getRegionPropertiesMap().get(r.getName())));
+                regions.add(new Region(r.getName(), rp));
             }
         }
+
+        //
+
         return regions;
     }
 
