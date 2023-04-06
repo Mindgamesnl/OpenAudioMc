@@ -8,8 +8,12 @@ class VoicePeerBox extends React.Component {
 
     render() {
         let c = this.context;
+        let total = 0;
+        let talking = 0;
 
         let peers = Object.values(this.props.voicePeers).map((peer) => {
+            total++;
+            if (peer.speaking) talking++;
             return <VoicePeerRow loading={peer.loading} name={peer.name} key={peer.uuid} streamKey={peer.streamKey} uuid={peer.uuid} speaking={peer.speaking} muted={peer.muted}/>
         });
 
@@ -18,9 +22,13 @@ class VoicePeerBox extends React.Component {
         let left = peers.slice(0, half);
         let right = peers.slice(half, peers.length);
 
+        let peerMessage = getTranslation(c, "vc.peerTable");
+        peerMessage = peerMessage.replace("{talking}", talking);
+        peerMessage = peerMessage.replace("{total}", total);
+
         return (
             <div className="content-section">
-                <div className="content-section-title">{getTranslation(c, "vc.peerTable")}</div>
+                <div className="content-section-title">{peerMessage}</div>
                 <div className="content-card-collection">
                     <div className="content-card voicechat-player-card">
                         <ul>
