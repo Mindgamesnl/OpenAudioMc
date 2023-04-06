@@ -7,8 +7,6 @@ with these Terms of Services.
 The Terms of Services as described in this document are also applicable to purchases made through OpenAudioMc accounts (
 on https://account.openaudiomc.net/) or other services/sites owned/endorsed by the openaudiomc project or Mindgamesnl
 
-This document overrides the license as used before May 20th, 2020 at 7 PM (UTC+2)
-
 ## Definitions
 
 - The author of this document uses the term **I** and **me** to reference me, Mindgamesnl, as the author of OpenAudioMc.
@@ -51,7 +49,7 @@ This document overrides the license as used before May 20th, 2020 at 7 PM (UTC+2
   ran into a problem, the exact js error message and code, and the source that caused the issue (if applicable). This
   information will not be shared with third parties.
 - **OpenAudioMc Accounts**: OpenAudioMc accounts store and process provided information (email, password, addon activation
-  codes etc) for functional purposes and aren't shared with third parties by me.
+  codes etc) for functional purposes and aren't shared with third parties unless required by law.
 - **Voice Chat**: VoiceChat uses data from your OpenAudioMc Account to provide its service. Audio
   streams **do not** get recorded, but the most recent second of audio will get saved in memory for functional reasons (
   buffering). In certain conditions, the audio stream will be shared with Moderators who do not appear in your list of voice-chat peers.
@@ -60,7 +58,29 @@ This document overrides the license as used before May 20th, 2020 at 7 PM (UTC+2
   linked OpenAudioMc accounts are allowed two months of inactivity (unless they have addons installed, in which case they
   will never be deleted)
 - **Uploaded Files**: OpenAudioMc is not responsible for uploaded/entered files. This includes but is not limited to
-  music files, images, and other files. OpenAudioMc is not responsible for any damage caused by uploaded files. We reserve the right to completely remove uploaded files without notice if we deem it necessary.
+  music files, images, and other files. OpenAudioMc is not responsible for any damage caused by uploaded files.
+  - Users may only upload files for which they have the rights to do so. This includes Distribution rights, and
+    Intellectual Property rights. Uploaded media may not be used for any other purpose than for personal use within your Minecraft server.
+  - Users may not upload files that are illegal in the country they reside in, or in the country of the server owner.
+  - Users may not upload files that are illegal in the country of the OpenAudioMc team members.
+  - All uploaded files are subject to the DMCA takedown policy. If you believe that a file is infringing on your
+    Intellectual Property rights, please contact us at https://account.openaudiomc.net/dmcarequest
+  - OpenAudioMc reserves the right to remove any uploaded file without notice if we deem it necessary.
+  - (repeat) offenders may have their account banned, blocked, or otherwise limited as a result of violating one or
+    more Terms of Services or by participating in other behaviour related to OpenAudioMc that may be considered
+    unacceptable.
+- **File complaints or copyright take-down requests**: 
+  - All complaint records (existing of the provided information through the form, as well as request IP addresses) will be stored indefinitely. These records will not be shared with third parties unless required by law.
+  - In the event of a complaint, OpenAudioMc will review the complaint and take action if necessary. This may include
+    but is not limited to: removing the file, removing the file and banning the account, or removing the file and
+    banning the account and the server.
+  - Invalid, false, or otherwise malicious complaints may result in a ban, block, or otherwise limit as a result of
+    violating one or more Terms of Services or by participating in other behaviour related to OpenAudioMc that may be
+    considered unacceptable.
+  - Filed complaints may be shared with third parties, other OpenAudioMc team members, and the user who owns the
+    account that uploaded the file.
+  - We reply to all complaints within 48 hours, but we may take longer to review the complaint and take action if
+    necessary. You will be notified when the complaint has been reviewed and action has been taken.
 
 ## Purchases
 

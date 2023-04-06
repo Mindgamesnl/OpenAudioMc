@@ -41,6 +41,13 @@
     --content-title-color: --theme-color;
 }
 
+@font-face {
+    font-family: minecraft;
+    font-style: normal;
+    font-weight: 400;
+    src: local('Minecraft'), url("../assets/MinecraftTen-VGORe.woff") format('woff')
+}
+
 html {
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
