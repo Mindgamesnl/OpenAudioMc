@@ -42,8 +42,7 @@ export class LoginForm extends React.Component {
                     <input type="text" placeholder="Token"
                            onInput={(e) => this.setState({token: e.target.value})}
                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"/>
-                    <button onClick={this.onSubmit}
-                            className="minecraft-btn mx-auto text-center text-white truncate p-1 border-2 border-b-4 hover:text-yellow-200">
+                    <button onClick={this.onSubmit} className="minecraft-btn mx-auto text-center text-white truncate p-1 pt-2 border-2 border-b-4 hover:text-yellow-200">
                         Login
                     </button>
                 </div>
