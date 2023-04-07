@@ -131,7 +131,6 @@ export class MicrophoneProcessor {
         // update global state, but first update self to prevent infinite loop
         this.lastAutoAdjustmentsState = toPositive;
         setGlobalState({settings: {microphoneSensitivity: toPositive}})
-
     }
 
     decreaseSensitivity() {

@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.api.impl;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.exceptions.RegionException;
-import com.craftmend.openaudiomc.api.interfaces.IAccountProvider;
+import com.craftmend.openaudiomc.api.interfaces.ITokenProvider;
 import com.craftmend.openaudiomc.api.interfaces.RegistryApi;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
@@ -21,7 +21,6 @@ import com.craftmend.openaudiomc.spigot.modules.shortner.AliasService;
 import com.craftmend.openaudiomc.spigot.modules.shortner.data.Alias;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.SpigotVoiceChatService;
 import lombok.Getter;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class RegistryApiImpl implements RegistryApi {
@@ -59,7 +58,7 @@ public class RegistryApiImpl implements RegistryApi {
     }
 
     @Override
-    public void registerTokenProvider(IAccountProvider provider) {
+    public void registerTokenProvider(ITokenProvider provider) {
         AuthenticationService.TOKEN_PROVIDER = provider;
     }
 

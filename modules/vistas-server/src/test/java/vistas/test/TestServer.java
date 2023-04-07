@@ -1,7 +1,7 @@
 package vistas.test;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
+import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.vistas.client.redis.packets.ServerRegisterPacket;
@@ -127,7 +127,7 @@ public class TestServer extends TestCase {
         assertEquals(2, OpenAudioMc.resolveDependency(ServerUserHooks.class).getRemoteInstallation().get(fakeServer2).getOnlineUsers().size());
 
         System.out.println("Waiting for boot so the gc tasks are running");
-        Waiter.waitUntil(unused -> OpenAudioMc.getService(CraftmendService.class).isInitialized(), 20);
+        Waiter.waitUntil(unused -> OpenAudioMc.getService(OpenaudioAccountService.class).isInitialized(), 20);
 
         // test for memory leaks by leaving the server entirely, then waiting and killing it
         OpenAudioMc.getService(VistasRedisServer.class).getPacketEvents().handlePacket(null, new UserLeavePacket(

@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.api.impl.event.events.SystemReloadEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
-import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
+import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
@@ -22,7 +22,7 @@ public class ReloadSubCommand extends SubCommand {
     public void onExecute(User sender, String[] args) {
         message(sender, Platform.makeColor("RED") + "Reloading OpenAudioMc data (config and account details)...");
         OpenAudioMc.getInstance().getConfiguration().reloadConfig();
-        OpenAudioMc.getService(CraftmendService.class).syncAccount();
+        OpenAudioMc.getService(OpenaudioAccountService.class).syncAccount();
 
         message(sender, Platform.makeColor("RED") + "Shutting down network service and logging out...");
 

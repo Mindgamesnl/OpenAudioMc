@@ -1,6 +1,6 @@
-package com.craftmend.openaudiomc.generic.craftmend.updates;
+package com.craftmend.openaudiomc.generic.oac.updates;
 
-import com.craftmend.openaudiomc.generic.craftmend.object.OnlinePlayer;
+import com.craftmend.openaudiomc.generic.oac.object.OnlinePlayer;
 import lombok.Getter;
 import lombok.Setter;
 

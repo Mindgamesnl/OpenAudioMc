@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.craftmend.response;
+package com.craftmend.openaudiomc.generic.oac.response;
 
 import com.craftmend.openaudiomc.generic.rest.response.AbstractRestResponse;
 import lombok.Getter;

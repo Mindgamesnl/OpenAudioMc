@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.craftmend.enums;
+package com.craftmend.openaudiomc.generic.oac.enums;
 
 public enum CraftmendTag {
 

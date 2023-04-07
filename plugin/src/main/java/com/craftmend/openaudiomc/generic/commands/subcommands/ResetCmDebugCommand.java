@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.generic.commands.subcommands;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
-import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
+import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.platform.OaColor;
 import com.craftmend.openaudiomc.generic.user.User;
 import lombok.SneakyThrows;
@@ -24,7 +24,7 @@ public class ResetCmDebugCommand extends SubCommand {
     @Override
     @SneakyThrows
     public void onExecute(User user, String[] strings) {
-        CraftmendService cs = OpenAudioMc.getService(CraftmendService.class);
+        OpenaudioAccountService cs = OpenAudioMc.getService(OpenaudioAccountService.class);
 
         user.sendMessage(OaColor.RED + "Resetting craftmend account state...");
 
@@ -43,8 +43,8 @@ public class ResetCmDebugCommand extends SubCommand {
     }
 
     private void setCraftmendServiceBool(String fieldName, boolean state) throws NoSuchFieldException, IllegalAccessException {
-        CraftmendService cs = OpenAudioMc.getService(CraftmendService.class);
-        Field f = CraftmendService.class.getDeclaredField(fieldName);
+        OpenaudioAccountService cs = OpenAudioMc.getService(OpenaudioAccountService.class);
+        Field f = OpenaudioAccountService.class.getDeclaredField(fieldName);
         f.setAccessible(true);
         f.set(cs, true);
     }

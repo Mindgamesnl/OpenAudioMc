@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.state.collectors;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
+import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.state.interfaces.StateDetail;
 import com.craftmend.openaudiomc.generic.voicechat.bus.VoiceApiConnection;
 import com.craftmend.openaudiomc.generic.voicechat.enums.VoiceApiStatus;
@@ -14,7 +14,7 @@ public class VoiceDetail implements StateDetail {
 
     @Override
     public String value() {
-        VoiceApiConnection apiConnection = OpenAudioMc.getService(CraftmendService.class).getVoiceApiConnection();
+        VoiceApiConnection apiConnection = OpenAudioMc.getService(OpenaudioAccountService.class).getVoiceApiConnection();
 
         if (apiConnection.getStatus() != VoiceApiStatus.CONNECTED) {
             return apiConnection.getStatus().name();

@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.craftmend.object;
+package com.craftmend.openaudiomc.generic.oac.object;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -6,8 +6,8 @@ import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.authentication.objects.Key;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
-import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
-import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
+import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
+import com.craftmend.openaudiomc.generic.oac.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
@@ -67,8 +67,8 @@ public class BukkitPacketListener implements PacketListener {
         connection.setAuth(new ClientAuth(connection, packet.getExplodedToken(), packet.getExplodedToken()));
 
         // enable the module if it isn't already
-        if (!OpenAudioMc.getService(CraftmendService.class).is(CraftmendTag.VOICECHAT)) {
-            OpenAudioMc.getService(CraftmendService.class).addTag(CraftmendTag.VOICECHAT);
+        if (!OpenAudioMc.getService(OpenaudioAccountService.class).is(CraftmendTag.VOICECHAT)) {
+            OpenAudioMc.getService(OpenaudioAccountService.class).addTag(CraftmendTag.VOICECHAT);
         }
     }
 

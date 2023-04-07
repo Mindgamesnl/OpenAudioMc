@@ -5,8 +5,8 @@ import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 import com.craftmend.openaudiomc.api.impl.event.events.TimeServiceUpdateEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
-import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
-import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
+import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
+import com.craftmend.openaudiomc.generic.oac.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientBlurVoiceUi;
@@ -58,7 +58,7 @@ public class ProxyHostService extends Service {
                 connection.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(null)));
             }
 
-            if (OpenAudioMc.getService(CraftmendService.class).is(CraftmendTag.VOICECHAT)) {
+            if (OpenAudioMc.getService(OpenaudioAccountService.class).is(CraftmendTag.VOICECHAT)) {
                 this.userHooks.sendPacket(user,
                         new ClientUpdateStatePacket(
                                 user.getUniqueId(),

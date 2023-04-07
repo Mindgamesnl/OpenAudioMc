@@ -61,7 +61,7 @@ public interface RegistryApi {
      * Register a new default account provider
      * @param provider Provider
      */
-    void registerTokenProvider(IAccountProvider provider);
+    void registerTokenProvider(ITokenProvider provider);
 
     /**
      * Unregister region media

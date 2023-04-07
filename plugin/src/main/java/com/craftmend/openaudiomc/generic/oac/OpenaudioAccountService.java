@@ -1,14 +1,14 @@
-package com.craftmend.openaudiomc.generic.craftmend;
+package com.craftmend.openaudiomc.generic.oac;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.events.AccountAddTagEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.AccountRemoveTagEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
-import com.craftmend.openaudiomc.generic.craftmend.enums.AccountState;
-import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
-import com.craftmend.openaudiomc.generic.craftmend.response.OpenaudioSettingsResponse;
-import com.craftmend.openaudiomc.generic.craftmend.response.VoiceSessionRequestResponse;
+import com.craftmend.openaudiomc.generic.oac.enums.AccountState;
+import com.craftmend.openaudiomc.generic.oac.enums.CraftmendTag;
+import com.craftmend.openaudiomc.generic.oac.response.OpenaudioSettingsResponse;
+import com.craftmend.openaudiomc.generic.oac.response.VoiceSessionRequestResponse;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.rest.RestRequest;
@@ -29,7 +29,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @NoArgsConstructor
-public class CraftmendService extends Service {
+public class OpenaudioAccountService extends Service {
 
     @Inject
     private OpenAudioMc openAudioMc;

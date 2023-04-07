@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.client.ClientDataService;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
-import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
+import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.environment.EnvironmentService;
 import com.craftmend.openaudiomc.generic.environment.GlobalConstantService;
@@ -138,7 +138,7 @@ public class OpenAudioMc {
                 GlobalConstantService.class,    // keeps track of remote project constants (like release versions, etc)
                 CommandService.class,           // standardized command processor regardless of platform
                 RedisService.class,             // redis hook/service implementation
-                CraftmendService.class,         // craftmend specific features, like voice chat
+                OpenaudioAccountService.class,         // craftmend specific features, like voice chat
                 RestDirectService.class,        // manage rest direct
                 ClientDataService.class         // manage player profiles
         );
@@ -147,7 +147,7 @@ public class OpenAudioMc {
     }
 
     public void postBoot() {
-        getService(CraftmendService.class).postBoot();
+        getService(OpenaudioAccountService.class).postBoot();
         getService(ModuleLoaderService.class).fire(ModuleEvent.PLATFORM_LOADED);
     }
 
@@ -159,7 +159,7 @@ public class OpenAudioMc {
         serviceManager.getService(ModuleLoaderService.class).fire(ModuleEvent.SHUTDOWN);
 
         try {
-            serviceManager.getService(CraftmendService.class).shutdown();
+            serviceManager.getService(OpenaudioAccountService.class).shutdown();
             serviceManager.getService(RedisService.class).shutdown();
             if (serviceManager.getService(StateService.class).getCurrentState().isConnected()) {
                 serviceManager.getService(NetworkingService.class).stop();

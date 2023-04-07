@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.authentication.driver;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.api.interfaces.IAccountProvider;
+import com.craftmend.openaudiomc.api.interfaces.ITokenProvider;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.authentication.objects.Key;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
@@ -13,7 +13,7 @@ import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 
 import java.util.UUID;
 
-public class CraftmendTokenProvider implements IAccountProvider {
+public class PluginTokenProvider implements ITokenProvider {
 
     @Override
     public void inject(TaskService ts, AuthenticationService as) {
