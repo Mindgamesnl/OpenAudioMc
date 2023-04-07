@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.placeholderapi;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
-import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
+import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
@@ -75,7 +75,7 @@ public class PlaceholderModule extends PlaceholderExpansion {
         if(params.equals("count_vc"))
             return Integer.toString(
                     OpenAudioMc.getService(
-                            CraftmendService.class
+                            OpenaudioAccountService.class
                     ).getVoiceApiConnection()
                             .getUsedSlots()
             );
@@ -83,7 +83,7 @@ public class PlaceholderModule extends PlaceholderExpansion {
         if(params.equals("count_vc_max"))
             return Integer.toString(
                     OpenAudioMc.getService(
-                                    CraftmendService.class
+                                    OpenaudioAccountService.class
                             ).getVoiceApiConnection()
                             .getMaxSlots()
             );

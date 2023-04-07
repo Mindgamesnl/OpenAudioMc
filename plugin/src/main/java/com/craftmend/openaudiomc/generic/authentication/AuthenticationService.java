@@ -1,9 +1,9 @@
 package com.craftmend.openaudiomc.generic.authentication;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.api.interfaces.IAccountProvider;
+import com.craftmend.openaudiomc.api.interfaces.ITokenProvider;
 import com.craftmend.openaudiomc.generic.authentication.driver.AuthenticationDriver;
-import com.craftmend.openaudiomc.generic.authentication.driver.CraftmendTokenProvider;
+import com.craftmend.openaudiomc.generic.authentication.driver.PluginTokenProvider;
 import com.craftmend.openaudiomc.generic.authentication.objects.Key;
 import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
@@ -22,7 +22,7 @@ import lombok.Setter;
 @Getter
 public class AuthenticationService extends Service {
 
-    public static IAccountProvider TOKEN_PROVIDER = new CraftmendTokenProvider();
+    public static ITokenProvider TOKEN_PROVIDER = new PluginTokenProvider();
 
     @Inject
     private TaskService taskService;
@@ -33,7 +33,7 @@ public class AuthenticationService extends Service {
     @Getter private final ServerKeySet serverKeySet = new ServerKeySet();
     @Setter private boolean isSuccessful = false;
     private final String failureMessage = "Oh no, it looks like the initial setup of OpenAudioMc has failed. Please try to restart the server and try again, if that still does not work, please contact OpenAudioMc staff or support.";
-    @Getter private final int currentKeyVersion = 4;
+    @Getter private final int currentKeyVersion = 5;
     @Setter private boolean isNewAccount = false;
 
     @Override

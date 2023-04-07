@@ -1,10 +1,8 @@
-package com.craftmend.openaudiomc.generic.craftmend.response;
+package com.craftmend.openaudiomc.generic.oac.response;
 
-import com.craftmend.openaudiomc.generic.craftmend.enums.AccountState;
+import com.craftmend.openaudiomc.generic.oac.enums.AccountState;
 import com.craftmend.openaudiomc.generic.rest.response.AbstractRestResponse;
-import com.google.gson.annotations.SerializedName;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data

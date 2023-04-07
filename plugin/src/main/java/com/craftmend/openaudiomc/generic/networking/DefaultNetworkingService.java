@@ -7,7 +7,7 @@ import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.client.helpers.SerializableClient;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
-import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
+import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.mojang.MojangLookupService;
@@ -113,11 +113,11 @@ public class DefaultNetworkingService extends NetworkingService {
     public void connectIfDown() {
         if (!OpenAudioMc.getService(StateService.class).getCurrentState().canConnect()) {
             // health check for voice
-            OpenAudioMc.getService(CraftmendService.class).startVoiceHandshake();
+            OpenAudioMc.getService(OpenaudioAccountService.class).startVoiceHandshake();
             return;
         }
         // update state
-        OpenAudioMc.getService(CraftmendService.class).startVoiceHandshake();
+        OpenAudioMc.getService(OpenaudioAccountService.class).startVoiceHandshake();
         OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> socketIoConnector.setupConnection());
     }
 

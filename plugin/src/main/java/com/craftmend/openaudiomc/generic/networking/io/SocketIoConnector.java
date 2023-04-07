@@ -6,7 +6,7 @@ import com.craftmend.openaudiomc.api.impl.event.events.StateChangeEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
-import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
+import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.certificate.CertificateHelper;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
@@ -30,14 +30,12 @@ import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 
-import io.socket.client.Url;
 import lombok.Getter;
 
 import okhttp3.OkHttpClient;
 
 import java.io.IOException;
 import java.net.ProxySelector;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
@@ -175,7 +173,7 @@ public class SocketIoConnector {
             this.socket.disconnect();
         }
         OpenAudioMc.getService(StateService.class).setState(new IdleState());
-        OpenAudioMc.getService(CraftmendService.class).getVoiceApiConnection().stop();
+        OpenAudioMc.getService(OpenaudioAccountService.class).getVoiceApiConnection().stop();
     }
 
     public void send(Authenticatable client, AbstractPacket packet) {
