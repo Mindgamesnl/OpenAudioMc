@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.regions;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
@@ -9,6 +10,8 @@ import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection
 import com.craftmend.openaudiomc.spigot.modules.regions.adapters.LegacyRegionAdapter;
 import com.craftmend.openaudiomc.spigot.modules.regions.adapters.ModernRegionAdapter;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.AbstractRegionAdapter;
+import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.ApiRegion;
+import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionMedia;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
@@ -117,5 +120,16 @@ public class RegionModule {
     public void removeRegionMedia(String id, String source) {
         regionMediaMap.remove(source);
         regionPropertiesMap.remove(id);
+    }
+
+    public Set<SpigotConnection> findPlayersInRegion(String regionName) {
+        Set<SpigotConnection> clients = new HashSet<>();
+        for (SpigotConnection client : OpenAudioMc.getService(SpigotPlayerService.class).getClients()) {
+            Collection<IRegion> regionsAtClient = getRegionAdapter().getAudioRegions(client.getBukkitPlayer().getLocation());
+            if (regionsAtClient.stream().anyMatch(region -> region.getId().equalsIgnoreCase(regionName))) {
+                clients.add(client);
+            }
+        }
+        return clients;
     }
 }
