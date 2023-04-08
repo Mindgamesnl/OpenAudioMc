@@ -17,7 +17,7 @@
         <oa.version>6.8</oa.version>
     </properties>
 
-    <url>https://craftmend.com/</url>
+    <url>https://openaudiomc.net/</url>
 
     <modules>
         <module>modules/jutils</module>
