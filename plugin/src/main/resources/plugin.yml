@@ -4,7 +4,7 @@ softdepend: [WorldGuard, Train_Carts, LiteBans, Essentials, PlaceholderAPI]
 main: com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot
 api-version: 1.13
 authors: [Mindgamesnl]
-description: The OpenAudioMc plugin. Brings real sound and lights to your minecraft server with the help of a custom web client.
+description: OpenAudioMc: Proximity voice chat & audio plugin for Minecraft, no mods needed. Supports Bungeecord, Velocity, Spigot & more.
 website: https://openaudiomc.net/
 commands:
   audio:
