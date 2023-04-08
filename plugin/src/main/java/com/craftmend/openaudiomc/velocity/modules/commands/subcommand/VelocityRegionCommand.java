@@ -19,8 +19,20 @@ public class VelocityRegionCommand extends SubCommand {
                 new Argument("create <WG-region> <source>",
                         "Assigns a sound to a WorldGuard region by name"),
 
+                new Argument("temp <WG-region> <source> <duration>",
+                        "Create a temporary region with it's own synced sound"),
+
                 new Argument("delete <WG-region>",
-                        "Unlink the sound from a WorldGuard specific region by name")
+                        "Unlink the sound from a WorldGuard specific region by name"),
+
+                new Argument("edit",
+                        "Change settings through the a GUI"),
+
+                new Argument("edit volume <region> <volume>",
+                        "Change the volume of a region"),
+
+                new Argument("edit fade <region> <fade time MS>",
+                        "Change the fade of a region")
         );
     }
 

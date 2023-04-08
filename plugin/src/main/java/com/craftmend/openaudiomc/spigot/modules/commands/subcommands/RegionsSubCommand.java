@@ -6,8 +6,8 @@ import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.region.RegionCreateSubCommand;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.region.RegionDeleteSubCommand;
+import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.region.RegionEditSubCommand;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.region.RegionTempSubCommand;
-import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.region.RegionVolumeSubCommand;
 import com.craftmend.openaudiomc.spigot.modules.regions.gui.RegionSelectionGui;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -23,7 +23,7 @@ public class RegionsSubCommand extends SubCommand {
                 new RegionCreateSubCommand(openAudioMcSpigot),
                 new RegionDeleteSubCommand(openAudioMcSpigot),
                 new RegionTempSubCommand(openAudioMcSpigot),
-                new RegionVolumeSubCommand(openAudioMcSpigot)
+                new RegionEditSubCommand(openAudioMcSpigot)
         );
 
         registerArguments(
@@ -37,9 +37,13 @@ public class RegionsSubCommand extends SubCommand {
                         "Unlink the sound from a WorldGuard specific region by name"),
 
                 new Argument("edit",
-                        "Opens the region editor GUI"),
+                        "Change settings through the a GUI"),
 
-                new Argument("volume", "Set the volume of a region")
+                new Argument("edit volume <region> <volume>",
+                        "Change the volume of a region"),
+
+                new Argument("edit fade <region> <fade time MS>",
+                        "Change the fade of a region")
         );
         this.openAudioMcSpigot = openAudioMcSpigot;
     }
@@ -56,7 +60,19 @@ public class RegionsSubCommand extends SubCommand {
             return;
         }
 
-        if (sender.getOriginal() instanceof Player && (args[0].equalsIgnoreCase("edit") || args[0].equalsIgnoreCase("gui"))) {
+        if ((args[0].equalsIgnoreCase("edit") || args[0].equalsIgnoreCase("gui"))) {
+
+            // do we have any other args?
+            if (args.length > 1) {
+                delegateTo("edit", sender, args);
+                return;
+            }
+
+            if (!(sender.getOriginal() instanceof Player)) {
+                message(sender, ChatColor.RED + "You need to be a player to use this command");
+                return;
+            }
+
             Player player = (Player) sender.getOriginal();
             new RegionSelectionGui(player);
             return;
@@ -64,11 +80,6 @@ public class RegionsSubCommand extends SubCommand {
 
         if (args[0].equalsIgnoreCase("temp") && args.length == 4) {
             delegateTo("temp", sender, args);
-            return;
-        }
-
-        if (args[0].equalsIgnoreCase("volume") && args.length == 3) {
-            delegateTo("volume", sender, args);
             return;
         }
 
