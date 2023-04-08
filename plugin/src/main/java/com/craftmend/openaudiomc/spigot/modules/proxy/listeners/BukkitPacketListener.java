@@ -58,8 +58,6 @@ public class BukkitPacketListener implements PacketListener {
             return;
         }
 
-        System.out.println("Syncing state for " + connection.getSession().getClient().getUser().getName());
-
         connection.getRtcSessionManager().setMicrophoneEnabled(packet.isMicrophoneEnabled());
         connection.getRtcSessionManager().setStreamKey(packet.getStreamId());
         connection.getSession().setConnectedToRtc(packet.isEnabled());
