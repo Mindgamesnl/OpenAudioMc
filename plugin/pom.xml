@@ -22,7 +22,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <url>https://craftmend.com/</url>
+    <url>https://openaudiomc.net/</url>
 
     <distributionManagement>
         <repository>
