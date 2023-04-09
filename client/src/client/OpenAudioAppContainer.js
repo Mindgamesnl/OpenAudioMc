@@ -32,23 +32,6 @@ class OpenAudioAppContainer extends React.Component {
             testMode: false,
         }
 
-        // check if the current url has testMode as a variable
-        let url = new URL(window.location.href);
-        let testMode = url.searchParams.get("testMode");
-        if (testMode != null) {
-            this.state.testMode = true;
-            // set the global state to test mode
-            setGlobalState({
-                isLoading: false,
-                currentUser: {
-                    userName: "Test User",
-                    uuid: "test",
-                    token: "test",
-                    publicServerKey: "test",
-                }
-            })
-        }
-
         // initialize capabilities
         setGlobalState({
             browserSupportsVoiceChat: isVoicechatCompatible()
@@ -81,7 +64,23 @@ class OpenAudioAppContainer extends React.Component {
     }
 
     componentDidMount() {
-        if (this.state.testMode) return;
+        // check if the current url has testMode as a variable
+        let url = new URL(window.location.href);
+        let testMode = url.searchParams.get("testMode");
+        if (testMode != null) {
+            // set the global state to test mode
+            setGlobalState({
+                isLoading: false,
+                clickLock: false,
+                currentUser: {
+                    userName: "Test User",
+                    uuid: "b832a1b0-4843-4c73-9c83-2f8dad08d950",
+                    token: "test",
+                    publicServerKey: "test",
+                }
+            })
+            return
+        }
 
         setGlobalState({loadingState: "Loading language files..."});
         let sessionLoader = new ClientTokenSet()
