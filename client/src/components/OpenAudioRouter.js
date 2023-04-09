@@ -1,24 +1,21 @@
 import React from "react";
 import LoadingView from "../views/loading/LoadingView";
-import {OAC} from "../client/OpenAudioAppContainer";
 import {LoginView} from "../views/login/LoginView";
 import ClientView from "../views/client/ClientView";
 import 'react-toastify/dist/ReactToastify.css';
 import {ToastContainer} from "react-toastify";
 import {BlockedLoginView} from "../views/login/BlockedLoginView";
+import {connect} from "react-redux";
 
-export class OpenAudioController extends React.Component {
-    static contextType = OAC;
-
+class OpenAudioController extends React.Component {
     render() {
         let currentView = <div>?</div>;
-        let oa = this.context;
 
-        if (oa.isLoading) {
+        if (this.props.isLoading) {
             currentView = <LoadingView/>;
-        } else if (oa.isBlocked) {
+        } else if (this.props.isBlocked) {
             currentView = <BlockedLoginView/>;
-        } else if (!oa.currentUser) {
+        } else if (!this.props.currentUser) {
             currentView = <LoginView/>;
         } else {
             currentView = <ClientView/>;
@@ -31,4 +28,12 @@ export class OpenAudioController extends React.Component {
             </div>
         );
     }
+}
+export default connect(mapStateToProps)(OpenAudioController);
+function mapStateToProps(state) {
+    return {
+        isLoading: state.isLoading,
+        isBlocked: state.isBlocked,
+        currentUser: state.currentUser,
+    };
 }
