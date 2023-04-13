@@ -1,6 +1,6 @@
 import React from "react";
 import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
-import {getGlobalState, setGlobalState, store} from "../../state/store";
+import {getGlobalState, setGlobalState} from "../../state/store";
 import {connect} from "react-redux";
 import {
     addMicVolumeListener,
@@ -14,12 +14,7 @@ class AdvancedVoiceSettings extends React.Component {
     constructor(props) {
         super(props);
 
-        let currentSettings = store.getState().settings;
-
         this.state = {
-            surroundSound: currentSettings.voicechatSurroundSound,
-            monitoringEnabled: currentSettings.voicechatMonitoringEnabled,
-            autoMicSensitivity: currentSettings.automaticSensitivity,
             listenerId: null,
             isAboveThreshold: false,
             currentMicVolume: 0,
@@ -48,7 +43,6 @@ class AdvancedVoiceSettings extends React.Component {
     }
 
     micAutoSensitivityInput(e) {
-        this.setState({autoMicSensitivity: e.target.checked});
         setGlobalState({settings: {automaticSensitivity: e.target.checked}});
     }
 
@@ -57,13 +51,11 @@ class AdvancedVoiceSettings extends React.Component {
     }
 
     monitoringInput(e) {
-        this.setState({monitoringEnabled: e.target.checked});
         setGlobalState({settings: {voicechatMonitoringEnabled: e.target.checked}});
     }
 
     toggleSurroundSound() {
-        this.setState({surroundSound: !this.state.surroundSound});
-        setGlobalState({settings: {voicechatSurroundSound: !this.state.surroundSound}});
+        setGlobalState({settings: {voicechatSurroundSound: !this.props.surroundSound}});
     }
 
     selectMic(e) {
@@ -73,7 +65,7 @@ class AdvancedVoiceSettings extends React.Component {
     render() {
         let c = this.context;
         let mics = Object.values(this.props.voiceState.mics)
-        let currentMic = getGlobalState().settings.preferredMicId;
+        let currentMic = this.props.preferredMicId;
 
         let surroundText = !this.state.surroundSound ? getTranslation(c, "vc.settings.surround.enable") : getTranslation(c, "vc.settings.surround.disable");
 
@@ -143,7 +135,7 @@ class AdvancedVoiceSettings extends React.Component {
                             </div>
                             <div className="content-card-buttons">
                                 <label className="content-pill status-button">
-                                    <input type="checkbox" onChange={this.monitoringInput}>
+                                    <input type="checkbox" onChange={this.monitoringInput} checked={this.props.monitoringEnabled}>
                                     </input>
                                     <span
                                         className={"!inline !block"}>{getTranslation(c, "vc.settings.monitoring.toggle")}</span>
@@ -175,8 +167,11 @@ class AdvancedVoiceSettings extends React.Component {
                             <div className="content-card-buttons w-full">
                                 <label htmlFor="mic-sensitive-slider"></label>
                                 <div className={"w-full"}>
-                                    <div className={"volume-slider p-0 bg-gray-700 rounded-full h-2.5 mb-4 dark:bg-gray-700"}>
-                                        <div className={"h-2.5 rounded-full"  + (this.state.isAboveThreshold ? " bg-green-500" : " bg-blue-400")} style={{width: `${this.state.currentMicVolume}%`}}></div>
+                                    <div
+                                        className={"volume-slider p-0 bg-gray-700 rounded-full h-2.5 mb-4 dark:bg-gray-700"}>
+                                        <div
+                                            className={"h-2.5 rounded-full" + (this.state.isAboveThreshold ? " bg-green-500" : " bg-blue-400")}
+                                            style={{width: `${this.state.currentMicVolume}%`}}></div>
                                     </div>
                                     <input
                                         className="volume-slider reversedRange inline" onInput={this.micSensitiveInput}
@@ -184,7 +179,7 @@ class AdvancedVoiceSettings extends React.Component {
                                         value={this.props.microphoneSensitivity}/>
                                 </div>
                                 <label className="content-pill status-button mb-5">
-                                    <input type="checkbox" onChange={this.micAutoSensitivityInput}>
+                                    <input type="checkbox" onChange={this.micAutoSensitivityInput} checked={this.props.autoMicSensitivity}>
                                     </input>
                                     <span className={"inline"}>{getTranslation(c, "vc.automaticAdjustments")}</span>
                                 </label>
@@ -201,7 +196,11 @@ export default connect(mapStateToProps)(AdvancedVoiceSettings);
 
 function mapStateToProps(state) {
     return {
+        surroundSound: state.settings.voicechatSurroundSound,
+        monitoringEnabled: state.settings.voicechatMonitoringEnabled,
+        autoMicSensitivity: state.settings.automaticSensitivity,
         microphoneSensitivity: state.settings.microphoneSensitivity,
+        preferredMicId: state.settings.preferredMicId,
         voiceState: state.voiceState,
     };
 }
