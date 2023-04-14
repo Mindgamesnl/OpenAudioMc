@@ -1,6 +1,6 @@
 import React from "react";
 import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
-import {getGlobalState, setGlobalState} from "../../state/store";
+import {setGlobalState} from "../../state/store";
 import {connect} from "react-redux";
 import {
     addMicVolumeListener,
