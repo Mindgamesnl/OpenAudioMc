@@ -1,7 +1,7 @@
 import React from "react";
 import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
 import AdvancedVoiceSettings from "./AdvancedVoiceSettings";
-import {setGlobalState, store} from "../../state/store";
+import {setGlobalState} from "../../state/store";
 import {connect} from "react-redux";
 import {reRenderAllGainNodes} from "../../client/services/voice/VoiceModule";
 
@@ -56,7 +56,14 @@ class VoiceSettings extends React.Component {
             </button>
         }
 
-        let uuid = store.getState().currentUser.uuid;
+
+        let uuid;
+        if (this.props.currentUser && this.props.currentUser.uuid) {
+            uuid = this.props.currentUser.uuid;
+        } else {
+            // setup placeholder
+            uuid = "00000000-0000-0000-0000-000000000000";
+        }
 
         return (
             <div>
@@ -134,6 +141,7 @@ function mapStateToProps(state) {
     return {
         voicechatMuted: state.settings.voicechatMuted,
         voicechatVolume: state.settings.voicechatVolume,
-        voiceState: state.voiceState
+        voiceState: state.voiceState,
+        currentUser: state.currentUser
     };
 }
