@@ -37,7 +37,7 @@ const initialState = {
         voicechatMuted: false,
         voicechatSurroundSound: true,
         voicechatMonitoringEnabled: false,
-        microphoneSensitivity: 90,
+        microphoneSensitivity: 75,
         automaticSensitivity: false,
         fadeAudio: true,
 
