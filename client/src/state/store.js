@@ -21,6 +21,7 @@ const initialState = {
 
     isPremium: false,
     browserSupportsVoiceChat: false,
+    bucketFolder: null,
 
     inputModal: {
         visible: false,
@@ -36,8 +37,8 @@ const initialState = {
         voicechatMuted: false,
         voicechatSurroundSound: true,
         voicechatMonitoringEnabled: false,
-        microphoneSensitivity: 69,
-        automaticSensitivity: true,
+        microphoneSensitivity: 90,
+        automaticSensitivity: false,
         fadeAudio: true,
 
         voicechatChimesEnabled: true,

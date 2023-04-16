@@ -174,6 +174,7 @@ class OpenAudioAppContainer extends React.Component {
                 setGlobalState({
                     lang: {"serverName": serverData.displayName},
                     isPremium: serverData.isPatreon || serverData.voicechatSlots > 10,
+                    bucketFolder: serverData.bucketFolder,
                 });
 
                 setBgColor(serverData.color)
