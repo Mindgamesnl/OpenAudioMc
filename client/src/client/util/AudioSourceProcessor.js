@@ -20,6 +20,12 @@ export class AudioSourceProcessor {
 
         // filter old
         try {
+
+            if (source.startsWith("files:")) {
+                // it's somehow local and unprocessed, could be because its a playlist
+                return "https://usercontent.openaudiomc.net/uploads/" + getGlobalState().bucketFolder + "/" + source.replace("files:", "");
+            }
+
             if (source.startsWith("local:")) {
                 // it's somehow local and unprocessed, could be because its a playlist
                 source = "https://media.openaudiomc.net/direct/" + publicServerKey + "?fileName=" + source.replace("local:", "");
