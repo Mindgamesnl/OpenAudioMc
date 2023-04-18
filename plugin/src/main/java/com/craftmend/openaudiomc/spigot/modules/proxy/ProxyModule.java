@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.proxy;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.service.Service;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.utils.data.EnvironmentHelper;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.OAClientMode;
 import lombok.Getter;
@@ -38,6 +39,11 @@ public class ProxyModule extends Service {
             if (!proxyMode) {
                 proxyMode = yamlConfiguration.getBoolean("proxies.bungee-cord.enabled");
             }
+        }
+
+        // is local mode enabled?
+        if (StorageKey.SETTINGS_FORCE_OFFLINE_MODE.getBoolean()) {
+            return OAClientMode.STAND_ALONE;
         }
 
         // is it minehut? then force if
