@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.services.dependency;
 
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -29,6 +30,7 @@ public class SpigotDependencyService extends Service implements Listener {
 
     public SpigotDependencyService ifPluginEnabled(String pluginName, DependencyHandler handler) {
         if (Bukkit.getPluginManager().isPluginEnabled(pluginName)) {
+            OpenAudioLogger.toConsole("Plugin " + pluginName + " is already enabled, running handler");
             handler.onLoad(pluginName, Bukkit.getPluginManager().getPlugin(pluginName));
         } else {
             List<DependencyHandler> handlers = handlerMap.getOrDefault(pluginName, new ArrayList<>());
@@ -42,6 +44,7 @@ public class SpigotDependencyService extends Service implements Listener {
     public void onLoad(PluginEnableEvent enableEvent) {
         List<DependencyHandler> handlers = handlerMap.getOrDefault(enableEvent.getPlugin().getName(), new ArrayList<>());
         for (DependencyHandler handler : handlers) {
+            OpenAudioLogger.toConsole("Plugin " + enableEvent.getPlugin().getName() + " is now enabled, running handler");
             handler.onLoad(enableEvent.getPlugin().getName(), enableEvent.getPlugin());
         }
     }

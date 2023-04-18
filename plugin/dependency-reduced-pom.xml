@@ -11,7 +11,7 @@
   <name>openaudiomc</name>
   <version>${oa.version}</version>
   <description>The OpenAudioMc Java plugin and Api</description>
-  <url>https://craftmend.com/</url>
+  <url>https://openaudiomc.net/</url>
   <build>
     <defaultGoal>clean package</defaultGoal>
     <resources>
