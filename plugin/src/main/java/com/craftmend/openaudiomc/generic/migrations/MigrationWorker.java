@@ -49,6 +49,7 @@ public class MigrationWorker {
                 new AddVcModConfigMigration(),          // adds the option to enable/disable moderation support
                 new AddVcJoinLoadMigration(),           // adds the option to enable/disable vc join during load
                 new AddSendOnJoinDelayMigration(),      // adds the option to delay the send on join message
+                new AddOfflinemodeAndCdnMigration(),    // adds the option to enable/disable cdn and offlinemode
         };
 
         for (SimpleMigration migration : migrations) {

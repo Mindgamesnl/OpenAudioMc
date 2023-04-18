@@ -49,6 +49,12 @@ public class RestDirectService extends Service {
     }
 
     public void boot() {
+        // is it enabled?
+        if (!StorageKey.CDN_ENABLED.getBoolean()) {
+            OpenAudioLogger.toConsole("CDN is disabled, skipping boot");
+            return;
+        }
+
         // fix directory
         audioDirectory = new File(MagicValue.STORAGE_DIRECTORY.get(File.class), "/audio");
         if (!audioDirectory.exists()) {

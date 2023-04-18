@@ -142,6 +142,9 @@ options:
   # (banned users will get kicked after the data has loaded)
   voicechat-allow-joining-while-loading: true
 
+  # Force offline mode, should only be enabled if your server host doesn't allow for proxy plugins
+  force-offline-mode: false
+
 
 # PlaceholderAPI
 papi:
@@ -164,6 +167,7 @@ cdn:
   timeout-seconds: 5
   # This is the IP that'll be used for port validation, please don't touch this unless you've been instructed to by our support team
   ip-overwrite: none
+  enabled: false
 
 
 # REDIS
