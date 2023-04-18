@@ -70,3 +70,4 @@ Uprading from previous versions is pretty straight forward, but does need some e
  - The web client got moved from client.openaudiomc.net to session.openaudiomc.net
  - Added some new documentation articles targeted at end-users, so you can easily explain how to use VoiceChat and some other client-side features
  - All user data on the old account system (account.craftmend.com) will be destroyed immediately after it sunsets and completely closed down.
+ - We now actually have a landing page at https://openaudiomc.net/
