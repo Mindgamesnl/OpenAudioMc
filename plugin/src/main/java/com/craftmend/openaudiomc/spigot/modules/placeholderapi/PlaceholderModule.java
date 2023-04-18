@@ -36,7 +36,7 @@ public class PlaceholderModule extends PlaceholderExpansion {
 
     @Override
     public String onRequest(OfflinePlayer player, @NotNull String params) {
-        if(params.equals("connect_client")) {
+        if(params.equals("is_connected")) {
             boolean b = OpenAudioMc.getService(
                             SpigotPlayerService.class
                     ).getClient(player.getUniqueId())
@@ -49,7 +49,7 @@ public class PlaceholderModule extends PlaceholderExpansion {
             return StorageKey.SETTINGS_PAPI_CLIENT_DISCONNECTED.getString();
         }
 
-        if(params.equals("connect_vc")) {
+        if(params.equals("is_in_voicechat")) {
             boolean b = OpenAudioMc.getService(
                             SpigotPlayerService.class
                     ).getClient(player.getUniqueId())
@@ -63,7 +63,7 @@ public class PlaceholderModule extends PlaceholderExpansion {
             return StorageKey.SETTINGS_PAPI_VC_DISCONNECTED.getString();
         }
 
-        if(params.equals("count_client")) {
+        if(params.equals("client_count")) {
             int clients = 0;
             for (SpigotConnection spigotConnection : OpenAudioMc.getService(SpigotPlayerService.class).getClients())
                 if (spigotConnection.getClientConnection().isConnected())
@@ -72,7 +72,14 @@ public class PlaceholderModule extends PlaceholderExpansion {
             return Integer.toString(clients);
         }
 
-        if(params.equals("count_vc"))
+        if(params.equals("voicechat_peers")) {
+            return Integer.toString(OpenAudioMc.getService(
+                            SpigotPlayerService.class
+                    ).getClient(player.getUniqueId())
+                    .getClientConnection().getRtcSessionManager().getListeningTo().size());
+        }
+
+        if(params.equals("voicechat_count"))
             return Integer.toString(
                     OpenAudioMc.getService(
                             OpenaudioAccountService.class
@@ -80,7 +87,7 @@ public class PlaceholderModule extends PlaceholderExpansion {
                             .getUsedSlots()
             );
 
-        if(params.equals("count_vc_max"))
+        if(params.equals("voicechat_limit"))
             return Integer.toString(
                     OpenAudioMc.getService(
                                     OpenaudioAccountService.class
