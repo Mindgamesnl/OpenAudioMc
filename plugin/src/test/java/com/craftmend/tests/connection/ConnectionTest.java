@@ -136,7 +136,7 @@ public class ConnectionTest extends TestHelper {
 
         // they should now have been cleared, with only a few more in the database
         Assert.assertEquals(names.length + 1, OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class).values().size());
-        Assert.assertEquals(names.length, fakeRegionModule.getRegionPropertiesMap().size());
+        Assert.assertEquals(names.length, Integer.toString((fakeRegionModule.getRegionCount() / fakeRegionModule.getWorldCount())));
 
         openAudioMc.disable();
     }

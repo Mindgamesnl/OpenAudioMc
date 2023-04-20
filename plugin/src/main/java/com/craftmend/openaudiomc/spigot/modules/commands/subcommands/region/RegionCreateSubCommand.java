@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
+import com.craftmend.openaudiomc.spigot.modules.regions.registry.WorldRegionManager;
 import org.bukkit.ChatColor;
 
 public class RegionCreateSubCommand extends SubCommand {
@@ -27,11 +28,13 @@ public class RegionCreateSubCommand extends SubCommand {
             return;
         }
 
-        RegionProperties rp = new RegionProperties(args[2], 100, 1000, true, args[1], sender.getWorldName());
+        RegionProperties rp = new RegionProperties(args[2], 100, 1000, true, args[1], sender.getWorld());
         OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class)
                 .save(rp);
 
-        openAudioMcSpigot.getRegionModule().registerRegion(rp.getRegionName(), rp);
+        WorldRegionManager worldRegionManager = openAudioMcSpigot.getRegionModule().getWorld(sender.getWorld());
+
+        worldRegionManager.registerRegion(rp);
 
         message(sender, ChatColor.GREEN + "The WorldGuard region with the id " + args[1] + " now has the sound " + args[2]);
         openAudioMcSpigot.getRegionModule().forceUpdateRegions();

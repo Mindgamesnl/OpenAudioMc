@@ -3,7 +3,8 @@ Uprading from previous versions is pretty straight forward, but does need some e
  1. Download the new plugin jar, and replace your old one (for all servers where you currently have it installed, including BungeeCord or Velocity)
  2. Create an account on https://account.openaudiomc.net/
  3. Start your server, run `/oa link` and then click on that message to link your server to your new account
- 4. (Optional) Link your Discord and Patreon on https://account.openaudiomc.net/settings 
+ 4. (Optional) Link your Discord and Patreon on https://account.openaudiomc.net/settings
+ 5. (for Vistas and 1.8.* Users) You will need to download the newest version of your installed modules. 
 
 # Changelog
 ## Client
@@ -39,6 +40,7 @@ Uprading from previous versions is pretty straight forward, but does need some e
    - Added a new setting allowing you to force-run OpenAudioMc on some offlinemode servers, improving compatibility with a lot of free Minecraft Server hosts
    - Added proper NBT and speaker support for 1.19.4
    - Reworked placeholder support, added a few new ones and renamed current placeholders to be more consistent
+   - You can now set a default fallback world for some commands when executed by the console. This defaults to "world" or the first overworld we find when updating your config.
  - **Fixes**
    - Regions are no longer applied to incorrect worlds
    - Banned voicechat accounts no-longer get their state reset without reason

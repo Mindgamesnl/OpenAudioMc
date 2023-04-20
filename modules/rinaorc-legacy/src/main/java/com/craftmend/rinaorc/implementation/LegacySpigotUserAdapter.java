@@ -1,6 +1,7 @@
 package com.craftmend.rinaorc.implementation;
 
 import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
 import lombok.AllArgsConstructor;
 import net.md_5.bungee.api.ChatMessageType;
@@ -74,14 +75,6 @@ public class LegacySpigotUserAdapter implements User {
     }
 
     @Override
-    public String getWorldName() {
-        if (sender instanceof Player) {
-            return ((Player) sender).getWorld().getName();
-        }
-        return null;
-    }
-
-    @Override
     public boolean isAdministrator() {
         return sender.isOp() || sender.hasPermission("openaudiomc.*") || sender.hasPermission("openaudiomc.tips");
     }
@@ -149,6 +142,26 @@ public class LegacySpigotUserAdapter implements User {
         } catch (ArrayIndexOutOfBoundsException whatVersionAreYouUsingException) {
             return null;
         }
+    }
+
+    @Override
+    public String getWorld() {
+        // player
+        if (sender instanceof Player) {
+            return ((Player) sender).getWorld().getName();
+        }
+
+        // entity
+        if (sender instanceof org.bukkit.entity.Entity) {
+            return ((org.bukkit.entity.Entity) sender).getWorld().getName();
+        }
+
+        // commandblock
+        if (sender instanceof org.bukkit.command.BlockCommandSender) {
+            return ((org.bukkit.command.BlockCommandSender) sender).getBlock().getWorld().getName();
+        }
+
+        return StorageKey.SETTINGS_DEFAULT_WORLD_NAME.getString();
     }
 
 }

@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.generic.user;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.interfaces.Client;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import net.md_5.bungee.api.chat.TextComponent;
 
 import javax.annotation.Nullable;
@@ -25,9 +26,12 @@ public interface User {
     void sendMessage(TextComponent textComponent);
     void sendClickableCommandMessage(String message, String hoverMessage, String command);
     void sendClickableUrlMessage(String message, String hoverMessage, String url);
-    @Nullable String getWorldName();
     default void sendActionbarMessage(String message) {
         sendMessage(message);
+    }
+
+    default String getWorld() {
+        return StorageKey.SETTINGS_DEFAULT_WORLD_NAME.getString();
     }
 
     default Optional<Client> findClient() {
