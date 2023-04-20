@@ -73,7 +73,7 @@ messages:
   # A message players will periodically receive when they are not connected to voice chat,
   # but others in their vicinity are. The minimum interval and range can be configured in the options section,
   # or you can disable it entirely by following the settings below.
-  voicechat-players-in-vicinity: '&7&oGet social! Other players in your vicinity are using voice chat - join them and communicate. Use &b/audio&7&o to connect."'
+  voicechat-players-in-vicinity: '&7&oGet social! Other players in your vicinity are using voice chat - join them and communicate. Use &b/audio&7&o to connect.'
 
 
 options:
