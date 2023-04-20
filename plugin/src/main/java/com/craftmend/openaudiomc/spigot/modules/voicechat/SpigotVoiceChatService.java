@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.voicechat;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 import com.craftmend.openaudiomc.api.impl.event.enums.TickEventType;
 import com.craftmend.openaudiomc.api.impl.event.enums.VoiceEventCause;
@@ -14,8 +15,11 @@ import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.PeerFilter;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.PlayerProximityTicker;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.PlayerVicinityMessageTask;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.TickVoicePacketQueue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,6 +44,14 @@ public class SpigotVoiceChatService extends Service {
     @Override
     public void onEnable() {
         ApiEventDriver eventDriver = AudioApi.getInstance().getEventDriver();
+
+        if (StorageKey.SETTINGS_VOICECHAT_VICINITY_REMINDER_ENABLED.getBoolean()) {
+            taskService.scheduleAsyncRepeatingTask(
+                    new PlayerVicinityMessageTask(OpenAudioMc.getService(SpigotPlayerService.class)),
+                    40,
+                    40
+            );
+        }
 
         // enable voice chat when the tag gets added
         eventDriver.on(AccountAddTagEvent.class)
