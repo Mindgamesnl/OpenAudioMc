@@ -7,6 +7,7 @@ import {getGlobalState} from "../../../../state/store";
 import {Radar} from "../../../../components/graph/Radar";
 import {WorldModule} from "../../../../client/services/world/WorldModule";
 import {VoiceModule} from "../../../../client/services/voice/VoiceModule";
+import MixerStateView from "../../../../components/mixer/MixerStateView";
 
 export default class DebugPage extends React.Component {
 
@@ -105,6 +106,8 @@ export default class DebugPage extends React.Component {
                         <Radar player={this.state.playerLocation} entities={this.state.peers} speakers={this.state.speakers} />/>
                         <p className={"text-black"}>My location X:{this.state.playerLocation.x} Y:{this.state.playerLocation.y} Z:{this.state.playerLocation.z}</p>
                     </OaStyleCard>
+
+                    <MixerStateView />
                 </div>
             </div>
         );
