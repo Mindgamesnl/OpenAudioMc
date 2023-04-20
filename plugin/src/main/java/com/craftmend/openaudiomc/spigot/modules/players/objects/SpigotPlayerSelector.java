@@ -83,13 +83,13 @@ public class SpigotPlayerSelector {
                     commandSender.sendMessage("You dont have worldguard installed. Skipping the region argument.");
                 }
             } else if (getArgument("r").length() != 0) {
-                int radius = Integer.parseInt(getArgument("r"));
+                int radius = Integer.parseInt(stripNonNumeric(getArgument("r")));
                 players.addAll(Bukkit.getOnlinePlayers().stream()
                         .filter(player -> player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
                         .filter(player -> radius > player.getLocation().distance(standPoint))
                         .collect(Collectors.toList()));
             } else if (getArgument("distance").length() != 0) {
-                int distance = Integer.parseInt(getArgument("distance"));
+                int distance = Integer.parseInt(stripNonNumeric(getArgument("distance")));
                 players.addAll(Bukkit.getOnlinePlayers().stream()
                         .filter(player -> player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
                         .filter(player -> distance > player.getLocation().distance(standPoint))
@@ -115,6 +115,10 @@ public class SpigotPlayerSelector {
         return players;
     }
 
+    private String stripNonNumeric(String input) {
+        return input.replaceAll("[^0-9]", "");
+    }
+
     /**
      * attempt to parse the location
      *
@@ -134,9 +138,9 @@ public class SpigotPlayerSelector {
 
         if (!getArgument("x").equals("") && !getArgument("y").equals("") && !getArgument("z").equals("")) {
             try {
-                int x = Integer.parseInt(getArgument("x"));
-                int y = Integer.parseInt(getArgument("y"));
-                int z = Integer.parseInt(getArgument("z"));
+                int x = Integer.parseInt(stripNonNumeric(getArgument("x")));
+                int y = Integer.parseInt(stripNonNumeric(getArgument("y")));
+                int z = Integer.parseInt(stripNonNumeric(getArgument("z")));
                 return new Location(initialLocation.getWorld(), x, y, z);
             } catch (Exception e) {
                 commandSender.sendMessage("An error occurred when parsing the location as an Integer");
