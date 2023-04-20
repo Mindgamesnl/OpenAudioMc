@@ -10,7 +10,7 @@ export function handleMediaUpdate(data) {
     const fadeTime = data.mediaOptions.fadeTime;
     const distance = data.mediaOptions.distance;
     const reApplyVolume = data.mediaOptions.reApplyVolume;
-    const newVolume = data.mediaOptions.newVolume;
+    const newVolume = data.mediaOptions.volume;
 
     for (let channel of MediaManager.mixer.getChannels()) {
         if (channel.hasTag(id)) {
