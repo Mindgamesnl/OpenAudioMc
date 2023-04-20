@@ -36,6 +36,7 @@ public enum StorageKey {
     SETTINGS_VC_PROCESS_OBSTRUCTIONS(false, "options.voicechat-obstructions", StorageLocation.CONFIG_FILE),
     SETTINGS_VC_ALLOW_JOIN_DURING_LOAD(false, "options.voicechat-allow-joining-while-loading", StorageLocation.CONFIG_FILE),
     SETTINGS_FORCE_OFFLINE_MODE(false, "options.force-offline-mode", StorageLocation.CONFIG_FILE),
+    SETTINGS_DEFAULT_WORLD_NAME(false, "options.fallback-world-name", StorageLocation.CONFIG_FILE),
 
     SETTINGS_REMIND_TO_CONNECT(false, "options.remind-to-connect", StorageLocation.CONFIG_FILE),
     SETTINGS_REMIND_TO_CONNECT_INTERVAL(false, "options.remind-to-connect-interval", StorageLocation.CONFIG_FILE),

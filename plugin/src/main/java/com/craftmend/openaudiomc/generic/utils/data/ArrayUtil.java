@@ -26,4 +26,9 @@ public class ArrayUtil {
     }
 
 
+    public static String[] removeFirst(String[] args) {
+        String[] newArgs = new String[args.length - 1];
+        System.arraycopy(args, 1, newArgs, 0, args.length - 1);
+        return newArgs;
+    }
 }

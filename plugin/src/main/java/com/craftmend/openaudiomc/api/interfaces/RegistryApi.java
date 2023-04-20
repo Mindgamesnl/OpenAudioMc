@@ -66,25 +66,28 @@ public interface RegistryApi {
     /**
      * Unregister region media
      *
+     * @param wolrdName Name of the world
      * @param regionName Name of the region
      * @throws RegionException Thrown if the region doesn't exist (in worldguard) or if there is no registered region provider
      */
-    void removeRegion(String regionName) throws RegionException;
+    void removeRegion(String wolrdName, String regionName) throws RegionException;
 
     /**
      * Register a temp region, like it's done with /oa region temp
      *
+     * @param worldName Name of the world
      * @param regionProperties Region properties with timing metadata
      * @throws RegionException Thrown if the region doesn't exist (in worldguard) or if there is no registered region provider
      */
-    void registerTempRegion(TimedRegionProperties regionProperties) throws RegionException;
+    void registerTempRegion(String worldName, TimedRegionProperties regionProperties) throws RegionException;
 
     /**
      * Register a region, like it's done with /oa region create
      *
+     * @param worldName Name of the world
      * @param regionProperties Region metadata
      * @throws RegionException Thrown if the region doesn't exist (in worldguard) or if there is no registered region provider
      */
-    void registerRegion(RegionProperties regionProperties) throws RegionException;
+    void registerRegion(String worldName, RegionProperties regionProperties) throws RegionException;
 
 }

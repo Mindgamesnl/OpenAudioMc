@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.TimedRegionProperties;
+import com.craftmend.openaudiomc.spigot.modules.regions.registry.WorldRegionManager;
 import org.bukkit.ChatColor;
 
 public class RegionTempSubCommand extends SubCommand {
@@ -25,13 +26,15 @@ public class RegionTempSubCommand extends SubCommand {
 
         args[1] = args[1].toLowerCase();
 
+        WorldRegionManager worldRegionManager = openAudioMcSpigot.getRegionModule().getWorld(sender.getWorld());
+
         // check if this region already is defined
-        RegionProperties regionProperties = OpenAudioMcSpigot.getInstance().getRegionModule().getRegionPropertiesMap().get(args[1]);
+        RegionProperties regionProperties = worldRegionManager.getRegionProperties(args[1]);
         if (regionProperties != null) {
             if (regionProperties instanceof TimedRegionProperties) {
                 // reset it, because fuck it
                 TimedRegionProperties timedRegion = (TimedRegionProperties) regionProperties;
-                openAudioMcSpigot.getRegionModule().removeRegion(args[1]);
+                worldRegionManager.unregisterRegion(args[1]);
                 timedRegion.destroy();
             } else {
                 // message, fail
@@ -49,7 +52,7 @@ public class RegionTempSubCommand extends SubCommand {
             return;
         }
 
-        openAudioMcSpigot.getRegionModule().registerRegion(args[1], new TimedRegionProperties(args[2], duration, args[1], sender.getWorldName()));
+        worldRegionManager.registerRegion(new TimedRegionProperties(args[2], duration, args[1], sender.getWorld()));
         message(sender, ChatColor.GREEN + "The WorldGuard region with the id " + args[1] + " now has the sound " + args[2]);
 
         openAudioMcSpigot.getRegionModule().forceUpdateRegions();

@@ -1,10 +1,12 @@
 package com.craftmend.openaudiomc.generic.user.adapters;
 
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
 import lombok.AllArgsConstructor;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
@@ -32,15 +34,6 @@ public class CommandSenderUserAdapter implements User {
     @Override
     public void sendClickableUrlMessage(String t, String hoverMessage, String url) {
         sender.sendMessage(t);
-    }
-
-    @Nullable
-    @Override
-    public String getWorldName() {
-        if (sender instanceof org.bukkit.entity.Player) {
-            return ((org.bukkit.entity.Player) sender).getWorld().getName();
-        }
-        return null;
     }
 
     @Override
@@ -71,5 +64,25 @@ public class CommandSenderUserAdapter implements User {
     @Override
     public String getName() {
         return sender.getName();
+    }
+
+    @Override
+    public String getWorld() {
+        // player
+        if (sender instanceof Player) {
+            return ((Player) sender).getWorld().getName();
+        }
+
+        // entity
+        if (sender instanceof org.bukkit.entity.Entity) {
+            return ((org.bukkit.entity.Entity) sender).getWorld().getName();
+        }
+
+        // commandblock
+        if (sender instanceof org.bukkit.command.BlockCommandSender) {
+            return ((org.bukkit.command.BlockCommandSender) sender).getBlock().getWorld().getName();
+        }
+
+        return StorageKey.SETTINGS_DEFAULT_WORLD_NAME.getString();
     }
 }

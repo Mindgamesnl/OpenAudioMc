@@ -55,9 +55,4 @@ public class SystemUser implements User {
     public void sendClickableUrlMessage(String message, String hoverMessage, String url) {
 
     }
-
-    @Override
-    public String getWorldName() {
-        return null;
-    }
 }

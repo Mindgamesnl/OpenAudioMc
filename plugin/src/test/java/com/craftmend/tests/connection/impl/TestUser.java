@@ -73,9 +73,4 @@ public class TestUser implements User {
         ConnectionTest.assertionGroup.run(new FutureAssertion("User link has a token", shit -> url.split("#")[1].length() > 2));
     }
 
-    @Nullable
-    @Override
-    public String getWorldName() {
-        return null;
-    }
 }

@@ -63,12 +63,6 @@ public class BungeeUserAdapter implements User {
         sendMessage(message);
     }
 
-    @Nullable
-    @Override
-    public String getWorldName() {
-        return null;
-    }
-
     @Override
     public boolean isAdministrator() {
         return sender.hasPermission("openaudiomc.*") || sender.hasPermission("openaudiomc.tips");

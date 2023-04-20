@@ -50,6 +50,7 @@ public class MigrationWorker {
                 new AddVcJoinLoadMigration(),           // adds the option to enable/disable vc join during load
                 new AddSendOnJoinDelayMigration(),      // adds the option to delay the send on join message
                 new AddOfflinemodeAndCdnMigration(),    // adds the option to enable/disable cdn and offlinemode
+                new CommandSenderWorldMigration(),      // adds the default world name value
         };
 
         for (SimpleMigration migration : migrations) {

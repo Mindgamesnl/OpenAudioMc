@@ -7,10 +7,13 @@ import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.media.objects.MediaUpdate;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientUpdateMedia;
 import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.generic.utils.data.ArrayUtil;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.TimedRegionProperties;
+import com.craftmend.openaudiomc.spigot.modules.regions.registry.WorldRegionManager;
+import com.google.gson.Gson;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
@@ -35,10 +38,15 @@ public class RegionEditSubCommand extends SubCommand {
 
     @Override
     public void onExecute(User sender, String[] args) {
+        // remove the first argument, as its just "edit"
+        args = ArrayUtil.removeFirst(args);
+
         if (args.length == 0) {
             sender.makeExecuteCommand("oa help " + getCommand());
             return;
         }
+
+        WorldRegionManager worldRegionManager = openAudioMcSpigot.getRegionModule().getWorld(sender.getWorld());
 
         if (args[0].equalsIgnoreCase("volume") && args.length == 3) {
             if (!isInteger(args[2])) {
@@ -46,20 +54,22 @@ public class RegionEditSubCommand extends SubCommand {
                 return;
             }
 
-            Integer volume = Integer.parseInt(args[2]);
+            int volume = Integer.parseInt(args[2]);
             if (volume < 0 || volume > 100) {
                 message(sender, ChatColor.RED + "The volume must be between 0 and 100");
                 return;
             }
+
             String targetRegion = args[1].toLowerCase();
 
-            RegionProperties rp = openAudioMcSpigot.getRegionModule().getRegionPropertiesMap().get(targetRegion);
+            RegionProperties rp = worldRegionManager.getRegionProperties(targetRegion);
+
             if (rp != null) {
                 rp.setVolume(Integer.parseInt(args[2]));
                 message(sender, ChatColor.RED + "The volume of " + targetRegion + " has been set to " + args[2]);
+                worldRegionManager.registerRegion(rp);
                 openAudioMcSpigot.getRegionModule().forceUpdateRegions();
-
-                sendRegionMediaUpdatePacket(rp);
+                sendRegionMediaUpdatePacket(rp, sender.getWorld());
                 saveAsync(rp);
             } else {
                 message(sender, ChatColor.RED + "There's no worldguard region by the name " + targetRegion);
@@ -83,23 +93,26 @@ public class RegionEditSubCommand extends SubCommand {
 
             String targetRegion = args[1].toLowerCase();
 
-            RegionProperties rp = openAudioMcSpigot.getRegionModule().getRegionPropertiesMap().get(targetRegion);
+            RegionProperties rp = worldRegionManager.getRegionProperties(targetRegion);
             if (rp != null) {
                 rp.setFadeTimeMs(Integer.parseInt(args[2]));
                 message(sender, ChatColor.RED + "The fade of " + targetRegion + " has been set to " + args[2]);
+                // update the region
+                worldRegionManager.registerRegion(rp);
                 openAudioMcSpigot.getRegionModule().forceUpdateRegions();
-
-                sendRegionMediaUpdatePacket(rp);
+                sendRegionMediaUpdatePacket(rp, sender.getWorld());
                 saveAsync(rp);
             } else {
                 message(sender, ChatColor.RED + "There's no worldguard region by the name " + targetRegion);
             }
             return;
         }
+
+        sender.makeExecuteCommand("oa help " + getCommand());
     }
 
-    private void sendRegionMediaUpdatePacket(RegionProperties rp) {
-        // get region module
+    private void sendRegionMediaUpdatePacket(RegionProperties rp, String wolrdName) {
+        // get region module (already filtered by world)
         Collection<SpigotConnection> connections = OpenAudioMcSpigot.getInstance().getRegionModule().findPlayersInRegion(rp.getRegionName());
 
         // make update packet for region
@@ -109,7 +122,7 @@ public class RegionEditSubCommand extends SubCommand {
                 rp.getFadeTimeMs(),
                 rp.getVolume(),
                 true,
-                rp.getMedia().getMediaId()
+                rp.getMediaForWorld(wolrdName).getMediaId()
         );
 
         // send the updated packet

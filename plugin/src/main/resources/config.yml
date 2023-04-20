@@ -145,6 +145,10 @@ options:
   # Force offline mode, should only be enabled if your server host doesn't allow for proxy plugins
   force-offline-mode: false
 
+  # This world name will be used whenever the console executes a command that targets a world.
+  # We'll normally use the world the player/commandblock is in, but if the sender is not in a world, we'll use this one.
+  fallback-world-name: world
+
 
 # PlaceholderAPI
 papi:

@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.generic.state.collectors;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.interfaces.StateDetail;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
 import org.bukkit.ChatColor;
 
 public class SpigotRegionDetail implements StateDetail {
@@ -16,7 +17,10 @@ public class SpigotRegionDetail implements StateDetail {
         if (OpenAudioMcSpigot.getInstance().getRegionModule() == null) {
             return Platform.makeColor("RED") + "Feature Disabled";
         } else {
-            return "Loaded Audio Regions: " + ChatColor.AQUA + "" + OpenAudioMcSpigot.getInstance().getRegionModule().getRegionPropertiesMap().size();
+
+            RegionModule regionModule = OpenAudioMcSpigot.getInstance().getRegionModule();
+            int toIgnore = regionModule.getRegionsWithoutWorld().size() * regionModule.getWorldCount();
+            return "Loaded Audio Regions: " + ChatColor.AQUA + "" + (regionModule.getRegionCount()-toIgnore) + " " + ChatColor.GRAY + "(" + regionModule.getWorldCount() + " worlds) " + ChatColor.DARK_GRAY + "[" + toIgnore + " legacy regions]";
         }
     }
 }

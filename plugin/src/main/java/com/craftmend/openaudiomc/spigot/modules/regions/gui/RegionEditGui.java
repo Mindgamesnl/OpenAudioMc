@@ -117,6 +117,7 @@ public class RegionEditGui extends Menu {
                 )
                 .onClick((player, item) -> {
                     if (volume == region.getVolume()) return;
+
                     region.setVolume(volume);
 
                     player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.GREEN + "Updated region volume to " + volume);

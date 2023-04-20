@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.generic.user.adapters;
 
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
 import lombok.AllArgsConstructor;
 import net.md_5.bungee.api.ChatMessageType;
@@ -66,15 +67,6 @@ public class SpigotUserAdapter implements User {
         sendMessage(message);
     }
 
-    @Nullable
-    @Override
-    public String getWorldName() {
-        if (player instanceof Player) {
-            return ((Player) player).getWorld().getName();
-        }
-        return null;
-    }
-
     @Override
     public boolean isAdministrator() {
         return player.isOp() || player.hasPermission("openaudiomc.*") || player.hasPermission("openaudiomc.tips");
@@ -112,6 +104,26 @@ public class SpigotUserAdapter implements User {
     @Override
     public String getName() {
         return player.getName();
+    }
+
+    @Override
+    public String getWorld() {
+        // player
+        if (player instanceof Player) {
+            return ((Player) player).getWorld().getName();
+        }
+
+        // entity
+        if (player instanceof org.bukkit.entity.Entity) {
+            return ((org.bukkit.entity.Entity) player).getWorld().getName();
+        }
+
+        // commandblock
+        if (player instanceof org.bukkit.command.BlockCommandSender) {
+            return ((org.bukkit.command.BlockCommandSender) player).getBlock().getWorld().getName();
+        }
+
+        return StorageKey.SETTINGS_DEFAULT_WORLD_NAME.getString();
     }
 
 }
