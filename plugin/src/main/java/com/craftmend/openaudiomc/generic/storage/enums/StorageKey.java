@@ -29,6 +29,7 @@ public enum StorageKey {
     MESSAGE_VC_NOT_CONNECTED(false, "messages.voice-not-connected", StorageLocation.CONFIG_FILE),
     MESSAGE_VC_UNSTABLE(false, "messages.voicechat-service-unstable", StorageLocation.CONFIG_FILE),
     MESSAGE_VC_RECOVERED(false, "messages.voicechat-service-recovered", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_IN_VICINITY(false, "messages.voicechat-players-in-vicinity", StorageLocation.CONFIG_FILE),
 
     SETTING_VC_ENTERED_MUTED_REGION(false, "messages.voice-disabled-here", StorageLocation.CONFIG_FILE),
     SETTING_VC_LEFT_MUTED_REGION(false, "messages.voice-reenabled-here", StorageLocation.CONFIG_FILE),
@@ -37,6 +38,10 @@ public enum StorageKey {
     SETTINGS_VC_ALLOW_JOIN_DURING_LOAD(false, "options.voicechat-allow-joining-while-loading", StorageLocation.CONFIG_FILE),
     SETTINGS_FORCE_OFFLINE_MODE(false, "options.force-offline-mode", StorageLocation.CONFIG_FILE),
     SETTINGS_DEFAULT_WORLD_NAME(false, "options.fallback-world-name", StorageLocation.CONFIG_FILE),
+
+    SETTINGS_VOICECHAT_VICINITY_REMINDER_ENABLED(false, "options.voicechat-hint-enabled", StorageLocation.CONFIG_FILE),
+    SETTINGS_VOICECHAT_VICINITY_REMINDER_INTERVAL(false, "options.voicechat-hint-interval", StorageLocation.CONFIG_FILE),
+    SETTINGS_VOICECHAT_VICINITY_REMINDER_RADIUS(false, "options.voicechat-hint-range", StorageLocation.CONFIG_FILE),
 
     SETTINGS_REMIND_TO_CONNECT(false, "options.remind-to-connect", StorageLocation.CONFIG_FILE),
     SETTINGS_REMIND_TO_CONNECT_INTERVAL(false, "options.remind-to-connect-interval", StorageLocation.CONFIG_FILE),

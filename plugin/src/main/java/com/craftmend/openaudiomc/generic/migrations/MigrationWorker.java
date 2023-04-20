@@ -51,6 +51,7 @@ public class MigrationWorker {
                 new AddSendOnJoinDelayMigration(),      // adds the option to delay the send on join message
                 new AddOfflinemodeAndCdnMigration(),    // adds the option to enable/disable cdn and offlinemode
                 new CommandSenderWorldMigration(),      // adds the default world name value
+                new VoiceVicinityMessageMigration(),    // adds the voice vicinity messages and settings
         };
 
         for (SimpleMigration migration : migrations) {
