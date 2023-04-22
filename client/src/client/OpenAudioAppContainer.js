@@ -190,7 +190,6 @@ class OpenAudioAppContainer extends React.Component {
 
                 if (serverData.backgroundImage !== "") {
                     // todo: remove legacy rewrite
-                    serverData.backgroundImage = serverData.backgroundImage.replace("https://client.openaudiomc", "https://session.openaudiomc")
                     setBgImage(serverData.backgroundImage)
                 }
 
