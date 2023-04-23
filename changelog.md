@@ -41,6 +41,8 @@ Uprading from previous versions is pretty straight forward, but does need some e
    - Added proper NBT and speaker support for 1.19.4
    - Reworked placeholder support, added a few new ones and renamed current placeholders to be more consistent
    - You can now set a default fallback world for some commands when executed by the console. This defaults to "world" or the first overworld we find when updating your config.
+   - Players now receive a message when other players in their (configurable) vicinity are in Voice Chat, to promote more community interaction. The message, interval and distance can all be configured (or you can just disable it)
+   - Moderation mode now hides your input settings and adds a warning to the client, making it easier to distinguish between normal and mod mode
  - **Fixes**
    - Regions are no longer applied to incorrect worlds
    - Banned voicechat accounts no-longer get their state reset without reason

@@ -35,7 +35,26 @@ class VoiceSettings extends React.Component {
     }
 
     render() {
+        // are we moderating? then only show that banner
         let c = this.context;
+        if (this.props.voiceState.isModerating) {
+            return (
+                <div className="content-section  pt-5">
+                    <div className="content-wrapper-box audio-content full bg-red-800">
+                        <div className="content-wrapper-context full">
+                            <div className="content-text full">
+                                <div className={"text-center"}>
+                                    <p className="soft-text">
+                                        {getTranslation(c, "vc.youAreModerating")}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+
         let micButton = <button className="content-pill status-button green text-center" onClick={this.toggleMicMute}>
             <svg className="h-8 text-gray-900 ml-1" fill="none" viewBox="0 0 19 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
@@ -69,7 +88,6 @@ class VoiceSettings extends React.Component {
             <div>
                 <div className="content-section flex justify-center">
                     <div className="content-card-collection items-stretch">
-
                         <div className="content-card small-card order-2 2xl:order-1">
                                <span className={"content-card-content-border-bottom"}>
                                 <img alt={"Speaking indictor"}

@@ -3,7 +3,7 @@ import React from "react";
 export class ModerationWarning extends React.Component {
     render() {
         return (
-            <div className="content-section">
+            <div className="content-section pb-5">
                 <div className="content-wrapper-box audio-content full bg-red-800">
                     <div className="content-wrapper-context full">
                         <div className="content-text full">

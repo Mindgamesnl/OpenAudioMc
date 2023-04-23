@@ -65,6 +65,7 @@ const initialState = {
     },
 
     voiceState: {
+        isModerating: false,
         isTemporarilyDisabled: false,
         enabled: false,
         ready: false,

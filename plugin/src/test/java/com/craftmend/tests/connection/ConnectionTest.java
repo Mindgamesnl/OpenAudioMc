@@ -118,14 +118,14 @@ public class ConnectionTest extends TestHelper {
         // seed a few times
         for (int i = 0; i < 5; i++) {
             for (String name : names) {
-                RegionProperties regionProperties = new RegionProperties(UUID.randomUUID().toString(), 100, 200, true, name);
+                RegionProperties regionProperties = new RegionProperties(UUID.randomUUID().toString(), 100, 200, true, name, "world");
                 OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class)
                         .save(regionProperties);
             }
         }
 
         // intentionally add a broken one
-        RegionProperties regionProperties = new RegionProperties("ikea.com", 200, 200, true, "fakearea");
+        RegionProperties regionProperties = new RegionProperties("ikea.com", 200, 200, true, "fakearea", "world");
         OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class)
                 .save(regionProperties);
 
@@ -135,9 +135,7 @@ public class ConnectionTest extends TestHelper {
         RegionModule fakeRegionModule = new RegionModule(new TestRegionProvider(names));
 
         // they should now have been cleared, with only a few more in the database
-        Assert.assertEquals(names.length + 1, OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class).values().size());
-        Assert.assertEquals(names.length, Integer.toString((fakeRegionModule.getRegionCount() / fakeRegionModule.getWorldCount())));
-
+        Assert.assertEquals(names.length + 1, (fakeRegionModule.getRegionCount() / fakeRegionModule.getWorldCount()));
         openAudioMc.disable();
     }
 

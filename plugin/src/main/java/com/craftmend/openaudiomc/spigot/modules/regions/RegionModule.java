@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.regions;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.OpenAudioMcBuild;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.media.MediaService;
@@ -83,12 +84,15 @@ public class RegionModule {
         });
 
         // register unknown regions
-        for (World world : Bukkit.getWorlds()) {
-            getWorld(world.getName()).registerRegions(regionsWithoutWorld);
-        }
+        if (!OpenAudioMcBuild.IS_TESTING) {
+            // skip bukkit API during tests
+            for (World world : Bukkit.getWorlds()) {
+                getWorld(world.getName()).registerRegions(regionsWithoutWorld);
+            }
 
-        // register world load event
-        Bukkit.getPluginManager().registerEvents(new WorldLoadListener(this), OpenAudioMcSpigot.getInstance());
+            // register world load event
+            Bukkit.getPluginManager().registerEvents(new WorldLoadListener(this), OpenAudioMcSpigot.getInstance());
+        }
 
         this.regionAdapter.postLoad();
     }

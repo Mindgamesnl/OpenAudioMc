@@ -13,6 +13,7 @@ import {HandleMicToggleRequest} from "./handlers/voice/HandleMicToggleRequest";
 import {HandleVoiceBlur} from "./handlers/voice/HandleVoiceBlur";
 import {handleSpeakerCreate} from "./handlers/speakers/HandleSpeakerCreate";
 import {HandleSpeakerDestroy} from "./handlers/speakers/HandleSpeakerDestroy";
+import {HandleVoiceModerationStatus} from "./handlers/voice/HandleVoiceModerationStatus";
 
 export class HandlerRegistry {
 
@@ -43,5 +44,6 @@ export class HandlerRegistry {
         registerClassHandler("ClientVoiceUpdatePeerLocationsPayload", HandleVoicePeerMovement)
         registerClassHandler("ClientVoiceChatToggleMicrophonePayload", HandleMicToggleRequest)
         registerClassHandler("ClientVoiceBlurUiPayload", HandleVoiceBlur)
+        registerClassHandler("ClientModerationStatusPayload", HandleVoiceModerationStatus)
     }
 }

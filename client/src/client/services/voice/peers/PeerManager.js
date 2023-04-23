@@ -445,6 +445,7 @@ export class PeerManager {
     }
 
     stop() {
+        console.log("Closing voice connection")
         if (this.micStream) {
             this.micStream.getTracks().forEach(function (track) {
                 track.stop();
