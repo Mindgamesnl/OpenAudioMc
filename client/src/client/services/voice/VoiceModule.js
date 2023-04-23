@@ -99,6 +99,7 @@ export const VoiceModule = new class IVoiceModule {
             // set the stream
             this.microphoneProcessing = new MicrophoneProcessor(stream);
             this.peerManager.connectRtc(stream);
+            this.micStream = stream;
         }
 
         // on fail
@@ -244,12 +245,18 @@ export const VoiceModule = new class IVoiceModule {
     }
 
     shutdown() {
+        console.log("Received shutdown event, stopping voice chat")
         if (this.peerManager) {
             this.peerManager.stop();
         }
 
         if (this.microphoneProcessing) {
             this.microphoneProcessing.stop();
+        }
+
+        if (this.micStream) {
+            this.micStream.getTracks().forEach(track => track.stop());
+            // close the mic stream
         }
 
         this.removeAllPeers();

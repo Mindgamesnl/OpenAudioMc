@@ -22,6 +22,7 @@ import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientCreateMedia;
+import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClientModerationStatus;
 import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClientProtocolRevisionPacket;
 import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClientSetVolume;
 import com.craftmend.openaudiomc.generic.rest.Task;
@@ -189,10 +190,12 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
             session.setModerating(true);
             session.setModerationTimeRemaining(OpenAudioMc.getInstance().getConfiguration().getInt(StorageKey.SETTINGS_MODERATION_TIMER));
             session.setResetVc(true);
+            sendPacket(new PacketClientModerationStatus(true));
         } else {
             session.setModerating(false);
             session.setModerationTimeRemaining(0);
             session.setResetVc(true);
+            sendPacket(new PacketClientModerationStatus(false));
         }
     }
 

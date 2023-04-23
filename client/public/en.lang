@@ -79,6 +79,7 @@ vc.settings.monitoring.title=Microphone Monitoring
 vc.settings.monitoring.about=Monitoring plays your own voice back for yourself like how others hear you, useful to test your microphone and sensitivity settings.
 vc.settings.monitoring.toggle=Enable monitoring
 vc.operaWarning=Your login seems to be taking a while, this is most likely due to your Opera settings. Please open your browser settings, search for "WebRTC" and select the enable-all option
+vc.youAreModerating=Watch out! you are now a moderator, you can now hear everyone in voice chat but they can't hear you.
 
 hue.hue=Philips Hue
 hue.link=Click here to connect to your hue bridge
