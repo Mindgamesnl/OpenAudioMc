@@ -1,10 +1,21 @@
+# Welcome!
+It's been a while since our last update. I've been working on a lot of things, but I've also been busy with other projects. I'm happy to announce that we're finally ready to release a new version of OpenAudioMc. This version is a complete rewrite of the client, and a complete rewrite of the backend. It also has a lot of new features, and a lot of new things to look forward to.
+Please take your time to read this changelog, as it contains a lot of information about the new version. If you have any questions, feel free to ask them on our Discord server: https://discord.openaudiomc.net/
+
 # Upgrading
+We have a video version of the upgrade guide at: https://youtu.be/LpyQTfYW0zU
+
 Uprading from previous versions is pretty straight forward, but does need some extra love and attention as we've moved to a new backend and account system.
  1. Download the new plugin jar, and replace your old one (for all servers where you currently have it installed, including BungeeCord or Velocity)
  2. Create an account on https://account.openaudiomc.net/
  3. Start your server, run `/oa link` and then click on that message to link your server to your new account
  4. (Optional) Link your Discord and Patreon on https://account.openaudiomc.net/settings
  5. (for Vistas and 1.8.* Users) You will need to download the newest version of your installed modules. 
+
+# Links
+- New documentation: https://openaudiomc.net/docs
+- Account: https://account.openaudiomc.net/
+- Discord: https://discord.openaudiomc.net/
 
 # Changelog
 ## Client
