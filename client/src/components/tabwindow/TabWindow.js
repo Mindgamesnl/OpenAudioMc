@@ -50,12 +50,16 @@ export class TabWindow extends Component {
         let pill = <span className="small-pill free">Free</span>;
         if (c.isPremium) pill = <span className="small-pill premium">Premium</span>;
 
+        // placeholder for player uuid
+        let playerUuid = "00000000-0000-0000-0000-000000000000";
+        if (getGlobalState().currentUser) playerUuid = getGlobalState().currentUser.uuid;
+
         return (
             <div className="main-container tabbed">
                 <div className="main-header flex justify-start">
                     <span className="theme-color-text md:pl-10 w-1/3">
                         <div className={"rounding-bottom rounding-top px-1 py-1 flex items-center justify-start"}>
-                            <img src={"https://visage.surgeplay.com/face/512/" + getGlobalState().currentUser.uuid} className="rounding-top rounding-bottom inline mr-5 w-9 h-9" alt="avatar" />
+                            <img src={"https://visage.surgeplay.com/face/512/" + playerUuid} className="rounding-top rounding-bottom inline mr-5 w-9 h-9" alt="avatar" />
                             {getTranslation(c, "serverName")}
                             {pill}
                         </div>
