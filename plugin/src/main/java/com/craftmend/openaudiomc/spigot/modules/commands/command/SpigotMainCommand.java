@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
+import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.user.User;
@@ -67,8 +68,12 @@ public class SpigotMainCommand implements CommandExecutor, TabCompleter {
                     /*
                      * It's more dead inside then i am
                      */
-                    e.printStackTrace();
-                    sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "An error occurred while executing the command. Please check your command. Type: " + e.getClass().getSimpleName());
+                    if (e instanceof CommandError) {
+                        sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + e.getMessage());
+                    } else {
+                        sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Something went wrong while executing this command, please check the console for more information.");
+                        e.printStackTrace();
+                    }
                 }
                 return true;
             } else {

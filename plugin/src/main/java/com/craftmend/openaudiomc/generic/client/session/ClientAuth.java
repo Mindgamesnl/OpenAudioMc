@@ -4,9 +4,10 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
-import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
+import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
-import com.craftmend.openaudiomc.generic.networking.rest.Task;
+import com.craftmend.openaudiomc.generic.rest.Task;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
@@ -36,7 +37,7 @@ public class ClientAuth implements Serializable {
     public void publishSessionUrl() {
         OpenAudioMc openAudioMc = OpenAudioMc.getInstance();
         Configuration config = openAudioMc.getConfiguration();
-        String baseUrl = OpenAudioMc.getService(CraftmendService.class).getAccountResponse().getSettings().getClientUrl();
+        String baseUrl = OpenAudioMc.getService(OpenaudioAccountService.class).getAccountResponse().getClientUrl();
 
         // cancel if the player is via proxy because the proxy should handle it
         if (openAudioMc.getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == OAClientMode.NODE)
@@ -60,7 +61,10 @@ public class ClientAuth implements Serializable {
         client.getUser().sendMessage(translateColors(StorageKey.MESSAGE_GENERATING_SESSION.getString()));
 
         Task<String> sessionRequest = OpenAudioMc.getService(AuthenticationService.class).getDriver().createPlayerSession(client);
-        sessionRequest.setWhenFailed((restErrorType, fuckyou) -> client.getUser().sendMessage(translateColors(StorageKey.MESSAGE_SESSION_ERROR.getString())));
+        sessionRequest.setWhenFailed((error) -> {
+            OpenAudioLogger.toConsole("Failed to create a session for " + client.getUser().getName() + ", error: " + error.getMessage());
+            client.getUser().sendMessage(translateColors(StorageKey.MESSAGE_SESSION_ERROR.getString()));
+        });
 
         sessionRequest.setWhenFinished(token -> {
             String url = baseUrl + "#" + token;

@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.authentication.requests;
 
-import com.craftmend.openaudiomc.generic.networking.rest.interfaces.AbstractRestResponse;
+import com.craftmend.openaudiomc.generic.rest.response.AbstractRestResponse;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

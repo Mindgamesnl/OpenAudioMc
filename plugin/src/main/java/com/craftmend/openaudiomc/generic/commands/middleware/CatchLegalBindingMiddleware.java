@@ -32,7 +32,7 @@ public class CatchLegalBindingMiddleware implements CommandMiddleware {
             lines.add(Platform.translateColors("&eWelcome to OpenAudioMc!"));
             lines.add(Platform.translateColors("&2You have to accept our &5Privacy and Terms Of Service&2 before you can start using the plugin."));
             lines.add(Platform.translateColors("&7(this probably wont change anything for you, unless you were doing some rather weird things)"));
-            lines.add(Platform.translateColors("> https://account.craftmend.com/terms"));
+            lines.add(Platform.translateColors("> https://account.openaudiomc.net/terms"));
             lines.add("");
             lines.add(Platform.translateColors("&2To accept, type &6/oa accept"));
 

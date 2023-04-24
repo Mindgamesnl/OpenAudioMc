@@ -3,7 +3,6 @@ package com.craftmend.openaudiomc.generic.client.store;
 import com.craftmend.openaudiomc.generic.client.enums.DataStoreVersion;
 import com.craftmend.openaudiomc.generic.database.internal.DataStore;
 import com.craftmend.storm.api.markers.Column;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

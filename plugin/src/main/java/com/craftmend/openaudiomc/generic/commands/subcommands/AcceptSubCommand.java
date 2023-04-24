@@ -3,7 +3,6 @@ package com.craftmend.openaudiomc.generic.commands.subcommands;
 import com.craftmend.openaudiomc.OpenAudioMc;
 
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
-import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
@@ -28,7 +27,6 @@ public class AcceptSubCommand extends SubCommand {
 
         sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Welcome to OpenAudioMc! you accepted the terms, enjoy the service!");
 
-        OpenAudioMc.getService(CraftmendService.class).startSyncronizer();
         service.connectIfDown();
 
         for (ClientConnection client : service.getClients()) {

@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.client.ClientDataService;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
-import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
+import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.environment.EnvironmentService;
 import com.craftmend.openaudiomc.generic.environment.GlobalConstantService;
@@ -17,7 +17,7 @@ import com.craftmend.openaudiomc.generic.migrations.MigrationWorker;
 import com.craftmend.openaudiomc.generic.modules.ModuleLoaderService;
 import com.craftmend.openaudiomc.generic.mojang.MojangLookupService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
-import com.craftmend.openaudiomc.generic.networking.rest.ServerEnvironment;
+import com.craftmend.openaudiomc.generic.rest.ServerEnvironment;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
@@ -31,7 +31,6 @@ import com.craftmend.openaudiomc.generic.service.ServiceManager;
 import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.utils.data.GsonFactory;
-import com.craftmend.openaudiomc.generic.voicechat.services.VoiceLicenseService;
 import com.google.gson.Gson;
 import lombok.Getter;
 
@@ -81,7 +80,7 @@ public class OpenAudioMc {
     public OpenAudioMc(OpenAudioInvoker invoker) throws Exception {
         // very first thing we need to do, is set the environment, since we might want to log extra data
         // on development servers, and disable debugging commands on production.
-        String env = System.getenv("OA_ENVIRONMENT");
+        String env = MagicValue.readEnv("OA_ENVIRONMENT");
         MagicValue.loadArguments();
         if (env != null && !env.equals("")) {
             SERVER_ENVIRONMENT = ServerEnvironment.valueOf(env);
@@ -139,8 +138,7 @@ public class OpenAudioMc {
                 GlobalConstantService.class,    // keeps track of remote project constants (like release versions, etc)
                 CommandService.class,           // standardized command processor regardless of platform
                 RedisService.class,             // redis hook/service implementation
-                CraftmendService.class,         // craftmend specific features, like voice chat
-                VoiceLicenseService.class,      // service to interact with the voice license request api
+                OpenaudioAccountService.class,         // craftmend specific features, like voice chat
                 RestDirectService.class,        // manage rest direct
                 ClientDataService.class         // manage player profiles
         );
@@ -149,7 +147,7 @@ public class OpenAudioMc {
     }
 
     public void postBoot() {
-        getService(CraftmendService.class).postBoot();
+        getService(OpenaudioAccountService.class).postBoot();
         getService(ModuleLoaderService.class).fire(ModuleEvent.PLATFORM_LOADED);
     }
 
@@ -161,7 +159,7 @@ public class OpenAudioMc {
         serviceManager.getService(ModuleLoaderService.class).fire(ModuleEvent.SHUTDOWN);
 
         try {
-            serviceManager.getService(CraftmendService.class).shutdown();
+            serviceManager.getService(OpenaudioAccountService.class).shutdown();
             serviceManager.getService(RedisService.class).shutdown();
             if (serviceManager.getService(StateService.class).getCurrentState().isConnected()) {
                 serviceManager.getService(NetworkingService.class).stop();

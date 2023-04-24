@@ -1,10 +1,10 @@
 name: OpenAudioMc
-version: 6.7.7
+version: 6.8
 main: com.craftmend.openaudiomc.bungee.OpenAudioMcBungee
 author: Mindgamesnl
 authors: [Mindgamesnl]
 softdepend: [LiteBans]
-description: The OpenAudioMc plugin. Brings real sound and lights to your minecraft server with the help of a custom web client.
+description: "OpenAudioMc: Proximity voice chat & audio plugin for Minecraft, no mods needed. Supports Bungeecord, Velocity, Spigot & more."
 website: https://openaudiomc.net/
 commands:
   audio:

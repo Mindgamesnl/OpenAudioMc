@@ -26,7 +26,6 @@ public class MigrationWorker {
                 new UpdateSettingMigration(),           // adds config fields for update and announcement preferences,
                 new LegalAcceptanceMigration(),         // binding statements about accepting our rules
                 new SessionGenerationMigration(),       // messages for generation and session errors
-                new AuthHostMigration(),                // host details as part of handshake hash
                 new AddPreFetchMigration(),             // add a config value for how many files to prefetch
                 new AddVolumeHintMigration(),           // add a config value for default volume messages
                 new AddGcStratMigration(),              // add a config value for GC strats
@@ -49,6 +48,10 @@ public class MigrationWorker {
                 new AddRDIpMigration(),                 // add rd ip config
                 new AddVcModConfigMigration(),          // adds the option to enable/disable moderation support
                 new AddVcJoinLoadMigration(),           // adds the option to enable/disable vc join during load
+                new AddSendOnJoinDelayMigration(),      // adds the option to delay the send on join message
+                new AddOfflinemodeAndCdnMigration(),    // adds the option to enable/disable cdn and offlinemode
+                new CommandSenderWorldMigration(),      // adds the default world name value
+                new VoiceVicinityMessageMigration(),    // adds the voice vicinity messages and settings
         };
 
         for (SimpleMigration migration : migrations) {

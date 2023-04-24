@@ -21,11 +21,11 @@ import com.craftmend.openaudiomc.generic.client.helpers.TokenFactory;
 import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
-import com.craftmend.openaudiomc.generic.networking.packets.client.hue.PacketClientApplyHueColor;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientCreateMedia;
+import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClientModerationStatus;
 import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClientProtocolRevisionPacket;
 import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClientSetVolume;
-import com.craftmend.openaudiomc.generic.networking.rest.Task;
+import com.craftmend.openaudiomc.generic.rest.Task;
 import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
@@ -36,8 +36,6 @@ import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.networking.packets.*;
 import com.craftmend.openaudiomc.generic.platform.Platform;
-import com.craftmend.openaudiomc.generic.hue.HueState;
-import com.craftmend.openaudiomc.generic.hue.SerializedHueColor;
 
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.OAClientMode;
@@ -71,7 +69,11 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
         }
 
         if (OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_SEND_URL_ON_JOIN))
-            this.getAuth().publishSessionUrl();
+            OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
+                if (!isConnected()) {
+                    this.getAuth().publishSessionUrl();
+                }
+            }, 20 * StorageKey.SETTINGS_SEND_URL_ON_JOIN_DELAY.getInt());
 
         if (!OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
             OpenAudioMc.getService(GlobalConstantService.class).sendNotifications(user);
@@ -124,7 +126,6 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
         session.setSessionUpdated(true);
         session.setApiSpeakers(0);
         session.setConnectedToRtc(false);
-        session.setHasHueLinked(false);
         session.setConnected(false);
         disconnectHandlers.forEach(Runnable::run);
 
@@ -169,18 +170,6 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
     }
 
     /**
-     * change the players hue lights
-     *
-     * @param hueState the new light state
-     */
-    public void setHue(HueState hueState) {
-        hueState.getColorMap().forEach((light, color) -> {
-            SerializedHueColor serializedHueColor = new SerializedHueColor(color.getRed(), color.getGreen(), color.getGreen(), color.getBrightness());
-            OpenAudioMc.getService(NetworkingService.class).send(this, new PacketClientApplyHueColor(serializedHueColor, "[" + light + "]"));
-        });
-    }
-
-    /**
      * Close the clients web client
      */
     public void kick(Runnable callback) {
@@ -201,10 +190,12 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
             session.setModerating(true);
             session.setModerationTimeRemaining(OpenAudioMc.getInstance().getConfiguration().getInt(StorageKey.SETTINGS_MODERATION_TIMER));
             session.setResetVc(true);
+            sendPacket(new PacketClientModerationStatus(true));
         } else {
             session.setModerating(false);
             session.setModerationTimeRemaining(0);
             session.setResetVc(true);
+            sendPacket(new PacketClientModerationStatus(false));
         }
     }
 
@@ -278,16 +269,6 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
     @Override
     public int getVolume() {
         return session.getVolume();
-    }
-
-    @Override
-    public void setHueState(HueState state) {
-        if (this.session.isConnected() && this.session.isHasHueLinked()) this.setHue(state);
-    }
-
-    @Override
-    public boolean hasPhilipsHue() {
-        return this.isConnected() && this.session.isHasHueLinked();
     }
 
     @Override

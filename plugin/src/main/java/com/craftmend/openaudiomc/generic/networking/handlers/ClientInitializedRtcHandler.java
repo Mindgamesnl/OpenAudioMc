@@ -46,7 +46,6 @@ public class ClientInitializedRtcHandler extends PayloadHandler<ClientOpenedRtcP
 
     private void handleEvents(ClientConnection cc, ClientOpenedRtcPayload payload) {
         switch (payload.getEvent()) {
-
             case MICROPHONE_MUTED: {
                 cc.getRtcSessionManager().setMicrophoneEnabled(false);
                 broadcastRtcUpdate(cc.getUser(), true, false, cc.getRtcSessionManager().getStreamKey(), cc);

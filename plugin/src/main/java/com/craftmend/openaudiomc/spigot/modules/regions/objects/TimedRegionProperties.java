@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
+import com.craftmend.openaudiomc.spigot.modules.regions.registry.WorldRegionManager;
 import com.craftmend.storm.api.markers.Column;
 import com.craftmend.storm.api.markers.Table;
 import org.bukkit.Bukkit;
@@ -22,21 +23,27 @@ public class TimedRegionProperties extends RegionProperties {
 
     }
 
-    public TimedRegionProperties(String source, int timeInSeconds, String regionId) {
-        this(source, timeInSeconds, regionId, 100, 1000, regionId);
+    public TimedRegionProperties(String source, int timeInSeconds, String regionId, String... worldName) {
+        this(source, timeInSeconds, regionId, 100, 1000, regionId, worldName);
     }
 
-    public TimedRegionProperties(String source, int timeInSeconds, String regionId, int volume, int fadeTimeMs, String regionName) {
-        super(source, volume, fadeTimeMs, true, regionName);
+    public TimedRegionProperties(String source, int timeInSeconds, String regionId, int volume, int fadeTimeMs, String regionName, String... worldName) {
+        super(source, volume, fadeTimeMs, true, regionName, worldName);
         this.regionId = regionId;
 
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
             this.task = Bukkit.getScheduler().scheduleAsyncDelayedTask(OpenAudioMcSpigot.getInstance(), () -> {
-                OpenAudioMcSpigot.getInstance().getRegionModule().removeRegion(this.regionId);
-                forceUpdateClients();
+
+                // remove myself from all my worlds
+                for (String world : getWorlds()) {
+                    OpenAudioMcSpigot.getInstance().getRegionModule().getWorld(world).unregisterRegion(this.regionId);
+                }
             }, 20 * timeInSeconds);
+
             forceUpdateClients();
-            getMedia();
+
+            // force initialize media the media
+            getOrStartMedia();
         }
     }
 
@@ -52,15 +59,23 @@ public class TimedRegionProperties extends RegionProperties {
         forceUpdateClients();
     }
 
-    @Override
-    public Media getMedia() {
-
+    public Media getOrStartMedia() {
+        // temp regions always use their own media, as it shouldn't sync with others
         if (media == null) {
             this.media = new RegionMedia(getSource(), getVolume(), getFadeTimeMs());
             this.media.setLoop(false);
         }
-
         return this.media;
+    }
+
+    @Override
+    public Media getMediaForWorld(String worldName) {
+        return getOrStartMedia();
+    }
+
+    @Override
+    public Media getMediaForWorld(WorldRegionManager worldRegionManager) {
+        return getOrStartMedia();
     }
 
 }

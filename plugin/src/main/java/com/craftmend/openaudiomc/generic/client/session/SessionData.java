@@ -2,8 +2,8 @@ package com.craftmend.openaudiomc.generic.client.session;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
-import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
-import com.craftmend.openaudiomc.generic.craftmend.enums.CraftmendTag;
+import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
+import com.craftmend.openaudiomc.generic.oac.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.client.helpers.SerializableClient;
@@ -28,7 +28,6 @@ public class SessionData {
     private boolean isModerating = false;
     private boolean isWaitingToken = false;
     private boolean sessionUpdated = false;
-    private boolean hasHueLinked = false;
     private boolean isConnectedToRtc = false;
 
     // ongoing sounds - used for media-sources with the expiration timeout configured
@@ -78,7 +77,6 @@ public class SessionData {
                 .rtcSessionManager(client.getRtcSessionManager())
                 .streamKey(client.getRtcSessionManager().getStreamKey())
                 .isConnectedToRtc(isConnectedToRtc)
-                .hasHueLinked(hasHueLinked)
                 .sessionUpdated(sessionUpdated)
                 .auth(client.getAuth())
                 .build();
@@ -89,7 +87,6 @@ public class SessionData {
         client.getRtcSessionManager().setMicrophoneEnabled(sc.getRtcSessionManager().isMicrophoneEnabled());
         client.getRtcSessionManager().setStreamKey(sc.getStreamKey());
         this.isConnectedToRtc = sc.isConnectedToRtc();
-        this.hasHueLinked = sc.isHasHueLinked();
         this.sessionUpdated = sc.isSessionUpdated();
         client.setAuth(sc.getAuth());
         client.getAuth().setClient(client);
@@ -104,8 +101,8 @@ public class SessionData {
         }
 
         if (isConnectedToRtc) {
-            if (!OpenAudioMc.getService(CraftmendService.class).is(CraftmendTag.VOICECHAT)) {
-                OpenAudioMc.getService(CraftmendService.class).addTag(CraftmendTag.VOICECHAT);
+            if (!OpenAudioMc.getService(OpenaudioAccountService.class).is(CraftmendTag.VOICECHAT)) {
+                OpenAudioMc.getService(OpenaudioAccountService.class).addTag(CraftmendTag.VOICECHAT);
             }
         }
     }

@@ -12,7 +12,5 @@ keyset:
   key-version: -1
   private: not-set
   link-mode: true
-  server-ip: not-set
-  server-cc: not-set
 debug:
   log-state-changes: false

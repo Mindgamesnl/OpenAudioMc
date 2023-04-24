@@ -29,7 +29,6 @@ public class CommandService extends Service {
         MagicValue.overWrite(MagicValue.COMMAND_PREFIX, Platform.translateColors("&3[&bOA&3] &7"));
 
         registerSubCommands(
-                new NotificationSubCommand(this),
                 new LinkSubCommand(),
                 new ReloadSubCommand(),
                 new StateSubCommand(),

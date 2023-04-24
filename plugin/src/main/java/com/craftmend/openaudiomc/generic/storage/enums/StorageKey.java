@@ -29,12 +29,19 @@ public enum StorageKey {
     MESSAGE_VC_NOT_CONNECTED(false, "messages.voice-not-connected", StorageLocation.CONFIG_FILE),
     MESSAGE_VC_UNSTABLE(false, "messages.voicechat-service-unstable", StorageLocation.CONFIG_FILE),
     MESSAGE_VC_RECOVERED(false, "messages.voicechat-service-recovered", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_IN_VICINITY(false, "messages.voicechat-players-in-vicinity", StorageLocation.CONFIG_FILE),
 
     SETTING_VC_ENTERED_MUTED_REGION(false, "messages.voice-disabled-here", StorageLocation.CONFIG_FILE),
     SETTING_VC_LEFT_MUTED_REGION(false, "messages.voice-reenabled-here", StorageLocation.CONFIG_FILE),
     SETTINGS_VC_ANNOUNCEMENTS(false, "options.voicechat-announcements", StorageLocation.CONFIG_FILE),
     SETTINGS_VC_PROCESS_OBSTRUCTIONS(false, "options.voicechat-obstructions", StorageLocation.CONFIG_FILE),
     SETTINGS_VC_ALLOW_JOIN_DURING_LOAD(false, "options.voicechat-allow-joining-while-loading", StorageLocation.CONFIG_FILE),
+    SETTINGS_FORCE_OFFLINE_MODE(false, "options.force-offline-mode", StorageLocation.CONFIG_FILE),
+    SETTINGS_DEFAULT_WORLD_NAME(false, "options.fallback-world-name", StorageLocation.CONFIG_FILE),
+
+    SETTINGS_VOICECHAT_VICINITY_REMINDER_ENABLED(false, "options.voicechat-hint-enabled", StorageLocation.CONFIG_FILE),
+    SETTINGS_VOICECHAT_VICINITY_REMINDER_INTERVAL(false, "options.voicechat-hint-interval", StorageLocation.CONFIG_FILE),
+    SETTINGS_VOICECHAT_VICINITY_REMINDER_RADIUS(false, "options.voicechat-hint-range", StorageLocation.CONFIG_FILE),
 
     SETTINGS_REMIND_TO_CONNECT(false, "options.remind-to-connect", StorageLocation.CONFIG_FILE),
     SETTINGS_REMIND_TO_CONNECT_INTERVAL(false, "options.remind-to-connect-interval", StorageLocation.CONFIG_FILE),
@@ -42,6 +49,7 @@ public enum StorageKey {
     SETTINGS_SPEAKER_SYNC(false, "options.sync-speakers", StorageLocation.CONFIG_FILE),
     SETTINGS_SPEAKER_RANGE(false, "options.speaker-radius", StorageLocation.CONFIG_FILE),
     SETTINGS_SEND_URL_ON_JOIN(false, "options.send-on-join", StorageLocation.CONFIG_FILE),
+    SETTINGS_SEND_URL_ON_JOIN_DELAY(false, "options.send-on-join-delay", StorageLocation.CONFIG_FILE),
     SETTINGS_USE_WG_PRIORITY(false, "options.use-region-priority", StorageLocation.CONFIG_FILE),
     SETTINGS_PLUS_ACCESS_LEVEL(false, "options.plus-access-level", StorageLocation.CONFIG_FILE),
     SETTINGS_STAFF_TIPS(false, "options.staff-tips", StorageLocation.CONFIG_FILE),
@@ -63,8 +71,8 @@ public enum StorageKey {
 
     DEBUG_LOG_STATE_CHANGES(false, "debug.log-state-changes", StorageLocation.DATA_FILE),
 
-    AUTH_HOST(false, "keyset.server-ip", StorageLocation.DATA_FILE),
-    AUTH_COUNTRY(false, "keyset.server-cc", StorageLocation.DATA_FILE),
+    AUTH_HOST(true, "keyset.server-ip", StorageLocation.DATA_FILE),
+    AUTH_COUNTRY(true, "keyset.server-cc", StorageLocation.DATA_FILE),
     AUTH_PRIVATE_KEY(false, "keyset.private", StorageLocation.DATA_FILE),
     AUTH_PUBLIC_KEY(false, "keyset.public", StorageLocation.DATA_FILE),
     AUTH_KEY_VERSION(false, "keyset.key-version", StorageLocation.DATA_FILE),
@@ -79,6 +87,7 @@ public enum StorageKey {
     CDN_PREFERRED_PORT(false, "cdn.preferred-bridge-port", StorageLocation.CONFIG_FILE),
     CDN_TIMEOUT(false, "cdn.timeout-seconds", StorageLocation.CONFIG_FILE),
     CDN_IP_OVERWRITE(false, "cdn.ip-overwrite", StorageLocation.CONFIG_FILE),
+    CDN_ENABLED(false, "cdn.enabled", StorageLocation.CONFIG_FILE),
 
     LEGAL_ACCEPTED_TOS_AND_PRIVACY(false, "legal.accepted", StorageLocation.DATA_FILE);
 

@@ -1,0 +1,74 @@
+html {
+    height: 100%;
+
+    --accentColorPrimary: #f8e047;
+    --accentColorSecondary: #283446;
+    --accentColorSecondaryBrighter: #32415d;
+    --accentColorSecondaryNavbar: #242424;
+    --cardBgColor: rgb(255, 255, 255);
+    --callToActionColor: #6465f1;
+    --textColor: rgb(0, 0, 0);
+
+    --strangerDangerRed: #e74c3c;
+    --strangerDangerRedAccent: #c0392b;
+    --bgOverlayColor: rgba(26, 32, 44, 0);
+}
+
+.panel {
+    margin-bottom: 20px;
+    background-color: var(--cardBgColor);
+    border-radius: 5px;
+    backdrop-filter: blur(40px);
+    box-shadow: 0 20px 20px rgba(0,0,0,0.2);
+}
+
+.no-shadow {
+    box-shadow: none !important;
+}
+
+.no-rounding {
+    border-radius: 0 !important;
+}
+
+.panel-default {
+    border-color: #fff;
+}
+
+.panel-default>.panel-heading {
+    font-family: 'Abel', sans-serif;
+    color: #fff;
+    background-color: var(--accentColorSecondary);
+    background-image: linear-gradient(90deg, var(--accentColorSecondary), var(--accentColorSecondaryBrighter));
+    font-size: 20px;
+}
+
+.panel-default h1 {
+    font-family: 'Abel', sans-serif;
+}
+
+a {
+    color: var(--callToActionColor);
+}
+
+.panel-heading {
+    padding: 10px 15px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    text-align: left;
+}
+
+.panel-default>.danger-heading {
+    background-color: var(--strangerDangerRed) !important;
+    border-bottom: 5px solid var(--strangerDangerRedAccent) !important;
+}
+
+.panel-body {
+    padding: 15px;
+    box-shadow: inset 0px 0px 10px rgba(0,0,0,0.2);
+}
+
+.panel-body-dark {
+    background-color: var(--accentColorSecondaryNavbar);
+    color: white;
+}

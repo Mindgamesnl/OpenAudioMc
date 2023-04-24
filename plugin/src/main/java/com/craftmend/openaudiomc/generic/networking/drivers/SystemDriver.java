@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking.drivers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
+import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.state.StateService;
@@ -21,7 +21,7 @@ public class SystemDriver implements SocketDriver {
         socket.on(Socket.EVENT_CONNECT, args -> {
             // connected with success
             OpenAudioMc.getService(StateService.class).setState(new ConnectedState(connector.getLastUsedRelay()));
-            OpenAudioMc.getService(CraftmendService.class).startVoiceHandshake();
+            OpenAudioMc.getService(OpenaudioAccountService.class).startVoiceHandshake();
         });
 
         socket.on(Socket.EVENT_DISCONNECT, args -> {
@@ -38,7 +38,7 @@ public class SystemDriver implements SocketDriver {
                     client.onDisconnect();
                 }
             }
-            OpenAudioMc.getService(CraftmendService.class).getVoiceApiConnection().stop();
+            OpenAudioMc.getService(OpenaudioAccountService.class).getVoiceApiConnection().stop();
         });
 
         socket.on(Socket.EVENT_CONNECT_TIMEOUT, args -> {

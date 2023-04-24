@@ -9,11 +9,12 @@ public class Region implements IRegion {
 
     private String id;
     private RegionProperties regionProperties;
+    private String worldName;
 
     @Override
     public Media getMedia() {
         if (getProperties() == null) return null;
-        return regionProperties.getMedia();
+        return regionProperties.getMediaForWorld(worldName);
     }
 
     @Override
@@ -28,13 +29,7 @@ public class Region implements IRegion {
 
     @Override
     public void setVolume(int volume) {
-        long start = regionProperties.getMedia().getStartInstant();
-        String oldId = regionProperties.getMedia().getMediaId();
         regionProperties.setVolume(volume);
-        regionProperties.updateMedia(id);
-        regionProperties.getMedia(); // trigger
-        regionProperties.getMedia().setMediaId(oldId);
-        regionProperties.getMedia().setStartInstant(start);
     }
 
     @Override

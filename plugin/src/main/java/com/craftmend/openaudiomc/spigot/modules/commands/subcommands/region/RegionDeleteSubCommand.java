@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.TimedRegionProperties;
+import com.craftmend.openaudiomc.spigot.modules.regions.registry.WorldRegionManager;
 import org.bukkit.ChatColor;
 
 public class RegionDeleteSubCommand extends SubCommand {
@@ -22,17 +23,21 @@ public class RegionDeleteSubCommand extends SubCommand {
     public void onExecute(User sender, String[] args) {
         String targetRegion = args[1].toLowerCase();
 
+        WorldRegionManager worldRegionManager = openAudioMcSpigot.getRegionModule().getWorld(sender.getWorld());
+
         // check if it was valid in the first place
-        RegionProperties rp = openAudioMcSpigot.getRegionModule().getRegionPropertiesMap().get(targetRegion);
+        RegionProperties rp = worldRegionManager.getRegionProperties(targetRegion);
         if (rp != null) {
-            OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class)
-                    .delete(rp);
+            if (rp.getId() != null && !(rp instanceof TimedRegionProperties)) {
+                OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class)
+                        .delete(rp);
+            }
 
             if (rp instanceof TimedRegionProperties) {
                 ((TimedRegionProperties) rp).destroy();
-            } else {
-                openAudioMcSpigot.getRegionModule().removeRegion(targetRegion);
             }
+
+            worldRegionManager.unregisterRegion(targetRegion);
 
             message(sender, ChatColor.RED + "The WorldGuard region with the id " + targetRegion + " no longer has a sound linked to it.");
         } else {

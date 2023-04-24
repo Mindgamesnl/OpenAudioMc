@@ -70,10 +70,18 @@ messages:
   # Message a player receives when the voicechat is back online again
   voicechat-service-recovered: '&7&oYour voicechat session got successfully recovered'
 
+  # A message players will periodically receive when they are not connected to voice chat,
+  # but others in their vicinity are. The minimum interval and range can be configured in the options section,
+  # or you can disable it entirely by following the settings below.
+  voicechat-players-in-vicinity: '&7&oGet social! Other players in your vicinity are using voice chat - join them and communicate. Use &b/audio&7&o to connect.'
+
 
 options:
   # If set to true, the player automatically receives a link upon joining
   send-on-join: true
+
+  # Delay in seconds before sending the link to the player
+  send-on-join-delay: 5
 
   # If set to true, the player gets reminded to connect (see messages.suggest-connection)
   remind-to-connect: true
@@ -139,6 +147,25 @@ options:
   # (banned users will get kicked after the data has loaded)
   voicechat-allow-joining-while-loading: true
 
+  # Force offline mode, should only be enabled if your server host doesn't allow for proxy plugins
+  force-offline-mode: false
+
+  # This world name will be used whenever the console executes a command that targets a world.
+  # We'll normally use the world the player/commandblock is in, but if the sender is not in a world, we'll use this one.
+  fallback-world-name: world
+
+  # This value dictates if the voicechat-players-in-vicinity will be sent to players in the vicinity of another player that is connected to voicechat.
+  # This can be useful if you want to encourage players to use voicechat, but you don't want to spam them with the message.
+  voicechat-hint-enabled: true
+
+  # This value is the minimum interval in seconds between sending the reminder to players in the vicinity of another player that is connected to voicechat.
+  # This doesn't mean that it'll be sent every X amount of seconds, the messages will halt if no players are in the vicinity of another player that is connected to voicechat.
+  voicechat-hint-interval: 120
+
+  # This value is the range (in blocks) in which players will receive the voicechat-hint message.
+  # I recommend setting this to at least 3 times the voicechat range
+  voicechat-hint-range: 135
+
 
 # PlaceholderAPI
 papi:
@@ -161,10 +188,12 @@ cdn:
   timeout-seconds: 5
   # This is the IP that'll be used for port validation, please don't touch this unless you've been instructed to by our support team
   ip-overwrite: none
+  enabled: false
 
 
 # REDIS
-# More explanation about redis: https://help.openaudiomc.net/redis
+# This is only used for syncing shows with other servers and the vistas modules.
+# Please disregard this if you don't know what you're doing.
 redis:
   # When set to true, the redis service will be enabled
   enabled: false

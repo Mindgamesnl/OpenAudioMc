@@ -8,19 +8,23 @@ import com.craftmend.openaudiomc.generic.rd.ports.PortChecker;
 import com.craftmend.openaudiomc.generic.rd.protocol.RegisterBody;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
-import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
-import com.craftmend.openaudiomc.generic.networking.rest.ServerEnvironment;
-import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
-import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
+import com.craftmend.openaudiomc.generic.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.rest.ServerEnvironment;
+import com.craftmend.openaudiomc.generic.rest.response.NoResponse;
+import com.craftmend.openaudiomc.generic.rest.routes.Endpoint;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.utils.data.RandomString;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -45,17 +49,28 @@ public class RestDirectService extends Service {
     }
 
     public void boot() {
+        // is it enabled?
+        if (!StorageKey.CDN_ENABLED.getBoolean()) {
+            OpenAudioLogger.toConsole("CDN is disabled, skipping boot");
+            return;
+        }
+
         // fix directory
         audioDirectory = new File(MagicValue.STORAGE_DIRECTORY.get(File.class), "/audio");
         if (!audioDirectory.exists()) {
             audioDirectory.mkdir();
         }
 
-        attemptServerBoot();
+        try {
+            attemptServerBoot();
+        } catch (Exception e) {
+            OpenAudioLogger.toConsole("Failed to start a cdn injector, falling back to http");
+            OpenAudioLogger.toConsole("Error: " + e.getMessage());
+        }
     }
 
     public RestDirectServer attemptServerBoot() {
-        String ip = StorageKey.AUTH_HOST.getString();
+        String ip = guessIp();
         if (OpenAudioMc.SERVER_ENVIRONMENT == ServerEnvironment.DEVELOPMENT) {
             ip = "localhost";
         }
@@ -64,8 +79,6 @@ public class RestDirectService extends Service {
             OpenAudioLogger.toConsole("Attempting to use IP overwrite with " + StorageKey.CDN_IP_OVERWRITE.getString());
             ip = StorageKey.CDN_IP_OVERWRITE.getString();
         }
-
-        OpenAudioLogger.toConsole("Using ip: " + ip);
 
         for (int port : checkable_ports) {
             // try to open a server
@@ -88,11 +101,12 @@ public class RestDirectService extends Service {
                             authenticationService.getServerKeySet().getPrivateKey().getValue()
                     );
 
-                    ApiResponse request = new RestRequest(RestEndpoint.DIRECT_REST)
-                            .setBody(registerBody)
-                            .executeInThread();
+                    RestRequest request = new RestRequest(NoResponse.class, Endpoint.DIRECT_REST);
+                    request.withPostJsonObject(registerBody);
+                    request.run();
 
-                    if (!request.getErrors().isEmpty()) {
+
+                    if (request.hasError()) {
                         restDirectServer.stop();
                         OpenAudioLogger.toConsole("The direct rest registration failed");
                         return null;
@@ -108,6 +122,16 @@ public class RestDirectService extends Service {
         }
         OpenAudioLogger.toConsole("Continuing without the RestDirect feature! None of the listed ports were accessible or available. Please contact support, your server/host might not be compatible!");
         return null;
+    }
+
+    @SneakyThrows
+    private String guessIp() {
+        URL whatismyip = new URL("http://checkip.amazonaws.com");
+        BufferedReader in = new BufferedReader(new InputStreamReader(
+                whatismyip.openStream()));
+
+        String ip = in.readLine(); //you get the IP as a String
+        return ip;
     }
 
 }
