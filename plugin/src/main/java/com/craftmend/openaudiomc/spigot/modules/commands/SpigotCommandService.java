@@ -40,11 +40,9 @@ public class SpigotCommandService extends Service {
                 new PlaySubCommand(openAudioMcSpigot),
                 new SpeakersSubCommand(openAudioMcSpigot),
                 new StopSubCommand(openAudioMcSpigot),
-                new HueSubCommand(openAudioMcSpigot),
                 new ShowSubCommand(openAudioMcSpigot),
                 new AliasSubCommand(),
                 new VoiceSubCommand()
-                //new PersonalSettingsSubCommand()
         );
 
         // if it is a older version, register the middleware

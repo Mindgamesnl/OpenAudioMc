@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.database;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.OpenAudioMcBuild;
 import com.craftmend.openaudiomc.generic.client.store.ClientDataStore;
 import com.craftmend.openaudiomc.generic.database.internal.DataStore;
 import com.craftmend.openaudiomc.generic.database.internal.Repository;
@@ -61,7 +62,7 @@ public class DatabaseService extends Service implements StormLogger {
         tables.add(Speaker.class);
         tables.add(StoredWorldChunk.class);
 
-        if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
+        if (OpenAudioMcBuild.IS_TESTING || OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
             log("Adding spigot tables");
             tables.add(TimedRegionProperties.class);
             tables.add(MediaRule.class);

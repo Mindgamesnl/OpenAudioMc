@@ -29,6 +29,7 @@ import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Instant;
 import java.util.*;
 
 public class SpigotConnection {
@@ -57,6 +58,7 @@ public class SpigotConnection {
     @Getter private final AudioChunkHandler audioChunkHandler;
     @Getter private final Set<PlayerLocationFollower> locationFollowers = new HashSet<>();
     @Getter private final Player bukkitPlayer;
+    @Setter @Getter private Instant lastVoiceReminderMessage = Instant.now();
 
     //plugin data
     @Setter

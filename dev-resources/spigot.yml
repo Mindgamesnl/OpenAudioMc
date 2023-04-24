@@ -19,7 +19,7 @@ messages:
   outdated-server: Outdated server! I'm still on {0}
   restart: Server is restarting
 settings:
-  bungeecord: true
+  bungeecord: false
   late-bind: false
   timeout-time: 60
   restart-on-crash: true

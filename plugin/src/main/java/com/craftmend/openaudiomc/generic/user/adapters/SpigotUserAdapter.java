@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.generic.user.adapters;
 
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
 import lombok.AllArgsConstructor;
 import net.md_5.bungee.api.ChatMessageType;
@@ -9,6 +10,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -58,6 +60,7 @@ public class SpigotUserAdapter implements User {
                         hoverMessage
                 ))
         };
+
         message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
         message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover));
 
@@ -101,6 +104,26 @@ public class SpigotUserAdapter implements User {
     @Override
     public String getName() {
         return player.getName();
+    }
+
+    @Override
+    public String getWorld() {
+        // player
+        if (player instanceof Player) {
+            return ((Player) player).getWorld().getName();
+        }
+
+        // entity
+        if (player instanceof org.bukkit.entity.Entity) {
+            return ((org.bukkit.entity.Entity) player).getWorld().getName();
+        }
+
+        // commandblock
+        if (player instanceof org.bukkit.command.BlockCommandSender) {
+            return ((org.bukkit.command.BlockCommandSender) player).getBlock().getWorld().getName();
+        }
+
+        return StorageKey.SETTINGS_DEFAULT_WORLD_NAME.getString();
     }
 
 }

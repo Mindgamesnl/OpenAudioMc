@@ -10,10 +10,11 @@ import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientUnlockVoiceChat;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceChatUnlockPayload;
-import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
-import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
+import com.craftmend.openaudiomc.generic.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.rest.response.NoResponse;
+import com.craftmend.openaudiomc.generic.rest.routes.Endpoint;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.voicechat.enums.VoiceApiStatus;
 import com.craftmend.openaudiomc.generic.voicechat.enums.VoiceServerEventType;
@@ -23,7 +24,6 @@ import lombok.Setter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class VoiceApiConnection {
 
@@ -142,7 +142,7 @@ public class VoiceApiConnection {
         status = VoiceApiStatus.IDLE;
         // we disconnected! only fires once
         // logout, since we're not using this session anymore
-        new RestRequest(RestEndpoint.END_VOICE_SESSION).executeInThread();
+        new RestRequest(NoResponse.class, Endpoint.VOICE_INVALIDATE_PASSWORD).run();
         for (ClientConnection client : OpenAudioMc.getService(NetworkingService.class).getClients()) {
             if (client.getRtcSessionManager().isReady()) {
                 client.getUser().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_UNSTABLE.getString()));

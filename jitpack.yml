@@ -1,7 +1,0 @@
-jdk:
-  - openjdk8
-before_install:
-   - cd 'plugin'
-install:
-   - echo "Running Install"
-   - mvn install

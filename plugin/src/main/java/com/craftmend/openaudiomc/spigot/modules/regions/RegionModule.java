@@ -1,30 +1,40 @@
 package com.craftmend.openaudiomc.spigot.modules.regions;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.OpenAudioMcBuild;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
-import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.media.MediaService;
+import com.craftmend.openaudiomc.generic.media.objects.Media;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.regions.adapters.LegacyRegionAdapter;
 import com.craftmend.openaudiomc.spigot.modules.regions.adapters.ModernRegionAdapter;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.AbstractRegionAdapter;
-import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionMedia;
+import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
+import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.RegionMutator;
+import com.craftmend.openaudiomc.spigot.modules.regions.listeners.WorldLoadListener;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
+import com.craftmend.openaudiomc.spigot.modules.regions.registry.WorldRegionManager;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
-
 import lombok.Getter;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
 public class RegionModule {
 
-    @Getter
-    private final Map<String, RegionProperties> regionPropertiesMap = new HashMap<>();
-    private final Map<String, RegionMedia> regionMediaMap = new HashMap<>();
     @Getter private AbstractRegionAdapter regionAdapter;
+    private final Map<String, WorldRegionManager> worldManagers = new HashMap<>();
+
+    // This list contains legacy regions that are not in a world.
+    // This is a fallback for legacy versions and kinda hacky, but we don't have a choice.
+    @Getter private Set<RegionProperties> regionsWithoutWorld = new HashSet<>();
 
     public RegionModule(@Nullable AbstractRegionAdapter customAdapter) {
         OpenAudioLogger.toConsole("Turns out you have WorldGuard installed! enabling regions and the region tasks..");
@@ -52,53 +62,39 @@ public class RegionModule {
             }
         }
 
-        Map<String, RegionProperties> regionWeight = new HashMap<>();
-        List<RegionProperties> deletable = new ArrayList<>();
         for (RegionProperties region : OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class).values()) {
+            // does this region adhere to a specific world?
+            if (region.hasWorlds()) {
+                // loop through all worlds
+                for (String world : region.getWorlds()) {
+                    WorldRegionManager worldManager = getWorld(world);
 
-            // check if we already have this region
-            if (regionPropertiesMap.containsKey(region.getRegionName()) && regionWeight.containsKey(region.getRegionName())) {
-                RegionProperties other = regionWeight.get(region.getRegionName());
-                if (other.getId() < region.getId()) {
-                    deletable.add(other);
+                    // does this world already contain a region with the same name?
+                    worldManager.registerRegion(region);
                 }
-
-                // i may be older as well, could also be
-                if (other.getId() > region.getId()) {
-                    deletable.add(region);
-                    continue;
-                }
+            } else {
+                // this region was made before the world system was introduced, so we need to add it to all worlds
+                regionsWithoutWorld.add(region);
             }
-
-
-            regionWeight.put(region.getRegionName(), region);
-
-            // check if the region is valid
-            if (!regionAdapter.doesRegionExist(region.getRegionName())) {
-                OpenAudioLogger.toConsole("Region " + region.getRegionName() + " is not valid, so we're skipping mem registry.");
-                continue;
-            }
-
-            registerRegion(region.getRegionName(), region);
-        }
-
-        for (RegionProperties regionProperties : deletable) {
-            OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class).delete(regionProperties);
         }
 
         OpenAudioMc.getService(MediaService.class).getResetTriggers().add(() -> {
-            regionMediaMap.clear();
+            // clean media once a new media adapter is loaded, this ensures that they will be re-evaluated
+            worldManagers.forEach((s, worldRegionManager) -> {worldRegionManager.clearMedia();});
         });
 
+        // register unknown regions
+        if (!OpenAudioMcBuild.IS_TESTING) {
+            // skip bukkit API during tests
+            for (World world : Bukkit.getWorlds()) {
+                getWorld(world.getName()).registerRegions(regionsWithoutWorld);
+            }
+
+            // register world load event
+            Bukkit.getPluginManager().registerEvents(new WorldLoadListener(this), OpenAudioMcSpigot.getInstance());
+        }
+
         this.regionAdapter.postLoad();
-    }
-
-    public void registerRegion(String id, RegionProperties propperties) {
-        regionPropertiesMap.put(id, propperties);
-    }
-
-    public void removeRegion(String id) {
-        regionPropertiesMap.remove(id);
     }
 
     public void forceUpdateRegions() {
@@ -107,15 +103,67 @@ public class RegionModule {
         }
     }
 
-    public RegionMedia getRegionMedia(String source, int volume, int fadeTimeMs) {
-        if (regionMediaMap.containsKey(source)) return regionMediaMap.get(source);
-        RegionMedia regionMedia = new RegionMedia(source, volume, fadeTimeMs);
-        regionMediaMap.put(source, regionMedia);
-        return regionMedia;
+    public Set<SpigotConnection> findPlayersInRegion(String regionName) {
+        Set<SpigotConnection> clients = new HashSet<>();
+        for (SpigotConnection client : OpenAudioMc.getService(SpigotPlayerService.class).getClients()) {
+            Collection<IRegion> regionsAtClient = getRegionAdapter().getAudioRegions(client.getBukkitPlayer().getLocation());
+            if (regionsAtClient.stream().anyMatch(region -> region.getId().equalsIgnoreCase(regionName))) {
+                clients.add(client);
+            }
+        }
+        return clients;
     }
 
-    public void removeRegionMedia(String id, String source) {
-        regionMediaMap.remove(source);
-        regionPropertiesMap.remove(id);
+    public WorldRegionManager getWorld(@Nullable String world) {
+        if (world == null) world = StorageKey.SETTINGS_DEFAULT_WORLD_NAME.getString();
+
+        if (!worldManagers.containsKey(world)) {
+            worldManagers.put(world, new WorldRegionManager(world));
+        }
+
+        return worldManagers.get(world);
+    }
+
+    public int mutateForMatchingWorld(RegionMutator mutator, String regionName, String... worlds) {
+        // edge case for when there are no worlds
+        if (worlds.length == 0) {
+            worlds = worldManagers.keySet().toArray(new String[0]);
+        }
+
+        int changedCount = 0;
+
+        // loop over all worlds
+        for (String world : worlds) {
+            WorldRegionManager worldManager = getWorld(world);
+
+            // does this world contain a region with the same name?
+            if (worldManager.containsRegion(regionName)) {
+                RegionProperties region = worldManager.getRegionProperties(regionName);
+                Media media = region.getMediaForWorld(worldManager);
+
+                // mutate the region
+                try {
+                    mutator.feed(region, media);
+                    changedCount++;
+                } catch (Exception e) {
+                    OpenAudioLogger.toConsole("Failed to mutate region " + regionName + " in world " + world);
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return changedCount;
+    }
+
+    public int getWorldCount() {
+        return worldManagers.size();
+    }
+
+    public int getRegionCount() {
+        int count = 0;
+        for (WorldRegionManager worldManager : worldManagers.values()) {
+            count += worldManager.getRegionCount();
+        }
+        return count;
     }
 }

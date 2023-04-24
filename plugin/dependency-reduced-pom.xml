@@ -11,7 +11,7 @@
   <name>openaudiomc</name>
   <version>${oa.version}</version>
   <description>The OpenAudioMc Java plugin and Api</description>
-  <url>https://craftmend.com/</url>
+  <url>https://openaudiomc.net/</url>
   <build>
     <defaultGoal>clean package</defaultGoal>
     <resources>
@@ -193,7 +193,7 @@
     </repository>
     <repository>
       <id>velocitypowered-repo</id>
-      <url>https://repo.velocitypowered.com/releases/</url>
+      <url>https://repo.papermc.io/repository/maven-public/</url>
     </repository>
     <repository>
       <id>minecraft-libraries</id>

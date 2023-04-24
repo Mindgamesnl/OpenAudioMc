@@ -2,10 +2,10 @@ package com.craftmend.openaudiomc.generic.rd.ports;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
-import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
-import com.craftmend.openaudiomc.generic.networking.rest.ServerEnvironment;
-import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
-import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
+import com.craftmend.openaudiomc.generic.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.rest.ServerEnvironment;
+import com.craftmend.openaudiomc.generic.rest.response.NoResponse;
+import com.craftmend.openaudiomc.generic.rest.routes.Endpoint;
 
 public class PortChecker {
 
@@ -40,12 +40,12 @@ public class PortChecker {
             return PortCheckResponse.MATCH;
         }
 
-        RestRequest r = new RestRequest(RestEndpoint.CDN_CHECK, url());
-        r.setVerbose(false);
+        RestRequest<NoResponse> r = new RestRequest<>(NoResponse.class, Endpoint.LOOPBACK_CHECK);
         r.setTimeout(timeout);
-        ApiResponse response = r.executeInThread();
-        if (response.getErrors().isEmpty()) {
-            if (response.responseAsString().equals(expectedResponse)) {
+        r.setBaseUrl(url());
+        r.run();
+        if (!r.hasError()) {
+            if (r.getRawResponse().equals(expectedResponse)) {
                 return PortCheckResponse.MATCH;
             }
         }

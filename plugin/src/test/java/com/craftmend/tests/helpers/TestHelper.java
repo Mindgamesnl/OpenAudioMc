@@ -1,7 +1,7 @@
 package com.craftmend.tests.helpers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.craftmend.CraftmendService;
+import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
@@ -19,7 +19,6 @@ import com.craftmend.tests.connection.impl.SystemConfiguration;
 import com.craftmend.tests.connection.impl.TestUserHooks;
 import com.craftmend.utils.Waiter;
 import lombok.SneakyThrows;
-import org.junit.BeforeClass;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -85,7 +84,7 @@ public class TestHelper implements OpenAudioInvoker {
 
         // openaudiomc is starting.. now wait for a predicate
         testLog("Waiting for boot...");
-        Waiter.waitUntil(unused -> OpenAudioMc.getService(CraftmendService.class).isInitialized(), 20);
+        Waiter.waitUntil(unused -> OpenAudioMc.getService(OpenaudioAccountService.class).isInitialized(), 20);
         return openAudioMc;
     }
 

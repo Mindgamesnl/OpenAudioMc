@@ -4,16 +4,12 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.authentication.requests.ClientTokenRequestBody;
 import com.craftmend.openaudiomc.generic.authentication.requests.SimpleTokenResponse;
-import com.craftmend.openaudiomc.generic.authentication.requests.ServerIdentityRequest;
-import com.craftmend.openaudiomc.generic.authentication.response.HostDetailsResponse;
-import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
-import com.craftmend.openaudiomc.generic.networking.rest.RestRequest;
-import com.craftmend.openaudiomc.generic.networking.rest.endpoints.RestEndpoint;
-import com.craftmend.openaudiomc.generic.networking.rest.interfaces.ApiResponse;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
+import com.craftmend.openaudiomc.generic.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.rest.routes.Endpoint;
 import com.craftmend.openaudiomc.generic.utils.data.ConcurrentHeatMap;
-import com.craftmend.openaudiomc.generic.networking.rest.Task;
+import com.craftmend.openaudiomc.generic.rest.Task;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -60,20 +56,20 @@ public class AuthenticationDriver {
                     authenticatable.getOwner().getName(),
                     authenticatable.getOwner().getUniqueId().toString(),
                     authenticatable.getAuth().getWebSessionKey(),
-                    service.getServerKeySet().getPublicKey().getValue(),
-                    service.getIdentity()
+                    service.getServerKeySet().getPublicKey().getValue()
             );
 
-            ApiResponse request = new RestRequest(RestEndpoint.CREATE_SESSION_TOKEN)
-                    .setBody(requestBody)
-                    .executeInThread();
+            RestRequest<SimpleTokenResponse> request = new RestRequest(SimpleTokenResponse.class, Endpoint.CREATE_SESSION_TOKEN);
+            request.withPostJsonObject(requestBody);
+            request.run();
 
-            if (!request.getErrors().isEmpty()) {
-                task.fail(request.getErrors().get(0).getCode());
+
+            if (request.hasError()) {
+                task.fail(request.getError());
                 return;
             }
 
-            String token = request.getResponse(SimpleTokenResponse.class).getToken();
+            String token = request.getResponse().getToken();
             task.finish(token);
 
             // push to cache
@@ -83,40 +79,5 @@ public class AuthenticationDriver {
             sessionCacheMap.clean();
         });
         return task;
-    }
-
-    public String createIdentityToken(HostDetailsResponse host) {
-        String ip;
-        if (host.getPreProxyForward() == null) {
-            ip = host.getIpAddress();
-        } else {
-            ip = host.getPreProxyForward();
-        }
-
-        ServerIdentityRequest requestBody = new ServerIdentityRequest(
-                ip,
-                host.getCountryCode(),
-                OpenAudioMc.getInstance().getInvoker().getServerPort()
-        );
-
-        ApiResponse request = new RestRequest(RestEndpoint.CREATE_HOST_TOKEN)
-                .setBody(requestBody)
-                .executeInThread();
-
-        if (!request.getErrors().isEmpty()) {
-            return request.getErrors().get(0).getCode().name();
-        }
-
-        return request.getResponse(SimpleTokenResponse.class).getToken();
-    }
-
-    public HostDetailsResponse getHost() {
-        RestRequest request = new RestRequest(RestEndpoint.GET_HOST_DETAILS);
-        ApiResponse response = request.executeInThread();
-        if (response.getErrors().size() > 0) {
-            OpenAudioLogger.toConsole(OpenAudioMc.getGson().toJson(response.getErrors()));
-            throw new IllegalStateException("Could not load host details");
-        }
-        return response.getResponse(HostDetailsResponse.class);
     }
 }
