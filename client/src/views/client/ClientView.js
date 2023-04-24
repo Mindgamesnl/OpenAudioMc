@@ -11,6 +11,11 @@ import {StaticFooter} from "../../components/footer/StaticFooter";
 import {InputModal} from "../../components/modal/InputModal";
 import DebugPage from "./pages/debug/DebugPage";
 
+import {SpeakerSvg} from "../../components/icons/speaker";
+import {MicrophoneSVG} from "../../components/icons/microphone";
+import {CogSVG} from "../../components/icons/cog";
+import {DebugSVG} from "../../components/icons/debug";
+
 class ClientView extends React.Component {
     render() {
         let {title, message, footer} = this.props.loadingOverlay;
@@ -19,10 +24,10 @@ class ClientView extends React.Component {
             <div className="app">
                 <div className="wrapper">
                     <TabWindow>
-                        <TabPage name="Audio" content={<AudioPage/>}/>
-                        <TabPage hidden={!this.props.voiceState.ready} name="VoiceChat" content={<VoicePage/>}/>
-                        <TabPage name="Settings" content={<SettingsPage/>}/>
-                        <TabPage hidden={!this.props.debugMode} name="Debug" content={<DebugPage />} />
+                        <TabPage name="Audio" content={<AudioPage/>} buttonContent={<SpeakerSvg />}/>
+                        <TabPage hidden={!this.props.voiceState.ready} buttonContent={<MicrophoneSVG />} name="VoiceChat" content={<VoicePage/>}/>
+                        <TabPage name="Settings" buttonContent={<CogSVG />} content={<SettingsPage/>}/>
+                        <TabPage hidden={!this.props.debugMode} buttonContent={<DebugSVG />} name="Debug" content={<DebugPage />} />
                     </TabWindow>
                 </div>
 

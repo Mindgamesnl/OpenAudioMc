@@ -124,7 +124,7 @@ class VoiceSettings extends React.Component {
                                         </svg>
 
                                         <input onInput={this.onVolumeChange}
-                                               className="rounded-lg w-full"
+                                               className="common-rounded-top common-rounded-bottom w-full"
                                                type="range" min="0" max="120" step="1"
                                                value={this.props.voicechatVolume}/>
                                     </div>

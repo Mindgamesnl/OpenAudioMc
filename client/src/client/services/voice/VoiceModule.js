@@ -215,7 +215,8 @@ export const VoiceModule = new class IVoiceModule {
 
     getPeerLocations() {
         let locations = [];
-        for (let [key, peer] of this.peerMap) {
+        // eslint-disable-next-line no-unused-vars
+        for (let [_, peer] of this.peerMap) {
             if (peer.stream) {
                 locations.push({
                     x: peer.stream.x,
