@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
+import PropTypes from "prop-types";
+import {getGlobalState} from "../../state/store";
 
 export let setTab = (tab) => {
     console.warn("TAB HANDLER IS NOT SET YET");
@@ -32,7 +34,8 @@ export class TabWindow extends Component {
         let pages = React.Children.map(this.props.children, child => ({
             name: child.props.name,
             content: child.props.content,
-            hidden: child.props.hidden
+            hidden: child.props.hidden,
+            buttonContent: child.props.buttonContent
         }));
 
         // remove hidden pages
@@ -50,9 +53,12 @@ export class TabWindow extends Component {
         return (
             <div className="main-container tabbed">
                 <div className="main-header flex justify-start">
-                    <span className="theme-color-text p-10 w-1/3">
-                        {getTranslation(c, "serverName")}
-                        {pill}
+                    <span className="theme-color-text md:pl-10 w-1/3">
+                        <div className={"rounding-bottom rounding-top px-1 py-1 flex items-center justify-start"}>
+                            <img src={"https://visage.surgeplay.com/face/512/" + getGlobalState().currentUser.uuid} className="rounding-top rounding-bottom inline mr-5 w-9 h-9" alt="avatar" />
+                            {getTranslation(c, "serverName")}
+                            {pill}
+                        </div>
                     </span>
 
                     <div className="header-menu w-1/3 center flex justify-center">
@@ -60,10 +66,11 @@ export class TabWindow extends Component {
                             <span className="tab" key={index}>
                                 <label
                                     href="#"
-                                    className={index === this.state.activePage ? "active main-header-link" : "main-header-link"}
+                                    className={(index === this.state.activePage ? "active main-header-link" : "main-header-link") + " h-auto flex items-center justify-center rounding-top"}
                                     onClick={() => this.setState({activePage: index})}
                                 >
-                                    {page.name}
+                                    {page.buttonContent && <>{page.buttonContent}</>}
+                                    {page.buttonContent && <span className="mr-2 ml-2 hiddennp lg:block">{page.name}</span>}
                                 </label>
                             </span>
                         ))}
@@ -86,5 +93,12 @@ export class TabPage extends Component {
     render() {
         return this.props.children;
     }
+}
+
+TabPage.propTypes = {
+    name: PropTypes.string.isRequired,
+    content: PropTypes.element.isRequired,
+    hidden: PropTypes.bool,
+    buttonContent: PropTypes.element
 }
 

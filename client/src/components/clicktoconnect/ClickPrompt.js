@@ -34,7 +34,7 @@ export class ClickPrompt extends React.Component {
                             </div>
                         </div>
                         <button type="submit"
-                                className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium common-rounded-top common-rounded-bottom text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                             {getTranslation(c, "home.confirmLoginButton")}
                         </button>
                     </div>} fullWidth={true}/>
@@ -46,7 +46,7 @@ export class ClickPrompt extends React.Component {
             //             <div className="grid lg:grid-cols-2 flex items-center">
             //                 <div className="mb-12 lg:mb-0 md:mt-10">
             //                     <div
-            //                         className="relative block rounded-lg shadow-lg px-6 py-12 md:px-12 lg:-mr-14 themed-text clickprompt-box">
+            //                         className="relative block common-rounded-top common-rounded-bottom shadow-lg px-6 py-12 md:px-12 lg:-mr-14 themed-text clickprompt-box">
             //                         <h2 className="text-5xl font-bold mb-4 display-5 themed-text">
             //                             {getTranslation(c, "home.welcome")}
             //                         </h2>
