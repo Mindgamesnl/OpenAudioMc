@@ -31,10 +31,10 @@ Please note that the test for `vistas-server` use an embedded Redis server that 
 
 ## Useful Links
 * **Patreon** - <https://patreon.com/mindgamesnl>
-* **Website** - <http://openaudiomc.net/>
+* **Website** - <https://openaudiomc.net/>
 * **Discord Community** - <https://discord.openaudiomc.net/>
-* **Documentation** - <http://help.openaudiomc.net/docs>
-* **Client** - <http://session.openaudiomc.net/>
+* **Documentation** - <https://openaudiomc.net/docs>
+* **Client** - <https://session.openaudiomc.net/>
 
 # Codebase core terminology
 - **Platform**: refers to the server environment where OpenAudioMc is running, like Bungeecord, Spigot, Velocity and Standalone
