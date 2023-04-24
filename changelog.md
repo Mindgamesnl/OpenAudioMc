@@ -29,6 +29,7 @@ Uprading from previous versions is pretty straight forward, but does need some e
    - Added a debug menu
    - Deprecated DropBox and GoogleDrive
    - Added a new, easier and simpler on-boarding for new users
+   - Redesigned the navbar and navigation
  - **Fixes**
    - Fixed a bug where the client would crash when you would try to connect to a server
    - Fixed a bug where the client would crash when you would try to connect to a server with a different version
@@ -39,6 +40,7 @@ Uprading from previous versions is pretty straight forward, but does need some e
    - Added clearer error messaging
    - Fixed a bug where some messages wouldn't translate if the language file took too long to load
    - The health check service should no longer reset clients on custom domains on their first timeout, except given a 5 minute grace period
+   - Changed UI elements to be more consistent and accessible
  
 ## Plugin
  - **New & Changed**
