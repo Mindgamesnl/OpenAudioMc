@@ -75,7 +75,32 @@ const initialState = {
         streamKey: null,
         radius: 25,
         mics: [], // cached list of microphones
-        peers: {}, // set of peers, mapped by stream key, {name, uuid, speaking, muted, loading}
+        peers: {
+            'dd': {
+                name: 'ludwigahgren',
+                uuid: "37784d2d-5c4a-40a3-9b13-89baa9eba0d7",
+                streamKey: "dadf",
+                speaking: false,
+                muted: false,
+                loading: false
+            },
+            'ss': {
+                name: 'Sara',
+                uuid: "e3575c64-57a7-4ac9-968b-da36f205167b",
+                streamKey: "ss",
+                speaking: true,
+                muted: false,
+                loading: false
+            },
+            'aa': {
+                name: 'Thrifting',
+                uuid: "1537e30ca66042ce9a7d92d3a2d6704f",
+                streamKey: "aa",
+                speaking: false,
+                muted: false,
+                loading: false
+            },
+        }, // set of peers, mapped by stream key, {name, uuid, speaking, muted, loading}
     },
 
     build: {

@@ -49,7 +49,7 @@ export class VoicePeerRow extends React.Component {
             avatarClass += " muted-self";
         }
 
-        let parentClass = "relative";
+        let parentClass = "relative ml-0 mr-0";
 
         if (loading) {
             parentClass += " animate-pulse";
