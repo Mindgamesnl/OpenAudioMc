@@ -20,7 +20,8 @@ public class SpigotRegionDetail implements StateDetail {
 
             RegionModule regionModule = OpenAudioMcSpigot.getInstance().getRegionModule();
             int toIgnore = regionModule.getRegionsWithoutWorld().size() * regionModule.getWorldCount();
-            return "Loaded Audio Regions: " + ChatColor.AQUA + "" + (regionModule.getRegionCount()-toIgnore) + " " + ChatColor.GRAY + "(" + regionModule.getWorldCount() + " worlds) " + ChatColor.DARK_GRAY + "[" + toIgnore + " legacy regions]";
+            int totalWithoutLegacy = regionModule.getRegionCount() - regionModule.getRegionsWithoutWorld().size();
+            return "Loaded Audio Regions: " + ChatColor.AQUA + "" + totalWithoutLegacy + " " + ChatColor.GRAY + "(" + regionModule.getWorldCount() + " worlds) " + ChatColor.DARK_GRAY + "[" + toIgnore + " legacy regions]";
         }
     }
 }
