@@ -24,7 +24,8 @@ public class TrainListener implements Listener {
 
     @EventHandler
     public void onVehicleDestroy(GroupRemoveEvent event) {
-        trainCartsModule.handleTrainDeletion(event.getGroup().get(0).getEntity().getUniqueId().toString());
+        String trainName = event.getGroup().getProperties().getTrainName();
+        trainCartsModule.handleTrainDeletion(trainName);
     }
 
     @EventHandler
@@ -34,10 +35,10 @@ public class TrainListener implements Listener {
             return;
 
         if (event.getEntered() instanceof Player) {
-            String frontCartId = member.getGroup().get(0).getEntity().getUniqueId().toString();
+            String trainName = member.getGroup().getProperties().getTrainName();
             Player player = (Player) event.getEntered();
 
-            TrainMedia media = trainCartsModule.getMediaFromTrain(frontCartId);
+            TrainMedia media = trainCartsModule.getMediaFromTrain(trainName);
             if (media == null) return;
 
             SpigotConnection spigotConnection = OpenAudioMc.getService(SpigotPlayerService.class).getClient(player);

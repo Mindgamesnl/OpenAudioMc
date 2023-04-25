@@ -28,16 +28,16 @@ public class TrainCartsModule {
         openAudioMcSpigot.registerEvents(new TrainListener(this));
     }
 
-    public TrainMedia getMediaFromTrain(String trainId) {
-        return trainMediaMap.get(trainId);
+    public TrainMedia getMediaFromTrain(String trainName) {
+        return trainMediaMap.get(trainName);
     }
 
-    public void handleTrainDeletion(String trainId) {
-        trainMediaMap.remove(trainId);
+    public void handleTrainDeletion(String trainName) {
+        trainMediaMap.remove(trainName);
     }
 
-    public void stopStrain(String frontCartId, SignActionEvent event) {
-        TrainMedia media = getMediaFromTrain(frontCartId);
+    public void stopStrain(String trainName, SignActionEvent event) {
+        TrainMedia media = getMediaFromTrain(trainName);
         if (media == null) return;
 
         if (!event.getGroup().isEmpty()) {
@@ -50,17 +50,17 @@ public class TrainCartsModule {
             }
         }
 
-        trainMediaMap.remove(frontCartId);
+        trainMediaMap.remove(trainName);
     }
 
-    public void registerTrain(String frontCartId, String source, SignActionEvent event) {
-        if (trainMediaMap.containsKey(frontCartId)) stopStrain(frontCartId, event);
+    public void registerTrain(String trainName, String source, SignActionEvent event) {
+        if (trainMediaMap.containsKey(trainName)) stopStrain(trainName, event);
 
         // for broken stupid signs
         if (source == null) return;
 
         TrainMedia media = new TrainMedia(source);
-        trainMediaMap.put(frontCartId, media);
+        trainMediaMap.put(trainName, media);
 
         if (!event.getGroup().isEmpty()) {
             MinecartGroup member = event.getGroup();
