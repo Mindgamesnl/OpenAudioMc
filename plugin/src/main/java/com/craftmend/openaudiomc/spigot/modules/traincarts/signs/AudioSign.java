@@ -28,16 +28,16 @@ public class AudioSign extends SignAction {
         if (!event.isPowered())
             return;
 
-        String frontCartId = event.getGroup().get(0).getEntity().getUniqueId().toString();
+        String trainName = event.getGroup().getProperties().getTrainName();
 
         if (event.getLine(2).equalsIgnoreCase("stop")) {
-            trainCartsModule.stopStrain(frontCartId, event);
+            trainCartsModule.stopStrain(trainName, event);
             return;
         }
 
         String alias = event.getLine(2) + event.getLine(3);
         // register play media and update current occupants
-        trainCartsModule.registerTrain(frontCartId, alias, event);
+        trainCartsModule.registerTrain(trainName, alias, event);
     }
 
     public boolean build(SignChangeActionEvent event) {
