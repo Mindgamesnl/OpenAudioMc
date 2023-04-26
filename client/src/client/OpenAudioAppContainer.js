@@ -114,7 +114,7 @@ class OpenAudioAppContainer extends React.Component {
                     loadingState: "Welcome " + tokenSet.name + "! Loading your data...",
                 });
 
-                reportVital('metrics:betalogin')
+                reportVital('metrics:prodlogin')
 
                 return tokenSet;
             })
