@@ -1,4 +1,5 @@
 import {getGlobalState} from "../../../../state/store";
+import {debugLog} from "../../debugging/DebugService";
 
 export class Channel {
 
@@ -121,6 +122,13 @@ export class Channel {
         }
     }
 
+    tick() {
+        // tick all sounds
+        for (let sound of this.sounds) {
+            sound.tick();
+        }
+    }
+
     updateFromMasterVolume() {
         let effectiveVolume = getGlobalState().settings.normalVolume;
 
@@ -134,6 +142,7 @@ export class Channel {
     destroy() {
         this.interruptFade();
         for (let sound of this.sounds) {
+            debugLog("Destroying sound", sound)
             sound.destroy();
         }
     }

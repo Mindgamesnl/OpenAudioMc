@@ -4,7 +4,10 @@ const MAX_DEBUG_VALUES = 60 * 5;
 let debugValues = {};
 let debugLogLines = [];
 
-export function debugLog(message) {
+export function debugLog(message, ...args) {
+    // combine the message and the args
+    message = message + " " + args.join(" ");
+
     if (debugLogLines.length > 25) {
         // remove the first one
         debugLogLines.shift();

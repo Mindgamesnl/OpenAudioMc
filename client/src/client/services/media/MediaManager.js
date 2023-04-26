@@ -4,6 +4,7 @@ import {Sound} from "./objects/Sound";
 import {getGlobalState, store} from "../../../state/store";
 import {SocketManager} from "../socket/SocketModule";
 import * as PluginChannel from "../../util/PluginChannel";
+import {debugLog} from "../debugging/DebugService";
 
 export const MediaManager = new class IMediaManager {
 
@@ -73,6 +74,7 @@ export const MediaManager = new class IMediaManager {
     }
 
     destroySounds(soundId, all, instantly, transition, atTheEnd = function () {}) {
+        debugLog("Destroying sounds", soundId, all, instantly, transition, atTheEnd)
         let time = transition;
         if (time == null) {
             time = 500;

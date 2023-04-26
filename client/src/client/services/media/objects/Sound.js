@@ -62,19 +62,17 @@ export class Sound extends AudioSourceProcessor {
         this.soundElement.setAttribute("display", "none");
         this.soundElement.preload = "auto";
         this.soundElement.abort = console.log;
+    }
 
-        // can we already play through?
-        if (this.soundElement.readyState >= 4) {
-            this.loaded = true;
-            for (let i = 0; i < this.initCallbacks.length; i++) {
-                this.initCallbacks[i]()
-            }
-        }
-
-        this.soundElement.oncanplaythrough = () => {
-            this.loaded = true;
-            for (let i = 0; i < this.initCallbacks.length; i++) {
-                this.initCallbacks[i]()
+    tick() {
+        if (!this.loaded &&  this.soundElement != null) {
+            // do we have metadata?
+            if (this.soundElement.readyState >= 2) {
+                debugLog("Ready state is " + this.soundElement.readyState + ", metadata is available")
+                this.loaded = true;
+                for (let i = 0; i < this.initCallbacks.length; i++) {
+                    this.initCallbacks[i]()
+                }
             }
         }
     }
