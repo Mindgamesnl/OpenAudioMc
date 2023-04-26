@@ -1,7 +1,7 @@
 import {Channel} from "./Channel";
 import {Sound} from "./Sound";
 import {getGlobalState} from "../../../../state/store";
-import {feedDebugValue} from "../../debugging/DebugService";
+import {debugLog, feedDebugValue} from "../../debugging/DebugService";
 import {DebugStatistic} from "../../debugging/DebugStatistic";
 
 export class Mixer {
@@ -12,6 +12,17 @@ export class Mixer {
         this.areSoundsPlaying = false;
         this.ambianceSoundMedia = null;
         this.recentSource = "/none";
+
+        // loop over channels and call tick()
+        setInterval(() => {
+            this._tick();
+        }, 250);
+    }
+
+    _tick() {
+        this.channels.forEach((channel, key) => {
+            channel.tick();
+        });
     }
 
     _updatePlayingSounds() {
@@ -98,6 +109,7 @@ export class Mixer {
     }
 
     removeChannel(channelName) {
+        debugLog("Removing channel " + channelName)
         let channel;
         if (channelName instanceof Channel) {
             channel = channelName;
