@@ -1,8 +1,10 @@
 package com.craftmend.openaudiomc.generic.commands.subcommands;
 
+import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.platform.OaColor;
+import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.rest.routes.Endpoint;
 import com.craftmend.openaudiomc.generic.rest.types.ClaimCodeResponse;
@@ -19,6 +21,11 @@ public class LinkSubCommand extends SubCommand {
 
     @Override
     public void onExecute(User sender, String[] args) {
+
+        if (OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
+            message(sender, Platform.makeColor("RED") + "WARNING! This command can only be executed on you top-level server.");
+            return;
+        }
 
         message(sender, OaColor.GRAY + "Generating link...");
 
