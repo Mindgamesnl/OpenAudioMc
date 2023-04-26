@@ -5,6 +5,7 @@ import {SocketManager} from "../../socket/SocketModule";
 import * as PluginChannel from "../../../util/PluginChannel";
 import {ReportError} from "../../../util/ErrorReporter";
 import {getGlobalState} from "../../../../state/store";
+import {debugLog} from "../../debugging/DebugService";
 
 export class Sound extends AudioSourceProcessor {
 
@@ -61,10 +62,20 @@ export class Sound extends AudioSourceProcessor {
         this.soundElement.setAttribute("display", "none");
         this.soundElement.preload = "auto";
         this.soundElement.abort = console.log;
-        this.loaded = true;
 
-        for (let i = 0; i < this.initCallbacks.length; i++) {
-            this.initCallbacks[i]()
+        // can we already play through?
+        if (this.soundElement.readyState >= 4) {
+            this.loaded = true;
+            for (let i = 0; i < this.initCallbacks.length; i++) {
+                this.initCallbacks[i]()
+            }
+        }
+
+        this.soundElement.oncanplaythrough = () => {
+            this.loaded = true;
+            for (let i = 0; i < this.initCallbacks.length; i++) {
+                this.initCallbacks[i]()
+            }
         }
     }
 
@@ -210,18 +221,19 @@ export class Sound extends AudioSourceProcessor {
 
     startDate(date) {
         this.whenInitialized(() => {
+            debugLog("Starting synced media");
             let start = new Date(date);
             let predictedNow = TimeService.getPredictedTime();
-            let seconds = (predictedNow - start) / 1000
-            console.log("Started " + seconds + " ago")
+            let seconds = (predictedNow - start) / 1000;
+            debugLog("Started " + seconds + " ago");
             let length = this.soundElement.duration;
-            if (seconds > length) {
-                let times = Math.floor(seconds / length);
-                seconds = seconds - (times * length);
-            }
-            console.log("Starting " + seconds + " in")
-            this.setTime(seconds);
-        })
+            debugLog("Length " + length + " seconds");
+            let loops = Math.floor(seconds / length);
+            let remainingSeconds = seconds % length;
+            debugLog("Played " + loops + " loops");
+            debugLog("Remaining " + remainingSeconds + " seconds");
+            this.setTime(remainingSeconds);
+        });
     }
 
     setTime(target) {

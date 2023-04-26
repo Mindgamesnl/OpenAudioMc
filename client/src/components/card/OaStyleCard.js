@@ -18,13 +18,21 @@ export class OaStyleCard extends React.Component {
 
         let hasAlert = this.props.alertBody != null || this.props.alertTitle != null;
 
+        let bodyClass = "panel-body";
+        if (this.props.noPadding) {
+            bodyClass += " no-padding";
+        }
+        if (this.props.dark) {
+            bodyClass += " panel-body-dark";
+        }
+
         return (
             <div className={width}>
                 <div className={"panel panel-default"}>
                     <div className={heading}>
                         <h1>{this.props.title}</h1>
                     </div>
-                    <div className={"panel-body" + (this.props.dark ? " panel-body-dark" : "")}>
+                    <div className={bodyClass}>
                         { hasAlert && (
                             <div
                                 className="bg-green-200 border-t border-b border-green-500 text-green-700 px-4 my-3 pt-2 pb-2 mb-5"
@@ -52,4 +60,5 @@ OaStyleCard.propTypes = {
     alertTitle: PropTypes.string,
     fullWidth: PropTypes.bool,
     dark: PropTypes.bool,
+    noPadding: PropTypes.bool
 }
