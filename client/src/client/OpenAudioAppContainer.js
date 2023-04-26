@@ -14,6 +14,7 @@ import {toast} from "react-toastify";
 import Cookies from "js-cookie";
 import {reportVital} from "./util/vitalreporter";
 import {WorldModule} from "./services/world/WorldModule";
+import {debugLog} from "./services/debugging/DebugService";
 
 export const OAC = createContext({});
 let oldColors = ["#2c78f6", "#4F46E5"]
@@ -114,6 +115,8 @@ class OpenAudioAppContainer extends React.Component {
                     loadingState: "Welcome " + tokenSet.name + "! Loading your data...",
                 });
 
+                debugLog("Token '"+ tokenSet.token + "' loaded for user '" + tokenSet.name + "'");
+
                 reportVital('metrics:prodlogin')
 
                 return tokenSet;
@@ -160,8 +163,10 @@ class OpenAudioAppContainer extends React.Component {
                 if (serverData.useTranslations) {
                     let localLanguage = navigator.language || navigator.userLanguage;
                     let language = localLanguage.split("-")[0];
+                    debugLog("Detected language: " + language);
                     await this.messageModule.handleCountry(language)
                 } else {
+                    debugLog("Translations disabled, skipping language detection");
                     setGlobalState({
                         // overwrite some messages
                         lang: {
@@ -171,6 +176,10 @@ class OpenAudioAppContainer extends React.Component {
                         }
                     });
                 }
+
+                debugLog("Server: " + serverData.displayName + " (" + publicServerKey + ")");
+                debugLog("Server is premium: " + serverData.isPatreon);
+                debugLog("Server bucket folder: " + serverData.bucketFolder);
                 setGlobalState({
                     lang: {"serverName": serverData.displayName},
                     isPremium: serverData.isPatreon || serverData.voicechatSlots > 10,

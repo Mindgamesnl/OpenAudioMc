@@ -1,6 +1,11 @@
 import React from "react";
 import DebugPanel from "../../../../components/debugging/DebugPanel";
-import {feedDebugValue, getDebugValues, getLatestDebugValue} from "../../../../client/services/debugging/DebugService";
+import {
+    feedDebugValue,
+    getDebugLog,
+    getDebugValues,
+    getLatestDebugValue
+} from "../../../../client/services/debugging/DebugService";
 import {OaStyleCard} from "../../../../components/card/OaStyleCard";
 import {VERSION} from "../../../../index";
 import {getGlobalState} from "../../../../state/store";
@@ -8,6 +13,7 @@ import {Radar} from "../../../../components/graph/Radar";
 import {WorldModule} from "../../../../client/services/world/WorldModule";
 import {VoiceModule} from "../../../../client/services/voice/VoiceModule";
 import MixerStateView from "../../../../components/mixer/MixerStateView";
+import {LogViewer} from "../../../../components/logs/DebugLogComponent";
 
 export default class DebugPage extends React.Component {
 
@@ -31,7 +37,7 @@ export default class DebugPage extends React.Component {
             playerLocation: {},
             speakers: [],
             peers: [],
-            panels: []
+            panels: [],
         }
     }
 
@@ -45,7 +51,7 @@ export default class DebugPage extends React.Component {
                         yaw: WorldModule.player.yaw,
                     },
                     peers: VoiceModule.getPeerLocations(),
-                    speakers: WorldModule.getSpeakerLocations(),
+                    speakers: WorldModule.getSpeakerLocations()
                 })
             }, 50),
             graphTask: setInterval(() => {
@@ -88,6 +94,7 @@ export default class DebugPage extends React.Component {
     }
 
     render() {
+        let log = getDebugLog();
         return (
             <div className={"w-full h-full flex flex-col"}>
                 <div className="flex flex-wrap">
@@ -105,6 +112,10 @@ export default class DebugPage extends React.Component {
                     <OaStyleCard title={"Spatial Rendering"}>
                         <Radar player={this.state.playerLocation} entities={this.state.peers} speakers={this.state.speakers} />/>
                         <p className={"text-black"}>My location X:{this.state.playerLocation.x} Y:{this.state.playerLocation.y} Z:{this.state.playerLocation.z}</p>
+                    </OaStyleCard>
+
+                    <OaStyleCard title={"Logs"} width={"2"} noPadding={true}>
+                        <LogViewer log={log}/>
                     </OaStyleCard>
 
                     <MixerStateView />
