@@ -67,7 +67,7 @@ class AdvancedVoiceSettings extends React.Component {
         let mics = Object.values(this.props.voiceState.mics)
         let currentMic = this.props.preferredMicId;
 
-        let surroundText = !this.state.surroundSound ? getTranslation(c, "vc.settings.surround.enable") : getTranslation(c, "vc.settings.surround.disable");
+        let surroundText = !this.props.surroundSound ? getTranslation(c, "vc.settings.surround.enable") : getTranslation(c, "vc.settings.surround.disable");
 
         return (
             <div className={"p-8"}>
