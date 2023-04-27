@@ -13,6 +13,10 @@ navbar.settings=Einstellungen
 navbar.free=kostenlos
 navbar.premium=premium
 
+home.confirmLoginHeader=Willkommen zurück!
+home.confirmLoginBody=Versuchst du dich gerade als <i>%player</i> einzuloggen?<br />Falls nicht, schließe bitte das Fenster.
+home.confirmLoginButton=Ja, das bin ich!
+
 home.activate=Sitzung starten
 home.activateText=Diese persönliche Webseite wird dazu verwendet, deinen Ton und deine Stimme während deines Besuchs abzuspielen. Bitte klicke auf eine beliebige Stelle auf dieser Seite, um zu beginnen.
 home.clickAnywhere=Klicke auf eine beliebige Stelle, um zu beginnen.
