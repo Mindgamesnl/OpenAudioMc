@@ -213,7 +213,15 @@ export class Sound extends AudioSourceProcessor {
     setVolume(volume) {
         this.whenInitialized(() => {
             if (volume > 100) volume = 100;
-            this.soundElement.volume = volume / 100;
+            let v = volume / 100;
+            // is v non-finite?
+            if (v !== v || v === Infinity || v === -Infinity) {
+                // Yes.
+                // Setting volume to NaN is the same as setting it to 1, according to the
+                // specification. See https://html.spec.whatwg.org/multipage/embedded-content.html#dom-media-volume
+                v = 0;
+            }
+            this.soundElement.volume = v;
         })
     }
 
