@@ -15,6 +15,7 @@ import {SpeakerSvg} from "../../components/icons/speaker";
 import {MicrophoneSVG} from "../../components/icons/microphone";
 import {CogSVG} from "../../components/icons/cog";
 import {DebugSVG} from "../../components/icons/debug";
+import {getTranslation} from "../../client/OpenAudioAppContainer";
 
 class ClientView extends React.Component {
     render() {
@@ -24,10 +25,10 @@ class ClientView extends React.Component {
             <div className="app">
                 <div className="wrapper">
                     <TabWindow>
-                        <TabPage name="Audio" content={<AudioPage/>} buttonContent={<SpeakerSvg />}/>
-                        <TabPage hidden={!this.props.voiceState.ready} buttonContent={<MicrophoneSVG />} name="VoiceChat" content={<VoicePage/>}/>
-                        <TabPage name="Settings" buttonContent={<CogSVG />} content={<SettingsPage/>}/>
-                        <TabPage hidden={!this.props.debugMode} buttonContent={<DebugSVG />} name="Debug" content={<DebugPage />} />
+                        <TabPage name={getTranslation(null, "navbar.audio")} content={<AudioPage/>} buttonContent={<SpeakerSvg />}/>
+                        <TabPage name={getTranslation(null, "navbar.vc")} hidden={!this.props.voiceState.ready} buttonContent={<MicrophoneSVG />} content={<VoicePage/>}/>
+                        <TabPage name={getTranslation(null, "navbar.settings")} buttonContent={<CogSVG />} content={<SettingsPage/>}/>
+                        <TabPage name={getTranslation(null, "navbar.debug")} hidden={!this.props.debugMode} buttonContent={<DebugSVG />} content={<DebugPage />} />
                     </TabWindow>
                 </div>
 

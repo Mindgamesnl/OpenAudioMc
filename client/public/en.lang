@@ -10,6 +10,7 @@ ui.logout=Log out
 navbar.audio=Audio
 navbar.vc=VoiceChat
 navbar.settings=Settings
+navbar.debug=Debug
 navbar.free=free
 navbar.premium=premium
 
