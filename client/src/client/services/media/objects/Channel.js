@@ -57,46 +57,54 @@ export class Channel {
         }
 
         if (!getGlobalState().settings.fadeAudio) {
-            time = 2
+            time = 2;
         }
 
         this.targetAfterFade = targetVolume;
         this.isFading = true;
-        const fadeTo = (sound, dur, toVol, callback) => {
-            dur      = dur || 1000;
-            toVol    = toVol || 0;
-            let k    = this.channelVolume,
-                t    = dur/Math.abs(k - toVol),
-                i    = setInterval(() => {
-                    k = k > toVol ? k - 1 : k + 1;
 
-                    let effectiveVolume = getGlobalState().settings.normalVolume;
+        const intervalTime = 25; // Set a fixed time interval
+        const numSteps = Math.ceil(time / intervalTime);
+        const startVol = this.channelVolume;
+        const deltaVol = targetVolume - startVol;
+        let step = 0;
 
-                    // handle channel volume
-                    let result = (k / 100) * effectiveVolume;
-
-                    for (let sound of this.sounds) {
-                        sound.setVolume(result);
-                    }
-
-                    this.channelVolume = k;
-
-                    if(k === toVol){
-                        extraCallback();
-                        clearInterval(i);
-                        const index = this.fadeTimer.indexOf(i);
-                        if (index > -1) {
-                            this.fadeTimer.splice(index, 1);
-                        }
-                        this.isFading = false;
-                        i = null;
-                    }
-                }, t);
-            this.fadeTimer.push(i);
+        const volumeFn = (x) => {
+            // Use an exponential function to interpolate between startVol and targetVolume
+            return startVol + deltaVol * Math.pow(x, 2);
         };
 
-        fadeTo(this, time, targetVolume, extraCallback);
+        let intervalId = setInterval(() => {
+            step++;
+
+            let effectiveVolume = getGlobalState().settings.normalVolume;
+            const x = step / numSteps;
+            const volume = volumeFn(x);
+
+            // handle channel volume
+            let result = (volume / 100) * effectiveVolume;
+
+            for (let sound of this.sounds) {
+                sound.setVolume(result);
+            }
+
+            this.channelVolume = volume;
+
+            if (step >= numSteps) {
+                extraCallback();
+                clearInterval(intervalId);
+                const index = this.fadeTimer.indexOf(intervalId);
+                if (index > -1) {
+                    this.fadeTimer.splice(index, 1);
+                }
+                this.isFading = false;
+                intervalId = null;
+            }
+        }, intervalTime);
+
+        this.fadeTimer.push(intervalId);
     }
+
 
 
     interruptFade() {
