@@ -5,7 +5,7 @@ import {getTranslation, handleStreamerMode} from "../../../../client/OpenAudioAp
 import {getGlobalState, setGlobalState} from "../../../../state/store";
 import {connect} from "react-redux";
 import {makeid} from "../../../../client/util/random";
-import {feedDebugValue} from "../../../../client/services/debugging/DebugService";
+import {debugLog, feedDebugValue} from "../../../../client/services/debugging/DebugService";
 import {DebugStatistic} from "../../../../client/services/debugging/DebugStatistic";
 
 export const settingSvg = {
@@ -139,10 +139,10 @@ export function untrackPanner(id) {
 }
 
 
-function applyPannerProperties(pannerNode, maxDistance) {
+function applyPannerProperties(pannerNode, maxDistance, forceExpontential = false) {
     let setting = getGlobalState().settings.rolloffFactor;
     let audioRendering = getGlobalState().settings.spatialRenderingMode;
-    if (setting > 0.4) {
+    if (setting > 0.4 || forceExpontential) {
         pannerNode.rolloffFactor = parseFloat(setting);
         pannerNode.distanceModel = "exponential";
     } else {
@@ -163,9 +163,12 @@ function applyPannerProperties(pannerNode, maxDistance) {
     }
 }
 
-export function applyPannerSettings(pannerNode) {
-    let maxDistance = getGlobalState().voiceState.radius
-    applyPannerProperties(pannerNode, maxDistance)
+export function applyPannerSettings(pannerNode, maxDistance = 0, forceExponential = false) {
+    if (maxDistance === 0) {
+        debugLog("No max distance provided, using global state")
+        maxDistance = getGlobalState().voiceState.radius
+    }
+    applyPannerProperties(pannerNode, maxDistance, forceExponential)
     let id = makeid(5);
     pannerTrackers[id] = pannerNode
     feedDebugValue(DebugStatistic.TRACKED_PANNERS, Object.keys(pannerTrackers).length)
