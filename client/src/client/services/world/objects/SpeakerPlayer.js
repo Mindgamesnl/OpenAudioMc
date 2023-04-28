@@ -28,7 +28,7 @@ export class SpeakerPlayer {
         MediaManager.mixer.addChannel(createdChannel);
 
         createdMedia.whenInitialized(async () => {
-            createdChannel.setChannelVolume(0);
+            createdChannel.setChannelVolume(100);
             createdMedia.startDate(this.startInstant, true);
             await createdMedia.finalize()
             createdMedia.setLooping(true);
