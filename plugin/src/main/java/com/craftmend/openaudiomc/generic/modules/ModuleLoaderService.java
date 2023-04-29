@@ -39,7 +39,6 @@ public class ModuleLoaderService extends Service {
             Files.copy(in, Paths.get(new File(modulesDir, "migrate.map-to-storm.jar").getPath()), StandardCopyOption.REPLACE_EXISTING);
         }
 
-
         if (modulesDir.isDirectory()) {
             log("Loading modules from " + modulesDir.getAbsolutePath());
             for (File file : modulesDir.listFiles()) {
