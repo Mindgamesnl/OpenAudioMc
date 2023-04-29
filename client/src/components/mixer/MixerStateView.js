@@ -53,7 +53,6 @@ export default class MixerStateView extends React.Component {
                                 <li><b>Loaded</b>: {String(sound.loaded)}</li>
                                 <li><b>Started Loading</b>: {String(sound.startedLoading)}</li>
                                 <li><b>Had Error</b>: {String(sound.hadError)}</li>
-                                <li><b>Error</b>: {sound.error}</li>
                                 <li><b>Trackable</b>: {String(sound.trackable)}</li>
                                 <li><b>Is Destroyed</b>: {String(sound.destroyed)}</li>
                             </ul>
