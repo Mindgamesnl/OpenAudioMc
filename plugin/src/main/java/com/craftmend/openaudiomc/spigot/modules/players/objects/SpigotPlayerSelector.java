@@ -116,7 +116,7 @@ public class SpigotPlayerSelector {
     }
 
     private String stripNonNumeric(String input) {
-        return input.replaceAll("[^0-9]", "");
+        return input.replaceAll("[^\\d-]", "");
     }
 
     /**
