@@ -44,6 +44,8 @@ export class Sound extends AudioSourceProcessor {
         source = await this.translate(source);
 
         this.soundElement = await GetAudio(source, true, allowCaching);
+        // mute default
+        this.soundElement.volume = 0;
 
         // error handling
         this.soundElement.onerror = (error) => {
@@ -71,7 +73,12 @@ export class Sound extends AudioSourceProcessor {
                 debugLog("Ready state is " + this.soundElement.readyState + ", metadata is available")
                 this.loaded = true;
                 for (let i = 0; i < this.initCallbacks.length; i++) {
-                    this.initCallbacks[i]()
+                    let shouldStop = this.initCallbacks[i]()
+                    if (shouldStop) {
+                        debugLog("Stopping init callbacks")
+                        this.initCallbacks = []
+                        return
+                    }
                 }
             }
         }
@@ -215,6 +222,7 @@ export class Sound extends AudioSourceProcessor {
             if (volume > 100) volume = 100;
             let v = volume / 100;
             // is v non-finite?
+            // eslint-disable-next-line no-self-compare
             if (v !== v || v === Infinity || v === -Infinity) {
                 // Yes.
                 // Setting volume to NaN is the same as setting it to 1, according to the
@@ -248,11 +256,16 @@ export class Sound extends AudioSourceProcessor {
 
     destroy() {
         this.whenInitialized(() => {
+
+            // cancel current fades
+            this.channel.interruptFade();
+
             this.destroyed = true;
             this.gotShutDown = true;
             this.setLooping(false);
             this.soundElement.pause();
             this.soundElement.remove();
+            return true;
         })
     }
 

@@ -42,11 +42,13 @@ export async function handleCreateMedia(data) {
         let startVolume = convertDistanceToVolume(maxDistance, distance);
         createdChannel.setTag("SPECIAL");
         createdChannel.maxDistance = maxDistance;
-        createdChannel.fadeChannel(startVolume, fadeTime);
+        createdMedia.whenInitialized(() => {
+            createdChannel.fadeChannel(startVolume, fadeTime);
+        });
     } else {
         // default sound, just play
         createdChannel.setTag("DEFAULT");
-        setTimeout(() => {
+        createdMedia.whenInitialized(() => {
             if (fadeTime === 0) {
                 createdChannel.setChannelVolume(volume);
                 createdChannel.updateFromMasterVolume();
@@ -54,7 +56,7 @@ export async function handleCreateMedia(data) {
                 createdChannel.updateFromMasterVolume();
                 createdChannel.fadeChannel(volume, fadeTime);
             }
-        }, 1);
+        });
     }
     createdChannel.setTag(flag);
     MediaManager.mixer.updateCurrent();

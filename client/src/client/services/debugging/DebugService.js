@@ -1,5 +1,3 @@
-import {getGlobalState, setGlobalState} from "../../../state/store";
-
 const MAX_DEBUG_VALUES = 60 * 5;
 let debugValues = {};
 let debugLogLines = [];
@@ -8,12 +6,13 @@ export function debugLog(message, ...args) {
     // combine the message and the args
     message = message + " " + args.join(" ");
 
-    if (debugLogLines.length > 25) {
+    if (debugLogLines.length > 10) {
         // remove the first one
         debugLogLines.shift();
     }
 
     debugLogLines.push(message);
+    console.log("[DEBUG]", message);
 }
 
 export function getDebugLog() {
