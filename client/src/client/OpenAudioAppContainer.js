@@ -116,9 +116,6 @@ class OpenAudioAppContainer extends React.Component {
                 });
 
                 debugLog("Token '"+ tokenSet.token + "' loaded for user '" + tokenSet.name + "'");
-
-                reportVital('metrics:prodlogin')
-
                 return tokenSet;
             })
 
@@ -224,6 +221,8 @@ class OpenAudioAppContainer extends React.Component {
                     //eslint-disable-next-line
                     handleStreamerMode();
                 }
+
+                reportVital('metrics:prodlogin')
 
             })
 
