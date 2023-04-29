@@ -45,19 +45,7 @@ public class PredictiveMediaService extends Service {
 
     @Override
     public void onEnable() {
-        OpenAudioMc.getService(NetworkingService.class).addEventHandler(new INetworkingEvents() {
-            @Override
-            public void onPacketSend(Authenticatable target, AbstractPacket packet) {
-                if (packet.getData() instanceof SourceHolder) {
-                    String source = ((SourceHolder) packet.getData()).getSource();
-                    ClientConnection client = (ClientConnection) target;
-                    Player player = (Player) client.getUser().getOriginal(); // only if you're running on spigot
-
-                    // our lovely player started playing source, but you can also cast back to PacketClientCreateMedia or PacketClientCreateSpeaker for more info
-                    // (regions are handled just like any other media type, and have random client-specific media ID's in PacketClientCreateMedia)
-                }
-            }
-        });
+        OpenAudioMc.getService(NetworkingService.class).addEventHandler(getPacketHook());
         try {
             loadFromFile();
         } catch (IOException e) {
