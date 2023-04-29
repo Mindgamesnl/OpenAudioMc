@@ -6,7 +6,7 @@ public class WorkerState implements State {
 
     @Override
     public String getDescription() {
-        return "This server is running in offlinemode. OpenAudioMc will only function if you also install the plugin on your proxy, you can read more about it here: https://help.openaudiomc.net/#bungeecord";
+        return "This server is running in offlinemode. You either need to force whitelist this mode in the config or setup the plugin on your proxy. Full installation instructions can be found on https://openaudiomc.net/docs/installation";
     }
 
     @Override
