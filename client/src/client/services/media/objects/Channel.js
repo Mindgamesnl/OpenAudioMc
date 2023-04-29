@@ -38,9 +38,9 @@ export class Channel {
         this._updateVolume();
     }
 
-    setChannelVolume(newVolume) {
+    setChannelVolume(newVolume, cancelFade = true) {
         this.channelVolume = newVolume;
-        this._updateVolume();
+        this._updateVolume(cancelFade);
     }
 
     registerMixer(mixer) {
@@ -105,19 +105,17 @@ export class Channel {
         this.fadeTimer.push(intervalId);
     }
 
-
-
-    interruptFade() {
+    interruptFade(cancelRecursive = false) {
         if (!this.isFading) return;
         this.isFading = false;
-        this.setChannelVolume(this.targetAfterFade);
+        this.setChannelVolume(this.targetAfterFade, cancelRecursive);
         for (let fadeTimerElement of this.fadeTimer) {
             clearInterval(fadeTimerElement);
         }
     }
 
-    _updateVolume() {
-        this.interruptFade();
+    _updateVolume(cancelFade = true) {
+        if (cancelFade) this.interruptFade();
         let effectiveVolume = getGlobalState().settings.normalVolume;
 
         // handle channel volume
