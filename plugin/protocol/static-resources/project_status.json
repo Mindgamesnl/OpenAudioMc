@@ -1,10 +1,10 @@
 {
   "response": {
     "versioning": {
-      "version_tag": "6.7.5",
-      "build_number": 582,
-      "version_importance": "&dRecommended",
-      "version_update_message": "6.7.4 Added support for 1.19, implements a new database type and more."
+      "version_tag": "6.8",
+      "build_number": 700,
+      "version_importance": "&4Highly Recommended",
+      "version_update_message": "Migrated to a new platform, free CDN, settings, routing, and much more! Please read the changelog for more information and a guide on how to migrate."
     },
 
     "announcement": {
