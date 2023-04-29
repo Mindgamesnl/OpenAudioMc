@@ -70,6 +70,11 @@ export const SocketManager = new class ISocketManager {
             setGlobalState({relay: {connected: false, connecting: false}, currentUser: null, isLoading: false});
 
             VoiceModule.shutdown();
+
+            // get the current url, but without the query string and hash
+            let url = window.location.protocol + "//" + window.location.host + window.location.pathname;
+            // redirect to the url
+            window.location.href = url;
         });
 
         this.socket.on("data", data => {
