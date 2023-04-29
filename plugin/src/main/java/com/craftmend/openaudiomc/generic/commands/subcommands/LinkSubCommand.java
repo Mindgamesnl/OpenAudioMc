@@ -23,7 +23,9 @@ public class LinkSubCommand extends SubCommand {
     public void onExecute(User sender, String[] args) {
 
         if (OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
-            message(sender, Platform.makeColor("RED") + "WARNING! This command can only be executed on you top-level server.");
+            message(sender, Platform.makeColor("RED") + "WARNING! This OpenAudioMc can't accept links, because it's running in node mode.");
+            message(sender, Platform.makeColor("RED") + " - Install the plugin on your proxy, if you have one.");
+            message(sender, Platform.makeColor("RED") + " - Enable " + Platform.makeColor("WHITE") + "force-offline-mode" + Platform.makeColor("RED") + " in the config.yml if your host doesn't support proxies.");
             return;
         }
 
