@@ -22,6 +22,20 @@ public enum ExtraSpeakerOptions {
             "Muffles sound based on how many walls / obstructions it has",
             speaker -> speaker.getSpeakerType() == SpeakerType.SPEAKER_3D
     ),
+
+    PLAY_ONCE(
+            true,
+            "Play Once",
+            "Only place once and from the start when the player enters the area",
+            speaker -> true
+    ),
+
+    REQUIRES_REDSTONE(
+            true,
+            "Requires Redstone",
+            "Only plays when powered by redstone",
+            speaker -> true
+    )
     ;
 
     @Getter private boolean display;

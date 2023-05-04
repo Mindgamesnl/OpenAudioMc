@@ -13,6 +13,10 @@ export function handleSpeakerCreate(data) {
         speaker.location.z
     ).add(0.5, 0.5, 0.5);
 
+    let hasExtraProperties = speaker.hasOwnProperty("doLoop");
+    let doLoop = hasExtraProperties ? speaker.doLoop : true;
+    let doPickup = hasExtraProperties ? speaker.doPickup : true;
+
     // create speaker
     const speakerData = new Speaker(
         speaker.id,
@@ -21,6 +25,8 @@ export function handleSpeakerCreate(data) {
         speaker.type,
         speaker.maxDistance,
         speaker.startInstant,
+        doLoop,
+        doPickup
     );
 
     // add it to the render queue

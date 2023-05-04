@@ -19,6 +19,7 @@ import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerCreateListener;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerDestroyListener;
 
+import com.google.gson.Gson;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.bukkit.*;
@@ -59,6 +60,7 @@ public class SpeakerService extends Service {
 
         // load all apeakers
         for (Speaker speaker : databaseService.getRepository(Speaker.class).values()) {
+            speaker.fixEnumSet(); // due to gson type guessing in storm
             registerSpeaker(speaker);
         }
 

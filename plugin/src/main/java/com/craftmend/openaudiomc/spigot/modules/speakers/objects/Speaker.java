@@ -10,10 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @NoArgsConstructor
 public class Speaker extends DataStore {
@@ -39,7 +36,6 @@ public class Speaker extends DataStore {
 
     @Getter @Setter private Boolean validated = false;
 
-
     public Speaker(String source, UUID id, int radius, MappedLocation location, SpeakerType speakerType, EnumSet<ExtraSpeakerOptions> options) {
         this.source = source;
         this.speakerId = id;
@@ -47,6 +43,20 @@ public class Speaker extends DataStore {
         this.location = location;
         this.speakerType = speakerType;
         this.extraOptions = options;
+        fixEnumSet();
+    }
+
+    public void fixEnumSet() {
+        Set<ExtraSpeakerOptions> fixedValues = new HashSet<>();
+        for (Object extraOption : extraOptions) {
+            if (extraOption instanceof String) {
+                fixedValues.add(ExtraSpeakerOptions.valueOf((String) extraOption));
+            } else {
+                fixedValues.add((ExtraSpeakerOptions) extraOption);
+            }
+        }
+
+        extraOptions = fixedValues;
     }
 
     public SpeakerMedia getMedia() {

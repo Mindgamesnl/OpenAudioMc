@@ -57,9 +57,18 @@ public class SpeakerHandler implements ITickableHandler {
                     entered.getSpeaker().getMedia().setDoPickup(false);
                 }
 
+                ClientSpeaker cp = toClientSpeaker(entered, obstructions);
+
+                // is it single fire?
+                if (ExtraSpeakerOptions.PLAY_ONCE.isEnabledFor(entered.getSpeaker())) {
+                    cp.setStartInstant(System.currentTimeMillis());
+                    cp.setDoPickup(false);
+                    cp.setDoLoop(false);
+                }
+
                 packetQue.add(new PacketClientCreateSpeaker(
-                        new ClientSpeakerCreatePayload(toClientSpeaker(entered, obstructions)))
-                );
+                        new ClientSpeakerCreatePayload(cp)
+                ));
             }
         });
 
@@ -97,7 +106,9 @@ public class SpeakerHandler implements ITickableHandler {
                         source,
                         0,
                         0,
-                        0
+                        0,
+                        false,
+                        false
                 )
         )));
     }
@@ -121,7 +132,9 @@ public class SpeakerHandler implements ITickableHandler {
                 speaker.getSpeaker().getSource(),
                 speaker.getSpeaker().getRadius(),
                 speaker.getSpeaker().getMedia().getStartInstant(),
-                obstructions
+                obstructions,
+                true,
+                true
         );
     }
 
