@@ -62,7 +62,7 @@ public class TimedRegionProperties extends RegionProperties {
     public Media getOrStartMedia() {
         // temp regions always use their own media, as it shouldn't sync with others
         if (media == null) {
-            this.media = new RegionMedia(getSource(), getVolume(), getFadeTimeMs());
+            this.media = new RegionMedia(getSource(), getVolume(), getFadeTimeMs(), true);
             this.media.setLoop(false);
         }
         return this.media;
