@@ -23,4 +23,7 @@ fi
 #export OA_DEBUG_URL="http://localhost:8000"
 
 echo "Starting server.."
+rm world/session.lock
+rm world_the_end/session.lock
+rm world_nether/session.lock
 java -Xms3G -Xmx3G -jar spigot-1.19.4.jar nogui

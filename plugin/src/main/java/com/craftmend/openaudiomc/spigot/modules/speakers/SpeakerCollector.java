@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers;
 
 
+import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.spigot.services.world.Vector3;
 import com.craftmend.openaudiomc.generic.utils.data.TypeCounter;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
@@ -27,6 +28,7 @@ public class SpeakerCollector {
             if (speaker.getLocation() == null && !safe) return true;
             if (!speaker.getLocation().getWorld().equals(location.getWorld().getName())) return true;
             if (speaker.getLocation().toBukkit().distance(location) > speaker.getRadius()) return true;
+            if (ExtraSpeakerOptions.REQUIRES_REDSTONE.isEnabledFor(speaker) && speaker.getLocation().toBukkit().getChunk().isLoaded() && !speaker.getLocation().toBukkit().getBlock().isBlockPowered()) return true;
             return false;
         });
 
