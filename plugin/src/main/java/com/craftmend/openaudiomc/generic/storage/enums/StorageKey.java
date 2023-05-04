@@ -63,6 +63,9 @@ public enum StorageKey {
     SETTINGS_VC_AUTOCLAIM(false, "options.voicechat-autoclaim-on-start", StorageLocation.CONFIG_FILE),
     SETTINGS_VC_MOD_ENABLED(false, "options.voicechat-moderation-support", StorageLocation.CONFIG_FILE),
     SETTINGS_MODERATION_TIMER(false, "options.voicechat-moderation-duration", StorageLocation.CONFIG_FILE),
+    SETTINGS_SPEAKER_REDSTONE_TICK_ENABLED(false, "options.redstone-tick-speakers", StorageLocation.CONFIG_FILE),
+    SETTINGS_SPEAKER_REDSTONE_TICK_INTERVAL(false, "options.redstone-tick-speakers-interval", StorageLocation.CONFIG_FILE),
+
 
     SETTINGS_PAPI_CLIENT_CONNECTED(false, "papi.client-connected", StorageLocation.CONFIG_FILE),
     SETTINGS_PAPI_CLIENT_DISCONNECTED(false, "papi.client-disconnected", StorageLocation.CONFIG_FILE),
