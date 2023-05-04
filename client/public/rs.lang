@@ -1,0 +1,126 @@
+home.confirmLoginHeader=Dobrodošao nazad!
+home.confirmLoginBody=Da li želite da se prijavite kao <i>%player</i>?<br />ako ne želite, molim vas zatvorite ovu poruku.
+home.confirmLoginButton=Da! To sam ja!
+
+home.activate=Aktivna sednica
+home.activateText=Ovo je lična webstranica kojoj je korist da pušta zvukove i pušta glasove tokom vaše posete. Molim vas kliknite bilo gde na ovoj stranici da bi krenuli. 
+home.clickAnywhere=Klikni bilo gde, da bi započeo
+home.activateHeader=Klikni ovde da bi se priključio
+home.welcome=Dobrodošao, %player!
+home.header=Dobrodošao u naš audio klijent! Ostavite ovu stranicu otvorenu, da bi čuli muziku i zvučne efekte u igri.  Možete da se vratite ovde bilo kad tokom vaše igre, da podešavate vaš zvuk i postavke. 
+home.volumeContext=Ovde možete da podešavate jačinu muzike i zvučnih efekata u igri. Takodje, možete da koristite <pre>/volume &lt;volume&gt;</pre> da bi menjali jačinu zvuka u igri bilo kad, ili samo postavite u 0, da ne bi čuli zvuk uopste.
+home.audioControls=Kontrola zvuka
+home.notificationsTitle=Obaveštenja
+home.notificationsEmpty=Trenutno nemate nikakvih obaveštenja
+
+vc.notCompatible=Vaš pretraživač ne podržava glasovne kanale. Molim vas koristite moderan pretraživač kao Google Chrome, Safari i slično. 
+vc.voiceModerationEnabled=Ovaj server ima aktivne moderatore. Odredjeni staff može da vas sluša dok razgovarate. 
+vc.notice=Primeti
+vc.startingPopupTitle=Učitavanje glasovnog kanala...
+vc.startingPopup=Molim vas čekajte da vas mi spojimo sa glasovnim kanalom... Ovo ne bi trebalo dugo da traje... 
+vc.reloadingPopupTitle=Ponovo pokretanje glasovnog sistema! 
+vc.reloadingPopup=Molim vas čekajte da se glasovni kanal ponovo pokrene da bi vam sačuvao nove postavke... Ovo ne bi trebalo dugo da traje... 
+vc.updatingMicPopupTitle=Ažuriranje mikrofona!
+vc.updatingMicPopup=Molim vas čekajte da vam se glasovni kanal ponovo pokrene sa vašim novim mikrofonom... Ovo ne bi trebalo dugo da traje... 
+vc.micErrorPopupTitle=Greška sa mikrofonom
+vc.micErrorPopup=Nastala je greška prilikom aktiviranja vašeg mikrofona. Molim vas kliknite ''allow'' kada vas pretraživac pita za dozvolu mikorofona, ili vidite našu wiki za više informacija  
+vc.disabled=GlasovniKanal je privremeno ugašen od strane %serverName
+vc.title=Blizina GlasovnogkKanala 
+vc.boardingTitle=VoiceChat onboarding
+vc.onboarding=Ovaj server podržava Glasovno Ćaskanje, koje vam omogućava da pričate sa korisnicima sa  %range block radius. Jel bi želeli da aktivirate ovo, i da aktivirate mikrofon? 
+vc.settings=Postavke GlasovnogKanala 
+vc.muteMic=Ugasi Mikrofon
+vc.unmuteMic=Upali Mikrofon
+vc.input=Ulazni Uredjaj 
+vc.aboutInput=Izaberi Mikrofon koji ćeš koristiti, kada promenite mikrofon, igra će se ponovo pokrenuti.
+vc.positionalAudio=Pozicionalni zvuk 
+vc.aboutPositionalAudio=Render sa 360 stepeni zvuka, dozvoljava pozicionu svest sa glasovima. 
+vc.settingsDisable=Ugasi 
+vc.settingsEnablePositionalAudio=Aktiviraj pozicioni zvuk
+vc.settingsDisablePositionalAudio=Ugasi pozicioni zvuk 
+vc.automaticAdjustments=Podešavaj automacki
+vc.sensitivity=Osetljivost mikrofona 
+vc.aboutSensitivity=Podesi zvučnoizolacijonu kapiju, da briše vaše pozadinske zvukove i aktivira samo vaš mikrofon kada razgovarate. 
+vc.peerTable={total} ljudi, {talking} razgovaraju
+vc.toggleMicrophone=Isključi mikrofon
+vc.you=ti 
+vc.safetyTitle=Za vašu bezbednost 
+vc.safetyDisclaimer=Vi će te primiti poruke u igri kada vam korisnici udju i izadju iz vašeg glasovnog kanala, i možete da vidite listu ljudi koje možete da čujete, (i oni vas čuju), i da ih utišate ako želite. OpenAudioMc oslanja se na vaš server, da obradjuje prijave problema kada je potrebno.  Molim vas kontaktirajte člana staff-tima ako imate nekakvih pitanja ili poteškoca. 
+vc.safetyFooter=<b>Želite privatnost? možete da ugasite vaš mikrofon bilo kada tako što aktivirate<pre style="display: inline;">/mm</pre> or holding <pre style="display: inline;">shift + F</pre>u igrici, ili da kliknete na dugme na ovoj webstranici.</b>
+vc.join=Pristupi glasovnom kanalu 
+vc.muteMicrophone=Ugasi 
+vc.unmuteMicrophone=Upali 
+vc.myStatus=Status vašeg mikrofona
+vc.hero.title=Dobrodošao u glasovni kanal! 
+vc.hero.subtitle=Ovo je vaša glasovna komandna tabla, ovde možete da vidite opseg svog glasa, i ko može da vas čuje. Možete takodje da ugasite mikrofon korisnicima koje ne želite da čujete. 
+vc.statusTitle=Moj status
+vc.settings.globalVolumeTitle=Globalni zvuk GlasovnogKanala
+vc.settings.surround.disable=Ugasi pozadninske zvukove
+vc.settings.surround.enable=Upali pozadninske zvukove
+vc.settings.globalVolumeAbout=Promenite master zvuk za sve korisnike GlasovnogKanala 
+vc.settings.toggleMenuTitle=Podešavanje GlasovnogKanala
+vc.settings.toggleMenu=Meni za podešavanje
+vc.settings.monitoring.title=Kontrola mikrofona 
+vc.settings.monitoring.about=Kontrola vam pušta vaš sopstveni glas da bi čuli kako vas drugi čuju, korisno je da bi proverili svoj mikrofon i postavke osetljivosti 
+vc.settings.monitoring.toggle=Odobri kontrolu 
+vc.operaWarning=Tvoje učitavanje traje duže nego što bi trebalo, ovo je verovatno zbog vaših Opera postavki. Molim vas otvorite podešavanje vašeg pretraživaca, tražite "WebRTC" i odaberite da aktivirate sve opcije
+vc.youAreModerating=Pazi! vi ste sada Moderator, možete da čujete sve u glasovnom kanalu, ali oni ne mogu da čuju vas! 
+
+hue.hue=LED lampe
+hue.link=Klikni ovde da se povežes na svoje LED lampe
+hue.preparing=Priprema... 
+hue.loggingIn=Prijavljivanje...
+hue.linking=Klikni na dugme vaše LED lampe za %sec sekunde ste povezani
+hue.connectedTo=Sada ste povezani sa vašim LED lampama: 
+hue.light1=Prvo svetlo
+hue.light2=Drugo svetlo
+hue.light3=Treće svetlo
+hue.connected=Sada možete da spojite do tri svetla koje će server koristiti. Generalno od desnog svetla do levog svetla. 
+hue.close=Zatvori
+
+notification.success=Svaka čast! sada će te dobijati obaveštenja
+notification.test.title=Test test 123
+notification.test.body=Radi! vi ste podesili Obaveštenja kako treba! 
+notification.info.voicechat=<div style="text-align: center;" class="medium-text">Ovaj server podržava<b>Proximity Voice Chat</b>! Idite u<b>VoiceChat</b>da bi pristupili i razgovarali sa ostalima.</div
+notification.voicechat.peeradd.title=Novi korisnik
+notification.voicechat.peeradd.body=%name je pristupio vašem glasovnom kanalu
+notification.voicechat.peerdop.title=Igrač je izašao iz glasovnog kanala
+notification.voicechat.peerdop.body=%name je izašao iz vašeg glasovnog kanala 
+
+settings.voicechat.chimes.title=Glasovni-Kanal zvona
+settings.voicechat.chimes.body=Zvona su mali zvukovi koji se čuju kada upalite/ugasite vaš mikrofon. YouTuberi i Strimeri trebalo bi da ugase ovo. 
+settings.voicechat.chimes.button=Koristi zvona
+settings.theme.title=Tamni režim 
+settings.theme.body=Koristi (default) tamni režim ovog veb klijenta 
+settings.theme.button=Tamni režim 
+settings.voicechat.peer.title=Obaveštenja 
+settings.voicechat.peer.body=Primite desktop obaveštenja kada neko udje ili izadje iz vašeg glasovnog kanala
+settings.voicechat.peer.button=Odobri obaveštenja 
+settings.mix-and-fade.title=Automacki miks muzike 
+settings.mix-and-fade.body=Automacki miks zvukova
+settings.mix-and-fade.button=Odobri miks
+settings.preload.title=Automacki predučitavaj audio zvukove
+settings.preload.body=Sa ovim aktivirano, OpenAudioMc će automacki predučitavati fajlove koji su često korišćeni u igri. Ovo će napraviti zvuk realističniji, ali će koristiti više podataka. 
+settings.preload.button=Odobri predučitavanje. 
+settings.rolloff.title=Pustiti 3D zvuk 
+settings.rolloff.body=Ovo kontroliše jačinu 3D zvuka baziran na distancu. 0% nikakva jačina, 100% potpuna jačina. Podrazumeva se za zvučnike i glasovni kanal. 
+settings.rolloff.01=1% (minimal)
+settings.rolloff.5=50%
+settings.rolloff.8=80%
+settings.rolloff.1=100% (normal)
+settings.rolloff.12=120%
+settings.rolloff.15=150% (extreme)
+
+
+settings.spatial.title=Motor za prostorno prikazivanje 
+settings.spatial.body=Izaberi koji motor za renderovanje bi koristili. Moderni motor je najvišeg kvaliteta, i brži je, ali je još uvek u izgradnji. 
+settings.spatial.modern=Moderan sistem
+settings.spatial.legacy=Stari sistem (old system)
+
+settings.interpolation.title=Izgladjivanje lokacije  
+settings.interpolation.body=Automacki izgladjuje pokrete da minimalizuje razgovor/mucanje u glasovnim kanalima dok hodate. Ovo dodaje dodatano kašnjenje kretanja, ali zvuči bolje. 
+settings.interpolation.button=Aktiviraj Izgladjivanje 
+
+settings.streamermode.title=Mod za strimovanje 
+settings.streamermode.body=Automacki vam onemogućava ponovno korisćenje tokena kad je jednom iskorišćen. Ovo znači da je bezbedno da pokazujete vaš URL tokom strima bez straha da gledalac može da se kamuflira u vas. Samo otvorite link odma kad ga dobijete.  
+settings.streamermode.button=Aktiviraj mod za strimovanje 
