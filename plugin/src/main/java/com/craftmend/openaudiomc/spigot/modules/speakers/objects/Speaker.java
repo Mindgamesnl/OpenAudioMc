@@ -36,6 +36,8 @@ public class Speaker extends DataStore {
 
     @Getter @Setter private Boolean validated = false;
 
+    @Getter @Setter private transient boolean isRedstonePowered = false;
+
     public Speaker(String source, UUID id, int radius, MappedLocation location, SpeakerType speakerType, EnumSet<ExtraSpeakerOptions> options) {
         this.source = source;
         this.speakerId = id;

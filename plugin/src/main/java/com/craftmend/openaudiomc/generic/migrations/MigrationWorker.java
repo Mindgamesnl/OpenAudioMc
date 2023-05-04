@@ -52,6 +52,7 @@ public class MigrationWorker {
                 new AddOfflinemodeAndCdnMigration(),    // adds the option to enable/disable cdn and offlinemode
                 new CommandSenderWorldMigration(),      // adds the default world name value
                 new VoiceVicinityMessageMigration(),    // adds the voice vicinity messages and settings
+                new SpeakerTickMigration(),             // adds the speaker tick rate setting
         };
 
         for (SimpleMigration migration : migrations) {
