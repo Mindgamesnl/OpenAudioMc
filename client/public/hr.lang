@@ -81,7 +81,7 @@ hue.close=Zatvori
 notification.success=Svaka čast! sada će te dobijati obaveštenja
 notification.test.title=Test test 123
 notification.test.body=Radi! vi ste podesili Obaveštenja kako treba! 
-notification.info.voicechat=<div style="text-align: center;" class="medium-text">Ovaj server podržava<b>Proximity Voice Chat</b>! Idite u<b>VoiceChat</b>da bi pristupili i razgovarali sa ostalima.</div
+notification.info.voicechat=<div style="text-align: center;" class="medium-text">Ovaj server podržava<b>Proximity Voice Chat</b>! Idite u<b>VoiceChat</b>da bi pristupili i razgovarali sa ostalima.</div>
 notification.voicechat.peeradd.title=Novi korisnik
 notification.voicechat.peeradd.body=%name je pristupio vašem glasovnom kanalu
 notification.voicechat.peerdop.title=Igrač je izašao iz glasovnog kanala
