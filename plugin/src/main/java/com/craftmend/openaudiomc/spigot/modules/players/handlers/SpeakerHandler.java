@@ -21,13 +21,15 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 @AllArgsConstructor
 public class SpeakerHandler implements ITickableHandler {
 
     private final Player player;
     private final SpigotConnection spigotConnection;
-    private final List<AbstractPacket> packetQue = new ArrayList<>();
+    private final Queue<AbstractPacket> packetQue = new ConcurrentLinkedQueue<AbstractPacket>();
     private final SpeakerService speakerService = OpenAudioMc.getService(SpeakerService.class);
 
     /**
@@ -53,7 +55,7 @@ public class SpeakerHandler implements ITickableHandler {
 
                 if (!entered.getSpeaker().isRedstonePowered()) {
                     entered.getSpeaker().setRedstonePowered(true);
-                    entered.getSpeaker().getMedia().setStartInstant(System.currentTimeMillis());
+                    if (ExtraSpeakerOptions.RESET_PLAYTHROUGH_ON_REDSTONE_LOSS.isEnabledFor(entered.getSpeaker())) entered.getSpeaker().getMedia().setStartInstant(System.currentTimeMillis());
                 }
 
                 ClientSpeaker cp = toClientSpeaker(entered, obstructions);

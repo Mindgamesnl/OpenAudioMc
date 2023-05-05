@@ -102,7 +102,7 @@ public class SpeakerService extends Service {
                     if (poweredNow != poweredBefore) {
                         // update the speaker
                         speaker.setRedstonePowered(poweredNow);
-                        speaker.getMedia().setStartInstant(System.currentTimeMillis());
+                        if (ExtraSpeakerOptions.RESET_PLAYTHROUGH_ON_REDSTONE_LOSS.isEnabledFor(speaker)) speaker.getMedia().setStartInstant(System.currentTimeMillis());
 
                         // find nearby players
                         for (Player player : world.getPlayers()) {

@@ -35,6 +35,13 @@ public enum ExtraSpeakerOptions {
             "Requires Redstone",
             "Only plays when powered by redstone",
             speaker -> true
+    ),
+
+    RESET_PLAYTHROUGH_ON_REDSTONE_LOSS(
+            true,
+            "Reset Playthrough on Redstone Loss",
+            "When the speaker loses redstone power, it will reset the playthrough",
+            speaker -> true
     )
     ;
 
