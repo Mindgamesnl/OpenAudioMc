@@ -35,11 +35,11 @@ export class SpeakerPlayer {
 
         createdMedia.whenInitialized(async () => {
             createdChannel.setChannelVolume(100);
+            createdMedia.setLooping(this.doLoop);
             if (this.doPickup) {
                 createdMedia.startDate(this.startInstant, true);
             }
             await createdMedia.finalize()
-            createdMedia.setLooping(this.doLoop);
             createdChannel.setTag(this.id);
             createdChannel.setTag("SPECIAL");
             MediaManager.mixer.updateCurrent();
