@@ -91,6 +91,7 @@ public enum StorageKey {
     CDN_TIMEOUT(false, "cdn.timeout-seconds", StorageLocation.CONFIG_FILE),
     CDN_IP_OVERWRITE(false, "cdn.ip-overwrite", StorageLocation.CONFIG_FILE),
     CDN_ENABLED(false, "cdn.enabled", StorageLocation.CONFIG_FILE),
+    CDN_SKIP_VALIDATION(false, "cdn.skip-validation", StorageLocation.CONFIG_FILE),
 
     LEGAL_ACCEPTED_TOS_AND_PRIVACY(false, "legal.accepted", StorageLocation.DATA_FILE);
 

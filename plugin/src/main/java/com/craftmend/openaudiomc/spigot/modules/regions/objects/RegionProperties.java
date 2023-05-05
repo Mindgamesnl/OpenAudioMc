@@ -21,7 +21,7 @@ public class RegionProperties extends DataStore {
     @Column private String regionName;
     @Column(storeAsBlob = true) private String[] worlds;
 
-    @Column(defaultValue = "true") private Boolean loop = true;
+    @Column private Boolean loop = true;
 
     // Omit this field from lombok as it may be null, due to the boxed status
     @Getter(AccessLevel.NONE)

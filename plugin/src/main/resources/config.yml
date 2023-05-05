@@ -198,6 +198,7 @@ cdn:
   # This is the IP that'll be used for port validation, please don't touch this unless you've been instructed to by our support team
   ip-overwrite: none
   enabled: false
+  skip-validation: false
 
 
 # REDIS
