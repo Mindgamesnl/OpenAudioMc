@@ -43,7 +43,6 @@ public class SpeakerHandler implements ITickableHandler {
 
         enteredSpeakers.forEach(entered -> {
             if (!isPlayingSpeaker(entered)) {
-
                 int obstructions = 0;
 
                 // calculate obstructions?
@@ -52,17 +51,20 @@ public class SpeakerHandler implements ITickableHandler {
                     obstructions = speakerService.getRayTracer().obstructionsBetweenLocations(player.getLocation(), entered.getLocation());
                 }
 
-                // overwrite sync flag
-                if (ExtraSpeakerOptions.IGNORE_SYNCHRONIZATION.isEnabledFor(entered.getSpeaker())) {
-                    entered.getSpeaker().getMedia().setDoPickup(false);
+                if (!entered.getSpeaker().isRedstonePowered()) {
+                    entered.getSpeaker().setRedstonePowered(true);
+                    entered.getSpeaker().getMedia().setStartInstant(System.currentTimeMillis());
                 }
 
                 ClientSpeaker cp = toClientSpeaker(entered, obstructions);
 
+                // overwrite sync flag
+                if (ExtraSpeakerOptions.IGNORE_SYNCHRONIZATION.isEnabledFor(entered.getSpeaker())) {
+                    cp.setDoPickup(false);
+                }
+
                 // is it single fire?
                 if (ExtraSpeakerOptions.PLAY_ONCE.isEnabledFor(entered.getSpeaker())) {
-                    cp.setStartInstant(System.currentTimeMillis());
-                    cp.setDoPickup(false);
                     cp.setDoLoop(false);
                 }
 
