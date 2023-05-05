@@ -161,6 +161,9 @@ public class RegionEditGui extends Menu {
 
                     region.setVolume(volume);
 
+                    // get the media and update its volume too
+                    region.getMedia().setVolume(volume);
+
                     player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.GREEN + "Updated region volume to " + volume);
 
                     OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class)
@@ -168,7 +171,6 @@ public class RegionEditGui extends Menu {
 
                     SpigotConnection spigotClient = OpenAudioMc.getService(SpigotPlayerService.class).getClient(player.getUniqueId());
                     spigotClient.getRegionHandler().reset();
-
                     spigotClient.getRegionHandler().tick();
 
                     new RegionEditGui(region).openFor(player);
