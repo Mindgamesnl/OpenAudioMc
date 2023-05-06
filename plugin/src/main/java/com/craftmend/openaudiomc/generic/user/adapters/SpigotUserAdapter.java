@@ -8,6 +8,7 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
@@ -51,6 +52,12 @@ public class SpigotUserAdapter implements User {
 
     @Override
     public void sendClickableUrlMessage(String msgText, String hoverMessage, String url) {
+
+        // are we a console? then add the url to the message
+        if (player instanceof org.bukkit.command.ConsoleCommandSender) {
+            msgText = msgText + " " + ChatColor.GRAY + "(" + url + " for console users)";
+        }
+
         TextComponent message = new TextComponent(translateColors(Objects.requireNonNull(
                 msgText
         )));

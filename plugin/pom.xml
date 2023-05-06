@@ -256,7 +256,7 @@
         <dependency>
             <groupId>com.github.Mindgamesnl</groupId>
             <artifactId>storm</artifactId>
-            <version>2438525998</version>
+            <version>61b6f676a0</version>
         </dependency>
 
         <dependency>
