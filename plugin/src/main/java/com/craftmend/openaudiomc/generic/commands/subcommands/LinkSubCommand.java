@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.generic.commands.subcommands;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.OaColor;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.rest.RestRequest;
@@ -29,6 +30,9 @@ public class LinkSubCommand extends SubCommand {
             return;
         }
 
+        // init connection so we receive the event
+        OpenAudioMc.getService(NetworkingService.class).connectIfDown();
+
         message(sender, OaColor.GRAY + "Generating link...");
 
         RestRequest<ClaimCodeResponse> request = new RestRequest<>(ClaimCodeResponse.class, Endpoint.CLAIM_CODE);
@@ -49,6 +53,7 @@ public class LinkSubCommand extends SubCommand {
                             "Click here to claim your account",
                             url
                     );
+                    sender.sendMessage(OaColor.GRAY + " >> or visit " + url);
                 });
 
     }
