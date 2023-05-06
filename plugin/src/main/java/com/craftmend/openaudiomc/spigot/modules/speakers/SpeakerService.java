@@ -6,6 +6,10 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
+import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
+import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.services.world.interfaces.IRayTracer;
@@ -19,9 +23,12 @@ import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerCreateListener;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerDestroyListener;
 
+import com.google.gson.Gson;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.bukkit.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -59,6 +66,7 @@ public class SpeakerService extends Service {
 
         // load all apeakers
         for (Speaker speaker : databaseService.getRepository(Speaker.class).values()) {
+            speaker.fixEnumSet(); // due to gson type guessing in storm
             registerSpeaker(speaker);
         }
 
@@ -69,6 +77,50 @@ public class SpeakerService extends Service {
         OpenAudioMc.getService(MediaService.class).getResetTriggers().add(() -> {
             speakerMediaMap.clear();
         });
+
+        // tick redstone speakers
+        if (StorageKey.SETTINGS_SPEAKER_REDSTONE_TICK_ENABLED.getBoolean()) {
+            int interval = StorageKey.SETTINGS_SPEAKER_REDSTONE_TICK_INTERVAL.getInt();
+
+            OpenAudioLogger.toConsole("Starting redstone speaker tick task with interval " + interval + " ticks");
+
+            Bukkit.getScheduler().scheduleAsyncRepeatingTask(OpenAudioMcSpigot.getInstance(), () -> {
+                for (Speaker speaker : speakerMap.values()) {
+                    // does this speaker have a redstone trigger?
+                    if (!ExtraSpeakerOptions.REQUIRES_REDSTONE.isEnabledFor(speaker)) return;
+
+                    // is the speakers chunk loaded?
+                    World world = Bukkit.getWorld(speaker.getLocation().getWorld());
+                    if (world == null) continue;
+                    if (!world.isChunkLoaded(speaker.getLocation().getX() >> 4, speaker.getLocation().getZ() >> 4)) continue;
+
+                    // is the speaker powered?
+                    boolean poweredNow = world.getBlockAt(speaker.getLocation().getX(), speaker.getLocation().getY(), speaker.getLocation().getZ()).isBlockPowered();
+                    boolean poweredBefore = speaker.isRedstonePowered();
+
+                    // did it change?
+                    if (poweredNow != poweredBefore) {
+                        // update the speaker
+                        speaker.setRedstonePowered(poweredNow);
+                        if (ExtraSpeakerOptions.RESET_PLAYTHROUGH_ON_REDSTONE_LOSS.isEnabledFor(speaker)) speaker.getMedia().setStartInstant(System.currentTimeMillis());
+
+                        // find nearby players
+                        for (Player player : world.getPlayers()) {
+                            if (player.getLocation().distance(speaker.getLocation().toBukkit()) > speaker.getRadius()) {
+                                continue;
+                            }
+
+                            SpigotConnection spigotConnection = OpenAudioMc.getService(SpigotPlayerService.class).getClient(player);
+                            if (spigotConnection != null) {
+                                spigotConnection.getSpeakerHandler().tick();
+                            }
+                        }
+                    }
+                }
+            }, interval, interval);
+        } else {
+            OpenAudioLogger.toConsole("Redstone speaker tick task is disabled");
+        }
     }
 
     public IRayTracer getRayTracer() {

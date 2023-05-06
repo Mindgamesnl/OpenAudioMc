@@ -244,6 +244,17 @@ export class Sound extends AudioSourceProcessor {
             debugLog("Length " + length + " seconds");
             let loops = Math.floor(seconds / length);
             let remainingSeconds = seconds % length;
+
+            // are we allowed to loop?
+            if (!this.loop) {
+                // no, so we have to stop the sound
+                if (loops > 0) {
+                    debugLog("Stopping sound because we are not allowed to loop");
+                    this.destroy();
+                    return;
+                }
+            }
+
             debugLog("Played " + loops + " loops");
             debugLog("Remaining " + remainingSeconds + " seconds");
             this.setTime(remainingSeconds);

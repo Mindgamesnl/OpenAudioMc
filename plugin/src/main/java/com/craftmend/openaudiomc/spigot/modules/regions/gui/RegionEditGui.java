@@ -3,6 +3,9 @@ package com.craftmend.openaudiomc.spigot.modules.regions.gui;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
+import com.craftmend.openaudiomc.generic.media.objects.Media;
+import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
@@ -25,6 +28,7 @@ public class RegionEditGui extends Menu {
         setItem(4, getVoicechatToggleItem(region));
         
         // something fun for slot 6? think of something mats
+        setItem(6, getPlayOnceItem(region)); // you thought of something, nice
 
         // second row, volume fuckery
         setItem(9, getVolumeItem(region, 5));
@@ -49,6 +53,43 @@ public class RegionEditGui extends Menu {
         setItem(26, getFadeItem(region, 15000));
     }
 
+    private Item getPlayOnceItem(IRegion region) {
+        return new Item(Material.BONE_MEAL)
+                .setName(ChatColor.YELLOW + "Looping " + (region.getProperties().getLoop() ?
+                        ChatColor.GREEN + "ENABLED"
+                        :
+                        ChatColor.RED + "DISABLED"))
+                .setLore(new String[]{
+                        ChatColor.GREEN + "Enabled" + ChatColor.GRAY + ": Makes the music loop",
+                        ChatColor.RED + "DISABLED" + ChatColor.GRAY + ": Only plays the music once upon entering"
+                })
+                .onClick((player, item) -> {
+                    region.getProperties().setLoop(!region.getProperties().getLoop());
+                    OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class)
+                            .save(region.getProperties());
+
+                    if (region.getProperties().getLoop()) {
+                        player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.GREEN + "Music will now loop. You may need to re-enter the region to hear the change.");
+                    } else {
+                        player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.RED + "Music will now only play once upon entering. You may need to re-enter the region to hear the change.");
+                    }
+
+                    // reset the media cache for this region
+                    Media oldMedia = region.getMedia();
+                    OpenAudioMcSpigot.getInstance().getRegionModule().getWorld(player.getWorld().getName()).unregisterRegionMedia(region.getMedia().getSource());
+                    Media newMedia = region.getMedia();
+
+                    // send destroy packets to all players in the region
+                    for (SpigotConnection spigotConnection : OpenAudioMcSpigot.getInstance().getRegionModule().findPlayersInRegion(region.getProperties().getRegionName())) {
+                        spigotConnection.getClientConnection().sendPacket(new PacketClientDestroyMedia(oldMedia.getMediaId()));
+                        // start new media
+                        spigotConnection.getClientConnection().sendMedia(newMedia);
+                    }
+
+                    new RegionEditGui(region).openFor(player);
+                });
+    }
+
     private Item getVoicechatToggleItem(IRegion region) {
         Material head = OpenAudioMc.getService(SpeakerService.class).getPlayerSkullItem();
 
@@ -66,9 +107,9 @@ public class RegionEditGui extends Menu {
                             .save(region.getProperties());
 
                     if (region.getProperties().getAllowsVoiceChat()) {
-                        player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.GREEN + "Voicechat has been enabled for this region.");
+                        player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.GREEN + "Voicechat has been enabled for this region. You may need to re-enter the region to see the changes.");
                     } else {
-                        player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.RED + "Voicechat has been disabled for this region, meaning that players will mute/leave their call once they enter.");
+                        player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.RED + "Voicechat has been disabled for this region, meaning that players will mute/leave their call once they enter. You may need to re-enter the region to see the changes.");
                     }
 
                     new RegionEditGui(region).openFor(player);
@@ -120,6 +161,9 @@ public class RegionEditGui extends Menu {
 
                     region.setVolume(volume);
 
+                    // get the media and update its volume too
+                    region.getMedia().setVolume(volume);
+
                     player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.GREEN + "Updated region volume to " + volume);
 
                     OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class)
@@ -127,7 +171,6 @@ public class RegionEditGui extends Menu {
 
                     SpigotConnection spigotClient = OpenAudioMc.getService(SpigotPlayerService.class).getClient(player.getUniqueId());
                     spigotClient.getRegionHandler().reset();
-
                     spigotClient.getRegionHandler().tick();
 
                     new RegionEditGui(region).openFor(player);

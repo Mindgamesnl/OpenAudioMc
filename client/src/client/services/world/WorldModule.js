@@ -46,7 +46,7 @@ export const WorldModule = new class IWorldModule {
         return locations;
     }
 
-    async getMediaForSource(source, startInstant) {
+    async getMediaForSource(source, startInstant, doLoop = true, doPickup = true) {
         const loaded = this.audioMap.get(source);
         if (loaded != null) return loaded;
 
@@ -55,7 +55,7 @@ export const WorldModule = new class IWorldModule {
             return null;
         }
 
-        const created = new SpeakerPlayer(source, startInstant);
+        const created = new SpeakerPlayer(source, startInstant, doLoop, doPickup);
         this.audioMap.set(source, created);
         await created.initialize();
         return created;
@@ -129,7 +129,7 @@ export const WorldModule = new class IWorldModule {
             }
 
             for (let element of doFor) {
-                const media = await this.getMediaForSource(element.source, element.speaker.startInstant);
+                const media = await this.getMediaForSource(element.source, element.speaker.startInstant, element.speaker.doLoop, element.speaker.doPickup);
                 media.updateLocation(element.speaker, this, this.player)
             }
         }

@@ -21,6 +21,8 @@ public class RegionProperties extends DataStore {
     @Column private String regionName;
     @Column(storeAsBlob = true) private String[] worlds;
 
+    @Column private Boolean loop = true;
+
     // Omit this field from lombok as it may be null, due to the boxed status
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
@@ -38,7 +40,7 @@ public class RegionProperties extends DataStore {
     }
 
     public Media getMediaForWorld(WorldRegionManager worldRegionManager) {
-        return worldRegionManager.getRegionMedia(source, volume, fadeTimeMs);
+        return worldRegionManager.getRegionMedia(source, volume, fadeTimeMs, loop);
     }
 
     public boolean hasWorlds() {

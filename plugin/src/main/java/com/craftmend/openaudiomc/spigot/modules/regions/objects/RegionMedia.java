@@ -7,10 +7,10 @@ import com.craftmend.openaudiomc.generic.media.objects.Media;
 
 public class RegionMedia extends Media {
 
-    public RegionMedia(String source, int volume, int fadeTimeMs) {
+    public RegionMedia(String source, int volume, int fadeTimeMs, Boolean loop) {
         super(source);
-        setLoop(true);
-        setDoPickup(OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_REGIONS_SYNC));
+        setLoop(loop);
+        if (loop) setDoPickup(OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_REGIONS_SYNC));
         setFadeTime(fadeTimeMs);
         setVolume(volume);
         setFlag(MediaFlag.REGION);

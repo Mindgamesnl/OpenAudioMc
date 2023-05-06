@@ -21,13 +21,15 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 @AllArgsConstructor
 public class SpeakerHandler implements ITickableHandler {
 
     private final Player player;
     private final SpigotConnection spigotConnection;
-    private final List<AbstractPacket> packetQue = new ArrayList<>();
+    private final Queue<AbstractPacket> packetQue = new ConcurrentLinkedQueue<AbstractPacket>();
     private final SpeakerService speakerService = OpenAudioMc.getService(SpeakerService.class);
 
     /**
@@ -43,7 +45,6 @@ public class SpeakerHandler implements ITickableHandler {
 
         enteredSpeakers.forEach(entered -> {
             if (!isPlayingSpeaker(entered)) {
-
                 int obstructions = 0;
 
                 // calculate obstructions?
@@ -52,14 +53,26 @@ public class SpeakerHandler implements ITickableHandler {
                     obstructions = speakerService.getRayTracer().obstructionsBetweenLocations(player.getLocation(), entered.getLocation());
                 }
 
+                if (!entered.getSpeaker().isRedstonePowered()) {
+                    entered.getSpeaker().setRedstonePowered(true);
+                    if (ExtraSpeakerOptions.RESET_PLAYTHROUGH_ON_REDSTONE_LOSS.isEnabledFor(entered.getSpeaker())) entered.getSpeaker().getMedia().setStartInstant(System.currentTimeMillis());
+                }
+
+                ClientSpeaker cp = toClientSpeaker(entered, obstructions);
+
                 // overwrite sync flag
                 if (ExtraSpeakerOptions.IGNORE_SYNCHRONIZATION.isEnabledFor(entered.getSpeaker())) {
-                    entered.getSpeaker().getMedia().setDoPickup(false);
+                    cp.setDoPickup(false);
+                }
+
+                // is it single fire?
+                if (ExtraSpeakerOptions.PLAY_ONCE.isEnabledFor(entered.getSpeaker())) {
+                    cp.setDoLoop(false);
                 }
 
                 packetQue.add(new PacketClientCreateSpeaker(
-                        new ClientSpeakerCreatePayload(toClientSpeaker(entered, obstructions)))
-                );
+                        new ClientSpeakerCreatePayload(cp)
+                ));
             }
         });
 
@@ -97,7 +110,9 @@ public class SpeakerHandler implements ITickableHandler {
                         source,
                         0,
                         0,
-                        0
+                        0,
+                        false,
+                        false
                 )
         )));
     }
@@ -121,7 +136,9 @@ public class SpeakerHandler implements ITickableHandler {
                 speaker.getSpeaker().getSource(),
                 speaker.getSpeaker().getRadius(),
                 speaker.getSpeaker().getMedia().getStartInstant(),
-                obstructions
+                obstructions,
+                true,
+                true
         );
     }
 

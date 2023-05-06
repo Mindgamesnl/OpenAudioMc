@@ -3,15 +3,21 @@ import {Sound} from "../../media/objects/Sound";
 import {SPEAKER_2D} from "../constants/SpeakerType";
 import {SpeakerRenderNode} from "./SpeakerRenderNode";
 import {MediaManager} from "../../media/MediaManager";
+import {debugLog} from "../../debugging/DebugService";
 
 export class SpeakerPlayer {
 
-    constructor(source, startInstant) {
+    constructor(source, startInstant, doLoop = true, doPickup = true) {
         this.id = "SPEAKER__" + source;
 
         this.speakerNodes = new Map();
         this.source = source;
         this.startInstant = startInstant;
+        this.doLoop = doLoop;
+        this.doPickup = doPickup;
+
+        debugLog("Speaker props: ", this.id, this.source, this.startInstant, this.doLoop, this.doPickup, "initialized: ", this.initialized);
+
         this.initialized = false;
         this.whenInitialized = [];
     }
@@ -29,13 +35,19 @@ export class SpeakerPlayer {
 
         createdMedia.whenInitialized(async () => {
             createdChannel.setChannelVolume(100);
-            createdMedia.startDate(this.startInstant, true);
+            createdMedia.setLooping(this.doLoop);
+            if (this.doPickup) {
+                createdMedia.startDate(this.startInstant, true);
+            }
             await createdMedia.finalize()
-            createdMedia.setLooping(true);
             createdChannel.setTag(this.id);
             createdChannel.setTag("SPECIAL");
             MediaManager.mixer.updateCurrent();
-            createdMedia.startDate(this.startInstant, true);
+
+            if (this.doPickup) {
+                createdMedia.startDate(this.startInstant, true);
+            }
+
             createdMedia.finish();
         })
 
