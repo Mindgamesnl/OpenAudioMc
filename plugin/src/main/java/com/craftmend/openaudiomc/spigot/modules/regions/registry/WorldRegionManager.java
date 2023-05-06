@@ -55,11 +55,15 @@ public class WorldRegionManager {
         return regionPropertiesMap.containsKey(regionName);
     }
 
-    public RegionMedia getRegionMedia(String source, int volume, int fadeTimeMs) {
+    public RegionMedia getRegionMedia(String source, int volume, int fadeTimeMs, Boolean loop) {
         if (regionMediaMap.containsKey(source)) return regionMediaMap.get(source);
-        RegionMedia regionMedia = new RegionMedia(source, volume, fadeTimeMs);
+        RegionMedia regionMedia = new RegionMedia(source, volume, fadeTimeMs, loop);
         regionMediaMap.put(source, regionMedia);
         return regionMedia;
+    }
+
+    public void unregisterRegionMedia(String source) {
+        regionMediaMap.remove(source);
     }
 
     public void clearMedia() {

@@ -166,6 +166,15 @@ options:
   # I recommend setting this to at least 3 times the voicechat range
   voicechat-hint-range: 135
 
+  # This determines if speakers will tick in the background to make their redstone triggers more responsive.
+  # You may want to disable this if you're running a lot of speakers. This task runs asynchronously, so it shouldn't cause any lag
+  # But it does a lot of redstone checks depending on the amount of speakers you have with the redstone flag enabled.
+  redstone-tick-speakers: true
+
+  # This is the tick interval for the redstone-tick-speakers task. The lower the value, the more responsive the speakers will be
+  # but the higher the load on the server will be. I recommend setting this to 5 (meaning it updates 4 times a second)
+  redstone-tick-speakers-interval: 5
+
 
 # PlaceholderAPI
 papi:
@@ -189,6 +198,7 @@ cdn:
   # This is the IP that'll be used for port validation, please don't touch this unless you've been instructed to by our support team
   ip-overwrite: none
   enabled: false
+  skip-validation: false
 
 
 # REDIS

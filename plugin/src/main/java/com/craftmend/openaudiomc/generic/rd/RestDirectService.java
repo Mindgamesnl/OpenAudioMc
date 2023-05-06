@@ -105,7 +105,6 @@ public class RestDirectService extends Service {
                     request.withPostJsonObject(registerBody);
                     request.run();
 
-
                     if (request.hasError()) {
                         restDirectServer.stop();
                         OpenAudioLogger.toConsole("The direct rest registration failed");

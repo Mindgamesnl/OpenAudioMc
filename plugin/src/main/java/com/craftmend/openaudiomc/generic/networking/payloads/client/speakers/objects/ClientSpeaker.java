@@ -18,5 +18,7 @@ public class ClientSpeaker implements Serializable {
     private int maxDistance;
     private long startInstant;
     private int obstructions;
+    private boolean doLoop = true;
+    private boolean doPickup = true;
 
 }

@@ -55,7 +55,8 @@ public class MediaApiImpl implements MediaApi {
                 source,
                 radius,
                 Instant.now().toEpochMilli(),
-                obstructions
+                obstructions,
+                false, false
         );
         ClientConnection connection = validateClient(client);
         connection.getSession().setApiSpeakers(connection.getSession().getApiSpeakers() + 1);
@@ -72,7 +73,8 @@ public class MediaApiImpl implements MediaApi {
                 null,
                 0,
                 0,
-                0
+                0,
+                false, false
         );
         ClientConnection connection = validateClient(client);
         connection.getSession().setApiSpeakers(connection.getSession().getApiSpeakers() - 1);
