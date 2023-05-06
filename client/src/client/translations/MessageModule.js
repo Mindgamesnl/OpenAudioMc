@@ -14,13 +14,20 @@ export class MessageModule {
         this.languageMappings = {
             "gb": "en.lang",
             "us": "en.lang",
-            "nl": "nl.lang",
-            "be": "nl.lang",
-            "sp": "es.lang",
-            "es": "es.lang",
-            "fr": "fr.lang",
-            "de": "de.lang",
-            "ja": "jp.lang"
+            "nl": "nl.lang", // dutch
+            "be": "nl.lang", // belgium
+            "sp": "es.lang", // spanish
+            "es": "es.lang", // spanish
+            "fr": "fr.lang", // frensh
+            "de": "de.lang", // german
+            "ja": "jp.lang", // japanese
+
+            // One of these can probably go, but i wasn't provided
+            // enough info and am unable to find the correct region code
+            // but these are both croatian
+            "hr": "hr.lang",
+            "scr": "hr.lang"
+
         }
 
         this.load = this.load.bind(this);
@@ -90,7 +97,7 @@ export class MessageModule {
         if (link.indexOf(".html") !== -1) {
             link = link.substring(0, link.lastIndexOf("/") + 1);
         }
-        let prefix = (isFailover ? API_ENDPOINT.CONTENT_PROXY + "https://client.openaudiomc.net/" : link)
+        let prefix = (isFailover ? API_ENDPOINT.CONTENT_PROXY + "https://session.openaudiomc.net/" : link)
         let request = await fetch(prefix + file + "?v=" + VERSION.revision);
         if (request.status !== 200 && !isFailover) {
             console.error("Using fetch fail over for lang")
