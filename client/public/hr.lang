@@ -1,3 +1,19 @@
+lang.name=Croatian
+
+lang.detectedAs=Promenili smo jezik u Srpski, Da li hocete da zadrzite ovako?
+lang.keep=Zadrži Srpski
+lang.toEn=Prebaci na Engleski
+
+ui.loading=Učitavanje...
+ui.logout=Log out
+
+navbar.audio=Audio
+navbar.vc=VoiceChat
+navbar.settings=Podešavanje
+navbar.debug=Debug
+navbar.free=free
+navbar.premium=premium
+
 home.confirmLoginHeader=Dobrodošao nazad!
 home.confirmLoginBody=Da li želite da se prijavite kao <i>%player</i>?<br />ako ne želite, molim vas zatvorite ovu poruku.
 home.confirmLoginButton=Da! To sam ja!
@@ -25,7 +41,7 @@ vc.updatingMicPopup=Molim vas čekajte da vam se glasovni kanal ponovo pokrene s
 vc.micErrorPopupTitle=Greška sa mikrofonom
 vc.micErrorPopup=Nastala je greška prilikom aktiviranja vašeg mikrofona. Molim vas kliknite ''allow'' kada vas pretraživac pita za dozvolu mikorofona, ili vidite našu wiki za više informacija  
 vc.disabled=GlasovniKanal je privremeno ugašen od strane %serverName
-vc.title=Blizina GlasovnogkKanala 
+vc.title=Blizina Glasovnog Kanala 
 vc.boardingTitle=VoiceChat onboarding
 vc.onboarding=Ovaj server podržava Glasovno Ćaskanje, koje vam omogućava da pričate sa korisnicima sa  %range block radius. Jel bi želeli da aktivirate ovo, i da aktivirate mikrofon? 
 vc.settings=Postavke GlasovnogKanala 
@@ -38,15 +54,15 @@ vc.aboutPositionalAudio=Render sa 360 stepeni zvuka, dozvoljava pozicionu svest 
 vc.settingsDisable=Ugasi 
 vc.settingsEnablePositionalAudio=Aktiviraj pozicioni zvuk
 vc.settingsDisablePositionalAudio=Ugasi pozicioni zvuk 
-vc.automaticAdjustments=Podešavaj automacki
+vc.automaticAdjustments=Podešavaj automatski
 vc.sensitivity=Osetljivost mikrofona 
-vc.aboutSensitivity=Podesi zvučnoizolacijonu kapiju, da briše vaše pozadinske zvukove i aktivira samo vaš mikrofon kada razgovarate. 
+vc.aboutSensitivity=Podesi zvučnoizolacionu kapiju, da briše vaše pozadinske zvukove i aktivira samo vaš mikrofon kada razgovarate. 
 vc.peerTable={total} ljudi, {talking} razgovaraju
 vc.toggleMicrophone=Isključi mikrofon
 vc.you=ti 
 vc.safetyTitle=Za vašu bezbednost 
 vc.safetyDisclaimer=Vi će te primiti poruke u igri kada vam korisnici udju i izadju iz vašeg glasovnog kanala, i možete da vidite listu ljudi koje možete da čujete, (i oni vas čuju), i da ih utišate ako želite. OpenAudioMc oslanja se na vaš server, da obradjuje prijave problema kada je potrebno.  Molim vas kontaktirajte člana staff-tima ako imate nekakvih pitanja ili poteškoca. 
-vc.safetyFooter=<b>Želite privatnost? možete da ugasite vaš mikrofon bilo kada tako što aktivirate<pre style="display: inline;">/mm</pre> or holding <pre style="display: inline;">shift + F</pre>u igrici, ili da kliknete na dugme na ovoj webstranici.</b>
+vc.safetyFooter=<b>Želite privatnost? možete da ugasite vaš mikrofon bilo kada tako što aktivirate <pre style="display: inline;">/mm</pre> ili da zadržite <pre style="display: inline;">shift + F</pre> Dok ste u igrici, ili da kliknete na dugme na ovoj webstranici.</b>
 vc.join=Pristupi glasovnom kanalu 
 vc.muteMicrophone=Ugasi 
 vc.unmuteMicrophone=Upali 
@@ -54,11 +70,11 @@ vc.myStatus=Status vašeg mikrofona
 vc.hero.title=Dobrodošao u glasovni kanal! 
 vc.hero.subtitle=Ovo je vaša glasovna komandna tabla, ovde možete da vidite opseg svog glasa, i ko može da vas čuje. Možete takodje da ugasite mikrofon korisnicima koje ne želite da čujete. 
 vc.statusTitle=Moj status
-vc.settings.globalVolumeTitle=Globalni zvuk GlasovnogKanala
+vc.settings.globalVolumeTitle=Globalni zvuk Glasovnog Kanala
 vc.settings.surround.disable=Ugasi pozadninske zvukove
 vc.settings.surround.enable=Upali pozadninske zvukove
-vc.settings.globalVolumeAbout=Promenite master zvuk za sve korisnike GlasovnogKanala 
-vc.settings.toggleMenuTitle=Podešavanje GlasovnogKanala
+vc.settings.globalVolumeAbout=Promenite master zvuk za sve korisnike Glasovnog Kanala 
+vc.settings.toggleMenuTitle=Podešavanje Glasovnog Kanala
 vc.settings.toggleMenu=Meni za podešavanje
 vc.settings.monitoring.title=Kontrola mikrofona 
 vc.settings.monitoring.about=Kontrola vam pušta vaš sopstveni glas da bi čuli kako vas drugi čuju, korisno je da bi proverili svoj mikrofon i postavke osetljivosti 
@@ -96,11 +112,11 @@ settings.theme.button=Tamni režim
 settings.voicechat.peer.title=Obaveštenja 
 settings.voicechat.peer.body=Primite desktop obaveštenja kada neko udje ili izadje iz vašeg glasovnog kanala
 settings.voicechat.peer.button=Odobri obaveštenja 
-settings.mix-and-fade.title=Automacki miks muzike 
-settings.mix-and-fade.body=Automacki miks zvukova
+settings.mix-and-fade.title=Automatski miks muzike 
+settings.mix-and-fade.body=Automatski miks zvukova
 settings.mix-and-fade.button=Odobri miks
-settings.preload.title=Automacki predučitavaj audio zvukove
-settings.preload.body=Sa ovim aktivirano, OpenAudioMc će automacki predučitavati fajlove koji su često korišćeni u igri. Ovo će napraviti zvuk realističniji, ali će koristiti više podataka. 
+settings.preload.title=Automatski predučitavaj audio zvukove
+settings.preload.body=Sa ovim aktivirano, OpenAudioMc će automatski predučitavati fajlove koji su često korišćeni u igri. Ovo će napraviti zvuk realističniji, ali će koristiti više podataka. 
 settings.preload.button=Odobri predučitavanje. 
 settings.rolloff.title=Pustiti 3D zvuk 
 settings.rolloff.body=Ovo kontroliše jačinu 3D zvuka baziran na distancu. 0% nikakva jačina, 100% potpuna jačina. Podrazumeva se za zvučnike i glasovni kanal. 
@@ -118,9 +134,9 @@ settings.spatial.modern=Moderan sistem
 settings.spatial.legacy=Stari sistem (old system)
 
 settings.interpolation.title=Izgladjivanje lokacije  
-settings.interpolation.body=Automacki izgladjuje pokrete da minimalizuje razgovor/mucanje u glasovnim kanalima dok hodate. Ovo dodaje dodatano kašnjenje kretanja, ali zvuči bolje. 
+settings.interpolation.body=Automatski izgladjuje pokrete da minimalizuje razgovor/mucanje u glasovnim kanalima dok hodate. Ovo dodaje dodatano kašnjenje kretanja, ali zvuči bolje. 
 settings.interpolation.button=Aktiviraj Izgladjivanje 
 
 settings.streamermode.title=Mod za strimovanje 
-settings.streamermode.body=Automacki vam onemogućava ponovno korisćenje tokena kad je jednom iskorišćen. Ovo znači da je bezbedno da pokazujete vaš URL tokom strima bez straha da gledalac može da se kamuflira u vas. Samo otvorite link odma kad ga dobijete.  
+settings.streamermode.body=Automatski vam onemogućava ponovno korisćenje tokena kad je jednom iskorišćen. Ovo znači da je bezbedno da pokazujete vaš URL tokom strima bez straha da gledalac može da se kamuflira u vas. Samo otvorite link odma kad ga dobijete.  
 settings.streamermode.button=Aktiviraj mod za strimovanje 
