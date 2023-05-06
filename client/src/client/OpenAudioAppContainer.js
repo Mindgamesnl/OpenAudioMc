@@ -80,6 +80,7 @@ class OpenAudioAppContainer extends React.Component {
                     publicServerKey: "test",
                 }
             })
+            this.messageModule.handleCountry("gb")
             return
         }
 
