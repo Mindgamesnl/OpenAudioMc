@@ -1,3 +1,19 @@
+lang.name=English
+
+lang.detectedAs=Promenili smo jezik u Srpski, Da li hocete da zadrzite ovako?
+lang.keep=Zadrži Srpski
+lang.toEn=Prebaci na Engleski
+
+ui.loading=Učitavanje...
+ui.logout=Log out
+
+navbar.audio=Audio
+navbar.vc=VoiceChat
+navbar.settings=Podešavanje
+navbar.debug=Debug
+navbar.free=free
+navbar.premium=premium
+
 home.confirmLoginHeader=Dobrodošao nazad!
 home.confirmLoginBody=Da li želite da se prijavite kao <i>%player</i>?<br />ako ne želite, molim vas zatvorite ovu poruku.
 home.confirmLoginButton=Da! To sam ja!
