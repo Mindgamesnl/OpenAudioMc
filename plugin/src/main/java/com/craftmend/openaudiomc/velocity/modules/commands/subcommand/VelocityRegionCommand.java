@@ -32,7 +32,10 @@ public class VelocityRegionCommand extends SubCommand {
                         "Change the volume of a region"),
 
                 new Argument("edit fade <region> <fade time MS>",
-                        "Change the fade of a region")
+                        "Change the fade of a region"),
+
+                new Argument("list",
+                        "List all regions at your current location and their properties")
         );
     }
 
