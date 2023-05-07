@@ -14,7 +14,7 @@ export class LoginView extends React.Component {
                     <OaStyleCard title={"Invalid session"} isDanger={true} body={<LoginForm />} fullWidth={true} />
                 </div>
                 <StaticFooter>
-                    build {VERSION.build}
+                    <a href={"https://openaudiomc.net/docs/client_major_changelog"} className={"text-white"}>build {VERSION.build}</a>
                 </StaticFooter>
             </BlackoutPage>
         );
