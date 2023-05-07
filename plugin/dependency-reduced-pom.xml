@@ -148,8 +148,8 @@
                   <goal>exec</goal>
                 </goals>
                 <configuration>
-                  <executable>${project.basedir}/src/main/bash/post-build.sh</executable>
-                  <workingDirectory>${project.basedir}</workingDirectory>
+                  <executable>/home/mats/workspace/openaudiomc/OpenAudioMc/plugin/src/main/bash/post-build.sh</executable>
+                  <workingDirectory>/home/mats/workspace/openaudiomc/OpenAudioMc/plugin</workingDirectory>
                 </configuration>
               </execution>
             </executions>
