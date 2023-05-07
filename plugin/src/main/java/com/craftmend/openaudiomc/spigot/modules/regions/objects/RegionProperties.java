@@ -40,6 +40,7 @@ public class RegionProperties extends DataStore {
     }
 
     public Media getMediaForWorld(WorldRegionManager worldRegionManager) {
+        if (loop == null) loop = true;
         return worldRegionManager.getRegionMedia(source, volume, fadeTimeMs, loop);
     }
 

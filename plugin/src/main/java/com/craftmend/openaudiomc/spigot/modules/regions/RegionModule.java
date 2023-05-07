@@ -63,6 +63,10 @@ public class RegionModule {
         }
 
         for (RegionProperties region : OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class).values()) {
+
+            // update null values should be set to defaults
+            if (region.getLoop() == null) region.setLoop(true);
+
             // does this region adhere to a specific world?
             if (region.hasWorlds()) {
                 // loop through all worlds
