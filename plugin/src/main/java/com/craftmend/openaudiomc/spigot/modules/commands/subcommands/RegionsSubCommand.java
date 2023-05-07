@@ -4,10 +4,7 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.region.RegionCreateSubCommand;
-import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.region.RegionDeleteSubCommand;
-import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.region.RegionEditSubCommand;
-import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.region.RegionTempSubCommand;
+import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.region.*;
 import com.craftmend.openaudiomc.spigot.modules.regions.gui.RegionSelectionGui;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -23,7 +20,8 @@ public class RegionsSubCommand extends SubCommand {
                 new RegionCreateSubCommand(openAudioMcSpigot),
                 new RegionDeleteSubCommand(openAudioMcSpigot),
                 new RegionTempSubCommand(openAudioMcSpigot),
-                new RegionEditSubCommand(openAudioMcSpigot)
+                new RegionEditSubCommand(openAudioMcSpigot),
+                new RegionListSubCommand(openAudioMcSpigot)
         );
 
         registerArguments(
@@ -43,7 +41,10 @@ public class RegionsSubCommand extends SubCommand {
                         "Change the volume of a region"),
 
                 new Argument("edit fade <region> <fade time MS>",
-                        "Change the fade of a region")
+                        "Change the fade of a region"),
+
+                new Argument("list",
+                        "List all regions at your current location and their properties")
         );
         this.openAudioMcSpigot = openAudioMcSpigot;
     }
@@ -90,6 +91,11 @@ public class RegionsSubCommand extends SubCommand {
 
         if (args[0].equalsIgnoreCase("delete") && args.length == 2) {
             delegateTo("delete", sender, args);
+            return;
+        }
+
+        if (args[0].equalsIgnoreCase("list") && args.length == 1) {
+            delegateTo("list", sender, args);
             return;
         }
 
