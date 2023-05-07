@@ -56,6 +56,14 @@ export class Channel {
             extraCallback = () => {};
         }
 
+        // is the fade time set to 0? then just set the volume, do callback and return
+        if (time === 0) {
+            debugLog("Fading channel", this.channelName, "to", targetVolume, "instantly")
+            this.setChannelVolume(targetVolume);
+            extraCallback();
+            return;
+        }
+
         if (!getGlobalState().settings.fadeAudio) {
             time = 2;
         }
