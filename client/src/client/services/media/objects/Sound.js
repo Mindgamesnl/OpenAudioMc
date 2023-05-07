@@ -66,6 +66,69 @@ export class Sound extends AudioSourceProcessor {
         this.soundElement.abort = console.log;
     }
 
+    destroy() {
+        this.whenInitialized(() => {
+
+            // cancel current fades
+            this.channel.interruptFade();
+
+            this.destroyed = true;
+            this.gotShutDown = true;
+            this.setLooping(false);
+            this.soundElement.pause();
+            this.soundElement.remove();
+            return true;
+        })
+    }
+
+    finalize() {
+        return new Promise((resolve => {
+            this.soundElement.onended = async () => {
+                if (this.gotShutDown) return;
+                if (!this.finsishedInitializing) return;
+                this.onFinish.forEach((runnable, key) => {
+                    runnable();
+                });
+                if (this.loop) {
+                    this.soundElement.src = await this.translate(this.rawSource);
+                    this.setTime(0);
+                    this.soundElement.play().catch(console.error);
+                } else {
+                    this.mixer.removeChannel(this.channel);
+                    if (!this.soundElement.paused) this.soundElement.pause();
+                }
+            };
+
+            let fired = false;
+
+            const attemptToPlay = () => {
+                if (this.gotShutDown) return;
+                if (!fired) {
+                    let prom = this.soundElement.play();
+                    if (prom instanceof Promise) {
+                        prom.then(resolve).catch(resolve);
+                    } else {
+                        resolve();
+                    }
+                }
+                fired = true;
+            };
+
+            const whenStarted = () => {
+                if (this.gotShutDown) {
+                    console.log("Canceled a sound that started to play, for some reason.");
+                    this.soundElement.pause();
+                }
+            };
+
+            this.soundElement.onplay = whenStarted;
+            this.soundElement.onprogress = attemptToPlay;
+            this.soundElement.oncanplay = attemptToPlay;
+            this.soundElement.oncanplaythrough = attemptToPlay;
+            attemptToPlay();
+        }));
+    }
+
     tick() {
         if (!this.loaded &&  this.soundElement != null) {
             // do we have metadata?
@@ -157,54 +220,6 @@ export class Sound extends AudioSourceProcessor {
         this.channel = channel;
     }
 
-    finalize() {
-        return new Promise((resolve => {
-            this.soundElement.onended = async () => {
-                if (this.gotShutDown) return;
-                if (!this.finsishedInitializing) return;
-                this.onFinish.forEach((runnable, key) => {
-                    runnable();
-                });
-                if (this.loop) {
-                    this.soundElement.src = await this.translate(this.rawSource);
-                    this.setTime(0);
-                    this.soundElement.play().catch(console.error);
-                } else {
-                    this.mixer.removeChannel(this.channel);
-                    if (!this.soundElement.paused) this.soundElement.pause();
-                }
-            };
-
-            let fired = false;
-
-            const attemptToPlay = () => {
-                if (this.gotShutDown) return;
-                if (!fired) {
-                    let prom = this.soundElement.play();
-                    if (prom instanceof Promise) {
-                        prom.then(resolve).catch(resolve);
-                    } else {
-                        resolve();
-                    }
-                }
-                fired = true;
-            };
-
-            const whenStarted = () => {
-                if (this.gotShutDown) {
-                    console.log("Canceled a sound that started to play, for some reason.");
-                    this.soundElement.pause();
-                }
-            };
-
-            this.soundElement.onplay = whenStarted;
-            this.soundElement.onprogress = attemptToPlay;
-            this.soundElement.oncanplay = attemptToPlay;
-            this.soundElement.oncanplaythrough = attemptToPlay;
-            attemptToPlay();
-        }));
-    }
-
     setLooping(state) {
         this.loop = state;
     }
@@ -263,21 +278,6 @@ export class Sound extends AudioSourceProcessor {
 
     setTime(target) {
         this.soundElement.currentTime = target;
-    }
-
-    destroy() {
-        this.whenInitialized(() => {
-
-            // cancel current fades
-            this.channel.interruptFade();
-
-            this.destroyed = true;
-            this.gotShutDown = true;
-            this.setLooping(false);
-            this.soundElement.pause();
-            this.soundElement.remove();
-            return true;
-        })
     }
 
 }
