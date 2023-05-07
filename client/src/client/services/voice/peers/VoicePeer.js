@@ -5,6 +5,7 @@ import {Vector3} from "../../../util/math/Vector3";
 import {VoiceModule} from "../VoiceModule";
 import Cookies from 'js-cookie'
 import {reportVital} from "../../../util/vitalreporter";
+import {StringifyError} from "../../../util/errorreformat";
 
 export class VoicePeer {
 
@@ -50,7 +51,7 @@ export class VoicePeer {
                 // remove loading state
                 setGlobalState({voiceState: {peers: {[this.peerStreamKey]: {loading: false}}}});
             } else {
-                reportVital("metrics:voice:peer:failed " + this.peerName + " " + this.peerUuid + " " + this.peerStreamKey);
+                reportVital("metrics:voice:peer:failed " + this.peerName + " " + this.peerUuid + " " + this.peerStreamKey + " | " + StringifyError(e));
                 if (e) {
                     throw e;
                 }
