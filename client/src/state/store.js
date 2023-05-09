@@ -12,6 +12,7 @@ const initialState = {
     currentUser: null,
 
     debug: false,
+    isLegacy: false,
 
     relay: {
         endpoint: null,
