@@ -1,21 +1,23 @@
 import React, {Component} from 'react';
-import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
+import {getTranslation} from "../../client/OpenAudioAppContainer";
 import PropTypes from "prop-types";
-import {getGlobalState} from "../../state/store";
+import {showTextModal} from "../modal/InputModal";
+import {connect} from "react-redux";
 
 export let setTab = (tab) => {
     console.warn("TAB HANDLER IS NOT SET YET");
 }
 
-export class TabWindow extends Component {
-    static contextType = OAC;
-
+class TabWindow extends Component {
     constructor(props) {
         super(props);
         this.state = {
             activePage: 0
         }
+
+        this.openUpgradeDialog = this.openUpgradeDialog.bind(this)
     }
+
     componentDidMount() {
         setTab = (tab) => {
             this.setState({activePage: tab});
@@ -28,9 +30,17 @@ export class TabWindow extends Component {
         }
     }
 
-    render() {
-        let c = this.context;
+    openUpgradeDialog() {
+        showTextModal(
+            "Important platform update",
+            "We've recently moved to a new platform, which will entirely replace the old one. Please check our full changelog on Spigot and update at your earliest convenience. If you have any questions, please contact us on Discord. Support for the legacy 'Craftmend' platform will be dropped this summer.",
+            "",
+            "<a href='https://www.spigotmc.org/resources/openaudiomc-proximity-voice-chat-and-music-without-mods.30691/update?update=498012'>Visit changelog on Spigot</a>",
+            "<i>this message is only applicable to server owners</i>"
+        )
+    }
 
+    render() {
         let pages = React.Children.map(this.props.children, child => ({
             name: child.props.name,
             content: child.props.content,
@@ -47,12 +57,14 @@ export class TabWindow extends Component {
             pageIndex = pages.length - 1;
         }
 
-        let pill = <span className="small-pill free">Free</span>;
-        if (c.isPremium) pill = <span className="small-pill premium">Premium</span>;
+        let pill = <div className="small-pill free">Free</div>;
+        if (this.props.isPremium) pill = <div className="small-pill premium">Premium</div>;
 
         // placeholder for player uuid
         let playerUuid = "00000000-0000-0000-0000-000000000000";
-        if (getGlobalState().currentUser) playerUuid = getGlobalState().currentUser.uuid;
+        if (this.props.currentUser) playerUuid = this.props.currentUser.uuid;
+
+        let legacy = this.props.isLegacy;
 
         return (
             <div className="main-container tabbed">
@@ -60,8 +72,9 @@ export class TabWindow extends Component {
                     <span className="theme-color-text md:pl-10 w-1/3">
                         <div className={"rounding-bottom rounding-top px-1 py-1 flex items-center justify-start"}>
                             <img src={"https://visage.surgeplay.com/face/512/" + playerUuid} className="rounding-top rounding-bottom inline mr-5 w-9 h-9" alt="avatar" />
-                            {getTranslation(c, "serverName")}
+                            {getTranslation(null, "serverName")}
                             {pill}
+                            {legacy && <button onClick={this.openUpgradeDialog} className="content-pill status-button ml-2 green">{getTranslation(null, "navbar.upgradeRequired")}</button>}
                         </div>
                     </span>
 
@@ -91,6 +104,15 @@ export class TabWindow extends Component {
             </div>
         );
     }
+}
+
+export default connect(mapStateToProps)(TabWindow);
+function mapStateToProps(state) {
+    return {
+        isPremium: state.isPremium,
+        isLegacy: state.isLegacy,
+        currentUser: state.currentUser,
+    };
 }
 
 export class TabPage extends Component {

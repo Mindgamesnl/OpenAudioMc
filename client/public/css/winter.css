@@ -984,7 +984,6 @@ input[type='range'] {
     padding: 3px 10px;
     border-radius: 16px;
     margin-top: -2px;
-    cursor: pointer;
     transition: 0.3s;
     white-space: nowrap;
     margin-left: 10px;

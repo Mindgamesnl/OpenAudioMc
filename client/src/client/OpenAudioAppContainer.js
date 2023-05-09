@@ -137,6 +137,7 @@ class OpenAudioAppContainer extends React.Component {
                     fatalToast("Failed to get server details from " + publicServerKey);
                     throw new Error("Failed to get server details from " + publicServerKey);
                 }
+
                 let serverData = await serverDataRaw.json();
                 if (serverData.error !== "NONE") {
                     ReportError('Failed to get server details from ' + publicServerKey + ' at ' + window.location.host, tokenSet.name)
@@ -178,7 +179,11 @@ class OpenAudioAppContainer extends React.Component {
                 debugLog("Server: " + serverData.displayName + " (" + publicServerKey + ")");
                 debugLog("Server is premium: " + serverData.isPatreon);
                 debugLog("Server bucket folder: " + serverData.bucketFolder);
+
+                let legacy = serverData.isRegisteredOnNewPlatform != null && !serverData.isRegisteredOnNewPlatform;
+
                 setGlobalState({
+                    isLegacy: legacy,
                     lang: {"serverName": serverData.displayName},
                     isPremium: serverData.isPatreon || serverData.voicechatSlots > 10,
                     bucketFolder: serverData.bucketFolder,
