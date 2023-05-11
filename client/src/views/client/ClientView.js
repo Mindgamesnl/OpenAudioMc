@@ -34,7 +34,7 @@ class ClientView extends React.Component {
                 </div>
 
                 {this.props.loadingOverlay.visible && <GrayoutPage>
-                    {this.state.browserSupportIsLimited && <OaStyleCard title={""}>
+                    {this.props.browserSupportIsLimited && <OaStyleCard title={""}>
                         {getTranslation(null, "vc.operaWarning")}
                     </OaStyleCard>}
                     <LoadingSpinnerBox
