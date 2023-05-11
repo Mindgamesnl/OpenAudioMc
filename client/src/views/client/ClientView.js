@@ -16,6 +16,7 @@ import {MicrophoneSVG} from "../../components/icons/microphone";
 import {CogSVG} from "../../components/icons/cog";
 import {DebugSVG} from "../../components/icons/debug";
 import {getTranslation} from "../../client/OpenAudioAppContainer";
+import {OaStyleCard} from "../../components/card/OaStyleCard";
 
 class ClientView extends React.Component {
     render() {
@@ -33,6 +34,9 @@ class ClientView extends React.Component {
                 </div>
 
                 {this.props.loadingOverlay.visible && <GrayoutPage>
+                    {this.state.browserSupportIsLimited && <OaStyleCard title={""}>
+                        {getTranslation(null, "vc.operaWarning")}
+                    </OaStyleCard>}
                     <LoadingSpinnerBox
                         title={title}
                         message={message}
@@ -56,6 +60,7 @@ function mapStateToProps(state) {
         inputModal: state.inputModal,
         fixedFooter: state.fixedFooter,
         loadingOverlay: state.loadingOverlay,
-        voiceState: state.voiceState
+        voiceState: state.voiceState,
+        browserSupportIsLimited: state.browserSupportIsLimited
     };
 }

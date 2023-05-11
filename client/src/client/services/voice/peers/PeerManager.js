@@ -120,14 +120,19 @@ export class PeerManager {
         setTimeout(() => {
             if (this.connectedOnce) return; // never-mind, we good
             //eslint-disable-next-line
-            if (window.opera && opera.toString() === "[object Opera]") {
+            if ((!!navigator.userAgent.match(/Opera|OPR\//))) {
                 toast.error(getTranslation(null, "vc.operaWarning"), {
                     position: "top-center",
                     autoClose: 50000,
                     theme: "dark",
                 });
+
+                // set limited
+                setGlobalState({
+                    browserSupportIsLimited: true
+                })
             }
-        }, 10000);
+        }, 5000);
     }
 
     onStart() {
