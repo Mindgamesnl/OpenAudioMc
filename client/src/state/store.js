@@ -21,7 +21,8 @@ const initialState = {
     },
 
     isPremium: false,
-    browserSupportsVoiceChat: false,
+    browserSupportsVoiceChat: false, // no webrtc at all
+    browserSupportIsLimited: false, // operagx, broken settings?
     bucketFolder: null,
 
     inputModal: {
