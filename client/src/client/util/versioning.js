@@ -45,5 +45,9 @@ export async function compareProdVersions() {
         }
     }
 
-    return "up to date";
+    return {
+        text: "Up to date",
+        outOfDate: false,
+        color: "text-gray-500"
+    };
 }
