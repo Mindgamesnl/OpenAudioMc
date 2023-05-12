@@ -180,6 +180,8 @@ export class Sound extends AudioSourceProcessor {
                         return JSON.stringify(plainObject, filter, space);
                     };
 
+
+
                     if (this.source != null && this.source !== "null") {
                         ReportError(
                             "A sound failed to load.\n" +
@@ -190,7 +192,7 @@ export class Sound extends AudioSourceProcessor {
                             "dump=" + stringifyError(this.error, null, '\t') + stringifyError(this.soundElement.error, null, '\t') + "\n" +
                             "hostname=" + window.location.host + "\n" +
                             "useragent=" + window.navigator.userAgent,
-                            getGlobalState().currentUser.userName
+                            (getGlobalState().currentUser != null ? getGlobalState().currentUser.userName : "unknown")
                         );
                     }
 
