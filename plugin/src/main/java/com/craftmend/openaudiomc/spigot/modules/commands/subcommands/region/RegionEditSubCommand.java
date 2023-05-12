@@ -86,8 +86,8 @@ public class RegionEditSubCommand extends SubCommand {
             }
 
             Integer fade = Integer.parseInt(args[2]);
-            if (fade < 0 || fade > 100) {
-                message(sender, ChatColor.RED + "The fade duration must be higher than 0");
+            if (fade < 1 || fade > 100000) {
+                message(sender, ChatColor.RED + "The fade duration must be at least 100 (ms) and at most 100000 (ms)");
                 return;
             }
 
