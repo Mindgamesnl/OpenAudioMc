@@ -1,4 +1,4 @@
-import { createStore } from 'redux';
+import {createStore} from 'redux';
 import Cookies from "js-cookie";
 
 // some settings shouldn't be saved persistently
@@ -21,6 +21,7 @@ const initialState = {
     },
 
     isPremium: false,
+    clientSupportsVoiceChat: false, // not valid https
     browserSupportsVoiceChat: false, // no webrtc at all
     browserSupportIsLimited: false, // operagx, broken settings?
     bucketFolder: null,
@@ -110,14 +111,14 @@ export function shouldSettingSave(name) {
 }
 
 export function setGlobalState(stateUpdates) {
-    store.dispatch({ type: 'SET_STATE', stateUpdates });
+    store.dispatch({type: 'SET_STATE', stateUpdates});
 
     // save to cookies
     if (stateUpdates.hasOwnProperty("settings")) {
         const settings = stateUpdates.settings;
         for (let key in settings) {
             if (settings.hasOwnProperty(key) && shouldSettingSave(key)) {
-                Cookies.set("setting_" + key, settings[key], { expires: 365 });
+                Cookies.set("setting_" + key, settings[key], {expires: 365});
             }
         }
     }
@@ -157,22 +158,24 @@ function mergeObjects(obj1, obj2) {
         }
     }
 
-    return {...{
-        ...obj1,
-        ...obj2,
-        ...Object.keys(obj1).reduce((acc, key) => {
-            if (obj2[key] && typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
-                acc[key] = mergeObjects(obj1[key], obj2[key]);
-            }
-            return acc;
-        }, {}),
-    }};
+    return {
+        ...{
+            ...obj1,
+            ...obj2,
+            ...Object.keys(obj1).reduce((acc, key) => {
+                if (obj2[key] && typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
+                    acc[key] = mergeObjects(obj1[key], obj2[key]);
+                }
+                return acc;
+            }, {}),
+        }
+    };
 }
 
 // toggle debug mode when the D key is pressed
 document.addEventListener('keydown', function (e) {
     if (e.key === "d") {
-        setGlobalState({ debug: !getGlobalState().debug });
+        setGlobalState({debug: !getGlobalState().debug});
     }
 });
 

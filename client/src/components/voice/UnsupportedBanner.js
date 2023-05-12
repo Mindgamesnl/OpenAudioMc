@@ -1,5 +1,4 @@
 import React from "react";
-import {getTranslation} from "../../client/OpenAudioAppContainer";
 
 export class UnsupportedBanner extends React.Component {
     render() {
@@ -10,7 +9,7 @@ export class UnsupportedBanner extends React.Component {
                         <div className="content-text full">
                             <div className={"text-center"}>
                                 <p className="soft-text">
-                                    {getTranslation(null, "vc.notCompatible")}
+                                    {this.props.children}
                                 </p>
                             </div>
                         </div>
