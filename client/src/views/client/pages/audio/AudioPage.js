@@ -1,7 +1,7 @@
 import React from "react";
 import {Header} from "../../../../components/header/Header";
 import {ClickPrompt} from "../../../../components/clicktoconnect/ClickPrompt";
-import {OAC} from "../../../../client/OpenAudioAppContainer";
+import {getTranslation, OAC} from "../../../../client/OpenAudioAppContainer";
 import {VcOnboarding} from "../../../../components/onboarding/VcOnboarding";
 import AudioVolume from "../../../../components/audio/AudioVolume";
 import SoundCloudPlayer from "../../../../components/soundcloud/SoundCloudPlayer";
@@ -19,8 +19,9 @@ class AudioPage extends React.Component {
         return (
             <div>
                 <Header />
-                {this.props.voiceState.enabled && !this.props.voiceState.ready && this.props.browserSupportsVoiceChat && <VcOnboarding />}
-                {this.props.voiceState.enabled && !this.props.browserSupportsVoiceChat && <UnsupportedBanner />}
+                {this.props.voiceState.enabled && !this.props.voiceState.ready && this.props.clientSupportsVoiceChat && this.props.browserSupportsVoiceChat && <VcOnboarding />}
+                {this.props.voiceState.enabled && !this.props.browserSupportsVoiceChat && <UnsupportedBanner>{getTranslation(null, "vc.notCompatible")}</UnsupportedBanner>}
+                {this.props.voiceState.enabled && !this.props.clientSupportsVoiceChat && <UnsupportedBanner>{getTranslation(null, "vc.badClient")}</UnsupportedBanner>}
                 <AudioVolume />
                 <SoundCloudPlayer />
             </div>
@@ -33,5 +34,6 @@ function mapStateToProps(state) {
     return {
         browserSupportsVoiceChat: state.browserSupportsVoiceChat,
         voiceState: state.voiceState,
+        clientSupportsVoiceChat: state.clientSupportsVoiceChat,
     };
 }

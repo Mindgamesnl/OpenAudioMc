@@ -33,9 +33,17 @@ class OpenAudioAppContainer extends React.Component {
             testMode: false,
         }
 
+        let isValidHttps = window.location.protocol === "https:";
+
+        // are we on localhost? then its probably fine
+        if (window.location.hostname === "localhost") {
+            isValidHttps = true;
+        }
+
         // initialize capabilities
         setGlobalState({
-            browserSupportsVoiceChat: isVoicechatCompatible()
+            browserSupportsVoiceChat: isVoicechatCompatible(),
+            clientSupportsVoiceChat: isValidHttps,
         })
 
         let settings = getGlobalState().settings;
