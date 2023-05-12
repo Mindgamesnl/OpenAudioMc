@@ -11,7 +11,7 @@ export async function reportVital(message) {
 
     let currentDomain = window.location.hostname;
 
-    message += " | " + currentDomain + " | " + VERSION.revision + " | " + serverName
+    message += " | " + currentDomain + " | " + VERSION.build + " | " + serverName
 
     await fetch("https://plus.openaudiomc.net/cf-log/development", {
         method: "POST",
