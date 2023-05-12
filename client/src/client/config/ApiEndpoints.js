@@ -11,5 +11,7 @@ export const API_ENDPOINT = {
     CLIENT_SESSION_SERVER: "https://plus.openaudiomc.net/session",
     STREAMER_MODE: "https://api.openaudiomc.net/client/streamermode/",
 
-    GET_SETTINGS: "https://cloud.openaudiomc.net/api/v3/account-services/settings/"
+    GET_SETTINGS: "https://cloud.openaudiomc.net/api/v3/account-services/settings/",
+
+    PROD_CLIENT_VERSION: "https://session.openaudiomc.net/metadata.json",
 }
