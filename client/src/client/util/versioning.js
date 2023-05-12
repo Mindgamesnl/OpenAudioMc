@@ -1,0 +1,49 @@
+import {API_ENDPOINT} from "../config/ApiEndpoints";
+import {VERSION} from "../../index";
+
+export async function compareProdVersions() {
+    const prodVersionFile = await fetch(API_ENDPOINT.PROD_CLIENT_VERSION);
+
+    if (prodVersionFile.status !== 200 || prodVersionFile.errored) {
+        throw new Error("Failed to fetch prod version file");
+    }
+
+    const prodVersion = await prodVersionFile.json();
+
+    // compare versions
+    const majorDiff = prodVersion.buildMajor - VERSION.major;
+    const minorDiff = prodVersion.buildMinor - VERSION.minor;
+    const patchDiff = prodVersion.buildRevision - VERSION.revision;
+
+    let diff = 0;
+    if (majorDiff > diff) diff = majorDiff;
+    if (minorDiff > diff) diff = minorDiff;
+    if (patchDiff > diff) diff = patchDiff;
+
+    if (diff === 0) {
+        // are we behind?
+        if (majorDiff < 0) diff = majorDiff;
+        if (minorDiff < 0) diff = minorDiff;
+        if (patchDiff < 0) diff = patchDiff;
+    }
+
+    if (diff > 0) {
+        console.warn("You are running an older OpenAudioMc client, please update!");
+        console.warn("You are running version: " + VERSION.major + "." + VERSION.minor + "." + VERSION.revision + " and the latest version is: " + prodVersion.major + "." + prodVersion.minor + "." + prodVersion.buildRevision);
+        return {
+            text: Math.abs(diff) + " version(s) behind",
+            outOfDate: true,
+            color: "text-red-500"
+        };
+    }
+
+    if (diff < 0) {
+        return {
+            text: Math.abs(diff) + " version(s) ahead",
+            outOfDate: false,
+            color: "text-green-500"
+        }
+    }
+
+    return "up to date";
+}
