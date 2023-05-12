@@ -23,6 +23,11 @@ export class Mixer {
         this.channels.forEach((channel, key) => {
             channel.tick();
         });
+
+        // manually tick ambiance sound
+        if (this.ambianceSoundMedia != null) {
+            this.ambianceSoundMedia.tick();
+        }
     }
 
     _updatePlayingSounds() {
@@ -55,7 +60,7 @@ export class Mixer {
 
     async setupAmbianceSound(source) {
         // create media
-        let channel = new Channel("ambiance-lol-dics");
+        let channel = new Channel("ambiance-from-account");
         let ambianceMedia = new Sound();
         await ambianceMedia.load(source)
         channel.addSound(ambianceMedia);
