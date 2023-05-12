@@ -25,8 +25,8 @@
   },
   "scripts": {
     "lint": "node_modules/.bin/eslint src/",
-    "start": "react-scripts start",
-    "build": "GENERATE_SOURCEMAP=true react-scripts build",
+    "start": "node bump-minor.js && react-scripts start",
+    "build": "node bump-minor.js && GENERATE_SOURCEMAP=true react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "bump": "node generate-buildno.js"
