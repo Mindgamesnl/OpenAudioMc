@@ -77,7 +77,7 @@ public class SpigotMainCommand implements CommandExecutor, TabCompleter {
                 }
                 return true;
             } else {
-                sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "You dont have the permissions to do this, sorry!");
+                sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "You dont have the permissions to do this, sorry! (spigot)");
                 return true;
             }
         } else {

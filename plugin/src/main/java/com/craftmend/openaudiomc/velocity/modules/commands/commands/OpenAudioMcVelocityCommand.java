@@ -61,7 +61,7 @@ public class OpenAudioMcVelocityCommand implements SimpleCommand {
                 }
                 return;
             } else {
-                user.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "You dont have the permissions to do this, sorry!");
+                user.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "You dont have the permissions to do this, sorry! (velocity)");
                 return;
             }
         } else {
