@@ -73,7 +73,7 @@ public class OpenAudioMcBungeeCommand extends Command {
                 }
                 return;
             } else {
-                user.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "You dont have the permissions to do this, sorry!");
+                user.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "You dont have the permissions to do this, sorry! (bungee)");
                 return;
             }
         } else {
