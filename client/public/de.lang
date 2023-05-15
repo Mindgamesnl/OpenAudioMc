@@ -84,27 +84,6 @@ vc.settings.monitoring.toggle=Aktiviere Mikrofon-Kontrolle
 vc.operaWarning=Dein Login scheint eine Weile zu dauern. Das liegt wahrscheinlich an deinen Opera-Einstellungen. Bitte öffne deine Browsereinstellungen, suche nach "WebRTC" und wähle die Option "Alles aktivieren".
 vc.youAreModerating=Pass auf! Du bist jetzt ein Moderator, du kannst jetzt jeden im Sprachchat hören, aber sie können dich nicht hören.
 
-hue.hue=Philips Hue
-hue.link=Klicke hier um dich mit deiner Hue-Bridge zu verbinden
-hue.preparing=Vorbereiten der Einrichtung...
-hue.loggingIn=Einloggen...
-hue.linking=Drücke die Verbindungstaste auf deiner Hue-Bridge innerhalb von %sec Sekunden, um eine Verbindung herzustellen.
-hue.connectedTo=Du bist nun mit deiner Hue-Bridge verbunden:
-hue.light1=Licht eins
-hue.light2=Licht zwei
-hue.light3=Licht drei
-hue.connected=Du kannst nun bis zu drei Lichter miteinander verbinden, die der Server steuern soll. Meistens von rechts nach links.
-hue.close=Schließen
-
-notification.success=Hurra! Du wirst nun Benachrichtigungen erhalten
-notification.test.title=Test Test 123
-notification.test.body=Es hat funktioniert! Du hast die Benachrichtigungen richtig konfiguriert!
-notification.info.voicechat=<div style="text-align: center;" class="medium-text">Dieser Server unterstützt <b>Umbegungs-Sprachchat</b>! Gehe zum Reiter <b>Sprachchat</b> um ihn zu starten und mit anderen zu sprechen.</div>
-notification.voicechat.peeradd.title=Neuer Sprachchat-Teilnehmer
-notification.voicechat.peeradd.body=%name ist in deiner Sprachreichweite aufgetaucht
-notification.voicechat.peerdop.title=Spieler hat den Sprachchat verlassen
-notification.voicechat.peerdop.body=%name hat deine Sprachreichweite verlassen
-
 settings.voicechat.chimes.title=Sprachchat-Läuten
 settings.voicechat.chimes.body=Das Läuten ist ein kleiner Sound, der abgespielt wird, wenn du die Stummschaltung deines Mikrofons de-/aktivierst. Content-Creator möchten dies möglicherweise deaktivieren.
 settings.voicechat.chimes.button=Aktiviere Sprachchat-Läuten
