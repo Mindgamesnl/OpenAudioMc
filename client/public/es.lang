@@ -63,27 +63,6 @@ vc.settings.globalVolumeAbout=Cambiar el volumen principal de todos sus compañe
 vc.settings.toggleMenuTitle=Configuración de entrada de Chat de Voz
 vc.settings.toggleMenu=Alternar Menú
 
-hue.hue=Philips Hue
-hue.link=Haga clic aquí para conectarse a su puente de Hue
-hue.preparing=Preparando la instalación...
-hue.loggingIn=Iniciando sesión..
-hue.linking=Presione el botón de enlace en su puente de Hue dentro %sec segundos para conectar.
-hue.connectedTo=Ahora estás conectado con tu puente de Hue:
-hue.light1=Luz uno
-hue.light2=Luz dos
-hue.light3=Luz tres
-hue.connected=Ahora puede vincular hasta tres luces que controlará el servidor. Generalmente de derecha a izquierda.
-hue.close=Cerrar
-
-notification.success=¡Viva! ahora recibirás notificaciones
-notification.test.title=Probando probando 123
-notification.test.body=¡Funcionó! ha configurado las Notificaciones correctamente!
-notification.info.voicechat=<div style="text-align: center;" class="medium-text">Este servidor admite <b>Chat de Voz de Proximidad</b>! vaya a la pestaña <b>Chat de voz</b> para entrar y hablar con otros.</div>
-notification.voicechat.peeradd.title=Nuevo compañero de chat de voz
-notification.voicechat.peeradd.body=%name apareció en el radio de tu chat de voz
-notification.voicechat.peerdop.title=El jugador salió del chat de voz
-notification.voicechat.peerdop.body=%name dejó el radio de su chat de voz
-
 settings.voicechat.chimes.title=Campanas de Chat de Voz
 settings.voicechat.chimes.body=Las campanillas son los pequeños sonidos que se reproducen cada vez que silencia o activa el micrófono. Es posible que los creadores de contenido quieran desactivar esta opción.
 settings.voicechat.chimes.button=Usar campanas

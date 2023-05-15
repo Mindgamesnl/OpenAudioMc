@@ -80,28 +80,7 @@ vc.settings.monitoring.title=Kontrola mikrofona
 vc.settings.monitoring.about=Kontrola vam pušta vaš sopstveni glas da bi čuli kako vas drugi čuju, korisno je da bi proverili svoj mikrofon i postavke osetljivosti 
 vc.settings.monitoring.toggle=Odobri kontrolu 
 vc.operaWarning=Tvoje učitavanje traje duže nego što bi trebalo, ovo je verovatno zbog vaših Opera postavki. Molim vas otvorite podešavanje vašeg pretraživaca, tražite "WebRTC" i odaberite da aktivirate sve opcije
-vc.youAreModerating=Pazi! vi ste sada Moderator, možete da čujete sve u glasovnom kanalu, ali oni ne mogu da čuju vas! 
-
-hue.hue=LED lampe
-hue.link=Klikni ovde da se povežes na svoje LED lampe
-hue.preparing=Priprema... 
-hue.loggingIn=Prijavljivanje...
-hue.linking=Klikni na dugme vaše LED lampe za %sec sekunde ste povezani
-hue.connectedTo=Sada ste povezani sa vašim LED lampama: 
-hue.light1=Prvo svetlo
-hue.light2=Drugo svetlo
-hue.light3=Treće svetlo
-hue.connected=Sada možete da spojite do tri svetla koje će server koristiti. Generalno od desnog svetla do levog svetla. 
-hue.close=Zatvori
-
-notification.success=Svaka čast! sada će te dobijati obaveštenja
-notification.test.title=Test test 123
-notification.test.body=Radi! vi ste podesili Obaveštenja kako treba! 
-notification.info.voicechat=<div style="text-align: center;" class="medium-text">Ovaj server podržava<b>Proximity Voice Chat</b>! Idite u<b>VoiceChat</b>da bi pristupili i razgovarali sa ostalima.</div>
-notification.voicechat.peeradd.title=Novi korisnik
-notification.voicechat.peeradd.body=%name je pristupio vašem glasovnom kanalu
-notification.voicechat.peerdop.title=Igrač je izašao iz glasovnog kanala
-notification.voicechat.peerdop.body=%name je izašao iz vašeg glasovnog kanala 
+vc.youAreModerating=Pazi! vi ste sada Moderator, možete da čujete sve u glasovnom kanalu, ali oni ne mogu da čuju vas!
 
 settings.voicechat.chimes.title=Glasovni-Kanal zvona
 settings.voicechat.chimes.body=Zvona su mali zvukovi koji se čuju kada upalite/ugasite vaš mikrofon. YouTuberi i Strimeri trebalo bi da ugase ovo. 

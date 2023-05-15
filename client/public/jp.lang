@@ -63,27 +63,6 @@ vc.settings.globalVolumeAbout=すべてのボイスチャット相手のマス�
 vc.settings.toggleMenuTitle=ボイスチャットの入力設定
 vc.settings.toggleMenu=トグルメニュー
 
-hue.hue=Philips Hue
-hue.link=Hue Bridgeとの接続はこちら
-hue.preparing=セットアップ準備中...
-hue.loggingIn=ログイン中...
-hue.linking=%sec 以内にHue Bridgeのリンクボタンを押すと、接続されます。
-hue.connectedTo=これで、Hue Bridgeとの接続が完了しました。
-hue.light1=Light one
-hue.light2=Light two
-hue.light3=Light three
-hue.connected=これで、サーバーが制御する照明を最大3つまでリンクさせることができます。通常は右から左へ。
-hue.close=閉じる
-
-notification.success=万歳！通知を受け取ることができるようになりました。
-notification.test.title=テストテスト 123
-notification.test.body=うまくいきました！Notificationが正しく設定されていますね。
-notification.info.voicechat=<div style="text-align: center;" class="medium-text">このサーバーは<b>近接ボイスチャット</b>をサポートしています！<b>ボイスチャット</b>タブで他の人と話してみてください。</div>
-notification.voicechat.peeradd.title=新しいボイスチャット仲間
-notification.voicechat.peeradd.body=ボイスチャット半径に %name が現れた
-notification.voicechat.peerdop.title=プレイヤーがボイスチャットを退出
-notification.voicechat.peerdop.body=ボイスチャット半径から %name が離れた
-
 settings.voicechat.chimes.title=ボイスチャットチャイム
 settings.voicechat.chimes.body=チャイムは、マイクをミュート/アンミュートするたびに鳴る小さな音です。コンテンツ制作者は、これをオフにするとよいでしょう。
 settings.voicechat.chimes.button=鳴らす
