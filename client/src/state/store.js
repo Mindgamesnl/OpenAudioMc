@@ -74,6 +74,8 @@ const initialState = {
         ready: false,
         isSpeaking: false,
         serverHasModeration: false,
+        microphoneSanityPrompt: false,
+        microphoneTriggeredOnce: false,
         streamServer: null,
         streamKey: null,
         radius: 25,

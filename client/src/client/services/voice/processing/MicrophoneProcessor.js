@@ -36,6 +36,9 @@ export class MicrophoneProcessor {
         this.isStreaming = false;
         this.isMuted = false;
 
+        this.micTriggerCount = 0;
+        this.micSanityPassed = false;
+
         this.harkEvents = new Hark(this.stream)
         this.gainController = new GainController(stream);
         this.gainController.on();
@@ -169,6 +172,14 @@ export class MicrophoneProcessor {
         clearInterval(this.checkLoop)
     }
 
+    updateMicSanityCheck() {
+        this.micTriggerCount++;
+        if (this.micTriggerCount >= 5) {
+            this.micSanityPassed = true;
+            setGlobalState({voiceState: {microphoneTriggeredOnce: true}})
+        }
+    }
+
     shouldStream(state) {
         if (state) {
             // create start rtc notification
@@ -184,6 +195,7 @@ export class MicrophoneProcessor {
             }
 
             setGlobalState({voiceState: {isSpeaking: true}})
+            this.updateMicSanityCheck();
 
             clearTimeout(this.haltRtpTask);
             // this.gainController.on();

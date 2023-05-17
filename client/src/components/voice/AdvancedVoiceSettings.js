@@ -72,8 +72,53 @@ class AdvancedVoiceSettings extends React.Component {
         return (
             <div className={"p-8"}>
                 <OaStyleCard fullWidth={true} dark={true}>
+
+
+                    <div className="content-card sensitivty-card text-3xl">
+                               <span>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                                     strokeLinecap="round" strokeLinejoin="round">  <line x1="4" y1="21" x2="4"
+                                                                                          y2="14"/>  <line x1="4"
+                                                                                                           y1="10"
+                                                                                                           x2="4"
+                                                                                                           y2="3"/>  <line
+                                    x1="12" y1="21" x2="12" y2="12"/>  <line x1="12" y1="8" x2="12" y2="3"/>  <line
+                                    x1="20" y1="21" x2="20"
+                                    y2="16"/>  <line x1="20"
+                                                     y1="12"
+                                                     x2="20"
+                                                     y2="3"/>  <line
+                                    x1="1" y1="14" x2="7" y2="14"/>  <line x1="9" y1="8" x2="15" y2="8"/>  <line
+                                    x1="17" y1="16" x2="23"
+                                    y2="16"/></svg>
+                                   {getTranslation(c, "vc.sensitivity")}
+                               </span>
+                        <div className="content-card-content content-card-content-border-bottom text-xl" dangerouslySetInnerHTML={{__html: getTranslation(c, "vc.aboutSensitivity")}}>
+                        </div>
+                        <div className="content-card-buttons w-full  text-3xl">
+                            <label htmlFor="mic-sensitive-slider"></label>
+                            <div className={"w-full"}>
+                                <div
+                                    className={"volume-slider p-0 bg-gray-700 rounded-full h-2.5 mb-4 dark:bg-gray-700"}>
+                                    <div
+                                        className={"h-2.5 rounded-full" + (this.state.isAboveThreshold ? " bg-green-500" : " bg-blue-400")}
+                                        style={{width: `${this.state.currentMicVolume}%`}}></div>
+                                </div>
+                                <input
+                                    className="volume-slider reversedRange inline" onInput={this.micSensitiveInput}
+                                    type="range" min="0" max="100" step="1"
+                                    value={this.props.microphoneSensitivity}/>
+                            </div>
+                            <label className="content-pill status-button mb-5">
+                                <input type="checkbox" onChange={this.micAutoSensitivityInput} checked={this.props.autoMicSensitivity}>
+                                </input>
+                                <span className={"inline"}>{getTranslation(c, "vc.automaticAdjustments")}</span>
+                            </label>
+                        </div>
+                    </div>
+
                     <div className="content-card-collection items-stretch">
-                        <div className="content-card small-vc-card">
+                        <div className="content-card small-vc-card  text-3xl">
                                <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                           stroke="currentColor" strokeWidth="2" strokeLinecap="round"
                                           strokeLinejoin="round"><path
@@ -94,7 +139,7 @@ class AdvancedVoiceSettings extends React.Component {
                                 ))}
                             </select>
                         </div>
-                        <div className="content-card small-vc-card">
+                        <div className="content-card small-vc-card  text-3xl">
                                <span>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                      strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round"
@@ -111,7 +156,7 @@ class AdvancedVoiceSettings extends React.Component {
                                 </button>
                             </div>
                         </div>
-                        <div className="content-card vc-monitoring-card">
+                        <div className="content-card vc-monitoring-card  text-3xl">
                                 <span>
                                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
                                       strokeLinecap="round" strokeLinejoin="round">  <line x1="4" y1="21" x2="4"
@@ -142,49 +187,7 @@ class AdvancedVoiceSettings extends React.Component {
                                 </label>
                             </div>
                         </div>
-                        <div className="content-card sensitivty-card">
-                               <span>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                                     strokeLinecap="round" strokeLinejoin="round">  <line x1="4" y1="21" x2="4"
-                                                                                          y2="14"/>  <line x1="4"
-                                                                                                           y1="10"
-                                                                                                           x2="4"
-                                                                                                           y2="3"/>  <line
-                                    x1="12" y1="21" x2="12" y2="12"/>  <line x1="12" y1="8" x2="12" y2="3"/>  <line
-                                    x1="20" y1="21" x2="20"
-                                    y2="16"/>  <line x1="20"
-                                                     y1="12"
-                                                     x2="20"
-                                                     y2="3"/>  <line
-                                    x1="1" y1="14" x2="7" y2="14"/>  <line x1="9" y1="8" x2="15" y2="8"/>  <line
-                                    x1="17" y1="16" x2="23"
-                                    y2="16"/></svg>
-                                   {getTranslation(c, "vc.sensitivity")}
-                               </span>
-                            <div className="content-card-content content-card-content-border-bottom">
-                                {getTranslation(c, "vc.aboutSensitivity")}
-                            </div>
-                            <div className="content-card-buttons w-full">
-                                <label htmlFor="mic-sensitive-slider"></label>
-                                <div className={"w-full"}>
-                                    <div
-                                        className={"volume-slider p-0 bg-gray-700 rounded-full h-2.5 mb-4 dark:bg-gray-700"}>
-                                        <div
-                                            className={"h-2.5 rounded-full" + (this.state.isAboveThreshold ? " bg-green-500" : " bg-blue-400")}
-                                            style={{width: `${this.state.currentMicVolume}%`}}></div>
-                                    </div>
-                                    <input
-                                        className="volume-slider reversedRange inline" onInput={this.micSensitiveInput}
-                                        type="range" min="0" max="100" step="1"
-                                        value={this.props.microphoneSensitivity}/>
-                                </div>
-                                <label className="content-pill status-button mb-5">
-                                    <input type="checkbox" onChange={this.micAutoSensitivityInput} checked={this.props.autoMicSensitivity}>
-                                    </input>
-                                    <span className={"inline"}>{getTranslation(c, "vc.automaticAdjustments")}</span>
-                                </label>
-                            </div>
-                        </div>
+
                     </div>
                 </OaStyleCard>
             </div>

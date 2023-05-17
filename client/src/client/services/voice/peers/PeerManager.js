@@ -142,6 +142,14 @@ export class PeerManager {
             voiceState: {ready: true}
         });
 
+        // 10 seconds after initial connection, show the sanity overlay
+        setTimeout(() => {
+            setGlobalState({
+                voiceState: {microphoneSanityPrompt: true}
+            })
+        }, 10 * 1000);
+
+
         SocketManager.send(PluginChannel.RTC_READY, {"enabled": true});
         this.connectedOnce = true;
     }
