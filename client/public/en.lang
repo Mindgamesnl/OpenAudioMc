@@ -57,8 +57,8 @@ vc.settingsDisable=Disable
 vc.settingsEnablePositionalAudio=Enable Positional Audio
 vc.settingsDisablePositionalAudio=Disable Positional Audio
 vc.automaticAdjustments=Adjust automatically
-vc.sensitivity=Microphone Sensitivity
-vc.aboutSensitivity=Configure a noise gate, cutting out your background hiss and noise and only activating your microphone when speaking.
+vc.sensitivity=Noise Gate
+vc.aboutSensitivity=Configure the noise gate of your microphone, this will automatically mute your microphone when you're not talking. <b>Fully to the left</b> will disable the noise gate, <b>fully to the right</b> will mute your microphone all the time.
 vc.peerTable={total} people within voice range, {talking} talking
 vc.toggleMicrophone=Toggle Microphone
 vc.you=you
@@ -83,6 +83,8 @@ vc.settings.monitoring.about=Monitoring plays your own voice back for yourself l
 vc.settings.monitoring.toggle=Enable monitoring
 vc.operaWarning=Your login seems to be taking a while, this is most likely due to your Opera settings. Please open your browser settings, search for "WebRTC" and select the enable-all option
 vc.youAreModerating=Watch out! you are now a moderator, you can now hear everyone in voice chat but they can't hear you.
+vc.noMicInputYetTitle=We're having trouble hearing you!
+vc.noMicInputYetBody=Please make sure that you have the correct microphone selected, or try lowering your noise gate.
 
 settings.voicechat.chimes.title=VoiceChat Chimes
 settings.voicechat.chimes.body=Chimes are the little sounds that play whenever you mute/unmute your microphone. Content creators may want to turn this off.
@@ -120,3 +122,5 @@ settings.interpolation.button=Enable smoothing
 settings.streamermode.title=Streamer Mode
 settings.streamermode.body=Automatically disable your session tokens after single use. This means that your client URL's are safe to show on stream without worrying that a viewer impersonates you. Just be sure to open your link as soon as you get it.
 settings.streamermode.button=Enable streamer mode
+
+tooltip.close=Close
