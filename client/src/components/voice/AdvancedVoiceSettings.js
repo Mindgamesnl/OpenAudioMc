@@ -1,5 +1,5 @@
 import React from "react";
-import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
+import {getTranslation} from "../../client/OpenAudioAppContainer";
 import {setGlobalState} from "../../state/store";
 import {connect} from "react-redux";
 import {
@@ -9,7 +9,6 @@ import {
 import {OaStyleCard} from "../card/OaStyleCard";
 
 class AdvancedVoiceSettings extends React.Component {
-    static contextType = OAC;
 
     constructor(props) {
         super(props);
@@ -63,11 +62,10 @@ class AdvancedVoiceSettings extends React.Component {
     }
 
     render() {
-        let c = this.context;
         let mics = Object.values(this.props.voiceState.mics)
         let currentMic = this.props.preferredMicId;
 
-        let surroundText = !this.props.surroundSound ? getTranslation(c, "vc.settings.surround.enable") : getTranslation(c, "vc.settings.surround.disable");
+        let surroundText = !this.props.surroundSound ? getTranslation(null, "vc.settings.surround.enable") : getTranslation(null, "vc.settings.surround.disable");
 
         return (
             <div className={"p-8"}>
@@ -91,9 +89,9 @@ class AdvancedVoiceSettings extends React.Component {
                                     x1="1" y1="14" x2="7" y2="14"/>  <line x1="9" y1="8" x2="15" y2="8"/>  <line
                                     x1="17" y1="16" x2="23"
                                     y2="16"/></svg>
-                                   {getTranslation(c, "vc.sensitivity")}
+                                   {getTranslation(null, "vc.sensitivity")}
                                </span>
-                        <div className="content-card-content content-card-content-border-bottom text-xl" dangerouslySetInnerHTML={{__html: getTranslation(c, "vc.aboutSensitivity")}}>
+                        <div className="content-card-content content-card-content-border-bottom text-xl" dangerouslySetInnerHTML={{__html: getTranslation(null, "vc.aboutSensitivity")}}>
                         </div>
                         <div className="content-card-buttons w-full  text-3xl">
                             <label htmlFor="mic-sensitive-slider"></label>
@@ -112,7 +110,7 @@ class AdvancedVoiceSettings extends React.Component {
                             <label className="content-pill status-button mb-5">
                                 <input type="checkbox" onChange={this.micAutoSensitivityInput} checked={this.props.autoMicSensitivity}>
                                 </input>
-                                <span className={"inline"}>{getTranslation(c, "vc.automaticAdjustments")}</span>
+                                <span className={"inline"}>{getTranslation(null, "vc.automaticAdjustments")}</span>
                             </label>
                         </div>
                     </div>
@@ -127,10 +125,10 @@ class AdvancedVoiceSettings extends React.Component {
                                                                                y2="23"></line><line x1="8" y1="23"
                                                                                                     x2="16"
                                                                                                     y2="23"></line></svg>
-                                   {getTranslation(c, "vc.input")}
+                                   {getTranslation(null, "vc.input")}
                                </span>
                             <div className="content-card-content content-card-content-border-bottom">
-                                {getTranslation(c, "vc.aboutInput")}
+                                {getTranslation(null, "vc.aboutInput")}
                             </div>
                             <label htmlFor="vc-mic-select"></label>
                             <select className="full soft-tex content-pill" value={currentMic} onChange={this.selectMic}>
@@ -145,10 +143,10 @@ class AdvancedVoiceSettings extends React.Component {
                                      strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round"
                                      strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z"></path><path
                                     d="M21 3L14.5 21a.55 .55 0 0 1 -1 0L10 14L3 10.5a.55 .55 0 0 1 0 -1L21 3"></path></svg>
-                                   {getTranslation(c, "vc.positionalAudio")}
+                                   {getTranslation(null, "vc.positionalAudio")}
                                </span>
                             <div className="content-card-content content-card-content-border-bottom">
-                                {getTranslation(c, "vc.aboutPositionalAudio")}
+                                {getTranslation(null, "vc.aboutPositionalAudio")}
                             </div>
                             <div className="content-card-buttons">
                                 <button className="content-pill status-button green" onClick={this.toggleSurroundSound}>
@@ -173,17 +171,17 @@ class AdvancedVoiceSettings extends React.Component {
                                      x1="1" y1="14" x2="7" y2="14"/>  <line x1="9" y1="8" x2="15" y2="8"/>  <line
                                      x1="17" y1="16" x2="23"
                                      y2="16"/></svg>
-                                    {getTranslation(c, "vc.settings.monitoring.title")}
+                                    {getTranslation(null, "vc.settings.monitoring.title")}
                                 </span>
                             <div className="content-card-content content-card-content-border-bottom">
-                                {getTranslation(c, "vc.settings.monitoring.about")}
+                                {getTranslation(null, "vc.settings.monitoring.about")}
                             </div>
                             <div className="content-card-buttons">
                                 <label className="content-pill status-button">
                                     <input type="checkbox" onChange={this.monitoringInput} checked={this.props.monitoringEnabled}>
                                     </input>
                                     <span
-                                        className={"!inline !block"}>{getTranslation(c, "vc.settings.monitoring.toggle")}</span>
+                                        className={"!inline !block"}>{getTranslation(null, "vc.settings.monitoring.toggle")}</span>
                                 </label>
                             </div>
                         </div>
