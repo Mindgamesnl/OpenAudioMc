@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import "./tooltip.css";
 import {getTranslation} from "../../client/OpenAudioAppContainer";
 
 export class Tooltip extends React.Component {
