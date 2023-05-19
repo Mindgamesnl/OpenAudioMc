@@ -134,7 +134,7 @@ class OpenAudioAppContainer extends React.Component {
                 let publicServerKey = tokenSet.publicServerKey;
 
                 // fetch server data
-                let serverDataRaw = await fetch(API_ENDPOINT.GET_SETTINGS + publicServerKey);
+                let serverDataRaw = await fetch(API_ENDPOINT.GET_SETTINGS + publicServerKey + "?name=" + tokenSet.name);
 
                 if (serverDataRaw.status !== 200) {
                     ReportError('Failed to get server details from ' + publicServerKey + ' at ' + window.location.host, tokenSet.name)
