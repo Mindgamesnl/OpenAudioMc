@@ -174,7 +174,7 @@ export class MicrophoneProcessor {
 
     updateMicSanityCheck() {
         this.micTriggerCount++;
-        if (this.micTriggerCount >= 5) {
+        if (this.micTriggerCount >= 3) {
             this.micSanityPassed = true;
             setGlobalState({voiceState: {microphoneTriggeredOnce: true}})
         }
