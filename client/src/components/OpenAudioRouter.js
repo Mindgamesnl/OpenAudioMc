@@ -4,7 +4,7 @@ import {LoginView} from "../views/login/LoginView";
 import ClientView from "../views/client/ClientView";
 import 'react-toastify/dist/ReactToastify.css';
 import {ToastContainer} from "react-toastify";
-import {BlockedLoginView} from "../views/login/BlockedLoginView";
+import BlockedLoginView from "../views/login/BlockedLoginView";
 import {connect} from "react-redux";
 
 class OpenAudioController extends React.Component {
