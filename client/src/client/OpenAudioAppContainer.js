@@ -161,10 +161,14 @@ class OpenAudioAppContainer extends React.Component {
 
                 // is the server banned or locked out?
                 if (serverData.banned) {
-                    reportVital('metrics:accountlocked')
                     setGlobalState({
                         isBlocked: true,
+                        isPersonalBlock: (serverData.isPersonalBlock != null && serverData.isPersonalBlock), // is it the account, or me?
+                        isLoading: false,
                     });
+                    // don't continue loading
+                    reportVital('metrics:accountlocked')
+                    return;
                 }
 
                 if (serverData.useTranslations) {
