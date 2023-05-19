@@ -147,7 +147,7 @@ export class PeerManager {
             setGlobalState({
                 voiceState: {microphoneSanityPrompt: true}
             })
-        }, 10 * 1000);
+        }, 15 * 1000);
 
 
         SocketManager.send(PluginChannel.RTC_READY, {"enabled": true});
