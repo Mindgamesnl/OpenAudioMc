@@ -9,11 +9,15 @@ import {debugLog} from "../../debugging/DebugService";
 
 export class Sound extends AudioSourceProcessor {
 
-    constructor() {
+    constructor(opts = {}) {
         super()
         this.hadError = false;
         this.error = null;
         this.trackable = false;
+
+        this.options = {};
+
+        this.options.startMuted = (opts.hasOwnProperty("startMuted") ? opts.startMuted : true);
 
 
         this.onFinish = [];
@@ -45,7 +49,9 @@ export class Sound extends AudioSourceProcessor {
 
         this.soundElement = await GetAudio(source, true, allowCaching);
         // mute default
-        this.soundElement.volume = 0;
+        if (this.options.startMuted) {
+            this.soundElement.volume = 0;
+        }
 
         // error handling
         this.soundElement.onerror = (error) => {

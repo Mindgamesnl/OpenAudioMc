@@ -4,7 +4,9 @@ import {Sound} from "./objects/Sound";
 
 export async function playInternalEffect(src) {
     const createdChannel = new Channel(src);
-    const createdMedia = new Sound();
+    const createdMedia = new Sound({
+        startMuted: false,
+    });
     await createdMedia.load(src);
     createdMedia.setOnFinish(() => {
         MediaManager.mixer._updatePlayingSounds();
