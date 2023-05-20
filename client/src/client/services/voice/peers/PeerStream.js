@@ -5,6 +5,7 @@ import {applyPannerSettings, untrackPanner} from "../../../../views/client/pages
 import {Position} from "../../../util/math/Position";
 import {Vector3} from "../../../util/math/Vector3";
 import {Hark} from "../../../util/hark";
+import {ConnectionClosedError} from "../errors/ConnectionClosedError";
 
 export class PeerStream {
 
@@ -85,7 +86,7 @@ export class PeerStream {
         })
 
         streamRequest.onReject((e) => {
-            callback(false, new Error(e));
+            callback(false, new ConnectionClosedError(e));
         });
     }
 
