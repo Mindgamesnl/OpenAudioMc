@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 
 export class BlackoutPage extends React.Component {
 
-    propTypes = {
+    static propTypes = {
         coverImage: PropTypes.string,
     }
 
-    defaultProps = {
+    static defaultProps = {
         coverImage: null,
     }
 
