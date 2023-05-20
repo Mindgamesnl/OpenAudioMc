@@ -9,6 +9,7 @@ import {toast} from "react-toastify";
 import {getTranslation} from "../../../OpenAudioAppContainer";
 import {feedDebugValue, incrementDebugValue} from "../../debugging/DebugService";
 import {DebugStatistic} from "../../debugging/DebugStatistic";
+import {MagicValues} from "../../../config/MagicValues";
 
 export class PeerManager {
 
@@ -147,7 +148,7 @@ export class PeerManager {
             setGlobalState({
                 voiceState: {microphoneSanityPrompt: true}
             })
-        }, 15 * 1000);
+        }, MagicValues.VOICE_CANT_HEAR_YOU_TIMEOUT);
 
 
         SocketManager.send(PluginChannel.RTC_READY, {"enabled": true});

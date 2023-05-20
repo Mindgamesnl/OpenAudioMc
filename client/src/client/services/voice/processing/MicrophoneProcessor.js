@@ -8,6 +8,7 @@ import {Hark} from "../../../util/hark";
 import {makeid} from "../../../util/random";
 import {feedDebugValue} from "../../debugging/DebugService";
 import {DebugStatistic} from "../../debugging/DebugStatistic";
+import {MagicValues} from "../../../config/MagicValues";
 
 let micVolumeListeners = {};
 
@@ -174,7 +175,7 @@ export class MicrophoneProcessor {
 
     updateMicSanityCheck() {
         this.micTriggerCount++;
-        if (this.micTriggerCount >= 3) {
+        if (this.micTriggerCount >= MagicValues.VOICE_CANT_HEAR_YOU_THRESHOLD) {
             this.micSanityPassed = true;
             setGlobalState({voiceState: {microphoneTriggeredOnce: true}})
         }
