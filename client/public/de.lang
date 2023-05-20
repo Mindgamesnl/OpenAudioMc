@@ -57,8 +57,8 @@ vc.settingsDisable=Deaktivieren
 vc.settingsEnablePositionalAudio=Aktiviere standortbasierte Audio
 vc.settingsDisablePositionalAudio=Deaktiviere standortbasierte Audio
 vc.automaticAdjustments=Automatisch anpassen
-vc.sensitivity=Mikrofon-Empfindlichkeit
-vc.aboutSensitivity=Konfiguriere ein Noise Gate, um Hintergrundgeräusche zu entfernen und das Mikrofon nur zu aktivieren, wenn du sprichst.
+vc.sensitivity=Noise-Gate
+vc.aboutSensitivity=Konfiguriere das Noise-Gate deines Mikrofons. Dies wird dein Mikrofon automatisch stummschalten, wenn du nicht sprichst. <b>Ganz nach links</b> deaktiviert das Noise Gate, <b>ganz nach rechts</b> schaltet dein Mikrofon immer stumm.
 vc.peerTable={total} Personen in Sprachreichweite, {talking} sprechen
 vc.toggleMicrophone=Mikrofon umschalten
 vc.you=du
@@ -83,6 +83,8 @@ vc.settings.monitoring.about=Gib deine eigene Stimme so wieder, wie andere sie h
 vc.settings.monitoring.toggle=Aktiviere Mikrofon-Kontrolle
 vc.operaWarning=Dein Login scheint eine Weile zu dauern. Das liegt wahrscheinlich an deinen Opera-Einstellungen. Bitte öffne deine Browsereinstellungen, suche nach "WebRTC" und wähle die Option "Alles aktivieren".
 vc.youAreModerating=Pass auf! Du bist jetzt ein Moderator, du kannst jetzt jeden im Sprachchat hören, aber sie können dich nicht hören.
+vc.noMicInputYetTitle=Wir haben Schwierigkeiten, dich zu hören!
+vc.noMicInputYetBody=Bitte vergewissere dich, dass du das richtige Mikrofon ausgewählt hast, oder versuche, das Noise-Gate zu verringern.
 
 settings.voicechat.chimes.title=Sprachchat-Läuten
 settings.voicechat.chimes.body=Das Läuten ist ein kleiner Sound, der abgespielt wird, wenn du die Stummschaltung deines Mikrofons de-/aktivierst. Content-Creator möchten dies möglicherweise deaktivieren.
@@ -108,7 +110,6 @@ settings.rolloff.1=100% (normal)
 settings.rolloff.12=120%
 settings.rolloff.15=150% (extrem)
 
-
 settings.spatial.title=Räumliche Rendering-Engine
 settings.spatial.body=Wähle aus, welche Rendering-Engine du verwenden möchtest. Die moderne Engine ist von höherer Qualität und etwas schneller, befindet sich jedoch noch in aktiver Entwicklung.
 settings.spatial.modern=Präzise
@@ -121,3 +122,5 @@ settings.interpolation.button=Aktiviere Standortglättung
 settings.streamermode.title=Streamer-Modus
 settings.streamermode.body=Deaktiviere deinen Sitzungs-Token automatisch nach einmaliger Verwendung. Dies bedeutet, dass deine Client-URLs sicher im Stream gezeigt werden können, ohne dass du befürchten musst, dass sich ein Zuschauer für dich ausgeben kann. Stelle einfach sicher, dass du den Link öffnest, sobald du ihn erhältst.
 settings.streamermode.button=Aktiviere den Streamer-Modus
+
+tooltip.close=Schließen
