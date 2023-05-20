@@ -12,7 +12,7 @@ class LoadingView extends React.Component {
 
     render() {
         return (
-            <BlackoutPage>
+            <BlackoutPage coverImage={"assets/login-background.png"}>
                 <LoadingSpinnerBox
                     title={"Loading OpenAudioMc"}
                     message={this.props.loading}
