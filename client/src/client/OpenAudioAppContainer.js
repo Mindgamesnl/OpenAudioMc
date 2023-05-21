@@ -224,7 +224,7 @@ class OpenAudioAppContainer extends React.Component {
                         isLoading: false,
                         currentUser: null,
                     })
-                    fatalToast("Server " + publicServerKey + " is offline! Please try a new link from /audio");
+                    fatalToast("Failed to connect with " + publicServerKey + "! Please try a new link from /audio, or contact server staff if the issue persists.");
                     throw new Error("Server " + publicServerKey + " is offline");
                 } else {
                     setGlobalState({
