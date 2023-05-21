@@ -28,7 +28,6 @@ public class PlayerVicinityMessageTask implements Runnable {
         int minimumDistance = StorageKey.SETTINGS_VOICECHAT_VICINITY_REMINDER_RADIUS.getInt();
 
         if (minimumDistance <= 0) {
-            OpenAudioLogger.toConsole("Voice chat vicinity reminder is disabled, because the radius is set to 0 or less");
             return;
         }
 
