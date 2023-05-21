@@ -32,7 +32,7 @@ export class VcOnboarding extends React.Component {
         return (
             <div className="content-section shockwave">
                 <div
-                    className="content-card-collection items-stretch 2xl:mt-0 2xl:mr-0 xl:mt-5 xl:mr-5 lg:mt-5 lg:mr-5 md:mt-5 md:mr-5 sm:mt-5 sm:mr-5">
+                    className="content-card-collection items-stretch">
                     <div className={"flex justify-center"}>
                         <div className="content-card wide-card pt-0 pb-0">
                             <div className="content-card-content pt-0 pb-0 h-full">
@@ -48,7 +48,7 @@ export class VcOnboarding extends React.Component {
                                     {getTranslation(c, "vc.title")}
                                                        </span>
                                 <div className="overflow-visible lg:grid lg:grid-cols-2 lg:gap-4">
-                                    <div className="lg:self-center mr-5">
+                                    <div className="lg:self-center ">
                                         {getTranslation(c, "vc.onboarding").replace("%range", getGlobalState().voiceState.radius)}
                                         <div className="content-card-buttons">
                                             <div
@@ -56,13 +56,13 @@ export class VcOnboarding extends React.Component {
                                         </div>
                                         <div className="content-card-buttons w-full">
                                             <button onClick={this.onClick}
-                                                    className="animate-pulse content-pill status-button green w-full"
+                                                    className="animate-pulse content-pill status-button green w-full mb-4 md:mb-0"
                                                     id="vc-connect-button">
                                                 {getTranslation(c, "vc.join")}
                                             </button>
                                         </div>
                                     </div>
-                                    <div className={"flex justify-center z-50 -mt-8"}>
+                                    <div className={"flex justify-center z-50 -mt-8 hidden-on-mobile"}>
                                         <img
                                             className="transform rounded-xl object-cover w-2/3 object-left-top"
                                             src="assets/bust.png" alt="App screenshot"/>
