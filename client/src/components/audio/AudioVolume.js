@@ -28,7 +28,7 @@ class AudioVolume extends React.Component {
                     <div className="content-card-collection items-stretch">
                         <div className="content-wrapper-box audio-content 2xl:order-2">
                             <div className="content-wrapper-context full">
-                                <div className="content-text full soft-text pr-5">
+                                <div className="content-text text-sm md:text-m xl:text-xl full soft-text md:pr-5">
                                     <div className={"inline"} dangerouslySetInnerHTML={{ __html: getTranslation(c, "home.volumeContext") }} />
                                 </div>
                                 <br/>
@@ -38,7 +38,7 @@ class AudioVolume extends React.Component {
                                        type="range" min="0" max="100" step="1" />
                             </div>
                             <div>
-                                <h1 className="volume-pill"><label htmlFor="volume-slider">{this.props.volume}</label></h1>
+                                <h1 className="volume-pill hidden-on-mobile"><label htmlFor="volume-slider">{this.props.volume}</label></h1>
                             </div>
                         </div>
                     </div>
