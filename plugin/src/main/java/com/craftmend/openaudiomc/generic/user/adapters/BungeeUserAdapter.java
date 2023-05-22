@@ -21,7 +21,9 @@ public class BungeeUserAdapter implements User {
 
     @Override
     public void sendMessage(String string) {
-        sender.sendMessage(string);
+        for (String s : string.split("\n")) {
+            sender.sendMessage(s);
+        }
     }
 
     @Override
@@ -31,6 +33,14 @@ public class BungeeUserAdapter implements User {
 
     @Override
     public void sendClickableCommandMessage(String msgText, String hoverMessage, String command) {
+        String[] lines = msgText.split("\\\\n");
+        if (lines.length > 1) {
+            for (String line : lines) {
+                sendClickableCommandMessage(line, hoverMessage, command);
+            }
+            return;
+        }
+
         TextComponent message = new TextComponent(translateColors(Objects.requireNonNull(
                 msgText
         )));
@@ -48,6 +58,14 @@ public class BungeeUserAdapter implements User {
 
     @Override
     public void sendClickableUrlMessage(String msgText, String hoverMessage, String url) {
+        String[] lines = msgText.split("\\\\n");
+        if (lines.length > 1) {
+            for (String line : lines) {
+                sendClickableUrlMessage(line, hoverMessage, url);
+            }
+            return;
+        }
+
         TextComponent message = new TextComponent(translateColors(Objects.requireNonNull(
                 msgText
         )));

@@ -6,7 +6,7 @@ messages:
   preparing-session: '&7&oGenerating audio session..'
 
   # The message the client gets when executing /audio of joins (if send-on-join is enabled)
-  click-to-connect: '&bClick &e&ohere&b to connect to the online audio client!'
+  click-to-connect: '\n&b&lClick &ahere&b&l to open the Web Client!\n&3This lets you use &dProximity Voice Chat&3 and in-game &daudio&3!\n '
 
   # The message a player receives when a session error occurs
   session-error: '&cAn error occurred while generating your audio session. please report the problem and try again later.'

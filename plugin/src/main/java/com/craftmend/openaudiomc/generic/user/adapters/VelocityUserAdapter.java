@@ -22,7 +22,9 @@ public class VelocityUserAdapter implements User {
 
     @Override
     public void sendMessage(String string) {
-        sender.sendMessage(Component.text(string));
+        for (String s : string.split("\n")) {
+            sender.sendMessage(Component.text(s));
+        }
     }
 
     @Override
@@ -32,6 +34,14 @@ public class VelocityUserAdapter implements User {
 
     @Override
     public void sendClickableCommandMessage(String t, String hoverMessage, String command) {
+        String[] lines = t.split("\\\\n");
+        if (lines.length > 1) {
+            for (String line : lines) {
+                sendClickableCommandMessage(line, hoverMessage, command);
+            }
+            return;
+        }
+
         String msgText = translateColors(t);
         Component message = Component.text(Objects.requireNonNull(msgText));
 
@@ -45,6 +55,14 @@ public class VelocityUserAdapter implements User {
 
     @Override
     public void sendClickableUrlMessage(String t, String hoverMessage, String url) {
+        String[] lines = t.split("\\\\n");
+        if (lines.length > 1) {
+            for (String line : lines) {
+                sendClickableUrlMessage(line, hoverMessage, url);
+            }
+            return;
+        }
+
         String msgText = translateColors(t);
         Component message = Component.text(Objects.requireNonNull(msgText));
 
