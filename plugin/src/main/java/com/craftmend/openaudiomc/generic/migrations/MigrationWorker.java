@@ -54,6 +54,7 @@ public class MigrationWorker {
                 new VoiceVicinityMessageMigration(),    // adds the voice vicinity messages and settings
                 new SpeakerTickMigration(),             // adds the speaker tick rate setting
                 new CdnCheckSkipMigration(),            // adds the option to skip cdn validation
+                new ChangeDefaultMultilineMigration(),  // changes the default multiline message
         };
 
         for (SimpleMigration migration : migrations) {

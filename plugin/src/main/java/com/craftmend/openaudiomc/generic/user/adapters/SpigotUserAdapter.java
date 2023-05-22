@@ -25,7 +25,9 @@ public class SpigotUserAdapter implements User {
 
     @Override
     public void sendMessage(String string) {
-        player.sendMessage(string);
+        for (String s : string.split("\n")) {
+            player.sendMessage(s);
+        }
     }
 
     @Override
@@ -35,6 +37,14 @@ public class SpigotUserAdapter implements User {
 
     @Override
     public void sendClickableCommandMessage(String msgText, String hoverMessage, String command) {
+        String[] lines = msgText.split("\\\\n");
+        if (lines.length > 1) {
+            for (String line : lines) {
+                sendClickableCommandMessage(line, hoverMessage, command);
+            }
+            return;
+        }
+
         TextComponent message = new TextComponent(translateColors(Objects.requireNonNull(
                 msgText
         )));
@@ -52,6 +62,14 @@ public class SpigotUserAdapter implements User {
 
     @Override
     public void sendClickableUrlMessage(String msgText, String hoverMessage, String url) {
+        // break up in multiple lines if needed, by splitting on \n
+        String[] lines = msgText.split("\\\\n");
+        if (lines.length > 1) {
+            for (String line : lines) {
+                sendClickableUrlMessage(line, hoverMessage, url);
+            }
+            return;
+        }
 
         // are we a console? then add the url to the message
         if (player instanceof org.bukkit.command.ConsoleCommandSender) {

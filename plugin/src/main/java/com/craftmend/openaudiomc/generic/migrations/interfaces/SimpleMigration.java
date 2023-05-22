@@ -8,13 +8,16 @@ import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 
 import java.io.*;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public abstract class SimpleMigration {
 
     public abstract boolean shouldBeRun(MigrationWorker migrationWorker);
     public abstract void execute(MigrationWorker migrationWorker);
     protected static Map<String, Object> forceOverwrittenValues = new HashMap<>();
+    protected Set<StorageKey> ignoredOldValues = new HashSet<>();
 
     protected void migrateFilesFromResources() {
         OpenAudioMc openAudioMc = OpenAudioMc.getInstance();
@@ -59,6 +62,11 @@ public abstract class SimpleMigration {
                 for (Map.Entry<StorageKey, Object> entry : oldValues.entrySet()) {
                     StorageKey key = entry.getKey();
                     Object value = entry.getValue();
+
+                    if (ignoredOldValues.contains(key)) {
+                        continue;
+                    }
+
                     if (value != null) {
                         String subSection = key.getSubSection();
                         if (line.contains(" " + subSection + ": ")) {
@@ -94,6 +102,11 @@ public abstract class SimpleMigration {
         for (Map.Entry<StorageKey, Object> entry : oldValues.entrySet()) {
             StorageKey key = entry.getKey();
             Object value = entry.getValue();
+
+            if (ignoredOldValues.contains(key)) {
+                continue;
+            }
+
             if (value != null) {
                 config.set(key, value);
             }
