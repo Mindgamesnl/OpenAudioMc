@@ -38,7 +38,7 @@ class TabWindow extends Component {
             openedFirstTime = true;
 
             // random fifty fifty chance
-            if (Math.random() <= 0.5) {
+            if (Math.random() <= 0.25) {
                 if (this.props.isLegacy && serverKey !== "88dd6b6c-1a1e-46fb-a289-eebe67e77081") {
                     this.openUpgradeDialog();
                 }
