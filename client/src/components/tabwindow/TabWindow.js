@@ -3,10 +3,13 @@ import {getTranslation} from "../../client/OpenAudioAppContainer";
 import PropTypes from "prop-types";
 import {showTextModal} from "../modal/InputModal";
 import {connect} from "react-redux";
+import {getGlobalState} from "../../state/store";
 
 export let setTab = (tab) => {
     console.warn("TAB HANDLER IS NOT SET YET");
 }
+
+let openedFirstTime = false;
 
 class TabWindow extends Component {
     constructor(props) {
@@ -21,6 +24,22 @@ class TabWindow extends Component {
     componentDidMount() {
         setTab = (tab) => {
             this.setState({activePage: tab});
+        }
+
+        if (!openedFirstTime) {
+            // uuid
+            let serverKey = getGlobalState().currentUser;
+            if (serverKey) {
+                serverKey = serverKey.publicServerKey;
+            } else {
+                return
+            }
+
+            openedFirstTime = true;
+
+            if (this.props.isLegacy && serverKey !== "88dd6b6c-1a1e-46fb-a289-eebe67e77081") {
+                this.openUpgradeDialog();
+            }
         }
     }
 
