@@ -33,12 +33,12 @@ export class InputModal extends React.Component {
         let textOnly = getGlobalState().inputModal.textOnly;
 
         return (
-            <div className="fixed absolute inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-                <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div className="fixed absolute inset-0 bg-gray-800 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+                <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-gray-700">
                     <div className="mt-3 text-center">
-                        <h1 className="text-lg font-medium text-gray-900">{title}</h1>
+                        <h1 className="text-lg font-medium text-indigo-200">{title}</h1>
                         <div className="mt-2 text-center">
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm text-white">
                                 <div dangerouslySetInnerHTML={{__html: message}} />
                             </p>
                             {!textOnly && <><hr /><textarea className={"w-full h-32 bg-gray-100 rounded-l"} placeholder={"Please write your message here..."} value={this.state.value} onChange={(e) => this.setState({value: e.target.value})} /></>}
