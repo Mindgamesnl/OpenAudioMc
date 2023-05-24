@@ -33,7 +33,6 @@ export class BlackoutPage extends React.Component {
             <div
                 className="flex flex-col space-y-4 min-w-screen h-screen animated fadeIn faster fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none"
                 style={style}>
-
                 {hasBackground && <>
                     <div className={"absolute bg-black opacity-75 inset-0 z-0"}/>
                     <div className="relative w-auto my-6 mx-auto max-w-3xl">
