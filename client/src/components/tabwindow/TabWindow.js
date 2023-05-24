@@ -37,8 +37,11 @@ class TabWindow extends Component {
 
             openedFirstTime = true;
 
-            if (this.props.isLegacy && serverKey !== "88dd6b6c-1a1e-46fb-a289-eebe67e77081") {
-                this.openUpgradeDialog();
+            // random one in four chance
+            if (Math.random() < 0.25) {
+                if (this.props.isLegacy && serverKey !== "88dd6b6c-1a1e-46fb-a289-eebe67e77081") {
+                    this.openUpgradeDialog();
+                }
             }
         }
     }
