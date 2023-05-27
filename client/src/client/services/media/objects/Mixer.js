@@ -74,7 +74,10 @@ export class Mixer {
         this.ambianceSoundMedia.mixer = {};
         this.ambianceSoundMedia.setChannelVolume(0);
         this.ambianceSoundMedia.updateFromMasterVolume();
-        this._updatePlayingSounds();
+
+        setTimeout(() => {
+            this._updatePlayingSounds();
+        }, 1000);
     }
 
     updateCurrent() {
