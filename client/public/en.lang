@@ -85,6 +85,8 @@ vc.operaWarning=Your login seems to be taking a while, this is most likely due t
 vc.youAreModerating=Watch out! you are now a moderator, you can now hear everyone in voice chat but they can't hear you.
 vc.noMicInputYetTitle=We're having trouble hearing you!
 vc.noMicInputYetBody=Please make sure that you have the correct microphone selected, or try lowering your noise gate.
+vc.peersHiddenTitle=Voicechat players are hidden
+vc.peersHiddenText=This server has disabled the ability to see who is in voice chat to prevent unfair advantages, you can still hear them though.
 
 settings.voicechat.chimes.title=VoiceChat Chimes
 settings.voicechat.chimes.body=Chimes are the little sounds that play whenever you mute/unmute your microphone. Content creators may want to turn this off.

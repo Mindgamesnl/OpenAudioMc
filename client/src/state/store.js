@@ -68,6 +68,7 @@ const initialState = {
     },
 
     voiceState: {
+        peersHidden: false,
         isModerating: false,
         isTemporarilyDisabled: false,
         enabled: false,

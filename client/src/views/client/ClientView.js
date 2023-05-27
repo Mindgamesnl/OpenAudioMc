@@ -9,7 +9,6 @@ import {GrayoutPage} from "../../components/layout/GrayoutPage";
 import {connect} from "react-redux";
 import {StaticFooter} from "../../components/footer/StaticFooter";
 import {InputModal} from "../../components/modal/InputModal";
-import DebugPage from "./pages/debug/DebugPage";
 
 import {SpeakerSvg} from "../../components/icons/speaker";
 import {MicrophoneSVG} from "../../components/icons/microphone";
@@ -17,6 +16,7 @@ import {CogSVG} from "../../components/icons/cog";
 import {DebugSVG} from "../../components/icons/debug";
 import {getTranslation} from "../../client/OpenAudioAppContainer";
 import {OaStyleCard} from "../../components/card/OaStyleCard";
+import DebugPage from "./pages/debug/DebugPage";
 
 class ClientView extends React.Component {
     render() {
