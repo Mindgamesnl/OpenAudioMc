@@ -217,6 +217,12 @@ class OpenAudioAppContainer extends React.Component {
                     setBgImage(serverData.backgroundImage)
                 }
 
+                setGlobalState({
+                    voiceState: {
+                        peersHidden: !serverData.showVoicePeers,
+                    }
+                })
+
                 // is the server offline? cancel now
                 if (serverData.relayEndpoint == null) {
                     ReportError('Server ' + publicServerKey + ' is offline at ' + window.location.host, tokenSet.name)

@@ -14,8 +14,9 @@ import {WorldModule} from "../../../../client/services/world/WorldModule";
 import {VoiceModule} from "../../../../client/services/voice/VoiceModule";
 import MixerStateView from "../../../../components/mixer/MixerStateView";
 import {LogViewer} from "../../../../components/logs/DebugLogComponent";
+import {connect} from "react-redux";
 
-export default class DebugPage extends React.Component {
+export class DebugPage extends React.Component {
 
     constructor(props) {
         super(props);
@@ -44,6 +45,7 @@ export default class DebugPage extends React.Component {
     componentDidMount() {
         this.setState({
             radarTask: setInterval(() => {
+                if (this.props.voiceState.peersHidden) return;
                 this.setState({
                     playerLocation: {x: WorldModule.player.location.x,
                         y: WorldModule.player.location.y,
@@ -95,6 +97,7 @@ export default class DebugPage extends React.Component {
 
     render() {
         let log = getDebugLog();
+
         return (
             <div className={"w-full h-full flex flex-col"}>
                 <div className="flex flex-wrap">
@@ -112,6 +115,9 @@ export default class DebugPage extends React.Component {
                     <OaStyleCard title={"Spatial Rendering"}>
                         <Radar player={this.state.playerLocation} entities={this.state.peers} speakers={this.state.speakers} />/>
                         <p className={"text-black"}>My location X:{this.state.playerLocation.x} Y:{this.state.playerLocation.y} Z:{this.state.playerLocation.z}</p>
+                        {this.state.peers.length === 0 && <p>
+                            <i className={"text-black"}>No peers in range or peers are hidden</i>
+                        </p>}
                     </OaStyleCard>
 
                     <OaStyleCard title={"Logs"} width={"2"} noPadding={true}>
@@ -123,4 +129,11 @@ export default class DebugPage extends React.Component {
             </div>
         );
     }
+}
+
+export default connect(mapStateToProps)(DebugPage);
+function mapStateToProps(state) {
+    return {
+        voiceState: state.voiceState,
+    };
 }
