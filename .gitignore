@@ -22,5 +22,6 @@ out/*
 test-server-spigot/
 test-server-spigot-legacy/
 test-server-bungee/
+test-server-vistas/
 test-server/
 .buildconfig

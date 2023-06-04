@@ -6,15 +6,25 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.modules.ModuleLoaderService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
 import com.google.gson.*;
+
 import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class AbstractPacketAdapter implements JsonSerializer<AbstractPacketPayload>, JsonDeserializer<AbstractPacketPayload> {
 
     /**
      * a type adapter for the using of the packet framework
      */
+    private boolean walkedClassLoader = false;
 
-     private boolean walkedClassLoader = false;
+    // caching mechanism for failed packet lookups during vistas, where there are multiple class loaders
+    private final Map<String, Class<?>> classMapCache = new HashMap<>();
+    // we don't care too much about pointer safety, so we can just use a read write lock
+    // because classes themselves are immutable
+    private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
     @Override
     public JsonElement serialize(AbstractPacketPayload src, Type typeOfSrc, JsonSerializationContext context) {
@@ -52,7 +62,29 @@ public class AbstractPacketAdapter implements JsonSerializer<AbstractPacketPaylo
         }
     }
 
-    private Class loadClassModuleFallback(String classname) throws ClassNotFoundException {
+    private Class<?> loadClassModuleFallback(String classname) throws ClassNotFoundException {
+
+        // try to get the class from the cache
+        lock.readLock().lock();
+        Class<?> cachedClass = classMapCache.get(classname);
+        lock.readLock().unlock();
+
+        if (cachedClass != null) {
+            return cachedClass;
+        }
+
+        // try to resolve the class
+        Class<?> resolved = deepQueryClasses(classname);
+
+        // cache the class
+        lock.writeLock().lock();
+        classMapCache.put(classname, resolved);
+        lock.writeLock().unlock();
+
+        return resolved;
+    }
+
+    private Class<?> deepQueryClasses(String classname) throws ClassNotFoundException {
         try {
             return Class.forName(classname);
         } catch (ClassNotFoundException e) {
