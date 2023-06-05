@@ -21,6 +21,7 @@ export class MessageModule {
             "fr": "fr.lang", // frensh
             "de": "de.lang", // german
             "ja": "jp.lang", // japanese
+            "kr": "kr.lang", // korean
 
             // One of these can probably go, but i wasn't provided
             // enough info and am unable to find the correct region code
