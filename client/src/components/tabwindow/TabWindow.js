@@ -37,7 +37,10 @@ class TabWindow extends Component {
 
             openedFirstTime = true;
 
-            this.openUpgradeDialog();
+            if (this.props.isLegacy) {
+                this.openUpgradeDialog();
+            }
+
         }
     }
 
