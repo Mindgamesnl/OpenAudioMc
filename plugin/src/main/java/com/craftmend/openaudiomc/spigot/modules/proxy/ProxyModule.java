@@ -14,7 +14,34 @@ import java.io.File;
 
 public class ProxyModule extends Service {
 
-    public OAClientMode getMode() {
+    @Getter
+    private OAClientMode mode = OAClientMode.STAND_ALONE;
+
+    @Override
+    public void onEnable() {
+        // resolve based on settings first
+        // is local mode enabled?
+        if (StorageKey.SETTINGS_FORCE_OFFLINE_MODE.getBoolean()) {
+            mode = OAClientMode.STAND_ALONE;
+            return;
+        }
+
+        if (MagicValue.FORCE_SERVER_NODE.get(Boolean.class)) {
+            mode = OAClientMode.NODE;
+            return;
+        }
+
+        // fallback, try to resolve from environment
+        if (isRunningProxy()) {
+            mode = OAClientMode.NODE;
+            return;
+        }
+
+        // default to stand alone
+        mode = OAClientMode.STAND_ALONE;
+    }
+
+    private boolean isRunningProxy() {
         boolean proxyMode = false;
 
         // if paper is user, checking for velocity support
@@ -41,30 +68,7 @@ public class ProxyModule extends Service {
             }
         }
 
-        // is local mode enabled?
-        if (StorageKey.SETTINGS_FORCE_OFFLINE_MODE.getBoolean()) {
-            return OAClientMode.STAND_ALONE;
-        }
-
-        // is it minehut? then force if
-        if (EnvironmentHelper.contains("minehut") || MagicValue.FORCE_SERVER_STANDALONE.get(Boolean.class)) {
-            OpenAudioLogger.toConsole("Starting in standalone mode due to minehut containers or it being forced");
-            return OAClientMode.STAND_ALONE;
-        }
-
-        if (MagicValue.FORCE_SERVER_NODE.get(Boolean.class)) {
-            return OAClientMode.NODE;
-        }
-
-        if (proxyMode) {
-            return OAClientMode.NODE;
-        } else {
-            return OAClientMode.STAND_ALONE;
-        }
+        return proxyMode;
     }
 
-    @Override
-    public void onEnable() {
-
-    }
 }
