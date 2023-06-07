@@ -95,6 +95,12 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
             openAudioMc.getServiceManager().registerDependency(ProxyModule.class, proxyModule);
             openAudioMc.getServiceManager().registerDependency(OpenAudioMcSpigot.class, this);
 
+            // manually register the proxy module
+            // it won't fully get registered because it gets manually injected
+            // instead of being picked up by the service manager
+            // causing an issue with dependencies (configuration)
+            proxyModule.onEnable();
+
             openAudioMc.getServiceManager().loadServices(
                     SpigotDependencyService.class,
                     AliasService.class,
