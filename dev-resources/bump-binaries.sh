@@ -1,5 +1,5 @@
 [ ! -d "plugin/" ] && echo "Execute this script from the repo root" && exit 1
-
+export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_282`
 # Build everything
 mvn -T 4.5C clean install -Dmaven.test.skip=true
 
