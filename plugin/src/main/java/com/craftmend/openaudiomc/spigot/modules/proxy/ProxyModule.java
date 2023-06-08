@@ -17,6 +17,11 @@ public class ProxyModule extends Service {
     @Getter
     private OAClientMode mode = OAClientMode.STAND_ALONE;
 
+    public void refresh() {
+        // overwrite cached mode
+        onEnable();
+    }
+
     @Override
     public void onEnable() {
         // resolve based on settings first
