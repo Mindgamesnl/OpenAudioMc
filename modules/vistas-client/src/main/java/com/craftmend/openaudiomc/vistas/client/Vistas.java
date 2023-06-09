@@ -31,9 +31,9 @@ public final class Vistas extends ExternalModule implements Listener {
 
     public Vistas() {
         instance = this;
-        OpenAudioMc.getService(ProxyModule.class).refresh();
         MagicValue.overWrite(MagicValue.NOTIFY_VOICECHAT_SLOT_DEPLETION, false);
         MagicValue.overWrite(MagicValue.FORCE_SERVER_NODE, true);
+        OpenAudioMc.getService(ProxyModule.class).refresh();
     }
 
     @Override
@@ -49,25 +49,24 @@ public final class Vistas extends ExternalModule implements Listener {
     @Override
     public void onInitialize() {
         log("Injecting Vista networking modules");
+        OpenAudioMc.getService(ProxyModule.class).refresh();
     }
 
     @Override
     public void on(ModuleEvent event) {
         OpenAudioMc.getService(StateService.class).setState(new VistasNodeState());
+        OpenAudioMc.getService(ProxyModule.class).refresh();
         if (event == ModuleEvent.PLATFORM_LOADED) {
             // finished startup
-            OpenAudioMc.getService(ProxyModule.class).refresh();
             OpenAudioMc.getService(CommandService.class).registerSubCommand(new VistasEvalCommand());
         }
 
         if (event == ModuleEvent.MODULES_LOADED) {
-            OpenAudioMc.getService(ProxyModule.class).refresh();
             OpenAudioMc.getInstance().getServiceManager().registerDependency(UserHooks.class, new ClientUserHooks());
         }
 
         if (event == ModuleEvent.SERVICES_LOADED) {
             // mid boot
-            OpenAudioMc.getService(ProxyModule.class).refresh();
             OpenAudioMc.getInstance().getServiceManager().loadServices(VistasRedisClient.class);
             OpenAudioMcSpigot s = OpenAudioMcSpigot.getInstance();
             s.getServer().getPluginManager().registerEvents(new PlayerListener(this), s);
@@ -77,7 +76,6 @@ public final class Vistas extends ExternalModule implements Listener {
         }
 
         if (event == ModuleEvent.SHUTDOWN) {
-            OpenAudioMc.getService(ProxyModule.class).refresh();
             OpenAudioMc.getService(VistasRedisClient.class).sendPacket(new ServerClosePacket(serverId));
         }
     }
