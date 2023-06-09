@@ -1,4 +1,3 @@
-asdf local java openjdk-18.0.2.1
 export JAVA_HOME=`/usr/libexec/java_home -v 17`
 mkdir -p test-server-spigot/plugins/
 mkdir -p test-server-spigot/plugins/OpenAudioMc/
