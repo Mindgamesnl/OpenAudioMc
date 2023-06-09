@@ -20,12 +20,14 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class ModuleLoaderService extends Service {
 
     @Getter private List<ExternalModule> modules = new ArrayList<>();
+    @Getter private List<File> loadedModuleFiles = new ArrayList<>();
 
     @SneakyThrows
     public ModuleLoaderService() {
@@ -45,6 +47,7 @@ public class ModuleLoaderService extends Service {
                 // skip files that are intended for migrations
                 if (file.getName().contains("migrate.")) continue;
                 loadModFromFile(file);
+                loadedModuleFiles.add(file);
             }
         }
 
