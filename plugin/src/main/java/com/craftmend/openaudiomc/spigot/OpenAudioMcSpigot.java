@@ -185,6 +185,8 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
             return forced;
         }
 
+        proxyModule.refresh();
+        OpenAudioLogger.toConsole("Using networking class " + proxyModule.getMode().getServiceClass().getName());
         return proxyModule.getMode().getServiceClass();
     }
 
