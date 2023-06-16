@@ -220,7 +220,8 @@ class OpenAudioAppContainer extends React.Component {
                 setGlobalState({
                     voiceState: {
                         peersHidden: !serverData.showVoicePeers,
-                    }
+                    },
+                    navbarDetails: serverData.showNavbarDetails
                 })
 
                 // is the server offline? cancel now

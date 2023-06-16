@@ -28,7 +28,7 @@ class ClientView extends React.Component {
                     <TabWindow>
                         <TabPage name={getTranslation(null, "navbar.audio")} content={<AudioPage/>} buttonContent={<SpeakerSvg />}/>
                         <TabPage name={getTranslation(null, "navbar.vc")} hidden={!this.props.voiceState.ready} buttonContent={<MicrophoneSVG />} content={<VoicePage/>}/>
-                        <TabPage name={getTranslation(null, "navbar.settings")} buttonContent={<CogSVG />} content={<SettingsPage/>}/>
+                        <TabPage name={getTranslation(null, "navbar.settings")} hidden={!this.props.navbarDetails} buttonContent={<CogSVG />} content={<SettingsPage/>}/>
                         <TabPage name={getTranslation(null, "navbar.debug")} hidden={!this.props.debugMode} buttonContent={<DebugSVG />} content={<DebugPage />} />
                     </TabWindow>
                 </div>
@@ -61,6 +61,7 @@ function mapStateToProps(state) {
         fixedFooter: state.fixedFooter,
         loadingOverlay: state.loadingOverlay,
         voiceState: state.voiceState,
-        browserSupportIsLimited: state.browserSupportIsLimited
+        browserSupportIsLimited: state.browserSupportIsLimited,
+        navbarDetails: state.navbarDetails
     };
 }
