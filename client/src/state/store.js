@@ -99,6 +99,7 @@ const initialState = {
     isPersonalBlock: false, // whenever this user is personally rate-limited or blocked (due to for example, dmca abuse)
     loadingState: 'Preparing to load OpenAudioMc',
     fixedFooter: null,
+    navbarDetails: true,
 
 
     translationBanner: null, // null or {detectedAs: 'en', toEn: 'to en', keep: 'keep', reset: function() {}}

@@ -84,6 +84,8 @@ class TabWindow extends Component {
         let playerUuid = "00000000-0000-0000-0000-000000000000";
         if (this.props.currentUser) playerUuid = this.props.currentUser.uuid;
 
+        if (!this.props.navbarDetails) pill = ""
+
         let legacy = this.props.isLegacy;
 
         return (
@@ -91,7 +93,7 @@ class TabWindow extends Component {
                 <div className="main-header flex justify-start">
                     <span className="theme-color-text md:pl-10 w-1/3">
                         <div className={"rounding-bottom rounding-top px-1 py-1 flex items-center justify-start hidden-on-mobile"}>
-                            <img src={"https://visage.surgeplay.com/face/512/" + playerUuid} className="rounding-top rounding-bottom inline mr-5 w-9 h-9" alt="avatar" />
+                            {this.props.navbarDetails && <img src={"https://visage.surgeplay.com/face/512/" + playerUuid} className="rounding-top rounding-bottom inline mr-5 w-9 h-9" alt="avatar" />}
                             {getTranslation(null, "serverName")}
                             {pill}
                             {legacy && <button onClick={this.openUpgradeDialog} className="content-pill status-button ml-2 green">{getTranslation(null, "navbar.upgradeRequired")}</button>}
@@ -132,6 +134,7 @@ function mapStateToProps(state) {
         isPremium: state.isPremium,
         isLegacy: state.isLegacy,
         currentUser: state.currentUser,
+        navbarDetails: state.navbarDetails
     };
 }
 
