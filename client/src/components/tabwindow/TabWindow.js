@@ -88,34 +88,45 @@ class TabWindow extends Component {
 
         let legacy = this.props.isLegacy;
 
-        return (
-            <div className="main-container tabbed">
-                <div className="main-header flex justify-start">
-                    <span className="theme-color-text md:pl-10 w-1/3">
-                        <div className={"rounding-bottom rounding-top px-1 py-1 flex items-center justify-start hidden-on-mobile"}>
-                            {this.props.navbarDetails && <img src={"https://visage.surgeplay.com/face/512/" + playerUuid} className="rounding-top rounding-bottom inline mr-5 w-9 h-9" alt="avatar" />}
-                            {getTranslation(null, "serverName")}
-                            {pill}
-                            {legacy && <button onClick={this.openUpgradeDialog} className="content-pill status-button ml-2 green">{getTranslation(null, "navbar.upgradeRequired")}</button>}
-                        </div>
-                    </span>
-
-                    <div className="header-menu w-1/3 center flex justify-center">
-                        {pages.map((page, index) => (
-                            <span className="tab" key={index}>
+        let navbarButtons = pages.map((page, index) => (
+            <span className="tab" key={index}>
                                 <label
                                     href="#"
                                     className={(index === this.state.activePage ? "active main-header-link" : "main-header-link") + " h-auto flex items-center justify-center rounding-top"}
                                     onClick={() => this.setState({activePage: index})}
                                 >
                                     {page.buttonContent && <>{page.buttonContent}</>}
-                                    {page.buttonContent && <span className="mr-2 ml-2 hiddennp lg:block">{page.name}</span>}
+                                    {page.buttonContent &&
+                                        <span className="mr-2 ml-2 hiddennp lg:block">{page.name}</span>}
                                 </label>
                             </span>
-                        ))}
+        ));
+
+        // is there only one page? then hide the navbar
+        if (navbarButtons.length === 1) navbarButtons = "";
+
+        return (
+            <div className="main-container tabbed">
+                <div className="main-header flex justify-start">
+                    <span className="theme-color-text md:pl-10 w-1/3">
+                        <div
+                            className={"rounding-bottom rounding-top px-1 py-1 flex items-center justify-start hidden-on-mobile"}>
+                            {this.props.navbarDetails &&
+                                <img src={"https://visage.surgeplay.com/face/512/" + playerUuid}
+                                     className="rounding-top rounding-bottom inline mr-5 w-9 h-9" alt="avatar"/>}
+                            {getTranslation(null, "serverName")}
+                            {pill}
+                            {legacy && <button onClick={this.openUpgradeDialog}
+                                               className="content-pill status-button ml-2 green">{getTranslation(null, "navbar.upgradeRequired")}</button>}
+                        </div>
+                    </span>
+
+                    <div className="header-menu w-1/3 center flex justify-center">
+                        {navbarButtons}
                     </div>
                     <div className="header-notice w-1/3 flex justify-end">
-                        <a className="menu-link-main soft-text" id={"notice"} href="https://openaudiomc.net/">&copy; OpenAudioMc 2016-2023. All Rights Reserved.</a>
+                        <a className="menu-link-main soft-text" id={"notice"}
+                           href="https://openaudiomc.net/">&copy; OpenAudioMc 2016-2023. All Rights Reserved.</a>
                     </div>
                 </div>
                 <div className="tab-content px-4 xl:px-24 xl:pt-5">
@@ -129,6 +140,7 @@ class TabWindow extends Component {
 }
 
 export default connect(mapStateToProps)(TabWindow);
+
 function mapStateToProps(state) {
     return {
         isPremium: state.isPremium,
