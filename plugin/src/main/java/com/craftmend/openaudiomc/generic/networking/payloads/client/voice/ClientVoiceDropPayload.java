@@ -1,13 +1,25 @@
 package com.craftmend.openaudiomc.generic.networking.payloads.client.voice;
 
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
 public class ClientVoiceDropPayload extends AbstractPacketPayload {
 
-    private String streamKey;
+    private boolean dropAll = false;
+    private String[] keysToDrop;
+
+    private ClientVoiceDropPayload(boolean dropAll) {
+        this.dropAll = dropAll;
+    }
+
+    public ClientVoiceDropPayload(String[] keysToDrop) {
+        this.keysToDrop = keysToDrop;
+    }
+
+    public static ClientVoiceDropPayload dropAll() {
+        return new ClientVoiceDropPayload(true);
+    }
+
 
 }

@@ -89,7 +89,7 @@ public class PlayerProximityTicker implements Runnable {
                 // unsubscribe these
                 ClientConnection peer = OpenAudioMc.getService(NetworkingService.class).getClient(uuid);
 
-                client.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(peer.getRtcSessionManager().getStreamKey())));
+                client.getPeerQueue().drop(peer.getRtcSessionManager().getStreamKey());
                 AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(client, peer, VoiceEventCause.NORMAL));
                 client.getRtcSessionManager().updateLocationWatcher();
                 client.getRtcSessionManager().getListeningTo().remove(peer.getOwner().getUniqueId());
@@ -98,11 +98,16 @@ public class PlayerProximityTicker implements Runnable {
                     continue;
                 }
 
-                peer.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(client.getRtcSessionManager().getStreamKey())));
+                peer.getPeerQueue().drop(client.getRtcSessionManager().getStreamKey());
                 peer.getRtcSessionManager().getListeningTo().remove(client.getOwner().getUniqueId());
                 AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(peer, client, VoiceEventCause.NORMAL));
                 peer.getRtcSessionManager().updateLocationWatcher();
             }
+        }
+
+        // flush all voicechat updates
+        for (ClientConnection client : OpenAudioMc.getService(NetworkingService.class).getClients()) {
+            client.getPeerQueue().flush(client);
         }
 
         for (ClientConnection client : OpenAudioMc.getService(NetworkingService.class).getClients()) {
