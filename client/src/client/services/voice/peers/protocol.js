@@ -50,14 +50,9 @@ export class RtcPacket {
     }
 
     trimmed() {
-        let headerLength = (this.eventName).length
-        let out = ""
-        for (let i = 0; i < this.original.length; i++) {
-            let byte = this.original.charAt(i);
-            if (!(i <= headerLength)) {
-                out += byte
-            }
-        }
-        return out;
+        const headerLength = this.eventName.length + 1;
+        const originalChars = Array.from(this.original);
+        const trimmedChars = originalChars.slice(headerLength);
+        return trimmedChars.join('');
     }
 }

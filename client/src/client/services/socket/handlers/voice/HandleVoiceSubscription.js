@@ -1,7 +1,6 @@
 import {VoiceModule} from "../../../voice/VoiceModule";
 import {reportVital} from "../../../../util/vitalreporter";
 import {StringifyError} from "../../../../util/errorreformat";
-import {oalog} from "../../../../util/log";
 import {debugLog} from "../../../debugging/DebugService";
 
 export function HandleVoiceSubscription(data) {
