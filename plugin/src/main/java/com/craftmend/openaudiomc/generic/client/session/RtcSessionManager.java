@@ -13,9 +13,7 @@ import com.craftmend.openaudiomc.generic.client.helpers.ClientRtcLocationUpdate;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
-import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientSubscribeToVoice;
-import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceSubscribePayload;
 import com.craftmend.openaudiomc.generic.node.packets.ForceMuteMicrophonePacket;
 import com.craftmend.openaudiomc.generic.platform.Platform;
@@ -91,12 +89,12 @@ public class RtcSessionManager implements Serializable {
 
         if (!skipPeer) {
             peer.getRtcSessionManager().getListeningTo().add(clientConnection.getOwner().getUniqueId());
-            peer.sendPacket(new PacketClientSubscribeToVoice(ClientVoiceSubscribePayload.fromClient(clientConnection, Vector3.from(peer))));
+            peer.getPeerQueue().addSubscribe(clientConnection, peer);
             AudioApi.getInstance().getEventDriver().fire(new PlayerEnterVoiceProximityEvent(clientConnection, peer, VoiceEventCause.NORMAL));
         }
 
         listeningTo.add(peer.getOwner().getUniqueId());
-        clientConnection.sendPacket(new PacketClientSubscribeToVoice(ClientVoiceSubscribePayload.fromClient(peer, Vector3.from(clientConnection))));
+        clientConnection.getPeerQueue().addSubscribe(peer, clientConnection);
         AudioApi.getInstance().getEventDriver().fire(new PlayerEnterVoiceProximityEvent(peer, clientConnection, VoiceEventCause.NORMAL));
 
         updateLocationWatcher();
@@ -138,7 +136,7 @@ public class RtcSessionManager implements Serializable {
                 // send unsub packet
                 peer.getRtcSessionManager().listeningTo.remove(clientConnection.getOwner().getUniqueId());
                 peer.getRtcSessionManager().updateLocationWatcher();
-                peer.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(streamKey)));
+                peer.getPeerQueue().drop(streamKey);
 
                 AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(clientConnection, peer, VoiceEventCause.NORMAL));
             }

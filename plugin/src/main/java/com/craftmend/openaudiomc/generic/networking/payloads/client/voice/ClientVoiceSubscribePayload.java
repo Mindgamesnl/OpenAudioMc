@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.generic.client.helpers.ClientRtcLocationUpdate;
 import com.craftmend.openaudiomc.spigot.services.world.Vector3;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 
 import java.util.UUID;
 
@@ -13,18 +14,25 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ClientVoiceSubscribePayload extends AbstractPacketPayload {
 
-    private String targetStreamKey;
-    private String targetPlayerName;
-    private UUID targetUuid;
-    private ClientRtcLocationUpdate location;
+    private SerializedPeer[] peers;
 
-    public static ClientVoiceSubscribePayload fromClient(ClientConnection clientConnection, Vector3 targetLocation) {
-        return new ClientVoiceSubscribePayload(
-                clientConnection.getRtcSessionManager().getStreamKey(),
-                clientConnection.getOwner().getName(),
-                clientConnection.getOwner().getUniqueId(),
-                ClientRtcLocationUpdate.fromClient(clientConnection, targetLocation)
-        );
+    @Getter
+    @AllArgsConstructor
+    public static class SerializedPeer {
+        private String streamKey;
+        private String playerName;
+        private UUID playerUuid;
+        private ClientRtcLocationUpdate location;
+
+        public static SerializedPeer fromClient(ClientConnection clientConnection, ClientConnection locationTarget) {
+            return new SerializedPeer(
+                    clientConnection.getRtcSessionManager().getStreamKey(),
+                    clientConnection.getOwner().getName(),
+                    clientConnection.getOwner().getUniqueId(),
+                    ClientRtcLocationUpdate.fromClient(clientConnection, Vector3.from(locationTarget))
+            );
+        }
+
     }
 
 }
