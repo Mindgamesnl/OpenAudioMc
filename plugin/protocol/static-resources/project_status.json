@@ -1,7 +1,7 @@
 {
   "response": {
     "versioning": {
-      "version_tag": "6.8.4",
+      "version_tag": "6.8.5",
       "build_number": 700,
       "version_importance": "&e&aHighly Recommended",
       "version_update_message": "Migrated to a new platform, free CDN, settings, routing, and much more! Please read the changelog for more information and a guide on how to migrate."

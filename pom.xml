@@ -14,7 +14,7 @@
     <description>The OpenAudioMc Java plugin and Api</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <oa.version>6.8.4</oa.version>
+        <oa.version>6.8.5</oa.version>
     </properties>
 
     <url>https://openaudiomc.net/</url>
