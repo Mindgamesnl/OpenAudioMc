@@ -1,6 +1,8 @@
 import {VoiceModule} from "../../../voice/VoiceModule";
 import {reportVital} from "../../../../util/vitalreporter";
 import {StringifyError} from "../../../../util/errorreformat";
+import {oalog} from "../../../../util/log";
+import {debugLog} from "../../../debugging/DebugService";
 
 export function HandleVoiceSubscription(data) {
 
@@ -12,6 +14,7 @@ export function HandleVoiceSubscription(data) {
     const isModern = data.hasOwnProperty('peers');
 
     if (!isModern) {
+        debugLog("legacy voice subscription packet received");
         addPeer(data.targetUuid, data.targetPlayerName, data.targetStreamKey, data.location)
         return
     }

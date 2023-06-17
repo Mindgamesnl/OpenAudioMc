@@ -1,4 +1,6 @@
 import {VoiceModule} from "../../../voice/VoiceModule";
+import {oalog} from "../../../../util/log";
+import {debugLog} from "../../../debugging/DebugService";
 
 export function HandleVoiceDrop(data) {
 
@@ -10,6 +12,7 @@ export function HandleVoiceDrop(data) {
     const isModern = data.hasOwnProperty('dropAll');
 
     if (!isModern) {
+        debugLog("legacy voice subscription packet received");
         // legacy
         if (data.streamKey == null) {
             // fuck them all
