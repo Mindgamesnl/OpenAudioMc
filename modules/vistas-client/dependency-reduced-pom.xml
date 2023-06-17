@@ -116,7 +116,7 @@
     <dependency>
       <groupId>com.craftmend.openaudiomc</groupId>
       <artifactId>openaudiomc</artifactId>
-      <version>6.8.4</version>
+      <version>6.8.5</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
