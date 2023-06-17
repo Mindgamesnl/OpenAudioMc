@@ -6,7 +6,11 @@ export class Player {
 
     constructor(world, location, pitch, yaw) {
         this.world = world;
-        this.audioCtx = new AudioContext();
+        let audioContextType;
+        if (typeof window !== 'undefined') {
+            audioContextType = window.AudioContext || window.webkitAudioContext;
+        }
+        this.audioCtx = new audioContextType();
         this.listener = this.audioCtx.listener;
 
         this.updateLocation(location, pitch, yaw);
