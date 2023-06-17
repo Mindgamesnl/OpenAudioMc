@@ -55,7 +55,7 @@ public class ProxyHostService extends Service {
             if (connection.getSession().isConnectedToRtc()) {
                 // drop all peers
                 connection.sendPacket(new PacketClientBlurVoiceUi(new ClientVoiceBlurUiPayload(false)));
-                connection.sendPacket(new PacketClientDropVoiceStream(new ClientVoiceDropPayload(null)));
+                connection.sendPacket(new PacketClientDropVoiceStream(ClientVoiceDropPayload.dropAll()));
             }
 
             if (OpenAudioMc.getService(OpenaudioAccountService.class).is(CraftmendTag.VOICECHAT)) {

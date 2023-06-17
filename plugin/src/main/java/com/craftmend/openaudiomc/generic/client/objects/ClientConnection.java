@@ -57,6 +57,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
     private transient final List<Runnable> connectHandlers = new ArrayList<>();
     private transient final List<Runnable> disconnectHandlers = new ArrayList<>();
     @Setter @Getter private ClientDataStore dataCache;
+    @Getter private PeerQueue peerQueue = new PeerQueue();
 
     public ClientConnection(User playerContainer, SerializableClient fromSerialized) {
         this.user = playerContainer;
