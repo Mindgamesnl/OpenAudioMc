@@ -250,7 +250,7 @@
         <dependency>
             <groupId>com.craftmend.openaudiomc</groupId>
             <artifactId>OpenAudioMc-vistas-client</artifactId>
-            <version>6.8.4</version>
+            <version>6.8.5</version>
             <scope>compile</scope>
         </dependency>
 
