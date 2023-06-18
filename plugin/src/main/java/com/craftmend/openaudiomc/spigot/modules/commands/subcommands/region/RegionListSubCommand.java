@@ -65,6 +65,10 @@ public class RegionListSubCommand extends SubCommand {
             message(sender, ChatColor.BLUE + "   -> " + ChatColor.YELLOW + "Source: " + ChatColor.GRAY + properties.getSource());
             message(sender, ChatColor.BLUE + "   -> " + ChatColor.YELLOW + "Loop: " + ChatColor.GRAY + properties.getLoop());
             message(sender, ChatColor.BLUE + "   -> " + ChatColor.YELLOW + "Allows VC: " + ChatColor.GRAY + properties.getAllowsVoiceChat());
+            if (properties.getWorlds() == null) {
+                message(sender, ChatColor.BLUE + "   -> " + ChatColor.YELLOW + "Worlds: " + ChatColor.GRAY + "all");
+                continue;
+            }
             message(sender, ChatColor.BLUE + "   -> " + ChatColor.YELLOW + "Worlds: " + ChatColor.GRAY + String.join(", ", properties.getWorlds()));
         }
     }
