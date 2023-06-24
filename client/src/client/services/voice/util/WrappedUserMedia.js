@@ -11,14 +11,14 @@ export class WrappedUserMedia {
             audio: {
                     noiseSuppression: true,
                     // sampleRate: 64000,
-                    echoCancellation: false,
+                    echoCancellation: true,
                     autoGainControl: false,
                     channelCount: 1,
                 }
         }
 
         if (preferedDeviceId) {
-            argument.deviceId = {exact: preferedDeviceId}
+            argument.audio.deviceId = {exact: preferedDeviceId}
         }
 
         if (navigator.getUserMedia != null) {
