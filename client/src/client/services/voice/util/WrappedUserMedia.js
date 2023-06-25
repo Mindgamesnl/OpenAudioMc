@@ -1,3 +1,5 @@
+import {debugLog} from "../../debugging/DebugService";
+
 export class WrappedUserMedia {
 
     constructor() {
@@ -31,7 +33,7 @@ export class WrappedUserMedia {
             return;
         }
 
-        if (navigator.mediaDevices.getUserMedia != null) {
+        if (navigator.mediaDevices != null && navigator.mediaDevices.getUserMedia != null) {
             navigator.mediaDevices.getUserMedia(argument)
                 .then(hasStream => this.successCallback(hasStream))
                 .catch(error => this.errorCallback(error));
@@ -46,5 +48,26 @@ export class WrappedUserMedia {
         console.error("Unknown user media platform!");
     }
 
+}
+
+export function hasUserMedia() {
+    if (navigator.getUserMedia) {
+        return true;
+    }
+
+    if (navigator.webkitGetUserMedia) {
+        return true;
+    }
+
+    if (navigator.mediaDevices != null && navigator.mediaDevices.getUserMedia != null) {
+        return true;
+    }
+
+    if (navigator.msGetUserMedia) {
+        return true;
+    }
+
+    debugLog("No user media support")
+    return false;
 }
 
