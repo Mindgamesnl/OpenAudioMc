@@ -343,6 +343,8 @@ function setBgColor(col) {
         changeColor(oldColors[i], col);
     }
 
+    setGlobalState({settings: {accentColor: col}})
+
     oldColors = [col]
 }
 
@@ -357,6 +359,7 @@ function setBgImage(bg) {
     // } else {
     // use bg image
     document.documentElement.style.setProperty('--background-image', `url("` + bg + `")`);
+    setGlobalState({settings: {backgroundImage: bg}})
     //}
 }
 

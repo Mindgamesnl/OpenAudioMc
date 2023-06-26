@@ -51,6 +51,9 @@ const initialState = {
         rolloffFactor: .5,
 
         preferredMicId: "default",
+
+        backgroundImage: null,
+        accentColor: null,
     },
 
     loadingOverlay: {

@@ -1155,3 +1155,34 @@ span.tab {
         display: none !important;
     }
 }
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background-color: #888;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.slider:hover::-webkit-slider-thumb {
+    background-color: #555;
+}
+
+pre {
+    display:inline;
+    margin:0;
+    padding:0;
+    border:0;
+    outline:0;
+}
+
+.common-rounded {
+    border-radius: var(--common-border-radius);
+}
+
+.serverimage {
+    content: var(--background-image);
+}
