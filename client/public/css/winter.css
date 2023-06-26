@@ -7,7 +7,6 @@
 
 :root {
     --narbarBg: rgba(14, 14, 14, 75%);
-    --narbarBg: rgba(14, 14, 14, 75%);
     --theme-bg-color: rgba(16 18 27 / 40%);
     --border-color: rgba(113 119 144 / 25%);
     --theme-color: #f9fafb;
@@ -309,7 +308,7 @@ body.light-mode .video-bg:before {
     min-height: 60px;
     background-color: var(--narbarBg);
     border-bottom: 2px solid transparent;
-    border-image: linear-gradient(0.25turn, black, var(--primary-accent), black);
+    border-image: linear-gradient(0.25turn, transparent, var(--primary-accent), transparent);
     border-image-slice: 1;
 }
 
