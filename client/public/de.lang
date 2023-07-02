@@ -85,6 +85,8 @@ vc.operaWarning=Dein Login scheint eine Weile zu dauern. Das liegt wahrscheinlic
 vc.youAreModerating=Pass auf! Du bist jetzt ein Moderator, du kannst jetzt jeden im Sprachchat hören, aber sie können dich nicht hören.
 vc.noMicInputYetTitle=Wir haben Schwierigkeiten, dich zu hören!
 vc.noMicInputYetBody=Bitte vergewissere dich, dass du das richtige Mikrofon ausgewählt hast, oder versuche, das Noise-Gate zu verringern.
+vc.peersHiddenTitle=Sprachchat-Spieler sind versteckt
+vc.peersHiddenText=Dieser Server hat die Möglichkeit zu sehen wer im Sprachchat ist deaktiviert, um unfaire Vorteile zu verhindern. Du kannst die Spieler jedoch immer noch hören.
 
 settings.voicechat.chimes.title=Sprachchat-Läuten
 settings.voicechat.chimes.body=Das Läuten ist ein kleiner Sound, der abgespielt wird, wenn du die Stummschaltung deines Mikrofons de-/aktivierst. Content-Creator möchten dies möglicherweise deaktivieren.
