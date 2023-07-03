@@ -129,7 +129,7 @@ class TabWindow extends Component {
                            href="https://openaudiomc.net/">&copy; OpenAudioMc 2016-2023. All Rights Reserved.</a>
                     </div>
                 </div>
-                <div className="tab-content px-4 xl:px-24 xl:pt-5">
+                <div className="tab-content">
                     <div className="content-wrapper">
                         {pages[pageIndex].content}
                     </div>

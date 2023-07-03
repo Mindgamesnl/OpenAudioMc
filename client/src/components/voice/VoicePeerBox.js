@@ -63,7 +63,8 @@ class VoicePeerBox extends React.Component {
 
 
         return (
-            <div className="content-section">
+            <div className={"flex justify-center align-middle"}>
+            <div className="content-section w-3/4">
                 <div className="content-section-title">{peerMessage}</div>
                 <div className="content-card-collection">
                     <div className="content-card voicechat-player-card">
@@ -77,6 +78,7 @@ class VoicePeerBox extends React.Component {
                         </ul>
                     </div>
                 </div>
+            </div>
             </div>
         );
     }

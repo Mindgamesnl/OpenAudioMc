@@ -691,10 +691,6 @@ body.light-mode .video-bg:before {
     margin-left: 20px;
 }
 
-.content-card:hover {
-    transform: scale(1.02);
-}
-
 .content-card svg {
     width: 28px;
     border-radius: var(--common-border-radius);
@@ -829,7 +825,6 @@ input[type='range'] {
 
 
 .tab-content {
-    height: 95%;
 }
 
 .avatar {

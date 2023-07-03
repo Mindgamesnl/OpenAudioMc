@@ -17,7 +17,7 @@ import {WorldModule} from "./services/world/WorldModule";
 import {debugLog} from "./services/debugging/DebugService";
 
 export const OAC = createContext({});
-let oldColors = ["#2c78f6", "#4F46E5"]
+let oldColors = ["#c0392b", "#4F46E5"]
 
 class OpenAudioAppContainer extends React.Component {
     constructor(props) {
@@ -78,6 +78,7 @@ class OpenAudioAppContainer extends React.Component {
         let testMode = url.searchParams.get("testMode");
         if (testMode != null) {
             // set the global state to test mode
+            setBgColor(oldColors[0])
             setGlobalState({
                 isLoading: false,
                 clickLock: false,
@@ -333,7 +334,7 @@ export function getTranslation(context, message) {
     return m;
 }
 
-function setBgColor(col) {
+export function setBgColor(col) {
     if (col === "#000000") return;
     // let normal = convertHexToRGBA(response.accentColor, 70)
     document.documentElement.style.setProperty('--primary-accent', col);

@@ -48,7 +48,7 @@ export class VcOnboarding extends React.Component {
                                     {getTranslation(c, "vc.title")}
                                                        </span>
                                 <div className="overflow-visible lg:grid lg:grid-cols-2 lg:gap-4">
-                                    <div className="lg:self-center ">
+                                    <div className="lg:self-center py-3">
                                         {getTranslation(c, "vc.onboarding").replace("%range", getGlobalState().voiceState.radius)}
                                         <div className="content-card-buttons">
                                             <div
@@ -64,7 +64,7 @@ export class VcOnboarding extends React.Component {
                                     </div>
                                     <div className={"flex justify-center z-50 -mt-8 hidden-on-mobile"}>
                                         <img
-                                            className="transform rounded-xl object-cover w-2/3 object-left-top"
+                                            className="transform rounded-xl object-cover w-2/5 object-left-top"
                                             src="assets/bust.png" alt="App screenshot"/>
                                     </div>
                                 </div>

@@ -49,10 +49,8 @@ class SettingsPage extends React.Component {
         }
 
         return (
-            <div className="content-section">
+            <div className="content-section lg:px-12 overflow-y-scroll">
                 <div className="content-section-title">Settings</div>
-
-                {this.props.voiceState.ready && <AdvancedVoiceSettings/>}
 
                 <div className="content-card-collection items-stretch">
                     <CheckboxSetting
