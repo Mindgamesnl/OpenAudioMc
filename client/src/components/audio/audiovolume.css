@@ -1,0 +1,7 @@
+:root{
+    --main-volume-color: #fff;
+}
+
+.main-vol-slider::-webkit-slider-thumb{
+    box-shadow: -908px 0 0 900px var(--main-volume-color) !important;
+}

@@ -691,10 +691,6 @@ body.light-mode .video-bg:before {
     margin-left: 20px;
 }
 
-.content-card:hover {
-    transform: scale(1.02);
-}
-
 .content-card svg {
     width: 28px;
     border-radius: var(--common-border-radius);
@@ -829,7 +825,6 @@ input[type='range'] {
 
 
 .tab-content {
-    height: 95%;
 }
 
 .avatar {
@@ -1154,4 +1149,35 @@ span.tab {
     .hidden-on-mobile {
         display: none !important;
     }
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background-color: #888;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.slider:hover::-webkit-slider-thumb {
+    background-color: #555;
+}
+
+pre {
+    display:inline;
+    margin:0;
+    padding:0;
+    border:0;
+    outline:0;
+}
+
+.common-rounded {
+    border-radius: var(--common-border-radius);
+}
+
+.serverimage {
+    content: var(--background-image);
 }
