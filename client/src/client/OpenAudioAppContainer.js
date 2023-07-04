@@ -316,6 +316,10 @@ function fatalToast(message) {
     });
 }
 
+export function s(message) {
+    return getTranslation(null, message);
+}
+
 export function getTranslation(context, message) {
     if (context == null) {
         context = getGlobalState();
@@ -324,7 +328,7 @@ export function getTranslation(context, message) {
 
     if (m === undefined) {
         console.error("Missing translation for: " + message);
-        return "<????>";
+        return "<" + message + ">";
     }
 
     if (context.currentUser) {

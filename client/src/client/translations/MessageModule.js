@@ -18,7 +18,7 @@ export class MessageModule {
             "be": "nl.lang", // belgium
             "sp": "es.lang", // spanish
             "es": "es.lang", // spanish
-            "fr": "fr.lang", // frensh
+            "fr": "fr.lang", // french
             "de": "de.lang", // german
             "ja": "jp.lang", // japanese
             "ko": "kr.lang", // korean
