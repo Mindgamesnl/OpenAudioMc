@@ -24,6 +24,10 @@ class ClickPrompt extends React.Component {
             {getTranslation(c, "home.confirmLoginWithVoicechat")}
         </button>;
 
+        if (!this.props.voiceState.serverHasVoiceChat) {
+            voiceButton = ""
+        }
+
         return (
             <BlackoutPage>
                 <div className="py-12">
