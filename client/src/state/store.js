@@ -101,6 +101,7 @@ const initialState = {
     isBlocked: false, // whenever an account is temporarily blocked (rate-limiting, abuse)
     isPersonalBlock: false, // whenever this user is personally rate-limited or blocked (due to for example, dmca abuse)
     loadingState: 'Preparing to load OpenAudioMc',
+    useScanLogin: false,
     fixedFooter: null,
     navbarDetails: true,
 
