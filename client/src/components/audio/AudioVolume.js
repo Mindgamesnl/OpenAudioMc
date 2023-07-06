@@ -209,6 +209,7 @@ class AudioVolume extends React.Component {
     }
 }
 
+
 export default connect(mapStateToProps)(AudioVolume);
 
 function mapStateToProps(state) {
