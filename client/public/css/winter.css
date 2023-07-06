@@ -6,7 +6,7 @@
 }
 
 :root {
-    --narbarBg: rgba(14, 14, 14, 75%);
+    --narbarBg: rgba(14, 14, 14, 100);
     --theme-bg-color: rgba(16 18 27 / 40%);
     --border-color: rgba(113 119 144 / 25%);
     --theme-color: #f9fafb;
@@ -143,15 +143,9 @@ body.light-mode .video-bg:before {
 
 .app {
     background-color: var(--theme-bg-color);
-    max-width: 100%;
-    max-height: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    width: 100%;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     font-size: 15px;
     font-weight: 500;
 }
@@ -298,11 +292,14 @@ body.light-mode .video-bg:before {
 .wrapper {
     display: flex;
     flex-grow: 1;
-    overflow: hidden;
 }
 
 .main-header {
+    position: sticky;
+    top: 0;
+    width: 100%;
     display: flex;
+    z-index: 999999;
     align-items: center;
     flex-shrink: 0;
     min-height: 60px;
@@ -336,8 +333,9 @@ body.light-mode .video-bg:before {
     display: flex;
     flex-direction: column;
     color: var(--theme-color);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     height: 100%;
-    overflow: auto;
 }
 
 .content-wrapper-box {
@@ -360,6 +358,7 @@ body.light-mode .video-bg:before {
 .content-wrapper-header {
     background-image: linear-gradient(196deg, rgba(0, 0, 0, 0.2) 23%, var(--primary-accent)), var(--background-image);
     background-position: center;
+    background-size: cover;
 }
 
 .content-wrapper.overlay {
@@ -698,10 +697,6 @@ body.light-mode .video-bg:before {
     flex-shrink: 0;
 }
 
-.content-card + .content-card {
-    margin-left: 20px;
-}
-
 .content-card > span {
     display: flex;
     align-items: center;
@@ -732,40 +727,12 @@ body.light-mode .video-bg:before {
 
 }
 
-@media screen and (max-width: 1510px) {
-    .content-card {
-        width: calc(50% - 20px);
-    }
-
-    .content-card:last-child {
-        margin-top: 20px;
-        margin-left: 0px;
-    }
-
-    #hue-box-ssl {
-        margin-left: 20px;
-        width: 100%;
-    }
+.content-card {
+    /* Flex card side by side, or stack if there is not enough room */
+    display: flex;
+    flex-direction: column;
 }
 
-@media screen and (max-width: 795px) {
-    .content-card {
-        width: calc(100% - 20px);
-        margin-top: 20px;
-    }
-
-    .settings-card {
-        margin-left: 0px !important;
-    }
-
-    .content-card + .content-card {
-        margin-left: 0 !important;
-    }
-
-    #hue-box-ssl {
-        width: 97%;
-    }
-}
 
 ::-webkit-scrollbar {
     width: 6px;
@@ -823,9 +790,6 @@ input[type='range'] {
     width: 90%;
 }
 
-
-.tab-content {
-}
 
 .avatar {
     width: 80px;

@@ -1,7 +1,6 @@
 import {BlackoutPage} from "../../components/layout/BlackoutPage";
 import React from "react";
 import "../../components/loginform/login.css"
-import {connect} from "react-redux";
 import PropTypes from "prop-types";
 
 export class BadBrowser extends React.Component {

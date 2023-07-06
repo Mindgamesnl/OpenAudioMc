@@ -17,7 +17,7 @@ class AudioPage extends React.Component {
         }
 
         return (
-            <div>
+            <div className={"pb-4"}>
                 <Header />
                 {this.props.voiceState.enabled && !this.props.voiceState.ready && this.props.clientSupportsVoiceChat && this.props.browserSupportsVoiceChat && <VcOnboarding />}
                 {this.props.voiceState.enabled && !this.props.browserSupportsVoiceChat && <UnsupportedBanner>{getTranslation(null, "vc.notCompatible")}</UnsupportedBanner>}

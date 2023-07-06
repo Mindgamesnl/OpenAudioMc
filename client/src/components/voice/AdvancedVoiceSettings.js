@@ -91,7 +91,8 @@ class AdvancedVoiceSettings extends React.Component {
                                     y2="16"/></svg>
                                    {getTranslation(null, "vc.sensitivity")}
                                </span>
-                        <div className="content-card-content content-card-content-border-bottom text-xl" dangerouslySetInnerHTML={{__html: getTranslation(null, "vc.aboutSensitivity")}}>
+                        <div className="content-card-content content-card-content-border-bottom text-xl"
+                             dangerouslySetInnerHTML={{__html: getTranslation(null, "vc.aboutSensitivity")}}>
                         </div>
                         <div className="content-card-buttons w-full  text-3xl">
                             <label htmlFor="mic-sensitive-slider"></label>
@@ -108,7 +109,8 @@ class AdvancedVoiceSettings extends React.Component {
                                     value={this.props.microphoneSensitivity}/>
                             </div>
                             <label className="content-pill status-button mb-5">
-                                <input type="checkbox" onChange={this.micAutoSensitivityInput} checked={this.props.autoMicSensitivity}>
+                                <input type="checkbox" onChange={this.micAutoSensitivityInput}
+                                       checked={this.props.autoMicSensitivity}>
                                 </input>
                                 <span className={"inline"}>{getTranslation(null, "vc.automaticAdjustments")}</span>
                             </label>
@@ -178,7 +180,8 @@ class AdvancedVoiceSettings extends React.Component {
                             </div>
                             <div className="content-card-buttons">
                                 <label className="content-pill status-button">
-                                    <input type="checkbox" onChange={this.monitoringInput} checked={this.props.monitoringEnabled}>
+                                    <input type="checkbox" onChange={this.monitoringInput}
+                                           checked={this.props.monitoringEnabled}>
                                     </input>
                                     <span
                                         className={"!inline !block"}>{getTranslation(null, "vc.settings.monitoring.toggle")}</span>

@@ -86,10 +86,10 @@ class VoiceSettings extends React.Component {
         }
 
         return (
-            <div>
-                <div className="content-section flex justify-center">
-                    <div className="content-card-collection items-stretch">
-                        <div className="content-card small-card order-2 2xl:order-1">
+            <div className={"w-full flex justify-center align-middle"}>
+                <div className="content-section flex justify-center w-4/5">
+                    <div className="flex content-card-collection items-stretch">
+                        <div className="w-2/3 lg:w-1/3 content-card small-card order-2 2xl:order-1">
                                <span className={"content-card-content-border-bottom"}>
                                 <img alt={"Speaking indictor"}
                                      className={"avatar " + (this.props.voiceState.isSpeaking ? " speaking " : "") + (this.props.voicechatMuted ? " muted-self" : "")}
@@ -140,7 +140,7 @@ class VoiceSettings extends React.Component {
                         </div>
 
 
-                        <div className="content-card vc-volume-card order-1 2xl:order-2">
+                        <div className="w-1/3 lg:w-2/3 content-card order-1 2xl:order-2">
                             <div className="mx-auto max-w-7xl py-5 px-6 lg:px-8">
                                 <div className="text-center">
                                     <p className="mt-1 text-4xl font-bold tracking-tight text-gray-200 sm:text-5xl lg:text-6xl">

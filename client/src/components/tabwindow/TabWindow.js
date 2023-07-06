@@ -105,9 +105,13 @@ class TabWindow extends Component {
         // is there only one page? then hide the navbar
         if (navbarButtons.length === 1) navbarButtons = "";
 
+        // only show navbar when we're unlocked
+        const showNavbar = !this.props.clickLock;
+
         return (
             <div className="main-container tabbed">
-                <div className="main-header flex justify-start">
+                {showNavbar &&
+                    <div className="main-header flex justify-start">
                     <span className="theme-color-text md:pl-10 w-1/3">
                         <div
                             className={"rounding-bottom rounding-top px-1 py-1 flex items-center justify-start hidden-on-mobile"}>
@@ -121,18 +125,17 @@ class TabWindow extends Component {
                         </div>
                     </span>
 
-                    <div className="header-menu w-1/3 center flex justify-center">
-                        {navbarButtons}
+                        <div className="header-menu w-1/3 center flex justify-center">
+                            {navbarButtons}
+                        </div>
+                        <div className="header-notice w-1/3 flex justify-end">
+                            <a className="menu-link-main soft-text" id={"notice"}
+                               href="https://openaudiomc.net/">&copy; OpenAudioMc 2016-2023. All Rights Reserved.</a>
+                        </div>
                     </div>
-                    <div className="header-notice w-1/3 flex justify-end">
-                        <a className="menu-link-main soft-text" id={"notice"}
-                           href="https://openaudiomc.net/">&copy; OpenAudioMc 2016-2023. All Rights Reserved.</a>
-                    </div>
-                </div>
-                <div className="tab-content">
-                    <div className="content-wrapper">
-                        {pages[pageIndex].content}
-                    </div>
+                }
+                <div className="content-wrapper">
+                    {pages[pageIndex].content}
                 </div>
             </div>
         );
@@ -146,7 +149,8 @@ function mapStateToProps(state) {
         isPremium: state.isPremium,
         isLegacy: state.isLegacy,
         currentUser: state.currentUser,
-        navbarDetails: state.navbarDetails
+        navbarDetails: state.navbarDetails,
+        clickLock: state.clickLock
     };
 }
 

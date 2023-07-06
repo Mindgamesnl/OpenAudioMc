@@ -41,23 +41,23 @@ class AudioVolume extends React.Component {
     }
 
     shadeColor(color, percent) {
-        let R = parseInt(color.substring(1,3),16);
-        let G = parseInt(color.substring(3,5),16);
-        let B = parseInt(color.substring(5,7),16);
+        let R = parseInt(color.substring(1, 3), 16);
+        let G = parseInt(color.substring(3, 5), 16);
+        let B = parseInt(color.substring(5, 7), 16);
 
         R = parseInt(R * (100 + percent) / 100);
         G = parseInt(G * (100 + percent) / 100);
         B = parseInt(B * (100 + percent) / 100);
 
-        R = (R<255)?R:255;
-        G = (G<255)?G:255;
-        B = (B<255)?B:255;
+        R = (R < 255) ? R : 255;
+        G = (G < 255) ? G : 255;
+        B = (B < 255) ? B : 255;
 
-        let RR = ((R.toString(16).length===1)?"0"+R.toString(16):R.toString(16));
-        let GG = ((G.toString(16).length===1)?"0"+G.toString(16):G.toString(16));
-        let BB = ((B.toString(16).length===1)?"0"+B.toString(16):B.toString(16));
+        let RR = ((R.toString(16).length === 1) ? "0" + R.toString(16) : R.toString(16));
+        let GG = ((G.toString(16).length === 1) ? "0" + G.toString(16) : G.toString(16));
+        let BB = ((B.toString(16).length === 1) ? "0" + B.toString(16) : B.toString(16));
 
-        return "#"+RR+GG+BB;
+        return "#" + RR + GG + BB;
     }
 
     getSoftColorAndTextColor(boldColor) {
@@ -80,7 +80,7 @@ class AudioVolume extends React.Component {
         // Choose the text color based on the luminance
         const textColor = luminance > 0.5 ? '#000000' : '#FFFFFF';
 
-        return { softColor, textColor };
+        return {softColor, textColor};
     }
 
     hexToHSL(hex) {
@@ -110,24 +110,26 @@ class AudioVolume extends React.Component {
                 case blue:
                     hue = (red - green) / d + 4;
                     break;
+                default:
+                    break;
             }
 
             hue /= 6;
         }
 
-        return { h: hue, s: saturation, l: lightness };
+        return {h: hue, s: saturation, l: lightness};
     }
 
     makeColorTransparent(color, opacity) {
-        let r = parseInt(color.substring(1,3),16);
-        let g = parseInt(color.substring(3,5),16);
-        let b = parseInt(color.substring(5,7),16);
+        let r = parseInt(color.substring(1, 3), 16);
+        let g = parseInt(color.substring(3, 5), 16);
+        let b = parseInt(color.substring(5, 7), 16);
 
         return `rgba(${r}, ${g}, ${b}, ${opacity})`;
     }
 
     hslToHex(hsl) {
-        const { h, s, l } = hsl;
+        const {h, s, l} = hsl;
 
         const hueToRGB = (p, q, t) => {
             if (t < 0) t += 1;
@@ -159,10 +161,11 @@ class AudioVolume extends React.Component {
 
         return (
             <div className="flex justify-center">
-            <div className="flex overflow-hidden w-3/4 pt-4">
-                    <div className="pt-8 pb-8 relative z-10 lg:w-full" style={{ backgroundImage: this.state.bgGradient }}>
-                        <svg className="lg:block absolute right-0 inset-y-0 h-full w-48 transform translate-x-1/2" fill={this.state.bgColor} viewBox="0 0 100 100" preserveAspectRatio="none">
-                            <polygon points="50,0 100,0 50,100 0,100" />
+                <div className="flex overflow-hidden w-3/4 pt-4">
+                    <div className="pt-8 pb-8 relative z-10 lg:w-full" style={{backgroundImage: this.state.bgGradient}}>
+                        <svg className="lg:block absolute right-0 inset-y-0 h-full w-48 transform translate-x-1/2"
+                             fill={this.state.bgColor} viewBox="0 0 100 100" preserveAspectRatio="none">
+                            <polygon points="50,0 100,0 50,100 0,100"/>
                         </svg>
 
                         <div className="mx-auto w-full px-4 sm:px-6 lg:px-8">
@@ -170,18 +173,22 @@ class AudioVolume extends React.Component {
                                 <h1 className={"font-extrabold tracking-tighter pb-4 text-5xl"}>
                                     {getTranslation(null, "home.audioControls")}
                                 </h1>
-                                <p className="text-base sm:text-lg sm:max-w-xl sm:mx-auto md:text-xl lg:mx-0" style={{ color: this.state.textColor }} dangerouslySetInnerHTML={{ __html: getTranslation(c, "home.volumeContext") }}>
+                                <p className="text-base sm:text-lg sm:max-w-xl sm:mx-auto md:text-xl lg:mx-0"
+                                   style={{color: this.state.textColor}}
+                                   dangerouslySetInnerHTML={{__html: getTranslation(c, "home.volumeContext")}}>
                                 </p>
                                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                                     <form className="w-11/12">
-                                        <label className="uppercase font-bold text-lg" style={{ color: this.state.textColor }} htmlFor="volume-slider">Audio Volume: {this.props.volume}%
+                                        <label className="uppercase font-bold text-lg"
+                                               style={{color: this.state.textColor}} htmlFor="volume-slider">Audio
+                                            Volume: {this.props.volume}%
                                         </label>
                                         <div className="pt-1">
                                             <input
                                                 onChange={this.onInput}
                                                 value={this.props.volume}
                                                 className="rounded-lg overflow-hidden appearance-none bg-gray-200 h-4 w-full main-vol-slider common-rounded"
-                                                type="range" min="0" max="100" step="1" />
+                                                type="range" min="0" max="100" step="1"/>
                                         </div>
                                     </form>
                                 </div>
@@ -190,12 +197,12 @@ class AudioVolume extends React.Component {
                         </div>
                     </div>
 
-                <div className="hidden-on-mobile lg:w-4/5 lg:ml-auto">
-                    <div className="flex justify-end h-full">
-                        <img className="h-auto lg:h-full object-cover serverimage" />
+                    <div className="hidden-on-mobile lg:w-4/5 lg:ml-auto">
+                        <div className="flex justify-end h-full">
+                            <img className="h-auto lg:h-full object-cover serverimage" alt={""}/>
+                        </div>
                     </div>
                 </div>
-            </div>
             </div>
 
         )
