@@ -1,7 +1,6 @@
 import React from "react";
 import "./clickprompt.css";
 import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
-import {OaStyleCard} from "../card/OaStyleCard";
 import {BlackoutPage} from "../layout/BlackoutPage";
 import {getGlobalState, setGlobalState} from "../../state/store";
 import {connect} from "react-redux";
