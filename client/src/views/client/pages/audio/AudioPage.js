@@ -1,6 +1,6 @@
 import React from "react";
 import {Header} from "../../../../components/header/Header";
-import {ClickPrompt} from "../../../../components/clicktoconnect/ClickPrompt";
+import ClickPrompt from "../../../../components/clicktoconnect/ClickPrompt";
 import {getTranslation, OAC} from "../../../../client/OpenAudioAppContainer";
 import {VcOnboarding} from "../../../../components/onboarding/VcOnboarding";
 import AudioVolume from "../../../../components/audio/AudioVolume";

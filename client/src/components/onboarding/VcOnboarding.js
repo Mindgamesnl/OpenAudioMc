@@ -2,7 +2,6 @@ import React from "react";
 import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
 import {VoiceModule} from "../../client/services/voice/VoiceModule";
 import {getGlobalState} from "../../state/store";
-import {setTab} from "../tabwindow/TabWindow";
 
 import "./onboarding.css"
 
@@ -23,7 +22,6 @@ export class VcOnboarding extends React.Component {
         if (this.state.clicked) return;
         this.setState({clicked: true});
         VoiceModule.startVoiceChat();
-        setTab(1);
     }
 
     render() {

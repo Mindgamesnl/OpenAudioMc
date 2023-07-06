@@ -71,6 +71,8 @@ const initialState = {
     },
 
     voiceState: {
+        autoJoinVoiceChat: false,
+        serverHasVoiceChat: false,
         peersHidden: false,
         isModerating: false,
         isTemporarilyDisabled: false,

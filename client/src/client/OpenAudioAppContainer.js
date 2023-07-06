@@ -172,6 +172,14 @@ class OpenAudioAppContainer extends React.Component {
                     return;
                 }
 
+                if (serverData.isVoicechatEnabled) {
+                    setGlobalState({
+                        voiceState: {
+                            serverHasVoiceChat: true,
+                        },
+                    })
+                }
+
                 if (serverData.useTranslations) {
                     let localLanguage = navigator.language || navigator.userLanguage;
                     let language = localLanguage.split("-")[0];

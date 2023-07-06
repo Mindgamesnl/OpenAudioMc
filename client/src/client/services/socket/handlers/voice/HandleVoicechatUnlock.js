@@ -1,5 +1,6 @@
-import {setGlobalState} from "../../../../../state/store";
+import {getGlobalState, setGlobalState} from "../../../../../state/store";
 import {toast} from "react-toastify";
+import {VoiceModule} from "../../../voice/VoiceModule";
 
 export function HandleVoiceUnlock(data) {
 
@@ -27,4 +28,9 @@ export function HandleVoiceUnlock(data) {
             serverHasModeration: data.hasModeration
         }
     })
+
+    // is it set to auto join?
+    if (getGlobalState().voiceState.autoJoinVoiceChat) {
+        VoiceModule.startVoiceChat();
+    }
 }

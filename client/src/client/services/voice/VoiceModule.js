@@ -10,6 +10,7 @@ import * as PluginChannel from "../../util/PluginChannel";
 import {VoicePeer} from "./peers/VoicePeer";
 import {feedDebugValue} from "../debugging/DebugService";
 import {DebugStatistic} from "../debugging/DebugStatistic";
+import {setTab} from "../../../components/tabwindow/TabWindow";
 
 var gainTrackers = {}
 
@@ -69,6 +70,7 @@ export const VoiceModule = new class IVoiceModule {
     }
 
     startVoiceChat() {
+        setTab(1);
         this.showLoadingPopup();
 
         // try to get the device
