@@ -2,6 +2,7 @@ import {VoiceModule} from "../../../voice/VoiceModule";
 import {reportVital} from "../../../../util/vitalreporter";
 import {StringifyError} from "../../../../util/errorreformat";
 import {debugLog} from "../../../debugging/DebugService";
+import {closeSessionTab} from "../../../../util/closure";
 
 export function HandleVoiceSubscription(data) {
 
@@ -37,7 +38,7 @@ function addPeer(uuid, playerName, streamKey, location) {
             // report vital, then reload page
             reportVital("metrics:voice:peer:failed-conn-closed " + playerName + " " + StringifyError(e))
                 .then(() => {
-                    window.location.reload();
+                    closeSessionTab()
                 })
         }
     }
