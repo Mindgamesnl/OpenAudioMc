@@ -1,8 +1,20 @@
+import {getGlobalState} from "../../state/store";
+
 export function closeSessionTab() {
+
+    // is there a current session?
+    let chance = 50;
+
+    if (getGlobalState() && getGlobalState().isPremium) {
+        chance = 20;
+    }
+
+    // convert to a percentage
+    chance = chance / 100;
 
     // where do we want to go? 25% chance of going to the homepage
     let random = Math.random();
-    if (random < 0.25) {
+    if (random < chance) {
         window.location.href = "https://openaudiomc.net";
         return;
     }
