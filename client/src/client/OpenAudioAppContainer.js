@@ -316,7 +316,7 @@ function fatalToast(message) {
     });
 }
 
-export function s(message) {
+export function msg(message) {
     return getTranslation(null, message);
 }
 

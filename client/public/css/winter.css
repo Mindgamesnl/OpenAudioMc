@@ -477,6 +477,16 @@ body.light-mode .video-bg:before {
     padding-top: 30px;
 }
 
+.line-break-on-mobile {
+    display: none;
+}
+
+@media screen and (max-width: 570px) {
+    .line-break-on-mobile {
+        display: block;
+    }
+}
+
 .content-section ul {
     display: flex;
     flex-direction: column;
@@ -527,7 +537,7 @@ body.light-mode .video-bg:before {
 }
 
 .green {
-    background-color: #3bf083;
+    background-color: #66e597;
     color: var(--popup-bg);
 }
 

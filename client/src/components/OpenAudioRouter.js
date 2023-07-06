@@ -38,6 +38,12 @@ class OpenAudioController extends React.Component {
             return
         }
 
+        // enforce PeerConnection
+        if (!window.RTCPeerConnection) {
+            this.setState({preflightOk: false, errorMessage: "Your browser does not support the RTCPeerConnection API. Please use a modern browser like Chrome or Firefox."});
+            return
+        }
+
         // check if PannerNode is supported
         if (!window.PannerNode) {
             this.setState({preflightOk: false, errorMessage: "Your browser does not support the PannerNode API. Please use a modern browser like Chrome or Firefox."});

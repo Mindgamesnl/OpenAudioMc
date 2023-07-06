@@ -5,6 +5,7 @@ import {setGlobalState} from "../../state/store";
 import {connect} from "react-redux";
 import {reRenderAllGainNodes} from "../../client/services/voice/VoiceModule";
 import {Tooltip} from "../tooltip/tooltip";
+import ExtraVoiceSettings from "./ExtraVoiceSettings";
 
 class VoiceSettings extends React.Component {
     static contextType = OAC;
@@ -86,10 +87,10 @@ class VoiceSettings extends React.Component {
         }
 
         return (
-            <div className={"w-full flex justify-center align-middle"}>
-                <div className="content-section flex justify-center w-4/5">
+            <div className={"w-full flex justify-center align-middle lg:pb-5 lg:pt-2"}>
+                <div className="content-section flex justify-center lg:w-5/6">
                     <div className="flex content-card-collection items-stretch">
-                        <div className="w-2/3 lg:w-1/3 content-card small-card order-2 2xl:order-1">
+                        <div className="w-full md:w-2/3 lg:w-1/3 content-card small-card order-2 2xl:order-1">
                                <span className={"content-card-content-border-bottom"}>
                                 <img alt={"Speaking indictor"}
                                      className={"avatar " + (this.props.voiceState.isSpeaking ? " speaking " : "") + (this.props.voicechatMuted ? " muted-self" : "")}
@@ -140,20 +141,13 @@ class VoiceSettings extends React.Component {
                         </div>
 
 
-                        <div className="w-1/3 lg:w-2/3 content-card order-1 2xl:order-2">
-                            <div className="mx-auto max-w-7xl py-5 px-6 lg:px-8">
-                                <div className="text-center">
-                                    <p className="mt-1 text-4xl font-bold tracking-tight text-gray-200 sm:text-5xl lg:text-6xl">
-                                        {getTranslation(c, "vc.hero.title")}
-                                    </p>
-                                    <p className="mx-auto mt-5 max-w-xl text-xl text-gray-300">
-                                        {getTranslation(c, "vc.hero.subtitle")}
-                                    </p>
-                                </div>
-                            </div>
+                        <div className="w-full lg:w-2/3 order-1 2xl:order-2 p-0">
+
+                           <AdvancedVoiceSettings />
+
                         </div>
                     </div>
-                    {this.state.advancedSettings && <AdvancedVoiceSettings/>}
+                    {this.state.advancedSettings && <div className={"py-5"}><ExtraVoiceSettings/></div> }
                 </div>
             </div>
         );

@@ -23,7 +23,9 @@ export class VoicePeerRow extends React.Component {
         uuid: PropTypes.string,
         muted: PropTypes.bool,
         speaking: PropTypes.bool,
-        loading: PropTypes.bool
+        loading: PropTypes.bool,
+        hideVolume: PropTypes.bool,
+        altText: PropTypes.string
     }
 
     onVolumeInput(e) {
@@ -54,6 +56,10 @@ export class VoicePeerRow extends React.Component {
         if (loading) {
             parentClass += " animate-pulse";
         }
+
+        let showVolume = !this.props.hideVolume;
+
+        let hasAltText = this.props.altText !== undefined && this.props.altText !== null && this.props.altText !== "";
 
         return (
             <li className={parentClass}>
@@ -86,13 +92,15 @@ export class VoicePeerRow extends React.Component {
                                 <line x1="8" y1="23" x2="16" y2="23"/>
                             </svg>}
                             {name}
-                            <small className="soft-text"> ({this.state.volume}% volume)</small>
+                            {showVolume && <small className="soft-text"> ({this.state.volume}% volume)</small>}
                         </h1>
                     </div>
                     <div>
-                        <input
+                        {showVolume && <input
                             className="volume-slider tiny-slider" onChange={this.onVolumeInput}
-                            type="range" min="0" max="140" step="1" value={this.state.volume}/></div>
+                            type="range" min="0" max="140" step="1" value={this.state.volume}/>}
+                        {hasAltText && <small className="soft-text text-md"> ({this.props.altText})</small>}
+                    </div>
                 </div>
             </li>
         );
