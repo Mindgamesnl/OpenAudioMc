@@ -106,7 +106,7 @@ public class TitleSessionService extends Service {
 
             // send title
             user.sendTitle(
-                    OaColor.LIGHT_PURPLE + token,
+                    OaColor.WHITE + token,
                     translateColors(finalSubtitle),
                     isFirst ? 20 : 0,
                     40,

@@ -3,6 +3,10 @@ mkdir -p test-server-spigot/plugins/
 mkdir -p test-server-spigot/plugins/OpenAudioMc/
 echo "Building new OpenAudioMc jar without unit tests.."
 
+cd plugin
+./src/main/bash/post-build.sh
+cd ..
+
 mvn -T 4.5C clean install -Dmaven.test.skip=true
 
 rm test-server-spigot/plugins/openaudiomc-*

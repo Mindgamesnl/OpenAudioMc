@@ -139,7 +139,7 @@ public class OpenAudioMc {
                 GlobalConstantService.class,    // keeps track of remote project constants (like release versions, etc)
                 CommandService.class,           // standardized command processor regardless of platform
                 RedisService.class,             // redis hook/service implementation
-                OpenaudioAccountService.class,         // craftmend specific features, like voice chat
+                OpenaudioAccountService.class,  // platform specific features, like voice chat
                 RestDirectService.class,        // manage rest direct
                 ClientDataService.class,        // manage player profiles
                 TitleSessionService.class       // manage title sessions for bedrock users
