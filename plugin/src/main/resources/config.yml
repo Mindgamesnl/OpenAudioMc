@@ -88,7 +88,7 @@ bedrock:
   # OA will automatically send the token to the Bedrock client, if a player is detected as one
   # based on their name prefix, which defaults to '.'. If you have a custom prefix, you can set it here
   # or you can disable this feature entirely
-  bedrock-name-prefix: '*'
+  bedrock-name-prefix: '.'
   bedrock-auto-send-token: true
 
 
