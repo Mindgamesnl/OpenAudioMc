@@ -31,6 +31,15 @@ public class LegacySpigotUserAdapter implements User {
     }
 
     @Override
+    public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut) {
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+            // 1.8 DOES support legacy titles
+            p.sendTitle(Platform.translateColors(title), Platform.translateColors(subtitle));
+        }
+    }
+
+    @Override
     public void sendMessage(TextComponent textComponent) {
         if (sender instanceof Player) {
             Player p = (Player) sender;

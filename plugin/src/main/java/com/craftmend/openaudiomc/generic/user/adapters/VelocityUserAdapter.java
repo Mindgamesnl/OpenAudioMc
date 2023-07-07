@@ -7,9 +7,11 @@ import lombok.AllArgsConstructor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.title.Title;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.Duration;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -25,6 +27,22 @@ public class VelocityUserAdapter implements User {
         for (String s : string.split("\n")) {
             sender.sendMessage(Component.text(s));
         }
+    }
+
+    /**
+     * Thanks to 4drian3d (https://github.dev/4drian3d/TitleAnnouncer) for this code
+     * I wouldn't have been able to figure this out without you, kyori adventure scares me lol
+     */
+    @Override
+    public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut) {
+        // Send the title to the specified audience.
+        sender.showTitle(Title.title(
+                Component.text(translateColors(title)),
+                Component.text(translateColors(title)),
+                Title.Times.of(
+                        Duration.ofMillis(fadeIn),
+                        Duration.ofMillis(stay),
+                        Duration.ofMillis(fadeOut))));
     }
 
     @Override

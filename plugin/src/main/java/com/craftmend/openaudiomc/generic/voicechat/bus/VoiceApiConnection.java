@@ -161,7 +161,11 @@ public class VoiceApiConnection {
         pushEvent(VoiceServerEventType.HEARTBEAT, EMPTY_PAYLOAD);
         pushEvent(VoiceServerEventType.HEARTBEAT, EMPTY_PAYLOAD);
         Collection<ClientConnection> clients = OpenAudioMc.getService(NetworkingService.class).getClients();
-        clients.forEach(this::handleClientConnection);
+        for (ClientConnection client : clients) {
+            if (client.isConnected()) {
+                handleClientConnection(client);
+            }
+        }
 
         // is there no one online? then just close
         if (OpenAudioMc.getService(NetworkingService.class).getClients().isEmpty()) {

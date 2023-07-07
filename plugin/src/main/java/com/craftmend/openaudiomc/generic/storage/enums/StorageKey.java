@@ -66,6 +66,11 @@ public enum StorageKey {
     SETTINGS_SPEAKER_REDSTONE_TICK_ENABLED(false, "options.redstone-tick-speakers", StorageLocation.CONFIG_FILE),
     SETTINGS_SPEAKER_REDSTONE_TICK_INTERVAL(false, "options.redstone-tick-speakers-interval", StorageLocation.CONFIG_FILE),
 
+    // specific bedrock settings
+    BEDROCK_TOKEN_SUBTITLE(false, "bedrock.token-subtitle", StorageLocation.CONFIG_FILE),
+    BEDROCK_TOKEN_DISPLAY_DURATION(false, "bedrock.token-display-duration", StorageLocation.CONFIG_FILE),
+    BEDROCK_NAME_PREFIX_CHARACTER(false, "bedrock.bedrock-name-prefix", StorageLocation.CONFIG_FILE),
+    BEDROCK_NAME_PREFIX_ENABLED(false, "bedrock.bedrock-auto-send-token", StorageLocation.CONFIG_FILE),
 
     SETTINGS_PAPI_CLIENT_CONNECTED(false, "papi.client-connected", StorageLocation.CONFIG_FILE),
     SETTINGS_PAPI_CLIENT_DISCONNECTED(false, "papi.client-disconnected", StorageLocation.CONFIG_FILE),

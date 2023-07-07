@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.api.enums.ModuleEvent;
 import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.client.ClientDataService;
+import com.craftmend.openaudiomc.generic.client.TitleSessionService;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
@@ -140,7 +141,8 @@ public class OpenAudioMc {
                 RedisService.class,             // redis hook/service implementation
                 OpenaudioAccountService.class,         // craftmend specific features, like voice chat
                 RestDirectService.class,        // manage rest direct
-                ClientDataService.class         // manage player profiles
+                ClientDataService.class,        // manage player profiles
+                TitleSessionService.class       // manage title sessions for bedrock users
         );
 
         getService(ModuleLoaderService.class).fire(ModuleEvent.SERVICES_LOADED);

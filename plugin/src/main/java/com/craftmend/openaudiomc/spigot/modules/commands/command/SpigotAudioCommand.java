@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.commands.command;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.events.SpigotAudioCommandEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.generic.client.TitleSessionService;
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
@@ -17,7 +18,6 @@ import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.state.interfaces.State;
 import com.craftmend.openaudiomc.generic.state.states.WorkerState;
 import com.craftmend.openaudiomc.generic.user.User;
-import com.craftmend.openaudiomc.generic.user.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
 import lombok.NoArgsConstructor;
 import org.bukkit.ChatColor;
@@ -25,6 +25,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import static com.craftmend.openaudiomc.generic.utils.system.CommonArgUtil.asTitle;
 
 @NoArgsConstructor
 public class SpigotAudioCommand implements CommandExecutor {
@@ -55,7 +57,8 @@ public class SpigotAudioCommand implements CommandExecutor {
                 UserHooks hooks = OpenAudioMc.resolveDependency(UserHooks.class);
                 Player sender = (Player) commandSender;
                 User user = hooks.byUuid(sender.getUniqueId());
-                OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(user, new ClientRunAudioPacket(user.getUniqueId()));
+
+                OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(user, new ClientRunAudioPacket(user.getUniqueId(), asTitle(args)));
             } else {
                 // its on a sub-server without an activated proxy, so completely ignore it
                 commandSender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) +
@@ -65,6 +68,21 @@ public class SpigotAudioCommand implements CommandExecutor {
         }
 
         if (commandSender instanceof Player) {
+
+            // do we have an argument called "token",  "bedrock" or "key"?
+            if (asTitle(args)) {
+                Player sender = (Player) commandSender;
+                User user = OpenAudioMc.resolveDependency(UserHooks.class).byUuid(sender.getUniqueId());
+
+                if (user == null) {
+                    commandSender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.RED + "You must be logged in to use this command");
+                    return true;
+                }
+
+                OpenAudioMc.getService(TitleSessionService.class).startTokenDisplay(user);
+                return true;
+            }
+
             Player sender = (Player) commandSender;
             OpenAudioMc.getService(NetworkingService.class).getClient(sender.getUniqueId()).getAuth().publishSessionUrl();
         } else {

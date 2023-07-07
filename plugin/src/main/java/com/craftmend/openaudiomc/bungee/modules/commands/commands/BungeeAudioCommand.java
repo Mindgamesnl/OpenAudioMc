@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.bungee.modules.commands.commands;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.modules.player.objects.BungeePlayerSelector;
 
+import com.craftmend.openaudiomc.generic.client.TitleSessionService;
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
@@ -10,10 +11,14 @@ import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMi
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
+import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
+import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.user.adapters.BungeeUserAdapter;
+import com.craftmend.openaudiomc.generic.utils.system.CommonArgUtil;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
+import org.bukkit.ChatColor;
 
 public class BungeeAudioCommand extends Command {
 
@@ -36,6 +41,19 @@ public class BungeeAudioCommand extends Command {
 
         if (sender instanceof ProxiedPlayer) {
             ProxiedPlayer player = (ProxiedPlayer) sender;
+
+            if (CommonArgUtil.asTitle(args)) {
+                User user = OpenAudioMc.resolveDependency(UserHooks.class).byUuid(player.getUniqueId());
+
+                if (user == null) {
+                    player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.RED + "You must be logged in to use this command");
+                    return;
+                }
+
+                OpenAudioMc.getService(TitleSessionService.class).startTokenDisplay(user);
+                return;
+            }
+
             OpenAudioMc.getService(NetworkingService.class).getClient(player.getUniqueId()).getAuth().publishSessionUrl();
         } else {
             if (args.length == 0) {

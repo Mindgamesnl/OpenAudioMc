@@ -42,6 +42,11 @@ public class SystemUser implements User {
     }
 
     @Override
+    public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut) {
+
+    }
+
+    @Override
     public void sendMessage(TextComponent textComponent) {
         System.out.println(textComponent);
     }

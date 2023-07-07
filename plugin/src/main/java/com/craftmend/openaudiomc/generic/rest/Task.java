@@ -13,8 +13,8 @@ import java.util.function.Predicate;
 @Getter
 public class Task<T> {
 
-    @Setter private Consumer<SectionError> whenFailed;
-    @Setter private Consumer<T> whenFinished;
+    private Consumer<SectionError> whenFailed;
+    private Consumer<T> whenFinished;
     private T result;
     private String stringError = null;
     private boolean finished = false;
@@ -24,6 +24,25 @@ public class Task<T> {
         if (whenFinished != null) whenFinished.accept(data);
         result = data;
         finished = true;
+    }
+
+    public Task<T> setWhenFailed(Consumer<SectionError> whenFailed) {
+        this.whenFailed = whenFailed;
+        return this;
+    }
+
+    public Task<T> setWhenFinished(Consumer<T> whenFinished) {
+        this.whenFinished = whenFinished;
+        return this;
+    }
+
+    // more js like
+    public Task<T> then(Consumer<T> whenFinished) {
+        return setWhenFinished(whenFinished);
+    }
+
+    public Task<T> catchException(Consumer<SectionError> whenFailed) {
+        return setWhenFailed(whenFailed);
     }
 
     public void fail(SectionError error) {

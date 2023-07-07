@@ -75,6 +75,22 @@ messages:
   # or you can disable it entirely by following the settings below.
   voicechat-players-in-vicinity: '&7&oGet social! Other players in your vicinity are using voice chat - join them and communicate. Use &b/audio&7&o to connect.'
 
+bedrock:
+  # These settings are to provide some automatic handholding for Bedrock users.
+  # Please take some time to go over these settings and adjust them based on your geyser configuration.
+
+  # This message shows as a SUBTITLE for the token prompt
+  token-subtitle: '&7&oEnter this code on &b__address__'
+
+  # The amount of seconds the token prompt will be shown for
+  token-display-duration: 25
+
+  # OA will automatically send the token to the Bedrock client, if a player is detected as one
+  # based on their name prefix, which defaults to '.'. If you have a custom prefix, you can set it here
+  # or you can disable this feature entirely
+  bedrock-name-prefix: '.'
+  bedrock-auto-send-token: true
+
 
 options:
   # If set to true, the player automatically receives a link upon joining

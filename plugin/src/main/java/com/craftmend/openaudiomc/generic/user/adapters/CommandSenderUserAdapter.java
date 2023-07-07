@@ -7,7 +7,6 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -19,6 +18,13 @@ public class CommandSenderUserAdapter implements User {
     @Override
     public void sendMessage(String string) {
         sender.sendMessage(string);
+    }
+
+    @Override
+    public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut) {
+        if (sender instanceof Player) {
+            ((Player) sender).sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+        }
     }
 
     @Override

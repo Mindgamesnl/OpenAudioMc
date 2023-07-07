@@ -31,6 +31,13 @@ public class SpigotUserAdapter implements User {
     }
 
     @Override
+    public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut) {
+        if (player instanceof Player) {
+            ((Player) player).sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+        }
+    }
+
+    @Override
     public void sendMessage(TextComponent textComponent) {
         player.spigot().sendMessage(textComponent);
     }

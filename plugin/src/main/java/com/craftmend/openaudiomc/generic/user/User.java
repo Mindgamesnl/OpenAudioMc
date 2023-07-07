@@ -23,6 +23,7 @@ public interface User {
     void makeExecuteCommand(String command);
 
     void sendMessage(String message);
+    void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut);
     void sendMessage(TextComponent textComponent);
     void sendClickableCommandMessage(String message, String hoverMessage, String command);
     void sendClickableUrlMessage(String message, String hoverMessage, String url);

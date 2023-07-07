@@ -152,6 +152,30 @@ public class VistasUser implements User {
     }
 
     @Override
+    public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut) {
+        if (isSpigot) {
+            original.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+            return;
+        }
+
+        SerializedCall c = new SerializedCall(
+                "sendTitle"
+        )
+                .addParam(SerializedParameter.toParam(String.class, title))
+                .addParam(SerializedParameter.toParam(String.class, subtitle))
+                .addParam(SerializedParameter.toParam(Integer.class, fadeIn))
+                .addParam(SerializedParameter.toParam(Integer.class, stay))
+                .addParam(SerializedParameter.toParam(Integer.class, fadeOut));
+
+        if (lastSeenServer != null) {
+            OpenAudioMc.getService(VistasRedisServer.class).sendPacket(
+                    new InvokeUserPacket(c, uuid),
+                    lastSeenServer
+            );
+        }
+    }
+
+    @Override
     public void sendMessage(TextComponent textComponent) {
         if (isSpigot) {
             original.sendMessage(textComponent);
