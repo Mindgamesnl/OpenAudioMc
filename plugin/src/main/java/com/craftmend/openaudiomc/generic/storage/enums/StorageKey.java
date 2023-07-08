@@ -71,6 +71,7 @@ public enum StorageKey {
     BEDROCK_TOKEN_DISPLAY_DURATION(false, "bedrock.token-display-duration", StorageLocation.CONFIG_FILE),
     BEDROCK_NAME_PREFIX_CHARACTER(false, "bedrock.bedrock-name-prefix", StorageLocation.CONFIG_FILE),
     BEDROCK_NAME_PREFIX_ENABLED(false, "bedrock.bedrock-auto-send-token", StorageLocation.CONFIG_FILE),
+    BEDROCK_PROMPT_BUSY(false, "bedrock.token-subtitle-busy", StorageLocation.CONFIG_FILE),
 
     SETTINGS_PAPI_CLIENT_CONNECTED(false, "papi.client-connected", StorageLocation.CONFIG_FILE),
     SETTINGS_PAPI_CLIENT_DISCONNECTED(false, "papi.client-disconnected", StorageLocation.CONFIG_FILE),

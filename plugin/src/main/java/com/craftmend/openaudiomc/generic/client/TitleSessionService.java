@@ -13,6 +13,9 @@ import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
 
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.craftmend.openaudiomc.generic.platform.Platform.translateColors;
@@ -27,6 +30,8 @@ public class TitleSessionService extends Service {
     private AuthenticationService authenticationService;
     @Inject
     private TaskService taskService;
+
+    private Set<UUID> titleSessionUsers = ConcurrentHashMap.newKeySet();
 
     // check if we should auto start the title session
     public void attemptAutoStart(User user) {
@@ -68,6 +73,13 @@ public class TitleSessionService extends Service {
     }
 
     private void renderTokenTitle(User user, String token) {
+        // do we already have a display for this user?
+        if (titleSessionUsers.contains(user.getUniqueId())) {
+            // we do, so we don't want to start a new one
+            user.sendMessage(translateColors(StorageKey.BEDROCK_PROMPT_BUSY.getString()));
+            return;
+        }
+
         AtomicInteger secondsToShow = new AtomicInteger(StorageKey.BEDROCK_TOKEN_DISPLAY_DURATION.getInt());
         int totalSeconds = secondsToShow.get();
         String subtitle = StorageKey.BEDROCK_TOKEN_SUBTITLE.getString();
@@ -88,6 +100,9 @@ public class TitleSessionService extends Service {
         // auto connect
         OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> OpenAudioMc.getService(NetworkingService.class).connectIfDown());
 
+        // add user as a "lock"
+        titleSessionUsers.add(user.getUniqueId());
+
         // we **coult** do this without a loop, which would be cleaner (as titles themselves support timing data)
         // but that would allow other plugins to override the title, which is not what we want, so this is a pretty
         // adhoc solution to that problem
@@ -96,6 +111,8 @@ public class TitleSessionService extends Service {
         String finalSubtitle = subtitle;
         task[0] = taskService.scheduleSyncRepeatingTask(() -> {
             if (secondsToShow.get() <= 0) {
+                // release the lock
+                titleSessionUsers.remove(user.getUniqueId());
                 taskService.cancelRepeatingTask(task[0]);
                 return;
             }

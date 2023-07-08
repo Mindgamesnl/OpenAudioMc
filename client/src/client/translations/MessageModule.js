@@ -28,7 +28,6 @@ export class MessageModule {
             // but these are both croatian
             "hr": "hr.lang",
             "scr": "hr.lang"
-
         }
 
         this.load = this.load.bind(this);
