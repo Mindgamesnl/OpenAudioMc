@@ -1,6 +1,7 @@
 package com.craftmend.tests.connection.impl;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.interfaces.Client;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
@@ -10,6 +11,7 @@ import lombok.AllArgsConstructor;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -59,6 +61,11 @@ public class TestUser implements User {
     }
 
     @Override
+    public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut) {
+
+    }
+
+    @Override
     public void sendMessage(TextComponent textComponent) {
         ConnectionTest.testLog("Sending text component to fake user " + name + ": " + textComponent.getText());
     }
@@ -71,6 +78,21 @@ public class TestUser implements User {
     @Override
     public void sendClickableUrlMessage(String message, String hoverMessage, String url) {
         ConnectionTest.assertionGroup.run(new FutureAssertion("User link has a token", shit -> url.split("#")[1].length() > 2));
+    }
+
+    @Override
+    public void sendActionbarMessage(String message) {
+        User.super.sendActionbarMessage(message);
+    }
+
+    @Override
+    public String getWorld() {
+        return User.super.getWorld();
+    }
+
+    @Override
+    public Optional<Client> findClient() {
+        return User.super.findClient();
     }
 
 }

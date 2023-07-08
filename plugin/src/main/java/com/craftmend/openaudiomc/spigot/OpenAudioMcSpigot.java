@@ -87,7 +87,6 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
             return;
         }
 
-
         // setup core
         try {
             proxyModule = new ProxyModule();

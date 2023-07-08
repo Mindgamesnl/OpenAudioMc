@@ -16,10 +16,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.junit.Test;
-import redis.embedded.RedisServer;
 import vistas.test.server.TestVistasServer;
 import vistas.test.utils.Waiter;
 
+import java.net.Socket;
 import java.util.UUID;
 
 public class TestServer extends TestCase {
@@ -28,21 +28,20 @@ public class TestServer extends TestCase {
     private TempUser anouk = new TempUser("Anouk", UUID.randomUUID());
 
     private TestVistasServer testVistasServer;
-    private RedisServer redisServer;
 
     @Override
     @SneakyThrows
     public void setUp() throws Exception {
         System.out.println("Setting it up!");
         // start embedded redis server for testing
-        System.out.println("Start redis server");
-        redisServer = RedisServer.builder()
-                .port(6379)
-                .setting("requirepass none")
-                .build();
-        redisServer.start();
 
-        Waiter.waitUntil(s -> redisServer.isActive(), 10);
+        // check if anything is running on localhost:6379, we should fail if that's the case
+        try {
+            Socket socket = new Socket("localhost", 6379);
+            socket.close();
+        } catch (Exception e) {
+            fail("You need to have a local redis server running on port 6379 to run this test");
+        }
 
         System.out.println("Starting test resources");
 
@@ -58,7 +57,6 @@ public class TestServer extends TestCase {
     public void tearDown() throws Exception {
         System.out.println("Running: tearDown");
         VistasServer.getInstance().getOpenAudioMc().disable();
-        redisServer.stop();
     }
 
     @Test

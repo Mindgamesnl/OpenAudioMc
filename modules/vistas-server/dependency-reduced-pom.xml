@@ -171,18 +171,6 @@
   </repositories>
   <dependencies>
     <dependency>
-      <groupId>com.github.kstyrc</groupId>
-      <artifactId>embedded-redis</artifactId>
-      <version>0.6</version>
-      <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>commons-io</artifactId>
-          <groupId>commons-io</groupId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.13.2</version>

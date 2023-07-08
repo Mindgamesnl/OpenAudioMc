@@ -1,7 +1,7 @@
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to edit and download the Software for personal or non-commercial use only, subject to the following conditions:
+# License
+This software is subject to the terms and conditions of the license agreement or terms of service located at [https://account.openaudiomc.net/terms](https://account.openaudiomc.net/terms) ("OpenAudioMc License & Terms Of Service"). By using this software, you agree to be bound by the External Terms.
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+If you do not agree to the External Terms, you may not use, copy, modify, distribute, or sublicense the software. Please review the External Terms carefully before using this software.
 
-The Licensee shall not redistribute, sell or rename the Software, nor shall the Licensee allow any third party to do so.
+For questions or concerns regarding the license agreement or terms of service, please contact the website owner or administrator directly.
 
-THE SOFTWARE IS PROVIDED "AS IS," WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

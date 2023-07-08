@@ -195,13 +195,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.github.kstyrc</groupId>
-            <artifactId>embedded-redis</artifactId>
-            <version>0.6</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>com.craftmend.openaudiomc</groupId>
             <artifactId>openaudiomc</artifactId>
             <version>${oa.version}</version>

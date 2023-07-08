@@ -1,6 +1,7 @@
 package com.craftmend.tests.helpers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.OpenAudioMcBuild;
 import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
@@ -25,6 +26,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+
+import static com.craftmend.openaudiomc.OpenAudioMc.BUILD;
 
 public class TestHelper implements OpenAudioInvoker {
 
@@ -57,6 +60,10 @@ public class TestHelper implements OpenAudioInvoker {
             openAudioMc = new OpenAudioMc(new TestHelper());
             OpenAudioLogger.unmute();
         }
+    }
+
+    protected static void setOaTestMode(boolean testMode) {
+        OpenAudioMcBuild.IS_TESTING = testMode;
     }
 
     @SneakyThrows

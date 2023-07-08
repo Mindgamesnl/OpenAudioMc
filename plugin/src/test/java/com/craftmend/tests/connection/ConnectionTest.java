@@ -61,6 +61,7 @@ public class ConnectionTest extends TestHelper {
     @BeforeClass
     public static void doYourOneTimeSetup() {
         prepTests(false);
+        setOaTestMode(true);
     }
 
     @AfterClass
