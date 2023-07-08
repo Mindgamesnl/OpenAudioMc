@@ -11,7 +11,7 @@ public class AddBedrockSettingsMigration extends SimpleMigration {
     @Override
     public boolean shouldBeRun(MigrationWorker migrationWorker) {
         Configuration config = OpenAudioMc.getInstance().getConfiguration();
-        return !config.hasStorageKey(StorageKey.BEDROCK_TOKEN_SUBTITLE);
+        return !config.hasStorageKey(StorageKey.BEDROCK_PROMPT_BUSY);
     }
 
     @Override
