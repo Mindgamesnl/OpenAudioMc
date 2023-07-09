@@ -90,7 +90,7 @@ class VoicePeerBox extends React.Component {
             <div className={"flex justify-center align-middle"}>
             <div className="content-section w-5/6">
                 <div className="content-section-title">{peerMessage}</div>
-                <div className="content-card-collection">
+                <div className="content-card-collection bg-gray-800 common-rounded">
                     <div className="content-card w-1/2 bg-transparent border-transparent p-2">
                         <ul>
                             {left}
