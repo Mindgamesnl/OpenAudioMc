@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  bungee-spigot1:
+    image: itzg/minecraft-server
+    environment:
+      - EULA=TRUE
+      - ONLINE_MODE=FALSE
+      - TYPE=SPIGOT
+      - SPIGOT_BUNGEE=true
+      - BUNGEECORD_IP=0.0.0.0
+    volumes:
+      - ./bungee-spigot1:/data
+      - ./plugins:/plugins
+    restart: always
+
+  bungee-spigot2:
+    image: itzg/minecraft-server
+    environment:
+      - EULA=TRUE
+      - ONLINE_MODE=FALSE
+      - TYPE=SPIGOT
+      - SPIGOT_BUNGEE=true
+      - BUNGEECORD_IP=0.0.0.0
+    volumes:
+      - ./bungee-spigot2:/data
+      - ./plugins:/plugins
+    restart: always
+
+  bungeecord:
+    image: itzg/bungeecord
+    ports:
+      - 25565:25565
+    environment:
+      - EULA=true
+    volumes:
+      - ./bungeecord:/config
+      - ./plugins:/plugins
+    restart: always
+    depends_on:
+      - bungee-spigot1
+      - bungee-spigot2

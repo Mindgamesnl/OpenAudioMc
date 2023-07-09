@@ -1,0 +1,38 @@
+listeners:
+  - query_port: 25565
+    host: 0.0.0.0:25565
+    query_enabled: false
+    proxy_protocol: false
+    motd: '&1Proxy Server'
+    priorities:
+      - survival
+    bind_local_address: true
+
+ip_forward: true
+
+permissions:
+  default:
+    - bungeecord.command.server
+    - bungeecord.command.list
+  admin:
+    - bungeecord.command.alert
+    - bungeecord.command.end
+    - bungeecord.command.ip
+    - bungeecord.command.reload
+    - openaudiomc.*
+
+groups:
+  Mindgamesnl:
+    - admin
+  ToetMats:
+    - admin
+
+servers:
+  survival:
+    motd: '&1Survival Server'
+    address: bungee-spigot1:25565
+    restricted: false
+  minigames:
+    motd: '&1Minigames Server'
+    address: bungee-spigot2:25565
+    restricted: false
