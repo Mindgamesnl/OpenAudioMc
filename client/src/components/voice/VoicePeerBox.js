@@ -67,9 +67,6 @@ class VoicePeerBox extends React.Component {
                     <div className="content-section flex justify-center w-4/5">
                         <div className="flex content-card-collection items-stretch">
                             <div className="w-full content-card small-card order-2 2xl:order-1">
-
-
-
                                 <div className="container mx-auto px-4 py-8">
                                     <div className="text-center">
                                         <p className="mt-1 text-4xl font-bold tracking-tight text-gray-200 sm:text-5xl lg:text-6xl">
@@ -91,15 +88,15 @@ class VoicePeerBox extends React.Component {
 
         return (
             <div className={"flex justify-center align-middle"}>
-            <div className="content-section w-3/4">
+            <div className="content-section w-5/6">
                 <div className="content-section-title">{peerMessage}</div>
                 <div className="content-card-collection">
-                    <div className="content-card voicechat-player-card">
+                    <div className="content-card w-1/2 bg-transparent border-transparent p-2">
                         <ul>
                             {left}
                         </ul>
                     </div>
-                    <div className="content-card voicechat-player-card">
+                    <div className="content-card w-1/2  bg-transparent border-transparent p-2">
                         <ul>
                             {right}
                         </ul>

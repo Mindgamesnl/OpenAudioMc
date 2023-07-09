@@ -664,7 +664,7 @@ body.light-mode .video-bg:before {
 }
 
 .mid-avatar {
-    width: 66px;
+    width: 88px;
 }
 
 .tiny-slider {
@@ -1052,13 +1052,6 @@ footer {
     100% {
         transform: scale(1);
     }
-}
-
-.voicechat-player-card {
-    width: calc(50% - 20px);
-    background-color: rgba(0, 0, 0, 0);
-    border-radius: 0;
-    border: none;
 }
 
 .reversedRange {

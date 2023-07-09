@@ -43,7 +43,7 @@ export class VoicePeerRow extends React.Component {
         // get props
         let {name, muted, speaking, uuid, loading} = this.props;
 
-        let avatarClass = "avatar mid-avatar";
+        let avatarClass = "avatar w-16";
         if (speaking) {
             avatarClass += " speaking";
         }
@@ -97,7 +97,7 @@ export class VoicePeerRow extends React.Component {
                     </div>
                     <div>
                         {showVolume && <input
-                            className="volume-slider tiny-slider" onChange={this.onVolumeInput}
+                            className="volume-slider tiny-slider m-2" onChange={this.onVolumeInput}
                             type="range" min="0" max="140" step="1" value={this.state.volume}/>}
                         {hasAltText && <small className="soft-text text-md"> ({this.props.altText})</small>}
                     </div>
