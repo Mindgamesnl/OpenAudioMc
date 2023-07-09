@@ -1,0 +1,61 @@
+version: '3'
+
+services:
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning
+
+  bungee-spigot1:
+    image: itzg/minecraft-server
+    environment:
+      - EULA=TRUE
+      - ONLINE_MODE=FALSE
+      - TYPE=SPIGOT
+      - SPIGOT_BUNGEE=true
+      - BUNGEECORD_IP=0.0.0.0
+    depends_on:
+      - cache
+    volumes:
+      - ./bungee-spigot1:/data
+      - ./plugins:/plugins
+    restart: always
+
+  bungee-spigot2:
+    image: itzg/minecraft-server
+    environment:
+      - EULA=TRUE
+      - ONLINE_MODE=FALSE
+      - TYPE=SPIGOT
+      - SPIGOT_BUNGEE=true
+      - BUNGEECORD_IP=0.0.0.0
+    depends_on:
+      - cache
+    volumes:
+      - ./bungee-spigot2:/data
+      - ./plugins:/plugins
+    restart: always
+
+  bungeecord:
+    image: itzg/bungeecord
+    ports:
+      - 25565:25565
+    environment:
+      - EULA=true
+    volumes:
+      - ./bungeecord:/config
+    restart: always
+    depends_on:
+      - bungee-spigot1
+      - bungee-spigot2
+
+  vistas-server:
+    image: openjdk:17
+    depends_on:
+      - cache
+      - bungeecord
+    volumes:
+      - ./vistas:/work
+    command: bash -c "cd /work && java -jar vistas-server.jar"

@@ -1,0 +1,100 @@
+{
+  messages: {
+    suggest-connection: '&7&oYou are currently missing out on some sounds! connect
+      with the audio client via /audio',
+    preparing-session: '&7&oGenerating audio session..',
+    click-to-connect: '\n&b&lClick &ahere&b&l to open the Web Client!\n&3This lets
+      you use &dProximity Voice Chat&3 and in-game &daudio&3!\n ',
+    session-error: '&cAn error occurred while generating your audio session. please
+      report the problem and try again later.',
+    click-to-connect-hover: '&6Minecraft will prompt you to open the web client when
+      you click this message',
+    click-link-expired: '&3Your link to the audio client has expired. Use &b/audio&3
+      to request a new one.',
+    client-opened: '&2&oYou are now connected with the audio client!',
+    client-closed: '&c&oYour audio session has been ended',
+    client-already-connected: '&cYou are already connected to the web client',
+    client-volume: '&6Your current volume is __amount__%&7 (TIP: use /volume 40 to
+      set your volume to 40%)',
+    client-volume-change: '&6Your volume has been changed to __amount__%',
+    client-volume-invalid: '&4You must enter a number between 0 and 100',
+    client-not-connected: '&4You need to be connected to the web client to be able
+      to do that',
+    voice-not-connected: '&4An active Voice connection is required to execute this
+      command',
+    voice-disabled-here: '&7&oVoice chat has been temporarily disabled in this area',
+    voice-reenabled-here: '&7&oYour voice chat has been re-enabled',
+    voicechat-enabled: '&7&oYour voicechat has been enabled!',
+    voicechat-added-user: '&7&o%name appeared in voice chat range',
+    voicechat-added-users: '&7&o%name and %count others appeared in voice chat range',
+    voicechat-removed-user: '&7&o%name left your voice chat',
+    voicechat-removed-users: '&7&o%name and %count others left your voice chat',
+    voicechat-mic-mute: '&7&oYour microphone is now &c&omuted',
+    voicechat-mic-unmute: '&7&oYour microphone is now &2&ounmuted',
+    voicechat-service-unstable: '&7&oWarning: we ran into one or more problems with
+      the voice service.. please hold on while we try to recover your beautiful voice.',
+    voicechat-service-recovered: '&7&oYour voicechat session got successfully recovered',
+    voicechat-players-in-vicinity: '&7&oGet social! Other players in your vicinity
+      are using voice chat - join them and communicate. Use &b/audio&7&o to connect.'
+  },
+  bedrock: {
+    token-subtitle: '&7&oEnter this code on &b__address__',
+    token-subtitle-busy: '&c&oYou already have a pending token prompt. Please enter
+      that one first.',
+    token-display-duration: 35,
+    bedrock-name-prefix: .,
+    bedrock-auto-send-token: true
+  },
+  options: {
+    send-on-join: true,
+    send-on-join-delay: 5,
+    remind-to-connect: true,
+    remind-to-connect-interval: 30,
+    speaker-radius: 10,
+    sync-speakers: true,
+    sync-regions: true,
+    use-region-priority: false,
+    staff-tips: true,
+    notify-updates: true,
+    notify-announcements: true,
+    preload-resources: 7,
+    gc-strategy: DELETE,
+    voicechat-radius: 45,
+    voicechat-announcements: true,
+    voicechat-toggle-mic-on-swap-and-sneak: true,
+    voicechat-send-messages-in-hotbar: true,
+    voicechat-obstructions: false,
+    voicechat-autoclaim-on-start: true,
+    voicechat-moderation-support: false,
+    voicechat-moderation-duration: 120,
+    voicechat-allow-joining-while-loading: true,
+    force-offline-mode: false,
+    fallback-world-name: world,
+    voicechat-hint-enabled: true,
+    voicechat-hint-interval: 120,
+    voicechat-hint-range: 135,
+    redstone-tick-speakers: true,
+    redstone-tick-speakers-interval: 5
+  },
+  papi: {
+    client-connected: Connected,
+    client-disconnected: Disconnected,
+    voicechat-connected: Connected,
+    voicechat-disconnected: Disconnected
+  },
+  cdn: {
+    preferred-bridge-port: 8050,
+    timeout-seconds: 5,
+    ip-overwrite: none,
+    enabled: false,
+    skip-validation: false
+  },
+  redis: {
+    enabled: false,
+    host: cache,
+    port: 6379,
+    password: none,
+    useSSL: false,
+    section: event
+  }
+}

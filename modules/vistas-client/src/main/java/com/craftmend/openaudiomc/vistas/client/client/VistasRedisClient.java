@@ -65,7 +65,11 @@ public class VistasRedisClient extends Service {
 
         // implement received packets through our fake bungee shit
         packetEvents.registerPacket(WrappedProxyPacket.class).setHandler(wrappedProxyPacket -> {
-            User user = OpenAudioMc.resolveDependency(UserHooks.class).byUuid(wrappedProxyPacket.getPlayerId());
+            // is this targeted at a user?
+            User user = null;
+            if (wrappedProxyPacket.getPlayerId() != null) {
+                user = OpenAudioMc.resolveDependency(UserHooks.class).byUuid(wrappedProxyPacket.getPlayerId());
+            }
             try {
                 OpenAudioMc.getService(ProxyNetworkingService.class).getPacketManager().dispatchReceivedPacket(
                         wrappedProxyPacket.getPacket().getClass(),
