@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import {showTextModal} from "../modal/InputModal";
 import {connect} from "react-redux";
 import {getGlobalState} from "../../state/store";
+import {reportVital} from "../../client/util/vitalreporter";
 
 export let setTab = (tab) => {
     console.warn("TAB HANDLER IS NOT SET YET");
@@ -26,20 +27,10 @@ class TabWindow extends Component {
             this.setState({activePage: tab});
         }
 
-        if (!openedFirstTime) {
-            // uuid
-            let serverKey = getGlobalState().currentUser;
-            if (serverKey) {
-                serverKey = serverKey.publicServerKey;
-            } else {
-                return
-            }
-
-            openedFirstTime = true;
-
-            if (this.props.isLegacy) {
-                this.openUpgradeDialog();
-            }
+        if (this.props.isLegacy) {
+            reportVital("legacy warning").then(r => {
+                window.location.href =""
+            })
 
         }
     }
