@@ -17,7 +17,8 @@ class BlockedLoginView extends React.Component {
                                 </p>}
 
                                 {!this.props.isPersonalBlock && <p className="w-80 text-center text-sm mb-8 text-white tracking-wide cursor-pointer">
-                                    This account is blocked. Please contact the server owner for more information.
+                                    This server/account is (temporarily) blocked from using OpenAudioMc.
+                                    If you're the owner of this server, please contact support at <a href="https://discord.openaudiomc.net/">https://discord.openaudiomc.net/</a> to appeal.
                                 </p>}
                             </div>
                         </div>
