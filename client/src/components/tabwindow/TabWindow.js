@@ -29,7 +29,7 @@ class TabWindow extends Component {
 
         if (this.props.isLegacy) {
             reportVital("legacy warning").then(r => {
-                window.location.href =""
+                window.location.href = "https://minecraftvoicechat.com/docs/legacy_craftmend"
             })
 
         }
