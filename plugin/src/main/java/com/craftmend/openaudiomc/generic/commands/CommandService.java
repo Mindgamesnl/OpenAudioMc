@@ -32,7 +32,6 @@ public class CommandService extends Service {
                 new LinkSubCommand(),
                 new ReloadSubCommand(),
                 new StateSubCommand(),
-                new ResetCmDebugCommand(),
                 new ModulesSubCommand()
         );
     }
