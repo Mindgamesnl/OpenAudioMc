@@ -1,0 +1,131 @@
+lang.name=简体中文
+
+lang.detectedAs=我们将您的语言更改为 %langName，您想保持这样吗？
+lang.keep=保留 %longName
+lang.toEn=切换到 English
+
+ui.loading=加载中…
+ui.logout=登出
+
+navbar.audio=音频
+navbar.vc=语音聊天
+navbar.settings=设置
+navbar.debug=调试
+navbar.free=免费版
+navbar.premium=高级版
+navbar.upgradeRequired=需要升级
+
+home.confirmLoginHeader=欢迎回来！
+home.confirmLoginBody=您是否想作为 <i>%player</i> 登录？<br />如果不是，请关闭该窗口。
+home.confirmLoginButton=开始音频会话
+home.confirmLoginWithVoicechat=通过语音聊天开始会话
+
+home.activate=激活会话
+home.activateText=本个人网页将在您整个访问期间播放您的音频和语音。请点击本页任意位置开始。
+home.clickAnywhere=单击任意位置即可开始
+home.activateHeader=点击此处连接
+home.welcome=欢迎，%player！
+home.header=欢迎使用我们的音频客户端！保持此页面打开以体验我们的游戏内音乐和效果。您可以在会话期间随时返回此处更改音量和设置。
+home.volumeContext=该滑块控制游戏中音乐和效果的音量。您还可以随时使用 <pre>/volume &lt;音量&gt;</pre> 更改游戏中的音量，或者将其设置为 0 以暂时静音。
+home.audioControls=音频控制
+home.notificationsTitle=通知
+home.notificationsEmpty=您目前没有任何通知
+
+vc.badClient=VoiceChat 需要通过 HTTPS 服务的 Web 客户端，请更新您的基本 URL 以使用 HTTPS 和/或 设置有效的 SSL 证书。
+vc.notCompatible=您的浏览器不支持语音聊天。请使用现代（桌面）浏览器，如 Chrome、Safari 等。
+vc.voiceModerationEnabled=该服务器已启用审核。当您的麦克风处于活动状态时，选定的管理员可能正在监听。
+vc.notice=注意
+vc.startingPopupTitle=正在进入语音聊天…
+vc.startingPopup=我们正在为您设置语音服务器…坐和放宽
+vc.reloadingPopupTitle=重载语音系统！
+vc.reloadingPopup=语音聊天将重新启动以应用您的新设置… 坐和放宽
+vc.updatingMicPopupTitle=更新麦克风！
+vc.updatingMicPopup=正在使用您的新麦克风重新启动语音聊天… 坐和放宽
+vc.micErrorPopupTitle=麦克风错误
+vc.micErrorPopup=尝试访问您的麦克风时出现问题。当您的浏览器要求您提供麦克风权限时，请按“允许”，或访问 Wiki 了解更多信息。
+vc.disabled=语音聊天已被 %serverName 暂时禁用
+vc.title=近距离语音聊天
+vc.boardingTitle=VoiceChat 入门
+vc.onboarding=该服务器支持近距离语音聊天，允许您与 %range 方块半径内的玩家交谈。您想启用此功能并授予对麦克风的访问权限吗？
+vc.settings=VoiceChat 设置
+vc.muteMic=麦克风静音
+vc.unmuteMic=取消麦克风静音
+vc.input=输入设备
+vc.aboutInput=选择您要使用的麦克风，更改此设置将导致您的会话重新启动。
+vc.positionalAudio=定位音频
+vc.aboutPositionalAudio=渲染 360 度音景，通过声音实现位置感知。
+vc.settingsDisable=禁用
+vc.settingsEnablePositionalAudio=启用定位音频
+vc.settingsDisablePositionalAudio=禁用定位音频
+vc.automaticAdjustments=自动调节
+vc.sensitivity=噪声门
+vc.aboutSensitivity=配置麦克风的噪声门，这会在您不说话时自动将麦克风静音。<b>完全向左</b>将禁用噪声门，<b>完全向右</b>将使麦克风始终静音。
+vc.peerTable=共有 {total} 人在声音范围内，其中 {talking} 人正在说话
+vc.toggleMicrophone=切换麦克风
+vc.you=你
+vc.safetyTitle=为了你的安全
+vc.safetyDisclaimer=当人们出现并离开您的语音聊天范围时，您将收到游戏内消息，并且您将能够查看您可以听到的人员列表（并且可以依次听到您的声音），并根据需要将他们静音。 OpenAudioMc 依靠您的服务器来处理审核并在必要时处理滥用报告。如果您有任何问题或疑虑，请联系工作人员。
+vc.safetyFooter=<b>想要更多隐私吗？您可以随时通过运行 <pre style="display: inline;">/mm</pre> 或在游戏中按住 <pre style="display: inline;">shift + F</pre> 将麦克风静音，或者按此网页上的按钮。</b>
+vc.join=加入语音聊天
+vc.empty.title=无人可聊
+vc.empty.body=目前周围没有人可以交谈。你可以试着走动一下，或者请您的朋友加入您的行列。
+vc.muteMicrophone=静音
+vc.unmuteMicrophone=取消静音
+vc.myStatus=您自己的麦克风状态
+vc.hero.title=欢迎来到语音聊天！
+vc.hero.subtitle=这是您的语音聊天仪表板，在这里您可以看到谁在您的声音范围内，以及您可以听到谁的声音。如果您不想听到某人的声音，也可以将其静音。
+vc.statusTitle=我的状态
+vc.settings.globalVolumeTitle=一般语音聊天音量
+vc.settings.surround.disable=禁用环绕声
+vc.settings.surround.enable=启用环绕声
+vc.settings.globalVolumeAbout=更改所有语音聊天对等设备的主音量
+vc.settings.toggleMenuTitle=语音聊天输入设置
+vc.settings.toggleMenu=切换菜单
+vc.settings.monitoring.title=麦克风监听
+vc.settings.monitoring.about=监听会为您自己播放您自己的声音，就像其他人听到您的声音一样，这对于测试您的麦克风和灵敏度设置很有用。
+vc.settings.monitoring.toggle=启用监听
+vc.operaWarning=您的登录似乎需要一段时间，这很可能是由于您的 Opera 设置造成的。请打开浏览器设置，搜索“WebRTC”并选择全部启用选项
+vc.youAreModerating=小心！您现在是主持人，您现在可以听到语音聊天中每个人的声音，但他们听不到您的声音。
+vc.noMicInputYetTitle=我们听不到你的声音！
+vc.noMicInputYetBody=请确保您选择了正确的麦克风，或尝试降低噪声门。
+vc.peersHiddenTitle=语音聊天玩家被隐藏
+vc.peersHiddenText=该服务器已禁用查看谁在语音聊天中的功能，以防止不公平的优势，但您仍然可以听到他们的声音。
+
+settings.voicechat.chimes.title=语音聊天铃声
+settings.voicechat.chimes.body=铃声是每当您将麦克风 静音/取消静音 时播放的小声音。内容创建者可能想要关闭此功能。
+settings.voicechat.chimes.button=使用铃声
+settings.theme.title=深色模式
+settings.theme.body=使用此 Web 客户端的（默认）深色模式
+settings.theme.button=深色模式
+settings.voicechat.peer.title=同行通知
+settings.voicechat.peer.body=每当有人进入或离开您的语音聊天范围时都会收到桌面通知
+settings.voicechat.peer.button=启用通知
+settings.mix-and-fade.title=自动音乐混音
+settings.mix-and-fade.body=自动交叉淡入淡出和混合音频源
+settings.mix-and-fade.button=启用混音
+settings.preload.title=自动预加载音频文件
+settings.preload.body=启用此功能后，OpenAudioMc 将自动预加载您在游戏中位置经常使用的文件。这将使音频响应更快，但会使用更多数据。
+settings.preload.button=启用预加载
+settings.rolloff.title=3D 音频滚降
+settings.rolloff.body=这可以根据距离控制应用于 3D 音频的阻尼量。 0% 为无阻尼，100% 为完全阻尼。这适用于扬声器和语音聊天。
+settings.rolloff.01=1%（最小）
+settings.rolloff.5=50%
+settings.rolloff.8=80%
+settings.rolloff.1=100%（默认）
+settings.rolloff.12=120%
+settings.rolloff.15=150%（最大）
+
+settings.spatial.title=空间渲染引擎
+settings.spatial.body=选择您想要使用的渲染引擎。现代引擎质量更高，速度更快，但仍在积极开发中
+settings.spatial.modern=现代
+settings.spatial.legacy=旧版
+
+settings.interpolation.title=位置平滑
+settings.interpolation.body=自动平滑移动，以尽量减少行走时 扬声器/语音聊天 的卡顿。这会增加额外的动作延迟，但听起来更好。
+settings.interpolation.button=启用平滑
+
+settings.streamermode.title=直播模式
+settings.streamermode.body=单次使用后自动禁用您的会话令牌。这意味着您的客户端 URL 可以安全地在直播中显示，无需担心观看者冒充您。请务必在收到链接后立即打开它。
+settings.streamermode.button=开启直播模式
+
+tooltip.close=关闭
