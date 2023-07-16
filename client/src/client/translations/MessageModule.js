@@ -22,7 +22,7 @@ export class MessageModule {
             "de": "de.lang", // german
             "ja": "jp.lang", // japanese
             "ko": "kr.lang", // korean
-            "zh_CN": "zh_CN.lang", // simplified chinese
+            "zh-CN": "zh-CN.lang", // simplified chinese
 
             // One of these can probably go, but i wasn't provided
             // enough info and am unable to find the correct region code
