@@ -32,7 +32,7 @@ export class LoginView extends React.Component {
 
     render() {
         return (
-            <BlackoutPage coverImage={"assets/login-background.png"}>
+            <BlackoutPage coverImage={"assets/bg.png"}>
                 <div className="py-12">
                     <OaStyleCard title={"Invalid session"} isDanger={true} body={<LoginForm/>} fullWidth={true}/>
                 </div>
