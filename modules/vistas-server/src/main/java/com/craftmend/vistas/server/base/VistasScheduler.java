@@ -20,9 +20,9 @@ public class VistasScheduler extends Service implements TaskService {
     }
 
     @Override
-    public int scheduleAsyncRepeatingTask(Runnable runnable, int delay, int interval) {
-        int delayMs = delay * 50;
-        int intervalMs = interval * 50;
+    public int scheduleAsyncRepeatingTask(Runnable runnable, int delayUntilFirst, int tickInterval) {
+        int delayMs = delayUntilFirst * 50;
+        int intervalMs = tickInterval * 50;
         taskCount++;
         int currentTask = taskCount;
 
@@ -56,8 +56,8 @@ public class VistasScheduler extends Service implements TaskService {
     }
 
     @Override
-    public int scheduleSyncRepeatingTask(Runnable runnable, int delay, int interval) {
-        return scheduleAsyncRepeatingTask(runnable, delay, interval);
+    public int scheduleSyncRepeatingTask(Runnable runnable, int delayUntilFirst, int tickInterval) {
+        return scheduleAsyncRepeatingTask(runnable, delayUntilFirst, tickInterval);
     }
 
     @Override
@@ -84,8 +84,8 @@ public class VistasScheduler extends Service implements TaskService {
     }
 
     @Override
-    public int schduleAsyncRepeatingTask(Runnable runnable, int delay, int interval) {
-        return scheduleAsyncRepeatingTask(runnable, delay, interval);
+    public int schduleAsyncRepeatingTask(Runnable runnable, int delayUntilFirst, int tickInterval) {
+        return scheduleAsyncRepeatingTask(runnable, delayUntilFirst, tickInterval);
     }
 
     public boolean isCancelled(int task) {

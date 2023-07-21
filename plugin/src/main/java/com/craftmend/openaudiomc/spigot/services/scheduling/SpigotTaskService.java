@@ -8,23 +8,23 @@ import org.bukkit.Bukkit;
 public class SpigotTaskService implements TaskService {
 
     @Override
-    public int scheduleAsyncRepeatingTask(Runnable runnable, int period, int delay) {
+    public int scheduleAsyncRepeatingTask(Runnable runnable, int delayUntilFirst, int tickInterval) {
         if (OpenAudioMc.getInstance().isDisabled()) {
             runnable.run();
             return -1;
         }
 
-        return Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(OpenAudioMcSpigot.getInstance(), runnable, period, delay);
+        return Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(OpenAudioMcSpigot.getInstance(), runnable, delayUntilFirst, tickInterval);
     }
 
     @Override
-    public int scheduleSyncRepeatingTask(Runnable runnable, int period, int delay) {
+    public int scheduleSyncRepeatingTask(Runnable runnable, int delayUntilFirst, int tickInterval) {
         if (OpenAudioMc.getInstance().isDisabled()) {
             runnable.run();
             return -1;
         }
 
-        return Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(OpenAudioMcSpigot.getInstance(), runnable, period, delay);
+        return Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(OpenAudioMcSpigot.getInstance(), runnable, delayUntilFirst, tickInterval);
     }
 
     @Override
@@ -35,16 +35,6 @@ public class SpigotTaskService implements TaskService {
         }
 
         return Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(OpenAudioMcSpigot.getInstance(), runnable, delay);
-    }
-
-    @Override
-    public int schduleAsyncRepeatingTask(Runnable runnable, int period, int delay) {
-        if (OpenAudioMc.getInstance().isDisabled()) {
-            runnable.run();
-            return -1;
-        }
-
-        return Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(OpenAudioMcSpigot.getInstance(), runnable, period, delay);
     }
 
     @Override

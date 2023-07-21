@@ -12,23 +12,23 @@ import java.util.concurrent.TimeUnit;
 public class BungeeTaskService implements TaskService {
 
     @Override
-    public int scheduleAsyncRepeatingTask(Runnable runnable, int period, int delay) {
+    public int scheduleAsyncRepeatingTask(Runnable runnable, int delayUntilFirst, int tickInterval) {
         if (OpenAudioMc.getInstance().isDisabled()) {
             runnable.run();
             return -1;
         }
 
-        return scheduleSyncRepeatingTask(runnable, period, delay);
+        return scheduleSyncRepeatingTask(runnable, delayUntilFirst, tickInterval);
     }
 
     @Override
-    public int scheduleSyncRepeatingTask(Runnable runnable, int period, int delay) {
+    public int scheduleSyncRepeatingTask(Runnable runnable, int delayUntilFirst, int tickInterval) {
         if (OpenAudioMc.getInstance().isDisabled()) {
             runnable.run();
             return -1;
         }
 
-        return OpenAudioMcBungee.getInstance().getProxy().getScheduler().schedule(OpenAudioMcBungee.getInstance(), runnable, (period / 20), (delay / 20), TimeUnit.SECONDS).getId();
+        return OpenAudioMcBungee.getInstance().getProxy().getScheduler().schedule(OpenAudioMcBungee.getInstance(), runnable, (delayUntilFirst / 20), (tickInterval / 20), TimeUnit.SECONDS).getId();
     }
 
     @Override
@@ -39,16 +39,6 @@ public class BungeeTaskService implements TaskService {
         }
 
         return OpenAudioMcBungee.getInstance().getProxy().getScheduler().schedule(OpenAudioMcBungee.getInstance(), runnable, (delay / 20), TimeUnit.SECONDS).getId();
-    }
-
-    @Override
-    public int schduleAsyncRepeatingTask(Runnable runnable, int period, int delay) {
-        if (OpenAudioMc.getInstance().isDisabled()) {
-            runnable.run();
-            return -1;
-        }
-
-        return OpenAudioMcBungee.getInstance().getProxy().getScheduler().schedule(OpenAudioMcBungee.getInstance(), runnable, (period / 20), (delay / 20), TimeUnit.SECONDS).getId();
     }
 
     @Override

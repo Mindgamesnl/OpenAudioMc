@@ -115,7 +115,7 @@ public class RedisService extends Service {
         asyncPub = redisPubConnection.async();
 
         // queue handler
-        OpenAudioMc.resolveDependency(TaskService.class).schduleAsyncRepeatingTask(messageQueHandler, 1, 1);
+        OpenAudioMc.resolveDependency(TaskService.class).scheduleAsyncRepeatingTask(messageQueHandler, 1, 1);
 
         // enable command
         OpenAudioMc.getService(CommandService.class).registerSubCommand(new RedisSubCommand(this));

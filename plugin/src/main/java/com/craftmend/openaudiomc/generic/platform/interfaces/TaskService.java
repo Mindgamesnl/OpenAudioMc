@@ -4,10 +4,9 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 
 public interface TaskService {
 
-    int scheduleAsyncRepeatingTask(Runnable runnable, int period, int delay);
-    int scheduleSyncRepeatingTask(Runnable runnable, int period, int delay);
+    int scheduleAsyncRepeatingTask(Runnable runnable, int delayUntilFirst, int tickInterval);
+    int scheduleSyncRepeatingTask(Runnable runnable, int delayUntilFirst, int tickInterval);
     int schduleSyncDelayedTask(Runnable runnable, int delay);
-    int schduleAsyncRepeatingTask(Runnable runnable, int period, int delay);
     void cancelRepeatingTask(int id);
     void runAsync(Runnable runnable);
     void runSync(Runnable runnable);

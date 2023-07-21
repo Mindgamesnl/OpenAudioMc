@@ -35,6 +35,11 @@ public class VelocityUserAdapter implements User {
      */
     @Override
     public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut) {
+        // convert ticks to milliseconds
+        fadeIn *= 50;
+        stay *= 50;
+        fadeOut *= 50;
+
         // Send the title to the specified audience.
         sender.showTitle(Title.title(
                 Component.text(translateColors(title)),

@@ -15,17 +15,17 @@ public class VelocityTaskService implements TaskService {
     private final ConcurrentMap<Integer, ScheduledTask> tasks = new ConcurrentHashMap<>();
 
     @Override
-    public int scheduleAsyncRepeatingTask(Runnable runnable, int period, int delay) {
+    public int scheduleAsyncRepeatingTask(Runnable runnable, int delayUntilFirst, int tickInterval) {
         if (OpenAudioMc.getInstance().isDisabled()) {
             runnable.run();
             return -1;
         }
 
-        return scheduleSyncRepeatingTask(runnable, period, delay);
+        return scheduleSyncRepeatingTask(runnable, delayUntilFirst, tickInterval);
     }
 
     @Override
-    public int scheduleSyncRepeatingTask(Runnable runnable, int period, int delay) {
+    public int scheduleSyncRepeatingTask(Runnable runnable, int delayUntilFirst, int tickInterval) {
         if (OpenAudioMc.getInstance().isDisabled()) {
             runnable.run();
             return -1;
@@ -33,8 +33,8 @@ public class VelocityTaskService implements TaskService {
 
         ScheduledTask task = OpenAudioMcVelocity.getInstance().getServer().getScheduler()
                 .buildTask(OpenAudioMcVelocity.getInstance(), runnable)
-                .delay((delay / 20), TimeUnit.SECONDS)
-                .repeat((period / 20), TimeUnit.SECONDS)
+                .delay((delayUntilFirst / 20), TimeUnit.SECONDS)
+                .repeat((tickInterval / 20), TimeUnit.SECONDS)
                 .schedule();
         return putTask(task);
     }
@@ -54,8 +54,8 @@ public class VelocityTaskService implements TaskService {
     }
 
     @Override
-    public int schduleAsyncRepeatingTask(Runnable runnable, int period, int delay) {
-        return scheduleSyncRepeatingTask(runnable, period, delay);
+    public int schduleAsyncRepeatingTask(Runnable runnable, int delayUntilFirst, int tickInterval) {
+        return scheduleSyncRepeatingTask(runnable, delayUntilFirst, tickInterval);
     }
 
     @Override
