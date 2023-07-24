@@ -8,7 +8,7 @@ export class BedrockAuthFlow extends React.Component {
         return (
             <BlackoutPage>
 
-                <div className="relative bg-gradient-to-bl from-gray-900 via-stone-900 to-gray-900">
+                <div className="relative bg-gradient-to-bl via-gray-900 from-stone-900 to-gray-900">
                     <div className="relative mx-auto max-w-7xl py-12 px-6 lg:px-8 lg:py-16 xl:border-l-8 border-solid border-indigo-900">
                         <div className="md:ml-auto">
                             <h2 className="text-lg font-semibold text-gray-300">Connecting with</h2>
