@@ -7,6 +7,8 @@ import {store} from "./state/store";
 import NoSleepComponent from "./components/activity/browser-activity";
 import FadeTo from "./components/fadeto/fadeto";
 
+
+
 function App() {
     return (
         <Provider store={store}>
