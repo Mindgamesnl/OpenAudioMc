@@ -3,59 +3,81 @@ import React from "react";
 import java from "./editions/alt_java.png"
 import bedrock from "./editions/alt_bedrock.png"
 import {LoginForm} from "../../../components/loginform/LoginForm";
+import {FadeToCtx} from "../../../components/fadeto/fadeto";
 
 export class PlatformSelection extends React.Component {
+
+    static contextType = FadeToCtx;
+
     constructor(props) {
         super(props);
         this.state = {
             selected: null
         }
+
+        this.startBedrock = this.startBedrock.bind(this);
+    }
+
+    startBedrock() {
+        console.log("Starting bedrock setup")
+        this.context.fadeToComponent(<LoginForm/>)
     }
 
     render() {
+        let btnClass = "mx-4 w-2/3 px-5 py-2.5 text-white bg-gray-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium common-rounded-top common-rounded-bottom text-sm text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+
         if (this.state.selected == null) {
             // render general selection
-            // two divs side by side
-
-            const panelClass = "flex flex-col items-center justify-center w-full h-1/2 xl:h-full xl:w-1/2 py-8 xl:py-0"
-
+            const panelClass = ""
             return (
                 <div className={"flex flex-col xl:flex-row w-screen"}>
-                    <div className={panelClass}>
+                    <div className={"flex flex-col items-center justify-center w-full py-8 xl:py-0"}>
                         <div
-                            className="mx-4 xl:mx-0 relative block common-rounded-top pt-2 common-rounded-bottom max-w-xl shadow-lg p-6 clickprompt-box">
-                            <div className={"w-full"}>
+                            className="mx-4 xl:mx-0 flex flex-col xl:flex-row common-rounded-top pt-2 common-rounded-bottom shadow-lg xl:p-6 clickprompt-box">
+
+                            <div className={"h-full flex flex-col mb-24 xl:mb-0"}>
                                 <div className={"text-white m-5"}>
                                     <div className="flex items-center justify-center align-middle space-x-3">
                                         <img src={bedrock}/>
                                     </div>
                                 </div>
-                                <div className="w-full flex justify-center align-middle">
-                                    <p className="w-3/4 text-center  text-white text-sm mb-8 tracking-wide cursor-pointer">Please
-                                        Configure OpenAudioMc to fully run in the background while you're playing on your phone or console.
-                                    </p>
+                                <div className={"grid content-end h-full"}>
+                                    <div className="w-full flex justify-center align-bottom">
+                                        <p className="w-3/4 text-center  text-white text-sm mb-8 tracking-wide cursor-pointer">Please
+                                            Run OpenAudioMc in the background while you play on this (or another) device.
+                                        </p>
+                                    </div>
+                                    <div className={"w-full flex justify-center align-middle"}>
+                                        <button
+                                            onClick={this.startBedrock}
+                                            className={btnClass}>
+                                            Continue to Bedrock Setup
+                                        </button>
+                                    </div>
                                 </div>
-                                <a href={"https://openaudiomc.net/docs/client_guide"}
-                                   className="w-full block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium common-rounded-top common-rounded-bottom text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                    Proceed to Bedrock setup
-                                </a>
                             </div>
-                        </div>
-                    </div>
 
-                    <div className={"border-r-2 border-solid border-gray-700 xl:h-screen"}/>
+                            <div className={"border-r-2 border-solid border-gray-700 xl:h-full"}/>
 
-                    <div className={panelClass}>
-                        <div
-                            className="mx-4 xl:mx-0 relative block common-rounded-top pt-2 common-rounded-bottom shadow-lg max-w-xl p-6 clickprompt-box">
-                            <div className={"w-full"}>
+                            <div className={"h-full flex flex-col mb-6 xl:mb-0"}>
                                 <div className={"text-white m-5"}>
                                     <div className="flex items-center justify-center align-middle space-x-3">
                                         <img src={java}/>
                                     </div>
                                 </div>
-                                <div className={"text-white"}>
-                                    <LoginForm/>
+                                <div className={"grid content-end h-full"}>
+                                    <div className="w-full flex justify-center align-middle">
+                                        <p className="w-3/4 text-center  text-white text-sm mb-8 tracking-wide cursor-pointer">Please
+                                            Run OpenAudioMc in a browser window while you play on this computer
+                                        </p>
+                                    </div>
+                                    <div className={"w-full flex justify-center align-middle"}>
+                                        <button
+                                            onClick={this.startBedrock}
+                                            className={btnClass}>
+                                            Continue to Normal Setup
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

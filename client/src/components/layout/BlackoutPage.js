@@ -25,16 +25,17 @@ export class BlackoutPage extends React.Component {
             hasBackground = true;
         } else {
             style = {
-                background: "#242424",
+                background: "#211f1f",
             };
         }
 
         return (
             <div
-                className="flex flex-col space-y-4 min-w-screen h-screen animated fadeIn faster fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none"
+                className="flex flex-col space-y-4 min-w-screen h-screen animated fadeIn faster fixed  left-0 top-0 justify-center items-center inset-0 z-40 outline-none focus:outline-none"
                 style={style}>
                 {hasBackground && <>
-                    <div className={"absolute h-screen w-screen backdrop-filter backdrop-blur-md inset-0 z-0"}/>
+                    <div className={"absolute h-screen w-screen top-0 backdrop-filter backdrop-blur-md inset-0 z-0"}/>
+                    <div className={"absolute h-screen w-screen -top-4 bg-black opacity-50 inset-0 z-20"}/>
                     <div className="z-30">
                         {this.props.children}
                     </div>
