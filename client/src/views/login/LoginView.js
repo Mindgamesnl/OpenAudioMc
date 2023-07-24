@@ -2,9 +2,8 @@ import {BlackoutPage} from "../../components/layout/BlackoutPage";
 import React from "react";
 import {StaticFooter} from "../../components/footer/StaticFooter";
 import {VERSION} from "../../index";
-import {OaStyleCard} from "../../components/card/OaStyleCard";
-import {LoginForm} from "../../components/loginform/LoginForm";
 import {compareProdVersions} from "../../client/util/versioning";
+import {PlatformSelection} from "./platforms/PlatformSelection";
 
 export class LoginView extends React.Component {
 
@@ -32,23 +31,10 @@ export class LoginView extends React.Component {
 
     render() {
         return (
-            <BlackoutPage coverImage={"assets/bg.png"}>
-                <div className="py-12">
-                    <OaStyleCard title={"Invalid session"} isDanger={true} body={<LoginForm/>} fullWidth={true}/>
-                </div>
+            <BlackoutPage coverImage={"/assets/bg.png"}>
 
-                <div className="relative block common-rounded-top pt-2 common-rounded-bottom shadow-lg p-6 themed-text clickprompt-box">
-                    <div className={"w-full"}>
-                        <div className={"text-white m-5"}>
-                            <div className="flex items-center justify-center align-middle space-x-3">
-                                More info about OpenAudioMc
-                            </div>
-                        </div>
-                        <a href={"https://openaudiomc.net/docs/client_guide"}
-                                className="w-full block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium common-rounded-top common-rounded-bottom text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                            Client Documentation
-                        </a>
-                    </div>
+                <div className={"flex flex-col items-center justify-center h-full w-screen"}>
+                    <PlatformSelection/>
                 </div>
 
                 <StaticFooter>
