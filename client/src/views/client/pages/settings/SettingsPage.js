@@ -1,7 +1,7 @@
 import React from "react";
 import {CheckboxSetting} from "../../../../components/settings/CheckboxSetting";
 import {DropdownSetting} from "../../../../components/settings/DropdownSetting";
-import {getTranslation, handleStreamerMode} from "../../../../client/OpenAudioAppContainer";
+import {getTranslation} from "../../../../client/OpenAudioAppContainer";
 import {getGlobalState, setGlobalState} from "../../../../state/store";
 import {connect} from "react-redux";
 import {makeid} from "../../../../client/util/random";
@@ -13,8 +13,7 @@ export const settingSvg = {
     DARK_MODE: `<svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>`,
     MIX_AND_FADE: `<svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg>`,
     PRELOAD: `<svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M16 8v-4h-12v12.01h4" stroke-dasharray=".001 4" />  <rect x="8" y="8" width="12" height="12" rx="2" /></svg>`,
-    RENDER: `<svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <polyline points="5 9 2 12 5 15" />  <polyline points="9 5 12 2 15 5" />  <polyline points="15 19 12 22 9 19" />  <polyline points="19 9 22 12 19 15" />  <line x1="2" y1="12" x2="22" y2="12" />  <line x1="12" y1="2" x2="12" y2="22" /></svg>`,
-    STREAM_ICON: `<svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />  <circle cx="12" cy="13" r="4" /></svg>`
+    RENDER: `<svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <polyline points="5 9 2 12 5 15" />  <polyline points="9 5 12 2 15 5" />  <polyline points="15 19 12 22 9 19" />  <polyline points="19 9 22 12 19 15" />  <line x1="2" y1="12" x2="22" y2="12" />  <line x1="12" y1="2" x2="12" y2="22" /></svg>`
 }
 
 class SettingsPage extends React.Component {
@@ -42,10 +41,6 @@ class SettingsPage extends React.Component {
 
     render() {
         let c = null;
-
-        if (this.props.settings.streamermodeEnabled) {
-            handleStreamerMode();
-        }
 
         return (
             <div className="content-section lg:px-12 overflow-y-scroll">
@@ -83,14 +78,6 @@ class SettingsPage extends React.Component {
                         isChecked={this.props.settings.interpolationEnabled}
                         buttonText={getTranslation(c, "settings.interpolation.button")}
                         onChange={this.makeStateChanger("interpolationEnabled")} />
-
-                    <CheckboxSetting
-                        title={getTranslation(c, "settings.streamermode.title")}
-                        description={getTranslation(c, "settings.streamermode.body")}
-                        icon={settingSvg.RENDER}
-                        isChecked={this.props.settings.streamermodeEnabled}
-                        buttonText={getTranslation(c, "settings.streamermode.button")}
-                        onChange={this.makeStateChanger("streamermodeEnabled")} />
 
                     <DropdownSetting
                         title={getTranslation(c, "settings.spatial.title")}
