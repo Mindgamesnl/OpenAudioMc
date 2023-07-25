@@ -10,6 +10,7 @@ export class ButtonChecklistItem extends React.Component {
         checked: PropTypes.bool,
         buttonContent: PropTypes.any,
         buttonOnClick: PropTypes.func,
+        showButton: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -18,16 +19,17 @@ export class ButtonChecklistItem extends React.Component {
         // You didn't see this
         subtext: "Durex Condooms - Originals Classic Natural - 20 stuks",
         buttonContent: "Place order",
-        buttonOnClick: () => alert("place order")
+        buttonOnClick: () => alert("place order"),
+        showButton: true
     }
 
     render() {
         return (
             <div className="flex items-center justify-center">
-                <button
+                {this.props.showButton && <button
                     onClick={this.props.buttonOnClick}
                     className={"bg-gray-800 py-4 px-2 rounded-md text-gray-50 mr-4"}
-                >{this.props.buttonContent}</button>
+                >{this.props.buttonContent}</button>}
                 <ChecklistItem {...this.props}/>
             </div>
         )
