@@ -28,7 +28,7 @@ export class PlatformSelection extends React.Component {
         if (this.state.selected == null) {
             // render general selection
             return (
-                <div className={"flex flex-col xl:flex-row w-screen"}>
+                <div className={"flex flex-col xl:flex-row w-full"}>
                     <div className={"flex flex-col items-center justify-center w-full py-8 xl:py-0"}>
                         <div
                             className="mx-4 xl:mx-0 flex flex-col xl:flex-row common-rounded-top pt-2 common-rounded-bottom shadow-lg xl:p-6 clickprompt-box">

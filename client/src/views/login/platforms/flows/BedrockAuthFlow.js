@@ -19,6 +19,10 @@ export class BedrockAuthFlow extends React.Component {
         this.requestMicrophonePermissions = this.requestMicrophonePermissions.bind(this);
     }
 
+    supportsNotificationPermissions() {
+        return "Notification" in window;
+    }
+
     requestNotificationPermissions() {
         Notification.requestPermission().then((result) => {
             if (result === "granted") {
@@ -70,13 +74,13 @@ export class BedrockAuthFlow extends React.Component {
 
     render() {
 
-        let meetsRequirements = this.state.notificationPermissionsGranted && this.state.microphonePermissionsGranted;
+        let meetsRequirements = (this.state.notificationPermissionsGranted || !this.supportsNotificationPermissions()) && this.state.microphonePermissionsGranted;
 
         return (
             <BlackoutPage>
                 <div className="relative bg-gradient-to-bl via-gray-900 from-stone-900 to-gray-900">
                     <div
-                        className="relative mx-auto max-w-7xl py-12 px-6 lg:px-8 lg:py-16 xl:border-l-8 border-solid border-indigo-900">
+                        className="relative mx-auto xl:max-w-7xl py-12 px-6 lg:px-8 lg:py-16 xl:border-l-8 border-solid border-indigo-900">
                         <div className="md:ml-auto">
                             <h2 className="text-lg font-semibold text-gray-300">Connecting with</h2>
                             <p className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
@@ -87,22 +91,26 @@ export class BedrockAuthFlow extends React.Component {
                                 automatically in the future.
                             </p>
                             <div className="mt-8">
-                                <ButtonChecklistItem
-                                    text={"Notification Permissions"}
-                                    subtext={"We need to send you notifications when you're not in the app."}
-                                    buttonContent={"Enable Notifications"}
-                                    buttonOnClick={this.requestNotificationPermissions}
-                                    checked={this.state.notificationPermissionsGranted}
-                                    showButton={!this.state.notificationPermissionsGranted}
-                                />
+                                {this.supportsNotificationPermissions() ?
+                                    <>
 
-                                {this.state.notificationErrorMessage != null ?
-                                    <ErrorBox
-                                        title={"Notification Permissions"}
-                                        description={this.state.notificationErrorMessage}/>
-                                    : null}
+                                        <ButtonChecklistItem
+                                            text={"Notification Permissions"}
+                                            subtext={"We need to send you notifications when you're not in the app."}
+                                            buttonContent={"Enable Notifications"}
+                                            buttonOnClick={this.requestNotificationPermissions}
+                                            checked={this.state.notificationPermissionsGranted}
+                                            showButton={!this.state.notificationPermissionsGranted}
+                                        />
 
-                                <div className={"h-4"}/>
+                                        {this.state.notificationErrorMessage != null ?
+                                            <ErrorBox
+                                                title={"Notification Permissions"}
+                                                description={this.state.notificationErrorMessage}/>
+                                            : null}
+
+                                        <div className={"h-4"}/>
+                                    </> : null}
 
                                 <ButtonChecklistItem
                                     text={"Microphone Permissions"}
@@ -121,20 +129,22 @@ export class BedrockAuthFlow extends React.Component {
 
                                 <hr/>
 
-                                {meetsRequirements ? <div className={"w-full flex justify-center"}>
-                                        <button
-                                            className={"bg-green-500 py-4 px-2 rounded-md text-gray-50 mr-4 mt-4"}
-                                        >Continue
-                                        </button>
-                                    </div>
-                                    : <div className={"w-full flex justify-center"}>
-                                        <button
-                                            disabled={true}
-                                            className={"bg-gray-800 py-4 px-2 rounded-md text-gray-400 mr-4 mt-4"}
-                                        >
-                                            You need to enable all permissions before you can continue
-                                        </button>
-                                    </div>}
+                                <div className={"pb-8"}>
+                                    {meetsRequirements ? <div className={"w-full flex justify-center"}>
+                                            <button
+                                                className={"bg-green-500 py-4 px-2 rounded-md text-gray-50 mr-4 mt-4"}
+                                            >Continue
+                                            </button>
+                                        </div>
+                                        : <div className={"w-full flex justify-center"}>
+                                            <button
+                                                disabled={true}
+                                                className={"bg-gray-800 py-4 px-2 rounded-md text-gray-400 mr-4 mt-4"}
+                                            >
+                                                You need to enable all permissions before you can continue
+                                            </button>
+                                        </div>}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -145,11 +155,6 @@ export class BedrockAuthFlow extends React.Component {
 }
 
 class ErrorBox extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
-
 
     static propTypes = {
         title: PropTypes.string,

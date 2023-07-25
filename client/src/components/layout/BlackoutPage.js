@@ -31,17 +31,17 @@ export class BlackoutPage extends React.Component {
 
         return (
             <div
-                className="flex flex-col space-y-4 min-w-screen h-screen animated fadeIn faster fixed  left-0 top-0 justify-center items-center inset-0 z-40 outline-none focus:outline-none"
+                className="flex flex-col xl:space-y-4 overflow-y-hidden animated fadeIn faster fixed  left-0 top-0 justify-center items-center inset-0 z-40 outline-none focus:outline-none"
                 style={style}>
                 {hasBackground && <>
                     <div className={"absolute h-screen w-screen top-0 backdrop-filter backdrop-blur-md inset-0 z-0"}/>
-                    <div className={"absolute h-screen w-screen -top-4 bg-black opacity-50 inset-0 z-20"}/>
-                    <div className="z-30">
+                    <div className={"absolute h-screen w-screen xl:-top-4 bg-black opacity-50 inset-0 z-20"}/>
+                    <div className="z-30 overflow-y-auto"  {...this.props}>
                         {this.props.children}
                     </div>
                 </>}
 
-                {!hasBackground && this.props.children}
+                {!hasBackground && <div className="overflow-y-auto p-0 m-0" {...this.props}>{this.props.children}</div>}
             </div>
         );
     }

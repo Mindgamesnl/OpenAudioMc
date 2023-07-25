@@ -48,7 +48,7 @@ class NoSleepComponent extends Component {
 
         return (
             <>
-                <div className={"absolute"}>
+                <div className={"absolute sticky"}>
                     <video ref={this.videoRef} title="No Sleep" playsInline id={"testv"}>
                         <source src={webm} type="video/webm" />
                         <source src={mp4} type="video/mp4" />

@@ -2,11 +2,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100%;
     width: 100vw;
     background-color: #211f1f;
     position: fixed;
     z-index: 9999;
+    top: 0;
 }
 
 .loader {
