@@ -23,6 +23,7 @@ export class BedrockAuthFlow extends React.Component {
             microphoneErrorMessage: null,
             microphoneOptions: [],
             selectedMicrophone: null,
+            microphoneLoading: false,
         }
 
         this.requestNotificationPermissions = this.requestNotificationPermissions.bind(this);
@@ -48,8 +49,8 @@ export class BedrockAuthFlow extends React.Component {
     }
 
     requestMicrophonePermissions() {
+        this.setState({microphoneLoading: true})
         let wrapped = new WrappedUserMedia();
-        console.log(wrapped)
 
         let success = function (stream) {
             // destroy the stream
@@ -62,7 +63,7 @@ export class BedrockAuthFlow extends React.Component {
                 let microphoneOptions = microphones.map((microphone) => {
                     return {key: microphone.deviceId, value: microphone.label}
                 })
-                this.setState({microphoneOptions: microphoneOptions})
+                this.setState({microphoneOptions: microphoneOptions, microphoneLoading: false})
             })
         }
 
@@ -71,12 +72,14 @@ export class BedrockAuthFlow extends React.Component {
             if (error.name === "PermissionDeniedError" || error.name === "NotAllowedError") {
                 this.setState({
                     microphonePermissionsGranted: false,
-                    microphoneErrorMessage: "You denied the microphone permissions, please enable them in your browser settings"
+                    microphoneErrorMessage: "You denied the microphone permissions, please enable them in your browser settings",
+                    microphoneLoading: false,
                 })
             } else {
                 this.setState({
                     microphonePermissionsGranted: false,
-                    microphoneErrorMessage: "An unknown error occurred while requesting the microphone permissions, please try again later"
+                    microphoneErrorMessage: "An unknown error occurred while requesting the microphone permissions, please try again later",
+                    microphoneLoading: false,
                 })
             }
         }
@@ -166,8 +169,9 @@ export class BedrockAuthFlow extends React.Component {
                                     subtext={"We need to use your microphone to send your voice to other players."}
                                     buttonContent={"Enable Microphone"}
                                     buttonOnClick={this.requestMicrophonePermissions}
-                                    showButton={!this.state.microphonePermissionsGranted}
+                                    showButton={!this.state.microphonePermissionsGranted && !this.state.microphoneLoading}
                                     checked={this.state.microphonePermissionsGranted}
+                                    loading={this.state.microphoneLoading}
                                 />
 
                                 {hasMicrophone ?

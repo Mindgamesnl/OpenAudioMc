@@ -31,9 +31,9 @@ export class PlatformSelection extends React.Component {
                 <div className={"flex flex-col xl:flex-row w-full"}>
                     <div className={"flex flex-col items-center justify-center w-full py-8 xl:py-0"}>
                         <div
-                            className="mx-4 xl:mx-0 flex flex-col xl:flex-row common-rounded-top pt-2 common-rounded-bottom shadow-lg xl:p-6 clickprompt-box">
+                            className="mx-4 xl:mx-0 flex flex-col xl:flex-row common-rounded-top pt-2 px-2 common-rounded-bottom shadow-lg xl:p-6 clickprompt-box rounded-md">
 
-                            <div className={"h-full flex flex-col mb-24 xl:mb-0"}>
+                            <div className={"h-full flex flex-col mb-5 xl:mb-0"}>
                                 <div className={"text-white my-5"}>
                                     <div className="flex items-center justify-center align-middle w-full">
                                         <img src={bedrock} alt={"Logo for Minecraft: Bedrock Edition"}/>
@@ -55,7 +55,7 @@ export class PlatformSelection extends React.Component {
                                 </div>
                             </div>
 
-                            <div className={"border-r-2 border-solid border-gray-700 xl:h-full"}/>
+                            <div className={"border-t-2 mx-5 my-5 md:my-0 md:border-r-2 md:border-t-0 border-solid border-gray-700 xl:h-full rounded-full"}/>
 
                             <div className={"h-full flex flex-col mb-6 xl:mb-0"}>
                                 <div className={"text-white m-5"}>

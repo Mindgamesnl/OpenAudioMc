@@ -11,6 +11,7 @@ export class ButtonChecklistItem extends React.Component {
         buttonContent: PropTypes.any,
         buttonOnClick: PropTypes.func,
         showButton: PropTypes.bool,
+        loading: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -20,7 +21,8 @@ export class ButtonChecklistItem extends React.Component {
         subtext: "Durex Condooms - Originals Classic Natural - 20 stuks",
         buttonContent: "Place order",
         buttonOnClick: () => alert("place order"),
-        showButton: true
+        showButton: true,
+        loading: false
     }
 
     render() {

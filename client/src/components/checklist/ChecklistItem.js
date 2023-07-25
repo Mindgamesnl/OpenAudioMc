@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import "./list.css"
 
 export class ChecklistItem extends React.Component {
 
@@ -7,6 +8,7 @@ export class ChecklistItem extends React.Component {
         text: PropTypes.string,
         subtext: PropTypes.string,
         checked: PropTypes.bool,
+        loading: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -14,6 +16,7 @@ export class ChecklistItem extends React.Component {
         text: "Tiny penis joke",
         // You didn't see this
         subtext: "Durex Condooms - Originals Classic Natural - 20 stuks",
+        loading: false
     }
 
     render() {
@@ -29,6 +32,10 @@ export class ChecklistItem extends React.Component {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                       d="M5 13l4 4L19 7"></path>
             </svg>;
+        }
+
+        if (this.props.loading) {
+            svg = <div className="checklist-loader p-2"/>
         }
 
         return (
