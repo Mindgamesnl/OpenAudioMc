@@ -8,6 +8,11 @@ export const UNSAVED_SETTINGS = [
 ]
 
 const initialState = {
+    platformInfo: {
+        flow: "none", // none, bedrock, java
+        notificationsReady: false, // if notifications are ready to be shown
+    },
+
     // state - null for the login screen
     currentUser: null,
 

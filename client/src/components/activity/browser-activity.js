@@ -26,7 +26,12 @@ class NoSleepComponent extends Component {
             task: setInterval(() => {
                 // jump to random time in video
                 if (this.videoRef.current) {
-                    this.videoRef.current.currentTime = Math.random() * this.videoRef.current.duration;
+                    let newTime = Math.random() * this.videoRef.current.duration;
+                    // make sure newTime is fafe (no nonfinite numbers)
+                    if (newTime === Infinity || newTime === -Infinity || isNaN(newTime)) {
+                        newTime = 0;
+                    }
+                    this.videoRef.current.currentTime = newTime;
                 }
             }, 800)
         });

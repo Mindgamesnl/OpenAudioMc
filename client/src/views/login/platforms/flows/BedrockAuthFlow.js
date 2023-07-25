@@ -4,6 +4,8 @@ import {ButtonChecklistItem} from "../../../../components/checklist/ButtonCheckl
 import {WrappedUserMedia} from "../../../../client/services/voice/util/WrappedUserMedia";
 import PropTypes from "prop-types";
 
+export let premadeAudioStream = null;
+
 export class BedrockAuthFlow extends React.Component {
 
     constructor(props) {
@@ -42,9 +44,7 @@ export class BedrockAuthFlow extends React.Component {
 
         let success = function (stream) {
             // destroy the stream
-            stream.getTracks().forEach(function (track) {
-                track.stop();
-            });
+            premadeAudioStream = stream;
             this.setState({microphonePermissionsGranted: true, microphoneErrorMessage: null})
         }
 
