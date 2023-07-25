@@ -3,10 +3,16 @@ import {BlackoutPage} from "../../../../components/layout/BlackoutPage";
 import {ButtonChecklistItem} from "../../../../components/checklist/ButtonChecklistItem";
 import {WrappedUserMedia} from "../../../../client/services/voice/util/WrappedUserMedia";
 import PropTypes from "prop-types";
+import {StyledDropdown} from "../../../../components/form/StyledDropdown";
+import {setGlobalState} from "../../../../state/store";
+import {FadeToCtx} from "../../../../components/fadeto/fadeto";
+import {BedrockTokenHandle} from "./BedrockTokenHandle";
 
 export let premadeAudioStream = null;
 
 export class BedrockAuthFlow extends React.Component {
+
+    static contextType = FadeToCtx;
 
     constructor(props) {
         super(props);
@@ -15,10 +21,13 @@ export class BedrockAuthFlow extends React.Component {
             notificationErrorMessage: null,
             microphonePermissionsGranted: false,
             microphoneErrorMessage: null,
+            microphoneOptions: [],
+            selectedMicrophone: null,
         }
 
         this.requestNotificationPermissions = this.requestNotificationPermissions.bind(this);
         this.requestMicrophonePermissions = this.requestMicrophonePermissions.bind(this);
+        this.changeMicInput = this.changeMicInput.bind(this);
     }
 
     supportsNotificationPermissions() {
@@ -46,6 +55,15 @@ export class BedrockAuthFlow extends React.Component {
             // destroy the stream
             premadeAudioStream = stream;
             this.setState({microphonePermissionsGranted: true, microphoneErrorMessage: null})
+
+            // discover microphones
+            navigator.mediaDevices.enumerateDevices().then((devices) => {
+                let microphones = devices.filter((device) => device.kind === "audioinput");
+                let microphoneOptions = microphones.map((microphone) => {
+                    return {key: microphone.deviceId, value: microphone.label}
+                })
+                this.setState({microphoneOptions: microphoneOptions})
+            })
         }
 
         let failed = function (error) {
@@ -68,13 +86,44 @@ export class BedrockAuthFlow extends React.Component {
         wrapped.successCallback = (success)
         wrapped.errorCallback = failed
 
+        wrapped.getUserMedia(this.state.selectedMicrophone)
+    }
 
-        wrapped.getUserMedia(null)
+    changeMicInput(id, label) {
+        // close the current stream
+        if (premadeAudioStream) {
+            premadeAudioStream.getTracks().forEach((track) => {
+                track.stop();
+            })
+            premadeAudioStream = null;
+        }
+
+        this.setState({
+            microphonePermissionsGranted: false,
+            microphoneErrorMessage: "Loading new microphone...",
+            selectedMicrophone: id,
+        }, this.requestMicrophonePermissions)
+    }
+
+    continue() {
+        // push to global state
+        setGlobalState({
+            platformInfo: {
+                flow: "bedrock",
+                notificationsReady: this.state.notificationPermissionsGranted,
+            },
+            settings: {
+                preferredMicId: this.state.selectedMicrophone,
+            }
+        })
+
+        this.context.fadeToComponent(<BedrockTokenHandle/>)
     }
 
     render() {
 
         let meetsRequirements = (this.state.notificationPermissionsGranted || !this.supportsNotificationPermissions()) && this.state.microphonePermissionsGranted;
+        let hasMicrophone = this.state.microphoneOptions.length > 0;
 
         return (
             <BlackoutPage>
@@ -114,12 +163,22 @@ export class BedrockAuthFlow extends React.Component {
 
                                 <ButtonChecklistItem
                                     text={"Microphone Permissions"}
-                                    subtext={"We need to send you notifications when you're not in the app."}
+                                    subtext={"We need to use your microphone to send your voice to other players."}
                                     buttonContent={"Enable Microphone"}
                                     buttonOnClick={this.requestMicrophonePermissions}
                                     showButton={!this.state.microphonePermissionsGranted}
                                     checked={this.state.microphonePermissionsGranted}
                                 />
+
+                                {hasMicrophone ?
+                                    <div className={"pt-4 w-full flex justify-center"}>
+                                        <StyledDropdown
+                                            title={"Select Microphone"}
+                                            description={"Select the microphone you want to use for voice chat."}
+                                            options={this.state.microphoneOptions}
+                                            onChange={this.changeMicInput}
+                                        />
+                                    </div> : null}
 
                                 {this.state.microphoneErrorMessage != null ?
                                     <ErrorBox
@@ -129,17 +188,18 @@ export class BedrockAuthFlow extends React.Component {
 
                                 <hr/>
 
-                                <div className={"pb-8"}>
-                                    {meetsRequirements ? <div className={"w-full flex justify-center"}>
+                                <div className={"pb-8 w-full"}>
+                                    {meetsRequirements ? <div className={"w-full flex justify-center align-middle"}>
                                             <button
-                                                className={"bg-green-500 py-4 px-2 rounded-md text-gray-50 mr-4 mt-4"}
+                                                onClick={this.continue.bind(this)}
+                                                className={"bg-green-500 w-full py-4 px-2 rounded-md text-gray-50 mt-4"}
                                             >Continue
                                             </button>
                                         </div>
-                                        : <div className={"w-full flex justify-center"}>
+                                        : <div className={"w-full flex justify-center align-middle"}>
                                             <button
                                                 disabled={true}
-                                                className={"bg-gray-800 py-4 px-2 rounded-md text-gray-400 mr-4 mt-4"}
+                                                className={"w-full bg-gray-800 py-4 px-2 rounded-md text-gray-400 mt-4"}
                                             >
                                                 You need to enable all permissions before you can continue
                                             </button>

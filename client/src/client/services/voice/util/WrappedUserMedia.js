@@ -1,4 +1,4 @@
-import {premadeAudioStream} from "../../../../views/login/platforms/flows/BedrockAuthFlow";
+import {premadeAudioStream} from "../../../../views/login/platforms/bedrock/BedrockAuthFlow";
 import {debugLog} from "../../debugging/DebugService";
 
 export class WrappedUserMedia {
