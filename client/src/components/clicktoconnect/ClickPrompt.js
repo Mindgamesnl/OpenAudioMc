@@ -1,18 +1,15 @@
 import React from "react";
 import "./clickprompt.css";
-import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
 import {BlackoutPage} from "../layout/BlackoutPage";
 import {getGlobalState, setGlobalState} from "../../state/store";
 import {connect} from "react-redux";
+import {msg} from "../../client/OpenAudioAppContainer";
 
 class ClickPrompt extends React.Component {
-    static contextType = OAC;
-
     render() {
-        let c = this.context;
         let currentUser = getGlobalState().currentUser;
 
-        let welcomeWithName = getTranslation(c, "home.confirmLoginBody");
+        let welcomeWithName = msg("home.confirmLoginBody");
         welcomeWithName = welcomeWithName.replace("%name", currentUser.userName);
 
         // instant join voice button as well
@@ -29,7 +26,7 @@ class ClickPrompt extends React.Component {
                     </svg>
                 </div>
                 <div className={"items-center justify-center w-full"}>
-                    {getTranslation(c, "home.confirmLoginWithVoicechat")}
+                    {msg("home.confirmLoginWithVoicechat")}
                 </div>
             </div>
         </button>;
@@ -76,7 +73,7 @@ class ClickPrompt extends React.Component {
                                                         </svg>
                                                     </div>
                                                     <div className={"items-center justify-center w-full"}>
-                                                        {getTranslation(c, "home.confirmLoginButton")}
+                                                        {msg("home.confirmLoginButton")}
                                                     </div>
                                                 </div>
                                             </button>

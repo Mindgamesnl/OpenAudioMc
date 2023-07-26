@@ -5,8 +5,8 @@ import {WrappedUserMedia} from "../../../../client/services/voice/util/WrappedUs
 import PropTypes from "prop-types";
 import {StyledDropdown} from "../../../../components/form/StyledDropdown";
 import {setGlobalState} from "../../../../state/store";
-import {FadeToCtx} from "../../../../components/fadeto/fadeto";
 import {BedrockTokenHandle} from "./BedrockTokenHandle";
+import {FadeToCtx} from "../../../../components/contexts";
 
 export let premadeAudioStream = null;
 

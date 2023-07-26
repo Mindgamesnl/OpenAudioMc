@@ -1,10 +1,7 @@
 import React from "react";
-import {OAC} from "../../client/OpenAudioAppContainer";
 import "./login.css"
 
 export class LoginForm extends React.Component {
-
-    static contextType = OAC;
 
     constructor(props) {
         super(props);

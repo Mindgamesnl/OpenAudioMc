@@ -1,11 +1,10 @@
-import React, {createContext} from "react";
+import React from "react";
 
 import "./fadeto.css";
+import {FadeToCtx} from "../contexts";
 
 // full screen fade transition with intermediate loading screen
 // should also provide a context so other components can trigger the fade using fadeToOverlay(<component>)
-
-export const FadeToCtx = createContext({});
 
 export default class FadeTo extends React.Component {
 

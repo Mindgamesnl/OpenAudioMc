@@ -2,8 +2,8 @@ import React from "react";
 
 import java from "./editions/alt_java.png"
 import bedrock from "./editions/alt_bedrock.png"
-import {FadeToCtx} from "../../../components/fadeto/fadeto";
 import {BedrockAuthFlow} from "./bedrock/BedrockAuthFlow";
+import {FadeToCtx} from "../../../components/contexts";
 
 export class PlatformSelection extends React.Component {
 

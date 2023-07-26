@@ -1,14 +1,13 @@
 import React from "react";
-import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
 import AdvancedVoiceSettings from "./AdvancedVoiceSettings";
 import {setGlobalState} from "../../state/store";
 import {connect} from "react-redux";
 import {reRenderAllGainNodes} from "../../client/services/voice/VoiceModule";
 import {Tooltip} from "../tooltip/tooltip";
 import ExtraVoiceSettings from "./ExtraVoiceSettings";
+import {msg} from "../../client/OpenAudioAppContainer";
 
 class VoiceSettings extends React.Component {
-    static contextType = OAC;
 
     constructor(props) {
         super(props);
@@ -38,7 +37,6 @@ class VoiceSettings extends React.Component {
 
     render() {
         // are we moderating? then only show that banner
-        let c = this.context;
         if (this.props.voiceState.isModerating) {
             return (
                 <div className="content-section  pt-5">
@@ -47,7 +45,7 @@ class VoiceSettings extends React.Component {
                             <div className="content-text full">
                                 <div className={"text-center"}>
                                     <p className="soft-text">
-                                        {getTranslation(c, "vc.youAreModerating")}
+                                        {msg("vc.youAreModerating")}
                                     </p>
                                 </div>
                             </div>
@@ -95,15 +93,15 @@ class VoiceSettings extends React.Component {
                                 <img alt={"Speaking indictor"}
                                      className={"avatar  " + (this.props.voiceState.isSpeaking ? " speaking " : "") + (this.props.voicechatMuted ? " muted-self" : "")}
                                      src={"https://visage.surgeplay.com/bust/512/" + uuid}/>
-                                   {getTranslation(c, "vc.myStatus")}
+                                   {msg("vc.myStatus")}
                                </span>
                             <div className="content-card-buttons w-full">
                                 <div className="flex justify-center w-full">
                                     {micButton}
 
                                     <Tooltip
-                                        title={getTranslation(c, "vc.noMicInputYetTitle")}
-                                        text={getTranslation(c, "vc.noMicInputYetBody")}
+                                        title={msg("vc.noMicInputYetTitle")}
+                                        text={msg("vc.noMicInputYetBody")}
                                         visible={!this.props.voiceState.microphoneTriggeredOnce && this.props.voiceState.microphoneSanityPrompt}
                                     >
                                         <button className="ml-2 content-pill status-button green text-center"

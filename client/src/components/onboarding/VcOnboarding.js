@@ -1,13 +1,11 @@
 import React from "react";
-import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
 import {VoiceModule} from "../../client/services/voice/VoiceModule";
 import {getGlobalState} from "../../state/store";
 
 import "./onboarding.css"
+import {msg} from "../../client/OpenAudioAppContainer";
 
 export class VcOnboarding extends React.Component {
-
-    static contextType = OAC;
 
     constructor(props) {
         super(props);
@@ -25,7 +23,7 @@ export class VcOnboarding extends React.Component {
     }
 
     render() {
-        let c = this.context;
+        
 
         return (
             <div className="content-section shockwave">
@@ -43,20 +41,20 @@ export class VcOnboarding extends React.Component {
                                                     <path
                                                         d="M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2"/>
                                                 </svg>
-                                    {getTranslation(c, "vc.title")}
+                                    {msg("vc.title")}
                                                        </span>
                                 <div className="overflow-visible lg:grid lg:grid-cols-2 lg:gap-4">
                                     <div className="lg:self-center py-3">
-                                        {getTranslation(c, "vc.onboarding").replace("%range", getGlobalState().voiceState.radius)}
+                                        {msg("vc.onboarding").replace("%range", getGlobalState().voiceState.radius)}
                                         <div className="content-card-buttons">
                                             <div
-                                                dangerouslySetInnerHTML={{__html: getTranslation(c, "vc.safetyFooter")}}/>
+                                                dangerouslySetInnerHTML={{__html: msg("vc.safetyFooter")}}/>
                                         </div>
                                         <div className="content-card-buttons w-full">
                                             <button onClick={this.onClick}
                                                     className="animate-pulse content-pill status-button green w-full mb-4 md:mb-0"
                                                     id="vc-connect-button">
-                                                {getTranslation(c, "vc.join")}
+                                                {msg("vc.join")}
                                             </button>
                                         </div>
                                     </div>

@@ -1,11 +1,10 @@
-import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
+import {msg} from "../../client/OpenAudioAppContainer";
 import React from "react";
 import {setGlobalState} from "../../state/store";
 import {connect} from "react-redux";
 import "./audiovolume.css"
 
 class AudioVolume extends React.Component {
-    static contextType = OAC;
 
     constructor(props) {
         super(props);
@@ -157,8 +156,6 @@ class AudioVolume extends React.Component {
     }
 
     render() {
-        let c = this.context;
-
         return (
             <div className="flex justify-center">
                 <div className="flex overflow-hidden w-3/4 pt-4">
@@ -171,11 +168,11 @@ class AudioVolume extends React.Component {
                         <div className="mx-auto w-full px-4 sm:px-6 lg:px-8">
                             <div className="sm:text-center lg:text-left">
                                 <h1 className={"font-extrabold tracking-tighter pb-4 text-5xl"}>
-                                    {getTranslation(null, "home.audioControls")}
+                                    {msg("home.audioControls")}
                                 </h1>
                                 <p className="text-base sm:text-lg sm:max-w-xl sm:mx-auto md:text-xl lg:mx-0"
                                    style={{color: this.state.textColor}}
-                                   dangerouslySetInnerHTML={{__html: getTranslation(c, "home.volumeContext")}}>
+                                   dangerouslySetInnerHTML={{__html: msg("home.volumeContext")}}>
                                 </p>
                                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                                     <form className="w-11/12">
