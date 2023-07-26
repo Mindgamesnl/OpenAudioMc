@@ -31,6 +31,10 @@ export class BedrockAuthFlow extends React.Component {
         this.changeMicInput = this.changeMicInput.bind(this);
     }
 
+    componentDidMount() {
+        setGlobalState({voiceState: {autoJoinVoiceChat: true}});
+    }
+
     supportsNotificationPermissions() {
         return "Notification" in window;
     }
