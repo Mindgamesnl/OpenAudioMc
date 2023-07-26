@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.rest.routes.Endpoint;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.utils.data.ConcurrentHeatMap;
 import com.craftmend.openaudiomc.generic.rest.Task;
@@ -43,7 +44,7 @@ public class AuthenticationDriver {
                     auth.getOwner().getUniqueId().toString(),
                     auth.getAuth().getWebSessionKey(),
                     service.getServerKeySet().getPublicKey().getValue(),
-                    auth.getOwner().getIpAddress(),
+                    (StorageKey.SETTINGS_TOKEN_AUTO_LOGIN.getBoolean() ? auth.getOwner().getIpAddress() : null),
                     token
             );
 
@@ -84,7 +85,7 @@ public class AuthenticationDriver {
                     authenticatable.getOwner().getUniqueId().toString(),
                     authenticatable.getAuth().getWebSessionKey(),
                     service.getServerKeySet().getPublicKey().getValue(),
-                    authenticatable.getOwner().getIpAddress(),
+                    (StorageKey.SETTINGS_TOKEN_AUTO_LOGIN.getBoolean() ? authenticatable.getOwner().getIpAddress() : null),
                     null // unused here, this isn't reverse auth
             );
 

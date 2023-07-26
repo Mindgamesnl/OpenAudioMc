@@ -89,6 +89,9 @@ options:
   # The name prefix to look for to determine if a player is playing on bedrock edition
   bedrock-name-prefix: '.'
 
+  # This setting enabled/disables automatic authentication for bedrock users.
+  token-auto-login: true
+
   # If set to true, the player automatically receives a link upon joining
   send-on-join: true
 
