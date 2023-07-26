@@ -109,6 +109,7 @@ const initialState = {
     loadingState: 'Preparing to load OpenAudioMc',
     fixedFooter: null,
     navbarDetails: true,
+    currentTab: 0,
 
 
     translationBanner: null, // null or {detectedAs: 'en', toEn: 'to en', keep: 'keep', reset: function() {}}
