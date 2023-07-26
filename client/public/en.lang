@@ -116,7 +116,7 @@ settings.rolloff.12=120%
 settings.rolloff.15=150% (extreme)
 
 settings.spatial.title=Spatial rendering engine
-settings.spatial.body=Select what rendering engine you'd like to use. The modern engine is of higher quality and a bit faster, but is still in active development
+settings.spatial.body=Select what rendering engine you'd like to use. The modern engine is of higher quality and a bit faster, but requires a modern browser.
 settings.spatial.modern=Accurate
 settings.spatial.legacy=Legacy (old system)
 
