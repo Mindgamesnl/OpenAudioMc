@@ -8,7 +8,7 @@ export class DropdownSetting extends React.Component {
         });
 
         return (
-            <div className="content-card settings-card">
+            <div className="content-card w-full md:w-1/2 xl:w-1/3 m-2">
                <span>
                 <div dangerouslySetInnerHTML={{__html: this.props.icon}} className={"inline"}/>
                    {this.props.title}

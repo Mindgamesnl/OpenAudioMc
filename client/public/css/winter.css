@@ -571,7 +571,7 @@ body.light-mode .video-bg:before {
 .content-card {
     display: flex;
     flex-direction: column;
-    width: calc(33.3% - 20px);
+
     font-size: 16px;
     background-color: var(--content-bg);
     border-radius: var(--common-border-radius);

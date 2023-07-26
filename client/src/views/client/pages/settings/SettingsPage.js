@@ -46,7 +46,7 @@ class SettingsPage extends React.Component {
             <div className="content-section lg:px-12 overflow-y-scroll">
                 <div className="content-section-title">Settings</div>
 
-                <div className="content-card-collection items-stretch">
+                <div className="content-card-collection items-stretch flex  justify-center align-middle">
                     <CheckboxSetting
                         title={getTranslation(c, "settings.voicechat.chimes.title")}
                         description={getTranslation(c, "settings.voicechat.chimes.body")}
