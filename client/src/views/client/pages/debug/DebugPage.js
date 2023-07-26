@@ -100,7 +100,7 @@ export class DebugPage extends React.Component {
 
         return (
             <div className={"w-full h-full flex flex-col"}>
-                <div className="flex flex-wrap">
+                <div className="flex flex-wrap xl:pt-12 justify-center align-middle">
                     <OaStyleCard title={"whoami"} isDanger={true} dark={true}>
                         <p className={"text-white"}>Welcome to the debugging page. You can toggle this tab by pressing <i className={"text-blue-100"}>d</i></p>
                         <hr />
