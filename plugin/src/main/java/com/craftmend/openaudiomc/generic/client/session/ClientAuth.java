@@ -46,7 +46,11 @@ public class ClientAuth implements Serializable {
         });
 
         activationAttempt.setWhenFinished((r) -> {
-            sender.sendMessage(translateColors(StorageKey.MESSAGE_TOKEN_ACTIVATION_SUCCESS.getString()));
+            if (r) {
+                sender.sendMessage(translateColors(StorageKey.MESSAGE_TOKEN_ACTIVATION_SUCCESS.getString()));
+            } else {
+                sender.sendMessage(translateColors(StorageKey.MESSAGE_TOKEN_ACTIVATION_FAILED.getString()));
+            }
         });
     }
 
