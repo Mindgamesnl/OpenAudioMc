@@ -88,8 +88,8 @@ export class VoicePeerRow extends React.Component {
                          alt={"Avatar for " + name}/>
                 </div>
                 <div className="flex-1">
-                    <div className="flex items-center hidden-on-mobile">
-                        <h1 className={"mb-2"}>
+                    <div className="flex items-centerhidden-on-mobile py-1">
+                        <h1 className={"ml-2"}>
                             {muted && <svg className="red inline"
                                            viewBox="0 0 24 24" fill="none"
                                            stroke="currentColor" strokeWidth="2" strokeLinecap="round"
