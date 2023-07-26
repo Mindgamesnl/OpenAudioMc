@@ -99,13 +99,16 @@ export class LoginCode extends React.Component {
         // initial display
         if (this.state.code == null) {
             let text = "Connecting...";
+            let subtext = "We're getting a code for you";
 
             if (this.state.errored) {
                 text = "Error connecting";
+                subtext = "Something went wrong, please try again later
             }
 
             if (this.state.connected) {
                 text = "Connected!";
+                subtext = "Waiting for a code";
             }
 
             return (
@@ -113,7 +116,7 @@ export class LoginCode extends React.Component {
                     <div className={"xl:w-1/4"}>
                         <ChecklistItem
                             text={text}
-                            subtext={this.state.errored ? "We're getting a code for you" : "Something went wrong"}
+                            subtext={subtext}
                             loading={this.state.loading}
                             checked={!this.state.errored}
                         />
