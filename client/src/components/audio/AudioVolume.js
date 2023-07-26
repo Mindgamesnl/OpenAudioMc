@@ -160,7 +160,7 @@ class AudioVolume extends React.Component {
             <div className="flex justify-center">
                 <div className="flex overflow-hidden w-3/4 pt-4">
                     <div className="pt-8 pb-8 relative z-10 lg:w-full" style={{backgroundImage: this.state.bgGradient}}>
-                        <svg className="lg:block absolute right-0 inset-y-0 h-full w-48 transform translate-x-1/2"
+                        <svg className="lg:block absolute right-0 inset-y-0 h-full w-48 transform translate-x-1/2 hidden-on-mobile"
                              fill={this.state.bgColor} viewBox="0 0 100 100" preserveAspectRatio="none">
                             <polygon points="50,0 100,0 50,100 0,100"/>
                         </svg>
