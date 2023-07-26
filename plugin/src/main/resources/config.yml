@@ -7,6 +7,8 @@ messages:
 
   # The message the client gets when executing /audio of joins (if send-on-join is enabled)
   click-to-connect: '\n&b&lClick &ahere&b&l to open the Web Client!\n&3This lets you use &dProximity Voice Chat&3 and in-game &daudio&3!\n '
+  # an alternate version of this message for bedrock users
+  connect-prompt-bedrock: '\n&b&lThis server supports &aProximity Voice Chat&b&!\nGo to {domain} in your web-browser to get started.\n'
 
   # The message a player receives when a session error occurs
   session-error: '&cAn error occurred while generating your audio session. please report the problem and try again later.'
@@ -84,6 +86,9 @@ messages:
   token-activation-failed: '&7&oYour token could not be activated. Please try again or double check your code.'
 
 options:
+  # The name prefix to look for to determine if a player is playing on bedrock edition
+  bedrock-name-prefix: '.'
+
   # If set to true, the player automatically receives a link upon joining
   send-on-join: true
 

@@ -82,9 +82,18 @@ public class ClientAuth implements Serializable {
             client.getUser().sendMessage(translateColors(StorageKey.MESSAGE_SESSION_ERROR.getString()));
         });
 
+        StorageKey messageToSend;
+
+        // unless we're bedrock
+        if (client.getUser().getName().startsWith(StorageKey.SETTINGS_BEDROCK_PREFIX.getString())) {
+            messageToSend = StorageKey.MESSAGE_CONNECT_PROMPT_BEDROCK;
+        } else {
+            messageToSend = StorageKey.MESSAGE_CLICK_TO_CONNECT;
+        }
+
         sessionRequest.setWhenFinished(token -> {
             String url = baseUrl + "#" + token;
-            String msgText = translateColors(StorageKey.MESSAGE_CLICK_TO_CONNECT.getString()
+            String msgText = translateColors(messageToSend.getString()
                     .replace("{url}", url)
                     .replace("{token}", token));
             client.getUser().sendClickableUrlMessage(msgText, StorageKey.MESSAGE_HOVER_TO_CONNECT.getString(), url);

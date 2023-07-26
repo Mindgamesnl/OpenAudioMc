@@ -9,6 +9,7 @@ public enum StorageKey {
     MESSAGE_SESSION_ERROR(false, "messages.session-error", StorageLocation.CONFIG_FILE),
     MESSAGE_PROMPT_TO_CONNECT(false, "messages.suggest-connection", StorageLocation.CONFIG_FILE),
     MESSAGE_CLICK_TO_CONNECT(false, "messages.click-to-connect", StorageLocation.CONFIG_FILE),
+    MESSAGE_CONNECT_PROMPT_BEDROCK(false, "messages.connect-prompt-bedrock", StorageLocation.CONFIG_FILE),
     MESSAGE_HOVER_TO_CONNECT(false, "messages.click-to-connect-hover", StorageLocation.CONFIG_FILE),
     MESSAGE_LINK_EXPIRED(false, "messages.click-link-expired", StorageLocation.CONFIG_FILE),
     MESSAGE_CLIENT_CLOSED(false, "messages.client-closed", StorageLocation.CONFIG_FILE),
@@ -69,6 +70,8 @@ public enum StorageKey {
     SETTINGS_MODERATION_TIMER(false, "options.voicechat-moderation-duration", StorageLocation.CONFIG_FILE),
     SETTINGS_SPEAKER_REDSTONE_TICK_ENABLED(false, "options.redstone-tick-speakers", StorageLocation.CONFIG_FILE),
     SETTINGS_SPEAKER_REDSTONE_TICK_INTERVAL(false, "options.redstone-tick-speakers-interval", StorageLocation.CONFIG_FILE),
+
+    SETTINGS_BEDROCK_PREFIX(false, "options.bedrock-name-prefix", StorageLocation.CONFIG_FILE),
 
     SETTINGS_PAPI_CLIENT_CONNECTED(false, "papi.client-connected", StorageLocation.CONFIG_FILE),
     SETTINGS_PAPI_CLIENT_DISCONNECTED(false, "papi.client-disconnected", StorageLocation.CONFIG_FILE),
