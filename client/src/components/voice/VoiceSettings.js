@@ -91,8 +91,8 @@ class VoiceSettings extends React.Component {
                         <div className="w-full md:w-2/3 lg:w-1/3 content-card small-card order-2 2xl:order-1">
                                <span className={"content-card-content-border-bottom"}>
                                 <img alt={"Speaking indictor"}
-                                     className={"avatar  " + (this.props.voiceState.isSpeaking ? " speaking " : "") + (this.props.voicechatMuted ? " muted-self" : "")}
-                                     src={"https://visage.surgeplay.com/bust/512/" + uuid}/>
+                                     className={"avatar  " + (this.props.voiceState.isSpeaking ? " speaking " : "") + (this.props.voicechatMuted ? " muted-self" : "") + "!rounded-xl"}
+                                     src={"https://visage.surgeplay.com/face/512/" + uuid}/>
                                    {msg("vc.myStatus")}
                                </span>
                             <div className="content-card-buttons w-full">
