@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.rest.routes.Endpoint;
+import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.utils.data.ConcurrentHeatMap;
 import com.craftmend.openaudiomc.generic.rest.Task;
 import lombok.Getter;
@@ -19,7 +20,8 @@ import java.util.UUID;
 public class AuthenticationDriver {
 
     private final AuthenticationService service;
-    @Getter private ConcurrentHeatMap<UUID, String> sessionCacheMap = null;
+    @Getter
+    private ConcurrentHeatMap<UUID, String> sessionCacheMap = null;
 
     public void removePlayerFromCache(UUID uuid) {
         if (sessionCacheMap == null) {
@@ -32,10 +34,18 @@ public class AuthenticationDriver {
         sessionCacheMap = new ConcurrentHeatMap<>(60, 100, () -> "");
     }
 
-    public Task<Boolean> activateToken(String token) {
+    public Task<Boolean> activateToken(Authenticatable auth, String token) {
         Task<Boolean> task = new Task<>();
         OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> {
-            ClientTokenRequestBody requestBody = ClientTokenRequestBody.withActivateToken(token);
+            ClientTokenRequestBody requestBody = new ClientTokenRequestBody(
+                    "ACCOUNT",
+                    auth.getOwner().getName(),
+                    auth.getOwner().getUniqueId().toString(),
+                    auth.getAuth().getWebSessionKey(),
+                    service.getServerKeySet().getPublicKey().getValue(),
+                    auth.getOwner().getIpAddress(),
+                    token
+            );
 
             RestRequest<SimpleTokenResponse> request = new RestRequest<>(SimpleTokenResponse.class, Endpoint.ACTIVATE_SESSION_TOKEN);
             request.withPostJsonObject(requestBody);

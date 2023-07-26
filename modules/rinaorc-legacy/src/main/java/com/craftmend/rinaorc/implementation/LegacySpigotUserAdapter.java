@@ -107,6 +107,19 @@ public class LegacySpigotUserAdapter implements User {
     }
 
     @Override
+    public String getIpAddress() {
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+            if (p.getAddress() == null) return "unknown";
+            String ip = p.getAddress().getHostName();
+            if (ip != null) {
+                return ip;
+            }
+        }
+        return "unknown";
+    }
+
+    @Override
     public void sendActionbarMessage(String text) {
         Player sp = (Player) sender;
         sendActionbar(new TextComponent(text));

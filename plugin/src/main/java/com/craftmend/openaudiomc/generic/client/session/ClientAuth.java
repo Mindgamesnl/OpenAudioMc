@@ -36,7 +36,7 @@ public class ClientAuth implements Serializable {
     }
 
     public void activateToken(User sender, String token) {
-        Task<Boolean> activationAttempt = OpenAudioMc.getService(AuthenticationService.class).getDriver().activateToken(token);
+        Task<Boolean> activationAttempt = OpenAudioMc.getService(AuthenticationService.class).getDriver().activateToken(client, token);
         // initial loading message
         sender.sendMessage(translateColors(StorageKey.MESSAGE_TOKEN_ACTIVATION_LOADING.getString()));
 

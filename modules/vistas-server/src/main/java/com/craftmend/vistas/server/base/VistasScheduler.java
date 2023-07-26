@@ -83,11 +83,6 @@ public class VistasScheduler extends Service implements TaskService {
         return currentTask;
     }
 
-    @Override
-    public int schduleAsyncRepeatingTask(Runnable runnable, int delayUntilFirst, int tickInterval) {
-        return scheduleAsyncRepeatingTask(runnable, delayUntilFirst, tickInterval);
-    }
-
     public boolean isCancelled(int task) {
         return !runningTasks.contains(task);
     }
