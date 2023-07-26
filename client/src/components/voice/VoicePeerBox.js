@@ -16,10 +16,6 @@ class VoicePeerBox extends React.Component {
             return <VoicePeerRow loading={peer.loading} name={peer.name} key={peer.uuid} streamKey={peer.streamKey} uuid={peer.uuid} speaking={peer.speaking} muted={peer.muted}/>
         });
 
-        // add two test peers
-        peers.push(<VoicePeerRow name={"Test"} key={"test1"} streamKey={"test1"} uuid={"test1"} speaking={true} muted={false}/>);
-        peers.push(<VoicePeerRow name={"Test"} key={"test2"} streamKey={"test2"} uuid={"test2"} speaking={false} muted={false}/>);
-
         // split array in two
         let half = Math.ceil(peers.length / 2);
         let left = peers.slice(0, half);
