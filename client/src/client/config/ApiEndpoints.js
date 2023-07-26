@@ -7,9 +7,9 @@ export const API_ENDPOINT = {
 
     // backend stuff
     ERROR_REPORTING: "https://plus.openaudiomc.net/cf-log/production",
-    CLIENT_SESSION_SERVER: "https://plus.openaudiomc.net/session",
     STREAMER_MODE: "https://api.openaudiomc.net/client/streamermode/",
 
+    CLIENT_SESSION_SERVER: "https://gateway.openaudiomc.net/session",
     GET_SETTINGS: "https://gateway.openaudiomc.net/api/v3/account-services/settings/",
     PREAUTH_WS: "wss://gateway.openaudiomc.net/api/v1/client-preauth",
 
