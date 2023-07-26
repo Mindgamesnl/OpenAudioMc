@@ -91,9 +91,15 @@ public class ClientAuth implements Serializable {
             messageToSend = StorageKey.MESSAGE_CLICK_TO_CONNECT;
         }
 
+        String ourMessage = messageToSend.getString();
+
+        // replace the {domain} with the url
+        ourMessage = ourMessage.replace("{domain}", baseUrl);
+
+        String finalOurMessage = ourMessage;
         sessionRequest.setWhenFinished(token -> {
             String url = baseUrl + "#" + token;
-            String msgText = translateColors(messageToSend.getString()
+            String msgText = translateColors(finalOurMessage
                     .replace("{url}", url)
                     .replace("{token}", token));
             client.getUser().sendClickableUrlMessage(msgText, StorageKey.MESSAGE_HOVER_TO_CONNECT.getString(), url);
