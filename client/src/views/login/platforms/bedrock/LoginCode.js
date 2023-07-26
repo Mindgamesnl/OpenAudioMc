@@ -103,7 +103,7 @@ export class LoginCode extends React.Component {
 
             if (this.state.errored) {
                 text = "Error connecting";
-                subtext = "Something went wrong, please try again later
+                subtext = "Something went wrong, please try again later";
             }
 
             if (this.state.connected) {
