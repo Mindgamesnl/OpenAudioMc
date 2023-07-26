@@ -33,8 +33,8 @@ public class VistasConfiguration extends Service implements Configuration {
         }
     }
 
-    private final Map<String, Object> mainConfig;
-    private final Map<String, Object> dataConfig;
+    private Map<String, Object> mainConfig;
+    private Map<String, Object> dataConfig;
     private File dataFile;
     private File configFile;
 
@@ -43,21 +43,7 @@ public class VistasConfiguration extends Service implements Configuration {
     public VistasConfiguration() {
         OpenAudioLogger.toConsole("Using storage base path " + BASE_PATH);
         MagicValue.overWrite(MagicValue.STORAGE_DIRECTORY, new File(VistasConfiguration.BASE_PATH));
-        dataFile = new File(BASE_PATH + "/data.yml");
-        configFile = new File(BASE_PATH + "/config.yml");
-
-        if (!dataFile.exists()) {
-            OpenAudioLogger.toConsole("Creating data.yml");
-            dataFile = new File(FileUtil.exportResource("/data.yml", OpenAudioMc.class, new File(BASE_PATH)));
-        }
-
-        if (!configFile.exists()) {
-            OpenAudioLogger.toConsole("Creating config.yml");
-            configFile = new File(FileUtil.exportResource("/config.yml", OpenAudioMc.class, new File(BASE_PATH)));
-        }
-
-        mainConfig = new Yaml().load(new FileInputStream(configFile));
-        dataConfig = new Yaml().load(new FileInputStream(dataFile));
+        reloadConfig();
     }
 
     private Object resolve(String key, StorageLocation location) {
@@ -126,6 +112,17 @@ public class VistasConfiguration extends Service implements Configuration {
     @SneakyThrows
     @Override
     public void overwriteConfigFile() {
+        // delete current file
+        if (dataFile.exists()) {
+            dataFile.delete();
+        }
+
+        if (configFile.exists()) {
+            configFile.delete();
+        }
+
+        FileUtil.exportResource("/data.yml", OpenAudioMc.class, new File(BASE_PATH));
+        FileUtil.exportResource("/config.yml", OpenAudioMc.class, new File(BASE_PATH));
     }
 
     @Override
@@ -259,8 +256,23 @@ public class VistasConfiguration extends Service implements Configuration {
     }
 
     @Override
+    @SneakyThrows
     public void reloadConfig() {
+        dataFile = new File(BASE_PATH + "/data.yml");
+        configFile = new File(BASE_PATH + "/config.yml");
 
+        if (!dataFile.exists()) {
+            OpenAudioLogger.toConsole("Creating data.yml");
+            dataFile = new File(FileUtil.exportResource("/data.yml", OpenAudioMc.class, new File(BASE_PATH)));
+        }
+
+        if (!configFile.exists()) {
+            OpenAudioLogger.toConsole("Creating config.yml");
+            configFile = new File(FileUtil.exportResource("/config.yml", OpenAudioMc.class, new File(BASE_PATH)));
+        }
+
+        mainConfig = new Yaml().load(new FileInputStream(configFile));
+        dataConfig = new Yaml().load(new FileInputStream(dataFile));
     }
 
     @Override

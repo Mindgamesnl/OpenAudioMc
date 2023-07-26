@@ -8,7 +8,7 @@ messages:
   # The message the client gets when executing /audio of joins (if send-on-join is enabled)
   click-to-connect: '\n&b&lClick &ahere&b&l to open the Web Client!\n&3This lets you use &dProximity Voice Chat&3 and in-game &daudio&3!\n '
   # an alternate version of this message for bedrock users
-  connect-prompt-bedrock: '\n&b&lThis server supports &aProximity Voice Chat&b&!\nGo to {domain} in your web-browser to get started.\n'
+  connect-prompt-bedrock: '\n&b&lThis server supports &aProximity Voice Chat&b&l!\n&b&lGo to {domain} in your web-browser to get started.\n '
 
   # The message a player receives when a session error occurs
   session-error: '&cAn error occurred while generating your audio session. please report the problem and try again later.'

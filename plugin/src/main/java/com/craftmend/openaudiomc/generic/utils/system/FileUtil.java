@@ -42,6 +42,33 @@ public class FileUtil {
         return jarFolder + resourceName;
     }
 
+    public static String readResource(String resourceName, Class c) {
+        InputStream stream = null;
+        try {
+            stream = c.getResourceAsStream(resourceName);//note that each / is a directory down in the "jar tree" been the jar the root of the tree
+            if(stream == null) {
+                throw new Exception("Cannot get resource \"" + resourceName + "\" from Jar file.");
+            }
+
+            StringBuilder builder = new StringBuilder();
+            int readBytes;
+            byte[] buffer = new byte[4096];
+            while ((readBytes = stream.read(buffer)) > 0) {
+                builder.append(new String(buffer, 0, readBytes));
+            }
+            return builder.toString();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        } finally {
+            try {
+                stream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @SneakyThrows
     public static String jarFolder() {
         return new File(FileUtil.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParentFile().getPath().replace('\\', '/');

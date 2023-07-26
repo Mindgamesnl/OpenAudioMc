@@ -34,10 +34,10 @@ public final class VistasServer implements OpenAudioInvoker {
 
     public VistasServer() {
         instance = this;
-        File temp = new File(VistasConfiguration.BASE_PATH);
-        if (!temp.exists()) {
+        File basePath = new File(VistasConfiguration.BASE_PATH);
+        if (!basePath.exists()) {
             OpenAudioLogger.toConsole("Creating base path");
-            temp.mkdir();
+            basePath.mkdir();
         }
     }
 
