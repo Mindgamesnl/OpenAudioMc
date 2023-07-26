@@ -15,6 +15,7 @@ export class VoicePeerRow extends React.Component {
         }
 
         this.onVolumeInput = this.onVolumeInput.bind(this);
+        this.toggleMuteButton = this.toggleMuteButton.bind(this);
     }
 
     static propTypes = {
@@ -39,11 +40,19 @@ export class VoicePeerRow extends React.Component {
         }
     }
 
+    toggleMuteButton() {
+        if (this.state.volume === 0) {
+            this.onVolumeInput({target: {value: 100}})
+        } else {
+            this.onVolumeInput({target: {value: 0}})
+        }
+    }
+
     render() {
         // get props
         let {name, muted, speaking, uuid, loading} = this.props;
 
-        let avatarClass = "avatar w-16";
+        let avatarClass = "avatar w-16 rounded-2xl";
         if (speaking) {
             avatarClass += " speaking";
         }
@@ -58,13 +67,13 @@ export class VoicePeerRow extends React.Component {
         }
 
         let showVolume = !this.props.hideVolume;
-
         let hasAltText = this.props.altText !== undefined && this.props.altText !== null && this.props.altText !== "";
+        let volume = this.state.volume;
 
         return (
             <li className={parentClass}>
                 {loading &&
-                    <div className="absolute inset-0 flex items-center z-20 justify-center bg-gray-800 bg-opacity-70 ">
+                    <div className="absolute inset-0 flex items-center z-20 justify-center bg-gray-800 bg-opacity-70">
                         <svg className="animate-spin -ml-1 mr-3 h-10 w-10 text-white" xmlns="http://www.w3.org/2000/svg"
                              fill="none" viewBox="0 0 24 24">
                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
@@ -75,11 +84,11 @@ export class VoicePeerRow extends React.Component {
                         <small><i>Loading {name}</i></small>
                     </div>}
                 <div>
-                    <img src={"https://visage.surgeplay.com/bust/512/" + uuid} className={avatarClass}
+                    <img src={"https://visage.surgeplay.com/face/512/" + uuid} className={avatarClass}
                          alt={"Avatar for " + name}/>
                 </div>
                 <div className="flex-1">
-                    <div className="flex items-center">
+                    <div className="flex items-center hidden-on-mobile">
                         <h1 className={"mb-2"}>
                             {muted && <svg className="red inline"
                                            viewBox="0 0 24 24" fill="none"
@@ -96,9 +105,25 @@ export class VoicePeerRow extends React.Component {
                         </h1>
                     </div>
                     <div>
-                        {showVolume && <input
-                            className="volume-slider tiny-slider m-2" onChange={this.onVolumeInput}
-                            type="range" min="0" max="140" step="1" value={this.state.volume}/>}
+                        <div className={"flex flex-col xl:flex-row"}>
+                            <button
+                                onClick={this.toggleMuteButton}
+                                className={"p-2 mx-2 my-2 rounded-lg text-center justify-center " + (volume === 0 ? "bg-red-500 text-white" : "bg-yellow-400 text-black")}>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     strokeWidth={1.5} stroke="currentColor" className="m-0 !mr-0 !w-6">
+                                    {this.state.volume === 0 ?
+                                        <path strokeLinecap="round" strokeLinejoin="round"
+                                              d="M17.25 9.75L19.5 12m0 0l2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6l4.72-4.72a.75.75 0 011.28.531V19.94a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.506-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.395C2.806 8.757 3.63 8.25 4.51 8.25H6.75z"/>
+                                        :
+                                        <path strokeLinecap="round" strokeLinejoin="round"
+                                              d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"/>
+                                    }
+                                </svg>
+                            </button>
+                            {showVolume && <input
+                                className="volume-slider tiny-slider m-2" onChange={this.onVolumeInput}
+                                type="range" min="0" max="140" step="1" value={this.state.volume}/>}
+                        </div>
                         {hasAltText && <small className="soft-text text-md"> ({this.props.altText})</small>}
                     </div>
                 </div>

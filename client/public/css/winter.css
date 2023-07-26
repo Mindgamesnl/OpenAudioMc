@@ -802,7 +802,6 @@ input[type='range'] {
 
 .avatar {
     width: 40px;
-    border-radius: 50px;
     display: inline-flex;
     position: relative;
     margin-right: 10px;
@@ -1099,7 +1098,7 @@ span.tab {
 
 .speaking {
     background-color: lime;
-    box-shadow: 0 0 10pt 2pt lime;
+    box-shadow: 0 0 15pt 2pt lime;
 }
 
 .muted-self {
