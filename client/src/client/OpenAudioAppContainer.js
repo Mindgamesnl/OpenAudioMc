@@ -270,7 +270,6 @@ class OpenAudioAppContainer extends React.Component {
             .catch(e => {
                 console.error(e);
                 setGlobalState({isLoading: false});
-                fatalToast('Your current link has expired. Please run /audio again to get a new link.');
             });
 
     }
