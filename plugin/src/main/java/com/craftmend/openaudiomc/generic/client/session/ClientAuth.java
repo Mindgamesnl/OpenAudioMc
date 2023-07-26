@@ -12,6 +12,7 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
+import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.OAClientMode;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,21 @@ public class ClientAuth implements Serializable {
 
     public boolean isKeyCorrect(String input) {
         return webSessionKey.equals(input);
+    }
+
+    public void activateToken(User sender, String token) {
+        Task<Boolean> activationAttempt = OpenAudioMc.getService(AuthenticationService.class).getDriver().activateToken(token);
+        // initial loading message
+        sender.sendMessage(translateColors(StorageKey.MESSAGE_TOKEN_ACTIVATION_LOADING.getString()));
+
+        activationAttempt.setWhenFailed((error) -> {
+            sender.sendMessage(translateColors(StorageKey.MESSAGE_TOKEN_ACTIVATION_FAILED.getString()));
+            OpenAudioLogger.toConsole("Failed to activate token for " + sender.getName() + ", the code they entered is invalid or has expired.");
+        });
+
+        activationAttempt.setWhenFinished((r) -> {
+            sender.sendMessage(translateColors(StorageKey.MESSAGE_TOKEN_ACTIVATION_SUCCESS.getString()));
+        });
     }
 
     public void publishSessionUrl() {

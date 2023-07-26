@@ -75,24 +75,13 @@ messages:
   # or you can disable it entirely by following the settings below.
   voicechat-players-in-vicinity: '&7&oGet social! Other players in your vicinity are using voice chat - join them and communicate. Use &b/audio&7&o to connect.'
 
-bedrock:
-  # These settings are to provide some automatic handholding for Bedrock users.
-  # Please take some time to go over these settings and adjust them based on your geyser configuration.
-  # This message shows as a SUBTITLE for the token prompt
-  token-subtitle: '&7&oEnter this code on &b__address__'
-
-  # This message gets shown whenever a title is requested while another prompt is already active
-  token-subtitle-busy: '&c&oYou already have a pending token prompt. Please enter that one first.'
-
-  # The amount of seconds the token prompt will be shown for
-  token-display-duration: 35
-
-  # OA will automatically send the token to the Bedrock client, if a player is detected as one
-  # based on their name prefix, which defaults to '.'. If you have a custom prefix, you can set it here
-  # or you can disable this feature entirely
-  bedrock-name-prefix: '.'
-  bedrock-auto-send-token: true
-
+  # The following messages are for the new "revised" authentication flow.
+  # Users who have a client tab open with the bedrock flow till automatically be logged in when a player joins with the same IP address,
+  # but users who don't have a tab open will be prompted to login with a code.
+  # That code needs to be entered in-game, and these messages are used for that.
+  token-activation-loading: '&7&oPlease wait while we activate your token..'
+  token-activation-success: '&7&oYour token has been activated! You can now use the web client.'
+  token-activation-failed: '&7&oYour token could not be activated. Please try again or double check your code.'
 
 options:
   # If set to true, the player automatically receives a link upon joining

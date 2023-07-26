@@ -6,12 +6,12 @@ import com.craftmend.openaudiomc.generic.migrations.interfaces.SimpleMigration;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 
-public class AddBedrockSettingsMigration extends SimpleMigration {
+public class TokenMessageMigration extends SimpleMigration {
 
     @Override
     public boolean shouldBeRun(MigrationWorker migrationWorker) {
         Configuration config = OpenAudioMc.getInstance().getConfiguration();
-        return !config.hasStorageKey(StorageKey.BEDROCK_PROMPT_BUSY);
+        return !config.hasStorageKey(StorageKey.MESSAGE_TOKEN_ACTIVATION_SUCCESS);
     }
 
     @Override
