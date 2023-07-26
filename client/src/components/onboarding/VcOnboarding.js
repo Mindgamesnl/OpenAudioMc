@@ -31,7 +31,7 @@ export class VcOnboarding extends React.Component {
                     className="content-card-collection items-stretch">
                     <div className={"flex justify-center"}>
                         <div className="content-card wide-card pt-0 pb-0">
-                            <div className="content-card-content pt-0 pb-0 h-full">
+                            <div className="content-card-content pt-0 pb-0">
                                 <span className={"pt-5 inline"}><svg width="24" height="24" viewBox="0 0 24 24" strokeWidth="2"
                                                                        stroke="currentColor" fill="none" strokeLinecap="round"
                                                                        strokeLinejoin="round" className={"inline"}>

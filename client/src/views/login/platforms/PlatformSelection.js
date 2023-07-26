@@ -4,6 +4,7 @@ import java from "./editions/alt_java.png"
 import bedrock from "./editions/alt_bedrock.png"
 import {BedrockAuthFlow} from "./bedrock/BedrockAuthFlow";
 import {FadeToCtx} from "../../../components/contexts";
+import {LoginForm} from "../../../components/loginform/LoginForm";
 
 export class PlatformSelection extends React.Component {
 
@@ -64,17 +65,8 @@ export class PlatformSelection extends React.Component {
                                     </div>
                                 </div>
                                 <div className={"grid content-end h-full"}>
-                                    <div className="w-full flex justify-center align-middle">
-                                        <p className="w-3/4 text-center  text-white text-sm mb-8 tracking-wide">
-                                            Run OpenAudioMc in a browser window while you play on this computer
-                                        </p>
-                                    </div>
-                                    <div className={"w-full flex justify-center align-middle"}>
-                                        <button
-                                            onClick={this.startBedrock}
-                                            className={btnClass}>
-                                            Continue to Normal Setup
-                                        </button>
+                                    <div className={"w-full flex justify-center align-middle text-white "}>
+                                        <LoginForm />
                                     </div>
                                 </div>
                             </div>

@@ -17,7 +17,7 @@ const initialState = {
     currentUser: null,
 
     debug: false,
-    isLegacy: false,
+    ignoreUrlToken: false,
 
     relay: {
         endpoint: null,

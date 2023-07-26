@@ -10,8 +10,10 @@ import {msg} from "../../../../client/OpenAudioAppContainer";
 
 class AudioPage extends React.Component {
 
+
+
     render() {
-        if (this.context.clickLock) {
+        if (this.props.clickLock) {
             return <ClickPrompt/>;
         }
 
@@ -34,5 +36,6 @@ function mapStateToProps(state) {
         browserSupportsVoiceChat: state.browserSupportsVoiceChat,
         voiceState: state.voiceState,
         clientSupportsVoiceChat: state.clientSupportsVoiceChat,
+        clickLock: state.clickLock,
     };
 }

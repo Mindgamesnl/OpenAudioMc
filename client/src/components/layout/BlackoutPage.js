@@ -44,7 +44,7 @@ export class BlackoutPage extends React.Component {
                     </div>
                 </>}
 
-                {!hasBackground && <div className="overflow-y-auto p-0 m-0" {...passableProps}>{this.props.children}</div>}
+                {!hasBackground && <div className=" p-0 m-0 flex justify-center align-middle" {...passableProps}>{this.props.children}</div>}
             </div>
         );
     }

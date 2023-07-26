@@ -1,4 +1,3 @@
-import {createContext} from "react";
 import React from "react";
 
 import {getGlobalState, setGlobalState, shouldSettingSave, store} from "../state/store";
@@ -29,7 +28,10 @@ class OpenAudioAppContainer extends React.Component {
         this.handleGlobalClick = this.handleGlobalClick.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
         this.attemptLoginWithTokenSet = this.attemptLoginWithTokenSet.bind(this);
+        this.bootApp = this.bootApp.bind(this);
+
         OAC.attemptLoginWithTokenSet = this.attemptLoginWithTokenSet;
+        OAC.bootApp = this.bootApp;
 
         this.messageModule = new MessageModule()
 
@@ -91,7 +93,7 @@ class OpenAudioAppContainer extends React.Component {
             loadingState: "Welcome " + tokenSet.name + "! Loading your data...",
         });
 
-        debugLog("Token '"+ tokenSet.token + "' loaded for user '" + tokenSet.name + "'");
+        debugLog("Token '" + tokenSet.token + "' loaded for user '" + tokenSet.name + "'");
 
         let publicServerKey = tokenSet.publicServerKey;
 
@@ -162,10 +164,7 @@ class OpenAudioAppContainer extends React.Component {
         debugLog("Server is premium: " + serverData.isPatreon);
         debugLog("Server bucket folder: " + serverData.bucketFolder);
 
-        let legacy = serverData.isRegisteredOnNewPlatform != null && !serverData.isRegisteredOnNewPlatform;
-
         setGlobalState({
-            isLegacy: legacy,
             lang: {"serverName": serverData.displayName},
             isPremium: serverData.isPatreon || serverData.voicechatSlots > 10,
             bucketFolder: serverData.bucketFolder,
@@ -219,6 +218,11 @@ class OpenAudioAppContainer extends React.Component {
     }
 
     componentDidMount() {
+        if (getGlobalState().ignoreUrlToken) {
+            console.log("Ignoring url token")
+            return
+        }
+
         // check if the current url has testMode as a variable
         let url = new URL(window.location.href);
         let testMode = url.searchParams.get("testMode");
@@ -247,7 +251,6 @@ class OpenAudioAppContainer extends React.Component {
                 setGlobalState({loadingState: "Attempting login"});
             })
             .then(() => sessionLoader.initialize())
-
             // load player token
             .then(tokenSet => {
                 if (tokenSet == null) {
@@ -272,23 +275,27 @@ class OpenAudioAppContainer extends React.Component {
 
     }
 
+    bootApp() {
+        WorldModule.initPlayer();
+        MediaManager.postBoot();
+        SocketManager.connectToServer(getGlobalState().relay.endpoint);
+        setGlobalState({clickLock: false});
+        this.setState({didUnlock: true});
+    }
+
     handleGlobalClick() {
         if (this.props.currentUser == null) return;
         if (this.state.allowedToUnlock) {
             if (!this.state.didUnlock) {
                 // initialize OpenAudio
-                WorldModule.initPlayer();
-                MediaManager.postBoot();
-                SocketManager.connectToServer(getGlobalState().relay.endpoint);
-                setGlobalState({clickLock: false});
-                this.setState({didUnlock: true});
+                this.bootApp()
             }
         }
     }
 
     render() {
         return (
-            <div className={"h-full"} onClick={this.handleGlobalClick}>
+            <div className={"h-screen"} onClick={this.handleGlobalClick}>
                 <OAC.Provider value={store.getState()}>
                     {this.props.children}
                 </OAC.Provider>

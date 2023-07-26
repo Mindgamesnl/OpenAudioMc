@@ -3,7 +3,6 @@ import {getTranslation} from "../../client/OpenAudioAppContainer";
 import PropTypes from "prop-types";
 import {showTextModal} from "../modal/InputModal";
 import {connect} from "react-redux";
-import {reportVital} from "../../client/util/vitalreporter";
 
 export let setTab = (tab) => {
     console.warn("TAB HANDLER IS NOT SET YET");
@@ -22,13 +21,6 @@ class TabWindow extends Component {
     componentDidMount() {
         setTab = (tab) => {
             this.setState({activePage: tab});
-        }
-
-        if (this.props.isLegacy) {
-            reportVital("legacy warning").then(r => {
-                window.location.href = "https://minecraftvoicechat.com/docs/legacy_craftmend"
-            })
-
         }
     }
 
@@ -74,8 +66,6 @@ class TabWindow extends Component {
 
         if (!this.props.navbarDetails) pill = ""
 
-        let legacy = this.props.isLegacy;
-
         let navbarButtons = pages.map((page, index) => (
             <span className="tab" key={index}>
                                 <label
@@ -108,8 +98,6 @@ class TabWindow extends Component {
                                      className="rounding-top rounding-bottom inline mr-5 w-9 h-9" alt="avatar"/>}
                             {getTranslation(null, "serverName")}
                             {pill}
-                            {legacy && <button onClick={this.openUpgradeDialog}
-                                               className="content-pill status-button ml-2 green">{getTranslation(null, "navbar.upgradeRequired")}</button>}
                         </div>
                     </span>
 
@@ -135,7 +123,6 @@ export default connect(mapStateToProps)(TabWindow);
 function mapStateToProps(state) {
     return {
         isPremium: state.isPremium,
-        isLegacy: state.isLegacy,
         currentUser: state.currentUser,
         navbarDetails: state.navbarDetails,
         clickLock: state.clickLock

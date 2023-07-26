@@ -32,7 +32,7 @@ export class BedrockAuthFlow extends React.Component {
     }
 
     componentDidMount() {
-        setGlobalState({voiceState: {autoJoinVoiceChat: true}});
+        setGlobalState({voiceState: {autoJoinVoiceChat: true}, ignoreUrlToken: true})
     }
 
     supportsNotificationPermissions() {

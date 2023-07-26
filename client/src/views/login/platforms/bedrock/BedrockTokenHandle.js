@@ -2,7 +2,6 @@ import React from "react";
 import {BlackoutPage} from "../../../../components/layout/BlackoutPage";
 import {LoginCode} from "./LoginCode";
 import {FadeToCtx, OAC} from "../../../../components/contexts";
-import FadeTo from "../../../../components/fadeto/fadeto";
 
 export class BedrockTokenHandle extends React.Component {
 
@@ -14,8 +13,11 @@ export class BedrockTokenHandle extends React.Component {
     }
 
     handleCode(code) {
-        console.log(JSON.parse(code))
+        // unlock
         OAC.attemptLoginWithTokenSet(JSON.parse(code))
+            .then((res) => {
+                OAC.bootApp()
+            })
             .catch((err) => {
                 console.log(err)
                 this.context.fadeToComponent(null)

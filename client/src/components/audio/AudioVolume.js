@@ -195,7 +195,7 @@ class AudioVolume extends React.Component {
                     </div>
 
                     <div className="hidden-on-mobile lg:w-4/5 lg:ml-auto">
-                        <div className="flex justify-end h-full">
+                        <div className="flex justify-end h-auto">
                             <img className="h-auto lg:h-full object-cover serverimage" alt={""}/>
                         </div>
                     </div>
