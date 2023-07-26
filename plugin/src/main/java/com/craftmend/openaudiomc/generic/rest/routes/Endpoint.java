@@ -16,8 +16,9 @@ public enum Endpoint {
     CLAIM_CODE("https://account.openaudiomc.net", "/api/v1/installation/claim-code/_public_key_/_private_key_", true),
 
     // services
-    CREATE_SESSION_TOKEN("https://cloud.openaudiomc.net", "/session", false, false),
-    DIRECT_REST("https://cloud.openaudiomc.net", "/direct-rest", false, false),
+    CREATE_SESSION_TOKEN("https://gateway.openaudiomc.net", "/session", false, false),
+    ACTIVATE_SESSION_TOKEN("https://gateway.openaudiomc.net", "/session/activate", false, false),
+    DIRECT_REST("https://gateway.openaudiomc.net", "/direct-rest", false, false),
 
     // voice
     VOICE_PREFLIGHT_CHECK("", "/eb/check", false),

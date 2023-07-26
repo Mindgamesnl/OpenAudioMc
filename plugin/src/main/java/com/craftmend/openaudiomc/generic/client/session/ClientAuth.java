@@ -2,7 +2,6 @@ package com.craftmend.openaudiomc.generic.client.session;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
-import com.craftmend.openaudiomc.generic.client.TitleSessionService;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
@@ -57,9 +56,6 @@ public class ClientAuth implements Serializable {
         }
 
         OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> OpenAudioMc.getService(NetworkingService.class).connectIfDown());
-
-        // bedrock hook
-        OpenAudioMc.getService(TitleSessionService.class).attemptAutoStart(client.getUser());
 
         // sending waiting message
         client.getUser().sendMessage(translateColors(StorageKey.MESSAGE_GENERATING_SESSION.getString()));

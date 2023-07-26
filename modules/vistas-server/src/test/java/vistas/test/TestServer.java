@@ -82,13 +82,15 @@ public class TestServer extends TestCase {
         OpenAudioMc.getService(VistasRedisServer.class).getPacketEvents().handlePacket(null, new UserJoinPacket(
                 mats.getName(),
                 mats.getUuid(),
-                fakeServer1
+                fakeServer1,
+                "localhost"
         ));
 
         OpenAudioMc.getService(VistasRedisServer.class).getPacketEvents().handlePacket(null, new UserJoinPacket(
                 anouk.getName(),
                 anouk.getUuid(),
-                fakeServer1
+                fakeServer1,
+                "localhost"
         ));
 
         // check if server 1 has two players, and server 2 has none
@@ -99,13 +101,15 @@ public class TestServer extends TestCase {
         OpenAudioMc.getService(VistasRedisServer.class).getPacketEvents().handlePacket(null, new UserJoinPacket(
                 mats.getName(),
                 mats.getUuid(),
-                fakeServer2
+                fakeServer2,
+                "localhost"
         ));
 
         OpenAudioMc.getService(VistasRedisServer.class).getPacketEvents().handlePacket(null, new UserJoinPacket(
                 anouk.getName(),
                 anouk.getUuid(),
-                fakeServer2
+                fakeServer2,
+                "localhost"
         ));
 
         OpenAudioMc.getService(VistasRedisServer.class).getPacketEvents().handlePacket(null, new UserLeavePacket(

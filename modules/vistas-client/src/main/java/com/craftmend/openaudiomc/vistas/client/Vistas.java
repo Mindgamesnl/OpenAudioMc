@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.state.states.WorkerState;
+import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.ProxyModule;
 import com.craftmend.openaudiomc.vistas.client.client.ClientUserHooks;
@@ -83,11 +84,18 @@ public final class Vistas extends ExternalModule implements Listener {
     public void registerSelf() {
         OpenAudioMc.getService(VistasRedisClient.class).sendPacket(new ServerRegisterPacket(serverId));
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+            User user = OpenAudioMc.resolveDependency(UserHooks.class).byUuid(onlinePlayer.getUniqueId());
+
+            if (user == null) {
+                continue;
+            }
+
             OpenAudioMc.getService(VistasRedisClient.class).sendPacket(
                     new UserJoinPacket(
                             onlinePlayer.getName(),
                             onlinePlayer.getUniqueId(),
-                            serverId
+                            serverId,
+                            user.getIpAddress()
                     )
             );
         }

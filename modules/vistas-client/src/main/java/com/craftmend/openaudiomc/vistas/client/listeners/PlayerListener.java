@@ -1,6 +1,10 @@
 package com.craftmend.openaudiomc.vistas.client.listeners;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
+import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
+import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.vistas.client.Vistas;
 import com.craftmend.openaudiomc.vistas.client.client.VistasRedisClient;
@@ -29,11 +33,20 @@ public class PlayerListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         // delay one second to prevent fuckery lol
         int task = OpenAudioMcSpigot.getInstance().getServer().getScheduler().runTaskLaterAsynchronously(OpenAudioMcSpigot.getInstance(), () -> {
+            // get user for this player
+            User user = OpenAudioMc.resolveDependency(UserHooks.class).byUuid(event.getPlayer().getUniqueId());
+
+            if (user == null) {
+                OpenAudioLogger.toConsole("WARNING! Vistas player join user is null");
+                return;
+            }
+
             OpenAudioMc.getService(VistasRedisClient.class).sendPacket(
                     new UserJoinPacket(
                             event.getPlayer().getName(),
                             event.getPlayer().getUniqueId(),
-                            module.getServerId()
+                            module.getServerId(),
+                            user.getIpAddress()
                     )
             );
             joinCancels.remove(event.getPlayer().getUniqueId());

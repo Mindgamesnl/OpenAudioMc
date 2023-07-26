@@ -29,9 +29,26 @@ public class AuthenticationDriver {
     }
 
     public void initCache() {
-        sessionCacheMap = new ConcurrentHeatMap<>(60, 100, () -> {
-            return "";
+        sessionCacheMap = new ConcurrentHeatMap<>(60, 100, () -> "");
+    }
+
+    public Task<Boolean> activateToken(String token) {
+        Task<Boolean> task = new Task<>();
+        OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> {
+            ClientTokenRequestBody requestBody = ClientTokenRequestBody.withActivateToken(token);
+
+            RestRequest<SimpleTokenResponse> request = new RestRequest<>(SimpleTokenResponse.class, Endpoint.ACTIVATE_SESSION_TOKEN);
+            request.withPostJsonObject(requestBody);
+            request.run();
+
+            if (request.hasError()) {
+                task.fail(request.getError());
+                return;
+            }
+
+            task.finish(request.getResponse().getSent());
         });
+        return task;
     }
 
     public Task<String> createPlayerSession(Authenticatable authenticatable) {
@@ -56,10 +73,12 @@ public class AuthenticationDriver {
                     authenticatable.getOwner().getName(),
                     authenticatable.getOwner().getUniqueId().toString(),
                     authenticatable.getAuth().getWebSessionKey(),
-                    service.getServerKeySet().getPublicKey().getValue()
+                    service.getServerKeySet().getPublicKey().getValue(),
+                    authenticatable.getOwner().getIpAddress(),
+                    null // unused here, this isn't reverse auth
             );
 
-            RestRequest<SimpleTokenResponse> request = new RestRequest(SimpleTokenResponse.class, Endpoint.CREATE_SESSION_TOKEN);
+            RestRequest<SimpleTokenResponse> request = new RestRequest<>(SimpleTokenResponse.class, Endpoint.CREATE_SESSION_TOKEN);
             request.withPostJsonObject(requestBody);
             request.run();
 
