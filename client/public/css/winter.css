@@ -1116,7 +1116,7 @@ span.tab {
 
 .muted-self {
     /* grayscale and blur */
-    filter: grayscale(100%) blur(2px);
+    filter: grayscale(100%) blur(7px);
 }
 
 .hiddennp {
