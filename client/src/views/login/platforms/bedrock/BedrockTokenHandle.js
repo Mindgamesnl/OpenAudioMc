@@ -2,6 +2,7 @@ import React from "react";
 import {BlackoutPage} from "../../../../components/layout/BlackoutPage";
 import {LoginCode} from "./LoginCode";
 import {FadeToCtx, OAC} from "../../../../components/contexts";
+import {BetaWarningBanner} from "./BetaWarningBanner";
 
 export class BedrockTokenHandle extends React.Component {
 
@@ -27,6 +28,7 @@ export class BedrockTokenHandle extends React.Component {
     render() {
         return (
             <BlackoutPage coverImage={"/assets/bg.png"}>
+                <BetaWarningBanner/>
                 <div className="relative bg-gradient-to-bl via-gray-900 from-stone-900 to-gray-900">
                     <div
                         className="relative mx-auto xl:max-w-7xl py-12 px-6 lg:px-8 lg:py-8 xl:border-l-8 border-solid border-indigo-900">
