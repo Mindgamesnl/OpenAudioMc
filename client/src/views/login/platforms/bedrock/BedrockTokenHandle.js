@@ -28,8 +28,8 @@ export class BedrockTokenHandle extends React.Component {
     render() {
         return (
             <BlackoutPage coverImage={"/assets/bg.png"}>
-                <BetaWarningBanner/>
                 <div className="relative bg-gradient-to-bl via-gray-900 from-stone-900 to-gray-900">
+                    <BetaWarningBanner/>
                     <div
                         className="relative mx-auto xl:max-w-7xl py-12 px-6 lg:px-8 lg:py-8 xl:border-l-8 border-solid border-indigo-900">
                         <div className="md:ml-auto">

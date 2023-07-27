@@ -134,11 +134,11 @@ export class BedrockAuthFlow extends React.Component {
         let hasMicrophone = this.state.microphoneOptions.length > 0;
 
         return (
-            <BlackoutPage>
-                <div className="relative bg-gradient-to-bl via-gray-900 from-stone-900 to-gray-900">
+            <BlackoutPage extraClasses={"overflow-y-scroll"}>
+                <div className="bg-gradient-to-bl via-gray-900 from-stone-900 to-gray-900 overflow-y-auto overflow-auto">
                     <BetaWarningBanner/>
                     <div
-                        className="relative mx-auto xl:max-w-7xl py-12 px-6 lg:px-8 lg:py-8 xl:border-l-8 border-solid border-indigo-900">
+                        className="relative mx-auto xl:max-w-7xl py-12 px-6 lg:px-8 lg:py-8 xl:border-l-8 border-solid border-indigo-900 flex-none">
                         <div className="md:ml-auto">
                             <h2 className="text-lg font-semibold text-gray-300">Connecting with</h2>
                             <p className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
@@ -199,23 +199,21 @@ export class BedrockAuthFlow extends React.Component {
                                 <div
                                     className={"border-t-2 mx-5 my-5 border-r-2 border-solid border-gray-700 rounded-full"}/>
 
-                                <div className={"pb-2 w-full"}>
-                                    {meetsRequirements ? <div className={"w-full flex justify-center align-middle"}>
-                                            <button
-                                                onClick={this.continue.bind(this)}
-                                                className={"bg-green-400 w-full py-4 px-2 rounded-md text-gray-900 mt-4"}
-                                            >Continue
-                                            </button>
-                                        </div>
-                                        : <div className={"w-full flex justify-center align-middle"}>
-                                            <button
-                                                disabled={true}
-                                                className={"w-full bg-gray-800 py-4 px-2 rounded-md text-gray-400 mt-4"}
-                                            >
-                                                You need to enable all permissions before you can continue
-                                            </button>
-                                        </div>}
-                                </div>
+
+                                {meetsRequirements ?
+                                    <button
+                                        onClick={this.continue.bind(this)}
+                                        className={"bg-green-400 w-full py-4 px-2 rounded-md text-gray-900 mt-4"}
+                                    >Continue
+                                    </button>
+                                    :
+                                    <button
+                                        disabled={true}
+                                        className={"w-full bg-gray-800 py-4 px-2 rounded-md text-gray-400 mt-4"}
+                                    >
+                                        You need to enable all permissions before you can continue
+                                    </button>
+                                }
                             </div>
                         </div>
                     </div>

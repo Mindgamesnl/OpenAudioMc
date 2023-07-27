@@ -5,10 +5,12 @@ export class BlackoutPage extends React.Component {
 
     static propTypes = {
         coverImage: PropTypes.string,
+        extraClasses: PropTypes.string,
     }
 
     static defaultProps = {
         coverImage: null,
+        extraClasses: "",
     }
 
     render() {
@@ -44,7 +46,7 @@ export class BlackoutPage extends React.Component {
                     </div>
                 </>}
 
-                {!hasBackground && <div className=" p-0 m-0 flex justify-center align-middle" {...passableProps}>{this.props.children}</div>}
+                {!hasBackground && <div className={" p-0 m-0 flex justify-center align-middle " + this.props.extraClasses} {...passableProps}>{this.props.children}</div>}
             </div>
         );
     }
