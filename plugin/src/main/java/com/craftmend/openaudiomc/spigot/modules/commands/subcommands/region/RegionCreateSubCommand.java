@@ -32,6 +32,11 @@ public class RegionCreateSubCommand extends SubCommand {
             }
         }
 
+        if (volume < 0 || volume > 100) {
+            message(sender, ChatColor.RED + "The volume must be between 0 and 100");
+            return;
+        }
+
         if (!openAudioMcSpigot.getRegionModule().getRegionAdapter().doesRegionExist(args[1])) {
             message(sender, ChatColor.RED + "ERROR! There is no WorldGuard region called '" + args[1]
                     + "'. Please make the WorldGuard region before you register it in OpenAudioMc.");
