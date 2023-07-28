@@ -1,7 +1,6 @@
 package com.craftmend.openaudiomc.velocity.modules.commands.commands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.client.TitleSessionService;
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 
@@ -10,18 +9,12 @@ import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMi
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
-import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.user.adapters.VelocityUserAdapter;
-import com.craftmend.openaudiomc.generic.utils.system.CommonArgUtil;
 import com.craftmend.openaudiomc.velocity.modules.player.objects.VelocityPlayerSelector;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
-import net.kyori.adventure.text.Component;
-import org.bukkit.ChatColor;
-
-import static com.craftmend.openaudiomc.generic.platform.Platform.translateColors;
 
 public class VelocityAudioCommand implements SimpleCommand {
 
@@ -40,8 +33,12 @@ public class VelocityAudioCommand implements SimpleCommand {
         if (source instanceof Player) {
             Player player = (Player) source;
 
-            if (CommonArgUtil.asTitle(invocation.arguments())) {
-                OpenAudioMc.getService(TitleSessionService.class).startTokenDisplay(user);
+            // do we have an argument called "token",  "bedrock" or "key"?
+            if (invocation.arguments().length == 1) {
+                OpenAudioMc.getService(NetworkingService.class).getClient(user.getUniqueId()).getAuth().activateToken(
+                        user,
+                        invocation.arguments()[0]
+                );
                 return;
             }
 

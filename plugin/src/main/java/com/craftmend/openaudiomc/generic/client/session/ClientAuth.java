@@ -2,7 +2,6 @@ package com.craftmend.openaudiomc.generic.client.session;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
-import com.craftmend.openaudiomc.generic.client.TitleSessionService;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
@@ -13,6 +12,7 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
+import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.OAClientMode;
 import lombok.AllArgsConstructor;
@@ -33,6 +33,25 @@ public class ClientAuth implements Serializable {
 
     public boolean isKeyCorrect(String input) {
         return webSessionKey.equals(input);
+    }
+
+    public void activateToken(User sender, String token) {
+        Task<Boolean> activationAttempt = OpenAudioMc.getService(AuthenticationService.class).getDriver().activateToken(client, token);
+        // initial loading message
+        sender.sendMessage(translateColors(StorageKey.MESSAGE_TOKEN_ACTIVATION_LOADING.getString()));
+
+        activationAttempt.setWhenFailed((error) -> {
+            sender.sendMessage(translateColors(StorageKey.MESSAGE_TOKEN_ACTIVATION_FAILED.getString()));
+            OpenAudioLogger.toConsole("Failed to activate token for " + sender.getName() + ", the code they entered is invalid or has expired.");
+        });
+
+        activationAttempt.setWhenFinished((r) -> {
+            if (r) {
+                sender.sendMessage(translateColors(StorageKey.MESSAGE_TOKEN_ACTIVATION_SUCCESS.getString()));
+            } else {
+                sender.sendMessage(translateColors(StorageKey.MESSAGE_TOKEN_ACTIVATION_FAILED.getString()));
+            }
+        });
     }
 
     public void publishSessionUrl() {
@@ -58,9 +77,6 @@ public class ClientAuth implements Serializable {
 
         OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> OpenAudioMc.getService(NetworkingService.class).connectIfDown());
 
-        // bedrock hook
-        OpenAudioMc.getService(TitleSessionService.class).attemptAutoStart(client.getUser());
-
         // sending waiting message
         client.getUser().sendMessage(translateColors(StorageKey.MESSAGE_GENERATING_SESSION.getString()));
 
@@ -70,9 +86,24 @@ public class ClientAuth implements Serializable {
             client.getUser().sendMessage(translateColors(StorageKey.MESSAGE_SESSION_ERROR.getString()));
         });
 
+        StorageKey messageToSend;
+
+        // unless we're bedrock
+        if (client.getUser().getName().startsWith(StorageKey.SETTINGS_BEDROCK_PREFIX.getString())) {
+            messageToSend = StorageKey.MESSAGE_CONNECT_PROMPT_BEDROCK;
+        } else {
+            messageToSend = StorageKey.MESSAGE_CLICK_TO_CONNECT;
+        }
+
+        String ourMessage = messageToSend.getString();
+
+        // replace the {domain} with the url
+        ourMessage = ourMessage.replace("{domain}", baseUrl);
+
+        String finalOurMessage = ourMessage;
         sessionRequest.setWhenFinished(token -> {
             String url = baseUrl + "#" + token;
-            String msgText = translateColors(StorageKey.MESSAGE_CLICK_TO_CONNECT.getString()
+            String msgText = translateColors(finalOurMessage
                     .replace("{url}", url)
                     .replace("{token}", token));
             client.getUser().sendClickableUrlMessage(msgText, StorageKey.MESSAGE_HOVER_TO_CONNECT.getString(), url);

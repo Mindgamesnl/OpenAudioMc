@@ -1,6 +1,7 @@
 import {getGlobalState} from "../../state/store";
 import {VERSION} from "../../index";
 import {getTranslation} from "../OpenAudioAppContainer";
+import {API_ENDPOINT} from "../config/ApiEndpoints";
 
 export async function reportVital(message) {
     console.log("Reporting vital: ", message);
@@ -13,7 +14,7 @@ export async function reportVital(message) {
 
     message += " | " + currentDomain + " | " + VERSION.build + " | " + serverName
 
-    await fetch("https://plus.openaudiomc.net/cf-log/development", {
+    await fetch(API_ENDPOINT.VITALS, {
         method: "POST",
         body: JSON.stringify({
             playerName: userName,

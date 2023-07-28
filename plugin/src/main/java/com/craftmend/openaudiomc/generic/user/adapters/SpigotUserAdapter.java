@@ -123,6 +123,19 @@ public class SpigotUserAdapter implements User {
     }
 
     @Override
+    public String getIpAddress() {
+        if (player instanceof Player) {
+            Player p = (Player) player;
+            if (p.getAddress() == null) return "unknown";
+            String ip = p.getAddress().getHostName();
+            if (ip != null) {
+                return ip;
+            }
+        }
+        return "unknown";
+    }
+
+    @Override
     public void sendActionbarMessage(String text) {
         Player sp = (Player) player;
         sp.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(text));

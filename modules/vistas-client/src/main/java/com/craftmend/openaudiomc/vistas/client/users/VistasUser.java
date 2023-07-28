@@ -26,6 +26,7 @@ public class VistasUser implements User {
 
     private String name;
     private UUID uuid;
+    private String ip;
 
     @Getter
     @Setter
@@ -35,9 +36,10 @@ public class VistasUser implements User {
     private boolean isSpigot = false;
     private User original = null;
 
-    public VistasUser(String name, UUID uuid) {
+    public VistasUser(String name, UUID uuid, String ip) {
         this.name = name;
         this.uuid = uuid;
+        this.ip = ip;
     }
 
     public VistasUser(String name, UUID uuid, User player) {
@@ -45,6 +47,7 @@ public class VistasUser implements User {
         this.uuid = uuid;
         this.isSpigot = true;
         this.original = player;
+        this.ip = player.getIpAddress();
     }
 
     public void registerInServer(UUID s) {
@@ -102,6 +105,14 @@ public class VistasUser implements User {
     @Override
     public UUID getUniqueId() {
         return uuid;
+    }
+
+    @Override
+    public String getIpAddress() {
+        if (isSpigot) {
+            return original.getIpAddress();
+        }
+        return ip;
     }
 
     @Override

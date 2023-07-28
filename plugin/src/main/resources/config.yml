@@ -7,6 +7,8 @@ messages:
 
   # The message the client gets when executing /audio of joins (if send-on-join is enabled)
   click-to-connect: '\n&b&lClick &ahere&b&l to open the Web Client!\n&3This lets you use &dProximity Voice Chat&3 and in-game &daudio&3!\n '
+  # an alternate version of this message for bedrock users
+  connect-prompt-bedrock: '\n&b&lThis server supports &aProximity Voice Chat&b&l!\n&b&lGo to {domain} in your web-browser to get started.\n '
 
   # The message a player receives when a session error occurs
   session-error: '&cAn error occurred while generating your audio session. please report the problem and try again later.'
@@ -75,26 +77,21 @@ messages:
   # or you can disable it entirely by following the settings below.
   voicechat-players-in-vicinity: '&7&oGet social! Other players in your vicinity are using voice chat - join them and communicate. Use &b/audio&7&o to connect.'
 
-bedrock:
-  # These settings are to provide some automatic handholding for Bedrock users.
-  # Please take some time to go over these settings and adjust them based on your geyser configuration.
-  # This message shows as a SUBTITLE for the token prompt
-  token-subtitle: '&7&oEnter this code on &b__address__'
-
-  # This message gets shown whenever a title is requested while another prompt is already active
-  token-subtitle-busy: '&c&oYou already have a pending token prompt. Please enter that one first.'
-
-  # The amount of seconds the token prompt will be shown for
-  token-display-duration: 35
-
-  # OA will automatically send the token to the Bedrock client, if a player is detected as one
-  # based on their name prefix, which defaults to '.'. If you have a custom prefix, you can set it here
-  # or you can disable this feature entirely
-  bedrock-name-prefix: '.'
-  bedrock-auto-send-token: true
-
+  # The following messages are for the new "revised" authentication flow.
+  # Users who have a client tab open with the bedrock flow till automatically be logged in when a player joins with the same IP address,
+  # but users who don't have a tab open will be prompted to login with a code.
+  # That code needs to be entered in-game, and these messages are used for that.
+  token-activation-loading: '&7&oPlease wait while we activate your token..'
+  token-activation-success: '&7&oYour token has been activated! You can now use the web client.'
+  token-activation-failed: '&7&oYour token could not be activated. Please try again or double check your code.'
 
 options:
+  # The name prefix to look for to determine if a player is playing on bedrock edition
+  bedrock-name-prefix: '.'
+
+  # This setting enabled/disables automatic authentication for bedrock users.
+  token-auto-login: true
+
   # If set to true, the player automatically receives a link upon joining
   send-on-join: true
 

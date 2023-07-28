@@ -1,4 +1,3 @@
-import {createContext} from "react";
 import React from "react";
 
 import {getGlobalState, setGlobalState, shouldSettingSave, store} from "../state/store";
@@ -15,16 +14,25 @@ import Cookies from "js-cookie";
 import {reportVital} from "./util/vitalreporter";
 import {WorldModule} from "./services/world/WorldModule";
 import {debugLog} from "./services/debugging/DebugService";
+import {FadeToCtx, OAC} from "../components/contexts";
 
-export const OAC = createContext({});
 let oldColors = ["#c0392b", "#4F46E5"]
 
 class OpenAudioAppContainer extends React.Component {
+
+    static contextType = FadeToCtx;
+
     constructor(props) {
         super(props);
 
         this.handleGlobalClick = this.handleGlobalClick.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
+        this.attemptLoginWithTokenSet = this.attemptLoginWithTokenSet.bind(this);
+        this.bootApp = this.bootApp.bind(this);
+
+        OAC.attemptLoginWithTokenSet = this.attemptLoginWithTokenSet;
+        OAC.bootApp = this.bootApp;
+
         this.messageModule = new MessageModule()
 
         this.state = {
@@ -72,7 +80,149 @@ class OpenAudioAppContainer extends React.Component {
         }
     }
 
+    async attemptLoginWithTokenSet(tokenSet) {
+        if (tokenSet == null) return;
+        setGlobalState({
+            currentUser: {
+                userName: tokenSet.name,
+                uuid: tokenSet.uuid,
+                token: tokenSet.token,
+                publicServerKey: tokenSet.publicServerKey,
+                scope: tokenSet.scope
+            },
+            loadingState: "Welcome " + tokenSet.name + "! Loading your data...",
+        });
+
+        debugLog("Token '" + tokenSet.token + "' loaded for user '" + tokenSet.name + "'");
+
+        let publicServerKey = tokenSet.publicServerKey;
+
+        // fetch server data
+        let serverDataRaw = await fetch(API_ENDPOINT.GET_SETTINGS + publicServerKey + "?name=" + tokenSet.name);
+
+        if (serverDataRaw.status !== 200) {
+            ReportError('Failed to get server details from ' + publicServerKey + ' at ' + window.location.host, tokenSet.name)
+            setGlobalState({
+                isLoading: false,
+                currentUser: null,
+            })
+            fatalToast("Failed to get server details from " + publicServerKey);
+            throw new Error("Failed to get server details from " + publicServerKey);
+        }
+
+        let serverData = await serverDataRaw.json();
+        if (serverData.error !== "NONE") {
+            ReportError('Failed to get server details from ' + publicServerKey + ' at ' + window.location.host, tokenSet.name)
+            setGlobalState({
+                isLoading: false,
+                currentUser: null,
+            })
+            fatalToast("Failed to get server details from " + publicServerKey + "! Please try again later or contact support.");
+            throw new Error("Failed to get server details from " + publicServerKey);
+        }
+
+        serverData = serverData.response;
+
+        // is the server banned or locked out?
+        if (serverData.banned) {
+            setGlobalState({
+                isBlocked: true,
+                isPersonalBlock: (serverData.isPersonalBlock != null && serverData.isPersonalBlock), // is it the account, or me?
+                isLoading: false,
+            });
+            // don't continue loading
+            reportVital('metrics:accountlocked')
+            return;
+        }
+
+        if (serverData.isVoicechatEnabled) {
+            setGlobalState({
+                voiceState: {
+                    serverHasVoiceChat: true,
+                },
+            })
+        }
+
+        if (serverData.useTranslations) {
+            let localLanguage = navigator.language || navigator.userLanguage;
+            let language = localLanguage.split("-")[0];
+            debugLog("Detected language: " + language);
+            await this.messageModule.handleCountry(language)
+        } else {
+            debugLog("Translations disabled, skipping language detection");
+            setGlobalState({
+                // overwrite some messages
+                lang: {
+                    "home.welcome": serverData.welcomeMessage,
+                    "home.activateText": serverData.startButton,
+                    "home.header": serverData.activeMessage,
+                }
+            });
+        }
+
+        debugLog("Server: " + serverData.displayName + " (" + publicServerKey + ")");
+        debugLog("Server is premium: " + serverData.isPatreon);
+        debugLog("Server bucket folder: " + serverData.bucketFolder);
+
+        setGlobalState({
+            lang: {"serverName": serverData.displayName},
+            isPremium: serverData.isPatreon || serverData.voicechatSlots > 10,
+            bucketFolder: serverData.bucketFolder,
+        });
+
+        setBgColor(serverData.color)
+        document.title = serverData.title;
+
+        if (serverData.startSound !== "") {
+            MediaManager.startSound = serverData.startSound
+        }
+
+        if (serverData.ambianceSound !== "") {
+            await MediaManager.setupAmbianceSound(serverData.ambianceSound);
+        }
+
+        if (serverData.backgroundImage !== "") {
+            // todo: remove legacy rewrite
+            setBgImage(serverData.backgroundImage)
+        }
+
+        setGlobalState({
+            voiceState: {
+                peersHidden: !serverData.showVoicePeers,
+            },
+            navbarDetails: serverData.showNavbarDetails
+        })
+
+        // is the server offline? cancel now
+        if (serverData.relayEndpoint == null) {
+            ReportError('Server ' + publicServerKey + ' is offline at ' + window.location.host, tokenSet.name)
+            setGlobalState({
+                isLoading: false,
+                currentUser: null,
+            })
+            fatalToast("Failed to connect with " + publicServerKey + "! Please try a new link from /audio, or contact server staff if the issue persists.");
+            throw new Error("Server " + publicServerKey + " is offline");
+        } else {
+            setGlobalState({
+                relay: {
+                    endpoint: serverData.relayEndpoint,
+                }
+            });
+        }
+
+        reportVital('metrics:prodlogin')
+
+        setGlobalState({isLoading: false});
+        this.setState({allowedToUnlock: true});
+        this.context.fadeToComponent(null)
+    }
+
     componentDidMount() {
+        if (getGlobalState().ignoreUrlToken) {
+            console.log("Ignoring url token")
+            return
+        }
+
         // check if the current url has testMode as a variable
         let url = new URL(window.location.href);
         let testMode = url.searchParams.get("testMode");
@@ -101,7 +251,6 @@ class OpenAudioAppContainer extends React.Component {
                 setGlobalState({loadingState: "Attempting login"});
             })
             .then(() => sessionLoader.initialize())
-
             // load player token
             .then(tokenSet => {
                 if (tokenSet == null) {
@@ -110,161 +259,13 @@ class OpenAudioAppContainer extends React.Component {
                         isLoading: false,
                         currentUser: null,
                     })
-                    fatalToast('Your current link has expired. Please run /audio again to get a new link.');
                     return
                 }
-
-                setGlobalState({
-                    currentUser: {
-                        userName: tokenSet.name,
-                        uuid: tokenSet.uuid,
-                        token: tokenSet.token,
-                        publicServerKey: tokenSet.publicServerKey,
-                        scope: tokenSet.scope
-                    },
-                    loadingState: "Welcome " + tokenSet.name + "! Loading your data...",
-                });
-
-                debugLog("Token '"+ tokenSet.token + "' loaded for user '" + tokenSet.name + "'");
                 return tokenSet;
             })
 
             // load server
-            .then(async tokenSet => {
-                if (tokenSet == null) return;
-                let publicServerKey = tokenSet.publicServerKey;
-
-                // fetch server data
-                let serverDataRaw = await fetch(API_ENDPOINT.GET_SETTINGS + publicServerKey + "?name=" + tokenSet.name);
-
-                if (serverDataRaw.status !== 200) {
-                    ReportError('Failed to get server details from ' + publicServerKey + ' at ' + window.location.host, tokenSet.name)
-                    setGlobalState({
-                        isLoading: false,
-                        currentUser: null,
-                    })
-                    fatalToast("Failed to get server details from " + publicServerKey);
-                    throw new Error("Failed to get server details from " + publicServerKey);
-                }
-
-                let serverData = await serverDataRaw.json();
-                if (serverData.error !== "NONE") {
-                    ReportError('Failed to get server details from ' + publicServerKey + ' at ' + window.location.host, tokenSet.name)
-                    setGlobalState({
-                        isLoading: false,
-                        currentUser: null,
-                    })
-                    fatalToast("Failed to get server details from " + publicServerKey + "! Please try again later or contact support.");
-                    throw new Error("Failed to get server details from " + publicServerKey);
-                }
-
-                serverData = serverData.response;
-
-                // is the server banned or locked out?
-                if (serverData.banned) {
-                    setGlobalState({
-                        isBlocked: true,
-                        isPersonalBlock: (serverData.isPersonalBlock != null && serverData.isPersonalBlock), // is it the account, or me?
-                        isLoading: false,
-                    });
-                    // don't continue loading
-                    reportVital('metrics:accountlocked')
-                    return;
-                }
-
-                if (serverData.isVoicechatEnabled) {
-                    setGlobalState({
-                        voiceState: {
-                            serverHasVoiceChat: true,
-                        },
-                    })
-                }
-
-                if (serverData.useTranslations) {
-                    let localLanguage = navigator.language || navigator.userLanguage;
-                    let language = localLanguage.split("-")[0];
-                    debugLog("Detected language: " + language);
-                    await this.messageModule.handleCountry(language)
-                } else {
-                    debugLog("Translations disabled, skipping language detection");
-                    setGlobalState({
-                        // overwrite some messages
-                        lang: {
-                            "home.welcome": serverData.welcomeMessage,
-                            "home.activateText": serverData.startButton,
-                            "home.header": serverData.activeMessage,
-                        }
-                    });
-                }
-
-                debugLog("Server: " + serverData.displayName + " (" + publicServerKey + ")");
-                debugLog("Server is premium: " + serverData.isPatreon);
-                debugLog("Server bucket folder: " + serverData.bucketFolder);
-
-                let legacy = serverData.isRegisteredOnNewPlatform != null && !serverData.isRegisteredOnNewPlatform;
-
-                setGlobalState({
-                    isLegacy: legacy,
-                    lang: {"serverName": serverData.displayName},
-                    isPremium: serverData.isPatreon || serverData.voicechatSlots > 10,
-                    bucketFolder: serverData.bucketFolder,
-                });
-
-                setBgColor(serverData.color)
-                document.title = serverData.title;
-
-                if (serverData.startSound !== "") {
-                    MediaManager.startSound = serverData.startSound
-                }
-
-                if (serverData.ambianceSound !== "") {
-                    await MediaManager.setupAmbianceSound(serverData.ambianceSound);
-                }
-
-                if (serverData.backgroundImage !== "") {
-                    // todo: remove legacy rewrite
-                    setBgImage(serverData.backgroundImage)
-                }
-
-                setGlobalState({
-                    voiceState: {
-                        peersHidden: !serverData.showVoicePeers,
-                    },
-                    navbarDetails: serverData.showNavbarDetails
-                })
-
-                // is the server offline? cancel now
-                if (serverData.relayEndpoint == null) {
-                    ReportError('Server ' + publicServerKey + ' is offline at ' + window.location.host, tokenSet.name)
-                    setGlobalState({
-                        isLoading: false,
-                        currentUser: null,
-                    })
-                    fatalToast("Failed to connect with " + publicServerKey + "! Please try a new link from /audio, or contact server staff if the issue persists.");
-                    throw new Error("Server " + publicServerKey + " is offline");
-                } else {
-                    setGlobalState({
-                        relay: {
-                            endpoint: serverData.relayEndpoint,
-                        }
-                    });
-                }
-
-                // destroy our token, if we're in streamer mode
-                if (getGlobalState().settings.streamermodeEnabled) {
-                    //eslint-disable-next-line
-                    handleStreamerMode();
-                }
-
-                reportVital('metrics:prodlogin')
-
-            })
-
-            // finished! show home page :)
-            .then(() => {
-                setGlobalState({isLoading: false});
-                this.setState({allowedToUnlock: true});
-            })
+            .then(this.attemptLoginWithTokenSet)
             .catch(e => {
                 console.error(e);
                 setGlobalState({isLoading: false});
@@ -273,23 +274,27 @@ class OpenAudioAppContainer extends React.Component {
 
     }
 
+    bootApp() {
+        WorldModule.initPlayer();
+        MediaManager.postBoot();
+        SocketManager.connectToServer(getGlobalState().relay.endpoint);
+        setGlobalState({clickLock: false});
+        this.setState({didUnlock: true});
+    }
+
     handleGlobalClick() {
         if (this.props.currentUser == null) return;
         if (this.state.allowedToUnlock) {
             if (!this.state.didUnlock) {
                 // initialize OpenAudio
-                WorldModule.initPlayer();
-                MediaManager.postBoot();
-                SocketManager.connectToServer(getGlobalState().relay.endpoint);
-                setGlobalState({clickLock: false});
-                this.setState({didUnlock: true});
+                this.bootApp()
             }
         }
     }
 
     render() {
         return (
-            <div className={"h-full"} onClick={this.handleGlobalClick}>
+            <div className={"h-screen"} onClick={this.handleGlobalClick}>
                 <OAC.Provider value={store.getState()}>
                     {this.props.children}
                 </OAC.Provider>
@@ -374,19 +379,6 @@ function setBgImage(bg) {
     document.documentElement.style.setProperty('--background-image', `url("` + bg + `")`);
     setGlobalState({settings: {backgroundImage: bg}})
     //}
-}
-
-export async function handleStreamerMode() {
-    let r = await fetch(API_ENDPOINT.STREAMER_MODE + window.location.hash.replace("#", ""));
-    let b = await r.json();
-    if (b.error == null) {
-        // ok
-        let msg = b.ok;
-        toast("Streamer mode: " + msg);
-    } else {
-        // fuckup
-        fatalToast("Streamer mode: " + b.error);
-    }
 }
 
 function isVoicechatCompatible() {

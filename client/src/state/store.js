@@ -8,11 +8,16 @@ export const UNSAVED_SETTINGS = [
 ]
 
 const initialState = {
+    platformInfo: {
+        flow: "none", // none, bedrock, java
+        notificationsReady: false, // if notifications are ready to be shown
+    },
+
     // state - null for the login screen
     currentUser: null,
 
     debug: false,
-    isLegacy: false,
+    ignoreUrlToken: false,
 
     relay: {
         endpoint: null,
@@ -46,7 +51,6 @@ const initialState = {
 
         voicechatChimesEnabled: true,
         interpolationEnabled: true,
-        streamermodeEnabled: false,
         spatialRenderingMode: 'new',
         rolloffFactor: .5,
 
@@ -105,6 +109,7 @@ const initialState = {
     loadingState: 'Preparing to load OpenAudioMc',
     fixedFooter: null,
     navbarDetails: true,
+    currentTab: 0,
 
 
     translationBanner: null, // null or {detectedAs: 'en', toEn: 'to en', keep: 'keep', reset: function() {}}

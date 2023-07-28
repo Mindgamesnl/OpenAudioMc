@@ -121,6 +121,20 @@ public class VelocityUserAdapter implements User {
     }
 
     @Override
+    public String getIpAddress() {
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            if (player.getRemoteAddress() == null) return "unknown";
+            if (player.getRemoteAddress().getAddress() == null) return "unknown";
+            String ip = player.getRemoteAddress().getAddress().getHostName();
+            if (ip != null) {
+                return ip;
+            }
+        }
+        return "unknown";
+    }
+
+    @Override
     public Object getOriginal() {
         return sender;
     }

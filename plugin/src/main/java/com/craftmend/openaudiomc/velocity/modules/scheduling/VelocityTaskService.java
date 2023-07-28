@@ -54,11 +54,6 @@ public class VelocityTaskService implements TaskService {
     }
 
     @Override
-    public int schduleAsyncRepeatingTask(Runnable runnable, int delayUntilFirst, int tickInterval) {
-        return scheduleSyncRepeatingTask(runnable, delayUntilFirst, tickInterval);
-    }
-
-    @Override
     public void cancelRepeatingTask(int id) {
         getTask(id).ifPresent(task -> {
             task.cancel();

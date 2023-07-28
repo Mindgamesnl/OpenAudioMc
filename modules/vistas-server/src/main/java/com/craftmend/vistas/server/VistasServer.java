@@ -1,12 +1,11 @@
 package com.craftmend.vistas.server;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.CommandService;
-import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
+import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
@@ -16,11 +15,10 @@ import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.vistas.client.redis.packets.AnnounceSelfRequest;
-import com.craftmend.openaudiomc.vistas.client.users.SystemUser;
-import com.craftmend.vistas.server.base.VistasConfiguration;
-import com.craftmend.vistas.server.base.VistasScheduler;
 import com.craftmend.openaudiomc.vistas.client.server.networking.VistasRedisServer;
 import com.craftmend.openaudiomc.vistas.client.users.ServerUserHooks;
+import com.craftmend.vistas.server.base.VistasConfiguration;
+import com.craftmend.vistas.server.base.VistasScheduler;
 import com.craftmend.vistas.server.util.Waiter;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -36,10 +34,10 @@ public final class VistasServer implements OpenAudioInvoker {
 
     public VistasServer() {
         instance = this;
-        File temp = new File(VistasConfiguration.BASE_PATH);
-        if (!temp.exists()) {
+        File basePath = new File(VistasConfiguration.BASE_PATH);
+        if (!basePath.exists()) {
             OpenAudioLogger.toConsole("Creating base path");
-            temp.mkdir();
+            basePath.mkdir();
         }
     }
 
@@ -63,12 +61,6 @@ public final class VistasServer implements OpenAudioInvoker {
         OpenAudioMc.resolveDependency(ServerUserHooks.class).startGc();
 
         openAudioMc.getServiceManager().getService(VistasRedisServer.class).sendPacket(new AnnounceSelfRequest(), null);
-
-        // register self
-        String argV = System.getProperty("fingerprint");
-        if (argV != null && argV.length() > 1) {
-            OpenAudioMc.getService(CommandService.class).getSubCommand("link").onExecute(new SystemUser(), new String[]{argV});
-        }
     }
 
     @Override

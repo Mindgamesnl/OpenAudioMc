@@ -10,4 +10,8 @@ public class SimpleTokenResponse extends AbstractRestResponse {
 
     private String token;
 
+    // this value is only present in activate calls, where its true
+    // if at least 1 preauth socket has been promoted to a real socket
+    private Boolean sent;
+
 }

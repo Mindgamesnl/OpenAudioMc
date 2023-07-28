@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 export class CheckboxSetting extends React.Component {
     render() {
         return (
-            <div className="content-card settings-card">
+            <div className="content-card w-full md:w-1/2 xl:w-1/3 m-2">
                <span className={"inline"}>
                 <div dangerouslySetInnerHTML={{__html: this.props.icon}} className={"inline"}/>
                    {this.props.title}

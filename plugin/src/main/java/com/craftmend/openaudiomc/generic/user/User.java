@@ -17,6 +17,8 @@ public interface User {
     String getName();
     UUID getUniqueId();
 
+    String getIpAddress();
+
     boolean isAdministrator();
     boolean hasPermission(String permission);
 

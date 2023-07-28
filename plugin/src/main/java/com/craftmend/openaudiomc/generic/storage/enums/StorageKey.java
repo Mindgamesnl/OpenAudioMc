@@ -9,6 +9,7 @@ public enum StorageKey {
     MESSAGE_SESSION_ERROR(false, "messages.session-error", StorageLocation.CONFIG_FILE),
     MESSAGE_PROMPT_TO_CONNECT(false, "messages.suggest-connection", StorageLocation.CONFIG_FILE),
     MESSAGE_CLICK_TO_CONNECT(false, "messages.click-to-connect", StorageLocation.CONFIG_FILE),
+    MESSAGE_CONNECT_PROMPT_BEDROCK(false, "messages.connect-prompt-bedrock", StorageLocation.CONFIG_FILE),
     MESSAGE_HOVER_TO_CONNECT(false, "messages.click-to-connect-hover", StorageLocation.CONFIG_FILE),
     MESSAGE_LINK_EXPIRED(false, "messages.click-link-expired", StorageLocation.CONFIG_FILE),
     MESSAGE_CLIENT_CLOSED(false, "messages.client-closed", StorageLocation.CONFIG_FILE),
@@ -30,6 +31,10 @@ public enum StorageKey {
     MESSAGE_VC_UNSTABLE(false, "messages.voicechat-service-unstable", StorageLocation.CONFIG_FILE),
     MESSAGE_VC_RECOVERED(false, "messages.voicechat-service-recovered", StorageLocation.CONFIG_FILE),
     MESSAGE_VOICE_IN_VICINITY(false, "messages.voicechat-players-in-vicinity", StorageLocation.CONFIG_FILE),
+
+    MESSAGE_TOKEN_ACTIVATION_LOADING(false, "messages.token-activation-loading", StorageLocation.CONFIG_FILE),
+    MESSAGE_TOKEN_ACTIVATION_SUCCESS(false, "messages.token-activation-success", StorageLocation.CONFIG_FILE),
+    MESSAGE_TOKEN_ACTIVATION_FAILED(false, "messages.token-activation-failed", StorageLocation.CONFIG_FILE),
 
     SETTING_VC_ENTERED_MUTED_REGION(false, "messages.voice-disabled-here", StorageLocation.CONFIG_FILE),
     SETTING_VC_LEFT_MUTED_REGION(false, "messages.voice-reenabled-here", StorageLocation.CONFIG_FILE),
@@ -66,12 +71,8 @@ public enum StorageKey {
     SETTINGS_SPEAKER_REDSTONE_TICK_ENABLED(false, "options.redstone-tick-speakers", StorageLocation.CONFIG_FILE),
     SETTINGS_SPEAKER_REDSTONE_TICK_INTERVAL(false, "options.redstone-tick-speakers-interval", StorageLocation.CONFIG_FILE),
 
-    // specific bedrock settings
-    BEDROCK_TOKEN_SUBTITLE(false, "bedrock.token-subtitle", StorageLocation.CONFIG_FILE),
-    BEDROCK_TOKEN_DISPLAY_DURATION(false, "bedrock.token-display-duration", StorageLocation.CONFIG_FILE),
-    BEDROCK_NAME_PREFIX_CHARACTER(false, "bedrock.bedrock-name-prefix", StorageLocation.CONFIG_FILE),
-    BEDROCK_NAME_PREFIX_ENABLED(false, "bedrock.bedrock-auto-send-token", StorageLocation.CONFIG_FILE),
-    BEDROCK_PROMPT_BUSY(false, "bedrock.token-subtitle-busy", StorageLocation.CONFIG_FILE),
+    SETTINGS_BEDROCK_PREFIX(false, "options.bedrock-name-prefix", StorageLocation.CONFIG_FILE),
+    SETTINGS_TOKEN_AUTO_LOGIN(false, "options.token-auto-login", StorageLocation.CONFIG_FILE),
 
     SETTINGS_PAPI_CLIENT_CONNECTED(false, "papi.client-connected", StorageLocation.CONFIG_FILE),
     SETTINGS_PAPI_CLIENT_DISCONNECTED(false, "papi.client-disconnected", StorageLocation.CONFIG_FILE),

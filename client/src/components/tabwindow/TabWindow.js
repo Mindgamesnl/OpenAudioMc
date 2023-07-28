@@ -3,42 +3,18 @@ import {getTranslation} from "../../client/OpenAudioAppContainer";
 import PropTypes from "prop-types";
 import {showTextModal} from "../modal/InputModal";
 import {connect} from "react-redux";
-import {getGlobalState} from "../../state/store";
-import {reportVital} from "../../client/util/vitalreporter";
+import {setGlobalState} from "../../state/store";
 
 export let setTab = (tab) => {
-    console.warn("TAB HANDLER IS NOT SET YET");
+    setGlobalState({
+        currentTab: tab
+    })
 }
-
-let openedFirstTime = false;
 
 class TabWindow extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            activePage: 0
-        }
-
         this.openUpgradeDialog = this.openUpgradeDialog.bind(this)
-    }
-
-    componentDidMount() {
-        setTab = (tab) => {
-            this.setState({activePage: tab});
-        }
-
-        if (this.props.isLegacy) {
-            reportVital("legacy warning").then(r => {
-                window.location.href = "https://minecraftvoicechat.com/docs/legacy_craftmend"
-            })
-
-        }
-    }
-
-    componentWillUnmount() {
-        setTab = (tab) => {
-            console.warn("TAB HANDLER IS NOT SET YET");
-        }
     }
 
     openUpgradeDialog() {
@@ -61,7 +37,7 @@ class TabWindow extends Component {
 
         // remove hidden pages
         pages = pages.filter(page => !page.hidden);
-        let pageIndex = this.state.activePage;
+        let pageIndex = this.props.currentTab;
 
         // move active page back if it's out of bounds
         if (pageIndex >= pages.length) {
@@ -77,14 +53,12 @@ class TabWindow extends Component {
 
         if (!this.props.navbarDetails) pill = ""
 
-        let legacy = this.props.isLegacy;
-
         let navbarButtons = pages.map((page, index) => (
             <span className="tab" key={index}>
                                 <label
                                     href="#"
-                                    className={(index === this.state.activePage ? "active main-header-link" : "main-header-link") + " h-auto flex items-center justify-center rounding-top"}
-                                    onClick={() => this.setState({activePage: index})}
+                                    className={(index === this.props.currentTab ? "active main-header-link" : "main-header-link") + " h-auto flex items-center justify-center rounding-top"}
+                                    onClick={() => setTab(index)}
                                 >
                                     {page.buttonContent && <>{page.buttonContent}</>}
                                     {page.buttonContent &&
@@ -111,8 +85,6 @@ class TabWindow extends Component {
                                      className="rounding-top rounding-bottom inline mr-5 w-9 h-9" alt="avatar"/>}
                             {getTranslation(null, "serverName")}
                             {pill}
-                            {legacy && <button onClick={this.openUpgradeDialog}
-                                               className="content-pill status-button ml-2 green">{getTranslation(null, "navbar.upgradeRequired")}</button>}
                         </div>
                     </span>
 
@@ -137,8 +109,8 @@ export default connect(mapStateToProps)(TabWindow);
 
 function mapStateToProps(state) {
     return {
+        currentTab: state.currentTab,
         isPremium: state.isPremium,
-        isLegacy: state.isLegacy,
         currentUser: state.currentUser,
         navbarDetails: state.navbarDetails,
         clickLock: state.clickLock

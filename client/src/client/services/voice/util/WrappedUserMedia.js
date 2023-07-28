@@ -1,3 +1,6 @@
+import {premadeAudioStream} from "../../../../views/login/platforms/bedrock/BedrockAuthFlow";
+import {debugLog} from "../../debugging/DebugService";
+
 export class WrappedUserMedia {
 
     constructor() {
@@ -6,6 +9,29 @@ export class WrappedUserMedia {
     }
 
     getUserMedia(preferedDeviceId = null) {
+
+        // do we already have a mic stream from a flow?
+        if (premadeAudioStream) {
+            let isHealthy = true;
+            // check if the stream is dead
+            if (premadeAudioStream.getAudioTracks().length === 0) {
+                isHealthy = false;
+            } else {
+                // check if at least one stream is active
+                for (let track of premadeAudioStream.getAudioTracks()) {
+                    if (!track.enabled) {
+                        isHealthy = false;
+                        break;
+                    }
+                }
+            }
+
+            if (isHealthy) {
+                this.successCallback(premadeAudioStream);
+                debugLog("Using premade audio stream, leaving WrappedUserMedia.getUserMedia() prematurely")
+                return;
+            }
+        }
 
         let argument = {
             audio: {

@@ -14,7 +14,7 @@ export class Tooltip extends React.Component {
     }
 
    close() {
-        this.setState({isClosed: false});
+        this.setState({isClosed: true});
    }
 
     render() {

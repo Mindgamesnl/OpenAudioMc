@@ -30,7 +30,7 @@ public class CommandSenderWorldMigration extends SimpleMigration {
                 forceOverwrittenValues.put(StorageKey.SETTINGS_DEFAULT_WORLD_NAME.getSubSection(), world.getName());
                 break;
             }
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException | NoClassDefFoundError | NullPointerException e ) {
             // ignored, we'll just use the default value
         }
 

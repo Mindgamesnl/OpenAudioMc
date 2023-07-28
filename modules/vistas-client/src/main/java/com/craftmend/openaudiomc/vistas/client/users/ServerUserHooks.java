@@ -79,11 +79,16 @@ public class ServerUserHooks implements UserHooks {
         return new CommandSenderUserAdapter(commandSender);
     }
 
+    @Deprecated
     public VistasUser registerUserIfNew(UUID playerId, String name) {
+        return registerUserIfNew(playerId, name, "unknown:vistas");
+    }
+
+    public VistasUser registerUserIfNew(UUID playerId, String name, String ip) {
         if (remoteUsers.containsKey(playerId)) {
             return remoteUsers.get(playerId);
         }
-        VistasUser du = new VistasUser(name, playerId);
+        VistasUser du = new VistasUser(name, playerId, ip);
         remoteUsers.put(playerId, du);
         OpenAudioMc.getService(NetworkingService.class).register(du, null);
         return du;
@@ -115,9 +120,9 @@ public class ServerUserHooks implements UserHooks {
         remoteInstallation.remove(serverId);
     }
 
-    public void onUserJoin(String playerName, UUID playerUuid, UUID serverId) {
+    public void onUserJoin(String playerName, UUID playerUuid, UUID serverId, String ip) {
         MinecraftServer dpi = remoteInstallation.get(serverId);
-        VistasUser du = registerUserIfNew(playerUuid, playerName);
+        VistasUser du = registerUserIfNew(playerUuid, playerName, ip);
         du.registerInServer(serverId);
         OpenAudioLogger.toConsole(playerName + " got claimed by server " + serverId.toString());
     }

@@ -124,6 +124,16 @@ public class BungeeUserAdapter implements User {
     }
 
     @Override
+    public String getIpAddress() {
+        if (sender instanceof ProxiedPlayer) {
+            if (((ProxiedPlayer) sender).getAddress() == null) return "unknown";
+            String ip = ((ProxiedPlayer) sender).getAddress().getHostName();
+            if (ip != null) return ip;
+        }
+        return "unknown";
+    }
+
+    @Override
     public Object getOriginal() {
         return sender;
     }

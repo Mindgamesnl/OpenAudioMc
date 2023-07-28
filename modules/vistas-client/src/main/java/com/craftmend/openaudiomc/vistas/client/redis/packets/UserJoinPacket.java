@@ -15,5 +15,6 @@ public class UserJoinPacket extends AbstractPacketPayload {
     private String playerName;
     private UUID playerUuid;
     private UUID serverId;
+    public String ip;
 
 }

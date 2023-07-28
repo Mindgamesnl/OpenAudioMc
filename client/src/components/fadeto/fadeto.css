@@ -1,0 +1,50 @@
+.loading-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100vw;
+    background-color: #211f1f;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+}
+
+.loader {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #3498db;
+    animation: spin 1s linear infinite;
+}
+
+.logo {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.fade-hidden {
+    opacity: 0;
+    transition: opacity .5s ease-in-out;
+}
+
+.fade-show {
+    opacity: 1;
+    transition: opacity .5s ease-in-out;
+}
+

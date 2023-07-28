@@ -1,15 +1,12 @@
 import React from "react";
-import {getTranslation, msg, OAC} from "../../client/OpenAudioAppContainer";
 import {connect} from "react-redux";
 import {VoicePeerRow} from "./VoicePeerRow";
+import {msg} from "../../client/OpenAudioAppContainer";
 
 class VoicePeerBox extends React.Component {
-    static contextType = OAC;
 
     render() {
         let shouldBeHidden = this.props.voiceState.peersHidden && !this.props.voiceState.isModerating;
-
-        let c = this.context;
         let total = 0;
         let talking = 0;
 
@@ -24,7 +21,7 @@ class VoicePeerBox extends React.Component {
         let left = peers.slice(0, half);
         let right = peers.slice(half, peers.length);
 
-        let peerMessage = getTranslation(c, "vc.peerTable");
+        let peerMessage = msg("vc.peerTable");
         peerMessage = peerMessage.replace("{talking}", talking);
         peerMessage = peerMessage.replace("{total}", total);
 
@@ -47,8 +44,8 @@ class VoicePeerBox extends React.Component {
                                         </svg>
                                     </div>
                                     <div>
-                                        <p className="font-bold">{ getTranslation(c, "vc.peersHiddenTitle")}</p>
-                                        <p className="text-sm">{ getTranslation(c, "vc.peersHiddenText")}</p>
+                                        <p className="font-bold">{ msg("vc.peersHiddenTitle")}</p>
+                                        <p className="text-sm">{ msg("vc.peersHiddenText")}</p>
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +87,7 @@ class VoicePeerBox extends React.Component {
             <div className={"flex justify-center align-middle"}>
             <div className="content-section w-5/6">
                 <div className="content-section-title">{peerMessage}</div>
-                <div className="content-card-collection bg-gray-800 common-rounded">
+                <div className="content-card-collection common-rounded">
                     <div className="content-card w-1/2 bg-transparent border-transparent p-2">
                         <ul>
                             {left}

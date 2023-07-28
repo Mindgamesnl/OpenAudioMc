@@ -16,12 +16,12 @@ import java.util.UUID;
 public class ClientRunAudioPacket extends StandardPacket {
 
     @Getter private UUID clientUuid;
-    @Getter boolean asTitle = false;
+    @Getter String enteredToken = null;
 
     public void handle(DataInputStream dataInputStream) throws IOException {
         ClientRunAudioPacket mirror = OpenAudioMc.getGson().fromJson(dataInputStream.readUTF(), ClientRunAudioPacket.class);
         this.clientUuid = mirror.getClientUuid();
-        this.asTitle = mirror.isAsTitle();
+        this.enteredToken = mirror.getEnteredToken();
     }
 
     public PacketWriter write() throws IOException {

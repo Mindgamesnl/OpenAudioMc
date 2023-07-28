@@ -63,6 +63,11 @@ public class CommandSenderUserAdapter implements User {
     }
 
     @Override
+    public String getIpAddress() {
+        return "commandsender";
+    }
+
+    @Override
     public Object getOriginal() {
         return sender;
     }

@@ -1,11 +1,10 @@
-import {getTranslation, OAC} from "../../client/OpenAudioAppContainer";
+import {msg} from "../../client/OpenAudioAppContainer";
 import React from "react";
 import {setGlobalState} from "../../state/store";
 import {connect} from "react-redux";
 import "./audiovolume.css"
 
 class AudioVolume extends React.Component {
-    static contextType = OAC;
 
     constructor(props) {
         super(props);
@@ -157,13 +156,11 @@ class AudioVolume extends React.Component {
     }
 
     render() {
-        let c = this.context;
-
         return (
             <div className="flex justify-center">
                 <div className="flex overflow-hidden w-3/4 pt-4">
                     <div className="pt-8 pb-8 relative z-10 lg:w-full" style={{backgroundImage: this.state.bgGradient}}>
-                        <svg className="lg:block absolute right-0 inset-y-0 h-full w-48 transform translate-x-1/2"
+                        <svg className="lg:block absolute right-0 inset-y-0 h-full w-48 transform translate-x-1/2 hidden-on-mobile"
                              fill={this.state.bgColor} viewBox="0 0 100 100" preserveAspectRatio="none">
                             <polygon points="50,0 100,0 50,100 0,100"/>
                         </svg>
@@ -171,11 +168,11 @@ class AudioVolume extends React.Component {
                         <div className="mx-auto w-full px-4 sm:px-6 lg:px-8">
                             <div className="sm:text-center lg:text-left">
                                 <h1 className={"font-extrabold tracking-tighter pb-4 text-5xl"}>
-                                    {getTranslation(null, "home.audioControls")}
+                                    {msg("home.audioControls")}
                                 </h1>
                                 <p className="text-base sm:text-lg sm:max-w-xl sm:mx-auto md:text-xl lg:mx-0"
                                    style={{color: this.state.textColor}}
-                                   dangerouslySetInnerHTML={{__html: getTranslation(c, "home.volumeContext")}}>
+                                   dangerouslySetInnerHTML={{__html: msg("home.volumeContext")}}>
                                 </p>
                                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                                     <form className="w-11/12">
@@ -198,7 +195,7 @@ class AudioVolume extends React.Component {
                     </div>
 
                     <div className="hidden-on-mobile lg:w-4/5 lg:ml-auto">
-                        <div className="flex justify-end h-full">
+                        <div className="flex justify-end h-auto">
                             <img className="h-auto lg:h-full object-cover serverimage" alt={""}/>
                         </div>
                     </div>

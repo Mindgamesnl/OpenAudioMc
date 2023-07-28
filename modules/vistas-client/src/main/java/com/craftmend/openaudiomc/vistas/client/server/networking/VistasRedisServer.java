@@ -46,7 +46,8 @@ public class VistasRedisServer extends Service {
             getService(ServerUserHooks.class).onUserJoin(
                     joinPacket.getPlayerName(),
                     joinPacket.getPlayerUuid(),
-                    joinPacket.getServerId()
+                    joinPacket.getServerId(),
+                    joinPacket.getIp()
             );
         });
 

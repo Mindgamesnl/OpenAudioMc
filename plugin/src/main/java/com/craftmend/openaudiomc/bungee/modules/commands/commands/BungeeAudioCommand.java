@@ -3,7 +3,6 @@ package com.craftmend.openaudiomc.bungee.modules.commands.commands;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.modules.player.objects.BungeePlayerSelector;
 
-import com.craftmend.openaudiomc.generic.client.TitleSessionService;
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
@@ -14,18 +13,16 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.user.adapters.BungeeUserAdapter;
-import com.craftmend.openaudiomc.generic.utils.system.CommonArgUtil;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
-import org.bukkit.ChatColor;
 
 public class BungeeAudioCommand extends Command {
 
     /**
      * A set of middleware that to catch commands when the plugin isn't in a running state
      */
-    private final CommandMiddleware[] commandMiddleware = new CommandMiddleware[] {
+    private final CommandMiddleware[] commandMiddleware = new CommandMiddleware[]{
             new CatchLegalBindingMiddleware(),
             new CatchCrashMiddleware(),
             new CleanStateCheckMiddleware()
@@ -42,15 +39,15 @@ public class BungeeAudioCommand extends Command {
         if (sender instanceof ProxiedPlayer) {
             ProxiedPlayer player = (ProxiedPlayer) sender;
 
-            if (CommonArgUtil.asTitle(args)) {
-                User user = OpenAudioMc.resolveDependency(UserHooks.class).byUuid(player.getUniqueId());
 
-                if (user == null) {
-                    player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.RED + "You must be logged in to use this command");
-                    return;
-                }
+            User user = OpenAudioMc.resolveDependency(UserHooks.class).byUuid(player.getUniqueId());
 
-                OpenAudioMc.getService(TitleSessionService.class).startTokenDisplay(user);
+            // do we have an argument called "token",  "bedrock" or "key"?
+            if (args.length == 1) {
+                OpenAudioMc.getService(NetworkingService.class).getClient(user.getUniqueId()).getAuth().activateToken(
+                        user,
+                        args[0]
+                );
                 return;
             }
 

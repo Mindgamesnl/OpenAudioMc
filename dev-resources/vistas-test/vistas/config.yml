@@ -5,6 +5,8 @@
     preparing-session: '&7&oGenerating audio session..',
     click-to-connect: '\n&b&lClick &ahere&b&l to open the Web Client!\n&3This lets
       you use &dProximity Voice Chat&3 and in-game &daudio&3!\n ',
+    connect-prompt-bedrock: '\n&b&lThis server supports &aProximity Voice Chat&b&!\nGo
+      to {domain} in your web-browser to get started.\n',
     session-error: '&cAn error occurred while generating your audio session. please
       report the problem and try again later.',
     click-to-connect-hover: '&6Minecraft will prompt you to open the web client when
@@ -35,17 +37,16 @@
       the voice service.. please hold on while we try to recover your beautiful voice.',
     voicechat-service-recovered: '&7&oYour voicechat session got successfully recovered',
     voicechat-players-in-vicinity: '&7&oGet social! Other players in your vicinity
-      are using voice chat - join them and communicate. Use &b/audio&7&o to connect.'
-  },
-  bedrock: {
-    token-subtitle: '&7&oEnter this code on &b__address__',
-    token-subtitle-busy: '&c&oYou already have a pending token prompt. Please enter
-      that one first.',
-    token-display-duration: 35,
-    bedrock-name-prefix: .,
-    bedrock-auto-send-token: true
+      are using voice chat - join them and communicate. Use &b/audio&7&o to connect.',
+    token-activation-loading: '&7&oPlease wait while we activate your token..',
+    token-activation-success: '&7&oYour token has been activated! You can now use
+      the web client.',
+    token-activation-failed: '&7&oYour token could not be activated. Please try again
+      or double check your code.'
   },
   options: {
+    bedrock-name-prefix: .,
+    token-auto-login: true,
     send-on-join: true,
     send-on-join-delay: 5,
     remind-to-connect: true,
@@ -64,7 +65,7 @@
     voicechat-toggle-mic-on-swap-and-sneak: true,
     voicechat-send-messages-in-hotbar: true,
     voicechat-obstructions: false,
-    voicechat-autoclaim-on-start: true,
+    voicechat-autoclaim-on-start: false,
     voicechat-moderation-support: false,
     voicechat-moderation-duration: 120,
     voicechat-allow-joining-while-loading: true,

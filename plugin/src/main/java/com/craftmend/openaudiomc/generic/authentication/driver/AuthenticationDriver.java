@@ -8,6 +8,8 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.rest.routes.Endpoint;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.utils.data.ConcurrentHeatMap;
 import com.craftmend.openaudiomc.generic.rest.Task;
 import lombok.Getter;
@@ -19,7 +21,8 @@ import java.util.UUID;
 public class AuthenticationDriver {
 
     private final AuthenticationService service;
-    @Getter private ConcurrentHeatMap<UUID, String> sessionCacheMap = null;
+    @Getter
+    private ConcurrentHeatMap<UUID, String> sessionCacheMap = null;
 
     public void removePlayerFromCache(UUID uuid) {
         if (sessionCacheMap == null) {
@@ -29,9 +32,34 @@ public class AuthenticationDriver {
     }
 
     public void initCache() {
-        sessionCacheMap = new ConcurrentHeatMap<>(60, 100, () -> {
-            return "";
+        sessionCacheMap = new ConcurrentHeatMap<>(60, 100, () -> "");
+    }
+
+    public Task<Boolean> activateToken(Authenticatable auth, String token) {
+        Task<Boolean> task = new Task<>();
+        OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> {
+            ClientTokenRequestBody requestBody = new ClientTokenRequestBody(
+                    "ACCOUNT",
+                    auth.getOwner().getName(),
+                    auth.getOwner().getUniqueId().toString(),
+                    auth.getAuth().getWebSessionKey(),
+                    service.getServerKeySet().getPublicKey().getValue(),
+                    (StorageKey.SETTINGS_TOKEN_AUTO_LOGIN.getBoolean() ? auth.getOwner().getIpAddress() : null),
+                    token
+            );
+
+            RestRequest<SimpleTokenResponse> request = new RestRequest<>(SimpleTokenResponse.class, Endpoint.ACTIVATE_SESSION_TOKEN);
+            request.withPostJsonObject(requestBody);
+            request.run();
+
+            if (request.hasError()) {
+                task.fail(request.getError());
+                return;
+            }
+
+            task.finish(request.getResponse().getSent());
         });
+        return task;
     }
 
     public Task<String> createPlayerSession(Authenticatable authenticatable) {
@@ -56,10 +84,12 @@ public class AuthenticationDriver {
                     authenticatable.getOwner().getName(),
                     authenticatable.getOwner().getUniqueId().toString(),
                     authenticatable.getAuth().getWebSessionKey(),
-                    service.getServerKeySet().getPublicKey().getValue()
+                    service.getServerKeySet().getPublicKey().getValue(),
+                    (StorageKey.SETTINGS_TOKEN_AUTO_LOGIN.getBoolean() ? authenticatable.getOwner().getIpAddress() : null),
+                    null // unused here, this isn't reverse auth
             );
 
-            RestRequest<SimpleTokenResponse> request = new RestRequest(SimpleTokenResponse.class, Endpoint.CREATE_SESSION_TOKEN);
+            RestRequest<SimpleTokenResponse> request = new RestRequest<>(SimpleTokenResponse.class, Endpoint.CREATE_SESSION_TOKEN);
             request.withPostJsonObject(requestBody);
             request.run();
 

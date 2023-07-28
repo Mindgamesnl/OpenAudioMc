@@ -55,7 +55,7 @@ public class MigrationWorker {
                 new SpeakerTickMigration(),             // adds the speaker tick rate setting
                 new CdnCheckSkipMigration(),            // adds the option to skip cdn validation
                 new ChangeDefaultMultilineMigration(),  // changes the default multiline message
-                new AddBedrockSettingsMigration(),      // adds the bedrock settings
+                new TokenMessageMigration(),            // adds the token message
         };
 
         for (SimpleMigration migration : migrations) {

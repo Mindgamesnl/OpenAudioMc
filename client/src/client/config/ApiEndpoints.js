@@ -6,12 +6,11 @@ export const API_ENDPOINT = {
     DRIVE_PROXY: "https://media.openaudiomc.net/googledrive?id=",
 
     // backend stuff
-    ERROR_REPORTING: "https://plus.openaudiomc.net/cf-log/production",
-    MAIN_BACKEND: "https://plus.openaudiomc.net/",
-    CLIENT_SESSION_SERVER: "https://plus.openaudiomc.net/session",
-    STREAMER_MODE: "https://api.openaudiomc.net/client/streamermode/",
-
-    GET_SETTINGS: "https://cloud.openaudiomc.net/api/v3/account-services/settings/",
+    VITALS: "https://gateway.openaudiomc.net/api/v1/health-report",
+    ERROR_REPORTING: "https://gateway.openaudiomc.net/api/v1/error-report",
+    CLIENT_SESSION_SERVER: "https://gateway.openaudiomc.net/session",
+    GET_SETTINGS: "https://gateway.openaudiomc.net/api/v3/account-services/settings/",
+    PREAUTH_WS: "wss://gateway.openaudiomc.net/api/v1/client-preauth",
 
     PROD_CLIENT_VERSION: "https://session.openaudiomc.net/metadata.json",
 }
