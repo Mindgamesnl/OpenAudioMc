@@ -56,6 +56,8 @@ public class ClientDriver implements SocketDriver {
                 AbstractPacket abstractPacket = OpenAudioMc.getGson().fromJson(args[0].toString(), AbstractPacket.class);
                 OpenAudioMc.getService(NetworkingService.class).triggerPacket(abstractPacket);
             } catch (Exception e) {
+                // ignore when we're shutting down
+                if (OpenAudioMc.getInstance().isDisabled()) return;
                 OpenAudioLogger.handleException(e);
                 OpenAudioLogger.toConsole("An incoming packet was attempted to be parsed but failed horribly and it broke. Please update your plugin, of if this is already the latest version, let me know of this exception. The received data was: " + args[0].toString());
                 e.printStackTrace();

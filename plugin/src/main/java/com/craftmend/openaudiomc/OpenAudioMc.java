@@ -56,7 +56,7 @@ public class OpenAudioMc {
     private final Platform platform;
     private final OpenAudioInvoker invoker;
     private final boolean cleanStartup;
-    private boolean isDisabled = false;
+    @Getter private boolean isDisabled = false;
 
     /**
      * Legacy and static instances (API, ENV, instance, build number and gson along with its type adapters)

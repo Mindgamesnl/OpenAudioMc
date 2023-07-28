@@ -148,6 +148,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
     @Override
     public void onDisable() {
         OpenAudioLogger.toConsole("Shutting down");
+        OpenAudioMc.getService(SpigotPlayerService.class).onDisable();
         OpenAudioMc.getService(PredictiveMediaService.class).onDisable();
         openAudioMc.disable();
         HandlerList.unregisterAll(this);

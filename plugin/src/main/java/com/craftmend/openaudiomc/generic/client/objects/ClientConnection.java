@@ -124,6 +124,8 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
     @Override
     public void onDisconnect() {
         if (!isConnected()) return;
+        // ignore if we're shutting down
+        if (OpenAudioMc.getInstance().isDisabled()) return;
         session.setSessionUpdated(true);
         session.setApiSpeakers(0);
         session.setConnectedToRtc(false);

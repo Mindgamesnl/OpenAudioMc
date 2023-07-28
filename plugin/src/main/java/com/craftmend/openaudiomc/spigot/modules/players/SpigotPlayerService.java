@@ -46,6 +46,16 @@ public class SpigotPlayerService extends Service {
         }
     }
 
+    @Override
+    public void onDisable() {
+        // loop over all clients
+        for (SpigotConnection spigotConnection : spigotConnectionMap.values()) {
+            // destroy them
+            spigotConnection.onDestroy();
+            spigotConnection.getClientConnection().kickConnection();
+        }
+    }
+
     /**
      * @param player registers the player
      */
