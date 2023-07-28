@@ -6,7 +6,6 @@ import {ReportError} from "./util/ErrorReporter";
 import ClientTokenSet from "./login/ClientTokenSet";
 import {MessageModule} from "./translations/MessageModule";
 import {API_ENDPOINT} from "./config/ApiEndpoints";
-import {changeColor} from "./util/colors";
 import {MediaManager} from "./services/media/MediaManager";
 import {SocketManager} from "./services/socket/SocketModule";
 import {toast} from "react-toastify";
@@ -15,8 +14,6 @@ import {reportVital} from "./util/vitalreporter";
 import {WorldModule} from "./services/world/WorldModule";
 import {debugLog} from "./services/debugging/DebugService";
 import {FadeToCtx, OAC} from "../components/contexts";
-
-let oldColors = ["#c0392b", "#4F46E5"]
 
 class OpenAudioAppContainer extends React.Component {
 
@@ -269,7 +266,8 @@ class OpenAudioAppContainer extends React.Component {
             .catch(e => {
                 console.error(e);
                 setGlobalState({isLoading: false});
-                fatalToast('Your current link has expired. Please run /audio again to get a new link.');
+                fatalToast('Your current link has expired. Please run /audio again to get a new link. Error: ' + e.message);
+                reportError(e)
             });
 
     }
@@ -353,17 +351,17 @@ export function getTranslation(context, message) {
 
 export function setBgColor(col) {
     if (col === "#000000") return;
-    // let normal = convertHexToRGBA(response.accentColor, 70)
-    document.documentElement.style.setProperty('--primary-accent', col);
-    // old
 
-    for (let i = 0; i < oldColors.length; i++) {
-        changeColor(oldColors[i], col);
-    }
+    let colorsToUpdate = [
+        "--strangerDangerRedAccent",
+        "--primary-accent"
+    ]
+
+    colorsToUpdate.forEach(color => {
+        document.documentElement.style.setProperty(color, col);
+    });
 
     setGlobalState({settings: {accentColor: col}})
-
-    oldColors = [col]
 }
 
 function setBgImage(bg) {
