@@ -23,7 +23,7 @@ public class TestUser implements User {
     private String name;
 
     @Override
-    public String getIpaddress() {
+    public String getIpAddress() {
         return "localhost";
     }
 
