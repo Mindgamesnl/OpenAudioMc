@@ -2,6 +2,7 @@ version: '3'
 
 services:
   bungee-spigot1:
+    restart: on-failure
     image: itzg/minecraft-server
     environment:
       - EULA=TRUE
@@ -12,9 +13,9 @@ services:
     volumes:
       - ./bungee-spigot1:/data
       - ./plugins:/plugins
-    restart: always
 
   bungee-spigot2:
+    restart: on-failure
     image: itzg/minecraft-server
     environment:
       - EULA=TRUE
@@ -25,9 +26,9 @@ services:
     volumes:
       - ./bungee-spigot2:/data
       - ./plugins:/plugins
-    restart: always
 
   bungeecord:
+    restart: on-failure
     image: itzg/bungeecord
     ports:
       - 25565:25565
@@ -36,7 +37,6 @@ services:
     volumes:
       - ./bungeecord:/config
       - ./plugins:/plugins
-    restart: always
     depends_on:
       - bungee-spigot1
       - bungee-spigot2

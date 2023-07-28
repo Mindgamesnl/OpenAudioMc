@@ -21,7 +21,7 @@ services:
     volumes:
       - ./bungee-spigot1:/data
       - ./plugins:/plugins
-    restart: always
+    restart: on-failure
 
   bungee-spigot2:
     image: itzg/minecraft-server
@@ -36,9 +36,10 @@ services:
     volumes:
       - ./bungee-spigot2:/data
       - ./plugins:/plugins
-    restart: always
+    restart: on-failure
 
   bungeecord:
+    restart: on-failure
     image: itzg/bungeecord
     ports:
       - 25565:25565
@@ -46,12 +47,12 @@ services:
       - EULA=true
     volumes:
       - ./bungeecord:/config
-    restart: always
     depends_on:
       - bungee-spigot1
       - bungee-spigot2
 
   vistas-server:
+    restart: on-failure
     image: openjdk:17
     depends_on:
       - cache
