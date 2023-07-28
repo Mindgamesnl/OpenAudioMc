@@ -224,6 +224,7 @@ class OpenAudioAppContainer extends React.Component {
         let url = new URL(window.location.href);
         let testMode = url.searchParams.get("testMode");
         if (testMode != null) {
+            setBgColor("#12FFbb")
             // set the global state to test mode
             setGlobalState({
                 isLoading: false,
