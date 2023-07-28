@@ -16,8 +16,8 @@ public class VelocityRegionCommand extends SubCommand {
     public VelocityRegionCommand() {
         super("region");
         registerArguments(
-                new Argument("create <WG-region> <source>",
-                        "Assigns a sound to a WorldGuard region by name"),
+                new Argument("create <WG-region> <source> [volume]",
+                        "Assigns a sound to a WorldGuard region by name, with optional volume"),
 
                 new Argument("temp <WG-region> <source> <duration>",
                         "Create a temporary region with it's own synced sound"),

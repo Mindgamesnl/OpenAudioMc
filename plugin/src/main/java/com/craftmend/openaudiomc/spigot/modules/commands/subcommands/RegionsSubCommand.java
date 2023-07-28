@@ -25,8 +25,8 @@ public class RegionsSubCommand extends SubCommand {
         );
 
         registerArguments(
-                new Argument("create <WG-region> <source>",
-                        "Assigns a sound to a WorldGuard region by name"),
+                new Argument("create <WG-region> <source> [volume]",
+                        "Assigns a sound to a WorldGuard region by name, with optional volume"),
 
                 new Argument("temp <WG-region> <source> <duration>",
                         "Create a temporary region with it's own synced sound"),
@@ -84,7 +84,7 @@ public class RegionsSubCommand extends SubCommand {
             return;
         }
 
-        if (args[0].equalsIgnoreCase("create") && args.length == 3) {
+        if (args[0].equalsIgnoreCase("create") && (args.length == 3 || args.length == 4)) {
             delegateTo("create", sender, args);
             return;
         }

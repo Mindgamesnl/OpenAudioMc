@@ -22,13 +22,23 @@ public class RegionCreateSubCommand extends SubCommand {
     public void onExecute(User sender, String[] args) {
         args[1] = args[1].toLowerCase();
 
+        int volume = 100;
+        if (args.length == 4) {
+            try {
+                volume = Integer.parseInt(args[3]);
+            } catch (NumberFormatException e) {
+                message(sender, ChatColor.RED + "ERROR! Volume must be a number!");
+                return;
+            }
+        }
+
         if (!openAudioMcSpigot.getRegionModule().getRegionAdapter().doesRegionExist(args[1])) {
             message(sender, ChatColor.RED + "ERROR! There is no WorldGuard region called '" + args[1]
                     + "'. Please make the WorldGuard region before you register it in OpenAudioMc.");
             return;
         }
 
-        RegionProperties rp = new RegionProperties(args[2], 100, 1000, true, args[1], sender.getWorld());
+        RegionProperties rp = new RegionProperties(args[2], volume, 1000, true, args[1], sender.getWorld());
         OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class)
                 .save(rp);
 
