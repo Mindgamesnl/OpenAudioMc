@@ -5,6 +5,8 @@ import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties
 
 public interface IRegion {
 
+    IRegion EMPTY = new EmptyRegion() {};
+
     /**
      * @return Media playing in the region
      */
@@ -45,4 +47,42 @@ public interface IRegion {
      * @return Fade time in MS
      */
     int getFadeTime();
+
+    public class EmptyRegion implements IRegion {
+
+        @Override
+        public Media getMedia() {
+            return null;
+        }
+
+        @Override
+        public RegionProperties getProperties() {
+            return null;
+        }
+
+        @Override
+        public String getId() {
+            return null;
+        }
+
+        @Override
+        public void setVolume(int volume) {
+
+        }
+
+        @Override
+        public int getVolume() {
+            return 0;
+        }
+
+        @Override
+        public void setFadeTime(int fadeTime) {
+
+        }
+
+        @Override
+        public int getFadeTime() {
+            return 0;
+        }
+    }
 }

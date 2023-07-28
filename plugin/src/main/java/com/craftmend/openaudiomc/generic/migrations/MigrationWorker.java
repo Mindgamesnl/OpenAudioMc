@@ -56,6 +56,7 @@ public class MigrationWorker {
                 new CdnCheckSkipMigration(),            // adds the option to skip cdn validation
                 new ChangeDefaultMultilineMigration(),  // changes the default multiline message
                 new TokenMessageMigration(),            // adds the token message
+                new AddVehicleRegionConfigMigration(),  // adds the option to disable regions while in a vehicle
         };
 
         for (SimpleMigration migration : migrations) {

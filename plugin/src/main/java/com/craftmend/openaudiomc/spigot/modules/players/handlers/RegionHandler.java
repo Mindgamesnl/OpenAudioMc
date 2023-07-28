@@ -15,6 +15,7 @@ import com.craftmend.openaudiomc.spigot.modules.players.interfaces.ITickableHand
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
+import com.google.common.collect.ImmutableList;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.Player;
 
@@ -26,6 +27,7 @@ public class RegionHandler implements ITickableHandler {
 
     private Player player;
     private SpigotConnection spigotConnection;
+    private static final List<IRegion> EMPTY_LIST = ImmutableList.of();
 
     /**
      * update regions based on the players location
@@ -34,8 +36,13 @@ public class RegionHandler implements ITickableHandler {
     public void tick() {
         if (OpenAudioMcSpigot.getInstance().getRegionModule() != null) {
             //regions are enabled
-            List<IRegion> detectedRegions = OpenAudioMcSpigot.getInstance().getRegionModule()
-                    .getRegionAdapter().getAudioRegions(player.getLocation());
+            List<IRegion> detectedRegions;
+            if (StorageKey.SETTINGS_IGNORE_REGIONS_WHILE_IN_VEHICLE.getBoolean() && player.getVehicle() != null) {
+                detectedRegions = EMPTY_LIST;
+            } else {
+                detectedRegions = OpenAudioMcSpigot.getInstance().getRegionModule()
+                        .getRegionAdapter().getAudioRegions(player.getLocation());
+            }
 
             List<IRegion> enteredRegions = new ArrayList<>(detectedRegions);
             enteredRegions.removeIf(t -> containsRegion(spigotConnection.getRegions(), t));

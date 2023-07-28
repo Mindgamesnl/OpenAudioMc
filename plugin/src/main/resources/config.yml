@@ -85,6 +85,11 @@ messages:
   token-activation-success: '&7&oYour token has been activated! You can now use the web client.'
   token-activation-failed: '&7&oYour token could not be activated. Please try again or double check your code.'
 
+  # This feature will completely ignore ALL regions when a player is on a vehicle
+  # (Minecraft, Boat, or mounted on another entity).
+  # This is useful for some themepark servers, but should be used with caution.
+  ignore-regions-on-vehicles: true
+
 options:
   # The name prefix to look for to determine if a player is playing on bedrock edition
   bedrock-name-prefix: '.'

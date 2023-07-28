@@ -25,7 +25,6 @@ public class LegacyRegionAdapter extends AbstractRegionAdapter {
 
     @Override
     public Set<ApiRegion> getRegionsAtLocation(Location location) {
-
         Set<ApiRegion> regions = WGBukkit.getRegionManager(location.getWorld())
                 .getApplicableRegions(location)
                 .getRegions().stream()
