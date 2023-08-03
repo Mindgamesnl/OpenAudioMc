@@ -22,9 +22,9 @@ export function removeMicVolumeListener(id) {
     delete micVolumeListeners[id];
 }
 
-function invokeMicVolumeListeners(volume, isActive) {
+function invokeMicVolumeListeners(volume, isActive, threshold, lowestVolume) {
     for (let id in micVolumeListeners) {
-        micVolumeListeners[id](volume, isActive);
+        micVolumeListeners[id](volume, isActive, threshold, lowestVolume);
     }
 }
 
@@ -35,6 +35,7 @@ export class MicrophoneProcessor {
         this.startedTalking = null;
         this.shortTriggers = 0;
         this.isStreaming = false;
+        this.isSpeaking = false;
         this.isMuted = false;
 
         this.micTriggerCount = 0;
@@ -113,14 +114,22 @@ export class MicrophoneProcessor {
             if (volume < lowestVolume && lowestVolume > -Infinity && volume > -Infinity) {
                 lowestVolume = volume;
             }
-            let output = Math.abs(volume - lowestVolume);
+
+            // calculate percentage
+            let normalizedOutput = (volume / lowestVolume) * 100;
+            // invert
+            normalizedOutput = 100 - normalizedOutput;
+            if (normalizedOutput > 100) {
+                normalizedOutput = 100;
+            }
+
             // only once every 500 times
             if (volumeChangeI > 100) {
-                feedDebugValue(DebugStatistic.MICROPHONE_LOUDNESS, output);
+                feedDebugValue(DebugStatistic.MICROPHONE_LOUDNESS, normalizedOutput);
                 volumeChangeI = 0;
             }
 
-            invokeMicVolumeListeners(output, volume >= threshold)
+            invokeMicVolumeListeners(normalizedOutput, this.isSpeaking, threshold, lowestVolume)
         })
 
         this.hookListeners();

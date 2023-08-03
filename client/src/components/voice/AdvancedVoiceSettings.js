@@ -16,6 +16,8 @@ class AdvancedVoiceSettings extends React.Component {
             listenerId: null,
             isAboveThreshold: false,
             currentMicVolume: 0,
+            micScale: 0,
+            micMax: 0,
         }
 
         this.micSensitiveInput = this.micSensitiveInput.bind(this);
@@ -31,8 +33,23 @@ class AdvancedVoiceSettings extends React.Component {
 
     componentDidMount() {
         if (!this.state.listenerId) {
-            let id = addMicVolumeListener((volume, isActive) => {
-                this.setState({currentMicVolume: volume, isAboveThreshold: isActive});
+            let id = addMicVolumeListener((volume, isActive, threshold, lowestRecorded) => {
+
+                // is volume over the max measured volume?
+                let tempMax = this.state.micMax;
+                if (volume > this.state.micMax) {
+                    tempMax = volume;
+                    this.setState({micMax: volume});
+                }
+
+                // rescale volume to percentage
+                let scaled = (volume / tempMax) * 100;
+
+                // scaled might still be over 100, so clamp it
+                if (scaled > 100) {
+                    scaled = 100;
+                }
+                this.setState({currentMicVolume: scaled, isAboveThreshold: isActive, lowestRecorded: Math.abs(lowestRecorded)});
             });
             this.setState({listenerId: id});
         }
@@ -85,12 +102,12 @@ class AdvancedVoiceSettings extends React.Component {
                                 <div className={"flex"}>
                                     <div className="w-full relative z-0">
                                         <div
-                                            className={"h-full rounded-r-xl " + (this.state.isAboveThreshold ? " bg-green-500" : " bg-blue-400")}
+                                            className={"h-full common-rounded rounded-r-xl " + (this.state.isAboveThreshold ? " bg-green-500" : " bg-blue-400")}
                                             style={{width: `${this.state.currentMicVolume}%`}}></div>
                                         <div className="absolute inset-0 flex justify-center items-center z-10">
                                             <input
                                                 className="volume-slider opacity-70 w-full h-full reversedRange inline " onInput={this.micSensitiveInput}
-                                                type="range" min="0" max="100" step="1"
+                                                type="range" min="0" max={this.state.lowestRecorded} step="1"
                                                 value={this.props.microphoneSensitivity}/>
                                         </div>
                                     </div>
