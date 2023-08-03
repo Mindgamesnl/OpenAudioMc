@@ -4,7 +4,7 @@
  * The original source code can be found at https://github.com/latentflip/hark
  */
 
-var WildEmitter = require('wildemitter');
+import WildEmitter from "wildemitter";
 
 function getMaxVolume (analyser, fftBins) {
     var maxVolume = -Infinity;
