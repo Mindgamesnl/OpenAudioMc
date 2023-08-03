@@ -89,7 +89,7 @@ public class ClientAuth implements Serializable {
         StorageKey messageToSend;
 
         // unless we're bedrock
-        if (client.getUser().getName().startsWith(StorageKey.SETTINGS_BEDROCK_PREFIX.getString())) {
+        if (client.getUser().isGeyser()) {
             messageToSend = StorageKey.MESSAGE_CONNECT_PROMPT_BEDROCK;
         } else {
             messageToSend = StorageKey.MESSAGE_CLICK_TO_CONNECT;
