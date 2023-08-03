@@ -82,17 +82,18 @@ class AdvancedVoiceSettings extends React.Component {
                         <div className="content-card-buttons w-full">
                             <label htmlFor="mic-sensitive-slider"></label>
                             <div className={"w-full"}>
-                                <div
-                                    className={"volume-slider p-0 bg-gray-700 rounded-full h-2.5 mb-4 dark:bg-gray-700 w-full"}>
-                                    <div
-                                        className={"h-2.5 rounded-full" + (this.state.isAboveThreshold ? " bg-green-500" : " bg-blue-400")}
-                                        style={{width: `${this.state.currentMicVolume}%`}}></div>
-                                </div>
                                 <div className={"flex"}>
-                                    <input
-                                        className="volume-slider w-3/5 reversedRange inline " onInput={this.micSensitiveInput}
-                                        type="range" min="0" max="100" step="1"
-                                        value={this.props.microphoneSensitivity}/>
+                                    <div className="w-full relative z-0">
+                                        <div
+                                            className={"h-full rounded-r-xl " + (this.state.isAboveThreshold ? " bg-green-500" : " bg-blue-400")}
+                                            style={{width: `${this.state.currentMicVolume}%`}}></div>
+                                        <div className="absolute inset-0 flex justify-center items-center z-10">
+                                            <input
+                                                className="volume-slider opacity-70 w-full h-full reversedRange inline " onInput={this.micSensitiveInput}
+                                                type="range" min="0" max="100" step="1"
+                                                value={this.props.microphoneSensitivity}/>
+                                        </div>
+                                    </div>
                                     <label className="content-pill status-button inline w-2/4 my-0">
                                         <input type="checkbox" onChange={this.micAutoSensitivityInput}
                                                checked={this.props.autoMicSensitivity}>

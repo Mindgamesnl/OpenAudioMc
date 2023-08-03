@@ -104,6 +104,7 @@ export class MicrophoneProcessor {
 
 
         let lowestVolume = 0;
+
         let volumeChangeI = 0;
         this.harkEvents.on('volume_change', (volume, threshold) => {
             volumeChangeI++;
