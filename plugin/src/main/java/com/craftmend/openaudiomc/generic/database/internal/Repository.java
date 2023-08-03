@@ -29,6 +29,11 @@ public class Repository<T extends DataStore> {
         return (Collection<T>) storm.buildQuery(type).execute().join();
     }
 
+    @SneakyThrows
+    public int count() {
+        return storm.count(type).join();
+    }
+
     public T getWhere(String row, Object value) {
         try {
             return (T) storm.buildQuery(type).where(row, Where.EQUAL, value).execute().join().stream().findFirst().orElse(null);

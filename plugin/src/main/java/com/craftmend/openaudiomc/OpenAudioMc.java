@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc;
 import com.craftmend.openaudiomc.api.enums.ModuleEvent;
 import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
+import com.craftmend.openaudiomc.generic.backups.BackupService;
 import com.craftmend.openaudiomc.generic.client.ClientDataService;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
@@ -44,11 +45,11 @@ public class OpenAudioMc {
      * The main class is pretty empty, it doesn't do too much, actually.
      * OpenAudioMc is divided into "services", with additional classes being loaded depending
      * on the runtime environment and available libraries (like spigot, bungee, velocity, worldguard, etc etc)
-     *
+     * <p>
      * The only thing this "main" class really does is collect some information about the operating
      * environment and initialize the "core" services one by one. These services are injected into others, or can
      * be requested through the instance getter.
-     *
+     * <p>
      * These are some core variables we need to keep track of, regardless of service
      */
     private final ApiEventDriver apiEventDriver = new ApiEventDriver();
@@ -56,16 +57,19 @@ public class OpenAudioMc {
     private final Platform platform;
     private final OpenAudioInvoker invoker;
     private final boolean cleanStartup;
-    @Getter private boolean isDisabled = false;
+    @Getter
+    private boolean isDisabled = false;
 
     /**
      * Legacy and static instances (API, ENV, instance, build number and gson along with its type adapters)
      */
     public static ServerEnvironment SERVER_ENVIRONMENT = ServerEnvironment.PRODUCTION;
-    @Getter private static OpenAudioMc instance;
+    @Getter
+    private static OpenAudioMc instance;
     public static final OpenAudioMcBuild BUILD = new OpenAudioMcBuild();
 
-    @Getter private static final Gson gson = GsonFactory.create();
+    @Getter
+    private static final Gson gson = GsonFactory.create();
 
     /**
      * Alright, lets get this show on the road.
@@ -112,6 +116,11 @@ public class OpenAudioMc {
         } else {
             serviceManager.registerDependency(UserHooks.class, invoker.getUserHooks());
         }
+
+        // register backup service
+        serviceManager.loadService(
+                BackupService.class              // handles backups
+        );
 
         // migrate old config and data files between versions
         new MigrationWorker().handleMigrations();
