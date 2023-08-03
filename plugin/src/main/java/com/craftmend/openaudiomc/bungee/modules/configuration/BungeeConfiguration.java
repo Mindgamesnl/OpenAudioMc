@@ -251,9 +251,11 @@ public class BungeeConfiguration implements Configuration {
      * saves the data to the file, like new regions and speakers.
      */
     @Override
-    public void saveAll() {
+    public void saveAll(boolean includeConfig) {
         try {
-            ConfigurationProvider.getProvider(YamlConfiguration.class).save(mainConfig, new File(OpenAudioMcBungee.getInstance().getDataFolder(), "config.yml"));
+            if (includeConfig) {
+                ConfigurationProvider.getProvider(YamlConfiguration.class).save(mainConfig, new File(OpenAudioMcBungee.getInstance().getDataFolder(), "config.yml"));
+            }
             ConfigurationProvider.getProvider(YamlConfiguration.class).save(dataConfig, new File(OpenAudioMcBungee.getInstance().getDataFolder(), "data.yml"));
         } catch (IOException e) {
             OpenAudioLogger.handleException(e);

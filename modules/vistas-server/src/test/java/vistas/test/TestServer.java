@@ -63,7 +63,7 @@ public class TestServer extends TestCase {
     @SneakyThrows
     public void testFullStack() {
         // the server should be running the server user hooks
-        assertEquals(ServerUserHooks.class, VistasServer.getInstance().getOpenAudioMc().resolveDependency(UserHooks.class).getClass());
+        assertEquals(ServerUserHooks.class, OpenAudioMc.resolveDependency(UserHooks.class).getClass());
 
         System.out.println("Registering two fake servers");
 

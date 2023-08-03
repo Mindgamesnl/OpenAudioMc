@@ -77,7 +77,7 @@ public abstract class SimpleMigration {
         }
 
         // soft save to reflect the old values and write them to the new file
-        config.saveAll();
+        config.saveAll(true);
         // force oa to reload
         OpenAudioMc.getInstance().getInvoker().getConfigurationProvider().reloadConfig();
     }

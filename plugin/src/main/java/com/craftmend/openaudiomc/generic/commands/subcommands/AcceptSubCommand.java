@@ -23,7 +23,7 @@ public class AcceptSubCommand extends SubCommand {
         NetworkingService service = OpenAudioMc.getService(NetworkingService.class);
 
         config.setBoolean(StorageKey.LEGAL_ACCEPTED_TOS_AND_PRIVACY, true);
-        config.saveAll();
+        config.saveAll(false);
 
         sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Welcome to OpenAudioMc! you accepted the terms, enjoy the service!");
 

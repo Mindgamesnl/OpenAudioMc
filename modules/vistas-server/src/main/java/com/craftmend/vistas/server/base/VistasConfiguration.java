@@ -99,7 +99,7 @@ public class VistasConfiguration extends Service implements Configuration {
 
     @SneakyThrows
     @Override
-    public void saveAll() {
+    public void saveAll(boolean ignoreConfig) {
         OpenAudioLogger.toConsole("Saving files...");
         DumperOptions options = new DumperOptions();
         options.setPrettyFlow(true);

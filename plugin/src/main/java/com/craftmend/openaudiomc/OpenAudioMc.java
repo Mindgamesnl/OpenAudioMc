@@ -154,7 +154,7 @@ public class OpenAudioMc {
     // simple shutdown logic
     public void disable() {
         isDisabled = true;
-        configuration.saveAll();
+        configuration.saveAll(false);
 
         serviceManager.getService(ModuleLoaderService.class).fire(ModuleEvent.SHUTDOWN);
 

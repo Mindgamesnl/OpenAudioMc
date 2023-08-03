@@ -22,7 +22,7 @@ public interface Configuration {
     Object get(StorageKey storageKey);
     void set(StorageKey storageKey, Object value);
     void reloadConfig();
-    void saveAll();
+    void saveAll(boolean alsoSaveConfig);
     void overwriteConfigFile();
     boolean hasDataFile();
     boolean hasStorageKey(StorageKey storageKey);

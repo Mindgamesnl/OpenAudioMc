@@ -47,7 +47,7 @@ public class SpeakerDatabaseMigration extends SimpleMigration {
             service.getRepository(Speaker.class)
                     .save(speaker);
             config.setString(StorageLocation.DATA_FILE, "speakers." + id, null);
-            config.saveAll();
+            config.saveAll(true);
         }
     }
 

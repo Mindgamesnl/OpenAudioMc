@@ -279,7 +279,7 @@ public class VelocityConfiguration implements Configuration {
      * saves the data to the file, like new regions and speakers.
      */
     @Override
-    public void saveAll() {
+    public void saveAll(boolean ignored) {
         try {
             File config = new File(OpenAudioMcVelocity.getInstance().getDataDir(), "config.yml");
             File data = new File(OpenAudioMcVelocity.getInstance().getDataDir(), "data.yml");

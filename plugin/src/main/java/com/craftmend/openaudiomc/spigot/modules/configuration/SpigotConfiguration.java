@@ -48,7 +48,7 @@ public class SpigotConfiguration implements Configuration, Listener {
 
     @EventHandler
     public void onWorldSave(WorldSaveEvent event) {
-        saveAll();
+        saveAll(false);
     }
 
     public Configuration loadSettings() {
@@ -279,8 +279,11 @@ public class SpigotConfiguration implements Configuration, Listener {
      * saves the data to the file, like new regions and speakers.
      */
     @Override
-    public void saveAll() {
+    public void saveAll(boolean includeConfig) {
         try {
+            if (includeConfig) {
+                mainConfig.save(new File(OpenAudioMcSpigot.getInstance().getDataFolder(), "config.yml"));
+            }
             dataConfig.save("plugins/OpenAudioMc/data.yml");
         } catch (IOException e) {
             OpenAudioLogger.handleException(e);
