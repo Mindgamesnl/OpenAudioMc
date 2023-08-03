@@ -7,7 +7,7 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:react/all"
+    "plugin:react/recommended"
   ],
   "parserOptions": {
     "sourceType": "module",
@@ -15,5 +15,12 @@
   },
   "rules": {
     "react/prop-types": "off"
+  },
+  "settings": {
+    "react": {
+      "createClass": "createReactClass",
+      "pragma": "React",
+      "version": "detect"
+    }
   }
 }
