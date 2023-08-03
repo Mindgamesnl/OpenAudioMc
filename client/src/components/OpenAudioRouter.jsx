@@ -52,27 +52,32 @@ class OpenAudioController extends React.Component {
     }
 
     render() {
-        let currentView = <div>?</div>;
+        let currentView = null;
 
-        if (!this.state.preflightOk) {
-            currentView = <BadBrowser message={this.state.errorMessage}/>;
-        } else if (this.props.isLoading) {
-            currentView = <LoadingView/>;
-        } else if (this.props.isBlocked) {
-            currentView = <BlockedLoginView/>;
-        } else if (!this.props.currentUser) {
-            currentView = <LoginView/>;
+        const {preflightOk, errorMessage} = this.state;
+        const {isLoading, isBlocked, currentUser} = this.props;
+
+        if (!preflightOk) {
+            currentView = <BadBrowser message={errorMessage} />;
+        } else if (isLoading) {
+            currentView = <LoadingView />;
+        } else if (isBlocked) {
+            currentView = <BlockedLoginView />;
+        } else if (!currentUser) {
+            currentView = <LoginView />;
         } else {
-            currentView = <ClientView/>;
+            currentView = <ClientView />;
         }
 
 
         return (
-            <div className={"h-full w-full"}>
+            <div className="h-full w-full">
                 {currentView}
+
                 <ToastContainer
                     position="bottom-right"
                 />
+
             </div>
         );
     }

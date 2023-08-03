@@ -12,7 +12,7 @@ export function StringifyError(error) {
             property = propertyNames[i];
             descriptor = Object.getOwnPropertyDescriptor(error, property);
 
-            if (descriptor.hasOwnProperty("value") && typeof descriptor.value !== "function") {
+            if (Object.prototype.hasOwnProperty.call(descriptor, "value") && typeof descriptor.value !== "function") {
                 output += property + ": " + descriptor.value + "\n";
             }
         }

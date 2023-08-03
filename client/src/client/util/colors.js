@@ -11,7 +11,7 @@ export function changeColor(findHexColor, replaceWith) {
     let convertedColor = hexToRgb(findHexColor);
 
     // Select and run a map function on every tag
-    document.querySelectorAll('*').forEach(function(el, i) {
+    document.querySelectorAll('*').forEach(function(el) {
         // Get the computed styles of each tag
         let styles = window.getComputedStyle(el);
         // Go through each computed style and search for "color"

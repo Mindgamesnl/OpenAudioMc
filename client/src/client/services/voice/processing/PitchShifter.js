@@ -78,7 +78,7 @@ export class PitchShifter {
             window[i] = 0.5 * (1 - Math.cos(2 * Math.PI * i / (length - 1)));
         }
         return window;
-    };
+    }
 
 
 }

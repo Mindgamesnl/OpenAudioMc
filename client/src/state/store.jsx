@@ -129,10 +129,10 @@ export function setGlobalState(stateUpdates) {
     store.dispatch({type: 'SET_STATE', stateUpdates});
 
     // save to cookies
-    if (stateUpdates.hasOwnProperty("settings")) {
+    if (Object.prototype.hasOwnProperty.call(stateUpdates, "settings")) {
         const settings = stateUpdates.settings;
         for (let key in settings) {
-            if (settings.hasOwnProperty(key) && shouldSettingSave(key)) {
+            if (Object.prototype.hasOwnProperty.call(settings, key) && shouldSettingSave(key)) {
                 Cookies.set("setting_" + key, settings[key], {expires: 365});
             }
         }
