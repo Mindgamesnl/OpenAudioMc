@@ -33,6 +33,7 @@ export class BlackoutPage extends React.Component {
 
         let passableProps = {...this.props};
         delete passableProps.coverImage;
+        delete passableProps.extraClasses;
 
         return (
             <div
