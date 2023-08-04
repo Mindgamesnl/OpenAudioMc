@@ -11,9 +11,9 @@ export function changeColor(findHexColor, replaceWith) {
   const convertedColor = hexToRgb(findHexColor);
 
   // Select and run a map function on every tag
-  document.querySelectorAll('*').forEach((el) => {
-    // Get the computed styles of each tag
-    const styles = window.getComputedStyle(el);
+  document.querySelectorAll('*').forEach((element) => {
+  // Get the computed styles of each tag
+    const styles = window.getComputedStyle(element);
     // Go through each computed style and search for "color"
     // eslint-disable-next-line
     Object.keys(styles).reduce(function (acc, k) {
@@ -23,9 +23,9 @@ export function changeColor(findHexColor, replaceWith) {
         const newValue = value.replace(convertedColor, replaceWith);
         // special attributes
         if (name.indexOf('border-top') >= 0) {
-          el.style.borderTop = `2px solid ${newValue}`;
+          element.style.borderTop = `2px solid ${newValue}`;
         } else {
-          el.style[name] = newValue;
+          element.style[name] = newValue;
         }
       }
     });

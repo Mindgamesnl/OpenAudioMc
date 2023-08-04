@@ -41,9 +41,12 @@ export class RtcPacket {
 
   serialize() {
     let out = `${this.eventName}~`;
-    for (const [key, value] of this.params) {
+
+    // loop through params
+    this.params.forEach((value, key) => {
       out += `${key}=${value}~`;
-    }
+    });
+
     return out;
   }
 

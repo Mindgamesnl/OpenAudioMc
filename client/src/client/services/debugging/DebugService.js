@@ -12,6 +12,7 @@ export function debugLog(message, ...args) {
   }
 
   debugLogLines.push(message);
+  // eslint-disable-next-line no-console
   console.log('[DEBUG]', message);
 }
 

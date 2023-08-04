@@ -16,8 +16,21 @@
     "ecmaVersion": 2022
   },
   "rules": {
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "space-before-blocks": "off",
+    "no-plusplus": "off",
+    "max-len": "off",
+    "import/no-cycle": "off",
+    "import/prefer-default-export": "off",
+    "class-methods-use-this": "off",
+    "no-param-reassign": "off",
+    "react/destructuring-assignment": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "no-use-before-define": "off",
+    "no-continue": "off",
+    "react/static-property-placement": "off"
   },
+  "reportUnusedDisableDirectives": true,
   "settings": {
     "react": {
       "pragma": "React",

@@ -7,7 +7,7 @@ export function StringifyError(error) {
     let output = '';
     const propertyNames = Object.getOwnPropertyNames(error);
     let descriptor;
-    for (var property, i = 0, len = propertyNames.length; i < len; ++i) {
+    for (let property, i = 0, len = propertyNames.length; i < len; ++i) {
       property = propertyNames[i];
       descriptor = Object.getOwnPropertyDescriptor(error, property);
 

@@ -1,6 +1,5 @@
 export class PitchShifter {
   constructor(input, context, output, pitchRatio = 0.7, grainSize = 512, overlapRatio = 0.50) {
-    console.log(output, 'fuck');
     let pitchShifterProcessor;
 
     if (context.createScriptProcessor) {
@@ -70,7 +69,7 @@ export class PitchShifter {
   hannWindow(length) {
     const window = new Float32Array(length);
     for (let i = 0; i < length; i++) {
-      window[i] = 0.5 * (1 - Math.cos(2 * Math.PI * i / (length - 1)));
+      window[i] = 0.5 * (1 - Math.cos((2 * Math.PI * i) / (length - 1)));
     }
     return window;
   }

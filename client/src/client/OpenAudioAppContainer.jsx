@@ -36,7 +36,6 @@ class OpenAudioAppContainer extends React.Component {
     this.state = {
       didUnlock: false,
       allowedToUnlock: false,
-      testMode: false,
     };
 
     let isValidHttps = window.location.protocol === 'https:';
@@ -54,12 +53,12 @@ class OpenAudioAppContainer extends React.Component {
 
     const { settings } = getGlobalState();
     // loop over all object keys
-    for (const key in settings) {
-      if (!shouldSettingSave(key)) continue;
+    Object.keys(settings).forEach((key) => {
+      if (!shouldSettingSave(key)) return;
 
       // get cookie value
       const cookieValue = Cookies.get(`setting_${key}`);
-      if (cookieValue == null) continue;
+      if (cookieValue == null) return;
       let parsed = cookieValue;
       if (typeof settings[key] === 'number') {
         parsed = parseFloat(cookieValue);
@@ -74,6 +73,73 @@ class OpenAudioAppContainer extends React.Component {
           [key]: parsed,
         },
       });
+    });
+  }
+
+  componentDidMount() {
+    if (getGlobalState().ignoreUrlToken) {
+      return;
+    }
+
+    // check if the current url has testMode as a variable
+    const url = new URL(window.location.href);
+    const testMode = url.searchParams.get('testMode');
+    if (testMode != null) {
+      setBgColor('#12FFbb');
+      // set the global state to test mode
+      setGlobalState({
+        isLoading: false,
+        clickLock: false,
+        currentUser: {
+          userName: 'Test User',
+          uuid: 'b832a1b0-4843-4c73-9c83-2f8dad08d950',
+          token: 'test',
+          publicServerKey: 'test',
+        },
+      });
+      this.messageModule.handleCountry('gb');
+      return;
+    }
+
+    setGlobalState({ loadingState: 'Loading language files...' });
+    const sessionLoader = new ClientTokenSet();
+
+    this.messageModule.loadDefault()
+      .then(() => {
+        setGlobalState({ loadingState: 'Attempting login' });
+      })
+      .then(() => sessionLoader.initialize())
+      // load player token
+      .then((tokenSet) => {
+        if (tokenSet == null) {
+          ReportError(`A faulty login attempt was done at ${window.location.host}`, 'Steve');
+          setGlobalState({
+            isLoading: false,
+            currentUser: null,
+          });
+          return;
+        }
+        // eslint-disable-next-line consistent-return
+        return tokenSet;
+      })
+
+      // load server
+      .then(this.attemptLoginWithTokenSet)
+      .catch((e) => {
+        setGlobalState({ isLoading: false });
+        fatalToast(`Your current link has expired. Please run /audio again to get a new link. Error: ${e.message}`);
+        reportError(e);
+        return null;
+      });
+  }
+
+  handleGlobalClick() {
+    if (this.props.currentUser == null) return;
+    if (this.state.allowedToUnlock) {
+      if (!this.state.didUnlock) {
+        // initialize OpenAudio
+        this.bootApp();
+      }
     }
   }
 
@@ -214,63 +280,6 @@ class OpenAudioAppContainer extends React.Component {
     this.context.fadeToComponent(null);
   }
 
-  componentDidMount() {
-    if (getGlobalState().ignoreUrlToken) {
-      console.log('Ignoring url token');
-      return;
-    }
-
-    // check if the current url has testMode as a variable
-    const url = new URL(window.location.href);
-    const testMode = url.searchParams.get('testMode');
-    if (testMode != null) {
-      setBgColor('#12FFbb');
-      // set the global state to test mode
-      setGlobalState({
-        isLoading: false,
-        clickLock: false,
-        currentUser: {
-          userName: 'Test User',
-          uuid: 'b832a1b0-4843-4c73-9c83-2f8dad08d950',
-          token: 'test',
-          publicServerKey: 'test',
-        },
-      });
-      this.messageModule.handleCountry('gb');
-      return;
-    }
-
-    setGlobalState({ loadingState: 'Loading language files...' });
-    const sessionLoader = new ClientTokenSet();
-
-    this.messageModule.loadDefault()
-      .then(() => {
-        setGlobalState({ loadingState: 'Attempting login' });
-      })
-      .then(() => sessionLoader.initialize())
-    // load player token
-      .then((tokenSet) => {
-        if (tokenSet == null) {
-          ReportError(`A faulty login attempt was done at ${window.location.host}`, 'Steve');
-          setGlobalState({
-            isLoading: false,
-            currentUser: null,
-          });
-          return;
-        }
-        return tokenSet;
-      })
-
-    // load server
-      .then(this.attemptLoginWithTokenSet)
-      .catch((e) => {
-        console.error(e);
-        setGlobalState({ isLoading: false });
-        fatalToast(`Your current link has expired. Please run /audio again to get a new link. Error: ${e.message}`);
-        reportError(e);
-      });
-  }
-
   bootApp() {
     WorldModule.initPlayer();
     MediaManager.postBoot();
@@ -279,18 +288,9 @@ class OpenAudioAppContainer extends React.Component {
     this.setState({ didUnlock: true });
   }
 
-  handleGlobalClick() {
-    if (this.props.currentUser == null) return;
-    if (this.state.allowedToUnlock) {
-      if (!this.state.didUnlock) {
-        // initialize OpenAudio
-        this.bootApp();
-      }
-    }
-  }
-
   render() {
     return (
+      // eslint-disable-next-line jsx-a11y/no-static-element-interactions
       <div className="h-screen" onClick={this.handleGlobalClick}>
         <OAC.Provider value={store.getState()}>
           {this.props.children}
@@ -299,8 +299,6 @@ class OpenAudioAppContainer extends React.Component {
     );
   }
 }
-
-export default connect(mapStateToProps)(OpenAudioAppContainer);
 
 function mapStateToProps(state) {
   return {
@@ -312,8 +310,9 @@ function mapStateToProps(state) {
   };
 }
 
+export default connect(mapStateToProps)(OpenAudioAppContainer);
+
 function fatalToast(message) {
-  console.log(message);
   toast.error(message, {
     position: 'top-center',
     autoClose: 5000,
@@ -326,10 +325,6 @@ function fatalToast(message) {
   });
 }
 
-export function msg(message) {
-  return getTranslation(null, message);
-}
-
 export function getTranslation(context, message) {
   if (context == null) {
     context = getGlobalState();
@@ -337,6 +332,7 @@ export function getTranslation(context, message) {
   let m = context.lang[message];
 
   if (m === undefined) {
+    // eslint-disable-next-line no-console
     console.error(`Missing translation for: ${message}`);
     return `<${message}>`;
   }
@@ -346,6 +342,10 @@ export function getTranslation(context, message) {
     m = m.replace('%name', context.currentUser.userName);
   }
   return m;
+}
+
+export function msg(message) {
+  return getTranslation(null, message);
 }
 
 export function setBgColor(col) {

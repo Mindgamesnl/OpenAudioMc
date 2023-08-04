@@ -116,40 +116,39 @@ const initialState = {
   lang: {}, // gets loaded from the lang file, changes cause a full UI re-render
 };
 
-export function shouldSettingSave(name) {
-  for (let i = 0; i < UNSAVED_SETTINGS.length; i++) {
-    const s = UNSAVED_SETTINGS[i];
-    if (s.toLowerCase() === name.toLowerCase()) return false;
-  }
-  return true;
-}
-
-export function setGlobalState(stateUpdates) {
-  store.dispatch({ type: 'SET_STATE', stateUpdates });
-
-  // save to cookies
-  if (Object.prototype.hasOwnProperty.call(stateUpdates, 'settings')) {
-    const { settings } = stateUpdates;
-    for (const key in settings) {
-      if (Object.prototype.hasOwnProperty.call(settings, key) && shouldSettingSave(key)) {
-        Cookies.set(`setting_${key}`, settings[key], { expires: 365 });
-      }
+function mergeObjects(first, second) {
+  // remove null values
+  // loop with object.keys to avoid prototype pollution
+  Object.keys(first).forEach((key) => {
+    if (first[key] === null) {
+      delete first[key];
     }
-  }
-}
+  });
 
-export function getGlobalState() {
-  return store.getState();
+  return {
+    ...{
+      ...first,
+      ...second,
+      ...Object.keys(first).reduce((acc, key) => {
+        if (second[key] && typeof first[key] === 'object' && typeof second[key] === 'object') {
+          acc[key] = mergeObjects(first[key], second[key]);
+        }
+        return acc;
+      }, {}),
+    },
+  };
 }
 
 // hacky, but easy reducer
+// eslint-disable-next-line
 function appReducer(state = initialState, action) {
   switch (action.type) {
     case 'SET_STATE':
       return mergeObjects(state, action.stateUpdates);
     case 'SET_LANG_MESSAGE':
       if (action.payload.key === undefined || action.payload.value === undefined) {
-        console.error('Invalid lang message');
+        // eslint-disable-next-line no-console
+        console.error('Invalid lang message', action.payload);
         return state;
       }
       return {
@@ -164,36 +163,43 @@ function appReducer(state = initialState, action) {
   }
 }
 
-function mergeObjects(obj1, obj2) {
-  // remove null values
-  for (const key in obj1) {
-    if (obj1[key] === null) {
-      delete obj1[key];
+// eslint-disable-next-line no-underscore-dangle
+const devtoolsExt = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
+
+export const store = createStore(appReducer, devtoolsExt);
+
+export function shouldSettingSave(name) {
+  for (let i = 0; i < UNSAVED_SETTINGS.length; i++) {
+    const s = UNSAVED_SETTINGS[i];
+    if (s.toLowerCase() === name.toLowerCase()) return false;
+  }
+  return true;
+}
+
+export function setGlobalState(stateUpdates) {
+  store.dispatch({ type: 'SET_STATE', stateUpdates });
+
+  // save to cookies
+  if (Object.prototype.hasOwnProperty.call(stateUpdates, 'settings')) {
+    const { settings } = stateUpdates;
+    for (let i = 0; i < Object.keys(settings).length; i++) {
+      const key = Object.keys(settings)[i];
+      if (Object.prototype.hasOwnProperty.call(settings, key) && shouldSettingSave(key)) {
+        Cookies.set(`setting_${key}`, settings[key], { expires: 365 });
+      }
     }
   }
+}
 
-  return {
-    ...{
-      ...obj1,
-      ...obj2,
-      ...Object.keys(obj1).reduce((acc, key) => {
-        if (obj2[key] && typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
-          acc[key] = mergeObjects(obj1[key], obj2[key]);
-        }
-        return acc;
-      }, {}),
-    },
-  };
+export function getGlobalState() {
+  return store.getState();
 }
 
 // toggle debug mode when the D key is pressed
 document.addEventListener('keydown', (e) => {
   if (e.key === 'd') {
-    setGlobalState({ debug: !getGlobalState().debug });
+    setGlobalState({
+      debug: !getGlobalState().debug,
+    });
   }
 });
-
-// eslint-disable-next-line no-underscore-dangle
-const devtoolsExt = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
-
-export const store = createStore(appReducer, devtoolsExt);

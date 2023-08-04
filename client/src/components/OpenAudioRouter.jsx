@@ -1,11 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import LoadingView from '../views/loading/LoadingView';
 import { LoginView } from '../views/login/LoginView';
 import ClientView from '../views/client/ClientView';
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
 import BlockedLoginView from '../views/login/BlockedLoginView';
-import { connect } from 'react-redux';
 import { BadBrowser } from '../views/login/BadBrowserView';
 
 class OpenAudioController extends React.Component {
@@ -80,8 +80,6 @@ class OpenAudioController extends React.Component {
   }
 }
 
-export default connect(mapStateToProps)(OpenAudioController);
-
 function mapStateToProps(state) {
   return {
     isLoading: state.isLoading,
@@ -89,3 +87,5 @@ function mapStateToProps(state) {
     currentUser: state.currentUser,
   };
 }
+
+export default connect(mapStateToProps)(OpenAudioController);
