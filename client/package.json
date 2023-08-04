@@ -21,6 +21,7 @@
   },
   "scripts": {
     "lint": "eslint src/**/*.js src/**/*.jsx",
+    "lint:fix": "eslint src/**/*.js src/**/*.jsx --fix",
     "start": "node bump-minor.js && vite",
     "build": "node bump-minor.js && vite build",
     "bump": "node generate-buildno.js",
@@ -46,6 +47,7 @@
     "autoprefixer": "^10.4.14",
     "eslint": "^8.46.0",
     "eslint-plugin-react": "^7.33.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "fs": "^0.0.1-security",
     "ngrok": "^5.0.0-beta.2",
     "postcss": "^8.4.27",
@@ -53,6 +55,7 @@
     "qrcode-terminal": "^0.12.0",
     "tailwindcss": "^3.3.3",
     "vite": "^4.4.8",
-    "vite-plugin-svgr": "^3.2.0"
+    "vite-plugin-svgr": "^3.2.0",
+    "eslint-config-airbnb": "^19.0.4"
   }
 }
