@@ -35,7 +35,11 @@ export class DebugPage extends React.Component {
                 "grey",
                 "magenta",
             ],
-            playerLocation: {},
+            playerLocation: {
+                x: 0,
+                y: 0,
+                z: 0,
+            },
             speakers: [],
             peers: [],
             panels: [],
@@ -46,15 +50,17 @@ export class DebugPage extends React.Component {
         this.setState({
             radarTask: setInterval(() => {
                 if (this.props.voiceState.peersHidden) return;
-                this.setState({
-                    playerLocation: {x: WorldModule.player.location.x,
-                        y: WorldModule.player.location.y,
-                        z: WorldModule.player.location.z,
-                        yaw: WorldModule.player.yaw,
-                    },
-                    peers: VoiceModule.getPeerLocations(),
-                    speakers: WorldModule.getSpeakerLocations()
-                })
+                if (WorldModule.player) {
+                    this.setState({
+                        playerLocation: {x: WorldModule.player.location.x,
+                            y: WorldModule.player.location.y,
+                            z: WorldModule.player.location.z,
+                            yaw: WorldModule.player.yaw,
+                        },
+                        peers: VoiceModule.getPeerLocations(),
+                        speakers: WorldModule.getSpeakerLocations()
+                    })
+                }
             }, 50),
             graphTask: setInterval(() => {
                 let panels = []
