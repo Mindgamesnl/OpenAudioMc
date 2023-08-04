@@ -1,5 +1,4 @@
-/* global io */
-
+import io from "socket.io-client";
 import {getGlobalState, setGlobalState} from "../../../state/store";
 import {TimeService} from "../time/TimeService";
 import {MediaManager} from "../media/MediaManager";

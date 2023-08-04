@@ -134,7 +134,7 @@ export class BedrockAuthFlow extends React.Component {
         let hasMicrophone = this.state.microphoneOptions.length > 0;
 
         return (
-            <BlackoutPage className={"overflow-y-scroll"}>
+            <BlackoutPage additionalPageStyles={"overflow-y-scroll"}>
                 <div className="bg-gradient-to-bl via-gray-900 from-stone-900 to-gray-900 overflow-y-auto overflow-auto">
                     <BetaWarningBanner/>
                     <div
