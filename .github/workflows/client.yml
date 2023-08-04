@@ -1,21 +1,22 @@
 name: Client lint and build
 
-on: [push]
+on: [ push ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [20.*]
+        node-version: [ 20.* ]
 
     steps:
-     - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm i
+      - name: Install stuff
+        run: npm i
         working-directory: ./client
       - run: npm run lint
         working-directory: ./client
