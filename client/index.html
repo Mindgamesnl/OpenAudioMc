@@ -7,21 +7,21 @@
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link rel="stylesheet" href="%PUBLIC_URL%/static.css" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="static.css" />
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      Unlike "/favicon.ico" or "favicon.ico", "favicon.ico" will
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
 
     <title>OpenAudioMc | Login</title>
-    <link href="%PUBLIC_URL%/assets/logo.png" rel="icon">
-    <link href="%PUBLIC_URL%/assets/logo.png" rel="image">
+    <link href="assets/logo.png" rel="icon">
+    <link href="assets/logo.png" rel="image">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="google" content="notranslate">
     <meta name="theme-color" content="#ffffff">
@@ -40,12 +40,10 @@
     <meta name="twitter:card" content="summary">
 
     <!-- Includes -->
-    <link rel="stylesheet" href="%PUBLIC_URL%/css/winter.css"/>
-    <link rel="stylesheet" href="%PUBLIC_URL%/css/tailwind.css"/>
+    <link rel="stylesheet" href="css/winter.css"/>
 
-    <script src="%PUBLIC_URL%/libs/socket.io.slim.js"></script>
-    <script src="%PUBLIC_URL%/libs/github.fetch.js"></script>
-    <script src="%PUBLIC_URL%/libs/HackTimer.min.js"></script>
+    <script src="libs/socket.io.slim.js"></script>
+    <script src="libs/HackTimer.min.js"></script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -62,12 +60,13 @@
     -->
   </body>
 
-  <script src="%PUBLIC_URL%/libs/browser-source-map-support.js"></script>
-  <script>
-    //sourceMapSupport.install();
-  </script>
+<!--  <script src="libs/browser-source-map-support.js"></script>-->
+<!--  <script>-->
+<!--    //sourceMapSupport.install();-->
+<!--  </script>-->
 
   <!-- Cloudflare Web Analytics, remove this for custom installations -->
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "901b38df113d4f4ab9f3d29271786d3a"}'></script>
+  <script type="module" src='src/index.jsx'></script>
   <!-- End Cloudflare Web Analytics -->
 </html>

@@ -1,4 +1,5 @@
-var fs = require('fs');
+import fs from "fs";
+
 console.log('Incrementing build number...');
 
 let fileName = 'src/metadata.json';

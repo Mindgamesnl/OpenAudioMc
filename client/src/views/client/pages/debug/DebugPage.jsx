@@ -113,7 +113,7 @@ export class DebugPage extends React.Component {
 
 
                     <OaStyleCard title={"Spatial Rendering"}>
-                        <Radar player={this.state.playerLocation} entities={this.state.peers} speakers={this.state.speakers} />/>
+                        <Radar player={this.state.playerLocation} entities={this.state.peers} speakers={this.state.speakers} />
                         <p className={"text-black"}>My location X:{this.state.playerLocation.x} Y:{this.state.playerLocation.y} Z:{this.state.playerLocation.z}</p>
                         {this.state.peers.length === 0 && <p>
                             <i className={"text-black"}>No peers in range or peers are hidden</i>
