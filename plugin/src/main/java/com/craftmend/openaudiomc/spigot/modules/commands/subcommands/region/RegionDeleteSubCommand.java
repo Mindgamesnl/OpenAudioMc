@@ -34,6 +34,7 @@ public class RegionDeleteSubCommand extends SubCommand {
             OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class)
                     .delete(legacyMatchedRegion);
             message(sender, ChatColor.RED + "The legacy region " + targetRegion + " no longer has a sound linked to it.");
+            openAudioMcSpigot.getRegionModule().getRegionsWithoutWorld().remove(legacyMatchedRegion);
         }
 
         // check if it was valid in the first place
