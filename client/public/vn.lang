@@ -21,12 +21,12 @@ home.confirmLoginButton=Bắt đầu kết nối
 home.confirmLoginWithVoicechat=Bắt đầu kết nối và bật VoiceChat
 
 home.activate=Bắt đầu kết nối
-home.activateText=Trang web này để kết nối âm thanh với SimpMC. Bấm vào bất cứ đâu để bắt đầu
+home.activateText=Trang web này để kết nối âm thanh với OpenAudioMC. Bấm vào bất cứ đâu để bắt đầu
 home.clickAnywhere=Bấm vào bất cứ đâu để bắt đầu
 home.activateHeader=Bấm vào đây để kết nối
 home.welcome=Chào mừng, %player!
-home.header=Giữ trang web này mở trong suốt quá trình chơi tại SimpMC để có thể nghe được âm thanh nha!
-home.volumeContext=Chỉnh âm lượng của hiệu ứng âm thanh trong SimpMC. Có thể dùng lệnh <pre>/volume &lt;volume&gt;</pre> để chỉnh từ trong game nha!
+home.header=Giữ trang web này mở trong suốt quá trình chơi trong Game để có thể nghe được âm thanh nha!
+home.volumeContext=Chỉnh âm lượng của hiệu ứng âm thanh trong Game. Có thể dùng lệnh <pre>/volume &lt;volume&gt;</pre> để chỉnh từ trong game nha!
 home.audioControls=Điều chỉnh âm thanh
 home.notificationsTitle=Thông báo
 home.notificationsEmpty=Chưa có thông báo
