@@ -21,7 +21,7 @@ public class BackupService extends Service {
         OpenAudioLogger.toConsole("Making a backup of your database, config, and data.yml");
 
         // check backups dir
-        File backupRootDirectory = new File(MagicValue.STORAGE_DIRECTORY.get(File.class), "/backups");
+        File backupRootDirectory = new File(MagicValue.STORAGE_DIRECTORY.get(File.class), File.pathSeparator + "backups");
         if (!backupRootDirectory.exists()) {
             backupRootDirectory.mkdir();
         }
