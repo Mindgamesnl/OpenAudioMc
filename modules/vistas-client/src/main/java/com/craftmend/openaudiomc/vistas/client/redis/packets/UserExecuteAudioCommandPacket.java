@@ -14,5 +14,6 @@ public class UserExecuteAudioCommandPacket extends AbstractPacketPayload {
 
     private String playerName;
     private UUID playerUuid;
+    private String[] args = new String[0];
 
 }

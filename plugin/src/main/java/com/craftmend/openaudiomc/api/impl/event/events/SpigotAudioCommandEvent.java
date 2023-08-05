@@ -17,9 +17,12 @@ public class SpigotAudioCommandEvent extends AudioEvent {
     private boolean canceled = false;
     @Getter
     private CommandSender commandSender;
+    @Getter
+    private String[] args;
 
-    public SpigotAudioCommandEvent(CommandSender commandSender) {
+    public SpigotAudioCommandEvent(CommandSender commandSender, String[] args) {
         this.commandSender = commandSender;
+        this.args = args;
     }
 
 }

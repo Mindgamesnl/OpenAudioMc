@@ -75,7 +75,8 @@
     voicechat-hint-interval: 120,
     voicechat-hint-range: 135,
     redstone-tick-speakers: true,
-    redstone-tick-speakers-interval: 5
+    redstone-tick-speakers-interval: 5,
+    ignore-regions-on-vehicles: false
   },
   papi: {
     client-connected: Connected,

@@ -57,6 +57,14 @@ public class BackupService extends Service {
             );
         } catch (IOException e) {}
 
+        try {
+            Files.copy(
+                    new File(MagicValue.STORAGE_DIRECTORY.get(File.class), "storm.db").toPath(),
+                    new File(backupDir, "storm.db").toPath(),
+                    StandardCopyOption.REPLACE_EXISTING
+            );
+        } catch (IOException e) {}
+
     }
 
 }

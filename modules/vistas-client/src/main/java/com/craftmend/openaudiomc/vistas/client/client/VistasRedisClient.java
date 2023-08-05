@@ -45,7 +45,8 @@ public class VistasRedisClient extends Service {
                         spigotAudioCommandEvent.setCanceled(true);
                         sendPacket(new UserExecuteAudioCommandPacket(
                                 spigotAudioCommandEvent.getCommandSender().getName(),
-                                ((Player) spigotAudioCommandEvent.getCommandSender()).getUniqueId()
+                                ((Player) spigotAudioCommandEvent.getCommandSender()).getUniqueId(),
+                                spigotAudioCommandEvent.getArgs()
                         ));
                     }
                 });

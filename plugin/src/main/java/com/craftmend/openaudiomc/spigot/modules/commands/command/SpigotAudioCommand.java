@@ -37,10 +37,12 @@ public class SpigotAudioCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
-        SpigotAudioCommandEvent event = AudioApi.getInstance().getEventDriver().fire(new SpigotAudioCommandEvent(commandSender));
+        SpigotAudioCommandEvent event = AudioApi.getInstance().getEventDriver().fire(new SpigotAudioCommandEvent(commandSender, args));
         if (event.isCanceled()) {
             return true;
         }
+
+
 
         User sua = OpenAudioMc.resolveDependency(UserHooks.class).fromCommandSender(commandSender);
 
@@ -71,7 +73,6 @@ public class SpigotAudioCommand implements CommandExecutor {
         }
 
         if (commandSender instanceof Player) {
-
             // do we have an argument called "token",  "bedrock" or "key"?
             if (args.length == 1) {
                 OpenAudioMc.getService(NetworkingService.class).getClient(sua.getUniqueId()).getAuth().activateToken(

@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.vistas.client.server.networking;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.authentication.driver.AuthenticationDriver;
+import com.craftmend.openaudiomc.generic.client.session.ClientAuth;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
@@ -52,8 +54,22 @@ public class VistasRedisServer extends Service {
         });
 
         packetEvents.registerPacket(UserExecuteAudioCommandPacket.class).setHandler(userExecuteAudioCommandPacket -> {
-            OpenAudioMc.getService(NetworkingService.class).getClient(userExecuteAudioCommandPacket.getPlayerUuid())
-                    .getAuth().publishSessionUrl();
+
+            // does the user have args?
+            ClientAuth authenticationDriver = OpenAudioMc.getService(NetworkingService.class).getClient(userExecuteAudioCommandPacket.getPlayerUuid())
+                    .getAuth();
+
+            if (userExecuteAudioCommandPacket.getArgs().length == 0) {
+                authenticationDriver.publishSessionUrl();
+            } else {
+                User sender = OpenAudioMc.resolveDependency(UserHooks.class).byUuid(userExecuteAudioCommandPacket.getPlayerUuid());
+
+                if (sender == null) {
+                    OpenAudioLogger.toConsole("User " + userExecuteAudioCommandPacket.getPlayerUuid() + " is not online, but tried to execute a command");
+                    return;
+                }
+                authenticationDriver.activateToken(sender, userExecuteAudioCommandPacket.getArgs()[0]);
+            }
         });
 
         packetEvents.registerPacket(UserLeavePacket.class).setHandler(leavePacket -> {
