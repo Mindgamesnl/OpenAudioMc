@@ -73,7 +73,7 @@ function checkNetworkUrl(data) {
     if (networkUrlLine) {
         if (hadCodeAlready) return;
         console.log('Found network URL, generating QR code...');
-        const url = networkUrlLine.replace('On Your Network:', '').trim().replace(/\s/g, '');
+        const url = networkUrlLine.replace('Local:   ', '').trim().replace(/\s/g, '');
         qr.generate(url, { small: true }, (qrCode) => {
             console.log(qrCode);
             console.log(url);
