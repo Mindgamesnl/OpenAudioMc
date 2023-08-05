@@ -7,7 +7,6 @@ import {StyledDropdown} from "../../../../components/form/StyledDropdown";
 import {setGlobalState} from "../../../../state/store";
 import {BedrockTokenHandle} from "./BedrockTokenHandle";
 import {FadeToCtx} from "../../../../components/contexts";
-import {BetaWarningBanner} from "./BetaWarningBanner";
 
 export let premadeAudioStream = null;
 
@@ -136,7 +135,6 @@ export class BedrockAuthFlow extends React.Component {
         return (
             <BlackoutPage additionalPageStyles={"overflow-y-scroll"}>
                 <div className="bg-gradient-to-bl via-gray-900 from-stone-900 to-gray-900 overflow-y-auto overflow-auto">
-                    <BetaWarningBanner/>
                     <div
                         className="relative mx-auto xl:max-w-7xl py-12 px-6 lg:px-8 lg:py-8 xl:border-l-8 border-solid border-indigo-900 flex-none">
                         <div className="md:ml-auto">
