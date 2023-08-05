@@ -78,7 +78,3 @@ settings.spatial.legacy=Legacy (ancien système)
 settings.interpolation.title=Lissage de l'emplacement
 settings.interpolation.body=Lissage automatique des mouvements pour minimiser le bégaiement du haut-parleur/de la voix pendant la marche. Cela ajoute un délai supplémentaire pour les mouvements, mais le son est meilleur.
 settings.interpolation.button=Activer le lissage
-
-settings.streamermode.title=Mode Streamer
-settings.streamermode.body=Désactivez automatiquement vos jetons de session après une seule utilisation. Cela signifie que les URL de vos clients peuvent être affichées en toute sécurité sur un stream sans craindre qu'un spectateur se fasse passer pour vous. Assurez-vous simplement d'ouvrir votre lien dès que vous le recevez.
-settings.streamermode.button=Activer le mode streamer

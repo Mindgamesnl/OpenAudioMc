@@ -136,7 +136,3 @@ settings.spatial.legacy=Legacy (oud systeem)
 settings.interpolation.title=Locatie versoepelen
 settings.interpolation.body=Automatisch bewegingen versoepelen om het stotteren van de luidsprekers/voicechat tijdens het lopen te minimaliseren. Dit voegt extra bewegingsvertraging toe, maar klinkt beter.
 settings.interpolation.button=Versoepelen inschakelen
-
-settings.streamermode.title=Streamer Modus
-settings.streamermode.body=Automatisch de sessietoken uitschakelen na eenmalig gebruik. Dit betekent dat de URL's van je client veilig te tonen zijn op stream zonder dat je je zorgen hoeft te maken dat een kijker zich voordoet als jou. Zorg er wel voor dat je de link opent zodra je hem krijgt.
-settings.streamermode.button=Streamer mode inschakelen

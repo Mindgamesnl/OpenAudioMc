@@ -87,7 +87,3 @@ settings.spatial.legacy=レガシー(旧システム)
 settings.interpolation.title=位置情報スムージング
 settings.interpolation.body=歩行中のスピーカーやボイスチャットのもたつきを抑えるために、自動的に動きを滑らかにします。この場合、動作の遅延が追加されますが、音は良くなります。
 settings.interpolation.button=スムージングを有効にする
-
-settings.streamermode.title=ストリーマモード
-settings.streamermode.body=セッション・トークンを1回使用したら、自動的に無効にします。これにより、視聴者になりすまされる心配なく、クライアントのURLを安全にストリームで表示できます。ただ、リンクを取得したらすぐに開くようにしてください。
-settings.streamermode.button=ストリーマモードを有効にする

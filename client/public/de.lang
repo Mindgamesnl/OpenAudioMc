@@ -121,8 +121,4 @@ settings.interpolation.title=Standortglättung
 settings.interpolation.body=Bewegungen werden automatisch geglättet um das Stottern des Sprechers/Voicechats beim Gehen zu minimieren. Dies führt zu einer zusätzlichen Bewegungsverzögerung, klingt aber besser.
 settings.interpolation.button=Aktiviere Standortglättung
 
-settings.streamermode.title=Streamer-Modus
-settings.streamermode.body=Deaktiviere deinen Sitzungs-Token automatisch nach einmaliger Verwendung. Dies bedeutet, dass deine Client-URLs sicher im Stream gezeigt werden können, ohne dass du befürchten musst, dass sich ein Zuschauer für dich ausgeben kann. Stelle einfach sicher, dass du den Link öffnest, sobald du ihn erhältst.
-settings.streamermode.button=Aktiviere den Streamer-Modus
-
 tooltip.close=Schließen
