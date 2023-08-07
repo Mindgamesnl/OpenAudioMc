@@ -7,6 +7,7 @@ import {StyledDropdown} from "../../../../components/form/StyledDropdown";
 import {setGlobalState} from "../../../../state/store";
 import {BedrockTokenHandle} from "./BedrockTokenHandle";
 import {FadeToCtx} from "../../../../components/contexts";
+import {BetaWarningBanner} from "./BetaWarningBanner";
 
 export let premadeAudioStream = null;
 
@@ -17,8 +18,6 @@ export class BedrockAuthFlow extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            notificationPermissionsGranted: false,
-            notificationErrorMessage: null,
             microphonePermissionsGranted: false,
             microphoneErrorMessage: null,
             microphoneOptions: [],
@@ -117,7 +116,7 @@ export class BedrockAuthFlow extends React.Component {
         setGlobalState({
             platformInfo: {
                 flow: "bedrock",
-                notificationsReady: this.state.notificationPermissionsGranted,
+                notificationsReady: false,
             },
             settings: {
                 preferredMicId: this.state.selectedMicrophone,
@@ -129,94 +128,74 @@ export class BedrockAuthFlow extends React.Component {
 
     render() {
 
-        let meetsRequirements = (this.state.notificationPermissionsGranted || !this.supportsNotificationPermissions()) && this.state.microphonePermissionsGranted;
+        let meetsRequirements = this.state.microphonePermissionsGranted;
         let hasMicrophone = this.state.microphoneOptions.length > 0;
 
         return (
-            <BlackoutPage additionalPageStyles={"overflow-y-scroll"}>
-                <div className="bg-gradient-to-bl via-gray-900 from-stone-900 to-gray-900 overflow-y-auto overflow-auto">
-                    <div
-                        className="relative mx-auto xl:max-w-7xl py-12 px-6 lg:px-8 lg:py-8 xl:border-l-8 border-solid border-indigo-900 flex-none">
-                        <div className="md:ml-auto">
-                            <h2 className="text-lg font-semibold text-gray-300">Connecting with</h2>
-                            <p className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                                Minecraft: Bedrock Edition
-                            </p>
-                            <p className="mt-3 text-lg text-gray-300">
-                                You need to give the required permissions to this page now, so we can connect you
-                                automatically in the future.
-                            </p>
-                            <div className="mt-8">
-                                {this.supportsNotificationPermissions() ?
-                                    <>
+          <BlackoutPage className={"overflow-y-scroll"}>
+              <div className="bg-gradient-to-bl via-gray-900 from-stone-900 to-gray-900 overflow-y-auto overflow-auto">
+                  <BetaWarningBanner/>
+                  <div
+                    className="relative mx-auto xl:max-w-7xl py-12 px-6 lg:px-8 lg:py-8 xl:border-l-8 border-solid border-indigo-900 flex-none">
+                      <div className="md:ml-auto">
+                          <h2 className="text-lg font-semibold text-gray-300">Connecting with</h2>
+                          <p className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                              Minecraft: Bedrock Edition
+                          </p>
+                          <p className="mt-3 text-lg text-gray-300">
+                              You need to give the required permissions to this page now, so we can connect you
+                              automatically in the future.
+                          </p>
+                          <div className="mt-8">
+                              <ButtonChecklistItem
+                                text={"Microphone Permissions"}
+                                subtext={"We need to use your microphone to send your voice to other players."}
+                                buttonContent={"Enable Microphone"}
+                                buttonOnClick={this.requestMicrophonePermissions}
+                                showButton={!this.state.microphonePermissionsGranted && !this.state.microphoneLoading}
+                                checked={this.state.microphonePermissionsGranted}
+                                loading={this.state.microphoneLoading}
+                              />
 
-                                        <ButtonChecklistItem
-                                            text={"Notification Permissions"}
-                                            subtext={"We need to send you notifications when you're not in the app."}
-                                            buttonContent={"Enable Notifications"}
-                                            buttonOnClick={this.requestNotificationPermissions}
-                                            checked={this.state.notificationPermissionsGranted}
-                                            showButton={!this.state.notificationPermissionsGranted}
-                                        />
+                              {hasMicrophone ?
+                                <div className={"pt-4 w-full flex justify-center"}>
+                                    <StyledDropdown
+                                      title={"Select Microphone"}
+                                      description={"Select the microphone you want to use for voice chat."}
+                                      options={this.state.microphoneOptions}
+                                      onChange={this.changeMicInput}
+                                    />
+                                </div> : null}
 
-                                        {this.state.notificationErrorMessage != null ?
-                                            <ErrorBox
-                                                title={"Notification Permissions"}
-                                                description={this.state.notificationErrorMessage}/>
-                                            : null}
+                              {this.state.microphoneErrorMessage != null ?
+                                <ErrorBox
+                                  title={"Microphone Error"}
+                                  description={this.state.microphoneErrorMessage}/>
+                                : null}
 
-                                        <div className={"h-4"}/>
-                                    </> : null}
-
-                                <ButtonChecklistItem
-                                    text={"Microphone Permissions"}
-                                    subtext={"We need to use your microphone to send your voice to other players."}
-                                    buttonContent={"Enable Microphone"}
-                                    buttonOnClick={this.requestMicrophonePermissions}
-                                    showButton={!this.state.microphonePermissionsGranted && !this.state.microphoneLoading}
-                                    checked={this.state.microphonePermissionsGranted}
-                                    loading={this.state.microphoneLoading}
-                                />
-
-                                {hasMicrophone ?
-                                    <div className={"pt-4 w-full flex justify-center"}>
-                                        <StyledDropdown
-                                            title={"Select Microphone"}
-                                            description={"Select the microphone you want to use for voice chat."}
-                                            options={this.state.microphoneOptions}
-                                            onChange={this.changeMicInput}
-                                        />
-                                    </div> : null}
-
-                                {this.state.microphoneErrorMessage != null ?
-                                    <ErrorBox
-                                        title={"Microphone Error"}
-                                        description={this.state.microphoneErrorMessage}/>
-                                    : null}
-
-                                <div
-                                    className={"border-t-2 mx-5 my-5 border-r-2 border-solid border-gray-700 rounded-full"}/>
+                              <div
+                                className={"border-t-2 mx-5 my-5 border-r-2 border-solid border-gray-700 rounded-full"}/>
 
 
-                                {meetsRequirements ?
-                                    <button
-                                        onClick={this.continue.bind(this)}
-                                        className={"bg-green-400 w-full py-4 px-2 rounded-md text-gray-900 mt-4"}
-                                    >Continue
-                                    </button>
-                                    :
-                                    <button
-                                        disabled={true}
-                                        className={"w-full bg-gray-800 py-4 px-2 rounded-md text-gray-400 mt-4"}
-                                    >
-                                        You need to enable all permissions before you can continue
-                                    </button>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </BlackoutPage>
+                              {meetsRequirements ?
+                                <button
+                                  onClick={this.continue.bind(this)}
+                                  className={"bg-green-400 w-full py-4 px-2 rounded-md text-gray-900 mt-4"}
+                                >Continue
+                                </button>
+                                :
+                                <button
+                                  disabled={true}
+                                  className={"w-full bg-gray-800 py-4 px-2 rounded-md text-gray-400 mt-4"}
+                                >
+                                    You need to enable all permissions before you can continue
+                                </button>
+                              }
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </BlackoutPage>
         )
     }
 }
@@ -230,18 +209,18 @@ class ErrorBox extends React.Component {
 
     render() {
         return (
-            <div className={"w-full flex justify-center"}>
-                <div className="rounded-md bg-red-700 p-2 mt-4 w-1/2">
-                    <div className="flex">
-                        <div className="ml-3">
-                            <h3 className="text-sm font-medium text-red-200">{this.props.title}</h3>
-                            <div className="mt-2 text-sm text-red-200">
-                                {this.props.description}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          <div className={"w-full flex justify-center"}>
+              <div className="rounded-md bg-red-700 p-2 mt-4 w-1/2">
+                  <div className="flex">
+                      <div className="ml-3">
+                          <h3 className="text-sm font-medium text-red-200">{this.props.title}</h3>
+                          <div className="mt-2 text-sm text-red-200">
+                              {this.props.description}
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
         )
     }
 }
