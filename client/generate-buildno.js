@@ -9,8 +9,7 @@ const fileName = 'src/metadata.json';
 fs.readFile(fileName, (fileError, content) => {
   if (fileError) throw fileError;
   const metadata = JSON.parse(content);
-  metadata.buildMinor += 1;
-  metadata.buildRevision = 0;
+  metadata.buildRevision += 1;
   metadata.buildDate = new Date().toDateString();
   metadata.build = `${metadata.buildMajor}.${metadata.buildMinor}.${metadata.buildRevision} ${metadata.buildTag}`;
   fs.writeFile(fileName, JSON.stringify(metadata), (err) => {

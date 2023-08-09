@@ -31,7 +31,6 @@ export class LoginView extends React.Component {
   render() {
     return (
       <BlackoutPage coverImage="/assets/bg.png">
-
         <div className="flex flex-col items-center justify-center h-full w-full">
           <PlatformSelection />
         </div>
