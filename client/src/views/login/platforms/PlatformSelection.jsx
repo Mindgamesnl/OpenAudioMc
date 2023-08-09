@@ -97,13 +97,7 @@ export class PlatformSelection extends React.Component {
             </div>
           </div>
 
-          <div className="w-full flex justify-center">
-            <div
-              className="border-t-2 w-full xl:w-4/5 mx-5 my-4 border-solid border-gray-700 xl:h-full rounded-full"
-            />
-          </div>
-
-          <div className="h-full pb-2 flex flex-col mb-1">
+          <div className="h-full py-2 flex flex-col mb-1">
             <div className="grid content-end h-full">
               <div className="w-full flex justify-center align-middle text-white ">
                 <div className="w-2/3 xl:w-1/2">
