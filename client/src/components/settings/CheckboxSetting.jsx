@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export function CheckboxSetting(props) {
   return (
-    <div className="content-card w-full md:w-1/2 xl:w-1/3 m-2">
+    <div className="content-card w-full md:w-1/2 xl:w-1/4 m-2">
       <span className="inline">
         <div dangerouslySetInnerHTML={{ __html: props.icon }} className="inline" />
         {props.title}

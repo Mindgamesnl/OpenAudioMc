@@ -50,6 +50,7 @@ const initialState = {
     automaticSensitivity: false,
     fadeAudio: true,
 
+    voiceEchoCancellation: true,
     voicechatChimesEnabled: true,
     interpolationEnabled: true,
     spatialRenderingMode: 'new',

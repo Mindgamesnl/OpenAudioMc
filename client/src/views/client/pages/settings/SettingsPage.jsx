@@ -14,6 +14,7 @@ export const settingSvg = {
   MIX_AND_FADE: '<svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg>',
   PRELOAD: '<svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M16 8v-4h-12v12.01h4" stroke-dasharray=".001 4" />  <rect x="8" y="8" width="12" height="12" rx="2" /></svg>',
   RENDER: '<svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <polyline points="5 9 2 12 5 15" />  <polyline points="9 5 12 2 15 5" />  <polyline points="15 19 12 22 9 19" />  <polyline points="19 9 22 12 19 15" />  <line x1="2" y1="12" x2="22" y2="12" />  <line x1="12" y1="2" x2="12" y2="22" /></svg>',
+  ECHO_CANCELLATION: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>',
 };
 
 class SettingsPage extends React.Component {
@@ -47,6 +48,15 @@ class SettingsPage extends React.Component {
         <div className="content-section-title">Settings</div>
 
         <div className="content-card-collection items-stretch flex  justify-center align-middle">
+          <CheckboxSetting
+            title={getTranslation(c, 'settings.voicechat.echocancel.title')}
+            description={getTranslation(c, 'settings.voicechat.echocancel.body')}
+            icon={settingSvg.ECHO_CANCELLATION}
+            isChecked={this.props.settings.voiceEchoCancellation}
+            buttonText={getTranslation(c, 'settings.voicechat.echocancel.button')}
+            onChange={this.makeStateChanger('voiceEchoCancellation')}
+          />
+
           <CheckboxSetting
             title={getTranslation(c, 'settings.voicechat.chimes.title')}
             description={getTranslation(c, 'settings.voicechat.chimes.body')}

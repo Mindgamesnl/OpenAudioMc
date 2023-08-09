@@ -1,5 +1,6 @@
 import { premadeAudioStream } from '../../../../views/login/platforms/bedrock/BedrockAuthFlow';
 import { debugLog } from '../../debugging/DebugService';
+import { getGlobalState } from '../../../../state/store';
 
 export class WrappedUserMedia {
   constructor() {
@@ -32,10 +33,10 @@ export class WrappedUserMedia {
 
     const argument = {
       audio: {
-        noiseSuppression: true,
+        noiseSuppression: getGlobalState().settings.voiceEchoCancellation,
         // sampleRate: 64000,
-        echoCancellation: true,
-        autoGainControl: false,
+        echoCancellation: getGlobalState().settings.voiceEchoCancellation,
+        autoGainControl: true,
         channelCount: 1,
       },
     };
