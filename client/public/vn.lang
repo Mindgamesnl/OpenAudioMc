@@ -1,0 +1,131 @@
+lang.name=Vietnamese
+
+lang.detectedAs=Đã đổi ngôn ngữ sang %langName! 
+lang.keep=Giữ %langName
+lang.toEn=Đổi về Tiếng Anh
+
+ui.loading=Loading...
+ui.logout=Đăng xuất
+
+navbar.audio=Audio
+navbar.vc=VoiceChat
+navbar.settings=Cài đặt
+navbar.debug=Debug
+navbar.free=free
+navbar.premium=premium
+navbar.upgradeRequired=Cần cập nhật
+
+home.confirmLoginHeader=Chào mừng!
+home.confirmLoginBody=Bạn có phải <i>%player</i> không?<br />Nếu không phải thì hãy thử đóng cửa sổ này và thử lại nha.
+home.confirmLoginButton=Bắt đầu kết nối
+home.confirmLoginWithVoicechat=Bắt đầu kết nối và bật VoiceChat
+
+home.activate=Bắt đầu kết nối
+home.activateText=Trang web này để kết nối âm thanh với OpenAudioMC. Bấm vào bất cứ đâu để bắt đầu
+home.clickAnywhere=Bấm vào bất cứ đâu để bắt đầu
+home.activateHeader=Bấm vào đây để kết nối
+home.welcome=Chào mừng, %player!
+home.header=Giữ trang web này mở trong suốt quá trình chơi trong Game để có thể nghe được âm thanh nha!
+home.volumeContext=Chỉnh âm lượng của hiệu ứng âm thanh trong Game. Có thể dùng lệnh <pre>/volume &lt;volume&gt;</pre> để chỉnh từ trong game nha!
+home.audioControls=Điều chỉnh âm thanh
+home.notificationsTitle=Thông báo
+home.notificationsEmpty=Chưa có thông báo
+
+vc.badClient=VoiceChat yêu cầu ứng dụng web được cung cấp qua HTTPS, vui lòng cập nhật URL của bạn để sử dụng HTTPS hoặc thiết lập chứng chỉ SSL hợp lệ.
+vc.notCompatible=Trình duyệt của bạn không hỗ trợ VoiceChat. Vui lòng sử dụng trình duyệt (máy tính để bàn) mới hơn như Chrome, Safari, v.v.
+vc.voiceModerationEnabled=Máy chủ này có hoạt động kiểm duyệt. Một số admin/staff có thể đang lắng nghe trong khi mic của bạn đang hoạt động.
+vc.notice=Chú ý
+vc.startingPopupTitle=Đang đăng nhập VoiceChat...
+vc.startingPopup=Vui lòng đợi trong khi chúng tôi giúp bạn thiết lập VoiceChat...Chờ chút nha, nó sẽ nhanh thôi
+vc.reloadingPopupTitle=Tải lại hệ thống VoiceChat...
+vc.reloadingPopup=Chờ chút trong khi VoiceChat khởi động lại để áp dụng cài đặt mới nha
+vc.updatingMicPopupTitle=Đang cập nhật micrô!
+vc.updatingMicPopup=Chờ chút trong khi VoiceChat khởi động lại để sử dụng micrô đã chọn nha
+vc.micErrorPopupTitle=Lỗi micrô
+vc.micErrorPopup=Đã xảy ra lỗi khi cố gắng truy cập micrô của bạn. Vui lòng nhấn "cho phép" khi trình duyệt của bạn yêu cầu bạn cấp quyền sử dụng micrô hoặc truy cập wiki để biết thêm thông tin.
+vc.disabled=%serverName đã tạm thời tắt chức năng VoiceChat
+vc.title=VoiceChat lân cận
+vc.boardingTitle=Hướng dẫn VoiceChat
+vc.onboarding=Máy chủ này có hỗ trợ VoiceChat lân cận, cho phép bạn nói chuyện với người chơi trong bán kính %range. Bạn có muốn bật tính năng này và cấp quyền truy cập vào micrô của mình không?
+vc.settings=Cài đặt VoiceChat
+vc.muteMic=Tắt micrô
+vc.unmuteMic=Bật micrô
+vc.input=Thiết bị vào
+vc.aboutInput=Chọn thiết bị vào để sử dụng cho VoiceChat, sẽ khởi động lại phiên đăng nhập
+vc.positionalAudio=VoiceChat 360°
+vc.aboutPositionalAudio=Âm thanh 360°, đem lại cho bạn một cảm giác âm thanh chân thực hơn
+vc.settingsDisable=Tắt
+vc.settingsEnablePositionalAudio=Bật VoiceChat 360°
+vc.settingsDisablePositionalAudio=Tắt VoiceChat 360°
+vc.automaticAdjustments=Tự động điều chỉnh
+vc.sensitivity=Độ nhạy
+vc.aboutSensitivity=Chỉnh độ nhạy cho micrô, cài đặt này sẽ tự động tắt tiếng micrô của bạn khi bạn không nói. <b>Kéo hết sang bên trái</b> sẽ không lọc tiếng ồn, <b>Kéo hết sang bên phải</b> sẽ tắt tiếng micrô hoàn toàn.
+vc.peerTable={total} người chơi trong phạm vi, {talking} đang nói
+vc.toggleMicrophone=Bật/Tắt micrô
+vc.you=bạn
+vc.safetyTitle=Vì sự an toàn của bạn
+vc.safetyDisclaimer=Bạn sẽ nhận được tin nhắn trong game khi mọi người xuất hiện và rời khỏi phạm vi trò chuyện thoại của bạn, đồng thời bạn sẽ có thể xem danh sách những người mà bạn có thể nghe thấy (và có thể nghe thấy khi bạn nói) cũng như tắt tiếng họ nếu muốn. OpenAudioMc dựa vào máy chủ của bạn để xử lý việc kiểm duyệt và xử lý các báo cáo lạm dụng khi cần thiết. Vui lòng liên hệ với Admin/Staff máy chủ nếu bạn có bất kỳ câu hỏi hoặc thắc mắc nào.
+vc.safetyFooter=<b>Bạn muốn một chút riêng tư? bạn có thể tắt tiếng micrô của mình bất cứ lúc nào qua lệnh <pre style="display: inline;">/mm</pre> hoặc giữ <pre style="display: inline;">shift + F</pre> trong game, hoặc bằng cách nhấn vào nút trên trang web này.</b>
+vc.join=Tham gia VoiceChat
+vc.empty.title=Bạn đang cô đơn :<
+vc.empty.body=Chưa có ai xung quanh đâu, hãy tìm người để nói chuyện nào!
+vc.muteMicrophone=Tắt micrô
+vc.unmuteMicrophone=Mở micrô
+vc.myStatus=Trạng thái micrô hiện tại
+vc.hero.title=Chào mừng đến với VoiceChat!
+vc.hero.subtitle=Đây là bảng điều khiển VoiceChat của bạn, tại đây bạn có thể xem ai ở trong phạm vi giọng nói của mình và bạn có thể nghe thấy ai. Bạn cũng có thể tắt tiếng mọi người nếu không muốn nghe thấy họ.
+vc.statusTitle=Trạng thái hiện tại
+vc.settings.globalVolumeTitle=Âm lượng VoiceChat
+vc.settings.surround.disable=Tắt xung quanh
+vc.settings.surround.enable=Bật xung quanh
+vc.settings.globalVolumeAbout=Chỉnh âm thanh tổng của tất cả người trong VoiceChat
+vc.settings.toggleMenuTitle=Cài đặt đầu vào VoiceChat
+vc.settings.toggleMenu=Chỉnh Menu
+vc.settings.monitoring.title=Chỉnh micrô
+vc.settings.monitoring.about=Chế độ này sẽ phát lại giọng nói của chính bạn giống như cách người khác nghe thấy bạn, hữu ích để kiểm tra micrô và cài đặt độ nhạy của bạn.
+vc.settings.monitoring.toggle=Bật chế độ chỉnh micrô
+vc.operaWarning=Quá trình đăng nhập của bạn có vẻ hơi lâu, điều này rất có thể là do cài đặt Opera của bạn. Vui lòng mở cài đặt trình duyệt của bạn, tìm kiếm "WebRTC" và chọn tùy chọn bật tất cả
+vc.youAreModerating=Coi chừng! bạn hiện là Mod, giờ đây bạn có thể nghe thấy mọi người trong VoiceChat nhưng họ không thể nghe thấy bạn.
+vc.noMicInputYetTitle=Có vấn đề với micrô của bạn!
+vc.noMicInputYetBody=Vui lòng đảm bảo rằng bạn đã chọn đúng micrô hoặc thử giảm độ nhạy.
+vc.peersHiddenTitle=Đã ẩn người chơi trong VoiceChat
+vc.peersHiddenText=Server này đã vô hiệu hóa khả năng xem ai đang trong VoiceChat để tránh những lợi thế không công bằng, mặc dù vậy, bạn vẫn có thể nghe thấy họ.
+
+settings.voicechat.chimes.title=Âm báo VoiceChat
+settings.voicechat.chimes.body=Âm báo sẽ hiện lên khi bạn tắt/mở mic.
+settings.voicechat.chimes.button=bật/tắt âm báo
+settings.theme.title=Dark mode
+settings.theme.body=Sử dụng Dark mode (mặc định) của ứng dụng web này
+settings.theme.button=dark mode
+settings.voicechat.peer.title=Thông báo VC
+settings.voicechat.peer.body=Nhận thông báo trên màn hình khi ai đó vào hoặc rời khỏi phạm vi VoiceChat của bạn
+settings.voicechat.peer.button=bật thông báo VC
+settings.mix-and-fade.title=Bật mix âm thanh
+settings.mix-and-fade.body=Tự động làm mờ dần và trộn các nguồn âm thanh
+settings.mix-and-fade.button=Bật mix
+settings.preload.title=Tự động tải trước các tập tin âm thanh
+settings.preload.body=Khi bật tính năng này, OpenAudioMc sẽ tự động tải trước các tệp thường được sử dụng trong Game của bạn. Điều này sẽ làm cho âm thanh phản hồi nhanh hơn nhưng sử dụng nhiều dữ liệu hơn.
+settings.preload.button=Bật tải trước
+settings.rolloff.title=Âm thanh 3D
+settings.rolloff.body=Điều này kiểm soát lượng giảm chấn được áp dụng cho âm thanh 3D dựa trên khoảng cách. 0% là không giảm chấn, 100% là giảm chấn hoàn toàn. Điều này áp dụng cho cả loa và trò chuyện thoại.
+settings.rolloff.01=1% (nhỏ nhất)
+settings.rolloff.5=50%
+settings.rolloff.8=80%
+settings.rolloff.1=100% (bình thường)
+settings.rolloff.12=120%
+settings.rolloff.15=150% (cao nhất)
+
+settings.spatial.title=Âm thanh vòm
+settings.spatial.body=Chọn các thức âm thanh vòm để sử dụng, chọn chính xác để có được hiệu ứng âm thanh tốt nhất nha!
+settings.spatial.modern=Chính xác
+settings.spatial.legacy=Legacy (Kiểu cũ)
+
+settings.interpolation.title=Làm mượt theo chuyển động
+settings.interpolation.body=Làm mượt quá trình di chuyển của người chơi để mà sẽ không tạo ra sự delay khi voicechat hoặc âm thanh đứt quãng, có thể sẽ delay nếu mạng yếu hoặc tuỳ thuộc tình hình máy chủ
+settings.interpolation.button=Bật làm mượt
+
+settings.streamermode.title=Streamer Mode
+settings.streamermode.body=Tự động huỷ kích hoạt token sau khi bắt đầu phiên âm thanh mới, để tránh người xem của bạn sử dụng token của bạn.
+settings.streamermode.button=Bật streamer mode
+
+tooltip.close=Đóng
