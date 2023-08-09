@@ -129,7 +129,9 @@ export class Mixer {
   }
 
   getChannels() {
-    return this.channels.values();
+    // return immutable copy as boxed, to still provide utils such as forEach
+    // which is fine, because channels should never be modified outside of this class
+    return Array.from(this.channels.values());
   }
 
   addChannel(channel) {

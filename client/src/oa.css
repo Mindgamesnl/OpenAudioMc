@@ -422,7 +422,7 @@ body.light-mode .video-bg:before {
 }
 
 .content-pill {
-    background-color: var(--primary-accent);
+    background-color: var(--primary-accent) !important;
     border: none;
     padding: 8px 20px;
     color: #fff;
@@ -536,7 +536,7 @@ body.light-mode .video-bg:before {
 }
 
 .green {
-    background-color: #66e597;
+    background-color: #66e597 !important;
     color: var(--popup-bg);
 }
 
