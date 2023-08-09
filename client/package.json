@@ -24,9 +24,9 @@
     "lint": "eslint {*.js,src/*.jsx,'./src/**/*.{js,jsx}'}",
     "lint:fix": "eslint {*.js,src/*.jsx,'./src/**/*.{js,jsx}'} --fix",
     "lint:watch": "esw --clear --ext .jsx -w {*.js,src/*.jsx,'./src/**/*.{js,jsx}'}",
-    "start": "node generate-buildno.js && vite",
-    "build": "node generate-buildno.js && vite build",
-    "bump": "node generate-buildno.js",
+    "start": "node generate-buildno.js dev && vite",
+    "build": "node generate-buildno.js prod && vite build",
+    "bump": "node generate-buildno.js prod",
     "startm": "export WDS_SOCKET_PORT=443 && node start-mobile.js"
   },
   "browserslist": {

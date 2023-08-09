@@ -37,8 +37,6 @@ export class LoginView extends React.Component {
 
         <StaticFooter>
           <a href="https://openaudiomc.net/docs/client_major_changelog" className="text-white">
-            build
-            {' '}
             {VERSION.build}
             <small
               className={`pl-2 ${this.state.versionDiff.color}`}

@@ -6,10 +6,14 @@ console.log('Incrementing build number...');
 
 const fileName = 'src/metadata.json';
 
+// get the env from the first argument
+const env = process.argv[2];
+
 fs.readFile(fileName, (fileError, content) => {
   if (fileError) throw fileError;
   const metadata = JSON.parse(content);
   metadata.buildRevision += 1;
+  metadata.buildTag = env;
   metadata.buildDate = new Date().toDateString();
   metadata.build = `${metadata.buildMajor}.${metadata.buildMinor}.${metadata.buildRevision} ${metadata.buildTag}`;
   fs.writeFile(fileName, JSON.stringify(metadata), (err) => {
