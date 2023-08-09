@@ -15,7 +15,7 @@ import { CogSVG } from '../../components/icons/cog';
 import { DebugSVG } from '../../components/icons/debug';
 import { getTranslation } from '../../client/OpenAudioAppContainer';
 import { OaStyleCard } from '../../components/card/OaStyleCard';
-import { DebugPage } from './pages/debug/DebugPage';
+import DebugPage from './pages/debug/DebugPage';
 
 function ClientView(props) {
   const { title, message, footer } = props.loadingOverlay;

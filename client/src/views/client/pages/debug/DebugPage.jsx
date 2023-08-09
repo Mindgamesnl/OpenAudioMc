@@ -16,7 +16,7 @@ import { VoiceModule } from '../../../../client/services/voice/VoiceModule';
 import MixerStateView from '../../../../components/mixer/MixerStateView';
 import { LogViewer } from '../../../../components/logs/DebugLogComponent';
 
-export class DebugPage extends React.Component {
+class DebugPage extends React.Component {
   constructor(props) {
     super(props);
 

@@ -36,8 +36,8 @@ export default class MixerStateView extends React.Component {
   render() {
     if (this.state.channels.length === 0) return (<OaStyleCard title="Mixer State" width="2">No channels</OaStyleCard>);
 
-    const channels = this.state.channels.map((channel) => (
-      <li>
+    const channels = this.state.channels.map((channel, index) => (
+      <li key={index}>
         <h1 className="text-black">{channel.channelName}</h1>
         <ul>
           Tags:
@@ -49,12 +49,12 @@ export default class MixerStateView extends React.Component {
         </ul>
         <ul className="list-disc">
           <h1>Sounds:</h1>
-          {channel.sounds.map((sound, index) => (
-            <li>
+          {channel.sounds.map((sound, sIndex) => (
+            <li key={sIndex}>
               <h2>
                 <i>
                   Sound
-                  {index}
+                  {sIndex}
                 </i>
               </h2>
               <ul>

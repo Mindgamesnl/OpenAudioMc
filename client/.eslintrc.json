@@ -33,7 +33,8 @@
     "no-continue": "off",
     "react/sort-default-props": "off",
     "react/no-danger": "off",
-    "react/jsx-no-constructed-context-values": "off"
+    "react/jsx-no-constructed-context-values": "off",
+    "react/no-array-index-key": "off"
   },
   "reportUnusedDisableDirectives": true,
   "settings": {
