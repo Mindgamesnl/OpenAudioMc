@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { BlackoutPage } from '../../components/layout/BlackoutPage';
-import '../../components/loginform/login.css';
 
 function BlockedLoginView(props) {
   return (

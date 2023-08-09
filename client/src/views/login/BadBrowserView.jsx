@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { BlackoutPage } from '../../components/layout/BlackoutPage';
-import '../../components/loginform/login.css';
 
 export function BadBrowser(props) {
   return (
