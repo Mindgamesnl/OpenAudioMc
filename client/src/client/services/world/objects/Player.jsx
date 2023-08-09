@@ -1,45 +1,44 @@
-import {Euler} from "../../../util/math/Euler";
-import {Quaternion} from "../../../util/math/Quaternion";
-import {Position} from "../../../util/math/Position";
+import { Euler } from '../../../util/math/Euler';
+import { Quaternion } from '../../../util/math/Quaternion';
+import { Position } from '../../../util/math/Position';
 
 export class Player {
-
-    constructor(world, location, pitch, yaw) {
-        this.world = world;
-        let audioContextType;
-        if (typeof window !== 'undefined') {
-            audioContextType = window.AudioContext || window.webkitAudioContext;
-        }
-        this.audioCtx = new audioContextType();
-        this.listener = this.audioCtx.listener;
-
-        this.updateLocation(location, pitch, yaw);
+  constructor(world, location, pitch, yaw) {
+    this.world = world;
+    let audioContextType;
+    if (typeof window !== 'undefined') {
+      audioContextType = window.AudioContext || window.webkitAudioContext;
     }
+    // eslint-disable-next-line new-cap
+    this.audioCtx = new audioContextType();
+    this.listener = this.audioCtx.listener;
 
-    updateLocation(location, pitch, yaw) {
-        this.location = location;
-        this.pitch = this.toRadians(pitch);
-        this.yaw = this.toRadians(this.normalizeYaw(360 - yaw));
+    this.updateLocation(location, pitch, yaw);
+  }
 
-        // location already is a Vector3
-        const euler = new Euler(this.pitch, this.yaw, 0);
-        const quaternion = new Quaternion();
-        quaternion.setFromEuler(euler);
+  updateLocation(location, pitch, yaw) {
+    this.location = location;
+    this.pitch = this.toRadians(pitch);
+    this.yaw = this.toRadians(this.normalizeYaw(360 - yaw));
 
-        const position = new Position(location, quaternion);
-        position.applyTo(this.listener);
+    // location already is a Vector3
+    const euler = new Euler(this.pitch, this.yaw, 0);
+    const quaternion = new Quaternion();
+    quaternion.setFromEuler(euler);
 
-        this.world.onLocationUpdate();
-    }
+    const position = new Position(location, quaternion);
+    position.applyTo(this.listener);
 
-    toRadians(degrees) {
-        return degrees * (Math.PI / 180);
-    }
+    this.world.onLocationUpdate();
+  }
 
-    normalizeYaw(yaw) {
-        // yaw = yaw % 360;
-        if (yaw < 0) yaw += 360.0;
-        return yaw;
-    }
+  toRadians(degrees) {
+    return degrees * (Math.PI / 180);
+  }
 
+  normalizeYaw(yaw) {
+    // yaw = yaw % 360;
+    if (yaw < 0) yaw += 360.0;
+    return yaw;
+  }
 }

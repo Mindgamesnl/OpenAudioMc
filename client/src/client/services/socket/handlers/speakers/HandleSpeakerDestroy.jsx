@@ -1,5 +1,5 @@
-import {WorldModule} from "../../../world/WorldModule";
+import { WorldModule } from '../../../world/WorldModule';
 
 export function HandleSpeakerDestroy(data) {
-    WorldModule.removeSpeaker(data.clientSpeaker.id);
+  WorldModule.removeSpeaker(data.clientSpeaker.id);
 }

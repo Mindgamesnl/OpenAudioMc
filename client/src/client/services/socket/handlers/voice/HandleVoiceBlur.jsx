@@ -1,5 +1,5 @@
-import {setGlobalState} from "../../../../../state/store";
+import { setGlobalState } from '../../../../../state/store';
 
 export function HandleVoiceBlur(data) {
-    setGlobalState({voiceState: {isTemporarilyDisabled: data.blurred}});
+  setGlobalState({ voiceState: { isTemporarilyDisabled: data.blurred } });
 }

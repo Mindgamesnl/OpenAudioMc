@@ -1,6 +1,6 @@
-import {getGlobalState, setGlobalState} from "../../../../../state/store";
+import { getGlobalState, setGlobalState } from '../../../../../state/store';
 
-export function HandleMicToggleRequest(data) {
-    let isMuted = getGlobalState().settings.voicechatMuted;
-    setGlobalState({settings: {voicechatMuted: !isMuted}});
+export function HandleMicToggleRequest() {
+  const isMuted = getGlobalState().settings.voicechatMuted;
+  setGlobalState({ settings: { voicechatMuted: !isMuted } });
 }

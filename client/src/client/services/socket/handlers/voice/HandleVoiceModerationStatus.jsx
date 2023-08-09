@@ -1,11 +1,11 @@
-import {setGlobalState} from "../../../../../state/store";
+import { setGlobalState } from '../../../../../state/store';
 
 export function HandleVoiceModerationStatus(data) {
-    let isMod = data.isModerating;
+  const isMod = data.isModerating;
 
-    setGlobalState({
-        voiceState: {
-            isModerating: isMod
-        }
-    })
+  setGlobalState({
+    voiceState: {
+      isModerating: isMod,
+    },
+  });
 }
