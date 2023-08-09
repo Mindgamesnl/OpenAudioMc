@@ -166,7 +166,7 @@ body.light-mode .video-bg:before {
     width: 100%;
 }
 
-.header-menu a, .header-menu label {
+.header-menu button, .header-menu label {
     padding: 4px 12px;
     margin: 10px;
     border-bottom-left-radius: 10px;
@@ -179,12 +179,12 @@ body.light-mode .video-bg:before {
 }
 
 @media screen and (max-width: 610px) {
-    .header-menu a:not(.main-header-link) {
+    .header-menu button:not(.main-header-link) {
         display: none;
     }
 }
 
-.header-menu a.is-active, .header-menu a:hover, .header-menu .active, .header-menu label:hover {
+.header-menu button.is-active, .header-menu a:hover, .header-menu .active, .header-menu label:hover {
     color: var(--theme-color);
     border-bottom: 6px solid var(--primary-accent);
 }

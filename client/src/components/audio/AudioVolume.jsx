@@ -52,9 +52,9 @@ class AudioVolume extends React.Component {
     let G = parseInt(color.substring(3, 5), 16);
     let B = parseInt(color.substring(5, 7), 16);
 
-    R = (R * (100 + percent)) / 100;
-    G = (G * (100 + percent)) / 100;
-    B = (B * (100 + percent)) / 100;
+    R = parseInt(R * ((100 + percent) / 100), 10);
+    G = parseInt(G * ((100 + percent) / 100), 10);
+    B = parseInt(B * ((100 + percent) / 100), 10);
 
     R = (R < 255) ? R : 255;
     G = (G < 255) ? G : 255;
@@ -84,6 +84,8 @@ class AudioVolume extends React.Component {
     // set css properties for the slider
     document.documentElement.style.setProperty('--main-volume-color', sliderColor);
 
+    // eslint-disable-next-line no-console
+    console.log(gradient);
     this.setState({ bgGradient: gradient, textColor, bgColor: accentColor });
   }
 
@@ -95,7 +97,8 @@ class AudioVolume extends React.Component {
     const max = Math.max(red, green, blue);
     const min = Math.min(red, green, blue);
 
-    let hue; let
+    let hue;
+    let
       saturation;
     const lightness = (max + min) / 2;
 
