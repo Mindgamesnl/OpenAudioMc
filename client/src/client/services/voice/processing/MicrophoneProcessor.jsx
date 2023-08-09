@@ -23,8 +23,8 @@ export function removeMicVolumeListener(id) {
 }
 
 function invokeMicVolumeListeners(volume, isActive, threshold, lowestVolume) {
-  micVolumeListeners.forEach((listener) => {
-    listener(volume, isActive, threshold, lowestVolume);
+  Object.keys(micVolumeListeners).forEach((key) => {
+    micVolumeListeners[key](volume, isActive, threshold, lowestVolume);
   });
 }
 
