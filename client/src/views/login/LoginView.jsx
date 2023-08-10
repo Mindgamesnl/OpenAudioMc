@@ -64,15 +64,15 @@ export class LoginView extends React.Component {
     } = getGlobalState().settings;
 
     // do we have a previous background image or accent color?
-    if (backgroundImage === null || backgroundImage === '') {
-      // default to our local
-      backgroundImage = 'url(assets/bg.png)';
-    } else {
+    if (backgroundImage != null && backgroundImage != '') {
       // sanity check, make sure it ends with .png, .jpg, jpeg, webp or gif
       const lower = backgroundImage.toLowerCase();
       if (lower.endsWith('.png') || lower.endsWith('.jpg') || lower.endsWith('.jpeg') || lower.endsWith('.webp') || lower.endsWith('.gif')) {
         backgroundImage = `url(${backgroundImage})`;
       }
+    } else {
+      // default to our local
+      backgroundImage = 'url(assets/bg.png)';
     }
 
     let borderAccentColorStyle = {};
