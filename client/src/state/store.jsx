@@ -60,6 +60,8 @@ const initialState = {
 
     backgroundImage: null,
     accentColor: null,
+    serverTitle: null,
+    serverDisplayName: null,
   },
 
   loadingOverlay: {
