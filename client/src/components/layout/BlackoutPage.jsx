@@ -14,7 +14,7 @@ export function BlackoutPage(props) {
     hasBackground = true;
   } else {
     style = {
-      background: '#211f1f',
+      background: props.backgroundColor,
     };
   }
 
@@ -47,9 +47,11 @@ export function BlackoutPage(props) {
 BlackoutPage.propTypes = {
   coverImage: PropTypes.string,
   additionalPageStyles: PropTypes.string,
+  backgroundColor: PropTypes.string,
 };
 
 BlackoutPage.defaultProps = {
   coverImage: null,
   additionalPageStyles: '',
+  backgroundColor: '#211f1f',
 };
