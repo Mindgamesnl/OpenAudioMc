@@ -17,7 +17,7 @@ export default function DebugPanel(props) {
   }
 
   return (
-    <OaStyleCard title={props.title}>
+    <OaStyleCard width="6" title={props.title}>
       <Graph color={props.color} catchLine={props.title} data={data} fill={props.fill} />
       <table className="w-full text-black">
         <tbody>

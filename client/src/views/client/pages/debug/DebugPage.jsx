@@ -115,7 +115,7 @@ class DebugPage extends React.Component {
     const log = getDebugLog();
 
     return (
-      <div className="w-full h-full flex flex-col">
+      <div className="h-full w-full flex flex-col align-middle">
         <div className="flex flex-wrap xl:pt-12 justify-center align-middle">
           <OaStyleCard title="whoami" isDanger dark>
             <p className="text-white">

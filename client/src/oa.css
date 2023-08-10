@@ -59,9 +59,8 @@ html {
 body {
     font-family: var(--body-font);
     background-image: var(--background-image);
-    background-size: cover;
+    background-size: cover !important;
     background-position: center;
-    background-repeat: no-repeat;
     justify-content: center;
     align-items: center;
     flex-direction: column;
