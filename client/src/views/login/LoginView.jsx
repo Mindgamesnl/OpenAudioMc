@@ -102,7 +102,7 @@ export class LoginView extends React.Component {
             <div className="w-full  lg:max-w-2xl md:max-w-md z-10 items-center text-center ">
               <div className=" font-bold leading-tight mb-6 mx-auto w-full content-center items-center">
                 {!serverTitle && <img src="assets/logo.png" alt="logo" className="w-1/4 mx-auto image-glow" />}
-                <h1 style={{ fontFamily: 'roboto' }} className={`p-2 ${serverTitle ? 'text-8xl' : 'text-xl'}`}>{serverDisplayName}</h1>
+                <h1 style={{ fontFamily: 'roboto' }} className={`p-2 ${serverTitle ? 'text-5xl' : 'text-xl'}`}>{serverDisplayName}</h1>
                 <h2 style={{ fontFamily: 'roboto' }} className="p-2 text-md">{serverTitle}</h2>
               </div>
             </div>
