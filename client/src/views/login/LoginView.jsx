@@ -75,7 +75,7 @@ export class LoginView extends React.Component {
           </div>
 
           <div
-            className="md:flex md:items-center md:justify-left w-full sm:w-auto md:h-full xl:w-1/2 p-8  md:p-10 lg:p-14 sm:rounded-lg md:rounded-none "
+            className="md:flex lg:max-w-2xl md:items-center md:justify-left w-full sm:w-auto md:h-full xl:w-1/2 p-8  md:p-10 lg:p-14 sm:rounded-lg md:rounded-none "
           >
             <div className="w-full space-y-2">
               <div className="lg:text-left text-center">
