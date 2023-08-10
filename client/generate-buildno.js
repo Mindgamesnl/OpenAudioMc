@@ -1,22 +1,28 @@
-var fs = require('fs');
+import fs from 'fs';
+
+/* eslint-disable no-console */
+
 console.log('Incrementing build number...');
 
-let fileName = 'src/metadata.json';
+const fileName = 'src/metadata.json';
 
-fs.readFile(fileName, function (err, content) {
+// get the env from the first argument
+const env = process.argv[2];
+
+fs.readFile(fileName, (fileError, content) => {
+  if (fileError) throw fileError;
+  const metadata = JSON.parse(content);
+  metadata.buildRevision += 1;
+  metadata.buildTag = env;
+  metadata.buildDate = new Date().toDateString();
+  metadata.build = `${metadata.buildMajor}.${metadata.buildMinor}.${metadata.buildRevision} ${metadata.buildTag}`;
+  fs.writeFile(fileName, JSON.stringify(metadata), (err) => {
     if (err) throw err;
-    var metadata = JSON.parse(content);
-    metadata.buildMinor = metadata.buildMinor + 1;
-    metadata.buildRevision = 0;
-    metadata.buildDate = new Date().toTimeString();
-    metadata.build = `${metadata.buildMajor}.${metadata.buildMinor}.${metadata.buildRevision} ${metadata.buildTag}`;
-    fs.writeFile(fileName, JSON.stringify(metadata), function (err) {
-        if (err) throw err;
-        console.log(`Current build number: ${metadata.buildMajor}.${metadata.buildMinor}.${metadata.buildRevision} ${metadata.buildTag}`);
+    console.log(`Current build number: ${metadata.buildMajor}.${metadata.buildMinor}.${metadata.buildRevision} ${metadata.buildTag}`);
 
-        fs.copyFile(fileName, 'public/metadata.json', (err) => {
-            if (err) throw err;
-            console.log('metadata.json was copied to public/metadata.json');
-        })
-    })
+    fs.copyFile(fileName, 'public/metadata.json', (copyError) => {
+      if (copyError) throw copyError;
+      console.log('metadata.json was copied to public/metadata.json');
+    });
+  });
 });

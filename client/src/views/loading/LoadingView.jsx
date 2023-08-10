@@ -1,26 +1,30 @@
-import {BlackoutPage} from "../../components/layout/BlackoutPage";
-import React from "react";
-import "./loading.css";
-import {connect} from "react-redux";
-import {LoadingSpinnerBox} from "../../components/loading/LoadingSpinnerBox";
-import {VERSION} from "../../index";
+import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { BlackoutPage } from '../../components/layout/BlackoutPage';
+import './loading.css';
+import { LoadingSpinnerBox } from '../../components/loading/LoadingSpinnerBox';
+import { VERSION } from '../../index';
 
-class LoadingView extends React.Component {
-    render() {
-        return (
-            <BlackoutPage coverImage={"assets/bg.png"}>
-                <LoadingSpinnerBox
-                    title={"Loading OpenAudioMc"}
-                    message={this.props.loading}
-                    footer={"Version " + VERSION.revision + ", line " + VERSION.tag + ""}
-                />
-            </BlackoutPage>
-        );
-    }
+function LoadingView(props) {
+  return (
+    <BlackoutPage coverImage="assets/bg.png">
+      <LoadingSpinnerBox
+        title="Loading OpenAudioMc"
+        message={props.loading}
+        footer={`Version ${VERSION.revision}, line ${VERSION.tag}`}
+      />
+    </BlackoutPage>
+  );
 }
+
+LoadingView.propTypes = {
+  loading: PropTypes.string.isRequired,
+};
+
 export default connect(mapStateToProps)(LoadingView);
 function mapStateToProps(state) {
-    return {
-        loading: state.loadingState,
-    };
+  return {
+    loading: state.loadingState,
+  };
 }

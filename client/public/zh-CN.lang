@@ -124,8 +124,4 @@ settings.interpolation.title=位置平滑
 settings.interpolation.body=自动平滑移动，以尽量减少行走时 扬声器/语音聊天 的卡顿。这会增加额外的动作延迟，但听起来更好。
 settings.interpolation.button=启用平滑
 
-settings.streamermode.title=直播模式
-settings.streamermode.body=单次使用后自动禁用您的会话令牌。这意味着您的客户端 URL 可以安全地在直播中显示，无需担心观看者冒充您。请务必在收到链接后立即打开它。
-settings.streamermode.button=开启直播模式
-
 tooltip.close=关闭

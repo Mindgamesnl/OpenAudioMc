@@ -87,7 +87,3 @@ settings.spatial.legacy=Legacy (sistema antiguo)
 settings.interpolation.title=Suavizado de ubicación
 settings.interpolation.body=Movimientos suaves automáticamente para minimizar el tartamudeo del hablante/chat de voz mientras camina. Esto agrega un retraso de movimiento adicional, pero suena mejor.
 settings.interpolation.button=Habilitar suavizado
-
-settings.streamermode.title=Modo Streamer
-settings.streamermode.body=Desactive automáticamente sus tokens de sesión después de un solo uso. Esto significa que las URL de su cliente son seguras para mostrarse en la transmisión sin preocuparse de que un espectador se haga pasar por usted. Solo asegúrese de abrir su enlace tan pronto como lo obtenga.
-settings.streamermode.button=Habilitar el modo streamer

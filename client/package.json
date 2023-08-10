@@ -5,6 +5,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
+    "@fontsource/roboto": "^5.0.8",
     "immer": "^9.0.17",
     "js-cookie": "^3.0.1",
     "mediastream-gain": "^1.0.1",
@@ -21,11 +22,12 @@
     "wildemitter": "^1.2.1"
   },
   "scripts": {
-    "lint": "eslint src/**/*.js src/**/*.jsx",
-    "lint:fix": "eslint src/**/*.js src/**/*.jsx --fix",
-    "start": "node bump-minor.js && vite",
-    "build": "node bump-minor.js && vite build",
-    "bump": "node generate-buildno.js",
+    "lint": "eslint {*.js,src/*.jsx,'./src/**/*.{js,jsx}'}",
+    "lint:fix": "eslint {*.js,src/*.jsx,'./src/**/*.{js,jsx}'} --fix",
+    "lint:watch": "esw --clear --ext .jsx -w {*.js,src/*.jsx,'./src/**/*.{js,jsx}'}",
+    "start": "node generate-buildno.js dev && vite",
+    "build": "node generate-buildno.js prod && vite build",
+    "bump": "node generate-buildno.js prod",
     "startm": "export WDS_SOCKET_PORT=443 && node start-mobile.js"
   },
   "browserslist": {
@@ -57,6 +59,7 @@
     "qrcode-terminal": "^0.12.0",
     "tailwindcss": "^3.3.3",
     "vite": "^4.4.8",
+    "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-svgr": "^3.2.0"
   }
 }

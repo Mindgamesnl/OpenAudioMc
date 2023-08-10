@@ -1,0 +1,13 @@
+@keyframes glowAnimation {
+    0%, 100% {
+        opacity: .7;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+.image-glow {
+    filter: url(#glow) drop-shadow(0 0 5px rgb(4, 26, 170));
+    animation: glowAnimation 3s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}

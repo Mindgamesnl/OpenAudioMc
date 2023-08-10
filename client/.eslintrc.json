@@ -7,7 +7,8 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended",
+    "plugin:react/all",
+    "plugin:react/jsx-runtime",
     "airbnb",
     "airbnb/hooks"
   ],
@@ -16,19 +17,24 @@
     "ecmaVersion": 2022
   },
   "rules": {
-    "react/prop-types": "off",
-    "space-before-blocks": "off",
+    "react/no-access-state-in-setstate": "off",
     "no-plusplus": "off",
     "max-len": "off",
     "import/no-cycle": "off",
-    "import/prefer-default-export": "off",
     "class-methods-use-this": "off",
     "no-param-reassign": "off",
-    "react/destructuring-assignment": "off",
     "jsx-a11y/click-events-have-key-events": "off",
+    "react/destructuring-assignment": "off",
+    "react/static-property-placement": "off",
+    "react/forbid-prop-types": "off",
+    "react/prop-types": "off",
+    "import/prefer-default-export": "off",
     "no-use-before-define": "off",
     "no-continue": "off",
-    "react/static-property-placement": "off"
+    "react/sort-default-props": "off",
+    "react/no-danger": "off",
+    "react/jsx-no-constructed-context-values": "off",
+    "react/no-array-index-key": "off"
   },
   "reportUnusedDisableDirectives": true,
   "settings": {

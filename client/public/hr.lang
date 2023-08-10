@@ -115,7 +115,3 @@ settings.spatial.legacy=Stari sistem (old system)
 settings.interpolation.title=Izgladjivanje lokacije  
 settings.interpolation.body=Automatski izgladjuje pokrete da minimalizuje razgovor/mucanje u glasovnim kanalima dok hodate. Ovo dodaje dodatano kašnjenje kretanja, ali zvuči bolje. 
 settings.interpolation.button=Aktiviraj Izgladjivanje 
-
-settings.streamermode.title=Mod za strimovanje 
-settings.streamermode.body=Automatski vam onemogućava ponovno korisćenje tokena kad je jednom iskorišćen. Ovo znači da je bezbedno da pokazujete vaš URL tokom strima bez straha da gledalac može da se kamuflira u vas. Samo otvorite link odma kad ga dobijete.  
-settings.streamermode.button=Aktiviraj mod za strimovanje 

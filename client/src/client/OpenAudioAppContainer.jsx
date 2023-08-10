@@ -231,6 +231,7 @@ class OpenAudioAppContainer extends React.Component {
       lang: { serverName: serverData.displayName },
       isPremium: serverData.isPatreon || serverData.voicechatSlots > 10,
       bucketFolder: serverData.bucketFolder,
+      isClaimed: serverData.isClaimed,
     });
 
     setBgColor(serverData.color);

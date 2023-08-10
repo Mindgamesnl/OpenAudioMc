@@ -26,6 +26,7 @@ const initialState = {
   },
 
   isPremium: false,
+  isClaimed: false,
   clientSupportsVoiceChat: false, // not valid https
   browserSupportsVoiceChat: false, // no webrtc at all
   browserSupportIsLimited: false, // operagx, broken settings?
@@ -49,6 +50,7 @@ const initialState = {
     automaticSensitivity: false,
     fadeAudio: true,
 
+    voiceEchoCancellation: true,
     voicechatChimesEnabled: true,
     interpolationEnabled: true,
     spatialRenderingMode: 'new',
