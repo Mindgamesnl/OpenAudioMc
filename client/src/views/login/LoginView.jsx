@@ -58,8 +58,10 @@ export class LoginView extends React.Component {
   }
 
   render() {
-    // eslint-disable-next-line prefer-const
-    let { backgroundImage, accentColor, serverDisplayName } = getGlobalState().settings;
+    let {
+      // eslint-disable-next-line prefer-const
+      backgroundImage, accentColor, serverDisplayName, serverTitle,
+    } = getGlobalState().settings;
 
     // do we have a previous background image or accent color?
     if (backgroundImage === null || backgroundImage === '') {
@@ -80,6 +82,10 @@ export class LoginView extends React.Component {
       };
     }
 
+    if (serverTitle === null || serverTitle === '') {
+      serverDisplayName = 'OpenAudioMc Web Client';
+    }
+
     return (
       <div className="relative min-h-screen  grid bg-black">
         <div
@@ -96,7 +102,7 @@ export class LoginView extends React.Component {
               <div className=" font-bold leading-tight mb-6 mx-auto w-full content-center items-center">
                 <img src="assets/logo.png" alt="logo" className="w-1/4 mx-auto image-glow" />
                 <h2 style={{ fontFamily: 'roboto' }} className="p-2 text-2xl">{serverDisplayName}</h2>
-                <h1 style={{ fontFamily: 'roboto' }} className="p-2 text-lg">OpenAudioMc Web Client</h1>
+                <h1 style={{ fontFamily: 'roboto' }} className="p-2 text-lg">{serverTitle}</h1>
               </div>
             </div>
           </div>
