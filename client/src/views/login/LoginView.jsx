@@ -8,6 +8,7 @@ import { VERSION } from '../../index';
 import { compareProdVersions } from '../../client/util/versioning';
 import { FadeToCtx } from '../../components/contexts';
 import { BedrockAuthFlow } from './platforms/bedrock/BedrockAuthFlow';
+import { getGlobalState } from '../../state/store';
 
 export class LoginView extends React.Component {
   static contextType = FadeToCtx;
@@ -57,6 +58,28 @@ export class LoginView extends React.Component {
   }
 
   render() {
+    // eslint-disable-next-line prefer-const
+    let { backgroundImage, accentColor, serverDisplayName } = getGlobalState().settings;
+
+    // do we have a previous background image or accent color?
+    if (backgroundImage === null || backgroundImage === '') {
+      // default to our local
+      backgroundImage = 'url(assets/bg.png)';
+    } else {
+      // sanity check, make sure it ends with .png, .jpg, jpeg, webp or gif
+      const lower = backgroundImage.toLowerCase();
+      if (lower.endsWith('.png') || lower.endsWith('.jpg') || lower.endsWith('.jpeg') || lower.endsWith('.webp') || lower.endsWith('.gif')) {
+        backgroundImage = `url(${backgroundImage})`;
+      }
+    }
+
+    let borderAccentColorStyle = {};
+    if (accentColor != null && accentColor !== '') {
+      borderAccentColorStyle = {
+        borderColor: accentColor,
+      };
+    }
+
     return (
       <div className="relative min-h-screen  grid bg-black">
         <div
@@ -67,12 +90,13 @@ export class LoginView extends React.Component {
           >
             <div
               className="absolute bg-black  opacity-25 inset-0 z-0"
-              style={{ backgroundPosition: 'center', backgroundImage: 'url(assets/bg.png)' }}
+              style={{ backgroundPosition: 'center', backgroundImage, backgroundSize: 'cover' }}
             />
             <div className="w-full  lg:max-w-2xl md:max-w-md z-10 items-center text-center ">
               <div className=" font-bold leading-tight mb-6 mx-auto w-full content-center items-center">
                 <img src="assets/logo.png" alt="logo" className="w-1/4 mx-auto image-glow" />
-                <h1 style={{ fontFamily: 'roboto' }} className="p-2 text-xl">OpenAudioMc Web Client</h1>
+                <h2 style={{ fontFamily: 'roboto' }} className="p-2 text-2xl">{serverDisplayName}</h2>
+                <h1 style={{ fontFamily: 'roboto' }} className="p-2 text-lg">OpenAudioMc Web Client</h1>
               </div>
             </div>
           </div>
@@ -84,7 +108,10 @@ export class LoginView extends React.Component {
               <div className="lg:text-left text-center">
 
                 <div className="items-center justify-center flex flex-col">
-                  <div className="hidden-on-mobile bg-black flex flex-col w-80 border border-gray-600 rounded-lg px-8 py-10 shadow-lg shadow-slate-800 mb-4">
+                  <div
+                    className="hidden-on-mobile bg-black flex flex-col w-80 border border-gray-600 rounded-lg px-8 py-10 shadow-lg shadow-slate-800 mb-4"
+                    style={borderAccentColorStyle}
+                  >
                     <div className="flex flex-col space-y-4">
                       <img src={JAVA_LOGO} alt="java logo" className="w-full mx-auto" />
                       <p className="text-gray-400">
@@ -97,7 +124,10 @@ export class LoginView extends React.Component {
                     </div>
                   </div>
 
-                  <div className="bg-black flex flex-col w-80 border border-gray-700 rounded-lg px-8 py-10">
+                  <div
+                    className="bg-black flex flex-col w-80 border border-gray-700 rounded-lg px-8 py-10"
+                    style={borderAccentColorStyle}
+                  >
                     <div className="flex flex-col space-y-4">
                       <img src={BEDROCK_LOGO} alt="bedrock logo" className="w-full mx-auto" />
                       <p className="text-gray-400">
@@ -109,6 +139,7 @@ export class LoginView extends React.Component {
                         onClick={this.startBedrock}
                         className="border border-indigo-600 bg-black text-white rounded-lg py-3
                             font-semibold"
+                        style={borderAccentColorStyle}
                       >
                         Continue to bedrock login
                       </button>
@@ -122,10 +153,12 @@ export class LoginView extends React.Component {
                         placeholder="Your token / pin"
                         onInput={(e) => this.setState({ token: e.target.value })}
                         className="border rounded-lg py-3 px-3 mt-4 bg-black border-indigo-600 placeholder-white-500 text-white"
+                        style={borderAccentColorStyle}
                       />
                       <button
                         type="submit"
                         onClick={this.onSubmit}
+                        style={borderAccentColorStyle}
                         className="border border-indigo-600 bg-black text-white rounded-lg py-3
                             font-semibold"
                       >
