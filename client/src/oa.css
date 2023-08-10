@@ -1072,6 +1072,7 @@ footer {
     height: 270%;
     display: table;
     background-position: center;
+    background-size: cover;
 }
 
 span.tab {
