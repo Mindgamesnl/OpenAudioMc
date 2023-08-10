@@ -1,5 +1,6 @@
 import React from 'react';
 import '@fontsource/roboto/300.css';
+import './css/login-glow.css';
 import JAVA_LOGO from './platforms/editions/java.png';
 import BEDROCK_LOGO from './platforms/editions/bedrock.png';
 import { StaticFooter } from '../../components/footer/StaticFooter';
@@ -69,8 +70,19 @@ export class LoginView extends React.Component {
               style={{ backgroundPosition: 'center', backgroundImage: 'url(assets/bg.png)' }}
             />
             <div className="w-full  lg:max-w-2xl md:max-w-md z-10 items-center text-center ">
-              <div className=" font-bold leading-tight mb-6 mx-auto w-full content-center items-center ">
-                <img src="assets/logo.png" alt="logo" className="w-1/4 mx-auto" />
+              <div className=" font-bold leading-tight mb-6 mx-auto w-full content-center items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" className="filters">
+                  <defs>
+                    <filter id="glow">
+                      <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="blur" />
+                      <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                  </defs>
+                </svg>
+                <img src="assets/logo.png" alt="logo" className="w-1/4 mx-auto image-glow" />
                 <h1 style={{ fontFamily: 'roboto' }} className="p-2 text-xl">OpenAudioMc Web Client</h1>
               </div>
             </div>
