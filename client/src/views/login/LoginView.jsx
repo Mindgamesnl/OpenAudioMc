@@ -64,6 +64,7 @@ export class LoginView extends React.Component {
     } = getGlobalState().settings;
 
     // do we have a previous background image or accent color?
+    // eslint-disable-next-line eqeqeq
     if (backgroundImage != null && backgroundImage != '') {
       // sanity check, make sure it ends with .png, .jpg, jpeg, webp or gif
       const lower = backgroundImage.toLowerCase();
@@ -83,7 +84,7 @@ export class LoginView extends React.Component {
     }
 
     if (serverTitle === null || serverTitle === '') {
-      serverDisplayName = 'OpenAudioMc Web Client';
+      serverDisplayName = 'OpenAudioMc';
     }
 
     return (
@@ -100,9 +101,9 @@ export class LoginView extends React.Component {
             />
             <div className="w-full  lg:max-w-2xl md:max-w-md z-10 items-center text-center ">
               <div className=" font-bold leading-tight mb-6 mx-auto w-full content-center items-center">
-                <img src="assets/logo.png" alt="logo" className="w-1/4 mx-auto image-glow" />
-                <h2 style={{ fontFamily: 'roboto' }} className="p-2 text-2xl">{serverDisplayName}</h2>
-                <h1 style={{ fontFamily: 'roboto' }} className="p-2 text-lg">{serverTitle}</h1>
+                {!serverTitle && <img src="assets/logo.png" alt="logo" className="w-1/4 mx-auto image-glow" />}
+                <h1 style={{ fontFamily: 'roboto' }} className={`p-2 ${serverTitle ? 'text-8xl' : 'text-xl'}`}>{serverDisplayName}</h1>
+                <h2 style={{ fontFamily: 'roboto' }} className="p-2 text-md">{serverTitle}</h2>
               </div>
             </div>
           </div>
