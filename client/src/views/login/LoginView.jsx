@@ -1,5 +1,7 @@
 import React from 'react';
 import '@fontsource/roboto/300.css';
+import JAVA_LOGO from './platforms/editions/java.png';
+import BEDROCK_LOGO from './platforms/editions/bedrock.png';
 import { StaticFooter } from '../../components/footer/StaticFooter';
 import { VERSION } from '../../index';
 import { compareProdVersions } from '../../client/util/versioning';
@@ -83,9 +85,7 @@ export class LoginView extends React.Component {
                 <div className="items-center justify-center flex flex-col">
                   <div className="hidden-on-mobile bg-black flex flex-col w-80 border border-gray-600 rounded-lg px-8 py-10 shadow-lg shadow-slate-800 mb-4">
                     <div className="flex flex-col space-y-4">
-                      <p className="font-bold text-lg text-white ">
-                        Login for Java edition
-                      </p>
+                      <img src={JAVA_LOGO} alt="java logo" className="w-full mx-auto" />
                       <p className="text-gray-400">
                         Go in-game and type
                         {' '}
@@ -98,9 +98,7 @@ export class LoginView extends React.Component {
 
                   <div className="bg-black flex flex-col w-80 border border-gray-700 rounded-lg px-8 py-10">
                     <div className="flex flex-col space-y-4">
-                      <p className="font-bold text-lg text-white ">
-                        Login for bedrock
-                      </p>
+                      <img src={BEDROCK_LOGO} alt="bedrock logo" className="w-full mx-auto" />
                       <p className="text-gray-400">
                         The bedrock login method lets you run this page in the background,
                         without leaving the game
