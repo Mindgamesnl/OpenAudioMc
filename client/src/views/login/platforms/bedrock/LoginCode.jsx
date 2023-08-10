@@ -147,6 +147,7 @@ export class LoginCode extends React.Component {
               className="bg-gray-700 p-1 ml-1 rounded-md text-white"
             >
               /audio
+              {' '}
               {this.state.code}
             </code>
           </p>
