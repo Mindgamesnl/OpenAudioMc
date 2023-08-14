@@ -13,10 +13,12 @@ navbar.settings=Instellingen
 navbar.debug=Debug
 navbar.free=gratis
 navbar.premium=patreon
+navbar.upgradeRequired=Upgrade vereist
 
 home.confirmLoginHeader=Welkom terug!
 home.confirmLoginBody=Probeer je in te loggen als <i>%player</i>?<br />Sluit deze pagina als dit niet klopt.
 home.confirmLoginButton=Jawel! Dat ben ik!
+home.confirmLoginWithVoicechat=Sessie starten met VoiceChat
 
 home.activate=Sessie starten
 home.activateText=Via deze persoonlijke webpagina zal audio en voicechat worden afgespeeld tijdens je bezoek. Klik ergens op de pagina om te beginnen.
@@ -29,6 +31,7 @@ home.audioControls=Audio instellingen
 home.notificationsTitle=Meldingen
 home.notificationsEmpty=Je hebt nog geen meldingen
 
+vc.badClient=VoiceChat heeft een web client nodig met HTTPS, verander je basis-URL zodat het HTTPS gebruikt, of stel geldige SSL certificaten in.
 vc.notCompatible=Je browser ondersteunt voice chat niet. Gebruik een moderne (desktop) browser zoals Chrome of Safari.
 vc.voiceModerationEnabled=Moderatie is actief op deze server. Er luisteren mogelijk stafleden mee terwijl je microfoon actief is.
 vc.notice=Let op
@@ -64,6 +67,8 @@ vc.safetyTitle=Voor jouw veiligheid
 vc.safetyDisclaimer=Je ontvangt in-game berichten wanneer mensen je voicechat-bereik betreden en verlaten, en je kunt een lijst bekijken met mensen die je kunt horen (en jou op hun beurt kunnen horen), en ze desgewenst kunt dempen. OpenAudioMc vertrouwt op uw server om moderatie af te handelen en indien nodig meldingen van misbruik af te handelen. Neem bij vragen of onduidelijkheden contact op met één van de medewerkers.
 vc.safetyFooter=<b>Wil je wat privacy? je kunt je microfoon op elk moment dempen door <pre style="display: inline;">/mm</pre> uit te voeren, of door <pre style="display: inline;">Shift + F</pre> ingedrukt te houden, of door op de knop op deze webpagina te drukken.</b>
 vc.join=Gebruik Voice Chat
+vc.empty.title=Je bent helemaal alleen!
+vc.empty.body=Er is niemand dichtbij om mee te praten, probeer rond te lopen of vraag aan je vrienden om deel te nemen.
 vc.muteMicrophone=Dempen
 vc.unmuteMicrophone=Dempen opheffen
 vc.myStatus=Status van je microfoon
@@ -81,28 +86,14 @@ vc.settings.monitoring.about=Monitoring speelt je eigen stem voor je af zoals an
 vc.settings.monitoring.toggle=Monitoren inschakelen
 vc.operaWarning=Je login duurt abnormaal lang, dit komt waarschijnlijk door je Opera instellingen. Open de browser-instellingen en zoek de instelling voor "WebRTC", schakel deze in
 vc.youAreModerating=Let op! Je bent nu een moderator, je kan iedereen horen, maar niemand hoort jou
+vc.noMicInputYetTitle=We horen je niet!
+vc.noMicInputYetBody=Zorg ervoor dat je de correcte microfoon hebt geselecteerd, of probeer je noise gate te verlagen
+vc.peersHiddenTitle=VoiceChat spelers zijn verborgen
+vc.peersHiddenText=Deze server heeft andere VoiceChat gebruikers verborgen, maar je kan ze nog steeds horen.
 
-hue.hue=Philips Hue
-hue.link=Klik hier om je Hue Bridge te verbinden
-hue.preparing=Setup voorbereiden...
-hue.loggingIn=Inloggen...
-hue.linking=Druk op de link knop van je Hue Bridge binnen %sec seconden om verbinding te maken.
-hue.connectedTo=Je bent nu verbonden met je Hue Bridge:
-hue.light1=Licht één
-hue.light2=Licht twee
-hue.light3=Licht drie
-hue.connected=Je kunt nu maximaal drie lampen koppelen die de server zal bedienen. Gewoonlijk van rechts naar links.
-hue.close=Sluiten
-
-notification.success=Hoera! Je ontvangt nu notificaties
-notification.test.title=Test test 1 2 3
-notification.test.body=Het werkt! Je hebt meldingen correct ingesteld!
-notification.info.voicechat=<div style="text-align: center;" class="medium-text">Deze server ondersteunt <b>Proximity VoiceChat</b>! Ga naar de <b>VoiceChat</b> pagina om te beginnen.</div>
-notification.voicechat.peeradd.title=Nieuwe speler binnen bereik
-notification.voicechat.peeradd.body=Je kan nu met %name praten
-notification.voicechat.peerdop.title=Speler is weg gelopen
-notification.voicechat.peerdop.body=%name is ergens anders heen gegaan
-
+settings.voicechat.echocancel.title=Echo onderdrukking
+settings.voicechat.echocancel.body=Deze optie zal proberen de echo die je microfoon oppikt te onderdrukken, dit is handig als je luidsprekers gebruikt, maar het kan er voor zorgen dat je op sommige platforms moeilijker te horen bent.
+settings.voicechat.echocancel.button=Echo onderdrukking inschakelen
 settings.voicechat.chimes.title=VoiceChat geluidjes
 settings.voicechat.chimes.body=Deze geluidjes spelen af zodra jij je microfoon aan of uit zet. Content creators willen dit misschien uitzetten.
 settings.voicechat.chimes.button=Gebruik geluidjes
@@ -127,7 +118,6 @@ settings.rolloff.1=100% (normaal)
 settings.rolloff.12=120%
 settings.rolloff.15=150% (extreem)
 
-
 settings.spatial.title=Ruimtelijke rendering engine
 settings.spatial.body=Selecteer welke rendering engine u wilt gebruiken. De moderne engine is van hogere kwaliteit en een beetje sneller, maar is nog in actieve ontwikkeling
 settings.spatial.modern=Nauwkeurig
@@ -136,3 +126,5 @@ settings.spatial.legacy=Legacy (oud systeem)
 settings.interpolation.title=Locatie versoepelen
 settings.interpolation.body=Automatisch bewegingen versoepelen om het stotteren van de luidsprekers/voicechat tijdens het lopen te minimaliseren. Dit voegt extra bewegingsvertraging toe, maar klinkt beter.
 settings.interpolation.button=Versoepelen inschakelen
+
+tooltip.close=Sluiten
