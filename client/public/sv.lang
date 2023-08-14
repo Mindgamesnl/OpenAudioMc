@@ -1,0 +1,135 @@
+lang.name=Swedish
+
+lang.detectedAs=We changed your language to %langName, do you want to keep it like this?
+lang.keep=Keep %langName
+lang.toEn=Switch to English
+
+ui.loading=Laddar...
+ui.logout=Logga ut
+
+navbar.audio=Audio
+navbar.vc=VoiceChat
+navbar.settings=Settings
+navbar.debug=Debug
+navbar.free=free
+navbar.premium=premium
+navbar.upgradeRequired=Upgrade required
+
+home.confirmLoginHeader=Välkommen tillbaka
+home.confirmLoginBody=Försöker du logga in som? <i>%player</i>?<br />Om inte så kan du stänga det här fönstret.
+home.confirmLoginButton=Starta Ljud kanal.
+home.confirmLoginWithVoicechat=Starta kanal med röst-chatt
+
+home.activate=Aktivera kanal.
+home.activateText=Detta är din personliga sida för voice-chat. Klicka var som helst på hemsidan för att starta
+home.clickAnywhere=Klicka var som helst för att starta.
+home.activateHeader=Klicka här för att ansluta.
+home.welcome=Welcome, %player!
+home.header=Välkommen till våran Ljud-Klient. Håll denna sida öppen för att höra musik och andra effekter. Du kan återvända hit för att kunna ändra ljud och inställningar. 
+home.volumeContext=Denna slider använder du till för att kontrollera ljudet på musik och effekter. Du kan även använda<pre>/volume &lt;volume&gt;</pre> För att ändra din volym när du vill. Eller bara sätta den på 0 för att stänga av ljudet temporärt.
+home.audioControls=Ljudinställningar.
+home.notificationsTitle=Notifikationer.
+home.notificationsEmpty=Du har inga notifikationer just nu.
+
+vc.badClient=VoiceChat Behöver en Webb-klient över HTTPS, Var snäll och uppdatera din URL för att använda HTTPS och/eller sätta upp SSL certifikat. 
+vc.notCompatible=Din webbläsare stödjer inte voice-chat.. Snälla uppdatera till en modern (desktop) browser som Chrome, Safari, etc.
+vc.voiceModerationEnabled=Denna server har moderation på. Vissa staff kan lyssna på det ni säger
+vc.notice=Notis
+vc.startingPopupTitle=Loggar in till voice-chat.
+vc.startingPopup=Vänligen vänta medans vi kopplar dig till en voice-chat server... Detta kommer inte ta så lång tid.
+vc.reloadingPopupTitle= Laddar om Voice-system.
+vc.reloadingPopup=Vänligen vänta medans vi verkställer dina inställningar.... Detta kommer inte ta så lång tid.
+vc.updatingMicPopupTitle=Uppdaterar din mikrofon
+vc.updatingMicPopup=Vänligen vänta medans vi startar om med din nya mikrofon ... Detta kommer gå fort.
+vc.micErrorPopupTitle=Mikrofon fel
+vc.micErrorPopup=Något gick fel medan vi försökte koppla din mikrofon. Snälla klicka “Tillåt” 
+när din webbläsare frågar om tillåtelse till din mikrofon
+vc.disabled=VoiceChat tillfälligt avstängt av %serverName
+vc.title=Proximity Voice Chat
+vc.boardingTitle=VoiceChat intégration
+vc.onboarding=Denna server har support för Proximity Voice Chat, som tillåter dig att prata med spelare som är i en%range block radius. Skulle du vilja att sätta på denna funktion och ge tillgång till din mikrofon?
+vc.settings=VoiceChat inställningar
+vc.muteMic=Muta Mikrofon
+vc.unmuteMic=Unmuta Mikrofon
+vc.input=Input Device
+vc.aboutInput=Välj Mikrofon, denna inställning kommer starta om tjänsten.
+vc.positionalAudio=Position Audio
+vc.aboutPositionalAudio=Rendra en 360 vinkel soundscape, som tillåter dig att höra folk runt dig.
+vc.settingsDisable=Stäng av
+vc.settingsEnablePositionalAudio=Sätt på Position Audio
+vc.settingsDisablePositionalAudio=Stäng av Position Audio
+vc.automaticAdjustments=Adjustera automatiskt
+vc.sensitivity=Bullergrind
+vc.aboutSensitivity=Konfigurera din bullergrind, Detta kommer automatiskt stänga av din mikrofon när du inte pratar.. <b>Helt åt vänster</b>kommer att stänga av din bullergrind, <b>Helt åt vänster</b> kommer stänga av din mikrofon helt.
+vc.peerTable={total}Personer nära dig, {talking} Pratar
+vc.toggleMicrophone=Toggla Mikrofon
+vc.you=Du
+vc.safetyTitle=För din säkerhet
+vc.safetyDisclaimer=Du kommer få ett meddelande när folk kommer in och lämnar din omgivning och du kommer få en lista av folk du kan höra(och som kan höra dig), Du kan även muta dem om du vill.OpenAudioMc Använder sig av din server för moderation och att hantera rapporter när det behövs. Gör en ticket om du märker att någon bryter mot reglerna.
+vc.safetyFooter=<b>Vill du vara för dig själv? Du kan muta dig själv genom att<pre style="display: inline;">/mm</pre> or holding <pre style="display: inline;">shift + F</pre> in game,Eller klicka på mute knappen på hemsidan.</b>
+vc.join=Gå med i röstchatt
+vc.empty.title=Du är helt ensam :( 
+vc.empty.body=Det finns ingen i närheten som du kan prata med, navigera till andra spelare eller fråga en vän om dem vill prata.
+vc.muteMicrophone=Mute
+vc.unmuteMicrophone=Unmute
+vc.myStatus=Din egna mikrofon status
+vc.hero.title=Välkommen till VoiceChat!
+vc.hero.subtitle=Detta är din egna voice chat dashboard, här kan du se folk som är tillräckligt nära för att höra dig. Du kan även muta dem om du inte vill höra dem.
+vc.statusTitle=Min status
+vc.settings.globalVolumeTitle=Generell VoiceChat volym
+vc.settings.surround.disable=Stäng av Omgivningsljud
+vc.settings.surround.enable=Sätt på Omgivningsljud
+vc.settings.globalVolumeAbout=Ändra huvudvolymen på alla  VoiceChat användare
+vc.settings.toggleMenuTitle=VoiceChat input Inställningar
+vc.settings.toggleMenu=Toggla Meny
+vc.settings.monitoring.title=Mikrofon översikt
+vc.settings.monitoring.about=Översikt kommer spela tillbaka din röst som andra kommer att höra dig. Det är bra för att ställa in dina ljud inställningar..
+vc.settings.monitoring.toggle=Sätt på översikt.
+vc.operaWarning=Din inloggning ser ut att ta en stund, Detta beror förmodligen på din Opera Inställning. Vänligen öppna din webbläsares inställning och sök efter "WebRTC" och välj “sätt på allt”
+vc.youAreModerating=Se upp! Du är nu en moderator och kan höra alla i voice chat.
+Men dem kan inte höra dig.
+vc.noMicInputYetTitle=Vi har problem med att höra dig.
+vc.noMicInputYetBody=Se till att du har valt rätt mikrofon, Eller sänk din bullergrind
+vc.peersHiddenTitle=Voicechat Spelare är gömda
+vc.peersHiddenText=Denna server har stängt av att se vilka som är i närheten, men du kan fortfarande höra dem.
+settings.voicechat.chimes.title=VoiceChat Ljudet
+settings.voicechat.chimes.body=Ringljudet som spelar när du mutar eller unmutar din mic. Media kan stänga av denna funktion..
+settings.voicechat.chimes.button=Använd ringljudet
+settings.theme.title=Mörkt läge
+settings.theme.body=Använd (default) dark mode för denna web klient
+settings.theme.button=dark mode
+settings.voicechat.peer.title=Spelare Notifikationer.
+settings.voicechat.peer.body=Få Desktop notifikationer när någon är nära dig.
+settings.voicechat.peer.button=Sätt på notifikationer.
+settings.mix-and-fade.title=Automatisk musik mixing
+settings.mix-and-fade.body=Automatisk cross-fade och mixa ljudkällor.
+settings.mix-and-fade.button= Sätt på mixing
+settings.preload.title=Ladda in ljudfiler automatiskt.
+settings.preload.body=Med detta på, OpenAudioMc kommer att automatiskt ladda in ljudfiler på platser du ofta är på. Detta kommer få det att kännas mer mottaglig men kommer att ta upp mer data.
+settings.preload.button=Sätt på preloading
+settings.rolloff.title=3D Audio Rolloff
+settings.rolloff.body=Detta kommer ändra på hur mycket dämpning 3D ljudet har beroende på hur långt bort dem är. 0% är ingen dämpning, 100% är full dämpning.. Detta kommer finnas på båda speakers
+settings.rolloff.01=1% (minimal)
+settings.rolloff.5=50%
+settings.rolloff.8=80%
+settings.rolloff.1=100% (normal)
+settings.rolloff.12=120%
+settings.rolloff.15=150% (extreme)
+
+settings.spatial.title=Motor för rumslig rendering
+settings.spatial.body=Välj vilken renderingsmotor du vill använda. Den moderna motorn är av högre kvalitet och är lite snabbare, men kräver en modern webbläsare.
+settings.spatial.modern=Exakt
+settings.spatial.legacy=Legacy (Gamla systemet)
+
+settings.interpolation.title=Platsutjämning
+settings.interpolation.body=Jämna automatiskt ut rörelserna för att minimera högtalar-/röstchatts stammande när du rör på dig. Detta lägger till extra rörelsefördröjning, men det låter bättre.
+settings.interpolation.button=Sätt på utjämning
+
+settings.streamermode.title=Streamer-Läge
+settings.streamermode.body=Inaktiva dina tokens automatiskt efter användning
+Det betyder att din klientadress är säker att visa på stream utan att behöva oroa dig för att en tittare utger sig att vara dig. Se bara till att öppna din länk så fort du får den.
+settings.streamermode.button=Sätt på streamer-läget
+
+tooltip.close=Stäng
+
+
