@@ -24,7 +24,7 @@ export class MessageModule {
       'zh-CN': 'zh-CN.lang', // simplified chinese
       cn: 'zh-CN.lang', // simplified chinese
       vn: 'vn.lang', // vietnamese
-      sv: "sv.lang", // Swedish
+      sv: 'sv.lang', // Swedish
 
       // One of these can probably go, but i wasn't provided
       // enough info and am unable to find the correct region code
