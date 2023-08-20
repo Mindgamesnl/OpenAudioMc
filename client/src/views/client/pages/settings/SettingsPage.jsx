@@ -33,7 +33,7 @@ class SettingsPage extends React.Component {
       setGlobalState({ settings: newSettings });
 
       if (updatePanners) {
-        pannerTrackers.keys().forEach((key) => {
+        Object.keys(pannerTrackers).forEach((key) => {
           applyPannerProperties(pannerTrackers[key], pannerTrackers[key].maxDistance);
         });
       }
