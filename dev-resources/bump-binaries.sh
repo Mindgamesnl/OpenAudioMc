@@ -11,3 +11,4 @@ cp modules/mapdb-migrator/target/migrate.* modules/
 cp modules/parties-module/target/parties* modules/
 cp modules/rinaorc-legacy/target/rinaorc-legacy-users.jar modules/
 cp modules/skywars-module/target/skywars-hook.jar modules/
+cp modules/gamemode-voice-filter-module/target/gamemode-filter.jar modules/
