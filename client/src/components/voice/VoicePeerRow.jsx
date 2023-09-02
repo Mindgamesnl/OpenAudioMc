@@ -15,6 +15,7 @@ export class VoicePeerRow extends React.Component {
     loading: PropTypes.bool,
     hideVolume: PropTypes.bool,
     altText: PropTypes.string,
+    minimal: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -25,6 +26,7 @@ export class VoicePeerRow extends React.Component {
     loading: false,
     hideVolume: false,
     altText: null,
+    minimal: false,
   };
 
   constructor(props) {
@@ -151,7 +153,7 @@ export class VoicePeerRow extends React.Component {
               ) : null}
             </h1>
           </div>
-          <div>
+          <div className={this.props.minimal ? 'hidden' : ''}>
             <div className="flex flex-col xl:flex-row">
               <button
                 onClick={this.toggleMuteButton}

@@ -90,6 +90,7 @@ vc.noMicInputYetTitle=We're having trouble hearing you!
 vc.noMicInputYetBody=Please make sure that you have the correct microphone selected, or try lowering your noise gate.
 vc.peersHiddenTitle=Voicechat players are hidden
 vc.peersHiddenText=This server has disabled the ability to see who is in voice chat to prevent unfair advantages, you can still hear them though.
+vc.isTalking=is talking
 
 settings.voicechat.echocancel.title=Echo cancellation
 settings.voicechat.echocancel.body=This will attempt to cancel out any echo that your microphone picks up, this is useful if you're using speakers instead of headphones but may make your harder to hear on some platforms.

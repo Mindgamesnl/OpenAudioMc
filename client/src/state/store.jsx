@@ -42,6 +42,7 @@ const initialState = {
   settings: {
     prefetchMedia: true,
     normalVolume: 35,
+    voicePiPEnabled: false,
     voicechatVolume: 100,
     voicechatMuted: false,
     voicechatSurroundSound: true,
