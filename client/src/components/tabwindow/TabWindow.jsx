@@ -57,7 +57,7 @@ class TabWindow extends Component {
     let navbarButtons = pages.map((page, index) => (
       <span className="tab" key={page.name}>
         <button
-          className={`${index === this.props.currentTab ? 'active main-header-link' : 'main-header-link'} text-white p-2 h-auto flex items-center justify-center rounding-top`}
+          className={`${index === this.props.currentTab ? 'active main-header-link' : 'inactive main-header-link'} text-white border-solid border-2 border-gray-800 p-4 h-auto flex items-center justify-center rounding-top`}
           onClick={() => setTab(index)}
           type={page.buttonContent ? 'button' : 'submit'}
         >
