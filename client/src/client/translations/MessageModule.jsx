@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import { API_ENDPOINT } from '../config/ApiEndpoints';
 import { setGlobalState, store } from '../../state/store';
-import { VERSION } from '../../index';
+import { VERSION } from '../../build';
 
 export class MessageModule {
   constructor() {

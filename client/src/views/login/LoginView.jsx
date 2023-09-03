@@ -4,7 +4,7 @@ import './css/login-glow.css';
 import JAVA_LOGO from './platforms/editions/java.png';
 import BEDROCK_LOGO from './platforms/editions/bedrock.png';
 import { StaticFooter } from '../../components/footer/StaticFooter';
-import { VERSION } from '../../index';
+import { VERSION } from '../../build';
 import { compareProdVersions } from '../../client/util/versioning';
 import { FadeToCtx } from '../../components/contexts';
 import { BedrockAuthFlow } from './platforms/bedrock/BedrockAuthFlow';

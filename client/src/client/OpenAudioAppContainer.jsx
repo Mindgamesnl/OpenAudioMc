@@ -16,6 +16,7 @@ import { reportVital } from './util/vitalreporter';
 import { WorldModule } from './services/world/WorldModule';
 import { debugLog } from './services/debugging/DebugService';
 import { FadeToCtx, OAC } from '../components/contexts';
+import { VERSION } from '../build';
 
 class OpenAudioAppContainer extends React.Component {
   static contextType = FadeToCtx;
@@ -280,6 +281,13 @@ class OpenAudioAppContainer extends React.Component {
     setGlobalState({ isLoading: false });
     this.setState({ allowedToUnlock: true });
     this.context.fadeToComponent(null);
+
+    // eslint-disable-next-line no-underscore-dangle
+    if (VERSION.isDev() && window._devUnlock) {
+      // eslint-disable-next-line no-underscore-dangle
+      setGlobalState({ voiceState: { autoJoinVoiceChat: window._devUnlockWithVoice } });
+      this.bootApp();
+    }
   }
 
   bootApp() {
@@ -288,6 +296,16 @@ class OpenAudioAppContainer extends React.Component {
     SocketManager.connectToServer(getGlobalState().relay.endpoint);
     setGlobalState({ clickLock: false });
     this.setState({ didUnlock: true });
+
+    // store dev vars
+    if (VERSION.isDev()) {
+      // eslint-disable-next-line no-underscore-dangle
+      window._devTokenCache = getGlobalState().currentUser;
+      // eslint-disable-next-line no-underscore-dangle
+      window._devUnlock = true;
+      // eslint-disable-next-line no-underscore-dangle
+      window._devUnlockWithVoice = getGlobalState().voiceState.autoJoinVoiceChat;
+    }
   }
 
   render() {

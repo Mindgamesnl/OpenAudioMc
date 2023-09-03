@@ -1,7 +1,9 @@
+/* eslint-disable no-underscore-dangle */
 import UrlReader from '../util/UrlReader';
 import { API_ENDPOINT } from '../config/ApiEndpoints';
 import { ReportError } from '../util/ErrorReporter';
 import { setGlobalState } from '../../state/store';
+import { VERSION } from '../../build';
 
 export default class ClientTokenSet {
   constructor(publicServerKey, playerUUID, playerName, playerToken, scope) {
@@ -15,6 +17,17 @@ export default class ClientTokenSet {
 
   initialize() {
     return new Promise(((resolve) => {
+      // are we in development mode
+      if (VERSION.isDev()) {
+        // do we have a dev cache?
+        if (window._devTokenCache) {
+          // eslint-disable-next-line no-console
+          console.warn('Using dev token cache');
+          resolve(window._devTokenCache);
+          return;
+        }
+      }
+
       // mock login
       const url = window.location.href;
       if (url == null) {
@@ -53,6 +66,9 @@ export default class ClientTokenSet {
 
         // all appears to be okay! thats good! give a session
         const out = new ClientTokenSet(serverUuid, playerUuid, playerName, playerToken);
+        if (VERSION.isDev()) {
+          window._devTokenCache = out;
+        }
         resolve(out);
       } else if (url.split('#').length >= 2) {
         // try to load via fetch
@@ -78,6 +94,9 @@ export default class ClientTokenSet {
               const ses = sessionValidationResponse.response;
 
               const out = new ClientTokenSet(ses.publicKey, ses.playerUuid, ses.playerName, ses.session, ses.scope);
+              if (VERSION.isDev()) {
+                window._devTokenCache = out;
+              }
               resolve(out);
             });
           })
