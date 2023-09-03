@@ -75,6 +75,18 @@ export default class ClientTokenSet {
         const token = url.split('#')[1];
         fetch(`${API_ENDPOINT.CLIENT_SESSION_SERVER}?token=${token}`)
           .then((body) => {
+            // is the response okay?
+            if (body.status === 403) {
+              setGlobalState({
+                isBlocked: true,
+                isPersonalBlock: true,
+                isLoading: false,
+              });
+              ReportError('Invalid token', window.tokenCache.name);
+              resolve(null);
+              return;
+            }
+
             body.json().then((sessionValidationResponse) => {
               if (sessionValidationResponse.errors.length > 0) {
                 if (this.attempts < 3) {
