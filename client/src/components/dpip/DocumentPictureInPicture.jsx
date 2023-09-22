@@ -8,6 +8,8 @@ export class DocumentPictureInPicture extends React.Component {
 
     this.contentRef = React.createRef();
     this.pipWindow = null;
+    this.updateTask = null;
+    this.latestContentHash = null;
   }
 
   async componentDidMount() {
@@ -70,6 +72,11 @@ export class DocumentPictureInPicture extends React.Component {
         theme: 'dark',
       });
     }
+
+    // update the content every 500ms
+    this.updateTask = setInterval(() => {
+      this.updateContent();
+    }, 500);
   }
 
   componentDidUpdate() {
@@ -80,6 +87,29 @@ export class DocumentPictureInPicture extends React.Component {
     // close the pip window
     if (this.pipWindow) {
       this.pipWindow.close();
+    }
+
+    if (this.updateTask) {
+      clearInterval(this.updateTask);
+    }
+  }
+
+  updateContent() {
+    // is the ref applied?
+    if (!this.contentRef.current) return;
+    // is the window ready?
+    if (!this.pipWindow) return;
+
+    // generate a unique string based on the content which is quick to compare
+    // we can do this by counting the total spaces and quotes in the content
+    const content = this.contentRef.current.innerHTML;
+    const hash = content.split(' ').length + content.split('"').length;
+    // is the hash different?
+    if (hash !== this.latestContentHash) {
+      // update the hash
+      this.latestContentHash = hash;
+      // post the content
+      this.post();
     }
   }
 
