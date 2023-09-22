@@ -17,6 +17,7 @@ import { WorldModule } from './services/world/WorldModule';
 import { debugLog } from './services/debugging/DebugService';
 import { FadeToCtx, OAC } from '../components/contexts';
 import { VERSION } from '../build';
+import { isValidHttps } from './util/sslcheck';
 
 class OpenAudioAppContainer extends React.Component {
   static contextType = FadeToCtx;
@@ -39,17 +40,10 @@ class OpenAudioAppContainer extends React.Component {
       allowedToUnlock: false,
     };
 
-    let isValidHttps = window.location.protocol === 'https:';
-
-    // are we on localhost? then its probably fine
-    if (window.location.hostname === 'localhost') {
-      isValidHttps = true;
-    }
-
     // initialize capabilities
     setGlobalState({
       browserSupportsVoiceChat: isVoicechatCompatible(),
-      clientSupportsVoiceChat: isValidHttps,
+      clientSupportsVoiceChat: isValidHttps(),
     });
 
     const { settings } = getGlobalState();
