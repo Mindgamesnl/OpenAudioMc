@@ -5,21 +5,11 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { reportVital } from './client/util/vitalreporter';
-import meta from './metadata.json';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <App />,
 );
-
-export const VERSION = {
-  revision: meta.buildRevision,
-  major: meta.buildMajor,
-  minor: meta.buildMinor,
-  tag: meta.buildTag,
-  date: meta.buildDate,
-  build: meta.build,
-};
 
 window.onerror = function handle(errorMessage, fileName, lineNumber, columnNumber, error) {
   // eslint-disable-next-line no-console

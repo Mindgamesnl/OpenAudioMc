@@ -8,7 +8,7 @@ import {
   getLatestDebugValue,
 } from '../../../../client/services/debugging/DebugService';
 import { OaStyleCard } from '../../../../components/card/OaStyleCard';
-import { VERSION } from '../../../../index';
+import { VERSION } from '../../../../build';
 import { getGlobalState } from '../../../../state/store';
 import { Radar } from '../../../../components/graph/Radar';
 import { WorldModule } from '../../../../client/services/world/WorldModule';

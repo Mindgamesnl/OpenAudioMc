@@ -1,5 +1,5 @@
 import { API_ENDPOINT } from '../config/ApiEndpoints';
-import { VERSION } from '../../index';
+import { VERSION } from '../../build';
 
 export function ReportError(message, playerName) {
   fetch(API_ENDPOINT.ERROR_REPORTING, {

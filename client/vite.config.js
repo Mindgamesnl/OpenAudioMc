@@ -5,6 +5,18 @@ import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 import eslint from 'vite-plugin-eslint';
 
+// some prototype
+// eslint-disable-next-line no-extend-native
+Array.prototype.some = function (fun) {
+  const len = this.length;
+  for (let i = 0; i < len; i += 1) {
+    if (fun(this[i], i, this)) {
+      return true;
+    }
+  }
+  return false;
+};
+
 export default defineConfig({
   plugins: [svgr({
     svgrOptions: {
@@ -13,14 +25,11 @@ export default defineConfig({
   }), {
     name: 'singleHMR',
     handleHotUpdate({ modules }) {
-      modules.map((m) => {
-        m.importers = new Set();
-        return m;
-      });
-
       return modules;
     },
-  }, react(), eslint()],
+  }, react({
+    include: '**/*.jsx',
+  }), eslint()],
   server: {
     port: 3000, host: true,
   },

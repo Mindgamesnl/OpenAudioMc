@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { BlackoutPage } from '../../components/layout/BlackoutPage';
 import './loading.css';
 import { LoadingSpinnerBox } from '../../components/loading/LoadingSpinnerBox';
-import { VERSION } from '../../index';
+import { VERSION } from '../../build';
 
 function LoadingView(props) {
   return (

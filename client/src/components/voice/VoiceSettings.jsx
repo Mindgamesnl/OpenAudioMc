@@ -6,6 +6,7 @@ import { reRenderAllGainNodes } from '../../client/services/voice/VoiceModule';
 import { Tooltip } from '../tooltip/tooltip';
 import ExtraVoiceSettings from './ExtraVoiceSettings';
 import { msg } from '../../client/OpenAudioAppContainer';
+import { PipVector } from '../dpip/PipVector';
 
 class VoiceSettings extends React.Component {
   constructor(props) {
@@ -18,11 +19,16 @@ class VoiceSettings extends React.Component {
     this.onVolumeChange = this.onVolumeChange.bind(this);
     this.toggleAdvancedSettings = this.toggleAdvancedSettings.bind(this);
     this.toggleMicMute = this.toggleMicMute.bind(this);
+    this.togglePiP = this.togglePiP.bind(this);
   }
 
   onVolumeChange(e) {
     setGlobalState({ settings: { voicechatVolume: e.target.value } });
     reRenderAllGainNodes();
+  }
+
+  togglePiP() {
+    setGlobalState({ settings: { voicePiPEnabled: !this.props.voicePiPEnabled } });
   }
 
   toggleAdvancedSettings() {
@@ -71,6 +77,9 @@ class VoiceSettings extends React.Component {
       </button>
     );
 
+    // check if documentPictureInPicture is supported
+    const isPipSupported = document.pictureInPictureEnabled;
+
     if (this.props.voicechatMuted) {
       micButton = (
         <button className="content-pill status-button red" onClick={this.toggleMicMute} type="button">
@@ -92,6 +101,17 @@ class VoiceSettings extends React.Component {
         </button>
       );
     }
+
+    const pipEnabled = this.props.voicePiPEnabled;
+    const togglePipButton = (
+      <button
+        className={`content-pill green status-button text-center mr-2 ${!pipEnabled ? '' : '!bg-blue-600'}`}
+        onClick={this.togglePiP}
+        type="button"
+      >
+        <PipVector />
+      </button>
+    );
 
     let uuid;
     if (this.props.currentUser && this.props.currentUser.uuid) {
@@ -116,6 +136,7 @@ class VoiceSettings extends React.Component {
               </span>
               <div className="content-card-buttons w-full">
                 <div className="flex justify-center w-full">
+                  {isPipSupported ? togglePipButton : null}
                   {micButton}
 
                   <Tooltip
@@ -197,6 +218,7 @@ function mapStateToProps(state) {
   return {
     voicechatMuted: state.settings.voicechatMuted,
     voicechatVolume: state.settings.voicechatVolume,
+    voicePiPEnabled: state.settings.voicePiPEnabled,
     voiceState: state.voiceState,
     currentUser: state.currentUser,
   };

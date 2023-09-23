@@ -196,7 +196,8 @@ body.light-mode .video-bg:before {
     background-color: var(--dropdown-bg);
 
     /* inner shadow */
-    box-shadow: inset 0px 2px 12px 2px var(--primary-accent);
+    box-shadow: inset 0px 2px 2px 2px var(--primary-accent);
+    box-shadow: inset 0px 2px 2px 1px var(--primary-accent);
 }
 
 .notify {
@@ -1113,15 +1114,21 @@ span.tab {
     animation: blinkSpeaking .5s infinite;
 }
 
+.speaking-small {
+    background-color: lime;
+    box-shadow: 0 0 0 5px #1cb91c;
+    animation: blinkSpeaking .5s infinite;
+}
+
 @keyframes blinkSpeaking {
     0% {
-        box-shadow: 0 0 25px 25px #1cb91c;
+        box-shadow: 0 0 15px 15px #1cb91c;
     }
     50% {
-        box-shadow: 0 0 25px 25px #0cb5ff;
+        box-shadow: 0 0 5px 5px #0cb5ff;
     }
     100% {
-        box-shadow: 0 0 25px 25px #1cb91c;
+        box-shadow: 0 0 15px 15px #1cb91c;
     }
 }
 

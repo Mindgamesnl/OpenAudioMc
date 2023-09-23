@@ -1,5 +1,5 @@
 import { getGlobalState } from '../../state/store';
-import { VERSION } from '../../index';
+import { VERSION } from '../../build';
 import { getTranslation } from '../OpenAudioAppContainer';
 import { API_ENDPOINT } from '../config/ApiEndpoints';
 

@@ -1,5 +1,5 @@
 import { API_ENDPOINT } from '../config/ApiEndpoints';
-import { VERSION } from '../../index';
+import { VERSION } from '../../build';
 
 export async function compareProdVersions() {
   const prodVersionFile = await fetch(API_ENDPOINT.PROD_CLIENT_VERSION);
