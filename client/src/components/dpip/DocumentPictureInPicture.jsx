@@ -63,7 +63,7 @@ export class DocumentPictureInPicture extends React.Component {
       console.error(e);
       setGlobalState({ settings: { voicePiPEnabled: false } });
       toast.error("Couldn't open a Picture-in-Picture window. This web page either doesn't have the required permissions or your browser isn't supported.", {
-        position: 'top-center',
+        position: 'bottom-right',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -120,6 +120,7 @@ export class DocumentPictureInPicture extends React.Component {
       console.error('pip window not ready yet');
       return;
     }
+
     // copy the html from the rev, and set it as the pip window's html
     const content = this.contentRef.current.innerHTML;
     this.pipWindow.document.body.innerHTML = content;

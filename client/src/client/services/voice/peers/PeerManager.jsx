@@ -118,7 +118,7 @@ export class PeerManager {
       // eslint-disable-next-line
             if ((!!navigator.userAgent.match(/Opera|OPR\//))) {
         toast.error(getTranslation(null, 'vc.operaWarning'), {
-          position: 'top-center',
+          position: 'bottom-right',
           autoClose: 50000,
           theme: 'dark',
         });
