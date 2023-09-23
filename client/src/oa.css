@@ -196,7 +196,8 @@ body.light-mode .video-bg:before {
     background-color: var(--dropdown-bg);
 
     /* inner shadow */
-    box-shadow: inset 0px 2px 12px 2px var(--primary-accent);
+    box-shadow: inset 0px 2px 2px 2px var(--primary-accent);
+    box-shadow: inset 0px 2px 2px 1px var(--primary-accent);
 }
 
 .notify {
