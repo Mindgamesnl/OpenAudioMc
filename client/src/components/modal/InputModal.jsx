@@ -42,9 +42,9 @@ export class InputModal extends React.Component {
           <div className="mt-3 text-center">
             <h1 className="text-lg font-medium text-indigo-200">{title}</h1>
             <div className="mt-2 text-center">
-              <p className="text-sm text-white">
+              <div className="text-sm text-white">
                 <div dangerouslySetInnerHTML={{ __html: message }} />
-              </p>
+              </div>
               {!textOnly && (
               <>
                 <hr />
