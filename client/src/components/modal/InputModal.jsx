@@ -15,7 +15,7 @@ export class InputModal extends React.Component {
 
   finishModal() {
     try {
-      getGlobalState().inputModal.callback(this.state.value);
+      getGlobalState().inputModal.callback(this.state.value, false);
     } catch (e) {
       // ignored
     }
@@ -24,7 +24,7 @@ export class InputModal extends React.Component {
 
   cancelModal() {
     try {
-      getGlobalState().inputModal.callback(null);
+      getGlobalState().inputModal.callback(null, true);
     } catch (e) {
       // ignored
     }
@@ -32,7 +32,7 @@ export class InputModal extends React.Component {
   }
 
   render() {
-    const { title, message } = getGlobalState().inputModal;
+    const { title, message, showCancel } = getGlobalState().inputModal;
     const { textOnly } = getGlobalState().inputModal;
 
     return (
@@ -56,11 +56,11 @@ export class InputModal extends React.Component {
               <button type="submit" onClick={this.finishModal} className="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-1/3 mr-5 shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
                 OK
               </button>
-              {!textOnly && (
-              <button type="button" onClick={this.cancelModal} className="px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md w-1/3 shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
-                CLOSE
-              </button>
-              )}
+              {(!textOnly || showCancel) ? (
+                <button type="button" onClick={this.cancelModal} className="px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md w-1/3 shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
+                  CLOSE
+                </button>
+              ) : null}
             </div>
           </div>
         </div>
@@ -69,10 +69,10 @@ export class InputModal extends React.Component {
   }
 }
 
-export function showInputModal(title, message, callback) {
+export function showInputModal(title, message, callback, showInputField = true, showCancel = false) {
   setGlobalState({
     inputModal: {
-      visible: true, title, message, callback, textOnly: false,
+      visible: true, title, message, callback, textOnly: !showInputField, showCancel,
     },
   });
 }
@@ -85,7 +85,7 @@ export function showTextModal(title, ...message) {
 
   setGlobalState({
     inputModal: {
-      visible: true, title, message: fullMessage, callback: () => {}, textOnly: true,
+      visible: true, title, message: fullMessage, callback: () => {}, textOnly: true, showCancel: false,
     },
   });
 }

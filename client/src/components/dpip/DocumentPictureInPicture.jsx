@@ -59,6 +59,7 @@ export class DocumentPictureInPicture extends React.Component {
       this.post();
     } catch (e) {
       // summon toast
+      // eslint-disable-next-line no-console
       console.error(e);
       setGlobalState({ settings: { voicePiPEnabled: false } });
       toast.error("Couldn't open a Picture-in-Picture window. This web page either doesn't have the required permissions or your browser isn't supported.", {
@@ -76,7 +77,7 @@ export class DocumentPictureInPicture extends React.Component {
     // update the content every 500ms
     this.updateTask = setInterval(() => {
       this.updateContent();
-    }, 500);
+    }, 50);
   }
 
   componentDidUpdate() {

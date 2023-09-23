@@ -37,6 +37,7 @@ const initialState = {
     title: '',
     message: '',
     callback: null,
+    showCancel: true,
   },
 
   settings: {
@@ -51,7 +52,7 @@ const initialState = {
     automaticSensitivity: false,
     fadeAudio: true,
 
-    voiceEchoCancellation: true,
+    voiceEchoCancellation: false,
     voicechatChimesEnabled: true,
     interpolationEnabled: true,
     spatialRenderingMode: 'new',

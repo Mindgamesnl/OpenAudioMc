@@ -7,6 +7,8 @@ import { LoginView } from '../views/login/LoginView';
 import ClientView from '../views/client/ClientView';
 import BlockedLoginView from '../views/login/BlockedLoginView';
 import { BadBrowser } from '../views/login/BadBrowserView';
+import { showInputModal } from './modal/InputModal';
+import { msg } from '../client/OpenAudioAppContainer';
 
 class OpenAudioController extends React.Component {
   constructor(props) {
@@ -21,33 +23,70 @@ class OpenAudioController extends React.Component {
   componentDidMount() {
     // check if AudioContext is supported
     if (!window.AudioContext && !window.webkitAudioContext) {
-      this.setState({ preflightOk: false, errorMessage: 'Your browser does not support the AudioContext API. Please use a modern browser like Chrome or Firefox.' });
+      this.setState({
+        preflightOk: false,
+        errorMessage: 'Your browser does not support the AudioContext API. Please use a modern browser like Chrome or Firefox.',
+      });
       return;
     }
 
     // check if webrtc is supported
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      this.setState({ preflightOk: false, errorMessage: 'Your browser does not support the WebRTC API. Please use a modern browser like Chrome or Firefox.' });
+      this.setState({
+        preflightOk: false,
+        errorMessage: 'Your browser does not support the WebRTC API. Please use a modern browser like Chrome or Firefox.',
+      });
       return;
     }
 
     // check if websockets are supported
     if (!window.WebSocket) {
-      this.setState({ preflightOk: false, errorMessage: 'Your browser does not support the WebSocket API. Please use a modern browser like Chrome or Firefox.' });
+      this.setState({
+        preflightOk: false,
+        errorMessage: 'Your browser does not support the WebSocket API. Please use a modern browser like Chrome or Firefox.',
+      });
       return;
     }
 
     // enforce PeerConnection
     if (!window.RTCPeerConnection) {
-      this.setState({ preflightOk: false, errorMessage: 'Your browser does not support the RTCPeerConnection API. Please use a modern browser like Chrome or Firefox.' });
+      this.setState({
+        preflightOk: false,
+        errorMessage: 'Your browser does not support the RTCPeerConnection API. Please use a modern browser like Chrome or Firefox.',
+      });
       return;
     }
 
     // check if PannerNode is supported
     if (!window.PannerNode) {
-      this.setState({ preflightOk: false, errorMessage: 'Your browser does not support the PannerNode API. Please use a modern browser like Chrome or Firefox.' });
+      this.setState({
+        preflightOk: false,
+        errorMessage: 'Your browser does not support the PannerNode API. Please use a modern browser like Chrome or Firefox.',
+      });
     }
+
+    // register hash change listener
+    window.addEventListener('hashchange', this.handleHashChange);
   }
+
+  componentWillUnmount() {
+    // unregister hash change listener
+    window.removeEventListener('hashchange', this.handleHashChange);
+  }
+
+  handleHashChange = () => {
+    // do we currently have a session?
+    if (!this.props.currentUser) {
+      // just reload, no need to show a modal
+      window.location.reload();
+      return;
+    }
+    showInputModal(msg('ui.urlChangeDetected'), msg('ui.hashchange'), (_, canceled) => {
+      if (!canceled) {
+        window.location.reload();
+      }
+    }, false, true);
+  };
 
   render() {
     let currentView = null;
