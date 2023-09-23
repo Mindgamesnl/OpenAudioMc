@@ -22,3 +22,10 @@ window.onerror = function handle(errorMessage, fileName, lineNumber, columnNumbe
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+// reload on session change
+addEventListener("hashchange", (event) => {
+  if (event.oldURL !== event.newURL) {
+    window.location.reload();
+  }
+});
