@@ -346,6 +346,7 @@ body.light-mode .video-bg:before {
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     height: 100%;
+    width: 100%;
 }
 
 .content-wrapper-box {
@@ -1075,6 +1076,15 @@ footer {
 
 .themed-text {
     color: var(--primary-accent)
+}
+
+.themed-bg {
+    background-color: var(--primary-accent)
+}
+
+.navbar-bg {
+    /* gradient from black top right to var(--primary-accent) bottom left */
+    background: linear-gradient(156deg, #000 5%, color-mix(in srgb,var(--primary-accent), #000 25%), color-mix(in srgb,var(--primary-accent),#000 50%));
 }
 
 .login-image {
