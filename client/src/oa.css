@@ -1083,10 +1083,10 @@ footer {
 }
 
 .navbar-bg {
-    background: linear-gradient(156deg, #000 5%, color-mix(in srgb,var(--primary-accent), #000 55%), color-mix(in srgb,var(--primary-accent),#000 80%));
-    border-right-color: var(--primary-accent);
+    background: linear-gradient(156deg, #000 5%, color-mix(in srgb,var(--primary-accent), #000 65%), color-mix(in srgb,var(--primary-accent),#000 70%));
+    border-right-color: color-mix(in srgb,var(--primary-accent), #000 65%);
     border-right-style: solid;
-    border-right-width: 1px;
+    border-right-width: 2px;
 }
 
 .login-image {

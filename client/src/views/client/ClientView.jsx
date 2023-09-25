@@ -27,7 +27,7 @@ function ClientView(props) {
           <TabPage name={getTranslation(null, 'navbar.audio')} content={<AudioPage />} buttonContent={<SpeakerSvg />} />
           <TabPage
             name={getTranslation(null, 'navbar.vc')}
-            hidden={!props.voiceState.ready}
+            hidden={false}
             buttonContent={<MicrophoneSVG />}
             content={<VoicePage />}
           />
