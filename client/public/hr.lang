@@ -17,6 +17,7 @@ navbar.premium=premium
 home.confirmLoginHeader=Dobrodošao nazad!
 home.confirmLoginBody=Da li želite da se prijavite kao <i>%player</i>?<br />ako ne želite, molim vas zatvorite ovu poruku.
 home.confirmLoginButton=Da! To sam ja!
+home.confirmLoginWithVoicechat=Startuj sesiju sa VoiceChat-om
 
 home.activate=Aktivna sednica
 home.activateText=Ovo je lična webstranica kojoj je korist da pušta zvukove i pušta glasove tokom vaše posete. Molim vas kliknite bilo gde na ovoj stranici da bi krenuli. 
@@ -105,6 +106,7 @@ settings.rolloff.8=80%
 settings.rolloff.1=100% (normal)
 settings.rolloff.12=120%
 settings.rolloff.15=150% (extreme)
+settings.voicechat.echocancel.body=Ovo će pokušati da poništi svaki odjek koji vaš mikrofon hvata, ovo je korisno ako koristite zvučnike umesto slušalica, ali može da vas oteža da vas čuju ostali igrači. 
 
 
 settings.spatial.title=Motor za prostorno prikazivanje 
