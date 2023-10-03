@@ -86,6 +86,7 @@ const initialState = {
     peersHidden: false,
     isModerating: false,
     isTemporarilyDisabled: false,
+    isMutedServerSide: false,
     enabled: false,
     ready: false,
     isSpeaking: false,

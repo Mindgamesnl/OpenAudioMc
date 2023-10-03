@@ -91,6 +91,11 @@ class OpenAudioAppContainer extends React.Component {
           token: 'test',
           publicServerKey: 'test',
         },
+        voiceState: {
+          enabled: true,
+          ready: true,
+          isMutedServerSide: true,
+        },
       });
       this.messageModule.handleCountry('gb');
       return;

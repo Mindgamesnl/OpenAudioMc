@@ -13,7 +13,7 @@ function VoicePage(props) {
     <div className="w-full">
       {props.voiceState.serverHasModeration ? <ModerationWarning /> : null}
       <VoiceSettings />
-      {props.voiceState.isTemporarilyDisabled ? <DisabledRegionBanner /> : null}
+      {(props.voiceState.isTemporarilyDisabled || props.voiceState.isMutedServerSide) ? <DisabledRegionBanner /> : null}
       <VoicePeerBox />
       {props.voicePiPEnabled ? <DocumentPictureInPicture><VoiceChatPiP /></DocumentPictureInPicture> : null}
     </div>

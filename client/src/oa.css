@@ -1189,3 +1189,9 @@ pre {
 .serverimage {
     content: var(--background-image);
 }
+.disabled-bt {
+    pointer-events: none;
+    opacity: 0.4; /* Adjust the opacity value to control the level of disabled effect */
+    background-color: #ccc; /* Adjust the background color for the disabled look */
+    border: rgba(255, 0, 0, 0.46) 1px solid;
+}

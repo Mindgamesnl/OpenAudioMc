@@ -219,6 +219,14 @@ export class PeerManager {
           this.trackQueue.set(rtcPacket.getParam('streamid'), rtcPacket.getParam('owner'));
           break;
 
+        case 'MIC_STREAM_BLOCKED':
+          setGlobalState({ voiceState: { isMutedServerSide: true } });
+          break;
+
+        case 'MIC_STREAM_ENABLED':
+          setGlobalState({ voiceState: { isMutedServerSide: false } });
+          break;
+
         case 'CONTEXT_EVENT':
           this.contextEvent(rtcPacket);
           break;

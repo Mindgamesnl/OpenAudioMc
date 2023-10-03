@@ -137,7 +137,11 @@ class VoiceSettings extends React.Component {
               <div className="content-card-buttons w-full">
                 <div className="flex justify-center w-full">
                   {isPipSupported ? togglePipButton : null}
-                  {micButton}
+
+                  {/* show the mic as disabled if we are server muted */}
+                  <div className={`${this.props.voiceState.isMutedServerSide ? 'disabled-bt' : ''}`}>
+                    {micButton}
+                  </div>
 
                   <Tooltip
                     title={msg('vc.noMicInputYetTitle')}
