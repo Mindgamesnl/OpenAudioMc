@@ -281,7 +281,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
 
     @Override
     public void forcefullyDisableMicrophone(boolean disabled) {
-        this.getRtcSessionManager().allowSpeaking(!disabled);
+        this.getRtcSessionManager().preventSpeaking(disabled);
     }
 
     @Override

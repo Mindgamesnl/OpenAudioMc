@@ -7,10 +7,8 @@
     <relativePath>../../pom.xml</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.craftmend.openaudiomc</groupId>
   <artifactId>OpenAudioMc-vistas-server</artifactId>
   <name>OpenAudioMc-vistas-server</name>
-  <version>${oa.version}</version>
   <build>
     <resources>
       <resource>

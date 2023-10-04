@@ -6,7 +6,7 @@
 
     <groupId>com.craftmend</groupId>
     <artifactId>openaudiomc-parties</artifactId>
-    <version>${oa.version}</version>
+
     <packaging>jar</packaging>
 
     <parent>

@@ -6,7 +6,7 @@
 
     <groupId>com.craftmend</groupId>
     <artifactId>oa-mapmigrator</artifactId>
-    <version>${oa.version}</version>
+
     <packaging>jar</packaging>
 
     <name>OpenAudioMc-migrate.map-to-storm</name>

@@ -9,7 +9,6 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.craftmend.openaudiomc</groupId>
   <artifactId>OpenAudioMc-jutils</artifactId>
-  <version>${oa.version}</version>
   <build>
     <plugins>
       <plugin>
@@ -41,7 +40,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.1.0</version>
+        <version>3.5.1</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -84,8 +83,7 @@
     </plugins>
   </build>
   <properties>
-    <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.target>8</maven.compiler.target>
+    <maven.compiler.source>8</maven.compiler.source>
   </properties>
 </project>
-
