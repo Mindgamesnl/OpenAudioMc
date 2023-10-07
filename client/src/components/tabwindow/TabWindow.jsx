@@ -53,9 +53,9 @@ class TabWindow extends Component {
     const hiddenNavbar = this.props.navbarDetails === false && pages.length === 1;
 
     return (
-      <div className="h-screen w-screen flex bg-gray-800 bg-opacity-25 text-white">
+      <div className="h-screen w-screen flex flex-col md:flex-row bg-gray-800 bg-opacity-25 text-white">
         {!hiddenNavbar ? (
-          <nav className="pt-6 navbar-bg shadow-lg flex flex-col justify-between">
+          <nav className="pt-6 navbar-bg shadow-lg flex flex-row sm:flex-col justify-between">
             <div className="flex flex-col justify-start">
               <div href="#" className="flex items-center justify-center py-2 mx-6">
                 <img src="assets/logo.png" alt="Logo" className="h-8" />
