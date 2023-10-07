@@ -34,6 +34,8 @@ class TabWindow extends Component {
       content: child.props.content,
       hidden: child.props.hidden,
       buttonContent: child.props.buttonContent,
+      subtext: child.props.subtext,
+      colorWhenHasSubtext: child.props.colorWhenHasSubtext,
     }));
 
     pages = pages.filter((page) => !page.hidden);
@@ -68,12 +70,18 @@ class TabWindow extends Component {
                   <li className="relative pr-6 pl-4 mr-4 py-3" key={page.name}>
                     <span className={`absolute inset-y-0 left-0 w-1 ${this.props.currentTab === index ? 'themed-bg' : 'bg-transparent'} rounded-tr-lg rounded-br-lg`} aria-hidden="true" />
                     <button
-                      className={`inline-flex items-center w-full text-sm font-semibold text-gray-300 transition-colors duration-150 ${this.props.currentTab === index ? 'hover:text-blue-500' : ''}`}
+                      className={`inline-flex items-center w-full text-sm font-semibold transition-colors duration-150
+                        ${this.props.currentTab === index ? 'hover:text-blue-500' : ''}
+                        ${page.colorWhenHasSubtext && page.subtext ? 'text-green-400' : 'text-gray-300'}
+                      `}
                       onClick={() => setTab(index)}
                       type={page.buttonContent ? 'button' : 'submit'}
                     >
                       {page.buttonContent ? page.buttonContent : null}
-                      <span className="ml-4">{page.name}</span>
+                      <div className="ml-4 w-full text-left">
+                        <p>{page.name}</p>
+                        {page.subtext ? <p className=" text-green-400 text-xs">{page.subtext}</p> : null}
+                      </div>
                     </button>
                   </li>
                 ))}
@@ -140,9 +148,13 @@ TabPage.propTypes = {
   content: PropTypes.element.isRequired,
   hidden: PropTypes.bool,
   buttonContent: PropTypes.element,
+  subtext: PropTypes.string,
+  colorWhenHasSubtext: PropTypes.bool,
 };
 
 TabPage.defaultProps = {
   hidden: false,
   buttonContent: null,
+  subtext: null,
+  colorWhenHasSubtext: false,
 };

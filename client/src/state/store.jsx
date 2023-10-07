@@ -109,6 +109,9 @@ const initialState = {
   // click lock
   clickLock: true,
 
+  // general
+  hasPlayingMedia: false,
+
   // view states
   isLoading: true,
   isBlocked: false, // whenever an account is temporarily blocked (rate-limiting, abuse)

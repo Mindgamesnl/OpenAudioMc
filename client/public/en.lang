@@ -17,6 +17,7 @@ navbar.debug=Debug
 navbar.free=free
 navbar.premium=premium
 navbar.upgradeRequired=Upgrade required
+navbar.isPlaying=Playing music
 
 home.confirmLoginHeader=Welcome back!
 home.confirmLoginBody=Are you trying to login as <i>%player</i>?<br />If you are not, please close this window.
@@ -94,6 +95,7 @@ vc.noMicInputYetBody=Please make sure that you have the correct microphone selec
 vc.peersHiddenTitle=Voicechat players are hidden
 vc.peersHiddenText=This server has disabled the ability to see who is in voice chat to prevent unfair advantages, you can still hear them though.
 vc.isTalking=is talking
+vc.people=people
 
 settings.voicechat.echocancel.title=Echo cancellation
 settings.voicechat.echocancel.body=This will attempt to cancel out any echo that your microphone picks up, this is useful if you're using speakers instead of headphones but may make your harder to hear on some platforms.

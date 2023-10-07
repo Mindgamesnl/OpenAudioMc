@@ -24,12 +24,20 @@ function ClientView(props) {
     <div className="app">
       <div className="wrapper">
         <TabWindow>
-          <TabPage name={getTranslation(null, 'navbar.audio')} content={<AudioPage />} buttonContent={<SpeakerSvg />} />
+          <TabPage
+            name={getTranslation(null, 'navbar.audio')}
+            content={<AudioPage />}
+            buttonContent={<SpeakerSvg />}
+            subtext={props.hasPlayingMedia ? getTranslation(null, 'navbar.isPlaying') : null}
+            colorWhenHasSubtext
+          />
           <TabPage
             name={getTranslation(null, 'navbar.vc')}
             hidden={false}
             buttonContent={<MicrophoneSVG />}
             content={<VoicePage />}
+            subtext={Object.keys(props.voiceState.peers).length > 0 ? `${Object.keys(props.voiceState.peers).length} ${getTranslation(null, 'vc.people')}` : null}
+            colorWhenHasSubtext
           />
           <TabPage
             name={getTranslation(null, 'navbar.settings')}
@@ -79,5 +87,6 @@ function mapStateToProps(state) {
     voiceState: state.voiceState,
     browserSupportIsLimited: state.browserSupportIsLimited,
     navbarDetails: state.navbarDetails,
+    hasPlayingMedia: state.hasPlayingMedia,
   };
 }
