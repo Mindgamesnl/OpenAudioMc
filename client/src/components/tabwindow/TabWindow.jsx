@@ -61,7 +61,7 @@ class TabWindow extends Component {
             <div className="flex flex-col justify-start">
               <div className="flex items-center justify-center flex-col py-2 mx-6 min-w-max">
                 <div className="flex items-center justify-center">
-                  <img src="assets/logo.png" alt="Logo" className="h-8" />
+                  <img src={this.props.settings.logoImage} alt="Logo" className="h-8" />
                   <span className="ml-2 font-semibold text-xl text-gray-300">
                     {msg('serverName')}
                   </span>
@@ -136,6 +136,7 @@ function mapStateToProps(state) {
     currentUser: state.currentUser,
     navbarDetails: state.navbarDetails,
     clickLock: state.clickLock,
+    settings: state.settings,
   };
 }
 

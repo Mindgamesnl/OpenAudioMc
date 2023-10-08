@@ -61,6 +61,7 @@ const initialState = {
     preferredMicId: 'default',
 
     backgroundImage: null,
+    logoImage: 'https://session.openaudiomc.net/assets/logo.png',
     accentColor: null,
     serverTitle: null,
     serverDisplayName: null,

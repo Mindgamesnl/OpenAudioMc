@@ -249,6 +249,10 @@ class OpenAudioAppContainer extends React.Component {
       setBgImage(serverData.backgroundImage);
     }
 
+    if (serverData.logoImage !== '') {
+      setGlobalState({ settings: { logoImage: serverData.logoImage } });
+    }
+
     setGlobalState({
       voiceState: {
         peersHidden: !serverData.showVoicePeers,
