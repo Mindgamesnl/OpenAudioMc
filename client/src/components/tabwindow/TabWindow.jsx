@@ -59,10 +59,15 @@ class TabWindow extends Component {
         {!hiddenNavbar ? (
           <nav className="pt-6 navbar-bg shadow-lg flex flex-row sm:flex-col justify-between min-w-max">
             <div className="flex flex-col justify-start">
-              <div href="#" className="flex items-center justify-center py-2 mx-6 min-w-max">
-                <img src="assets/logo.png" alt="Logo" className="h-8" />
-                <span className="ml-2 font-semibold text-xl text-gray-300">
-                  {msg('serverName')}
+              <div className="flex items-center justify-center flex-col py-2 mx-6 min-w-max">
+                <div className="flex items-center justify-center">
+                  <img src="assets/logo.png" alt="Logo" className="h-8" />
+                  <span className="ml-2 font-semibold text-xl text-gray-300">
+                    {msg('serverName')}
+                  </span>
+                </div>
+                <span className="ml-2 font-semibold text-xs text-gray-300 ">
+                  {this.props.isPremium ? msg('navbar.premium') : msg('navbar.free')}
                 </span>
               </div>
               <ul className="sm:mt-6 flex flex-row sm:flex-col">
