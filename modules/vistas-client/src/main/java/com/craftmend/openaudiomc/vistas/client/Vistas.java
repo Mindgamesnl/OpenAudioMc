@@ -14,6 +14,7 @@ import com.craftmend.openaudiomc.spigot.modules.proxy.ProxyModule;
 import com.craftmend.openaudiomc.vistas.client.client.ClientUserHooks;
 import com.craftmend.openaudiomc.vistas.client.client.VistasRedisClient;
 import com.craftmend.openaudiomc.vistas.client.commands.VistasEvalCommand;
+import com.craftmend.openaudiomc.vistas.client.commands.VistasLinkCommand;
 import com.craftmend.openaudiomc.vistas.client.listeners.PlayerListener;
 import com.craftmend.openaudiomc.vistas.client.redis.packets.ServerClosePacket;
 import com.craftmend.openaudiomc.vistas.client.redis.packets.ServerRegisterPacket;
@@ -60,6 +61,7 @@ public final class Vistas extends ExternalModule implements Listener {
         if (event == ModuleEvent.PLATFORM_LOADED) {
             // finished startup
             OpenAudioMc.getService(CommandService.class).registerSubCommand(new VistasEvalCommand());
+            OpenAudioMc.getService(CommandService.class).registerSubCommand(new VistasLinkCommand());
         }
 
         if (event == ModuleEvent.MODULES_LOADED) {

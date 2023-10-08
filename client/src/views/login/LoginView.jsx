@@ -73,7 +73,7 @@ export class LoginView extends React.Component {
       }
     } else {
       // default to our local
-      backgroundImage = 'url(assets/bg.png)';
+      backgroundImage = 'url(assets/clientbg.jpg)';
     }
 
     let borderAccentColorStyle = {};

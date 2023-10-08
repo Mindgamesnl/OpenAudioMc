@@ -57,9 +57,9 @@ class TabWindow extends Component {
     return (
       <div className="h-screen w-screen flex flex-col md:flex-row bg-gray-800 bg-opacity-25 text-white">
         {!hiddenNavbar ? (
-          <nav className="pt-6 navbar-bg shadow-lg flex flex-row sm:flex-col justify-between">
+          <nav className="pt-6 navbar-bg shadow-lg flex flex-row sm:flex-col justify-between min-w-max">
             <div className="flex flex-col justify-start">
-              <div href="#" className="flex items-center justify-center py-2 mx-6">
+              <div href="#" className="flex items-center justify-center py-2 mx-6 min-w-max">
                 <img src="assets/logo.png" alt="Logo" className="h-8" />
                 <span className="ml-2 font-semibold text-xl text-gray-300">
                   {msg('serverName')}
