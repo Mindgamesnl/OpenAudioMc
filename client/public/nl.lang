@@ -7,13 +7,14 @@ lang.toEn=Veranderen naar Engels
 ui.loading=Laden...
 ui.logout=Uitloggen
 
-navbar.audio=Audio
+navbar.audio=Server Audio
 navbar.vc=VoiceChat
 navbar.settings=Instellingen
 navbar.debug=Debug
 navbar.free=gratis
 navbar.premium=patreon
 navbar.upgradeRequired=Upgrade vereist
+navbar.isPlaying=Muziek speelt
 
 home.confirmLoginHeader=Welkom terug!
 home.confirmLoginBody=Probeer je in te loggen als <i>%player</i>?<br />Sluit deze pagina als dit niet klopt.
@@ -118,6 +119,8 @@ settings.rolloff.8=80%
 settings.rolloff.1=100% (normaal)
 settings.rolloff.12=120%
 settings.rolloff.15=150% (extreem)
+settings.language.title=Taal
+settings.language.body=Selecteer de taal die je wilt gebruiken
 
 settings.spatial.title=Ruimtelijke rendering engine
 settings.spatial.body=Selecteer welke rendering engine u wilt gebruiken. De moderne engine is van hogere kwaliteit en een beetje sneller, maar is nog in actieve ontwikkeling

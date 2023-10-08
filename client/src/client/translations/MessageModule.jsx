@@ -1,36 +1,114 @@
 import Cookies from 'js-cookie';
+import React from 'react';
 import { API_ENDPOINT } from '../config/ApiEndpoints';
 import { setGlobalState, store } from '../../state/store';
 import { VERSION } from '../../build';
+import { FadeToCtx } from '../../components/contexts';
+import LoadingView from '../../views/loading/LoadingView';
+import ClientView from '../../views/client/ClientView';
+import { oalog } from '../util/log';
 
-export class MessageModule {
+export const DEFAULT_LANG = 'gb';
+
+export const MessageModule = new class MessageModule {
   constructor() {
     this.messages = {};
     this.seeded = false;
     this.seededValues = [];
-    this.currentLangFile = '';
+    this.currentLangKey = '';
+
+    /**
+     * @type {{[key: string]: {file: string, name: string, visible?: boolean}}}
+     * You can add your language here.
+     *
+     *
+     * The KEY: is the language code, this is the code provided by the browser (ISO 639-1)
+     * The VALUE: is an object with the following properties:
+     * - file: the file name of the language file, this is the file that will be loaded
+     * - name: the name of the language, this is the name that will be displayed in the language selector
+     * - visible: (optional) if this is set to false, the language will not be displayed in the language selector.
+     *   This is used to prevent duplicate languages from being displayed.
+     */
 
     this.languageMappings = {
-      gb: 'en.lang',
-      us: 'en.lang',
-      nl: 'nl.lang', // dutch
-      be: 'nl.lang', // belgium
-      sp: 'es.lang', // spanish
-      es: 'es.lang', // spanish
-      fr: 'fr.lang', // french
-      de: 'de.lang', // german
-      ja: 'jp.lang', // japanese
-      ko: 'kr.lang', // korean
-      'zh-CN': 'zh-CN.lang', // simplified chinese
-      cn: 'zh-CN.lang', // simplified chinese
-      vn: 'vn.lang', // vietnamese
-      sv: 'sv.lang', // Swedish
+      gb: {
+        file: 'en.lang',
+        name: 'English',
+        visible: true,
+      },
+      us: {
+        file: 'en.lang',
+        name: 'English',
+      },
+      nl: {
+        file: 'nl.lang',
+        name: 'Nederlands',
+        visible: true,
+      }, // dutch
+      be: {
+        file: 'nl.lang',
+        name: 'Nederlands',
+      }, // belgium
+      sp: {
+        file: 'es.lang',
+        name: 'Español',
+        visible: true,
+      }, // spanish
+      es: {
+        file: 'es.lang',
+        name: 'Español',
+      }, // spanish
+      fr: {
+        file: 'fr.lang',
+        name: 'Français',
+        visible: true,
+      }, // french
+      de: {
+        file: 'de.lang',
+        name: 'Deutsch',
+        visible: true,
+      }, // german
+      ja: {
+        file: 'jp.lang',
+        name: '日本語',
+      }, // japanese
+      ko: {
+        file: 'kr.lang',
+        name: '한국어',
+        visible: true,
+      }, // korean
+      'zh-CN': {
+        file: 'zh-CN.lang',
+        name: '简体中文',
+        visible: true,
+      }, // simplified chinese
+      cn: {
+        file: 'zh-CN.lang',
+        name: '简体中文',
+      }, // simplified chinese
+      vn: {
+        file: 'vn.lang',
+        name: 'Tiếng Việt',
+        visible: true,
+      }, // vietnamese
+      sv: {
+        file: 'sv.lang',
+        name: 'Svenska',
+        visible: true,
+      }, // Swedish
 
       // One of these can probably go, but i wasn't provided
       // enough info and am unable to find the correct region code
       // but these are both croatian
-      hr: 'hr.lang',
-      scr: 'hr.lang',
+      hr: {
+        file: 'hr.lang',
+        name: 'Hrvatski',
+        visible: true,
+      },
+      scr: {
+        file: 'hr.lang',
+        name: 'Hrvatski',
+      },
     };
 
     this.load = this.load.bind(this);
@@ -42,30 +120,34 @@ export class MessageModule {
   }
 
   async loadDefault() {
-    await this.load('en.lang');
+    await this.load(DEFAULT_LANG);
   }
 
   async handleCountry(countryCode) {
     countryCode = countryCode.toLowerCase();
-    const bestLangFile = this.languageMappings[countryCode];
-    if (bestLangFile != null) {
-      await this.load(bestLangFile);
+    const bestLang = this.languageMappings[countryCode];
+    if (bestLang != null) {
+      await this.load(bestLang);
     }
   }
 
   updateBanner() {
-    if (this.currentLangFile === 'en.lang') {
+    if (this.currentLangKey === DEFAULT_LANG) {
       setGlobalState({ translationBanner: null });
       return;
     }
 
     // is this language the preferred language? keep it!
-    if (this.currentLangFile === Cookies.get('lang')) {
+    if (this.currentLangKey === Cookies.get('lang')) {
       return;
     }
 
     const reset = function resetToEn() {
-      this.load('en.lang');
+      this.load(DEFAULT_LANG);
+      setTimeout(async () => {
+        await FadeToCtx.fadeToComponent(<LoadingView />);
+        FadeToCtx.fadeToComponent(<ClientView />);
+      }, 500);
     }.bind(this);
 
     const placeholders = [['%langName', this.getString('lang.name')]];
@@ -109,16 +191,20 @@ export class MessageModule {
     return body.split('\n');
   }
 
-  async load(file) {
-    if (this.currentLangFile === file) return;
-    // is this language the preferred language? keep it!
-    if (this.currentLangFile === Cookies.get('lang')) {
+  async load(langMapKey) {
+    if (this.currentLangKey === langMapKey) {
+      // eslint-disable-next-line no-console
+      console.warn(`Language ${langMapKey} is already loaded, skipping`);
       return;
     }
     let lines = [];
 
+    // get file from map
+    const { file } = this.languageMappings[langMapKey];
+
     // fetch
     lines = await this.fetchWithFailover(file);
+    oalog(`Loaded ${lines.length} lines from ${file}`);
 
     // parse format:
     // # comment
@@ -153,8 +239,13 @@ export class MessageModule {
       }
     }
 
-    this.currentLangFile = file;
-    setGlobalState({ langFile: file });
+    this.currentLangKey = langMapKey;
+    setGlobalState({ langName: langMapKey });
     this.updateBanner();
+
+    // not default? save it
+    if (langMapKey !== DEFAULT_LANG) {
+      Cookies.set('lang', langMapKey, { expires: 365 });
+    }
   }
-}
+}();

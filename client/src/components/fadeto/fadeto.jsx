@@ -23,21 +23,24 @@ export default class FadeTo extends React.Component {
   fadeToComponent(component) {
     // eslint-disable-next-line no-promise-executor-return
     const delay = (duration) => new Promise((resolve) => setTimeout(resolve, duration));
-
-    (async () => {
-      try {
-        this.setState({ renderFade: true });
-        await delay(100);
-        this.setState({ isFading: true });
-        await delay(500);
-        this.setState({ isFading: false, overlay: component });
-        await delay(500);
-        this.setState({ renderFade: false });
-      } catch (e) {
-        // fallback
-        this.setState({ isFading: false, overlay: component, renderFade: false });
-      }
-    })();
+    return new Promise((resolve) => {
+      (async () => {
+        try {
+          this.setState({ renderFade: true });
+          await delay(100);
+          this.setState({ isFading: true });
+          await delay(500);
+          this.setState({ isFading: false, overlay: component });
+          await delay(500);
+          this.setState({ renderFade: false });
+          resolve();
+        } catch (e) {
+          // fallback
+          this.setState({ isFading: false, overlay: component, renderFade: false });
+          resolve();
+        }
+      })();
+    });
   }
 
   render() {

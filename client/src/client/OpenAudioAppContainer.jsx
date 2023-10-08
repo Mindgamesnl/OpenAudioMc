@@ -33,8 +33,6 @@ class OpenAudioAppContainer extends React.Component {
     OAC.attemptLoginWithTokenSet = this.attemptLoginWithTokenSet;
     OAC.bootApp = this.bootApp;
 
-    this.messageModule = new MessageModule();
-
     this.state = {
       didUnlock: false,
       allowedToUnlock: false,
@@ -97,14 +95,14 @@ class OpenAudioAppContainer extends React.Component {
           isMutedServerSide: true,
         },
       });
-      this.messageModule.handleCountry('gb');
+      MessageModule.handleCountry('gb');
       return;
     }
 
     setGlobalState({ loadingState: 'Loading language files...' });
     const sessionLoader = new ClientTokenSet();
 
-    this.messageModule.loadDefault()
+    MessageModule.loadDefault()
       .then(() => {
         setGlobalState({ loadingState: 'Attempting login' });
       })
@@ -210,7 +208,7 @@ class OpenAudioAppContainer extends React.Component {
       const localLanguage = navigator.language || navigator.userLanguage;
       const language = localLanguage.split('-')[0];
       debugLog(`Detected language: ${language}`);
-      await this.messageModule.handleCountry(language);
+      await MessageModule.handleCountry(language);
     } else {
       debugLog('Translations disabled, skipping language detection');
       setGlobalState({
@@ -326,6 +324,7 @@ function mapStateToProps(state) {
     isLoading: state.isLoading,
     loadingState: state.loadingState,
     lang: state.lang,
+    renderId: state.renderId,
   };
 }
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Cookies from 'js-cookie';
 import { getGlobalState, setGlobalState } from '../../state/store';
+import { DEFAULT_LANG } from '../../client/translations/MessageModule';
 
 class ResetLanguageBanner extends React.Component {
   constructor(props) {
@@ -12,12 +13,12 @@ class ResetLanguageBanner extends React.Component {
   }
 
   acceptLang() {
-    Cookies.set('lang', getGlobalState().langFile, { expires: 365 });
+    Cookies.set('lang', getGlobalState().langName, { expires: 365 });
     setGlobalState({ translationBanner: null });
   }
 
   resetLanguage() {
-    Cookies.set('lang', 'en.lang', { expires: 365 });
+    Cookies.set('lang', DEFAULT_LANG, { expires: 365 });
     this.props.translationBanner.reset();
   }
 

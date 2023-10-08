@@ -122,8 +122,10 @@ const initialState = {
   currentTab: 0,
 
   translationBanner: null, // null or {detectedAs: 'en', toEn: 'to en', keep: 'keep', reset: function() {}}
-  langFile: null, // current lang file
+  langName: null, // current lang file
   lang: {}, // gets loaded from the lang file, changes cause a full UI re-render
+
+  renderId: 0, // used to force a re-render
 };
 
 function mergeObjects(first, second) {
