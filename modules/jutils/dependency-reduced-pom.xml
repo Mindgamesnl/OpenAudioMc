@@ -9,6 +9,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.craftmend.openaudiomc</groupId>
   <artifactId>OpenAudioMc-jutils</artifactId>
+  <version>${oa.version}</version>
   <build>
     <plugins>
       <plugin>
@@ -83,7 +84,7 @@
     </plugins>
   </build>
   <properties>
-    <maven.compiler.target>8</maven.compiler.target>
     <maven.compiler.source>8</maven.compiler.source>
+    <maven.compiler.target>8</maven.compiler.target>
   </properties>
 </project>

@@ -6,7 +6,7 @@
 
     <groupId>com.craftmend.openaudiomc</groupId>
     <artifactId>OpenAudioMc-jutils</artifactId>
-
+    <version>${oa.version}</version>
 
     <parent>
         <groupId>com.craftmend.openaudiomc</groupId>

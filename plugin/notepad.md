@@ -3,3 +3,7 @@
 - fixed the link command on vistas servers
 - servers with invalid/expired keys will now automatically attempt to recover
 - fixed speakers on 1.20.2 servers
+- Fixed a bug where the client would not properly reconnect to the server after a disconnect
+- Automatic health checks are now performed on the server to ensure that it is still running
+- The web client will now require pannernodes
+- Users can now select their own language in the web client
