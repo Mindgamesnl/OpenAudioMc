@@ -65,9 +65,9 @@ class TabWindow extends Component {
                   {msg('serverName')}
                 </span>
               </div>
-              <ul className="mt-6">
+              <ul className="sm:mt-6 flex flex-row sm:flex-col">
                 {pages.map((page, index) => (
-                  <li className="relative pr-6 pl-4 mr-4 py-3" key={page.name}>
+                  <li className="relative sm:pr-6 pl-2 sm:pl-4 sm:mr-4 py-3" key={page.name}>
                     <span className={`absolute inset-y-0 left-0 w-1 ${this.props.currentTab === index ? 'themed-bg' : 'bg-transparent'} rounded-tr-lg rounded-br-lg`} aria-hidden="true" />
                     <button
                       className={`inline-flex items-center w-full text-sm font-semibold transition-colors duration-150
@@ -101,7 +101,7 @@ class TabWindow extends Component {
           </nav>
         ) : null}
         {/* Main Content Section */}
-        <main className="flex justify-center overflow-x-hidden overflow-y-auto w-full">
+        <main className="flex justify-center overflow-x-hidden overflow-y-auto w-full h-full">
           <div className="content-wrapper">
             {pages[this.props.currentTab].content}
           </div>
@@ -110,7 +110,7 @@ class TabWindow extends Component {
         {/* footer over everything in the bottom right */}
         <div className="fixed bottom-0 right-0 mb-4 mr-4">
           <a
-            className="menu-link-main soft-text break-words"
+            className="soft-text break-words"
             id="notice"
             href="https://openaudiomc.net/"
           >
