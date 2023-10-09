@@ -199,6 +199,14 @@ export const MessageModule = new class MessageModule {
     }
     let lines = [];
 
+    // check if the mappings have a language for this key
+    if (this.languageMappings[langMapKey] == null) {
+      // eslint-disable-next-line no-console
+      console.error(`Language ${langMapKey} is not supported, falling back to ${DEFAULT_LANG}`);
+      await this.load(DEFAULT_LANG);
+      return;
+    }
+
     // get file from map
     const { file } = this.languageMappings[langMapKey];
 
