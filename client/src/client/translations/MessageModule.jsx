@@ -127,7 +127,7 @@ export const MessageModule = new class MessageModule {
     countryCode = countryCode.toLowerCase();
     const bestLang = this.languageMappings[countryCode];
     if (bestLang != null) {
-      await this.load(bestLang);
+      await this.load(countryCode);
     }
   }
 
