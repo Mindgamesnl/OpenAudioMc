@@ -33,7 +33,7 @@ function ClientView(props) {
           />
           <TabPage
             name={getTranslation(null, 'navbar.vc')}
-            hidden={false}
+            hidden={!props.voiceState.enabled}
             buttonContent={<MicrophoneSVG />}
             content={<VoicePage />}
             subtext={Object.keys(props.voiceState.peers).length > 0 ? `${Object.keys(props.voiceState.peers).length} ${getTranslation(null, 'vc.people')}` : null}
