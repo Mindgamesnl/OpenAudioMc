@@ -251,6 +251,8 @@ class OpenAudioAppContainer extends React.Component {
 
     if (serverData.logoImage !== '') {
       setGlobalState({ settings: { logoImage: serverData.logoImage } });
+      document.getElementById('site-icon').href = serverData.logoImage;
+      document.getElementById('site-image').href = serverData.logoImage;
     }
 
     setGlobalState({
