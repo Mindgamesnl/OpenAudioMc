@@ -61,6 +61,7 @@ const initialState = {
     preferredMicId: 'default',
 
     backgroundImage: null,
+    logoImage: 'assets/logo.png',
     accentColor: null,
     serverTitle: null,
     serverDisplayName: null,
@@ -86,6 +87,7 @@ const initialState = {
     peersHidden: false,
     isModerating: false,
     isTemporarilyDisabled: false,
+    isMutedServerSide: false,
     enabled: false,
     ready: false,
     isSpeaking: false,
@@ -108,6 +110,9 @@ const initialState = {
   // click lock
   clickLock: true,
 
+  // general
+  hasPlayingMedia: false,
+
   // view states
   isLoading: true,
   isBlocked: false, // whenever an account is temporarily blocked (rate-limiting, abuse)
@@ -118,8 +123,10 @@ const initialState = {
   currentTab: 0,
 
   translationBanner: null, // null or {detectedAs: 'en', toEn: 'to en', keep: 'keep', reset: function() {}}
-  langFile: null, // current lang file
+  langName: null, // current lang file
   lang: {}, // gets loaded from the lang file, changes cause a full UI re-render
+
+  renderId: 0, // used to force a re-render
 };
 
 function mergeObjects(first, second) {

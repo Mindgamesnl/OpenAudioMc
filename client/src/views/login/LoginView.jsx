@@ -60,7 +60,7 @@ export class LoginView extends React.Component {
   render() {
     let {
       // eslint-disable-next-line prefer-const
-      backgroundImage, accentColor, serverDisplayName, serverTitle,
+      backgroundImage, accentColor, serverDisplayName, logoImage,
     } = getGlobalState().settings;
 
     // do we have a previous background image or accent color?
@@ -73,7 +73,7 @@ export class LoginView extends React.Component {
       }
     } else {
       // default to our local
-      backgroundImage = 'url(assets/bg.png)';
+      backgroundImage = 'url(assets/clientbg.jpg)';
     }
 
     let borderAccentColorStyle = {};
@@ -81,10 +81,6 @@ export class LoginView extends React.Component {
       borderAccentColorStyle = {
         borderColor: accentColor,
       };
-    }
-
-    if (serverTitle === null || serverTitle === '') {
-      serverDisplayName = 'OpenAudioMc';
     }
 
     return (
@@ -101,9 +97,8 @@ export class LoginView extends React.Component {
             />
             <div className="w-full  lg:max-w-2xl md:max-w-md z-10 items-center text-center ">
               <div className=" font-bold leading-tight mb-6 mx-auto w-full content-center items-center">
-                {!serverTitle && <img src="assets/logo.png" alt="logo" className="w-1/4 mx-auto image-glow" />}
-                <h1 style={{ fontFamily: 'roboto' }} className={`p-2 ${serverTitle ? 'text-5xl' : 'text-xl'}`}>{serverDisplayName}</h1>
-                <h2 style={{ fontFamily: 'roboto' }} className="p-2 text-md">{serverTitle}</h2>
+                <img src={logoImage} alt="logo" className="w-2/4 mx-auto image-glow" />
+                <h1 style={{ fontFamily: 'roboto' }} className="p-2 text-3xl">{serverDisplayName}</h1>
               </div>
             </div>
           </div>

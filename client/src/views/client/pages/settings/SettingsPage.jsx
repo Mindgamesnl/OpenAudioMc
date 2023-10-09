@@ -2,11 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { CheckboxSetting } from '../../../../components/settings/CheckboxSetting';
 import { DropdownSetting } from '../../../../components/settings/DropdownSetting';
-import { getTranslation } from '../../../../client/OpenAudioAppContainer';
+import { getTranslation, msg } from '../../../../client/OpenAudioAppContainer';
 import { getGlobalState, setGlobalState } from '../../../../state/store';
 import { makeid } from '../../../../client/util/random';
 import { debugLog, feedDebugValue } from '../../../../client/services/debugging/DebugService';
 import { DebugStatistic } from '../../../../client/services/debugging/DebugStatistic';
+import { MessageModule } from '../../../../client/translations/MessageModule';
+import { FadeToCtx } from '../../../../components/contexts';
+import LoadingView from '../../../loading/LoadingView';
+import ClientView from '../../ClientView';
 
 export const settingSvg = {
   CHIME: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>',
@@ -15,6 +19,16 @@ export const settingSvg = {
   PRELOAD: '<svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M16 8v-4h-12v12.01h4" stroke-dasharray=".001 4" />  <rect x="8" y="8" width="12" height="12" rx="2" /></svg>',
   RENDER: '<svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <polyline points="5 9 2 12 5 15" />  <polyline points="9 5 12 2 15 5" />  <polyline points="15 19 12 22 9 19" />  <polyline points="19 9 22 12 19 15" />  <line x1="2" y1="12" x2="22" y2="12" />  <line x1="12" y1="2" x2="12" y2="22" /></svg>',
   ECHO_CANCELLATION: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>',
+  LANGUAGE: '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-vocabulary" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">\n'
+    + '   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>\n'
+    + '   <path d="M10 19h-6a1 1 0 0 1 -1 -1v-14a1 1 0 0 1 1 -1h6a2 2 0 0 1 2 2a2 2 0 0 1 2 -2h6a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-6a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2z"></path>\n'
+    + '   <path d="M12 5v16"></path>\n'
+    + '   <path d="M7 7h1"></path>\n'
+    + '   <path d="M7 11h1"></path>\n'
+    + '   <path d="M16 7h1"></path>\n'
+    + '   <path d="M16 11h1"></path>\n'
+    + '   <path d="M16 15h1"></path>\n'
+    + '</svg>',
 };
 
 class SettingsPage extends React.Component {
@@ -42,6 +56,24 @@ class SettingsPage extends React.Component {
 
   render() {
     const c = null;
+
+    const languageOptions = [];
+    // remap the languageMappings from the module
+    const nativeMappings = MessageModule.languageMappings;
+    Object.keys(nativeMappings).forEach((key) => {
+      const mapping = nativeMappings[key];
+      if (mapping.visible) {
+        languageOptions.push({ key, value: mapping.name });
+      }
+    });
+
+    const onLanguageChange = (event) => {
+      MessageModule.load(event.target.value);
+      setTimeout(async () => {
+        await FadeToCtx.fadeToComponent(<LoadingView />);
+        FadeToCtx.fadeToComponent(<ClientView />);
+      }, 500);
+    };
 
     return (
       <div className="content-section lg:px-12 overflow-y-scroll">
@@ -119,6 +151,15 @@ class SettingsPage extends React.Component {
               { key: '1.5', value: getTranslation(c, 'settings.rolloff.15') },
             ]}
             onChange={this.makeStateChanger('rolloffFactor', true)}
+          />
+
+          <DropdownSetting
+            title={msg('settings.language.title')}
+            description={msg('settings.language.body')}
+            icon={settingSvg.LANGUAGE}
+            options={languageOptions}
+            onChange={onLanguageChange}
+            value={MessageModule.currentLangKey}
           />
         </div>
       </div>

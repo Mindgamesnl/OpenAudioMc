@@ -23,7 +23,7 @@
     --overlay-bg: rgba(36, 39, 59, 0.3);
     --scrollbar-bg: rgb(1 2 3 / 40%);
     --primary-accent: #f8e047;
-    --background-image: url("../assets/bg.png");
+    --background-image: url("../assets/clientbg.jpg");
 
     --common-border-radius: 6px;
 }
@@ -346,6 +346,7 @@ body.light-mode .video-bg:before {
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     height: 100%;
+    width: 100%;
 }
 
 .content-wrapper-box {
@@ -1077,6 +1078,17 @@ footer {
     color: var(--primary-accent)
 }
 
+.themed-bg {
+    background-color: var(--primary-accent)
+}
+
+.navbar-bg {
+    background: linear-gradient(156deg, #000 5%, color-mix(in srgb,var(--primary-accent), #000 65%), color-mix(in srgb,var(--primary-accent),#000 70%));
+    border-right-color: color-mix(in srgb,var(--primary-accent), #000 65%);
+    border-right-style: solid;
+    border-right-width: 2px;
+}
+
 .login-image {
     background-image: var(--background-image);
     width: 100%;
@@ -1176,4 +1188,10 @@ pre {
 
 .serverimage {
     content: var(--background-image);
+}
+.disabled-bt {
+    pointer-events: none;
+    opacity: 0.4; /* Adjust the opacity value to control the level of disabled effect */
+    background-color: #ccc; /* Adjust the background color for the disabled look */
+    border: rgba(255, 0, 0, 0.46) 1px solid;
 }

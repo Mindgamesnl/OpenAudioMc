@@ -7,7 +7,7 @@
     <relativePath>../../pom.xml</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.craftmend</groupId>
+  <groupId>com.craftmend.openaudiomc</groupId>
   <artifactId>oa-mapmigrator</artifactId>
   <name>OpenAudioMc-migrate.map-to-storm</name>
   <version>${oa.version}</version>
@@ -107,7 +107,7 @@
     <dependency>
       <groupId>com.craftmend.openaudiomc</groupId>
       <artifactId>openaudiomc</artifactId>
-      <version>6.8.7</version>
+      <version>6.8.8</version>
       <scope>provided</scope>
     </dependency>
     <dependency>

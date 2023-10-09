@@ -48,6 +48,15 @@ class OpenAudioController extends React.Component {
       return;
     }
 
+    // does this page have pannernodes?
+    if (!window.PannerNode) {
+      this.setState({
+        preflightOk: false,
+        errorMessage: 'Your browser does not support the PannerNode API. Please use a modern browser like Chrome or Firefox.',
+      });
+      return;
+    }
+
     // enforce PeerConnection
     if (!window.RTCPeerConnection) {
       this.setState({

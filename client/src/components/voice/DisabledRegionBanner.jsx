@@ -3,13 +3,13 @@ import { getTranslation } from '../../client/OpenAudioAppContainer';
 
 export function DisabledRegionBanner() {
   return (
-    <div className="content-section">
-      <div className="content-wrapper-box audio-content full bg-red-800">
-        <div className="content-wrapper-context full">
+    <div className="w-full flex justify-center align-middle">
+      <div className="content-section flex justify-center w-4/5 py-5">
+        <div className="flex content-card-collection items-stretch">
           <div className="content-text full">
             <div className="text-center">
-              <p className="soft-text">
-                {getTranslation(null, 'vc.disabled').replace('%server', getTranslation(null, 'serverName'))}
+              <p className="soft-text text-red-500 bg-gray-700 rounded-md">
+                {getTranslation(null, 'vc.disabled').replace('%serverName', getTranslation(null, 'serverName'))}
               </p>
             </div>
           </div>

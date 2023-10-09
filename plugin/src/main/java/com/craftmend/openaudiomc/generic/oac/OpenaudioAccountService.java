@@ -20,6 +20,8 @@ import com.craftmend.openaudiomc.generic.rest.response.SectionError;
 import com.craftmend.openaudiomc.generic.rest.routes.Endpoint;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.voicechat.bus.VoiceApiConnection;
 import com.craftmend.openaudiomc.generic.voicechat.enums.VoiceApiStatus;
 import lombok.Getter;
@@ -28,6 +30,8 @@ import lombok.NoArgsConstructor;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.craftmend.openaudiomc.generic.authentication.AuthenticationService.TOKEN_PROVIDER;
+
 @NoArgsConstructor
 public class OpenaudioAccountService extends Service {
 
@@ -35,6 +39,9 @@ public class OpenaudioAccountService extends Service {
     private OpenAudioMc openAudioMc;
     @Getter
     private final VoiceApiConnection voiceApiConnection = new VoiceApiConnection();
+
+    @Inject
+    private TaskService taskService;
 
     @Getter
     private OpenaudioSettingsResponse accountResponse = new OpenaudioSettingsResponse();
@@ -89,6 +96,31 @@ public class OpenaudioAccountService extends Service {
         }
         RestRequest<OpenaudioSettingsResponse> settingsRequest = new RestRequest<>(OpenaudioSettingsResponse.class, Endpoint.GET_ACCOUNT_SETTINGS);
         settingsRequest.run();
+
+        // are there any errors?
+        if (settingsRequest.hasError()) {
+            OpenAudioLogger.toConsole("Failed to sync account details. Error: " + settingsRequest.getError().getMessage());
+            OpenAudioLogger.toConsole("This is probably because the account got deleted, or the server key is invalid.");
+            if (!OpenAudioMc.getService(AuthenticationService.class).isNewAccount()) {
+                // drop old
+                Configuration config = OpenAudioMc.getInstance().getConfiguration();
+                config.setString(StorageKey.AUTH_PRIVATE_KEY, "not-set");
+                config.setString(StorageKey.AUTH_PUBLIC_KEY, "not-set");
+
+                OpenAudioLogger.toConsole("This is not a new account, so I'm going to invalidate the server key and try again.");
+                TOKEN_PROVIDER.inject(taskService, OpenAudioMc.getService(AuthenticationService.class));
+                OpenAudioLogger.toConsole("Retrying...");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    // ignore
+                }
+                syncAccount();
+                return;
+            } else {
+                throw new IllegalStateException("Failed to sync account details and already tried to re-register. Error: " + settingsRequest.getError().getMessage());
+            }
+        }
 
         for (CraftmendTag tag : tags) {
             AudioApi.getInstance().getEventDriver().fire(new AccountRemoveTagEvent(tag));

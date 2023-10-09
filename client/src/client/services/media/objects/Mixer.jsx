@@ -1,6 +1,6 @@
 import { Channel } from './Channel';
 import { Sound } from './Sound';
-import { getGlobalState } from '../../../../state/store';
+import { getGlobalState, setGlobalState } from '../../../../state/store';
 import { debugLog, feedDebugValue } from '../../debugging/DebugService';
 import { DebugStatistic } from '../../debugging/DebugStatistic';
 
@@ -45,6 +45,9 @@ export class Mixer {
   }
 
   playingStateChangeChanged(isSoundPlaying) {
+    setGlobalState({
+      hasPlayingMedia: isSoundPlaying,
+    });
     if (this.ambianceSoundMedia == null) return;
     if (!isSoundPlaying) {
       // start

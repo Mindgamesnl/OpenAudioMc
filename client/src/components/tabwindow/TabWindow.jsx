@@ -2,9 +2,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getTranslation } from '../../client/OpenAudioAppContainer';
 import { showTextModal } from '../modal/InputModal';
 import { setGlobalState } from '../../state/store';
+import { msg } from '../../client/OpenAudioAppContainer';
 
 export const setTab = (tab) => {
   setGlobalState({
@@ -34,81 +34,93 @@ class TabWindow extends Component {
       content: child.props.content,
       hidden: child.props.hidden,
       buttonContent: child.props.buttonContent,
+      subtext: child.props.subtext,
+      colorWhenHasSubtext: child.props.colorWhenHasSubtext,
     }));
 
-    // remove hidden pages
     pages = pages.filter((page) => !page.hidden);
-    let pageIndex = this.props.currentTab;
 
-    // move active page back if it's out of bounds
-    if (pageIndex >= pages.length) {
-      pageIndex = pages.length - 1;
+    let playerUuid = '00000000-0000-0000-0000-000000000000';
+    let playerName = 'Unknown';
+    if (this.props.currentUser) {
+      playerUuid = this.props.currentUser.uuid;
+      playerName = this.props.currentUser.userName; // Assuming there is a name property in currentUser
     }
 
-    let pill = <div className="small-pill free">Free</div>;
-    if (this.props.isPremium) pill = <div className="small-pill premium">Premium</div>;
+    // prevent index out of bounds
+    if (this.props.currentTab >= pages.length) {
+      setTab(0);
+    }
 
-    // placeholder for player uuid
-    let playerUuid = '00000000-0000-0000-0000-000000000000';
-    if (this.props.currentUser) playerUuid = this.props.currentUser.uuid;
-
-    if (!this.props.navbarDetails) pill = '';
-
-    let navbarButtons = pages.map((page, index) => (
-      <span className="tab" key={page.name}>
-        <button
-          className={`${index === this.props.currentTab ? 'active main-header-link' : 'inactive main-header-link'} text-white border-solid border-2 border-gray-800 p-4 h-auto flex items-center justify-center rounding-top`}
-          onClick={() => setTab(index)}
-          type={page.buttonContent ? 'button' : 'submit'}
-        >
-          {page.buttonContent ? page.buttonContent : null}
-          {page.buttonContent ? <span className="mr-2 ml-2 hiddennp lg:block">{page.name}</span> : null}
-        </button>
-      </span>
-    ));
-
-    // is there only one page? then hide the navbar
-    if (navbarButtons.length === 1) navbarButtons = '';
-
-    // only show navbar when we're unlocked
-    const showNavbar = !this.props.clickLock;
+    const hiddenNavbar = this.props.navbarDetails === false && pages.length === 1;
 
     return (
-      <div className="main-container tabbed">
-        {showNavbar ? (
-          <div className="main-header flex justify-start">
-            <span className="theme-color-text md:pl-10 w-1/3">
-              <div
-                className="rounding-bottom rounding-top px-1 py-1 flex items-center justify-start hidden-on-mobile"
-              >
-                {this.props.navbarDetails ? (
-                  <img
-                    src={`https://visage.surgeplay.com/face/512/${playerUuid}`}
-                    className="rounding-top rounding-bottom inline mr-5 w-9 h-9"
-                    alt="avatar"
-                  />
-                ) : null}
-                {getTranslation(null, 'serverName')}
-                {pill}
+      <div className="h-screen w-screen flex flex-col md:flex-row bg-gray-800 bg-opacity-25 text-white">
+        {!hiddenNavbar ? (
+          <nav className="pt-6 navbar-bg shadow-lg flex flex-row sm:flex-col justify-between min-w-max">
+            <div className="flex flex-col justify-start">
+              <div className="flex items-center justify-center flex-col py-2 mx-6 min-w-max">
+                <div className="flex items-center justify-center">
+                  <img src={this.props.settings.logoImage} alt="Logo" className="h-8" />
+                  <span className="ml-2 font-semibold text-xl text-gray-300">
+                    {msg('serverName')}
+                  </span>
+                </div>
+                <span className="ml-2 font-semibold text-xs text-gray-300 ">
+                  {this.props.isPremium ? msg('navbar.premium') : msg('navbar.free')}
+                </span>
               </div>
-            </span>
-
-            <div className="header-menu w-1/3 center flex justify-center">
-              {navbarButtons}
+              <ul className="sm:mt-6 flex flex-row sm:flex-col">
+                {pages.map((page, index) => (
+                  <li className="relative sm:pr-6 pl-2 sm:pl-4 sm:mr-4 py-3" key={page.name}>
+                    <span className={`absolute inset-y-0 left-0 w-1 ${this.props.currentTab === index ? 'themed-bg' : 'bg-transparent'} rounded-tr-lg rounded-br-lg`} aria-hidden="true" />
+                    <button
+                      className={`inline-flex items-center w-full text-sm font-semibold transition-colors duration-150
+                        ${this.props.currentTab === index ? 'hover:text-blue-500' : ''}
+                        ${page.colorWhenHasSubtext && page.subtext ? 'text-green-400' : 'text-gray-300'}
+                      `}
+                      onClick={() => setTab(index)}
+                      type={page.buttonContent ? 'button' : 'submit'}
+                    >
+                      {page.buttonContent ? page.buttonContent : null}
+                      <div className="ml-4 w-full text-left">
+                        <p>{page.name}</p>
+                        {page.subtext ? <p className=" text-green-400 text-xs">{page.subtext}</p> : null}
+                      </div>
+                    </button>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div className="header-notice w-1/3 flex justify-end">
-              <a
-                className="menu-link-main soft-text"
-                id="notice"
-                href="https://openaudiomc.net/"
-              >
-                &copy; OpenAudioMc 2016-2023. All Rights Reserved.
-              </a>
+            {/* Footer Section */}
+            <div className="pb-2">
+              <img
+                src={`https://visage.surgeplay.com/face/512/${playerUuid}`}
+                className="h-12 w-12 rounded-full mx-auto mb-2"
+                alt="avatar"
+              />
+              <p className="text-sm text-center text-gray-300">
+                {playerName}
+              </p>
             </div>
-          </div>
+          </nav>
         ) : null}
-        <div className="content-wrapper">
-          {pages[pageIndex].content}
+        {/* Main Content Section */}
+        <main className="flex justify-center overflow-x-hidden overflow-y-auto w-full h-full">
+          <div className="content-wrapper">
+            {pages[this.props.currentTab].content}
+          </div>
+        </main>
+
+        {/* footer over everything in the bottom right */}
+        <div className="fixed bottom-0 right-0 mb-4 mr-4">
+          <a
+            className="soft-text break-words"
+            id="notice"
+            href="https://openaudiomc.net/"
+          >
+            &copy; OpenAudioMc 2016-2023.All Rights Reserved.
+          </a>
         </div>
       </div>
     );
@@ -124,6 +136,7 @@ function mapStateToProps(state) {
     currentUser: state.currentUser,
     navbarDetails: state.navbarDetails,
     clickLock: state.clickLock,
+    settings: state.settings,
   };
 }
 
@@ -141,9 +154,13 @@ TabPage.propTypes = {
   content: PropTypes.element.isRequired,
   hidden: PropTypes.bool,
   buttonContent: PropTypes.element,
+  subtext: PropTypes.string,
+  colorWhenHasSubtext: PropTypes.bool,
 };
 
 TabPage.defaultProps = {
   hidden: false,
   buttonContent: null,
+  subtext: null,
+  colorWhenHasSubtext: false,
 };

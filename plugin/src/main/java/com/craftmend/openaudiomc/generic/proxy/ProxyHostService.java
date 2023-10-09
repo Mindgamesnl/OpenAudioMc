@@ -92,7 +92,7 @@ public class ProxyHostService extends Service {
 
         if (packet instanceof ForceMuteMicrophonePacket) {
             ForceMuteMicrophonePacket p = (ForceMuteMicrophonePacket) packet;
-            OpenAudioMc.getService(NetworkingService.class).getClient(from.getUniqueId()).getRtcSessionManager().allowSpeaking(p.isCanSpeak());
+            OpenAudioMc.getService(NetworkingService.class).getClient(from.getUniqueId()).getRtcSessionManager().preventSpeaking(p.isCanSpeak());
             return;
         }
     }
