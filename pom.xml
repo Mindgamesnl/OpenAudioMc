@@ -6,7 +6,7 @@
 
     <groupId>com.craftmend.openaudiomc</groupId>
     <artifactId>OpenAudioMc-Parent</artifactId>
-    <version>${oa.version}</version>
+    <version>1.2</version>
     <packaging>pom</packaging>
 
     <name>OpenAudioMc-parent</name>
