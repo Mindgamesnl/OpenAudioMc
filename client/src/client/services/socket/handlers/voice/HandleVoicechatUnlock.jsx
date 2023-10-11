@@ -30,6 +30,26 @@ export function HandleVoiceUnlock(data) {
 
   // is it set to auto join?
   if (getGlobalState().voiceState.autoJoinVoiceChat) {
-    VoiceModule.startVoiceChat();
+    // is the user in context yet?
+    startVcWhenReady();
   }
+}
+
+let taskId = null;
+
+function startVcWhenReady() {
+  // cancel previous task if it exists
+  if (taskId != null) {
+    clearInterval(taskId);
+  }
+
+  // check every 150ms if the user is in context
+  taskId = setInterval(() => {
+    if (getGlobalState().currentUser != null) {
+      // cancel task
+      clearInterval(taskId);
+      // start vc
+      VoiceModule.startVoiceChat();
+    }
+  });
 }
