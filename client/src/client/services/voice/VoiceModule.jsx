@@ -11,6 +11,7 @@ import { VoicePeer } from './peers/VoicePeer';
 import { feedDebugValue } from '../debugging/DebugService';
 import { DebugStatistic } from '../debugging/DebugStatistic';
 import { setTab } from '../../../components/tabwindow/TabWindow';
+import { StringifyError } from '../../util/errorreformat.js';
 
 const gainTrackers = {};
 
@@ -116,7 +117,16 @@ export const VoiceModule = new class IVoiceModule {
 
       // hide error popup
       setGlobalState({ loadingOverlay: { visible: false } });
-      toast.error(getTranslation(null, 'vc.micErrorPopup'), { autoClose: false });
+
+      let stringifiedError = '<unknown>';
+      // is it just a string?
+      if (typeof error === 'string') {
+        stringifiedError = error;
+      } else {
+        stringifiedError = StringifyError(error);
+      }
+
+      toast.error(`${getTranslation(null, 'vc.micErrorPopup')} ${stringifiedError}`, { autoClose: false });
     };
 
     deviceLoader.getUserMedia(getGlobalState().settings.preferredMicId);
