@@ -11,7 +11,7 @@ import { VoicePeer } from './peers/VoicePeer';
 import { feedDebugValue } from '../debugging/DebugService';
 import { DebugStatistic } from '../debugging/DebugStatistic';
 import { setTab } from '../../../components/tabwindow/TabWindow';
-import { StringifyError } from '../../util/errorreformat.js';
+import { StringifyError } from '../../util/errorreformat';
 
 const gainTrackers = {};
 
