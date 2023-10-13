@@ -154,6 +154,18 @@ class SettingsPage extends React.Component {
           />
 
           <DropdownSetting
+            title={getTranslation(c, 'settings.distancemodel.title')}
+            description={getTranslation(c, 'settings.distancemodel.body')}
+            icon={settingSvg.RENDER}
+            value={`${this.props.settings.distanceModel}`}
+            options={[
+              { key: 'linear', value: getTranslation(c, 'settings.distancemodel.linear') },
+              { key: 'exponential', value: getTranslation(c, 'settings.distancemodel.exponential') },
+            ]}
+            onChange={this.makeStateChanger('distanceModel', true)}
+          />
+
+          <DropdownSetting
             title={msg('settings.language.title')}
             description={msg('settings.language.body')}
             icon={settingSvg.LANGUAGE}
@@ -185,12 +197,16 @@ export function untrackPanner(id) {
 function applyPannerProperties(pannerNode, maxDistance, forceExpontential = false) {
   const setting = getGlobalState().settings.rolloffFactor;
   const audioRendering = getGlobalState().settings.spatialRenderingMode;
-  if (setting > 0.4 || forceExpontential) {
-    pannerNode.rolloffFactor = parseFloat(setting);
+
+  pannerNode.rolloffFactor = parseFloat(setting);
+
+  if (forceExpontential) {
     pannerNode.distanceModel = 'exponential';
-  } else {
-    pannerNode.rolloffFactor = parseFloat(setting);
+  } else if (setting <= 0.4) {
+    // keep old behaviour, where the linear algorithm was forced when RollOff <= 40%
     pannerNode.distanceModel = 'linear';
+  } else {
+    pannerNode.distanceModel = getGlobalState().settings.distanceModel;
   }
 
   if (audioRendering === 'new') {
