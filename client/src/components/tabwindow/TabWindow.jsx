@@ -112,8 +112,7 @@ class TabWindow extends Component {
           </div>
         </main>
 
-        {/* footer over everything in the bottom right */}
-        <div className="fixed bottom-0 right-0 mb-4 mr-4">
+        <div className="fixed bottom-0 right-0 pl-2 pb-2 pr-2 pt-2 bg-gray-800 rounded-tl-2xl">
           <a
             className="soft-text break-words"
             id="notice"
