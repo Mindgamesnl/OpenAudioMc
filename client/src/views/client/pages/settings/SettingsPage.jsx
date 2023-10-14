@@ -78,8 +78,7 @@ class SettingsPage extends React.Component {
     return (
       <div className="content-section lg:px-12 overflow-y-scroll">
         <div className="content-section-title">Settings</div>
-
-        <div className="content-card-collection items-stretch flex justify-center w-full">
+        <div className="content-card-collection grid grid-cols-1 gap-2 xl:grid-cols-4 xl:gap-4">
           <CheckboxSetting
             title={getTranslation(c, 'settings.voicechat.echocancel.title')}
             description={getTranslation(c, 'settings.voicechat.echocancel.body')}
@@ -154,6 +153,18 @@ class SettingsPage extends React.Component {
           />
 
           <DropdownSetting
+            title={getTranslation(c, 'settings.distancemodel.title')}
+            description={getTranslation(c, 'settings.distancemodel.body')}
+            icon={settingSvg.RENDER}
+            value={`${this.props.settings.distanceModel}`}
+            options={[
+              { key: 'linear', value: getTranslation(c, 'settings.distancemodel.linear') },
+              { key: 'exponential', value: getTranslation(c, 'settings.distancemodel.exponential') },
+            ]}
+            onChange={this.makeStateChanger('distanceModel', true)}
+          />
+
+          <DropdownSetting
             title={msg('settings.language.title')}
             description={msg('settings.language.body')}
             icon={settingSvg.LANGUAGE}
@@ -182,15 +193,17 @@ export function untrackPanner(id) {
   feedDebugValue(DebugStatistic.TRACKED_PANNERS, Object.keys(pannerTrackers).length);
 }
 
-function applyPannerProperties(pannerNode, maxDistance, forceExpontential = false) {
+function applyPannerProperties(pannerNode, maxDistance) {
   const setting = getGlobalState().settings.rolloffFactor;
   const audioRendering = getGlobalState().settings.spatialRenderingMode;
-  if (setting > 0.4 || forceExpontential) {
-    pannerNode.rolloffFactor = parseFloat(setting);
-    pannerNode.distanceModel = 'exponential';
-  } else {
-    pannerNode.rolloffFactor = parseFloat(setting);
+
+  pannerNode.rolloffFactor = parseFloat(setting);
+
+  if (setting <= 0.4) {
+    // keep old behaviour, where the linear algorithm was forced when RollOff <= 40%
     pannerNode.distanceModel = 'linear';
+  } else {
+    pannerNode.distanceModel = getGlobalState().settings.distanceModel;
   }
 
   if (audioRendering === 'new') {
@@ -206,12 +219,12 @@ function applyPannerProperties(pannerNode, maxDistance, forceExpontential = fals
   }
 }
 
-export function applyPannerSettings(pannerNode, maxDistance = 0, forceExponential = false) {
+export function applyPannerSettings(pannerNode, maxDistance = 0) {
   if (maxDistance === 0) {
     debugLog('No max distance provided, using global state');
     maxDistance = getGlobalState().voiceState.radius;
   }
-  applyPannerProperties(pannerNode, maxDistance, forceExponential);
+  applyPannerProperties(pannerNode, maxDistance);
   const id = makeid(5);
   pannerTrackers[id] = pannerNode;
   feedDebugValue(DebugStatistic.TRACKED_PANNERS, Object.keys(pannerTrackers).length);

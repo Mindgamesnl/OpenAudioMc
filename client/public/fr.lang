@@ -69,6 +69,10 @@ settings.mix-and-fade.button=Activer le mélange
 settings.preload.title=Préchargement automatique des fichiers audio
 settings.preload.body=Avec cette option activée, OpenAudioMc préchargera automatiquement les fichiers qui sont souvent utilisés autour de votre emplacement dans le jeu. Cela rend l'audio plus réactif, mais utilise plus de données.
 settings.preload.button=Activer le préchargement
+settings.distancemodel.title=Algorithme de réduction audio à distance
+settings.distancemodel.body=Détermine l'algorithme à utiliser pour calculer la réduction de volume en fonction de la distance entre la source audio et le récepteur.
+settings.distancemodel.linear=Linéaire
+settings.distancemodel.exponential=Exponentielle
 
 settings.spatial.title=Moteur de rendu spatial
 settings.spatial.body=Sélectionnez le moteur de rendu que vous souhaitez utiliser. Le moteur moderne est de meilleure qualité et un peu plus rapide, mais il est toujours en cours de développement.

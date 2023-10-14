@@ -125,6 +125,10 @@ settings.rolloff.12=120%
 settings.rolloff.15=150% (extreme)
 settings.language.title=Language
 settings.language.body=Select your preferred language
+settings.distancemodel.title=Audio volume over distance
+settings.distancemodel.body=Define which algorithm should be used to reduce the volume of the audio source as the listener moves away from it.
+settings.distancemodel.linear=Linear
+settings.distancemodel.exponential=Exponential
 
 settings.spatial.title=Spatial rendering engine
 settings.spatial.body=Select what rendering engine you'd like to use. The modern engine is of higher quality and a bit faster, but requires a modern browser.

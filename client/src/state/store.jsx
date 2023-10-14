@@ -57,6 +57,7 @@ const initialState = {
     interpolationEnabled: true,
     spatialRenderingMode: 'new',
     rolloffFactor: 0.5,
+    distanceModel: 'exponential',
 
     preferredMicId: 'default',
 
