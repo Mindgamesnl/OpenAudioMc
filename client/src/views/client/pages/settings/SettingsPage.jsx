@@ -194,15 +194,13 @@ export function untrackPanner(id) {
   feedDebugValue(DebugStatistic.TRACKED_PANNERS, Object.keys(pannerTrackers).length);
 }
 
-function applyPannerProperties(pannerNode, maxDistance, forceExpontential = false) {
+function applyPannerProperties(pannerNode, maxDistance) {
   const setting = getGlobalState().settings.rolloffFactor;
   const audioRendering = getGlobalState().settings.spatialRenderingMode;
 
   pannerNode.rolloffFactor = parseFloat(setting);
 
-  if (forceExpontential) {
-    pannerNode.distanceModel = 'exponential';
-  } else if (setting <= 0.4) {
+  if (setting <= 0.4) {
     // keep old behaviour, where the linear algorithm was forced when RollOff <= 40%
     pannerNode.distanceModel = 'linear';
   } else {
@@ -222,12 +220,12 @@ function applyPannerProperties(pannerNode, maxDistance, forceExpontential = fals
   }
 }
 
-export function applyPannerSettings(pannerNode, maxDistance = 0, forceExponential = false) {
+export function applyPannerSettings(pannerNode, maxDistance = 0) {
   if (maxDistance === 0) {
     debugLog('No max distance provided, using global state');
     maxDistance = getGlobalState().voiceState.radius;
   }
-  applyPannerProperties(pannerNode, maxDistance, forceExponential);
+  applyPannerProperties(pannerNode, maxDistance);
   const id = makeid(5);
   pannerTrackers[id] = pannerNode;
   feedDebugValue(DebugStatistic.TRACKED_PANNERS, Object.keys(pannerTrackers).length);

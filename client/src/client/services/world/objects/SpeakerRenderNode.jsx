@@ -15,7 +15,7 @@ export class SpeakerRenderNode {
         channel.fadeChannel(100, 100);
         media.addNode(player, this.pannerNode);
 
-        this.pannerId = applyPannerSettings(this.pannerNode, speaker.maxDistance, true);
+        this.pannerId = applyPannerSettings(this.pannerNode, speaker.maxDistance);
 
         const { location } = speaker;
         const position = new Position(location);
