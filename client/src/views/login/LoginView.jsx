@@ -182,6 +182,16 @@ export class LoginView extends React.Component {
                     </small>
                   </a>
                 </StaticFooter>
+
+                <div className="fixed bottom-0 left-0 pl-2 pb-2 pr-2 pt-2 bg-black rounded-tr-2xl">
+                  <a
+                    className="soft-text break-words"
+                    id="notice"
+                    href="https://openaudiomc.net/"
+                  >
+                    &copy; OpenAudioMc 2016-2023.All Rights Reserved.
+                  </a>
+                </div>
               </div>
             </div>
           </div>
