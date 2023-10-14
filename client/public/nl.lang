@@ -122,6 +122,11 @@ settings.rolloff.15=150% (extreem)
 settings.language.title=Taal
 settings.language.body=Selecteer de taal die je wilt gebruiken
 
+settings.distancemodel.title=Audio volume afstand model
+settings.distancemodel.body=Deze instelling bepaalt hoe snel audio zachter wordt naarmate je verder weg bent van de bron. Lineair is de standaard, maar exponentieel klinkt realistischer.
+settings.distancemodel.linear=Lineair
+settings.distancemodel.exponential=Exponential
+
 settings.spatial.title=Ruimtelijke rendering engine
 settings.spatial.body=Selecteer welke rendering engine u wilt gebruiken. De moderne engine is van hogere kwaliteit en een beetje sneller, maar is nog in actieve ontwikkeling
 settings.spatial.modern=Nauwkeurig

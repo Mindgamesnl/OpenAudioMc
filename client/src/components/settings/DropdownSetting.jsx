@@ -5,7 +5,7 @@ export function DropdownSetting(props) {
   const ops = props.options.map((option) => <option key={option.key} value={option.key}>{option.value}</option>);
 
   return (
-    <div className="content-card w-full md:w-1/2 xl:w-1/3 m-2">
+    <div className="content-card w-full h-full">
       <span>
         <div dangerouslySetInnerHTML={{ __html: props.icon }} className="inline" />
         {props.title}
