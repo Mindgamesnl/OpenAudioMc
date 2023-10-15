@@ -24,15 +24,15 @@ public class ProxyModule extends Service {
 
     @Override
     public void onEnable() {
+        if (MagicValue.FORCE_SERVER_NODE.get(Boolean.class)) {
+            mode = OAClientMode.NODE;
+            return;
+        }
+
         // resolve based on settings first
         // is local mode enabled?
         if (StorageKey.SETTINGS_FORCE_OFFLINE_MODE.getBoolean()) {
             mode = OAClientMode.STAND_ALONE;
-            return;
-        }
-
-        if (MagicValue.FORCE_SERVER_NODE.get(Boolean.class)) {
-            mode = OAClientMode.NODE;
             return;
         }
 
