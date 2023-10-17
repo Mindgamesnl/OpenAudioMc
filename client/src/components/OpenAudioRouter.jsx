@@ -9,6 +9,7 @@ import BlockedLoginView from '../views/login/BlockedLoginView';
 import { BadBrowser } from '../views/login/BadBrowserView';
 import { showInputModal } from './modal/InputModal';
 import { msg } from '../client/OpenAudioAppContainer';
+import { reportVital } from '../client/util/vitalreporter';
 
 class OpenAudioController extends React.Component {
   constructor(props) {
@@ -104,6 +105,7 @@ class OpenAudioController extends React.Component {
     const { isLoading, isBlocked, currentUser } = this.props;
 
     if (!preflightOk) {
+      reportVital(`metrics:browser_not_supported - ${errorMessage}`);
       currentView = <BadBrowser message={errorMessage} />;
     } else if (isLoading) {
       currentView = <LoadingView />;
