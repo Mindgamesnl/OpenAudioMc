@@ -1,4 +1,5 @@
-limport React from 'react';
+import React from 'react';
+
 import '@fontsource/roboto/300.css';
 import './css/login-glow.css';
 import JAVA_LOGO from './platforms/editions/java.png';

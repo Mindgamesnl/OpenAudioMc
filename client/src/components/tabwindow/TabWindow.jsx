@@ -105,8 +105,8 @@ class TabWindow extends Component {
             </div>
           </nav>
         ) : null}
-        {/* Main Content Section */}
-        <main className="flex justify-center overflow-x-hidden overflow-y-auto w-full h-full">
+
+        <main className="flex justify-center overflow-x-hidden overflow-y-auto w-full h-full backdrop-blur">
           <div className="content-wrapper">
             {pages[this.props.currentTab].content}
           </div>

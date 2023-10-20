@@ -339,12 +339,15 @@ body.light-mode .video-bg:before {
     }
 }
 
+.backdrop-blur {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
 .content-wrapper {
     display: flex;
     flex-direction: column;
     color: var(--theme-color);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     height: 100%;
     width: 100%;
 }
