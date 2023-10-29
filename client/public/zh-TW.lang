@@ -1,8 +1,8 @@
 lang.name=繁體中文
 
-lang.detectedAs=我們已經將語言更改成 %langName，您想要保留這樣嗎？
+lang.detectedAs=我們已經將語言更改成 %langName ，您想要保留這樣嗎？
 lang.keep=保留 %langName
-lang.toEn=切換回英文(English)
+lang.toEn=切換回 英文(English)
 
 ui.loading=載入中...
 ui.logout=登出
@@ -17,7 +17,7 @@ navbar.debug=除錯
 navbar.free=免費
 navbar.premium=高級
 navbar.upgradeRequired=需要升級
-navbar.isPlaying=正在播放音樂
+navbar.isPlaying=正在播放音訊
 
 home.confirmLoginHeader=歡迎回來！
 home.confirmLoginBody=您是否要以 <i>%player</i> 登入？<br />如果不是，請關閉此視窗。
@@ -29,9 +29,9 @@ home.activateText=這個網頁將在您的使用期間用於播放音訊和語�
 home.clickAnywhere=點擊任意位置以開始
 home.activateHeader=點擊此處以連接
 home.welcome=歡迎，%player！
-home.header=歡迎來到我們的音訊客戶端！請保持此頁面開啟，以體驗我們的遊戲內音樂和效果。您可以在 Session 期間隨時返回此處，更改音量和設定。
+home.header=歡迎來到我們的音訊客戶端！請保持此頁面開啟，以體驗我們遊戲內的音樂和效果。您可以在 Session 期間隨時返回此處，更改音量和設定。
 home.volumeContext=此控制條控制遊戲內音樂和效果的音量。您也可以使用 <pre>/volume &lt;volume&gt;</pre> 來隨時更改音量，或者將其設定為 0 以暫時靜音。
-home.audioControls=音訊控制
+home.audioControls=音量控制
 home.notificationsTitle=通知
 home.notificationsEmpty=目前沒有任何通知
 
@@ -63,7 +63,7 @@ vc.settingsEnablePositionalAudio=開啟位置音效
 vc.settingsDisablePositionalAudio=停用位置音效
 vc.automaticAdjustments=自動調整
 vc.sensitivity=噪音門檻
-vc.aboutSensitivity=配置麥克風的噪音門檻，這將在您不說話時自動靜音您的麥克風。完全位於最左側將禁用噪音門檻，完全位於最右側將始終靜音您的麥克風。
+vc.aboutSensitivity=設定麥克風的噪音門檻，這將在您不說話時自動靜音您的麥克風。完全位於最左側將禁用噪音門檻，完全位於最右側將始終靜音您的麥克風。
 vc.peerTable={total} 位於語音範圍內，{talking} 位正在交談
 vc.toggleMicrophone=切換麥克風
 vc.you=您
@@ -131,7 +131,7 @@ settings.distancemodel.linear=線性
 settings.distancemodel.exponential=指數
 
 settings.spatial.title=空間渲染引擎
-settings.spatial.body=選擇您要使用的渲染引擎。新的渲染引擎有更高的品質，速度較快。需要較新的瀏覽器。
+settings.spatial.body=選擇您要使用的渲染引擎。新的渲染引擎擁有更高的品質，速度較快。需要較新的瀏覽器。
 settings.spatial.modern=精確
 settings.spatial.legacy=舊版
 

@@ -1,11 +1,14 @@
 lang.name=简体中文
 
 lang.detectedAs=我们将您的语言更改为 %langName，您想保持这样吗？
-lang.keep=保留 %longName
-lang.toEn=切换到 English
+lang.keep=保留 %langName
+lang.toEn=切换回 英文(English)
 
 ui.loading=加载中…
 ui.logout=登出
+
+ui.urlChangeDetected=侦测到 URL 变更
+ui.hashchange=URL 已经变更。您是否要重新载入页面并开始新的会话吗？这将会清除您目前的会话。
 
 navbar.audio=音频
 navbar.vc=语音聊天
@@ -14,6 +17,7 @@ navbar.debug=调试
 navbar.free=免费版
 navbar.premium=高级版
 navbar.upgradeRequired=需要升级
+navbar.isPlaying=正在播放音频
 
 home.confirmLoginHeader=欢迎回来！
 home.confirmLoginBody=您是否想作为 <i>%player</i> 登录？<br />如果不是，请关闭该窗口。
@@ -90,7 +94,12 @@ vc.noMicInputYetTitle=我们听不到你的声音！
 vc.noMicInputYetBody=请确保您选择了正确的麦克风，或尝试降低噪声门。
 vc.peersHiddenTitle=语音聊天玩家被隐藏
 vc.peersHiddenText=该服务器已禁用查看谁在语音聊天中的功能，以防止不公平的优势，但您仍然可以听到他们的声音。
+vc.isTalking=正在说话
+vc.people=人员
 
+settings.voicechat.echocancel.title=回音消除
+settings.voicechat.echocancel.body=这将尝试消除您的麦克风捕捉到的任何回音，这在您使用扬声器而非耳机时很有用，但可能会使您在某些平台上难以被听见。
+settings.voicechat.echocancel.button=开启回音消除
 settings.voicechat.chimes.title=语音聊天铃声
 settings.voicechat.chimes.body=铃声是每当您将麦克风 静音/取消静音 时播放的小声音。内容创建者可能想要关闭此功能。
 settings.voicechat.chimes.button=使用铃声
@@ -114,6 +123,12 @@ settings.rolloff.8=80%
 settings.rolloff.1=100%（默认）
 settings.rolloff.12=120%
 settings.rolloff.15=150%（最大）
+settings.language.title=语言
+settings.language.body=选择您的语言
+settings.distancemodel.title=距离的音频音量
+settings.distancemodel.body=定义用于减小音频源随听众远离而降低的算法。
+settings.distancemodel.linear=线性
+settings.distancemodel.exponential=指数
 
 settings.spatial.title=空间渲染引擎
 settings.spatial.body=选择您想要使用的渲染引擎。现代引擎质量更高，速度更快，但仍在积极开发中
