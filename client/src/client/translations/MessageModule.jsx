@@ -86,6 +86,15 @@ export const MessageModule = new class MessageModule {
         file: 'zh-CN.lang',
         name: '简体中文',
       }, // simplified chinese
+      'zh-TW': {
+        file: 'zh-TW.lang',
+        name: '繁體中文',
+        visible: true,
+      }, // tradition chinese
+      tw: {
+        file: 'zh-TW.lang',
+        name: '繁體中文',
+      }, // tradition chinese
       vn: {
         file: 'vn.lang',
         name: 'Tiếng Việt',
