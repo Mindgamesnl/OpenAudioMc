@@ -1,0 +1,142 @@
+lang.name=繁體中文
+
+lang.detectedAs=我們已經將語言更改成 %langName ，您想要保留這樣嗎？
+lang.keep=保留 %langName
+lang.toEn=切換回 英文(English)
+
+ui.loading=載入中...
+ui.logout=登出
+
+ui.urlChangeDetected=偵測到網址變更
+ui.hashchange=網址已經變更。您是否要重新載入頁面並開始新的 Session 嗎？這將會清除您目前的 Session。
+
+navbar.audio=伺服器音訊
+navbar.vc=語音聊天
+navbar.settings=設定
+navbar.debug=除錯
+navbar.free=免費
+navbar.premium=高級
+navbar.upgradeRequired=需要升級
+navbar.isPlaying=正在播放音訊
+
+home.confirmLoginHeader=歡迎回來！
+home.confirmLoginBody=您是否要以 <i>%player</i> 登入？<br />如果不是，請關閉此視窗。
+home.confirmLoginButton=開始語音 Session
+home.confirmLoginWithVoicechat=啟動語音聊天 Session
+
+home.activate=啟動 Session
+home.activateText=這個網頁將在您的使用期間用於播放音訊和語音。請點擊頁面任何位置以開始。
+home.clickAnywhere=點擊任意位置以開始
+home.activateHeader=點擊此處以連接
+home.welcome=歡迎，%player！
+home.header=歡迎來到我們的音訊客戶端！請保持此頁面開啟，以體驗我們遊戲內的音樂和效果。您可以在 Session 期間隨時返回此處，更改音量和設定。
+home.volumeContext=此控制條控制遊戲內音樂和效果的音量。您也可以使用 <pre>/volume &lt;volume&gt;</pre> 來隨時更改音量，或者將其設定為 0 以暫時靜音。
+home.audioControls=音量控制
+home.notificationsTitle=通知
+home.notificationsEmpty=目前沒有任何通知
+
+vc.badClient=語音聊天需要透過 HTTPS 提供的網頁客戶端，請更新網址以使用 HTTPS，或設定有效的 SSL 憑證。
+vc.notCompatible=您的瀏覽器似乎不支援語音聊天。請使用支援的瀏覽器，如 Chrome、Safari 等。
+vc.voiceModerationEnabled=此伺服器開啟了語音聊天的監管功能。在您的麥克風處於活動狀態時，部分工作人員可能會聆聽。
+vc.notice=通知
+vc.startingPopupTitle=正在登入語音聊天...
+vc.startingPopup=請稍候，我們正在為您設定語音伺服器...請耐心等待，這並不會花費太多時間。
+vc.reloadingPopupTitle=重新載入語音系統！
+vc.reloadingPopup=請稍候，語音聊天正在重新啟動以套用您的新設定...這並不會花費太多時間。
+vc.updatingMicPopupTitle=更新麥克風！
+vc.updatingMicPopup=請稍候，語音聊天正在重新啟動，使用您的新麥克風...這並不會花費太多時間。
+vc.micErrorPopupTitle=麥克風錯誤
+vc.micErrorPopup=在嘗試訪問您的麥克風時出現問題。當您的瀏覽器要求麥克風權限時，請按 「允許」，或查看 Wiki 以獲取更多資訊。
+vc.disabled=語音聊天已被 %serverName 暫時禁用
+vc.title=近距離語音聊天
+vc.boardingTitle=語音聊天開啟
+vc.onboarding=此伺服器支援近距離語音聊天，這將允許您與 %range 個方塊半徑內的玩家交談。您是否要開啟此功能並提供麥克風訪問權限？
+vc.settings=語音聊天設定
+vc.muteMic=靜音麥克風
+vc.unmuteMic=取消靜音麥克風
+vc.input=輸入設備
+vc.aboutInput=選擇您要使用的麥克風，更改會導致您的 Session 重新啟動。
+vc.positionalAudio=位置音效
+vc.aboutPositionalAudio=呈現 360° 的聲音景觀，透過聲音感知位置。
+vc.settingsDisable=停用
+vc.settingsEnablePositionalAudio=開啟位置音效
+vc.settingsDisablePositionalAudio=停用位置音效
+vc.automaticAdjustments=自動調整
+vc.sensitivity=噪音門檻
+vc.aboutSensitivity=設定麥克風的噪音門檻，這將在您不說話時自動靜音您的麥克風。完全位於最左側將禁用噪音門檻，完全位於最右側將始終靜音您的麥克風。
+vc.peerTable={total} 位於語音範圍內，{talking} 位正在交談
+vc.toggleMicrophone=切換麥克風
+vc.you=您
+vc.safetyTitle=為了您的安全
+vc.safetyDisclaimer=當有人進入或離開您的語音聊天範圍時，您將收到遊戲內消息，並能夠查看您可以聽到（以及可以聽到您的人）的人員名單，並在需要時對其進行靜音。OpenAudioMc 依賴於您的伺服器來處理監管並處理濫用檢舉。如果您有任何問題或疑慮，請聯繫工作人員的成員。
+vc.safetyFooter=<b>想要隱私？您可以隨時通過在遊戲中運行 <pre style="display: inline;">/mm</pre> 或按住 <pre style="display: inline;">shift + F</pre>，或者按下此網頁上的按鈕來靜音您的麥克風。</b>
+vc.join=加入語音聊天
+vc.empty.title=您現在有點孤單=(！
+vc.empty.body=您周圍沒有人可以交談，試著多移動一下，或請您的朋友加入。
+vc.muteMicrophone=靜音
+vc.unmuteMicrophone=取消靜音
+vc.myStatus=您的麥克風狀態
+vc.hero.title=歡迎來到語音聊天！
+vc.hero.subtitle=這是您的語音聊天控制板，您可以查看誰在您的語音範圍內，以及誰可以聽到您。您還可以對人員進行靜音，如果您不想聽到他們的聲音。
+vc.statusTitle=我的狀態
+vc.settings.globalVolumeTitle=一般語音聊天音量
+vc.settings.surround.disable=停用環繞音效
+vc.settings.surround.enable=開啟環繞音效
+vc.settings.globalVolumeAbout=更改所有您的語音聊天同伴的主音量
+vc.settings.toggleMenuTitle=語音聊天輸入設定
+vc.settings.toggleMenu=切換選單
+vc.settings.monitoring.title=麥克風監聽
+vc.settings.monitoring.about=監聽會將您自己的聲音回放給您，就像其他人聽到您一樣，這對於測試麥克風和噪音門檻設置非常有用。
+vc.settings.monitoring.toggle=開啟監聽
+vc.operaWarning=您的登入似乎需要一段時間，這很可能是由於您的 Opera 設置引起的。請打開瀏覽器設定，搜尋 "WebRTC"，並選擇開啟所有選項。
+vc.youAreModerating=注意！您現在是一位語音聊天的監管員，您可以聽到所有人的聲音，但他們無法聽到您的聲音。
+vc.noMicInputYetTitle=我們無法聽到您的聲音！
+vc.noMicInputYetBody=請確保您已經選擇了正確的麥克風，或者嘗試降低您的噪音門檻。
+vc.peersHiddenTitle=語音聊天玩家已隱藏
+vc.peersHiddenText=此伺服器已禁用查看誰正在語音聊天以防止不公平優勢，但您仍然可以聽到他們的聲音。
+vc.isTalking=正在說話
+vc.people=人員
+
+settings.voicechat.echocancel.title=回音消除
+settings.voicechat.echocancel.body=這將嘗試消除您的麥克風捕捉到的任何回音，這在您使用喇叭而非耳機時很有用，但可能會使您在某些平台上難以被聽見。
+settings.voicechat.echocancel.button=開啟回音消除
+settings.voicechat.chimes.title=語音聊天鈴聲
+settings.voicechat.chimes.body=鈴聲是在您靜音/取消靜音麥克風時播放的小聲音。內容創作者可能想要關閉這個功能。
+settings.voicechat.chimes.button=使用鈴聲
+settings.theme.title=深色模式
+settings.theme.body=使用（預設）深色模式的網頁客戶端
+settings.theme.button=深色模式
+settings.voicechat.peer.title=同伴通知
+settings.voicechat.peer.body=每當有人進入或離開您的語音聊天範圍時，接收桌面通知
+settings.voicechat.peer.button=開啟通知
+settings.mix-and-fade.title=自動音樂混音
+settings.mix-and-fade.body=自動交叉淡入淡出和混合音訊來源
+settings.mix-and-fade.button=開啟混音
+settings.preload.title=自動預先加載音訊文件
+settings.preload.body=開啟此功能後，OpenAudioMc 將會自動預先加載經常在您的遊戲位置附近使用的文件。這將使音訊響應性更快，但需要較多的行動數據。
+settings.preload.button=開啟預先加載
+settings.rolloff.title=3D 音訊減弱
+settings.rolloff.body=這控制基於距離的 3D 音訊的減弱程度。0% 意味著沒有減弱，100% 意味著完全減弱。這適用於喇叭和語音聊天。
+settings.rolloff.01=1%（最小）
+settings.rolloff.5=50%
+settings.rolloff.8=80%
+settings.rolloff.1=100%（正常）
+settings.rolloff.12=120%
+settings.rolloff.15=150%（極端）
+settings.language.title=語言
+settings.language.body=選擇您的語言
+settings.distancemodel.title=距離的音訊音量
+settings.distancemodel.body=定義用於減小音訊源音量隨聽眾遠離而降低的算法。
+settings.distancemodel.linear=線性
+settings.distancemodel.exponential=指數
+
+settings.spatial.title=空間渲染引擎
+settings.spatial.body=選擇您要使用的渲染引擎。新的渲染引擎擁有更高的品質，速度較快。需要較新的瀏覽器。
+settings.spatial.modern=精確
+settings.spatial.legacy=舊版
+
+settings.interpolation.title=位置平滑
+settings.interpolation.body=自動平滑運動，以最小化步行時的說話/語音聊天卡頓。這可能會增加額外的延遲，但有更好的品質。
+settings.interpolation.button=開啟平滑
+
+tooltip.close=關閉
