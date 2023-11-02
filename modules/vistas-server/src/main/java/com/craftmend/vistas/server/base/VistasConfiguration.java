@@ -103,8 +103,7 @@ public class VistasConfiguration extends Service implements Configuration {
         OpenAudioLogger.toConsole("Saving files...");
         DumperOptions options = new DumperOptions();
         options.setPrettyFlow(true);
-        options.setDefaultFlowStyle(DumperOptions.FlowStyle.FLOW);
-        options.setDefaultScalarStyle(DumperOptions.ScalarStyle.PLAIN);
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         new Yaml(options).dump(dataConfig, new FileWriter(dataFile.getAbsolutePath()));
         new Yaml(options).dump(mainConfig, new FileWriter(configFile.getAbsolutePath()));
     }

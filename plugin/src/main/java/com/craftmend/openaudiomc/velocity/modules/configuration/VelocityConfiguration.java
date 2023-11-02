@@ -10,6 +10,7 @@ import lombok.SneakyThrows;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
 import org.apache.commons.lang.Validate;
+import org.yaml.snakeyaml.DumperOptions;
 
 import java.io.File;
 import java.io.IOException;
@@ -320,6 +321,7 @@ public class VelocityConfiguration implements Configuration {
         File file = new File(OpenAudioMcVelocity.getInstance().getDataDir(), filename);
         YAMLConfigurationLoader yamlLoader = YAMLConfigurationLoader.builder()
                 .setFile(file)
+                .setFlowStyle(DumperOptions.FlowStyle.BLOCK)
                 .build();
         try {
             return yamlLoader.load();
