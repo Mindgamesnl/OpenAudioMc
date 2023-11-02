@@ -7,6 +7,9 @@ lang.toEn=Ändere zu Englisch
 ui.loading=Wird geladen...
 ui.logout=Ausloggen
 
+ui.urlChangeDetected=URL Änderung festgestellt
+ui.hashchange=Die URL hat sich verändert. Möchtest du die Seite neu laden und eine neue Sitzung beginnen? Dies wird deine aktuelle Sitzung beenden.
+
 navbar.audio=Audio
 navbar.vc=Sprachchat
 navbar.settings=Einstellungen
@@ -14,12 +17,14 @@ navbar.debug=Debug
 navbar.free=kostenlos
 navbar.premium=premium
 navbar.upgradeRequired=Aktualisierung erforderlich
+navbar.isPlaying=Musik läuft
 
 home.confirmLoginHeader=Willkommen zurück!
 home.confirmLoginBody=Versuchst du dich gerade als <i>%player</i> einzuloggen?<br />Falls nicht, schließe bitte das Fenster.
-home.confirmLoginButton=Ja, das bin ich!
+home.confirmLoginButton=Starte eine Audio-Sitzung
+home.confirmLoginWithVoicechat=Starte eine Sitzung mit Sprachchat
 
-home.activate=Sitzung starten
+home.activate=Sitzung aktivieren
 home.activateText=Diese persönliche Webseite wird dazu verwendet, deinen Ton und deine Stimme während deines Besuchs abzuspielen. Bitte klicke auf eine beliebige Stelle auf dieser Seite, um zu beginnen.
 home.clickAnywhere=Klicke auf eine beliebige Stelle, um zu beginnen.
 home.activateHeader=Klicke hier um dich zu verbinden!
@@ -66,6 +71,8 @@ vc.safetyTitle=Für deine Sicherheit
 vc.safetyDisclaimer=Du wirst Benachrichtigungen im Spiel erhalten, wenn andere Personen deine Sprachreichweite betreten oder verlassen. Außerdem wirst du die Möglichkeit haben, eine Liste von Personen zu sehen, die du hören kannst (die dich natürlich auch hören können) und die du, wenn gewünscht, auch stummschalten kannst. OpenAudioMc verlässt sich darauf, dass dein Server die Moderation übernimmt und bei Bedarf Meldungen über Missbrauch bearbeitet. Bitte kontaktiere ein Teammitglied, wenn du Fragen oder Bedenken hast.
 vc.safetyFooter=<b>Privatsphäre gefällig? Du kannst dein Mikrofon jederzeit mit dem Befehl <pre style="display: inline;">/mm</pre> stummschalten, oder wenn du <pre style="display: inline;">Shift + F</pre> im Spiel drückst. Du kannst natürlich auch die Schaltfläche auf dieser Website nutzen.</b>
 vc.join=Sprachchat betreten
+vc.empty.title=Ziemlich leer hier!
+vc.empty.body=Es ist keiner in deiner Nähe, um mit dir zu sprechen. Versuche dich ein wenig zu bewegen oder frag deine Freunde, ob sie zu dir stoßen möchten.
 vc.muteMicrophone=Stummschalten
 vc.unmuteMicrophone=Entstummen
 vc.myStatus=Eigener Mikrofonstatus
@@ -87,7 +94,12 @@ vc.noMicInputYetTitle=Wir haben Schwierigkeiten, dich zu hören!
 vc.noMicInputYetBody=Bitte vergewissere dich, dass du das richtige Mikrofon ausgewählt hast, oder versuche, das Noise-Gate zu verringern.
 vc.peersHiddenTitle=Sprachchat-Spieler sind versteckt
 vc.peersHiddenText=Dieser Server hat die Möglichkeit zu sehen wer im Sprachchat ist deaktiviert, um unfaire Vorteile zu verhindern. Du kannst die Spieler jedoch immer noch hören.
+vc.isTalking=spricht
+vc.people=Personen
 
+settings.voicechat.echocancel.title=Echo-Unterdrückung
+settings.voicechat.echocancel.body=Die Echo-Unterdrückung wird versuchen, jedes Echo das dein Mikrofon aufnimmt zu unterdrücken. Dies könnte hilfreich sein, wenn du Lautsprecher anstatt von Kopfhörern verwendest. Deine Audioqualität und Hörbarkeit könnte sich dadurch jedoch auf einigen Plattformen verschlechtern.
+settings.voicechat.echocancel.button=Echo-Unterdrückung aktivieren
 settings.voicechat.chimes.title=Sprachchat-Läuten
 settings.voicechat.chimes.body=Das Läuten ist ein kleiner Sound, der abgespielt wird, wenn du die Stummschaltung deines Mikrofons de-/aktivierst. Content-Creator möchten dies möglicherweise deaktivieren.
 settings.voicechat.chimes.button=Aktiviere Sprachchat-Läuten
@@ -111,6 +123,12 @@ settings.rolloff.8=80%
 settings.rolloff.1=100% (normal)
 settings.rolloff.12=120%
 settings.rolloff.15=150% (extrem)
+settings.language.title=Sprache
+settings.language.body=Wähle deine bevorzugte Sprache
+settings.distancemodel.title=Audio-Lautstärke über Entfernung
+settings.distancemodel.body=Lege fest, welcher Algorythmus verwendet werden soll, um die Lautstärke von Audioquellen zu reduzieren, wenn du dich von ihnen entfernst.
+settings.distancemodel.linear=Linear
+settings.distancemodel.exponential=Exponentiell
 
 settings.spatial.title=Räumliche Rendering-Engine
 settings.spatial.body=Wähle aus, welche Rendering-Engine du verwenden möchtest. Die moderne Engine ist von höherer Qualität und etwas schneller, befindet sich jedoch noch in aktiver Entwicklung.
