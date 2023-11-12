@@ -6,6 +6,7 @@ import * as PluginChannel from '../../../util/PluginChannel';
 import { ReportError } from '../../../util/ErrorReporter';
 import { getGlobalState } from '../../../../state/store';
 import { debugLog } from '../../debugging/DebugService';
+import { isDomainOfficial } from '../../../config/MagicValues';
 
 export class Sound extends AudioSourceProcessor {
   constructor(opts = {}) {
@@ -180,13 +181,13 @@ export class Sound extends AudioSourceProcessor {
           if (this.source != null && this.source !== 'null') {
             ReportError(
               'A sound failed to load.\n'
-                            + `url=${this.source}\n`
-                            + `error-code=${this.soundElement.error.code}\n`
-                            + `error-message=${this.soundElement.error.message}\n`
-                            + `detected-error=${type}\n`
-                            + `dump=${stringifyError(this.error, null, '\t')}${stringifyError(this.soundElement.error, null, '\t')}\n`
-                            + `hostname=${window.location.host}\n`
-                            + `useragent=${window.navigator.userAgent}`,
+              + `url=${this.source}\n`
+              + `error-code=${this.soundElement.error.code}\n`
+              + `error-message=${this.soundElement.error.message}\n`
+              + `detected-error=${type}\n`
+              + `dump=${stringifyError(this.error, null, '\t')}${stringifyError(this.soundElement.error, null, '\t')}\n`
+              + `hostname=${window.location.host}\n`
+              + `useragent=${window.navigator.userAgent}`,
               (getGlobalState().currentUser != null ? getGlobalState().currentUser.userName : 'unknown'),
             );
           }
@@ -206,8 +207,11 @@ export class Sound extends AudioSourceProcessor {
       const ownDomain = getDomain();
       // proxy if we're on a different domain
       if (ownDomain != null) {
-        if (!this.soundElement.src.includes(getDomain())) {
-          this.soundElement.src = AUDIO_ENDPOINTS.PROXY + this.soundElement.src;
+        const isOfficial = isDomainOfficial(ownDomain);
+        if (!isOfficial) {
+          if (!this.soundElement.src.includes(getDomain())) {
+            this.soundElement.src = AUDIO_ENDPOINTS.PROXY + this.soundElement.src;
+          }
         }
       }
       this.controller = player.audioCtx.createMediaElementSource(this.soundElement);
@@ -286,39 +290,40 @@ export class Sound extends AudioSourceProcessor {
 // here be dragons
 if (
 
-    !(
-        'toJSON'
-        in
-        Error
-            .prototype
-    )) {
-    Object
-        .defineProperty(Error
+  !(
+    'toJSON'
+    in
+    Error
+      .prototype
+  )) {
+  Object
+    .defineProperty(Error
 
-                .prototype
-            ,
-            'toJSON'
-            , {
-                value:
+        .prototype
+      ,
+      'toJSON'
+      , {
+        value:
 
-                    function () {
-                        var alt = {};
+          function () {
+            var alt = {};
 
-                        Object.getOwnPropertyNames(this).forEach(function (key) {
-                            alt[key] = this[key];
-                        }, this);
+            Object.getOwnPropertyNames(this).forEach(function (key) {
+              alt[key] = this[key];
+            }, this);
 
-                        return alt;
-                    }
+            return alt;
+          }
 
-                ,
-                configurable: true
-                ,
-                writable: true
-            }
-        )
-    ;
+        ,
+        configurable: true
+        ,
+        writable: true
+      }
+    )
+  ;
 }
+
 /* eslint-enable */
 
 function getDomain() {
