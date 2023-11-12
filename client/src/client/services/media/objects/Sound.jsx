@@ -203,8 +203,12 @@ export class Sound extends AudioSourceProcessor {
   addNode(player, node) {
     if (this.controller == null) {
       this.soundElement.crossOrigin = 'anonymous';
-      if (!this.soundElement.src.includes('openaudiomc.net')) {
-        this.soundElement.src = AUDIO_ENDPOINTS.PROXY + this.soundElement.src;
+      const ownDomain = getDomain();
+      // proxy if we're on a different domain
+      if (ownDomain != null) {
+        if (!this.soundElement.src.includes(getDomain())) {
+          this.soundElement.src = AUDIO_ENDPOINTS.PROXY + this.soundElement.src;
+        }
       }
       this.controller = player.audioCtx.createMediaElementSource(this.soundElement);
     }
@@ -316,3 +320,18 @@ if (
     ;
 }
 /* eslint-enable */
+
+function getDomain() {
+  const fullHostname = window.location.hostname;
+  const hostnameParts = fullHostname.split('.');
+  if (hostnameParts.length > 2) {
+    return hostnameParts.slice(-2).join('.');
+  }
+
+  // are there no parts? then just return null because we're likely on localhost
+  if (hostnameParts.length === 1) {
+    return null;
+  }
+
+  return fullHostname;
+}
