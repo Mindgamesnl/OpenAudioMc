@@ -60,13 +60,7 @@ public class ProxyHostService extends Service {
 
             if (OpenAudioMc.getService(OpenaudioAccountService.class).is(CraftmendTag.VOICECHAT)) {
                 this.userHooks.sendPacket(user,
-                        new ClientUpdateStatePacket(
-                                user.getUniqueId(),
-                                connection.getRtcSessionManager().getStreamKey(),
-                                connection.getSession().isConnectedToRtc(),
-                                connection.getRtcSessionManager().isMicrophoneEnabled(),
-                                connection.getAuth().getStaticToken()
-                        )
+                        ClientUpdateStatePacket.of(connection)
                 );
             }
 

@@ -82,7 +82,7 @@ public class ClientInitializedRtcHandler extends PayloadHandler<ClientOpenedRtcP
 
     private void broadcastRtcUpdate(User player, boolean isConnected, boolean isMicOn, String streamKey, ClientConnection cc) {
         // am I a proxy thingy? then send it to my other thingy
-        ClientUpdateStatePacket clientUpdateRtcStatePacket = new ClientUpdateStatePacket(player.getUniqueId(), streamKey, isConnected, isMicOn, cc.getAuth().getStaticToken());
+        ClientUpdateStatePacket clientUpdateRtcStatePacket = new ClientUpdateStatePacket(player.getUniqueId(), streamKey, isConnected, isMicOn, cc.getAuth().getStaticToken(), cc.getVolume());
         // sends an update to the server, or nothing if its just spigot
         OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(player, clientUpdateRtcStatePacket);
     }
