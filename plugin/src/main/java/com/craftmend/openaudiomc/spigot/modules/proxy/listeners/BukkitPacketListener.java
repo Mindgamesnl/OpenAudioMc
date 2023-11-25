@@ -61,6 +61,7 @@ public class BukkitPacketListener implements PacketListener {
         connection.getRtcSessionManager().setMicrophoneEnabled(packet.isMicrophoneEnabled());
         connection.getRtcSessionManager().setStreamKey(packet.getStreamId());
         connection.getSession().setConnectedToRtc(packet.isEnabled());
+        connection.getSession().setVolume(packet.getVolume());
 
         connection.setAuth(new ClientAuth(connection, packet.getExplodedToken(), packet.getExplodedToken()));
 

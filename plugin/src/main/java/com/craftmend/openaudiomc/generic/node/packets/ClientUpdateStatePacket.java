@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.node.packets;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.proxy.messages.PacketWriter;
 import com.craftmend.openaudiomc.generic.proxy.messages.StandardPacket;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,7 @@ public class ClientUpdateStatePacket extends StandardPacket {
     private boolean enabled;
     private boolean microphoneEnabled;
     private String explodedToken;
+    private int volume;
 
     public void handle(DataInputStream dataInputStream) throws IOException {
         ClientUpdateStatePacket self = OpenAudioMc.getGson().fromJson(dataInputStream.readUTF(), ClientUpdateStatePacket.class);
@@ -29,6 +31,18 @@ public class ClientUpdateStatePacket extends StandardPacket {
         this.enabled = self.isEnabled();
         this.microphoneEnabled = self.isMicrophoneEnabled();
         this.explodedToken = self.getExplodedToken();
+        this.volume = self.getVolume();
+    }
+
+    public static ClientUpdateStatePacket of(ClientConnection cc) {
+        return new ClientUpdateStatePacket(
+            cc.getOwner().getUniqueId(),
+            cc.getRtcSessionManager().getStreamKey(),
+            cc.getSession().isConnectedToRtc(),
+            cc.getRtcSessionManager().isMicrophoneEnabled(),
+            cc.getAuth().getStaticToken(),
+            cc.getSession().getVolume()
+        );
     }
 
     public PacketWriter write() throws IOException {
