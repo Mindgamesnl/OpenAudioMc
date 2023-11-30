@@ -16,6 +16,7 @@ export async function handleCreateMedia(data) {
   const { distance } = data;
   const { flag } = data.media;
   const { maxDistance } = data;
+  const { muteRegions, muteSpeaker } = data.media;
   let volume = 100;
 
   // only if its a new version and provided, then use that volume

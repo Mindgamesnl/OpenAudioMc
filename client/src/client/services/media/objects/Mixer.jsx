@@ -12,6 +12,10 @@ export class Mixer {
     this.ambianceSoundMedia = null;
     this.recentSource = '/none';
 
+    // functions mapped with channel-id. Once an id is no longer found in the playing queue, then it will
+    // execute the function and remove it from the map
+    this.destructionHandlers = {};
+
     // loop over channels and call tick()
     setInterval(() => {
       this.tick();
@@ -27,6 +31,22 @@ export class Mixer {
     if (this.ambianceSoundMedia != null) {
       this.ambianceSoundMedia.tick();
     }
+
+    // go over all destruction handlers and execute them
+    Object.keys(this.destructionHandlers).forEach((key) => {
+      // is there still a channel with this id?
+      if (this.channels.get(key) != null) return;
+      const handler = this.destructionHandlers[key];
+      if (handler != null) {
+        debugLog(`Executing destruction handler for ${key}`);
+        handler();
+      }
+      delete this.destructionHandlers[key];
+    });
+  }
+
+  whenFinished(channelId, handler) {
+    this.destructionHandlers[channelId] = handler;
   }
 
   updatePlayingSounds() {
