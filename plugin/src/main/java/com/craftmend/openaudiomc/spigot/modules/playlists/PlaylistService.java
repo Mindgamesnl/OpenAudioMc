@@ -2,6 +2,8 @@ package com.craftmend.openaudiomc.spigot.modules.playlists;
 
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.database.internal.Repository;
+import com.craftmend.openaudiomc.generic.media.MediaService;
+import com.craftmend.openaudiomc.generic.media.interfaces.UrlMutation;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.spigot.modules.playlists.models.Playlist;
@@ -11,7 +13,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PlaylistService extends Service {
+public class PlaylistService extends Service implements UrlMutation {
 
     @Inject
     private DatabaseService databaseService;
@@ -29,6 +31,9 @@ public class PlaylistService extends Service {
         for (Playlist value : playlistRepository.values()) {
             cachedPlaylists.put(value.getName(), value);
         }
+
+        // register mutations
+        getService(MediaService.class).registerMutation("list:", this);
     }
 
     @Override
@@ -80,5 +85,14 @@ public class PlaylistService extends Service {
 
     public Collection<Playlist> getAll() {
         return playlistRepository.values();
+    }
+
+    @Override
+    public String onRequest(String original) {
+        String playlistName = original.replace("list:", "");
+        Playlist playlist = getPlaylist(playlistName);
+        if (playlist == null) return original;
+
+        return playlist.toJsonArray();
     }
 }
