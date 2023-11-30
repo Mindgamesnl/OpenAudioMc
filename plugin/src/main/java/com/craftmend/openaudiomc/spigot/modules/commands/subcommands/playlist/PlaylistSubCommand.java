@@ -3,9 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.commands.subcommands.playlist;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.user.User;
-import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.playlist.delegates.PlaylistCreateSubCommand;
-import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.playlist.delegates.PlaylistDeleteSubCommand;
-import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.playlist.delegates.PlaylistListCommand;
+import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.playlist.delegates.*;
 
 public class PlaylistSubCommand extends SubCommand {
 
@@ -15,13 +13,19 @@ public class PlaylistSubCommand extends SubCommand {
         registerArguments(
                 new Argument("create <playlistName<", "create a new playlist"),
                 new Argument("delete <playlistName>", "delete a playlist"),
-                new Argument("list", "list all playlists")
+                new Argument("list", "list all playlists"),
+                new Argument("remove <playlistName> <index>", "remove a track from a playlist"),
+                new Argument("view <playlistName>", "view a playlist contents"),
+                new Argument("add <playlistName> <source>", "add a track to a playlist")
         );
 
         registerSubCommands(
                 new PlaylistCreateSubCommand(),
                 new PlaylistDeleteSubCommand(),
-                new PlaylistListCommand()
+                new PlaylistListCommand(),
+                new PlaylistRemoveSubCommand(),
+                new PlaylistViewSubCommand(),
+                new PlaylistAddSubCommand()
         );
     }
 
@@ -43,5 +47,19 @@ public class PlaylistSubCommand extends SubCommand {
             return;
         }
 
+        if (args.length == 3 && args[0].equalsIgnoreCase("remove")) {
+            delegateTo("remove", sender, args);
+            return;
+        }
+
+        if (args.length == 2 && args[0].equalsIgnoreCase("view")) {
+            delegateTo("view", sender, args);
+            return;
+        }
+
+        if (args.length == 3 && args[0].equalsIgnoreCase("add")) {
+            delegateTo("add", sender, args);
+            return;
+        }
     }
 }

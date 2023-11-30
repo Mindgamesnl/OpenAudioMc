@@ -36,7 +36,7 @@ public class PlaylistService extends Service {
         saveAll();
     }
 
-    private void saveAll() {
+    public void saveAll() {
         for (Playlist value : cachedPlaylists.values()) {
             // save the playlist itself
             playlistRepository.save(value);

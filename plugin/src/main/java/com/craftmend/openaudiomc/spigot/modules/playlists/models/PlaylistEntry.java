@@ -22,4 +22,9 @@ public class PlaylistEntry extends DataStore {
     @Column
     private int index;
 
+    public PlaylistEntry(String source) {
+        super();
+        this.media = source;
+        // index is set by the playlist
+    }
 }

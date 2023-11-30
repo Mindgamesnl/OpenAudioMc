@@ -45,6 +45,19 @@ public class Playlist extends DataStore {
         cacheDirty = true;
     }
 
+    public boolean removeEntryAt(int index) {
+        PlaylistEntry i;
+        for (PlaylistEntry entry : entries) {
+            if (entry.getIndex() == index) {
+                i = entry;
+                break;
+            }
+        }
+        if (i == null) return false;
+        removeEntry(i);
+        return true;
+    }
+
     public void removeEntry(PlaylistEntry entry) {
         entries.remove(entry);
         deletedEntries.add(entry);
@@ -85,6 +98,11 @@ public class Playlist extends DataStore {
         builder.deleteCharAt(builder.length() - 1);
         builder.append("]");
         return builder.toString();
+    }
+
+    public LinkedList<PlaylistEntry> getOrderedEntries() {
+        updateOrderedEntries();
+        return orderedEntries;
     }
 
 }
