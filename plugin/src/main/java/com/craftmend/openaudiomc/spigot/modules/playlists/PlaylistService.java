@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.spigot.modules.playlists.models.Playlist;
 import com.craftmend.openaudiomc.spigot.modules.playlists.models.PlaylistEntry;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,5 +76,9 @@ public class PlaylistService extends Service {
 
         playlistRepository.delete(playlist);
         cachedPlaylists.remove(name);
+    }
+
+    public Collection<Playlist> getAll() {
+        return playlistRepository.values();
     }
 }
