@@ -64,4 +64,16 @@ public class PlaylistService extends Service {
         return playlist;
     }
 
+    public void deletePlaylist(String name) {
+        Playlist playlist = getPlaylist(name);
+        if (playlist == null) return;
+
+        // delete all entries
+        for (PlaylistEntry entry : playlist.getEntries()) {
+            playlistEntryRepository.delete(entry);
+        }
+
+        playlistRepository.delete(playlist);
+        cachedPlaylists.remove(name);
+    }
 }
