@@ -31,6 +31,7 @@ public class PlaylistAddSubCommand extends SubCommand {
 
         playlist.addEntry(new PlaylistEntry(source));
 
+        getService(PlaylistService.class).saveAll();
         message(sender, "Added " + source + " to playlist " + playlist.getName());
     }
 }

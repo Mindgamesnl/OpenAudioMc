@@ -29,6 +29,11 @@ public class PlaylistViewSubCommand extends SubCommand {
             throw new CommandError("A playlist with that name does not exist");
         }
 
+        if (playlist.getEntries().isEmpty()) {
+            message(sender, "Playlist " + playlist.getName() + " by " + playlist.getCreatedBy() + " is empty");
+            return;
+        }
+
         message(sender, "Playlist " + playlist.getName() + " by " + playlist.getCreatedBy() + " has " + playlist.getEntries().size() + " tracks");
         for (PlaylistEntry orderedEntry : playlist.getOrderedEntries()) {
             clickable(sender, OaColor.GREEN + " - " + OaColor.WHITE + orderedEntry.getIndex() + OaColor.AQUA + " " + orderedEntry.getMedia(), "/openaudio playlist remove " + playlist.getName() + " " + orderedEntry.getIndex());

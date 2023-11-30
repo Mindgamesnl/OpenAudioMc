@@ -3,7 +3,9 @@ package com.craftmend.openaudiomc.spigot.modules.playlists.models;
 import com.craftmend.openaudiomc.generic.database.internal.DataStore;
 import com.craftmend.storm.api.enums.ColumnType;
 import com.craftmend.storm.api.markers.Column;
+import com.craftmend.storm.api.markers.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -11,6 +13,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
+@Table(name = "playlists")
 public class Playlist extends DataStore {
 
     private boolean cacheDirty = true;
@@ -20,7 +24,7 @@ public class Playlist extends DataStore {
     @Column(
             type = ColumnType.ONE_TO_MANY,
             references = {PlaylistEntry.class},
-            matchTo = "playlistId"
+            matchTo = "playlist_id"
     )
     private List<PlaylistEntry> entries;
 
@@ -39,6 +43,7 @@ public class Playlist extends DataStore {
     public void addEntry(PlaylistEntry entry) {
         // set the index to the last index + 1
         updateOrderedEntries(); // ensure the cache is up to date
+        entry.setPlaylistId(getId());
         entry.setIndex(orderedEntries.size());
         entries.add(entry);
         deletedEntries.removeIf((a) -> a.getId() == entry.getId());
@@ -76,6 +81,8 @@ public class Playlist extends DataStore {
     private void updateOrderedEntries() {
         if (!cacheDirty) return;
         orderedEntries.clear();
+        // add all entries to the ordered list
+        orderedEntries.addAll(entries);
         orderedEntries.sort((o1, o2) -> {
             if (o1.getIndex() > o2.getIndex()) return 1;
             if (o1.getIndex() < o2.getIndex()) return -1;
@@ -91,11 +98,17 @@ public class Playlist extends DataStore {
         for (PlaylistEntry entry : orderedEntries) {
             builder.append('"');
             // deprecated since java 10, but some servers still use java 8
-            builder.append(URLEncoder.encode(entry.getMedia()));
+
+
+
+            builder.append(encodeString(entry.getMedia()));
             builder.append('"');
             builder.append(",");
         }
-        builder.deleteCharAt(builder.length() - 1);
+        // is the buffer larger than 1? remove the last comma
+        if (builder.length() > 1) {
+            builder.deleteCharAt(builder.length() - 1);
+        }
         builder.append("]");
         return builder.toString();
     }
@@ -103,6 +116,11 @@ public class Playlist extends DataStore {
     public LinkedList<PlaylistEntry> getOrderedEntries() {
         updateOrderedEntries();
         return orderedEntries;
+    }
+
+    private String encodeString(String s) {
+        // only url encode spaces and quotes
+        return s.replace(" ", "%20").replace("\"", "%22");
     }
 
 }

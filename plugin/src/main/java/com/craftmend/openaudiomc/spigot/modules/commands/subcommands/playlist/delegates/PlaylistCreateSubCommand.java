@@ -25,6 +25,7 @@ public class PlaylistCreateSubCommand extends SubCommand {
         }
 
         playlistService.createPlaylist(name, sender.getName());
+        getService(PlaylistService.class).saveAll();
         message(sender, "Created a new playlist with the name " + name);
     }
 }

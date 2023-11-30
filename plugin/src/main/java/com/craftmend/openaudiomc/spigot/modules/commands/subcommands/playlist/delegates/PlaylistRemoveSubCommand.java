@@ -32,6 +32,7 @@ public class PlaylistRemoveSubCommand extends SubCommand {
         if (!removed) {
             throw new CommandError("There is no track at that index");
         }
+        getService(PlaylistService.class).saveAll();
         message(sender, "Removed track at index " + index + " from playlist " + playlist.getName());
     }
 }

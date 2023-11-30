@@ -2,6 +2,8 @@ package com.craftmend.openaudiomc.spigot.modules.commands.subcommands.playlist;
 
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
+import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
+import com.craftmend.openaudiomc.generic.platform.OaColor;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.playlist.delegates.*;
 
@@ -11,7 +13,7 @@ public class PlaylistSubCommand extends SubCommand {
         super("playlist", "list");
 
         registerArguments(
-                new Argument("create <playlistName<", "create a new playlist"),
+                new Argument("create <playlistName>", "create a new playlist"),
                 new Argument("delete <playlistName>", "delete a playlist"),
                 new Argument("list", "list all playlists"),
                 new Argument("remove <playlistName> <index>", "remove a track from a playlist"),
@@ -60,6 +62,13 @@ public class PlaylistSubCommand extends SubCommand {
         if (args.length == 3 && args[0].equalsIgnoreCase("add")) {
             delegateTo("add", sender, args);
             return;
+        }
+
+        // no valid arguments
+        message(sender, "Invalid arguments. Use /openaudio playlist for help");
+        message(sender, "Valid arguments are:");
+        for (Argument argument : getArguments()) {
+            message(sender, " - " + OaColor.RED + argument.getSyntax() + OaColor.DARK_AQUA + " - " + OaColor.AQUA + argument.getDescription());
         }
     }
 }

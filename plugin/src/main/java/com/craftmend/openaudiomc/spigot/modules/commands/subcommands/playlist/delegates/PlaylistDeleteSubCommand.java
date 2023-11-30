@@ -25,6 +25,7 @@ public class PlaylistDeleteSubCommand extends SubCommand {
         }
 
         playlistService.deletePlaylist(name);
+        getService(PlaylistService.class).saveAll();
         message(sender, "Deleted the playlist with the name " + name);
     }
 }
