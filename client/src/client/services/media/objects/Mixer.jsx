@@ -16,6 +16,10 @@ export class Mixer {
     // execute the function and remove it from the map
     this.destructionHandlers = {};
 
+    // set with channel tags and scores
+    // if scores are over 1, then the channel will be muted
+    this.inhibbitors = {};
+
     // loop over channels and call tick()
     setInterval(() => {
       this.tick();
@@ -42,6 +46,22 @@ export class Mixer {
         handler();
       }
       delete this.destructionHandlers[key];
+    });
+
+    // go over all channels and check if they should be inhibited
+    this.channels.forEach((channel) => {
+      let score = 0;
+      channel.tags.forEach((value, tag) => {
+        if (this.inhibbitors[tag] != null) {
+          score += this.inhibbitors[tag];
+        }
+      });
+
+      if (score > 1) {
+        channel.setChannelVolume(0);
+      } else {
+        channel.setChannelVolume(100);
+      }
     });
   }
 

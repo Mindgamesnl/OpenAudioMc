@@ -38,6 +38,12 @@ export class Channel {
     this.updateVolume();
   }
 
+  setMediaMuted(muted) {
+    this.sounds.forEach((sound) => {
+      sound.setMediaMuted(muted);
+    });
+  }
+
   setChannelVolume(newVolume, cancelFade = true) {
     this.channelVolume = newVolume;
     this.updateVolume(cancelFade);

@@ -26,11 +26,12 @@ export class SpeakerPlayer {
   async initialize() {
     const createdChannel = new Channel(this.id);
     createdChannel.trackable = true;
+    createdChannel.setTag('SPEAKER');
+    createdChannel.setTag(this.id);
     this.channel = createdChannel;
     const createdMedia = new Sound(this.source);
     this.media = createdMedia;
     createdChannel.mixer = MediaManager.mixer;
-
     createdChannel.addSound(createdMedia);
     MediaManager.mixer.addChannel(createdChannel);
 
@@ -41,8 +42,6 @@ export class SpeakerPlayer {
         createdMedia.startDate(this.startInstant, true);
       }
       await createdMedia.finalize();
-      createdChannel.setTag(this.id);
-      createdChannel.setTag('SPECIAL');
       MediaManager.mixer.updateCurrent();
 
       if (this.doPickup) {
