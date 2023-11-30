@@ -6,6 +6,7 @@ import com.craftmend.storm.api.markers.Column;
 import lombok.Getter;
 
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class Playlist extends DataStore {
 
     private boolean cacheDirty = true;
     private LinkedList<PlaylistEntry> orderedEntries = new LinkedList<>();
+    @Getter private List<PlaylistEntry> deletedEntries = new ArrayList<>();
 
     @Column(
             type = ColumnType.ONE_TO_MANY,
@@ -39,28 +41,22 @@ public class Playlist extends DataStore {
         updateOrderedEntries(); // ensure the cache is up to date
         entry.setIndex(orderedEntries.size());
         entries.add(entry);
+        deletedEntries.removeIf((a) -> a.getId() == entry.getId());
         cacheDirty = true;
     }
 
     public void removeEntry(PlaylistEntry entry) {
         entries.remove(entry);
-        cacheDirty = true;
-    }
+        deletedEntries.add(entry);
 
-    public void removeEntry(int index) {
-        entries.removeIf(entry -> entry.getIndex() == index);
-        cacheDirty = true;
-    }
-
-    public void moveEntry(int from, int to) {
-        PlaylistEntry entry = entries.stream().filter(e -> e.getIndex() == from).findFirst().orElse(null);
-        if (entry == null) return;
-        entry.setIndex(to);
-        cacheDirty = true;
-    }
-
-    public void moveEntry(PlaylistEntry entry, int to) {
-        entry.setIndex(to);
+        // shift everything after this back by one
+        int index = entry.getIndex();
+        for (PlaylistEntry playlistEntry : entries) {
+            // it cannot be lower than the current index, so we can skip it
+            if (playlistEntry.getIndex() > index && entry.getIndex() >= (playlistEntry.getIndex() - 1)) {
+                playlistEntry.setIndex(playlistEntry.getIndex() - 1);
+            }
+        }
         cacheDirty = true;
     }
 
