@@ -46,7 +46,7 @@ public class Playlist extends DataStore {
     }
 
     public boolean removeEntryAt(int index) {
-        PlaylistEntry i;
+        PlaylistEntry i = null;
         for (PlaylistEntry entry : entries) {
             if (entry.getIndex() == index) {
                 i = entry;

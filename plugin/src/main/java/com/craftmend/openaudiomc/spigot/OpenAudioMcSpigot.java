@@ -21,6 +21,7 @@ import com.craftmend.openaudiomc.generic.rd.RestDirectService;
 import com.craftmend.openaudiomc.spigot.modules.commands.SpigotCommandService;
 import com.craftmend.openaudiomc.spigot.modules.configuration.SpigotConfiguration;
 import com.craftmend.openaudiomc.spigot.modules.placeholderapi.service.PlaceholderService;
+import com.craftmend.openaudiomc.spigot.modules.playlists.PlaylistService;
 import com.craftmend.openaudiomc.spigot.modules.predictive.PredictiveMediaService;
 import com.craftmend.openaudiomc.spigot.modules.proxy.ProxyModule;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.OAClientMode;
@@ -112,7 +113,8 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
                     PredictiveMediaService.class,
                     SpigotVoiceChatService.class,
                     FilterService.class,
-                    MediaRuleService.class
+                    MediaRuleService.class,
+                    PlaylistService.class
             );
 
             OpenAudioMc.getService(SpigotDependencyService.class)

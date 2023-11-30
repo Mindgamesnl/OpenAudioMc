@@ -9,6 +9,7 @@ import com.craftmend.openaudiomc.spigot.modules.commands.command.*;
 import com.craftmend.openaudiomc.spigot.modules.commands.middleware.CommandTranslationMiddleware;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.*;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.playlist.PlaylistSubCommand;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import lombok.NoArgsConstructor;
@@ -42,7 +43,8 @@ public class SpigotCommandService extends Service {
                 new StopSubCommand(openAudioMcSpigot),
                 new ShowSubCommand(openAudioMcSpigot),
                 new AliasSubCommand(),
-                new VoiceSubCommand()
+                new VoiceSubCommand(),
+                new PlaylistSubCommand()
         );
 
         // if it is a older version, register the middleware
