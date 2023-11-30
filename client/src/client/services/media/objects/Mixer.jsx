@@ -57,12 +57,26 @@ export class Mixer {
         }
       });
 
-      if (score > 1) {
-        channel.setChannelVolume(0);
+      if (score >= 1) {
+        channel.setMediaMuted(true);
       } else {
-        channel.setChannelVolume(100);
+        channel.setMediaMuted(false);
       }
     });
+  }
+
+  incrementInhibitor(tag) {
+    if (this.inhibbitors[tag] == null) {
+      this.inhibbitors[tag] = 0;
+    }
+    this.inhibbitors[tag] += 1;
+  }
+
+  decrementInhibitor(tag) {
+    if (this.inhibbitors[tag] == null) {
+      this.inhibbitors[tag] = 0;
+    }
+    this.inhibbitors[tag] -= 1;
   }
 
   whenFinished(channelId, handler) {

@@ -1,6 +1,7 @@
 import { Channel } from '../../media/objects/Channel';
 import { Sound } from '../../media/objects/Sound';
 import { MediaManager } from '../../media/MediaManager';
+import { debugLog } from '../../debugging/DebugService';
 
 export async function handleCreateMedia(data) {
   function convertDistanceToVolume(maxDistance, currentDistance) {
@@ -16,7 +17,7 @@ export async function handleCreateMedia(data) {
   const { distance } = data;
   const { flag } = data.media;
   const { maxDistance } = data;
-  const { muteRegions, muteSpeaker } = data.media;
+  const { muteRegions, muteSpeakers } = data.media;
   let volume = 100;
 
   // only if its a new version and provided, then use that volume
@@ -58,6 +59,30 @@ export async function handleCreateMedia(data) {
       }
     });
   }
+
+  if (muteRegions) {
+    debugLog('Incrementing region inhibit');
+    MediaManager.mixer.incrementInhibitor('REGION');
+  }
+
+  if (muteSpeakers) {
+    debugLog('Incrementing speaker inhibit');
+    MediaManager.mixer.incrementInhibitor('SPEAKER');
+  }
+
+  MediaManager.mixer.whenFinished(id, () => {
+    // undo inhibit
+    if (muteRegions) {
+      debugLog('Decrementing region inhibit');
+      MediaManager.mixer.decrementInhibitor('REGION');
+    }
+
+    if (muteSpeakers) {
+      debugLog('Decrementing speaker inhibit');
+      MediaManager.mixer.decrementInhibitor('SPEAKER');
+    }
+  });
+
   createdChannel.setTag(flag);
   MediaManager.mixer.updateCurrent();
 
