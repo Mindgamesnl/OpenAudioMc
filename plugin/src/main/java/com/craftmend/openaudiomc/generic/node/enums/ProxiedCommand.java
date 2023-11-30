@@ -7,6 +7,7 @@ public enum ProxiedCommand {
     REDIS,
     SHOW,
     ALIAS,
-    VOICE
+    VOICE,
+    PLAYLIST
 
 }

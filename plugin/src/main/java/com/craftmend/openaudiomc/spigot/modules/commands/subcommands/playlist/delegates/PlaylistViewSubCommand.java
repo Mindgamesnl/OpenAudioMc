@@ -36,7 +36,7 @@ public class PlaylistViewSubCommand extends SubCommand {
 
         message(sender, "Playlist " + playlist.getName() + " by " + playlist.getCreatedBy() + " has " + playlist.getEntries().size() + " tracks");
         for (PlaylistEntry orderedEntry : playlist.getOrderedEntries()) {
-            clickable(sender, OaColor.GREEN + " - " + OaColor.WHITE + orderedEntry.getIndex() + OaColor.AQUA + " " + orderedEntry.getMedia(), "/openaudio playlist remove " + playlist.getName() + " " + orderedEntry.getIndex());
+            clickable(sender, OaColor.RED + " - " + OaColor.DARK_RED + orderedEntry.getIndex() + OaColor.AQUA + " " + orderedEntry.getMedia(), "openaudio playlist remove " + playlist.getName() + " " + orderedEntry.getIndex());
         }
 
         message(sender, "You can click on a track to remove it from the playlist");
