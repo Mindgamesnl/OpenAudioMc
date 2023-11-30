@@ -19,8 +19,8 @@ public class MediaOptions {
     private boolean pickUp = true;
     private int fadeTime = 0;
     private int volume = 100;
-    private boolean cancelSpeakers = false;
-    private boolean cancelRegions = false;
+    private boolean muteSpeakers = false;
+    private boolean muteRegions = false;
 
     public OptionalError validate() {
         if (volume > 100)
