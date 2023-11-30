@@ -12,6 +12,14 @@ export class Mixer {
     this.ambianceSoundMedia = null;
     this.recentSource = '/none';
 
+    // functions mapped with channel-id. Once an id is no longer found in the playing queue, then it will
+    // execute the function and remove it from the map
+    this.destructionHandlers = {};
+
+    // set with channel tags and scores
+    // if scores are over 1, then the channel will be muted
+    this.inhibbitors = {};
+
     // loop over channels and call tick()
     setInterval(() => {
       this.tick();
@@ -27,6 +35,52 @@ export class Mixer {
     if (this.ambianceSoundMedia != null) {
       this.ambianceSoundMedia.tick();
     }
+
+    // go over all destruction handlers and execute them
+    Object.keys(this.destructionHandlers).forEach((key) => {
+      // is there still a channel with this id?
+      if (this.channels.get(key) != null) return;
+      const handler = this.destructionHandlers[key];
+      if (handler != null) {
+        debugLog(`Executing destruction handler for ${key}`);
+        handler();
+      }
+      delete this.destructionHandlers[key];
+    });
+
+    // go over all channels and check if they should be inhibited
+    this.channels.forEach((channel) => {
+      let score = 0;
+      channel.tags.forEach((value, tag) => {
+        if (this.inhibbitors[tag] != null) {
+          score += this.inhibbitors[tag];
+        }
+      });
+
+      if (score >= 1) {
+        channel.setMediaMuted(true);
+      } else {
+        channel.setMediaMuted(false);
+      }
+    });
+  }
+
+  incrementInhibitor(tag) {
+    if (this.inhibbitors[tag] == null) {
+      this.inhibbitors[tag] = 0;
+    }
+    this.inhibbitors[tag] += 1;
+  }
+
+  decrementInhibitor(tag) {
+    if (this.inhibbitors[tag] == null) {
+      this.inhibbitors[tag] = 0;
+    }
+    this.inhibbitors[tag] -= 1;
+  }
+
+  whenFinished(channelId, handler) {
+    this.destructionHandlers[channelId] = handler;
   }
 
   updatePlayingSounds() {

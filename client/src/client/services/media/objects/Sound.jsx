@@ -219,6 +219,13 @@ export class Sound extends AudioSourceProcessor {
     this.controller.connect(node);
   }
 
+  setMediaMuted(muted) {
+    this.whenInitialized(() => {
+      // override mute state
+      this.soundElement.muted = muted;
+    });
+  }
+
   registerMixer(mixer, channel) {
     this.mixer = mixer;
     this.channel = channel;

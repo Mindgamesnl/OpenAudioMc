@@ -23,6 +23,8 @@ public class Media {
     @Getter @Setter private boolean loop = false;
     @Getter @Setter private int fadeTime = 0;
     @Getter @Setter private int volume = 100;
+    @Getter @Setter private boolean muteRegions = false;
+    @Getter @Setter private boolean muteSpeakers = false;
     @Getter @Setter private MediaFlag flag = MediaFlag.DEFAULT;
 
     /**
@@ -51,6 +53,8 @@ public class Media {
         this.doPickup = options.isPickUp();
         this.setFadeTime(options.getFadeTime());
         this.volume = options.getVolume();
+        this.muteRegions = options.isMuteRegions();
+        this.muteSpeakers = options.isMuteSpeakers();
         return this;
     }
 
