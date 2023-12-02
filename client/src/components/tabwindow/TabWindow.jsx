@@ -29,7 +29,8 @@ class TabWindow extends Component {
   }
 
   render() {
-    let pages = React.Children.map(this.props.children, (child) => ({
+    // convert children to array using React.Children.toArray, then  map them to pages
+    let pages = React.Children.toArray(this.props.children).map((child) => ({
       name: child.props.name,
       content: child.props.content,
       hidden: child.props.hidden,
