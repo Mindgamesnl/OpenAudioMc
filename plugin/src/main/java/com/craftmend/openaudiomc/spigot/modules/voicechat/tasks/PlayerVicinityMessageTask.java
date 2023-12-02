@@ -20,7 +20,9 @@ public class PlayerVicinityMessageTask implements Runnable {
     }
 
     private Collection<SpigotConnection> clientListClone() {
-        return new ArrayList<>(playerService.getClients());
+        ArrayList<SpigotConnection> cp = new ArrayList<>(playerService.getClients());
+        cp.removeIf(p -> p == null);
+        return cp;
     }
 
     @Override
@@ -33,7 +35,7 @@ public class PlayerVicinityMessageTask implements Runnable {
 
         Instant now = Instant.now();
         Collection<SpigotConnection> playersInVoice = clientListClone();
-        playersInVoice.removeIf(p -> !p.getClientConnection().getRtcSessionManager().isReady());
+        playersInVoice.removeIf(p -> p == null || !p.getClientConnection().getRtcSessionManager().isReady());
         
         // is no-one connected? then shut up
         if (playersInVoice.isEmpty()) {
