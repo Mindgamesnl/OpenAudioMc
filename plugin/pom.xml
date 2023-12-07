@@ -34,11 +34,6 @@
 
     <repositories>
         <repository>
-            <id>bungeecord-repo</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </repository>
-
-        <repository>
             <id>codemc-repo</id>
             <url>https://repo.codemc.org/repository/maven-public/</url>
             <layout>default</layout>
@@ -189,18 +184,23 @@
         </dependency>
 
         <dependency>
-            <groupId>net.md-5</groupId>
-            <artifactId>bungeecord-api</artifactId>
-            <version>1.12-SNAPSHOT</version>
-            <type>jar</type>
+            <groupId>com.github.SpigotMC.BungeeCord</groupId>
+            <artifactId>bungeecord-proxy</artifactId>
+            <version>master-231024ba42-1</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>net.md-5</groupId>
+            <groupId>com.github.SpigotMC.BungeeCord</groupId>
+            <artifactId>bungeecord-protocol</artifactId>
+            <version>master-231024ba42-1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.SpigotMC.BungeeCord</groupId>
             <artifactId>bungeecord-api</artifactId>
-            <version>1.12-SNAPSHOT</version>
-            <type>javadoc</type>
+            <version>master-231024ba42-1</version>
             <scope>provided</scope>
         </dependency>
 
