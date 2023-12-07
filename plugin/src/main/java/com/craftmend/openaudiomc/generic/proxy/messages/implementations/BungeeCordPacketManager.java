@@ -35,11 +35,6 @@ public class BungeeCordPacketManager extends PacketManager implements Listener {
             return;
         }
 
-        if (!BungeeUtils.areEncodersReady(packetPlayer.getBungeePlayer())) {
-            OpenAudioLogger.toConsole("Couldn't send bungee packet because the encoders are not ready through " + packetPlayer.getBungeePlayer().getName());
-            return;
-        }
-
         packetPlayer.getBungeePlayer().getServer().sendData(channel, bytes);
     }
 

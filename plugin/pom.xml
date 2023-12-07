@@ -317,6 +317,14 @@
                                 <relocation>
                                     <pattern>io.</pattern>
                                     <shadedPattern>com.craftmend.thirdparty.io</shadedPattern>
+                                    <excludes>
+                                        <!--
+                                        Excemptions to not break invocations with the netty classes while interacting with bungee
+                                         -->
+                                        <exclude>io.netty.channel.Channel</exclude>
+                                        <exclude>io.netty.channel.ChannelPipeline</exclude>
+                                        <exclude>io.netty.channel.ChannelHandler</exclude>
+                                    </excludes>
                                 </relocation>
                                 <relocation>
                                     <pattern>org.json.</pattern>
