@@ -32,6 +32,7 @@ public abstract class NetworkingService extends Service {
     public abstract ClientConnection register(User player, @Nullable SerializableClient importData);
     public abstract Set<INetworkingEvents> getEvents();
     public abstract ClientConnection getClient(UUID uuid);
+    public abstract boolean hasClient(UUID uuid);
     public abstract Collection<ClientConnection> getClients();
     public abstract int getThroughputPerSecond();
 

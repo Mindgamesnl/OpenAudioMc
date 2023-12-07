@@ -20,6 +20,14 @@ import net.md_5.bungee.event.EventHandler;
  */
 public class PlayerConnectionListener implements Listener {
 
+    // We need a weird workaround here for https://github.com/SpigotMC/BungeeCord/issues/3542
+    // 1.20.2+ players hava an additional configuration phase that we need to work around. So for the first event
+    // we need to fire, and for the second we can mock a server switch.
+    // We'll use a cache for this, with a retention of 20 seconds
+    // which should be enough to cover resource pack loading but long enough to mitigate memory leaks.
+    // This also means that the player might not yet be online in a server, in which case we'll have to delay the entire event or
+    // outright ignore it, hoping for another one soon.
+
     @EventHandler
     public void onPostLogin(PostLoginEvent event) {
         OpenAudioMc.getService(NetworkingService.class).register(new BungeeUserAdapter(event.getPlayer()), null);
@@ -32,6 +40,8 @@ public class PlayerConnectionListener implements Listener {
 
     @EventHandler
     public void onSwitch(ServerSwitchEvent event) {
+        if (!OpenAudioMc.getService(NetworkingService.class).hasClient(event.getPlayer().getUniqueId())) return;
+
         new BungeeProxyNode(event.getPlayer().getServer().getInfo()).sendPacket(new AnnouncePlatformPacket(
                 OpenAudioMc.getService(AuthenticationService.class).getServerKeySet().getPublicKey().getValue(),
                 Platform.BUNGEE
