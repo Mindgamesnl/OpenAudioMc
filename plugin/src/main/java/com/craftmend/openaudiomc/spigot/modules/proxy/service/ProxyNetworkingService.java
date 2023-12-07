@@ -76,6 +76,11 @@ public class ProxyNetworkingService extends NetworkingService {
     }
 
     @Override
+    public boolean hasClient(UUID uuid) {
+        return realService.hasClient(uuid);
+    }
+
+    @Override
     public Collection<ClientConnection> getClients() {
         return realService.getClients();
     }
