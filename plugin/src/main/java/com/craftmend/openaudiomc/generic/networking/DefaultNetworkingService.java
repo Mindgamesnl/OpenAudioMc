@@ -175,6 +175,11 @@ public class DefaultNetworkingService extends NetworkingService {
         return null;
     }
 
+    @Override
+    public boolean hasClient(UUID uuid) {
+        return clientMap.containsKey(uuid);
+    }
+
     /**
      * @return a collection of all clients
      */

@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.bungee.modules.platform;
 
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
+import com.craftmend.openaudiomc.bungee.utils.BungeeUtils;
 import com.craftmend.openaudiomc.generic.proxy.models.ProxyNode;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.user.adapters.BungeeUserAdapter;
@@ -39,11 +40,14 @@ public class BungeeProxyNode implements ProxyNode {
     @Override
     public void sendPacket(StandardPacket packet) {
         for (User onlineUser : getOnlineUsers()) {
-            // send packet
-            OpenAudioMcBungee.getInstance().getMessageHandler().sendPacket(
-                    new PacketPlayer((ProxiedPlayer) onlineUser.getOriginal()), packet
-            );
-            return;
+            // user must be ready
+            if (BungeeUtils.areEncodersReady((ProxiedPlayer) onlineUser.getOriginal())) {
+                // send packet
+                OpenAudioMcBungee.getInstance().getMessageHandler().sendPacket(
+                        new PacketPlayer((ProxiedPlayer) onlineUser.getOriginal()), packet
+                );
+                return;
+            }
         }
     }
 }

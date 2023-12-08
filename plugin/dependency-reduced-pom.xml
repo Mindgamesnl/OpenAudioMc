@@ -47,6 +47,11 @@
                 <relocation>
                   <pattern>io.</pattern>
                   <shadedPattern>com.craftmend.thirdparty.io</shadedPattern>
+                  <excludes>
+                    <exclude>io.netty.channel.Channel</exclude>
+                    <exclude>io.netty.channel.ChannelPipeline</exclude>
+                    <exclude>io.netty.channel.ChannelHandler</exclude>
+                  </excludes>
                 </relocation>
                 <relocation>
                   <pattern>org.json.</pattern>
@@ -160,10 +165,6 @@
   </profiles>
   <repositories>
     <repository>
-      <id>bungeecord-repo</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </repository>
-    <repository>
       <id>codemc-repo</id>
       <url>https://repo.codemc.org/repository/maven-public/</url>
     </repository>
@@ -255,16 +256,21 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>net.md-5</groupId>
-      <artifactId>bungeecord-api</artifactId>
-      <version>1.12-SNAPSHOT</version>
+      <groupId>com.github.SpigotMC.BungeeCord</groupId>
+      <artifactId>bungeecord-proxy</artifactId>
+      <version>master-231024ba42-1</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>net.md-5</groupId>
+      <groupId>com.github.SpigotMC.BungeeCord</groupId>
+      <artifactId>bungeecord-protocol</artifactId>
+      <version>master-231024ba42-1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.SpigotMC.BungeeCord</groupId>
       <artifactId>bungeecord-api</artifactId>
-      <version>1.12-SNAPSHOT</version>
-      <type>javadoc</type>
+      <version>master-231024ba42-1</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
