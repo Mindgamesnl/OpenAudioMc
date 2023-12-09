@@ -46,6 +46,7 @@ const initialState = {
     voicePiPEnabled: false,
     voicechatVolume: 100,
     voicechatMuted: false,
+    voicechatDeafened: false,
     voicechatSurroundSound: true,
     voicechatMonitoringEnabled: false,
     microphoneSensitivity: 75,

@@ -49,6 +49,11 @@ export class PeerStream {
       const source = ctx.createMediaStreamSource(stream);
       this.mediaStream = stream;
 
+      // mute if voicechat is deafened
+      if (getGlobalState().settings.voicechatDeafened) {
+        this.audio_elem.muted = true;
+      }
+
       // speaking indicator
       this.harkEvents = new Hark(stream);
       this.harkEvents.setThreshold(-75);
@@ -87,6 +92,12 @@ export class PeerStream {
     streamRequest.onReject((e) => {
       callback(false, new ConnectionClosedError(e));
     });
+  }
+
+  setMuteOverride(muted) {
+    if (this.audio_elem) {
+      this.audio_elem.muted = muted;
+    }
   }
 
   setLocation(x, y, z, update) {
