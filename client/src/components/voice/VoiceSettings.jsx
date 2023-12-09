@@ -28,6 +28,11 @@ class VoiceSettings extends React.Component {
   onVolumeChange(e) {
     setGlobalState({ settings: { voicechatVolume: e.target.value } });
     reRenderAllGainNodes();
+
+    // were we deafened? then we need to unmute
+    if (this.props.voicechatDeafened) {
+      this.toggleDeafen();
+    }
   }
 
   togglePiP() {

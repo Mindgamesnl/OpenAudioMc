@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 export const UNSAVED_SETTINGS = [
   'voicechatMonitoringEnabled',
   'voicechatMuted',
+  'voicechatDeafened',
 ];
 
 const initialState = {
