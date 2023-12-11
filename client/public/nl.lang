@@ -92,6 +92,7 @@ vc.noMicInputYetBody=Zorg ervoor dat je de correcte microfoon hebt geselecteerd,
 vc.peersHiddenTitle=VoiceChat spelers zijn verborgen
 vc.peersHiddenText=Deze server heeft andere VoiceChat gebruikers verborgen, maar je kan ze nog steeds horen.
 vc.isTalking=is aan het praten
+vc.deafened=Je geluid is gedempt
 
 settings.voicechat.echocancel.title=Echo onderdrukking
 settings.voicechat.echocancel.body=Deze optie zal proberen de echo die je microfoon oppikt te onderdrukken, dit is handig als je luidsprekers gebruikt, maar het kan er voor zorgen dat je op sommige platforms moeilijker te horen bent.

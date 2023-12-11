@@ -53,10 +53,9 @@ class VoiceSettings extends React.Component {
     setGlobalState({ settings: { voicechatDeafened: deafened } });
 
     // apply to current streams
-    const peers = VoiceModule.peerMap.values();
-    for (let i = 0; i < peers.length; i++) {
-      peers[i].stream.setMuteOverride(deafened);
-    }
+    VoiceModule.peerMap.forEach((peer) => {
+      peer.stream.setMuteOverride(deafened);
+    });
   }
 
   render() {
@@ -163,6 +162,17 @@ class VoiceSettings extends React.Component {
                   </Tooltip>
                 </div>
               </div>
+
+              {this.props.voicechatDeafened ? (
+                <div className="text-center pt-2">
+                  <div className="p-2 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
+                    <span className="flex rounded-full font-bold">
+                      <svg className="fill-current h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" /></svg>
+                    </span>
+                    <span className="font-semibold mr-2 text-left flex-auto">{msg('vc.deafened')}</span>
+                  </div>
+                </div>
+              ) : null}
 
               <div className="content-card-buttons w-full">
                 <div className="w-full content-pill status-button green text-center inline">

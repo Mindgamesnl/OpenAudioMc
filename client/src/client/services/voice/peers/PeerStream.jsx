@@ -24,6 +24,7 @@ export class PeerStream {
 
     this.masterOutputNode = null;
     this.mediaStream = null;
+    this.listenerDeafend = false;
   }
 
   // callback has a boolean attached to it, true if the stream loaded, or false if it got rejected
@@ -48,11 +49,6 @@ export class PeerStream {
       await this.audio_elem.play();
       const source = ctx.createMediaStreamSource(stream);
       this.mediaStream = stream;
-
-      // mute if voicechat is deafened
-      if (getGlobalState().settings.voicechatDeafened) {
-        this.audio_elem.muted = true;
-      }
 
       // speaking indicator
       this.harkEvents = new Hark(stream);
@@ -86,6 +82,14 @@ export class PeerStream {
       this.globalVolumeNodeId = trackVoiceGainNode(globalVolumeGainNode);
       this.masterOutputNode = globalVolumeGainNode;
       globalVolumeGainNode.connect(ctx.destination);
+
+      // mute if voicechat is deafened
+      if (getGlobalState().settings.voicechatDeafened) {
+        this.listenerDeafend = true;
+        // update vol
+        this.setVolume(this.volume);
+      }
+
       callback(true);
     });
 
@@ -95,9 +99,9 @@ export class PeerStream {
   }
 
   setMuteOverride(muted) {
-    if (this.audio_elem) {
-      this.audio_elem.muted = muted;
-    }
+    this.listenerDeafend = muted;
+    // update vol
+    this.setVolume(this.volume);
   }
 
   setLocation(x, y, z, update) {
@@ -116,7 +120,7 @@ export class PeerStream {
   setVolume(volume) {
     this.volume = volume;
     if (this.gainNode !== null) {
-      this.gainNode.gain.value = (volume / 100) * this.volBooster;
+      this.gainNode.gain.value = this.listenerDeafend ? 0 : (volume / 100) * this.volBooster;
     }
   }
 
