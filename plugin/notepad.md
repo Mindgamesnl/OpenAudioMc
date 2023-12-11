@@ -6,6 +6,11 @@
     - Accessible through `/deafen` or the button in the web client
     - Deafening will mute all voicechat, and prevent you from hearing others but still play music
     - Also includes new messages (in the config) and API events to listen to (un)deafening
+- Media overwrites! You can now create media that'll overwrite regions/speakers
+    - Media with either the `muteRegions` or `muteSpeakers` property will temporally mute all regions/speakers for that player
+    - Regions/speakers the player entered whilst the media is playing will also be muted
+    - Overwrites can stack, and the regions/speakers will only unmute again once all overwrites have finished playing
+    - This is useful for things like shows/announcements, where you don't want media overlapping
 
 # Major fixes
 - Fixed an issue with the vicinity messages causing error spam due to broken states
