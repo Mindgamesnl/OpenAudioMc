@@ -12,3 +12,11 @@
 - Fixed an issue where players in 1.20.2+ would sometimes get kicked from bungee-cord networks with plugin running on the proxy, due to bad handling of the configuration phase while sending chat/plugin messages.
 - Fixed a bug where microphone mute state would not be synced with subservers while in a bungee-cord network
 - Fixed a bug where some voicechat API events would not fire on subservers in a connected bungee-cord network
+- Fixed an issue where files from the OA cdn would sometimes not have the correct cors headers set
+- Fixed a bug causing some client sources to not be picked up by the content proxy
+
+# Other changes
+- "Inactive" servers will now be kept for longer
+    - Inactive servers will now be kept for 2 months instead of 1
+    - Files will no longer be deleted from inactive patreons
+- The upload file size limit has been increased to 100MB
