@@ -14,6 +14,7 @@ import { HandleVoiceBlur } from './handlers/voice/HandleVoiceBlur';
 import { handleSpeakerCreate } from './handlers/speakers/HandleSpeakerCreate';
 import { HandleSpeakerDestroy } from './handlers/speakers/HandleSpeakerDestroy';
 import { HandleVoiceModerationStatus } from './handlers/voice/HandleVoiceModerationStatus';
+import { HandleVoiceDeafen } from './handlers/voice/HandleToggleDeafenCommand';
 
 export class HandlerRegistry {
   constructor(socket) {
@@ -42,6 +43,7 @@ export class HandlerRegistry {
     registerClassHandler('ClientVoiceDropPayload', HandleVoiceDrop);
     registerClassHandler('ClientVoiceUpdatePeerLocationsPayload', HandleVoicePeerMovement);
     registerClassHandler('ClientVoiceChatToggleMicrophonePayload', HandleMicToggleRequest);
+    registerClassHandler('ClientVoiceChatToggleDeafenPayload', HandleVoiceDeafen);
     registerClassHandler('ClientVoiceBlurUiPayload', HandleVoiceBlur);
     registerClassHandler('ClientModerationStatusPayload', HandleVoiceModerationStatus);
   }

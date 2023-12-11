@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import AdvancedVoiceSettings from './AdvancedVoiceSettings';
 import { setGlobalState } from '../../state/store';
-import { reRenderAllGainNodes, VoiceModule, VoiceStatusChangeEvent } from '../../client/services/voice/VoiceModule';
+import { reRenderAllGainNodes } from '../../client/services/voice/VoiceModule';
 import { Tooltip } from '../tooltip/tooltip';
 import ExtraVoiceSettings from './ExtraVoiceSettings';
 import { msg } from '../../client/OpenAudioAppContainer';
@@ -50,22 +50,7 @@ class VoiceSettings extends React.Component {
 
   toggleDeafen() {
     const deafened = !this.props.voicechatDeafened;
-
-    if (this.props.voiceState.deafenedBefore) {
-      // broadcast state update
-      if (deafened) {
-        VoiceModule.pushSocketEvent(VoiceStatusChangeEvent.SELF_DEAFEN);
-      } else {
-        VoiceModule.pushSocketEvent(VoiceStatusChangeEvent.SELF_UNDEAFEN);
-      }
-    }
-
     setGlobalState({ settings: { voicechatDeafened: deafened }, voiceState: { deafenedBefore: true } });
-
-    // apply to current streams
-    VoiceModule.peerMap.forEach((peer) => {
-      peer.stream.setMuteOverride(deafened);
-    });
   }
 
   render() {
