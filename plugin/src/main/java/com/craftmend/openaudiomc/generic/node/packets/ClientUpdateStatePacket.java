@@ -31,6 +31,7 @@ public class ClientUpdateStatePacket extends StandardPacket {
         this.streamId = self.getStreamId();
         this.enabled = self.isEnabled();
         this.microphoneEnabled = self.isMicrophoneEnabled();
+        this.deafened = self.isDeafened();
         this.explodedToken = self.getExplodedToken();
         this.volume = self.getVolume();
     }

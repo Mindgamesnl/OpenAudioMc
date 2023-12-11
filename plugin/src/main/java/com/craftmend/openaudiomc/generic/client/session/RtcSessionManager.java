@@ -185,6 +185,7 @@ public class RtcSessionManager implements Serializable {
     }
 
     public void setVoicechatDeafened(boolean state) {
+        if (state == this.isVoicechatDeafened) return;
         this.isVoicechatDeafened = state;
         if (!this.isReady()) return;
 
@@ -196,6 +197,7 @@ public class RtcSessionManager implements Serializable {
     }
 
     public void setMicrophoneEnabled(boolean state) {
+        if (state == this.isMicrophoneEnabled) return;
         if (!this.isMicrophoneEnabled && state) {
             if (this.lastPassedLocation != null) {
                 forceUpdateLocation(lastPassedLocation);

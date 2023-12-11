@@ -85,6 +85,7 @@ public class SessionData {
     public void applySerializedSession(SerializableClient sc) {
         this.volume = sc.getVolume();
         client.getRtcSessionManager().setMicrophoneEnabled(sc.getRtcSessionManager().isMicrophoneEnabled());
+        client.getRtcSessionManager().setVoicechatDeafened(sc.getRtcSessionManager().isVoicechatDeafened());
         client.getRtcSessionManager().setStreamKey(sc.getStreamKey());
         this.isConnectedToRtc = sc.isConnectedToRtc();
         this.sessionUpdated = sc.isSessionUpdated();

@@ -115,6 +115,7 @@ public class ClientInitializedRtcHandler extends PayloadHandler<ClientOpenedRtcP
         } else {
             // disable their stream
             cc.getRtcSessionManager().setMicrophoneEnabled(false);
+            cc.getRtcSessionManager().setVoicechatDeafened(false);
             cc.getSession().setConnectedToRtc(false);
             // notify the proxy, if applicable
             broadcastRtcUpdate(cc.getUser(), false, false, false, cc.getRtcSessionManager().getStreamKey(), cc);
