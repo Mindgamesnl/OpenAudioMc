@@ -58,6 +58,7 @@ public class MigrationWorker {
                 new ChangeDefaultMultilineMigration(),  // changes the default multiline message
                 new TokenMessageMigration(),            // adds the token message
                 new AddVehicleRegionConfigMigration(),  // adds the option to disable regions while in a vehicle
+                new VoicechatDeafenMigration(),         // adds the option to deafen yourself
         };
 
         for (SimpleMigration migration : migrations) {

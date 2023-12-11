@@ -2,10 +2,7 @@ package com.craftmend.openaudiomc.generic.client.session;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.enums.VoiceEventCause;
-import com.craftmend.openaudiomc.api.impl.event.events.MicrophoneMuteEvent;
-import com.craftmend.openaudiomc.api.impl.event.events.MicrophoneUnmuteEvent;
-import com.craftmend.openaudiomc.api.impl.event.events.PlayerEnterVoiceProximityEvent;
-import com.craftmend.openaudiomc.api.impl.event.events.PlayerLeaveVoiceProximityEvent;
+import com.craftmend.openaudiomc.api.impl.event.events.*;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.client.enums.RtcBlockReason;
 import com.craftmend.openaudiomc.generic.client.enums.RtcStateFlag;
@@ -189,6 +186,13 @@ public class RtcSessionManager implements Serializable {
 
     public void setVoicechatDeafened(boolean state) {
         this.isVoicechatDeafened = state;
+        if (!this.isReady()) return;
+
+        if (state) {
+            AudioApi.getInstance().getEventDriver().fire(new VoicechatDeafenEvent(clientConnection));
+        } else {
+            AudioApi.getInstance().getEventDriver().fire(new VoicechatUndeafenEvent(clientConnection));
+        }
     }
 
     public void setMicrophoneEnabled(boolean state) {
