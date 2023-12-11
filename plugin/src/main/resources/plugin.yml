@@ -19,3 +19,6 @@ commands:
   mutemic:
     aliases: [mm, micmute]
     description: Mute your microphone when using the voice chat system
+  deafen:
+    aliases: [deaf, deafen, undeaf, undeafen]
+    description: Deafen yourself when using the voice chat system

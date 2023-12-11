@@ -2,14 +2,14 @@ package com.craftmend.openaudiomc.generic.networking.packets.client.voice;
 
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.abstracts.PacketChannel;
-import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceChatToggleMicrophonePayload;
+import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceChatToggleDeafenPayload;
 
-public class PacketClientToggleMicrophone extends AbstractPacket {
+public class PacketClientToggleDeafen extends AbstractPacket {
 
-    public PacketClientToggleMicrophone(ClientVoiceChatToggleMicrophonePayload payload) {
+    public PacketClientToggleDeafen() {
         super(
-                payload,
-                PacketChannel.CLIENT_OUT_TOGGLE_MIC,
+                new ClientVoiceChatToggleDeafenPayload(),
+                PacketChannel.CLIENT_OUT_TOGGLE_DEAFEN,
                 null
         );
     }
