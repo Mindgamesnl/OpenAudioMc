@@ -271,4 +271,6 @@ export const VoiceModule = new class IVoiceModule {
 export const VoiceStatusChangeEvent = {
   MIC_MUTE: 'MICROPHONE_MUTED',
   MIC_UNMTE: 'MICROPHONE_UNMUTE',
+  SELF_DEAFEN: 'SELF_DEAFEN',
+  SELF_UNDEAFEN: 'SELF_UNDEAFEN',
 };

@@ -21,6 +21,7 @@ public class ClientUpdateStatePacket extends StandardPacket {
     private String streamId;
     private boolean enabled;
     private boolean microphoneEnabled;
+    private boolean deafened;
     private String explodedToken;
     private int volume;
 
@@ -40,6 +41,7 @@ public class ClientUpdateStatePacket extends StandardPacket {
             cc.getRtcSessionManager().getStreamKey(),
             cc.getSession().isConnectedToRtc(),
             cc.getRtcSessionManager().isMicrophoneEnabled(),
+            cc.getRtcSessionManager().isVoicechatDeafened(),
             cc.getAuth().getStaticToken(),
             cc.getSession().getVolume()
         );

@@ -2,8 +2,6 @@ package com.craftmend.openaudiomc.generic.voicechat.events;
 
 public enum VoiceStateChangeEvent {
 
-    // pretty obvious aye
-    MICROPHONE_MUTED,
-    MICROPHONE_UNMUTE
+    MICROPHONE_MUTED, SELF_DEAFEN, SELF_UNDEAFEN, MICROPHONE_UNMUTE
 
 }

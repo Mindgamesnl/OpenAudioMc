@@ -36,6 +36,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RtcSessionManager implements Serializable {
 
     @Getter private boolean isMicrophoneEnabled = false;
+    @Getter private boolean isVoicechatDeafened = false;
     @Getter private final transient Set<UUID> listeningTo = ConcurrentHashMap.newKeySet();
     @Getter private final transient Set<ClientRtcLocationUpdate> locationUpdateQueue = ConcurrentHashMap.newKeySet();
     @Getter private final transient Set<RtcBlockReason> blockReasons = new HashSet<>();
@@ -184,6 +185,10 @@ public class RtcSessionManager implements Serializable {
         }
 
         return clientConnection.isConnected() && clientConnection.getSession().isConnectedToRtc();
+    }
+
+    public void setVoicechatDeafened(boolean state) {
+        this.isVoicechatDeafened = state;
     }
 
     public void setMicrophoneEnabled(boolean state) {
