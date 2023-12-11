@@ -97,6 +97,7 @@ const initialState = {
     serverHasModeration: false,
     microphoneSanityPrompt: false,
     microphoneTriggeredOnce: false,
+    deafenedBefore: false,
     streamServer: null,
     streamKey: null,
     radius: 25,
