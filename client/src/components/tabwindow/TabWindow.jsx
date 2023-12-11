@@ -89,7 +89,7 @@ class TabWindow extends Component {
               <p className="text-sm text-gray-300">{playerName}</p>
               <img
                 src={`https://visage.surgeplay.com/face/512/${playerUuid}`}
-                className="h-12 w-12 rounded-full mx-2"
+                className="h-8 w-8 rounded-xl mx-2"
                 alt="avatar"
               />
             </div>
