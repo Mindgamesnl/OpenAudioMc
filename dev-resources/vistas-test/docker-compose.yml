@@ -16,6 +16,8 @@ services:
       - TYPE=SPIGOT
       - SPIGOT_BUNGEE=true
       - BUNGEECORD_IP=0.0.0.0
+      - VERSION=1.20.3
+      - BUILD_FROM_SOURCE=true
     depends_on:
       - cache
     volumes:
@@ -31,6 +33,8 @@ services:
       - TYPE=SPIGOT
       - SPIGOT_BUNGEE=true
       - BUNGEECORD_IP=0.0.0.0
+      - VERSION=1.20.3
+      - BUILD_FROM_SOURCE=true
     depends_on:
       - cache
     volumes:
@@ -45,6 +49,8 @@ services:
       - 25565:25565
     environment:
       - EULA=true
+      - BUNGEE_JOB_ID=lastSuccessfulBuild
+      - TYPE=WATERFALL
     volumes:
       - ./bungeecord:/config
     depends_on:

@@ -1,0 +1,246 @@
+messages:
+  # The message a client gets when they are not connected but a sound got triggered. this can be disabled under settings
+  suggest-connection: '&7&oYou are currently missing out on some sounds! connect with the audio client via /audio'
+
+  # The message a client receives when a URL is being prepared for them to open the web client
+  preparing-session: '&7&oGenerating audio session..'
+
+  # The message the client gets when executing /audio of joins (if send-on-join is enabled)
+  click-to-connect: '\n&b&lClick &ahere&b&l to open the Web Client!\n&3This lets you use &dProximity Voice Chat&3 and in-game &daudio&3!\n '
+  # an alternate version of this message for bedrock users
+  connect-prompt-bedrock: '\n&b&lThis server supports &aProximity Voice Chat&b&l!\n&b&lGo to {domain} in your web-browser to get started.\n '
+
+  # The message a player receives when a session error occurs
+  session-error: '&cAn error occurred while generating your audio session. please report the problem and try again later.'
+
+  # A hover message for the click-to-connect message, only appears right before clicking when you mouse over it
+  click-to-connect-hover: '&6Minecraft will prompt you to open the web client when you click this message'
+
+  # The message the client gets when their audio link has expired
+  click-link-expired: '&3Your link to the audio client has expired. Use &b/audio&3 to request a new one.'
+
+  # The message a client gets when their web-client has been opened
+  client-opened: '&2&oYou are now connected with the audio client!'
+
+  # The message a client gets when their web-client has been closed
+  client-closed: '&c&oYour audio session has been ended'
+
+  # The message a client gets as warning that they are already connected
+  client-already-connected: '&cYou are already connected to the web client'
+
+  # Prints the client volume when /volume is ran without arguments
+  client-volume: '&6Your current volume is __amount__%&7 (TIP: use /volume 40 to set your volume to 40%)'
+
+  # The message a client gets as confirmation for executing /volume or /vol
+  client-volume-change: '&6Your volume has been changed to __amount__%'
+
+  # The message a client gets as warning that they messed up /volume or /vol
+  client-volume-invalid: '&4You must enter a number between 0 and 100'
+
+  # The message a client gets as warning that they aren't even connected
+  client-not-connected: '&4You need to be connected to the web client to be able to do that'
+
+  # The message a client gets when they need to be connected to voice chat to do something
+  voice-not-connected: '&4An active Voice connection is required to execute this command'
+
+  # The message a client receives when they entered an area where voicechat is disabled
+  voice-disabled-here: '&7&oVoice chat has been temporarily disabled in this area'
+
+  # The message a client receives when they entered an area where voicechat is enabled again
+  voice-reenabled-here: '&7&oYour voice chat has been re-enabled'
+
+  # Message a player receives when opting into voicechat
+  voicechat-enabled: '&7&oYour voicechat has been enabled!'
+
+  # Messages a player receives when a player joined their voicechat range
+  voicechat-added-user: '&7&o%name appeared in voice chat range'
+  voicechat-added-users: '&7&o%name and %count others appeared in voice chat range'
+
+  # Messages a player receives when a player got out of their voice chat range
+  voicechat-removed-user: '&7&o%name left your voice chat'
+  voicechat-removed-users: '&7&o%name and %count others left your voice chat'
+
+  # Message a player receives when their microphone is muted
+  voicechat-mic-mute: '&7&oYour microphone is now &c&omuted'
+
+  # Message a player receives when their microphone is unmuted
+  voicechat-mic-unmute: '&7&oYour microphone is now &2&ounmuted'
+
+  # Message a player receives when their voicechat is deafened
+  voicechat-deafen: '&7&oYou are now &c&odeafened'
+
+  # Message a player receives when their voicechat is undeafened
+  voicechat-undeafen: '&7&oYou are now &2&oundeafened'
+
+  # Message a player receives when voicechat runs into a technical issue
+  voicechat-service-unstable: '&7&oWarning: we ran into one or more problems with the voice service.. please hold on while we try to recover your beautiful voice.'
+
+  # Message a player receives when the voicechat is back online again
+  voicechat-service-recovered: '&7&oYour voicechat session got successfully recovered'
+
+  # A message players will periodically receive when they are not connected to voice chat,
+  # but others in their vicinity are. The minimum interval and range can be configured in the options section,
+  # or you can disable it entirely by following the settings below.
+  voicechat-players-in-vicinity: '&7&oGet social! Other players in your vicinity are using voice chat - join them and communicate. Use &b/audio&7&o to connect.'
+
+  # The following messages are for the new "revised" authentication flow.
+  # Users who have a client tab open with the bedrock flow till automatically be logged in when a player joins with the same IP address,
+  # but users who don't have a tab open will be prompted to login with a code.
+  # That code needs to be entered in-game, and these messages are used for that.
+  token-activation-loading: '&7&oPlease wait while we activate your token..'
+  token-activation-success: '&7&oYour token has been activated! You can now use the web client.'
+  token-activation-failed: '&7&oYour token could not be activated. Please try again or double check your code.'
+
+options:
+  # The name prefix to look for to determine if a player is playing on bedrock edition
+  bedrock-name-prefix: '.'
+
+  # This setting enabled/disables automatic authentication for bedrock users.
+  token-auto-login: true
+
+  # If set to true, the player automatically receives a link upon joining
+  send-on-join: true
+
+  # Delay in seconds before sending the link to the player
+  send-on-join-delay: 5
+
+  # If set to true, the player gets reminded to connect (see messages.suggest-connection)
+  remind-to-connect: true
+
+  # If delay in seconds between reminding to connect
+  remind-to-connect-interval: 30
+
+  # If default radius for speakers (in blocks)
+  speaker-radius: 10
+
+  # If set to true, speakers will sync their timecodes
+  sync-speakers: true
+
+  # If set to true, regions will sync their timecodes
+  sync-regions: true
+
+  # If set to true, regions will use priorities. If this causes problems, just set it to false.
+  use-region-priority: false
+
+  # Staff will receive helpful tips and error messages when something went wrong while playing a file
+  staff-tips: true
+
+  # If you want to receive update notifications, recommended to leave it on, but turn it off if you have to for some weird reason
+  notify-updates: true
+
+  # If you want to receive announcements over things like server maintenance, highly recommended, we'll never bother you if not needed
+  notify-announcements: true
+
+  # The amount of resources you want to have preloaded in the client
+  preload-resources: 7
+
+  # Garbage collection strategy, it only removes it from the cache by default but you can set it to "INVALIDATE" to keep values until reboot
+  gc-strategy: DELETE
+
+  # Required distance for proximity voice chat. Must be between 20 and 70
+  voicechat-radius: 45
+
+  # Chat announcements for players to notify them of others entering/leaving their voice chat proximity
+  voicechat-announcements: true
+
+  # Changes whether to toggle your microphone while sneaking and pressing swap.
+  voicechat-toggle-mic-on-swap-and-sneak: true
+
+  # Decides if voicechat messages should go in the hotbar or chat. Setting this to false will default to chat
+  voicechat-send-messages-in-hotbar: true
+
+  # Toggles voicechat obstruction detection. This can get quite resource intensive so it's off by default, but this muffles voices when
+  # One or more blocks are blocking the players line-of-sight
+  voicechat-obstructions: false
+
+  # Automatically request a free voicechat license when the server starts
+  voicechat-autoclaim-on-start: true
+
+  # Enable/disable voicechat moderation. Disabled by default to prevent abuse. Setting this value to true will enable the
+  # "/oa voice mod" command
+  voicechat-moderation-support: false
+
+  # This is the default timeout whereafter moderation mode disables itself. (in seconds)
+  voicechat-moderation-duration: 120
+
+  # Allow users to join voicechat while data is loading, but force kick them if they turn out to be banned.
+  # This prevents issues on servers with low TPS, but can be disabled if you want to prevent users from joining voicechat while banned.
+  # (banned users will get kicked after the data has loaded)
+  voicechat-allow-joining-while-loading: true
+
+  # Force offline mode, should only be enabled if your server host doesn't allow for proxy plugins
+  force-offline-mode: false
+
+  # This world name will be used whenever the console executes a command that targets a world.
+  # We'll normally use the world the player/commandblock is in, but if the sender is not in a world, we'll use this one.
+  fallback-world-name: world
+
+  # This value dictates if the voicechat-players-in-vicinity will be sent to players in the vicinity of another player that is connected to voicechat.
+  # This can be useful if you want to encourage players to use voicechat, but you don't want to spam them with the message.
+  voicechat-hint-enabled: true
+
+  # This value is the minimum interval in seconds between sending the reminder to players in the vicinity of another player that is connected to voicechat.
+  # This doesn't mean that it'll be sent every X amount of seconds, the messages will halt if no players are in the vicinity of another player that is connected to voicechat.
+  voicechat-hint-interval: 120
+
+  # This value is the range (in blocks) in which players will receive the voicechat-hint message.
+  # I recommend setting this to at least 3 times the voicechat range
+  voicechat-hint-range: 135
+
+  # This determines if speakers will tick in the background to make their redstone triggers more responsive.
+  # You may want to disable this if you're running a lot of speakers. This task runs asynchronously, so it shouldn't cause any lag
+  # But it does a lot of redstone checks depending on the amount of speakers you have with the redstone flag enabled.
+  redstone-tick-speakers: true
+
+  # This is the tick interval for the redstone-tick-speakers task. The lower the value, the more responsive the speakers will be
+  # but the higher the load on the server will be. I recommend setting this to 5 (meaning it updates 4 times a second)
+  redstone-tick-speakers-interval: 5
+
+  # This feature will completely ignore ALL regions when a player is on a vehicle
+  # (Minecraft, Boat, or mounted on another entity).
+  # This is useful for some themepark servers, but should be used with caution.
+  ignore-regions-on-vehicles: false
+
+
+# PlaceholderAPI
+papi:
+  # Value to display when player is connected to the web client
+  client-connected: "Connected"
+
+  # Value to display when player is disconnected from the web client
+  client-disconnected: "Disconnected"
+
+  # Value to display when player is connected to the voice chat
+  voicechat-connected: "Connected"
+
+  # Value to display when player is disconnected from the voice chat
+  voicechat-disconnected: "Disconnected"
+
+# CDN
+# Configuration for the Patreon CDN
+cdn:
+  preferred-bridge-port: 8050
+  timeout-seconds: 5
+  # This is the IP that'll be used for port validation, please don't touch this unless you've been instructed to by our support team
+  ip-overwrite: none
+  enabled: false
+  skip-validation: false
+
+
+# REDIS
+# This is only used for syncing shows with other servers and the vistas modules.
+# Please disregard this if you don't know what you're doing.
+redis:
+  # When set to true, the redis service will be enabled
+  enabled: false
+  # The host of your redis server
+  host: localhost
+  # The port of your redis server
+  port: 6379
+  # The password to your redis server.
+  # Leave set to "none" to connect without authentication
+  password: none
+  # If SSL should be used to connect to your redis server (only if you have setup TLS)
+  useSSL: false
+  # The channel to sync with. When configured, OpenAudioMc will only sync to servers on redis with the same section
+  section: event
