@@ -64,7 +64,7 @@ class TabWindow extends Component {
         {!hiddenNavbar && (
           <nav className="navbar-bg shadow-lg flex items-center p-2">
             <div className="basis-1/3 flex items-center ">
-              <img src={this.props.settings.logoImage} alt="Logo" className="h-8" />
+              <img src={this.props.settings.logoImage} alt="Logo" className="pl-2 h-8" />
               <span className="ml-2 font-semibold text-xl text-gray-300">
                 {msg('serverName')}
               </span>
