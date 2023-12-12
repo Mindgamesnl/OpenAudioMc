@@ -62,36 +62,46 @@ class TabWindow extends Component {
         </main>
 
         {!hiddenNavbar && (
-          <nav className="navbar-bg shadow-lg flex justify-between items-center p-2">
-            <div className="flex items-center">
+          <nav className="navbar-bg shadow-lg flex items-center p-2">
+            <div className="basis-1/3 flex items-center ">
               <img src={this.props.settings.logoImage} alt="Logo" className="h-8" />
               <span className="ml-2 font-semibold text-xl text-gray-300">
                 {msg('serverName')}
               </span>
             </div>
 
-            <div className="flex flex-row gap-1 p-1 mx-auto bg-gray-100 rounded-lg dark:bg-gray-600" role="group">
-              {pages.map((page, index) => (
-                <button
-                  key={page.name}
-                  type="button"
-                  className={`px-5 py-1.5 text-xs flex flex-col items-center justify-center font-medium transition-colors duration-150 ${this.props.currentTab === index ? 'bg-gray-200 text-gray-900 rounded-lg' : 'text-white hover:bg-gray-700'}`}
-                  onClick={() => setTab(index)}
-                >
-                  {page.buttonContent ? page.buttonContent : null}
-                  {page.name}
-                  {page.subtext ? <p className={`${this.props.currentTab === index ? 'text-green-700' : 'text-green-200'} text-xs`}>{page.subtext}</p> : null}
-                </button>
-              ))}
+            <div className="basis-1/3">
+              <div className="flex flex-row gap-1 p-1 mx-auto rounded-lg bg-gray-600 w-min" role="group">
+                {pages.map((page, index) => (
+                  <button
+                    key={page.name}
+                    type="button"
+                    className={`px-5 py-1.5 text-xs flex flex-col items-center justify-center font-medium transition-colors duration-150 ${this.props.currentTab === index ? 'bg-gray-200 text-gray-900 rounded-lg' : 'text-white hover:bg-gray-700'}`}
+                    onClick={() => setTab(index)}
+                  >
+                    {page.buttonContent ? page.buttonContent : null}
+                    {page.name}
+                    {page.subtext ? (
+                      <p
+                        className={`${this.props.currentTab === index ? 'text-green-700' : 'text-green-200'} text-xs`}
+                      >
+                        {page.subtext}
+                      </p>
+                    ) : null}
+                  </button>
+                ))}
+              </div>
             </div>
 
-            <div className="flex items-center">
-              <p className="text-sm text-gray-300">{playerName}</p>
-              <img
-                src={`https://visage.surgeplay.com/face/512/${playerUuid}`}
-                className="h-8 w-8 rounded-xl mx-2"
-                alt="avatar"
-              />
+            <div className="basis-1/3 flex float-right w-1/3 place-content-end align-top ">
+              <div className="flex h-full justify-center align-middle items-center items-end">
+                <p className="text-sm text-gray-300">{playerName}</p>
+                <img
+                  src={`https://visage.surgeplay.com/face/512/${playerUuid}`}
+                  className="h-8 w-8 rounded-xl mx-2"
+                  alt="avatar"
+                />
+              </div>
             </div>
           </nav>
         )}
