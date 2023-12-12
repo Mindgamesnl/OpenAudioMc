@@ -170,7 +170,6 @@ export class Mixer {
   }
 
   removeChannel(channelName) {
-    debugLog(`Removing channel ${channelName}`);
     let channel;
     if (channelName instanceof Channel) {
       channel = channelName;
@@ -181,6 +180,7 @@ export class Mixer {
     if (channel != null) {
       channel.destroy();
       this.channels.delete(channel.channelName);
+      debugLog(`Removing channel ${channel.channelName}`);
     }
     this.updatePlayingSounds();
   }
@@ -192,6 +192,8 @@ export class Mixer {
   }
 
   addChannel(channel) {
+    // eslint-disable-next-line no-console
+    console.warn(`Adding channel ${channel.channelName}`);
     if (channel instanceof Channel) {
       const channelId = channel.channelName;
       const existingChannel = this.channels.get(channelId);
@@ -212,5 +214,7 @@ export class Mixer {
       throw new Error("Argument isn't a channel");
     }
     this.updatePlayingSounds();
+    // eslint-disable-next-line no-console
+    console.warn(`Added channel ${channel.channelName}`);
   }
 }

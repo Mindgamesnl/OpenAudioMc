@@ -80,16 +80,21 @@ export const MediaManager = new class IMediaManager {
     }
     if (instantly) time = 0;
 
-    this.mixer.getChannels().forEach((channel) => {
+    let matchedAndStopped = null;
+    const chls = this.mixer.getChannels();
+    for (let i = 0; i < chls.length; i++) {
+      const channel = chls[i];
       if (all) {
         channel.fadeChannel(0, time, () => {
           this.mixer.removeChannel(channel);
         });
+        matchedAndStopped = channel;
       } else if (soundId == null || soundId === '') {
         if ((!channel.hasTag('SPECIAL') && !channel.hasTag('REGION') && !channel.hasTag('SPEAKER'))) {
           channel.fadeChannel(0, time, () => {
             this.mixer.removeChannel(channel);
           });
+          matchedAndStopped = channel;
         }
       } else if (channel.hasTag(soundId)) {
         channel.sounds.forEach((sound) => {
@@ -102,8 +107,14 @@ export const MediaManager = new class IMediaManager {
         };
 
         channel.fadeChannel(0, time, callback);
+        matchedAndStopped = channel;
       }
-    });
+    }
+
+    if (matchedAndStopped == null) {
+      return false;
+    }
+    return true;
   }
 
   setMasterVolume(volume) {

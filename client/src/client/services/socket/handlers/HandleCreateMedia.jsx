@@ -28,37 +28,15 @@ export async function handleCreateMedia(data) {
   // attempt to stop the existing one, if any
   MediaManager.destroySounds(id, false, true);
 
+  // register with metadata
   const createdChannel = new Channel(id);
   createdChannel.trackable = true;
   const createdMedia = new Sound();
-  await createdMedia.load(source);
-  MediaManager.mixer.addChannel(createdChannel);
-  createdChannel.addSound(createdMedia);
-  createdChannel.setChannelVolume(0);
-  createdMedia.setLooping(looping);
-  createdChannel.setTag(id);
 
-  // convert distance
-  if (maxDistance !== 0) {
-    const startVolume = convertDistanceToVolume(maxDistance, distance);
-    createdChannel.setTag('SPECIAL');
-    createdChannel.maxDistance = maxDistance;
-    createdMedia.whenInitialized(() => {
-      createdChannel.fadeChannel(startVolume, fadeTime);
-    });
-  } else {
-    // default sound, just play
-    createdChannel.setTag('DEFAULT');
-    createdMedia.whenInitialized(() => {
-      if (fadeTime === 0) {
-        createdChannel.setChannelVolume(volume);
-        createdChannel.updateFromMasterVolume();
-      } else {
-        createdChannel.updateFromMasterVolume();
-        createdChannel.fadeChannel(volume, fadeTime);
-      }
-    });
-  }
+  createdChannel.addSound(createdMedia);
+  MediaManager.mixer.addChannel(createdChannel);
+
+  createdChannel.setTag(id);
 
   if (muteRegions) {
     debugLog('Incrementing region inhibit');
@@ -84,6 +62,34 @@ export async function handleCreateMedia(data) {
   });
 
   createdChannel.setTag(flag);
+
+  // load file and play
+  await createdMedia.load(source);
+  createdChannel.setChannelVolume(0);
+  createdMedia.setLooping(looping);
+
+  // convert distance
+  if (maxDistance !== 0) {
+    const startVolume = convertDistanceToVolume(maxDistance, distance);
+    createdChannel.setTag('SPECIAL');
+    createdChannel.maxDistance = maxDistance;
+    createdMedia.whenInitialized(() => {
+      createdChannel.fadeChannel(startVolume, fadeTime);
+    });
+  } else {
+    // default sound, just play
+    createdChannel.setTag('DEFAULT');
+    createdMedia.whenInitialized(() => {
+      if (fadeTime === 0) {
+        createdChannel.setChannelVolume(volume);
+        createdChannel.updateFromMasterVolume();
+      } else {
+        createdChannel.updateFromMasterVolume();
+        createdChannel.fadeChannel(volume, fadeTime);
+      }
+    });
+  }
+
   MediaManager.mixer.updateCurrent();
 
   createdMedia.finalize().then(() => {
