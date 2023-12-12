@@ -76,7 +76,7 @@ class TabWindow extends Component {
                   <button
                     key={page.name}
                     type="button"
-                    className={`px-5 py-1.5 text-xs flex flex-col items-center justify-center font-medium transition-colors duration-150 ${this.props.currentTab === index ? 'bg-gray-200 text-gray-900 rounded-lg' : 'text-white hover:bg-gray-700'}`}
+                    className={`px-5 whitespace-nowrap py-1.5 text-xs flex flex-col items-center justify-center font-medium transition-colors duration-150 ${this.props.currentTab === index ? 'bg-gray-200 text-gray-900 rounded-lg' : 'text-white hover:bg-gray-700'}`}
                     onClick={() => setTab(index)}
                   >
                     {page.buttonContent ? page.buttonContent : null}
