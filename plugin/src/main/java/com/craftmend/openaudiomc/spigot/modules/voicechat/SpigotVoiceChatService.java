@@ -169,6 +169,17 @@ public class SpigotVoiceChatService extends Service {
             if (!event.getClient().isConnected()) return;
             sendMessage(event.getClient().getUser(), Platform.translateColors(StorageKey.MESSAGE_VC_MIC_UNMUTE.getString()));
         });
+
+        // deafen messages
+        eventDriver.on(VoicechatDeafenEvent.class).setHandler(event -> {
+            if (!event.getClient().isConnected()) return;
+            sendMessage(event.getClient().getUser(), Platform.translateColors(StorageKey.MESSAGE_VC_DEAFEN.getString()));
+        });
+
+        eventDriver.on(VoicechatUndeafenEvent.class).setHandler(event -> {
+            if (!event.getClient().isConnected()) return;
+            sendMessage(event.getClient().getUser(), Platform.translateColors(StorageKey.MESSAGE_VC_UNDEAFEN.getString()));
+        });
     }
 
     private void sendMessage(User player, String message) {

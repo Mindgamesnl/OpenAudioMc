@@ -28,6 +28,7 @@ export class PeerManager {
     this.setMute = this.setMute.bind(this);
 
     let lastStateMuted = false;
+    let lastStateDeafened = false;
 
     this.unsub = store.subscribe(() => {
       const { settings } = store.getState();
@@ -35,6 +36,24 @@ export class PeerManager {
         lastStateMuted = settings.voicechatMuted;
         this.setMute(lastStateMuted);
       }
+
+      if (settings.voicechatDeafened !== lastStateDeafened) {
+        lastStateDeafened = settings.voicechatDeafened;
+        this.setDeafened(lastStateDeafened);
+      }
+    });
+  }
+
+  setDeafened(state) {
+    if (state) {
+      VoiceModule.pushSocketEvent(VoiceStatusChangeEvent.SELF_DEAFEN);
+    } else {
+      VoiceModule.pushSocketEvent(VoiceStatusChangeEvent.SELF_UNDEAFEN);
+    }
+
+    // apply to current streams
+    VoiceModule.peerMap.forEach((peer) => {
+      peer.stream.setMuteOverride(state);
     });
   }
 

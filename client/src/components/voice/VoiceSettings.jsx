@@ -7,6 +7,8 @@ import { Tooltip } from '../tooltip/tooltip';
 import ExtraVoiceSettings from './ExtraVoiceSettings';
 import { msg } from '../../client/OpenAudioAppContainer';
 import { PipVector } from '../dpip/PipVector';
+import { VoiceMicButton } from '../icons/VoiceMic';
+import { VoiceDeafenButton } from '../icons/VoicechatDeafenButton';
 
 class VoiceSettings extends React.Component {
   constructor(props) {
@@ -20,11 +22,17 @@ class VoiceSettings extends React.Component {
     this.toggleAdvancedSettings = this.toggleAdvancedSettings.bind(this);
     this.toggleMicMute = this.toggleMicMute.bind(this);
     this.togglePiP = this.togglePiP.bind(this);
+    this.toggleDeafen = this.toggleDeafen.bind(this);
   }
 
   onVolumeChange(e) {
     setGlobalState({ settings: { voicechatVolume: e.target.value } });
     reRenderAllGainNodes();
+
+    // were we deafened? then we need to unmute
+    if (this.props.voicechatDeafened) {
+      this.toggleDeafen();
+    }
   }
 
   togglePiP() {
@@ -38,6 +46,11 @@ class VoiceSettings extends React.Component {
   toggleMicMute() {
     const muted = !this.props.voicechatMuted;
     setGlobalState({ settings: { voicechatMuted: muted } });
+  }
+
+  toggleDeafen() {
+    const deafened = !this.props.voicechatDeafened;
+    setGlobalState({ settings: { voicechatDeafened: deafened }, voiceState: { deafenedBefore: true } });
   }
 
   render() {
@@ -60,47 +73,18 @@ class VoiceSettings extends React.Component {
       );
     }
 
-    let micButton = (
-      <button
-        className="content-pill status-button green text-center"
-        onClick={this.toggleMicMute}
-        type="button"
-      >
-        <svg className="h-8 text-gray-900 ml-1" fill="none" viewBox="0 0 19 24" stroke="currentColor">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
-          />
-        </svg>
-      </button>
-    );
+    let micButton = <VoiceMicButton onClick={this.toggleMicMute} muted={false} />;
+    if (this.props.voicechatMuted) {
+      micButton = <VoiceMicButton onClick={this.toggleMicMute} muted />;
+    }
+
+    let deafenButton = <VoiceDeafenButton onClick={this.toggleDeafen} deafened={false} />;
+    if (this.props.voicechatDeafened) {
+      deafenButton = <VoiceDeafenButton onClick={this.toggleDeafen} deafened />;
+    }
 
     // check if documentPictureInPicture is supported
     const isPipSupported = document.pictureInPictureEnabled;
-
-    if (this.props.voicechatMuted) {
-      micButton = (
-        <button className="content-pill status-button red" onClick={this.toggleMicMute} type="button">
-          <svg
-            className="h-8 text-white ml-1"
-            fill="none"
-            viewBox="0 0 19 24"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <line x1="1" y1="1" x2="23" y2="23" />
-            <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6" />
-            <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23" />
-            <line x1="12" y1="19" x2="12" y2="23" />
-            <line x1="8" y1="23" x2="16" y2="23" />
-          </svg>
-        </button>
-      );
-    }
 
     const pipEnabled = this.props.voicePiPEnabled;
     const togglePipButton = (
@@ -143,6 +127,8 @@ class VoiceSettings extends React.Component {
                     {micButton}
                   </div>
 
+                  {deafenButton}
+
                   <Tooltip
                     title={msg('vc.noMicInputYetTitle')}
                     text={msg('vc.noMicInputYetBody')}
@@ -171,6 +157,17 @@ class VoiceSettings extends React.Component {
                   </Tooltip>
                 </div>
               </div>
+
+              {this.props.voicechatDeafened ? (
+                <div className="text-center pt-2">
+                  <div className="p-2 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
+                    <span className="flex rounded-full font-bold">
+                      <svg className="fill-current h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" /></svg>
+                    </span>
+                    <span className="font-semibold mr-2 text-left flex-auto">{msg('vc.deafened')}</span>
+                  </div>
+                </div>
+              ) : null}
 
               <div className="content-card-buttons w-full">
                 <div className="w-full content-pill status-button green text-center inline">
@@ -221,6 +218,7 @@ export default connect(mapStateToProps)(VoiceSettings);
 function mapStateToProps(state) {
   return {
     voicechatMuted: state.settings.voicechatMuted,
+    voicechatDeafened: state.settings.voicechatDeafened,
     voicechatVolume: state.settings.voicechatVolume,
     voicePiPEnabled: state.settings.voicePiPEnabled,
     voiceState: state.voiceState,

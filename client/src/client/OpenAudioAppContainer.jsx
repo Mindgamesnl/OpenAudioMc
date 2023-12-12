@@ -245,7 +245,6 @@ class OpenAudioAppContainer extends React.Component {
     }
 
     if (serverData.backgroundImage !== '') {
-      // todo: remove legacy rewrite
       setBgImage(serverData.backgroundImage);
     }
 

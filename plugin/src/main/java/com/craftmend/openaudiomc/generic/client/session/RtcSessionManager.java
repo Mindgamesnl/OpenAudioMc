@@ -2,10 +2,7 @@ package com.craftmend.openaudiomc.generic.client.session;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.enums.VoiceEventCause;
-import com.craftmend.openaudiomc.api.impl.event.events.MicrophoneMuteEvent;
-import com.craftmend.openaudiomc.api.impl.event.events.MicrophoneUnmuteEvent;
-import com.craftmend.openaudiomc.api.impl.event.events.PlayerEnterVoiceProximityEvent;
-import com.craftmend.openaudiomc.api.impl.event.events.PlayerLeaveVoiceProximityEvent;
+import com.craftmend.openaudiomc.api.impl.event.events.*;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.client.enums.RtcBlockReason;
 import com.craftmend.openaudiomc.generic.client.enums.RtcStateFlag;
@@ -36,6 +33,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RtcSessionManager implements Serializable {
 
     @Getter private boolean isMicrophoneEnabled = false;
+    @Getter private boolean isVoicechatDeafened = false;
     @Getter private final transient Set<UUID> listeningTo = ConcurrentHashMap.newKeySet();
     @Getter private final transient Set<ClientRtcLocationUpdate> locationUpdateQueue = ConcurrentHashMap.newKeySet();
     @Getter private final transient Set<RtcBlockReason> blockReasons = new HashSet<>();
@@ -186,7 +184,20 @@ public class RtcSessionManager implements Serializable {
         return clientConnection.isConnected() && clientConnection.getSession().isConnectedToRtc();
     }
 
+    public void setVoicechatDeafened(boolean state) {
+        if (state == this.isVoicechatDeafened) return;
+        this.isVoicechatDeafened = state;
+        if (!this.isReady()) return;
+
+        if (state) {
+            AudioApi.getInstance().getEventDriver().fire(new VoicechatDeafenEvent(clientConnection));
+        } else {
+            AudioApi.getInstance().getEventDriver().fire(new VoicechatUndeafenEvent(clientConnection));
+        }
+    }
+
     public void setMicrophoneEnabled(boolean state) {
+        if (state == this.isMicrophoneEnabled) return;
         if (!this.isMicrophoneEnabled && state) {
             if (this.lastPassedLocation != null) {
                 forceUpdateLocation(lastPassedLocation);

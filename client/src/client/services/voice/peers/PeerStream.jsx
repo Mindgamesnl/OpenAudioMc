@@ -24,6 +24,7 @@ export class PeerStream {
 
     this.masterOutputNode = null;
     this.mediaStream = null;
+    this.listenerDeafend = false;
   }
 
   // callback has a boolean attached to it, true if the stream loaded, or false if it got rejected
@@ -81,12 +82,26 @@ export class PeerStream {
       this.globalVolumeNodeId = trackVoiceGainNode(globalVolumeGainNode);
       this.masterOutputNode = globalVolumeGainNode;
       globalVolumeGainNode.connect(ctx.destination);
+
+      // mute if voicechat is deafened
+      if (getGlobalState().settings.voicechatDeafened) {
+        this.listenerDeafend = true;
+        // update vol
+        this.setVolume(this.volume);
+      }
+
       callback(true);
     });
 
     streamRequest.onReject((e) => {
       callback(false, new ConnectionClosedError(e));
     });
+  }
+
+  setMuteOverride(muted) {
+    this.listenerDeafend = muted;
+    // update vol
+    this.setVolume(this.volume);
   }
 
   setLocation(x, y, z, update) {
@@ -105,7 +120,7 @@ export class PeerStream {
   setVolume(volume) {
     this.volume = volume;
     if (this.gainNode !== null) {
-      this.gainNode.gain.value = (volume / 100) * this.volBooster;
+      this.gainNode.gain.value = this.listenerDeafend ? 0 : (volume / 100) * this.volBooster;
     }
   }
 

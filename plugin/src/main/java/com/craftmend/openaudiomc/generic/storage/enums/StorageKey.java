@@ -27,6 +27,8 @@ public enum StorageKey {
     MESSAGE_VC_USERS_LEFT(false, "messages.voicechat-removed-users", StorageLocation.CONFIG_FILE),
     MESSAGE_VC_MIC_MUTE(false, "messages.voicechat-mic-mute", StorageLocation.CONFIG_FILE),
     MESSAGE_VC_MIC_UNMUTE(false, "messages.voicechat-mic-unmute", StorageLocation.CONFIG_FILE),
+    MESSAGE_VC_DEAFEN(false, "messages.voicechat-deafen", StorageLocation.CONFIG_FILE),
+    MESSAGE_VC_UNDEAFEN(false, "messages.voicechat-undeafen", StorageLocation.CONFIG_FILE),
     MESSAGE_VC_NOT_CONNECTED(false, "messages.voice-not-connected", StorageLocation.CONFIG_FILE),
     MESSAGE_VC_UNSTABLE(false, "messages.voicechat-service-unstable", StorageLocation.CONFIG_FILE),
     MESSAGE_VC_RECOVERED(false, "messages.voicechat-service-recovered", StorageLocation.CONFIG_FILE),

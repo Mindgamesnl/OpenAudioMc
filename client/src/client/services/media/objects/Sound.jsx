@@ -146,6 +146,14 @@ export class Sound extends AudioSourceProcessor {
             return;
           }
         }
+
+        // did this sound get shut down?
+        if (this.gotShutDown) {
+          this.soundElement.pause();
+          this.mixer.removeChannel(this.channel);
+          // eslint-disable-next-line no-console
+          console.warn('Sound got shut down while loading');
+        }
       }
     }
   }
@@ -261,13 +269,13 @@ export class Sound extends AudioSourceProcessor {
 
   startDate(date) {
     this.whenInitialized(() => {
-      debugLog('Starting synced media');
+      // debugLog('Starting synced media');
       const start = new Date(date);
       const predictedNow = TimeService.getPredictedTime();
       const seconds = (predictedNow - start) / 1000;
-      debugLog(`Started ${seconds} ago`);
+      // debugLog(`Started ${seconds} ago`);
       const length = this.soundElement.duration;
-      debugLog(`Length ${length} seconds`);
+      // debugLog(`Length ${length} seconds`);
       const loops = Math.floor(seconds / length);
       const remainingSeconds = seconds % length;
 
@@ -281,8 +289,6 @@ export class Sound extends AudioSourceProcessor {
         }
       }
 
-      debugLog(`Played ${loops} loops`);
-      debugLog(`Remaining ${remainingSeconds} seconds`);
       this.setTime(remainingSeconds);
     });
   }

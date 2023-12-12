@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 export const UNSAVED_SETTINGS = [
   'voicechatMonitoringEnabled',
   'voicechatMuted',
+  'voicechatDeafened',
 ];
 
 const initialState = {
@@ -46,6 +47,7 @@ const initialState = {
     voicePiPEnabled: false,
     voicechatVolume: 100,
     voicechatMuted: false,
+    voicechatDeafened: false,
     voicechatSurroundSound: true,
     voicechatMonitoringEnabled: false,
     microphoneSensitivity: 75,
@@ -95,6 +97,7 @@ const initialState = {
     serverHasModeration: false,
     microphoneSanityPrompt: false,
     microphoneTriggeredOnce: false,
+    deafenedBefore: false,
     streamServer: null,
     streamKey: null,
     radius: 25,
