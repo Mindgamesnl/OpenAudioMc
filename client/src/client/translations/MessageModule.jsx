@@ -28,6 +28,8 @@ export const MessageModule = new class MessageModule {
      * - name: the name of the language, this is the name that will be displayed in the language selector
      * - visible: (optional) if this is set to false, the language will not be displayed in the language selector.
      *   This is used to prevent duplicate languages from being displayed.
+     *
+     *   https://gist.github.com/msikma/8912e62ed866778ff8cd
      */
 
     this.languageMappings = {
@@ -117,6 +119,12 @@ export const MessageModule = new class MessageModule {
       scr: {
         file: 'hr.lang',
         name: 'Hrvatski',
+      },
+      // polish
+      pl: {
+        file: 'pl.lang',
+        name: 'Polski',
+        visible: true,
       },
     };
 
