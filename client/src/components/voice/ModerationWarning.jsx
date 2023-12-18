@@ -1,4 +1,5 @@
 import React from 'react';
+import { msg } from '../../client/OpenAudioAppContainer';
 
 export function ModerationWarning() {
   return (
@@ -8,7 +9,7 @@ export function ModerationWarning() {
           <div className="content-text full">
             <div className="text-center">
               <p className="soft-text">
-                This server has moderation enabled. Select staff may be listening in while your mic is active.
+                {msg('vc.voiceModerationEnabled')}
               </p>
             </div>
           </div>

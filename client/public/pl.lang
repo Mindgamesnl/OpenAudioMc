@@ -1,8 +1,8 @@
 lang.name=Polski
 
 lang.detectedAs=Zmieniliśmy twój język na %langName, chcesz go zachować?
-lang.keep=Keep %langName
-lang.toEn=Zmieniono na Polski
+lang.keep=Zachowaj %langName
+lang.toEn=Zmień na Angielski
 
 ui.loading=Ładowanie...
 ui.logout=Wyloguj
