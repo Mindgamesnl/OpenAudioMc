@@ -10,7 +10,7 @@ services:
       - TYPE=SPIGOT
       - SPIGOT_BUNGEE=true
       - BUNGEECORD_IP=0.0.0.0
-      - VERSION=1.20.3
+      - VERSION=1.20.2
       - BUILD_FROM_SOURCE=true
     volumes:
       - ./bungee-spigot1:/data
@@ -25,7 +25,7 @@ services:
       - TYPE=SPIGOT
       - SPIGOT_BUNGEE=true
       - BUNGEECORD_IP=0.0.0.0
-      - VERSION=1.20.3
+      - VERSION=1.20.2
       - BUILD_FROM_SOURCE=true
     volumes:
       - ./bungee-spigot2:/data

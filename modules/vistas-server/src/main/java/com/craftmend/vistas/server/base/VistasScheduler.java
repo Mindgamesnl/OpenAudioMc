@@ -6,14 +6,14 @@ import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.service.Service;
 
 import java.time.Duration;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VistasScheduler extends Service implements TaskService {
 
     private Scheduler scheduler;
     private int taskCount = 0;
-    private Set<Integer> runningTasks = new HashSet<>();
+    private List<Integer> runningTasks = new ArrayList<>();
 
     public VistasScheduler() {
         scheduler = new Scheduler();
@@ -23,18 +23,16 @@ public class VistasScheduler extends Service implements TaskService {
     public int scheduleAsyncRepeatingTask(Runnable runnable, int delayUntilFirst, int tickInterval) {
         int delayMs = delayUntilFirst * 50;
         int intervalMs = tickInterval * 50;
-        taskCount++;
-        int currentTask = taskCount;
+        int currentTask = taskCount++;
 
         runningTasks.add(currentTask);
         WrappedRunnable handler = new WrappedRunnable();
 
         handler.setTask(() -> {
             if (isCancelled(currentTask)) {
-                runningTasks.remove(currentTask);
+                runningTasks.removeIf(task -> task == currentTask);
                 return;
             }
-            ;
 
             runnable.run();
 
@@ -63,19 +61,17 @@ public class VistasScheduler extends Service implements TaskService {
     @Override
     public int schduleSyncDelayedTask(Runnable runnable, int delay) {
         int delayMs = delay * 50;
-
-        taskCount++;
-        int currentTask = taskCount;
+        int currentTask = taskCount++;
         runningTasks.add(currentTask);
 
         scheduler.schedule(
                 () -> {
                     if (isCancelled(currentTask)) {
-                        runningTasks.remove(currentTask);
+                        runningTasks.removeIf(task -> task == currentTask);
                         return;
                     }
                     runnable.run();
-                    runningTasks.remove(currentTask);
+                    runningTasks.removeIf(task -> task == currentTask);
                 },
                 Schedules.executeOnce(Schedules.fixedDelaySchedule(Duration.ofMillis(delayMs)))
         );
@@ -89,7 +85,7 @@ public class VistasScheduler extends Service implements TaskService {
 
     @Override
     public void cancelRepeatingTask(int i) {
-        runningTasks.remove(i);
+        runningTasks.removeIf(task -> task == i);
     }
 
     @Override

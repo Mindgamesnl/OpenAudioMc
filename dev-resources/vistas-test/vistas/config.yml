@@ -234,7 +234,7 @@ redis:
   # When set to true, the redis service will be enabled
   enabled: false
   # The host of your redis server
-  host: localhost
+  host: cache
   # The port of your redis server
   port: 6379
   # The password to your redis server.

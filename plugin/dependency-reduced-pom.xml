@@ -47,11 +47,7 @@
                 <relocation>
                   <pattern>io.</pattern>
                   <shadedPattern>com.craftmend.thirdparty.io</shadedPattern>
-                  <excludes>
-                    <exclude>io.netty.channel.Channel</exclude>
-                    <exclude>io.netty.channel.ChannelPipeline</exclude>
-                    <exclude>io.netty.channel.ChannelHandler</exclude>
-                  </excludes>
+                  <excludes />
                 </relocation>
                 <relocation>
                   <pattern>org.json.</pattern>
