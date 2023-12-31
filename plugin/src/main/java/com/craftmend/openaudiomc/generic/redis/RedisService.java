@@ -3,17 +3,17 @@ package com.craftmend.openaudiomc.generic.redis;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.subcommands.RedisSubCommand;
-import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
-import com.craftmend.openaudiomc.generic.service.Inject;
-import com.craftmend.openaudiomc.generic.service.Service;
-import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.redis.packets.ExecuteBulkCommandsPacket;
 import com.craftmend.openaudiomc.generic.redis.packets.ExecuteCommandPacket;
 import com.craftmend.openaudiomc.generic.redis.packets.channels.ChannelKey;
 import com.craftmend.openaudiomc.generic.redis.packets.interfaces.OARedisPacket;
 import com.craftmend.openaudiomc.generic.redis.packets.models.WaitingPacket;
+import com.craftmend.openaudiomc.generic.service.Inject;
+import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import io.lettuce.core.ClientOptions;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
@@ -32,7 +32,6 @@ public class RedisService extends Service {
     // dependencies
     @Inject
     private Configuration Configuration;
-
     private RedisClient redisPub;
     private RedisClient redisSub;
     private RedisURI uri;
@@ -82,19 +81,30 @@ public class RedisService extends Service {
 
         OpenAudioLogger.toConsole("Enabling redis service..");
 
-        if (Configuration.getString(StorageKey.REDIS_PASSWORD).equals("none")) {
+        // Read Redis password
+        final String redisPass = Configuration.getString(StorageKey.REDIS_PASSWORD);
+        final char[] password = redisPass.isEmpty() || redisPass.equals("none") ? null : redisPass.toCharArray();
+
+        if (Configuration.getString(StorageKey.REDIS_SENTINEL_MASTER_SET).isEmpty()) {
             uri = RedisURI.builder()
+                    .withPassword(password)
                     .withHost(Configuration.getString(StorageKey.REDIS_HOST))
                     .withPort(Configuration.getInt(StorageKey.REDIS_PORT))
                     .withSsl(Configuration.getBoolean(StorageKey.REDIS_USE_SSL))
                     .build();
         } else {
-            uri = RedisURI.builder()
-                    .withPassword(Configuration.getString(StorageKey.REDIS_PASSWORD))
-                    .withHost(Configuration.getString(StorageKey.REDIS_HOST))
-                    .withPort(Configuration.getInt(StorageKey.REDIS_PORT))
+            final RedisURI.Builder builder = RedisURI.builder()
+                    .withPassword(password)
                     .withSsl(Configuration.getBoolean(StorageKey.REDIS_USE_SSL))
-                    .build();
+                    .withSentinelMasterId(Configuration.getString(StorageKey.REDIS_SENTINEL_MASTER_SET));
+            for (final String host : Configuration.getString(StorageKey.REDIS_HOST).split(",")) {
+                builder.withSentinel(RedisURI.builder()
+                        .withHost(host.contains(":") ? host.split(":")[0] : host)
+                        .withPort(host.contains(":") ? Integer.parseInt(host.split(":")[1]) : 26379)
+                        .withPassword(password)
+                        .build());
+            }
+            uri = builder.build();
         }
 
         // set up listener

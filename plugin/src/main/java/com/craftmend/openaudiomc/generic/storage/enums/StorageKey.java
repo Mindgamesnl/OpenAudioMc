@@ -96,6 +96,7 @@ public enum StorageKey {
     REDIS_PASSWORD(false, "redis.password", StorageLocation.CONFIG_FILE),
     REDIS_USE_SSL(false, "redis.useSSL", StorageLocation.CONFIG_FILE),
     REDIS_SECTION(false, "redis.section", StorageLocation.CONFIG_FILE),
+    REDIS_SENTINEL_MASTER_SET(false, "redis.sentinel-master-set", StorageLocation.CONFIG_FILE),
 
     CDN_PREFERRED_PORT(false, "cdn.preferred-bridge-port", StorageLocation.CONFIG_FILE),
     CDN_TIMEOUT(false, "cdn.timeout-seconds", StorageLocation.CONFIG_FILE),
