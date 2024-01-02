@@ -40,6 +40,8 @@ public class VistasRedisServer extends Service {
                 configuration.getString(StorageKey.REDIS_HOST),
                 configuration.getInt(StorageKey.REDIS_PORT),
                 configuration.getString(StorageKey.REDIS_PASSWORD),
+                configuration.getBoolean(StorageKey.REDIS_USE_SSL),
+                configuration.getString(StorageKey.REDIS_SENTINEL_MASTER_SET),
                 packetEvents,
                 "server_to_deputy"
         );

@@ -14,13 +14,37 @@ public class RedisConnection {
     @Getter private StatefulRedisPubSubConnection<String, String> connection;
     @Getter private RedisPubSubAsyncCommands<String, String> pubSubHandler;
 
-    public RedisConnection(String host, int port, String password) {
-        RedisURI uri = RedisURI.builder()
-                .withPassword(password)
-                .withHost(host)
-                .withPort(port)
-                .withSsl(false)
-                .build();
+    public RedisConnection(String host,
+                           int port,
+                           String password,
+                           boolean useSSL,
+                           String sentinelMasterSet
+    ) {
+        // Read Redis password
+        final char[] pass = password.isEmpty() || password.equals("none") ? null : password.toCharArray();
+        RedisURI uri;
+
+        if (sentinelMasterSet.isEmpty()) {
+            uri = RedisURI.builder()
+                    .withPassword(pass)
+                    .withHost(host)
+                    .withPort(port)
+                    .withSsl(useSSL)
+                    .build();
+        } else {
+            final RedisURI.Builder builder = RedisURI.builder()
+                    .withPassword(pass)
+                    .withSsl(useSSL)
+                    .withSentinelMasterId(sentinelMasterSet);
+            for (final String h : host.split(",")) {
+                builder.withSentinel(RedisURI.builder()
+                        .withHost(h.contains(":") ? h.split(":")[0] : h)
+                        .withPort(h.contains(":") ? Integer.parseInt(h.split(":")[1]) : 26379)
+                        .withPassword(pass)
+                        .build());
+            }
+            uri = builder.build();
+        }
 
         redisClient = RedisClient.create(uri);
         redisClient.setOptions(ClientOptions.builder().autoReconnect(true).build());
