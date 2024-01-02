@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.vistas.client.redis;
 
+import com.craftmend.openaudiomc.generic.utils.redis.RedisUtils;
 import io.lettuce.core.ClientOptions;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
@@ -37,11 +38,7 @@ public class RedisConnection {
                     .withSsl(useSSL)
                     .withSentinelMasterId(sentinelMasterSet);
             for (final String h : host.split(",")) {
-                builder.withSentinel(RedisURI.builder()
-                        .withHost(h.contains(":") ? h.split(":")[0] : h)
-                        .withPort(h.contains(":") ? Integer.parseInt(h.split(":")[1]) : 26379)
-                        .withPassword(pass)
-                        .build());
+                builder.withSentinel(RedisUtils.readRedisUri(h, 26379));
             }
             uri = builder.build();
         }

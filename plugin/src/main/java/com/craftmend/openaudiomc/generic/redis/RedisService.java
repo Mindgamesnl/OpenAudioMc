@@ -14,6 +14,7 @@ import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
+import com.craftmend.openaudiomc.generic.utils.redis.RedisUtils;
 import io.lettuce.core.ClientOptions;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
@@ -98,11 +99,7 @@ public class RedisService extends Service {
                     .withSsl(Configuration.getBoolean(StorageKey.REDIS_USE_SSL))
                     .withSentinelMasterId(Configuration.getString(StorageKey.REDIS_SENTINEL_MASTER_SET));
             for (final String host : Configuration.getString(StorageKey.REDIS_HOST).split(",")) {
-                builder.withSentinel(RedisURI.builder()
-                        .withHost(host.contains(":") ? host.split(":")[0] : host)
-                        .withPort(host.contains(":") ? Integer.parseInt(host.split(":")[1]) : 26379)
-                        .withPassword(password)
-                        .build());
+                builder.withSentinel(RedisUtils.readRedisUri(host, 26379));
             }
             uri = builder.build();
         }
