@@ -47,5 +47,9 @@ public class Region implements IRegion {
         return regionProperties.getFadeTimeMs();
     }
 
+    @Override
+    public boolean syncEnabled() {
+        return regionProperties.getDoSync();
+    }
 
 }

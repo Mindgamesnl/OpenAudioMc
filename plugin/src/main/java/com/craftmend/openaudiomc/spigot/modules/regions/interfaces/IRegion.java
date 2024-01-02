@@ -23,7 +23,6 @@ public interface IRegion {
      */
     String getId();
 
-
     /**
      * Set the volume of the region
      * @param volume Volume (1 to 100)
@@ -47,6 +46,12 @@ public interface IRegion {
      * @return Fade time in MS
      */
     int getFadeTime();
+
+    /**
+     * Weather the attached media should have its keepup flag enabled
+     * @return if syncing is enabled
+     */
+    boolean syncEnabled();
 
     public class EmptyRegion implements IRegion {
 
@@ -83,6 +88,11 @@ public interface IRegion {
         @Override
         public int getFadeTime() {
             return 0;
+        }
+
+        @Override
+        public boolean syncEnabled() {
+            return false;
         }
     }
 }

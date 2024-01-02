@@ -18,6 +18,8 @@ public class RegionProperties extends DataStore {
     private Integer volume;
     @Column private Integer fadeTimeMs;
     @Column private Boolean allowsVoiceChat = true;
+    // setting this to true will pull the config value instead
+    @Column private Boolean doSync = true;
     @Column private String regionName;
     @Column(storeAsBlob = true) private String[] worlds;
 
@@ -41,7 +43,9 @@ public class RegionProperties extends DataStore {
 
     public Media getMediaForWorld(WorldRegionManager worldRegionManager) {
         if (loop == null) loop = true;
-        return worldRegionManager.getRegionMedia(source, volume, fadeTimeMs, loop);
+        Media media = worldRegionManager.getRegionMedia(source, volume, fadeTimeMs, loop);
+        media.setDoPickup(this.doSync);
+        return media;
     }
 
     public boolean hasWorlds() {

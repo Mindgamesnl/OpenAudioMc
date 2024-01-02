@@ -22,13 +22,15 @@ public class RegionEditGui extends Menu {
         super(ChatColor.BLUE + "Updating Region", 3 * 9);
 
         // 2, 4, 6 context / setting slots
-        setItem(2, new Item(Material.ITEM_FRAME)
+        setItem(1, new Item(Material.ITEM_FRAME)
                 .setName(ChatColor.YELLOW + "Playing: " + ChatColor.AQUA + region.getMedia().getSource()));
 
-        setItem(4, getVoicechatToggleItem(region));
-        
+        setItem(3, getVoicechatToggleItem(region));
+
+        setItem(5, getSyncItem(region));
+
         // something fun for slot 6? think of something mats
-        setItem(6, getPlayOnceItem(region)); // you thought of something, nice
+        setItem(7, getPlayOnceItem(region)); // you thought of something, nice
 
         // second row, volume fuckery
         setItem(9, getVolumeItem(region, 5));
@@ -51,6 +53,42 @@ public class RegionEditGui extends Menu {
         setItem(24, getFadeItem(region, 7000));
         setItem(25, getFadeItem(region, 10000));
         setItem(26, getFadeItem(region, 15000));
+    }
+
+    public Item getSyncItem(IRegion region) {
+        return new Item(Material.LEVER)
+                .setName(ChatColor.YELLOW + "Syncronization " + (region.getProperties().getDoSync() ?
+                        ChatColor.GREEN + "ENABLED"
+                        :
+                        ChatColor.RED + "DISABLED"))
+                .setLore(new String[]{
+                        ChatColor.GREEN + "Enabled" + ChatColor.GRAY + ": The music will synchronize between sessions/players",
+                        ChatColor.RED + "DISABLED" + ChatColor.GRAY + ": The music will always play from the beginning"
+                })
+                .onClick((player, item) -> {
+                    region.getProperties().setDoSync(!region.getProperties().getDoSync());
+
+                    if (region.getProperties().getDoSync()) {
+                        player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.GREEN + "Music will now synchronize between players. Leave this region and come back to see the difference.");
+                    } else {
+                        player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.RED + "Music will now always play from the beginning when someone enters or connects.");
+                    }
+
+
+                    // reset the media cache for this region
+                    Media oldMedia = region.getMedia();
+                    OpenAudioMcSpigot.getInstance().getRegionModule().getWorld(player.getWorld().getName()).unregisterRegionMedia(region.getMedia().getSource());
+                    Media newMedia = region.getMedia();
+
+                    // send destroy packets to all players in the region
+                    for (SpigotConnection spigotConnection : OpenAudioMcSpigot.getInstance().getRegionModule().findPlayersInRegion(region.getProperties().getRegionName())) {
+                        spigotConnection.getClientConnection().sendPacket(new PacketClientDestroyMedia(oldMedia.getMediaId()));
+                        // start new media
+                        spigotConnection.getClientConnection().sendMedia(newMedia);
+                    }
+
+                    new RegionEditGui(region).openFor(player);
+                });
     }
 
     private Item getPlayOnceItem(IRegion region) {
