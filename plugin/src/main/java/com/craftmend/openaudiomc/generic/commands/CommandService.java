@@ -20,7 +20,7 @@ public class CommandService extends Service {
     @Inject
     private Configuration configuration;
 
-    private Map<String, SubCommand> subCommands = new HashMap<>();
+    private final Map<String, SubCommand> subCommands = new HashMap<>();
     @Getter private final List<String> aliases = new ArrayList<>();
 
     public CommandService() {

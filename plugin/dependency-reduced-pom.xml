@@ -254,19 +254,19 @@
     <dependency>
       <groupId>com.github.SpigotMC.BungeeCord</groupId>
       <artifactId>bungeecord-proxy</artifactId>
-      <version>master-231024ba42-1</version>
+      <version>b23a51825e</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.github.SpigotMC.BungeeCord</groupId>
       <artifactId>bungeecord-protocol</artifactId>
-      <version>master-231024ba42-1</version>
+      <version>b23a51825e</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.github.SpigotMC.BungeeCord</groupId>
       <artifactId>bungeecord-api</artifactId>
-      <version>master-231024ba42-1</version>
+      <version>b23a51825e</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
