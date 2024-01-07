@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.vistas.client.redis;
 
-import com.craftmend.openaudiomc.generic.utils.redis.RedisUtils;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.vistas.client.utils.RedisUtils;
 import io.lettuce.core.ClientOptions;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
@@ -42,6 +44,8 @@ public class RedisConnection {
             }
             uri = builder.build();
         }
+
+        OpenAudioLogger.toConsole("Connecting to redis server: " + uri.toString());
 
         redisClient = RedisClient.create(uri);
         redisClient.setOptions(ClientOptions.builder().autoReconnect(true).build());

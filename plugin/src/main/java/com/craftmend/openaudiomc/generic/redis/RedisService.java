@@ -104,6 +104,8 @@ public class RedisService extends Service {
             uri = builder.build();
         }
 
+        OpenAudioLogger.toConsole("Connecting to redis server: " + uri.toString());
+
         // set up listener
         redisSub = RedisClient.create(uri);
         redisSub.setOptions(ClientOptions.builder().autoReconnect(true).build());

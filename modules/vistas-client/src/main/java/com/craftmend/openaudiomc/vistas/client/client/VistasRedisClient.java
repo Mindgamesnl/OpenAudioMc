@@ -30,7 +30,6 @@ public class VistasRedisClient extends Service {
         // setup handler
         packetEvents = new DefaultPacketHandler();
         packetEvents.setSelfId(Vistas.getInstance().getServerId());
-        OpenAudioLogger.toConsole("Connecting to redis server: " + configuration.getString(StorageKey.REDIS_HOST));
         redis = new SimpleRedisClient(
                 configuration.getString(StorageKey.REDIS_HOST),
                 configuration.getInt(StorageKey.REDIS_PORT),
