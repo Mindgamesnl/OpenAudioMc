@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public final class RedisUtils {
 
-    private static final Pattern URI_FORMAT = Pattern.compile("^((.+)@)?([a-zA-Z0-9.]+)(:([0-9]{1,5}))?$");
+    private static final Pattern URI_FORMAT = Pattern.compile("^(?:(.+)@)?([a-zA-Z0-9.]+)(?::([0-9]{1,5}))?$");
 
     private RedisUtils() {
     }
@@ -17,9 +17,9 @@ public final class RedisUtils {
         if (!matcher.matches())
             return null;
         return RedisURI.builder()
-                .withHost(matcher.group(3))
-                .withPort(matcher.group(5) == null ? defaultPort : Integer.parseInt(matcher.group(5)))
-                .withPassword(matcher.group(2) == null ? null : matcher.group(2).toCharArray())
+                .withHost(matcher.group(2))
+                .withPort(matcher.group(3) == null ? defaultPort : Integer.parseInt(matcher.group(3)))
+                .withPassword(matcher.group(1) == null ? null : matcher.group(1).toCharArray())
                 .build();
     }
 }
