@@ -13,3 +13,7 @@ export function isDomainOfficial(d) {
   }
   return false;
 }
+
+export function isCurrentClientDomainOfficial() {
+  return isDomainOfficial(window.location.hostname);
+}

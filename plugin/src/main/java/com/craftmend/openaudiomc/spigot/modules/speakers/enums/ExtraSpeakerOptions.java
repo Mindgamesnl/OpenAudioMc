@@ -42,6 +42,13 @@ public enum ExtraSpeakerOptions {
             "Reset Playthrough on Redstone Loss",
             "When the speaker loses redstone power, it will reset the playthrough",
             speaker -> true
+    ),
+
+    OVERWRITE_REGIONS(
+            true,
+            "Overwrite Regions",
+            "Temporarily mute regions that are playing audio",
+            speaker -> true
     )
     ;
 

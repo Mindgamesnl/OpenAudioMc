@@ -103,6 +103,16 @@ public class RegionModule {
             Bukkit.getPluginManager().registerEvents(new WorldLoadListener(this), OpenAudioMcSpigot.getInstance());
         }
 
+        if (StorageKey.SETTINGS_HYDRATE_REGIONS_ON_BOOT.getBoolean()) {
+            // hydrate all regions
+            for (World world : Bukkit.getWorlds()) {
+                WorldRegionManager worldManager = getWorld(world.getName());
+                for (RegionProperties region : worldManager.getRegions()) {
+                    region.getMediaForWorld(worldManager);
+                }
+            }
+        }
+
         this.regionAdapter.postLoad();
     }
 

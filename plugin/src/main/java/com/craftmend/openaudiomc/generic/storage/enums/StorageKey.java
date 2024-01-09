@@ -73,6 +73,7 @@ public enum StorageKey {
     SETTINGS_SPEAKER_REDSTONE_TICK_ENABLED(false, "options.redstone-tick-speakers", StorageLocation.CONFIG_FILE),
     SETTINGS_SPEAKER_REDSTONE_TICK_INTERVAL(false, "options.redstone-tick-speakers-interval", StorageLocation.CONFIG_FILE),
     SETTINGS_IGNORE_REGIONS_WHILE_IN_VEHICLE(false, "options.ignore-regions-on-vehicles", StorageLocation.CONFIG_FILE),
+    SETTINGS_HYDRATE_REGIONS_ON_BOOT(false, "options.hydrate-regions-on-boot", StorageLocation.CONFIG_FILE),
 
     SETTINGS_BEDROCK_PREFIX(false, "options.bedrock-name-prefix", StorageLocation.CONFIG_FILE),
     SETTINGS_TOKEN_AUTO_LOGIN(false, "options.token-auto-login", StorageLocation.CONFIG_FILE),

@@ -29,6 +29,7 @@ export class SpeakerPlayer {
     createdChannel.setTag('SPEAKER');
     createdChannel.setTag(this.id);
     this.channel = createdChannel;
+
     const createdMedia = new Sound(this.source);
     this.media = createdMedia;
     createdChannel.mixer = MediaManager.mixer;

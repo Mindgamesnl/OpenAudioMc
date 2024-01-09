@@ -201,6 +201,11 @@ options:
   # This is useful for some themepark servers, but should be used with caution.
   ignore-regions-on-vehicles: false
 
+  # This feature will hydrate region media for all regions on boot. This means that if you hae two regions, with different sources but equal durations
+  # they will be played in sync. Having this feature enable might have an additional memory footprint if you have a *ton* of regions (hundreds)
+  # but it's recommended to leave this on.
+  hydrate-regions-on-boot: true
+
 
 # PlaceholderAPI
 papi:
