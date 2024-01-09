@@ -244,3 +244,5 @@ redis:
   useSSL: false
   # The channel to sync with. When configured, OpenAudioMc will only sync to servers on redis with the same section
   section: event
+  # When using Redis Sentinel, you should set the master set to use. Leaves empty to use a single server Redis cluster
+  sentinel-master-set: ''

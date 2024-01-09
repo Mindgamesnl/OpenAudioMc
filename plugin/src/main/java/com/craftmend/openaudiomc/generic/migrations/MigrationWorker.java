@@ -59,6 +59,7 @@ public class MigrationWorker {
                 new TokenMessageMigration(),            // adds the token message
                 new AddVehicleRegionConfigMigration(),  // adds the option to disable regions while in a vehicle
                 new VoicechatDeafenMigration(),         // adds the option to deafen yourself
+                new AddRedisSentinelMigration(),         // adds the option to use redis sentinel
         };
 
         for (SimpleMigration migration : migrations) {

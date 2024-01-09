@@ -1,0 +1,67 @@
+version: '3.9'
+
+services:
+  master:
+    image: "bitnami/redis:7.2.1"
+    environment:
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL,CONFIG
+      - REDIS_AOF_ENABLED=no
+      - ALLOW_EMPTY_PASSWORD=no
+      - REDIS_PASSWORD=passwd
+      - REDIS_REPLICATION_MODE=master
+    network_mode: host
+
+  replica:
+    image: "bitnami/redis:7.2.1"
+    environment:
+      - REDIS_REPLICATION_MODE=slave
+      - REDIS_MASTER_HOST=127.0.0.1
+      - REDIS_MASTER_PASSWORD=passwd
+      - REDIS_PASSWORD=passwd
+      - REDIS_MASTER_PORT_NUMBER=6379
+      - REDIS_PORT_NUMBER=6380
+    depends_on:
+      - master
+    network_mode: host
+
+  sentinel-1:
+    image: 'bitnami/redis-sentinel:7.2.1'
+    environment:
+      - REDIS_MASTER_HOST=127.0.0.1
+      - REDIS_MASTER_SET=master
+      - REDIS_MASTER_PASSWORD=passwd
+      - REDIS_SENTINEL_PASSWORD=passwd
+      - REDIS_SENTINEL_DOWN_AFTER_MILLISECONDS=30000
+      - REDIS_SENTINEL_PORT_NUMBER=26379
+    depends_on:
+      - master
+      - replica
+    network_mode: host
+
+  sentinel-2:
+    image: 'bitnami/redis-sentinel:7.2.1'
+    environment:
+      - REDIS_MASTER_HOST=127.0.0.1
+      - REDIS_MASTER_SET=master
+      - REDIS_MASTER_PASSWORD=passwd
+      - REDIS_SENTINEL_PASSWORD=passwd
+      - REDIS_SENTINEL_DOWN_AFTER_MILLISECONDS=30000
+      - REDIS_SENTINEL_PORT_NUMBER=26380
+    depends_on:
+      - master
+      - replica
+    network_mode: host
+
+  sentinel-3:
+    image: 'bitnami/redis-sentinel:7.2.1'
+    environment:
+      - REDIS_MASTER_HOST=127.0.0.1
+      - REDIS_MASTER_SET=master
+      - REDIS_MASTER_PASSWORD=passwd
+      - REDIS_SENTINEL_PASSWORD=passwd
+      - REDIS_SENTINEL_DOWN_AFTER_MILLISECONDS=30000
+      - REDIS_SENTINEL_PORT_NUMBER=26381
+    depends_on:
+      - master
+      - replica
+    network_mode: host
