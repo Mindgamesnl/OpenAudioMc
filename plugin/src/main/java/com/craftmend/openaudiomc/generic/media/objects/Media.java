@@ -25,7 +25,7 @@ public class Media {
     @Setter private int volume = 100;
     @Setter private boolean muteRegions = false;
     @Setter private boolean muteSpeakers = false;
-    @Setter private int startAtSeconds = 0;
+    @Setter private int startAtMillis = 0;
     @Setter private MediaFlag flag = MediaFlag.DEFAULT;
 
     /**
@@ -56,7 +56,7 @@ public class Media {
         this.volume = options.getVolume();
         this.muteRegions = options.isMuteRegions();
         this.muteSpeakers = options.isMuteSpeakers();
-        this.startAtSeconds = options.getStartAtSeconds();
+        this.startAtMillis = options.getStartAtMillis();
         return this;
     }
 

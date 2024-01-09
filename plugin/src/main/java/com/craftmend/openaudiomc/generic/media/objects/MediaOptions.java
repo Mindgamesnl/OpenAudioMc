@@ -15,7 +15,7 @@ public class MediaOptions {
     private int volume = 100;
     private boolean muteSpeakers = false;
     private boolean muteRegions = false;
-    private int startAtSeconds = 0;
+    private int startAtMillis = 0;
 
     public OptionalError validate() {
         if (volume > 100)

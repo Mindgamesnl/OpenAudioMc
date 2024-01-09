@@ -30,6 +30,8 @@ export class Sound extends AudioSourceProcessor {
     this.initCallbacks = [];
     this.startedLoading = false;
     this.destroyed = false;
+    this.usesDateSync = false;
+    this.startAtMillis = 0;
   }
 
   whenInitialized(f) {
@@ -147,6 +149,13 @@ export class Sound extends AudioSourceProcessor {
           }
         }
 
+        // are we not syncing? in that case, we may need to set our own start time
+        if (!this.usesDateSync) {
+          if (this.startAtMillis > 0) {
+            this.setTime(this.startAtMillis / 1000);
+          }
+        }
+
         // did this sound get shut down?
         if (this.gotShutDown) {
           this.soundElement.pause();
@@ -156,6 +165,10 @@ export class Sound extends AudioSourceProcessor {
         }
       }
     }
+  }
+
+  setStartAt(startAt) {
+    this.startAtMillis = startAt;
   }
 
   handleError() {
@@ -268,11 +281,16 @@ export class Sound extends AudioSourceProcessor {
   }
 
   startDate(date) {
+    this.usesDateSync = true;
     this.whenInitialized(() => {
       // debugLog('Starting synced media');
       const start = new Date(date);
       const predictedNow = TimeService.getPredictedTime();
-      const seconds = (predictedNow - start) / 1000;
+      let seconds = (predictedNow - start) / 1000;
+
+      // add at startAt timestamp to the seconds to still apply the offset
+      seconds += this.startAtMillis / 1000;
+
       // debugLog(`Started ${seconds} ago`);
       const length = this.soundElement.duration;
       // debugLog(`Length ${length} seconds`);
