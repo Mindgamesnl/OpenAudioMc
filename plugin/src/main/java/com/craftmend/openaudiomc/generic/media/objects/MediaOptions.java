@@ -1,13 +1,7 @@
 package com.craftmend.openaudiomc.generic.media.objects;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -21,6 +15,7 @@ public class MediaOptions {
     private int volume = 100;
     private boolean muteSpeakers = false;
     private boolean muteRegions = false;
+    private int startAtSeconds = 0;
 
     public OptionalError validate() {
         if (volume > 100)

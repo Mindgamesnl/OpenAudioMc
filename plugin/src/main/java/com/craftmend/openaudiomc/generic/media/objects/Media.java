@@ -13,19 +13,20 @@ import java.util.UUID;
 public class Media {
 
     //media tracker
-    @Setter @Getter private String mediaId = UUID.randomUUID().toString();
+    @Setter private String mediaId = UUID.randomUUID().toString();
 
     //media information
     private String source;
-    @Setter @Getter private long startInstant;
-    @Setter @Getter private transient int keepTimeout = -1;
-    @Getter @Setter private boolean doPickup = false;
-    @Getter @Setter private boolean loop = false;
-    @Getter @Setter private int fadeTime = 0;
-    @Getter @Setter private int volume = 100;
-    @Getter @Setter private boolean muteRegions = false;
-    @Getter @Setter private boolean muteSpeakers = false;
-    @Getter @Setter private MediaFlag flag = MediaFlag.DEFAULT;
+    @Setter private long startInstant;
+    @Setter private transient int keepTimeout = -1;
+    @Setter private boolean doPickup = false;
+    @Setter private boolean loop = false;
+    @Setter private int fadeTime = 0;
+    @Setter private int volume = 100;
+    @Setter private boolean muteRegions = false;
+    @Setter private boolean muteSpeakers = false;
+    @Setter private int startAtSeconds = 0;
+    @Setter private MediaFlag flag = MediaFlag.DEFAULT;
 
     /**
      * Create a new media based on a url
@@ -55,6 +56,7 @@ public class Media {
         this.volume = options.getVolume();
         this.muteRegions = options.isMuteRegions();
         this.muteSpeakers = options.isMuteSpeakers();
+        this.startAtSeconds = options.getStartAtSeconds();
         return this;
     }
 
