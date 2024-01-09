@@ -112,6 +112,7 @@ public class SpeakerHandler implements ITickableHandler {
                         0,
                         0,
                         false,
+                        false,
                         false
                 )
         )));
@@ -138,7 +139,8 @@ public class SpeakerHandler implements ITickableHandler {
                 speaker.getSpeaker().getMedia().getStartInstant(),
                 obstructions,
                 true,
-                true
+                true,
+                ExtraSpeakerOptions.OVERWRITE_REGIONS.isEnabledFor(speaker.getSpeaker())
         );
     }
 

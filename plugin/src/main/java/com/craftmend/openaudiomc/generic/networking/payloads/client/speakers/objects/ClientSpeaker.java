@@ -20,5 +20,6 @@ public class ClientSpeaker implements Serializable {
     private int obstructions;
     private boolean doLoop = true;
     private boolean doPickup = true;
+    private boolean cancelRegions = false;
 
 }
