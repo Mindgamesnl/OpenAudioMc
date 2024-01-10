@@ -8,7 +8,7 @@ import { debugLog } from '../../debugging/DebugService';
 /* eslint-disable no-console */
 
 export class SpeakerPlayer {
-  constructor(source, startInstant, doLoop = true, doPickup = true) {
+  constructor(source, startInstant, doLoop = true, doPickup = true, cancelRegions = false) {
     this.id = `SPEAKER__${source}`;
 
     this.speakerNodes = new Map();
@@ -16,8 +16,9 @@ export class SpeakerPlayer {
     this.startInstant = startInstant;
     this.doLoop = doLoop;
     this.doPickup = doPickup;
+    this.cancelRegions = cancelRegions;
 
-    debugLog('Speaker props: ', this.id, this.source, this.startInstant, this.doLoop, this.doPickup, 'initialized: ', this.initialized);
+    debugLog('Speaker props: ', this.id, this.source, this.startInstant, this.doLoop, this.doPickup, this.cancelRegions, 'initialized: ', this.initialized);
 
     this.initialized = false;
     this.whenInitialized = [];
@@ -32,6 +33,19 @@ export class SpeakerPlayer {
 
     const createdMedia = new Sound(this.source);
     this.media = createdMedia;
+
+    if (this.cancelRegions) {
+      MediaManager.mixer.incrementInhibitor('REGION');
+    }
+
+    MediaManager.mixer.whenFinished(this.id, () => {
+      // undo inhibit
+      if (this.cancelRegions) {
+        debugLog('Decrementing region inhibit from speaker');
+        MediaManager.mixer.decrementInhibitor('REGION');
+      }
+    });
+
     createdChannel.mixer = MediaManager.mixer;
     createdChannel.addSound(createdMedia);
     MediaManager.mixer.addChannel(createdChannel);

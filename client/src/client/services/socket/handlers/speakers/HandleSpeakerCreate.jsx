@@ -29,7 +29,7 @@ export function handleSpeakerCreate(data) {
     speaker.startInstant,
     doLoop,
     doPickup,
-
+    cancelRegions,
   );
 
   // add it to the render queue
