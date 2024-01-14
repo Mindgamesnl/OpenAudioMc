@@ -190,7 +190,7 @@ export class LoginView extends React.Component {
                     id="notice"
                     href="https://openaudiomc.net/"
                   >
-                    &copy; OpenAudioMc 2016-2023.All Rights Reserved.
+                    &copy; OpenAudioMc 2016-2024.All Rights Reserved.
                   </a>
                 </div>
               </div>

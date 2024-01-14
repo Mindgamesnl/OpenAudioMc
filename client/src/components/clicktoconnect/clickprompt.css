@@ -10,6 +10,6 @@
 }
 
 .clickprompt-box {
-    background: var(--theme-bg-color);
+    background: color-mix(in srgb, var(--theme-bg-color), black 25%); /* Darker variant of var(--theme-bg-color) */
     backdrop-filter: blur(30px); z-index: 1
 }

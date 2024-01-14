@@ -49,7 +49,7 @@ function ClickPrompt(props) {
   }
 
   return (
-    <BlackoutPage backgroundColor="black">
+    <BlackoutPage backgroundColor="rgba(0,0,0,.5)">
       <div className="py-12">
         <section className="mb-32 text-gray-800 text-center lg:text-left w-full pt-32">
           <div className="container mx-auto xl:px-32 text-center lg:text-left">
