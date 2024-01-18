@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.api.impl.event.events.*;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.client.session.RtcSessionManager;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
@@ -17,7 +18,10 @@ import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.FilterService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.PeerFilter;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.impl.GamemodeFilter;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.impl.TeamFilter;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.PlayerProximityTicker;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.PlayerVicinityMessageTask;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.TickVoicePacketQueue;
@@ -180,6 +184,17 @@ public class SpigotVoiceChatService extends Service {
             if (!event.getClient().isConnected()) return;
             sendMessage(event.getClient().getUser(), Platform.translateColors(StorageKey.MESSAGE_VC_UNDEAFEN.getString()));
         });
+
+        // enable default rules
+        if (StorageKey.SETTINGS_VOICE_FILTERS_GAMEMODE.getBoolean()) {
+            OpenAudioLogger.toConsole("Enabling voicechat gamemode filter");
+            getService(FilterService.class).addFilterFunction(new GamemodeFilter());
+        }
+
+        if (StorageKey.SETTINGS_VOICE_FILTERS_TEAM.getBoolean()) {
+            OpenAudioLogger.toConsole("Enabling voicechat team filter");
+            getService(FilterService.class).addFilterFunction(new TeamFilter());
+        }
     }
 
     private void sendMessage(User player, String message) {

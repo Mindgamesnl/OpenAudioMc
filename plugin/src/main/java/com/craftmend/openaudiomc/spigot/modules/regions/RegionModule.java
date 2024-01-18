@@ -71,6 +71,7 @@ public class RegionModule {
 
             // update null values should be set to defaults
             if (region.getLoop() == null) region.setLoop(true);
+            if (region.getDoSync() == null) region.setDoSync(true);
 
             // does this region adhere to a specific world?
             if (region.hasWorlds()) {
