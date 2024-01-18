@@ -213,6 +213,10 @@ vc-filter:
   # When enabled, players will only be able to hear eachother if they both share the same gamemode (survival, creative, adventure, spectator)
   require-same-gamemode: false
 
+  # When enabled, players will only be able to hear eachother if they both share the same team. Edge cases:
+  # - Players without a team can only hear other players without a team
+  require-common-team: false
+
 # PlaceholderAPI
 papi:
   # Value to display when player is connected to the web client
