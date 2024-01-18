@@ -54,6 +54,7 @@ public class MigrationWorker {
                 new AddConfigKeyMigration(SETTINGS_IGNORE_REGIONS_WHILE_IN_VEHICLE, "adds the option to disable regions while in a vehicle"),
                 new AddConfigKeyMigration(MESSAGE_VC_DEAFEN, "adds the option to deafen yourself"),
                 new AddConfigKeyMigration(REDIS_SENTINEL_MASTER_SET, "adds the option to use redis sentinel"),
+                new AddConfigKeyMigration(SETTINGS_VOICE_FILTERS_GAMEMODE, "Add migrations for the new voicechat filters"),
         };
 
         for (SimpleMigration migration : migrations) {

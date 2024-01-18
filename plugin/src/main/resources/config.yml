@@ -206,6 +206,12 @@ options:
   # but it's recommended to leave this on.
   hydrate-regions-on-boot: true
 
+# Voicechat filters define requirements that players both have to meet before they will be able to hear eachother.
+# You can implement custom filters through the API, or enable some of the default ones below.
+vc-filter:
+
+  # When enabled, players will only be able to hear eachother if they both share the same gamemode (survival, creative, adventure, spectator)
+  require-same-gamemode: false
 
 # PlaceholderAPI
 papi:
