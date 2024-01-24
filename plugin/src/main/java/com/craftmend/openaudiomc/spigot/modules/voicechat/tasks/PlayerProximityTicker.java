@@ -71,8 +71,12 @@ public class PlayerProximityTicker implements Runnable {
                     .filter(peer -> (client.isModerating() || !peer.isModerating())) // ignore moderators
 
                     .forEach(peer -> {
-                        // connect with these
-                        client.getRtcSessionManager().requestLinkage(peer, true);
+                        // am I moderating compared to this peer?
+                        boolean isModerating = client.isModerating() && !peer.isModerating();
+
+                        // only setup mutual connection if out moderation state is the same
+                        client.getRtcSessionManager().requestLinkage(peer, !isModerating);
+
                         // add them as a recent if we already have its data cached
                         if (client.getDataCache() != null) {
                             client.getDataCache().pushPeerName(peer.getOwner().getName());
