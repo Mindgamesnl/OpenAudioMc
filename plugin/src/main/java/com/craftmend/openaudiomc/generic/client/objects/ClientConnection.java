@@ -22,9 +22,11 @@ import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientCreateMedia;
+import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientPreFetch;
 import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClientModerationStatus;
 import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClientProtocolRevisionPacket;
 import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClientSetVolume;
+import com.craftmend.openaudiomc.generic.networking.payloads.client.media.ClientPreFetchPayload;
 import com.craftmend.openaudiomc.generic.rest.Task;
 import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
@@ -287,5 +289,11 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
     @Override
     public boolean isModerating() {
         return session.isModerating();
+    }
+
+    @Override
+    public void preloadMedia(String source) {
+        ClientPreFetchPayload payload = new ClientPreFetchPayload(source, "api", false);
+        sendPacket(new PacketClientPreFetch(payload));
     }
 }
