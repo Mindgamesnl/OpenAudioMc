@@ -12,6 +12,7 @@ import com.craftmend.openaudiomc.generic.client.ClientDataService;
 import com.craftmend.openaudiomc.generic.client.store.ClientDataStore;
 import com.craftmend.openaudiomc.generic.environment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
+import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.client.session.ClientAuth;
 import com.craftmend.openaudiomc.generic.client.session.RtcSessionManager;
@@ -293,7 +294,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
 
     @Override
     public void preloadMedia(String source) {
-        ClientPreFetchPayload payload = new ClientPreFetchPayload(source, "api", false);
+        ClientPreFetchPayload payload = new ClientPreFetchPayload(OpenAudioMc.getService(MediaService.class).process(source), "api", false);
         sendPacket(new PacketClientPreFetch(payload));
     }
 }
