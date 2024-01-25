@@ -60,4 +60,9 @@ public interface Client {
      */
     boolean isModerating();
 
+    /**
+     * @param source The source to preload
+     */
+    void preloadMedia(String source);
+
 }

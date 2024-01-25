@@ -35,7 +35,8 @@ public class CommandService extends Service {
                 new ModulesSubCommand(),
                 new ClientsSubCommand(),
                 new StopSubCommand(),
-                new PlaySubCommand()
+                new PlaySubCommand(),
+                new PreloadSubCommand()
         );
     }
 

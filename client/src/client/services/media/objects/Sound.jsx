@@ -1,4 +1,3 @@
-import { GetAudio } from '../../../util/AudioFactory';
 import { AUDIO_ENDPOINTS, AudioSourceProcessor } from '../../../util/AudioSourceProcessor';
 import { TimeService } from '../../time/TimeService';
 import { SocketManager } from '../../socket/SocketModule';
@@ -7,6 +6,7 @@ import { ReportError } from '../../../util/ErrorReporter';
 import { getGlobalState } from '../../../../state/store';
 import { debugLog } from '../../debugging/DebugService';
 import { isDomainOfficial } from '../../../config/MagicValues';
+import { AudioPreloader } from '../../preloading/AudioPreloader';
 
 export class Sound extends AudioSourceProcessor {
   constructor(opts = {}) {
@@ -36,20 +36,20 @@ export class Sound extends AudioSourceProcessor {
 
   whenInitialized(f) {
     if (this.loaded) {
-      f();
+      f.bind(this)();
     } else {
       this.initCallbacks.push(f);
     }
   }
 
-  async load(source, allowCaching = true) {
+  async load(source) {
     if (this.startedLoading) return;
     this.startedLoading = true;
     this.rawSource = source;
 
+    this.soundElement = await AudioPreloader.getResource(source);
     source = await this.translate(source);
 
-    this.soundElement = await GetAudio(source, true, allowCaching);
     // mute default
     if (this.options.startMuted) {
       this.soundElement.volume = 0;
@@ -141,7 +141,7 @@ export class Sound extends AudioSourceProcessor {
         debugLog(`Ready state is ${this.soundElement.readyState}, metadata is available`);
         this.loaded = true;
         for (let i = 0; i < this.initCallbacks.length; i++) {
-          const shouldStop = this.initCallbacks[i]();
+          const shouldStop = this.initCallbacks[i].bind(this)();
           if (shouldStop) {
             debugLog('Stopping init callbacks');
             this.initCallbacks = [];
@@ -286,10 +286,12 @@ export class Sound extends AudioSourceProcessor {
       // debugLog('Starting synced media');
       const start = new Date(date);
       const predictedNow = TimeService.getPredictedTime();
-      let seconds = (predictedNow - start) / 1000;
+      let seconds = ((predictedNow.getTime() / 1000) - (start.getTime() / 1000)) / 1000;
 
       // add at startAt timestamp to the seconds to still apply the offset
-      seconds += this.startAtMillis / 1000;
+      if (this.startAtMillis) {
+        seconds += this.startAtMillis / 1000;
+      }
 
       // debugLog(`Started ${seconds} ago`);
       const length = this.soundElement.duration;

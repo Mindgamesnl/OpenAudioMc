@@ -143,7 +143,7 @@ export class Channel {
   tick() {
     // tick all sounds
     this.sounds.forEach((sound) => {
-      sound.tick();
+      sound.tick.bind(sound)();
     });
   }
 
