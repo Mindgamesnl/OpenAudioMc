@@ -40,8 +40,6 @@ public class VelocityCommandModule {
 
         commandService.registerSubCommands(
                 new HelpSubCommand(),
-                new VelocityPlayCommand(OpenAudioMc.getInstance()),
-                new VelocityStopCommand(OpenAudioMc.getInstance()),
                 new VelocityRegionCommand(),
                 new VelocitySpeakerCommand(),
                 new VelocityShowCommand(),

@@ -49,7 +49,7 @@ import java.util.*;
 
 public class ClientConnection implements Authenticatable, Client, Serializable {
 
-    @Getter private transient final User user;
+    @Getter private transient final User<?> user;
 
     @Getter private final SessionData session;
     @Setter private ClientAuth auth;
@@ -233,7 +233,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
     }
 
     @Override
-    public User getOwner() {
+    public User<?> getOwner() {
         return this.getUser();
     }
 

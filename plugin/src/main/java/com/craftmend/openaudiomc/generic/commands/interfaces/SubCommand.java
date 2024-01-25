@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.generic.commands.interfaces;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
+import com.craftmend.openaudiomc.generic.commands.selectors.SelectorTranslator;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
@@ -145,6 +146,13 @@ public abstract class SubCommand {
 
     protected <T extends Service> T getService(Class<T> service) {
         return service.cast(OpenAudioMc.getInstance().getServiceManager().loadService(service));
+    }
+
+    protected List<User<?>> resolveSelector(User<?> sender, String selector) {
+        SelectorTranslator<?> translator = Platform.getSelectorTranslator();
+        translator.setString(selector);
+        translator.setSenderGeneric(sender);
+        return translator.getResultsGeneric();
     }
 
     @SneakyThrows

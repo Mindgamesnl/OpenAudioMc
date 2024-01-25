@@ -1,9 +1,12 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.middleware;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.interfaces.Client;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
+import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.generic.user.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
 import lombok.AllArgsConstructor;
 import org.bukkit.Bukkit;
@@ -48,11 +51,15 @@ public class CommandTranslationMiddleware implements Listener {
         if (commandPreset.charAt(0) == '/') commandPreset = commandPreset.replace("/", "");
         commandPreset = commandPreset.replaceAll(Pattern.quote(selector), "%%player%%");
 
+        SpigotPlayerSelector spigotPlayerSelector = new SpigotPlayerSelector();
+        spigotPlayerSelector.setSender(new SpigotUserAdapter(event.getSender()));
+        spigotPlayerSelector.setString(selector);
+
         // process the selector, build a new command and re-run
-        for (Player player : new SpigotPlayerSelector(selector).getPlayers(event.getSender())) {
-            String playerCommand = commandPreset.replaceAll("%%player%%", player.getName());
+        for (User<?> target : spigotPlayerSelector.getResults()) {
+            String playerCommand = commandPreset.replaceAll("%%player%%", target.getName());
             Bukkit.getServer().dispatchCommand(event.getSender(), playerCommand);
-            event.getSender().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Changed selector to execute for " + player.getName());
+            event.getSender().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Changed selector to execute for " + target.getName());
         }
 
         event.setCancelled(true);
