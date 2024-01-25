@@ -63,38 +63,31 @@ public class RtcSessionManager implements Serializable {
      * @param peer Who I should become friends with
      * @return If I became friends
      */
-    public boolean linkTo(ClientConnection peer) {
+    public boolean requestLinkage(ClientConnection peer, boolean mutual) {
         if (!isReady())
             return false;
 
         if (!peer.getRtcSessionManager().isReady())
             return false;
 
-        if (listeningTo.contains(peer.getOwner().getUniqueId()))
-            return false;
-
-        if (peer.getRtcSessionManager().listeningTo.contains(clientConnection.getOwner().getUniqueId()))
-            return false;
-
-        boolean skipPeer = false;
-
-        // are we moderating? if so, and the other user isn't, we should force a one-sided subscription
-        if (clientConnection.getSession().isModerating() && !peer.getSession().isModerating()) {
-            skipPeer = true;
-        }
-
-        if (!skipPeer) {
+        // only force the other user to subscribe if they are not already listening to me and mutual is true
+        if (mutual && !peer.getRtcSessionManager().listeningTo.contains(clientConnection.getOwner().getUniqueId())) {
             peer.getRtcSessionManager().getListeningTo().add(clientConnection.getOwner().getUniqueId());
             peer.getPeerQueue().addSubscribe(clientConnection, peer);
             AudioApi.getInstance().getEventDriver().fire(new PlayerEnterVoiceProximityEvent(clientConnection, peer, VoiceEventCause.NORMAL));
+            peer.getRtcSessionManager().updateLocationWatcher();
         }
+
+        // in case that I'm already listening to the other user, don't do anything
+        // we do this after the mutual handling, so that still continues if I'm already listening to the other user
+        if (listeningTo.contains(peer.getOwner().getUniqueId()))
+            return false;
 
         listeningTo.add(peer.getOwner().getUniqueId());
         clientConnection.getPeerQueue().addSubscribe(peer, clientConnection);
         AudioApi.getInstance().getEventDriver().fire(new PlayerEnterVoiceProximityEvent(peer, clientConnection, VoiceEventCause.NORMAL));
 
         updateLocationWatcher();
-        peer.getRtcSessionManager().updateLocationWatcher();
 
         return true;
     }
