@@ -19,7 +19,7 @@ import java.util.UUID;
 import static com.craftmend.openaudiomc.generic.platform.Platform.translateColors;
 
 @AllArgsConstructor
-public class SpigotUserAdapter implements User {
+public class SpigotUserAdapter implements User<CommandSender> {
 
     private CommandSender player;
 
@@ -142,7 +142,7 @@ public class SpigotUserAdapter implements User {
     }
 
     @Override
-    public Object getOriginal() {
+    public CommandSender getOriginal() {
         return player;
     }
 

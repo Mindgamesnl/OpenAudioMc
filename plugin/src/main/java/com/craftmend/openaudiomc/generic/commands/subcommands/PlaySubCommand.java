@@ -1,26 +1,22 @@
-package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
+package com.craftmend.openaudiomc.generic.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 
+import com.craftmend.openaudiomc.api.interfaces.Client;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.media.objects.OptionalError;
+import com.craftmend.openaudiomc.generic.platform.OaColor;
 import com.craftmend.openaudiomc.generic.user.User;
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.media.objects.MediaOptions;
-import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
-import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
-import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+
+import java.util.Optional;
 
 public class PlaySubCommand extends SubCommand {
 
-    private final OpenAudioMcSpigot openAudioMcSpigot;
-
-    public PlaySubCommand(OpenAudioMcSpigot openAudioMcSpigot) {
+    public PlaySubCommand() {
         super("play", "p");
         registerArguments(
                 new Argument("<selector> <source>",
@@ -28,7 +24,6 @@ public class PlaySubCommand extends SubCommand {
                 new Argument("<selector> <source> <options>",
                         "Plays a sound with configuration (like fade time, sync etc) for all players in a selection")
         );
-        this.openAudioMcSpigot = openAudioMcSpigot;
     }
 
     @Override
@@ -41,12 +36,16 @@ public class PlaySubCommand extends SubCommand {
         if (args.length == 2) {
             Media media = new Media(args[1]);
             int affected = 0;
-            for (Player player : new SpigotPlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal())) {
-                SpigotConnection spigotConnection = OpenAudioMc.getService(SpigotPlayerService.class).getClient(player);
-                if (spigotConnection.getClientConnection().isConnected()) affected++;
-                spigotConnection.getClientConnection().sendMedia(media);
+
+            for (User<?> user : resolveSelector(sender, args[0])) {
+                Optional<Client> client = user.findClient();
+                if (client.isPresent()) {
+                    if (client.get().isConnected()) affected++;
+                    ClientConnection clientConnection = (ClientConnection) client.get();
+                    clientConnection.sendMedia(media);
+                }
             }
-            message(sender, ChatColor.GREEN + "Media created and requested to be played for " + affected + " clients");
+            message(sender, OaColor.GREEN + "Media created and requested to be played for " + affected + " clients");
             return;
         }
 
@@ -56,16 +55,23 @@ public class PlaySubCommand extends SubCommand {
 
                 OptionalError parsingError = mediaOptions.validate();
                 if (parsingError.isError()) {
-                    message(sender, ChatColor.RED + "Error! " + parsingError.getMessage());
+                    message(sender, OaColor.RED + "Error! " + parsingError.getMessage());
                     return;
                 }
 
                 Media media = new Media(args[1]).applySettings(mediaOptions);
-                for (Player player : new SpigotPlayerSelector(args[0]).getPlayers((CommandSender) sender.getOriginal())) {
-                    SpigotConnection spigotConnection = OpenAudioMc.getService(SpigotPlayerService.class).getClient(player);
-                    spigotConnection.getClientConnection().sendMedia(media);
+
+                for (User<?> user : resolveSelector(sender, args[0])) {
+                    Optional<Client> client = user.findClient();
+                    if (client.isPresent()) {
+                        if (client.get().isConnected()) {
+                            ClientConnection clientConnection = (ClientConnection) client.get();
+                            clientConnection.sendMedia(media);
+                        }
+                    }
                 }
-                message(sender, ChatColor.GREEN + "Media (with arguments) created and requested to be played.");
+
+                message(sender, OaColor.GREEN + "Media (with arguments) created and requested to be played.");
             } catch (Exception e) {
                 message(sender, "Error. Invalid options. Please refer to the command guide.");
             }

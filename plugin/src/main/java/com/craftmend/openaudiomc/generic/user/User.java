@@ -10,9 +10,9 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface User {
+public interface User<T> {
 
-    @Deprecated Object getOriginal();
+    T getOriginal();
 
     String getName();
     UUID getUniqueId();

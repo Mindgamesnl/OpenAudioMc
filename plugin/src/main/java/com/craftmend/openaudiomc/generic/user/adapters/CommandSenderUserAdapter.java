@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 
 @AllArgsConstructor
-public class CommandSenderUserAdapter implements User {
+public class CommandSenderUserAdapter implements User<CommandSender> {
 
     private CommandSender sender;
 
@@ -68,7 +68,7 @@ public class CommandSenderUserAdapter implements User {
     }
 
     @Override
-    public Object getOriginal() {
+    public CommandSender getOriginal() {
         return sender;
     }
 

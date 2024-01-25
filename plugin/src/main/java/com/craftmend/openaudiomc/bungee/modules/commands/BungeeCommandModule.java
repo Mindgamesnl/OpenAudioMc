@@ -31,8 +31,6 @@ public class BungeeCommandModule extends Service {
 
         commandService.registerSubCommands(
                 new HelpSubCommand(),
-                new BungeePlayCommand(OpenAudioMc.getInstance()),
-                new BungeeStopCommand(OpenAudioMc.getInstance()),
                 new BungeeRegionCommand(),
                 new BungeeSpeakerCommand(),
                 new BungeeShowCommand(),

@@ -22,7 +22,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class VistasUser implements User {
+public class VistasUser implements User<Object> {
 
     private String name;
     private UUID uuid;
@@ -34,7 +34,7 @@ public class VistasUser implements User {
     @Getter private Instant offlineSince = Instant.now();
     @Getter private Set<UUID> currentServers = new HashSet<>();
     private boolean isSpigot = false;
-    private User original = null;
+    private User<?> original = null;
 
     public VistasUser(String name, UUID uuid, String ip) {
         this.name = name;
@@ -42,7 +42,7 @@ public class VistasUser implements User {
         this.ip = ip;
     }
 
-    public VistasUser(String name, UUID uuid, User player) {
+    public VistasUser(String name, UUID uuid, User<?> player) {
         this.name = name;
         this.uuid = uuid;
         this.isSpigot = true;

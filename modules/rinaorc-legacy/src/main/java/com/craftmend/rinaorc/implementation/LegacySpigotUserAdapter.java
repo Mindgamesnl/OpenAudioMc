@@ -21,7 +21,7 @@ import static com.craftmend.openaudiomc.generic.platform.Platform.translateColor
 
 @Deprecated
 @AllArgsConstructor
-public class LegacySpigotUserAdapter implements User {
+public class LegacySpigotUserAdapter implements User<CommandSender> {
 
     private CommandSender sender;
 
@@ -126,7 +126,7 @@ public class LegacySpigotUserAdapter implements User {
     }
 
     @Override
-    public Object getOriginal() {
+    public CommandSender getOriginal() {
         return sender;
     }
 
