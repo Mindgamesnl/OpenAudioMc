@@ -43,7 +43,6 @@ public class PreloadSubCommand extends SubCommand {
                 }
             }
             message(sender, OaColor.GREEN + "Requested " + affected + " web-clients to preload the sound");
-            return;
         }
     }
 }
