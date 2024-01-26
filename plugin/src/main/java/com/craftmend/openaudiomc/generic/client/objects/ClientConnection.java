@@ -27,7 +27,9 @@ import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketC
 import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClientModerationStatus;
 import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClientProtocolRevisionPacket;
 import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClientSetVolume;
+import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientVoiceOptionsUpdate;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.media.ClientPreFetchPayload;
+import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceOptionsPayload;
 import com.craftmend.openaudiomc.generic.rest.Task;
 import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
@@ -296,5 +298,23 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
     public void preloadMedia(String source) {
         ClientPreFetchPayload payload = new ClientPreFetchPayload(OpenAudioMc.getService(MediaService.class).process(source), "api", false);
         sendPacket(new PacketClientPreFetch(payload));
+    }
+
+    @Override
+    public void updatePeerOptions(Client peer, VoicePeerOptions options) {
+        Objects.requireNonNull(peer, "Peer cannot be null");
+        Objects.requireNonNull(options, "Options cannot be null");
+
+        // do we have this peer?
+        if (!rtcSessionManager.isPeer(peer.getUser().getUniqueId())) {
+            throw new IllegalArgumentException("Peer is not connected to this client");
+        }
+
+        // update the options
+        ClientConnection peerCon = OpenAudioMc.getService(NetworkingService.class).getClient(peer.getUser().getUniqueId());
+        PacketClientVoiceOptionsUpdate packet = new PacketClientVoiceOptionsUpdate(
+                new ClientVoiceOptionsPayload(peerCon.getRtcSessionManager().getStreamKey(), options)
+        );
+        sendPacket(packet);
     }
 }

@@ -208,4 +208,8 @@ public class RtcSessionManager implements Serializable {
             AudioApi.getInstance().getEventDriver().fire(new MicrophoneMuteEvent(clientConnection));
         }
     }
+
+    public boolean isPeer(UUID uuid) {
+        return listeningTo.contains(uuid);
+    }
 }
