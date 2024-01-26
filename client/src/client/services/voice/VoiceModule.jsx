@@ -46,20 +46,12 @@ export const VoiceModule = new class IVoiceModule {
     this.isUpdatingMic = false;
 
     let lastPreferredMic = getGlobalState().settings.preferredMicId;
-    let lastSurroundValue = getGlobalState().settings.voicechatSurroundSound;
     let onSettingsChange = () => {
       const state = getGlobalState().settings;
       if (lastPreferredMic !== state.preferredMicId) {
         lastPreferredMic = state.preferredMicId;
         if (!this.isUpdatingMic && this.isReady()) {
           this.changeInput(lastPreferredMic);
-        }
-      }
-
-      if (lastSurroundValue !== state.voicechatSurroundSound) {
-        lastSurroundValue = state.voicechatSurroundSound;
-        if (this.isReady()) {
-          this.onSurroundUpdate();
         }
       }
     };
@@ -130,27 +122,6 @@ export const VoiceModule = new class IVoiceModule {
     };
 
     deviceLoader.getUserMedia(getGlobalState().settings.preferredMicId);
-  }
-
-  onSurroundUpdate() {
-    SocketManager.send(PluginChannel.RTC_READY, { enabled: false });
-
-    setGlobalState({
-      loadingOverlay: {
-        visible: true,
-        title: getTranslation(null, 'vc.reloadingPopupTitle'),
-        message: getTranslation(null, 'vc.reloadingPopup'),
-      },
-      voiceState: {
-        peers: [],
-      },
-    });
-
-    setTimeout(() => {
-      // hide the loading popup
-      setGlobalState({ loadingOverlay: { visible: false } });
-      SocketManager.send(PluginChannel.RTC_READY, { enabled: true });
-    }, 2000);
   }
 
   panic() {
