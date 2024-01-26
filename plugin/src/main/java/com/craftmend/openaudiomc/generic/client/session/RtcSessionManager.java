@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.generic.client.enums.RtcBlockReason;
 import com.craftmend.openaudiomc.generic.client.enums.RtcStateFlag;
 import com.craftmend.openaudiomc.generic.client.helpers.ClientRtcLocationUpdate;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.objects.VoicePeerOptions;
 import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.node.packets.ForceMuteMicrophonePacket;
@@ -63,7 +64,7 @@ public class RtcSessionManager implements Serializable {
      * @param peer Who I should become friends with
      * @return If I became friends
      */
-    public boolean requestLinkage(ClientConnection peer, boolean mutual) {
+    public boolean requestLinkage(ClientConnection peer, boolean mutual, VoicePeerOptions options) {
         if (!isReady())
             return false;
 
@@ -73,7 +74,7 @@ public class RtcSessionManager implements Serializable {
         // only force the other user to subscribe if they are not already listening to me and mutual is true
         if (mutual && !peer.getRtcSessionManager().listeningTo.contains(clientConnection.getOwner().getUniqueId())) {
             peer.getRtcSessionManager().getListeningTo().add(clientConnection.getOwner().getUniqueId());
-            peer.getPeerQueue().addSubscribe(clientConnection, peer);
+            peer.getPeerQueue().addSubscribe(clientConnection, peer, options);
             AudioApi.getInstance().getEventDriver().fire(new PlayerEnterVoiceProximityEvent(clientConnection, peer, VoiceEventCause.NORMAL));
             peer.getRtcSessionManager().updateLocationWatcher();
         }
@@ -84,7 +85,7 @@ public class RtcSessionManager implements Serializable {
             return false;
 
         listeningTo.add(peer.getOwner().getUniqueId());
-        clientConnection.getPeerQueue().addSubscribe(peer, clientConnection);
+        clientConnection.getPeerQueue().addSubscribe(peer, clientConnection, options);
         AudioApi.getInstance().getEventDriver().fire(new PlayerEnterVoiceProximityEvent(peer, clientConnection, VoiceEventCause.NORMAL));
 
         updateLocationWatcher();

@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { getTranslation } from '../../client/OpenAudioAppContainer';
 import { setGlobalState } from '../../state/store';
+import { VoiceModule } from '../../client/services/voice/VoiceModule';
 
 class ExtraVoiceSettings extends React.Component {
   constructor(props) {
@@ -17,6 +18,14 @@ class ExtraVoiceSettings extends React.Component {
 
   toggleSurroundSound() {
     setGlobalState({ settings: { voicechatSurroundSound: !this.props.surroundSound } });
+
+    // update all peers
+    Object.keys(this.props.voiceState.peers).forEach((peerId) => {
+      const peerInstance = VoiceModule.peerMap.get(peerId);
+      if (peerInstance && peerInstance.stream) {
+        peerInstance.stream.enableSpatialAudio(!this.props.surroundSound);
+      }
+    });
   }
 
   render() {

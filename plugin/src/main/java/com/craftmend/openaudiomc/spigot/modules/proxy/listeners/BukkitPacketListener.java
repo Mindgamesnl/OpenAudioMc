@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.authentication.objects.Key;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
+import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.oac.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
@@ -74,11 +75,20 @@ public class BukkitPacketListener implements PacketListener {
 
     @ProxyPacketHandler
     public void onCommand(User user, CommandProxyPacket packet) {
-        User player = OpenAudioMc.resolveDependency(UserHooks.class).byUuid(packet.getCommandProxy().getExecutor());
+        User<?> player = OpenAudioMc.resolveDependency(UserHooks.class).byUuid(packet.getCommandProxy().getExecutor());
         if (player == null) return;
-        OpenAudioMc.getService(CommandService.class)
-                .getSubCommand(packet.getCommandProxy().getProxiedCommand().toString().toLowerCase())
-                .onExecute(player, packet.getCommandProxy().getArgs());
+        try {
+            OpenAudioMc.getService(CommandService.class)
+                    .getSubCommand(packet.getCommandProxy().getProxiedCommand().toString().toLowerCase())
+                    .onExecute(player, packet.getCommandProxy().getArgs());
+        } catch (Exception e) {
+            if (e instanceof CommandError) {
+                player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + e.getMessage());
+            } else {
+                player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Something went wrong while executing the command. Please check your console for more information.");
+                e.printStackTrace();
+            }
+        }
     }
 
 }

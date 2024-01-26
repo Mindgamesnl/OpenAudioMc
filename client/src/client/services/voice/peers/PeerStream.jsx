@@ -8,14 +8,14 @@ import { Hark } from '../../../util/hark';
 import { ConnectionClosedError } from '../errors/ConnectionClosedError';
 
 export class PeerStream {
-  constructor(peerStreamKey, volume) {
+  constructor(peerStreamKey, volume, useSpatialAudio) {
     this.peerStreamKey = peerStreamKey;
     this.volume = volume;
     this.volBooster = 1.5;
     this.harkEvents = null;
     this.pannerId = null;
     this.globalVolumeNodeId = null;
-    this.useSpatialAudio = getGlobalState().settings.voicechatSurroundSound;
+    this.useSpatialAudio = useSpatialAudio;
     this.pannerNode = null;
 
     this.x = 0;
@@ -32,8 +32,7 @@ export class PeerStream {
     // request the stream
     const streamRequest = VoiceModule.peerManager.requestStream(this.peerStreamKey);
 
-    // when the stream is ready, we can start it
-    streamRequest.onFinish(async (stream) => {
+    const streamReadyHandler = async (stream) => {
       this.audio_elem = new Audio();
       this.audio_elem.autoplay = true;
       this.audio_elem.muted = true;
@@ -47,7 +46,7 @@ export class PeerStream {
 
       // Workaround for the Chrome bug
       await this.audio_elem.play();
-      const source = ctx.createMediaStreamSource(stream);
+      this.sourceNode = ctx.createMediaStreamSource(stream);
       this.mediaStream = stream;
 
       // speaking indicator
@@ -61,27 +60,11 @@ export class PeerStream {
         setGlobalState({ voiceState: { peers: { [this.peerStreamKey]: { speaking: false } } } });
       });
 
-      // spatial audio handling, depends on the settings
-      let outputNode = null;
+      this.globalSink = ctx.createGain();
+      this.globalVolumeNodeId = trackVoiceGainNode(this.globalSink);
+      this.globalSink.connect(ctx.destination);
 
-      if (this.useSpatialAudio) {
-        this.pannerNode = ctx.createPanner();
-        this.pannerId = applyPannerSettings(this.pannerNode);
-        this.setLocation(this.x, this.y, this.z, true);
-        source.connect(this.gainNode);
-        this.gainNode.connect(this.pannerNode);
-        outputNode = this.pannerNode;
-      } else {
-        // just do gain
-        source.connect(this.gainNode);
-        outputNode = this.gainNode;
-      }
-
-      const globalVolumeGainNode = ctx.createGain();
-      outputNode.connect(globalVolumeGainNode);
-      this.globalVolumeNodeId = trackVoiceGainNode(globalVolumeGainNode);
-      this.masterOutputNode = globalVolumeGainNode;
-      globalVolumeGainNode.connect(ctx.destination);
+      this.updateSpatialAudioSettings();
 
       // mute if voicechat is deafened
       if (getGlobalState().settings.voicechatDeafened) {
@@ -91,11 +74,65 @@ export class PeerStream {
       }
 
       callback(true);
-    });
+    };
+
+    // bind context
+    streamRequest.onFinish(streamReadyHandler.bind(this));
 
     streamRequest.onReject((e) => {
       callback(false, new ConnectionClosedError(e));
     });
+  }
+
+  updateSpatialAudioSettings() {
+    const ctx = WorldModule.player.audioCtx;
+
+    // reset source node
+    if (this.sourceNode !== null) {
+      this.sourceNode.disconnect();
+    }
+
+    // Remove existing panner nodes from tracking
+    if (this.pannerId !== null) {
+      untrackPanner(this.pannerId);
+    }
+
+    // Disconnect and remove existing panner nodes
+    if (this.pannerNode !== null) {
+      this.pannerNode.disconnect();
+      this.pannerNode = null;
+    }
+
+    // Create new panner nodes based on the updated spatial audio settings
+    if (this.useSpatialAudio) {
+      this.pannerNode = ctx.createPanner();
+      this.pannerId = applyPannerSettings(
+        this.pannerNode,
+        getGlobalState().voiceState.radius,
+      );
+      this.setLocation(this.x, this.y, this.z, true);
+      this.gainNode.disconnect();
+      this.sourceNode.connect(this.gainNode);
+      this.gainNode.connect(this.pannerNode);
+
+      // Connect panner node to global sink
+      this.pannerNode.connect(this.globalSink);
+    } else {
+      // If not using spatial audio, reconnect directly to gain node
+      this.sourceNode.connect(this.gainNode);
+      this.gainNode.disconnect();
+      this.gainNode.connect(ctx.destination);
+      // Connect gain node to global sink
+      this.gainNode.connect(this.globalSink);
+    }
+  }
+
+  enableSpatialAudio(useSpatialAudio) {
+    // Update spatial audio settings
+    this.useSpatialAudio = useSpatialAudio;
+
+    // Update the spatial audio settings without recreating the entire stream
+    this.updateSpatialAudioSettings();
   }
 
   setMuteOverride(muted) {
@@ -105,16 +142,14 @@ export class PeerStream {
   }
 
   setLocation(x, y, z, update) {
-    // is surround enabled?
-    if (!this.useSpatialAudio) return;
-
-    if (update && this.pannerNode !== null) {
-      const position = new Position(new Vector3(x, y, z));
-      position.applyTo(this.pannerNode);
-    }
     this.x = x;
     this.y = y;
     this.z = z;
+
+    if (this.useSpatialAudio && this.pannerNode && update) {
+      const position = new Position(new Vector3(x, y, z));
+      position.applyTo(this.pannerNode);
+    }
   }
 
   setVolume(volume) {

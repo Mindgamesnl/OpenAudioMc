@@ -26,8 +26,12 @@ public class PeerQueue {
         lock.unlock();
     }
 
-    public void addSubscribe(ClientConnection toListenTo, ClientConnection locationTarget) {
-        ClientVoiceSubscribePayload.SerializedPeer peer = ClientVoiceSubscribePayload.SerializedPeer.fromClient(toListenTo, locationTarget);
+    public void addSubscribe(
+            ClientConnection toListenTo,
+            ClientConnection originLocation,
+            VoicePeerOptions options
+    ) {
+        ClientVoiceSubscribePayload.SerializedPeer peer = ClientVoiceSubscribePayload.SerializedPeer.fromClient(toListenTo, originLocation, options);
         lock.lock();
         subscribeQueue.add(peer);
 

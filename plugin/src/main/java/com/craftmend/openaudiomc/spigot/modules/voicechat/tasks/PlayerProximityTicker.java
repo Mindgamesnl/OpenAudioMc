@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.api.impl.event.events.SystemReloadEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.VoiceChatPeerTickEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
+import com.craftmend.openaudiomc.generic.client.objects.VoicePeerOptions;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
@@ -75,7 +76,7 @@ public class PlayerProximityTicker implements Runnable {
                         boolean isModerating = client.isModerating() && !peer.isModerating();
 
                         // only setup mutual connection if out moderation state is the same
-                        client.getRtcSessionManager().requestLinkage(peer, !isModerating);
+                        client.getRtcSessionManager().requestLinkage(peer, !isModerating, VoicePeerOptions.DEFAULT);
 
                         // add them as a recent if we already have its data cached
                         if (client.getDataCache() != null) {
