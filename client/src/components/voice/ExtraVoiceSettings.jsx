@@ -22,7 +22,7 @@ class ExtraVoiceSettings extends React.Component {
     // update all peers
     Object.keys(this.props.voiceState.peers).forEach((peerId) => {
       const peerInstance = VoiceModule.peerMap.get(peerId);
-      if (peerInstance.stream) {
+      if (peerInstance && peerInstance.stream) {
         peerInstance.stream.enableSpatialAudio(!this.props.surroundSound);
       }
     });

@@ -181,8 +181,8 @@ export const VoiceModule = new class IVoiceModule {
     }, 3500);
   }
 
-  addPeer(playerUuid, playerName, playerStreamKey, location) {
-    this.peerMap.set(playerStreamKey, new VoicePeer(playerName, playerUuid, playerStreamKey, location));
+  addPeer(playerUuid, playerName, playerStreamKey, location, options) {
+    this.peerMap.set(playerStreamKey, new VoicePeer(playerName, playerUuid, playerStreamKey, location, options));
     feedDebugValue(DebugStatistic.VOICE_PEERS, this.peerMap.size);
   }
 

@@ -8,7 +8,7 @@ import { Hark } from '../../../util/hark';
 import { ConnectionClosedError } from '../errors/ConnectionClosedError';
 
 export class PeerStream {
-  constructor(peerStreamKey, volume, useSpatialAudio = getGlobalState().settings.voicechatSurroundSound) {
+  constructor(peerStreamKey, volume, useSpatialAudio) {
     this.peerStreamKey = peerStreamKey;
     this.volume = volume;
     this.volBooster = 1.5;

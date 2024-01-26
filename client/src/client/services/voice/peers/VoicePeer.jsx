@@ -6,7 +6,9 @@ import { Vector3 } from '../../../util/math/Vector3';
 import { VoiceModule } from '../VoiceModule';
 
 export class VoicePeer {
-  constructor(peerName, peerUuid, peerStreamKey, location) {
+  constructor(peerName, peerUuid, peerStreamKey, location, options) {
+    this.options = options;
+
     // register in global state
     setGlobalState({
       voiceState: {
@@ -18,6 +20,7 @@ export class VoicePeer {
             speaking: false,
             muted: false,
             loading: true,
+            options: this.options,
           },
         },
       },
@@ -32,7 +35,7 @@ export class VoicePeer {
     this.interpolator = new Interpolator();
 
     // initialize stream
-    this.stream = new PeerStream(peerStreamKey, getVolumeForPeer(this.peerUuid));
+    this.stream = new PeerStream(peerStreamKey, getVolumeForPeer(this.peerUuid), this.options.spatialAudio);
     this.stream.setLocation(location.x, location.y, location.z);
 
     // start, and handle when it's ready
@@ -50,6 +53,18 @@ export class VoicePeer {
         throw e;
       }
     });
+  }
+
+  updateOptions(changedOptions) {
+    if (changedOptions.spatialAudio !== undefined && changedOptions.spatialAudio !== this.options.spatialAudio) {
+      if (this.stream !== null) {
+        this.stream.enableSpatialAudio(changedOptions.spatialAudio);
+      }
+    }
+
+    this.options = changedOptions;
+    // update global state
+    setGlobalState({ voiceState: { peers: { [this.peerStreamKey]: { options: this.options } } } });
   }
 
   updateLocation(x, y, z) {
