@@ -3,7 +3,7 @@ import { reportVital } from '../../../../util/vitalreporter';
 import { StringifyError } from '../../../../util/errorreformat';
 import { debugLog } from '../../../debugging/DebugService';
 import { closeSessionTab } from '../../../../util/closure';
-import { VoicePeerOptions } from '../../../voice/peers/VoicePeerOptions';
+import { peerOptionsFromObj, VoicePeerOptions } from '../../../voice/peers/VoicePeerOptions';
 
 export function HandleVoiceSubscription(data) {
   // We need to separate this into two cases:
@@ -29,10 +29,7 @@ export function HandleVoiceSubscription(data) {
 
     let options = null;
     if (data.options) {
-      options = new VoicePeerOptions(
-        data.options.visible,
-        data.options.spatialAudio,
-      );
+      options = peerOptionsFromObj(data.options);
     } else {
       options = new VoicePeerOptions();
     }

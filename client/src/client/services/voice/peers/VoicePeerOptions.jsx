@@ -9,3 +9,10 @@ export class VoicePeerOptions {
     this.spatialAudio = spatialAudio;
   }
 }
+
+export function peerOptionsFromObj(obj) {
+  return new VoicePeerOptions(
+    obj.visible ?? true,
+    obj.spatialAudio ?? getGlobalState().settings.voicechatSurroundSound,
+  );
+}
