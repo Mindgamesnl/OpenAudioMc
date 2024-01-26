@@ -3,7 +3,7 @@ import React from 'react';
 export function GlobeSVG() {
   return (
   // source: https://www.svgrepo.com/svg/507325/globe-alt
-    <svg xmlns="http://www.w3.org/2000/svg" className="inline !mr-1 mb-1" viewBox="0 0 24 24" fill="none">
+    <svg xmlns="http://www.w3.org/2000/svg" className="inline !mr-1" viewBox="0 0 24 24" fill="none">
       <path
         d="M11 20.8464C11 21.4378 10.4874 21.9041 9.909 21.781C5.70686 20.8871 2.48103 17.3537 2.04924 12.9986C1.99475 12.449 2.44772 12 3 12H6C6.55228 12 7 12.4477 7 13C7 14.6569 8.34315 16 10 16C10.5523 16 11 16.4477 11 17V20.8464Z"
         fill="#948b7f"
