@@ -10,8 +10,6 @@ import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.client.objects.VoicePeerOptions;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
-import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;
-import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;
 import com.craftmend.openaudiomc.generic.utils.data.Filter;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.PeerFilter;
 import lombok.Setter;
@@ -25,6 +23,31 @@ public class PlayerProximityTicker implements Runnable {
 
     @Setter
     private Filter<ClientConnection, Player> filter;
+
+    /**
+     * The proximity ticker is what runs most of the business-logic for voice chat. It's responsible for
+     * linking players together, dropping players that are too far away and handling all the logic for
+     * the voice chat system.
+     * <br>
+     * It's important to keep in mind that efficiency must scale with the amount of players online,
+     * because it's easy to accidentally write a nested loop going over all players, which would
+     * be a disaster for performance. (N^2)
+     * <br>
+     * We try to calculate the max checks that could be done per player, and store these results in an array.
+     * This gives us cheap lookups for next iterations, and is reasonably memory effective.
+     * (arrays in java *do not* allocate memory for the entire footprint of the value, but only reserves a
+     * 64 bit pointer for the array, referencing client data we already have in memory)
+     * <br>
+     * Default behaviour is just normal proximity checks, but with a few edge cases:
+     * <ul>
+     * <li>If a player is considered a moderator, then it won't allow mutual connections with normal players</li>
+     * <li>If a player has N amount of "global" peers, then they should not be considered for proximity checks</li>
+     * </ul>
+     * <br>
+     * If you're reading this and looking to implement your own proximity checks, through the API, then please
+     * be aware of the design choices made here and consider following a similar pattern.
+     * Here be dragons.
+     */
 
     public PlayerProximityTicker(int maxDistance, PeerFilter peerFilter) {
         this.filter = peerFilter;
@@ -41,10 +64,20 @@ public class PlayerProximityTicker implements Runnable {
 
     @Override
     public void run() {
-        // pre tick
+        // pre-tick event, to take care of any pre-tick logic elsewhere
         AudioApi.getInstance().getEventDriver().fire(new VoiceChatPeerTickEvent(TickEventType.BEFORE_TICK));
 
-        for (ClientConnection client : OpenAudioMc.getService(NetworkingService.class).getClients()) {
+        // we'll reference everything during this tick based on this initial time snapshot. This prevents
+        // concurrency issues later on, and means we can do relatively fast arrayCopy's when needed.
+        // to save time, we'll pre-filter some results.
+        ClientConnection[] allClients = OpenAudioMc.getService(NetworkingService.class)
+                .getClients()
+                .stream()
+                .filter((c) -> c.getRtcSessionManager().isReady())
+                .toArray(ClientConnection[]::new);
+
+        for (ClientConnection client : allClients) {
+
             // am I valid? no? do nothing.
             if (!client.getRtcSessionManager().isReady()) continue;
 
@@ -67,7 +100,7 @@ public class PlayerProximityTicker implements Runnable {
             // find players that we don't have yet
             applicableClients
                     .stream()
-                    .filter(peer -> !client.getRtcSessionManager().getListeningTo().contains(peer.getOwner().getUniqueId()))
+                    .filter(peer -> !client.getRtcSessionManager().getCurrentProximityPeers().contains(peer.getOwner().getUniqueId()))
                     .filter(peer -> !peer.getSession().isResetVc()) // they are already resetting, give it a sec
                     .filter(peer -> (client.isModerating() || !peer.isModerating())) // ignore moderators
 
@@ -85,7 +118,7 @@ public class PlayerProximityTicker implements Runnable {
                     });
 
             // check if we have any peers that are no longer applicable
-            for (UUID uuid : client.getRtcSessionManager().getListeningTo()
+            for (UUID uuid : client.getRtcSessionManager().getCurrentProximityPeers()
                     .stream()
                     .filter(p -> p != client.getOwner().getUniqueId())
                     .filter(uuid -> (client.getSession().isResetVc() || applicableClients.stream().noneMatch(apc -> apc.getOwner().getUniqueId() == uuid)))
@@ -97,14 +130,14 @@ public class PlayerProximityTicker implements Runnable {
                 client.getPeerQueue().drop(peer.getRtcSessionManager().getStreamKey());
                 AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(client, peer, VoiceEventCause.NORMAL));
                 client.getRtcSessionManager().updateLocationWatcher();
-                client.getRtcSessionManager().getListeningTo().remove(peer.getOwner().getUniqueId());
+                client.getRtcSessionManager().getCurrentProximityPeers().remove(peer.getOwner().getUniqueId());
 
                 if (peer.isModerating()) {
                     continue;
                 }
 
                 peer.getPeerQueue().drop(client.getRtcSessionManager().getStreamKey());
-                peer.getRtcSessionManager().getListeningTo().remove(client.getOwner().getUniqueId());
+                peer.getRtcSessionManager().getCurrentProximityPeers().remove(client.getOwner().getUniqueId());
                 AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(peer, client, VoiceEventCause.NORMAL));
                 peer.getRtcSessionManager().updateLocationWatcher();
             }
