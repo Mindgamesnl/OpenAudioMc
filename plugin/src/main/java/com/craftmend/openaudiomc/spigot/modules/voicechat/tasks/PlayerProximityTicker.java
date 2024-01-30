@@ -137,6 +137,12 @@ public class PlayerProximityTicker implements Runnable {
                 // unsubscribe these
                 ClientConnection peer = OpenAudioMc.getService(NetworkingService.class).getClient(uuid);
 
+                if (peer == null) {
+                    // remove from list
+                    client.getRtcSessionManager().getCurrentProximityPeers().remove(uuid);
+                    continue;
+                }
+
                 client.getPeerQueue().drop(peer.getRtcSessionManager().getStreamKey());
                 AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(client, peer, VoiceEventCause.NORMAL));
                 client.getRtcSessionManager().updateLocationWatcher();
