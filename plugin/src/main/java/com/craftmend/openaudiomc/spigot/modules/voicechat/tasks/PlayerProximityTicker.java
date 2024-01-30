@@ -153,7 +153,7 @@ public class PlayerProximityTicker implements Runnable {
 
         // flush all voicechat updates
         for (ClientConnection client : allClients) {
-            client.getPeerQueue().flush(client);
+            client.getPeerQueue().flushDropsAndSubscriptions(client);
             client.getSession().setResetVc(false);
         }
 

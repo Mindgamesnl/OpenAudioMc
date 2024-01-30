@@ -40,7 +40,7 @@ public class PeerQueue {
         lock.unlock();
     }
 
-    public void flush(ClientConnection toSendTo) {
+    public void flushDropsAndSubscriptions(ClientConnection toSendTo) {
         lock.lock();
         if (!dropQueue.isEmpty()) {
             String[] streamKeys = dropQueue.toArray(new String[0]);
