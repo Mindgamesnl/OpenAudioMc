@@ -34,7 +34,7 @@ public class PlayerProximityTicker implements Runnable {
      * <br>
      * It's important to keep in mind that efficiency must scale with the amount of players online,
      * because it's easy to accidentally write a nested loop going over all players, which would
-     * be a disaster for performance. (N^2)
+     * be a disaster for performance. (N^2 is a big no-no)
      * <br>
      * We try to calculate the max checks that could be done per player, and store these results in an array.
      * This gives us cheap lookups for next iterations, and is reasonably memory effective.
@@ -82,7 +82,6 @@ public class PlayerProximityTicker implements Runnable {
         CombinationChecker combinationChecker = new CombinationChecker();
 
         for (ClientConnection client : allClients) {
-
             // am I valid? no? do nothing.
             if (!client.getRtcSessionManager().isReady()) continue;
 
@@ -95,6 +94,7 @@ public class PlayerProximityTicker implements Runnable {
                 applicableClients = new HashSet<>();
             } else {
                 // make a copy of the allClients, except with entries where combination checks failed
+                // order from cheap/most occurring to expensive/least occurring
                 Stream<ClientConnection> pre = Stream.of(allClients)
                         .filter((c) -> !c.getSession().isResetVc()) // don't check players that are resetting
                         .filter((c) -> c.getRtcSessionManager().isReady()) // only allow ready clients
@@ -102,6 +102,7 @@ public class PlayerProximityTicker implements Runnable {
                         .filter((c) -> !combinationChecker.contains(client.getUser().getUniqueId(), c.getUser().getUniqueId())) // don't check combinations that failed
                         .filter((c) -> c.isModerating() == client.isModerating()); // only allow equal moderation states
 
+                // execute API filters
                 applicableClients = filter.wrap(
                         pre,
                         player
@@ -122,6 +123,11 @@ public class PlayerProximityTicker implements Runnable {
                 // add them as a recent if we already have its data cached
                 if (client.getDataCache() != null) {
                     client.getDataCache().pushPeerName(peer.getOwner().getName());
+                }
+
+                // add them to the peer too
+                if (peer.getDataCache() != null) {
+                    peer.getDataCache().pushPeerName(client.getOwner().getName());
                 }
             });
 
