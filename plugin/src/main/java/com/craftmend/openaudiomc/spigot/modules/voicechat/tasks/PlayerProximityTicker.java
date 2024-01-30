@@ -12,6 +12,7 @@ import com.craftmend.openaudiomc.generic.client.objects.VoicePeerOptions;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.utils.data.Filter;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.PeerFilter;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.utils.CombinationChecker;
 import lombok.Setter;
 import org.bukkit.entity.Player;
 
@@ -76,6 +77,8 @@ public class PlayerProximityTicker implements Runnable {
                 .filter((c) -> c.getRtcSessionManager().isReady())
                 .toArray(ClientConnection[]::new);
 
+        CombinationChecker combinationChecker = new CombinationChecker();
+
         for (ClientConnection client : allClients) {
 
             // am I valid? no? do nothing.
@@ -92,19 +95,21 @@ public class PlayerProximityTicker implements Runnable {
             // clear the applicable players if i'm disabled myself
             if (!client.getRtcSessionManager().getBlockReasons().isEmpty()) applicableClients.clear();
 
-            // remove moderators, if I'm not moderating myself
-            if (!client.getSession().isModerating()) {
-                applicableClients.removeIf(other -> other.getSession().isModerating());
-            }
-
             // find players that we don't have yet
             applicableClients
                     .stream()
+                    .filter(peer -> {
+                        if (combinationChecker.hasChecked(client.getUser().getUniqueId(), peer.getUser().getUniqueId())) return false;
+                        return client.getSession().isModerating() && other.getSession().isModerating();
+                    })
                     .filter(peer -> !client.getRtcSessionManager().getCurrentProximityPeers().contains(peer.getOwner().getUniqueId()))
                     .filter(peer -> !peer.getSession().isResetVc()) // they are already resetting, give it a sec
                     .filter(peer -> (client.isModerating() || !peer.isModerating())) // ignore moderators
 
                     .forEach(peer -> {
+                        // register check
+                        combinationChecker.registerCheck(client.getUser().getUniqueId(), peer.getUser().getUniqueId());
+
                         // am I moderating compared to this peer?
                         boolean isModerating = client.isModerating() && !peer.isModerating();
 
