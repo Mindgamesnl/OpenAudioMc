@@ -2,8 +2,8 @@ package com.craftmend.openaudiomc.spigot.modules.voicechat.tasks;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.enums.TickEventType;
-import com.craftmend.openaudiomc.api.impl.event.events.PlayerLeaveVoiceProximityEvent;
 import com.craftmend.openaudiomc.api.impl.event.enums.VoiceEventCause;
+import com.craftmend.openaudiomc.api.impl.event.events.PlayerLeaveVoiceProximityEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.SystemReloadEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.VoiceChatPeerTickEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
@@ -110,20 +110,20 @@ public class PlayerProximityTicker implements Runnable {
 
             // find players that we don't have yet
             applicableClients.forEach(peer -> {
-                        // register check
-                        combinationChecker.mark(client.getUser().getUniqueId(), peer.getUser().getUniqueId());
+                // register check
+                combinationChecker.mark(client.getUser().getUniqueId(), peer.getUser().getUniqueId());
 
-                        // am I moderating compared to this peer?
-                        boolean isModerating = client.isModerating() && !peer.isModerating();
+                // am I moderating compared to this peer?
+                boolean isModerating = client.isModerating() && !peer.isModerating();
 
-                        // only setup mutual connection if out moderation state is the same
-                        client.getRtcSessionManager().requestLinkage(peer, !isModerating, VoicePeerOptions.DEFAULT);
+                // only setup mutual connection if out moderation state is the same
+                client.getRtcSessionManager().requestLinkage(peer, !isModerating, VoicePeerOptions.DEFAULT);
 
-                        // add them as a recent if we already have its data cached
-                        if (client.getDataCache() != null) {
-                            client.getDataCache().pushPeerName(peer.getOwner().getName());
-                        }
-                    });
+                // add them as a recent if we already have its data cached
+                if (client.getDataCache() != null) {
+                    client.getDataCache().pushPeerName(peer.getOwner().getName());
+                }
+            });
 
             // check if we have any peers that are no longer applicable
             for (UUID uuid : client.getRtcSessionManager().getCurrentProximityPeers()
@@ -152,11 +152,8 @@ public class PlayerProximityTicker implements Runnable {
         }
 
         // flush all voicechat updates
-        for (ClientConnection client : OpenAudioMc.getService(NetworkingService.class).getClients()) {
+        for (ClientConnection client : allClients) {
             client.getPeerQueue().flush(client);
-        }
-
-        for (ClientConnection client : OpenAudioMc.getService(NetworkingService.class).getClients()) {
             client.getSession().setResetVc(false);
         }
 
