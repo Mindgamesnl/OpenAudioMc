@@ -16,9 +16,11 @@ import com.craftmend.openaudiomc.spigot.modules.voicechat.utils.CombinationCheck
 import lombok.Setter;
 import org.bukkit.entity.Player;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PlayerProximityTicker implements Runnable {
 
@@ -86,29 +88,33 @@ public class PlayerProximityTicker implements Runnable {
 
             Player player = (Player) client.getUser().getOriginal();
 
-            // find clients in this world, in radius and that are connected with RTC
-            Set<ClientConnection> applicableClients = filter.wrap(
-                    OpenAudioMc.getService(NetworkingService.class).getClients().stream(),
-                    player
-            ).collect(Collectors.toSet());
+            // are we blocked?
+            Set<ClientConnection> applicableClients;
+            if (client.getRtcSessionManager().getBlockReasons().isEmpty()) {
+                // empty set, no peers for me bucko
+                applicableClients = new HashSet<>();
+            } else {
+                // make a copy of the allClients, except with entries where combination checks failed
+                Stream<ClientConnection> pre = Stream.of(allClients)
+                        .filter((c) -> !c.getSession().isResetVc()) // don't check players that are resetting
+                        .filter((c) -> c.getRtcSessionManager().isReady()) // only allow ready clients
+                        .filter((c) -> c.getOwner().getUniqueId() != client.getOwner().getUniqueId()) // don't check yourself
+                        .filter((c) -> !combinationChecker.contains(client.getUser().getUniqueId(), c.getUser().getUniqueId())) // don't check combinations that failed
+                        .filter((c) -> c.isModerating() == client.isModerating()); // only allow equal moderation states
+
+                applicableClients = filter.wrap(
+                        pre,
+                        player
+                ).collect(Collectors.toSet());
+            }
 
             // clear the applicable players if i'm disabled myself
             if (!client.getRtcSessionManager().getBlockReasons().isEmpty()) applicableClients.clear();
 
             // find players that we don't have yet
-            applicableClients
-                    .stream()
-                    .filter(peer -> {
-                        if (combinationChecker.hasChecked(client.getUser().getUniqueId(), peer.getUser().getUniqueId())) return false;
-                        return client.getSession().isModerating() && other.getSession().isModerating();
-                    })
-                    .filter(peer -> !client.getRtcSessionManager().getCurrentProximityPeers().contains(peer.getOwner().getUniqueId()))
-                    .filter(peer -> !peer.getSession().isResetVc()) // they are already resetting, give it a sec
-                    .filter(peer -> (client.isModerating() || !peer.isModerating())) // ignore moderators
-
-                    .forEach(peer -> {
+            applicableClients.forEach(peer -> {
                         // register check
-                        combinationChecker.registerCheck(client.getUser().getUniqueId(), peer.getUser().getUniqueId());
+                        combinationChecker.mark(client.getUser().getUniqueId(), peer.getUser().getUniqueId());
 
                         // am I moderating compared to this peer?
                         boolean isModerating = client.isModerating() && !peer.isModerating();
