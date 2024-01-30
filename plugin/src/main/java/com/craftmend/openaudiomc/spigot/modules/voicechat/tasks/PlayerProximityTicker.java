@@ -90,7 +90,7 @@ public class PlayerProximityTicker implements Runnable {
 
             // are we blocked?
             Set<ClientConnection> applicableClients;
-            if (client.getRtcSessionManager().getBlockReasons().isEmpty()) {
+            if (!client.getRtcSessionManager().getBlockReasons().isEmpty()) {
                 // empty set, no peers for me bucko
                 applicableClients = new HashSet<>();
             } else {
@@ -107,9 +107,6 @@ public class PlayerProximityTicker implements Runnable {
                         player
                 ).collect(Collectors.toSet());
             }
-
-            // clear the applicable players if i'm disabled myself
-            if (!client.getRtcSessionManager().getBlockReasons().isEmpty()) applicableClients.clear();
 
             // find players that we don't have yet
             applicableClients.forEach(peer -> {
