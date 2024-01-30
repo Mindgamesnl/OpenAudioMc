@@ -82,22 +82,18 @@ public class PlayerProximityTicker implements Runnable {
         CombinationChecker combinationChecker = new CombinationChecker();
 
         for (ClientConnection client : allClients) {
-            // am I valid? no? do nothing.
-            if (!client.getRtcSessionManager().isReady()) continue;
-
             Player player = (Player) client.getUser().getOriginal();
 
             // are we blocked?
             Set<ClientConnection> applicableClients;
             if (!client.getRtcSessionManager().getBlockReasons().isEmpty()) {
-                // empty set, no peers for me bucko
+                // empty set, no peers for you :(
                 applicableClients = new HashSet<>();
             } else {
                 // make a copy of the allClients, except with entries where combination checks failed
                 // order from cheap/most occurring to expensive/least occurring
                 Stream<ClientConnection> pre = Stream.of(allClients)
                         .filter((c) -> !c.getSession().isResetVc()) // don't check players that are resetting
-                        .filter((c) -> c.getRtcSessionManager().isReady()) // only allow ready clients
                         .filter((c) -> c.getOwner().getUniqueId() != client.getOwner().getUniqueId()) // don't check yourself
                         .filter((c) -> !combinationChecker.contains(client.getUser().getUniqueId(), c.getUser().getUniqueId())) // don't check combinations that failed
                         .filter((c) -> c.isModerating() == client.isModerating()); // only allow equal moderation states
@@ -146,6 +142,7 @@ public class PlayerProximityTicker implements Runnable {
                 client.getRtcSessionManager().updateLocationWatcher();
                 client.getRtcSessionManager().getCurrentProximityPeers().remove(peer.getOwner().getUniqueId());
 
+                // they started moderating, so we'll leave them alone
                 if (peer.isModerating()) {
                     continue;
                 }
