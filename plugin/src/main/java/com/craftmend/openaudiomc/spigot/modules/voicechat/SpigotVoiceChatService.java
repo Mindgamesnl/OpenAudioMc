@@ -16,13 +16,12 @@ import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.FilterService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.PeerFilter;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.impl.GamemodeFilter;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.impl.TeamFilter;
-import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.PlayerProximityTicker;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.PlayerPeerTicker;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.PlayerVicinityMessageTask;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.TickVoicePacketQueue;
 import lombok.AllArgsConstructor;
@@ -41,7 +40,7 @@ public class SpigotVoiceChatService extends Service {
     private NetworkingService networkingService;
 
     @Getter
-    private PlayerProximityTicker proximityTicker;
+    private PlayerPeerTicker peerTicker;
     private boolean firstRun = true;
     private int broadcastTickLoop = 0;
 
@@ -64,8 +63,8 @@ public class SpigotVoiceChatService extends Service {
                         int maxDistance = StorageKey.SETTINGS_VC_RADIUS.getInt();
 
                         // tick every second
-                        proximityTicker = new PlayerProximityTicker(maxDistance, new PeerFilter());
-                        taskService.scheduleAsyncRepeatingTask(proximityTicker, 20, 20);
+                        peerTicker = new PlayerPeerTicker(maxDistance, new PeerFilter());
+                        taskService.scheduleAsyncRepeatingTask(peerTicker, 20, 20);
                         taskService.scheduleAsyncRepeatingTask(new TickVoicePacketQueue(), 3, 3);
                     }
                     firstRun = false;
@@ -83,8 +82,8 @@ public class SpigotVoiceChatService extends Service {
                 return;
             }
 
-            event.getSpeaker().getRtcSessionManager().getRecentPeerAdditions().add(event.getListener().getOwner().getUniqueId());
-            event.getSpeaker().getRtcSessionManager().getRecentPeerRemovals().remove(event.getListener().getOwner().getUniqueId());
+            event.getSpeaker().getRtcSessionManager().getCurrentProximityAdditions().add(event.getListener().getOwner().getUniqueId());
+            event.getSpeaker().getRtcSessionManager().getCurrentProximityDrops().remove(event.getListener().getOwner().getUniqueId());
         });
 
         eventDriver.on(PlayerLeaveVoiceProximityEvent.class).setHandler(event -> {
@@ -98,8 +97,8 @@ public class SpigotVoiceChatService extends Service {
                 return;
             }
 
-            event.getSpeaker().getRtcSessionManager().getRecentPeerRemovals().add(event.getListener().getOwner().getUniqueId());
-            event.getSpeaker().getRtcSessionManager().getRecentPeerAdditions().remove(event.getListener().getOwner().getUniqueId());
+            event.getSpeaker().getRtcSessionManager().getCurrentProximityDrops().add(event.getListener().getOwner().getUniqueId());
+            event.getSpeaker().getRtcSessionManager().getCurrentProximityAdditions().remove(event.getListener().getOwner().getUniqueId());
         });
 
         // do vc tick loop
@@ -115,11 +114,11 @@ public class SpigotVoiceChatService extends Service {
             for (ClientConnection client : networkingService.getClients()) {
                 RtcSessionManager manager = client.getRtcSessionManager();
                 // handle their join messages, if any
-                if (!manager.getRecentPeerAdditions().isEmpty()) {
+                if (!manager.getCurrentProximityAdditions().isEmpty()) {
                     // do these
-                    if (manager.getRecentPeerAdditions().size() == 1) {
+                    if (manager.getCurrentProximityAdditions().size() == 1) {
                         // do single
-                        ClientConnection other = clientFromId(manager.getRecentPeerAdditions().stream().findFirst().get());
+                        ClientConnection other = clientFromId(manager.getCurrentProximityAdditions().stream().findFirst().get());
                         if (other != null) {
                             sendMessage(client.getUser(), Platform.translateColors(
                                     StorageKey.MESSAGE_VC_USER_ADDED.getString()
@@ -128,21 +127,21 @@ public class SpigotVoiceChatService extends Service {
                         }
                     } else {
                         // do multiple
-                        MultiNameReference mnr = new MultiNameReference(manager.getRecentPeerAdditions());
+                        MultiNameReference mnr = new MultiNameReference(manager.getCurrentProximityAdditions());
                         sendMessage(client.getUser(), Platform.translateColors(
                                 StorageKey.MESSAGE_VC_USERS_ADDED.getString()
                                         .replace("%count", mnr.getOtherCount() + "")
                                         .replace("%name", mnr.getFirstName()))
                         );
                     }
-                    manager.getRecentPeerAdditions().clear();
+                    manager.getCurrentProximityAdditions().clear();
                 }
 
-                if (!manager.getRecentPeerRemovals().isEmpty()) {
+                if (!manager.getCurrentProximityDrops().isEmpty()) {
                     // do these
-                    if (manager.getRecentPeerRemovals().size() == 1) {
+                    if (manager.getCurrentProximityDrops().size() == 1) {
                         // do single
-                        ClientConnection other = clientFromId(manager.getRecentPeerRemovals().stream().findFirst().get());
+                        ClientConnection other = clientFromId(manager.getCurrentProximityDrops().stream().findFirst().get());
                         if (other != null) {
                             sendMessage(client.getUser(), Platform.translateColors(
                                     StorageKey.MESSAGE_VC_USER_LEFT.getString()
@@ -151,14 +150,14 @@ public class SpigotVoiceChatService extends Service {
                         }
                     } else {
                         // do multiple
-                        MultiNameReference mnr = new MultiNameReference(manager.getRecentPeerRemovals());
+                        MultiNameReference mnr = new MultiNameReference(manager.getCurrentProximityDrops());
                         sendMessage(client.getUser(), Platform.translateColors(
                                 StorageKey.MESSAGE_VC_USERS_LEFT.getString()
                                         .replace("%count", mnr.getOtherCount() + "")
                                         .replace("%name", mnr.getFirstName()))
                         );
                     }
-                    manager.getRecentPeerRemovals().clear();
+                    manager.getCurrentProximityDrops().clear();
                 }
             }
         });
