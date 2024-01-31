@@ -2,11 +2,14 @@ package com.craftmend.openaudiomc.spigot.modules.commands.subcommands.region;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
+import com.craftmend.openaudiomc.generic.media.utils.Validation;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
 import com.craftmend.openaudiomc.spigot.modules.regions.registry.WorldRegionManager;
+import lombok.SneakyThrows;
 import org.bukkit.ChatColor;
 
 public class RegionCreateSubCommand extends SubCommand {
@@ -19,6 +22,7 @@ public class RegionCreateSubCommand extends SubCommand {
     }
 
     @Override
+    @SneakyThrows
     public void onExecute(User sender, String[] args) {
         args[1] = args[1].toLowerCase();
 
@@ -41,6 +45,10 @@ public class RegionCreateSubCommand extends SubCommand {
             message(sender, ChatColor.RED + "ERROR! There is no WorldGuard region called '" + args[1]
                     + "'. Please make the WorldGuard region before you register it in OpenAudioMc.");
             return;
+        }
+
+        if (Validation.isStringInvalid(args[2])) {
+            throw new CommandError("Invalid source url.");
         }
 
         RegionProperties rp = new RegionProperties(args[2], volume, 1000, true, args[1], sender.getWorld());

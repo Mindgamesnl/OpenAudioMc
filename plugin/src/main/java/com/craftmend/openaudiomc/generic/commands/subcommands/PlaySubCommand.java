@@ -4,13 +4,16 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 
 import com.craftmend.openaudiomc.api.interfaces.Client;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
+import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.media.objects.OptionalError;
+import com.craftmend.openaudiomc.generic.media.utils.Validation;
 import com.craftmend.openaudiomc.generic.platform.OaColor;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.media.objects.MediaOptions;
+import lombok.SneakyThrows;
 
 import java.util.Optional;
 
@@ -27,6 +30,7 @@ public class PlaySubCommand extends SubCommand {
     }
 
     @Override
+    @SneakyThrows
     public void onExecute(User sender, String[] args) {
         if (args.length == 0) {
             sender.makeExecuteCommand("oa help " + getCommand());
@@ -34,6 +38,10 @@ public class PlaySubCommand extends SubCommand {
         }
 
         if (args.length == 2) {
+            if (Validation.isStringInvalid(args[1])) {
+                throw new CommandError("Invalid source url.");
+            }
+
             Media media = new Media(args[1]);
             int affected = 0;
 
@@ -57,6 +65,10 @@ public class PlaySubCommand extends SubCommand {
                 if (parsingError.isError()) {
                     message(sender, OaColor.RED + "Error! " + parsingError.getMessage());
                     return;
+                }
+
+                if (Validation.isStringInvalid(args[1])) {
+                    throw new CommandError("Invalid source url.");
                 }
 
                 Media media = new Media(args[1]).applySettings(mediaOptions);

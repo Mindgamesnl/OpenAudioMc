@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.time.Instant;
 
 public class BackupService extends Service {
 
@@ -26,11 +27,13 @@ public class BackupService extends Service {
             backupRootDirectory.mkdir();
         }
 
-        long unixTime = System.currentTimeMillis() / 1000L;
+        long unixTime = Instant.now().getEpochSecond();
         // create current backup dir
-        File backupDir = new File(backupRootDirectory, "/backup-" + unixTime);
+        File backupDir = new File(backupRootDirectory, File.pathSeparator + "backup-" + unixTime);
         if (!backupDir.exists()) {
             backupDir.mkdir();
+        } else {
+            OpenAudioLogger.toConsole("Backup directory already exists");
         }
 
         try {
@@ -39,7 +42,10 @@ public class BackupService extends Service {
                     new File(backupDir, "config.yml").toPath(),
                     StandardCopyOption.REPLACE_EXISTING
             );
-        } catch (IOException e) {}
+        } catch (IOException e) {
+            OpenAudioLogger.toConsole("Failed to backup config.yml");
+            e.printStackTrace();
+        }
 
         try {
             Files.copy(
@@ -47,7 +53,10 @@ public class BackupService extends Service {
                     new File(backupDir, "data.yml").toPath(),
                     StandardCopyOption.REPLACE_EXISTING
             );
-        } catch (IOException e) {}
+        } catch (IOException e) {
+            OpenAudioLogger.toConsole("Failed to backup data.yml");
+            e.printStackTrace();
+        }
 
         try {
             Files.copy(
@@ -55,7 +64,9 @@ public class BackupService extends Service {
                     new File(backupDir, "database.db").toPath(),
                     StandardCopyOption.REPLACE_EXISTING
             );
-        } catch (IOException e) {}
+        } catch (IOException e) {
+            // legacy, allowed to fail
+        }
 
         try {
             Files.copy(
@@ -63,7 +74,10 @@ public class BackupService extends Service {
                     new File(backupDir, "storm.db").toPath(),
                     StandardCopyOption.REPLACE_EXISTING
             );
-        } catch (IOException e) {}
+        } catch (IOException e) {
+            OpenAudioLogger.toConsole("Failed to backup storm.db");
+            e.printStackTrace();
+        }
 
     }
 
