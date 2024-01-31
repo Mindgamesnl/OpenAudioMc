@@ -23,7 +23,7 @@ public class CombinationChecker {
         return checkedCombinations.contains(hashCode);
     }
 
-    public void mark(UUID player1, UUID player2) {
+    public void markChecked(UUID player1, UUID player2) {
         int hashCode = getCombinedHashCode(player1, player2);
         checkedCombinations.add(hashCode);
     }

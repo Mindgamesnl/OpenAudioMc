@@ -57,6 +57,7 @@ public class RtcSessionManager implements Serializable {
         this.clientConnection.onDisconnect(() -> {
             // go over all other clients, check if we might have a relations ship and break up if thats the case
             currentProximityPeers.clear();
+            currentGlobalPeers.clear();
             this.isMicrophoneEnabled = false;
             makePeersDrop();
             locationUpdateQueue.clear();

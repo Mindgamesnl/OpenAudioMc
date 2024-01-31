@@ -21,7 +21,7 @@ import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.FilterService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.PeerFilter;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.impl.GamemodeFilter;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.impl.TeamFilter;
-import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.PlayerProximityTicker;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.PlayerPeerTicker;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.PlayerVicinityMessageTask;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.TickVoicePacketQueue;
 import lombok.AllArgsConstructor;
@@ -40,7 +40,7 @@ public class SpigotVoiceChatService extends Service {
     private NetworkingService networkingService;
 
     @Getter
-    private PlayerProximityTicker proximityTicker;
+    private PlayerPeerTicker peerTicker;
     private boolean firstRun = true;
     private int broadcastTickLoop = 0;
 
@@ -63,8 +63,8 @@ public class SpigotVoiceChatService extends Service {
                         int maxDistance = StorageKey.SETTINGS_VC_RADIUS.getInt();
 
                         // tick every second
-                        proximityTicker = new PlayerProximityTicker(maxDistance, new PeerFilter());
-                        taskService.scheduleAsyncRepeatingTask(proximityTicker, 20, 20);
+                        peerTicker = new PlayerPeerTicker(maxDistance, new PeerFilter());
+                        taskService.scheduleAsyncRepeatingTask(peerTicker, 20, 20);
                         taskService.scheduleAsyncRepeatingTask(new TickVoicePacketQueue(), 3, 3);
                     }
                     firstRun = false;

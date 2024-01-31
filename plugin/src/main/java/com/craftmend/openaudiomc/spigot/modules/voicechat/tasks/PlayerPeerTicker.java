@@ -22,7 +22,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class PlayerProximityTicker implements Runnable {
+public class PlayerPeerTicker implements Runnable {
 
     @Setter
     private Filter<ClientConnection, Player> filter;
@@ -52,7 +52,7 @@ public class PlayerProximityTicker implements Runnable {
      * Here be dragons.
      */
 
-    public PlayerProximityTicker(int maxDistance, PeerFilter peerFilter) {
+    public PlayerPeerTicker(int maxDistance, PeerFilter peerFilter) {
         this.filter = peerFilter;
         this.filter.updateProperty("d", maxDistance);
 
@@ -96,7 +96,13 @@ public class PlayerProximityTicker implements Runnable {
                         .filter((c) -> !c.getSession().isResetVc()) // don't check players that are resetting
                         .filter((c) -> c.getOwner().getUniqueId() != client.getOwner().getUniqueId()) // don't check yourself
                         .filter((c) -> !combinationChecker.contains(client.getUser().getUniqueId(), c.getUser().getUniqueId())) // don't check combinations that failed
-                        .filter((c) -> c.isModerating() == client.isModerating()); // only allow equal moderation states
+                        .filter(c -> !client.getRtcSessionManager().getCurrentGlobalPeers().contains(c.getOwner().getUniqueId())) // exempt global peers
+                        .filter((c) -> c.isModerating() == client.isModerating()) // only allow equal moderation states
+
+                        // mark checked, prior to filtering, because if someone isn't
+                        // applicable, then they should still be marked as checked to prevent
+                        // future checks
+                        .peek((c) -> combinationChecker.markChecked(client.getUser().getUniqueId(), c.getUser().getUniqueId()));
 
                 // execute API filters
                 applicableClients = filter.wrap(
@@ -107,9 +113,6 @@ public class PlayerProximityTicker implements Runnable {
 
             // find players that we don't have yet
             applicableClients.forEach(peer -> {
-                // register check
-                combinationChecker.mark(client.getUser().getUniqueId(), peer.getUser().getUniqueId());
-
                 // am I moderating compared to this peer?
                 boolean isModerating = client.isModerating() && !peer.isModerating();
 
@@ -132,6 +135,7 @@ public class PlayerProximityTicker implements Runnable {
                     .stream()
                     .filter(p -> p != client.getOwner().getUniqueId())
                     .filter(uuid -> (client.getSession().isResetVc() || applicableClients.stream().noneMatch(apc -> apc.getOwner().getUniqueId() == uuid)))
+                    .filter(uuid -> !client.getRtcSessionManager().getCurrentGlobalPeers().contains(uuid))
                     .collect(Collectors.toSet())) {
 
                 // unsubscribe these
