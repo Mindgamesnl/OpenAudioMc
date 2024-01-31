@@ -38,7 +38,6 @@ public class PlaySubCommand extends SubCommand {
         }
 
         if (args.length == 2) {
-
             if (Validation.isStringInvalid(args[1])) {
                 throw new CommandError("Invalid source url.");
             }

@@ -55,6 +55,12 @@ public class CommandTranslationMiddleware implements Listener {
         spigotPlayerSelector.setSender(new SpigotUserAdapter(event.getSender()));
         spigotPlayerSelector.setString(selector);
 
+        if (spigotPlayerSelector.getResults().isEmpty()) {
+            event.getSender().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "No players found for selector " + selector);
+            event.setCancelled(true);
+            return;
+        }
+
         // process the selector, build a new command and re-run
         for (User<?> target : spigotPlayerSelector.getResults()) {
             String playerCommand = commandPreset.replaceAll("%%player%%", target.getName());
