@@ -284,7 +284,7 @@ public class SpigotConfiguration implements Configuration, Listener {
             if (includeConfig) {
                 mainConfig.save(new File(OpenAudioMcSpigot.getInstance().getDataFolder(), "config.yml"));
             }
-            dataConfig.save("plugins/OpenAudioMc/data.yml");
+            dataConfig.save("plugins"+ File.pathSeparator + "OpenAudioMc" + File.pathSeparator + "data.yml");
         } catch (IOException e) {
             OpenAudioLogger.handleException(e);
             e.printStackTrace();
@@ -298,7 +298,7 @@ public class SpigotConfiguration implements Configuration, Listener {
 
     @Override
     public boolean hasDataFile() {
-        File dataFile = new File("plugins/OpenAudioMc/data.yml");
+        File dataFile = new File("plugins" + File.pathSeparator + "OpenAudioMc" + File.pathSeparator + "data.yml");
         return dataFile.exists();
     }
 

@@ -2,10 +2,13 @@ package com.craftmend.openaudiomc.spigot.modules.commands.subcommands.speaker;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.media.MediaService;
+import com.craftmend.openaudiomc.generic.media.utils.Validation;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.SpeakersSubCommand;
 import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;
+import lombok.SneakyThrows;
 import org.bukkit.entity.Player;
 
 public class SpeakerGiveSubCommand extends SubCommand {
@@ -18,6 +21,7 @@ public class SpeakerGiveSubCommand extends SubCommand {
     }
 
     @Override
+    @SneakyThrows
     public void onExecute(User sender, String[] args) {
         if (!(sender.getOriginal() instanceof Player)) {
             message(sender, "Only players can receive a speaker item.");
@@ -27,6 +31,10 @@ public class SpeakerGiveSubCommand extends SubCommand {
         int radius = 10;
         if (args.length == 2 && isInteger(args[1])) {
             radius = Integer.valueOf(args[1]);
+        }
+
+        if (Validation.isStringInvalid(args[0])) {
+            throw new CommandError("Invalid source url.");
         }
 
         Player player = (Player) sender.getOriginal();
