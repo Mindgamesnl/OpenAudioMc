@@ -66,6 +66,6 @@ public interface Client {
      */
     void preloadMedia(String source);
 
-    void updatePeerOptions(Client peer, VoicePeerOptions options);
 
+    void updatePeerOptions(Client peer, VoicePeerOptions options);
 }

@@ -15,13 +15,13 @@ public class PeerQueue {
     private final Set<String> dropQueue = new HashSet<>();
     private final Set<ClientVoiceSubscribePayload.SerializedPeer> subscribeQueue = new HashSet<>();
 
-    private Lock lock = new ReentrantLock();
+    private final Lock lock = new ReentrantLock();
 
     public void drop(String streamKey) {
         lock.lock();
         dropQueue.add(streamKey);
 
-        // do we have a subscribe queued? if so, remove it
+        // do we have a sub queued? if so, remove it
         subscribeQueue.removeIf(clientVoiceSubscribePayload -> clientVoiceSubscribePayload.getStreamKey().equals(streamKey));
         lock.unlock();
     }
@@ -33,6 +33,10 @@ public class PeerQueue {
     ) {
         ClientVoiceSubscribePayload.SerializedPeer peer = ClientVoiceSubscribePayload.SerializedPeer.fromClient(toListenTo, originLocation, options);
         lock.lock();
+
+        // remove old, if present, its possible for this to be called twice with different options
+        subscribeQueue.removeIf(clientVoiceSubscribePayload -> clientVoiceSubscribePayload.getStreamKey().equals(peer.getStreamKey()));
+
         subscribeQueue.add(peer);
 
         // do we have a drop queued? if so, remove it
