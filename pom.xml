@@ -21,6 +21,7 @@
 
     <modules>
         <module>modules/jutils</module>
+        <module>api</module>
         <module>plugin</module>
         <module>modules/voice-join-permission</module>
         <module>modules/vistas-client</module>
