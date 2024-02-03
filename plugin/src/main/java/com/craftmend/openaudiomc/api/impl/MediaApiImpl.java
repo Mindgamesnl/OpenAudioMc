@@ -3,8 +3,8 @@ package com.craftmend.openaudiomc.api.impl;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.interfaces.Client;
 import com.craftmend.openaudiomc.api.interfaces.MediaApi;
-import com.craftmend.openaudiomc.generic.media.objects.Media;
-import com.craftmend.openaudiomc.generic.media.objects.MediaOptions;
+import com.craftmend.openaudiomc.api.media.Media;
+import com.craftmend.openaudiomc.api.media.MediaOptions;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
@@ -14,7 +14,7 @@ import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.Cli
 import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.ClientSpeakerDestroyPayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.objects.ClientSpeaker;
 import com.craftmend.openaudiomc.spigot.services.world.Vector3;
-import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
+import com.craftmend.openaudiomc.api.spakers.SpeakerType;
 
 import java.time.Instant;
 import java.util.UUID;

@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.networking.payloads.client.media;
 
-import com.craftmend.openaudiomc.generic.media.objects.Media;
+import com.craftmend.openaudiomc.api.media.Media;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.interfaces.SourceHolder;
 import lombok.AllArgsConstructor;

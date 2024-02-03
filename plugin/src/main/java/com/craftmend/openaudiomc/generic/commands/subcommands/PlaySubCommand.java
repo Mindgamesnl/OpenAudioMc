@@ -3,16 +3,16 @@ package com.craftmend.openaudiomc.generic.commands.subcommands;
 import com.craftmend.openaudiomc.OpenAudioMc;
 
 import com.craftmend.openaudiomc.api.interfaces.Client;
+import com.craftmend.openaudiomc.api.media.Media;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
-import com.craftmend.openaudiomc.generic.media.objects.OptionalError;
+import com.craftmend.openaudiomc.api.media.OptionalError;
 import com.craftmend.openaudiomc.generic.media.utils.Validation;
 import com.craftmend.openaudiomc.generic.platform.OaColor;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
-import com.craftmend.openaudiomc.generic.media.objects.Media;
-import com.craftmend.openaudiomc.generic.media.objects.MediaOptions;
+import com.craftmend.openaudiomc.api.media.MediaOptions;
 import lombok.SneakyThrows;
 
 import java.util.Optional;

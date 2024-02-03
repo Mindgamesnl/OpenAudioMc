@@ -17,7 +17,6 @@ public class DefaultApi implements AudioApi {
     private final WorldApiImpl worldApi = new WorldApiImpl();
     private final MediaApiImpl mediaApi = new MediaApiImpl();
     private final RegistryApiImpl registryApi = new RegistryApiImpl();
-    private final VoiceApiImpl voiceApi = new VoiceApiImpl();
 
     public static AudioApi i() {
         if (instance != null) return instance;
@@ -58,10 +57,5 @@ public class DefaultApi implements AudioApi {
     @Override
     public RegistryApi getRegistryApi() {
         return registryApi;
-    }
-
-    @Override
-    public VoiceApi getVoiceApi() {
-        return voiceApi;
     }
 }

@@ -1,14 +1,13 @@
 package com.craftmend.openaudiomc.generic.client.session;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.api.impl.event.enums.VoiceEventCause;
 import com.craftmend.openaudiomc.api.impl.event.events.*;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.api.voice.VoicePeerOptions;
 import com.craftmend.openaudiomc.generic.client.enums.RtcBlockReason;
 import com.craftmend.openaudiomc.generic.client.enums.RtcStateFlag;
 import com.craftmend.openaudiomc.generic.client.helpers.ClientRtcLocationUpdate;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
-import com.craftmend.openaudiomc.generic.client.objects.VoicePeerOptions;
 import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.node.packets.ForceMuteMicrophonePacket;
@@ -81,7 +80,7 @@ public class RtcSessionManager implements Serializable {
         if (mutual && !peer.getRtcSessionManager().currentProximityPeers.contains(clientConnection.getOwner().getUniqueId())) {
             peer.getRtcSessionManager().getCurrentProximityPeers().add(clientConnection.getOwner().getUniqueId());
             peer.getPeerQueue().addSubscribe(clientConnection, peer, options);
-            AudioApi.getInstance().getEventDriver().fire(new PlayerEnterVoiceProximityEvent(clientConnection, peer, VoiceEventCause.NORMAL));
+            AudioApi.getInstance().getEventDriver().fire(new PlayerEnterVoiceProximityEvent(clientConnection, peer));
             peer.getRtcSessionManager().updateLocationWatcher();
         }
 
@@ -92,7 +91,7 @@ public class RtcSessionManager implements Serializable {
 
         currentProximityPeers.add(peer.getOwner().getUniqueId());
         clientConnection.getPeerQueue().addSubscribe(peer, clientConnection, options);
-        AudioApi.getInstance().getEventDriver().fire(new PlayerEnterVoiceProximityEvent(peer, clientConnection, VoiceEventCause.NORMAL));
+        AudioApi.getInstance().getEventDriver().fire(new PlayerEnterVoiceProximityEvent(peer, clientConnection));
 
         updateLocationWatcher();
 
@@ -134,7 +133,7 @@ public class RtcSessionManager implements Serializable {
                 peer.getRtcSessionManager().updateLocationWatcher();
                 peer.getPeerQueue().drop(streamKey);
 
-                AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(clientConnection, peer, VoiceEventCause.NORMAL));
+                AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(clientConnection, peer));
             }
         }
     }

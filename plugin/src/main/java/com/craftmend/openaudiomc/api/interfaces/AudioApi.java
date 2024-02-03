@@ -61,12 +61,6 @@ public interface AudioApi {
      */
     RegistryApi getRegistryApi();
 
-    /**
-     * Get the voice API instance, used to manage voice chat
-     * @return Voice api instance
-     */
-    VoiceApi getVoiceApi();
-
     static AudioApi getInstance() {
         return DefaultApi.i();
     }

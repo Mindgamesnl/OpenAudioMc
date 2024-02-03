@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.networking.payloads.client.voice;
 
-import com.craftmend.openaudiomc.generic.client.objects.VoicePeerOptions;
+import com.craftmend.openaudiomc.api.voice.VoicePeerOptions;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.client.helpers.ClientRtcLocationUpdate;
