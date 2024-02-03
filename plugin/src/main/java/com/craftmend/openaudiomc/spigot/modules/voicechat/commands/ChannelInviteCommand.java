@@ -6,7 +6,7 @@ import com.craftmend.openaudiomc.generic.user.User;
 public class ChannelInviteCommand extends SubCommand {
 
     public ChannelInviteCommand() {
-        super("create");
+        super("invite");
     }
 
     @Override

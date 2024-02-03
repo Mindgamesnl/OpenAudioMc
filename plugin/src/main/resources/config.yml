@@ -83,6 +83,13 @@ messages:
   # or you can disable it entirely by following the settings below.
   voicechat-players-in-vicinity: '&7&oGet social! Other players in your vicinity are using voice chat - join them and communicate. Use &b/audio&7&o to connect.'
 
+  # The message a channel owner receives when their chanel has been abandoned
+  voicechat-channel-abandoned: '&7&oYour voicechat channel has been abandoned and got removed'
+
+  # The message a player receives when they are kicked from a voicechat channel
+  # This gets triggered when they were forcefully removed from a channel, for example when it gets deleted
+  voicechat-channel-kicked: '&7&oYou have been kicked from the voicechat channel'
+
   # The following messages are for the new "revised" authentication flow.
   # Users who have a client tab open with the bedrock flow till automatically be logged in when a player joins with the same IP address,
   # but users who don't have a tab open will be prompted to login with a code.

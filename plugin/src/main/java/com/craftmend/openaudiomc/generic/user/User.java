@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.generic.user;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.basic.Actor;
-import com.craftmend.openaudiomc.api.interfaces.Client;
+import com.craftmend.openaudiomc.api.clients.Client;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import net.md_5.bungee.api.chat.TextComponent;

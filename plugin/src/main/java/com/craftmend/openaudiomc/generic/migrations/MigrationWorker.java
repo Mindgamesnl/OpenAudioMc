@@ -55,6 +55,7 @@ public class MigrationWorker {
                 new AddConfigKeyMigration(MESSAGE_VC_DEAFEN, "adds the option to deafen yourself"),
                 new AddConfigKeyMigration(REDIS_SENTINEL_MASTER_SET, "adds the option to use redis sentinel"),
                 new AddConfigKeyMigration(SETTINGS_VOICE_FILTERS_GAMEMODE, "Add migrations for the new voicechat filters"),
+                new AddConfigKeyMigration(MESSAGE_VOICE_CHANNEL_ABANDONED, "Add migrations for the new voicechat channels"),
         };
 
         for (SimpleMigration migration : migrations) {

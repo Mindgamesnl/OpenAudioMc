@@ -35,31 +35,29 @@ public class ChannelSubCommand extends SubCommand {
             return;
         }
 
-        if (args.length == 1) {
-            switch (args[0].toLowerCase()) {
-                case "create":
-                    delegateTo("create", sender, args);
-                    break;
+        switch (args[0].toLowerCase()) {
+            case "create":
+                delegateTo("create", sender, args);
+                break;
 
-                case "leave":
-                    delegateTo("leave", sender, args);
-                    break;
+            case "leave":
+                delegateTo("leave", sender, args);
+                break;
 
-                case "join":
-                    delegateTo("join", sender, args);
-                    break;
+            case "join":
+                delegateTo("join", sender, args);
+                break;
 
-                case "list":
-                    delegateTo("list", sender, args);
-                    break;
+            case "list":
+                delegateTo("list", sender, args);
+                break;
 
-                case "invite":
-                    delegateTo("invite", sender, args);
-                    break;
+            case "invite":
+                delegateTo("invite", sender, args);
+                break;
 
-                default:
-                    dispatchHelp(sender);
-            }
+            default:
+                dispatchHelp(sender);
         }
     }
 

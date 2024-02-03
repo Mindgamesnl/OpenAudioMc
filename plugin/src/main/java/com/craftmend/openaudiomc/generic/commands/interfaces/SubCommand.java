@@ -88,6 +88,7 @@ public abstract class SubCommand {
         SubCommand sci = moreSubCommands.get(subCommand);
         if (sci.trimArguments) {
             String[] subArgs = new String[args.length - 1];
+            Bukkit.broadcastMessage("Args: " + args.length);
             if (args.length != 1) System.arraycopy(args, 1, subArgs, 0, args.length - 1);
             sci.onExecute(user, subArgs);
         } else {
